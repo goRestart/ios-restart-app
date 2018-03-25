@@ -45,7 +45,9 @@ enum EventName: String {
     case listingDetailVisit                 = "product-detail-visit"
     case listingDetailVisitMoreInfo         = "product-detail-visit-more-info"
     case listingNotAvailable                = "product-not-available"
-    
+    case listingVisitPhotoViewer            = "product-visit-photo-viewer"
+    case listingVisitPhotoChat              = "product-visit-photo-chat"
+
     case listingFavorite                    = "product-detail-favorite"
     case listingShare                       = "product-detail-share"
     case listingShareCancel                 = "product-detail-share-cancel"
@@ -58,6 +60,7 @@ enum EventName: String {
     case listingMarkAsSoldOutsideLetgo      = "product-detail-sold-outside-letgo"
     case listingMarkAsUnsold                = "product-detail-unsold"
     case listingReport                      = "product-detail-report"
+    case listingReportError                 = "product-detail-report-error"
     
     case listingSellYourStuffButton         = "product-sell-your-stuff-button"
     case listingSellStart                   = "product-sell-start"
@@ -74,6 +77,7 @@ enum EventName: String {
     case listingSellConfirmationShare       = "product-sell-confirmation-share"
     case listingSellConfirmationShareCancel = "product-sell-confirmation-share-cancel"
     case listingSellConfirmationShareComplete = "product-sell-confirmation-share-complete"
+    case listingSellAbandon                 = "product-sell-abandon"
     
     case listingEditStart                   = "product-edit-start"
     case listingEditFormValidationFailed    = "product-edit-form-validation-failed"
@@ -92,6 +96,7 @@ enum EventName: String {
     case chatDeleteComplete                 = "chat-delete-complete"
     case chatViewInactiveConversations      = "chat-view-inactive-conversations"
     case chatInactiveConversationsShown     = "chat-inactive-conversations-shown"
+    case markMessagesAsRead                 = "mark-messages-as-read"
 
     case profileVisit                       = "profile-visit"
     case profileEditStart                   = "profile-edit-start"
@@ -183,7 +188,12 @@ enum EventName: String {
     case phoneNumberRequest                 = "phone-number-request"
     case phoneNumberSent                    = "phone-number-sent"
     case phoneNumberNotNow                  = "phone-number-not-now"
+    
+    case tutorialDialogStart                = "onboarding-dialog-start"
+    case tutorialDialogComplete             = "onboarding-dialog-complete"
+    case tutorialDialogAbandon              = "onboarding-dialog-abandon"
 
+    case predictedPosting                   = "predicted-posting"
 
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
@@ -352,6 +362,20 @@ enum EventParameterName: String {
     case chatContainsEmoji    = "contain-emoji"
     case inactiveConversations = "inactive-conversations"
     case mostSearchedButton   = "most-searched-button"
+    case photoViewerNumberOfPhotos   = "number-photos"
+    case abandonStep          = "abandon-step"
+    
+    
+    // Machine Learning
+    case mlPredictiveFlow = "predictive-flow"
+    case mlPredictionActive = "prediction-active"
+    case mlPredictedTitle = "predicted-title"
+    case mlPredictedPrice = "predicted-price"
+    case mlPredictedCategory = "predicted-category"
+    case mlListingCategory = "product-category"
+    
+    case typeTutorialDialog   = "type-onboarding-dialog"
+    case pageNumber           = "page-number"
 }
 
 enum EventParameterBoolean: String {
@@ -474,6 +498,16 @@ enum EventParameterPostingType: String {
         case .realEstate:
             self = .realEstate
         }
+    }
+}
+
+enum EventParameterPostingAbandonStep: String {
+    case cameraPermissions = "camera-permissions"
+    case retry = "retry"
+    case summaryOnboarding = "summary-onboarding"
+    
+    static var allValues: [EventParameterPostingAbandonStep] {
+        return [.cameraPermissions, .retry, .summaryOnboarding]
     }
 }
 
@@ -720,6 +754,24 @@ enum EventParameterPostListingError {
     }
 }
 
+enum EventParameterProductReportError {
+    case network
+    case internalError
+    case serverError
+    
+    var description: String {
+        switch self {
+        case .network:
+            return "report-network"
+        case .internalError:
+            return "report-internal"
+        case .serverError:
+            return "report-server"
+        }
+    }
+    
+}
+
 enum EventParameterChatError {
     case network(code: Int?)
     case internalError(description: String?)
@@ -796,6 +848,9 @@ enum EventParameterTypePage: String {
     case filter = "filter"
     case realEstatePromo = "real-estate-promo"
     case mostSearched = "most-searched"
+    case filterBubble = "filter-bubble"
+    case postingIconInfo = "posting-icon-information"
+    case sellStart = "product-sell-start"
 }
 
 enum EventParameterPermissionType: String {
@@ -1092,7 +1147,6 @@ enum EventParamenterLocationTypePage: String {
 }
 
 enum EventParameterAdType: String {
-    case shopping = "shopping"
     case dfp = "dfp"
 }
 
@@ -1194,6 +1248,10 @@ enum EventParameterMostSearched: String {
     }
 }
 
+enum EventParameterTutorialType: String {
+    case realEstate = "real-estate"
+}
+
 struct EventParameters {
     var params: [EventParameterName : Any] = [:]
     
@@ -1211,6 +1269,10 @@ struct EventParameters {
     internal mutating func addLoginParams(_ source: EventParameterLoginSourceValue, rememberedAccount: Bool? = nil) {
         params[.loginSource] = source.rawValue
         params[.loginRememberedAccount] = rememberedAccount
+    }
+    
+    internal mutating func addRepositoryErrorParams(_ repositoryError: EventParameterProductReportError) {
+        params[.errorDescription] = repositoryError.description
     }
     
     internal mutating func addListingParams(_ listing: Listing) {

@@ -18,4 +18,9 @@ class ChatMyMessageCell: ChatBubbleCell, ReusableCell {
         super.setSelected(selected, animated: animated)
         bubbleView.backgroundColor = selected ? UIColor.chatMyBubbleBgColorSelected : UIColor.chatMyBubbleBgColor
     }
+    
+    override func setAccessibilityIds() {
+        super.setAccessibilityIds()
+        set(accessibilityId: .chatCellContainer(type: .myMessage))
+    }
 }

@@ -25,15 +25,44 @@ protocol PostListingNavigator: class {
                                              trackingInfo: PostListingTrackingInfo)
     func closePostProductAndPostLater(params: ListingCreationParams, images: [UIImage],
                                       trackingInfo: PostListingTrackingInfo)
-    func openLoginIfNeededFromListingPosted(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void), cancelAction: (() -> Void)?)
+    func openLoginIfNeededFromListingPosted(from: EventParameterLoginSourceValue,
+                                            loggedInAction: @escaping (() -> Void), cancelAction: (() -> Void)?)
     func showConfirmation(listingResult: ListingResult, trackingInfo: PostListingTrackingInfo, modalStyle: Bool)
     func openListingCreation(listingParams: ListingCreationParams, trackingInfo: PostListingTrackingInfo)
     func backToSummary()
+    func openQueuedRequestsLoading(images: [UIImage], listingCreationParams: ListingCreationParams,
+                                   imageSource: EventParameterPictureSource, postingSource: PostingSource)
+    func openRealEstateOnboarding(pages: [LGTutorialPage],
+                                  origin: EventParameterTypePage,
+                                  tutorialType: EventParameterTutorialType)
+    
+    // MARK: Machine Learning
+    func startDetails(postListingState: MLPostListingState,
+                      uploadedImageSource: EventParameterPictureSource?,
+                      postingSource: PostingSource,
+                      postListingBasicInfo: PostListingBasicDetailViewModel)
+    func nextPostingDetailStep(step: PostingDetailStep,
+                               postListingState: MLPostListingState,
+                               uploadedImageSource: EventParameterPictureSource?,
+                               postingSource: PostingSource,
+                               postListingBasicInfo: PostListingBasicDetailViewModel,
+                               previousStepIsSummary: Bool)
 }
-
 protocol ListingPostedNavigator: class {
     func cancelListingPosted()
     func closeListingPosted(_ listing: Listing)
     func closeListingPostedAndOpenEdit(_ listing: Listing)
     func closeProductPostedAndOpenPost()
 }
+
+protocol BlockingPostingNavigator: class {
+    func openCamera()
+    func openPrice(listing: Listing, images: [UIImage], imageSource: EventParameterPictureSource, postingSource: PostingSource)
+    func openListingEditionLoading(listingParams: ListingEditionParams, listing: Listing, images: [UIImage], imageSource: EventParameterPictureSource, postingSource: PostingSource)
+    func openListingPosted(listing: Listing, images: [UIImage], imageSource: EventParameterPictureSource, postingSource: PostingSource)
+    func openCategoriesPickerWith(selectedCategory: ListingCategory?, delegate: PostingCategoriesPickDelegate)
+    func closeCategoriesPicker()
+    func closePosting()
+    func postingSucceededWith(listing: Listing)
+}
+

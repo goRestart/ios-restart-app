@@ -183,7 +183,7 @@ class FilterTagsView: UIView, UICollectionViewDataSource, UICollectionViewDelega
     // MARK: - Private methods
 
     private func setAccessibilityIds() {
-        collectionView?.accessibilityId = .filterTagsCollectionView
+        collectionView?.set(accessibilityId: .filterTagsCollectionView)
     }
 
     // not private for testing reasons
@@ -204,7 +204,7 @@ class FilterTagsView: UIView, UICollectionViewDataSource, UICollectionViewDelega
                     }
                 }
             case .electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden, .moviesBooksAndMusic,
-                 .fashionAndAccesories, .babyAndChild, .other, .unassigned:
+                 .fashionAndAccesories, .babyAndChild, .other, .unassigned, .services:
                 break
             case .realEstate:
                 for (i, tag) in tags.enumerated() {

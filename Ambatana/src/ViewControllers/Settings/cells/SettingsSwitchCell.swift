@@ -54,9 +54,9 @@ class SettingsSwitchCell: UITableViewCell, ReusableCell {
     }
 
     private func setupAccessibilityIds() {
-        iconImageView.accessibilityId = .settingsCellIcon
-        label.accessibilityId = .settingsCellTitle
-        settingSwitch.accessibilityId = .settingsCellSwitch
+        iconImageView.set(accessibilityId: .settingsCellIcon)
+        label.set(accessibilityId: .settingsCellTitle)
+        settingSwitch.set(accessibilityId: .settingsCellSwitch)
     }
 
 }

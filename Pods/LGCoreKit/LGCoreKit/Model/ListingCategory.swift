@@ -18,48 +18,56 @@ public enum ListingCategory: Int {
     case other = 8
     case cars = 9
     case realEstate = 10
+    case services = 11
 
     
-    static func visibleValues(carsIncluded: Bool, realEstateIncluded: Bool, highlightRealEstate: Bool) -> [ListingCategory] {
+    static func visibleValues(servicesIncluded: Bool,
+                              carsIncluded: Bool,
+                              realEstateIncluded: Bool) -> [ListingCategory] {
+
+        var categories: [ListingCategory] = [.electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden, .moviesBooksAndMusic,
+                                             .fashionAndAccesories, .babyAndChild]
+
+        if realEstateIncluded {
+            categories = [.realEstate] + categories
+        }
+
         if carsIncluded {
-            return [.cars] + previousCategories(realEstateIncluded: realEstateIncluded, highlightRealEstate: highlightRealEstate)
-        } else {
-            return previousCategories(realEstateIncluded: realEstateIncluded, highlightRealEstate: highlightRealEstate)
+            categories = [.cars] + categories
         }
+
+        categories = categories + [.other]
+
+        if servicesIncluded {
+            categories = categories + [.services]
+        }
+
+        return categories
     }
     
-    static func previousCategories(realEstateIncluded: Bool, highlightRealEstate: Bool) -> [ListingCategory] {
+    public static func visibleValuesInFeed(servicesIncluded: Bool,
+                                           realEstateIncluded: Bool) -> [ListingCategory] {
+
+        var categories: [ListingCategory] = [.electronics, .homeAndGarden, .sportsLeisureAndGames, .motorsAndAccessories,
+                                             .fashionAndAccesories, .babyAndChild, .moviesBooksAndMusic]
+
         if realEstateIncluded {
-            if highlightRealEstate {
-                return [.realEstate, .electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden, .moviesBooksAndMusic,
-                        .fashionAndAccesories, .babyAndChild, .other]
-            }
-            return [.electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden, .moviesBooksAndMusic,
-                    .fashionAndAccesories, .babyAndChild, .realEstate, .other]
-        } else {
-            return [.electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden, .moviesBooksAndMusic,
-                    .fashionAndAccesories, .babyAndChild, .other]
+            categories = [.realEstate] + categories
         }
-    }
-    
-    public static func visibleValuesInFeed(realEstateIncluded: Bool, highlightRealEstate: Bool) -> [ListingCategory] {
-        if realEstateIncluded {
-            if highlightRealEstate {
-                return [.cars, .realEstate, .electronics, .homeAndGarden, .sportsLeisureAndGames, .motorsAndAccessories,
-                        .fashionAndAccesories, .babyAndChild, .moviesBooksAndMusic, .other]
-            }
-            return [.cars, .electronics, .homeAndGarden, .sportsLeisureAndGames, .motorsAndAccessories,
-                    .fashionAndAccesories, .babyAndChild, .moviesBooksAndMusic, .realEstate, .other]
-        } else {
-            return [.cars, .electronics, .homeAndGarden, .sportsLeisureAndGames, .motorsAndAccessories,
-                    .fashionAndAccesories, .babyAndChild, .moviesBooksAndMusic, .other]
+
+        categories = [.cars] + categories  + [.other]
+
+        if servicesIncluded {
+            categories = categories + [.services]
         }
+
+        return categories
     }
     
     public var isProduct: Bool {
         switch self {
         case .unassigned, .electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden,
-             .moviesBooksAndMusic, .fashionAndAccesories, .babyAndChild, .other:
+             .moviesBooksAndMusic, .fashionAndAccesories, .babyAndChild, .services, .other:
             return true
         case .cars, .realEstate:
             return false

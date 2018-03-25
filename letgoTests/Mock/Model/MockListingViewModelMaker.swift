@@ -48,6 +48,12 @@ class MockListingViewModelMaker: ListingViewModelMaker {
         self.keyValueStorage = keyValueStorage
     }
 
+    func make(listing: Listing, navigator: ListingDetailNavigator?, visitSource: EventParameterListingVisitSource) -> ListingViewModel {
+        let viewModel = make(listing: listing, visitSource: visitSource)
+        viewModel.navigator = navigator
+        return viewModel
+    }
+
     func make(listing: Listing, visitSource: EventParameterListingVisitSource) -> ListingViewModel {
         return ListingViewModel(listing: listing,
                                 visitSource: visitSource,
@@ -65,4 +71,48 @@ class MockListingViewModelMaker: ListingViewModelMaker {
                                 tracker: tracker,
                                 keyValueStorage: keyValueStorage)
     }
+
+    func makeListingDeckSnapshot(listingViewModel: ListingViewModel) -> ListingDeckSnapshotType {
+        return makeListingDeckSnapshot(listing: listingViewModel.listing.value)
+    }
+    func makeListingDeckSnapshot(listing: Listing) -> ListingDeckSnapshotType {
+        let isMine = listing.isMine(myUserRepository: myUserRepository)
+        let status = ListingViewModelStatus(listing: listing,
+                                            isMine: listing.isMine(myUserRepository: myUserRepository),
+                                            featureFlags: featureFlags)
+        let info = ListingVMProductInfo(listing: listing,
+                                        isAutoTranslated: listing.isTitleAutoTranslated(countryHelper),
+                                        distance: nil,
+                                        freeModeAllowed: featureFlags.freePostingModeAllowed,
+                                        postingFlowType: featureFlags.postingFlowType)
+        let userInfo = ListingVMUserInfo(userListing: listing.user, myUser: myUserRepository.myUser)
+        return ListingDeckSnapshot(preview: listing.images.first?.fileURL,
+                                   imageCount: listing.images.count,
+                                   isFavoritable: isMine,
+                                   isFavorite: Bool.makeRandom(),
+                                   userInfo: userInfo,
+                                   status: status,
+                                   isFeatured: Bool.makeRandom(),
+                                   productInfo: info,
+                                   stats: nil,
+                                   postedDate: nil,
+                                   socialSharer: SocialSharer(),
+                                   socialMessage: MockListingSocialMessage())
+    }
+}
+
+struct MockListingSocialMessage: SocialMessage {
+    func retrieveShareURL(source: ShareSource?, completion: @escaping AppsFlyerGenerateInviteURLCompletion) { }
+
+    static var utmCampaignValue: String = ""
+    var myUserId: String?
+    var myUserName: String?
+    var emailShareSubject: String = ""
+    var emailShareIsHtml: Bool = false
+    var fallbackToStore: Bool = false
+    var controlParameter: String = ""
+
+    func retrieveNativeShareItems(completion: @escaping NativeShareItemsCompletion) { }
+    func retrieveEmailShareBody(completion: @escaping MessageWithURLCompletion) { }
+    func retrieveFullMessageWithURL(source: ShareSource, completion: @escaping MessageWithURLCompletion) { }
 }

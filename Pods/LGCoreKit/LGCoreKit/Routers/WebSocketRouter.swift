@@ -17,6 +17,7 @@ enum WebSocketRequestType: String {
     case archiveConversations = "archive_conversations"
     case unarchiveConversations = "unarchive_conversations"
     case archiveInactiveConversations = "archive_inactive_conversations"
+    case markAllConversationsAsRead = "mark_conversations_as_read"
     
     // Events
     case typingStarted = "typing_started"
@@ -42,7 +43,7 @@ enum WebSocketRequestType: String {
     var superType: RequestSuperType {
         switch self {
         case .authenticate, .sendMessage, .confirmReception, .confirmRead, .archiveConversations,
-             .unarchiveConversations, .archiveInactiveConversations:
+             .unarchiveConversations, .archiveInactiveConversations, .markAllConversationsAsRead:
             return .command
         case .typingStarted, .typingStopped:
             return .event

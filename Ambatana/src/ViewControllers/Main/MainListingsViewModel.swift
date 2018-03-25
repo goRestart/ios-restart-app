@@ -70,8 +70,6 @@ class MainListingsViewModel: BaseViewModel {
     var hasFilters: Bool {
         return !filters.isDefault()
     }
-    
-    fileprivate var shouldShowPrices = Variable<Bool>(false)
 
     var isTaxonomiesAndTaxonomyChildrenInFeedEnabled: Bool {
         return featureFlags.taxonomiesAndTaxonomyChildrenInFeed.isActive
@@ -307,12 +305,11 @@ class MainListingsViewModel: BaseViewModel {
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         let columns = show3Columns ? 3 : 2
         let itemsPerPage = show3Columns ? Constants.numListingsPerPageBig : Constants.numListingsPerPageDefault
-        self.shouldShowPrices.value = (!filters.isDefault() || searchType != nil) && featureFlags.showPriceAfterSearchOrFilter.isActive
         self.listingListRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                         queryString: searchType?.query,
                                                                                         itemsPerPage: itemsPerPage)
         self.listViewModel = ListingListViewModel(requester: self.listingListRequester, listings: nil,
-                                                  numberOfColumns: columns, tracker: tracker, shouldShowPrices: shouldShowPrices.value)
+                                                  numberOfColumns: columns, tracker: tracker)
         self.listViewModel.listingListFixedInset = show3Columns ? 6 : 10
 
         if let search = searchType, let query = search.query, !search.isCollection && !query.isEmpty {
@@ -591,6 +588,16 @@ class MainListingsViewModel: BaseViewModel {
         updateListView()
     }
     
+    func showRealEstateTutorial() {
+        guard !keyValueStorage[.realEstateTutorialShown] && featureFlags.realEstateTutorial.isActive else { return }
+        guard let pages = LGTutorialPage.makeRealEstateTutorial(typeOfOnboarding: featureFlags.realEstateTutorial) else {
+            return
+        }
+        keyValueStorage[.realEstateTutorialShown] = true
+        navigator?.openRealEstateOnboarding(pages: pages, origin: .filterBubble, tutorialType: .realEstate)
+    }
+    
+    
     // MARK: - Private methods
 
     private func setup() {
@@ -605,9 +612,6 @@ class MainListingsViewModel: BaseViewModel {
             self?.updateCategoriesHeader()
             self?.updateRealEstateBanner()
         }.disposed(by: disposeBag) 
-        shouldShowPrices.asObservable().bind { [weak self] shouldShowPrices in
-            self?.listViewModel.updateShouldShowPrices(shouldShowPrices)
-        }.disposed(by: disposeBag)
     }
     
     /**
@@ -635,13 +639,8 @@ class MainListingsViewModel: BaseViewModel {
 
         infoBubbleVisible.value = false
         errorMessage.value = nil
-        updateShouldShowPrices()
         listViewModel.resetUI()
         listViewModel.refresh()
-    }
-
-    fileprivate func updateShouldShowPrices() {
-        shouldShowPrices.value = (hasFilters || searchType != nil) && featureFlags.showPriceAfterSearchOrFilter.isActive
     }
 
     // MARK: - Taxonomies
@@ -668,15 +667,15 @@ class MainListingsViewModel: BaseViewModel {
         if isTaxonomiesAndTaxonomyChildrenInFeedEnabled {
             categoryHeaderElements.append(contentsOf: taxonomies.map { CategoryHeaderElement.superKeywordGroup($0) })
         } else {
-            categoryHeaderElements.append(contentsOf: ListingCategory.visibleValuesInFeed(realEstateIncluded: featureFlags.realEstateEnabled.isActive,
-                                                                                          highlightRealEstate: featureFlags.realEstatePromos.isActive)
+            categoryHeaderElements.append(contentsOf: ListingCategory.visibleValuesInFeed(servicesIncluded: featureFlags.servicesCategoryEnabled.isActive,
+                                                                                          realEstateIncluded: featureFlags.realEstateEnabled.isActive)
                 .map { CategoryHeaderElement.listingCategory($0) })
         }
         return categoryHeaderElements
     }
     
     var categoryHeaderHighlighted: CategoryHeaderElement {
-        if featureFlags.realEstatePromos.isActive && featureFlags.realEstateEnabled.isActive {
+        if featureFlags.realEstateEnabled.isActive {
             return CategoryHeaderElement.listingCategory(.realEstate)
         } else {
             return CategoryHeaderElement.listingCategory(.cars)
@@ -754,10 +753,6 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         case .priceAsc, .priceDesc:
             break
         }
-    }
-
-    func shouldShowRelatedListingsButton() -> Bool {
-        return featureFlags.homeRelatedEnabled.isActive
     }
 
     // MARK: > ListingListViewModelDataDelegate
@@ -1223,7 +1218,7 @@ extension MainListingsViewModel {
     }
     
     var showRealEstateBanner: Bool {
-        return !listViewModel.isListingListEmpty.value && featureFlags.realEstatePromos.isActive && filters.selectedCategories == [.realEstate]
+        return !listViewModel.isListingListEmpty.value && filters.selectedCategories == [.realEstate]
     }
 
     func pushPermissionsHeaderPressed() {
@@ -1465,9 +1460,6 @@ extension MainListingsViewModel: TaxonomiesDelegate {
 // MARK: ListingCellDelegate
 
 extension MainListingsViewModel: ListingCellDelegate {
-    func relatedButtonPressedFor(listing: Listing) {
-        navigator?.openRelatedItems(relatedToListing: listing)
-    }
 
     func chatButtonPressedFor(listing: Listing) {
         navigator?.openChat(.listingAPI(listing: listing),

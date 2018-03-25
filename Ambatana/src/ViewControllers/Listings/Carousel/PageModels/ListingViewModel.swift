@@ -15,8 +15,6 @@ import RxSwift
 
 protocol ListingViewModelDelegate: BaseViewModelDelegate {
 
-    func vmShowProductDetailOptions(_ cancelLabel: String, actions: [UIAction])
-
     func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?)
 
     var trackingFeedPosition: EventParameterFeedPosition { get }
@@ -29,6 +27,10 @@ protocol ListingViewModelDelegate: BaseViewModelDelegate {
 
 protocol ListingViewModelMaker {
     func make(listing: Listing, visitSource: EventParameterListingVisitSource) -> ListingViewModel
+    func make(listing: Listing, navigator: ListingDetailNavigator?, visitSource: EventParameterListingVisitSource) -> ListingViewModel
+
+    func makeListingDeckSnapshot(listingViewModel: ListingViewModel) -> ListingDeckSnapshotType
+    func makeListingDeckSnapshot(listing: Listing) -> ListingDeckSnapshotType
 }
 
 enum ListingOrigin {
@@ -37,6 +39,68 @@ enum ListingOrigin {
 
 class ListingViewModel: BaseViewModel {
     class ConvenienceMaker: ListingViewModelMaker {
+
+        func makeListingDeckSnapshot(listingViewModel: ListingViewModel) -> ListingDeckSnapshotType {
+            return makeListingDeckSnapshot(listing: listingViewModel.listing.value,
+                                           isFavorite: listingViewModel.isFavorite.value,
+                                           isFeatured: listingViewModel.isShowingFeaturedStripe.value,
+                                           socialMessage: listingViewModel.socialMessage.value)
+        }
+
+        func makeListingDeckSnapshot(listing: Listing) -> ListingDeckSnapshotType {
+            return makeListingDeckSnapshot(listing: listing,
+                                           isFavorite: false,
+                                           isFeatured: false,
+                                           socialMessage: nil,
+                                           myUserRepository: Core.myUserRepository,
+                                           featureFlags: FeatureFlags.sharedInstance,
+                                           countryHelper: Core.countryHelper)
+        }
+
+        private func makeListingDeckSnapshot(listing: Listing,
+                                             isFavorite: Bool,
+                                             isFeatured: Bool,
+                                             socialMessage: SocialMessage?) -> ListingDeckSnapshotType {
+            return makeListingDeckSnapshot(listing: listing,
+                                           isFavorite: isFavorite,
+                                           isFeatured: isFeatured,
+                                           socialMessage: socialMessage,
+                                           myUserRepository: Core.myUserRepository,
+                                           featureFlags: FeatureFlags.sharedInstance,
+                                           countryHelper: Core.countryHelper)
+        }
+
+        private func makeListingDeckSnapshot(listing: Listing,
+                                             isFavorite: Bool,
+                                             isFeatured: Bool,
+                                             socialMessage: SocialMessage?,
+                                 myUserRepository: MyUserRepository,
+                                 featureFlags: FeatureFlags,
+                                 countryHelper: CountryHelper) -> ListingDeckSnapshotType {
+            let isMine = listing.isMine(myUserRepository: myUserRepository)
+            let status = ListingViewModelStatus(listing: listing,
+                                                isMine: listing.isMine(myUserRepository: myUserRepository),
+                                                featureFlags: featureFlags)
+            let info = ListingVMProductInfo(listing: listing,
+                                            isAutoTranslated: listing.isTitleAutoTranslated(countryHelper),
+                                            distance: nil,
+                                            freeModeAllowed: featureFlags.freePostingModeAllowed,
+                                            postingFlowType: featureFlags.postingFlowType)
+            let userInfo = ListingVMUserInfo(userListing: listing.user, myUser: myUserRepository.myUser)
+            return ListingDeckSnapshot(preview: listing.images.first?.fileURL,
+                                       imageCount: listing.images.count,
+                                       isFavoritable: isMine,
+                                       isFavorite: isFavorite,
+                                       userInfo: userInfo,
+                                       status: status,
+                                       isFeatured: isFeatured,
+                                       productInfo: info,
+                                       stats: nil,
+                                       postedDate: nil,
+                                       socialSharer: SocialSharer(),
+                                       socialMessage: socialMessage)
+        }
+
         func make(listing: Listing, visitSource source: EventParameterListingVisitSource) -> ListingViewModel {
             return ListingViewModel(listing: listing,
                                     visitSource: source,
@@ -54,6 +118,14 @@ class ListingViewModel: BaseViewModel {
                                     tracker: TrackerProxy.sharedInstance,
                                     keyValueStorage: KeyValueStorage.sharedInstance)
         }
+
+        func make(listing: Listing, navigator: ListingDetailNavigator?,
+                  visitSource: EventParameterListingVisitSource) -> ListingViewModel {
+            let viewModel = make(listing: listing, visitSource: visitSource)
+            viewModel.navigator = navigator
+            return viewModel
+        }
+
     }
 
     // Delegate
@@ -65,8 +137,8 @@ class ListingViewModel: BaseViewModel {
     var isMine: Bool {
         return listing.value.isMine(myUserRepository: myUserRepository)
     }
-    let isProfessional = Variable<Bool>(false)
-    let phoneNumber = Variable<String?>(nil)
+    
+    let seller = Variable<User?>(nil)
     let isFavorite = Variable<Bool>(false)
     let listingStats = Variable<ListingStats?>(nil)
     private var myUserId: String? {
@@ -76,7 +148,7 @@ class ListingViewModel: BaseViewModel {
         return myUserRepository.myUser?.name
     }
 
-    let socialMessage = Variable<SocialMessage?>(nil)
+    lazy var socialMessage = Variable<SocialMessage?>(nil)
     let socialSharer: SocialSharer
     fileprivate var freeBumpUpShareMessage: SocialMessage?
 
@@ -104,19 +176,37 @@ class ListingViewModel: BaseViewModel {
         }
     }
 
-    let navBarButtons = Variable<[UIAction]>([])
-    let actionButtons = Variable<[UIAction]>([])
-    let directChatEnabled = Variable<Bool>(false)
+    lazy var navBarButtons = Variable<[UIAction]>([])
+    lazy var actionButtons = Variable<[UIAction]>([])
+    lazy var altActions = Variable<[UIAction]>([])
+
+    var navBarActionsNewItemPage: [UIAction] {
+        var navBarButtons = [UIAction]()
+        if isMine {
+            if status.value.isEditable && isListingDetailsCompleted.value {
+                navBarButtons.append(buildEditAction())
+            }
+            navBarButtons.append(buildDeleteAction())
+        } else {
+            navBarButtons.append(buildReportAction())
+        }
+        navBarButtons.insert(buildShareAction(), at: navBarButtons.count - 1)
+        return navBarButtons
+    }
+
+    lazy var directChatEnabled = Variable<Bool>(false)
     var directChatPlaceholder: String {
         let userName = listing.value.user.name?.toNameReduced(maxChars: Constants.maxCharactersOnUserNameChatButton) ?? ""
         return LGLocalizedString.productChatWithSellerNameButton(userName)
     }
-    fileprivate let productIsFavoriteable = Variable<Bool>(false)
-    let favoriteButtonState = Variable<ButtonState>(.enabled)
-    let shareButtonState = Variable<ButtonState>(.hidden)
+    fileprivate lazy var productIsFavoriteable = Variable<Bool>(false)
+    lazy var favoriteButtonState = Variable<ButtonState>(.enabled)
+    lazy var shareButtonState = Variable<ButtonState>(.hidden)
 
-    let productInfo = Variable<ListingVMProductInfo?>(nil)
-    let productImageURLs = Variable<[URL]>([])
+    lazy var productInfo = Variable<ListingVMProductInfo?>(nil)
+    lazy var productImageURLs = Variable<[URL]>([])
+    lazy var previewURL = Variable<(URL?, Int)>((nil, 0))
+
     let userInfo: Variable<ListingVMUserInfo>
 
     let status = Variable<ListingViewModelStatus>(.pending)
@@ -125,17 +215,23 @@ class ListingViewModel: BaseViewModel {
 
     fileprivate let isReported = Variable<Bool>(false)
 
-    let bumpUpBannerInfo = Variable<BumpUpInfo?>(nil)
+    lazy var bumpUpBannerInfo = Variable<BumpUpInfo?>(nil)
     fileprivate var timeSinceLastBump: TimeInterval = 0
     fileprivate var bumpMaxCountdown: TimeInterval = 0
     var bumpUpPurchaseableProduct: PurchaseableProduct?
-    fileprivate var isUpdatingBumpUpBanner: Bool = false
-    fileprivate var paymentItemId: String?
-    var paymentProviderItemId: String?
-    fileprivate var userIsSoftBlocked: Bool = false
-    fileprivate var bumpUpSource: BumpUpSource?
-    fileprivate var isPromotedBump: Bool {
-        return bumpUpSource == .promoted
+    private var isUpdatingBumpUpBanner: Bool = false
+    private var paymentItemId: String?
+    var storeProductId: String?
+    private var userIsSoftBlocked: Bool = false
+    private var bumpUpSource: BumpUpSource?
+    private var isPromotedBump: Bool {
+        guard let bumpSource = bumpUpSource else { return false }
+        switch bumpSource {
+        case .promoted:
+            return true
+        case .deepLink, .edit:
+            return false
+        }
     }
 
     fileprivate var alreadyTrackedFirstMessageSent: Bool = false
@@ -162,8 +258,8 @@ class ListingViewModel: BaseViewModel {
     fileprivate let visitSource: EventParameterListingVisitSource
     fileprivate let keyValueStorage: KeyValueStorageable
 
-    let isShowingFeaturedStripe = Variable<Bool>(false)
-    fileprivate let isListingDetailsCompleted = Variable<Bool>(false)
+    lazy var isShowingFeaturedStripe = Variable<Bool>(false)
+    fileprivate lazy var isListingDetailsCompleted = Variable<Bool>(false)
 
     // Retrieval status
     private var relationRetrieved = false
@@ -208,6 +304,7 @@ class ListingViewModel: BaseViewModel {
         self.userInfo = Variable<ListingVMUserInfo>(ListingVMUserInfo(userListing: listing.user, myUser: myUserRepository.myUser))
         self.disposeBag = DisposeBag()
 
+
         super.init()
 
         socialSharer.delegate = self
@@ -216,30 +313,33 @@ class ListingViewModel: BaseViewModel {
     
     internal override func didBecomeActive(_ firstTime: Bool) {
         guard let listingId = listing.value.objectId else { return }
-        
-        if listing.value.isRealEstate && listing.value.realEstate?.realEstateAttributes == RealEstateAttributes.emptyRealEstateAttributes() {
+
+        if !featureFlags.newItemPage.isActive
+            && listing.value.isRealEstate
+            && listing.value.realEstate?.realEstateAttributes == RealEstateAttributes.emptyRealEstateAttributes() {
             retrieveRealEstateDetails(listingId: listingId)
         } else {
             isListingDetailsCompleted.value = true
         }
 
-        if featureFlags.allowCallsForProfessionals.isActive {
+        if !featureFlags.newItemPage.isActive && featureFlags.allowCallsForProfessionals.isActive {
             if isMine {
-                isProfessional.value = myUserRepository.myUser?.type == .pro
-                phoneNumber.value = myUserRepository.myUser?.phone
+                seller.value = myUserRepository.myUser
             } else if let userId = userInfo.value.userId {
                 userRepository.show(userId) { [weak self] result in
                     guard let strongSelf = self else { return }
                     if let value = result.value {
-                        strongSelf.isProfessional.value = value.type == .pro
-                        strongSelf.phoneNumber.value = value.phone
+                        strongSelf.seller.value = value
                         strongSelf.sellerAverageUserRating = value.ratingAverage
                     }
                 }
             }
         }
 
-        listingRepository.incrementViews(listingId: listingId, visitSource: visitSource.rawValue, visitTimestamp: Date().millisecondsSince1970, completion: nil)
+        listingRepository.incrementViews(listingId: listingId,
+                                         visitSource: visitSource.rawValue,
+                                         visitTimestamp: Date().millisecondsSince1970,
+                                         completion: nil)
 
         if !relationRetrieved && myUserRepository.myUser != nil {
             listingRepository.retrieveUserListingRelation(listingId) { [weak self] result in
@@ -272,6 +372,7 @@ class ListingViewModel: BaseViewModel {
     override func didBecomeInactive() {
         super.didBecomeInactive()
         bumpUpBannerInfo.value = nil
+        altActions.value = []
     }
 
     func syncListing(_ completion: (() -> ())?) {
@@ -293,6 +394,9 @@ class ListingViewModel: BaseViewModel {
     }
 
     private func setupRxBindings() {
+        productImageURLs.asObservable().bind { [weak self] urls in
+            self?.previewURL.value = (urls.first, urls.count)
+        }.disposed(by: disposeBag)
 
         if let productId = listing.value.objectId {
             listingRepository.updateEvents(for: productId).bind { [weak self] listing in
@@ -300,13 +404,14 @@ class ListingViewModel: BaseViewModel {
             }.disposed(by: disposeBag)
         }
 
-        let listingActions = Observable.combineLatest(status.asObservable(), isProfessional.asObservable()) { ($0, $1) }
+        let listingActions = Observable.combineLatest(status.asObservable(), seller.asObservable()) { ($0, $1) }
 
-        listingActions.asObservable().bind { [weak self] (status, isPro) in
+        listingActions.asObservable().bind { [weak self] (status, seller) in
             guard let strongSelf = self else { return }
-            strongSelf.refreshActionButtons(status, isProfessional: isPro)
+            let sellerIsProfessional = seller?.isProfessional ?? false
+            strongSelf.refreshActionButtons(status, isProfessional: sellerIsProfessional)
             strongSelf.refreshNavBarButtons()
-            strongSelf.directChatEnabled.value = status.directChatsAvailable && !isPro
+            strongSelf.directChatEnabled.value = status.directChatsAvailable && !sellerIsProfessional
         }.disposed(by: disposeBag)
         
         isListingDetailsCompleted.asObservable().filter {$0}.bind { [weak self] _ in
@@ -396,6 +501,7 @@ class ListingViewModel: BaseViewModel {
     }
 
     func refreshBumpeableBanner() {
+        guard isMine else { return }
         let pendingAreBumpeable = featureFlags.showBumpUpBannerOnNotValidatedListings.isActive
         guard let listingId = listing.value.objectId,
             status.value.shouldRefreshBumpBanner(pendingAreBumpeable: pendingAreBumpeable),
@@ -405,7 +511,7 @@ class ListingViewModel: BaseViewModel {
         let isBumpUpPending = purchasesShopper.isBumpUpPending(forListingId: listingId)
 
         if isBumpUpPending {
-            createBumpeableBanner(forListingId: listingId, withPrice: nil, paymentItemId: nil, paymentProviderItemId: nil,
+            createBumpeableBanner(forListingId: listingId, withPrice: nil, paymentItemId: nil, storeProductId: nil,
                                   bumpUpType: .restore)
         } else {
             isUpdatingBumpUpBanner = true
@@ -426,39 +532,46 @@ class ListingViewModel: BaseViewModel {
                         strongSelf.userIsSoftBlocked = false
                         // will be considered bumpeable ONCE WE GOT THE PRICES of the products, not before.
                         strongSelf.paymentItemId = paymentItems.first?.itemId
-                        strongSelf.paymentProviderItemId = paymentItems.first?.providerItemId
+                        strongSelf.storeProductId = paymentItems.first?.providerItemId
                         // if "paymentItemId" is nil, the banner creation will fail, so we check this here to avoid
                         // a useless request to apple
-                        if let _ = strongSelf.paymentItemId {
-                            strongSelf.purchasesShopper.productsRequestStartForListing(listingId,
-                                                                                       withIds: paymentItems.map { $0.providerItemId })
+                        if let paymentItemId = strongSelf.paymentItemId {
+                            strongSelf.purchasesShopper.productsRequestStartForListingId(listingId,
+                                                                                         paymentItemId: paymentItemId,
+                                                                                         withIds: paymentItems.map { $0.providerItemId },
+                                                                                         typePage: .listingDetail)
                         }
                     } else if !freeItems.isEmpty, strongSelf.featureFlags.freeBumpUpEnabled {
                         strongSelf.paymentItemId = freeItems.first?.itemId
-                        strongSelf.paymentProviderItemId = freeItems.first?.providerItemId
+                        strongSelf.storeProductId = freeItems.first?.providerItemId
                         strongSelf.createBumpeableBanner(forListingId: listingId,
                                                          withPrice: nil,
                                                          paymentItemId: strongSelf.paymentItemId,
-                                                         paymentProviderItemId: strongSelf.paymentProviderItemId,
+                                                         storeProductId: strongSelf.storeProductId,
                                                          bumpUpType: .free)
                     } else if !hiddenItems.isEmpty, strongSelf.featureFlags.pricedBumpUpEnabled {
                         strongSelf.userIsSoftBlocked = true
                         // for hidden items we follow THE SAME FLOW we do for PAID items
                         strongSelf.paymentItemId = hiddenItems.first?.itemId
-                        strongSelf.paymentProviderItemId = hiddenItems.first?.providerItemId
+                        strongSelf.storeProductId = hiddenItems.first?.providerItemId
                         // if "paymentItemId" is nil, the banner creation will fail, so we check this here to avoid
                         // a useless request to apple
-                        if let _ = strongSelf.paymentItemId {
-                            strongSelf.purchasesShopper.productsRequestStartForListing(listingId,
-                                                                                       withIds: hiddenItems.map { $0.providerItemId })
+                        if let paymentItemId = strongSelf.paymentItemId {
+                            strongSelf.purchasesShopper.productsRequestStartForListingId(listingId,
+                                                                                         paymentItemId: paymentItemId,
+                                                                                         withIds: hiddenItems.map { $0.providerItemId },
+                                                                                         typePage: .listingDetail)
                         }
                     }
             })
         }
     }
 
-    fileprivate func createBumpeableBanner(forListingId listingId: String, withPrice: String?, paymentItemId: String?,
-                                           paymentProviderItemId: String?, bumpUpType: BumpUpType) {
+    fileprivate func createBumpeableBanner(forListingId listingId: String,
+                                           withPrice: String?,
+                                           paymentItemId: String?,
+                                           storeProductId: String?,
+                                           bumpUpType: BumpUpType) {
         var bannerInteractionBlock: () -> Void
         var buttonBlock: () -> Void
         switch bumpUpType {
@@ -467,10 +580,12 @@ class ListingViewModel: BaseViewModel {
             let freeBlock = { [weak self] in
                 guard let listing = self?.listing.value, let socialMessage = self?.freeBumpUpShareMessage else { return }
 
-                self?.trackBumpBannerInfoShown(type: bumpUpType, storeProductId: paymentProviderItemId)
-
-                self?.navigator?.openFreeBumpUp(forListing: listing, socialMessage: socialMessage,
-                                                paymentItemId: paymentItemId)
+                let bumpUpProductData = BumpUpProductData(bumpUpPurchaseableData: .socialMessage(message: socialMessage),
+                                                          paymentItemId: paymentItemId,
+                                                          storeProductId: storeProductId)
+                self?.navigator?.openFreeBumpUp(forListing: listing,
+                                                bumpUpProductData: bumpUpProductData,
+                                                typePage: .listingDetail)
             }
             bannerInteractionBlock = freeBlock
             buttonBlock = freeBlock
@@ -479,10 +594,13 @@ class ListingViewModel: BaseViewModel {
             bannerInteractionBlock = { [weak self] in
                 guard let _ = self?.listing.value else { return }
                 guard let purchaseableProduct = self?.bumpUpPurchaseableProduct else { return }
-                
-                self?.openPricedBumpUpView(purchaseableProduct: purchaseableProduct,
-                                           paymentItemId: paymentItemId,
-                                           storeProductId: paymentProviderItemId)
+
+                let bumpUpProductData = BumpUpProductData(bumpUpPurchaseableData: .purchaseableProduct(product: purchaseableProduct),
+                                                          paymentItemId: paymentItemId,
+                                                          storeProductId: storeProductId)
+
+                self?.openPricedBumpUpView(bumpUpProductData: bumpUpProductData,
+                                           typePage: .listingDetail)
             }
             buttonBlock = { [weak self] in
                 self?.bumpUpProduct(productId: listingId)
@@ -536,32 +654,26 @@ class ListingViewModel: BaseViewModel {
     }
 
 
-    func showBumpUpView(purchaseableProduct: PurchaseableProduct,
-                        paymentItemId: String?,
-                        paymentProviderItemId: String?,
+    func showBumpUpView(bumpUpProductData: BumpUpProductData,
                         bumpUpType: BumpUpType,
-                        bumpUpSource: BumpUpSource?) {
+                        bumpUpSource: BumpUpSource?,
+                        typePage: EventParameterTypePage?) {
         self.bumpUpSource = bumpUpSource
         switch bumpUpType {
         case .priced:
-            guard let paymentItemId = paymentItemId else { return }
-            openPricedBumpUpView(purchaseableProduct: purchaseableProduct,
-                                                        paymentItemId: paymentItemId,
-                                                        storeProductId: paymentProviderItemId)
+            guard bumpUpProductData.hasPaymentId else { return }
+            openPricedBumpUpView(bumpUpProductData: bumpUpProductData,
+                                 typePage: typePage)
         case .free, .hidden, .restore:
             break
         }
     }
 
-    func openPricedBumpUpView(purchaseableProduct: PurchaseableProduct,
-                                                     paymentItemId: String,
-                                                     storeProductId: String?) {
-
-        trackBumpBannerInfoShown(type: .priced, storeProductId: paymentProviderItemId)
-
+    func openPricedBumpUpView(bumpUpProductData: BumpUpProductData,
+                              typePage: EventParameterTypePage?) {
         navigator?.openPayBumpUp(forListing: listing.value,
-                                 purchaseableProduct: purchaseableProduct,
-                                 paymentItemId: paymentItemId)
+                                 bumpUpProductData: bumpUpProductData,
+                                 typePage: typePage)
     }
 }
 
@@ -576,19 +688,30 @@ extension ListingViewModel {
     }
 
     func editListing() {
-        navigator?.editListing(listing.value)
+        var bumpUpProductData: BumpUpProductData? = nil
+        if let purchaseableProduct = bumpUpPurchaseableProduct, featureFlags.promoteBumpInEdit.isActive {
+                bumpUpProductData = BumpUpProductData(bumpUpPurchaseableData: .purchaseableProduct(product: purchaseableProduct),
+                                                      paymentItemId: paymentItemId,
+                                                      storeProductId: storeProductId)
+        }
+        navigator?.editListing(listing.value,
+                               bumpUpProductData: bumpUpProductData)
     }
 
     func shareProduct() {
         guard let socialMessage = socialMessage.value else { return }
-        guard let viewController = delegate?.vmShareViewControllerAndItem().0 else { return }
-        socialSharer.share(socialMessage, shareType: .native(restricted: false), viewController: viewController)
+        guard let delegate = delegate else { return }
+        let (vc, item) = delegate.vmShareViewControllerAndItem()
+        socialSharer.share(socialMessage, shareType: .native(restricted: false),
+                           viewController: vc,
+                           barButtonItem: item)
     }
 
     func chatWithSeller() {
+        guard let seller = seller.value else { return }
         let source: EventParameterTypePage = (moreInfoState.value == .shown) ? .listingDetailMoreInfo : .listingDetail
         trackHelper.trackChatWithSeller(source)
-        navigator?.openListingChat(listing.value, source: .listingDetail, isProfessional: isProfessional.value)
+        navigator?.openListingChat(listing.value, source: .listingDetail, interlocutor: seller)
     }
 
     func sendDirectMessage(_ text: String, isDefaultText: Bool) {
@@ -652,7 +775,8 @@ extension ListingViewModel {
                 strongSelf.keyValueStorage.proSellerAlreadySentPhoneInChat.contains(listingId) {
                 strongSelf.chatWithSeller()
             } else {
-                strongSelf.navigator?.openAskPhoneFor(listing: strongSelf.listing.value)
+                strongSelf.navigator?.openAskPhoneFor(listing: strongSelf.listing.value,
+                                                      interlocutor: strongSelf.seller.value)
             }
         }
     }
@@ -703,7 +827,7 @@ extension ListingViewModel {
 
     private func buildMoreNavBarAction() -> UIAction {
         let icon = UIImage(named: "navbar_more")?.withRenderingMode(.alwaysOriginal)
-        return UIAction(interface: .image(icon, nil), action: { [weak self] in self?.showOptionsMenu() },
+        return UIAction(interface: .image(icon, nil), action: { [weak self] in self?.updateAltActions() },
                         accessibilityId: .listingCarouselNavBarActionsButton)
     }
 
@@ -720,7 +844,7 @@ extension ListingViewModel {
     }
 
 
-    private func showOptionsMenu() {
+    private func updateAltActions() {
         var actions = [UIAction]()
 
         if status.value.isEditable {
@@ -733,8 +857,8 @@ extension ListingViewModel {
         if isMine && status.value != .notAvailable {
             actions.append(buildDeleteAction())
         }
-        
-        delegate?.vmShowProductDetailOptions(LGLocalizedString.commonCancel, actions: actions)
+
+        altActions.value = actions
     }
 
     private func buildEditAction() -> UIAction {
@@ -845,7 +969,7 @@ extension ListingViewModel {
             actionButtons.append(UIAction(interface: .button(LGLocalizedString.productSellAgainButton, .secondary(fontSize: .big, withBorder: false)),
                                           action: { [weak self] in self?.confirmToMarkAsUnSold(free: false) }))
         case .otherAvailable, .otherAvailableFree:
-            if isProfessional {
+            if isProfessional && featureFlags.allowCallsForProfessionals.isActive {
                 actionButtons.append(UIAction(interface: .button(LGLocalizedString.productProfessionalChatButton, .secondary(fontSize: .big, withBorder: false)),
                                               action: { [weak self] in self?.openAskPhone() }))
             }
@@ -990,7 +1114,8 @@ fileprivate extension ListingViewModel {
                 strongSelf.isReported.value = true
                 message = LGLocalizedString.productReportedSuccessMessage
                 self?.trackHelper.trackReportCompleted()
-            } else if let _ = result.error {
+            } else if let error = result.error {
+                self?.trackHelper.trackReportError(error.reportError)
                 message = LGLocalizedString.productReportedErrorGeneric
             }
             strongSelf.delegate?.vmHideLoading(message, afterMessageCompletion: nil)
@@ -1165,7 +1290,11 @@ extension ListingViewModel: SocialSharerDelegate {
 // MARK: PurchasesShopperDelegate
 
 extension ListingViewModel: BumpInfoRequesterDelegate {
-    func shopperFinishedProductsRequestForListingId(_ listingId: String?, withProducts products: [PurchaseableProduct]) {
+    func shopperFinishedProductsRequestForListingId(_ listingId: String?,
+                                                    withProducts products: [PurchaseableProduct],
+                                                    paymentItemId: String?,
+                                                    storeProductId: String?,
+                                                    typePage: EventParameterTypePage?) {
         guard let requestProdId = listingId, let currentProdId = listing.value.objectId,
             requestProdId == currentProdId else { return }
         guard let purchase = products.first else { return }
@@ -1175,7 +1304,7 @@ extension ListingViewModel: BumpInfoRequesterDelegate {
         createBumpeableBanner(forListingId: requestProdId,
                               withPrice: bumpUpPurchaseableProduct?.formattedCurrencyPrice,
                               paymentItemId: paymentItemId,
-                              paymentProviderItemId: paymentProviderItemId,
+                              storeProductId: storeProductId,
                               bumpUpType: bumpUpType)
     }
 }
@@ -1183,31 +1312,32 @@ extension ListingViewModel: BumpInfoRequesterDelegate {
 extension ListingViewModel: PurchasesShopperDelegate {
     // Free Bump Up
 
-    func freeBumpDidStart() {
-        trackBumpUpStarted(.free, type: .free, storeProductId: paymentProviderItemId, isPromotedBump: isPromotedBump)
+    func freeBumpDidStart(typePage: EventParameterTypePage?) {
+        trackBumpUpStarted(.free, type: .free, storeProductId: storeProductId, isPromotedBump: isPromotedBump,
+                           typePage: typePage)
         delegate?.vmShowLoading(LGLocalizedString.bumpUpProcessingFreeText)
     }
 
-    func freeBumpDidSucceed(withNetwork network: EventParameterShareNetwork) {
+    func freeBumpDidSucceed(withNetwork network: EventParameterShareNetwork, typePage: EventParameterTypePage?) {
         trackBumpUpCompleted(.free, type: .free, restoreRetriesCount: 0, network: network, transactionStatus: nil,
-                             storeProductId: paymentProviderItemId, isPromotedBump: isPromotedBump)
+                             storeProductId: storeProductId, isPromotedBump: isPromotedBump, typePage: typePage)
         delegate?.vmHideLoading(LGLocalizedString.bumpUpFreeSuccess, afterMessageCompletion: { [weak self] in
             self?.delegate?.vmResetBumpUpBannerCountdown()
             self?.isShowingFeaturedStripe.value = true
         })
     }
 
-    func freeBumpDidFail(withNetwork network: EventParameterShareNetwork) {
-        trackBumpUpFail(type: .free, transactionStatus: nil, storeProductId: paymentProviderItemId)
+    func freeBumpDidFail(withNetwork network: EventParameterShareNetwork, typePage: EventParameterTypePage?) {
+        trackBumpUpFail(type: .free, transactionStatus: nil, storeProductId: storeProductId, typePage: typePage)
         delegate?.vmHideLoading(LGLocalizedString.bumpUpErrorBumpGeneric, afterMessageCompletion: nil)
     }
 
 
     // Paid Bump Up
 
-    func pricedBumpDidStart() {
+    func pricedBumpDidStart(typePage: EventParameterTypePage?) {
         trackBumpUpStarted(.pay(price: bumpUpPurchaseableProduct?.formattedCurrencyPrice ?? ""), type: .priced,
-                           storeProductId: paymentProviderItemId, isPromotedBump: isPromotedBump)
+                           storeProductId: storeProductId, isPromotedBump: isPromotedBump, typePage: typePage)
         delegate?.vmShowLoading(LGLocalizedString.bumpUpProcessingPricedText)
     }
 
@@ -1220,22 +1350,26 @@ extension ListingViewModel: PurchasesShopperDelegate {
         delegate?.vmHideLoading(LGLocalizedString.bumpUpErrorPaymentFailed, afterMessageCompletion: nil)
     }
 
-    func pricedBumpDidSucceed(type: BumpUpType, restoreRetriesCount: Int, transactionStatus: EventParameterTransactionStatus) {
+    func pricedBumpDidSucceed(type: BumpUpType, restoreRetriesCount: Int, transactionStatus: EventParameterTransactionStatus,
+                              typePage: EventParameterTypePage?) {
         trackBumpUpCompleted(.pay(price: bumpUpPurchaseableProduct?.formattedCurrencyPrice ?? ""),
                              type: type,
                              restoreRetriesCount: restoreRetriesCount,
                              network: .notAvailable,
                              transactionStatus: transactionStatus,
-                             storeProductId: paymentProviderItemId,
-                             isPromotedBump: isPromotedBump)
+                             storeProductId: storeProductId,
+                             isPromotedBump: isPromotedBump,
+                             typePage: typePage)
         delegate?.vmHideLoading(LGLocalizedString.bumpUpPaySuccess, afterMessageCompletion: { [weak self] in
             self?.delegate?.vmResetBumpUpBannerCountdown()
             self?.isShowingFeaturedStripe.value = true
         })
     }
 
-    func pricedBumpDidFail(type: BumpUpType, transactionStatus: EventParameterTransactionStatus) {
-        trackBumpUpFail(type: type, transactionStatus: transactionStatus, storeProductId: paymentProviderItemId)
+    func pricedBumpDidFail(type: BumpUpType, transactionStatus: EventParameterTransactionStatus,
+                           typePage: EventParameterTypePage?) {
+        trackBumpUpFail(type: type, transactionStatus: transactionStatus, storeProductId: storeProductId,
+                        typePage: typePage)
         delegate?.vmHideLoading(LGLocalizedString.bumpUpErrorBumpGeneric, afterMessageCompletion: { [weak self] in
             self?.refreshBumpeableBanner()
         })
@@ -1246,7 +1380,12 @@ extension ListingViewModel: PurchasesShopperDelegate {
 
     func restoreBumpDidStart() {
         trackBumpUpStarted(.pay(price: bumpUpPurchaseableProduct?.formattedCurrencyPrice ?? ""), type: .restore,
-                           storeProductId: paymentProviderItemId, isPromotedBump: isPromotedBump)
+                           storeProductId: storeProductId, isPromotedBump: isPromotedBump, typePage: .listingDetail)
         delegate?.vmShowLoading(LGLocalizedString.bumpUpProcessingFreeText)
     }
+}
+
+// new item page
+extension ListingViewModel {
+    var isFavoritable: Bool { return !isMine }
 }

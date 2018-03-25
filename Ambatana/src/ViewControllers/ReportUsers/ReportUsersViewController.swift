@@ -10,10 +10,9 @@ import UIKit
 
 class ReportUsersViewController: BaseViewController, ReportUsersViewModelDelegate {
 
-
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var commentTextView: UITextView!
-    @IBOutlet weak var sendButton: UIButton!
+    @IBOutlet weak var sendButton: LetgoButton!
     @IBOutlet weak var textBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
 
@@ -215,8 +214,8 @@ extension ReportUsersViewController {
 
 extension ReportUsersViewController {
     func setAccesibilityIds() {
-        collectionView.accessibilityId = .reportUserCollection
-        commentTextView.accessibilityId = .reportUserCommentField
-        sendButton.accessibilityId = .reportUserSendButton
+        collectionView.set(accessibilityId: .reportUserCollection)
+        commentTextView.set(accessibilityId: .reportUserCommentField)
+        sendButton.set(accessibilityId: .reportUserSendButton)
     }
 }

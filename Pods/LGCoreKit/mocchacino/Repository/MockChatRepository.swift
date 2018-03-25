@@ -13,6 +13,7 @@ open class MockChatRepository: InternalChatRepository {
     public var unreadMessagesResult: ChatUnreadMessagesResult!
     public var fetchInactiveConversationsCountResult: ChatCountResult!
     public var fetchInactiveConversationsResult: ChatInactiveConversationsResult!
+    public var markConversationAsReadResult: ChatCommandResult!
     
     public let chatStatusPublishSubject = PublishSubject<WSChatStatus>()
     public let chatEventsPublishSubject = PublishSubject<ChatEvent>()
@@ -138,6 +139,10 @@ open class MockChatRepository: InternalChatRepository {
         delay(result: archiveCommandResult, completion: completion)
     }
     
+    func internalMarkAllConversationsAsRead(completion: ChatCommandCompletion?) {
+        delay(result: markConversationAsReadResult, completion: completion)
+    }
+    
     public func confirmReception(_ conversationId: String,
                                  messageIds: [String],
                                  completion: ChatCommandCompletion?) {
@@ -147,6 +152,10 @@ open class MockChatRepository: InternalChatRepository {
     public func internalUnarchiveConversation(_ conversationId: String,
                                               completion: ChatCommandCompletion?) {
         delay(result: unarchiveCommandResult, completion: completion)
+    }
+    
+    public func markAllConversationsAsRead(completion: ChatCommandCompletion?) {
+        delay(result: markConversationAsReadResult, completion: completion)
     }
     
     public func chatUnreadMessagesCount(_ completion: ChatUnreadMessagesCompletion?) {

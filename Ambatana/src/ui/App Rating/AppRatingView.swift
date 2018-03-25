@@ -125,13 +125,13 @@ class AppRatingView: UIView {
 extension AppRatingView {
     func setAccesibilityIds() {
         if stars.count == 5 {
-            stars[0].accessibilityId = .appRatingStarButton1
-            stars[1].accessibilityId = .appRatingStarButton2
-            stars[2].accessibilityId = .appRatingStarButton3
-            stars[3].accessibilityId = .appRatingStarButton4
-            stars[4].accessibilityId = .appRatingStarButton5
+            stars[0].set(accessibilityId: .appRatingStarButton1)
+            stars[1].set(accessibilityId: .appRatingStarButton2)
+            stars[2].set(accessibilityId: .appRatingStarButton3)
+            stars[3].set(accessibilityId: .appRatingStarButton4)
+            stars[4].set(accessibilityId: .appRatingStarButton5)
         }
-        bgButton.accessibilityId = .appRatingBgButton
-        dismissButton.accessibilityId = .appRatingDismissButton
+        bgButton.set(accessibilityId: .appRatingBgButton)
+        dismissButton.set(accessibilityId: .appRatingDismissButton)
     }
 }

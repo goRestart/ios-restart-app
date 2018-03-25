@@ -167,7 +167,7 @@ class PostCategoryDetailRowView: UIView, UITextFieldDelegate {
     // MARK: - Accessibility
     
     private func setupAccessibilityIds() {
-        button.accessibilityId = .postingCategoryDeatilRowButton
-        textField.accessibilityId = .postingCategoryDeatilTextField
+        button.set(accessibilityId: .postingCategoryDeatilRowButton)
+        textField.set(accessibilityId: .postingCategoryDeatilTextField)
     }
 }

@@ -182,7 +182,7 @@ class FeaturedInfoViewController: BaseViewController {
     }
 
     func setAccessibilityIds() {
-        closeButton.accessibilityId = .featuredInfoCloseButton
+        closeButton.set(accessibilityId: .featuredInfoCloseButton)
     }
 
     // MARK: Actions

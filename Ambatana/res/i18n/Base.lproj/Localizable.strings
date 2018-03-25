@@ -52,6 +52,12 @@
 // Text for bubble while waiting for next bump
 "bump_up_banner_wait_text" = "to feature again";
 
+// Text for bubble when boost is enabled
+"bump_up_banner_boost_text" = "Add an extra boost!";
+
+// Text for the timer progress view, this text is followed by the time left (e.g.: 2h 32m 15s)
+"bump_up_banner_boost_progress_title" = "Featured for the next";
+
 // Title for bubble button
 "bump_up_banner_free_button_title" = "Bump Up";
 
@@ -82,6 +88,18 @@
 // Featured product cell chat now button
 "bump_up_product_cell_chat_now_button" = "Chat Now";
 
+// Featured product cell chat now button variant A (only in turkish): Sohbet Et
+"bump_up_product_cell_chat_now_button_a" = "Chat Now";
+
+// Featured product cell chat now button variant B (only in turkish): Mesaj Gönder
+"bump_up_product_cell_chat_now_button_b" = "Chat Now";
+
+// Featured product cell chat now button variant C (only in turkish): Mesajlaş
+"bump_up_product_cell_chat_now_button_c" = "Chat Now";
+
+// Featured product cell chat now button variant D (only in turkish): İletişime Geç
+"bump_up_product_cell_chat_now_button_d" = "Chat Now";
+
 // Text for label in featured products detail
 "bump_up_product_detail_featured_label" = "FEATURED";
 
@@ -99,6 +117,30 @@
 
 // Button title for payment bump up view
 "bump_up_view_pay_button_title" = "Feature it for %@";
+
+// Button title for payment bump up boost view
+"bump_up_view_boost_pay_button_title" = "Feature it again for %@";
+
+// Title for payment bump up view variant 1
+"bump_up_view_boost_title_send_top" = "Send it to the top again";
+
+// Title for payment bump up view variant 2
+"bump_up_view_boost_title_boost_listing" = "Boost your featured listing";
+
+// Title for payment bump up view variant 3
+"bump_up_view_boost_title_cheaper_boost" = "Get a cheaper boost now";
+
+// Subtitle for payment bump up view variant 1
+"bump_up_view_boost_subtitle_send_top" = "Your listing's still featured, but you can add an extra boost. It'll move to the top and be featured for 24 hours starting now.";
+
+// Subtitle for payment bump up view variant 2
+"bump_up_view_boost_subtitle_boost_listing" = "Since you already featured your listing in the last 24 hours, we'll let you purchase another feature for less!";
+
+// Subtitle for payment bump up view variant 3
+"bump_up_view_boost_subtitle_cheaper" = "Boost your listing right now to get a discount off the typical feature price.";
+
+// Text for boost success alert
+"bump_up_boost_success_alert_text" = "Your listing was boosted again!  It will be featured for the next 24 hours.";
 
 // Title for payment bump up view
 "bump_up_old_view_pay_title" = "SELL FASTER";
@@ -145,6 +187,9 @@
 // Categories real Estate
 "categories_real_estate_title" = "Real Estate";
 
+// Categories services
+"categories_services" = "Services";
+
 // Categories sports leisure and games. Check image @ "categories_cars_and_motors" segment
 "categories_sports_leisure_and_games" = "Sports, Leisure and Games";
 
@@ -168,6 +213,9 @@
 
 // Category "Leisure"
 "categories_inFeed_sports_leisure_games" = "Leisure";
+
+// Category "Services"
+"categories_inFeed_services" = "Services";
 
 // Category "Home"
 "categories_inFeed_home" = "Home";
@@ -195,6 +243,18 @@
 
 // Show more header element
 "categories_super_keywords_inFeed_show_more" = "Show more";
+
+// Change Bio placeholder text
+"change_bio_placeholder" = "Add a bio that describes who you are. Share what you’re interested in or a fun fact about yourself.";
+
+// Change Bio view title
+"change_bio_title" = "About me";
+
+// Change Bio save button title
+"change_bio_save_button" = "Save";
+
+// Change Bio error shown when new bio contains invalid info
+"change_bio_error_message" = "An error occurred while saving your bio. Please make sure it doesn’t include contact information.";
 
 // Change location apply button. Check image @ "change_location_title" segment
 "change_location_apply_button" = "Set location";
@@ -564,6 +624,9 @@
 
 // Alert to show when user started chat with himself
 "chat_with_yourself_alert_msg" = "You can't start a conversation about your own listing.";
+
+// Button in chat conversation list to mark all conversations as read
+"chat_mark_conversation_as_read_button" = "Mark all as read";
 
 // Title of transport collection
 "collection_transport_title" = "Travel in style";
@@ -939,6 +1002,12 @@
 // When closing edit product with unsaved changes -> Ok button
 "edit_product_unsaved_changes_alert_ok" = "Discard";
 
+// Edit product, short version copy to feature item
+"edit_product_feature_label_short_text" = "Sell faster now";
+
+// Edit product, long version copy to feature item
+"edit_product_feature_label_long_text" = "Feature your listing to sell faster";
+
 // featured info view, title
 "featured_info_view_title" = "Featured Listing";
 
@@ -1055,6 +1124,12 @@
 
 // Filters Nº of Bathrooms not set
 "filters_real_estate_bathrooms_not_set" = "Not set";
+
+// From price in the selected filter cell shown in feed
+"filters_real_estate_size_from_feed_filter_cell" = "From";
+
+// To price in the selected filter cell shown in feed
+"filters_real_estate_size_to_feed_filter_cell" = "To";
 
 // Selected location text when there is no postal address. 
 "filters_tag_location_selected" = "Selected location";
@@ -1174,6 +1249,36 @@
 // Login v2. Log in w email forgot password alert remember action
 "log_in_email_forgot_password_alert_remember_action" = "Send email";
 
+// machine learning MVP
+"ml_onboarding_new_text" = "NEW!";
+
+// machine learning MVP
+"ml_onboarding_description_text" = "Show me an item and I'll tell you how much you'll make";
+
+// machine learning MVP
+"ml_onboarding_ok_text" = "OK";
+
+// machine learning MVP
+"ml_camera_sells_for_text" = "Typically sells for $%d";
+
+// machine learning MVP
+"ml_camera_in_about_days_text" = "in about %.f days";
+
+// machine learning MVP
+"ml_camera_in_more_than_days_text" = "in more than %.f days";
+
+// machine learning MVP
+"ml_details_suggested_details_text" = "SUGGESTED DETAILS";
+
+// machine learning MVP
+"ml_details_title_text" = "Title:";
+
+// machine learning MVP
+"ml_details_price_text" = "Price:";
+
+// machine learning MVP
+"ml_category_text" = "Category:";
+
 // Login v2. Sign up w email step 1 title
 "sign_up_email_step1_title" = "Create a new account";
 
@@ -1251,6 +1356,9 @@
 
 // Navigation bar button 'Invite'' 
 "main_products_invite_navigation_bar_button" = "Invite";
+
+// MoPub advertising indicator "Ad"
+"mopub_advertising_text" = "Ad";
 
 // Subtitle text for empty notifications center
 "notifications_empty_subtitle" = "Post something for sale to start seeing some activity here";
@@ -1515,6 +1623,63 @@
 
 // Add model option
 "post_category_detail_add_model" = "Add Model";
+
+// Take picture title
+"post_header_step_take_picture" = "Take a picture";
+
+// Confirm picture title
+"post_header_step_confirm_picture" = "Confirm picture";
+
+// Add price title
+"post_header_step_add_price" = "Add a price";
+
+// Generating title message
+"post_queued_requests_state_generating_title" = "Generating title...";
+
+// Categorizing listing message
+"post_queued_requests_state_categorizing_listing" = "Categorizing listing...";
+
+// Posting listing message
+"post_queued_requests_state_posting_listing" = "Posting listing...";
+
+// Listing posted message
+"post_queued_requests_state_listing_posted" = "Listing posted!";
+
+// Welcome for the user
+"post_get_started_welcome_user_text" = "Welcome, %@!";
+
+// Welcome when no user name is provided
+"post_get_started_welcome_letgo_text" = "Welcome to letgo";
+
+// INtroductory text
+"post_get_started_intro_text" = "See how easy it is to sell on letgo. Post something you’ve got nearby.";
+
+// Get Started button text
+"post_get_started_button_text" = "Get Started";
+
+// discard text
+"post_get_started_discard_text" = "You can discard it later if you don’t want to sell it.";
+
+// post finished done text
+"post_description_done_text" = "Done! That was easy, right?";
+
+// post finished button save text
+"post_description_save_button_text" = "Save this listing!";
+
+// post finished button discard text
+"post_description_discard_button_text" = "Discard";
+
+// post finished title
+"post_description_info_title" = "LISTING INFORMATION";
+
+// post finished product name placeholder
+"post_description_name_placeholder" = "Name";
+
+// post finished product category placeholder
+"post_description_category_title" = "Category";
+
+// post finished product description placeholder
+"post_description_description_placeholder" = "Description (optional)";
 
 // Product detail auto gen title disclaimer label.
 "product_auto_generated_title_label" = "Title automatically generated by letgo";
@@ -1872,6 +2037,9 @@
 
 // Subtitle message to ask user to select a picture or more
 "product_post_gallery_select_pictures_subtitle" = "Select up to 5 images to upload";
+
+// Subtitle message to ask user to select a picture or more with params
+"product_post_gallery_select_pictures_subtitle_params" = "Select up to %d images to upload";
 
 // Gallery tab on posting
 "product_post_gallery_tab" = "GALLERY";
@@ -2585,6 +2753,9 @@
 // Message inside gallery view to explain about picture selection on RE
 "real_estate_gallery_view_subtitle" = "Select up to 5 images of the property you want to sell or rent";
 
+// Message inside gallery view to explain about picture selection on RE
+"real_estate_gallery_view_subtitle_params" = "Select up to %d images of the property you want to sell or rent";
+
 // Message inside camera view to explain about picture selection on RE
 "real_estate_camera_view_real_estate_message" = "Snap a picture of the property you want to sell or rent";
 
@@ -2593,6 +2764,39 @@
 
 // Subtitle for empty state when search for real estate
 "real_estate_empty_state_search_subtitle" = "Be the first to post property for sale / rent in your area or check again soon!";
+
+// Title for page on real estate tutorial
+"real_estate_tutorial_new" = "New";
+
+// Title for first section on first option for real estate onboarding
+"real_estate_tutorial_one_page_first_section_title" = "Sell property or find a renter for your extra room";
+
+// Title for second section on first option for real estate onboarding
+"real_estate_tutorial_one_page_second_section_title" = "Quickly post a listing with all the details buyers want to know";
+
+// Title for first section on first page for real estate onboarding
+"real_estate_tutorial_two_pages_first_section_first_page_title" = "New! Sell property or find a renter for your extra room";
+
+// Title for first section on second page for real estate onboarding
+"real_estate_tutorial_two_pages_first_section_second_page_title" = "Quickly post a listing with all the details buyers want to know";
+
+// Title for first page on three page option. 
+"real_estate_tutorial_three_pages_first_page_title" = "New! Buy, sell or rent property";
+
+// Description for first page on three page option. 
+"real_estate_tutorial_three_pages_first_page_description" = "Post property for sale or rent in our new Housing category. 90% of buyers use online resources to find their next pad!";
+
+// Title for second page on three page option. 
+"real_estate_tutorial_three_pages_second_page_title" = "Details aren't just details";
+
+// Description for second page on three page option. 
+"real_estate_tutorial_three_pages_second_page_decription" = "Property decisions are based on location and on the number of bedrooms and bathrooms, so make sure these details are in your listing!";
+
+// Title for third page on three page option. 
+"real_estate_tutorial_three_pages_third_page_title" = "Sell or rent in a snap";
+
+// Description for third page on three page option. 
+"real_estate_tutorial_three_pages_third_page_description" = "Completed listings attract 20% more views so you'll sell faster. Don't forget to double your visibility by featuring your listing!";
 
 // Title when showing list of related items
 "related_items_title" = "Related listings";
@@ -2777,6 +2981,9 @@
 // Settings change email button
 "settings_change_email_button" = "Email";
 
+// Settings change user Bio text button
+"settings_change_user_bio_button" = "Bio / About me";
+
 // Settings help button. Check attached image @ "settings_change_password_button" segment
 "settings_help_button" = "Help";
 
@@ -2917,6 +3124,12 @@
 
 // Tour or label.
 "tour_or_label" = "OR USE YOUR EMAIL";
+
+// Skip button
+"tutorial_skip_button_title" = "Skip";
+
+// Accept button on last page of the tutorial
+"tutorial_accept_button_title" = "Get Started";
 
 // Title for trending searches screen (background view when searching)
 "trending_searches_Title" = "Trending Searches";

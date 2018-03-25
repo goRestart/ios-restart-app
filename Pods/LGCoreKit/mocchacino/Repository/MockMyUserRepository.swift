@@ -40,6 +40,10 @@ open class MockMyUserRepository: MyUserRepository {
         delay(result: result, completion: completion)
     }
 
+    public func updateBiography(_ biography: String, completion: MyUserCompletion?) {
+        delay(result: result, completion: completion)
+    }
+
     public func linkAccount(_ email: String, completion: MyUserCompletion?) {
         delay(result: result, completion: completion)
     }

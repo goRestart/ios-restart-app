@@ -392,6 +392,7 @@ fileprivate extension UserViewModel {
             self?.updateAccounts(user)
             self?.updateRatings(user)
             self?.updateDummyInfo(user)
+            self?.userIsProfessional.value = user.isProfessional
         }
     }
     
@@ -802,9 +803,7 @@ extension UserViewModel {
 }
 
 extension UserViewModel: ListingCellDelegate {
-    
-    func relatedButtonPressedFor(listing: Listing) {}
-    
+        
     func chatButtonPressedFor(listing: Listing) {}
     
     func editPressedForDiscarded(listing: Listing) {

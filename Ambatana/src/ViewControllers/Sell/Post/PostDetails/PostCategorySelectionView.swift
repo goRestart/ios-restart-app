@@ -35,24 +35,12 @@ enum PostCategory: Equatable {
             [PostCategory.car, PostCategory.motorsAndAccessories, PostCategory.otherItems(listingCategory: nil)]
     }
     
-    func numberOfSteps(shouldShowPrice: Bool, postingFlowType: PostingFlowType) -> CGFloat {
-        let delta: CGFloat = shouldShowPrice ? 0 :  1
-        switch self {
-        case .car:
-            return baseSteps(postingFlowType: postingFlowType) - delta
-        case .realEstate:
-            return baseSteps(postingFlowType: postingFlowType) - delta
-        case .otherItems, .motorsAndAccessories:
-            return baseSteps(postingFlowType: postingFlowType)
-        }
-    }
-    
-    private func baseSteps(postingFlowType: PostingFlowType) -> CGFloat {
+    var numberOfSteps: CGFloat {
         switch self {
         case .car:
             return 3
         case .realEstate:
-            return postingFlowType == .standard ? 5 : 6
+            return 5
         case .otherItems, .motorsAndAccessories:
             return 0
         }
@@ -166,10 +154,10 @@ fileprivate extension PostCategorySelectionView {
     }
     
     func setupAccessibilityIds() {
-        carsCategoryButton.accessibilityId = .postingCategorySelectionCarsButton
-        motorsAndAccessoriesButton.accessibilityId = .postingCategorySelectionMotorsAndAccessoriesButton
-        otherCategoryButton.accessibilityId = .postingCategorySelectionOtherButton
-        realEstateCategoryButton.accessibilityId = .postingCategorySelectionRealEstateButton
+        carsCategoryButton.set(accessibilityId: .postingCategorySelectionCarsButton)
+        motorsAndAccessoriesButton.set(accessibilityId: .postingCategorySelectionMotorsAndAccessoriesButton)
+        otherCategoryButton.set(accessibilityId: .postingCategorySelectionOtherButton)
+        realEstateCategoryButton.set(accessibilityId: .postingCategorySelectionRealEstateButton)
         
     }
     

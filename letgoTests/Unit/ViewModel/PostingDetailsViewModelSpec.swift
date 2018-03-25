@@ -246,4 +246,20 @@ extension PostingDetailsViewModelSpec: PostListingNavigator {
         openListingCreationCalled = true
     }
     func showConfirmation(listingResult: ListingResult, trackingInfo: PostListingTrackingInfo, modalStyle: Bool) {}
+    func openQueuedRequestsLoading(images: [UIImage], listingCreationParams: ListingCreationParams,
+                                   postState: PostListingState, source: EventParameterPictureSource) {}
+    func openQueuedRequestsLoading(images: [UIImage], listingCreationParams: ListingCreationParams,
+                                   imageSource: EventParameterPictureSource, postingSource: PostingSource) {}
+    
+    // MARK: Machine Learning
+    func startDetails(postListingState: MLPostListingState,
+                      uploadedImageSource: EventParameterPictureSource?,
+                      postingSource: PostingSource,
+                      postListingBasicInfo: PostListingBasicDetailViewModel) {}
+    func nextPostingDetailStep(step: PostingDetailStep,
+                               postListingState: MLPostListingState,
+                               uploadedImageSource: EventParameterPictureSource?,
+                               postingSource: PostingSource,
+                               postListingBasicInfo: PostListingBasicDetailViewModel,
+                               previousStepIsSummary: Bool) {}
 }

@@ -71,6 +71,15 @@ enum CategoryHeaderElement {
             return true
         }
     }
+    
+    var isRealEstate: Bool {
+        switch self {
+        case .listingCategory(let listingCategory):
+            return listingCategory.isRealEstate
+        case .superKeyword, .superKeywordGroup, .showMore, .mostSearchedItems:
+            return false
+        }
+    }
 }
 
 func ==(a: CategoryHeaderElement, b: CategoryHeaderElement) -> Bool {

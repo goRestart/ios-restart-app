@@ -11,7 +11,6 @@ import Foundation
 import RxSwift
 
 class MockFeatureFlags: FeatureFlaggeable {
-
     var trackingData: Observable<[(String, ABGroupType)]?> {
         return trackingDataVar.asObservable()
     }
@@ -31,35 +30,39 @@ class MockFeatureFlags: FeatureFlaggeable {
     var newItemPage: NewItemPage = .control
     var searchAutocomplete: SearchAutocomplete = .control
     var realEstateEnabled: RealEstateEnabled = .control
-    var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter = .control
     var requestTimeOut: RequestsTimeOut = .thirty
-    var homeRelatedEnabled: HomeRelatedEnabled = .control
     var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed = .control
-    var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting = .control
     var showClockInDirectAnswer: ShowClockInDirectAnswer = .control
     var allowCallsForProfessionals: AllowCallsForProfessionals = .control
-    var moreInfoAFShOrDFP: MoreInfoAFShOrDFP = .control
     var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage = .control
     var mostSearchedDemandedItems: MostSearchedDemandedItems = .control
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers = .control
 
-    var realEstateImprovements: RealEstateImprovements = .control
-    var realEstatePromos: RealEstatePromos = .control
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio = .control
     var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting = .control
     var realEstateNewCopy: RealEstateNewCopy = .control
     var dummyUsersInfoProfile: DummyUsersInfoProfile = .control
     var showInactiveConversations: Bool = false
-    var mainFeedAspectRatio: MainFeedAspectRatio = .control
     var increaseMinPriceBumps: IncreaseMinPriceBumps = .control
     var emojiSizeIncrement: EmojiSizeIncrement = .control
     var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings = .control
     var newUserProfileView: NewUserProfileView = .control
     var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation = .control
-    var searchMultiwordExpressions: SearchMultiwordExpressions = .control
+    var searchImprovements: SearchImprovements = .control
+    var relaxedSearch: RelaxedSearch = .control
     var showChatSafetyTips: Bool = false
     var discardedProducts: DiscardedProducts = .control
+    var promoteBumpInEdit: PromoteBumpInEdit = .control
     var userIsTyping: UserIsTyping = .control
+    var servicesCategoryEnabled: ServicesCategoryEnabled = .control
+    var increaseNumberOfPictures: IncreaseNumberOfPictures = .control
+    var onboardingIncentivizePosting: OnboardingIncentivizePosting = .control
+    var machineLearningMVP: MachineLearningMVP = .control
+    var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings = .control
+    var showProTagUserProfile: Bool = false
+    var markAllConversationsAsRead: Bool = false
+    var realEstateTutorial: RealEstateTutorial = .control
+    var summaryAsFirstStep: SummaryAsFirstStep = .control
 
     // Country dependant features
     var freePostingModeAllowed = false
@@ -67,12 +70,14 @@ class MockFeatureFlags: FeatureFlaggeable {
     var locationRequiresManualChangeSuggestion = false
     var signUpEmailNewsletterAcceptRequired = false
     var signUpEmailTermsAndConditionsAcceptRequired = false
-    var moreInfoShoppingAdUnitId = ""
     var moreInfoDFPAdUnitId = ""
     var feedDFPAdUnitId: String? = ""
     var bumpPriceVariationBucket: BumpPriceVariationBucket = .defaultValue
+    var shouldChangeChatNowCopy = false
+    var copyForChatNowInTurkey: CopyForChatNowInTurkey = .control
     
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false
     }
+    var shareTypes: [ShareType] = []
 }

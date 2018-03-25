@@ -46,6 +46,10 @@ class SettingsViewController: BaseViewController {
         tableView.delegate = nil
         tableView.dataSource = nil
     }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .default
+    }
 
 
     // MARK: - Private
@@ -69,7 +73,7 @@ class SettingsViewController: BaseViewController {
     }
 
     private func setupAccessibilityIds() {
-        tableView.accessibilityId = .settingsList
+        tableView.set(accessibilityId: .settingsList)
     }
 
     private func setupRx() {

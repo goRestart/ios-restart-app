@@ -18,7 +18,7 @@ final class ListingAttributePickerCell: UITableViewCell, ReusableCell {
         
         var font: UIFont {
             switch self {
-            case .light: return UIFont.selectableItem
+            case .light: return UIFont.postingFlowSelectableItem
             case .dark: return UIFont.bigBodyFont
             }
         }

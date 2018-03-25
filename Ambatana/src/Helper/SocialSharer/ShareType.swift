@@ -13,53 +13,9 @@ enum NativeShareStyle {
 }
 
 enum ShareType {
-    // native -> "restricted == true" excludes some shareTypes that are not shares at all, like copyToClipboard, and assign to contact
-    case email, facebook, fbMessenger, whatsapp, twitter, telegram, copyLink, sms, native(restricted: Bool)
-
-    private static var otherCountriesTypes: [ShareType] { return [.sms, .email, .facebook, .fbMessenger, .twitter, .whatsapp, .telegram] }
-    private static var turkeyTypes: [ShareType] { return [.whatsapp, .facebook, .email ,.fbMessenger, .twitter, .sms, .telegram] }
-
-    var moreInfoTypes: [ShareType] {
-        return ShareType.shareTypesForCountry("", maxButtons: nil, nativeShare: .notAvailable)
-    }
-
-    static func shareTypesForCountry(_ countryCode: String, maxButtons: Int?, nativeShare: NativeShareStyle) -> [ShareType] {
-        let turkey = "tr"
-
-        let countryTypes: [ShareType]
-        switch countryCode.lowercased() {
-        case turkey:
-            countryTypes = turkeyTypes
-        default:
-            countryTypes = otherCountriesTypes
-        }
-
-        var resultShareTypes = countryTypes.filter { SocialSharer.canShareIn($0) }
-
-        if var maxButtons = maxButtons, maxButtons > 0 {
-            switch nativeShare {
-            case .normal, .restricted:
-                maxButtons = maxButtons-1
-            case .notAvailable:
-                break
-            }
-            if resultShareTypes.count > maxButtons {
-                resultShareTypes = Array(resultShareTypes[0..<maxButtons])
-            }
-        }
-
-        switch nativeShare {
-        case .normal:
-            resultShareTypes.append(.native(restricted: false))
-        case .restricted:
-            resultShareTypes.append(.native(restricted: true))
-        case .notAvailable:
-            break
-        }
-
-        return resultShareTypes
-    }
-
+    case email, facebook, fbMessenger, whatsapp, twitter, telegram, copyLink, sms
+    case native(restricted: Bool)   // "restricted == true" excludes some shareTypes that are not shares at all, like copyToClipboard, and assign to contact
+    
     var trackingShareNetwork: EventParameterShareNetwork {
         switch self {
         case .email:
@@ -129,7 +85,7 @@ enum ShareType {
         }
     }
 
-    var accesibilityId: AccessibilityId {
+    var accessibilityId: AccessibilityId {
         switch self {
         case .email:
             return .socialShareEmail

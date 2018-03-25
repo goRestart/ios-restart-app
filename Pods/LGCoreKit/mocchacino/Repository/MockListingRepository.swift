@@ -80,6 +80,10 @@ open class MockListingRepository: ListingRepository {
                            createdAt: product.createdAt,
                            featured: product.featured)
     }
+    
+    public func index(_ params: RetrieveListingParams, relax: RelaxParam, completion: ListingsCompletion?) {
+        delay(result: indexResult, completion: completion)
+    }
 
     public func index(_ params: RetrieveListingParams, completion: ListingsCompletion?) {
         delay(result: indexResult, completion: completion)

@@ -28,6 +28,15 @@ enum ListingCellModel {
     init(emptyVM: LGEmptyViewModel) {
         self = ListingCellModel.emptyCell(vm: emptyVM)
     }
+
+    var listing: Listing? {
+        switch self {
+        case .listingCell(let listing):
+            return listing
+        default:
+            return nil
+        }
+    }
     
     init(mostSearchedItemsData: MostSearchedItemsCardData) {
         self = ListingCellModel.mostSearchedItems(data: mostSearchedItemsData)
@@ -44,9 +53,9 @@ struct ListingData {
     var isFeatured: Bool
     var isMine: Bool
     var price: String
-    var shouldShowPrice: Bool
     let imageSize: CGSize
-
+    let currentLocation: LGLocation?
+    
     var listingId: String? {
         return listing?.objectId
     }
@@ -57,6 +66,12 @@ struct ListingData {
 
     var title: String? {
         return listing?.title
+    }
+    
+    var distanceToListing: Double? {
+        guard let listingPosition = listing?.location,
+              let userLocation = currentLocation?.location else { return nil }
+        return userLocation.distanceTo(listingPosition).roundNearest(0.1)
     }
 }
 

@@ -185,6 +185,11 @@ class ChatWebSocketDataSource: ChatDataSource {
         webSocketClient.sendCommand(request, completion: completion)
     }
     
+    func markAllConversationsAsRead(completion: ChatWebSocketCommandCompletion?) {
+        let request = webSocketCommandRouter.markAllConversationsAsRead()
+        webSocketClient.sendCommand(request, completion: completion)
+    }
+    
     // MARK: - Unread messages
     
     func unreadMessages(_ userId: String, completion: ChatWebSocketUnreadCountCompletion?) {

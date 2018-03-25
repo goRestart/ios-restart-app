@@ -12,6 +12,7 @@ import RxSwift
 import LGCollapsibleLabel
 import GoogleMobileAds
 
+// This might go away if the new design ABIOS-3100 wins
 enum MoreInfoState {
     case hidden
     case moving
@@ -74,7 +75,6 @@ class ListingCarouselMoreInfoView: UIView {
     @IBOutlet var shareViewToBannerTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var scrollViewToSuperviewTopConstraint: NSLayoutConstraint!
     
-    var bannerView: GADSearchBannerView?
     var dfpBannerView: DFPBannerView?
 
     @IBOutlet weak var socialShareContainer: UIView!
@@ -136,11 +136,7 @@ class ListingCarouselMoreInfoView: UIView {
             } else {
                 shareViewToMapTopConstraint.isActive = true
                 shareViewToBannerTopConstraint.isActive = true
-                if let useAFSh = viewModel?.afshAdActive, useAFSh {
-                    loadAFShoppingRequest()
-                } else {
-                    loadDFPRequest()
-                }
+                loadDFPRequest()
             }
         } else {
             hideAdsBanner()
@@ -196,8 +192,10 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
     }
     
     func setupMapView(inside container: UIView) {
+        report(AppReport.uikit(error: .breadcrumb), message: "MoreInfoView-SetupMapView-start")
         layoutMapView(inside: container)
         addMapGestures()
+        report(AppReport.uikit(error: .breadcrumb), message: "MoreInfoView-SetupMapView-end")
     }
 
     fileprivate func setupMapRx(viewModel: ListingCarouselViewModel) {
@@ -211,6 +209,7 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
     }
 
     private func layoutMapView(inside container: UIView) {
+        report(AppReport.uikit(error: .breadcrumb), message: "MoreInfoView-LayoutMapView-start")
         if mapView.superview != nil {
             mapView.removeFromSuperview()
         }
@@ -224,6 +223,7 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
             toItem: container, attribute: .top, multiplier: 1, constant: 0))
         container.addConstraint(NSLayoutConstraint(item: mapView, attribute: .bottom, relatedBy: .equal,
             toItem: container, attribute: .bottom, multiplier: 1, constant: 8))
+        report(AppReport.uikit(error: .breadcrumb), message: "MoreInfoView-LayoutMapView-end")
     }
     
     private func addMapGestures() {
@@ -358,6 +358,7 @@ extension ListingCarouselMoreInfoView: UIScrollViewDelegate {
 
 fileprivate extension ListingCarouselMoreInfoView {
     func setupUI() {
+        report(AppReport.uikit(error: .breadcrumb), message: "MoreInfoView-SetupUI-start")
         setupMapView(inside: mapViewContainer)
 
         mapView.clipsToBounds = true
@@ -424,6 +425,7 @@ fileprivate extension ListingCarouselMoreInfoView {
         }
 
         scrollView.delegate = self
+        report(AppReport.uikit(error: .breadcrumb), message: "MoreInfoView-SetupUI-end")
     }
     
     func setupTagCollectionView() {
@@ -437,7 +439,7 @@ fileprivate extension ListingCarouselMoreInfoView {
         statsContainerViewHeightConstraint.constant = 0.0
         statsContainerViewTopConstraint.constant = 0.0
 
-        guard let statsView = ListingStatsView.ListingStatsView() else { return }
+        guard let statsView = ListingStatsView.make() else { return }
         self.statsView = statsView
         statsContainerView.addSubview(statsView)
 
@@ -454,6 +456,7 @@ fileprivate extension ListingCarouselMoreInfoView {
     }
 
     func setupSocialShareView() {
+        report(AppReport.uikit(error: .breadcrumb), message: "MoreInfoView-setupSocialShareView-start")
         socialShareTitleLabel.textColor = UIColor.white
         socialShareTitleLabel.font = UIFont.productSocialShareTitleFont
         socialShareTitleLabel.text = LGLocalizedString.productShareTitleLabel
@@ -466,6 +469,7 @@ fileprivate extension ListingCarouselMoreInfoView {
             socialShareView.buttonsSide = 50
         default: break
         }
+        report(AppReport.uikit(error: .breadcrumb), message: "MoreInfoView-setupSocialShareView-end")
     }
 
     fileprivate func hideAdsBanner() {
@@ -527,19 +531,6 @@ fileprivate extension ListingCarouselMoreInfoView {
     }
 
     func setupAdBannerWith(viewModel: ListingCarouselViewModel) {
-
-        if viewModel.afshAdActive {
-            bannerView = GADSearchBannerView.init(adSize: kGADAdSizeFluid)
-            guard let bannerView = bannerView else { return }
-            bannerView.frame = CGRect(x: 0, y: 0, width: bounds.width, height: 0)
-            bannerView.autoresizingMask = .flexibleWidth
-            bannerView.adSizeDelegate = self
-            bannerView.delegate = self
-
-            bannerContainerView.addSubview(bannerView)
-            bannerView.translatesAutoresizingMaskIntoConstraints = false
-            bannerView.layout(with: bannerContainerView).fill()
-        } else {
             dfpBannerView = DFPBannerView(adSize: kGADAdSizeLargeBanner)
 
             guard let dfpBanner = dfpBannerView else { return }
@@ -551,16 +542,6 @@ fileprivate extension ListingCarouselMoreInfoView {
             dfpBanner.layout(with: bannerContainerView).top().bottom().centerX()
 
             dfpBanner.delegate = self
-        }
-    }
-
-    func loadAFShoppingRequest() {
-        bannerContainerViewHeightConstraint.constant = 0
-        shareViewToMapTopConstraint.isActive = false
-        shareViewToBannerTopConstraint.isActive = true
-
-        bannerView?.adUnitID = viewModel?.shoppingAdUnitId
-        bannerView?.load(viewModel?.makeAFShoppingRequestWithWidth(width: frame.width))
     }
 
     func loadDFPRequest() {
@@ -675,15 +656,17 @@ extension ListingCarouselMoreInfoView: SocialShareViewDelegate {
 
 extension ListingCarouselMoreInfoView {
     fileprivate func setAccessibilityIds() {
-        scrollView.accessibilityId = .listingCarouselMoreInfoScrollView
-        titleText.accessibilityId = .listingCarouselMoreInfoTitleLabel
-        transTitleLabel.accessibilityId = .listingCarouselMoreInfoTransTitleLabel
-        addressLabel.accessibilityId = .listingCarouselMoreInfoAddressLabel
-        distanceLabel.accessibilityId = .listingCarouselMoreInfoDistanceLabel
-        mapView.accessibilityId = .listingCarouselMoreInfoMapView
-        socialShareTitleLabel.accessibilityId = .listingCarouselMoreInfoSocialShareTitleLabel
-        socialShareView.accessibilityId = .listingCarouselMoreInfoSocialShareView
-        descriptionLabel.accessibilityId = .listingCarouselMoreInfoDescriptionLabel
+        scrollView.set(accessibilityId: .listingCarouselMoreInfoScrollView)
+        titleText.set(accessibilityId: .listingCarouselMoreInfoTitleLabel)
+        priceLabel.set(accessibilityId: .listingCarouselMoreInfoPriceLabel)
+        transTitleLabel.set(accessibilityId: .listingCarouselMoreInfoTransTitleLabel)
+        addressLabel.set(accessibilityId: .listingCarouselMoreInfoAddressLabel)
+        distanceLabel.set(accessibilityId: .listingCarouselMoreInfoDistanceLabel)
+        mapView.set(accessibilityId: .listingCarouselMoreInfoMapView)
+        socialShareTitleLabel.set(accessibilityId: .listingCarouselMoreInfoSocialShareTitleLabel)
+        socialShareView.set(accessibilityId: .listingCarouselMoreInfoSocialShareView)
+        descriptionLabel.set(accessibilityId: .listingCarouselMoreInfoDescriptionLabel)
+        statsView?.set(accessibilityId: .listingCarouselMoreInfoStatsView)
     }
 }
 

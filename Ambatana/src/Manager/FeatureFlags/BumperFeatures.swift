@@ -21,25 +21,18 @@ extension Bumper  {
         flags.append(DynamicQuickAnswers.self)
         flags.append(RealEstateEnabled.self)
         flags.append(SearchAutocomplete.self)
-        flags.append(ShowPriceAfterSearchOrFilter.self)
         flags.append(RequestsTimeOut.self)
-        flags.append(HomeRelatedEnabled.self)
         flags.append(TaxonomiesAndTaxonomyChildrenInFeed.self)
         flags.append(NewItemPage.self)
-        flags.append(ShowPriceStepRealEstatePosting.self)
         flags.append(ShowClockInDirectAnswer.self)
-        flags.append(MoreInfoAFShOrDFP.self)
         flags.append(MostSearchedDemandedItems.self)
         flags.append(AllowCallsForProfessionals.self)
-        flags.append(RealEstateImprovements.self)
-        flags.append(RealEstatePromos.self)
         flags.append(ShowAdsInFeedWithRatio.self)
         flags.append(RealEstateFlowType.self)
         flags.append(RemoveCategoryWhenClosingPosting.self)
         flags.append(RealEstateNewCopy.self)
         flags.append(DummyUsersInfoProfile.self)
         flags.append(ShowInactiveConversations.self)
-        flags.append(MainFeedAspectRatio.self)
         flags.append(IncreaseMinPriceBumps.self)
         flags.append(ShowSecurityMeetingChatMessage.self)
         flags.append(NoAdsInFeedForNewUsers.self)
@@ -47,10 +40,23 @@ extension Bumper  {
         flags.append(ShowBumpUpBannerOnNotValidatedListings.self)
         flags.append(NewUserProfileView.self)
         flags.append(TurkeyBumpPriceVATAdaptation.self)
-        flags.append(SearchMultiwordExpressions.self)
+        flags.append(SearchImprovements.self)
+        flags.append(RelaxedSearch.self)
         flags.append(ShowChatSafetyTips.self)
         flags.append(DiscardedProducts.self)
+        flags.append(OnboardingIncentivizePosting.self)
+        flags.append(PromoteBumpInEdit.self)
         flags.append(UserIsTyping.self)
+        flags.append(ServicesCategoryEnabled.self)
+        flags.append(CopyForChatNowInTurkey.self)
+        flags.append(IncreaseNumberOfPictures.self)
+        flags.append(RealEstateTutorial.self)
+        flags.append(MachineLearningMVP.self)
+        flags.append(AddPriceTitleDistanceToListings.self)
+        flags.append(MarkAllConversationsAsRead.self)
+        flags.append(ShowProTagUserProfile.self)
+        flags.append(SummaryAsFirstStep.self)
+        flags.append(ShowProTagUserProfile.self)
         Bumper.initialize(flags)
     } 
 
@@ -94,19 +100,9 @@ extension Bumper  {
         return SearchAutocomplete(rawValue: value) ?? .control 
     }
 
-    static var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter {
-        guard let value = Bumper.value(for: ShowPriceAfterSearchOrFilter.key) else { return .control }
-        return ShowPriceAfterSearchOrFilter(rawValue: value) ?? .control 
-    }
-
     static var requestsTimeOut: RequestsTimeOut {
         guard let value = Bumper.value(for: RequestsTimeOut.key) else { return .baseline }
         return RequestsTimeOut(rawValue: value) ?? .baseline 
-    }
-
-    static var homeRelatedEnabled: HomeRelatedEnabled {
-        guard let value = Bumper.value(for: HomeRelatedEnabled.key) else { return .control }
-        return HomeRelatedEnabled(rawValue: value) ?? .control 
     }
 
     static var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed {
@@ -119,19 +115,9 @@ extension Bumper  {
         return NewItemPage(rawValue: value) ?? .control 
     }
 
-    static var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting {
-        guard let value = Bumper.value(for: ShowPriceStepRealEstatePosting.key) else { return .control }
-        return ShowPriceStepRealEstatePosting(rawValue: value) ?? .control 
-    }
-
     static var showClockInDirectAnswer: ShowClockInDirectAnswer {
         guard let value = Bumper.value(for: ShowClockInDirectAnswer.key) else { return .control }
         return ShowClockInDirectAnswer(rawValue: value) ?? .control 
-    }
-
-    static var moreInfoAFShOrDFP: MoreInfoAFShOrDFP {
-        guard let value = Bumper.value(for: MoreInfoAFShOrDFP.key) else { return .control }
-        return MoreInfoAFShOrDFP(rawValue: value) ?? .control 
     }
 
     static var mostSearchedDemandedItems: MostSearchedDemandedItems {
@@ -142,16 +128,6 @@ extension Bumper  {
     static var allowCallsForProfessionals: AllowCallsForProfessionals {
         guard let value = Bumper.value(for: AllowCallsForProfessionals.key) else { return .control }
         return AllowCallsForProfessionals(rawValue: value) ?? .control 
-    }
-
-    static var realEstateImprovements: RealEstateImprovements {
-        guard let value = Bumper.value(for: RealEstateImprovements.key) else { return .control }
-        return RealEstateImprovements(rawValue: value) ?? .control 
-    }
-
-    static var realEstatePromos: RealEstatePromos {
-        guard let value = Bumper.value(for: RealEstatePromos.key) else { return .control }
-        return RealEstatePromos(rawValue: value) ?? .control 
     }
 
     static var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio {
@@ -182,11 +158,6 @@ extension Bumper  {
     static var showInactiveConversations: Bool {
         guard let value = Bumper.value(for: ShowInactiveConversations.key) else { return false }
         return ShowInactiveConversations(rawValue: value)?.asBool ?? false
-    }
-
-    static var mainFeedAspectRatio: MainFeedAspectRatio {
-        guard let value = Bumper.value(for: MainFeedAspectRatio.key) else { return .control }
-        return MainFeedAspectRatio(rawValue: value) ?? .control 
     }
 
     static var increaseMinPriceBumps: IncreaseMinPriceBumps {
@@ -224,9 +195,14 @@ extension Bumper  {
         return TurkeyBumpPriceVATAdaptation(rawValue: value) ?? .control 
     }
 
-    static var searchMultiwordExpressions: SearchMultiwordExpressions {
-        guard let value = Bumper.value(for: SearchMultiwordExpressions.key) else { return .control }
-        return SearchMultiwordExpressions(rawValue: value) ?? .control 
+    static var searchImprovements: SearchImprovements {
+        guard let value = Bumper.value(for: SearchImprovements.key) else { return .control }
+        return SearchImprovements(rawValue: value) ?? .control 
+    }
+
+    static var relaxedSearch: RelaxedSearch {
+        guard let value = Bumper.value(for: RelaxedSearch.key) else { return .control }
+        return RelaxedSearch(rawValue: value) ?? .control 
     }
 
     static var showChatSafetyTips: Bool {
@@ -239,10 +215,65 @@ extension Bumper  {
         return DiscardedProducts(rawValue: value) ?? .control 
     }
 
+    static var onboardingIncentivizePosting: OnboardingIncentivizePosting {
+        guard let value = Bumper.value(for: OnboardingIncentivizePosting.key) else { return .control }
+        return OnboardingIncentivizePosting(rawValue: value) ?? .control 
+    }
+
+    static var promoteBumpInEdit: PromoteBumpInEdit {
+        guard let value = Bumper.value(for: PromoteBumpInEdit.key) else { return .control }
+        return PromoteBumpInEdit(rawValue: value) ?? .control 
+    }
+
     static var userIsTyping: UserIsTyping {
         guard let value = Bumper.value(for: UserIsTyping.key) else { return .control }
         return UserIsTyping(rawValue: value) ?? .control 
-    } 
+    }
+
+    static var servicesCategoryEnabled: ServicesCategoryEnabled {
+        guard let value = Bumper.value(for: ServicesCategoryEnabled.key) else { return .control }
+        return ServicesCategoryEnabled(rawValue: value) ?? .control 
+    }
+
+    static var copyForChatNowInTurkey: CopyForChatNowInTurkey {
+        guard let value = Bumper.value(for: CopyForChatNowInTurkey.key) else { return .control }
+        return CopyForChatNowInTurkey(rawValue: value) ?? .control 
+    }
+
+    static var increaseNumberOfPictures: IncreaseNumberOfPictures {
+        guard let value = Bumper.value(for: IncreaseNumberOfPictures.key) else { return .control }
+        return IncreaseNumberOfPictures(rawValue: value) ?? .control 
+    }
+
+    static var realEstateTutorial: RealEstateTutorial {
+        guard let value = Bumper.value(for: RealEstateTutorial.key) else { return .control }
+        return RealEstateTutorial(rawValue: value) ?? .control 
+    }
+
+    static var machineLearningMVP: MachineLearningMVP {
+        guard let value = Bumper.value(for: MachineLearningMVP.key) else { return .control }
+        return MachineLearningMVP(rawValue: value) ?? .control 
+    }
+
+    static var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings {
+        guard let value = Bumper.value(for: AddPriceTitleDistanceToListings.key) else { return .control }
+        return AddPriceTitleDistanceToListings(rawValue: value) ?? .control 
+    }
+
+    static var markAllConversationsAsRead: Bool {
+        guard let value = Bumper.value(for: MarkAllConversationsAsRead.key) else { return false }
+        return MarkAllConversationsAsRead(rawValue: value)?.asBool ?? false
+    }
+
+    static var showProTagUserProfile: Bool {
+        guard let value = Bumper.value(for: ShowProTagUserProfile.key) else { return false }
+        return ShowProTagUserProfile(rawValue: value)?.asBool ?? false
+    }
+
+    static var summaryAsFirstStep: SummaryAsFirstStep {
+        guard let value = Bumper.value(for: SummaryAsFirstStep.key) else { return .control }
+        return SummaryAsFirstStep(rawValue: value) ?? .control 
+    }
 }
 
 
@@ -340,22 +371,6 @@ enum SearchAutocomplete: String, BumperFeature  {
     }
 }
 
-enum ShowPriceAfterSearchOrFilter: String, BumperFeature  {
-    case control, baseline, priceOnSearchOrFilter
-    static var defaultValue: String { return ShowPriceAfterSearchOrFilter.control.rawValue }
-    static var enumValues: [ShowPriceAfterSearchOrFilter] { return [.control, .baseline, .priceOnSearchOrFilter]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show price in feed products when user applies any search or filter" } 
-    static func fromPosition(_ position: Int) -> ShowPriceAfterSearchOrFilter {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .priceOnSearchOrFilter
-            default: return .control
-        }
-    }
-}
-
 enum RequestsTimeOut: String, BumperFeature  {
     case baseline, thirty, forty_five, sixty, hundred_and_twenty
     static var defaultValue: String { return RequestsTimeOut.baseline.rawValue }
@@ -370,22 +385,6 @@ enum RequestsTimeOut: String, BumperFeature  {
             case 3: return .sixty
             case 4: return .hundred_and_twenty
             default: return .baseline
-        }
-    }
-}
-
-enum HomeRelatedEnabled: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return HomeRelatedEnabled.control.rawValue }
-    static var enumValues: [HomeRelatedEnabled] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show the related button in the main feed" } 
-    static func fromPosition(_ position: Int) -> HomeRelatedEnabled {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
         }
     }
 }
@@ -422,22 +421,6 @@ enum NewItemPage: String, BumperFeature  {
     }
 }
 
-enum ShowPriceStepRealEstatePosting: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return ShowPriceStepRealEstatePosting.control.rawValue }
-    static var enumValues: [ShowPriceStepRealEstatePosting] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "show price on real estate listing" } 
-    static func fromPosition(_ position: Int) -> ShowPriceStepRealEstatePosting {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
 enum ShowClockInDirectAnswer: String, BumperFeature  {
     case control, baseline, active
     static var defaultValue: String { return ShowClockInDirectAnswer.control.rawValue }
@@ -449,23 +432,6 @@ enum ShowClockInDirectAnswer: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
-            default: return .control
-        }
-    }
-}
-
-enum MoreInfoAFShOrDFP: String, BumperFeature  {
-    case control, baseline, afsh, dfp
-    static var defaultValue: String { return MoreInfoAFShOrDFP.control.rawValue }
-    static var enumValues: [MoreInfoAFShOrDFP] { return [.control, .baseline, .afsh, .dfp]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "show ad in more info, could be Adsense for shopping or DFP" } 
-    static func fromPosition(_ position: Int) -> MoreInfoAFShOrDFP {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .afsh
-            case 3: return .dfp
             default: return .control
         }
     }
@@ -500,38 +466,6 @@ enum AllowCallsForProfessionals: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .inactive
-            default: return .control
-        }
-    }
-}
-
-enum RealEstateImprovements: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return RealEstateImprovements.control.rawValue }
-    static var enumValues: [RealEstateImprovements] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "show onboarding improvements on real estate category" } 
-    static func fromPosition(_ position: Int) -> RealEstateImprovements {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
-enum RealEstatePromos: String, BumperFeature  {
-    case control, baseline, deactivate
-    static var defaultValue: String { return RealEstatePromos.control.rawValue }
-    static var enumValues: [RealEstatePromos] { return [.control, .baseline, .deactivate]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "show real estate promos" } 
-    static func fromPosition(_ position: Int) -> RealEstatePromos {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .deactivate
             default: return .control
         }
     }
@@ -625,23 +559,6 @@ enum ShowInactiveConversations: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show button to access inactive conversations" } 
     var asBool: Bool { return self == .yes }
-}
-
-enum MainFeedAspectRatio: String, BumperFeature  {
-    case control, baseline, square, squareOrLessThanW9H16
-    static var defaultValue: String { return MainFeedAspectRatio.control.rawValue }
-    static var enumValues: [MainFeedAspectRatio] { return [.control, .baseline, .square, .squareOrLessThanW9H16]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Limit the aspect ratio of the images in the main feed" } 
-    static func fromPosition(_ position: Int) -> MainFeedAspectRatio {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .square
-            case 3: return .squareOrLessThanW9H16
-            default: return .control
-        }
-    }
 }
 
 enum IncreaseMinPriceBumps: String, BumperFeature  {
@@ -759,13 +676,13 @@ enum TurkeyBumpPriceVATAdaptation: String, BumperFeature  {
     }
 }
 
-enum SearchMultiwordExpressions: String, BumperFeature  {
-    case control, baseline, mWE, mWERelaxedSynonyms, mWERelaxedSynonymsMM100, mWERelaxedSynonymsMM75
-    static var defaultValue: String { return SearchMultiwordExpressions.control.rawValue }
-    static var enumValues: [SearchMultiwordExpressions] { return [.control, .baseline, .mWE, .mWERelaxedSynonyms, .mWERelaxedSynonymsMM100, .mWERelaxedSynonymsMM75]}
+enum SearchImprovements: String, BumperFeature  {
+    case control, baseline, mWE, mWERelaxedSynonyms, mWERelaxedSynonymsMM100, mWERelaxedSynonymsMM75, mWS, boostingScoreDistance, boostingDistance, boostingFreshness, boostingDistAndFreshness
+    static var defaultValue: String { return SearchImprovements.control.rawValue }
+    static var enumValues: [SearchImprovements] { return [.control, .baseline, .mWE, .mWERelaxedSynonyms, .mWERelaxedSynonymsMM100, .mWERelaxedSynonymsMM75, .mWS, .boostingScoreDistance, .boostingDistance, .boostingFreshness, .boostingDistAndFreshness]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Multiword expressions when searching" } 
-    static func fromPosition(_ position: Int) -> SearchMultiwordExpressions {
+    static var description: String { return "Search improvements related to multi word, boosting distance, score and freshness" } 
+    static func fromPosition(_ position: Int) -> SearchImprovements {
         switch position { 
             case 0: return .control
             case 1: return .baseline
@@ -773,6 +690,28 @@ enum SearchMultiwordExpressions: String, BumperFeature  {
             case 3: return .mWERelaxedSynonyms
             case 4: return .mWERelaxedSynonymsMM100
             case 5: return .mWERelaxedSynonymsMM75
+            case 6: return .mWS
+            case 7: return .boostingScoreDistance
+            case 8: return .boostingDistance
+            case 9: return .boostingFreshness
+            case 10: return .boostingDistAndFreshness
+            default: return .control
+        }
+    }
+}
+
+enum RelaxedSearch: String, BumperFeature  {
+    case control, baseline, relaxedQuery, relaxedQueryORFallback
+    static var defaultValue: String { return RelaxedSearch.control.rawValue }
+    static var enumValues: [RelaxedSearch] { return [.control, .baseline, .relaxedQuery, .relaxedQueryORFallback]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Search improvements with relaxed queries" } 
+    static func fromPosition(_ position: Int) -> RelaxedSearch {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .relaxedQuery
+            case 3: return .relaxedQueryORFallback
             default: return .control
         }
     }
@@ -803,6 +742,41 @@ enum DiscardedProducts: String, BumperFeature  {
     }
 }
 
+enum OnboardingIncentivizePosting: String, BumperFeature  {
+    case control, baseline, blockingPosting
+    static var defaultValue: String { return OnboardingIncentivizePosting.control.rawValue }
+    static var enumValues: [OnboardingIncentivizePosting] { return [.control, .baseline, .blockingPosting]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Leads the user through the posting feature and onboarding improvements" } 
+    static func fromPosition(_ position: Int) -> OnboardingIncentivizePosting {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .blockingPosting
+            default: return .control
+        }
+    }
+}
+
+enum PromoteBumpInEdit: String, BumperFeature  {
+    case control, baseline, implicit, sellFaster, longRedText, bigIcon
+    static var defaultValue: String { return PromoteBumpInEdit.control.rawValue }
+    static var enumValues: [PromoteBumpInEdit] { return [.control, .baseline, .implicit, .sellFaster, .longRedText, .bigIcon]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Ad a switch to edit listing page to bump the listing" } 
+    static func fromPosition(_ position: Int) -> PromoteBumpInEdit {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .implicit
+            case 3: return .sellFaster
+            case 4: return .longRedText
+            case 5: return .bigIcon
+            default: return .control
+        }
+    }
+}
+
 enum UserIsTyping: String, BumperFeature  {
     case control, baseline, active
     static var defaultValue: String { return UserIsTyping.control.rawValue }
@@ -818,4 +792,141 @@ enum UserIsTyping: String, BumperFeature  {
         }
     }
 }
+
+enum ServicesCategoryEnabled: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ServicesCategoryEnabled.control.rawValue }
+    static var enumValues: [ServicesCategoryEnabled] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Allow to see Services category" } 
+    static func fromPosition(_ position: Int) -> ServicesCategoryEnabled {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum CopyForChatNowInTurkey: String, BumperFeature  {
+    case control, variantA, variantB, variantC, variantD
+    static var defaultValue: String { return CopyForChatNowInTurkey.control.rawValue }
+    static var enumValues: [CopyForChatNowInTurkey] { return [.control, .variantA, .variantB, .variantC, .variantD]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Try different copies for Chat now button in Turkey" } 
+    static func fromPosition(_ position: Int) -> CopyForChatNowInTurkey {
+        switch position { 
+            case 0: return .control
+            case 1: return .variantA
+            case 2: return .variantB
+            case 3: return .variantC
+            case 4: return .variantD
+            default: return .control
+        }
+    }
+}
+
+enum IncreaseNumberOfPictures: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return IncreaseNumberOfPictures.control.rawValue }
+    static var enumValues: [IncreaseNumberOfPictures] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Allow to include up to 10 pictures on listings" } 
+    static func fromPosition(_ position: Int) -> IncreaseNumberOfPictures {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum RealEstateTutorial: String, BumperFeature  {
+    case control, baseline, oneScreen, twoScreens, threeScreens, onlyBadge
+    static var defaultValue: String { return RealEstateTutorial.control.rawValue }
+    static var enumValues: [RealEstateTutorial] { return [.control, .baseline, .oneScreen, .twoScreens, .threeScreens, .onlyBadge]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show real estate tutorial when user see Real estate category for first time" } 
+    static func fromPosition(_ position: Int) -> RealEstateTutorial {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .oneScreen
+            case 3: return .twoScreens
+            case 4: return .threeScreens
+            case 5: return .onlyBadge
+            default: return .control
+        }
+    }
+}
+
+enum MachineLearningMVP: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return MachineLearningMVP.control.rawValue }
+    static var enumValues: [MachineLearningMVP] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show machine learning posting flow when pressing Other Items on salchichas menu" } 
+    static func fromPosition(_ position: Int) -> MachineLearningMVP {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum AddPriceTitleDistanceToListings: String, BumperFeature  {
+    case control, baseline, infoInImage, infoWithWhiteBackground
+    static var defaultValue: String { return AddPriceTitleDistanceToListings.control.rawValue }
+    static var enumValues: [AddPriceTitleDistanceToListings] { return [.control, .baseline, .infoInImage, .infoWithWhiteBackground]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Add price, title and distance to listings" } 
+    static func fromPosition(_ position: Int) -> AddPriceTitleDistanceToListings {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .infoInImage
+            case 3: return .infoWithWhiteBackground
+            default: return .control
+        }
+    }
+}
+
+enum MarkAllConversationsAsRead: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return MarkAllConversationsAsRead.no.rawValue }
+    static var enumValues: [MarkAllConversationsAsRead] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show a button to mark all conversations as read" } 
+    var asBool: Bool { return self == .yes }
+}
+
+enum ShowProTagUserProfile: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return ShowProTagUserProfile.no.rawValue }
+    static var enumValues: [ShowProTagUserProfile] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show Professional tag in user profile" } 
+    var asBool: Bool { return self == .yes }
+}
+
+enum SummaryAsFirstStep: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return SummaryAsFirstStep.control.rawValue }
+    static var enumValues: [SummaryAsFirstStep] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show directly summary screen instead of Real estate steps" } 
+    static func fromPosition(_ position: Int) -> SummaryAsFirstStep {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
 

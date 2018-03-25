@@ -79,6 +79,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("bump_up_banner_wait_text", comment: "")
 	}
 
+	static var bumpUpBannerBoostText: String {
+		return NSLocalizedString("bump_up_banner_boost_text", comment: "")
+	}
+
+	static var bumpUpBannerBoostProgressTitle: String {
+		return NSLocalizedString("bump_up_banner_boost_progress_title", comment: "")
+	}
+
 	static var bumpUpBannerFreeButtonTitle: String {
 		return NSLocalizedString("bump_up_banner_free_button_title", comment: "")
 	}
@@ -119,6 +127,22 @@ struct LGLocalizedString {
 		return NSLocalizedString("bump_up_product_cell_chat_now_button", comment: "")
 	}
 
+	static var bumpUpProductCellChatNowButtonA: String {
+		return NSLocalizedString("bump_up_product_cell_chat_now_button_a", comment: "")
+	}
+
+	static var bumpUpProductCellChatNowButtonB: String {
+		return NSLocalizedString("bump_up_product_cell_chat_now_button_b", comment: "")
+	}
+
+	static var bumpUpProductCellChatNowButtonC: String {
+		return NSLocalizedString("bump_up_product_cell_chat_now_button_c", comment: "")
+	}
+
+	static var bumpUpProductCellChatNowButtonD: String {
+		return NSLocalizedString("bump_up_product_cell_chat_now_button_d", comment: "")
+	}
+
 	static var bumpUpProductDetailFeaturedLabel: String {
 		return NSLocalizedString("bump_up_product_detail_featured_label", comment: "")
 	}
@@ -141,6 +165,38 @@ struct LGLocalizedString {
 
 	static func bumpUpViewPayButtonTitle(_ var1: String) -> String {
 		return String(format: NSLocalizedString("bump_up_view_pay_button_title", comment: ""), var1)
+	}
+
+	static func bumpUpViewBoostPayButtonTitle(_ var1: String) -> String {
+		return String(format: NSLocalizedString("bump_up_view_boost_pay_button_title", comment: ""), var1)
+	}
+
+	static var bumpUpViewBoostTitleSendTop: String {
+		return NSLocalizedString("bump_up_view_boost_title_send_top", comment: "")
+	}
+
+	static var bumpUpViewBoostTitleBoostListing: String {
+		return NSLocalizedString("bump_up_view_boost_title_boost_listing", comment: "")
+	}
+
+	static var bumpUpViewBoostTitleCheaperBoost: String {
+		return NSLocalizedString("bump_up_view_boost_title_cheaper_boost", comment: "")
+	}
+
+	static var bumpUpViewBoostSubtitleSendTop: String {
+		return NSLocalizedString("bump_up_view_boost_subtitle_send_top", comment: "")
+	}
+
+	static var bumpUpViewBoostSubtitleBoostListing: String {
+		return NSLocalizedString("bump_up_view_boost_subtitle_boost_listing", comment: "")
+	}
+
+	static var bumpUpViewBoostSubtitleCheaper: String {
+		return NSLocalizedString("bump_up_view_boost_subtitle_cheaper", comment: "")
+	}
+
+	static var bumpUpBoostSuccessAlertText: String {
+		return NSLocalizedString("bump_up_boost_success_alert_text", comment: "")
 	}
 
 	static var bumpUpOldViewPayTitle: String {
@@ -203,6 +259,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("categories_real_estate_title", comment: "")
 	}
 
+	static var categoriesServices: String {
+		return NSLocalizedString("categories_services", comment: "")
+	}
+
 	static var categoriesSportsLeisureAndGames: String {
 		return NSLocalizedString("categories_sports_leisure_and_games", comment: "")
 	}
@@ -233,6 +293,10 @@ struct LGLocalizedString {
 
 	static var categoriesInfeedSportsLeisureGames: String {
 		return NSLocalizedString("categories_inFeed_sports_leisure_games", comment: "")
+	}
+
+	static var categoriesInfeedServices: String {
+		return NSLocalizedString("categories_inFeed_services", comment: "")
 	}
 
 	static var categoriesInfeedHome: String {
@@ -269,6 +333,22 @@ struct LGLocalizedString {
 
 	static var categoriesSuperKeywordsInfeedShowMore: String {
 		return NSLocalizedString("categories_super_keywords_inFeed_show_more", comment: "")
+	}
+
+	static var changeBioPlaceholder: String {
+		return NSLocalizedString("change_bio_placeholder", comment: "")
+	}
+
+	static var changeBioTitle: String {
+		return NSLocalizedString("change_bio_title", comment: "")
+	}
+
+	static var changeBioSaveButton: String {
+		return NSLocalizedString("change_bio_save_button", comment: "")
+	}
+
+	static var changeBioErrorMessage: String {
+		return NSLocalizedString("change_bio_error_message", comment: "")
 	}
 
 	static var changeLocationApplyButton: String {
@@ -761,6 +841,10 @@ struct LGLocalizedString {
 
 	static var chatWithYourselfAlertMsg: String {
 		return NSLocalizedString("chat_with_yourself_alert_msg", comment: "")
+	}
+
+	static var chatMarkConversationAsReadButton: String {
+		return NSLocalizedString("chat_mark_conversation_as_read_button", comment: "")
 	}
 
 	static var collectionTransportTitle: String {
@@ -1271,6 +1355,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("edit_product_unsaved_changes_alert_ok", comment: "")
 	}
 
+	static var editProductFeatureLabelShortText: String {
+		return NSLocalizedString("edit_product_feature_label_short_text", comment: "")
+	}
+
+	static var editProductFeatureLabelLongText: String {
+		return NSLocalizedString("edit_product_feature_label_long_text", comment: "")
+	}
+
 	static var featuredInfoViewTitle: String {
 		return NSLocalizedString("featured_info_view_title", comment: "")
 	}
@@ -1425,6 +1517,14 @@ struct LGLocalizedString {
 
 	static var filtersRealEstateBathroomsNotSet: String {
 		return NSLocalizedString("filters_real_estate_bathrooms_not_set", comment: "")
+	}
+
+	static var filtersRealEstateSizeFromFeedFilterCell: String {
+		return NSLocalizedString("filters_real_estate_size_from_feed_filter_cell", comment: "")
+	}
+
+	static var filtersRealEstateSizeToFeedFilterCell: String {
+		return NSLocalizedString("filters_real_estate_size_to_feed_filter_cell", comment: "")
 	}
 
 	static var filtersTagLocationSelected: String {
@@ -1587,6 +1687,46 @@ struct LGLocalizedString {
 		return NSLocalizedString("log_in_email_forgot_password_alert_remember_action", comment: "")
 	}
 
+	static var mlOnboardingNewText: String {
+		return NSLocalizedString("ml_onboarding_new_text", comment: "")
+	}
+
+	static var mlOnboardingDescriptionText: String {
+		return NSLocalizedString("ml_onboarding_description_text", comment: "")
+	}
+
+	static var mlOnboardingOkText: String {
+		return NSLocalizedString("ml_onboarding_ok_text", comment: "")
+	}
+
+	static func mlCameraSellsForText(_ var1: Int) -> String {
+		return String(format: NSLocalizedString("ml_camera_sells_for_text", comment: ""), var1)
+	}
+
+	static var mlCameraInAboutDaysText: String {
+		return NSLocalizedString("ml_camera_in_about_days_text", comment: "")
+	}
+
+	static var mlCameraInMoreThanDaysText: String {
+		return NSLocalizedString("ml_camera_in_more_than_days_text", comment: "")
+	}
+
+	static var mlDetailsSuggestedDetailsText: String {
+		return NSLocalizedString("ml_details_suggested_details_text", comment: "")
+	}
+
+	static var mlDetailsTitleText: String {
+		return NSLocalizedString("ml_details_title_text", comment: "")
+	}
+
+	static var mlDetailsPriceText: String {
+		return NSLocalizedString("ml_details_price_text", comment: "")
+	}
+
+	static var mlCategoryText: String {
+		return NSLocalizedString("ml_category_text", comment: "")
+	}
+
 	static var signUpEmailStep1Title: String {
 		return NSLocalizedString("sign_up_email_step1_title", comment: "")
 	}
@@ -1689,6 +1829,10 @@ struct LGLocalizedString {
 
 	static var mainProductsInviteNavigationBarButton: String {
 		return NSLocalizedString("main_products_invite_navigation_bar_button", comment: "")
+	}
+
+	static var mopubAdvertisingText: String {
+		return NSLocalizedString("mopub_advertising_text", comment: "")
 	}
 
 	static var notificationsEmptySubtitle: String {
@@ -2041,6 +2185,82 @@ struct LGLocalizedString {
 
 	static var postCategoryDetailAddModel: String {
 		return NSLocalizedString("post_category_detail_add_model", comment: "")
+	}
+
+	static var postHeaderStepTakePicture: String {
+		return NSLocalizedString("post_header_step_take_picture", comment: "")
+	}
+
+	static var postHeaderStepConfirmPicture: String {
+		return NSLocalizedString("post_header_step_confirm_picture", comment: "")
+	}
+
+	static var postHeaderStepAddPrice: String {
+		return NSLocalizedString("post_header_step_add_price", comment: "")
+	}
+
+	static var postQueuedRequestsStateGeneratingTitle: String {
+		return NSLocalizedString("post_queued_requests_state_generating_title", comment: "")
+	}
+
+	static var postQueuedRequestsStateCategorizingListing: String {
+		return NSLocalizedString("post_queued_requests_state_categorizing_listing", comment: "")
+	}
+
+	static var postQueuedRequestsStatePostingListing: String {
+		return NSLocalizedString("post_queued_requests_state_posting_listing", comment: "")
+	}
+
+	static var postQueuedRequestsStateListingPosted: String {
+		return NSLocalizedString("post_queued_requests_state_listing_posted", comment: "")
+	}
+
+	static func postGetStartedWelcomeUserText(_ var1: String) -> String {
+		return String(format: NSLocalizedString("post_get_started_welcome_user_text", comment: ""), var1)
+	}
+
+	static var postGetStartedWelcomeLetgoText: String {
+		return NSLocalizedString("post_get_started_welcome_letgo_text", comment: "")
+	}
+
+	static var postGetStartedIntroText: String {
+		return NSLocalizedString("post_get_started_intro_text", comment: "")
+	}
+
+	static var postGetStartedButtonText: String {
+		return NSLocalizedString("post_get_started_button_text", comment: "")
+	}
+
+	static var postGetStartedDiscardText: String {
+		return NSLocalizedString("post_get_started_discard_text", comment: "")
+	}
+
+	static var postDescriptionDoneText: String {
+		return NSLocalizedString("post_description_done_text", comment: "")
+	}
+
+	static var postDescriptionSaveButtonText: String {
+		return NSLocalizedString("post_description_save_button_text", comment: "")
+	}
+
+	static var postDescriptionDiscardButtonText: String {
+		return NSLocalizedString("post_description_discard_button_text", comment: "")
+	}
+
+	static var postDescriptionInfoTitle: String {
+		return NSLocalizedString("post_description_info_title", comment: "")
+	}
+
+	static var postDescriptionNamePlaceholder: String {
+		return NSLocalizedString("post_description_name_placeholder", comment: "")
+	}
+
+	static var postDescriptionCategoryTitle: String {
+		return NSLocalizedString("post_description_category_title", comment: "")
+	}
+
+	static var postDescriptionDescriptionPlaceholder: String {
+		return NSLocalizedString("post_description_description_placeholder", comment: "")
 	}
 
 	static var productAutoGeneratedTitleLabel: String {
@@ -2517,6 +2737,10 @@ struct LGLocalizedString {
 
 	static var productPostGallerySelectPicturesSubtitle: String {
 		return NSLocalizedString("product_post_gallery_select_pictures_subtitle", comment: "")
+	}
+
+	static func productPostGallerySelectPicturesSubtitleParams(_ var1: Int) -> String {
+		return String(format: NSLocalizedString("product_post_gallery_select_pictures_subtitle_params", comment: ""), var1)
 	}
 
 	static var productPostGalleryTab: String {
@@ -3475,8 +3699,16 @@ struct LGLocalizedString {
 		return NSLocalizedString("real_estate_gallery_view_subtitle", comment: "")
 	}
 
+	static func realEstateGalleryViewSubtitleParams(_ var1: Int) -> String {
+		return String(format: NSLocalizedString("real_estate_gallery_view_subtitle_params", comment: ""), var1)
+	}
+
 	static var realEstateCameraViewRealEstateMessage: String {
 		return NSLocalizedString("real_estate_camera_view_real_estate_message", comment: "")
+	}
+
+	static var realEstateCameraViewRealEstateLearnMore: String {
+		return NSLocalizedString("real_estate_camera_view_real_estate_learn_more", comment: "")
 	}
 
 	static var realEstateEmptyStateSearchTitle: String {
@@ -3485,6 +3717,50 @@ struct LGLocalizedString {
 
 	static var realEstateEmptyStateSearchSubtitle: String {
 		return NSLocalizedString("real_estate_empty_state_search_subtitle", comment: "")
+	}
+
+	static var realEstateTutorialNew: String {
+		return NSLocalizedString("real_estate_tutorial_new", comment: "")
+	}
+
+	static var realEstateTutorialOnePageFirstSectionTitle: String {
+		return NSLocalizedString("real_estate_tutorial_one_page_first_section_title", comment: "")
+	}
+
+	static var realEstateTutorialOnePageSecondSectionTitle: String {
+		return NSLocalizedString("real_estate_tutorial_one_page_second_section_title", comment: "")
+	}
+
+	static var realEstateTutorialTwoPagesFirstSectionFirstPageTitle: String {
+		return NSLocalizedString("real_estate_tutorial_two_pages_first_section_first_page_title", comment: "")
+	}
+
+	static var realEstateTutorialTwoPagesFirstSectionSecondPageTitle: String {
+		return NSLocalizedString("real_estate_tutorial_two_pages_first_section_second_page_title", comment: "")
+	}
+
+	static var realEstateTutorialThreePagesFirstPageTitle: String {
+		return NSLocalizedString("real_estate_tutorial_three_pages_first_page_title", comment: "")
+	}
+
+	static var realEstateTutorialThreePagesFirstPageDescription: String {
+		return NSLocalizedString("real_estate_tutorial_three_pages_first_page_description", comment: "")
+	}
+
+	static var realEstateTutorialThreePagesSecondPageTitle: String {
+		return NSLocalizedString("real_estate_tutorial_three_pages_second_page_title", comment: "")
+	}
+
+	static var realEstateTutorialThreePagesSecondPageDecription: String {
+		return NSLocalizedString("real_estate_tutorial_three_pages_second_page_decription", comment: "")
+	}
+
+	static var realEstateTutorialThreePagesThirdPageTitle: String {
+		return NSLocalizedString("real_estate_tutorial_three_pages_third_page_title", comment: "")
+	}
+
+	static var realEstateTutorialThreePagesThirdPageDescription: String {
+		return NSLocalizedString("real_estate_tutorial_three_pages_third_page_description", comment: "")
 	}
 
 	static var relatedItemsTitle: String {
@@ -3731,6 +4007,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("settings_change_email_button", comment: "")
 	}
 
+	static var settingsChangeUserBioButton: String {
+		return NSLocalizedString("settings_change_user_bio_button", comment: "")
+	}
+
 	static var settingsHelpButton: String {
 		return NSLocalizedString("settings_help_button", comment: "")
 	}
@@ -3917,6 +4197,14 @@ struct LGLocalizedString {
 
 	static var tourOrLabel: String {
 		return NSLocalizedString("tour_or_label", comment: "")
+	}
+
+	static var tutorialSkipButtonTitle: String {
+		return NSLocalizedString("tutorial_skip_button_title", comment: "")
+	}
+
+	static var tutorialAcceptButtonTitle: String {
+		return NSLocalizedString("tutorial_accept_button_title", comment: "")
 	}
 
 	static var trendingSearchesTitle: String {

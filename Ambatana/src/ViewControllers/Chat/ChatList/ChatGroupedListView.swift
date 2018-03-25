@@ -25,7 +25,7 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var footerView: UIView!
     @IBOutlet weak var footerViewBottom: NSLayoutConstraint!
-    @IBOutlet weak var footerButton: UIButton!
+    @IBOutlet weak var footerButton: LetgoButton!
 
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
@@ -214,20 +214,17 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
     // MARK: - Private Methods
 
     func setupUI() {
-        // Load the view, and add it as Subview
         Bundle.main.loadNibNamed("ChatGroupedListView", owner: self, options: nil)
         contentView.frame = bounds
         contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         contentView.backgroundColor = UIColor.listBackgroundColor
         addSubview(contentView)
 
-        // Empty view
         emptyView.backgroundColor = UIColor.listBackgroundColor
         refreshControl.addTarget(self, action: #selector(ChatGroupedListView.refresh),
                                  for: UIControlEvents.valueChanged)
         tableView.addSubview(refreshControl)
 
-        // Footer
         footerButton.setStyle(.primary(fontSize: .medium))
         footerButton.isEnabled = false
         bottomInset = tabBarBottomInset

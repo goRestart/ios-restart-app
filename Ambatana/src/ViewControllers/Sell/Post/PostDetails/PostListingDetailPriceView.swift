@@ -20,7 +20,7 @@ class PostListingDetailPriceView: BaseView {
     @IBOutlet weak var priceViewContainer: UIView!
     @IBOutlet weak var priceFieldContainer: UIView!
     @IBOutlet weak var postFreeViewContainer: UIView!
-    @IBOutlet weak var doneButton: UIButton!
+    @IBOutlet weak var doneButton: LetgoButton!
     
     @IBOutlet weak var freePostSwitch: UISwitch!
     @IBOutlet weak var giveAwayContainerHeightConstraint: NSLayoutConstraint!
@@ -149,8 +149,8 @@ extension PostListingDetailPriceView: UITextFieldDelegate {
 
 extension PostListingDetailPriceView {
     func setAccesibilityIds() {
-        doneButton.accessibilityId = .postingDoneButton
-        currencyLabel.accessibilityId = .postingCurrencyLabel
-        priceTextField.accessibilityId = .postingPriceField
+        doneButton.set(accessibilityId: .postingDoneButton)
+        currencyLabel.set(accessibilityId: .postingCurrencyLabel)
+        priceTextField.set(accessibilityId: .postingPriceField)
     }
 }

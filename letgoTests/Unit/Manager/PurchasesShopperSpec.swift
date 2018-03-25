@@ -65,7 +65,7 @@ class PurchasesShopperSpec: QuickSpec {
                 context("the device can't make purchases") {
                     beforeEach {
                         paymentQueue.canMakePayments = false
-                        sut.productsRequestStartForListing("a_listing_id", withIds: ["appstoreId1"])
+                        sut.productsRequestStartForListingId("a_listing_id", paymentItemId: "pay_id", withIds: ["appstoreId1"], typePage: nil)
                     }
                     it ("the delegate is never called") {
                         expect(self.requestsFinished).toEventually(equal([]))
@@ -73,7 +73,7 @@ class PurchasesShopperSpec: QuickSpec {
                 }
                 context("on simple call") {
                     beforeEach {
-                        sut.productsRequestStartForListing("a_listing_id", withIds: ["appstoreId1"])
+                        sut.productsRequestStartForListingId("a_listing_id", paymentItemId: "pay_id", withIds: ["appstoreId1"], typePage: nil)
                     }
                     it ("the delegate is called with the requested productId") {
                         expect(self.requestsFinished).toEventually(equal(["a_listing_id"]))
@@ -82,8 +82,8 @@ class PurchasesShopperSpec: QuickSpec {
                 context("several consecutive quick calls, different product Ids") {
                     beforeEach {
                         requestFactory.responseDelay = 0.05
-                        sut.productsRequestStartForListing("a_listing_id", withIds: ["appstoreId1"])
-                        sut.productsRequestStartForListing("b_listing_id", withIds: ["appstoreId2"])
+                        sut.productsRequestStartForListingId("a_listing_id", paymentItemId: "pay_id", withIds: ["appstoreId1"], typePage: nil)
+                        sut.productsRequestStartForListingId("b_listing_id", paymentItemId: "pay_id", withIds: ["appstoreId2"], typePage: nil)
                     }
                     it ("calls the delegate only for the last productId") {
                         expect(self.requestsFinished).toEventually(equal(["b_listing_id"]))
@@ -92,9 +92,9 @@ class PurchasesShopperSpec: QuickSpec {
                 context("several consecutive quick calls, repeating some product Ids") {
                     beforeEach {
                         requestFactory.responseDelay = 0.05
-                        sut.productsRequestStartForListing("a_listing_id", withIds: ["appstoreId1"])
-                        sut.productsRequestStartForListing("b_listing_id", withIds: ["appstoreId2"])
-                        sut.productsRequestStartForListing("a_listing_id", withIds: ["appstoreId1"])
+                        sut.productsRequestStartForListingId("a_listing_id", paymentItemId: "pay_id", withIds: ["appstoreId1"], typePage: nil)
+                        sut.productsRequestStartForListingId("b_listing_id", paymentItemId: "pay_id", withIds: ["appstoreId2"], typePage: nil)
+                        sut.productsRequestStartForListingId("a_listing_id", paymentItemId: "pay_id", withIds: ["appstoreId1"], typePage: nil)
                     }
                     it ("calls the delegate only for the last productId") {
                         expect(self.requestsFinished).toEventually(equal(["a_listing_id"]))
@@ -102,9 +102,9 @@ class PurchasesShopperSpec: QuickSpec {
                 }
                 context("several consecutive spaced calls, different product Ids") {
                     beforeEach {
-                        sut.productsRequestStartForListing("a_listing_id", withIds: ["appstoreId1"])
+                        sut.productsRequestStartForListingId("a_listing_id", paymentItemId: "pay_id", withIds: ["appstoreId1"], typePage: nil)
                         expect(self.requestsFinished).toEventually(equal(["a_listing_id"]))
-                        sut.productsRequestStartForListing("b_listing_id", withIds: ["appstoreId2"])
+                        sut.productsRequestStartForListingId("b_listing_id", paymentItemId: "pay_id", withIds: ["appstoreId2"], typePage: nil)
                     }
                     it ("calls the delegate for both productIds") {
                         expect(self.requestsFinished).toEventually(equal(["a_listing_id", "b_listing_id"]))
@@ -355,7 +355,11 @@ class MyAppstoreProduct: SKProduct {
 }
 
 extension PurchasesShopperSpec: BumpInfoRequesterDelegate {
-    func shopperFinishedProductsRequestForListingId(_ listingId: String?, withProducts products: [PurchaseableProduct]) {
+    func shopperFinishedProductsRequestForListingId(_ listingId: String?,
+                                                    withProducts products: [PurchaseableProduct],
+                                                    paymentItemId: String?,
+                                                    storeProductId: String?,
+                                                    typePage: EventParameterTypePage?) {
         guard let id = listingId else { return }
         self.requestsFinished.append(id)
     }
@@ -363,31 +367,32 @@ extension PurchasesShopperSpec: BumpInfoRequesterDelegate {
 
 extension PurchasesShopperSpec: PurchasesShopperDelegate {
 
-    func freeBumpDidStart() {
+    func freeBumpDidStart(typePage: EventParameterTypePage?) {
     }
 
-    func freeBumpDidSucceed(withNetwork network: EventParameterShareNetwork) {
+    func freeBumpDidSucceed(withNetwork network: EventParameterShareNetwork, typePage: EventParameterTypePage?) {
         self.network = network
         self.mockBumpResult = .success
     }
 
-    func freeBumpDidFail(withNetwork network: EventParameterShareNetwork) {
+    func freeBumpDidFail(withNetwork network: EventParameterShareNetwork, typePage: EventParameterTypePage?) {
         self.network = network
         self.mockBumpResult = .fail
     }
 
-    func pricedBumpDidStart() {
+    func pricedBumpDidStart(typePage: EventParameterTypePage?) {
     }
 
     func paymentDidSucceed(paymentId: String, transactionStatus: EventParameterTransactionStatus) {
     }
 
-    func pricedBumpDidSucceed(type: BumpUpType, restoreRetriesCount: Int, transactionStatus: EventParameterTransactionStatus) {
+    func pricedBumpDidSucceed(type: BumpUpType, restoreRetriesCount: Int, transactionStatus: EventParameterTransactionStatus,
+                              typePage: EventParameterTypePage?) {
         self.mockBumpResult = .success
         self.restoreRetriesCount = restoreRetriesCount
     }
 
-    func pricedBumpDidFail(type: BumpUpType, transactionStatus: EventParameterTransactionStatus) {
+    func pricedBumpDidFail(type: BumpUpType, transactionStatus: EventParameterTransactionStatus, typePage: EventParameterTypePage?) {
         self.mockBumpResult = .fail
     }
 

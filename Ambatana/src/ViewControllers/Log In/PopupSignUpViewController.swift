@@ -13,8 +13,8 @@ class PopupSignUpViewController: BaseViewController, UITextViewDelegate, GIDSign
 
     @IBOutlet weak var contentContainer: UIView!
     @IBOutlet weak var claimLabel: UILabel!
-    @IBOutlet weak var connectFBButton: UIButton!
-    @IBOutlet weak var connectGoogleButton: UIButton!
+    @IBOutlet weak var connectFBButton: LetgoButton!
+    @IBOutlet weak var connectGoogleButton: LetgoButton!
     @IBOutlet weak var signUpButton: UIButton!
     @IBOutlet weak var logInButton: UIButton!
     @IBOutlet weak var legalTextView: UITextView!

@@ -14,7 +14,7 @@ class CollectionCell: UICollectionViewCell, ReusableCell {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var colorView: UIView!
-    @IBOutlet weak var exploreButton: UIButton!
+    @IBOutlet weak var exploreButton: LetgoButton!
 
     override var isHighlighted: Bool {
         didSet {
@@ -34,9 +34,9 @@ class CollectionCell: UICollectionViewCell, ReusableCell {
     }
 
     private func setAccessibilityIds() {
-        self.accessibilityId = .collectionCell
-        imageView.accessibilityId = .collectionCellImageView
-        title.accessibilityId = .collectionCellTitle
-        exploreButton.accessibilityId =  .collectionCellExploreButton
+        set(accessibilityId: .collectionCell)
+        imageView.set(accessibilityId: .collectionCellImageView)
+        title.set(accessibilityId: .collectionCellTitle)
+        exploreButton.set(accessibilityId:  .collectionCellExploreButton)
     }
 }

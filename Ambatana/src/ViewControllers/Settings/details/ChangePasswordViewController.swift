@@ -15,7 +15,7 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
     // outlets & buttons
     @IBOutlet weak var passwordTextfield: LGTextField!
     @IBOutlet weak var confirmPasswordTextfield: LGTextField!
-    @IBOutlet weak var sendButton : UIButton!
+    @IBOutlet weak var sendButton : LetgoButton!
     
     let viewModel: ChangePasswordViewModel
     
@@ -52,7 +52,7 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setNavBarBackgroundStyle(.default)
-        UIApplication.shared.setStatusBarStyle(.default, animated: true)
+        setNeedsStatusBarAppearanceUpdate()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -74,6 +74,14 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
    
     @IBAction func sendChangePasswordButtonPressed(_ sender: AnyObject) {
         viewModel.changePassword()
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .default
+    }
+    
+    override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
+        return .fade
     }
     
     // MARK: - TextFieldDelegate
@@ -206,8 +214,8 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
     }
 
     private func setupAccessibilityIds() {
-        passwordTextfield.accessibilityId = .changePasswordPwdTextfield
-        confirmPasswordTextfield.accessibilityId = .changePasswordPwdConfirmTextfield
-        sendButton.accessibilityId = .changePasswordSendButton
+        passwordTextfield.set(accessibilityId: .changePasswordPwdTextfield)
+        confirmPasswordTextfield.set(accessibilityId: .changePasswordPwdConfirmTextfield)
+        sendButton.set(accessibilityId: .changePasswordSendButton)
     }
 }

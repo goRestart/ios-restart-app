@@ -44,11 +44,10 @@ extension UIFont {
     static var mediumButtonFont: UIFont { return systemMediumFont(size: 17) }
     static var smallButtonFont: UIFont { return systemMediumFont(size: 15) }
     
-    // Posting Flow 
-    
-    static var headline: UIFont { return systemBoldFont(size: 35) }
-    static var body: UIFont { return systemBoldFont(size: 27) }
-    static var selectableItem: UIFont { return systemBoldFont(size: 23) }
+    // Posting Flow
+    static var postingFlowHeadline: UIFont { return systemBoldFont(size: 35) }
+    static var postingFlowBody: UIFont { return systemBoldFont(size: 27) }
+    static var postingFlowSelectableItem: UIFont { return systemBoldFont(size: 23) }
 
 
     // MARK: Private methods
@@ -141,6 +140,15 @@ extension UIFont {
     static var tourLocationDistanceLabelFont: UIFont { return systemMediumFont(size: 16) }
 }
 
+// MARK: DeckView
+
+extension UIFont {
+    static var deckTitleFont: UIFont { return systemMediumFont(size: 17) }
+    static var deckPriceFont: UIFont { return systemBoldFont(size: 27) }
+    static var deckDetailFont: UIFont { return systemRegularFont(size: 15) }
+    static var deckSocialHeaderFont: UIFont { return systemRegularFont(size: 13) }
+    static var deckUsernameFont: UIFont { return systemBoldFont(size: 15) }
+}
 
 // MARK: > PrePremission Push Settings
 extension UIFont {

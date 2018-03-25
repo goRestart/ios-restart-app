@@ -14,12 +14,15 @@ final class PostListingRedCamButtonFooter: UIView {
     
     let galleryButton = UIButton()
     let cameraButton = UIButton()
+    let infoButton = UIButton()
+    private let infoButtonIncluded: Bool
     fileprivate var cameraButtonCenterXConstraint: NSLayoutConstraint?
     
     
     // MARK: - Lifecycle
     
-    init() {
+    init(infoButtonIncluded: Bool) {
+        self.infoButtonIncluded = infoButtonIncluded
         super.init(frame: CGRect.zero)
         
         setupUI()
@@ -35,7 +38,7 @@ final class PostListingRedCamButtonFooter: UIView {
     // MARK: - Overrides
 
     override open func point(inside point: CGPoint, with event: UIEvent?) -> Bool {       
-        return [galleryButton, cameraButton].flatMap { $0 }.reduce(false) { (result, view) -> Bool in
+        return [galleryButton, cameraButton, infoButton].flatMap { $0 }.reduce(false) { (result, view) -> Bool in
             let convertedPoint = view.convert(point, from: self)
             return result || (!view.isHidden && view.point(inside: convertedPoint, with: event))
         }
@@ -48,6 +51,7 @@ final class PostListingRedCamButtonFooter: UIView {
 extension PostListingRedCamButtonFooter: PostListingFooter {
     func update(scroll: CGFloat) {
         galleryButton.alpha = scroll
+        infoButton.alpha = scroll
         
         let rightOffset = cameraButton.frame.width/2 + Metrics.margin
         let movement = width/2 - rightOffset
@@ -60,22 +64,30 @@ extension PostListingRedCamButtonFooter: PostListingFooter {
 
 fileprivate extension PostListingRedCamButtonFooter {
     func setupUI() {
-        galleryButton.translatesAutoresizingMaskIntoConstraints = false
         galleryButton.setImage(#imageLiteral(resourceName: "ic_post_gallery"), for: .normal)
-        addSubview(galleryButton)
         
-        cameraButton.translatesAutoresizingMaskIntoConstraints = false
         cameraButton.setImage(#imageLiteral(resourceName: "ic_post_take_photo_icon"), for: .normal)
         cameraButton.setBackgroundImage(#imageLiteral(resourceName: "ic_post_take_photo"), for: .normal)
-        addSubview(cameraButton)
+        
+        infoButton.setImage(#imageLiteral(resourceName: "info"), for: .normal)
+        addSubviewsForAutoLayout([galleryButton, cameraButton, infoButton])
     }
     
     func setupAccessibilityIds() {
-        galleryButton.accessibilityId = .postingGalleryButton
-        cameraButton.accessibilityId = .postingPhotoButton
+        galleryButton.set(accessibilityId: .postingGalleryButton)
+        cameraButton.set(accessibilityId: .postingPhotoButton)
+        infoButton.set(accessibilityId: .postingInfoButton)
     }
     
     func setupLayout() {
+        infoButton.layout(with: self)
+            .trailing()
+            .top(relatedBy: .greaterThanOrEqual)
+            .bottom()
+        infoButton.layout()
+            .width(PostListingRedCamButtonFooter.galleryIconSide)
+            .widthProportionalToHeight()
+        
         galleryButton.layout(with: self)
             .leading()
             .top(relatedBy: .greaterThanOrEqual)
@@ -89,5 +101,7 @@ fileprivate extension PostListingRedCamButtonFooter {
             .top(relatedBy: .greaterThanOrEqual)
             .bottom(by: -Metrics.margin)
         cameraButton.layout().width(PostListingRedCamButtonFooter.cameraIconSide).widthProportionalToHeight()
+        
+        infoButton.isHidden = !infoButtonIncluded
     }
 }

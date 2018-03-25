@@ -63,6 +63,14 @@ class SocialShareView: UIView {
     private let containerView = UIView()
     private let disposeBag = DisposeBag()
 
+    override var intrinsicContentSize: CGSize {
+        guard style == .grid else {
+            return CGSize(width: UIViewNoIntrinsicMetric, height: 60)
+        }
+        let buttons = buttonListForShareTypes(shareTypes)
+        let lines = buttons.count / gridColumns
+        return CGSize(width: UIViewNoIntrinsicMetric, height: CGFloat(lines * 60))
+    }
 
     // MARK: - Lifecycle
 
@@ -75,9 +83,13 @@ class SocialShareView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupContainer()
-        setAvailableButtons()
     }
 
+    func setupBackgroundColor(_ color: UIColor) {
+        backgroundColor = color
+        containerView.backgroundColor = color
+        containerView.subviews.forEach { $0.backgroundColor = color }
+    }
     
     func setupWithShareTypes(_ shareTypes: [ShareType], useBigButtons: Bool) {
         self.shareTypes = shareTypes
@@ -90,14 +102,7 @@ class SocialShareView: UIView {
     private func setupContainer() {
         containerView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(containerView)
-        addConstraint(NSLayoutConstraint(item: containerView, attribute: .top, relatedBy: .equal,
-            toItem: self, attribute: .top, multiplier: 1.0, constant: 0))
-        addConstraint(NSLayoutConstraint(item: containerView, attribute: .bottom, relatedBy: .equal,
-            toItem: self, attribute: .bottom, multiplier: 1.0, constant: 0))
-        addConstraint(NSLayoutConstraint(item: containerView, attribute: .left, relatedBy: .equal,
-            toItem: self, attribute: .left, multiplier: 1.0, constant: 0))
-        addConstraint(NSLayoutConstraint(item: containerView, attribute: .right, relatedBy: .equal,
-            toItem: self, attribute: .right, multiplier: 1.0, constant: 0))
+        containerView.layout(with: self).fill()
     }
 
     private func setAvailableButtons() {
@@ -112,6 +117,7 @@ class SocialShareView: UIView {
         case .grid:
             buttons.count <= gridColumns ? setupButtonsInLine(buttons, container: containerView) :
             setupButtonsInGrid(buttons, container: containerView)
+            invalidateIntrinsicContentSize()
         }
     }
 
@@ -126,7 +132,7 @@ class SocialShareView: UIView {
 
     private func createButton(_ shareType: ShareType) -> UIButton {
         let image = useBigButtons ? shareType.bigImage : shareType.smallImage
-        return createButton(image, accesibilityId: shareType.accesibilityId) { [weak self] in
+        return createButton(image, accessibilityId: shareType.accessibilityId) { [weak self] in
             guard let strongSelf = self else { return }
             guard let socialMessage = strongSelf.socialMessage else { return }
             guard let viewController = strongSelf.delegate?.viewController() else { return }
@@ -135,11 +141,13 @@ class SocialShareView: UIView {
         }
     }
 
-    private func createButton(_ image: UIImage?, accesibilityId: AccessibilityId, action: @escaping () -> Void) -> UIButton {
+    private func createButton(_ image: UIImage?,
+                              accessibilityId: AccessibilityId,
+                              action: @escaping () -> Void) -> UIButton {
         let button = UIButton(type: .custom)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(image, for: .normal)
-        button.accessibilityId = accessibilityId
+        button.set(accessibilityId: accessibilityId)
         button.rx.tap.subscribeNext { _ in action() }.disposed(by: disposeBag)
         let width = NSLayoutConstraint(item: button, attribute: .width, relatedBy: .equal, toItem: nil,
                                     attribute: .notAnAttribute, multiplier: 1.0, constant: buttonsSide)

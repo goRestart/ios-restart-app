@@ -14,9 +14,11 @@ class BumpUpFreeViewModel: BaseViewModel {
     let shareTypes: [ShareType]
 
     let listing: Listing
-    let paymentItemId: String?
+    private let paymentItemId: String?
+    private let storeProductId: String?
+    private let typePage: EventParameterTypePage?
     let socialSharer: SocialSharer?
-    fileprivate let tracker: Tracker
+    private let tracker: Tracker
 
     weak var delegate: BaseViewModelDelegate?
     weak var navigator: BumpUpNavigator?
@@ -25,24 +27,44 @@ class BumpUpFreeViewModel: BaseViewModel {
     var title: String
     var subtitle: String
 
-    fileprivate var purchasesShopper: PurchasesShopper?
+    private var purchasesShopper: PurchasesShopper?
 
-    convenience init(listing: Listing, socialMessage: SocialMessage, paymentItemId: String?) {
-        self.init(listing: listing, socialSharer: SocialSharer(), socialMessage: socialMessage,
-                  paymentItemId: paymentItemId, locale: NSLocale.current, locationManager: Core.locationManager,
-                  tracker: TrackerProxy.sharedInstance, purchasesShopper: LGPurchasesShopper.sharedInstance)
+    convenience init(listing: Listing,
+                     socialMessage: SocialMessage,
+                     paymentItemId: String?,
+                     storeProductId: String?,
+                     typePage: EventParameterTypePage?) {
+        self.init(listing: listing,
+                  socialSharer: SocialSharer(),
+                  socialMessage: socialMessage,
+                  paymentItemId: paymentItemId,
+                  storeProductId: storeProductId, 
+                  typePage: typePage,
+                  locationManager: Core.locationManager,
+                  tracker: TrackerProxy.sharedInstance,
+                  purchasesShopper: LGPurchasesShopper.sharedInstance,
+                  featureFlags: FeatureFlags.sharedInstance)
     }
 
-    init(listing: Listing, socialSharer: SocialSharer, socialMessage: SocialMessage, paymentItemId: String?,
-         locale: Locale, locationManager: LocationManager, tracker: Tracker, purchasesShopper: PurchasesShopper?) {
+    init(listing: Listing,
+         socialSharer: SocialSharer,
+         socialMessage: SocialMessage,
+         paymentItemId: String?,
+         storeProductId: String?,
+         typePage: EventParameterTypePage?,
+         locationManager: LocationManager,
+         tracker: Tracker,
+         purchasesShopper: PurchasesShopper?,
+         featureFlags: FeatureFlaggeable) {
         self.listing = listing
         self.socialSharer = socialSharer
         self.tracker = tracker
         self.socialMessage = socialMessage
         self.purchasesShopper = purchasesShopper
-        let countryCode = Core.locationManager.currentLocation?.countryCode ?? locale.lg_countryCode
-        self.shareTypes = ShareType.shareTypesForCountry(countryCode, maxButtons: 4, nativeShare: .restricted)
+        self.shareTypes = BumpUpFreeViewModel.computeShareTypes(featureFlags: featureFlags)
         self.paymentItemId = paymentItemId
+        self.storeProductId = storeProductId
+        self.typePage = typePage
         self.title = LGLocalizedString.bumpUpViewFreeTitle
         self.subtitle = LGLocalizedString.bumpUpViewFreeSubtitle
 
@@ -50,6 +72,15 @@ class BumpUpFreeViewModel: BaseViewModel {
 
         self.socialSharer?.delegate = self
     }
+
+    func viewDidApear() {
+        let trackerEvent = TrackerEvent.bumpBannerInfoShown(type: EventParameterBumpUpType(bumpType: .free),
+                                                            listingId: listing.objectId,
+                                                            storeProductId: storeProductId,
+                                                            typePage: typePage)
+        tracker.trackEvent(trackerEvent)
+    }
+
 
     // MARK: - Public Methods
 
@@ -59,6 +90,19 @@ class BumpUpFreeViewModel: BaseViewModel {
 
     func close(withCompletion completion: (() -> Void)?) {
         navigator?.bumpUpDidFinish(completion: completion)
+    }
+    
+    
+    // MARK: - Private methods
+    
+    private static func computeShareTypes(featureFlags: FeatureFlaggeable) -> [ShareType] {
+        var shareTypes = featureFlags.shareTypes.filter { SocialSharer.canShareIn($0) }
+        let maxButtonCount = 3
+        if shareTypes.count > maxButtonCount {
+            shareTypes = Array(shareTypes[0..<maxButtonCount])
+        }
+        shareTypes.append(.native(restricted: true))
+        return shareTypes
     }
 }
 

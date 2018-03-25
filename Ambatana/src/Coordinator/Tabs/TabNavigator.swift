@@ -34,8 +34,7 @@ enum ProductCarouselActionOnFirstAppear {
     case nonexistent
     case showKeyboard
     case showShareSheet
-    case triggerBumpUp(purchaseableProduct: PurchaseableProduct, paymentItemId: String?, paymentProviderItemId: String?,
-        bumpUpType: BumpUpType, triggerBumpUpSource: BumpUpSource)
+    case triggerBumpUp(bumpUpProductData: BumpUpProductData, bumpUpType: BumpUpType, triggerBumpUpSource: BumpUpSource, typePage: EventParameterTypePage?)
     case triggerMarkAsSold
 }
 
@@ -52,17 +51,23 @@ protocol TabNavigator: class {
     func canOpenAppInvite() -> Bool
     func openRatingList(_ userId: String)
     func openMostSearchedItems(source: PostingSource, enableSearch: Bool)
+    func openRealEstateOnboarding(pages: [LGTutorialPage],
+                                  origin: EventParameterTypePage,
+                                  tutorialType: EventParameterTutorialType)
 }
 
 protocol ListingDetailNavigator: TabNavigator {
     func closeProductDetail()
-    func editListing(_ listing: Listing)
-    func openListingChat(_ listing: Listing, source: EventParameterTypePage, isProfessional: Bool)
+    func editListing(_ listing: Listing,
+                     bumpUpProductData: BumpUpProductData?)
+    func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?)
     func closeListingAfterDelete(_ listing: Listing)
-    func openFreeBumpUp(forListing listing: Listing, socialMessage: SocialMessage, paymentItemId: String)
+    func openFreeBumpUp(forListing listing: Listing,
+                        bumpUpProductData: BumpUpProductData,
+                        typePage: EventParameterTypePage?)
     func openPayBumpUp(forListing listing: Listing,
-                       purchaseableProduct: PurchaseableProduct,
-                       paymentItemId: String)
+                       bumpUpProductData: BumpUpProductData,
+                       typePage: EventParameterTypePage?)
     func selectBuyerToRate(source: RateUserSource,
                            buyers: [UserListing],
                            listingId: String,
@@ -80,8 +85,12 @@ protocol ListingDetailNavigator: TabNavigator {
     func openFeaturedInfo()
     func closeFeaturedInfo()
 
-    func openAskPhoneFor(listing: Listing)
-    func closeAskPhoneFor(listing: Listing, openChat: Bool, withPhoneNum: String?, source: EventParameterTypePage)
+    func openAskPhoneFor(listing: Listing, interlocutor: User?)
+    func closeAskPhoneFor(listing: Listing,
+                          openChat: Bool,
+                          withPhoneNum: String?,
+                          source: EventParameterTypePage,
+                          interlocutor: User?)
 }
 
 protocol SimpleProductsNavigator: class {

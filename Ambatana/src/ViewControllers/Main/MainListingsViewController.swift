@@ -533,7 +533,8 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
             categoriesHeader?.delegateCategoryHeader = viewModel
             categoriesHeader?.categorySelected.asObservable().bind { [weak self] categoryHeaderInfo in
                 guard let category = categoryHeaderInfo else { return }
-                self?.viewModel.updateFiltersFromHeaderCategories(category)
+                self?.categoryHeaderDidSelect(category: category)
+                
             }.disposed(by: disposeBag)
             if let categoriesHeader = categoriesHeader {
                 categoriesHeader.tag = 1
@@ -559,6 +560,13 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
     }
     private var shouldShowRealEstateBanner: Bool {
         return viewModel.mainListingsHeader.value.contains(MainListingsHeader.RealEstateBanner)
+    }
+    
+    private func categoryHeaderDidSelect(category: CategoryHeaderInfo) {
+        viewModel.updateFiltersFromHeaderCategories(category)
+        if category.categoryHeaderElement.isRealEstate {
+            viewModel.showRealEstateTutorial()
+        }
     }
 
     func pushPermissionHeaderPressed() {
@@ -763,12 +771,12 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
 
 extension MainListingsViewController {
     func setAccessibilityIds() {
-        navigationItem.rightBarButtonItem?.accessibilityId = .mainListingsFilterButton
-        listingListView.accessibilityId = .mainListingsListView
-        tagsContainerView.accessibilityId = .mainListingsTagsCollection
-        infoBubbleLabel.accessibilityId = .mainListingsInfoBubbleLabel
-        navbarSearch.accessibilityId = .mainListingsNavBarSearch
-        suggestionsSearchesTable.accessibilityId = .mainListingsSuggestionSearchesTable
-        navigationItem.leftBarButtonItem?.accessibilityId = .mainListingsInviteButton
+        navigationItem.rightBarButtonItem?.set(accessibilityId: .mainListingsFilterButton)
+        listingListView.set(accessibilityId: .mainListingsListView)
+        tagsContainerView.set(accessibilityId: .mainListingsTagsCollection)
+        infoBubbleLabel.set(accessibilityId: .mainListingsInfoBubbleLabel)
+        navbarSearch.set(accessibilityId: .mainListingsNavBarSearch)
+        suggestionsSearchesTable.set(accessibilityId: .mainListingsSuggestionSearchesTable)
+        navigationItem.leftBarButtonItem?.set(accessibilityId: .mainListingsInviteButton)
     }
 }

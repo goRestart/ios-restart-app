@@ -13,6 +13,8 @@ class SellNavigationController: UINavigationController {
     
     fileprivate let disposeBag = DisposeBag()
     fileprivate let viewModel: SellNavigationViewModel
+    fileprivate let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+    fileprivate let backgroundImageView = UIImageView()
     
     let progressView = ProgressView(backgroundColor: UIColor.white.withAlphaComponent(0.7), progressColor: .white)
     let stepLabel = UILabel()
@@ -46,20 +48,20 @@ class SellNavigationController: UINavigationController {
     
     func updateBackground(image: UIImage?) {
         guard let image = image else { return }
-        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(blurEffectView)
+        view.addSubviewForAutoLayout(blurEffectView)
         blurEffectView.layout(with: view).fill()
         view.sendSubview(toBack:blurEffectView)
-        
-        let background = UIImageView()
-        background.image = image
-        background.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(background)
-        background.layout(with: view).fill()
-        view.sendSubview(toBack:background)
+
+        backgroundImageView.image = image
+        view.addSubviewForAutoLayout(backgroundImageView)
+        backgroundImageView.layout(with: view).fill()
+        view.sendSubview(toBack: backgroundImageView)
         view.layoutIfNeeded()
+    }
+    
+    func removeBackground() {
+        blurEffectView.removeFromSuperview()
+        backgroundImageView.removeFromSuperview()
     }
     
     func setupInitialCategory(postCategory: PostCategory?) {
@@ -104,13 +106,9 @@ class SellNavigationController: UINavigationController {
                 self?.animateStep(isHidden: isHidden)
             }.disposed(by: disposeBag)
         
-        viewModel.categorySelected.asObservable().map { [weak self] category in
-                guard let strongSelf = self else { return nil }
-                return category?.numberOfSteps(shouldShowPrice: strongSelf.viewModel.shouldShowPriceStep,
-                                               postingFlowType: strongSelf.viewModel.postingFlowType)
-            }.bind { [weak self] number in
-                self?.viewModel.numberOfSteps.value = number ?? 0
-            }.disposed(by: disposeBag)
+        viewModel.categorySelected.asObservable().map { category in
+            return category?.numberOfSteps ?? 0
+        }.bind(to: viewModel.numberOfSteps).disposed(by: disposeBag)
         
         Observable.combineLatest(viewModel.currentStep.asObservable(), viewModel.numberOfSteps.asObservable()) { ($0, $1) }
             .bind { [weak self] (currentStep, totalSteps) in
