@@ -641,8 +641,8 @@ class QuickAnswerSpec: QuickSpec {
                 it("receives 6 groups of quick answers") {
                     expect(quickAnswers.count) == 6
                 }
-                it("matches first") {
-                    expect(quickAnswers[0]) == [.meetingAssistant]
+                it("matches first group with meeting assistant answer") {
+                    expect(quickAnswers[0]) == [.meetingAssistant(chatNorrisABtestVersion: .redButton)]
                 }
                 it("matches second group with the right availability quick answers") {
                     expect(quickAnswers[1]) == [.stillAvailable, .freeStillHave]
