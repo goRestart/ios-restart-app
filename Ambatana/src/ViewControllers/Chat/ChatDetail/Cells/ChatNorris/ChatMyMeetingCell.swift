@@ -117,6 +117,8 @@ private extension ChatMyMeetingCell {
         titleLabel.textColor = UIColor.grayText
 
         locationButton.addTarget(self, action: #selector(locationTapped), for: .touchUpInside)
+        locationView.image = #imageLiteral(resourceName: "meeting_map_placeholder")
+        locationView.contentMode = .scaleAspectFill
         locationView.cornerRadius = LGUIKitConstants.mediumCornerRadius
     }
 
