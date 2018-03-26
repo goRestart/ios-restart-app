@@ -18,6 +18,5 @@ protocol MainTabNavigator: TabNavigator {
                                locationDelegate: EditLocationDelegate)
     func openTaxonomyList(withViewModel viewModel: TaxonomiesViewModel)
 
-    func openRelatedItems(relatedToListing listing: Listing)
     func openMostSearchedItems(source: PostingSource, enableSearch: Bool)
 }

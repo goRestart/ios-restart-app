@@ -327,6 +327,11 @@ extension ProductVMTrackHelper {
         let trackerEvent = TrackerEvent.listingReport(listing)
         tracker.trackEvent(trackerEvent)
     }
+    
+    func trackReportError(_ reportError: EventParameterProductReportError) {
+        let trackerEvent = TrackerEvent.listingReportError(reportError)
+        tracker.trackEvent(trackerEvent)
+    }
 
     func trackDeleteStarted() {
         let trackerEvent = TrackerEvent.listingDeleteStart(listing)

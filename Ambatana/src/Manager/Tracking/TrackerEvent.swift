@@ -565,6 +565,12 @@ struct TrackerEvent {
         params.addListingParams(listing)
         return TrackerEvent(name: .listingReport, params: params)
     }
+    
+    static func listingReportError(_ reportError: EventParameterProductReportError) -> TrackerEvent {
+        var params = EventParameters()
+        params.addRepositoryErrorParams(reportError)
+        return TrackerEvent(name: .listingReportError, params: params)
+    }
 
     static func listingSellStart(_ typePage: EventParameterTypePage,
                                  buttonName: EventParameterButtonNameType?,
@@ -1141,6 +1147,10 @@ struct TrackerEvent {
     
     static func chatInactiveConversationsShown() -> TrackerEvent {
         return TrackerEvent(name: .chatInactiveConversationsShown, params: EventParameters())
+    }
+    
+    static func chatMarkMessagesAsRead() -> TrackerEvent {
+        return TrackerEvent(name: .markMessagesAsRead, params: EventParameters())
     }
     
     static func expressChatStart(_ trigger: EventParameterExpressChatTrigger) -> TrackerEvent {

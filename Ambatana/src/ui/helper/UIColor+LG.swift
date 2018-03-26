@@ -15,6 +15,15 @@ extension UIColor {
     static var soldFreeColor: UIColor { return tealBlue }
 }
 
+extension UIColor {
+    convenience init(red: Int, green: Int, blue: Int) {
+        self.init(red: CGFloat(red) / 255.0,
+                  green: CGFloat(green) / 255.0,
+                  blue: CGFloat(blue) / 255.0,
+                  alpha: 1)
+    }
+}
+
 // MARK: > Basic Buttons Palette
 
 extension UIColor {
@@ -31,16 +40,16 @@ extension UIColor {
     static var secondaryColorDisabled: UIColor { return white }
     static var terciaryColorDisabled: UIColor { return lightBlueGrey }
 
-    fileprivate static let watermelon = UIColor(rgb: 0xff3f55)
-    fileprivate static let tealBlue = UIColor(rgb: 0x009aab)
+    fileprivate static let watermelon = UIColor(rgb: 0xff3f55) // (255, 63, 85)
+    fileprivate static let tealBlue = UIColor(rgb: 0x009aab) // (0, 154, 171)
     
-    fileprivate static let rosa = UIColor(rgb: 0xfc919d)
-    fileprivate static let lightPink = UIColor(rgb: 0xffd8dd)
-    fileprivate static let paleTeal = UIColor(rgb: 0x73bdc5)
-    fileprivate static let lightRose = UIColor(rgb: 0xffc5cc)
-    fileprivate static let lightBlueGrey = UIColor(rgb: 0xb2e0e5)
-    fileprivate static let celestialBlue = UIColor(rgb: 0x86b0de)
-    fileprivate static let budGreen = UIColor(rgb: 0xa6c488)
+    fileprivate static let rosa = UIColor(rgb: 0xfc919d) // (252, 145, 157)
+    fileprivate static let lightPink = UIColor(rgb: 0xffd8dd) // (255, 216, 221)
+    fileprivate static let paleTeal = UIColor(rgb: 0x73bdc5) // (115, 189, 197)
+    fileprivate static let lightRose = UIColor(rgb: 0xffc5cc) // (255, 197, 204)
+    fileprivate static let lightBlueGrey = UIColor(rgb: 0xb2e0e5) // (178, 224, 14)
+    fileprivate static let celestialBlue = UIColor(rgb: 0x86b0de) // (134, 176, 222)
+    fileprivate static let budGreen = UIColor(rgb: 0xa6c488) // (166, 196, 8)
 }
 
 
@@ -62,16 +71,16 @@ extension UIColor {
     static var blackTooltip: UIColor { return black }
 
 
-    private static let denimBlue = UIColor(rgb: 0x3f5b96)
-    private static let dodgerBlue = UIColor(rgb: 0x4285f4)
+    private static let denimBlue = UIColor(rgb: 0x3f5b96) // (63, 91, 150)
+    private static let dodgerBlue = UIColor(rgb: 0x4285f4) // (66, 133, 244)
 
-    private static let dustyBlue = UIColor(rgb: 0x657cab)
-    fileprivate static let cornflower = UIColor(rgb: 0x689df6)
+    private static let dustyBlue = UIColor(rgb: 0x657cab) // (101, 124, 171)
+    fileprivate static let cornflower = UIColor(rgb: 0x689df6) // (104, 157, 246)
     
-    private static let cloudyBlue = UIColor(rgb: 0xc5cddf)
-    private static let lightPeriwinkle = UIColor(rgb: 0xc6dafb)
+    private static let cloudyBlue = UIColor(rgb: 0xc5cddf) // (197, 205, 223)
+    private static let lightPeriwinkle = UIColor(rgb: 0xc6dafb) // (198, 218, 251)
 
-    private static let pale = UIColor(rgb: 0xfff1d2)
+    private static let pale = UIColor(rgb: 0xfff1d2) // (255, 241, 210)
 }
 
 
@@ -84,7 +93,7 @@ extension UIColor {
     static var gray: UIColor { return UIColor(rgb: 0xbdbdbd) } // (189,189,189)
     static var grayLight: UIColor { return UIColor(rgb: 0xdddddd) } // (221,221,221)
     static var grayLighter: UIColor { return UIColor(rgb: 0xede9e9) } // (237,233,233)
-    static var grayBackground: UIColor { return UIColor(rgb: 0xF7F3F3) } // (247,143,243)
+    static var grayBackground: UIColor { return UIColor(rgb: 0xF7F3F3) } // (247,243,243)
 
 
     // Alpha grays
@@ -111,7 +120,7 @@ extension UIColor {
 
 extension UIColor {
 
-    static let asparagus = UIColor(rgb: 0x81ac56)
+    static let asparagus = UIColor(rgb: 0x81ac56) // (129, 172, 86)
     static let macaroniAndCheese = UIColor(rgb: 0xf1b83d)
 }
 
@@ -227,19 +236,19 @@ extension UIColor {
     static var chatOthersBubbleBgColor: UIColor { return white }
     static var chatOthersBubbleBgColorSelected: UIColor { return grayLighter }
 
-    private static let primaryColorAlpha16 = UIColor(rgb: 0xFFE0E4)
-    private static let primaryColorAlpha30 = UIColor(rgb: 0xFFC6CD)
+    private static let primaryColorAlpha16 = UIColor(rgb: 0xFFE0E4) // (255, 224, 228)
+    private static let primaryColorAlpha30 = UIColor(rgb: 0xFFC6CD) // (255, 198, 205)
 
 }
 
 // MARK: > Placeholder colors
 
 extension UIColor {
-    private static let brownDark = UIColor(rgb: 0xBBA298)
-    private static let cream = UIColor(rgb: 0xF3F1EC)
-    private static let brownLight = UIColor(rgb: 0xE9E2D7)
-    private static let brownMedium = UIColor(rgb: 0xD8CAB7)
-    private static let greenMedium = UIColor(rgb: 0xC7C8B5)
+    private static let brownDark = UIColor(rgb: 0xBBA298) // (187, 162, 152)
+    private static let cream = UIColor(rgb: 0xF3F1EC) // (243, 241, 236)
+    private static let brownLight = UIColor(rgb: 0xE9E2D7) // (233, 226, 215)
+    private static let brownMedium = UIColor(rgb: 0xD8CAB7) // (216, 202, 183)
+    private static let greenMedium = UIColor(rgb: 0xC7C8B5) // (199, 200, 181)
     
 
     // Placeholder Colors array
@@ -269,14 +278,14 @@ extension UIColor {
     private static let avatarGreen = budGreen
     private static let avatarBlue = paleTeal
     private static let avatarDarkBlue = celestialBlue
-    private static let avatarPurple = UIColor(rgb: 0xBEA8D2)
+    private static let avatarPurple = UIColor(rgb: 0xBEA8D2) // (190, 168, 210)
 
     // Bg Colors
-    private static let bgRed = UIColor(rgb: 0xfc4259)
-    private static let bgGreen = UIColor(rgb: 0x82ab5a)
-    private static let bgBlue = UIColor(rgb: 0x3da2ac)
-    private static let bgDarkBlue = UIColor(rgb: 0x5690cf)
-    private static let bgPurple = UIColor(rgb: 0xa285bd)
+    private static let bgRed = UIColor(rgb: 0xfc4259) // (252, 66, 89)
+    private static let bgGreen = UIColor(rgb: 0x82ab5a) // (130, 171, 90)
+    private static let bgBlue = UIColor(rgb: 0x3da2ac) // (61, 162, 172)
+    private static let bgDarkBlue = UIColor(rgb: 0x5690cf) // (86, 144, 207)
+    private static let bgPurple = UIColor(rgb: 0xa285bd) // (162, 133, 189)
 
     private static let avatarColors: [UIColor] = [avatarGreen, avatarBlue, avatarDarkBlue, avatarPurple]
 
@@ -310,9 +319,9 @@ extension UIColor {
         static var family: UIColor { return amber }
         static var others: UIColor { return earthYellow }
         
-        fileprivate static let amber = UIColor(rgb: 0x538fd1)
-        fileprivate static let cyanBlueAzure = UIColor(rgb: 0xf5cd77)
-        fileprivate static let earthYellow = UIColor(rgb: 0xcd1a960)
+        fileprivate static let amber = UIColor(rgb: 0x538fd1) // (83, 143, 209)
+        fileprivate static let cyanBlueAzure = UIColor(rgb: 0xf5cd77) // (245, 205, 119)
+        fileprivate static let earthYellow = UIColor(rgb: 0xcd1a960) // (205, 26, 150)
     }
 }
 

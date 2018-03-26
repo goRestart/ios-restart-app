@@ -110,7 +110,7 @@ extension UIViewController {
         get {
             var toast = objc_getAssociatedObject(self, &TostableKeys.ToastViewKey) as? ToastView
             if toast == nil {
-                toast = ToastView.toastView()
+                toast = ToastView()
                 self.toastView = toast
             }
             return toast

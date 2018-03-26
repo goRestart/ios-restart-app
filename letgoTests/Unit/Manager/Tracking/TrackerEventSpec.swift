@@ -2265,6 +2265,18 @@ class TrackerEventSpec: QuickSpec {
                     expect(itemType).to(equal("1"))
                     
                 }
+                
+                context("with error") {
+                    beforeEach {
+                        sut = TrackerEvent.listingReportError(.network)
+                    }
+                    it("has event name") {
+                        expect(sut.name.rawValue).to(equal("product-detail-report-error"))
+                    }
+                    it("has event value") {
+                        expect(sut.params?[.errorDescription] as? String).to(equal("report-network"))
+                    }
+                }
             }
 
             describe("listingSellStart") {
@@ -4639,6 +4651,15 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("chat-inactive-conversations-shown"))
+                }
+            }
+            
+            describe("chat mark messages as read") {
+                beforeEach {
+                    sut = TrackerEvent.chatMarkMessagesAsRead()
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("mark-messages-as-read"))
                 }
             }
             

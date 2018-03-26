@@ -48,6 +48,10 @@ class ChatViewController: TextViewController {
     var tableViewInsetBottom: CGFloat {
         return navBarHeight + blockedToastOffset + expressChatBannerOffset
     }
+    
+    private lazy var textTapGesture: UITapGestureRecognizer = {
+        return UITapGestureRecognizer(target: self, action: #selector(hideStickers))
+    }()
 
 
     // MARK: - View lifecycle
@@ -334,9 +338,6 @@ extension ChatViewController: UIGestureRecognizerDelegate {
             self?.stickersView.reloadStickers(stickers)
             }.disposed(by: disposeBag)
         singleTapGesture?.addTarget(self, action: #selector(hideStickers))
-        let textTapGesture = UITapGestureRecognizer(target: self, action: #selector(hideStickers))
-        textTapGesture.delegate = self
-        textView.addGestureRecognizer(textTapGesture)
     }
     
     fileprivate func initStickersView() {
@@ -356,6 +357,7 @@ extension ChatViewController: UIGestureRecognizerDelegate {
         // Add stickers view to keyboard window (is always the top window)
         UIApplication.shared.windows.last?.addSubview(stickersView)
         showingStickers = true
+        textView.addGestureRecognizer(textTapGesture)
         reloadLeftActions()
     }
     
@@ -363,6 +365,7 @@ extension ChatViewController: UIGestureRecognizerDelegate {
         guard showingStickers else { return }
         stickersView.removeFromSuperview()
         showingStickers = false
+        textView.removeGestureRecognizer(textTapGesture)
         reloadLeftActions()
     }
 

@@ -22,7 +22,6 @@ extension Bumper  {
         flags.append(RealEstateEnabled.self)
         flags.append(SearchAutocomplete.self)
         flags.append(RequestsTimeOut.self)
-        flags.append(HomeRelatedEnabled.self)
         flags.append(TaxonomiesAndTaxonomyChildrenInFeed.self)
         flags.append(NewItemPage.self)
         flags.append(ShowClockInDirectAnswer.self)
@@ -53,8 +52,11 @@ extension Bumper  {
         flags.append(IncreaseNumberOfPictures.self)
         flags.append(RealEstateTutorial.self)
         flags.append(MachineLearningMVP.self)
+        flags.append(AddPriceTitleDistanceToListings.self)
+        flags.append(MarkAllConversationsAsRead.self)
         flags.append(ShowProTagUserProfile.self)
         flags.append(SummaryAsFirstStep.self)
+        flags.append(ShowProTagUserProfile.self)
         Bumper.initialize(flags)
     } 
 
@@ -101,11 +103,6 @@ extension Bumper  {
     static var requestsTimeOut: RequestsTimeOut {
         guard let value = Bumper.value(for: RequestsTimeOut.key) else { return .baseline }
         return RequestsTimeOut(rawValue: value) ?? .baseline 
-    }
-
-    static var homeRelatedEnabled: HomeRelatedEnabled {
-        guard let value = Bumper.value(for: HomeRelatedEnabled.key) else { return .control }
-        return HomeRelatedEnabled(rawValue: value) ?? .control 
     }
 
     static var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed {
@@ -258,6 +255,16 @@ extension Bumper  {
         return MachineLearningMVP(rawValue: value) ?? .control 
     }
 
+    static var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings {
+        guard let value = Bumper.value(for: AddPriceTitleDistanceToListings.key) else { return .control }
+        return AddPriceTitleDistanceToListings(rawValue: value) ?? .control 
+    }
+
+    static var markAllConversationsAsRead: Bool {
+        guard let value = Bumper.value(for: MarkAllConversationsAsRead.key) else { return false }
+        return MarkAllConversationsAsRead(rawValue: value)?.asBool ?? false
+    }
+
     static var showProTagUserProfile: Bool {
         guard let value = Bumper.value(for: ShowProTagUserProfile.key) else { return false }
         return ShowProTagUserProfile(rawValue: value)?.asBool ?? false
@@ -266,7 +273,7 @@ extension Bumper  {
     static var summaryAsFirstStep: SummaryAsFirstStep {
         guard let value = Bumper.value(for: SummaryAsFirstStep.key) else { return .control }
         return SummaryAsFirstStep(rawValue: value) ?? .control 
-    } 
+    }
 }
 
 
@@ -378,22 +385,6 @@ enum RequestsTimeOut: String, BumperFeature  {
             case 3: return .sixty
             case 4: return .hundred_and_twenty
             default: return .baseline
-        }
-    }
-}
-
-enum HomeRelatedEnabled: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return HomeRelatedEnabled.control.rawValue }
-    static var enumValues: [HomeRelatedEnabled] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show the related button in the main feed" } 
-    static func fromPosition(_ position: Int) -> HomeRelatedEnabled {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
         }
     }
 }
@@ -752,9 +743,9 @@ enum DiscardedProducts: String, BumperFeature  {
 }
 
 enum OnboardingIncentivizePosting: String, BumperFeature  {
-    case control, baseline, blockingPosting
+    case control, baseline, blockingPosting, blockingPostingSkipWelcome
     static var defaultValue: String { return OnboardingIncentivizePosting.control.rawValue }
-    static var enumValues: [OnboardingIncentivizePosting] { return [.control, .baseline, .blockingPosting]}
+    static var enumValues: [OnboardingIncentivizePosting] { return [.control, .baseline, .blockingPosting, .blockingPostingSkipWelcome]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Leads the user through the posting feature and onboarding improvements" } 
     static func fromPosition(_ position: Int) -> OnboardingIncentivizePosting {
@@ -887,6 +878,32 @@ enum MachineLearningMVP: String, BumperFeature  {
     }
 }
 
+enum AddPriceTitleDistanceToListings: String, BumperFeature  {
+    case control, baseline, infoInImage, infoWithWhiteBackground
+    static var defaultValue: String { return AddPriceTitleDistanceToListings.control.rawValue }
+    static var enumValues: [AddPriceTitleDistanceToListings] { return [.control, .baseline, .infoInImage, .infoWithWhiteBackground]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Add price, title and distance to listings" } 
+    static func fromPosition(_ position: Int) -> AddPriceTitleDistanceToListings {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .infoInImage
+            case 3: return .infoWithWhiteBackground
+            default: return .control
+        }
+    }
+}
+
+enum MarkAllConversationsAsRead: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return MarkAllConversationsAsRead.no.rawValue }
+    static var enumValues: [MarkAllConversationsAsRead] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show a button to mark all conversations as read" } 
+    var asBool: Bool { return self == .yes }
+}
+
 enum ShowProTagUserProfile: String, BumperFeature  {
     case no, yes
     static var defaultValue: String { return ShowProTagUserProfile.no.rawValue }
@@ -911,4 +928,5 @@ enum SummaryAsFirstStep: String, BumperFeature  {
         }
     }
 }
+
 

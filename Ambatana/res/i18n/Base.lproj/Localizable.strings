@@ -628,6 +628,24 @@
 // Button in chat conversation list to mark all conversations as read
 "chat_mark_conversation_as_read_button" = "Mark all as read";
 
+// meeting cell title
+"chat_meeting_cell_title" = "Let’s meet at:";
+
+// decline button text
+"chat_meeting_cell_decline_button" = "Decline";
+
+// accept button text
+"chat_meeting_cell_accept_button" = "Accept";
+
+// pending meeting status text
+"chat_meeting_cell_status_pending" = "Pending";
+
+// accepted meeting status text
+"chat_meeting_cell_status_accepted" = "Accepted";
+
+// declined meeting status text
+"chat_meeting_cell_status_declined" = "Declined";
+
 // Title of transport collection
 "collection_transport_title" = "Travel in style";
 
@@ -941,6 +959,8 @@
 
 // Chat direct not negotiable title
 "direct_answer_not_negotiable_title" = "Not negotiable...";
+
+"direct_answer_lets_meet" = "Let's meet";
 
 // Show user a product is discarded
 "discarded" = "Discarded";
@@ -1356,6 +1376,51 @@
 
 // Navigation bar button 'Invite'' 
 "main_products_invite_navigation_bar_button" = "Invite";
+
+// Title for meeting creation view
+"meeting_creation_view_title" = "Schedule a meetup";
+
+// place header for meeting creation view
+"meeting_creation_view_place" = "PLACE";
+
+// select location label for meeting creation view
+"meeting_creation_view_select_location" = "Select a location";
+
+// date header for meeting creation view
+"meeting_creation_view_date_time" = "DATE & TIME";
+
+// select date label for meeting creation view
+"meeting_creation_view_select_date_time" = "Select date and time";
+
+// suggestion cell select button text
+"meeting_creation_view_suggest_cell_select" = "Select";
+
+// suggestion cell selected button text
+"meeting_creation_view_suggest_cell_selected" = "Selected";
+
+// custom location cell title
+"meeting_creation_view_search_cell_title" = "Search another location";
+
+// custom location cell button text
+"meeting_creation_view_search_cell_search" = "Search";
+
+// send meeting button text
+"meeting_creation_view_send_button" = "Send meeting";
+
+// safety tips view title
+"meeting_creation_tips_view_title" = "Pick a safe, convenient place to meet";
+
+// safety tips view subtitle
+"meeting_creation_tips_view_subtitle" = "We recommend meeting during daylight hours at a busy, well-lit, public place like a local coffee shop or bank lobby.";
+
+// send meeting button text
+"meeting_creation_tips_view_send_button" = "Send meeting";
+
+// change meeting button text
+"meeting_creation_tips_view_change_button" = "Change meeting";
+
+// no changes and close button text
+"meeting_creation_tips_view_gotit_button" = "Got it";
 
 // MoPub advertising indicator "Ad"
 "mopub_advertising_text" = "Ad";
@@ -2373,6 +2438,48 @@
 
 // Verify popup to link with google
 "profile_verify_google_title" = "GOOGLE";
+
+// TItle shown in the verifications screen
+"profile_verifications_view_title" = "How to earn points";
+
+// Title for the section with the possible verification methods
+"profile_verifications_view_verify_section_title" = "VERIFY WITH";
+
+// Subtitle for the section with the possible verificationn methods
+"profile_verifications_view_verify_section_subtitle" = "Personal info won't be shared with other users";
+
+// Option to verify with Facebook title
+"profile_verifications_view_facebook_title" = "Facebook";
+
+// Option to verify with Google title
+"profile_verifications_view_google_title" = "Google";
+
+// Option to verify with Email
+"profile_verifications_view_email_title" = "Email";
+
+// Option to verify phone number
+"profile_verifications_view_phone_number_title" = "Phone number";
+
+// Option to verify with personal ID
+"profile_verifications_view_photo_id_title" = "Photo ID";
+
+// Title for the section with the options to add info to increase karma
+"profile_verifications_view_add_info_section_title" = "ADD YOUR";
+
+// Option to add Profile Picture
+"profile_verifications_view_profile_picture_title" = "Profile picture";
+
+// Option to add a Biography
+"profile_verifications_view_bio_title" = "Bio";
+
+// Section for exta options to increase Karma score
+"profile_verifications_view_extra_section_title" = "BUY & SELL";
+
+// cell explaining that marking items as sold, increases Karma score
+"profile_verifications_view_mark_as_sold_title" = "Mark a listing as sold";
+
+// cell explaining that marking items as sold, increases Karma score
+"profile_verifications_view_mark_as_sold_subtitle" = "+2 pts each (up to 10 pts)";
 
 // Button to verify accounts
 "profile_build_trust_button" = "Build Trust";

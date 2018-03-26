@@ -60,6 +60,7 @@ enum EventName: String {
     case listingMarkAsSoldOutsideLetgo      = "product-detail-sold-outside-letgo"
     case listingMarkAsUnsold                = "product-detail-unsold"
     case listingReport                      = "product-detail-report"
+    case listingReportError                 = "product-detail-report-error"
     
     case listingSellYourStuffButton         = "product-sell-your-stuff-button"
     case listingSellStart                   = "product-sell-start"
@@ -95,6 +96,7 @@ enum EventName: String {
     case chatDeleteComplete                 = "chat-delete-complete"
     case chatViewInactiveConversations      = "chat-view-inactive-conversations"
     case chatInactiveConversationsShown     = "chat-inactive-conversations-shown"
+    case markMessagesAsRead                 = "mark-messages-as-read"
 
     case profileVisit                       = "profile-visit"
     case profileEditStart                   = "profile-edit-start"
@@ -503,9 +505,10 @@ enum EventParameterPostingAbandonStep: String {
     case cameraPermissions = "camera-permissions"
     case retry = "retry"
     case summaryOnboarding = "summary-onboarding"
+    case welcomeOnboarding = "welcome-onboarding"
     
     static var allValues: [EventParameterPostingAbandonStep] {
-        return [.cameraPermissions, .retry, .summaryOnboarding]
+        return [.cameraPermissions, .retry, .summaryOnboarding, .welcomeOnboarding]
     }
 }
 
@@ -752,6 +755,24 @@ enum EventParameterPostListingError {
     }
 }
 
+enum EventParameterProductReportError {
+    case network
+    case internalError
+    case serverError
+    
+    var description: String {
+        switch self {
+        case .network:
+            return "report-network"
+        case .internalError:
+            return "report-internal"
+        case .serverError:
+            return "report-server"
+        }
+    }
+    
+}
+
 enum EventParameterChatError {
     case network(code: Int?)
     case internalError(description: String?)
@@ -830,6 +851,7 @@ enum EventParameterTypePage: String {
     case mostSearched = "most-searched"
     case filterBubble = "filter-bubble"
     case postingIconInfo = "posting-icon-information"
+    case postingLearnMore = "posting-learn-more-button"
     case sellStart = "product-sell-start"
 }
 
@@ -1249,6 +1271,10 @@ struct EventParameters {
     internal mutating func addLoginParams(_ source: EventParameterLoginSourceValue, rememberedAccount: Bool? = nil) {
         params[.loginSource] = source.rawValue
         params[.loginRememberedAccount] = rememberedAccount
+    }
+    
+    internal mutating func addRepositoryErrorParams(_ repositoryError: EventParameterProductReportError) {
+        params[.errorDescription] = repositoryError.description
     }
     
     internal mutating func addListingParams(_ listing: Listing) {
