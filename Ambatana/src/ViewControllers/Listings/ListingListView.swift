@@ -492,9 +492,9 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         collectionView.register(CollectionViewFooter.self,
                                 forSupplementaryViewOfKind: CHTCollectionElementKindSectionFooter,
                                 withReuseIdentifier: CollectionViewFooter.reusableID)
-        let headerNib = UINib(nibName: ListHeaderContainer.reusableID, bundle: nil)
-        collectionView.register(headerNib, forSupplementaryViewOfKind: CHTCollectionElementKindSectionHeader,
-                                   withReuseIdentifier: ListHeaderContainer.reusableID)
+        collectionView.register(ListHeaderContainer.self,
+                                forSupplementaryViewOfKind: CHTCollectionElementKindSectionHeader,
+                                withReuseIdentifier: ListHeaderContainer.reusableID)
 
         // >> Pull to refresh
         refreshControl = UIRefreshControl()

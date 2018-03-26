@@ -203,7 +203,7 @@ extension DiscardedProducts {
 }
 
 extension OnboardingIncentivizePosting {
-    var isActive: Bool { get { return self == .blockingPosting } }
+    var isActive: Bool { get { return self == .blockingPosting || self == .blockingPostingSkipWelcome } }
 }
 extension PromoteBumpInEdit {
     var isActive: Bool { get { return self != .control && self != .baseline } }

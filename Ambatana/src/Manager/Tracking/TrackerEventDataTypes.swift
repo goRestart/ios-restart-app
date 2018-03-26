@@ -505,9 +505,10 @@ enum EventParameterPostingAbandonStep: String {
     case cameraPermissions = "camera-permissions"
     case retry = "retry"
     case summaryOnboarding = "summary-onboarding"
+    case welcomeOnboarding = "welcome-onboarding"
     
     static var allValues: [EventParameterPostingAbandonStep] {
-        return [.cameraPermissions, .retry, .summaryOnboarding]
+        return [.cameraPermissions, .retry, .summaryOnboarding, .welcomeOnboarding]
     }
 }
 
@@ -850,6 +851,7 @@ enum EventParameterTypePage: String {
     case mostSearched = "most-searched"
     case filterBubble = "filter-bubble"
     case postingIconInfo = "posting-icon-information"
+    case postingLearnMore = "posting-learn-more-button"
     case sellStart = "product-sell-start"
 }
 

@@ -82,7 +82,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
         titleLabel.isHidden = info.title == nil
         priceLabel.text = info.price
 
-        detailLabel.attributedText = info.description
+        detailLabel.attributedText = info.description?.stringByRemovingLinks
         detailMapView.setLocationName(info.address)
         setNeedsLayout()
     }
