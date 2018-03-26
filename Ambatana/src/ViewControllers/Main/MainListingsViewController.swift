@@ -37,9 +37,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     // ViewModel
     var viewModel: MainListingsViewModel
     
-    // UI
-    @IBOutlet weak var listingListViewSafeaAreaTopAlignment: NSLayoutConstraint!
-    @IBOutlet weak var listingListView: ListingListView!
+    let listingListView = ListingListView()
     
     @IBOutlet weak var tagsContainerView: UIView!
     @IBOutlet weak var tagsContainerViewHeightConstraint: NSLayoutConstraint!
@@ -137,7 +135,17 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         if show3Columns {
             listingListView.updateLayoutWithSeparation(6)
         }
+
         addSubview(listingListView)
+        view.addSubviewForAutoLayout(listingListView)
+        NSLayoutConstraint.activate([
+            listingListView.leadingAnchor.constraint(equalTo: safeLeadingAnchor),
+            listingListView.topAnchor.constraint(equalTo: safeTopAnchor),
+            listingListView.trailingAnchor.constraint(equalTo: safeTrailingAnchor),
+            listingListView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        view.sendSubview(toBack: listingListView)
+
         automaticallyAdjustsScrollViewInsets = false
         //Add negative top inset to avoid extra padding adding by "grouped" table style.
         suggestionsSearchesTable.contentInset = UIEdgeInsetsMake(firstSectionMarginTop, 0, 0, 0)

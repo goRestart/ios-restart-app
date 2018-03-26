@@ -38,34 +38,23 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     // Constants
     private static let defaultErrorButtonHeight: CGFloat = 50
     
-    // UI
-    @IBOutlet weak private var contentView: UIView!
-    
-    // > First load
-    @IBOutlet weak var firstLoadView: UIView!
-    @IBOutlet weak var firstLoadActivityIndicator: UIActivityIndicatorView!
+    fileprivate let firstLoad = ActivityView()
+    var firstLoadView: UIView { return firstLoad }
+    var firstLoadActivityIndicator: UIActivityIndicatorView { return firstLoad.activityIndicator }
     
     // > Data
-    @IBOutlet weak var dataView: UIView!
+    fileprivate let codedDataView = DataView()
+    var dataView: UIView { return codedDataView }
     var refreshControl = UIRefreshControl()
-    @IBOutlet weak var collectionView: UICollectionView!
+    var collectionView: UICollectionView { return codedDataView.collectionView }
     weak var collectionViewFooter: CollectionViewFooter?
     
     private var lastContentOffset: CGFloat
     private var scrollingDown: Bool
     let isDragging = Variable<Bool>(false)
-    
-    // > Error
-    @IBOutlet weak var errorView: UIView!
-    @IBOutlet weak var errorContentView: UIView!
-    @IBOutlet weak var errorImageView: UIImageView!
-    @IBOutlet weak var errorImageViewHeightConstraint: NSLayoutConstraint!
-    
-    @IBOutlet weak var errorTitleLabel: UILabel!
-    @IBOutlet weak var errorBodyLabel: UILabel!
-    @IBOutlet weak var errorButton: LetgoButton!
-    @IBOutlet weak var errorButtonHeightConstraint: NSLayoutConstraint!
-    
+
+    fileprivate let codedErrorView = ErrorView()
+
     // > Insets
     @IBOutlet var topInsetDataViewConstraint: NSLayoutConstraint!
     @IBOutlet var leftInsetDataViewConstraint: NSLayoutConstraint!
@@ -157,15 +146,16 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     weak var cellsDelegate: ListingListViewCellsDelegate?
     weak var headerDelegate: ListingListViewHeaderDelegate? {
         didSet {
-            guard let collectionView = collectionView else { return }
-            collectionView.reloadData()
+            codedDataView.collectionView.reloadData()
         }
     }
     
     
     // MARK: - Lifecycle
-    
-    init(viewModel: ListingListViewModel, featureFlags: FeatureFlaggeable, frame: CGRect) {
+    convenience init() {
+        self.init(viewModel: ListingListViewModel(requester: nil), featureFlags: FeatureFlags.sharedInstance)
+    }
+    init(viewModel: ListingListViewModel, featureFlags: FeatureFlaggeable) {
         self.viewModel = viewModel
         let padding = UIEdgeInsets.zero
         self.dataPadding = padding
@@ -174,32 +164,14 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         self.padding = padding
         self.lastContentOffset = 0
         self.scrollingDown = true
-        super.init(viewModel: viewModel, frame: frame)
+        super.init(viewModel: viewModel, frame: .zero)
         drawerManager.freePostingAllowed = featureFlags.freePostingModeAllowed
         viewModel.delegate = self
         setupUI()
         setAccessibilityIds()
     }
     
-    init?(viewModel: ListingListViewModel, featureFlags: FeatureFlaggeable, coder aDecoder: NSCoder) {
-        self.viewModel = viewModel
-        let padding = UIEdgeInsets.zero
-        self.dataPadding = padding
-        self.firstLoadPadding = padding
-        self.errorPadding = padding
-        self.padding = padding
-        self.lastContentOffset = 0
-        self.scrollingDown = true
-        super.init(viewModel: viewModel, coder: aDecoder)
-        drawerManager.freePostingAllowed = featureFlags.freePostingModeAllowed
-        viewModel.delegate = self
-        setupUI()
-        setAccessibilityIds()
-    }
-    
-    required convenience init?(coder aDecoder: NSCoder) {
-        self.init(viewModel: ListingListViewModel(requester: nil), featureFlags: FeatureFlags.sharedInstance, coder: aDecoder)
-    }
+    required convenience init?(coder aDecoder: NSCoder) { fatalError("Long life to coded views") }
 
     internal override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
@@ -256,6 +228,19 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     }
 
     func setErrorViewStyle(bgColor: UIColor?, borderColor: UIColor?, containerColor: UIColor?) {
+        addSubviewForAutoLayout(codedErrorView)
+        if #available(iOS 11.0, *) {
+            NSLayoutConstraint.activate([
+                codedErrorView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+                codedErrorView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+                codedErrorView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+                codedErrorView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor)
+            ])
+        } else {
+            codedErrorView.layout(with: self).fill()
+        }
+        codedErrorView.layoutIfNeeded()
+
         errorView.backgroundColor = bgColor
         errorContentView.backgroundColor = containerColor
         errorContentView.layer.borderColor = borderColor?.cgColor
@@ -482,11 +467,25 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
      Sets up the UI.
      */
     private func setupUI() {
-        // Load the view, and add it as Subview
-        Bundle.main.loadNibNamed("ListingListView", owner: self, options: nil)
-        contentView.frame = bounds
-        contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-        addSubview(contentView)
+        addSubviewForAutoLayout(firstLoadView)
+        if #available(iOS 11.0, *) {
+            NSLayoutConstraint.activate([
+                firstLoadView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+                firstLoadView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+                firstLoadView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+                firstLoadView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor)
+            ])
+        } else {
+            firstLoadView.layout(with: self).fill()
+        }
+        firstLoadView.layoutIfNeeded()
+
+        codedDataView.collectionView.dataSource = self
+        codedDataView.collectionView.delegate = self
+        addSubviewForAutoLayout(codedDataView)
+        codedDataView.layout(with: self).fill()
+        codedDataView.backgroundColor = .white
+
 
         // Setup UI
         // > Data
@@ -509,14 +508,15 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         refreshControl.addTarget(self, action: #selector(refreshControlTriggered), for: UIControlEvents.valueChanged)
         collectionView.addSubview(refreshControl)
 
-        // > Error View
-        errorButtonHeightConstraint.constant = ListingListView.defaultErrorButtonHeight
+        errorButtonHeightConstraint?.constant = ListingListView.defaultErrorButtonHeight
         errorButton.setStyle(.primary(fontSize: .medium))
         errorButton.addTarget(self, action: #selector(ListingListView.errorButtonPressed), for: .touchUpInside)
         
         if #available(iOS 10, *) {
             setupPrefetching()
         }
+
+        bringSubview(toFront: firstLoad)
     }
     
     private func refreshFooter() {
@@ -571,16 +571,16 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
     private func setErrorState(_ emptyViewModel: LGEmptyViewModel) {
         errorImageView.image = emptyViewModel.icon
-        errorImageViewHeightConstraint.constant = emptyViewModel.iconHeight
+        errorImageViewHeightConstraint?.constant = emptyViewModel.iconHeight
         errorTitleLabel.text = emptyViewModel.title
         errorBodyLabel.text = emptyViewModel.body
         errorButton.setTitle(emptyViewModel.buttonTitle, for: .normal)
         // > If there's no button title or action then hide it
         if emptyViewModel.hasAction {
-            errorButtonHeightConstraint.constant = ListingListView.defaultErrorButtonHeight
+            errorButtonHeightConstraint?.constant = ListingListView.defaultErrorButtonHeight
         }
         else {
-            errorButtonHeightConstraint.constant = 0
+            errorButtonHeightConstraint?.constant = 0
         }
         errorView.updateConstraintsIfNeeded()
     }
@@ -729,10 +729,21 @@ extension ListingListView: GADBannerViewDelegate, GADAdSizeDelegate {
     }
 }
 
-private class DataView: UIView {
-    let waterFallLayout = CHTCollectionViewWaterfallLayout()
+extension ListingListView {
+    var errorView: UIView { return codedErrorView }
+    var errorContentView: UIView { return codedErrorView.containerView }
+    var errorImageView: UIImageView { return codedErrorView.imageView }
+    var errorImageViewHeightConstraint: NSLayoutConstraint? { return codedErrorView.imageHeight }
+
+    var errorTitleLabel: UILabel { return codedErrorView.title }
+    var errorBodyLabel: UILabel { return codedErrorView.body }
+    var errorButton: LetgoButton! { return codedErrorView.actionButton }
+    var errorButtonHeightConstraint: NSLayoutConstraint? { return codedErrorView.actionHeight }
+}
+
+private final class DataView: UIView {
     let collectionView: UICollectionView = {
-        waterFallLayout.scrollDirection = .vertical
+        let waterFallLayout = CHTCollectionViewWaterfallLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: waterFallLayout)
         if #available(iOS 10.0, *) {
             collectionView.isPrefetchingEnabled = true
@@ -740,7 +751,7 @@ private class DataView: UIView {
         if #available(iOS 11.0, *) {
             collectionView.contentInsetAdjustmentBehavior = .never
         }
-
+        collectionView.backgroundColor = .white
         return collectionView
     }()
 
@@ -759,17 +770,105 @@ private class DataView: UIView {
     }
 }
 
-private class ActivityView: UIView {
+private final class ErrorView: UIView {
+    private struct Layout {
+        static let sideMargin: CGFloat = 24
+        static let actionHeight: CGFloat = 50
+        static let imageViewHeight: CGFloat = 50
+        static let imageViewBottom: CGFloat = 16
+        static let titleBottom: CGFloat = Metrics.shortMargin
+    }
+    let containerView: UIView = {
+        let container = UIView()
+        container.backgroundColor = .white
+        return container
+    }()
+
+    let imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
+        return imageView
+    }()
+
+    let title: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemRegularFont(size: 17)
+        label.textColor = .black
+        label.textAlignment = .center
+        return label
+    }()
+
+    let body: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemRegularFont(size: 17)
+        label.textColor = .grayDark
+        label.textAlignment = .center
+        return label
+    }()
+
+    let actionButton: LetgoButton = {
+        let button = LetgoButton(withStyle: .primary(fontSize: .medium))
+        return button
+    }()
+
+    var actionHeight: NSLayoutConstraint?
+    var imageHeight: NSLayoutConstraint?
+
+    convenience init() {
+        self.init(frame: .zero)
+        setupUI()
+    }
+
+    private func setupUI() {
+        backgroundColor = .clear
+        setupConstraints()
+    }
+
+    private func setupConstraints() {
+        addSubviewsForAutoLayout([containerView])
+        containerView.addSubviewsForAutoLayout([imageView, title, body, actionButton])
+        let imageViewHeight = imageView.heightAnchor.constraint(equalToConstant: 0)
+        let actionHeight = actionButton.heightAnchor.constraint(equalToConstant: Layout.actionHeight)
+        NSLayoutConstraint.activate([
+            containerView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Layout.sideMargin),
+            containerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Layout.sideMargin),
+            containerView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            imageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: Layout.imageViewHeight),
+            imageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Layout.sideMargin),
+            imageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -Layout.sideMargin),
+            imageViewHeight,
+            title.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: Layout.imageViewBottom),
+            title.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Layout.sideMargin),
+            title.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -Layout.sideMargin),
+            body.topAnchor.constraint(equalTo: title.bottomAnchor, constant: Layout.titleBottom),
+            body.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Layout.sideMargin),
+            body.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -Layout.sideMargin),
+            actionButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Layout.sideMargin),
+            actionButton.topAnchor.constraint(equalTo: body.bottomAnchor, constant: Layout.sideMargin),
+            actionButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -Layout.sideMargin),
+            actionButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -Layout.sideMargin),
+            actionHeight
+        ])
+        self.imageHeight = imageViewHeight
+        self.actionHeight = actionHeight
+    }
+}
+
+private final class ActivityView: UIView {
 
     let activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
-        indicator.tintColor = UIColor(red: 153, green: 153, blue: 153)
+        indicator.color = UIColor(red: 153, green: 153, blue: 153)
+        indicator.hidesWhenStopped = false
         return indicator
     }()
 
     convenience init() {
         self.init(frame: .zero)
         setupUI()
+
+        activityIndicator.startAnimating()
     }
 
     private func setupUI() {
@@ -784,5 +883,4 @@ private class ActivityView: UIView {
             activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
-
 }
