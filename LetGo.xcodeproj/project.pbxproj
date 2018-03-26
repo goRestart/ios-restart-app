@@ -1152,7 +1152,6 @@
 		C730FD111E77FC5A00175C27 /* BooleanDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C730FD101E77FC5A00175C27 /* BooleanDAO.swift */; };
 		C730FD121E77FC5A00175C27 /* BooleanDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C730FD101E77FC5A00175C27 /* BooleanDAO.swift */; };
 		C73189C91DBE3847005A93EE /* ListHeaderContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73189C71DBE3847005A93EE /* ListHeaderContainer.swift */; };
-		C73189CA1DBE3847005A93EE /* ListHeaderContainer.xib in Resources */ = {isa = PBXBuildFile; fileRef = C73189C81DBE3847005A93EE /* ListHeaderContainer.xib */; };
 		C731B8781CE22BBE00F31D46 /* ChatListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C731B8771CE22BBE00F31D46 /* ChatListViewModel.swift */; };
 		C731B8791CE22BBE00F31D46 /* ChatListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C731B8771CE22BBE00F31D46 /* ChatListViewModel.swift */; };
 		C735101E1D942B5000D67040 /* FeatureFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = C735101D1D942B5000D67040 /* FeatureFlags.swift */; };
@@ -1277,7 +1276,6 @@
 		C7798EA21D2EB6AB00C81DD4 /* UICollectionView+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7798EA11D2EB6AB00C81DD4 /* UICollectionView+Helper.swift */; };
 		C7798EA31D2EB6AB00C81DD4 /* UICollectionView+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7798EA11D2EB6AB00C81DD4 /* UICollectionView+Helper.swift */; };
 		C77B7DB31DBE3C290043C624 /* ListHeaderContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73189C71DBE3847005A93EE /* ListHeaderContainer.swift */; };
-		C77B7DB41DBE3C3E0043C624 /* ListHeaderContainer.xib in Resources */ = {isa = PBXBuildFile; fileRef = C73189C81DBE3847005A93EE /* ListHeaderContainer.xib */; };
 		C77B7DBA1DBF9D150043C624 /* PushPermissionsHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77B7DB91DBF9D150043C624 /* PushPermissionsHeader.swift */; };
 		C77B7DBB1DBF9D150043C624 /* PushPermissionsHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77B7DB91DBF9D150043C624 /* PushPermissionsHeader.swift */; };
 		C77D64681CBD250700A22510 /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77D64671CBD250700A22510 /* Tab.swift */; };
@@ -2453,7 +2451,6 @@
 		C730FD0D1E76F93000175C27 /* CacheManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
 		C730FD101E77FC5A00175C27 /* BooleanDAO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BooleanDAO.swift; sourceTree = "<group>"; };
 		C73189C71DBE3847005A93EE /* ListHeaderContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListHeaderContainer.swift; sourceTree = "<group>"; };
-		C73189C81DBE3847005A93EE /* ListHeaderContainer.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ListHeaderContainer.xib; sourceTree = "<group>"; };
 		C731B8771CE22BBE00F31D46 /* ChatListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatListViewModel.swift; sourceTree = "<group>"; };
 		C735101A1D94246C00D67040 /* bumper_features.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bumper_features.json; sourceTree = "<group>"; };
 		C735101D1D942B5000D67040 /* FeatureFlags.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureFlags.swift; sourceTree = "<group>"; };
@@ -4622,7 +4619,6 @@
 				C7C61DF91D630ED500F9505D /* CollectionCell.swift */,
 				C7C61DFA1D630ED500F9505D /* CollectionCell.xib */,
 				C73189C71DBE3847005A93EE /* ListHeaderContainer.swift */,
-				C73189C81DBE3847005A93EE /* ListHeaderContainer.xib */,
 				2E2208E71DD4BD1100FB2483 /* EmptyCell.swift */,
 				2E2208EA1DD4C0F300FB2483 /* EmptyCell.xib */,
 				0AF7CCBC1F8B525E00128303 /* OvalLayer.swift */,
@@ -5478,7 +5474,6 @@
 				C73FABC41DD46A1D008F4519 /* SettingsSwitchCell.xib in Resources */,
 				8E80179E2010DC50004CE244 /* ChatInactiveConversationsListView.xib in Resources */,
 				2E373FA61D3D019600AC811C /* UserRatingListViewController.xib in Resources */,
-				C73189CA1DBE3847005A93EE /* ListHeaderContainer.xib in Resources */,
 				2ECB41802008CC6900482EF7 /* AdvertisementCell.xib in Resources */,
 				50BA5C081C3C096D00F34042 /* GoogleService-Info.plist in Resources */,
 				5021910E1B2F1DAA00ABD31F /* RememberPasswordViewController.xib in Resources */,
@@ -5616,7 +5611,6 @@
 				C7DE8ADA1C8892C9005CF37E /* PostListingCameraView.xib in Resources */,
 				C73FABC51DD46A1D008F4519 /* SettingsSwitchCell.xib in Resources */,
 				2E373FAF1D3E6F4E00AC811C /* UserRatingListViewController.xib in Resources */,
-				C77B7DB41DBE3C3E0043C624 /* ListHeaderContainer.xib in Resources */,
 				C7DB427B1C5138B500400945 /* GoogleService-Info.plist in Resources */,
 				8EADA72E20347EC600DE8126 /* lottie_chat_typing_animation.json in Resources */,
 				C7DB427C1C5138B500400945 /* RememberPasswordViewController.xib in Resources */,
