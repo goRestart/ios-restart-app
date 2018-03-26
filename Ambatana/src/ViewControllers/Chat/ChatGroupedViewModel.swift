@@ -251,9 +251,19 @@ class ChatGroupedViewModel: BaseViewModel {
             }))
         }
         
+        if let vm = currentPageViewModel.value, vm.shouldShowInactiveConversations {
+            var buttonText: String = LGLocalizedString.chatInactiveConversationsButton
+            if let inactiveCount = vm.inactiveConversationsCount, inactiveCount > 0 {
+                buttonText = buttonText + " (\(inactiveCount))"
+            }
+            actions.append(UIAction(interface: UIActionInterface.text(buttonText),
+                                    action: { [weak self] in
+                                        self?.currentPageViewModel.value?.openInactiveConversations()
+            }))
+        }
+        
         delegate?.vmShowActionSheet(LGLocalizedString.commonCancel, actions: actions)
     }
-
 
     // MARK: - Private
 

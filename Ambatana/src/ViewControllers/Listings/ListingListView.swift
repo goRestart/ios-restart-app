@@ -18,7 +18,6 @@ protocol ListingListViewScrollDelegate: class {
 
 protocol ListingListViewCellsDelegate: class {
     func visibleTopCellWithIndex(_ index: Int, whileScrollingDown scrollingDown: Bool)
-    func shouldShowRelatedListingsButton() -> Bool
 }
 
 protocol ListingListViewHeaderDelegate: class {
@@ -316,7 +315,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
                            inCell: cell,
                            delegate: viewModel.listingCellDelegate,
                            imageSize: viewModel.imageViewSizeForItem(at: indexPath.row))
-        (cell as? ListingCell)?.isRelatedEnabled = cellsDelegate?.shouldShowRelatedListingsButton() ?? false
         return cell
     }
 
@@ -494,9 +492,9 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         collectionView.register(CollectionViewFooter.self,
                                 forSupplementaryViewOfKind: CHTCollectionElementKindSectionFooter,
                                 withReuseIdentifier: CollectionViewFooter.reusableID)
-        let headerNib = UINib(nibName: ListHeaderContainer.reusableID, bundle: nil)
-        collectionView.register(headerNib, forSupplementaryViewOfKind: CHTCollectionElementKindSectionHeader,
-                                   withReuseIdentifier: ListHeaderContainer.reusableID)
+        collectionView.register(ListHeaderContainer.self,
+                                forSupplementaryViewOfKind: CHTCollectionElementKindSectionHeader,
+                                withReuseIdentifier: ListHeaderContainer.reusableID)
 
         // >> Pull to refresh
         refreshControl = UIRefreshControl()

@@ -37,11 +37,7 @@ class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDrawer {
         configDiscardedProduct(model, inCell: cell)
     }
     
-    func willDisplay(_ model: ListingData, inCell cell: ListingCell) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            cell.relatedListingButton.expand()
-        }
-    }
+    func willDisplay(_ model: ListingData, inCell cell: ListingCell) { }
     
     
     // MARK:- Private

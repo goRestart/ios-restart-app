@@ -9,12 +9,11 @@
 import UIKit
 
 class ListHeaderContainer: UICollectionReusableView, ReusableCell {
-    @IBOutlet weak var containerView: UIView!
 
     var totalHeight: CGFloat = 0
 
     func getHeader(_ tag: Int) -> UIView? {
-        for view in containerView.subviews {
+        for view in subviews {
             if view.tag == tag {
                 return view
             }
@@ -22,18 +21,32 @@ class ListHeaderContainer: UICollectionReusableView, ReusableCell {
         return nil
     }
 
+    convenience init() {
+        self.init(frame: .zero)
+    }
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupUI()
+    }
+
+    required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+
+    private func setupUI() {
+        backgroundColor = .clear
+    }
+
     func addHeader(_ view: UIView, height: CGFloat) {
         guard getHeader(view.tag) == nil else { return }
-        view.translatesAutoresizingMaskIntoConstraints = false
-        containerView.addSubview(view)
+        addSubviewForAutoLayout(view)
         
-        view.layout(with: containerView).fillHorizontal().top(by: totalHeight)
+        view.layout(with: self).fillHorizontal().top(by: totalHeight)
         view.layout().height(height)
         totalHeight += height
     }
 
     func clear() {
-        containerView.subviews.forEach { $0.removeFromSuperview() }
+        subviews.forEach { $0.removeFromSuperview() }
         totalHeight = 0
     }
 }
