@@ -9,7 +9,7 @@
 import Foundation
 import LGCoreKit
 
-class ChatMyMeetingCellDrawer: BaseChatCellDrawer<ChatMyMeetingCell> {
+final class ChatMyMeetingCellDrawer: BaseChatCellDrawer<ChatMyMeetingCell> {
 
     override init(autoHide: Bool) {
         super.init(autoHide: autoHide)
@@ -17,7 +17,7 @@ class ChatMyMeetingCellDrawer: BaseChatCellDrawer<ChatMyMeetingCell> {
 
     override func draw(_ cell: ChatMyMeetingCell, message: ChatViewMessage) {
         switch message.type {
-        case let .chatNorris(_, date, locationName, coordinates, status):
+        case let .chatNorris(type, date, locationName, coordinates, status, _):
             cell.setupLocation(locationName: locationName, coordinates: coordinates, date: date ?? Date(), status: status ?? .pending)
             cell.messageDateLabel.text = message.sentAt?.formattedTime()
             cell.checkImageView.image = nil

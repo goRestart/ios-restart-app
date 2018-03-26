@@ -16,7 +16,7 @@ protocol OtherMeetingCellDelegate: class {
 }
 
 
-class ChatOtherMeetingCell: UITableViewCell, ReusableCell {
+final class ChatOtherMeetingCell: UITableViewCell, ReusableCell {
 
     @IBOutlet weak var meetingContainer: UIView!
     @IBOutlet weak var titleLabel: UILabel!
@@ -43,7 +43,7 @@ class ChatOtherMeetingCell: UITableViewCell, ReusableCell {
 
     weak var locationDelegate: MeetingCellImageDelegate?
 
-    var coordinates: LGLocationCoordinates2D?
+    private var coordinates: LGLocationCoordinates2D?
 
     // MARK: - Lifecycle
 
@@ -85,8 +85,8 @@ extension ChatOtherMeetingCell {
         locationLabel.isHidden = false
         locationLabel.text = locationName
 
-        meetingDateLabel.text = prettyDateFrom(meetingDate: date)
-        meetingTimeLabel.text = prettyTimeFrom(meetingDate: date)
+        meetingDateLabel.text = date.prettyDateForMeeting()
+        meetingTimeLabel.text = date.prettyTimeForMeeting()
 
         updateStatus(status: status)
     }
@@ -139,7 +139,7 @@ private extension ChatOtherMeetingCell {
 
     @objc func locationTapped() {
         guard let coords = coordinates else { return }
-        let rect = locationView.convert(locationView.frame, to: nil)
+        let rect = locationView.convertToWindow(locationView.frame)
         locationDelegate?.imagePressed(coordinates: coords, originPoint: rect.center)
     }
 
@@ -151,21 +151,5 @@ private extension ChatOtherMeetingCell {
     @IBAction func rejectMeeting(_ sender: AnyObject) {
         delegate?.rejectMeeting()
         updateStatus(status: .rejected)
-    }
-
-    func prettyDateFrom(meetingDate: Date?) -> String? {
-        guard let date = meetingDate else { return nil }
-        let formatter = MeetingParser.dateFormatter
-        formatter.dateFormat = "E d MMM"
-        formatter.timeZone = TimeZone.current
-        return MeetingParser.dateFormatter.string(from: date)
-    }
-
-    func prettyTimeFrom(meetingDate: Date?) -> String? {
-        guard let date = meetingDate else { return nil }
-        let formatter = MeetingParser.dateFormatter
-        formatter.dateFormat = "hh:mm a ZZZZ"
-        formatter.timeZone = TimeZone.current
-        return MeetingParser.dateFormatter.string(from: date)
     }
 }

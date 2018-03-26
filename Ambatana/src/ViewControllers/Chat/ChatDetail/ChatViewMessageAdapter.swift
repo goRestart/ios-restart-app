@@ -12,18 +12,23 @@ class ChatViewMessageAdapter {
     let stickersRepository: StickersRepository
     let myUserRepository: MyUserRepository
     let featureFlags: FeatureFlaggeable
+    let meetingParser: MeetingParser
     
     convenience init() {
         let stickersRepository = Core.stickersRepository
         let myUserRepository = Core.myUserRepository
         let featureFlags = FeatureFlags.sharedInstance
-        self.init(stickersRepository: stickersRepository, myUserRepository: myUserRepository, featureFlags: featureFlags)
+        let meetingParser = MeetingParser.sharedInstance
+        self.init(stickersRepository: stickersRepository, myUserRepository: myUserRepository, featureFlags: featureFlags,
+                  meetingParser: meetingParser)
     }
     
-    init(stickersRepository: StickersRepository, myUserRepository: MyUserRepository, featureFlags: FeatureFlaggeable) {
+    init(stickersRepository: StickersRepository, myUserRepository: MyUserRepository, featureFlags: FeatureFlaggeable,
+         meetingParser: MeetingParser) {
         self.stickersRepository = stickersRepository
         self.myUserRepository = myUserRepository
         self.featureFlags = featureFlags
+        self.meetingParser = meetingParser
     }
     
     func adapt(_ message: Message) -> ChatViewMessage {
@@ -66,13 +71,14 @@ class ChatViewMessageAdapter {
             type = ChatViewMessageType.text(text: LGLocalizedString.professionalDealerAskPhoneChatMessage(message.text))
         case .chatNorris:
             if featureFlags.chatNorris.isActive,
-                let meeting = MeetingParser.createMeetingFromMessage(message: message.text) {
+                let meeting = meetingParser.createMeetingFromMessage(message: message.text) {
                 if meeting.meetingType == .requested {
                     type = ChatViewMessageType.chatNorris(type: meeting.meetingType,
                                                           date: meeting.date,
                                                           locationName: meeting.locationName,
                                                           coordinates: meeting.coordinates,
-                                                          status: meeting.status)
+                                                          status: meeting.status,
+                                                          text: message.text)
                 } else {
                     return nil
                 }
@@ -105,12 +111,13 @@ class ChatViewMessageAdapter {
         case .phone:
             type = ChatViewMessageType.text(text: LGLocalizedString.professionalDealerAskPhoneChatMessage(text))
         case .chatNorris:
-            if let meeting = MeetingParser.createMeetingFromMessage(message: text) {
+            if let meeting = meetingParser.createMeetingFromMessage(message: text) {
                 type = ChatViewMessageType.chatNorris(type: meeting.meetingType,
                                                       date: meeting.date,
                                                       locationName: meeting.locationName,
                                                       coordinates: meeting.coordinates,
-                                                      status: meeting.status)
+                                                      status: meeting.status,
+                                                      text: text)
             } else {
                 type = ChatViewMessageType.text(text: text)
             }

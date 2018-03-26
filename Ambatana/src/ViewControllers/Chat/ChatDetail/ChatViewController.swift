@@ -826,10 +826,6 @@ extension ChatViewController: OtherMeetingCellDelegate {
     func rejectMeeting() {
         viewModel.rejectMeeting()
     }
-
-//    func cancelMeeting(meetingId: String) {
-//        viewModel.cancelMeeting(meetingId: meetingId)
-//    }
 }
 
 extension ChatViewController: MeetingCellImageDelegate, MKMapViewDelegate {

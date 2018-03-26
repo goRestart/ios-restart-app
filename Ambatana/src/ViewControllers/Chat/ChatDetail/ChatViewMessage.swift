@@ -15,7 +15,12 @@ enum ChatViewMessageType {
     case disclaimer(showAvatar: Bool, text: NSAttributedString, actionTitle: String? ,action: (() -> ())?)
     case userInfo(name: String, address: String?, facebook: Bool, google: Bool, email: Bool)
     case askPhoneNumber(text: String, action: (() -> Void)?)
-    case chatNorris(type: MeetingMessageType, date: Date?, locationName: String?, coordinates: LGLocationCoordinates2D?, status: MeetingStatus?)
+    case chatNorris(type: MeetingMessageType,
+        date: Date?,
+        locationName: String?,
+        coordinates: LGLocationCoordinates2D?,
+        status: MeetingStatus?,
+        text: String)
     case interlocutorIsTyping
 
     var isAskPhoneNumber: Bool {
@@ -75,14 +80,15 @@ enum ChatViewMessageType {
                 return lhsText == rhsText
             default: return false
             }
-        case let .chatNorris(lhsType, lhsDate, lhsLocationName, lhsCoordinates, lhsStatus):
+        case let .chatNorris(lhsType, lhsDate, lhsLocationName, lhsCoordinates, lhsStatus, lhsText):
             switch rhs {
-            case let .chatNorris(rhsType, rhsDate, rhsLocationName, rhsCoordinates, rhsStatus):
+            case let .chatNorris(rhsType, rhsDate, rhsLocationName, rhsCoordinates, rhsStatus, rhsText):
                 return lhsType == rhsType &&
                     lhsDate == rhsDate &&
                     lhsLocationName == rhsLocationName &&
                     lhsCoordinates == rhsCoordinates &&
-                    lhsStatus == rhsStatus
+                    lhsStatus == rhsStatus &&
+                    lhsText == rhsText
             default: return false
             }
         case .interlocutorIsTyping:
@@ -150,13 +156,8 @@ struct ChatViewMessage: BaseModel {
             return name
         case .askPhoneNumber(let text, _):
             return text
-        case let .chatNorris(type, date, locationName, coordinates, status):
-            let meeting = AssistantMeeting(meetingType: type,
-                                           date: date,
-                                           locationName: locationName,
-                                           coordinates: coordinates,
-                                           status: status)
-            return MeetingParser.textForMeeting(meeting: meeting)
+        case let .chatNorris(_, _, _, _, _, text):
+            return text
         case .interlocutorIsTyping:
             return "..."
         }
@@ -199,13 +200,14 @@ extension ChatViewMessage {
 extension ChatViewMessage {
     func markAsAccepted() -> ChatViewMessage {
         switch type {
-        case let .chatNorris(meetingType, meetingDate, locationName, coordinates, _):
+        case let .chatNorris(meetingType, meetingDate, locationName, coordinates, _, text):
             if meetingType == .requested {
                 let acceptedMessageType: ChatViewMessageType = .chatNorris(type: meetingType,
                                                                            date: meetingDate,
                                                                            locationName: locationName,
                                                                            coordinates: coordinates,
-                                                                           status: .accepted)
+                                                                           status: .accepted,
+                                                                           text: text)
                 return ChatViewMessage(objectId: objectId, talkerId: talkerId, sentAt: sentAt,
                                        receivedAt: receivedAt,
                                        readAt: readAt,
@@ -222,13 +224,14 @@ extension ChatViewMessage {
 
     func markAsRejected() -> ChatViewMessage {
         switch type {
-        case let .chatNorris(meetingType, meetingDate, locationName, coordinates, _):
+        case let .chatNorris(meetingType, meetingDate, locationName, coordinates, _, text):
             if meetingType == .requested {
                 let rejectedMessageType: ChatViewMessageType = .chatNorris(type: meetingType,
                                                                            date: meetingDate,
                                                                            locationName: locationName,
                                                                            coordinates: coordinates,
-                                                                           status: .rejected)
+                                                                           status: .rejected,
+                                                                           text: text)
                 return ChatViewMessage(objectId: objectId, talkerId: talkerId, sentAt: sentAt,
                                        receivedAt: receivedAt,
                                        readAt: readAt,
