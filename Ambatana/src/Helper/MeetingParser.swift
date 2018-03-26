@@ -21,13 +21,14 @@ final class LGMeetingParser: MeetingParser {
 
 //    🗓 Would you like to meet?
 //
-//    📍 Plaza Catalunya 13 (2.2345º N -21.9999º W)
+//    📍 Plaza Catalunya 13 (2.2345° N -21.9999° W)
 //    🕐 02/09/2018 06:30 GMT+01
 
     static let sharedInstance: LGMeetingParser = LGMeetingParser()
 
     private let dateFormatter: DateFormatter
 
+    private let degreeCharacter = "°"
     private let acceptanceMark = "✅"
     private let rejectionMark = "❌"
     private let meetingMark = "🗓"
@@ -39,7 +40,7 @@ final class LGMeetingParser: MeetingParser {
     }
 
     private var meetingIntro: String {
-        return meetingMark + " Would you like to meet?"
+        return meetingMark + " Let's meet at:"
     }
 
     convenience init() {
@@ -95,7 +96,7 @@ final class LGMeetingParser: MeetingParser {
         let locationComponents = locationString.components(separatedBy: ["(", ")"])
         guard locationComponents.count > 1 else { return nil }
         let coords = locationComponents[1]
-        let coordsComponents = coords.components(separatedBy: "º ")
+        let coordsComponents = coords.components(separatedBy: "\(degreeCharacter) ")
         guard coordsComponents.count > 2 else { return nil }
         let latitude = coordsComponents[0]
 
@@ -124,7 +125,7 @@ final class LGMeetingParser: MeetingParser {
         case .accepted:
             return "✅ OK"
         case .rejected:
-            return "❌ Can't do"
+            return "❌ Decline"
         case .requested:
             let meetingDateString = stringFrom(meetingDate: meeting.date) ?? ""
             let meetingLocationName = meeting.locationName ?? ""
@@ -138,7 +139,7 @@ final class LGMeetingParser: MeetingParser {
 
     private func stringFrom(coordinates: LGLocationCoordinates2D?) -> String? {
         guard let coords = coordinates else { return nil }
-        return "\(coords.latitude)º N \(coords.longitude)º E"
+        return "\(coords.latitude)\(degreeCharacter) N \(coords.longitude)\(degreeCharacter) E"
     }
 
     private func stringFrom(meetingDate: Date?) -> String? {
