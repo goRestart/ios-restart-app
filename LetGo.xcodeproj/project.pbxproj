@@ -1067,6 +1067,7 @@
 		8EF1CDB02010F11F00D324F6 /* ChatInactiveConversationDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1CDAE2010F11F00D324F6 /* ChatInactiveConversationDetailsViewModel.swift */; };
 		8EF1CDB22010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1CDB12010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift */; };
 		8EF1CDB32010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1CDB12010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift */; };
+		9A05AF102068D86400D3994A /* LetgoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8823A62052947C004414CA /* LetgoButton.swift */; };
 		C703BDFE1C7F1AF900EC8EF2 /* EditLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C703BDFB1C7F1AF900EC8EF2 /* EditLocationViewController.swift */; };
 		C703BDFF1C7F1AF900EC8EF2 /* EditLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C703BDFB1C7F1AF900EC8EF2 /* EditLocationViewController.swift */; };
 		C703BE001C7F1AF900EC8EF2 /* EditLocationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C703BDFC1C7F1AF900EC8EF2 /* EditLocationViewController.xib */; };
@@ -6428,6 +6429,7 @@
 				50146BC41D4F5F5B00B0F635 /* TabNavigator.swift in Sources */,
 				50C9E4C91B735344001E4E92 /* TrackerEventDataTypes.swift in Sources */,
 				6A40A3D21C0DE6B700C551B3 /* MediaPickerManager.swift in Sources */,
+				9A05AF102068D86400D3994A /* LetgoButton.swift in Sources */,
 				F52405C92029A18E00C56515 /* LGEmptyViewModel+RepositoryError.swift in Sources */,
 				C70A426D1E9666C100B6EFD8 /* CollectionType+Find.swift in Sources */,
 				C7111F021CA438AC000C5C5A /* UniversalLink.swift in Sources */,
