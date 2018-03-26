@@ -9,6 +9,10 @@
 import LGCoreKit
 import RxSwift
 
+protocol ChatGroupedViewModelDelegate: BaseViewModelDelegate {
+    func vmDidPressDelete()
+}
+
 class ChatGroupedViewModel: BaseViewModel {
 
     enum Tab: Int {
@@ -37,6 +41,16 @@ class ChatGroupedViewModel: BaseViewModel {
                 return LGLocalizedString.chatListUnblock
             }
         }
+        
+        func markAllConversationAsReadButtonEnabled(isFeatureFlagEnabled: Bool) -> Bool {
+            guard isFeatureFlagEnabled else { return false }
+            switch self {
+            case .all, .selling, .buying:
+                return true
+            case .blockedUsers:
+                return false
+            }
+        }
 
         static var allValues: [Tab] {
             return [.all, .selling, .buying, .blockedUsers]
@@ -50,6 +64,7 @@ class ChatGroupedViewModel: BaseViewModel {
     fileprivate let myUserRepository: MyUserRepository
     fileprivate let chatRepository: ChatRepository
     fileprivate let featureFlags: FeatureFlaggeable
+    private let tracker: TrackerProxy
 
     weak var tabNavigator: TabNavigator? {
         didSet {
@@ -57,6 +72,7 @@ class ChatGroupedViewModel: BaseViewModel {
             blockedUsersListViewModel.tabNavigator = tabNavigator
         }
     }
+    weak var delegate: ChatGroupedViewModelDelegate?
     var verificationPendingEmptyVM: LGEmptyViewModel?
 
     let editButtonText = Variable<String?>(nil)
@@ -70,17 +86,24 @@ class ChatGroupedViewModel: BaseViewModel {
     // MARK: - Lifecycle
 
     override convenience init() {
-        self.init(myUserRepository: Core.myUserRepository, chatRepository: Core.chatRepository,
-                  featureFlags: FeatureFlags.sharedInstance)
+        self.init(myUserRepository: Core.myUserRepository,
+                  chatRepository: Core.chatRepository,
+                  featureFlags: FeatureFlags.sharedInstance,
+                  tracker: TrackerProxy.sharedInstance)
     }
 
-    init(myUserRepository: MyUserRepository, chatRepository: ChatRepository, featureFlags: FeatureFlaggeable) {
+    init(myUserRepository: MyUserRepository,
+         chatRepository: ChatRepository,
+         featureFlags: FeatureFlaggeable,
+         tracker: TrackerProxy) {
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
         self.featureFlags = featureFlags
+        self.tracker = tracker
         self.chatListViewModels = []
         self.blockedUsersListViewModel = BlockedUsersListViewModel()
         self.disposeBag = DisposeBag()
+        
         super.init()
 
         for index in 0..<tabCount {
@@ -194,6 +217,11 @@ class ChatGroupedViewModel: BaseViewModel {
         guard let chatListVM = viewModelAtIndex(index) else { return nil }
         return chatListVM
     }
+    
+    func markAllConversationAsRead() {
+        tracker.trackEvent(TrackerEvent.chatMarkMessagesAsRead())
+        chatRepository.markAllConversationsAsRead(completion: nil)
+    }
 
 
     // MARK: > Current page
@@ -204,6 +232,26 @@ class ChatGroupedViewModel: BaseViewModel {
 
     func setCurrentPageEditing(_ editing: Bool) {
         currentPageViewModel.value?.editing.value = editing
+    }
+    
+    func openMenuActionSheet() {
+        var actions: [UIAction] = []
+        
+        if editButtonEnabled.value {
+            actions.append(UIAction(interface: UIActionInterface.text(currentTab.value.editButtonText(false)),
+                                    action: { [weak self] in
+                                        self?.delegate?.vmDidPressDelete()
+            }))
+        }
+        
+        if currentTab.value.markAllConversationAsReadButtonEnabled(isFeatureFlagEnabled: featureFlags.markAllConversationsAsRead) {
+            actions.append(UIAction(interface: UIActionInterface.text(LGLocalizedString.chatMarkConversationAsReadButton),
+                                    action: { [weak self] in
+                                        self?.markAllConversationAsRead()
+            }))
+        }
+        
+        delegate?.vmShowActionSheet(LGLocalizedString.commonCancel, actions: actions)
     }
 
 

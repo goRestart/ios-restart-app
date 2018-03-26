@@ -58,9 +58,12 @@ class ABTests {
     let copyForChatNowInTurkey = IntABDynamicVar(key: "20180312CopyForChatNowInTurkey", defaultValue: 0, abGroupType: .money)
     let increaseNumberOfPictures = IntABDynamicVar(key: "20180314IncreaseNumberOfPictures", defaultValue: 0, abGroupType: .realEstate)
     let machineLearningMVP = IntABDynamicVar(key: "20180312MachineLearningMVP", defaultValue: 0, abGroupType: .core)
+    let addPriceTitleDistanceToListings = IntABDynamicVar(key: "20180319AddPriceTitleDistanceToListings", defaultValue: 0, abGroupType: .core)
+    let markAllConversationsAsRead = BoolABDynamicVar(key: "20180321MarkAllConversationsAsRead", defaultValue: false, abGroupType: .chat)
     let showProTagUserProfile = BoolABDynamicVar(key: "20180319ShowProTagUserProfile", defaultValue: false, abGroupType: .money)
     let realEstateTutorial = IntABDynamicVar(key: "20180309RealEstateTutorial", defaultValue: 0, abGroupType: .realEstate)
     let summaryAsFirstStep = IntABDynamicVar(key: "20180320SummaryAsFirstStep", defaultValue: 0, abGroupType: .realEstate)
+    let relaxedSearch = IntABDynamicVar(key: "20180319RelaxedSearch", defaultValue: 0, abGroupType: .core)
 
     init() {
     }
@@ -110,9 +113,12 @@ class ABTests {
         result.append(servicesCategoryEnabled)
         result.append(copyForChatNowInTurkey)
         result.append(increaseNumberOfPictures)
+        result.append(addPriceTitleDistanceToListings)
+        result.append(markAllConversationsAsRead)
         result.append(showProTagUserProfile)
         result.append(realEstateTutorial)
         result.append(summaryAsFirstStep)
+        result.append(relaxedSearch)
         result.append(machineLearningMVP)
         result.append(showProTagUserProfile)
         return result

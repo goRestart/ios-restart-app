@@ -54,7 +54,8 @@ struct ListingData {
     var isMine: Bool
     var price: String
     let imageSize: CGSize
-
+    let currentLocation: LGLocation?
+    
     var listingId: String? {
         return listing?.objectId
     }
@@ -65,6 +66,12 @@ struct ListingData {
 
     var title: String? {
         return listing?.title
+    }
+    
+    var distanceToListing: Double? {
+        guard let listingPosition = listing?.location,
+              let userLocation = currentLocation?.location else { return nil }
+        return userLocation.distanceTo(listingPosition).roundNearest(0.1)
     }
 }
 

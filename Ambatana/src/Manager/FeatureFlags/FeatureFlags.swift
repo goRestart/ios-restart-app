@@ -58,6 +58,7 @@ protocol FeatureFlaggeable: class {
     var newUserProfileView: NewUserProfileView { get }
     var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation { get }
     var searchImprovements: SearchImprovements { get }
+    var relaxedSearch: RelaxedSearch { get }
     var showChatSafetyTips: Bool { get }
     var onboardingIncentivizePosting: OnboardingIncentivizePosting { get }
     var discardedProducts: DiscardedProducts { get }
@@ -67,6 +68,8 @@ protocol FeatureFlaggeable: class {
     var increaseNumberOfPictures: IncreaseNumberOfPictures { get }
     var realEstateTutorial: RealEstateTutorial { get }
     var machineLearningMVP: MachineLearningMVP { get }
+    var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings { get }
+    var markAllConversationsAsRead: Bool { get }
     var showProTagUserProfile: Bool { get }
     var summaryAsFirstStep: SummaryAsFirstStep { get }
 
@@ -224,6 +227,20 @@ extension ServicesCategoryEnabled {
 }
 extension IncreaseNumberOfPictures {
     var isActive: Bool { get { return self == .active } }
+}
+
+extension AddPriceTitleDistanceToListings {
+    var hideDetailInFeaturedArea: Bool {
+        return self == .infoInImage
+    }
+    
+    var showDetailInNormalCell: Bool {
+        return self == .infoWithWhiteBackground
+    }
+    
+    var showDetailInImage: Bool {
+        return self == .infoInImage
+    }
 }
 
 extension CopyForChatNowInTurkey {
@@ -504,6 +521,13 @@ class FeatureFlags: FeatureFlaggeable {
         return SearchImprovements.fromPosition(abTests.searchImprovements.value)
     }
     
+    var relaxedSearch: RelaxedSearch {
+        if Bumper.enabled {
+            return Bumper.relaxedSearch
+        }
+        return RelaxedSearch.fromPosition(abTests.relaxedSearch.value)
+    }
+    
     var onboardingIncentivizePosting: OnboardingIncentivizePosting {
         if Bumper.enabled {
             return Bumper.onboardingIncentivizePosting
@@ -538,7 +562,14 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return MachineLearningMVP.fromPosition(abTests.machineLearningMVP.value)
     }
-
+    
+    var markAllConversationsAsRead: Bool {
+        if Bumper.enabled {
+            return Bumper.markAllConversationsAsRead
+        }
+        return abTests.markAllConversationsAsRead.value
+    }
+    
     var newUserProfileView: NewUserProfileView {
         if Bumper.enabled {
             return Bumper.newUserProfileView
@@ -581,6 +612,13 @@ class FeatureFlags: FeatureFlaggeable {
         return IncreaseNumberOfPictures.fromPosition(abTests.increaseNumberOfPictures.value)
     }
     
+    var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings {
+        if Bumper.enabled {
+            return Bumper.addPriceTitleDistanceToListings
+        }
+        return AddPriceTitleDistanceToListings.fromPosition(abTests.addPriceTitleDistanceToListings.value)
+    }
+
     var showProTagUserProfile: Bool {
         if Bumper.enabled {
             return Bumper.showProTagUserProfile

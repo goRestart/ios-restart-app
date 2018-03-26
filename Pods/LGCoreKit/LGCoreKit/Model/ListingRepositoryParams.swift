@@ -46,7 +46,7 @@ public struct RetrieveListingParams {
     public var numberOfLivingRooms: Int?
     public var sizeSquareMetersFrom: Int?
     public var sizeSquareMetersTo: Int?
-    
+    public var relaxParam: RelaxParam?
     
     public init() { }
     
@@ -226,7 +226,6 @@ public enum SoldIn: String {
     
     public static let allValues: [SoldIn] = [.letgo, .external]
 }
-
 
 public struct CreateTransactionParams {
     let listingId: String

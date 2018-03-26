@@ -1114,7 +1114,8 @@ fileprivate extension ListingViewModel {
                 strongSelf.isReported.value = true
                 message = LGLocalizedString.productReportedSuccessMessage
                 self?.trackHelper.trackReportCompleted()
-            } else if let _ = result.error {
+            } else if let error = result.error {
+                self?.trackHelper.trackReportError(error.reportError)
                 message = LGLocalizedString.productReportedErrorGeneric
             }
             strongSelf.delegate?.vmHideLoading(message, afterMessageCompletion: nil)

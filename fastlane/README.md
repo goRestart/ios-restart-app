@@ -71,6 +71,11 @@ Will unit test
 fastlane ios ui_test
 ```
 Will UI test
+### ios ciJenkins
+```
+fastlane ios ciJenkins
+```
+Will run CI on Jenkins
 ### ios ci
 ```
 fastlane ios ci

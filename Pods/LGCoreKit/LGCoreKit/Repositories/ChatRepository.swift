@@ -83,6 +83,7 @@ public protocol ChatRepository: class {
     func archiveInactiveConversations(_ conversationIds: [String], completion: ChatCommandCompletion?)
     func confirmReception(_ conversationId: String, messageIds: [String], completion: ChatCommandCompletion?)
     func unarchiveConversation(_ conversationId: String, completion: ChatCommandCompletion?)
+    func markAllConversationsAsRead(completion: ChatCommandCompletion?)
     
     // MARK: > Unread counts
     
@@ -118,6 +119,7 @@ protocol InternalChatRepository: ChatRepository {
     func internalArchiveConversations(_ conversationIds: [String], completion: ChatCommandCompletion?)
     func internalArchiveInactiveConversations(_ conversationIds: [String], completion: ChatCommandCompletion?)
     func internalUnarchiveConversation(_ conversationId: String, completion: ChatCommandCompletion?)
+    func internalMarkAllConversationsAsRead(completion: ChatCommandCompletion?)
 }
 
 extension InternalChatRepository {
@@ -181,6 +183,15 @@ extension InternalChatRepository {
         updateLocalConversations(filterQuery: filterByConversationId) { conversation -> ChatConversation? in
             conversation.interlocutorIsTyping.value = interlocutorIsTyping
             return conversation
+        }
+    }
+    
+    public func updateLocalConversationsMarkingAllAsRead() {
+        let filterByConversationId: ((index: Int, conversation: ChatConversation)) -> Bool = {
+            $0.conversation.unreadMessageCount > 0
+        }
+        updateLocalConversations(filterQuery: filterByConversationId) { conversation -> ChatConversation? in
+            return conversation.updating(unreadMessageCount: 0)
         }
     }
     
@@ -354,6 +365,14 @@ extension InternalChatRepository {
         internalUnarchiveConversation(conversationId) { [weak self] unarchiveResult in
             defer { completion?(unarchiveResult) }
             self?.insertLocalConversationByFetching(conversationId: conversationId)
+        }
+    }
+    
+    public func markAllConversationsAsRead(completion: ChatCommandCompletion?) {
+        internalMarkAllConversationsAsRead { [weak self] result in
+            defer { completion?(result) }
+            guard let _ = result.value else { return }
+            self?.updateLocalConversationsMarkingAllAsRead()
         }
     }
 }
