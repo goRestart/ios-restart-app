@@ -9,8 +9,12 @@
 import Foundation
 import LGCoreKit
 
+protocol MeetingParser {
+    func createMeetingFromMessage(message: String) -> AssistantMeeting?
+    func textForMeeting(meeting: AssistantMeeting) -> String
+}
 
-final class MeetingParser {
+final class LGMeetingParser: MeetingParser {
 
 //    ✅ OK -> Accepted meeting
 //    ❌ Can't do -> Rejected meeting
@@ -20,7 +24,7 @@ final class MeetingParser {
 //    📍 Plaza Catalunya 13 (2.2345º N -21.9999º W)
 //    🕐 02/09/2018 06:30 GMT+01
 
-    static let sharedInstance: MeetingParser = MeetingParser()
+    static let sharedInstance: LGMeetingParser = LGMeetingParser()
 
     private let dateFormatter: DateFormatter
 
@@ -137,7 +141,7 @@ final class MeetingParser {
         return "\(coords.latitude)º N \(coords.longitude)º E"
     }
 
-    func stringFrom(meetingDate: Date?) -> String? {
+    private func stringFrom(meetingDate: Date?) -> String? {
         guard let date = meetingDate else { return nil }
         dateFormatter.dateFormat = "MM/dd/yyyy hh:mm a ZZZZ"
         dateFormatter.timeZone = TimeZone.current

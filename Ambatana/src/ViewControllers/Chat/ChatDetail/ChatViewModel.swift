@@ -245,7 +245,7 @@ class ChatViewModel: BaseViewModel {
         let keyValueStorage = KeyValueStorage.sharedInstance
         let ratingManager = LGRatingManager.sharedInstance
         let pushPermissionsManager = LGPushPermissionsManager.sharedInstance
-        let meetingParser = MeetingParser.sharedInstance
+        let meetingParser = LGMeetingParser.sharedInstance
 
         self.init(conversation: conversation, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   listingRepository: listingRepository, userRepository: userRepository,
@@ -274,7 +274,7 @@ class ChatViewModel: BaseViewModel {
         let featureFlags = FeatureFlags.sharedInstance
         let ratingManager = LGRatingManager.sharedInstance
         let pushPermissionsManager = LGPushPermissionsManager.sharedInstance
-        let meetingParser = MeetingParser.sharedInstance
+        let meetingParser = LGMeetingParser.sharedInstance
 
         let amISelling = myUserRepository.myUser?.objectId == sellerId
         let empty = EmptyConversation(objectId: nil, unreadMessageCount: 0, lastMessageSentAt: nil, amISelling: amISelling,

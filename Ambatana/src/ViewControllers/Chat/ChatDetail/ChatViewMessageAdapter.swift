@@ -18,7 +18,7 @@ class ChatViewMessageAdapter {
         let stickersRepository = Core.stickersRepository
         let myUserRepository = Core.myUserRepository
         let featureFlags = FeatureFlags.sharedInstance
-        let meetingParser = MeetingParser.sharedInstance
+        let meetingParser = LGMeetingParser.sharedInstance
         self.init(stickersRepository: stickersRepository, myUserRepository: myUserRepository, featureFlags: featureFlags,
                   meetingParser: meetingParser)
     }

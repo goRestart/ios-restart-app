@@ -6,7 +6,7 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-enum QuickAnswer {
+enum QuickAnswer: Equatable {
 
     case interested
     case notInterested
@@ -38,6 +38,63 @@ enum QuickAnswer {
     // 🦄 hackaton
     case meetingAssistant(chatNorrisABtestVersion: ChatNorris)
 
+    static public func ==(lhs: QuickAnswer, rhs: QuickAnswer) -> Bool {
+        switch (lhs, rhs) {
+        case (.interested, .interested):
+            return true
+        case (.notInterested, .notInterested):
+            return true
+        case (.meetUp, .meetUp):
+            return true
+        case (.stillAvailable, .stillAvailable):
+            return true
+        case (.isNegotiable, .isNegotiable):
+            return true
+        case (.likeToBuy, .likeToBuy):
+            return true
+        case (.listingCondition, .listingCondition):
+            return true
+        case (.listingStillForSale, .listingStillForSale):
+            return true
+        case (.listingSold, .listingSold):
+            return true
+        case (.whatsOffer, .whatsOffer):
+            return true
+        case (.negotiableYes, .negotiableYes):
+            return true
+        case (.negotiableNo, .negotiableNo):
+            return true
+        case (.freeStillHave, .freeStillHave):
+            return true
+        case (.freeYours, .freeYours):
+            return true
+        case (.freeAvailable, .freeAvailable):
+            return true
+        case (.freeNotAvailable, .freeNotAvailable):
+            return true
+        case (.stillForSale, .stillForSale):
+            return true
+        case (.priceFirm, .priceFirm):
+            return true
+        case (.priceWillingToNegotiate, .priceWillingToNegotiate):
+            return true
+        case (.priceAsking, .priceAsking):
+            return true
+        case (.listingConditionGood, .listingConditionGood):
+            return true
+        case (.listingConditionDescribe, .listingConditionDescribe):
+            return true
+        case (.meetUpWhereYouWant, .meetUpWhereYouWant):
+            return true
+        case (.meetUpLocated, .meetUpLocated):
+            return true
+        case (.meetingAssistant(let lTestVar), .meetingAssistant(let rTestVar)):
+            return lTestVar == rTestVar
+        default:
+            return false
+        }
+    }
+    
     enum QuickAnswerType: String {
         case availability
         case price

@@ -39,6 +39,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
         var source: EventParameterTypePage!
         var pushPermissionManager: MockPushPermissionsManager!
         var ratingManager: MockRatingManager!
+        var meetingParser: MockMeetingParser!
 
         
         
@@ -108,7 +109,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                                     keyValueStorage: keyValueStorage, navigator: nil, featureFlags: featureFlags,
                                     source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionManager,
                                     predefinedMessage: predefinedMessage, openChatAutomaticMessage: openChatAutomaticMessage,
-                                    interlocutor: interlocutor)
+                                    interlocutor: interlocutor, meetingParser: meetingParser)
                 
                 sut.delegate = self
                 disposeBag = DisposeBag()
@@ -134,6 +135,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                 source = .chat
                 pushPermissionManager = MockPushPermissionsManager()
                 ratingManager = MockRatingManager()
+                meetingParser = MockMeetingParser()
                 
                 scheduler = TestScheduler(initialClock: 0)
                 scheduler.start()
