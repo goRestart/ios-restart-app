@@ -128,7 +128,7 @@ private extension ChatMyMeetingCell {
 
     @objc func locationTapped() {
         guard let coords = coordinates else { return }
-        let rect = locationView.convert(locationView.frame, to: nil)
+        let rect = locationView.convertToWindow(locationView.frame)
         locationDelegate?.imagePressed(coordinates: coords, originPoint: rect.center)
     }
 }
