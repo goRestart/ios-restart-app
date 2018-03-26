@@ -35,7 +35,7 @@ enum QuickAnswer: Equatable {
     case meetUpWhereYouWant
     case meetUpLocated
 
-    // 🦄 hackaton
+    // HACKATON
     case meetingAssistant(chatNorrisABtestVersion: ChatNorris)
 
     static public func ==(lhs: QuickAnswer, rhs: QuickAnswer) -> Bool {
