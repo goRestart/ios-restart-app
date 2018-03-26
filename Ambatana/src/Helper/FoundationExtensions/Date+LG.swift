@@ -188,4 +188,19 @@ extension Date {
         let hour = Calendar.current.component(.hour, from: self)
         return hour >= Constants.minSafeHourForMeetings && hour <= Constants.maxSafeHourForMeetings
     }
+
+    func prettyDateForMeeting() -> String? {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "E d MMM"
+        formatter.timeZone = TimeZone.current
+        return formatter.string(from: self)
+    }
+
+    func prettyTimeForMeeting() -> String? {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "hh:mm a ZZZZ"
+        formatter.timeZone = TimeZone.current
+        return formatter.string(from: self)
+    }
+    
 }

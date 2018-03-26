@@ -143,6 +143,7 @@ class ChatViewModel: BaseViewModel {
     fileprivate let source: EventParameterTypePage
     fileprivate let pushPermissionsManager: PushPermissionsManager
     fileprivate let ratingManager: RatingManager
+    fileprivate let meetingParser: MeetingParser
     
     fileprivate let keyValueStorage: KeyValueStorageable
 
@@ -244,13 +245,14 @@ class ChatViewModel: BaseViewModel {
         let keyValueStorage = KeyValueStorage.sharedInstance
         let ratingManager = LGRatingManager.sharedInstance
         let pushPermissionsManager = LGPushPermissionsManager.sharedInstance
+        let meetingParser = MeetingParser.sharedInstance
 
         self.init(conversation: conversation, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   listingRepository: listingRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository, tracker: tracker, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
                   source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager,
-                  predefinedMessage: predefinedMessage, openChatAutomaticMessage: nil, interlocutor: nil)
+                  predefinedMessage: predefinedMessage, openChatAutomaticMessage: nil, interlocutor: nil, meetingParser: meetingParser)
     }
     
     convenience init?(listing: Listing,
@@ -272,7 +274,8 @@ class ChatViewModel: BaseViewModel {
         let featureFlags = FeatureFlags.sharedInstance
         let ratingManager = LGRatingManager.sharedInstance
         let pushPermissionsManager = LGPushPermissionsManager.sharedInstance
-        
+        let meetingParser = MeetingParser.sharedInstance
+
         let amISelling = myUserRepository.myUser?.objectId == sellerId
         let empty = EmptyConversation(objectId: nil, unreadMessageCount: 0, lastMessageSentAt: nil, amISelling: amISelling,
                                       listing: nil, interlocutor: nil)
@@ -281,7 +284,7 @@ class ChatViewModel: BaseViewModel {
                   stickersRepository: stickersRepository ,tracker: tracker, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
                   source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager, predefinedMessage: nil,
-                  openChatAutomaticMessage: openChatAutomaticMessage, interlocutor: interlocutor)
+                  openChatAutomaticMessage: openChatAutomaticMessage, interlocutor: interlocutor, meetingParser: meetingParser)
         self.setupConversationFrom(listing: listing)
     }
     
@@ -290,7 +293,7 @@ class ChatViewModel: BaseViewModel {
           tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, keyValueStorage: KeyValueStorageable,
           navigator: ChatDetailNavigator?, featureFlags: FeatureFlaggeable, source: EventParameterTypePage,
           ratingManager: RatingManager, pushPermissionsManager: PushPermissionsManager, predefinedMessage: String?,
-          openChatAutomaticMessage: ChatWrapperMessageType?, interlocutor: User?) {
+          openChatAutomaticMessage: ChatWrapperMessageType?, interlocutor: User?, meetingParser: MeetingParser) {
         self.conversation = Variable<ChatConversation>(conversation)
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
@@ -303,6 +306,7 @@ class ChatViewModel: BaseViewModel {
         self.keyValueStorage = keyValueStorage
         self.ratingManager = ratingManager
         self.pushPermissionsManager = pushPermissionsManager
+        self.meetingParser = meetingParser
 
         self.stickersRepository = stickersRepository
         self.chatViewMessageAdapter = ChatViewMessageAdapter()
@@ -735,7 +739,8 @@ extension ChatViewModel {
 extension ChatViewModel {
 
     func sendMeetingMessage(meeting: AssistantMeeting) {
-        sendMessage(type: .chatNorris(meeting))
+        let meetingText = meetingParser.textForMeeting(meeting: meeting)
+        sendMessage(type: .chatNorris(meeting, meetingText))
     }
 
     func send(sticker: Sticker) {
@@ -1891,7 +1896,7 @@ extension ChatViewModel {
         var otherMeetingIds: [String] = []
         for chatViewMessage in messages.value {
             switch chatViewMessage.type {
-            case let .chatNorris(type, _, _, _, _):
+            case let .chatNorris(type, _, _, _, _, _):
                 if let meetingId = chatViewMessage.objectId, type == .requested {
                     if firstMeetingId == nil {
                         firstMeetingId = meetingId
@@ -1911,7 +1916,7 @@ extension ChatViewModel {
         var meetingIds: [String] = []
         for chatViewMessage in messages.value {
             switch chatViewMessage.type {
-            case let .chatNorris(type, _, _, _, _):
+            case let .chatNorris(type, _, _, _, _, _):
                 if let meetingId = chatViewMessage.objectId, type == .requested, meetingId != messageId {
                     meetingIds.append(meetingId)
                 }
@@ -1943,7 +1948,7 @@ extension ChatViewModel {
 
     private func updateMeetingsStatusFor(message: ChatMessage) {
         if message.type == .chatNorris {
-            if let meeting = MeetingParser.createMeetingFromMessage(message: message.text) {
+            if let meeting = meetingParser.createMeetingFromMessage(message: message.text) {
                 switch meeting.meetingType {
                 case .rejected:
                     markAllPreviousRequestedMeetingsAsRejectedAfter(messageId: nil)

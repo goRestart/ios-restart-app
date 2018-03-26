@@ -80,8 +80,8 @@ extension ChatMyMeetingCell {
         locationLabel.isHidden = false
         locationLabel.text = locationName
 
-        meetingDateLabel.text = prettyDateFrom(meetingDate: date)
-        meetingTimeLabel.text = prettyTimeFrom(meetingDate: date)
+        meetingDateLabel.text = date.prettyDateForMeeting()
+        meetingTimeLabel.text = date.prettyTimeForMeeting()
 
         updateStatus(status: status)
     }
@@ -105,11 +105,6 @@ extension ChatMyMeetingCell {
             statusLabel.text = "_ Declined"
             statusLabel.textColor = UIColor.primaryColor
             statusIcon.image = #imageLiteral(resourceName: "ic_time")
-//        case .canceled:
-//            titleLabel.text = "Canceled"
-//            titleLabel.textColor = UIColor.primaryColor
-//            actionCancelHeight.constant = 0
-//            actionCancel.isHidden = true
         }
         layoutIfNeeded()
     }
@@ -135,21 +130,5 @@ private extension ChatMyMeetingCell {
         guard let coords = coordinates else { return }
         let rect = locationView.convert(locationView.frame, to: nil)
         locationDelegate?.imagePressed(coordinates: coords, originPoint: rect.center)
-    }
-
-    func prettyDateFrom(meetingDate: Date?) -> String? {
-        guard let date = meetingDate else { return nil }
-        let formatter = MeetingParser.dateFormatter
-        formatter.dateFormat = "E d MMM"
-        formatter.timeZone = TimeZone.current
-        return MeetingParser.dateFormatter.string(from: date)
-    }
-
-    func prettyTimeFrom(meetingDate: Date?) -> String? {
-        guard let date = meetingDate else { return nil }
-        let formatter = MeetingParser.dateFormatter
-        formatter.dateFormat = "hh:mm a ZZZZ"
-        formatter.timeZone = TimeZone.current
-        return MeetingParser.dateFormatter.string(from: date)
     }
 }

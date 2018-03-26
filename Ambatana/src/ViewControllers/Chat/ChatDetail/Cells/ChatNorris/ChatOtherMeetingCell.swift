@@ -86,8 +86,8 @@ extension ChatOtherMeetingCell {
         locationLabel.isHidden = false
         locationLabel.text = locationName
 
-        meetingDateLabel.text = prettyDateFrom(meetingDate: date)
-        meetingTimeLabel.text = prettyTimeFrom(meetingDate: date)
+        meetingDateLabel.text = date.prettyDateForMeeting()
+        meetingTimeLabel.text = date.prettyTimeForMeeting()
 
         updateStatus(status: status)
     }
@@ -117,11 +117,6 @@ extension ChatOtherMeetingCell {
             statusIcon.image = #imageLiteral(resourceName: "ic_time")
             actionsContainerHeight.constant = 0
             actionsContainer.isHidden = true
-//        case .canceled:
-//            titleLabel.text = "Canceled"
-//            titleLabel.textColor = UIColor.primaryColor
-//            actionsContainerHeight.constant = 0
-//            actionsContainer.isHidden = true
         }
         layoutIfNeeded()
     }
@@ -160,21 +155,5 @@ private extension ChatOtherMeetingCell {
     @IBAction func rejectMeeting(_ sender: AnyObject) {
         delegate?.rejectMeeting()
         updateStatus(status: .rejected)
-    }
-
-    func prettyDateFrom(meetingDate: Date?) -> String? {
-        guard let date = meetingDate else { return nil }
-        let formatter = MeetingParser.dateFormatter
-        formatter.dateFormat = "E d MMM"
-        formatter.timeZone = TimeZone.current
-        return MeetingParser.dateFormatter.string(from: date)
-    }
-
-    func prettyTimeFrom(meetingDate: Date?) -> String? {
-        guard let date = meetingDate else { return nil }
-        let formatter = MeetingParser.dateFormatter
-        formatter.dateFormat = "hh:mm a ZZZZ"
-        formatter.timeZone = TimeZone.current
-        return MeetingParser.dateFormatter.string(from: date)
     }
 }
