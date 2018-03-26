@@ -14,7 +14,7 @@ protocol MeetingCellImageDelegate: class {
 }
 
 
-class ChatMyMeetingCell: UITableViewCell, ReusableCell {
+final class ChatMyMeetingCell: UITableViewCell, ReusableCell {
 
     @IBOutlet weak var meetingContainer: UIView!
     @IBOutlet weak var titleLabel: UILabel!
@@ -35,7 +35,7 @@ class ChatMyMeetingCell: UITableViewCell, ReusableCell {
 
     weak var locationDelegate: MeetingCellImageDelegate?
 
-    var coordinates: LGLocationCoordinates2D?
+    private var coordinates: LGLocationCoordinates2D?
 
 
     // MARK: - Lifecycle

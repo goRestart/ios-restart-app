@@ -59,7 +59,6 @@ class MeetingAssistantViewController: BaseViewController {
     private func setupRx() {
 
         viewModel.suggestedLocations.asObservable().skip(1).bind { [weak self] suggestedLocations in
-            print(suggestedLocations.count)
             self?.suggestedLocationsCollection.reloadData()
         }.disposed(by: disposeBag)
 

@@ -9,7 +9,7 @@
 import Foundation
 import LGCoreKit
 
-class ChatOtherMeetingCellDrawer: BaseChatCellDrawer<ChatOtherMeetingCell> {
+final class ChatOtherMeetingCellDrawer: BaseChatCellDrawer<ChatOtherMeetingCell> {
 
     override init(autoHide: Bool) {
         super.init(autoHide: autoHide)

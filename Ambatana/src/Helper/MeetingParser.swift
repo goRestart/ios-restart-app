@@ -108,7 +108,6 @@ final class MeetingParser {
     private func stripDateFrom(string: String) -> Date? {
         let meetingInfo = string.components(separatedBy: dateMark + " ")
         guard meetingInfo.count == 2 else { return nil }
-        print(meetingInfo[1])
         dateFormatter.dateFormat = "MM/dd/yyyy hh:mm a ZZZZ"
         dateFormatter.timeZone = TimeZone.current
         let date = dateFormatter.date(from: meetingInfo[1])
