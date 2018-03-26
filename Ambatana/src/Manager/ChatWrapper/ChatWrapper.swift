@@ -150,7 +150,7 @@ extension ChatWrapperMessageType {
         case .phone:
             return .phone
         case .chatNorris:
-            return .chatNorris
+            return .assistantMeeting
         }
     }
 

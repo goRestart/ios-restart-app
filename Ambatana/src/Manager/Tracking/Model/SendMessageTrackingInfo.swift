@@ -82,7 +82,7 @@ class SendMessageTrackingInfo {
         guard let assistantMeeting = assistantMeeting else { return self }
         params[.meetingMessageType] = EventParameterAssistantMeetingType(meetingMessageType: assistantMeeting.meetingType).rawValue
         if let date = assistantMeeting.date {
-            params[.meetingDate] = MeetingParser.stringFrom(meetingDate: date)
+            params[.meetingDate] = date.formattedForTracking()
         } else {
             params[.meetingDate] = TrackerEvent.notApply
         }
