@@ -9,54 +9,6 @@
 import Foundation
 import LGCoreKit
 
-public enum MeetingStatus: Int {
-    case pending = 0
-    case accepted = 1
-    case rejected = 2
-
-    init(value: Int) {
-        switch value {
-        case 0:
-            self = .pending
-        case 1:
-            self = .accepted
-        case 2:
-            self = .rejected
-        default:
-            self = .pending
-        }
-    }
-}
-
-public enum MeetingMessageType: String {
-    case requested = "meeting_requested"
-    case accepted = "meeting_accepted"
-    case rejected = "meeting_rejected"
-
-    var status: MeetingStatus {
-        switch self {
-        case .requested:
-            return .pending
-        case .accepted:
-            return .accepted
-        case .rejected:
-            return .rejected
-        }
-    }
-}
-
-struct AssistantMeeting {
-
-    var meetingType: MeetingMessageType
-    var date: Date?
-    var locationName: String?
-    var coordinates: LGLocationCoordinates2D?
-    var status: MeetingStatus?
-
-    mutating func updateStatus(newStatus: MeetingStatus?) {
-        self.status = newStatus
-    }
-}
 
 final class MeetingParser {
 
