@@ -140,7 +140,7 @@ class Tooltip: UIView {
         addSubview(coloredView)
 
         titleLabel.attributedText = title
-        titleLabel.textAlignment = .center
+        titleLabel.textAlignment = .left
         titleLabel.numberOfLines = 0
         titleLabel.lineBreakMode = .byWordWrapping
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -150,14 +150,12 @@ class Tooltip: UIView {
         coloredView.addSubview(titleLabel)
 
         if style.closeEnabled {
-            separationView.frame = CGRect(x: 0, y: 0, width: 1, height: 28)
-            separationView.backgroundColor = UIColor.white
-            separationView.alpha = 0.3
+            separationView.frame = CGRect(x: 0, y: 0, width: 2, height: 28)
+            separationView.backgroundColor = .white
             separationView.translatesAutoresizingMaskIntoConstraints = false
             coloredView.addSubview(separationView)
 
             closeButton.setImage(UIImage(named: "ic_close"), for: .normal)
-            closeButton.alpha = 0.5
             closeButton.translatesAutoresizingMaskIntoConstraints = false
             closeButton.addTarget(self, action: #selector(closeTooltip), for: .touchUpInside)
             coloredView.addSubview(closeButton)
@@ -201,11 +199,11 @@ class Tooltip: UIView {
 
         // title label
         let labelTop = NSLayoutConstraint(item: titleLabel, attribute: .top, relatedBy: .equal,
-                                          toItem: coloredView, attribute: .top, multiplier: 1, constant: 15)
+                                          toItem: coloredView, attribute: .top, multiplier: 1, constant: Metrics.shortMargin)
         let labelBottom = NSLayoutConstraint(item: titleLabel, attribute: .bottom, relatedBy: .equal,
-                                             toItem: coloredView, attribute: .bottom, multiplier: 1, constant: -15)
+                                             toItem: coloredView, attribute: .bottom, multiplier: 1, constant: -Metrics.shortMargin)
         let labelLeft = NSLayoutConstraint(item: titleLabel, attribute: .left, relatedBy: .equal,
-                                           toItem: coloredView, attribute: .left, multiplier: 1, constant: 12)
+                                           toItem: coloredView, attribute: .left, multiplier: 1, constant: Metrics.margin)
         if style.closeEnabled {
             let labelRight = NSLayoutConstraint(item: titleLabel, attribute: .right, relatedBy: .equal,
                                                 toItem: separationView, attribute: .left, multiplier: 1, constant: -12)
@@ -322,40 +320,27 @@ func setupExternalConstraintsForTooltip(_ tooltip: Tooltip, targetView: UIView, 
                                                margin: CGFloat = 0) {
 
     let targetGlobalCenter = containerView.convert(targetView.center, to: nil)
+    
+    let tooltipLeadingAnchor = tooltip.leadingAnchor.constraint(greaterThanOrEqualTo: containerView.leadingAnchor, constant: 40)
+    let tooltipTrailingAnchor =  tooltip.trailingAnchor.constraint(lessThanOrEqualTo: containerView.trailingAnchor, constant: -40)
 
-    let leftSideMain = NSLayoutConstraint(item: tooltip, attribute: .left, relatedBy: .greaterThanOrEqual,
-                                          toItem: containerView, attribute: .left, multiplier: 1, constant: 8)
-    leftSideMain.priority = .required - 1
-    let rightSideMain = NSLayoutConstraint(item: tooltip, attribute: .right, relatedBy: .lessThanOrEqual,
-                                           toItem: containerView, attribute: .right, multiplier: 1, constant: -8)
-    rightSideMain.priority = .required - 1
-    containerView.addConstraints([leftSideMain, rightSideMain])
-
+    let peakAligment: NSLayoutConstraint
     if tooltip.peakOnTop {
+        peakAligment = tooltip.topAnchor.constraint(equalTo: targetView.bottomAnchor, constant: margin)
         containerView.addConstraint(NSLayoutConstraint(item: tooltip, attribute: .top, relatedBy: .equal,
             toItem: targetView, attribute: .bottom, multiplier: 1, constant: margin))
     } else {
-        containerView.addConstraint(NSLayoutConstraint(item: tooltip, attribute: .bottom, relatedBy: .equal,
-            toItem: targetView, attribute: .top, multiplier: 1, constant: -margin))
+        peakAligment = tooltip.bottomAnchor.constraint(equalTo: targetView.topAnchor, constant: -margin)
     }
 
+    let alignmentConstraint: NSLayoutConstraint
+    
     if targetGlobalCenter.x < containerView.width/3 {
-        // target in left
-        let mainLeftConstraint = NSLayoutConstraint(item: tooltip, attribute: .left, relatedBy: .equal,
-                                                    toItem: targetView, attribute: .left, multiplier: 1, constant: 0)
-        mainLeftConstraint.priority = .required - 2
-        containerView.addConstraints([mainLeftConstraint])
+        alignmentConstraint = tooltip.leadingAnchor.constraint(equalTo: targetView.leadingAnchor)
     } else if targetGlobalCenter.x > (containerView.width/3)*2 {
-        // target in right
-        let mainRightConstraint = NSLayoutConstraint(item: tooltip, attribute: .right, relatedBy: .equal,
-                                                     toItem: targetView, attribute: .right, multiplier: 1, constant: 0)
-        mainRightConstraint.priority = .required - 2
-        containerView.addConstraints([mainRightConstraint])
+        alignmentConstraint = tooltip.trailingAnchor.constraint(equalTo: targetView.trailingAnchor)
     } else {
-        // target in center
-        let mainCenterConstraint = NSLayoutConstraint(item: tooltip, attribute: .centerX, relatedBy: .equal,
-                                                toItem: targetView, attribute: .centerX, multiplier: 1, constant: 0)
-        mainCenterConstraint.priority = .required - 2
-        containerView.addConstraints([mainCenterConstraint])
+        alignmentConstraint = tooltip.centerXAnchor.constraint(equalTo: targetView.centerXAnchor)
     }
+    NSLayoutConstraint.activate([peakAligment, alignmentConstraint, tooltipLeadingAnchor, tooltipTrailingAnchor])
 }

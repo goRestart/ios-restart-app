@@ -68,7 +68,7 @@ extension UIColor {
     static var disclaimerColor: UIColor { return pale }
 
     static var blueTooltip: UIColor { return cornflower}
-    static var blackTooltip: UIColor { return black }
+    static var blackTooltip: UIColor { return lgBlack }
 
 
     private static let denimBlue = UIColor(rgb: 0x3f5b96) // (63, 91, 150)
