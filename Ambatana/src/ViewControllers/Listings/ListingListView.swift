@@ -703,11 +703,6 @@ final class ErrorView: UIView {
         static let imageViewBottom: CGFloat = 16
         static let titleBottom: CGFloat = Metrics.shortMargin
     }
-
-    override var intrinsicContentSize: CGSize {
-        let height = (actionHeight?.constant ?? Layout.actionHeight) + 200
-        return CGSize(width: UIViewNoIntrinsicMetric, height: height)
-    }
     
     let containerView: UIView = {
         let container = UIView()
@@ -777,6 +772,8 @@ final class ErrorView: UIView {
 
     private func setupUI() {
         backgroundColor = .clear
+        imageView.setContentHuggingPriority(.required, for: .vertical)
+        titleLabel.setContentHuggingPriority(.required, for: .vertical)
         setupConstraints()
         setupAccessibilityIds()
     }
@@ -795,15 +792,18 @@ final class ErrorView: UIView {
         let imageViewHeight = imageView.heightAnchor.constraint(equalToConstant: 0)
         let actionHeight = actionButton.heightAnchor.constraint(equalToConstant: Layout.actionHeight)
 
-        let topInset = containerView.topAnchor.constraint(equalTo: topAnchor)
+        let centerY = containerView.centerYAnchor.constraint(equalTo: centerYAnchor)
+        let topInset = containerView.topAnchor.constraint(greaterThanOrEqualTo: topAnchor,
+                                                          constant: Layout.sideMargin)
         let leadingInset = containerView.leadingAnchor.constraint(equalTo: leadingAnchor,
                                                                   constant: Layout.sideMargin)
         let trailingInset = containerView.trailingAnchor.constraint(equalTo: trailingAnchor,
                                                                     constant: -Layout.sideMargin)
-        let bottomInset = containerView.bottomAnchor.constraint(equalTo: bottomAnchor)
+        let bottomInset = containerView.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor,
+                                                                constant: -Layout.sideMargin)
 
         NSLayoutConstraint.activate([
-            topInset, leadingInset, trailingInset, bottomInset,
+            centerY, topInset, leadingInset, trailingInset, bottomInset,
             imageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: Layout.imageViewHeight),
             imageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Layout.sideMargin),
             imageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -Layout.sideMargin),
