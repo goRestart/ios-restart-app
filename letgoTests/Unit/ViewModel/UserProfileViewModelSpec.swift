@@ -88,6 +88,7 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
 
                 var myUser = MockMyUser.makeMock()
                 myUser.objectId = "12345"
+                myUser.name = "whatever"
                 myUser.accounts = []
                 myUser.type = .pro
                 var file = MockFile.makeMock()
