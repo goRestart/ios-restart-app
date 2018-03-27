@@ -722,6 +722,7 @@ final class ErrorView: UIView {
         label.font = UIFont.systemRegularFont(size: 17)
         label.textColor = .black
         label.textAlignment = .center
+        label.numberOfLines = 2
         return label
     }()
 
@@ -730,6 +731,7 @@ final class ErrorView: UIView {
         label.font = UIFont.systemRegularFont(size: 17)
         label.textColor = .grayDark
         label.textAlignment = .center
+        label.numberOfLines = 0
         return label
     }()
 
