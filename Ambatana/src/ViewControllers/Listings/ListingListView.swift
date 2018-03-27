@@ -677,6 +677,7 @@ private final class DataView: UIView {
     }
 
     private func setupUI() {
+        backgroundColor = .clear
         setupConstraints()
     }
 
@@ -702,6 +703,12 @@ final class ErrorView: UIView {
         static let imageViewBottom: CGFloat = 16
         static let titleBottom: CGFloat = Metrics.shortMargin
     }
+
+    override var intrinsicContentSize: CGSize {
+        let height = (actionHeight?.constant ?? Layout.actionHeight) + 200
+        return CGSize(width: UIViewNoIntrinsicMetric, height: height)
+    }
+    
     let containerView: UIView = {
         let container = UIView()
         container.backgroundColor = .white
