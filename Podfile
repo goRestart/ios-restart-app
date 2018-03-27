@@ -35,8 +35,8 @@ def shared_pods
 
     # letgo Core
     pod "LGCoreKit",             "4.13.4"
-#     pod "LGCoreKit",            :path => "../lgcorekit"
-#    pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => '5ab5b41f39f78a3d17cd0f1dd5d2da65f911e876'
+#   pod "LGCoreKit",            :path => "../lgcorekit"
+#   pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => '5ab5b41f39f78a3d17cd0f1dd5d2da65f911e876'
 
     # letgo Collapsible label
     pod "LGCollapsibleLabel",   "1.2.0"     # :path => "../collapsiblelabel"

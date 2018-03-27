@@ -110,6 +110,7 @@ enum EventName: String {
     case profileShareComplete               = "profile-share-complete"
     case profileEditEmailStart              = "profile-edit-email-start"
     case profileEditEmailComplete           = "profile-edit-email-complete"
+    case profileEditBioComplete             = "profile-edit-bio"
 
     case appInviteFriendStart               = "app-invite-friend-start"
     case appInviteFriend                    = "app-invite-friend"
@@ -871,6 +872,7 @@ enum EventParameterTab: String {
     case selling = "selling"
     case sold = "sold"
     case favorites = "favorites"
+    case reviews = "reviews"
 }
 
 enum EventParameterSearchCompleteSuccess: String {

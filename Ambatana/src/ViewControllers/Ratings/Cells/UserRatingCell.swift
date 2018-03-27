@@ -50,7 +50,7 @@ protocol UserRatingCellDelegate: class {
     func actionButtonPressedForCellAtIndex(_ indexPath: IndexPath)
 }
 
-class UserRatingCell: UITableViewCell {
+class UserRatingCell: UITableViewCell, ReusableCell {
 
     private static let ratingTypeLeadingWIcon: CGFloat = 16
 

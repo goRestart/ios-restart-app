@@ -91,6 +91,8 @@ fileprivate extension LetGoSetting {
             return LGLocalizedString.settingsLogoutButton
         case .versionInfo:
             return ""
+        case .changeUserBio:
+            return LGLocalizedString.settingsChangeUserBioButton
         }
     }
 
@@ -112,6 +114,8 @@ fileprivate extension LetGoSetting {
             return UIImage(named: "ic_setting_terms_and_conditions")
         case .privacyPolicy:
             return UIImage(named: "ic_setting_privacy_policy")
+        case .changeUserBio:
+            return UIImage(named: "ic_settings_bio")
         case .logOut, .versionInfo:
             return nil
         case let .changePhoto(placeholder,_):

@@ -9,4 +9,6 @@
 protocol FeatureFlagsDAO {
     func retrieveTimeoutForRequests() -> TimeInterval?
     func save(timeoutForRequests: TimeInterval)
+    func retrieveNewUserProfile() -> NewUserProfileView?
+    func save(newUserProfile: NewUserProfileView)
 }

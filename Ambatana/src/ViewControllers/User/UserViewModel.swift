@@ -723,6 +723,7 @@ extension UserViewModel: SocialSharerDelegate {
 // MARK: - Tracking
 
 extension UserViewModel {
+
     func trackVisit() {
         guard let user = user.value else { return }
         
