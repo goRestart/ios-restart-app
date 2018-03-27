@@ -355,6 +355,7 @@
 		2E933046206904D700C1E4D2 /* AssistantMeeting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E933045206904D700C1E4D2 /* AssistantMeeting.swift */; };
 		2E933047206904D700C1E4D2 /* AssistantMeeting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E933045206904D700C1E4D2 /* AssistantMeeting.swift */; };
 		2E93304920691CCE00C1E4D2 /* MockMeetingParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E93304820691CCE00C1E4D2 /* MockMeetingParser.swift */; };
+		2E93304D2069602000C1E4D2 /* MeetingParserSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E93304C2069602000C1E4D2 /* MeetingParserSpec.swift */; };
 		2E97169E1D59E958009B3A32 /* ExpressChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E97169C1D59E958009B3A32 /* ExpressChatViewController.swift */; };
 		2E97169F1D59E958009B3A32 /* ExpressChatViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E97169D1D59E958009B3A32 /* ExpressChatViewController.xib */; };
 		2E9716A31D5A0535009B3A32 /* ExpressChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9716A11D5A0535009B3A32 /* ExpressChatCell.swift */; };
@@ -1983,6 +1984,7 @@
 		2E933042206904B100C1E4D2 /* MeetingMessageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingMessageType.swift; sourceTree = "<group>"; };
 		2E933045206904D700C1E4D2 /* AssistantMeeting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssistantMeeting.swift; sourceTree = "<group>"; };
 		2E93304820691CCE00C1E4D2 /* MockMeetingParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockMeetingParser.swift; sourceTree = "<group>"; };
+		2E93304C2069602000C1E4D2 /* MeetingParserSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingParserSpec.swift; sourceTree = "<group>"; };
 		2E97169C1D59E958009B3A32 /* ExpressChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpressChatViewController.swift; sourceTree = "<group>"; };
 		2E97169D1D59E958009B3A32 /* ExpressChatViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExpressChatViewController.xib; sourceTree = "<group>"; };
 		2E9716A11D5A0535009B3A32 /* ExpressChatCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpressChatCell.swift; sourceTree = "<group>"; };
@@ -3982,6 +3984,7 @@
 				2EC653B21E716C8800E23DDF /* Dictionary+FilterSpec.swift */,
 				F5D6E67720090D8600E71A54 /* UserRatingType+RateBackSpec.swift */,
 				8E8236F2202CA68000A70A33 /* LGEmojiSpec.swift */,
+				2E93304C2069602000C1E4D2 /* MeetingParserSpec.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -6393,6 +6396,7 @@
 				50D08DCE1E69AF14009CC260 /* PurchasesShopperSpec.swift in Sources */,
 				50D08DD91E69AF14009CC260 /* LGConfigRetrieveServiceSpec.swift in Sources */,
 				50D08DA61E69AF14009CC260 /* RatingManagerSpec.swift in Sources */,
+				2E93304D2069602000C1E4D2 /* MeetingParserSpec.swift in Sources */,
 				50D08DB51E69AF14009CC260 /* MockNotificationsManager.swift in Sources */,
 				50D08DBE1E69AF14009CC260 /* MockPurchaseableProductsResponse+MockFactory.swift in Sources */,
 				50D08DE01E69AF14009CC260 /* NotificationsViewModelSpec.swift in Sources */,
