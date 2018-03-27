@@ -197,4 +197,18 @@ extension Date {
         dateFormatter.dateFormat = "YYYY-MM-DD HH:mm:ss"
         return dateFormatter.string(from: self)
     }
+
+    func prettyDateForMeeting() -> String? {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "E d MMM"
+        formatter.timeZone = TimeZone.current
+        return formatter.string(from: self)
+    }
+
+    func prettyTimeForMeeting() -> String? {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "hh:mm a ZZZZ"
+        formatter.timeZone = TimeZone.current
+        return formatter.string(from: self)
+    }    
 }

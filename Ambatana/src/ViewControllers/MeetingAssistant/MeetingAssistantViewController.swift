@@ -13,6 +13,8 @@ import LGCoreKit
 
 class MeetingAssistantViewController: BaseViewController {
 
+    static var cellSize: CGSize = CGSize(width: 160, height: 220)
+
     var mapContainer: UIView = UIView()
 
     @IBOutlet weak var placeHeaderLabel: UILabel!
@@ -56,7 +58,6 @@ class MeetingAssistantViewController: BaseViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        view.layoutIfNeeded()
     }
 
     private func setupRx() {
@@ -190,7 +191,7 @@ class MeetingAssistantViewController: BaseViewController {
 extension MeetingAssistantViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return SuggestedLocationCell.cellSize()
+        return MeetingAssistantViewController.cellSize
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {

@@ -15,7 +15,7 @@ protocol MeetingCellImageDelegate: class {
 }
 
 
-class ChatMyMeetingCell: UITableViewCell, ReusableCell {
+final class ChatMyMeetingCell: UITableViewCell, ReusableCell {
 
     @IBOutlet weak var meetingContainer: UIView!
     @IBOutlet weak var titleLabel: UILabel!
@@ -35,7 +35,7 @@ class ChatMyMeetingCell: UITableViewCell, ReusableCell {
 
     weak var locationDelegate: MeetingCellImageDelegate?
 
-    var coordinates: LGLocationCoordinates2D?
+    private var coordinates: LGLocationCoordinates2D?
 
 
     // MARK: - Lifecycle
@@ -43,6 +43,11 @@ class ChatMyMeetingCell: UITableViewCell, ReusableCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         setupUI()
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        resetUI()
     }
 }
 
@@ -59,28 +64,13 @@ extension ChatMyMeetingCell {
             locationLabel.isHidden = true
             locationLabelHeight.constant = 0
             locationLabelTop.constant = 0
+        } else {
+            locationLabel.isHidden = false
+            locationLabel.text = locationName
         }
 
-        guard let coords = coordinates else {
-            locationView.image = #imageLiteral(resourceName: "meeting_map_placeholder")
-            return
-        }
-
-        let coordinates = coords.coordinates2DfromLocation()
-        let region = MKCoordinateRegionMakeWithDistance(coordinates, 300, 300)
-        MKMapView.snapshotAt(region, size: CGSize(width: 100, height: 100), with: { [weak self] (snapshot, error) in
-            guard error == nil, let image = snapshot?.image else {
-                self?.locationView.image = #imageLiteral(resourceName: "meeting_map_placeholder")
-                return
-            }
-            self?.locationView.image = image
-        })
-
-        locationLabel.isHidden = false
-        locationLabel.text = locationName
-
-        meetingDateLabel.text = prettyDateFrom(meetingDate: date)
-        meetingTimeLabel.text = prettyTimeFrom(meetingDate: date)
+        meetingDateLabel.text = date.prettyDateForMeeting()
+        meetingTimeLabel.text = date.prettyTimeForMeeting()
 
         updateStatus(status: status)
     }
@@ -122,25 +112,14 @@ private extension ChatMyMeetingCell {
         locationView.cornerRadius = LGUIKitConstants.mediumCornerRadius
     }
 
+    func resetUI() {
+        titleLabel.text = LGLocalizedString.chatMeetingCellTitle
+        locationView.image = #imageLiteral(resourceName: "meeting_map_placeholder")
+    }
+
     @objc func locationTapped() {
         guard let coords = coordinates else { return }
-        let rect = locationView.convert(locationView.frame, to: nil)
+        let rect = locationView.convertToWindow(locationView.frame)
         locationDelegate?.imagePressed(coordinates: coords, originPoint: rect.center)
-    }
-
-    func prettyDateFrom(meetingDate: Date?) -> String? {
-        guard let date = meetingDate else { return nil }
-        let formatter = MeetingParser.dateFormatter
-        formatter.dateFormat = "E d MMM"
-        formatter.timeZone = TimeZone.current
-        return MeetingParser.dateFormatter.string(from: date)
-    }
-
-    func prettyTimeFrom(meetingDate: Date?) -> String? {
-        guard let date = meetingDate else { return nil }
-        let formatter = MeetingParser.dateFormatter
-        formatter.dateFormat = "hh:mm a ZZZZ"
-        formatter.timeZone = TimeZone.current
-        return MeetingParser.dateFormatter.string(from: date)
     }
 }

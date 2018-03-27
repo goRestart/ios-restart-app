@@ -17,10 +17,6 @@ class SuggestedLocationCell: UICollectionViewCell {
 
     static let reuseId: String = "SuggestedLocationCell"
 
-    static func cellSize() -> CGSize {
-        return CGSize(width: 160, height: 220)
-    }
-
     @IBOutlet weak var checkBoxView: UIImageView!
     @IBOutlet weak var coloredBgView: UIView!
     @IBOutlet weak var containerView: UIView!
@@ -34,7 +30,7 @@ class SuggestedLocationCell: UICollectionViewCell {
     private var location: SuggestedLocation?
     private var buttonTitle: String {
         guard let _ = location else { return LGLocalizedString.meetingCreationViewSearchCellSearch }
-        return LGLocalizedString.meetingCreationViewSuggestCellSelect
+        return isSelected ? LGLocalizedString.meetingCreationViewSuggestCellSelected : LGLocalizedString.meetingCreationViewSuggestCellSelect
     }
     weak var imgDelegate: SuggestedLocationCellImageDelegate?
 
@@ -54,15 +50,14 @@ class SuggestedLocationCell: UICollectionViewCell {
         didSet {
             guard let _ = location else { return }
 
-            checkBoxView.isHidden = isSelected ? false : true
+            checkBoxView.isHidden = !isSelected
+            selectButton.setTitle(buttonTitle, for: .normal)
 
             if isSelected {
-                selectButton.setTitle(LGLocalizedString.meetingCreationViewSuggestCellSelected, for: .normal)
                 containerView.layer.borderColor = UIColor.primaryColor.cgColor
                 containerView.layer.borderWidth = 2
                 hideShadow()
             } else {
-                selectButton.setTitle(LGLocalizedString.meetingCreationViewSuggestCellSelect, for: .normal)
                 containerView.layer.borderColor = UIColor.primaryColor.cgColor
                 containerView.layer.borderWidth = 0
                 showShadow()
@@ -101,7 +96,7 @@ class SuggestedLocationCell: UICollectionViewCell {
     }
 
     @objc func imageTapped() {
-        let rect = imageView.convert(imageView.frame, to: nil)
+        let rect = imageView.convertToWindow(imageView.frame)
         imgDelegate?.imagePressed(coordinates: location?.locationCoords, originPoint: rect.center)
     }
 

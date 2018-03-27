@@ -20,7 +20,7 @@ final class MeetingAssistantCoordinator: Coordinator {
     let bubbleNotificationManager: BubbleNotificationManager
     let sessionManager: SessionManager
 
-    fileprivate var navigationController = UINavigationController()
+    fileprivate let navigationController: UINavigationController
 
     // MARK: Lifecycle
 
@@ -36,10 +36,10 @@ final class MeetingAssistantCoordinator: Coordinator {
         self.bubbleNotificationManager = bubbleNotificationManager
         self.sessionManager = sessionManager
 
-        viewModel.navigator = self
         let vc = MeetingAssistantViewController(viewModel: viewModel)
         let navVC = UINavigationController(rootViewController: vc)
         navigationController = navVC
+        viewModel.navigator = self
     }
 
     func presentViewController(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
