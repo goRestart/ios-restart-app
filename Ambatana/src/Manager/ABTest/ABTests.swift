@@ -118,7 +118,6 @@ class ABTests {
         result.append(summaryAsFirstStep)
         result.append(relaxedSearch)
         result.append(machineLearningMVP)
-        result.append(showProTagUserProfile)
         return result
     }
 
