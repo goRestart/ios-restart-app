@@ -92,12 +92,14 @@ final class SellCoordinator: Coordinator {
             self.viewController = navigationController
             postListingVM.navigator = self
         } else if source == .onboardingBlockingPosting {
+            lastPostUsedMachineLearning = false
             let getStartedVM = PostingGetStartedViewModel()
             let getStartedVC = PostingGetStartedViewController(viewModel: getStartedVM)
             navigationController = SellNavigationController(rootViewController: getStartedVC)
             self.viewController = navigationController
             getStartedVM.navigator = self
         } else {
+            lastPostUsedMachineLearning = false
             let postListingVM = PostListingViewModel(source: source,
                                                      postCategory: postCategory,
                                                      listingTitle: listingTitle,
