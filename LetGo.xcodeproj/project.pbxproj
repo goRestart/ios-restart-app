@@ -207,8 +207,6 @@
 		2E2208E61DD4BCD800FB2483 /* EmptyCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2208E41DD4BCD800FB2483 /* EmptyCellDrawer.swift */; };
 		2E2208E81DD4BD1100FB2483 /* EmptyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2208E71DD4BD1100FB2483 /* EmptyCell.swift */; };
 		2E2208E91DD4BD1100FB2483 /* EmptyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2208E71DD4BD1100FB2483 /* EmptyCell.swift */; };
-		2E2208EB1DD4C0F300FB2483 /* EmptyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E2208EA1DD4C0F300FB2483 /* EmptyCell.xib */; };
-		2E2208EC1DD4C0F300FB2483 /* EmptyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E2208EA1DD4C0F300FB2483 /* EmptyCell.xib */; };
 		2E28B1291D99129D001BF8E4 /* CGFloat+rounding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E28B1281D99129D001BF8E4 /* CGFloat+rounding.swift */; };
 		2E28B12B1D9912B2001BF8E4 /* Double+Rounding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E28B12A1D9912B2001BF8E4 /* Double+Rounding.swift */; };
 		2E28B12C1D99132D001BF8E4 /* Double+Rounding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E28B12A1D9912B2001BF8E4 /* Double+Rounding.swift */; };
@@ -361,8 +359,6 @@
 		2ECB41782007CF3D00482EF7 /* AdvertisementCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ECB41762007CF3D00482EF7 /* AdvertisementCellDrawer.swift */; };
 		2ECB417E2008CC6900482EF7 /* AdvertisementCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ECB417C2008CC6900482EF7 /* AdvertisementCell.swift */; };
 		2ECB417F2008CC6900482EF7 /* AdvertisementCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ECB417C2008CC6900482EF7 /* AdvertisementCell.swift */; };
-		2ECB41802008CC6900482EF7 /* AdvertisementCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2ECB417D2008CC6900482EF7 /* AdvertisementCell.xib */; };
-		2ECB41812008CC6900482EF7 /* AdvertisementCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2ECB417D2008CC6900482EF7 /* AdvertisementCell.xib */; };
 		2ED5E52D1EC5BAFB00B6D4F6 /* FilterListingListRequesterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED5E52C1EC5BAFB00B6D4F6 /* FilterListingListRequesterFactory.swift */; };
 		2ED5E52E1EC5BAFB00B6D4F6 /* FilterListingListRequesterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED5E52C1EC5BAFB00B6D4F6 /* FilterListingListRequesterFactory.swift */; };
 		2EDC68671E018C4900AEC763 /* Monetization.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EB32D651DF1CBC900E01E93 /* Monetization.xcassets */; };
@@ -1888,7 +1884,6 @@
 		2E1F0D961D65F4B80021EDBE /* BubbleNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleNotification.swift; sourceTree = "<group>"; };
 		2E2208E41DD4BCD800FB2483 /* EmptyCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyCellDrawer.swift; sourceTree = "<group>"; };
 		2E2208E71DD4BD1100FB2483 /* EmptyCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyCell.swift; sourceTree = "<group>"; };
-		2E2208EA1DD4C0F300FB2483 /* EmptyCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EmptyCell.xib; sourceTree = "<group>"; };
 		2E28B1281D99129D001BF8E4 /* CGFloat+rounding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGFloat+rounding.swift"; sourceTree = "<group>"; };
 		2E28B12A1D9912B2001BF8E4 /* Double+Rounding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Double+Rounding.swift"; sourceTree = "<group>"; };
 		2E2A5E111D5C784B0047ED45 /* ExpressChatCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpressChatCoordinator.swift; sourceTree = "<group>"; };
@@ -1969,7 +1964,6 @@
 		2EC842A51E6EEB7000EED53A /* MockReceiptURLProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockReceiptURLProvider.swift; sourceTree = "<group>"; };
 		2ECB41762007CF3D00482EF7 /* AdvertisementCellDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertisementCellDrawer.swift; sourceTree = "<group>"; };
 		2ECB417C2008CC6900482EF7 /* AdvertisementCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertisementCell.swift; sourceTree = "<group>"; };
-		2ECB417D2008CC6900482EF7 /* AdvertisementCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AdvertisementCell.xib; sourceTree = "<group>"; };
 		2ED5E52C1EC5BAFB00B6D4F6 /* FilterListingListRequesterFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterListingListRequesterFactory.swift; path = "Products Requester/FilterListingListRequesterFactory.swift"; sourceTree = "<group>"; };
 		2EDCFA2E1BFF8AB00000E47D /* SignUpLogInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpLogInViewController.swift; sourceTree = "<group>"; };
 		2EDCFA2F1BFF8AB00000E47D /* SignUpLogInViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignUpLogInViewController.xib; sourceTree = "<group>"; };
@@ -4695,10 +4689,8 @@
 				C7C61DFA1D630ED500F9505D /* CollectionCell.xib */,
 				C73189C71DBE3847005A93EE /* ListHeaderContainer.swift */,
 				2E2208E71DD4BD1100FB2483 /* EmptyCell.swift */,
-				2E2208EA1DD4C0F300FB2483 /* EmptyCell.xib */,
 				0AF7CCBC1F8B525E00128303 /* OvalLayer.swift */,
 				2ECB417C2008CC6900482EF7 /* AdvertisementCell.swift */,
-				2ECB417D2008CC6900482EF7 /* AdvertisementCell.xib */,
 				012C56EF2017A09400C087D0 /* MostSearchedItemsListingListCell.swift */,
 			);
 			path = Cells;
@@ -5517,7 +5509,6 @@
 				C7F22D821DB7A3A200353803 /* RecaptchaViewController.xib in Resources */,
 				C7B588A01CE1E025009B3975 /* ChatGroupedListView.xib in Resources */,
 				6AF75D0D1CF4657B00EACCF0 /* ChatStickerCell.xib in Resources */,
-				2E2208EB1DD4C0F300FB2483 /* EmptyCell.xib in Resources */,
 				C72794381D549342009C25AB /* ChangePasswordViewController.xib in Resources */,
 				C7DE8AE21C88A98B005CF37E /* PostListingViewController.xib in Resources */,
 				C7C61DFC1D630ED500F9505D /* CollectionCell.xib in Resources */,
@@ -5548,7 +5539,6 @@
 				C73FABC41DD46A1D008F4519 /* SettingsSwitchCell.xib in Resources */,
 				8E80179E2010DC50004CE244 /* ChatInactiveConversationsListView.xib in Resources */,
 				2E373FA61D3D019600AC811C /* UserRatingListViewController.xib in Resources */,
-				2ECB41802008CC6900482EF7 /* AdvertisementCell.xib in Resources */,
 				50BA5C081C3C096D00F34042 /* GoogleService-Info.plist in Resources */,
 				5021910E1B2F1DAA00ABD31F /* RememberPasswordViewController.xib in Resources */,
 				C7B588471CE1DE1C009B3975 /* ChatListingView.xib in Resources */,
@@ -5653,7 +5643,6 @@
 				6AF75D0E1CF4657B00EACCF0 /* ChatStickerCell.xib in Resources */,
 				C72794391D549342009C25AB /* ChangePasswordViewController.xib in Resources */,
 				8E0EEFA420569E30000C07C9 /* MLPostListingCameraView.xib in Resources */,
-				2E2208EC1DD4C0F300FB2483 /* EmptyCell.xib in Resources */,
 				2E9716AB1D5A284F009B3A32 /* ExpressChatViewController.xib in Resources */,
 				C7DE8AE31C88A98B005CF37E /* PostListingViewController.xib in Resources */,
 				C7C61DFE1D630EDF00F9505D /* CollectionCell.xib in Resources */,
@@ -5669,7 +5658,6 @@
 				C783D98C1C64C15B000EE5CA /* ReportUserCell.xib in Resources */,
 				508011221D474ED80073F362 /* iPhoneParts.xcassets in Resources */,
 				C7DB42711C5138B500400945 /* LGNavBarSearchField.xib in Resources */,
-				2ECB41812008CC6900482EF7 /* AdvertisementCell.xib in Resources */,
 				C743FEBA1E44E46000B4E912 /* PossibleBuyerCell.xib in Resources */,
 				C7B5888C1CE1DFA6009B3975 /* ChatMyMessageCell.xib in Resources */,
 				6A879DA31C8D89B300E0C868 /* PushPrePermissionsSettingsViewController.xib in Resources */,
