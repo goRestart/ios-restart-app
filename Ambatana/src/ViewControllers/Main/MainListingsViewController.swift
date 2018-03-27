@@ -38,7 +38,6 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     var viewModel: MainListingsViewModel
     
     // UI
-    @IBOutlet weak var listingListViewSafeaAreaTopAlignment: NSLayoutConstraint!
     @IBOutlet weak var listingListView: ListingListView!
     
     @IBOutlet weak var tagsContainerView: UIView!
@@ -54,12 +53,13 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     fileprivate let sectionHeight: CGFloat = 40
     fileprivate let firstSectionMarginTop: CGFloat = -36
 
-    @IBOutlet weak var infoBubbleLabel: UILabel!
-    @IBOutlet weak var infoBubbleShadow: UIView!
-    @IBOutlet weak var infoBubbleArrow: UIImageView!
-    @IBOutlet weak var infoBubbleArrowLeadingConstraint: NSLayoutConstraint!
-    @IBOutlet weak var infoBubbleArrowWidthConstraint: NSLayoutConstraint!
-    @IBOutlet weak var infoBubbleTopConstraint: NSLayoutConstraint!
+    private let infoBubbleView: InfoBubbleView = {
+       let view = InfoBubbleView()
+        view.backgroundColor = .white
+        return view
+    }()
+    
+    private var infoBubbleTopConstraint: NSLayoutConstraint?
     
     fileprivate let navbarSearch: LGNavBarSearchField
     @IBOutlet weak var suggestionsSearchesContainer: UIVisualEffectView!
@@ -225,11 +225,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     private func updateBubbleTopConstraint() {
         let offset: CGFloat = topInset.value
         let delta = listingListView.headerBottom - offset
-        if delta > 0 {
-            infoBubbleTopConstraint.constant = infoBubbleTopMargin + delta
-        } else {
-            infoBubbleTopConstraint.constant = infoBubbleTopMargin
-        }
+        infoBubbleTopConstraint?.constant = infoBubbleTopMargin + max(0, delta)
     }
     
     
@@ -418,14 +414,27 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     }
     
     private func setupInfoBubble() {
-        infoBubbleShadow.applyInfoBubbleShadow()
-
-        infoBubbleArrowLeadingConstraint.constant = Metrics.shortMargin
-        infoBubbleArrowWidthConstraint.constant = Metrics.shortMargin
-
+        
+        view.addSubviewForAutoLayout(infoBubbleView)
+        infoBubbleView.applyInfoBubbleShadow()
+        
+        let infoBubbleTopConstraint = infoBubbleView.topAnchor.constraint(equalTo: filterDescriptionHeaderView.bottomAnchor)
+        let infoBubbleLeadingConstraint = infoBubbleView.leadingAnchor.constraint(greaterThanOrEqualTo: safeLeadingAnchor, constant: Metrics.bigMargin)
+        let infoBubbleTrailingConstraint = infoBubbleView.trailingAnchor.constraint(greaterThanOrEqualTo: safeTrailingAnchor, constant: Metrics.bigMargin)
+        infoBubbleTopConstraint.priority = UILayoutPriority.defaultLow
+        infoBubbleTrailingConstraint.priority = UILayoutPriority.defaultLow
+        
+        NSLayoutConstraint.activate([
+            infoBubbleTopConstraint,
+            infoBubbleView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+            infoBubbleView.heightAnchor.constraint(equalToConstant: 30),
+            infoBubbleLeadingConstraint,
+            infoBubbleTrailingConstraint
+            ])
+        self.infoBubbleTopConstraint = infoBubbleTopConstraint
+        
         let bubbleTap = UITapGestureRecognizer(target: self, action: #selector(onBubbleTapped))
-        infoBubbleShadow.addGestureRecognizer(bubbleTap)
-
+        infoBubbleView.addGestureRecognizer(bubbleTap)
     }
 
     @objc private func onBubbleTapped() {
@@ -439,8 +448,8 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     }
 
     private func setupRxBindings() {
-        viewModel.infoBubbleText.asObservable().bind(to: infoBubbleLabel.rx.text).disposed(by: disposeBag)
-        viewModel.infoBubbleVisible.asObservable().map { !$0 }.bind(to: infoBubbleShadow.rx.isHidden).disposed(by: disposeBag)
+        viewModel.infoBubbleText.asObservable().bind(to: infoBubbleView.title.rx.text).disposed(by: disposeBag)
+        viewModel.infoBubbleVisible.asObservable().map { !$0 }.bind(to: infoBubbleView.rx.isHidden).disposed(by: disposeBag)
 
         topInset.asObservable()
             .bind { [weak self] topInset in
@@ -774,7 +783,6 @@ extension MainListingsViewController {
         navigationItem.rightBarButtonItem?.set(accessibilityId: .mainListingsFilterButton)
         listingListView.set(accessibilityId: .mainListingsListView)
         tagsContainerView.set(accessibilityId: .mainListingsTagsCollection)
-        infoBubbleLabel.set(accessibilityId: .mainListingsInfoBubbleLabel)
         navbarSearch.set(accessibilityId: .mainListingsNavBarSearch)
         suggestionsSearchesTable.set(accessibilityId: .mainListingsSuggestionSearchesTable)
         navigationItem.leftBarButtonItem?.set(accessibilityId: .mainListingsInviteButton)
