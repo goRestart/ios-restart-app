@@ -14,8 +14,8 @@ open class MockLocationRepository: LocationRepository {
     public var suggestionDetailsResult: LocationSuggestionDetailsRepositoryResult!
     public var postalAddressResult: PostalAddressLocationRepositoryResult!
     public var ipLookupLocationResult: IPLookupLocationRepositoryResult!
-    public var meetingSuggestedLocationsResult: MeetingSuggestedLocationsRepositoryResult!
-    
+//    public var meetingSuggestedLocationsResult: MeetingSuggestedLocationsRepositoryResult!
+
     public var locationEnabledValue: Bool = true
     public var authorizationStatusValue: CLAuthorizationStatus = .notDetermined
     
@@ -62,10 +62,10 @@ open class MockLocationRepository: LocationRepository {
         delay(result: ipLookupLocationResult, completion: completion)
     }
 
-    public func retrieveSuggestedLocationsForListing(listingId: String,
-                                                     completion: MeetingSuggestedLocationsRepositoryCompletion?) {
-        delay(result: meetingSuggestedLocationsResult, completion: completion)
-    }
+//    public func retrieveSuggestedLocationsForListing(listingId: String,
+//                                                     completion: MeetingSuggestedLocationsRepositoryCompletion?) {
+//        delay(result: meetingSuggestedLocationsResult, completion: completion)
+//    }
 
 }
  

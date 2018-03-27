@@ -17,7 +17,7 @@ final class ChatMyMeetingCellDrawer: BaseChatCellDrawer<ChatMyMeetingCell> {
 
     override func draw(_ cell: ChatMyMeetingCell, message: ChatViewMessage) {
         switch message.type {
-        case let .chatNorris(type, date, locationName, coordinates, status, _):
+        case let .meeting(type, date, locationName, coordinates, status, _):
             cell.setupLocation(locationName: locationName, coordinates: coordinates, date: date ?? Date(), status: status ?? .pending)
         default:
             break

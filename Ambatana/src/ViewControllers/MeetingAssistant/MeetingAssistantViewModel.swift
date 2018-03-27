@@ -56,18 +56,21 @@ class MeetingAssistantViewModel: BaseViewModel {
 
     private let disposeBag = DisposeBag()
 
-    private let locationRepository: LocationRepository
+    private let suggestedLocationsRepository: SuggestedLocationsRepository
     private let keyValueStorage: KeyValueStorageable
+
 
     // MARK: - lifecycle
 
     convenience init(listingId: String?) {
-        self.init(listingId: listingId, locationRepository: Core.locationRepository, keyValueStorage: KeyValueStorage.sharedInstance)
+        self.init(listingId: listingId,
+                  suggestedLocationsRepository: Core.suggestedLocationsRepository,
+                  keyValueStorage: KeyValueStorage.sharedInstance)
     }
 
-    init(listingId: String?, locationRepository: LocationRepository, keyValueStorage: KeyValueStorageable) {
+    init(listingId: String?, suggestedLocationsRepository: SuggestedLocationsRepository, keyValueStorage: KeyValueStorageable) {
         self.listingId = listingId
-        self.locationRepository = locationRepository
+        self.suggestedLocationsRepository = suggestedLocationsRepository
         self.keyValueStorage = keyValueStorage
         super.init()
         setupRx()
@@ -164,7 +167,7 @@ class MeetingAssistantViewModel: BaseViewModel {
             return
         }
         activityIndicatorActive.value = true
-        locationRepository.retrieveSuggestedLocationsForListing(listingId: listingId) { [weak self] result in
+        suggestedLocationsRepository.retrieveSuggestedLocationsForListing(listingId: listingId) { [weak self] result in
             self?.activityIndicatorActive.value = false
             var receivedSuggestions: [SuggestedLocation?] = []
             if let value = result.value {

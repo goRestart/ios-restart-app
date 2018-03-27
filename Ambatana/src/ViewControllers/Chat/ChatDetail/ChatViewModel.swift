@@ -740,7 +740,7 @@ extension ChatViewModel {
 
     func sendMeetingMessage(meeting: AssistantMeeting) {
         let meetingText = meetingParser.textForMeeting(meeting: meeting)
-        sendMessage(type: .chatNorris(meeting, meetingText))
+        sendMessage(type: .meeting(meeting, meetingText))
     }
 
     func send(sticker: Sticker) {
@@ -875,7 +875,7 @@ extension ChatViewModel {
                                                     isPhone: true)
                 disableAskPhoneMessageButton()
             }
-        case .text, .quickAnswer, .chatSticker, .expressChat, .periscopeDirect, .favoritedListing, .chatNorris:
+        case .text, .quickAnswer, .chatSticker, .expressChat, .periscopeDirect, .favoritedListing, .meeting:
             insertAskPhoneNumberMessage()
             if !hasSentAutomaticAnswerForOtherMessage {
                 sendProfessionalAutomaticAnswerWith(message: LGLocalizedString.professionalDealerAskPhoneThanksOtherCellMessage,
@@ -1448,7 +1448,7 @@ extension ChatViewModel {
                 switch $0.type {
                 case .disclaimer, .userInfo, .askPhoneNumber, .interlocutorIsTyping:
                     return false
-                case .offer, .sticker, .text, .chatNorris:
+                case .offer, .sticker, .text, .meeting:
                     return $0.talkerId != myUserRepository.myUser?.objectId
                 }
             }) else { return nil }
@@ -1461,7 +1461,7 @@ extension ChatViewModel {
                 switch $0.type {
                 case .disclaimer, .userInfo, .askPhoneNumber, .interlocutorIsTyping:
                     return false
-                case .offer, .sticker, .text, .chatNorris:
+                case .offer, .sticker, .text, .meeting:
                     return $0.talkerId != myUserRepository.myUser?.objectId
                 }
             }
@@ -1896,7 +1896,7 @@ extension ChatViewModel {
         var otherMeetingIds: [String] = []
         for chatViewMessage in messages.value {
             switch chatViewMessage.type {
-            case let .chatNorris(type, _, _, _, _, _):
+            case let .meeting(type, _, _, _, _, _):
                 if let meetingId = chatViewMessage.objectId, type == .requested {
                     if firstMeetingId == nil {
                         firstMeetingId = meetingId
@@ -1916,7 +1916,7 @@ extension ChatViewModel {
         var meetingIds: [String] = []
         for chatViewMessage in messages.value {
             switch chatViewMessage.type {
-            case let .chatNorris(type, _, _, _, _, _):
+            case let .meeting(type, _, _, _, _, _):
                 if let meetingId = chatViewMessage.objectId, type == .requested, meetingId != messageId {
                     meetingIds.append(meetingId)
                 }
@@ -1947,7 +1947,7 @@ extension ChatViewModel {
     }
 
     private func updateMeetingsStatusFor(message: ChatMessage) {
-        if message.type == .chatNorris {
+        if message.type == .meeting {
             if let meeting = meetingParser.createMeetingFromMessage(message: message.text) {
                 switch meeting.meetingType {
                 case .rejected:
@@ -1963,7 +1963,7 @@ extension ChatViewModel {
 
     private func firstMeetingIn(messages: [ChatMessage]) -> ChatMessage? {
         for message in messages {
-            if message.type == .chatNorris {
+            if message.type == .meeting {
                 return message
             }
         }
