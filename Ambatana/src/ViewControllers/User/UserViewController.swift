@@ -78,7 +78,7 @@ class UserViewController: BaseViewController {
     fileprivate let headerRecognizerDragging = Variable<Bool>(false)
     
     @IBOutlet weak var listingListViewBackgroundView: UIView!
-    @IBOutlet weak var listingListView: ListingListView!
+    let listingListView: ListingListView = ListingListView()
     
     @IBOutlet weak var userLabelsContainer: UIView!
     @IBOutlet weak var userNameLabel: UILabel!
@@ -316,6 +316,12 @@ extension UserViewController {
     }
 
     private func setupListingListView() {
+        addSubview(listingListView)
+        view.addSubviewForAutoLayout(listingListView)
+        listingListView.layout(with: view).fill()
+        view.sendSubview(toBack: listingListView)
+        view.sendSubview(toBack: listingListViewBackgroundView)
+
         listingListView.headerDelegate = self
         listingListViewBackgroundView.backgroundColor = UIColor.listBackgroundColor
     
@@ -622,7 +628,7 @@ extension UserViewController {
 
 extension UserViewController: ScrollableToTop {
     func scrollToTop() {
-        listingListView?.scrollToTop(true)
+        listingListView.scrollToTop(true)
     }
 }
 

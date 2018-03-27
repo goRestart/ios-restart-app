@@ -409,7 +409,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         dataView.layout(with: self).fill()
         dataView.collectionView.dataSource = self
         dataView.collectionView.delegate = self
-        dataView.backgroundColor = .white
 
         dataView.updateCollectionInsets(collectionViewContentInset)
 

@@ -81,8 +81,7 @@ final class UserProfileViewController: BaseViewController {
         self.headerView = UserProfileHeaderView(isPrivate: viewModel.isPrivateProfile)
         self.bioAndTrustView = UserProfileBioAndTrustView(isPrivate: viewModel.isPrivateProfile)
         self.listingView = ListingListView(viewModel: ListingListViewModel(requester: nil),
-                                           featureFlags: FeatureFlags.sharedInstance,
-                                           frame: .zero)
+                                           featureFlags: FeatureFlags.sharedInstance)
         self.socialSharer = socialSharer
         self.socialSharer.delegate = viewModel
         super.init(viewModel: viewModel, nibName: nil)
@@ -145,7 +144,7 @@ final class UserProfileViewController: BaseViewController {
 
         listingView.scrollDelegate = self
         listingView.headerDelegate = self
-        listingView.refreshControl.removeFromSuperview()
+        listingView.removePullToRefresh()
         listingView.shouldScrollToTopOnFirstPageReload = false
         listingView.collectionView.showsVerticalScrollIndicator = false
 
