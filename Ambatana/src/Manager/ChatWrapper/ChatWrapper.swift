@@ -107,7 +107,7 @@ extension ChatWrapperMessageType {
             return text
         case let .phone(text):
             return text
-        case let .chatNorris(meeting, text):
+        case let .chatNorris(_, text):
             return text
         }
     }
@@ -150,7 +150,7 @@ extension ChatWrapperMessageType {
         case .phone:
             return .phone
         case .chatNorris:
-            return .chatNorris
+            return .assistantMeeting
         }
     }
 
@@ -187,6 +187,15 @@ extension ChatWrapperMessageType {
             return true
         case .text, .chatSticker, .expressChat, .favoritedListing, .periscopeDirect, .quickAnswer, .chatNorris:
             return false
+        }
+    }
+
+    var assistantMeeting: AssistantMeeting? {
+        switch self {
+        case let .chatNorris(assistantMeeting, _):
+            return assistantMeeting
+        case .text, .chatSticker, .expressChat, .favoritedListing, .periscopeDirect, .phone, .quickAnswer:
+            return nil
         }
     }
 }

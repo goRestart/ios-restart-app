@@ -76,5 +76,18 @@ class SendMessageTrackingInfo {
         params[.isBumpedUp] = isBumpedUp.rawValue
         return self
     }
+
+    @discardableResult
+    func set(assistantMeeting: AssistantMeeting?) -> Self {
+        guard let assistantMeeting = assistantMeeting else { return self }
+        params[.meetingMessageType] = EventParameterAssistantMeetingType(meetingMessageType: assistantMeeting.meetingType).rawValue
+        if let date = assistantMeeting.date {
+            params[.meetingDate] = date.formattedForTracking()
+        } else {
+            params[.meetingDate] = TrackerEvent.notApply
+        }
+        params[.meetingLocation] = assistantMeeting.locationName ?? TrackerEvent.notApply
+        return self
+    }
 }
 
