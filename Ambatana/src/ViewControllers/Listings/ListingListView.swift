@@ -32,75 +32,45 @@ protocol ListingListViewHeaderDelegate: class {
     func setupViewsIn(header: ListHeaderContainer)
 }
 
-class ListingListView: BaseView, CHTCollectionViewDelegateWaterfallLayout, ListingListViewModelDelegate,
+final class ListingListView: BaseView, CHTCollectionViewDelegateWaterfallLayout, ListingListViewModelDelegate,
 UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    private struct Layout { struct Height { static let errorButton: CGFloat = 50 } }
 
-    // Constants
-    private static let defaultErrorButtonHeight: CGFloat = 50
-    
-    fileprivate let firstLoad = ActivityView()
-    var firstLoadView: UIView { return firstLoad }
-    var firstLoadActivityIndicator: UIActivityIndicatorView { return firstLoad.activityIndicator }
-    
-    // > Data
-    fileprivate let codedDataView = DataView()
-    var dataView: UIView { return codedDataView }
-    var refreshControl = UIRefreshControl()
-    var collectionView: UICollectionView { return codedDataView.collectionView }
+    let firstLoadView = ActivityView()
+
+    private let refreshControl = UIRefreshControl()
+    private let dataView = DataView()
     weak var collectionViewFooter: CollectionViewFooter?
     
     private var lastContentOffset: CGFloat
     private var scrollingDown: Bool
-    let isDragging = Variable<Bool>(false)
 
-    fileprivate let codedErrorView = ErrorView()
+    var rxIsDragging: Observable<Bool> { return isDragging.asObservable() }
+    private let isDragging = Variable<Bool>(false)
 
-    // > Insets
-    @IBOutlet var topInsetDataViewConstraint: NSLayoutConstraint!
-    @IBOutlet var leftInsetDataViewConstraint: NSLayoutConstraint!
-    @IBOutlet var bottomInsetDataViewConstraint: NSLayoutConstraint!
-    @IBOutlet var rightInsetDataViewConstraint: NSLayoutConstraint!
-
-    @IBOutlet weak var topInsetFirstLoadConstraint: NSLayoutConstraint!
-    @IBOutlet weak var leftInsetFirstLoadConstraint: NSLayoutConstraint!
-    @IBOutlet weak var bottomInsetFirstLoadConstraint: NSLayoutConstraint!
-    @IBOutlet weak var rightInsetFirstLoadConstraint: NSLayoutConstraint!
-
-    @IBOutlet weak var topInsetErrorViewConstraint: NSLayoutConstraint!
-    @IBOutlet weak var leftInsetErrorViewConstraint: NSLayoutConstraint!
-    @IBOutlet weak var bottomInsetErrorViewConstraint: NSLayoutConstraint!
-    @IBOutlet weak var rightInsetErrorViewConstraint: NSLayoutConstraint!
+    let errorView = ErrorView()
 
     var shouldScrollToTopOnFirstPageReload = true
     var dataPadding: UIEdgeInsets {
         didSet {
-            topInsetDataViewConstraint.constant = dataPadding.top
-            leftInsetDataViewConstraint.constant = dataPadding.left
-            bottomInsetDataViewConstraint.constant = dataPadding.bottom
-            rightInsetDataViewConstraint.constant = dataPadding.right
-            dataView.updateConstraintsIfNeeded()
+            dataView.updateWithInsets(dataPadding)
+            dataView.setNeedsLayout()
         }
     }
     var firstLoadPadding: UIEdgeInsets {
         didSet {
-            topInsetFirstLoadConstraint.constant = firstLoadPadding.top
-            leftInsetFirstLoadConstraint.constant = firstLoadPadding.left
-            bottomInsetFirstLoadConstraint.constant = firstLoadPadding.bottom
-            rightInsetFirstLoadConstraint.constant = firstLoadPadding.right
-            firstLoadView.updateConstraintsIfNeeded()
+            firstLoadView.updateWithInsets(firstLoadPadding)
+            firstLoadView.setNeedsLayout()
         }
     }
     var errorPadding: UIEdgeInsets {
         didSet {
-            var headerHeight: CGFloat = 0
-            if let totalHeaderHeight = headerDelegate?.totalHeaderHeight() {
-                headerHeight = totalHeaderHeight
-            }
-            topInsetErrorViewConstraint.constant = errorPadding.top + headerHeight
-            leftInsetErrorViewConstraint.constant = errorPadding.left
-            bottomInsetErrorViewConstraint.constant = errorPadding.bottom
-            rightInsetErrorViewConstraint.constant = errorPadding.right
-            errorView.updateConstraintsIfNeeded()
+            let headerHeight: CGFloat = headerDelegate?.totalHeaderHeight() ?? 0
+            errorView.updateWithInsets(UIEdgeInsets(top: errorPadding.top + headerHeight,
+                                                    left: errorPadding.left,
+                                                    bottom: errorPadding.bottom,
+                                                    right: errorPadding.right))
+            errorView.setNeedsLayout()
         }
     }
 
@@ -112,12 +82,8 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         }
     }
     var collectionViewContentInset: UIEdgeInsets {
-        get {
-            return collectionView.contentInset
-        }
-        set {
-            collectionView.contentInset = newValue
-        }
+        get { return collectionView.contentInset }
+        set {  collectionView.contentInset = newValue }
     }
 
     var headerBottom: CGFloat {
@@ -127,34 +93,26 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         return convertedRect.bottom
     }
 
-    var defaultCellSize: CGSize {
-        return viewModel.defaultCellSize
-    }
+    var defaultCellSize: CGSize { return viewModel.defaultCellSize }
     
-    // Data
     internal(set) var viewModel: ListingListViewModel {
-        didSet {
-            drawerManager.cellStyle = viewModel.cellStyle
-        }
+        didSet { drawerManager.cellStyle = viewModel.cellStyle }
     }
 
     private let drawerManager = GridDrawerManager(myUserRepository: Core.myUserRepository,
                                                   locationManager: Core.locationManager)
     
-    // Delegate
     weak var scrollDelegate: ListingListViewScrollDelegate?
     weak var cellsDelegate: ListingListViewCellsDelegate?
     weak var headerDelegate: ListingListViewHeaderDelegate? {
-        didSet {
-            codedDataView.collectionView.reloadData()
-        }
+        didSet { dataView.collectionView.reloadData() }
     }
-    
-    
+
     // MARK: - Lifecycle
     convenience init() {
         self.init(viewModel: ListingListViewModel(requester: nil), featureFlags: FeatureFlags.sharedInstance)
     }
+
     init(viewModel: ListingListViewModel, featureFlags: FeatureFlaggeable) {
         self.viewModel = viewModel
         let padding = UIEdgeInsets.zero
@@ -173,7 +131,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     
     required convenience init?(coder aDecoder: NSCoder) { fatalError("Long life to coded views") }
 
-    internal override func didBecomeActive(_ firstTime: Bool) {
+    override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
         refreshDataView()
     }
@@ -195,51 +153,26 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     }
     
     // MARK: Public methods
-
-    // MARK: > UI
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        if #available(iOS 11.0, *) {
-            collectionView.contentInsetAdjustmentBehavior = .never
-        }
+    func removePullToRefresh() {
+        refreshControl.removeFromSuperview()
     }
-
-    /**
-        Refreshes the user interface.
-    */
     func refreshDataView() {
         viewModel.reloadData()
     }
 
-    /**
-        Clears the collection view
-    */
     func clearList() {
         viewModel.clearList()
     }
 
-    /**
-     Scrolls the collection to top
-     */
     func scrollToTop(_ animated: Bool) {
         let position = CGPoint(x: -collectionViewContentInset.left, y: -collectionViewContentInset.top)
         collectionView.setContentOffset(position, animated: animated)
     }
 
     func setErrorViewStyle(bgColor: UIColor?, borderColor: UIColor?, containerColor: UIColor?) {
-        addSubviewForAutoLayout(codedErrorView)
-        if #available(iOS 11.0, *) {
-            NSLayoutConstraint.activate([
-                codedErrorView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-                codedErrorView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-                codedErrorView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
-                codedErrorView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor)
-            ])
-        } else {
-            codedErrorView.layout(with: self).fill()
+        if errorView.superview == nil {
+            addSubviewToFill(errorView)
         }
-        codedErrorView.layoutIfNeeded()
 
         errorView.backgroundColor = bgColor
         errorContentView.backgroundColor = containerColor
@@ -314,21 +247,20 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     func collectionView(_ collectionView: UICollectionView,
                         willDisplay cell: UICollectionViewCell,
                         forItemAt indexPath: IndexPath) {
-        DispatchQueue.main.async { [weak self] in
-            if let item = self?.viewModel.itemAtIndex(indexPath.row),
-                let cell = self?.collectionView.cellForItem(at: indexPath),
-                let imageSize = self?.viewModel.imageViewSizeForItem(at: indexPath.row) {
-                self?.drawerManager.willDisplay(item, inCell: cell, delegate: self?.viewModel.listingCellDelegate, imageSize: imageSize)
-            }
+        guard let item = viewModel.itemAtIndex(indexPath.row),
+            let cell = collectionView.cellForItem(at: indexPath) else { return }
 
-            self?.viewModel.setCurrentItemIndex(indexPath.item)
+        let imageSize = viewModel.imageViewSizeForItem(at: indexPath.row)
+        drawerManager.willDisplay(item,
+                                  inCell: cell,
+                                  delegate: viewModel.listingCellDelegate,
+                                  imageSize: imageSize)
 
-            let indexes = collectionView.indexPathsForVisibleItems.map{ $0.item }
-            let topProductIndex = indexes.min() ?? indexPath.item
-            let scrollingDown = self?.scrollingDown ?? false
+        viewModel.setCurrentItemIndex(indexPath.item)
 
-            self?.cellsDelegate?.visibleTopCellWithIndex(topProductIndex, whileScrollingDown: scrollingDown)
-        }
+        let indexes = collectionView.indexPathsForVisibleItems.map{ $0.item }
+        let topProductIndex = indexes.min() ?? indexPath.item
+        cellsDelegate?.visibleTopCellWithIndex(topProductIndex, whileScrollingDown: scrollingDown)
     }
 
     func collectionView(_ collectionView: UICollectionView,
@@ -378,15 +310,9 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     // MARK: - UIScrollViewDelegate
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
         // while going down, increase distance in label, when going up, decrease
-        if lastContentOffset >= scrollView.contentOffset.y {
-            scrollingDown = false
-        } else {
-            scrollingDown = true
-        }
+        scrollingDown = lastContentOffset < scrollView.contentOffset.y
         lastContentOffset = scrollView.contentOffset.y
-        
         informScrollDelegate(scrollView)
     }
 
@@ -421,8 +347,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             } else if shouldScrollToTopOnFirstPageReload {
                 scrollToTop(false)
             }
-        } else if self.viewModel.isLastPage {
-            // Last page
+        } else if viewModel.isLastPage {
             refreshFooter()
         } else if !indexes.isEmpty {
             // Middle pages
@@ -463,37 +388,30 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         informScrollDelegate(collectionView)
     }
 
-    /**
-     Sets up the UI.
-     */
-    private func setupUI() {
-        addSubviewForAutoLayout(firstLoadView)
+    private func addSubviewToFill(_ view: UIView) {
+        addSubviewForAutoLayout(view)
         if #available(iOS 11.0, *) {
             NSLayoutConstraint.activate([
-                firstLoadView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-                firstLoadView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-                firstLoadView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
-                firstLoadView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor)
-            ])
+                view.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+                view.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+                view.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+                view.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor)
+                ])
         } else {
             firstLoadView.layout(with: self).fill()
         }
-        firstLoadView.layoutIfNeeded()
+    }
 
-        codedDataView.collectionView.dataSource = self
-        codedDataView.collectionView.delegate = self
-        addSubviewForAutoLayout(codedDataView)
-        codedDataView.layout(with: self).fill()
-        codedDataView.backgroundColor = .white
+    private func setupUI() {
+        addSubviewToFill(firstLoadView)
 
+        addSubviewForAutoLayout(dataView)
+        dataView.layout(with: self).fill()
+        dataView.collectionView.dataSource = self
+        dataView.collectionView.delegate = self
+        dataView.backgroundColor = .white
 
-        // Setup UI
-        // > Data
-        updateLayoutWithSeparation(8)
-
-        collectionView.autoresizingMask = UIViewAutoresizing.flexibleHeight
-        collectionView.alwaysBounceVertical = true
-        collectionView.contentInset = collectionViewContentInset
+        dataView.updateCollectionInsets(collectionViewContentInset)
 
         drawerManager.registerCell(inCollectionView: collectionView)
         collectionView.register(CollectionViewFooter.self,
@@ -503,20 +421,17 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
                                 forSupplementaryViewOfKind: CHTCollectionElementKindSectionHeader,
                                 withReuseIdentifier: ListHeaderContainer.reusableID)
 
-        // >> Pull to refresh
-        refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshControlTriggered), for: UIControlEvents.valueChanged)
         collectionView.addSubview(refreshControl)
 
-        errorButtonHeightConstraint?.constant = ListingListView.defaultErrorButtonHeight
-        errorButton.setStyle(.primary(fontSize: .medium))
+        errorButtonHeightConstraint?.constant = Layout.Height.errorButton
         errorButton.addTarget(self, action: #selector(ListingListView.errorButtonPressed), for: .touchUpInside)
         
         if #available(iOS 10, *) {
             setupPrefetching()
         }
 
-        bringSubview(toFront: firstLoad)
+        bringSubview(toFront: firstLoadView)
     }
     
     private func refreshFooter() {
@@ -535,7 +450,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             }
         }
     }
-    
+
     func updateLayoutWithSeparation(_ separationBetweenCells: CGFloat) {
         let layout = CHTCollectionViewWaterfallLayout()
         layout.minimumColumnSpacing = separationBetweenCells
@@ -546,12 +461,10 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     func refreshUIWithState(_ state: ViewState) {
         switch (state) {
         case .loading:
-            // Show/hide views
             firstLoadView.isHidden = false
             dataView.isHidden = true
             errorView.isHidden = true
         case .data:
-            // Show/hide views
             firstLoadView.isHidden = true
             dataView.isHidden = false
             errorView.isHidden = true
@@ -561,7 +474,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             errorView.isHidden = false
             setErrorState(emptyVM)
         case .empty(let emptyVM):
-            // Show/hide views
             firstLoadView.isHidden = true
             dataView.isHidden = false
             errorView.isHidden = false
@@ -570,19 +482,13 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     }
 
     private func setErrorState(_ emptyViewModel: LGEmptyViewModel) {
-        errorImageView.image = emptyViewModel.icon
+        errorView.setImage(emptyViewModel.icon)
         errorImageViewHeightConstraint?.constant = emptyViewModel.iconHeight
-        errorTitleLabel.text = emptyViewModel.title
-        errorBodyLabel.text = emptyViewModel.body
+        errorView.setTitle(emptyViewModel.title)
+        errorView.setBody(emptyViewModel.body)
         errorButton.setTitle(emptyViewModel.buttonTitle, for: .normal)
-        // > If there's no button title or action then hide it
-        if emptyViewModel.hasAction {
-            errorButtonHeightConstraint?.constant = ListingListView.defaultErrorButtonHeight
-        }
-        else {
-            errorButtonHeightConstraint?.constant = 0
-        }
-        errorView.updateConstraintsIfNeeded()
+        errorButtonHeightConstraint?.constant = emptyViewModel.hasAction ? Layout.Height.errorButton : 0
+        errorView.setNeedsLayout()
     }
 
     @objc private func refreshControlTriggered() {
@@ -630,10 +536,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             scrollDelegate?.listingListView(self, didScrollDown: false)
         }
     }
-    
-    /**
-        Called when the error button is pressed.
-    */
+
     @objc private func errorButtonPressed() {
         switch viewModel.state {
         case .empty(let emptyVM):
@@ -684,14 +587,7 @@ extension ListingListView: UICollectionViewDataSourcePrefetching {
 
 extension ListingListView {
     func setAccessibilityIds() {
-        firstLoadView.set(accessibilityId: .listingListViewFirstLoadView)
-        firstLoadActivityIndicator.set(accessibilityId: .listingListViewFirstLoadActivityIndicator)
         collectionView.set(accessibilityId: .listingListViewCollection)
-        errorView.set(accessibilityId: .listingListViewErrorView)
-        errorImageView.set(accessibilityId:  .listingListErrorImageView)
-        errorTitleLabel.set(accessibilityId: .listingListErrorTitleLabel)
-        errorBodyLabel.set(accessibilityId: .listingListErrorBodyLabel)
-        errorButton.set(accessibilityId: .listingListErrorButton)
     }
 }
 
@@ -730,20 +626,23 @@ extension ListingListView: GADBannerViewDelegate, GADAdSizeDelegate {
 }
 
 extension ListingListView {
-    var errorView: UIView { return codedErrorView }
-    var errorContentView: UIView { return codedErrorView.containerView }
-    var errorImageView: UIImageView { return codedErrorView.imageView }
-    var errorImageViewHeightConstraint: NSLayoutConstraint? { return codedErrorView.imageHeight }
+    var errorContentView: UIView { return errorView.containerView }
+    var errorImageViewHeightConstraint: NSLayoutConstraint? { return errorView.imageHeight }
 
-    var errorTitleLabel: UILabel { return codedErrorView.title }
-    var errorBodyLabel: UILabel { return codedErrorView.body }
-    var errorButton: LetgoButton! { return codedErrorView.actionButton }
-    var errorButtonHeightConstraint: NSLayoutConstraint? { return codedErrorView.actionHeight }
+    var errorButton: LetgoButton! { return errorView.actionButton }
+    var errorButtonHeightConstraint: NSLayoutConstraint? { return errorView.actionHeight }
+
+    var collectionView: UICollectionView { return dataView.collectionView }
 }
 
 private final class DataView: UIView {
+    struct Layout {
+        static let defaultSeparation: CGFloat = 8
+    }
     let collectionView: UICollectionView = {
         let waterFallLayout = CHTCollectionViewWaterfallLayout()
+        waterFallLayout.minimumColumnSpacing = Layout.defaultSeparation
+        waterFallLayout.minimumInteritemSpacing = Layout.defaultSeparation
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: waterFallLayout)
         if #available(iOS 10.0, *) {
             collectionView.isPrefetchingEnabled = true
@@ -752,12 +651,30 @@ private final class DataView: UIView {
             collectionView.contentInsetAdjustmentBehavior = .never
         }
         collectionView.backgroundColor = .white
+        collectionView.alwaysBounceVertical = true
+
         return collectionView
     }()
+
+    private var leadingInset: NSLayoutConstraint?
+    private var topInset: NSLayoutConstraint?
+    private var trailingInset: NSLayoutConstraint?
+    private var bottomInset: NSLayoutConstraint?
 
     convenience init() {
         self.init(frame: .zero)
         setupUI()
+    }
+    
+    func updateWithInsets(_ edgeInsets: UIEdgeInsets) {
+        leadingInset?.constant = edgeInsets.left
+        topInset?.constant = edgeInsets.top
+        trailingInset?.constant = -edgeInsets.right
+        bottomInset?.constant = -edgeInsets.bottom
+    }
+
+    func updateCollectionInsets(_ edgeInsets: UIEdgeInsets) {
+        collectionView.contentInset = edgeInsets
     }
 
     private func setupUI() {
@@ -766,11 +683,19 @@ private final class DataView: UIView {
 
     private func setupConstraints() {
         addSubviewForAutoLayout(collectionView)
-        collectionView.layout(with: self).fill()
+        let topInset = collectionView.topAnchor.constraint(equalTo: topAnchor)
+        let leadingInset = collectionView.leadingAnchor.constraint(equalTo: leadingAnchor )
+        let trailingInset = collectionView.trailingAnchor.constraint(equalTo: trailingAnchor )
+        let bottomInset = collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
+        NSLayoutConstraint.activate([ topInset, leadingInset, trailingInset, bottomInset ])
+        self.topInset = topInset
+        self.leadingInset = leadingInset
+        self.trailingInset = trailingInset
+        self.bottomInset = bottomInset
     }
 }
 
-private final class ErrorView: UIView {
+final class ErrorView: UIView {
     private struct Layout {
         static let sideMargin: CGFloat = 24
         static let actionHeight: CGFloat = 50
@@ -784,14 +709,14 @@ private final class ErrorView: UIView {
         return container
     }()
 
-    let imageView: UIImageView = {
+    private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         return imageView
     }()
 
-    let title: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemRegularFont(size: 17)
         label.textColor = .black
@@ -799,7 +724,7 @@ private final class ErrorView: UIView {
         return label
     }()
 
-    let body: UILabel = {
+    private let bodyLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemRegularFont(size: 17)
         label.textColor = .grayDark
@@ -815,49 +740,96 @@ private final class ErrorView: UIView {
     var actionHeight: NSLayoutConstraint?
     var imageHeight: NSLayoutConstraint?
 
+    private var leadingInset: NSLayoutConstraint?
+    private var topInset: NSLayoutConstraint?
+    private var trailingInset: NSLayoutConstraint?
+    private var bottomInset: NSLayoutConstraint?
+
     convenience init() {
         self.init(frame: .zero)
         setupUI()
     }
 
+    func updateWithInsets(_ edgeInsets: UIEdgeInsets) {
+        leadingInset?.constant = edgeInsets.left
+        topInset?.constant = edgeInsets.top
+        trailingInset?.constant = -edgeInsets.right
+        bottomInset?.constant = -edgeInsets.bottom
+    }
+
+    fileprivate func setImage(_ image: UIImage?) {
+        imageView.image = image
+    }
+
+    fileprivate func setBody(_ body: String?) {
+        bodyLabel.text = body
+    }
+
+    fileprivate func setTitle(_ title: String?) {
+        titleLabel.text = title
+    }
+
     private func setupUI() {
         backgroundColor = .clear
         setupConstraints()
+        setupAccessibilityIds()
+    }
+
+    private func setupAccessibilityIds() {
+        set(accessibilityId: .listingListViewErrorView)
+        imageView.set(accessibilityId:  .listingListErrorImageView)
+        titleLabel.set(accessibilityId: .listingListErrorTitleLabel)
+        bodyLabel.set(accessibilityId: .listingListErrorBodyLabel)
+        actionButton.set(accessibilityId: .listingListErrorButton)
     }
 
     private func setupConstraints() {
         addSubviewsForAutoLayout([containerView])
-        containerView.addSubviewsForAutoLayout([imageView, title, body, actionButton])
+        containerView.addSubviewsForAutoLayout([imageView, titleLabel, bodyLabel, actionButton])
         let imageViewHeight = imageView.heightAnchor.constraint(equalToConstant: 0)
         let actionHeight = actionButton.heightAnchor.constraint(equalToConstant: Layout.actionHeight)
+
+        let topInset = containerView.topAnchor.constraint(equalTo: topAnchor)
+        let leadingInset = containerView.leadingAnchor.constraint(equalTo: leadingAnchor,
+                                                                  constant: Layout.sideMargin)
+        let trailingInset = containerView.trailingAnchor.constraint(equalTo: trailingAnchor,
+                                                                    constant: -Layout.sideMargin)
+        let bottomInset = containerView.bottomAnchor.constraint(equalTo: bottomAnchor)
+
         NSLayoutConstraint.activate([
-            containerView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Layout.sideMargin),
-            containerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Layout.sideMargin),
-            containerView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            topInset, leadingInset, trailingInset, bottomInset,
             imageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: Layout.imageViewHeight),
             imageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Layout.sideMargin),
             imageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -Layout.sideMargin),
             imageViewHeight,
-            title.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: Layout.imageViewBottom),
-            title.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Layout.sideMargin),
-            title.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -Layout.sideMargin),
-            body.topAnchor.constraint(equalTo: title.bottomAnchor, constant: Layout.titleBottom),
-            body.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Layout.sideMargin),
-            body.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -Layout.sideMargin),
+            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: Layout.imageViewBottom),
+            titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Layout.sideMargin),
+            titleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -Layout.sideMargin),
+            bodyLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Layout.titleBottom),
+            bodyLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Layout.sideMargin),
+            bodyLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -Layout.sideMargin),
             actionButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Layout.sideMargin),
-            actionButton.topAnchor.constraint(equalTo: body.bottomAnchor, constant: Layout.sideMargin),
+            actionButton.topAnchor.constraint(equalTo: bodyLabel.bottomAnchor, constant: Layout.sideMargin),
             actionButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -Layout.sideMargin),
             actionButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -Layout.sideMargin),
             actionHeight
         ])
         self.imageHeight = imageViewHeight
         self.actionHeight = actionHeight
+        self.topInset = topInset
+        self.leadingInset = leadingInset
+        self.trailingInset = trailingInset
+        self.bottomInset = bottomInset
     }
 }
 
-private final class ActivityView: UIView {
+final class ActivityView: UIView {
+    private var leadingInset: NSLayoutConstraint?
+    private var topInset: NSLayoutConstraint?
+    private var trailingInset: NSLayoutConstraint?
+    private var bottomInset: NSLayoutConstraint?
 
-    let activityIndicator: UIActivityIndicatorView = {
+    private let activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
         indicator.color = UIColor(red: 153, green: 153, blue: 153)
         indicator.hidesWhenStopped = false
@@ -867,8 +839,14 @@ private final class ActivityView: UIView {
     convenience init() {
         self.init(frame: .zero)
         setupUI()
-
         activityIndicator.startAnimating()
+    }
+
+    func updateWithInsets(_ edgeInsets: UIEdgeInsets) {
+        leadingInset?.constant = edgeInsets.left
+        topInset?.constant = edgeInsets.top
+        trailingInset?.constant = -edgeInsets.right
+        bottomInset?.constant = -edgeInsets.bottom
     }
 
     private func setupUI() {
@@ -876,11 +854,21 @@ private final class ActivityView: UIView {
         setupConstraints()
     }
 
+    private func setupAccessibilityIds() {
+        set(accessibilityId: .listingListViewFirstLoadView)
+        activityIndicator.set(accessibilityId: .listingListViewFirstLoadActivityIndicator)
+    }
+
     private func setupConstraints() {
         addSubviewForAutoLayout(activityIndicator)
-        NSLayoutConstraint.activate([
-            activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor)
-        ])
+        let topInset = activityIndicator.topAnchor.constraint(equalTo: topAnchor)
+        let leadingInset = activityIndicator.leadingAnchor.constraint(equalTo: leadingAnchor)
+        let trailingInset = activityIndicator.trailingAnchor.constraint(equalTo: trailingAnchor)
+        let bottomInset = activityIndicator.bottomAnchor.constraint(equalTo: bottomAnchor)
+        NSLayoutConstraint.activate([ topInset, leadingInset, trailingInset, bottomInset ])
+        self.topInset = topInset
+        self.leadingInset = leadingInset
+        self.trailingInset = trailingInset
+        self.bottomInset = bottomInset
     }
 }

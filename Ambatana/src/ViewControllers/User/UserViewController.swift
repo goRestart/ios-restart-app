@@ -319,8 +319,7 @@ extension UserViewController {
         listingListView.headerDelegate = self
         listingListViewBackgroundView.backgroundColor = UIColor.listBackgroundColor
     
-        // Remove pull to refresh
-        listingListView.refreshControl.removeFromSuperview()
+        listingListView.removePullToRefresh()
         listingListView.setErrorViewStyle(bgColor: nil, borderColor: nil, containerColor: nil)
         listingListView.shouldScrollToTopOnFirstPageReload = false
         listingListView.padding = UIEdgeInsets(top: listingListViewTopMargin, left: 0, bottom: 0, right: 0)
@@ -564,7 +563,7 @@ extension UserViewController {
             }.disposed(by: disposeBag)
 
         // Header sticky to expanded/collapsed
-        let listViewDragging = listingListView.isDragging.asObservable().distinctUntilChanged()
+        let listViewDragging = listingListView.rxIsDragging.distinctUntilChanged()
         let recognizerDragging = headerRecognizerDragging.asObservable().distinctUntilChanged()
         let dragging = Observable.combineLatest(listViewDragging, recognizerDragging){ $0 || $1 }.distinctUntilChanged()
 
