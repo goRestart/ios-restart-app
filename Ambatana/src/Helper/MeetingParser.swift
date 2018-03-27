@@ -55,21 +55,22 @@ final class LGMeetingParser: MeetingParser {
         guard let firstElement = message.first else { return nil }
         let firstChar = String(describing: firstElement)
         guard startingChars.contains(firstChar) else { return nil }
-        if firstChar == acceptanceMark {
+        switch firstChar {
+        case acceptanceMark:
             let meetingAccepted = AssistantMeeting(meetingType: .accepted,
                                                    date: nil,
                                                    locationName: nil,
                                                    coordinates: nil,
                                                    status: nil)
             return meetingAccepted
-        } else if firstChar == rejectionMark {
+        case rejectionMark:
             let meetingRejected = AssistantMeeting(meetingType: .rejected,
                                                    date: nil,
                                                    locationName: nil,
                                                    coordinates: nil,
                                                    status: nil)
             return meetingRejected
-        } else if firstChar == meetingMark {
+        case meetingMark:
             let locationSubstring = message.slice(from: locationMark, to: dateMark)
 
             let locationInfo = stripLocationFrom(string: locationSubstring)
@@ -86,7 +87,7 @@ final class LGMeetingParser: MeetingParser {
                                                     coordinates: locationInfo.1,
                                                     status: .pending)
             return meetingRequested
-        } else {
+        default:
             return nil
         }
     }
@@ -156,5 +157,4 @@ final class LGMeetingParser: MeetingParser {
         dateFormatter.timeZone = TimeZone.current
         return dateFormatter.string(from: date)
     }
-
 }
