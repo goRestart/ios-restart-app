@@ -649,7 +649,7 @@ private final class DataView: UIView {
         if #available(iOS 11.0, *) {
             collectionView.contentInsetAdjustmentBehavior = .never
         }
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = .clear
         collectionView.alwaysBounceVertical = true
 
         return collectionView
@@ -711,7 +711,7 @@ final class ErrorView: UIView {
     
     let containerView: UIView = {
         let container = UIView()
-        container.backgroundColor = .white
+        container.backgroundColor = .clear
         return container
     }()
 
