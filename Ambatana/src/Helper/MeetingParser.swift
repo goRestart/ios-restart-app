@@ -21,7 +21,7 @@ final class LGMeetingParser: MeetingParser {
 
 //    🗓 Would you like to meet?
 //
-//    📍 Plaza Catalunya 13 (2.2345° N -21.9999° W)
+//    📍 Plaza Catalunya 13 (2.2345° N, -21.9999° W)
 //    🕐 02/09/2018 06:30 GMT+01
 
     static let sharedInstance: LGMeetingParser = LGMeetingParser()
@@ -70,8 +70,16 @@ final class LGMeetingParser: MeetingParser {
                                                    status: nil)
             return meetingRejected
         } else if firstChar == meetingMark {
-            let locationInfo = stripLocationFrom(string: message)
-            let date = stripDateFrom(string: message)
+            let locationSubstring = message.slice(from: locationMark, to: dateMark)
+
+            let locationInfo = stripLocationFrom(string: locationSubstring)
+
+            var date: Date? = nil
+            if let dateRange = message.range(of: dateMark)?.lowerBound {
+                let dateSubstring = message[dateRange..<message.endIndex]
+                date = stripDateFrom(string: String(dateSubstring))
+            }
+
             let meetingRequested = AssistantMeeting(meetingType: .requested,
                                                     date: date,
                                                     locationName: locationInfo.0,
@@ -83,39 +91,39 @@ final class LGMeetingParser: MeetingParser {
         }
     }
 
-    private func stripLocationFrom(string: String) -> (name: String?, coords: LGLocationCoordinates2D?) {
-        let meetingInfo = string.components(separatedBy: locationMark + " ")
-        guard meetingInfo.count == 2 else { return (nil, nil) }
-        let locationString = meetingInfo[1]
-        let locationName = locationString.components(separatedBy: " (")[0]
-        let coordinates = stripLocationCoordinatesFrom(locationString: locationString)
+    private func stripLocationFrom(string: String?) -> (name: String?, coords: LGLocationCoordinates2D?) {
+        guard let string = string else { return (nil, nil) }
+        let locationComponents = string.components(separatedBy: " (")
+        guard locationComponents.count == 2 else { return (nil, nil) }
+        let locationName = locationComponents[0].trim
+        let coordinates = stripLocationCoordinatesFrom(locationString: locationComponents[1])
         return (locationName, coordinates)
     }
 
     private func stripLocationCoordinatesFrom(locationString: String) -> LGLocationCoordinates2D? {
         let locationComponents = locationString.components(separatedBy: ["(", ")"])
         guard locationComponents.count > 1 else { return nil }
-        let coords = locationComponents[1]
+        let coords = locationComponents[0]
         let coordsComponents = coords.components(separatedBy: "\(degreeCharacter) ")
         guard coordsComponents.count > 2 else { return nil }
         let latitude = coordsComponents[0]
 
-        let longitude = coordsComponents[1].stringByReplacingFirstOccurrence(of: "N ", with: "")
+        let longitude = coordsComponents[1].stringByReplacingFirstOccurrence(of: "N, ", with: "")
 
-        let doubleLat = Double(latitude.prefix(7)) ?? 0.0
-        let doubleLon = Double(longitude.prefix(7)) ?? 0.0
+        guard let doubleLat = Double(latitude.prefix(7)), let doubleLon = Double(longitude.prefix(7)) else { return nil }
 
         let locCoords = LGLocationCoordinates2D(latitude: doubleLat, longitude: doubleLon)
 
         return locCoords
     }
 
-    private func stripDateFrom(string: String) -> Date? {
-        let meetingInfo = string.components(separatedBy: dateMark + " ")
-        guard meetingInfo.count == 2 else { return nil }
+    private func stripDateFrom(string: String?) -> Date? {
+        guard let string = string else { return nil }
+        let dateInfo = string.components(separatedBy: dateMark + " ")
+        guard dateInfo.count == 2 else { return nil }
         dateFormatter.dateFormat = "MM/dd/yyyy hh:mm a ZZZZ"
         dateFormatter.timeZone = TimeZone.current
-        let date = dateFormatter.date(from: meetingInfo[1])
+        let date = dateFormatter.date(from: dateInfo[1])
         return date
     }
 
@@ -131,7 +139,7 @@ final class LGMeetingParser: MeetingParser {
             let meetingLocationName = meeting.locationName ?? ""
             var coordinatesString = ""
             if let meetingLocationCoordinates = stringFrom(coordinates: meeting.coordinates) {
-                coordinatesString = " (\(meetingLocationCoordinates))"
+                coordinatesString = "(\(meetingLocationCoordinates))"
             }
             return meetingIntro + "\n\n" + "📍 " + meetingLocationName + " " + coordinatesString + "\n" + "🕐 \(meetingDateString)"
         }
@@ -139,7 +147,7 @@ final class LGMeetingParser: MeetingParser {
 
     private func stringFrom(coordinates: LGLocationCoordinates2D?) -> String? {
         guard let coords = coordinates else { return nil }
-        return "\(coords.latitude)\(degreeCharacter) N \(coords.longitude)\(degreeCharacter) E"
+        return "\(coords.latitude)\(degreeCharacter) N, \(coords.longitude)\(degreeCharacter) E"
     }
 
     private func stringFrom(meetingDate: Date?) -> String? {
