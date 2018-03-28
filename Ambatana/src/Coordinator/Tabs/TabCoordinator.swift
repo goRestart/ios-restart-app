@@ -246,9 +246,13 @@ fileprivate extension TabCoordinator {
 
         let requester = ListingListMultiRequester(requesters: requestersArray)
         if featureFlags.newItemPage.isActive {
-            openListingNewItemPage(listing, thumbnailImage: thumbnailImage,
-                                   cellModels: nil, originFrame: nil,
-                                   requester: requester, source: source)
+            openListingNewItemPage(listing,
+                                   thumbnailImage: thumbnailImage,
+                                   cellModels: [],
+                                   originFrame: nil,
+                                   requester: requester,
+                                   source: source,
+                                   trackingIndex: nil)
         } else {
             let vm = ListingCarouselViewModel(listing: listing, thumbnailImage: thumbnailImage,
                                               listingListRequester: requester, source: source,
@@ -262,16 +266,19 @@ fileprivate extension TabCoordinator {
     func openListing(_ listing: Listing, cellModels: [ListingCellModel], requester: ListingListRequester,
                      thumbnailImage: UIImage?, originFrame: CGRect?, showRelated: Bool,
                      source: EventParameterListingVisitSource, index: Int) {
-        if featureFlags.newItemPage.isActive {
-            // TODO: ABIOS-3100 check all the other parameters
-            openListingNewItemPage(listing, thumbnailImage: thumbnailImage, cellModels: cellModels,
-                           originFrame: originFrame,
-                           requester: requester, source: source)
-        } else if showRelated {
+        if showRelated {
             //Same as single product opening
             openListing(listing: listing, thumbnailImage: thumbnailImage, originFrame: originFrame,
                         source: source, requester: requester, index: index, discover: false,
                         actionOnFirstAppear: .nonexistent)
+        } else if featureFlags.newItemPage.isActive {
+            openListingNewItemPage(listing,
+                                   thumbnailImage: thumbnailImage,
+                                   cellModels: cellModels,
+                                   originFrame: originFrame,
+                                   requester: requester,
+                                   source: source,
+                                   trackingIndex: index)
         } else {
             let vm = ListingCarouselViewModel(productListModels: cellModels, initialListing: listing,
                                               thumbnailImage: thumbnailImage, listingListRequester: requester, source: source,
@@ -314,17 +321,28 @@ fileprivate extension TabCoordinator {
     func openListingNewItemPage(listing: Listing,
                                 listingListRequester: ListingListRequester,
                                 source: EventParameterListingVisitSource) {
-        openListingNewItemPage(listing, thumbnailImage: nil, cellModels: nil, originFrame: nil,
-                               requester: listingListRequester, source: source)
+        openListingNewItemPage(listing, thumbnailImage: nil,
+                               cellModels: [],
+                               originFrame: nil,
+                               requester: listingListRequester,
+                               source: source,
+                               trackingIndex: nil)
     }
 
-    func openListingNewItemPage(_ listing: Listing, thumbnailImage: UIImage?, cellModels: [ListingCellModel]?,
-                     originFrame: CGRect?, requester: ListingListRequester, source: EventParameterListingVisitSource) {
+    func openListingNewItemPage(_ listing: Listing,
+                                thumbnailImage: UIImage?,
+                                cellModels: [ListingCellModel],
+                                originFrame: CGRect?,
+                                requester: ListingListRequester,
+                                source: EventParameterListingVisitSource,
+                                trackingIndex: Int?) {
         let coordinator = DeckCoordinator(navigationController: navigationController,
-                                        listing: listing,
+                                          listing: listing,
                                           cellModels: cellModels,
                                           listingListRequester: requester,
-                                          source: source, listingNavigator: self)
+                                          source: source,
+                                          listingNavigator: self,
+                                          trackingIndex: trackingIndex)
 
         coordinator.showDeckViewController()
         deckAnimator = coordinator
