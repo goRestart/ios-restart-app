@@ -50,6 +50,11 @@ final class EditUserBioViewController: BaseViewController {
         textView.becomeFirstResponder()
     }
 
+    override func viewWillAppearFromBackground(_ fromBackground: Bool) {
+        super.viewWillAppearFromBackground(fromBackground)
+        setNavBarBackgroundStyle(.white)
+    }
+
     private func setupUI() {
         view.backgroundColor = .white
         view.addSubviewsForAutoLayout([textView, saveButton, placeholderLabel])

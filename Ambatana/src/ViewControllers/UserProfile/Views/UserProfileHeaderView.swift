@@ -58,7 +58,7 @@ final class UserProfileHeaderView: UIView {
         addSubviewsForAutoLayout([userNameLabel, ratingView, locationLabel,
                                   memberSinceLabel, avatarImageView, editAvatarButton])
 
-        avatarImageView.contentMode = .scaleAspectFit
+        avatarImageView.contentMode = .scaleAspectFill
         avatarImageView.backgroundColor = .grayLight
         avatarImageView.layer.cornerRadius = Layout.imageHeight / 2
         avatarImageView.clipsToBounds = true
