@@ -225,6 +225,7 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     func willDisplayCell(_ cell: UICollectionViewCell, atIndexPath indexPath: IndexPath) {
         cell.isUserInteractionEnabled = false
         guard let card = cell as? ListingCardView else { return }
+        card.tag = indexPath.row
         card.updateVerticalContentInset(animated: false)
     }
 
@@ -257,7 +258,9 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
         card.populateWith(cellModel: listing, imageDownloader: viewModel.imageDownloader)
     }
     
-    func didShowMoreInfo() {
+    func cardViewDidShowMoreInfo(_ cardView: ListingCardView) {
+        guard cardView.tag == viewModel.currentIndex else { return }
+        guard isCardVisible(cardView) else { return }
         viewModel.didShowMoreInfo()
     }
 
@@ -335,6 +338,13 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     func closeBumpUpBanner() {
         closeBumpUpBanner(animated: true)
     }
+
+    private func isCardVisible(_ cardView: ListingCardView) -> Bool {
+        let filtered = listingDeckView.collectionView
+            .visibleCells
+            .filter { cell in return cell.tag == cardView.tag }
+        return !filtered.isEmpty
+    }
 }
 
 extension ListingDeckViewController: ListingDeckViewModelDelegate {
@@ -357,11 +367,8 @@ extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCard
         cell.showFullMap(fromRect: snapshot.frame)
     }
 
-    func didTapOnPreview() {
-        displayPhotoViewer()
-    }
-
-    func displayPhotoViewer() {
+    func cardViewDidTapOnPreview(_ cardView: ListingCardView) {
+        guard cardView.tag == viewModel.currentIndex else { return }
         viewModel.openPhotoViewer()
     }
     
@@ -378,7 +385,8 @@ extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCard
         cell.hideFullMap()
     }
 
-    func didTapOnStatusView() {
+    func cardViewDidTapOnStatusView(_ cardView: ListingCardView) {
+        guard cardView.tag == viewModel.currentIndex else { return }
         viewModel.didTapStatusView()
     }
 

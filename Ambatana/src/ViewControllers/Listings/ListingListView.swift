@@ -14,6 +14,13 @@ import GoogleMobileAds
 protocol ListingListViewScrollDelegate: class {
     func listingListView(_ listingListView: ListingListView, didScrollDown scrollDown: Bool)
     func listingListView(_ listingListView: ListingListView, didScrollWithContentOffsetY contentOffsetY: CGFloat)
+    func listingListViewAllowScrollingOnEmptyState(_ listingListView: ListingListView) -> Bool
+}
+
+extension ListingListViewScrollDelegate {
+    func listingListViewAllowScrollingOnEmptyState(_ listingListView: ListingListView) -> Bool {
+        return false
+    }
 }
 
 protocol ListingListViewCellsDelegate: class {
@@ -203,6 +210,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         let hitView = super.hitTest(point, with: event)
         switch viewModel.state {
         case .empty:
+            if let delegate = scrollDelegate, delegate.listingListViewAllowScrollingOnEmptyState(self) { return hitView }
             guard let headerHeight = headerDelegate?.totalHeaderHeight(), headerHeight > 0 else { return errorView }
             let collectionConvertedPoint = collectionView.convert(point, from: self)
             let collectionHeaderSize = CGSize(width: collectionView.frame.width, height: CGFloat(headerHeight))

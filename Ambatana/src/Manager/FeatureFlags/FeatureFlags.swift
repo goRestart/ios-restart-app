@@ -203,7 +203,7 @@ extension DiscardedProducts {
 }
 
 extension OnboardingIncentivizePosting {
-    var isActive: Bool { get { return self == .blockingPosting } }
+    var isActive: Bool { get { return self == .blockingPosting || self == .blockingPostingSkipWelcome } }
 }
 extension PromoteBumpInEdit {
     var isActive: Bool { get { return self != .control && self != .baseline } }
@@ -255,6 +255,10 @@ extension CopyForChatNowInTurkey {
     } }
 }
 
+extension NewUserProfileView {
+    var isActive: Bool { get { return self == .active } }
+}
+
 extension RealEstateTutorial {
     var isActive: Bool { return self != .baseline && self != .control }
 }
@@ -266,7 +270,6 @@ extension MachineLearningMVP {
 extension SummaryAsFirstStep {
     var isActive: Bool { return self == .active }
 }
-
 
 class FeatureFlags: FeatureFlaggeable {
 
@@ -329,6 +332,7 @@ class FeatureFlags: FeatureFlaggeable {
             dao.save(timeoutForRequests: TimeInterval(Bumper.requestsTimeOut.timeout))
         } else {
             dao.save(timeoutForRequests: TimeInterval(abTests.requestsTimeOut.value))
+            dao.save(newUserProfile: NewUserProfileView.fromPosition(abTests.newUserProfileView.value))
         }
         abTests.variablesUpdated()
     }
@@ -561,8 +565,9 @@ class FeatureFlags: FeatureFlaggeable {
     var newUserProfileView: NewUserProfileView {
         if Bumper.enabled {
             return Bumper.newUserProfileView
+        } else {
+            return dao.retrieveNewUserProfile() ?? NewUserProfileView.fromPosition(abTests.newUserProfileView.value)
         }
-        return NewUserProfileView.fromPosition(abTests.newUserProfileView.value)
     }
     
     var showChatSafetyTips: Bool {

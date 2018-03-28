@@ -15,6 +15,7 @@ final class DistanceInfoView: UIView {
         iv.image = #imageLiteral(resourceName: "itemLocation")
         iv.contentMode = .scaleAspectFit
         iv.clipsToBounds = true
+        iv.isOpaque = true
         return iv
     }()
     
@@ -25,30 +26,40 @@ final class DistanceInfoView: UIView {
         label.textAlignment = .left
         label.font = ListingCellMetrics.DistanceView.distanceLabelFont
         label.applyShadow(withOpacity: 0.5, radius: 5, color: UIColor.black.cgColor)
+        label.isOpaque = true
+        label.clipsToBounds = true
         return label
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
+        isOpaque = true
+        clipsToBounds = true
     }
     
     func setDistance(_ distance: String) {
         distanceLabel.text = distance
+        distanceIcon.image = #imageLiteral(resourceName: "itemLocation")
+    }
+    
+    func clearAll() {
+        distanceLabel.text = nil
+        distanceIcon.image = nil
     }
     
     private func setupViews() {
-        let stackView = UIStackView(arrangedSubviews: [distanceIcon, distanceLabel])
-        stackView.alignment = .center
-        stackView.axis = .horizontal
-        stackView.distribution = .fillProportionally
-        stackView.spacing = 4.0
-        
-        addSubviewForAutoLayout(stackView)
-        stackView.layout(with: self).fill()
+        addSubviewsForAutoLayout([distanceIcon, distanceLabel])
         NSLayoutConstraint.activate([
             distanceIcon.heightAnchor.constraint(equalToConstant: ListingCellMetrics.DistanceView.iconHeight),
-            distanceIcon.widthAnchor.constraint(equalToConstant: ListingCellMetrics.DistanceView.iconWidth)
+            distanceIcon.widthAnchor.constraint(equalToConstant: ListingCellMetrics.DistanceView.iconWidth),
+            distanceIcon.centerYAnchor.constraint(equalTo: centerYAnchor),
+            distanceIcon.leadingAnchor.constraint(equalTo: leadingAnchor),
+            
+            distanceLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+            distanceLabel.leadingAnchor.constraint(equalTo: distanceIcon.trailingAnchor, constant: ListingCellMetrics.DistanceView.gap),
+            distanceLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            distanceLabel.heightAnchor.constraint(equalTo: distanceIcon.heightAnchor),
         ])
     }
     

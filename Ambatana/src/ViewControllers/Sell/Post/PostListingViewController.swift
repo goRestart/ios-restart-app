@@ -199,6 +199,11 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         viewModel.retryButtonPressed()
     }
     
+    @objc func learnMorePressed() {
+        viewModel.learnMorePressed()
+    }
+    
+    
     // MARK: - Private methods
 
     private func setupView() {
@@ -727,6 +732,10 @@ extension PostListingViewController: PostListingCameraViewDelegate {
 
     func productCameraRequestsScrollLock(_ lock: Bool) {
         viewPager.scrollEnabled = !lock
+    }
+    
+    func productCameraLearnMoreButton() {
+        learnMorePressed()
     }
 }
 

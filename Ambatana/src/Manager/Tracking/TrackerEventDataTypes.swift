@@ -110,6 +110,7 @@ enum EventName: String {
     case profileShareComplete               = "profile-share-complete"
     case profileEditEmailStart              = "profile-edit-email-start"
     case profileEditEmailComplete           = "profile-edit-email-complete"
+    case profileEditBioComplete             = "profile-edit-bio"
 
     case appInviteFriendStart               = "app-invite-friend-start"
     case appInviteFriend                    = "app-invite-friend"
@@ -505,9 +506,10 @@ enum EventParameterPostingAbandonStep: String {
     case cameraPermissions = "camera-permissions"
     case retry = "retry"
     case summaryOnboarding = "summary-onboarding"
+    case welcomeOnboarding = "welcome-onboarding"
     
     static var allValues: [EventParameterPostingAbandonStep] {
-        return [.cameraPermissions, .retry, .summaryOnboarding]
+        return [.cameraPermissions, .retry, .summaryOnboarding, .welcomeOnboarding]
     }
 }
 
@@ -850,6 +852,7 @@ enum EventParameterTypePage: String {
     case mostSearched = "most-searched"
     case filterBubble = "filter-bubble"
     case postingIconInfo = "posting-icon-information"
+    case postingLearnMore = "posting-learn-more-button"
     case sellStart = "product-sell-start"
 }
 
@@ -869,6 +872,7 @@ enum EventParameterTab: String {
     case selling = "selling"
     case sold = "sold"
     case favorites = "favorites"
+    case reviews = "reviews"
 }
 
 enum EventParameterSearchCompleteSuccess: String {
