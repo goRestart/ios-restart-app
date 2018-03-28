@@ -397,8 +397,8 @@
 		3221E5442062C0400006B12B /* ListingCellMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3221E5432062C0400006B12B /* ListingCellMetrics.swift */; };
 		3221E5452062C0400006B12B /* ListingCellMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3221E5432062C0400006B12B /* ListingCellMetrics.swift */; };
 		3FE825E8BDE13DA12F71FE15 /* Pods_letgoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2D3A9CDDF543002435A50F7 /* Pods_letgoTests.framework */; };
-		42FADDDE2069257F00B6B774 /* InfoBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FADDDD2069257F00B6B774 /* InfoBubbleView.swift */; };
-		42FADDDF2069257F00B6B774 /* InfoBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FADDDD2069257F00B6B774 /* InfoBubbleView.swift */; };
+		427CAB86206A7D5600112D58 /* InfoBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FADDDD2069257F00B6B774 /* InfoBubbleView.swift */; };
+		427CAB87206A7D5700112D58 /* InfoBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FADDDD2069257F00B6B774 /* InfoBubbleView.swift */; };
 		4C211D0CB0A4B97A2C263A3F /* Pods_LetGoGodMode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7166AA5BA494F5827085F946 /* Pods_LetGoGodMode.framework */; };
 		500210B61CF5D94F0034519F /* ChatDisclaimerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500210B51CF5D94F0034519F /* ChatDisclaimerCell.swift */; };
 		500210B71CF5D94F0034519F /* ChatDisclaimerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500210B51CF5D94F0034519F /* ChatDisclaimerCell.swift */; };
@@ -6649,7 +6649,7 @@
 				012C56F32017AD6700C087D0 /* MostSearchedItemsCellDrawer.swift in Sources */,
 				C7B588851CE1DFA6009B3975 /* ChatOthersMessageCellDrawer.swift in Sources */,
 				8EF1CDAF2010F11F00D324F6 /* ChatInactiveConversationDetailsViewModel.swift in Sources */,
-				42FADDDE2069257F00B6B774 /* InfoBubbleView.swift in Sources */,
+				427CAB87206A7D5700112D58 /* InfoBubbleView.swift in Sources */,
 				50261B211AFB49C0006E88E0 /* ProductionEnvironment.swift in Sources */,
 				6A5E1A121D548F5400F92692 /* UINavigationController+LG.swift in Sources */,
 				01A04804200CE474008725A1 /* LocalMostSearchedItem.swift in Sources */,
@@ -7624,7 +7624,7 @@
 				C72794411D549342009C25AB /* ChangeUsernameViewModel.swift in Sources */,
 				0183BB19203C71D400204383 /* ListingPostedDescriptiveViewModel.swift in Sources */,
 				C7DB42201C5138B500400945 /* BaseViewModel.swift in Sources */,
-				42FADDDF2069257F00B6B774 /* InfoBubbleView.swift in Sources */,
+				427CAB86206A7D5600112D58 /* InfoBubbleView.swift in Sources */,
 				72854D111F8515BB00E54530 /* PostingDetailsViewController.swift in Sources */,
 				6A5E1A1B1D548F5400F92692 /* UIViewController+Alert.swift in Sources */,
 				2EE47D2F2017812D004B04EE /* ChatAskPhoneNumberCellDrawer.swift in Sources */,

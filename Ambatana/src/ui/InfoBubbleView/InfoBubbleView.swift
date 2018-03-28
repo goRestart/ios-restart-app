@@ -36,6 +36,7 @@ final class InfoBubbleView: UIView {
     init() {
         super.init(frame: .zero)
         clipsToBounds = true
+        backgroundColor = .white
         setupViews()
         setupConstraints()
     }

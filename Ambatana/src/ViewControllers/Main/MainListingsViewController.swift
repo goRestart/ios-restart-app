@@ -37,58 +37,61 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     // ViewModel
     var viewModel: MainListingsViewModel
     
-    // UI
+    // MARK: - Subviews
+
     @IBOutlet weak var listingListView: ListingListView!
     
-    @IBOutlet weak var tagsContainerView: UIView!
-    @IBOutlet weak var tagsContainerViewHeightConstraint: NSLayoutConstraint!
+    private let filterDescriptionHeaderView = FilterDescriptionHeaderView()
+    private let filterTitleHeaderView = FilterTitleHeaderView()
+    private let infoBubbleView = InfoBubbleView()
     
-    @IBOutlet weak var filterDescriptionHeaderViewContainer: UIView!
-    @IBOutlet weak var filterTitleHeaderViewContainer: UIView!
-    fileprivate let filterDescriptionHeaderView = FilterDescriptionHeaderView()
-    fileprivate let filterTitleHeaderView = FilterTitleHeaderView()
-    @IBOutlet weak var filterDescriptionTopConstraint: NSLayoutConstraint!
-
-    fileprivate let infoBubbleTopMargin: CGFloat = 8
-    fileprivate let sectionHeight: CGFloat = 40
-    fileprivate let firstSectionMarginTop: CGFloat = -36
-
-    private let infoBubbleView: InfoBubbleView = {
-       let view = InfoBubbleView()
-        view.backgroundColor = .white
+    private let tagsContainerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .grayBackground
+        view.isHidden = true
         return view
     }()
-    
-    private var infoBubbleTopConstraint: NSLayoutConstraint?
-    
-    fileprivate let navbarSearch: LGNavBarSearchField
+
+    private let navbarSearch: LGNavBarSearchField
     @IBOutlet weak var suggestionsSearchesContainer: UIVisualEffectView!
     @IBOutlet weak var suggestionsSearchesTable: UITableView!
     
-    private var filterTagsView: FilterTagsView?
+    private var filterTagsView = FilterTagsView()
+    
+    // MARK: - Constraints
+    
+    private var filterDescriptionTopConstraint: NSLayoutConstraint?
+    private var tagsContainerHeightConstraint: NSLayoutConstraint?
+    private var infoBubbleTopConstraint: NSLayoutConstraint?
+
+    
+    private let infoBubbleTopMargin: CGFloat = 8
+    private let sectionHeight: CGFloat = 40
+    private let firstSectionMarginTop: CGFloat = -36
+    
     private var primaryTagsShowing: Bool = false
     private var secondaryTagsShowing: Bool = false
 
     private let topInset = Variable<CGFloat>(0)
 
-    fileprivate let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
-    fileprivate var categoriesHeader: CategoriesHeaderCollectionView?
+    private var categoriesHeader: CategoriesHeaderCollectionView?
 
-    fileprivate var filterTagsViewHeight: CGFloat {
+    private var filterTagsViewHeight: CGFloat {
         if viewModel.secondaryTags.isEmpty || viewModel.filters.selectedTaxonomyChildren.count > 0 {
             return FilterTagsView.collectionViewHeight
         } else {
             return FilterTagsView.collectionViewHeight * 2
         }
     }
-    fileprivate var filterHeadersHeight: CGFloat {
+    private var filterHeadersHeight: CGFloat {
         return filterDescriptionHeaderView.height + filterTitleHeaderView.height
     }
-    fileprivate var topHeadersHeight: CGFloat {
+    private var topHeadersHeight: CGFloat {
         return filterHeadersHeight + tagsContainerView.height
     }
-    fileprivate var collectionViewHeadersHeight: CGFloat {
+    private var collectionViewHeadersHeight: CGFloat {
         return listingListView.headerDelegate?.totalHeaderHeight() ?? 0
     }
     
@@ -189,7 +192,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         if listingListView.collectionView.contentOffset.y > headersCollection ||
            listingListView.collectionView.contentOffset.y <= -topHeadersHeight  {
             // Move tags view along iwth tab bar
-            if let tagsVC = self.filterTagsView, !tagsVC.tags.isEmpty {
+            if !filterTagsView.tags.isEmpty {
                 showTagsView(showPrimaryTags: !scrollDown, showSecondaryTags: !scrollDown && viewModel.filters.selectedTaxonomyChildren.count <= 0, updateInsets: false)
             }
             setBars(hidden: scrollDown)
@@ -206,18 +209,18 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         guard contentOffsetY <= 0 else { return }
         // ignore values higher than the topInset
         guard abs(contentOffsetY) <= topInset.value else {
-            filterDescriptionTopConstraint.constant = 0
+            filterDescriptionTopConstraint?.constant = 0
             return
         }
         
         let filterHeadersOffset = topInset.value + contentOffsetY
         if filterHeadersOffset <= filterDescriptionHeaderView.height {
             // move upwards until description header is completely below
-            filterDescriptionTopConstraint.constant = -filterHeadersOffset
+            filterDescriptionTopConstraint?.constant = -filterHeadersOffset
             filterDescriptionHeaderView.alpha = 1
         } else {
             // description header is completely below and also hidden
-            filterDescriptionTopConstraint.constant = -filterDescriptionHeaderView.height
+            filterDescriptionTopConstraint?.constant = -filterDescriptionHeaderView.height
             filterDescriptionHeaderView.alpha = 0.1
         }
     }
@@ -236,7 +239,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     }
 
     func vmShowTags(primaryTags: [FilterTag], secondaryTags: [FilterTag]) {
-        loadTagsViewWithTags(primaryTags: primaryTags, secondaryTags: secondaryTags)
+        updateTagsView(primaryTags: primaryTags, secondaryTags: secondaryTags)
     }
 
     func vmFiltersChanged() {
@@ -278,36 +281,33 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     // MARK: - FilterHeaders
     
     private func setupFilterHeaders() {
-        filterDescriptionHeaderView.translatesAutoresizingMaskIntoConstraints = false
-        filterDescriptionHeaderViewContainer.addSubview(filterDescriptionHeaderView)
-        filterDescriptionHeaderView.layout(with: filterDescriptionHeaderViewContainer).fill()
+        view.addSubviewForAutoLayout(filterDescriptionHeaderView)
+        view.addSubviewForAutoLayout(filterTitleHeaderView)
         
-        filterTitleHeaderView.translatesAutoresizingMaskIntoConstraints = false
-        filterTitleHeaderViewContainer.addSubview(filterTitleHeaderView)
-        filterTitleHeaderView.layout(with: filterTitleHeaderViewContainer).fill()
+        let filterDescriptionTopConstraint = filterTitleHeaderView.topAnchor.constraint(equalTo: filterDescriptionHeaderView.bottomAnchor)
+        
+        NSLayoutConstraint.activate([
+            filterDescriptionHeaderView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            filterDescriptionHeaderView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            filterDescriptionTopConstraint,
+            filterTitleHeaderView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            filterTitleHeaderView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
+            ])
+        self.filterDescriptionTopConstraint = filterDescriptionTopConstraint
     }
-    
-    func setFilterHeaderTitle(withText text: String) {
-        filterTitleHeaderView.text = text
-    }
-    
-    func setFilterHeaderDescription(withText text: String) {
-        filterDescriptionHeaderView.text = text
-    }
-    
     
     // MARK: - FilterTagsViewDelegate
     
     func filterTagsViewDidRemoveTag(_ tag: FilterTag, remainingTags: [FilterTag]) {
         viewModel.updateFiltersFromTags(remainingTags, removedTag: tag)
-        loadTagsViewWithTags(primaryTags: viewModel.primaryTags, secondaryTags: viewModel.secondaryTags)
+        updateTagsView(primaryTags: viewModel.primaryTags, secondaryTags: viewModel.secondaryTags)
     }
     
     func filterTagsViewDidSelectTag(_ tag: FilterTag) {
         if let taxonomyChild = tag.taxonomyChild {
             viewModel.updateSelectedTaxonomyChildren(taxonomyChildren: [taxonomyChild])
         }
-        loadTagsViewWithTags(primaryTags: viewModel.primaryTags, secondaryTags: viewModel.secondaryTags)
+        updateTagsView(primaryTags: viewModel.primaryTags, secondaryTags: viewModel.secondaryTags)
     }
     
     
@@ -318,7 +318,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         self.navigationController?.setNavigationBarHidden(hidden, animated: animated)
     }
 
-    @objc fileprivate func endEdit() {
+    @objc private func endEdit() {
         // ☢️☢️ Changing tabs when constructing the app from a push notifications calls didDissappear before didLoad
         if let searchContainer = suggestionsSearchesContainer {
             searchContainer.isHidden = true
@@ -350,23 +350,33 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     }
     
     private func setupTagsView() {
-        view.addConstraint(NSLayoutConstraint(item: tagsContainerView, attribute: .top, relatedBy: .equal, toItem: topLayoutGuide, attribute: .bottom, multiplier: 1.0, constant: 0))
 
-        filterTagsView = FilterTagsView()
-        filterTagsView?.delegate = self
-        tagsContainerView.backgroundColor = .grayBackground
-        tagsContainerView.addSubview(filterTagsView!)
-        tagsContainerView.isHidden = true
-        tagsContainerView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubviewForAutoLayout(tagsContainerView)
         
-        filterTagsView?.layout(with: tagsContainerView).fill()
+        tagsContainerView.addSubviewForAutoLayout(filterTagsView)
+        let topConstraint = tagsContainerView.topAnchor.constraint(equalTo: view.topAnchor, constant: Metrics.veryBigMargin)
+        let heightConstraint = tagsContainerView.heightAnchor.constraint(equalToConstant: 0)
+        topConstraint.priority = UILayoutPriority.defaultHigh
         
-        loadTagsViewWithTags(primaryTags: viewModel.primaryTags, secondaryTags: viewModel.secondaryTags)
+        NSLayoutConstraint.activate([
+            tagsContainerView.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor),
+            topConstraint,
+            tagsContainerView.bottomAnchor.constraint(equalTo: filterDescriptionHeaderView.topAnchor),
+            tagsContainerView.leadingAnchor.constraint(equalTo: safeLeadingAnchor),
+            tagsContainerView.trailingAnchor.constraint(equalTo: safeTrailingAnchor),
+            heightConstraint
+            ])
+        self.tagsContainerHeightConstraint = heightConstraint
+        
+        filterTagsView.delegate = self
+        filterTagsView.layout(with: tagsContainerView).fill()
+        
+        updateTagsView(primaryTags: viewModel.primaryTags, secondaryTags: viewModel.secondaryTags)
     }
     
-    private func loadTagsViewWithTags(primaryTags: [FilterTag], secondaryTags: [FilterTag]) {
-        filterTagsView?.updateTags(primaryTags)
-        filterTagsView?.updateSecondaryTags(secondaryTags)
+    private func updateTagsView(primaryTags: [FilterTag], secondaryTags: [FilterTag]) {
+        filterTagsView.updateTags(primaryTags)
+        filterTagsView.updateSecondaryTags(secondaryTags)
         let showPrimaryTags = primaryTags.count > 0
         let showSecondaryTags = secondaryTags.count > 0
         showTagsView(showPrimaryTags: showPrimaryTags, showSecondaryTags: showSecondaryTags, updateInsets: true)
@@ -404,7 +414,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         primaryTagsShowing = showPrimaryTags
         secondaryTagsShowing = showSecondaryTags
 
-        tagsContainerViewHeightConstraint.constant = showPrimaryTags ? filterTagsViewHeight : 0
+        tagsContainerHeightConstraint?.constant = showPrimaryTags ? filterTagsViewHeight : 0
         if updateInsets {
             updateTopInset()
         }
@@ -418,7 +428,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         view.addSubviewForAutoLayout(infoBubbleView)
         infoBubbleView.applyInfoBubbleShadow()
         
-        let infoBubbleTopConstraint = infoBubbleView.topAnchor.constraint(equalTo: filterDescriptionHeaderView.bottomAnchor)
+        let infoBubbleTopConstraint = infoBubbleView.topAnchor.constraint(equalTo: filterTitleHeaderView.bottomAnchor)
         let infoBubbleLeadingConstraint = infoBubbleView.leadingAnchor.constraint(greaterThanOrEqualTo: safeLeadingAnchor, constant: Metrics.bigMargin)
         let infoBubbleTrailingConstraint = infoBubbleView.trailingAnchor.constraint(greaterThanOrEqualTo: safeTrailingAnchor, constant: Metrics.bigMargin)
         infoBubbleTopConstraint.priority = UILayoutPriority.defaultLow
@@ -491,7 +501,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         navbarSearch.searchTextField.rx.text.asObservable().bind(to: viewModel.searchText).disposed(by: disposeBag)
     }
 
-    fileprivate func updateTopInset() {
+    private func updateTopInset() {
         let tagsHeight = primaryTagsShowing ? filterTagsViewHeight : 0
         if isSafeAreaAvailable {
             topInset.value = tagsHeight + filterHeadersHeight
