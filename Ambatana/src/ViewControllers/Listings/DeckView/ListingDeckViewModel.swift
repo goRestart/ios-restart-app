@@ -357,6 +357,18 @@ final class ListingDeckViewModel: BaseViewModel {
                                                           visibility: nil,
                                                           errorReason: nil)
     }
+
+    func showBumpUpView(_ action: DeckActionOnFirstAppear) {
+        if case .triggerBumpUp(let bumpUpProductData,
+                               let bumpUpType,
+                               let triggerBumpUpSource,
+                               let typePage) = action {
+            currentListingViewModel?.showBumpUpView(bumpUpProductData: bumpUpProductData,
+                                                    bumpUpType: bumpUpType,
+                                                    bumpUpSource: triggerBumpUpSource,
+                                                    typePage: typePage)
+        }
+    }
 }
 
 // MARK: ListingViewModelDelegate

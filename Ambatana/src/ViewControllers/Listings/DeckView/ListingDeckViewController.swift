@@ -355,15 +355,8 @@ extension ListingDeckViewController {
             quickChatView?.becomeFirstResponder()
         case .showShareSheet:
             viewModel.didTapCardAction()
-        case let .triggerBumpUp(bumpUpProductData,
-                                bumpUpType,
-                                triggerBumpUpSource,
-                                typePage):
-            print("")
-//            viewModel.showBumpUpView(bumpUpProductData: bumpUpProductData,
-//                                     bumpUpType: bumpUpType,
-//                                     bumpUpSource: triggerBumpUpSource,
-//                                     typePage: typePage)
+        case .triggerBumpUp(_,_,_,_):
+            viewModel.showBumpUpView(viewModel.actionOnFirstAppear)
         case .triggerMarkAsSold:
             viewModel.currentListingViewModel?.markAsSold()
         default:
