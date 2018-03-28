@@ -21,7 +21,7 @@ enum ChatWrapperMessageType {
     case expressChat(String)
     case favoritedListing(String)
     case phone(String)
-    case meeting(AssistantMeeting, String)
+    case meeting(String)
 }
 
 protocol ChatWrapper {
@@ -107,7 +107,7 @@ extension ChatWrapperMessageType {
             return text
         case let .phone(text):
             return text
-        case let .meeting(meeting, text):
+        case let .meeting(text):
             return text
         }
     }

@@ -9,6 +9,7 @@ import LGCoreKit
 
 protocol ProfileTabNavigator: TabNavigator {
     func openSettings()
+    func openEditUserBio()
     func editListing(_ listing: Listing, pageType: EventParameterTypePage?)
 }
 
@@ -20,6 +21,7 @@ protocol SettingsNavigator: class {
     func openHelp()
     func closeSettings()
     func open(url: URL)
+    func openEditUserBio()
 }
 
 protocol ChangeUsernameNavigator: class {
@@ -40,4 +42,8 @@ protocol EditLocationNavigator: class {
 
 protocol HelpNavigator: class {
     func closeHelp()
+}
+
+protocol EditUserBioNavigator: class {
+    func closeEditUserBio()
 }

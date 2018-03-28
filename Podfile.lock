@@ -116,7 +116,7 @@ DEPENDENCIES:
   - AppsFlyerFramework (= 4.8.2)
   - Branch (= 0.22.5)
   - bumper (from `git@github.com:letgoapp/bumper.git`, commit `7ec04a070eca2337f058954d7f53c474d616d7b1`)
-  - CameraManager (from `git@github.com:letgoapp/CameraManager.git`, commit `41a2c7a8847a76045f71cb9b6bf178ddfebc2fea`)
+  - CameraManager (from `git@github.com:letgoapp/CameraManager.git`, commit `7b32b50f8bdb1f94f1f1d0fdb6c99a9d21a7ee84`)
   - CHTCollectionViewWaterfallLayout (= 0.9.7)
   - CocoaLumberjack/Swift (= 3.3.0)
   - Crashlytics (= 3.9.3)
@@ -152,7 +152,7 @@ EXTERNAL SOURCES:
     :commit: 7ec04a070eca2337f058954d7f53c474d616d7b1
     :git: git@github.com:letgoapp/bumper.git
   CameraManager:
-    :commit: 41a2c7a8847a76045f71cb9b6bf178ddfebc2fea
+    :commit: 7b32b50f8bdb1f94f1f1d0fdb6c99a9d21a7ee84
     :git: git@github.com:letgoapp/CameraManager.git
   JBKenBurnsView:
     :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
@@ -172,7 +172,7 @@ CHECKOUT OPTIONS:
     :commit: 7ec04a070eca2337f058954d7f53c474d616d7b1
     :git: git@github.com:letgoapp/bumper.git
   CameraManager:
-    :commit: 41a2c7a8847a76045f71cb9b6bf178ddfebc2fea
+    :commit: 7b32b50f8bdb1f94f1f1d0fdb6c99a9d21a7ee84
     :git: git@github.com:letgoapp/CameraManager.git
   JBKenBurnsView:
     :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
@@ -234,6 +234,6 @@ SPEC CHECKSUMS:
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   SwiftyUserDefaults: 38267a30d58b7c8570995cd5defd354e43f056c6
 
-PODFILE CHECKSUM: 07dce813874715d17be8b83ac4cc2f6166c4e357
+PODFILE CHECKSUM: 14e8658be9db8ba383489d42c026eaf25bf72073
 
 COCOAPODS: 1.4.0

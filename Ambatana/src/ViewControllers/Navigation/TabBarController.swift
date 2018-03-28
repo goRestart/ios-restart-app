@@ -31,6 +31,10 @@ final class TabBarController: UITabBarController {
     fileprivate var featureFlags: FeatureFlaggeable
     fileprivate let tracker: Tracker
     
+    fileprivate var floatingViews: [UIView?] {
+        return [floatingSellButton, tooltip]
+    }
+    
     // Rx
     fileprivate let disposeBag = DisposeBag()
 
@@ -65,7 +69,6 @@ final class TabBarController: UITabBarController {
 
         setupAdminAccess()
         setupSellButton()
-        setupTooltip()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -76,6 +79,13 @@ final class TabBarController: UITabBarController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         viewModel.active = false
+    }
+    
+    override func viewDidLayoutSubviews() {
+        guard let _ = tooltip else {
+            setupTooltip()
+            return
+        }
     }
 
     
@@ -134,8 +144,7 @@ final class TabBarController: UITabBarController {
         let alpha: CGFloat = hidden ? 0 : 1
         if animated {
             if !hidden {
-                floatingSellButton.isHidden = false
-                tooltip?.isHidden = false
+                floatingViews.forEach { $0?.isHidden = false }
             }
             UIView.animate(withDuration: 0.35, animations: { [weak self] () -> Void in
                 self?.floatingSellButton.alpha = alpha
@@ -143,13 +152,11 @@ final class TabBarController: UITabBarController {
                 
                 }, completion: { [weak self] (completed) -> Void in
                     if completed {
-                        self?.floatingSellButton.isHidden = hidden
-                        self?.tooltip?.isHidden = hidden
+                        self?.floatingViews.forEach { $0?.isHidden = hidden }
                     }
                 })
         } else {
-            floatingSellButton.isHidden = hidden
-            tooltip?.isHidden = hidden
+            floatingViews.forEach { $0?.isHidden = hidden }
         }
     }
 
@@ -171,7 +178,7 @@ final class TabBarController: UITabBarController {
             UIView.animate(withDuration: duration,
                            delay: 0,
                            options: [.curveEaseIn], animations: { [weak self] in
-                            self?.floatingSellButton.transform = transform
+                            self?.floatingViews.forEach { $0?.transform = transform }
             }, completion: completion)
 
             super.setTabBarHidden(hidden, animated: animated)
@@ -235,7 +242,10 @@ final class TabBarController: UITabBarController {
     
     private func setupTooltip() {
         guard viewModel.shouldShowRealEstateTooltip else { return }
-        tooltip = Tooltip(targetView: floatingSellButton, superView: view, title: viewModel.realEstateTooltipText(), style: .black(closeEnabled: true),
+        tooltip = Tooltip(targetView: floatingSellButton,
+                          superView: view,
+                          title: viewModel.realEstateTooltipText(),
+                          style: .black(closeEnabled: true),
                           peakOnTop: false, actionBlock: { [weak self] in
                             self?.viewModel.tooltipDismissed()
             }, closeBlock: { [weak self] in

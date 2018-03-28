@@ -15,6 +15,7 @@ enum LetGoSetting {
     case changeEmail(email: String)
     case changeUsername(name: String)
     case changeLocation(location: String)
+    case changeUserBio
     case marketingNotifications(switchValue: Variable<Bool>, changeClosure: ((Bool) -> Void))
     case changePassword
     case help
@@ -46,7 +47,7 @@ class SettingsViewModel: BaseViewModel {
     private let notificationsManager: NotificationsManager
     private let tracker: Tracker
     private let pushPermissionManager: PushPermissionsManager
-
+    private let featureFlags: FeatureFlags
     private let kLetGoUserImageSquareSize: CGFloat = 1024
 
     private let disposeBag = DisposeBag()
@@ -63,17 +64,20 @@ class SettingsViewModel: BaseViewModel {
         self.init(myUserRepository: Core.myUserRepository,
                   notificationsManager: LGNotificationsManager.sharedInstance,
                   tracker: TrackerProxy.sharedInstance,
-                  pushPermissionManager: LGPushPermissionsManager.sharedInstance)
+                  pushPermissionManager: LGPushPermissionsManager.sharedInstance,
+                  featureFlags: FeatureFlags.sharedInstance)
     }
 
     init(myUserRepository: MyUserRepository,
          notificationsManager: NotificationsManager,
          tracker: Tracker,
-         pushPermissionManager: PushPermissionsManager) {
+         pushPermissionManager: PushPermissionsManager,
+         featureFlags: FeatureFlags) {
         self.myUserRepository = myUserRepository
         self.notificationsManager = notificationsManager
         self.tracker = tracker
         self.pushPermissionManager = pushPermissionManager
+        self.featureFlags = featureFlags
         super.init()
 
         setupRx()
@@ -184,11 +188,17 @@ class SettingsViewModel: BaseViewModel {
             location = countryCode
         }
         profileSettings.append(.changeLocation(location: location))
+
+        if featureFlags.newUserProfileView.isActive {
+            profileSettings.append(.changeUserBio)
+        }
+
         if let email = myUser?.email, email.isEmail() {
             profileSettings.append(.changePassword)
         }
         profileSettings.append(.marketingNotifications(switchValue: switchMarketingNotificationValue,
             changeClosure: { [weak self] enabled in self?.checkMarketingNotifications(enabled) } ))
+
         settingSections.append(SettingsSection(title: LGLocalizedString.settingsSectionProfile, settings: profileSettings))
 
         var supportSettings = [LetGoSetting]()
@@ -218,6 +228,8 @@ class SettingsViewModel: BaseViewModel {
             navigator?.openChangePassword()
         case .help:
             navigator?.openHelp()
+        case .changeUserBio:
+            navigator?.openEditUserBio()
         case .termsAndConditions:
             guard let url = termsAndConditionsURL else { return }
             navigator?.open(url: url)

@@ -42,7 +42,7 @@ class RelatedListingsView: UIView {
             hasListings.value = !objects.isEmpty
         }
     }
-    fileprivate let drawerManager = GridDrawerManager(myUserRepository: Core.myUserRepository)
+    fileprivate let drawerManager = GridDrawerManager(myUserRepository: Core.myUserRepository, locationManager: Core.locationManager)
 
     fileprivate let disposeBag = DisposeBag()
 
@@ -141,7 +141,6 @@ extension RelatedListingsView: UICollectionViewDelegate, UICollectionViewDataSou
         let cell = drawerManager.cell(item, collectionView: collectionView, atIndexPath: indexPath)
         drawerManager.draw(item, inCell: cell, delegate: nil, imageSize: layoutCellSize)
         cell.tag = (indexPath as NSIndexPath).hash
-        (cell as? ListingCell)?.isRelatedEnabled = false
         return cell
     }
 

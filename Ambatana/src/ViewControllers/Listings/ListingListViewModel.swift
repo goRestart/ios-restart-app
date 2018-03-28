@@ -398,29 +398,44 @@ class ListingListViewModel: BaseViewModel {
         })
     }
     
-    private func featuredInfoAdditionalCellHeight(for listing: Listing, width: CGFloat, isVariantEnabled: Bool) -> CGFloat {
-        let minHeightForFeaturedListing: CGFloat = 120.0
+    private func featuredInfoAdditionalCellHeight(for listing: Listing, width: CGFloat, isVariantEnabled: Bool, productDetailDisplayType: AddPriceTitleDistanceToListings) -> CGFloat {
+        let minHeightForFeaturedListing: CGFloat = ListingCellMetrics.ActionButton.totalHeight
         guard isVariantEnabled, let featured = listing.featured, featured else {
             return 0
         }
         var height: CGFloat = minHeightForFeaturedListing
-        if let title = listing.title {
-            height += title.heightForWidth(width: width, maxLines: 2, withFont: UIFont.mediumBodyFont)
-        }
+        height += productDetailDisplayType == .infoInImage ? 0 : ListingCellMetrics.getTotalHeightForPriceAndTitleView(listing.title, containerWidth: width)
         return height
     }
     
     private func discardedProductAdditionalHeight(for listing: Listing,
                                                   toHeight height: CGFloat,
                                                   variant: DiscardedProducts) -> CGFloat {
-        let minCellHeight: CGFloat = 168
+        let minCellHeight: CGFloat = ListingCellMetrics.minThumbnailHeightWithContent
         guard listing.status.isDiscarded, variant.isActive, height < minCellHeight else { return 0 }
         return minCellHeight - height
     }
     
+    private func additionalImageHeightWithProductDetail(for listing: Listing,
+                                                  toHeight height: CGFloat,
+                                                  variant: AddPriceTitleDistanceToListings) -> CGFloat {
+        let minCellHeight: CGFloat = ListingCellMetrics.minThumbnailHeightWithContent
+        guard variant.showDetailInImage, height < minCellHeight else { return 0 }
+        return minCellHeight - height
+    }
+    
+    private func normalCellAdditionalHeight(for listing: Listing,
+                                            width: CGFloat,
+                                            variant: AddPriceTitleDistanceToListings) -> CGFloat {
+        guard let isFeatured = listing.featured, !isFeatured else { return 0 }
+        guard variant.showDetailInNormalCell else { return 0 }
+        return ListingCellMetrics.getTotalHeightForPriceAndTitleView(listing.title, containerWidth: width)
+    }
+    
     private func thumbImageViewSize(for listing: Listing, widthConstraint: CGFloat) -> CGSize? {
         let maxPortraitAspectRatio = AspectRatio.w1h2
-        let minCellHeight: CGFloat = 80.0
+        let addPriceInPhotoFlag = featureFlags.addPriceTitleDistanceToListings
+        let minCellHeight: CGFloat = addPriceInPhotoFlag.showDetailInImage ? ListingCellMetrics.minThumbnailHeightWithContent : 80.0
         
         guard let originalThumbSize = listing.thumbnailSize?.toCGSize, originalThumbSize.height != 0 && originalThumbSize.width != 0 else {
             return nil
@@ -438,15 +453,17 @@ class ListingListViewModel: BaseViewModel {
         return thumbSize
     }
     
-    private func cellSize(for listing: Listing, widthConstraint: CGFloat, featureFlags: FeatureFlags) -> CGSize? {
+    private func cellSize(for listing: Listing, widthConstraint: CGFloat) -> CGSize? {
         guard var cellHeight = thumbImageViewSize(for: listing,
                                                   widthConstraint: widthConstraint)?.height else {
             return nil
         }
         cellHeight += featuredInfoAdditionalCellHeight(for: listing,
                                                        width: widthConstraint,
-                                                       isVariantEnabled: featureFlags.pricedBumpUpEnabled)
+                                                       isVariantEnabled: featureFlags.pricedBumpUpEnabled,
+                                                       productDetailDisplayType: featureFlags.addPriceTitleDistanceToListings)
         cellHeight += discardedProductAdditionalHeight(for: listing, toHeight: cellHeight, variant: featureFlags.discardedProducts)
+        cellHeight += normalCellAdditionalHeight(for: listing, width: widthConstraint, variant: featureFlags.addPriceTitleDistanceToListings)
         let cellSize = CGSize(width: widthConstraint, height: cellHeight)
         return cellSize
     }
@@ -462,7 +479,7 @@ class ListingListViewModel: BaseViewModel {
         let size: CGSize
         switch item {
         case let .listingCell(listing):
-            size = cellSize(for: listing, widthConstraint: cellWidth, featureFlags: featureFlags) ?? defaultCellSize
+            size = cellSize(for: listing, widthConstraint: cellWidth) ?? defaultCellSize
         case .collectionCell:
             let bannerAspectRatio = AspectRatio.w4h3
             size = bannerAspectRatio.size(setting: cellWidth, in: .width)

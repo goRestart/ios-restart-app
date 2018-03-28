@@ -182,7 +182,13 @@ class ChatViewModel: BaseViewModel {
 
     fileprivate var shouldShowOtherUserInfo: Bool {
         guard conversation.value.isSaved else { return true }
-        return !isLoading && isLastPage
+        let alreadyShown = messages.value.reduce(false) { (result, current)  in
+            if case ChatViewMessageType.userInfo(_,_,_,_,_) = current.type {
+                return true
+            }
+            return result
+        }
+        return !isLoading && isLastPage && !alreadyShown
     }
 
     fileprivate var safetyTipsAction: () -> Void {
@@ -740,7 +746,7 @@ extension ChatViewModel {
 
     func sendMeetingMessage(meeting: AssistantMeeting) {
         let meetingText = meetingParser.textForMeeting(meeting: meeting)
-        sendMessage(type: .meeting(meeting, meetingText))
+        sendMessage(type: .meeting(meetingText))
     }
 
     func send(sticker: Sticker) {

@@ -11,6 +11,7 @@ import Quick
 import Nimble
 
 class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
+
     var delegateReceivedShowAutoFadingMessage = false
     var delegateReceivedShowLoading = false
     var delegateReceivedHideLoading = false
@@ -110,6 +111,7 @@ class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
     func canOpenAppInvite() -> Bool { return false }
     func openRatingList(_ userId: String) {}
     func openMostSearchedItems(source: PostingSource, enableSearch: Bool) {}
+    func openUserReport(source: EventParameterTypePage, userReportedId: String) {}
     func openRealEstateOnboarding(pages: [LGTutorialPage],
                                   origin: EventParameterTypePage,
                                   tutorialType: EventParameterTutorialType) {}

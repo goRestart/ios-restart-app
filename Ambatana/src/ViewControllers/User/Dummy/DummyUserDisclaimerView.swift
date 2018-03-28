@@ -15,7 +15,6 @@ class DummyUserDisclaimerView: UIView {
     private let textLabel = UILabel()
     
     private var infoText: String
-
     
     // MARK: - Lifecycle
     
@@ -51,11 +50,11 @@ class DummyUserDisclaimerView: UIView {
     
     private func setupConstraints() {
         translatesAutoresizingMaskIntoConstraints = false
-        
+
         let subviews = [corneredBackgroundView, infoImageView, textLabel]
         setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: subviews)
         addSubviews(subviews)
-        
+
         corneredBackgroundView.layout(with: self).fill(by: Metrics.shortMargin)
         
         infoImageView.layout(with: self)

@@ -847,6 +847,30 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_mark_conversation_as_read_button", comment: "")
 	}
 
+	static var chatMeetingCellTitle: String {
+		return NSLocalizedString("chat_meeting_cell_title", comment: "")
+	}
+
+	static var chatMeetingCellDeclineButton: String {
+		return NSLocalizedString("chat_meeting_cell_decline_button", comment: "")
+	}
+
+	static var chatMeetingCellAcceptButton: String {
+		return NSLocalizedString("chat_meeting_cell_accept_button", comment: "")
+	}
+
+	static var chatMeetingCellStatusPending: String {
+		return NSLocalizedString("chat_meeting_cell_status_pending", comment: "")
+	}
+
+	static var chatMeetingCellStatusAccepted: String {
+		return NSLocalizedString("chat_meeting_cell_status_accepted", comment: "")
+	}
+
+	static var chatMeetingCellStatusDeclined: String {
+		return NSLocalizedString("chat_meeting_cell_status_declined", comment: "")
+	}
+
 	static var collectionTransportTitle: String {
 		return NSLocalizedString("collection_transport_title", comment: "")
 	}
@@ -1273,6 +1297,10 @@ struct LGLocalizedString {
 
 	static var directAnswerNotNegotiableTitle: String {
 		return NSLocalizedString("direct_answer_not_negotiable_title", comment: "")
+	}
+
+	static var directAnswerLetsMeet: String {
+		return NSLocalizedString("direct_answer_lets_meet", comment: "")
 	}
 
 	static var discarded: String {
@@ -1829,6 +1857,66 @@ struct LGLocalizedString {
 
 	static var mainProductsInviteNavigationBarButton: String {
 		return NSLocalizedString("main_products_invite_navigation_bar_button", comment: "")
+	}
+
+	static var meetingCreationViewTitle: String {
+		return NSLocalizedString("meeting_creation_view_title", comment: "")
+	}
+
+	static var meetingCreationViewPlace: String {
+		return NSLocalizedString("meeting_creation_view_place", comment: "")
+	}
+
+	static var meetingCreationViewSelectLocation: String {
+		return NSLocalizedString("meeting_creation_view_select_location", comment: "")
+	}
+
+	static var meetingCreationViewDateTime: String {
+		return NSLocalizedString("meeting_creation_view_date_time", comment: "")
+	}
+
+	static var meetingCreationViewSelectDateTime: String {
+		return NSLocalizedString("meeting_creation_view_select_date_time", comment: "")
+	}
+
+	static var meetingCreationViewSuggestCellSelect: String {
+		return NSLocalizedString("meeting_creation_view_suggest_cell_select", comment: "")
+	}
+
+	static var meetingCreationViewSuggestCellSelected: String {
+		return NSLocalizedString("meeting_creation_view_suggest_cell_selected", comment: "")
+	}
+
+	static var meetingCreationViewSearchCellTitle: String {
+		return NSLocalizedString("meeting_creation_view_search_cell_title", comment: "")
+	}
+
+	static var meetingCreationViewSearchCellSearch: String {
+		return NSLocalizedString("meeting_creation_view_search_cell_search", comment: "")
+	}
+
+	static var meetingCreationViewSendButton: String {
+		return NSLocalizedString("meeting_creation_view_send_button", comment: "")
+	}
+
+	static var meetingCreationTipsViewTitle: String {
+		return NSLocalizedString("meeting_creation_tips_view_title", comment: "")
+	}
+
+	static var meetingCreationTipsViewSubtitle: String {
+		return NSLocalizedString("meeting_creation_tips_view_subtitle", comment: "")
+	}
+
+	static var meetingCreationTipsViewSendButton: String {
+		return NSLocalizedString("meeting_creation_tips_view_send_button", comment: "")
+	}
+
+	static var meetingCreationTipsViewChangeButton: String {
+		return NSLocalizedString("meeting_creation_tips_view_change_button", comment: "")
+	}
+
+	static var meetingCreationTipsViewGotitButton: String {
+		return NSLocalizedString("meeting_creation_tips_view_gotit_button", comment: "")
 	}
 
 	static var mopubAdvertisingText: String {
@@ -2645,6 +2733,26 @@ struct LGLocalizedString {
 
 	static var productPostCameraPermissionsTitle: String {
 		return NSLocalizedString("product_post_camera_permissions_title", comment: "")
+	}
+
+	static func productPostCameraVideoRecordingTooltip(_ var1: String) -> String {
+		return String(format: NSLocalizedString("product_post_camera_video_recording_tooltip", comment: ""), var1)
+	}
+
+	static var productPostCameraVideoRecordingTooltipHighlightedWord: String {
+		return NSLocalizedString("product_post_camera_video_recording_tooltip_highlighted_word", comment: "")
+	}
+
+	static var productPostCameraPhotoModeButton: String {
+		return NSLocalizedString("product_post_camera_photo_mode_button", comment: "")
+	}
+
+	static var productPostCameraVideoModeButton: String {
+		return NSLocalizedString("product_post_camera_video_mode_button", comment: "")
+	}
+
+	static var productPostCameraGalleryTextButton: String {
+		return NSLocalizedString("product_post_camera_gallery_text_button", comment: "")
 	}
 
 	static var productPostCameraTabV2: String {

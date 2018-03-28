@@ -19,13 +19,21 @@ class AdvertisementCell: UICollectionViewCell, ReusableCell {
         bannerView.layout(with: contentView).fill()
         bannerView.set(accessibilityId: .advertisementCellBanner)
     }
+    
+    convenience init() {
+        self.init(frame: .zero)
+    }
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         resetUI()
         setAccessibilityIds()
     }
-
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         resetUI()

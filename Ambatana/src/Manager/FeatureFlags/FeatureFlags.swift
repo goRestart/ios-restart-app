@@ -39,7 +39,6 @@ protocol FeatureFlaggeable: class {
     var searchAutocomplete: SearchAutocomplete { get }
     var realEstateEnabled: RealEstateEnabled { get }
     var requestTimeOut: RequestsTimeOut { get }
-    var homeRelatedEnabled: HomeRelatedEnabled { get }
     var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
     var showClockInDirectAnswer : ShowClockInDirectAnswer { get }
     var newItemPage: NewItemPage { get }
@@ -69,6 +68,8 @@ protocol FeatureFlaggeable: class {
     var realEstateTutorial: RealEstateTutorial { get }
     var machineLearningMVP: MachineLearningMVP { get }
     var chatNorris: ChatNorris { get }
+    var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings { get }
+    var markAllConversationsAsRead: Bool { get }
     var showProTagUserProfile: Bool { get }
     var summaryAsFirstStep: SummaryAsFirstStep { get }
 
@@ -91,10 +92,6 @@ extension FeatureFlaggeable {
     var syncedData: Observable<Bool> {
         return trackingData.map { $0 != nil }
     }
-}
-
-extension HomeRelatedEnabled {
-    var isActive: Bool { return self == .active }
 }
 
 extension TaxonomiesAndTaxonomyChildrenInFeed {
@@ -192,8 +189,9 @@ extension DiscardedProducts {
 }
 
 extension OnboardingIncentivizePosting {
-    var isActive: Bool { return self == .blockingPosting }
+    var isActive: Bool { return self == .blockingPosting || self == .blockingPostingSkipWelcome }
 }
+
 extension PromoteBumpInEdit {
     var isActive: Bool { return self != .control && self != .baseline }
 }
@@ -214,6 +212,20 @@ extension IncreaseNumberOfPictures {
     var isActive: Bool { return self == .active }
 }
 
+extension AddPriceTitleDistanceToListings {
+    var hideDetailInFeaturedArea: Bool {
+        return self == .infoInImage
+    }
+    
+    var showDetailInNormalCell: Bool {
+        return self == .infoWithWhiteBackground
+    }
+    
+    var showDetailInImage: Bool {
+        return self == .infoInImage
+    }
+}
+
 extension CopyForChatNowInTurkey {
     var variantString: String {
         switch self {
@@ -231,6 +243,10 @@ extension CopyForChatNowInTurkey {
     }
 }
 
+extension NewUserProfileView {
+    var isActive: Bool { get { return self == .active } }
+}
+
 extension RealEstateTutorial {
     var isActive: Bool { return self != .baseline && self != .control }
 }
@@ -246,7 +262,6 @@ extension ChatNorris {
 extension SummaryAsFirstStep {
     var isActive: Bool { return self == .active }
 }
-
 
 class FeatureFlags: FeatureFlaggeable {
 
@@ -309,6 +324,7 @@ class FeatureFlags: FeatureFlaggeable {
             dao.save(timeoutForRequests: TimeInterval(Bumper.requestsTimeOut.timeout))
         } else {
             dao.save(timeoutForRequests: TimeInterval(abTests.requestsTimeOut.value))
+            dao.save(newUserProfile: NewUserProfileView.fromPosition(abTests.newUserProfileView.value))
         }
         abTests.variablesUpdated()
     }
@@ -375,13 +391,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.realEstateEnabled
         }
         return RealEstateEnabled.fromPosition(abTests.realEstateEnabled.value)
-    }
-    
-    var homeRelatedEnabled: HomeRelatedEnabled {
-        if Bumper.enabled {
-            return Bumper.homeRelatedEnabled
-        }
-        return HomeRelatedEnabled.fromPosition(abTests.homeRelatedEnabled.value)
     }
 
     var newItemPage: NewItemPage {
@@ -537,12 +546,20 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return MachineLearningMVP.fromPosition(abTests.machineLearningMVP.value)
     }
-
+    
+    var markAllConversationsAsRead: Bool {
+        if Bumper.enabled {
+            return Bumper.markAllConversationsAsRead
+        }
+        return abTests.markAllConversationsAsRead.value
+    }
+    
     var newUserProfileView: NewUserProfileView {
         if Bumper.enabled {
             return Bumper.newUserProfileView
+        } else {
+            return dao.retrieveNewUserProfile() ?? NewUserProfileView.fromPosition(abTests.newUserProfileView.value)
         }
-        return NewUserProfileView.fromPosition(abTests.newUserProfileView.value)
     }
     
     var showChatSafetyTips: Bool {
@@ -580,6 +597,13 @@ class FeatureFlags: FeatureFlaggeable {
         return IncreaseNumberOfPictures.fromPosition(abTests.increaseNumberOfPictures.value)
     }
     
+    var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings {
+        if Bumper.enabled {
+            return Bumper.addPriceTitleDistanceToListings
+        }
+        return AddPriceTitleDistanceToListings.fromPosition(abTests.addPriceTitleDistanceToListings.value)
+    }
+
     var showProTagUserProfile: Bool {
         if Bumper.enabled {
             return Bumper.showProTagUserProfile

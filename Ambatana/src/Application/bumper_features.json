@@ -46,11 +46,6 @@
          "description": "API requests timeout"
     },
     {
-        "name": "HomeRelatedEnabled",
-        "values": ["control", "baseline", "active"],
-        "description": "Show the related button in the main feed"
-    },
-    {
         "name": "TaxonomiesAndTaxonomyChildrenInFeed",
         "values": ["control", "baseline", "active"],
         "description": "Taxonomies and taxonomy children in feed as filter tags"
@@ -162,7 +157,7 @@
     },
     {
         "name": "OnboardingIncentivizePosting",
-        "values": ["control", "baseline", "blockingPosting"],
+        "values": ["control", "baseline", "blockingPosting", "blockingPostingSkipWelcome"],
         "description": "Leads the user through the posting feature and onboarding improvements"
     },
     {
@@ -204,6 +199,16 @@
         "name": "ChatNorris",
         "values": ["control", "baseline", "redButton", "whiteButton", "greenButton"],
         "description": "Show the create meeting option in chat detail view."
+    },
+    {
+        "name": "AddPriceTitleDistanceToListings",
+        "values": ["control", "baseline", "infoInImage", "infoWithWhiteBackground"],
+        "description": "Add price, title and distance to listings"
+    },
+    {
+        "name": "MarkAllConversationsAsRead",
+        "values": ["no", "yes"],
+        "description": "Show a button to mark all conversations as read"
     },
     {
         "name": "ShowProTagUserProfile",
