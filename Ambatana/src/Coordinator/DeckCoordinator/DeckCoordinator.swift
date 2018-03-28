@@ -43,14 +43,16 @@ final class DeckCoordinator: DeckNavigator, ListingDeckOnBoardingNavigator, Deck
                      cellModels: [ListingCellModel]?,
                      listingListRequester: ListingListRequester,
                      source: EventParameterListingVisitSource,
-                     listingNavigator: ListingDetailNavigator) {
+                     listingNavigator: ListingDetailNavigator,
+                     actionOnFirstAppear: DeckActionOnFirstAppear) {
         self.init(navigationController: navigationController,
                   listing: listing,
                   cellModels: cellModels,
                   listingListRequester: listingListRequester,
                   source: source,
                   listingNavigator: listingNavigator,
-                  keyValueStorage: KeyValueStorage.sharedInstance)
+                  keyValueStorage: KeyValueStorage.sharedInstance,
+                  actionOnFirstAppear: actionOnFirstAppear)
     }
 
     private init(navigationController: UINavigationController,
@@ -59,13 +61,15 @@ final class DeckCoordinator: DeckNavigator, ListingDeckOnBoardingNavigator, Deck
                  listingListRequester: ListingListRequester,
                  source: EventParameterListingVisitSource,
                  listingNavigator: ListingDetailNavigator,
-                 keyValueStorage: KeyValueStorageable) {
+                 keyValueStorage: KeyValueStorageable,
+                 actionOnFirstAppear: DeckActionOnFirstAppear) {
 
         let viewModel = ListingDeckViewModel(listModels: cellModels,
                                              listing: listing,
                                              listingListRequester: listingListRequester,
                                              source: source,
-                                             detailNavigator: listingNavigator)
+                                             detailNavigator: listingNavigator,
+                                             actionOnFirstAppear: actionOnFirstAppear)
         let deckViewController = ListingDeckViewController(viewModel: viewModel)
         self.deckViewController = deckViewController
 

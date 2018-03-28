@@ -347,6 +347,31 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     }
 }
 
+// TODO: Refactor this in a testable way
+extension ListingDeckViewController {
+    private func processActionOnFirstAppear() {
+        switch viewModel.actionOnFirstAppear {
+        case .showKeyboard:
+            quickChatView?.becomeFirstResponder()
+        case .showShareSheet:
+            viewModel.didTapCardAction()
+        case let .triggerBumpUp(bumpUpProductData,
+                                bumpUpType,
+                                triggerBumpUpSource,
+                                typePage):
+            print("")
+//            viewModel.showBumpUpView(bumpUpProductData: bumpUpProductData,
+//                                     bumpUpType: bumpUpType,
+//                                     bumpUpSource: triggerBumpUpSource,
+//                                     typePage: typePage)
+        case .triggerMarkAsSold:
+            viewModel.currentListingViewModel?.markAsSold()
+        default:
+            break
+        }
+    }
+}
+
 extension ListingDeckViewController: ListingDeckViewModelDelegate {
 
     func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?) {
