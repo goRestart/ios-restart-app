@@ -338,6 +338,7 @@ class FeatureFlags: FeatureFlaggeable {
         } else {
             dao.save(timeoutForRequests: TimeInterval(abTests.requestsTimeOut.value))
             dao.save(newUserProfile: NewUserProfileView.fromPosition(abTests.newUserProfileView.value))
+            dao.save(showAdvanceReputationSystem: ShowAdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value))
         }
         abTests.variablesUpdated()
     }
@@ -635,7 +636,8 @@ class FeatureFlags: FeatureFlaggeable {
         if Bumper.enabled {
             return Bumper.showAdvancedReputationSystem
         }
-        return ShowAdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value)
+        let cached = dao.retrieveShowAdvanceReputationSystem()
+        return cached ?? ShowAdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value)
     }
 
 
