@@ -63,7 +63,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                 sut.bumpUpBannerInfo.asObservable().bind(to:bumpUpBannerInfoObserver).disposed(by:disposeBag)
             }
 
-            func buildSut(productListModels: [ListingCellModel]? = nil,
+            func buildSut(productListModels: [ListingCellModel] = [],
                           initialProduct: Product? = nil,
                           source: EventParameterListingVisitSource = .listingList,
                           actionOnFirstAppear: ProductCarouselActionOnFirstAppear = .nonexistent,
@@ -74,7 +74,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                 if let initialProduct = initialProduct {
                     initialListing = .product(initialProduct)
                 }
-
                 sut = ListingDeckViewModel(listModels: productListModels,
                                            initialListing: initialListing,
                                            listingListRequester: listingListRequester,
@@ -82,8 +81,13 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                                            source: source,
                                            imageDownloader: imageDownloader,
                                            listingViewModelMaker: listingViewModelMaker,
-                                           shouldSyncFirstListing: firstProductSyncRequired,
-                                           binder: ListingDeckViewModelBinder())
+                                           myUserRepository: myUserRepository,
+                                           pagination: Pagination.makePagination(first: 0, next: 1, isLast: false),
+                                           prefetching: Prefetching(previousCount: 3, nextCount: 3),
+                                           shouldSyncFirstListing: false,
+                                           binder: ListingDeckViewModelBinder(),
+                                           tracker: tracker,
+                                           trackingIndex: nil)
 
                 sut.delegate = self
             }
