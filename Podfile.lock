@@ -72,6 +72,8 @@ PODS:
     - RxSwift (~> 4.0.0)
     - RxSwiftExt (~> 3.0.0)
     - SocketRocket (= 0.5.1)
+  - LGResources (1.0.0):
+    - SwiftGen (= 5.3.0)
   - lottie-ios (2.5.0)
   - NewRelicAgent (6.1.1)
   - Nimble (7.0.2)
@@ -108,6 +110,7 @@ PODS:
   - RxTest (4.0.0):
     - RxSwift (~> 4.0)
   - SocketRocket (0.5.1)
+  - SwiftGen (5.3.0)
   - SwiftyUserDefaults (3.0.1)
 
 DEPENDENCIES:
@@ -135,6 +138,7 @@ DEPENDENCIES:
   - Leanplum-iOS-SDK (= 2.0.5)
   - LGCollapsibleLabel (= 1.2.0)
   - LGCoreKit (= 4.13.4)
+  - LGResources (from `./modules/LGResources`)
   - lottie-ios (= 2.5.0)
   - NewRelicAgent (= 6.1.1)
   - Nimble (= 7.0.2)
@@ -160,6 +164,8 @@ EXTERNAL SOURCES:
   KMPlaceholderTextView:
     :commit: 426117c98e8da8fc7d64a7d3c2f0f45c48d595e6
     :git: https://github.com/letgoapp/KMPlaceholderTextView
+  LGResources:
+    :path: ./modules/LGResources
   SwiftyUserDefaults:
     :commit: dd3d8ddc5bf95db09b66185182b5a555ac59efd5
     :git: https://github.com/Dschee/SwiftyUserDefaults
@@ -212,6 +218,7 @@ SPEC CHECKSUMS:
   Leanplum-iOS-SDK: d7d387b7f3688e697f2893978bfe67092df5b7ca
   LGCollapsibleLabel: 2a5ebb0ff0ff3e1d7ab0c295a17c923db000f557
   LGCoreKit: f651555f78590adce502297a14279797c7cf7f9b
+  LGResources: 97d198a4b730fcedcd4514801be88fe0ab5390ba
   lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
   NewRelicAgent: 652434a627201e3745cd5849228feeb10afe1879
   Nimble: bfe1f814edabba69ff145cb1283e04ed636a67f2
@@ -226,8 +233,9 @@ SPEC CHECKSUMS:
   RxSwiftExt: b06c47dff66cd33ca7683bba1e74b0c5c8e3592e
   RxTest: 0041e792cede35e53e4749f378d21482af0e9d12
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
+  SwiftGen: 4379bd3640b0a212a0f6ea3c494adba385513d10
   SwiftyUserDefaults: 38267a30d58b7c8570995cd5defd354e43f056c6
 
-PODFILE CHECKSUM: d70f8d68c674be038ad39b71ec57e129f91c6ec3
+PODFILE CHECKSUM: 92662cb79365136f77dc82936caaf3dd41d302ce
 
 COCOAPODS: 1.4.0

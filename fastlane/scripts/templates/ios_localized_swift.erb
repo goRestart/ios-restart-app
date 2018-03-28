@@ -1,34 +1,30 @@
+// File generated with fastlane strings
+
 import Foundation
 
-/// This class only exists to be able to determine the bundle where it belongs to.
-fileprivate class Helper { }
+extension R {
 
-fileprivate let bundle: Bundle = {
-    let path = Bundle(for: Helper.self).path(forResource: "LGResourcesBundle", ofType: "bundle")!
-    return Bundle(path: path)!
-}()
-
-public struct LGLocalizedString {<%
-@terms.each do |term| 
-	if term.restriction == 'i' || term.restriction == nil
-    	if term.is_comment?
-%>
-	// <%= term.values[@current_lang] %>
-<% 		
-		elsif term.has_specifiers?
-%>
-	public static func <%= term.keyword_constant_swift %>(<%= term.specifiers_args %>) -> String {
-		return String(format: NSLocalizedString("<%= term.keyword %>", bundle: bundle, comment: ""), <%= term.specifiers_vars %>)
-	}
-<% 
-		else
-%>
-	public static var <%= term.keyword_constant_swift %>: String {
-		return NSLocalizedString("<%= term.keyword %>", bundle: bundle, comment: "")
-	}
-<%
+	public struct Strings {<%
+	@terms.each do |term| 
+		if term.restriction == 'i' || term.restriction == nil
+	    	if term.is_comment?
+	%>
+		// <%= term.values[@current_lang] %>
+	<% 		
+			elsif term.has_specifiers?
+	%>
+		public static func <%= term.keyword_constant_swift %>(<%= term.specifiers_args %>) -> String {
+			return String(format: NSLocalizedString("<%= term.keyword %>", bundle: bundle, comment: ""), <%= term.specifiers_vars %>)
+		}
+	<% 
+			else
+	%>
+		public static var <%= term.keyword_constant_swift %>: String {
+			return NSLocalizedString("<%= term.keyword %>", bundle: bundle, comment: "")
+		}
+	<%
+			end
 		end
-	end
-end 
-%>}
-
+	end 
+	%>}
+}

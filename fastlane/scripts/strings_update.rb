@@ -68,12 +68,12 @@ def generate_ios(language, target_directory)
   end
 end
 
-# Creates a LGLocalizedString.swift file with the keys to access the translated string
+# Creates a Strings.swift file with the keys to access the translated string
   # Params:
   # +target_directory+:: folder where the file will be created
 def generate_ios_constants(target_directory)
-  process_template 'ios_localized_swift.erb', target_directory, 'LGLocalizedString.swift'
-  puts ' > '+'LGLocalizedString.swift'.yellow
+  process_template 'ios_localized_swift.erb', target_directory, 'Strings.swift'
+  puts ' > '+'Strings.swift'.yellow
 end
 
 #Prints on screen all the unused keys and also marks that keys on spreadsheet as unused
