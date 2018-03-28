@@ -82,8 +82,13 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                                            source: source,
                                            imageDownloader: imageDownloader,
                                            listingViewModelMaker: listingViewModelMaker,
+                                           myUserRepository: myUserRepository,
+                                           pagination: Pagination.makePagination(first: 0, next: 50, isLast: false),
+                                           prefetching: Prefetching(previousCount: 3, nextCount: 3),
                                            shouldSyncFirstListing: firstProductSyncRequired,
-                                           binder: ListingDeckViewModelBinder())
+                                           binder: ListingDeckViewModelBinder(),
+                                           tracker: tracker,
+                                           actionOnFirstAppear: actionOnFirstAppear)
 
                 sut.delegate = self
             }
