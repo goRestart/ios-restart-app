@@ -162,5 +162,5 @@ extension ListingDeckViewModelBinderSpec: ListingDetailNavigator {
     func openRealEstateOnboarding(pages: [LGTutorialPage],
                                   origin: EventParameterTypePage,
                                   tutorialType: EventParameterTutorialType) {}
+    func openUserReport(source: EventParameterTypePage, userReportedId: String) {}
 }
-

@@ -85,17 +85,4 @@ extension MainTabCoordinator: MainTabNavigator {
         let vc = TaxonomiesViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: true)
     }
-
-    func openRelatedItems(relatedToListing listing: Listing) {
-        guard let relatedRequester = RelatedListingListRequester(listing: listing,
-                                                                 itemsPerPage: Constants.numListingsPerPageDefault)
-            else { return }
-        let simpleRelatedListingsVM = RelatedListingsViewModel(requester: relatedRequester,
-                                                               originListing: listing,
-                                                               title: LGLocalizedString.relatedItemsTitle,
-                                                               listingVisitSource: .relatedListings)
-        simpleRelatedListingsVM.navigator = self
-        let simpleRelatedListingsVC = SimpleListingsViewController(viewModel: simpleRelatedListingsVM)
-        navigationController.pushViewController(simpleRelatedListingsVC, animated: true)
-    }
 }

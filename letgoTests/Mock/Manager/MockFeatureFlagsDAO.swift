@@ -10,6 +10,7 @@
 
 class MockFeatureFlagsDAO: FeatureFlagsDAO {
     var timeoutForRequests: TimeInterval?
+    var newUserProfile: NewUserProfileView?
 
     func retrieveTimeoutForRequests() -> TimeInterval? {
         return timeoutForRequests
@@ -17,5 +18,13 @@ class MockFeatureFlagsDAO: FeatureFlagsDAO {
 
     func save(timeoutForRequests: TimeInterval) {
         self.timeoutForRequests = timeoutForRequests
+    }
+
+    func retrieveNewUserProfile() -> NewUserProfileView? {
+        return newUserProfile
+    }
+
+    func save(newUserProfile: NewUserProfileView) {
+        self.newUserProfile = newUserProfile
     }
 }

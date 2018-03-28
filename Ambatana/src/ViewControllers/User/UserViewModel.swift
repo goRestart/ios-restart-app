@@ -723,6 +723,7 @@ extension UserViewModel: SocialSharerDelegate {
 // MARK: - Tracking
 
 extension UserViewModel {
+
     func trackVisit() {
         guard let user = user.value else { return }
         
@@ -803,9 +804,7 @@ extension UserViewModel {
 }
 
 extension UserViewModel: ListingCellDelegate {
-    
-    func relatedButtonPressedFor(listing: Listing) {}
-    
+        
     func chatButtonPressedFor(listing: Listing) {}
     
     func editPressedForDiscarded(listing: Listing) {
