@@ -34,10 +34,9 @@ def shared_pods
     pod "NewRelicAgent",        "6.1.1"     # Obj-c
 
     # letgo Core
-#    pod "LGCoreKit",             "4.13.3"
+#    pod "LGCoreKit",             "4.13.4"
 #   pod "LGCoreKit",            :path => "../lgcorekit"
-   pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => '0cdc810afbed476fa580c9d14732c523fe76ccd1'
-
+   pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => '44c25fb0eb6ca73a83128f7d4e46bce7726ba2f1'
 
     # letgo Collapsible label
     pod "LGCollapsibleLabel",   "1.2.0"     # :path => "../collapsiblelabel"
@@ -61,7 +60,7 @@ def shared_pods
     # Custom camera
 #    pod "CameraManager",        "4.0.1"
 #    pod "CameraManager",            :path => "../CameraManager"
-    pod "CameraManager",            :git => 'git@github.com:letgoapp/CameraManager.git', :commit => '41a2c7a8847a76045f71cb9b6bf178ddfebc2fea'
+    pod "CameraManager",            :git => 'git@github.com:letgoapp/CameraManager.git', :commit => '7b32b50f8bdb1f94f1f1d0fdb6c99a9d21a7ee84'
 
     # Ken Burns effect
     pod "JBKenBurnsView",        :git => 'https://github.com/letgoapp/JBKenBurns', :commit => '56419f79cb763f8d2ee3a75e4eca51ebc1deab6a' # Obj-c

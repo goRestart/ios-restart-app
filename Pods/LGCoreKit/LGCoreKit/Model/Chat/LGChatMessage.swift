@@ -14,7 +14,7 @@ public enum ChatMessageType: String, Decodable, Equatable {
     case expressChat = "express_chat"
     case favoritedListing  = "favorited_product"
     case phone = "phone"
-    case chatNorris = "chat_norris"
+    case meeting = "chat_norris"
     case interlocutorIsTyping
 }
 

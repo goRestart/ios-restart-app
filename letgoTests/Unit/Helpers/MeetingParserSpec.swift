@@ -16,7 +16,7 @@ class MeetingParserSpec: QuickSpec {
         var sut: LGMeetingParser!
         var dateFormatter: DateFormatter!
 
-        fdescribe("Meeting Parser") {
+        describe("Meeting Parser") {
             describe("create meeting from string") {
                 var messageText: String!
                 var meeting: AssistantMeeting!
@@ -226,6 +226,73 @@ class MeetingParserSpec: QuickSpec {
                     }
                     it ("Meeting is converted to text") {
                         expect(messageText) == "🗓 Let's meet at:\n\n📍 Pasa Tapas, Barcelona (37.42° N, -122.08° E)\n🕐 03/31/2018 06:34 AM GMT+02:00"
+                    }
+                }
+                context("meeting requested but with no date") {
+                    beforeEach {
+                        meeting = AssistantMeeting(meetingType: .requested,
+                                                   date: nil,
+                                                   locationName: "Pasa Tapas, Barcelona",
+                                                   coordinates: LGLocationCoordinates2D(latitude: 37.42, longitude: -122.08),
+                                                   status: .pending)
+                        messageText = sut.textForMeeting(meeting: meeting)
+                    }
+                    it ("Meeting is converted to text") {
+                        expect(messageText) == "🗓 Let's meet at:\n\n📍 Pasa Tapas, Barcelona (37.42° N, -122.08° E)\n🕐 "
+                    }
+                }
+                context("meeting requested but with no location name") {
+                    beforeEach {
+                        let date = dateFormatter.date(from: "03/31/2018 04:34 AM GMT")
+                        meeting = AssistantMeeting(meetingType: .requested,
+                                                   date: date,
+                                                   locationName: nil,
+                                                   coordinates: LGLocationCoordinates2D(latitude: 37.42, longitude: -122.08),
+                                                   status: .pending)
+                        messageText = sut.textForMeeting(meeting: meeting)
+                    }
+                    it ("Meeting is converted to text") {
+                        expect(messageText) == "🗓 Let's meet at:\n\n📍  (37.42° N, -122.08° E)\n🕐 03/31/2018 06:34 AM GMT+02:00"
+                    }
+                }
+                context("meeting requested but with no coordinates") {
+                    beforeEach {
+                        let date = dateFormatter.date(from: "03/31/2018 04:34 AM GMT")
+                        meeting = AssistantMeeting(meetingType: .requested,
+                                                   date: date,
+                                                   locationName: "Pasa Tapas, Barcelona",
+                                                   coordinates: nil,
+                                                   status: .pending)
+                        messageText = sut.textForMeeting(meeting: meeting)
+                    }
+                    it ("Meeting is converted to text") {
+                        expect(messageText) == "🗓 Let's meet at:\n\n📍 Pasa Tapas, Barcelona \n🕐 03/31/2018 06:34 AM GMT+02:00"
+                    }
+                }
+                context("meeting accepted") {
+                    beforeEach {
+                        meeting = AssistantMeeting(meetingType: .accepted,
+                                                   date: nil,
+                                                   locationName: nil,
+                                                   coordinates: nil,
+                                                   status: nil)
+                        messageText = sut.textForMeeting(meeting: meeting)
+                    }
+                    it ("Meeting is converted to text") {
+                        expect(messageText) == "✅ OK"
+                    }
+                }
+                context("meeting rejected") {
+                    beforeEach {
+                        meeting = AssistantMeeting(meetingType: .rejected,
+                                                   date: nil,
+                                                   locationName: nil,
+                                                   coordinates: nil,
+                                                   status: nil)
+                        messageText = sut.textForMeeting(meeting: meeting)
+                    }
+                    it ("Meeting is converted to text") {
+                        expect(messageText) == "❌ Decline"
                     }
                 }
             }

@@ -69,16 +69,16 @@ class ChatViewMessageAdapter {
             }
         case .phone:
             type = ChatViewMessageType.text(text: LGLocalizedString.professionalDealerAskPhoneChatMessage(message.text))
-        case .chatNorris:
+        case .meeting:
             if featureFlags.chatNorris.isActive,
                 let meeting = meetingParser.createMeetingFromMessage(message: message.text) {
                 if meeting.meetingType == .requested {
-                    type = ChatViewMessageType.chatNorris(type: meeting.meetingType,
-                                                          date: meeting.date,
-                                                          locationName: meeting.locationName,
-                                                          coordinates: meeting.coordinates,
-                                                          status: meeting.status,
-                                                          text: message.text)
+                    type = ChatViewMessageType.meeting(type: meeting.meetingType,
+                                                       date: meeting.date,
+                                                       locationName: meeting.locationName,
+                                                       coordinates: meeting.coordinates,
+                                                       status: meeting.status,
+                                                       text: message.text)
                 } else {
                     return nil
                 }
@@ -110,17 +110,8 @@ class ChatViewMessageAdapter {
             }
         case .phone:
             type = ChatViewMessageType.text(text: LGLocalizedString.professionalDealerAskPhoneChatMessage(text))
-        case .chatNorris:
-            if let meeting = meetingParser.createMeetingFromMessage(message: text) {
-                type = ChatViewMessageType.chatNorris(type: meeting.meetingType,
-                                                      date: meeting.date,
-                                                      locationName: meeting.locationName,
-                                                      coordinates: meeting.coordinates,
-                                                      status: meeting.status,
-                                                      text: text)
-            } else {
-                type = ChatViewMessageType.text(text: text)
-            }
+        case .meeting:
+            type = ChatViewMessageType.text(text: text)
         case .interlocutorIsTyping:
             type = ChatViewMessageType.interlocutorIsTyping
         }

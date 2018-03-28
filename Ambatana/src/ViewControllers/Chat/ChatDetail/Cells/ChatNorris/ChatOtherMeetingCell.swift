@@ -8,7 +8,6 @@
 
 import Foundation
 import LGCoreKit
-import MapKit
 
 protocol OtherMeetingCellDelegate: class {
     func acceptMeeting()

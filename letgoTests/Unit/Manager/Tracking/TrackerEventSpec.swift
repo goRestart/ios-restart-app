@@ -3730,6 +3730,19 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
+            describe("profileEditBioComplete") {
+                beforeEach {
+                    sut = TrackerEvent.profileEditBioComplete(userId: "1234")
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("profile-edit-bio"))
+                }
+                it("contains user-id param") {
+                    let param = sut.params!.stringKeyParams["user-id"] as? String
+                    expect(param) == "1234"
+                }
+            }
+
             describe("appInviteFriendStart") {
                 beforeEach {
                     sut = TrackerEvent.appInviteFriendStart(.settings)
@@ -4676,6 +4689,15 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("chat-inactive-conversations-shown"))
+                }
+            }
+            
+            describe("chat mark messages as read") {
+                beforeEach {
+                    sut = TrackerEvent.chatMarkMessagesAsRead()
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("mark-messages-as-read"))
                 }
             }
             

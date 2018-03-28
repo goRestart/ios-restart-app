@@ -2034,6 +2034,21 @@
 // Message title when user didn't allow access to camera
 "product_post_camera_permissions_title" = "Allow access to Camera";
 
+// Video posting, tooltip: hold to record a video
+"product_post_camera_video_recording_tooltip" = "%@ to record a video";
+
+// Video posting, tooltip: hold to record a video, highlighted hold
+"product_post_camera_video_recording_tooltip_highlighted_word" = "Hold";
+
+// Video posting, button to set camera in photo mode
+"product_post_camera_photo_mode_button" = "PHOTO";
+
+// Video posting, button to set camera in video mode
+"product_post_camera_video_mode_button" = "VIDEO";
+
+// Video posting, button to select photos from the gallery
+"product_post_camera_gallery_text_button" = "GALLERY";
+
 // Camera tab on posting
 "product_post_camera_tab_v2" = "CAMERA";
 
@@ -2861,7 +2876,7 @@
 "real_estate_gallery_view_subtitle" = "Select up to 5 images of the property you want to sell or rent";
 
 // Message inside gallery view to explain about picture selection on RE
-"real_estate_gallery_view_subtitle_params" = "Select up to %d images of the property you want to sell or rent";
+"real_estate_gallery_view_subtitle_params" = "Select up to %d images of the property you want to sell or rent. The first one will be your featured photo so make sure it's a good one!";
 
 // Message inside camera view to explain about picture selection on RE
 "real_estate_camera_view_real_estate_message" = "Snap a picture of the property you want to sell or rent";

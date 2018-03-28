@@ -22,8 +22,10 @@ def launchUnitTests(){
   node(node_name){
     stage ("Unit Test"){
 	    checkout scm
-	    sh 'export LC_ALL=en_US.UTF-8' 
-    	sh 'fastlane ciJenkins'
+	    sh 'export LC_ALL=en_US.UTF-8'
+	    // we add an || true in case there are no simulators available to avoid job to fail
+	    sh 'killall "Simulator" || true'  
+    	    sh 'fastlane ciJenkins'
     }
   }
 }

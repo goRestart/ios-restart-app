@@ -1,15 +1,17 @@
 //
-//  LocationApiDataSource.swift
+//  SuggestedLocationsApiDataSource.swift
 //  LGCoreKit
 //
-//  Created by Dídac on 09/02/2018.
+//  Created by Dídac on 27/03/2018.
 //  Copyright © 2018 Ambatana Inc. All rights reserved.
 //
+
+import Foundation
 
 import Result
 import CoreLocation
 
-class LocationApiDataSource: LocationDataSource {
+final class SuggestedLocationsApiDataSource: SuggestedLocationsDataSource {
 
     private var apiClient: ApiClient
 
@@ -20,30 +22,13 @@ class LocationApiDataSource: LocationDataSource {
     }
 
     // MARK: - LocationDataSource
-
-    func retrieveLocationSuggestions(addressString: String,
-                                     region: CLCircularRegion?,
-                                     completion: SuggestionsLocationDataSourceCompletion?) {
-
-    }
-
-    func retrievePostalAddress(location: LGLocationCoordinates2D,
-                               completion: PostalAddressLocationDataSourceCompletion?) {
-
-    }
-
-    func retrieveLocationSuggestionDetails(placeId: String,
-                                           completion: SuggestionLocationDetailsDataSourceCompletion?) {
-
-    }
-
     func retrieveSuggestedLocationsForListing(listingId: String,
                                               completion: MeetingSuggestedLocationsDataSourceCompletion?) {
         let request = SuggestedLocationsRouter.retrieveSuggestedLocations(listingId: listingId)
-        apiClient.request(request, decoder: LocationApiDataSource.decoderArray, completion: completion)
+        apiClient.request(request, decoder: SuggestedLocationsApiDataSource.decoderArray, completion: completion)
     }
 
-    
+
     // MARK: Private methods
 
     private static func decoderArray(_ object: Any) -> [SuggestedLocation]? {

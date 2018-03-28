@@ -11,7 +11,6 @@ import Result
 
 public class LGLocationRepository: LocationRepository {
 
-    let locationApiDataSource: LocationDataSource
     let appleLocationDataSource: LocationDataSource
     let niordLocationDataSource: LocationDataSource
     let ipLookupDataSource: IPLookupDataSource
@@ -19,12 +18,10 @@ public class LGLocationRepository: LocationRepository {
     
     // MARK: - Lifecycle
 
-    public init(locationApiDataSource: LocationDataSource,
-                appleLocationDataSource: LocationDataSource,
+    public init(appleLocationDataSource: LocationDataSource,
                 niordLocationDataSource: LocationDataSource,
                 ipLookupDataSource: IPLookupDataSource,
                 locationManager: CLLocationManagerProtocol) {
-        self.locationApiDataSource = locationApiDataSource
         self.appleLocationDataSource = appleLocationDataSource
         self.niordLocationDataSource = niordLocationDataSource
         self.ipLookupDataSource = ipLookupDataSource
@@ -134,13 +131,6 @@ public class LGLocationRepository: LocationRepository {
             } else if let error = result.error {
                 completion?(IPLookupLocationRepositoryResult(error: error))
             }
-        }
-    }
-
-    public func retrieveSuggestedLocationsForListing(listingId: String, completion: MeetingSuggestedLocationsRepositoryCompletion?) {
-        locationApiDataSource.retrieveSuggestedLocationsForListing(
-            listingId: listingId) { result in
-                handleApiResult(result, completion: completion)
         }
     }
 

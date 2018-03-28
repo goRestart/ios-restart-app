@@ -34,7 +34,7 @@ class ChatCellDrawerFactory {
             return ChatOtherInfoCellDrawer(autoHide: autoHide)
         case .askPhoneNumber:
             return ChatAskPhoneNumberCellDrawer(autoHide: autoHide)
-        case let .chatNorris(type,_,_,_,_,_):
+        case let .meeting(type,_,_,_,_,_):
             if meetingsEnabled, type == .requested {
                 if isMine {
                     return ChatMyMeetingCellDrawer(autoHide: autoHide)

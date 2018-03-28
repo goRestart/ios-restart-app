@@ -451,22 +451,27 @@ open class CameraManager: NSObject, AVCaptureFileOutputRecordingDelegate, UIGest
         
         sessionQueue.async(execute: {
             let stillImageOutput = self._getStillImageOutput()
-            stillImageOutput.captureStillImageAsynchronously(from: stillImageOutput.connection(with: AVMediaType.video)!, completionHandler: { [weak self] sample, error in
-                
-                if let error = error {
-                    DispatchQueue.main.async(execute: {
-                        self?._show(NSLocalizedString("Error", comment:""), message: error.localizedDescription)
-                    })
-                    imageCompletion(nil, error as NSError?)
-                    return
-                }
-                
-                let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sample!)
-                imageCompletion(imageData, nil)
-                
-            })
+            
+            if let connection = stillImageOutput.connection(with: AVMediaType.video),
+                connection.isEnabled {
+                stillImageOutput.captureStillImageAsynchronously(from: connection, completionHandler: { [weak self] sample, error in
+                    
+                    if let error = error {
+                        DispatchQueue.main.async(execute: {
+                            self?._show(NSLocalizedString("Error", comment:""), message: error.localizedDescription)
+                        })
+                        imageCompletion(nil, error as NSError?)
+                        return
+                    }
+                    
+                    let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sample!)
+                    imageCompletion(imageData, nil)
+                    
+                })
+            } else {
+                imageCompletion(nil, NSError())
+            }
         })
-        
     }
     
     /**

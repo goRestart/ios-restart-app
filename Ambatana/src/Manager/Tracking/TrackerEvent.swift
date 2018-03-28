@@ -953,6 +953,12 @@ struct TrackerEvent {
         return TrackerEvent(name: .profileEditEmailComplete, params: params)
     }
 
+    static func profileEditBioComplete(userId: String) -> TrackerEvent {
+        var params = EventParameters()
+        params[.userId] = userId
+        return TrackerEvent(name: .profileEditBioComplete, params: params)
+    }
+
     static func appInviteFriendStart(_ typePage: EventParameterTypePage) -> TrackerEvent {
             var params = EventParameters()
             params[.typePage] = typePage.rawValue
@@ -1147,6 +1153,10 @@ struct TrackerEvent {
     
     static func chatInactiveConversationsShown() -> TrackerEvent {
         return TrackerEvent(name: .chatInactiveConversationsShown, params: EventParameters())
+    }
+    
+    static func chatMarkMessagesAsRead() -> TrackerEvent {
+        return TrackerEvent(name: .markMessagesAsRead, params: EventParameters())
     }
     
     static func expressChatStart(_ trigger: EventParameterExpressChatTrigger) -> TrackerEvent {

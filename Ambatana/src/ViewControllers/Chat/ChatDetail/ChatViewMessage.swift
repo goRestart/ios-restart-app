@@ -15,7 +15,7 @@ enum ChatViewMessageType {
     case disclaimer(showAvatar: Bool, text: NSAttributedString, actionTitle: String? ,action: (() -> ())?)
     case userInfo(name: String, address: String?, facebook: Bool, google: Bool, email: Bool)
     case askPhoneNumber(text: String, action: (() -> Void)?)
-    case chatNorris(type: MeetingMessageType,
+    case meeting(type: MeetingMessageType,
         date: Date?,
         locationName: String?,
         coordinates: LGLocationCoordinates2D?,
@@ -27,14 +27,14 @@ enum ChatViewMessageType {
         switch self {
         case .askPhoneNumber:
             return true
-        case .text, .offer, .sticker, .disclaimer, .userInfo, .chatNorris, .interlocutorIsTyping:
+        case .text, .offer, .sticker, .disclaimer, .userInfo, .meeting, .interlocutorIsTyping:
             return false
         }
     }
 
-    var isChatNorris: Bool {
+    var isMeeting: Bool {
         switch self {
-        case .chatNorris:
+        case .meeting:
             return true
         case .text, .offer, .sticker, .disclaimer, .userInfo, .askPhoneNumber, .interlocutorIsTyping:
             return false
@@ -80,9 +80,9 @@ enum ChatViewMessageType {
                 return lhsText == rhsText
             default: return false
             }
-        case let .chatNorris(lhsType, lhsDate, lhsLocationName, lhsCoordinates, lhsStatus, lhsText):
+        case let .meeting(lhsType, lhsDate, lhsLocationName, lhsCoordinates, lhsStatus, lhsText):
             switch rhs {
-            case let .chatNorris(rhsType, rhsDate, rhsLocationName, rhsCoordinates, rhsStatus, rhsText):
+            case let .meeting(rhsType, rhsDate, rhsLocationName, rhsCoordinates, rhsStatus, rhsText):
                 return lhsType == rhsType &&
                     lhsDate == rhsDate &&
                     lhsLocationName == rhsLocationName &&
@@ -137,7 +137,7 @@ struct ChatViewMessage: BaseModel {
         switch type {
         case .text, .offer:
             return true
-        case .sticker, .disclaimer, .userInfo, .askPhoneNumber, .chatNorris, .interlocutorIsTyping:
+        case .sticker, .disclaimer, .userInfo, .askPhoneNumber, .meeting, .interlocutorIsTyping:
             return false
         }
     }
@@ -156,7 +156,7 @@ struct ChatViewMessage: BaseModel {
             return name
         case .askPhoneNumber(let text, _):
             return text
-        case let .chatNorris(_, _, _, _, _, text):
+        case let .meeting(_, _, _, _, _, text):
             return text
         case .interlocutorIsTyping:
             return "..."
@@ -200,9 +200,9 @@ extension ChatViewMessage {
 extension ChatViewMessage {
     func markAsAccepted() -> ChatViewMessage {
         switch type {
-        case let .chatNorris(meetingType, meetingDate, locationName, coordinates, _, text):
+        case let .meeting(meetingType, meetingDate, locationName, coordinates, _, text):
             if meetingType == .requested {
-                let acceptedMessageType: ChatViewMessageType = .chatNorris(type: meetingType,
+                let acceptedMessageType: ChatViewMessageType = .meeting(type: meetingType,
                                                                            date: meetingDate,
                                                                            locationName: locationName,
                                                                            coordinates: coordinates,
@@ -224,9 +224,9 @@ extension ChatViewMessage {
 
     func markAsRejected() -> ChatViewMessage {
         switch type {
-        case let .chatNorris(meetingType, meetingDate, locationName, coordinates, _, text):
+        case let .meeting(meetingType, meetingDate, locationName, coordinates, _, text):
             if meetingType == .requested {
-                let rejectedMessageType: ChatViewMessageType = .chatNorris(type: meetingType,
+                let rejectedMessageType: ChatViewMessageType = .meeting(type: meetingType,
                                                                            date: meetingDate,
                                                                            locationName: locationName,
                                                                            coordinates: coordinates,

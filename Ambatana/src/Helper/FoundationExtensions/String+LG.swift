@@ -280,7 +280,7 @@ extension String {
         guard !self.isEmpty else { return 0.0 }
 
         let textSize = CGSize(width: width, height: CGFloat(Float.greatestFiniteMagnitude))
-
+        
         let requiredSize: CGRect = self.boundingRect(with: textSize,
                                                      options: NSStringDrawingOptions.usesLineFragmentOrigin,
                                                      attributes: [NSAttributedStringKey.font: font],

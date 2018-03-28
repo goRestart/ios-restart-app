@@ -38,7 +38,7 @@ class UserViewController: BaseViewController {
         }
     }
     fileprivate let headerCollapsedHeight: CGFloat = 44
-    
+
     fileprivate var dummyUserViewHeight: CGFloat {
         return headerContainer.header.dummyUserDisclaimerContainerView?.height ?? 0
     }

@@ -65,12 +65,10 @@ final class CoreDI: InternalDI {
         let countryInfoDAO: CountryInfoDAO = CountryInfoPlistDAO()
         let countryHelper = CountryHelper(locale: locale, countryInfoDAO: countryInfoDAO)
 
-        let locationApiDataSource = LocationApiDataSource(apiClient: apiClient)
         let appleLocationDataSource = LGAppleLocationDataSource()
         let niordLocationDataSource = LGNiordLocationDataSource(apiClient: apiClient, locale: locale)
         let ipLookupDataSource = LGIPLookupDataSource(apiClient: apiClient)
-        locationRepository = LGLocationRepository(locationApiDataSource: locationApiDataSource,
-                                                  appleLocationDataSource: appleLocationDataSource,
+        locationRepository = LGLocationRepository(appleLocationDataSource: appleLocationDataSource,
                                                   niordLocationDataSource: niordLocationDataSource,
                                                   ipLookupDataSource: ipLookupDataSource,
                                                   locationManager: CLLocationManager())
@@ -82,6 +80,8 @@ final class CoreDI: InternalDI {
                                                 locationRepository: locationRepository,
                                                 deviceLocationDAO: deviceLocationDAO,
                                                 countryHelper: countryHelper)
+
+        let suggestedLocationsApiDataSource = SuggestedLocationsApiDataSource(apiClient: apiClient)
 
         let carsInfoDataSource = CarsInfoApiDataSource(apiClient: apiClient)
         let carsInfoCache: CarsInfoDAO = CarsInfoRealmDAO() ?? CarsInfoMemoryDAO()
@@ -244,6 +244,10 @@ final class CoreDI: InternalDI {
     lazy var machineLearningRepository: MachineLearningRepository = {
         let machineLearningDataSource = LGMachineLearningDataSource()
         return LGMachineLearningRepository(dataSource: machineLearningDataSource)
+    }()
+    lazy var suggestedLocationsRepository: SuggestedLocationsRepository = {
+        let suggestedLocationsDataSource = SuggestedLocationsApiDataSource(apiClient: self.apiClient)
+        return LGSuggestedLocationsRepository(dataSource: suggestedLocationsDataSource)
     }()
 
 

@@ -8,7 +8,6 @@
 
 import Foundation
 import LGCoreKit
-import MapKit
 
 protocol MeetingCellImageDelegate: class {
     func imagePressed(coordinates: LGLocationCoordinates2D, originPoint: CGPoint)
