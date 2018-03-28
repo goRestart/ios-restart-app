@@ -56,7 +56,7 @@ extension Bumper  {
         flags.append(MarkAllConversationsAsRead.self)
         flags.append(ShowProTagUserProfile.self)
         flags.append(SummaryAsFirstStep.self)
-        flags.append(ShowProTagUserProfile.self)
+        flags.append(ShowAdvancedReputationSystem.self)
         Bumper.initialize(flags)
     } 
 
@@ -274,6 +274,11 @@ extension Bumper  {
         guard let value = Bumper.value(for: SummaryAsFirstStep.key) else { return .control }
         return SummaryAsFirstStep(rawValue: value) ?? .control 
     }
+
+    static var showAdvancedReputationSystem: ShowAdvancedReputationSystem {
+        guard let value = Bumper.value(for: ShowAdvancedReputationSystem.key) else { return .control }
+        return ShowAdvancedReputationSystem(rawValue: value) ?? .control 
+    } 
 }
 
 
@@ -753,6 +758,7 @@ enum OnboardingIncentivizePosting: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .blockingPosting
+            case 3: return .blockingPostingSkipWelcome
             default: return .control
         }
     }
@@ -929,4 +935,19 @@ enum SummaryAsFirstStep: String, BumperFeature  {
     }
 }
 
+enum ShowAdvancedReputationSystem: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ShowAdvancedReputationSystem.control.rawValue }
+    static var enumValues: [ShowAdvancedReputationSystem] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show the new advance reputation system and Karma Score" } 
+    static func fromPosition(_ position: Int) -> ShowAdvancedReputationSystem {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
 

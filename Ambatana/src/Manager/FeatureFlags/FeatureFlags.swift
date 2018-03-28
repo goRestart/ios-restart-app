@@ -71,6 +71,7 @@ protocol FeatureFlaggeable: class {
     var markAllConversationsAsRead: Bool { get }
     var showProTagUserProfile: Bool { get }
     var summaryAsFirstStep: SummaryAsFirstStep { get }
+    var showAdvancedReputationSystem: ShowAdvancedReputationSystem { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -268,6 +269,10 @@ extension MachineLearningMVP {
 }
 
 extension SummaryAsFirstStep {
+    var isActive: Bool { return self == .active }
+}
+
+extension ShowAdvancedReputationSystem {
     var isActive: Bool { return self == .active }
 }
 
@@ -625,7 +630,15 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return SummaryAsFirstStep.fromPosition(abTests.summaryAsFirstStep.value)
     }
-    
+
+    var showAdvancedReputationSystem: ShowAdvancedReputationSystem {
+        if Bumper.enabled {
+            return Bumper.showAdvancedReputationSystem
+        }
+        return ShowAdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value)
+    }
+
+
     
     // MARK: - Country features
 
