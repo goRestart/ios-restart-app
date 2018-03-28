@@ -239,7 +239,6 @@
 		2E373FAF1D3E6F4E00AC811C /* UserRatingListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E373FA41D3D019600AC811C /* UserRatingListViewController.xib */; };
 		2E373FB01D3E6F5100AC811C /* UserRatingListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E373FA71D3D01AE00AC811C /* UserRatingListViewModel.swift */; };
 		2E4436311BF389E000814624 /* LGNavBarSearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4436301BF389E000814624 /* LGNavBarSearchField.swift */; };
-		2E4436331BF389EE00814624 /* LGNavBarSearchField.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E4436321BF389EE00814624 /* LGNavBarSearchField.xib */; };
 		2E4562161BE0F76D00C485D7 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E4562151BE0F76D00C485D7 /* Accelerate.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		2E47610B1EF0343B003F15F2 /* ListingDetailOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E47610A1EF0343B003F15F2 /* ListingDetailOnboardingViewModel.swift */; };
 		2E47610C1EF0343B003F15F2 /* ListingDetailOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E47610A1EF0343B003F15F2 /* ListingDetailOnboardingViewModel.swift */; };
@@ -397,6 +396,8 @@
 		3221E5442062C0400006B12B /* ListingCellMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3221E5432062C0400006B12B /* ListingCellMetrics.swift */; };
 		3221E5452062C0400006B12B /* ListingCellMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3221E5432062C0400006B12B /* ListingCellMetrics.swift */; };
 		3FE825E8BDE13DA12F71FE15 /* Pods_letgoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2D3A9CDDF543002435A50F7 /* Pods_letgoTests.framework */; };
+		4287173D20655B0600EE334C /* LGNavBarMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4287173C20655B0600EE334C /* LGNavBarMetrics.swift */; };
+		4287173E20655DB500EE334C /* LGNavBarMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4287173C20655B0600EE334C /* LGNavBarMetrics.swift */; };
 		4C211D0CB0A4B97A2C263A3F /* Pods_LetGoGodMode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7166AA5BA494F5827085F946 /* Pods_LetGoGodMode.framework */; };
 		500210B61CF5D94F0034519F /* ChatDisclaimerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500210B51CF5D94F0034519F /* ChatDisclaimerCell.swift */; };
 		500210B71CF5D94F0034519F /* ChatDisclaimerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500210B51CF5D94F0034519F /* ChatDisclaimerCell.swift */; };
@@ -1571,6 +1572,7 @@
 		C7DB42571C5138B500400945 /* ListingListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D412E0871B4F17C200683FFD /* ListingListView.xib */; };
 		C7DB42591C5138B500400945 /* PopupSignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C71589B31C4F8E1C00E7563E /* PopupSignUpViewController.xib */; };
 		C7DB425E1C5138B500400945 /* levelup.caf in Resources */ = {isa = PBXBuildFile; fileRef = 506DC19B1BBE7D8A00E59D27 /* levelup.caf */; };
+		C7DB425F1C5138B500400945 /* ToastView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50BCE92D1BF6357600C130CD /* ToastView.xib */; };
 		C7DB42711C5138B500400945 /* LGNavBarSearchField.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E4436321BF389EE00814624 /* LGNavBarSearchField.xib */; };
 		C7DB42741C5138B500400945 /* MainSignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F0BAA81B28938D00E50A68 /* MainSignUpViewController.xib */; };
 		C7DB42771C5138B500400945 /* FilterTagCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7363FB41BF9CB8D00A4BF6F /* FilterTagCell.xib */; };
@@ -1898,7 +1900,6 @@
 		2E373FA71D3D01AE00AC811C /* UserRatingListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRatingListViewModel.swift; sourceTree = "<group>"; };
 		2E373FA91D3D135D00AC811C /* UserRatingListRequester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRatingListRequester.swift; sourceTree = "<group>"; };
 		2E4436301BF389E000814624 /* LGNavBarSearchField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGNavBarSearchField.swift; sourceTree = "<group>"; };
-		2E4436321BF389EE00814624 /* LGNavBarSearchField.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LGNavBarSearchField.xib; sourceTree = "<group>"; };
 		2E4562151BE0F76D00C485D7 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		2E47610A1EF0343B003F15F2 /* ListingDetailOnboardingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDetailOnboardingViewModel.swift; sourceTree = "<group>"; };
 		2E4A94ED1E4C8D4200218916 /* ShowFeaturedStripeHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowFeaturedStripeHelper.swift; sourceTree = "<group>"; };
@@ -1988,6 +1989,7 @@
 		3221E536206061630006B12B /* DiscardedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscardedView.swift; sourceTree = "<group>"; };
 		3221E53A206152C50006B12B /* DistanceInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceInfoView.swift; sourceTree = "<group>"; };
 		3221E5432062C0400006B12B /* ListingCellMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingCellMetrics.swift; sourceTree = "<group>"; };
+		4287173C20655B0600EE334C /* LGNavBarMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGNavBarMetrics.swift; sourceTree = "<group>"; };
 		44786E34D54C91974EA860A2 /* Pods-LetGo.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.adhoc.xcconfig"; sourceTree = "<group>"; };
 		4B0A305B22EED8C967344DB3 /* Pods-LetGoGodMode.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.debug.xcconfig"; sourceTree = "<group>"; };
 		500210B51CF5D94F0034519F /* ChatDisclaimerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatDisclaimerCell.swift; path = ../ChatDisclaimerCell.swift; sourceTree = "<group>"; };
@@ -3413,7 +3415,7 @@
 				50CBCD5D1BF0BB8F00A329BB /* CollectionViewFooter.swift */,
 				C78F9DBB1DCA525F00884064 /* ChatTextView.swift */,
 				2E4436301BF389E000814624 /* LGNavBarSearchField.swift */,
-				2E4436321BF389EE00814624 /* LGNavBarSearchField.xib */,
+				4287173C20655B0600EE334C /* LGNavBarMetrics.swift */,
 				2E6009B51B5CE5E500FC9CAC /* LGTextField.swift */,
 				502B705A1BAAC3AE00C5D465 /* FloatingButton.swift */,
 				50BCE92B1BF6356B00C130CD /* ToastView.swift */,
@@ -5525,7 +5527,6 @@
 				2E9716A41D5A0535009B3A32 /* ExpressChatCell.xib in Resources */,
 				C783D98B1C64C15B000EE5CA /* ReportUserCell.xib in Resources */,
 				508011211D474ED80073F362 /* iPhoneParts.xcassets in Resources */,
-				2E4436331BF389EE00814624 /* LGNavBarSearchField.xib in Resources */,
 				C743FEB91E44E46000B4E912 /* PossibleBuyerCell.xib in Resources */,
 				C7B5888B1CE1DFA6009B3975 /* ChatMyMessageCell.xib in Resources */,
 				6A879DA21C8D89B300E0C868 /* PushPrePermissionsSettingsViewController.xib in Resources */,
@@ -5657,6 +5658,7 @@
 				C75B5DC41D59E09500112368 /* ListingCarouselViewController.xib in Resources */,
 				C783D98C1C64C15B000EE5CA /* ReportUserCell.xib in Resources */,
 				508011221D474ED80073F362 /* iPhoneParts.xcassets in Resources */,
+				2ECB41812008CC6900482EF7 /* AdvertisementCell.xib in Resources */,
 				C7DB42711C5138B500400945 /* LGNavBarSearchField.xib in Resources */,
 				C743FEBA1E44E46000B4E912 /* PossibleBuyerCell.xib in Resources */,
 				C7B5888C1CE1DFA6009B3975 /* ChatMyMessageCell.xib in Resources */,
@@ -6767,6 +6769,7 @@
 				6A672C161CCFB76E00AB9175 /* UIFont+LG.swift in Sources */,
 				2E6691B51FBDF2E100FC2A77 /* PromoteBumpCoordinator.swift in Sources */,
 				C74016DF1D6468A7004C1E9D /* PostListingBasicDetailViewModel.swift in Sources */,
+				4287173D20655B0600EE334C /* LGNavBarMetrics.swift in Sources */,
 				0A90350A1FCC18E800FDE795 /* PhotoViewerTransitionAnimator.swift in Sources */,
 				C7F3F1E11DE5A95F00652447 /* ChatRelatedListingsView.swift in Sources */,
 				C727943C1D549342009C25AB /* ChangeUsernameViewController.swift in Sources */,
@@ -7686,6 +7689,7 @@
 				2E64D41B1D11B34F00257B69 /* Tooltip.swift in Sources */,
 				0AFE31202056DCAB004B6781 /* ListingDeckImagePreviewCell.swift in Sources */,
 				0AA6A5681FFFBE7B00F72F4A /* LGCGAffineTransform.swift in Sources */,
+				4287173E20655DB500EE334C /* LGNavBarMetrics.swift in Sources */,
 				01834971204F6A9F00B14A24 /* BlockingPostingListingEditionViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
