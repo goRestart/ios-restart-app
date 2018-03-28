@@ -9,28 +9,12 @@
 import Foundation
 import LGCoreKit
 import RxSwift
-
+import MapKit
 
 protocol MeetingAssistantDataDelegate: class {
     func sendMeeting(meeting: AssistantMeeting)
 }
 
-struct MockSuggestedLocation : SuggestedLocation {
-    var objectId: String?
-    var locationId: String
-    var locationName: String
-    var locationAddress: String?
-    var locationCoords: LGLocationCoordinates2D
-    var imageUrl: String?
-
-    init(id: String, name: String, coords: LGLocationCoordinates2D) {
-        self.locationId = id
-        self.locationName = name
-        self.locationAddress = nil
-        self.locationCoords = coords
-        self.imageUrl = nil
-    }
-}
 
 class MeetingAssistantViewModel: BaseViewModel {
 
@@ -50,6 +34,7 @@ class MeetingAssistantViewModel: BaseViewModel {
 
     let activityIndicatorActive = Variable<Bool>(false)
     let suggestedLocations = Variable<[SuggestedLocation?]>([nil])
+    let mapSnapshotsCache = Variable<[String:UIImage?]>([:])
 
     let date = Variable<Date?>(nil)
     let saveButtonEnabled = Variable<Bool>(false)
@@ -58,20 +43,21 @@ class MeetingAssistantViewModel: BaseViewModel {
 
     private let suggestedLocationsRepository: SuggestedLocationsRepository
     private let keyValueStorage: KeyValueStorageable
+    private let tracker: TrackerProxy
 
 
     // MARK: - lifecycle
 
     convenience init(listingId: String?) {
-        self.init(listingId: listingId,
-                  suggestedLocationsRepository: Core.suggestedLocationsRepository,
-                  keyValueStorage: KeyValueStorage.sharedInstance)
+        self.init(listingId: listingId, suggestedLocationsRepository: Core.suggestedLocationsRepository, keyValueStorage: KeyValueStorage.sharedInstance, tracker: TrackerProxy.sharedInstance)
     }
 
-    init(listingId: String?, suggestedLocationsRepository: SuggestedLocationsRepository, keyValueStorage: KeyValueStorageable) {
+    init(listingId: String?, suggestedLocationsRepository: SuggestedLocationsRepository, keyValueStorage: KeyValueStorageable,
+         tracker: TrackerProxy) {
         self.listingId = listingId
         self.suggestedLocationsRepository = suggestedLocationsRepository
         self.keyValueStorage = keyValueStorage
+        self.tracker = tracker
         super.init()
         setupRx()
     }
@@ -89,6 +75,9 @@ class MeetingAssistantViewModel: BaseViewModel {
 
     override func didBecomeActive(_ firstTime: Bool) {
         if firstTime {
+            let meetingStartEvent = TrackerEvent.assistantMeetingStartFor(listingId: listingId)
+            tracker.trackEvent(meetingStartEvent)
+
             retrieveSuggestedLocations()
         }
     }
@@ -108,10 +97,26 @@ class MeetingAssistantViewModel: BaseViewModel {
 
         selectedLocation.value = suggestedLocation
 
-        self.locationName.value = selectedLocation.value?.locationName
+        var locationFullName = suggestedLocation.locationName
+        let city = cityFor(location: suggestedLocation)
+        if let cityName = city {
+            locationFullName = locationFullName + ", " + cityName
+        }
+        locationFullName = locationFullName.replacingOccurrences(of: "[()]", with: " ", options: [.regularExpression])
+        self.locationName.value = locationFullName
 
-        let postalAddress = PostalAddress(address: selectedLocation.value?.locationAddress, city: nil, zipCode: nil, state: nil, countryCode: nil, country: nil)
+        let postalAddress = PostalAddress(address: selectedLocation.value?.locationAddress, city: city, zipCode: nil, state: nil, countryCode: nil, country: nil)
         selectedPlace = Place(postalAddress: postalAddress, location: selectedLocation.value?.locationCoords)
+    }
+
+    func mapSnapshotFor(suggestedLocation: SuggestedLocation?) -> UIImage? {
+        guard let locationId = suggestedLocation?.locationId,
+        let snapshot = mapSnapshotsCache.value[locationId] else { return nil }
+        return snapshot
+    }
+
+    func indexForSuggestedLocationWith(locationId: String) -> Int? {
+        return suggestedLocations.value.index { $0?.locationId == locationId }
     }
 
     func openLocationSelector() {
@@ -171,11 +176,42 @@ class MeetingAssistantViewModel: BaseViewModel {
             self?.activityIndicatorActive.value = false
             var receivedSuggestions: [SuggestedLocation?] = []
             if let value = result.value {
+                value.forEach { suggestedLocation in
+                    self?.getMapSnapshotFor(suggestedLocation: suggestedLocation)
+                }
                 receivedSuggestions = value
             }
             receivedSuggestions.append(nil)
             self?.suggestedLocations.value = receivedSuggestions
         }
+    }
+
+    private func getMapSnapshotFor(suggestedLocation: SuggestedLocation) {
+
+        let mapSnapshotOptions = MKMapSnapshotOptions()
+
+        let coordinates = suggestedLocation.locationCoords.coordinates2DfromLocation()
+        let region = MKCoordinateRegionMakeWithDistance(coordinates, 300, 300)
+        mapSnapshotOptions.region = region
+
+        mapSnapshotOptions.size = CGSize(width: 300, height: 200)
+        let snapShotter = MKMapSnapshotter(options: mapSnapshotOptions)
+
+        snapShotter.start(completionHandler: { [weak self] (snapshot, error) in
+            if let snapshot = snapshot {
+                self?.mapSnapshotsCache.value[suggestedLocation.locationId] = snapshot.image
+            } else {
+                self?.mapSnapshotsCache.value[suggestedLocation.locationId] = nil
+            }
+        })
+    }
+
+    private func cityFor(location: SuggestedLocation) -> String? {
+        if let address = location.locationAddress, let lastAddressComponent = address.components(separatedBy: [","]).last {
+            let city = lastAddressComponent.replacingOccurrences(of: "[,]", with: "", options: [.regularExpression]).trimmingCharacters(in: [" "])
+            return city
+        }
+        return nil
     }
 }
 

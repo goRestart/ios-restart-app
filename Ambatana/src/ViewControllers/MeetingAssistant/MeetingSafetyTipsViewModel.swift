@@ -11,11 +11,11 @@ import Foundation
 class MeetingSafetyTipsViewModel: BaseViewModel {
 
     var titleText: String {
-        return "_ Pick a safe, convenient place to meet"
+        return LGLocalizedString.meetingCreationTipsViewTitle
     }
 
     var subtitleText: String {
-        return "_ We recommend meeting during daylight hours at a busy, well-lit, public place like a local coffee shop or bank lobby."
+        return LGLocalizedString.meetingCreationTipsViewSubtitle
     }
 
     var sendMeetingButtonIsHidden: Bool {
@@ -23,14 +23,14 @@ class MeetingSafetyTipsViewModel: BaseViewModel {
     }
 
     var sendMeetingButtonTitle: String {
-        return "_ Send meeting"
+        return LGLocalizedString.meetingCreationTipsViewSendButton
     }
 
     var secondaryCloseButtonTitle: String {
         if let _ = closeCompletion {
-            return "_ Change meeting"
+            return LGLocalizedString.meetingCreationTipsViewChangeButton
         } else {
-            return "_ Got it"
+            return LGLocalizedString.meetingCreationTipsViewGotitButton
         }
     }
 

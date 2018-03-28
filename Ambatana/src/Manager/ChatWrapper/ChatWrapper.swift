@@ -21,7 +21,7 @@ enum ChatWrapperMessageType {
     case expressChat(String)
     case favoritedListing(String)
     case phone(String)
-    case meeting(String)
+    case meeting(AssistantMeeting, String)
 }
 
 protocol ChatWrapper {
@@ -107,7 +107,7 @@ extension ChatWrapperMessageType {
             return text
         case let .phone(text):
             return text
-        case let .meeting(text):
+        case let .meeting(_,text):
             return text
         }
     }
@@ -187,6 +187,15 @@ extension ChatWrapperMessageType {
             return true
         case .text, .chatSticker, .expressChat, .favoritedListing, .periscopeDirect, .quickAnswer, .meeting:
             return false
+        }
+    }
+
+    var assistantMeeting: AssistantMeeting? {
+        switch self {
+        case let .meeting(assistantMeeting, _):
+            return assistantMeeting
+        case .text, .chatSticker, .expressChat, .favoritedListing, .periscopeDirect, .phone, .quickAnswer:
+            return nil
         }
     }
 }

@@ -746,7 +746,7 @@ extension ChatViewModel {
 
     func sendMeetingMessage(meeting: AssistantMeeting) {
         let meetingText = meetingParser.textForMeeting(meeting: meeting)
-        sendMessage(type: .meeting(meetingText))
+        sendMessage(type: .meeting(meeting, meetingText))
     }
 
     func send(sticker: Sticker) {
@@ -1669,6 +1669,7 @@ fileprivate extension ChatViewModel {
             .set(sellerRating: sellerRating)
             .set(isBumpedUp: .falseParameter)
             .set(containsEmoji: type.text.containsEmoji)
+            .set(assistantMeeting: type.assistantMeeting)
         if let error = error {
             sendMessageInfo.set(error: error.chatError)
         }

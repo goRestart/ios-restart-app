@@ -35,7 +35,7 @@ enum QuickAnswer: Equatable {
     case meetUpWhereYouWant
     case meetUpLocated
 
-    // 🦄 hackaton
+    // HACKATON
     case meetingAssistant(chatNorrisABtestVersion: ChatNorris)
 
     static public func ==(lhs: QuickAnswer, rhs: QuickAnswer) -> Bool {
@@ -94,7 +94,7 @@ enum QuickAnswer: Equatable {
             return false
         }
     }
-    
+
     enum QuickAnswerType: String {
         case availability
         case price
@@ -131,7 +131,7 @@ enum QuickAnswer: Equatable {
             case .notNegotiable:
                 return LGLocalizedString.directAnswerNotNegotiableTitle
             case .meetingAssistant:
-                return "_Meeting Assistant"
+                return LGLocalizedString.directAnswerLetsMeet
             }
         }
     }
@@ -187,7 +187,7 @@ enum QuickAnswer: Equatable {
         case .meetUpLocated:
             return LGLocalizedString.directAnswerWhereLocated
         case .meetingAssistant:
-            return "_Let's meet"
+            return LGLocalizedString.directAnswerLetsMeet
         }
     }
 

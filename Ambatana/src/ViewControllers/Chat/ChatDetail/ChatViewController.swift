@@ -835,22 +835,26 @@ extension ChatViewController: MeetingCellImageDelegate, MKMapViewDelegate {
     func imagePressed(coordinates: LGLocationCoordinates2D, originPoint: CGPoint) {
 
         guard let topView = navigationController?.view else { return }
+        let clCoordinates = coordinates.coordinates2DfromLocation()
+        guard CLLocationCoordinate2DIsValid(clCoordinates) else { return }
 
         let mapView = MKMapView()
+
         mapView.delegate = self
-        mapView.setCenter(coordinates.coordinates2DfromLocation(), animated: true)
+        mapView.setCenter(clCoordinates, animated: true)
 
         mapView.layer.cornerRadius = 20.0
 
-        let clCoordinate = coordinates.coordinates2DfromLocation()
-        let region = MKCoordinateRegionMakeWithDistance(clCoordinate, Constants.accurateRegionRadius*2, Constants.accurateRegionRadius*2)
+        let region = MKCoordinateRegionMakeWithDistance(clCoordinates,
+                                                        Constants.accurateRegionRadius*2,
+                                                        Constants.accurateRegionRadius*2)
         mapView.setRegion(region, animated: true)
 
         mapView.isZoomEnabled = true
         mapView.isScrollEnabled = true
         mapView.isPitchEnabled = true
 
-        let mapOverlay: MKOverlay = MKCircle(center:coordinates.coordinates2DfromLocation(),
+        let mapOverlay: MKOverlay = MKCircle(center:clCoordinates,
                                              radius: 300)
 
         mapView.add(mapOverlay)
@@ -894,6 +898,9 @@ extension ChatViewController: MeetingCellImageDelegate, MKMapViewDelegate {
         UIView.animate(withDuration: 0.3, animations: { [weak self] in
             self?.mapContainer.alpha = 0.0
         }) { [weak self] _ in
+            self?.mapContainer.subviews.forEach { subview in
+                subview.removeFromSuperview()
+            }
             self?.mapContainer.removeFromSuperview()
             self?.textView.becomeFirstResponder()
         }

@@ -154,7 +154,6 @@
                 <outlet property="locationLabelHeight" destination="56M-xh-6Nc" id="aPi-Tv-6Fc"/>
                 <outlet property="locationLabelTop" destination="Yhl-S9-g2C" id="Eja-lo-ii2"/>
                 <outlet property="locationView" destination="V94-Ua-LCq" id="SHt-G5-pU7"/>
-                <outlet property="locationViewWidth" destination="dqF-ZI-yU3" id="3AK-Py-yTv"/>
                 <outlet property="meetingContainer" destination="A4c-c2-H4g" id="sgz-xJ-e3J"/>
                 <outlet property="meetingDateLabel" destination="AWl-IO-ubk" id="L9Q-lJ-j6n"/>
                 <outlet property="meetingTimeLabel" destination="EfI-aM-bb4" id="KwP-5n-QHs"/>

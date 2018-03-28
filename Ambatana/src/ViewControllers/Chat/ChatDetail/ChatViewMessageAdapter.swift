@@ -111,16 +111,7 @@ class ChatViewMessageAdapter {
         case .phone:
             type = ChatViewMessageType.text(text: LGLocalizedString.professionalDealerAskPhoneChatMessage(text))
         case .meeting:
-            if let meeting = meetingParser.createMeetingFromMessage(message: text) {
-                type = ChatViewMessageType.meeting(type: meeting.meetingType,
-                                                   date: meeting.date,
-                                                   locationName: meeting.locationName,
-                                                   coordinates: meeting.coordinates,
-                                                   status: meeting.status,
-                                                   text: text)
-            } else {
-                type = ChatViewMessageType.text(text: text)
-            }
+            type = ChatViewMessageType.text(text: text)
         case .interlocutorIsTyping:
             type = ChatViewMessageType.interlocutorIsTyping
         }

@@ -189,6 +189,15 @@ extension Date {
         return hour >= Constants.minSafeHourForMeetings && hour <= Constants.maxSafeHourForMeetings
     }
 
+    func formattedForTracking() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .short
+        dateFormatter.timeStyle = .short
+        dateFormatter.timeZone = TimeZone(identifier: "UTC")
+        dateFormatter.dateFormat = "YYYY-MM-DD HH:mm:ss"
+        return dateFormatter.string(from: self)
+    }
+
     func prettyDateForMeeting() -> String? {
         let formatter = DateFormatter()
         formatter.dateFormat = "E d MMM"
@@ -201,6 +210,5 @@ extension Date {
         formatter.dateFormat = "hh:mm a ZZZZ"
         formatter.timeZone = TimeZone.current
         return formatter.string(from: self)
-    }
-    
+    }    
 }

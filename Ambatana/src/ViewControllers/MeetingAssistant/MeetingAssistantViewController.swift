@@ -17,6 +17,9 @@ class MeetingAssistantViewController: BaseViewController {
 
     var mapContainer: UIView = UIView()
 
+    @IBOutlet weak var placeHeaderLabel: UILabel!
+    @IBOutlet weak var dateTimeHeaderlabel: UILabel!
+
     @IBOutlet weak var locationLabel: UILabel!
 
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -59,7 +62,11 @@ class MeetingAssistantViewController: BaseViewController {
 
     private func setupRx() {
 
-        viewModel.suggestedLocations.asObservable().skip(1).bind { [weak self] suggestedLocations in
+        viewModel.suggestedLocations.asObservable().skip(1).bind { [weak self] _ in
+            self?.suggestedLocationsCollection.reloadData()
+        }.disposed(by: disposeBag)
+
+        viewModel.mapSnapshotsCache.asObservable().bind { [weak self] _ in
             self?.suggestedLocationsCollection.reloadData()
         }.disposed(by: disposeBag)
 
@@ -68,7 +75,7 @@ class MeetingAssistantViewController: BaseViewController {
                 self?.locationLabel.text = name
                 self?.locationLabel.textColor = UIColor.blackText
             } else {
-                self?.locationLabel.text = "_Select a location"
+                self?.locationLabel.text = LGLocalizedString.meetingCreationViewSelectLocation
                 self?.locationLabel.textColor = UIColor.grayText
             }
         }.disposed(by: disposeBag)
@@ -77,7 +84,7 @@ class MeetingAssistantViewController: BaseViewController {
             if let _ = date {
                 self?.selectDayLabel.textColor = UIColor.blackText
             } else {
-                self?.selectDayLabel.text = "_Select a date"
+                self?.selectDayLabel.text = LGLocalizedString.meetingCreationViewSelectDateTime
                 self?.selectDayLabel.textColor = UIColor.grayText
             }
             }.disposed(by: disposeBag)
@@ -90,6 +97,7 @@ class MeetingAssistantViewController: BaseViewController {
             } else {
                 self?.activityIndicator.stopAnimating()
             }
+            self?.suggestedLocationsCollection.isHidden = active
         }.disposed(by: disposeBag)
     }
 
@@ -104,7 +112,7 @@ class MeetingAssistantViewController: BaseViewController {
             layout.scrollDirection = UICollectionViewScrollDirection.horizontal
         }
 
-        setNavBarTitle("_Schedule a Meetup")
+        setNavBarTitle(LGLocalizedString.meetingCreationViewTitle)
         setLetGoRightButtonWith(image: #imageLiteral(resourceName: "ic_meeting_tips"),
                                 renderingMode: .alwaysOriginal,
                                 selector: "tipsButtonTapped")
@@ -115,7 +123,7 @@ class MeetingAssistantViewController: BaseViewController {
         cancelButton.tintColor = UIColor.primaryColor
         self.navigationItem.leftBarButtonItem = cancelButton
 
-        sendMeetingButton.setTitle("Send Meeting", for: .normal)
+        sendMeetingButton.setTitle(LGLocalizedString.meetingCreationViewSendButton, for: .normal)
         sendMeetingButton.setStyle(.primary(fontSize: .big))
         
         setupLabelActions()
@@ -131,6 +139,9 @@ class MeetingAssistantViewController: BaseViewController {
 
         datePicker.minimumDate = startDate
         datePicker.maximumDate = endDate
+
+        placeHeaderLabel.text = LGLocalizedString.meetingCreationViewPlace.uppercased()
+        dateTimeHeaderlabel.text = LGLocalizedString.meetingCreationViewDateTime.uppercased()
     }
 
     private func setupLabelActions() {
@@ -205,8 +216,8 @@ extension MeetingAssistantViewController: UICollectionViewDataSource, UICollecti
                 return UICollectionViewCell()
         }
         let suggestedLocation = viewModel.suggestedLocationAtIndex(indexPath: indexPath)
-
-        cell.setupWithSuggestedLocation(location: suggestedLocation)
+        let mapSnapshot = viewModel.mapSnapshotFor(suggestedLocation: suggestedLocation)
+        cell.setupWithSuggestedLocation(location: suggestedLocation, mapSnapshot: mapSnapshot)
         cell.imgDelegate = self
         if let selectedLocationId = viewModel.selectedLocation.value?.locationId,
             suggestedLocation?.locationId == selectedLocationId {
@@ -232,22 +243,26 @@ extension MeetingAssistantViewController: SuggestedLocationCellImageDelegate, MK
         }
 
         guard let topView = navigationController?.view else { return }
+        let clCoordinates = coordinates.coordinates2DfromLocation()
+        guard CLLocationCoordinate2DIsValid(clCoordinates) else { return }
 
         let mapView = MKMapView()
+
         mapView.delegate = self
-        mapView.setCenter(coordinates.coordinates2DfromLocation(), animated: true)
+        mapView.setCenter(clCoordinates, animated: true)
 
         mapView.layer.cornerRadius = 20.0
 
-        let clCoordinate = coordinates.coordinates2DfromLocation()
-        let region = MKCoordinateRegionMakeWithDistance(clCoordinate, Constants.accurateRegionRadius*2, Constants.accurateRegionRadius*2)
+        let region = MKCoordinateRegionMakeWithDistance(clCoordinates,
+                                                        Constants.accurateRegionRadius*2,
+                                                        Constants.accurateRegionRadius*2)
         mapView.setRegion(region, animated: true)
 
         mapView.isZoomEnabled = true
         mapView.isScrollEnabled = true
         mapView.isPitchEnabled = true
 
-        let mapOverlay: MKOverlay = MKCircle(center:coordinates.coordinates2DfromLocation(),
+        let mapOverlay: MKOverlay = MKCircle(center:clCoordinates,
                                              radius: 300)
 
         mapView.add(mapOverlay)
@@ -289,6 +304,9 @@ extension MeetingAssistantViewController: SuggestedLocationCellImageDelegate, MK
         UIView.animate(withDuration: 0.3, animations: { [weak self] in
             self?.mapContainer.alpha = 0.0
         }) { [weak self] _ in
+            self?.mapContainer.subviews.forEach { subview in
+                subview.removeFromSuperview()
+            }
             self?.mapContainer.removeFromSuperview()
         }
     }

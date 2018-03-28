@@ -1465,8 +1465,14 @@ struct TrackerEvent {
         return TrackerEvent(name: .tutorialDialogAbandon, params: params)
     }
 
-    // MARK: - Private methods
+    static func assistantMeetingStartFor(listingId: String?) -> TrackerEvent {
+        var params = EventParameters()
+        params[.listingId] = listingId ?? TrackerEvent.notApply
+        return TrackerEvent(name: .assistantMeetingStart, params: params)
+    }
 
+
+    // MARK: - Private methods
 
     private static func eventParameterSortByTypeForSorting(_ sorting: ListingSortCriteria?) -> EventParameterSortBy? {
         guard let sorting = sorting else { return nil }
