@@ -912,6 +912,12 @@ fileprivate extension AppCoordinator {
                                                               source: .openApp, actionOnFirstAppear: .triggerMarkAsSold)
                 }
             }
+        case let .listingEdit(listingId):
+            tabBarCtl.clearAllPresented(nil)
+            afterDelayClosure = { [weak self] in
+                self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: listingId), source: .openApp,
+                                                          actionOnFirstAppear: .edit)
+            }
         case let .user(userId):
             if userId == myUserRepository.myUser?.objectId {
                 openTab(.profile, force: false, completion: nil)
@@ -992,7 +998,7 @@ fileprivate extension AppCoordinator {
         if let child = child, child is SellCoordinator { return }
 
         switch deepLink.action {
-        case .home, .sell, .listing, .listingShare, .listingBumpUp, .listingMarkAsSold, .user, .conversations, .conversationWithMessage, .search, .resetPassword, .userRatings, .userRating, .notificationCenter, .appStore:
+        case .home, .sell, .listing, .listingShare, .listingBumpUp, .listingMarkAsSold, .listingEdit, .user, .conversations, .conversationWithMessage, .search, .resetPassword, .userRatings, .userRating, .notificationCenter, .appStore:
         return // Do nothing
         case let .conversation(data):
             showInappChatNotification(data, message: deepLink.origin.message)
