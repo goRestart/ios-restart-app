@@ -18,8 +18,7 @@ protocol ListingDeckViewControllerBinderType: class {
     var rxDidEndEditing: ControlEvent<()>? { get }
 
     func updateWith(keyboardChange: KeyboardChange)
-    func showBumpUpBanner(bumpInfo: BumpUpInfo)
-    func closeBumpUpBanner()
+    func updateWithBumpUpInfo(_ bumpInfo: BumpUpInfo?)
 
     func didTapShare()
     func didTapCardAction()
@@ -92,7 +91,6 @@ final class ListingDeckViewControllerBinder {
         bindChat(withViewController: viewController, viewModel: viewModel,
                  listingDeckView: listingDeckView, disposeBag: currentDB)
         bindActions(withViewModel: viewModel, listingDeckView: listingDeckView, disposeBag: currentDB)
-        bindBumpUp(withViewController: viewController, viewModel: viewModel, disposeBag: currentDB)
         bindNavigationBar(withViewController: viewController, listingDeckView: listingDeckView, disposeBag: currentDB)
 
         disposeBag = currentDB
@@ -153,15 +151,6 @@ final class ListingDeckViewControllerBinder {
         }.disposed(by: disposeBag)
     }
 
-    private func bindBumpUp(withViewController viewController: ListingDeckViewControllerBinderType,
-                            viewModel: ListingDeckViewModelType,
-                            disposeBag: DisposeBag) {
-        viewModel.rxBumpUpBannerInfo.bind { [weak viewController] bumpInfo in
-            guard let bumpUp = bumpInfo else { return }
-            viewController?.showBumpUpBanner(bumpInfo: bumpUp)
-        }.disposed(by: disposeBag)
-    }
-
     private func bindKeyboardChanges(withViewController viewController: ListingDeckViewControllerBinderType,
                                      disposeBag: DisposeBag) {
         viewController.keyboardChanges.bind { [weak viewController] change in
@@ -172,19 +161,35 @@ final class ListingDeckViewControllerBinder {
     private func bindCollectionView(withViewController viewController: ListingDeckViewControllerBinderType,
                                     viewModel: ListingDeckViewModelType, listingDeckView: ListingDeckViewType,
                                     disposeBag: DisposeBag) {
-        viewModel.rxObjectChanges.observeOn(MainScheduler.instance).bind { [weak listingDeckView] change in
+        viewModel.rxObjectChanges
+            .observeOn(MainScheduler.instance)
+            .bind { [weak listingDeckView] change in
             listingDeckView?.handleCollectionChange(change, completion: nil)
         }.disposed(by: disposeBag)
 
-        listingDeckView.rxCollectionView
-            .willBeginDragging
+        let willBeginDragging = listingDeckView.rxCollectionView.willBeginDragging
+        willBeginDragging
             .asDriver().drive(onNext: { [weak viewController] _ in
                 viewController?.willBeginDragging()
         }).disposed(by: disposeBag)
-        
-        listingDeckView.rxCollectionView
-            .didEndDecelerating
-            .asDriver()
+
+        let didEndDecelerating = listingDeckView.rxCollectionView.didEndDecelerating
+        let bumpUp = viewModel.bumpUpBannerInfo.asObservable().share()
+
+        bumpUp
+            .filter { $0 != nil }
+            .takeUntil(willBeginDragging.asObservable())
+            .bind { bumpInfo in
+            viewController.updateWithBumpUpInfo(bumpInfo)
+        }.disposed(by: disposeBag)
+
+        Observable
+            .combineLatest(didEndDecelerating, bumpUp) { ($0, $1) }
+            .bind { (didEnded, bumpInfo) in
+            viewController.updateWithBumpUpInfo(bumpInfo)
+        }.disposed(by: disposeBag)
+
+        didEndDecelerating.asDriver()
             .drive(onNext: { [weak viewController] _ in
             viewController?.didEndDecelerating()
         }).disposed(by: disposeBag)
@@ -215,7 +220,6 @@ final class ListingDeckViewControllerBinder {
                           disposeBag: DisposeBag) {
         viewController.rxContentOffset.skip(1).bind { [weak viewModel, weak viewController] _ in
             viewModel?.userHasScrolled = true
-            viewController?.closeBumpUpBanner()
         }.disposed(by: disposeBag)
 
         let contentOffsetAlphaSignal: Observable<CGFloat> = viewController.rxContentOffset

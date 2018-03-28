@@ -60,6 +60,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         listingDeckView.collectionView.layoutIfNeeded()
         guard let current = currentPageCell() else { return }
         let index = viewModel.currentIndex
+        let bumpUp = viewModel.bumpUpBannerInfo.value
         UIView.animate(withDuration: 0.5,
                        delay: 0,
                        options: .curveEaseIn,
@@ -231,6 +232,7 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
 
     func willBeginDragging() {
         lastPageBeforeDragging = listingDeckView.currentPage
+        listingDeckView.bumpUpBanner.alphaAnimated(0)
     }
 
     func didMoveToItemAtIndex(_ index: Int) {
@@ -315,28 +317,29 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
         viewModel.didTapCardAction()
     }
 
-    func showBumpUpBanner(bumpInfo: BumpUpInfo) {
-        guard !listingDeckView.isBumpUpVisible else {
-            // banner is already visible, but info changes
-            listingDeckView.updateBumpUp(withInfo: bumpInfo)
+    func updateWithBumpUpInfo(_ bumpInfo: BumpUpInfo?) {
+        guard let bumpUp = bumpInfo else {
+            closeBumpUpBanner(animated: true)
             return
         }
 
-        viewModel.bumpUpBannerShown(type: bumpInfo.type)
-        delay(1.0) { [weak self] in
-            self?.listingDeckView.updateBumpUp(withInfo: bumpInfo)
-            self?.listingDeckView.showBumpUp()
-            UIView.animate(withDuration: 0.3,
-                           delay: 0,
-                           options: .curveEaseIn,
-                           animations: { [weak self] in
-                self?.listingDeckView.layoutIfNeeded()
-            }, completion: nil)
+        listingDeckView.bumpUpBanner.alphaAnimated(1)
+        guard !listingDeckView.isBumpUpVisible else {
+            // banner is already visible, but info changes
+            listingDeckView.updateBumpUp(withInfo: bumpUp)
+            return
         }
-    }
 
-    func closeBumpUpBanner() {
-        closeBumpUpBanner(animated: true)
+        viewModel.bumpUpBannerShown(type: bumpUp.type)
+        listingDeckView.updateBumpUp(withInfo: bumpUp)
+        listingDeckView.bumpUpBanner.layoutIfNeeded()
+        UIView.animate(withDuration: 0.3,
+                       delay: 0,
+                       options: .curveEaseIn,
+                       animations: { [weak self] in
+                        self?.listingDeckView.showBumpUp()
+                        self?.listingDeckView.layoutIfNeeded()
+            }, completion: nil)
     }
 
     private func isCardVisible(_ cardView: ListingCardView) -> Bool {
