@@ -14,7 +14,6 @@ require_relative 'helpers/Term'
 
 APP_I18N_PATH = "Ambatana/res/i18n"
 LGRESOURCES_I18N_PATH = "modules/LGResources/LGResources/Assets/i18n"
-LGRESOURCES_LOCALIZED_STRINGS_PATH = "modules/LGResources/LGResources/Classes"
 
 # Moves a folder
   # Params:
@@ -68,14 +67,6 @@ def generate_ios(language, target_directory)
   end
 end
 
-# Creates a Strings.swift file with the keys to access the translated string
-  # Params:
-  # +target_directory+:: folder where the file will be created
-def generate_ios_constants(target_directory)
-  process_template 'ios_localized_swift.erb', target_directory, 'Strings.swift'
-  puts ' > '+'Strings.swift'.yellow
-end
-
 #Prints on screen all the unused keys and also marks that keys on spreadsheet as unused
 def check_unused_ios(worksheet, from_row, to_row, target_directory, mark, remove)
   if(mark) 
@@ -127,7 +118,6 @@ end
 
 def drive_pull(ios_path)
   generate_all()
-  generate_ios_constants("#{ios_path}#{LGRESOURCES_LOCALIZED_STRINGS_PATH}/")
   system "cp Localizable.strings #{ios_path}#{LGRESOURCES_I18N_PATH}/Base.lproj/Localizable.strings"
   system "cp Localizable.strings #{ios_path}#{LGRESOURCES_I18N_PATH}/en.lproj/Localizable.strings"
   system "rm Localizable.strings"
