@@ -12,75 +12,67 @@ class ABTests {
     let trackingData = Variable<[(String, ABGroupType)]?>(nil)
 
     // Not used in code, Just a helper for marketing team
-    let marketingPush = IntABDynamicVar(key: "marketingPush", defaultValue: 0, abGroupType: .legacyABTests)
+
+    let marketingPush = LeanplumABVariable<Int>.makeInt(key: "marketingPush", defaultValue: 0, groupType: ABGroupType.legacyABTests)
 
     // Not an A/B just flags and variables for surveys
-    let showNPSSurvey = BoolABDynamicVar(key: "showNPSSurvey", defaultValue: false, abGroupType: .legacyABTests)
-    let surveyURL = StringABDynamicVar(key: "surveyURL", defaultValue: "", abGroupType: .legacyABTests)
-    let surveyEnabled = BoolABDynamicVar(key: "surveyEnabled", defaultValue: false, abGroupType: .legacyABTests)
+    let showNPSSurvey = LeanplumABVariable<Bool>.makeBool(key: "showNPSSurvey", defaultValue: false, groupType: .legacyABTests)
+    let surveyURL = LeanplumABVariable<String>.makeString(key: "surveyURL", defaultValue: "", groupType: .legacyABTests)
+    let surveyEnabled = LeanplumABVariable<Bool>.makeBool(key: "surveyEnabled", defaultValue: false, groupType: .legacyABTests)
 
-    let freeBumpUpEnabled = BoolABDynamicVar(key: "freeBumpUpEnabled", defaultValue: false, abGroupType: .legacyABTests)
-    let pricedBumpUpEnabled = BoolABDynamicVar(key: "pricedBumpUpEnabled", defaultValue: false, abGroupType: .legacyABTests)
-    let newCarsMultiRequesterEnabled = BoolABDynamicVar(key: "newCarsMultiRequesterEnabled", defaultValue: false, abGroupType: .legacyABTests)
-    let inAppRatingIOS10 = BoolABDynamicVar(key: "20170711inAppRatingIOS10", defaultValue: false, abGroupType: .legacyABTests)
-    let userReviewsReportEnabled = BoolABDynamicVar(key: "20170823userReviewsReportEnabled", defaultValue: true, abGroupType: .legacyABTests)
-    let dynamicQuickAnswers = IntABDynamicVar(key: "20170816DynamicQuickAnswers", defaultValue: 0, abGroupType: .legacyABTests)
-    let appRatingDialogInactive = BoolABDynamicVar(key: "20170831AppRatingDialogInactive", defaultValue: false, abGroupType: .legacyABTests)
-    let locationDataSourceType = IntABDynamicVar(key: "20170830LocationDataSourceType", defaultValue: 0, abGroupType: .legacyABTests)
-    let searchAutocomplete = IntABDynamicVar(key: "20170914SearchAutocomplete", defaultValue: 0, abGroupType: .legacyABTests)
-    let realEstateEnabled = IntABDynamicVar(key: "20171228realEstateEnabled", defaultValue: 0, abGroupType: .legacyABTests)
-    let requestsTimeOut = IntABDynamicVar(key: "20170929RequestTimeOut", defaultValue: 30, abGroupType: .legacyABTests)
-    let newItemPage = IntABDynamicVar(key: "20171027NewItemPage", defaultValue: 0, abGroupType: .legacyABTests)
-    let taxonomiesAndTaxonomyChildrenInFeed = IntABDynamicVar(key: "20171031TaxonomiesAndTaxonomyChildrenInFeed", defaultValue: 0, abGroupType: .legacyABTests)
-    let showClockInDirectAnswer = IntABDynamicVar(key: "20171031ShowClockInDirectAnswer", defaultValue: 0, abGroupType: .legacyABTests)
-    let allowCallsForProfessionals = IntABDynamicVar(key: "20171228allowCallsForProfessionals", defaultValue: 0, abGroupType: .legacyABTests)
-    let mostSearchedDemandedItems = IntABDynamicVar(key: "20180104MostSearchedDemandedItems", defaultValue: 0, abGroupType: .retention)
-    let showAdsInFeedWithRatio = IntABDynamicVar(key: "20180111ShowAdsInFeedWithRatio", defaultValue: 0, abGroupType: .legacyABTests)
-    let removeCategoryWhenClosingPosting = IntABDynamicVar(key: "20180126RemoveCategoryWhenClosingPosting", defaultValue: 0, abGroupType: .legacyABTests)
-    let realEstateNewCopy = IntABDynamicVar(key: "20180126RealEstateNewCopy", defaultValue: 0, abGroupType: .realEstate)
-    let dummyUsersInfoProfile = IntABDynamicVar(key: "20180130DummyUsersInfoProfile", defaultValue: 0, abGroupType: .retention)
-    let showInactiveConversations = BoolABDynamicVar(key: "20180206ShowInactiveConversations", defaultValue: false, abGroupType: .chat)
-    let increaseMinPriceBumps  = IntABDynamicVar(key: "20180208IncreaseMinPriceBumps", defaultValue: 0, abGroupType: .money)
-    let showSecurityMeetingChatMessage = IntABDynamicVar(key: "20180207ShowSecurityMeetingChatMessage", defaultValue: 0, abGroupType: .chat)
-    let noAdsInFeedForNewUsers = IntABDynamicVar(key: "20180212NoAdsInFeedForNewUsers", defaultValue: 0, abGroupType: .money)
-    let emojiSizeIncrement = IntABDynamicVar(key: "20180212EmojiSizeIncrement", defaultValue: 0, abGroupType: .chat)
-    let showBumpUpBannerOnNotValidatedListings = IntABDynamicVar(key: "20180214showBumpUpBannerOnNotValidatedListings", defaultValue: 0, abGroupType: .money)
-    let newUserProfileView = IntABDynamicVar(key: "20180221NewUserProfileView", defaultValue: 0, abGroupType: .core)
-    let turkeyBumpPriceVATAdaptation = IntABDynamicVar(key: "20180221TurkeyBumpPriceVATAdaptation", defaultValue: 0, abGroupType: .money)
-    let searchImprovements = IntABDynamicVar(key: "20180313SearchImprovements", defaultValue: 0, abGroupType: .core)
-    let showChatSafetyTips = BoolABDynamicVar(key: "20180226ShowChatSafetyTips", defaultValue: false, abGroupType: .chat)
-    let onboardingIncentivizePosting = IntABDynamicVar(key: "20180215OnboardingIncentivizePosting", defaultValue: 0, abGroupType: .retention)
-    let discardedProducts = IntABDynamicVar(key: "20180219DiscardedProducts", defaultValue: 0, abGroupType: .core)
-    let promoteBumpInEdit = IntABDynamicVar(key: "20180227promoteBumpInEdit", defaultValue: 0, abGroupType: .money)
-    let userIsTyping = IntABDynamicVar(key: "20180305UserIsTyping", defaultValue: 0, abGroupType: .chat)
-    let servicesCategoryEnabled = IntABDynamicVar(key: "20180305ServicesCategoryEnabled", defaultValue: 0, abGroupType: .products)
-    let copyForChatNowInTurkey = IntABDynamicVar(key: "20180312CopyForChatNowInTurkey", defaultValue: 0, abGroupType: .money)
-    let increaseNumberOfPictures = IntABDynamicVar(key: "20180314IncreaseNumberOfPictures", defaultValue: 0, abGroupType: .realEstate)
-    let machineLearningMVP = IntABDynamicVar(key: "20180312MachineLearningMVP", defaultValue: 0, abGroupType: .core)
-    let addPriceTitleDistanceToListings = IntABDynamicVar(key: "20180319AddPriceTitleDistanceToListings", defaultValue: 0, abGroupType: .core)
-    let markAllConversationsAsRead = BoolABDynamicVar(key: "20180321MarkAllConversationsAsRead", defaultValue: false, abGroupType: .chat)
-    let showProTagUserProfile = BoolABDynamicVar(key: "20180319ShowProTagUserProfile", defaultValue: false, abGroupType: .money)
-    let realEstateTutorial = IntABDynamicVar(key: "20180309RealEstateTutorial", defaultValue: 0, abGroupType: .realEstate)
-    let summaryAsFirstStep = IntABDynamicVar(key: "20180320SummaryAsFirstStep", defaultValue: 0, abGroupType: .realEstate)
-    let relaxedSearch = IntABDynamicVar(key: "20180319RelaxedSearch", defaultValue: 0, abGroupType: .core)
+    let freeBumpUpEnabled = LeanplumABVariable<Bool>.makeBool(key: "freeBumpUpEnabled", defaultValue: false, groupType: .legacyABTests)
+    let pricedBumpUpEnabled = LeanplumABVariable<Bool>.makeBool(key: "pricedBumpUpEnabled", defaultValue: false, groupType: .legacyABTests)
+    let newCarsMultiRequesterEnabled = LeanplumABVariable<Bool>.makeBool(key: "newCarsMultiRequesterEnabled", defaultValue: false,  groupType: ABGroupType.legacyABTests)
+    let inAppRatingIOS10 = LeanplumABVariable<Bool>.makeBool(key: "20170711inAppRatingIOS10", defaultValue: false, groupType: .legacyABTests)
+    let userReviewsReportEnabled = LeanplumABVariable<Bool>.makeBool(key: "20170823userReviewsReportEnabled", defaultValue: true, groupType: ABGroupType.legacyABTests)
+    let dynamicQuickAnswers = LeanplumABVariable<Int>.makeInt(key: "20170816DynamicQuickAnswers", defaultValue: 0, groupType: .legacyABTests)
+    let appRatingDialogInactive = LeanplumABVariable<Bool>.makeBool(key: "20170831AppRatingDialogInactive", defaultValue: false, groupType: ABGroupType.legacyABTests)
+    let locationDataSourceType = LeanplumABVariable<Int>.makeInt(key: "20170830LocationDataSourceType", defaultValue: 0, groupType: .legacyABTests)
+    let searchAutocomplete = LeanplumABVariable<Int>.makeInt(key: "20170914SearchAutocomplete", defaultValue: 0, groupType: .legacyABTests)
+    let realEstateEnabled = LeanplumABVariable<Int>.makeInt(key: "20171228realEstateEnabled", defaultValue: 0, groupType: .legacyABTests)
+    let requestsTimeOut = LeanplumABVariable<Int>.makeInt(key: "20170929RequestTimeOut", defaultValue: 30, groupType: .legacyABTests)
+    let newItemPage = LeanplumABVariable<Int>.makeInt(key: "20171027NewItemPage", defaultValue: 0, groupType: .legacyABTests)
+    let taxonomiesAndTaxonomyChildrenInFeed = LeanplumABVariable<Int>.makeInt(key: "20171031TaxonomiesAndTaxonomyChildrenInFeed", defaultValue: 0, groupType: ABGroupType.legacyABTests)
+    let showClockInDirectAnswer = LeanplumABVariable<Int>.makeInt(key: "20171031ShowClockInDirectAnswer", defaultValue: 0, groupType: .legacyABTests)
+    let allowCallsForProfessionals = LeanplumABVariable<Int>.makeInt(key: "20171228allowCallsForProfessionals", defaultValue: 0, groupType: ABGroupType.legacyABTests)
+    let mostSearchedDemandedItems = LeanplumABVariable<Int>.makeInt(key: "20180104MostSearchedDemandedItems", defaultValue: 0, groupType: .retention)
+    let showAdsInFeedWithRatio = LeanplumABVariable<Int>.makeInt(key: "20180111ShowAdsInFeedWithRatio", defaultValue: 0, groupType: .legacyABTests)
+    let removeCategoryWhenClosingPosting = LeanplumABVariable<Int>.makeInt(key: "20180126RemoveCategoryWhenClosingPosting", defaultValue: 0, groupType: .legacyABTests)
+    let realEstateNewCopy = LeanplumABVariable<Int>.makeInt(key: "20180126RealEstateNewCopy", defaultValue: 0, groupType: .realEstate)
+    let dummyUsersInfoProfile = LeanplumABVariable<Int>.makeInt(key: "20180130DummyUsersInfoProfile", defaultValue: 0, groupType: .retention)
+    let showInactiveConversations = LeanplumABVariable<Bool>.makeBool(key: "20180206ShowInactiveConversations", defaultValue: false, groupType: .chat)
+    let increaseMinPriceBumps  = LeanplumABVariable<Int>.makeInt(key: "20180208IncreaseMinPriceBumps", defaultValue: 0, groupType: .money)
+    let showSecurityMeetingChatMessage = LeanplumABVariable<Int>.makeInt(key: "20180207ShowSecurityMeetingChatMessage", defaultValue: 0, groupType: .chat)
+    let noAdsInFeedForNewUsers = LeanplumABVariable<Int>.makeInt(key: "20180212NoAdsInFeedForNewUsers", defaultValue: 0, groupType: .money)
+    let emojiSizeIncrement = LeanplumABVariable<Int>.makeInt(key: "20180212EmojiSizeIncrement", defaultValue: 0, groupType: .chat)
+    let showBumpUpBannerOnNotValidatedListings = LeanplumABVariable<Int>.makeInt(key: "20180214showBumpUpBannerOnNotValidatedListings", defaultValue: 0, groupType: .money)
+    let newUserProfileView = LeanplumABVariable<Int>.makeInt(key: "20180221NewUserProfileView", defaultValue: 0, groupType: .core)
+    let turkeyBumpPriceVATAdaptation = LeanplumABVariable<Int>.makeInt(key: "20180221TurkeyBumpPriceVATAdaptation", defaultValue: 0, groupType: .money)
+    let searchImprovements = LeanplumABVariable<Int>.makeInt(key: "20180313SearchImprovements", defaultValue: 0, groupType: .core)
+    let showChatSafetyTips = LeanplumABVariable<Bool>.makeBool(key: "20180226ShowChatSafetyTips", defaultValue: false, groupType: .chat)
+    let onboardingIncentivizePosting = LeanplumABVariable<Int>.makeInt(key: "20180215OnboardingIncentivizePosting", defaultValue: 0, groupType: .retention)
+    let discardedProducts = LeanplumABVariable<Int>.makeInt(key: "20180219DiscardedProducts", defaultValue: 0, groupType: .core)
+    let promoteBumpInEdit = LeanplumABVariable<Int>.makeInt(key: "20180227promoteBumpInEdit", defaultValue: 0, groupType: .money)
+    let userIsTyping = LeanplumABVariable<Int>.makeInt(key: "20180305UserIsTyping", defaultValue: 0, groupType: .chat)
+    let servicesCategoryEnabled = LeanplumABVariable<Int>.makeInt(key: "20180305ServicesCategoryEnabled", defaultValue: 0, groupType: .products)
+    let copyForChatNowInTurkey = LeanplumABVariable<Int>.makeInt(key: "20180312CopyForChatNowInTurkey", defaultValue: 0, groupType: .money)
+    let increaseNumberOfPictures = LeanplumABVariable<Int>.makeInt(key: "20180314IncreaseNumberOfPictures", defaultValue: 0, groupType: .realEstate)
+    let machineLearningMVP = LeanplumABVariable<Int>.makeInt(key: "20180312MachineLearningMVP", defaultValue: 0, groupType: .core)
+    let addPriceTitleDistanceToListings = LeanplumABVariable<Int>.makeInt(key: "20180319AddPriceTitleDistanceToListings", defaultValue: 0, groupType: .core)
+    let markAllConversationsAsRead = LeanplumABVariable<Bool>.makeBool(key: "20180321MarkAllConversationsAsRead", defaultValue: false, groupType: .chat)
+    let showProTagUserProfile = LeanplumABVariable<Bool>.makeBool(key: "20180319ShowProTagUserProfile", defaultValue: false, groupType: .money)
+    let realEstateTutorial = LeanplumABVariable<Int>.makeInt(key: "20180309RealEstateTutorial", defaultValue: 0, groupType: .realEstate)
+    let summaryAsFirstStep = LeanplumABVariable<Int>.makeInt(key: "20180320SummaryAsFirstStep", defaultValue: 0, groupType: .realEstate)
+    let relaxedSearch = LeanplumABVariable<Int>.makeInt(key: "20180319RelaxedSearch", defaultValue: 0, groupType: .core)
 
     init() {
     }
-    
-    private var allVariables: [ABVariable] {
-        var result = [ABVariable]()
+
+    private var intVariables: [LeanplumABVariable<Int>] {
+        var result = [LeanplumABVariable<Int>]()
 
         result.append(marketingPush)
-        result.append(showNPSSurvey)
-        result.append(surveyURL)
-        result.append(surveyEnabled)
-        result.append(freeBumpUpEnabled)
-        result.append(pricedBumpUpEnabled)
-        result.append(newCarsMultiRequesterEnabled)
-        result.append(inAppRatingIOS10)
-        result.append(userReviewsReportEnabled)
         result.append(dynamicQuickAnswers)
-        result.append(appRatingDialogInactive)
         result.append(locationDataSourceType)
         result.append(searchAutocomplete)
         result.append(realEstateEnabled)
@@ -94,7 +86,6 @@ class ABTests {
         result.append(removeCategoryWhenClosingPosting)
         result.append(realEstateNewCopy)
         result.append(dummyUsersInfoProfile)
-        result.append(showInactiveConversations)
         result.append(increaseMinPriceBumps)
         result.append(showSecurityMeetingChatMessage)
         result.append(noAdsInFeedForNewUsers)
@@ -103,7 +94,6 @@ class ABTests {
         result.append(newUserProfileView)
         result.append(turkeyBumpPriceVATAdaptation)
         result.append(searchImprovements)
-        result.append(showChatSafetyTips)
         result.append(onboardingIncentivizePosting)
         result.append(discardedProducts)
         result.append(promoteBumpInEdit)
@@ -112,23 +102,47 @@ class ABTests {
         result.append(copyForChatNowInTurkey)
         result.append(increaseNumberOfPictures)
         result.append(addPriceTitleDistanceToListings)
-        result.append(markAllConversationsAsRead)
-        result.append(showProTagUserProfile)
         result.append(realEstateTutorial)
         result.append(summaryAsFirstStep)
         result.append(relaxedSearch)
         result.append(machineLearningMVP)
+        return result
+    }
+
+    private var boolVariables: [LeanplumABVariable<Bool>] {
+        var result = [LeanplumABVariable<Bool>]()
+        result.append(showNPSSurvey)
+        result.append(surveyEnabled)
+        result.append(freeBumpUpEnabled)
+        result.append(pricedBumpUpEnabled)
+        result.append(newCarsMultiRequesterEnabled)
+        result.append(inAppRatingIOS10)
+        result.append(userReviewsReportEnabled)
+        result.append(appRatingDialogInactive)
+        result.append(showInactiveConversations)
+        result.append(showChatSafetyTips)
+        result.append(markAllConversationsAsRead)
+        result.append(showProTagUserProfile)
         result.append(showProTagUserProfile)
         return result
     }
 
-    func registerVariables() {
-        allVariables.forEach { $0.register() }
-    }
+    private var stringVariables: [LeanplumABVariable<String>] { return [surveyURL] }
+    private var floatVariables: [LeanplumABVariable<Float>] { return [] }
+
+    func registerVariables() { allVariables.forEach { $0.register() } }
 
     func variablesUpdated() {
-        trackingData.value = allVariables.map { abVariable -> (String, ABGroupType) in
-            return (abVariable.trackingData, abVariable.abGroupType)
-        }
+        var trackingData: [(String, ABGroupType)] = mapTrackingData(stringVariables)
+        let boolData: [(String, ABGroupType)] = mapTrackingData(boolVariables)
+        let intData: [(String, ABGroupType)] = mapTrackingData(intVariables)
+        let floatData: [(String, ABGroupType)] = mapTrackingData(floatVariables)
+
+        trackingData.append(contentsOf: boolData)
+        trackingData.append(contentsOf: intData)
+        trackingData.append(contentsOf: floatData)
+        self.trackingData.value = trackingData
     }
+
+    func mapTrackingData(_ array: [ABTrackable]) -> [(String, ABGroupType)] { return array.map { $0.tuple } }
 }
