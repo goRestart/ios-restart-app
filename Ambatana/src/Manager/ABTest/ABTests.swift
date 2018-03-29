@@ -23,7 +23,6 @@ final class LeamplumSyncer: LeamplumSyncerType {
     }
 
     private func mapTrackingData(_ array: [ABTrackable]) -> [(String, ABGroupType)] { return array.map { $0.tuple } }
-
 }
 
 class ABTests {
@@ -166,7 +165,7 @@ class ABTests {
         let uniquesBool = Array.init(Set<LeanplumABVariable<Bool>>.init(boolVariables))
         let uniquesString = Array.init(Set<LeanplumABVariable<String>>.init(stringVariables))
 
-        var trackingData: [(String, ABGroupType)] = syncer.trackingData(variables: uniquesInt)
+        var trackingData: [(String, ABGroupType)] = syncer.trackingData(variables: uniquesString)
         trackingData.append(contentsOf: syncer.trackingData(variables: uniquesBool))
         trackingData.append(contentsOf: syncer.trackingData(variables: uniquesInt))
         trackingData.append(contentsOf: syncer.trackingData(variables: uniquesFloat))
