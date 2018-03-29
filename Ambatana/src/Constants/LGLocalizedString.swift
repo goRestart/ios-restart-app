@@ -2735,6 +2735,26 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_post_camera_permissions_title", comment: "")
 	}
 
+	static func productPostCameraVideoRecordingHintLabel(_ var1: String) -> String {
+		return String(format: NSLocalizedString("product_post_camera_video_recording_hint_label", comment: ""), var1)
+	}
+
+	static var productPostCameraVideoRecordingHintLabelHighlightedWord: String {
+		return NSLocalizedString("product_post_camera_video_recording_hint_label_highlighted_word", comment: "")
+	}
+
+	static var productPostCameraPhotoModeButton: String {
+		return NSLocalizedString("product_post_camera_photo_mode_button", comment: "")
+	}
+
+	static var productPostCameraVideoModeButton: String {
+		return NSLocalizedString("product_post_camera_video_mode_button", comment: "")
+	}
+
+	static var productPostCameraGalleryTextButton: String {
+		return NSLocalizedString("product_post_camera_gallery_text_button", comment: "")
+	}
+
 	static var productPostCameraTabV2: String {
 		return NSLocalizedString("product_post_camera_tab_v2", comment: "")
 	}
