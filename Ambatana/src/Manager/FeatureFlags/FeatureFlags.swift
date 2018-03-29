@@ -71,6 +71,7 @@ protocol FeatureFlaggeable: class {
     var markAllConversationsAsRead: Bool { get }
     var showProTagUserProfile: Bool { get }
     var summaryAsFirstStep: SummaryAsFirstStep { get }
+    var showAdvancedReputationSystem: ShowAdvancedReputationSystem { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -271,6 +272,10 @@ extension SummaryAsFirstStep {
     var isActive: Bool { return self == .active }
 }
 
+extension ShowAdvancedReputationSystem {
+    var isActive: Bool { return self == .active }
+}
+
 class FeatureFlags: FeatureFlaggeable {
 
     static let sharedInstance: FeatureFlags = FeatureFlags()
@@ -333,6 +338,7 @@ class FeatureFlags: FeatureFlaggeable {
         } else {
             dao.save(timeoutForRequests: TimeInterval(abTests.requestsTimeOut.value))
             dao.save(newUserProfile: NewUserProfileView.fromPosition(abTests.newUserProfileView.value))
+            dao.save(showAdvanceReputationSystem: ShowAdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value))
         }
         abTests.variablesUpdated()
     }
@@ -625,7 +631,16 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return SummaryAsFirstStep.fromPosition(abTests.summaryAsFirstStep.value)
     }
-    
+
+    var showAdvancedReputationSystem: ShowAdvancedReputationSystem {
+        if Bumper.enabled {
+            return Bumper.showAdvancedReputationSystem
+        }
+        let cached = dao.retrieveShowAdvanceReputationSystem()
+        return cached ?? ShowAdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value)
+    }
+
+
     
     // MARK: - Country features
 
