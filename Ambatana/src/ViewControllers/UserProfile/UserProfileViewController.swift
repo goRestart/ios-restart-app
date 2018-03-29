@@ -471,7 +471,7 @@ extension UserProfileViewController: UITableViewDelegate, UITableViewDataSource 
         let container = UIView()
         let pushHeader = PushPermissionsHeader()
         pushHeader.delegate = self
-        pushHeader.layer.cornerRadius = 10
+        pushHeader.cornerRadius = 10
         container.addSubviewForAutoLayout(pushHeader)
         pushHeader.layout(with: container).fillHorizontal(by: 10).fillVertical()
         return container
