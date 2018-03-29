@@ -475,7 +475,7 @@ extension ListingDeckViewModel {
 
     func prefetchAtIndexes(_ indexes: CountableClosedRange<Int>) {
         DispatchQueue.global(qos: .background).async { [weak self] in
-            indexes.forEach { self?.viewModelAt(index: $0)?.active = true }
+            indexes.forEach { self?.viewModelAt(index: $0) }
         }
     }
 
