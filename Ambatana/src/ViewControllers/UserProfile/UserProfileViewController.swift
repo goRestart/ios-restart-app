@@ -238,14 +238,14 @@ final class UserProfileViewController: BaseViewController {
             tabsView.rightAnchor.constraint(equalTo: headerContainerView.rightAnchor, constant: -Layout.sideMargin),
             tabsView.bottomAnchor.constraint(equalTo: headerContainerView.bottomAnchor),
             tabsView.heightAnchor.constraint(equalToConstant: Layout.tabsHeight),
-            listingView.topAnchor.constraint(equalTo: view.topAnchor),
+            listingView.topAnchor.constraint(equalTo: safeTopAnchor),
             listingView.leftAnchor.constraint(equalTo: view.leftAnchor),
             listingView.rightAnchor.constraint(equalTo: view.rightAnchor),
             listingView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.topAnchor.constraint(equalTo: safeTopAnchor),
             tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
             tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            tableView.bottomAnchor.constraint(equalTo: safeBottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ]
 
         let headerContainerTop =  headerContainerView.topAnchor.constraint(equalTo: safeTopAnchor, constant: Layout.topMargin)
