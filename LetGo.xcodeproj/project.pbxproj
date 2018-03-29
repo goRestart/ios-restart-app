@@ -1569,7 +1569,6 @@
 		C7DB424C1C5138B500400945 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 502374541B3D3E8D00E02656 /* InfoPlist.strings */; };
 		C7DB42531C5138B500400945 /* ios-prod.json in Resources */ = {isa = PBXBuildFile; fileRef = 500DC12A1BDA1C4C00B494FA /* ios-prod.json */; };
 		C7DB42561C5138B500400945 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5023745B1B3D3EAB00E02656 /* Localizable.strings */; };
-		C7DB42571C5138B500400945 /* ListingListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D412E0871B4F17C200683FFD /* ListingListView.xib */; };
 		C7DB42591C5138B500400945 /* PopupSignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C71589B31C4F8E1C00E7563E /* PopupSignUpViewController.xib */; };
 		C7DB425E1C5138B500400945 /* levelup.caf in Resources */ = {isa = PBXBuildFile; fileRef = 506DC19B1BBE7D8A00E59D27 /* levelup.caf */; };
 		C7DB425F1C5138B500400945 /* ToastView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50BCE92D1BF6357600C130CD /* ToastView.xib */; };
@@ -1658,7 +1657,6 @@
 		D40DA2891AEE291D00B64CE1 /* words_lowercase.json in Resources */ = {isa = PBXBuildFile; fileRef = D40DA2881AEE291D00B64CE1 /* words_lowercase.json */; };
 		D412E07F1B4EFF2800683FFD /* ListingListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D412E07E1B4EFF2800683FFD /* ListingListViewModel.swift */; };
 		D412E0861B4F179F00683FFD /* ListingListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D412E0851B4F179F00683FFD /* ListingListView.swift */; };
-		D412E0881B4F17C200683FFD /* ListingListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D412E0871B4F17C200683FFD /* ListingListView.xib */; };
 		D4443D6B1B1288B700237095 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4443D6A1B1288B700237095 /* Constants.swift */; };
 		D45838431AEE6B9300B5F181 /* UIColor+RGB.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45838421AEE6B9300B5F181 /* UIColor+RGB.swift */; };
 		D4912A831B08E12C00DACD5A /* UIImage+Tint.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4912A821B08E12C00DACD5A /* UIImage+Tint.swift */; };
@@ -2694,7 +2692,6 @@
 		D40DA2881AEE291D00B64CE1 /* words_lowercase.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = words_lowercase.json; sourceTree = "<group>"; };
 		D412E07E1B4EFF2800683FFD /* ListingListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingListViewModel.swift; sourceTree = "<group>"; };
 		D412E0851B4F179F00683FFD /* ListingListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingListView.swift; sourceTree = "<group>"; };
-		D412E0871B4F17C200683FFD /* ListingListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ListingListView.xib; sourceTree = "<group>"; };
 		D4219F761B3F7D72008A9EEA /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D4219F771B3F7D72008A9EEA /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D4219F781B3F7D7F008A9EEA /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -3365,7 +3362,6 @@
 				C749C7811C10811B00F7118E /* Cells */,
 				C796430C1D4F5ABA000C5FCE /* RelatedListings */,
 				D412E0851B4F179F00683FFD /* ListingListView.swift */,
-				D412E0871B4F17C200683FFD /* ListingListView.xib */,
 				D412E07E1B4EFF2800683FFD /* ListingListViewModel.swift */,
 				2E4B359B1CC90A9500B8CB64 /* RelatedListingListRequester.swift */,
 				501495ED1D895B5800AC67CA /* DiscoverListingListRequester.swift */,
@@ -5499,7 +5495,6 @@
 				2EB636161E8A941B0063E8EA /* CarsInfo.json in Resources */,
 				6A12E04B1C635FA000C1BFE3 /* TourLoginViewController.xib in Resources */,
 				6A879DA51C8DAED300E0C868 /* PushPrePermissionsSettingsViewControllerMini.xib in Resources */,
-				D412E0881B4F17C200683FFD /* ListingListView.xib in Resources */,
 				C703BE001C7F1AF900EC8EF2 /* EditLocationViewController.xib in Resources */,
 				726D50FF2007C12300C7DA2A /* realEstateBanner.png in Resources */,
 				C7732F6C1D87FA3400EAD5B7 /* TourPostingViewController.xib in Resources */,
@@ -5630,7 +5625,6 @@
 				6A12E04C1C635FA000C1BFE3 /* TourLoginViewController.xib in Resources */,
 				2E9DF9741E8AA23800969E0F /* CarsInfo.json in Resources */,
 				6A879DA61C8DAED300E0C868 /* PushPrePermissionsSettingsViewControllerMini.xib in Resources */,
-				C7DB42571C5138B500400945 /* ListingListView.xib in Resources */,
 				C7DB42591C5138B500400945 /* PopupSignUpViewController.xib in Resources */,
 				C7732F6D1D87FA3400EAD5B7 /* TourPostingViewController.xib in Resources */,
 				C727942B1D549334009C25AB /* SettingsCell.xib in Resources */,
