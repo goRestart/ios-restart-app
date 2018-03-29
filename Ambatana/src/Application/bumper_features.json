@@ -216,8 +216,8 @@
         "description": "Show directly summary screen instead of Real estate steps"
     },
     {
-        "name": "ShowProTagUserProfile",
-        "values": ["no", "yes"],
-        "description": "Show Professional tag in user profile"
+        "name": "ShowAdvancedReputationSystem",
+        "values": ["control", "baseline", "active"],
+        "description": "Show the new advance reputation system and Karma Score"
     }
 ]

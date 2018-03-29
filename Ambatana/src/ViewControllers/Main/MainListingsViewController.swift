@@ -97,7 +97,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     }
     
     required init(viewModel: MainListingsViewModel, nibName nibNameOrNil: String?) {
-        self.navbarSearch = LGNavBarSearchField.setupNavBarSearchFieldWithText(viewModel.searchString)
+        navbarSearch = LGNavBarSearchField(viewModel.searchString)
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         viewModel.delegate = self
@@ -482,7 +482,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
             self?.updateTopInset()
         }.disposed(by: disposeBag)
         
-        navbarSearch.searchTextField?.rx.text.asObservable()
+        navbarSearch.searchTextField.rx.text.asObservable()
             .subscribeNext { [weak self] text in
                 self?.navBarSearchTextFieldDidUpdate(text: text ?? "")
         }.disposed(by: disposeBag)
@@ -735,7 +735,7 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
             subtitle = suggestiveSearch.subtitle
             icon = suggestiveSearch.icon
             fillSearchButtonBlock = { [weak self] in
-                self?.navbarSearch.searchTextField?.text = title
+                self?.navbarSearch.searchTextField.text = title
                 self?.viewModel.searchText.value = title
                 self?.navBarSearchTextFieldDidUpdate(text: title)
             }

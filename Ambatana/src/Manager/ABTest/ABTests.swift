@@ -63,7 +63,7 @@ class ABTests {
     let realEstateTutorial = IntABDynamicVar(key: "20180309RealEstateTutorial", defaultValue: 0, abGroupType: .realEstate)
     let summaryAsFirstStep = IntABDynamicVar(key: "20180320SummaryAsFirstStep", defaultValue: 0, abGroupType: .realEstate)
     let relaxedSearch = IntABDynamicVar(key: "20180319RelaxedSearch", defaultValue: 0, abGroupType: .core)
-
+    let advancedReputationSystem = IntABDynamicVar(key: "20180328AdvancedReputationSystem", defaultValue: 0, abGroupType: .users)
     init() {
     }
     
@@ -118,7 +118,7 @@ class ABTests {
         result.append(summaryAsFirstStep)
         result.append(relaxedSearch)
         result.append(machineLearningMVP)
-        result.append(showProTagUserProfile)
+        result.append(advancedReputationSystem)
         return result
     }
 

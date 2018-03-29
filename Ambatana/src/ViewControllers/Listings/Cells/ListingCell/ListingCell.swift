@@ -40,8 +40,25 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         return button
     }()
     
-    private let featureDetailView = ProductPriceAndTitleView()
-    private let distanceInfoView = DistanceInfoView(frame: .zero)
+    private var featureView: ProductPriceAndTitleView?
+    
+    private let detailViewInImage: ProductPriceAndTitleView = {
+        let view = ProductPriceAndTitleView(textStyle: .whiteText)
+        view.isHidden = true
+        return view
+    }()
+    
+    private let  bottomDistanceInfoView: DistanceInfoView = {
+        let view = DistanceInfoView(frame: .zero)
+        view.isHidden = true
+        return view
+    }()
+
+    private let topDistanceInfoView: DistanceInfoView = {
+        let view = DistanceInfoView(frame: .zero)
+        view.isHidden = true
+        return view
+    }()
     
     private let discardedView: DiscardedView = {
         let view = DiscardedView()
@@ -115,21 +132,23 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         stripeInfoView.isHidden = false
     }
 
+    // Product Detail Under Image
     func setupFeaturedListingInfoWith(price: String, title: String?, isMine: Bool, hideProductDetail: Bool) {
-        featureDetailView.update(with: price,
-                                 title: title,
-                                 textStyle: hideProductDetail ? .whiteText : .darkText)
+        featureView = ProductPriceAndTitleView(textStyle: .darkText)
+        featureView?.configUI(title: title, price: price, style: hideProductDetail ? .whiteText : .darkText)
         setupFeaturedListingChatButton()
         layoutFeatureListArea(isMine: isMine, hideProductDetail: hideProductDetail)
     }
     
     func setupNonFeaturedProductInfoUnderImage(price: String, title: String?, shouldShow: Bool) {
         if shouldShow {
-            featureDetailView.update(with: price, title: title, textStyle: .darkText)
+            featureView = ProductPriceAndTitleView(textStyle: .darkText)
+            featureView?.configUI(title: title, price: price, style: .darkText)
             showDetail()
         }
     }
     
+    // Product Detail In Image
     func showCompleteProductInfoInImage(price: String, title: String?, distance: Double?) {
         setupProductDetailInImage(price: price, title: title)
         if let distance = distance {
@@ -153,9 +172,38 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     // > Sets up the UI
     private func setupUI() {
         cellContent.cornerRadius = LGUIKitConstants.mediumCornerRadius
-        
         setupStripArea()
         setupDiscardedView()
+        setupDistanceLabels()
+        setupDetailViewInImage()
+    }
+    
+    private var detailViewInImageHeightConstraints: NSLayoutConstraint?
+    private func setupDetailViewInImage() {
+        contentView.addSubviewForAutoLayout(detailViewInImage)
+        detailViewInImage.layout(with: thumbnailImageView)
+            .fillHorizontal()
+            .bottom()
+        detailViewInImageHeightConstraints = detailViewInImage.heightAnchor.constraint(equalToConstant: contentView.height)
+        detailViewInImageHeightConstraints?.isActive = true
+    }
+    
+    private func setupDistanceLabels() {
+        contentView.addSubviewsForAutoLayout([topDistanceInfoView, bottomDistanceInfoView])
+        let margin = ListingCellMetrics.DistanceView.margin
+        let height = ListingCellMetrics.DistanceView.iconHeight
+        topDistanceInfoView.layout(with: thumbnailImageView)
+            .fillHorizontal(by: margin)
+            .top(by: margin)
+        
+        bottomDistanceInfoView.layout(with: thumbnailImageView)
+            .fillHorizontal(by: margin)
+            .bottom(by: -margin)
+            
+        NSLayoutConstraint.activate([
+            topDistanceInfoView.heightAnchor.constraint(equalToConstant: height),
+            bottomDistanceInfoView.heightAnchor.constraint(equalToConstant: height)
+        ])
     }
     
     private func setupStripArea() {
@@ -168,27 +216,24 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     }
     
     private func setupProductDetailInImage(price: String, title: String?) {
-        featureDetailView.update(with: price, title: title, textStyle: .whiteText)
-        layoutProductDetailInImage()
+        detailViewInImage.configUI(title: title, price: price, style: .whiteText)
+        detailViewInImage.isHidden = false
+        layoutProductDetailInImage(title: title)
     }
     
     private func addDistanceViewInImage(distance: Double, isOnTopLeft: Bool) {
-        addSubviewForAutoLayout(distanceInfoView)
+
         let distanceString = String(describing: distance) + DistanceType.systemDistanceType().string
-        distanceInfoView.setDistance(distanceString)
-        let margin = ListingCellMetrics.DistanceView.margin
+        
         if isOnTopLeft {
-            distanceInfoView.topAnchor.constraint(equalTo: thumbnailImageView.topAnchor,
-                                                  constant: margin).isActive = true
+            topDistanceInfoView.isHidden = false
+            bottomDistanceInfoView.isHidden = true
+            topDistanceInfoView.setDistance(distanceString)
         } else {
-            distanceInfoView.bottomAnchor.constraint(equalTo: thumbnailImageView.bottomAnchor,
-                                                     constant: -margin).isActive = true
+            topDistanceInfoView.isHidden = true
+            bottomDistanceInfoView.isHidden = false
+            bottomDistanceInfoView.setDistance(distanceString)
         }
-        distanceInfoView.leadingAnchor.constraint(equalTo: thumbnailImageView.leadingAnchor,
-                                                  constant: margin).isActive = true
-        distanceInfoView.trailingAnchor.constraint(equalTo: thumbnailImageView.trailingAnchor,
-                                                   constant: -margin).isActive = true
-        distanceInfoView.heightAnchor.constraint(equalToConstant: ListingCellMetrics.DistanceView.iconHeight).isActive = true
     }
     
     private func setupDiscardedView() {
@@ -200,7 +245,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
             guard let listing = self?.listing else { return }
             self?.delegate?.moreOptionsPressedForDiscarded(listing: listing)
         }
-        addSubview(discardedView)
+        contentView.addSubview(discardedView)
         discardedView.layout(with: contentView).fill()
     }
     
@@ -213,28 +258,31 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         }
     }
     
-    private func layoutProductDetailInImage() {
-        addSubviewForAutoLayout(featureDetailView)
-        featureDetailView.layout(with: thumbnailImageView).left().right().bottom(by: 3.0)
+    private func layoutProductDetailInImage(title: String?) {
+        let height = ListingCellMetrics.getTotalHeightForPriceAndTitleView(title, containerWidth: cellContent.width)
+        detailViewInImageHeightConstraints?.constant = height
     }
     
     private func showChatButton(isMine: Bool) {
-        featuredListingInfoView.addSubviewsForAutoLayout([featuredListingChatButton])
+        if !featuredListingInfoView.subviews.contains(featuredListingChatButton) {
+            featuredListingInfoView.addSubviewsForAutoLayout([featuredListingChatButton])
+        }
         layoutChatButton(isMine: isMine, isUnderProductDetail: false)
     }
     
     private func showDetailAndChatButton(isMine: Bool) {
-        featuredListingInfoView.addSubviewsForAutoLayout([featureDetailView,
+        guard let featureView = featureView else { return }
+        featuredListingInfoView.addSubviewsForAutoLayout([featureView,
                                                         featuredListingChatButton])
-
-        featureDetailView.layout(with: featuredListingInfoView).top().left().right()
-        layoutChatButton(under: featureDetailView, isMine: isMine, isUnderProductDetail: true)
+        featureView.layout(with: featuredListingInfoView).top().left().right()
+        layoutChatButton(under: featureView, isMine: isMine, isUnderProductDetail: true)
     }
     
     private func showDetail() {
+        guard let featureView = featureView else { return }
         featuredListingInfoView.translatesAutoresizingMaskIntoConstraints = false
-        featuredListingInfoView.addSubviewsForAutoLayout([featureDetailView])
-        featureDetailView.layout(with: featuredListingInfoView).top().leading().trailing().bottom()
+        featuredListingInfoView.addSubviewsForAutoLayout([featureView])
+        featureView.layout(with: featuredListingInfoView).top().leading().trailing().bottom()
     }
     
     private func layoutChatButton(under view: UIView? = nil, isMine: Bool, isUnderProductDetail: Bool) {
@@ -273,8 +321,10 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         stripeImageView.image = nil
         stripeLabel.text = ""
         stripeIcon.image = nil
-        featureDetailView.clearLabelTexts()
-
+        detailViewInImage.clearLabelTexts()
+        topDistanceInfoView.clearAll()
+        bottomDistanceInfoView.clearAll()
+        
         self.delegate = nil
         self.listing = nil
 
