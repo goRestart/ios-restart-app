@@ -85,6 +85,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     override func prepareForReuse() {
         super.prepareForReuse()
         recycleDisposeBag()
+        userView.prepareForReuse()
         previewImageView.image = nil
         userView.alpha = 0
         lastMoreInfoState = .hidden
@@ -112,7 +113,10 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
 
     func populateWith(userInfo: ListingVMUserInfo?) {
         guard let info = userInfo else { return }
-        userView.populate(withUserName: info.name, icon: info.avatar, imageDownloader: ImageDownloader.sharedInstance)
+        userView.populate(withUserName: info.name,
+                          placeholder: info.avatarPlaceholder(),
+                          icon: info.avatar,
+                          imageDownloader: ImageDownloader.sharedInstance)
         UIView.animate(withDuration: 0.1) { self.userView.alpha = 1 }
     }
 
