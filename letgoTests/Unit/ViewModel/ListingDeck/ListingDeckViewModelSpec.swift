@@ -462,8 +462,8 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                             sut.active = true
                             startObserving()
                         }
-                        it("requests images for items 9-13") {
-                            let images = products[9...13].flatMap { $0.images.first?.fileURL }
+                        it("requests images for items 7-13") {
+                            let images = products[7...13].flatMap { $0.images.first?.fileURL }
                             expect(imageDownloader.downloadImagesRequested) == images
                         }
                         describe("swipe right") {
@@ -480,7 +480,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                                 sut.moveToListingAtIndex(9, movement: .swipeLeft)
                             }
                             it("just requests one more image on the left") {
-                                let images = [products[8].images.first?.fileURL].flatMap { $0 }
+                                let images = [products[6].images.first?.fileURL].flatMap { $0 }
                                 expect(imageDownloader.downloadImagesRequested) == images
                             }
                         }
