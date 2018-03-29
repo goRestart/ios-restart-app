@@ -38,7 +38,7 @@ class ABTests {
     let trackingData = Variable<[(String, ABGroup)]?>(nil)
 
     let legacy = LegacyGroup.make()
-    
+
     let realEstateNewCopy = LeanplumABVariable<Int>.makeInt(key: "20180126RealEstateNewCopy", defaultValue: 0, groupType: .realEstate)
     let dummyUsersInfoProfile = LeanplumABVariable<Int>.makeInt(key: "20180130DummyUsersInfoProfile", defaultValue: 0, groupType: .retention)
     let showInactiveConversations = LeanplumABVariable<Bool>.makeBool(key: "20180206ShowInactiveConversations", defaultValue: false, groupType: .chat)
@@ -137,4 +137,30 @@ class ABTests {
 
         self.trackingData.value = trackingData
     }
+}
+
+extension ABTests {
+    var marketingPush: LeanplumABVariable<Int> { return legacy.marketingPush }
+    // Not an A/B just flags and variables for surveys
+    var showNPSSurvey: LeanplumABVariable<Bool> { return legacy.showNPSSurvey }
+    var surveyURL: LeanplumABVariable<String> { return legacy.surveyURL }
+    var surveyEnabled: LeanplumABVariable<Bool> { return legacy.surveyEnabled }
+    var freeBumpUpEnabled: LeanplumABVariable<Bool> { return legacy.freeBumpUpEnabled }
+    var pricedBumpUpEnabled: LeanplumABVariable<Bool> { return legacy.pricedBumpUpEnabled }
+    var newCarsMultiRequesterEnabled: LeanplumABVariable<Bool> { return legacy.newCarsMultiRequesterEnabled }
+    var inAppRatingIOS10: LeanplumABVariable<Bool> { return legacy.inAppRatingIOS10 }
+    var userReviewsReportEnabled: LeanplumABVariable<Bool> { return legacy.userReviewsReportEnabled }
+    var dynamicQuickAnswers: LeanplumABVariable<Int> { return legacy.dynamicQuickAnswers }
+    var appRatingDialogInactive: LeanplumABVariable<Bool> { return legacy.appRatingDialogInactive }
+    var locationDataSourceType: LeanplumABVariable<Int> { return legacy.locationDataSourceType }
+    var searchAutocomplete: LeanplumABVariable<Int> { return legacy.searchAutocomplete }
+    var realEstateEnabled: LeanplumABVariable<Int> { return legacy.realEstateEnabled }
+    var requestsTimeOut: LeanplumABVariable<Int> { return legacy.requestsTimeOut }
+    var newItemPage: LeanplumABVariable<Int> { return legacy.newItemPage }
+    var taxonomiesAndTaxonomyChildrenInFeed: LeanplumABVariable<Int> { return legacy.taxonomiesAndTaxonomyChildrenInFeed }
+    var showClockInDirectAnswer: LeanplumABVariable<Int> { return legacy.showClockInDirectAnswer }
+    var allowCallsForProfessionals: LeanplumABVariable<Int> { return legacy.allowCallsForProfessionals }
+    var mostSearchedDemandedItems: LeanplumABVariable<Int> { return legacy.mostSearchedDemandedItems }
+    var showAdsInFeedWithRatio: LeanplumABVariable<Int> { return legacy.showAdsInFeedWithRatio }
+    var removeCategoryWhenClosingPosting: LeanplumABVariable<Int> { return legacy.removeCategoryWhenClosingPosting }
 }

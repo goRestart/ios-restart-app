@@ -79,6 +79,7 @@
 		0A25E8132019C88C00E6A72E /* OnBoardingAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A25E8112019C87900E6A72E /* OnBoardingAnimator.swift */; };
 		0A2CDAE6206D2BAF00B8CF34 /* ABLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2CDAE5206D2BAF00B8CF34 /* ABLegacy.swift */; };
 		0A2CDAE7206D2DA300B8CF34 /* ABLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2CDAE5206D2BAF00B8CF34 /* ABLegacy.swift */; };
+		0A2CDAE9206D333200B8CF34 /* ABRealEstate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2CDAE8206D333200B8CF34 /* ABRealEstate.swift */; };
 		0A2D69DE1FC5DB0300F072A1 /* Bounceable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2D69DC1FC5DA8700F072A1 /* Bounceable.swift */; };
 		0A2D69E01FC6BA6900F072A1 /* ListingCardDetailMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2D69DF1FC6BA6900F072A1 /* ListingCardDetailMapView.swift */; };
 		0A2EC6A120357C0700DE1711 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508010E61D4748120073F362 /* SettingsViewController.swift */; };
@@ -1823,6 +1824,7 @@
 		0A104695206CFB99003F1577 /* ABTestsSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABTestsSpec.swift; sourceTree = "<group>"; };
 		0A25E8112019C87900E6A72E /* OnBoardingAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingAnimator.swift; sourceTree = "<group>"; };
 		0A2CDAE5206D2BAF00B8CF34 /* ABLegacy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABLegacy.swift; sourceTree = "<group>"; };
+		0A2CDAE8206D333200B8CF34 /* ABRealEstate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABRealEstate.swift; sourceTree = "<group>"; };
 		0A2D69DC1FC5DA8700F072A1 /* Bounceable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bounceable.swift; sourceTree = "<group>"; };
 		0A2D69DF1FC6BA6900F072A1 /* ListingCardDetailMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardDetailMapView.swift; sourceTree = "<group>"; };
 		0A3048272041E1DE00C11498 /* ListingDeckSnapshotType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingDeckSnapshotType.swift; sourceTree = "<group>"; };
@@ -3123,6 +3125,7 @@
 				2E52CCC71CBD3F9B003B7A96 /* ABDynamicVar.swift */,
 				2E52CCD31CBD54F3003B7A96 /* ABTests.swift */,
 				0A2CDAE5206D2BAF00B8CF34 /* ABLegacy.swift */,
+				0A2CDAE8206D333200B8CF34 /* ABRealEstate.swift */,
 			);
 			name = ABTest;
 			sourceTree = "<group>";
@@ -6972,6 +6975,7 @@
 				0A25E8122019C87900E6A72E /* OnBoardingAnimator.swift in Sources */,
 				C7B89CB91C20271E00536A6C /* SocialShareView.swift in Sources */,
 				01772B5F204F0F340037FD5F /* BlockingPostingStepHeaderView.swift in Sources */,
+				0A2CDAE9206D333200B8CF34 /* ABRealEstate.swift in Sources */,
 				72C7A1C61FAB31EF0089F175 /* PostingAddDetailSummaryTableViewCell.swift in Sources */,
 				6A5E1A181D548F5400F92692 /* UIView+Geometry.swift in Sources */,
 				2E75EC4F1FA86F6D00C5F48F /* AdBannerTrackingStatus.swift in Sources */,

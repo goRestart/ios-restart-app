@@ -1,5 +1,5 @@
 //
-//  ABLegacy.swift
+//  ABRealEstate.swift
 //  LetGo
 //
 //  Created by Facundo Menzella on 29/03/2018.
@@ -112,9 +112,9 @@ struct LegacyGroup: ABGroupType {
         self.removeCategoryWhenClosingPosting = removeCategoryWhenClosingPosting
 
         intVariables.append(contentsOf: [marketingPush, dynamicQuickAnswers, locationDataSourceType, searchAutocomplete,
-                                        realEstateEnabled, requestsTimeOut, newItemPage, taxonomiesAndTaxonomyChildrenInFeed,
-                                        showClockInDirectAnswer, allowCallsForProfessionals, mostSearchedDemandedItems,
-                                        showAdsInFeedWithRatio, removeCategoryWhenClosingPosting])
+                                         realEstateEnabled, requestsTimeOut, newItemPage, taxonomiesAndTaxonomyChildrenInFeed,
+                                         showClockInDirectAnswer, allowCallsForProfessionals, mostSearchedDemandedItems,
+                                         showAdsInFeedWithRatio, removeCategoryWhenClosingPosting])
         boolVariables.append(contentsOf: [showNPSSurvey, surveyEnabled, freeBumpUpEnabled,
                                           pricedBumpUpEnabled, newCarsMultiRequesterEnabled, inAppRatingIOS10,
                                           userReviewsReportEnabled, appRatingDialogInactive])

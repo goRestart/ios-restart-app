@@ -15,7 +15,10 @@ class ABTestsSpec: QuickSpec {
 
     override func spec() {
         var sut: ABTests!
+        var legacy: LegacyGroup!
         var syncer: LeamplumSyncerCounter!
+
+        afterEach { syncer.clear() }
 
         fdescribe("A new set of ABTests") {
             beforeEach {
@@ -23,7 +26,7 @@ class ABTestsSpec: QuickSpec {
                 sut = ABTests(syncer: syncer)
             }
 
-            context("registering the variables") {
+            context("registering all the variables") {
                 beforeEach {
                     sut.registerVariables()
                 }
@@ -31,8 +34,21 @@ class ABTestsSpec: QuickSpec {
                     expect(syncer.syncedCount) == 49
                 }
             }
-        }
+            
+            context("registering only the legacy variables") {
+                beforeEach {
+                    legacy = LegacyGroup.make()
 
+                    syncer.sync(variables: legacy.intVariables)
+                    syncer.sync(variables: legacy.boolVariables)
+                    syncer.sync(variables: legacy.stringVariables)
+                    syncer.sync(variables: legacy.floatVariables)
+                }
+                it("the number of registered variables matches") {
+                    expect(syncer.syncedCount) == 22
+                }
+            }
+        }
     }
 
     private class LeamplumSyncerCounter: LeamplumSyncerType {
@@ -47,9 +63,9 @@ class ABTestsSpec: QuickSpec {
         func sync(variables: [ABRegistrable]) {
             syncedCount += variables.count
         }
-        func trackingData(variables: [ABTrackable]) -> [(String, ABGroupType)] {
+        func trackingData(variables: [ABTrackable]) -> [(String, ABGroup)] {
             trackingCount += variables.count
-            return variables.map { _ in return ("I don't care", ABGroupType.core) }
+            return variables.map { _ in return ("I don't care", ABGroup.core) }
         }
     }
 }
