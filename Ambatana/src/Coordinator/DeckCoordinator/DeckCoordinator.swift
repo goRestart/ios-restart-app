@@ -44,6 +44,7 @@ final class DeckCoordinator: DeckNavigator, ListingDeckOnBoardingNavigator, Deck
                      listingListRequester: ListingListRequester,
                      source: EventParameterListingVisitSource,
                      listingNavigator: ListingDetailNavigator,
+                     actionOnFirstAppear: DeckActionOnFirstAppear,
                      trackingIndex: Int?) {
         self.init(navigationController: navigationController,
                   listing: listing,
@@ -52,6 +53,7 @@ final class DeckCoordinator: DeckNavigator, ListingDeckOnBoardingNavigator, Deck
                   source: source,
                   listingNavigator: listingNavigator,
                   keyValueStorage: KeyValueStorage.sharedInstance,
+                  actionOnFirstAppear: actionOnFirstAppear,
                   trackingIndex: trackingIndex)
     }
 
@@ -62,14 +64,17 @@ final class DeckCoordinator: DeckNavigator, ListingDeckOnBoardingNavigator, Deck
                  source: EventParameterListingVisitSource,
                  listingNavigator: ListingDetailNavigator,
                  keyValueStorage: KeyValueStorageable,
+                 actionOnFirstAppear: DeckActionOnFirstAppear,
                  trackingIndex: Int?) {
 
-        let viewModel =  ListingDeckViewModel(listModels: cellModels,
-                                              listing: listing,
-                                              listingListRequester: listingListRequester,
-                                              source: source,
-                                              detailNavigator: listingNavigator,
-                                              trackingIndex: trackingIndex)
+        let viewModel = ListingDeckViewModel(listModels: cellModels,
+                                             listing: listing,
+                                             listingListRequester: listingListRequester,
+                                             source: source,
+                                             detailNavigator: listingNavigator,
+                                             actionOnFirstAppear: actionOnFirstAppear,
+                                            trackingIndex: trackingIndex)
+
         let deckViewController = ListingDeckViewController(viewModel: viewModel)
         self.deckViewController = deckViewController
 

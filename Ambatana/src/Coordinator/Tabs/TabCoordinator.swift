@@ -248,10 +248,11 @@ fileprivate extension TabCoordinator {
         if featureFlags.newItemPage.isActive {
             openListingNewItemPage(listing,
                                    thumbnailImage: thumbnailImage,
-                                   cellModels: [],
+                                   cellModels: nil,
                                    originFrame: nil,
                                    requester: requester,
                                    source: source,
+                                   actionOnFirstAppear: actionOnFirstAppear,
                                    trackingIndex: nil)
         } else {
             let vm = ListingCarouselViewModel(listing: listing, thumbnailImage: thumbnailImage,
@@ -268,8 +269,13 @@ fileprivate extension TabCoordinator {
                      source: EventParameterListingVisitSource, index: Int) {
         if showRelated {
             //Same as single product opening
-            openListing(listing: listing, thumbnailImage: thumbnailImage, originFrame: originFrame,
-                        source: source, requester: requester, index: index, discover: false,
+            openListing(listing: listing,
+                        thumbnailImage: thumbnailImage,
+                        originFrame: originFrame,
+                        source: source,
+                        requester: requester,
+                        index: index,
+                        discover: false,
                         actionOnFirstAppear: .nonexistent)
         } else if featureFlags.newItemPage.isActive {
             openListingNewItemPage(listing,
@@ -278,6 +284,7 @@ fileprivate extension TabCoordinator {
                                    originFrame: originFrame,
                                    requester: requester,
                                    source: source,
+                                   actionOnFirstAppear: .nonexistent,
                                    trackingIndex: index)
         } else {
             let vm = ListingCarouselViewModel(productListModels: cellModels, initialListing: listing,
@@ -321,27 +328,31 @@ fileprivate extension TabCoordinator {
     func openListingNewItemPage(listing: Listing,
                                 listingListRequester: ListingListRequester,
                                 source: EventParameterListingVisitSource) {
-        openListingNewItemPage(listing, thumbnailImage: nil,
-                               cellModels: [],
+        openListingNewItemPage(listing,
+                               thumbnailImage: nil,
+                               cellModels: nil,
                                originFrame: nil,
                                requester: listingListRequester,
                                source: source,
+                               actionOnFirstAppear: .nonexistent,
                                trackingIndex: nil)
     }
 
     func openListingNewItemPage(_ listing: Listing,
                                 thumbnailImage: UIImage?,
-                                cellModels: [ListingCellModel],
+                                cellModels: [ListingCellModel]?,
                                 originFrame: CGRect?,
                                 requester: ListingListRequester,
                                 source: EventParameterListingVisitSource,
+                                actionOnFirstAppear: DeckActionOnFirstAppear,
                                 trackingIndex: Int?) {
         let coordinator = DeckCoordinator(navigationController: navigationController,
                                           listing: listing,
-                                          cellModels: cellModels,
+                                          cellModels: cellModels ?? [],
                                           listingListRequester: requester,
                                           source: source,
                                           listingNavigator: self,
+                                          actionOnFirstAppear: actionOnFirstAppear,
                                           trackingIndex: trackingIndex)
 
         coordinator.showDeckViewController()

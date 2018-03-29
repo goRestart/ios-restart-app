@@ -350,6 +350,24 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     }
 }
 
+// TODO: Refactor ABIOS-3814
+extension ListingDeckViewController {
+    private func processActionOnFirstAppear() {
+        switch viewModel.actionOnFirstAppear {
+        case .showKeyboard:
+            quickChatView?.becomeFirstResponder()
+        case .showShareSheet:
+            viewModel.didTapCardAction()
+        case .triggerBumpUp(_,_,_,_):
+            viewModel.showBumpUpView(viewModel.actionOnFirstAppear)
+        case .triggerMarkAsSold:
+            viewModel.currentListingViewModel?.markAsSold()
+        case .nonexistent:
+            break
+        }
+    }
+}
+
 extension ListingDeckViewController: ListingDeckViewModelDelegate {
 
     func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?) {

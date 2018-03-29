@@ -41,6 +41,7 @@ protocol ListingDeckViewModelDelegate: BaseViewModelDelegate {
     func vmResetBumpUpBannerCountdown()
 }
 
+typealias DeckActionOnFirstAppear = ProductCarouselActionOnFirstAppear
 final class ListingDeckViewModel: BaseViewModel {
 
     var pagination: Pagination
@@ -65,6 +66,7 @@ final class ListingDeckViewModel: BaseViewModel {
     fileprivate let listingViewModelMaker: ListingViewModelMaker
     fileprivate let tracker: Tracker
 
+    let actionOnFirstAppear: DeckActionOnFirstAppear
     let objects = CollectionVariable<ListingCellModel>([])
 
     let binder: ListingDeckViewModelBinder
@@ -93,6 +95,7 @@ final class ListingDeckViewModel: BaseViewModel {
                      listingListRequester: ListingListRequester,
                      source: EventParameterListingVisitSource,
                      detailNavigator: ListingDetailNavigator,
+                     actionOnFirstAppear: DeckActionOnFirstAppear,
                      trackingIndex: Int?) {
         let pagination = Pagination.makePagination(first: 0, next: 1, isLast: false)
         let prefetching = Prefetching(previousCount: 3, nextCount: 3)
@@ -109,6 +112,7 @@ final class ListingDeckViewModel: BaseViewModel {
                   shouldSyncFirstListing: false,
                   binder: ListingDeckViewModelBinder(),
                   tracker: TrackerProxy.sharedInstance,
+                  actionOnFirstAppear: actionOnFirstAppear,
                   trackingIndex: trackingIndex)
     }
 
@@ -121,6 +125,7 @@ final class ListingDeckViewModel: BaseViewModel {
                      listingViewModelMaker: ListingViewModelMaker,
                      shouldSyncFirstListing: Bool,
                      binder: ListingDeckViewModelBinder,
+                     actionOnFirstAppear: DeckActionOnFirstAppear,
                      trackingIndex: Int?) {
         let pagination = Pagination.makePagination(first: 0, next: 1, isLast: false)
         let prefetching = Prefetching(previousCount: 1, nextCount: 3)
@@ -137,6 +142,7 @@ final class ListingDeckViewModel: BaseViewModel {
                   shouldSyncFirstListing: shouldSyncFirstListing,
                   binder: binder,
                   tracker: TrackerProxy.sharedInstance,
+                  actionOnFirstAppear: actionOnFirstAppear,
                   trackingIndex: trackingIndex)
     }
 
@@ -153,6 +159,7 @@ final class ListingDeckViewModel: BaseViewModel {
          shouldSyncFirstListing: Bool,
          binder: ListingDeckViewModelBinder,
          tracker: Tracker,
+         actionOnFirstAppear: DeckActionOnFirstAppear,
          trackingIndex: Int?) {
         self.imageDownloader = imageDownloader
         self.pagination = pagination
@@ -164,6 +171,7 @@ final class ListingDeckViewModel: BaseViewModel {
         self.userRepository = myUserRepository
         self.navigator = detailNavigator
         self.tracker = tracker
+        self.actionOnFirstAppear = actionOnFirstAppear
         self.trackingIndex = trackingIndex
 
         let filteredModels = listModels.filter(ListingDeckViewModel.isListable)
@@ -382,6 +390,18 @@ final class ListingDeckViewModel: BaseViewModel {
                                                           query: nil,
                                                           visibility: nil,
                                                           errorReason: nil)
+    }
+
+    func showBumpUpView(_ action: DeckActionOnFirstAppear) {
+        if case .triggerBumpUp(let bumpUpProductData,
+                               let bumpUpType,
+                               let triggerBumpUpSource,
+                               let typePage) = action {
+            currentListingViewModel?.showBumpUpView(bumpUpProductData: bumpUpProductData,
+                                                    bumpUpType: bumpUpType,
+                                                    bumpUpSource: triggerBumpUpSource,
+                                                    typePage: typePage)
+        }
     }
 }
 
