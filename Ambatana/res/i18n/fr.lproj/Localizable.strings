@@ -603,6 +603,7 @@
 "product_delete_post_title" = "MEILLEURE CHANCE LA PROCHAINE FOIS !";
 "product_delete_send_error_generic" = "Oups ! Une erreur est survenue lors de la suppression de votre annonce. Veuillez réessayer.";
 "product_delete_sold_confirm_message" = "Etes-vous certain de vouloir supprimer cette annonce ?";
+"product_detail_swipe_to_see_related" = "Swipe to see related listings";
 "product_distance_X_from_you" = "à %@";
 "product_distance_custom_location" = "Localisation personnalisée";
 "product_distance_more_than" = "À plus de %@";
@@ -784,6 +785,8 @@
 "profile_favourites_my_user_no_products_button" = "Continuer à naviguer";
 "profile_favourites_my_user_no_products_label" = "PAS (ENCORE !) DE FAVORIS";
 "profile_favourites_products_tab" = "Favoris";
+"profile_karma_verification_score_title" = "Verification Score: %@";
+"profile_karma_visibility_title" = "Only visible to you";
 "profile_permissions_alert_cancel" = "Pas maintenant";
 "profile_permissions_alert_message" = "Souhaitez-vous activer les notifications de message maintenant ?";
 "profile_permissions_alert_ok" = "Activer";

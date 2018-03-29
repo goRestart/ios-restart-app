@@ -603,6 +603,7 @@
 "product_delete_post_title" = "NO LUCK THIS TIME?";
 "product_delete_send_error_generic" = "Oops! An error occurred while deleting your listing. Please try again.";
 "product_delete_sold_confirm_message" = "Are you sure you want to delete this listing?";
+"product_detail_swipe_to_see_related" = "Swipe to see related listings";
 "product_distance_X_from_you" = "%@ from you";
 "product_distance_custom_location" = "Custom location";
 "product_distance_more_than" = "More than %@";
@@ -784,6 +785,8 @@
 "profile_favourites_my_user_no_products_button" = "Keep Browsing";
 "profile_favourites_my_user_no_products_label" = "NO FAVORITES (YET!)";
 "profile_favourites_products_tab" = "Favorites";
+"profile_karma_verification_score_title" = "Verification Score: %@";
+"profile_karma_visibility_title" = "Only visible to you";
 "profile_permissions_alert_cancel" = "Not Now";
 "profile_permissions_alert_message" = "Would you like to enable message notifications now?";
 "profile_permissions_alert_ok" = "Enable";
@@ -887,7 +890,7 @@
 "real_estate_empty_state_search_subtitle" = "Be the first to post property for sale / rent in your area or check again soon!";
 "real_estate_empty_state_search_title" = "OOPS! NO HOUSING POSTED NEAR YOU";
 "real_estate_gallery_view_subtitle" = "Select up to 5 images of the property you want to sell or rent";
-"real_estate_gallery_view_subtitle_params" = "Select up to %d images of the property you want to sell or rent";
+"real_estate_gallery_view_subtitle_params" = "Select up to %d images of the property you want to sell or rent. The first one will be your featured photo so make sure it's a good one!";
 "real_estate_location_notification_message" = "We'll never show your exact location to other users";
 "real_estate_location_title" = "Location";
 "real_estate_offer_type_rent" = "For Rent";
