@@ -83,11 +83,11 @@ final class ListingCardUserView: UIView {
             return
         }
 
-        userIcon.tag = userName.hashValue
+        userIcon.tag = tag
         imageDownloader.downloadImageWithURL(url, completion: { [weak  self] (result, url) in
             if let value = result.value,
-                let hash = self?.userNameLabel.text?.hashValue,
-                self?.userIcon.tag == hash {
+                let selfTag = self?.tag,
+                self?.userIcon.tag == selfTag {
                 self?.userIcon.setBackgroundImage(value.image, for: .normal)
                 self?.userIcon.setNeedsLayout()
             }
@@ -202,6 +202,8 @@ final class ListingCardUserView: UIView {
                                                constant: Layout.Spacing.betweenButtons).isActive = true
         actionLayoutGuide.bottomAnchor.constraint(equalTo: bottomAnchor,
                                                   constant: -Layout.Spacing.betweenButtons).isActive = true
+
+        actionButton.alpha = 0
     }
 
     override func layoutSubviews() {

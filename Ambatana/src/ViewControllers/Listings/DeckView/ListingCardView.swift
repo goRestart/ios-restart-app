@@ -94,6 +94,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     }
 
     func populateWith(cellModel listingViewModel: ListingCardViewCellModel, imageDownloader: ImageDownloaderType) {
+        userView.tag = self.tag
         self.imageDownloader = imageDownloader
         binder.bind(withViewModel: listingViewModel)
         populateWith(details: listingViewModel)
