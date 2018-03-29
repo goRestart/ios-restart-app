@@ -347,7 +347,7 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     }
 }
 
-// TODO: Refactor this in a testable way
+// TODO: Refactor ABIOS-3814
 extension ListingDeckViewController {
     private func processActionOnFirstAppear() {
         switch viewModel.actionOnFirstAppear {
@@ -359,7 +359,7 @@ extension ListingDeckViewController {
             viewModel.showBumpUpView(viewModel.actionOnFirstAppear)
         case .triggerMarkAsSold:
             viewModel.currentListingViewModel?.markAsSold()
-        default:
+        case .nonexistent:
             break
         }
     }
