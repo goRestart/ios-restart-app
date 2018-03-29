@@ -166,7 +166,7 @@ final class ListingDeckViewModel: BaseViewModel {
         self.tracker = tracker
         self.trackingIndex = trackingIndex
 
-        let filteredModels = ListingDeckViewModel.purgeNoListingsElements(listModels)
+        let filteredModels = listModels.filter(ListingDeckViewModel.isListable)
 
         if !filteredModels.isEmpty {
             self.objects.appendContentsOf(listModels)
@@ -535,7 +535,5 @@ extension ListingDeckViewModel {
         imageDownloader.downloadImagesWithURLs(imagesToPrefetch)
     }
 
-    private static func purgeNoListingsElements(_ array: [ListingCellModel]) -> [ListingCellModel] {
-        return array.filter { return $0.listing != nil }
-    }
+    static func isListable(model: ListingCellModel) -> Bool { return model.listing != nil }
 }
