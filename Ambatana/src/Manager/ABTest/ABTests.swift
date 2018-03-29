@@ -38,33 +38,11 @@ class ABTests {
     let trackingData = Variable<[(String, ABGroup)]?>(nil)
 
     let legacy = LegacyGroup.make()
-
-    let realEstateNewCopy = LeanplumABVariable<Int>.makeInt(key: "20180126RealEstateNewCopy", defaultValue: 0, groupType: .realEstate)
-    let dummyUsersInfoProfile = LeanplumABVariable<Int>.makeInt(key: "20180130DummyUsersInfoProfile", defaultValue: 0, groupType: .retention)
-    let showInactiveConversations = LeanplumABVariable<Bool>.makeBool(key: "20180206ShowInactiveConversations", defaultValue: false, groupType: .chat)
-    let increaseMinPriceBumps  = LeanplumABVariable<Int>.makeInt(key: "20180208IncreaseMinPriceBumps", defaultValue: 0, groupType: .money)
-    let showSecurityMeetingChatMessage = LeanplumABVariable<Int>.makeInt(key: "20180207ShowSecurityMeetingChatMessage", defaultValue: 0, groupType: .chat)
-    let noAdsInFeedForNewUsers = LeanplumABVariable<Int>.makeInt(key: "20180212NoAdsInFeedForNewUsers", defaultValue: 0, groupType: .money)
-    let emojiSizeIncrement = LeanplumABVariable<Int>.makeInt(key: "20180212EmojiSizeIncrement", defaultValue: 0, groupType: .chat)
-    let showBumpUpBannerOnNotValidatedListings = LeanplumABVariable<Int>.makeInt(key: "20180214showBumpUpBannerOnNotValidatedListings", defaultValue: 0, groupType: .money)
-    let newUserProfileView = LeanplumABVariable<Int>.makeInt(key: "20180221NewUserProfileView", defaultValue: 0, groupType: .core)
-    let turkeyBumpPriceVATAdaptation = LeanplumABVariable<Int>.makeInt(key: "20180221TurkeyBumpPriceVATAdaptation", defaultValue: 0, groupType: .money)
-    let searchImprovements = LeanplumABVariable<Int>.makeInt(key: "20180313SearchImprovements", defaultValue: 0, groupType: .core)
-    let showChatSafetyTips = LeanplumABVariable<Bool>.makeBool(key: "20180226ShowChatSafetyTips", defaultValue: false, groupType: .chat)
-    let onboardingIncentivizePosting = LeanplumABVariable<Int>.makeInt(key: "20180215OnboardingIncentivizePosting", defaultValue: 0, groupType: .retention)
-    let discardedProducts = LeanplumABVariable<Int>.makeInt(key: "20180219DiscardedProducts", defaultValue: 0, groupType: .core)
-    let promoteBumpInEdit = LeanplumABVariable<Int>.makeInt(key: "20180227promoteBumpInEdit", defaultValue: 0, groupType: .money)
-    let userIsTyping = LeanplumABVariable<Int>.makeInt(key: "20180305UserIsTyping", defaultValue: 0, groupType: .chat)
-    let servicesCategoryEnabled = LeanplumABVariable<Int>.makeInt(key: "20180305ServicesCategoryEnabled", defaultValue: 0, groupType: .products)
-    let copyForChatNowInTurkey = LeanplumABVariable<Int>.makeInt(key: "20180312CopyForChatNowInTurkey", defaultValue: 0, groupType: .money)
-    let increaseNumberOfPictures = LeanplumABVariable<Int>.makeInt(key: "20180314IncreaseNumberOfPictures", defaultValue: 0, groupType: .realEstate)
-    let machineLearningMVP = LeanplumABVariable<Int>.makeInt(key: "20180312MachineLearningMVP", defaultValue: 0, groupType: .core)
-    let addPriceTitleDistanceToListings = LeanplumABVariable<Int>.makeInt(key: "20180319AddPriceTitleDistanceToListings", defaultValue: 0, groupType: .core)
-    let markAllConversationsAsRead = LeanplumABVariable<Bool>.makeBool(key: "20180321MarkAllConversationsAsRead", defaultValue: false, groupType: .chat)
-    let showProTagUserProfile = LeanplumABVariable<Bool>.makeBool(key: "20180319ShowProTagUserProfile", defaultValue: false, groupType: .money)
-    let realEstateTutorial = LeanplumABVariable<Int>.makeInt(key: "20180309RealEstateTutorial", defaultValue: 0, groupType: .realEstate)
-    let summaryAsFirstStep = LeanplumABVariable<Int>.makeInt(key: "20180320SummaryAsFirstStep", defaultValue: 0, groupType: .realEstate)
-    let relaxedSearch = LeanplumABVariable<Int>.makeInt(key: "20180319RelaxedSearch", defaultValue: 0, groupType: .core)
+    let realEstate = RealEstateGroup.make()
+    let retention = RetentionGroup.make()
+    let money = MoneyGroup.make()
+    let chat = ChatGroup.make()
+    let core = CoreGroup.make()
 
     convenience init() {
         self.init(syncer: LeamplumSyncer())
@@ -78,39 +56,24 @@ class ABTests {
         var result = [LeanplumABVariable<Int>]()
 
         result.append(contentsOf: legacy.intVariables)
-        result.append(realEstateNewCopy)
-        result.append(dummyUsersInfoProfile)
-        result.append(increaseMinPriceBumps)
-        result.append(showSecurityMeetingChatMessage)
-        result.append(noAdsInFeedForNewUsers)
-        result.append(emojiSizeIncrement)
-        result.append(showBumpUpBannerOnNotValidatedListings)
-        result.append(newUserProfileView)
-        result.append(turkeyBumpPriceVATAdaptation)
-        result.append(searchImprovements)
-        result.append(onboardingIncentivizePosting)
-        result.append(discardedProducts)
-        result.append(promoteBumpInEdit)
-        result.append(userIsTyping)
-        result.append(servicesCategoryEnabled)
-        result.append(copyForChatNowInTurkey)
-        result.append(increaseNumberOfPictures)
-        result.append(addPriceTitleDistanceToListings)
-        result.append(realEstateTutorial)
-        result.append(summaryAsFirstStep)
-        result.append(relaxedSearch)
-        result.append(machineLearningMVP)
+        result.append(contentsOf: money.intVariables)
+        result.append(contentsOf: retention.intVariables)
+        result.append(contentsOf: realEstate.intVariables)
+        result.append(contentsOf: chat.intVariables)
+        result.append(contentsOf: core.intVariables)
+
         return result
     }
 
     private var boolVariables: [LeanplumABVariable<Bool>] {
         var result = [LeanplumABVariable<Bool>]()
         result.append(contentsOf: legacy.boolVariables)
-        result.append(showInactiveConversations)
-        result.append(showChatSafetyTips)
-        result.append(markAllConversationsAsRead)
-        result.append(showProTagUserProfile)
-        result.append(showProTagUserProfile)
+        result.append(contentsOf: money.boolVariables)
+        result.append(contentsOf: retention.boolVariables)
+        result.append(contentsOf: realEstate.boolVariables)
+        result.append(contentsOf: chat.boolVariables)
+        result.append(contentsOf: core.boolVariables)
+
         return result
     }
 
@@ -125,10 +88,10 @@ class ABTests {
     }
 
     func variablesUpdated() {
-        let uniquesInt = Array.init(Set<LeanplumABVariable<Int>>.init(intVariables))
-        let uniquesFloat = Array.init(Set<LeanplumABVariable<Float>>.init(floatVariables))
-        let uniquesBool = Array.init(Set<LeanplumABVariable<Bool>>.init(boolVariables))
-        let uniquesString = Array.init(Set<LeanplumABVariable<String>>.init(stringVariables))
+        let uniquesInt = Array(Set<LeanplumABVariable<Int>>.init(intVariables))
+        let uniquesFloat = Array(Set<LeanplumABVariable<Float>>.init(floatVariables))
+        let uniquesBool = Array(Set<LeanplumABVariable<Bool>>.init(boolVariables))
+        let uniquesString = Array(Set<LeanplumABVariable<String>>.init(stringVariables))
 
         var trackingData: [(String, ABGroup)] = syncer.trackingData(variables: uniquesString)
         trackingData.append(contentsOf: syncer.trackingData(variables: uniquesBool))
@@ -137,6 +100,47 @@ class ABTests {
 
         self.trackingData.value = trackingData
     }
+}
+
+extension ABTests {
+    var discardedProducts: LeanplumABVariable<Int> { return core.discardedProducts }
+    var newUserProfileView: LeanplumABVariable<Int> { return core.newUserProfileView }
+    var searchImprovements: LeanplumABVariable<Int> { return core.searchImprovements }
+    var servicesCategoryEnabled: LeanplumABVariable<Int> { return core.servicesCategoryEnabled }
+    var machineLearningMVP: LeanplumABVariable<Int> { return core.machineLearningMVP }
+    var addPriceTitleDistanceToListings: LeanplumABVariable<Int> { return core.addPriceTitleDistanceToListings }
+    var relaxedSearch: LeanplumABVariable<Int> { return core.relaxedSearch }
+}
+
+extension ABTests {
+    var showInactiveConversations: LeanplumABVariable<Bool> { return chat.showInactiveConversations }
+    var showSecurityMeetingChatMessage: LeanplumABVariable<Int> { return chat.showSecurityMeetingChatMessage }
+    var emojiSizeIncrement: LeanplumABVariable<Int> { return chat.emojiSizeIncrement }
+    var showChatSafetyTips: LeanplumABVariable<Bool> { return chat.showChatSafetyTips }
+    var userIsTyping: LeanplumABVariable<Int> { return chat.userIsTyping }
+    var markAllConversationsAsRead: LeanplumABVariable<Bool> { return chat.markAllConversationsAsRead }
+}
+
+extension ABTests {
+    var increaseMinPriceBumps: LeanplumABVariable<Int> { return money.increaseMinPriceBumps }
+    var noAdsInFeedForNewUsers: LeanplumABVariable<Int> { return money.noAdsInFeedForNewUsers }
+    var showBumpUpBannerOnNotValidatedListings: LeanplumABVariable<Int> { return money.showBumpUpBannerOnNotValidatedListings }
+    var copyForChatNowInTurkey: LeanplumABVariable<Int> { return money.copyForChatNowInTurkey }
+    var turkeyBumpPriceVATAdaptation: LeanplumABVariable<Int> { return money.turkeyBumpPriceVATAdaptation }
+    var promoteBumpInEdit: LeanplumABVariable<Int> { return money.promoteBumpInEdit }
+    var showProTagUserProfile: LeanplumABVariable<Bool> { return money.showProTagUserProfile }
+}
+
+extension ABTests {
+    var dummyUsersInfoProfile: LeanplumABVariable<Int> { return retention.dummyUsersInfoProfile }
+    var onboardingIncentivizePosting: LeanplumABVariable<Int> { return retention.onboardingIncentivizePosting }
+}
+
+extension ABTests {
+    var realEstateNewCopy: LeanplumABVariable<Int> { return realEstate.realEstateNewCopy }
+    var increaseNumberOfPictures: LeanplumABVariable<Int> { return realEstate.increaseNumberOfPictures }
+    var realEstateTutorial: LeanplumABVariable<Int>{ return realEstate.realEstateTutorial }
+    var summaryAsFirstStep: LeanplumABVariable<Int> { return realEstate.summaryAsFirstStep }
 }
 
 extension ABTests {

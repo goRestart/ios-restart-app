@@ -80,6 +80,15 @@
 		0A2CDAE6206D2BAF00B8CF34 /* ABLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2CDAE5206D2BAF00B8CF34 /* ABLegacy.swift */; };
 		0A2CDAE7206D2DA300B8CF34 /* ABLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2CDAE5206D2BAF00B8CF34 /* ABLegacy.swift */; };
 		0A2CDAE9206D333200B8CF34 /* ABRealEstate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2CDAE8206D333200B8CF34 /* ABRealEstate.swift */; };
+		0A2CDAEA206D35A400B8CF34 /* ABRealEstate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2CDAE8206D333200B8CF34 /* ABRealEstate.swift */; };
+		0A2CDAEC206D373800B8CF34 /* ABRetention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2CDAEB206D373800B8CF34 /* ABRetention.swift */; };
+		0A2CDAED206D373B00B8CF34 /* ABRetention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2CDAEB206D373800B8CF34 /* ABRetention.swift */; };
+		0A2CDAEF206D382B00B8CF34 /* ABMoney.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2CDAEE206D382B00B8CF34 /* ABMoney.swift */; };
+		0A2CDAF0206D384200B8CF34 /* ABMoney.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2CDAEE206D382B00B8CF34 /* ABMoney.swift */; };
+		0A2CDAF2206D3A2300B8CF34 /* ABChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2CDAF1206D3A2300B8CF34 /* ABChat.swift */; };
+		0A2CDAF3206D3A4000B8CF34 /* ABChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2CDAF1206D3A2300B8CF34 /* ABChat.swift */; };
+		0A2CDAF5206D3BEB00B8CF34 /* ABCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2CDAF4206D3BEB00B8CF34 /* ABCore.swift */; };
+		0A2CDAF6206D3C0600B8CF34 /* ABCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2CDAF4206D3BEB00B8CF34 /* ABCore.swift */; };
 		0A2D69DE1FC5DB0300F072A1 /* Bounceable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2D69DC1FC5DA8700F072A1 /* Bounceable.swift */; };
 		0A2D69E01FC6BA6900F072A1 /* ListingCardDetailMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2D69DF1FC6BA6900F072A1 /* ListingCardDetailMapView.swift */; };
 		0A2EC6A120357C0700DE1711 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508010E61D4748120073F362 /* SettingsViewController.swift */; };
@@ -1825,6 +1834,10 @@
 		0A25E8112019C87900E6A72E /* OnBoardingAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingAnimator.swift; sourceTree = "<group>"; };
 		0A2CDAE5206D2BAF00B8CF34 /* ABLegacy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABLegacy.swift; sourceTree = "<group>"; };
 		0A2CDAE8206D333200B8CF34 /* ABRealEstate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABRealEstate.swift; sourceTree = "<group>"; };
+		0A2CDAEB206D373800B8CF34 /* ABRetention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABRetention.swift; sourceTree = "<group>"; };
+		0A2CDAEE206D382B00B8CF34 /* ABMoney.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABMoney.swift; sourceTree = "<group>"; };
+		0A2CDAF1206D3A2300B8CF34 /* ABChat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABChat.swift; sourceTree = "<group>"; };
+		0A2CDAF4206D3BEB00B8CF34 /* ABCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABCore.swift; sourceTree = "<group>"; };
 		0A2D69DC1FC5DA8700F072A1 /* Bounceable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bounceable.swift; sourceTree = "<group>"; };
 		0A2D69DF1FC6BA6900F072A1 /* ListingCardDetailMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardDetailMapView.swift; sourceTree = "<group>"; };
 		0A3048272041E1DE00C11498 /* ListingDeckSnapshotType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingDeckSnapshotType.swift; sourceTree = "<group>"; };
@@ -3126,6 +3139,10 @@
 				2E52CCD31CBD54F3003B7A96 /* ABTests.swift */,
 				0A2CDAE5206D2BAF00B8CF34 /* ABLegacy.swift */,
 				0A2CDAE8206D333200B8CF34 /* ABRealEstate.swift */,
+				0A2CDAEB206D373800B8CF34 /* ABRetention.swift */,
+				0A2CDAEE206D382B00B8CF34 /* ABMoney.swift */,
+				0A2CDAF1206D3A2300B8CF34 /* ABChat.swift */,
+				0A2CDAF4206D3BEB00B8CF34 /* ABCore.swift */,
 			);
 			name = ABTest;
 			sourceTree = "<group>";
@@ -6484,6 +6501,7 @@
 				C7B5432D1D758BF9005FBA30 /* VerifyAccountsViewModel.swift in Sources */,
 				D4BFE5B41B640C36006A8CB6 /* MainListingsViewController.swift in Sources */,
 				C7DE8ADC1C88A8E5005CF37E /* PostListingViewModel.swift in Sources */,
+				0A2CDAEF206D382B00B8CF34 /* ABMoney.swift in Sources */,
 				72EB705F1E65C63900BF709B /* ModularNotificationCell.swift in Sources */,
 				50146BC21D4F5F5B00B0F635 /* TabCoordinator.swift in Sources */,
 				2EF4E3B21D3688AB00A09DFD /* LGConfigDAO.swift in Sources */,
@@ -6536,6 +6554,7 @@
 				C72794461D549342009C25AB /* HelpViewModel.swift in Sources */,
 				8E0EEFA520569E30000C07C9 /* MLPostListingCameraViewModel.swift in Sources */,
 				2E2208E51DD4BCD800FB2483 /* EmptyCellDrawer.swift in Sources */,
+				0A2CDAF2206D3A2300B8CF34 /* ABChat.swift in Sources */,
 				6A3C730F1CF346CB00A062E0 /* ChatStickerGridCell.swift in Sources */,
 				2EADE4DF20514AF60089D9F8 /* PostingCategoriesPickViewController.swift in Sources */,
 				2E9716A61D5A08AB009B3A32 /* ExpressChatViewModel.swift in Sources */,
@@ -6807,6 +6826,7 @@
 				C75B5DD31D59E0C500112368 /* ListingCarouselCellModel.swift in Sources */,
 				55F90BA0203C3E1000D9F7D0 /* UserProfileHeaderView.swift in Sources */,
 				2E4ADECF200516DD00D07D8A /* ProfessionalDealerAskPhoneViewModel.swift in Sources */,
+				0A2CDAEC206D373800B8CF34 /* ABRetention.swift in Sources */,
 				C7DE8AD11C888761005CF37E /* SellListingCell.swift in Sources */,
 				508D486D1CD09E8500C52BE3 /* AlamofireImage+ImageDownloaderType.swift in Sources */,
 				8E0C9DF71E96935300768D27 /* PostCarDetailsView.swift in Sources */,
@@ -6871,6 +6891,7 @@
 				6A4D1E151C6B824600D2D3B8 /* TourLocationViewModel.swift in Sources */,
 				8E0EEFB02056C24F000C07C9 /* PostListingParams+ML.swift in Sources */,
 				C7B5884F1CE1DE1C009B3975 /* DirectAnswerCell.swift in Sources */,
+				0A2CDAF5206D3BEB00B8CF34 /* ABCore.swift in Sources */,
 				2E4BDE6F1EDC52A300CBDC8C /* QuickLocationFiltersCoordinator.swift in Sources */,
 				C7B5888D1CE1DFA6009B3975 /* ChatOthersMessageCell.swift in Sources */,
 				2E59B4431F67E3980095058C /* FailedBumpInfo.swift in Sources */,
@@ -7163,6 +7184,7 @@
 				C7B543251D6F49D1005FBA30 /* UIView+Screenshot.swift in Sources */,
 				50C59BDF1CE0DBC100377124 /* KeyValueStorage.swift in Sources */,
 				C7B5432E1D758BF9005FBA30 /* VerifyAccountsViewModel.swift in Sources */,
+				0A2CDAF0206D384200B8CF34 /* ABMoney.swift in Sources */,
 				72EB70601E65C63900BF709B /* ModularNotificationCell.swift in Sources */,
 				C7DE8ADD1C88A8E5005CF37E /* PostListingViewModel.swift in Sources */,
 				C7DB41A41C5138B500400945 /* MainListingsViewController.swift in Sources */,
@@ -7215,6 +7237,7 @@
 				C783D98F1C650F38000EE5CA /* ReportUserCellDrawer.swift in Sources */,
 				C7DB41B51C5138B500400945 /* FilterTagCell.swift in Sources */,
 				8E0EEFA620569E30000C07C9 /* MLPostListingCameraViewModel.swift in Sources */,
+				0A2CDAF3206D3A4000B8CF34 /* ABChat.swift in Sources */,
 				72854D211F8E261C00E54530 /* NumberOfBathrooms.swift in Sources */,
 				2E2208E61DD4BCD800FB2483 /* EmptyCellDrawer.swift in Sources */,
 				2EADE4E020514AF60089D9F8 /* PostingCategoriesPickViewController.swift in Sources */,
@@ -7340,6 +7363,7 @@
 				012C56F42017AD6700C087D0 /* MostSearchedItemsCellDrawer.swift in Sources */,
 				6A38ADE31C64C4EA009E1A31 /* TourLocationViewController.swift in Sources */,
 				8EF1CDB02010F11F00D324F6 /* ChatInactiveConversationDetailsViewModel.swift in Sources */,
+				0A2CDAEA206D35A400B8CF34 /* ABRealEstate.swift in Sources */,
 				2E9716A81D5A284F009B3A32 /* ExpressChatCell.swift in Sources */,
 				0A760FF21FA0B7930055F2B6 /* ListingDeckViewModel.swift in Sources */,
 				C7DB41DD1C5138B500400945 /* ProductionEnvironment.swift in Sources */,
@@ -7485,6 +7509,7 @@
 				6A5E19DD1D548F5400F92692 /* ExternalServiceAuthResult.swift in Sources */,
 				C7111EFD1CA43885000C5C5A /* DeepLink.swift in Sources */,
 				C75B5DD41D59E0C500112368 /* ListingCarouselCellModel.swift in Sources */,
+				0A2CDAED206D373B00B8CF34 /* ABRetention.swift in Sources */,
 				C7DB42061C5138B500400945 /* Listing+Negotiable.swift in Sources */,
 				8E0C9DF81E96935300768D27 /* PostCarDetailsView.swift in Sources */,
 				C73C163C1D06C1B500DFC67D /* SuggestionSearchCell.swift in Sources */,
@@ -7549,6 +7574,7 @@
 				505F55B41E8A97AF005A616F /* PostCategorySelectionView.swift in Sources */,
 				0AF5EB701FD069C6001DFAE2 /* QuickChatViewModel.swift in Sources */,
 				C7DB42151C5138B500400945 /* SignUpLogInViewModel.swift in Sources */,
+				0A2CDAF6206D3C0600B8CF34 /* ABCore.swift in Sources */,
 				C731B8791CE22BBE00F31D46 /* ChatListViewModel.swift in Sources */,
 				8E0EEFB12056C24F000C07C9 /* PostListingParams+ML.swift in Sources */,
 				2E4BDE701EDC52A300CBDC8C /* QuickLocationFiltersCoordinator.swift in Sources */,

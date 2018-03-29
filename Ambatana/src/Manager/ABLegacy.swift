@@ -111,10 +111,19 @@ struct LegacyGroup: ABGroupType {
         self.showAdsInFeedWithRatio = showAdsInFeedWithRatio
         self.removeCategoryWhenClosingPosting = removeCategoryWhenClosingPosting
 
-        intVariables.append(contentsOf: [marketingPush, dynamicQuickAnswers, locationDataSourceType, searchAutocomplete,
-                                        realEstateEnabled, requestsTimeOut, newItemPage, taxonomiesAndTaxonomyChildrenInFeed,
-                                        showClockInDirectAnswer, allowCallsForProfessionals, mostSearchedDemandedItems,
-                                        showAdsInFeedWithRatio, removeCategoryWhenClosingPosting])
+        intVariables.append(contentsOf: [marketingPush,
+                                         dynamicQuickAnswers,
+                                         locationDataSourceType,
+                                         searchAutocomplete,
+                                        realEstateEnabled,
+                                        requestsTimeOut,
+                                        newItemPage,
+                                        taxonomiesAndTaxonomyChildrenInFeed,
+                                        showClockInDirectAnswer,
+                                        allowCallsForProfessionals,
+                                        mostSearchedDemandedItems,
+                                        showAdsInFeedWithRatio,
+                                        removeCategoryWhenClosingPosting])
         boolVariables.append(contentsOf: [showNPSSurvey, surveyEnabled, freeBumpUpEnabled,
                                           pricedBumpUpEnabled, newCarsMultiRequesterEnabled, inAppRatingIOS10,
                                           userReviewsReportEnabled, appRatingDialogInactive])

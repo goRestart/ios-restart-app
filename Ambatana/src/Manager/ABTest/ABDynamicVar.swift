@@ -57,7 +57,7 @@ final class LeanplumABVariable<U: Hashable>: Hashable, ABVariable, ABTrackable {
     }
 
     static func ==(lhs: LeanplumABVariable<U>, rhs: LeanplumABVariable<U>) -> Bool {
-        return lhs.value == rhs.value
+        return lhs.key == rhs.key && lhs.value == rhs.value
     }
 
     static func makeBool(key: String, defaultValue: Bool, groupType: ABGroup) -> LeanplumABVariable<Bool> {
