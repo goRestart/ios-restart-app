@@ -252,7 +252,8 @@ fileprivate extension TabCoordinator {
                                    originFrame: nil,
                                    requester: requester,
                                    source: source,
-                                   actionOnFirstAppear: actionOnFirstAppear)
+                                   actionOnFirstAppear: actionOnFirstAppear,
+                                   trackingIndex: nil)
         } else {
             let vm = ListingCarouselViewModel(listing: listing, thumbnailImage: thumbnailImage,
                                               listingListRequester: requester, source: source,
@@ -266,15 +267,7 @@ fileprivate extension TabCoordinator {
     func openListing(_ listing: Listing, cellModels: [ListingCellModel], requester: ListingListRequester,
                      thumbnailImage: UIImage?, originFrame: CGRect?, showRelated: Bool,
                      source: EventParameterListingVisitSource, index: Int) {
-        if featureFlags.newItemPage.isActive {
-            openListingNewItemPage(listing,
-                                   thumbnailImage: thumbnailImage,
-                                   cellModels: cellModels,
-                                   originFrame: originFrame,
-                                   requester: requester,
-                                   source: source,
-                                   actionOnFirstAppear: .nonexistent)
-        } else if showRelated {
+        if showRelated {
             //Same as single product opening
             openListing(listing: listing,
                         thumbnailImage: thumbnailImage,
@@ -284,6 +277,15 @@ fileprivate extension TabCoordinator {
                         index: index,
                         discover: false,
                         actionOnFirstAppear: .nonexistent)
+        } else if featureFlags.newItemPage.isActive {
+            openListingNewItemPage(listing,
+                                   thumbnailImage: thumbnailImage,
+                                   cellModels: cellModels,
+                                   originFrame: originFrame,
+                                   requester: requester,
+                                   source: source,
+                                   actionOnFirstAppear: .nonexistent,
+                                   trackingIndex: index)
         } else {
             let vm = ListingCarouselViewModel(productListModels: cellModels, initialListing: listing,
                                               thumbnailImage: thumbnailImage, listingListRequester: requester, source: source,
@@ -332,7 +334,8 @@ fileprivate extension TabCoordinator {
                                originFrame: nil,
                                requester: listingListRequester,
                                source: source,
-                               actionOnFirstAppear: .nonexistent)
+                               actionOnFirstAppear: .nonexistent,
+                               trackingIndex: nil)
     }
 
     func openListingNewItemPage(_ listing: Listing,
@@ -341,13 +344,16 @@ fileprivate extension TabCoordinator {
                                 originFrame: CGRect?,
                                 requester: ListingListRequester,
                                 source: EventParameterListingVisitSource,
-                                actionOnFirstAppear: DeckActionOnFirstAppear) {
+                                actionOnFirstAppear: DeckActionOnFirstAppear,
+                                trackingIndex: Int?) {
         let coordinator = DeckCoordinator(navigationController: navigationController,
                                           listing: listing,
-                                          cellModels: cellModels,
+                                          cellModels: cellModels ?? [],
                                           listingListRequester: requester,
-                                          source: source, listingNavigator: self,
-                                          actionOnFirstAppear: actionOnFirstAppear)
+                                          source: source,
+                                          listingNavigator: self,
+                                          actionOnFirstAppear: actionOnFirstAppear,
+                                          trackingIndex: trackingIndex)
 
         coordinator.showDeckViewController()
         deckAnimator = coordinator

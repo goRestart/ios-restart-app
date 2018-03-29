@@ -90,14 +90,15 @@ final class ListingDeckViewModel: BaseViewModel {
     weak var deckNavigator: DeckNavigator?
     var userHasScrolled: Bool = false
 
-    convenience init(listModels: [ListingCellModel]?,
+    convenience init(listModels: [ListingCellModel],
                      listing: Listing,
                      listingListRequester: ListingListRequester,
                      source: EventParameterListingVisitSource,
                      detailNavigator: ListingDetailNavigator,
-                     actionOnFirstAppear: DeckActionOnFirstAppear) {
+                     actionOnFirstAppear: DeckActionOnFirstAppear,
+                     trackingIndex: Int?) {
         let pagination = Pagination.makePagination(first: 0, next: 1, isLast: false)
-        let prefetching = Prefetching(previousCount: 1, nextCount: 3)
+        let prefetching = Prefetching(previousCount: 3, nextCount: 3)
         self.init(listModels: listModels,
                   initialListing: listing,
                   listingListRequester: listingListRequester,
@@ -111,10 +112,41 @@ final class ListingDeckViewModel: BaseViewModel {
                   shouldSyncFirstListing: false,
                   binder: ListingDeckViewModelBinder(),
                   tracker: TrackerProxy.sharedInstance,
-                  actionOnFirstAppear: actionOnFirstAppear)
+                  actionOnFirstAppear: actionOnFirstAppear,
+                  trackingIndex: trackingIndex)
     }
 
-    init(listModels: [ListingCellModel]?,
+    convenience init(listModels: [ListingCellModel],
+                     initialListing: Listing?,
+                     listingListRequester: ListingListRequester,
+                     detailNavigator: ListingDetailNavigator,
+                     source: EventParameterListingVisitSource,
+                     imageDownloader: ImageDownloaderType,
+                     listingViewModelMaker: ListingViewModelMaker,
+                     shouldSyncFirstListing: Bool,
+                     binder: ListingDeckViewModelBinder,
+                     actionOnFirstAppear: DeckActionOnFirstAppear,
+                     trackingIndex: Int?) {
+        let pagination = Pagination.makePagination(first: 0, next: 1, isLast: false)
+        let prefetching = Prefetching(previousCount: 1, nextCount: 3)
+        self.init(listModels: listModels,
+                  initialListing: initialListing,
+                  listingListRequester: listingListRequester,
+                  detailNavigator: detailNavigator,
+                  source: source,
+                  imageDownloader: imageDownloader,
+                  listingViewModelMaker: listingViewModelMaker,
+                  myUserRepository: Core.myUserRepository,
+                  pagination: pagination,
+                  prefetching: prefetching,
+                  shouldSyncFirstListing: shouldSyncFirstListing,
+                  binder: binder,
+                  tracker: TrackerProxy.sharedInstance,
+                  actionOnFirstAppear: actionOnFirstAppear,
+                  trackingIndex: trackingIndex)
+    }
+
+    init(listModels: [ListingCellModel],
          initialListing: Listing?,
          listingListRequester: ListingListRequester,
          detailNavigator: ListingDetailNavigator,
@@ -127,7 +159,8 @@ final class ListingDeckViewModel: BaseViewModel {
          shouldSyncFirstListing: Bool,
          binder: ListingDeckViewModelBinder,
          tracker: Tracker,
-         actionOnFirstAppear: DeckActionOnFirstAppear) {
+         actionOnFirstAppear: DeckActionOnFirstAppear,
+         trackingIndex: Int?) {
         self.imageDownloader = imageDownloader
         self.pagination = pagination
         self.prefetching = prefetching
@@ -139,10 +172,11 @@ final class ListingDeckViewModel: BaseViewModel {
         self.navigator = detailNavigator
         self.tracker = tracker
         self.actionOnFirstAppear = actionOnFirstAppear
+        self.trackingIndex = trackingIndex
 
-        let filteredModels = ListingDeckViewModel.purgeNoListingsElements(listModels)
+        let filteredModels = listModels.filter(ListingDeckViewModel.isListable)
 
-        if let listModels = filteredModels {
+        if !filteredModels.isEmpty {
             self.objects.appendContentsOf(listModels)
             self.pagination.isLast = listingListRequester.isLastPage(listModels.count)
         } else {
@@ -521,7 +555,5 @@ extension ListingDeckViewModel {
         imageDownloader.downloadImagesWithURLs(imagesToPrefetch)
     }
 
-    private static func purgeNoListingsElements(_ array: [ListingCellModel]?) -> [ListingCellModel]? {
-        return array?.filter { return $0.listing != nil }
-    }
+    static func isListable(model: ListingCellModel) -> Bool { return model.listing != nil }
 }
