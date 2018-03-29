@@ -35,7 +35,7 @@ final class LeanplumABVariable<U: Hashable>: Hashable, ABVariable, ABTrackable {
     private let unwrap: ((LPVar) -> U)
     let defaultValue: U
 
-    var tuple: (String, ABGroupType) { return (trackingData, abGroupType) }
+    var tuple: (String, ABGroup) { return (trackingData, abGroupType) }
     var trackingData: String { return "\(key)-\(value)" }
     let abGroupType: ABGroup
     private let key: String
