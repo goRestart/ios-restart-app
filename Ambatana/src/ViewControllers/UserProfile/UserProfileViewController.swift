@@ -135,6 +135,7 @@ final class UserProfileViewController: BaseViewController {
                                                       bioAndTrustView, tabsView])
         view.addSubviewsForAutoLayout([tableView, listingView, headerContainerView])
 
+        navBarUserView.translatesAutoresizingMaskIntoConstraints = false
         navBarUserView.alpha = 0
         tabsView.delegate = self
 
