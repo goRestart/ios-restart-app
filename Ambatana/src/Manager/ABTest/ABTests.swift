@@ -10,7 +10,7 @@ import RxSwift
 
 protocol LeamplumSyncerType {
     func sync(variables: [ABRegistrable])
-    func trackingData(variables: [ABTrackable]) -> [(String, ABGroupType)]
+    func trackingData(variables: [ABTrackable]) -> [(String, ABGroup)]
 }
 
 final class LeamplumSyncer: LeamplumSyncerType {
@@ -18,43 +18,67 @@ final class LeamplumSyncer: LeamplumSyncerType {
         variables.forEach { $0.register() }
     }
 
-    func trackingData(variables: [ABTrackable]) -> [(String, ABGroupType)] {
+    func trackingData(variables: [ABTrackable]) -> [(String, ABGroup)] {
         return mapTrackingData(variables)
     }
 
-    private func mapTrackingData(_ array: [ABTrackable]) -> [(String, ABGroupType)] { return array.map { $0.tuple } }
+    private func mapTrackingData(_ array: [ABTrackable]) -> [(String, ABGroup)] { return array.map { $0.tuple } }
 }
+
+protocol ABGroupType {
+    var group: ABGroup { get }
+    var intVariables: [LeanplumABVariable<Int>] { get }
+    var stringVariables: [LeanplumABVariable<String>] { get }
+    var floatVariables: [LeanplumABVariable<Float>] { get }
+    var boolVariables: [LeanplumABVariable<Bool>] { get }
+}
+
+struct LegacyGroup: ABGroupType {
+    let group: ABGroup = .legacyABTests
+    var intVariables: [LeanplumABVariable<Int>] = []
+    var stringVariables: [LeanplumABVariable<String>] = []
+    var floatVariables: [LeanplumABVariable<Float>] = []
+    var boolVariables: [LeanplumABVariable<Bool>] = []
+
+    static func make() -> LegacyGroup {
+        let marketingPush = LeanplumABVariable<Int>.makeInt(key: "marketingPush", defaultValue: 0, groupType: .legacyABTests)
+        // Not an A/B just flags and variables for surveys
+        let showNPSSurvey = LeanplumABVariable<Bool>.makeBool(key: "showNPSSurvey", defaultValue: false, groupType: .legacyABTests)
+        let surveyURL = LeanplumABVariable<String>.makeString(key: "surveyURL", defaultValue: "", groupType: .legacyABTests)
+        let surveyEnabled = LeanplumABVariable<Bool>.makeBool(key: "surveyEnabled", defaultValue: false, groupType: .legacyABTests)
+        let freeBumpUpEnabled = LeanplumABVariable<Bool>.makeBool(key: "freeBumpUpEnabled", defaultValue: false, groupType: .legacyABTests)
+        let pricedBumpUpEnabled = LeanplumABVariable<Bool>.makeBool(key: "pricedBumpUpEnabled", defaultValue: false, groupType: .legacyABTests)
+        let newCarsMultiRequesterEnabled = LeanplumABVariable<Bool>.makeBool(key: "newCarsMultiRequesterEnabled", defaultValue: false,  groupType: .legacyABTests)
+        let inAppRatingIOS10 = LeanplumABVariable<Bool>.makeBool(key: "20170711inAppRatingIOS10", defaultValue: false, groupType: .legacyABTests)
+        let userReviewsReportEnabled = LeanplumABVariable<Bool>.makeBool(key: "20170823userReviewsReportEnabled", defaultValue: true, groupType: .legacyABTests)
+        let dynamicQuickAnswers = LeanplumABVariable<Int>.makeInt(key: "20170816DynamicQuickAnswers", defaultValue: 0, groupType: .legacyABTests)
+        let appRatingDialogInactive = LeanplumABVariable<Bool>.makeBool(key: "20170831AppRatingDialogInactive", defaultValue: false, groupType: .legacyABTests)
+        let locationDataSourceType = LeanplumABVariable<Int>.makeInt(key: "20170830LocationDataSourceType", defaultValue: 0, groupType: .legacyABTests)
+        let searchAutocomplete = LeanplumABVariable<Int>.makeInt(key: "20170914SearchAutocomplete", defaultValue: 0, groupType: .legacyABTests)
+        let realEstateEnabled = LeanplumABVariable<Int>.makeInt(key: "20171228realEstateEnabled", defaultValue: 0, groupType: .legacyABTests)
+        let requestsTimeOut = LeanplumABVariable<Int>.makeInt(key: "20170929RequestTimeOut", defaultValue: 30, groupType: .legacyABTests)
+        let newItemPage = LeanplumABVariable<Int>.makeInt(key: "20171027NewItemPage", defaultValue: 0, groupType: .legacyABTests)
+        let taxonomiesAndTaxonomyChildrenInFeed = LeanplumABVariable<Int>.makeInt(key: "20171031TaxonomiesAndTaxonomyChildrenInFeed", defaultValue: 0, groupType: .legacyABTests)
+        let showClockInDirectAnswer = LeanplumABVariable<Int>.makeInt(key: "20171031ShowClockInDirectAnswer", defaultValue: 0, groupType: .legacyABTests)
+        let allowCallsForProfessionals = LeanplumABVariable<Int>.makeInt(key: "20171228allowCallsForProfessionals", defaultValue: 0, groupType: .legacyABTests)
+        let mostSearchedDemandedItems = LeanplumABVariable<Int>.makeInt(key: "20180104MostSearchedDemandedItems", defaultValue: 0, groupType: .retention)
+        let showAdsInFeedWithRatio = LeanplumABVariable<Int>.makeInt(key: "20180111ShowAdsInFeedWithRatio", defaultValue: 0, groupType: .legacyABTests)
+        let removeCategoryWhenClosingPosting = LeanplumABVariable<Int>.makeInt(key: "20180126RemoveCategoryWhenClosingPosting", defaultValue: 0, groupType: .legacyABTests)
+
+    }
+
+    init(marketingPush: LeanplumABVariable<Int>, showNPSSurvey: LeanplumABVariable<Bool>,
+         surveyURL: LeanplumABVariable<String>, surveyEnabled: LeanplumABVariable<Bool>) {
+
+    }
+}
+
 
 class ABTests {
     private let syncer: LeamplumSyncerType
-    let trackingData = Variable<[(String, ABGroupType)]?>(nil)
+    let trackingData = Variable<[(String, ABGroup)]?>(nil)
 
-    // Not used in code, Just a helper for marketing team
-    let marketingPush = LeanplumABVariable<Int>.makeInt(key: "marketingPush", defaultValue: 0, groupType: ABGroupType.legacyABTests)
-
-    // Not an A/B just flags and variables for surveys
-    let showNPSSurvey = LeanplumABVariable<Bool>.makeBool(key: "showNPSSurvey", defaultValue: false, groupType: .legacyABTests)
-    let surveyURL = LeanplumABVariable<String>.makeString(key: "surveyURL", defaultValue: "", groupType: .legacyABTests)
-    let surveyEnabled = LeanplumABVariable<Bool>.makeBool(key: "surveyEnabled", defaultValue: false, groupType: .legacyABTests)
-
-    let freeBumpUpEnabled = LeanplumABVariable<Bool>.makeBool(key: "freeBumpUpEnabled", defaultValue: false, groupType: .legacyABTests)
-    let pricedBumpUpEnabled = LeanplumABVariable<Bool>.makeBool(key: "pricedBumpUpEnabled", defaultValue: false, groupType: .legacyABTests)
-    let newCarsMultiRequesterEnabled = LeanplumABVariable<Bool>.makeBool(key: "newCarsMultiRequesterEnabled", defaultValue: false,  groupType: ABGroupType.legacyABTests)
-    let inAppRatingIOS10 = LeanplumABVariable<Bool>.makeBool(key: "20170711inAppRatingIOS10", defaultValue: false, groupType: .legacyABTests)
-    let userReviewsReportEnabled = LeanplumABVariable<Bool>.makeBool(key: "20170823userReviewsReportEnabled", defaultValue: true, groupType: ABGroupType.legacyABTests)
-    let dynamicQuickAnswers = LeanplumABVariable<Int>.makeInt(key: "20170816DynamicQuickAnswers", defaultValue: 0, groupType: .legacyABTests)
-    let appRatingDialogInactive = LeanplumABVariable<Bool>.makeBool(key: "20170831AppRatingDialogInactive", defaultValue: false, groupType: ABGroupType.legacyABTests)
-    let locationDataSourceType = LeanplumABVariable<Int>.makeInt(key: "20170830LocationDataSourceType", defaultValue: 0, groupType: .legacyABTests)
-    let searchAutocomplete = LeanplumABVariable<Int>.makeInt(key: "20170914SearchAutocomplete", defaultValue: 0, groupType: .legacyABTests)
-    let realEstateEnabled = LeanplumABVariable<Int>.makeInt(key: "20171228realEstateEnabled", defaultValue: 0, groupType: .legacyABTests)
-    let requestsTimeOut = LeanplumABVariable<Int>.makeInt(key: "20170929RequestTimeOut", defaultValue: 30, groupType: .legacyABTests)
-    let newItemPage = LeanplumABVariable<Int>.makeInt(key: "20171027NewItemPage", defaultValue: 0, groupType: .legacyABTests)
-    let taxonomiesAndTaxonomyChildrenInFeed = LeanplumABVariable<Int>.makeInt(key: "20171031TaxonomiesAndTaxonomyChildrenInFeed", defaultValue: 0, groupType: ABGroupType.legacyABTests)
-    let showClockInDirectAnswer = LeanplumABVariable<Int>.makeInt(key: "20171031ShowClockInDirectAnswer", defaultValue: 0, groupType: .legacyABTests)
-    let allowCallsForProfessionals = LeanplumABVariable<Int>.makeInt(key: "20171228allowCallsForProfessionals", defaultValue: 0, groupType: ABGroupType.legacyABTests)
-    let mostSearchedDemandedItems = LeanplumABVariable<Int>.makeInt(key: "20180104MostSearchedDemandedItems", defaultValue: 0, groupType: .retention)
-    let showAdsInFeedWithRatio = LeanplumABVariable<Int>.makeInt(key: "20180111ShowAdsInFeedWithRatio", defaultValue: 0, groupType: .legacyABTests)
-    let removeCategoryWhenClosingPosting = LeanplumABVariable<Int>.makeInt(key: "20180126RemoveCategoryWhenClosingPosting", defaultValue: 0, groupType: .legacyABTests)
+    let legacy = LegacyGroup.make()
     let realEstateNewCopy = LeanplumABVariable<Int>.makeInt(key: "20180126RealEstateNewCopy", defaultValue: 0, groupType: .realEstate)
     let dummyUsersInfoProfile = LeanplumABVariable<Int>.makeInt(key: "20180130DummyUsersInfoProfile", defaultValue: 0, groupType: .retention)
     let showInactiveConversations = LeanplumABVariable<Bool>.makeBool(key: "20180206ShowInactiveConversations", defaultValue: false, groupType: .chat)

@@ -10,7 +10,7 @@ protocol ABRegistrable {
     func register()
 }
 
-enum ABGroupType {
+enum ABGroup {
     case legacyABTests
     case core
     case realEstate
@@ -22,11 +22,11 @@ enum ABGroupType {
 
 protocol ABVariable {
     var trackingData: String { get }
-    var abGroupType: ABGroupType { get }
+    var abGroupType: ABGroup { get }
 }
 
 protocol ABTrackable {
-    var tuple: (String, ABGroupType) { get }
+    var tuple: (String, ABGroup) { get }
 }
 
 final class LeanplumABVariable<U: Hashable>: Hashable, ABVariable, ABTrackable {
@@ -37,13 +37,13 @@ final class LeanplumABVariable<U: Hashable>: Hashable, ABVariable, ABTrackable {
 
     var tuple: (String, ABGroupType) { return (trackingData, abGroupType) }
     var trackingData: String { return "\(key)-\(value)" }
-    let abGroupType: ABGroupType
+    let abGroupType: ABGroup
     private let key: String
 
     init(key: String,
          defaultValue: U,
          unwrap: @escaping ((LPVar) -> U),
-         groupType: ABGroupType,
+         groupType: ABGroup,
          lpVar: LPVar) {
         self.key = key
         self.defaultValue = defaultValue
@@ -60,7 +60,7 @@ final class LeanplumABVariable<U: Hashable>: Hashable, ABVariable, ABTrackable {
         return lhs.value == rhs.value
     }
 
-    static func makeBool(key: String, defaultValue: Bool, groupType: ABGroupType) -> LeanplumABVariable<Bool> {
+    static func makeBool(key: String, defaultValue: Bool, groupType: ABGroup) -> LeanplumABVariable<Bool> {
         let lpVar = LPVar.define(key, with: defaultValue)!
         return LeanplumABVariable<Bool>.init(key: key,
                                              defaultValue: defaultValue,
@@ -69,7 +69,7 @@ final class LeanplumABVariable<U: Hashable>: Hashable, ABVariable, ABTrackable {
                                              lpVar: lpVar)
     }
 
-    static func makeInt(key: String, defaultValue: Int, groupType: ABGroupType) -> LeanplumABVariable<Int> {
+    static func makeInt(key: String, defaultValue: Int, groupType: ABGroup) -> LeanplumABVariable<Int> {
         let lpVar = LPVar.define(key, with: defaultValue)!
         return LeanplumABVariable<Int>.init(key: key,
                                             defaultValue: defaultValue,
@@ -78,7 +78,7 @@ final class LeanplumABVariable<U: Hashable>: Hashable, ABVariable, ABTrackable {
                                             lpVar: lpVar)
     }
 
-    static func makeInt(key: String, defaultValue: Float, groupType: ABGroupType) -> LeanplumABVariable<Float> {
+    static func makeInt(key: String, defaultValue: Float, groupType: ABGroup) -> LeanplumABVariable<Float> {
         let lpVar = LPVar.define(key, with: defaultValue)!
         return LeanplumABVariable<Float>.init(key: key,
                                               defaultValue: defaultValue,
@@ -87,7 +87,7 @@ final class LeanplumABVariable<U: Hashable>: Hashable, ABVariable, ABTrackable {
                                               lpVar: lpVar)
     }
 
-    static func makeString(key: String, defaultValue: String, groupType: ABGroupType) -> LeanplumABVariable<String> {
+    static func makeString(key: String, defaultValue: String, groupType: ABGroup) -> LeanplumABVariable<String> {
         let lpVar = LPVar.define(key, with: defaultValue)!
         return LeanplumABVariable<String>.init(key: key,
                                                defaultValue: defaultValue,
