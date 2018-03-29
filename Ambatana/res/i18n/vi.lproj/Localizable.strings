@@ -603,6 +603,7 @@
 "product_delete_post_title" = "KHÔNG MAY MẮN LẦN NÀY?";
 "product_delete_send_error_generic" = "Ồ! Có lỗi xảy ra trong khi xóa bài đăng của bạn. Xin vui lòng thử lại.";
 "product_delete_sold_confirm_message" = "Bạn có chắc chắn muốn xóa bài đăng này?";
+"product_detail_swipe_to_see_related" = "Swipe to see related listings";
 "product_distance_X_from_you" = "%@ từ bạn";
 "product_distance_custom_location" = "Tùy chỉnh địa điểm";
 "product_distance_more_than" = "Hơn %@";
