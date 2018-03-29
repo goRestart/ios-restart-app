@@ -130,9 +130,13 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     }
 
     func populateWith(status: ListingViewModelStatus?, featured: Bool) {
-        guard let listingStatus = status else { return }
+        guard let listingStatus = status else {
+            statusView.isHidden = true
+            return
+        }
         statusTapGesture?.isEnabled = featured
-        statusView.isHidden = listingStatus.string == nil
+        let statusVisible = featured || listingStatus.shouldShowStatus
+        statusView.isHidden = !statusVisible
         statusView.setFeaturedStatus(listingStatus, featured: featured)
     }
 
