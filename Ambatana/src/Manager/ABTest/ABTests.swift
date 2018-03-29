@@ -8,11 +8,29 @@
 
 import RxSwift
 
+protocol LeamplumSyncerType {
+    func sync(variables: [ABRegistrable])
+    func trackingData(variables: [ABTrackable]) -> [(String, ABGroupType)]
+}
+
+final class LeamplumSyncer: LeamplumSyncerType {
+    func sync(variables: [ABRegistrable]) {
+        variables.forEach { $0.register() }
+    }
+
+    func trackingData(variables: [ABTrackable]) -> [(String, ABGroupType)] {
+        return mapTrackingData(variables)
+    }
+
+    private func mapTrackingData(_ array: [ABTrackable]) -> [(String, ABGroupType)] { return array.map { $0.tuple } }
+
+}
+
 class ABTests {
+    private let syncer: LeamplumSyncerType
     let trackingData = Variable<[(String, ABGroupType)]?>(nil)
 
     // Not used in code, Just a helper for marketing team
-
     let marketingPush = LeanplumABVariable<Int>.makeInt(key: "marketingPush", defaultValue: 0, groupType: ABGroupType.legacyABTests)
 
     // Not an A/B just flags and variables for surveys
@@ -65,7 +83,12 @@ class ABTests {
     let summaryAsFirstStep = LeanplumABVariable<Int>.makeInt(key: "20180320SummaryAsFirstStep", defaultValue: 0, groupType: .realEstate)
     let relaxedSearch = LeanplumABVariable<Int>.makeInt(key: "20180319RelaxedSearch", defaultValue: 0, groupType: .core)
 
-    init() {
+    convenience init() {
+        self.init(syncer: LeamplumSyncer())
+    }
+
+    init(syncer: LeamplumSyncerType) {
+        self.syncer = syncer
     }
 
     private var intVariables: [LeanplumABVariable<Int>] {
@@ -130,19 +153,24 @@ class ABTests {
     private var stringVariables: [LeanplumABVariable<String>] { return [surveyURL] }
     private var floatVariables: [LeanplumABVariable<Float>] { return [] }
 
-    func registerVariables() { allVariables.forEach { $0.register() } }
-
-    func variablesUpdated() {
-        var trackingData: [(String, ABGroupType)] = mapTrackingData(stringVariables)
-        let boolData: [(String, ABGroupType)] = mapTrackingData(boolVariables)
-        let intData: [(String, ABGroupType)] = mapTrackingData(intVariables)
-        let floatData: [(String, ABGroupType)] = mapTrackingData(floatVariables)
-
-        trackingData.append(contentsOf: boolData)
-        trackingData.append(contentsOf: intData)
-        trackingData.append(contentsOf: floatData)
-        self.trackingData.value = trackingData
+    func registerVariables() {
+        syncer.sync(variables: intVariables)
+        syncer.sync(variables: boolVariables)
+        syncer.sync(variables: floatVariables)
+        syncer.sync(variables: stringVariables)
     }
 
-    func mapTrackingData(_ array: [ABTrackable]) -> [(String, ABGroupType)] { return array.map { $0.tuple } }
+    func variablesUpdated() {
+        let uniquesInt = Array.init(Set<LeanplumABVariable<Int>>.init(intVariables))
+        let uniquesFloat = Array.init(Set<LeanplumABVariable<Float>>.init(floatVariables))
+        let uniquesBool = Array.init(Set<LeanplumABVariable<Bool>>.init(boolVariables))
+        let uniquesString = Array.init(Set<LeanplumABVariable<String>>.init(stringVariables))
+
+        var trackingData: [(String, ABGroupType)] = syncer.trackingData(variables: uniquesInt)
+        trackingData.append(contentsOf: syncer.trackingData(variables: uniquesBool))
+        trackingData.append(contentsOf: syncer.trackingData(variables: uniquesInt))
+        trackingData.append(contentsOf: syncer.trackingData(variables: uniquesFloat))
+
+        self.trackingData.value = trackingData
+    }
 }
