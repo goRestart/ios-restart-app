@@ -48,6 +48,8 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
         var directChatMessagesObserver: TestableObserver<[ChatViewMessage]>!
         var bumpUpBannerInfoObserver: TestableObserver<BumpUpInfo?>!
 
+        var prefetching = Prefetching(previousCount: 3, nextCount: 3)
+
         describe("ListingDeckViewModelSpec") {
 
             func startObserving() {
@@ -63,7 +65,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                 sut.bumpUpBannerInfo.asObservable().bind(to:bumpUpBannerInfoObserver).disposed(by:disposeBag)
             }
 
-            func buildSut(productListModels: [ListingCellModel]? = nil,
+            func buildSut(productListModels: [ListingCellModel] = [],
                           initialProduct: Product? = nil,
                           source: EventParameterListingVisitSource = .listingList,
                           actionOnFirstAppear: ProductCarouselActionOnFirstAppear = .nonexistent,
@@ -74,7 +76,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                 if let initialProduct = initialProduct {
                     initialListing = .product(initialProduct)
                 }
-
                 sut = ListingDeckViewModel(listModels: productListModels,
                                            initialListing: initialListing,
                                            listingListRequester: listingListRequester,
@@ -82,8 +83,13 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                                            source: source,
                                            imageDownloader: imageDownloader,
                                            listingViewModelMaker: listingViewModelMaker,
-                                           shouldSyncFirstListing: firstProductSyncRequired,
-                                           binder: ListingDeckViewModelBinder())
+                                           myUserRepository: myUserRepository,
+                                           pagination: Pagination.makePagination(first: 0, next: 1, isLast: false),
+                                           prefetching: prefetching,
+                                           shouldSyncFirstListing: false,
+                                           binder: ListingDeckViewModelBinder(),
+                                           tracker: tracker,
+                                           trackingIndex: nil)
 
                 sut.delegate = self
             }
@@ -457,8 +463,10 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                             sut.active = true
                             startObserving()
                         }
-                        it("requests images for items 9-13") {
-                            let images = products[9...13].flatMap { $0.images.first?.fileURL }
+                        it("requests images for items 7-13") {
+                            let initial = 10 - prefetching.previousCount
+                            let end = 10 + prefetching.nextCount
+                            let images = products[initial...end].flatMap { $0.images.first?.fileURL }
                             expect(imageDownloader.downloadImagesRequested) == images
                         }
                         describe("swipe right") {
@@ -475,7 +483,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                                 sut.moveToListingAtIndex(9, movement: .swipeLeft)
                             }
                             it("just requests one more image on the left") {
-                                let images = [products[8].images.first?.fileURL].flatMap { $0 }
+                                let images = [products[6].images.first?.fileURL].flatMap { $0 }
                                 expect(imageDownloader.downloadImagesRequested) == images
                             }
                         }
