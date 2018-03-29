@@ -145,6 +145,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListingCardView.reusableID,
                                                          for: indexPath) as? ListingCardView {
             guard let model = viewModel.snapshotModelAt(index: indexPath.row) else { return cell }
+            cell.tag = indexPath.row
             cell.populateWith(model, imageDownloader: viewModel.imageDownloader)
             cell.delegate = self
 
@@ -226,7 +227,6 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     func willDisplayCell(_ cell: UICollectionViewCell, atIndexPath indexPath: IndexPath) {
         cell.isUserInteractionEnabled = false
         guard let card = cell as? ListingCardView else { return }
-        card.tag = indexPath.row
         card.updateVerticalContentInset(animated: false)
     }
 
