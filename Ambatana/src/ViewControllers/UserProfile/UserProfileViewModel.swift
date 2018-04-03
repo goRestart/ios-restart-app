@@ -65,6 +65,14 @@ final class UserProfileViewModel: BaseViewModel {
 
     weak var delegate: UserProfileViewModelDelegate?
 
+    private var sellingListingStatusCode: () -> [ListingStatusCode] = {
+        return FeatureFlags.sharedInstance.discardedProducts.isActive ?
+            [.pending, .approved, .discarded] : [.pending, .approved]
+    }
+
+    private var soldListingStatusCode: () -> [ListingStatusCode] = {
+        return [.sold, .soldOld]
+    }
 
     // MARK: - Private
 
@@ -110,9 +118,9 @@ final class UserProfileViewModel: BaseViewModel {
         self.source = source
         self.isPrivateProfile = isPrivateProfile
 
-        self.sellingListingListRequester = UserStatusesListingListRequester(statuses: { [.pending, .approved] },
+        self.sellingListingListRequester = UserStatusesListingListRequester(statuses: sellingListingStatusCode,
                                                                             itemsPerPage: Constants.numListingsPerPageDefault)
-        self.soldListingListRequester = UserStatusesListingListRequester(statuses: { [.sold, .soldOld] },
+        self.soldListingListRequester = UserStatusesListingListRequester(statuses: soldListingStatusCode,
                                                                          itemsPerPage: Constants.numListingsPerPageDefault)
         self.favoritesListingListRequester = UserFavoritesListingListRequester()
 
