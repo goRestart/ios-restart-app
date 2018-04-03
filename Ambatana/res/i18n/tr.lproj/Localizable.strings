@@ -603,6 +603,7 @@
 "product_delete_post_title" = "BU SEFER OLMADI MI?";
 "product_delete_send_error_generic" = "Oops! İlanın silinirken bir hata oluştu. Lütfen tekrar dene.";
 "product_delete_sold_confirm_message" = "Bu ilanı silmek istediğine emin misin?";
+"product_detail_swipe_to_see_related" = "Swipe to see related listings";
 "product_distance_X_from_you" = "senden %@ uzakta";
 "product_distance_custom_location" = "Özel konum";
 "product_distance_more_than" = "%@'den daha uzakta";

@@ -603,6 +603,7 @@
 "product_delete_post_title" = "NEM JÁRTÁL SIKERREL?";
 "product_delete_send_error_generic" = "Hoppá! Hiba történt a hirdetés törlése során. Próbálkozz újra.";
 "product_delete_sold_confirm_message" = "Biztosan törölni szeretnéd ezt a hirdetést?";
+"product_detail_swipe_to_see_related" = "Swipe to see related listings";
 "product_distance_X_from_you" = "%@-re tőled";
 "product_distance_custom_location" = "Egyéni hely";
 "product_distance_more_than" = "Több mint %@";

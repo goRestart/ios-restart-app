@@ -603,6 +603,7 @@
 "product_delete_post_title" = "GEEN GELUK DIT KEER?";
 "product_delete_send_error_generic" = "Oeps! Er is een fout opgetreden tijdens het verwijderen van je advertentie. Probeer het opnieuw.";
 "product_delete_sold_confirm_message" = "Weet je zeker dat je deze advertentie wilt verwijderen?";
+"product_detail_swipe_to_see_related" = "Swipe to see related listings";
 "product_distance_X_from_you" = "%@ van bij jou";
 "product_distance_custom_location" = "Aangepaste locatie";
 "product_distance_more_than" = "More than %@";
