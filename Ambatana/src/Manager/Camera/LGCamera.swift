@@ -21,6 +21,16 @@ class LGCamera: NSObject {
         set { if let source = newValue { changeToCamera(source: source) } }
     }
 
+    var cameraMode: CameraMode = .photo {
+        didSet {
+            sessionQueue.async {
+                self.session.beginConfiguration()
+                self.configureOutputs()
+                self.session.commitConfiguration()
+            }
+        }
+    }
+
     var isReady: Bool {
         return isSetup && session.isRunning
     }
@@ -38,6 +48,14 @@ class LGCamera: NSObject {
     }
 
     private(set) var isAttached: Bool = false
+
+    var isRecording: Bool {
+        return videoRecorder.isRecording
+    }
+
+    var recordingDuration: TimeInterval {
+        return videoRecorder.recordingDuration
+    }
 
     public func pause() {
         session.stopRunning()
@@ -113,6 +131,31 @@ class LGCamera: NSObject {
         }
     }
 
+    public func startRecordingVideo(completion: @escaping CameraRecordingVideoCompletion) {
+
+        let outputFileName = NSUUID().uuidString
+        let outputFilePath = (NSTemporaryDirectory() as NSString).appendingPathComponent((outputFileName as NSString).appendingPathExtension("mp4")!)
+        let fileUrl = URL(fileURLWithPath: outputFilePath)
+
+        let videoOrientation = AVCaptureVideoOrientation(deviceOrientation: motionDeviceOrientation.orientation) ?? .portrait
+        videoRecorder.startRecording(fileUrl: fileUrl, orientation: videoOrientation) { (url, error) in
+
+            if let url = url {
+                let result = CameraRecordingVideoResult(url)
+                completion(result)
+            } else if let error = error {
+                let result = CameraRecordingVideoResult(error: error as NSError)
+                completion(result)
+            }
+        }
+    }
+
+    func stopRecordingVideo() {
+        if videoRecorder.isRecording {
+            videoRecorder.stopRecording()
+        }
+    }
+
     // MARK - Private
     private let session: AVCaptureSession = AVCaptureSession()
     private let sessionQueue: DispatchQueue = DispatchQueue(label: "camera.manager.session.queue")
@@ -129,6 +172,7 @@ class LGCamera: NSObject {
             return LGCaptureStillImageOutput()
         }
     }()
+    private let videoRecorder: VideoRecorder = VideoRecorder()
 }
 
 // MARK - Private Methods
@@ -138,10 +182,10 @@ extension LGCamera {
         sessionQueue.async {
             do {
                 self.session.beginConfiguration()
-                if self.hasBackCamera {
-                    try self.configureBackCamera()
-                } else if self.hasFrontCamera {
-                    try self.configureFrontCamera()
+                if let backCamera = self.backCamera {
+                    try self.configureInputVideoDevice(device: backCamera)
+                } else if let frontCamera = self.frontCamera {
+                    try self.configureInputVideoDevice(device: frontCamera)
                 }
                 self.configureOutputs()
                 self.session.commitConfiguration()
@@ -157,10 +201,10 @@ extension LGCamera {
         sessionQueue.async {
             self.session.beginConfiguration()
             do {
-                if source == .rear {
-                    try self.configureBackCamera()
-                } else if source == .front {
-                    try self.configureFrontCamera()
+                if source == .rear, let backCamera = self.backCamera  {
+                    try self.configureInputVideoDevice(device: backCamera)
+                } else if source == .front, let frontCamera = self.frontCamera {
+                    try self.configureInputVideoDevice(device: frontCamera)
                 }
                 self.session.commitConfiguration()
             } catch {
@@ -171,16 +215,6 @@ extension LGCamera {
         DispatchQueue.main.async {
             self.previewView.flipAnimation()
         }
-    }
-
-    private func configureFrontCamera() throws {
-        guard let frontCamera = frontCamera else { return }
-        try configureInputVideoDevice(device: frontCamera)
-    }
-
-    private func configureBackCamera() throws {
-        guard let backCamera = backCamera else { return }
-        try configureInputVideoDevice(device: backCamera)
     }
 
     private func configureInputVideoDevice(device: AVCaptureDevice) throws {
@@ -208,9 +242,35 @@ extension LGCamera {
     }
 
     private func configureOutputs() {
-        self.session.sessionPreset = .photo
-        if self.session.canAddOutput(self.capturePhotoOutput) {
-            self.session.addOutput(self.capturePhotoOutput)
+        switch cameraMode {
+        case .photo:
+            configurePhotoOutput()
+        case .video:
+            configureVideoRecordingOutput()
+        }
+    }
+
+    private func configurePhotoOutput() {
+        if session.outputs.contains(videoRecorder.videoOutput) {
+            session.removeOutput(videoRecorder.videoOutput)
+        }
+        if session.sessionPreset != .photo {
+            session.sessionPreset = .photo
+        }
+        if !session.outputs.contains(capturePhotoOutput), session.canAddOutput(capturePhotoOutput) {
+            session.addOutput(capturePhotoOutput)
+        }
+    }
+
+    private func configureVideoRecordingOutput() {
+        if session.outputs.contains(capturePhotoOutput){
+            session.removeOutput(capturePhotoOutput)
+        }
+        if session.sessionPreset != .high {
+            session.sessionPreset = .high
+        }
+        if !session.outputs.contains(videoRecorder.videoOutput), session.canAddOutput(videoRecorder.videoOutput) {
+            session.addOutput(videoRecorder.videoOutput)
         }
     }
 
@@ -287,7 +347,7 @@ class PhotoCaptureProcessor: NSObject, AVCapturePhotoCaptureDelegate {
         self.completionHandler = completionHandler
     }
 
-    //MARK: AVCapturePhotoCaptureDelegate
+    // MARK - AVCapturePhotoCaptureDelegate
     func photoOutput(_ output: AVCapturePhotoOutput,
                      willCapturePhotoFor resolvedSettings: AVCaptureResolvedPhotoSettings) {
         willCapturePhotoAnimation()
@@ -329,6 +389,101 @@ class PhotoCaptureProcessor: NSObject, AVCapturePhotoCaptureDelegate {
                      error: Error?) {
 
         completionHandler(photo, error)
+    }
+}
+
+// MARK: - Video Recorder
+class VideoRecorder : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
+
+    private(set) var videoOutput: AVCaptureVideoDataOutput = {
+        let output = AVCaptureVideoDataOutput()
+        output.alwaysDiscardsLateVideoFrames = false
+        return output
+    }()
+    private(set) var recordingDuration: TimeInterval = 0
+    private let videoOutputQueue: DispatchQueue = DispatchQueue(label: "camera.video.recording.output.queue")
+    private var fileWriter: AVAssetWriter?
+    private var videoInput: AVAssetWriterInput?
+    private var completion: ((URL?, Error?) -> Void)?
+    private var startRecordingTime: CMTime?
+    private let maxRecordingDuration: TimeInterval = 15
+    private(set) var isRecording: Bool = false
+
+    public func startRecording(fileUrl: URL, orientation: AVCaptureVideoOrientation, completion: @escaping (URL?, Error?) -> Void) {
+        guard let connection = videoOutput.connection(with: .video), connection.isActive else { return }
+        isRecording = true
+        connection.videoOrientation = orientation
+
+        if FileManager.default.fileExists(atPath: fileUrl.path) {
+            try? FileManager.default.removeItem(at: fileUrl)
+        }
+
+        do {
+            let fileWriter = try AVAssetWriter(url: fileUrl, fileType: AVFileType.mp4)
+            self.fileWriter = fileWriter
+            self.completion = completion
+
+            let videoSettings: [String: Any] = [
+                AVVideoCodecKey: AVVideoCodecH264,
+                AVVideoWidthKey: 480,
+                AVVideoHeightKey: 640,
+                AVVideoScalingModeKey: AVVideoScalingModeResizeAspectFill
+            ];
+
+            let videoInput = AVAssetWriterInput(mediaType: .video, outputSettings: videoSettings)
+            self.videoInput = videoInput
+            videoInput.expectsMediaDataInRealTime = true
+            fileWriter.add(videoInput)
+
+            videoOutput.setSampleBufferDelegate(self, queue: videoOutputQueue)
+
+        } catch let error { completion(nil, error) }
+    }
+
+    public func stopRecording() {
+        isRecording = false
+        videoInput?.markAsFinished()
+        videoOutput.setSampleBufferDelegate(nil, queue: nil)
+
+        guard let completion = completion, let fileWriter = fileWriter else { return }
+
+        if fileWriter.status == .failed {
+            completion(nil, fileWriter.error)
+        } else {
+            fileWriter.finishWriting { completion(fileWriter.outputURL, nil) }
+        }
+    }
+
+    func captureOutput(_ output: AVCaptureOutput,
+                       didOutput sampleBuffer: CMSampleBuffer,
+                       from connection: AVCaptureConnection) {
+        guard let fileWriter = fileWriter, let videoInput = videoInput else { return }
+
+        if CMSampleBufferDataIsReady(sampleBuffer) {
+            let bufferTimeStamp = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
+
+            if fileWriter.status == .unknown {
+                fileWriter.startWriting()
+                fileWriter.startSession(atSourceTime: bufferTimeStamp)
+                startRecordingTime = bufferTimeStamp
+            }
+
+            if fileWriter.status == .failed {
+                completion?(nil, fileWriter.error)
+                return
+            }
+
+            if videoInput.isReadyForMoreMediaData {
+                videoInput.append(sampleBuffer)
+            }
+
+            if let startRecordingTime = startRecordingTime {
+                recordingDuration = CMTimeSubtract(bufferTimeStamp, startRecordingTime).seconds
+                if recordingDuration >= maxRecordingDuration {
+                    stopRecording()
+                }
+            }
+        }
     }
 }
 
