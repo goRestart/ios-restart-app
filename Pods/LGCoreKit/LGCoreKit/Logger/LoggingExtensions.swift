@@ -24,7 +24,9 @@ extension URLRequest {
             
             let maxChars = 20
             if body.count > maxChars {
-                httpBody = body.substring(to: body.index(body.startIndex, offsetBy: maxChars)) + "..."
+                let lowerBound = body.startIndex
+                let upperBound = body.index(lowerBound, offsetBy: maxChars)
+                httpBody = body[lowerBound..<upperBound] + "..."
             } else {
                 httpBody = body
             }
@@ -51,7 +53,9 @@ extension DataResponse {
             
             let maxChars = 20
             if body.count > maxChars {
-                httpBody = body.substring(to: body.index(body.startIndex, offsetBy: maxChars)) + "..."
+                let lowerBound = body.startIndex
+                let upperBound = body.index(lowerBound, offsetBy: maxChars)
+                httpBody = body[lowerBound..<upperBound] + "..."
             } else {
                 httpBody = body
             }

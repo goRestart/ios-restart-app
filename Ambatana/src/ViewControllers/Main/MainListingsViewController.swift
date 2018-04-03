@@ -38,12 +38,13 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     var viewModel: MainListingsViewModel
     
     // MARK: - Subviews
-
-    @IBOutlet weak var listingListView: ListingListView!
-    
+    private let listingListView = ListingListView()
     private let filterDescriptionHeaderView = FilterDescriptionHeaderView()
     private let filterTitleHeaderView = FilterTitleHeaderView()
     private let infoBubbleView = InfoBubbleView()
+    private let navbarSearch: LGNavBarSearchField
+    private var trendingSearchView = TrendingSearchView()
+    private var filterTagsView = FilterTagsView()
     
     private let tagsContainerView: UIView = {
         let view = UIView()
@@ -51,11 +52,6 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         view.isHidden = true
         return view
     }()
-
-    private let navbarSearch: LGNavBarSearchField
-
-    private var trendingSearchView = TrendingSearchView()
-    private var filterTagsView = FilterTagsView()
     
     // MARK: - Constraints
     
@@ -63,8 +59,6 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     private var tagsContainerHeightConstraint: NSLayoutConstraint?
     private var infoBubbleTopConstraint: NSLayoutConstraint?
 
-    private let infoBubbleTopMargin: CGFloat = 8
-    
     private var primaryTagsShowing: Bool = false
     private var secondaryTagsShowing: Bool = false
 
@@ -93,14 +87,10 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     
     // MARK: - Lifecycle
 
-    convenience init(viewModel: MainListingsViewModel) {
-        self.init(viewModel: viewModel, nibName: "MainListingsViewController")
-    }
-    
-    required init(viewModel: MainListingsViewModel, nibName nibNameOrNil: String?) {
-        self.navbarSearch = LGNavBarSearchField.setupNavBarSearchFieldWithText(viewModel.searchString)
+    required init(viewModel: MainListingsViewModel) {
+        navbarSearch = LGNavBarSearchField(viewModel.searchString)
         self.viewModel = viewModel
-        super.init(viewModel: viewModel, nibName: nibNameOrNil)
+        super.init(viewModel: viewModel, nibName: nil)
         viewModel.delegate = self
         viewModel.adsDelegate = self
         hidesBottomBarWhenPushed = false
@@ -206,6 +196,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     }
 
     private func updateBubbleTopConstraint() {
+        let infoBubbleTopMargin: CGFloat = 8
         let offset: CGFloat = topInset.value
         let delta = listingListView.headerBottom - offset
         infoBubbleTopConstraint?.constant = infoBubbleTopMargin + max(0, delta)
@@ -260,9 +251,10 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     // MARK: - Add Subviews
     
     func addSubViews() {
-        view.addSubviewsForAutoLayout([filterDescriptionHeaderView, filterTitleHeaderView])
         addSubview(listingListView)
-        view.addSubviewsForAutoLayout([infoBubbleView, tagsContainerView, trendingSearchView])
+        view.addSubviewsForAutoLayout([filterDescriptionHeaderView, filterTitleHeaderView,
+                                       listingListView, infoBubbleView,
+                                       tagsContainerView, trendingSearchView])
     }
     
     // MARK: - FilterHeaders
@@ -415,6 +407,14 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         if show3Columns {
             listingListView.updateLayoutWithSeparation(6)
         }
+        
+        NSLayoutConstraint.activate([
+            listingListView.leadingAnchor.constraint(equalTo: safeLeadingAnchor),
+            listingListView.topAnchor.constraint(equalTo: safeTopAnchor),
+            listingListView.trailingAnchor.constraint(equalTo: safeTrailingAnchor),
+            listingListView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            ])
+        view.sendSubview(toBack: listingListView)
     }
     
     private func setupInfoBubble() {
@@ -485,7 +485,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
             self?.updateTopInset()
         }.disposed(by: disposeBag)
         
-        navbarSearch.searchTextField?.rx.text.asObservable()
+        navbarSearch.searchTextField.rx.text.asObservable()
             .subscribeNext { [weak self] text in
                 self?.navBarSearchTextFieldDidUpdate(text: text ?? "")
         }.disposed(by: disposeBag)
@@ -679,7 +679,7 @@ extension MainListingsViewController: TrendingSearchViewDelegate {
     
     private func updadeSearchTextfield(_ text: String) {
         viewModel.searchText.value = text
-        navbarSearch.searchTextField?.text = text
+        navbarSearch.searchTextField.text = text
         navBarSearchTextFieldDidUpdate(text: text)
     }
     

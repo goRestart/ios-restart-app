@@ -603,6 +603,7 @@
 "product_delete_post_title" = "INGET FLYT DEN HÄR GÅNGEN?";
 "product_delete_send_error_generic" = "Hoppsan! Ett fel uppstod när din annons skulle raderas. Var god försök igen.";
 "product_delete_sold_confirm_message" = "Är du säker på att du vill radera denna annons?";
+"product_detail_swipe_to_see_related" = "Swipe to see related listings";
 "product_distance_X_from_you" = "%@ från dig";
 "product_distance_custom_location" = "Vald plats";
 "product_distance_more_than" = "Mer än %@";
