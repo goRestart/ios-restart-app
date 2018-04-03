@@ -41,7 +41,7 @@ protocol FeatureFlaggeable: class {
     var requestTimeOut: RequestsTimeOut { get }
     var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
     var showClockInDirectAnswer : ShowClockInDirectAnswer { get }
-    var newItemPage: NewItemPage { get }
+    var deckItemPage: DeckItemPage { get }
     var allowCallsForProfessionals: AllowCallsForProfessionals { get }
     var mostSearchedDemandedItems: MostSearchedDemandedItems { get }
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio { get }
@@ -213,7 +213,7 @@ extension UserIsTyping {
     var isActive: Bool { get { return self == .active } }
 }
 
-extension NewItemPage {
+extension DeckItemPage {
     var isActive: Bool {get { return self == .active }}
 }
 
@@ -393,19 +393,18 @@ class FeatureFlags: FeatureFlaggeable {
         return SearchAutocomplete.fromPosition(abTests.searchAutocomplete.value)
     }
 
-    var realEstateEnabled: RealEstateEnabled
-    {
+    var realEstateEnabled: RealEstateEnabled {
         if Bumper.enabled {
             return Bumper.realEstateEnabled
         }
         return RealEstateEnabled.fromPosition(abTests.realEstateEnabled.value)
     }
 
-    var newItemPage: NewItemPage {
+    var deckItemPage: DeckItemPage {
         if Bumper.enabled {
-            return Bumper.newItemPage
+            return Bumper.deckItemPage
         }
-        return NewItemPage.fromPosition(abTests.newItemPage.value)
+        return DeckItemPage.fromPosition(abTests.deckItemPage.value)
     }
     
     var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed {

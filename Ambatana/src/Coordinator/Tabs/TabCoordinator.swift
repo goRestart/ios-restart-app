@@ -245,7 +245,7 @@ fileprivate extension TabCoordinator {
         }
 
         let requester = ListingListMultiRequester(requesters: requestersArray)
-        if featureFlags.newItemPage.isActive {
+        if featureFlags.deckItemPage.isActive {
             openListingNewItemPage(listing,
                                    thumbnailImage: thumbnailImage,
                                    cellModels: nil,
@@ -277,7 +277,7 @@ fileprivate extension TabCoordinator {
                         index: index,
                         discover: false,
                         actionOnFirstAppear: .nonexistent)
-        } else if featureFlags.newItemPage.isActive {
+        } else if featureFlags.deckItemPage.isActive {
             openListingNewItemPage(listing,
                                    thumbnailImage: thumbnailImage,
                                    cellModels: cellModels,
@@ -304,7 +304,7 @@ fileprivate extension TabCoordinator {
         let filteredRequester = FilteredListingListRequester( itemsPerPage: Constants.numListingsPerPageDefault, offset: 0)
         let requester = ListingListMultiRequester(requesters: [relatedRequester, filteredRequester])
 
-        if featureFlags.newItemPage.isActive {
+        if featureFlags.deckItemPage.isActive {
             openListingNewItemPage(listing: .product(localProduct),
                                    listingListRequester: requester,
                                    source: source)
