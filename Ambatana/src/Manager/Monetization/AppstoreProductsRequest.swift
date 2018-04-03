@@ -38,6 +38,7 @@ class AppstoreProductsRequest: NSObject, PurchaseableProductsRequest {
     // MARK: - PurchaseableProductsRequest
 
     func start() {
+        productsRequest.delegate = self
         productsRequest.start()
     }
 
