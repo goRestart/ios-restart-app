@@ -48,11 +48,6 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         constraintViewToSafeRootView(listingDeckView)
     }
 
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        quickChatView?.resignFirstResponder()
-    }
-
     override func viewDidFirstAppear(_ animated: Bool) {
         super.viewDidFirstAppear(animated)
 
@@ -84,12 +79,6 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         reloadData()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setupNavigationBar()
-        listingDeckView.collectionView.clipsToBounds = false
-    }
-
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         listingDeckView.collectionView.clipsToBounds = true
@@ -98,6 +87,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
         setupNavigationBar()
+        listingDeckView.collectionView.clipsToBounds = false
     }
 
     override func viewWillFirstAppear(_ animated: Bool) {
@@ -428,6 +418,8 @@ extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCard
         self.quickChatView = quickChatView
         
         focusOnCollectionView()
+
+        mainResponder = quickChatView.textView
     }
 
     private func setupDirectChatView(quickChatView: QuickChatView) {
