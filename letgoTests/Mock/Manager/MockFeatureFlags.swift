@@ -81,4 +81,6 @@ class MockFeatureFlags: FeatureFlaggeable {
         return false
     }
     var shareTypes: [ShareType] = []
+    var copyForChatNowInEnglish: CopyForChatNowInEnglish = .control
+    
 }

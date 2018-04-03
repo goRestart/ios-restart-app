@@ -86,6 +86,7 @@ protocol FeatureFlaggeable: class {
     var shouldChangeChatNowCopy: Bool { get }
     var copyForChatNowInTurkey: CopyForChatNowInTurkey { get }
     var shareTypes: [ShareType] { get }
+    var copyForChatNowInEnglish: CopyForChatNowInEnglish { get }
 }
 
 extension FeatureFlaggeable {
@@ -274,6 +275,23 @@ extension SummaryAsFirstStep {
 
 extension ShowAdvancedReputationSystem {
     var isActive: Bool { return self == .active }
+}
+
+extension CopyForChatNowInEnglish {
+    var variantString: String { get {
+        switch self {
+        case .control:
+            return LGLocalizedString.bumpUpProductCellChatNowButton
+        case .variantA:
+            return LGLocalizedString.bumpUpProductCellChatNowButtonEnglishA
+        case .variantB:
+            return LGLocalizedString.bumpUpProductCellChatNowButtonEnglishB
+        case .variantC:
+            return LGLocalizedString.bumpUpProductCellChatNowButtonEnglishC
+        case .variantD:
+            return LGLocalizedString.bumpUpProductCellChatNowButtonEnglishD
+        }
+        } }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -805,6 +823,25 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.copyForChatNowInTurkey
         }
         return CopyForChatNowInTurkey.fromPosition(abTests.copyForChatNowInTurkey.value)
+    }
+    
+    var shouldChangeChatNowCopyInEnglish: Bool {
+        if Bumper.enabled {
+            return true
+        }
+        switch (localeCountryCode) {
+        case .usa?:
+            return true
+        default:
+            return false
+        }
+    }
+    
+    var copyForChatNowInEnglish: CopyForChatNowInEnglish {
+        if Bumper.enabled {
+            return Bumper.copyForChatNowInEnglish
+        }
+        return CopyForChatNowInEnglish.fromPosition(abTests.copyForChatNowInEnglish.value)
     }
 
     // MARK: - Private

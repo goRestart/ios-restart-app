@@ -57,6 +57,7 @@ extension Bumper  {
         flags.append(ShowProTagUserProfile.self)
         flags.append(SummaryAsFirstStep.self)
         flags.append(ShowAdvancedReputationSystem.self)
+        flags.append(CopyForChatNowInEnglish.self)
         Bumper.initialize(flags)
     } 
 
@@ -278,6 +279,11 @@ extension Bumper  {
     static var showAdvancedReputationSystem: ShowAdvancedReputationSystem {
         guard let value = Bumper.value(for: ShowAdvancedReputationSystem.key) else { return .control }
         return ShowAdvancedReputationSystem(rawValue: value) ?? .control 
+    }
+
+    static var copyForChatNowInEnglish: CopyForChatNowInEnglish {
+        guard let value = Bumper.value(for: CopyForChatNowInEnglish.key) else { return .control }
+        return CopyForChatNowInEnglish(rawValue: value) ?? .control 
     } 
 }
 
@@ -946,6 +952,24 @@ enum ShowAdvancedReputationSystem: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum CopyForChatNowInEnglish: String, BumperFeature  {
+    case control, variantA, variantB, variantC, variantD
+    static var defaultValue: String { return CopyForChatNowInEnglish.control.rawValue }
+    static var enumValues: [CopyForChatNowInEnglish] { return [.control, .variantA, .variantB, .variantC, .variantD]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Try different copies for Chat now button in English" } 
+    static func fromPosition(_ position: Int) -> CopyForChatNowInEnglish {
+        switch position { 
+            case 0: return .control
+            case 1: return .variantA
+            case 2: return .variantB
+            case 3: return .variantC
+            case 4: return .variantD
             default: return .control
         }
     }

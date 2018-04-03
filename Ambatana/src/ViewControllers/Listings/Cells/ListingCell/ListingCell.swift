@@ -307,6 +307,9 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         if featureFlags.shouldChangeChatNowCopy {
             featuredListingChatButton.setTitle(featureFlags.copyForChatNowInTurkey.variantString,
                                                for: .normal)
+        } else if featureFlags.shouldChangeChatNowCopyInEnglish {
+            featuredListingChatButton.setTitle(featureFlags.copyForChatNowInEnglish.variantString,
+                                               for: .normal)
         } else {
             featuredListingChatButton.setTitle(LGLocalizedString.bumpUpProductCellChatNowButton,
                                                for: .normal)
