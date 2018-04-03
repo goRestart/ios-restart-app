@@ -65,7 +65,6 @@ final class UserProfileViewModel: BaseViewModel {
 
     weak var delegate: UserProfileViewModelDelegate?
 
-
     // MARK: - Private
 
     private let user: Variable<User?>
@@ -110,7 +109,8 @@ final class UserProfileViewModel: BaseViewModel {
         self.source = source
         self.isPrivateProfile = isPrivateProfile
 
-        self.sellingListingListRequester = UserStatusesListingListRequester(statuses: { [.pending, .approved] },
+        let status = UserProfileViewModel.sellingListingStatusCode(with: featureFlags)
+        self.sellingListingListRequester = UserStatusesListingListRequester(statuses: status,
                                                                             itemsPerPage: Constants.numListingsPerPageDefault)
         self.soldListingListRequester = UserStatusesListingListRequester(statuses: { [.sold, .soldOld] },
                                                                          itemsPerPage: Constants.numListingsPerPageDefault)
@@ -168,6 +168,10 @@ final class UserProfileViewModel: BaseViewModel {
                                     user: nil,
                                     source: source,
                                     isPrivateProfile: true)
+    }
+
+    private static func sellingListingStatusCode(with flags: FeatureFlaggeable) -> () -> [ListingStatusCode] {
+        return { flags.discardedProducts.isActive ? [.pending, .approved, .discarded] : [.pending, .approved] }
     }
 
     private func loadListingContent() {
