@@ -686,6 +686,10 @@
 		556E26F6203C3BA70098ECF0 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556E26F5203C3BA70098ECF0 /* UserProfileViewController.swift */; };
 		556E26F7203C3C0D0098ECF0 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556E26F5203C3BA70098ECF0 /* UserProfileViewController.swift */; };
 		556E26F9203C3C940098ECF0 /* UserProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556E26F8203C3C940098ECF0 /* UserProfileViewModel.swift */; };
+		55DFCDD92073790D00AC5E09 /* SMSPhoneInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55DFCDD82073790D00AC5E09 /* SMSPhoneInputViewController.swift */; };
+		55DFCDDA2073790D00AC5E09 /* SMSPhoneInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55DFCDD82073790D00AC5E09 /* SMSPhoneInputViewController.swift */; };
+		55DFCDDC2073791C00AC5E09 /* SMSPhoneInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55DFCDDB2073791C00AC5E09 /* SMSPhoneInputViewModel.swift */; };
+		55DFCDDD2073791C00AC5E09 /* SMSPhoneInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55DFCDDB2073791C00AC5E09 /* SMSPhoneInputViewModel.swift */; };
 		55F1FB36204942B8005D1BD4 /* UserProfileNavBarUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F1FB35204942B8005D1BD4 /* UserProfileNavBarUserView.swift */; };
 		55F1FB37204942B8005D1BD4 /* UserProfileNavBarUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F1FB35204942B8005D1BD4 /* UserProfileNavBarUserView.swift */; };
 		55F90BA0203C3E1000D9F7D0 /* UserProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F90B9F203C3E1000D9F7D0 /* UserProfileHeaderView.swift */; };
@@ -1571,8 +1575,7 @@
 		C7DB42561C5138B500400945 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5023745B1B3D3EAB00E02656 /* Localizable.strings */; };
 		C7DB42591C5138B500400945 /* PopupSignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C71589B31C4F8E1C00E7563E /* PopupSignUpViewController.xib */; };
 		C7DB425E1C5138B500400945 /* levelup.caf in Resources */ = {isa = PBXBuildFile; fileRef = 506DC19B1BBE7D8A00E59D27 /* levelup.caf */; };
-		C7DB425F1C5138B500400945 /* ToastView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50BCE92D1BF6357600C130CD /* ToastView.xib */; };
-		C7DB42711C5138B500400945 /* LGNavBarSearchField.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E4436321BF389EE00814624 /* LGNavBarSearchField.xib */; };
+		C7DB42711C5138B500400945 /* (null) in Resources */ = {isa = PBXBuildFile; };
 		C7DB42741C5138B500400945 /* MainSignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F0BAA81B28938D00E50A68 /* MainSignUpViewController.xib */; };
 		C7DB42771C5138B500400945 /* FilterTagCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7363FB41BF9CB8D00A4BF6F /* FilterTagCell.xib */; };
 		C7DB427B1C5138B500400945 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 50BA5C071C3C096D00F34042 /* GoogleService-Info.plist */; };
@@ -2205,6 +2208,8 @@
 		50FEFA1D20469AD6003C51B0 /* ChatBubbleCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubbleCellType.swift; sourceTree = "<group>"; };
 		556E26F5203C3BA70098ECF0 /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
 		556E26F8203C3C940098ECF0 /* UserProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewModel.swift; sourceTree = "<group>"; };
+		55DFCDD82073790D00AC5E09 /* SMSPhoneInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMSPhoneInputViewController.swift; sourceTree = "<group>"; };
+		55DFCDDB2073791C00AC5E09 /* SMSPhoneInputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMSPhoneInputViewModel.swift; sourceTree = "<group>"; };
 		55F1FB35204942B8005D1BD4 /* UserProfileNavBarUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileNavBarUserView.swift; sourceTree = "<group>"; };
 		55F90B9F203C3E1000D9F7D0 /* UserProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileHeaderView.swift; sourceTree = "<group>"; };
 		621A022FD11014184694D7E6 /* Pods-letgoTests.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-letgoTests.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests.adhoc.xcconfig"; sourceTree = "<group>"; };
@@ -3314,6 +3319,7 @@
 				50CA9FA81C91694200350C5F /* User */,
 				556E26F4203C3B190098ECF0 /* UserProfile */,
 				6A0D733E204D5F2A00892663 /* UserBio */,
+				55DFCDD7207378AC00AC5E09 /* SMSVerification */,
 				C7AFFAF51E7053EF0052A9CA /* Surveys */,
 			);
 			path = ViewControllers;
@@ -4043,6 +4049,15 @@
 				556E26F8203C3C940098ECF0 /* UserProfileViewModel.swift */,
 			);
 			path = UserProfile;
+			sourceTree = "<group>";
+		};
+		55DFCDD7207378AC00AC5E09 /* SMSVerification */ = {
+			isa = PBXGroup;
+			children = (
+				55DFCDD82073790D00AC5E09 /* SMSPhoneInputViewController.swift */,
+				55DFCDDB2073791C00AC5E09 /* SMSPhoneInputViewModel.swift */,
+			);
+			path = SMSVerification;
 			sourceTree = "<group>";
 		};
 		64C1081049FDC4ED543B1297 /* Pods */ = {
@@ -5652,8 +5667,7 @@
 				C75B5DC41D59E09500112368 /* ListingCarouselViewController.xib in Resources */,
 				C783D98C1C64C15B000EE5CA /* ReportUserCell.xib in Resources */,
 				508011221D474ED80073F362 /* iPhoneParts.xcassets in Resources */,
-				2ECB41812008CC6900482EF7 /* AdvertisementCell.xib in Resources */,
-				C7DB42711C5138B500400945 /* LGNavBarSearchField.xib in Resources */,
+				C7DB42711C5138B500400945 /* (null) in Resources */,
 				C743FEBA1E44E46000B4E912 /* PossibleBuyerCell.xib in Resources */,
 				C7B5888C1CE1DFA6009B3975 /* ChatMyMessageCell.xib in Resources */,
 				6A879DA31C8D89B300E0C868 /* PushPrePermissionsSettingsViewController.xib in Resources */,
@@ -6661,6 +6675,7 @@
 				C7732F721D883C7700EAD5B7 /* OnboardingCoordinator.swift in Sources */,
 				F56651F1203C886C00B43DD7 /* DiscardedReason+LG.swift in Sources */,
 				72854D1D1F8E252600E54530 /* RealEstatePropertyType+LG.swift in Sources */,
+				55DFCDD92073790D00AC5E09 /* SMSPhoneInputViewController.swift in Sources */,
 				C7BAC9C31E49CEA1005BD0AF /* NotificationsManager.swift in Sources */,
 				C7732F6F1D87FA4600EAD5B7 /* TourPostingViewModel.swift in Sources */,
 				0AC489461F9DE31400CD6C53 /* ListingDeckCollectionViewLayout.swift in Sources */,
@@ -6831,6 +6846,7 @@
 				0AC489431F9DE15000CD6C53 /* ListingCardView.swift in Sources */,
 				2EE4BD211CDA398400EAADF9 /* CrashManager.swift in Sources */,
 				3221E537206061630006B12B /* DiscardedView.swift in Sources */,
+				55DFCDDC2073791C00AC5E09 /* SMSPhoneInputViewModel.swift in Sources */,
 				C74016D91D6467C9004C1E9D /* PostListingDetailPriceView.swift in Sources */,
 				50146BD31D4F5FC700B0F635 /* ProfileTabCoordinator.swift in Sources */,
 				C743FEAD1E449EA600B4E912 /* RateBuyersViewController.swift in Sources */,
@@ -7339,6 +7355,7 @@
 				C7DB42991C521DC900400945 /* EnvironmentsHelper.swift in Sources */,
 				2ECB416E20065FB200482EF7 /* BumpUpFreeViewModel.swift in Sources */,
 				6A4E80621C77620900C6423E /* LetgoAvatar.swift in Sources */,
+				55DFCDDA2073790D00AC5E09 /* SMSPhoneInputViewController.swift in Sources */,
 				72854D1E1F8E252600E54530 /* RealEstatePropertyType+LG.swift in Sources */,
 				C7BAC9C41E49CEA1005BD0AF /* NotificationsManager.swift in Sources */,
 				F56651F2203C886C00B43DD7 /* DiscardedReason+LG.swift in Sources */,
@@ -7509,6 +7526,7 @@
 				6A5E19EF1D548F5400F92692 /* URL+LG.swift in Sources */,
 				C7DB42121C5138B500400945 /* UIView+Border.swift in Sources */,
 				2EE4BD221CDA398400EAADF9 /* CrashManager.swift in Sources */,
+				55DFCDDD2073791C00AC5E09 /* SMSPhoneInputViewModel.swift in Sources */,
 				50146BD41D4F5FC700B0F635 /* ProfileTabCoordinator.swift in Sources */,
 				C74016DA1D6467C9004C1E9D /* PostListingDetailPriceView.swift in Sources */,
 				C743FEAE1E449EA600B4E912 /* RateBuyersViewController.swift in Sources */,
