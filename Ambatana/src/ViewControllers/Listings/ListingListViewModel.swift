@@ -427,7 +427,7 @@ class ListingListViewModel: BaseViewModel {
     private func normalCellAdditionalHeight(for listing: Listing,
                                             width: CGFloat,
                                             variant: AddPriceTitleDistanceToListings) -> CGFloat {
-        guard let isFeatured = listing.featured, !isFeatured else { return 0 }
+        if let isFeatured = listing.featured, isFeatured { return 0 }
         guard variant.showDetailInNormalCell else { return 0 }
         return ListingCellMetrics.getTotalHeightForPriceAndTitleView(listing.title, containerWidth: width)
     }
