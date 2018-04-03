@@ -10,6 +10,8 @@ import UIKit
 
 final class InfoBubbleView: UIView {
     
+    static let bubbleHeight: CGFloat = 30
+    
     //  MARK: - Subviews
     
     private let stackView: UIStackView = {
@@ -35,9 +37,8 @@ final class InfoBubbleView: UIView {
     
     init() {
         super.init(frame: .zero)
-        clipsToBounds = true
-        backgroundColor = .white
-        setupViews()
+        setupView()
+        setupSubviews()
         setupConstraints()
     }
     
@@ -47,7 +48,13 @@ final class InfoBubbleView: UIView {
     
     //  MARK: - Private methods
     
-    private func setupViews() {
+    private func setupView() {
+        backgroundColor = .white
+        layer.cornerRadius = InfoBubbleView.bubbleHeight/2
+        applyShadow(withOpacity: 0.12, radius: 8.0)
+    }
+    
+    private func setupSubviews() {
         addSubviewForAutoLayout(stackView)
         stackView.addArrangedSubview(title)
         stackView.addArrangedSubview(arrow)
@@ -55,6 +62,10 @@ final class InfoBubbleView: UIView {
     
     private func setupConstraints() {
         stackView.layout(with: self).fillVertical().fillHorizontal(by: 20)
+    }
+    
+    override var intrinsicContentSize: CGSize {
+        return CGSize(width: UIViewNoIntrinsicMetric, height: InfoBubbleView.bubbleHeight)
     }
     
 }

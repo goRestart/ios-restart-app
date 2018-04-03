@@ -8,6 +8,22 @@
 
 import UIKit
 
+struct SuggestionCellData {
+    let title: String
+    let titleSkipHighlight: String?
+    let subtitle: String?
+    let icon: UIImage?
+    let fillSearchButtonBlock: (() -> Void)?
+    
+    init(title: String, titleSkipHighlight: String? = nil, subtitle: String? = nil, icon: UIImage? = nil, fillSearchButtonBlock: (() -> Void)? = nil) {
+        self.title = title
+        self.titleSkipHighlight = titleSkipHighlight
+        self.subtitle = subtitle
+        self.icon = icon
+        self.fillSearchButtonBlock = fillSearchButtonBlock
+    }
+}
+
 class SuggestionSearchCell: UITableViewCell, ReusableCell {
     static let estimatedHeight: CGFloat = 44
     private static let titleSubtitleSpacing: CGFloat = 0
@@ -18,7 +34,7 @@ class SuggestionSearchCell: UITableViewCell, ReusableCell {
     private var titleSubtitleSpacing: NSLayoutConstraint?
     private let fillSearchButton = UIButton()
     
-    var fillSearchButtonBlock: (() -> ())? {
+    private var fillSearchButtonBlock: (() -> Void)? {
         didSet {
             fillSearchButton.isHidden = fillSearchButtonBlock == nil
         }
@@ -42,7 +58,6 @@ class SuggestionSearchCell: UITableViewCell, ReusableCell {
         super.prepareForReuse()
         resetUI()
     }
-    
     
     // MARK: - UI
     
@@ -123,15 +138,13 @@ class SuggestionSearchCell: UITableViewCell, ReusableCell {
     
     // MARK: - Setup
     
-    func set(title: String,
-             titleSkipHighlight: String?,
-             subtitle: String?,
-             icon: UIImage?) {
+    
+    func set(_ data: SuggestionCellData) {
         if let titleLabelFont = titleLabel.font,
-           let titleSkipHighlight = titleSkipHighlight {
-            let titleWithHighlight = NSMutableAttributedString(string: title,
+           let titleSkipHighlight = data.titleSkipHighlight {
+            let titleWithHighlight = NSMutableAttributedString(string: data.title,
                                                                attributes: [NSAttributedStringKey.font: titleLabelFont])
-            let range = NSString(string: title).range(of: titleSkipHighlight,
+            let range = NSString(string: data.title).range(of: titleSkipHighlight,
                                                       options: [.caseInsensitive, .diacriticInsensitive])
             
             titleWithHighlight.addAttribute(
@@ -140,14 +153,14 @@ class SuggestionSearchCell: UITableViewCell, ReusableCell {
                 range: range)
             titleLabel.attributedText = titleWithHighlight
         } else {
-            titleLabel.text = title
+            titleLabel.text = data.title
         }
-        subtitleLabel.text = subtitle
+        subtitleLabel.text = data.subtitle
         
-        let spacing: CGFloat = subtitle == nil ? 0 : SuggestionSearchCell.titleSubtitleSpacing
+        let spacing: CGFloat = data.subtitle == nil ? 0 : SuggestionSearchCell.titleSubtitleSpacing
         titleSubtitleSpacing?.constant = spacing
         
-        if let icon = icon {
+        if let icon = data.icon {
             searchIconImageView.image = icon
         }
     }
