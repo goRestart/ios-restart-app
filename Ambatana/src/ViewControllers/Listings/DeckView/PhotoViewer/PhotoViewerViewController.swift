@@ -35,6 +35,7 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        mainResponder = chatView.textView
         setupUI()
     }
 
@@ -98,11 +99,6 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
         let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(dismissChat))
         swipeDown.direction = .down
         chatView.addGestureRecognizer(swipeDown)
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setupNavigationBar()
     }
 
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
