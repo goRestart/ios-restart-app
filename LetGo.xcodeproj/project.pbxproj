@@ -1467,9 +1467,7 @@
 		C7C61DF71D63035400F9505D /* ListingCarouselMoreInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7C61DF41D63035400F9505D /* ListingCarouselMoreInfoView.xib */; };
 		C7C61DF81D63035400F9505D /* ListingCarouselMoreInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7C61DF41D63035400F9505D /* ListingCarouselMoreInfoView.xib */; };
 		C7C61DFB1D630ED500F9505D /* CollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C61DF91D630ED500F9505D /* CollectionCell.swift */; };
-		C7C61DFC1D630ED500F9505D /* CollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7C61DFA1D630ED500F9505D /* CollectionCell.xib */; };
 		C7C61DFD1D630ED800F9505D /* CollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C61DF91D630ED500F9505D /* CollectionCell.swift */; };
-		C7C61DFE1D630EDF00F9505D /* CollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7C61DFA1D630ED500F9505D /* CollectionCell.xib */; };
 		C7C61E001D631F3200F9505D /* ListingCollectionCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C61DFF1D631F3200F9505D /* ListingCollectionCellDrawer.swift */; };
 		C7C61E011D631F3400F9505D /* ListingCollectionCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C61DFF1D631F3200F9505D /* ListingCollectionCellDrawer.swift */; };
 		C7C61E041D633FDB00F9505D /* SearchType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C61E031D633FDB00F9505D /* SearchType.swift */; };
@@ -2644,7 +2642,6 @@
 		C7C61DF31D63035400F9505D /* ListingCarouselMoreInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCarouselMoreInfoView.swift; sourceTree = "<group>"; };
 		C7C61DF41D63035400F9505D /* ListingCarouselMoreInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ListingCarouselMoreInfoView.xib; sourceTree = "<group>"; };
 		C7C61DF91D630ED500F9505D /* CollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionCell.swift; sourceTree = "<group>"; };
-		C7C61DFA1D630ED500F9505D /* CollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionCell.xib; sourceTree = "<group>"; };
 		C7C61DFF1D631F3200F9505D /* ListingCollectionCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCollectionCellDrawer.swift; sourceTree = "<group>"; };
 		C7C61E031D633FDB00F9505D /* SearchType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchType.swift; sourceTree = "<group>"; };
 		C7C61E061D63505500F9505D /* CollectionType+Shuffle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CollectionType+Shuffle.swift"; sourceTree = "<group>"; };
@@ -4684,7 +4681,6 @@
 			children = (
 				3221E5462062C1690006B12B /* ListingCell */,
 				C7C61DF91D630ED500F9505D /* CollectionCell.swift */,
-				C7C61DFA1D630ED500F9505D /* CollectionCell.xib */,
 				C73189C71DBE3847005A93EE /* ListHeaderContainer.swift */,
 				2E2208E71DD4BD1100FB2483 /* EmptyCell.swift */,
 				0AF7CCBC1F8B525E00128303 /* OvalLayer.swift */,
@@ -5508,7 +5504,6 @@
 				6AF75D0D1CF4657B00EACCF0 /* ChatStickerCell.xib in Resources */,
 				C72794381D549342009C25AB /* ChangePasswordViewController.xib in Resources */,
 				C7DE8AE21C88A98B005CF37E /* PostListingViewController.xib in Resources */,
-				C7C61DFC1D630ED500F9505D /* CollectionCell.xib in Resources */,
 				C7AFFAFC1E7053EF0052A9CA /* NPSViewController.xib in Resources */,
 				6A38ADE81C64EAA1009E1A31 /* TourNotificationsViewControllerMini.xib in Resources */,
 				C7B588271CE1DE1C009B3975 /* BlockedUserCell.xib in Resources */,
@@ -5640,7 +5635,6 @@
 				8E0EEFA420569E30000C07C9 /* MLPostListingCameraView.xib in Resources */,
 				2E9716AB1D5A284F009B3A32 /* ExpressChatViewController.xib in Resources */,
 				C7DE8AE31C88A98B005CF37E /* PostListingViewController.xib in Resources */,
-				C7C61DFE1D630EDF00F9505D /* CollectionCell.xib in Resources */,
 				C7AFFAFD1E7053EF0052A9CA /* NPSViewController.xib in Resources */,
 				6A38ADE91C64EAA1009E1A31 /* TourNotificationsViewControllerMini.xib in Resources */,
 				6A38ADEC1C650294009E1A31 /* TourLocationViewControllerMini.xib in Resources */,
