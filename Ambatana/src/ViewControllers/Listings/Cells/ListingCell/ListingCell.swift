@@ -165,6 +165,9 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     func show(isDiscarded: Bool, reason: String? = nil) {
         discardedView.isHidden = !isDiscarded
         discardedView.set(reason: reason ?? "")
+        if !discardedView.isHidden {
+            hideDistanceAndDetailViews()
+        }
     }
 
     // MARK: - Private methods
@@ -313,6 +316,12 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         }
         featuredListingChatButton.addTarget(self, action: #selector(openChat), for: .touchUpInside)
     }
+    
+    private func hideDistanceAndDetailViews() {
+        topDistanceInfoView.isHidden = true
+        bottomDistanceInfoView.isHidden = true
+        detailViewInImage.isHidden = true
+    }
 
     // > Resets the UI to the initial state
     private func resetUI() {
@@ -332,6 +341,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
             featuredInfoSubview.removeFromSuperview()
         }
     }
+    
 
     // > Accessibility Ids
     private func setAccessibilityIds() {
