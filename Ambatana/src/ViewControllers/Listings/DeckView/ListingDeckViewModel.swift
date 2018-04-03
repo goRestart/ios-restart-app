@@ -555,5 +555,9 @@ extension ListingDeckViewModel {
         imageDownloader.downloadImagesWithURLs(imagesToPrefetch)
     }
 
-    static func isListable(model: ListingCellModel) -> Bool { return model.listing != nil }
+    private static func isListable(_ model: ListingCellModel) -> Bool {
+        guard let listing = model.listing else { return false }
+        return !listing.status.isDiscarded
+    }
+
 }

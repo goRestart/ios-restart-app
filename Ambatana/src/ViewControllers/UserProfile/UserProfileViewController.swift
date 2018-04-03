@@ -465,21 +465,6 @@ extension UserProfileViewController: UITableViewDelegate, UITableViewDataSource 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         view.setNeedsLayout()
     }
-
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard viewModel.showPushPermissionsBanner else { return nil }
-        let container = UIView()
-        let pushHeader = PushPermissionsHeader()
-        pushHeader.delegate = self
-        pushHeader.cornerRadius = 10
-        container.addSubviewForAutoLayout(pushHeader)
-        pushHeader.layout(with: container).fillHorizontal(by: 10).fillVertical()
-        return container
-    }
-
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-       return viewModel.showPushPermissionsBanner ? PushPermissionsHeader.viewHeight : 0
-    }
 }
 
 // MARK: - Ratings ViewModel Delegate
@@ -589,6 +574,23 @@ extension UserProfileViewController {
             .disposed(by: disposeBag)
     }
 
+    private func didChangePushPermissions() {
+        listingView.refreshDataView()
+        tableView.tableHeaderView = buildNotificationBanner()
+    }
+
+    private func buildNotificationBanner() -> UIView? {
+        guard viewModel.showPushPermissionsBanner else { return nil }
+        let container = UIView(frame: CGRect(x: 0, y: 0, width: tableView.width, height: PushPermissionsHeader.viewHeight))
+        let pushHeader = PushPermissionsHeader()
+        pushHeader.delegate = self
+        pushHeader.cornerRadius = 10
+        container.addSubviewForAutoLayout(pushHeader)
+        pushHeader.layout(with: container).fillHorizontal(by: 10).fillVertical()
+        container.layout().height(PushPermissionsHeader.viewHeight)
+        return container
+    }
+
     private func updateUserRelation(with text: String?) {
         updatingUserRelation = true
         userRelationView.userRelationText = text
@@ -654,10 +656,6 @@ extension UserProfileViewController: UserProfileViewModelDelegate {
 // MARK: - PushPermissions and MostSearched Banners
 
 extension UserProfileViewController: ListingListViewHeaderDelegate, PushPermissionsHeaderDelegate, MostSearchedItemsUserHeaderDelegate {
-
-    private func didChangePushPermissions() {
-        listingView.refreshDataView()
-    }
 
     func totalHeaderHeight() -> CGFloat {
         var totalHeight: CGFloat = 0

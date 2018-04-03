@@ -29,13 +29,15 @@ final class PhotoViewerViewControllerBinder {
     weak var viewController: PhotoViewerVCType?
     private var disposeBag: DisposeBag?
 
-    func bind(toView: PhotoViewerBinderViewType) {
+    func bind(toView: PhotoViewerBinderViewType, isChatEnabled: Bool) {
         disposeBag = DisposeBag()
 
         guard let bag = disposeBag else { return }
         guard let vc = viewController else { return }
 
-        bindChatButton(toViewController: vc, view: toView, withDisposeBag: bag)
+        if isChatEnabled {
+            bindChatButton(toViewController: vc, view: toView, withDisposeBag: bag)
+        }
         bindContentOffset(toViewController: vc, view: toView, withDisposeBag: bag)
         bindKeyboard(toViewController: vc, view: toView, withDisposeBag: bag)
         bindTapControlEvents(toViewController: vc, view: toView, withDisposeBag: bag)
