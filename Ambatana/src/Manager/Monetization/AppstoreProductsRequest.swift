@@ -42,6 +42,7 @@ class AppstoreProductsRequest: NSObject, PurchaseableProductsRequest {
     }
 
     func cancel() {
+        productsRequest.delegate = nil
         productsRequest.cancel()
     }
 }
