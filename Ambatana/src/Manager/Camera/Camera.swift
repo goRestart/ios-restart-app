@@ -47,4 +47,3 @@ protocol VideoOutputDelegate: class {
 
     func didCaptureVideoFrame(pixelBuffer: CVPixelBuffer?, timestamp: CMTime)
 }
-

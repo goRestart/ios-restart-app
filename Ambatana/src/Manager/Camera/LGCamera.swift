@@ -82,6 +82,37 @@ class LGCamera: NSObject {
         }
     }
 
+    public func capturePhoto(completion: @escaping CameraPhotoCompletion) {
+        guard session.outputs.contains(capturePhotoOutput) else { return }
+
+        let settings = PhotoSettings(flashMode: flashMode?.asFlashMode() ?? .auto)
+        let deviceOrientation = motionDeviceOrientation.orientation
+        capturePhotoOutput.capturePhoto(settings: settings, captureAnimation: {
+
+            UIView.animate(withDuration: 0.1, animations: {
+                self.previewView.alpha = 0.0
+            }, completion: { (finished) in
+                self.previewView.alpha = 1.0
+            })
+
+        }) { (image, error) in
+
+            if var image = image {
+                image = self.processPhotoImage(image: image,
+                                               deviceOrientation: deviceOrientation,
+                                               aspectRatio: self.previewView.aspectRatio)
+                let result = CameraPhotoResult(image)
+                completion(result)
+            } else if let error = error {
+                let result = CameraPhotoResult(error: error as NSError)
+                completion(result)
+            } else {
+                let result = CameraPhotoResult(error: NSError())
+                completion(result)
+            }
+        }
+    }
+
     // MARK - Private
     private let session: AVCaptureSession = AVCaptureSession()
     private let sessionQueue: DispatchQueue = DispatchQueue(label: "camera.manager.session.queue")
@@ -90,6 +121,14 @@ class LGCamera: NSObject {
     private var currentInputVideoDevice: AVCaptureDeviceInput?
     private let frontCamera: AVCaptureDevice? = AVCaptureDevice.defaultFrontCameraDevice()
     private let backCamera: AVCaptureDevice? = AVCaptureDevice.defaultBackCameraDevice()
+    private let motionDeviceOrientation: MotionDeviceOrientation = MotionDeviceOrientation()
+    private let capturePhotoOutput: AVCaptureOutput & CapturePhotoOutput = {
+        if #available(iOS 10.0, *) {
+            return LGCapturePhotoOutput()
+        } else {
+            return LGCaptureStillImageOutput()
+        }
+    }()
 }
 
 // MARK - Private Methods
@@ -104,6 +143,7 @@ extension LGCamera {
                 } else if self.hasFrontCamera {
                     try self.configureFrontCamera()
                 }
+                self.configureOutputs()
                 self.session.commitConfiguration()
                 self.session.startRunning()
                 self.isSetup = true
@@ -166,13 +206,137 @@ extension LGCamera {
             } catch { }
         }
     }
+
+    private func configureOutputs() {
+        self.session.sessionPreset = .photo
+        if self.session.canAddOutput(self.capturePhotoOutput) {
+            self.session.addOutput(self.capturePhotoOutput)
+        }
+    }
+
+    private func processPhotoImage(image: UIImage, deviceOrientation: UIDeviceOrientation, aspectRatio: CGFloat) -> UIImage {
+        return image.imageByRotatingBasedOn(deviceOrientation: deviceOrientation)
+            .imageByNormalizingOrientation
+            .imageByCroppingTo(aspectRatio: self.previewView.aspectRatio)
+    }
+}
+
+struct PhotoSettings {
+    let flashMode: AVCaptureDevice.FlashMode
+}
+
+protocol CapturePhotoOutput {
+    func capturePhoto(settings: PhotoSettings, captureAnimation: @escaping () -> Void, completion: @escaping (UIImage?, Error?) -> Void)
+}
+
+@available(iOS 10.0, *)
+class LGCapturePhotoOutput: AVCapturePhotoOutput, CapturePhotoOutput {
+
+    private var inProgressPhotoCaptureDelegates: [Int64: PhotoCaptureProcessor] = [Int64: PhotoCaptureProcessor]()
+
+    func capturePhoto(settings: PhotoSettings, captureAnimation: @escaping () -> Void, completion: @escaping (UIImage?, Error?) -> Void) {
+        let photoSettings = AVCapturePhotoSettings()
+        photoSettings.flashMode = settings.flashMode
+
+        let processor = PhotoCaptureProcessor(with: photoSettings,
+                                              willCapturePhotoAnimation: captureAnimation,
+                                              completionHandler: completion)
+
+        inProgressPhotoCaptureDelegates[photoSettings.uniqueID] = processor
+        capturePhoto(with: photoSettings, delegate: processor)
+    }
+}
+
+class LGCaptureStillImageOutput: AVCaptureStillImageOutput, CapturePhotoOutput {
+
+    func capturePhoto(settings: PhotoSettings, captureAnimation: @escaping () -> Void, completion: @escaping (UIImage?, Error?) -> Void) {
+
+        if let connection = connection(with: .video) {
+            captureStillImageAsynchronously(from: connection, completionHandler: { (sample, error) in
+
+                DispatchQueue.main.async {
+                    captureAnimation()
+                    if let sample = sample,
+                        let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sample),
+                        let image = UIImage(data: imageData) {
+                        completion(image, nil)
+                    } else if let error = error {
+                        completion(nil, error)
+                    } else {
+                        completion(nil, NSError())
+                    }
+                }
+            })
+        }
+    }
+}
+
+@available(iOS 10.0, *)
+class PhotoCaptureProcessor: NSObject, AVCapturePhotoCaptureDelegate {
+
+    private(set) var requestedPhotoSettings: AVCapturePhotoSettings
+    private let willCapturePhotoAnimation: () -> Void
+    private var completionHandler: (UIImage?, Error?) -> Void
+    var photo: UIImage?
+
+    init(with requestedPhotoSettings: AVCapturePhotoSettings,
+         willCapturePhotoAnimation: @escaping () -> Void,
+         completionHandler: @escaping (UIImage?, Error?) -> Void) {
+        self.requestedPhotoSettings = requestedPhotoSettings
+        self.willCapturePhotoAnimation = willCapturePhotoAnimation
+        self.completionHandler = completionHandler
+    }
+
+    //MARK: AVCapturePhotoCaptureDelegate
+    func photoOutput(_ output: AVCapturePhotoOutput,
+                     willCapturePhotoFor resolvedSettings: AVCaptureResolvedPhotoSettings) {
+        willCapturePhotoAnimation()
+    }
+
+    @available(iOS 11.0, *)
+    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+
+        if let error = error {
+            print("Error capturing photo: \(error)")
+        } else {
+            if let photoData = photo.fileDataRepresentation() {
+                self.photo = UIImage(data: photoData)
+            }
+        }
+    }
+
+    @available(iOS, introduced: 10.0, deprecated: 11.0)
+    func photoOutput(_ output: AVCapturePhotoOutput,
+                     didFinishProcessingPhoto photoSampleBuffer: CMSampleBuffer?,
+                     previewPhoto previewPhotoSampleBuffer: CMSampleBuffer?,
+                     resolvedSettings: AVCaptureResolvedPhotoSettings,
+                     bracketSettings: AVCaptureBracketedStillImageSettings?, error: Error?) {
+
+        if let error = error {
+            print(error.localizedDescription)
+        }
+
+        if let sampleBuffer = photoSampleBuffer,
+            let previewBuffer = previewPhotoSampleBuffer,
+            let dataImage = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: sampleBuffer,
+                                                                             previewPhotoSampleBuffer: previewBuffer) {
+            self.photo = UIImage(data: dataImage)
+        }
+    }
+
+    func photoOutput(_ output: AVCapturePhotoOutput,
+                     didFinishCaptureFor resolvedSettings: AVCaptureResolvedPhotoSettings,
+                     error: Error?) {
+
+        completionHandler(photo, error)
+    }
 }
 
 class CameraPreviewView: UIView {
 
     private let focusMode: AVCaptureDevice.FocusMode = .continuousAutoFocus
     private let exposureMode: AVCaptureDevice.ExposureMode = .continuousAutoExposure
-    private var focusGesture: UITapGestureRecognizer?
+    private weak var focusGesture: UITapGestureRecognizer?
     private var lastFocusRectangle: CAShapeLayer? = nil
 
     override class var layerClass: AnyClass {
@@ -419,6 +583,82 @@ extension AVCaptureDevice.Position {
         case .front: return .front
         case .back: return .rear
         case .unspecified: return nil
+        }
+    }
+}
+
+extension UIView {
+    var aspectRatio: CGFloat {
+        return bounds.width/bounds.height
+    }
+}
+
+fileprivate extension UIImage {
+
+    func imageByRotatingBasedOn(deviceOrientation: UIDeviceOrientation) -> UIImage {
+        let orientation: UIImageOrientation
+        let mirrored = isMirrored
+        switch deviceOrientation {
+        case .landscapeLeft:
+            orientation = mirrored ? .upMirrored : .up
+        case .landscapeRight:
+            orientation = mirrored ? .downMirrored : .down
+        case .portraitUpsideDown:
+            orientation = mirrored ? .rightMirrored : .left
+        default:
+            orientation = mirrored ? .leftMirrored : .right
+        }
+
+        guard let cgImage = cgImage, imageOrientation != orientation else { return self }
+
+        return UIImage(cgImage: cgImage, scale: scale, orientation: orientation)
+    }
+
+    func imageByCroppingTo(aspectRatio: CGFloat) -> UIImage {
+        guard let cgImage = cgImage else { return self }
+
+        let imageRatio: CGFloat = size.width / size.height
+        let destWidth: CGFloat
+        let destHeight: CGFloat
+        let ratioVertical = aspectRatio < 1
+        let imageVertical = imageRatio < 1
+        let adaptedRatio = ratioVertical == imageVertical ? aspectRatio : 1 / aspectRatio
+
+        if adaptedRatio > imageRatio {
+            //We must crop height
+            destWidth = size.width
+            destHeight = size.width / adaptedRatio
+        } else {
+            //We must crop width
+            destHeight = size.height
+            destWidth = size.height * adaptedRatio
+        }
+
+        let posX: CGFloat = (size.width - destWidth) / 2
+        let posY: CGFloat = (size.height - destHeight) / 2
+
+        let rect = CGRect(x: posX, y: posY, width: destWidth, height: destHeight)
+        guard let imageRef: CGImage = cgImage.cropping(to: rect) else { return self }
+        let image: UIImage = UIImage(cgImage: imageRef, scale: scale, orientation: imageOrientation)
+        return image
+    }
+
+    var imageByNormalizingOrientation: UIImage {
+        guard imageOrientation != .up else { return self }
+        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        UIGraphicsBeginImageContextWithOptions(rect.size, true, scale)
+        draw(in: rect)
+        let normalized = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return normalized ?? self
+    }
+
+    var isMirrored: Bool {
+        switch imageOrientation {
+        case .rightMirrored, .leftMirrored, .upMirrored, .downMirrored:
+            return true
+        case .right, .left, .up, .down:
+            return false
         }
     }
 }
