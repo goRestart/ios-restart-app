@@ -22,6 +22,8 @@ final class PhotoViewerViewModel: BaseViewModel {
     private var listing: Listing { return listingViewModel.listing.value }
     private let source: EventParameterListingVisitSource
 
+    var isChatEnabled: Bool { return !listingViewModel.isMine }
+
     convenience init(with listingViewModel: ListingViewModel,
                      source: EventParameterListingVisitSource) {
         self.init(imageDownloader: ImageDownloader.sharedInstance,
