@@ -43,7 +43,6 @@ final class UserProfileViewModel: BaseViewModel {
 
     let arePushNotificationsEnabled = Variable<Bool?>(nil)
     var showPushPermissionsBanner: Bool {
-        return true
         guard let areEnabled = arePushNotificationsEnabled.value else { return false }
         return !areEnabled && isPrivateProfile
     }
