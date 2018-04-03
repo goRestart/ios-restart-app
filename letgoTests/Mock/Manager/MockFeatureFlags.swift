@@ -27,7 +27,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var inAppRatingIOS10: Bool = false
     var userReviewsReportEnabled: Bool = true
     var dynamicQuickAnswers: DynamicQuickAnswers = .control
-    var newItemPage: NewItemPage = .control
+    var newItemPage: DeckItemPage = .control
     var searchAutocomplete: SearchAutocomplete = .control
     var realEstateEnabled: RealEstateEnabled = .control
     var requestTimeOut: RequestsTimeOut = .thirty

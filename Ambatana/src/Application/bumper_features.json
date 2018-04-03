@@ -51,9 +51,9 @@
         "description": "Taxonomies and taxonomy children in feed as filter tags"
     },
     {
-        "name": "NewItemPage",
+        "name": "DeckItemPage",
         "values": ["control", "baseline", "active"],
-        "description": "New item page with card appearance and different navigation"
+        "description": "Deck item page with card appearance and different navigation"
     },
     {
         "name": "ShowClockInDirectAnswer",
@@ -214,10 +214,5 @@
         "name": "SummaryAsFirstStep",
         "values": ["control", "baseline", "active"],
         "description": "Show directly summary screen instead of Real estate steps"
-    },
-    {
-        "name": "ShowProTagUserProfile",
-        "values": ["no", "yes"],
-        "description": "Show Professional tag in user profile"
     }
 ]
