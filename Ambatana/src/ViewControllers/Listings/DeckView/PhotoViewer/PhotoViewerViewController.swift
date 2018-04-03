@@ -65,14 +65,17 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
         photoViewer.dataSource = self
         photoViewer.delegate = self
         photoViewer.updateNumberOfPages(viewModel.itemsCount)
-
+        photoViewer.isChatEnabled = viewModel.isChatEnabled
+        
         binder.viewController = self
-        binder.bind(toView: photoViewer)
+        binder.bind(toView: photoViewer, isChatEnabled: viewModel.isChatEnabled)
     }
 
     private func setupGestures() {
-        setupOpenChatGesture()
-        setupDismissChatGestures()
+        if viewModel.isChatEnabled {
+            setupOpenChatGesture()
+            setupDismissChatGestures()
+        }
         setupSwipeToDismiss()
     }
 
