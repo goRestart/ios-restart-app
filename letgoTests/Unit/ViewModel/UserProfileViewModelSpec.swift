@@ -87,6 +87,7 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
                 self.showNativeShareCalled = false
 
                 var myUser = MockMyUser.makeMock()
+                myUser.name = "whatever"
                 myUser.objectId = "12345"
                 myUser.accounts = []
                 myUser.type = .pro
