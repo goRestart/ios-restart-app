@@ -587,8 +587,7 @@ extension UserProfileViewController {
         pushHeader.cornerRadius = 10
         container.addSubviewForAutoLayout(pushHeader)
         pushHeader.layout(with: container).fillHorizontal(by: 10).fillVertical()
-        tableView.tableHeaderView = container
-        container.layout(with: tableView).fillHorizontal().height(PushPermissionsHeader.viewHeight)
+        container.layout().height(PushPermissionsHeader.viewHeight)
         return container
     }
 
