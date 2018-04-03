@@ -290,8 +290,6 @@ extension UIViewController {
         switch style {
         case .white:
             navigationController?.navigationBar.shadowImage = UIImage()
-            let image = UIImage.imageWithColor(.white, size: CGSize(width: 1, height: 1))
-            navigationController?.navigationBar.setBackgroundImage(image, for: .default)
             navigationController?.navigationBar.barTintColor = .white
         case .transparent:
             navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
