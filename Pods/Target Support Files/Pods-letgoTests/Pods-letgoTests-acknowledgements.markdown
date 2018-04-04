@@ -2022,6 +2022,10 @@ SOFTWARE.
    limitations under the License.
 
 
+## mopub-ios-sdk
+
+The MoPub SDK License can be found at http://www.mopub.com/legal/sdk-license-agreement/
+
 ## Nimble
 
 Apache License

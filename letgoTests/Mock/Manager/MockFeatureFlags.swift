@@ -76,6 +76,8 @@ class MockFeatureFlags: FeatureFlaggeable {
     var bumpPriceVariationBucket: BumpPriceVariationBucket = .defaultValue
     var shouldChangeChatNowCopy = false
     var copyForChatNowInTurkey: CopyForChatNowInTurkey = .control
+    var feedAdsProviderForUS: FeedAdsProviderForUS = .control
+    var feedMoPubAdUnitId: String? = ""
     
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false

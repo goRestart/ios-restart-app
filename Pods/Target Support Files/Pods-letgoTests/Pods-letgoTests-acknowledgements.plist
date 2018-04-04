@@ -2281,6 +2281,16 @@ SOFTWARE.
 		</dict>
 		<dict>
 			<key>FooterText</key>
+			<string>The MoPub SDK License can be found at http://www.mopub.com/legal/sdk-license-agreement/</string>
+			<key>License</key>
+			<string>New BSD</string>
+			<key>Title</key>
+			<string>mopub-ios-sdk</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>FooterText</key>
 			<string>Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
