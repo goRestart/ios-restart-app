@@ -198,7 +198,7 @@ class BumpUpBoostViewController: BaseViewController {
         titleLabel.numberOfLines = 0
         titleLabel.minimumScaleFactor = 0.3
 
-        titleLabel.adjustsFontSizeToFitWidth = true // 🦄
+        titleLabel.adjustsFontSizeToFitWidth = true
 
         subtitleLabel.text = subtitleLabelText
         subtitleLabel.textAlignment = .left

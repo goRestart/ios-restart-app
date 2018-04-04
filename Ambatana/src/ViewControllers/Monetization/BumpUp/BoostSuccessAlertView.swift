@@ -11,6 +11,7 @@ import Lottie
 
 class BoostSuccessAlertView: UIView {
 
+    private static let animationHeight: CGFloat = 180
     private static let alertSideMargin: CGFloat = 50
 
     private var blurEffectView: UIVisualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
@@ -21,41 +22,36 @@ class BoostSuccessAlertView: UIView {
 
     // MARK: - Lifecycle
 
-//    required init(viewModel: PromoteBumpViewModel) {
-//        self.viewModel = viewModel
-//        super.init(viewModel: viewModel, nibName: nil)
-//        modalPresentationStyle = .overCurrentContext
-//    }
-
     init() {
-        // TODO: 🦄  Make the cool alert happen!
         super.init(frame: CGRect.zero)
         setupUI()
         setupConstraints()
+        setupAccessibilityIds()
+        startAnimation()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-
     // MARK: - Private methods
 
     private func setupUI() {
-
-        backgroundColor = UIColor.clear
         alertView.cornerRadius = LGUIKitConstants.bigCornerRadius
         alertView.backgroundColor = UIColor.white
 
-        titleLabel.text = "_ YAY BOOST!"
+        blurEffectView.alpha = 0.2
+
+        titleLabel.text = "_ Your listing was boosted again!  It will be featured for the next 24 hours"
         titleLabel.textColor = UIColor.blackText
-        titleLabel.font = UIFont.systemBoldFont(size: 27)
+        titleLabel.font = UIFont.systemBoldFont(size: 25)
         titleLabel.textAlignment = .center
         titleLabel.numberOfLines = 0
 
-
-        animationView.loopAnimation = false
-        animationView.play()
+        animationView.contentMode = .scaleAspectFit
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(closeBoostSuccessAlert))
+        addGestureRecognizer(tapGesture)
     }
 
     private func setupConstraints() {
@@ -67,6 +63,7 @@ class BoostSuccessAlertView: UIView {
         blurEffectView.layout(with: self).fill()
 
         addSubview(alertView)
+
         alertView.layout(with: self)
             .center()
             .leading(by: BoostSuccessAlertView.alertSideMargin)
@@ -76,21 +73,35 @@ class BoostSuccessAlertView: UIView {
         setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: subviews)
         alertView.addSubviews(subviews)
 
-        titleLabel.layout(with: alertView)
+        animationView.layout().height(BoostSuccessAlertView.animationHeight)
+        animationView.layout(with: alertView)
             .top(by: Metrics.bigMargin)
             .leading(by: Metrics.veryBigMargin)
             .trailing(by: -Metrics.veryBigMargin)
             .centerX()
 
-        animationView.layout(with: alertView)
+        animationView.layout(with: titleLabel).above(by: -Metrics.veryShortMargin)
+
+        titleLabel.layout(with: alertView)
+            .bottom(by: -Metrics.bigMargin)
             .leading(by: Metrics.veryBigMargin)
             .trailing(by: -Metrics.veryBigMargin)
             .centerX()
-        animationView.layout(with: titleLabel).top(to: .bottom, by: Metrics.veryShortMargin)
     }
 
-    func setupAccessibilityIds() {
-        alertView.set(accessibilityId: .promoteBumpUpView)
-        titleLabel.set(accessibilityId: .promoteBumpUpTitle)
+    func startAnimation() {
+        animationView.loopAnimation = false
+        animationView.play()
+    }
+
+    private func setupAccessibilityIds() {
+        alertView.set(accessibilityId: .boostSucceededAlert)
+        animationView.set(accessibilityId: .boostSuccededAlertAnimationView)
+        titleLabel.set(accessibilityId: .boostSuccededAlertLabel)
+    }
+
+    @objc private func closeBoostSuccessAlert() {
+        animationView.stop()
+        removeFromSuperview()
     }
 }

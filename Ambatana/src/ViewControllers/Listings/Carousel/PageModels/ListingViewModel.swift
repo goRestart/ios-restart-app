@@ -25,6 +25,7 @@ protocol ListingViewModelDelegate: BaseViewModelDelegate {
     
     // Bump Up
     func vmResetBumpUpBannerCountdown()
+    func vmBoostDidSuccess()
 }
 
 protocol ListingViewModelMaker {
@@ -1296,28 +1297,8 @@ extension ListingViewModel: PurchasesShopperDelegate {
     }
 
     func pricedBumpPaymentDidFail(withReason reason: String?, transactionStatus: EventParameterTransactionStatus) {
-        // 🦄 TEST THE COOL ALERT!!!! REMOVE AND PUT BACK THE FAIL CODE
-        delegate?.vmHideLoading(nil, afterMessageCompletion: { [weak self] in
-            // 1- animate banner
-            self?.delegate?.vmResetBumpUpBannerCountdown()
-            // 2- show cool alert -> let animationView = LOTAnimationView(name: "lottie_bump_up_boost_success_animation")
-
-            // 3- refresh 👇
-            if let currentBumpUpInfo = self?.bumpUpBannerInfo.value {
-                let newBannerInfo = BumpUpInfo(type: .boost(boostBannerVisible: false),
-                                               timeSinceLastBump: currentBumpUpInfo.timeSinceLastBump,
-                                               maxCountdown: currentBumpUpInfo.maxCountdown,
-                                               price: currentBumpUpInfo.price,
-                                               bannerInteractionBlock: currentBumpUpInfo.bannerInteractionBlock,
-                                               buttonBlock: currentBumpUpInfo.buttonBlock)
-                self?.bumpUpBannerInfo.value = newBannerInfo
-            } else {
-                self?.refreshBumpeableBanner()
-            }
-        })
-
-//        trackMobilePaymentFail(withReason: reason, transactionStatus: transactionStatus)
-//        delegate?.vmHideLoading(LGLocalizedString.bumpUpErrorPaymentFailed, afterMessageCompletion: nil)
+        trackMobilePaymentFail(withReason: reason, transactionStatus: transactionStatus)
+        delegate?.vmHideLoading(LGLocalizedString.bumpUpErrorPaymentFailed, afterMessageCompletion: nil)
     }
 
     func pricedBumpDidSucceed(type: BumpUpType, restoreRetriesCount: Int, transactionStatus: EventParameterTransactionStatus,
@@ -1333,15 +1314,12 @@ extension ListingViewModel: PurchasesShopperDelegate {
 
         if isBoost {
             delegate?.vmHideLoading(nil, afterMessageCompletion: { [weak self] in
-                // 1- animate banner
                 self?.delegate?.vmResetBumpUpBannerCountdown()
-                // 2- show cool alert 
-
-                // 3- refresh 👇
-
+                self?.isShowingFeaturedStripe.value = true
+                self?.delegate?.vmBoostDidSuccess()
                 if let currentBumpUpInfo = self?.bumpUpBannerInfo.value {
                     let newBannerInfo = BumpUpInfo(type: .boost(boostBannerVisible: false),
-                                                   timeSinceLastBump: currentBumpUpInfo.timeSinceLastBump,
+                                                   timeSinceLastBump: 0,
                                                    maxCountdown: currentBumpUpInfo.maxCountdown,
                                                    price: currentBumpUpInfo.price,
                                                    bannerInteractionBlock: currentBumpUpInfo.bannerInteractionBlock,

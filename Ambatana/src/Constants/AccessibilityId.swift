@@ -614,6 +614,10 @@ enum AccessibilityId: Equatable {
     case boostViewSubtitleLabel
     case boostViewButton
 
+    case boostSucceededAlert
+    case boostSuccededAlertLabel
+    case boostSuccededAlertAnimationView
+
     // Bump Up Hidden Alert
     case bumpUpHiddenListingAlertContactButton
     case bumpUpHiddenListingAlertCancelButton
@@ -1779,6 +1783,12 @@ enum AccessibilityId: Equatable {
             return "boostViewSubtitleLabel"
         case .boostViewButton:
             return "boostViewButton"
+        case .boostSucceededAlert:
+            return "boostSucceededAlert"
+        case .boostSuccededAlertLabel:
+            return "boostSuccededAlertLabel"
+        case .boostSuccededAlertAnimationView:
+            return "boostSuccededAlertAnimationView"
 
         // Bump Up Hidden Alert
         case .bumpUpHiddenListingAlertContactButton:

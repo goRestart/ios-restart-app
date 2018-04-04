@@ -68,8 +68,8 @@ enum BumpUpType: Equatable {
             return true
         case (.hidden, .hidden):
             return true
-        case (.boost, .boost):
-            return true
+        case (.boost(let lBannerVisible), .boost(let rBannerVisible)):
+            return lBannerVisible == rBannerVisible
         default:
             return false
         }

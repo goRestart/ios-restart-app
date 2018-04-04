@@ -18,6 +18,7 @@ protocol ListingCarouselViewModelDelegate: BaseViewModelDelegate {
     func vmShowCarouselOptions(_ cancelLabel: String, actions: [UIAction])
     func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?)
     func vmResetBumpUpBannerCountdown()
+    func vmBoostDidSuccess()
 }
 
 enum CarouselMovement {
@@ -741,6 +742,11 @@ extension ListingCarouselViewModel: ListingViewModelDelegate {
     func vmResetBumpUpBannerCountdown() {
         delegate?.vmResetBumpUpBannerCountdown()
     }
+
+    func vmBoostDidSuccess() {
+        delegate?.vmBoostDidSuccess()
+    }
+
 
     // BaseViewModelDelegate forwarding methods
     
