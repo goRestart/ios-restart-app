@@ -33,7 +33,7 @@ struct LegacyABGroup: ABGroupType {
         static let showAdsInFeedWithRatio = "20180111ShowAdsInFeedWithRatio"
         static let removeCategoryWhenClosingPosting = "20180126RemoveCategoryWhenClosingPosting"
     }
-
+    
     let marketingPush: LeanplumABVariable<Int>
     // Not an A/B just flags and variables for surveys
     let showNPSSurvey: LeanplumABVariable<Bool>
@@ -57,14 +57,14 @@ struct LegacyABGroup: ABGroupType {
     let mostSearchedDemandedItems: LeanplumABVariable<Int>
     let showAdsInFeedWithRatio: LeanplumABVariable<Int>
     let removeCategoryWhenClosingPosting: LeanplumABVariable<Int>
-
-
+    
+    
     let group: ABGroup = .legacyABTests
     var intVariables: [LeanplumABVariable<Int>] = []
     var stringVariables: [LeanplumABVariable<String>] = []
     var floatVariables: [LeanplumABVariable<Float>] = []
     var boolVariables: [LeanplumABVariable<Bool>] = []
-
+    
     init(marketingPush: LeanplumABVariable<Int>,
          showNPSSurvey: LeanplumABVariable<Bool>,
          surveyURL: LeanplumABVariable<String>,
@@ -87,7 +87,7 @@ struct LegacyABGroup: ABGroupType {
          mostSearchedDemandedItems: LeanplumABVariable<Int>,
          showAdsInFeedWithRatio: LeanplumABVariable<Int>,
          removeCategoryWhenClosingPosting: LeanplumABVariable<Int>) {
-
+        
         self.marketingPush = marketingPush
         self.showNPSSurvey = showNPSSurvey
         self.surveyURL = surveyURL
@@ -110,7 +110,7 @@ struct LegacyABGroup: ABGroupType {
         self.mostSearchedDemandedItems = mostSearchedDemandedItems
         self.showAdsInFeedWithRatio = showAdsInFeedWithRatio
         self.removeCategoryWhenClosingPosting = removeCategoryWhenClosingPosting
-
+        
         intVariables.append(contentsOf: [marketingPush,
                                          dynamicQuickAnswers,
                                          locationDataSourceType,
@@ -128,30 +128,30 @@ struct LegacyABGroup: ABGroupType {
                                           pricedBumpUpEnabled, newCarsMultiRequesterEnabled, inAppRatingIOS10,
                                           userReviewsReportEnabled, appRatingDialogInactive])
         stringVariables.append(surveyURL)
-
+        
     }
-
-    static func make() -> LegacyGroup {
-        return LegacyGroup(marketingPush: .makeInt(key: Keys.marketingPush, defaultValue: 0, groupType: .legacyABTests),
-                           showNPSSurvey: .makeBool(key: Keys.showNPSSurvey, defaultValue: false, groupType: .legacyABTests),
-                           surveyURL: .makeString(key: Keys.surveyURL, defaultValue: "", groupType: .legacyABTests),
-                           surveyEnabled: .makeBool(key: Keys.surveyEnabled, defaultValue: false, groupType: .legacyABTests),
-                           freeBumpUpEnabled: .makeBool(key: Keys.freeBumpUpEnabled, defaultValue: false, groupType: .legacyABTests),
-                           pricedBumpUpEnabled: .makeBool(key: Keys.pricedBumpUpEnabled, defaultValue: false, groupType: .legacyABTests),
-                           newCarsMultiRequesterEnabled: .makeBool(key: Keys.carsMultiReqEnabled, defaultValue: false,  groupType: .legacyABTests),
-                           inAppRatingIOS10: .makeBool(key: Keys.inAppRatingIOS10, defaultValue: false, groupType: .legacyABTests),
-                           userReviewsReportEnabled: .makeBool(key: Keys.userReviewsReportEnabled, defaultValue: true, groupType: .legacyABTests),
-                           dynamicQuickAnswers: .makeInt(key: Keys.dynamicQuickAnswers, defaultValue: 0, groupType: .legacyABTests),
-                           appRatingDialogInactive: .makeBool(key: Keys.appRatingDialogInactive, defaultValue: false, groupType: .legacyABTests),
-                           locationDataSourceType: .makeInt(key: Keys.locationDataSourceType, defaultValue: 0, groupType: .legacyABTests),
-                           searchAutocomplete: .makeInt(key: Keys.searchAutocomplete, defaultValue: 0, groupType: .legacyABTests),
-                           realEstateEnabled: .makeInt(key: Keys.realEstateEnabled, defaultValue: 0, groupType: .legacyABTests),
-                           requestsTimeOut: .makeInt(key: Keys.requestTimeOut, defaultValue: 30, groupType: .legacyABTests),
-                           newItemPage: .makeInt(key: Keys.newItemPage, defaultValue: 0, groupType: .legacyABTests),
-                           taxonomiesAndTaxonomyChildrenInFeed: .makeInt(key: Keys.taxonomiesAndTaxonomyChildrenInFeed, defaultValue: 0, groupType: .legacyABTests),
-                           showClockInDirectAnswer: .makeInt(key: Keys.showClockInDirectAnswer, defaultValue: 0, groupType: .legacyABTests),
-                           allowCallsForProfessionals:  .makeInt(key: Keys.allowCallsForProfessionals, defaultValue: 0, groupType: .legacyABTests),
-                           mostSearchedDemandedItems: .makeInt(key: Keys.mostSearchedDemandedItems, defaultValue: 0, groupType: .retention), showAdsInFeedWithRatio: .makeInt(key: Keys.showAdsInFeedWithRatio, defaultValue: 0, groupType: .legacyABTests),
-                           removeCategoryWhenClosingPosting: .makeInt(key: Keys.removeCategoryWhenClosingPosting, defaultValue: 0, groupType: .legacyABTests))
+    
+    static func make() -> LegacyABGroup {
+        return LegacyABGroup(marketingPush: .makeInt(key: Keys.marketingPush, defaultValue: 0, groupType: .legacyABTests),
+                             showNPSSurvey: .makeBool(key: Keys.showNPSSurvey, defaultValue: false, groupType: .legacyABTests),
+                             surveyURL: .makeString(key: Keys.surveyURL, defaultValue: "", groupType: .legacyABTests),
+                             surveyEnabled: .makeBool(key: Keys.surveyEnabled, defaultValue: false, groupType: .legacyABTests),
+                             freeBumpUpEnabled: .makeBool(key: Keys.freeBumpUpEnabled, defaultValue: false, groupType: .legacyABTests),
+                             pricedBumpUpEnabled: .makeBool(key: Keys.pricedBumpUpEnabled, defaultValue: false, groupType: .legacyABTests),
+                             newCarsMultiRequesterEnabled: .makeBool(key: Keys.carsMultiReqEnabled, defaultValue: false,  groupType: .legacyABTests),
+                             inAppRatingIOS10: .makeBool(key: Keys.inAppRatingIOS10, defaultValue: false, groupType: .legacyABTests),
+                             userReviewsReportEnabled: .makeBool(key: Keys.userReviewsReportEnabled, defaultValue: true, groupType: .legacyABTests),
+                             dynamicQuickAnswers: .makeInt(key: Keys.dynamicQuickAnswers, defaultValue: 0, groupType: .legacyABTests),
+                             appRatingDialogInactive: .makeBool(key: Keys.appRatingDialogInactive, defaultValue: false, groupType: .legacyABTests),
+                             locationDataSourceType: .makeInt(key: Keys.locationDataSourceType, defaultValue: 0, groupType: .legacyABTests),
+                             searchAutocomplete: .makeInt(key: Keys.searchAutocomplete, defaultValue: 0, groupType: .legacyABTests),
+                             realEstateEnabled: .makeInt(key: Keys.realEstateEnabled, defaultValue: 0, groupType: .legacyABTests),
+                             requestsTimeOut: .makeInt(key: Keys.requestTimeOut, defaultValue: 30, groupType: .legacyABTests),
+                             newItemPage: .makeInt(key: Keys.newItemPage, defaultValue: 0, groupType: .legacyABTests),
+                             taxonomiesAndTaxonomyChildrenInFeed: .makeInt(key: Keys.taxonomiesAndTaxonomyChildrenInFeed, defaultValue: 0, groupType: .legacyABTests),
+                             showClockInDirectAnswer: .makeInt(key: Keys.showClockInDirectAnswer, defaultValue: 0, groupType: .legacyABTests),
+                             allowCallsForProfessionals:  .makeInt(key: Keys.allowCallsForProfessionals, defaultValue: 0, groupType: .legacyABTests),
+                             mostSearchedDemandedItems: .makeInt(key: Keys.mostSearchedDemandedItems, defaultValue: 0, groupType: .retention), showAdsInFeedWithRatio: .makeInt(key: Keys.showAdsInFeedWithRatio, defaultValue: 0, groupType: .legacyABTests),
+                             removeCategoryWhenClosingPosting: .makeInt(key: Keys.removeCategoryWhenClosingPosting, defaultValue: 0, groupType: .legacyABTests))
     }
 }

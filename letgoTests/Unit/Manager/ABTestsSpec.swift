@@ -16,7 +16,7 @@ class ABTestsSpec: QuickSpec {
     override func spec() {
         var sut: ABTests!
 
-        var legacy: LegacyGroup!
+        var legacy: LegacyABGroup!
         var realEstate: RealEstateGroup!
         var retention: RetentionGroup!
         var money: MoneyGroup!
@@ -34,10 +34,10 @@ class ABTestsSpec: QuickSpec {
                 syncer = LeamplumSyncerCounter()
                 sut = ABTests(syncer: syncer)
 
-                legacy = LegacyGroup.make()
+                legacy = LegacyABGroup.make()
                 realEstate = RealEstateGroup.make()
                 core = CoreGroup.make()
-                chat = ChatGroup.make()
+                chat = ChatABGroup.make()
                 money = MoneyGroup.make()
                 retention = RetentionGroup.make()
             }

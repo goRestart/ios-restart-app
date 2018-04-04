@@ -37,11 +37,11 @@ class ABTests {
     private let syncer: LeamplumSyncerType
     let trackingData = Variable<[(String, ABGroup)]?>(nil)
 
-    let legacy = LegacyGroup.make()
+    let legacy = LegacyABGroup.make()
     let realEstate = RealEstateGroup.make()
     let retention = RetentionGroup.make()
     let money = MoneyGroup.make()
-    let chat = ChatGroup.make()
+    let chat = ChatABGroup.make()
     let core = CoreGroup.make()
 
     convenience init() {
