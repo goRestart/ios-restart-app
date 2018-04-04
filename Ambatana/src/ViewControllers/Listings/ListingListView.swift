@@ -247,8 +247,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     func collectionView(_ collectionView: UICollectionView,
                         willDisplay cell: UICollectionViewCell,
                         forItemAt indexPath: IndexPath) {
-        guard let item = viewModel.itemAtIndex(indexPath.row),
-            let cell = collectionView.cellForItem(at: indexPath) else { return }
+        guard let item = viewModel.itemAtIndex(indexPath.row) else { return }
 
         let imageSize = viewModel.imageViewSizeForItem(at: indexPath.row)
         drawerManager.willDisplay(item,
