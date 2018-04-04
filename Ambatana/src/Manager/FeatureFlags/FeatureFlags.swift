@@ -241,6 +241,8 @@ extension AddPriceTitleDistanceToListings {
 }
 
 extension CopyForChatNowInTurkey {
+    var isActive: Bool { get { return self != .control } }
+    
     var variantString: String { get {
         switch self {
         case .control:
@@ -278,6 +280,8 @@ extension ShowAdvancedReputationSystem {
 }
 
 extension CopyForChatNowInEnglish {
+    var isActive: Bool { get { return self != .control } }
+    
     var variantString: String { get {
         switch self {
         case .control:
@@ -808,7 +812,7 @@ class FeatureFlags: FeatureFlaggeable {
     
     var shouldChangeChatNowCopy: Bool {
         if Bumper.enabled {
-            return true
+            return Bumper.copyForChatNowInTurkey.isActive
         }
         switch (locationCountryCode, localeCountryCode) {
         case (.turkey?, _), (_, .turkey?):
@@ -827,7 +831,7 @@ class FeatureFlags: FeatureFlaggeable {
     
     var shouldChangeChatNowCopyInEnglish: Bool {
         if Bumper.enabled {
-            return true
+            return Bumper.copyForChatNowInEnglish.isActive
         }
         switch (localeCountryCode) {
         case .usa?:
