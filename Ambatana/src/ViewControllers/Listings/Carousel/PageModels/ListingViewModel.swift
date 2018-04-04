@@ -688,6 +688,7 @@ extension ListingViewModel {
     }
 
     func editListing() {
+        guard myUserId == listing.value.user.objectId else { return }
         var bumpUpProductData: BumpUpProductData? = nil
         if let purchaseableProduct = bumpUpPurchaseableProduct, featureFlags.promoteBumpInEdit.isActive {
                 bumpUpProductData = BumpUpProductData(bumpUpPurchaseableData: .purchaseableProduct(product: purchaseableProduct),
@@ -753,6 +754,7 @@ extension ListingViewModel {
     }
 
     func markAsSold() {
+        guard myUserId == listing.value.user.objectId else { return }
         delegate?.vmShowLoading(nil)
         listingRepository.markAsSold(listing: listing.value) { [weak self] result in
             guard let strongSelf = self else { return }

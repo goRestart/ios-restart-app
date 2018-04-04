@@ -59,6 +59,10 @@ struct UriScheme {
             guard let listingId = components.first else { return nil }
             return UriScheme(deepLink: DeepLink.link(.listingMarkAsSold(listingId: listingId), campaign: campaign, medium: medium,
                                                      source: source, cardActionParameter: cardActionParameter))
+        case .listingEdit:
+            guard let listingId = components.first else { return nil }
+            return UriScheme(deepLink: DeepLink.link(.listingEdit(listingId: listingId), campaign: campaign, medium: medium,
+                                                     source: source, cardActionParameter: cardActionParameter))
         case .user:
             guard let userId = components.first else { return nil }
             return UriScheme(deepLink: DeepLink.link(.user(userId: userId), campaign: campaign, medium: medium,
@@ -111,6 +115,7 @@ enum UriSchemeHost: String {
     case listingShare = "products_share"
     case listingBumpUp = "products_bump_up"
     case listingMarkAsSold = "products_mark_as_sold"
+    case listingEdit = "products_edit"
     case user = "users"
     case chat = "chat"
     case chats = "chats"

@@ -111,7 +111,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         super.viewDidLoad()
         
         addSubViews()
-        
+
         setupFilterHeaders()
         setupListingView()
         setupInfoBubble()
@@ -201,7 +201,6 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         let delta = listingListView.headerBottom - offset
         infoBubbleTopConstraint?.constant = infoBubbleTopMargin + max(0, delta)
     }
-    
     
     // MARK: - MainListingsViewModelDelegate
 
@@ -401,6 +400,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         }
         listingListView.scrollDelegate = self
         listingListView.headerDelegate = self
+        listingListView.adsDelegate = self
         listingListView.cellsDelegate = viewModel
         listingListView.switchViewModel(viewModel.listViewModel)
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)

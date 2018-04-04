@@ -86,6 +86,9 @@ protocol FeatureFlaggeable: class {
     var shouldChangeChatNowCopy: Bool { get }
     var copyForChatNowInTurkey: CopyForChatNowInTurkey { get }
     var shareTypes: [ShareType] { get }
+    var feedAdsProviderForUS:  FeedAdsProviderForUS { get }
+    var feedMoPubAdUnitId: String? { get }
+    
 }
 
 extension FeatureFlaggeable {
@@ -275,6 +278,33 @@ extension SummaryAsFirstStep {
 extension ShowAdvancedReputationSystem {
     var isActive: Bool { return self == .active }
 }
+
+extension FeedAdsProviderForUS {
+    private var shouldShowAdsInFeedForNewUsers: Bool {
+        return self == .moPubAdsForAllUsers
+    }
+    private var shouldShowAdsInFeedForOldUsers: Bool {
+        return self == .moPubAdsForOldUsers || self == .moPubAdsForAllUsers
+    }
+    
+    var shouldShowAdsInFeed: Bool {
+        return  shouldShowAdsInFeedForNewUsers || shouldShowAdsInFeedForOldUsers
+    }
+    
+    var shouldShowMoPubAds : Bool {
+        return self == .moPubAdsForOldUsers || self == .moPubAdsForAllUsers
+    }
+    
+    func shouldShowAdsInFeedForUser(createdIn: Date?) -> Bool {
+        guard let creationDate = createdIn else { return shouldShowAdsInFeedForOldUsers }
+        if creationDate.isNewerThan(Constants.newUserTimeThresholdForAds) {
+            return shouldShowAdsInFeedForNewUsers
+        } else {
+            return shouldShowAdsInFeedForOldUsers
+        }
+    }
+}
+
 
 class FeatureFlags: FeatureFlaggeable {
 
@@ -805,6 +835,40 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.copyForChatNowInTurkey
         }
         return CopyForChatNowInTurkey.fromPosition(abTests.copyForChatNowInTurkey.value)
+    }
+    
+    var feedAdsProviderForUS: FeedAdsProviderForUS {
+        if Bumper.enabled {
+            return Bumper.feedAdsProviderForUS
+        }
+        return FeedAdsProviderForUS.fromPosition(abTests.feedAdsProviderForUS.value)
+    }
+    
+    var feedMoPubAdUnitId: String? {
+        if Bumper.enabled {
+            // Bumper overrides country restriction
+            switch feedAdsProviderForUS {
+            case .moPubAdsForAllUsers:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubUSAForAllUsers
+            case .moPubAdsForOldUsers:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubUSAForOldUsers
+            default:
+                return nil
+            }
+        }
+        switch sensorLocationCountryCode {
+        case .usa?:
+            switch feedAdsProviderForUS {
+            case .moPubAdsForAllUsers:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubUSAForAllUsers
+            case .moPubAdsForOldUsers:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubUSAForOldUsers
+            default:
+                return nil
+            }
+        default:
+            return nil
+        }
     }
 
     // MARK: - Private
