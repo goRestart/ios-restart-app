@@ -37,6 +37,7 @@ public protocol ChatMessage: BaseModel {
     var readAt: Date? { get }
     var type: ChatMessageType { get }
     var warnings: [ChatMessageWarning] { get }
+    var assistantMeeting: AssistantMeeting? { get }
     
     func markReceived() -> ChatMessage
 }
@@ -59,6 +60,7 @@ struct LGChatMessage: ChatMessage, Decodable {
     var readAt: Date?
     let type: ChatMessageType
     var warnings: [ChatMessageWarning]
+    let assistantMeeting: AssistantMeeting?
     
     init(objectId: String?,
          talkerId: String,
@@ -77,6 +79,7 @@ struct LGChatMessage: ChatMessage, Decodable {
         self.readAt = readAt
         self.type = type
         self.warnings = warnings
+        self.assistantMeeting = type == .meeting ? AssistantMeeting.makeMeeting(from: text) : nil
     }
     
     func markReceived() -> ChatMessage {
@@ -119,6 +122,7 @@ struct LGChatMessage: ChatMessage, Decodable {
         let stringChatMessageType = try keyedContainer.decode(String.self, forKey: .type)
         type = ChatMessageType(rawValue: stringChatMessageType) ?? .text
         warnings = (try keyedContainer.decode(FailableDecodableArray<ChatMessageWarning>.self, forKey: .warnings)).validElements
+        assistantMeeting = type == .meeting ? AssistantMeeting.makeMeeting(from: text) : nil
     }
     
     enum CodingKeys: String, CodingKey {

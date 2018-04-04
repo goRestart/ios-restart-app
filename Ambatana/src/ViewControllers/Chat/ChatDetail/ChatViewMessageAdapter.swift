@@ -12,23 +12,18 @@ class ChatViewMessageAdapter {
     let stickersRepository: StickersRepository
     let myUserRepository: MyUserRepository
     let featureFlags: FeatureFlaggeable
-    let meetingParser: MeetingParser
     
     convenience init() {
         let stickersRepository = Core.stickersRepository
         let myUserRepository = Core.myUserRepository
         let featureFlags = FeatureFlags.sharedInstance
-        let meetingParser = LGMeetingParser.sharedInstance
-        self.init(stickersRepository: stickersRepository, myUserRepository: myUserRepository, featureFlags: featureFlags,
-                  meetingParser: meetingParser)
+        self.init(stickersRepository: stickersRepository, myUserRepository: myUserRepository, featureFlags: featureFlags)
     }
     
-    init(stickersRepository: StickersRepository, myUserRepository: MyUserRepository, featureFlags: FeatureFlaggeable,
-         meetingParser: MeetingParser) {
+    init(stickersRepository: StickersRepository, myUserRepository: MyUserRepository, featureFlags: FeatureFlaggeable) {
         self.stickersRepository = stickersRepository
         self.myUserRepository = myUserRepository
         self.featureFlags = featureFlags
-        self.meetingParser = meetingParser
     }
     
     func adapt(_ message: Message) -> ChatViewMessage {
@@ -70,8 +65,7 @@ class ChatViewMessageAdapter {
         case .phone:
             type = ChatViewMessageType.text(text: LGLocalizedString.professionalDealerAskPhoneChatMessage(message.text))
         case .meeting:
-            if featureFlags.chatNorris.isActive,
-                let meeting = meetingParser.createMeetingFromMessage(message: message.text) {
+            if featureFlags.chatNorris.isActive, let meeting = message.assistantMeeting {
                 if meeting.meetingType == .requested {
                     type = ChatViewMessageType.meeting(type: meeting.meetingType,
                                                        date: meeting.date,
