@@ -25,7 +25,7 @@ class MockListingListRequester: ListingListRequester {
     }
 
     func generateItems(_ numItems: Int, allowDiscarded: Bool) {
-        let products = MockProduct.makeProductMocks(numItems, allowDiscarded: allowDiscarded) as? [Product]
+        let products = MockProduct.makeProductMocks(numItems, allowDiscarded: allowDiscarded) as [Product]
         items.append(contentsOf: products)
     }
 
