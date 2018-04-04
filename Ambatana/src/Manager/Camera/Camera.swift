@@ -30,8 +30,8 @@ enum CameraMode {
 
 protocol Camera {
 
-    var flashMode: AVCaptureDevice.FlashMode { get set }
-    var cameraPosition: CameraSource { get set }
+    var flashMode: CameraFlashState? { get set }
+    var cameraPosition: CameraSource? { get set }
     var cameraMode: CameraMode { get set }
     var isReady: Bool { get }
     var hasFlash: Bool { get }
@@ -39,19 +39,17 @@ protocol Camera {
     var isAttached: Bool { get }
     var isRecording: Bool { get }
     var recordingDuration: TimeInterval { get }
-    var shouldForwardPixelBuffersToDelegate: Bool { get set }
-    var pixelsBuffersToForwardPerSecond: CMTime { get set }
-    var videoOutputDelegate: VideoOutputDelegate? { get set }
 
-    func addPreviewLayerTo(view: UIView) -> Bool
+    func pause()
+    func resume()
+    func addPreviewLayerTo(view: UIView)
     func capturePhoto(completion: @escaping CameraPhotoCompletion)
     func startRecordingVideo(completion: @escaping CameraRecordingVideoCompletion)
     func stopRecordingVideo()
-    func pause()
-    func resume()
+    func startForwardingPixelBuffers(to delegate: VideoOutputDelegate, pixelsBuffersToForwardPerSecond: Int)
+    func stopForwardingPixelBuffers()
 }
 
 protocol VideoOutputDelegate: class {
-
     func didCaptureVideoFrame(pixelBuffer: CVPixelBuffer?, timestamp: CMTime)
 }

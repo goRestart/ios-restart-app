@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-class LGCamera: NSObject {
+class LGCamera: NSObject, Camera {
 
     var flashMode: CameraFlashState? {
         set { if let flashMode = newValue { updateFlashMode(flashMode.asFlashMode()) }}
@@ -70,9 +70,7 @@ class LGCamera: NSObject {
     }
 
     public func addPreviewLayerTo(view: UIView) {
-        guard !view.subviews.contains(previewView) else {
-            return
-        }
+        guard !view.subviews.contains(previewView) else { return }
 
         previewView.translatesAutoresizingMaskIntoConstraints = true
         previewView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -156,6 +154,24 @@ class LGCamera: NSObject {
         }
     }
 
+    func startForwardingPixelBuffers(to delegate: VideoOutputDelegate, pixelsBuffersToForwardPerSecond: Int) {
+        if self.pixelsBufferForwarder != nil {
+            stopForwardingPixelBuffers()
+        }
+        let pixelsBufferForwarder = PixelsBufferForwarder(delegate: delegate, pixelsBuffersToForwardPerSecond: pixelsBuffersToForwardPerSecond)
+        self.pixelsBufferForwarder = pixelsBufferForwarder
+        addPixelBuffersForwarderOutput(output: pixelsBufferForwarder.videoOutput)
+        pixelsBufferForwarder.start()
+    }
+
+    func stopForwardingPixelBuffers() {
+        if let pixelsBufferForwarder = self.pixelsBufferForwarder {
+            pixelsBufferForwarder.stop()
+            removePixelBuffersForwarderOutput(output: pixelsBufferForwarder.videoOutput)
+            self.pixelsBufferForwarder = nil
+        }
+    }
+
     // MARK - Private
     private let session: AVCaptureSession = AVCaptureSession()
     private let sessionQueue: DispatchQueue = DispatchQueue(label: "camera.manager.session.queue")
@@ -173,6 +189,7 @@ class LGCamera: NSObject {
         }
     }()
     private let videoRecorder: VideoRecorder = VideoRecorder()
+    private var pixelsBufferForwarder: PixelsBufferForwarder?
 }
 
 // MARK - Private Methods
@@ -271,6 +288,26 @@ extension LGCamera {
         }
         if !session.outputs.contains(videoRecorder.videoOutput), session.canAddOutput(videoRecorder.videoOutput) {
             session.addOutput(videoRecorder.videoOutput)
+        }
+    }
+
+    private func addPixelBuffersForwarderOutput(output: AVCaptureOutput) {
+        sessionQueue.async {
+            if !self.session.outputs.contains(output), self.session.canAddOutput(output) {
+                self.session.beginConfiguration()
+                self.session.addOutput(output)
+                self.session.commitConfiguration()
+            }
+        }
+    }
+
+    private func removePixelBuffersForwarderOutput(output: AVCaptureOutput) {
+        sessionQueue.async {
+            if self.session.outputs.contains(output) {
+                self.session.beginConfiguration()
+                self.session.removeOutput(output)
+                self.session.commitConfiguration()
+            }
         }
     }
 
@@ -483,6 +520,47 @@ class VideoRecorder : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
                     stopRecording()
                 }
             }
+        }
+    }
+}
+
+class PixelsBufferForwarder: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
+
+    private(set) var videoOutput: AVCaptureVideoDataOutput
+    private let videoOutputQueue = DispatchQueue(label: "camera.manager.video.output.queue")
+    private let delegate: VideoOutputDelegate
+
+    private var pixelsBuffersToForwardPerSecond: Int = 15
+    private var videoOutputLastTimestamp = CMTime()
+
+    init(delegate: VideoOutputDelegate, pixelsBuffersToForwardPerSecond: Int) {
+        self.delegate = delegate
+        self.pixelsBuffersToForwardPerSecond = pixelsBuffersToForwardPerSecond
+        self.videoOutput = AVCaptureVideoDataOutput()
+        self.videoOutput.alwaysDiscardsLateVideoFrames = true
+
+        let settings: [String: Any] = [kCVPixelBufferPixelFormatTypeKey as String: NSNumber(value: kCVPixelFormatType_32BGRA)]
+        self.videoOutput.videoSettings = settings
+    }
+
+    public func start() {
+        videoOutput.setSampleBufferDelegate(self, queue: videoOutputQueue)
+    }
+
+    public func stop() {
+        videoOutput.setSampleBufferDelegate(nil, queue: nil)
+    }
+
+    func captureOutput(_ output: AVCaptureOutput,
+                       didOutput sampleBuffer: CMSampleBuffer,
+                       from connection: AVCaptureConnection) {
+
+        let timestamp = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
+        let deltaTime = timestamp - videoOutputLastTimestamp
+        if deltaTime >= CMTimeMake(1, Int32(pixelsBuffersToForwardPerSecond)) {
+            videoOutputLastTimestamp = timestamp
+            let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
+            delegate.didCaptureVideoFrame(pixelBuffer: imageBuffer, timestamp: timestamp)
         }
     }
 }
