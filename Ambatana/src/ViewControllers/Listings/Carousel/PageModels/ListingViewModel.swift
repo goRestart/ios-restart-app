@@ -601,18 +601,12 @@ class ListingViewModel: BaseViewModel {
                                    maxCountdown: bumpMaxCountdown)
     }
 
-    private var listingCanBeBoosted: Bool {
-        switch featureFlags.bumpUpBoost {
-        case .control, .baseline:
-            return false
-        case .sendTop5Mins, .cheaperBoost5Mins:
-            return timeSinceLastBump > Constants.fiveMinutesTimeLimit
-        case .sendTop1hour, .boostListing1hour:
-            return timeSinceLastBump > Constants.oneHourTimeLimit
-        }
+    private var canBeBoosted: Bool {
+        guard let threshold = featureFlags.bumpUpBoost.boostBannerUIUpdateThreshold else { return false }
+        return timeSinceLastBump > threshold
     }
 
-    private var listingHasBumpInProgress: Bool {
+    private var hasBumpInProgress: Bool {
         return timeSinceLastBump > 0
     }
 }
@@ -1241,8 +1235,8 @@ extension ListingViewModel: BumpInfoRequesterDelegate {
         let bumpUpType: BumpUpType
         if userIsSoftBlocked {
             bumpUpType = .hidden
-        } else if featureFlags.bumpUpBoost.isActive && listingHasBumpInProgress {
-            bumpUpType = .boost(boostBannerVisible: listingCanBeBoosted)
+        } else if featureFlags.bumpUpBoost.isActive && hasBumpInProgress {
+            bumpUpType = .boost(boostBannerVisible: canBeBoosted)
         } else {
             bumpUpType = .priced
         }
