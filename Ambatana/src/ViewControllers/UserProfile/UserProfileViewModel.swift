@@ -125,6 +125,7 @@ final class UserProfileViewModel: BaseViewModel {
         super.init()
 
         self.sellingListingListViewModel.dataDelegate = self
+        self.sellingListingListViewModel.listingCellDelegate = self
         self.soldListingListViewModel.dataDelegate = self
         self.favoritesListingListViewModel.dataDelegate = self
 
@@ -522,7 +523,9 @@ extension UserProfileViewModel: ListingListViewModelDataDelegate {
                        didSelectItemAtIndex index: Int,
                        thumbnailImage: UIImage?,
                        originFrame: CGRect?) {
-        guard let listing = viewModel.listingAtIndex(index), let requester = viewModel.listingListRequester else { return }
+        guard let listing = viewModel.listingAtIndex(index), !listing.status.isDiscarded else { return }
+        guard let requester = viewModel.listingListRequester else { return }
+
         let cellModels = viewModel.objects
         let data = ListingDetailData.listingList(listing: listing, cellModels: cellModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame,
@@ -694,5 +697,37 @@ extension UserProfileViewModel {
     func trackUpdateAvatarComplete() {
         let trackerEvent = TrackerEvent.profileEditEditPicture()
         tracker.trackEvent(trackerEvent)
+    }
+}
+
+extension UserProfileViewModel: ListingCellDelegate {
+
+    func chatButtonPressedFor(listing: Listing) {}
+
+    func editPressedForDiscarded(listing: Listing) {
+        profileNavigator?.editListing(listing, pageType: .profile)
+    }
+
+    func moreOptionsPressedForDiscarded(listing: Listing) {
+        guard let listingId = listing.objectId else { return }
+        let deleteTitle = LGLocalizedString.discardedProductsDelete
+        let delete = UIAction(interface: .text(deleteTitle), action: { [weak self] in
+            let actionOk = UIAction(interface: UIActionInterface.text(LGLocalizedString.commonYes), action: {
+                self?.deleteListing(withId: listingId)
+            })
+            let actionCancel = UIAction(interface: UIActionInterface.text(LGLocalizedString.commonNo), action: {})
+            self?.delegate?.vmShowAlert(nil,
+                                        message: LGLocalizedString.discardedProductsDeleteConfirmation,
+                                        actions: [actionCancel, actionOk])
+        })
+        delegate?.vmShowActionSheet(LGLocalizedString.commonCancel, actions: [delete])
+    }
+
+    fileprivate func deleteListing(withId listingId: String) {
+        delegate?.vmShowLoading(LGLocalizedString.commonLoading)
+        listingRepository.delete(listingId: listingId) { [weak self] result in
+            let message: String? = result.error != nil ? LGLocalizedString.productDeleteSendErrorGeneric : nil
+            self?.delegate?.vmHideLoading(message, afterMessageCompletion: nil)
+        }
     }
 }
