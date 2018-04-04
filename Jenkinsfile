@@ -1,3 +1,5 @@
+import hudson.model.Result
+import jenkins.model.CauseOfInterruption.UserInterruption
 properties([
    // Jenkins executions properties, keeping 20 executions, getting rollbackBuild Param and 2h timeout
   buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '20')), 
@@ -7,6 +9,7 @@ properties([
   
   node_name = 'mac-mini-1'
   try {
+    stopPreviousRunningBuilds()
     launchUnitTests()
   }
   catch (err) {
@@ -16,6 +19,28 @@ properties([
   finally{
       notifyBuildStatus(currentBuild.result)
   }
+
+
+////// Stoping old running builds to release slots of executors
+def stopPreviousRunningBuilds() {
+  def jenkins = Hudson.instance
+  def jobName = env.JOB_NAME.split('/')[0]
+  def jobBaseName = env.JOB_BASE_NAME
+  def builds = jenkins.getItem(jobName).getItem(jobBaseName).getBuilds()
+
+  builds.each{ build ->
+    def exec = build.getExecutor()
+
+    if (build.number != currentBuild.number && exec != null) {
+      exec.interrupt(
+        Result.ABORTED,
+        new CauseOfInterruption.UserInterruption(
+          "Aborted by newer build #${currentBuild.number}"
+        )
+      )
+    } 
+  }
+}
 
 ////////// build, deploy and testing func definition /////////
 def launchUnitTests(){
