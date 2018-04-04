@@ -48,6 +48,10 @@ class ChatViewController: TextViewController {
     var tableViewInsetBottom: CGFloat {
         return navBarHeight + blockedToastOffset + expressChatBannerOffset
     }
+    
+    private lazy var textTapGesture: UITapGestureRecognizer = {
+        return UITapGestureRecognizer(target: self, action: #selector(hideStickers))
+    }()
 
 
     // MARK: - View lifecycle
@@ -127,6 +131,12 @@ class ChatViewController: TextViewController {
         if parent == nil {
             viewModel.wentBack()
         }
+    }
+    
+    // MARK: - Status Bar style
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .default
     }
     
     // MARK: - TextViewController methods
@@ -328,9 +338,6 @@ extension ChatViewController: UIGestureRecognizerDelegate {
             self?.stickersView.reloadStickers(stickers)
             }.disposed(by: disposeBag)
         singleTapGesture?.addTarget(self, action: #selector(hideStickers))
-        let textTapGesture = UITapGestureRecognizer(target: self, action: #selector(hideStickers))
-        textTapGesture.delegate = self
-        textView.addGestureRecognizer(textTapGesture)
     }
     
     fileprivate func initStickersView() {
@@ -350,6 +357,7 @@ extension ChatViewController: UIGestureRecognizerDelegate {
         // Add stickers view to keyboard window (is always the top window)
         UIApplication.shared.windows.last?.addSubview(stickersView)
         showingStickers = true
+        textView.addGestureRecognizer(textTapGesture)
         reloadLeftActions()
     }
     
@@ -357,6 +365,7 @@ extension ChatViewController: UIGestureRecognizerDelegate {
         guard showingStickers else { return }
         stickersView.removeFromSuperview()
         showingStickers = false
+        textView.removeGestureRecognizer(textTapGesture)
         reloadLeftActions()
     }
 
@@ -411,7 +420,7 @@ extension ChatViewController {
 
 extension ChatViewController: ChatBannerDelegate {
     func chatBannerDidFinish() {
-        guard !viewModel.interlocutorIsProfessional.value else { return }
+        guard !viewModel.interlocutorProfessionalInfo.value.isProfessional else { return }
         hideExpressChatBanner()
     }
 }
@@ -462,8 +471,8 @@ fileprivate extension ChatViewController {
             }
             }.disposed(by: disposeBag)
 
-        viewModel.interlocutorIsProfessional.asObservable()
-            .map { !$0 }
+        viewModel.interlocutorProfessionalInfo.asObservable()
+            .map { !$0.isProfessional }
             .bind(to: listingView.proTag.rx.isHidden)
             .disposed(by: disposeBag)
 
@@ -526,13 +535,10 @@ fileprivate extension ChatViewController {
             }
         }.disposed(by: disposeBag)
 
-        let showProfessionalBanner = Observable.combineLatest(viewModel.interlocutorIsProfessional.asObservable(),
-                                                              viewModel.interlocutorPhoneNumber.asObservable()) { ($0, $1) }
-
-        showProfessionalBanner.asObservable().bind { [weak self] (isPro, phoneNum) in
+        viewModel.interlocutorProfessionalInfo.asObservable().bind { [weak self] professionalInfo in
             guard let strongSelf = self else { return }
-            guard isPro else { return }
-            strongSelf.setupProfessionalSellerBannerWithPhone(phoneNumber: phoneNum)
+            guard professionalInfo.isProfessional else { return }
+            strongSelf.setupProfessionalSellerBannerWithPhone(phoneNumber: professionalInfo.phoneNumber)
             strongSelf.showProfessionalSellerBanner()
         }.disposed(by: disposeBag)
         

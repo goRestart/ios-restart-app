@@ -31,6 +31,10 @@ final class TabBarController: UITabBarController {
     fileprivate var featureFlags: FeatureFlaggeable
     fileprivate let tracker: Tracker
     
+    fileprivate var floatingViews: [UIView?] {
+        return [floatingSellButton, tooltip]
+    }
+    
     // Rx
     fileprivate let disposeBag = DisposeBag()
 
@@ -65,7 +69,6 @@ final class TabBarController: UITabBarController {
 
         setupAdminAccess()
         setupSellButton()
-        setupTooltip()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -76,6 +79,13 @@ final class TabBarController: UITabBarController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         viewModel.active = false
+    }
+    
+    override func viewDidLayoutSubviews() {
+        guard let _ = tooltip else {
+            setupTooltip()
+            return
+        }
     }
 
     
@@ -134,21 +144,19 @@ final class TabBarController: UITabBarController {
         let alpha: CGFloat = hidden ? 0 : 1
         if animated {
             if !hidden {
-                floatingSellButton.isHidden = false
-                tooltip?.isHidden = false
+                floatingViews.forEach { $0?.isHidden = false }
             }
             UIView.animate(withDuration: 0.35, animations: { [weak self] () -> Void in
                 self?.floatingSellButton.alpha = alpha
                 self?.tooltip?.alpha = alpha
+                
                 }, completion: { [weak self] (completed) -> Void in
                     if completed {
-                        self?.floatingSellButton.isHidden = hidden
-                        self?.tooltip?.isHidden = hidden
+                        self?.floatingViews.forEach { $0?.isHidden = hidden }
                     }
                 })
         } else {
-            floatingSellButton.isHidden = hidden
-            tooltip?.isHidden = hidden
+            floatingViews.forEach { $0?.isHidden = hidden }
         }
     }
 
@@ -161,17 +169,16 @@ final class TabBarController: UITabBarController {
         DispatchQueue.main.async {
             // Wait for the next RunLoop.
             // When closing a Modal the tabBar frame value is not yet updated and we need to wait for the next runloop
-            if (self.isTabBarHidden == hidden) { return }
-
             let frame = self.tabBar.frame
             let offsetY = (hidden ? frame.size.height : 0)
-            let duration: TimeInterval = (animated ? TimeInterval(UITabBarControllerHideShowBarDuration) : 0.0)
+            let isAnimated = animated && (self.isTabBarHidden != hidden)
+            let duration: TimeInterval = (isAnimated ? TimeInterval(UITabBarControllerHideShowBarDuration) : 0.0)
 
             let transform = CGAffineTransform.identity.translatedBy(x: 0, y: offsetY)
             UIView.animate(withDuration: duration,
                            delay: 0,
                            options: [.curveEaseIn], animations: { [weak self] in
-                            self?.floatingSellButton.transform = transform
+                            self?.floatingViews.forEach { $0?.transform = transform }
             }, completion: completion)
 
             super.setTabBarHidden(hidden, animated: animated)
@@ -204,6 +211,10 @@ final class TabBarController: UITabBarController {
     @available(iOS 11, *)
     override func viewSafeAreaInsetsDidChange() {
         super.viewSafeAreaInsetsDidChange()
+        updateFloatingButtonInset()
+    }
+
+    private func updateFloatingButtonInset() {
         let bottom: CGFloat = -(tabBar.frame.height + LGUIKitConstants.tabBarSellFloatingButtonDistance)
         guard bottom != floatingSellButtonMarginConstraint.constant else { return }
         floatingSellButtonMarginConstraint.constant = bottom
@@ -231,7 +242,10 @@ final class TabBarController: UITabBarController {
     
     private func setupTooltip() {
         guard viewModel.shouldShowRealEstateTooltip else { return }
-        tooltip = Tooltip(targetView: floatingSellButton, superView: view, title: viewModel.realEstateTooltipText(), style: .black(closeEnabled: true),
+        tooltip = Tooltip(targetView: floatingSellButton,
+                          superView: view,
+                          title: viewModel.realEstateTooltipText(),
+                          style: .black(closeEnabled: true),
                           peakOnTop: false, actionBlock: { [weak self] in
                             self?.viewModel.tooltipDismissed()
             }, closeBlock: { [weak self] in
@@ -248,7 +262,8 @@ final class TabBarController: UITabBarController {
         view.subviews.find(where: { $0.tag == TabBarController.categorySelectionTag })?.removeFromSuperview()
         let vm = ExpandableCategorySelectionViewModel(realEstateEnabled: featureFlags.realEstateEnabled.isActive,
                                                       trendingButtonEnabled: featureFlags.mostSearchedDemandedItems == .trendingButtonExpandableMenu,
-                                                      tagsEnabled: featureFlags.mostSearchedDemandedItems == .subsetAboveExpandableMenu)
+                                                      tagsEnabled: featureFlags.mostSearchedDemandedItems == .subsetAboveExpandableMenu,
+                                                      newBadgeEnabled: featureFlags.realEstateTutorial.isActive)
         vm.delegate = self
         
         let bottomDistance = view.bounds.height - floatingSellButton.frame.maxY

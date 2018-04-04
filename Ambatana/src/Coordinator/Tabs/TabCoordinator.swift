@@ -26,6 +26,8 @@ class TabCoordinator: NSObject, Coordinator {
     let rootViewController: UIViewController
     let navigationController: UINavigationController
 
+    var deckAnimator: DeckAnimator?
+
     let listingRepository: ListingRepository
     let userRepository: UserRepository
     let chatRepository: ChatRepository
@@ -39,6 +41,7 @@ class TabCoordinator: NSObject, Coordinator {
     weak var tabCoordinatorDelegate: TabCoordinatorDelegate?
     weak var appNavigator: AppNavigator?
 
+    fileprivate var interactiveTransitioner: UIPercentDrivenInteractiveTransition?
 
     // MARK: - Lifecycle
 
@@ -137,7 +140,7 @@ extension TabCoordinator: TabNavigator {
         case let .inactiveConversation(conversation):
             openInactiveConversation(conversation: conversation)
         case let .listingAPI(listing):
-            openListingChat(listing, source: source, isProfessional: false)
+            openListingChat(listing, source: source, interlocutor: nil)
         case let .dataIds(conversationId):
             openChatFromConversationId(conversationId, source: source, predefinedMessage: predefinedMessage)
         }
@@ -242,18 +245,29 @@ fileprivate extension TabCoordinator {
         }
 
         let requester = ListingListMultiRequester(requesters: requestersArray)
+        if featureFlags.newItemPage.isActive {
+            openListingNewItemPage(listing, thumbnailImage: thumbnailImage,
+                                   cellModels: nil, originFrame: nil,
+                                   requester: requester, source: source)
+        } else {
+            let vm = ListingCarouselViewModel(listing: listing, thumbnailImage: thumbnailImage,
+                                              listingListRequester: requester, source: source,
+                                              actionOnFirstAppear: actionOnFirstAppear, trackingIndex: index)
+            vm.navigator = self
+            openListing(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, listingId: listingId)
+        }
 
-        let vm = ListingCarouselViewModel(listing: listing, thumbnailImage: thumbnailImage,
-                                          listingListRequester: requester, source: source,
-                                          actionOnFirstAppear: actionOnFirstAppear, trackingIndex: index)
-        vm.navigator = self
-        openListing(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, listingId: listingId)
     }
 
     func openListing(_ listing: Listing, cellModels: [ListingCellModel], requester: ListingListRequester,
                      thumbnailImage: UIImage?, originFrame: CGRect?, showRelated: Bool,
                      source: EventParameterListingVisitSource, index: Int) {
-        if showRelated {
+        if featureFlags.newItemPage.isActive {
+            // TODO: ABIOS-3100 check all the other parameters
+            openListingNewItemPage(listing, thumbnailImage: thumbnailImage, cellModels: cellModels,
+                           originFrame: originFrame,
+                           requester: requester, source: source)
+        } else if showRelated {
             //Same as single product opening
             openListing(listing: listing, thumbnailImage: thumbnailImage, originFrame: originFrame,
                         source: source, requester: requester, index: index, discover: false,
@@ -275,10 +289,17 @@ fileprivate extension TabCoordinator {
                                                            itemsPerPage: Constants.numListingsPerPageDefault)
         let filteredRequester = FilteredListingListRequester( itemsPerPage: Constants.numListingsPerPageDefault, offset: 0)
         let requester = ListingListMultiRequester(requesters: [relatedRequester, filteredRequester])
-        let vm = ListingCarouselViewModel(listing: .product(localProduct), listingListRequester: requester,
-                                          source: source, actionOnFirstAppear: .nonexistent, trackingIndex: nil)
-        vm.navigator = self
-        openListing(vm, thumbnailImage: nil, originFrame: nil, listingId: listingId)
+
+        if featureFlags.newItemPage.isActive {
+            openListingNewItemPage(listing: .product(localProduct),
+                                   listingListRequester: requester,
+                                   source: source)
+        } else {
+            let vm = ListingCarouselViewModel(listing: .product(localProduct), listingListRequester: requester,
+                                              source: source, actionOnFirstAppear: .nonexistent, trackingIndex: nil)
+            vm.navigator = self
+            openListing(vm, thumbnailImage: nil, originFrame: nil, listingId: listingId)
+        }
     }
 
     func openListing(_ viewModel: ListingCarouselViewModel, thumbnailImage: UIImage?, originFrame: CGRect?,
@@ -288,6 +309,25 @@ fileprivate extension TabCoordinator {
                                                    backgroundColor: color)
         let vc = ListingCarouselViewController(viewModel: viewModel, pushAnimator: animator)
         navigationController.pushViewController(vc, animated: true)
+    }
+
+    func openListingNewItemPage(listing: Listing,
+                                listingListRequester: ListingListRequester,
+                                source: EventParameterListingVisitSource) {
+        openListingNewItemPage(listing, thumbnailImage: nil, cellModels: nil, originFrame: nil,
+                               requester: listingListRequester, source: source)
+    }
+
+    func openListingNewItemPage(_ listing: Listing, thumbnailImage: UIImage?, cellModels: [ListingCellModel]?,
+                     originFrame: CGRect?, requester: ListingListRequester, source: EventParameterListingVisitSource) {
+        let coordinator = DeckCoordinator(navigationController: navigationController,
+                                        listing: listing,
+                                          cellModels: cellModels,
+                                          listingListRequester: requester,
+                                          source: source, listingNavigator: self)
+
+        coordinator.showDeckViewController()
+        deckAnimator = coordinator
     }
 
     func openUser(userId: String, source: UserSource) {
@@ -317,18 +357,32 @@ fileprivate extension TabCoordinator {
         // If it's me do not then open the user profile
         guard myUserRepository.myUser?.objectId != user.objectId else { return }
 
-        let vm = UserViewModel(user: user, source: source)
-        vm.navigator = self
-        let vc = UserViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
-        navigationController.pushViewController(vc, animated: true)
+        if featureFlags.newUserProfileView.isActive {
+            let vm = UserProfileViewModel.makePublicProfile(user: user, source: source)
+            vm.navigator = self
+            let vc = UserProfileViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
+            navigationController.pushViewController(vc, animated: true)
+        } else {
+            let vm = UserViewModel(user: user, source: source)
+            vm.navigator = self
+            let vc = UserViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
+            navigationController.pushViewController(vc, animated: true)
+        }
     }
 
 
     func openUser(_ interlocutor: ChatInterlocutor) {
-        let vm = UserViewModel(chatInterlocutor: interlocutor, source: .chat)
-        vm.navigator = self
-        let vc = UserViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
-        navigationController.pushViewController(vc, animated: true)
+        if featureFlags.newUserProfileView.isActive {
+            let vm = UserProfileViewModel.makePublicProfile(chatInterlocutor: interlocutor, source: .chat)
+            vm.navigator = self
+            let vc = UserProfileViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
+            navigationController.pushViewController(vc, animated: true)
+        } else {
+            let vm = UserViewModel(chatInterlocutor: interlocutor, source: .chat)
+            vm.navigator = self
+            let vc = UserViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
+            navigationController.pushViewController(vc, animated: true)
+        }
     }
 
     func openConversation(_ conversation: ChatConversation, source: EventParameterTypePage, predefinedMessage: String?) {
@@ -354,12 +408,12 @@ fileprivate extension TabCoordinator {
     func openChatFrom(listing: Listing,
                       source: EventParameterTypePage,
                       openChatAutomaticMessage: ChatWrapperMessageType?,
-                      isProfessional: Bool) {
+                      interlocutor: User?) {
         guard let chatVM = ChatViewModel(listing: listing,
                                          navigator: self,
                                          source: source,
                                          openChatAutomaticMessage: openChatAutomaticMessage,
-                                         isProfessional: isProfessional) else { return }
+                                         interlocutor: interlocutor) else { return }
         let chatVC = ChatViewController(viewModel: chatVM, hidesBottomBar: source == .listingListFeatured)
         navigationController.pushViewController(chatVC, animated: true)
     }
@@ -414,6 +468,7 @@ fileprivate extension TabCoordinator {
 
 extension TabCoordinator: ListingDetailNavigator {
     func closeProductDetail() {
+        navigationController.tabBarController?.setTabBarHidden(false, animated: true)
         navigationController.popViewController(animated: true)
     }
 
@@ -423,11 +478,15 @@ extension TabCoordinator: ListingDetailNavigator {
                                                bumpUpProductData: bumpUpProductData,
                                                pageType: nil)
         navigator.delegate = self
-        openChild(coordinator: navigator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
+        openChild(coordinator: navigator,
+                  parent: rootViewController,
+                  animated: true,
+                  forceCloseChild: true,
+                  completion: nil)
     }
 
-    func openListingChat(_ listing: Listing, source: EventParameterTypePage, isProfessional: Bool) {
-        openChatFrom(listing: listing, source: source, openChatAutomaticMessage: nil, isProfessional: isProfessional)
+    func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?) {
+        openChatFrom(listing: listing, source: source, openChatAutomaticMessage: nil, interlocutor: interlocutor)
     }
 
     func closeListingAfterDelete(_ listing: Listing) {
@@ -449,7 +508,11 @@ extension TabCoordinator: ListingDetailNavigator {
         let bumpCoordinator = BumpUpCoordinator(listing: listing,
                                                 bumpUpProductData: bumpUpProductData,
                                                 typePage: typePage)
-        openChild(coordinator: bumpCoordinator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
+        openChild(coordinator: bumpCoordinator,
+                  parent: rootViewController,
+                  animated: true,
+                  forceCloseChild: true,
+                  completion: nil)
     }
 
     func openPayBumpUp(forListing listing: Listing,
@@ -458,7 +521,11 @@ extension TabCoordinator: ListingDetailNavigator {
         let bumpCoordinator = BumpUpCoordinator(listing: listing,
                                                 bumpUpProductData: bumpUpProductData,
                                                 typePage: typePage)
-        openChild(coordinator: bumpCoordinator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
+        openChild(coordinator: bumpCoordinator,
+                  parent: rootViewController,
+                  animated: true,
+                  forceCloseChild: true,
+                  completion: nil)
     }
 
     func openBumpUpBoost(forListing listing: Listing,
@@ -492,9 +559,13 @@ extension TabCoordinator: ListingDetailNavigator {
         showBubble(with: data, duration: Constants.bubbleFavoriteDuration)
     }
 
-    func openLoginIfNeededFromProductDetail(from: EventParameterLoginSourceValue, infoMessage: String,
+    func openLoginIfNeededFromProductDetail(from: EventParameterLoginSourceValue,
+                                            infoMessage: String,
                                             loggedInAction: @escaping (() -> Void)) {
-        openLoginIfNeeded(from: from, style: .popup(infoMessage), loggedInAction: loggedInAction, cancelAction: nil)
+        openLoginIfNeeded(from: from,
+                          style: .popup(infoMessage),
+                          loggedInAction: loggedInAction,
+                          cancelAction: nil)
     }
 
     func showBumpUpNotAvailableAlertWithTitle(title: String,
@@ -530,14 +601,15 @@ extension TabCoordinator: ListingDetailNavigator {
         rootViewController.dismiss(animated: true, completion: nil)
     }
 
-    func openAskPhoneFor(listing: Listing) {
-        let askNumVM = ProfessionalDealerAskPhoneViewModel(listing: listing)
+    func openAskPhoneFor(listing: Listing, interlocutor: User?) {
+        let askNumVM = ProfessionalDealerAskPhoneViewModel(listing: listing, interlocutor: interlocutor)
         askNumVM.navigator = self
         let askNumVC = ProfessionalDealerAskPhoneViewController(viewModel: askNumVM)
         rootViewController.present(askNumVC, animated: true, completion: nil)
     }
 
-    func closeAskPhoneFor(listing: Listing, openChat: Bool, withPhoneNum: String?, source: EventParameterTypePage) {
+    func closeAskPhoneFor(listing: Listing, openChat: Bool, withPhoneNum: String?, source: EventParameterTypePage,
+                          interlocutor: User?) {
         var completion: (()->())? = nil
         if openChat {
             completion = { [weak self] in
@@ -548,10 +620,26 @@ extension TabCoordinator: ListingDetailNavigator {
                 self?.openChatFrom(listing: listing,
                                    source: source,
                                    openChatAutomaticMessage: openChatAutomaticMessage,
-                                   isProfessional: true)
+                                   interlocutor: interlocutor)
             }
         }
         rootViewController.dismiss(animated: true, completion: completion)
+    }
+
+    func openUserReport(source: EventParameterTypePage, userReportedId: String) {
+        let vm = ReportUsersViewModel(origin: source, userReportedId: userReportedId)
+        let vc = ReportUsersViewController(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
+    func openRealEstateOnboarding(pages: [LGTutorialPage],
+                                  origin: EventParameterTypePage,
+                                  tutorialType: EventParameterTutorialType) {
+        guard pages.count > 0 else { return }
+        let viewModel = LGTutorialViewModel(pages: pages, origin: origin, tutorialType: tutorialType)
+        let viewController = LGTutorialViewController(viewModel: viewModel)
+        viewController.modalPresentationStyle = .overFullScreen
+        navigationController.present(viewController, animated: true, completion: nil)
     }
 }
 
@@ -606,6 +694,8 @@ extension TabCoordinator: UINavigationControllerDelegate {
         } else if let animator = (fromVC as? AnimatableTransition)?.animator, operation == .pop {
             animator.pushing = false
             return animator
+        } else if let transitioner = deckAnimator?.animatedTransitionings(for: operation, from: fromVC, to: toVC) {
+            return transitioner
         } else {
             return nil
         }
@@ -620,9 +710,30 @@ extension TabCoordinator: UINavigationControllerDelegate {
 
     func navigationController(_ navigationController: UINavigationController,
                               didShow viewController: UIViewController, animated: Bool) {
+        if let main = viewController as? MainListingsViewController {
+            main.tabBarController?.setTabBarHidden(false, animated: true)
+        } else if let photoViewer = viewController as? PhotoViewerViewController {
+            let leftGesture = UIScreenEdgePanGestureRecognizer(target: self,
+                                                               action: #selector(handlePhotoViewerEdgeGesture))
+            leftGesture.edges = .left
+            photoViewer.addEdgeGesture([leftGesture])
+        }
         tabCoordinatorDelegate?.tabCoordinator(self,
                                                setSellButtonHidden: shouldHideSellButtonAtViewController(viewController),
                                                animated: true)
+    }
+
+    @objc func handlePhotoViewerEdgeGesture(gesture: UIScreenEdgePanGestureRecognizer) {
+        deckAnimator?.handlePhotoViewerEdgeGesture(gesture)
+    }
+
+    func navigationController(_ navigationController: UINavigationController,
+                              interactionControllerFor animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        if let animator = animationController as? PhotoViewerTransitionAnimator,
+            animator.isInteractive {
+            return deckAnimator?.interactiveTransitioner
+        }
+        return nil
     }
 }
 
@@ -701,3 +812,4 @@ extension TabCoordinator {
         tracker.trackEvent(relatedListings)
     }
 }
+

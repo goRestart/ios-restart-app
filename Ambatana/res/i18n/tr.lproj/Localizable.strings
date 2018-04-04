@@ -247,7 +247,7 @@
 "common_error_retry_button" = "Tekrar dene";
 "common_error_title" = "OOPS!";
 "common_expand" = "Daha fazla göster";
-"common_hours_mins_secs" = "%@h %@m %@s";
+"common_hours_mins_secs" = "%@sa. %@dk. %@sn.";
 "common_loading" = "Yükleniyor...";
 "common_max" = "max";
 "common_new" = "YENİ!";

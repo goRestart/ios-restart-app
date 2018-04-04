@@ -21,6 +21,8 @@ enum ABGroupType {
     case money
     case retention
     case chat
+    case products
+    case users
 }
 
 protocol ABDynamicVar {

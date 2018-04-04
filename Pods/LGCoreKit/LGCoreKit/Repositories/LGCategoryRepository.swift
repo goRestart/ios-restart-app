@@ -23,8 +23,11 @@ final class LGCategoryRepository: CategoryRepository {
         self.locationManager = locationManager
     }
 
-    func index(carsIncluded: Bool, realEstateIncluded: Bool, highlightRealEstate: Bool, completion: CategoriesCompletion?) {
-        completion?(CategoriesResult(value: ListingCategory.visibleValues(carsIncluded: carsIncluded, realEstateIncluded: realEstateIncluded, highlightRealEstate: highlightRealEstate)))
+    func index(servicesIncluded: Bool,
+               carsIncluded: Bool,
+               realEstateIncluded: Bool,
+               completion: CategoriesCompletion?) {
+        completion?(CategoriesResult(value: ListingCategory.visibleValues(servicesIncluded: servicesIncluded, carsIncluded: carsIncluded, realEstateIncluded: realEstateIncluded)))
     }
 
     func indexTaxonomies() -> [Taxonomy] {

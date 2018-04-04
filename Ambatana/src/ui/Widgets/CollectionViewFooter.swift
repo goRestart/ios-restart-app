@@ -14,73 +14,23 @@ enum CollectionViewFooterStatus {
 
 class CollectionViewFooter: UICollectionReusableView, ReusableCell {
 
-    // iVars
-    // > UI
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView! {
-        didSet {
-            let animating: Bool
-            switch status {
-            case .loading:
-                animating = true
-            case .error:
-                animating = false
-            case .lastPage:
-                animating = false
-            }
-            if animating {
-                activityIndicator.startAnimating()
-            }
-            else {
-                activityIndicator.stopAnimating()
-            }
-        }
-    }
-    @IBOutlet weak var retryButton: UIButton! {
-        didSet {
-            let hidden: Bool
-            switch status {
-            case .loading:
-                hidden = true
-            case .error:
-                hidden = false
-            case .lastPage:
-                hidden = true
-            }
-            retryButton.isHidden = hidden
-            retryButton.setTitle(LGLocalizedString.commonErrorListRetryButton, for: .normal)
-        }
-    }
+    let activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        return activityIndicator
+    }()
 
-    // > Data
+    let retryButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setTitleColor(UIColor.buttonColor, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+        return button
+    }()
+
     var retryButtonBlock: (() -> Void)?
     var status: CollectionViewFooterStatus {
         didSet {
-            let activityIndicatorAnimating: Bool
-            let retryButtonHidden: Bool
-            
-            switch status {
-            case .loading:
-                activityIndicatorAnimating = true
-                retryButtonHidden = true
-            case .error:
-                activityIndicatorAnimating = false
-                retryButtonHidden = false
-            case .lastPage:
-                activityIndicatorAnimating = false
-                retryButtonHidden = true
-            }
-            
-            if let activityIndicator = activityIndicator {
-                if activityIndicatorAnimating {
-                    activityIndicator.startAnimating()
-                }
-                else {
-                    activityIndicator.stopAnimating()
-                }
-            }
-            if let retryButton = retryButton {
-                retryButton.isHidden = retryButtonHidden
-            }
+            updateActivityIndicatorWithState()
+            updateButtonWithState()
         }
     }
     
@@ -89,15 +39,44 @@ class CollectionViewFooter: UICollectionReusableView, ReusableCell {
     override init(frame: CGRect) {
         self.status = .lastPage
         super.init(frame: frame)
+        setupUI()
+    }
+
+    private func setupUI() {
+        backgroundColor = .clear
+
+        addSubviewsForAutoLayout([activityIndicator, retryButton])
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor),
+            retryButton.leadingAnchor.constraint(equalTo: leadingAnchor),
+            retryButton.topAnchor.constraint(equalTo: topAnchor),
+            retryButton.trailingAnchor.constraint(equalTo: trailingAnchor),
+            retryButton.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        self.status = .lastPage
-        super.init(coder: aDecoder)
-    }
-    // MARK: - Internal methods
-    
+    required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+
     @IBAction func retryButtonPressed(_ sender: UIButton) {
         retryButtonBlock?()
     }
+
+    private func updateActivityIndicatorWithState() {
+        switch status {
+        case .loading:
+            activityIndicator.startAnimating()
+        case .error, .lastPage:
+            activityIndicator.stopAnimating()
+        }
+    }
+
+    private func updateButtonWithState() {
+        retryButton.isHidden = (status == .loading || status == .lastPage)
+        retryButton.setTitle(LGLocalizedString.commonErrorListRetryButton, for: .normal)
+    }
+}
+
+private extension UIColor {
+    static let buttonColor = UIColor(red: 74, green: 74, blue: 74)
 }

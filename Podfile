@@ -34,9 +34,9 @@ def shared_pods
     pod "NewRelicAgent",        "6.1.1"     # Obj-c
 
     # letgo Core
-        pod "LGCoreKit",             "4.11.0"
+    pod "LGCoreKit",             "4.14.0"
 #   pod "LGCoreKit",            :path => "../lgcorekit"
-#    pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => '1703f40b52b2e5ddb49d767e0887102ec2b67248'
+#   pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => '5ab5b41f39f78a3d17cd0f1dd5d2da65f911e876'
 
     # letgo Collapsible label
     pod "LGCollapsibleLabel",   "1.2.0"     # :path => "../collapsiblelabel"
@@ -58,7 +58,9 @@ def shared_pods
     pod "GoogleIDFASupport",    "3.14.0"    # Obj-c
 
     # Custom camera
-    pod "CameraManager",        "4.0.1"
+#    pod "CameraManager",        "4.0.1"
+#    pod "CameraManager",            :path => "../CameraManager"
+    pod "CameraManager",            :git => 'git@github.com:letgoapp/CameraManager.git', :commit => '7b32b50f8bdb1f94f1f1d0fdb6c99a9d21a7ee84'
 
     # Ken Burns effect
     pod "JBKenBurnsView",        :git => 'https://github.com/letgoapp/JBKenBurns', :commit => '56419f79cb763f8d2ee3a75e4eca51ebc1deab6a' # Obj-c
@@ -78,6 +80,9 @@ def shared_pods
     pod "KeychainSwift",        "10.0.0"
     
     pod 'lottie-ios',           "2.5.0" # Obj-c
+    
+    # MoPub Ads
+    pod "mopub-ios-sdk",        "4.20.0" # Obj-c
 
 end
 

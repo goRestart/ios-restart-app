@@ -52,7 +52,7 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setNavBarBackgroundStyle(.default)
-        UIApplication.shared.setStatusBarStyle(.default, animated: true)
+        setNeedsStatusBarAppearanceUpdate()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -74,6 +74,14 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
    
     @IBAction func sendChangePasswordButtonPressed(_ sender: AnyObject) {
         viewModel.changePassword()
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .default
+    }
+    
+    override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
+        return .fade
     }
     
     // MARK: - TextFieldDelegate

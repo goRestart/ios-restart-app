@@ -34,10 +34,16 @@ class BumpUpFreeViewModel: BaseViewModel {
                      paymentItemId: String?,
                      storeProductId: String?,
                      typePage: EventParameterTypePage?) {
-        self.init(listing: listing, socialSharer: SocialSharer(), socialMessage: socialMessage,
-                  paymentItemId: paymentItemId, storeProductId: storeProductId, typePage: typePage,
-                  locale: NSLocale.current, locationManager: Core.locationManager,
-                  tracker: TrackerProxy.sharedInstance, purchasesShopper: LGPurchasesShopper.sharedInstance)
+        self.init(listing: listing,
+                  socialSharer: SocialSharer(),
+                  socialMessage: socialMessage,
+                  paymentItemId: paymentItemId,
+                  storeProductId: storeProductId, 
+                  typePage: typePage,
+                  locationManager: Core.locationManager,
+                  tracker: TrackerProxy.sharedInstance,
+                  purchasesShopper: LGPurchasesShopper.sharedInstance,
+                  featureFlags: FeatureFlags.sharedInstance)
     }
 
     init(listing: Listing,
@@ -46,17 +52,16 @@ class BumpUpFreeViewModel: BaseViewModel {
          paymentItemId: String?,
          storeProductId: String?,
          typePage: EventParameterTypePage?,
-         locale: Locale,
          locationManager: LocationManager,
          tracker: Tracker,
-         purchasesShopper: PurchasesShopper?) {
+         purchasesShopper: PurchasesShopper?,
+         featureFlags: FeatureFlaggeable) {
         self.listing = listing
         self.socialSharer = socialSharer
         self.tracker = tracker
         self.socialMessage = socialMessage
         self.purchasesShopper = purchasesShopper
-        let countryCode = Core.locationManager.currentLocation?.countryCode ?? locale.lg_countryCode
-        self.shareTypes = ShareType.shareTypesForCountry(countryCode, maxButtons: 4, nativeShare: .restricted)
+        self.shareTypes = BumpUpFreeViewModel.computeShareTypes(featureFlags: featureFlags)
         self.paymentItemId = paymentItemId
         self.storeProductId = storeProductId
         self.typePage = typePage
@@ -85,6 +90,19 @@ class BumpUpFreeViewModel: BaseViewModel {
 
     func close(withCompletion completion: (() -> Void)?) {
         navigator?.bumpUpDidFinish(completion: completion)
+    }
+    
+    
+    // MARK: - Private methods
+    
+    private static func computeShareTypes(featureFlags: FeatureFlaggeable) -> [ShareType] {
+        var shareTypes = featureFlags.shareTypes.filter { SocialSharer.canShareIn($0) }
+        let maxButtonCount = 3
+        if shareTypes.count > maxButtonCount {
+            shareTypes = Array(shareTypes[0..<maxButtonCount])
+        }
+        shareTypes.append(.native(restricted: true))
+        return shareTypes
     }
 }
 

@@ -9,12 +9,16 @@
 import UIKit
 
 class ListHeaderContainer: UICollectionReusableView, ReusableCell {
-    @IBOutlet weak var containerView: UIView!
 
     var totalHeight: CGFloat = 0
 
+    enum HeaderStyle {
+        case fullWidth
+        case bubble
+    }
+
     func getHeader(_ tag: Int) -> UIView? {
-        for view in containerView.subviews {
+        for view in subviews {
             if view.tag == tag {
                 return view
             }
@@ -22,18 +26,38 @@ class ListHeaderContainer: UICollectionReusableView, ReusableCell {
         return nil
     }
 
-    func addHeader(_ view: UIView, height: CGFloat) {
+    convenience init() {
+        self.init(frame: .zero)
+    }
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupUI()
+    }
+
+    required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+
+    private func setupUI() {
+        backgroundColor = .clear
+    }
+
+    func addHeader(_ view: UIView, height: CGFloat, style: HeaderStyle = .fullWidth) {
         guard getHeader(view.tag) == nil else { return }
-        view.translatesAutoresizingMaskIntoConstraints = false
-        containerView.addSubview(view)
-        
-        view.layout(with: containerView).fillHorizontal().top(by: totalHeight)
+        addSubviewForAutoLayout(view)
+
+        switch style {
+        case .fullWidth:
+            view.layout(with: self).fillHorizontal().top(by: totalHeight)
+        case .bubble:
+            view.layout(with: self).fillHorizontal(by: 10).top(by: totalHeight)
+            view.layer.cornerRadius = 10
+        }
         view.layout().height(height)
         totalHeight += height
     }
 
     func clear() {
-        containerView.subviews.forEach { $0.removeFromSuperview() }
+        subviews.forEach { $0.removeFromSuperview() }
         totalHeight = 0
     }
 }

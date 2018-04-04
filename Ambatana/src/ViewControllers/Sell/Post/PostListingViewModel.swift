@@ -56,6 +56,10 @@ class PostListingViewModel: BaseViewModel {
         guard let category = postCategory, category == .realEstate else { return false }
         return true
     }
+    
+    var realEstateTutorialPages: [LGTutorialPage]? {
+        return LGTutorialPage.makeRealEstateTutorial(typeOfOnboarding: featureFlags.realEstateTutorial)
+    }
 
     let state: Variable<PostListingState>
     let category: Variable<PostCategory?>
@@ -74,6 +78,7 @@ class PostListingViewModel: BaseViewModel {
     fileprivate let sessionManager: SessionManager
     fileprivate let featureFlags: FeatureFlaggeable
     fileprivate let locationManager: LocationManager
+    fileprivate let keyValueStorage: KeyValueStorageable
     
     fileprivate var imagesSelected: [UIImage]?
     fileprivate var uploadedImageSource: EventParameterPictureSource?
@@ -84,6 +89,15 @@ class PostListingViewModel: BaseViewModel {
     
     var realEstateEnabled: Bool {
         return featureFlags.realEstateEnabled.isActive
+    }
+    
+    var maxNumberImages: Int {
+        return Constants.maxImageCount
+    }
+    
+    var shouldShowInfoButton: Bool {
+        guard let category = postCategory?.listingCategory else { return false }
+        return category.isRealEstate && featureFlags.realEstateTutorial.shouldShowInfoButton
     }
     
     fileprivate let disposeBag: DisposeBag
@@ -106,7 +120,8 @@ class PostListingViewModel: BaseViewModel {
                   sessionManager: Core.sessionManager,
                   featureFlags: FeatureFlags.sharedInstance,
                   locationManager: Core.locationManager,
-                  currencyHelper: Core.currencyHelper)
+                  currencyHelper: Core.currencyHelper,
+                  keyValueStorage: KeyValueStorage.sharedInstance)
     }
 
     init(source: PostingSource,
@@ -120,7 +135,8 @@ class PostListingViewModel: BaseViewModel {
          sessionManager: SessionManager,
          featureFlags: FeatureFlaggeable,
          locationManager: LocationManager,
-         currencyHelper: CurrencyHelper) {
+         currencyHelper: CurrencyHelper,
+         keyValueStorage: KeyValueStorageable) {
         self.state = Variable<PostListingState>(PostListingState(postCategory: postCategory, title: listingTitle))
         self.category = Variable<PostCategory?>(postCategory)
         
@@ -139,6 +155,7 @@ class PostListingViewModel: BaseViewModel {
         self.featureFlags = featureFlags
         self.locationManager = locationManager
         self.currencyHelper = currencyHelper
+        self.keyValueStorage = keyValueStorage
         self.disposeBag = DisposeBag()
         super.init()
         self.postDetailViewModel.delegate = self
@@ -163,6 +180,14 @@ class PostListingViewModel: BaseViewModel {
         guard let images = imagesSelected, let source = uploadedImageSource else { return }
         imagesSelected(images, source: source)
     }
+    
+    func infoButtonPressed() {
+        openOnboardingRealEstate(origin: .postingIconInfo)
+    }
+    
+    func learnMorePressed() {
+        openOnboardingRealEstate(origin: .postingLearnMore)
+    }
 
     func imagesSelected(_ images: [UIImage], source: EventParameterPictureSource) {
         if isBlockingPosting {
@@ -170,6 +195,11 @@ class PostListingViewModel: BaseViewModel {
         } else {
             uploadImages(images, source: source)
         }
+    }
+    
+    private func openOnboardingRealEstate(origin: EventParameterTypePage) {
+        guard let pages = LGTutorialPage.makeRealEstateTutorial(typeOfOnboarding: featureFlags.realEstateTutorial) else { return }
+        navigator?.openRealEstateOnboarding(pages: pages, origin: origin, tutorialType: .realEstate)
     }
     
     fileprivate func uploadImages(_ images: [UIImage], source: EventParameterPictureSource) {
@@ -202,6 +232,13 @@ class PostListingViewModel: BaseViewModel {
                                              postingSource: postingSource)
     }
     
+    func showRealEstateTutorial(origin: EventParameterTypePage) {
+        guard postCategory == .realEstate && !keyValueStorage[.realEstateTutorialShown] else { return }
+        guard let pages = realEstateTutorialPages else { return }
+        keyValueStorage[.realEstateTutorialShown] = true
+        navigator?.openRealEstateOnboarding(pages: pages, origin: origin, tutorialType: .realEstate)
+    }
+    
     func closeButtonPressed() {
         if state.value.pendingToUploadImages != nil {
             openPostAbandonAlertNotLoggedIn()
@@ -217,7 +254,8 @@ class PostListingViewModel: BaseViewModel {
                                                            imageSource: uploadedImageSource,
                                                            price: postDetailViewModel.price.value,
                                                            typePage: postingSource.typePage,
-                                                           mostSearchedButton: postingSource.mostSearchedButton)
+                                                           mostSearchedButton: postingSource.mostSearchedButton,
+                                                           machineLearningInfo: MachineLearningTrackingInfo.defaultValues())
                 navigator?.closePostProductAndPostInBackground(params: listingParams,
                                                                trackingInfo: trackingInfo)
             } else {
@@ -386,7 +424,8 @@ fileprivate extension PostListingViewModel {
                                                    imageSource: uploadedImageSource,
                                                    price: postDetailViewModel.price.value,
                                                    typePage: postingSource.typePage,
-                                                   mostSearchedButton: postingSource.mostSearchedButton)
+                                                   mostSearchedButton: postingSource.mostSearchedButton,
+                                                   machineLearningInfo: MachineLearningTrackingInfo.defaultValues())
         if sessionManager.loggedIn {
             guard let images = state.value.lastImagesUploadResult?.value,
                 let listingCreationParams = makeListingParams() else { return }
@@ -441,6 +480,13 @@ fileprivate extension PostListingViewModel {
 }
 
 
+fileprivate extension RealEstateTutorial {
+    var shouldShowInfoButton: Bool {
+        return self == .oneScreen || self == .twoScreens || self == .threeScreens
+    }
+}
+
+
 // MARK: - Tracking
 
 fileprivate extension PostListingViewModel {
@@ -449,7 +495,8 @@ fileprivate extension PostListingViewModel {
                                                   buttonName: postingSource.buttonName,
                                                   sellButtonPosition: postingSource.sellButtonPosition,
                                                   category: postCategory?.listingCategory,
-                                                  mostSearchedButton: postingSource.mostSearchedButton)
+                                                  mostSearchedButton: postingSource.mostSearchedButton,
+                                                  predictiveFlow: false)
         tracker.trackEvent(event)
     }
     

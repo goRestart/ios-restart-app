@@ -18,6 +18,7 @@ class MockPurchasesShopper: PurchasesShopper {
     var restoreRetriesCount: Int = 0
 
     var currentBumpTypePage: EventParameterTypePage?
+    var currentBumpIsBoost: Bool = false
 
     func startObservingTransactions() {
 
@@ -57,8 +58,8 @@ class MockPurchasesShopper: PurchasesShopper {
                         appstoreProduct: PurchaseableProduct,
                         paymentItemId: String,
                         isBoost: Bool) {
-        delegate?.pricedBumpDidStart(typePage: currentBumpTypePage)
-
+        delegate?.restoreBumpDidStart()
+        
         performAfterDelayWithCompletion { [weak self] in
             guard let strongSelf = self else { return }
             if !strongSelf.paymentSucceeds {
@@ -86,15 +87,19 @@ class MockPurchasesShopper: PurchasesShopper {
     }
 
     func restorePaidBumpUp(forListingId listingId: String) {
-        delegate?.pricedBumpDidStart(typePage: currentBumpTypePage)
+        delegate?.pricedBumpDidStart(typePage: currentBumpTypePage, isBoost: currentBumpIsBoost)
         if pricedBumpSucceeds {
             // payment works and bump works
             delegate?.pricedBumpDidSucceed(type: .restore, restoreRetriesCount: restoreRetriesCount,
                                            transactionStatus: .purchasingPurchased,
-                                           typePage: currentBumpTypePage)
+                                           typePage: currentBumpTypePage,
+                                           isBoost: currentBumpIsBoost)
         } else {
             // payment works but bump fails
-            delegate?.pricedBumpDidFail(type: .restore, transactionStatus: .purchasingPurchased, typePage: currentBumpTypePage)
+            delegate?.pricedBumpDidFail(type: .restore,
+                                        transactionStatus: .purchasingPurchased,
+                                        typePage: currentBumpTypePage,
+                                        isBoost: currentBumpIsBoost)
         }
     }
 

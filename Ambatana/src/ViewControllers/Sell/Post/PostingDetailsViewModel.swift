@@ -213,7 +213,9 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         }
         switch step {
         case .price:
+        if priceListing.value != Constants.defaultPrice || previousStepIsSummary {
             set(price: priceListing.value)
+        }
         case .location:
             update(place: placeSelected.value)
         case .sizeSquareMeters:
@@ -242,7 +244,8 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
                                                            imageSource: uploadedImageSource,
                                                            price: String.fromPriceDouble(postListingState.price?.value ?? 0),
                                                            typePage: postingSource.typePage,
-                                                           mostSearchedButton: postingSource.mostSearchedButton)
+                                                           mostSearchedButton: postingSource.mostSearchedButton,
+                                                           machineLearningInfo: MachineLearningTrackingInfo.defaultValues())
                 navigator?.closePostProductAndPostInBackground(params: listingParams,
                                                                trackingInfo: trackingInfo)
             } else {
@@ -269,7 +272,8 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
                                                    imageSource: uploadedImageSource,
                                                    price: String.fromPriceDouble(postListingState.price?.value ?? 0),
                                                    typePage: postingSource.typePage,
-                                                   mostSearchedButton: postingSource.mostSearchedButton)
+                                                   mostSearchedButton: postingSource.mostSearchedButton,
+                                                   machineLearningInfo: MachineLearningTrackingInfo.defaultValues())
         if sessionManager.loggedIn {
             openListingPosting(trackingInfo: trackingInfo)
         } else if let images = postListingState.pendingToUploadImages {

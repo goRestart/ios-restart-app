@@ -87,7 +87,9 @@ struct Constants {
     static let surveyDefaultTestUrl = "https://letgo1.typeform.com/to/e9Ndb4"
 
     // Listing posting
-    static let maxImageCount = 5
+    static var maxImageCount: Int {
+        return FeatureFlags.sharedInstance.increaseNumberOfPictures.isActive ? 10 : 5
+    }
     static let maxPriceIntegerCharacters = 9
     static let maxPriceFractionalCharacters = 2
     static let currencyDefault = "US"

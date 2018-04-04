@@ -1533,4 +1533,5 @@ extension ListingCarouselViewModelSpec: ListingCarouselViewModelDelegate {
         return (UIViewController(), nil)
     }
     func vmResetBumpUpBannerCountdown() {}
+    func vmBoostDidSuccess() {}
 }

@@ -152,7 +152,10 @@ class PurchasesShopperSpec: QuickSpec {
                         initialPendingPayments = sut.numPendingTransactions
                         let myAppstoreProduct = MyAppstoreProduct(myProductIdentifier: "my_appstore_product_id")
                         sut.letgoProductsDict["listing_id"] = [myAppstoreProduct]
-                        sut.requestPayment(forListingId: "listing_id", appstoreProduct: myAppstoreProduct, paymentItemId: "payment_id")
+                        sut.requestPayment(forListingId: "listing_id",
+                                           appstoreProduct: myAppstoreProduct,
+                                           paymentItemId: "payment_id",
+                                           isBoost: false)
                     }
                     it ("doesn't add a new payment to the queue") {
                         expect(sut.numPendingTransactions) == initialPendingPayments
@@ -163,7 +166,10 @@ class PurchasesShopperSpec: QuickSpec {
                         initialPendingPayments = sut.numPendingTransactions
                         let myAppstoreProduct = MyAppstoreProduct(myProductIdentifier: "my_appstore_product_id")
                         sut.letgoProductsDict["listing_id"] = [myAppstoreProduct]
-                        sut.requestPayment(forListingId: "listing_id", appstoreProduct: myAppstoreProduct, paymentItemId: "payment_id")
+                        sut.requestPayment(forListingId: "listing_id",
+                                           appstoreProduct: myAppstoreProduct,
+                                           paymentItemId: "payment_id",
+                                           isBoost: false)
                     }
                     it ("adds a new payment to the queue") {
                         expect(sut.numPendingTransactions) == initialPendingPayments + 1
@@ -175,7 +181,10 @@ class PurchasesShopperSpec: QuickSpec {
                         let myAppstoreProduct = MyAppstoreProduct(myProductIdentifier: "my_appstore_product_id")
                         sut.letgoProductsDict["listing_id"] = [myAppstoreProduct]
                         let unavailableAppstoreProduct = MyAppstoreProduct(myProductIdentifier: "unavailable_appstore_product_id")
-                        sut.requestPayment(forListingId: "listing_id", appstoreProduct: unavailableAppstoreProduct, paymentItemId: "payment_id")
+                        sut.requestPayment(forListingId: "listing_id",
+                                           appstoreProduct: unavailableAppstoreProduct,
+                                           paymentItemId: "payment_id",
+                                           isBoost: false)
                     }
                     it ("doesn't add a new payment to the queue") {
                         expect(sut.numPendingTransactions) == initialPendingPayments
@@ -380,19 +389,25 @@ extension PurchasesShopperSpec: PurchasesShopperDelegate {
         self.mockBumpResult = .fail
     }
 
-    func pricedBumpDidStart(typePage: EventParameterTypePage?) {
+    func pricedBumpDidStart(typePage: EventParameterTypePage?, isBoost: Bool) {
     }
 
     func paymentDidSucceed(paymentId: String, transactionStatus: EventParameterTransactionStatus) {
     }
 
-    func pricedBumpDidSucceed(type: BumpUpType, restoreRetriesCount: Int, transactionStatus: EventParameterTransactionStatus,
-                              typePage: EventParameterTypePage?) {
+    func pricedBumpDidSucceed(type: BumpUpType,
+                              restoreRetriesCount: Int,
+                              transactionStatus: EventParameterTransactionStatus,
+                              typePage: EventParameterTypePage?,
+                              isBoost: Bool) {
         self.mockBumpResult = .success
         self.restoreRetriesCount = restoreRetriesCount
     }
 
-    func pricedBumpDidFail(type: BumpUpType, transactionStatus: EventParameterTransactionStatus, typePage: EventParameterTypePage?) {
+    func pricedBumpDidFail(type: BumpUpType,
+                           transactionStatus: EventParameterTransactionStatus,
+                           typePage: EventParameterTypePage?,
+                           isBoost: Bool) {
         self.mockBumpResult = .fail
     }
 

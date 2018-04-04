@@ -40,13 +40,13 @@ public struct RetrieveListingParams {
     public var endYear: RetrieveListingParam<Int>?
     public var abtest: String?
     public var propertyType: String?
-    public var offerType: String?
+    public var offerType: [String]?
     public var numberOfBedrooms: Int?
     public var numberOfBathrooms: Float?
     public var numberOfLivingRooms: Int?
     public var sizeSquareMetersFrom: Int?
     public var sizeSquareMetersTo: Int?
-    
+    public var relaxParam: RelaxParam?
     
     public init() { }
     
@@ -105,7 +105,7 @@ public struct RetrieveListingParams {
             params["typeOfProperty"] = [propertyType]
         }
         if let offerType = offerType {
-            params["typeOfListing"] = [offerType]
+            params["typeOfListing"] = offerType
         }
         params["numberOfBedrooms"] = numberOfBedrooms
         params["numberOfBathrooms"] = numberOfBathrooms
@@ -226,7 +226,6 @@ public enum SoldIn: String {
     
     public static let allValues: [SoldIn] = [.letgo, .external]
 }
-
 
 public struct CreateTransactionParams {
     let listingId: String

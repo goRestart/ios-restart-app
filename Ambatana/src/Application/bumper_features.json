@@ -9,7 +9,7 @@
         "name": "SurveyEnabled",
         "values": ["No", "Yes"],
         "description": "Show qualitative survey"
-	},
+    },
     {
         "name": "FreeBumpUpEnabled",
         "values": ["No", "Yes"],
@@ -46,11 +46,6 @@
          "description": "API requests timeout"
     },
     {
-        "name": "HomeRelatedEnabled",
-        "values": ["control", "baseline", "active"],
-        "description": "Show the related button in the main feed"
-    },
-    {
         "name": "TaxonomiesAndTaxonomyChildrenInFeed",
         "values": ["control", "baseline", "active"],
         "description": "Taxonomies and taxonomy children in feed as filter tags"
@@ -59,11 +54,6 @@
         "name": "NewItemPage",
         "values": ["control", "baseline", "active"],
         "description": "New item page with card appearance and different navigation"
-    },
-    {
-        "name": "ShowPriceStepRealEstatePosting",
-        "values": ["control", "baseline", "active"],
-        "description": "show price on real estate listing"
     },
     {
         "name": "ShowClockInDirectAnswer",
@@ -79,16 +69,6 @@
         "name": "AllowCallsForProfessionals",
         "values": ["control", "baseline", "inactive"],
         "description": "Users can call professional sellers"
-    },
-    {
-        "name": "RealEstateImprovements",
-        "values": ["control", "baseline", "active"],
-        "description": "show onboarding improvements on real estate category"
-    },
-    {
-        "name": "RealEstatePromos",
-        "values": ["control", "baseline", "deactivate"],
-        "description": "show real estate promos"
     },
     {
         "name": "ShowAdsInFeedWithRatio",
@@ -119,11 +99,6 @@
         "name": "ShowInactiveConversations",
         "values": ["No", "Yes"],
         "description": "Show button to access inactive conversations"
-    },
-    {
-        "name": "MainFeedAspectRatio",
-        "values": ["control", "baseline", "square", "squareOrLessThanW9H16"],
-        "description": "Limit the aspect ratio of the images in the main feed"
     },
     {
         "name": "IncreaseMinPriceBumps",
@@ -166,6 +141,11 @@
         "description": "Search improvements related to multi word, boosting distance, score and freshness"
     },
     {
+        "name": "RelaxedSearch",
+        "values": ["control", "baseline", "RelaxedQuery", "RelaxedQueryORFallback"],
+        "description": "Search improvements with relaxed queries"
+    },
+    {
         "name": "ShowChatSafetyTips",
         "values": ["no","yes"],
         "description": "Show chat safety tips to new users"
@@ -177,7 +157,7 @@
     },
     {
         "name": "OnboardingIncentivizePosting",
-        "values": ["control", "baseline", "blockingPosting"],
+        "values": ["control", "baseline", "blockingPosting", "blockingPostingSkipWelcome"],
         "description": "Leads the user through the posting feature and onboarding improvements"
     },
     {
@@ -194,5 +174,60 @@
         "name": "BumpUpBoost",
         "values": ["control", "baseline", "sendTop5Mins", "sendTop1hour", "boostListing1hour", "cheaperBoost5Mins"],
         "description": "Ability to boost ongoing bump ups"
+    },
+    {
+        "name": "ServicesCategoryEnabled",
+        "values": ["control", "baseline", "active"],
+        "description": "Allow to see Services category"
+    },
+    {
+        "name": "CopyForChatNowInTurkey",
+        "values": ["control", "variantA", "variantB", "variantC", "variantD"],
+        "description": "Try different copies for Chat now button in Turkey"
+    },
+    {
+        "name": "IncreaseNumberOfPictures",
+        "values": ["control", "baseline", "active"],
+        "description": "Allow to include up to 10 pictures on listings"
+    },
+    {
+        "name": "RealEstateTutorial",
+        "values": ["control", "baseline", "oneScreen", "twoScreens", "threeScreens", "onlyBadge"],
+        "description": "Show real estate tutorial when user see Real estate category for first time"
+    },
+    {
+        "name": "MachineLearningMVP",
+        "values": ["control", "baseline", "active"],
+        "description": "Show machine learning posting flow when pressing Other Items on salchichas menu"
+    },
+    {
+        "name": "AddPriceTitleDistanceToListings",
+        "values": ["control", "baseline", "infoInImage", "infoWithWhiteBackground"],
+        "description": "Add price, title and distance to listings"
+    },
+    {
+        "name": "MarkAllConversationsAsRead",
+        "values": ["no", "yes"],
+        "description": "Show a button to mark all conversations as read"
+    },
+    {
+        "name": "ShowProTagUserProfile",
+        "values": ["no", "yes"],
+        "description": "Show Professional tag in user profile"
+    },
+    {
+        "name": "SummaryAsFirstStep",
+        "values": ["control", "baseline", "active"],
+        "description": "Show directly summary screen instead of Real estate steps"
+    },
+    {
+        "name": "ShowAdvancedReputationSystem",
+        "values": ["control", "baseline", "active"],
+        "description": "Show the new advance reputation system and Karma Score"
+    },
+    {
+        "name": "FeedAdsProviderForUS",
+        "values": ["control", "baseline", "BingAdsForAllUsers", "BingAdsForOldUsers", "MoPubAdsForAllUsers", "MoPubAdsForOldUsers"],
+        "description": "Change logic for showing ads with diferent ads providers in the US"
     }
 ]

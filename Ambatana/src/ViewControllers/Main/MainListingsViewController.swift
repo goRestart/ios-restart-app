@@ -37,9 +37,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     // ViewModel
     var viewModel: MainListingsViewModel
     
-    // UI
-    @IBOutlet weak var listingListViewSafeaAreaTopAlignment: NSLayoutConstraint!
-    @IBOutlet weak var listingListView: ListingListView!
+    let listingListView = ListingListView()
     
     @IBOutlet weak var tagsContainerView: UIView!
     @IBOutlet weak var tagsContainerViewHeightConstraint: NSLayoutConstraint!
@@ -99,7 +97,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     }
     
     required init(viewModel: MainListingsViewModel, nibName nibNameOrNil: String?) {
-        self.navbarSearch = LGNavBarSearchField.setupNavBarSearchFieldWithText(viewModel.searchString)
+        navbarSearch = LGNavBarSearchField(viewModel.searchString)
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         viewModel.delegate = self
@@ -131,13 +129,24 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         }
         listingListView.scrollDelegate = self
         listingListView.headerDelegate = self
+        listingListView.adsDelegate = self
         listingListView.cellsDelegate = viewModel
         listingListView.switchViewModel(viewModel.listViewModel)
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         if show3Columns {
             listingListView.updateLayoutWithSeparation(6)
         }
+
         addSubview(listingListView)
+        view.addSubviewForAutoLayout(listingListView)
+        NSLayoutConstraint.activate([
+            listingListView.leadingAnchor.constraint(equalTo: safeLeadingAnchor),
+            listingListView.topAnchor.constraint(equalTo: safeTopAnchor),
+            listingListView.trailingAnchor.constraint(equalTo: safeTrailingAnchor),
+            listingListView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        view.sendSubview(toBack: listingListView)
+
         automaticallyAdjustsScrollViewInsets = false
         //Add negative top inset to avoid extra padding adding by "grouped" table style.
         suggestionsSearchesTable.contentInset = UIEdgeInsetsMake(firstSectionMarginTop, 0, 0, 0)
@@ -231,7 +240,6 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
             infoBubbleTopConstraint.constant = infoBubbleTopMargin
         }
     }
-    
     
     // MARK: - MainListingsViewModelDelegate
 
@@ -474,7 +482,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
             self?.updateTopInset()
         }.disposed(by: disposeBag)
         
-        navbarSearch.searchTextField?.rx.text.asObservable()
+        navbarSearch.searchTextField.rx.text.asObservable()
             .subscribeNext { [weak self] text in
                 self?.navBarSearchTextFieldDidUpdate(text: text ?? "")
         }.disposed(by: disposeBag)
@@ -533,7 +541,8 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
             categoriesHeader?.delegateCategoryHeader = viewModel
             categoriesHeader?.categorySelected.asObservable().bind { [weak self] categoryHeaderInfo in
                 guard let category = categoryHeaderInfo else { return }
-                self?.viewModel.updateFiltersFromHeaderCategories(category)
+                self?.categoryHeaderDidSelect(category: category)
+                
             }.disposed(by: disposeBag)
             if let categoriesHeader = categoriesHeader {
                 categoriesHeader.tag = 1
@@ -559,6 +568,13 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
     }
     private var shouldShowRealEstateBanner: Bool {
         return viewModel.mainListingsHeader.value.contains(MainListingsHeader.RealEstateBanner)
+    }
+    
+    private func categoryHeaderDidSelect(category: CategoryHeaderInfo) {
+        viewModel.updateFiltersFromHeaderCategories(category)
+        if category.categoryHeaderElement.isRealEstate {
+            viewModel.showRealEstateTutorial()
+        }
     }
 
     func pushPermissionHeaderPressed() {
@@ -719,7 +735,7 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
             subtitle = suggestiveSearch.subtitle
             icon = suggestiveSearch.icon
             fillSearchButtonBlock = { [weak self] in
-                self?.navbarSearch.searchTextField?.text = title
+                self?.navbarSearch.searchTextField.text = title
                 self?.viewModel.searchText.value = title
                 self?.navBarSearchTextFieldDidUpdate(text: title)
             }

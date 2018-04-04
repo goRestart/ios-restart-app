@@ -1,0 +1,687 @@
+ [{
+  "keyword": "arcade",
+  "hits": 184,
+  "prices": [29.000000000000004, 100.0, 600.0, 887.5, 1708.6000000000001],
+  "category_id": "8",
+  "median_days_to_sell": 14.632489211857319,
+  "users_searching": 32
+  }, {
+  "keyword": "backpack",
+  "hits": 2105,
+  "prices": [5.9, 15.0, 32.5, 115.0, 253.50000000000006],
+  "category_id": "6",
+  "median_days_to_sell": 24.693084851829777,
+  "users_searching": 15
+  }, {
+  "keyword": "bag",
+  "hits": 18547,
+  "prices": [15.0, 21.25, 50.0, 75.0, 153.00000000000003],
+  "category_id": "6",
+  "median_days_to_sell": 29.192281344706295,
+  "users_searching": 4
+  }, {
+  "keyword": "bar stool",
+  "hits": 1624,
+  "prices": [14.500000000000002, 20.0, 30.0, 63.75, 120.5],
+  "category_id": "4",
+  "median_days_to_sell": 2.959698851887757,
+  "users_searching": 28
+  }, {
+  "keyword": "bed frame",
+  "hits": 2125,
+  "prices": [40.0, 71.25, 100.0, 197.5, 300.0],
+  "category_id": "4",
+  "median_days_to_sell": 12.6225266755043,
+  "users_searching": 32
+  }, {
+  "keyword": "bed",
+  "hits": 6862,
+  "prices": [50.0, 100.0, 162.5, 250.0, 405.00000000000006],
+  "category_id": "4",
+  "median_days_to_sell": 15.204167286863523,
+  "users_searching": 68
+  }, {
+  "keyword": "belt",
+  "hits": 2304,
+  "prices": [40.0, 50.0, 82.5, 165.0, 275.5],
+  "category_id": "6",
+  "median_days_to_sell": 23.72712124586105,
+  "users_searching": 6
+  }, {
+  "keyword": "bench",
+  "hits": 1422,
+  "prices": [15.0, 25.0, 47.5, 100.0, 204.50000000000006],
+  "category_id": "4",
+  "median_days_to_sell": 14.601196776237337,
+  "users_searching": 27
+  }, {
+  "keyword": "bike",
+  "hits": 8849,
+  "prices": [20.0, 30.0, 86.5, 200.0, 370.0000000000003],
+  "category_id": "3",
+  "median_days_to_sell": 21.85834945068559,
+  "users_searching": 109
+  }, {
+  "keyword": "bluetooth speaker",
+  "hits": 660,
+  "prices": [10.0, 20.0, 25.0, 40.0, 110.5],
+  "category_id": "1",
+  "median_days_to_sell": 12.47552474339803,
+  "users_searching": 21
+  }, {
+  "keyword": "board game",
+  "hits": 105,
+  "prices": [5.0, 10.0, 11.495000000000001, 20.0, 30.0],
+  "category_id": "8",
+  "median_days_to_sell": 32.961631536483765,
+  "users_searching": 6
+  }, {
+  "keyword": "book",
+  "hits": 3970,
+  "prices": [3.9000000000000004, 5.0, 10.0, 20.0, 40.50000000000001],
+  "category_id": "5",
+  "median_days_to_sell": 41.317136001661424,
+  "users_searching": 5
+  }, {
+  "keyword": "bottle",
+  "hits": 635,
+  "prices": [5.0, 10.0, 15.0, 30.0, 50.0],
+  "category_id": "8",
+  "median_days_to_sell": 35.4542865678668,
+  "users_searching": 1
+  }, {
+  "keyword": "jewelry",
+  "hits": 8041,
+  "prices": [5.0, 10.0, 20.0, 35.0, 60.50000000000001],
+  "category_id": "6",
+  "median_days_to_sell": 32.50087359015863,
+  "users_searching": 23
+  }, {
+  "keyword": "cage",
+  "hits": 621,
+  "prices": [15.0, 25.0, 42.5, 123.75, 182.00000000000003],
+  "category_id": "8",
+  "median_days_to_sell": 21.89792824288209,
+  "users_searching": 12
+  }, {
+  "keyword": "camera",
+  "hits": 1765,
+  "prices": [15.0, 35.0, 50.0, 237.5, 353.0],
+  "category_id": "1",
+  "median_days_to_sell": 24.347192383464424,
+  "users_searching": 56
+  }, {
+  "keyword": "cap",
+  "hits": 1615,
+  "prices": [5.0, 10.0, 15.0, 20.0, 30.0],
+  "category_id": "6",
+  "median_days_to_sell": 35.19013402052224,
+  "users_searching": 1
+  }, {
+  "keyword": "car",
+  "hits": 15512,
+  "prices": [675.0000000000001, 1500.0, 3750.0, 6375.0, 11060.000000000002],
+  "category_id": "9",
+  "median_days_to_sell": 20.199066126630264,
+  "users_searching": 107
+  }, {
+  "keyword": "card",
+  "hits": 1923,
+  "prices": [6.0, 8.0, 20.0, 56.25, 150.0],
+  "category_id": "8",
+  "median_days_to_sell": 16.852634429621197,
+  "users_searching": 3
+  }, {
+  "keyword": "chair",
+  "hits": 174,
+  "prices": [15.0, 25.0, 50.0, 75.0, 150.0],
+  "category_id": "4",
+  "median_days_to_sell": 16.28499960899353,
+  "users_searching": 72
+  }, {
+  "keyword": "clock",
+  "hits": 1354,
+  "prices": [5.0, 9.25, 17.5, 30.0, 52.00000000000003],
+  "category_id": "4",
+  "median_days_to_sell": 28.06404431598882,
+  "users_searching": 10
+  }, {
+  "keyword": "coffee maker",
+  "hits": 587,
+  "prices": [10.0, 10.0, 20.0, 29.5, 41.000000000000014],
+  "category_id": "4",
+  "median_days_to_sell": 23.08391759544611,
+  "users_searching": 10
+  }, {
+  "keyword": "coffee mug",
+  "hits": 610,
+  "prices": [2.0, 5.0, 9.0, 12.0, 20.0],
+  "category_id": "4",
+  "median_days_to_sell": 30.415334727615118,
+  "users_searching": 0
+  }, {
+  "keyword": "coffee table",
+  "hits": 4362,
+  "prices": [34.5, 46.25, 75.0, 127.5, 201.8],
+  "category_id": "4",
+  "median_days_to_sell": 16.82855905047226,
+  "users_searching": 70
+  }, {
+  "keyword": "keyboard",
+  "hits": 62,
+  "prices": [5.9, 10.0, 15.0, 20.0, 49.991],
+  "category_id": "1",
+  "median_days_to_sell": 51.658364057540894,
+  "users_searching": 15
+  }, {
+  "keyword": "computer",
+  "hits": 622,
+  "prices": [10.0, 25.0, 59.5, 193.75, 360.0000000000001],
+  "category_id": "1",
+  "median_days_to_sell": 23.305840811381735,
+  "users_searching": 49
+  }, {
+  "keyword": "couch",
+  "hits": 13094,
+  "prices": [198.5, 250.0, 350.0, 550.0, 1005.0000000000001],
+  "category_id": "4",
+  "median_days_to_sell": 14.898040282207232,
+  "users_searching": 180
+  }, {
+  "keyword": "desk",
+  "hits": 5191,
+  "prices": [30.900000000000002, 50.0, 85.0, 140.0, 250.0],
+  "category_id": "4",
+  "median_days_to_sell": 14.638415561766053,
+  "users_searching": 146
+  }, {
+  "keyword": "dirtbike",
+  "hits": 233,
+  "prices": [172.5, 362.5, 600.0, 1000.0, 1815.0000000000002],
+  "category_id": "2",
+  "median_days_to_sell": 14.953309532254934,
+  "users_searching": 89
+  }, {
+  "keyword": "dishwasher",
+  "hits": 673,
+  "prices": [50.0, 75.0, 145.0, 215.0, 299.991],
+  "category_id": "4",
+  "median_days_to_sell": 24.96560260103572,
+  "users_searching": 18
+  }, {
+  "keyword": "dress",
+  "hits": 19319,
+  "prices": [3.0, 8.0, 15.0, 30.0, 50.0],
+  "category_id": "6",
+  "median_days_to_sell": 53.19704840441398,
+  "users_searching": 14
+  }, {
+  "keyword": "dresser",
+  "hits": 6336,
+  "prices": [25.0, 35.0, 65.0, 150.0, 202.50000000000003],
+  "category_id": "4",
+  "median_days_to_sell": 9.924187346874021,
+  "users_searching": 256
+  }, {
+  "keyword": "cabinet",
+  "hits": 6355,
+  "prices": [24.5, 50.0, 80.0, 187.25, 300.0],
+  "category_id": "4",
+  "median_days_to_sell": 20.00134924673609,
+  "users_searching": 49
+  }, {
+  "keyword": "drone",
+  "hits": 445,
+  "prices": [20.0, 40.0, 75.0, 198.0, 275.00000000000034],
+  "category_id": "8",
+  "median_days_to_sell": 19.08565903455019,
+  "users_searching": 73
+  }, {
+  "keyword": "drum set",
+  "hits": 274,
+  "prices": [49.0, 96.25, 250.0, 400.0, 750.0],
+  "category_id": "5",
+  "median_days_to_sell": 27.042529091238976,
+  "users_searching": 18
+  }, {
+  "keyword": "dryer",
+  "hits": 1013,
+  "prices": [49.0, 100.0, 162.5, 200.0, 300.0],
+  "category_id": "4",
+  "median_days_to_sell": 19.852373125652473,
+  "users_searching": 38
+  }, {
+  "keyword": "figurine",
+  "hits": 1085,
+  "prices": [3.9000000000000004, 6.25, 20.0, 35.0, 80.0],
+  "category_id": "8",
+  "median_days_to_sell": 35.6394831687212,
+  "users_searching": 1
+  }, {
+  "keyword": "fridge",
+  "hits": 3423,
+  "prices": [35.0, 52.5, 90.0, 200.0, 350.0],
+  "category_id": "4",
+  "median_days_to_sell": 16.233820827794553,
+  "users_searching": 22
+  }, {
+  "keyword": "glass",
+  "hits": 5685,
+  "prices": [4.9, 7.5, 15.0, 20.0, 30.500000000000007],
+  "category_id": "4",
+  "median_days_to_sell": 31.618247174578116,
+  "users_searching": 3
+  }, {
+  "keyword": "glasses",
+  "hits": 401,
+  "prices": [5.0, 10.0, 50.0, 80.0, 299.1],
+  "category_id": "8",
+  "median_days_to_sell": 44.772327304817736,
+  "users_searching": 3
+  }, {
+  "keyword": "guitar",
+  "hits": 2051,
+  "prices": [34.5, 50.0, 79.5, 120.0, 209.90000000000015],
+  "category_id": "5",
+  "median_days_to_sell": 20.219602584838867,
+  "users_searching": 146
+  }, {
+  "keyword": "headphones",
+  "hits": 4685,
+  "prices": [10.0, 20.0, 40.0, 45.0, 46.50000000000002],
+  "category_id": "1",
+  "median_days_to_sell": 7.22462917513128,
+  "users_searching": 12
+  }, {
+  "keyword": "hoodie",
+  "hits": 4204,
+  "prices": [4.9, 10.0, 20.0, 30.0, 136.00000000000009],
+  "category_id": "6",
+  "median_days_to_sell": 21.29434283784567,
+  "users_searching": 6
+  }, {
+  "keyword": "jacket",
+  "hits": 22506,
+  "prices": [10.0, 21.25, 39.5, 83.75, 117.0000000000001],
+  "category_id": "6",
+  "median_days_to_sell": 21.810238179407992,
+  "users_searching": 17
+  }, {
+  "keyword": "cutlery",
+  "hits": 648,
+  "prices": [5.0, 10.0, 22.5, 45.0, 66.00000000000001],
+  "category_id": "8",
+  "median_days_to_sell": 24.56613254671295,
+  "users_searching": 0
+  }, {
+  "keyword": "lamp",
+  "hits": 5619,
+  "prices": [10.0, 10.0, 20.0, 30.0, 45.50000000000001],
+  "category_id": "4",
+  "median_days_to_sell": 21.896950821826042,
+  "users_searching": 33
+  }, {
+  "keyword": "laptop",
+  "hits": 1752,
+  "prices": [49.0, 62.5, 100.0, 250.0, 328.0000000000001],
+  "category_id": "1",
+  "median_days_to_sell": 12.512198876956244,
+  "users_searching": 106
+  }, {
+  "keyword": "macbook",
+  "hits": 1794,
+  "prices": [218.0, 300.0, 400.0, 537.5, 900.0],
+  "category_id": "1",
+  "median_days_to_sell": 9.123252615903493,
+  "users_searching": 51
+  }, {
+  "keyword": "magic mouse",
+  "hits": 48,
+  "prices": [20.0, 37.5, 60.0, 379.75, 1060.000000000001],
+  "category_id": "1",
+  "median_days_to_sell": 20.527586698532104,
+  "users_searching": 0
+  }, {
+  "keyword": "mattress",
+  "hits": 5529,
+  "prices": [29.5, 50.0, 92.5, 200.0, 250.0],
+  "category_id": "4",
+  "median_days_to_sell": 13.511148305332878,
+  "users_searching": 20
+  }, {
+  "keyword": "microwave",
+  "hits": 518,
+  "prices": [20.0, 25.0, 40.0, 63.75, 101.00000000000001],
+  "category_id": "1",
+  "median_days_to_sell": 18.353425979614258,
+  "users_searching": 34
+  }, {
+  "keyword": "monitor",
+  "hits": 1933,
+  "prices": [10.0, 16.25, 30.0, 50.0, 61.000000000000014],
+  "category_id": "1",
+  "median_days_to_sell": 21.624026205739938,
+  "users_searching": 23
+  }, {
+  "keyword": "motorcycle",
+  "hits": 357,
+  "prices": [49.0, 250.0, 2800.0, 8000.0, 15025.0],
+  "category_id": "2",
+  "median_days_to_sell": 45.498889937996864,
+  "users_searching": 140
+  }, {
+  "keyword": "mouse",
+  "hits": 587,
+  "prices": [5.0, 7.25, 10.0, 20.0, 35.50000000000001],
+  "category_id": "1",
+  "median_days_to_sell": 28.76327130924134,
+  "users_searching": 2
+  }, {
+  "keyword": "mower",
+  "hits": 545,
+  "prices": [25.0, 46.25, 75.0, 150.0, 205.00000000000006],
+  "category_id": "8",
+  "median_days_to_sell": 16.16788198053837,
+  "users_searching": 25
+  }, {
+  "keyword": "stove",
+  "hits": 37,
+  "prices": [46.0, 99.0, 200.0, 350.0, 500.0],
+  "category_id": "4",
+  "median_days_to_sell": 13.830324411392212,
+  "users_searching": 29
+  }, {
+  "keyword": "painting",
+  "hits": 3471,
+  "prices": [10.0, 15.0, 25.0, 58.75, 121.00000000000001],
+  "category_id": "4",
+  "median_days_to_sell": 35.88456328540795,
+  "users_searching": 12
+  }, {
+  "keyword": "pants",
+  "hits": 9478,
+  "prices": [4.0, 8.5, 20.0, 44.4975, 66.50000000000003],
+  "category_id": "6",
+  "median_days_to_sell": 32.229688186464564,
+  "users_searching": 2
+  }, {
+  "keyword": "pen",
+  "hits": 7,
+  "prices": [7.6000000000000005, 10.0, 25.0, 75.0, 321.00000000000017],
+  "category_id": "8",
+  "median_days_to_sell": 10.928553581237793,
+  "users_searching": 1
+  }, {
+  "keyword": "phone",
+  "hits": 51,
+  "prices": [10.0, 14.25, 30.0, 55.0, 101.60000000000002],
+  "category_id": "1",
+  "median_days_to_sell": 65.32685130089521,
+  "users_searching": 48
+  }, {
+  "keyword": "charger",
+  "hits": 69,
+  "prices": [5.0, 8.2475, 14.0, 143.2, 408.0000000000001],
+  "category_id": "1",
+  "median_days_to_sell": 17.995359420776367,
+  "users_searching": 8
+  }, {
+  "keyword": "piano",
+  "hits": 477,
+  "prices": [49.0, 100.0, 262.5, 674.25, 2540.0000000000005],
+  "category_id": "5",
+  "median_days_to_sell": 33.695716857910156,
+  "users_searching": 27
+  }, {
+  "keyword": "pillow",
+  "hits": 1314,
+  "prices": [5.0, 5.0, 10.0, 15.0, 20.0],
+  "category_id": "4",
+  "median_days_to_sell": 26.51296155489981,
+  "users_searching": 3
+  }, {
+  "keyword": "pinball",
+  "hits": 24,
+  "prices": [52.000000000000014, 187.5, 775.0, 1637.5, 2035.0],
+  "category_id": "8",
+  "median_days_to_sell": 7.792940139770508,
+  "users_searching": 25
+  }, {
+  "keyword": "plant",
+  "hits": 377,
+  "prices": [5.0, 10.0, 20.0, 25.0, 45.50000000000001],
+  "category_id": "4",
+  "median_days_to_sell": 19.6119483311971,
+  "users_searching": 8
+  }, {
+  "keyword": "plate",
+  "hits": 1227,
+  "prices": [3.9000000000000004, 10.0, 10.0, 20.0, 31.50000000000002],
+  "category_id": "4",
+  "median_days_to_sell": 30.315551750051476,
+  "users_searching": 0
+  }, {
+  "keyword": "plush",
+  "hits": 1038,
+  "prices": [3.0, 5.0, 10.0, 20.0, 25.500000000000007],
+  "category_id": "7",
+  "median_days_to_sell": 39.95003132180621,
+  "users_searching": 0
+  }, {
+  "keyword": "pool table",
+  "hits": 235,
+  "prices": [70.50000000000001, 150.0, 497.5, 937.5, 1205.0],
+  "category_id": "3",
+  "median_days_to_sell": 13.153044685721397,
+  "users_searching": 53
+  }, {
+  "keyword": "printer",
+  "hits": 167,
+  "prices": [17.700000000000003, 31.25, 55.0, 96.25, 173.00000000000006],
+  "category_id": "1",
+  "median_days_to_sell": 32.56123733520508,
+  "users_searching": 12
+  }, {
+  "keyword": "projector",
+  "hits": 378,
+  "prices": [24.491, 52.5, 85.0, 176.25, 305.00000000000006],
+  "category_id": "1",
+  "median_days_to_sell": 26.775671012699604,
+  "users_searching": 18
+  }, {
+  "keyword": "quad",
+  "hits": 238,
+  "prices": [120.0, 305.0, 650.0, 1887.5, 2410.0],
+  "category_id": "2",
+  "median_days_to_sell": 11.633084300905466,
+  "users_searching": 27
+  }, {
+  "keyword": "recliner",
+  "hits": 1586,
+  "prices": [20.0, 42.5, 67.5, 125.0, 200.0],
+  "category_id": "4",
+  "median_days_to_sell": 18.54132800592601,
+  "users_searching": 40
+  }, {
+  "keyword": "remote control",
+  "hits": 414,
+  "prices": [5.9, 10.0, 20.0, 42.5, 80.49100000000001],
+  "category_id": "1",
+  "median_days_to_sell": 15.818628774024546,
+  "users_searching": 1
+  }, {
+  "keyword": "ring",
+  "hits": 2725,
+  "prices": [5.0, 15.0, 50.0, 475.0, 1500.0],
+  "category_id": "6",
+  "median_days_to_sell": 34.30807622002128,
+  "users_searching": 23
+  }, {
+  "keyword": "rug",
+  "hits": 2652,
+  "prices": [24.5, 30.0, 50.0, 143.75, 382.0],
+  "category_id": "4",
+  "median_days_to_sell": 16.785614518567066,
+  "users_searching": 55
+  }, {
+  "keyword": "shelf",
+  "hits": 4069,
+  "prices": [19.5, 25.0, 37.5, 50.0, 75.5],
+  "category_id": "4",
+  "median_days_to_sell": 13.340325437414531,
+  "users_searching": 38
+  }, {
+  "keyword": "shirt",
+  "hits": 8987,
+  "prices": [5.0, 10.0, 14.5, 20.0, 60.0],
+  "category_id": "6",
+  "median_days_to_sell": 32.32598290209444,
+  "users_searching": 3
+  }, {
+  "keyword": "shoes",
+  "hits": 2551,
+  "prices": [29.5, 82.5, 95.0, 96.0, 500.0],
+  "category_id": "6",
+  "median_days_to_sell": 29.190875071445284,
+  "users_searching": 51
+  }, {
+  "keyword": "smartphone",
+  "hits": 5296,
+  "prices": [100.0, 150.0, 180.0, 200.0, 251.00000000000003],
+  "category_id": "1",
+  "median_days_to_sell": 6.63478376734042,
+  "users_searching": 5
+  }, {
+  "keyword": "smartwatch",
+  "hits": 692,
+  "prices": [20.0, 35.0, 70.0, 147.5, 232.0],
+  "category_id": "1",
+  "median_days_to_sell": 9.755575182537237,
+  "users_searching": 4
+  }, {
+  "keyword": "stereo system",
+  "hits": 128,
+  "prices": [27.700000000000003, 40.0, 75.0, 125.0, 261.5],
+  "category_id": "1",
+  "median_days_to_sell": 17.025497436523438,
+  "users_searching": 4
+  }, {
+  "keyword": "sunglasses",
+  "hits": 2655,
+  "prices": [4.800000000000001, 6.25, 14.0, 43.75, 81.50000000000003],
+  "category_id": "6",
+  "median_days_to_sell": 53.993964195018634,
+  "users_searching": 6
+  }, {
+  "keyword": "table",
+  "hits": 2113,
+  "prices": [39.5, 76.25, 167.5, 275.0, 500.0],
+  "category_id": "4",
+  "median_days_to_sell": 15.980357017977019,
+  "users_searching": 98
+  }, {
+  "keyword": "tablet",
+  "hits": 3130,
+  "prices": [29.5, 50.0, 75.0, 150.0, 202.00000000000003],
+  "category_id": "1",
+  "median_days_to_sell": 10.328999711381568,
+  "users_searching": 43
+  }, {
+  "keyword": "tires",
+  "hits": 7604,
+  "prices": [100.0, 206.25, 450.0, 700.0, 910.0000000000002],
+  "category_id": "2",
+  "median_days_to_sell": 27.4793589934494,
+  "users_searching": 43
+  }, {
+  "keyword": "toaster",
+  "hits": 472,
+  "prices": [5.0, 10.0, 13.5, 20.0, 35.50000000000001],
+  "category_id": "4",
+  "median_days_to_sell": 18.472719222307205,
+  "users_searching": 2
+  }, {
+  "keyword": "tools",
+  "hits": 3515,
+  "prices": [22.700000000000003, 46.25, 77.5, 162.5, 305.00000000000006],
+  "category_id": "8",
+  "median_days_to_sell": 15.9319381694447,
+  "users_searching": 149
+  }, {
+  "keyword": "toys",
+  "hits": 752,
+  "prices": [4.9, 5.0, 10.0, 25.0, 40.50000000000001],
+  "category_id": "7",
+  "median_days_to_sell": 23.960487995917596,
+  "users_searching": 20
+  }, {
+  "keyword": "truck",
+  "hits": 1600,
+  "prices": [500.0, 2600.25, 5622.0, 9237.5, 15450.000000000005],
+  "category_id": "9",
+  "median_days_to_sell": 21.0485881905271,
+  "users_searching": 110
+  }, {
+  "keyword": "television",
+  "hits": 6425,
+  "prices": [50.0, 61.25, 100.0, 199.75, 405.00000000000006],
+  "category_id": "1",
+  "median_days_to_sell": 13.847971783010289,
+  "users_searching": 11
+  }, {
+  "keyword": "vase",
+  "hits": 2051,
+  "prices": [5.0, 5.25, 15.0, 25.0, 41.000000000000014],
+  "category_id": "4",
+  "median_days_to_sell": 30.643860149942338,
+  "users_searching": 5
+  }, {
+  "keyword": "wallet",
+  "hits": 3108,
+  "prices": [3.9000000000000004, 5.0, 10.0, 18.75, 50.0],
+  "category_id": "6",
+  "median_days_to_sell": 30.100100189136963,
+  "users_searching": 8
+  }, {
+  "keyword": "washing machine",
+  "hits": 444,
+  "prices": [73.5, 100.0, 197.0, 225.0, 300.0],
+  "category_id": "4",
+  "median_days_to_sell": 19.95333074592054,
+  "users_searching": 18
+  }, {
+  "keyword": "watch",
+  "hits": 8268,
+  "prices": [18.6, 25.0, 87.5, 200.0, 350.0],
+  "category_id": "6",
+  "median_days_to_sell": 21.759749076097545,
+  "users_searching": 54
+  }, {
+  "keyword": "game console",
+  "hits": 3132,
+  "prices": [33.50000000000001, 62.5, 127.5, 187.5, 250.0],
+  "category_id": "3",
+  "median_days_to_sell": 9.064953277742163,
+  "users_searching": 6
+  }, {
+  "keyword": "game console controller",
+  "hits": 2078,
+  "prices": [15.0, 25.0, 35.0, 61.25, 100.0],
+  "category_id": "3",
+  "median_days_to_sell": 5.458779560756655,
+  "users_searching": 0
+  }, {
+  "keyword": "console game",
+  "hits": 3812,
+  "prices": [5.0, 10.0, 25.0, 40.0, 53.00000000000004],
+  "category_id": "3",
+  "median_days_to_sell": 9.068616024157668,
+  "users_searching": 0
+  }, {
+  "keyword": "portable game console",
+  "hits": 806,
+  "prices": [141.50000000000003, 250.0, 277.5, 300.0, 423.00000000000006],
+  "category_id": "1",
+  "median_days_to_sell": 5.855624119246689,
+  "users_searching": 0
+  }]

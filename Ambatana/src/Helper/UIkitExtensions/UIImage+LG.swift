@@ -7,6 +7,8 @@
 //
 
 extension UIImage {
+
+    private var kLetGoUserImageSquareSize: CGFloat { return 1024 }
     
     func rotatedImage(_ clockWise: Bool = true) -> UIImage {
         
@@ -26,5 +28,14 @@ extension UIImage {
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return image ?? self
+    }
+
+    func dataForAvatar() -> Data? {
+        let size = CGSize(width: kLetGoUserImageSquareSize, height: kLetGoUserImageSquareSize)
+        let resizedImage = self.resizedImageWithContentMode(.scaleAspectFill,
+                                                            size: size,
+                                                            interpolationQuality: .medium) ?? self
+        let croppedImage = resizedImage.croppedCenteredImage() ?? resizedImage
+        return UIImageJPEGRepresentation(croppedImage, 0.9)
     }
 }

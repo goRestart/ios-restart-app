@@ -28,8 +28,8 @@ class PostingCategoriesPickViewModel: BaseViewModel {
     }
 
     var selectedCategory: ListingCategory?
-    let categories: [ListingCategory] = ListingCategory.visibleValuesInFeed(realEstateIncluded: false,
-                                                                            highlightRealEstate: false)
+    let categories: [ListingCategory] = ListingCategory.visibleValuesInFeed(servicesIncluded: false,
+                                                                            realEstateIncluded: false)
 
     weak var delegate: PostingCategoriesPickDelegate?
     weak var navigator: BlockingPostingNavigator?

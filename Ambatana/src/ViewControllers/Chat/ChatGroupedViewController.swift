@@ -13,10 +13,9 @@ import UIKit
 
 class ChatGroupedViewController: BaseViewController, ChatGroupedListViewDelegate,
                                  ChatListViewDelegate, BlockedUsersListViewDelegate, LGViewPagerDataSource,
-                                 LGViewPagerDelegate, ScrollableToTop {
+                                 LGViewPagerDelegate, ScrollableToTop, ChatGroupedViewModelDelegate {
     // UI
     var viewPager: LGViewPager
-    var editButton: UIBarButtonItem?
 
     var validationPendingEmptyView: LGEmptyView = LGEmptyView()
 
@@ -33,10 +32,6 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedListViewDelegate
 
     // MARK: - Lifecycle
 
-    @objc fileprivate func edit() {
-        setEditing(!isEditing, animated: true)
-    }
-
     init(viewModel: ChatGroupedViewModel, featureFlags: FeatureFlaggeable) {
         self.featureFlags = featureFlags
         self.viewModel = viewModel
@@ -44,9 +39,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedListViewDelegate
         self.pages = []
         self.disposeBag = DisposeBag()
         super.init(viewModel: viewModel, nibName: nil)
-        
-        self.editButton = UIBarButtonItem(title: LGLocalizedString.chatListDelete, style: .plain, target: self,
-                                          action: #selector(edit))
+        viewModel.delegate = self
         
         automaticallyAdjustsScrollViewInsets = false
         hidesBottomBarWhenPushed = false
@@ -95,11 +88,21 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedListViewDelegate
 
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
+        
+        if editing {
+            setupCancelNavigationsBarButton()
+        } else {
+            setupMoreOptionsNavigationsBarButton()
+        }
         viewModel.setCurrentPageEditing(editing)
         if viewModel.active {
             tabBarController?.setTabBarHidden(editing, animated: true)
         }
         viewPager.scrollEnabled = !editing
+    }
+    
+    @objc func switchEditing() {
+        setEditing(!isEditing, animated: true)
     }
 
     override var active: Bool {
@@ -230,6 +233,11 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedListViewDelegate
         }
     }
 
+    // MARK: - Actions
+    
+    @objc func moreOptionsButtonPressed() {
+        viewModel.openMenuActionSheet()
+    }
 
     // MARK: - Private methods
 
@@ -238,7 +246,8 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedListViewDelegate
 
         view.backgroundColor = UIColor.listBackgroundColor
         setNavBarTitle(LGLocalizedString.chatListTitle)
-
+        setupMoreOptionsNavigationsBarButton()
+        
         viewPager.dataSource = self
         viewPager.delegate = self
         viewPager.indicatorSelectedColor = UIColor.primaryColor
@@ -270,6 +279,20 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedListViewDelegate
             options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
         view.addConstraints(hConstraints)
     }
+    
+    private func setupMoreOptionsNavigationsBarButton() {
+        setLetGoRightButtonWith(imageName: "ic_more_options", selector: "moreOptionsButtonPressed")
+    }
+    
+    private func setupCancelNavigationsBarButton() {
+        setLetGoRightButtonWith(text: LGLocalizedString.commonCancel, selector: #selector(switchEditing))
+    }
+    
+    // MARK: - ChatGroupedViewModelDelegate
+    
+    func vmDidPressDelete() {
+        setEditing(true, animated: true)
+    }
 }
 
 
@@ -278,32 +301,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedListViewDelegate
 extension ChatGroupedViewController {
 
     fileprivate func setupRxBindings() {
-        setupRxNavBarBindings()
         setupRxVerificationViewBindings()
-    }
-
-    private func setupRxNavBarBindings() {
-        viewModel.editButtonText.asObservable().subscribeNext { [weak self] editButtonText in
-            guard let strongSelf = self else { return }
-
-            let editButton = UIBarButtonItem(title: editButtonText, style: .plain, target: strongSelf,
-                action: #selector(ChatGroupedViewController.edit))
-            editButton.isEnabled = strongSelf.viewModel.editButtonEnabled.value
-            strongSelf.editButton = editButton
-            strongSelf.navigationItem.setRightBarButton(editButton, animated: false)
-        }.disposed(by: disposeBag)
-
-        viewModel.editButtonEnabled.asObservable().subscribeNext { [weak self] enabled in
-            guard let strongSelf = self else { return }
-
-            // If becomes hidden then end editing
-            let wasEnabled = strongSelf.navigationItem.rightBarButtonItem?.isEnabled ?? false
-            if wasEnabled && !enabled {
-                self?.setEditing(false, animated: true)
-            }
-
-            strongSelf.editButton?.isEnabled = enabled
-        }.disposed(by: disposeBag)
     }
 
     private func setupRxVerificationViewBindings() {

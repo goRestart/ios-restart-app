@@ -42,7 +42,7 @@ class RelatedListingsView: UIView {
             hasListings.value = !objects.isEmpty
         }
     }
-    fileprivate let drawerManager = GridDrawerManager(myUserRepository: Core.myUserRepository)
+    fileprivate let drawerManager = GridDrawerManager(myUserRepository: Core.myUserRepository, locationManager: Core.locationManager)
 
     fileprivate let disposeBag = DisposeBag()
 
@@ -141,7 +141,6 @@ extension RelatedListingsView: UICollectionViewDelegate, UICollectionViewDataSou
         let cell = drawerManager.cell(item, collectionView: collectionView, atIndexPath: indexPath)
         drawerManager.draw(item, inCell: cell, delegate: nil, imageSize: layoutCellSize)
         cell.tag = (indexPath as NSIndexPath).hash
-        (cell as? ListingCell)?.isRelatedEnabled = false
         return cell
     }
 
@@ -160,7 +159,7 @@ extension RelatedListingsView: UICollectionViewDelegate, UICollectionViewDataSou
             delegate?.relatedListingsView(self, showListing: listing, atIndex: indexPath.row,
                                           listingListModels: objects, requester: requester,
                                           thumbnailImage: thumbnailImage, originFrame: originFrame)
-        case .collectionCell, .emptyCell, .advertisement, .mostSearchedItems:
+        case .collectionCell, .emptyCell, .dfpAdvertisement, .mopubAdvertisement, .mostSearchedItems:
             // No banners or collections here
             break
         }
