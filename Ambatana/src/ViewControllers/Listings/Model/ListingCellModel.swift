@@ -9,12 +9,14 @@
 import Foundation
 import LGCoreKit
 import GoogleMobileAds
+import MoPub
 
 enum ListingCellModel {
     case listingCell(listing: Listing)
     case collectionCell(type: CollectionCellType)
     case emptyCell(vm: LGEmptyViewModel)
-    case advertisement(data: AdvertisementData)
+    case dfpAdvertisement(data: AdvertisementDFPData)
+    case mopubAdvertisement(data: AdvertisementMoPubData)
     case mostSearchedItems(data: MostSearchedItemsCardData)
     
     init(listing: Listing) {
@@ -93,16 +95,36 @@ enum CollectionCellType: String {
     }
 }
 
-struct AdvertisementData {
+struct AdvertisementDFPData {
     var adUnitId: String
     var rootViewController: UIViewController
     var adPosition: Int
     var bannerHeight: CGFloat
+    var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio
+    var adRequested: Bool
+    var categories: [ListingCategory]?
+    
     var adRequest: DFPRequest
     var bannerView: GADBannerView?
+}
+
+struct AdvertisementMoPubData {
+    var adUnitId: String
+    var rootViewController: UIViewController
+    var adPosition: Int
+    var bannerHeight: CGFloat
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio
-    var categories: [ListingCategory]?
     var adRequested: Bool
+    var categories: [ListingCategory]?
+    
+    var nativeAdRequest: MPNativeAdRequest?
+    var moPubNativeAd: MPNativeAd?
+    var moPubView: UIView?
+}
+
+enum AdProviderType {
+    case dfp
+    case moPub
 }
 
 struct MostSearchedItemsCardData {

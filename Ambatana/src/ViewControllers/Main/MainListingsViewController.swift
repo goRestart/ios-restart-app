@@ -129,6 +129,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         }
         listingListView.scrollDelegate = self
         listingListView.headerDelegate = self
+        listingListView.adsDelegate = self
         listingListView.cellsDelegate = viewModel
         listingListView.switchViewModel(viewModel.listViewModel)
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
@@ -239,7 +240,6 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
             infoBubbleTopConstraint.constant = infoBubbleTopMargin
         }
     }
-    
     
     // MARK: - MainListingsViewModelDelegate
 

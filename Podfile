@@ -80,6 +80,9 @@ def shared_pods
     pod "KeychainSwift",        "10.0.0"
     
     pod 'lottie-ios',           "2.5.0" # Obj-c
+    
+    # MoPub Ads
+    pod "mopub-ios-sdk",        "4.20.0" # Obj-c
 
 end
 

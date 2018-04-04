@@ -73,6 +73,17 @@ PODS:
     - RxSwiftExt (~> 3.0.0)
     - SocketRocket (= 0.5.1)
   - lottie-ios (2.5.0)
+  - mopub-ios-sdk (4.20.0):
+    - mopub-ios-sdk/MoPubSDK (= 4.20.0)
+  - mopub-ios-sdk/Avid (4.20.0):
+    - mopub-ios-sdk/Core
+  - mopub-ios-sdk/Core (4.20.0)
+  - mopub-ios-sdk/Moat (4.20.0):
+    - mopub-ios-sdk/Core
+  - mopub-ios-sdk/MoPubSDK (4.20.0):
+    - mopub-ios-sdk/Avid
+    - mopub-ios-sdk/Core
+    - mopub-ios-sdk/Moat
   - NewRelicAgent (6.1.1)
   - Nimble (7.0.2)
   - OHHTTPStubs (5.2.3):
@@ -136,6 +147,7 @@ DEPENDENCIES:
   - LGCollapsibleLabel (= 1.2.0)
   - LGCoreKit (= 4.14.0)
   - lottie-ios (= 2.5.0)
+  - mopub-ios-sdk (= 4.20.0)
   - NewRelicAgent (= 6.1.1)
   - Nimble (= 7.0.2)
   - OHHTTPStubs (= 5.2.3)
@@ -213,6 +225,7 @@ SPEC CHECKSUMS:
   LGCollapsibleLabel: 2a5ebb0ff0ff3e1d7ab0c295a17c923db000f557
   LGCoreKit: c36e8f97522faf210b14978bf66df6b5911f2edc
   lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
+  mopub-ios-sdk: 89c6ac9ca01d3b36e9fba16a6cfe31d3c290d354
   NewRelicAgent: 652434a627201e3745cd5849228feeb10afe1879
   Nimble: bfe1f814edabba69ff145cb1283e04ed636a67f2
   OHHTTPStubs: e238cd5b66d8efa51c861db45895de8fe079f4a7
@@ -228,6 +241,6 @@ SPEC CHECKSUMS:
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   SwiftyUserDefaults: 38267a30d58b7c8570995cd5defd354e43f056c6
 
-PODFILE CHECKSUM: ee76399412da2108c250f0cea544f53a574c8793
+PODFILE CHECKSUM: e9a31c4e782f622b1e240660417c66dbd8b6041f
 
 COCOAPODS: 1.4.0
