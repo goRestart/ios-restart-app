@@ -18,7 +18,7 @@ struct ListingCellMetrics {
     
     static let sideMargin: CGFloat = DeviceFamily.current.shouldShow3Columns() ? 7.0 : Metrics.shortMargin
     static let minThumbnailHeightWithContent: CGFloat = 168
-    static let minPriceAreaHeight: CGFloat = 50
+    static let minPriceAreaHeight: CGFloat = 52
     
     struct PriceLabel {
         static let height: CGFloat = DeviceFamily.current.shouldShow3Columns() ? 23 : 28

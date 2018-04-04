@@ -36,7 +36,7 @@ class GridDrawerManager {
 
     func registerCell(inCollectionView collectionView: UICollectionView) {
         ListingCellDrawer.registerCell(collectionView)
-        ListingCollectionCellDrawer.registerCell(collectionView)
+        ListingCollectionCellDrawer.registerClassCell(collectionView)
         EmptyCellDrawer.registerClassCell(collectionView)
         AdvertisementCellDrawer.registerClassCell(collectionView)
         MostSearchedItemsCellDrawer.registerClassCell(collectionView)
