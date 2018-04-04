@@ -143,10 +143,9 @@ class MainListingsViewModel: BaseViewModel {
             if let propertyType = filters.realEstatePropertyType {
                 resultTags.append(.realEstatePropertyType(propertyType))
             }
-            if let offerType = filters.realEstateOfferType {
-                resultTags.append(.realEstateOfferType(offerType))
-            }
             
+            filters.realEstateOfferTypes.forEach { resultTags.append(.realEstateOfferType($0)) }
+        
             if let numberOfBedrooms = filters.realEstateNumberOfBedrooms {
                 resultTags.append(.realEstateNumberOfBedrooms(numberOfBedrooms))
             }
@@ -414,7 +413,7 @@ class MainListingsViewModel: BaseViewModel {
         var carYearStart: Int? = nil
         var carYearEnd: Int? = nil
         var realEstatePropertyType: RealEstatePropertyType? = nil
-        var realEstateOfferType: RealEstateOfferType? = nil
+        var realEstateOfferTypes: [RealEstateOfferType] = []
         var realEstateNumberOfBedrooms: NumberOfBedrooms? = nil
         var realEstateNumberOfBathrooms: NumberOfBathrooms? = nil
         var realEstateNumberOfRooms: NumberOfRooms? = nil
@@ -456,7 +455,7 @@ class MainListingsViewModel: BaseViewModel {
             case .realEstatePropertyType(let propertyType):
                 realEstatePropertyType = propertyType
             case .realEstateOfferType(let offerType):
-                realEstateOfferType = offerType
+                realEstateOfferTypes.append(offerType)
             case .realEstateNumberOfBedrooms(let numberOfBedrooms):
                 realEstateNumberOfBedrooms = numberOfBedrooms
             case .realEstateNumberOfBathrooms(let numberOfBathrooms):
@@ -533,7 +532,7 @@ class MainListingsViewModel: BaseViewModel {
         }
         
         filters.realEstatePropertyType = realEstatePropertyType
-        filters.realEstateOfferType = realEstateOfferType
+        filters.realEstateOfferTypes = realEstateOfferTypes
         filters.realEstateNumberOfBedrooms = realEstateNumberOfBedrooms
         filters.realEstateNumberOfBathrooms = realEstateNumberOfBathrooms
         

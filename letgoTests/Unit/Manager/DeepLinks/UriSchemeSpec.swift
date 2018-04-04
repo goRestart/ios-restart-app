@@ -74,6 +74,20 @@ class UriSchemeSpec: QuickSpec {
                 }
             }
             
+            context("with a product edit URL") {
+                beforeEach {
+                    listingId = String.makeRandom()
+                    url = URL(string: "letgo://products_edit/" + listingId)
+                    sut = UriScheme.buildFromUrl(url)
+                }
+                it("is not nil") {
+                    expect(sut).toNot(beNil())
+                }
+                it("has a deep link with product share action") {
+                    expect(sut.deepLink.action) == DeepLinkAction.listingEdit(listingId: listingId)
+                }
+            }
+            
             context("with a chat predefined message URL") {
                 beforeEach {
                     url = URL(string: "letgo://chat/")
