@@ -142,7 +142,7 @@ extension UIFont {
     static var tourLocationDistanceLabelFont: UIFont { return systemMediumFont(size: 16) }
 }
 
-// MARK: DeckView
+// MARK: - DeckView
 
 extension UIFont {
     static var deckTitleFont: UIFont { return systemMediumFont(size: 17) }
@@ -160,7 +160,13 @@ extension UIFont {
 
 // MARK: - User Profile
 extension UIFont {
-    static var userProfileTabsNumberFont: UIFont { return UIFont.systemBoldFont(size: 19)}
-    static var userProfileTabsNameFont: UIFont { return UIFont.systemRegularFont(size: 15)}
-    static var userProfileTabsNameSelectedFont: UIFont { return UIFont.systemBoldFont(size: 15)}
+    static var userProfileTabsNumberFont: UIFont { return UIFont.systemBoldFont(size: 19) }
+    static var userProfileTabsNameFont: UIFont { return UIFont.systemRegularFont(size: 15) }
+    static var userProfileTabsNameSelectedFont: UIFont { return UIFont.systemBoldFont(size: 15) }
+}
+
+// MARK: - SMS Verification
+extension UIFont {
+    static var smsVerificationPhoneInputDescription: UIFont { return UIFont.systemMediumFont(size: 20) }
+    static var smsVerificationPhoneInputBigText: UIFont { return UIFont.systemBoldFont(size: 30) }
 }
