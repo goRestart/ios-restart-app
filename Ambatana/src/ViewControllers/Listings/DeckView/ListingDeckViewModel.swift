@@ -329,7 +329,9 @@ final class ListingDeckViewModel: BaseViewModel {
             self?.isLoading = false
             if let newListings = result.listingsResult.value {
                 self?.pagination = nextPage
-                self?.objects.appendContentsOf(newListings.flatMap { ListingCellModel.listingCell(listing: $0) })
+                self?.objects.appendContentsOf(newListings
+                                                .flatMap { ListingCellModel.listingCell(listing: $0) }
+                                                .filter(ListingDeckViewModel.isListable))
                 self?.pagination.isLast = self?.listingListRequester.isLastPage(newListings.count) ?? false
                 if let isNextPageAvailable = self?.isNextPageAvailable, newListings.isEmpty && isNextPageAvailable{
                     self?.retrieveNextPage()

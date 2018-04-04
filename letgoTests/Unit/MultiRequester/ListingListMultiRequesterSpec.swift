@@ -29,7 +29,7 @@ class ListingListMultiRequesterSpec: QuickSpec {
             context("only one requester, few items") {
                 beforeEach {
                     let requester = MockListingListRequester(canRetrieve: true, offset: 0, pageSize: 20)
-                    requester.generateItems(5)
+                    requester.generateItems(5, allowDiscarded: true)
                     sut = ListingListMultiRequester(requesters: [requester])
 
                     dataCount = 0
@@ -47,7 +47,7 @@ class ListingListMultiRequesterSpec: QuickSpec {
             context("only one requester, lots of items") {
                 beforeEach {
                     let requester = MockListingListRequester(canRetrieve: true, offset: 0, pageSize: 20)
-                    requester.generateItems(50)
+                    requester.generateItems(50, allowDiscarded: true)
                     sut = ListingListMultiRequester(requesters: [requester])
 
                     dataCount = 0
@@ -68,9 +68,9 @@ class ListingListMultiRequesterSpec: QuickSpec {
             context("more than one requester") {
                 beforeEach {
                     let firstRequester = MockListingListRequester(canRetrieve: true, offset: 0, pageSize: 20)
-                    firstRequester.generateItems(30)
+                    firstRequester.generateItems(30, allowDiscarded: true)
                     let secondRequester = MockListingListRequester(canRetrieve: true, offset: 0, pageSize: 20)
-                    secondRequester.generateItems(25)
+                    secondRequester.generateItems(25, allowDiscarded: true)
                     sut = ListingListMultiRequester(requesters: [firstRequester, secondRequester])
                 }
                 context("get only 1st page of the multi requester") {
