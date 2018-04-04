@@ -177,8 +177,8 @@ final class ListingDeckViewModel: BaseViewModel {
         let filteredModels = listModels.filter(ListingDeckViewModel.isListable)
 
         if !filteredModels.isEmpty {
-            self.objects.appendContentsOf(listModels)
-            self.pagination.isLast = listingListRequester.isLastPage(listModels.count)
+            self.objects.appendContentsOf(filteredModels)
+            self.pagination.isLast = listingListRequester.isLastPage(filteredModels.count)
         } else {
             self.objects.appendContentsOf([initialListing].flatMap{ $0 }.map { .listingCell(listing: $0) })
             self.pagination.isLast = false
