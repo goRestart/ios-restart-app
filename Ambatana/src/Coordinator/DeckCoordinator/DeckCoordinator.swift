@@ -19,6 +19,13 @@ protocol DeckNavigator: class {
 }
 
 protocol DeckAnimator: class {
+    func showDeckViewController(listing: Listing,
+                                cellModels: [ListingCellModel],
+                                listingListRequester: ListingListRequester,
+                                source: EventParameterListingVisitSource,
+                                listingNavigator: ListingDetailNavigator,
+                                actionOnFirstAppear: DeckActionOnFirstAppear,
+                                trackingIndex: Int?)
     func animatedTransitionings(for operation: UINavigationControllerOperation,
                                 from fromVC: UIViewController,
                                 to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning?
@@ -29,44 +36,19 @@ protocol DeckAnimator: class {
 final class DeckCoordinator: DeckNavigator, ListingDeckOnBoardingNavigator, DeckAnimator {
 
     fileprivate weak var navigationController: UINavigationController?
-    fileprivate let deckViewController: ListingDeckViewController
-    fileprivate let deckViewModel: ListingDeckViewModel
-    fileprivate var shouldShowDeckOnBoarding: Bool {
-        return !deckViewModel.userHasScrolled && !keyValueStorage[.didShowDeckOnBoarding]
-    }
-
-    fileprivate let keyValueStorage: KeyValueStorageable
     var interactiveTransitioner: UIPercentDrivenInteractiveTransition?
-
-    convenience init(navigationController: UINavigationController,
-                     listing: Listing,
-                     cellModels: [ListingCellModel],
-                     listingListRequester: ListingListRequester,
-                     source: EventParameterListingVisitSource,
-                     listingNavigator: ListingDetailNavigator,
-                     actionOnFirstAppear: DeckActionOnFirstAppear,
-                     trackingIndex: Int?) {
-        self.init(navigationController: navigationController,
-                  listing: listing,
-                  cellModels: cellModels,
-                  listingListRequester: listingListRequester,
-                  source: source,
-                  listingNavigator: listingNavigator,
-                  keyValueStorage: KeyValueStorage.sharedInstance,
-                  actionOnFirstAppear: actionOnFirstAppear,
-                  trackingIndex: trackingIndex)
+    
+    private init(withNavigationController navigationController: UINavigationController) {
+        self.navigationController = navigationController
     }
 
-    private init(navigationController: UINavigationController,
-                 listing: Listing,
-                 cellModels: [ListingCellModel],
-                 listingListRequester: ListingListRequester,
-                 source: EventParameterListingVisitSource,
-                 listingNavigator: ListingDetailNavigator,
-                 keyValueStorage: KeyValueStorageable,
-                 actionOnFirstAppear: DeckActionOnFirstAppear,
-                 trackingIndex: Int?) {
-
+    func showDeckViewController(listing: Listing,
+                                cellModels: [ListingCellModel],
+                                listingListRequester: ListingListRequester,
+                                source: EventParameterListingVisitSource,
+                                listingNavigator: ListingDetailNavigator,
+                                actionOnFirstAppear: DeckActionOnFirstAppear,
+                                trackingIndex: Int?) {
         let viewModel = ListingDeckViewModel(listModels: cellModels,
                                              listing: listing,
                                              listingListRequester: listingListRequester,
@@ -74,20 +56,11 @@ final class DeckCoordinator: DeckNavigator, ListingDeckOnBoardingNavigator, Deck
                                              detailNavigator: listingNavigator,
                                              actionOnFirstAppear: actionOnFirstAppear,
                                              trackingIndex: trackingIndex)
-
         let deckViewController = ListingDeckViewController(viewModel: viewModel)
-        self.deckViewController = deckViewController
-
         viewModel.delegate = deckViewController
         viewModel.navigator = listingNavigator
-        self.navigationController = navigationController
-
-        self.deckViewModel = viewModel
-        self.keyValueStorage = keyValueStorage
         viewModel.deckNavigator = self
-    }
 
-    func showDeckViewController() {
         navigationController?.pushViewController(deckViewController, animated: true)
     }
 
@@ -105,26 +78,15 @@ final class DeckCoordinator: DeckNavigator, ListingDeckOnBoardingNavigator, Deck
         viewModel.navigator = self
         let onboarding = ListingDeckOnBoardingViewController(viewModel: viewModel, animator: OnBoardingAnimator())
         onboarding.modalPresentationStyle = .custom
-
-        navigationController?.present(onboarding, animated: true, completion: { [weak self] in
-            self?.didOpenDeckOnBoarding()
-        })
+        navigationController?.present(onboarding, animated: true)
     }
 
     func closeDeck() {
-        if shouldShowDeckOnBoarding {
-            openDeckOnBoarding()
-        } else {
-           navigationController?.popViewController(animated: true)
-        }
+        navigationController?.popViewController(animated: true)
     }
 
     func showOnBoarding() {
         openDeckOnBoarding()
-    }
-
-    private func didOpenDeckOnBoarding() {
-        keyValueStorage[.didShowDeckOnBoarding] = true
     }
 
     func closePhotoViewer() {

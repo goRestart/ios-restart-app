@@ -346,17 +346,18 @@ fileprivate extension TabCoordinator {
                                 source: EventParameterListingVisitSource,
                                 actionOnFirstAppear: DeckActionOnFirstAppear,
                                 trackingIndex: Int?) {
-        let coordinator = DeckCoordinator(navigationController: navigationController,
-                                          listing: listing,
-                                          cellModels: cellModels ?? [],
-                                          listingListRequester: requester,
-                                          source: source,
-                                          listingNavigator: self,
-                                          actionOnFirstAppear: actionOnFirstAppear,
-                                          trackingIndex: trackingIndex)
+        if deckAnimator == nil {
+            let coordinator = DeckCoordinator(withNavigationController: navigationController)
+            deckAnimator = coordinator
+        }
 
-        coordinator.showDeckViewController()
-        deckAnimator = coordinator
+        deckAnimator?.showDeckViewController(listing: listing,
+                                             cellModels: cellModels ?? [],
+                                             listingListRequester: requester,
+                                             source: source,
+                                             listingNavigator: self,
+                                             actionOnFirstAppear: actionOnFirstAppear,
+                                             trackingIndex: trackingIndex)
     }
 
     func openUser(userId: String, source: UserSource) {
