@@ -27,7 +27,9 @@ extension Int {
         let hours = self/3600
         let mins = (self%3600)/60
         let secs = self%60
-        return "\(String(format: "%02d", hours))h \(String(format: "%02d", mins))m \(String(format: "%02d", secs))s"
+        return LGLocalizedString.commonHoursMinsSecs(String(format: "%02d", hours),
+                                                         String(format: "%02d", mins),
+                                                         String(format: "%02d", secs))
     }
 
     func intToDistanceFormat() -> String {

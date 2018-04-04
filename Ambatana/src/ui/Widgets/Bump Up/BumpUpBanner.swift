@@ -353,9 +353,8 @@ class BumpUpBanner: UIView {
     private func setupConstraints() {
 
         let mainViews: [UIView] = [containerView, progressView]
-        setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: mainViews)
-        addSubviews(mainViews)
-
+        addSubviewsForAutoLayout(mainViews)
+        
         progressView.layout().height(BumpUpTimerBarViewMetrics.height, constraintBlock: { [weak self] in
             self?.progressViewHeightConstraint = $0
         })

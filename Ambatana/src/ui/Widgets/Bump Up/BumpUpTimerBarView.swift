@@ -81,8 +81,7 @@ class BumpUpTimerBarView: UIView {
 
     private func setupConstraints() {
         let subViews: [UIView] = [textContainerView, progressBarContainerView, bottomLineView]
-        setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: subViews)
-        addSubviews(subViews)
+        addSubviewsForAutoLayout(subViews)
 
         textContainerView.layout(with: self)
             .top(by: Metrics.margin)
@@ -98,12 +97,11 @@ class BumpUpTimerBarView: UIView {
         progressBarContainerView.layout().height(BumpUpTimerBarViewMetrics.progressBarHeight)
         progressBarContainerView.layout(with: textContainerView).below(by: Metrics.veryShortMargin)
 
-        bottomLineView.layout().height(1)
+        bottomLineView.layout().height(LGUIKitConstants.onePixelSize)
         bottomLineView.layout(with: self).bottom().left().right()
 
         let textViews: [UIView] = [titleLabel, timeLabel]
-        setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: textViews)
-        textContainerView.addSubviews(textViews)
+        textContainerView.addSubviewsForAutoLayout(textViews)
 
         titleLabel.layout().height(BumpUpTimerBarViewMetrics.labelHeight)
         titleLabel.layout(with: textContainerView).top().bottom().left()
@@ -111,8 +109,7 @@ class BumpUpTimerBarView: UIView {
         titleLabel.layout(with: timeLabel).right(to: .left, by: -5).proportionalHeight()
         timeLabel.layout(with: textContainerView).top().bottom().right()
 
-        progressBarContainerView.addSubview(progressBar)
-        progressBar.translatesAutoresizingMaskIntoConstraints = false
+        progressBarContainerView.addSubviewForAutoLayout(progressBar)
         progressBar.layout(with: progressBarContainerView).fill()
     }
 
