@@ -452,7 +452,7 @@ extension UserProfileViewModel {
                                       emailVerified: user?.emailAccount?.verified ?? false)
     }
 
-    func retrieveUsersRelation() {
+    private func retrieveUsersRelation() {
         guard let userId = user.value?.objectId else { return }
         guard userId != myUserRepository.myUser?.objectId else { return }
 
@@ -460,6 +460,14 @@ extension UserProfileViewModel {
             guard let userRelation = result.value else { return }
             self?.userRelationIsBlocked.value = userRelation.isBlocked
             self?.userRelationIsBlockedBy.value = userRelation.isBlockedBy
+        }
+    }
+
+    private func deleteListing(withId listingId: String) {
+        delegate?.vmShowLoading(LGLocalizedString.commonLoading)
+        listingRepository.delete(listingId: listingId) { [weak self] result in
+            let message: String? = result.error != nil ? LGLocalizedString.productDeleteSendErrorGeneric : nil
+            self?.delegate?.vmHideLoading(message, afterMessageCompletion: nil)
         }
     }
 }
@@ -721,13 +729,5 @@ extension UserProfileViewModel: ListingCellDelegate {
                                         actions: [actionCancel, actionOk])
         })
         delegate?.vmShowActionSheet(LGLocalizedString.commonCancel, actions: [delete])
-    }
-
-    fileprivate func deleteListing(withId listingId: String) {
-        delegate?.vmShowLoading(LGLocalizedString.commonLoading)
-        listingRepository.delete(listingId: listingId) { [weak self] result in
-            let message: String? = result.error != nil ? LGLocalizedString.productDeleteSendErrorGeneric : nil
-            self?.delegate?.vmHideLoading(message, afterMessageCompletion: nil)
-        }
     }
 }
