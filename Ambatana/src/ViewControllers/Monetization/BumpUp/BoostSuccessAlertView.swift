@@ -42,7 +42,7 @@ class BoostSuccessAlertView: UIView {
 
         blurEffectView.alpha = 0.2
 
-        titleLabel.text = "_ Your listing was boosted again!  It will be featured for the next 24 hours"
+        titleLabel.text = LGLocalizedString.bumpUpBoostSuccessAlertText
         titleLabel.textColor = UIColor.blackText
         titleLabel.font = UIFont.systemBoldFont(size: 25)
         titleLabel.textAlignment = .center
