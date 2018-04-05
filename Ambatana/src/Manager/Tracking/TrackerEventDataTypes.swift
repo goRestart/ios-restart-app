@@ -195,28 +195,6 @@ enum EventName: String {
     case tutorialDialogAbandon              = "onboarding-dialog-abandon"
 
     case predictedPosting                   = "predicted-posting"
-
-    // Constants
-    private static let eventNameDummyPrefix  = "dummy-"
-    
-    // Computed iVars
-    var actualEventName: String {
-        get {
-            let eventName: String
-            if let isDummyUser = Core.myUserRepository.myUser?.isDummy {
-                if isDummyUser {
-                    eventName = EventName.eventNameDummyPrefix + rawValue
-                }
-                else {
-                    eventName = rawValue
-                }
-            }
-            else {
-                eventName = rawValue
-            }
-            return eventName
-        }
-    }
 }
 
 enum EventParameterName: String {
