@@ -181,7 +181,7 @@ extension UIViewController {
     - parameter animated:   whether to animate or not
     - parameter completion: completion callback
     */
-    func popViewController(animated: Bool, completion: (() -> Void)?) {
+    func popViewController(animated: Bool, completion: (() -> Void)? = nil) {
         guard let navigationController = navigationController else { return }
         if animated {
             CATransaction.begin()
