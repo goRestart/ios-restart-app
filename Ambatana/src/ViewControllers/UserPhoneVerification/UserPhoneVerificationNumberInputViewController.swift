@@ -10,9 +10,9 @@ import Foundation
 import LGCoreKit
 import RxSwift
 
-class SMSPhoneInputViewController: BaseViewController {
+class UserPhoneVerificationNumberInputViewController: BaseViewController {
 
-    private let viewModel: SMSPhoneInputViewModel
+    private let viewModel: UserPhoneVerificationNumberInputViewModel
     private let keyboardHelper = KeyboardHelper()
     private let disposeBag = DisposeBag()
 
@@ -39,7 +39,7 @@ class SMSPhoneInputViewController: BaseViewController {
         static let continueButtonDisabledOpacity: CGFloat = 0.27
     }
 
-    init(viewModel: SMSPhoneInputViewModel) {
+    init(viewModel: UserPhoneVerificationNumberInputViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
     }
