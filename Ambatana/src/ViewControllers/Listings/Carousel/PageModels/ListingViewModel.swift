@@ -421,6 +421,7 @@ class ListingViewModel: BaseViewModel {
         // bumpeable listing check
         status.asObservable().skip(1).bind { [weak self] status in
             guard let strongSelf = self else  { return }
+            guard strongSelf.active else { return }
             let pendingAreBumpeable = strongSelf.featureFlags.showBumpUpBannerOnNotValidatedListings.isActive
             if status.shouldRefreshBumpBanner(pendingAreBumpeable: pendingAreBumpeable) {
                 self?.refreshBumpeableBanner()

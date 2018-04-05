@@ -90,6 +90,14 @@ final class ListingDeckViewModel: BaseViewModel {
     weak var deckNavigator: DeckNavigator?
     var userHasScrolled: Bool = false
 
+    override var active: Bool {
+        didSet {
+            productsViewModels.forEach { (_, listingViewModel) in
+                listingViewModel.active = active
+            }
+        }
+    }
+
     convenience init(listModels: [ListingCellModel],
                      listing: Listing,
                      listingListRequester: ListingListRequester,
