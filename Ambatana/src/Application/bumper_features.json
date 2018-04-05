@@ -214,8 +214,6 @@
         "name": "SummaryAsFirstStep",
         "values": ["control", "baseline", "active"],
         "description": "Show directly summary screen instead of Real estate steps"
-<<<<<<< HEAD
-=======
     },
     {
         "name": "ShowAdvancedReputationSystem",
@@ -226,6 +224,5 @@
         "name": "FeedAdsProviderForUS",
         "values": ["control", "baseline", "BingAdsForAllUsers", "BingAdsForOldUsers", "MoPubAdsForAllUsers", "MoPubAdsForOldUsers"],
         "description": "Change logic for showing ads with diferent ads providers in the US"
->>>>>>> master
     }
 ]
