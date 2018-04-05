@@ -306,6 +306,32 @@ extension FeedAdsProviderForUS {
     }
 }
 
+extension FeedAdsProviderForTR {
+    private var shouldShowAdsInFeedForNewUsers: Bool {
+        return self == .moPubAdsForAllUsers
+    }
+    private var shouldShowAdsInFeedForOldUsers: Bool {
+        return self == .moPubAdsForOldUsers || self == .moPubAdsForAllUsers
+    }
+    
+    var shouldShowAdsInFeed: Bool {
+        return  shouldShowAdsInFeedForNewUsers || shouldShowAdsInFeedForOldUsers
+    }
+    
+    var shouldShowMoPubAds : Bool {
+        return self == .moPubAdsForOldUsers || self == .moPubAdsForAllUsers
+    }
+    
+    func shouldShowAdsInFeedForUser(createdIn: Date?) -> Bool {
+        guard let creationDate = createdIn else { return shouldShowAdsInFeedForOldUsers }
+        if creationDate.isNewerThan(Constants.newUserTimeThresholdForAds) {
+            return shouldShowAdsInFeedForNewUsers
+        } else {
+            return shouldShowAdsInFeedForOldUsers
+        }
+    }
+}
+
 
 class FeatureFlags: FeatureFlaggeable {
 
