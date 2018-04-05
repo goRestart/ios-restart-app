@@ -14,7 +14,7 @@ import Quick
 import Nimble
 
 
-class ListingDeckViewModelSpec: BaseViewModelSpec {
+final class ListingDeckViewModelSpec: BaseViewModelSpec {
 
     override func spec() {
         var sut: ListingDeckViewModel!
@@ -48,6 +48,8 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
         var directChatMessagesObserver: TestableObserver<[ChatViewMessage]>!
         var bumpUpBannerInfoObserver: TestableObserver<BumpUpInfo?>!
 
+        var prefetching = Prefetching(previousCount: 3, nextCount: 3)
+
         describe("ListingDeckViewModelSpec") {
 
             func startObserving() {
@@ -63,7 +65,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                 sut.bumpUpBannerInfo.asObservable().bind(to:bumpUpBannerInfoObserver).disposed(by:disposeBag)
             }
 
-            func buildSut(productListModels: [ListingCellModel]? = nil,
+            func buildSut(productListModels: [ListingCellModel] = [],
                           initialProduct: Product? = nil,
                           source: EventParameterListingVisitSource = .listingList,
                           actionOnFirstAppear: ProductCarouselActionOnFirstAppear = .nonexistent,
@@ -74,7 +76,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                 if let initialProduct = initialProduct {
                     initialListing = .product(initialProduct)
                 }
-
                 sut = ListingDeckViewModel(listModels: productListModels,
                                            initialListing: initialListing,
                                            listingListRequester: listingListRequester,
@@ -82,8 +83,14 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                                            source: source,
                                            imageDownloader: imageDownloader,
                                            listingViewModelMaker: listingViewModelMaker,
+                                           myUserRepository: myUserRepository,
+                                           pagination: Pagination.makePagination(first: 0, next: 50, isLast: false),
+                                           prefetching: Prefetching(previousCount: 3, nextCount: 3),
                                            shouldSyncFirstListing: firstProductSyncRequired,
-                                           binder: ListingDeckViewModelBinder())
+                                           binder: ListingDeckViewModelBinder(),
+                                           tracker: tracker,
+                                           actionOnFirstAppear: actionOnFirstAppear,
+                                           trackingIndex: nil)
 
                 sut.delegate = self
             }
@@ -337,7 +344,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
             describe("pagination") {
                 context("single item") {
                     beforeEach {
-                        listingListRequester.generateItems(30)
+                        listingListRequester.generateItems(30, allowDiscarded: false)
                         buildSut(initialProduct: product)
                         sut.active = true
                         startObserving()
@@ -349,10 +356,10 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                 context("multiple items") {
                     context("item before the threshold") {
                         beforeEach {
-                            var products = MockProduct.makeMocks(count: 20)
+                            var products = MockProduct.makeProductMocks(20, allowDiscarded: false)
                             products[0] = product
                             let productListModels = products.map { ListingCellModel.listingCell(listing: .product($0)) }
-                            listingListRequester.generateItems(30)
+                            listingListRequester.generateItems(30, allowDiscarded: false)
                             buildSut(productListModels: productListModels, initialProduct: product)
                             sut.active = true
                             startObserving()
@@ -371,10 +378,10 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                     }
                     context("item after the threshold") {
                         beforeEach {
-                            var products = MockProduct.makeMocks(count: 20)
+                            var products = MockProduct.makeProductMocks(20, allowDiscarded: false)
                             products[18] = product
                             let productListModels = products.map { ListingCellModel.listingCell(listing: .product($0)) }
-                            listingListRequester.generateItems(30)
+                            listingListRequester.generateItems(30, allowDiscarded: false)
                             buildSut(productListModels: productListModels, initialProduct: product)
                             sut.active = true
                             startObserving()
@@ -387,9 +394,9 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                 context("long pagination") {
                     beforeEach {
                         //Simulating that we're on page 8-10
-                        var products = MockProduct.makeMocks(count: 180)
+                        var products = MockProduct.makeProductMocks(180, allowDiscarded: false)
                         products[160] = product
-                        listingListRequester.generateItems(200)
+                        listingListRequester.generateItems(200, allowDiscarded: false)
                         listingListRequester.offset = 180
                         let productListModels = products.map { ListingCellModel.listingCell(listing: .product($0)) }
                         buildSut(productListModels: productListModels, initialProduct: product)
@@ -418,7 +425,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                 describe("image pre-caching") {
                     var products: [MockProduct]!
                     beforeEach {
-                        products = MockProduct.makeMocks(count: 20)
+                        products = MockProduct.makeProductMocks(20, allowDiscarded: false)
                         for i in 0..<products.count {
                             var product = products[i]
                             var image = MockFile.makeMock()
@@ -457,8 +464,10 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                             sut.active = true
                             startObserving()
                         }
-                        it("requests images for items 9-13") {
-                            let images = products[9...13].flatMap { $0.images.first?.fileURL }
+                        it("requests images for items 7-13") {
+                            let initial = 10 - prefetching.previousCount
+                            let end = 10 + prefetching.nextCount
+                            let images = products[initial...end].flatMap { $0.images.first?.fileURL }
                             expect(imageDownloader.downloadImagesRequested) == images
                         }
                         describe("swipe right") {
@@ -475,7 +484,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                                 sut.moveToListingAtIndex(9, movement: .swipeLeft)
                             }
                             it("just requests one more image on the left") {
-                                let images = [products[8].images.first?.fileURL].flatMap { $0 }
+                                let images = [products[6].images.first?.fileURL].flatMap { $0 }
                                 expect(imageDownloader.downloadImagesRequested) == images
                             }
                         }
@@ -484,7 +493,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                 describe("elements update and visit trackings") {
                     var products: [MockProduct]!
                     beforeEach {
-                        products = MockProduct.makeMocks(count: 20)
+                        products = MockProduct.makeProductMocks(20, allowDiscarded: false)
                         let productListModels = products.map { ListingCellModel.listingCell(listing: .product($0)) }
                         buildSut(productListModels: productListModels)
                         startObserving()
@@ -836,9 +845,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
             }
         }
     }
-
 }
-
 
 extension ListingDeckViewModelSpec: ListingDeckViewModelDelegate {
     func vmRemoveMoreInfoTooltip() { }

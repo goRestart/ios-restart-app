@@ -40,32 +40,41 @@ final class DeckCoordinator: DeckNavigator, ListingDeckOnBoardingNavigator, Deck
 
     convenience init(navigationController: UINavigationController,
                      listing: Listing,
-                     cellModels: [ListingCellModel]?,
+                     cellModels: [ListingCellModel],
                      listingListRequester: ListingListRequester,
                      source: EventParameterListingVisitSource,
-                     listingNavigator: ListingDetailNavigator) {
+                     listingNavigator: ListingDetailNavigator,
+                     actionOnFirstAppear: DeckActionOnFirstAppear,
+                     trackingIndex: Int?) {
         self.init(navigationController: navigationController,
                   listing: listing,
                   cellModels: cellModels,
                   listingListRequester: listingListRequester,
                   source: source,
                   listingNavigator: listingNavigator,
-                  keyValueStorage: KeyValueStorage.sharedInstance)
+                  keyValueStorage: KeyValueStorage.sharedInstance,
+                  actionOnFirstAppear: actionOnFirstAppear,
+                  trackingIndex: trackingIndex)
     }
 
     private init(navigationController: UINavigationController,
                  listing: Listing,
-                 cellModels: [ListingCellModel]?,
+                 cellModels: [ListingCellModel],
                  listingListRequester: ListingListRequester,
                  source: EventParameterListingVisitSource,
                  listingNavigator: ListingDetailNavigator,
-                 keyValueStorage: KeyValueStorageable) {
+                 keyValueStorage: KeyValueStorageable,
+                 actionOnFirstAppear: DeckActionOnFirstAppear,
+                 trackingIndex: Int?) {
 
         let viewModel = ListingDeckViewModel(listModels: cellModels,
                                              listing: listing,
                                              listingListRequester: listingListRequester,
                                              source: source,
-                                             detailNavigator: listingNavigator)
+                                             detailNavigator: listingNavigator,
+                                             actionOnFirstAppear: actionOnFirstAppear,
+                                             trackingIndex: trackingIndex)
+
         let deckViewController = ListingDeckViewController(viewModel: viewModel)
         self.deckViewController = deckViewController
 

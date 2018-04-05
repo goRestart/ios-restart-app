@@ -9,7 +9,7 @@
 extension UIFont {
 
     // Avatar Font
-    static var avatarFont: UIFont { return systemRegularFont(size: 60) }
+    static var avatarFont: UIFont { return systemBoldFont(size: 50) }
 
     // Titles
     static var bigHeadlineFont: UIFont { return systemRegularFont(size: 30) }
