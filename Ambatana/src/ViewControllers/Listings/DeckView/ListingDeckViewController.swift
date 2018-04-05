@@ -215,7 +215,7 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     }
 
     func willDisplayCell(_ cell: UICollectionViewCell, atIndexPath indexPath: IndexPath) {
-        cell.isUserInteractionEnabled = false
+        cell.isUserInteractionEnabled = indexPath.row == viewModel.currentIndex
         guard let card = cell as? ListingCardView else { return }
         card.updateVerticalContentInset(animated: false)
     }
