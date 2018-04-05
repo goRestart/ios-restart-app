@@ -260,10 +260,11 @@ final class TabBarController: UITabBarController {
     
     func setupExpandableCategoriesView() {
         view.subviews.find(where: { $0.tag == TabBarController.categorySelectionTag })?.removeFromSuperview()
+        let shouldShowBadge = featureFlags.realEstateTutorial.isActive && featureFlags.realEstateEnabled.isActive
         let vm = ExpandableCategorySelectionViewModel(realEstateEnabled: featureFlags.realEstateEnabled.isActive,
                                                       trendingButtonEnabled: featureFlags.mostSearchedDemandedItems == .trendingButtonExpandableMenu,
                                                       tagsEnabled: featureFlags.mostSearchedDemandedItems == .subsetAboveExpandableMenu,
-                                                      newBadgeEnabled: featureFlags.realEstateTutorial.isActive)
+                                                      newBadgeEnabled: shouldShowBadge)
         vm.delegate = self
         
         let bottomDistance = view.bounds.height - floatingSellButton.frame.maxY
