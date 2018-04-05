@@ -117,7 +117,12 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        if #available(iOS 11.0, *) {
+            listingListView.collectionView.contentInsetAdjustmentBehavior = .never
+        } else {
+            automaticallyAdjustsScrollViewInsets = false
+        }
+
         setupFilterHeaders()
         
         listingListView.collectionViewContentInset.bottom = tabBarHeight
@@ -141,13 +146,12 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         view.addSubviewForAutoLayout(listingListView)
         NSLayoutConstraint.activate([
             listingListView.leadingAnchor.constraint(equalTo: safeLeadingAnchor),
-            listingListView.topAnchor.constraint(equalTo: safeTopAnchor),
+            listingListView.topAnchor.constraint(equalTo: isSafeAreaAvailable ? safeTopAnchor : view.topAnchor),
             listingListView.trailingAnchor.constraint(equalTo: safeTrailingAnchor),
             listingListView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
         view.sendSubview(toBack: listingListView)
 
-        automaticallyAdjustsScrollViewInsets = false
         //Add negative top inset to avoid extra padding adding by "grouped" table style.
         suggestionsSearchesTable.contentInset = UIEdgeInsetsMake(firstSectionMarginTop, 0, 0, 0)
         setupInfoBubble()
@@ -157,10 +161,6 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         setInviteNavBarButton()
         setupRxBindings()
         setAccessibilityIds()
-        
-        if #available(iOS 11.0, *) {
-            listingListView.collectionView.contentInsetAdjustmentBehavior = .never
-        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
