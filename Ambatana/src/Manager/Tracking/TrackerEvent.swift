@@ -22,9 +22,7 @@ struct TrackerEvent {
 
     private(set) var name: EventName
     var actualName: String {
-        get {
-            return name.actualEventName
-        }
+        return name.rawValue
     }
     private(set) var params: EventParameters?
 
