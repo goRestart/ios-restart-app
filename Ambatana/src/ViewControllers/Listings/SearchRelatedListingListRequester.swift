@@ -173,7 +173,7 @@ fileprivate extension SearchRelatedListingListRequester {
             params.propertyType = propertyType
         }
         if let offerType = filters?.realEstateOfferType?.rawValue {
-            params.offerType = offerType
+            params.offerType = [offerType]
         }
         params.numberOfBedrooms = filters?.realEstateNumberOfBedrooms?.rawValue ?? filters?.realEstateNumberOfRooms?.numberOfBedrooms
         params.numberOfBathrooms = filters?.realEstateNumberOfBathrooms?.rawValue

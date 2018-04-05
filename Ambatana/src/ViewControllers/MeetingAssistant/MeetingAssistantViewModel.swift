@@ -130,15 +130,15 @@ class MeetingAssistantViewModel: BaseViewModel {
     func saveDate(date: Date) {
         self.date.value = date
     }
-
+    
     func sendMeeting() {
         let coords = selectedPlace?.location ?? selectedLocation.value?.locationCoords
-        let meeting: AssistantMeeting = AssistantMeeting(meetingType: .requested,
-                                                         date: date.value,
-                                                         locationName: locationName.value,
-                                                         coordinates: coords,
-                                                         status: .pending)
-
+        let meeting: AssistantMeeting = LGAssistantMeeting(meetingType: .requested,
+                                                           date: date.value,
+                                                           locationName: locationName.value,
+                                                           coordinates: coords,
+                                                           status: .pending)
+        
         if keyValueStorage.meetingSafetyTipsAlreadyShown ||
             meetingIsSafe(selectedLocation: selectedLocation.value, time: date.value) {
             dataDelegate?.sendMeeting(meeting: meeting)

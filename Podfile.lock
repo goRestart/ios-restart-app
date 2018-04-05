@@ -60,7 +60,7 @@ PODS:
   - KMPlaceholderTextView (1.3.0)
   - Leanplum-iOS-SDK (2.0.5)
   - LGCollapsibleLabel (1.2.0)
-  - LGCoreKit (4.13.4):
+  - LGCoreKit (4.14.0):
     - Alamofire (~> 4.5.1)
     - CocoaLumberjack/Swift (~> 3.3.0)
     - DeviceGuru (~> 3.0.1)
@@ -134,7 +134,7 @@ DEPENDENCIES:
   - KMPlaceholderTextView (from `https://github.com/letgoapp/KMPlaceholderTextView`, commit `426117c98e8da8fc7d64a7d3c2f0f45c48d595e6`)
   - Leanplum-iOS-SDK (= 2.0.5)
   - LGCollapsibleLabel (= 1.2.0)
-  - LGCoreKit (from `git@github.com:letgoapp/letgo-ios-lgcorekit.git`, commit `c3030dfa8971ce02acb151aad9b7ef6639221ebe`)
+  - LGCoreKit (from `git@github.com:letgoapp/letgo-ios-lgcorekit.git`, commit `929def52742ae0fee9a4ed1a7757bf1bb7841fc0`)
   - lottie-ios (= 2.5.0)
   - NewRelicAgent (= 6.1.1)
   - Nimble (= 7.0.2)
@@ -161,7 +161,7 @@ EXTERNAL SOURCES:
     :commit: 426117c98e8da8fc7d64a7d3c2f0f45c48d595e6
     :git: https://github.com/letgoapp/KMPlaceholderTextView
   LGCoreKit:
-    :commit: c3030dfa8971ce02acb151aad9b7ef6639221ebe
+    :commit: 929def52742ae0fee9a4ed1a7757bf1bb7841fc0
     :git: git@github.com:letgoapp/letgo-ios-lgcorekit.git
   SwiftyUserDefaults:
     :commit: dd3d8ddc5bf95db09b66185182b5a555ac59efd5
@@ -181,7 +181,7 @@ CHECKOUT OPTIONS:
     :commit: 426117c98e8da8fc7d64a7d3c2f0f45c48d595e6
     :git: https://github.com/letgoapp/KMPlaceholderTextView
   LGCoreKit:
-    :commit: c3030dfa8971ce02acb151aad9b7ef6639221ebe
+    :commit: 929def52742ae0fee9a4ed1a7757bf1bb7841fc0
     :git: git@github.com:letgoapp/letgo-ios-lgcorekit.git
   SwiftyUserDefaults:
     :commit: dd3d8ddc5bf95db09b66185182b5a555ac59efd5
@@ -217,7 +217,7 @@ SPEC CHECKSUMS:
   KMPlaceholderTextView: 2bbcd19a273648a80a61e1e48f9743a24d8930e3
   Leanplum-iOS-SDK: d7d387b7f3688e697f2893978bfe67092df5b7ca
   LGCollapsibleLabel: 2a5ebb0ff0ff3e1d7ab0c295a17c923db000f557
-  LGCoreKit: 884b3c2a4c70d6eda5b79fe4612cdcb5ef818015
+  LGCoreKit: a26cb106195e27bead541d38efccf42c416eb938
   lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
   NewRelicAgent: 652434a627201e3745cd5849228feeb10afe1879
   Nimble: bfe1f814edabba69ff145cb1283e04ed636a67f2
@@ -234,6 +234,6 @@ SPEC CHECKSUMS:
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   SwiftyUserDefaults: 38267a30d58b7c8570995cd5defd354e43f056c6
 
-PODFILE CHECKSUM: 97a5032db81b1b51e5bff0855acfe657af094e91
+PODFILE CHECKSUM: 2a6a156b19c41575b8299edf007753814c4c125d
 
 COCOAPODS: 1.4.0

@@ -40,7 +40,7 @@ extension RetrieveListingParams {
             propertyType = propertyTypeValue
         }
         if let offerTypeValue = filters?.realEstateOfferType?.rawValue {
-            offerType = offerTypeValue
+            offerType = [offerTypeValue]
         }
         numberOfBedrooms = filters?.realEstateNumberOfBedrooms?.rawValue ?? filters?.realEstateNumberOfRooms?.numberOfBedrooms
         numberOfLivingRooms = filters?.realEstateNumberOfRooms?.numberOfLivingRooms

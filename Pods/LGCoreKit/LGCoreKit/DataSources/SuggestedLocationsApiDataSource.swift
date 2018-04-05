@@ -15,13 +15,16 @@ final class SuggestedLocationsApiDataSource: SuggestedLocationsDataSource {
 
     private var apiClient: ApiClient
 
+
     // MARK: - Lifecycle
 
     init(apiClient: ApiClient) {
         self.apiClient = apiClient
     }
 
-    // MARK: - LocationDataSource
+
+    // MARK: - SuggestedLocationsDataSource
+    
     func retrieveSuggestedLocationsForListing(listingId: String,
                                               completion: MeetingSuggestedLocationsDataSourceCompletion?) {
         let request = SuggestedLocationsRouter.retrieveSuggestedLocations(listingId: listingId)

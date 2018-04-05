@@ -1876,21 +1876,21 @@ extension ChatViewModel: MeetingAssistantDataDelegate {
 extension ChatViewModel {
 
     func acceptMeeting() {
-        let acceptedMeeting = AssistantMeeting(meetingType: .accepted,
-                                               date: nil,
-                                               locationName: nil,
-                                               coordinates: nil,
-                                               status: .accepted)
+        let acceptedMeeting = LGAssistantMeeting(meetingType: .accepted,
+                                                 date: nil,
+                                                 locationName: nil,
+                                                 coordinates: nil,
+                                                 status: .accepted)
         sendMeetingMessage(meeting: acceptedMeeting)
         markAsAcceptedLastMeetingAndRejectOthers()
     }
 
     func rejectMeeting() {
-        let rejectedMeeting = AssistantMeeting(meetingType: .rejected,
-                                               date: nil,
-                                               locationName: nil,
-                                               coordinates: nil,
-                                               status: .rejected)
+        let rejectedMeeting = LGAssistantMeeting(meetingType: .rejected,
+                                                 date: nil,
+                                                 locationName: nil,
+                                                 coordinates: nil,
+                                                 status: .rejected)
         sendMeetingMessage(meeting: rejectedMeeting)
     }
 

@@ -1,5 +1,5 @@
 //
-//  AssistantMeeting.swift
+//  LGAssistantMeeting.swift
 //  LetGo
 //
 //  Created by Dídac on 26/03/2018.
@@ -44,7 +44,19 @@ public enum MeetingMessageType: String {
     }
 }
 
-public struct AssistantMeeting {
+public protocol AssistantMeeting {
+    var meetingType: MeetingMessageType { get }
+    var date: Date? { get }
+    var locationName: String? { get }
+    var coordinates: LGLocationCoordinates2D? { get }
+    var status: MeetingStatus? { get }
+
+    static func makeMeeting(from message: String) -> AssistantMeeting?
+    var textForMeeting: String { get }
+}
+
+
+public struct LGAssistantMeeting: AssistantMeeting {
     public let meetingType: MeetingMessageType
     public let date: Date?
     public let locationName: String?
@@ -52,10 +64,10 @@ public struct AssistantMeeting {
     public let status: MeetingStatus?
 
     public init(meetingType: MeetingMessageType,
-                date: Date?,
-                locationName: String?,
-                coordinates: LGLocationCoordinates2D?,
-                status: MeetingStatus?) {
+         date: Date?,
+         locationName: String?,
+         coordinates: LGLocationCoordinates2D?,
+         status: MeetingStatus?) {
         self.meetingType = meetingType
         self.date = date
         self.locationName = locationName
@@ -74,13 +86,13 @@ public struct AssistantMeeting {
         case .rejected:
             return "❌ Decline"
         case .requested:
-            let meetingDateString = stringFrom(meetingDate: date) ?? ""
+            let meetingDateString = LGAssistantMeeting.stringFrom(meetingDate: date) ?? ""
             let meetingLocationName = locationName ?? ""
             var coordinatesString = ""
             if let meetingLocationCoordinates = stringFrom(coordinates: coordinates) {
                 coordinatesString = "(\(meetingLocationCoordinates))"
             }
-            return AssistantMeeting.meetingIntro + "\n\n" + "📍 " + meetingLocationName + " " + coordinatesString + "\n" + "🕐 \(meetingDateString)"
+            return LGAssistantMeeting.meetingIntro + "\n\n" + "📍 " + meetingLocationName + " " + coordinatesString + "\n" + "🕐 \(meetingDateString)"
         }
     }
 
@@ -110,18 +122,18 @@ public struct AssistantMeeting {
         guard startingChars.contains(firstChar) else { return nil }
         switch firstChar {
         case acceptanceMark:
-            let meetingAccepted = AssistantMeeting(meetingType: .accepted,
-                                                   date: nil,
-                                                   locationName: nil,
-                                                   coordinates: nil,
-                                                   status: nil)
+            let meetingAccepted = LGAssistantMeeting(meetingType: .accepted,
+                                                     date: nil,
+                                                     locationName: nil,
+                                                     coordinates: nil,
+                                                     status: nil)
             return meetingAccepted
         case rejectionMark:
-            let meetingRejected = AssistantMeeting(meetingType: .rejected,
-                                                   date: nil,
-                                                   locationName: nil,
-                                                   coordinates: nil,
-                                                   status: nil)
+            let meetingRejected = LGAssistantMeeting(meetingType: .rejected,
+                                                     date: nil,
+                                                     locationName: nil,
+                                                     coordinates: nil,
+                                                     status: nil)
             return meetingRejected
         case meetingMark:
             let locationSubstring = message.slice(from: locationMark, to: dateMark)
@@ -134,11 +146,11 @@ public struct AssistantMeeting {
                 date = stripDateFrom(string: String(dateSubstring))
             }
 
-            let meetingRequested = AssistantMeeting(meetingType: .requested,
-                                                    date: date,
-                                                    locationName: locationInfo.0,
-                                                    coordinates: locationInfo.1,
-                                                    status: .pending)
+            let meetingRequested = LGAssistantMeeting(meetingType: .requested,
+                                                      date: date,
+                                                      locationName: locationInfo.0,
+                                                      coordinates: locationInfo.1,
+                                                      status: .pending)
             return meetingRequested
         default:
             return nil
@@ -188,13 +200,13 @@ public struct AssistantMeeting {
 
     private func stringFrom(coordinates: LGLocationCoordinates2D?) -> String? {
         guard let coords = coordinates else { return nil }
-        return "\(coords.latitude)\(AssistantMeeting.degreeCharacter) N, \(coords.longitude)\(AssistantMeeting.degreeCharacter) E"
+        return "\(coords.latitude)\(LGAssistantMeeting.degreeCharacter) N, \(coords.longitude)\(LGAssistantMeeting.degreeCharacter) E"
     }
 
-    private func stringFrom(meetingDate: Date?) -> String? {
+    static private func stringFrom(meetingDate: Date?) -> String? {
         guard let date = meetingDate else { return nil }
-        AssistantMeeting.dateFormatter.dateFormat = "MM/dd/yyyy hh:mm a ZZZZ"
-        AssistantMeeting.dateFormatter.timeZone = TimeZone.current
-        return AssistantMeeting.dateFormatter.string(from: date)
+        dateFormatter.dateFormat = "MM/dd/yyyy hh:mm a ZZZZ"
+        dateFormatter.timeZone = TimeZone.current
+        return dateFormatter.string(from: date)
     }
 }
