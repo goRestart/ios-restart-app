@@ -26,6 +26,7 @@ final class UserProfileViewController: BaseViewController {
     private let userRelationView = UserProfileRelationView()
     private let bioAndTrustView: UserProfileBioAndTrustView
     private let dummyView = UserProfileDummyUserDisclaimerView()
+    private let karmaView = UserProfileKarmaScoreView()
     private let tabsView = UserProfileTabsView()
     private let listingView: ListingListView
     private let tableView = UITableView()
@@ -132,6 +133,12 @@ final class UserProfileViewController: BaseViewController {
 
         headerContainerView.addSubviewsForAutoLayout([headerView, dummyView, userRelationView,
                                                       bioAndTrustView, tabsView])
+
+        if viewModel.showKarmaView {
+            headerContainerView.addSubviewForAutoLayout(karmaView)
+        }
+        bioAndTrustView.onlyShowBioText = viewModel.showKarmaView
+
         view.addSubviewsForAutoLayout([tableView, listingView, headerContainerView])
 
         navBarUserView.alpha = 0
@@ -231,7 +238,6 @@ final class UserProfileViewController: BaseViewController {
             bioAndTrustView.topAnchor.constraint(equalTo: userRelationView.bottomAnchor, constant: 0) ,
             bioAndTrustView.leftAnchor.constraint(equalTo: headerContainerView.leftAnchor, constant: Layout.sideMargin),
             bioAndTrustView.rightAnchor.constraint(equalTo: headerContainerView.rightAnchor, constant: -Layout.sideMargin),
-            bioAndTrustView.bottomAnchor.constraint(equalTo: headerContainerView.bottomAnchor, constant: -Layout.tabsHeight),
             tabsView.leftAnchor.constraint(equalTo: headerContainerView.leftAnchor, constant: Layout.sideMargin),
             tabsView.rightAnchor.constraint(equalTo: headerContainerView.rightAnchor, constant: -Layout.sideMargin),
             tabsView.bottomAnchor.constraint(equalTo: headerContainerView.bottomAnchor),
@@ -245,6 +251,19 @@ final class UserProfileViewController: BaseViewController {
             tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
             tableView.bottomAnchor.constraint(equalTo: safeBottomAnchor)
         ]
+
+        if viewModel.showKarmaView {
+            constraints.append(contentsOf: [
+                karmaView.topAnchor.constraint(equalTo: bioAndTrustView.bottomAnchor, constant: Metrics.shortMargin),
+                karmaView.leftAnchor.constraint(equalTo: headerContainerView.leftAnchor, constant: Metrics.shortMargin),
+                karmaView.rightAnchor.constraint(equalTo: headerContainerView.rightAnchor, constant: -Metrics.shortMargin),
+                tabsView.topAnchor.constraint(equalTo: karmaView.bottomAnchor)
+            ])
+        } else {
+            constraints.append(contentsOf: [
+                tabsView.topAnchor.constraint(equalTo: bioAndTrustView.bottomAnchor)
+                ])
+        }
 
         let headerContainerTop =  headerContainerView.topAnchor.constraint(equalTo: safeTopAnchor, constant: Layout.topMargin)
         headerContainerTopConstraint = headerContainerTop
@@ -535,6 +554,7 @@ extension UserProfileViewController {
             .userBio
             .drive(onNext: { [weak self] bio in
                 self?.bioAndTrustView.userBio = bio
+                self?.karmaView.score = 12
             })
             .disposed(by: disposeBag)
 
