@@ -74,7 +74,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var moreInfoDFPAdUnitId = ""
     var feedDFPAdUnitId: String? = ""
     var bumpPriceVariationBucket: BumpPriceVariationBucket = .defaultValue
-    var shouldChangeChatNowCopy = false
+    var shouldChangeChatNowCopyInTurkey = false
     var copyForChatNowInTurkey: CopyForChatNowInTurkey = .control
     var feedAdsProviderForUS: FeedAdsProviderForUS = .control
     var feedMoPubAdUnitId: String? = ""

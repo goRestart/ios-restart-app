@@ -83,7 +83,7 @@ protocol FeatureFlaggeable: class {
     var feedDFPAdUnitId: String? { get }
     var bumpPriceVariationBucket: BumpPriceVariationBucket { get }
     func collectionsAllowedFor(countryCode: String?) -> Bool
-    var shouldChangeChatNowCopy: Bool { get }
+    var shouldChangeChatNowCopyInTurkey: Bool { get }
     var copyForChatNowInTurkey: CopyForChatNowInTurkey { get }
     var shareTypes: [ShareType] { get }
     var feedAdsProviderForUS:  FeedAdsProviderForUS { get }
@@ -839,7 +839,7 @@ class FeatureFlags: FeatureFlaggeable {
         }
     }
     
-    var shouldChangeChatNowCopy: Bool {
+    var shouldChangeChatNowCopyInTurkey: Bool {
         if Bumper.enabled {
             return Bumper.copyForChatNowInTurkey.isActive
         }
