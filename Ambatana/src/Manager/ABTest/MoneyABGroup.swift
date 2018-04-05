@@ -1,5 +1,5 @@
 //
-//  ABMoney.swift
+//  MoneyABGroup.swift
 //  LetGo
 //
 //  Created by Facundo Menzella on 29/03/2018.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct MoneyGroup: ABGroupType {
+struct MoneyABGroup: ABGroupType {
     private struct Keys {
         static let increaseMinPriceBumps = "20180208IncreaseMinPriceBumps"
         static let noAdsInFeedForNewUsers = "20180212NoAdsInFeedForNewUsers"
@@ -56,13 +56,25 @@ struct MoneyGroup: ABGroupType {
         boolVariables.append(showProTagUserProfile)
     }
 
-    static func make() -> MoneyGroup {
-        return MoneyGroup(increaseMinPriceBumps: .makeInt(key: Keys.increaseMinPriceBumps, defaultValue: 0, groupType: .money),
-                          noAdsInFeedForNewUsers: .makeInt(key: Keys.noAdsInFeedForNewUsers, defaultValue: 0, groupType: .money),
-                          showBumpUpBannerOnNotValidatedListings: .makeInt(key: Keys.showBumpUpBannerOnNotValidatedListings, defaultValue: 0, groupType: .money),
-                          copyForChatNowInTurkey: .makeInt(key: Keys.copyForChatNowInTurkey, defaultValue: 0, groupType: .money),
-                          turkeyBumpPriceVATAdaptation: .makeInt(key: Keys.turkeyBumpPriceVATAdaptation, defaultValue: 0, groupType: .money),
-                          promoteBumpInEdit: .makeInt(key: Keys.promoteBumpInEdit, defaultValue: 0, groupType: .money),
-                          showProTagUserProfile:.makeBool(key: Keys.showProTagUserProfile, defaultValue: false, groupType: .money))
+    static func make() -> MoneyABGroup {
+        return MoneyABGroup(increaseMinPriceBumps: .makeInt(key: Keys.increaseMinPriceBumps,
+                                                            defaultValue: 0,
+                                                            groupType: .money),
+                            noAdsInFeedForNewUsers: .makeInt(key: Keys.noAdsInFeedForNewUsers,
+                                                             defaultValue: 0,
+                                                             groupType: .money),
+                            showBumpUpBannerOnNotValidatedListings: .makeInt(key: Keys.showBumpUpBannerOnNotValidatedListings,
+                                                                             defaultValue: 0,
+                                                                             groupType: .money),
+                            copyForChatNowInTurkey: .makeInt(key: Keys.copyForChatNowInTurkey,
+                                                             defaultValue: 0,
+                                                             groupType: .money),
+                            turkeyBumpPriceVATAdaptation: .makeInt(key: Keys.turkeyBumpPriceVATAdaptation,
+                                                                   defaultValue: 0, groupType: .money),
+                            promoteBumpInEdit: .makeInt(key: Keys.promoteBumpInEdit, defaultValue: 0,
+                                                        groupType: .money),
+                            showProTagUserProfile:.makeBool(key: Keys.showProTagUserProfile,
+                                                            defaultValue: false,
+                                                            groupType: .money))
     }
 }

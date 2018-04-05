@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct CoreGroup: ABGroupType {
+struct CoreABGroup: ABGroupType {
     private struct Keys {
         static let discardedProducts = "20180219DiscardedProducts"
         static let newUserProfileView = "20180221NewUserProfileView"
@@ -56,13 +56,27 @@ struct CoreGroup: ABGroupType {
                                          relaxedSearch])
     }
     
-    static func make() -> CoreGroup {
-        return CoreGroup(discardedProducts: .makeInt(key: Keys.discardedProducts, defaultValue: 0, groupType: .core),
-                         newUserProfileView: .makeInt(key: Keys.newUserProfileView, defaultValue: 0, groupType: .core),
-                         searchImprovements: .makeInt(key: Keys.searchImprovements, defaultValue: 0, groupType: .core),
-                         servicesCategoryEnabled: .makeInt(key: Keys.servicesCategoryEnabled, defaultValue: 0, groupType: .products),
-                         machineLearningMVP: .makeInt(key: Keys.machineLearningMVP, defaultValue: 0, groupType: .core),
-                         addPriceTitleDistanceToListings: .makeInt(key: Keys.addPriceTitleDistanceToListings, defaultValue: 0, groupType: .core),
-                         relaxedSearch: .makeInt(key: Keys.relaxedSearch, defaultValue: 0, groupType: .core))
+    static func make() -> CoreABGroup {
+        return CoreABGroup(discardedProducts: .makeInt(key: Keys.discardedProducts,
+                                                       defaultValue: 0,
+                                                       groupType: .core),
+                           newUserProfileView: .makeInt(key: Keys.newUserProfileView,
+                                                        defaultValue: 0,
+                                                        groupType: .core),
+                           searchImprovements: .makeInt(key: Keys.searchImprovements,
+                                                        defaultValue: 0,
+                                                        groupType: .core),
+                           servicesCategoryEnabled: .makeInt(key: Keys.servicesCategoryEnabled,
+                                                             defaultValue: 0,
+                                                             groupType: .products),
+                           machineLearningMVP: .makeInt(key: Keys.machineLearningMVP,
+                                                        defaultValue: 0,
+                                                        groupType: .core),
+                           addPriceTitleDistanceToListings: .makeInt(key: Keys.addPriceTitleDistanceToListings,
+                                                                     defaultValue: 0,
+                                                                     groupType: .core),
+                           relaxedSearch: .makeInt(key: Keys.relaxedSearch,
+                                                   defaultValue: 0,
+                                                   groupType: .core))
     }
 }

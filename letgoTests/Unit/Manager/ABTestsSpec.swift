@@ -14,32 +14,31 @@ import Nimble
 class ABTestsSpec: QuickSpec {
 
     override func spec() {
+        var syncer: LeamplumSyncerCounter!
+        var uniqueSyncer: LeamplumSyncerCounter!
+
         var sut: ABTests!
 
         var legacy: LegacyABGroup!
-        var realEstate: RealEstateGroup!
-        var retention: RetentionGroup!
-        var money: MoneyGroup!
-        var chat: ChatGroup!
-        var core: CoreGroup!
-
-        var syncer: LeamplumSyncerCounter!
-        var uniqueSyncer: LeamplumSyncerCounter!
-        core = CoreGroup.make()
+        var realEstate: RealEstateABGroup!
+        var retention: RetentionABGroup!
+        var money: MoneyABGroup!
+        var chat: ChatABGroup!
+        var core: CoreABGroup!
 
         afterEach { syncer.clear() }
 
-        fdescribe("A new set of ABTests") {
+        describe("ABTests") {
             beforeEach {
                 syncer = LeamplumSyncerCounter()
                 sut = ABTests(syncer: syncer)
 
                 legacy = LegacyABGroup.make()
-                realEstate = RealEstateGroup.make()
-                core = CoreGroup.make()
+                realEstate = RealEstateABGroup.make()
+                core = CoreABGroup.make()
                 chat = ChatABGroup.make()
-                money = MoneyGroup.make()
-                retention = RetentionGroup.make()
+                money = MoneyABGroup.make()
+                retention = RetentionABGroup.make()
             }
 
             context("registering all the variables") {
@@ -96,11 +95,11 @@ class ABTestsSpec: QuickSpec {
                     expect(legacy.intVariables.count) == 13
                 }
 
-                it("it has 0 bool variables") {
+                it("it has 8 bool variables") {
                     expect(legacy.boolVariables.count) == 8
                 }
 
-                it("it has 0 string variables") {
+                it("it has 1 string variables") {
                     expect(legacy.stringVariables.count) == 1
                 }
 
@@ -122,7 +121,7 @@ class ABTestsSpec: QuickSpec {
             }
             
             context("Checking real estate variables") {
-                it("it has 7 int variables") {
+                it("it has 4 int variables") {
                     expect(realEstate.intVariables.count) == 4
                 }
                 
@@ -152,7 +151,7 @@ class ABTestsSpec: QuickSpec {
             }
 
             context("Checking retention variables") {
-                it("it has 7 int variables") {
+                it("it has 2 int variables") {
                     expect(retention.intVariables.count) == 2
                 }
 

@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct RetentionGroup: ABGroupType {
+struct RetentionABGroup: ABGroupType {
     private struct Keys {
         static let dummyUsersInfoProfile = "20180130DummyUsersInfoProfile"
         static let onboardingIncentivizePosting = "20180215OnboardingIncentivizePosting"
@@ -30,8 +30,12 @@ struct RetentionGroup: ABGroupType {
         intVariables.append(contentsOf: [dummyUsersInfoProfile, onboardingIncentivizePosting])
     }
 
-    static func make() -> RetentionGroup {
-        return RetentionGroup(dummyUsersInfoProfile: .makeInt(key: Keys.dummyUsersInfoProfile, defaultValue: 0, groupType: .retention),
-                              onboardingIncentivizePosting: .makeInt(key: Keys.onboardingIncentivizePosting, defaultValue: 0, groupType: .retention))
+    static func make() -> RetentionABGroup {
+        return RetentionABGroup(dummyUsersInfoProfile: .makeInt(key: Keys.dummyUsersInfoProfile,
+                                                                defaultValue: 0,
+                                                                groupType: .retention),
+                                onboardingIncentivizePosting: .makeInt(key: Keys.onboardingIncentivizePosting,
+                                                                       defaultValue: 0,
+                                                                       groupType: .retention))
     }
 }

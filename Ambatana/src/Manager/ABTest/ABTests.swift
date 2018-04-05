@@ -38,11 +38,11 @@ class ABTests {
     let trackingData = Variable<[(String, ABGroup)]?>(nil)
 
     let legacy = LegacyABGroup.make()
-    let realEstate = RealEstateGroup.make()
-    let retention = RetentionGroup.make()
-    let money = MoneyGroup.make()
+    let realEstate = RealEstateABGroup.make()
+    let retention = RetentionABGroup.make()
+    let money = MoneyABGroup.make()
     let chat = ChatABGroup.make()
-    let core = CoreGroup.make()
+    let core = CoreABGroup.make()
 
     convenience init() {
         self.init(syncer: LeamplumSyncer())

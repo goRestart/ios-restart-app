@@ -53,11 +53,23 @@ struct ChatABGroup: ABGroupType {
     }
 
     static func make() -> ChatABGroup {
-        return ChatABGroup(showInactiveConversations: .makeBool(key: Keys.showInactiveConversations, defaultValue: false, groupType: .chat),
-                           showSecurityMeetingChatMessage: .makeInt(key: Keys.showSecurityMeetingChatMessage, defaultValue: 0, groupType: .chat),
-                           emojiSizeIncrement: .makeInt(key: Keys.emojiSizeIncrement, defaultValue: 0, groupType: .chat),
-                           showChatSafetyTips: .makeBool(key: Keys.showChatSafetyTips, defaultValue: false, groupType: .chat),
-                           userIsTyping: .makeInt(key: Keys.userIsTyping, defaultValue: 0, groupType: .chat),
-                           markAllConversationsAsRead: .makeBool(key: Keys.markAllConversationsAsRead, defaultValue: false, groupType: .chat))
+        return ChatABGroup(showInactiveConversations: .makeBool(key: Keys.showInactiveConversations,
+                                                                defaultValue: false,
+                                                                groupType: .chat),
+                           showSecurityMeetingChatMessage: .makeInt(key: Keys.showSecurityMeetingChatMessage,
+                                                                    defaultValue: 0,
+                                                                    groupType: .chat),
+                           emojiSizeIncrement: .makeInt(key: Keys.emojiSizeIncrement,
+                                                        defaultValue: 0,
+                                                        groupType: .chat),
+                           showChatSafetyTips: .makeBool(key: Keys.showChatSafetyTips,
+                                                         defaultValue: false,
+                                                         groupType: .chat),
+                           userIsTyping: .makeInt(key: Keys.userIsTyping,
+                                                  defaultValue: 0,
+                                                  groupType: .chat),
+                           markAllConversationsAsRead: .makeBool(key: Keys.markAllConversationsAsRead,
+                                                                 defaultValue: false,
+                                                                 groupType: .chat))
     }
 }

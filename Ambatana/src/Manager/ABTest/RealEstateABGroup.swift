@@ -1,5 +1,5 @@
 //
-//  ABRealEstate.swift
+//  RealEstateABGroup.swift
 //  LetGo
 //
 //  Created by Facundo Menzella on 29/03/2018.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct RealEstateGroup: ABGroupType {
+struct RealEstateABGroup: ABGroupType {
     private struct Keys {
         static let realEstateNewCopy = "20180126RealEstateNewCopy"
         static let increaseNumberOfPictures = "20180314IncreaseNumberOfPictures"
@@ -38,10 +38,18 @@ struct RealEstateGroup: ABGroupType {
         intVariables.append(contentsOf: [realEstateNewCopy, increaseNumberOfPictures, realEstateTutorial, summaryAsFirstStep])
     }
 
-    static func make() -> RealEstateGroup {
-        return RealEstateGroup(realEstateNewCopy: .makeInt(key: Keys.realEstateNewCopy, defaultValue: 0, groupType: .realEstate),
-                               increaseNumberOfPictures: .makeInt(key: Keys.increaseNumberOfPictures, defaultValue: 0, groupType: .realEstate),
-                               realEstateTutorial: .makeInt(key: Keys.realEstateTutorial, defaultValue: 0, groupType: .realEstate),
-                               summaryAsFirstStep: .makeInt(key: Keys.summaryAsFirstStep, defaultValue: 0, groupType: .realEstate))
+    static func make() -> RealEstateABGroup {
+        return RealEstateABGroup(realEstateNewCopy: .makeInt(key: Keys.realEstateNewCopy,
+                                                             defaultValue: 0,
+                                                             groupType: .realEstate),
+                                 increaseNumberOfPictures: .makeInt(key: Keys.increaseNumberOfPictures,
+                                                                    defaultValue: 0,
+                                                                    groupType: .realEstate),
+                                 realEstateTutorial: .makeInt(key: Keys.realEstateTutorial,
+                                                              defaultValue: 0,
+                                                              groupType: .realEstate),
+                                 summaryAsFirstStep: .makeInt(key: Keys.summaryAsFirstStep,
+                                                              defaultValue: 0,
+                                                              groupType: .realEstate))
     }
 }

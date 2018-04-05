@@ -26,7 +26,7 @@ protocol ABVariable {
 }
 
 protocol ABTrackable {
-    var tuple: (String, ABGroup) { get }
+    var nameAndGroup: (String, ABGroup) { get }
 }
 
 final class LeanplumABVariable<U: Hashable>: Hashable, ABVariable, ABTrackable {
@@ -35,7 +35,7 @@ final class LeanplumABVariable<U: Hashable>: Hashable, ABVariable, ABTrackable {
     private let unwrap: ((LPVar) -> U)
     let defaultValue: U
 
-    var tuple: (String, ABGroup) { return (trackingData, abGroupType) }
+    var nameAndGroup: (String, ABGroup) { return (trackingData, abGroupType) }
     var trackingData: String { return "\(key)-\(value)" }
     let abGroupType: ABGroup
     private let key: String
