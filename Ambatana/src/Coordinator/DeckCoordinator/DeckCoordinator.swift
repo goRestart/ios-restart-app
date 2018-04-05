@@ -73,7 +73,7 @@ final class DeckCoordinator: DeckNavigator, ListingDeckOnBoardingNavigator, Deck
                                              source: source,
                                              detailNavigator: listingNavigator,
                                              actionOnFirstAppear: actionOnFirstAppear,
-                                            trackingIndex: trackingIndex)
+                                             trackingIndex: trackingIndex)
 
         let deckViewController = ListingDeckViewController(viewModel: viewModel)
         self.deckViewController = deckViewController
