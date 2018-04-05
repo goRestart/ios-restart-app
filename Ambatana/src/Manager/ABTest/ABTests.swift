@@ -135,6 +135,7 @@ extension ABTests {
     var promoteBumpInEdit: LeanplumABVariable<Int> { return money.promoteBumpInEdit }
     var showProTagUserProfile: LeanplumABVariable<Bool> { return money.showProTagUserProfile }
     var feedAdsProviderForUS: LeanplumABVariable<Int> { return money.feedAdsProviderForUS }
+    var copyForChatNowInEnglish: LeanplumABVariable<Int> { return money.copyForChatNowInEnglish }
 }
 
 extension ABTests {

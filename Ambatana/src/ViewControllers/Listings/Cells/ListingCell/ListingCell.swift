@@ -407,8 +407,11 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     // Setup FeatureListingChatButton with feature flags
     private func setupFeaturedListingChatButton() {
         let featureFlags = FeatureFlags.sharedInstance
-        if featureFlags.shouldChangeChatNowCopy {
+        if featureFlags.shouldChangeChatNowCopyInTurkey {
             featuredListingChatButton.setTitle(featureFlags.copyForChatNowInTurkey.variantString,
+                                               for: .normal)
+        } else if featureFlags.shouldChangeChatNowCopyInEnglish {
+            featuredListingChatButton.setTitle(featureFlags.copyForChatNowInEnglish.variantString,
                                                for: .normal)
         } else {
             featuredListingChatButton.setTitle(LGLocalizedString.bumpUpProductCellChatNowButton,
