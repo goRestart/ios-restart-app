@@ -38,7 +38,7 @@ final class DeckCoordinator: DeckNavigator, ListingDeckOnBoardingNavigator, Deck
     fileprivate weak var navigationController: UINavigationController?
     var interactiveTransitioner: UIPercentDrivenInteractiveTransition?
     
-    private init(withNavigationController navigationController: UINavigationController) {
+    init(withNavigationController navigationController: UINavigationController) {
         self.navigationController = navigationController
     }
 

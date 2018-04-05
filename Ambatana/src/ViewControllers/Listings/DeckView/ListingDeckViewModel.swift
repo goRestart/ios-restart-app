@@ -361,11 +361,15 @@ final class ListingDeckViewModel: BaseViewModel {
 
     func close() {
         if shouldShowDeckOnBoarding {
-            deckNavigator?.showOnBoarding()
-            keyValueStorage[.didShowDeckOnBoarding] = true
+            showOnBoarding()
         } else {
             deckNavigator?.closeDeck()
         }
+    }
+
+    func showOnBoarding() {
+        deckNavigator?.showOnBoarding()
+        keyValueStorage[.didShowDeckOnBoarding] = true
     }
 
     func cachedImageAtIndex(_ index: Int) -> UIImage? {
