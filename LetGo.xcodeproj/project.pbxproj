@@ -719,6 +719,7 @@
 		6A12E0581C6398BE00C1BFE3 /* TourNotificationsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A12E0571C6398BE00C1BFE3 /* TourNotificationsViewController.xib */; };
 		6A12E0591C6398BE00C1BFE3 /* TourNotificationsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A12E0571C6398BE00C1BFE3 /* TourNotificationsViewController.xib */; };
 		6A38A998207618DE00F3B292 /* UserProfileKarmaScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A38A997207618DE00F3B292 /* UserProfileKarmaScoreView.swift */; };
+		6A38A9992076304A00F3B292 /* UserProfileKarmaScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A38A997207618DE00F3B292 /* UserProfileKarmaScoreView.swift */; };
 		6A38ADE21C64C4EA009E1A31 /* TourLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A38ADE11C64C4EA009E1A31 /* TourLocationViewController.swift */; };
 		6A38ADE31C64C4EA009E1A31 /* TourLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A38ADE11C64C4EA009E1A31 /* TourLocationViewController.swift */; };
 		6A38ADE51C64C4F9009E1A31 /* TourLocationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A38ADE41C64C4F9009E1A31 /* TourLocationViewController.xib */; };
@@ -7489,6 +7490,7 @@
 				2E131C6C1DEDE998004D26DC /* LGPurchasesShopper.swift in Sources */,
 				502047161EE1BB22006C0EC2 /* MarkAsSoldTrackingInfo.swift in Sources */,
 				C7C61DF61D63035400F9505D /* ListingCarouselMoreInfoView.swift in Sources */,
+				6A38A9992076304A00F3B292 /* UserProfileKarmaScoreView.swift in Sources */,
 				C7DB42091C5138B500400945 /* ChatSafetyTipsView.swift in Sources */,
 				7224D7E91F581EE7004E3B49 /* ExpandableCategorySelectionView.swift in Sources */,
 				C7BAC9BD1E49BCC0005BD0AF /* LGBubbleNotificationManager.swift in Sources */,
