@@ -66,8 +66,7 @@ struct ListingCellMetrics {
     
     static func getTotalHeightForPriceAndTitleView(_ title: String?, containerWidth: CGFloat, font: UIFont = TitleLabel.fontMedium, maxLines: Int = 2) -> CGFloat {
         let priceHeight = minPriceAreaHeight
-        let extraPadding: CGFloat = 5.0 // added since the xib cuts some margins. it will be removed once the fullyCoded listing cell is merged.
-        guard let title = title else { return priceHeight + extraPadding }
+        guard let title = title else { return priceHeight }
         let labelWidth = containerWidth - 2 * sideMargin
         let titleHeight = title.heightForWidth(width: labelWidth, maxLines: maxLines, withFont: font)
         return priceHeight + titleHeight + TitleLabel.bottomMargin

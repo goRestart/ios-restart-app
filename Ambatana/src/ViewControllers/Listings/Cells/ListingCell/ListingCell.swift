@@ -384,7 +384,6 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     
     private func showDetail() {
         guard let featureView = featureView else { return }
-        featuredListingInfoView.translatesAutoresizingMaskIntoConstraints = false
         featuredListingInfoView.addSubviewsForAutoLayout([featureView])
         featureView.layout(with: featuredListingInfoView).top().leading().trailing().bottom()
     }
