@@ -13,10 +13,20 @@ import RxCocoa
 
 final class UserPhoneVerificationNumberInputViewModel: BaseViewModel {
 
+    weak var navigator: UserPhoneVerificationNavigator?
+
     var country: Driver<String> { return .just("") }
     var isContinueActionEnabled: Driver<Bool> { return .just(false) }
 
     init(fake: String? = "") {
         super.init()
+    }
+
+    func didTapCountryButton() {
+        navigator?.openCountrySelector()
+    }
+
+    func didTapContinueButton() {
+        navigator?.openCodeInput()
     }
 }
