@@ -8,7 +8,7 @@
 
 import Foundation
 
-class UserProfileKarmaScoreView: UIView {
+final class UserProfileKarmaScoreView: UIView {
 
     private let innerContainer = UIView()
     private let outerContainer = UIView()

@@ -26,7 +26,7 @@ final class UserProfileViewController: BaseViewController {
     private let userRelationView = UserProfileRelationView()
     private let bioAndTrustView: UserProfileBioAndTrustView
     private let dummyView = UserProfileDummyUserDisclaimerView()
-    private let karmaView = UserProfileKarmaScoreView()
+    private lazy var karmaView = UserProfileKarmaScoreView()
     private let tabsView = UserProfileTabsView()
     private let listingView: ListingListView
     private let tableView = UITableView()
