@@ -88,6 +88,7 @@ protocol FeatureFlaggeable: class {
     var shareTypes: [ShareType] { get }
     var feedAdsProviderForUS:  FeedAdsProviderForUS { get }
     var feedMoPubAdUnitId: String? { get }
+    var feedAdsProviderForTR:  FeedAdsProviderForTR { get }
     
 }
 
@@ -866,9 +867,26 @@ class FeatureFlags: FeatureFlaggeable {
             default:
                 return nil
             }
+        case .turkey?:
+            switch feedAdsProviderForTR {
+            case .moPubAdsForAllUsers:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubTRForAllUsers
+            case .moPubAdsForOldUsers:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubTRForOldUsers
+            default:
+                return nil
+            }
+            
         default:
             return nil
         }
+    }
+    
+    var feedAdsProviderForTR: FeedAdsProviderForTR {
+        if Bumper.enabled {
+            return Bumper.feedAdsProviderForTR
+        }
+        return FeedAdsProviderForTR.fromPosition(abTests.feedAdsProviderForTR.value)
     }
 
     // MARK: - Private

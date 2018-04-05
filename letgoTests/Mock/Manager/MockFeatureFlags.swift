@@ -78,6 +78,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var copyForChatNowInTurkey: CopyForChatNowInTurkey = .control
     var feedAdsProviderForUS: FeedAdsProviderForUS = .control
     var feedMoPubAdUnitId: String? = ""
+    var feedAdsProviderForTR: FeedAdsProviderForTR = .control
     
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false

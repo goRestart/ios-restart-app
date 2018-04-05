@@ -65,6 +65,7 @@ class ABTests {
     let relaxedSearch = IntABDynamicVar(key: "20180319RelaxedSearch", defaultValue: 0, abGroupType: .core)
     let advancedReputationSystem = IntABDynamicVar(key: "20180328AdvancedReputationSystem", defaultValue: 0, abGroupType: .users)
     let feedAdsProviderForUS = IntABDynamicVar(key: "20180327FeedAdsProviderForUS", defaultValue: 0, abGroupType: .money)
+    let feedAdsProviderForTR = IntABDynamicVar(key: "20180405FeedAdsProviderForTR", defaultValue: 0, abGroupType: .money)
 
     init() {
     }
@@ -122,6 +123,7 @@ class ABTests {
         result.append(machineLearningMVP)
         result.append(advancedReputationSystem)
         result.append(feedAdsProviderForUS)
+        result.append(feedAdsProviderForTR)
         return result
     }
 
