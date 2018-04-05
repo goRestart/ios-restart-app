@@ -130,7 +130,7 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
         mapSnapShotView.backgroundColor = .gray
         
         let gesture = UITapGestureRecognizer(target: self, action: #selector(tapOnView))
-        self.addGestureRecognizer(gesture)
+        addGestureRecognizer(gesture)
         tapGesture = gesture
         verticalStackView.addArrangedSubview(mapSnapShotView)
     }
@@ -200,14 +200,6 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
         mapView.alpha = 0
         mapSnapShotView.alpha = 1
         bringSubview(toFront: verticalStackView)
-    }
-
-    // MARK: MKMapViewDelegate
-
-    func mapViewDidFinishRenderingMap(_ mapView: MKMapView, fullyRendered: Bool) {
-        if !fullyRendered {
-            hideMap()
-        }
     }
 
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
