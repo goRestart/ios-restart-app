@@ -98,7 +98,8 @@ class ListingViewModel: BaseViewModel {
                                        stats: nil,
                                        postedDate: nil,
                                        socialSharer: SocialSharer(),
-                                       socialMessage: socialMessage)
+                                       socialMessage: socialMessage,
+                                       isMine: isMine)
         }
 
         func make(listing: Listing, visitSource source: EventParameterListingVisitSource) -> ListingViewModel {

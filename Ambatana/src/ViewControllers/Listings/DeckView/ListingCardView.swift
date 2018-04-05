@@ -104,6 +104,9 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
         self.imageDownloader = imageDownloader
         populateWith(preview: listingSnapshot.preview, imageCount: listingSnapshot.imageCount)
         populateWith(userInfo: listingSnapshot.userInfo)
+        let action = listingSnapshot.isMine ? ListingCardUserView.Action.edit
+                                            : ListingCardUserView.Action.favourite(isOn: listingSnapshot.isFavorite)
+        userView.set(action: action)
         detailsView.populateWith(productInfo: listingSnapshot.productInfo)
         detailsView.populateWith(listingStats: nil, postedDate: nil)
     }
