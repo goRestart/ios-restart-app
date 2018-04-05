@@ -70,9 +70,28 @@
 		01C7778E1FFE4B92001A04C7 /* MostSearchedItemsListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C7778D1FFE4B92001A04C7 /* MostSearchedItemsListCell.swift */; };
 		01C7778F1FFE4B92001A04C7 /* MostSearchedItemsListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C7778D1FFE4B92001A04C7 /* MostSearchedItemsListCell.swift */; };
 		0A00F9C61FA3656600E915F4 /* ListingDeckViewControllerBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A00F9C31FA364B100E915F4 /* ListingDeckViewControllerBinder.swift */; };
+		0A04D5CD20760A9D00471B9D /* CoreABGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A04D5C420760A9C00471B9D /* CoreABGroup.swift */; };
+		0A04D5CE20760A9D00471B9D /* CoreABGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A04D5C420760A9C00471B9D /* CoreABGroup.swift */; };
+		0A04D5CF20760A9D00471B9D /* ABDynamicVar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A04D5C520760A9C00471B9D /* ABDynamicVar.swift */; };
+		0A04D5D020760A9D00471B9D /* ABDynamicVar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A04D5C520760A9C00471B9D /* ABDynamicVar.swift */; };
+		0A04D5D320760A9D00471B9D /* MoneyABGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A04D5C720760A9C00471B9D /* MoneyABGroup.swift */; };
+		0A04D5D420760A9D00471B9D /* MoneyABGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A04D5C720760A9C00471B9D /* MoneyABGroup.swift */; };
+		0A04D5D520760A9D00471B9D /* RealEstateABGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A04D5C820760A9C00471B9D /* RealEstateABGroup.swift */; };
+		0A04D5D620760A9D00471B9D /* RealEstateABGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A04D5C820760A9C00471B9D /* RealEstateABGroup.swift */; };
+		0A04D5D720760A9D00471B9D /* RetentionABGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A04D5C920760A9C00471B9D /* RetentionABGroup.swift */; };
+		0A04D5D820760A9D00471B9D /* RetentionABGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A04D5C920760A9C00471B9D /* RetentionABGroup.swift */; };
+		0A04D5D920760A9D00471B9D /* ABTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A04D5CA20760A9C00471B9D /* ABTests.swift */; };
+		0A04D5DA20760A9D00471B9D /* ABTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A04D5CA20760A9C00471B9D /* ABTests.swift */; };
+		0A04D5DB20760A9D00471B9D /* ChatABGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A04D5CB20760A9C00471B9D /* ChatABGroup.swift */; };
+		0A04D5DC20760A9D00471B9D /* ChatABGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A04D5CB20760A9C00471B9D /* ChatABGroup.swift */; };
+		0A04D5DD20760A9D00471B9D /* LegacyABGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A04D5CC20760A9C00471B9D /* LegacyABGroup.swift */; };
+		0A04D5DE20760A9D00471B9D /* LegacyABGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A04D5CC20760A9C00471B9D /* LegacyABGroup.swift */; };
+		0A04D5E0207614F000471B9D /* UsersABGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A04D5DF207614F000471B9D /* UsersABGroup.swift */; };
+		0A04D5E12076175D00471B9D /* UsersABGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A04D5DF207614F000471B9D /* UsersABGroup.swift */; };
 		0A0AF97C1FA864900024EF22 /* ListingDeckViewModelBinderSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0AF97B1FA864900024EF22 /* ListingDeckViewModelBinderSpec.swift */; };
 		0A0CD7F81FD97FBB00B0BACF /* FilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0CD7F71FD97FBB00B0BACF /* FilterCell.swift */; };
 		0A0CD7F91FD9806C00B0BACF /* FilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0CD7F71FD97FBB00B0BACF /* FilterCell.swift */; };
+		0A104696206CFB99003F1577 /* ABTestsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A104695206CFB99003F1577 /* ABTestsSpec.swift */; };
 		0A24AFED1FCF0CDE00F1CA6B /* ListingCardDetailMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2D69DF1FC6BA6900F072A1 /* ListingCardDetailMapView.swift */; };
 		0A25E8122019C87900E6A72E /* OnBoardingAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A25E8112019C87900E6A72E /* OnBoardingAnimator.swift */; };
 		0A25E8132019C88C00E6A72E /* OnBoardingAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A25E8112019C87900E6A72E /* OnBoardingAnimator.swift */; };
@@ -279,10 +298,6 @@
 		2E50E9A81D057E92002DC4C1 /* LGAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E50E9A51D057E92002DC4C1 /* LGAlertViewController.swift */; };
 		2E50E9A91D057E92002DC4C1 /* LGAlertViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E50E9A61D057E92002DC4C1 /* LGAlertViewController.xib */; };
 		2E50E9AA1D057E92002DC4C1 /* LGAlertViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E50E9A61D057E92002DC4C1 /* LGAlertViewController.xib */; };
-		2E52CCC81CBD3F9B003B7A96 /* ABDynamicVar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E52CCC71CBD3F9B003B7A96 /* ABDynamicVar.swift */; };
-		2E52CCC91CBD3F9B003B7A96 /* ABDynamicVar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E52CCC71CBD3F9B003B7A96 /* ABDynamicVar.swift */; };
-		2E52CCD41CBD54F3003B7A96 /* ABTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E52CCD31CBD54F3003B7A96 /* ABTests.swift */; };
-		2E52CCD51CBD54F3003B7A96 /* ABTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E52CCD31CBD54F3003B7A96 /* ABTests.swift */; };
 		2E5350411CF8A0C6003B06CC /* ListingStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E5350401CF8A0C6003B06CC /* ListingStatsView.swift */; };
 		2E5350421CF8A0C6003B06CC /* ListingStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E5350401CF8A0C6003B06CC /* ListingStatsView.swift */; };
 		2E5350441CF8A181003B06CC /* ListingStatsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E5350431CF8A181003B06CC /* ListingStatsView.xib */; };
@@ -1813,8 +1828,18 @@
 		01BDE9792050B1820081B670 /* BlockingPostingHeaderStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BlockingPostingHeaderStep.swift; path = Onboarding/BlockingPostingHeaderStep.swift; sourceTree = "<group>"; };
 		01C7778D1FFE4B92001A04C7 /* MostSearchedItemsListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostSearchedItemsListCell.swift; sourceTree = "<group>"; };
 		0A00F9C31FA364B100E915F4 /* ListingDeckViewControllerBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckViewControllerBinder.swift; sourceTree = "<group>"; };
+		0A04D5C420760A9C00471B9D /* CoreABGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreABGroup.swift; sourceTree = "<group>"; };
+		0A04D5C520760A9C00471B9D /* ABDynamicVar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ABDynamicVar.swift; sourceTree = "<group>"; };
+		0A04D5C720760A9C00471B9D /* MoneyABGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoneyABGroup.swift; sourceTree = "<group>"; };
+		0A04D5C820760A9C00471B9D /* RealEstateABGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealEstateABGroup.swift; sourceTree = "<group>"; };
+		0A04D5C920760A9C00471B9D /* RetentionABGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RetentionABGroup.swift; sourceTree = "<group>"; };
+		0A04D5CA20760A9C00471B9D /* ABTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ABTests.swift; sourceTree = "<group>"; };
+		0A04D5CB20760A9C00471B9D /* ChatABGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatABGroup.swift; sourceTree = "<group>"; };
+		0A04D5CC20760A9C00471B9D /* LegacyABGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LegacyABGroup.swift; sourceTree = "<group>"; };
+		0A04D5DF207614F000471B9D /* UsersABGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersABGroup.swift; sourceTree = "<group>"; };
 		0A0AF97B1FA864900024EF22 /* ListingDeckViewModelBinderSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckViewModelBinderSpec.swift; sourceTree = "<group>"; };
 		0A0CD7F71FD97FBB00B0BACF /* FilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCell.swift; sourceTree = "<group>"; };
+		0A104695206CFB99003F1577 /* ABTestsSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABTestsSpec.swift; sourceTree = "<group>"; };
 		0A25E8112019C87900E6A72E /* OnBoardingAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingAnimator.swift; sourceTree = "<group>"; };
 		0A2D69DC1FC5DA8700F072A1 /* Bounceable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bounceable.swift; sourceTree = "<group>"; };
 		0A2D69DF1FC6BA6900F072A1 /* ListingCardDetailMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardDetailMapView.swift; sourceTree = "<group>"; };
@@ -1925,8 +1950,6 @@
 		2E4EBFC21EADF63A005FE040 /* CarAttributeSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CarAttributeSelectionViewController.swift; path = CarsAttributes/CarAttributeSelectionViewController.swift; sourceTree = "<group>"; };
 		2E50E9A51D057E92002DC4C1 /* LGAlertViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LGAlertViewController.swift; path = LGAlertViewController/LGAlertViewController.swift; sourceTree = "<group>"; };
 		2E50E9A61D057E92002DC4C1 /* LGAlertViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LGAlertViewController.xib; path = LGAlertViewController/LGAlertViewController.xib; sourceTree = "<group>"; };
-		2E52CCC71CBD3F9B003B7A96 /* ABDynamicVar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ABDynamicVar.swift; path = ABTest/ABDynamicVar.swift; sourceTree = "<group>"; };
-		2E52CCD31CBD54F3003B7A96 /* ABTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ABTests.swift; path = ABTest/ABTests.swift; sourceTree = "<group>"; };
 		2E5350401CF8A0C6003B06CC /* ListingStatsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingStatsView.swift; sourceTree = "<group>"; };
 		2E5350431CF8A181003B06CC /* ListingStatsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ListingStatsView.xib; sourceTree = "<group>"; };
 		2E57B80B2051A1E9008B2082 /* PostListingCategoryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostListingCategoryCell.swift; path = Onboarding/PostListingCategoryCell.swift; sourceTree = "<group>"; };
@@ -2885,6 +2908,22 @@
 			path = MostSearchedItems;
 			sourceTree = "<group>";
 		};
+		0A04D5C320760A9C00471B9D /* ABTest */ = {
+			isa = PBXGroup;
+			children = (
+				0A04D5C420760A9C00471B9D /* CoreABGroup.swift */,
+				0A04D5C520760A9C00471B9D /* ABDynamicVar.swift */,
+				0A04D5C720760A9C00471B9D /* MoneyABGroup.swift */,
+				0A04D5C820760A9C00471B9D /* RealEstateABGroup.swift */,
+				0A04D5C920760A9C00471B9D /* RetentionABGroup.swift */,
+				0A04D5CA20760A9C00471B9D /* ABTests.swift */,
+				0A04D5CB20760A9C00471B9D /* ChatABGroup.swift */,
+				0A04D5CC20760A9C00471B9D /* LegacyABGroup.swift */,
+				0A04D5DF207614F000471B9D /* UsersABGroup.swift */,
+			);
+			path = ABTest;
+			sourceTree = "<group>";
+		};
 		0A0AF97A1FA864700024EF22 /* ListingDeck */ = {
 			isa = PBXGroup;
 			children = (
@@ -3107,15 +3146,6 @@
 				726E35BC1FE0342100F98776 /* EditOptionDisclosureView.swift */,
 			);
 			name = CarsAttributes;
-			sourceTree = "<group>";
-		};
-		2E52CCC61CBD3F56003B7A96 /* ABTest */ = {
-			isa = PBXGroup;
-			children = (
-				2E52CCC71CBD3F9B003B7A96 /* ABDynamicVar.swift */,
-				2E52CCD31CBD54F3003B7A96 /* ABTests.swift */,
-			);
-			name = ABTest;
 			sourceTree = "<group>";
 		};
 		2E5C1C361FB60C2E002AFD40 /* Promote Bump */ = {
@@ -3576,6 +3606,7 @@
 		509273341B172D2100A346F9 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				0A04D5C320760A9C00471B9D /* ABTest */,
 				2E75EC511FA89F1E00C5F48F /* Ads */,
 				2E131C691DEDE785004D26DC /* Monetization */,
 				C735101C1D942B5000D67040 /* FeatureFlags */,
@@ -3583,7 +3614,6 @@
 				C7890A801E55AC030079964C /* Camera */,
 				2E9716B01D5B2C61009B3A32 /* ChatWrapper */,
 				2EF4E3A61D36861000A09DFD /* Config */,
-				2E52CCC61CBD3F56003B7A96 /* ABTest */,
 				C7111EF71CA43819000C5C5A /* DeepLinks */,
 				508D48621CCF4FFC00C52BE3 /* ImageDownloader */,
 				50C59BD01CE0DB4400377124 /* KeyValueStorage */,
@@ -3934,6 +3964,7 @@
 				504C63B81ECAE0AB00D33BFA /* PushManagerSpec.swift */,
 				50D08D861E69AF14009CC260 /* Tracking */,
 				50D08D891E69AF14009CC260 /* VersionCheckerSpec.swift */,
+				0A104695206CFB99003F1577 /* ABTestsSpec.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -6307,6 +6338,7 @@
 				2EF0BB131E784468006808B5 /* MockPaymentQueue.swift in Sources */,
 				C765EE4B1E7FEEE200063750 /* MockChatEvent.swift in Sources */,
 				72C7A1BF1FA0ECF60089F175 /* PostingDetailsViewModelSpec.swift in Sources */,
+				0A104696206CFB99003F1577 /* ABTestsSpec.swift in Sources */,
 				8EBEF9791F3CA50500473822 /* LGSliderViewModelSpec.swift in Sources */,
 				504C63B91ECAE0AB00D33BFA /* PushManagerSpec.swift in Sources */,
 				50D08DD01E69AF14009CC260 /* TrackerProxySpec.swift in Sources */,
@@ -6512,7 +6544,6 @@
 				2E5C1C381FB60C56002AFD40 /* PromoteBumpViewController.swift in Sources */,
 				C783D98E1C650F38000EE5CA /* ReportUserCellDrawer.swift in Sources */,
 				C7363FB51BF9CB8D00A4BF6F /* FilterTagCell.swift in Sources */,
-				2E52CCD41CBD54F3003B7A96 /* ABTests.swift in Sources */,
 				C72794461D549342009C25AB /* HelpViewModel.swift in Sources */,
 				8E0EEFA520569E30000C07C9 /* MLPostListingCameraViewModel.swift in Sources */,
 				2E2208E51DD4BCD800FB2483 /* EmptyCellDrawer.swift in Sources */,
@@ -6579,6 +6610,7 @@
 				508C3F791C984BCA00CF431F /* UserViewHeader.swift in Sources */,
 				2E4BDE721EDD7E6A00CBDC8C /* DistanceBubbleTextGenerator.swift in Sources */,
 				6A8335842057CE2C00171A68 /* UserProfileDummyUserDisclaimerView.swift in Sources */,
+				0A04D5D920760A9D00471B9D /* ABTests.swift in Sources */,
 				729912F5200FABD9000541CF /* NumberOfRooms.swift in Sources */,
 				55F1FB36204942B8005D1BD4 /* UserProfileNavBarUserView.swift in Sources */,
 				6AA9E90A203EC59D004EACC4 /* RatingView.swift in Sources */,
@@ -6661,6 +6693,7 @@
 				C7F22D851DB7A55C00353803 /* RecaptchaViewModel.swift in Sources */,
 				8E85EA261FD0539700A24ADE /* Data+Extensions.swift in Sources */,
 				6A4E80611C77620900C6423E /* LetgoAvatar.swift in Sources */,
+				0A04D5CF20760A9D00471B9D /* ABDynamicVar.swift in Sources */,
 				50FEFA1E20469AD6003C51B0 /* ChatBubbleCellType.swift in Sources */,
 				503D4BF11CCE53AE0039FE14 /* UserViewHeaderAccounts.swift in Sources */,
 				C7DB42981C521DC900400945 /* EnvironmentsHelper.swift in Sources */,
@@ -6680,6 +6713,7 @@
 				72CD80CC203469FB0042E1E0 /* LGTutorialLayout.swift in Sources */,
 				2EBC92121E0ABC4A007F0F82 /* PurchaseableProduct.swift in Sources */,
 				D412E0861B4F179F00683FFD /* ListingListView.swift in Sources */,
+				0A04D5DD20760A9D00471B9D /* LegacyABGroup.swift in Sources */,
 				6AE143CD204413B000CFAE10 /* UserProfileBioAndTrustView.swift in Sources */,
 				72854D231F8E287600E54530 /* NumberOfBedrooms.swift in Sources */,
 				C7E73E8D1CD20A49000F2591 /* ViewState.swift in Sources */,
@@ -6746,6 +6780,7 @@
 				6A40A3D01C0D9D7E00C551B3 /* ReusableCell.swift in Sources */,
 				2E4EBFC01EADF628005FE040 /* CarAttributeSelectionViewModel.swift in Sources */,
 				2E6009B61B5CE5E500FC9CAC /* LGTextField.swift in Sources */,
+				0A04D5D720760A9D00471B9D /* RetentionABGroup.swift in Sources */,
 				8EB650F22059279400FF50E4 /* MLPredictionDetailsViewCell.swift in Sources */,
 				50C59BD41CE0DB4400377124 /* KeyValueStorageable.swift in Sources */,
 				50EC640A1C64F99E00DC04C5 /* LGEmptyViewModel.swift in Sources */,
@@ -6798,10 +6833,10 @@
 				C7C61DF51D63035400F9505D /* ListingCarouselMoreInfoView.swift in Sources */,
 				2E5350411CF8A0C6003B06CC /* ListingStatsView.swift in Sources */,
 				502047151EE1BB22006C0EC2 /* MarkAsSoldTrackingInfo.swift in Sources */,
-				2E52CCC81CBD3F9B003B7A96 /* ABDynamicVar.swift in Sources */,
 				C7BAC9BC1E49BCC0005BD0AF /* LGBubbleNotificationManager.swift in Sources */,
 				7224D7E81F581EE7004E3B49 /* ExpandableCategorySelectionView.swift in Sources */,
 				01A824AA203B328D00DF5007 /* BlockingPostingAddPriceViewModel.swift in Sources */,
+				0A04D5CD20760A9D00471B9D /* CoreABGroup.swift in Sources */,
 				3221E5442062C0400006B12B /* ListingCellMetrics.swift in Sources */,
 				C77593ED1BF0C1FD0097D62F /* FilterDistanceCell.swift in Sources */,
 				0AF5EB6C1FD05EA8001DFAE2 /* QuickChatView.swift in Sources */,
@@ -6811,6 +6846,7 @@
 				501495EE1D895B5800AC67CA /* DiscoverListingListRequester.swift in Sources */,
 				C730FD111E77FC5A00175C27 /* BooleanDAO.swift in Sources */,
 				6A5E19FE1D548F5400F92692 /* LGLocationCoordinates2D+Distance.swift in Sources */,
+				0A04D5D320760A9D00471B9D /* MoneyABGroup.swift in Sources */,
 				C7B588811CE1DFA6009B3975 /* ChatCellDrawerFactory.swift in Sources */,
 				C78F9DBC1DCA525F00884064 /* ChatTextView.swift in Sources */,
 				502B705B1BAAC3AE00C5D465 /* FloatingButton.swift in Sources */,
@@ -6901,6 +6937,7 @@
 				C7DE8AE01C88A98B005CF37E /* PostListingViewController.swift in Sources */,
 				C73FABB61DD37968008F4519 /* SettingsLogoutCell.swift in Sources */,
 				F51A082B2031B5360008D744 /* AspectRatio.swift in Sources */,
+				0A04D5DB20760A9D00471B9D /* ChatABGroup.swift in Sources */,
 				721384011F20EB97006DB039 /* TaxonomiesViewController.swift in Sources */,
 				50C9E4C51B723E87001E4E92 /* FacebookTracker.swift in Sources */,
 				508D48651CCF4FFC00C52BE3 /* ImageDownloader.swift in Sources */,
@@ -6972,6 +7009,7 @@
 				C788EED71CC7847400B9E26F /* FilteredListingListRequester.swift in Sources */,
 				509273361B172D5B00A346F9 /* PushManager.swift in Sources */,
 				0A31CF621FA1EBEB00FE84E0 /* ListingDeckViewModelBinder.swift in Sources */,
+				0A04D5E0207614F000471B9D /* UsersABGroup.swift in Sources */,
 				724D77AE1FC709DE00DB43C0 /* ListingCreationViewModel.swift in Sources */,
 				2E2A5E141D5C78600047ED45 /* ExpressChatNavigator.swift in Sources */,
 				C74BDB411D7F121600B59482 /* StickersManager.swift in Sources */,
@@ -7000,6 +7038,7 @@
 				8EEC7F5C206AA62800616858 /* AdvertisementDFPCellDrawer.swift in Sources */,
 				0AC264E41F94B87400666BA6 /* EditListingNavigator.swift in Sources */,
 				72B76C831DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift in Sources */,
+				0A04D5D520760A9D00471B9D /* RealEstateABGroup.swift in Sources */,
 				C7F4CBA61C92CC5A008E40D6 /* LGViewPagerPage.swift in Sources */,
 				C7BB25CE1E3613D500649396 /* VersionChecker.swift in Sources */,
 				C7126BE11E6596B200038CC4 /* ListingVMProductInfo.swift in Sources */,
@@ -7206,7 +7245,6 @@
 				C72794471D549342009C25AB /* HelpViewModel.swift in Sources */,
 				72C7A1BD1F9F8D150089F175 /* SellNavigationViewModel.swift in Sources */,
 				2E4ADED0200516DD00D07D8A /* ProfessionalDealerAskPhoneViewModel.swift in Sources */,
-				2E52CCD51CBD54F3003B7A96 /* ABTests.swift in Sources */,
 				6A3C73101CF346CB00A062E0 /* ChatStickerGridCell.swift in Sources */,
 				2ED5E52E1EC5BAFB00B6D4F6 /* FilterListingListRequesterFactory.swift in Sources */,
 				72854D141F85183E00E54530 /* PostingDetailsViewModel.swift in Sources */,
@@ -7261,6 +7299,7 @@
 				5095988E1C8733B70026AE2D /* CrashlyticsReporter.swift in Sources */,
 				8E0EEFB72056C422000C07C9 /* MLPostingDetailsViewModel.swift in Sources */,
 				2E2A5E161D5C81250047ED45 /* ExpressChatCoordinator.swift in Sources */,
+				0A04D5DA20760A9D00471B9D /* ABTests.swift in Sources */,
 				6A5E19F91D548F5400F92692 /* GlobalFunctions.swift in Sources */,
 				729912F6200FABD9000541CF /* NumberOfRooms.swift in Sources */,
 				6A8335852057D3D100171A68 /* UserProfileDummyUserDisclaimerView.swift in Sources */,
@@ -7343,6 +7382,7 @@
 				C7DB41DE1C5138B500400945 /* PopupSignUpViewController.swift in Sources */,
 				0AC264E21F94B6A800666BA6 /* EditListingCoordinator.swift in Sources */,
 				C7DB41E51C5138B500400945 /* FilterTagsView.swift in Sources */,
+				0A04D5D020760A9D00471B9D /* ABDynamicVar.swift in Sources */,
 				8EBE07861FD59F3F009EBC1A /* Data+Extensions.swift in Sources */,
 				C7DB41E71C5138B500400945 /* AmplitudeTracker.swift in Sources */,
 				C7F22D861DB7A55C00353803 /* RecaptchaViewModel.swift in Sources */,
@@ -7362,6 +7402,7 @@
 				F5A836AF1FD1BA13009E636D /* ListingAttributePickerViewModel.swift in Sources */,
 				C7B588841CE1DFA6009B3975 /* ChatMyMessageCellDrawer.swift in Sources */,
 				C7732F701D87FA4600EAD5B7 /* TourPostingViewModel.swift in Sources */,
+				0A04D5DE20760A9D00471B9D /* LegacyABGroup.swift in Sources */,
 				72854D241F8E287600E54530 /* NumberOfBedrooms.swift in Sources */,
 				72CD80CD203469FB0042E1E0 /* LGTutorialLayout.swift in Sources */,
 				2EBC92161E0ABC73007F0F82 /* PurchaseableProductsResponse.swift in Sources */,
@@ -7428,6 +7469,7 @@
 				8EB65111205C1C1500FF50E4 /* MobileNetLetgov7final.mlmodel in Sources */,
 				C75B5DD21D59E0C500112368 /* ListingCarouselCell.swift in Sources */,
 				2E4EBFC11EADF628005FE040 /* CarAttributeSelectionViewModel.swift in Sources */,
+				0A04D5D820760A9D00471B9D /* RetentionABGroup.swift in Sources */,
 				C7DB42001C5138B500400945 /* ReusableCell.swift in Sources */,
 				72CD80D3203469FB0042E1E0 /* LGTutorialView.swift in Sources */,
 				2E28B12C1D99132D001BF8E4 /* Double+Rounding.swift in Sources */,
@@ -7482,8 +7524,8 @@
 				C7BAC9BD1E49BCC0005BD0AF /* LGBubbleNotificationManager.swift in Sources */,
 				2E5350421CF8A0C6003B06CC /* ListingStatsView.swift in Sources */,
 				2E0F26591E0C425900D97898 /* BumpUpBanner.swift in Sources */,
+				0A04D5CE20760A9D00471B9D /* CoreABGroup.swift in Sources */,
 				0A63DFC11FB0A9D000C065F2 /* ListingCardDetailsView.swift in Sources */,
-				2E52CCC91CBD3F9B003B7A96 /* ABDynamicVar.swift in Sources */,
 				C7DB420A1C5138B500400945 /* FilterDistanceCell.swift in Sources */,
 				0AEB4FF72018C795003365DE /* ListingDeckOnBoardingViewModel.swift in Sources */,
 				01A824AB203B328D00DF5007 /* BlockingPostingAddPriceViewModel.swift in Sources */,
@@ -7492,6 +7534,7 @@
 				C7DB420C1C5138B500400945 /* UIColor+RGB.swift in Sources */,
 				501495EF1D895B5800AC67CA /* DiscoverListingListRequester.swift in Sources */,
 				6A5E19FF1D548F5400F92692 /* LGLocationCoordinates2D+Distance.swift in Sources */,
+				0A04D5D420760A9D00471B9D /* MoneyABGroup.swift in Sources */,
 				C79740501D2A95B100381A4A /* LeanplumTracker.swift in Sources */,
 				C75B5DC61D59E09500112368 /* ListingCarouselViewModel.swift in Sources */,
 				C7890A831E55AC0E0079964C /* CameraWrapper.swift in Sources */,
@@ -7582,6 +7625,7 @@
 				C7DB421C1C5138B500400945 /* FiltersViewController.swift in Sources */,
 				6AF75D081CF449AF00EACCF0 /* ChatViewMessage.swift in Sources */,
 				2E373FAD1D3E6F4500AC811C /* UserRatingCell.swift in Sources */,
+				0A04D5DC20760A9D00471B9D /* ChatABGroup.swift in Sources */,
 				C7DB421E1C5138B500400945 /* FacebookTracker.swift in Sources */,
 				3221E539206061A10006B12B /* DiscardedView.swift in Sources */,
 				721384021F20EB97006DB039 /* TaxonomiesViewController.swift in Sources */,
@@ -7654,6 +7698,7 @@
 				6AF75D051CF3600D00EACCF0 /* ChatStickerCell.swift in Sources */,
 				C7DB42261C5138B500400945 /* TabBarController.swift in Sources */,
 				0A31CF631FA1ECCE00FE84E0 /* ListingDeckViewModelBinder.swift in Sources */,
+				0A04D5E12076175D00471B9D /* UsersABGroup.swift in Sources */,
 				724D77AF1FC709DE00DB43C0 /* ListingCreationViewModel.swift in Sources */,
 				C788EED81CC7847400B9E26F /* FilteredListingListRequester.swift in Sources */,
 				C74BDB421D7F121600B59482 /* StickersManager.swift in Sources */,
@@ -7681,6 +7726,7 @@
 				C742340D1D5A132D0082D1CD /* UITableView+Changes.swift in Sources */,
 				2E4B359D1CC90A9500B8CB64 /* RelatedListingListRequester.swift in Sources */,
 				0AC264E51F94B8E900666BA6 /* EditListingNavigator.swift in Sources */,
+				0A04D5D620760A9D00471B9D /* RealEstateABGroup.swift in Sources */,
 				72B76C841DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift in Sources */,
 				C7AB4EC71CD39C67007B573D /* LGNotificationsManager.swift in Sources */,
 				C7BB25D21E3618C700649396 /* VersionChecker.swift in Sources */,
