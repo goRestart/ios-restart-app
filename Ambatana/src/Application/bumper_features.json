@@ -221,6 +221,11 @@
         "description": "Show the new advance reputation system and Karma Score"
     },
     {
+        "name": "FeedAdsProviderForUS",
+        "values": ["control", "baseline", "BingAdsForAllUsers", "BingAdsForOldUsers", "MoPubAdsForAllUsers", "MoPubAdsForOldUsers"],
+        "description": "Change logic for showing ads with diferent ads providers in the US"
+    },
+    {
         "name": "CopyForChatNowInEnglish",
         "values": ["control", "variantA", "variantB", "variantC", "variantD"],
         "description": "Try different copies for Chat now button in English"

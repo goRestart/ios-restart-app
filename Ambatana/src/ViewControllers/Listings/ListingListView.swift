@@ -10,6 +10,8 @@ import CHTCollectionViewWaterfallLayout
 import RxSwift
 import LGCoreKit
 import GoogleMobileAds
+import MoPub
+
 
 protocol ListingListViewScrollDelegate: class {
     func listingListView(_ listingListView: ListingListView, didScrollDown scrollDown: Bool)
@@ -107,7 +109,8 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     weak var headerDelegate: ListingListViewHeaderDelegate? {
         didSet { dataView.collectionView.reloadData() }
     }
-
+    weak var adsDelegate: MainListingsAdsDelegate?
+    
     // MARK: - Lifecycle
     convenience init() {
         self.init(viewModel: ListingListViewModel(requester: nil), featureFlags: FeatureFlags.sharedInstance)
@@ -247,8 +250,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     func collectionView(_ collectionView: UICollectionView,
                         willDisplay cell: UICollectionViewCell,
                         forItemAt indexPath: IndexPath) {
-        guard let item = viewModel.itemAtIndex(indexPath.row),
-            let cell = collectionView.cellForItem(at: indexPath) else { return }
+        guard let item = viewModel.itemAtIndex(indexPath.row) else { return }
 
         let imageSize = viewModel.imageViewSizeForItem(at: indexPath.row)
         drawerManager.willDisplay(item,
@@ -549,20 +551,29 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
     fileprivate func requestAdFor(cellModel: ListingCellModel, inPosition: Int) {
         switch cellModel {
-        case .advertisement(let data):
+        case .dfpAdvertisement(let data):
             guard !data.adRequested else { return }
+            // DFP Ads
             let banner = DFPBannerView(adSize: kGADAdSizeFluid)
-
             banner.adUnitID = data.adUnitId
             banner.rootViewController = data.rootViewController
             banner.adSizeDelegate = self
             banner.delegate = self
             banner.validAdSizes = [NSValueFromGADAdSize(kGADAdSizeFluid)]
             banner.tag = data.adPosition
-
             banner.load(data.adRequest)
-
-            viewModel.updateAdvertisementRequestedIn(position: inPosition, withBanner: banner)
+            viewModel.updateAdvertisementRequestedIn(position: inPosition, bannerView: banner)
+            break
+        case .mopubAdvertisement(let data):
+            guard !data.adRequested else { return }
+            MoPubAdsRequester.startMoPubRequestWith(data: data, completion: { (nativeAd, moPubView) in
+                guard let nativeAd = nativeAd, let moPubView = moPubView else { return }
+                nativeAd.delegate = self
+                moPubView.tag = data.adPosition
+                self.viewModel.updateAdvertisementRequestedIn(position: inPosition, moPubNativeAd: nativeAd, moPubView: moPubView)
+                self.vmReloadItemAtIndexPath(indexPath: IndexPath(row: inPosition, section: 0))
+            })
+            break
         case .collectionCell, .emptyCell, .listingCell, .mostSearchedItems:        
             break
         }
@@ -622,6 +633,31 @@ extension ListingListView: GADBannerViewDelegate, GADAdSizeDelegate {
                                   categories: viewModel.categoriesForBannerIn(position: bannerView.tag),
                                   feedPosition: feedPosition)
     }
+}
+
+extension ListingListView: MPNativeAdDelegate {
+    func viewControllerForPresentingModalView() -> UIViewController! {
+        return adsDelegate?.rootViewControllerForAds()
+    }
+    
+    func willLeaveApplication(from nativeAd: MPNativeAd?) {
+        guard let nativeAd = nativeAd else { return }
+        let feedPosition: EventParameterFeedPosition = .position(index: nativeAd.associatedView.tag)
+        viewModel.bannerWasTapped(adType: .moPub,
+                                  willLeaveApp: .trueParameter,
+                                  categories: viewModel.categoriesForBannerIn(position: nativeAd.associatedView.tag),
+                                  feedPosition: feedPosition)
+    }
+    
+    func willPresentModal(for nativeAd: MPNativeAd?) {
+        guard let nativeAd = nativeAd else { return }
+        let feedPosition: EventParameterFeedPosition = .position(index: nativeAd.associatedView.tag)
+        viewModel.bannerWasTapped(adType: .moPub,
+                                  willLeaveApp: .falseParameter,
+                                  categories: viewModel.categoriesForBannerIn(position: nativeAd.associatedView.tag),
+                                  feedPosition: feedPosition)
+    }
+    
 }
 
 extension ListingListView {
