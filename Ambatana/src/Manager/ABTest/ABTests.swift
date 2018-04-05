@@ -22,7 +22,7 @@ final class LeamplumSyncer: LeamplumSyncerType {
         return mapTrackingData(variables)
     }
 
-    private func mapTrackingData(_ array: [ABTrackable]) -> [(String, ABGroup)] { return array.map { $0.tuple } }
+    private func mapTrackingData(_ array: [ABTrackable]) -> [(String, ABGroup)] { return array.map { $0.nameAndGroup } }
 }
 
 protocol ABGroupType {

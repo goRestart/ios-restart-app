@@ -45,7 +45,7 @@ class ABTestsSpec: QuickSpec {
                 beforeEach {
                     sut.registerVariables()
                 }
-                it("the number of registered variables matches") {
+                it("registers all the variables") {
                     expect(syncer.syncedCount) == 48
                 }
             }
@@ -85,187 +85,187 @@ class ABTestsSpec: QuickSpec {
                     uniqueSyncer.sync(variables: Array(Set(retention.stringVariables)))
                     uniqueSyncer.sync(variables: Array(Set(retention.floatVariables)))
                 }
-                it("the number of uniques registered variables matches the manual way") {
+                it("the registered variables are unique") {
                     expect(syncer.syncedCount) == uniqueSyncer.syncedCount
                 }
             }
 
-            context("Checking legacy variables") {
-                it("it has 7 int variables") {
+            context("registering all the variables") {
+                it("the legacy int variables registered are 13") {
                     expect(legacy.intVariables.count) == 13
                 }
 
-                it("it has 8 bool variables") {
+                it("the legacy bool variables registered are 8") {
                     expect(legacy.boolVariables.count) == 8
                 }
 
-                it("it has 1 string variables") {
+                it("the legacy string variables registered are 1") {
                     expect(legacy.stringVariables.count) == 1
                 }
 
-                it("it has 0 float variables") {
+                it("the legacy float variables registered are 0") {
                     expect(legacy.floatVariables.count) == 0
                 }
             }
             
-            context("registering only the legacy variables") {
+            context("manually registering all the legacy variables") {
                 beforeEach {
                     syncer.sync(variables: legacy.intVariables)
                     syncer.sync(variables: legacy.boolVariables)
                     syncer.sync(variables: legacy.stringVariables)
                     syncer.sync(variables: legacy.floatVariables)
                 }
-                it("the number of registered variables matches") {
+                it("the variables registered are 22") {
                     expect(syncer.syncedCount) == 22
                 }
             }
             
-            context("Checking real estate variables") {
-                it("it has 4 int variables") {
+            context("registering all the variables") {
+                it("the realestate int variable registered are 4") {
                     expect(realEstate.intVariables.count) == 4
                 }
                 
-                it("it has 0 bool variables") {
+                it("the realestate bool variable registered are 0") {
                     expect(realEstate.boolVariables.count) == 0
                 }
                 
-                it("it has 0 string variables") {
+                it("the realestate string variable registered are 0") {
                     expect(realEstate.stringVariables.count) == 0
                 }
                 
-                it("it has 0 float variables") {
+                it("the realestate float variable registered are 0") {
                     expect(realEstate.floatVariables.count) == 0
                 }
             }
 
-            context("registering only the real estate variables") {
+            context("manually registering all the real estate variables") {
                 beforeEach {
                     syncer.sync(variables: realEstate.intVariables)
                     syncer.sync(variables: realEstate.boolVariables)
                     syncer.sync(variables: realEstate.stringVariables)
                     syncer.sync(variables: realEstate.floatVariables)
                 }
-                it("the number of registered variables matches") {
+                it("the variables registered are 4") {
                     expect(syncer.syncedCount) == 4
                 }
             }
 
-            context("Checking retention variables") {
-                it("it has 2 int variables") {
+            context("registering all the variables") {
+                it("the retention int variable registered are 2") {
                     expect(retention.intVariables.count) == 2
                 }
 
-                it("it has 0 bool variables") {
+                it("the retention bool variable registered are 0") {
                     expect(retention.boolVariables.count) == 0
                 }
 
-                it("it has 0 string variables") {
+                it("the retention string variable registered are 0") {
                     expect(retention.stringVariables.count) == 0
                 }
 
-                it("it has 0 float variables") {
+                it("the retention float variable registered are 0") {
                     expect(retention.floatVariables.count) == 0
                 }
             }
 
-            context("registering only the retention variables") {
+            context("manually registering all the retention variables") {
                 beforeEach {
                     syncer.sync(variables: retention.intVariables)
                     syncer.sync(variables: retention.boolVariables)
                     syncer.sync(variables: retention.stringVariables)
                     syncer.sync(variables: retention.floatVariables)
                 }
-                it("the number of registered variables matches") {
+                it("the variables registered are 2") {
                     expect(syncer.syncedCount) == 2
                 }
             }
 
-            context("Checking money variables") {
-                it("it has 7 int variables") {
+            context("registering all the variables") {
+                it("the money int variable registered are 6") {
                     expect(money.intVariables.count) == 6
                 }
 
-                it("it has 0 bool variables") {
+                it("the money bool variable registered are 1") {
                     expect(money.boolVariables.count) == 1
                 }
 
-                it("it has 0 string variables") {
+                it("the money string variable registered are 0") {
                     expect(money.stringVariables.count) == 0
                 }
 
-                it("it has 0 float variables") {
+                it("the money float variable registered are 0") {
                     expect(money.floatVariables.count) == 0
                 }
             }
 
-            context("registering only the money variables") {
+            context("manually registering all the money variables") {
                 beforeEach {
                     syncer.sync(variables: money.intVariables)
                     syncer.sync(variables: money.boolVariables)
                     syncer.sync(variables: money.stringVariables)
                     syncer.sync(variables: money.floatVariables)
                 }
-                it("the number of registered variables matches") {
+                it("the variables registered are 7") {
                     expect(syncer.syncedCount) == 7
                 }
             }
 
-            context("Checking chat variables") {
-                it("it has 7 int variables") {
+            context("registering all the variables") {
+                it("the chat int variable registered are 3") {
                     expect(chat.intVariables.count) == 3
                 }
 
-                it("it has 0 bool variables") {
+                it("the chat bool variable registered are 3") {
                     expect(chat.boolVariables.count) == 3
                 }
 
-                it("it has 0 string variables") {
+                it("the chat string variable registered are 0") {
                     expect(chat.stringVariables.count) == 0
                 }
 
-                it("it has 0 float variables") {
+                it("the chat float variable registered are 0") {
                     expect(chat.floatVariables.count) == 0
                 }
             }
 
-            context("registering only the chat variables") {
+            context("manually registering all the chat variables") {
                 beforeEach {
                     syncer.sync(variables: chat.intVariables)
                     syncer.sync(variables: chat.boolVariables)
                     syncer.sync(variables: chat.stringVariables)
                     syncer.sync(variables: chat.floatVariables)
                 }
-                it("the number of registered variables matches") {
+                it("the variables registered are 6") {
                     expect(syncer.syncedCount) == 6
                 }
             }
 
-            context("Checking core variables") {
-                it("it has 7 int variables") {
+            context("registering all the variables") {
+                it("the chat int variable registered are 7") {
                     expect(core.intVariables.count) == 7
                 }
 
-                it("it has 0 bool variables") {
+                it("the chat bool variable registered are 0") {
                     expect(core.boolVariables.count) == 0
                 }
 
-                it("it has 0 string variables") {
+                it("the chat string variable registered are 0") {
                     expect(core.stringVariables.count) == 0
                 }
 
-                it("it has 0 float variables") {
+                it("the chat float variable registered are 0") {
                     expect(core.floatVariables.count) == 0
                 }
             }
 
-            context("registering only the core variables") {
+            context("manually registering all the core variables") {
                 beforeEach {
                     syncer.sync(variables: core.intVariables)
                     syncer.sync(variables: core.boolVariables)
                     syncer.sync(variables: core.stringVariables)
                     syncer.sync(variables: core.floatVariables)
                 }
-                it("the number of registered variables matches") {
+                it("the variables registered are 6") {
                     expect(syncer.syncedCount) == 7
                 }
             }
