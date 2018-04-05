@@ -24,7 +24,7 @@ enum BumpPriceVariationBucket: Int {
 
 protocol FeatureFlaggeable: class {
 
-    var trackingData: Observable<[(String, ABGroupType)]?> { get }
+    var trackingData: Observable<[(String, ABGroup)]?> { get }
     var syncedData: Observable<Bool> { get }
     func variablesUpdated()
 
@@ -88,6 +88,8 @@ protocol FeatureFlaggeable: class {
     var shareTypes: [ShareType] { get }
     var feedAdsProviderForUS:  FeedAdsProviderForUS { get }
     var feedMoPubAdUnitId: String? { get }
+    var shouldChangeChatNowCopyInEnglish: Bool { get }
+    var copyForChatNowInEnglish: CopyForChatNowInEnglish { get }
     
 }
 
@@ -379,7 +381,7 @@ class FeatureFlags: FeatureFlaggeable {
 
     // MARK: - A/B Tests features
 
-    var trackingData: Observable<[(String, ABGroupType)]?> {
+    var trackingData: Observable<[(String, ABGroup)]?> {
         return abTests.trackingData.asObservable()
     }
 

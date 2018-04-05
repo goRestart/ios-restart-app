@@ -11,11 +11,11 @@ import Foundation
 import RxSwift
 
 class MockFeatureFlags: FeatureFlaggeable {
-    var trackingData: Observable<[(String, ABGroupType)]?> {
+    var trackingData: Observable<[(String, ABGroup)]?> {
         return trackingDataVar.asObservable()
     }
     func variablesUpdated() {}
-    let trackingDataVar = Variable<[(String, ABGroupType)]?>(nil)
+    let trackingDataVar = Variable<[(String, ABGroup)]?>(nil)
 
     var showNPSSurvey: Bool = false
     var surveyUrl: String = ""
@@ -84,5 +84,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     }
     var shareTypes: [ShareType] = []
     var copyForChatNowInEnglish: CopyForChatNowInEnglish = .control
+    var shouldChangeChatNowCopyInEnglish = false
     
 }
