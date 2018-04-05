@@ -19,13 +19,7 @@ protocol DeckNavigator: class {
 }
 
 protocol DeckAnimator: class {
-    func showDeckViewController(listing: Listing,
-                                cellModels: [ListingCellModel],
-                                listingListRequester: ListingListRequester,
-                                source: EventParameterListingVisitSource,
-                                listingNavigator: ListingDetailNavigator,
-                                actionOnFirstAppear: DeckActionOnFirstAppear,
-                                trackingIndex: Int?)
+    func setupWith(viewModel: ListingDeckViewModel)
     func animatedTransitionings(for operation: UINavigationControllerOperation,
                                 from fromVC: UIViewController,
                                 to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning?
@@ -42,26 +36,8 @@ final class DeckCoordinator: DeckNavigator, ListingDeckOnBoardingNavigator, Deck
         self.navigationController = navigationController
     }
 
-    func showDeckViewController(listing: Listing,
-                                cellModels: [ListingCellModel],
-                                listingListRequester: ListingListRequester,
-                                source: EventParameterListingVisitSource,
-                                listingNavigator: ListingDetailNavigator,
-                                actionOnFirstAppear: DeckActionOnFirstAppear,
-                                trackingIndex: Int?) {
-        let viewModel = ListingDeckViewModel(listModels: cellModels,
-                                             listing: listing,
-                                             listingListRequester: listingListRequester,
-                                             source: source,
-                                             detailNavigator: listingNavigator,
-                                             actionOnFirstAppear: actionOnFirstAppear,
-                                             trackingIndex: trackingIndex)
-        let deckViewController = ListingDeckViewController(viewModel: viewModel)
-        viewModel.delegate = deckViewController
-        viewModel.navigator = listingNavigator
+    func setupWith(viewModel: ListingDeckViewModel) {
         viewModel.deckNavigator = self
-
-        navigationController?.pushViewController(deckViewController, animated: true)
     }
 
     func openPhotoViewer(listingViewModel: ListingViewModel,
