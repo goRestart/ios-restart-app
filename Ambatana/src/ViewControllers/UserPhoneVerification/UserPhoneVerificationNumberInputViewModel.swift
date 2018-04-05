@@ -11,7 +11,7 @@ import LGCoreKit
 import RxSwift
 import RxCocoa
 
-class UserPhoneVerificationNumberInputViewModel: BaseViewModel {
+final class UserPhoneVerificationNumberInputViewModel: BaseViewModel {
 
     var country: Driver<String> { return .just("") }
     var isContinueActionEnabled: Driver<Bool> { return .just(false) }

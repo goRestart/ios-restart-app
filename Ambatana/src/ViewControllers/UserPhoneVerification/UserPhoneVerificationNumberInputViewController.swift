@@ -10,7 +10,7 @@ import Foundation
 import LGCoreKit
 import RxSwift
 
-class UserPhoneVerificationNumberInputViewController: BaseViewController {
+final class UserPhoneVerificationNumberInputViewController: BaseViewController {
 
     private let viewModel: UserPhoneVerificationNumberInputViewModel
     private let keyboardHelper = KeyboardHelper()
