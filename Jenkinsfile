@@ -34,6 +34,7 @@ def stopPreviousRunningBuilds() {
     if (build.number != currentBuild.number && exec != null) {
       exec.interrupt(
         Result.ABORTED,
+        build.result = Result.ABORTED,
         new CauseOfInterruption.UserInterruption(
           "Aborted by newer build #${currentBuild.number}"
         )
@@ -46,7 +47,12 @@ def stopPreviousRunningBuilds() {
 def launchUnitTests(){
   node(node_name){
     stage ("Unit Test"){
-	    checkout scm
+      checkout([
+    $class: 'GitSCM',
+    branches: scm.branches,
+    extensions: [[$class: 'CloneOption', noTags: false, shallow: true, depth: 0, reference: '']],
+    userRemoteConfigs: scm.userRemoteConfigs,
+    ])
 	    sh 'export LC_ALL=en_US.UTF-8'
 	    // we add an || true in case there are no simulators available to avoid job to fail
 	    sh 'killall "Simulator" || true'  
@@ -66,9 +72,14 @@ def notifyBuildStatus(String buildStatus = 'STARTED') {
 
   if (buildStatus == 'STARTED') {
      slackSend (channel: slack_channel ,color: yellow, message: summary)  
-  } else if (buildStatus == 'SUCCESSFUL') {
-     slackSend (channel: slack_channel ,color: green, message: summary)  
-  } else { 
-     slackSend (channel: slack_channel ,color: red, message: summary)  
+  } 
+  else if (buildStatus == 'SUCCESSFUL') {
+     slackSend (channel: slack_channel ,color: green, message: summary) 
   }
+  else if (buildStatus == 'ABORTED') {
+
+  }
+  else { 
+     slackSend (channel: slack_channel ,color: red, message: summary)  
+  } 
 }
