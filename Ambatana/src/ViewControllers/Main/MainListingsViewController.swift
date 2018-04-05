@@ -110,6 +110,13 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if #available(iOS 11.0, *) {
+            listingListView.collectionView.contentInsetAdjustmentBehavior = .never
+        } else {
+            automaticallyAdjustsScrollViewInsets = false
+        }
+        
+        setupStatusTopView()
         addSubViews()
 
         setupFilterHeaders()
@@ -410,7 +417,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         
         NSLayoutConstraint.activate([
             listingListView.leadingAnchor.constraint(equalTo: safeLeadingAnchor),
-            listingListView.topAnchor.constraint(equalTo: safeTopAnchor),
+            listingListView.topAnchor.constraint(equalTo: isSafeAreaAvailable ? safeTopAnchor : view.topAnchor),
             listingListView.trailingAnchor.constraint(equalTo: safeTrailingAnchor),
             listingListView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
             ])
