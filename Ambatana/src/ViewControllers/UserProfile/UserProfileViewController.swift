@@ -81,8 +81,7 @@ final class UserProfileViewController: BaseViewController {
         self.headerView = UserProfileHeaderView(isPrivate: viewModel.isPrivateProfile)
         self.bioAndTrustView = UserProfileBioAndTrustView(isPrivate: viewModel.isPrivateProfile)
         self.listingView = ListingListView(viewModel: ListingListViewModel(requester: nil),
-                                           featureFlags: FeatureFlags.sharedInstance,
-                                           frame: .zero)
+                                           featureFlags: FeatureFlags.sharedInstance)
         self.socialSharer = socialSharer
         self.socialSharer.delegate = viewModel
         super.init(viewModel: viewModel, nibName: nil)
@@ -145,7 +144,7 @@ final class UserProfileViewController: BaseViewController {
 
         listingView.scrollDelegate = self
         listingView.headerDelegate = self
-        listingView.refreshControl.removeFromSuperview()
+        listingView.removePullToRefresh()
         listingView.shouldScrollToTopOnFirstPageReload = false
         listingView.collectionView.showsVerticalScrollIndicator = false
 
@@ -217,7 +216,6 @@ final class UserProfileViewController: BaseViewController {
     }
 
     private func setupConstraints() {
-
         var constraints = [
             headerContainerView.leftAnchor.constraint(equalTo: view.leftAnchor),
             headerContainerView.rightAnchor.constraint(equalTo: view.rightAnchor),
@@ -238,10 +236,10 @@ final class UserProfileViewController: BaseViewController {
             tabsView.rightAnchor.constraint(equalTo: headerContainerView.rightAnchor, constant: -Layout.sideMargin),
             tabsView.bottomAnchor.constraint(equalTo: headerContainerView.bottomAnchor),
             tabsView.heightAnchor.constraint(equalToConstant: Layout.tabsHeight),
-            listingView.topAnchor.constraint(equalTo: view.topAnchor),
+            listingView.topAnchor.constraint(equalTo: safeTopAnchor),
             listingView.leftAnchor.constraint(equalTo: view.leftAnchor),
             listingView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            listingView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            listingView.bottomAnchor.constraint(equalTo: safeBottomAnchor),
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
             tableView.rightAnchor.constraint(equalTo: view.rightAnchor),

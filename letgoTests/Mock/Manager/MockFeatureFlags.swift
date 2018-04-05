@@ -63,6 +63,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var markAllConversationsAsRead: Bool = false
     var realEstateTutorial: RealEstateTutorial = .control
     var summaryAsFirstStep: SummaryAsFirstStep = .control
+    var showAdvancedReputationSystem: ShowAdvancedReputationSystem = .control
 
     // Country dependant features
     var freePostingModeAllowed = false
@@ -75,6 +76,8 @@ class MockFeatureFlags: FeatureFlaggeable {
     var bumpPriceVariationBucket: BumpPriceVariationBucket = .defaultValue
     var shouldChangeChatNowCopy = false
     var copyForChatNowInTurkey: CopyForChatNowInTurkey = .control
+    var feedAdsProviderForUS: FeedAdsProviderForUS = .control
+    var feedMoPubAdUnitId: String? = ""
     
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false

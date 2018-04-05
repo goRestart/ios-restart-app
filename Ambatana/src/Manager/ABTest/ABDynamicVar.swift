@@ -18,6 +18,7 @@ enum ABGroup {
     case retention
     case chat
     case products
+    case users
 }
 
 protocol ABVariable {

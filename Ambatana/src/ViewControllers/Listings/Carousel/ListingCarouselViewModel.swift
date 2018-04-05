@@ -26,11 +26,14 @@ enum CarouselMovement {
 
 enum AdRequestType {
     case dfp
+    case moPub
 
     var trackingParamValue: EventParameterAdType {
         switch self {
         case .dfp:
             return .dfp
+        case .moPub:
+            return .moPub
         }
     }
 }

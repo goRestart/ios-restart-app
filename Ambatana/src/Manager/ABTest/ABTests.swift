@@ -43,6 +43,7 @@ class ABTests {
     let money = MoneyABGroup.make()
     let chat = ChatABGroup.make()
     let core = CoreABGroup.make()
+    let users = UsersABGroup.make()
 
     convenience init() {
         self.init(syncer: LeamplumSyncer())
@@ -61,7 +62,7 @@ class ABTests {
         result.append(contentsOf: realEstate.intVariables)
         result.append(contentsOf: chat.intVariables)
         result.append(contentsOf: core.intVariables)
-
+        result.append(contentsOf: users.intVariables)
         return result
     }
 
@@ -73,7 +74,7 @@ class ABTests {
         result.append(contentsOf: realEstate.boolVariables)
         result.append(contentsOf: chat.boolVariables)
         result.append(contentsOf: core.boolVariables)
-
+        result.append(contentsOf: users.boolVariables)
         return result
     }
 
@@ -103,6 +104,10 @@ class ABTests {
 }
 
 extension ABTests {
+    var advancedReputationSystem: LeanplumABVariable<Int> { return users.advancedReputationSystem }
+}
+
+extension ABTests {
     var discardedProducts: LeanplumABVariable<Int> { return core.discardedProducts }
     var newUserProfileView: LeanplumABVariable<Int> { return core.newUserProfileView }
     var searchImprovements: LeanplumABVariable<Int> { return core.searchImprovements }
@@ -129,6 +134,7 @@ extension ABTests {
     var turkeyBumpPriceVATAdaptation: LeanplumABVariable<Int> { return money.turkeyBumpPriceVATAdaptation }
     var promoteBumpInEdit: LeanplumABVariable<Int> { return money.promoteBumpInEdit }
     var showProTagUserProfile: LeanplumABVariable<Bool> { return money.showProTagUserProfile }
+    var feedAdsProviderForUS: LeanplumABVariable<Int> { return money.feedAdsProviderForUS }
 }
 
 extension ABTests {

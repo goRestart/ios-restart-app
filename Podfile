@@ -34,7 +34,7 @@ def shared_pods
     pod "NewRelicAgent",        "6.1.1"     # Obj-c
 
     # letgo Core
-    pod "LGCoreKit",             "4.13.4"
+    pod "LGCoreKit",             "4.14.0"
 #   pod "LGCoreKit",            :path => "../lgcorekit"
 #   pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => '5ab5b41f39f78a3d17cd0f1dd5d2da65f911e876'
 
@@ -80,6 +80,9 @@ def shared_pods
     pod "KeychainSwift",        "10.0.0"
     
     pod 'lottie-ios',           "2.5.0" # Obj-c
+    
+    # MoPub Ads
+    pod "mopub-ios-sdk",        "4.20.0" # Obj-c
 
 end
 

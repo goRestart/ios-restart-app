@@ -18,7 +18,7 @@ struct ListingCellMetrics {
     
     static let sideMargin: CGFloat = DeviceFamily.current.shouldShow3Columns() ? 7.0 : Metrics.shortMargin
     static let minThumbnailHeightWithContent: CGFloat = 168
-    static let minPriceAreaHeight: CGFloat = 50
+    static let minPriceAreaHeight: CGFloat = 52
     
     struct PriceLabel {
         static let height: CGFloat = DeviceFamily.current.shouldShow3Columns() ? 23 : 28
@@ -33,7 +33,7 @@ struct ListingCellMetrics {
     
     struct TitleLabel {
         static let topMargin: CGFloat = Metrics.veryShortMargin
-        static let bottomMargin: CGFloat = Metrics.margin
+        static let bottomMargin: CGFloat = Metrics.shortMargin
         static var fontMedium: UIFont {
             let fontSize: CGFloat = DeviceFamily.current.shouldShow3Columns() ? 13 : 15
             return UIFont.systemFont(ofSize: fontSize, weight: .medium)
@@ -53,8 +53,9 @@ struct ListingCellMetrics {
     
     struct DistanceView {
         static let margin: CGFloat = 7.6
-        static let iconHeight: CGFloat = 16.0
-        static let iconWidth: CGFloat = 10.9
+        static let iconHeight: CGFloat = 19.0
+        static let iconWidth: CGFloat = 14
+        static let gap: CGFloat = 4.0
         static var distanceLabelFont: UIFont {
             let fontSize: CGFloat = DeviceFamily.current.shouldShow3Columns() ? 11 : 13
             return UIFont.systemFont(ofSize: fontSize, weight: .bold)

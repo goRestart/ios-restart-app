@@ -248,7 +248,7 @@ struct TrackerEvent {
                                distanceUnit: DistanceType, categories: [ListingCategory]?, sortBy: ListingSortCriteria?,
                                postedWithin: ListingTimeCriteria?, priceRange: FilterPriceRange, freePostingModeAllowed: Bool,
                                carMake: String?, carModel: String?, carYearStart: Int?, carYearEnd: Int?, propertyType: String?,
-                               offerType: String?, bedrooms: Int?, bathrooms: Float?, sizeSqrMetersMin: Int?,
+                               offerType: [String]?, bedrooms: Int?, bathrooms: Float?, sizeSqrMetersMin: Int?,
                                sizeSqrMetersMax: Int?, rooms: NumberOfRooms?) -> TrackerEvent {
         var params = EventParameters()
 
@@ -317,7 +317,7 @@ struct TrackerEvent {
         }
         
         if let offerType = offerType {
-            params[.offerType] = String(offerType)
+            params[.offerType] = offerType.joined(separator: ",")
             verticalFields.append(EventParameterName.offerType.rawValue)
         } else {
             params[.offerType] = TrackerEvent.notApply

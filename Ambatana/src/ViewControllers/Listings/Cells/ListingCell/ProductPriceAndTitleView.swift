@@ -21,6 +21,8 @@ final class ProductPriceAndTitleView: UIView {
         label.numberOfLines = 1
         label.textAlignment = .left
         label.setContentHuggingPriority(.required, for: .vertical)
+        label.clipsToBounds = true
+        label.isOpaque = true
         return label
     }()
     
@@ -29,29 +31,19 @@ final class ProductPriceAndTitleView: UIView {
         label.font = ListingCellMetrics.TitleLabel.fontMedium
         label.numberOfLines = 2
         label.textAlignment = .left
+        label.lineBreakMode = .byWordWrapping
+        label.setContentHuggingPriority(.required, for: .vertical)
+        label.clipsToBounds = true
+        label.isOpaque = true
         return label
     }()
     
-    private let stackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.distribution = .fillProportionally
-        stackView.isLayoutMarginsRelativeArrangement = true
-        stackView.layoutMargins = .zero
-        stackView.spacing = 0
-        return stackView
-    }()
-
-    init() {
+    init(textStyle: DisplayStyle = .darkText) {
         super.init(frame: .zero)
-        setupStackView()
+        alignSubViews(style: textStyle)
         setAccessibilityIds()
-    }
-
-    func update(with price: String, title: String?, textStyle: DisplayStyle) {
-        priceLabel.text = price
-        titleLabel.text = title
-        configTextStyle(textStyle)
+        isOpaque = true
+        clipsToBounds = true
     }
     
     func clearLabelTexts() {
@@ -59,29 +51,43 @@ final class ProductPriceAndTitleView: UIView {
         titleLabel.text = nil
     }
     
+    
     // MARK: - Private
 
-    private func setupStackView() {
-        stackView.addArrangedSubview(priceLabel)
-        stackView.addArrangedSubview(titleLabel)
-        addSubviewForAutoLayout(stackView)
-        stackView.layout(with: self)
-            .top(by: ListingCellMetrics.PriceLabel.topMargin)
+    private func alignSubViews(style: DisplayStyle) {
+        addSubviewsForAutoLayout([priceLabel, titleLabel])
+        layoutPriceLabel(style: style)
+        layoutTitleLabel()
+    }
+    
+    private func layoutPriceLabel(style: DisplayStyle) {
+        priceLabel.layout(with: self)
             .fillHorizontal(by: ListingCellMetrics.sideMargin)
-            .bottom(by: -ListingCellMetrics.TitleLabel.bottomMargin)
+        
         NSLayoutConstraint.activate([
-            priceLabel.heightAnchor.constraint(equalToConstant: ListingCellMetrics.PriceLabel.height),
-            titleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 1.0)
+            priceLabel.heightAnchor.constraint(equalToConstant: ListingCellMetrics.PriceLabel.height)
         ])
     }
     
-    private func configTextStyle(_ style: DisplayStyle) {
+    private func layoutTitleLabel() {
+        titleLabel.layout(with: self)
+            .fillHorizontal(by: ListingCellMetrics.sideMargin)
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: priceLabel.bottomAnchor),
+            titleLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -ListingCellMetrics.TitleLabel.bottomMargin)
+        ])
+    }
+    
+    func configUI(title: String?, price: String, style: DisplayStyle) {
+        priceLabel.text = price
+        titleLabel.text = title
         switch style {
         case .darkText:
             priceLabel.textColor = UIColor.blackText
             titleLabel.textColor = .darkGrayText
             backgroundColor = .clear
             titleLabel.font = ListingCellMetrics.TitleLabel.fontMedium
+            priceLabel.layout(with: self).top(by: ListingCellMetrics.PriceLabel.topMargin)
         case .whiteText:
             titleLabel.textColor = .white
             priceLabel.textColor = .white

@@ -25,6 +25,7 @@ class ABTestsSpec: QuickSpec {
         var money: MoneyABGroup!
         var chat: ChatABGroup!
         var core: CoreABGroup!
+        var users: UsersABGroup!
 
         afterEach { syncer.clear() }
 
@@ -39,6 +40,7 @@ class ABTestsSpec: QuickSpec {
                 chat = ChatABGroup.make()
                 money = MoneyABGroup.make()
                 retention = RetentionABGroup.make()
+                users = UsersABGroup.make()
             }
 
             context("registering all the variables") {
@@ -46,7 +48,7 @@ class ABTestsSpec: QuickSpec {
                     sut.registerVariables()
                 }
                 it("registers all the variables") {
-                    expect(syncer.syncedCount) == 48
+                    expect(syncer.syncedCount) == 50
                 }
             }
 
@@ -55,35 +57,13 @@ class ABTestsSpec: QuickSpec {
                     sut.registerVariables()
                     uniqueSyncer = LeamplumSyncerCounter()
 
-                    uniqueSyncer.sync(variables: Array(Set(legacy.intVariables)))
-                    uniqueSyncer.sync(variables: Array(Set(legacy.boolVariables)))
-                    uniqueSyncer.sync(variables: Array(Set(legacy.stringVariables)))
-                    uniqueSyncer.sync(variables: Array(Set(legacy.floatVariables)))
-
-                    uniqueSyncer.sync(variables: Array(Set(realEstate.intVariables)))
-                    uniqueSyncer.sync(variables: Array(Set(realEstate.boolVariables)))
-                    uniqueSyncer.sync(variables: Array(Set(realEstate.stringVariables)))
-                    uniqueSyncer.sync(variables: Array(Set(realEstate.floatVariables)))
-
-                    uniqueSyncer.sync(variables: Array(Set(core.intVariables)))
-                    uniqueSyncer.sync(variables: Array(Set(core.boolVariables)))
-                    uniqueSyncer.sync(variables: Array(Set(core.stringVariables)))
-                    uniqueSyncer.sync(variables: Array(Set(core.floatVariables)))
-
-                    uniqueSyncer.sync(variables: Array(Set(chat.intVariables)))
-                    uniqueSyncer.sync(variables: Array(Set(chat.boolVariables)))
-                    uniqueSyncer.sync(variables: Array(Set(chat.stringVariables)))
-                    uniqueSyncer.sync(variables: Array(Set(chat.floatVariables)))
-
-                    uniqueSyncer.sync(variables: Array(Set(money.intVariables)))
-                    uniqueSyncer.sync(variables: Array(Set(money.boolVariables)))
-                    uniqueSyncer.sync(variables: Array(Set(money.stringVariables)))
-                    uniqueSyncer.sync(variables: Array(Set(money.floatVariables)))
-
-                    uniqueSyncer.sync(variables: Array(Set(retention.intVariables)))
-                    uniqueSyncer.sync(variables: Array(Set(retention.boolVariables)))
-                    uniqueSyncer.sync(variables: Array(Set(retention.stringVariables)))
-                    uniqueSyncer.sync(variables: Array(Set(retention.floatVariables)))
+                    let abGroups: [ABGroupType] = [legacy, realEstate, retention, core, chat, money, users]
+                    abGroups.forEach {
+                        uniqueSyncer.sync(variables: Array(Set($0.intVariables)))
+                        uniqueSyncer.sync(variables: Array(Set($0.boolVariables)))
+                        uniqueSyncer.sync(variables: Array(Set($0.stringVariables)))
+                        uniqueSyncer.sync(variables: Array(Set($0.floatVariables)))
+                    }
                 }
                 it("the registered variables are unique") {
                     expect(syncer.syncedCount) == uniqueSyncer.syncedCount
@@ -182,7 +162,7 @@ class ABTestsSpec: QuickSpec {
 
             context("registering all the variables") {
                 it("the money int variable registered are 6") {
-                    expect(money.intVariables.count) == 6
+                    expect(money.intVariables.count) == 7
                 }
 
                 it("the money bool variable registered are 1") {
@@ -206,7 +186,7 @@ class ABTestsSpec: QuickSpec {
                     syncer.sync(variables: money.floatVariables)
                 }
                 it("the variables registered are 7") {
-                    expect(syncer.syncedCount) == 7
+                    expect(syncer.syncedCount) == 8
                 }
             }
 
@@ -267,6 +247,36 @@ class ABTestsSpec: QuickSpec {
                 }
                 it("the variables registered are 6") {
                     expect(syncer.syncedCount) == 7
+                }
+            }
+
+            context("registering all the variables") {
+                it("the users int variable registered are 1") {
+                    expect(users.intVariables.count) == 1
+                }
+
+                it("the users bool variable registered are 0") {
+                    expect(users.boolVariables.count) == 0
+                }
+
+                it("the users string variable registered are 0") {
+                    expect(users.stringVariables.count) == 0
+                }
+
+                it("the users float variable registered are 0") {
+                    expect(users.floatVariables.count) == 0
+                }
+            }
+
+            context("manually registering all the users variables") {
+                beforeEach {
+                    syncer.sync(variables: users.intVariables)
+                    syncer.sync(variables: users.boolVariables)
+                    syncer.sync(variables: users.stringVariables)
+                    syncer.sync(variables: users.floatVariables)
+                }
+                it("the variables registered are 1") {
+                    expect(syncer.syncedCount) == 1
                 }
             }
         }
