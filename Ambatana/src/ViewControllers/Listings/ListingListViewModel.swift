@@ -89,6 +89,7 @@ class ListingListViewModel: BaseViewModel {
     weak var listingCellDelegate: ListingCellDelegate?
     
     let featureFlags: FeatureFlags
+    private let myUserRepository: MyUserRepository
     
     // Requester
     var listingListRequester: ListingListRequester?
@@ -152,7 +153,8 @@ class ListingListViewModel: BaseViewModel {
          tracker: Tracker = TrackerProxy.sharedInstance,
          imageDownloader: ImageDownloaderType = ImageDownloader.sharedInstance,
          reporter: CrashlyticsReporter = CrashlyticsReporter(),
-         featureFlags: FeatureFlags = FeatureFlags.sharedInstance) {
+         featureFlags: FeatureFlags = FeatureFlags.sharedInstance,
+         myUserRepository: MyUserRepository = Core.myUserRepository) {
         self.objects = (listings ?? []).map(ListingCellModel.init)
         self.pageNumber = 0
         self.refreshing = false
@@ -164,6 +166,7 @@ class ListingListViewModel: BaseViewModel {
         self.imageDownloader = imageDownloader
         self.indexToTitleMapping = [:]
         self.featureFlags = featureFlags
+        self.myUserRepository = myUserRepository
         super.init()
         let cellHeight = cellWidth * cellAspectRatio
         self.defaultCellSize = CGSize(width: cellWidth, height: cellHeight)
@@ -400,7 +403,10 @@ class ListingListViewModel: BaseViewModel {
     }
     
     private func featuredInfoAdditionalCellHeight(for listing: Listing, width: CGFloat, isVariantEnabled: Bool, productDetailDisplayType: AddPriceTitleDistanceToListings) -> CGFloat {
-        let minHeightForFeaturedListing: CGFloat = ListingCellMetrics.ActionButton.totalHeight
+        
+        let isMine = listing.isMine(myUserRepository: myUserRepository)
+        
+        let minHeightForFeaturedListing: CGFloat = isMine ? 0.0 : ListingCellMetrics.ActionButton.totalHeight
         guard isVariantEnabled, let featured = listing.featured, featured else {
             return 0
         }
@@ -428,7 +434,7 @@ class ListingListViewModel: BaseViewModel {
     private func normalCellAdditionalHeight(for listing: Listing,
                                             width: CGFloat,
                                             variant: AddPriceTitleDistanceToListings) -> CGFloat {
-        guard let isFeatured = listing.featured, !isFeatured else { return 0 }
+        if let isFeatured = listing.featured, isFeatured { return 0 }
         guard variant.showDetailInNormalCell else { return 0 }
         return ListingCellMetrics.getTotalHeightForPriceAndTitleView(listing.title, containerWidth: width)
     }

@@ -23,7 +23,7 @@ extension Bumper  {
         flags.append(SearchAutocomplete.self)
         flags.append(RequestsTimeOut.self)
         flags.append(TaxonomiesAndTaxonomyChildrenInFeed.self)
-        flags.append(NewItemPage.self)
+        flags.append(DeckItemPage.self)
         flags.append(ShowClockInDirectAnswer.self)
         flags.append(MostSearchedDemandedItems.self)
         flags.append(AllowCallsForProfessionals.self)
@@ -111,9 +111,9 @@ extension Bumper  {
         return TaxonomiesAndTaxonomyChildrenInFeed(rawValue: value) ?? .control 
     }
 
-    static var newItemPage: NewItemPage {
-        guard let value = Bumper.value(for: NewItemPage.key) else { return .control }
-        return NewItemPage(rawValue: value) ?? .control 
+    static var deckItemPage: DeckItemPage {
+        guard let value = Bumper.value(for: DeckItemPage.key) else { return .control }
+        return DeckItemPage(rawValue: value) ?? .control 
     }
 
     static var showClockInDirectAnswer: ShowClockInDirectAnswer {
@@ -416,13 +416,13 @@ enum TaxonomiesAndTaxonomyChildrenInFeed: String, BumperFeature  {
     }
 }
 
-enum NewItemPage: String, BumperFeature  {
+enum DeckItemPage: String, BumperFeature  {
     case control, baseline, active
-    static var defaultValue: String { return NewItemPage.control.rawValue }
-    static var enumValues: [NewItemPage] { return [.control, .baseline, .active]}
+    static var defaultValue: String { return DeckItemPage.control.rawValue }
+    static var enumValues: [DeckItemPage] { return [.control, .baseline, .active]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "New item page with card appearance and different navigation" } 
-    static func fromPosition(_ position: Int) -> NewItemPage {
+    static var description: String { return "Deck item page with card appearance and different navigation" } 
+    static func fromPosition(_ position: Int) -> DeckItemPage {
         switch position { 
             case 0: return .control
             case 1: return .baseline

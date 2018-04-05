@@ -35,6 +35,7 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        mainResponder = chatView.textView
         setupUI()
     }
 
@@ -65,14 +66,17 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
         photoViewer.dataSource = self
         photoViewer.delegate = self
         photoViewer.updateNumberOfPages(viewModel.itemsCount)
-
+        photoViewer.isChatEnabled = viewModel.isChatEnabled
+        
         binder.viewController = self
-        binder.bind(toView: photoViewer)
+        binder.bind(toView: photoViewer, isChatEnabled: viewModel.isChatEnabled)
     }
 
     private func setupGestures() {
-        setupOpenChatGesture()
-        setupDismissChatGestures()
+        if viewModel.isChatEnabled {
+            setupOpenChatGesture()
+            setupDismissChatGestures()
+        }
         setupSwipeToDismiss()
     }
 
@@ -95,11 +99,6 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
         let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(dismissChat))
         swipeDown.direction = .down
         chatView.addGestureRecognizer(swipeDown)
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setupNavigationBar()
     }
 
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {

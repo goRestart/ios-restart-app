@@ -166,7 +166,7 @@ extension ABTests {
     var searchAutocomplete: LeanplumABVariable<Int> { return legacy.searchAutocomplete }
     var realEstateEnabled: LeanplumABVariable<Int> { return legacy.realEstateEnabled }
     var requestsTimeOut: LeanplumABVariable<Int> { return legacy.requestsTimeOut }
-    var newItemPage: LeanplumABVariable<Int> { return legacy.newItemPage }
+    var deckItemPage: LeanplumABVariable<Int> { return legacy.newItemPage }
     var taxonomiesAndTaxonomyChildrenInFeed: LeanplumABVariable<Int> { return legacy.taxonomiesAndTaxonomyChildrenInFeed }
     var showClockInDirectAnswer: LeanplumABVariable<Int> { return legacy.showClockInDirectAnswer }
     var allowCallsForProfessionals: LeanplumABVariable<Int> { return legacy.allowCallsForProfessionals }

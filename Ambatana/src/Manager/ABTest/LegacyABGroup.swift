@@ -25,7 +25,7 @@ struct LegacyABGroup: ABGroupType {
         static let searchAutocomplete = "20170914SearchAutocomplete"
         static let realEstateEnabled = "20171228realEstateEnabled"
         static let requestTimeOut = "20170929RequestTimeOut"
-        static let newItemPage = "20171027NewItemPage"
+        static let deckItemPage = "20180403NewItemPage"
         static let taxonomiesAndTaxonomyChildrenInFeed = "20171031TaxonomiesAndTaxonomyChildrenInFeed"
         static let showClockInDirectAnswer = "20171031ShowClockInDirectAnswer"
         static let allowCallsForProfessionals = "20171228allowCallsForProfessionals"
@@ -147,7 +147,7 @@ struct LegacyABGroup: ABGroupType {
                              searchAutocomplete: .makeInt(key: Keys.searchAutocomplete, defaultValue: 0, groupType: .legacyABTests),
                              realEstateEnabled: .makeInt(key: Keys.realEstateEnabled, defaultValue: 0, groupType: .legacyABTests),
                              requestsTimeOut: .makeInt(key: Keys.requestTimeOut, defaultValue: 30, groupType: .legacyABTests),
-                             newItemPage: .makeInt(key: Keys.newItemPage, defaultValue: 0, groupType: .legacyABTests),
+                             newItemPage: .makeInt(key: Keys.deckItemPage, defaultValue: 0, groupType: .legacyABTests),
                              taxonomiesAndTaxonomyChildrenInFeed: .makeInt(key: Keys.taxonomiesAndTaxonomyChildrenInFeed, defaultValue: 0, groupType: .legacyABTests),
                              showClockInDirectAnswer: .makeInt(key: Keys.showClockInDirectAnswer, defaultValue: 0, groupType: .legacyABTests),
                              allowCallsForProfessionals:  .makeInt(key: Keys.allowCallsForProfessionals, defaultValue: 0, groupType: .legacyABTests),
