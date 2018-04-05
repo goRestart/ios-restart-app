@@ -352,6 +352,8 @@ extension ListingDeckViewController {
             viewModel.showBumpUpView(viewModel.actionOnFirstAppear)
         case .triggerMarkAsSold:
             viewModel.currentListingViewModel?.markAsSold()
+        case .edit:
+            viewModel.currentListingViewModel?.editListing()
         case .nonexistent:
             break
         }

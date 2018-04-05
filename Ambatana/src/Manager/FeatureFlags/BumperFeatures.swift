@@ -56,7 +56,8 @@ extension Bumper  {
         flags.append(MarkAllConversationsAsRead.self)
         flags.append(ShowProTagUserProfile.self)
         flags.append(SummaryAsFirstStep.self)
-        flags.append(ShowProTagUserProfile.self)
+        flags.append(ShowAdvancedReputationSystem.self)
+        flags.append(FeedAdsProviderForUS.self)
         Bumper.initialize(flags)
     } 
 
@@ -275,6 +276,15 @@ extension Bumper  {
         return SummaryAsFirstStep(rawValue: value) ?? .control 
     }
 
+    static var showAdvancedReputationSystem: ShowAdvancedReputationSystem {
+        guard let value = Bumper.value(for: ShowAdvancedReputationSystem.key) else { return .control }
+        return ShowAdvancedReputationSystem(rawValue: value) ?? .control 
+    }
+
+    static var feedAdsProviderForUS: FeedAdsProviderForUS {
+        guard let value = Bumper.value(for: FeedAdsProviderForUS.key) else { return .control }
+        return FeedAdsProviderForUS(rawValue: value) ?? .control 
+    } 
 }
 
 
@@ -930,4 +940,40 @@ enum SummaryAsFirstStep: String, BumperFeature  {
         }
     }
 }
+
+enum ShowAdvancedReputationSystem: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ShowAdvancedReputationSystem.control.rawValue }
+    static var enumValues: [ShowAdvancedReputationSystem] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show the new advance reputation system and Karma Score" } 
+    static func fromPosition(_ position: Int) -> ShowAdvancedReputationSystem {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum FeedAdsProviderForUS: String, BumperFeature  {
+    case control, baseline, bingAdsForAllUsers, bingAdsForOldUsers, moPubAdsForAllUsers, moPubAdsForOldUsers
+    static var defaultValue: String { return FeedAdsProviderForUS.control.rawValue }
+    static var enumValues: [FeedAdsProviderForUS] { return [.control, .baseline, .bingAdsForAllUsers, .bingAdsForOldUsers, .moPubAdsForAllUsers, .moPubAdsForOldUsers]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Change logic for showing ads with diferent ads providers in the US" } 
+    static func fromPosition(_ position: Int) -> FeedAdsProviderForUS {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .bingAdsForAllUsers
+            case 3: return .bingAdsForOldUsers
+            case 4: return .moPubAdsForAllUsers
+            case 5: return .moPubAdsForOldUsers
+            default: return .control
+        }
+    }
+}
+
 

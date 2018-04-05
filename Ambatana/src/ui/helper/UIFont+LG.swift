@@ -48,6 +48,11 @@ extension UIFont {
     static var postingFlowHeadline: UIFont { return systemBoldFont(size: 35) }
     static var postingFlowBody: UIFont { return systemBoldFont(size: 27) }
     static var postingFlowSelectableItem: UIFont { return systemBoldFont(size: 23) }
+    
+    static var adTitleFont: UIFont { return systemMediumFont(size: 16)}
+    static var adDescriptionFont: UIFont { return systemRegularFont(size: 14)}
+    static var adCallToActionFont: UIFont { return systemMediumFont(size: 14)}
+    static var adTextFont: UIFont { return systemRegularFont(size: 14)}
 
     // User Profile
     static var profileUserHeadline: UIFont { return systemBoldFont(size: 35) }

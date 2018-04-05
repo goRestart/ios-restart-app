@@ -35,7 +35,7 @@ enum FilterTag: Equatable {
 extension FilterTag {
     var isTaxonomy: Bool {
         switch self {
-        case .location, .within, .orderBy, .category, .taxonomyChild, .secondaryTaxonomyChild, .priceRange, .freeStuff, .distance, .make, .model, .yearsRange, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType, .realEstateNumberOfRooms, .sizeSquareMetersRange:
+    case .location, .within, .orderBy, .category, .taxonomyChild, .secondaryTaxonomyChild, .priceRange, .freeStuff, .distance, .make, .model, .yearsRange, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType, .realEstateNumberOfRooms, .sizeSquareMetersRange:
             return false
         case .taxonomy:
             return true
