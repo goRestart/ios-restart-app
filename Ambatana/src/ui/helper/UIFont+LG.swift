@@ -43,26 +43,23 @@ extension UIFont {
     static var bigButtonFont: UIFont { return systemSemiBoldFont(size: 19) }
     static var mediumButtonFont: UIFont { return systemMediumFont(size: 17) }
     static var smallButtonFont: UIFont { return systemMediumFont(size: 15) }
-    
+
     // Posting Flow
     static var postingFlowHeadline: UIFont { return systemBoldFont(size: 35) }
     static var postingFlowBody: UIFont { return systemBoldFont(size: 27) }
     static var postingFlowSelectableItem: UIFont { return systemBoldFont(size: 23) }
-    
+
     static var adTitleFont: UIFont { return systemMediumFont(size: 16)}
     static var adDescriptionFont: UIFont { return systemRegularFont(size: 14)}
     static var adCallToActionFont: UIFont { return systemMediumFont(size: 14)}
     static var adTextFont: UIFont { return systemRegularFont(size: 14)}
 
-    // User Profile
-    static var profileUserHeadline: UIFont { return systemBoldFont(size: 35) }
-
     // MARK: Private methods
-    
+
     static func systemFont(size: Int) -> UIFont {
         return self.systemFont(ofSize: CGFloat(size))
     }
-    
+
     static func systemMediumFont(size: Int) -> UIFont {
         return self.systemFont(ofSize: CGFloat(size), weight: UIFont.Weight.medium)
     }
@@ -70,19 +67,19 @@ extension UIFont {
     static func systemLightFont(size: Int) -> UIFont {
         return self.systemFont(ofSize: CGFloat(size), weight: UIFont.Weight.light)
     }
-    
+
     static func systemRegularFont(size: Int) -> UIFont {
         return self.systemFont(ofSize: CGFloat(size), weight: UIFont.Weight.regular)
     }
-    
+
     static func systemSemiBoldFont(size: Int) -> UIFont {
         return self.systemFont(ofSize: CGFloat(size), weight: UIFont.Weight.semibold)
     }
-    
+
     static func systemBoldFont(size: Int) -> UIFont {
         return boldSystemFont(ofSize: CGFloat(size))
     }
-    
+
     static func systemItalicFont(size: Int) -> UIFont {
         return italicSystemFont(ofSize: CGFloat(size))
     }
@@ -165,7 +162,11 @@ extension UIFont {
 
 // MARK: - User Profile
 extension UIFont {
-    static var userProfileTabsNumberFont: UIFont { return UIFont.systemBoldFont(size: 19)}
-    static var userProfileTabsNameFont: UIFont { return UIFont.systemRegularFont(size: 15)}
-    static var userProfileTabsNameSelectedFont: UIFont { return UIFont.systemBoldFont(size: 15)}
+    static var userProfileTabsNumberFont: UIFont { return UIFont.systemBoldFont(size: 19) }
+    static var userProfileTabsNameFont: UIFont { return UIFont.systemRegularFont(size: 15) }
+    static var userProfileTabsNameSelectedFont: UIFont { return UIFont.systemBoldFont(size: 15) }
+    static var profileUserHeadline: UIFont { return systemBoldFont(size: 35) }
+    static var profileKarmaSubtitleBoldFont: UIFont { return systemBoldFont(size: 11) }
+    static var profileKarmaScoreTitleFont: UIFont { return systemBoldFont(size: 23) }
+    static var profileKarmaOpenVerificationFont: UIFont { return UIFont.systemBoldFont(size: 15) }
 }

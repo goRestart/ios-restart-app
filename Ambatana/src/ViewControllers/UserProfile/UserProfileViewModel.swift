@@ -47,6 +47,10 @@ final class UserProfileViewModel: BaseViewModel {
         return !areEnabled && isPrivateProfile
     }
 
+    var showKarmaView: Bool {
+        return featureFlags.showAdvancedReputationSystem.isActive && isPrivateProfile
+    }
+
     var userName: Driver<String?> { return user.asDriver().map {$0?.name} }
     var userAvatarURL: Driver<URL?> { return user.asDriver().map {$0?.avatar?.fileURL} }
     var userIsDummy: Driver<Bool> { return user.asDriver().map {$0?.type == .dummy && self.featureFlags.dummyUsersInfoProfile.isActive } }

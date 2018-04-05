@@ -49,6 +49,8 @@ final class UserProfileBioAndTrustView: UIView {
 
     let isPrivate: Bool
 
+    var onlyShowBioText: Bool = false
+
     var buildTrustButtonTitle: String? {
         didSet {
             buildTrustButton.setTitle(buildTrustButtonTitle, for: .normal)
@@ -78,7 +80,7 @@ final class UserProfileBioAndTrustView: UIView {
             updateAccountsVisibility()
         }
     }
-    
+
     var userBio: String? {
         didSet {
             updateBioVisibility()
@@ -86,13 +88,13 @@ final class UserProfileBioAndTrustView: UIView {
     }
 
     private var buildTrustButtonVisible: Bool {
-        guard isPrivate else { return false }
+        guard isPrivate && !onlyShowBioText else { return false }
         guard let accounts = accounts else { return true }
         return !(accounts.emailVerified && accounts.facebookVerified && accounts.googleVerified)
     }
 
     private var verifiedAccountsVisible: Bool {
-        guard let accounts = accounts else { return false }
+        guard let accounts = accounts, !onlyShowBioText else { return false }
         return accounts.emailVerified || accounts.facebookVerified || accounts.googleVerified
     }
 
@@ -104,7 +106,7 @@ final class UserProfileBioAndTrustView: UIView {
     }
 
     private var addBioButtonVisible: Bool {
-        guard isPrivate else { return false }
+        guard isPrivate, !onlyShowBioText else { return false }
         if let bio = userBio {
             return bio.isEmpty
         }
@@ -262,13 +264,13 @@ final class UserProfileBioAndTrustView: UIView {
         moreBioButton.setTitleColor(UIColor.grayDark, for: .normal)
         moreBioButton.titleLabel?.font = UIFont.sectionTitleFont
         moreBioButton.contentEdgeInsets = UIEdgeInsets(top: 0,
-                                                          left: Layout.buttonInset,
-                                                          bottom: 0,
-                                                          right: Layout.buttonTitleInset)
+                                                       left: Layout.buttonInset,
+                                                       bottom: 0,
+                                                       right: Layout.buttonTitleInset)
         moreBioButton.titleEdgeInsets = UIEdgeInsets(top: 0,
-                                                        left: Layout.buttonTitleInset,
-                                                        bottom: 0,
-                                                        right: -Layout.buttonTitleInset)
+                                                     left: Layout.buttonTitleInset,
+                                                     bottom: 0,
+                                                     right: -Layout.buttonTitleInset)
         moreBioButton.layer.cornerRadius = Layout.buttonHeight / 2
         moreBioButton.setImage(UIImage(named: "chevron_down_grey"), for: .normal)
         moreBioButton.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
@@ -290,6 +292,7 @@ final class UserProfileBioAndTrustView: UIView {
             self.moreBioButton.imageView?.transform = !self.bioLabel.isHidden ? Layout.iconDefaultTransform : Layout.iconRotatedTransform
             self.bioLabel.isHidden = !self.bioLabel.isHidden
             self.bioLabel.alpha = self.bioLabel.isHidden ? 0 : 1
+            self.layoutIfNeeded()
         }) { [weak self] (isCompleted) in
             guard isCompleted else { return }
             self?.isAnimatingResize.value = false
