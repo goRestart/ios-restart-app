@@ -36,6 +36,7 @@ enum ProductCarouselActionOnFirstAppear {
     case showShareSheet
     case triggerBumpUp(bumpUpProductData: BumpUpProductData, bumpUpType: BumpUpType, triggerBumpUpSource: BumpUpSource, typePage: EventParameterTypePage?)
     case triggerMarkAsSold
+    case edit
 }
 
 protocol TabNavigator: class {
