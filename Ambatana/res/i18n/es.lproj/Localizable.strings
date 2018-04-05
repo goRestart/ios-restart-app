@@ -37,6 +37,10 @@
 "bump_up_product_cell_chat_now_button_b" = "Chatear";
 "bump_up_product_cell_chat_now_button_c" = "Chatear";
 "bump_up_product_cell_chat_now_button_d" = "Chatear";
+"bump_up_product_cell_chat_now_button_english_a" = "Chatear";
+"bump_up_product_cell_chat_now_button_english_b" = "Chatear";
+"bump_up_product_cell_chat_now_button_english_c" = "Chatear";
+"bump_up_product_cell_chat_now_button_english_d" = "Chatear";
 "bump_up_product_cell_featured_stripe" = "Destacado";
 "bump_up_product_detail_featured_label" = "DESTACADO";
 "bump_up_view_boost_pay_button_title" = "Destácalo de nuevo por %@";
@@ -243,6 +247,7 @@
 "common_error_retry_button" = "Inténtalo de nuevo";
 "common_error_title" = "¡UPS!";
 "common_expand" = "Ver Más";
+"common_hours_mins_secs" = "%@h %@m %@s";
 "common_loading" = "Cargando...";
 "common_max" = "máx.";
 "common_new" = "¡NUEVO!";
@@ -603,7 +608,7 @@
 "product_delete_post_title" = "¿NO HAS TENIDO SUERTE?";
 "product_delete_send_error_generic" = "¡Ups! Se ha producido un error al eliminar tu anuncio. Por favor, inténtalo de nuevo.";
 "product_delete_sold_confirm_message" = "¿Seguro que quieres eliminar este anuncio?";
-"product_detail_swipe_to_see_related" = "Swipe to see related listings";
+"product_detail_swipe_to_see_related" = "Desliza para ver anuncios relacionados";
 "product_distance_X_from_you" = "%@ de ti";
 "product_distance_custom_location" = "Ubicación personalizada";
 "product_distance_more_than" = "Más de %@";
@@ -785,6 +790,13 @@
 "profile_favourites_my_user_no_products_button" = "Sigue navegando";
 "profile_favourites_my_user_no_products_label" = "NO HAY FAVORITOS (¡TODAVÍA!)";
 "profile_favourites_products_tab" = "Favoritos";
+"profile_karma_improve_score" = "Consigue más Puntos de Verificación";
+"profile_karma_points_title" = "%@ puntos";
+"profile_karma_title" = "Puntos de verificación: %@";
+"profile_karma_unverified_points_subtitle" = "%@ puntos";
+"profile_karma_unverified_subtitle" = "Gana %@ para conseguir la insignia de Usuario Verificado";
+"profile_karma_verified_subtitle" = "¡Has conseguido la insignia!";
+"profile_karma_visibility_title" = "Solo visible para ti";
 "profile_permissions_alert_cancel" = "Ahora no";
 "profile_permissions_alert_message" = "¿Quieres activar las notificaciones de mensajes ahora?";
 "profile_permissions_alert_ok" = "Activar";
@@ -888,7 +900,7 @@
 "real_estate_empty_state_search_subtitle" = "Sé el primero en publicar propiedades en venta / alquiler o vuelve a intentarlo pronto.";
 "real_estate_empty_state_search_title" = "¡UPS! NO HAY PROPIEDADES PUBLICADAS CERCA DE TI";
 "real_estate_gallery_view_subtitle" = "Selecciona hasta 5 imágenes de la propiedad que quieres alquilar o vender";
-"real_estate_gallery_view_subtitle_params" = "Selecciona hasta %d imágenes de la propiedad que quieres alquilar o vender";
+"real_estate_gallery_view_subtitle_params" = "Selecciona hasta %d imágenes de la propiedad que quieres alquilar o vender. ¡La primera será la imagen destacada así que asegúrate de que sea buena!";
 "real_estate_location_notification_message" = "Nunca mostraremos tu ubicación exacta al resto de usuarios";
 "real_estate_location_title" = "Ubicación";
 "real_estate_offer_type_rent" = "En alquiler";

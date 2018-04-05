@@ -37,6 +37,10 @@
 "bump_up_product_cell_chat_now_button_b" = "Jetzt ansprechen";
 "bump_up_product_cell_chat_now_button_c" = "Jetzt ansprechen";
 "bump_up_product_cell_chat_now_button_d" = "Jetzt ansprechen";
+"bump_up_product_cell_chat_now_button_english_a" = "Jetzt ansprechen";
+"bump_up_product_cell_chat_now_button_english_b" = "Jetzt ansprechen";
+"bump_up_product_cell_chat_now_button_english_c" = "Jetzt ansprechen";
+"bump_up_product_cell_chat_now_button_english_d" = "Jetzt ansprechen";
 "bump_up_product_cell_featured_stripe" = "Empfohlen";
 "bump_up_product_detail_featured_label" = "EMPFOHLEN";
 "bump_up_view_boost_pay_button_title" = "Empfehle es erneut für %@";
@@ -243,6 +247,7 @@
 "common_error_retry_button" = "Versuch's noch einmal";
 "common_error_title" = "HOPPLA!";
 "common_expand" = "Mehr anzeigen";
+"common_hours_mins_secs" = "%@h %@m %@s";
 "common_loading" = "Lädt...";
 "common_max" = "max.";
 "common_new" = "NEU!";
@@ -296,7 +301,7 @@
 "direct_answer_interested" = "Ich bin interessiert!";
 "direct_answer_interested_title" = "Interessiert...";
 "direct_answer_is_negotiable" = "Ist der Preis verhandelbar?";
-"direct_answer_lets_meet" = "Let's meet";
+"direct_answer_lets_meet" = "Ok, treffen wir uns";
 "direct_answer_like_to_buy" = "Hallo! Ich möchte es kaufen";
 "direct_answer_meet_up" = "Wo sollen wir uns treffen?";
 "direct_answer_meet_up_title" = "Treffen...";
@@ -443,9 +448,9 @@
 "main_sign_up_terms_conditions" = "Durch eine Registrierung oder Anmeldung stimmst du unseren Nutzungsbedingungen und Datenschutz-Richtlinien zu";
 "main_sign_up_terms_conditions_privacy_part" = "Datenschutz-Richtlinien";
 "main_sign_up_terms_conditions_terms_part" = "Nutzungsbedingungen";
-"meeting_creation_tips_view_change_button" = "Change meeting";
+"meeting_creation_tips_view_change_button" = "Treffen ändern";
 "meeting_creation_tips_view_gotit_button" = "Alles klar";
-"meeting_creation_tips_view_send_button" = "Send meeting";
+"meeting_creation_tips_view_send_button" = "Treffen vereinbaren";
 "meeting_creation_tips_view_subtitle" = "Wir empfehlen, dich tagsüber an einem gut beleuchteten, viel besuchten Ort wie zum Beispiel einem Café oder im Foyer einer Bank zu treffen";
 "meeting_creation_tips_view_title" = "Wähle einen sicheren, geeigneten Ort für das Treffen";
 "meeting_creation_view_date_time" = "TAG & UHRZEIT";
@@ -454,7 +459,7 @@
 "meeting_creation_view_search_cell_title" = "Wähle einen anderen Ort";
 "meeting_creation_view_select_date_time" = "Wähle Tag und Uhrzeit";
 "meeting_creation_view_select_location" = "Wähle einen Ort";
-"meeting_creation_view_send_button" = "Send meeting";
+"meeting_creation_view_send_button" = "Treffen vereinbaren";
 "meeting_creation_view_suggest_cell_select" = "Auswählen";
 "meeting_creation_view_suggest_cell_selected" = "Ausgewählt";
 "meeting_creation_view_title" = "Vereinbare ein Treffen";
@@ -603,7 +608,7 @@
 "product_delete_post_title" = "DIESMAL KEIN GLÜCK GEHABT?";
 "product_delete_send_error_generic" = "Hoppla! Beim Löschen deines Angebots ist ein Fehler aufgetreten. Bitte versuche es erneut.";
 "product_delete_sold_confirm_message" = "Bist du sicher, dass du dieses Angebot löschen möchtest?";
-"product_detail_swipe_to_see_related" = "Swipe to see related listings";
+"product_detail_swipe_to_see_related" = "Wische, um ähnliche Angebote zu sehen";
 "product_distance_X_from_you" = "%@ von dir";
 "product_distance_custom_location" = "Benutzerdefinierter Ort";
 "product_distance_more_than" = "Über %@";
@@ -785,6 +790,13 @@
 "profile_favourites_my_user_no_products_button" = "Mehr entdecken";
 "profile_favourites_my_user_no_products_label" = "(NOCH) KEINE FAVORITEN!";
 "profile_favourites_products_tab" = "Favoriten";
+"profile_karma_improve_score" = "Verbessere deine Verifizierungspunktzahl";
+"profile_karma_points_title" = "%@ pkt";
+"profile_karma_title" = "Verifizierungspunktzahl: %@";
+"profile_karma_unverified_points_subtitle" = "%@ Punkte";
+"profile_karma_unverified_subtitle" = "Verdiene %@, um das \"Verifizierter Nutzer\"-Abzeichen zu erhalten";
+"profile_karma_verified_subtitle" = "Du hast das Abzeichen erhalten!";
+"profile_karma_visibility_title" = "Nur für dich sichtbar";
 "profile_permissions_alert_cancel" = "Jetzt nicht";
 "profile_permissions_alert_message" = "Möchtest du jetzt Mitteilungen aktivieren?";
 "profile_permissions_alert_ok" = "Aktivieren";
@@ -888,7 +900,7 @@
 "real_estate_empty_state_search_subtitle" = "Sei der Erste, der in deiner Nähe Kauf-/Mietimmobilen einstellt, oder schaue später noch einmal vorbei!";
 "real_estate_empty_state_search_title" = "HOPPLA! KEINE IMMOBILIEN-ANGEBOTE IN DEINER NÄHE";
 "real_estate_gallery_view_subtitle" = "Wähle bis zu 5 Bilder der Immobilie, die du zum Verkauf oder zur Miete anbieten möchtest";
-"real_estate_gallery_view_subtitle_params" = "Wähle bis zu %d Bilder der Immobilie, die du zum Verkauf oder zur Miete anbieten möchtest";
+"real_estate_gallery_view_subtitle_params" = "Wähle bis zu %d Bilder der Immobilie, die du zum Verkauf oder zur Miete anbieten möchtest. Das erste wird dein Hauptfoto sein, also wähle ein gutes Bild!";
 "real_estate_location_notification_message" = "Wir werden anderen Nutzern niemals deinen genauen Standort anzeigen";
 "real_estate_location_title" = "Standort";
 "real_estate_offer_type_rent" = "Zur Miete";

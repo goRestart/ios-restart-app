@@ -37,6 +37,10 @@
 "bump_up_product_cell_chat_now_button_b" = "Lähetä viestiä nyt";
 "bump_up_product_cell_chat_now_button_c" = "Lähetä viestiä nyt";
 "bump_up_product_cell_chat_now_button_d" = "Lähetä viestiä nyt";
+"bump_up_product_cell_chat_now_button_english_a" = "Lähetä viestiä nyt";
+"bump_up_product_cell_chat_now_button_english_b" = "Lähetä viestiä nyt";
+"bump_up_product_cell_chat_now_button_english_c" = "Lähetä viestiä nyt";
+"bump_up_product_cell_chat_now_button_english_d" = "Lähetä viestiä nyt";
 "bump_up_product_cell_featured_stripe" = "Suositeltu";
 "bump_up_product_detail_featured_label" = "SUOSITELTU";
 "bump_up_view_boost_pay_button_title" = "Nosta uudelleen hintaan %@";
@@ -243,6 +247,7 @@
 "common_error_retry_button" = "Yritä uudelleen";
 "common_error_title" = "HUPS!";
 "common_expand" = "Näytä enemmän";
+"common_hours_mins_secs" = "%@h %@m %@s";
 "common_loading" = "Ladataan...";
 "common_max" = "maks.";
 "common_new" = "UUSI!";
@@ -603,7 +608,7 @@
 "product_delete_post_title" = "EIKÖ TÄLLÄ KERTAA ONNISTANUT?";
 "product_delete_send_error_generic" = "Hups! Ilmoitustasi poistettaessa tapahtui virhe. Ole hyvä ja yritä uudelleen.";
 "product_delete_sold_confirm_message" = "Oletko varma että haluat poistaa tämän ilmoituksen?";
-"product_detail_swipe_to_see_related" = "Swipe to see related listings";
+"product_detail_swipe_to_see_related" = "Pyyhkäise nähdäksesi samankaltaisia ilmoituksia";
 "product_distance_X_from_you" = "%@ sinusta";
 "product_distance_custom_location" = "Mukautettu sijainti";
 "product_distance_more_than" = "Yli %@";
@@ -785,6 +790,13 @@
 "profile_favourites_my_user_no_products_button" = "Jatka selaamista";
 "profile_favourites_my_user_no_products_label" = "EI SUOSIKKEJA (VIELÄ!)";
 "profile_favourites_products_tab" = "Suosikit";
+"profile_karma_improve_score" = "Paranna varmennuspisteitäsi";
+"profile_karma_points_title" = "%@ p";
+"profile_karma_title" = "Varmennuspisteet: %@";
+"profile_karma_unverified_points_subtitle" = "%@ pistettä";
+"profile_karma_unverified_subtitle" = "Ansaitse %@ saadaksesi Varmennettu käyttäjä -merkin";
+"profile_karma_verified_subtitle" = "Sait merkin!";
+"profile_karma_visibility_title" = "Näkyy vain sinulle";
 "profile_permissions_alert_cancel" = "Ei nyt";
 "profile_permissions_alert_message" = "Haluaisitko ottaa viesti-ilmoitukset käyttöön nyt?";
 "profile_permissions_alert_ok" = "Ota käyttöön";
@@ -888,7 +900,7 @@
 "real_estate_empty_state_search_subtitle" = "Julkaise ensimmäisenä kiinteistö myytäväksi/vuokrattavaksi alueeltasi tai tule pian takaisin!";
 "real_estate_empty_state_search_title" = "HUPS! KIINTEISTÖJÄ EI OLE JULKAISTU LÄHELTÄSI";
 "real_estate_gallery_view_subtitle" = "Valitse korkeintaan 5 kuvaa kiinteistöstä, jonka haluat myydä tai vuokrata";
-"real_estate_gallery_view_subtitle_params" = "Valitse korkeintaan %d kuvaa kiinteistöstä, jonka haluat myydä tai vuokrata";
+"real_estate_gallery_view_subtitle_params" = "Valitse korkeintaan %d kuvaa kiinteistöstä, jonka haluat myydä tai vuokrata. Ensimmäistä kuvaa käytetään ilmoituksen pääkuvana, joten pidä huoli, että kyseinen kuva on hyvä!";
 "real_estate_location_notification_message" = "Emme koskaan näytä tarkkaa sijaintiasi muille käyttäjille";
 "real_estate_location_title" = "Sijainti";
 "real_estate_offer_type_rent" = "Vuokrataan";

@@ -143,6 +143,22 @@ struct LGLocalizedString {
 		return NSLocalizedString("bump_up_product_cell_chat_now_button_d", comment: "")
 	}
 
+	static var bumpUpProductCellChatNowButtonEnglishA: String {
+		return NSLocalizedString("bump_up_product_cell_chat_now_button_english_a", comment: "")
+	}
+
+	static var bumpUpProductCellChatNowButtonEnglishB: String {
+		return NSLocalizedString("bump_up_product_cell_chat_now_button_english_b", comment: "")
+	}
+
+	static var bumpUpProductCellChatNowButtonEnglishC: String {
+		return NSLocalizedString("bump_up_product_cell_chat_now_button_english_c", comment: "")
+	}
+
+	static var bumpUpProductCellChatNowButtonEnglishD: String {
+		return NSLocalizedString("bump_up_product_cell_chat_now_button_english_d", comment: "")
+	}
+
 	static var bumpUpProductDetailFeaturedLabel: String {
 		return NSLocalizedString("bump_up_product_detail_featured_label", comment: "")
 	}
@@ -1105,6 +1121,10 @@ struct LGLocalizedString {
 
 	static var commonYes: String {
 		return NSLocalizedString("common_yes", comment: "")
+	}
+
+	static func commonHoursMinsSecs(_ var1: String, _ var2: String, _ var3: String) -> String {
+		return String(format: NSLocalizedString("common_hours_mins_secs", comment: ""), var1, var2, var3)
 	}
 
 	static var contactSubjectOptionLocation: String {
@@ -2735,12 +2755,12 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_post_camera_permissions_title", comment: "")
 	}
 
-	static func productPostCameraVideoRecordingHintLabel(_ var1: String) -> String {
-		return String(format: NSLocalizedString("product_post_camera_video_recording_hint_label", comment: ""), var1)
+	static func productPostCameraVideoRecordingTooltip(_ var1: String) -> String {
+		return String(format: NSLocalizedString("product_post_camera_video_recording_tooltip", comment: ""), var1)
 	}
 
-	static var productPostCameraVideoRecordingHintLabelHighlightedWord: String {
-		return NSLocalizedString("product_post_camera_video_recording_hint_label_highlighted_word", comment: "")
+	static var productPostCameraVideoRecordingTooltipHighlightedWord: String {
+		return NSLocalizedString("product_post_camera_video_recording_tooltip_highlighted_word", comment: "")
 	}
 
 	static var productPostCameraPhotoModeButton: String {
@@ -3349,6 +3369,34 @@ struct LGLocalizedString {
 
 	static var profileVerificationsViewMarkAsSoldSubtitle: String {
 		return NSLocalizedString("profile_verifications_view_mark_as_sold_subtitle", comment: "")
+	}
+
+	static var profileKarmaVisibilityTitle: String {
+		return NSLocalizedString("profile_karma_visibility_title", comment: "")
+	}
+
+	static var profileKarmaImproveScore: String {
+		return NSLocalizedString("profile_karma_improve_score", comment: "")
+	}
+
+	static func profileKarmaUnverifiedSubtitle(_ var1: String) -> String {
+		return String(format: NSLocalizedString("profile_karma_unverified_subtitle", comment: ""), var1)
+	}
+
+	static func profileKarmaUnverifiedPointsSubtitle(_ var1: String) -> String {
+		return String(format: NSLocalizedString("profile_karma_unverified_points_subtitle", comment: ""), var1)
+	}
+
+	static var profileKarmaVerifiedSubtitle: String {
+		return NSLocalizedString("profile_karma_verified_subtitle", comment: "")
+	}
+
+	static func profileKarmaTitle(_ var1: String) -> String {
+		return String(format: NSLocalizedString("profile_karma_title", comment: ""), var1)
+	}
+
+	static func profileKarmaPointsTitle(_ var1: String) -> String {
+		return String(format: NSLocalizedString("profile_karma_points_title", comment: ""), var1)
 	}
 
 	static var profileBuildTrustButton: String {

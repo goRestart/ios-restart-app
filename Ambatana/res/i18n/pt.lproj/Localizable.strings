@@ -37,6 +37,10 @@
 "bump_up_product_cell_chat_now_button_b" = "Chat Now";
 "bump_up_product_cell_chat_now_button_c" = "Chat Now";
 "bump_up_product_cell_chat_now_button_d" = "Chat Now";
+"bump_up_product_cell_chat_now_button_english_a" = "Chat Now";
+"bump_up_product_cell_chat_now_button_english_b" = "Contact";
+"bump_up_product_cell_chat_now_button_english_c" = "Contact seller";
+"bump_up_product_cell_chat_now_button_english_d" = "Start chat";
 "bump_up_product_cell_featured_stripe" = "Featured";
 "bump_up_product_detail_featured_label" = "FEATURED";
 "bump_up_view_boost_pay_button_title" = "Feature it again for %@";
@@ -243,6 +247,7 @@
 "common_error_retry_button" = "Try again";
 "common_error_title" = "OOPS!";
 "common_expand" = "Show More";
+"common_hours_mins_secs" = "%@h %@m %@s";
 "common_loading" = "Loading...";
 "common_max" = "max";
 "common_new" = "NEW!";
@@ -785,6 +790,13 @@
 "profile_favourites_my_user_no_products_button" = "Keep Browsing";
 "profile_favourites_my_user_no_products_label" = "NO FAVORITES (YET!)";
 "profile_favourites_products_tab" = "Favorites";
+"profile_karma_improve_score" = "Improve your Verification Score";
+"profile_karma_points_title" = "%@ pts";
+"profile_karma_title" = "Verification Score: %@";
+"profile_karma_unverified_points_subtitle" = "%@ points";
+"profile_karma_unverified_subtitle" = "Earn %@ to get the Verified User badge";
+"profile_karma_verified_subtitle" = "You got the badge!";
+"profile_karma_visibility_title" = "Only visible to you";
 "profile_permissions_alert_cancel" = "Not Now";
 "profile_permissions_alert_message" = "Would you like to enable message notifications now?";
 "profile_permissions_alert_ok" = "Enable";
