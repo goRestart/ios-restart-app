@@ -13,4 +13,10 @@ import RxCocoa
 
 class SMSPhoneInputViewModel: BaseViewModel {
 
+    var country: Driver<String> { return .just("") }
+    var isContinueActionEnabled: Driver<Bool> { return .just(false) }
+
+    init(fake: String? = "") {
+        super.init()
+    }
 }

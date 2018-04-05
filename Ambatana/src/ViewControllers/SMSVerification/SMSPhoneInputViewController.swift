@@ -36,6 +36,7 @@ class SMSPhoneInputViewController: BaseViewController {
         static let verticalLineHeight: CGFloat = 56
         static let continueButtonBottomMargin: CGFloat = 15
         static let continueButtonHeight: CGFloat = 50
+        static let continueButtonDisabledOpacity: CGFloat = 0.27
     }
 
     init(viewModel: SMSPhoneInputViewModel) {
@@ -75,6 +76,7 @@ class SMSPhoneInputViewController: BaseViewController {
         countryButton.setTitleColor(.blackText, for: .normal)
         countryButton.contentHorizontalAlignment = .left
         countryButton.titleLabel?.font = .smsVerificationPhoneInputBigText
+        countryButton.addTarget(self, action: #selector(didTapSelectCountry), for: .touchUpInside)
 
         countryCodeLabel.text = "+0" // FIXME: bind data
         countryCodeLabel.font = .smsVerificationPhoneInputBigText
@@ -149,6 +151,26 @@ class SMSPhoneInputViewController: BaseViewController {
                     self?.view.layoutIfNeeded()
                 })
             }).disposed(by: disposeBag)
+
+        viewModel
+        .country
+            .drive(onNext: { [weak self] country in
+                self?.countryButton.setTitle("", for: .normal)
+                self?.countryCodeLabel.text = ""
+            })
+            .disposed(by: disposeBag)
+
+        viewModel
+            .isContinueActionEnabled
+            .drive(onNext: { [weak self] isEnabled in
+                self?.continueButton.alpha = isEnabled ? 1 : Layout.continueButtonDisabledOpacity
+                self?.continueButton.isUserInteractionEnabled = isEnabled
+            })
+            .disposed(by: disposeBag)
+    }
+
+    @objc private func didTapSelectCountry() {
+        // FIXME: implement it
     }
 
     @objc private func didTapContinue() {
