@@ -153,7 +153,7 @@ final class UserPhoneVerificationNumberInputViewController: BaseViewController {
             }).disposed(by: disposeBag)
 
         viewModel
-        .country
+            .country
             .drive(onNext: { [weak self] country in
                 self?.countryButton.setTitle("", for: .normal)
                 self?.countryCodeLabel.text = ""
