@@ -53,6 +53,13 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         return view
     }()
     
+    private let statusTopView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
+    }()
+    
+
     // MARK: - Constraints
     
     private var filterDescriptionTopConstraint: NSLayoutConstraint?
@@ -128,10 +135,6 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         setInviteNavBarButton()
         setupRxBindings()
         setAccessibilityIds()
-        
-        if #available(iOS 11.0, *) {
-            listingListView.collectionView.contentInsetAdjustmentBehavior = .never
-        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -261,6 +264,18 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         view.addSubviewsForAutoLayout([filterDescriptionHeaderView, filterTitleHeaderView,
                                        listingListView, infoBubbleView,
                                        tagsContainerView, trendingSearchView])
+    }
+    
+    private func setupStatusTopView() {
+        if !isSafeAreaAvailable {
+            view.addSubviewForAutoLayout(statusTopView)
+            NSLayoutConstraint.activate([
+                statusTopView.leadingAnchor.constraint(equalTo: safeLeadingAnchor),
+                statusTopView.topAnchor.constraint(equalTo: view.topAnchor),
+                statusTopView.trailingAnchor.constraint(equalTo: safeTrailingAnchor),
+                statusTopView.heightAnchor.constraint(equalToConstant: statusBarHeight)
+                ])
+        }
     }
     
     // MARK: - FilterHeaders
