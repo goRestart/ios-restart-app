@@ -55,7 +55,7 @@ final class LGNavBarSearchField: UIView {
     }()
     
     init(_ text: String?) {
-        super.init(frame: .zero)
+        super.init(frame: CGRect(origin: .zero, size: LGNavBarMetrics.Size.navBarSize))
         setupTextFieldWithText(text)
         setupViews()
         setupConstraints()
