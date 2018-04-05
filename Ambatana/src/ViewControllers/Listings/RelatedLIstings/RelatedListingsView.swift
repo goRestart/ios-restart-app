@@ -149,7 +149,7 @@ extension RelatedListingsView: UICollectionViewDelegate, UICollectionViewDataSou
         switch item {
         case let .listingCell(listing):
             let cell = collectionView.cellForItem(at: indexPath) as? ListingCell
-            let thumbnailImage = cell?.thumbnailImageView.image
+            let thumbnailImage = cell?.thumbnailImage
 
             var originFrame: CGRect? = nil
             if let cellFrame = cell?.frame {
