@@ -161,7 +161,7 @@ class ABTestsSpec: QuickSpec {
             }
 
             context("registering all the variables") {
-                it("the money int variable registered are 7") {
+                it("the money int variable registered are 8") {
                     expect(money.intVariables.count) == 8
                 }
 
