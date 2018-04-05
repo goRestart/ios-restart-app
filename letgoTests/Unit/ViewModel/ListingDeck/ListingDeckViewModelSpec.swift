@@ -90,7 +90,8 @@ final class ListingDeckViewModelSpec: BaseViewModelSpec {
                                            binder: ListingDeckViewModelBinder(),
                                            tracker: tracker,
                                            actionOnFirstAppear: actionOnFirstAppear,
-                                           trackingIndex: nil)
+                                           trackingIndex: nil,
+                                           keyValueStorage: MockKeyValueStorage())
 
                 sut.delegate = self
             }
