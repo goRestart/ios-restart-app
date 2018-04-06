@@ -43,10 +43,6 @@ final class LeanplumTracker: Tracker {
     private static let userPropCountryKey = "user-country-code"
     private static let userPropPublicUsernameKey = "user-public-username"
 
-    private static let userPropTypeKey = "user-type"
-    private static let userPropTypeValueReal = "1"
-    private static let userPropTypeValueDummy = "0"
-
     private static let userPropInstallationIdKey = "installation-id"
     private static let userPropLoggedIn = "logged-in"
 
@@ -97,8 +93,6 @@ final class LeanplumTracker: Tracker {
 
         var userAttributes: [AnyHashable: Any] = [:]
         userAttributes[LeanplumTracker.userPropIdKey] = user?.objectId
-        userAttributes[LeanplumTracker.userPropTypeKey] = (user?.isDummy ?? false) ?
-            LeanplumTracker.userPropTypeValueReal : LeanplumTracker.userPropTypeValueDummy
         userAttributes[LeanplumTracker.userPropEmailKey] = user?.email
         userAttributes[LeanplumTracker.userPropPublicUsernameKey] = user?.name
         userAttributes[LeanplumTracker.userPropCityKey] = user?.postalAddress.city

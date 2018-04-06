@@ -7,6 +7,15 @@
 //
 
 struct LGNavBarMetrics {
+    struct Size {
+        static var navBarSize: CGSize {
+            if #available(iOS 11.0, *) {
+                return .zero
+            } else {
+                return CGSize(width: Metrics.screenWidth, height: 44)
+            }
+        }
+    }
     struct Container {
         static let height: CGFloat = 30
         static let backgroundColor = UIColor.black.withAlphaComponent(0.07)
