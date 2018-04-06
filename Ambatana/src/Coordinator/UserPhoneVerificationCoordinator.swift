@@ -42,10 +42,14 @@ final class UserPhoneVerificationCoordinator: Coordinator {
 extension UserPhoneVerificationCoordinator: UserPhoneVerificationNavigator {
 
     func openCountrySelector() {
-        // FIXME: -
+        let countrySelectorViewModel = UserPhoneVerificationCountryPickerViewModel()
+        let countrySelectorViewController = UserPhoneVerificationCountryPickerViewController(viewModel: countrySelectorViewModel)
+        viewController.present(countrySelectorViewController, animated: true)
     }
 
     func openCodeInput() {
-        // FIXME: -
+        let codeInputViewModel = UserPhoneVerificationCodeInputViewModel()
+        let codeInputViewController = UserPhoneVerificationCodeInputViewController(viewModel: codeInputViewModel)
+        viewController.pushViewController(codeInputViewController, animated: true)
     }
 }
