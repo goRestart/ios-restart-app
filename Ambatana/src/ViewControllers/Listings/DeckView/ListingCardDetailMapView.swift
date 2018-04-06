@@ -130,6 +130,7 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
         mapSnapShotView.backgroundColor = .gray
         
         let gesture = UITapGestureRecognizer(target: self, action: #selector(tapOnView))
+        gesture.cancelsTouchesInView = true
         addGestureRecognizer(gesture)
         tapGesture = gesture
         verticalStackView.addArrangedSubview(mapSnapShotView)
