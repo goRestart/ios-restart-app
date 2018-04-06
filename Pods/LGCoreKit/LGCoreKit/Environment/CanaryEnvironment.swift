@@ -9,6 +9,8 @@
 struct CanaryEnvironment: Environment {
     let apiBaseURL = "https://canary.api.letgo.com"
     let realEstateBaseURL = "https://listingrealestate.canary.letgo.com"
+    let carsBaseURL = "https://listingcar.canary.letgo.com"
+    let searchCarsBaseURL = "https://searchcar.canary.letgo.com"
     let bouncerBaseURL = "https://bouncerv2.canary.letgo.com/api"
     let userRatingsBaseURL = "https://rating.canary.letgo.com/api"
     let chatBaseURL = "https://chat.letgo.com"
