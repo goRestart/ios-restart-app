@@ -98,6 +98,11 @@ final class ListingDeckViewModel: BaseViewModel {
         }
     }
 
+    private var shouldShowDeckOnBoarding: Bool {
+        return !userHasScrolled && !keyValueStorage[.didShowDeckOnBoarding]
+    }
+    private let keyValueStorage: KeyValueStorageable
+    
     convenience init(listModels: [ListingCellModel],
                      listing: Listing,
                      listingListRequester: ListingListRequester,
@@ -121,7 +126,8 @@ final class ListingDeckViewModel: BaseViewModel {
                   binder: ListingDeckViewModelBinder(),
                   tracker: TrackerProxy.sharedInstance,
                   actionOnFirstAppear: actionOnFirstAppear,
-                  trackingIndex: trackingIndex)
+                  trackingIndex: trackingIndex,
+                  keyValueStorage: KeyValueStorage.sharedInstance)
     }
 
     convenience init(listModels: [ListingCellModel],
@@ -151,7 +157,8 @@ final class ListingDeckViewModel: BaseViewModel {
                   binder: binder,
                   tracker: TrackerProxy.sharedInstance,
                   actionOnFirstAppear: actionOnFirstAppear,
-                  trackingIndex: trackingIndex)
+                  trackingIndex: trackingIndex,
+                  keyValueStorage: KeyValueStorage.sharedInstance)
     }
 
     init(listModels: [ListingCellModel],
@@ -168,7 +175,8 @@ final class ListingDeckViewModel: BaseViewModel {
          binder: ListingDeckViewModelBinder,
          tracker: Tracker,
          actionOnFirstAppear: DeckActionOnFirstAppear,
-         trackingIndex: Int?) {
+         trackingIndex: Int?,
+         keyValueStorage: KeyValueStorageable) {
         self.imageDownloader = imageDownloader
         self.pagination = pagination
         self.prefetching = prefetching
@@ -181,7 +189,8 @@ final class ListingDeckViewModel: BaseViewModel {
         self.tracker = tracker
         self.actionOnFirstAppear = actionOnFirstAppear
         self.trackingIndex = trackingIndex
-
+        self.keyValueStorage = keyValueStorage
+        
         let filteredModels = listModels.filter(ListingDeckViewModel.isListable)
 
         if !filteredModels.isEmpty {
@@ -360,11 +369,16 @@ final class ListingDeckViewModel: BaseViewModel {
     }
 
     func close() {
-        deckNavigator?.closeDeck()
+        if shouldShowDeckOnBoarding {
+            showOnBoarding()
+        } else {
+            deckNavigator?.closeDeck()
+        }
     }
 
     func showOnBoarding() {
         deckNavigator?.showOnBoarding()
+        keyValueStorage[.didShowDeckOnBoarding] = true
     }
 
     func cachedImageAtIndex(_ index: Int) -> UIImage? {
@@ -519,7 +533,7 @@ extension ListingDeckViewModel {
 
     func prefetchAtIndexes(_ indexes: CountableClosedRange<Int>) {
         DispatchQueue.global(qos: .background).async { [weak self] in
-            indexes.forEach { self?.viewModelAt(index: $0) }
+            indexes.forEach { _ = self?.viewModelAt(index: $0) }
         }
     }
 

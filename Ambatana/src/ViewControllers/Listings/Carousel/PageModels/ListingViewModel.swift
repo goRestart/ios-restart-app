@@ -314,15 +314,14 @@ class ListingViewModel: BaseViewModel {
     internal override func didBecomeActive(_ firstTime: Bool) {
         guard let listingId = listing.value.objectId else { return }
 
-        if !featureFlags.deckItemPage.isActive
-            && listing.value.isRealEstate
+        if  listing.value.isRealEstate
             && listing.value.realEstate?.realEstateAttributes == RealEstateAttributes.emptyRealEstateAttributes() {
             retrieveRealEstateDetails(listingId: listingId)
         } else {
             isListingDetailsCompleted.value = true
         }
 
-        if !featureFlags.deckItemPage.isActive && featureFlags.allowCallsForProfessionals.isActive {
+        if featureFlags.allowCallsForProfessionals.isActive {
             if isMine {
                 seller.value = myUserRepository.myUser
             } else if let userId = userInfo.value.userId {
