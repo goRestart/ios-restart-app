@@ -165,8 +165,10 @@ extension UIFont {
     static var userProfileTabsNumberFont: UIFont { return UIFont.systemBoldFont(size: 19) }
     static var userProfileTabsNameFont: UIFont { return UIFont.systemRegularFont(size: 15) }
     static var userProfileTabsNameSelectedFont: UIFont { return UIFont.systemBoldFont(size: 15) }
+    static var userProfileVerificationSectionSubtitleFont: UIFont { return UIFont.systemRegularFont(size: 12) }
     static var profileUserHeadline: UIFont { return systemBoldFont(size: 35) }
     static var profileKarmaSubtitleBoldFont: UIFont { return systemBoldFont(size: 11) }
     static var profileKarmaScoreTitleFont: UIFont { return systemBoldFont(size: 23) }
     static var profileKarmaOpenVerificationFont: UIFont { return UIFont.systemBoldFont(size: 15) }
+    static var verificationItemTitle: UIFont { return systemBoldFont(size: 23) }
 }

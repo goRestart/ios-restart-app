@@ -136,6 +136,9 @@ final class UserProfileViewController: BaseViewController {
 
         if viewModel.showKarmaView {
             headerContainerView.addSubviewForAutoLayout(karmaView)
+
+            let tap = UITapGestureRecognizer(target: self, action: #selector(didTapKarmaScore))
+            karmaView.addGestureRecognizer(tap)
         }
         bioAndTrustView.onlyShowBioText = viewModel.showKarmaView
 
@@ -259,7 +262,7 @@ final class UserProfileViewController: BaseViewController {
                 karmaView.leftAnchor.constraint(equalTo: headerContainerView.leftAnchor, constant: Metrics.shortMargin),
                 karmaView.rightAnchor.constraint(equalTo: headerContainerView.rightAnchor, constant: -Metrics.shortMargin),
                 tabsView.topAnchor.constraint(equalTo: karmaView.bottomAnchor)
-            ])
+                ])
         } else {
             constraints.append(contentsOf: [
                 tabsView.topAnchor.constraint(equalTo: bioAndTrustView.bottomAnchor)
@@ -309,6 +312,10 @@ final class UserProfileViewController: BaseViewController {
     }
 
     // MARK: - UI
+
+    @objc private func didTapKarmaScore() {
+        viewModel.didTapKarmaScoreView()
+    }
 
     private func updateUIBasedOnHeaderResize() {
         let previousInset = listingView.collectionViewContentInset

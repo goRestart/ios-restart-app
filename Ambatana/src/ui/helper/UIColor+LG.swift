@@ -331,3 +331,9 @@ extension UIColor {
     static var placeholder: UIColor { return UIColor(rgb: 0x999999) } // 153, 153, 153
     static var verificationGreen: UIColor { return UIColor(rgb: 0xa3ce71 ) } // 163, 206, 113
 }
+
+// MARK: > User Verifications
+
+extension UIColor {
+    static var verificationPoints: UIColor { return UIColor(rgb: 0xa3ce71) } //  163, 206, 113
+}
