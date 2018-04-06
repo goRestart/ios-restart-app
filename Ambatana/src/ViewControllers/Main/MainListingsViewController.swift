@@ -472,6 +472,12 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     }
 
     private func setupRxBindings() {
+        
+        viewModel.infoBubbleText.asObservable()
+            .bind { [weak self] _ in
+                self?.infoBubbleView.invalidateIntrinsicContentSize()
+            }.disposed(by: disposeBag)
+        
         viewModel.infoBubbleText.asObservable().bind(to: infoBubbleView.title.rx.text).disposed(by: disposeBag)
         viewModel.infoBubbleVisible.asObservable().map { !$0 }.bind(to: infoBubbleView.rx.isHidden).disposed(by: disposeBag)
 
@@ -660,42 +666,41 @@ extension MainListingsViewController {
 
 extension MainListingsViewController: TrendingSearchViewDelegate {
     
-    func trendingSearchViewBackgroundTapped() {
+    func trendingSearchBackgroundTapped(_ view: TrendingSearchView) {
         endEdit()
     }
     
-    func trendingSearchCleanButtonPressed() {
+    func trendingSearchCleanButtonPressed(_ view: TrendingSearchView) {
         viewModel.cleanUpLastSearches()
     }
 
-    func trendingSearch(numberOfRowsIn section: Int) -> Int {
+    func trendingSearch(_ view: TrendingSearchView, numberOfRowsIn section: Int) -> Int {
         guard let sectionType = SearchSuggestionType.sectionType(index: section) else { return 0 }
         return viewModel.numberOfItems(type: sectionType)
     }
     
-    func trendingSearch(cellSelectedAt indexPath: IndexPath) {
+    func trendingSearch(_ view: TrendingSearchView, cellSelectedAt indexPath: IndexPath) {
         navbarSearch.searchTextField.endEditing(true)
         guard let sectionType = SearchSuggestionType.sectionType(index: indexPath.section) else { return }
         viewModel.selected(type: sectionType, row: indexPath.row)
     }
     
-    
-    func trendingSearch(cellDataAt  indexPath: IndexPath) -> SuggestionCellData? {
+    func trendingSearch(_ view: TrendingSearchView, cellContentAt  indexPath: IndexPath) -> SuggestionSearchCellContent? {
         guard let sectionType = SearchSuggestionType.sectionType(index: indexPath.section) else { return nil }
         switch sectionType {
         case .suggestive:
             guard let (suggestiveSearch, sourceText) = viewModel.suggestiveSearchAtIndex(indexPath.row) else { return nil }
-            return SuggestionCellData(title: suggestiveSearch.title,
+            return SuggestionSearchCellContent(title: suggestiveSearch.title,
                                       titleSkipHighlight: sourceText,
                                       subtitle: suggestiveSearch.subtitle, icon: suggestiveSearch.icon) { [weak self] in
                 self?.updadeSearchTextfield(suggestiveSearch.title)
             }
         case .lastSearch:
             guard let lastSearch = viewModel.lastSearchAtIndex(indexPath.row) else { return nil }
-            return SuggestionCellData(title: lastSearch.title, subtitle: lastSearch.subtitle, icon: lastSearch.icon)
+            return SuggestionSearchCellContent(title: lastSearch.title, subtitle: lastSearch.subtitle, icon: lastSearch.icon)
         case .trending:
             guard let trendingSearch = viewModel.trendingSearchAtIndex(indexPath.row) else { return nil }
-            return SuggestionCellData(title: trendingSearch)
+            return SuggestionSearchCellContent(title: trendingSearch)
         }
     }
     

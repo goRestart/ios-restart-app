@@ -8,19 +8,19 @@
 
 import UIKit
 
-struct SuggestionCellData {
+struct SuggestionSearchCellContent {
     let title: String
     let titleSkipHighlight: String?
     let subtitle: String?
     let icon: UIImage?
-    let fillSearchButtonBlock: (() -> Void)?
+    let fillSearchWithCellTextButtonAction: (() -> Void)?
     
     init(title: String, titleSkipHighlight: String? = nil, subtitle: String? = nil, icon: UIImage? = nil, fillSearchButtonBlock: (() -> Void)? = nil) {
         self.title = title
         self.titleSkipHighlight = titleSkipHighlight
         self.subtitle = subtitle
         self.icon = icon
-        self.fillSearchButtonBlock = fillSearchButtonBlock
+        self.fillSearchWithCellTextButtonAction = fillSearchButtonBlock
     }
 }
 
@@ -135,11 +135,9 @@ class SuggestionSearchCell: UITableViewCell, ReusableCell {
         fillSearchButtonBlock?()
     }
     
-    
     // MARK: - Setup
     
-    
-    func set(_ data: SuggestionCellData) {
+    func set(_ data: SuggestionSearchCellContent) {
         if let titleLabelFont = titleLabel.font,
            let titleSkipHighlight = data.titleSkipHighlight {
             let titleWithHighlight = NSMutableAttributedString(string: data.title,
@@ -160,8 +158,7 @@ class SuggestionSearchCell: UITableViewCell, ReusableCell {
         let spacing: CGFloat = data.subtitle == nil ? 0 : SuggestionSearchCell.titleSubtitleSpacing
         titleSubtitleSpacing?.constant = spacing
         
-        if let icon = data.icon {
-            searchIconImageView.image = icon
-        }
+        searchIconImageView.image = data.icon
+        fillSearchButtonBlock = data.fillSearchWithCellTextButtonAction
     }
 }

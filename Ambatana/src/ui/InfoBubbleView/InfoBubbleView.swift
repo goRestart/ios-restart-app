@@ -17,7 +17,7 @@ final class InfoBubbleView: UIView {
     private let stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.alignment = .center
-        stackView.spacing = 10
+        stackView.spacing = Metrics.shortMargin
         return stackView
     }()
     
@@ -61,11 +61,12 @@ final class InfoBubbleView: UIView {
     }
     
     private func setupConstraints() {
-        stackView.layout(with: self).fillVertical().fillHorizontal(by: 20)
+        stackView.layout(with: self).fillVertical().fillHorizontal(by: Metrics.bigMargin)
     }
     
     override var intrinsicContentSize: CGSize {
-        return CGSize(width: UIViewNoIntrinsicMetric, height: InfoBubbleView.bubbleHeight)
+        let width = title.intrinsicContentSize.width + arrow.intrinsicContentSize.width + Metrics.shortMargin + 2*Metrics.bigMargin
+        return CGSize(width: width, height: InfoBubbleView.bubbleHeight)
     }
-    
+
 }

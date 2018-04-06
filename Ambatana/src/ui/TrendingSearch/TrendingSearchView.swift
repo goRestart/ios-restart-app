@@ -7,11 +7,11 @@
 //
 
 protocol TrendingSearchViewDelegate: class {
-    func trendingSearchViewBackgroundTapped()
-    func trendingSearchCleanButtonPressed()
-    func trendingSearch(numberOfRowsIn section: Int) -> Int
-    func trendingSearch(cellSelectedAt indexPath: IndexPath)
-    func trendingSearch(cellDataAt  indexPath: IndexPath) -> SuggestionCellData?
+    func trendingSearchBackgroundTapped(_ view: TrendingSearchView)
+    func trendingSearchCleanButtonPressed(_ view: TrendingSearchView)
+    func trendingSearch(_ view: TrendingSearchView, numberOfRowsIn section: Int) -> Int
+    func trendingSearch(_ view: TrendingSearchView, cellSelectedAt indexPath: IndexPath)
+    func trendingSearch(_ view: TrendingSearchView, cellContentAt  indexPath: IndexPath) -> SuggestionSearchCellContent?
 }
 
 final class TrendingSearchView: UIView {
@@ -56,7 +56,7 @@ final class TrendingSearchView: UIView {
     //  MARK: - Private methods
     
     private func addGestureRecognizers() {
-        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(TrendingSearchView.trendingSearchesBckgPressed))
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(trendingSearchesBckgPressed))
         searchesTableView.backgroundView = UIView()
         searchesTableView.backgroundView?.addGestureRecognizer(gestureRecognizer)
     }
@@ -71,7 +71,7 @@ final class TrendingSearchView: UIView {
     }
     
     @objc private func trendingSearchesBckgPressed(_ sender: AnyObject) {
-        delegate?.trendingSearchViewBackgroundTapped()
+        delegate?.trendingSearchBackgroundTapped(self)
     }
     
     //  MARK: - Public methods
@@ -95,7 +95,7 @@ final class TrendingSearchView: UIView {
 extension TrendingSearchView: UITableViewDelegate, UITableViewDataSource {
     
     private func numberOfRows(_ section: Int) -> Int {
-        return delegate?.trendingSearch(numberOfRowsIn: section) ?? 0
+        return delegate?.trendingSearch(self, numberOfRowsIn: section) ?? 0
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -103,11 +103,8 @@ extension TrendingSearchView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = TrendingSearchTableHeader(target: self,
-                                               frameRect: CGRect(origin: .zero, size: CGSize(width: 0, height: sectionHeight)))
         guard let sectionType = SearchSuggestionType.sectionType(index: section) else { return UIView() }
-        header.setTitle(sectionType)
-        return header
+        return TrendingSearchTableHeader(target: self, sectionType)
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -119,7 +116,7 @@ extension TrendingSearchView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cellData = delegate?.trendingSearch(cellDataAt: indexPath),
+        guard let cellData = delegate?.trendingSearch(self, cellContentAt: indexPath),
             let cell = tableView.dequeueReusableCell(withIdentifier: SuggestionSearchCell.reusableID,
                                                      for: indexPath) as? SuggestionSearchCell else {
                                                         return UITableViewCell()
@@ -129,14 +126,15 @@ extension TrendingSearchView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        delegate?.trendingSearch(cellSelectedAt: indexPath)
+        delegate?.trendingSearch(self, cellSelectedAt: indexPath)
     }
+    
     @objc fileprivate func cleanSearchesButtonPressed() {
-        delegate?.trendingSearchCleanButtonPressed()
+        delegate?.trendingSearchCleanButtonPressed(self)
     }
 }
 
-private class TrendingSearchTableHeader: UIView {
+private final class TrendingSearchTableHeader: UIView {
     
     //  MARK: - Subviews
     
@@ -163,13 +161,14 @@ private class TrendingSearchTableHeader: UIView {
         return button
     }()
     
-    init(target: Any?, frameRect: CGRect) {
-        super.init(frame: frameRect)
+    init(target: Any?, _ sectionType: SearchSuggestionType) {
+        super.init(frame: .zero)
         clipsToBounds = true
         backgroundColor = .white
         clearButton.addTarget(target, action: #selector(TrendingSearchView.cleanSearchesButtonPressed), for: .touchUpInside)
         setupViews()
         setupConstraints()
+        setTitle(sectionType)
     }
     
     required init(coder: NSCoder) {
@@ -186,15 +185,12 @@ private class TrendingSearchTableHeader: UIView {
     
     private func setupConstraints() {
         stackView.layout(with: self)
-            .leading(by: Metrics.margin)
-            .trailing(by: -Metrics.margin)
+            .fillHorizontal(by: Metrics.margin)
             .top(by: Metrics.bigMargin)
             .bottom(by: -Metrics.veryShortMargin)
     }
     
-    //  MARK: - Public methods
-    
-    func setTitle(_ sectionType: SearchSuggestionType) {
+    private func setTitle(_ sectionType: SearchSuggestionType) {
         switch sectionType {
         case .suggestive:
             clearButton.isHidden = true
