@@ -10,6 +10,12 @@ import Foundation
 import RxSwift
 import RxCocoa
 
+enum UserVerificationTableViewSections: Int {
+    case verifications = 0
+    case personalInfo = 1
+    case buyAndSell = 2
+}
+
 final class UserVerificationViewController: BaseViewController {
 
     private let viewModel: UserVerificationViewModel
@@ -106,9 +112,10 @@ extension UserVerificationViewController: UITableViewDelegate, UITableViewDataSo
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch indexPath.section {
-        case 2: return Layout.markAsSoldRowHeight
-        default: return Layout.defaultRowHeight
+        guard let section = UserVerificationTableViewSections(rawValue: indexPath.section) else { return 0 }
+        switch section {
+        case .personalInfo, .verifications: return Layout.defaultRowHeight
+        case .buyAndSell: return Layout.markAsSoldRowHeight
         }
     }
 
@@ -120,16 +127,18 @@ extension UserVerificationViewController: UITableViewDelegate, UITableViewDataSo
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if section == 0 {
+        guard let section = UserVerificationTableViewSections(rawValue: section) else { return nil }
+        switch section {
+        case .verifications:
             let view = UserVerificationMainSectionHeader()
             view.title = LGLocalizedString.profileVerificationsViewVerifySectionTitle
             view.subtitle = LGLocalizedString.profileVerificationsViewVerifySectionSubtitle
             return view
-        } else if section == 1 {
+        case .personalInfo:
             let view = UserVerificationSectionHeader()
             view.title = LGLocalizedString.profileVerificationsViewAddInfoSectionTitle
             return view
-        } else {
+        case .buyAndSell:
             let view = UserVerificationSectionHeader()
             view.title = LGLocalizedString.profileVerificationsViewExtraSectionTitle
             return view
