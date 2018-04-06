@@ -64,7 +64,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         view.isHidden = true
         return view
     }()
-    
+
     // > Distance Labels
 
     private let  bottomDistanceInfoView: DistanceInfoView = {
@@ -202,6 +202,9 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     func show(isDiscarded: Bool, reason: String? = nil) {
         discardedView.isHidden = !isDiscarded
         discardedView.set(reason: reason ?? "")
+        if !discardedView.isHidden {
+            hideDistanceAndDetailViews()
+        }
     }
 
 
@@ -223,19 +226,27 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         setupDetailViewInImage()
     }
 
+    private func setupDetailViewInImage() {
+        detailViewInImage.layout(with: thumbnailImageView)
+            .fillHorizontal()
+            .bottom()
+        detailViewInImageHeightConstraints = detailViewInImage.heightAnchor.constraint(equalToConstant: contentView.height)
+        detailViewInImageHeightConstraints?.isActive = true
+    }
+
     private func setupThumbnailImageViews() {
         thumbnailImageView.layout(with: contentView).top().leading().trailing()
         thumbnailImageViewHeight = thumbnailImageView.heightAnchor.constraint(equalToConstant: ListingCellMetrics.thumbnailImageStartingHeight)
         thumbnailImageViewHeight?.isActive = true
-        
+
         thumbnailBgColorView.layout(with: thumbnailImageView).fill()
     }
-    
+
     private func setupFeaturedListingInfoView() {
         featuredListingInfoView.layout(with: contentView).bottom().leading().trailing()
         featuredListingInfoView.layout(with: thumbnailImageView).below()
     }
-    
+
     private func setupStripArea() {
         layoutStripArea()
         let rotation = CGFloat(Double.pi/4)
@@ -245,7 +256,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         stripeInfoView.isHidden = true
         stripeImageView.isHidden = true
     }
-    
+
     private func setupDiscardedView() {
         discardedView.editListingCallback = { [weak self] in
             guard let listing = self?.listing else { return }
@@ -273,14 +284,6 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
             topDistanceInfoView.heightAnchor.constraint(equalToConstant: height),
             bottomDistanceInfoView.heightAnchor.constraint(equalToConstant: height)
         ])
-    }
-    
-    private func setupDetailViewInImage() {
-        detailViewInImage.layout(with: thumbnailImageView)
-            .fillHorizontal()
-            .bottom()
-        detailViewInImageHeightConstraints = detailViewInImage.heightAnchor.constraint(equalToConstant: contentView.height)
-        detailViewInImageHeightConstraints?.isActive = true
     }
 
     private func layoutStripArea() {
@@ -404,14 +407,23 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     // Setup FeatureListingChatButton with feature flags
     private func setupFeaturedListingChatButton() {
         let featureFlags = FeatureFlags.sharedInstance
-        if featureFlags.shouldChangeChatNowCopy {
+        if featureFlags.shouldChangeChatNowCopyInTurkey {
             featuredListingChatButton.setTitle(featureFlags.copyForChatNowInTurkey.variantString,
+                                               for: .normal)
+        } else if featureFlags.shouldChangeChatNowCopyInEnglish {
+            featuredListingChatButton.setTitle(featureFlags.copyForChatNowInEnglish.variantString,
                                                for: .normal)
         } else {
             featuredListingChatButton.setTitle(LGLocalizedString.bumpUpProductCellChatNowButton,
                                                for: .normal)
         }
         featuredListingChatButton.addTarget(self, action: #selector(openChat), for: .touchUpInside)
+    }
+    
+    private func hideDistanceAndDetailViews() {
+        topDistanceInfoView.isHidden = true
+        bottomDistanceInfoView.isHidden = true
+        detailViewInImage.isHidden = true
     }
 
     // > Resets the UI to the initial state
@@ -432,6 +444,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
             featuredInfoSubview.removeFromSuperview()
         }
     }
+    
 
     // > Accessibility Ids
     private func setAccessibilityIds() {

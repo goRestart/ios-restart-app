@@ -18,6 +18,7 @@ struct MoneyABGroup: ABGroupType {
         static let promoteBumpInEdit = "20180227promoteBumpInEdit"
         static let showProTagUserProfile = "20180319ShowProTagUserProfile"
         static let feedAdsProviderForUS = "20180327FeedAdsProviderForUS"
+        static let copyForChatNowInEnglish = "20180403CopyForChatNowInEnglish"
         static let feedAdsProviderForTR = "20180405FeedAdsProviderForTR"
     }
     let increaseMinPriceBumps: LeanplumABVariable<Int>
@@ -28,6 +29,7 @@ struct MoneyABGroup: ABGroupType {
     let promoteBumpInEdit: LeanplumABVariable<Int>
     let showProTagUserProfile: LeanplumABVariable<Bool>
     let feedAdsProviderForUS: LeanplumABVariable<Int>
+    let copyForChatNowInEnglish: LeanplumABVariable<Int>
     let feedAdsProviderForTR: LeanplumABVariable<Int>
 
     let group: ABGroup = .money
@@ -44,6 +46,7 @@ struct MoneyABGroup: ABGroupType {
          promoteBumpInEdit: LeanplumABVariable<Int>,
          showProTagUserProfile: LeanplumABVariable<Bool>,
          feedAdsProviderForUS: LeanplumABVariable<Int>,
+         copyForChatNowInEnglish: LeanplumABVariable<Int>,
          feedAdsProviderForTR: LeanplumABVariable<Int>) {
         self.increaseMinPriceBumps = increaseMinPriceBumps
         self.noAdsInFeedForNewUsers = noAdsInFeedForNewUsers
@@ -53,6 +56,7 @@ struct MoneyABGroup: ABGroupType {
         self.promoteBumpInEdit = promoteBumpInEdit
         self.showProTagUserProfile = showProTagUserProfile
         self.feedAdsProviderForUS = feedAdsProviderForUS
+        self.copyForChatNowInEnglish = copyForChatNowInEnglish
         self.feedAdsProviderForTR = feedAdsProviderForTR
 
         intVariables.append(contentsOf: [increaseMinPriceBumps,
@@ -62,6 +66,7 @@ struct MoneyABGroup: ABGroupType {
                                          turkeyBumpPriceVATAdaptation,
                                          promoteBumpInEdit,
                                          feedAdsProviderForUS,
+                                         copyForChatNowInEnglish,
                                          feedAdsProviderForTR])
         boolVariables.append(showProTagUserProfile)
     }
@@ -89,8 +94,12 @@ struct MoneyABGroup: ABGroupType {
                             feedAdsProviderForUS: .makeInt(key: Keys.feedAdsProviderForUS,
                                                            defaultValue: 0,
                                                            groupType: .money),
+                            copyForChatNowInEnglish: .makeInt(key: Keys.copyForChatNowInEnglish,
+                                                              defaultValue: 0,
+                                                              groupType: .money),
                             feedAdsProviderForTR: .makeInt(key: Keys.feedAdsProviderForTR,
-                                                           defaultValue: 0,
-                                                           groupType: .money))
+                                                              defaultValue: 0,
+                                                              groupType: .money))
+        
     }
 }

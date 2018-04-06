@@ -41,7 +41,7 @@ protocol FeatureFlaggeable: class {
     var requestTimeOut: RequestsTimeOut { get }
     var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
     var showClockInDirectAnswer : ShowClockInDirectAnswer { get }
-    var newItemPage: NewItemPage { get }
+    var deckItemPage: DeckItemPage { get }
     var allowCallsForProfessionals: AllowCallsForProfessionals { get }
     var mostSearchedDemandedItems: MostSearchedDemandedItems { get }
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio { get }
@@ -83,11 +83,13 @@ protocol FeatureFlaggeable: class {
     var feedDFPAdUnitId: String? { get }
     var bumpPriceVariationBucket: BumpPriceVariationBucket { get }
     func collectionsAllowedFor(countryCode: String?) -> Bool
-    var shouldChangeChatNowCopy: Bool { get }
+    var shouldChangeChatNowCopyInTurkey: Bool { get }
     var copyForChatNowInTurkey: CopyForChatNowInTurkey { get }
     var shareTypes: [ShareType] { get }
     var feedAdsProviderForUS:  FeedAdsProviderForUS { get }
     var feedMoPubAdUnitId: String? { get }
+    var shouldChangeChatNowCopyInEnglish: Bool { get }
+    var copyForChatNowInEnglish: CopyForChatNowInEnglish { get }
     var feedAdsProviderForTR:  FeedAdsProviderForTR { get }
     
 }
@@ -218,7 +220,7 @@ extension UserIsTyping {
     var isActive: Bool { get { return self == .active } }
 }
 
-extension NewItemPage {
+extension DeckItemPage {
     var isActive: Bool {get { return self == .active }}
 }
 
@@ -244,6 +246,8 @@ extension AddPriceTitleDistanceToListings {
 }
 
 extension CopyForChatNowInTurkey {
+    var isActive: Bool { get { return self != .control } }
+    
     var variantString: String { get {
         switch self {
         case .control:
@@ -332,6 +336,24 @@ extension FeedAdsProviderForTR {
     }
 }
 
+extension CopyForChatNowInEnglish {
+    var isActive: Bool { get { return self != .control } }
+    
+    var variantString: String { get {
+        switch self {
+        case .control:
+            return LGLocalizedString.bumpUpProductCellChatNowButton
+        case .variantA:
+            return LGLocalizedString.bumpUpProductCellChatNowButtonEnglishA
+        case .variantB:
+            return LGLocalizedString.bumpUpProductCellChatNowButtonEnglishB
+        case .variantC:
+            return LGLocalizedString.bumpUpProductCellChatNowButtonEnglishC
+        case .variantD:
+            return LGLocalizedString.bumpUpProductCellChatNowButtonEnglishD
+        }
+        } }
+}
 
 class FeatureFlags: FeatureFlaggeable {
 
@@ -456,19 +478,18 @@ class FeatureFlags: FeatureFlaggeable {
         return SearchAutocomplete.fromPosition(abTests.searchAutocomplete.value)
     }
 
-    var realEstateEnabled: RealEstateEnabled
-    {
+    var realEstateEnabled: RealEstateEnabled {
         if Bumper.enabled {
             return Bumper.realEstateEnabled
         }
         return RealEstateEnabled.fromPosition(abTests.realEstateEnabled.value)
     }
 
-    var newItemPage: NewItemPage {
+    var deckItemPage: DeckItemPage {
         if Bumper.enabled {
-            return Bumper.newItemPage
+            return Bumper.deckItemPage
         }
-        return NewItemPage.fromPosition(abTests.newItemPage.value)
+        return DeckItemPage.fromPosition(abTests.deckItemPage.value)
     }
     
     var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed {
@@ -845,9 +866,9 @@ class FeatureFlags: FeatureFlaggeable {
         }
     }
     
-    var shouldChangeChatNowCopy: Bool {
+    var shouldChangeChatNowCopyInTurkey: Bool {
         if Bumper.enabled {
-            return true
+            return Bumper.copyForChatNowInTurkey.isActive
         }
         switch (locationCountryCode, localeCountryCode) {
         case (.turkey?, _), (_, .turkey?):
@@ -906,6 +927,25 @@ class FeatureFlags: FeatureFlaggeable {
         default:
             return nil
         }
+    }
+    
+    var shouldChangeChatNowCopyInEnglish: Bool {
+        if Bumper.enabled {
+            return Bumper.copyForChatNowInEnglish.isActive
+        }
+        switch (localeCountryCode) {
+        case .usa?:
+            return true
+        default:
+            return false
+        }
+    }
+    
+    var copyForChatNowInEnglish: CopyForChatNowInEnglish {
+        if Bumper.enabled {
+            return Bumper.copyForChatNowInEnglish
+        }
+        return CopyForChatNowInEnglish.fromPosition(abTests.copyForChatNowInEnglish.value)
     }
     
     var feedAdsProviderForTR: FeedAdsProviderForTR {

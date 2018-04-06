@@ -55,7 +55,7 @@ class UserRatingCell: UITableViewCell, ReusableCell {
     private static let ratingTypeLeadingWIcon: CGFloat = 16
 
     static var emptyStarImage = "ic_star"
-    static var fullStarImage = "ic_star_filled"
+    static var fullStarImage = "ic_user_profile_star"
 
     @IBOutlet weak var userAvatar: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
@@ -164,8 +164,10 @@ class UserRatingCell: UITableViewCell, ReusableCell {
     }
 
     private func drawStarsForValue(_ value: Int) {
+        let starImage = UIImage(named: UserRatingCell.fullStarImage)
         stars.forEach{
-            $0.image = ($0.tag <= value) ? UIImage(named: UserRatingCell.fullStarImage) : UIImage(named: UserRatingCell.emptyStarImage)
+            $0.image = starImage
+            $0.alpha =  ($0.tag <= value) ? 1 : 0.4
         }
     }
 }
