@@ -50,9 +50,7 @@ protocol FeatureFlaggeable: class {
     var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
     var showInactiveConversations: Bool { get }
     var increaseMinPriceBumps: IncreaseMinPriceBumps { get }
-    var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage { get }
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers { get }
-    var emojiSizeIncrement: EmojiSizeIncrement { get }
     var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings { get }
     var newUserProfileView: NewUserProfileView { get }
     var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation { get }
@@ -536,25 +534,11 @@ class FeatureFlags: FeatureFlaggeable {
         return IncreaseMinPriceBumps.fromPosition(abTests.increaseMinPriceBumps.value)
     }
     
-    var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage {
-        if Bumper.enabled {
-            return Bumper.showSecurityMeetingChatMessage
-        }
-        return ShowSecurityMeetingChatMessage.fromPosition(abTests.showSecurityMeetingChatMessage.value)
-    }
-
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers {
         if Bumper.enabled {
             return Bumper.noAdsInFeedForNewUsers
         }
         return NoAdsInFeedForNewUsers.fromPosition(abTests.noAdsInFeedForNewUsers.value)
-    }
-    
-    var emojiSizeIncrement: EmojiSizeIncrement {
-        if Bumper.enabled {
-            return Bumper.emojiSizeIncrement
-        }
-        return EmojiSizeIncrement.fromPosition(abTests.emojiSizeIncrement.value)
     }
 
     var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings {
