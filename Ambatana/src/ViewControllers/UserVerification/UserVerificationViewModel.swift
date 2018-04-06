@@ -156,11 +156,9 @@ final class UserVerificationViewModel: BaseViewModel {
 
     private func verificationSuccess(_ verificationType: VerificationType) {
         trackComplete(verificationType)
-//        delegate?.vmDismiss(completionBlock)
     }
 
     private func verificationFailed() {
-//        delegate?.vmDismiss(completionBlock)
     }
 }
 
@@ -168,13 +166,13 @@ final class UserVerificationViewModel: BaseViewModel {
 
 fileprivate extension UserVerificationViewModel {
     func trackStart() {
-//        let event = TrackerEvent.verifyAccountStart(source.typePage)
-//        tracker.trackEvent(event)
+        let event = TrackerEvent.verifyAccountStart(.profile)
+        tracker.trackEvent(event)
     }
 
     func trackComplete(_ verificationType: VerificationType) {
-//        let event = TrackerEvent.verifyAccountComplete(source.typePage, network: verificationType.accountNetwork)
-//        tracker.trackEvent(event)
+        let event = TrackerEvent.verifyAccountComplete(.profile, network: verificationType.accountNetwork)
+        tracker.trackEvent(event)
     }
 
     func trackUpdateAvatarComplete() {
