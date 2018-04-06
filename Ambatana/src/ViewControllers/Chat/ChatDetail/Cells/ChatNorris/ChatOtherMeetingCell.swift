@@ -14,7 +14,6 @@ protocol OtherMeetingCellDelegate: class {
     func rejectMeeting()
 }
 
-
 final class ChatOtherMeetingCell: UITableViewCell, ReusableCell {
 
     @IBOutlet weak var meetingContainer: UIView!
@@ -101,7 +100,7 @@ extension ChatOtherMeetingCell {
             actionsContainerHeight.constant = 0
             actionsContainer.isHidden = true
         }
-        layoutIfNeeded()
+        setNeedsLayout()
     }
 }
 

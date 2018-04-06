@@ -74,12 +74,11 @@ class MeetingAssistantViewModel: BaseViewModel {
     }
 
     override func didBecomeActive(_ firstTime: Bool) {
-        if firstTime {
-            let meetingStartEvent = TrackerEvent.assistantMeetingStartFor(listingId: listingId)
-            tracker.trackEvent(meetingStartEvent)
+        guard firstTime else { return }
+        let meetingStartEvent = TrackerEvent.assistantMeetingStartFor(listingId: listingId)
+        tracker.trackEvent(meetingStartEvent)
 
-            retrieveSuggestedLocations()
-        }
+        retrieveSuggestedLocations()
     }
 
     // MARK: Public methods
@@ -188,22 +187,16 @@ class MeetingAssistantViewModel: BaseViewModel {
 
     private func getMapSnapshotFor(suggestedLocation: SuggestedLocation) {
 
-        let mapSnapshotOptions = MKMapSnapshotOptions()
-
         let coordinates = suggestedLocation.locationCoords.coordinates2DfromLocation()
         let region = MKCoordinateRegionMakeWithDistance(coordinates, 300, 300)
-        mapSnapshotOptions.region = region
 
-        mapSnapshotOptions.size = CGSize(width: 300, height: 200)
-        let snapShotter = MKMapSnapshotter(options: mapSnapshotOptions)
-
-        snapShotter.start(completionHandler: { [weak self] (snapshot, error) in
+        MKMapView.snapshotAt(region, size: CGSize(width: 300, height: 200)) { [weak self] (snapshot, error) in
             if let snapshot = snapshot {
                 self?.mapSnapshotsCache.value[suggestedLocation.locationId] = snapshot.image
             } else {
                 self?.mapSnapshotsCache.value[suggestedLocation.locationId] = nil
             }
-        })
+        }
     }
 
     private func cityFor(location: SuggestedLocation) -> String? {

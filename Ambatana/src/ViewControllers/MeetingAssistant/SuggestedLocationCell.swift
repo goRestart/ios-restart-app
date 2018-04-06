@@ -13,9 +13,7 @@ protocol SuggestedLocationCellImageDelegate: class {
     func imagePressed(coordinates: LGLocationCoordinates2D?, originPoint: CGPoint)
 }
 
-class SuggestedLocationCell: UICollectionViewCell {
-
-    static let reuseId: String = "SuggestedLocationCell"
+class SuggestedLocationCell: UICollectionViewCell, ReusableCell {
 
     @IBOutlet weak var checkBoxView: UIImageView!
     @IBOutlet weak var coloredBgView: UIView!
@@ -43,7 +41,7 @@ class SuggestedLocationCell: UICollectionViewCell {
 
     override func prepareForReuse() {
         super.prepareForReuse()
-        self.resetUI()
+        resetUI()
     }
 
     override var isSelected: Bool {

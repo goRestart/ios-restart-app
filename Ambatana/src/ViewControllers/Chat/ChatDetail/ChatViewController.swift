@@ -12,7 +12,7 @@ import LGCoreKit
 import RxSwift
 import MapKit
 
-class ChatViewController: TextViewController {
+final class ChatViewController: TextViewController {
 
     var mapContainer: UIView = UIView()
 

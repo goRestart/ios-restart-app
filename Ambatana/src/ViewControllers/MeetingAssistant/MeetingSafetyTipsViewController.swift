@@ -98,39 +98,29 @@ class MeetingSafetyTipsViewController: BaseViewController {
             .above(by: Metrics.margin)
 
         tipsImageView.layout().widthProportionalToHeight()
-        tipsImageView.layout(with: view)
-            .left(by: MeetingSafetyTipsViewController.tipsImageViewMargin)
-            .right(by: -MeetingSafetyTipsViewController.tipsImageViewMargin)
+        tipsImageView.layout(with: view).fillHorizontal(by: MeetingSafetyTipsViewController.tipsImageViewMargin)
 
         tipsImageView.layout(with: tipsTitle)
             .above(by: -Metrics.veryBigMargin)
 
-        tipsTitle.layout(with: view)
-            .left(by: Metrics.bigMargin)
-            .right(by: -Metrics.bigMargin)
+        tipsTitle.layout(with: view).fillHorizontal(by: Metrics.bigMargin)
 
         tipsTitle.layout(with: tipsSubtitle)
             .above(by: -Metrics.shortMargin)
 
-        tipsSubtitle.layout(with: view)
-            .left(by: Metrics.bigMargin)
-            .right(by: -Metrics.bigMargin)
+        tipsSubtitle.layout(with: view).fillHorizontal(by: Metrics.bigMargin)
 
         tipsSubtitle.layout(with: sendMeetingButton)
             .above(by: -Metrics.margin, relatedBy: .lessThanOrEqual)
 
-
         sendMeetingButton.layout().height(viewModel.sendMeetingButtonIsHidden ? 0 : Metrics.buttonHeight)
-        sendMeetingButton.layout(with: view)
-            .left(by: Metrics.bigMargin)
-            .right(by: -Metrics.bigMargin)
+        sendMeetingButton.layout(with: view).fillHorizontal(by: Metrics.bigMargin)
+
         sendMeetingButton.layout(with: secondaryCloseButton)
             .above(by: viewModel.sendMeetingButtonIsHidden ? 0 : -Metrics.shortMargin)
 
         secondaryCloseButton.layout().height(Metrics.buttonHeight)
-        secondaryCloseButton.layout(with: view)
-            .left(by: Metrics.bigMargin)
-            .right(by: -Metrics.bigMargin)
+        secondaryCloseButton.layout(with: view).fillHorizontal(by: Metrics.bigMargin)
     }
 
     private func setAccesibilityIds() {

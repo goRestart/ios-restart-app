@@ -11,7 +11,7 @@ import RxSwift
 import MapKit
 import LGCoreKit
 
-class MeetingAssistantViewController: BaseViewController {
+final class MeetingAssistantViewController: BaseViewController {
 
     static var cellSize: CGSize = CGSize(width: 160, height: 220)
 
@@ -91,14 +91,14 @@ class MeetingAssistantViewController: BaseViewController {
 
         viewModel.saveButtonEnabled.asObservable().bind(to: sendMeetingButton.rx.isEnabled).disposed(by: disposeBag)
 
-        viewModel.activityIndicatorActive.asObservable().bind { [weak self] active in
+        viewModel.activityIndicatorActive.asDriver().drive(onNext: { [weak self] active in
             if active {
                 self?.activityIndicator.startAnimating()
             } else {
                 self?.activityIndicator.stopAnimating()
             }
             self?.suggestedLocationsCollection.isHidden = active
-        }.disposed(by: disposeBag)
+        }).disposed(by: disposeBag)
     }
 
     private func setupUI() {
@@ -212,7 +212,7 @@ extension MeetingAssistantViewController: UICollectionViewDataSource, UICollecti
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SuggestedLocationCell.reuseId, for: indexPath) as? SuggestedLocationCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SuggestedLocationCell.reusableID, for: indexPath) as? SuggestedLocationCell else {
                 return UICollectionViewCell()
         }
         let suggestedLocation = viewModel.suggestedLocationAtIndex(indexPath: indexPath)

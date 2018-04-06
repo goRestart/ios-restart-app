@@ -8,7 +8,7 @@
 
 import Foundation
 
-class MeetingSafetyTipsViewModel: BaseViewModel {
+final class MeetingSafetyTipsViewModel: BaseViewModel {
 
     var titleText: String {
         return LGLocalizedString.meetingCreationTipsViewTitle

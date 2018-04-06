@@ -3316,11 +3316,11 @@ class TrackerEventSpec: QuickSpec {
                                                           countryCode: "US", country: nil)
 
                     meetingDate = Date()
-                    let assistantMeeting = AssistantMeeting(meetingType: .requested,
-                                                            date: meetingDate,
-                                                            locationName: "Pasa tapas",
-                                                            coordinates: nil,
-                                                            status: .pending)
+                    let assistantMeeting = LGAssistantMeeting(meetingType: .requested,
+                                                              date: meetingDate,
+                                                              locationName: "Pasa tapas",
+                                                              coordinates: nil,
+                                                              status: .pending)
 
                     sendMessageInfo = SendMessageTrackingInfo()
                         .set(listing: .product(product), freePostingModeAllowed: true)
