@@ -235,7 +235,7 @@ extension MeetingAssistantViewController: UICollectionViewDataSource, UICollecti
 
 
 extension MeetingAssistantViewController: SuggestedLocationCellImageDelegate, MKMapViewDelegate {
-    func imagePressed(coordinates: LGLocationCoordinates2D?, originPoint: CGPoint) {
+    func suggestedLocationCellImageViewPressed(imageView: UIImageView, coordinates: LGLocationCoordinates2D?) {
 
         guard let coordinates = coordinates else {
             viewModel.openLocationSelector()
@@ -292,7 +292,8 @@ extension MeetingAssistantViewController: SuggestedLocationCellImageDelegate, MK
         mapView.layout().height(300).width(300)
         mapView.layout(with: mapContainer).center()
 
-        mapContainer.frame = CGRect(x: originPoint.x, y: originPoint.y, width: 0, height: 0)
+        // we want to make the full map appear from the map position in the cell
+        mapContainer.frame = imageView.convertToWindow(imageView.frame)
 
         UIView.animate(withDuration: 0.3) { [weak self] in
             self?.mapContainer.alpha = 1.0

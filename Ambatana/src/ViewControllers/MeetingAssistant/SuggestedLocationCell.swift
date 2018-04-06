@@ -10,7 +10,7 @@ import UIKit
 import LGCoreKit
 
 protocol SuggestedLocationCellImageDelegate: class {
-    func imagePressed(coordinates: LGLocationCoordinates2D?, originPoint: CGPoint)
+    func suggestedLocationCellImageViewPressed(imageView: UIImageView, coordinates: LGLocationCoordinates2D?)
 }
 
 class SuggestedLocationCell: UICollectionViewCell, ReusableCell {
@@ -94,8 +94,7 @@ class SuggestedLocationCell: UICollectionViewCell, ReusableCell {
     }
 
     @objc func imageTapped() {
-        let rect = imageView.convertToWindow(imageView.frame)
-        imgDelegate?.imagePressed(coordinates: location?.locationCoords, originPoint: rect.center)
+        imgDelegate?.suggestedLocationCellImageViewPressed(imageView: imageView, coordinates: location?.locationCoords)
     }
 
     private func resetUI() {

@@ -832,7 +832,7 @@ extension ChatViewController: OtherMeetingCellDelegate {
 }
 
 extension ChatViewController: MeetingCellImageDelegate, MKMapViewDelegate {
-    func imagePressed(coordinates: LGLocationCoordinates2D, originPoint: CGPoint) {
+    func meetingCellImageViewPressed(imageView: UIImageView, coordinates: LGLocationCoordinates2D) {
 
         guard let topView = navigationController?.view else { return }
         let clCoordinates = coordinates.coordinates2DfromLocation()
@@ -886,7 +886,8 @@ extension ChatViewController: MeetingCellImageDelegate, MKMapViewDelegate {
 
         textView.resignFirstResponder()
 
-        mapContainer.frame = CGRect(x: originPoint.x, y: originPoint.y, width: 0, height: 0)
+        // we want to make the full map appear from the map position in the cell
+        mapContainer.frame = imageView.convertToWindow(imageView.frame)
 
         UIView.animate(withDuration: 0.3) { [weak self] in
             self?.mapContainer.alpha = 1.0
