@@ -162,8 +162,8 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     func showFullMap(fromRect rect: CGRect) {
         contentView.bringSubview(toFront: detailsView.detailMapView)
         fullMapConstraints = [
-            detailsView.detailMapView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            detailsView.detailMapView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 1.0)
+            detailsView.detailMapView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 1.0),
+            detailsView.detailMapView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ]
         NSLayoutConstraint.activate(fullMapConstraints)
 
@@ -175,12 +175,12 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     }
 
     func hideFullMap() {
-        detailsView.detailMapView.hideMap(animated: true)
         deactivateFullMap()
-        UIView.animate(withDuration: 0.3) {
+        detailsView.detailMapView.hideMap(animated: true)
+        UIView.animate(withDuration: 0.3, animations: {
             self.updateSubviewsAlphaForMapAnimation(1)
             self.detailsView.layoutIfNeeded()
-        }
+        })
     }
 
     private func updateSubviewsAlphaForMapAnimation(_ alpha: CGFloat) {
@@ -443,18 +443,9 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
 
     // MARK: UITapGestureRecognizer
 
-    override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        return !detailsView.isMapExpanded
-    }
-
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
-                           shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return gestureRecognizer == statusTapGesture && otherGestureRecognizer == scrollViewTapGesture
-    }
-
     @objc private func didTapOnScrollView(sender: UITapGestureRecognizer) {
         guard !detailsView.isMapExpanded else {
-            detailsView.detailMapView.hideMap(animated: true)
+            hideFullMap()
             return
         }
 
