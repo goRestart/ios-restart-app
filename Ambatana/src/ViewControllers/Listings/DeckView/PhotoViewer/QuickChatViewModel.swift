@@ -12,21 +12,19 @@ import RxCocoa
 import LGCoreKit
 
 final class QuickChatViewModel: QuickChatViewModelRx, DirectAnswersHorizontalViewDelegate {
-    var listingViewModel: ListingViewModel? {
-        didSet { areAnswersDynamic.value = listingViewModel?.areQuickAnswersDynamic ?? false }
-    }
+    var listingViewModel: ListingViewModel?
 
     let areAnswersDynamic: Variable<Bool> = Variable<Bool>(false)
     var rxAreAnswersDynamic: Driver<Bool> { return areAnswersDynamic.asDriver() }
 
     var rxDirectChatPlaceholder: Observable<String> { return directChatPlaceholder.asObservable() }
-    var rxQuickAnswers: Observable<[[QuickAnswer]]> { return quickAnswers.asObservable() }
+    var rxQuickAnswers: Observable<[QuickAnswer]> { return quickAnswers.asObservable() }
 
     var rxIsChatEnabled: Observable<Bool> { return chatEnabled.asObservable() }
     var rxDirectMessages: Observable<CollectionChange<ChatViewMessage>> { return directChatMessages.changesObservable }
 
     let chatEnabled = Variable<Bool>(false)
-    let quickAnswers = Variable<[[QuickAnswer]]>([[]])
+    let quickAnswers = Variable<[QuickAnswer]>([])
     var directChatPlaceholder = Variable<String>("")
     let directChatMessages = CollectionVariable<ChatViewMessage>([])
 
@@ -59,7 +57,7 @@ final class QuickChatViewModel: QuickChatViewModelRx, DirectAnswersHorizontalVie
         listingViewModel?.chatWithSeller()
     }
 
-    func directAnswersHorizontalViewDidSelect(answer: QuickAnswer, index: Int) {
+    func directAnswersHorizontalViewDidSelect(answer: QuickAnswer) {
         listingViewModel?.sendQuickAnswer(quickAnswer: answer)
     }
 }

@@ -21,7 +21,7 @@ protocol QuickChatViewType: class {
     var rxToSendMessage: Observable<String> { get }
     func setInitialText(_ text: String)
     func clearChatTextView()
-    func updateDirectChatWith(answers: [[QuickAnswer]], isDynamic: Bool)
+    func updateDirectChatWith(answers: [QuickAnswer])
     func handleChatChange(_ change: CollectionChange<ChatViewMessage>)
     func showDirectMessages()
 }
@@ -33,8 +33,8 @@ protocol QuickChatViewModelRx: class {
     var directChatPlaceholder: Variable<String> { get }
     var rxDirectChatPlaceholder: Observable<String> { get }
 
-    var quickAnswers: Variable<[[QuickAnswer]]> { get }
-    var rxQuickAnswers: Observable<[[QuickAnswer]]> { get }
+    var quickAnswers: Variable<[QuickAnswer]> { get }
+    var rxQuickAnswers: Observable<[QuickAnswer]> { get }
 
     var chatEnabled: Variable<Bool> { get }
     var rxIsChatEnabled: Observable<Bool> { get }
@@ -71,8 +71,7 @@ final class QuickChatViewBinder {
 
         viewModel.rxQuickAnswers.bind {  [weak chatView, weak viewModel] quickAnswers in
             guard let chatViewModel = viewModel else { return }
-            chatView?.updateDirectChatWith(answers: quickAnswers,
-                                           isDynamic: chatViewModel.areAnswersDynamic.value)
+            chatView?.updateDirectChatWith(answers: quickAnswers)
         }.disposed(by: bag)
 
         viewModel.rxDirectMessages.bind { [weak chatView] change in
