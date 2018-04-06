@@ -26,9 +26,10 @@ struct LocalUser: User, UserListing {
     let phone: String?
     let type: UserType
     let biography: String?
+    let reputationPoints: Int
 
     init(objectId: String?, name: String?, avatar: File?, postalAddress: PostalAddress, status: UserStatus,
-         isDummy: Bool, banned: Bool?, phone: String?, type: UserType?, biography: String?) {
+         isDummy: Bool, banned: Bool?, phone: String?, type: UserType?, biography: String?, reputationPoints: Int) {
         self.objectId = objectId
         self.name = name
         self.avatar = avatar
@@ -42,6 +43,7 @@ struct LocalUser: User, UserListing {
         self.phone = phone
         self.type = type ?? .user
         self.biography = biography
+        self.reputationPoints = reputationPoints
     }
 
     init(chatInterlocutor: ChatInterlocutor) {
@@ -58,6 +60,7 @@ struct LocalUser: User, UserListing {
         self.phone = nil
         self.type = .user
         self.biography = nil
+        self.reputationPoints = 0
     }
     
     init?(user: User?) {
@@ -75,6 +78,7 @@ struct LocalUser: User, UserListing {
         self.phone = user.phone
         self.type = user.type
         self.biography = user.biography
+        self.reputationPoints = user.reputationPoints
     }
     
     init(userListing: UserListing) {
@@ -91,5 +95,6 @@ struct LocalUser: User, UserListing {
         self.phone = nil
         self.type = .user
         self.biography = nil
+        self.reputationPoints = 0
     }
 }
