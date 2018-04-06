@@ -991,7 +991,7 @@ class TrackerEventSpec: QuickSpec {
                             categories: [.electronics, .motorsAndAccessories],
                             sortBy: ListingSortCriteria.distance, postedWithin: ListingTimeCriteria.day,
                             priceRange: .priceRange(min: 5, max: 100), freePostingModeAllowed: true, carMake: "make",
-                            carModel: "model", carYearStart: 1990, carYearEnd: 2000, propertyType: "flat", offerType: "sale",
+                            carModel: "model", carYearStart: 1990, carYearEnd: 2000, propertyType: "flat", offerType: ["sale"],
                             bedrooms: 2, bathrooms: 3, sizeSqrMetersMin: 1, sizeSqrMetersMax: nil,
                             rooms: NumberOfRooms(numberOfBedrooms: 2, numberOfLivingRooms: 1))
                     }

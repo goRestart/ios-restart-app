@@ -100,6 +100,18 @@
 // Featured product cell chat now button variant D (only in turkish): İletişime Geç
 "bump_up_product_cell_chat_now_button_d" = "Chat Now";
 
+// Featured product cell chat now button variant A (only in English): Chat Now
+"bump_up_product_cell_chat_now_button_english_a" = "Chat Now";
+
+// Featured product cell chat now button variant B (only in English): Contact
+"bump_up_product_cell_chat_now_button_english_b" = "Contact";
+
+// Featured product cell chat now button variant C (only in English): Contact seller
+"bump_up_product_cell_chat_now_button_english_c" = "Contact seller";
+
+// Featured product cell chat now button variant D (only in English): Start chat
+"bump_up_product_cell_chat_now_button_english_d" = "Start chat";
+
 // Text for label in featured products detail
 "bump_up_product_detail_featured_label" = "FEATURED";
 
@@ -140,7 +152,7 @@
 "bump_up_view_boost_subtitle_cheaper" = "Boost your listing right now to get a discount off the typical feature price.";
 
 // Text for boost success alert
-"bump_up_boost_success_alert_text" = "Your listing was boosted again! It will be featured for the next 24 hours.";
+"bump_up_boost_success_alert_text" = "Your listing was boosted! It will be featured for the next 24 hours.";
 
 // Title for payment bump up view
 "bump_up_old_view_pay_title" = "SELL FASTER";
@@ -815,6 +827,9 @@
 
 // Common yes
 "common_yes" = "Yes";
+
+// Common display for time
+"common_hours_mins_secs" = "%@h %@m %@s";
 
 // Contact subject option location. Check attached image @ "contact_email_field_hint" segment
 "contact_subject_option_location" = "Location issues";
@@ -2496,6 +2511,27 @@
 // cell explaining that marking items as sold, increases Karma score
 "profile_verifications_view_mark_as_sold_subtitle" = "+2 pts each (up to 10 pts)";
 
+// Disclaimer text telling the user this section is only visibile to him/her
+"profile_karma_visibility_title" = "Only visible to you";
+
+// Text button to open the verifications screen to improve the user score
+"profile_karma_improve_score" = "Improve your Verification Score";
+
+// Subtitle shown when the user is not verified yet (indicating how many points needs)
+"profile_karma_unverified_subtitle" = "Earn %@ to get the Verified User badge";
+
+// number of points -> This will be inside "Earn %@ to get the Verified User Badge"
+"profile_karma_unverified_points_subtitle" = "%@ points";
+
+// Subtitle shown when the user has enough points and is verified
+"profile_karma_verified_subtitle" = "You got the badge!";
+
+// Verification score text inside the private karma view
+"profile_karma_title" = "Verification Score: %@";
+
+// number of points -> This will be inside "Verification Score: %@"
+"profile_karma_points_title" = "%@ pts";
+
 // Button to verify accounts
 "profile_build_trust_button" = "Build Trust";
 
@@ -2922,6 +2958,30 @@
 
 // Description for third page on three page option. 
 "real_estate_tutorial_three_pages_third_page_description" = "Completed listings attract 20% more views so you'll sell faster. Don't forget to double your visibility by featuring your listing!";
+
+// Title for Promo Cell in real estate Listing - Version 1
+"real_estate_promo_title_version_1" = "Post Real Estate listings";
+
+// Title for Promo Cell in real estate Listing - Version 2
+"real_estate_promo_title_version_2" = "New! Post property for sale and rent";
+
+// Title for Promo Cell in real estate Listing - Version 3
+"real_estate_promo_title_version_3" = "New! Sell or rent property";
+
+// Title for Promo Cell in real estate Listing - Version 4
+"real_estate_promo_title_version_4" = "Sell or rent property";
+
+// Title for Promo Cell in real estate Listing - Version 5
+"real_estate_promo_title_version_5" = "You can now post Real Estate listings";
+
+// Title for Promo Cell in real estate Listing - Version 6
+"real_estate_promo_title_version_6" = "New! Real Estate listings on letgo";
+
+// Title for Promo Cell in real estate Listing - Version 7
+"real_estate_promo_title_version_7" = "Real Estate for rent or sale";
+
+// Title for Button in Promo Cell real estate Listing
+"real_estate_promo_post_button_title" = "Post Now";
 
 // Title when showing list of related items
 "related_items_title" = "Related listings";

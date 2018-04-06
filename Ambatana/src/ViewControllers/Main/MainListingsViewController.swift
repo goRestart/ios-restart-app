@@ -37,9 +37,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     // ViewModel
     var viewModel: MainListingsViewModel
     
-    // UI
-    @IBOutlet weak var listingListViewSafeaAreaTopAlignment: NSLayoutConstraint!
-    @IBOutlet weak var listingListView: ListingListView!
+    let listingListView = ListingListView()
     
     @IBOutlet weak var tagsContainerView: UIView!
     @IBOutlet weak var tagsContainerViewHeightConstraint: NSLayoutConstraint!
@@ -119,7 +117,12 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        if #available(iOS 11.0, *) {
+            listingListView.collectionView.contentInsetAdjustmentBehavior = .never
+        } else {
+            automaticallyAdjustsScrollViewInsets = false
+        }
+
         setupFilterHeaders()
         
         listingListView.collectionViewContentInset.bottom = tabBarHeight
@@ -131,14 +134,24 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         }
         listingListView.scrollDelegate = self
         listingListView.headerDelegate = self
+        listingListView.adsDelegate = self
         listingListView.cellsDelegate = viewModel
         listingListView.switchViewModel(viewModel.listViewModel)
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         if show3Columns {
             listingListView.updateLayoutWithSeparation(6)
         }
+
         addSubview(listingListView)
-        automaticallyAdjustsScrollViewInsets = false
+        view.addSubviewForAutoLayout(listingListView)
+        NSLayoutConstraint.activate([
+            listingListView.leadingAnchor.constraint(equalTo: safeLeadingAnchor),
+            listingListView.topAnchor.constraint(equalTo: isSafeAreaAvailable ? safeTopAnchor : view.topAnchor),
+            listingListView.trailingAnchor.constraint(equalTo: safeTrailingAnchor),
+            listingListView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        view.sendSubview(toBack: listingListView)
+
         //Add negative top inset to avoid extra padding adding by "grouped" table style.
         suggestionsSearchesTable.contentInset = UIEdgeInsetsMake(firstSectionMarginTop, 0, 0, 0)
         setupInfoBubble()
@@ -148,10 +161,6 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         setInviteNavBarButton()
         setupRxBindings()
         setAccessibilityIds()
-        
-        if #available(iOS 11.0, *) {
-            listingListView.collectionView.contentInsetAdjustmentBehavior = .never
-        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -231,7 +240,6 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
             infoBubbleTopConstraint.constant = infoBubbleTopMargin
         }
     }
-    
     
     // MARK: - MainListingsViewModelDelegate
 

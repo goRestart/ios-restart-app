@@ -1160,6 +1160,7 @@ enum EventParamenterLocationTypePage: String {
 
 enum EventParameterAdType: String {
     case dfp = "dfp"
+    case moPub = "moPub"
 }
 
 enum EventParameterAdQueryType: String {

@@ -23,7 +23,7 @@ extension Bumper  {
         flags.append(SearchAutocomplete.self)
         flags.append(RequestsTimeOut.self)
         flags.append(TaxonomiesAndTaxonomyChildrenInFeed.self)
-        flags.append(NewItemPage.self)
+        flags.append(DeckItemPage.self)
         flags.append(ShowClockInDirectAnswer.self)
         flags.append(MostSearchedDemandedItems.self)
         flags.append(AllowCallsForProfessionals.self)
@@ -57,6 +57,9 @@ extension Bumper  {
         flags.append(MarkAllConversationsAsRead.self)
         flags.append(ShowProTagUserProfile.self)
         flags.append(SummaryAsFirstStep.self)
+        flags.append(ShowAdvancedReputationSystem.self)
+        flags.append(FeedAdsProviderForUS.self)
+        flags.append(CopyForChatNowInEnglish.self)
         Bumper.initialize(flags)
     } 
 
@@ -110,9 +113,9 @@ extension Bumper  {
         return TaxonomiesAndTaxonomyChildrenInFeed(rawValue: value) ?? .control 
     }
 
-    static var newItemPage: NewItemPage {
-        guard let value = Bumper.value(for: NewItemPage.key) else { return .control }
-        return NewItemPage(rawValue: value) ?? .control 
+    static var deckItemPage: DeckItemPage {
+        guard let value = Bumper.value(for: DeckItemPage.key) else { return .control }
+        return DeckItemPage(rawValue: value) ?? .control 
     }
 
     static var showClockInDirectAnswer: ShowClockInDirectAnswer {
@@ -278,7 +281,22 @@ extension Bumper  {
     static var summaryAsFirstStep: SummaryAsFirstStep {
         guard let value = Bumper.value(for: SummaryAsFirstStep.key) else { return .control }
         return SummaryAsFirstStep(rawValue: value) ?? .control 
-    } 
+    }
+
+    static var showAdvancedReputationSystem: ShowAdvancedReputationSystem {
+        guard let value = Bumper.value(for: ShowAdvancedReputationSystem.key) else { return .control }
+        return ShowAdvancedReputationSystem(rawValue: value) ?? .control 
+    }
+
+    static var feedAdsProviderForUS: FeedAdsProviderForUS {
+        guard let value = Bumper.value(for: FeedAdsProviderForUS.key) else { return .control }
+        return FeedAdsProviderForUS(rawValue: value) ?? .control 
+    }
+
+    static var copyForChatNowInEnglish: CopyForChatNowInEnglish {
+        guard let value = Bumper.value(for: CopyForChatNowInEnglish.key) else { return .control }
+        return CopyForChatNowInEnglish(rawValue: value) ?? .control 
+    }
 }
 
 
@@ -410,13 +428,13 @@ enum TaxonomiesAndTaxonomyChildrenInFeed: String, BumperFeature  {
     }
 }
 
-enum NewItemPage: String, BumperFeature  {
+enum DeckItemPage: String, BumperFeature  {
     case control, baseline, active
-    static var defaultValue: String { return NewItemPage.control.rawValue }
-    static var enumValues: [NewItemPage] { return [.control, .baseline, .active]}
+    static var defaultValue: String { return DeckItemPage.control.rawValue }
+    static var enumValues: [DeckItemPage] { return [.control, .baseline, .active]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "New item page with card appearance and different navigation" } 
-    static func fromPosition(_ position: Int) -> NewItemPage {
+    static var description: String { return "Deck item page with card appearance and different navigation" } 
+    static func fromPosition(_ position: Int) -> DeckItemPage {
         switch position { 
             case 0: return .control
             case 1: return .baseline
@@ -948,6 +966,59 @@ enum SummaryAsFirstStep: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum ShowAdvancedReputationSystem: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ShowAdvancedReputationSystem.control.rawValue }
+    static var enumValues: [ShowAdvancedReputationSystem] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show the new advance reputation system and Karma Score" } 
+    static func fromPosition(_ position: Int) -> ShowAdvancedReputationSystem {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum FeedAdsProviderForUS: String, BumperFeature  {
+    case control, baseline, bingAdsForAllUsers, bingAdsForOldUsers, moPubAdsForAllUsers, moPubAdsForOldUsers
+    static var defaultValue: String { return FeedAdsProviderForUS.control.rawValue }
+    static var enumValues: [FeedAdsProviderForUS] { return [.control, .baseline, .bingAdsForAllUsers, .bingAdsForOldUsers, .moPubAdsForAllUsers, .moPubAdsForOldUsers]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Change logic for showing ads with diferent ads providers in the US" } 
+    static func fromPosition(_ position: Int) -> FeedAdsProviderForUS {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .bingAdsForAllUsers
+            case 3: return .bingAdsForOldUsers
+            case 4: return .moPubAdsForAllUsers
+            case 5: return .moPubAdsForOldUsers
+            default: return .control
+        }
+    }
+}
+
+enum CopyForChatNowInEnglish: String, BumperFeature  {
+    case control, variantA, variantB, variantC, variantD
+    static var defaultValue: String { return CopyForChatNowInEnglish.control.rawValue }
+    static var enumValues: [CopyForChatNowInEnglish] { return [.control, .variantA, .variantB, .variantC, .variantD]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Try different copies for Chat now button in English" } 
+    static func fromPosition(_ position: Int) -> CopyForChatNowInEnglish {
+        switch position { 
+            case 0: return .control
+            case 1: return .variantA
+            case 2: return .variantB
+            case 3: return .variantC
+            case 4: return .variantD
             default: return .control
         }
     }

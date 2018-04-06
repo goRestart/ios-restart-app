@@ -36,7 +36,7 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
     weak var quickChatViewModel: QuickChatViewModel?
     private var featureFlags: FeatureFlaggeable
 
-    private let textView = ChatTextView()
+    let textView = ChatTextView()
     private var textViewBottom: NSLayoutConstraint?
 
     var directAnswersViewTopAnchor: NSLayoutYAxisAnchor { return directAnswersView.topAnchor }

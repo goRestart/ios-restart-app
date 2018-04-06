@@ -31,17 +31,18 @@ class AppstoreProductsRequest: NSObject, PurchaseableProductsRequest {
     init(ids: [String]) {
         productsRequest = SKProductsRequest(productIdentifiers: Set(ids))
         super.init()
-        productsRequest.delegate = self
     }
 
 
     // MARK: - PurchaseableProductsRequest
 
     func start() {
+        productsRequest.delegate = self
         productsRequest.start()
     }
 
     func cancel() {
+        productsRequest.delegate = nil
         productsRequest.cancel()
     }
 }

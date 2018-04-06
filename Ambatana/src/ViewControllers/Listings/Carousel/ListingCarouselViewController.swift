@@ -202,6 +202,8 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
                                      typePage: typePage)
         case .triggerMarkAsSold:
             viewModel.currentListingViewModel?.markAsSold()
+        case .edit:
+            viewModel.currentListingViewModel?.editListing()
         default:
             break
         }

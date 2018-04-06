@@ -37,6 +37,10 @@
 "bump_up_product_cell_chat_now_button_b" = "Converse já";
 "bump_up_product_cell_chat_now_button_c" = "Converse já";
 "bump_up_product_cell_chat_now_button_d" = "Converse já";
+"bump_up_product_cell_chat_now_button_english_a" = "Converse já";
+"bump_up_product_cell_chat_now_button_english_b" = "Converse já";
+"bump_up_product_cell_chat_now_button_english_c" = "Converse já";
+"bump_up_product_cell_chat_now_button_english_d" = "Converse já";
 "bump_up_product_cell_featured_stripe" = "Destacado";
 "bump_up_product_detail_featured_label" = "DESTACADO";
 "bump_up_view_boost_pay_button_title" = "Destaque-o agora por %@";
@@ -243,6 +247,7 @@
 "common_error_retry_button" = "Tente novamente";
 "common_error_title" = "OPS!";
 "common_expand" = "Mostrar mais";
+"common_hours_mins_secs" = "%@h %@m %@s";
 "common_loading" = "A carregar...";
 "common_max" = "max";
 "common_new" = "NOVO!";
@@ -785,6 +790,13 @@
 "profile_favourites_my_user_no_products_button" = "Continue a navegar";
 "profile_favourites_my_user_no_products_label" = "SEM FAVORITOS (AINDA!)";
 "profile_favourites_products_tab" = "Favoritos";
+"profile_karma_improve_score" = "Melhore a sua Pontuação de Verificação";
+"profile_karma_points_title" = "%@ pontos";
+"profile_karma_title" = "Pontuação de Verificação: %@";
+"profile_karma_unverified_points_subtitle" = "%@ pontos";
+"profile_karma_unverified_subtitle" = "Ganhe %@ para receber o emblema de Utilizador Verificado";
+"profile_karma_verified_subtitle" = "Ganhou o emblema!";
+"profile_karma_visibility_title" = "Apenas visível para si";
 "profile_permissions_alert_cancel" = "Agora não";
 "profile_permissions_alert_message" = "Quer ativar agora as notificações de mensagens?";
 "profile_permissions_alert_ok" = "Ativar";
@@ -895,6 +907,14 @@
 "real_estate_offer_type_sale" = "Para venda";
 "real_estate_offer_type_title" = "Tipo de publicação";
 "real_estate_price_title" = "Preço";
+"real_estate_promo_post_button_title" = "Publique já";
+"real_estate_promo_title_version_1" = "Publique anúncios de imobiliário";
+"real_estate_promo_title_version_2" = "Novo! Publique imóveis para vender ou arrendar";
+"real_estate_promo_title_version_3" = "Novo! Venda ou arrende imóveis";
+"real_estate_promo_title_version_4" = "Venda ou arrende imóveis";
+"real_estate_promo_title_version_5" = "Pode agora publicar anúncios de imobiliário";
+"real_estate_promo_title_version_6" = "Novo! Anúncios de imobiliário no letgo";
+"real_estate_promo_title_version_7" = "Imobiliário para alugar ou vender";
 "real_estate_related_search_title" = "Resultados relacionados";
 "real_estate_rooms_over_ten" = "Mais de 10";
 "real_estate_rooms_studio" = "Estúdio (1+0)";
