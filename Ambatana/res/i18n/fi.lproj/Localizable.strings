@@ -19,7 +19,7 @@
 "bump_up_banner_pay_text" = "Myy nopeammin nyt";
 "bump_up_banner_pay_text_improvement" = "Myy nopeammin nyt";
 "bump_up_banner_wait_text" = "seuraavaan nostoon";
-"bump_up_boost_success_alert_text" = "Ilmoituksesi nostettiin uudelleen esiin! Se on nostettuna esiin seuraavat 24 tuntia.";
+"bump_up_boost_success_alert_text" = "Ilmoituksesi nostettiin uudelleen! Se on nostettuna esiin seuraavat 24 tuntia.";
 "bump_up_error_bump_generic" = "Nostettaessa ilmoitustasi esiin tapahtui virhe. Ole hyvä ja yritä uudelleen.";
 "bump_up_error_bump_token" = "Maksusi on käsitelty, mutta ilmoitustasi ei ole nostettu esiin.";
 "bump_up_error_payment_failed" = "App Storeen ei saatu yhteyttä. Maksuasi ei ole käsitelty. Ole hyvä ja yritä uudelleen.";

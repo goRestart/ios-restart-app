@@ -19,7 +19,7 @@
 "bump_up_banner_pay_text" = "Vendi subito più rapidamente";
 "bump_up_banner_pay_text_improvement" = "Vendi più rapidamente";
 "bump_up_banner_wait_text" = "per promuovere di nuovo";
-"bump_up_boost_success_alert_text" = "Il tuo annuncio è stato promosso di nuovo! Resterà sponsorizzato per le prossime 24 ore.";
+"bump_up_boost_success_alert_text" = "Il tuo annuncio è stato promosso! Resterà sponsorizzato per le prossime 24 ore.";
 "bump_up_error_bump_generic" = "Si è verificato un errore durante il tentativo di sponsorizzare l'annuncio. Riprova.";
 "bump_up_error_bump_token" = "Il pagamento è stato elaborato, ma l'annuncio non è ancora stato sponsorizzato.";
 "bump_up_error_payment_failed" = "Impossibile connettersi all'App Store. Il tuo pagamento non è andato a buon fine. Riprova.";
