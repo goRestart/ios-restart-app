@@ -46,17 +46,15 @@ class ChatBubbleCell: UITableViewCell {
     }
     
     func set(text: String) {
-        if FeatureFlags.sharedInstance.emojiSizeIncrement == .active {
-            switch text.emojiOnlyCount {
-            case 1:
-                messageLabel.font = UIFont.systemRegularFont(size: 49)
-            case 2:
-                messageLabel.font = UIFont.systemRegularFont(size: 37)
-            case 3:
-                messageLabel.font = UIFont.systemRegularFont(size: 27)
-            default:
-                messageLabel.font = UIFont.bigBodyFont
-            }
+        switch text.emojiOnlyCount {
+        case 1:
+            messageLabel.font = UIFont.systemRegularFont(size: 49)
+        case 2:
+            messageLabel.font = UIFont.systemRegularFont(size: 37)
+        case 3:
+            messageLabel.font = UIFont.systemRegularFont(size: 27)
+        default:
+            messageLabel.font = UIFont.bigBodyFont
         }
         messageLabel.text = text
     }

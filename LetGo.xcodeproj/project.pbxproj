@@ -2913,14 +2913,14 @@
 		0A04D5C320760A9C00471B9D /* ABTest */ = {
 			isa = PBXGroup;
 			children = (
-				0A04D5C420760A9C00471B9D /* CoreABGroup.swift */,
 				0A04D5C520760A9C00471B9D /* ABDynamicVar.swift */,
+				0A04D5CA20760A9C00471B9D /* ABTests.swift */,
+				0A04D5CC20760A9C00471B9D /* LegacyABGroup.swift */,
+				0A04D5C420760A9C00471B9D /* CoreABGroup.swift */,
+				0A04D5CB20760A9C00471B9D /* ChatABGroup.swift */,
 				0A04D5C720760A9C00471B9D /* MoneyABGroup.swift */,
 				0A04D5C820760A9C00471B9D /* RealEstateABGroup.swift */,
 				0A04D5C920760A9C00471B9D /* RetentionABGroup.swift */,
-				0A04D5CA20760A9C00471B9D /* ABTests.swift */,
-				0A04D5CB20760A9C00471B9D /* ChatABGroup.swift */,
-				0A04D5CC20760A9C00471B9D /* LegacyABGroup.swift */,
 				0A04D5DF207614F000471B9D /* UsersABGroup.swift */,
 			);
 			path = ABTest;
