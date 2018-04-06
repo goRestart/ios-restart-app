@@ -34,7 +34,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed = .control
     var showClockInDirectAnswer: ShowClockInDirectAnswer = .control
     var allowCallsForProfessionals: AllowCallsForProfessionals = .control
-    var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage = .control
     var mostSearchedDemandedItems: MostSearchedDemandedItems = .control
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers = .control
 
