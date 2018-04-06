@@ -596,11 +596,11 @@ fileprivate extension AppCoordinator {
                     // will be considered bumpeable ONCE WE GOT THE PRICES of the products, not before.
                     strongSelf.timeSinceLastBump = value.timeSinceLastBump
 
-                    // if "paymentItemId" is nil, we don't know the price of the bump, so we check this here to avoid
+                    // if "letgoItemId" is nil, we don't know the price of the bump, so we check this here to avoid
                     // a useless request to apple
-                    if let paymentItemId = paymentItems.first?.itemId {
+                    if let letgoItemId = paymentItems.first?.itemId {
                         strongSelf.purchasesShopper.productsRequestStartForListingId(listingId,
-                                                                                     paymentItemId: paymentItemId,
+                                                                                     letgoItemId: letgoItemId,
                                                                                      withIds: paymentItems.map { $0.providerItemId },
                                                                                      typePage: bumpUpSource.typePageParameter)
                     } else {
@@ -1088,13 +1088,13 @@ extension AppCoordinator: ChangePasswordNavigator {
 extension AppCoordinator: BumpInfoRequesterDelegate {
     func shopperFinishedProductsRequestForListingId(_ listingId: String?,
                                                     withProducts products: [PurchaseableProduct],
-                                                    paymentItemId: String?,
+                                                    letgoItemId: String?,
                                                     storeProductId: String?,
                                                     typePage: EventParameterTypePage?) {
         guard let requestListingId = listingId, let purchase = products.first, let bumpUpSource = bumpUpSource else { return }
 
         let bumpUpProductData = BumpUpProductData(bumpUpPurchaseableData: .purchaseableProduct(product: purchase),
-                                                  paymentItemId: paymentItemId,
+                                                  letgoItemId: letgoItemId,
                                                   storeProductId: storeProductId)
         switch bumpUpSource {
         case .deepLink:

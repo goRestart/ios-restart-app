@@ -14,7 +14,7 @@ class BumpUpFreeViewModel: BaseViewModel {
     let shareTypes: [ShareType]
 
     let listing: Listing
-    private let paymentItemId: String?
+    private let letgoItemId: String?
     private let storeProductId: String?
     private let typePage: EventParameterTypePage?
     let socialSharer: SocialSharer?
@@ -31,13 +31,13 @@ class BumpUpFreeViewModel: BaseViewModel {
 
     convenience init(listing: Listing,
                      socialMessage: SocialMessage,
-                     paymentItemId: String?,
+                     letgoItemId: String?,
                      storeProductId: String?,
                      typePage: EventParameterTypePage?) {
         self.init(listing: listing,
                   socialSharer: SocialSharer(),
                   socialMessage: socialMessage,
-                  paymentItemId: paymentItemId,
+                  letgoItemId: letgoItemId,
                   storeProductId: storeProductId, 
                   typePage: typePage,
                   locationManager: Core.locationManager,
@@ -49,7 +49,7 @@ class BumpUpFreeViewModel: BaseViewModel {
     init(listing: Listing,
          socialSharer: SocialSharer,
          socialMessage: SocialMessage,
-         paymentItemId: String?,
+         letgoItemId: String?,
          storeProductId: String?,
          typePage: EventParameterTypePage?,
          locationManager: LocationManager,
@@ -62,7 +62,7 @@ class BumpUpFreeViewModel: BaseViewModel {
         self.socialMessage = socialMessage
         self.purchasesShopper = purchasesShopper
         self.shareTypes = BumpUpFreeViewModel.computeShareTypes(featureFlags: featureFlags)
-        self.paymentItemId = paymentItemId
+        self.letgoItemId = letgoItemId
         self.storeProductId = storeProductId
         self.typePage = typePage
         self.title = LGLocalizedString.bumpUpViewFreeTitle
@@ -176,8 +176,8 @@ extension BumpUpFreeViewModel: SocialSharerDelegate {
 extension BumpUpFreeViewModel {
     func bumpUpProduct(withNetwork shareNetwork: EventParameterShareNetwork) {
         logMessage(.info, type: [.monetization], message: "TRY TO Bump FREE")
-        guard let listingId = listing.objectId, let paymentItemId = self.paymentItemId else { return }
-        purchasesShopper?.requestFreeBumpUp(forListingId: listingId, paymentItemId: paymentItemId,
+        guard let listingId = listing.objectId, let letgoItemId = self.letgoItemId else { return }
+        purchasesShopper?.requestFreeBumpUp(forListingId: listingId, letgoItemId: letgoItemId,
                                                       shareNetwork: shareNetwork)
     }
 }

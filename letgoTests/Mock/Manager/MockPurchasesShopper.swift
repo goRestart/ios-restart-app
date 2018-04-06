@@ -33,7 +33,7 @@ class MockPurchasesShopper: PurchasesShopper {
     }
 
     func productsRequestStartForListingId(_ listingId: String,
-                                          paymentItemId: String,
+                                          letgoItemId: String,
                                           withIds ids: [String],
                                           typePage: EventParameterTypePage?) {
 
@@ -48,7 +48,7 @@ class MockPurchasesShopper: PurchasesShopper {
         
         bumpInfoRequesterDelegate?.shopperFinishedProductsRequestForListingId(listingId,
                                                                               withProducts: purchaseableProducts,
-                                                                              paymentItemId: paymentItemId,
+                                                                              letgoItemId: letgoItemId,
                                                                               storeProductId: ids.first,
                                                                               typePage: typePage)
     }
@@ -56,7 +56,7 @@ class MockPurchasesShopper: PurchasesShopper {
     
     func requestPayment(forListingId listingId: String,
                         appstoreProduct: PurchaseableProduct,
-                        paymentItemId: String,
+                        letgoItemId: String,
                         isBoost: Bool) {
         delegate?.restoreBumpDidStart()
         
@@ -82,7 +82,7 @@ class MockPurchasesShopper: PurchasesShopper {
         return isBumpUpPending
     }
 
-    func requestFreeBumpUp(forListingId listingId: String, paymentItemId: String, shareNetwork: EventParameterShareNetwork) {
+    func requestFreeBumpUp(forListingId listingId: String, letgoItemId: String, shareNetwork: EventParameterShareNetwork) {
 
     }
 

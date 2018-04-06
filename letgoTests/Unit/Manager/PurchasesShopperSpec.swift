@@ -65,7 +65,7 @@ class PurchasesShopperSpec: QuickSpec {
                 context("the device can't make purchases") {
                     beforeEach {
                         paymentQueue.canMakePayments = false
-                        sut.productsRequestStartForListingId("a_listing_id", paymentItemId: "pay_id", withIds: ["appstoreId1"], typePage: nil)
+                        sut.productsRequestStartForListingId("a_listing_id", letgoItemId: "letgo_item_id", withIds: ["appstoreId1"], typePage: nil)
                     }
                     it ("the delegate is never called") {
                         expect(self.requestsFinished).toEventually(equal([]))
@@ -73,7 +73,7 @@ class PurchasesShopperSpec: QuickSpec {
                 }
                 context("on simple call") {
                     beforeEach {
-                        sut.productsRequestStartForListingId("a_listing_id", paymentItemId: "pay_id", withIds: ["appstoreId1"], typePage: nil)
+                        sut.productsRequestStartForListingId("a_listing_id", letgoItemId: "letgo_item_id", withIds: ["appstoreId1"], typePage: nil)
                     }
                     it ("the delegate is called with the requested productId") {
                         expect(self.requestsFinished).toEventually(equal(["a_listing_id"]))
@@ -82,8 +82,8 @@ class PurchasesShopperSpec: QuickSpec {
                 context("several consecutive quick calls, different product Ids") {
                     beforeEach {
                         requestFactory.responseDelay = 0.05
-                        sut.productsRequestStartForListingId("a_listing_id", paymentItemId: "pay_id", withIds: ["appstoreId1"], typePage: nil)
-                        sut.productsRequestStartForListingId("b_listing_id", paymentItemId: "pay_id", withIds: ["appstoreId2"], typePage: nil)
+                        sut.productsRequestStartForListingId("a_listing_id", letgoItemId: "letgo_item_id", withIds: ["appstoreId1"], typePage: nil)
+                        sut.productsRequestStartForListingId("b_listing_id", letgoItemId: "letgo_item_id", withIds: ["appstoreId2"], typePage: nil)
                     }
                     it ("calls the delegate only for the last productId") {
                         expect(self.requestsFinished).toEventually(equal(["b_listing_id"]))
@@ -92,9 +92,9 @@ class PurchasesShopperSpec: QuickSpec {
                 context("several consecutive quick calls, repeating some product Ids") {
                     beforeEach {
                         requestFactory.responseDelay = 0.05
-                        sut.productsRequestStartForListingId("a_listing_id", paymentItemId: "pay_id", withIds: ["appstoreId1"], typePage: nil)
-                        sut.productsRequestStartForListingId("b_listing_id", paymentItemId: "pay_id", withIds: ["appstoreId2"], typePage: nil)
-                        sut.productsRequestStartForListingId("a_listing_id", paymentItemId: "pay_id", withIds: ["appstoreId1"], typePage: nil)
+                        sut.productsRequestStartForListingId("a_listing_id", letgoItemId: "letgo_item_id", withIds: ["appstoreId1"], typePage: nil)
+                        sut.productsRequestStartForListingId("b_listing_id", letgoItemId: "letgo_item_id", withIds: ["appstoreId2"], typePage: nil)
+                        sut.productsRequestStartForListingId("a_listing_id", letgoItemId: "letgo_item_id", withIds: ["appstoreId1"], typePage: nil)
                     }
                     it ("calls the delegate only for the last productId") {
                         expect(self.requestsFinished).toEventually(equal(["a_listing_id"]))
@@ -102,9 +102,9 @@ class PurchasesShopperSpec: QuickSpec {
                 }
                 context("several consecutive spaced calls, different product Ids") {
                     beforeEach {
-                        sut.productsRequestStartForListingId("a_listing_id", paymentItemId: "pay_id", withIds: ["appstoreId1"], typePage: nil)
+                        sut.productsRequestStartForListingId("a_listing_id", letgoItemId: "letgo_item_id", withIds: ["appstoreId1"], typePage: nil)
                         expect(self.requestsFinished).toEventually(equal(["a_listing_id"]))
-                        sut.productsRequestStartForListingId("b_listing_id", paymentItemId: "pay_id", withIds: ["appstoreId2"], typePage: nil)
+                        sut.productsRequestStartForListingId("b_listing_id", letgoItemId: "letgo_item_id", withIds: ["appstoreId2"], typePage: nil)
                     }
                     it ("calls the delegate for both productIds") {
                         expect(self.requestsFinished).toEventually(equal(["a_listing_id", "b_listing_id"]))
@@ -115,7 +115,7 @@ class PurchasesShopperSpec: QuickSpec {
                 context("bump finishes successfully") {
                     beforeEach {
                         monetizationRepository.bumpResult = Result<Void, RepositoryError>(value: Void())
-                        sut.requestFreeBumpUp(forListingId: "a_listing_id", paymentItemId: "payment_id_1",
+                        sut.requestFreeBumpUp(forListingId: "a_listing_id", letgoItemId: "letgo_item_id_1",
                                               shareNetwork: .email)
                         expect(self.mockBumpResult).toEventuallyNot(beNil())
                     }
@@ -129,7 +129,7 @@ class PurchasesShopperSpec: QuickSpec {
                 context("free bump fails") {
                     beforeEach {
                         monetizationRepository.bumpResult = Result<Void, RepositoryError>(error: .notFound)
-                        sut.requestFreeBumpUp(forListingId: "a_listing_id", paymentItemId: "payment_id_1",
+                        sut.requestFreeBumpUp(forListingId: "a_listing_id", letgoItemId: "letgo_item_id_1",
                                               shareNetwork: .email)
                         expect(self.mockBumpResult).toEventuallyNot(beNil())
                     }
@@ -154,7 +154,7 @@ class PurchasesShopperSpec: QuickSpec {
                         sut.letgoProductsDict["listing_id"] = [myAppstoreProduct]
                         sut.requestPayment(forListingId: "listing_id",
                                            appstoreProduct: myAppstoreProduct,
-                                           paymentItemId: "payment_id",
+                                           letgoItemId: "letgo_item_id",
                                            isBoost: false)
                     }
                     it ("doesn't add a new payment to the queue") {
@@ -168,7 +168,7 @@ class PurchasesShopperSpec: QuickSpec {
                         sut.letgoProductsDict["listing_id"] = [myAppstoreProduct]
                         sut.requestPayment(forListingId: "listing_id",
                                            appstoreProduct: myAppstoreProduct,
-                                           paymentItemId: "payment_id",
+                                           letgoItemId: "letgo_item_id",
                                            isBoost: false)
                     }
                     it ("adds a new payment to the queue") {
@@ -183,7 +183,7 @@ class PurchasesShopperSpec: QuickSpec {
                         let unavailableAppstoreProduct = MyAppstoreProduct(myProductIdentifier: "unavailable_appstore_product_id")
                         sut.requestPayment(forListingId: "listing_id",
                                            appstoreProduct: unavailableAppstoreProduct,
-                                           paymentItemId: "payment_id",
+                                           letgoItemId: "letgo_item_id",
                                            isBoost: false)
                     }
                     it ("doesn't add a new payment to the queue") {
@@ -366,7 +366,7 @@ class MyAppstoreProduct: SKProduct {
 extension PurchasesShopperSpec: BumpInfoRequesterDelegate {
     func shopperFinishedProductsRequestForListingId(_ listingId: String?,
                                                     withProducts products: [PurchaseableProduct],
-                                                    paymentItemId: String?,
+                                                    letgoItemId: String?,
                                                     storeProductId: String?,
                                                     typePage: EventParameterTypePage?) {
         guard let id = listingId else { return }

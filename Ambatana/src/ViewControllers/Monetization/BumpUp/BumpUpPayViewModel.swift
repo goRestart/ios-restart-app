@@ -12,7 +12,7 @@ import LGCoreKit
 class BumpUpPayViewModel: BaseViewModel {
 
     var listing: Listing
-    private let paymentItemId: String?
+    private let letgoItemId: String?
     private let storeProductId: String?
     private let typePage: EventParameterTypePage?
 
@@ -30,19 +30,19 @@ class BumpUpPayViewModel: BaseViewModel {
 
     convenience init(listing: Listing,
                      purchaseableProduct: PurchaseableProduct,
-                     paymentItemId: String?,
+                     letgoItemId: String?,
                      storeProductId: String?,
                      typePage: EventParameterTypePage?) {
         let purchasesShopper = LGPurchasesShopper.sharedInstance
         self.init(listing: listing, purchaseableProduct: purchaseableProduct,
-                  purchasesShopper: purchasesShopper, paymentItemId: paymentItemId,
+                  purchasesShopper: purchasesShopper, letgoItemId: letgoItemId,
                   storeProductId: storeProductId, typePage: typePage, tracker: TrackerProxy.sharedInstance)
     }
 
     init(listing: Listing,
          purchaseableProduct: PurchaseableProduct,
          purchasesShopper: PurchasesShopper,
-         paymentItemId: String?,
+         letgoItemId: String?,
          storeProductId: String?,
          typePage: EventParameterTypePage?,
          tracker: Tracker) {
@@ -50,7 +50,7 @@ class BumpUpPayViewModel: BaseViewModel {
         self.purchaseableProduct = purchaseableProduct
         self.purchasesShopper = purchasesShopper
         self.tracker = tracker
-        self.paymentItemId = paymentItemId
+        self.letgoItemId = letgoItemId
         self.storeProductId = storeProductId
         self.typePage = typePage
     }
@@ -92,19 +92,19 @@ class BumpUpPayViewModel: BaseViewModel {
 
     private func bumpUpProduct() {
         logMessage(.info, type: [.monetization], message: "TRY TO Bump with purchase: \(purchaseableProduct)")
-        guard let listingId = listing.objectId, let paymentItemId = paymentItemId else { return }
+        guard let listingId = listing.objectId, let letgoItemId = letgoItemId else { return }
         purchasesShopper.requestPayment(forListingId: listingId,
                                         appstoreProduct: purchaseableProduct,
-                                        paymentItemId: paymentItemId,
+                                        letgoItemId: letgoItemId,
                                         isBoost: false)
     }
 
     private func boostProduct() {
         logMessage(.info, type: [.monetization], message: "TRY TO Boost with purchase: \(purchaseableProduct)")
-        guard let listingId = listing.objectId, let paymentItemId = paymentItemId else { return }
+        guard let listingId = listing.objectId, let letgoItemId = letgoItemId else { return }
         purchasesShopper.requestPayment(forListingId: listingId,
                                         appstoreProduct: purchaseableProduct,
-                                        paymentItemId: paymentItemId,
+                                        letgoItemId: letgoItemId,
                                         isBoost: true)
     }
 }
