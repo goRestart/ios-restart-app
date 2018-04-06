@@ -20,10 +20,6 @@ final class AmplitudeTracker: Tracker {
     private static let userPropLongitudeKey = "user-lon"
     private static let userPropCountryCodeKey = "user-country-code"
 
-    private static let userPropTypeKey = "UserType"
-    private static let userPropTypeValueReal = "1"
-    private static let userPropTypeValueDummy = "0"
-
     private static let userPropInstallationIdKey = "installation-id"
 
     // enabled permissions
@@ -40,13 +36,11 @@ final class AmplitudeTracker: Tracker {
     private static let userPropABTestsRetention = "AB-test-retention"
     private static let userPropABTestsChat = "AB-test-chat"
     private static let userPropABTestsProducts = "AB-test-products"
+    private static let userPropABTestsUsers = "AB-test-users"
     
     private static let userPropMktPushNotificationKey = "marketing-push-notification"
     private static let userPropMktPushNotificationValueOn = "on"
     private static let userPropMktPushNotificationValueOff = "off"
-
-    // > Prefix
-    private static let dummyEmailPrefix = "usercontent"
 
     // Login required tracking
     private var loggedIn = false
@@ -86,18 +80,9 @@ final class AmplitudeTracker: Tracker {
     func setUser(_ user: MyUser?) {
         Amplitude.instance().setUserId(user?.emailOrId)
 
-        var isDummy = false
-        let dummyRange = (user?.email ?? "").range(of: AmplitudeTracker.dummyEmailPrefix)
-        if let isDummyRange = dummyRange, isDummyRange.lowerBound == (user?.email ?? "").startIndex {
-            isDummy = true
-        }
-
         let identify = AMPIdentify()
         let userIdValue = NSString(string: user?.objectId ?? "")
         identify.set(AmplitudeTracker.userPropIdKey, value: userIdValue)
-        let userType = isDummy ? AmplitudeTracker.userPropTypeValueDummy : AmplitudeTracker.userPropTypeValueReal
-        let userTypeValue = NSString(string: userType)
-        identify.set(AmplitudeTracker.userPropTypeKey, value: userTypeValue)
         let ratingAverageValue = NSNumber(value: user?.ratingAverage ?? 0)
         identify.set(AmplitudeTracker.userPropUserRating, value: ratingAverageValue)
         Amplitude.instance().identify(identify)
@@ -172,6 +157,7 @@ final class AmplitudeTracker: Tracker {
             var retentionAbTests: [String] = []
             var chatAbTests: [String] = []
             var productsAbTests: [String] = []
+            var usersAbTests: [String] = []
             trackingData.forEach({ (identifier, abGroupType) in
                 switch abGroupType {
                 case .legacyABTests:
@@ -188,15 +174,18 @@ final class AmplitudeTracker: Tracker {
                     chatAbTests.append(identifier)
                 case .products:
                     productsAbTests.append(identifier)
+                case .users:
+                    usersAbTests.append(identifier)
                 }
             })
             let dict: [String: [String]] = [AmplitudeTracker.userPropABTestsCore: coreAbtests,
-                                                 AmplitudeTracker.userPropABTestsMoney: moneyAbTests,
-                                                 AmplitudeTracker.userPropABTestsRealEstate: realEstateAbTests,
-                                                 AmplitudeTracker.userPropABTestsRetention: retentionAbTests,
-                                                 AmplitudeTracker.userPropABTestsChat: chatAbTests,
-                                                 AmplitudeTracker.userPropABTestsProducts: productsAbTests,
-                                                 AmplitudeTracker.userPropABTests: legacyABTests]
+                                            AmplitudeTracker.userPropABTestsMoney: moneyAbTests,
+                                            AmplitudeTracker.userPropABTestsRealEstate: realEstateAbTests,
+                                            AmplitudeTracker.userPropABTestsRetention: retentionAbTests,
+                                            AmplitudeTracker.userPropABTestsChat: chatAbTests,
+                                            AmplitudeTracker.userPropABTestsProducts: productsAbTests,
+                                            AmplitudeTracker.userPropABTestsUsers: usersAbTests,
+                                            AmplitudeTracker.userPropABTests: legacyABTests]
             dict.forEach({ (type, variables) in
                 let identify = AMPIdentify()
                 let trackingDataValue = NSArray(array: variables)

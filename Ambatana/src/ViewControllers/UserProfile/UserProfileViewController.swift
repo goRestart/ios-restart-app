@@ -81,8 +81,7 @@ final class UserProfileViewController: BaseViewController {
         self.headerView = UserProfileHeaderView(isPrivate: viewModel.isPrivateProfile)
         self.bioAndTrustView = UserProfileBioAndTrustView(isPrivate: viewModel.isPrivateProfile)
         self.listingView = ListingListView(viewModel: ListingListViewModel(requester: nil),
-                                           featureFlags: FeatureFlags.sharedInstance,
-                                           frame: .zero)
+                                           featureFlags: FeatureFlags.sharedInstance)
         self.socialSharer = socialSharer
         self.socialSharer.delegate = viewModel
         super.init(viewModel: viewModel, nibName: nil)
@@ -135,6 +134,7 @@ final class UserProfileViewController: BaseViewController {
                                                       bioAndTrustView, tabsView])
         view.addSubviewsForAutoLayout([tableView, listingView, headerContainerView])
 
+        navBarUserView.translatesAutoresizingMaskIntoConstraints = false
         navBarUserView.alpha = 0
         tabsView.delegate = self
 
@@ -145,7 +145,7 @@ final class UserProfileViewController: BaseViewController {
 
         listingView.scrollDelegate = self
         listingView.headerDelegate = self
-        listingView.refreshControl.removeFromSuperview()
+        listingView.removePullToRefresh()
         listingView.shouldScrollToTopOnFirstPageReload = false
         listingView.collectionView.showsVerticalScrollIndicator = false
 
@@ -217,7 +217,6 @@ final class UserProfileViewController: BaseViewController {
     }
 
     private func setupConstraints() {
-
         var constraints = [
             headerContainerView.leftAnchor.constraint(equalTo: view.leftAnchor),
             headerContainerView.rightAnchor.constraint(equalTo: view.rightAnchor),
@@ -238,14 +237,14 @@ final class UserProfileViewController: BaseViewController {
             tabsView.rightAnchor.constraint(equalTo: headerContainerView.rightAnchor, constant: -Layout.sideMargin),
             tabsView.bottomAnchor.constraint(equalTo: headerContainerView.bottomAnchor),
             tabsView.heightAnchor.constraint(equalToConstant: Layout.tabsHeight),
-            listingView.topAnchor.constraint(equalTo: view.topAnchor),
+            listingView.topAnchor.constraint(equalTo: safeTopAnchor),
             listingView.leftAnchor.constraint(equalTo: view.leftAnchor),
             listingView.rightAnchor.constraint(equalTo: view.rightAnchor),
             listingView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.topAnchor.constraint(equalTo: safeTopAnchor),
             tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
             tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            tableView.bottomAnchor.constraint(equalTo: safeBottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ]
 
         let headerContainerTop =  headerContainerView.topAnchor.constraint(equalTo: safeTopAnchor, constant: Layout.topMargin)
@@ -573,6 +572,23 @@ extension UserProfileViewController {
             .disposed(by: disposeBag)
     }
 
+    private func didChangePushPermissions() {
+        listingView.refreshDataView()
+        tableView.tableHeaderView = buildNotificationBanner()
+    }
+
+    private func buildNotificationBanner() -> UIView? {
+        guard viewModel.showPushPermissionsBanner else { return nil }
+        let container = UIView(frame: CGRect(x: 0, y: 0, width: tableView.width, height: PushPermissionsHeader.viewHeight))
+        let pushHeader = PushPermissionsHeader()
+        pushHeader.delegate = self
+        pushHeader.cornerRadius = 10
+        container.addSubviewForAutoLayout(pushHeader)
+        pushHeader.layout(with: container).fillHorizontal(by: 10).fillVertical()
+        container.layout().height(PushPermissionsHeader.viewHeight)
+        return container
+    }
+
     private func updateUserRelation(with text: String?) {
         updatingUserRelation = true
         userRelationView.userRelationText = text
@@ -638,10 +654,6 @@ extension UserProfileViewController: UserProfileViewModelDelegate {
 // MARK: - PushPermissions and MostSearched Banners
 
 extension UserProfileViewController: ListingListViewHeaderDelegate, PushPermissionsHeaderDelegate, MostSearchedItemsUserHeaderDelegate {
-
-    private func didChangePushPermissions() {
-        listingView.refreshDataView()
-    }
 
     func totalHeaderHeight() -> CGFloat {
         var totalHeight: CGFloat = 0
