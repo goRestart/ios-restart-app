@@ -907,6 +907,14 @@
 "real_estate_offer_type_sale" = "Продажа";
 "real_estate_offer_type_title" = "Тип объявления";
 "real_estate_price_title" = "Цена";
+"real_estate_promo_post_button_title" = "Разместить сейчас";
+"real_estate_promo_title_version_1" = "Разместить объявление о недвижимости";
+"real_estate_promo_title_version_2" = "Новинка! Размещайте жилье на продажу и в аренду";
+"real_estate_promo_title_version_3" = "Новинка! Продавайте или сдавайте в аренду жилье";
+"real_estate_promo_title_version_4" = "Продавайте или сдавайте в аренду жилье";
+"real_estate_promo_title_version_5" = "Теперь вы можете размещать объявления о недвижимости";
+"real_estate_promo_title_version_6" = "Новинка! Объявления о недвижимости на letgo";
+"real_estate_promo_title_version_7" = "Жилье в аренду или на продажу";
 "real_estate_related_search_title" = "Похожие результаты";
 "real_estate_rooms_over_ten" = "Более 10";
 "real_estate_rooms_studio" = "Студия (1+0)";

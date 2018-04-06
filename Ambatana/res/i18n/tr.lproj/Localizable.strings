@@ -907,6 +907,14 @@
 "real_estate_offer_type_sale" = "Satılık";
 "real_estate_offer_type_title" = "İlan Türü";
 "real_estate_price_title" = "Fiyat";
+"real_estate_promo_post_button_title" = "Hemen yükle";
+"real_estate_promo_title_version_1" = "Emlak İlanı Yayınla";
+"real_estate_promo_title_version_2" = "Yeni! Satılık ve kiralık emlak ilanı yayınla";
+"real_estate_promo_title_version_3" = "Yeni! Emlak sat veya kirala";
+"real_estate_promo_title_version_4" = "Emlak sat veya kirala";
+"real_estate_promo_title_version_5" = "Artık Emlak ilanları yayınlayabilirsin";
+"real_estate_promo_title_version_6" = "Yeni! letgo'da Emlak ilanları";
+"real_estate_promo_title_version_7" = "Satılık veya kiralık Emlak";
 "real_estate_related_search_title" = "Benzer sonuçlar";
 "real_estate_rooms_over_ten" = "10'dan fazla";
 "real_estate_rooms_studio" = "Stüdyo (1+0)";

@@ -907,6 +907,14 @@
 "real_estate_offer_type_sale" = "Para venda";
 "real_estate_offer_type_title" = "Tipo de publicação";
 "real_estate_price_title" = "Preço";
+"real_estate_promo_post_button_title" = "Publique já";
+"real_estate_promo_title_version_1" = "Publique anúncios de imobiliário";
+"real_estate_promo_title_version_2" = "Novo! Publique imóveis para vender ou arrendar";
+"real_estate_promo_title_version_3" = "Novo! Venda ou arrende imóveis";
+"real_estate_promo_title_version_4" = "Venda ou arrende imóveis";
+"real_estate_promo_title_version_5" = "Pode agora publicar anúncios de imobiliário";
+"real_estate_promo_title_version_6" = "Novo! Anúncios de imobiliário no letgo";
+"real_estate_promo_title_version_7" = "Imobiliário para alugar ou vender";
 "real_estate_related_search_title" = "Resultados relacionados";
 "real_estate_rooms_over_ten" = "Mais de 10";
 "real_estate_rooms_studio" = "Estúdio (1+0)";

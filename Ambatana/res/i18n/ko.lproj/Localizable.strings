@@ -907,6 +907,14 @@
 "real_estate_offer_type_sale" = "판매중";
 "real_estate_offer_type_title" = "게시글 종류";
 "real_estate_price_title" = "가격";
+"real_estate_promo_post_button_title" = "지금 게시하기";
+"real_estate_promo_title_version_1" = "부동산 목록 등록하기";
+"real_estate_promo_title_version_2" = "새로운 판매를 시작해보세요! 매매 및 임대를 위한 부동산을 게시해보세요";
+"real_estate_promo_title_version_3" = "새로운 판매하를 시작해보세요! 부동산 매매 혹은 임대하기";
+"real_estate_promo_title_version_4" = "부동산 매매 혹은 임대";
+"real_estate_promo_title_version_5" = "이제 부동산 매매 게시글을 등록하실 수 있습니다";
+"real_estate_promo_title_version_6" = "새로운 기능! letgo에 부동산을 매매해보세요";
+"real_estate_promo_title_version_7" = "임대 혹은 매매를 위한 부동산";
 "real_estate_related_search_title" = "관련 결과";
 "real_estate_rooms_over_ten" = "10개 이상";
 "real_estate_rooms_studio" = "스튜디오 (1+0)";

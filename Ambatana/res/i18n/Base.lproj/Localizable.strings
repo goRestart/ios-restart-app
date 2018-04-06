@@ -152,7 +152,7 @@
 "bump_up_view_boost_subtitle_cheaper" = "Boost your listing right now to get a discount off the typical feature price.";
 
 // Text for boost success alert
-"bump_up_boost_success_alert_text" = "Your listing was boosted again! It will be featured for the next 24 hours.";
+"bump_up_boost_success_alert_text" = "Your listing was boosted! It will be featured for the next 24 hours.";
 
 // Title for payment bump up view
 "bump_up_old_view_pay_title" = "SELL FASTER";
@@ -2958,6 +2958,30 @@
 
 // Description for third page on three page option. 
 "real_estate_tutorial_three_pages_third_page_description" = "Completed listings attract 20% more views so you'll sell faster. Don't forget to double your visibility by featuring your listing!";
+
+// Title for Promo Cell in real estate Listing - Version 1
+"real_estate_promo_title_version_1" = "Post Real Estate listings";
+
+// Title for Promo Cell in real estate Listing - Version 2
+"real_estate_promo_title_version_2" = "New! Post property for sale and rent";
+
+// Title for Promo Cell in real estate Listing - Version 3
+"real_estate_promo_title_version_3" = "New! Sell or rent property";
+
+// Title for Promo Cell in real estate Listing - Version 4
+"real_estate_promo_title_version_4" = "Sell or rent property";
+
+// Title for Promo Cell in real estate Listing - Version 5
+"real_estate_promo_title_version_5" = "You can now post Real Estate listings";
+
+// Title for Promo Cell in real estate Listing - Version 6
+"real_estate_promo_title_version_6" = "New! Real Estate listings on letgo";
+
+// Title for Promo Cell in real estate Listing - Version 7
+"real_estate_promo_title_version_7" = "Real Estate for rent or sale";
+
+// Title for Button in Promo Cell real estate Listing
+"real_estate_promo_post_button_title" = "Post Now";
 
 // Title when showing list of related items
 "related_items_title" = "Related listings";

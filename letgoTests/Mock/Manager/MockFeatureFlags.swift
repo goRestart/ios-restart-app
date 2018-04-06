@@ -11,11 +11,11 @@ import Foundation
 import RxSwift
 
 class MockFeatureFlags: FeatureFlaggeable {
-    var trackingData: Observable<[(String, ABGroupType)]?> {
+    var trackingData: Observable<[(String, ABGroup)]?> {
         return trackingDataVar.asObservable()
     }
     func variablesUpdated() {}
-    let trackingDataVar = Variable<[(String, ABGroupType)]?>(nil)
+    let trackingDataVar = Variable<[(String, ABGroup)]?>(nil)
 
     var showNPSSurvey: Bool = false
     var surveyUrl: String = ""
@@ -27,7 +27,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var inAppRatingIOS10: Bool = false
     var userReviewsReportEnabled: Bool = true
     var dynamicQuickAnswers: DynamicQuickAnswers = .control
-    var newItemPage: NewItemPage = .control
+    var deckItemPage: DeckItemPage = .control
     var searchAutocomplete: SearchAutocomplete = .control
     var realEstateEnabled: RealEstateEnabled = .control
     var requestTimeOut: RequestsTimeOut = .thirty
@@ -74,7 +74,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var moreInfoDFPAdUnitId = ""
     var feedDFPAdUnitId: String? = ""
     var bumpPriceVariationBucket: BumpPriceVariationBucket = .defaultValue
-    var shouldChangeChatNowCopy = false
+    var shouldChangeChatNowCopyInTurkey = false
     var copyForChatNowInTurkey: CopyForChatNowInTurkey = .control
     var feedAdsProviderForUS: FeedAdsProviderForUS = .control
     var feedMoPubAdUnitId: String? = ""
@@ -83,4 +83,7 @@ class MockFeatureFlags: FeatureFlaggeable {
         return false
     }
     var shareTypes: [ShareType] = []
+    var copyForChatNowInEnglish: CopyForChatNowInEnglish = .control
+    var shouldChangeChatNowCopyInEnglish = false
+    
 }

@@ -32,6 +32,12 @@ final class PhotoViewerView: UIView, PhotoViewerViewType, PhotoViewerBinderViewT
     private let chatButton = ChatButton()
     private let closeButton = UIButton(type: .custom)
 
+    var isChatEnabled: Bool = true {
+        didSet {
+            chatButton.isHidden = !isChatEnabled
+        }
+    }
+
     convenience init() { self.init(frame: .zero) }
 
     override init(frame: CGRect) {

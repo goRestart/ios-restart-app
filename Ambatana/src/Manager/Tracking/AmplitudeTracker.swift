@@ -20,10 +20,6 @@ final class AmplitudeTracker: Tracker {
     private static let userPropLongitudeKey = "user-lon"
     private static let userPropCountryCodeKey = "user-country-code"
 
-    private static let userPropTypeKey = "UserType"
-    private static let userPropTypeValueReal = "1"
-    private static let userPropTypeValueDummy = "0"
-
     private static let userPropInstallationIdKey = "installation-id"
 
     // enabled permissions
@@ -45,9 +41,6 @@ final class AmplitudeTracker: Tracker {
     private static let userPropMktPushNotificationKey = "marketing-push-notification"
     private static let userPropMktPushNotificationValueOn = "on"
     private static let userPropMktPushNotificationValueOff = "off"
-
-    // > Prefix
-    private static let dummyEmailPrefix = "usercontent"
 
     // Login required tracking
     private var loggedIn = false
@@ -87,18 +80,9 @@ final class AmplitudeTracker: Tracker {
     func setUser(_ user: MyUser?) {
         Amplitude.instance().setUserId(user?.emailOrId)
 
-        var isDummy = false
-        let dummyRange = (user?.email ?? "").range(of: AmplitudeTracker.dummyEmailPrefix)
-        if let isDummyRange = dummyRange, isDummyRange.lowerBound == (user?.email ?? "").startIndex {
-            isDummy = true
-        }
-
         let identify = AMPIdentify()
         let userIdValue = NSString(string: user?.objectId ?? "")
         identify.set(AmplitudeTracker.userPropIdKey, value: userIdValue)
-        let userType = isDummy ? AmplitudeTracker.userPropTypeValueDummy : AmplitudeTracker.userPropTypeValueReal
-        let userTypeValue = NSString(string: userType)
-        identify.set(AmplitudeTracker.userPropTypeKey, value: userTypeValue)
         let ratingAverageValue = NSNumber(value: user?.ratingAverage ?? 0)
         identify.set(AmplitudeTracker.userPropUserRating, value: ratingAverageValue)
         Amplitude.instance().identify(identify)

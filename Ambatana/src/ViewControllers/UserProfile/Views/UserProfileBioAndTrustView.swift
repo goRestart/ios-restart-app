@@ -210,15 +210,15 @@ final class UserProfileBioAndTrustView: UIView {
         guard let verifiedAccounts = accounts else { return }
         verifiedLogosStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         if verifiedAccounts.facebookVerified {
-            addVerifiedAccountWithImage(named: "ic_user_public_fb")
+            addVerifiedAccountWithImage(named: "ic_verified_fb")
         }
 
         if verifiedAccounts.googleVerified {
-            addVerifiedAccountWithImage(named: "ic_user_public_google")
+            addVerifiedAccountWithImage(named: "ic_verified_google")
         }
 
         if verifiedAccounts.emailVerified {
-            addVerifiedAccountWithImage(named: "ic_user_public_email")
+            addVerifiedAccountWithImage(named: "ic_verified_email")
         }
 
         verifiedContainer.isHidden = !verifiedAccountsVisible

@@ -3975,6 +3975,38 @@ struct LGLocalizedString {
 		return NSLocalizedString("real_estate_tutorial_three_pages_third_page_description", comment: "")
 	}
 
+	static var realEstatePromoTitleVersion1: String {
+		return NSLocalizedString("real_estate_promo_title_version_1", comment: "")
+	}
+
+	static var realEstatePromoTitleVersion2: String {
+		return NSLocalizedString("real_estate_promo_title_version_2", comment: "")
+	}
+
+	static var realEstatePromoTitleVersion3: String {
+		return NSLocalizedString("real_estate_promo_title_version_3", comment: "")
+	}
+
+	static var realEstatePromoTitleVersion4: String {
+		return NSLocalizedString("real_estate_promo_title_version_4", comment: "")
+	}
+
+	static var realEstatePromoTitleVersion5: String {
+		return NSLocalizedString("real_estate_promo_title_version_5", comment: "")
+	}
+
+	static var realEstatePromoTitleVersion6: String {
+		return NSLocalizedString("real_estate_promo_title_version_6", comment: "")
+	}
+
+	static var realEstatePromoTitleVersion7: String {
+		return NSLocalizedString("real_estate_promo_title_version_7", comment: "")
+	}
+
+	static var realEstatePromoPostButtonTitle: String {
+		return NSLocalizedString("real_estate_promo_post_button_title", comment: "")
+	}
+
 	static var relatedItemsTitle: String {
 		return NSLocalizedString("related_items_title", comment: "")
 	}

@@ -141,6 +141,7 @@ final class UserProfileViewController: BaseViewController {
 
         view.addSubviewsForAutoLayout([tableView, listingView, headerContainerView])
 
+        navBarUserView.translatesAutoresizingMaskIntoConstraints = false
         navBarUserView.alpha = 0
         tabsView.delegate = self
 
@@ -245,11 +246,11 @@ final class UserProfileViewController: BaseViewController {
             listingView.topAnchor.constraint(equalTo: safeTopAnchor),
             listingView.leftAnchor.constraint(equalTo: view.leftAnchor),
             listingView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            listingView.bottomAnchor.constraint(equalTo: safeBottomAnchor),
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            listingView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            tableView.topAnchor.constraint(equalTo: safeTopAnchor),
             tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
             tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            tableView.bottomAnchor.constraint(equalTo: safeBottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ]
 
         if viewModel.showKarmaView {
@@ -591,6 +592,23 @@ extension UserProfileViewController {
             .disposed(by: disposeBag)
     }
 
+    private func didChangePushPermissions() {
+        listingView.refreshDataView()
+        tableView.tableHeaderView = buildNotificationBanner()
+    }
+
+    private func buildNotificationBanner() -> UIView? {
+        guard viewModel.showPushPermissionsBanner else { return nil }
+        let container = UIView(frame: CGRect(x: 0, y: 0, width: tableView.width, height: PushPermissionsHeader.viewHeight))
+        let pushHeader = PushPermissionsHeader()
+        pushHeader.delegate = self
+        pushHeader.cornerRadius = 10
+        container.addSubviewForAutoLayout(pushHeader)
+        pushHeader.layout(with: container).fillHorizontal(by: 10).fillVertical()
+        container.layout().height(PushPermissionsHeader.viewHeight)
+        return container
+    }
+
     private func updateUserRelation(with text: String?) {
         updatingUserRelation = true
         userRelationView.userRelationText = text
@@ -656,10 +674,6 @@ extension UserProfileViewController: UserProfileViewModelDelegate {
 // MARK: - PushPermissions and MostSearched Banners
 
 extension UserProfileViewController: ListingListViewHeaderDelegate, PushPermissionsHeaderDelegate, MostSearchedItemsUserHeaderDelegate {
-
-    private func didChangePushPermissions() {
-        listingView.refreshDataView()
-    }
 
     func totalHeaderHeight() -> CGFloat {
         var totalHeight: CGFloat = 0

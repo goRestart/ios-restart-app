@@ -907,6 +907,14 @@
 "real_estate_offer_type_sale" = "Bán";
 "real_estate_offer_type_title" = "Loại Bài đăng";
 "real_estate_price_title" = "Giá";
+"real_estate_promo_post_button_title" = "Đăng bây giờ";
+"real_estate_promo_title_version_1" = "Đăng bài đăng Bất động sản";
+"real_estate_promo_title_version_2" = "Mới! Đăng nhà đất để bán và cho thuê";
+"real_estate_promo_title_version_3" = "Mới! Bán hoặc cho thuê nhà đất";
+"real_estate_promo_title_version_4" = "Bán hoặc cho thuê nhà đất";
+"real_estate_promo_title_version_5" = "Giờ đây bạn có thể đăng bài đăng Bất động sản";
+"real_estate_promo_title_version_6" = "Mới! Bài đăng Bất động sản trên letgo";
+"real_estate_promo_title_version_7" = "Bất động sản cho thuê hoặc bán";
 "real_estate_related_search_title" = "Kết quả liên quan";
 "real_estate_rooms_over_ten" = "Trên 10";
 "real_estate_rooms_studio" = "Studio (1+0)";

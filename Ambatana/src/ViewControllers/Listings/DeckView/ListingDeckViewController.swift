@@ -48,11 +48,6 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         constraintViewToSafeRootView(listingDeckView)
     }
 
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        quickChatView?.resignFirstResponder()
-    }
-
     override func viewDidFirstAppear(_ animated: Bool) {
         super.viewDidFirstAppear(animated)
 
@@ -60,6 +55,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         listingDeckView.collectionView.layoutIfNeeded()
         guard let current = currentPageCell() else { return }
         let index = viewModel.currentIndex
+        let bumpUp = viewModel.bumpUpBannerInfo.value
         UIView.animate(withDuration: 0.5,
                        delay: 0,
                        options: .curveEaseIn,
@@ -83,12 +79,6 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         reloadData()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setupNavigationBar()
-        listingDeckView.collectionView.clipsToBounds = false
-    }
-
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         listingDeckView.collectionView.clipsToBounds = true
@@ -97,6 +87,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
         setupNavigationBar()
+        listingDeckView.collectionView.clipsToBounds = false
     }
 
     override func viewWillFirstAppear(_ animated: Bool) {
@@ -144,6 +135,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListingCardView.reusableID,
                                                          for: indexPath) as? ListingCardView {
             guard let model = viewModel.snapshotModelAt(index: indexPath.row) else { return cell }
+            cell.tag = indexPath.row
             cell.populateWith(model, imageDownloader: viewModel.imageDownloader)
             cell.delegate = self
 
@@ -225,12 +217,12 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     func willDisplayCell(_ cell: UICollectionViewCell, atIndexPath indexPath: IndexPath) {
         cell.isUserInteractionEnabled = false
         guard let card = cell as? ListingCardView else { return }
-        card.tag = indexPath.row
         card.updateVerticalContentInset(animated: false)
     }
 
     func willBeginDragging() {
         lastPageBeforeDragging = listingDeckView.currentPage
+        listingDeckView.bumpUpBanner.alphaAnimated(0)
     }
 
     func didMoveToItemAtIndex(_ index: Int) {
@@ -315,28 +307,29 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
         viewModel.didTapCardAction()
     }
 
-    func showBumpUpBanner(bumpInfo: BumpUpInfo) {
-        guard !listingDeckView.isBumpUpVisible else {
-            // banner is already visible, but info changes
-            listingDeckView.updateBumpUp(withInfo: bumpInfo)
+    func updateWithBumpUpInfo(_ bumpInfo: BumpUpInfo?) {
+        guard let bumpUp = bumpInfo else {
+            closeBumpUpBanner(animated: true)
             return
         }
 
-        viewModel.bumpUpBannerShown(type: bumpInfo.type)
-        delay(1.0) { [weak self] in
-            self?.listingDeckView.updateBumpUp(withInfo: bumpInfo)
-            self?.listingDeckView.showBumpUp()
-            UIView.animate(withDuration: 0.3,
-                           delay: 0,
-                           options: .curveEaseIn,
-                           animations: { [weak self] in
-                self?.listingDeckView.layoutIfNeeded()
-            }, completion: nil)
+        listingDeckView.bumpUpBanner.alphaAnimated(1)
+        guard !listingDeckView.isBumpUpVisible else {
+            // banner is already visible, but info changes
+            listingDeckView.updateBumpUp(withInfo: bumpUp)
+            return
         }
-    }
 
-    func closeBumpUpBanner() {
-        closeBumpUpBanner(animated: true)
+        viewModel.bumpUpBannerShown(type: bumpUp.type)
+        listingDeckView.updateBumpUp(withInfo: bumpUp)
+        listingDeckView.bumpUpBanner.layoutIfNeeded()
+        UIView.animate(withDuration: 0.3,
+                       delay: 0,
+                       options: .curveEaseIn,
+                       animations: { [weak self] in
+                        self?.listingDeckView.showBumpUp()
+                        self?.listingDeckView.layoutIfNeeded()
+            }, completion: nil)
     }
 
     private func isCardVisible(_ cardView: ListingCardView) -> Bool {
@@ -344,6 +337,26 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
             .visibleCells
             .filter { cell in return cell.tag == cardView.tag }
         return !filtered.isEmpty
+    }
+}
+
+// TODO: Refactor ABIOS-3814
+extension ListingDeckViewController {
+    private func processActionOnFirstAppear() {
+        switch viewModel.actionOnFirstAppear {
+        case .showKeyboard:
+            quickChatView?.becomeFirstResponder()
+        case .showShareSheet:
+            viewModel.didTapCardAction()
+        case .triggerBumpUp(_,_,_,_):
+            viewModel.showBumpUpView(viewModel.actionOnFirstAppear)
+        case .triggerMarkAsSold:
+            viewModel.currentListingViewModel?.markAsSold()
+        case .edit:
+            viewModel.currentListingViewModel?.editListing()
+        case .nonexistent:
+            break
+        }
     }
 }
 
@@ -407,6 +420,8 @@ extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCard
         self.quickChatView = quickChatView
         
         focusOnCollectionView()
+
+        mainResponder = quickChatView.textView
     }
 
     private func setupDirectChatView(quickChatView: QuickChatView) {
