@@ -51,7 +51,6 @@ protocol FeatureFlaggeable: class {
     var showInactiveConversations: Bool { get }
     var increaseMinPriceBumps: IncreaseMinPriceBumps { get }
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers { get }
-    var emojiSizeIncrement: EmojiSizeIncrement { get }
     var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings { get }
     var newUserProfileView: NewUserProfileView { get }
     var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation { get }
@@ -540,13 +539,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.noAdsInFeedForNewUsers
         }
         return NoAdsInFeedForNewUsers.fromPosition(abTests.noAdsInFeedForNewUsers.value)
-    }
-    
-    var emojiSizeIncrement: EmojiSizeIncrement {
-        if Bumper.enabled {
-            return Bumper.emojiSizeIncrement
-        }
-        return EmojiSizeIncrement.fromPosition(abTests.emojiSizeIncrement.value)
     }
 
     var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings {
