@@ -1439,24 +1439,7 @@ extension ChatViewModel {
         var isFirstPage: Bool {
             return messages.count < Constants.numMessagesPerPage
         }
-        var priceIsEqualOrHigherThan250: Bool {
-            if let price = conversation.value.listing?.price.value {
-                return price > Double(250)
-            }
-            return false
-        }
-        var firstInterlocutorMessageIndex: Int? {
-            guard let i = messages.reversed().index(where: {
-                switch $0.type {
-                case .disclaimer, .userInfo, .askPhoneNumber, .interlocutorIsTyping:
-                    return false
-                case .offer, .sticker, .text, .meeting:
-                    return $0.talkerId != myUserRepository.myUser?.objectId
-                }
-            }) else { return nil }
-            let index = messages.index(before: i.base)
-            return index
-        }
+
         var fifthInterlocutorMessageIndex: Int? {
             let elementNumber = 5
             let interlocutorMessages = messages.reversed().filter {
@@ -1475,29 +1458,9 @@ extension ChatViewModel {
             })
             return index
         }
-        var securityTooltipWasShownToday: Bool {
-            if let lastShownDate = keyValueStorage[.lastShownSecurityWarningDate] {
-                return lastShownDate.isFromLast24h()
-            }
-            return false
-        }
 
         guard isFirstPage else { return nil }
-        switch featureFlags.showSecurityMeetingChatMessage {
-        case .baseline, .control:
-            return nil
-        case .variant1:
-            guard priceIsEqualOrHigherThan250 else { return nil }
-            if isBuyer {
-                return firstInterlocutorMessageIndex
-            } else if !securityTooltipWasShownToday {
-                keyValueStorage[.lastShownSecurityWarningDate] = Date()
-                return firstInterlocutorMessageIndex
-            }
-        case .variant2:
-            return fifthInterlocutorMessageIndex
-        }
-        return nil
+        return fifthInterlocutorMessageIndex
     }
 
     private func afterRetrieveChatMessagesEvents() {
