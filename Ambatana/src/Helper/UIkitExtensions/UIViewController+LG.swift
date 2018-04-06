@@ -200,7 +200,7 @@ extension UIViewController {
     - parameter animated:   whether to animate or not
     - parameter completion: completion callback
     */
-    func pushViewController(_ viewController: UIViewController, animated: Bool, completion: (() -> Void)?) {
+    func pushViewController(_ viewController: UIViewController, animated: Bool, completion: (() -> Void)? = nil) {
         guard let navigationController = navigationController else { return }
         if animated {
             CATransaction.begin()
