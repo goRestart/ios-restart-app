@@ -202,8 +202,6 @@ final class ListingCardUserView: UIView {
                                                constant: Layout.Spacing.betweenButtons).isActive = true
         actionLayoutGuide.bottomAnchor.constraint(equalTo: bottomAnchor,
                                                   constant: -Layout.Spacing.betweenButtons).isActive = true
-
-        actionButton.alpha = 0
     }
 
     override func layoutSubviews() {
@@ -212,7 +210,7 @@ final class ListingCardUserView: UIView {
     }
 
     func prepareForReuse() {
-        actionButton.alpha = 0
+        actionButton.alpha = 0.3
         userIcon.setBackgroundImage(Images.placeholder, for: .normal)
         userNameLabel.text = ""
     }

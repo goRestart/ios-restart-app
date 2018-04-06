@@ -17,7 +17,7 @@ extension MockProduct {
         var result: [MockProduct] = []
         repeat {
             result.append(contentsOf: MockProduct.makeMocks(count: count).filter { !$0.status.isDiscarded })
-        } while result.count < count
+        } while result.count <= count
         return Array(result[0...count-1])
     }
 }

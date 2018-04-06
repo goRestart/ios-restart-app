@@ -54,6 +54,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         self.updateStartIndex()
         listingDeckView.collectionView.layoutIfNeeded()
         guard let current = currentPageCell() else { return }
+        populateCell(current)
         let index = viewModel.currentIndex
         let bumpUp = viewModel.bumpUpBannerInfo.value
         UIView.animate(withDuration: 0.5,
@@ -63,8 +64,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
                         self?.listingDeckView.collectionView.alpha = 1
         }, completion: { [weak self] _ in
             self?.didMoveToItemAtIndex(index)
-            current.delayedOnboardingFlashDetails(withDelay: 0.6, duration: 0.6)
-            self?.bindCard(current)
+            current.delayedOnboardingFlashDetails(withDelay: 0.3, duration: 0.6)
         })
     }
 
@@ -139,6 +139,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
                                                          for: indexPath) as? ListingCardView {
             guard let model = viewModel.snapshotModelAt(index: indexPath.row) else { return cell }
             cell.tag = indexPath.row
+            binder.bind(cell: cell)
             cell.populateWith(model, imageDownloader: viewModel.imageDownloader)
             cell.delegate = self
 
@@ -218,7 +219,7 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     }
 
     func willDisplayCell(_ cell: UICollectionViewCell, atIndexPath indexPath: IndexPath) {
-        cell.isUserInteractionEnabled = false
+        cell.isUserInteractionEnabled = indexPath.row == viewModel.currentIndex
         guard let card = cell as? ListingCardView else { return }
         card.updateVerticalContentInset(animated: false)
     }
@@ -242,11 +243,10 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     
     func didEndDecelerating() {
         guard let cell = listingDeckView.cardAtIndex(viewModel.currentIndex) else { return }
-        bindCard(cell)
+        populateCell(cell)
     }
 
-    private func bindCard(_ card: ListingCardView) {
-        binder.bind(cell: card)
+    private func populateCell(_ card: ListingCardView) {
         card.isUserInteractionEnabled = true
 
         guard let listing = viewModel.listingCellModelAt(index: viewModel.currentIndex) else { return }
