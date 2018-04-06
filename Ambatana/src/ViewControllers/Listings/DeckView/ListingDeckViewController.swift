@@ -79,9 +79,12 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         reloadData()
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    override func viewWillDisappearToBackground(_ toBackground: Bool) {
+        super.viewWillDisappearToBackground(toBackground)
         listingDeckView.collectionView.clipsToBounds = true
+        if toBackground {
+            closeBumpUpBanner(animated: true)
+        }
     }
 
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {

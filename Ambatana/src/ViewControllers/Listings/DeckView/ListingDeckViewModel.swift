@@ -89,6 +89,15 @@ final class ListingDeckViewModel: BaseViewModel {
     weak var navigator: ListingDetailNavigator? { didSet { currentListingViewModel?.navigator = navigator } }
     weak var deckNavigator: DeckNavigator?
     var userHasScrolled: Bool = false
+
+    override var active: Bool {
+        didSet {
+            productsViewModels.forEach { (_, listingViewModel) in
+                listingViewModel.active = active
+            }
+        }
+    }
+
     private var shouldShowDeckOnBoarding: Bool {
         return !userHasScrolled && !keyValueStorage[.didShowDeckOnBoarding]
     }
