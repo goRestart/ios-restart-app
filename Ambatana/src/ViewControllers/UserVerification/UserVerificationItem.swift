@@ -20,20 +20,20 @@ enum UserVerificationItem {
 
     var title: String {
         switch self {
-        case .facebook: return "Facebook"
-        case .google: return "Google"
-        case .email: return "Email"
-        case .phoneNumber: return "Phone number"
-        case .photoID: return "Photo ID"
-        case .profilePicture: return "Profile Picture"
-        case .bio: return "Bio"
-        case .markAsSold: return "Mark a listing as sold"
+        case .facebook: return LGLocalizedString.profileVerificationsViewFacebookTitle
+        case .google: return LGLocalizedString.profileVerificationsViewGoogleTitle
+        case .email: return LGLocalizedString.profileVerificationsViewEmailTitle
+        case .phoneNumber: return LGLocalizedString.profileVerificationsViewPhoneNumberTitle
+        case .photoID: return LGLocalizedString.profileVerificationsViewPhotoIdTitle
+        case .profilePicture: return LGLocalizedString.profileVerificationsViewProfilePictureTitle
+        case .bio: return LGLocalizedString.profileVerificationsViewBioTitle
+        case .markAsSold: return LGLocalizedString.profileVerificationsViewMarkAsSoldTitle
         }
     }
 
     var subtitle: String? {
         switch self {
-        case .markAsSold: return "+2pts each (up to 10 pts)"
+        case .markAsSold: return LGLocalizedString.profileVerificationsViewMarkAsSoldSubtitle
         default: return nil
         }
     }

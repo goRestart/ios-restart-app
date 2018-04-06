@@ -27,7 +27,7 @@ final class UserVerificationViewController: BaseViewController {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
         viewModel.delegate = self
-        self.title = "How to earn points"
+        self.title = LGLocalizedString.profileVerificationsViewTitle
         setupUI()
         bindRx()
     }
@@ -122,12 +122,16 @@ extension UserVerificationViewController: UITableViewDelegate, UITableViewDataSo
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 {
             let view = UserVerificationMainSectionHeader()
-            view.title = "VERIFY WITH"
-            view.subtitle = "Personal info won't be shared with other users"
+            view.title = LGLocalizedString.profileVerificationsViewVerifySectionTitle
+            view.subtitle = LGLocalizedString.profileVerificationsViewVerifySectionSubtitle
+            return view
+        } else if section == 1 {
+            let view = UserVerificationSectionHeader()
+            view.title = LGLocalizedString.profileVerificationsViewAddInfoSectionTitle
             return view
         } else {
             let view = UserVerificationSectionHeader()
-            view.title = "ADD YOUR"
+            view.title = LGLocalizedString.profileVerificationsViewExtraSectionTitle
             return view
         }
     }
