@@ -9,7 +9,7 @@
 import Foundation
 import Lottie
 
-class BoostSuccessAlertView: UIView {
+final class BoostSuccessAlertView: UIView {
 
     private static let animationHeight: CGFloat = 180
     private static let alertSideMargin: CGFloat = 50
@@ -65,28 +65,22 @@ class BoostSuccessAlertView: UIView {
         addSubview(alertView)
 
         alertView.layout(with: self)
-            .center()
-            .leading(by: BoostSuccessAlertView.alertSideMargin)
-            .trailing(by: -BoostSuccessAlertView.alertSideMargin)
+            .centerY()
+            .fillHorizontal(by: BoostSuccessAlertView.alertSideMargin)
 
         let subviews: [UIView] = [titleLabel, animationView]
-        setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: subviews)
-        alertView.addSubviews(subviews)
+        alertView.addSubviewsForAutoLayout(subviews)
 
         animationView.layout().height(BoostSuccessAlertView.animationHeight)
         animationView.layout(with: alertView)
             .top(by: Metrics.bigMargin)
-            .leading(by: Metrics.veryBigMargin)
-            .trailing(by: -Metrics.veryBigMargin)
-            .centerX()
+            .fillHorizontal(by: Metrics.veryBigMargin)
 
         animationView.layout(with: titleLabel).above(by: -Metrics.veryShortMargin)
 
         titleLabel.layout(with: alertView)
             .bottom(by: -Metrics.bigMargin)
-            .leading(by: Metrics.veryBigMargin)
-            .trailing(by: -Metrics.veryBigMargin)
-            .centerX()
+            .fillHorizontal(by: Metrics.veryBigMargin)
     }
 
     func startAnimation() {

@@ -19,7 +19,7 @@
 "bump_up_banner_pay_text" = "Προωθήστε για να πουλάτε γρηγορότερα";
 "bump_up_banner_pay_text_improvement" = "Πουλήστε τώρα γρηγορότερα";
 "bump_up_banner_wait_text" = "για να προωθήσετε ξανά";
-"bump_up_boost_success_alert_text" = "Η καταχώρησή σας προωθήθηκε ξανά! Θα είναι προωθημένη για τις επόμενες 24 ώρες.";
+"bump_up_boost_success_alert_text" = "Η καταχώρησή σας προωθήθηκε! Θα προωθείται για τις επόμενες 24 ώρες.";
 "bump_up_error_bump_generic" = "Παρουσιάστηκε σφάλμα κατά την προώθηση της καταχώρησής σας. Παρακαλώ δοκιμάστε ξανά.";
 "bump_up_error_bump_token" = "Η πληρωμή σας έχει προχωρήσει, αλλά η καταχώρησή σας δεν έχει προωθηθεί.";
 "bump_up_error_payment_failed" = "Η σύνδεση στο App Store απέτυχε. Η πληρωμή σας δεν έχει προχωρήσει. Παρακαλώ δοκιμάστε ξανά.";
@@ -247,7 +247,7 @@
 "common_error_retry_button" = "Προσπαθήστε ξανά";
 "common_error_title" = "ΟΠΑ!";
 "common_expand" = "Δείτε Περισσότερα";
-"common_hours_mins_secs" = "%@h %@m %@s";
+"common_hours_mins_secs" = "%@ωρ. %@λ. %@δτλ.";
 "common_loading" = "Φόρτωση…";
 "common_max" = "max";
 "common_new" = "ΝΕΟ!";
@@ -907,6 +907,14 @@
 "real_estate_offer_type_sale" = "Για Πώληση";
 "real_estate_offer_type_title" = "Τύπος Καταχώρησης";
 "real_estate_price_title" = "Τιμή";
+"real_estate_promo_post_button_title" = "Δημοσιεύστε Τώρα";
+"real_estate_promo_title_version_1" = "Δημοσιεύστε Μεσιτικές καταχωρήσεις";
+"real_estate_promo_title_version_2" = "Νέο! Δημοσιεύστε ιδιοκτησία για πώληση και ενοικίαση";
+"real_estate_promo_title_version_3" = "Νέο! Πουλήστε ή νοικιάστε ιδιοκτησία";
+"real_estate_promo_title_version_4" = "Πουλήστε ή νοικιάστε ιδιοκτησία";
+"real_estate_promo_title_version_5" = "Μπορείτε τώρα να δημοσιεύετε Μεσιτικές καταχωρήσεις";
+"real_estate_promo_title_version_6" = "Νέο! Μεσιτικές καταχωρήσεις στο letgo";
+"real_estate_promo_title_version_7" = "Μεσιτικά για ενοικίαση ή πώληση";
 "real_estate_related_search_title" = "Συναφή αποτελέσματα";
 "real_estate_rooms_over_ten" = "Πάνω από 10";
 "real_estate_rooms_studio" = "Στούντιο (1+0)";

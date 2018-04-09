@@ -23,7 +23,6 @@ protocol ListingViewModelDelegate: BaseViewModelDelegate {
     
     // Bump Up
     func vmResetBumpUpBannerCountdown()
-    func vmBoostDidSuccess()
 }
 
 protocol ListingViewModelMaker {
@@ -315,7 +314,7 @@ class ListingViewModel: BaseViewModel {
     internal override func didBecomeActive(_ firstTime: Bool) {
         guard let listingId = listing.value.objectId else { return }
 
-        if !featureFlags.newItemPage.isActive
+        if !featureFlags.deckItemPage.isActive
             && listing.value.isRealEstate
             && listing.value.realEstate?.realEstateAttributes == RealEstateAttributes.emptyRealEstateAttributes() {
             retrieveRealEstateDetails(listingId: listingId)
@@ -323,7 +322,7 @@ class ListingViewModel: BaseViewModel {
             isListingDetailsCompleted.value = true
         }
 
-        if !featureFlags.newItemPage.isActive && featureFlags.allowCallsForProfessionals.isActive {
+        if !featureFlags.deckItemPage.isActive && featureFlags.allowCallsForProfessionals.isActive {
             if isMine {
                 seller.value = myUserRepository.myUser
             } else if let userId = userInfo.value.userId {
@@ -702,6 +701,10 @@ class ListingViewModel: BaseViewModel {
                                    typePage: typePage,
                                    timeSinceLastBump: timeSinceLastBump ?? self.timeSinceLastBump,
                                    maxCountdown: bumpMaxCountdown)
+    }
+
+    func bumpUpBoostSucceeded() {
+        navigator?.showBumpUpBoostSucceededAlert()
     }
 
     private var canBeBoosted: Bool {
@@ -1411,11 +1414,11 @@ extension ListingViewModel: PurchasesShopperDelegate {
                              isPromotedBump: isPromotedBump,
                              typePage: typePage)
 
-        if isBoost {
-            delegate?.vmHideLoading(nil, afterMessageCompletion: { [weak self] in
-                self?.delegate?.vmResetBumpUpBannerCountdown()
-                self?.isShowingFeaturedStripe.value = true
-                self?.delegate?.vmBoostDidSuccess()
+        delegate?.vmHideLoading(isBoost ? nil : LGLocalizedString.bumpUpPaySuccess, afterMessageCompletion: { [weak self] in
+            self?.delegate?.vmResetBumpUpBannerCountdown()
+            self?.isShowingFeaturedStripe.value = true
+            if isBoost {
+                self?.bumpUpBoostSucceeded()
                 if let currentBumpUpInfo = self?.bumpUpBannerInfo.value {
                     let newBannerInfo = BumpUpInfo(type: .boost(boostBannerVisible: false),
                                                    timeSinceLastBump: 0,
@@ -1427,13 +1430,8 @@ extension ListingViewModel: PurchasesShopperDelegate {
                 } else {
                     self?.refreshBumpeableBanner()
                 }
-            })
-        } else {
-            delegate?.vmHideLoading(LGLocalizedString.bumpUpPaySuccess, afterMessageCompletion: { [weak self] in
-                self?.delegate?.vmResetBumpUpBannerCountdown()
-                self?.isShowingFeaturedStripe.value = true
-            })
-        }
+            }
+        })
     }
 
     func pricedBumpDidFail(type: BumpUpType, transactionStatus: EventParameterTransactionStatus,

@@ -19,7 +19,7 @@
 "bump_up_banner_pay_text" = "Add el gyorsabban";
 "bump_up_banner_pay_text_improvement" = "Add el gyorsabban";
 "bump_up_banner_wait_text" = "a következő kiemelésig";
-"bump_up_boost_success_alert_text" = "Hirdetésed láthatóságát ismét fokoztad! A következő 24 órában kiemelt hirdetés lesz.";
+"bump_up_boost_success_alert_text" = "Hirdetésed láthatóságát fokoztad! A következő 24 órában kiemelt hirdetés lesz.";
 "bump_up_error_bump_generic" = "Hiba történt a hirdetésed kiemelése során. Próbálkozz újra.";
 "bump_up_error_bump_token" = "A tranzakciót feldolgoztuk, de hirdetésed nincs kiemelve.";
 "bump_up_error_payment_failed" = "Nem sikerült kapcsolódni az App Store-hoz. Feldolgozatlan befizetés. Próbálkozz újra.";
@@ -247,7 +247,7 @@
 "common_error_retry_button" = "Ismét";
 "common_error_title" = "HOPPÁ!";
 "common_expand" = "Többet";
-"common_hours_mins_secs" = "%@h %@m %@s";
+"common_hours_mins_secs" = "%@ ó %@ p %@ mp";
 "common_loading" = "Betöltés...";
 "common_max" = "max";
 "common_new" = "ÚJ!";
@@ -907,6 +907,14 @@
 "real_estate_offer_type_sale" = "Eladó";
 "real_estate_offer_type_title" = "Hirdetés típusa";
 "real_estate_price_title" = "Ár";
+"real_estate_promo_post_button_title" = "Hirdetek";
+"real_estate_promo_title_version_1" = "Hirdess ingatlant";
+"real_estate_promo_title_version_2" = "Új! Hirdess eladó vagy kiadó ingatlant";
+"real_estate_promo_title_version_3" = "Új! Ingatlanok eladása és kiadása";
+"real_estate_promo_title_version_4" = "Ingatlanok eladása és kiadása";
+"real_estate_promo_title_version_5" = "Mostantól ingatlanokat is hirdethetsz";
+"real_estate_promo_title_version_6" = "Új! Ingatlanhirdetések a letgo piacán";
+"real_estate_promo_title_version_7" = "Eladó és kiadó ingatlanok";
 "real_estate_related_search_title" = "Kapcsolódó eredmények";
 "real_estate_rooms_over_ten" = "10 felett";
 "real_estate_rooms_studio" = "Stúdió (1+0)";

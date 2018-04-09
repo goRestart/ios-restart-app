@@ -85,6 +85,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     override func prepareForReuse() {
         super.prepareForReuse()
         recycleDisposeBag()
+        userView.prepareForReuse()
         previewImageView.image = nil
         userView.alpha = 0
         lastMoreInfoState = .hidden
@@ -93,6 +94,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     }
 
     func populateWith(cellModel listingViewModel: ListingCardViewCellModel, imageDownloader: ImageDownloaderType) {
+        userView.tag = self.tag
         self.imageDownloader = imageDownloader
         binder.bind(withViewModel: listingViewModel)
         populateWith(details: listingViewModel)
@@ -112,7 +114,10 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
 
     func populateWith(userInfo: ListingVMUserInfo?) {
         guard let info = userInfo else { return }
-        userView.populate(withUserName: info.name, icon: info.avatar, imageDownloader: ImageDownloader.sharedInstance)
+        userView.populate(withUserName: info.name,
+                          placeholder: info.avatarPlaceholder(),
+                          icon: info.avatar,
+                          imageDownloader: ImageDownloader.sharedInstance)
         UIView.animate(withDuration: 0.1) { self.userView.alpha = 1 }
     }
 
@@ -130,9 +135,13 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     }
 
     func populateWith(status: ListingViewModelStatus?, featured: Bool) {
-        guard let listingStatus = status else { return }
+        guard let listingStatus = status else {
+            statusView.isHidden = true
+            return
+        }
         statusTapGesture?.isEnabled = featured
-        statusView.isHidden = listingStatus.string == nil
+        let statusVisible = featured || listingStatus.shouldShowStatus
+        statusView.isHidden = !statusVisible
         statusView.setFeaturedStatus(listingStatus, featured: featured)
     }
 

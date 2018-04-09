@@ -19,7 +19,7 @@
 "bump_up_banner_pay_text" = "Hemen sat";
 "bump_up_banner_pay_text_improvement" = "Hemen sat";
 "bump_up_banner_wait_text" = "tekrar öne çıkarmak için";
-"bump_up_boost_success_alert_text" = "İlanına tekrar doping uygulandı! 24 saat boyunca öne çıkarılacak.";
+"bump_up_boost_success_alert_text" = "İlanına doping uygulandı! 24 saat boyunca öne çıkarılacak.";
 "bump_up_error_bump_generic" = "İlanın öne çıkarılırken bir hata oluştu. Lütfen tekrar dene.";
 "bump_up_error_bump_token" = "Ödemen gerçekleştirildi fakat ilanın öne çıkarılmadı.";
 "bump_up_error_payment_failed" = "App Store ile bağlantı gerçekleştirilemedi. Ödeme işlemin tamamlanmadı. Lütfen tekrar dene.";
@@ -907,6 +907,14 @@
 "real_estate_offer_type_sale" = "Satılık";
 "real_estate_offer_type_title" = "İlan Türü";
 "real_estate_price_title" = "Fiyat";
+"real_estate_promo_post_button_title" = "Hemen yükle";
+"real_estate_promo_title_version_1" = "Emlak İlanı Yayınla";
+"real_estate_promo_title_version_2" = "Yeni! Satılık ve kiralık emlak ilanı yayınla";
+"real_estate_promo_title_version_3" = "Yeni! Emlak sat veya kirala";
+"real_estate_promo_title_version_4" = "Emlak sat veya kirala";
+"real_estate_promo_title_version_5" = "Artık Emlak ilanları yayınlayabilirsin";
+"real_estate_promo_title_version_6" = "Yeni! letgo'da Emlak ilanları";
+"real_estate_promo_title_version_7" = "Satılık veya kiralık Emlak";
 "real_estate_related_search_title" = "Benzer sonuçlar";
 "real_estate_rooms_over_ten" = "10'dan fazla";
 "real_estate_rooms_studio" = "Stüdyo (1+0)";

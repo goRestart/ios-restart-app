@@ -501,7 +501,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
             describe("pagination") {
                 context("single item") {
                     beforeEach {
-                        listingListRequester.generateItems(30)
+                        listingListRequester.generateItems(30, allowDiscarded: false)
                         buildSut(initialProduct: product)
                     }
                     it("items count automatically becomes 21") {
@@ -514,7 +514,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                             var products = MockProduct.makeMocks(count: 20)
                             products[0] = product
                             let productListModels = products.map { ListingCellModel.listingCell(listing: .product($0)) }
-                            listingListRequester.generateItems(30)
+                            listingListRequester.generateItems(30, allowDiscarded: false)
                             buildSut(productListModels: productListModels, initialProduct: product)
                         }
                         it("doesn't paginate initially") {
@@ -534,7 +534,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                             var products = MockProduct.makeMocks(count: 20)
                             products[18] = product
                             let productListModels = products.map { ListingCellModel.listingCell(listing: .product($0)) }
-                            listingListRequester.generateItems(30)
+                            listingListRequester.generateItems(30, allowDiscarded: false)
                             buildSut(productListModels: productListModels, initialProduct: product)
                         }
                         it("paginates initially") {
@@ -547,7 +547,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                         //Simulating that we're on page 8-10
                         var products = MockProduct.makeMocks(count: 180)
                         products[160] = product
-                        listingListRequester.generateItems(200)
+                        listingListRequester.generateItems(200, allowDiscarded: false)
                         listingListRequester.offset = 180
                         let productListModels = products.map { ListingCellModel.listingCell(listing: .product($0)) }
                         buildSut(productListModels: productListModels, initialProduct: product)

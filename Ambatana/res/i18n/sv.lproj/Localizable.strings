@@ -907,6 +907,14 @@
 "real_estate_offer_type_sale" = "Till salu";
 "real_estate_offer_type_title" = "Typ av annons";
 "real_estate_price_title" = "Pris";
+"real_estate_promo_post_button_title" = "Annonsera Nu";
+"real_estate_promo_title_version_1" = "Annonsera Fastighet";
+"real_estate_promo_title_version_2" = "Nytt! Annonsera ut bostad till salu eller för uthyrning";
+"real_estate_promo_title_version_3" = "Nytt! Sälj eller hyr ut bostad";
+"real_estate_promo_title_version_4" = "Sälj eller hyr ut bostad";
+"real_estate_promo_title_version_5" = "Nu kan du annonsera ut Fastigheter";
+"real_estate_promo_title_version_6" = "Nytt! Fastighetsannonser på letgo";
+"real_estate_promo_title_version_7" = "Fastighet uthyres och säljes";
 "real_estate_related_search_title" = "Liknande resultat";
 "real_estate_rooms_over_ten" = "Över 10";
 "real_estate_rooms_studio" = "Studio (1+0)";

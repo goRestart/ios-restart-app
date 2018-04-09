@@ -299,7 +299,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     
     func collectionView(_ cv: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView(cv, cellForItemAt: indexPath) as? ListingCell
-        let thumbnailImage = cell?.thumbnailImageView.image
+        let thumbnailImage = cell?.thumbnailImage
         
         var newFrame: CGRect? = nil
         if let cellFrame = cell?.frame {

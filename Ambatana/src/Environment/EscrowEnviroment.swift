@@ -47,5 +47,7 @@ class EscrowEnvironment: AppEnvironment {
     // MoPub Ads
     let feedAdUnitIdMoPubUSAForAllUsers = ""
     let feedAdUnitIdMoPubUSAForOldUsers = ""
+    let feedAdUnitIdMoPubTRForAllUsers = ""
+    let feedAdUnitIdMoPubTRForOldUsers = ""
     
 }

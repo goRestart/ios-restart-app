@@ -6,17 +6,14 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-enum ABType {
-    case bool
-    case int
-    case string
-    case float
-    case none
+protocol ABRegistrable {
+    func register()
 }
 
-enum ABGroupType {
+enum ABGroup {
     case legacyABTests
     case core
+    case verticals
     case realEstate
     case money
     case retention
@@ -25,103 +22,85 @@ enum ABGroupType {
     case users
 }
 
-protocol ABDynamicVar {
-    associatedtype ValueType
-    var key: String { get }
-    var type: ABType { get }
-    var value: ValueType { get }
-    var defaultValue: ValueType { get }
-    var lpVar: LPVar { get }
-    var trackingData: String { get }
-}
-
-struct BoolABDynamicVar: ABDynamicVar, ABVariable {
-    let key: String
-    let type: ABType
-    let defaultValue: Bool
-    let lpVar: LPVar
-    var value: Bool {
-        return lpVar.boolValue()
-    }
-    let abGroupType: ABGroupType
-
-    init(key: String, defaultValue: Bool, abGroupType: ABGroupType) {
-        self.key = key
-        self.type = .bool
-        self.defaultValue = defaultValue
-        self.lpVar = LPVar.define(key, with: defaultValue)
-        self.abGroupType = abGroupType
-    }
-}
-
-struct StringABDynamicVar: ABDynamicVar, ABVariable {
-    let key: String
-    let type: ABType
-    let defaultValue: String
-    let lpVar: LPVar
-    var value: String {
-        return lpVar.stringValue()
-    }
-    let abGroupType: ABGroupType
-
-    init(key: String, defaultValue: String, abGroupType: ABGroupType) {
-        self.key = key
-        self.type = .string
-        self.defaultValue = defaultValue
-        self.lpVar = LPVar.define(key, with: defaultValue)
-        self.abGroupType = abGroupType
-    }
-}
-
-struct IntABDynamicVar: ABDynamicVar, ABVariable {
-    let key: String
-    let type: ABType
-    let defaultValue: Int
-    let lpVar: LPVar
-    var value: Int {
-        return lpVar.longValue()
-    }
-    let abGroupType: ABGroupType
-    
-    init(key: String, defaultValue: Int, abGroupType: ABGroupType) {
-        self.key = key
-        self.type = .int
-        self.defaultValue = defaultValue
-        self.lpVar = LPVar.define(key, withLong: defaultValue)
-        self.abGroupType = abGroupType
-    }
-}
-
-struct FloatABDynamicVar: ABDynamicVar, ABVariable {
-    let key: String
-    let type: ABType
-    let defaultValue: Float
-    let lpVar: LPVar
-    var value: Float {
-        return lpVar.floatValue()
-    }
-    let abGroupType: ABGroupType
-    
-    init(key: String, defaultValue: Float, abGroupType: ABGroupType) {
-        self.key = key
-        self.type = .float
-        self.defaultValue = defaultValue
-        self.lpVar = LPVar.define(key, with: defaultValue)
-        self.abGroupType = abGroupType
-    }
-}
-
 protocol ABVariable {
     var trackingData: String { get }
-    var abGroupType: ABGroupType { get }
-    func register()
+    var abGroupType: ABGroup { get }
 }
 
-extension ABDynamicVar {
-    var trackingData: String {
-        return "\(key)-\(value)"
+protocol ABTrackable {
+    var nameAndGroup: (String, ABGroup) { get }
+}
+
+final class LeanplumABVariable<U: Hashable>: Hashable, ABVariable, ABTrackable {
+    var value: U { return unwrap(lpVar) }
+    private let lpVar: LPVar
+    private let unwrap: ((LPVar) -> U)
+    let defaultValue: U
+
+    var nameAndGroup: (String, ABGroup) { return (trackingData, abGroupType) }
+    var trackingData: String { return "\(key)-\(value)" }
+    let abGroupType: ABGroup
+    private let key: String
+
+    init(key: String,
+         defaultValue: U,
+         unwrap: @escaping ((LPVar) -> U),
+         groupType: ABGroup,
+         lpVar: LPVar) {
+        self.key = key
+        self.defaultValue = defaultValue
+        self.unwrap = unwrap
+        self.abGroupType = groupType
+        self.lpVar = lpVar
     }
+
+    var hashValue: Int {
+        return value.hashValue
+    }
+
+    static func ==(lhs: LeanplumABVariable<U>, rhs: LeanplumABVariable<U>) -> Bool {
+        return lhs.key == rhs.key && lhs.value == rhs.value
+    }
+
+    static func makeBool(key: String, defaultValue: Bool, groupType: ABGroup) -> LeanplumABVariable<Bool> {
+        let lpVar = LPVar.define(key, with: defaultValue)!
+        return LeanplumABVariable<Bool>.init(key: key,
+                                             defaultValue: defaultValue,
+                                             unwrap: { (lpvar) -> Bool in return lpvar.boolValue() },
+                                             groupType: groupType,
+                                             lpVar: lpVar)
+    }
+
+    static func makeInt(key: String, defaultValue: Int, groupType: ABGroup) -> LeanplumABVariable<Int> {
+        let lpVar = LPVar.define(key, with: defaultValue)!
+        return LeanplumABVariable<Int>.init(key: key,
+                                            defaultValue: defaultValue,
+                                            unwrap: { (lpvar) -> Int in return lpvar.longValue() },
+                                            groupType: groupType,
+                                            lpVar: lpVar)
+    }
+
+    static func makeInt(key: String, defaultValue: Float, groupType: ABGroup) -> LeanplumABVariable<Float> {
+        let lpVar = LPVar.define(key, with: defaultValue)!
+        return LeanplumABVariable<Float>.init(key: key,
+                                              defaultValue: defaultValue,
+                                              unwrap: { (lpvar) -> Float in return lpvar.floatValue() },
+                                              groupType: groupType,
+                                              lpVar: lpVar)
+    }
+
+    static func makeString(key: String, defaultValue: String, groupType: ABGroup) -> LeanplumABVariable<String> {
+        let lpVar = LPVar.define(key, with: defaultValue)!
+        return LeanplumABVariable<String>.init(key: key,
+                                               defaultValue: defaultValue,
+                                               unwrap: { (lpvar) -> String in return lpvar.stringValue() },
+                                               groupType: groupType,
+                                               lpVar: lpVar)
+    }
+}
+
+extension LeanplumABVariable: ABRegistrable {
     func register() {
-        let _ = self.value
+        let _ = value
     }
 }
