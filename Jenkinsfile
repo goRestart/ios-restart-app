@@ -2,7 +2,7 @@ import hudson.model.Result
 import jenkins.model.CauseOfInterruption.UserInterruption
 properties([
    // Jenkins executions properties, keeping 20 executions, getting rollbackBuild Param and 2h timeout
-  buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '20')), 
+  buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '5', numToKeepStr: '20')), 
   parameters([string(defaultValue: '', description: '', name: 'rollBackBuild')]), 
   pipelineTriggers([[$class: 'PeriodicFolderTrigger', interval: '2h']])
 ])
@@ -31,7 +31,7 @@ def stopPreviousRunningBuilds() {
   builds.each{ build ->
     def exec = build.getExecutor()
 
-    if (build.number != currentBuild.number && exec != null) {
+    if (build.number < currentBuild.number && exec != null) {
       exec.interrupt(
         Result.ABORTED,
         build.result = Result.ABORTED,
@@ -47,7 +47,7 @@ def stopPreviousRunningBuilds() {
 def launchUnitTests(){
   node(node_name){
     stage ("Unit Test"){
-      checkout([
+    checkout([
     $class: 'GitSCM',
     branches: scm.branches,
     extensions: [[$class: 'CloneOption', noTags: false, shallow: true, depth: 0, reference: '']],
