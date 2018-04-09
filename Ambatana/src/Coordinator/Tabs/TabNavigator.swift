@@ -83,6 +83,7 @@ protocol ListingDetailNavigator: TabNavigator {
                                               alertType: AlertType,
                                               buttonsLayout: AlertButtonsLayout,
                                               actions: [UIAction])
+    func showBumpUpBoostSucceededAlert()
     func openContactUs(forListing listing: Listing, contactUstype: ContactUsType)
     func openFeaturedInfo()
     func closeFeaturedInfo()

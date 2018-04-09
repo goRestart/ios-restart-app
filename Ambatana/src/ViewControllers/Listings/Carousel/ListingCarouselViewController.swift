@@ -1320,19 +1320,6 @@ extension ListingCarouselViewController: ListingCarouselViewModelDelegate {
         bumpUpBanner.resetCountdown()
     }
 
-    func vmBoostDidSuccess() {
-        let boostSuccessAlert = BoostSuccessAlertView()
-        navigationController?.view.addSubviewForAutoLayout(boostSuccessAlert)
-        boostSuccessAlert.layout(with: view).fill()
-        boostSuccessAlert.alpha = 0
-        view.layoutIfNeeded()
-        UIView.animate(withDuration: 0.3) { [weak self] in
-            boostSuccessAlert.alpha = 1
-            boostSuccessAlert.startAnimation()
-        }
-    }
-
-
     // Loadings and alerts overrides to remove keyboard before showing
 
     override func vmShowLoading(_ loadingMessage: String?) {

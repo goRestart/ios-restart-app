@@ -509,6 +509,19 @@ extension TabCoordinator: ListingDetailNavigator {
                                                 actions: actions)
     }
 
+    func showBumpUpBoostSucceededAlert() {
+        let boostSuccessAlert = BoostSuccessAlertView()
+        // the alert view has a thin blur that has to cover the nav bar too
+        navigationController.view.addSubviewForAutoLayout(boostSuccessAlert)
+        boostSuccessAlert.layout(with: navigationController.view).fill()
+        boostSuccessAlert.alpha = 0
+        navigationController.view.layoutIfNeeded()
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            boostSuccessAlert.alpha = 1
+            boostSuccessAlert.startAnimation()
+        }
+    }
+
     func openContactUs(forListing listing: Listing, contactUstype: ContactUsType) {
         guard let user = myUserRepository.myUser,
             let installation = installationRepository.installation,
