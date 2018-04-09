@@ -57,23 +57,46 @@ public struct PostalAddress: Equatable, Decodable {
      */
 
     public init(from decoder: Decoder) throws {
+        let keyedContainerSnakeCase = try decoder.container(keyedBy: CodingKeysSnakeCase.self)
+        let keyedContainerCamelCase = try decoder.container(keyedBy: CodingKeysCamelCase.self)
         let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
+        
         address = try keyedContainer.decodeIfPresent(String.self, forKey: .address)
         city = try keyedContainer.decodeIfPresent(String.self, forKey: .city)
-        zipCode = try keyedContainer.decodeIfPresent(String.self, forKey: .zipCode)
+
+        
+        if let zipCodeValue = try keyedContainerSnakeCase.decodeIfPresent(String.self, forKey: .zipCode) {
+            zipCode = zipCodeValue
+        } else {
+          zipCode = try keyedContainerCamelCase.decodeIfPresent(String.self, forKey: .zipCode)
+        }
+        
         state = try keyedContainer.decodeIfPresent(String.self, forKey: .state)
-        countryCode = try keyedContainer.decodeIfPresent(String.self, forKey: .countryCode)
-        // TODO: some requests return country key as country_name
+        
+        if let countryCodeValue = try keyedContainerSnakeCase.decodeIfPresent(String.self, forKey: .countryCode) {
+            countryCode = countryCodeValue
+        } else {
+            countryCode = try keyedContainerCamelCase.decodeIfPresent(String.self, forKey: .countryCode)
+        }
+        
         country = try keyedContainer.decodeIfPresent(String.self, forKey: .country)
     }
     
     enum CodingKeys: String, CodingKey {
         case address = "address"
         case city = "city"
-        case zipCode = "zip_code"
         case state = "state"
-        case countryCode = "country_code"
         case country = "country"
+    }
+    
+    enum CodingKeysSnakeCase: String, CodingKey {
+        case zipCode = "zip_code"
+        case countryCode = "country_code"
+    }
+    
+    enum CodingKeysCamelCase: String, CodingKey {
+        case zipCode = "zipCode"
+        case countryCode = "countryCode"
     }
     
     // MARK: Equatable

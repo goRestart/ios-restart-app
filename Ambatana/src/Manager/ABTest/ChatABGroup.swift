@@ -11,16 +11,12 @@ import Foundation
 struct ChatABGroup: ABGroupType {
     private struct Keys {
         static let showInactiveConversations = "20180206ShowInactiveConversations"
-        static let showSecurityMeetingChatMessage = "20180207ShowSecurityMeetingChatMessage"
-        static let emojiSizeIncrement = "20180212EmojiSizeIncrement"
         static let showChatSafetyTips = "20180226ShowChatSafetyTips"
         static let userIsTyping = "20180305UserIsTyping"
         static let markAllConversationsAsRead = "20180321MarkAllConversationsAsRead"
     }
 
     let showInactiveConversations: LeanplumABVariable<Bool>
-    let showSecurityMeetingChatMessage: LeanplumABVariable<Int>
-    let emojiSizeIncrement: LeanplumABVariable<Int>
     let showChatSafetyTips: LeanplumABVariable<Bool>
     let userIsTyping: LeanplumABVariable<Int>
     let markAllConversationsAsRead: LeanplumABVariable<Bool>
@@ -32,21 +28,15 @@ struct ChatABGroup: ABGroupType {
     var boolVariables: [LeanplumABVariable<Bool>] = []
 
     init(showInactiveConversations: LeanplumABVariable<Bool>,
-         showSecurityMeetingChatMessage: LeanplumABVariable<Int>,
-         emojiSizeIncrement: LeanplumABVariable<Int>,
          showChatSafetyTips: LeanplumABVariable<Bool>,
          userIsTyping: LeanplumABVariable<Int>,
          markAllConversationsAsRead: LeanplumABVariable<Bool>) {
         self.showInactiveConversations = showInactiveConversations
-        self.showSecurityMeetingChatMessage = showSecurityMeetingChatMessage
-        self.emojiSizeIncrement = emojiSizeIncrement
         self.showChatSafetyTips = showChatSafetyTips
         self.userIsTyping = userIsTyping
         self.markAllConversationsAsRead = markAllConversationsAsRead
 
-        intVariables.append(contentsOf: [showSecurityMeetingChatMessage,
-                                         emojiSizeIncrement,
-                                         userIsTyping])
+        intVariables.append(contentsOf: [userIsTyping])
         boolVariables.append(contentsOf: [showInactiveConversations,
                                           showChatSafetyTips,
                                           markAllConversationsAsRead])
@@ -56,12 +46,6 @@ struct ChatABGroup: ABGroupType {
         return ChatABGroup(showInactiveConversations: .makeBool(key: Keys.showInactiveConversations,
                                                                 defaultValue: false,
                                                                 groupType: .chat),
-                           showSecurityMeetingChatMessage: .makeInt(key: Keys.showSecurityMeetingChatMessage,
-                                                                    defaultValue: 0,
-                                                                    groupType: .chat),
-                           emojiSizeIncrement: .makeInt(key: Keys.emojiSizeIncrement,
-                                                        defaultValue: 0,
-                                                        groupType: .chat),
                            showChatSafetyTips: .makeBool(key: Keys.showChatSafetyTips,
                                                          defaultValue: false,
                                                          groupType: .chat),
