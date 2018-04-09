@@ -62,8 +62,16 @@ class SearchRelatedListingListRequester: ListingListRequester {
     }
     
     private func retrieve(_ completion: ListingsCompletion?) {
-        if let categories = filters?.selectedCategories, categories.contains(.realEstate) {
+        guard let category = filters?.selectedCategories.last else { return }
+        switch category {
+        case .realEstate:
             listingRepository.indexRealEstateRelatedSearch(retrieveListingsParams, completion: completion)
+        case .cars:
+            listingRepository.indexCarsRelatedSearch(retrieveListingsParams, completion: completion)
+        case .babyAndChild, .electronics, .fashionAndAccesories, .homeAndGarden, .motorsAndAccessories,
+            .moviesBooksAndMusic, .other, .services, .sportsLeisureAndGames,
+            .unassigned:
+            break
         }
     }
     

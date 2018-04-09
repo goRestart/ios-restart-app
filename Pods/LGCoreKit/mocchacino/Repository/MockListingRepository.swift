@@ -235,4 +235,13 @@ open class MockListingRepository: ListingRepository {
     public func retrieveTransactionsOf(listingId: String, completion: ListingTransactionsCompletion?) {
         delay(result: transactionsResult, completion: completion)
     }
+    public func indexCars(_ params: RetrieveListingParams, completion: ListingsCompletion?) {
+        delay(result: indexResult, completion: completion)
+    }
+    public func indexCarsRelatedSearch(_ params: RetrieveListingParams, completion: ListingsCompletion?) {
+        delay(result: indexResult, completion: completion)
+    }
+    public func indexRelatedCars(listingId: String, params: RetrieveListingParams, completion: ListingsCompletion?) {
+        delay(result: indexResult, completion: completion)
+    }
 }
