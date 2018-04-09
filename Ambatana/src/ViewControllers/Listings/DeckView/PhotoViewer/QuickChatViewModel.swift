@@ -14,9 +14,6 @@ import LGCoreKit
 final class QuickChatViewModel: QuickChatViewModelRx, DirectAnswersHorizontalViewDelegate {
     var listingViewModel: ListingViewModel?
 
-    let areAnswersDynamic: Variable<Bool> = Variable<Bool>(false)
-    var rxAreAnswersDynamic: Driver<Bool> { return areAnswersDynamic.asDriver() }
-
     var rxDirectChatPlaceholder: Observable<String> { return directChatPlaceholder.asObservable() }
     var rxQuickAnswers: Observable<[QuickAnswer]> { return quickAnswers.asObservable() }
 

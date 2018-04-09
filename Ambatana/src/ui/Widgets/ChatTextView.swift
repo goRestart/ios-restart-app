@@ -117,13 +117,6 @@ class ChatTextView: UIView {
         sendButton.isEnabled = true
         initialTextActive = true
     }
-    
-    // TODO RET: Check if delete
-//    func setText(_ text: String) {
-//        textView.text = text
-//        textView.becomeFirstResponder()
-//        sendButton.isEnabled = true
-//    }
 
 
     // MARK: - Private methods

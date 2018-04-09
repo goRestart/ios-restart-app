@@ -27,9 +27,6 @@ protocol QuickChatViewType: class {
 }
 
 protocol QuickChatViewModelRx: class {
-    var areAnswersDynamic: Variable<Bool> { get }
-    var rxAreAnswersDynamic: Driver<Bool> { get }
-
     var directChatPlaceholder: Variable<String> { get }
     var rxDirectChatPlaceholder: Observable<String> { get }
 
@@ -58,10 +55,6 @@ final class QuickChatViewBinder {
         guard let chatView = quickChatView else { return }
 
         viewModel.rxDirectChatPlaceholder.bind(to: chatView.rxPlaceholder).disposed(by:bag)
-
-        viewModel.rxAreAnswersDynamic.filter { !$0 }.drive(onNext: { [weak chatView] (dynamic) in
-            chatView?.setInitialText(LGLocalizedString.chatExpressTextFieldText)
-        }).disposed(by: bag)
 
         chatView.rxToSendMessage.bind { [weak chatView, weak viewModel] message in
             guard let quickChatView = chatView else { return }

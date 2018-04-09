@@ -269,7 +269,6 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         let startIndexPath = IndexPath(item: viewModel.startIndex, section: 0)
         collectionView.scrollToItem(at: startIndexPath, at: .right, animated: false)
 
-        // TODO RET: check is this caller movement still works
         chatTextView.setInitialText(LGLocalizedString.chatExpressTextFieldText)
         
         setupMoreInfo()

@@ -207,6 +207,7 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
         textViewBottom?.isActive = true
         textView.setContentCompressionResistancePriority(.required, for: .vertical)
         textView.backgroundColor = .clear
+        setInitialText(LGLocalizedString.chatExpressTextFieldText)
     }
 
     private func setupDirectAnswers() {
