@@ -170,8 +170,9 @@ extension UIFont {
     static var userProfileTabsNameSelectedFont: UIFont { return UIFont.systemBoldFont(size: 15) }
 }
 
-// MARK: - SMS Verification
+// MARK: - sms Verification
 extension UIFont {
     static var smsVerificationPhoneInputDescription: UIFont { return UIFont.systemMediumFont(size: 20) }
     static var smsVerificationPhoneInputBigText: UIFont { return UIFont.systemBoldFont(size: 30) }
+    static var smsVerificationCountryListCellText: UIFont { return UIFont.systemBoldFont(size: 23) }
 }
