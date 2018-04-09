@@ -58,6 +58,7 @@ extension Bumper  {
         flags.append(FeedAdsProviderForUS.self)
         flags.append(CopyForChatNowInEnglish.self)
         flags.append(FeedAdsProviderForTR.self)
+        flags.append(SearchCarsIntoNewBackend.self)
         Bumper.initialize(flags)
     } 
 
@@ -284,6 +285,11 @@ extension Bumper  {
     static var feedAdsProviderForTR: FeedAdsProviderForTR {
         guard let value = Bumper.value(for: FeedAdsProviderForTR.key) else { return .control }
         return FeedAdsProviderForTR(rawValue: value) ?? .control 
+    }
+
+    static var searchCarsIntoNewBackend: SearchCarsIntoNewBackend {
+        guard let value = Bumper.value(for: SearchCarsIntoNewBackend.key) else { return .control }
+        return SearchCarsIntoNewBackend(rawValue: value) ?? .control 
     } 
 }
 
@@ -973,6 +979,22 @@ enum FeedAdsProviderForTR: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .moPubAdsForAllUsers
             case 3: return .moPubAdsForOldUsers
+            default: return .control
+        }
+    }
+}
+
+enum SearchCarsIntoNewBackend: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return SearchCarsIntoNewBackend.control.rawValue }
+    static var enumValues: [SearchCarsIntoNewBackend] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Search cars into the new Search Car end point" } 
+    static func fromPosition(_ position: Int) -> SearchCarsIntoNewBackend {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
             default: return .control
         }
     }

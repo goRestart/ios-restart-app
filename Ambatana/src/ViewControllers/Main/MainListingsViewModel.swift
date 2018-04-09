@@ -307,7 +307,8 @@ class MainListingsViewModel: BaseViewModel {
         let itemsPerPage = show3Columns ? Constants.numListingsPerPageBig : Constants.numListingsPerPageDefault
         self.listingListRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                         queryString: searchType?.query,
-                                                                                        itemsPerPage: itemsPerPage)
+                                                                                        itemsPerPage: itemsPerPage,
+                                                                                        carSearchActive: featureFlags.searchCarsIntoNewBackend.isActive)
         self.listViewModel = ListingListViewModel(requester: self.listingListRequester, listings: nil,
                                                   numberOfColumns: columns, tracker: tracker)
         self.listViewModel.listingListFixedInset = show3Columns ? 6 : 10
@@ -633,7 +634,8 @@ class MainListingsViewModel: BaseViewModel {
 
         listingListRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                    queryString: queryString,
-                                                                                   itemsPerPage: currentItemsPerPage)
+                                                                                   itemsPerPage: currentItemsPerPage,
+                                                                                   carSearchActive: featureFlags.searchCarsIntoNewBackend.isActive)
 
         listViewModel.listingListRequester = listingListRequester
 

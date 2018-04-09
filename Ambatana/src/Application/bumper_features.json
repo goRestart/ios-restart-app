@@ -224,5 +224,10 @@
         "name": "FeedAdsProviderForTR",
         "values": ["control", "baseline", "MoPubAdsForAllUsers", "MoPubAdsForOldUsers"],
         "description": "Change logic for showing ads with diferent ads providers in TR"
+    },
+    {
+        "name": "SearchCarsIntoNewBackend",
+        "values": ["control", "baseline", "active"],
+        "description": "Search cars into the new Search Car end point"
     }
 ]
