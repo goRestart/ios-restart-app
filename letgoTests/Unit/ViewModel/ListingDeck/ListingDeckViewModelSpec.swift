@@ -84,11 +84,12 @@ final class ListingDeckViewModelSpec: BaseViewModelSpec {
                                            imageDownloader: imageDownloader,
                                            listingViewModelMaker: listingViewModelMaker,
                                            myUserRepository: myUserRepository,
-                                           pagination: Pagination.makePagination(first: 0, next: 50, isLast: false),
+                                           pagination: Pagination.makePagination(first: 0, next: 1, isLast: false),
                                            prefetching: Prefetching(previousCount: 3, nextCount: 3),
                                            shouldSyncFirstListing: firstProductSyncRequired,
                                            binder: ListingDeckViewModelBinder(),
                                            tracker: tracker,
+
                                            actionOnFirstAppear: actionOnFirstAppear,
                                            trackingIndex: nil)
 
