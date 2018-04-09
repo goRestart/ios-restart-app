@@ -43,6 +43,9 @@ class DevelopmentEnvironment: AppEnvironment {
     let feedAdUnitIdDFPUSA15Ratio = "/21666124832/us/iOS/feed/fluid_var_b"
     let feedAdUnitIdDFPUSA20Ratio = "/21666124832/us/iOS/feed/fluid_var_c"
     
+    var feedAdUnitIdAdxUSAForAllUsers = "/21666124832/us/iOS/feed/c_render_var_a"
+    var feedAdUnitIdAdxUSAForOldUsers = "/21666124832/us/iOS/feed/c_render_var_b"
+    
     // MoPub Ads
     let feedAdUnitIdMoPubUSAForAllUsers = "23d1d6db6b9848ba94f27887bb3585d2"
     let feedAdUnitIdMoPubUSAForOldUsers = "657d10ec0c1c48c3a280766a4dd821f4"

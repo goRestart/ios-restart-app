@@ -27,6 +27,15 @@ class AdvertisementCell: UICollectionViewCell, ReusableCell {
         moPubView.set(accessibilityId: .advertisementCellBanner)
     }
     
+    func setupWith(adxData: AdvertisementAdxData) {
+        guard let adxNativeView = adxData.adxNativeView else { return }
+        adxNativeView.frame = contentView.frame
+        contentView.addSubviewForAutoLayout(adxNativeView)
+        adxNativeView.layout(with: contentView).fill()
+        adxNativeView.set(accessibilityId: .advertisementCellBanner)
+        
+    }
+    
     convenience init() {
         self.init(frame: .zero)
     }

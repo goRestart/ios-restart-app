@@ -24,6 +24,7 @@ class GridDrawerManager {
     private let emptyCellDrawer = EmptyCellDrawer()
     private let advertisementDFPDrawer = AdvertisementDFPCellDrawer()
     private let advertisementMoPubDrawer = AdvertisementMoPubCellDrawer()
+    private let advertisementAdxDrawer = AdvertisementAdxCellDrawer()
     private let mostSearchedItemsDrawer = MostSearchedItemsCellDrawer()
     private let showFeaturedStripeHelper = ShowFeaturedStripeHelper(featureFlags: FeatureFlags.sharedInstance,
                                                                     myUserRepository: Core.myUserRepository)
@@ -41,6 +42,7 @@ class GridDrawerManager {
         EmptyCellDrawer.registerClassCell(collectionView)
         AdvertisementDFPCellDrawer.registerClassCell(collectionView)
         AdvertisementMoPubCellDrawer.registerClassCell(collectionView)
+        AdvertisementAdxCellDrawer.registerClassCell(collectionView)
         MostSearchedItemsCellDrawer.registerClassCell(collectionView)
     }
     
@@ -56,6 +58,8 @@ class GridDrawerManager {
             return advertisementDFPDrawer.cell(collectionView, atIndexPath: atIndexPath)
         case .mopubAdvertisement:
             return advertisementMoPubDrawer.cell(collectionView, atIndexPath: atIndexPath)
+        case .adxAdvertisement:
+            return advertisementAdxDrawer.cell(collectionView, atIndexPath: atIndexPath)
         case .mostSearchedItems:
             return mostSearchedItemsDrawer.cell(collectionView, atIndexPath: atIndexPath)
         }

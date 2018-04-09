@@ -17,6 +17,7 @@ enum ListingCellModel {
     case emptyCell(vm: LGEmptyViewModel)
     case dfpAdvertisement(data: AdvertisementDFPData)
     case mopubAdvertisement(data: AdvertisementMoPubData)
+    case adxAdvertisement(data: AdvertisementAdxData)
     case mostSearchedItems(data: MostSearchedItemsCardData)
     
     init(listing: Listing) {
@@ -120,6 +121,19 @@ struct AdvertisementMoPubData {
     var nativeAdRequest: MPNativeAdRequest?
     var moPubNativeAd: MPNativeAd?
     var moPubView: UIView?
+}
+
+struct AdvertisementAdxData {
+    var adUnitId: String
+    var rootViewController: UIViewController
+    var adPosition: Int
+    var bannerHeight: CGFloat
+    var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio
+    var adRequested: Bool
+    var categories: [ListingCategory]?
+    
+    var adLoader: GADAdLoader
+    var adxNativeView: GADNativeContentAdView?
 }
 
 enum AdProviderType {

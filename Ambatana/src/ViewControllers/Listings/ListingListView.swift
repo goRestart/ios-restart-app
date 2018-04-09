@@ -574,6 +574,18 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
                 self.vmReloadItemAtIndexPath(indexPath: IndexPath(row: inPosition, section: 0))
             })
             break
+        case .adxAdvertisement(let data):
+            guard !data.adRequested else { return }
+            // TODO: assign adLoader delegate to self
+            // TODO: Call to AdxAdsRequester method to request an ad
+//            MoPubAdsRequester.startMoPubRequestWith(data: data, completion: { (nativeAd, moPubView) in
+//                guard let nativeAd = nativeAd, let moPubView = moPubView else { return }
+//                nativeAd.delegate = self
+//                moPubView.tag = data.adPosition
+//                self.viewModel.updateAdvertisementRequestedIn(position: inPosition, moPubNativeAd: nativeAd, moPubView: moPubView)
+//                self.vmReloadItemAtIndexPath(indexPath: IndexPath(row: inPosition, section: 0))
+//            })
+            break
         case .collectionCell, .emptyCell, .listingCell, .mostSearchedItems:        
             break
         }
@@ -658,6 +670,18 @@ extension ListingListView: MPNativeAdDelegate {
                                   feedPosition: feedPosition)
     }
     
+}
+
+// MARK: - GADNativeContentAdLoaderDelegate
+extension ListingListView: GADNativeContentAdLoaderDelegate, GADAdLoaderDelegate {
+    public func adLoader(_ adLoader: GADAdLoader, didReceive nativeContentAd: GADNativeContentAd) {
+        viewModel.updateAdvertisementRequestedIn(position: <#T##Int#>, moPubNativeAd: <#T##MPNativeAd?#>, moPubView: <#T##UIView#>)
+        viewModel.updateAdvertisementRequestedIn(position: <#T##Int#>, nativeContentAd: <#T##GADNativeContentAd#>, GADNativeContentAdView: <#T##GADNativeContentAdView#>)
+    }
+    
+    public func adLoader(_ adLoader: GADAdLoader, didFailToReceiveAdWithError error: GADRequestError) {
+        
+    }
 }
 
 extension ListingListView {

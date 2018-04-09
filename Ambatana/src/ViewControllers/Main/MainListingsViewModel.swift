@@ -917,16 +917,16 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                                                                   adPosition: adPositionInPage) else { break }
             var adsCellModel: ListingCellModel
             
+            guard let feedAdUnitId = featureFlags.feedAdUnitId else { return listings }
             if featureFlags.feedAdsProviderForUS.shouldShowMoPubAds || featureFlags.feedAdsProviderForTR.shouldShowMoPubAds {
-                guard let adUnit = featureFlags.feedMoPubAdUnitId else { return listings }
                 let settings = MPStaticNativeAdRendererSettings()
                 var configurations = Array<MPNativeAdRendererConfiguration>()
                 settings.renderingViewClass = MoPubNativeView.self
                 let config = MPStaticNativeAdRenderer.rendererConfiguration(with: settings)
                 configurations.append(config!)
-                let nativeAdRequest = MPNativeAdRequest.init(adUnitIdentifier: adUnit,
+                let nativeAdRequest = MPNativeAdRequest.init(adUnitIdentifier: feedAdUnitId,
                                                              rendererConfigurations: configurations)
-                let adData = AdvertisementMoPubData(adUnitId: adUnit,
+                let adData = AdvertisementMoPubData(adUnitId: feedAdUnitId,
                                                     rootViewController: adsDelegate.rootViewControllerForAds(),
                                                     adPosition: lastAdPosition,
                                                     bannerHeight: LGUIKitConstants.advertisementCellMoPubHeight,
@@ -937,6 +937,31 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                                                     moPubNativeAd: nil,
                                                     moPubView: MoPubBlankStateView())
                 adsCellModel = ListingCellModel.mopubAdvertisement(data: adData)
+                
+            } else if featureFlags.feedAdsProviderForUS.shouldShowGoogleAdxAds {
+                let adLoader = GADAdLoader(adUnitID: feedAdUnitId,
+                                           rootViewController: adsDelegate.rootViewControllerForAds(),
+                                           adTypes: [GADAdLoaderAdType.nativeContent],
+                                           options: [])
+                var customTargetingValue = ""
+                
+                if featureFlags.showAdsInFeedWithRatio.isActive {
+                    customTargetingValue = featureFlags.showAdsInFeedWithRatio.customTargetingValueFor(position: lastAdPosition)
+                } else if featureFlags.noAdsInFeedForNewUsers.shouldShowAdsInFeed {
+                    customTargetingValue = featureFlags.noAdsInFeedForNewUsers.customTargetingValueFor(position: lastAdPosition)
+                }
+//                request.customTargeting = [Constants.adInFeedCustomTargetingKey: customTargetingValue]
+                
+                let adData = AdvertisementAdxData(adUnitId: feedAdUnitId,
+                                                  rootViewController: adsDelegate.rootViewControllerForAds(),
+                                                  adPosition: lastAdPosition,
+                                                  bannerHeight: LGUIKitConstants.advertisementCellMoPubHeight,
+                                                  showAdsInFeedWithRatio: featureFlags.showAdsInFeedWithRatio,
+                                                  adRequested: false,
+                                                  categories: filters.selectedCategories,
+                                                  adLoader: adLoader,
+                                                  adxNativeView: nil)
+                adsCellModel = ListingCellModel.adxAdvertisement(data: adData)
                 
             } else {
                 guard let feedAdUnitId = featureFlags.feedDFPAdUnitId else { return listings }
