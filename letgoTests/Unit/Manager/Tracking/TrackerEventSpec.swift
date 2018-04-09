@@ -11,7 +11,7 @@ class TrackerEventSpec: QuickSpec {
         var sut: TrackerEvent!
         var user: MockUser!
         
-        fdescribe("factory methods") {
+        describe("factory methods") {
             
             describe("location") {
                 context("event name") {
