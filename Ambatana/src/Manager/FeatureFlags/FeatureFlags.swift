@@ -70,6 +70,7 @@ protocol FeatureFlaggeable: class {
     var showProTagUserProfile: Bool { get }
     var summaryAsFirstStep: SummaryAsFirstStep { get }
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem { get }
+    var searchCarsIntoNewBackend: SearchCarsIntoNewBackend { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -332,6 +333,10 @@ extension FeedAdsProviderForTR {
             return shouldShowAdsInFeedForOldUsers
         }
     }
+}
+
+extension SearchCarsIntoNewBackend {
+    var isActive: Bool { return self == .active }
 }
 
 extension CopyForChatNowInEnglish {
@@ -701,7 +706,13 @@ class FeatureFlags: FeatureFlaggeable {
         let cached = dao.retrieveShowAdvanceReputationSystem()
         return cached ?? ShowAdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value)
     }
-
+    
+    var searchCarsIntoNewBackend: SearchCarsIntoNewBackend {
+        if Bumper.enabled {
+            return Bumper.searchCarsIntoNewBackend
+        }
+        return SearchCarsIntoNewBackend.fromPosition(abTests.searchCarsIntoNewBackend.value)
+    }
 
     
     // MARK: - Country features
