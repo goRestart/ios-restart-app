@@ -61,6 +61,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var realEstateTutorial: RealEstateTutorial = .control
     var summaryAsFirstStep: SummaryAsFirstStep = .control
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem = .control
+    var searchCarsIntoNewBackend: SearchCarsIntoNewBackend = .control
 
     // Country dependant features
     var freePostingModeAllowed = false
@@ -75,6 +76,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var copyForChatNowInTurkey: CopyForChatNowInTurkey = .control
     var feedAdsProviderForUS: FeedAdsProviderForUS = .control
     var feedMoPubAdUnitId: String? = ""
+    var feedAdsProviderForTR: FeedAdsProviderForTR = .control
     
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false

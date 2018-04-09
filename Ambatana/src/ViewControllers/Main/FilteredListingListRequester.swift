@@ -73,8 +73,9 @@ class FilteredListingListRequester: ListingListRequester {
     }
     
     private func retrieve(_ completion: ListingsCompletion?) {
-        if let categories = filters?.selectedCategories, categories.contains(.realEstate) {
-             listingRepository.indexRealEstate(retrieveListingsParams, completion: completion)
+        if let category = filters?.selectedCategories.first {
+            let action = category.index(listingRepository: listingRepository, searchCarsEnabled: featureFlags.searchCarsIntoNewBackend.isActive)
+            action(retrieveListingsParams, completion)
         } else {
             listingRepository.index(retrieveListingsParams, completion: completion)
         }
@@ -317,6 +318,21 @@ private extension RelaxedSearch {
             return RelaxParam(numberOfRelaxedQueries: 1,
                               generateRelaxedQuery: isRelaxQuery,
                               includeOrInOriginalQuery: includeOriginalQuery)
+        }
+    }
+}
+
+private extension ListingCategory {
+    func index(listingRepository: ListingRepository, searchCarsEnabled: Bool) -> ((RetrieveListingParams, ListingsCompletion?) -> ()) {
+        switch self {
+        case .realEstate:
+            return listingRepository.indexRealEstate
+        case .cars:
+            return searchCarsEnabled ? listingRepository.indexCars : listingRepository.index
+        case .babyAndChild, .electronics, .fashionAndAccesories, .homeAndGarden, .motorsAndAccessories,
+             .moviesBooksAndMusic, .other, .services, .sportsLeisureAndGames,
+             .unassigned:
+            return listingRepository.index
         }
     }
 }

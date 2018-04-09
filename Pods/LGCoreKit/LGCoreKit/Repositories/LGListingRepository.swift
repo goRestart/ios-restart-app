@@ -99,6 +99,17 @@ final class LGListingRepository: ListingRepository {
         dataSource.indexRealEstateRelatedSearch(params.realEstateApiParams, completion: updateCompletion(completion))
     }
     
+    func indexCars(_ params: RetrieveListingParams, completion: ListingsCompletion?) {
+        dataSource.indexCars(params.carsApiParams, completion: updateCompletion(completion))
+    }
+    func indexCarsRelatedSearch(_ params: RetrieveListingParams, completion: ListingsCompletion?) {
+        dataSource.indexCarsRelatedSearch(params.carsApiParams, completion: updateCompletion(completion))
+    }
+    func indexRelatedCars(listingId: String, params: RetrieveListingParams, completion: ListingsCompletion?) {
+        dataSource.indexRelatedCars(listingId, parameters: params.relatedProductsApiParams,
+                                          completion: updateCompletion(completion))
+    }
+    
     func indexFavorites(userId: String,
                         numberOfResults: Int?,
                         resultsOffset: Int?,
