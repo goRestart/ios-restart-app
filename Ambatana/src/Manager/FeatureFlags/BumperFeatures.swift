@@ -57,6 +57,8 @@ extension Bumper  {
         flags.append(ShowAdvancedReputationSystem.self)
         flags.append(FeedAdsProviderForUS.self)
         flags.append(CopyForChatNowInEnglish.self)
+        flags.append(FeedAdsProviderForTR.self)
+        flags.append(SearchCarsIntoNewBackend.self)
         Bumper.initialize(flags)
     } 
 
@@ -278,6 +280,16 @@ extension Bumper  {
     static var copyForChatNowInEnglish: CopyForChatNowInEnglish {
         guard let value = Bumper.value(for: CopyForChatNowInEnglish.key) else { return .control }
         return CopyForChatNowInEnglish(rawValue: value) ?? .control 
+    }
+
+    static var feedAdsProviderForTR: FeedAdsProviderForTR {
+        guard let value = Bumper.value(for: FeedAdsProviderForTR.key) else { return .control }
+        return FeedAdsProviderForTR(rawValue: value) ?? .control 
+    }
+
+    static var searchCarsIntoNewBackend: SearchCarsIntoNewBackend {
+        guard let value = Bumper.value(for: SearchCarsIntoNewBackend.key) else { return .control }
+        return SearchCarsIntoNewBackend(rawValue: value) ?? .control 
     } 
 }
 
@@ -950,6 +962,39 @@ enum CopyForChatNowInEnglish: String, BumperFeature  {
             case 2: return .variantB
             case 3: return .variantC
             case 4: return .variantD
+            default: return .control
+        }
+    }
+}
+
+enum FeedAdsProviderForTR: String, BumperFeature  {
+    case control, baseline, moPubAdsForAllUsers, moPubAdsForOldUsers
+    static var defaultValue: String { return FeedAdsProviderForTR.control.rawValue }
+    static var enumValues: [FeedAdsProviderForTR] { return [.control, .baseline, .moPubAdsForAllUsers, .moPubAdsForOldUsers]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Change logic for showing ads with diferent ads providers in TR" } 
+    static func fromPosition(_ position: Int) -> FeedAdsProviderForTR {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .moPubAdsForAllUsers
+            case 3: return .moPubAdsForOldUsers
+            default: return .control
+        }
+    }
+}
+
+enum SearchCarsIntoNewBackend: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return SearchCarsIntoNewBackend.control.rawValue }
+    static var enumValues: [SearchCarsIntoNewBackend] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Search cars into the new Search Car end point" } 
+    static func fromPosition(_ position: Int) -> SearchCarsIntoNewBackend {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
             default: return .control
         }
     }
