@@ -32,6 +32,7 @@ final class AmplitudeTracker: Tracker {
     private static let userPropABTests = "AB-test"
     private static let userPropABTestsCore = "AB-test-core"
     private static let userPropABTestsRealEstate = "AB-test-realEstate"
+    private static let userPropABTestsVerticals = "AB-test-verticals"
     private static let userPropABTestsMoney = "AB-test-money"
     private static let userPropABTestsRetention = "AB-test-retention"
     private static let userPropABTestsChat = "AB-test-chat"
@@ -153,6 +154,7 @@ final class AmplitudeTracker: Tracker {
             var legacyABTests: [String] = []
             var coreAbtests: [String] = []
             var moneyAbTests: [String] = []
+            var verticalsAbTests: [String] = []
             var realEstateAbTests: [String] = []
             var retentionAbTests: [String] = []
             var chatAbTests: [String] = []
@@ -168,6 +170,8 @@ final class AmplitudeTracker: Tracker {
                     moneyAbTests.append(identifier)
                 case .realEstate:
                     realEstateAbTests.append(identifier)
+                case .verticals:
+                    verticalsAbTests.append(identifier)
                 case .retention:
                     retentionAbTests.append(identifier)
                 case .chat:
@@ -181,6 +185,7 @@ final class AmplitudeTracker: Tracker {
             let dict: [String: [String]] = [AmplitudeTracker.userPropABTestsCore: coreAbtests,
                                             AmplitudeTracker.userPropABTestsMoney: moneyAbTests,
                                             AmplitudeTracker.userPropABTestsRealEstate: realEstateAbTests,
+                                            AmplitudeTracker.userPropABTestsVerticals: verticalsAbTests,
                                             AmplitudeTracker.userPropABTestsRetention: retentionAbTests,
                                             AmplitudeTracker.userPropABTestsChat: chatAbTests,
                                             AmplitudeTracker.userPropABTestsProducts: productsAbTests,
