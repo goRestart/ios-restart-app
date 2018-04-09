@@ -99,6 +99,10 @@ class PostListingViewModel: BaseViewModel {
         guard let category = postCategory?.listingCategory else { return false }
         return category.isRealEstate && featureFlags.realEstateTutorial.isActive
     }
+
+    var shouldShowVideoFooter: Bool {
+        return true //TODO: Check video posting feature flag
+    }
     
     fileprivate let disposeBag: DisposeBag
 

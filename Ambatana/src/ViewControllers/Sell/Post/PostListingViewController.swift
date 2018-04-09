@@ -84,7 +84,12 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
                   keyboardHelper: KeyboardHelper) {
         
         let tabPosition: LGViewPagerTabPosition = .hidden
-        let postFooter = PostListingRedCamButtonFooter(infoButtonIncluded: viewModel.shouldShowInfoButton)
+        var postFooter: UIView & PostListingFooter
+        if viewModel.shouldShowVideoFooter {
+            postFooter = VPPostListingRedCamFooter(infoButtonIncluded: false)
+        } else {
+            postFooter = PostListingRedCamButtonFooter(infoButtonIncluded: viewModel.shouldShowInfoButton)
+        }
         self.footer = postFooter
         self.footerView = postFooter
 
@@ -193,6 +198,14 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         } else {
             viewPager.selectTabAtIndex(Tab.camera.index, animated: true)
         }
+    }
+
+    @objc func photoButtonPressed() {
+        footer.updateToPhotoMode()
+    }
+
+    @objc func videoButtonPressed() {
+        footer.updateToVideoMode()
     }
 
     @IBAction func onRetryButton(_ sender: AnyObject) {
@@ -372,6 +385,14 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         
         footer.cameraButton.rx.controlEvent(.touchUpInside).asDriver().drive(onNext: { [weak self] (_) in
             self?.cameraButtonPressed()
+        }).disposed(by: disposeBag)
+
+        footer.photoButton.rx.controlEvent(.touchUpInside).asDriver().drive(onNext: { [weak self] (_) in
+            self?.photoButtonPressed()
+        }).disposed(by: disposeBag)
+
+        footer.videoButton.rx.controlEvent(.touchUpInside).asDriver().drive(onNext: { [weak self] (_) in
+            self?.videoButtonPressed()
         }).disposed(by: disposeBag)
         
         cameraView.takePhotoEnabled.asObservable().bind(to: footer.cameraButton.rx.isEnabled).disposed(by: disposeBag)
