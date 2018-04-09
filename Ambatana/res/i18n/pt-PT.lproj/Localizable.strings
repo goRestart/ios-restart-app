@@ -19,7 +19,7 @@
 "bump_up_banner_pay_text" = "Venda mais rápido";
 "bump_up_banner_pay_text_improvement" = "Vender mais rápido agora";
 "bump_up_banner_wait_text" = "para destacar de novo";
-"bump_up_boost_success_alert_text" = "O seu anúncio foi impulsionado de novo! Estará destacado durante as próximas 24 horas.";
+"bump_up_boost_success_alert_text" = "O seu anúncio foi impulsionado! Estará destacado durante as próximas 24 horas.";
 "bump_up_error_bump_generic" = "Surgiu um erro ao destacar a sua publicação. Tente de novo.";
 "bump_up_error_bump_token" = "O seu pagamento foi processado mas a sua publicação ainda não foi destacada.";
 "bump_up_error_payment_failed" = "Impossível conectar com a App Store. O seu pagamento não foi processado. Tente novamente.";

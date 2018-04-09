@@ -1393,7 +1393,7 @@
 "main_products_invite_navigation_bar_button" = "Invite";
 
 // Title for meeting creation view
-"meeting_creation_view_title" = "Schedule a meetup";
+"meeting_creation_view_title" = "Schedule a meeting";
 
 // place header for meeting creation view
 "meeting_creation_view_place" = "PLACE";
