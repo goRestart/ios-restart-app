@@ -881,7 +881,7 @@ extension ChatViewController: MeetingCellImageDelegate, MKMapViewDelegate {
 
         mapContainer.addSubview(mapView)
 
-        mapView.layout().height(300).width(300)
+        mapView.layout().height(300).widthProportionalToHeight()
         mapView.layout(with: mapContainer).center()
 
         textView.resignFirstResponder()

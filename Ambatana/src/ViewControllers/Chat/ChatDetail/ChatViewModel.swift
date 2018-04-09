@@ -1720,7 +1720,7 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
         switch answer {
         case .listingSold, .freeNotAvailable:
             onListingSoldDirectAnswer()
-            if showKeyboardWhenQuickAnswer == true {
+            if showKeyboardWhenQuickAnswer {
                 delegate?.vmDidPressDirectAnswer(quickAnswer: answer)
             } else {
                 send(quickAnswer: answer)
@@ -1730,7 +1730,7 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
              .freeAvailable, .stillForSale, .priceFirm, .priceWillingToNegotiate, .priceAsking, .listingConditionGood,
              .listingConditionDescribe, .meetUpLocated, .meetUpWhereYouWant:
             clearListingSoldDirectAnswer()
-            if showKeyboardWhenQuickAnswer == true {
+            if showKeyboardWhenQuickAnswer {
                 delegate?.vmDidPressDirectAnswer(quickAnswer: answer)
             } else {
                 send(quickAnswer: answer)

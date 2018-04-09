@@ -16,26 +16,26 @@ protocol OtherMeetingCellDelegate: class {
 
 final class ChatOtherMeetingCell: UITableViewCell, ReusableCell {
 
-    @IBOutlet weak var meetingContainer: UIView!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var statusLabel: UILabel!
-    @IBOutlet weak var statusIcon: UIImageView!
-    @IBOutlet weak var locationLabel: UILabel!
-    @IBOutlet weak var locationView: UIImageView!
-    @IBOutlet weak var locationButton: UIButton!
-    @IBOutlet weak var meetingDateLabel: UILabel!
-    @IBOutlet weak var meetingTimeLabel: UILabel!
+    @IBOutlet weak private var meetingContainer: UIView!
+    @IBOutlet weak private var titleLabel: UILabel!
+    @IBOutlet weak private var statusLabel: UILabel!
+    @IBOutlet weak private var statusIcon: UIImageView!
+    @IBOutlet weak private var locationLabel: UILabel!
+    @IBOutlet weak private var locationView: UIImageView!
+    @IBOutlet weak private var locationButton: UIButton!
+    @IBOutlet weak private var meetingDateLabel: UILabel!
+    @IBOutlet weak private var meetingTimeLabel: UILabel!
 
-    @IBOutlet weak var actionsContainer: UIView!
-    @IBOutlet weak var actionAccept: UIButton!
-    @IBOutlet weak var actionReject: UIButton!
+    @IBOutlet weak private var actionsContainer: UIView!
+    @IBOutlet weak private var actionAccept: UIButton!
+    @IBOutlet weak private var actionReject: UIButton!
 
     @IBOutlet weak var messageDateLabel: UILabel!
 
-    @IBOutlet weak var actionsContainerHeight: NSLayoutConstraint!
+    @IBOutlet weak private var actionsContainerHeight: NSLayoutConstraint!
 
-    @IBOutlet weak var locationLabelHeight: NSLayoutConstraint!
-    @IBOutlet weak var locationLabelTop: NSLayoutConstraint!
+    @IBOutlet weak private var locationLabelHeight: NSLayoutConstraint!
+    @IBOutlet weak private var locationLabelTop: NSLayoutConstraint!
 
     weak var delegate: OtherMeetingCellDelegate?
 

@@ -16,7 +16,7 @@ protocol MeetingAssistantDataDelegate: class {
 }
 
 
-class MeetingAssistantViewModel: BaseViewModel {
+final class MeetingAssistantViewModel: BaseViewModel {
 
     var suggestionsCount: Int {
         return suggestedLocations.value.count
@@ -161,7 +161,7 @@ class MeetingAssistantViewModel: BaseViewModel {
     // private methods
 
     private func meetingIsSafe(selectedLocation: SuggestedLocation?, time: Date?) -> Bool {
-        guard let _ = selectedLocation, let time = time, time.isSafeTime else { return false }
+        guard let _ = selectedLocation, let time = time, time.isMeetingSafeTime else { return false }
         return true
     }
 

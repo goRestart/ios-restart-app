@@ -11,10 +11,6 @@ import LGCoreKit
 
 final class ChatMyMeetingCellDrawer: BaseChatCellDrawer<ChatMyMeetingCell> {
 
-    override init(autoHide: Bool) {
-        super.init(autoHide: autoHide)
-    }
-
     override func draw(_ cell: ChatMyMeetingCell, message: ChatViewMessage) {
         switch message.type {
         case let .meeting(_, date, locationName, coordinates, status, _):

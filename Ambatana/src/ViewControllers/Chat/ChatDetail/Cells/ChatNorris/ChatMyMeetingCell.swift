@@ -13,24 +13,23 @@ protocol MeetingCellImageDelegate: class {
     func meetingCellImageViewPressed(imageView: UIImageView, coordinates: LGLocationCoordinates2D)
 }
 
-
 final class ChatMyMeetingCell: UITableViewCell, ReusableCell {
 
-    @IBOutlet weak var meetingContainer: UIView!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var statusLabel: UILabel!
-    @IBOutlet weak var statusIcon: UIImageView!
-    @IBOutlet weak var locationLabel: UILabel!
-    @IBOutlet weak var locationView: UIImageView!
-    @IBOutlet weak var locationButton: UIButton!
-    @IBOutlet weak var meetingDateLabel: UILabel!
-    @IBOutlet weak var meetingTimeLabel: UILabel!
+    @IBOutlet weak private var meetingContainer: UIView!
+    @IBOutlet weak private var titleLabel: UILabel!
+    @IBOutlet weak private var statusLabel: UILabel!
+    @IBOutlet weak private var statusIcon: UIImageView!
+    @IBOutlet weak private var locationLabel: UILabel!
+    @IBOutlet weak private var locationView: UIImageView!
+    @IBOutlet weak private var locationButton: UIButton!
+    @IBOutlet weak private var meetingDateLabel: UILabel!
+    @IBOutlet weak private var meetingTimeLabel: UILabel!
 
     @IBOutlet weak var messageDateLabel: UILabel!
     @IBOutlet weak var checkImageView: UIImageView!
 
-    @IBOutlet weak var locationLabelHeight: NSLayoutConstraint!
-    @IBOutlet weak var locationLabelTop: NSLayoutConstraint!
+    @IBOutlet weak private var locationLabelHeight: NSLayoutConstraint!
+    @IBOutlet weak private var locationLabelTop: NSLayoutConstraint!
 
     weak var locationDelegate: MeetingCellImageDelegate?
 

@@ -13,32 +13,32 @@ import LGCoreKit
 
 final class MeetingAssistantViewController: BaseViewController {
 
-    static var cellSize: CGSize = CGSize(width: 160, height: 220)
+    static private var cellSize: CGSize = CGSize(width: 160, height: 220)
 
-    var mapContainer: UIView = UIView()
+    private var mapContainer: UIView = UIView()
 
-    @IBOutlet weak var placeHeaderLabel: UILabel!
-    @IBOutlet weak var dateTimeHeaderlabel: UILabel!
+    @IBOutlet weak private var placeHeaderLabel: UILabel!
+    @IBOutlet weak private var dateTimeHeaderlabel: UILabel!
 
-    @IBOutlet weak var locationLabel: UILabel!
+    @IBOutlet weak private var locationLabel: UILabel!
 
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var suggestedLocationsContainer: UIView!
-    @IBOutlet weak var suggestedLocationsCollection: UICollectionView!
+    @IBOutlet weak private var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak private var suggestedLocationsContainer: UIView!
+    @IBOutlet weak private var suggestedLocationsCollection: UICollectionView!
 
-    @IBOutlet weak var selectDayLabel: UILabel!
+    @IBOutlet weak private var selectDayLabel: UILabel!
 
-    @IBOutlet weak var sendMeetingButton: LetgoButton!
+    @IBOutlet weak private var sendMeetingButton: LetgoButton!
 
-    @IBOutlet weak var datePickerContainer: UIView!
-    @IBOutlet weak var datePicker: UIDatePicker!
-    @IBOutlet weak var datePickerDoneButton: UIButton!
+    @IBOutlet weak private var datePickerContainer: UIView!
+    @IBOutlet weak private var datePicker: UIDatePicker!
+    @IBOutlet weak private var datePickerDoneButton: UIButton!
 
-    @IBOutlet weak var datePickerContainerHeight: NSLayoutConstraint!
+    @IBOutlet weak private var datePickerContainerHeight: NSLayoutConstraint!
 
     fileprivate var viewModel: MeetingAssistantViewModel
 
-    let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
 
     init(viewModel: MeetingAssistantViewModel) {
         self.viewModel = viewModel
@@ -54,10 +54,6 @@ final class MeetingAssistantViewController: BaseViewController {
         super.viewDidLoad()
         setupRx()
         setupUI()
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
     }
 
     private func setupRx() {
@@ -105,8 +101,8 @@ final class MeetingAssistantViewController: BaseViewController {
         view.backgroundColor = UIColor.white
         suggestedLocationsCollection.showsHorizontalScrollIndicator = false
 
-        let locNib = UINib(nibName: "SuggestedLocationCell", bundle: nil)
-        suggestedLocationsCollection.register(locNib, forCellWithReuseIdentifier: "SuggestedLocationCell")
+        let locNib = UINib(nibName: SuggestedLocationCell.reusableID, bundle: nil)
+        suggestedLocationsCollection.register(locNib, forCellWithReuseIdentifier: SuggestedLocationCell.reusableID)
 
         if let layout = suggestedLocationsCollection.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.scrollDirection = UICollectionViewScrollDirection.horizontal
@@ -206,10 +202,6 @@ extension MeetingAssistantViewController: UICollectionViewDataSource, UICollecti
         return viewModel.suggestionsCount
     }
 
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SuggestedLocationCell.reusableID, for: indexPath) as? SuggestedLocationCell else {
@@ -289,7 +281,7 @@ extension MeetingAssistantViewController: SuggestedLocationCellImageDelegate, MK
 
         mapContainer.addSubview(mapView)
 
-        mapView.layout().height(300).width(300)
+        mapView.layout().height(300).widthProportionalToHeight()
         mapView.layout(with: mapContainer).center()
 
         // we want to make the full map appear from the map position in the cell
