@@ -47,7 +47,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
         var bottomButtonsObserver: TestableObserver<[UIAction]>!
         var isFavoriteObserver: TestableObserver<Bool>!
         var directChatMessagesObserver: TestableObserver<[ChatViewMessage]>!
-        var isProfessionalObserver: TestableObserver<Bool>!
+        var sellerObserver: TestableObserver<User?>!
 
         describe("ListingViewModelSpec") {
 
@@ -75,7 +75,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                 sut.actionButtons.asObservable().bind(to: bottomButtonsObserver).disposed(by: disposeBag)
                 sut.isFavorite.asObservable().bind(to: isFavoriteObserver).disposed(by: disposeBag)
                 sut.directChatMessages.observable.bind(to: directChatMessagesObserver).disposed(by: disposeBag)
-                sut.isProfessional.asObservable().bind(to: isProfessionalObserver).disposed(by: disposeBag)
+                sut.seller.asObservable().bind(to: sellerObserver).disposed(by: disposeBag)
             }
 
             beforeEach {
@@ -98,7 +98,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                 bottomButtonsObserver = scheduler.createObserver(Array<UIAction>.self)
                 isFavoriteObserver = scheduler.createObserver(Bool.self)
                 directChatMessagesObserver = scheduler.createObserver(Array<ChatViewMessage>.self)
-                isProfessionalObserver = scheduler.createObserver(Bool.self)
+                sellerObserver = scheduler.createObserver(User?.self)
 
                 self.resetViewModelSpec()
             }
@@ -435,6 +435,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
             }
 
             describe ("check user type") {
+                var seller: User!
                 beforeEach {
                     featureFlags.allowCallsForProfessionals = .control
                 }
@@ -443,16 +444,17 @@ class ListingViewModelSpec: BaseViewModelSpec {
                         var user = MockUser.makeMock()
                         user.type = .pro
                         user.phone = "666-666-666"
+                        seller = user
                         userRepository.userResult = UserResult(value: user)
                         buildListingViewModel()
                         sut.active = true
-                        expect(isProfessionalObserver.eventValues).toEventually(equal([false, true]))
+                        expect(sellerObserver.eventValues.map { $0?.objectId }).toEventually(equal([nil, user.objectId]))
                     }
                     it ("isProfessional var is updated") {
-                        expect(isProfessionalObserver.lastValue) == true
+                        expect(sellerObserver.lastValue.map { $0!.objectId! }) == seller.objectId
                     }
                     it ("phoneNumber var has a value") {
-                        expect(sut.phoneNumber.value).toEventually(equal("666-666-666"))
+                        expect(sut.seller.value?.phone).toEventually(equal("666-666-666"))
                     }
                 }
                 context ("User is professional and doesn't have a phone number") {
@@ -460,29 +462,31 @@ class ListingViewModelSpec: BaseViewModelSpec {
                         var user = MockUser.makeMock()
                         user.type = .pro
                         user.phone = nil
+                        seller = user
                         userRepository.userResult = UserResult(value: user)
                         buildListingViewModel()
                         sut.active = true
-                        expect(isProfessionalObserver.eventValues).toEventually(equal([false, true]))
+                        expect(sellerObserver.eventValues.map { $0?.objectId }).toEventually(equal([nil, user.objectId]))
                     }
                     it ("isProfessional var is updated") {
-                        expect(isProfessionalObserver.lastValue) == true
+                         expect(sellerObserver.lastValue.map { $0!.objectId! }) == seller.objectId
                     }
                     it ("phoneNumber var has no value") {
-                        expect(sut.phoneNumber.value).toEventually(beNil())
+                        expect(sut.seller.value?.phone).toEventually(beNil())
                     }
                 }
                 context ("User is not professional") {
                     beforeEach {
                         var user = MockUser.makeMock()
                         user.type = .user
+                        seller = user
                         userRepository.userResult = UserResult(value: user)
                         buildListingViewModel()
                         sut.active = true
-                        expect(isProfessionalObserver.eventValues).toEventually(equal([false, false]))
+                        expect(sellerObserver.eventValues.map { $0?.objectId }).toEventually(equal([nil, user.objectId]))
                     }
                     it ("isProfessional var is updated") {
-                        expect(sut.isProfessional.value).toEventually(equal(false))
+                        expect(sut.seller.value?.isProfessional).toEventually(equal(false))
                     }
                 }
             }
@@ -895,7 +899,7 @@ extension ListingViewModelSpec: ListingDetailNavigator {
                      bumpUpProductData: BumpUpProductData?) {
 
     }
-    func openListingChat(_ listing: Listing, source: EventParameterTypePage, isProfessional: Bool) {
+    func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?) {
 
     }
     func closeListingAfterDelete(_ listing: Listing) {
@@ -952,11 +956,12 @@ extension ListingViewModelSpec: ListingDetailNavigator {
 
     }
 
-    func openAskPhoneFor(listing: Listing) {
+    func openAskPhoneFor(listing: Listing, interlocutor: User?) {
 
     }
 
-    func closeAskPhoneFor(listing: Listing, openChat: Bool, withPhoneNum: String?, source: EventParameterTypePage) {
+    func closeAskPhoneFor(listing: Listing, openChat: Bool, withPhoneNum: String?, source: EventParameterTypePage,
+                          interlocutor: User?) {
 
     }
 }

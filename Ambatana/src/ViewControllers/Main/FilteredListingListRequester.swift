@@ -73,8 +73,9 @@ class FilteredListingListRequester: ListingListRequester {
     }
     
     private func retrieve(_ completion: ListingsCompletion?) {
-        if let categories = filters?.selectedCategories, categories.contains(.realEstate) {
-             listingRepository.indexRealEstate(retrieveListingsParams, completion: completion)
+        if let category = filters?.selectedCategories.first {
+            let action = category.index(listingRepository: listingRepository, searchCarsEnabled: featureFlags.searchCarsIntoNewBackend.isActive)
+            action(retrieveListingsParams, completion)
         } else {
             listingRepository.index(retrieveListingsParams, completion: completion)
         }
@@ -209,7 +210,8 @@ fileprivate extension FilteredListingListRequester {
         params.queryString = queryString
         params.countryCode = countryCode
         params.abtest = featureFlags.searchImprovements.stringValue
-
+        params.relaxParam = featureFlags.relaxedSearch.relaxParam
+        
         params.populate(with: filters)
        
         return params
@@ -301,6 +303,36 @@ extension SearchImprovements {
             return "disc554-c"
         case .boostingDistAndFreshness:
             return "disc554-d"
+        }
+    }
+}
+
+private extension RelaxedSearch {
+    var relaxParam: RelaxParam? {
+        switch self {
+        case .control, .baseline:
+            return nil
+        default:
+            let isRelaxQuery = self == .relaxedQuery
+            let includeOriginalQuery = self == .relaxedQueryORFallback
+            return RelaxParam(numberOfRelaxedQueries: 1,
+                              generateRelaxedQuery: isRelaxQuery,
+                              includeOrInOriginalQuery: includeOriginalQuery)
+        }
+    }
+}
+
+private extension ListingCategory {
+    func index(listingRepository: ListingRepository, searchCarsEnabled: Bool) -> ((RetrieveListingParams, ListingsCompletion?) -> ()) {
+        switch self {
+        case .realEstate:
+            return listingRepository.indexRealEstate
+        case .cars:
+            return searchCarsEnabled ? listingRepository.indexCars : listingRepository.index
+        case .babyAndChild, .electronics, .fashionAndAccesories, .homeAndGarden, .motorsAndAccessories,
+             .moviesBooksAndMusic, .other, .services, .sportsLeisureAndGames,
+             .unassigned:
+            return listingRepository.index
         }
     }
 }

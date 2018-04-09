@@ -34,6 +34,8 @@ extension DefaultsKeys {
 
     static let didShowOnboarding = DefaultsKey<Bool>("didShowOnboarding")
     static let didShowListingDetailOnboarding = DefaultsKey<Bool>("didShowProductDetailOnboarding")
+    static let didShowDeckOnBoarding = DefaultsKey<Bool>("didShowDeckOnBoarding")
+
     static let listingMoreInfoTooltipDismissed = DefaultsKey<Bool>("showMoreInfoTooltip")
     static let favoriteCategories = DefaultsKey<[Int]>("favoriteCategories")
 
@@ -60,6 +62,7 @@ extension DefaultsKeys {
     static let mostSearchedItemsCameraBadgeAlreadyShown = DefaultsKey<Bool>("mostSearchedItemsBadgeAlreadyShown")
     
     static let lastShownSecurityWarningDate = DefaultsKey<Date?>("lastShownSecurityWarningDate")
+    static let realEstateTutorialShown = DefaultsKey<Bool>("realEstateTutorialShown")
 }
 
 
@@ -266,6 +269,17 @@ extension KeyValueStorageable {
         }
     }
     
+    var machineLearningOnboardingShown: Bool {
+        get {
+            return currentUserProperties?.machineLearningOnboardingShown ??
+                UserDefaultsUser.machineLearningOnboardingShownDefaultValue
+        }
+        set {
+            guard var userProperties = currentUserProperties else { return }
+            userProperties.machineLearningOnboardingShown = newValue
+            currentUserProperties = userProperties
+        }
+    }
 }
 
 

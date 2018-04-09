@@ -12,6 +12,7 @@ import SafariServices
 final class ProfileTabCoordinator: TabCoordinator {
 
     convenience init() {
+        let sessionManager = Core.sessionManager
         let listingRepository = Core.listingRepository
         let userRepository = Core.userRepository
         let chatRepository = Core.chatRepository
@@ -20,10 +21,16 @@ final class ProfileTabCoordinator: TabCoordinator {
         let bubbleNotificationManager =  LGBubbleNotificationManager.sharedInstance
         let keyValueStorage = KeyValueStorage.sharedInstance
         let tracker = TrackerProxy.sharedInstance
-        let viewModel = UserViewModel.myUserUserViewModel(.tabBar)
-        let rootViewController = UserViewController(viewModel: viewModel)
         let featureFlags = FeatureFlags.sharedInstance
-        let sessionManager = Core.sessionManager
+        let rootViewController: UIViewController
+        let viewModel = UserViewModel.myUserUserViewModel(.tabBar)
+        let newViewModel = UserProfileViewModel.makePrivateProfile(source: .tabBar)
+        if featureFlags.newUserProfileView.isActive {
+            rootViewController = UserProfileViewController(viewModel: newViewModel)
+        } else {
+            rootViewController = UserViewController(viewModel: viewModel)
+        }
+
         self.init(listingRepository: listingRepository,
                   userRepository: userRepository,
                   chatRepository: chatRepository,
@@ -36,6 +43,7 @@ final class ProfileTabCoordinator: TabCoordinator {
                   featureFlags: featureFlags,
                   sessionManager: sessionManager)
 
+        newViewModel.profileNavigator = self
         viewModel.profileNavigator = self
     }
 }
@@ -47,7 +55,14 @@ extension ProfileTabCoordinator: ProfileTabNavigator {
         let vc = SettingsViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
-    
+
+    func openEditUserBio() {
+        let vm = EditUserBioViewModel()
+        vm.navigator = self
+        let vc = EditUserBioViewController(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
+    }
+
     func editListing(_ listing: Listing, pageType: EventParameterTypePage?) {
         let navigator = EditListingCoordinator(listing: listing,
                                                bumpUpProductData: nil,
@@ -57,6 +72,7 @@ extension ProfileTabCoordinator: ProfileTabNavigator {
 }
 
 extension ProfileTabCoordinator: SettingsNavigator {
+    
     func openEditUserName() {
         let vm = ChangeUsernameViewModel()
         vm.navigator = self
@@ -134,6 +150,12 @@ extension ProfileTabCoordinator: HelpNavigator {
     }
 
     func closeHelp() {
+        navigationController.popViewController(animated: true)
+    }
+}
+
+extension ProfileTabCoordinator: EditUserBioNavigator {
+    func closeEditUserBio() {
         navigationController.popViewController(animated: true)
     }
 }

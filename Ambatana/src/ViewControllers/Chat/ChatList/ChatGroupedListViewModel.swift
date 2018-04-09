@@ -16,6 +16,9 @@ Defines the type shared across 'Chats' section lists.
 protocol ChatGroupedListViewModelType: RxPaginable {
     var editing: Variable<Bool> { get }
     func refresh(completion: (() -> Void)?)
+    func openInactiveConversations()
+    var shouldShowInactiveConversations: Bool { get }
+    var inactiveConversationsCount: Int? { get }
 }
 
 protocol ChatGroupedListViewModelDelegate: class {
@@ -36,8 +39,6 @@ protocol ChatGroupedListViewModel: class, ChatGroupedListViewModelType {
     var shouldRefreshConversationsTabTrigger: Bool { get set }
     var shouldScrollToTop: Observable<Bool> { get }
     func clear()
-    func openInactiveConversations()
-    var shouldShowInactiveConversations: Bool { get }
 }
 
 class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
@@ -49,7 +50,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     private let localChatCounter = Variable<Int>(0)
     
     private let chatRepository: ChatRepository
-    let inactiveConversationsCount = Variable<Int?>(nil)
+    var inactiveConversationsCount: Int?
     
     private(set) var status: ViewState {
         didSet {
@@ -371,7 +372,11 @@ fileprivate extension BaseChatGroupedListViewModel {
                 .disposed(by: disposeBag)
         }
         
-        chatRepository.inactiveConversationsCount.asObservable().bind(to: inactiveConversationsCount).disposed(by: disposeBag)
+        chatRepository.inactiveConversationsCount.asObservable()
+            .bind { [weak self] in
+                self?.inactiveConversationsCount = $0
+            }
+            .disposed(by: disposeBag)
     }
     
     private func getLocalChatCounter() -> Int {

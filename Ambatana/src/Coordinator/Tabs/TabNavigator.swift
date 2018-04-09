@@ -36,6 +36,7 @@ enum ProductCarouselActionOnFirstAppear {
     case showShareSheet
     case triggerBumpUp(bumpUpProductData: BumpUpProductData, bumpUpType: BumpUpType, triggerBumpUpSource: BumpUpSource, typePage: EventParameterTypePage?)
     case triggerMarkAsSold
+    case edit
 }
 
 protocol TabNavigator: class {
@@ -51,13 +52,17 @@ protocol TabNavigator: class {
     func canOpenAppInvite() -> Bool
     func openRatingList(_ userId: String)
     func openMostSearchedItems(source: PostingSource, enableSearch: Bool)
+    func openUserReport(source: EventParameterTypePage, userReportedId: String)
+    func openRealEstateOnboarding(pages: [LGTutorialPage],
+                                  origin: EventParameterTypePage,
+                                  tutorialType: EventParameterTutorialType)
 }
 
 protocol ListingDetailNavigator: TabNavigator {
     func closeProductDetail()
     func editListing(_ listing: Listing,
                      bumpUpProductData: BumpUpProductData?)
-    func openListingChat(_ listing: Listing, source: EventParameterTypePage, isProfessional: Bool)
+    func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?)
     func closeListingAfterDelete(_ listing: Listing)
     func openFreeBumpUp(forListing listing: Listing,
                         bumpUpProductData: BumpUpProductData,
@@ -88,8 +93,12 @@ protocol ListingDetailNavigator: TabNavigator {
     func openFeaturedInfo()
     func closeFeaturedInfo()
 
-    func openAskPhoneFor(listing: Listing)
-    func closeAskPhoneFor(listing: Listing, openChat: Bool, withPhoneNum: String?, source: EventParameterTypePage)
+    func openAskPhoneFor(listing: Listing, interlocutor: User?)
+    func closeAskPhoneFor(listing: Listing,
+                          openChat: Bool,
+                          withPhoneNum: String?,
+                          source: EventParameterTypePage,
+                          interlocutor: User?)
 }
 
 protocol SimpleProductsNavigator: class {

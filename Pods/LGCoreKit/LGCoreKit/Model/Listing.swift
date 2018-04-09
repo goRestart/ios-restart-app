@@ -273,50 +273,33 @@ public enum Listing: BaseListingModel, Priceable, Decodable {
     
     public init(from decoder: Decoder) throws {
         let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
-        // Generic Listings: from Feed, Products search/filters, Cars search/filters
-        if let categoryIdFeedAndProductsAndCars: Int = try keyedContainer.decodeIfPresent(Int.self, forKey: .categoryIdFeedAndProductsAndCars) {
-            let category: ListingCategory = ListingCategory(rawValue: categoryIdFeedAndProductsAndCars) ?? .unassigned
-            switch category {
-            case .unassigned, .electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden, .moviesBooksAndMusic,
-                 .fashionAndAccesories, .babyAndChild, .other:
-                let product = try LGProduct(from: decoder)
-                self = Listing.product(product)
-            case .cars:
-                let car = try LGCar(from: decoder)
-                self = Listing.car(car)
-            case .realEstate:
-                let product = try LGProduct(from: decoder)
-                let realEstate = LGRealEstate(product: product)
-                self = Listing.realEstate(realEstate)
-            }
-            // New verticals listings, from New verticals search/filters
+        
+        let categoryRawValue: Int
+        if let category = try keyedContainer.decodeIfPresent(Int.self, forKey: .categoryIdFeedAndProductsAndCars) {
+            categoryRawValue = category
         } else if let categoryIdRealEstate: Int = try keyedContainer.decodeIfPresent(Int.self, forKey: .categoryIdNewVerticals) {
-            if let category: ListingCategory = ListingCategory(rawValue: categoryIdRealEstate) {
-                switch category {
-                case .unassigned, .electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden, .moviesBooksAndMusic,
-                     .fashionAndAccesories, .babyAndChild, .other, .cars:
-                    throw DecodingError.typeMismatch(
-                        Listing.self,
-                        DecodingError.Context(codingPath: [],
-                                              debugDescription: "invalid category for \(CodingKeys.categoryIdNewVerticals.rawValue)")
-                    )
-                case .realEstate:
-                    let realEstate = try LGRealEstate(from: decoder)
-                    self = Listing.realEstate(realEstate)
-                }
-            } else {
-                throw DecodingError.typeMismatch(
-                    Listing.self,
-                    DecodingError.Context(codingPath: [],
-                                          debugDescription: "Category not handled")
-                )
-            }
+            categoryRawValue = categoryIdRealEstate
         } else {
             throw DecodingError.typeMismatch(
                 Listing.self,
                 DecodingError.Context(codingPath: [],
                                       debugDescription: "Could not parse category from \(decoder)")
             )
+        }
+        
+        let category: ListingCategory = ListingCategory(rawValue: categoryRawValue) ?? .unassigned
+        
+        switch category {
+        case .unassigned, .electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden, .moviesBooksAndMusic,
+             .fashionAndAccesories, .babyAndChild, .other, .services:
+            let product = try LGProduct(from: decoder)
+            self = Listing.product(product)
+        case .cars:
+            let car = try LGCar(from: decoder)
+            self = Listing.car(car)
+        case .realEstate:
+            let realEstate = try LGRealEstate(from: decoder)
+            self = Listing.realEstate(realEstate)
         }
     }
         

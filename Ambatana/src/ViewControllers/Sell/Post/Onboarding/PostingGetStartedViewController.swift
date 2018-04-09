@@ -14,17 +14,20 @@ class PostingGetStartedViewController: BaseViewController {
         static let margin: CGFloat = 30
         static let avatarSize: CGFloat = 100
         static let buttonHeight: CGFloat = 60
+        static let skipButtonHeight: CGFloat = 64
+        static let skipButtonWidth: CGFloat = 80
     }
 
     private let viewModel: PostingGetStartedViewModel
 
-    private let avatarView: UIImageView = UIImageView()
-    private let shadowView: UIView = UIView()
-    private let textContainerView: UIView = UIView()
-    private let welcomeLabel: UILabel = UILabel()
-    private let infoLabel: UILabel = UILabel()
-    private let getStartedButton: LetgoButton = LetgoButton(type: .custom)
-    private let discardLabel: UILabel = UILabel()
+    private let avatarView = UIImageView()
+    private let shadowView = UIView()
+    private let textContainerView = UIView()
+    private let welcomeLabel = UILabel()
+    private let infoLabel = UILabel()
+    private let getStartedButton = LetgoButton(type: .custom)
+    private let discardLabel = UILabel()
+    private let skipButton = UIButton(type: .custom)
 
     let disposeBag = DisposeBag()
 
@@ -45,16 +48,6 @@ class PostingGetStartedViewController: BaseViewController {
         setupConstraints()
         setupRx()
     }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setStatusBarHidden(true)
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        setStatusBarHidden(false)
-    }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -69,6 +62,13 @@ class PostingGetStartedViewController: BaseViewController {
         shadowView.layer.masksToBounds = false
 
         getStartedButton.setStyle(.primary(fontSize: .big))
+    }
+    
+    
+    // MARK: - Status Bar
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
     }
 
     
@@ -107,6 +107,15 @@ class PostingGetStartedViewController: BaseViewController {
         discardLabel.text = viewModel.discardText
         discardLabel.numberOfLines = 0
         discardLabel.textAlignment = .center
+        
+        if viewModel.shouldShowSkipButton {
+            skipButton.setTitle(LGLocalizedString.postingButtonSkip, for: .normal)
+            skipButton.titleLabel?.font = UIFont.systemSemiBoldFont(size: 17)
+            skipButton.titleLabel?.textAlignment = .center
+            skipButton.titleLabel?.minimumScaleFactor = 0.5
+            skipButton.titleLabel?.adjustsFontSizeToFitWidth = true
+            skipButton.setTitleColor(.gray, for: .normal)
+        }
     }
     
     private func setupConstraints() {
@@ -158,6 +167,14 @@ class PostingGetStartedViewController: BaseViewController {
             .left(by: PostingGetStartedMetrics.margin)
             .right(by: -PostingGetStartedMetrics.margin)
             .bottom(by: -PostingGetStartedMetrics.margin)
+        
+        if viewModel.shouldShowSkipButton {
+            view.addSubviewForAutoLayout(skipButton)
+            skipButton.layout(with: view).top().trailing()
+            skipButton.layout()
+                .height(PostingGetStartedMetrics.skipButtonHeight)
+                .width(PostingGetStartedMetrics.skipButtonWidth)
+        }
     }
 
     private func setupRx() {
@@ -171,9 +188,17 @@ class PostingGetStartedViewController: BaseViewController {
         getStartedButton.rx.tap.bind { [weak self] in
             self?.nextAction()
         }.disposed(by: disposeBag)
+        
+        skipButton.rx.tap.bind { [weak self] in
+            self?.skipAction()
+        }.disposed(by: disposeBag)
     }
 
     private func nextAction() {
         viewModel.nextAction()
+    }
+    
+    private func skipAction() {
+        viewModel.skipAction()
     }
 }

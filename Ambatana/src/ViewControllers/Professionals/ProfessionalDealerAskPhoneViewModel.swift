@@ -18,14 +18,16 @@ class ProfessionalDealerAskPhoneViewModel: BaseViewModel {
 
     weak var navigator: ListingDetailNavigator?
     private let listing: Listing
+    private let interlocutor: User?
     private let tracker: Tracker
 
-    convenience init(listing: Listing) {
-        self.init(listing: listing, tracker: TrackerProxy.sharedInstance)
+    convenience init(listing: Listing, interlocutor: User?) {
+        self.init(listing: listing, interlocutor: interlocutor, tracker: TrackerProxy.sharedInstance)
     }
 
-    init(listing: Listing, tracker: Tracker) {
+    init(listing: Listing, interlocutor: User?, tracker: Tracker) {
         self.listing = listing
+        self.interlocutor = interlocutor
         self.tracker = tracker
         super.init()
         setupRx()
@@ -52,7 +54,8 @@ class ProfessionalDealerAskPhoneViewModel: BaseViewModel {
         navigator?.closeAskPhoneFor(listing: listing,
                                     openChat: true,
                                     withPhoneNum: phoneNumber.value,
-                                    source: .listingDetail)
+                                    source: .listingDetail,
+                                    interlocutor: interlocutor)
         tracker.trackEvent(TrackerEvent.phoneNumberSent(typePage: .listingDetail))
     }
 
@@ -60,14 +63,16 @@ class ProfessionalDealerAskPhoneViewModel: BaseViewModel {
         navigator?.closeAskPhoneFor(listing: listing,
                                     openChat: false,
                                     withPhoneNum: nil,
-                                    source: .listingDetail)
+                                    source: .listingDetail,
+                                    interlocutor: interlocutor)
     }
 
     func notNowPressed() {
         navigator?.closeAskPhoneFor(listing: listing,
                                     openChat: true,
                                     withPhoneNum: nil,
-                                    source: .listingDetail)
+                                    source: .listingDetail,
+                                    interlocutor: interlocutor)
         tracker.trackEvent(TrackerEvent.phoneNumberNotNow(typePage: .listingDetail))
     }
 }

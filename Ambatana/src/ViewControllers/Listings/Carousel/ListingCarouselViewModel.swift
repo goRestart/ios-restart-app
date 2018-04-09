@@ -26,11 +26,14 @@ enum CarouselMovement {
 
 enum AdRequestType {
     case dfp
+    case moPub
 
     var trackingParamValue: EventParameterAdType {
         switch self {
         case .dfp:
             return .dfp
+        case .moPub:
+            return .moPub
         }
     }
 }
@@ -103,6 +106,7 @@ class ListingCarouselViewModel: BaseViewModel {
 
     let navBarButtons = Variable<[UIAction]>([])
     let actionButtons = Variable<[UIAction]>([])
+    let altActions = Variable<[UIAction]>([])
 
     let status = Variable<ListingViewModelStatus>(.pending)
     let isFeatured = Variable<Bool>(false)
@@ -560,6 +564,23 @@ class ListingCarouselViewModel: BaseViewModel {
             self?.keyValueStorage[.listingMoreInfoTooltipDismissed] = true
             self?.delegate?.vmRemoveMoreInfoTooltip()
         }.disposed(by: disposeBag)
+
+        altActions.asDriver().drive(onNext: { [weak self] (actions) in
+            self?.processAltActions(actions)
+        }).disposed(by: disposeBag)
+    }
+
+    private func processAltActions(_ altActions: [UIAction]) {
+        guard altActions.count > 0 else { return }
+        
+        let cancel = LGLocalizedString.commonCancel
+        var finalActions: [UIAction] = altActions
+        //Adding show onboarding action
+        let title = LGLocalizedString.productOnboardingShowAgainButtonTitle
+        finalActions.append(UIAction(interface: .text(title), action: { [weak self] in
+            self?.delegate?.vmShowOnboarding()
+        }))
+        delegate?.vmShowCarouselOptions(cancel, actions: finalActions)
     }
 
     private func setupCurrentProductVMRxBindings(forIndex index: Int) {
@@ -579,11 +600,15 @@ class ListingCarouselViewModel: BaseViewModel {
         currentVM.productImageURLs.asObservable().bind(to: productImageURLs).disposed(by: activeDisposeBag)
         currentVM.userInfo.asObservable().bind(to: userInfo).disposed(by: activeDisposeBag)
         currentVM.listingStats.asObservable().bind(to: listingStats).disposed(by: activeDisposeBag)
-        currentVM.isProfessional.asObservable().bind(to: ownerIsProfessional).disposed(by: activeDisposeBag)
-        currentVM.phoneNumber.asObservable().bind(to: ownerPhoneNumber).disposed(by: activeDisposeBag)
+
+        currentVM.seller.asObservable().bind { [weak self] seller in
+            self?.ownerIsProfessional.value = seller?.isProfessional ?? false
+            self?.ownerPhoneNumber.value = seller?.phone
+        }.disposed(by: activeDisposeBag)
 
         currentVM.actionButtons.asObservable().bind(to: actionButtons).disposed(by: activeDisposeBag)
         currentVM.navBarButtons.asObservable().bind(to: navBarButtons).disposed(by: activeDisposeBag)
+        currentVM.altActions.asObservable().bind(to: altActions).disposed(by: activeDisposeBag)
 
         quickAnswers.value = currentVM.quickAnswers
         currentVM.directChatEnabled.asObservable().bind(to: quickAnswersAvailable).disposed(by: activeDisposeBag)
@@ -704,17 +729,6 @@ extension ListingCarouselViewModel {
 // MARK: - ListingViewModelDelegate
 
 extension ListingCarouselViewModel: ListingViewModelDelegate {
-    // ListingViewModelDelegate forwarding methods
-    func vmShowProductDetailOptions(_ cancelLabel: String, actions: [UIAction]) {
-        var finalActions: [UIAction] = actions
-
-        //Adding show onboarding action
-        let title = LGLocalizedString.productOnboardingShowAgainButtonTitle
-        finalActions.append(UIAction(interface: .text(title), action: { [weak self] in
-            self?.delegate?.vmShowOnboarding()
-        }))
-        delegate?.vmShowCarouselOptions(cancelLabel, actions: finalActions)
-    }
 
     func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?) {
         guard let delegate = delegate else { return (UIViewController(), nil) }

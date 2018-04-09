@@ -36,17 +36,14 @@ final class BlockingPostingAddPriceViewController: KeyboardViewController, Block
         setupConstraints()
         setupUI()
     }
+
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setStatusBarHidden(true)
+    // MARK: - Status Bar
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        setStatusBarHidden(false)
-    }
-    
+
     
     // MARK: - UI
     

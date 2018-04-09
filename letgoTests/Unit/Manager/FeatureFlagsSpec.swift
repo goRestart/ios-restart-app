@@ -38,6 +38,80 @@ class FeatureFlagsSpec: QuickSpec {
                                    dao: dao)
             }
 
+            context("phone locale is in Turkey") {
+                beforeEach {
+                    locale = Locale(identifier: "tr_TR")
+                    sut = FeatureFlags(locale: locale,
+                                       locationManager: locationManager,
+                                       countryInfo: countryInfo,
+                                       abTests: abTests,
+                                       dao: dao)
+                }
+                
+                it("has signup newsletter accept enabled") {
+                    expect(sut.signUpEmailNewsletterAcceptRequired) == true
+                }
+                it("has signup terms and conditions accept enabled") {
+                    expect(sut.signUpEmailTermsAndConditionsAcceptRequired) == true
+                }
+            }
+            
+            context("current postal address's country code is Turkey") {
+                beforeEach {
+                    let location = LGLocation.makeMock().updating(postalAddress: PostalAddress(address: "", city: "", zipCode: "", state: "", countryCode: "tr", country: ""))
+                    locationManager.currentLocation = location
+                    sut = FeatureFlags(locale: locale,
+                                       locationManager: locationManager,
+                                       countryInfo: countryInfo,
+                                       abTests: abTests,
+                                       dao: dao)
+                }
+                
+                it("has signup newsletter accept enabled") {
+                    expect(sut.signUpEmailNewsletterAcceptRequired) == true
+                }
+                it("has signup terms and conditions accept enabled") {
+                    expect(sut.signUpEmailTermsAndConditionsAcceptRequired) == true
+                }
+            }
+            
+            context("phone locale is in US") {
+                beforeEach {
+                    locale = Locale(identifier: "en_US")
+                    sut = FeatureFlags(locale: locale,
+                                       locationManager: locationManager,
+                                       countryInfo: countryInfo,
+                                       abTests: abTests,
+                                       dao: dao)
+                }
+                
+                it("has signup newsletter accept disabled") {
+                    expect(sut.signUpEmailNewsletterAcceptRequired) == false
+                }
+                it("has signup terms and conditions accept disabled") {
+                    expect(sut.signUpEmailTermsAndConditionsAcceptRequired) == false
+                }
+            }
+            
+            context("current postal address's country code is US") {
+                beforeEach {
+                    let location = LGLocation.makeMock().updating(postalAddress: PostalAddress(address: "", city: "", zipCode: "", state: "", countryCode: "us", country: ""))
+                    locationManager.currentLocation = location
+                    sut = FeatureFlags(locale: locale,
+                                       locationManager: locationManager,
+                                       countryInfo: countryInfo,
+                                       abTests: abTests,
+                                       dao: dao)
+                }
+                
+                it("has signup newsletter accept disabled") {
+                    expect(sut.signUpEmailNewsletterAcceptRequired) == false
+                }
+                it("has signup terms and conditions accept disabled") {
+                    expect(sut.signUpEmailTermsAndConditionsAcceptRequired) == false
+                }
+            }
+            
             describe("NetworkDAO interaction") {
                 context("bumper disabled") {
                     context("network dao does not have any presetted value") {

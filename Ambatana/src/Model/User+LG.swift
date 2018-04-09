@@ -31,3 +31,14 @@ extension User {
         return name?.trunc(18)
     }
 }
+
+extension User {
+    var isProfessional: Bool {
+        switch self.type {
+        case .dummy, .user:
+            return false
+        case .pro:
+            return true
+        }
+    }
+}

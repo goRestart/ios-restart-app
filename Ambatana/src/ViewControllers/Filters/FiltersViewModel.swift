@@ -432,6 +432,9 @@ class FiltersViewModel: BaseViewModel {
 
     func saveFilters() {
         // Tracking
+        let offerTypeValues = productFilter.realEstateOfferTypes.flatMap({ offerType -> String? in
+            return offerType.rawValue
+        })
         let trackingEvent = TrackerEvent.filterComplete(productFilter.filterCoordinates,
                                                         distanceRadius: productFilter.distanceRadius,
                                                         distanceUnit: productFilter.distanceType,
@@ -445,7 +448,7 @@ class FiltersViewModel: BaseViewModel {
                                                         carYearStart: productFilter.carYearStart?.value,
                                                         carYearEnd: productFilter.carYearEnd?.value,
                                                         propertyType: productFilter.realEstatePropertyType?.rawValue,
-                                                        offerType: productFilter.realEstateOfferType?.rawValue,
+                                                        offerType: offerTypeValues,
                                                         bedrooms: productFilter.realEstateNumberOfBedrooms?.rawValue,
                                                         bathrooms: productFilter.realEstateNumberOfBathrooms?.rawValue,
                                                         sizeSqrMetersMin: productFilter.realEstateSizeRange.min,
@@ -461,7 +464,10 @@ class FiltersViewModel: BaseViewModel {
     Retrieves the list of categories
     */
     func retrieveCategories() {
-        categoryRepository.index(carsIncluded: false, realEstateIncluded: featureFlags.realEstateEnabled.isActive, highlightRealEstate: featureFlags.realEstatePromos.isActive) { [weak self] result in
+        categoryRepository.index(servicesIncluded: featureFlags.servicesCategoryEnabled.isActive,
+                                 carsIncluded: false,
+                                 realEstateIncluded: featureFlags.realEstateEnabled.isActive) { [weak self] result in
+                                    
             guard let strongSelf = self else { return }
             guard let categories = result.value else { return }
             strongSelf.categories = strongSelf.buildFilterCategoryItemsWithCategories(categories)
@@ -569,7 +575,11 @@ class FiltersViewModel: BaseViewModel {
     
     func selectOfferTypeAtIndex(_ index: Int) {
         guard index < offerTypeOptionsCount else { return }
-        productFilter.realEstateOfferType = isOfferTypeSelectedAtIndex(index) ? nil : offerTypeOptions[index]
+        if isOfferTypeSelectedAtIndex(index), let offerTypeIndexSelected =  productFilter.realEstateOfferTypes.index(of: offerTypeOptions[index]) {
+            productFilter.realEstateOfferTypes.remove(at: offerTypeIndexSelected)
+        } else {
+            productFilter.realEstateOfferTypes.append(offerTypeOptions[index])
+        }
         delegate?.vmDidUpdate()
     }
     
@@ -580,7 +590,7 @@ class FiltersViewModel: BaseViewModel {
     
     func isOfferTypeSelectedAtIndex(_ index: Int) -> Bool {
         guard index < offerTypeOptionsCount else { return false }
-        return offerTypeOptions[index] == productFilter.realEstateOfferType
+        return productFilter.realEstateOfferTypes.index(of: offerTypeOptions[index]) != nil
     }
     
     
@@ -663,7 +673,7 @@ class FiltersViewModel: BaseViewModel {
         case .cars:
             productFilter = productFilter.resetingRealEstateAttributes()
         case .babyAndChild, .electronics, .fashionAndAccesories, .homeAndGarden,
-             .motorsAndAccessories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .unassigned:
+             .motorsAndAccessories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .unassigned, .services:
             productFilter = productFilter.resetingCarAttributes()
             productFilter = productFilter.resetingRealEstateAttributes()
         }

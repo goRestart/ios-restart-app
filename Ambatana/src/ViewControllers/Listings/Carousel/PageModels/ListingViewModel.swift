@@ -15,8 +15,6 @@ import RxSwift
 
 protocol ListingViewModelDelegate: BaseViewModelDelegate {
 
-    func vmShowProductDetailOptions(_ cancelLabel: String, actions: [UIAction])
-
     func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?)
 
     var trackingFeedPosition: EventParameterFeedPosition { get }
@@ -29,6 +27,10 @@ protocol ListingViewModelDelegate: BaseViewModelDelegate {
 
 protocol ListingViewModelMaker {
     func make(listing: Listing, visitSource: EventParameterListingVisitSource) -> ListingViewModel
+    func make(listing: Listing, navigator: ListingDetailNavigator?, visitSource: EventParameterListingVisitSource) -> ListingViewModel
+
+    func makeListingDeckSnapshot(listingViewModel: ListingViewModel) -> ListingDeckSnapshotType
+    func makeListingDeckSnapshot(listing: Listing) -> ListingDeckSnapshotType
 }
 
 enum ListingOrigin {
@@ -37,6 +39,68 @@ enum ListingOrigin {
 
 class ListingViewModel: BaseViewModel {
     class ConvenienceMaker: ListingViewModelMaker {
+
+        func makeListingDeckSnapshot(listingViewModel: ListingViewModel) -> ListingDeckSnapshotType {
+            return makeListingDeckSnapshot(listing: listingViewModel.listing.value,
+                                           isFavorite: listingViewModel.isFavorite.value,
+                                           isFeatured: listingViewModel.isShowingFeaturedStripe.value,
+                                           socialMessage: listingViewModel.socialMessage.value)
+        }
+
+        func makeListingDeckSnapshot(listing: Listing) -> ListingDeckSnapshotType {
+            return makeListingDeckSnapshot(listing: listing,
+                                           isFavorite: false,
+                                           isFeatured: false,
+                                           socialMessage: nil,
+                                           myUserRepository: Core.myUserRepository,
+                                           featureFlags: FeatureFlags.sharedInstance,
+                                           countryHelper: Core.countryHelper)
+        }
+
+        private func makeListingDeckSnapshot(listing: Listing,
+                                             isFavorite: Bool,
+                                             isFeatured: Bool,
+                                             socialMessage: SocialMessage?) -> ListingDeckSnapshotType {
+            return makeListingDeckSnapshot(listing: listing,
+                                           isFavorite: isFavorite,
+                                           isFeatured: isFeatured,
+                                           socialMessage: socialMessage,
+                                           myUserRepository: Core.myUserRepository,
+                                           featureFlags: FeatureFlags.sharedInstance,
+                                           countryHelper: Core.countryHelper)
+        }
+
+        private func makeListingDeckSnapshot(listing: Listing,
+                                             isFavorite: Bool,
+                                             isFeatured: Bool,
+                                             socialMessage: SocialMessage?,
+                                 myUserRepository: MyUserRepository,
+                                 featureFlags: FeatureFlags,
+                                 countryHelper: CountryHelper) -> ListingDeckSnapshotType {
+            let isMine = listing.isMine(myUserRepository: myUserRepository)
+            let status = ListingViewModelStatus(listing: listing,
+                                                isMine: listing.isMine(myUserRepository: myUserRepository),
+                                                featureFlags: featureFlags)
+            let info = ListingVMProductInfo(listing: listing,
+                                            isAutoTranslated: listing.isTitleAutoTranslated(countryHelper),
+                                            distance: nil,
+                                            freeModeAllowed: featureFlags.freePostingModeAllowed,
+                                            postingFlowType: featureFlags.postingFlowType)
+            let userInfo = ListingVMUserInfo(userListing: listing.user, myUser: myUserRepository.myUser)
+            return ListingDeckSnapshot(preview: listing.images.first?.fileURL,
+                                       imageCount: listing.images.count,
+                                       isFavoritable: isMine,
+                                       isFavorite: isFavorite,
+                                       userInfo: userInfo,
+                                       status: status,
+                                       isFeatured: isFeatured,
+                                       productInfo: info,
+                                       stats: nil,
+                                       postedDate: nil,
+                                       socialSharer: SocialSharer(),
+                                       socialMessage: socialMessage)
+        }
+
         func make(listing: Listing, visitSource source: EventParameterListingVisitSource) -> ListingViewModel {
             return ListingViewModel(listing: listing,
                                     visitSource: source,
@@ -54,6 +118,14 @@ class ListingViewModel: BaseViewModel {
                                     tracker: TrackerProxy.sharedInstance,
                                     keyValueStorage: KeyValueStorage.sharedInstance)
         }
+
+        func make(listing: Listing, navigator: ListingDetailNavigator?,
+                  visitSource: EventParameterListingVisitSource) -> ListingViewModel {
+            let viewModel = make(listing: listing, visitSource: visitSource)
+            viewModel.navigator = navigator
+            return viewModel
+        }
+
     }
 
     // Delegate
@@ -65,8 +137,8 @@ class ListingViewModel: BaseViewModel {
     var isMine: Bool {
         return listing.value.isMine(myUserRepository: myUserRepository)
     }
-    let isProfessional = Variable<Bool>(false)
-    let phoneNumber = Variable<String?>(nil)
+    
+    let seller = Variable<User?>(nil)
     let isFavorite = Variable<Bool>(false)
     let listingStats = Variable<ListingStats?>(nil)
     private var myUserId: String? {
@@ -76,7 +148,7 @@ class ListingViewModel: BaseViewModel {
         return myUserRepository.myUser?.name
     }
 
-    let socialMessage = Variable<SocialMessage?>(nil)
+    lazy var socialMessage = Variable<SocialMessage?>(nil)
     let socialSharer: SocialSharer
     fileprivate var freeBumpUpShareMessage: SocialMessage?
 
@@ -104,19 +176,37 @@ class ListingViewModel: BaseViewModel {
         }
     }
 
-    let navBarButtons = Variable<[UIAction]>([])
-    let actionButtons = Variable<[UIAction]>([])
-    let directChatEnabled = Variable<Bool>(false)
+    lazy var navBarButtons = Variable<[UIAction]>([])
+    lazy var actionButtons = Variable<[UIAction]>([])
+    lazy var altActions = Variable<[UIAction]>([])
+
+    var navBarActionsNewItemPage: [UIAction] {
+        var navBarButtons = [UIAction]()
+        if isMine {
+            if status.value.isEditable && isListingDetailsCompleted.value {
+                navBarButtons.append(buildEditAction())
+            }
+            navBarButtons.append(buildDeleteAction())
+        } else {
+            navBarButtons.append(buildReportAction())
+        }
+        navBarButtons.insert(buildShareAction(), at: navBarButtons.count - 1)
+        return navBarButtons
+    }
+
+    lazy var directChatEnabled = Variable<Bool>(false)
     var directChatPlaceholder: String {
         let userName = listing.value.user.name?.toNameReduced(maxChars: Constants.maxCharactersOnUserNameChatButton) ?? ""
         return LGLocalizedString.productChatWithSellerNameButton(userName)
     }
-    fileprivate let productIsFavoriteable = Variable<Bool>(false)
-    let favoriteButtonState = Variable<ButtonState>(.enabled)
-    let shareButtonState = Variable<ButtonState>(.hidden)
+    fileprivate lazy var productIsFavoriteable = Variable<Bool>(false)
+    lazy var favoriteButtonState = Variable<ButtonState>(.enabled)
+    lazy var shareButtonState = Variable<ButtonState>(.hidden)
 
-    let productInfo = Variable<ListingVMProductInfo?>(nil)
-    let productImageURLs = Variable<[URL]>([])
+    lazy var productInfo = Variable<ListingVMProductInfo?>(nil)
+    lazy var productImageURLs = Variable<[URL]>([])
+    lazy var previewURL = Variable<(URL?, Int)>((nil, 0))
+
     let userInfo: Variable<ListingVMUserInfo>
 
     let status = Variable<ListingViewModelStatus>(.pending)
@@ -125,7 +215,7 @@ class ListingViewModel: BaseViewModel {
 
     fileprivate let isReported = Variable<Bool>(false)
 
-    let bumpUpBannerInfo = Variable<BumpUpInfo?>(nil)
+    lazy var bumpUpBannerInfo = Variable<BumpUpInfo?>(nil)
     fileprivate var timeSinceLastBump: TimeInterval = 0
     fileprivate var bumpMaxCountdown: TimeInterval = 0
     var bumpUpPurchaseableProduct: PurchaseableProduct?
@@ -168,8 +258,8 @@ class ListingViewModel: BaseViewModel {
     fileprivate let visitSource: EventParameterListingVisitSource
     fileprivate let keyValueStorage: KeyValueStorageable
 
-    let isShowingFeaturedStripe = Variable<Bool>(false)
-    fileprivate let isListingDetailsCompleted = Variable<Bool>(false)
+    lazy var isShowingFeaturedStripe = Variable<Bool>(false)
+    fileprivate lazy var isListingDetailsCompleted = Variable<Bool>(false)
 
     // Retrieval status
     private var relationRetrieved = false
@@ -214,6 +304,7 @@ class ListingViewModel: BaseViewModel {
         self.userInfo = Variable<ListingVMUserInfo>(ListingVMUserInfo(userListing: listing.user, myUser: myUserRepository.myUser))
         self.disposeBag = DisposeBag()
 
+
         super.init()
 
         socialSharer.delegate = self
@@ -222,30 +313,33 @@ class ListingViewModel: BaseViewModel {
     
     internal override func didBecomeActive(_ firstTime: Bool) {
         guard let listingId = listing.value.objectId else { return }
-        
-        if listing.value.isRealEstate && listing.value.realEstate?.realEstateAttributes == RealEstateAttributes.emptyRealEstateAttributes() {
+
+        if !featureFlags.deckItemPage.isActive
+            && listing.value.isRealEstate
+            && listing.value.realEstate?.realEstateAttributes == RealEstateAttributes.emptyRealEstateAttributes() {
             retrieveRealEstateDetails(listingId: listingId)
         } else {
             isListingDetailsCompleted.value = true
         }
 
-        if featureFlags.allowCallsForProfessionals.isActive {
+        if !featureFlags.deckItemPage.isActive && featureFlags.allowCallsForProfessionals.isActive {
             if isMine {
-                isProfessional.value = myUserRepository.myUser?.type == .pro
-                phoneNumber.value = myUserRepository.myUser?.phone
+                seller.value = myUserRepository.myUser
             } else if let userId = userInfo.value.userId {
                 userRepository.show(userId) { [weak self] result in
                     guard let strongSelf = self else { return }
                     if let value = result.value {
-                        strongSelf.isProfessional.value = value.type == .pro
-                        strongSelf.phoneNumber.value = value.phone
+                        strongSelf.seller.value = value
                         strongSelf.sellerAverageUserRating = value.ratingAverage
                     }
                 }
             }
         }
 
-        listingRepository.incrementViews(listingId: listingId, visitSource: visitSource.rawValue, visitTimestamp: Date().millisecondsSince1970, completion: nil)
+        listingRepository.incrementViews(listingId: listingId,
+                                         visitSource: visitSource.rawValue,
+                                         visitTimestamp: Date().millisecondsSince1970,
+                                         completion: nil)
 
         if !relationRetrieved && myUserRepository.myUser != nil {
             listingRepository.retrieveUserListingRelation(listingId) { [weak self] result in
@@ -278,6 +372,7 @@ class ListingViewModel: BaseViewModel {
     override func didBecomeInactive() {
         super.didBecomeInactive()
         bumpUpBannerInfo.value = nil
+        altActions.value = []
     }
 
     func syncListing(_ completion: (() -> ())?) {
@@ -299,6 +394,9 @@ class ListingViewModel: BaseViewModel {
     }
 
     private func setupRxBindings() {
+        productImageURLs.asObservable().bind { [weak self] urls in
+            self?.previewURL.value = (urls.first, urls.count)
+        }.disposed(by: disposeBag)
 
         if let productId = listing.value.objectId {
             listingRepository.updateEvents(for: productId).bind { [weak self] listing in
@@ -306,13 +404,14 @@ class ListingViewModel: BaseViewModel {
             }.disposed(by: disposeBag)
         }
 
-        let listingActions = Observable.combineLatest(status.asObservable(), isProfessional.asObservable()) { ($0, $1) }
+        let listingActions = Observable.combineLatest(status.asObservable(), seller.asObservable()) { ($0, $1) }
 
-        listingActions.asObservable().bind { [weak self] (status, isPro) in
+        listingActions.asObservable().bind { [weak self] (status, seller) in
             guard let strongSelf = self else { return }
-            strongSelf.refreshActionButtons(status, isProfessional: isPro)
+            let sellerIsProfessional = seller?.isProfessional ?? false
+            strongSelf.refreshActionButtons(status, isProfessional: sellerIsProfessional)
             strongSelf.refreshNavBarButtons()
-            strongSelf.directChatEnabled.value = status.directChatsAvailable && !isPro
+            strongSelf.directChatEnabled.value = status.directChatsAvailable && !sellerIsProfessional
         }.disposed(by: disposeBag)
         
         isListingDetailsCompleted.asObservable().filter {$0}.bind { [weak self] _ in
@@ -402,6 +501,7 @@ class ListingViewModel: BaseViewModel {
     }
 
     func refreshBumpeableBanner() {
+        guard isMine else { return }
         let pendingAreBumpeable = featureFlags.showBumpUpBannerOnNotValidatedListings.isActive
         guard let listingId = listing.value.objectId,
             status.value.shouldRefreshBumpBanner(pendingAreBumpeable: pendingAreBumpeable),
@@ -628,6 +728,7 @@ extension ListingViewModel {
     }
 
     func editListing() {
+        guard myUserId == listing.value.user.objectId else { return }
         var bumpUpProductData: BumpUpProductData? = nil
         if let purchaseableProduct = bumpUpPurchaseableProduct, featureFlags.promoteBumpInEdit.isActive {
                 bumpUpProductData = BumpUpProductData(bumpUpPurchaseableData: .purchaseableProduct(product: purchaseableProduct),
@@ -648,9 +749,10 @@ extension ListingViewModel {
     }
 
     func chatWithSeller() {
+        guard let seller = seller.value else { return }
         let source: EventParameterTypePage = (moreInfoState.value == .shown) ? .listingDetailMoreInfo : .listingDetail
         trackHelper.trackChatWithSeller(source)
-        navigator?.openListingChat(listing.value, source: .listingDetail, isProfessional: isProfessional.value)
+        navigator?.openListingChat(listing.value, source: .listingDetail, interlocutor: seller)
     }
 
     func sendDirectMessage(_ text: String, isDefaultText: Bool) {
@@ -694,6 +796,7 @@ extension ListingViewModel {
     }
 
     func markAsSold() {
+        guard myUserId == listing.value.user.objectId else { return }
         delegate?.vmShowLoading(nil)
         listingRepository.markAsSold(listing: listing.value) { [weak self] result in
             guard let strongSelf = self else { return }
@@ -716,7 +819,8 @@ extension ListingViewModel {
                 strongSelf.keyValueStorage.proSellerAlreadySentPhoneInChat.contains(listingId) {
                 strongSelf.chatWithSeller()
             } else {
-                strongSelf.navigator?.openAskPhoneFor(listing: strongSelf.listing.value)
+                strongSelf.navigator?.openAskPhoneFor(listing: strongSelf.listing.value,
+                                                      interlocutor: strongSelf.seller.value)
             }
         }
     }
@@ -767,7 +871,7 @@ extension ListingViewModel {
 
     private func buildMoreNavBarAction() -> UIAction {
         let icon = UIImage(named: "navbar_more")?.withRenderingMode(.alwaysOriginal)
-        return UIAction(interface: .image(icon, nil), action: { [weak self] in self?.showOptionsMenu() },
+        return UIAction(interface: .image(icon, nil), action: { [weak self] in self?.updateAltActions() },
                         accessibilityId: .listingCarouselNavBarActionsButton)
     }
 
@@ -784,7 +888,7 @@ extension ListingViewModel {
     }
 
 
-    private func showOptionsMenu() {
+    private func updateAltActions() {
         var actions = [UIAction]()
 
         if status.value.isEditable {
@@ -797,8 +901,8 @@ extension ListingViewModel {
         if isMine && status.value != .notAvailable {
             actions.append(buildDeleteAction())
         }
-        
-        delegate?.vmShowProductDetailOptions(LGLocalizedString.commonCancel, actions: actions)
+
+        altActions.value = actions
     }
 
     private func buildEditAction() -> UIAction {
@@ -909,7 +1013,7 @@ extension ListingViewModel {
             actionButtons.append(UIAction(interface: .button(LGLocalizedString.productSellAgainButton, .secondary(fontSize: .big, withBorder: false)),
                                           action: { [weak self] in self?.confirmToMarkAsUnSold(free: false) }))
         case .otherAvailable, .otherAvailableFree:
-            if isProfessional {
+            if isProfessional && featureFlags.allowCallsForProfessionals.isActive {
                 actionButtons.append(UIAction(interface: .button(LGLocalizedString.productProfessionalChatButton, .secondary(fontSize: .big, withBorder: false)),
                                               action: { [weak self] in self?.openAskPhone() }))
             }
@@ -1054,7 +1158,8 @@ fileprivate extension ListingViewModel {
                 strongSelf.isReported.value = true
                 message = LGLocalizedString.productReportedSuccessMessage
                 self?.trackHelper.trackReportCompleted()
-            } else if let _ = result.error {
+            } else if let error = result.error {
+                self?.trackHelper.trackReportError(error.reportError)
                 message = LGLocalizedString.productReportedErrorGeneric
             }
             strongSelf.delegate?.vmHideLoading(message, afterMessageCompletion: nil)
@@ -1295,11 +1400,7 @@ extension ListingViewModel: PurchasesShopperDelegate {
 
     func pricedBumpPaymentDidFail(withReason reason: String?, transactionStatus: EventParameterTransactionStatus) {
         trackMobilePaymentFail(withReason: reason, transactionStatus: transactionStatus)
-//        delegate?.vmHideLoading(LGLocalizedString.bumpUpErrorPaymentFailed, afterMessageCompletion: nil)
-
-        delegate?.vmHideLoading(LGLocalizedString.bumpUpErrorPaymentFailed, afterMessageCompletion: { [weak self] in
-            self?.bumpUpBoostSucceeded()
-        })
+        delegate?.vmHideLoading(LGLocalizedString.bumpUpErrorPaymentFailed, afterMessageCompletion: nil)
     }
 
     func pricedBumpDidSucceed(type: BumpUpType, restoreRetriesCount: Int, transactionStatus: EventParameterTransactionStatus,
@@ -1350,4 +1451,9 @@ extension ListingViewModel: PurchasesShopperDelegate {
                            storeProductId: storeProductId, isPromotedBump: isPromotedBump, typePage: .listingDetail)
         delegate?.vmShowLoading(LGLocalizedString.bumpUpProcessingFreeText)
     }
+}
+
+// new item page
+extension ListingViewModel {
+    var isFavoritable: Bool { return !isMine }
 }

@@ -23,6 +23,7 @@ final class LGListingRepository: ListingRepository {
     let myUserRepository: MyUserRepository
     let carsInfoRepository: CarsInfoRepository
     let listingsLimboDAO: ListingsLimboDAO
+    let spellCorrectorRepository: SpellCorrectorRepository
     var viewedListings:[(listingId: String, visitSource: String, visitTimestamp: Double)] = []
 
 
@@ -31,13 +32,15 @@ final class LGListingRepository: ListingRepository {
     init(listingDataSource: ListingDataSource,
          myUserRepository: MyUserRepository,
          listingsLimboDAO: ListingsLimboDAO,
-         carsInfoRepository: CarsInfoRepository) {
+         carsInfoRepository: CarsInfoRepository,
+         spellCorrectorRepository: SpellCorrectorRepository) {
         
         self.dataSource = listingDataSource
         self.myUserRepository = myUserRepository
         self.listingsLimboDAO = listingsLimboDAO
         self.viewedListings = []
         self.carsInfoRepository = carsInfoRepository
+        self.spellCorrectorRepository = spellCorrectorRepository
     }
 
     func updateEvents(for listingId: String) -> Observable<Listing> {
@@ -60,7 +63,12 @@ final class LGListingRepository: ListingRepository {
     // MARK: - Product CRUD
 
     func index(_ params: RetrieveListingParams, completion: ListingsCompletion?)  {
-        dataSource.index(params.letgoApiParams, completion: updateCompletion(completion))
+        guard let queryString = params.queryString,
+            let relaxParam = params.relaxParam else  {
+                retrieveIndex(params.letgoApiParams, completion: updateCompletion(completion))
+                return
+        }
+        retrieveIndexWithRelax(queryString, params, relaxParam, completion: completion)
     }
 
     func index(userId: String, params: RetrieveListingParams, completion: ListingsCompletion?)  {
@@ -89,6 +97,17 @@ final class LGListingRepository: ListingRepository {
     
     func indexRealEstateRelatedSearch(_ params: RetrieveListingParams, completion: ListingsCompletion?) {
         dataSource.indexRealEstateRelatedSearch(params.realEstateApiParams, completion: updateCompletion(completion))
+    }
+    
+    func indexCars(_ params: RetrieveListingParams, completion: ListingsCompletion?) {
+        dataSource.indexCars(params.carsApiParams, completion: updateCompletion(completion))
+    }
+    func indexCarsRelatedSearch(_ params: RetrieveListingParams, completion: ListingsCompletion?) {
+        dataSource.indexCarsRelatedSearch(params.carsApiParams, completion: updateCompletion(completion))
+    }
+    func indexRelatedCars(listingId: String, params: RetrieveListingParams, completion: ListingsCompletion?) {
+        dataSource.indexRelatedCars(listingId, parameters: params.relatedProductsApiParams,
+                                          completion: updateCompletion(completion))
     }
     
     func indexFavorites(userId: String,
@@ -474,6 +493,31 @@ final class LGListingRepository: ListingRepository {
                                                               model: model,
                                                               year: mutableCar.carAttributes.year)
         return mutableCar.updating(carAttributes: carAttributesUpdated)
+    }
+    
+    private func retrieveIndexWithRelax(_ queryString: String, _ params: RetrieveListingParams, _ relaxParam: RelaxParam, completion: ListingsCompletion?) {
+        spellCorrectorRepository.retrieveRelaxQuery(query: queryString, relaxParam: relaxParam) { [weak self] relaxResult in
+            guard let relaxedQuery = relaxResult.value,
+                relaxResult.error == nil else {
+                self?.retrieveIndex(params.letgoApiParams, completion: self?.updateCompletion(completion))
+                return
+            }
+            self?.retrieveIndex(params.letgoRelaxedApiParam(relaxQuery: relaxedQuery), completion: self?.updateCompletion(completion))
+        }
+    }
+    
+    private func retrieveIndex(_ params: [String : Any], completion: ListingsDataSourceCompletion?) {
+        dataSource.index(params, completion: completion)
+    }
+}
+
+private extension RetrieveListingParams {
+    func letgoRelaxedApiParam(relaxQuery: RelaxQuery) -> [String : Any] {
+        var apiParams = letgoApiParams
+        if let relaxedQuery = relaxQuery.relaxedQuery, !relaxedQuery.isEmpty {
+            apiParams["search_term"] = relaxedQuery
+        }
+        return apiParams
     }
 }
 

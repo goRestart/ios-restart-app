@@ -44,14 +44,14 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, RxPaginable {
     private let disposeBag = DisposeBag()
     
     var emptyStatusViewModel: LGEmptyViewModel {
-        return LGEmptyViewModel(icon: UIImage(named: "err_list_no_chats"),
-                                title: LGLocalizedString.chatListAllEmptyTitle,
-                                body: nil,
+        return LGEmptyViewModel(icon: UIImage(named: "err_list_no_blocked_users"),
+                                title: LGLocalizedString.chatInactiveListTitle,
+                                body: LGLocalizedString.chatInactiveConversationsExplanationLabel,
                                 buttonTitle: nil,
                                 action: nil,
                                 secondaryButtonTitle: nil,
                                 secondaryAction: nil,
-                                emptyReason: nil,
+                                emptyReason: .emptyResults,
                                 errorCode: nil)
     }
     

@@ -38,7 +38,7 @@ class UserViewController: BaseViewController {
         }
     }
     fileprivate let headerCollapsedHeight: CGFloat = 44
-    
+
     fileprivate var dummyUserViewHeight: CGFloat {
         return headerContainer.header.dummyUserDisclaimerContainerView?.height ?? 0
     }
@@ -78,7 +78,7 @@ class UserViewController: BaseViewController {
     fileprivate let headerRecognizerDragging = Variable<Bool>(false)
     
     @IBOutlet weak var listingListViewBackgroundView: UIView!
-    @IBOutlet weak var listingListView: ListingListView!
+    let listingListView: ListingListView = ListingListView()
     
     @IBOutlet weak var userLabelsContainer: UIView!
     @IBOutlet weak var userNameLabel: UILabel!
@@ -316,11 +316,16 @@ extension UserViewController {
     }
 
     private func setupListingListView() {
+        addSubview(listingListView)
+        view.addSubviewForAutoLayout(listingListView)
+        listingListView.layout(with: view).fill()
+        view.sendSubview(toBack: listingListView)
+        view.sendSubview(toBack: listingListViewBackgroundView)
+
         listingListView.headerDelegate = self
         listingListViewBackgroundView.backgroundColor = UIColor.listBackgroundColor
     
-        // Remove pull to refresh
-        listingListView.refreshControl.removeFromSuperview()
+        listingListView.removePullToRefresh()
         listingListView.setErrorViewStyle(bgColor: nil, borderColor: nil, containerColor: nil)
         listingListView.shouldScrollToTopOnFirstPageReload = false
         listingListView.padding = UIEdgeInsets(top: listingListViewTopMargin, left: 0, bottom: 0, right: 0)
@@ -494,7 +499,11 @@ extension UserViewController {
         viewModel.backgroundColor.asObservable().subscribeNext { [weak self] bgColor in
             self?.headerContainer.header.selectedColor = bgColor
         }.disposed(by: disposeBag)
-
+        
+            viewModel.userIsProfessional.asObservable().map{ !($0 && self.featureFlags.showProTagUserProfile) }
+                .bind(to: headerContainer.header.proTagImageView.rx.isHidden )
+                .disposed(by: disposeBag)
+        
         // Ratings
         viewModel.userRatingAverage.asObservable().subscribeNext { [weak self] userRatingAverage in
             self?.setupRatingAverage(userRatingAverage)
@@ -560,7 +569,7 @@ extension UserViewController {
             }.disposed(by: disposeBag)
 
         // Header sticky to expanded/collapsed
-        let listViewDragging = listingListView.isDragging.asObservable().distinctUntilChanged()
+        let listViewDragging = listingListView.rxIsDragging.distinctUntilChanged()
         let recognizerDragging = headerRecognizerDragging.asObservable().distinctUntilChanged()
         let dragging = Observable.combineLatest(listViewDragging, recognizerDragging){ $0 || $1 }.distinctUntilChanged()
 
@@ -619,7 +628,7 @@ extension UserViewController {
 
 extension UserViewController: ScrollableToTop {
     func scrollToTop() {
-        listingListView?.scrollToTop(true)
+        listingListView.scrollToTop(true)
     }
 }
 

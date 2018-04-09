@@ -11,21 +11,36 @@ import LGCoreKit
 
 class AdvertisementCell: UICollectionViewCell, ReusableCell {
 
-    func setupWith(adData: AdvertisementData) {
-        guard let bannerView = adData.bannerView else { return }
+    func setupWith(dfpData: AdvertisementDFPData) {
+        guard let bannerView = dfpData.bannerView else { return }
         bannerView.frame = contentView.frame
-        contentView.addSubview(bannerView)
-        bannerView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubviewForAutoLayout(bannerView)
         bannerView.layout(with: contentView).fill()
         bannerView.set(accessibilityId: .advertisementCellBanner)
     }
+    
+    func setupWith(moPubData: AdvertisementMoPubData) {
+        guard let moPubView = moPubData.moPubView else { return }
+        moPubView.frame = contentView.frame
+        contentView.addSubviewForAutoLayout(moPubView)
+        moPubView.layout(with: contentView).fill()
+        moPubView.set(accessibilityId: .advertisementCellBanner)
+    }
+    
+    convenience init() {
+        self.init(frame: .zero)
+    }
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         resetUI()
         setAccessibilityIds()
     }
-
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         resetUI()

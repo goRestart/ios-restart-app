@@ -240,6 +240,7 @@ enum AccessibilityId: Equatable {
     case postingCloseButton
     case postingGalleryButton
     case postingPhotoButton
+    case postingInfoButton
     case postingLoading
     case postingRetryButton
     case postingDoneButton
@@ -484,15 +485,22 @@ enum AccessibilityId: Equatable {
     case userHeaderExpandedVerifyGoogleButton
     case userHeaderExpandedVerifyEmailButton
     case userHeaderExpandedBuildTrustButton
+    case userHeaderExpandedMemberSinceLabel
     case userEnableNotificationsButton
     case userSellingTab
     case userSoldTab
     case userFavoritesTab
+    case userReviewsTab
     case userListingsFirstLoad
     case userListingsList
     case userListingsError
     case userPushPermissionOK
     case userPushPermissionCancel
+    case userProfileAddBioButton
+    case userProfileBuildTrustButton
+    case userProfileVerifiedTitle
+    case userProfileMoreBioTitle
+    case userProfileBioLabel
 
     // Verify Accounts popup
     case verifyAccountsBackgroundButton
@@ -1123,6 +1131,8 @@ enum AccessibilityId: Equatable {
             return "postingCloseButton"
         case .postingGalleryButton:
             return "postingGalleryButton"
+        case .postingInfoButton:
+            return "postingInfoButton"
         case .postingPhotoButton:
             return "postingPhotoButton"
         case .postingLoading:
@@ -1566,6 +1576,8 @@ enum AccessibilityId: Equatable {
             return "userHeaderExpandedVerifyEmailButton"
         case .userHeaderExpandedBuildTrustButton:
             return "userHeaderExpandedBuildTrustButton"
+        case .userHeaderExpandedMemberSinceLabel:
+            return "userHeaderExpandedMemberSinceLabel"
         case .userEnableNotificationsButton:
             return "userEnableNotificationsButton"
         case .userSellingTab:
@@ -1574,6 +1586,8 @@ enum AccessibilityId: Equatable {
             return "userSoldTab"
         case .userFavoritesTab:
             return "userFavoritesTab"
+        case .userReviewsTab:
+            return "userReviewsTab"
         case .userListingsFirstLoad:
             return "userListingsFirstLoad"
         case .userListingsList:
@@ -1584,6 +1598,16 @@ enum AccessibilityId: Equatable {
             return "userPushPermissionOK"
         case .userPushPermissionCancel:
             return "userPushPermissionCancel"
+        case .userProfileAddBioButton:
+            return "userProfileAddBioButton"
+        case .userProfileBuildTrustButton:
+            return "userProfileBuildTrustButton"
+        case .userProfileVerifiedTitle:
+            return "userProfileVerifiedTitle"
+        case .userProfileMoreBioTitle:
+            return "userProfileMoreBioTitle"
+        case .userProfileBioLabel:
+            return "userProfileBioLabel"
             
         // Verify Accounts popup
         case .verifyAccountsBackgroundButton:
