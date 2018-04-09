@@ -56,9 +56,9 @@ final class UserVerificationNavBarView: UIView {
     }
 
     private func updateShadow() {
-        container.layer.cornerRadius = Layout.viewHeight / 2
+        container.setRoundedCorners()
         container.layer.shadowColor = UIColor.black.cgColor
-        container.layer.shadowOffset = CGSize(width: 0, height: 0)
+        container.layer.shadowOffset = .zero
         container.layer.shadowOpacity = 0.3
         container.layer.masksToBounds = false
         container.backgroundColor = .white

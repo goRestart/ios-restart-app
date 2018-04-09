@@ -8,7 +8,7 @@
 
 import Foundation
 
-class UserVerificationCell: UITableViewCell, ReusableCell {
+final class UserVerificationCell: UITableViewCell, ReusableCell {
     private let logoImageView = UIImageView()
     private let titleLabel = UILabel()
     private let subtitleLabel = UILabel()
@@ -17,6 +17,10 @@ class UserVerificationCell: UITableViewCell, ReusableCell {
     private let completedBadge = UIImageView()
     private var titleViewTopConstraint: NSLayoutConstraint?
 
+    private struct Layout {
+        static let logoImageHeight: CGFloat = 40
+        static let badgeHeight: CGFloat = 24
+    }
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
@@ -45,25 +49,25 @@ class UserVerificationCell: UITableViewCell, ReusableCell {
     private func setupConstraints() {
         let contraints: [NSLayoutConstraint] = [
             logoImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            logoImageView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 15),
-            logoImageView.heightAnchor.constraint(equalToConstant: 40),
+            logoImageView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: Metrics.margin),
+            logoImageView.heightAnchor.constraint(equalToConstant: Layout.logoImageHeight),
             logoImageView.widthAnchor.constraint(equalTo: logoImageView.heightAnchor),
-            titleLabel.leftAnchor.constraint(equalTo: logoImageView.rightAnchor, constant: 15),
-            subtitleLabel.leftAnchor.constraint(equalTo: logoImageView.rightAnchor, constant: 15),
-            subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5),
+            titleLabel.leftAnchor.constraint(equalTo: logoImageView.rightAnchor, constant: Metrics.margin),
+            subtitleLabel.leftAnchor.constraint(equalTo: logoImageView.rightAnchor, constant: Metrics.margin),
+            subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Metrics.veryShortMargin),
             customAccessoryView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            customAccessoryView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -15),
+            customAccessoryView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -Metrics.margin),
             pointsLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            pointsLabel.rightAnchor.constraint(equalTo: customAccessoryView.leftAnchor, constant: -15),
-            completedBadge.heightAnchor.constraint(equalToConstant: 24),
+            pointsLabel.rightAnchor.constraint(equalTo: customAccessoryView.leftAnchor, constant: -Metrics.margin),
+            completedBadge.heightAnchor.constraint(equalToConstant: Layout.badgeHeight),
             completedBadge.widthAnchor.constraint(equalTo: completedBadge.heightAnchor),
-            completedBadge.topAnchor.constraint(equalTo: logoImageView.topAnchor, constant: 20),
-            completedBadge.leftAnchor.constraint(equalTo: logoImageView.leftAnchor, constant: 20)
+            completedBadge.topAnchor.constraint(equalTo: logoImageView.topAnchor, constant: Metrics.bigMargin),
+            completedBadge.leftAnchor.constraint(equalTo: logoImageView.leftAnchor, constant: Metrics.bigMargin)
         ]
 
         NSLayoutConstraint.activate(contraints)
 
-        titleViewTopConstraint = titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 21)
+        titleViewTopConstraint = titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Metrics.bigMargin)
         titleViewTopConstraint?.isActive = true
     }
 
@@ -75,7 +79,7 @@ class UserVerificationCell: UITableViewCell, ReusableCell {
         selectionStyle = item.canBeSelected ? .default : .none
         setCompleted(completed: item.completed)
         subtitleLabel.text = item.subtitle
-        titleViewTopConstraint?.constant = item.subtitle == nil ? 21 : 15
+        titleViewTopConstraint?.constant = item.subtitle == nil ? Metrics.bigMargin : Metrics.margin
     }
 
     private func setCompleted(completed: Bool) {

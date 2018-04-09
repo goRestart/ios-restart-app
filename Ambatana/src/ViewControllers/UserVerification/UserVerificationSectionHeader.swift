@@ -8,7 +8,7 @@
 
 import Foundation
 
-class UserVerificationMainSectionHeader: UIView {
+final class UserVerificationMainSectionHeader: UIView {
     private let titleLabel = UILabel()
     private let subtitleLabel = UILabel()
     private let imageView = UIImageView()
@@ -63,7 +63,7 @@ class UserVerificationMainSectionHeader: UIView {
     }
 }
 
-class UserVerificationSectionHeader: UIView {
+final class UserVerificationSectionHeader: UIView {
     private let separator = UIView()
     private let titleLabel = UILabel()
     var title: String? {

@@ -33,8 +33,8 @@ enum UserVerificationItem {
 
     var subtitle: String? {
         switch self {
+        case .facebook, .google, .email, .phoneNumber, .photoID, .profilePicture, .bio: return nil
         case .markAsSold: return LGLocalizedString.profileVerificationsViewMarkAsSoldSubtitle
-        default: return nil
         }
     }
 
