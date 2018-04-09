@@ -20,7 +20,7 @@ def shared_pods
     pod "RxCocoa",              "4.0.0"
 
     #Ads
-    pod "Google-Mobile-Ads-SDK","7.24.1"
+    pod "Google-Mobile-Ads-SDK","7.30.0"
 
     #Fabric
     pod "Fabric",               "1.7.2"     # Obj-c
