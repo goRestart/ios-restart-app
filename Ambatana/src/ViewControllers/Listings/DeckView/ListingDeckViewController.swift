@@ -51,12 +51,11 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     override func viewDidFirstAppear(_ animated: Bool) {
         super.viewDidFirstAppear(animated)
 
-        self.updateStartIndex()
+        updateStartIndex()
         listingDeckView.collectionView.layoutIfNeeded()
         guard let current = currentPageCell() else { return }
         populateCell(current)
         let index = viewModel.currentIndex
-        let bumpUp = viewModel.bumpUpBannerInfo.value
         UIView.animate(withDuration: 0.5,
                        delay: 0,
                        options: .curveEaseIn,
@@ -385,6 +384,7 @@ extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCard
 
     func cardViewDidTapOnPreview(_ cardView: ListingCardView) {
         guard cardView.tag == viewModel.currentIndex else { return }
+        guard viewModel.cachedImageAtIndex(0) != nil else { return }
         viewModel.openPhotoViewer()
     }
     
