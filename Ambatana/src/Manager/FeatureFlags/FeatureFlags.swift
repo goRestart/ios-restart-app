@@ -88,6 +88,7 @@ protocol FeatureFlaggeable: class {
     var feedMoPubAdUnitId: String? { get }
     var shouldChangeChatNowCopyInEnglish: Bool { get }
     var copyForChatNowInEnglish: CopyForChatNowInEnglish { get }
+    var feedAdsProviderForTR:  FeedAdsProviderForTR { get }
     
 }
 
@@ -307,6 +308,31 @@ extension FeedAdsProviderForUS {
     }
 }
 
+extension FeedAdsProviderForTR {
+    private var shouldShowAdsInFeedForNewUsers: Bool {
+        return self == .moPubAdsForAllUsers
+    }
+    private var shouldShowAdsInFeedForOldUsers: Bool {
+        return self == .moPubAdsForOldUsers || self == .moPubAdsForAllUsers
+    }
+    
+    var shouldShowAdsInFeed: Bool {
+        return  shouldShowAdsInFeedForNewUsers || shouldShowAdsInFeedForOldUsers
+    }
+    
+    var shouldShowMoPubAds : Bool {
+        return self == .moPubAdsForOldUsers || self == .moPubAdsForAllUsers
+    }
+    
+    func shouldShowAdsInFeedForUser(createdIn: Date?) -> Bool {
+        guard let creationDate = createdIn else { return shouldShowAdsInFeedForOldUsers }
+        if creationDate.isNewerThan(Constants.newUserTimeThresholdForAds) {
+            return shouldShowAdsInFeedForNewUsers
+        } else {
+            return shouldShowAdsInFeedForOldUsers
+        }
+    }
+}
 
 extension CopyForChatNowInEnglish {
     var isActive: Bool { get { return self != .control } }
@@ -872,6 +898,16 @@ class FeatureFlags: FeatureFlaggeable {
             default:
                 return nil
             }
+        case .turkey?:
+            switch feedAdsProviderForTR {
+            case .moPubAdsForAllUsers:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubTRForAllUsers
+            case .moPubAdsForOldUsers:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubTRForOldUsers
+            default:
+                return nil
+            }
+            
         default:
             return nil
         }
@@ -894,6 +930,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.copyForChatNowInEnglish
         }
         return CopyForChatNowInEnglish.fromPosition(abTests.copyForChatNowInEnglish.value)
+    }
+    
+    var feedAdsProviderForTR: FeedAdsProviderForTR {
+        if Bumper.enabled {
+            return Bumper.feedAdsProviderForTR
+        }
+        return FeedAdsProviderForTR.fromPosition(abTests.feedAdsProviderForTR.value)
     }
 
     // MARK: - Private
