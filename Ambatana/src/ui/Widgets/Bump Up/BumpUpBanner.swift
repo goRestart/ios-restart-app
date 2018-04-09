@@ -74,6 +74,15 @@ enum BumpUpType: Equatable {
             return false
         }
     }
+
+    var isBoost: Bool {
+        switch self {
+        case .free, .priced, .hidden, .restore:
+            return false
+        case .boost:
+            return true
+        }
+    }
 }
 
 struct BumpUpInfo {

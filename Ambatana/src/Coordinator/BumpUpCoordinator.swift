@@ -103,6 +103,7 @@ class BumpUpCoordinator: Coordinator {
 
         let bumpUpVC: BaseViewController
         if let timeSinceLastBump = timeSinceLastBump, let maxCountdown = maxCountdown {
+            bumpUpVM.isBoost = true
             bumpUpVC = BumpUpBoostViewController(viewModel: bumpUpVM,
                                                  featureFlags: featureFlags,
                                                  timeSinceLastBump: timeSinceLastBump,

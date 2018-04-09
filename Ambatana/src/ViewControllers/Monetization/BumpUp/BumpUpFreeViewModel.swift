@@ -77,7 +77,8 @@ class BumpUpFreeViewModel: BaseViewModel {
         let trackerEvent = TrackerEvent.bumpBannerInfoShown(type: EventParameterBumpUpType(bumpType: .free),
                                                             listingId: listing.objectId,
                                                             storeProductId: storeProductId,
-                                                            typePage: typePage)
+                                                            typePage: typePage,
+                                                            isBoost: EventParameterBoolean.falseParameter)
         tracker.trackEvent(trackerEvent)
     }
 

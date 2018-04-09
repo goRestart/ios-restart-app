@@ -945,6 +945,11 @@ extension ListingViewModelSpec: ListingDetailNavigator {
                                               actions: [UIAction]) {
 
     }
+
+    func showBumpUpBoostSucceededAlert() {
+
+    }
+
     func openContactUs(forListing listing: Listing, contactUstype: ContactUsType) {
 
     }

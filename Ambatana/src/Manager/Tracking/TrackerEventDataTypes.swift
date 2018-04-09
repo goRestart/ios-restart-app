@@ -355,6 +355,7 @@ enum EventParameterName: String {
     
     case typeTutorialDialog   = "type-onboarding-dialog"
     case pageNumber           = "page-number"
+    case boost                = "boost"
 }
 
 enum EventParameterBoolean: String {
@@ -1034,7 +1035,6 @@ enum EventParameterBumpUpType: String {
     case free = "free"
     case paid = "paid"
     case retry = "retry"
-    case boost = "boost"
 
     init(bumpType: BumpUpType) {
         switch bumpType {
@@ -1045,7 +1045,7 @@ enum EventParameterBumpUpType: String {
         case .restore:
             self = .retry
         case .boost:
-            self = .boost
+            self = .paid
         }
     }
 }
