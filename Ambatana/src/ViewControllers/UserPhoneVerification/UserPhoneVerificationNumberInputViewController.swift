@@ -1,0 +1,179 @@
+//
+//  SMSPhoneInputViewController.swift
+//  LetGo
+//
+//  Created by Sergi Gracia on 03/04/2018.
+//  Copyright © 2018 Ambatana. All rights reserved.
+//
+
+import Foundation
+import LGCoreKit
+import RxSwift
+
+final class UserPhoneVerificationNumberInputViewController: BaseViewController {
+
+    private let viewModel: UserPhoneVerificationNumberInputViewModel
+    private let keyboardHelper = KeyboardHelper()
+    private let disposeBag = DisposeBag()
+
+    private let descriptionLabel = UILabel()
+    private let countryButton = UIButton()
+    private let countryButtonArrowImage = UIImageView(image: #imageLiteral(resourceName: "ic_disclosure"))
+    private let countryCodeLabel = UILabel()
+    private let phoneNumberTextField = UITextField()
+    private let horizontalSeparatorView = UIView()
+    private let verticalSeparatorView = UIView()
+    private let continueButton = LetgoButton(withStyle: .primary(fontSize: .medium))
+    private var continueButtonBottomConstraint: NSLayoutConstraint?
+
+    struct Layout {
+        static let descriptionTopMargin: CGFloat = 40
+        static let viewSidesMargin: CGFloat = 20
+        static let countryButtonTopMargin: CGFloat = 50
+        static let phoneNumberLeftMargin: CGFloat = 22
+        static let horizontalLineMargin: CGFloat = 12
+        static let lineThickness: CGFloat = 1
+        static let verticalLineHeight: CGFloat = 56
+        static let continueButtonBottomMargin: CGFloat = 15
+        static let continueButtonHeight: CGFloat = 50
+        static let continueButtonDisabledOpacity: CGFloat = 0.27
+    }
+
+    init(viewModel: UserPhoneVerificationNumberInputViewModel) {
+        self.viewModel = viewModel
+        super.init(viewModel: viewModel, nibName: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupUI()
+        setupRx()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        phoneNumberTextField.becomeFirstResponder()
+    }
+
+    private func setupUI() {
+        title = "Number verification" // FIXME: add localized string
+
+        view.backgroundColor = .white
+        view.addSubviewsForAutoLayout([descriptionLabel, countryButton, countryButtonArrowImage,
+                                       countryCodeLabel, phoneNumberTextField, continueButton,
+                                       horizontalSeparatorView, verticalSeparatorView])
+
+        descriptionLabel.text = "Build trust by verifying your phone number" // FIXME: add localized string
+        descriptionLabel.numberOfLines = 0
+        descriptionLabel.font = .smsVerificationPhoneInputDescription
+        descriptionLabel.textColor = .blackText
+
+        countryButton.setTitle("United States", for: .normal) // FIXME: bind data
+        countryButton.setTitleColor(.blackText, for: .normal)
+        countryButton.contentHorizontalAlignment = .left
+        countryButton.titleLabel?.font = .smsVerificationPhoneInputBigText
+        countryButton.addTarget(self, action: #selector(didTapSelectCountry), for: .touchUpInside)
+
+        countryCodeLabel.text = "+0" // FIXME: bind data
+        countryCodeLabel.font = .smsVerificationPhoneInputBigText
+        countryCodeLabel.textColor = .blackText
+
+        phoneNumberTextField.font = .smsVerificationPhoneInputBigText
+        phoneNumberTextField.textColor = .blackText
+        phoneNumberTextField.placeholder = "Phone number" // FIXME: add localized string
+        phoneNumberTextField.keyboardType = .numberPad
+        phoneNumberTextField.tintColor = .primaryColor
+
+        var placeholderAttributes = [NSAttributedStringKey: Any]()
+        placeholderAttributes[NSAttributedStringKey.font] = UIFont.smsVerificationPhoneInputBigText
+        placeholderAttributes[NSAttributedStringKey.foregroundColor] = UIColor.grayPlaceholderText
+        phoneNumberTextField.attributedPlaceholder = NSAttributedString(string: "Phone number" /* FIXME: add localized string */,
+                                                                        attributes: placeholderAttributes)
+
+        horizontalSeparatorView.backgroundColor = .lineGray
+        verticalSeparatorView.backgroundColor = .lineGray
+
+        continueButton.setTitle("continue", for: .normal) // FIXME: add localized string
+        continueButton.addTarget(self, action: #selector(didTapContinue), for: .touchUpInside)
+
+        setupConstraints()
+    }
+
+    private func setupConstraints() {
+        var constraints = [
+            descriptionLabel.topAnchor.constraint(equalTo: safeTopAnchor, constant: Layout.descriptionTopMargin),
+            descriptionLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: Layout.viewSidesMargin),
+            descriptionLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -Layout.viewSidesMargin),
+            countryButton.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: Layout.countryButtonTopMargin),
+            countryButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: Layout.viewSidesMargin),
+            countryButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -Layout.viewSidesMargin),
+            countryButtonArrowImage.centerYAnchor.constraint(equalTo: countryButton.centerYAnchor),
+            countryButtonArrowImage.rightAnchor.constraint(equalTo: countryButton.rightAnchor),
+            countryCodeLabel.topAnchor.constraint(equalTo: horizontalSeparatorView.bottomAnchor, constant: Layout.horizontalLineMargin),
+            countryCodeLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: Layout.viewSidesMargin),
+            phoneNumberTextField.topAnchor.constraint(equalTo: countryCodeLabel.topAnchor),
+            phoneNumberTextField.leftAnchor.constraint(equalTo: countryCodeLabel.rightAnchor, constant: Layout.phoneNumberLeftMargin),
+            phoneNumberTextField.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -Layout.viewSidesMargin),
+            horizontalSeparatorView.topAnchor.constraint(equalTo: countryButton.bottomAnchor, constant: Layout.horizontalLineMargin),
+            horizontalSeparatorView.centerXAnchor.constraint(equalTo: countryButton.centerXAnchor),
+            horizontalSeparatorView.widthAnchor.constraint(equalTo: countryButton.widthAnchor, multiplier: 1),
+            horizontalSeparatorView.heightAnchor.constraint(equalToConstant: Layout.lineThickness),
+            verticalSeparatorView.topAnchor.constraint(equalTo: horizontalSeparatorView.bottomAnchor),
+            verticalSeparatorView.leftAnchor.constraint(equalTo: countryCodeLabel.rightAnchor, constant: 10),
+            verticalSeparatorView.widthAnchor.constraint(equalToConstant: Layout.lineThickness),
+            verticalSeparatorView.heightAnchor.constraint(equalToConstant: Layout.verticalLineHeight),
+            continueButton.heightAnchor.constraint(equalToConstant: Layout.continueButtonHeight),
+            continueButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: Layout.viewSidesMargin),
+            continueButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -Layout.viewSidesMargin)
+        ]
+
+        let continueButtonConstraint = continueButton.bottomAnchor.constraint(equalTo: view.bottomAnchor,
+                                                                              constant: -Layout.continueButtonBottomMargin)
+        constraints.append(continueButtonConstraint)
+        NSLayoutConstraint.activate(constraints)
+        continueButtonBottomConstraint = continueButtonConstraint
+
+        countryCodeLabel.setContentHuggingPriority(.required, for: .horizontal)
+    }
+
+    private func setupRx() {
+        keyboardHelper
+            .rx_keyboardHeight
+            .asDriver()
+            .skip(1) // Ignore the first call with height == 0
+            .drive(onNext: { [weak self] height in
+                self?.continueButtonBottomConstraint?.constant = -(height + Layout.continueButtonBottomMargin)
+                UIView.animate(withDuration: 0.2, animations: {
+                    self?.view.layoutIfNeeded()
+                })
+            }).disposed(by: disposeBag)
+
+        viewModel
+            .country
+            .drive(onNext: { [weak self] country in
+                self?.countryButton.setTitle("", for: .normal)
+                self?.countryCodeLabel.text = ""
+            })
+            .disposed(by: disposeBag)
+
+        viewModel
+            .isContinueActionEnabled
+            .drive(onNext: { [weak self] isEnabled in
+                self?.continueButton.alpha = isEnabled ? 1 : Layout.continueButtonDisabledOpacity
+                self?.continueButton.isUserInteractionEnabled = isEnabled
+            })
+            .disposed(by: disposeBag)
+    }
+
+    @objc private func didTapSelectCountry() {
+        // FIXME: implement it
+    }
+
+    @objc private func didTapContinue() {
+        // FIXME: implement it
+    }
+}
