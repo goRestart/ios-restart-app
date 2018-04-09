@@ -53,7 +53,7 @@ class FilterTagCell: UICollectionViewCell {
         case .freeStuff:
             return CGSize(width: iconWidth+fixedWidthSpace, height: FilterTagCell.cellHeight)
         case .distance(let distance):
-            return FilterTagCell.sizeForText(distance.intToDistanteFormat())
+            return FilterTagCell.sizeForText(distance.intToDistanceFormat())
         case .make(_, let name):
             return FilterTagCell.sizeForText(name)
         case .model(_, let name):
@@ -237,7 +237,7 @@ class FilterTagCell: UICollectionViewCell {
             tagIconWidth.constant = FilterTagCell.iconWidth
             tagIcon.image = UIImage(named: "categories_free_tag")
         case .distance(let distance):
-            tagLabel.text = distance.intToDistanteFormat()
+            tagLabel.text = distance.intToDistanceFormat()
         case .make(_, let name):
             tagLabel.text = name
         case .model(_, let name):

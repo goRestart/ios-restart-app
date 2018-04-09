@@ -50,75 +50,82 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
 
     @IBOutlet weak var bannerContainer: UIView!
     @IBOutlet weak var bannerContainerBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var bannerContainerHeightConstraint: NSLayoutConstraint!
 
-    fileprivate let userView: UserView
-    fileprivate let fullScreenAvatarEffectView: UIVisualEffectView
-    fileprivate let fullScreenAvatarView: UIImageView
-    fileprivate var fullScreenAvatarWidth: NSLayoutConstraint?
-    fileprivate var fullScreenAvatarHeight: NSLayoutConstraint?
-    fileprivate var fullScreenAvatarTop: NSLayoutConstraint?
-    fileprivate var fullScreenAvatarLeft: NSLayoutConstraint?
-    fileprivate let viewModel: ListingCarouselViewModel
-    fileprivate let disposeBag: DisposeBag = DisposeBag()
-    fileprivate var userViewBottomConstraint: NSLayoutConstraint?
-    fileprivate var userViewRightConstraint: NSLayoutConstraint?
+    private let userView: UserView
+    private let fullScreenAvatarEffectView: UIVisualEffectView
+    private let fullScreenAvatarView: UIImageView
+    private var fullScreenAvatarWidth: NSLayoutConstraint?
+    private var fullScreenAvatarHeight: NSLayoutConstraint?
+    private var fullScreenAvatarTop: NSLayoutConstraint?
+    private var fullScreenAvatarLeft: NSLayoutConstraint?
+    private let viewModel: ListingCarouselViewModel
+    private let disposeBag: DisposeBag = DisposeBag()
+    private var userViewBottomConstraint: NSLayoutConstraint?
+    private var userViewRightConstraint: NSLayoutConstraint?
 
-    fileprivate let mainViewBlurEffectView: UIVisualEffectView
+    private let mainViewBlurEffectView: UIVisualEffectView
 
-    fileprivate var userViewRightMargin: CGFloat = CarouselUI.itemsMargin {
+    private var userViewRightMargin: CGFloat = CarouselUI.itemsMargin {
         didSet {
             userViewRightConstraint?.constant = -userViewRightMargin
         }
     }
 
-    fileprivate var bottomItemsMargin: CGFloat = CarouselUI.itemsMargin {
+    private var bottomItemsMargin: CGFloat = CarouselUI.itemsMargin {
         didSet {
             chatContainerBottomConstraint?.constant = bottomItemsMargin
         }
     }
-    fileprivate var bannerBottom: CGFloat = -CarouselUI.bannerHeight {
+    private var bannerBottom: CGFloat = -CarouselUI.bannerHeight {
         didSet {
             bannerContainerBottomConstraint?.constant = contentBottomMargin + bannerBottom
         }
     }
-    fileprivate var contentBottomMargin: CGFloat = 0 {
+    private var contentBottomMargin: CGFloat = 0 {
         didSet {
             bannerContainerBottomConstraint?.constant = contentBottomMargin + bannerBottom
         }
     }
+    private var bannerHeight: CGFloat = CarouselUI.bannerHeight {
+        didSet {
+            bannerContainerHeightConstraint?.constant = bannerHeight
+        }
+    }
 
-    fileprivate let pageControl: UIPageControl
-    fileprivate var moreInfoTooltip: Tooltip?
 
-    fileprivate let collectionContentOffset = Variable<CGPoint>(CGPoint.zero)
-    fileprivate let itemsAlpha = Variable<CGFloat>(1)
-    fileprivate let cellZooming = Variable<Bool>(false)
-    fileprivate let cellAnimating = Variable<Bool>(false)
+    private let pageControl: UIPageControl
+    private var moreInfoTooltip: Tooltip?
 
-    fileprivate var activeDisposeBag = DisposeBag()
+    private let collectionContentOffset = Variable<CGPoint>(CGPoint.zero)
+    private let itemsAlpha = Variable<CGFloat>(1)
+    private let cellZooming = Variable<Bool>(false)
+    private let cellAnimating = Variable<Bool>(false)
+
+    private var activeDisposeBag = DisposeBag()
     private var productInfoConstraintOffset: CGFloat = 0
 
-    fileprivate var productOnboardingView: ListingDetailOnboardingView?
-    fileprivate var didSetupAfterLayout = false
+    private var productOnboardingView: ListingDetailOnboardingView?
+    private var didSetupAfterLayout = false
 
-    fileprivate let moreInfoView: ListingCarouselMoreInfoView
-    fileprivate let moreInfoAlpha = Variable<CGFloat>(1)
-    fileprivate let moreInfoState = Variable<MoreInfoState>(.hidden)
+    private let moreInfoView: ListingCarouselMoreInfoView
+    private let moreInfoAlpha = Variable<CGFloat>(1)
+    private let moreInfoState = Variable<MoreInfoState>(.hidden)
 
-    fileprivate let chatTextView = ChatTextView()
-    fileprivate let directAnswersView: DirectAnswersHorizontalView
-    fileprivate var directAnswersBottom = NSLayoutConstraint()
+    private let chatTextView = ChatTextView()
+    private let directAnswersView: DirectAnswersHorizontalView
+    private var directAnswersBottom = NSLayoutConstraint()
 
-    fileprivate var bumpUpBanner = BumpUpBanner()
-    fileprivate var bumpUpBannerIsVisible: Bool = false
+    private var bumpUpBanner = BumpUpBanner()
+    private var bumpUpBannerIsVisible: Bool = false
 
     let animator: PushAnimator?
     var pendingMovement: CarouselMovement?
 
-    fileprivate let carouselImageDownloader: ImageDownloaderType
-    fileprivate let imageDownloader: ImageDownloaderType
+    private let carouselImageDownloader: ImageDownloaderType
+    private let imageDownloader: ImageDownloaderType
 
-    fileprivate var bottomScrollLimit: CGFloat {
+    private var bottomScrollLimit: CGFloat {
         return max(0, collectionView.contentSize.height - collectionView.height + collectionView.contentInset.bottom)
     }
 
@@ -370,6 +377,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     }
 
     func setupBumpUpBanner() {
+        bumpUpBanner.delegate = self
         bannerContainer.addSubview(bumpUpBanner)
         bumpUpBanner.translatesAutoresizingMaskIntoConstraints = false
         bumpUpBanner.layout(with: bannerContainer).fill()
@@ -1243,9 +1251,19 @@ extension ListingCarouselViewController {
         bumpUpBannerIsVisible = true
         bannerContainer.isHidden = false
         bumpUpBanner.updateInfo(info: bumpInfo)
+
+        let bannerTotalHeight: CGFloat
+        switch bumpInfo.type {
+        case .boost(let boostBannerVisible):
+            bannerTotalHeight = boostBannerVisible ? CarouselUI.bannerHeight*2 : CarouselUI.bannerHeight
+        case .free, .hidden, .priced, .restore:
+            bannerTotalHeight = CarouselUI.bannerHeight
+        }
+
         delay(0.1) { [weak self] in
             guard let visible = self?.bumpUpBannerIsVisible, visible else { return }
             self?.bannerBottom = 0
+            self?.bannerHeight = bannerTotalHeight
             UIView.animate(withDuration: 0.3, animations: {
                 self?.view.layoutIfNeeded()
             })
@@ -1255,9 +1273,16 @@ extension ListingCarouselViewController {
     func closeBumpUpBanner() {
         guard bumpUpBannerIsVisible else { return }
         bumpUpBannerIsVisible = false
-        bannerBottom = -CarouselUI.bannerHeight
+        bannerBottom = -bannerHeight
         bumpUpBanner.stopCountdown()
         bannerContainer.isHidden = true
+    }
+}
+
+extension ListingCarouselViewController: BumpUpBannerBoostDelegate {
+    func bumpUpTimerReachedZero() {
+        closeBumpUpBanner()
+        viewModel.bumpUpBannerBoostTimerReachedZero()
     }
 }
 

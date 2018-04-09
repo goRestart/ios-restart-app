@@ -193,6 +193,6 @@
     {
         "name": "BumpUpBoost",
         "values": ["control", "baseline", "sendTop5Mins", "sendTop1hour", "boostListing1hour", "cheaperBoost5Mins"],
-        "description": "Show user is typing status on chat"
+        "description": "Ability to boost ongoing bump ups"
     }
 ]

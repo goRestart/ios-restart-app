@@ -79,6 +79,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("bump_up_banner_wait_text", comment: "")
 	}
 
+	static var bumpUpBannerBoostText: String {
+		return NSLocalizedString("bump_up_banner_boost_text", comment: "")
+	}
+
+	static var bumpUpBannerBoostProgressTitle: String {
+		return NSLocalizedString("bump_up_banner_boost_progress_title", comment: "")
+	}
+
 	static var bumpUpBannerFreeButtonTitle: String {
 		return NSLocalizedString("bump_up_banner_free_button_title", comment: "")
 	}
@@ -119,6 +127,38 @@ struct LGLocalizedString {
 		return NSLocalizedString("bump_up_product_cell_chat_now_button", comment: "")
 	}
 
+	static var bumpUpProductCellChatNowButtonA: String {
+		return NSLocalizedString("bump_up_product_cell_chat_now_button_a", comment: "")
+	}
+
+	static var bumpUpProductCellChatNowButtonB: String {
+		return NSLocalizedString("bump_up_product_cell_chat_now_button_b", comment: "")
+	}
+
+	static var bumpUpProductCellChatNowButtonC: String {
+		return NSLocalizedString("bump_up_product_cell_chat_now_button_c", comment: "")
+	}
+
+	static var bumpUpProductCellChatNowButtonD: String {
+		return NSLocalizedString("bump_up_product_cell_chat_now_button_d", comment: "")
+	}
+
+	static var bumpUpProductCellChatNowButtonEnglishA: String {
+		return NSLocalizedString("bump_up_product_cell_chat_now_button_english_a", comment: "")
+	}
+
+	static var bumpUpProductCellChatNowButtonEnglishB: String {
+		return NSLocalizedString("bump_up_product_cell_chat_now_button_english_b", comment: "")
+	}
+
+	static var bumpUpProductCellChatNowButtonEnglishC: String {
+		return NSLocalizedString("bump_up_product_cell_chat_now_button_english_c", comment: "")
+	}
+
+	static var bumpUpProductCellChatNowButtonEnglishD: String {
+		return NSLocalizedString("bump_up_product_cell_chat_now_button_english_d", comment: "")
+	}
+
 	static var bumpUpProductDetailFeaturedLabel: String {
 		return NSLocalizedString("bump_up_product_detail_featured_label", comment: "")
 	}
@@ -141,6 +181,38 @@ struct LGLocalizedString {
 
 	static func bumpUpViewPayButtonTitle(_ var1: String) -> String {
 		return String(format: NSLocalizedString("bump_up_view_pay_button_title", comment: ""), var1)
+	}
+
+	static func bumpUpViewBoostPayButtonTitle(_ var1: String) -> String {
+		return String(format: NSLocalizedString("bump_up_view_boost_pay_button_title", comment: ""), var1)
+	}
+
+	static var bumpUpViewBoostTitleSendTop: String {
+		return NSLocalizedString("bump_up_view_boost_title_send_top", comment: "")
+	}
+
+	static var bumpUpViewBoostTitleBoostListing: String {
+		return NSLocalizedString("bump_up_view_boost_title_boost_listing", comment: "")
+	}
+
+	static var bumpUpViewBoostTitleCheaperBoost: String {
+		return NSLocalizedString("bump_up_view_boost_title_cheaper_boost", comment: "")
+	}
+
+	static var bumpUpViewBoostSubtitleSendTop: String {
+		return NSLocalizedString("bump_up_view_boost_subtitle_send_top", comment: "")
+	}
+
+	static var bumpUpViewBoostSubtitleBoostListing: String {
+		return NSLocalizedString("bump_up_view_boost_subtitle_boost_listing", comment: "")
+	}
+
+	static var bumpUpViewBoostSubtitleCheaper: String {
+		return NSLocalizedString("bump_up_view_boost_subtitle_cheaper", comment: "")
+	}
+
+	static var bumpUpBoostSuccessAlertText: String {
+		return NSLocalizedString("bump_up_boost_success_alert_text", comment: "")
 	}
 
 	static var bumpUpOldViewPayTitle: String {
@@ -289,6 +361,10 @@ struct LGLocalizedString {
 
 	static var changeBioSaveButton: String {
 		return NSLocalizedString("change_bio_save_button", comment: "")
+	}
+
+	static var changeBioErrorMessage: String {
+		return NSLocalizedString("change_bio_error_message", comment: "")
 	}
 
 	static var changeLocationApplyButton: String {
@@ -783,6 +859,34 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_with_yourself_alert_msg", comment: "")
 	}
 
+	static var chatMarkConversationAsReadButton: String {
+		return NSLocalizedString("chat_mark_conversation_as_read_button", comment: "")
+	}
+
+	static var chatMeetingCellTitle: String {
+		return NSLocalizedString("chat_meeting_cell_title", comment: "")
+	}
+
+	static var chatMeetingCellDeclineButton: String {
+		return NSLocalizedString("chat_meeting_cell_decline_button", comment: "")
+	}
+
+	static var chatMeetingCellAcceptButton: String {
+		return NSLocalizedString("chat_meeting_cell_accept_button", comment: "")
+	}
+
+	static var chatMeetingCellStatusPending: String {
+		return NSLocalizedString("chat_meeting_cell_status_pending", comment: "")
+	}
+
+	static var chatMeetingCellStatusAccepted: String {
+		return NSLocalizedString("chat_meeting_cell_status_accepted", comment: "")
+	}
+
+	static var chatMeetingCellStatusDeclined: String {
+		return NSLocalizedString("chat_meeting_cell_status_declined", comment: "")
+	}
+
 	static var collectionTransportTitle: String {
 		return NSLocalizedString("collection_transport_title", comment: "")
 	}
@@ -1019,6 +1123,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("common_yes", comment: "")
 	}
 
+	static func commonHoursMinsSecs(_ var1: String, _ var2: String, _ var3: String) -> String {
+		return String(format: NSLocalizedString("common_hours_mins_secs", comment: ""), var1, var2, var3)
+	}
+
 	static var contactSubjectOptionLocation: String {
 		return NSLocalizedString("contact_subject_option_location", comment: "")
 	}
@@ -1209,6 +1317,10 @@ struct LGLocalizedString {
 
 	static var directAnswerNotNegotiableTitle: String {
 		return NSLocalizedString("direct_answer_not_negotiable_title", comment: "")
+	}
+
+	static var directAnswerLetsMeet: String {
+		return NSLocalizedString("direct_answer_lets_meet", comment: "")
 	}
 
 	static var discarded: String {
@@ -1455,6 +1567,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("filters_real_estate_bathrooms_not_set", comment: "")
 	}
 
+	static var filtersRealEstateSizeFromFeedFilterCell: String {
+		return NSLocalizedString("filters_real_estate_size_from_feed_filter_cell", comment: "")
+	}
+
+	static var filtersRealEstateSizeToFeedFilterCell: String {
+		return NSLocalizedString("filters_real_estate_size_to_feed_filter_cell", comment: "")
+	}
+
 	static var filtersTagLocationSelected: String {
 		return NSLocalizedString("filters_tag_location_selected", comment: "")
 	}
@@ -1615,6 +1735,46 @@ struct LGLocalizedString {
 		return NSLocalizedString("log_in_email_forgot_password_alert_remember_action", comment: "")
 	}
 
+	static var mlOnboardingNewText: String {
+		return NSLocalizedString("ml_onboarding_new_text", comment: "")
+	}
+
+	static var mlOnboardingDescriptionText: String {
+		return NSLocalizedString("ml_onboarding_description_text", comment: "")
+	}
+
+	static var mlOnboardingOkText: String {
+		return NSLocalizedString("ml_onboarding_ok_text", comment: "")
+	}
+
+	static func mlCameraSellsForText(_ var1: Int) -> String {
+		return String(format: NSLocalizedString("ml_camera_sells_for_text", comment: ""), var1)
+	}
+
+	static var mlCameraInAboutDaysText: String {
+		return NSLocalizedString("ml_camera_in_about_days_text", comment: "")
+	}
+
+	static var mlCameraInMoreThanDaysText: String {
+		return NSLocalizedString("ml_camera_in_more_than_days_text", comment: "")
+	}
+
+	static var mlDetailsSuggestedDetailsText: String {
+		return NSLocalizedString("ml_details_suggested_details_text", comment: "")
+	}
+
+	static var mlDetailsTitleText: String {
+		return NSLocalizedString("ml_details_title_text", comment: "")
+	}
+
+	static var mlDetailsPriceText: String {
+		return NSLocalizedString("ml_details_price_text", comment: "")
+	}
+
+	static var mlCategoryText: String {
+		return NSLocalizedString("ml_category_text", comment: "")
+	}
+
 	static var signUpEmailStep1Title: String {
 		return NSLocalizedString("sign_up_email_step1_title", comment: "")
 	}
@@ -1717,6 +1877,70 @@ struct LGLocalizedString {
 
 	static var mainProductsInviteNavigationBarButton: String {
 		return NSLocalizedString("main_products_invite_navigation_bar_button", comment: "")
+	}
+
+	static var meetingCreationViewTitle: String {
+		return NSLocalizedString("meeting_creation_view_title", comment: "")
+	}
+
+	static var meetingCreationViewPlace: String {
+		return NSLocalizedString("meeting_creation_view_place", comment: "")
+	}
+
+	static var meetingCreationViewSelectLocation: String {
+		return NSLocalizedString("meeting_creation_view_select_location", comment: "")
+	}
+
+	static var meetingCreationViewDateTime: String {
+		return NSLocalizedString("meeting_creation_view_date_time", comment: "")
+	}
+
+	static var meetingCreationViewSelectDateTime: String {
+		return NSLocalizedString("meeting_creation_view_select_date_time", comment: "")
+	}
+
+	static var meetingCreationViewSuggestCellSelect: String {
+		return NSLocalizedString("meeting_creation_view_suggest_cell_select", comment: "")
+	}
+
+	static var meetingCreationViewSuggestCellSelected: String {
+		return NSLocalizedString("meeting_creation_view_suggest_cell_selected", comment: "")
+	}
+
+	static var meetingCreationViewSearchCellTitle: String {
+		return NSLocalizedString("meeting_creation_view_search_cell_title", comment: "")
+	}
+
+	static var meetingCreationViewSearchCellSearch: String {
+		return NSLocalizedString("meeting_creation_view_search_cell_search", comment: "")
+	}
+
+	static var meetingCreationViewSendButton: String {
+		return NSLocalizedString("meeting_creation_view_send_button", comment: "")
+	}
+
+	static var meetingCreationTipsViewTitle: String {
+		return NSLocalizedString("meeting_creation_tips_view_title", comment: "")
+	}
+
+	static var meetingCreationTipsViewSubtitle: String {
+		return NSLocalizedString("meeting_creation_tips_view_subtitle", comment: "")
+	}
+
+	static var meetingCreationTipsViewSendButton: String {
+		return NSLocalizedString("meeting_creation_tips_view_send_button", comment: "")
+	}
+
+	static var meetingCreationTipsViewChangeButton: String {
+		return NSLocalizedString("meeting_creation_tips_view_change_button", comment: "")
+	}
+
+	static var meetingCreationTipsViewGotitButton: String {
+		return NSLocalizedString("meeting_creation_tips_view_gotit_button", comment: "")
+	}
+
+	static var mopubAdvertisingText: String {
+		return NSLocalizedString("mopub_advertising_text", comment: "")
 	}
 
 	static var notificationsEmptySubtitle: String {
@@ -2531,6 +2755,26 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_post_camera_permissions_title", comment: "")
 	}
 
+	static func productPostCameraVideoRecordingTooltip(_ var1: String) -> String {
+		return String(format: NSLocalizedString("product_post_camera_video_recording_tooltip", comment: ""), var1)
+	}
+
+	static var productPostCameraVideoRecordingTooltipHighlightedWord: String {
+		return NSLocalizedString("product_post_camera_video_recording_tooltip_highlighted_word", comment: "")
+	}
+
+	static var productPostCameraPhotoModeButton: String {
+		return NSLocalizedString("product_post_camera_photo_mode_button", comment: "")
+	}
+
+	static var productPostCameraVideoModeButton: String {
+		return NSLocalizedString("product_post_camera_video_mode_button", comment: "")
+	}
+
+	static var productPostCameraGalleryTextButton: String {
+		return NSLocalizedString("product_post_camera_gallery_text_button", comment: "")
+	}
+
 	static var productPostCameraTabV2: String {
 		return NSLocalizedString("product_post_camera_tab_v2", comment: "")
 	}
@@ -2621,6 +2865,10 @@ struct LGLocalizedString {
 
 	static var productPostGallerySelectPicturesSubtitle: String {
 		return NSLocalizedString("product_post_gallery_select_pictures_subtitle", comment: "")
+	}
+
+	static func productPostGallerySelectPicturesSubtitleParams(_ var1: Int) -> String {
+		return String(format: NSLocalizedString("product_post_gallery_select_pictures_subtitle_params", comment: ""), var1)
 	}
 
 	static var productPostGalleryTab: String {
@@ -3065,6 +3313,90 @@ struct LGLocalizedString {
 
 	static var profileVerifyGoogleTitle: String {
 		return NSLocalizedString("profile_verify_google_title", comment: "")
+	}
+
+	static var profileVerificationsViewTitle: String {
+		return NSLocalizedString("profile_verifications_view_title", comment: "")
+	}
+
+	static var profileVerificationsViewVerifySectionTitle: String {
+		return NSLocalizedString("profile_verifications_view_verify_section_title", comment: "")
+	}
+
+	static var profileVerificationsViewVerifySectionSubtitle: String {
+		return NSLocalizedString("profile_verifications_view_verify_section_subtitle", comment: "")
+	}
+
+	static var profileVerificationsViewFacebookTitle: String {
+		return NSLocalizedString("profile_verifications_view_facebook_title", comment: "")
+	}
+
+	static var profileVerificationsViewGoogleTitle: String {
+		return NSLocalizedString("profile_verifications_view_google_title", comment: "")
+	}
+
+	static var profileVerificationsViewEmailTitle: String {
+		return NSLocalizedString("profile_verifications_view_email_title", comment: "")
+	}
+
+	static var profileVerificationsViewPhoneNumberTitle: String {
+		return NSLocalizedString("profile_verifications_view_phone_number_title", comment: "")
+	}
+
+	static var profileVerificationsViewPhotoIdTitle: String {
+		return NSLocalizedString("profile_verifications_view_photo_id_title", comment: "")
+	}
+
+	static var profileVerificationsViewAddInfoSectionTitle: String {
+		return NSLocalizedString("profile_verifications_view_add_info_section_title", comment: "")
+	}
+
+	static var profileVerificationsViewProfilePictureTitle: String {
+		return NSLocalizedString("profile_verifications_view_profile_picture_title", comment: "")
+	}
+
+	static var profileVerificationsViewBioTitle: String {
+		return NSLocalizedString("profile_verifications_view_bio_title", comment: "")
+	}
+
+	static var profileVerificationsViewExtraSectionTitle: String {
+		return NSLocalizedString("profile_verifications_view_extra_section_title", comment: "")
+	}
+
+	static var profileVerificationsViewMarkAsSoldTitle: String {
+		return NSLocalizedString("profile_verifications_view_mark_as_sold_title", comment: "")
+	}
+
+	static var profileVerificationsViewMarkAsSoldSubtitle: String {
+		return NSLocalizedString("profile_verifications_view_mark_as_sold_subtitle", comment: "")
+	}
+
+	static var profileKarmaVisibilityTitle: String {
+		return NSLocalizedString("profile_karma_visibility_title", comment: "")
+	}
+
+	static var profileKarmaImproveScore: String {
+		return NSLocalizedString("profile_karma_improve_score", comment: "")
+	}
+
+	static func profileKarmaUnverifiedSubtitle(_ var1: String) -> String {
+		return String(format: NSLocalizedString("profile_karma_unverified_subtitle", comment: ""), var1)
+	}
+
+	static func profileKarmaUnverifiedPointsSubtitle(_ var1: String) -> String {
+		return String(format: NSLocalizedString("profile_karma_unverified_points_subtitle", comment: ""), var1)
+	}
+
+	static var profileKarmaVerifiedSubtitle: String {
+		return NSLocalizedString("profile_karma_verified_subtitle", comment: "")
+	}
+
+	static func profileKarmaTitle(_ var1: String) -> String {
+		return String(format: NSLocalizedString("profile_karma_title", comment: ""), var1)
+	}
+
+	static func profileKarmaPointsTitle(_ var1: String) -> String {
+		return String(format: NSLocalizedString("profile_karma_points_title", comment: ""), var1)
 	}
 
 	static var profileBuildTrustButton: String {
@@ -3579,8 +3911,16 @@ struct LGLocalizedString {
 		return NSLocalizedString("real_estate_gallery_view_subtitle", comment: "")
 	}
 
+	static func realEstateGalleryViewSubtitleParams(_ var1: Int) -> String {
+		return String(format: NSLocalizedString("real_estate_gallery_view_subtitle_params", comment: ""), var1)
+	}
+
 	static var realEstateCameraViewRealEstateMessage: String {
 		return NSLocalizedString("real_estate_camera_view_real_estate_message", comment: "")
+	}
+
+	static var realEstateCameraViewRealEstateLearnMore: String {
+		return NSLocalizedString("real_estate_camera_view_real_estate_learn_more", comment: "")
 	}
 
 	static var realEstateEmptyStateSearchTitle: String {

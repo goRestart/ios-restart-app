@@ -505,6 +505,22 @@ class ListingViewModel: BaseViewModel {
             buttonBlock = { [weak self] in
                 self?.bumpUpProduct(productId: listingId)
             }
+        case .boost:
+            guard let paymentItemId = paymentItemId else { return }
+            bannerInteractionBlock = { [weak self] in
+                guard let _ = self?.listing.value else { return }
+                guard let purchaseableProduct = self?.bumpUpPurchaseableProduct else { return }
+
+                let bumpUpProductData = BumpUpProductData(bumpUpPurchaseableData: .purchaseableProduct(product: purchaseableProduct),
+                                                          paymentItemId: paymentItemId,
+                                                          storeProductId: storeProductId)
+
+                self?.openBoostBumpUpView(bumpUpProductData: bumpUpProductData,
+                                           typePage: .listingDetail)
+            }
+            buttonBlock = { [weak self] in
+                self?.bumpUpProduct(productId: listingId)
+            }
         case .restore:
             let restoreBlock = { [weak self] in
                 logMessage(.info, type: [.monetization], message: "TRY TO Restore Bump for listing: \(listingId)")
@@ -560,7 +576,7 @@ class ListingViewModel: BaseViewModel {
                         typePage: EventParameterTypePage?) {
         self.bumpUpSource = bumpUpSource
         switch bumpUpType {
-        case .priced:
+        case .priced, .boost:
             guard bumpUpProductData.hasPaymentId else { return }
             openPricedBumpUpView(bumpUpProductData: bumpUpProductData,
                                  typePage: typePage)
@@ -574,6 +590,24 @@ class ListingViewModel: BaseViewModel {
         navigator?.openPayBumpUp(forListing: listing.value,
                                  bumpUpProductData: bumpUpProductData,
                                  typePage: typePage)
+    }
+
+    func openBoostBumpUpView(bumpUpProductData: BumpUpProductData,
+                             typePage: EventParameterTypePage?) {
+        navigator?.openBumpUpBoost(forListing: listing.value,
+                                   bumpUpProductData: bumpUpProductData,
+                                   typePage: typePage,
+                                   timeSinceLastBump: timeSinceLastBump,
+                                   maxCountdown: bumpMaxCountdown)
+    }
+
+    private var canBeBoosted: Bool {
+        guard let threshold = featureFlags.bumpUpBoost.boostBannerUIUpdateThreshold else { return false }
+        return timeSinceLastBump > threshold
+    }
+
+    private var hasBumpInProgress: Bool {
+        return timeSinceLastBump > 0
     }
 }
 
@@ -1197,7 +1231,16 @@ extension ListingViewModel: BumpInfoRequesterDelegate {
         guard let purchase = products.first else { return }
 
         bumpUpPurchaseableProduct = purchase
-        let bumpUpType: BumpUpType = userIsSoftBlocked ? .hidden : .priced
+
+        let bumpUpType: BumpUpType
+        if userIsSoftBlocked {
+            bumpUpType = .hidden
+        } else if featureFlags.bumpUpBoost.isActive && hasBumpInProgress {
+            bumpUpType = .boost(boostBannerVisible: canBeBoosted)
+        } else {
+            bumpUpType = .priced
+        }
+
         createBumpeableBanner(forListingId: requestProdId,
                               withPrice: bumpUpPurchaseableProduct?.formattedCurrencyPrice,
                               paymentItemId: paymentItemId,
