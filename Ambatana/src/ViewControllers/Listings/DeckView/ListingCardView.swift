@@ -414,6 +414,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
         NSLayoutConstraint.activate(userViewTopConstraints)
         UIView.animate(withDuration: 0.3) {
             self.userView.effectView.alpha = 1
+            self.statusView.alpha = 0
         }
     }
 
@@ -422,6 +423,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
         NSLayoutConstraint.activate(userViewScrollingConstraints)
         UIView.animate(withDuration: 0.3) {
             self.userView.effectView.alpha = 0
+            self.statusView.alpha = 1
         }
     }
 
