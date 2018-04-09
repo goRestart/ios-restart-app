@@ -57,10 +57,6 @@ final class UserPhoneVerificationNumberInputViewController: BaseViewController {
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
         setNavBarBackgroundStyle(.white)
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         phoneNumberTextField.becomeFirstResponder()
     }
 
@@ -178,8 +174,9 @@ final class UserPhoneVerificationNumberInputViewController: BaseViewController {
         viewModel
             .country
             .drive(onNext: { [weak self] country in
-                self?.countryButton.setTitle("", for: .normal)
-                self?.countryCodeLabel.text = ""
+                guard let country = country else { return }
+                self?.countryButton.setTitle(country.name, for: .normal)
+                self?.countryCodeLabel.text = "+\(country.code)"
             })
             .disposed(by: disposeBag)
 

@@ -11,11 +11,16 @@ import LGCoreKit
 import RxSwift
 import RxCocoa
 
+struct CountryPhoneCode {
+    let code: Int
+    let name: String
+}
+
 final class UserPhoneVerificationNumberInputViewModel: BaseViewModel {
 
     weak var navigator: UserPhoneVerificationNavigator?
 
-    var country: Driver<String> { return .just("") }
+    var country: Driver<CountryPhoneCode?> { return .just(nil) }
     var isContinueActionEnabled: Driver<Bool> { return .just(false) }
 
     init(fake: String? = "") {
