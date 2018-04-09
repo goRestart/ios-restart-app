@@ -212,10 +212,10 @@ class BumpUpBoostViewController: BaseViewController {
         featuredBackgroundContainerView.clipsToBounds = true
 
         featuredBgLeftColumnImageView.image = #imageLiteral(resourceName: "boost_bg_left_column")
-        featuredBgLeftColumnImageView.contentMode = .top //.scaleAspectFit
+        featuredBgLeftColumnImageView.contentMode = .top
 
         featuredBgRightColumnImageView.image = #imageLiteral(resourceName: "boost_bg_right_column")
-        featuredBgRightColumnImageView.contentMode = .top //.scaleAspectFit
+        featuredBgRightColumnImageView.contentMode = .top
 
         featuredBgBottomCellImageView.image = #imageLiteral(resourceName: "boost_bg_bottom_cell")
         featuredBgBottomCellImageView.contentMode = .scaleAspectFill
@@ -273,8 +273,7 @@ class BumpUpBoostViewController: BaseViewController {
 
     private func setupConstraints() {
         let mainSubviews: [UIView] = [timerProgressView, closeButton, titleContainer, infoContainer]
-        view.addSubviews(mainSubviews)
-        view.setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: mainSubviews)
+        view.addSubviewsForAutoLayout(mainSubviews)
 
         if #available(iOS 11, *) {
             timerProgressView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
@@ -306,8 +305,7 @@ class BumpUpBoostViewController: BaseViewController {
 
     private func setupTitleViewConstraints() {
         let titleContainerSubviews: [UIView] = [viewTitleIconView, viewTitleLabel]
-        titleContainer.addSubviews(titleContainerSubviews)
-        titleContainer.setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: titleContainerSubviews)
+        titleContainer.addSubviewsForAutoLayout(titleContainerSubviews)
 
         viewTitleIconView.layout().width(Metrics.bigMargin).height(Metrics.bigMargin)
         viewTitleIconView.layout(with: titleContainer).left()
@@ -322,32 +320,27 @@ class BumpUpBoostViewController: BaseViewController {
                                                subtitleLabel,
                                                featuredBackgroundContainerView,
                                                boostButton]
-        infoContainer.addSubviews(infoContainerSubviews)
-        infoContainer.setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: infoContainerSubviews)
+        infoContainer.addSubviewsForAutoLayout(infoContainerSubviews)
 
         titleLabel.layout(with: infoContainer)
             .top(by: Metrics.margin)
-            .left(by: Metrics.bigMargin)
-            .right(by: -Metrics.bigMargin)
+            .fillHorizontal(by: Metrics.bigMargin)
 
         titleLabel.layout(with: subtitleLabel).above(by: -Metrics.veryShortMargin)
 
         subtitleLabel.layout(with: infoContainer)
-            .left(by: Metrics.bigMargin)
-            .right(by: -Metrics.bigMargin)
+            .fillHorizontal(by: Metrics.bigMargin)
 
         subtitleLabel.layout(with: featuredBackgroundContainerView).above(by: -Metrics.margin)
 
         featuredBackgroundContainerView.layout(with: infoContainer)
-            .left(by: Metrics.bigMargin)
-            .right(by: -Metrics.bigMargin)
-
+            .fillHorizontal(by: Metrics.bigMargin)
+        
         featuredBackgroundContainerView.layout(with: boostButton).above(by: -Metrics.shortMargin)
 
         boostButton.layout().height(Metrics.buttonHeight)
         boostButton.layout(with: infoContainer)
-            .left(by: Metrics.bigMargin)
-            .right(by: -Metrics.bigMargin)
+            .fillHorizontal(by: Metrics.bigMargin)
             .bottom(by: -Metrics.margin)
 
         setupBoostImagesConstraints()
@@ -363,8 +356,7 @@ class BumpUpBoostViewController: BaseViewController {
                                     featuredBgRedArrow,
                                     featuredBgBigYellowArrow,
                                     featuredBgSmallYellowArrow]
-        featuredBackgroundContainerView.addSubviews(bgSubviews)
-        featuredBackgroundContainerView.setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: bgSubviews)
+        featuredBackgroundContainerView.addSubviewsForAutoLayout(bgSubviews)
 
         imageContainer.layout(with: featuredBackgroundContainerView).proportionalWidth(multiplier: 0.33)
         imageContainer.layout().widthProportionalToHeight(multiplier: 0.6)
@@ -396,8 +388,7 @@ class BumpUpBoostViewController: BaseViewController {
 
     private func setupFakeListingCellConstraints() {
         let imageContainerSubviews: [UIView] = [listingImageView, cellBottomContainer, featuredRibbonImageView]
-        imageContainer.addSubviews(imageContainerSubviews)
-        imageContainer.setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: imageContainerSubviews)
+        imageContainer.addSubviewsForAutoLayout(imageContainerSubviews)
 
         featuredRibbonImageView.layout(with: imageContainer).top().right().proportionalWidth(multiplier: 0.25)
         featuredRibbonImageView.layout().widthProportionalToHeight()
@@ -407,8 +398,7 @@ class BumpUpBoostViewController: BaseViewController {
         cellBottomContainer.layout().widthProportionalToHeight(multiplier: 2)
         cellBottomContainer.layout(with: imageContainer).left().right().bottom()
 
-        cellBottomContainer.addSubview(cellBottomImageView)
-        cellBottomImageView.translatesAutoresizingMaskIntoConstraints = false
+        cellBottomContainer.addSubviewForAutoLayout(cellBottomImageView)
         cellBottomImageView.layout(with: cellBottomContainer).fill()
 
         shadowView.layout(with: imageContainer).center().fill()

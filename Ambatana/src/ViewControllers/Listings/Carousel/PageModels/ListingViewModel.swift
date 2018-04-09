@@ -1306,10 +1306,10 @@ extension ListingViewModel: PurchasesShopperDelegate {
                              isPromotedBump: isPromotedBump,
                              typePage: typePage)
 
-        if isBoost {
-            delegate?.vmHideLoading(nil, afterMessageCompletion: { [weak self] in
-                self?.delegate?.vmResetBumpUpBannerCountdown()
-                self?.isShowingFeaturedStripe.value = true
+        delegate?.vmHideLoading(isBoost ? nil : LGLocalizedString.bumpUpPaySuccess, afterMessageCompletion: { [weak self] in
+            self?.delegate?.vmResetBumpUpBannerCountdown()
+            self?.isShowingFeaturedStripe.value = true
+            if isBoost {
                 self?.delegate?.vmBoostDidSuccess()
                 if let currentBumpUpInfo = self?.bumpUpBannerInfo.value {
                     let newBannerInfo = BumpUpInfo(type: .boost(boostBannerVisible: false),
@@ -1322,13 +1322,8 @@ extension ListingViewModel: PurchasesShopperDelegate {
                 } else {
                     self?.refreshBumpeableBanner()
                 }
-            })
-        } else {
-            delegate?.vmHideLoading(LGLocalizedString.bumpUpPaySuccess, afterMessageCompletion: { [weak self] in
-                self?.delegate?.vmResetBumpUpBannerCountdown()
-                self?.isShowingFeaturedStripe.value = true
-            })
-        }
+            }
+        })
     }
 
     func pricedBumpDidFail(type: BumpUpType, transactionStatus: EventParameterTransactionStatus,

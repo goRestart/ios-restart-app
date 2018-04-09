@@ -1325,9 +1325,9 @@ extension ListingCarouselViewController: ListingCarouselViewModelDelegate {
         navigationController?.view.addSubviewForAutoLayout(boostSuccessAlert)
         boostSuccessAlert.layout(with: view).fill()
         boostSuccessAlert.alpha = 0
+        view.layoutIfNeeded()
         UIView.animate(withDuration: 0.3) { [weak self] in
             boostSuccessAlert.alpha = 1
-            self?.view.layoutIfNeeded()
             boostSuccessAlert.startAnimation()
         }
     }
