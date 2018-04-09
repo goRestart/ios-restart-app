@@ -208,7 +208,7 @@ class PurchasesShopperSpec: QuickSpec {
                     context("bump succeeds") {
                         beforeEach {
                             sut.paymentProcessingListingId = "listing_id_success"
-                            sut.paymentProcessingPaymentId = "payment_id_success"
+                            sut.paymentProcessingLetgoItemId = "letgo_item_id_success"
                             transaction.myTransactionIdentifier = "purchase_bump_ok"
                             sut.purchasesShopperState = .purchasing
                             monetizationRepository.bumpResult = Result<Void, RepositoryError>(value: Void())
@@ -222,7 +222,7 @@ class PurchasesShopperSpec: QuickSpec {
                     context("bump fails") {
                         beforeEach {
                             sut.paymentProcessingListingId = "listing_id_fail"
-                            sut.paymentProcessingPaymentId = "payment_id_fail"
+                            sut.paymentProcessingLetgoItemId = "letgo_item_id_fail"
                             transaction.myTransactionIdentifier = "purchase_bump_fail"
                             sut.purchasesShopperState = .purchasing
                             monetizationRepository.bumpResult = Result<Void, RepositoryError>(error: .notFound)
@@ -237,7 +237,7 @@ class PurchasesShopperSpec: QuickSpec {
                 context("restoring purchase immediately, there are payment transactions in the queue") {
                     beforeEach {
                         sut.paymentProcessingListingId = "listing_id_restore"
-                        sut.paymentProcessingPaymentId = "payment_id_restore"
+                        sut.paymentProcessingLetgoItemId = "letgo_item_id_restore"
                         transaction.myTransactionIdentifier = "restore_bump"
                         // purchase works, bump fails, so it's stored
                         sut.purchasesShopperState = .purchasing
@@ -277,10 +277,10 @@ class PurchasesShopperSpec: QuickSpec {
                     var currentBump: FailedBumpInfo!
                     beforeEach {
                         currentBump = FailedBumpInfo(listingId: "listing_id_1", transactionId: "restore_bump",
-                                                         paymentId: "listing_id_restore", receiptData: "receipt_data",
-                                                         itemId: "payment_id_restore", itemPrice: "1.99",
-                                                         itemCurrency: "$", amplitudeId: nil, appsflyerId: nil,
-                                                         idfa: nil, bundleId: nil, numRetries: 5)
+                                                     paymentId: "listing_id_restore", letgoItemId: "letgo_item_id_restore",
+                                                     receiptData: "receipt_data", itemId: "payment_id_restore",
+                                                     itemPrice: "1.99", itemCurrency: "$", amplitudeId: nil,
+                                                     appsflyerId: nil, idfa: nil, bundleId: nil, numRetries: 5)
 
                         var failedBumpsDict: [String:Any] = [:]
                         failedBumpsDict[currentBump.listingId] = currentBump.dictionaryValue()
