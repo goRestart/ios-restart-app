@@ -115,56 +115,104 @@ struct LGBaseListing: BaseListingModel, Decodable {
      */
 
     public init(from decoder: Decoder) throws {
-        let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
+        let keyedContainerProductsApi = try decoder.container(keyedBy: CodingKeysProductsApi.self)
+        let keyedContainerVerticalsApi = try decoder.container(keyedBy: CodingKeysVerticalsApi.self)
+        let keyedContainerBase = try decoder.container(keyedBy: CodingKeys.self)
         let dateFormatter = LGDateFormatter()
 
-        objectId = try keyedContainer.decodeIfPresent(String.self, forKey: .objectId)
-        if let updatedAtString = try keyedContainer.decodeIfPresent(String.self, forKey: .updatedAt),
-            let updatedAt = dateFormatter.date(from: updatedAtString) {
-            self.updatedAt = updatedAt
-        } else {
-            self.updatedAt = nil
+        objectId = try keyedContainerBase.decodeIfPresent(String.self, forKey: .objectId)
+        
+        var updatedDateValue: Date? = nil
+        if let updatedAtProductsApi = try keyedContainerProductsApi.decodeIfPresent(String.self, forKey: .updatedAt)
+             {
+            updatedDateValue = dateFormatter.date(from: updatedAtProductsApi)
+        } else if let updatedAtVerticalsApi = try keyedContainerVerticalsApi.decodeIfPresent(String.self, forKey: .updatedAt) {
+            updatedDateValue = dateFormatter.date(from: updatedAtVerticalsApi)
         }
-        if let createdAtString = try keyedContainer.decodeIfPresent(String.self, forKey: .createdAt),
-            let createdAt = dateFormatter.date(from: createdAtString) {
-            self.createdAt = createdAt
-        } else {
-            self.createdAt = nil
+        self.updatedAt = updatedDateValue
+        
+        var createdAtDateValue: Date?
+        if let createdAtProductsApi = try keyedContainerProductsApi.decodeIfPresent(String.self, forKey: .createdAt)
+        {
+            createdAtDateValue = dateFormatter.date(from: createdAtProductsApi)
+        } else if let createdAtVerticalsApi = try keyedContainerVerticalsApi.decodeIfPresent(String.self, forKey: .createdAt) {
+            createdAtDateValue = dateFormatter.date(from: createdAtVerticalsApi)
         }
+        self.createdAt = createdAtDateValue
+        
 
-        name = try keyedContainer.decodeIfPresent(String.self, forKey: .name)
-        nameAuto = try keyedContainer.decodeIfPresent(String.self, forKey: .nameAuto)
-        descr = try keyedContainer.decodeIfPresent(String.self, forKey: .descr)
-
-        let priceValue = try keyedContainer.decodeIfPresent(Double.self, forKey: .price)
-        let priceFlag: ListingPriceFlag?
-        if let priceFlagRawValue = try keyedContainer.decodeIfPresent(Int.self, forKey: .priceFlag) {
-            priceFlag = ListingPriceFlag(rawValue: priceFlagRawValue)
+        name = try keyedContainerBase.decodeIfPresent(String.self, forKey: .name)
+        
+        if let nameAutoValue = try keyedContainerProductsApi.decodeIfPresent(String.self, forKey: .nameAuto) {
+            nameAuto = nameAutoValue
         } else {
-            priceFlag = nil
+            nameAuto = try keyedContainerVerticalsApi.decodeIfPresent(String.self, forKey: .nameAuto)
+        }
+        
+        descr = try keyedContainerBase.decodeIfPresent(String.self, forKey: .descr)
+
+        var priceValue: Double? = nil
+        priceValue = try keyedContainerBase.decodeIfPresent(Double.self, forKey: .price)
+        
+        var priceFlag: ListingPriceFlag? = nil
+        if let priceFlagProductsRawValue = try keyedContainerProductsApi.decodeIfPresent(Int.self, forKey: .priceFlag) {
+            priceFlag = ListingPriceFlag(rawValue: priceFlagProductsRawValue)
+        } else if let priceFlagVerticalsRawValue = try keyedContainerVerticalsApi.decodeIfPresent(Int.self, forKey: .priceFlag) {
+            priceFlag = ListingPriceFlag(rawValue: priceFlagVerticalsRawValue)
         }
         price = ListingPrice.fromPrice(priceValue, andFlag: priceFlag)
 
-        let currencyCode = try keyedContainer.decode(String.self, forKey: .currency)
+        let currencyCode = try keyedContainerBase.decode(String.self, forKey: .currency)
         currency = Currency.currencyWithCode(currencyCode)
 
-        let locationKeyedContainer = try keyedContainer.nestedContainer(keyedBy: LocationCodingKeys.self,
+        let locationKeyedContainerProductsApi = try keyedContainerBase.nestedContainer(keyedBy: LocationCodingKeysProductsApi.self,
                                                                         forKey: .location)
-        let latitude = try locationKeyedContainer.decode(Double.self, forKey: .latitude)
-        let longitude = try locationKeyedContainer.decode(Double.self, forKey: .longitude)
+        let locationKeyedContainerVerticalsApi = try keyedContainerBase.nestedContainer(keyedBy: LocationCodingKeysVerticalsApi.self,
+                                                                                              forKey: .location)
+        
+        let latitude: Double
+        if let latitudeProductsApi = try locationKeyedContainerProductsApi.decodeIfPresent(Double.self, forKey: .latitude) {
+            latitude = latitudeProductsApi
+        } else {
+            latitude = try locationKeyedContainerVerticalsApi.decode(Double.self, forKey: .latitude)
+        }
+        
+        let longitude: Double
+        if let longitudeProductsApi = try locationKeyedContainerProductsApi.decodeIfPresent(Double.self, forKey: .longitude) {
+            longitude = longitudeProductsApi
+        } else {
+            longitude = try locationKeyedContainerVerticalsApi.decode(Double.self, forKey: .longitude)
+        }
+        
         location = LGLocationCoordinates2D(latitude: latitude, longitude: longitude)
-        postalAddress = try keyedContainer.decode(PostalAddress.self, forKey: .location)
+        
+        postalAddress = try keyedContainerBase.decode(PostalAddress.self, forKey: .location)
 
-        languageCode = try keyedContainer.decodeIfPresent(String.self, forKey: .languageCode)
-        let categoryRawValue = try keyedContainer.decode(Int.self, forKey: .categoryId)
-        category = ListingCategory(rawValue: categoryRawValue) ?? .unassigned
-
-        let code = try keyedContainer.decode(Int.self, forKey: .status)
+        if let languageCodeValue = try keyedContainerProductsApi.decodeIfPresent(String.self, forKey: .languageCode) {
+            languageCode = languageCodeValue
+        } else {
+            languageCode = try keyedContainerVerticalsApi.decodeIfPresent(String.self, forKey: .languageCode)
+        }
+        
+        if let categoryRawValue = try keyedContainerProductsApi.decodeIfPresent(Int.self, forKey: .categoryId) {
+            category = ListingCategory(rawValue: categoryRawValue) ?? .unassigned
+        } else {
+            let categoryValue = try keyedContainerVerticalsApi.decode(Int.self, forKey: .categoryId)
+            category = ListingCategory(rawValue: categoryValue) ?? .unassigned
+        }
+        
+        let code = try keyedContainerBase.decode(Int.self, forKey: .status)
         let statusCode = ListingStatusCode(rawValue: code) ?? .approved
-        let discardedReason = try keyedContainer.decodeIfPresent(DiscardedReason.self, forKey: .discardedReason)
-        status = ListingStatus(statusCode: statusCode, discardedReason: discardedReason) ?? .pending
+        
+        let discardReason: DiscardedReason?
+        if let discardedReasonValue = try keyedContainerProductsApi.decodeIfPresent(DiscardedReason.self, forKey: .discardedReason) {
+            discardReason = discardedReasonValue
+        } else {
+            discardReason = try keyedContainerProductsApi.decodeIfPresent(DiscardedReason.self, forKey: .discardedReason)
+        }
+        status = ListingStatus(statusCode: statusCode, discardedReason: discardReason) ?? .pending
 
-        let thumbnailKeyedContainer = try keyedContainer.nestedContainer(keyedBy: ThumbnailCodingKeys.self, forKey: .thumbnail)
+        let thumbnailKeyedContainer = try keyedContainerBase.nestedContainer(keyedBy: ThumbnailCodingKeys.self, forKey: .thumbnail)
         let thumbnailUrl = try thumbnailKeyedContainer.decodeIfPresent(String.self, forKey: .url)
         thumbnail = LGFile(id: nil, urlString: thumbnailUrl)
         if let thumbnailWidth = try thumbnailKeyedContainer.decodeIfPresent(Float.self, forKey: .width),
@@ -174,40 +222,63 @@ struct LGBaseListing: BaseListingModel, Decodable {
             thumbnailSize = nil
         }
 
-        let imagesArray = (try keyedContainer.decode(FailableDecodableArray<LGListingImage>.self, forKey: .images)).validElements
+        let imagesArray = (try keyedContainerBase.decode(FailableDecodableArray<LGListingImage>.self, forKey: .images)).validElements
         images = LGListingImage.mapToFiles(imagesArray)
 
-        user = try keyedContainer.decode(LGUserListing.self, forKey: .user)
-        featured = try keyedContainer.decodeIfPresent(Bool.self, forKey: .featured)
+        user = try keyedContainerBase.decode(LGUserListing.self, forKey: .user)
+
+        featured = try keyedContainerBase.decodeIfPresent(Bool.self, forKey: .featured)
+
     }
 
-    enum CodingKeys: String, CodingKey {
-        case objectId = "id"
+    enum CodingKeysProductsApi: String, CodingKey {
         case updatedAt = "updated_at"
         case createdAt = "created_at"
-        case name = "name"
         case nameAuto = "image_information"
-        case descr = "description"
-        case price = "price"
         case priceFlag = "price_flag"
-        case currency = "currency"
-        case location = "geo"
         case languageCode = "language_code"
         case categoryId = "category_id"
+        case discardedReason = "rejected_reason"
+    }
+    
+    enum CodingKeysVerticalsApi: String, CodingKey {
+        case updatedAt = "updatedAt"
+        case createdAt = "createdAt"
+        case nameAuto = "imageInformation"
+        case priceFlag = "priceFlag"
+        case languageCode = "languageCode"
+        case categoryId = "categoryId"
+        case discardedReason = "rejectedReason"
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case objectId = "id"
+        case name = "name"
+        case descr = "description"
+        case price = "price"
+        case location = "geo"
         case status = "status"
         case thumbnail = "thumb"
         case images = "images"
         case user = "owner"
         case featured = "featured"
-        case discardedReason = "rejected_reason"
+        case currency = "currency"
     }
 
-    enum LocationCodingKeys: String, CodingKey {
+    enum LocationCodingKeysProductsApi: String, CodingKey {
         case latitude = "lat"
         case longitude = "lng"
         case countryCode = "country_code"
         case city
         case zipCode = "zip_code"
+    }
+    
+    enum LocationCodingKeysVerticalsApi: String, CodingKey {
+        case latitude = "lat"
+        case longitude = "lng"
+        case countryCode = "countryCode"
+        case city
+        case zipCode = "zipCode"
     }
 
     enum ThumbnailCodingKeys: String, CodingKey {

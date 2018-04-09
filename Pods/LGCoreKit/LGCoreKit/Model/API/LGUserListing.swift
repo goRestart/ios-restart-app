@@ -75,15 +75,24 @@ struct LGUserListing: UserListing, Decodable {
      */
     init(from decoder: Decoder) throws {
         let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
+        let keyedContainerCamelCase = try decoder.container(keyedBy: CodingKeysCamelCase.self)
+        let keyedContainerSnakeCase = try decoder.container(keyedBy: CodingKeysSnakeCase.self)
+        
         self.objectId = try keyedContainer.decodeIfPresent(String.self, forKey: .id)
         self.name = try keyedContainer.decodeIfPresent(String.self, forKey: .name)
-        if let avatarURL = try keyedContainer.decodeIfPresent(String.self, forKey: .avatarURL) {
+        if let avatarURL = try keyedContainerSnakeCase.decodeIfPresent(String.self, forKey: .avatarURL) {
             self.avatar = LGFile(id: nil, urlString: avatarURL)
+        } else if let avatarUrl = try keyedContainerCamelCase.decodeIfPresent(String.self, forKey: .avatarURL) {
+            self.avatar = LGFile(id: nil, urlString: avatarUrl)
         } else {
             self.avatar = nil
         }
         self.postalAddress = (try? PostalAddress(from: decoder)) ?? PostalAddress.emptyAddress()
-        self.isDummy = try keyedContainer.decodeIfPresent(Bool.self, forKey: .isDummy) ?? false
+        if let dummyValue = try keyedContainerSnakeCase.decodeIfPresent(Bool.self, forKey: .isDummy) {
+            self.isDummy = dummyValue
+        } else {
+            self.isDummy = try keyedContainerCamelCase.decodeIfPresent(Bool.self, forKey: .isDummy) ?? false
+        }
         self.banned = try keyedContainer.decodeIfPresent(Bool.self, forKey: .isBanned)
         let statusValue = try keyedContainer.decodeIfPresent(String.self, forKey: .status) ?? LGUserListing.statusDefaultValue.rawValue
         self.status = UserStatus(rawValue: statusValue) ?? LGUserListing.statusDefaultValue
@@ -92,9 +101,18 @@ struct LGUserListing: UserListing, Decodable {
     enum CodingKeys: String, CodingKey {
         case id = "id"
         case name = "name"
-        case avatarURL = "avatar_url"
         case status = "status"
         case isBanned = "banned"
+        
+    }
+    
+    enum CodingKeysCamelCase: String, CodingKey {
+        case avatarURL = "avatarUrl"
+        case isDummy = "isRichy"
+    }
+    
+    enum CodingKeysSnakeCase: String, CodingKey {
+        case avatarURL = "avatar_url"
         case isDummy = "is_richy"
     }
 }

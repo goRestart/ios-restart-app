@@ -106,19 +106,9 @@
         "description": "Charge min price of 1.99$ instead of 0.99$ on bumps"
     },
     {
-        "name": "ShowSecurityMeetingChatMessage",
-        "values": ["control", "baseline", "variant1", "variant2"],
-        "description": "show a disclaimer message on chat after a message from the interlocutor"
-    },
-    {
         "name": "NoAdsInFeedForNewUsers",
         "values": ["control", "baseline", "AdsEverywhere", "NoAdsForNewUsers", "AdsForNewUsersOnlyInFeed"],
         "description": "Change logic for showing ads to new users (2 weeks old)"
-    },
-    {
-        "name": "EmojiSizeIncrement",
-        "values": ["control", "baseline", "active"],
-        "description": "Increase the size of emojis the text is only emojis and < 4"
     },
     {
         "name": "ShowBumpUpBannerOnNotValidatedListings",
@@ -229,5 +219,15 @@
         "name": "CopyForChatNowInEnglish",
         "values": ["control", "variantA", "variantB", "variantC", "variantD"],
         "description": "Try different copies for Chat now button in English"
+    },
+    {
+        "name": "FeedAdsProviderForTR",
+        "values": ["control", "baseline", "MoPubAdsForAllUsers", "MoPubAdsForOldUsers"],
+        "description": "Change logic for showing ads with diferent ads providers in TR"
+    },
+    {
+        "name": "SearchCarsIntoNewBackend",
+        "values": ["control", "baseline", "active"],
+        "description": "Search cars into the new Search Car end point"
     }
 ]
