@@ -53,7 +53,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
         var actionButtonsObserver: TestableObserver<[UIAction]>!
         var statusObserver: TestableObserver<ListingViewModelStatus>!
         var isFeaturedObserver: TestableObserver<Bool>!
-        var quickAnswersObserver: TestableObserver<[[QuickAnswer]]>!
+        var quickAnswersObserver: TestableObserver<[QuickAnswer]>!
         var quickAnswersAvailableObserver: TestableObserver<Bool>!
         var directChatEnabledObserver: TestableObserver<Bool>!
         var directChatPlaceholderObserver: TestableObserver<String>!
@@ -161,7 +161,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                 actionButtonsObserver = scheduler.createObserver(Array<UIAction>.self)
                 statusObserver = scheduler.createObserver(ListingViewModelStatus.self)
                 isFeaturedObserver = scheduler.createObserver(Bool.self)
-                quickAnswersObserver = scheduler.createObserver(Array<Array<QuickAnswer>>.self)
+                quickAnswersObserver = scheduler.createObserver(Array<QuickAnswer>.self)
                 quickAnswersAvailableObserver = scheduler.createObserver(Bool.self)
                 directChatEnabledObserver = scheduler.createObserver(Bool.self)
                 directChatPlaceholderObserver = scheduler.createObserver(String.self)
@@ -304,163 +304,76 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                         user.type = .user
                         userRepository.userResult = UserResult(value: user)
                     }
-                    describe("ab test non-dynamic") {
+                    context("product is mine and available") {
                         beforeEach {
-                            featureFlags.dynamicQuickAnswers = .control
+                            let myUser = MockMyUser.makeMock()
+                            myUserRepository.myUserVar.value = myUser
+                            var productUser = MockUserListing.makeMock()
+                            productUser.objectId = myUser.objectId
+                            product.user = productUser
+                            product.status = .approved
+                            buildSut(initialProduct: product)
+                            sut.active = true
                         }
-                        context("product is mine and available") {
-                            beforeEach {
-                                let myUser = MockMyUser.makeMock()
-                                myUserRepository.myUserVar.value = myUser
-                                var productUser = MockUserListing.makeMock()
-                                productUser.objectId = myUser.objectId
-                                product.user = productUser
-                                product.status = .approved
-                                buildSut(initialProduct: product)
-                                sut.active = true
-                            }
-                            it("quick answers are not available") {
-                                expect(quickAnswersAvailableObserver.eventValues) == [false, false] //first product
-                            }
-                            it("quickAnswers are empty") {
-                                expect(quickAnswersObserver.eventValues.map { $0.isEmpty }) == [true] //first product
-                            }
+                        it("quick answers are not available") {
+                            expect(quickAnswersAvailableObserver.eventValues) == [false, false] //first product
                         }
-                        context("product is not mine and available") {
-                            context("non free product") {
-                                beforeEach {
-                                    let myUser = MockMyUser.makeMock()
-                                    myUserRepository.myUserVar.value = myUser
-                                    product.status = .approved
-                                    product.price = .normal(25)
-                                    buildSut(initialProduct: product)
-                                    sut.active = true
-                                    expect(isProfessionalObserver.eventValues.count).toEventually(equal(2)) // initial + response
-                                }
-                                it("quick answers are available") {
-                                    expect(quickAnswersAvailableObserver.eventValues) == [true, true] //first product
-                                }
-                                it("receives 3 groups of quick answers") {
-                                    expect(quickAnswersObserver.lastValue?.count) == 3
-                                }
-                                it("matches first group with the right availability quick answers") {
-                                    expect(quickAnswersObserver.lastValue?[0]) == [.stillAvailable]
-                                }
-                                it("matches second group with the right negotiable quick answers") {
-                                    expect(quickAnswersObserver.lastValue?[1]) == [.isNegotiable]
-                                }
-                                it("matches third group with the right condition quick answers") {
-                                    expect(quickAnswersObserver.lastValue?[2]) == [.listingCondition]
-                                }
-                            }
-                            context("free product") {
-                                beforeEach {
-                                    let myUser = MockMyUser.makeMock()
-                                    myUserRepository.myUserVar.value = myUser
-                                    product.status = .approved
-                                    product.price = .free
-                                    featureFlags.freePostingModeAllowed = true
-                                    buildSut(initialProduct: product)
-                                    sut.active = true
-                                    expect(isProfessionalObserver.eventValues.count).toEventually(equal(2)) // initial + response
-                                }
-                                it("quick answers are available") {
-                                    expect(quickAnswersAvailableObserver.eventValues) == [true, true] //first product
-                                }
-                                it("receives 3 groups of quick answers") {
-                                    expect(quickAnswersObserver.lastValue?.count) == 3
-                                }
-                                it("matches first group with the right interested quick answers") {
-                                    expect(quickAnswersObserver.lastValue?[0]) == [.interested]
-                                }
-                                it("matches second group with the right meet up quick answers") {
-                                    expect(quickAnswersObserver.lastValue?[1]) == [.meetUp]
-                                }
-                                it("matches third group with the right condition quick answers") {
-                                    expect(quickAnswersObserver.lastValue?[2]) == [.listingCondition]
-                                }
-                            }
+                        it("quickAnswers are empty") {
+                            expect(quickAnswersObserver.eventValues.map { $0.isEmpty }) == [true] //first product
                         }
                     }
-
-                    describe("ab test dynamic") {
-                        beforeEach {
-                            featureFlags.dynamicQuickAnswers = .dynamicNoKeyboard
-                        }
-                        context("product is mine and available") {
+                    context("product is not mine and available") {
+                        context("non free product") {
                             beforeEach {
                                 let myUser = MockMyUser.makeMock()
                                 myUserRepository.myUserVar.value = myUser
-                                var productUser = MockUserListing.makeMock()
-                                productUser.objectId = myUser.objectId
-                                product.user = productUser
                                 product.status = .approved
+                                product.price = .normal(25)
                                 buildSut(initialProduct: product)
                                 sut.active = true
+                                expect(isProfessionalObserver.eventValues.count).toEventually(equal(2)) // initial + response
                             }
-                            it("quick answers are not available") {
-                                expect(quickAnswersAvailableObserver.eventValues) == [false, false] //first product
+                            it("quick answers are available") {
+                                expect(quickAnswersAvailableObserver.eventValues) == [true, true] //first product
                             }
-                            it("quickAnswers are empty") {
-                                expect(quickAnswersObserver.eventValues.map { $0.isEmpty }) == [true] //first product
+                            it("receives 3 groups of quick answers") {
+                                expect(quickAnswersObserver.lastValue?.count) == 3
+                            }
+                            it("matches first group with the right availability quick answers") {
+                                expect(quickAnswersObserver.lastValue?[0]) == .stillAvailable
+                            }
+                            it("matches second group with the right negotiable quick answers") {
+                                expect(quickAnswersObserver.lastValue?[1]) == .isNegotiable
+                            }
+                            it("matches third group with the right condition quick answers") {
+                                expect(quickAnswersObserver.lastValue?[2]) == .listingCondition
                             }
                         }
-                        context("product is not mine and available") {
-                            context("non free product") {
-                                beforeEach {
-                                    let myUser = MockMyUser.makeMock()
-                                    myUserRepository.myUserVar.value = myUser
-                                    product.status = .approved
-                                    product.price = .normal(25)
-                                    buildSut(initialProduct: product)
-                                    sut.active = true
-                                    expect(isProfessionalObserver.eventValues.count).toEventually(equal(2)) // initial + response
-                                }
-                                it("quick answers are available") {
-                                    expect(quickAnswersAvailableObserver.eventValues) == [true, true] //first product
-                                }
-                                it("receives 4 groups of quick answers") {
-                                    expect(quickAnswersObserver.lastValue?.count) == 4
-                                }
-                                it("matches first group with the right availability quick answers") {
-                                    expect(quickAnswersObserver.lastValue?[0]) == [.stillAvailable, .stillForSale, .freeStillHave]
-                                }
-                                it("matches second group with the right meet up quick answers") {
-                                    expect(quickAnswersObserver.lastValue?[1]) == [.meetUp, .meetUpLocated, .meetUpWhereYouWant]
-                                }
-                                it("matches third group with the right condition quick answers") {
-                                    expect(quickAnswersObserver.lastValue?[2]) == [.listingCondition, .listingConditionGood, .listingConditionDescribe]
-                                }
-                                it("matches fourth group with the right price quick answers") {
-                                    expect(quickAnswersObserver.lastValue?[3]) == [.isNegotiable, .priceFirm, .priceWillingToNegotiate]
-                                }
+                        context("free product") {
+                            beforeEach {
+                                let myUser = MockMyUser.makeMock()
+                                myUserRepository.myUserVar.value = myUser
+                                product.status = .approved
+                                product.price = .free
+                                featureFlags.freePostingModeAllowed = true
+                                buildSut(initialProduct: product)
+                                sut.active = true
+                                expect(isProfessionalObserver.eventValues.count).toEventually(equal(2)) // initial + response
                             }
-                            context("free product") {
-                                beforeEach {
-                                    let myUser = MockMyUser.makeMock()
-                                    myUserRepository.myUserVar.value = myUser
-                                    product.status = .approved
-                                    product.price = .free
-                                    featureFlags.freePostingModeAllowed = true
-                                    buildSut(initialProduct: product)
-                                    sut.active = true
-                                    expect(isProfessionalObserver.eventValues.count).toEventually(equal(2)) // initial + response
-                                }
-                                it("quick answers are available") {
-                                    expect(quickAnswersAvailableObserver.eventValues) == [true, true] //first product
-                                }
-                                it("receives 3 groups of quick answers") {
-                                    expect(quickAnswersObserver.lastValue?.count) == 3
-                                }
-                                it("matches first group with the right availability quick answers") {
-                                    expect(quickAnswersObserver.lastValue?[0]) == [.stillAvailable, .freeStillHave]
-                                }
-                                it("matches second group with the right meet up quick answers") {
-                                    expect(quickAnswersObserver.lastValue?[1]) == [.meetUp, .meetUpLocated, .meetUpWhereYouWant]
-                                }
-                                it("matches third group with the right condition quick answers") {
-                                    expect(quickAnswersObserver.lastValue?[2]) == [.listingCondition, .listingConditionGood, .listingConditionDescribe]
-                                }
+                            it("quick answers are available") {
+                                expect(quickAnswersAvailableObserver.eventValues) == [true, true] //first product
+                            }
+                            it("receives 3 groups of quick answers") {
+                                expect(quickAnswersObserver.lastValue?.count) == 3
+                            }
+                            it("matches first group with the right interested quick answers") {
+                                expect(quickAnswersObserver.lastValue?[0]) == .interested
+                            }
+                            it("matches second group with the right meet up quick answers") {
+                                expect(quickAnswersObserver.lastValue?[1]) == .meetUp
+                            }
+                            it("matches third group with the right condition quick answers") {
+                                expect(quickAnswersObserver.lastValue?[2]) == .listingCondition
                             }
                         }
                     }

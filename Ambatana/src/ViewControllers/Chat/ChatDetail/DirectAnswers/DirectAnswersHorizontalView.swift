@@ -9,7 +9,7 @@
 import Foundation
 
 protocol DirectAnswersHorizontalViewDelegate: class {
-    func directAnswersHorizontalViewDidSelect(answer: QuickAnswer, index: Int)
+    func directAnswersHorizontalViewDidSelect(answer: QuickAnswer)
 }
 
 enum DirectAnswersStyle {
@@ -44,17 +44,18 @@ class DirectAnswersHorizontalView: UIView {
 
     fileprivate var heightConstraint = NSLayoutConstraint()
     fileprivate let collectionView: UICollectionView
-    fileprivate var answers: [[QuickAnswer]]
+    fileprivate var answers: [QuickAnswer]
     fileprivate var isDynamic: Bool = false
 
+    
     // MARK: - Lifecycle
 
-    convenience init(answers: [[QuickAnswer]], sideMargin: CGFloat = Layout.standardSideMargin) {
+    convenience init(answers: [QuickAnswer], sideMargin: CGFloat = Layout.standardSideMargin) {
         let frame = CGRect(x: 0, y: 0, width: Layout.Width.standard, height: DirectAnswerCell.cellHeight)
         self.init(frame: frame, answers: answers, sideMargin: sideMargin)
     }
 
-    required init(frame: CGRect, answers: [[QuickAnswer]], sideMargin: CGFloat = Layout.standardSideMargin) {
+    required init(frame: CGRect, answers: [QuickAnswer], sideMargin: CGFloat = Layout.standardSideMargin) {
         self.answers = answers
         let collectionFrame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
         self.collectionView = UICollectionView(frame: collectionFrame, collectionViewLayout: UICollectionViewFlowLayout())
@@ -70,9 +71,8 @@ class DirectAnswersHorizontalView: UIView {
         return CGSize(width: Layout.Width.standard, height: Layout.Height.standard)
     }
 
-    func update(answers: [[QuickAnswer]], isDynamic: Bool) {
+    func update(answers: [QuickAnswer]) {
         self.answers = answers
-        self.isDynamic = isDynamic
         collectionView.reloadData()
     }
 
@@ -127,7 +127,7 @@ extension DirectAnswersHorizontalView: UICollectionViewDataSource, UICollectionV
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return DirectAnswerCell.sizeForDirectAnswer(answers[indexPath.row].random(), isDynamic: isDynamic)
+        return DirectAnswerCell.sizeForDirectAnswer(answers[indexPath.row])
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -139,7 +139,7 @@ extension DirectAnswersHorizontalView: UICollectionViewDataSource, UICollectionV
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DirectAnswerCell.reusableID,
                                                             for: indexPath) as? DirectAnswerCell else { return UICollectionViewCell() }
 
-        cell.setupWithDirectAnswer(answers[indexPath.row].random(), isDynamic: isDynamic)
+        cell.setupWithDirectAnswer(answers[indexPath.row])
 
         return cell
     }
@@ -155,9 +155,7 @@ extension DirectAnswersHorizontalView: UICollectionViewDataSource, UICollectionV
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         defer { collectionView.deselectItem(at: indexPath, animated: true) }
         guard answersEnabled else { return }
-        if let quickAnswer = answers[indexPath.row].random() {
-            delegate?.directAnswersHorizontalViewDidSelect(answer: quickAnswer, index: indexPath.row)
-        }
+        delegate?.directAnswersHorizontalViewDidSelect(answer: answers[indexPath.row])
     }
 
     func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {

@@ -39,6 +39,7 @@ class ABTests {
 
     let legacy = LegacyABGroup.make()
     let realEstate = RealEstateABGroup.make()
+    let verticals = VerticalsABGroup.make()
     let retention = RetentionABGroup.make()
     let money = MoneyABGroup.make()
     let chat = ChatABGroup.make()
@@ -60,6 +61,7 @@ class ABTests {
         result.append(contentsOf: money.intVariables)
         result.append(contentsOf: retention.intVariables)
         result.append(contentsOf: realEstate.intVariables)
+        result.append(contentsOf: verticals.intVariables)
         result.append(contentsOf: chat.intVariables)
         result.append(contentsOf: core.intVariables)
         result.append(contentsOf: users.intVariables)
@@ -72,6 +74,7 @@ class ABTests {
         result.append(contentsOf: money.boolVariables)
         result.append(contentsOf: retention.boolVariables)
         result.append(contentsOf: realEstate.boolVariables)
+        result.append(contentsOf: verticals.boolVariables)
         result.append(contentsOf: chat.boolVariables)
         result.append(contentsOf: core.boolVariables)
         result.append(contentsOf: users.boolVariables)
@@ -119,8 +122,6 @@ extension ABTests {
 
 extension ABTests {
     var showInactiveConversations: LeanplumABVariable<Bool> { return chat.showInactiveConversations }
-    var showSecurityMeetingChatMessage: LeanplumABVariable<Int> { return chat.showSecurityMeetingChatMessage }
-    var emojiSizeIncrement: LeanplumABVariable<Int> { return chat.emojiSizeIncrement }
     var showChatSafetyTips: LeanplumABVariable<Bool> { return chat.showChatSafetyTips }
     var userIsTyping: LeanplumABVariable<Int> { return chat.userIsTyping }
     var markAllConversationsAsRead: LeanplumABVariable<Bool> { return chat.markAllConversationsAsRead }
@@ -136,6 +137,7 @@ extension ABTests {
     var showProTagUserProfile: LeanplumABVariable<Bool> { return money.showProTagUserProfile }
     var feedAdsProviderForUS: LeanplumABVariable<Int> { return money.feedAdsProviderForUS }
     var copyForChatNowInEnglish: LeanplumABVariable<Int> { return money.copyForChatNowInEnglish }
+    var feedAdsProviderForTR: LeanplumABVariable<Int> { return money.feedAdsProviderForTR }
 }
 
 extension ABTests {
@@ -151,6 +153,10 @@ extension ABTests {
 }
 
 extension ABTests {
+    var searchCarsIntoNewBackend: LeanplumABVariable<Int> { return verticals.searchCarsIntoNewBackend }
+}
+
+extension ABTests {
     var marketingPush: LeanplumABVariable<Int> { return legacy.marketingPush }
     // Not an A/B just flags and variables for surveys
     var showNPSSurvey: LeanplumABVariable<Bool> { return legacy.showNPSSurvey }
@@ -161,7 +167,6 @@ extension ABTests {
     var newCarsMultiRequesterEnabled: LeanplumABVariable<Bool> { return legacy.newCarsMultiRequesterEnabled }
     var inAppRatingIOS10: LeanplumABVariable<Bool> { return legacy.inAppRatingIOS10 }
     var userReviewsReportEnabled: LeanplumABVariable<Bool> { return legacy.userReviewsReportEnabled }
-    var dynamicQuickAnswers: LeanplumABVariable<Int> { return legacy.dynamicQuickAnswers }
     var appRatingDialogInactive: LeanplumABVariable<Bool> { return legacy.appRatingDialogInactive }
     var locationDataSourceType: LeanplumABVariable<Int> { return legacy.locationDataSourceType }
     var searchAutocomplete: LeanplumABVariable<Int> { return legacy.searchAutocomplete }
