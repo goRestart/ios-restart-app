@@ -12,6 +12,8 @@ import RxCocoa
 
 final class UserPhoneVerificationCountryPickerViewModel: BaseViewModel {
 
+    weak var navigator: UserPhoneVerificationNavigator?
+
     let filteredCountries = Variable<[CountryPhoneCode]>([])
     private var allCountries: [CountryPhoneCode] = []
 

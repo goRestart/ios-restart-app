@@ -6,7 +6,6 @@
 //  Copyright © 2018 Ambatana. All rights reserved.
 //
 
-import Foundation
 import LGCoreKit
 import RxSwift
 import RxCocoa

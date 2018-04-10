@@ -10,6 +10,8 @@ import LGCoreKit
 
 final class UserPhoneVerificationCodeInputViewModel: BaseViewModel {
 
+    weak var navigator: UserPhoneVerificationNavigator?
+
     init(fake: String? = "") {
         super.init()
     }
