@@ -453,7 +453,10 @@ extension AppCoordinator: AppNavigator {
                             bumpUpProductData: BumpUpProductData?) {
         let editCoordinator = EditListingCoordinator(listing: listing,
                                                      bumpUpProductData: bumpUpProductData,
-                                                     pageType: nil)
+                                                     pageType: nil,
+                                                     listingCanBeBoosted: false,
+                                                     timeSinceLastBump: nil,
+                                                     maxCountdown: nil)
         editCoordinator.delegate = self
         openChild(coordinator: editCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: false, completion: nil)
     }
@@ -484,7 +487,9 @@ extension AppCoordinator: EditListingCoordinatorDelegate {
 
     func editListingCoordinator(_ coordinator: EditListingCoordinator,
                                 didFinishWithListing listing: Listing,
-                                bumpUpProductData: BumpUpProductData?) {
+                                bumpUpProductData: BumpUpProductData?,
+                                timeSinceLastBump: TimeInterval?,
+                                maxCountdown: TimeInterval?) {
         refreshSelectedListingsRefreshable()
         guard let listingId = listing.objectId,
             let bumpData = bumpUpProductData,
