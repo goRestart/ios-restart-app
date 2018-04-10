@@ -692,8 +692,6 @@
 		55F1FB37204942B8005D1BD4 /* UserProfileNavBarUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F1FB35204942B8005D1BD4 /* UserProfileNavBarUserView.swift */; };
 		55F90BA0203C3E1000D9F7D0 /* UserProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F90B9F203C3E1000D9F7D0 /* UserProfileHeaderView.swift */; };
 		55F90BA1203C3E1000D9F7D0 /* UserProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F90B9F203C3E1000D9F7D0 /* UserProfileHeaderView.swift */; };
-		55FABE1020762214004B0DBD /* UserPhoneVerificationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55FABE0F20762214004B0DBD /* UserPhoneVerificationCoordinator.swift */; };
-		55FABE1120762214004B0DBD /* UserPhoneVerificationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55FABE0F20762214004B0DBD /* UserPhoneVerificationCoordinator.swift */; };
 		55FABE132076288D004B0DBD /* UserPhoneVerificationNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55FABE122076288D004B0DBD /* UserPhoneVerificationNavigator.swift */; };
 		55FABE142076288D004B0DBD /* UserPhoneVerificationNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55FABE122076288D004B0DBD /* UserPhoneVerificationNavigator.swift */; };
 		55FABE1620762E4B004B0DBD /* UserPhoneVerificationCodeInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55FABE1520762E4B004B0DBD /* UserPhoneVerificationCodeInputViewController.swift */; };
@@ -2228,7 +2226,6 @@
 		55DFCDDB2073791C00AC5E09 /* UserPhoneVerificationNumberInputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhoneVerificationNumberInputViewModel.swift; sourceTree = "<group>"; };
 		55F1FB35204942B8005D1BD4 /* UserProfileNavBarUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileNavBarUserView.swift; sourceTree = "<group>"; };
 		55F90B9F203C3E1000D9F7D0 /* UserProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileHeaderView.swift; sourceTree = "<group>"; };
-		55FABE0F20762214004B0DBD /* UserPhoneVerificationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhoneVerificationCoordinator.swift; sourceTree = "<group>"; };
 		55FABE122076288D004B0DBD /* UserPhoneVerificationNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhoneVerificationNavigator.swift; sourceTree = "<group>"; };
 		55FABE1520762E4B004B0DBD /* UserPhoneVerificationCodeInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhoneVerificationCodeInputViewController.swift; sourceTree = "<group>"; };
 		55FABE1820762E63004B0DBD /* UserPhoneVerificationCodeInputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhoneVerificationCodeInputViewModel.swift; sourceTree = "<group>"; };
@@ -3488,7 +3485,6 @@
 				72C99E9B1DED7417006361C1 /* ChangePasswordCoordinator.swift */,
 				C74931751D3526EF00E117F1 /* UserRatingCoordinator.swift */,
 				C74931781D3533DE00E117F1 /* UserRatingNavigator.swift */,
-				55FABE0F20762214004B0DBD /* UserPhoneVerificationCoordinator.swift */,
 				55FABE122076288D004B0DBD /* UserPhoneVerificationNavigator.swift */,
 				C7732F711D883C7700EAD5B7 /* OnboardingCoordinator.swift */,
 				C7732F741D8842B800EAD5B7 /* OnboardingNavigator.swift */,
@@ -6779,7 +6775,6 @@
 				0A3048282041E1DE00C11498 /* ListingDeckSnapshotType.swift in Sources */,
 				C77593E51BF0BD310097D62F /* FilterCategoryCell.swift in Sources */,
 				C7E1DE541E51F644003818F6 /* DirectAnswersHorizontalView.swift in Sources */,
-				55FABE1020762214004B0DBD /* UserPhoneVerificationCoordinator.swift in Sources */,
 				508AFB0A1E51D1BF0007363D /* AutocompleteField.swift in Sources */,
 				727EF06F1E0BE6600037DA4E /* LGLocation+isAuto.swift in Sources */,
 				C7DE8ABE1C888750005CF37E /* ListingPostedViewModel.swift in Sources */,
@@ -7469,7 +7464,6 @@
 				C7B5884C1CE1DE1C009B3975 /* ChatViewModel.swift in Sources */,
 				C707D4591E9B8C0B00042C03 /* RepositoryError+LG.swift in Sources */,
 				C7DE8AD71C88929A005CF37E /* PostListingCameraView.swift in Sources */,
-				55FABE1120762214004B0DBD /* UserPhoneVerificationCoordinator.swift in Sources */,
 				0A3048292041E20100C11498 /* ListingDeckSnapshotType.swift in Sources */,
 				C7E1DE551E51F644003818F6 /* DirectAnswersHorizontalView.swift in Sources */,
 				2E50E9A81D057E92002DC4C1 /* LGAlertViewController.swift in Sources */,
