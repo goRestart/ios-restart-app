@@ -1040,12 +1040,10 @@ enum EventParameterBumpUpType: String {
         switch bumpType {
         case .free:
             self = .free
-        case .priced, .hidden:
+        case .priced, .hidden, .boost:
             self = .paid
         case .restore:
             self = .retry
-        case .boost:
-            self = .paid
         }
     }
 }
