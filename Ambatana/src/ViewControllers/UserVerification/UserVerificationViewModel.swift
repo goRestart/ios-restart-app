@@ -145,13 +145,11 @@ final class UserVerificationViewModel: BaseViewModel {
     }
 
     private func verifyEmail() {
-        navigator?.openEmailVerification()
-//
-//        if let email = myUserRepository.myUser?.email, email.isEmail() {
-//            verifyExistingEmail(email: email)
-//        } else {
-//            navigator?.openEmailVerification()
-//        }
+        if let email = myUserRepository.myUser?.email, email.isEmail() {
+            verifyExistingEmail(email: email)
+        } else {
+            navigator?.openEmailVerification()
+        }
     }
 
     private func verifyExistingEmail(email: String) {

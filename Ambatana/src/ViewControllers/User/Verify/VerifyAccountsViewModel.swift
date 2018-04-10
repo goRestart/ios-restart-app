@@ -78,7 +78,7 @@ class VerifyAccountsViewModel: BaseViewModel {
     init(verificationTypes: [VerificationType], source: VerifyAccountsSource, myUserRepository: MyUserRepository,
          googleHelper: GoogleLoginHelper, fbLoginHelper: FBLoginHelper,
          tracker: Tracker, completionBlock: (() -> Void)?) {
-        self.types = [.facebook, .google, .email("isaac.roldan+123@gmail.com")]// verificationTypes
+        self.types = verificationTypes
         self.source = source
         self.myUserRepository = myUserRepository
         self.googleHelper = googleHelper
