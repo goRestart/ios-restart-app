@@ -71,9 +71,7 @@ class ListingCarouselPushAnimator: NSObject, PushAnimator {
 
         let containerView = transitionContext.containerView
 
-        if fromViewController.containsTabBar() {
-            fromViewController.tabBarController?.setTabBarHidden(true, animated: true)
-        }
+        fromViewController.tabBarController?.setTabBarHidden(true, animated: true)
 
         let fromView: UIView = transitionContext.view(forKey: UITransitionContextViewKey.from) ?? fromViewController.view
         let toView: UIView = transitionContext.view(forKey: UITransitionContextViewKey.to) ?? toViewController.view
@@ -172,9 +170,7 @@ class ListingCarouselPushAnimator: NSObject, PushAnimator {
             originImage.alpha = 0.0
             },completion:{ [weak self] finished in
                 guard finished else { return }
-                if toViewController.containsTabBar() {
-                    toViewController.tabBarController?.setTabBarHidden(false, animated: true)
-                }
+                toViewController.tabBarController?.setTabBarHidden(!toViewController.containsTabBar(), animated: true)
                 originImage.removeFromSuperview()
                 transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
                 self?.completion?()
@@ -198,9 +194,7 @@ class ListingCarouselPushAnimator: NSObject, PushAnimator {
             toView.frame = fromView.frame
             toViewValidatedFrame = true
 
-            if fromViewController.containsTabBar() {
-                fromViewController.tabBarController?.setTabBarHidden(true, animated: true)
-            }
+            fromViewController.tabBarController?.setTabBarHidden(true, animated: true)
             containerView.addSubview(fromView)
             containerView.addSubview(toView)
         } else {
