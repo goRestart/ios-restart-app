@@ -881,7 +881,6 @@ final class ActivityView: UIView {
     private let activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
         indicator.color = UIColor(red: 153, green: 153, blue: 153)
-        indicator.hidesWhenStopped = true
         return indicator
     }()
 
