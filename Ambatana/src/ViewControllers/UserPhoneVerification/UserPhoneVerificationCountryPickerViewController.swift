@@ -119,9 +119,14 @@ extension UserPhoneVerificationCountryPickerViewController: UITableViewDelegate,
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let country = tableData[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellId, for: indexPath)
-        cell.textLabel?.font = .smsVerificationCountryListCellText
-        cell.textLabel?.textColor = .blackText
+        let cell: UITableViewCell
+        if let reusedCell = tableView.dequeueReusableCell(withIdentifier: tableViewCellId) {
+            cell = reusedCell
+        } else {
+            cell = UITableViewCell(style: .default, reuseIdentifier: tableViewCellId)
+            cell.textLabel?.font = .smsVerificationCountryListCellText
+            cell.textLabel?.textColor = .blackText
+        }
         cell.textLabel?.text = "\(country.name) (+\(country.code))"
         return cell
     }
