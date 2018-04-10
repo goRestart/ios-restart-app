@@ -160,4 +160,25 @@ extension ProfileTabCoordinator: EditUserBioNavigator {
     }
 }
 
+extension ProfileTabCoordinator: UserPhoneVerificationNavigator {
+    func openPhoneInput() {
+        let vm = UserPhoneVerificationNumberInputViewModel()
+        vm.navigator = self
+        let vc = UserPhoneVerificationNumberInputViewController(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
+    }
 
+    func openCountrySelector() {
+        let vm = UserPhoneVerificationCountryPickerViewModel()
+        vm.navigator = self
+        let vc = UserPhoneVerificationCountryPickerViewController(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
+    }
+
+    func openCodeInput() {
+        let vm = UserPhoneVerificationCodeInputViewModel()
+        vm.navigator = self
+        let vc = UserPhoneVerificationCodeInputViewController(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
+    }
+}
