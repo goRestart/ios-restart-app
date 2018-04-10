@@ -1415,21 +1415,22 @@ extension ListingViewModel: PurchasesShopperDelegate {
                              typePage: typePage)
 
         delegate?.vmHideLoading(isBoost ? nil : LGLocalizedString.bumpUpPaySuccess, afterMessageCompletion: { [weak self] in
-            self?.delegate?.vmResetBumpUpBannerCountdown()
-            self?.isShowingFeaturedStripe.value = true
+            guard let strongSelf = self else { return }
+            strongSelf.delegate?.vmResetBumpUpBannerCountdown()
+            strongSelf.isShowingFeaturedStripe.value = true
             if isBoost {
-                self?.bumpUpBoostSucceeded()
-                if let currentBumpUpInfo = self?.bumpUpBannerInfo.value {
-                    let newBannerInfo = BumpUpInfo(type: .boost(boostBannerVisible: false),
-                                                   timeSinceLastBump: 0,
-                                                   maxCountdown: currentBumpUpInfo.maxCountdown,
-                                                   price: currentBumpUpInfo.price,
-                                                   bannerInteractionBlock: currentBumpUpInfo.bannerInteractionBlock,
-                                                   buttonBlock: currentBumpUpInfo.buttonBlock)
-                    self?.bumpUpBannerInfo.value = newBannerInfo
-                } else {
-                    self?.refreshBumpeableBanner()
-                }
+                strongSelf.bumpUpBoostSucceeded()
+            }
+            if let currentBumpUpInfo = self?.bumpUpBannerInfo.value, strongSelf.featureFlags.bumpUpBoost.isActive {
+                let newBannerInfo = BumpUpInfo(type: .boost(boostBannerVisible: false),
+                                               timeSinceLastBump: 1,
+                                               maxCountdown: currentBumpUpInfo.maxCountdown,
+                                               price: currentBumpUpInfo.price,
+                                               bannerInteractionBlock: currentBumpUpInfo.bannerInteractionBlock,
+                                               buttonBlock: currentBumpUpInfo.buttonBlock)
+                strongSelf.bumpUpBannerInfo.value = newBannerInfo
+            } else {
+                strongSelf.refreshBumpeableBanner()
             }
         })
     }

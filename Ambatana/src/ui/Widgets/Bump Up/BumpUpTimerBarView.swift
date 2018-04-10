@@ -43,11 +43,12 @@ class BumpUpTimerBarView: UIView {
     }
 
     func updateWith(timeLeft: TimeInterval) {
+        guard maxTime > 0 else { return }
         let progress = Float(timeLeft/maxTime)
 
         let timeColor = colorFor(timeLeft: progress)
         progressBar.progressTintColor = timeColor
-        progressBar.setProgress(progress, animated: true)
+        progressBar.setProgress(progress, animated: timeLeft == maxTime)
 
         timeLabel.text = Int(timeLeft).secondsToPrettyCountdownFormat()
         timeLabel.textColor = timeColor

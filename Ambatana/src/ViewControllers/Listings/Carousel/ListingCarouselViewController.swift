@@ -1265,6 +1265,7 @@ extension ListingCarouselViewController {
             // banner is already visible, but info changes
             if bumpUpBanner.type != bumpInfo.type {
                 bumpUpBanner.updateInfo(info: bumpInfo)
+                updateBannerHeightFor(type: bumpInfo.type)
             }
             return
         }
@@ -1275,8 +1276,20 @@ extension ListingCarouselViewController {
         bannerContainer.isHidden = false
         bumpUpBanner.updateInfo(info: bumpInfo)
 
+        updateBannerHeightFor(type: bumpInfo.type)
+    }
+
+    func closeBumpUpBanner() {
+        guard bumpUpBannerIsVisible else { return }
+        bumpUpBannerIsVisible = false
+        bannerBottom = -bannerHeight
+        bumpUpBanner.stopCountdown()
+        bannerContainer.isHidden = true
+    }
+
+    private func updateBannerHeightFor(type: BumpUpType) {
         let bannerTotalHeight: CGFloat
-        switch bumpInfo.type {
+        switch type {
         case .boost(let boostBannerVisible):
             bannerTotalHeight = boostBannerVisible ? CarouselUI.bannerHeight*2 : CarouselUI.bannerHeight
         case .free, .hidden, .priced, .restore:
@@ -1292,20 +1305,16 @@ extension ListingCarouselViewController {
             })
         }
     }
-
-    func closeBumpUpBanner() {
-        guard bumpUpBannerIsVisible else { return }
-        bumpUpBannerIsVisible = false
-        bannerBottom = -bannerHeight
-        bumpUpBanner.stopCountdown()
-        bannerContainer.isHidden = true
-    }
 }
 
 extension ListingCarouselViewController: BumpUpBannerBoostDelegate {
     func bumpUpTimerReachedZero() {
         closeBumpUpBanner()
         viewModel.bumpUpBannerBoostTimerReachedZero()
+    }
+
+    func updateBoostBannerFor(type: BumpUpType) {
+        updateBannerHeightFor(type: type)
     }
 }
 
