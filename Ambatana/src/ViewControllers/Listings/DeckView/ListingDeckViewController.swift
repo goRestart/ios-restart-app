@@ -369,19 +369,6 @@ extension ListingDeckViewController: ListingDeckViewModelDelegate {
     func vmResetBumpUpBannerCountdown() {
         listingDeckView.resetBumpUpCountdown()
     }
-
-    func vmBoostDidSuccess() {
-        // TODO: 🦄 check how to open the alert!
-//        let boostSuccessAlert = BoostSuccessAlertView()
-//        navigationController?.view.addSubviewForAutoLayout(boostSuccessAlert)
-//        boostSuccessAlert.layout(with: view).fill()
-//        boostSuccessAlert.alpha = 0
-//        UIView.animate(withDuration: 0.3) { [weak self] in
-//            boostSuccessAlert.alpha = 1
-//            self?.view.layoutIfNeeded()
-//            boostSuccessAlert.startAnimation()
-//        }
-    }
 }
 
 extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCardViewDelegate, ListingCardDetailMapViewDelegate, ListingDeckCollectionViewLayoutDelegate {

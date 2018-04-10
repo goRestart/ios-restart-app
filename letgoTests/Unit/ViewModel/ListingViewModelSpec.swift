@@ -888,7 +888,6 @@ extension ListingViewModelSpec: ListingViewModelDelegate {
     
     // Bump Up
     func vmResetBumpUpBannerCountdown() {}
-    func vmBoostDidSuccess() {}
 }
 
 extension ListingViewModelSpec: ListingDetailNavigator {

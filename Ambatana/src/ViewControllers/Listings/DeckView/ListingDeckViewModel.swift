@@ -39,7 +39,6 @@ struct Prefetching {
 protocol ListingDeckViewModelDelegate: BaseViewModelDelegate {
     func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?)
     func vmResetBumpUpBannerCountdown()
-    func vmBoostDidSuccess()
 }
 
 typealias DeckActionOnFirstAppear = ProductCarouselActionOnFirstAppear
@@ -442,9 +441,6 @@ extension ListingDeckViewModel: ListingViewModelDelegate {
         delegate?.vmResetBumpUpBannerCountdown()
     }
 
-    func vmBoostDidSuccess() {
-        delegate?.vmBoostDidSuccess()
-    }
     // BaseViewModelDelegate forwarding methods
 
     func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?) {

@@ -859,7 +859,6 @@ extension ListingDeckViewModelSpec: ListingDeckViewModelDelegate {
         return (UIViewController(), nil)
     }
     func vmResetBumpUpBannerCountdown() {}
-    func vmBoostDidSuccess() {}
 }
 
 extension ListingDeckViewModelSpec: ListingDetailNavigator {
