@@ -26,7 +26,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var newCarsMultiRequesterEnabled: Bool = false
     var inAppRatingIOS10: Bool = false
     var userReviewsReportEnabled: Bool = true
-    var dynamicQuickAnswers: DynamicQuickAnswers = .control
     var deckItemPage: DeckItemPage = .control
     var searchAutocomplete: SearchAutocomplete = .control
     var realEstateEnabled: RealEstateEnabled = .control
@@ -34,7 +33,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed = .control
     var showClockInDirectAnswer: ShowClockInDirectAnswer = .control
     var allowCallsForProfessionals: AllowCallsForProfessionals = .control
-    var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage = .control
     var mostSearchedDemandedItems: MostSearchedDemandedItems = .control
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers = .control
 
@@ -44,7 +42,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var dummyUsersInfoProfile: DummyUsersInfoProfile = .control
     var showInactiveConversations: Bool = false
     var increaseMinPriceBumps: IncreaseMinPriceBumps = .control
-    var emojiSizeIncrement: EmojiSizeIncrement = .control
     var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings = .control
     var newUserProfileView: NewUserProfileView = .control
     var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation = .control
@@ -64,6 +61,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var realEstateTutorial: RealEstateTutorial = .control
     var summaryAsFirstStep: SummaryAsFirstStep = .control
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem = .control
+    var searchCarsIntoNewBackend: SearchCarsIntoNewBackend = .control
 
     // Country dependant features
     var freePostingModeAllowed = false
@@ -78,6 +76,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var copyForChatNowInTurkey: CopyForChatNowInTurkey = .control
     var feedAdsProviderForUS: FeedAdsProviderForUS = .control
     var feedMoPubAdUnitId: String? = ""
+    var feedAdsProviderForTR: FeedAdsProviderForTR = .control
     
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false

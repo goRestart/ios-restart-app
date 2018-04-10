@@ -456,6 +456,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         let layout = CHTCollectionViewWaterfallLayout()
         layout.minimumColumnSpacing = separationBetweenCells
         layout.minimumInteritemSpacing = separationBetweenCells
+        layout.itemRenderDirection = .leftToRight
         collectionView.collectionViewLayout = layout
     }
 
@@ -678,6 +679,7 @@ private final class DataView: UIView {
         let waterFallLayout = CHTCollectionViewWaterfallLayout()
         waterFallLayout.minimumColumnSpacing = Layout.defaultSeparation
         waterFallLayout.minimumInteritemSpacing = Layout.defaultSeparation
+        waterFallLayout.itemRenderDirection = .leftToRight
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: waterFallLayout)
         if #available(iOS 10.0, *) {
             collectionView.isPrefetchingEnabled = true
