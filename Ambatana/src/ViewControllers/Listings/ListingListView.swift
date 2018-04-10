@@ -743,6 +743,7 @@ final class ErrorView: UIView {
     let containerView: UIView = {
         let container = UIView()
         container.backgroundColor = .clear
+        container.isUserInteractionEnabled = true   
         return container
     }()
 
@@ -809,6 +810,7 @@ final class ErrorView: UIView {
     }
 
     private func setupUI() {
+        isUserInteractionEnabled = false
         backgroundColor = .clear
         imageView.setContentHuggingPriority(.required, for: .vertical)
         titleLabel.setContentHuggingPriority(.required, for: .vertical)
@@ -831,6 +833,7 @@ final class ErrorView: UIView {
         let actionHeight = actionButton.heightAnchor.constraint(equalToConstant: Layout.actionHeight)
 
         let centerY = containerView.centerYAnchor.constraint(equalTo: centerYAnchor)
+        centerY.priority = .defaultHigh
         let topInset = containerView.topAnchor.constraint(greaterThanOrEqualTo: topAnchor,
                                                           constant: Layout.sideMargin)
         let leadingInset = containerView.leadingAnchor.constraint(equalTo: leadingAnchor,
