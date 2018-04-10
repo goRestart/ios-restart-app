@@ -966,7 +966,8 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             lastAdPosition = adAbsolutePosition()
             canInsertAds = adRelativePosition < cellModels.count
         }
-        previousPagesAdsOffset = previousPagesAdsOffset + (cellModels.count - listings.count)
+        previousPagesAdsOffset += (cellModels.count - listings.count + collections.count)
+        previousPagesAdsOffset += isMostSearchedItemsEnabled ? 1 : 0
         return cellModels
     }
     
@@ -986,13 +987,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         if lastAdPosition == 0 {
             adPosition = Constants.adInFeedInitialPosition
         } else {
-            var ratio: Int = 0
-            if featureFlags.showAdsInFeedWithRatio.isActive {
-                ratio = featureFlags.showAdsInFeedWithRatio.ratio
-            } else if featureFlags.noAdsInFeedForNewUsers.shouldShowAdsInFeed {
-                ratio = featureFlags.noAdsInFeedForNewUsers.ratio
-            }
-            adPosition = lastAdPosition + ratio
+            adPosition = lastAdPosition + Constants.adInFeedRatioPosition
         }
         return adPosition
     }
