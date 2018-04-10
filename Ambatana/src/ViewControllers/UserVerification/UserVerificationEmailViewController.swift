@@ -17,12 +17,9 @@ final class UserVerificationEmailViewController: BaseViewController {
     private let disposeBag = DisposeBag()
     private let keyboardHelper = KeyboardHelper()
     private var saveButtonBottomConstraint: NSLayoutConstraint?
-    fileprivate let characterLimit = 150
 
     struct Layout {
         static let sideMargin: CGFloat = 20
-        static let placeholderTopMargin: CGFloat = 8
-        static let placeholderSideMargin: CGFloat = 5
         static let saveButtonHeight: CGFloat = 50
         static let saveButtonBottomMargin: CGFloat = 15
     }
@@ -56,13 +53,13 @@ final class UserVerificationEmailViewController: BaseViewController {
     private func setupUI() {
         view.backgroundColor = .white
         view.addSubviewsForAutoLayout([textField, saveButton])
-        title = "Verify your Email"
+        title = LGLocalizedString.profileVerificationsEmailViewTitle
 
         textField.tintColor = UIColor.primaryColor
         textField.font = UIFont.bigBodyFont
-        textField.placeholder = "Email"
+        textField.placeholder = LGLocalizedString.profileVerificationsEmailPlaceholder
 
-        saveButton.setTitle("Send", for: .normal)
+        saveButton.setTitle(LGLocalizedString.profileVerificationsSendButton, for: .normal)
         saveButton.addTarget(self, action: #selector(didTapSave), for: .touchUpInside)
         setupConstraints()
     }

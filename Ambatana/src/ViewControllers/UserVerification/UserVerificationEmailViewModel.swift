@@ -34,11 +34,14 @@ final class UserVerificationEmailViewModel: BaseViewModel {
             if let error = result.error {
                 switch error {
                 case .tooManyRequests:
-                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailTooManyRequests, completion: { self?.verificationFailed() })
+                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailTooManyRequests,
+                                                            completion: { self?.verificationFailed() })
                 case .network:
-                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorNetworkBody, completion: { self?.verificationFailed() })
+                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorNetworkBody,
+                                                            completion: { self?.verificationFailed() })
                 case .forbidden, .internalError, .notFound, .unauthorized, .userNotVerified, .serverError, .wsChatError:
-                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorGenericBody, completion: { self?.verificationFailed() })
+                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorGenericBody,
+                                                            completion: { self?.verificationFailed() })
                 }
             } else {
                 self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailSuccess) {
