@@ -19,7 +19,7 @@
 "bump_up_banner_pay_text" = "Selg raskere nå";
 "bump_up_banner_pay_text_improvement" = "Selg raskere nå";
 "bump_up_banner_wait_text" = "for å promotere på nytt";
-"bump_up_boost_success_alert_text" = "Din annonse ble promotert igjen! Den promoteres i de neste 24 timene.";
+"bump_up_boost_success_alert_text" = "Din annonse ble fremhevet! Den promoteres i de neste 24 timene.";
 "bump_up_error_bump_generic" = "En feil oppstod ved promotering av din annonse. Vennligst prøv igjen.";
 "bump_up_error_bump_token" = "Din betaling er behandlet, men din annonse er ikke promotert enda.";
 "bump_up_error_payment_failed" = "Kunne ikke koble til App Store. Din betaling har ikke blitt prosessert. Vennligst prøv igjen.";
@@ -790,15 +790,6 @@
 "profile_favourites_my_user_no_products_button" = "Fortsett å bla i produktene";
 "profile_favourites_my_user_no_products_label" = "INGEN FAVORITTER (ENDA!)";
 "profile_favourites_products_tab" = "Favoritter";
-<<<<<<< HEAD
-"profile_karma_improve_score" = "Improve your Verification Score";
-"profile_karma_points_title" = "%@ pts";
-"profile_karma_title" = "Verification Score: %@";
-"profile_karma_unverified_points_subtitle" = "%@ points";
-"profile_karma_unverified_subtitle" = "Earn %@ to get the Verified User badge";
-"profile_karma_verified_subtitle" = "You got the badge!";
-"profile_karma_visibility_title" = "Only visible to you";
-=======
 "profile_karma_improve_score" = "Forbedre dine verifiseringspoeng";
 "profile_karma_points_title" = "%@ poeng";
 "profile_karma_title" = "Verifiseringspoeng: %@";
@@ -806,7 +797,6 @@
 "profile_karma_unverified_subtitle" = "Tjen %@ for å få \"Verifisert Bruker\"-emblemet";
 "profile_karma_verified_subtitle" = "Du har fått emblemet!";
 "profile_karma_visibility_title" = "Kun synlig for deg";
->>>>>>> master
 "profile_permissions_alert_cancel" = "Ikke nå";
 "profile_permissions_alert_message" = "Ønsker du å aktivere meldingsvarslinger nå?";
 "profile_permissions_alert_ok" = "Aktiver";
@@ -820,6 +810,9 @@
 "profile_sold_no_products_label" = "INGEN ANNONSER (ENDA!)";
 "profile_sold_other_no_products_button" = "Fortsett å bla i produktene";
 "profile_sold_products_tab" = "Solgt";
+"profile_verifications_email_placeholder" = "Email";
+"profile_verifications_email_view_title" = "Verify your Email";
+"profile_verifications_send_button" = "Send";
 "profile_verifications_view_add_info_section_title" = "LEGG TIL DIN";
 "profile_verifications_view_bio_title" = "Biografi";
 "profile_verifications_view_email_title" = "E-post";

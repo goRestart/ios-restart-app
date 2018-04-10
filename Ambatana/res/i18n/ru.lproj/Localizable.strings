@@ -19,7 +19,7 @@
 "bump_up_banner_pay_text" = "Продавайте быстрее";
 "bump_up_banner_pay_text_improvement" = "Продайте быстрее";
 "bump_up_banner_wait_text" = "до нового продвижения";
-"bump_up_boost_success_alert_text" = "Ваше объявление снова продвинуто! Оно будет выделено следующие 24 часа.";
+"bump_up_boost_success_alert_text" = "Ваше объявление продвинуто! Оно будет выделено следующие 24 часа.";
 "bump_up_error_bump_generic" = "При выделении объявления произошла ошибка. Пожалуйста, попробуйте еще раз.";
 "bump_up_error_bump_token" = "Ваш платеж обработан, но объявление еще не выделено.";
 "bump_up_error_payment_failed" = "Невозможно подключиться к App Store. Ваш платеж не обработан. Пожалуйста, попробуйте еще раз.";
@@ -810,6 +810,9 @@
 "profile_sold_no_products_label" = "НЕТ ОБЪЯВЛЕНИЙ (ПОКА ЧТО!)";
 "profile_sold_other_no_products_button" = "Продолжить поиск";
 "profile_sold_products_tab" = "Продано";
+"profile_verifications_email_placeholder" = "Email";
+"profile_verifications_email_view_title" = "Verify your Email";
+"profile_verifications_send_button" = "Send";
 "profile_verifications_view_add_info_section_title" = "ДОБАВИТЬ СВОЙ";
 "profile_verifications_view_bio_title" = "Информация";
 "profile_verifications_view_email_title" = "E-mail";

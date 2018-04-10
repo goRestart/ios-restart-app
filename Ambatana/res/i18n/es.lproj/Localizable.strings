@@ -810,6 +810,9 @@
 "profile_sold_no_products_label" = "NO HAY ANUNCIOS (¡TODAVÍA!)";
 "profile_sold_other_no_products_button" = "Sigue navegando";
 "profile_sold_products_tab" = "Vendidos";
+"profile_verifications_email_placeholder" = "Email";
+"profile_verifications_email_view_title" = "Verify your Email";
+"profile_verifications_send_button" = "Send";
 "profile_verifications_view_add_info_section_title" = "AÑADE TU";
 "profile_verifications_view_bio_title" = "Bio";
 "profile_verifications_view_email_title" = "Email";

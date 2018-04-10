@@ -3371,6 +3371,18 @@ struct LGLocalizedString {
 		return NSLocalizedString("profile_verifications_view_mark_as_sold_subtitle", comment: "")
 	}
 
+	static var profileVerificationsEmailViewTitle: String {
+		return NSLocalizedString("profile_verifications_email_view_title", comment: "")
+	}
+
+	static var profileVerificationsEmailPlaceholder: String {
+		return NSLocalizedString("profile_verifications_email_placeholder", comment: "")
+	}
+
+	static var profileVerificationsSendButton: String {
+		return NSLocalizedString("profile_verifications_send_button", comment: "")
+	}
+
 	static var profileKarmaVisibilityTitle: String {
 		return NSLocalizedString("profile_karma_visibility_title", comment: "")
 	}
