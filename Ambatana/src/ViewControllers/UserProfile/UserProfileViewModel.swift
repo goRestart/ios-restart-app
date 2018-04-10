@@ -211,6 +211,12 @@ final class UserProfileViewModel: BaseViewModel {
 // MARK: - Public methods
 
 extension UserProfileViewModel {
+    
+    func didTapKarmaScoreView() {
+        guard isPrivateProfile else { return }
+        profileNavigator?.openVerificationView()
+    }
+
     func didTapBuildTrustButton() {
         guard isPrivateProfile else { return }
         let userAccounts = buildAccountsModel(user.value)
