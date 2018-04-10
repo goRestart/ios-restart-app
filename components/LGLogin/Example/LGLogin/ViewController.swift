@@ -1,6 +1,6 @@
 
 import UIKit
-import LGModules
+import LGComponents
 
 class ViewController: UIViewController {
 
@@ -8,12 +8,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         print(R.Strings.appShareEmailButton)
-        //        L10n.accountPendingModeration
-        
         let imageView = UIImageView(image: R.Asset.BackgroundsAndImages.icBlocked.image)
-        
         view.addSubview(imageView)
-
     }
 
 }

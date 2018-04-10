@@ -2,7 +2,7 @@
 
 import Quick
 import Nimble
-import LGModules
+import LGComponents
 
 class TableOfContentsSpec: QuickSpec {
     override func spec() {
