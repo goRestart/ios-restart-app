@@ -164,7 +164,7 @@ extension UIViewController {
     Helper to present a view controller using the main thread
     */
     func presentViewController(_ viewControllerToPresent: UIViewController, animated: Bool, onMainThread: Bool,
-        completion: (() -> Void)?) {
+        completion: (() -> Void)? = nil) {
             if onMainThread {
                 DispatchQueue.main.async { [weak self] in
                     self?.present(viewControllerToPresent, animated: animated, completion: completion)

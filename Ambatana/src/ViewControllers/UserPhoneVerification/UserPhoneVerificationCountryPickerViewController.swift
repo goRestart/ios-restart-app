@@ -18,10 +18,11 @@ final class UserPhoneVerificationCountryPickerViewController: BaseViewController
 
     private let tableView = UITableView()
     private let tableHeaderView = UIView()
+    private let tableViewCellId = "countryCellId"
     private let searchBar = UISearchBar()
 
     struct Layout {
-        static var searchBarHeight: CGFloat = 44
+        static let searchBarHeight: CGFloat = 44
     }
 
     init(viewModel: UserPhoneVerificationCountryPickerViewModel) {
@@ -59,6 +60,7 @@ final class UserPhoneVerificationCountryPickerViewController: BaseViewController
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: tableViewCellId)
 
         tableHeaderView.frame.size.height = Layout.searchBarHeight
         tableHeaderView.addSubviewForAutoLayout(searchBar)
@@ -117,8 +119,7 @@ extension UserPhoneVerificationCountryPickerViewController: UITableViewDelegate,
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let country = tableData[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "countryCell") ??
-            UITableViewCell(style: .default, reuseIdentifier: "countryCell")
+        let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellId, for: indexPath)
         cell.textLabel?.font = .smsVerificationCountryListCellText
         cell.textLabel?.textColor = .blackText
         cell.textLabel?.text = "\(country.name) (+\(country.code))"

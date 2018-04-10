@@ -44,7 +44,7 @@ extension UserPhoneVerificationCoordinator: UserPhoneVerificationNavigator {
     func openCountrySelector() {
         let countrySelectorViewModel = UserPhoneVerificationCountryPickerViewModel()
         let countrySelectorViewController = UserPhoneVerificationCountryPickerViewController(viewModel: countrySelectorViewModel)
-        viewController.present(countrySelectorViewController, animated: true)
+        viewController.presentViewController(countrySelectorViewController, animated: true, onMainThread: true)
     }
 
     func openCodeInput() {

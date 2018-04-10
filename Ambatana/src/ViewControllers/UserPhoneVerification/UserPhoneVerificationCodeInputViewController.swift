@@ -28,10 +28,10 @@ final class UserPhoneVerificationCodeInputViewController: BaseViewController {
     }
 
     private func setupUI() {
-
+        // FIXME: implement this
     }
 
     private func setupRx() {
-
+        // FIXME: implement this
     }
 }
