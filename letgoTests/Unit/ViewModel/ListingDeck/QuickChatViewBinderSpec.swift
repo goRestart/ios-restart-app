@@ -36,24 +36,6 @@ final class QuickChatViewBinderSpec: QuickSpec {
                 quickChatVM.resetVariables()
             }
 
-            context("new placeholder changes") {
-                beforeEach {
-                    quickChatVM.directChatPlaceholder.value = String.makeRandom()
-                }
-                it("setInitialText is called") {
-                    expect(quickChatView.setInitialTextCalled).toEventually(equal(1))
-                }
-            }
-
-            context("new quickAnswers changes") {
-                beforeEach {
-                    quickChatVM.quickAnswers.value = [QuickAnswer.availabilityQuickAnswers(isFree: true)]
-                }
-                it("updateDirectChatCalledWith is called") {
-                    expect(quickChatView.updateDirectChatCalled).toEventually(equal(2))
-                }
-            }
-
             context("new message sent") {
                 beforeEach {
                     quickChatView.sendRandomMessage()
@@ -134,7 +116,7 @@ private class MockQuickChatView: QuickChatViewType {
     func setInitialText(_ text: String) {
         setInitialTextCalled += 1
     }
-    func updateDirectChatWith(answers: [[QuickAnswer]], isDynamic: Bool) {
+    func updateDirectChatWith(answers: [QuickAnswer]) {
         updateDirectChatCalled += 1
     }
     func handleChatChange(_ change: CollectionChange<ChatViewMessage>) {
@@ -151,9 +133,6 @@ fileprivate extension QuickChatViewModelRx {
 }
 
 final class MockQuickChatViewModelRx: QuickChatViewModelRx {
-    var areAnswersDynamic: Variable<Bool> = Variable<Bool>(false)
-    var rxAreAnswersDynamic: SharedSequence<DriverSharingStrategy, Bool> { return areAnswersDynamic.asDriver() }
-
     func performCollectionChange(change: CollectionChange<ChatViewMessage>) {
         performCollectionChangeCalled += 1
     }
@@ -171,12 +150,12 @@ final class MockQuickChatViewModelRx: QuickChatViewModelRx {
     var performCollectionChangeCalled: Int = 0
 
     var rxDirectChatPlaceholder: Observable<String> { return directChatPlaceholder.asObservable() }
-    var rxQuickAnswers: Observable<[[QuickAnswer]]> { return quickAnswers.asObservable() }
+    var rxQuickAnswers: Observable<[QuickAnswer]> { return quickAnswers.asObservable() }
     var rxIsChatEnabled: Observable<Bool> { return chatEnabled.asObservable() }
     var rxDirectMessages: Observable<CollectionChange<ChatViewMessage>> { return directChatMessages.changesObservable }
 
     let directChatPlaceholder = Variable<String>("")
-    let quickAnswers = Variable<[[QuickAnswer]]>([])
+    let quickAnswers = Variable<[QuickAnswer]>([])
     let chatEnabled = Variable<Bool>(false)
     let directChatMessages = CollectionVariable<ChatViewMessage>([])
 }

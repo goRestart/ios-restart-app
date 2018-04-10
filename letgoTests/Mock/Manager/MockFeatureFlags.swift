@@ -26,7 +26,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var newCarsMultiRequesterEnabled: Bool = false
     var inAppRatingIOS10: Bool = false
     var userReviewsReportEnabled: Bool = true
-    var dynamicQuickAnswers: DynamicQuickAnswers = .control
     var deckItemPage: DeckItemPage = .control
     var searchAutocomplete: SearchAutocomplete = .control
     var realEstateEnabled: RealEstateEnabled = .control
