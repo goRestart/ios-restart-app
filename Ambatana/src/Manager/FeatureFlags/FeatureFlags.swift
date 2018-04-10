@@ -35,7 +35,6 @@ protocol FeatureFlaggeable: class {
     var freeBumpUpEnabled: Bool { get }
     var pricedBumpUpEnabled: Bool { get }
     var userReviewsReportEnabled: Bool { get }
-    var dynamicQuickAnswers: DynamicQuickAnswers { get }
     var searchAutocomplete: SearchAutocomplete { get }
     var realEstateEnabled: RealEstateEnabled { get }
     var requestTimeOut: RequestsTimeOut { get }
@@ -465,13 +464,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.userReviewsReportEnabled
         }
         return abTests.userReviewsReportEnabled.value
-    }
-
-    var dynamicQuickAnswers: DynamicQuickAnswers {
-        if Bumper.enabled {
-            return Bumper.dynamicQuickAnswers
-        }
-        return DynamicQuickAnswers.fromPosition(abTests.dynamicQuickAnswers.value)
     }
     
     var searchAutocomplete: SearchAutocomplete {
