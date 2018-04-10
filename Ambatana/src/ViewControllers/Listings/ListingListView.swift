@@ -175,6 +175,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     func setErrorViewStyle(bgColor: UIColor?, borderColor: UIColor?, containerColor: UIColor?) {
         if errorView.superview == nil {
             addSubviewToFill(errorView)
+            sendSubview(toBack: errorView)
         }
 
         errorView.backgroundColor = bgColor
@@ -400,7 +401,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
                 view.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor)
                 ])
         } else {
-            firstLoadView.layout(with: self).fill()
+            view.layout(with: self).fill()
         }
     }
 
@@ -480,6 +481,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             errorView.isHidden = false
             setErrorState(emptyVM)
         }
+        setNeedsLayout()
     }
 
     private func setErrorState(_ emptyViewModel: LGEmptyViewModel) {
@@ -743,6 +745,8 @@ final class ErrorView: UIView {
     let containerView: UIView = {
         let container = UIView()
         container.backgroundColor = .clear
+        container.isUserInteractionEnabled = true
+        container.setContentHuggingPriority(.required, for: .vertical)
         return container
     }()
 
@@ -750,6 +754,7 @@ final class ErrorView: UIView {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
+        imageView.setContentHuggingPriority(.required, for: .vertical)
         return imageView
     }()
 
@@ -759,6 +764,7 @@ final class ErrorView: UIView {
         label.textColor = .black
         label.textAlignment = .center
         label.numberOfLines = 2
+        label.setContentHuggingPriority(.required, for: .vertical)
         return label
     }()
 
@@ -768,6 +774,7 @@ final class ErrorView: UIView {
         label.textColor = .grayDark
         label.textAlignment = .center
         label.numberOfLines = 0
+        label.setContentHuggingPriority(.required, for: .vertical)
         return label
     }()
 
@@ -810,8 +817,6 @@ final class ErrorView: UIView {
 
     private func setupUI() {
         backgroundColor = .clear
-        imageView.setContentHuggingPriority(.required, for: .vertical)
-        titleLabel.setContentHuggingPriority(.required, for: .vertical)
         setupConstraints()
         setupAccessibilityIds()
     }
@@ -830,7 +835,6 @@ final class ErrorView: UIView {
         let imageViewHeight = imageView.heightAnchor.constraint(equalToConstant: 0)
         let actionHeight = actionButton.heightAnchor.constraint(equalToConstant: Layout.actionHeight)
 
-        let centerY = containerView.centerYAnchor.constraint(equalTo: centerYAnchor)
         let topInset = containerView.topAnchor.constraint(greaterThanOrEqualTo: topAnchor,
                                                           constant: Layout.sideMargin)
         let leadingInset = containerView.leadingAnchor.constraint(equalTo: leadingAnchor,
@@ -839,9 +843,10 @@ final class ErrorView: UIView {
                                                                     constant: -Layout.sideMargin)
         let bottomInset = containerView.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor,
                                                                 constant: -Layout.sideMargin)
-
+        let centerY = containerView.centerYAnchor.constraint(equalTo: centerYAnchor)
+        centerY.priority = .defaultLow
         NSLayoutConstraint.activate([
-            centerY, topInset, leadingInset, trailingInset, bottomInset,
+            topInset, leadingInset, trailingInset, bottomInset, centerY,
             imageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: Layout.imageViewHeight),
             imageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Layout.sideMargin),
             imageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -Layout.sideMargin),
@@ -876,7 +881,6 @@ final class ActivityView: UIView {
     private let activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
         indicator.color = UIColor(red: 153, green: 153, blue: 153)
-        indicator.hidesWhenStopped = false
         return indicator
     }()
 
