@@ -13,7 +13,6 @@ import RxCocoa
 final class UserPhoneVerificationCountryPickerViewController: BaseViewController {
 
     private let viewModel: UserPhoneVerificationCountryPickerViewModel
-    private var tableData: [Country] = []
     private let disposeBag = DisposeBag()
 
     private let tableView = UITableView()
@@ -94,7 +93,6 @@ final class UserPhoneVerificationCountryPickerViewController: BaseViewController
             .filteredCountries
             .asDriver()
             .drive(onNext: { [weak self] filteredCountries in
-                self?.tableData = filteredCountries
                 self?.tableView.reloadData()
             })
             .disposed(by: disposeBag)
@@ -114,11 +112,11 @@ final class UserPhoneVerificationCountryPickerViewController: BaseViewController
 extension UserPhoneVerificationCountryPickerViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tableData.count
+        return viewModel.filteredCountries.value.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let country = tableData[indexPath.row]
+        let country = viewModel.filteredCountries.value[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellId, for: indexPath)
         cell.textLabel?.font = .smsVerificationCountryListCellText
         cell.textLabel?.textColor = .blackText
@@ -127,7 +125,7 @@ extension UserPhoneVerificationCountryPickerViewController: UITableViewDelegate,
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let country = tableData[indexPath.row]
+        let country = viewModel.filteredCountries.value[indexPath.row]
         viewModel.didSelect(country: country)
     }
 }
