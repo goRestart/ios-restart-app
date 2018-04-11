@@ -1927,11 +1927,6 @@ extension ChatViewModel {
     }
 
     private func firstMeetingIn(messages: [ChatMessage]) -> ChatMessage? {
-        for message in messages {
-            if message.type == .meeting {
-                return message
-            }
-        }
-        return nil
+        return messages.first(matching: { $0.type == .meeting } )
     }
 }

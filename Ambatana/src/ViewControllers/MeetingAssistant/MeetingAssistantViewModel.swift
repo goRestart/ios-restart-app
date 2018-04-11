@@ -112,8 +112,7 @@ final class MeetingAssistantViewModel: BaseViewModel {
                                           city: city,
                                           zipCode: nil,
                                           state: nil,
-                                          countryCode: nil,
-                                          country: nil)
+                                          countryCode: nil,country: nil)
         selectedPlace = Place(postalAddress: postalAddress, location: selectedLocation.value?.locationCoords)
     }
 
@@ -174,6 +173,14 @@ final class MeetingAssistantViewModel: BaseViewModel {
         return true
     }
 
+    /**
+     The suggested locations collection will always have a cell to select a custom location from a map.
+     In order to reuse the SuggestedLocationCell, setting it up with a 'nil' location, will create the custom
+     location cell, which will have slightly different UI and user interactions.
+
+     Being sure taht we have always a `nil` value in the locations array simplifies the logic to manage the
+     suggested locations collection
+     */
     fileprivate func retrieveSuggestedLocations() {
         guard let listingId = listingId else {
             suggestedLocations.value = [nil]
