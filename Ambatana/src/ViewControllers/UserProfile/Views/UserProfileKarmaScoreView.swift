@@ -31,9 +31,6 @@ final class UserProfileKarmaScoreView: UIView {
     private var progressSeparatorXCenterConstraint: NSLayoutConstraint?
     private var progressViewWidthConstraint: NSLayoutConstraint?
 
-    private let minKarmaValue: Int = 50
-    private let maxKarmaValue: Int = 80
-
     var score: Int = 0 {
         didSet {
             updateScore()
@@ -41,7 +38,7 @@ final class UserProfileKarmaScoreView: UIView {
     }
 
     private var verified: Bool {
-        return score >= minKarmaValue
+        return score >= Constants.minReputationScore
     }
 
     private struct Layout {
@@ -82,7 +79,7 @@ final class UserProfileKarmaScoreView: UIView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        let newPosition = progressBackgroundView.width * CGFloat(minKarmaValue)/CGFloat(maxKarmaValue)
+        let newPosition = progressBackgroundView.width * CGFloat(Constants.minReputationScore)/CGFloat(Constants.maxReputationScore)
         if progressSeparatorXCenterConstraint?.constant != newPosition {
             progressSeparatorXCenterConstraint?.constant = newPosition
         }
@@ -120,11 +117,11 @@ final class UserProfileKarmaScoreView: UIView {
         progressSeparator.backgroundColor = .verificationGreen
         progressSeparator.cornerRadius = Layout.progressSeparatorWidth / 2
 
-        progressMinKarmaLabel.text = String(minKarmaValue)
+        progressMinKarmaLabel.text = String(Constants.minReputationScore)
         progressMinKarmaLabel.textColor = .grayDark
         progressMinKarmaLabel.font = .subtitleFont
 
-        progressMaxKarmaLabel.text = String(maxKarmaValue)
+        progressMaxKarmaLabel.text = String(Constants.maxReputationScore)
         progressMaxKarmaLabel.textColor = .grayDark
         progressMaxKarmaLabel.font = .subtitleFont
 
@@ -217,7 +214,7 @@ final class UserProfileKarmaScoreView: UIView {
     private func updateScore() {
         progressView.backgroundColor = verified ? .verificationGreen : .grayDisclaimerText
         badgeImageView.image = verified ? UIImage(named: "ic_karma_badge_active") : UIImage(named: "ic_karma_badge_inactive")
-        progressViewWidthConstraint?.constant = CGFloat(min(score, maxKarmaValue)) / CGFloat(maxKarmaValue) * progressBackgroundView.width
+        progressViewWidthConstraint?.constant = CGFloat(min(score, Constants.maxReputationScore)) / CGFloat(Constants.maxReputationScore) * progressBackgroundView.width
         subtitleImageView.isHidden = !verified
         subtitleLeftConstraint?.constant = verified ? Layout.subtitleLeftMarginVerified : Metrics.bigMargin
         updateTitleLabel()
@@ -244,7 +241,7 @@ final class UserProfileKarmaScoreView: UIView {
         if verified {
             subtitleLabel.text = LGLocalizedString.profileKarmaVerifiedSubtitle
         } else {
-            let missingPoints = String(minKarmaValue-score)
+            let missingPoints = String(Constants.minReputationScore-score)
             let points = LGLocalizedString.profileKarmaUnverifiedPointsSubtitle(missingPoints)
             let fullString = LGLocalizedString.profileKarmaUnverifiedSubtitle(points)
             let range = (fullString as NSString).range(of: points)
