@@ -54,8 +54,9 @@ final class UserPhoneVerificationNumberInputViewController: BaseViewController {
         setupRx()
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppearFromBackground(_ fromBackground: Bool) {
+        super.viewWillAppearFromBackground(fromBackground)
+        setNavBarBackgroundStyle(.white)
         phoneNumberTextField.becomeFirstResponder()
     }
 
@@ -66,22 +67,37 @@ final class UserPhoneVerificationNumberInputViewController: BaseViewController {
         view.addSubviewsForAutoLayout([descriptionLabel, countryButton, countryButtonArrowImage,
                                        countryCodeLabel, phoneNumberTextField, continueButton,
                                        horizontalSeparatorView, verticalSeparatorView])
+        setupDescriptionLabelUI()
+        setupCountryButtonUI()
+        setupCountryCodeLabelUI()
+        setupPhoneNumberTextfieldUI()
+        setupSeparatorsViewUI()
+        setupContinueButtonUI()
+        setupConstraints()
+    }
 
+    private func setupDescriptionLabelUI() {
         descriptionLabel.text = "Build trust by verifying your phone number" // FIXME: add localized string
         descriptionLabel.numberOfLines = 0
         descriptionLabel.font = .smsVerificationPhoneInputDescription
         descriptionLabel.textColor = .blackText
+    }
 
+    private func setupCountryButtonUI () {
         countryButton.setTitle("United States", for: .normal) // FIXME: bind data
         countryButton.setTitleColor(.blackText, for: .normal)
         countryButton.contentHorizontalAlignment = .left
         countryButton.titleLabel?.font = .smsVerificationPhoneInputBigText
         countryButton.addTarget(self, action: #selector(didTapSelectCountry), for: .touchUpInside)
+    }
 
+    private func setupCountryCodeLabelUI () {
         countryCodeLabel.text = "+0" // FIXME: bind data
         countryCodeLabel.font = .smsVerificationPhoneInputBigText
         countryCodeLabel.textColor = .blackText
+    }
 
+    private func setupPhoneNumberTextfieldUI () {
         phoneNumberTextField.font = .smsVerificationPhoneInputBigText
         phoneNumberTextField.textColor = .blackText
         phoneNumberTextField.placeholder = "Phone number" // FIXME: add localized string
@@ -91,16 +107,19 @@ final class UserPhoneVerificationNumberInputViewController: BaseViewController {
         var placeholderAttributes = [NSAttributedStringKey: Any]()
         placeholderAttributes[NSAttributedStringKey.font] = UIFont.smsVerificationPhoneInputBigText
         placeholderAttributes[NSAttributedStringKey.foregroundColor] = UIColor.grayPlaceholderText
-        phoneNumberTextField.attributedPlaceholder = NSAttributedString(string: "Phone number" /* FIXME: add localized string */,
+        // FIXME: add localized string
+        phoneNumberTextField.attributedPlaceholder = NSAttributedString(string: "Phone number",
                                                                         attributes: placeholderAttributes)
+    }
 
+    private func setupSeparatorsViewUI () {
         horizontalSeparatorView.backgroundColor = .lineGray
         verticalSeparatorView.backgroundColor = .lineGray
+    }
 
+    private func setupContinueButtonUI () {
         continueButton.setTitle("continue", for: .normal) // FIXME: add localized string
         continueButton.addTarget(self, action: #selector(didTapContinue), for: .touchUpInside)
-
-        setupConstraints()
     }
 
     private func setupConstraints() {
@@ -155,8 +174,9 @@ final class UserPhoneVerificationNumberInputViewController: BaseViewController {
         viewModel
             .country
             .drive(onNext: { [weak self] country in
-                self?.countryButton.setTitle("", for: .normal)
-                self?.countryCodeLabel.text = ""
+                guard let country = country else { return }
+                self?.countryButton.setTitle(country.name, for: .normal)
+                self?.countryCodeLabel.text = "+\(country.code)"
             })
             .disposed(by: disposeBag)
 
@@ -170,10 +190,10 @@ final class UserPhoneVerificationNumberInputViewController: BaseViewController {
     }
 
     @objc private func didTapSelectCountry() {
-        // FIXME: implement it
+        viewModel.didTapCountryButton()
     }
 
     @objc private func didTapContinue() {
-        // FIXME: implement it
+        viewModel.didTapContinueButton()
     }
 }

@@ -1,0 +1,138 @@
+//
+//  UserPhoneVerificationCountryPickerViewController.swift
+//  LetGo
+//
+//  Created by Sergi Gracia on 05/04/2018.
+//  Copyright © 2018 Ambatana. All rights reserved.
+//
+
+import Foundation
+import RxSwift
+import RxCocoa
+
+final class UserPhoneVerificationCountryPickerViewController: BaseViewController {
+
+    private let viewModel: UserPhoneVerificationCountryPickerViewModel
+    private var tableData: [CountryPhoneCode] = []
+    private let disposeBag = DisposeBag()
+
+    private let tableView = UITableView()
+    private let tableHeaderView = UIView()
+    private let tableViewCellId = "countryCellId"
+    private let searchBar = UISearchBar()
+
+    struct Layout {
+        static let searchBarHeight: CGFloat = 44
+    }
+
+    init(viewModel: UserPhoneVerificationCountryPickerViewModel) {
+        self.viewModel = viewModel
+        super.init(viewModel: viewModel, nibName: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupUI()
+        setupRx()
+        viewModel.loadCountriesList()
+    }
+
+    override func viewWillAppearFromBackground(_ fromBackground: Bool) {
+        super.viewWillAppearFromBackground(fromBackground)
+        setNavBarBackgroundStyle(.white)
+    }
+
+    private func setupUI() {
+        title = "Country List" // FIXME: add localized string
+        view.backgroundColor = .white
+        view.addSubviewForAutoLayout(tableView)
+
+        setupTableView()
+        setupSearchBar()
+        setupConstraints()
+    }
+
+    private func setupTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.separatorStyle = .none
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: tableViewCellId)
+
+        tableHeaderView.frame.size.height = Layout.searchBarHeight
+        tableHeaderView.addSubviewForAutoLayout(searchBar)
+        tableView.tableHeaderView = tableHeaderView
+    }
+
+    private func setupSearchBar() {
+        searchBar.autocapitalizationType = .words
+        searchBar.searchBarStyle = .minimal
+        searchBar.placeholder = "Search" // FIXME: localize
+    }
+
+    private func setupConstraints() {
+        let constraints = [
+            tableView.topAnchor.constraint(equalTo: safeTopAnchor),
+            tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            tableView.bottomAnchor.constraint(equalTo: safeBottomAnchor),
+            searchBar.heightAnchor.constraint(equalToConstant: Layout.searchBarHeight),
+            searchBar.topAnchor.constraint(equalTo: tableHeaderView.topAnchor),
+            searchBar.leftAnchor.constraint(equalTo: tableHeaderView.leftAnchor),
+            searchBar.rightAnchor.constraint(equalTo: tableHeaderView.rightAnchor),
+            searchBar.bottomAnchor.constraint(equalTo: tableHeaderView.bottomAnchor),
+        ]
+
+        NSLayoutConstraint.activate(constraints)
+    }
+
+    private func setupRx() {
+        viewModel
+            .filteredCountries
+            .asDriver()
+            .drive(onNext: { [weak self] filteredCountries in
+                self?.tableData = filteredCountries
+                self?.tableView.reloadData()
+            })
+            .disposed(by: disposeBag)
+
+        searchBar
+            .rx.text
+            .orEmpty
+            .throttle(0.3, scheduler: MainScheduler.instance)
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] query in
+                self?.viewModel.filterCountries(by: query)
+            })
+            .disposed(by: disposeBag)
+    }
+}
+
+extension UserPhoneVerificationCountryPickerViewController: UITableViewDelegate, UITableViewDataSource {
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return tableData.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let country = tableData[indexPath.row]
+        let cell: UITableViewCell
+        if let reusedCell = tableView.dequeueReusableCell(withIdentifier: tableViewCellId) {
+            cell = reusedCell
+        } else {
+            cell = UITableViewCell(style: .default, reuseIdentifier: tableViewCellId)
+            cell.textLabel?.font = .smsVerificationCountryListCellText
+            cell.textLabel?.textColor = .blackText
+        }
+        cell.textLabel?.text = "\(country.name) (+\(country.code))"
+        return cell
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let country = tableData[indexPath.row]
+        viewModel.didSelect(country: country)
+    }
+}
