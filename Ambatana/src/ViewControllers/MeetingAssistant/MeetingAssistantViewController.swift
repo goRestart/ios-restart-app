@@ -18,7 +18,7 @@ final class MeetingAssistantViewController: BaseViewController {
     private var cellMapViewer: CellMapViewer = CellMapViewer()
 
     @IBOutlet weak private var placeHeaderLabel: UILabel!
-    @IBOutlet weak private var dateTimeHeaderlabel: UILabel!
+    @IBOutlet weak private var dateTimeHeaderLabel: UILabel!
 
     @IBOutlet weak private var locationLabel: UILabel!
 
@@ -54,6 +54,7 @@ final class MeetingAssistantViewController: BaseViewController {
         super.viewDidLoad()
         setupRx()
         setupUI()
+        setAccesibilityIds()
     }
 
     private func setupRx() {
@@ -135,7 +136,7 @@ final class MeetingAssistantViewController: BaseViewController {
         datePicker.maximumDate = endDate
 
         placeHeaderLabel.text = LGLocalizedString.meetingCreationViewPlace.uppercased()
-        dateTimeHeaderlabel.text = LGLocalizedString.meetingCreationViewDateTime.uppercased()
+        dateTimeHeaderLabel.text = LGLocalizedString.meetingCreationViewDateTime.uppercased()
     }
 
     private func setupLabelActions() {
@@ -144,6 +145,15 @@ final class MeetingAssistantViewController: BaseViewController {
         selectDayLabel.isUserInteractionEnabled = true
     }
 
+    private func setAccesibilityIds() {
+        view.set(accessibilityId: .meetingCreationView)
+        placeHeaderLabel.set(accessibilityId: .meetingCreationPlaceHeaderLabel)
+        dateTimeHeaderLabel.set(accessibilityId: .meetingCreationdateTimeHeaderLabel)
+        locationLabel.set(accessibilityId: .meetingCreationLocationLabel)
+        suggestedLocationsCollection.set(accessibilityId: .meetingCreationSuggestedLocationsCollection)
+        selectDayLabel.set(accessibilityId: .meetingCreationSelectDayLabel)
+        sendMeetingButton.set(accessibilityId: .meetingCreationSendMeetingButton)
+    }
 
     // MARK: Actions
 

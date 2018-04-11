@@ -124,9 +124,13 @@ class MeetingSafetyTipsViewController: BaseViewController {
     }
 
     private func setAccesibilityIds() {
-
-
-
+        view.set(accessibilityId: .meetingCreationTipsView)
+        closeButton.set(accessibilityId: .meetingCreationTipsCloseButton)
+        tipsImageView.set(accessibilityId: .meetingCreationTipsImageView)
+        tipsTitle.set(accessibilityId: .meetingCreationTipsTitleLabel)
+        tipsSubtitle.set(accessibilityId: .meetingCreationTipsSubtitleLabel)
+        sendMeetingButton.set(accessibilityId: .meetingCreationTipsSendMeetingButton)
+        secondaryCloseButton.set(accessibilityId: .meetingCreationTipsSecondaryCloseButton)
     }
 
     @objc private func closeButtonPressed() {

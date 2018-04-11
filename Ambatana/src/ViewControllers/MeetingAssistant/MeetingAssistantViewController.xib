@@ -16,7 +16,7 @@
                 <outlet property="datePickerContainer" destination="bsB-CJ-ePX" id="hLI-RP-LqP"/>
                 <outlet property="datePickerContainerHeight" destination="Jgc-14-G3R" id="XBN-MW-yKe"/>
                 <outlet property="datePickerDoneButton" destination="hIS-bs-rx6" id="wXk-my-OCV"/>
-                <outlet property="dateTimeHeaderlabel" destination="5eG-QL-dV9" id="qC2-38-ifH"/>
+                <outlet property="dateTimeHeaderLabel" destination="5eG-QL-dV9" id="xvE-b8-kFG"/>
                 <outlet property="locationLabel" destination="hvM-TC-OEu" id="Bcf-DP-afY"/>
                 <outlet property="placeHeaderLabel" destination="ohO-eX-mRm" id="woV-nG-gei"/>
                 <outlet property="selectDayLabel" destination="d2V-RU-uzM" id="oyP-gq-Mug"/>

@@ -588,9 +588,28 @@ enum AccessibilityId: Equatable {
     // Bubble notifications
     case bubbleButton
 
+    // Meeting Creation
+    case meetingCreationView
+    case meetingCreationPlaceHeaderLabel
+    case meetingCreationdateTimeHeaderLabel
+    case meetingCreationLocationLabel
+    case meetingCreationSuggestedLocationsCollection
+    case meetingCreationSelectDayLabel
+    case meetingCreationSendMeetingButton
+
+    // Meeting creation tips
+    case meetingCreationTipsView
+    case meetingCreationTipsCloseButton
+    case meetingCreationTipsImageView
+    case meetingCreationTipsTitleLabel
+    case meetingCreationTipsSubtitleLabel
+    case meetingCreationTipsSendMeetingButton
+    case meetingCreationTipsSecondaryCloseButton
+
+
     // Monetization
 
-    // Bubble
+    // Bump Up Banner
     case bumpUpBanner
     case bumpUpBannerButton
     case bumpUpBannerLabel
@@ -1733,10 +1752,43 @@ enum AccessibilityId: Equatable {
         // Bubble notifications
         case .bubbleButton:
             return "bubbleButton"
+
+        // Meeting creation
+        case .meetingCreationView:
+            return "meetingCreationView"
+        case .meetingCreationPlaceHeaderLabel:
+            return "meetingCreationPlaceHeaderLabel"
+        case .meetingCreationdateTimeHeaderLabel:
+            return "meetingCreationdateTimeHeaderLabel"
+        case .meetingCreationLocationLabel:
+            return "meetingCreationLocationLabel"
+        case .meetingCreationSuggestedLocationsCollection:
+            return "meetingCreationSuggestedLocationsCollection"
+        case .meetingCreationSelectDayLabel:
+            return "meetingCreationSelectDayLabel"
+        case .meetingCreationSendMeetingButton:
+            return "meetingCreationSendMeetingButton"
+
+        // Meeting creation tips
+        case .meetingCreationTipsView:
+            return "meetingCreationTipsView"
+        case .meetingCreationTipsCloseButton:
+            return "meetingCreationTipsCloseButton"
+        case .meetingCreationTipsImageView:
+            return "meetingCreationTipsImageView"
+        case .meetingCreationTipsTitleLabel:
+            return "meetingCreationTipsTitleLabel"
+        case .meetingCreationTipsSubtitleLabel:
+            return "meetingCreationTipsSubtitleLabel"
+        case .meetingCreationTipsSendMeetingButton:
+            return "meetingCreationTipsSendMeetingButton"
+        case .meetingCreationTipsSecondaryCloseButton:
+            return "meetingCreationTipsSecondaryCloseButton"
+
+
+        // Monetization
             
-            // Monetization
-            
-        // Bubble
+        // Bump Up Banner
         case .bumpUpBanner:
             return "bumpUpBanner"
         case .bumpUpBannerButton:
