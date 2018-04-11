@@ -189,32 +189,20 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
     private(set) var shouldShowFeatureListingCell: Bool
     var featureLabelText: String? {
-        if listingCanBeBoosted {
-            return BoostCellUI.boostLabelText
-        }
-        return featureFlags.promoteBumpInEdit.text
+        return listingCanBeBoosted ? BoostCellUI.boostLabelText : featureFlags.promoteBumpInEdit.text
     }
     var featureLabelTextColor: UIColor? {
-        if listingCanBeBoosted {
-            return BoostCellUI.boostLabelTextColor
-        }
-        return featureFlags.promoteBumpInEdit.textColor
+        return listingCanBeBoosted ? BoostCellUI.boostLabelTextColor : featureFlags.promoteBumpInEdit.textColor
     }
     var featureLabelFont: UIFont? {
-        if listingCanBeBoosted {
-            return BoostCellUI.boostLabelFont
-        }
-        return featureFlags.promoteBumpInEdit.font
+        return listingCanBeBoosted ? BoostCellUI.boostLabelFont : featureFlags.promoteBumpInEdit.font
     }
     var featureIcon: UIImage? {
-        if listingCanBeBoosted {
-            return BoostCellUI.boostIcon
-        }
-        return featureFlags.promoteBumpInEdit.icon
+        return listingCanBeBoosted ? BoostCellUI.boostIcon : featureFlags.promoteBumpInEdit.icon
     }
-    private(set) var listingCanBeBoosted: Bool
-    private(set) var timeSinceLastBump: TimeInterval?
-    private(set) var maxCountdown: TimeInterval?
+    private let listingCanBeBoosted: Bool
+    private let timeSinceLastBump: TimeInterval?
+    private let maxCountdown: TimeInterval?
 
     private let bumpUpProductData: BumpUpProductData?
 
