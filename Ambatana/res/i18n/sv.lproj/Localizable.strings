@@ -195,6 +195,7 @@
 "chat_message_disclaimer_scammer_base_blocked" = "Var extra försiktig när du delar med dig av telefonnummer/e-postadress. Bedragare ber ofta om att lämna letgo-chatten. %@";
 "chat_message_field_hint" = "Skriv ditt meddelande här";
 "chat_message_load_generic_error" = "Ett fel uppstod vid hämtning av din information. Var god försök igen.";
+"chat_message_type_not_supported" = "Det här meddelandet är inte kompatibelt med din version av appen. Uppdatera din app för att få tillgång till de senaste funktionerna!";
 "chat_not_verified_alert_message" = "Anslut med Facebook, Google eller din e-postadress för att verifiera din identitet.";
 "chat_not_verified_state_check_button" = "Kolla";
 "chat_not_verified_state_message" = "Kolla om du är verifierad för att kunna börja chatta.";
@@ -810,6 +811,9 @@
 "profile_sold_no_products_label" = "INGA ANNONSER (ÄN!)";
 "profile_sold_other_no_products_button" = "Surfa vidare";
 "profile_sold_products_tab" = "Såld";
+"profile_verifications_email_placeholder" = "E-post";
+"profile_verifications_email_view_title" = "Verifiera din e-post";
+"profile_verifications_send_button" = "Skicka";
 "profile_verifications_view_add_info_section_title" = "LÄGG TILL DIN";
 "profile_verifications_view_bio_title" = "Bio";
 "profile_verifications_view_email_title" = "E-post";

@@ -195,6 +195,7 @@
 "chat_message_disclaimer_scammer_base_blocked" = "Hãy đặc biệt cẩn thận khi trao đổi thông tin số điện thoại/email. Người dùng lừa đảo thường muốn bạn rời khỏi trò chuyện trong letgo. %@";
 "chat_message_field_hint" = "Nhập tin nhắn của bạn tại đây";
 "chat_message_load_generic_error" = "Có lỗi xảy ra trong khi hồi phục dữ liệu trò chuyện của bạn. Xin vui lòng thử lại.";
+"chat_message_type_not_supported" = "Tin nhắn này không tương thích với phiên bản ứng dụng của bạn. Hãy cập nhật ứng dụng của bạn ngay bây giờ để mở khóa những tính năng mới nhất!";
 "chat_not_verified_alert_message" = "Kết nối với Facebook, Google hoặc Email để xác minh danh tính của bạn.";
 "chat_not_verified_state_check_button" = "Kiểm tra";
 "chat_not_verified_state_message" = "Kiểm tra xem bạn đã được xác minh chưa để bắt đầu trò chuyện.";
@@ -810,6 +811,9 @@
 "profile_sold_no_products_label" = "KHÔNG (CHƯA) CÓ BÀI ĐĂNG NÀO!";
 "profile_sold_other_no_products_button" = "Tiếp tục Duyệt";
 "profile_sold_products_tab" = "Đã bán";
+"profile_verifications_email_placeholder" = "Email";
+"profile_verifications_email_view_title" = "Verify your Email";
+"profile_verifications_send_button" = "Gửi";
 "profile_verifications_view_add_info_section_title" = "THÊM";
 "profile_verifications_view_bio_title" = "Tiểu sử";
 "profile_verifications_view_email_title" = "Email";

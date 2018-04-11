@@ -195,6 +195,7 @@
 "chat_message_disclaimer_scammer_base_blocked" = "Ole erityisen varovainen, kun vaihdatte puhelinnumeroita/sähköpostiosoitteita. Vilpillisissä aikeissa liikkeellä olevat käyttäjät pyytävät usein poistumaan letgon keskustelusta. %@";
 "chat_message_field_hint" = "Kirjoita viestisi tähän";
 "chat_message_load_generic_error" = "Keskustelutietojasi noudettaessa tapahtui virhe. Ole hyvä ja yritä uudelleen.";
+"chat_message_type_not_supported" = "Tämä viesti ei ole yhteensopiva sovelluksesi version kanssa. Päivitä sovelluksesi nyt avataksesi uusimmat toiminnot!";
 "chat_not_verified_alert_message" = "Vahvista henkilöllisyytesi Facebookin, Googlen tai sähköpostin avulla.";
 "chat_not_verified_state_check_button" = "Tarkista";
 "chat_not_verified_state_message" = "Tarkista, oletko vahvistanut henkilöllisyytesi voidaksesi aloittaa keskustelun.";
@@ -810,6 +811,9 @@
 "profile_sold_no_products_label" = "EI ILMOITUKSIA (VIELÄ!)";
 "profile_sold_other_no_products_button" = "Jatka selaamista";
 "profile_sold_products_tab" = "Myyty";
+"profile_verifications_email_placeholder" = "Sähköposti";
+"profile_verifications_email_view_title" = "Vahvista sähköpostisi";
+"profile_verifications_send_button" = "Lähetä";
 "profile_verifications_view_add_info_section_title" = "LISÄÄ";
 "profile_verifications_view_bio_title" = "Biografia";
 "profile_verifications_view_email_title" = "Sähköposti";

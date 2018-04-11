@@ -195,6 +195,7 @@
 "chat_message_disclaimer_scammer_base_blocked" = "Seja extremamente cuidadoso ao trocar contactos de telefone/email. Os utilizadores fraudulentos pedem com frequência para abandonar o chat do letgo. %@";
 "chat_message_field_hint" = "Escreva a sua mensagem aqui";
 "chat_message_load_generic_error" = "Ocorreu um erro ao recuperar os dados da conversação. Por favor tente novamente.";
+"chat_message_type_not_supported" = "Esta mensagem não é compatível com a versão da sua app. Atualize agora a sua app para desbloquear os mais recentes recursos!";
 "chat_not_verified_alert_message" = "Entre com o Facebook, Google ou Email para verificar a sua identidade.";
 "chat_not_verified_state_check_button" = "Verifique";
 "chat_not_verified_state_message" = "Confirme se está verificado para poder começar a conversar.";
@@ -810,6 +811,9 @@
 "profile_sold_no_products_label" = "SEM PUBLICAÇÕES (AINDA!)";
 "profile_sold_other_no_products_button" = "Continue a navegar";
 "profile_sold_products_tab" = "Vendido";
+"profile_verifications_email_placeholder" = "Email";
+"profile_verifications_email_view_title" = "Verify your Email";
+"profile_verifications_send_button" = "Enviar";
 "profile_verifications_view_add_info_section_title" = "ADICIONAR A SUA";
 "profile_verifications_view_bio_title" = "Bio";
 "profile_verifications_view_email_title" = "Email";

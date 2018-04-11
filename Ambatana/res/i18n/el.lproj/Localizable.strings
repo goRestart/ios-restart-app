@@ -195,6 +195,7 @@
 "chat_message_disclaimer_scammer_base_blocked" = "Να είστε ιδαίτερα προσεκτικοί όταν ανταλλάζετε πληροφορίες τηλεφώνου/email. Οι χρήστες που θέλουν να σας εξαπατήσουν, συχνά ζητούν να αποχωρήσετε από τη letgo συνομιλία. %@";
 "chat_message_field_hint" = "Γράψε το μήνυμά σου εδώ";
 "chat_message_load_generic_error" = "Παρουσιάστηκε σφάλμα κατά την ανάκτηση δεδομένων των συνομιλιών σας. Παρακαλώ, δοκιμάστε ξανά.";
+"chat_message_type_not_supported" = "Το μήνυμα αυτό δεν είναι συμβατό με την έκδοση της εφαρμογής σας. Ενημερώστε την εφαρμογή σας τώρα για να ξεκλειδώσετε τις νεότερες λειτουργίες!";
 "chat_not_verified_alert_message" = "Συνδεθείτε με Facebook, Google ή Email για να επιβεβαιώσετε την ταυτότητά σας.";
 "chat_not_verified_state_check_button" = "Έλεγχος";
 "chat_not_verified_state_message" = "Ελέγξτε αν έχετε κάνει επιβεβαίωση για να ξεκινήσετε να συνομιλείτε.";
@@ -810,6 +811,9 @@
 "profile_sold_no_products_label" = "ΚΑΜΙΑ ΚΑΤΑΧΩΡΗΣΗ (ΑΚΟΜΗ!)";
 "profile_sold_other_no_products_button" = "Συνεχίστε την πλοήγηση";
 "profile_sold_products_tab" = "Πωλήθηκαν";
+"profile_verifications_email_placeholder" = "Email";
+"profile_verifications_email_view_title" = "Verify your Email";
+"profile_verifications_send_button" = "Αποστολή";
 "profile_verifications_view_add_info_section_title" = "ΠΡΟΣΘΉΚΗ";
 "profile_verifications_view_bio_title" = "Βιογραφικού";
 "profile_verifications_view_email_title" = "Email";
