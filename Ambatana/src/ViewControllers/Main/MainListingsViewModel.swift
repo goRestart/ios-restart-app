@@ -49,6 +49,9 @@ struct SuggestiveSearchInfo {
 
 class MainListingsViewModel: BaseViewModel {
     
+    static let adInFeedInitialPosition = 3
+    static let adsInFeedRatio = 20
+    
     // > Input
     var searchString: String? {
         return searchType?.text
@@ -897,7 +900,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
 
     private func addAds(to listings: [ListingCellModel], page: UInt) -> [ListingCellModel] {
         if page == 0 {
-            lastAdPosition = Constants.adInFeedInitialPosition
+            lastAdPosition = MainListingsViewModel.adInFeedInitialPosition
             previousPagesAdsOffset = 0
         }
         guard let adsDelegate = adsDelegate else { return listings }
@@ -985,9 +988,9 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
     private func adAbsolutePosition() -> Int {
         var adPosition = 0
         if lastAdPosition == 0 {
-            adPosition = Constants.adInFeedInitialPosition
+            adPosition = MainListingsViewModel.adInFeedInitialPosition
         } else {
-            adPosition = lastAdPosition + Constants.adInFeedRatioPosition
+            adPosition = lastAdPosition + MainListingsViewModel.adsInFeedRatio
         }
         return adPosition
     }
@@ -1133,8 +1136,6 @@ extension MainListingsViewModel {
         lastSearches.value = keyValueStorage[.lastSuggestiveSearches]
     }
     
-    
-    
     func retrieveLastUserSearch() {
         // We saved up to lastSearchesSavedMaximum(10) but we show only lastSearchesShowMaximum(3)
         var searchesToShow = [LocalSuggestiveSearch]()
@@ -1188,7 +1189,6 @@ extension MainListingsViewModel {
     private func cleanUpSuggestiveSearches() {
         suggestiveSearchInfo.value = SuggestiveSearchInfo.empty()
     }
-    
     
     fileprivate func updateLastSearchStored(lastSearch: SearchType) {
         guard let suggestiveSearch = getSuggestiveSearchFrom(searchType: lastSearch) else { return }
@@ -1500,7 +1500,7 @@ extension NoAdsInFeedForNewUsers {
 
     func customTargetingValueFor(position: Int) -> String {
         guard self.ratio != 0 else { return "" }
-        let numberOfAd = ((position - Constants.adInFeedInitialPosition)/self.ratio) + 1
+        let numberOfAd = ((position - MainListingsViewModel.adInFeedInitialPosition)/self.ratio) + 1
         return "var_c_pos_\(numberOfAd)"
     }
 }
@@ -1521,7 +1521,7 @@ extension ShowAdsInFeedWithRatio {
 
     func customTargetingValueFor(position: Int) -> String {
         guard self.ratio != 0 else { return "" }
-        let numberOfAd = ((position - Constants.adInFeedInitialPosition)/self.ratio) + 1
+        let numberOfAd = ((position - MainListingsViewModel.adInFeedInitialPosition)/self.ratio) + 1
         switch self {
         case .control, .baseline:
             return ""
