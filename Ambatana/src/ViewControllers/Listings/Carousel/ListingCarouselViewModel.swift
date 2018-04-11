@@ -804,19 +804,12 @@ extension ListingCarouselViewModel: ListingViewModelDelegate {
 
 extension CarouselMovement {
 
-    func visitSource(_ originSource: EventParameterListingVisitSource) -> EventParameterListingVisitSource {
-        let sourceIsRelatedListing = originSource == .relatedListings
-        let sourceIsFavourite = originSource == .favourite
-        guard sourceIsRelatedListing || sourceIsFavourite  else {
-            return originSource
-        }
-        let favourite = EventParameterListingVisitSource.favourite
-        let related = EventParameterListingVisitSource.relatedListings
+    func visitSource(_ origin: EventParameterListingVisitSource) -> EventParameterListingVisitSource {
         switch self {
         case .tap: fallthrough
-        case .swipeRight: return sourceIsFavourite ? favourite.next : related.next
-        case .initial: return originSource
-        case .swipeLeft: return sourceIsFavourite ? favourite.previous : related.previous
+        case .swipeRight: return origin.next
+        case .initial: return origin
+        case .swipeLeft: return origin.previous
         }
     }
 
