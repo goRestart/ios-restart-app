@@ -237,7 +237,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         guard !didSetupAfterLayout else { return } // Already setup, just do nothing
 
         if let animator = animator {
-            if animator.toViewValidatedFrame || !animator.active {
+            if animator.toViewValidatedFrame {
                 setupAfterLayout(backgroundImage: animator.fromViewSnapshot, activeAnimator: animator.active)
             }
         } else {
