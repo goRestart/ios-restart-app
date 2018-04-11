@@ -1206,15 +1206,19 @@ fileprivate extension ListingViewModel {
         }
     }
     
-    fileprivate func visitSource(from originalSource: EventParameterListingVisitSource, isFirstMessage: Bool) -> EventParameterListingVisitSource {
-        guard isFirstMessage, originalSource == .favourite, let origin = delegate?.listingOrigin else {
+    fileprivate func visitSource(from originalSource: EventParameterListingVisitSource,
+                                 isFirstMessage: Bool) -> EventParameterListingVisitSource {
+        guard isFirstMessage,
+            originalSource == .favourite,
+            let origin = delegate?.listingOrigin else {
             return originalSource
         }
         var visitSource = originalSource
+        let favourite = EventParameterListingVisitSource.favourite
         if origin == .inResponseToNextRequest {
-            visitSource = EventParameterListingVisitSource.next(.favourite)
+            visitSource = favourite.next
         } else if origin == .inResponseToPreviousRequest {
-            visitSource = EventParameterListingVisitSource.previous(.favourite)
+             visitSource = favourite.previous
         }
         return visitSource
     }

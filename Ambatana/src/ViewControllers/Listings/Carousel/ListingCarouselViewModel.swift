@@ -810,18 +810,13 @@ extension CarouselMovement {
         guard sourceIsRelatedListing || sourceIsFavourite  else {
             return originSource
         }
+        let favourite = EventParameterListingVisitSource.favourite
+        let related = EventParameterListingVisitSource.relatedListings
         switch self {
-        case .tap:
-            return sourceIsFavourite ? EventParameterListingVisitSource.next(.favourite)
-                                    : EventParameterListingVisitSource.next(.relatedListings)
-        case .swipeRight:
-            return sourceIsFavourite ? EventParameterListingVisitSource.next(.favourite)
-                                    : EventParameterListingVisitSource.next(.relatedListings)
-        case .initial:
-            return originSource
-        case .swipeLeft:
-            return sourceIsFavourite ? EventParameterListingVisitSource.previous(.favourite)
-                                    : EventParameterListingVisitSource.previous(.relatedListings)
+        case .tap: fallthrough
+        case .swipeRight: return sourceIsFavourite ? favourite.next : related.next
+        case .initial: return originSource
+        case .swipeLeft: return sourceIsFavourite ? favourite.previous : related.previous
         }
     }
 
