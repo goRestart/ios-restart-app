@@ -889,26 +889,65 @@ enum EventParameterUserDidRateReason: String {
     case sad = "sad"
 }
 
-enum EventParameterListingVisitSource: String {
-    case listingList = "product-list"
-    case moreInfoRelated = "more-info-related"
-    case collection = "collection"
-    case search = "search"
-    case filter = "filter"
-    case searchAndFilter = "search & filter"
-    case category = "category"
-    case profile = "profile"
-    case favourite = "favourite"
-    case nextFavourite = "next-favourite"
-    case previousFavourite = "previous-favourite"
-    case chat = "chat"
-    case openApp = "open-app"
-    case notifications = "notifications"
-    case relatedListings = "related-items-list"
-    case next = "next-related-items-list"
-    case previous = "previous-related-items-list"
-    case promoteBump = "promote-bump-up"
-    case unknown = "N/A"
+enum EventParameterListingVisitSource {
+    // SEO ES WEB MOTHER FUCKER
+    var rawValue: String {
+        switch self {
+        case .next(let source): return "next-\(source.rawValue)"
+        case .previous(let source): return "previous-\(source.rawValue)"
+
+        case .listingList: return "product-list"
+        case .collection: return "collection"
+        case .search: return "search"
+        case .filter: return "filter"
+        case .searchAndFilter: return "search & filter"
+        case .category: return "category"
+        case .profile: return "profile"
+        case .relatedChat: return "related-chat"
+        case .notificationCenter: return "notificationCenter"
+        case .external: return "external"
+        case .seoProductPage: return "seo-product-page"
+        case .sameUserItemsSeoProductPage: return "same-user-items-seo-product-page"
+        case .nearbySeoProductPage: return "nearby-seo-product-page"
+        case .notifications: return "notifications"
+        case .relatedListings: return "related-items-list"
+        case .moreInfoRelated: return "more-info-related"
+        case .favourite: return "favourite"
+        case .chat: return "chat"
+        case .openApp: return "open-app"
+        case .promoteBump: return "promote-bump-up"
+        case .unknown: return "N/A"
+        }
+    }
+
+    static func ==(lhs: EventParameterListingVisitSource, rhs: EventParameterListingVisitSource) -> Bool {
+        return lhs.rawValue == rhs.rawValue
+    }
+
+    indirect case next(EventParameterListingVisitSource)
+    indirect case previous(EventParameterListingVisitSource)
+
+    case listingList
+    case collection
+    case search
+    case filter
+    case searchAndFilter
+    case category
+    case profile
+    case relatedChat
+    case notificationCenter
+    case notifications
+    case external
+    case relatedListings
+    case seoProductPage
+    case sameUserItemsSeoProductPage
+    case nearbySeoProductPage
+    case moreInfoRelated
+    case favourite
+    case chat
+    case openApp
+    case promoteBump
+    case unknown
 }
 
 enum EventParameterRelatedListingsVisitSource: String {

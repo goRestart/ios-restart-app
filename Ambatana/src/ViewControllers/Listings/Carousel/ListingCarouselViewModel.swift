@@ -812,13 +812,16 @@ extension CarouselMovement {
         }
         switch self {
         case .tap:
-            return sourceIsFavourite ? .nextFavourite : .next
+            return sourceIsFavourite ? EventParameterListingVisitSource.next(.favourite)
+                                    : EventParameterListingVisitSource.next(.relatedListings)
         case .swipeRight:
-            return sourceIsFavourite ? .nextFavourite : .next
+            return sourceIsFavourite ? EventParameterListingVisitSource.next(.favourite)
+                                    : EventParameterListingVisitSource.next(.relatedListings)
         case .initial:
             return originSource
         case .swipeLeft:
-            return sourceIsFavourite ? .previousFavourite : .previous
+            return sourceIsFavourite ? EventParameterListingVisitSource.previous(.favourite)
+                                    : EventParameterListingVisitSource.previous(.relatedListings)
         }
     }
 

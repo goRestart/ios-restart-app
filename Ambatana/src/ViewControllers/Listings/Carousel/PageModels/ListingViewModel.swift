@@ -1212,9 +1212,9 @@ fileprivate extension ListingViewModel {
         }
         var visitSource = originalSource
         if origin == .inResponseToNextRequest {
-            visitSource = .nextFavourite
+            visitSource = EventParameterListingVisitSource.next(.favourite)
         } else if origin == .inResponseToPreviousRequest {
-            visitSource = .previousFavourite
+            visitSource = EventParameterListingVisitSource.previous(.favourite)
         }
         return visitSource
     }
