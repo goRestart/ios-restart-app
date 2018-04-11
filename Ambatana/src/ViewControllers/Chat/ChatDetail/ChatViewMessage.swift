@@ -12,15 +12,15 @@ enum ChatViewMessageType {
     case text(text: String)
     case offer(text: String)
     case sticker(url: String)
-    case disclaimer(showAvatar: Bool, text: NSAttributedString, actionTitle: String? ,action: (() -> ())?)
+    case disclaimer(showAvatar: Bool,text: NSAttributedString, actionTitle: String? ,action: (() -> ())?)
     case userInfo(name: String, address: String?, facebook: Bool, google: Bool, email: Bool)
     case askPhoneNumber(text: String, action: (() -> Void)?)
     case meeting(type: MeetingMessageType,
-        date: Date?,
-        locationName: String?,
-        coordinates: LGLocationCoordinates2D?,
-        status: MeetingStatus?,
-        text: String)
+                 date: Date?,
+                 locationName: String?,
+                 coordinates: LGLocationCoordinates2D?,
+                 status: MeetingStatus?,
+                 text: String)
     case interlocutorIsTyping
 
     var isAskPhoneNumber: Bool {
@@ -165,13 +165,13 @@ struct ChatViewMessage: BaseModel {
     
     public static func ==(lhs: ChatViewMessage, rhs: ChatViewMessage) -> Bool {
         return lhs.value == rhs.value
-        && lhs.objectId == rhs.objectId
-        && lhs.readAt == rhs.readAt
-        && lhs.receivedAt == rhs.receivedAt
-        && lhs.sentAt == rhs.sentAt
-        && lhs.status == rhs.status
-        && lhs.talkerId == rhs.talkerId
-        && lhs.type == lhs.type
+            && lhs.objectId == rhs.objectId
+            && lhs.readAt == rhs.readAt
+            && lhs.receivedAt == rhs.receivedAt
+            && lhs.sentAt == rhs.sentAt
+            && lhs.status == rhs.status
+            && lhs.talkerId == rhs.talkerId
+            && lhs.type == lhs.type
     }
 }
 
@@ -195,19 +195,17 @@ extension ChatViewMessage {
 }
 
 
-// MARK: Hackaton
-
 extension ChatViewMessage {
     func markAsAccepted() -> ChatViewMessage {
         switch type {
         case let .meeting(meetingType, meetingDate, locationName, coordinates, _, text):
             if meetingType == .requested {
                 let acceptedMessageType: ChatViewMessageType = .meeting(type: meetingType,
-                                                                           date: meetingDate,
-                                                                           locationName: locationName,
-                                                                           coordinates: coordinates,
-                                                                           status: .accepted,
-                                                                           text: text)
+                                                                        date: meetingDate,
+                                                                        locationName: locationName,
+                                                                        coordinates: coordinates,
+                                                                        status: .accepted,
+                                                                        text: text)
                 return ChatViewMessage(objectId: objectId, talkerId: talkerId, sentAt: sentAt,
                                        receivedAt: receivedAt,
                                        readAt: readAt,
@@ -227,11 +225,11 @@ extension ChatViewMessage {
         case let .meeting(meetingType, meetingDate, locationName, coordinates, _, text):
             if meetingType == .requested {
                 let rejectedMessageType: ChatViewMessageType = .meeting(type: meetingType,
-                                                                           date: meetingDate,
-                                                                           locationName: locationName,
-                                                                           coordinates: coordinates,
-                                                                           status: .rejected,
-                                                                           text: text)
+                                                                        date: meetingDate,
+                                                                        locationName: locationName,
+                                                                        coordinates: coordinates,
+                                                                        status: .rejected,
+                                                                        text: text)
                 return ChatViewMessage(objectId: objectId, talkerId: talkerId, sentAt: sentAt,
                                        receivedAt: receivedAt,
                                        readAt: readAt,
@@ -245,5 +243,4 @@ extension ChatViewMessage {
             return self
         }
     }
-
 }

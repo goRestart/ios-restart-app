@@ -17,7 +17,9 @@ class ChatViewMessageAdapter {
         let stickersRepository = Core.stickersRepository
         let myUserRepository = Core.myUserRepository
         let featureFlags = FeatureFlags.sharedInstance
-        self.init(stickersRepository: stickersRepository, myUserRepository: myUserRepository, featureFlags: featureFlags)
+        self.init(stickersRepository: stickersRepository,
+                  myUserRepository: myUserRepository,
+                  featureFlags: featureFlags)
     }
     
     init(stickersRepository: StickersRepository, myUserRepository: MyUserRepository, featureFlags: FeatureFlaggeable) {

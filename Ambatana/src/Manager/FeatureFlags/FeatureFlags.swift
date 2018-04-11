@@ -942,8 +942,6 @@ class FeatureFlags: FeatureFlaggeable {
         return FeedAdsProviderForTR.fromPosition(abTests.feedAdsProviderForTR.value)
     }
 
-    // MARK: Hackaton
-
     var chatNorris: ChatNorris {
         if Bumper.enabled {
             return Bumper.chatNorris

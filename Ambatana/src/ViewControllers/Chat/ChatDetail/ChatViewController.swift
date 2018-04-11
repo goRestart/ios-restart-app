@@ -575,13 +575,11 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource  {
             cell.transform = tableView.transform
         }
 
-        if cell is ChatOtherMeetingCell {
-            let otherMeetingCell = cell as! ChatOtherMeetingCell
+        if let otherMeetingCell = cell as? ChatOtherMeetingCell {
             otherMeetingCell.delegate = self
             otherMeetingCell.locationDelegate = self
             return otherMeetingCell
-        } else if cell is ChatMyMeetingCell {
-            let myMeetingCell = cell as! ChatMyMeetingCell
+        } else if let myMeetingCell = cell as? ChatMyMeetingCell {
             myMeetingCell.locationDelegate = self
             return myMeetingCell
         }

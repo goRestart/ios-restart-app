@@ -43,7 +43,7 @@ final class MeetingSafetyTipsViewModel: BaseViewModel {
     }
 
     private var closeCompletion: (()->Void)?
-    private var keyValueStorage: KeyValueStorageable
+    private let keyValueStorage: KeyValueStorageable
 
     weak var navigator: MeetingAssistantNavigator?
 

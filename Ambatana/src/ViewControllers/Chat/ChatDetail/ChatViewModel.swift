@@ -1696,7 +1696,10 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
         let isFree = featureFlags.freePostingModeAllowed && listingIsFree.value
         let isBuyer = !conversation.value.amISelling
         let isNegotiable = listingIsNegotiable.value
-        return QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: areQuickAnswersDynamic, isNegotiable: isNegotiable,
+        return QuickAnswer.quickAnswersForChatWith(buyer: isBuyer,
+                                                   isFree: isFree,
+                                                   isDynamic: areQuickAnswersDynamic,
+                                                   isNegotiable: isNegotiable,
                                                    chatNorrisABtestVersion: featureFlags.chatNorris)
     }
     var areQuickAnswersDynamic: Bool {
@@ -1834,7 +1837,6 @@ extension ChatViewModel: MeetingAssistantDataDelegate {
     }
 }
 
-// MARK: Hackaton 🦄
 
 extension ChatViewModel {
 
@@ -1913,17 +1915,14 @@ extension ChatViewModel {
     }
 
     private func updateMeetingsStatusFor(message: ChatMessage) {
-        if message.type == .meeting {
-            if let meeting = message.assistantMeeting {
-                switch meeting.meetingType {
-                case .rejected:
-                    markAllPreviousRequestedMeetingsAsRejectedAfter(messageId: nil)
-                case .accepted:
-                    markAsAcceptedLastMeetingAndRejectOthers()
-                case .requested:
-                    markAllPreviousRequestedMeetingsAsRejectedAfter(messageId: message.objectId)
-                }
-            }
+        guard let meeting = message.assistantMeeting else { return }
+        switch meeting.meetingType {
+        case .rejected:
+            markAllPreviousRequestedMeetingsAsRejectedAfter(messageId: nil)
+        case .accepted:
+            markAsAcceptedLastMeetingAndRejectOthers()
+        case .requested:
+            markAllPreviousRequestedMeetingsAsRejectedAfter(messageId: message.objectId)
         }
     }
 

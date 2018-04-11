@@ -18,6 +18,9 @@ protocol MeetingAssistantDataDelegate: class {
 
 final class MeetingAssistantViewModel: BaseViewModel {
 
+    static let mapRegionDistance: CLLocationDistance = 300
+    static let mapSnapshotSize: CGSize = CGSize(width: 300, height: 200)
+
     var suggestionsCount: Int {
         return suggestedLocations.value.count
     }
@@ -49,10 +52,15 @@ final class MeetingAssistantViewModel: BaseViewModel {
     // MARK: - lifecycle
 
     convenience init(listingId: String?) {
-        self.init(listingId: listingId, suggestedLocationsRepository: Core.suggestedLocationsRepository, keyValueStorage: KeyValueStorage.sharedInstance, tracker: TrackerProxy.sharedInstance)
+        self.init(listingId: listingId,
+                  suggestedLocationsRepository: Core.suggestedLocationsRepository,
+                  keyValueStorage: KeyValueStorage.sharedInstance,
+                  tracker: TrackerProxy.sharedInstance)
     }
 
-    init(listingId: String?, suggestedLocationsRepository: SuggestedLocationsRepository, keyValueStorage: KeyValueStorageable,
+    init(listingId: String?,
+         suggestedLocationsRepository: SuggestedLocationsRepository,
+         keyValueStorage: KeyValueStorageable,
          tracker: TrackerProxy) {
         self.listingId = listingId
         self.suggestedLocationsRepository = suggestedLocationsRepository
@@ -64,13 +72,9 @@ final class MeetingAssistantViewModel: BaseViewModel {
 
     func setupRx() {
         Observable.combineLatest(date.asObservable(), locationName.asObservable()) { ($0, $1) }
-            .bind { [weak self] (date, locationName) in
-                if let _ = date, let _ = locationName {
-                    self?.saveButtonEnabled.value = true
-                } else {
-                    self?.saveButtonEnabled.value = false
-                }
-            }.disposed(by: disposeBag)
+            .map { $0 != nil && $1 != nil }
+            .bind(to: saveButtonEnabled)
+            .disposed(by: disposeBag)
     }
 
     override func didBecomeActive(_ firstTime: Bool) {
@@ -104,7 +108,12 @@ final class MeetingAssistantViewModel: BaseViewModel {
         locationFullName = locationFullName.replacingOccurrences(of: "[()]", with: " ", options: [.regularExpression])
         self.locationName.value = locationFullName
 
-        let postalAddress = PostalAddress(address: selectedLocation.value?.locationAddress, city: city, zipCode: nil, state: nil, countryCode: nil, country: nil)
+        let postalAddress = PostalAddress(address: selectedLocation.value?.locationAddress,
+                                          city: city,
+                                          zipCode: nil,
+                                          state: nil,
+                                          countryCode: nil,
+                                          country: nil)
         selectedPlace = Place(postalAddress: postalAddress, location: selectedLocation.value?.locationCoords)
     }
 
@@ -188,9 +197,11 @@ final class MeetingAssistantViewModel: BaseViewModel {
     private func getMapSnapshotFor(suggestedLocation: SuggestedLocation) {
 
         let coordinates = suggestedLocation.locationCoords.coordinates2DfromLocation()
-        let region = MKCoordinateRegionMakeWithDistance(coordinates, 300, 300)
+        let region = MKCoordinateRegionMakeWithDistance(coordinates,
+                                                        MeetingAssistantViewModel.mapRegionDistance,
+                                                        MeetingAssistantViewModel.mapRegionDistance)
 
-        MKMapView.snapshotAt(region, size: CGSize(width: 300, height: 200)) { [weak self] (snapshot, error) in
+        MKMapView.snapshotAt(region, size: MeetingAssistantViewModel.mapSnapshotSize) { [weak self] (snapshot, error) in
             if let snapshot = snapshot {
                 self?.mapSnapshotsCache.value[suggestedLocation.locationId] = snapshot.image
             } else {
@@ -200,8 +211,10 @@ final class MeetingAssistantViewModel: BaseViewModel {
     }
 
     private func cityFor(location: SuggestedLocation) -> String? {
-        if let address = location.locationAddress, let lastAddressComponent = address.components(separatedBy: [","]).last {
-            let city = lastAddressComponent.replacingOccurrences(of: "[,]", with: "", options: [.regularExpression]).trimmingCharacters(in: [" "])
+        if let address = location.locationAddress,
+            let lastAddressComponent = address.components(separatedBy: [","]).last {
+            let city = lastAddressComponent
+                .trimmingCharacters(in: [" "])
             return city
         }
         return nil

@@ -202,8 +202,9 @@ extension MeetingAssistantViewController: UICollectionViewDataSource, UICollecti
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SuggestedLocationCell.reusableID, for: indexPath) as? SuggestedLocationCell else {
-                return UICollectionViewCell()
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SuggestedLocationCell.reusableID,
+                                                            for: indexPath) as? SuggestedLocationCell else {
+                                                                return UICollectionViewCell()
         }
         let suggestedLocation = viewModel.suggestedLocationAtIndex(indexPath: indexPath)
         let mapSnapshot = viewModel.mapSnapshotFor(suggestedLocation: suggestedLocation)

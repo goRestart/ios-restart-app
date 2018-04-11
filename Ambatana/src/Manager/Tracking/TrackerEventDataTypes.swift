@@ -380,7 +380,6 @@ enum EventParameterName: String {
     case typeTutorialDialog   = "type-onboarding-dialog"
     case pageNumber           = "page-number"
 
-    // hackaton
     case meetingMessageType  = "assistant-meeting-type"
     case meetingDate         = "assistant-meeting-date"
     case meetingLocation     = "assistant-meeting-location"

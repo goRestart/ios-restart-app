@@ -125,6 +125,8 @@ class MeetingSafetyTipsViewController: BaseViewController {
 
     private func setAccesibilityIds() {
 
+
+
     }
 
     @objc private func closeButtonPressed() {
