@@ -175,7 +175,7 @@ class ABTestsSpec: QuickSpec {
             }
 
             context("registering all the variables") {
-                it("the money int variable registered are 9") {
+                it("the money int variable registered are 10") {
                     expect(money.intVariables.count) == 10
                 }
 
@@ -199,7 +199,7 @@ class ABTestsSpec: QuickSpec {
                     syncer.sync(variables: money.stringVariables)
                     syncer.sync(variables: money.floatVariables)
                 }
-                it("the variables registered are 10") {
+                it("the variables registered are 11") {
                     expect(syncer.syncedCount) == 11
                 }
             }
