@@ -576,15 +576,13 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             break
         case .adxAdvertisement(let data):
             guard !data.adRequested else { return }
-            // TODO: assign adLoader delegate to self
-            // TODO: Call to AdxAdsRequester method to request an ad
-//            MoPubAdsRequester.startMoPubRequestWith(data: data, completion: { (nativeAd, moPubView) in
-//                guard let nativeAd = nativeAd, let moPubView = moPubView else { return }
-//                nativeAd.delegate = self
-//                moPubView.tag = data.adPosition
-//                self.viewModel.updateAdvertisementRequestedIn(position: inPosition, moPubNativeAd: nativeAd, moPubView: moPubView)
-//                self.vmReloadItemAtIndexPath(indexPath: IndexPath(row: inPosition, section: 0))
-//            })
+            
+            let adLoader = data.adLoader
+            adLoader.delegate = self
+            adLoader.load(GADRequest())
+            let contentAdView = Bundle.main.loadNibNamed("GooogleAdxNativeView", owner: nil, options: nil)?.first as! GADNativeContentAdView
+            contentAdView.tag = data.adPosition
+            viewModel.updateAdvertisementRequestedIn(position: inPosition, contentAdView: contentAdView)
             break
         case .collectionCell, .emptyCell, .listingCell, .mostSearchedItems:        
             break
@@ -675,12 +673,21 @@ extension ListingListView: MPNativeAdDelegate {
 // MARK: - GADNativeContentAdLoaderDelegate
 extension ListingListView: GADNativeContentAdLoaderDelegate, GADAdLoaderDelegate {
     public func adLoader(_ adLoader: GADAdLoader, didReceive nativeContentAd: GADNativeContentAd) {
-        viewModel.updateAdvertisementRequestedIn(position: <#T##Int#>, moPubNativeAd: <#T##MPNativeAd?#>, moPubView: <#T##UIView#>)
-        viewModel.updateAdvertisementRequestedIn(position: <#T##Int#>, nativeContentAd: <#T##GADNativeContentAd#>, GADNativeContentAdView: <#T##GADNativeContentAdView#>)
+
+//        let contentAdView = Bundle.main.loadNibNamed("GooogleAdxNativeView", owner: nil, options: nil)?.first as! GADNativeContentAdView
+//        contentAdView.nativeContentAd = nativeContentAd
+//        (contentAdView.headlineView as! UILabel).text = nativeContentAd.headline
+//        (contentAdView.bodyView as! UILabel).text = nativeContentAd.body
+//        (contentAdView.imageView as! UIImageView).image =
+//            (nativeContentAd.images?.first as! GADNativeAdImage).image
+////        (contentAdView.advertiserView as! UILabel).text = nativeContentAd.advertiser
+//        (contentAdView.callToActionView as! UIButton).setTitle(
+//            nativeContentAd.callToAction, for: UIControlState.normal)
+        viewModel.updateAdvertisementForAdLoader(adLoader, nativeContentAd)
     }
     
     public func adLoader(_ adLoader: GADAdLoader, didFailToReceiveAdWithError error: GADRequestError) {
-        
+        logMessage(.info, type: .monetization, message: "Feed banner in position failed with error: \(error.localizedDescription)")
     }
 }
 

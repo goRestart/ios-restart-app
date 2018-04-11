@@ -952,7 +952,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                 }
 //                request.customTargeting = [Constants.adInFeedCustomTargetingKey: customTargetingValue]
                 
-                let adData = AdvertisementAdxData(adUnitId: feedAdUnitId,
+                let adData = AdvertisementAdxData(adUnitId: "/6499/example/native",
                                                   rootViewController: adsDelegate.rootViewControllerForAds(),
                                                   adPosition: lastAdPosition,
                                                   bannerHeight: LGUIKitConstants.advertisementCellMoPubHeight,

@@ -1002,6 +1002,8 @@
 		72FE68B31ED6BDF8003F5E71 /* RateBuyersViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FE68B21ED6BDF8003F5E71 /* RateBuyersViewModelSpec.swift */; };
 		7EA1474D1E12769500C3F462 /* LGLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA1474C1E12769500C3F462 /* LGLayout.swift */; };
 		7EA1474E1E12769500C3F462 /* LGLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA1474C1E12769500C3F462 /* LGLayout.swift */; };
+		8E00B720207E257200485A6B /* GooogleAdxNativeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8E00B71F207E257100485A6B /* GooogleAdxNativeView.xib */; };
+		8E00B721207E527800485A6B /* GooogleAdxNativeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8E00B71F207E257100485A6B /* GooogleAdxNativeView.xib */; };
 		8E031CAC20331D2D00CA0ED9 /* ChatInterlocutorIsTypingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E031CAB20331D2D00CA0ED9 /* ChatInterlocutorIsTypingCell.swift */; };
 		8E031CAD20331D2D00CA0ED9 /* ChatInterlocutorIsTypingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E031CAB20331D2D00CA0ED9 /* ChatInterlocutorIsTypingCell.swift */; };
 		8E031CB22033343300CA0ED9 /* ChatInterlocutorIsTypingCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E031CB12033343300CA0ED9 /* ChatInterlocutorIsTypingCellDrawer.swift */; };
@@ -2411,6 +2413,7 @@
 		7EA1474C1E12769500C3F462 /* LGLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGLayout.swift; sourceTree = "<group>"; };
 		7ED714BB7ABD1804F5E818D4 /* Pods-LetGo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.release.xcconfig"; sourceTree = "<group>"; };
 		7FF25262DBFA224AC937A467 /* Pods_LetGo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetGo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E00B71F207E257100485A6B /* GooogleAdxNativeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GooogleAdxNativeView.xib; sourceTree = "<group>"; };
 		8E031CAB20331D2D00CA0ED9 /* ChatInterlocutorIsTypingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInterlocutorIsTypingCell.swift; sourceTree = "<group>"; };
 		8E031CB12033343300CA0ED9 /* ChatInterlocutorIsTypingCellDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInterlocutorIsTypingCellDrawer.swift; sourceTree = "<group>"; };
 		8E0C9DF31E96924F00768D27 /* PostCategoryDetailProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCategoryDetailProgressView.swift; sourceTree = "<group>"; };
@@ -4726,6 +4729,7 @@
 		C749C7811C10811B00F7118E /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				8E00B71F207E257100485A6B /* GooogleAdxNativeView.xib */,
 				8EEC7F55206AA60900616858 /* MoPubBlankStateView.swift */,
 				8EEC7F54206AA60800616858 /* MoPubNativeView.swift */,
 				8E28A829207B85C70070A7A6 /* GooogleAdxNativeView.swift */,
@@ -5605,6 +5609,7 @@
 				C7DE8AC91C888761005CF37E /* EditListingViewController.xib in Resources */,
 				6AA26D001CFDCA2000546063 /* ChatDisclaimerCell.xib in Resources */,
 				C7F18A971C89CB4C00D23319 /* PostListingGalleryView.xib in Resources */,
+				8E00B720207E257200485A6B /* GooogleAdxNativeView.xib in Resources */,
 				500DC12B1BDA1C4C00B494FA /* ios-devel.json in Resources */,
 				C7F3F1E71DE5EF6A00652447 /* TourBlurBackgroundViewController.xib in Resources */,
 				2EB32D661DF1CBC900E01E93 /* Monetization.xcassets in Resources */,
@@ -5665,6 +5670,7 @@
 				2E5350451CF8A181003B06CC /* ListingStatsView.xib in Resources */,
 				508011261D474ED80073F362 /* ProductOnboarding-Images.xcassets in Resources */,
 				5015881F1C7396B7006AEFC8 /* UserView.xib in Resources */,
+				8E00B721207E527800485A6B /* GooogleAdxNativeView.xib in Resources */,
 				C783D97F1C64BB90000EE5CA /* ReportUsersViewController.xib in Resources */,
 				C7DB42561C5138B500400945 /* Localizable.strings in Resources */,
 				6A12E04C1C635FA000C1BFE3 /* TourLoginViewController.xib in Resources */,

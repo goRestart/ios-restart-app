@@ -95,6 +95,9 @@ class GridDrawerManager {
         case .mopubAdvertisement(let adData):
             guard let cell = cell as? AdvertisementCell else { return }
             advertisementMoPubDrawer.willDisplay(adData, inCell: cell)
+        case .adxAdvertisement(let adData):
+            guard let cell = cell as? AdvertisementCell else { return }
+            advertisementAdxDrawer.willDisplay(adData, inCell: cell)
         default:
             return
         }
@@ -136,6 +139,9 @@ class GridDrawerManager {
         case .mopubAdvertisement(let adData):
             guard let cell = cell as? AdvertisementCell else { return }
             return advertisementMoPubDrawer.draw(adData, style: cellStyle, inCell: cell)
+        case .adxAdvertisement(let adData):
+            guard let cell = cell as? AdvertisementCell else { return }
+            return advertisementAdxDrawer.draw(adData, style: cellStyle, inCell: cell)
         case .mostSearchedItems(let data):
             guard let cell = cell as? MostSearchedItemsListingListCell else { return }
             return mostSearchedItemsDrawer.draw(data, style: cellStyle, inCell: cell)
