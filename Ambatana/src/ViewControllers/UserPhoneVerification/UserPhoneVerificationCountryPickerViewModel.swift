@@ -14,8 +14,8 @@ final class UserPhoneVerificationCountryPickerViewModel: BaseViewModel {
 
     weak var navigator: UserPhoneVerificationNavigator?
 
-    let filteredCountries = Variable<[CountryPhoneCode]>([])
-    private var allCountries: [CountryPhoneCode] = []
+    let filteredCountries = Variable<[Country]>([])
+    private var allCountries: [Country] = []
 
     init(fake: String? = "") {
         super.init()
@@ -24,11 +24,11 @@ final class UserPhoneVerificationCountryPickerViewModel: BaseViewModel {
     func filterCountries(by query: String) {
         filteredCountries.value = allCountries.filter { country -> Bool in
             return country.name.lowercased().contains(query.lowercased())
-                || String(country.code).contains(query.lowercased())
+                || String(country.callingCode).contains(query.lowercased())
         }
     }
 
-    func didSelect(country: CountryPhoneCode) {
+    func didSelect(country: Country) {
         // FIXME: implement it
     }
 
@@ -38,12 +38,12 @@ final class UserPhoneVerificationCountryPickerViewModel: BaseViewModel {
         filteredCountries.value = allCountries // FIXME: fake data
     }
 
-    private func getCountriesList() -> [CountryPhoneCode] {
+    private func getCountriesList() -> [Country] {
         return [
-            CountryPhoneCode(code: 355, name: "Albania"),
-            CountryPhoneCode(code: 342, name: "Chile"),
-            CountryPhoneCode(code: 342, name: "Nigeria"),
-            CountryPhoneCode(code: 342, name: "Lesotho"),
+            Country(regionCode: "US", callingCode: 355),
+            Country(regionCode: "ES", callingCode: 342),
+            Country(regionCode: "AN", callingCode: 342),
+            Country(regionCode: "AL", callingCode: 342),
         ]
     }
 }

@@ -13,7 +13,7 @@ import RxCocoa
 final class UserPhoneVerificationCountryPickerViewController: BaseViewController {
 
     private let viewModel: UserPhoneVerificationCountryPickerViewModel
-    private var tableData: [CountryPhoneCode] = []
+    private var tableData: [Country] = []
     private let disposeBag = DisposeBag()
 
     private let tableView = UITableView()
@@ -119,15 +119,10 @@ extension UserPhoneVerificationCountryPickerViewController: UITableViewDelegate,
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let country = tableData[indexPath.row]
-        let cell: UITableViewCell
-        if let reusedCell = tableView.dequeueReusableCell(withIdentifier: tableViewCellId) {
-            cell = reusedCell
-        } else {
-            cell = UITableViewCell(style: .default, reuseIdentifier: tableViewCellId)
-            cell.textLabel?.font = .smsVerificationCountryListCellText
-            cell.textLabel?.textColor = .blackText
-        }
-        cell.textLabel?.text = "\(country.name) (+\(country.code))"
+        let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellId, for: indexPath)
+        cell.textLabel?.font = .smsVerificationCountryListCellText
+        cell.textLabel?.textColor = .blackText
+        cell.textLabel?.text = "\(country.name) (+\(country.callingCode))"
         return cell
     }
 
