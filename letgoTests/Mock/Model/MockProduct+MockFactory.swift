@@ -11,13 +11,11 @@ import LGCoreKit
 
 extension MockProduct {
     static func makeProductMocks(_ count: Int, allowDiscarded: Bool) -> [MockProduct] {
-        guard !allowDiscarded else {
-            return MockProduct.makeMocks(count: count)
-        }
+        guard !allowDiscarded else { return MockProduct.makeMocks(count: count) }
         var result: [MockProduct] = []
         repeat {
             result.append(contentsOf: MockProduct.makeMocks(count: count).filter { !$0.status.isDiscarded })
-        } while result.count < count
+        } while result.count <= count
         return Array(result[0...count-1])
     }
 }
