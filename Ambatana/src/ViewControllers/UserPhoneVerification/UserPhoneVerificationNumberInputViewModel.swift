@@ -52,8 +52,8 @@ final class UserPhoneVerificationNumberInputViewModel: BaseViewModel {
     }
 
     private func retrieveCurrentLocationCountry() {
-        let retrievedFromTelephonyNetwork = retrieveCountryFromTelephonyNetwork()
-        guard !retrievedFromTelephonyNetwork else { return }
+        let hasRetrievedFromTelephonyNetwork = retrieveCountryFromTelephonyNetwork()
+        guard !hasRetrievedFromTelephonyNetwork else { return }
         retrieveCountryFromLocationManager()
     }
 
