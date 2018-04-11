@@ -167,7 +167,6 @@ extension ABTests {
     var newCarsMultiRequesterEnabled: LeanplumABVariable<Bool> { return legacy.newCarsMultiRequesterEnabled }
     var inAppRatingIOS10: LeanplumABVariable<Bool> { return legacy.inAppRatingIOS10 }
     var userReviewsReportEnabled: LeanplumABVariable<Bool> { return legacy.userReviewsReportEnabled }
-    var dynamicQuickAnswers: LeanplumABVariable<Int> { return legacy.dynamicQuickAnswers }
     var appRatingDialogInactive: LeanplumABVariable<Bool> { return legacy.appRatingDialogInactive }
     var locationDataSourceType: LeanplumABVariable<Int> { return legacy.locationDataSourceType }
     var searchAutocomplete: LeanplumABVariable<Int> { return legacy.searchAutocomplete }
