@@ -119,7 +119,11 @@ extension ListingDeckViewModelBinderSpec: ListingDetailNavigator {
                           source: EventParameterTypePage,
                           interlocutor: User?) { }
 
-    func editListing(_ listing: Listing, bumpUpProductData: BumpUpProductData?) { }
+    func editListing(_ listing: Listing,
+                     bumpUpProductData: BumpUpProductData?,
+                     listingCanBeBoosted: Bool,
+                     timeSinceLastBump: TimeInterval?,
+                     maxCountdown: TimeInterval?) { }
     func openFreeBumpUp(forListing listing: Listing,
                         bumpUpProductData: BumpUpProductData,
                         typePage: EventParameterTypePage?) { }
