@@ -37,6 +37,8 @@ class SearchRelatedListingListRequester: ListingListRequester {
     
     // MARK: - ListingListRequester
     
+    var isFirstPage: Bool = true
+    
     func canRetrieve() -> Bool { return queryCoordinates != nil }
     
     func retrieveFirstPage(_ completion: ListingsRequesterCompletion?) {
@@ -53,6 +55,7 @@ class SearchRelatedListingListRequester: ListingListRequester {
     }
     
     func retrieveNextPage(_ completion: ListingsRequesterCompletion?) {
+        isFirstPage = false
         retrieve() { [weak self] result in
             if let value = result.value {
                 self?.offset += value.count
@@ -62,8 +65,16 @@ class SearchRelatedListingListRequester: ListingListRequester {
     }
     
     private func retrieve(_ completion: ListingsCompletion?) {
-        if let categories = filters?.selectedCategories, categories.contains(.realEstate) {
+        guard let category = filters?.selectedCategories.last else { return }
+        switch category {
+        case .realEstate:
             listingRepository.indexRealEstateRelatedSearch(retrieveListingsParams, completion: completion)
+        case .cars:
+            listingRepository.indexCarsRelatedSearch(retrieveListingsParams, completion: completion)
+        case .babyAndChild, .electronics, .fashionAndAccesories, .homeAndGarden, .motorsAndAccessories,
+            .moviesBooksAndMusic, .other, .services, .sportsLeisureAndGames,
+            .unassigned:
+            break
         }
     }
     

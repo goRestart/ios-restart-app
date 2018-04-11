@@ -13,6 +13,7 @@ protocol ABRegistrable {
 enum ABGroup {
     case legacyABTests
     case core
+    case verticals
     case realEstate
     case money
     case retention

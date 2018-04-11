@@ -19,7 +19,7 @@
 "bump_up_banner_pay_text" = "Verkoop nu sneller";
 "bump_up_banner_pay_text_improvement" = "Verkoop nu sneller";
 "bump_up_banner_wait_text" = "opnieuw plaatsen";
-"bump_up_boost_success_alert_text" = "Jouw advertentie werd opnieuw geboost! Deze zal de komende 24 uur als uitgelicht geplaatst worden.";
+"bump_up_boost_success_alert_text" = "Je advertentie werd geboost! Deze zal de komende 24 uur als uitgelicht geplaatst worden.";
 "bump_up_error_bump_generic" = "Er is een fout opgetreden tijdens het als uitgelicht plaatsen van je advertentie. Probeer het opnieuw.";
 "bump_up_error_bump_token" = "Je betaling is verwerkt, maar je advertentie is niet als uitgelicht geplaatst.";
 "bump_up_error_payment_failed" = "Kan geen verbinding maken met de App Store. Je betaling is niet verwerkt. Probeer het opnieuw.";
@@ -247,7 +247,7 @@
 "common_error_retry_button" = "Probeer opnieuw";
 "common_error_title" = "OEPS!";
 "common_expand" = "Toon meer";
-"common_hours_mins_secs" = "%@h %@m %@s";
+"common_hours_mins_secs" = "%@u %@m %@s";
 "common_loading" = "Laden...";
 "common_max" = "max.";
 "common_new" = "NIEUW!";
@@ -810,6 +810,9 @@
 "profile_sold_no_products_label" = "(NOG!) GEEN ADVERTENTIES";
 "profile_sold_other_no_products_button" = "Blijf browsen";
 "profile_sold_products_tab" = "Verkocht";
+"profile_verifications_email_placeholder" = "EMAIL";
+"profile_verifications_email_view_title" = "Verify your Email";
+"profile_verifications_send_button" = "Verstuur";
 "profile_verifications_view_add_info_section_title" = "TOEVOEGEN";
 "profile_verifications_view_bio_title" = "Biografie";
 "profile_verifications_view_email_title" = "EMAIL";

@@ -13,6 +13,7 @@ protocol ListingCellDelegate: class {
     func chatButtonPressedFor(listing: Listing)
     func editPressedForDiscarded(listing: Listing)
     func moreOptionsPressedForDiscarded(listing: Listing)
+    func postNowButtonPressed(_ view: UIView)
 }
 
 final class ListingCell: UICollectionViewCell, ReusableCell {

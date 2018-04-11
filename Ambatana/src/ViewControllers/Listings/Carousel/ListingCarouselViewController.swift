@@ -237,7 +237,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         guard !didSetupAfterLayout else { return } // Already setup, just do nothing
 
         if let animator = animator {
-            if animator.toViewValidatedFrame || !animator.active {
+            if animator.toViewValidatedFrame {
                 setupAfterLayout(backgroundImage: animator.fromViewSnapshot, activeAnimator: animator.active)
             }
         } else {
@@ -269,6 +269,8 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         let startIndexPath = IndexPath(item: viewModel.startIndex, section: 0)
         collectionView.scrollToItem(at: startIndexPath, at: .right, animated: false)
 
+        chatTextView.setInitialText(LGLocalizedString.chatExpressTextFieldText)
+        
         setupMoreInfo()
         setupMoreInfoDragging()
         setupMoreInfoTooltip()
@@ -732,9 +734,6 @@ extension ListingCarouselViewController {
         viewModel.directChatPlaceholder.asObservable().bind { [weak self] placeholder in
             self?.chatTextView.placeholder = placeholder
             }.disposed(by: disposeBag)
-        if let productVM = viewModel.currentListingViewModel, !productVM.areQuickAnswersDynamic {
-            chatTextView.setInitialText(LGLocalizedString.chatExpressTextFieldText)
-        }
 
         viewModel.directChatEnabled.asObservable().bind { [weak self] enabled in
             self?.buttonBottomBottomConstraint.constant = enabled ? CarouselUI.itemsMargin : 0
@@ -742,8 +741,7 @@ extension ListingCarouselViewController {
             }.disposed(by: disposeBag)
 
         viewModel.quickAnswers.asObservable().bind { [weak self] quickAnswers in
-            let isDynamic = self?.viewModel.currentListingViewModel?.areQuickAnswersDynamic ?? false
-            self?.directAnswersView.update(answers: quickAnswers, isDynamic: isDynamic)
+            self?.directAnswersView.update(answers: quickAnswers)
             }.disposed(by: disposeBag)
 
         viewModel.directChatMessages.changesObservable.bind { [weak self] change in
@@ -1234,18 +1232,9 @@ extension ListingCarouselViewController: UITableViewDataSource, UITableViewDeleg
         return cell
     }
 
-    func directAnswersHorizontalViewDidSelect(answer: QuickAnswer, index: Int) {
-        if let productVM = viewModel.currentListingViewModel, productVM.showKeyboardWhenQuickAnswer {
-            chatTextView.setText(answer.text)
-        } else {
-            viewModel.send(quickAnswer: answer)
-        }
-
-        if let productVM = viewModel.currentListingViewModel, productVM.areQuickAnswersDynamic {
-            viewModel.moveQuickAnswerToTheEnd(index)
-        }
+    func directAnswersHorizontalViewDidSelect(answer: QuickAnswer) {
+        viewModel.send(quickAnswer: answer)
     }
-
 }
 
 

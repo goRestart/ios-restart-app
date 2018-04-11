@@ -91,15 +91,6 @@ extension UIView {
         layer.shadowOpacity = 0.3
     }
 
-    func applyInfoBubbleShadow() {
-        layer.cornerRadius = 15
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowRadius = 15
-        layer.shadowOffset = CGSize(width: 0.0, height: 0.0)
-        layer.shadowOpacity = 0.12
-        layer.shadowRadius = 8.0
-    }
-
     func applyShadow(withOpacity opacity: Float, radius: CGFloat, color: CGColor? = UIColor.black.cgColor) {
         layer.shadowColor = color
         layer.shadowOffset = CGSize(width: 0, height: 0)

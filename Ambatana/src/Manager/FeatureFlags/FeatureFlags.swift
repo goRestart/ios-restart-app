@@ -35,7 +35,6 @@ protocol FeatureFlaggeable: class {
     var freeBumpUpEnabled: Bool { get }
     var pricedBumpUpEnabled: Bool { get }
     var userReviewsReportEnabled: Bool { get }
-    var dynamicQuickAnswers: DynamicQuickAnswers { get }
     var searchAutocomplete: SearchAutocomplete { get }
     var realEstateEnabled: RealEstateEnabled { get }
     var requestTimeOut: RequestsTimeOut { get }
@@ -50,9 +49,7 @@ protocol FeatureFlaggeable: class {
     var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
     var showInactiveConversations: Bool { get }
     var increaseMinPriceBumps: IncreaseMinPriceBumps { get }
-    var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage { get }
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers { get }
-    var emojiSizeIncrement: EmojiSizeIncrement { get }
     var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings { get }
     var newUserProfileView: NewUserProfileView { get }
     var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation { get }
@@ -66,12 +63,14 @@ protocol FeatureFlaggeable: class {
     var servicesCategoryEnabled: ServicesCategoryEnabled { get }
     var increaseNumberOfPictures: IncreaseNumberOfPictures { get }
     var realEstateTutorial: RealEstateTutorial { get }
+    var realEstatePromoCell: RealEstatePromoCell { get }
     var machineLearningMVP: MachineLearningMVP { get }
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings { get }
     var markAllConversationsAsRead: Bool { get }
     var showProTagUserProfile: Bool { get }
     var summaryAsFirstStep: SummaryAsFirstStep { get }
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem { get }
+    var searchCarsIntoNewBackend: SearchCarsIntoNewBackend { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -90,6 +89,7 @@ protocol FeatureFlaggeable: class {
     var feedMoPubAdUnitId: String? { get }
     var shouldChangeChatNowCopyInEnglish: Bool { get }
     var copyForChatNowInEnglish: CopyForChatNowInEnglish { get }
+    var feedAdsProviderForTR:  FeedAdsProviderForTR { get }
     
 }
 
@@ -271,6 +271,10 @@ extension RealEstateTutorial {
     var isActive: Bool { return self != .baseline && self != .control }
 }
 
+extension RealEstatePromoCell {
+    var isActive: Bool { return self == .active }
+}
+
 extension MachineLearningMVP {
     var isActive: Bool { get { return self == .active } }
 }
@@ -309,6 +313,35 @@ extension FeedAdsProviderForUS {
     }
 }
 
+extension FeedAdsProviderForTR {
+    private var shouldShowAdsInFeedForNewUsers: Bool {
+        return self == .moPubAdsForAllUsers
+    }
+    private var shouldShowAdsInFeedForOldUsers: Bool {
+        return self == .moPubAdsForOldUsers || self == .moPubAdsForAllUsers
+    }
+    
+    var shouldShowAdsInFeed: Bool {
+        return  shouldShowAdsInFeedForNewUsers || shouldShowAdsInFeedForOldUsers
+    }
+    
+    var shouldShowMoPubAds : Bool {
+        return self == .moPubAdsForOldUsers || self == .moPubAdsForAllUsers
+    }
+    
+    func shouldShowAdsInFeedForUser(createdIn: Date?) -> Bool {
+        guard let creationDate = createdIn else { return shouldShowAdsInFeedForOldUsers }
+        if creationDate.isNewerThan(Constants.newUserTimeThresholdForAds) {
+            return shouldShowAdsInFeedForNewUsers
+        } else {
+            return shouldShowAdsInFeedForOldUsers
+        }
+    }
+}
+
+extension SearchCarsIntoNewBackend {
+    var isActive: Bool { return self == .active }
+}
 
 extension CopyForChatNowInEnglish {
     var isActive: Bool { get { return self != .control } }
@@ -437,13 +470,6 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return abTests.userReviewsReportEnabled.value
     }
-
-    var dynamicQuickAnswers: DynamicQuickAnswers {
-        if Bumper.enabled {
-            return Bumper.dynamicQuickAnswers
-        }
-        return DynamicQuickAnswers.fromPosition(abTests.dynamicQuickAnswers.value)
-    }
     
     var searchAutocomplete: SearchAutocomplete {
         if Bumper.enabled {
@@ -536,25 +562,11 @@ class FeatureFlags: FeatureFlaggeable {
         return IncreaseMinPriceBumps.fromPosition(abTests.increaseMinPriceBumps.value)
     }
     
-    var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage {
-        if Bumper.enabled {
-            return Bumper.showSecurityMeetingChatMessage
-        }
-        return ShowSecurityMeetingChatMessage.fromPosition(abTests.showSecurityMeetingChatMessage.value)
-    }
-
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers {
         if Bumper.enabled {
             return Bumper.noAdsInFeedForNewUsers
         }
         return NoAdsInFeedForNewUsers.fromPosition(abTests.noAdsInFeedForNewUsers.value)
-    }
-    
-    var emojiSizeIncrement: EmojiSizeIncrement {
-        if Bumper.enabled {
-            return Bumper.emojiSizeIncrement
-        }
-        return EmojiSizeIncrement.fromPosition(abTests.emojiSizeIncrement.value)
     }
 
     var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings {
@@ -604,6 +616,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.realEstateTutorial
         }
         return RealEstateTutorial.fromPosition(abTests.realEstateTutorial.value)
+    }
+    
+    var realEstatePromoCell: RealEstatePromoCell {
+        if Bumper.enabled {
+            return Bumper.realEstatePromoCell
+        }
+        return RealEstatePromoCell.fromPosition(abTests.realEstatePromoCell.value)
     }
     
     var machineLearningMVP: MachineLearningMVP {
@@ -691,7 +710,15 @@ class FeatureFlags: FeatureFlaggeable {
         let cached = dao.retrieveShowAdvanceReputationSystem()
         return cached ?? ShowAdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value)
     }
-
+    
+    var searchCarsIntoNewBackend: SearchCarsIntoNewBackend {
+        if Bumper.enabled {
+            return Bumper.searchCarsIntoNewBackend
+        }
+        return SearchCarsIntoNewBackend.fromPosition(abTests.searchCarsIntoNewBackend.value)
+    }
+    
+    
 
     
     // MARK: - Country features
@@ -888,6 +915,16 @@ class FeatureFlags: FeatureFlaggeable {
             default:
                 return nil
             }
+        case .turkey?:
+            switch feedAdsProviderForTR {
+            case .moPubAdsForAllUsers:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubTRForAllUsers
+            case .moPubAdsForOldUsers:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubTRForOldUsers
+            default:
+                return nil
+            }
+            
         default:
             return nil
         }
@@ -910,6 +947,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.copyForChatNowInEnglish
         }
         return CopyForChatNowInEnglish.fromPosition(abTests.copyForChatNowInEnglish.value)
+    }
+    
+    var feedAdsProviderForTR: FeedAdsProviderForTR {
+        if Bumper.enabled {
+            return Bumper.feedAdsProviderForTR
+        }
+        return FeedAdsProviderForTR.fromPosition(abTests.feedAdsProviderForTR.value)
     }
 
     // MARK: - Private

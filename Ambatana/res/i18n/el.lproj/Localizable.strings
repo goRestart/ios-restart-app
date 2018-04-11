@@ -19,7 +19,7 @@
 "bump_up_banner_pay_text" = "Προωθήστε για να πουλάτε γρηγορότερα";
 "bump_up_banner_pay_text_improvement" = "Πουλήστε τώρα γρηγορότερα";
 "bump_up_banner_wait_text" = "για να προωθήσετε ξανά";
-"bump_up_boost_success_alert_text" = "Η καταχώρησή σας προωθήθηκε ξανά! Θα είναι προωθημένη για τις επόμενες 24 ώρες.";
+"bump_up_boost_success_alert_text" = "Η καταχώρησή σας προωθήθηκε! Θα προωθείται για τις επόμενες 24 ώρες.";
 "bump_up_error_bump_generic" = "Παρουσιάστηκε σφάλμα κατά την προώθηση της καταχώρησής σας. Παρακαλώ δοκιμάστε ξανά.";
 "bump_up_error_bump_token" = "Η πληρωμή σας έχει προχωρήσει, αλλά η καταχώρησή σας δεν έχει προωθηθεί.";
 "bump_up_error_payment_failed" = "Η σύνδεση στο App Store απέτυχε. Η πληρωμή σας δεν έχει προχωρήσει. Παρακαλώ δοκιμάστε ξανά.";
@@ -810,6 +810,9 @@
 "profile_sold_no_products_label" = "ΚΑΜΙΑ ΚΑΤΑΧΩΡΗΣΗ (ΑΚΟΜΗ!)";
 "profile_sold_other_no_products_button" = "Συνεχίστε την πλοήγηση";
 "profile_sold_products_tab" = "Πωλήθηκαν";
+"profile_verifications_email_placeholder" = "Email";
+"profile_verifications_email_view_title" = "Verify your Email";
+"profile_verifications_send_button" = "Αποστολή";
 "profile_verifications_view_add_info_section_title" = "ΠΡΟΣΘΉΚΗ";
 "profile_verifications_view_bio_title" = "Βιογραφικού";
 "profile_verifications_view_email_title" = "Email";

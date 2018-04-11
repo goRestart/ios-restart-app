@@ -15,6 +15,7 @@ extension MockMyUser: MockFactory {
                           location: LGLocation?.makeMock(),
                           localeIdentifier: String?.makeRandom(),
                           creationDate: Date?.makeRandom(),
-                          biography: String?.makeRandom())
+                          biography: String?.makeRandom(),
+                          reputationPoints: Int.makeRandom())
     }
 }

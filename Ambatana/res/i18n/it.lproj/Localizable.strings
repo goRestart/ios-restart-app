@@ -19,7 +19,7 @@
 "bump_up_banner_pay_text" = "Vendi subito più rapidamente";
 "bump_up_banner_pay_text_improvement" = "Vendi più rapidamente";
 "bump_up_banner_wait_text" = "per promuovere di nuovo";
-"bump_up_boost_success_alert_text" = "Il tuo annuncio è stato promosso di nuovo! Resterà sponsorizzato per le prossime 24 ore.";
+"bump_up_boost_success_alert_text" = "Il tuo annuncio è stato promosso! Resterà sponsorizzato per le prossime 24 ore.";
 "bump_up_error_bump_generic" = "Si è verificato un errore durante il tentativo di sponsorizzare l'annuncio. Riprova.";
 "bump_up_error_bump_token" = "Il pagamento è stato elaborato, ma l'annuncio non è ancora stato sponsorizzato.";
 "bump_up_error_payment_failed" = "Impossibile connettersi all'App Store. Il tuo pagamento non è andato a buon fine. Riprova.";
@@ -810,6 +810,9 @@
 "profile_sold_no_products_label" = "ANCORA NESSUN ANNUNCIO!";
 "profile_sold_other_no_products_button" = "Continua la consultazione";
 "profile_sold_products_tab" = "Venduto";
+"profile_verifications_email_placeholder" = "Email";
+"profile_verifications_email_view_title" = "Verify your Email";
+"profile_verifications_send_button" = "Invia";
 "profile_verifications_view_add_info_section_title" = "AGGIUNGI IL TUO";
 "profile_verifications_view_bio_title" = "Bio";
 "profile_verifications_view_email_title" = "Email";
