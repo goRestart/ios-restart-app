@@ -56,7 +56,9 @@ def launchUnitTests(){
 	    sh 'export LC_ALL=en_US.UTF-8'
 	    // we add an || true in case there are no simulators available to avoid job to fail
 	    sh 'killall "Simulator" || true'  
-    	    sh 'fastlane ciJenkins'
+    	withCredentials([usernamePassword(credentialsId: 'fc7205d5-6635-441c-943e-d40b5030df0f', passwordVariable: 'LG_GITHUB_PASSWORD', usernameVariable: 'LG_GITHUB_USER')]) {
+        sh 'fastlane ciJenkins'
+      }
     }
   }
 }
