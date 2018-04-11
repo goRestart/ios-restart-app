@@ -84,7 +84,6 @@ final class UserPhoneVerificationNumberInputViewController: BaseViewController {
     }
 
     private func setupCountryButtonUI () {
-        countryButton.setTitle("United States", for: .normal) // FIXME: bind data
         countryButton.setTitleColor(.blackText, for: .normal)
         countryButton.contentHorizontalAlignment = .left
         countryButton.titleLabel?.font = .smsVerificationPhoneInputBigText
@@ -92,7 +91,6 @@ final class UserPhoneVerificationNumberInputViewController: BaseViewController {
     }
 
     private func setupCountryCodeLabelUI () {
-        countryCodeLabel.text = "+0" // FIXME: bind data
         countryCodeLabel.font = .smsVerificationPhoneInputBigText
         countryCodeLabel.textColor = .blackText
     }
@@ -173,15 +171,17 @@ final class UserPhoneVerificationNumberInputViewController: BaseViewController {
 
         viewModel
             .country
+            .asDriver()
             .drive(onNext: { [weak self] country in
                 guard let country = country else { return }
                 self?.countryButton.setTitle(country.name, for: .normal)
-                self?.countryCodeLabel.text = "+\(country.code)"
+                self?.countryCodeLabel.text = "+\(country.callingCode)"
             })
             .disposed(by: disposeBag)
 
         viewModel
             .isContinueActionEnabled
+            .asDriver()
             .drive(onNext: { [weak self] isEnabled in
                 self?.continueButton.alpha = isEnabled ? 1 : Layout.continueButtonDisabledOpacity
                 self?.continueButton.isUserInteractionEnabled = isEnabled
