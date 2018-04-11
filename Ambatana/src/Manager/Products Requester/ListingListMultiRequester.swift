@@ -26,7 +26,12 @@ class ListingListMultiRequester {
     var isUsingLastRequester: Bool {
         return currentIndex == requestersArray.count-1
     }
-
+    
+    var isFirstPageInLastRequester: Bool {
+        let currentRequester = requestersArray.object(safeAt: currentIndex)
+        let isFirstPage = currentRequester?.isFirstPage ?? false
+        return isFirstPage && isUsingLastRequester
+    }
 
     // MARK: - Lifecycle
 
@@ -47,6 +52,11 @@ class ListingListMultiRequester {
 }
 
 extension ListingListMultiRequester: ListingListRequester {
+
+    var isFirstPage: Bool {
+        return multiIsFirstPage
+    }
+    
     func canRetrieve() -> Bool {
         guard let activeRequester = activeRequester else { return false }
         return activeRequester.canRetrieve()

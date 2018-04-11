@@ -275,6 +275,9 @@ class MainListingsViewModel: BaseViewModel {
         return myUserRepository.myUser?.name
     }
     
+    private var isRealEstateSearch: Bool {
+        return filters.selectedCategories == [.realEstate]
+    }
     
     fileprivate let disposeBag = DisposeBag()
     
@@ -320,6 +323,7 @@ class MainListingsViewModel: BaseViewModel {
         super.init()
 
         self.listViewModel.listingCellDelegate = self
+        
         setup()
     }
     
@@ -784,7 +788,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                 let errTitle: String?
                 let errBody: String?
                 
-                let isRealEstateSearch = filters.selectedCategories == [.realEstate]
+                
                 // Search
                 if queryString != nil || hasFilters {
                     errImage = UIImage(named: "err_search_no_products")
@@ -860,6 +864,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         var totalListings = listings
         totalListings = addMostSearchedItems(to: totalListings)
         totalListings = addCollections(to: totalListings, page: page)
+        totalListings = addRealEstatePromoItem(to: totalListings)
         let myUserCreationDate: Date? = myUserRepository.myUser?.creationDate
         if featureFlags.showAdsInFeedWithRatio.isActive &&
             (featureFlags.feedAdsProviderForUS.shouldShowAdsInFeedForUser(createdIn: myUserCreationDate) ||
@@ -981,6 +986,18 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             let mostSearchedItemsModel = ListingCellModel.mostSearchedItems(data: MostSearchedItemsCardData())
             cellModels.insert(mostSearchedItemsModel, at: mostSearchedItemsCellPosition)
         }
+        return cellModels
+    }
+    
+    private func addRealEstatePromoItem(to listings: [ListingCellModel]) -> [ListingCellModel] {
+        guard featureFlags.realEstatePromoCell.isActive, isRealEstateSearch, !listings.isEmpty
+            else { return listings }
+        
+        guard (!filters.hasAnyRealEstateAttributes && listingListRequester.multiIsFirstPage) ||
+        (filters.hasAnyRealEstateAttributes && listingListRequester.isFirstPageInLastRequester) else { return listings }
+        
+        var cellModels = listings
+        cellModels.insert(ListingCellModel.promo(data: PromoCellConfiguration.randomCellData,  delegate: self), at: 0)
         return cellModels
     }
 
@@ -1269,14 +1286,16 @@ extension MainListingsViewModel {
     }
     
     @objc fileprivate dynamic func updateRealEstateBanner() {
-        var currentHeader = mainListingsHeader.value
-        if showRealEstateBanner {
-            currentHeader.insert(MainListingsHeader.RealEstateBanner)
-        } else {
-            currentHeader.remove(MainListingsHeader.RealEstateBanner)
+        if !featureFlags.realEstatePromoCell.isActive {
+            var currentHeader = mainListingsHeader.value
+            if showRealEstateBanner {
+                currentHeader.insert(MainListingsHeader.RealEstateBanner)
+            } else {
+                currentHeader.remove(MainListingsHeader.RealEstateBanner)
+            }
+            guard mainListingsHeader.value != currentHeader else { return }
+            mainListingsHeader.value = currentHeader
         }
-        guard mainListingsHeader.value != currentHeader else { return }
-        mainListingsHeader.value = currentHeader
     }
     
     @objc fileprivate dynamic func updateCategoriesHeader() {
@@ -1499,6 +1518,11 @@ extension MainListingsViewModel: ListingCellDelegate {
     
     // Discarded listings are never shown in the main feed
     func moreOptionsPressedForDiscarded(listing: Listing) {}
+    
+    func postNowButtonPressed(_ view: UIView) {
+        navigator?.openSell(source: .realEstatePromo, postCategory: .realEstate)
+    }
+    
 }
 
 extension NoAdsInFeedForNewUsers {

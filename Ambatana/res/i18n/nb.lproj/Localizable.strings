@@ -19,7 +19,7 @@
 "bump_up_banner_pay_text" = "Selg raskere nå";
 "bump_up_banner_pay_text_improvement" = "Selg raskere nå";
 "bump_up_banner_wait_text" = "for å promotere på nytt";
-"bump_up_boost_success_alert_text" = "Din annonse ble promotert igjen! Den promoteres i de neste 24 timene.";
+"bump_up_boost_success_alert_text" = "Din annonse ble fremhevet! Den promoteres i de neste 24 timene.";
 "bump_up_error_bump_generic" = "En feil oppstod ved promotering av din annonse. Vennligst prøv igjen.";
 "bump_up_error_bump_token" = "Din betaling er behandlet, men din annonse er ikke promotert enda.";
 "bump_up_error_payment_failed" = "Kunne ikke koble til App Store. Din betaling har ikke blitt prosessert. Vennligst prøv igjen.";
@@ -810,6 +810,9 @@
 "profile_sold_no_products_label" = "INGEN ANNONSER (ENDA!)";
 "profile_sold_other_no_products_button" = "Fortsett å bla i produktene";
 "profile_sold_products_tab" = "Solgt";
+"profile_verifications_email_placeholder" = "E-post";
+"profile_verifications_email_view_title" = "Verify your Email";
+"profile_verifications_send_button" = "Send";
 "profile_verifications_view_add_info_section_title" = "LEGG TIL DIN";
 "profile_verifications_view_bio_title" = "Biografi";
 "profile_verifications_view_email_title" = "E-post";
