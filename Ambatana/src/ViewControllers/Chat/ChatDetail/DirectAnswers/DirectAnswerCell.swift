@@ -14,38 +14,27 @@ class DirectAnswerCell: UICollectionViewCell, ReusableCell {
 
     @IBOutlet weak var cellIcon: UIImageView!
     @IBOutlet weak var cellText: UILabel!
-    @IBOutlet weak var arrowWhiteImageView: UIImageView?
+
     @IBOutlet weak var cellIconWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var cellIconMarginConstraint: NSLayoutConstraint!
 
     static let cellHeight: CGFloat = 32
-    static let arrowWidth: CGFloat = 8
-    static let arrowHorizontalMargin: CGFloat = 8
     static let calendarWidth: CGFloat = 15
     static let calendarHorizontalMargin: CGFloat = 5
-    
-    fileprivate var isDynamic = false
 
     fileprivate var quickAnswer: QuickAnswer?
 
-    static func sizeForDirectAnswer(_ quickAnswer: QuickAnswer?, isDynamic: Bool) -> CGSize {
-        guard let answer = quickAnswer else { return CGSize.zero }
+    static func sizeForDirectAnswer(_ quickAnswer: QuickAnswer) -> CGSize {
         let constraintRect = CGSize(width: CGFloat.greatestFiniteMagnitude, height: DirectAnswerCell.cellHeight)
-        guard let text = isDynamic ? answer.title : answer.text else { return CGSize.zero }
-        let boundingBox = text.boundingRect(with: constraintRect,
-            options: NSStringDrawingOptions.usesFontLeading,
-            attributes: [NSAttributedStringKey.font: UIFont.mediumBodyFont], context: nil)
-    
-        var width = boundingBox.width+20
-        if isDynamic {
-            width += DirectAnswerCell.arrowWidth + DirectAnswerCell.arrowHorizontalMargin
-        }
-        if answer.isMeetingAssistant {
+        let boundingBox = quickAnswer.text.boundingRect(with: constraintRect,
+                                                        options: NSStringDrawingOptions.usesFontLeading,
+                                                        attributes: [NSAttributedStringKey.font: UIFont.mediumBodyFont],
+                                                        context: nil)
+        var width = boundingBox.width + Metrics.shortMargin*2
+        if quickAnswer.isMeetingAssistant {
             width += DirectAnswerCell.calendarWidth + DirectAnswerCell.calendarHorizontalMargin
         }
-        let height = DirectAnswerCell.cellHeight
-        
-        return CGSize(width: width, height: height)
+        return CGSize(width: width, height: DirectAnswerCell.cellHeight)
     }
 
     override var isHighlighted: Bool {
@@ -77,21 +66,14 @@ class DirectAnswerCell: UICollectionViewCell, ReusableCell {
 
     // MARK: - Public methods
 
-    func setupWithDirectAnswer(_ quickAnswer: QuickAnswer?, isDynamic: Bool) {
-        guard let answer = quickAnswer else { return }
-        self.quickAnswer = answer
-        self.isDynamic = isDynamic
-        if isDynamic {
-            cellText.text = answer.title
-        } else {
-            cellText.text = answer.text
-            arrowWhiteImageView?.removeFromSuperview()
-        }
-        contentView.layer.backgroundColor = answer.bgColor.cgColor
-        cellText.textColor = answer.textColor
-        cellIcon.tintColor = answer.iconTintColor
+    func setupWithDirectAnswer(_ quickAnswer: QuickAnswer) {
+        cellText.text = quickAnswer.text
 
-        if let icon = answer.icon {
+        contentView.layer.backgroundColor = quickAnswer.bgColor.cgColor
+        cellText.textColor = quickAnswer.textColor
+        cellIcon.tintColor = quickAnswer.iconTintColor
+
+        if let icon = quickAnswer.icon {
             cellIcon.isHidden = false
             cellIcon.image = icon
             cellIconWidthConstraint.constant = DirectAnswerCell.calendarWidth
@@ -117,7 +99,6 @@ class DirectAnswerCell: UICollectionViewCell, ReusableCell {
     }
 
     private func refreshBckgState() {
-        guard !isDynamic else { return } // Preventing UI bug: after moving item index in the collection, another cell gets highlighted
         guard let answer = quickAnswer, !answer.isMeetingAssistant else { return }
         let highlighedState = self.isHighlighted || self.isSelected
         contentView.layer.backgroundColor = highlighedState ? UIColor.primaryColorHighlighted.cgColor :

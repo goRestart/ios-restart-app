@@ -190,6 +190,52 @@ class MainListingsViewModelSpec: QuickSpec {
                         expect(eventParams?.stringKeyParams["feed-source"] as? String) == "collection"
                     }
                 }
+                
+                context("with filter real estate") {
+                    var listings: [ListingCellModel]!
+                    var totalListings: [ListingCellModel]?
+                    beforeEach {
+                        var userFilters = ListingFilters()
+                        userFilters.selectedCategories = [.realEstate]
+                        let searchType: SearchType? = nil
+                        listings = MockProduct.makeMocks(count: 20).map { ListingCellModel.listingCell(listing: .product($0)) }
+                        sut = MainListingsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, searchRepository: Core.searchRepository, listingRepository: Core.listingRepository, monetizationRepository: Core.monetizationRepository, categoryRepository: Core.categoryRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: mockTracker, searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags, bubbleTextGenerator: DistanceBubbleTextGenerator())
+                    }
+                    
+                    context("receives listing page with promo cell not active") {
+                        beforeEach {
+                            totalListings = sut.vmProcessReceivedListingPage(listings, page: 0)
+                        }
+                        
+                        it("first cell is not promo") {
+                            expect({
+                                guard let firstListing = totalListings?.first,
+                                    case .promo = firstListing else {
+                                        return .succeeded
+                                }
+                                return .failed(reason: "wrong cell type")
+                            }).to(succeed())
+                        }
+                    }
+                    
+                    context("receives listing page with promo cell active") {
+                        beforeEach {
+                            mockFeatureFlags.realEstatePromoCell = .active
+                            totalListings = sut.vmProcessReceivedListingPage(listings, page: 0)
+                        }
+                        
+                        it("first cell is promo") {
+                            expect({
+                                guard let firstListing = totalListings?.first,
+                                    case .promo = firstListing else {
+                                    return .failed(reason: "wrong cell type")
+                                }
+                                return .succeeded
+                            }).to(succeed())
+                        }
+                    }
+                    
+                }
             }
             context("Product list VM failed retrieving products") {
                 var mockTracker: MockTracker!

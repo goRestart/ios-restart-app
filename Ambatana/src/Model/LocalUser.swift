@@ -25,9 +25,8 @@ struct LocalUser: User, UserListing {
 
     let phone: String?
     let type: UserType
-    var biography: String?
-    var reputationPoints: Int
-
+    let biography: String?
+    let reputationPoints: Int
 
     init(objectId: String?, name: String?, avatar: File?, postalAddress: PostalAddress, status: UserStatus,
          isDummy: Bool, banned: Bool?, phone: String?, type: UserType?, biography: String?, reputationPoints: Int) {

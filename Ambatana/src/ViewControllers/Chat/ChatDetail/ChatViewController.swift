@@ -38,7 +38,6 @@ final class ChatViewController: TextViewController {
     var professionalSellerBannerTopConstraint: NSLayoutConstraint = NSLayoutConstraint()
     var featureFlags: FeatureFlaggeable
     var pushPermissionManager: PushPermissionsManager
-    var selectedQuickAnswer: QuickAnswer?
 
     var blockedToastOffset: CGFloat {
         return relationInfoView.isHidden ? 0 : RelationInfoView.defaultHeight
@@ -146,11 +145,7 @@ final class ChatViewController: TextViewController {
     
     override func sendButtonPressed() {
         guard let message = textView.text else { return }
-        if let quickAnswer = selectedQuickAnswer, message == quickAnswer.text {
-            viewModel.send(quickAnswer: quickAnswer)
-        } else {
-            viewModel.send(text: message)
-        }
+        viewModel.send(text: message)
     }
 
     /**
@@ -263,7 +258,7 @@ final class ChatViewController: TextViewController {
     fileprivate func setupDirectAnswers() {
         directAnswersPresenter.hidden = viewModel.directAnswersState.value != .visible
         directAnswersPresenter.setupOnTopOfView(relatedListingsView)
-        directAnswersPresenter.setDirectAnswers(viewModel.directAnswers, isDynamic: viewModel.areQuickAnswersDynamic)
+        directAnswersPresenter.setDirectAnswers(viewModel.directAnswers)
         directAnswersPresenter.delegate = viewModel
     }
 
@@ -674,15 +669,6 @@ extension ChatViewController: ChatViewModelDelegate {
         alert.addAction(cancelAction)
 
         present(alert, animated: true, completion: nil)
-    }
-
-
-    // MARK: > Direct answers
-    
-    func vmDidPressDirectAnswer(quickAnswer: QuickAnswer) {
-        selectedQuickAnswer = quickAnswer
-        textView.text = quickAnswer.text
-        textView.becomeFirstResponder()
     }
 }
 

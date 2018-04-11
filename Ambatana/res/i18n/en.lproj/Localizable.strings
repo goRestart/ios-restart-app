@@ -1393,7 +1393,7 @@
 "main_products_invite_navigation_bar_button" = "Invite";
 
 // Title for meeting creation view
-"meeting_creation_view_title" = "Schedule a meetup";
+"meeting_creation_view_title" = "Schedule a meeting";
 
 // place header for meeting creation view
 "meeting_creation_view_place" = "PLACE";
@@ -2510,6 +2510,15 @@
 
 // cell explaining that marking items as sold, increases Karma score
 "profile_verifications_view_mark_as_sold_subtitle" = "+2 pts each (up to 10 pts)";
+
+// Title of the view to verify the email. The user can write its email to send a verification link
+"profile_verifications_email_view_title" = "Verify your Email";
+
+// Placeholder for the enter email field
+"profile_verifications_email_placeholder" = "Email";
+
+// Button to confirm email and send a verification link
+"profile_verifications_send_button" = "Send";
 
 // Disclaimer text telling the user this section is only visibile to him/her
 "profile_karma_visibility_title" = "Only visible to you";

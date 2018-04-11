@@ -124,8 +124,8 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
         textView.clear()
     }
 
-    func updateDirectChatWith(answers: [[QuickAnswer]], isDynamic: Bool) {
-        directAnswersView.update(answers: answers, isDynamic: isDynamic)
+    func updateDirectChatWith(answers: [QuickAnswer]) {
+        directAnswersView.update(answers: answers)
     }
 
     func handleChatChange(_ change: CollectionChange<ChatViewMessage>) {
@@ -213,6 +213,7 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
         textViewBottom?.isActive = true
         textView.setContentCompressionResistancePriority(.required, for: .vertical)
         textView.backgroundColor = .clear
+        setInitialText(LGLocalizedString.chatExpressTextFieldText)
     }
 
     private func setupDirectAnswers() {

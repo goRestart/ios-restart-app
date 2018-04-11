@@ -35,7 +35,6 @@ protocol FeatureFlaggeable: class {
     var freeBumpUpEnabled: Bool { get }
     var pricedBumpUpEnabled: Bool { get }
     var userReviewsReportEnabled: Bool { get }
-    var dynamicQuickAnswers: DynamicQuickAnswers { get }
     var searchAutocomplete: SearchAutocomplete { get }
     var realEstateEnabled: RealEstateEnabled { get }
     var requestTimeOut: RequestsTimeOut { get }
@@ -64,6 +63,7 @@ protocol FeatureFlaggeable: class {
     var servicesCategoryEnabled: ServicesCategoryEnabled { get }
     var increaseNumberOfPictures: IncreaseNumberOfPictures { get }
     var realEstateTutorial: RealEstateTutorial { get }
+    var realEstatePromoCell: RealEstatePromoCell { get }
     var machineLearningMVP: MachineLearningMVP { get }
     var chatNorris: ChatNorris { get }
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings { get }
@@ -257,6 +257,10 @@ extension NewUserProfileView {
 
 extension RealEstateTutorial {
     var isActive: Bool { return self != .baseline && self != .control }
+}
+
+extension RealEstatePromoCell {
+    var isActive: Bool { return self == .active }
 }
 
 extension MachineLearningMVP {
@@ -458,13 +462,6 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return abTests.userReviewsReportEnabled.value
     }
-
-    var dynamicQuickAnswers: DynamicQuickAnswers {
-        if Bumper.enabled {
-            return Bumper.dynamicQuickAnswers
-        }
-        return DynamicQuickAnswers.fromPosition(abTests.dynamicQuickAnswers.value)
-    }
     
     var searchAutocomplete: SearchAutocomplete {
         if Bumper.enabled {
@@ -613,6 +610,13 @@ class FeatureFlags: FeatureFlaggeable {
         return RealEstateTutorial.fromPosition(abTests.realEstateTutorial.value)
     }
     
+    var realEstatePromoCell: RealEstatePromoCell {
+        if Bumper.enabled {
+            return Bumper.realEstatePromoCell
+        }
+        return RealEstatePromoCell.fromPosition(abTests.realEstatePromoCell.value)
+    }
+    
     var machineLearningMVP: MachineLearningMVP {
         if Bumper.enabled {
             return Bumper.machineLearningMVP
@@ -705,6 +709,8 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return SearchCarsIntoNewBackend.fromPosition(abTests.searchCarsIntoNewBackend.value)
     }
+    
+    
 
     
     // MARK: - Country features

@@ -12,6 +12,8 @@ import LGCoreKit
 import Result
 
 class MockListingListRequester: ListingListRequester {
+    
+    var isFirstPage: Bool = true
     var itemsPerPage: Int
     var offset: Int
     var canRetrieveItems: Bool
@@ -47,6 +49,7 @@ class MockListingListRequester: ListingListRequester {
 
     func retrieveNextPage(_ completion: ListingsRequesterCompletion?) {
         var nextPageItems: [Listing] = []
+        isFirstPage = false
         for i in offset..<offset+itemsPerPage {
             if i < items.count {
                 nextPageItems.append(.product(items[i]))

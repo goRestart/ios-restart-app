@@ -37,74 +37,73 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     // ViewModel
     var viewModel: MainListingsViewModel
     
-    let listingListView = ListingListView()
+    // MARK: - Subviews
+    private let listingListView = ListingListView()
+    private let filterDescriptionHeaderView = FilterDescriptionHeaderView()
+    private let filterTitleHeaderView = FilterTitleHeaderView()
+    private let infoBubbleView = InfoBubbleView()
+    private let navbarSearch: LGNavBarSearchField
+    private var trendingSearchView = TrendingSearchView()
+    private var filterTagsView = FilterTagsView()
     
-    @IBOutlet weak var tagsContainerView: UIView!
-    @IBOutlet weak var tagsContainerViewHeightConstraint: NSLayoutConstraint!
+    private let tagsContainerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .grayBackground
+        view.isHidden = true
+        return view
+    }()
     
-    @IBOutlet weak var filterDescriptionHeaderViewContainer: UIView!
-    @IBOutlet weak var filterTitleHeaderViewContainer: UIView!
-    fileprivate let filterDescriptionHeaderView = FilterDescriptionHeaderView()
-    fileprivate let filterTitleHeaderView = FilterTitleHeaderView()
-    @IBOutlet weak var filterDescriptionTopConstraint: NSLayoutConstraint!
+    private let statusTopView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
+    }()
+    
 
-    fileprivate let infoBubbleTopMargin: CGFloat = 8
-    fileprivate let sectionHeight: CGFloat = 40
-    fileprivate let firstSectionMarginTop: CGFloat = -36
+    // MARK: - Constraints
+    
+    private var filterDescriptionTopConstraint: NSLayoutConstraint?
+    private var tagsContainerHeightConstraint: NSLayoutConstraint?
+    private var infoBubbleTopConstraint: NSLayoutConstraint?
 
-    @IBOutlet weak var infoBubbleLabel: UILabel!
-    @IBOutlet weak var infoBubbleShadow: UIView!
-    @IBOutlet weak var infoBubbleArrow: UIImageView!
-    @IBOutlet weak var infoBubbleArrowLeadingConstraint: NSLayoutConstraint!
-    @IBOutlet weak var infoBubbleArrowWidthConstraint: NSLayoutConstraint!
-    @IBOutlet weak var infoBubbleTopConstraint: NSLayoutConstraint!
-    
-    fileprivate let navbarSearch: LGNavBarSearchField
-    @IBOutlet weak var suggestionsSearchesContainer: UIVisualEffectView!
-    @IBOutlet weak var suggestionsSearchesTable: UITableView!
-    
-    private var filterTagsView: FilterTagsView?
     private var primaryTagsShowing: Bool = false
     private var secondaryTagsShowing: Bool = false
 
     private let topInset = Variable<CGFloat>(0)
 
-    fileprivate let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
-    fileprivate var categoriesHeader: CategoriesHeaderCollectionView?
+    private var categoriesHeader: CategoriesHeaderCollectionView?
 
-    fileprivate var filterTagsViewHeight: CGFloat {
+    private var filterTagsViewHeight: CGFloat {
         if viewModel.secondaryTags.isEmpty || viewModel.filters.selectedTaxonomyChildren.count > 0 {
             return FilterTagsView.collectionViewHeight
         } else {
             return FilterTagsView.collectionViewHeight * 2
         }
     }
-    fileprivate var filterHeadersHeight: CGFloat {
+    private var filterHeadersHeight: CGFloat {
         return filterDescriptionHeaderView.height + filterTitleHeaderView.height
     }
-    fileprivate var topHeadersHeight: CGFloat {
+    private var topHeadersHeight: CGFloat {
         return filterHeadersHeight + tagsContainerView.height
     }
-    fileprivate var collectionViewHeadersHeight: CGFloat {
+    private var collectionViewHeadersHeight: CGFloat {
         return listingListView.headerDelegate?.totalHeaderHeight() ?? 0
     }
     
     // MARK: - Lifecycle
 
-    convenience init(viewModel: MainListingsViewModel) {
-        self.init(viewModel: viewModel, nibName: "MainListingsViewController")
-    }
-    
-    required init(viewModel: MainListingsViewModel, nibName nibNameOrNil: String?) {
+    required init(viewModel: MainListingsViewModel) {
         navbarSearch = LGNavBarSearchField(viewModel.searchString)
         self.viewModel = viewModel
-        super.init(viewModel: viewModel, nibName: nibNameOrNil)
+        super.init(viewModel: viewModel, nibName: nil)
         viewModel.delegate = self
         viewModel.adsDelegate = self
         hidesBottomBarWhenPushed = false
         floatingSellButtonHidden = false
         hasTabBar = true
+        automaticallyAdjustsScrollViewInsets = false
     }
     
     required init?(coder: NSCoder) {
@@ -117,43 +116,18 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         if #available(iOS 11.0, *) {
             listingListView.collectionView.contentInsetAdjustmentBehavior = .never
         } else {
             automaticallyAdjustsScrollViewInsets = false
         }
+        
+        setupStatusTopView()
+        addSubViews()
 
         setupFilterHeaders()
-        
-        listingListView.collectionViewContentInset.bottom = tabBarHeight
-            + LGUIKitConstants.tabBarSellFloatingButtonHeight
-            + LGUIKitConstants.tabBarSellFloatingButtonDistance
-        if let image =  UIImage(named: "pattern_white") {
-            listingListView.setErrorViewStyle(bgColor: UIColor(patternImage: image), borderColor: UIColor.lineGray,
-                                              containerColor: UIColor.white)
-        }
-        listingListView.scrollDelegate = self
-        listingListView.headerDelegate = self
-        listingListView.adsDelegate = self
-        listingListView.cellsDelegate = viewModel
-        listingListView.switchViewModel(viewModel.listViewModel)
-        let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
-        if show3Columns {
-            listingListView.updateLayoutWithSeparation(6)
-        }
-
-        addSubview(listingListView)
-        view.addSubviewForAutoLayout(listingListView)
-        NSLayoutConstraint.activate([
-            listingListView.leadingAnchor.constraint(equalTo: safeLeadingAnchor),
-            listingListView.topAnchor.constraint(equalTo: isSafeAreaAvailable ? safeTopAnchor : view.topAnchor),
-            listingListView.trailingAnchor.constraint(equalTo: safeTrailingAnchor),
-            listingListView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-        view.sendSubview(toBack: listingListView)
-
-        //Add negative top inset to avoid extra padding adding by "grouped" table style.
-        suggestionsSearchesTable.contentInset = UIEdgeInsetsMake(firstSectionMarginTop, 0, 0, 0)
+        setupListingView()
         setupInfoBubble()
         setupTagsView()
         setupSearchAndTrending()
@@ -198,7 +172,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         if listingListView.collectionView.contentOffset.y > headersCollection ||
            listingListView.collectionView.contentOffset.y <= -topHeadersHeight  {
             // Move tags view along iwth tab bar
-            if let tagsVC = self.filterTagsView, !tagsVC.tags.isEmpty {
+            if !filterTagsView.tags.isEmpty {
                 showTagsView(showPrimaryTags: !scrollDown, showSecondaryTags: !scrollDown && viewModel.filters.selectedTaxonomyChildren.count <= 0, updateInsets: false)
             }
             setBars(hidden: scrollDown)
@@ -215,40 +189,37 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         guard contentOffsetY <= 0 else { return }
         // ignore values higher than the topInset
         guard abs(contentOffsetY) <= topInset.value else {
-            filterDescriptionTopConstraint.constant = 0
+            filterDescriptionTopConstraint?.constant = 0
             return
         }
         
         let filterHeadersOffset = topInset.value + contentOffsetY
         if filterHeadersOffset <= filterDescriptionHeaderView.height {
             // move upwards until description header is completely below
-            filterDescriptionTopConstraint.constant = -filterHeadersOffset
+            filterDescriptionTopConstraint?.constant = -filterHeadersOffset
             filterDescriptionHeaderView.alpha = 1
         } else {
             // description header is completely below and also hidden
-            filterDescriptionTopConstraint.constant = -filterDescriptionHeaderView.height
+            filterDescriptionTopConstraint?.constant = -filterDescriptionHeaderView.height
             filterDescriptionHeaderView.alpha = 0.1
         }
     }
 
     private func updateBubbleTopConstraint() {
+        let infoBubbleTopMargin: CGFloat = 8
         let offset: CGFloat = topInset.value
         let delta = listingListView.headerBottom - offset
-        if delta > 0 {
-            infoBubbleTopConstraint.constant = infoBubbleTopMargin + delta
-        } else {
-            infoBubbleTopConstraint.constant = infoBubbleTopMargin
-        }
+        infoBubbleTopConstraint?.constant = infoBubbleTopMargin + max(0, delta)
     }
     
     // MARK: - MainListingsViewModelDelegate
 
     func vmDidSearch() {
-        suggestionsSearchesContainer.isHidden = true
+        trendingSearchView.isHidden = true
     }
 
     func vmShowTags(primaryTags: [FilterTag], secondaryTags: [FilterTag]) {
-        loadTagsViewWithTags(primaryTags: primaryTags, secondaryTags: secondaryTags)
+        updateTagsView(primaryTags: primaryTags, secondaryTags: secondaryTags)
     }
 
     func vmFiltersChanged() {
@@ -286,69 +257,77 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         return true
     }
     
+    // MARK: - Add Subviews
+    
+    func addSubViews() {
+        addSubview(listingListView)
+        view.addSubviewsForAutoLayout([filterDescriptionHeaderView, filterTitleHeaderView,
+                                       listingListView, infoBubbleView,
+                                       tagsContainerView, trendingSearchView])
+    }
+    
+    private func setupStatusTopView() {
+        if !isSafeAreaAvailable {
+            view.addSubviewForAutoLayout(statusTopView)
+            NSLayoutConstraint.activate([
+                statusTopView.leadingAnchor.constraint(equalTo: safeLeadingAnchor),
+                statusTopView.topAnchor.constraint(equalTo: view.topAnchor),
+                statusTopView.trailingAnchor.constraint(equalTo: safeTrailingAnchor),
+                statusTopView.heightAnchor.constraint(equalToConstant: statusBarHeight)
+                ])
+        }
+    }
     
     // MARK: - FilterHeaders
     
     private func setupFilterHeaders() {
-        filterDescriptionHeaderView.translatesAutoresizingMaskIntoConstraints = false
-        filterDescriptionHeaderViewContainer.addSubview(filterDescriptionHeaderView)
-        filterDescriptionHeaderView.layout(with: filterDescriptionHeaderViewContainer).fill()
-        
-        filterTitleHeaderView.translatesAutoresizingMaskIntoConstraints = false
-        filterTitleHeaderViewContainer.addSubview(filterTitleHeaderView)
-        filterTitleHeaderView.layout(with: filterTitleHeaderViewContainer).fill()
+        NSLayoutConstraint.activate([
+            filterDescriptionHeaderView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            filterDescriptionHeaderView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            filterTitleHeaderView.topAnchor.constraint(equalTo: filterDescriptionHeaderView.bottomAnchor),
+            filterTitleHeaderView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            filterTitleHeaderView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
+            ])
     }
-    
-    func setFilterHeaderTitle(withText text: String) {
-        filterTitleHeaderView.text = text
-    }
-    
-    func setFilterHeaderDescription(withText text: String) {
-        filterDescriptionHeaderView.text = text
-    }
-    
     
     // MARK: - FilterTagsViewDelegate
     
     func filterTagsViewDidRemoveTag(_ tag: FilterTag, remainingTags: [FilterTag]) {
         viewModel.updateFiltersFromTags(remainingTags, removedTag: tag)
-        loadTagsViewWithTags(primaryTags: viewModel.primaryTags, secondaryTags: viewModel.secondaryTags)
+        updateTagsView(primaryTags: viewModel.primaryTags, secondaryTags: viewModel.secondaryTags)
     }
     
     func filterTagsViewDidSelectTag(_ tag: FilterTag) {
         if let taxonomyChild = tag.taxonomyChild {
             viewModel.updateSelectedTaxonomyChildren(taxonomyChildren: [taxonomyChild])
         }
-        loadTagsViewWithTags(primaryTags: viewModel.primaryTags, secondaryTags: viewModel.secondaryTags)
+        updateTagsView(primaryTags: viewModel.primaryTags, secondaryTags: viewModel.secondaryTags)
     }
     
     
     // MARK: - Private methods
 
     private func setBars(hidden: Bool, animated: Bool = true) {
-        self.tabBarController?.setTabBarHidden(hidden, animated: animated)
-        self.navigationController?.setNavigationBarHidden(hidden, animated: animated)
+        tabBarController?.setTabBarHidden(hidden, animated: animated)
+        navigationController?.setNavigationBarHidden(hidden, animated: animated)
     }
 
-    @objc fileprivate func endEdit() {
-        // ☢️☢️ Changing tabs when constructing the app from a push notifications calls didDissappear before didLoad
-        if let searchContainer = suggestionsSearchesContainer {
-            searchContainer.isHidden = true
-        }
+    @objc private func endEdit() {
+        trendingSearchView.isHidden = true
         setFiltersNavBarButton()
         setInviteNavBarButton()
         navbarSearch.endEdit()
     }
 
     private func beginEdit() {
-        guard suggestionsSearchesContainer.isHidden else { return }
+        guard trendingSearchView.isHidden else { return }
 
         viewModel.searchBegan()
         let spacing = makeSpacingButton(withFixedWidth: Metrics.navBarDefaultSpacing)
         let cancel = UIBarButtonItem(barButtonSystemItem: .cancel , target: self,
                                      action: #selector(endEdit))
         navigationItem.setRightBarButtonItems([cancel, spacing], animated: false)
-        suggestionsSearchesContainer.isHidden = false
+        trendingSearchView.isHidden = false
         viewModel.retrieveLastUserSearch()
         navbarSearch.beginEdit()
     }
@@ -362,23 +341,31 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     }
     
     private func setupTagsView() {
-        view.addConstraint(NSLayoutConstraint(item: tagsContainerView, attribute: .top, relatedBy: .equal, toItem: topLayoutGuide, attribute: .bottom, multiplier: 1.0, constant: 0))
 
-        filterTagsView = FilterTagsView()
-        filterTagsView?.delegate = self
-        tagsContainerView.backgroundColor = .grayBackground
-        tagsContainerView.addSubview(filterTagsView!)
-        tagsContainerView.isHidden = true
-        tagsContainerView.translatesAutoresizingMaskIntoConstraints = false
+        tagsContainerView.addSubviewForAutoLayout(filterTagsView)
+
+        let heightConstraint = tagsContainerView.heightAnchor.constraint(equalToConstant: 0)
+        let topConstraint = filterDescriptionHeaderView.topAnchor.constraint(equalTo: tagsContainerView.bottomAnchor)
         
-        filterTagsView?.layout(with: tagsContainerView).fill()
+        NSLayoutConstraint.activate([
+            tagsContainerView.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor),
+            tagsContainerView.leadingAnchor.constraint(equalTo: safeLeadingAnchor),
+            tagsContainerView.trailingAnchor.constraint(equalTo: safeTrailingAnchor),
+            topConstraint,
+            heightConstraint
+            ])
+        tagsContainerHeightConstraint = heightConstraint
+        filterDescriptionTopConstraint = topConstraint
         
-        loadTagsViewWithTags(primaryTags: viewModel.primaryTags, secondaryTags: viewModel.secondaryTags)
+        filterTagsView.delegate = self
+        filterTagsView.layout(with: tagsContainerView).fill()
+        
+        updateTagsView(primaryTags: viewModel.primaryTags, secondaryTags: viewModel.secondaryTags)
     }
     
-    private func loadTagsViewWithTags(primaryTags: [FilterTag], secondaryTags: [FilterTag]) {
-        filterTagsView?.updateTags(primaryTags)
-        filterTagsView?.updateSecondaryTags(secondaryTags)
+    private func updateTagsView(primaryTags: [FilterTag], secondaryTags: [FilterTag]) {
+        filterTagsView.updateTags(primaryTags)
+        filterTagsView.updateSecondaryTags(secondaryTags)
         let showPrimaryTags = primaryTags.count > 0
         let showSecondaryTags = secondaryTags.count > 0
         showTagsView(showPrimaryTags: showPrimaryTags, showSecondaryTags: showSecondaryTags, updateInsets: true)
@@ -416,7 +403,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         primaryTagsShowing = showPrimaryTags
         secondaryTagsShowing = showSecondaryTags
 
-        tagsContainerViewHeightConstraint.constant = showPrimaryTags ? filterTagsViewHeight : 0
+        tagsContainerHeightConstraint?.constant = showPrimaryTags ? filterTagsViewHeight : 0
         if updateInsets {
             updateTopInset()
         }
@@ -425,15 +412,52 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         tagsContainerView.isHidden = !showPrimaryTags
     }
     
+    private func setupListingView() {
+        listingListView.collectionViewContentInset.bottom = tabBarHeight
+            + LGUIKitConstants.tabBarSellFloatingButtonHeight
+            + LGUIKitConstants.tabBarSellFloatingButtonDistance
+        if let image =  UIImage(named: "pattern_white") {
+            listingListView.setErrorViewStyle(bgColor: UIColor(patternImage: image), borderColor: UIColor.lineGray,
+                                              containerColor: UIColor.white)
+        }
+        listingListView.scrollDelegate = self
+        listingListView.headerDelegate = self
+        listingListView.adsDelegate = self
+        listingListView.cellsDelegate = viewModel
+        listingListView.switchViewModel(viewModel.listViewModel)
+        let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
+        if show3Columns {
+            listingListView.updateLayoutWithSeparation(6)
+        }
+        
+        NSLayoutConstraint.activate([
+            listingListView.leadingAnchor.constraint(equalTo: safeLeadingAnchor),
+            listingListView.topAnchor.constraint(equalTo: isSafeAreaAvailable ? safeTopAnchor : view.topAnchor),
+            listingListView.trailingAnchor.constraint(equalTo: safeTrailingAnchor),
+            listingListView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            ])
+        view.sendSubview(toBack: listingListView)
+    }
+    
     private func setupInfoBubble() {
-        infoBubbleShadow.applyInfoBubbleShadow()
-
-        infoBubbleArrowLeadingConstraint.constant = Metrics.shortMargin
-        infoBubbleArrowWidthConstraint.constant = Metrics.shortMargin
-
+        
+        let infoBubbleTopConstraint = infoBubbleView.topAnchor.constraint(equalTo: filterTitleHeaderView.bottomAnchor)
+        let infoBubbleLeadingConstraint = infoBubbleView.leadingAnchor.constraint(greaterThanOrEqualTo: safeLeadingAnchor, constant: Metrics.bigMargin)
+        let infoBubbleTrailingConstraint = infoBubbleView.trailingAnchor.constraint(greaterThanOrEqualTo: safeTrailingAnchor, constant: Metrics.bigMargin)
+        infoBubbleTopConstraint.priority = UILayoutPriority.defaultLow
+        infoBubbleTrailingConstraint.priority = UILayoutPriority.defaultLow
+        
+        NSLayoutConstraint.activate([
+            infoBubbleTopConstraint,
+            infoBubbleView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+            infoBubbleView.heightAnchor.constraint(equalToConstant: InfoBubbleView.bubbleHeight),
+            infoBubbleLeadingConstraint,
+            infoBubbleTrailingConstraint
+            ])
+        self.infoBubbleTopConstraint = infoBubbleTopConstraint
+        
         let bubbleTap = UITapGestureRecognizer(target: self, action: #selector(onBubbleTapped))
-        infoBubbleShadow.addGestureRecognizer(bubbleTap)
-
+        infoBubbleView.addGestureRecognizer(bubbleTap)
     }
 
     @objc private func onBubbleTapped() {
@@ -444,11 +468,18 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         navbarSearch.searchTextField.delegate = self
         setNavBarTitleStyle(.custom(navbarSearch))
         setupSuggestionsTable()
+        addKeyboardObservers()
     }
 
     private func setupRxBindings() {
-        viewModel.infoBubbleText.asObservable().bind(to: infoBubbleLabel.rx.text).disposed(by: disposeBag)
-        viewModel.infoBubbleVisible.asObservable().map { !$0 }.bind(to: infoBubbleShadow.rx.isHidden).disposed(by: disposeBag)
+        
+        viewModel.infoBubbleText.asObservable()
+            .bind { [weak self] _ in
+                self?.infoBubbleView.invalidateIntrinsicContentSize()
+            }.disposed(by: disposeBag)
+        
+        viewModel.infoBubbleText.asObservable().bind(to: infoBubbleView.title.rx.text).disposed(by: disposeBag)
+        viewModel.infoBubbleVisible.asObservable().map { !$0 }.bind(to: infoBubbleView.rx.isHidden).disposed(by: disposeBag)
 
         topInset.asObservable()
             .bind { [weak self] topInset in
@@ -490,7 +521,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         navbarSearch.searchTextField.rx.text.asObservable().bind(to: viewModel.searchText).disposed(by: disposeBag)
     }
 
-    fileprivate func updateTopInset() {
+    private func updateTopInset() {
         let tagsHeight = primaryTagsShowing ? filterTagsViewHeight : 0
         if isSafeAreaAvailable {
             topInset.value = tagsHeight + filterHeadersHeight
@@ -589,202 +620,104 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
 
 // MARK: - Trending searches
 
-extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource {
-
+extension MainListingsViewController {
+    
     func setupSuggestionsTable() {
-        suggestionsSearchesTable.register(SuggestionSearchCell.self,
-                                          forCellReuseIdentifier: SuggestionSearchCell.reusableID)
-        suggestionsSearchesTable.rowHeight = UITableViewAutomaticDimension
-        suggestionsSearchesTable.estimatedRowHeight = SuggestionSearchCell.estimatedHeight
-        suggestionsSearchesTable.backgroundColor = UIColor.white
+        trendingSearchView.delegate = self
+        trendingSearchView.isHidden = true
+        
+        trendingSearchView.layout(with: view).fillHorizontal().bottom()
 
-        let topConstraint = NSLayoutConstraint(item: suggestionsSearchesContainer, attribute: .top, relatedBy: .equal,
-                                               toItem: topLayoutGuide, attribute: .bottom, multiplier: 1.0, constant: 0)
-        view.addConstraint(topConstraint)
+        view.addConstraint(NSLayoutConstraint(item: trendingSearchView,
+                                              attribute: .top,
+                                              relatedBy: .equal,
+                                              toItem: topLayoutGuide,
+                                              attribute: .bottom,
+                                              multiplier: 1.0,
+                                              constant: 0))
         
         Observable.combineLatest(viewModel.trendingSearches.asObservable(),
                                  viewModel.suggestiveSearchInfo.asObservable(),
                                  viewModel.lastSearches.asObservable()) { trendings, suggestiveSearches, lastSearches in
             return trendings.count + suggestiveSearches.count + lastSearches.count
             }.bind { [weak self] totalCount in
-                self?.suggestionsSearchesTable.reloadData()
-                self?.suggestionsSearchesTable.isHidden = totalCount == 0
+                self?.trendingSearchView.reloadTrendingSearchTableView()
+                self?.trendingSearchView.updateTrendingSearchTableView(hidden: totalCount == 0)
         }.disposed(by: disposeBag)
         
+    }
+    
+    private func addKeyboardObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)),
-                                                         name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+                                               name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)),
-                                                         name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-
+                                               name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        guard let sectionType = SearchSuggestionType.sectionType(index: section) else { return 0 }
-        switch sectionType {
-        case .suggestive:
-            return viewModel.suggestiveCounter > 0 ? sectionHeight : 0
-        case .lastSearch:
-            return viewModel.lastSearchesCounter > 0 ? sectionHeight : 0
-        case .trending:
-            return viewModel.trendingCounter > 0 ? sectionHeight : 0
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let container = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: sectionHeight))
-        container.clipsToBounds = true
-        container.backgroundColor = UIColor.white
-        let suggestionTitleLabel = UILabel()
-        suggestionTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        suggestionTitleLabel.textAlignment = .left
-        suggestionTitleLabel.font = UIFont.sectionTitleFont
-        suggestionTitleLabel.textColor = UIColor.darkGrayText
-        container.addSubview(suggestionTitleLabel)
-
-        let clearButton = UIButton()
-        clearButton.translatesAutoresizingMaskIntoConstraints = false
-        clearButton.titleLabel?.textAlignment = .right
-        clearButton.titleLabel?.font = UIFont.sectionTitleFont
-        clearButton.setTitleColor(UIColor.darkGrayText, for: .normal)
-        clearButton.setTitle(LGLocalizedString.suggestionsLastSearchesClearButton.localizedUppercase, for: .normal)
-        clearButton.addTarget(self, action: #selector(cleanSearchesButtonPressed), for: .touchUpInside)
-        container.addSubview(clearButton)
-        
-        var views = [String: Any]()
-        views["label"] = suggestionTitleLabel
-        views["clear"] = clearButton
-        var metrics = [String: Any]()
-        metrics["horizontalMarginHeaderView"] = Metrics.margin
-        container.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-20-[label]-5-|",
-            options: [], metrics: metrics, views: views))
-        container.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-horizontalMarginHeaderView-[label]",
-            options: [], metrics: metrics, views: views))
-        container.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-20-[clear]-5-|",
-            options: [], metrics: metrics, views: views))
-        container.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:[clear]-horizontalMarginHeaderView-|",
-            options: [], metrics: metrics, views: views))
-        
-        guard let sectionType = SearchSuggestionType.sectionType(index: section) else { return UIView() }
-        switch sectionType {
-        case .suggestive:
-            clearButton.isHidden = true
-            suggestionTitleLabel.text = LGLocalizedString.suggestedSearchesTitle.localizedUppercase
-        case .lastSearch:
-            clearButton.isHidden = false
-            suggestionTitleLabel.text = LGLocalizedString.suggestionsLastSearchesTitle.localizedUppercase
-        case .trending:
-            clearButton.isHidden = true
-            suggestionTitleLabel.text = LGLocalizedString.trendingSearchesTitle.localizedUppercase
-        }
-        return container
-    }
-    
-    @objc private func cleanSearchesButtonPressed() {
-        viewModel.cleanUpLastSearches()
-    }
-    
-    @IBAction func trendingSearchesBckgPressed(_ sender: AnyObject) {
-        endEdit()
-    }
-
     @objc func keyboardWillShow(_ notification: Notification) {
-        suggestionsSearchesTable.contentInset.bottom = notification.keyboardChange.height
-    }
-
-    @objc func keyboardWillHide(_ notification: Notification) {
-        suggestionsSearchesTable.contentInset.bottom = 0
-    }
-
-
-    // MARK: > TableView
-
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return SearchSuggestionType.numberOfSections
+        trendingSearchView.updateBottomTableView(contentInset: notification.keyboardChange.height)
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let sectionType = SearchSuggestionType.sectionType(index: section) else { return 0 }
-        switch sectionType {
-        case .suggestive:
-            return viewModel.suggestiveCounter
-        case .lastSearch:
-            return viewModel.lastSearchesCounter
-        case .trending:
-            return viewModel.trendingCounter
-        }
+    @objc func keyboardWillHide(_ notification: Notification) {
+        trendingSearchView.updateBottomTableView(contentInset: 0)
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let sectionType = SearchSuggestionType.sectionType(index: indexPath.section),
-              let cell = tableView.dequeueReusableCell(withIdentifier: SuggestionSearchCell.reusableID,
-                                                 for: indexPath) as? SuggestionSearchCell else {
-                                                    return UITableViewCell()
-        }
-        let title: String
-        let titleSkipHighlight: String?
-        let subtitle: String?
-        let icon: UIImage?
-        let fillSearchButtonBlock: (() -> ())?
-        switch sectionType {
-        case .suggestive:
-            guard let (suggestiveSearch, sourceText) = viewModel.suggestiveSearchAtIndex(indexPath.row) else {
-                return UITableViewCell()
-            }
-            title = suggestiveSearch.title
-            titleSkipHighlight = sourceText
-            subtitle = suggestiveSearch.subtitle
-            icon = suggestiveSearch.icon
-            fillSearchButtonBlock = { [weak self] in
-                self?.navbarSearch.searchTextField.text = title
-                self?.viewModel.searchText.value = title
-                self?.navBarSearchTextFieldDidUpdate(text: title)
-            }
-        case .lastSearch:
-            guard let lastSearch = viewModel.lastSearchAtIndex(indexPath.row) else { return UITableViewCell() }
-            title = lastSearch.title
-            titleSkipHighlight = nil
-            subtitle = lastSearch.subtitle
-            icon = lastSearch.icon
-            fillSearchButtonBlock = nil
-        case .trending:
-            guard let trendingSearch = viewModel.trendingSearchAtIndex(indexPath.row) else { return UITableViewCell() }
-            title = trendingSearch
-            titleSkipHighlight = nil
-            subtitle = nil
-            icon = nil
-            fillSearchButtonBlock = nil
-        }
-        cell.set(title: title,
-                 titleSkipHighlight: titleSkipHighlight,
-                 subtitle: subtitle,
-                 icon: icon)
-        cell.fillSearchButtonBlock = fillSearchButtonBlock
-        return cell
-    }
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        navbarSearch.searchTextField.endEditing(true)
-        guard let sectionType = SearchSuggestionType.sectionType(index: indexPath.section) else { return }
-        switch sectionType {
-        case .suggestive:
-            viewModel.selectedSuggestiveSearchAtIndex(indexPath.row)
-        case .lastSearch:
-            viewModel.selectedLastSearchAtIndex(indexPath.row)
-        case .trending:
-            viewModel.selectedTrendingSearchAtIndex(indexPath.row)
-        }
-    }
 }
 
+extension MainListingsViewController: TrendingSearchViewDelegate {
+    
+    func trendingSearchBackgroundTapped(_ view: TrendingSearchView) {
+        endEdit()
+    }
+    
+    func trendingSearchCleanButtonPressed(_ view: TrendingSearchView) {
+        viewModel.cleanUpLastSearches()
+    }
+
+    func trendingSearch(_ view: TrendingSearchView, numberOfRowsIn section: Int) -> Int {
+        guard let sectionType = SearchSuggestionType.sectionType(index: section) else { return 0 }
+        return viewModel.numberOfItems(type: sectionType)
+    }
+    
+    func trendingSearch(_ view: TrendingSearchView, cellSelectedAt indexPath: IndexPath) {
+        navbarSearch.searchTextField.endEditing(true)
+        guard let sectionType = SearchSuggestionType.sectionType(index: indexPath.section) else { return }
+        viewModel.selected(type: sectionType, row: indexPath.row)
+    }
+    
+    func trendingSearch(_ view: TrendingSearchView, cellContentAt  indexPath: IndexPath) -> SuggestionSearchCellContent? {
+        guard let sectionType = SearchSuggestionType.sectionType(index: indexPath.section) else { return nil }
+        switch sectionType {
+        case .suggestive:
+            guard let (suggestiveSearch, sourceText) = viewModel.suggestiveSearchAtIndex(indexPath.row) else { return nil }
+            return SuggestionSearchCellContent(title: suggestiveSearch.title,
+                                      titleSkipHighlight: sourceText,
+                                      subtitle: suggestiveSearch.subtitle, icon: suggestiveSearch.icon) { [weak self] in
+                self?.updadeSearchTextfield(suggestiveSearch.title)
+            }
+        case .lastSearch:
+            guard let lastSearch = viewModel.lastSearchAtIndex(indexPath.row) else { return nil }
+            return SuggestionSearchCellContent(title: lastSearch.title, subtitle: lastSearch.subtitle, icon: lastSearch.icon)
+        case .trending:
+            guard let trendingSearch = viewModel.trendingSearchAtIndex(indexPath.row) else { return nil }
+            return SuggestionSearchCellContent(title: trendingSearch)
+        }
+    }
+    
+    private func updadeSearchTextfield(_ text: String) {
+        viewModel.searchText.value = text
+        navbarSearch.searchTextField.text = text
+        navBarSearchTextFieldDidUpdate(text: text)
+    }
+    
+}
 
 extension MainListingsViewController {
     func setAccessibilityIds() {
         navigationItem.rightBarButtonItem?.set(accessibilityId: .mainListingsFilterButton)
         listingListView.set(accessibilityId: .mainListingsListView)
         tagsContainerView.set(accessibilityId: .mainListingsTagsCollection)
-        infoBubbleLabel.set(accessibilityId: .mainListingsInfoBubbleLabel)
         navbarSearch.set(accessibilityId: .mainListingsNavBarSearch)
-        suggestionsSearchesTable.set(accessibilityId: .mainListingsSuggestionSearchesTable)
         navigationItem.leftBarButtonItem?.set(accessibilityId: .mainListingsInviteButton)
     }
 }

@@ -24,8 +24,6 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
     
     func vmDidRequestShowPrePermissions(_ type: PrePermissionType)
     func vmDidNotifyMessage(_ message: String, completion: (() -> ())?)
-    
-    func vmDidPressDirectAnswer(quickAnswer: QuickAnswer)
 
     func vmAskPhoneNumber()
 }
@@ -89,7 +87,6 @@ class ChatViewModel: BaseViewModel {
     let listingImageUrl = Variable<URL?>(nil)
     let listingPrice = Variable<String>("")
     let listingIsFree = Variable<Bool>(false)
-    let listingIsNegotiable = Variable<Bool>(false)
     let interlocutorAvatarURL = Variable<URL?>(nil)
     let interlocutorName = Variable<String>("")
     let interlocutorId = Variable<String?>(nil)
@@ -411,7 +408,6 @@ class ChatViewModel: BaseViewModel {
             self?.listingImageUrl.value = conversation.listing?.image?.fileURL
             if let featureFlags = self?.featureFlags {
                 self?.listingPrice.value = conversation.listing?.priceString(freeModeAllowed: featureFlags.freePostingModeAllowed) ?? ""
-                self?.listingIsNegotiable.value = conversation.listing?.isNegotiable(freeModeAllowed: featureFlags.freePostingModeAllowed) ?? false
             }
             self?.listingIsFree.value = conversation.listing?.price.isFree ?? false
             if let _ = conversation.listing {
@@ -785,7 +781,7 @@ extension ChatViewModel {
         guard let convId = conversation.value.objectId else { return }
         guard let userId = myUserRepository.myUser?.objectId else { return }
 
-        if type.isUserText || (showKeyboardWhenQuickAnswer && type.isQuickAnswer) {
+        if type.isUserText {
             delegate?.vmDidSendMessage()
         }
 
@@ -1692,52 +1688,25 @@ fileprivate extension ChatConversation {
 
 extension ChatViewModel: DirectAnswersPresenterDelegate {
     
-    var directAnswers: [[QuickAnswer]] {
+    var directAnswers: [QuickAnswer] {
         let isFree = featureFlags.freePostingModeAllowed && listingIsFree.value
         let isBuyer = !conversation.value.amISelling
-        let isNegotiable = listingIsNegotiable.value
+
         return QuickAnswer.quickAnswersForChatWith(buyer: isBuyer,
                                                    isFree: isFree,
-                                                   isDynamic: areQuickAnswersDynamic,
-                                                   isNegotiable: isNegotiable,
                                                    chatNorrisABtestVersion: featureFlags.chatNorris)
     }
-    var areQuickAnswersDynamic: Bool {
-        switch featureFlags.dynamicQuickAnswers {
-        case .control, .baseline:
-            return false
-        case .dynamicNoKeyboard, .dynamicWithKeyboard:
-            return true
-        }
-    }
-    var showKeyboardWhenQuickAnswer: Bool {
-        switch featureFlags.dynamicQuickAnswers {
-        case .control, .baseline, .dynamicNoKeyboard:
-            return false
-        case .dynamicWithKeyboard:
-            return true
-        }
-    }
-    
-    func directAnswersDidTapAnswer(_ controller: DirectAnswersPresenter, answer: QuickAnswer, index: Int) {
+
+    func directAnswersDidTapAnswer(_ controller: DirectAnswersPresenter, answer: QuickAnswer) {
         switch answer {
         case .listingSold, .freeNotAvailable:
             onListingSoldDirectAnswer()
-            if showKeyboardWhenQuickAnswer {
-                delegate?.vmDidPressDirectAnswer(quickAnswer: answer)
-            } else {
-                send(quickAnswer: answer)
-            }
+            send(quickAnswer: answer)
         case .interested, .notInterested, .meetUp, .stillAvailable, .isNegotiable, .likeToBuy, .listingCondition,
              .listingStillForSale, .whatsOffer, .negotiableYes, .negotiableNo, .freeStillHave, .freeYours,
-             .freeAvailable, .stillForSale, .priceFirm, .priceWillingToNegotiate, .priceAsking, .listingConditionGood,
-             .listingConditionDescribe, .meetUpLocated, .meetUpWhereYouWant:
+             .freeAvailable:
             clearListingSoldDirectAnswer()
-            if showKeyboardWhenQuickAnswer {
-                delegate?.vmDidPressDirectAnswer(quickAnswer: answer)
-            } else {
-                send(quickAnswer: answer)
-            }
+            send(quickAnswer: answer)
         case .meetingAssistant:
             onMeetingAssistantPressed()
         }
