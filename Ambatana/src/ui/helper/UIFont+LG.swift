@@ -172,7 +172,9 @@ extension UIFont {
 
 // MARK: - sms Verification
 extension UIFont {
-    static var smsVerificationPhoneInputDescription: UIFont { return UIFont.systemMediumFont(size: 20) }
-    static var smsVerificationPhoneInputBigText: UIFont { return UIFont.systemBoldFont(size: 30) }
+    static var smsVerificationInputBigText: UIFont { return UIFont.systemBoldFont(size: 30) }
+    static var smsVerificationInputDescription: UIFont { return UIFont.systemMediumFont(size: 20) }
+    static var smsVerificationInputSmallDescription: UIFont { return UIFont.systemRegularFont(size: 15) }
+    static var smsVerificationInputCodeInformation: UIFont { return UIFont.systemMediumFont(size: 14) }
     static var smsVerificationCountryListCellText: UIFont { return UIFont.systemBoldFont(size: 23) }
 }
