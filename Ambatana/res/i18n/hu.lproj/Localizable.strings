@@ -19,7 +19,7 @@
 "bump_up_banner_pay_text" = "Add el gyorsabban";
 "bump_up_banner_pay_text_improvement" = "Add el gyorsabban";
 "bump_up_banner_wait_text" = "a következő kiemelésig";
-"bump_up_boost_success_alert_text" = "Hirdetésed láthatóságát ismét fokoztad! A következő 24 órában kiemelt hirdetés lesz.";
+"bump_up_boost_success_alert_text" = "Hirdetésed láthatóságát fokoztad! A következő 24 órában kiemelt hirdetés lesz.";
 "bump_up_error_bump_generic" = "Hiba történt a hirdetésed kiemelése során. Próbálkozz újra.";
 "bump_up_error_bump_token" = "A tranzakciót feldolgoztuk, de hirdetésed nincs kiemelve.";
 "bump_up_error_payment_failed" = "Nem sikerült kapcsolódni az App Store-hoz. Feldolgozatlan befizetés. Próbálkozz újra.";
@@ -810,6 +810,9 @@
 "profile_sold_no_products_label" = "NINCSENEK HIRDETÉSEK (EGYELŐRE!)";
 "profile_sold_other_no_products_button" = "Tovább böngészek";
 "profile_sold_products_tab" = "Eladott";
+"profile_verifications_email_placeholder" = "EMAIL";
+"profile_verifications_email_view_title" = "Verify your Email";
+"profile_verifications_send_button" = "Küldés";
 "profile_verifications_view_add_info_section_title" = "ADD HOZZÁ";
 "profile_verifications_view_bio_title" = "Bemutatkozás";
 "profile_verifications_view_email_title" = "EMAIL";

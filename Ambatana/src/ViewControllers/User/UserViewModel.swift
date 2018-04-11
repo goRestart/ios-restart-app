@@ -825,4 +825,6 @@ extension UserViewModel: ListingCellDelegate {
         })
         delegate?.vmShowUserActionSheet(LGLocalizedString.commonCancel, actions: [delete])
     }
+    
+    func postNowButtonPressed(_ view: UIView) { }
 }
