@@ -99,7 +99,12 @@ public struct LGAssistantMeeting: AssistantMeeting {
 
     // MARK: Parser
 
-    static private let dateFormatter: DateFormatter = DateFormatter()
+    static private var dateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yyyy hh:mm a ZZZZ"
+        dateFormatter.timeZone = TimeZone.current
+        return dateFormatter
+    }()
 
     static private let degreeCharacter = "°"
     static private let acceptanceMark = "✅"
@@ -192,8 +197,6 @@ public struct LGAssistantMeeting: AssistantMeeting {
         guard let string = string else { return nil }
         let dateInfo = string.components(separatedBy: dateMark + " ")
         guard dateInfo.count == 2 else { return nil }
-        dateFormatter.dateFormat = "MM/dd/yyyy hh:mm a ZZZZ"
-        dateFormatter.timeZone = TimeZone.current
         let date = dateFormatter.date(from: dateInfo[1])
         return date
     }
@@ -205,8 +208,6 @@ public struct LGAssistantMeeting: AssistantMeeting {
 
     static private func stringFrom(meetingDate: Date?) -> String? {
         guard let date = meetingDate else { return nil }
-        dateFormatter.dateFormat = "MM/dd/yyyy hh:mm a ZZZZ"
-        dateFormatter.timeZone = TimeZone.current
         return dateFormatter.string(from: date)
     }
 }
