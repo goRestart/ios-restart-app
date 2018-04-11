@@ -79,31 +79,31 @@ final class UserPhoneVerificationNumberInputViewController: BaseViewController {
     private func setupDescriptionLabelUI() {
         descriptionLabel.text = "Build trust by verifying your phone number" // FIXME: add localized string
         descriptionLabel.numberOfLines = 0
-        descriptionLabel.font = .smsVerificationPhoneInputDescription
+        descriptionLabel.font = .smsVerificationInputDescription
         descriptionLabel.textColor = .blackText
     }
 
     private func setupCountryButtonUI () {
         countryButton.setTitleColor(.blackText, for: .normal)
         countryButton.contentHorizontalAlignment = .left
-        countryButton.titleLabel?.font = .smsVerificationPhoneInputBigText
+        countryButton.titleLabel?.font = .smsVerificationInputBigText
         countryButton.addTarget(self, action: #selector(didTapSelectCountry), for: .touchUpInside)
     }
 
     private func setupCountryCodeLabelUI () {
-        countryCodeLabel.font = .smsVerificationPhoneInputBigText
+        countryCodeLabel.font = .smsVerificationInputBigText
         countryCodeLabel.textColor = .blackText
     }
 
     private func setupPhoneNumberTextfieldUI () {
-        phoneNumberTextField.font = .smsVerificationPhoneInputBigText
+        phoneNumberTextField.font = .smsVerificationInputBigText
         phoneNumberTextField.textColor = .blackText
         phoneNumberTextField.placeholder = "Phone number" // FIXME: add localized string
         phoneNumberTextField.keyboardType = .numberPad
         phoneNumberTextField.tintColor = .primaryColor
 
         var placeholderAttributes = [NSAttributedStringKey: Any]()
-        placeholderAttributes[NSAttributedStringKey.font] = UIFont.smsVerificationPhoneInputBigText
+        placeholderAttributes[NSAttributedStringKey.font] = UIFont.smsVerificationInputBigText
         placeholderAttributes[NSAttributedStringKey.foregroundColor] = UIColor.grayPlaceholderText
         // FIXME: add localized string
         phoneNumberTextField.attributedPlaceholder = NSAttributedString(string: "Phone number",
