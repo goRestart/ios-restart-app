@@ -812,7 +812,11 @@
 "profile_sold_products_tab" = "Đã bán";
 "profile_verifications_email_placeholder" = "Email";
 "profile_verifications_email_view_title" = "Verify your Email";
+<<<<<<< HEAD
 "profile_verifications_send_button" = "Send";
+=======
+"profile_verifications_send_button" = "Gửi";
+>>>>>>> feature-branch-advanced-reputation-system
 "profile_verifications_view_add_info_section_title" = "THÊM";
 "profile_verifications_view_bio_title" = "Tiểu sử";
 "profile_verifications_view_email_title" = "Email";

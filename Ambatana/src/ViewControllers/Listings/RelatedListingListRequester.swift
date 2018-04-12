@@ -56,6 +56,8 @@ class RelatedListingListRequester: ListingListRequester {
         self.itemsPerPage = itemsPerPage
         self.featureFlags = featureFlags
     }
+    
+    var isFirstPage: Bool = true
 
     func canRetrieve() -> Bool {
         return true
@@ -67,6 +69,7 @@ class RelatedListingListRequester: ListingListRequester {
     }
     
     func retrieveNextPage(_ completion: ListingsRequesterCompletion?) {
+        isFirstPage = false
         listingsRetrieval(completion)
     }
 

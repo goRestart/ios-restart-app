@@ -810,7 +810,11 @@
 "profile_sold_no_products_label" = "INGEN ANNONSER (ENDA!)";
 "profile_sold_other_no_products_button" = "Fortsett å bla i produktene";
 "profile_sold_products_tab" = "Solgt";
+<<<<<<< HEAD
 "profile_verifications_email_placeholder" = "Email";
+=======
+"profile_verifications_email_placeholder" = "E-post";
+>>>>>>> feature-branch-advanced-reputation-system
 "profile_verifications_email_view_title" = "Verify your Email";
 "profile_verifications_send_button" = "Send";
 "profile_verifications_view_add_info_section_title" = "LEGG TIL DIN";

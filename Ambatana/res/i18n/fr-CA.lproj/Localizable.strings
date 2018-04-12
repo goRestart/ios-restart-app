@@ -812,7 +812,11 @@
 "profile_sold_products_tab" = "Vendu";
 "profile_verifications_email_placeholder" = "Email";
 "profile_verifications_email_view_title" = "Verify your Email";
+<<<<<<< HEAD
 "profile_verifications_send_button" = "Send";
+=======
+"profile_verifications_send_button" = "Envoyer";
+>>>>>>> feature-branch-advanced-reputation-system
 "profile_verifications_view_add_info_section_title" = "AJOUTER VOTRE";
 "profile_verifications_view_bio_title" = "Bio";
 "profile_verifications_view_email_title" = "Email";

@@ -810,9 +810,15 @@
 "profile_sold_no_products_label" = "(NOCH) KEINE ANGEBOTE";
 "profile_sold_other_no_products_button" = "Mehr entdecken";
 "profile_sold_products_tab" = "Verkauft";
+<<<<<<< HEAD
 "profile_verifications_email_placeholder" = "Email";
 "profile_verifications_email_view_title" = "Verify your Email";
 "profile_verifications_send_button" = "Send";
+=======
+"profile_verifications_email_placeholder" = "E-Mail";
+"profile_verifications_email_view_title" = "Verify your Email";
+"profile_verifications_send_button" = "Senden";
+>>>>>>> feature-branch-advanced-reputation-system
 "profile_verifications_view_add_info_section_title" = "HINZUFÜGEN";
 "profile_verifications_view_bio_title" = "Biografie";
 "profile_verifications_view_email_title" = "E-Mail";

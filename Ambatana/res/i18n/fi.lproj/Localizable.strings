@@ -810,9 +810,15 @@
 "profile_sold_no_products_label" = "EI ILMOITUKSIA (VIELÄ!)";
 "profile_sold_other_no_products_button" = "Jatka selaamista";
 "profile_sold_products_tab" = "Myyty";
+<<<<<<< HEAD
 "profile_verifications_email_placeholder" = "Email";
 "profile_verifications_email_view_title" = "Verify your Email";
 "profile_verifications_send_button" = "Send";
+=======
+"profile_verifications_email_placeholder" = "Sähköposti";
+"profile_verifications_email_view_title" = "Verify your Email";
+"profile_verifications_send_button" = "Lähetä";
+>>>>>>> feature-branch-advanced-reputation-system
 "profile_verifications_view_add_info_section_title" = "LISÄÄ";
 "profile_verifications_view_bio_title" = "Biografia";
 "profile_verifications_view_email_title" = "Sähköposti";

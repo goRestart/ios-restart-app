@@ -810,9 +810,15 @@
 "profile_sold_no_products_label" = "(NOG!) GEEN ADVERTENTIES";
 "profile_sold_other_no_products_button" = "Blijf browsen";
 "profile_sold_products_tab" = "Verkocht";
+<<<<<<< HEAD
 "profile_verifications_email_placeholder" = "Email";
 "profile_verifications_email_view_title" = "Verify your Email";
 "profile_verifications_send_button" = "Send";
+=======
+"profile_verifications_email_placeholder" = "EMAIL";
+"profile_verifications_email_view_title" = "Verify your Email";
+"profile_verifications_send_button" = "Verstuur";
+>>>>>>> feature-branch-advanced-reputation-system
 "profile_verifications_view_add_info_section_title" = "TOEVOEGEN";
 "profile_verifications_view_bio_title" = "Biografie";
 "profile_verifications_view_email_title" = "EMAIL";

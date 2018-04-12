@@ -106,9 +106,13 @@ class ABTests {
     }
 }
 
+//  MARK: Users
+
 extension ABTests {
     var advancedReputationSystem: LeanplumABVariable<Int> { return users.advancedReputationSystem }
 }
+
+//  MARK: Core
 
 extension ABTests {
     var discardedProducts: LeanplumABVariable<Int> { return core.discardedProducts }
@@ -120,12 +124,16 @@ extension ABTests {
     var relaxedSearch: LeanplumABVariable<Int> { return core.relaxedSearch }
 }
 
+//  MARK: Chat
+
 extension ABTests {
     var showInactiveConversations: LeanplumABVariable<Bool> { return chat.showInactiveConversations }
     var showChatSafetyTips: LeanplumABVariable<Bool> { return chat.showChatSafetyTips }
     var userIsTyping: LeanplumABVariable<Int> { return chat.userIsTyping }
     var markAllConversationsAsRead: LeanplumABVariable<Bool> { return chat.markAllConversationsAsRead }
 }
+
+//  MARK: Money
 
 extension ABTests {
     var increaseMinPriceBumps: LeanplumABVariable<Int> { return money.increaseMinPriceBumps }
@@ -140,10 +148,15 @@ extension ABTests {
     var feedAdsProviderForTR: LeanplumABVariable<Int> { return money.feedAdsProviderForTR }
 }
 
+//  MARK: Retention
+
 extension ABTests {
     var dummyUsersInfoProfile: LeanplumABVariable<Int> { return retention.dummyUsersInfoProfile }
     var onboardingIncentivizePosting: LeanplumABVariable<Int> { return retention.onboardingIncentivizePosting }
 }
+
+//  MARK: RealEstate
+//  Please use Verticals from now on
 
 extension ABTests {
     var realEstateNewCopy: LeanplumABVariable<Int> { return realEstate.realEstateNewCopy }
@@ -152,9 +165,14 @@ extension ABTests {
     var summaryAsFirstStep: LeanplumABVariable<Int> { return realEstate.summaryAsFirstStep }
 }
 
+//  MARK: Verticals
+
 extension ABTests {
     var searchCarsIntoNewBackend: LeanplumABVariable<Int> { return verticals.searchCarsIntoNewBackend }
+    var realEstatePromoCell: LeanplumABVariable<Int> { return verticals.realEstatePromoCell }
 }
+
+//  MARK: Legacy
 
 extension ABTests {
     var marketingPush: LeanplumABVariable<Int> { return legacy.marketingPush }

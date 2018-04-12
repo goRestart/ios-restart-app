@@ -810,9 +810,15 @@
 "profile_sold_no_products_label" = "НЕТ ОБЪЯВЛЕНИЙ (ПОКА ЧТО!)";
 "profile_sold_other_no_products_button" = "Продолжить поиск";
 "profile_sold_products_tab" = "Продано";
+<<<<<<< HEAD
 "profile_verifications_email_placeholder" = "Email";
 "profile_verifications_email_view_title" = "Verify your Email";
 "profile_verifications_send_button" = "Send";
+=======
+"profile_verifications_email_placeholder" = "E-mail";
+"profile_verifications_email_view_title" = "Verify your Email";
+"profile_verifications_send_button" = "Отправить";
+>>>>>>> feature-branch-advanced-reputation-system
 "profile_verifications_view_add_info_section_title" = "ДОБАВИТЬ СВОЙ";
 "profile_verifications_view_bio_title" = "Информация";
 "profile_verifications_view_email_title" = "E-mail";
