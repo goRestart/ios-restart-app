@@ -509,10 +509,16 @@ extension TabCoordinator: ListingDetailNavigator {
     }
 
     func editListing(_ listing: Listing,
-                     bumpUpProductData: BumpUpProductData?) {
+                     bumpUpProductData: BumpUpProductData?,
+                     listingCanBeBoosted: Bool,
+                     timeSinceLastBump: TimeInterval?,
+                     maxCountdown: TimeInterval?) {
         let navigator = EditListingCoordinator(listing: listing,
                                                bumpUpProductData: bumpUpProductData,
-                                               pageType: nil)
+                                               pageType: nil,
+                                               listingCanBeBoosted: listingCanBeBoosted,
+                                               timeSinceLastBump: timeSinceLastBump,
+                                               maxCountdown: maxCountdown)
         navigator.delegate = self
         openChild(coordinator: navigator,
                   parent: rootViewController,
@@ -564,6 +570,19 @@ extension TabCoordinator: ListingDetailNavigator {
                   completion: nil)
     }
 
+    func openBumpUpBoost(forListing listing: Listing,
+                         bumpUpProductData: BumpUpProductData,
+                         typePage: EventParameterTypePage?,
+                         timeSinceLastBump: TimeInterval,
+                         maxCountdown: TimeInterval) {
+        let bumpCoordinator = BumpUpCoordinator(listing: listing,
+                                                bumpUpProductData: bumpUpProductData,
+                                                typePage: typePage,
+                                                timeSinceLastBump: timeSinceLastBump,
+                                                maxCountdown: maxCountdown)
+        openChild(coordinator: bumpCoordinator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
+    }
+
     func selectBuyerToRate(source: RateUserSource,
                            buyers: [UserListing],
                            listingId: String,
@@ -601,6 +620,19 @@ extension TabCoordinator: ListingDetailNavigator {
                                                 alertType: alertType,
                                                 buttonsLayout: buttonsLayout,
                                                 actions: actions)
+    }
+
+    func showBumpUpBoostSucceededAlert() {
+        let boostSuccessAlert = BoostSuccessAlertView()
+        // the alert view has a thin blur that has to cover the nav bar too
+        navigationController.view.addSubviewForAutoLayout(boostSuccessAlert)
+        boostSuccessAlert.layout(with: navigationController.view).fill()
+        boostSuccessAlert.alpha = 0
+        navigationController.view.layoutIfNeeded()
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            boostSuccessAlert.alpha = 1
+            boostSuccessAlert.startAnimation()
+        }
     }
 
     func openContactUs(forListing listing: Listing, contactUstype: ContactUsType) {
@@ -794,16 +826,25 @@ extension TabCoordinator: EditListingCoordinatorDelegate {
     func editListingCoordinatorDidCancel(_ coordinator: EditListingCoordinator) {
 
     }
-
+    
     func editListingCoordinator(_ coordinator: EditListingCoordinator,
                                 didFinishWithListing listing: Listing,
-                                bumpUpProductData: BumpUpProductData?) {
-        guard let listingIsFeatured = listing.featured, !listingIsFeatured else { return }
+                                bumpUpProductData: BumpUpProductData?,
+                                timeSinceLastBump: TimeInterval?,
+                                maxCountdown: TimeInterval?) {
         guard let bumpData = bumpUpProductData,
             bumpData.hasPaymentId else { return }
-        openPayBumpUp(forListing: listing,
-                      bumpUpProductData: bumpData,
-                      typePage: .edit)
+        if let timeSinceLastBump = timeSinceLastBump, let maxCountdown = maxCountdown {
+            openBumpUpBoost(forListing: listing,
+                            bumpUpProductData: bumpData,
+                            typePage: .edit,
+                            timeSinceLastBump: timeSinceLastBump,
+                            maxCountdown: maxCountdown)
+        } else {
+            openPayBumpUp(forListing: listing,
+                          bumpUpProductData: bumpData,
+                          typePage: .edit)
+        }
     }
 }
 

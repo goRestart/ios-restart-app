@@ -56,7 +56,7 @@ final class ListingDeckViewModel: BaseViewModel {
 
     let startIndex: Int
     var shouldSyncFirstListing: Bool = false
-    fileprivate var trackingIndex: Int?
+    fileprivate let trackingIndex: Int?
 
     fileprivate var lastMovement: CarouselMovement = .initial
     fileprivate let source: EventParameterListingVisitSource
@@ -432,6 +432,7 @@ final class ListingDeckViewModel: BaseViewModel {
 // MARK: ListingViewModelDelegate
 
 extension ListingDeckViewModel: ListingViewModelDelegate {
+
     var listingOrigin: ListingOrigin {
         let result: ListingOrigin
         switch lastMovement {

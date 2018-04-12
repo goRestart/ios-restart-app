@@ -427,6 +427,14 @@ class ListingCarouselViewModel: BaseViewModel {
                                                 typePage: typePage)
     }
 
+    func bumpUpBannerBoostTimerReachedZero() {
+        currentListingViewModel?.refreshBumpeableBanner()
+    }
+
+    func bumpUpBoostSucceeded() {
+        currentListingViewModel?.bumpUpBoostSucceeded()
+    }
+
     func didReceiveAd(bannerTopPosition: CGFloat, bannerBottomPosition: CGFloat, screenHeight: CGFloat) {
 
         let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
@@ -803,21 +811,12 @@ extension ListingCarouselViewModel: ListingViewModelDelegate {
 
 extension CarouselMovement {
 
-    func visitSource(_ originSource: EventParameterListingVisitSource) -> EventParameterListingVisitSource {
-        let sourceIsRelatedListing = originSource == .relatedListings
-        let sourceIsFavourite = originSource == .favourite
-        guard sourceIsRelatedListing || sourceIsFavourite  else {
-            return originSource
-        }
+    func visitSource(_ origin: EventParameterListingVisitSource) -> EventParameterListingVisitSource {
         switch self {
-        case .tap:
-            return sourceIsFavourite ? .nextFavourite : .next
-        case .swipeRight:
-            return sourceIsFavourite ? .nextFavourite : .next
-        case .initial:
-            return originSource
-        case .swipeLeft:
-            return sourceIsFavourite ? .previousFavourite : .previous
+        case .tap: fallthrough
+        case .swipeRight: return origin.next
+        case .initial: return origin
+        case .swipeLeft: return origin.previous
         }
     }
 

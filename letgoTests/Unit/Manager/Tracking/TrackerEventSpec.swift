@@ -1418,14 +1418,14 @@ class TrackerEventSpec: QuickSpec {
             }
             describe("listingNotAvailable") {
                 beforeEach {
-                    sut = TrackerEvent.listingNotAvailable(.notifications, reason: .notFound)
+                    sut = TrackerEvent.listingNotAvailable(.notificationCenter, reason: .notFound)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-not-available"))
                 }
                 it("contains visit-source") {
                     let productId = sut.params!.stringKeyParams["visit-source"] as? String
-                    expect(productId).to(equal("notifications"))
+                    expect(productId).to(equal("notification-center"))
                 }
                 it("contains reason") {
                     let productId = sut.params!.stringKeyParams["not-available-reason"] as? String
@@ -4296,7 +4296,8 @@ class TrackerEventSpec: QuickSpec {
             }
             describe("bump banner show") {
                 beforeEach {
-                    sut = TrackerEvent.bumpBannerShow(type: .paid, listingId: "1122", storeProductId: "tier1")
+                    sut = TrackerEvent.bumpBannerShow(type: .paid, listingId: "1122", storeProductId: "tier1",
+                                                      isBoost: .falseParameter)
                 }
                 it("has its event name ") {
                     expect(sut.name.rawValue).to(equal("bump-banner-show"))
@@ -4310,11 +4311,14 @@ class TrackerEventSpec: QuickSpec {
                 it("storeProductId matches") {
                     expect(sut.params?.stringKeyParams["store-productId"] as? String) == "tier1"
                 }
+                it("boost param is false") {
+                    expect(sut.params?.stringKeyParams["boost"] as? String) == "false"
+                }
             }
-            describe("bump banner Info shown") {
+            describe("bump banner Info shown paid bump") {
                 beforeEach {
                     sut = TrackerEvent.bumpBannerInfoShown(type: .paid, listingId: "1122", storeProductId: "tier1",
-                                                           typePage: .edit)
+                                                           typePage: .edit, isBoost: .falseParameter)
                 }
                 it("has its event name ") {
                     expect(sut.name.rawValue).to(equal("bump-info-shown"))
@@ -4331,6 +4335,33 @@ class TrackerEventSpec: QuickSpec {
                 it("contains typePage parameter") {
                     expect(sut.params?.stringKeyParams["type-page"] as? String) == "product-edit"
                 }
+                it("boost param is false") {
+                    expect(sut.params?.stringKeyParams["boost"] as? String) == "false"
+                }
+            }
+            describe("bump banner Info shown boost") {
+                beforeEach {
+                    sut = TrackerEvent.bumpBannerInfoShown(type: .paid, listingId: "1122", storeProductId: "tier1",
+                                                           typePage: .edit, isBoost: .trueParameter)
+                }
+                it("has its event name ") {
+                    expect(sut.name.rawValue).to(equal("bump-info-shown"))
+                }
+                it("type matches") {
+                    expect(sut.params?.stringKeyParams["bump-type"] as? String) == "paid"
+                }
+                it("product id matches") {
+                    expect(sut.params?.stringKeyParams["product-id"] as? String) == "1122"
+                }
+                it("storeProductId matches") {
+                    expect(sut.params?.stringKeyParams["store-productId"] as? String) == "tier1"
+                }
+                it("contains typePage parameter") {
+                    expect(sut.params?.stringKeyParams["type-page"] as? String) == "product-edit"
+                }
+                it("boost param is false") {
+                    expect(sut.params?.stringKeyParams["boost"] as? String) == "true"
+                }
             }
             describe("bump up start") {
                 beforeEach {
@@ -4339,7 +4370,7 @@ class TrackerEventSpec: QuickSpec {
                     product.status = .pending
                     sut = TrackerEvent.listingBumpUpStart(.product(product), price: .free, type: .free,
                                                           storeProductId: nil, isPromotedBump: .falseParameter,
-                                                          typePage: .edit)
+                                                          typePage: .edit, isBoost: .falseParameter)
                 }
                 it("has its event name ") {
                     expect(sut.name.rawValue).to(equal("bump-up-start"))
@@ -4365,6 +4396,9 @@ class TrackerEventSpec: QuickSpec {
                 it("contains typePage parameter") {
                     expect(sut.params?.stringKeyParams["type-page"] as? String) == "product-edit"
                 }
+                it("boost param is false") {
+                    expect(sut.params?.stringKeyParams["boost"] as? String) == "false"
+                }
             }
             describe("bump up complete") {
                 beforeEach {
@@ -4373,7 +4407,8 @@ class TrackerEventSpec: QuickSpec {
                     product.status = .pending
                     sut = TrackerEvent.listingBumpUpComplete(.product(product), price: .free, type: .free, restoreRetriesCount: 8,
                                                              network: .facebook, transactionStatus: .purchasingPurchased,
-                                                             storeProductId: nil, isPromotedBump: .falseParameter, typePage: .edit)
+                                                             storeProductId: nil, isPromotedBump: .falseParameter, typePage: .edit,
+                                                             isBoost: .falseParameter)
                 }
                 it("has its event name ") {
                     expect(sut.name.rawValue).to(equal("bump-up-complete"))
@@ -4405,6 +4440,9 @@ class TrackerEventSpec: QuickSpec {
                 it("contains typePage parameter") {
                     expect(sut.params?.stringKeyParams["type-page"] as? String) == "product-edit"
                 }
+                it("boost param is false") {
+                    expect(sut.params?.stringKeyParams["boost"] as? String) == "false"
+                }
             }
             describe("bump up fail") {
                 beforeEach {
@@ -4412,7 +4450,8 @@ class TrackerEventSpec: QuickSpec {
                                                          listingId: "1122",
                                                          transactionStatus: .purchasingPurchased,
                                                          storeProductId: "tier2",
-                                                         typePage: .edit)
+                                                         typePage: .edit,
+                                                         isBoost: .falseParameter)
                 }
                 it("has its event name ") {
                     expect(sut.name.rawValue).to(equal("bump-up-fail"))
@@ -4431,6 +4470,9 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains typePage parameter") {
                     expect(sut.params?.stringKeyParams["type-page"] as? String) == "product-edit"
+                }
+                it("boost param is false") {
+                    expect(sut.params?.stringKeyParams["boost"] as? String) == "false"
                 }
             }
             describe("mobile payment complete") {
