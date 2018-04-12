@@ -59,6 +59,7 @@ final class UserProfileViewModel: BaseViewModel {
     var userRatingAverage: Driver<Float> { return user.asDriver().map{$0?.ratingAverage ?? 0} }
     var userIsProfessional: Driver<Bool> { return user.asDriver().map {$0?.type == .pro} }
     var userBio: Driver<String?> { return user.asDriver().map { $0?.biography } }
+    var userScore: Driver<Int> { return user.asDriver().map { $0?.reputationPoints ?? 0} }
     var userMemberSinceText: Driver<String?> { return .just(nil) } // Not available in User Model yet
     var userAvatarPlaceholder: Driver<UIImage?> { return makeUserAvatar() }
     let userRelationIsBlocked = Variable<Bool>(false)
