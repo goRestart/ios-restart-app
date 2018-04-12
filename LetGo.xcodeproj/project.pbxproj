@@ -409,10 +409,6 @@
 		3221E5442062C0400006B12B /* ListingCellMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3221E5432062C0400006B12B /* ListingCellMetrics.swift */; };
 		3221E5452062C0400006B12B /* ListingCellMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3221E5432062C0400006B12B /* ListingCellMetrics.swift */; };
 		3FE825E8BDE13DA12F71FE15 /* Pods_letgoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2D3A9CDDF543002435A50F7 /* Pods_letgoTests.framework */; };
-		427CAB86206A7D5600112D58 /* InfoBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FADDDD2069257F00B6B774 /* InfoBubbleView.swift */; };
-		427CAB87206A7D5700112D58 /* InfoBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FADDDD2069257F00B6B774 /* InfoBubbleView.swift */; };
-		427CAB8A206A827300112D58 /* TrendingSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427CAB89206A827300112D58 /* TrendingSearchView.swift */; };
-		427CAB8B206A8B4E00112D58 /* TrendingSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427CAB89206A827300112D58 /* TrendingSearchView.swift */; };
 		42009A2220765A4F003F946E /* PromoCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42009A2120765A4F003F946E /* PromoCellDrawer.swift */; };
 		42009A2320765FE0003F946E /* PromoCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42009A2120765A4F003F946E /* PromoCellDrawer.swift */; };
 		4219244120761CF900862CEF /* PromoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4219244020761CF900862CEF /* PromoCell.swift */; };
@@ -421,6 +417,10 @@
 		427070D520764EBA00C1FEB3 /* CellAppereance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427070D420764EBA00C1FEB3 /* CellAppereance.swift */; };
 		427070D620764EBA00C1FEB3 /* CellAppereance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427070D420764EBA00C1FEB3 /* CellAppereance.swift */; };
 		42713C68207629A10077F88A /* PromoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4219244020761CF900862CEF /* PromoCell.swift */; };
+		427CAB86206A7D5600112D58 /* InfoBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FADDDD2069257F00B6B774 /* InfoBubbleView.swift */; };
+		427CAB87206A7D5700112D58 /* InfoBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FADDDD2069257F00B6B774 /* InfoBubbleView.swift */; };
+		427CAB8A206A827300112D58 /* TrendingSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427CAB89206A827300112D58 /* TrendingSearchView.swift */; };
+		427CAB8B206A8B4E00112D58 /* TrendingSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427CAB89206A827300112D58 /* TrendingSearchView.swift */; };
 		4287173D20655B0600EE334C /* LGNavBarMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4287173C20655B0600EE334C /* LGNavBarMetrics.swift */; };
 		4287173E20655DB500EE334C /* LGNavBarMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4287173C20655B0600EE334C /* LGNavBarMetrics.swift */; };
 		42ED94EA2077A6DB00548B62 /* PromoCellMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42ED94E92077A6DB00548B62 /* PromoCellMetrics.swift */; };
@@ -2028,16 +2028,15 @@
 		3221E536206061630006B12B /* DiscardedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscardedView.swift; sourceTree = "<group>"; };
 		3221E53A206152C50006B12B /* DistanceInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceInfoView.swift; sourceTree = "<group>"; };
 		3221E5432062C0400006B12B /* ListingCellMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingCellMetrics.swift; sourceTree = "<group>"; };
-		427CAB89206A827300112D58 /* TrendingSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingSearchView.swift; sourceTree = "<group>"; };
-		4287173C20655B0600EE334C /* LGNavBarMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGNavBarMetrics.swift; sourceTree = "<group>"; };
-		42FADDDD2069257F00B6B774 /* InfoBubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoBubbleView.swift; sourceTree = "<group>"; };
 		42009A2120765A4F003F946E /* PromoCellDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoCellDrawer.swift; sourceTree = "<group>"; };
 		4219244020761CF900862CEF /* PromoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoCell.swift; sourceTree = "<group>"; };
 		421CB34A207BBE5E006BF8A4 /* Collection+Safe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Safe.swift"; sourceTree = "<group>"; };
 		427070D420764EBA00C1FEB3 /* CellAppereance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellAppereance.swift; sourceTree = "<group>"; };
+		427CAB89206A827300112D58 /* TrendingSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingSearchView.swift; sourceTree = "<group>"; };
 		4287173C20655B0600EE334C /* LGNavBarMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGNavBarMetrics.swift; sourceTree = "<group>"; };
 		42ED94E92077A6DB00548B62 /* PromoCellMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoCellMetrics.swift; sourceTree = "<group>"; };
 		42ED94EC2077C36C00548B62 /* PromoCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoCellData.swift; sourceTree = "<group>"; };
+		42FADDDD2069257F00B6B774 /* InfoBubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoBubbleView.swift; sourceTree = "<group>"; };
 		44786E34D54C91974EA860A2 /* Pods-LetGo.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.adhoc.xcconfig"; sourceTree = "<group>"; };
 		4B0A305B22EED8C967344DB3 /* Pods-LetGoGodMode.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.debug.xcconfig"; sourceTree = "<group>"; };
 		500210B51CF5D94F0034519F /* ChatDisclaimerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatDisclaimerCell.swift; path = ../ChatDisclaimerCell.swift; sourceTree = "<group>"; };
@@ -3266,6 +3265,16 @@
 			path = ListingCell;
 			sourceTree = "<group>";
 		};
+		4219243F20761CDF00862CEF /* PromoCell */ = {
+			isa = PBXGroup;
+			children = (
+				4219244020761CF900862CEF /* PromoCell.swift */,
+				42ED94E92077A6DB00548B62 /* PromoCellMetrics.swift */,
+				42ED94EC2077C36C00548B62 /* PromoCellData.swift */,
+			);
+			path = PromoCell;
+			sourceTree = "<group>";
+		};
 		427CAB88206A825700112D58 /* TrendingSearch */ = {
 			isa = PBXGroup;
 			children = (
@@ -3280,16 +3289,6 @@
 				42FADDDD2069257F00B6B774 /* InfoBubbleView.swift */,
 			);
 			path = InfoBubbleView;
-			sourceTree = "<group>";
-		};
-		4219243F20761CDF00862CEF /* PromoCell */ = {
-			isa = PBXGroup;
-			children = (
-				4219244020761CF900862CEF /* PromoCell.swift */,
-				42ED94E92077A6DB00548B62 /* PromoCellMetrics.swift */,
-				42ED94EC2077C36C00548B62 /* PromoCellData.swift */,
-			);
-			path = PromoCell;
 			sourceTree = "<group>";
 		};
 		500DC1281BDA1C4C00B494FA /* config */ = {
@@ -8148,7 +8147,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9DF506523FC9C0A89601A8E3 /* Pods-LetGo.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -8188,7 +8187,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7ED714BB7ABD1804F5E818D4 /* Pods-LetGo.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Ambatana Holdings B.V. (3MAE68NKQE)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -8383,7 +8382,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4B0A305B22EED8C967344DB3 /* Pods-LetGoGodMode.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -8421,7 +8420,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7B2FD4C296937E707B24D7EB /* Pods-LetGoGodMode.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Ambatana Holdings B.V. (3MAE68NKQE)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -8458,7 +8457,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 97046DEB81A876CB375E76E9 /* Pods-LetGoGodMode.adhoc.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Ambatana Holdings B.V. (3MAE68NKQE)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -8542,7 +8541,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 44786E34D54C91974EA860A2 /* Pods-LetGo.adhoc.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Ambatana Holdings B.V. (3MAE68NKQE)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
