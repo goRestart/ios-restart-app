@@ -1155,7 +1155,7 @@ class TrackerEventSpec: QuickSpec {
 
                     sut = TrackerEvent.listingDetailVisit(.product(product), visitUserAction: .none, source: .listingList,
                                                           feedPosition: .position(index:1), isBumpedUp: .trueParameter,
-                                                          sellerBadge: .noBadge)
+                                                          sellerBadge: .silver)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-visit"))
@@ -1205,6 +1205,10 @@ class TrackerEventSpec: QuickSpec {
                 it("contains bumped up param") {
                     let bumpedUp = sut.params!.stringKeyParams["bump-up"] as? String
                     expect(bumpedUp).to(equal("true"))
+                }
+                it("contains seller badge param") {
+                    let badge = sut.params!.stringKeyParams["seller-reputation-badge"] as? String
+                    expect(badge) == "silver"
                 }
             }
             
@@ -1675,7 +1679,8 @@ class TrackerEventSpec: QuickSpec {
                         .set(containsEmoji: true)
                     sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                     listingVisitSource: .listingList,
-                                                    feedPosition: .position(index:1))
+                                                    feedPosition: .position(index:1),
+                                                    userBadge: .silver)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-ask-question"))
@@ -1740,12 +1745,17 @@ class TrackerEventSpec: QuickSpec {
                     let emoji = sut.params!.stringKeyParams["contain-emoji"] as? Bool
                     expect(emoji) == true
                 }
+                it("contains seller badge param") {
+                    let badge = sut.params!.stringKeyParams["seller-reputation-badge"] as? String
+                    expect(badge) == "silver"
+                }
                 describe("text message") {
                     beforeEach {
                         sendMessageInfo.set(messageType: .text)
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
-                                                        feedPosition: .position(index:1))
+                                                        feedPosition: .position(index:1),
+                                                        userBadge: .silver)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1768,7 +1778,8 @@ class TrackerEventSpec: QuickSpec {
                         sendMessageInfo.set(messageType: .sticker)
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
-                                                        feedPosition: .position(index:1))
+                                                        feedPosition: .position(index:1),
+                                                        userBadge: .silver)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1792,7 +1803,8 @@ class TrackerEventSpec: QuickSpec {
                         sendMessageInfo.set(quickAnswerType: .notInterested)
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
-                                                        feedPosition: .position(index:1))
+                                                        feedPosition: .position(index:1),
+                                                        userBadge: .silver)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1834,7 +1846,8 @@ class TrackerEventSpec: QuickSpec {
                         .set(containsEmoji: false)
                     sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                     listingVisitSource: .listingList,
-                                                    feedPosition: .position(index:1))
+                                                    feedPosition: .position(index:1),
+                                                    userBadge: .silver)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-ask-question"))
@@ -1887,12 +1900,17 @@ class TrackerEventSpec: QuickSpec {
                     let emoji = sut.params!.stringKeyParams["contain-emoji"] as? Bool
                     expect(emoji) == false
                 }
+                it("contains seller badge param") {
+                    let badge = sut.params!.stringKeyParams["seller-reputation-badge"] as? String
+                    expect(badge) == "silver"
+                }
                 describe("text message") {
                     beforeEach {
                         sendMessageInfo.set(messageType: .text)
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
-                                                        feedPosition: .position(index:1))
+                                                        feedPosition: .position(index:1),
+                                                        userBadge: .silver)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1915,7 +1933,8 @@ class TrackerEventSpec: QuickSpec {
                         sendMessageInfo.set(messageType: .sticker)
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
-                                                        feedPosition: .position(index:1))
+                                                        feedPosition: .position(index:1),
+                                                        userBadge: .silver)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1939,7 +1958,8 @@ class TrackerEventSpec: QuickSpec {
                         sendMessageInfo.set(quickAnswerType: .notInterested)
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
-                                                        feedPosition: .position(index:1))
+                                                        feedPosition: .position(index:1),
+                                                        userBadge: .silver)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
