@@ -19,7 +19,7 @@
 "bump_up_banner_pay_text" = "Destaca para vender más rápido";
 "bump_up_banner_pay_text_improvement" = "Vender más rápido";
 "bump_up_banner_wait_text" = "para destacar de nuevo";
-"bump_up_boost_success_alert_text" = "¡Tu anuncio ha sido impulsado de nuevo! Estará destacado durante las próximas 24 horas.";
+"bump_up_boost_success_alert_text" = "¡Tu anuncio ha sido impulsado! Estará destacado durante las próximas 24 horas.";
 "bump_up_error_bump_generic" = "Se ha producido un error al destacar tu anuncio. Por favor, inténtalo de nuevo.";
 "bump_up_error_bump_token" = "Tu pago ha sido procesado pero el anuncio no ha sido destacado.";
 "bump_up_error_payment_failed" = "No ha sido posible conectar con la App Store. Tu pago no ha sido procesado. Inténtalo de nuevo.";
@@ -907,6 +907,14 @@
 "real_estate_offer_type_sale" = "En venta";
 "real_estate_offer_type_title" = "Tipo de anuncio";
 "real_estate_price_title" = "Precio";
+"real_estate_promo_post_button_title" = "Publica ahora";
+"real_estate_promo_title_version_1" = "Publica anuncios de Inmobiliaria";
+"real_estate_promo_title_version_2" = "¡Nuevo! Publica propiedades en venta o alquiler";
+"real_estate_promo_title_version_3" = "¡Nuevo! Compra o vende propiedades";
+"real_estate_promo_title_version_4" = "Compra o vende propiedades";
+"real_estate_promo_title_version_5" = "Ahora puedes publicar anuncios de Inmobiliaria";
+"real_estate_promo_title_version_6" = "¡Nuevo! Anuncios de inmobiliaria en letgo";
+"real_estate_promo_title_version_7" = "Inmuebles en venta o alquiler";
 "real_estate_related_search_title" = "Resultados relacionados";
 "real_estate_rooms_over_ten" = "Más de 10";
 "real_estate_rooms_studio" = "Estudio (1+0)";

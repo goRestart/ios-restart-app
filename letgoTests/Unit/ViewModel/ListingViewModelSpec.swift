@@ -47,7 +47,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
         var bottomButtonsObserver: TestableObserver<[UIAction]>!
         var isFavoriteObserver: TestableObserver<Bool>!
         var directChatMessagesObserver: TestableObserver<[ChatViewMessage]>!
-        var isProfessionalObserver: TestableObserver<Bool>!
+        var sellerObserver: TestableObserver<User?>!
 
         describe("ListingViewModelSpec") {
 
@@ -75,7 +75,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                 sut.actionButtons.asObservable().bind(to: bottomButtonsObserver).disposed(by: disposeBag)
                 sut.isFavorite.asObservable().bind(to: isFavoriteObserver).disposed(by: disposeBag)
                 sut.directChatMessages.observable.bind(to: directChatMessagesObserver).disposed(by: disposeBag)
-                sut.isProfessional.asObservable().bind(to: isProfessionalObserver).disposed(by: disposeBag)
+                sut.seller.asObservable().bind(to: sellerObserver).disposed(by: disposeBag)
             }
 
             beforeEach {
@@ -98,7 +98,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                 bottomButtonsObserver = scheduler.createObserver(Array<UIAction>.self)
                 isFavoriteObserver = scheduler.createObserver(Bool.self)
                 directChatMessagesObserver = scheduler.createObserver(Array<ChatViewMessage>.self)
-                isProfessionalObserver = scheduler.createObserver(Bool.self)
+                sellerObserver = scheduler.createObserver(User?.self)
 
                 self.resetViewModelSpec()
             }
@@ -435,6 +435,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
             }
 
             describe ("check user type") {
+                var seller: User!
                 beforeEach {
                     featureFlags.allowCallsForProfessionals = .control
                 }
@@ -443,16 +444,17 @@ class ListingViewModelSpec: BaseViewModelSpec {
                         var user = MockUser.makeMock()
                         user.type = .pro
                         user.phone = "666-666-666"
+                        seller = user
                         userRepository.userResult = UserResult(value: user)
                         buildListingViewModel()
                         sut.active = true
-                        expect(isProfessionalObserver.eventValues).toEventually(equal([false, true]))
+                        expect(sellerObserver.eventValues.map { $0?.objectId }).toEventually(equal([nil, user.objectId]))
                     }
                     it ("isProfessional var is updated") {
-                        expect(isProfessionalObserver.lastValue) == true
+                        expect(sellerObserver.lastValue.map { $0!.objectId! }) == seller.objectId
                     }
                     it ("phoneNumber var has a value") {
-                        expect(sut.phoneNumber.value).toEventually(equal("666-666-666"))
+                        expect(sut.seller.value?.phone).toEventually(equal("666-666-666"))
                     }
                 }
                 context ("User is professional and doesn't have a phone number") {
@@ -460,29 +462,31 @@ class ListingViewModelSpec: BaseViewModelSpec {
                         var user = MockUser.makeMock()
                         user.type = .pro
                         user.phone = nil
+                        seller = user
                         userRepository.userResult = UserResult(value: user)
                         buildListingViewModel()
                         sut.active = true
-                        expect(isProfessionalObserver.eventValues).toEventually(equal([false, true]))
+                        expect(sellerObserver.eventValues.map { $0?.objectId }).toEventually(equal([nil, user.objectId]))
                     }
                     it ("isProfessional var is updated") {
-                        expect(isProfessionalObserver.lastValue) == true
+                         expect(sellerObserver.lastValue.map { $0!.objectId! }) == seller.objectId
                     }
                     it ("phoneNumber var has no value") {
-                        expect(sut.phoneNumber.value).toEventually(beNil())
+                        expect(sut.seller.value?.phone).toEventually(beNil())
                     }
                 }
                 context ("User is not professional") {
                     beforeEach {
                         var user = MockUser.makeMock()
                         user.type = .user
+                        seller = user
                         userRepository.userResult = UserResult(value: user)
                         buildListingViewModel()
                         sut.active = true
-                        expect(isProfessionalObserver.eventValues).toEventually(equal([false, false]))
+                        expect(sellerObserver.eventValues.map { $0?.objectId }).toEventually(equal([nil, user.objectId]))
                     }
                     it ("isProfessional var is updated") {
-                        expect(sut.isProfessional.value).toEventually(equal(false))
+                        expect(sut.seller.value?.isProfessional).toEventually(equal(false))
                     }
                 }
             }
@@ -591,12 +595,12 @@ class ListingViewModelSpec: BaseViewModelSpec {
                                 expect(sut.bumpUpBannerInfo.value?.type) == .priced
                             }
                             it ("banner interaction block opens priced bump up view") {
-                                sut.bumpUpBannerInfo.value?.bannerInteractionBlock()
+                                sut.bumpUpBannerInfo.value?.bannerInteractionBlock(0)
                                 expect(self.calledOpenPricedBumpUpView).toEventually(beTrue())
                             }
                             it ("banner button block tries to bump up the product") {
                                 // "tries to" because the result of the bump up feature is tested in another context
-                                sut.bumpUpBannerInfo.value?.buttonBlock()
+                                sut.bumpUpBannerInfo.value?.buttonBlock(0)
                                 expect(self.delegateReceivedShowLoading).toEventually(beTrue())
                             }
                         }
@@ -686,11 +690,11 @@ class ListingViewModelSpec: BaseViewModelSpec {
                                     expect(sut.bumpUpBannerInfo.value?.type) == .free
                                 }
                                 it ("banner interaction block opens free bump up view") {
-                                    sut.bumpUpBannerInfo.value?.bannerInteractionBlock()
+                                    sut.bumpUpBannerInfo.value?.bannerInteractionBlock(0)
                                     expect(self.calledOpenFreeBumpUpView).toEventually(beTrue())
                                 }
                                 it ("banner button block open free bump up view") {
-                                    sut.bumpUpBannerInfo.value?.buttonBlock()
+                                    sut.bumpUpBannerInfo.value?.buttonBlock(0)
                                     expect(self.calledOpenFreeBumpUpView).toEventually(beTrue())
                                 }
                             }
@@ -723,12 +727,12 @@ class ListingViewModelSpec: BaseViewModelSpec {
                                     expect(sut.bumpUpBannerInfo.value?.type) == .priced
                                 }
                                 it ("banner interaction block opens priced bump up view") {
-                                    sut.bumpUpBannerInfo.value?.bannerInteractionBlock()
+                                    sut.bumpUpBannerInfo.value?.bannerInteractionBlock(0)
                                     expect(self.calledOpenPricedBumpUpView).toEventually(beTrue())
                                 }
                                 it ("banner button block tries to bump up the product") {
                                     // "tries to" because the result of the bump up feature is tested in another context
-                                    sut.bumpUpBannerInfo.value?.buttonBlock()
+                                    sut.bumpUpBannerInfo.value?.buttonBlock(0)
                                     expect(self.delegateReceivedShowLoading).toEventually(beTrue())
                                 }
                             }
@@ -762,12 +766,12 @@ class ListingViewModelSpec: BaseViewModelSpec {
                                 }
                                 it ("banner interaction block tres to restore the bump") {
                                     // "tries to" because the result of the bump up feature is tested in another context
-                                    sut.bumpUpBannerInfo.value?.bannerInteractionBlock()
+                                    sut.bumpUpBannerInfo.value?.bannerInteractionBlock(0)
                                     expect(self.delegateReceivedShowLoading).toEventually(beTrue())
                                 }
                                 it ("banner button block tries to restore the bump") {
                                     // "tries to" because the result of the bump up feature is tested in another context
-                                    sut.bumpUpBannerInfo.value?.buttonBlock()
+                                    sut.bumpUpBannerInfo.value?.buttonBlock(0)
                                     expect(self.delegateReceivedShowLoading).toEventually(beTrue())
                                 }
                             }
@@ -803,7 +807,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                         sut.active = true
 
                         expect(sut.bumpUpPurchaseableProduct).toEventuallyNot(beNil())
-                        sut.bumpUpProduct(productId: product.objectId!)
+                        sut.bumpUpProduct(productId: product.objectId!, isBoost: false)
                     }
                     it ("transaction finishes with payment failed") {
                         expect(self.lastLoadingMessageShown).toEventually(equal(LGLocalizedString.bumpUpErrorPaymentFailed))
@@ -818,7 +822,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                         sut.active = true
 
                         expect(sut.bumpUpPurchaseableProduct).toEventuallyNot(beNil())
-                        sut.bumpUpProduct(productId: product.objectId!)
+                        sut.bumpUpProduct(productId: product.objectId!, isBoost: false)
                     }
                     it ("transaction finishes with bump failed") {
                         expect(self.lastLoadingMessageShown).toEventually(equal(LGLocalizedString.bumpUpErrorBumpGeneric))
@@ -833,7 +837,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                         sut.active = true
 
                         expect(sut.bumpUpPurchaseableProduct).toEventuallyNot(beNil())
-                        sut.bumpUpProduct(productId: product.objectId!)
+                        sut.bumpUpProduct(productId: product.objectId!, isBoost: false)
                     }
                     it ("transaction finishes with bump suceeded") {
                         expect(self.lastLoadingMessageShown).toEventually(equal(LGLocalizedString.bumpUpPaySuccess))
@@ -892,10 +896,13 @@ extension ListingViewModelSpec: ListingDetailNavigator {
 
     }
     func editListing(_ listing: Listing,
-                     bumpUpProductData: BumpUpProductData?) {
+                     bumpUpProductData: BumpUpProductData?,
+                     listingCanBeBoosted: Bool,
+                     timeSinceLastBump: TimeInterval?,
+                     maxCountdown: TimeInterval?) {
 
     }
-    func openListingChat(_ listing: Listing, source: EventParameterTypePage, isProfessional: Bool) {
+    func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?) {
 
     }
     func closeListingAfterDelete(_ listing: Listing) {
@@ -940,6 +947,11 @@ extension ListingViewModelSpec: ListingDetailNavigator {
                                               actions: [UIAction]) {
 
     }
+
+    func showBumpUpBoostSucceededAlert() {
+
+    }
+
     func openContactUs(forListing listing: Listing, contactUstype: ContactUsType) {
 
     }
@@ -952,11 +964,12 @@ extension ListingViewModelSpec: ListingDetailNavigator {
 
     }
 
-    func openAskPhoneFor(listing: Listing) {
+    func openAskPhoneFor(listing: Listing, interlocutor: User?) {
 
     }
 
-    func closeAskPhoneFor(listing: Listing, openChat: Bool, withPhoneNum: String?, source: EventParameterTypePage) {
+    func closeAskPhoneFor(listing: Listing, openChat: Bool, withPhoneNum: String?, source: EventParameterTypePage,
+                          interlocutor: User?) {
 
     }
 }

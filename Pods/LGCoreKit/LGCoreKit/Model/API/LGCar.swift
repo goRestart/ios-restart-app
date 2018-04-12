@@ -310,12 +310,21 @@ struct LGCar: Car, Decodable {
         user = baseListing.user
         featured = baseListing.featured
         
-        let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
-        carAttributes = (try keyedContainer.decodeIfPresent(CarAttributes.self, forKey: .carAttributes))
-            ?? CarAttributes.emptyCarAttributes()
+        let keyedContainerApi = try decoder.container(keyedBy: CodingKeysApi.self)
+        let keyedContainerVerticals = try decoder.container(keyedBy: CodingKeysVerticals.self)
+        
+        if let attributes = try keyedContainerApi.decodeIfPresent(CarAttributes.self, forKey: .carAttributes) {
+            carAttributes = attributes
+        } else {
+            carAttributes = try keyedContainerVerticals.decodeIfPresent(CarAttributes.self, forKey: .carAttributes) ?? CarAttributes.emptyCarAttributes()
+        }
+        
     }
     
-    enum CodingKeys: String, CodingKey {
+    enum CodingKeysApi: String, CodingKey {
         case carAttributes = "attributes"
+    }
+    enum CodingKeysVerticals: String, CodingKey {
+        case carAttributes = "carAttributes"
     }
 }

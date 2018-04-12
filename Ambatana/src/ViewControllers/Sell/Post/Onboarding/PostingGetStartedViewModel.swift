@@ -15,6 +15,8 @@ class PostingGetStartedViewModel: BaseViewModel {
 
     let tracker: Tracker
     var myUserRepository: MyUserRepository
+    let featureFlags: FeatureFlaggeable
+    
     var userAvatarURL: URL? {
         return myUserRepository.myUser?.avatar?.fileURL
     }
@@ -43,18 +45,24 @@ class PostingGetStartedViewModel: BaseViewModel {
     var discardText: String {
         return LGLocalizedString.postGetStartedDiscardText
     }
+    
+    var shouldShowSkipButton: Bool {
+        return featureFlags.onboardingIncentivizePosting == .blockingPostingSkipWelcome
+    }
 
     
     // MARK: - Lifecycle
     
     override convenience init() {
         self.init(myUserRepository: Core.myUserRepository,
-                  tracker: TrackerProxy.sharedInstance)
+                  tracker: TrackerProxy.sharedInstance,
+                  featureFlags: FeatureFlags.sharedInstance)
     }
 
-    init(myUserRepository: MyUserRepository, tracker: Tracker) {
+    init(myUserRepository: MyUserRepository, tracker: Tracker, featureFlags: FeatureFlaggeable) {
         self.myUserRepository = myUserRepository
         self.tracker = tracker
+        self.featureFlags = featureFlags
         super.init()
         retrieveImageForAvatar()
     }
@@ -80,6 +88,11 @@ class PostingGetStartedViewModel: BaseViewModel {
         navigator?.openCamera()
     }
     
+    func skipAction() {
+        trackPostSellAbandon()
+        navigator?.closePosting()
+    }
+    
     
     // MARK: - Tracker
     
@@ -88,7 +101,13 @@ class PostingGetStartedViewModel: BaseViewModel {
                                                   buttonName: PostingSource.onboardingBlockingPosting.buttonName,
                                                   sellButtonPosition: PostingSource.onboardingBlockingPosting.sellButtonPosition,
                                                   category: nil,
-                                                  mostSearchedButton: PostingSource.onboardingBlockingPosting.mostSearchedButton)
+                                                  mostSearchedButton: PostingSource.onboardingBlockingPosting.mostSearchedButton,
+                                                  predictiveFlow: false)
+        tracker.trackEvent(event)
+    }
+    
+    private func trackPostSellAbandon() {
+        let event = TrackerEvent.listingSellAbandon(abandonStep: .welcomeOnboarding)
         tracker.trackEvent(event)
     }
 }

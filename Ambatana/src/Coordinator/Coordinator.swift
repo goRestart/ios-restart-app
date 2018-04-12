@@ -117,8 +117,15 @@ extension Coordinator {
             loggedInAction()
             return
         }
-        let coordinator = LoginCoordinator(source: source, style: style, loggedInAction: loggedInAction, cancelAction: cancelAction)
-        openChild(coordinator: coordinator, parent: viewController, animated: true, forceCloseChild: true, completion: nil)
+        let coordinator = LoginCoordinator(source: source,
+                                           style: style,
+                                           loggedInAction: loggedInAction,
+                                           cancelAction: cancelAction)
+        openChild(coordinator: coordinator,
+                  parent: viewController,
+                  animated: true,
+                  forceCloseChild: true,
+                  completion: nil)
     }
 }
 

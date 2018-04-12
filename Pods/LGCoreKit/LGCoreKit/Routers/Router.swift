@@ -27,8 +27,20 @@ struct RealEstateBaseURL: BaseURL {
     static let contentTypeHeader: String? = nil
 }
 
+struct CarsBaseURL: BaseURL {
+    static let baseURL = EnvironmentProxy.sharedInstance.realEstateBaseURL
+    static let acceptHeader: String? = "application/json"
+    static let contentTypeHeader: String? = nil
+}
+
 struct SearchRealEstateBaseURL: BaseURL {
     static let baseURL = EnvironmentProxy.sharedInstance.searchRealEstateBaseURL
+    static let acceptHeader: String? = "application/json"
+    static let contentTypeHeader: String? = nil
+}
+
+struct SearchCarsBaseURL: BaseURL {
+    static let baseURL = EnvironmentProxy.sharedInstance.searchCarsBaseURL
     static let acceptHeader: String? = "application/json"
     static let contentTypeHeader: String? = nil
 }
@@ -78,6 +90,12 @@ struct SearchProductsBaseURL: BaseURL {
 struct NiordBaseURL: BaseURL {
     static var baseURL: String = EnvironmentProxy.sharedInstance.niordBaseURL
     static let acceptHeader: String? = nil
+    static let contentTypeHeader: String? = nil
+}
+
+struct SpellCorrectorBaseURL: BaseURL {
+    static let baseURL = EnvironmentProxy.sharedInstance.spellCorrectorBaseURL
+    static let acceptHeader: String? = "application/json;version=2"
     static let contentTypeHeader: String? = nil
 }
 

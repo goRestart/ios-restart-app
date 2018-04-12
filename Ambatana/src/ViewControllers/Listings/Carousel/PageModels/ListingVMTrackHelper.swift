@@ -179,7 +179,8 @@ extension ProductVMTrackHelper {
     func trackBumpUpBannerShown(type: BumpUpType, storeProductId: String?) {
         let trackerEvent = TrackerEvent.bumpBannerShow(type: EventParameterBumpUpType(bumpType: type),
                                                        listingId: listing.objectId,
-                                                       storeProductId: storeProductId)
+                                                       storeProductId: storeProductId,
+                                                       isBoost: EventParameterBoolean(bool: type.isBoost))
         tracker.trackEvent(trackerEvent)
     }
 
@@ -192,7 +193,8 @@ extension ProductVMTrackHelper {
                                                            type: EventParameterBumpUpType(bumpType: type),
                                                            storeProductId: storeProductId,
                                                            isPromotedBump: EventParameterBoolean(bool: isPromotedBump),
-                                                           typePage: typePage)
+                                                           typePage: typePage,
+                                                           isBoost: EventParameterBoolean(bool: type.isBoost))
         tracker.trackEvent(trackerEvent)
     }
 
@@ -211,7 +213,8 @@ extension ProductVMTrackHelper {
                                                               transactionStatus: transactionStatus,
                                                               storeProductId: storeProductId,
                                                               isPromotedBump: EventParameterBoolean(bool: isPromotedBump),
-                                                              typePage: typePage)
+                                                              typePage: typePage,
+                                                              isBoost: EventParameterBoolean(bool: type.isBoost))
         tracker.trackEvent(trackerEvent)
     }
 
@@ -223,7 +226,8 @@ extension ProductVMTrackHelper {
                                                           listingId: listing.objectId,
                                                           transactionStatus: transactionStatus,
                                                           storeProductId: storeProductId,
-                                                          typePage: typePage)
+                                                          typePage: typePage,
+                                                          isBoost: EventParameterBoolean(bool: type.isBoost))
         tracker.trackEvent(trackerEvent)
     }
 
@@ -325,6 +329,11 @@ extension ProductVMTrackHelper {
 
     func trackReportCompleted() {
         let trackerEvent = TrackerEvent.listingReport(listing)
+        tracker.trackEvent(trackerEvent)
+    }
+    
+    func trackReportError(_ reportError: EventParameterProductReportError) {
+        let trackerEvent = TrackerEvent.listingReportError(reportError)
         tracker.trackEvent(trackerEvent)
     }
 

@@ -19,7 +19,7 @@
 "bump_up_banner_pay_text" = "Verkoop nu sneller";
 "bump_up_banner_pay_text_improvement" = "Verkoop nu sneller";
 "bump_up_banner_wait_text" = "opnieuw plaatsen";
-"bump_up_boost_success_alert_text" = "Jouw advertentie werd opnieuw geboost! Deze zal de komende 24 uur als uitgelicht geplaatst worden.";
+"bump_up_boost_success_alert_text" = "Je advertentie werd geboost! Deze zal de komende 24 uur als uitgelicht geplaatst worden.";
 "bump_up_error_bump_generic" = "Er is een fout opgetreden tijdens het als uitgelicht plaatsen van je advertentie. Probeer het opnieuw.";
 "bump_up_error_bump_token" = "Je betaling is verwerkt, maar je advertentie is niet als uitgelicht geplaatst.";
 "bump_up_error_payment_failed" = "Kan geen verbinding maken met de App Store. Je betaling is niet verwerkt. Probeer het opnieuw.";
@@ -247,7 +247,7 @@
 "common_error_retry_button" = "Probeer opnieuw";
 "common_error_title" = "OEPS!";
 "common_expand" = "Toon meer";
-"common_hours_mins_secs" = "%@h %@m %@s";
+"common_hours_mins_secs" = "%@u %@m %@s";
 "common_loading" = "Laden...";
 "common_max" = "max.";
 "common_new" = "NIEUW!";
@@ -907,6 +907,14 @@
 "real_estate_offer_type_sale" = "Te Koop";
 "real_estate_offer_type_title" = "Soort Advertentie";
 "real_estate_price_title" = "Prijs";
+"real_estate_promo_post_button_title" = "Nu Plaatsen";
+"real_estate_promo_title_version_1" = "Plaats Onroerend Goed advertenties";
+"real_estate_promo_title_version_2" = "Nieuw! Plaats woningen te koop en te huur";
+"real_estate_promo_title_version_3" = "Nieuw! Verkoop of verhuur woningen";
+"real_estate_promo_title_version_4" = "Verkoop of verhuur woningen";
+"real_estate_promo_title_version_5" = "Je kunt nu Onroerend Goed advertenties plaatsen";
+"real_estate_promo_title_version_6" = "Nieuw! Onroerend Goed advertenties op letgo";
+"real_estate_promo_title_version_7" = "Onroerend Goed te huur of te koop";
 "real_estate_related_search_title" = "Gerelateerde resultaten";
 "real_estate_rooms_over_ten" = "Meer dan 10";
 "real_estate_rooms_studio" = "Studio (1+0)";

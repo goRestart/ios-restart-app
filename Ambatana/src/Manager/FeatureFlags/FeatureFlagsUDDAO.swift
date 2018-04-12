@@ -12,7 +12,8 @@ final class FeatureFlagsUDDAO: FeatureFlagsDAO {
     static let userDefaultsKey = "FeatureFlags"
     
     fileprivate enum Key: String {
-        case websocketChatEnabled = "websocketChatEnabled"
+        case newUserProfileEnabled = "newUserProfileEnabled"
+        case showAdvancedReputationSystemEnabled = "showAdvancedReputationSystemEnabled"
     }
 
     fileprivate var dictionary: [String: Any]
@@ -41,6 +42,26 @@ final class FeatureFlagsUDDAO: FeatureFlagsDAO {
     func save(timeoutForRequests: TimeInterval) {
         networkDAO.timeoutIntervalForRequests = timeoutForRequests
     }
+
+    func retrieveNewUserProfile() -> NewUserProfileView? {
+        guard let rawValue: String = retrieve(key: .newUserProfileEnabled) else { return nil }
+        return NewUserProfileView(rawValue: rawValue)
+    }
+
+    func save(newUserProfile: NewUserProfileView) {
+        save(key: .newUserProfileEnabled, value: newUserProfile.rawValue)
+        sync()
+    }
+
+    func retrieveShowAdvanceReputationSystem() -> ShowAdvancedReputationSystem? {
+        guard let rawValue: String = retrieve(key: .showAdvancedReputationSystemEnabled) else { return nil }
+        return ShowAdvancedReputationSystem(rawValue: rawValue)
+    }
+
+    func save(showAdvanceReputationSystem: ShowAdvancedReputationSystem) {
+        save(key: .showAdvancedReputationSystemEnabled, value: showAdvanceReputationSystem.rawValue)
+        sync()
+    }
 }
 
 
@@ -50,5 +71,16 @@ fileprivate extension FeatureFlagsUDDAO {
     static func fetch(userDefaults: UserDefaults) -> [String: Any]? {
         return userDefaults.dictionary(forKey: FeatureFlagsUDDAO.userDefaultsKey)
     }
-    
+
+    func retrieve<T>(key: Key) -> T? {
+        return dictionary[key.rawValue] as? T
+    }
+
+    func save<T>(key: Key, value: T) {
+        dictionary[key.rawValue] = value
+    }
+
+    func sync() {
+        userDefaults.setValue(dictionary, forKey: FeatureFlagsUDDAO.userDefaultsKey)
+    }
 }

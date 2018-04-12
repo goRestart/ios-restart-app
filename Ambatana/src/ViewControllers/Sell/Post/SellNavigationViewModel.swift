@@ -9,29 +9,38 @@
 import RxSwift
 
 class SellNavigationViewModel : BaseViewModel {
-    
     let numberOfSteps = Variable<CGFloat>(0)
     let currentStep = Variable<CGFloat>(0)
     let categorySelected = Variable<PostCategory?>(nil)
+    var hideProgressHeader:  Observable<Bool> {
+        return currentStep.asObservable().map { [weak self] currentStep -> Bool in
+            guard let isActive = self?.featureFlags.summaryAsFirstStep.isActive, let totalSteps = self?.totalSteps else {
+                return false
+            }
+            return isActive || currentStep == 0 || currentStep > totalSteps
+        }
+    }
     var shouldModifyProgress: Bool = false
     var hasInitialCategory: Bool = false
     
     let featureFlags: FeatureFlags
+    let disposeBag = DisposeBag()
     
     var actualStep: CGFloat {
         return currentStep.value
     }
     
+    var totalSteps: CGFloat {
+        return numberOfSteps.value
+    }
+   
     var postingFlowType: PostingFlowType {
         return featureFlags.postingFlowType
     }
     
-    var shouldShowPriceStep: Bool {
-        return featureFlags.showPriceStepRealEstatePosting.isActive && hasInitialCategory
-    }
-    
     init(featureFlags: FeatureFlags) {
         self.featureFlags = featureFlags
+        super.init()
     }
     
     override convenience init() {
@@ -51,5 +60,5 @@ class SellNavigationViewModel : BaseViewModel {
         if shouldModifyProgress {
             currentStep.value = currentStep.value - 1
         }
-    }    
+    }
 }

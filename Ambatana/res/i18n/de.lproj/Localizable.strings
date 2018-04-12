@@ -19,7 +19,7 @@
 "bump_up_banner_pay_text" = "Jetzt schneller verkaufen";
 "bump_up_banner_pay_text_improvement" = "Jetzt schneller verkaufen";
 "bump_up_banner_wait_text" = "um es wieder zu empfehlen";
-"bump_up_boost_success_alert_text" = "Dein Angebot wurde erneut angekurbelt! Es wird nun für die nächsten 24 Stunden empfohlen.";
+"bump_up_boost_success_alert_text" = "Dein Angebot wurde angekurbelt! Es wird nun für die nächsten 24 Stunden empfohlen.";
 "bump_up_error_bump_generic" = "Wir konnten dein Angebot nicht empfehlen. Bitte versuche es erneut.";
 "bump_up_error_bump_token" = "Deine Zahlung wurde verarbeitet, aber das Angebot wurde noch nicht empfohlen.";
 "bump_up_error_payment_failed" = "Es konnte keine Verbindung zum App Store hergestellt werden. Deine Zahlung wurde nicht verarbeitet. Bitte versuche es erneut.";
@@ -907,6 +907,14 @@
 "real_estate_offer_type_sale" = "Zum Verkauf";
 "real_estate_offer_type_title" = "Art des Angebots";
 "real_estate_price_title" = "Preis";
+"real_estate_promo_post_button_title" = "Jetzt einstellen";
+"real_estate_promo_title_version_1" = "Immobilien-Angebote einstellen";
+"real_estate_promo_title_version_2" = "Neu! Stelle Miet- und Kaufimmobilien ein";
+"real_estate_promo_title_version_3" = "Neu! Vermiete oder verkaufe Immobilien";
+"real_estate_promo_title_version_4" = "Verkaufe oder vermiete Immobilien";
+"real_estate_promo_title_version_5" = "Du kannst ab jetzt Immobilien-Angebote einstellen";
+"real_estate_promo_title_version_6" = "Neu! Immobilien-Angebote auf letgo";
+"real_estate_promo_title_version_7" = "Miet- und Kaufimmobilien";
 "real_estate_related_search_title" = "Ähnliche Ergebnisse";
 "real_estate_rooms_over_ten" = "Mehr als 10";
 "real_estate_rooms_studio" = "Studio (1+0)";

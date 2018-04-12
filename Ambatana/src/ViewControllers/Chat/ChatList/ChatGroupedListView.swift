@@ -32,8 +32,6 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
     @IBOutlet weak var emptyView: LGEmptyView!
 
     var refreshControl = UIRefreshControl()
-
-    private let inactiveConversationHeaderView = ChatInactiveConversationHeaderView()
     
     // > Insets
     @IBOutlet weak var tableViewBottomInset: NSLayoutConstraint!
@@ -229,11 +227,6 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
         footerButton.isEnabled = false
         bottomInset = tabBarBottomInset
         setFooterHidden(true, animated: false)
-        
-        inactiveConversationHeaderView.translatesAutoresizingMaskIntoConstraints = false
-        inactiveConversationHeaderView.buttonAction = { [weak self] in
-            self?.viewModel.openInactiveConversations()
-        }
     }
 
     func resetUI() {
@@ -255,26 +248,6 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
         viewModel.objects.changesObservable.subscribeNext { [weak self] change in
             self?.tableView.reloadData()
         }.disposed(by: disposeBag)
-        
-        viewModel.inactiveConversationsCount.asObservable().subscribeNext { [weak self] count in
-            if let count = count, count > 0 {
-                self?.showInactiveConversationsHeader(with: count)
-            } else {
-                self?.hideInactiveConversationsHeader()
-            }
-        }.disposed(by: disposeBag)
-    }
-    
-    private func showInactiveConversationsHeader(with count: Int) {
-        guard viewModel.shouldShowInactiveConversations else { return }
-        inactiveConversationHeaderView.inactiveConvesationsCount = count
-        guard inactiveConversationHeaderView.superview == nil else { return }
-        headerView.addSubview(inactiveConversationHeaderView)
-        inactiveConversationHeaderView.layout(with: headerView).fill()
-    }
-    
-    private func hideInactiveConversationsHeader() {
-        inactiveConversationHeaderView.removeFromSuperview()
     }
 
     func setFooterHidden(_ hidden: Bool, animated: Bool, completion: ((Bool) -> (Void))? = nil) {

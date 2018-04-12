@@ -12,6 +12,7 @@ protocol Environment {
     // API
     var apiBaseURL: String { get }
     var realEstateBaseURL: String { get }
+    var carsBaseURL: String { get }
     var bouncerBaseURL: String { get }
     var userRatingsBaseURL: String { get }
     var chatBaseURL: String { get }
@@ -21,5 +22,7 @@ protocol Environment {
     var suggestiveSearchBaseURL: String { get }
     var searchProductsBaseURL: String { get }
     var searchRealEstateBaseURL: String { get }
+    var searchCarsBaseURL: String { get }
     var niordBaseURL: String { get }
+    var spellCorrectorBaseURL: String { get }
 }

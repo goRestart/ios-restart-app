@@ -110,7 +110,7 @@ extension UIViewController {
         get {
             var toast = objc_getAssociatedObject(self, &TostableKeys.ToastViewKey) as? ToastView
             if toast == nil {
-                toast = ToastView.toastView()
+                toast = ToastView()
                 self.toastView = toast
             }
             return toast
@@ -221,9 +221,10 @@ enum NavBarTransparentSubStyle {
 }
 
 enum NavBarBackgroundStyle {
+    case white
     case transparent(substyle: NavBarTransparentSubStyle)
-    case `default`
     case custom(background: UIImage, shadow: UIImage)
+    case `default`
 
     var tintColor: UIColor {
         switch self {
@@ -234,7 +235,7 @@ enum NavBarBackgroundStyle {
             case .light:
                 return UIColor.lightBarButton
             }
-        case .default, .custom:
+        case .default, .custom, .white:
             return UIColor.lightBarButton
         }
     }
@@ -248,7 +249,7 @@ enum NavBarBackgroundStyle {
             case .light:
                 return UIColor.lightBarTitle
             }
-        case .default, .custom:
+        case .default, .custom, .white:
             return UIColor.lightBarTitle
         }
     }
@@ -287,15 +288,18 @@ extension UIViewController {
     
     func setNavBarBackgroundStyle(_ style: NavBarBackgroundStyle) {
         switch style {
+        case .white:
+            navigationController?.navigationBar.shadowImage = UIImage()
+            navigationController?.navigationBar.barTintColor = .white
         case .transparent:
             navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
             navigationController?.navigationBar.shadowImage = UIImage()
-        case .default:
-            navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
-            navigationController?.navigationBar.shadowImage = nil
         case let .custom(background, shadow):
             navigationController?.navigationBar.setBackgroundImage(background, for: .default)
             navigationController?.navigationBar.shadowImage = shadow
+        case .default:
+            navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+            navigationController?.navigationBar.shadowImage = nil
         }
 
         navigationController?.navigationBar.tintColor = style.tintColor
@@ -328,7 +332,7 @@ class BaseViewController: UIViewController, TabBarShowable {
     var hasTabBar: Bool = false
     
     // UI
-    private let statusBarStyle: UIStatusBarStyle
+    private var statusBarStyle: UIStatusBarStyle
     private let previousStatusBarStyle: UIStatusBarStyle
     private let navBarBackgroundStyle: NavBarBackgroundStyle
     private var swipeBackGestureEnabled: Bool
@@ -377,9 +381,6 @@ class BaseViewController: UIViewController, TabBarShowable {
         
         navigationController?.interactivePopGestureRecognizer?.isEnabled = swipeBackGestureEnabled
         view.backgroundColor = UIColor.viewControllerBackground
-        //Listen to status bar changes
-        NotificationCenter.default.addObserver(self, selector: #selector(BaseViewController.statusBarDidShow(_:)),
-            name: NSNotification.Name(rawValue: StatusBarNotification.StatusBarWillShow.rawValue), object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -432,8 +433,7 @@ class BaseViewController: UIViewController, TabBarShowable {
         setNavBarBackgroundStyle(navBarBackgroundStyle)
 
         if !fromBackground {
-            UIApplication.shared.setStatusBarStyle(statusBarStyle, animated: true)
-
+            setNeedsStatusBarAppearanceUpdate()
             NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackground(_:)), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
             NotificationCenter.default.addObserver(self, selector: #selector(applicationWillEnterForeground(_:)), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
         }
@@ -444,14 +444,19 @@ class BaseViewController: UIViewController, TabBarShowable {
         
         if !toBackground {
             if !isRootViewController() || isModal {
-                UIApplication.shared.setStatusBarStyle(previousStatusBarStyle, animated: true)
+                statusBarStyle = previousStatusBarStyle
+                setNeedsStatusBarAppearanceUpdate()
             }
-
             NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
             NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
         }
-
         active = false
+    }
+    
+    // MARK: StatusBarStyle
+
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return statusBarStyle
     }
     
     // MARK: Subview handling
@@ -483,13 +488,6 @@ class BaseViewController: UIViewController, TabBarShowable {
     
     @objc private func applicationWillEnterForeground(_ notification: Notification) {
         viewWillAppearFromBackground(true)
-    }
-
-    @objc func statusBarDidShow(_ notification: Notification) {
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(0.01 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) { [weak self] in
-                self?.view.setNeedsLayout()
-                self?.view.layoutIfNeeded()
-        }
     }
     
     // MARK: Reachability

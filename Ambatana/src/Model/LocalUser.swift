@@ -10,7 +10,6 @@ import LGCoreKit
 
 struct LocalUser: User, UserListing {
 
-
     let objectId: String?
     let name: String?
     let avatar: File?
@@ -26,8 +25,11 @@ struct LocalUser: User, UserListing {
 
     let phone: String?
     let type: UserType
+    let biography: String?
+    let reputationPoints: Int
 
-    init(objectId: String?, name: String?, avatar: File?, postalAddress: PostalAddress, status: UserStatus, isDummy: Bool, banned: Bool?, phone: String?, type: UserType?) {
+    init(objectId: String?, name: String?, avatar: File?, postalAddress: PostalAddress, status: UserStatus,
+         isDummy: Bool, banned: Bool?, phone: String?, type: UserType?, biography: String?, reputationPoints: Int) {
         self.objectId = objectId
         self.name = name
         self.avatar = avatar
@@ -40,6 +42,8 @@ struct LocalUser: User, UserListing {
         self.banned = banned
         self.phone = phone
         self.type = type ?? .user
+        self.biography = biography
+        self.reputationPoints = reputationPoints
     }
 
     init(chatInterlocutor: ChatInterlocutor) {
@@ -55,6 +59,8 @@ struct LocalUser: User, UserListing {
         self.banned = chatInterlocutor.isBanned
         self.phone = nil
         self.type = .user
+        self.biography = nil
+        self.reputationPoints = 0
     }
     
     init?(user: User?) {
@@ -71,6 +77,8 @@ struct LocalUser: User, UserListing {
         self.banned = nil
         self.phone = user.phone
         self.type = user.type
+        self.biography = user.biography
+        self.reputationPoints = user.reputationPoints
     }
     
     init(userListing: UserListing) {
@@ -86,5 +94,7 @@ struct LocalUser: User, UserListing {
         self.banned = userListing.banned
         self.phone = nil
         self.type = .user
+        self.biography = nil
+        self.reputationPoints = 0
     }
 }

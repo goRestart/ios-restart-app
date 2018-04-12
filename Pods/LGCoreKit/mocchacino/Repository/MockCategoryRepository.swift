@@ -15,7 +15,9 @@ open class MockCategoryRepository: CategoryRepository {
     
     // MARK: - CategoryRepository
 
-    public func index(carsIncluded: Bool, realEstateIncluded: Bool, highlightRealEstate: Bool, completion: CategoriesCompletion?)  {
+    public func index(servicesIncluded: Bool, carsIncluded: Bool,
+                      realEstateIncluded: Bool,
+                      completion: CategoriesCompletion?)  {
         delay(result: categoriesIndexResult, completion: completion)
     }
 

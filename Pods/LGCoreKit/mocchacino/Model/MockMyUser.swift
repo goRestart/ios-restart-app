@@ -14,4 +14,6 @@ public struct MockMyUser: MyUser {
     public var location: LGLocation?
     public var localeIdentifier: String?
     public var creationDate: Date?
+    public var biography: String?
+    public var reputationPoints: Int
 }

@@ -19,7 +19,6 @@ fileprivate extension UIBarButtonItem {
     }
 }
 
-
 extension UIViewController {
 
     var isModal: Bool {
@@ -251,41 +250,6 @@ extension UIViewController {
             self.present(svc, animated: true, completion: nil)
     }
 }
-
-
-// MARK: - Status bar
-
-enum StatusBarNotification: String {
-    case StatusBarWillHide
-    case StatusBarWillShow
-    case StatusBarDidHide
-    case StatusBarDidShow
-}
-
-extension UIViewController {
-
-    func setStatusBarHidden(_ hidden: Bool) {
-        setStatusBarHidden(hidden, withAnimation: nil)
-    }
-
-    func setStatusBarHidden(_ hidden: Bool, withAnimation animation: UIStatusBarAnimation?) {
-
-        let willNotificationName: StatusBarNotification = hidden ? .StatusBarWillHide : .StatusBarWillShow
-        let didNotificationName: StatusBarNotification = hidden ? .StatusBarDidHide : .StatusBarDidShow
-        NotificationCenter.default.post(name: Notification.Name(rawValue: willNotificationName.rawValue), object: nil)
-
-        if let animation = animation {
-            UIApplication.shared.setStatusBarHidden(hidden, with: animation)
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(0.3 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) {
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: didNotificationName.rawValue), object: nil)
-            }
-        } else {
-            UIApplication.shared.isStatusBarHidden = hidden
-            NotificationCenter.default.post(name: Notification.Name(rawValue: didNotificationName.rawValue), object: nil)
-        }
-    }
-}
-
 
 // MARK: - TabBar
 

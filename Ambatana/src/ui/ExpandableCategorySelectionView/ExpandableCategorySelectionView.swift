@@ -19,17 +19,18 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
     static let multipleRowTagsCollectionViewHeightThreshold: CGFloat = 400
     static let singleRowTagsCollectionViewHeight: CGFloat = 40
     
-    fileprivate let viewModel: ExpandableCategorySelectionViewModel
-    fileprivate var buttons: [UIButton] = []
-    fileprivate var closeButton: UIButton = UIButton()
+    private let viewModel: ExpandableCategorySelectionViewModel
+    private var buttons: [UIButton] = []
+    private var closeButton: UIButton = UIButton()
+    private let newBadgeView: UIView = UIView()
     
-    fileprivate let tagCollectionViewModel: TagCollectionViewModel
-    fileprivate let tagsView: UIView = {
+    private let tagCollectionViewModel: TagCollectionViewModel
+    private let tagsView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    fileprivate let titleTagsLabel: UILabel = {
+    private let titleTagsLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
@@ -38,17 +39,17 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
         label.textAlignment = .center
         return label
     }()
-    fileprivate var tagCollectionView: TagCollectionView?
+    private var tagCollectionView: TagCollectionView?
     
-    fileprivate let buttonSpacing: CGFloat
-    fileprivate let bottomDistance: CGFloat
-    fileprivate let buttonHeight: CGFloat = 50
-    fileprivate let buttonCloseSide: CGFloat = 60
+    private let buttonSpacing: CGFloat
+    private let bottomDistance: CGFloat
+    private let buttonHeight: CGFloat = 50
+    private let buttonCloseSide: CGFloat = 60
     let expanded = Variable<Bool>(false)
     
-    fileprivate var topConstraints: [NSLayoutConstraint] = []
-    fileprivate let disposeBag: DisposeBag = DisposeBag()
-    fileprivate var canLayoutMultipleRowTagCollectionView: Bool {
+    private var topConstraints: [NSLayoutConstraint] = []
+    private let disposeBag: DisposeBag = DisposeBag()
+    private var canLayoutMultipleRowTagCollectionView: Bool {
         return tagsView.height > ExpandableCategorySelectionView.multipleRowTagsCollectionViewHeightThreshold
     }
     
@@ -75,10 +76,32 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
         super.layoutSubviews()
         closeButton.setRoundedCorners()
         buttons.forEach { (button) in button.setRoundedCorners() }
+        newBadgeView.setRoundedCorners()
     }
     
 
     // MARK: - UI
+    
+    private func setupNewBadge() {
+        newBadgeView.backgroundColor = .white
+        
+        let labelNew = UILabel()
+        labelNew.text = LGLocalizedString.commonNew
+        labelNew.font = UIFont.boldSystemFont(ofSize: 12)
+        labelNew.textColor = UIColor.lgBlack
+        newBadgeView.addSubviewForAutoLayout(labelNew)
+        labelNew.layout(with: newBadgeView).fillVertical(by: 3).fillHorizontal(by: Metrics.shortMargin)
+        
+        newBadgeView.clipsToBounds = true
+        newBadgeView.applyDefaultShadow()
+        addSubviewForAutoLayout(newBadgeView)
+        
+        if let position = viewModel.realEstateCategoryPosition, position < buttons.count  {
+            newBadgeView.layout(with: buttons[position])
+                .right(by: Metrics.veryShortMargin)
+                .top(by: -Metrics.veryShortMargin)
+        }
+    }
 
     private func addButtons() {
         guard !expanded.value else { return }
@@ -106,12 +129,13 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
             button.layout(with: closeButton).above(by: -marginForButtonAtIndex(actionIndex, expanded: expanded.value), constraintBlock: { [weak self] constraint in
                 self?.topConstraints.append(constraint)
             })
+           
             button.layout().height(buttonHeight)
             buttons.append(button)
         })
     }
 
-    fileprivate func setupUI() {
+    private func setupUI() {
         alpha = 0
         clipsToBounds = true
         backgroundColor = UIColor.black.withAlphaComponent(0.5)
@@ -129,6 +153,9 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
         closeButton.layout().height(buttonCloseSide)
         
         addButtons()
+        if viewModel.newBadgeEnabled {
+            setupNewBadge()
+        }
         
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapOutside))
         tapRecognizer.delegate = self
@@ -136,7 +163,7 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
         setAccesibilityIds()
     }
     
-    fileprivate func updateExpanded(_ expanded: Bool, animated: Bool) {
+    private func updateExpanded(_ expanded: Bool, animated: Bool) {
         self.expanded.value = expanded
         
         (0..<buttons.count).forEach {
@@ -163,11 +190,11 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
         }
     }
     
-    fileprivate func marginForButtonAtIndex(_ index: Int, expanded: Bool) -> CGFloat {
+    private func marginForButtonAtIndex(_ index: Int, expanded: Bool) -> CGFloat {
          return expanded ? (buttonSpacing * CGFloat(index+1) + buttonHeight * CGFloat(index)) : 0
     }
     
-    fileprivate func setAccesibilityIds() {
+    private func setAccesibilityIds() {
         set(accessibilityId: .expandableCategorySelectionView)
         closeButton.set(accessibilityId: .expandableCategorySelectionCloseButton)
     }
@@ -185,7 +212,7 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
         return flowLayout
     }
     
-    fileprivate func setupTagsView() {
+    private func setupTagsView() {
         guard viewModel.tagsEnabled else { return }
         tagCollectionViewModel.selectionDelegate = self
 
@@ -275,7 +302,7 @@ fileprivate extension ExpandableCategory {
             switch listingCategory {
             case .unassigned:
                 return LGLocalizedString.categoriesUnassignedItems
-            case .motorsAndAccessories, .cars, .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames:
+            case .motorsAndAccessories, .cars, .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .services:
                 return listingCategory.name
             case .realEstate:
                 return FeatureFlags.sharedInstance.realEstateNewCopy.isActive ? LGLocalizedString.productPostSelectCategoryRealEstate : LGLocalizedString.productPostSelectCategoryHousing
@@ -296,7 +323,7 @@ fileprivate extension ExpandableCategory {
                 return #imageLiteral(resourceName: "motorsAndAccesories")
             case .realEstate:
                 return #imageLiteral(resourceName: "housingIcon")
-            case .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames:
+            case .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .services:
                 return listingCategory.image
             }
         case .mostSearchedItems:

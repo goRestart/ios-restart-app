@@ -51,6 +51,15 @@ extension ChatConversation {
                                    listing: self.listing?.updating(status: listingStatus),
                                    interlocutor: interlocutor)
     }
+    
+    func updating(unreadMessageCount: Int) -> ChatConversation {
+        return type(of: self).init(objectId: objectId,
+                                   unreadMessageCount: unreadMessageCount,
+                                   lastMessageSentAt: lastMessageSentAt,
+                                   amISelling: amISelling,
+                                   listing: listing,
+                                   interlocutor: interlocutor)
+    }
 }
 
 struct LGChatConversation: ChatConversation, Decodable {

@@ -12,6 +12,7 @@ import RxSwift
 import LGCollapsibleLabel
 import GoogleMobileAds
 
+// This might go away if the new design ABIOS-3100 wins
 enum MoreInfoState {
     case hidden
     case moving
@@ -438,7 +439,7 @@ fileprivate extension ListingCarouselMoreInfoView {
         statsContainerViewHeightConstraint.constant = 0.0
         statsContainerViewTopConstraint.constant = 0.0
 
-        guard let statsView = ListingStatsView.ListingStatsView() else { return }
+        guard let statsView = ListingStatsView.make() else { return }
         self.statsView = statsView
         statsContainerView.addSubview(statsView)
 

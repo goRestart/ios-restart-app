@@ -40,11 +40,6 @@ final class BlockingPostingListingEditionViewController: BaseViewController, Blo
         viewModel.updateListing()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setStatusBarHidden(true)
-    }
-    
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
         if let state = viewModel.state.value, state.isAnimated {
@@ -52,9 +47,10 @@ final class BlockingPostingListingEditionViewController: BaseViewController, Blo
         }
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        setStatusBarHidden(false)
+    // MARK: - Status Bar
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
     }
     
     

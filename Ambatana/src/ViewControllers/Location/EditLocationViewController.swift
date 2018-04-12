@@ -312,11 +312,11 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
         viewModel.approxLocationHidden.asObservable().subscribeNext { [weak self] hidden in
             self?.approxLocationContainer.isHidden = hidden
             if hidden {
-                self?.bottomToSetLocation.priority = UILayoutPriority(rawValue: 999)
+                self?.bottomToSetLocation.priority = .required - 1
                 self?.bottomToApproxLocation.priority = .defaultLow
             } else {
                 self?.bottomToSetLocation.priority = .defaultLow
-                self?.bottomToApproxLocation.priority = UILayoutPriority(rawValue: 999)
+                self?.bottomToApproxLocation.priority = .required - 1
             }
             self?.view.layoutIfNeeded()
         }.disposed(by: disposeBag)

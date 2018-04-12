@@ -264,6 +264,12 @@
                         </mask>
                     </variation>
                 </view>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pro_tag" translatesAutoresizingMaskIntoConstraints="NO" id="e7L-nV-Oj4" userLabel="Pro View">
+                    <rect key="frame" x="233.5" y="31" width="49" height="18"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="18" id="TqT-dj-G1i"/>
+                    </constraints>
+                </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k0n-l0-8u1">
                     <rect key="frame" x="0.0" y="106" width="600" height="44"/>
                     <subviews>
@@ -328,6 +334,7 @@
                 <constraint firstAttribute="trailing" secondItem="Tuz-bh-YPQ" secondAttribute="trailing" id="7fA-lf-WJP"/>
                 <constraint firstAttribute="bottom" secondItem="Tsk-AV-yNO" secondAttribute="bottom" id="ERF-jd-Xxs"/>
                 <constraint firstItem="k0n-l0-8u1" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="HoS-5e-4Yc"/>
+                <constraint firstItem="e7L-nV-Oj4" firstAttribute="bottom" secondItem="sT8-Xm-l7l" secondAttribute="bottom" constant="9" id="I1k-ww-MfA"/>
                 <constraint firstItem="k0n-l0-8u1" firstAttribute="top" secondItem="Tuz-bh-YPQ" secondAttribute="bottom" id="OzA-FY-ogW"/>
                 <constraint firstItem="Tuz-bh-YPQ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Rh8-og-LeO"/>
                 <constraint firstItem="sT8-Xm-l7l" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="aiM-v2-FCh"/>
@@ -336,6 +343,7 @@
                 <constraint firstItem="Tsk-AV-yNO" firstAttribute="top" secondItem="k0n-l0-8u1" secondAttribute="bottom" id="wWb-DA-52D"/>
                 <constraint firstItem="sT8-Xm-l7l" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="-40" id="x5c-Lp-jan"/>
                 <constraint firstItem="Tuz-bh-YPQ" firstAttribute="top" secondItem="sT8-Xm-l7l" secondAttribute="bottom" id="x6i-Yr-x2x"/>
+                <constraint firstItem="e7L-nV-Oj4" firstAttribute="centerX" secondItem="gF5-W0-Byp" secondAttribute="centerX" id="zeE-ad-4gn"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -354,6 +362,7 @@
                 <outlet property="indicatorView" destination="mQP-bS-pyz" id="GeM-my-Azp"/>
                 <outlet property="indicatorViewLeadingConstraint" destination="741-9W-5E0" id="3gk-ob-g3h"/>
                 <outlet property="infoView" destination="Tuz-bh-YPQ" id="ksv-Yy-FkN"/>
+                <outlet property="proTagImageView" destination="e7L-nV-Oj4" id="hXM-Bt-Wjh"/>
                 <outlet property="ratingCountContainerLeading" destination="Kb3-8E-ES6" id="wFh-F3-ymH"/>
                 <outlet property="ratingCountContainerTrailing" destination="6r5-GU-xjZ" id="wVg-Tc-KvE"/>
                 <outlet property="ratingCountLabel" destination="80u-WE-Qym" id="6Zw-cz-Xe3"/>
@@ -380,5 +389,6 @@
         <image name="ic_user_public_email" width="16" height="16"/>
         <image name="ic_user_public_fb" width="16" height="16"/>
         <image name="ic_user_public_google" width="16" height="16"/>
+        <image name="pro_tag" width="49" height="18"/>
     </resources>
 </document>

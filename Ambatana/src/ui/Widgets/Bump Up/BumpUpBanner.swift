@@ -68,10 +68,19 @@ enum BumpUpType: Equatable {
             return true
         case (.hidden, .hidden):
             return true
-        case (.boost, .boost):
-            return true
+        case (.boost(let lBannerVisible), .boost(let rBannerVisible)):
+            return lBannerVisible == rBannerVisible
         default:
             return false
+        }
+    }
+
+    var isBoost: Bool {
+        switch self {
+        case .free, .priced, .hidden, .restore:
+            return false
+        case .boost:
+            return true
         }
     }
 }
@@ -81,15 +90,15 @@ struct BumpUpInfo {
     var timeSinceLastBump: TimeInterval
     var maxCountdown: TimeInterval
     var price: String?
-    var bannerInteractionBlock: () -> Void
-    var buttonBlock: () -> Void
+    var bannerInteractionBlock: (TimeInterval?) -> Void
+    var buttonBlock: (TimeInterval?) -> Void
 
     init(type: BumpUpType,
          timeSinceLastBump: TimeInterval,
          maxCountdown: TimeInterval,
          price: String?,
-         bannerInteractionBlock: @escaping () -> Void,
-         buttonBlock: @escaping () -> Void) {
+         bannerInteractionBlock: @escaping (TimeInterval?) -> Void,
+         buttonBlock: @escaping (TimeInterval?) -> Void) {
         self.type = type
         self.timeSinceLastBump = timeSinceLastBump
         self.maxCountdown = maxCountdown
@@ -101,6 +110,7 @@ struct BumpUpInfo {
 
 protocol BumpUpBannerBoostDelegate: class {
     func bumpUpTimerReachedZero()
+    func updateBoostBannerFor(type: BumpUpType)
 }
 
 class BumpUpBanner: UIView {
@@ -141,8 +151,8 @@ class BumpUpBanner: UIView {
 
     private(set) var type: BumpUpType = .free
 
-    private var bannerInteractionBlock: () -> Void = {}
-    private var buttonBlock: () -> Void = {}
+    private var bannerInteractionBlock: (TimeInterval?) -> Void = { _ in }
+    private var buttonBlock: (TimeInterval?) -> Void = { _ in }
 
     private let featureFlags: FeatureFlags = FeatureFlags.sharedInstance
 
@@ -205,7 +215,7 @@ class BumpUpBanner: UIView {
             progressView.maxTime = info.maxCountdown
             readyToBump = bannerVisibility
         }
-        updateBannerAreasVisibilityFor(type: type)
+        setInitialUIForBannerWith(type: type)
 
         let timeShouldBeZero = info.timeSinceLastBump <= 0 || (waitingTime - info.timeSinceLastBump < 0)
         timeIntervalLeft.value = timeShouldBeZero ? 0 : waitingTime - info.timeSinceLastBump
@@ -218,12 +228,7 @@ class BumpUpBanner: UIView {
 
     func resetCountdown() {
         // Update countdown with full waiting time
-        switch type {
-        case .free:
-            timeIntervalLeft.value = maxCountdown
-        case .priced, .restore, .hidden, .boost:
-            timeIntervalLeft.value = maxCountdown
-        }
+        timeIntervalLeft.value = maxCountdown
         startCountdown()
     }
 
@@ -233,7 +238,7 @@ class BumpUpBanner: UIView {
     
     func executeBannerInteractionBlock() {
         guard readyToBump else { return }
-        bannerInteractionBlock()
+        bannerInteractionBlock(maxCountdown-timeIntervalLeft.value)
     }
 
     private func startCountdown() {
@@ -255,7 +260,7 @@ class BumpUpBanner: UIView {
 
     @objc private func bumpButtonPressed() {
         guard readyToBump else { return }
-        buttonBlock()
+        buttonBlock(nil)
     }
 
 
@@ -283,8 +288,9 @@ class BumpUpBanner: UIView {
                     secondsLeft < (strongSelf.maxCountdown - updateBannerThreshold) {
                     strongSelf.readyToBump = true
                     strongSelf.type = .boost(boostBannerVisible: true)
-                    strongSelf.updateBannerAreasVisibilityFor(type: strongSelf.type)
+                    strongSelf.delegate?.updateBoostBannerFor(type: strongSelf.type)
                 }
+                strongSelf.updateBannerAreasVisibilityFor(type: strongSelf.type)
                 if secondsLeft <= 0 {
                     strongSelf.delegate?.bumpUpTimerReachedZero()
                 }
@@ -445,19 +451,43 @@ class BumpUpBanner: UIView {
         layoutIfNeeded()
     }
 
+    private func setInitialUIForBannerWith(type: BumpUpType) {
+        switch type {
+        case .free, .hidden, .restore, .priced:
+            hideProgressBar()
+        case .boost(let boostBannerVisible):
+            showProgressBar(itHasBanner: boostBannerVisible)
+        }
+    }
+
     private func updateBannerAreasVisibilityFor(type: BumpUpType) {
         switch type {
-        case .free, .priced, .hidden, .restore:
-            progressViewHeightConstraint.constant = 0
-            bannerHeightConstraint.constant = CarouselUI.bannerHeight
-            containerView.isHidden = false
-            progressView.isHidden = true
+        case .free, .hidden, .restore:
+            hideProgressBar()
+        case .priced:
+            if featureFlags.bumpUpBoost.isActive {
+                showProgressBar(itHasBanner: false)
+            } else {
+                hideProgressBar()
+            }
         case .boost(let boostBannerVisible):
-            progressViewHeightConstraint.constant = BumpUpTimerBarViewMetrics.height
-            bannerHeightConstraint.constant = boostBannerVisible ? CarouselUI.bannerHeight : 0
-            containerView.isHidden = !boostBannerVisible
-            progressView.isHidden = false
+            showProgressBar(itHasBanner: boostBannerVisible)
         }
+    }
+
+    private func showProgressBar(itHasBanner: Bool) {
+        progressViewHeightConstraint.constant = BumpUpTimerBarViewMetrics.height
+        bannerHeightConstraint.constant = itHasBanner ? CarouselUI.bannerHeight : 0
+        containerView.isHidden = !itHasBanner
+        progressView.isHidden = false
+        layoutIfNeeded()
+    }
+
+    private func hideProgressBar() {
+        progressViewHeightConstraint.constant = 0
+        bannerHeightConstraint.constant = CarouselUI.bannerHeight
+        containerView.isHidden = false
+        progressView.isHidden = true
         layoutIfNeeded()
     }
 

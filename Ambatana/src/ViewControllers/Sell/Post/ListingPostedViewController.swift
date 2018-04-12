@@ -40,13 +40,12 @@ class ListingPostedViewController: BaseViewController, ListingPostedViewModelDel
     required init(viewModel: ListingPostedViewModel, socialSharer: SocialSharer) {
         self.viewModel = viewModel
         self.socialSharer = socialSharer
-        super.init(viewModel: viewModel, nibName: "ListingPostedViewController",
-                   statusBarStyle: UIApplication.shared.statusBarStyle)
+        super.init(viewModel: viewModel, nibName: "ListingPostedViewController")
         viewModel.delegate = self
         socialSharer.delegate = self
-
         modalPresentationStyle = .overCurrentContext
         modalTransitionStyle = .crossDissolve
+        modalPresentationCapturesStatusBarAppearance = true
         setReachabilityEnabled(false)
     }
 
@@ -61,11 +60,11 @@ class ListingPostedViewController: BaseViewController, ListingPostedViewModelDel
         setAccesibilityIds()
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        setStatusBarHidden(false)
-    }
+    // MARK: - Status Bar
     
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
 
     // MARK: - IBActions
 
@@ -107,7 +106,7 @@ class ListingPostedViewController: BaseViewController, ListingPostedViewModelDel
     // MARK: - Private methods
 
     private func setupView() {
-        setStatusBarHidden(true)
+
         mainButton.setStyle(.primary(fontSize: .big))
         mainButton.isHidden = viewModel.mainButtonHidden
         editOrLabel.text = LGLocalizedString.productPostConfirmationAnother.localizedUppercase

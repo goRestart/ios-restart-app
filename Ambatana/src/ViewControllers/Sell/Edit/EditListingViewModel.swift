@@ -34,7 +34,7 @@ enum EditListingImageType {
 }
 
 extension PromoteBumpInEdit {
-    var adsBumpCellInEdit: Bool {
+    var addBumpCellInEdit: Bool {
         switch self {
         case .control, .baseline, .implicit:
             return false
@@ -122,6 +122,13 @@ class ListingImages {
 
 class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
+    struct BoostCellUI {
+        static let boostLabelText: String = LGLocalizedString.bumpUpBannerBoostText
+        static let boostLabelTextColor: UIColor = .blackText
+        static let boostLabelFont: UIFont = .systemBoldFont(size: 17)
+        static let boostIcon: UIImage = #imageLiteral(resourceName: "ic_extra_boost")
+    }
+
     // real time cloudsight
     let proposedTitle = Variable<String>("")
     let titleDisclaimerStatus = Variable<TitleDisclaimerStatus>(.completed)
@@ -170,7 +177,9 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         }
     }
     var shouldShareInFB: Bool
-    let maxImageCount = Constants.maxImageCount
+    var maxImageCount: Int {
+        return max(listingImages.images.count, Constants.maxImageCount)
+    }
     var descr: String? {
         didSet {
             checkChanges()
@@ -180,17 +189,20 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
     private(set) var shouldShowFeatureListingCell: Bool
     var featureLabelText: String? {
-        return featureFlags.promoteBumpInEdit.text
+        return listingCanBeBoosted ? BoostCellUI.boostLabelText : featureFlags.promoteBumpInEdit.text
     }
     var featureLabelTextColor: UIColor? {
-        return featureFlags.promoteBumpInEdit.textColor
+        return listingCanBeBoosted ? BoostCellUI.boostLabelTextColor : featureFlags.promoteBumpInEdit.textColor
     }
     var featureLabelFont: UIFont? {
-        return featureFlags.promoteBumpInEdit.font
+        return listingCanBeBoosted ? BoostCellUI.boostLabelFont : featureFlags.promoteBumpInEdit.font
     }
     var featureIcon: UIImage? {
-        return featureFlags.promoteBumpInEdit.icon
+        return listingCanBeBoosted ? BoostCellUI.boostIcon : featureFlags.promoteBumpInEdit.icon
     }
+    private let listingCanBeBoosted: Bool
+    private let timeSinceLastBump: TimeInterval?
+    private let maxCountdown: TimeInterval?
 
     private let bumpUpProductData: BumpUpProductData?
 
@@ -264,7 +276,10 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     
     convenience init(listing: Listing,
                      pageType: EventParameterTypePage?,
-                     bumpUpProductData: BumpUpProductData?) {
+                     bumpUpProductData: BumpUpProductData?,
+                     listingCanBeBoosted: Bool,
+                     timeSinceLastBump: TimeInterval?,
+                     maxCountdown: TimeInterval?) {
         self.init(listing: listing,
                   pageType: pageType,
                   bumpUpProductData: bumpUpProductData,
@@ -275,7 +290,10 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
                   carsInfoRepository: Core.carsInfoRepository,
                   locationManager: Core.locationManager,
                   tracker: TrackerProxy.sharedInstance,
-                  featureFlags: FeatureFlags.sharedInstance)
+                  featureFlags: FeatureFlags.sharedInstance,
+                  listingCanBeBoosted: listingCanBeBoosted,
+                  timeSinceLastBump: timeSinceLastBump,
+                  maxCountdown: maxCountdown)
     }
     
     init(listing: Listing,
@@ -288,7 +306,10 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
          carsInfoRepository: CarsInfoRepository,
          locationManager: LocationManager,
          tracker: Tracker,
-         featureFlags: FeatureFlaggeable) {
+         featureFlags: FeatureFlaggeable,
+         listingCanBeBoosted: Bool,
+         timeSinceLastBump: TimeInterval?,
+         maxCountdown: TimeInterval?) {
         self.myUserRepository = myUserRepository
         self.listingRepository = listingRepository
         self.fileRepository = fileRepository
@@ -355,9 +376,17 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         self.isFreePosting.value = featureFlags.freePostingModeAllowed && listing.price.isFree
         self.pageType = pageType
 
-        let listingIsBumpeable = bumpUpProductData?.hasPaymentId ?? false
+        let listinghasPaymentInfo = bumpUpProductData?.hasPaymentId ?? false
 
-        self.shouldShowFeatureListingCell = featureFlags.promoteBumpInEdit.adsBumpCellInEdit && listingIsBumpeable
+        self.listingCanBeBoosted = listingCanBeBoosted
+        self.timeSinceLastBump = timeSinceLastBump
+        self.maxCountdown = maxCountdown
+
+        let listingIsFeatured = listing.featured ?? false
+        let bumpFromEditIsActive = featureFlags.promoteBumpInEdit.addBumpCellInEdit
+        let listingCanBeBumped = bumpFromEditIsActive && !listingIsFeatured
+
+        self.shouldShowFeatureListingCell = (listingCanBeBumped || listingCanBeBoosted) && listinghasPaymentInfo
 
         self.bumpUpProductData = bumpUpProductData
         
@@ -726,7 +755,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         let editParams: ListingEditionParams
         switch category {
         case .unassigned, .electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden,
-             .moviesBooksAndMusic, .fashionAndAccesories, .babyAndChild, .other:
+             .moviesBooksAndMusic, .fashionAndAccesories, .babyAndChild, .other, .services:
             guard let productEditParams = ProductEditionParams(listing: listing) else { return }
             productEditParams.category = category
             productEditParams.name = title ?? ""
@@ -849,7 +878,9 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
             let bumpUpProductData = showBumpItem ? self?.bumpUpProductData : nil
 
             self?.navigator?.editingListingDidFinish(editedListing,
-                                                     bumpUpProductData: bumpUpProductData)
+                                                     bumpUpProductData: bumpUpProductData,
+                                                     timeSinceLastBump: self?.timeSinceLastBump,
+                                                     maxCountdown: self?.maxCountdown)
         }
     }
 
@@ -888,7 +919,10 @@ extension EditListingViewModel {
     }
 
     fileprivate func setupCategories() {
-        categoryRepository.index(carsIncluded: true, realEstateIncluded: featureFlags.realEstateEnabled.isActive, highlightRealEstate: featureFlags.realEstatePromos.isActive) { [weak self] result in
+        categoryRepository.index(servicesIncluded: featureFlags.servicesCategoryEnabled.isActive,
+                                 carsIncluded: true,
+                                 realEstateIncluded: featureFlags.realEstateEnabled.isActive) { [weak self] result in
+                                    
             guard let categories = result.value else { return }
             self?.categories = categories
         }

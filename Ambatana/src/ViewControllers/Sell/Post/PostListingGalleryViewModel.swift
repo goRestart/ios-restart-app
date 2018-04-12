@@ -78,10 +78,10 @@ class PostListingGalleryViewModel: BaseViewModel {
     }
     
     var noImageSubtitleText: String {
-        if let category = postCategory, category == .realEstate && featureFlags.realEstatePromos.isActive {
-            return LGLocalizedString.realEstateGalleryViewSubtitle
+        if let category = postCategory, category == .realEstate {
+            return LGLocalizedString.realEstateGalleryViewSubtitleParams(maxImagesSelected)
         } else {
-            return LGLocalizedString.productPostGallerySelectPicturesSubtitle
+            return LGLocalizedString.productPostGallerySelectPicturesSubtitleParams(maxImagesSelected)
         }
     }
 
@@ -107,11 +107,11 @@ class PostListingGalleryViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
 
-    convenience init(postCategory: PostCategory?, isBlockingPosting: Bool) {
+    convenience init(postCategory: PostCategory?, isBlockingPosting: Bool, maxImageSelected: Int) {
         self.init(keyValueStorage: KeyValueStorage.sharedInstance,
                   featureFlags: FeatureFlags.sharedInstance,
                   mediaPermissions: LGMediaPermissions(),
-                  maxImageSelected: Constants.maxImageCount,
+                  maxImageSelected: maxImageSelected,
                   postCategory: postCategory,
                   isBlockingPosting: isBlockingPosting)
     }
@@ -119,15 +119,15 @@ class PostListingGalleryViewModel: BaseViewModel {
     required init(keyValueStorage: KeyValueStorage,
                   featureFlags: FeatureFlags,
                   mediaPermissions: MediaPermissions,
-                  maxImageSelected: Int = Constants.maxImageCount,
+                  maxImageSelected: Int,
                   postCategory: PostCategory?,
                   isBlockingPosting: Bool) {
-        self.maxImagesSelected = maxImageSelected
         self.keyValueStorage = keyValueStorage
         self.featureFlags = featureFlags
         self.mediaPermissions = mediaPermissions
         self.postCategory = postCategory
         self.isBlockingPosting = isBlockingPosting
+        self.maxImagesSelected = maxImageSelected
         super.init()
         setupRX()
     }

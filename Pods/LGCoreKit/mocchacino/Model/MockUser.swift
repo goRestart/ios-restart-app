@@ -10,4 +10,6 @@ public struct MockUser: User {
     public var isDummy: Bool
     public var phone: String?
     public var type: UserType
+    public var biography: String?
+    public var reputationPoints: Int
 }

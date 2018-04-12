@@ -24,10 +24,9 @@ class MockListingListRequester: ListingListRequester {
         self.itemsPerPage = pageSize
     }
 
-    func generateItems(_ numItems: Int) {
-        for _ in 0..<numItems {
-            items.append(MockProduct.makeMock())
-        }
+    func generateItems(_ numItems: Int, allowDiscarded: Bool) {
+        let products = MockProduct.makeProductMocks(numItems, allowDiscarded: allowDiscarded) as [Product]
+        items.append(contentsOf: products)
     }
 
     func canRetrieve() -> Bool {

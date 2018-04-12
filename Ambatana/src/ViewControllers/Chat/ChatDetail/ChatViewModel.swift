@@ -55,7 +55,10 @@ struct EmptyConversation: ChatConversation {
     }
 }
 
-
+struct InterlocutorProfessionalInfo {
+    var isProfessional: Bool
+    var phoneNumber: String?
+}
 
 enum DirectAnswersState {
     case notAvailable, visible, hidden
@@ -101,8 +104,7 @@ class ChatViewModel: BaseViewModel {
     let shouldShowExpressBanner = Variable<Bool>(false)
     let relatedListingsState = Variable<ChatRelatedItemsState>(.loading)
     var shouldUpdateQuickAnswers = Variable<Bool>(false)
-    let interlocutorIsProfessional = Variable<Bool>(false)
-    let interlocutorPhoneNumber = Variable<String?>(nil)
+    let interlocutorProfessionalInfo = Variable<InterlocutorProfessionalInfo>(InterlocutorProfessionalInfo(isProfessional: false, phoneNumber: nil))
     let lastMessageSentType = Variable<ChatWrapperMessageType?>(nil)
     let messagesDidFinishRefreshing = Variable<Bool>(false)
     let interlocutorTypingChatViewMessage: ChatViewMessage
@@ -176,7 +178,13 @@ class ChatViewModel: BaseViewModel {
 
     fileprivate var shouldShowOtherUserInfo: Bool {
         guard conversation.value.isSaved else { return true }
-        return !isLoading && isLastPage
+        let alreadyShown = messages.value.reduce(false) { (result, current)  in
+            if case ChatViewMessageType.userInfo(_,_,_,_,_) = current.type {
+                return true
+            }
+            return result
+        }
+        return !isLoading && isLastPage && !alreadyShown
     }
 
     fileprivate var safetyTipsAction: () -> Void {
@@ -245,14 +253,14 @@ class ChatViewModel: BaseViewModel {
                   stickersRepository: stickersRepository, tracker: tracker, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
                   source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager,
-                  predefinedMessage: predefinedMessage, openChatAutomaticMessage: nil, isProfessional: false)
+                  predefinedMessage: predefinedMessage, openChatAutomaticMessage: nil, interlocutor: nil)
     }
     
     convenience init?(listing: Listing,
                       navigator: ChatDetailNavigator?,
                       source: EventParameterTypePage,
                       openChatAutomaticMessage: ChatWrapperMessageType?,
-                      isProfessional: Bool) {
+                      interlocutor: User?) {
         guard let _ = listing.objectId, let sellerId = listing.user.objectId else { return nil }
 
         let myUserRepository = Core.myUserRepository
@@ -276,7 +284,7 @@ class ChatViewModel: BaseViewModel {
                   stickersRepository: stickersRepository ,tracker: tracker, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
                   source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager, predefinedMessage: nil,
-                  openChatAutomaticMessage: openChatAutomaticMessage, isProfessional: isProfessional)
+                  openChatAutomaticMessage: openChatAutomaticMessage, interlocutor: interlocutor)
         self.setupConversationFrom(listing: listing)
     }
     
@@ -285,7 +293,7 @@ class ChatViewModel: BaseViewModel {
           tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, keyValueStorage: KeyValueStorageable,
           navigator: ChatDetailNavigator?, featureFlags: FeatureFlaggeable, source: EventParameterTypePage,
           ratingManager: RatingManager, pushPermissionsManager: PushPermissionsManager, predefinedMessage: String?,
-          openChatAutomaticMessage: ChatWrapperMessageType?, isProfessional: Bool) {
+          openChatAutomaticMessage: ChatWrapperMessageType?, interlocutor: User?) {
         self.conversation = Variable<ChatConversation>(conversation)
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
@@ -305,7 +313,10 @@ class ChatViewModel: BaseViewModel {
         self.source = source
         self.predefinedMessage = predefinedMessage
         self.openChatAutomaticMessage = openChatAutomaticMessage
-        self.interlocutorIsProfessional.value = isProfessional
+        self.interlocutor = interlocutor
+        let interlocutorIsProfessional = interlocutor?.isProfessional ?? false
+        self.interlocutorProfessionalInfo.value = InterlocutorProfessionalInfo(isProfessional: interlocutorIsProfessional,
+                                                                               phoneNumber: interlocutor?.phone)
         interlocutorTypingChatViewMessage = chatViewMessageAdapter.createInterlocutorIsTyping()
         super.init()
         setupRx()
@@ -325,7 +336,7 @@ class ChatViewModel: BaseViewModel {
     }
 
     func didAppear() {
-        if chatEnabled.value && !interlocutorIsProfessional.value {
+        if chatEnabled.value &&  !interlocutorProfessionalInfo.value.isProfessional {
             delegate?.vmDidBeginEditing()
         }
     }
@@ -458,7 +469,7 @@ class ChatViewModel: BaseViewModel {
         Observable.combineLatest(expressBannerTriggered,
                                  relatedListingsObservable,
                                  expressMessagesAlreadySent.asObservable(),
-                                 interlocutorIsProfessional.asObservable()) { $0 && $1 && !$2 && !$3 }
+                                 interlocutorProfessionalInfo.asObservable()) { $0 && $1 && !$2 && !$3.isProfessional }
             .distinctUntilChanged().bind(to: shouldShowExpressBanner).disposed(by: disposeBag)
 
         let directAnswers: Observable<DirectAnswersState> = Observable.combineLatest(chatEnabled.asObservable(),
@@ -480,8 +491,8 @@ class ChatViewModel: BaseViewModel {
                 guard let strongSelf = self else { return }
                 guard let user = result.value else { return }
                 strongSelf.interlocutor = user
-                strongSelf.interlocutorIsProfessional.value = user.type == .pro
-                strongSelf.interlocutorPhoneNumber.value = user.phone
+                let proInfo = InterlocutorProfessionalInfo(isProfessional: user.isProfessional, phoneNumber: user.phone)
+                strongSelf.interlocutorProfessionalInfo.value = proInfo
                 if let userInfoMessage = strongSelf.userInfoMessage, strongSelf.shouldShowOtherUserInfo {
                     strongSelf.messages.append(userInfoMessage)
                 }
@@ -489,12 +500,12 @@ class ChatViewModel: BaseViewModel {
         }.disposed(by: disposeBag)
 
         let automaticMessagesSignal = Observable.combineLatest(messagesDidFinishRefreshing.asObservable(),
-                                                               interlocutorIsProfessional.asObservable(),
+                                                               interlocutorProfessionalInfo.asObservable(),
                                                                lastMessageSentType.asObservable()) { ($0, $1, $2) }
 
-        automaticMessagesSignal.asObservable().bind { [weak self] (messagesFinishedRefresh, isPro, messageType) in
+        automaticMessagesSignal.asObservable().bind { [weak self] (messagesFinishedRefresh, proInfo, messageType) in
             guard messagesFinishedRefresh else { return }
-            guard isPro else { return }
+            guard proInfo.isProfessional else { return }
             self?.professionalSellerAfterMessageEventsFor(messageType: messageType)
         }.disposed(by: disposeBag)
 
@@ -691,7 +702,7 @@ class ChatViewModel: BaseViewModel {
     }
 
     func professionalSellerBannerActionButtonTapped() {
-        guard let phoneNumber = interlocutorPhoneNumber.value else { return }
+        guard let phoneNumber = interlocutorProfessionalInfo.value.phoneNumber else { return }
         PhoneCallsHelper.call(phoneNumber: phoneNumber)
 
         trackCallSeller()
@@ -1263,7 +1274,7 @@ extension ChatViewModel {
         }
         guard let lastMessage = lastMessageSentType.value else { return !hasShownAskedPhoneMessage }
         return !hasShownAskedPhoneMessage &&
-            interlocutorIsProfessional.value &&
+            interlocutorProfessionalInfo.value.isProfessional &&
             messagesDidFinishRefreshing.value &&
             !lastMessage.isPhone
     }
@@ -1406,24 +1417,7 @@ extension ChatViewModel {
         var isFirstPage: Bool {
             return messages.count < Constants.numMessagesPerPage
         }
-        var priceIsEqualOrHigherThan250: Bool {
-            if let price = conversation.value.listing?.price.value {
-                return price > Double(250)
-            }
-            return false
-        }
-        var firstInterlocutorMessageIndex: Int? {
-            guard let i = messages.reversed().index(where: {
-                switch $0.type {
-                case .disclaimer, .userInfo, .askPhoneNumber, .interlocutorIsTyping:
-                    return false
-                case .offer, .sticker, .text:
-                    return $0.talkerId != myUserRepository.myUser?.objectId
-                }
-            }) else { return nil }
-            let index = messages.index(before: i.base)
-            return index
-        }
+
         var fifthInterlocutorMessageIndex: Int? {
             let elementNumber = 5
             let interlocutorMessages = messages.reversed().filter {
@@ -1442,29 +1436,9 @@ extension ChatViewModel {
             })
             return index
         }
-        var securityTooltipWasShownToday: Bool {
-            if let lastShownDate = keyValueStorage[.lastShownSecurityWarningDate] {
-                return lastShownDate.isFromLast24h()
-            }
-            return false
-        }
 
         guard isFirstPage else { return nil }
-        switch featureFlags.showSecurityMeetingChatMessage {
-        case .baseline, .control:
-            return nil
-        case .variant1:
-            guard priceIsEqualOrHigherThan250 else { return nil }
-            if isBuyer {
-                return firstInterlocutorMessageIndex
-            } else if !securityTooltipWasShownToday {
-                keyValueStorage[.lastShownSecurityWarningDate] = Date()
-                return firstInterlocutorMessageIndex
-            }
-        case .variant2:
-            return fifthInterlocutorMessageIndex
-        }
-        return nil
+        return fifthInterlocutorMessageIndex
     }
 
     private func afterRetrieveChatMessagesEvents() {

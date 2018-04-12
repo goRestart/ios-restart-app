@@ -65,4 +65,10 @@ struct WebSocketCommandRouter {
         let message = WebSocketRouter.request(with: uuid, type: .archiveInactiveConversations, data: data)
         return WebSocketCommandRequest(message: message, uuid: uuid, type: .archiveInactiveConversations)
     }
+    
+    func markAllConversationsAsRead() -> WebSocketCommandRequest {
+        let uuid = uuidGenerator.UUIDString
+        let message = WebSocketRouter.request(with: uuid, type: .markAllConversationsAsRead, data: nil)
+        return WebSocketCommandRequest(message: message, uuid: uuid, type: .markAllConversationsAsRead)
+    }
 }

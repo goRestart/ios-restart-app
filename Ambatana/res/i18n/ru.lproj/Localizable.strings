@@ -19,7 +19,7 @@
 "bump_up_banner_pay_text" = "Продавайте быстрее";
 "bump_up_banner_pay_text_improvement" = "Продайте быстрее";
 "bump_up_banner_wait_text" = "до нового продвижения";
-"bump_up_boost_success_alert_text" = "Ваше объявление снова продвинуто! Оно будет выделено следующие 24 часа.";
+"bump_up_boost_success_alert_text" = "Ваше объявление продвинуто! Оно будет выделено следующие 24 часа.";
 "bump_up_error_bump_generic" = "При выделении объявления произошла ошибка. Пожалуйста, попробуйте еще раз.";
 "bump_up_error_bump_token" = "Ваш платеж обработан, но объявление еще не выделено.";
 "bump_up_error_payment_failed" = "Невозможно подключиться к App Store. Ваш платеж не обработан. Пожалуйста, попробуйте еще раз.";
@@ -247,7 +247,7 @@
 "common_error_retry_button" = "Попробуйте еще раз";
 "common_error_title" = "УПС!";
 "common_expand" = "Показать еще";
-"common_hours_mins_secs" = "%@h %@m %@s";
+"common_hours_mins_secs" = "%@ч %@м %@с";
 "common_loading" = "Загрузка...";
 "common_max" = "максимум";
 "common_new" = "НОВИНКА!";
@@ -907,6 +907,14 @@
 "real_estate_offer_type_sale" = "Продажа";
 "real_estate_offer_type_title" = "Тип объявления";
 "real_estate_price_title" = "Цена";
+"real_estate_promo_post_button_title" = "Разместить сейчас";
+"real_estate_promo_title_version_1" = "Разместить объявление о недвижимости";
+"real_estate_promo_title_version_2" = "Новинка! Размещайте жилье на продажу и в аренду";
+"real_estate_promo_title_version_3" = "Новинка! Продавайте или сдавайте в аренду жилье";
+"real_estate_promo_title_version_4" = "Продавайте или сдавайте в аренду жилье";
+"real_estate_promo_title_version_5" = "Теперь вы можете размещать объявления о недвижимости";
+"real_estate_promo_title_version_6" = "Новинка! Объявления о недвижимости на letgo";
+"real_estate_promo_title_version_7" = "Жилье в аренду или на продажу";
 "real_estate_related_search_title" = "Похожие результаты";
 "real_estate_rooms_over_ten" = "Более 10";
 "real_estate_rooms_studio" = "Студия (1+0)";
