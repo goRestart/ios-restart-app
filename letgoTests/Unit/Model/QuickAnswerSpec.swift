@@ -17,7 +17,7 @@ class QuickAnswerSpec: QuickSpec {
         var quickAnswers: [QuickAnswer] = []
         var isFree: Bool!
         
-        describe("quickAnswersForPeriscope func") {
+        fdescribe("quickAnswersForPeriscope func") {
             context("is not free") {
                 beforeEach {
                     isFree = false
@@ -174,7 +174,7 @@ class QuickAnswerSpec: QuickSpec {
                     expect(quickAnswers.count) == 5
                 }
                 it("matches first group with meeting assistant answer") {
-                    expect(quickAnswers[0]) == [.meetingAssistant(chatNorrisABtestVersion: .redButton)]
+                    expect(quickAnswers[0]) == QuickAnswer.meetingAssistant(chatNorrisABtestVersion: .redButton)
                 }
                 it("matches first group with the right interested quick answers") {
                     expect(quickAnswers[0]) == QuickAnswer.interested
