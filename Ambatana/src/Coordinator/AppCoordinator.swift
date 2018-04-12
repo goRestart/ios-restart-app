@@ -897,13 +897,13 @@ fileprivate extension AppCoordinator {
         case let .listing(listingId):
             tabBarCtl.clearAllPresented(nil)
             afterDelayClosure = { [weak self] in
-                self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: listingId), source: .openApp,
+                self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: listingId), source: .external,
                                                           actionOnFirstAppear: .nonexistent)
             }
         case let .listingShare(listingId):
             tabBarCtl.clearAllPresented(nil)
             afterDelayClosure = { [weak self] in
-                self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: listingId), source: .openApp,
+                self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: listingId), source: .external,
                                                           actionOnFirstAppear: .showShareSheet)
             }
         case let .listingBumpUp(listingId):
@@ -914,13 +914,13 @@ fileprivate extension AppCoordinator {
             afterDelayClosure = { [weak self] in
                 self?.openTab(.profile, force: false) { [weak self] in
                     self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: listingId),
-                                                              source: .openApp, actionOnFirstAppear: .triggerMarkAsSold)
+                                                              source: .external, actionOnFirstAppear: .triggerMarkAsSold)
                 }
             }
         case let .listingEdit(listingId):
             tabBarCtl.clearAllPresented(nil)
             afterDelayClosure = { [weak self] in
-                self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: listingId), source: .openApp,
+                self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: listingId), source: .external,
                                                           actionOnFirstAppear: .edit)
             }
         case let .user(userId):
@@ -1114,7 +1114,7 @@ extension AppCoordinator: BumpInfoRequesterDelegate {
                 }
 
                 self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: requestListingId),
-                                                          source: .openApp, actionOnFirstAppear: actionOnFirstAppear)
+                                                          source: .external, actionOnFirstAppear: actionOnFirstAppear)
             }
         case .promoted:
             tabBarCtl.clearAllPresented(nil)
