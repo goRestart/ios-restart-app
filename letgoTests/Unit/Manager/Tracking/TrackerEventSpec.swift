@@ -1418,7 +1418,7 @@ class TrackerEventSpec: QuickSpec {
             }
             describe("listingNotAvailable") {
                 beforeEach {
-                    sut = TrackerEvent.listingNotAvailable(.notifications, reason: .notFound)
+                    sut = TrackerEvent.listingNotAvailable(.notificationCenter, reason: .notFound)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-not-available"))
