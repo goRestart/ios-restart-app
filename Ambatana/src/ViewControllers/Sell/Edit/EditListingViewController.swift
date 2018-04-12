@@ -205,7 +205,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         alert.popoverPresentationController?.sourceRect = categoryButton.frame
 
         viewModel.categories.enumerated().forEach { (index, category) in
-            guard !category.isRealEstate else { return }
+            guard category.isCategoryEditable else { return }
             alert.addAction(UIAlertAction(title: viewModel.categoryNameAtIndex(index), style: .default,
                                           handler: { (categoryAction) -> Void in
                                             self.viewModel.selectCategoryAtIndex(index)
@@ -646,14 +646,12 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
             strongSelf.updateVerticalFields(category: category)
         }.disposed(by: disposeBag)
         
-        let categoryIsEnabled = viewModel.category.asObservable().map { category -> Bool in
-            guard let categoryValue = category, categoryValue.isRealEstate else { return true }
-            return false
-        }
+        let categoryIsEnabled = viewModel.category.asObservable().map { $0?.isCategoryEditable ?? true }
+        
         categoryIsEnabled.bind(to: categoryButton.rx.isEnabled).disposed(by: disposeBag)
         categoryIsEnabled.bind(to: categoryTitleLabel.rx.isEnabled).disposed(by: disposeBag) 
         
-        viewModel.category.asObservable().filter { $0 == .realEstate }.bind { [weak self] _ in
+        viewModel.category.asObservable().filter { $0?.isCategoryNotEditable ?? true }.bind { [weak self] _ in
             self?.categoryButton.isEnabled = false
             self?.categoryTitleLabel.isEnabled = false
         }.disposed(by: disposeBag)

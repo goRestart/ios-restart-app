@@ -358,6 +358,11 @@
 "filter_results_cars_other_results" = "Недавно опубликовано в вашем районе";
 "filters_car_make_not_set" = "Не установлен";
 "filters_car_model_not_set" = "Не установлен";
+"filters_car_seller_type_all" = "All";
+"filters_car_seller_type_dealership" = "Dealership";
+"filters_car_seller_type_invidual" = "Individual";
+"filters_car_seller_type_private" = "Private";
+"filters_car_seller_type_professional" = "Professional";
 "filters_car_year_any_year" = "Любой год";
 "filters_car_year_before_year" = "До %i";
 "filters_distance_not_set" = "не установлен";
@@ -812,7 +817,7 @@
 "profile_sold_other_no_products_button" = "Продолжить поиск";
 "profile_sold_products_tab" = "Продано";
 "profile_verifications_email_placeholder" = "E-mail";
-"profile_verifications_email_view_title" = "Verify your Email";
+"profile_verifications_email_view_title" = "Подтвердите е-мейл";
 "profile_verifications_send_button" = "Отправить";
 "profile_verifications_view_add_info_section_title" = "ДОБАВИТЬ СВОЙ";
 "profile_verifications_view_bio_title" = "Информация";

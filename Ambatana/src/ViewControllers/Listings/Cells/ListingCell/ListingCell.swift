@@ -13,6 +13,7 @@ protocol ListingCellDelegate: class {
     func chatButtonPressedFor(listing: Listing)
     func editPressedForDiscarded(listing: Listing)
     func moreOptionsPressedForDiscarded(listing: Listing)
+    func postNowButtonPressed(_ view: UIView)
 }
 
 final class ListingCell: UICollectionViewCell, ReusableCell {
@@ -416,8 +417,11 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     // Setup FeatureListingChatButton with feature flags
     private func setupFeaturedListingChatButton() {
         let featureFlags = FeatureFlags.sharedInstance
-        if featureFlags.shouldChangeChatNowCopy {
+        if featureFlags.shouldChangeChatNowCopyInTurkey {
             featuredListingChatButton.setTitle(featureFlags.copyForChatNowInTurkey.variantString,
+                                               for: .normal)
+        } else if featureFlags.shouldChangeChatNowCopyInEnglish {
+            featuredListingChatButton.setTitle(featureFlags.copyForChatNowInEnglish.variantString,
                                                for: .normal)
         } else {
             featuredListingChatButton.setTitle(LGLocalizedString.bumpUpProductCellChatNowButton,

@@ -358,6 +358,11 @@
 "filter_results_cars_other_results" = "Publicado recentemente na sua área";
 "filters_car_make_not_set" = "Não Definida";
 "filters_car_model_not_set" = "Não Definido";
+"filters_car_seller_type_all" = "All";
+"filters_car_seller_type_dealership" = "Dealership";
+"filters_car_seller_type_invidual" = "Individual";
+"filters_car_seller_type_private" = "Private";
+"filters_car_seller_type_professional" = "Professional";
 "filters_car_year_any_year" = "Qualquer Ano";
 "filters_car_year_before_year" = "Anterior a %i";
 "filters_distance_not_set" = "não definido";
@@ -463,7 +468,7 @@
 "meeting_creation_view_send_button" = "Enviar encontro";
 "meeting_creation_view_suggest_cell_select" = "Selecionar";
 "meeting_creation_view_suggest_cell_selected" = "Selecionado";
-"meeting_creation_view_title" = "Agendar um encontro";
+"meeting_creation_view_title" = "Agende um encontro";
 "ml_camera_in_about_days_text" = "em cerca de %.f dias";
 "ml_camera_in_more_than_days_text" = "em mais de %.f dias";
 "ml_camera_sells_for_text" = "Por norma vende-se por %d €";
@@ -812,7 +817,7 @@
 "profile_sold_other_no_products_button" = "Continue a navegar";
 "profile_sold_products_tab" = "Vendido";
 "profile_verifications_email_placeholder" = "Email";
-"profile_verifications_email_view_title" = "Verify your Email";
+"profile_verifications_email_view_title" = "Verifique o seu email";
 "profile_verifications_send_button" = "Enviar";
 "profile_verifications_view_add_info_section_title" = "ADICIONAR A SUA";
 "profile_verifications_view_bio_title" = "Bio";

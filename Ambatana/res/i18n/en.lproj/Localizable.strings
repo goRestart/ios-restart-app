@@ -1135,6 +1135,21 @@
 // Filters within option 7 days
 "filters_within_week" = "The last 7 days";
 
+// Filters Car seller type: private
+"filters_car_seller_type_private" = "Private";
+
+// Filters Car seller type: professional
+"filters_car_seller_type_professional" = "Professional";
+
+// Filters Car seller type: individual
+"filters_car_seller_type_invidual" = "Individual";
+
+// Filters Car seller type: dealership
+"filters_car_seller_type_dealership" = "Dealership";
+
+// Filters Car seller type: all
+"filters_car_seller_type_all" = "All";
+
 // Filters Make not set
 "filters_car_make_not_set" = "Not Set";
 

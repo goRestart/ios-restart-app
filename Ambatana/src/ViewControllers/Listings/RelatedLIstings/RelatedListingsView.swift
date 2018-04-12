@@ -159,7 +159,7 @@ extension RelatedListingsView: UICollectionViewDelegate, UICollectionViewDataSou
             delegate?.relatedListingsView(self, showListing: listing, atIndex: indexPath.row,
                                           listingListModels: objects, requester: requester,
                                           thumbnailImage: thumbnailImage, originFrame: originFrame)
-        case .collectionCell, .emptyCell, .dfpAdvertisement, .mopubAdvertisement, .mostSearchedItems:
+        case .collectionCell, .emptyCell, .dfpAdvertisement, .mopubAdvertisement, .mostSearchedItems, .promo:
             // No banners or collections here
             break
         }

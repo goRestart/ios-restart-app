@@ -505,7 +505,6 @@ fileprivate extension TabCoordinator {
 
 extension TabCoordinator: ListingDetailNavigator {
     func closeProductDetail() {
-        navigationController.tabBarController?.setTabBarHidden(false, animated: true)
         navigationController.popViewController(animated: true)
     }
 
