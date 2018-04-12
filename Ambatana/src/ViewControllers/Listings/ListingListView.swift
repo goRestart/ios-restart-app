@@ -580,7 +580,8 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             let adLoader = data.adLoader
             adLoader.delegate = self
             adLoader.load(GADRequest())
-            let contentAdView = Bundle.main.loadNibNamed("GooogleAdxNativeView", owner: nil, options: nil)?.first as! GADNativeContentAdView
+            let contentAdView = Bundle.main.loadNibNamed("GoogleAdxNativeView", owner: nil, options: nil)?.first as! GoogleAdxNativeView
+            contentAdView.setupUI()
             contentAdView.tag = data.adPosition
             viewModel.updateAdvertisementRequestedIn(position: inPosition, contentAdView: contentAdView)
             break
@@ -673,21 +674,12 @@ extension ListingListView: MPNativeAdDelegate {
 // MARK: - GADNativeContentAdLoaderDelegate
 extension ListingListView: GADNativeContentAdLoaderDelegate, GADAdLoaderDelegate {
     public func adLoader(_ adLoader: GADAdLoader, didReceive nativeContentAd: GADNativeContentAd) {
-
-//        let contentAdView = Bundle.main.loadNibNamed("GooogleAdxNativeView", owner: nil, options: nil)?.first as! GADNativeContentAdView
-//        contentAdView.nativeContentAd = nativeContentAd
-//        (contentAdView.headlineView as! UILabel).text = nativeContentAd.headline
-//        (contentAdView.bodyView as! UILabel).text = nativeContentAd.body
-//        (contentAdView.imageView as! UIImageView).image =
-//            (nativeContentAd.images?.first as! GADNativeAdImage).image
-////        (contentAdView.advertiserView as! UILabel).text = nativeContentAd.advertiser
-//        (contentAdView.callToActionView as! UIButton).setTitle(
-//            nativeContentAd.callToAction, for: UIControlState.normal)
-        viewModel.updateAdvertisementForAdLoader(adLoader, nativeContentAd)
+        viewModel.updateAdvertisementForAdLoader(adLoader: adLoader, nativeContentAd: nativeContentAd)
     }
     
     public func adLoader(_ adLoader: GADAdLoader, didFailToReceiveAdWithError error: GADRequestError) {
-        logMessage(.info, type: .monetization, message: "Feed banner in position failed with error: \(error.localizedDescription)")
+        //TODO: Show blank state cell
+        logMessage(.info, type: .monetization, message: "Google Adx failed with error: \(error.localizedDescription)")
     }
 }
 

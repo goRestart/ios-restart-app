@@ -942,17 +942,8 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                 let adLoader = GADAdLoader(adUnitID: feedAdUnitId,
                                            rootViewController: adsDelegate.rootViewControllerForAds(),
                                            adTypes: [GADAdLoaderAdType.nativeContent],
-                                           options: [])
-                var customTargetingValue = ""
-                
-                if featureFlags.showAdsInFeedWithRatio.isActive {
-                    customTargetingValue = featureFlags.showAdsInFeedWithRatio.customTargetingValueFor(position: lastAdPosition)
-                } else if featureFlags.noAdsInFeedForNewUsers.shouldShowAdsInFeed {
-                    customTargetingValue = featureFlags.noAdsInFeedForNewUsers.customTargetingValueFor(position: lastAdPosition)
-                }
-//                request.customTargeting = [Constants.adInFeedCustomTargetingKey: customTargetingValue]
-                
-                let adData = AdvertisementAdxData(adUnitId: "/6499/example/native",
+                                           options: nil)
+                let adData = AdvertisementAdxData(adUnitId: feedAdUnitId,
                                                   rootViewController: adsDelegate.rootViewControllerForAds(),
                                                   adPosition: lastAdPosition,
                                                   bannerHeight: LGUIKitConstants.advertisementCellMoPubHeight,

@@ -613,91 +613,35 @@ class ListingListViewModel: BaseViewModel {
         }
     }
     
-    func updateAdvertisementRequestedIn(position: Int, nativeContentAd: GADNativeContentAd?, contentAdView: GADNativeContentAdView?) {
-        guard 0..<objects.count ~= position else { return }
-        let modelToBeUpdated = objects[position]
-        switch modelToBeUpdated {
-        case .adxAdvertisement(let data):
-            guard data.adPosition == position else { return }
-            
-            //TODO: update cell with Adx native view
-            if let nativeContentAd = nativeContentAd, let contentAdView = data.adxNativeView {
-                
-//                let contentAdView = Bundle.main.loadNibNamed("GooogleAdxNativeView", owner: nil, options: nil)?.first as! GADNativeContentAdView
-                contentAdView.nativeContentAd = nativeContentAd
-                (contentAdView.headlineView as! UILabel).text = nativeContentAd.headline
-                (contentAdView.bodyView as! UILabel).text = nativeContentAd.body
-                (contentAdView.imageView as! UIImageView).image =
-                    (nativeContentAd.images?.first as! GADNativeAdImage).image
-                //        (contentAdView.advertiserView as! UILabel).text = nativeContentAd.advertiser
-                (contentAdView.callToActionView as! UIButton).setTitle(
-                    nativeContentAd.callToAction, for: UIControlState.normal)
-                let newAdData = AdvertisementAdxData(adUnitId: data.adUnitId,
-                                                     rootViewController: data.rootViewController,
-                                                     adPosition: data.adPosition,
-                                                     bannerHeight: data.bannerHeight,
-                                                     showAdsInFeedWithRatio: data.showAdsInFeedWithRatio,
-                                                     adRequested: true,
-                                                     categories: data.categories,
-                                                     adLoader: data.adLoader,
-                                                     adxNativeView: contentAdView)
-                objects[position] = ListingCellModel.adxAdvertisement(data: newAdData)
-                
-            } else {
-                let newAdData = AdvertisementAdxData(adUnitId: data.adUnitId,
-                                                     rootViewController: data.rootViewController,
-                                                     adPosition: data.adPosition,
-                                                     bannerHeight: data.bannerHeight,
-                                                     showAdsInFeedWithRatio: data.showAdsInFeedWithRatio,
-                                                     adRequested: true,
-                                                     categories: data.categories,
-                                                     adLoader: data.adLoader,
-                                                     adxNativeView: contentAdView)
-                objects[position] = ListingCellModel.adxAdvertisement(data: newAdData)
-            }
-            break
-        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems, .dfpAdvertisement, .mopubAdvertisement:
-            break
-        }
-    }
-    
     func updateAdvertisementForAdLoader(adLoader: GADAdLoader, nativeContentAd: GADNativeContentAd) {
-        guard 0..<objects.count ~= position else { return }
-        let modelToBeUpdated = objects[position]
-        switch modelToBeUpdated {
-        case .adxAdvertisement(let data):
-            guard data.adLoader == adLoader else { return }
-            
-            //TODO: update cell with Adx native view
-            if let contentAdView = data.adxNativeView {
-                
-                //                let contentAdView = Bundle.main.loadNibNamed("GooogleAdxNativeView", owner: nil, options: nil)?.first as! GADNativeContentAdView
-                contentAdView.nativeContentAd = nativeContentAd
-                (contentAdView.headlineView as! UILabel).text = nativeContentAd.headline
-                (contentAdView.bodyView as! UILabel).text = nativeContentAd.body
-                (contentAdView.imageView as! UIImageView).image =
-                    (nativeContentAd.images?.first as! GADNativeAdImage).image
-                //        (contentAdView.advertiserView as! UILabel).text = nativeContentAd.advertiser
-                (contentAdView.callToActionView as! UIButton).setTitle(
-                    nativeContentAd.callToAction, for: UIControlState.normal)
-                let newAdData = AdvertisementAdxData(adUnitId: data.adUnitId,
-                                                     rootViewController: data.rootViewController,
-                                                     adPosition: data.adPosition,
-                                                     bannerHeight: data.bannerHeight,
-                                                     showAdsInFeedWithRatio: data.showAdsInFeedWithRatio,
-                                                     adRequested: true,
-                                                     categories: data.categories,
-                                                     adLoader: data.adLoader,
-                                                     adxNativeView: contentAdView)
-                objects[position] = ListingCellModel.adxAdvertisement(data: newAdData)
+        for index in 0..<objects.count {
+            let cellModel = objects[index]
+            switch cellModel {
+            case .adxAdvertisement(let data):
+                guard data.adLoader == adLoader else { break }
+                if let contentAdView = data.adxNativeView {
+                    contentAdView.nativeContentAd = nativeContentAd
+                    (contentAdView as! GoogleAdxNativeView).setUpWith(nativeContentAd: nativeContentAd)
+                    let newAdData = AdvertisementAdxData(adUnitId: data.adUnitId,
+                                                         rootViewController: data.rootViewController,
+                                                         adPosition: data.adPosition,
+                                                         bannerHeight: data.bannerHeight,
+                                                         showAdsInFeedWithRatio: data.showAdsInFeedWithRatio,
+                                                         adRequested: true,
+                                                         categories: data.categories,
+                                                         adLoader: data.adLoader,
+                                                         adxNativeView: contentAdView)
+                    objects[index] = ListingCellModel.adxAdvertisement(data: newAdData)
+                    delegate?.vmReloadItemAtIndexPath(indexPath: IndexPath(row: index, section: 0))
+                    return
+                }
+                break
+            default:
+                break
             }
-            break
-        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems, .dfpAdvertisement, .mopubAdvertisement:
-            break
         }
     }
 }
-
 
 // MARK: - Tracking
 
