@@ -889,26 +889,76 @@ enum EventParameterUserDidRateReason: String {
     case sad = "sad"
 }
 
-enum EventParameterListingVisitSource: String {
-    case listingList = "product-list"
-    case moreInfoRelated = "more-info-related"
-    case collection = "collection"
-    case search = "search"
-    case filter = "filter"
-    case searchAndFilter = "search & filter"
-    case category = "category"
-    case profile = "profile"
-    case favourite = "favourite"
-    case nextFavourite = "next-favourite"
-    case previousFavourite = "previous-favourite"
-    case chat = "chat"
-    case openApp = "open-app"
-    case notifications = "notifications"
-    case relatedListings = "related-items-list"
-    case next = "next-related-items-list"
-    case previous = "previous-related-items-list"
-    case promoteBump = "promote-bump-up"
-    case unknown = "N/A"
+enum EventParameterListingVisitSource {
+    // https://ambatana.atlassian.net/wiki/spaces/MOB/pages/1114200/Parameters
+    // (FWI SEO parameters are for web, we don't need to add them here)
+    var rawValue: String {
+        switch self {
+        case .next(let source): return "next-\(source.rawValue)"
+        case .previous(let source): return "previous-\(source.rawValue)"
+
+        case .listingList: return "product-list" // from the main feed without filters
+        case .collection: return "collection" // from the main feed, touching a collection cell
+        case .search: return "search" // from the main feed, with text filter
+        case .filter: return "filter" // from the main feed, with top filters
+        case .searchAndFilter: return "search-and-filter" // from the main feed, with both
+        case .category: return "category" // from the main feed, with bubble filters
+        case .profile: return "profile" // from the user profile
+        case .relatedChat: return "related-chat" // from the chat, related products
+        case .notificationCenter: return "notification-center" // from notification center
+        case .external: return "external" // from push notification
+        case .relatedListings: return "related-items-list" // related items when you don't find a push listing
+        case .chat: return "chat" // from the chat
+        case .promoteBump: return "promote-bump-up" // from the promote bump up screen
+        case .favourite: return "favourite" // from your private profile favourite's list
+        case .unknown: return "N/A"
+        }
+    }
+
+    private var isNext: Bool {
+        guard case .next(_) = self else { return false }
+        return true
+    }
+
+    private var isPrevious: Bool {
+        guard case .previous(_) = self else { return false }
+        return true
+    }
+
+    var next: EventParameterListingVisitSource {
+        guard !isNext else { return self }
+        guard case let .previous(source) = self else { return .next(self) }
+        return .next(source)
+    }
+
+    var previous: EventParameterListingVisitSource {
+        guard !isPrevious else { return self }
+        guard case let .next(source) = self else { return .previous(self) }
+        return .previous(source)
+    }
+
+    static func ==(lhs: EventParameterListingVisitSource, rhs: EventParameterListingVisitSource) -> Bool {
+        return lhs.rawValue == rhs.rawValue
+    }
+
+    indirect case next(EventParameterListingVisitSource)
+    indirect case previous(EventParameterListingVisitSource)
+
+    case listingList
+    case collection
+    case search
+    case filter
+    case searchAndFilter
+    case category
+    case profile
+    case relatedChat
+    case notificationCenter
+    case external
+    case relatedListings
+    case chat
+    case promoteBump
+    case favourite
+    case unknown
 }
 
 enum EventParameterRelatedListingsVisitSource: String {
