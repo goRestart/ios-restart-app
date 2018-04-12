@@ -111,14 +111,14 @@ final class UserVerificationViewModel: BaseViewModel {
                         self?.verificationSuccess(.facebook)
                     } else {
                         self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.mainSignUpFbConnectErrorGeneric,
-                                                                completion: { self?.verificationFailed() })
+                                                                completion: nil)
                     }
                 }
             case .cancelled:
                 break
             case .error:
                 self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.mainSignUpFbConnectErrorGeneric,
-                                                        completion: { self?.verificationFailed() })
+                                                        completion: nil)
             }
         }
     }
@@ -131,19 +131,46 @@ final class UserVerificationViewModel: BaseViewModel {
                     if let _ = result.value {
                         self?.verificationSuccess(.google)
                     } else {
-                        self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.mainSignUpFbConnectErrorGeneric, completion: { self?.verificationFailed() })
+                        self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.mainSignUpFbConnectErrorGeneric,
+                                                                completion: nil)
                     }
                 }
             case .cancelled:
                 break
             case .error:
-                self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.mainSignUpFbConnectErrorGeneric, completion: { self?.verificationFailed() })
+                self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.mainSignUpFbConnectErrorGeneric,
+                                                        completion: nil)
             }
         }
     }
 
     private func verifyEmail() {
+        if let email = myUserRepository.myUser?.email, email.isEmail() {
+            verifyExistingEmail(email: email)
+        } else {
+            navigator?.openEmailVerification()
+        }
+    }
 
+    private func verifyExistingEmail(email: String) {
+        guard email.isEmail() else { return }
+        myUserRepository.linkAccount(email) { [weak self] result in
+            if let error = result.error {
+                switch error {
+                case .tooManyRequests:
+                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailTooManyRequests,
+                                                            completion: nil)
+                case .network:
+                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorNetworkBody, completion: nil)
+                case .forbidden, .internalError, .notFound, .unauthorized, .userNotVerified, .serverError, .wsChatError:
+                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorGenericBody, completion: nil)
+                }
+            } else {
+                self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailSuccess) {
+                    self?.verificationSuccess(.email(email))
+                }
+            }
+        }
     }
 
     private func selectAvatar() {
@@ -156,9 +183,6 @@ final class UserVerificationViewModel: BaseViewModel {
 
     private func verificationSuccess(_ verificationType: VerificationType) {
         trackComplete(verificationType)
-    }
-
-    private func verificationFailed() {
     }
 }
 

@@ -49,7 +49,12 @@ protocol EditUserBioNavigator: class {
     func closeEditUserBio()
 }
 
+protocol VerifyUserEmailNavigator: class {
+    func closeEmailVerification()
+}
+
 protocol UserVerificationNavigator: class {
     func closeUserVerification()
     func openEditUserBio()
+    func openEmailVerification()
 }

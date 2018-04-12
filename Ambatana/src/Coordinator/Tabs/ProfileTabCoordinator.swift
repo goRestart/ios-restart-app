@@ -82,6 +82,13 @@ extension ProfileTabCoordinator: UserVerificationNavigator {
     func closeUserVerification() {
         navigationController.popViewController(animated: true)
     }
+
+    func openEmailVerification() {
+        let vm = UserVerificationEmailViewModel()
+        vm.navigator = self
+        let vc = UserVerificationEmailViewController(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
+    }
 }
 
 extension ProfileTabCoordinator: SettingsNavigator {
@@ -168,6 +175,12 @@ extension ProfileTabCoordinator: HelpNavigator {
 
 extension ProfileTabCoordinator: EditUserBioNavigator {
     func closeEditUserBio() {
+        navigationController.popViewController(animated: true)
+    }
+}
+
+extension ProfileTabCoordinator: VerifyUserEmailNavigator {
+    func closeEmailVerification() {
         navigationController.popViewController(animated: true)
     }
 }
