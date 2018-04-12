@@ -1158,11 +1158,14 @@ fileprivate extension ListingViewModel {
                 let feedPosition = strongSelf.delegate?.trackingFeedPosition ?? .none
                 let isFirstMessage = firstMessage && !strongSelf.alreadyTrackedFirstMessageSent
                 let visitSource = strongSelf.visitSource(from: strongSelf.visitSource, isFirstMessage: isFirstMessage)
+                let badge = strongSelf.seller.value?.reputationBadge ?? .noBadge
+                let badgeParameter = EventParameterUserBadge(userBadge: badge)
                 strongSelf.trackHelper.trackMessageSent(isFirstMessage: isFirstMessage,
                                                         messageType: type,
                                                         isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value,
                                                         listingVisitSource: visitSource,
-                                                        feedPosition: feedPosition)
+                                                        feedPosition: feedPosition,
+                                                        sellerBadge: badgeParameter)
                 strongSelf.alreadyTrackedFirstMessageSent = true
             } else if let error = result.error {
                 strongSelf.trackHelper.trackMessageSentError(messageType: type, isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value, error: error)

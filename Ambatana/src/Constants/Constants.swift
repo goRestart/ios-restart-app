@@ -160,4 +160,9 @@ struct Constants {
     static let usaPhoneNumberDigitsCount = 10
     static let usaFirstDashPosition = 3
     static let usaSecondDashPosition = 7
+
+    struct Reputation {
+        static let minScore: Int = 50
+        static let maxScore: Int = 80
+    }
 }
