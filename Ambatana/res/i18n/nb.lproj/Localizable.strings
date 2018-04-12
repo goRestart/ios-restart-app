@@ -195,6 +195,7 @@
 "chat_message_disclaimer_scammer_base_blocked" = "Vær ekstra forsiktig når du veksler telefonnummer/e-postadresse. Falske brukere vil ofte be deg om å fortsette kommunikasjonen utenfor letgo's chat. %@";
 "chat_message_field_hint" = "Skriv din melding her";
 "chat_message_load_generic_error" = "En feil oppstod ved å motta samtaledata. Vennligst prøv igjen.";
+"chat_message_type_not_supported" = "Denne meldingen er ikke kompatibel med din appversjon. Oppdater din app for å åpne for de nyeste løsningene!";
 "chat_not_verified_alert_message" = "Koble til med Facebook, Google eller e-post for å verifisere din identitet.";
 "chat_not_verified_state_check_button" = "Sjekk";
 "chat_not_verified_state_message" = "Sjekk om du er verifisert før du kan starte en samtale.";
@@ -357,6 +358,11 @@
 "filter_results_cars_other_results" = "Nylig publisert i ditt nærområde";
 "filters_car_make_not_set" = "Ikke valgt";
 "filters_car_model_not_set" = "Ikke valgt";
+"filters_car_seller_type_all" = "All";
+"filters_car_seller_type_dealership" = "Dealership";
+"filters_car_seller_type_invidual" = "Individual";
+"filters_car_seller_type_private" = "Private";
+"filters_car_seller_type_professional" = "Professional";
 "filters_car_year_any_year" = "Alle år";
 "filters_car_year_before_year" = "Før %i";
 "filters_distance_not_set" = "ikke satt";
@@ -462,7 +468,7 @@
 "meeting_creation_view_send_button" = "Send møteforslag";
 "meeting_creation_view_suggest_cell_select" = "Velg";
 "meeting_creation_view_suggest_cell_selected" = "Valgt";
-"meeting_creation_view_title" = "Planlegg å møte";
+"meeting_creation_view_title" = "Planlegg et møte";
 "ml_camera_in_about_days_text" = "i løpet av %.f dager";
 "ml_camera_in_more_than_days_text" = "i mer enn %.f dager";
 "ml_camera_sells_for_text" = "Selges vanligvis for %d,-";
@@ -810,12 +816,8 @@
 "profile_sold_no_products_label" = "INGEN ANNONSER (ENDA!)";
 "profile_sold_other_no_products_button" = "Fortsett å bla i produktene";
 "profile_sold_products_tab" = "Solgt";
-<<<<<<< HEAD
-"profile_verifications_email_placeholder" = "Email";
-=======
 "profile_verifications_email_placeholder" = "E-post";
->>>>>>> feature-branch-advanced-reputation-system
-"profile_verifications_email_view_title" = "Verify your Email";
+"profile_verifications_email_view_title" = "Verifiser din e-postadresse";
 "profile_verifications_send_button" = "Send";
 "profile_verifications_view_add_info_section_title" = "LEGG TIL DIN";
 "profile_verifications_view_bio_title" = "Biografi";

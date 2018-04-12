@@ -195,6 +195,7 @@
 "chat_message_disclaimer_scammer_base_blocked" = "Sistemimiz uygunsuz kelimelerin kullanıldığını veya tehlike oluşturabilecek bir iletişim bilgisinin paylaşıldığını tespit etti. %@";
 "chat_message_field_hint" = "Mesajını buraya yaz";
 "chat_message_load_generic_error" = "Sohbet bilgilerine erişirken bir hata oluştu. Lütfen tekrar dene.";
+"chat_message_type_not_supported" = "Bu mesaj kullandığın uygulamanın sürümü ile uyumlu değildir. En yeni özellikleri kullanabilmek için lütfen uygulamanı güncelle.";
 "chat_not_verified_alert_message" = "Kimliğini doğrulamak için Facebook, Google veya Eposta ile bağlan.";
 "chat_not_verified_state_check_button" = "Kontrol et";
 "chat_not_verified_state_message" = "Sohbete başlayabilmek için hesabının doğrulanmış olduğundan emin ol";
@@ -357,6 +358,11 @@
 "filter_results_cars_other_results" = "Çevrende en son yayınlananlar";
 "filters_car_make_not_set" = "Belirlenmedi";
 "filters_car_model_not_set" = "Belirlenmedi";
+"filters_car_seller_type_all" = "All";
+"filters_car_seller_type_dealership" = "Dealership";
+"filters_car_seller_type_invidual" = "Individual";
+"filters_car_seller_type_private" = "Private";
+"filters_car_seller_type_professional" = "Professional";
 "filters_car_year_any_year" = "Herhangi bir Yıl";
 "filters_car_year_before_year" = "%i yılından önce";
 "filters_distance_not_set" = "belirlenmedi";
@@ -810,15 +816,9 @@
 "profile_sold_no_products_label" = "(HENÜZ!) İLAN YOK";
 "profile_sold_other_no_products_button" = "Aramaya Başla";
 "profile_sold_products_tab" = "Satıldı";
-<<<<<<< HEAD
-"profile_verifications_email_placeholder" = "Email";
-"profile_verifications_email_view_title" = "Verify your Email";
-"profile_verifications_send_button" = "Send";
-=======
 "profile_verifications_email_placeholder" = "E-posta";
-"profile_verifications_email_view_title" = "Verify your Email";
+"profile_verifications_email_view_title" = "E-postanı doğrula";
 "profile_verifications_send_button" = "Gönder";
->>>>>>> feature-branch-advanced-reputation-system
 "profile_verifications_view_add_info_section_title" = "EKLE";
 "profile_verifications_view_bio_title" = "Biyografi";
 "profile_verifications_view_email_title" = "E-posta";

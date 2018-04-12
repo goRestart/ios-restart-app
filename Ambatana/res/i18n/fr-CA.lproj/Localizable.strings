@@ -195,6 +195,7 @@
 "chat_message_disclaimer_scammer_base_blocked" = "Soyez très prudents lorsque vous donnez votre courriel/téléphone. Les fraudeurs demandent souvent de clavarder en dehors de letgo. %@";
 "chat_message_field_hint" = "Entrez votre message ici";
 "chat_message_load_generic_error" = "Une erreur est survenue lors de la récupération de vos données de conversation. Veuillez réessayer.";
+"chat_message_type_not_supported" = "Ce message n'est pas compatible avec la version de l'appli que vous utilisez. Mettez à jour votre appli dès maintenant pour déverrouiller les nouvelles fonctions !";
 "chat_not_verified_alert_message" = "Connectez-vous avec Facebook, Google ou par courriel pour valider votre identité.";
 "chat_not_verified_state_check_button" = "Valider";
 "chat_not_verified_state_message" = "Vérifiez si vous avez été validé pour commencer à clavarder.";
@@ -357,6 +358,11 @@
 "filter_results_cars_other_results" = "Publié récemment dans votre secteur";
 "filters_car_make_not_set" = "Non Communiqué";
 "filters_car_model_not_set" = "Non Communiqué";
+"filters_car_seller_type_all" = "All";
+"filters_car_seller_type_dealership" = "Dealership";
+"filters_car_seller_type_invidual" = "Individual";
+"filters_car_seller_type_private" = "Private";
+"filters_car_seller_type_professional" = "Professional";
 "filters_car_year_any_year" = "Toutes les Années";
 "filters_car_year_before_year" = "Avant %i";
 "filters_distance_not_set" = "non configuré";
@@ -462,7 +468,7 @@
 "meeting_creation_view_send_button" = "Envoyer rendez-vous";
 "meeting_creation_view_suggest_cell_select" = "Sélectionner";
 "meeting_creation_view_suggest_cell_selected" = "Sélectionné";
-"meeting_creation_view_title" = "Planifier une rencontre";
+"meeting_creation_view_title" = "Planifiez un rendez-vous";
 "ml_camera_in_about_days_text" = "en %.f jours environ";
 "ml_camera_in_more_than_days_text" = "en plus de %.f jours";
 "ml_camera_sells_for_text" = "Se vend généralement %d$";
@@ -811,12 +817,8 @@
 "profile_sold_other_no_products_button" = "Continuer à Naviguer";
 "profile_sold_products_tab" = "Vendu";
 "profile_verifications_email_placeholder" = "Email";
-"profile_verifications_email_view_title" = "Verify your Email";
-<<<<<<< HEAD
-"profile_verifications_send_button" = "Send";
-=======
+"profile_verifications_email_view_title" = "Vérifiez votre courriel";
 "profile_verifications_send_button" = "Envoyer";
->>>>>>> feature-branch-advanced-reputation-system
 "profile_verifications_view_add_info_section_title" = "AJOUTER VOTRE";
 "profile_verifications_view_bio_title" = "Bio";
 "profile_verifications_view_email_title" = "Email";
