@@ -575,7 +575,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
                 self.vmReloadItemAtIndexPath(indexPath: IndexPath(row: inPosition, section: 0))
             })
             break
-        case .collectionCell, .emptyCell, .listingCell, .mostSearchedItems:        
+        case .collectionCell, .emptyCell, .listingCell, .mostSearchedItems, .promo:        
             break
         }
     }

@@ -30,6 +30,10 @@ class DiscoverListingListRequester {
 
 extension DiscoverListingListRequester: ListingListRequester {
 
+    var isFirstPage: Bool {
+        return offset == 0
+    }
+    
     func canRetrieve() -> Bool {
         return true
     }

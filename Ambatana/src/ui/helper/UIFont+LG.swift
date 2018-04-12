@@ -43,7 +43,8 @@ extension UIFont {
     static var bigButtonFont: UIFont { return systemSemiBoldFont(size: 19) }
     static var mediumButtonFont: UIFont { return systemMediumFont(size: 17) }
     static var smallButtonFont: UIFont { return systemMediumFont(size: 15) }
-
+    static var verySmallButtonFont: UIFont { return systemMediumFont(size: 14) }
+    
     // Posting Flow
     static var postingFlowHeadline: UIFont { return systemBoldFont(size: 35) }
     static var postingFlowBody: UIFont { return systemBoldFont(size: 27) }

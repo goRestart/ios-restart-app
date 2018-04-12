@@ -11,6 +11,7 @@ import Foundation
 import RxSwift
 
 class MockFeatureFlags: FeatureFlaggeable {
+    
     var trackingData: Observable<[(String, ABGroup)]?> {
         return trackingDataVar.asObservable()
     }
@@ -59,6 +60,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var showProTagUserProfile: Bool = false
     var markAllConversationsAsRead: Bool = false
     var realEstateTutorial: RealEstateTutorial = .control
+    var realEstatePromoCell: RealEstatePromoCell = .control
     var summaryAsFirstStep: SummaryAsFirstStep = .control
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem = .control
     var searchCarsIntoNewBackend: SearchCarsIntoNewBackend = .control

@@ -462,7 +462,7 @@
 "meeting_creation_view_send_button" = "Send meeting";
 "meeting_creation_view_suggest_cell_select" = "Select";
 "meeting_creation_view_suggest_cell_selected" = "Selected";
-"meeting_creation_view_title" = "Schedule a meetup";
+"meeting_creation_view_title" = "Schedule a meeting";
 "ml_camera_in_about_days_text" = "in about %.f days";
 "ml_camera_in_more_than_days_text" = "in more than %.f days";
 "ml_camera_sells_for_text" = "Typically sells for $%d";
@@ -810,6 +810,9 @@
 "profile_sold_no_products_label" = "NO LISTINGS (YET!)";
 "profile_sold_other_no_products_button" = "Keep Browsing";
 "profile_sold_products_tab" = "Sold";
+"profile_verifications_email_placeholder" = "Email";
+"profile_verifications_email_view_title" = "Verify your Email";
+"profile_verifications_send_button" = "Send";
 "profile_verifications_view_add_info_section_title" = "ADD YOUR";
 "profile_verifications_view_bio_title" = "Bio";
 "profile_verifications_view_email_title" = "Email";

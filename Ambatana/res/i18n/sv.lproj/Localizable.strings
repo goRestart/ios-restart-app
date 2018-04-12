@@ -810,6 +810,9 @@
 "profile_sold_no_products_label" = "INGA ANNONSER (ÄN!)";
 "profile_sold_other_no_products_button" = "Surfa vidare";
 "profile_sold_products_tab" = "Såld";
+"profile_verifications_email_placeholder" = "E-post";
+"profile_verifications_email_view_title" = "Verify your Email";
+"profile_verifications_send_button" = "Skicka";
 "profile_verifications_view_add_info_section_title" = "LÄGG TILL DIN";
 "profile_verifications_view_bio_title" = "Bio";
 "profile_verifications_view_email_title" = "E-post";
