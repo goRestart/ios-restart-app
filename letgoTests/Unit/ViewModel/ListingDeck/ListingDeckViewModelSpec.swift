@@ -320,7 +320,7 @@ final class ListingDeckViewModelSpec: BaseViewModelSpec {
                             startObserving()
                         }
                         it("filters the product") {
-                            expect(sut.objects.value.flatMap { $0.listing?.objectId }
+                            expect(sut.objects.value.map { $0.listing?.objectId }
                                                     .filter { $0 == product.objectId }).to(beEmpty())
                         }
                         it("does not paginate") {
