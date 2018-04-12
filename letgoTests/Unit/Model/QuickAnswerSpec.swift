@@ -17,7 +17,7 @@ class QuickAnswerSpec: QuickSpec {
         var quickAnswers: [QuickAnswer] = []
         var isFree: Bool!
         
-        fdescribe("quickAnswersForPeriscope func") {
+        describe("quickAnswersForPeriscope func") {
             context("is not free") {
                 beforeEach {
                     isFree = false
