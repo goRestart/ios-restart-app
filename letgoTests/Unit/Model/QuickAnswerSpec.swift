@@ -177,16 +177,16 @@ class QuickAnswerSpec: QuickSpec {
                     expect(quickAnswers[0]) == QuickAnswer.meetingAssistant(chatNorrisABtestVersion: .redButton)
                 }
                 it("matches first group with the right interested quick answers") {
-                    expect(quickAnswers[0]) == QuickAnswer.interested
+                    expect(quickAnswers[1]) == QuickAnswer.interested
                 }
                 it("matches second group with the right negotiable quick answers") {
-                    expect(quickAnswers[1]) == QuickAnswer.freeStillHave
+                    expect(quickAnswers[2]) == QuickAnswer.freeStillHave
                 }
                 it("matches third group with the right meet up quick answers") {
-                    expect(quickAnswers[2]) == QuickAnswer.meetUp
+                    expect(quickAnswers[3]) == QuickAnswer.meetUp
                 }
                 it("matches fourth group with the right not interested quick answers") {
-                    expect(quickAnswers[3]) == QuickAnswer.notInterested
+                    expect(quickAnswers[4]) == QuickAnswer.notInterested
                 }
             }
         }
