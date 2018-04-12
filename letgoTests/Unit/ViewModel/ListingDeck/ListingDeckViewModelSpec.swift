@@ -85,7 +85,7 @@ final class ListingDeckViewModelSpec: BaseViewModelSpec {
                                            listingViewModelMaker: listingViewModelMaker,
                                            myUserRepository: myUserRepository,
                                            pagination: Pagination.makePagination(first: 0, next: 1, isLast: false),
-                                           prefetching: Prefetching(previousCount: 3, nextCount: 3),
+                                           prefetching: prefetching,
                                            shouldSyncFirstListing: firstProductSyncRequired,
                                            binder: ListingDeckViewModelBinder(),
                                            tracker: tracker,
@@ -103,7 +103,7 @@ final class ListingDeckViewModelSpec: BaseViewModelSpec {
                 chatWrapper = MockChatWrapper()
                 locationManager = MockLocationManager()
                 countryHelper = CountryHelper.mock()
-                product = MockProduct.makeMock()
+                product = MockProduct.makeProductMocks(1, allowDiscarded: false).first!
                 featureFlags = MockFeatureFlags()
                 purchasesShopper = MockPurchasesShopper()
                 notificationsManager = MockNotificationsManager()
@@ -303,6 +303,29 @@ final class ListingDeckViewModelSpec: BaseViewModelSpec {
                         }
                         it("paginates initially") {
                             expect(sut.objectCount).toEventually(equal(40))
+                        }
+                    }
+
+                    context("discarded item after the threshold") {
+                        var index: Int!
+                        beforeEach {
+                            index = Int.random(15, 19)
+
+                            var products = MockProduct.makeProductMocks(20, allowDiscarded: false)
+                            product.status = ListingStatus.discarded(reason: nil)
+                            products[index] = product
+                            let productListModels = products.map { ListingCellModel.listingCell(listing: .product($0)) }
+                            listingListRequester.generateItems(30, allowDiscarded: false)
+                            buildSut(productListModels: productListModels, initialProduct: product)
+                            sut.active = true
+                            startObserving()
+                        }
+                        it("filters the product") {
+                            expect(sut.objects.value.map { $0.listing?.objectId }
+                                                    .filter { $0 == product.objectId }).to(beEmpty())
+                        }
+                        it("does not paginate") {
+                            expect(sut.objectCount).toEventually(equal(19))
                         }
                     }
                 }
