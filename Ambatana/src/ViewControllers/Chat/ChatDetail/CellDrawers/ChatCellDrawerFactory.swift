@@ -14,7 +14,8 @@ class ChatCellDrawerFactory {
     static func drawerForMessage(_ message: ChatViewMessage,
                                  autoHide: Bool = false,
                                  disclosure: Bool = false,
-                                 showClock: Bool = false) -> ChatCellDrawer {
+                                 showClock: Bool = false,
+                                 meetingsEnabled: Bool) -> ChatCellDrawer {
         let myUserRepository = Core.myUserRepository
         
         let isMine = message.talkerId == myUserRepository.myUser?.objectId
@@ -33,6 +34,20 @@ class ChatCellDrawerFactory {
             return ChatOtherInfoCellDrawer(autoHide: autoHide)
         case .askPhoneNumber:
             return ChatAskPhoneNumberCellDrawer(autoHide: autoHide)
+        case let .meeting(type,_,_,_,_,_):
+            if meetingsEnabled, type == .requested {
+                if isMine {
+                    return ChatMyMeetingCellDrawer(autoHide: autoHide)
+                } else {
+                    return ChatOtherMeetingCellDrawer(autoHide: autoHide)
+                }
+            } else {
+                if isMine {
+                    return ChatMyMessageCellDrawer(showDisclose: disclosure, autoHide: autoHide, showClock: showClock)
+                } else {
+                    return ChatOthersMessageCellDrawer(autoHide: autoHide)
+                }
+            }
         case .interlocutorIsTyping:
             return ChatInterlocutorIsTypingCellDrawer(autoHide: autoHide)
         }
@@ -46,5 +61,8 @@ class ChatCellDrawerFactory {
         ChatOtherInfoCellDrawer.registerCell(tableView)
         ChatAskPhoneNumberCellDrawer.registerCell(tableView)
         ChatInterlocutorIsTypingCellDrawer.registerCell(tableView)
+
+        ChatOtherMeetingCellDrawer.registerCell(tableView)
+        ChatMyMeetingCellDrawer.registerCell(tableView)
     }
 }

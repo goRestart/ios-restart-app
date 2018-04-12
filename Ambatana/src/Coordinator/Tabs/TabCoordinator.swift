@@ -725,6 +725,13 @@ extension TabCoordinator: ChatDetailNavigator {
         openLoginIfNeeded(from: from, style: .popup(LGLocalizedString.chatLoginPopupText),
                           loggedInAction: loggedInAction, cancelAction: nil)
     }
+
+    func openAssistantFor(listingId: String, dataDelegate: MeetingAssistantDataDelegate) {
+        let meetingAssistantVM = MeetingAssistantViewModel(listingId: listingId)
+        meetingAssistantVM.dataDelegate = dataDelegate
+        let meetingAssistantCoord = MeetingAssistantCoordinator(viewModel: meetingAssistantVM)
+        openChild(coordinator: meetingAssistantCoord, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
+    }
 }
 
 // MARK: > ChatInactiveDetailNavigator

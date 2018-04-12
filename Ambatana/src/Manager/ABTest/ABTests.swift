@@ -79,6 +79,7 @@ class ABTests {
         result.append(contentsOf: chat.boolVariables)
         result.append(contentsOf: core.boolVariables)
         result.append(contentsOf: users.boolVariables)
+
         return result
     }
 
@@ -132,6 +133,7 @@ extension ABTests {
     var showChatSafetyTips: LeanplumABVariable<Bool> { return chat.showChatSafetyTips }
     var userIsTyping: LeanplumABVariable<Int> { return chat.userIsTyping }
     var markAllConversationsAsRead: LeanplumABVariable<Bool> { return chat.markAllConversationsAsRead }
+    var chatNorris: LeanplumABVariable<Int> { return chat.chatNorris }
 }
 
 //  MARK: Money

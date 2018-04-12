@@ -12,18 +12,29 @@ class DirectAnswerCell: UICollectionViewCell, ReusableCell {
 
     static let reusableID = "DirectAnswerCell"
 
+    @IBOutlet weak var cellIcon: UIImageView!
     @IBOutlet weak var cellText: UILabel!
-    
+
+    @IBOutlet weak var cellIconWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var cellIconMarginConstraint: NSLayoutConstraint!
+
     static let cellHeight: CGFloat = 32
-    
-    fileprivate var isDynamic = false
+    static let calendarWidth: CGFloat = 15
+    static let calendarHorizontalMargin: CGFloat = 5
+
+    fileprivate var quickAnswer: QuickAnswer?
 
     static func sizeForDirectAnswer(_ quickAnswer: QuickAnswer) -> CGSize {
         let constraintRect = CGSize(width: CGFloat.greatestFiniteMagnitude, height: DirectAnswerCell.cellHeight)
         let boundingBox = quickAnswer.text.boundingRect(with: constraintRect,
                                                         options: NSStringDrawingOptions.usesFontLeading,
-                                                        attributes: [NSAttributedStringKey.font: UIFont.mediumBodyFont], context: nil)
-        return CGSize(width: boundingBox.width + Metrics.shortMargin*2, height: DirectAnswerCell.cellHeight)
+                                                        attributes: [NSAttributedStringKey.font: UIFont.mediumBodyFont],
+                                                        context: nil)
+        var width = boundingBox.width + Metrics.shortMargin*2
+        if quickAnswer.isMeetingAssistant {
+            width += DirectAnswerCell.calendarWidth + DirectAnswerCell.calendarHorizontalMargin
+        }
+        return CGSize(width: width, height: DirectAnswerCell.cellHeight)
     }
 
     override var isHighlighted: Bool {
@@ -57,6 +68,21 @@ class DirectAnswerCell: UICollectionViewCell, ReusableCell {
 
     func setupWithDirectAnswer(_ quickAnswer: QuickAnswer) {
         cellText.text = quickAnswer.text
+
+        contentView.layer.backgroundColor = quickAnswer.bgColor.cgColor
+        cellText.textColor = quickAnswer.textColor
+        cellIcon.tintColor = quickAnswer.iconTintColor
+
+        if let icon = quickAnswer.icon {
+            cellIcon.isHidden = false
+            cellIcon.image = icon
+            cellIconWidthConstraint.constant = DirectAnswerCell.calendarWidth
+            cellIconMarginConstraint.constant = DirectAnswerCell.calendarHorizontalMargin
+        } else {
+            cellIcon.isHidden = true
+            cellIconWidthConstraint.constant = 0
+            cellIconMarginConstraint.constant = 0
+        }
     }
 
 
@@ -73,7 +99,7 @@ class DirectAnswerCell: UICollectionViewCell, ReusableCell {
     }
 
     private func refreshBckgState() {
-        guard !isDynamic else { return } // Preventing UI bug: after moving item index in the collection, another cell gets highlighted
+        guard let answer = quickAnswer, !answer.isMeetingAssistant else { return }
         let highlighedState = self.isHighlighted || self.isSelected
         contentView.layer.backgroundColor = highlighedState ? UIColor.primaryColorHighlighted.cgColor :
             UIColor.primaryColor.cgColor

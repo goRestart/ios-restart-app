@@ -191,6 +191,11 @@
         "description": "Show machine learning posting flow when pressing Other Items on salchichas menu"
     },
     {
+        "name": "ChatNorris",
+        "values": ["control", "baseline", "redButton", "whiteButton", "greenButton"],
+        "description": "Show the create meeting option in chat detail view."
+    },
+    {
         "name": "AddPriceTitleDistanceToListings",
         "values": ["control", "baseline", "infoInImage", "infoWithWhiteBackground"],
         "description": "Add price, title and distance to listings"

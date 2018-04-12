@@ -11,16 +11,21 @@ import LGCoreKit
 class ChatViewMessageAdapter {
     let stickersRepository: StickersRepository
     let myUserRepository: MyUserRepository
+    let featureFlags: FeatureFlaggeable
     
     convenience init() {
         let stickersRepository = Core.stickersRepository
         let myUserRepository = Core.myUserRepository
-        self.init(stickersRepository: stickersRepository, myUserRepository: myUserRepository)
+        let featureFlags = FeatureFlags.sharedInstance
+        self.init(stickersRepository: stickersRepository,
+                  myUserRepository: myUserRepository,
+                  featureFlags: featureFlags)
     }
     
-    init(stickersRepository: StickersRepository, myUserRepository: MyUserRepository) {
+    init(stickersRepository: StickersRepository, myUserRepository: MyUserRepository, featureFlags: FeatureFlaggeable) {
         self.stickersRepository = stickersRepository
         self.myUserRepository = myUserRepository
+        self.featureFlags = featureFlags
     }
     
     func adapt(_ message: Message) -> ChatViewMessage {
@@ -45,7 +50,7 @@ class ChatViewMessageAdapter {
                                warningStatus: ChatViewMessageWarningStatus(status: message.warningStatus))
     }
     
-    func adapt(_ message: ChatMessage) -> ChatViewMessage {
+    func adapt(_ message: ChatMessage) -> ChatViewMessage? {
         
         let type: ChatViewMessageType
         switch message.type {
@@ -61,6 +66,21 @@ class ChatViewMessageAdapter {
             }
         case .phone:
             type = ChatViewMessageType.text(text: LGLocalizedString.professionalDealerAskPhoneChatMessage(message.text))
+        case .meeting:
+            if featureFlags.chatNorris.isActive, let meeting = message.assistantMeeting {
+                if meeting.meetingType == .requested {
+                    type = ChatViewMessageType.meeting(type: meeting.meetingType,
+                                                       date: meeting.date,
+                                                       locationName: meeting.locationName,
+                                                       coordinates: meeting.coordinates,
+                                                       status: meeting.status,
+                                                       text: message.text)
+                } else {
+                    return nil
+                }
+            } else {
+                type = ChatViewMessageType.text(text: message.text)
+            }
         case .interlocutorIsTyping:
             type = ChatViewMessageType.interlocutorIsTyping
         }
@@ -86,6 +106,8 @@ class ChatViewMessageAdapter {
             }
         case .phone:
             type = ChatViewMessageType.text(text: LGLocalizedString.professionalDealerAskPhoneChatMessage(text))
+        case .meeting:
+            type = ChatViewMessageType.text(text: text)
         case .interlocutorIsTyping:
             type = ChatViewMessageType.interlocutorIsTyping
         }

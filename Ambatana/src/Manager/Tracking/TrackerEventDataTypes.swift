@@ -195,6 +195,30 @@ enum EventName: String {
     case tutorialDialogAbandon              = "onboarding-dialog-abandon"
 
     case predictedPosting                   = "predicted-posting"
+
+    case assistantMeetingStart              = "assistant-meeting-start"
+
+    // Constants
+    private static let eventNameDummyPrefix  = "dummy-"
+    
+    // Computed iVars
+    var actualEventName: String {
+        get {
+            let eventName: String
+            if let isDummyUser = Core.myUserRepository.myUser?.isDummy {
+                if isDummyUser {
+                    eventName = EventName.eventNameDummyPrefix + rawValue
+                }
+                else {
+                    eventName = rawValue
+                }
+            }
+            else {
+                eventName = rawValue
+            }
+            return eventName
+        }
+    }
 }
 
 enum EventParameterName: String {
@@ -355,6 +379,11 @@ enum EventParameterName: String {
     
     case typeTutorialDialog   = "type-onboarding-dialog"
     case pageNumber           = "page-number"
+
+    case meetingMessageType  = "assistant-meeting-type"
+    case meetingDate         = "assistant-meeting-date"
+    case meetingLocation     = "assistant-meeting-location"
+
     case boost                = "boost"
 }
 
@@ -627,6 +656,7 @@ enum EventParameterMessageType: String {
     case expressChat = "express-chat"
     case periscopeDirect = "periscope-direct"
     case phone      = "phone"
+    case meeting = "assistant-meeting"
 }
 
 enum EventParameterLoginError {
@@ -1223,6 +1253,23 @@ enum EventParameterAdSenseRequestErrorReason: String {
             self = .networkError
         default:
             self = .internalError
+        }
+    }
+}
+
+enum EventParameterAssistantMeetingType: String {
+    case request = "assistant-meeting-complete"
+    case accept = "assistant-meeting-accept"
+    case decline = "assistant-meeting-decline"
+
+    init(meetingMessageType: MeetingMessageType) {
+        switch meetingMessageType {
+        case .requested:
+            self = .request
+        case .accepted:
+            self = .accept
+        case .rejected:
+            self = .decline
         }
     }
 }

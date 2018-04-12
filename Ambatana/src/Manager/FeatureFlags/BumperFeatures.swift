@@ -51,6 +51,7 @@ extension Bumper  {
         flags.append(RealEstateTutorial.self)
         flags.append(RealEstatePromoCell.self)
         flags.append(MachineLearningMVP.self)
+        flags.append(ChatNorris.self)
         flags.append(AddPriceTitleDistanceToListings.self)
         flags.append(MarkAllConversationsAsRead.self)
         flags.append(ShowProTagUserProfile.self)
@@ -251,6 +252,11 @@ extension Bumper  {
     static var machineLearningMVP: MachineLearningMVP {
         guard let value = Bumper.value(for: MachineLearningMVP.key) else { return .control }
         return MachineLearningMVP(rawValue: value) ?? .control 
+    }
+
+    static var chatNorris: ChatNorris {
+        guard let value = Bumper.value(for: ChatNorris.key) else { return .control }
+        return ChatNorris(rawValue: value) ?? .control 
     }
 
     static var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings {
@@ -882,6 +888,24 @@ enum MachineLearningMVP: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum ChatNorris: String, BumperFeature  {
+    case control, baseline, redButton, whiteButton, greenButton
+    static var defaultValue: String { return ChatNorris.control.rawValue }
+    static var enumValues: [ChatNorris] { return [.control, .baseline, .redButton, .whiteButton, .greenButton]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show the create meeting option in chat detail view." } 
+    static func fromPosition(_ position: Int) -> ChatNorris {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .redButton
+            case 3: return .whiteButton
+            case 4: return .greenButton
             default: return .control
         }
     }

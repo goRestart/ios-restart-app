@@ -1230,7 +1230,8 @@ extension ListingCarouselViewController: UITableViewDataSource, UITableViewDeleg
         let drawer = ChatCellDrawerFactory.drawerForMessage(message,
                                                             autoHide: true,
                                                             disclosure: true,
-                                                            showClock: viewModel.featureFlags.showClockInDirectAnswer == .active)
+                                                            showClock: viewModel.featureFlags.showClockInDirectAnswer == .active,
+                                                            meetingsEnabled: viewModel.meetingsEnabled)
         let cell = drawer.cell(tableView, atIndexPath: indexPath)
 
         drawer.draw(cell, message: message)

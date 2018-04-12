@@ -118,6 +118,7 @@ protocol ChatDetailNavigator: TabNavigator {
                            sourceRateBuyers: SourceRateBuyers?,
                            trackingInfo: MarkAsSoldTrackingInfo)
     func openLoginIfNeededFromChatDetail(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void))
+    func openAssistantFor(listingId: String, dataDelegate: MeetingAssistantDataDelegate)
 }
 
 protocol ChatInactiveDetailNavigator: TabNavigator {
