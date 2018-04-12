@@ -61,7 +61,10 @@ protocol TabNavigator: class {
 protocol ListingDetailNavigator: TabNavigator {
     func closeProductDetail()
     func editListing(_ listing: Listing,
-                     bumpUpProductData: BumpUpProductData?)
+                     bumpUpProductData: BumpUpProductData?,
+                     listingCanBeBoosted: Bool,
+                     timeSinceLastBump: TimeInterval?,
+                     maxCountdown: TimeInterval?)
     func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?)
     func closeListingAfterDelete(_ listing: Listing)
     func openFreeBumpUp(forListing listing: Listing,
@@ -70,6 +73,11 @@ protocol ListingDetailNavigator: TabNavigator {
     func openPayBumpUp(forListing listing: Listing,
                        bumpUpProductData: BumpUpProductData,
                        typePage: EventParameterTypePage?)
+    func openBumpUpBoost(forListing listing: Listing,
+                         bumpUpProductData: BumpUpProductData,
+                         typePage: EventParameterTypePage?,
+                         timeSinceLastBump: TimeInterval,
+                         maxCountdown: TimeInterval)
     func selectBuyerToRate(source: RateUserSource,
                            buyers: [UserListing],
                            listingId: String,
@@ -83,6 +91,7 @@ protocol ListingDetailNavigator: TabNavigator {
                                               alertType: AlertType,
                                               buttonsLayout: AlertButtonsLayout,
                                               actions: [UIAction])
+    func showBumpUpBoostSucceededAlert()
     func openContactUs(forListing listing: Listing, contactUstype: ContactUsType)
     func openFeaturedInfo()
     func closeFeaturedInfo()

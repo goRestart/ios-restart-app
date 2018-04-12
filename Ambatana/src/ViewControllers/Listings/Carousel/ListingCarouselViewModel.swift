@@ -423,6 +423,14 @@ class ListingCarouselViewModel: BaseViewModel {
                                                 typePage: typePage)
     }
 
+    func bumpUpBannerBoostTimerReachedZero() {
+        currentListingViewModel?.refreshBumpeableBanner()
+    }
+
+    func bumpUpBoostSucceeded() {
+        currentListingViewModel?.bumpUpBoostSucceeded()
+    }
+
     func didReceiveAd(bannerTopPosition: CGFloat, bannerBottomPosition: CGFloat, screenHeight: CGFloat) {
 
         let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)

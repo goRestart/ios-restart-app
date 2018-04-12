@@ -46,6 +46,7 @@ class ABTests {
     let core = CoreABGroup.make()
     let users = UsersABGroup.make()
 
+
     convenience init() {
         self.init(syncer: LeamplumSyncer())
     }
@@ -146,6 +147,7 @@ extension ABTests {
     var feedAdsProviderForUS: LeanplumABVariable<Int> { return money.feedAdsProviderForUS }
     var copyForChatNowInEnglish: LeanplumABVariable<Int> { return money.copyForChatNowInEnglish }
     var feedAdsProviderForTR: LeanplumABVariable<Int> { return money.feedAdsProviderForTR }
+    var bumpUpBoost: LeanplumABVariable<Int> { return money.bumpUpBoost }
 }
 
 //  MARK: Retention

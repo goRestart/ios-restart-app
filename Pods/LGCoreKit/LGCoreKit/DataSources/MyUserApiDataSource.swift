@@ -87,7 +87,11 @@ class MyUserApiDataSource: MyUserDataSource {
         apiClient.request(request, completion: completion)
     }
 
-    
+    func retrieveUserReputationActions(_ userId: String, completion: UserDataSourceReputationCompletion?) {
+        let request = MyUserRouter.showReputationActions(myUserId: userId)
+        apiClient.request(request, decoder: MyUserApiDataSource.decoderReputationActions, completion: completion)
+    }
+
     // MARK: - Private methods
 
     /**
@@ -104,6 +108,19 @@ class MyUserApiDataSource: MyUserDataSource {
         } catch {
             logAndReportParseError(object: object, entity: .myUser,
                                    comment: "could not parse LGMyUser")
+        }
+        return nil
+    }
+
+    private static func decoderReputationActions(_ object: Any) -> [UserReputationAction]? {
+        guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
+
+        do {
+            let actions = try JSONDecoder().decode(FailableDecodableArray<LGUserReputationAction>.self, from: data)
+            return actions.validElements
+        } catch {
+            logAndReportParseError(object: object, entity: .reputationActions,
+                                   comment: "could not parse [LGUserReputationAction]")
         }
         return nil
     }

@@ -595,6 +595,11 @@ enum AccessibilityId: Equatable {
     case bumpUpBannerButton
     case bumpUpBannerLabel
 
+    // Boost Timer View
+    case boostTitleLabel
+    case boostTimeLabel
+    case boostProgressBar
+
     // Free bump up screen
     case freeBumpUpCloseButton
     case freeBumpUpImage
@@ -608,6 +613,18 @@ enum AccessibilityId: Equatable {
     case paymentBumpUpTitleLabel
     case paymentBumpUpSubtitleLabel
     case paymentBumpUpButton
+
+    // Bump up boost screen
+    case boostViewTimer
+    case boostViewCloseButton
+    case boostViewImage
+    case boostViewTitleLabel
+    case boostViewSubtitleLabel
+    case boostViewButton
+
+    case boostSucceededAlert
+    case boostSuccededAlertLabel
+    case boostSuccededAlertAnimationView
 
     // Bump Up Hidden Alert
     case bumpUpHiddenListingAlertContactButton
@@ -1749,7 +1766,15 @@ enum AccessibilityId: Equatable {
             return "bumpUpBannerButton"
         case .bumpUpBannerLabel:
             return "bumpUpBannerLabel"
-            
+
+        // Boost Timer View
+        case .boostTitleLabel:
+            return "boostTitleLabel"
+        case .boostTimeLabel:
+            return "boostTimeLabel"
+        case .boostProgressBar:
+            return "boostProgressBar"
+
         // Free bump up screen
         case .freeBumpUpCloseButton:
             return "freeBumpUpCloseButton"
@@ -1773,7 +1798,28 @@ enum AccessibilityId: Equatable {
             return "paymentBumpUpSubtitleLabel"
         case .paymentBumpUpButton:
             return "paymentBumpUpButton"
-            
+
+        // Bump up boost screen
+
+        case .boostViewTimer:
+            return "boostViewTimer"
+        case .boostViewCloseButton:
+            return "boostViewCloseButton"
+        case .boostViewImage:
+            return "boostViewImage"
+        case .boostViewTitleLabel:
+            return "boostViewTitleLabel"
+        case .boostViewSubtitleLabel:
+            return "boostViewSubtitleLabel"
+        case .boostViewButton:
+            return "boostViewButton"
+        case .boostSucceededAlert:
+            return "boostSucceededAlert"
+        case .boostSuccededAlertLabel:
+            return "boostSuccededAlertLabel"
+        case .boostSuccededAlertAnimationView:
+            return "boostSuccededAlertAnimationView"
+
         // Bump Up Hidden Alert
         case .bumpUpHiddenListingAlertContactButton:
             return "bumpUpHiddenListingAlertContactButton"

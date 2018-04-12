@@ -44,6 +44,7 @@ extension Bumper  {
         flags.append(OnboardingIncentivizePosting.self)
         flags.append(PromoteBumpInEdit.self)
         flags.append(UserIsTyping.self)
+        flags.append(BumpUpBoost.self)
         flags.append(ServicesCategoryEnabled.self)
         flags.append(CopyForChatNowInTurkey.self)
         flags.append(IncreaseNumberOfPictures.self)
@@ -215,6 +216,11 @@ extension Bumper  {
     static var userIsTyping: UserIsTyping {
         guard let value = Bumper.value(for: UserIsTyping.key) else { return .control }
         return UserIsTyping(rawValue: value) ?? .control 
+    }
+
+    static var bumpUpBoost: BumpUpBoost {
+        guard let value = Bumper.value(for: BumpUpBoost.key) else { return .control }
+        return BumpUpBoost(rawValue: value) ?? .control 
     }
 
     static var servicesCategoryEnabled: ServicesCategoryEnabled {
@@ -756,6 +762,25 @@ enum UserIsTyping: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum BumpUpBoost: String, BumperFeature  {
+    case control, baseline, sendTop5Mins, sendTop1hour, boostListing1hour, cheaperBoost5Mins
+    static var defaultValue: String { return BumpUpBoost.control.rawValue }
+    static var enumValues: [BumpUpBoost] { return [.control, .baseline, .sendTop5Mins, .sendTop1hour, .boostListing1hour, .cheaperBoost5Mins]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Ability to boost ongoing bump ups" } 
+    static func fromPosition(_ position: Int) -> BumpUpBoost {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .sendTop5Mins
+            case 3: return .sendTop1hour
+            case 4: return .boostListing1hour
+            case 5: return .cheaperBoost5Mins
             default: return .control
         }
     }

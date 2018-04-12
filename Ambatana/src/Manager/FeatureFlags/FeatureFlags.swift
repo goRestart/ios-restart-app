@@ -60,6 +60,7 @@ protocol FeatureFlaggeable: class {
     var discardedProducts: DiscardedProducts { get }
     var promoteBumpInEdit: PromoteBumpInEdit { get }
     var userIsTyping: UserIsTyping { get }
+    var bumpUpBoost: BumpUpBoost { get }
     var servicesCategoryEnabled: ServicesCategoryEnabled { get }
     var increaseNumberOfPictures: IncreaseNumberOfPictures { get }
     var realEstateTutorial: RealEstateTutorial { get }
@@ -211,12 +212,28 @@ extension DiscardedProducts {
 extension OnboardingIncentivizePosting {
     var isActive: Bool { get { return self == .blockingPosting || self == .blockingPostingSkipWelcome } }
 }
+
 extension PromoteBumpInEdit {
     var isActive: Bool { get { return self != .control && self != .baseline } }
 }
 
 extension UserIsTyping {
     var isActive: Bool { get { return self == .active } }
+}
+
+extension BumpUpBoost {
+    var isActive: Bool { get { return self != .control && self != .baseline } }
+
+    var boostBannerUIUpdateThreshold: TimeInterval? {
+        switch self {
+        case .control, .baseline:
+            return nil
+        case .boostListing1hour, .sendTop1hour:
+            return Constants.oneHourTimeLimit
+        case .sendTop5Mins, .cheaperBoost5Mins:
+            return Constants.fiveMinutesTimeLimit
+        }
+    }
 }
 
 extension DeckItemPage {
@@ -689,6 +706,13 @@ class FeatureFlags: FeatureFlaggeable {
         return AddPriceTitleDistanceToListings.fromPosition(abTests.addPriceTitleDistanceToListings.value)
     }
 
+    var bumpUpBoost: BumpUpBoost {
+        if Bumper.enabled {
+            return Bumper.bumpUpBoost
+        }
+        return BumpUpBoost.fromPosition(abTests.bumpUpBoost.value)
+    }
+
     var showProTagUserProfile: Bool {
         if Bumper.enabled {
             return Bumper.showProTagUserProfile
@@ -710,7 +734,7 @@ class FeatureFlags: FeatureFlaggeable {
         let cached = dao.retrieveShowAdvanceReputationSystem()
         return cached ?? ShowAdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value)
     }
-    
+
     var searchCarsIntoNewBackend: SearchCarsIntoNewBackend {
         if Bumper.enabled {
             return Bumper.searchCarsIntoNewBackend
@@ -720,7 +744,6 @@ class FeatureFlags: FeatureFlaggeable {
     
     
 
-    
     // MARK: - Country features
 
     var freePostingModeAllowed: Bool {
@@ -866,7 +889,7 @@ class FeatureFlags: FeatureFlaggeable {
             return .defaultValue
         }
     }
-    
+
     var shouldChangeChatNowCopyInTurkey: Bool {
         if Bumper.enabled {
             return Bumper.copyForChatNowInTurkey.isActive
@@ -929,7 +952,7 @@ class FeatureFlags: FeatureFlaggeable {
             return nil
         }
     }
-    
+
     var shouldChangeChatNowCopyInEnglish: Bool {
         if Bumper.enabled {
             return Bumper.copyForChatNowInEnglish.isActive
@@ -956,6 +979,7 @@ class FeatureFlags: FeatureFlaggeable {
         return FeedAdsProviderForTR.fromPosition(abTests.feedAdsProviderForTR.value)
     }
 
+    
     // MARK: - Private
 
     private var locationCountryCode: CountryCode? {
