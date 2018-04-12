@@ -256,15 +256,16 @@ class MainListingsViewModel: BaseViewModel {
     let suggestiveSearchInfo = Variable<SuggestiveSearchInfo>(SuggestiveSearchInfo.empty())
     let lastSearches = Variable<[LocalSuggestiveSearch]>([])
     let searchText = Variable<String?>(nil)
-    var lastSearchesCounter: Int {
-        return lastSearches.value.count
-    }
-    var trendingCounter: Int {
-        return trendingSearches.value.count
-    }
     
-    var suggestiveCounter: Int {
-        return suggestiveSearchInfo.value.count
+    func numberOfItems(type: SearchSuggestionType) -> Int {
+        switch type {
+        case .suggestive:
+            return suggestiveSearchInfo.value.count
+        case .lastSearch:
+            return lastSearches.value.count
+        case .trending:
+            return trendingSearches.value.count
+        }
     }
     
     // App share
@@ -1109,6 +1110,17 @@ extension MainListingsViewModel {
 // MARK: - Suggestions searches
 
 extension MainListingsViewModel {
+    
+    func selected(type: SearchSuggestionType, row: Int) {
+        switch type {
+        case .suggestive:
+            selectedSuggestiveSearchAtIndex(row)
+        case .lastSearch:
+            selectedLastSearchAtIndex(row)
+        case .trending:
+            selectedTrendingSearchAtIndex(row)
+        }
+    }
 
     func trendingSearchAtIndex(_ index: Int) -> String? {
         guard  0..<trendingSearches.value.count ~= index else { return nil }
@@ -1125,13 +1137,13 @@ extension MainListingsViewModel {
         return lastSearches.value[index].suggestiveSearch
     }
 
-    func selectedTrendingSearchAtIndex(_ index: Int) {
+    private func selectedTrendingSearchAtIndex(_ index: Int) {
         guard let trendingSearch = trendingSearchAtIndex(index), !trendingSearch.isEmpty else { return }
         delegate?.vmDidSearch()
         navigator?.openMainListings(withSearchType: .trending(query: trendingSearch), listingFilters: filters)
     }
     
-    func selectedSuggestiveSearchAtIndex(_ index: Int) {
+    private func selectedSuggestiveSearchAtIndex(_ index: Int) {
         guard let (suggestiveSearch, _) = suggestiveSearchAtIndex(index) else { return }
         delegate?.vmDidSearch()
         
@@ -1146,7 +1158,7 @@ extension MainListingsViewModel {
                                     listingFilters: newFilters)
     }
     
-    func selectedLastSearchAtIndex(_ index: Int) {
+    private func selectedLastSearchAtIndex(_ index: Int) {
         guard let lastSearch = lastSearchAtIndex(index), let name = lastSearch.name, !name.isEmpty else { return }
         delegate?.vmDidSearch()
         navigator?.openMainListings(withSearchType: .lastSearch(search: lastSearch),
@@ -1157,8 +1169,6 @@ extension MainListingsViewModel {
         keyValueStorage[.lastSuggestiveSearches] = []
         lastSearches.value = keyValueStorage[.lastSuggestiveSearches]
     }
-    
-    
     
     func retrieveLastUserSearch() {
         // We saved up to lastSearchesSavedMaximum(10) but we show only lastSearchesShowMaximum(3)
