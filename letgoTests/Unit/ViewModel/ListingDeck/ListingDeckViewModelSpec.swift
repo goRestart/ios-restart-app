@@ -50,7 +50,7 @@ final class ListingDeckViewModelSpec: BaseViewModelSpec {
 
         var prefetching = Prefetching(previousCount: 3, nextCount: 3)
 
-        fdescribe("ListingDeckViewModelSpec") {
+        describe("ListingDeckViewModelSpec") {
 
             func startObserving() {
                 disposeBag = DisposeBag()
