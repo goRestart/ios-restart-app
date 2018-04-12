@@ -1236,13 +1236,13 @@ enum EventParameterTutorialType: String {
 }
 
 enum EventParameterUserBadge: String {
-    case none = ""
+    case noBadge = ""
     case gold = "gold"
     case silver = "silver"
 
     init(userBadge: UserReputationBadge) {
         switch userBadge {
-        case .none: self = .none
+        case .noBadge: self = .noBadge
         case .gold: self = .gold
         case .silver: self = .silver
         }

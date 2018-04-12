@@ -161,7 +161,8 @@ struct Constants {
     static let usaFirstDashPosition = 3
     static let usaSecondDashPosition = 7
 
-    // Reputation
-    static let minReputationScore: Int = 50
-    static let maxReputationScore: Int = 80
+    struct Reputation {
+        static let minScore: Int = 50
+        static let maxScore: Int = 80
+    }
 }

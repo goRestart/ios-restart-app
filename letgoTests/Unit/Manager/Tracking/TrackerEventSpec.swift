@@ -1154,7 +1154,8 @@ class TrackerEventSpec: QuickSpec {
                                                           state: "Catalonia", countryCode: "US", country: nil)
 
                     sut = TrackerEvent.listingDetailVisit(.product(product), visitUserAction: .none, source: .listingList,
-                                                          feedPosition: .position(index:1), isBumpedUp: .trueParameter)
+                                                          feedPosition: .position(index:1), isBumpedUp: .trueParameter,
+                                                          sellerBadge: .noBadge)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-visit"))

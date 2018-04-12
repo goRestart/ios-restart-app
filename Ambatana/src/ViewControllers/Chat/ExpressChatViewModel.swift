@@ -188,7 +188,7 @@ extension ExpressChatViewModel {
             tracker.trackEvent(TrackerEvent.firstMessage(info: info,
                                                          listingVisitSource: .unknown,
                                                          feedPosition: .none,
-                                                         userBadge: .none))
+                                                         userBadge: .noBadge))
         }
         tracker.trackEvent(TrackerEvent.userMessageSent(info: info))
     }

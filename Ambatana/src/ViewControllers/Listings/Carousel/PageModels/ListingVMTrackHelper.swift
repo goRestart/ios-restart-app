@@ -31,7 +31,7 @@ extension ListingViewModel {
                     feedPosition: EventParameterFeedPosition) {
         let isBumpedUp = isShowingFeaturedStripe.value ? EventParameterBoolean.trueParameter :
                                                    EventParameterBoolean.falseParameter
-        let badge = seller.value?.reputationBadge ?? .none
+        let badge = seller.value?.reputationBadge ?? .noBadge
         let sellerBadge = EventParameterUserBadge(userBadge: badge)
         trackHelper.trackVisit(visitUserAction, source: source, feedPosition: feedPosition,
                                isShowingFeaturedStripe: isBumpedUp, sellerBadge: sellerBadge)
