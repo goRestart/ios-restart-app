@@ -1418,14 +1418,14 @@ class TrackerEventSpec: QuickSpec {
             }
             describe("listingNotAvailable") {
                 beforeEach {
-                    sut = TrackerEvent.listingNotAvailable(.notifications, reason: .notFound)
+                    sut = TrackerEvent.listingNotAvailable(.notificationCenter, reason: .notFound)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-not-available"))
                 }
                 it("contains visit-source") {
                     let productId = sut.params!.stringKeyParams["visit-source"] as? String
-                    expect(productId).to(equal("notifications"))
+                    expect(productId).to(equal("notification-center"))
                 }
                 it("contains reason") {
                     let productId = sut.params!.stringKeyParams["not-available-reason"] as? String
