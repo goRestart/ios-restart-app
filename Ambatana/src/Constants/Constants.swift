@@ -152,7 +152,6 @@ struct Constants {
     static let parameterSkipValue = "skip"
 
     // Ads
-    static let adInFeedInitialPosition = 3
     static let adInFeedCustomTargetingKey = "pos_var"
     static let newUserTimeThresholdForAds = TimeInterval.make(days: 15)
 

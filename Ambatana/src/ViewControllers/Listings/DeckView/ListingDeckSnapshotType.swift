@@ -22,6 +22,7 @@ protocol ListingDeckSnapshotType {
     var postedDate: Date? { get }
     var socialSharer: SocialSharer { get }
     var socialMessage: SocialMessage? { get }
+    var isMine: Bool { get }
 }
 
 struct ListingDeckSnapshot: ListingDeckSnapshotType {
@@ -37,4 +38,5 @@ struct ListingDeckSnapshot: ListingDeckSnapshotType {
     let postedDate: Date?
     let socialSharer: SocialSharer
     let socialMessage: SocialMessage?
+    let isMine: Bool
 }
