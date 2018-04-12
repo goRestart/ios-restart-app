@@ -101,7 +101,7 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
         locationLabel.font = UIFont.systemMediumFont(size: 13)
         locationLabel.textAlignment = .left
         locationLabel.textColor = #colorLiteral(red: 0.4588235294, green: 0.4588235294, blue: 0.4588235294, alpha: 1)
-        locationLabel.backgroundColor = UIColor.white
+        locationLabel.backgroundColor = UIColor.clear
         locationLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
     }
     func setupMapHeader() {
@@ -110,8 +110,8 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
         
         let location = UIImageView(image: #imageLiteral(resourceName: "nit_location"))
         location.contentMode = .center
+        location.backgroundColor = UIColor.clear
         location.widthAnchor.constraint(equalToConstant: 16).isActive = true
-        location.backgroundColor = UIColor.white
 
         setupLocationLabel()
 
@@ -130,7 +130,8 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
         mapSnapShotView.backgroundColor = .gray
         
         let gesture = UITapGestureRecognizer(target: self, action: #selector(tapOnView))
-        self.addGestureRecognizer(gesture)
+        gesture.cancelsTouchesInView = true
+        addGestureRecognizer(gesture)
         tapGesture = gesture
         verticalStackView.addArrangedSubview(mapSnapShotView)
     }
@@ -200,14 +201,6 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
         mapView.alpha = 0
         mapSnapShotView.alpha = 1
         bringSubview(toFront: verticalStackView)
-    }
-
-    // MARK: MKMapViewDelegate
-
-    func mapViewDidFinishRenderingMap(_ mapView: MKMapView, fullyRendered: Bool) {
-        if !fullyRendered {
-            hideMap()
-        }
     }
 
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {

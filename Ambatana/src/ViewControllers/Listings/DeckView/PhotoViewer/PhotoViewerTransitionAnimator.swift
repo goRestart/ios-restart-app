@@ -226,6 +226,7 @@ private class PhotoViewerTransitionPresenter: PhotoViewerTransitionMode {
             self?.animator?.transitioner = transitioner
             containerView.bringSubview(toFront: toView)
 
+            fromView.alpha = 1
             toView.alpha = 1
             imageView.removeFromSuperview()
             smallImageView.removeFromSuperview()
