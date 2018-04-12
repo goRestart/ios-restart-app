@@ -12,6 +12,8 @@ import LGCoreKit
 protocol EditListingNavigator: class {
     func editingListingDidCancel()
     func editingListingDidFinish(_ editedListing: Listing,
-                                 bumpUpProductData: BumpUpProductData?)
+                                 bumpUpProductData: BumpUpProductData?,
+                                 timeSinceLastBump: TimeInterval?,
+                                 maxCountdown: TimeInterval?)
     func openListingAttributePicker(viewModel: ListingAttributePickerViewModel)
 }

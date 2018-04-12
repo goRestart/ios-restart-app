@@ -896,7 +896,10 @@ extension ListingViewModelSpec: ListingDetailNavigator {
 
     }
     func editListing(_ listing: Listing,
-                     bumpUpProductData: BumpUpProductData?) {
+                     bumpUpProductData: BumpUpProductData?,
+                     listingCanBeBoosted: Bool,
+                     timeSinceLastBump: TimeInterval?,
+                     maxCountdown: TimeInterval?) {
 
     }
     func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?) {
@@ -944,6 +947,11 @@ extension ListingViewModelSpec: ListingDetailNavigator {
                                               actions: [UIAction]) {
 
     }
+
+    func showBumpUpBoostSucceededAlert() {
+
+    }
+
     func openContactUs(forListing listing: Listing, contactUstype: ContactUsType) {
 
     }

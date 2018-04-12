@@ -11,6 +11,7 @@ import LGCoreKit
 
 class BumpUpPayViewModel: BaseViewModel {
 
+    var isBoost: Bool = false
     var listing: Listing
     private let letgoItemId: String?
     private let storeProductId: String?
@@ -56,10 +57,11 @@ class BumpUpPayViewModel: BaseViewModel {
     }
 
     func viewDidAppear() {
-        let trackerEvent = TrackerEvent.bumpBannerInfoShown(type: EventParameterBumpUpType(bumpType: .priced),
+        let trackerEvent = TrackerEvent.bumpBannerInfoShown(type: EventParameterBumpUpType.paid,
                                                             listingId: listing.objectId,
                                                             storeProductId: storeProductId,
-                                                            typePage: typePage)
+                                                            typePage: typePage,
+                                                            isBoost: EventParameterBoolean(bool: isBoost))
         tracker.trackEvent(trackerEvent)
     }
 

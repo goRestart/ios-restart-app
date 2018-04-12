@@ -502,10 +502,16 @@ extension TabCoordinator: ListingDetailNavigator {
     }
 
     func editListing(_ listing: Listing,
-                     bumpUpProductData: BumpUpProductData?) {
+                     bumpUpProductData: BumpUpProductData?,
+                     listingCanBeBoosted: Bool,
+                     timeSinceLastBump: TimeInterval?,
+                     maxCountdown: TimeInterval?) {
         let navigator = EditListingCoordinator(listing: listing,
                                                bumpUpProductData: bumpUpProductData,
-                                               pageType: nil)
+                                               pageType: nil,
+                                               listingCanBeBoosted: listingCanBeBoosted,
+                                               timeSinceLastBump: timeSinceLastBump,
+                                               maxCountdown: maxCountdown)
         navigator.delegate = self
         openChild(coordinator: navigator,
                   parent: rootViewController,
@@ -806,16 +812,25 @@ extension TabCoordinator: EditListingCoordinatorDelegate {
     func editListingCoordinatorDidCancel(_ coordinator: EditListingCoordinator) {
 
     }
-
+    
     func editListingCoordinator(_ coordinator: EditListingCoordinator,
                                 didFinishWithListing listing: Listing,
-                                bumpUpProductData: BumpUpProductData?) {
-        guard let listingIsFeatured = listing.featured, !listingIsFeatured else { return }
+                                bumpUpProductData: BumpUpProductData?,
+                                timeSinceLastBump: TimeInterval?,
+                                maxCountdown: TimeInterval?) {
         guard let bumpData = bumpUpProductData,
             bumpData.hasPaymentId else { return }
-        openPayBumpUp(forListing: listing,
-                      bumpUpProductData: bumpData,
-                      typePage: .edit)
+        if let timeSinceLastBump = timeSinceLastBump, let maxCountdown = maxCountdown {
+            openBumpUpBoost(forListing: listing,
+                            bumpUpProductData: bumpData,
+                            typePage: .edit,
+                            timeSinceLastBump: timeSinceLastBump,
+                            maxCountdown: maxCountdown)
+        } else {
+            openPayBumpUp(forListing: listing,
+                          bumpUpProductData: bumpData,
+                          typePage: .edit)
+        }
     }
 }
 
