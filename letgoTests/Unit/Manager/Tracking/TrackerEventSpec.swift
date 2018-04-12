@@ -1425,7 +1425,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains visit-source") {
                     let productId = sut.params!.stringKeyParams["visit-source"] as? String
-                    expect(productId).to(equal("notifications"))
+                    expect(productId).to(equal("notification-center"))
                 }
                 it("contains reason") {
                     let productId = sut.params!.stringKeyParams["not-available-reason"] as? String

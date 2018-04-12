@@ -901,11 +901,11 @@ enum EventParameterListingVisitSource {
         case .collection: return "collection" // from the main feed, touching a collection cell
         case .search: return "search" // from the main feed, with text filter
         case .filter: return "filter" // from the main feed, with top filters
-        case .searchAndFilter: return "search & filter" // from the main feed, with both
+        case .searchAndFilter: return "search-and-filter" // from the main feed, with both
         case .category: return "category" // from the main feed, with bubble filters
         case .profile: return "profile" // from the user profile
         case .relatedChat: return "related-chat" // from the chat, related products
-        case .notificationCenter: return "notificationCenter" // from notification center
+        case .notificationCenter: return "notification-center" // from notification center
         case .external: return "external" // from push notification
         case .relatedListings: return "related-items-list" // related items when you don't find a push listing
         case .chat: return "chat" // from the chat
