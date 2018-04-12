@@ -12,6 +12,9 @@ import RxSwift
 public typealias MyUserResult = Result<MyUser, RepositoryError>
 public typealias MyUserCompletion = (MyUserResult) -> Void
 
+public typealias MyUserReputationActionsResult = Result<[UserReputationAction], RepositoryError>
+public typealias MyUserReputationActionsCompletion = (MyUserReputationActionsResult) -> Void
+
 public protocol MyUserRepository {
 
     /**
@@ -97,6 +100,12 @@ public protocol MyUserRepository {
     - parameter completion: The completion closure.
     */
     func refresh(_ completion: MyUserCompletion?)
+
+    /**
+     Retrieves the list of actions made by the user to improve it's reputation
+     - parameter completion: The completion closure
+     */
+    func retrieveUserReputationActions(_ completion: MyUserReputationActionsCompletion?)
 }
 
 
