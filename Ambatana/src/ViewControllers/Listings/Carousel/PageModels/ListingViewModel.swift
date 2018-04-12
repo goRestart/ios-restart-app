@@ -98,7 +98,8 @@ class ListingViewModel: BaseViewModel {
                                        stats: nil,
                                        postedDate: nil,
                                        socialSharer: SocialSharer(),
-                                       socialMessage: socialMessage)
+                                       socialMessage: socialMessage,
+                                       isMine: isMine)
         }
 
         func make(listing: Listing, visitSource source: EventParameterListingVisitSource) -> ListingViewModel {
@@ -153,27 +154,10 @@ class ListingViewModel: BaseViewModel {
     fileprivate var freeBumpUpShareMessage: SocialMessage?
 
     let directChatMessages = CollectionVariable<ChatViewMessage>([])
-    var quickAnswers: [[QuickAnswer]] {
+    var quickAnswers: [QuickAnswer] {
         guard !isMine else { return [] }
         let isFree = listing.value.price.isFree && featureFlags.freePostingModeAllowed
-        let isNegotiable = listing.value.isNegotiable(freeModeAllowed: featureFlags.freePostingModeAllowed)
-        return QuickAnswer.quickAnswersForPeriscope(isFree: isFree, isDynamic: areQuickAnswersDynamic, isNegotiable: isNegotiable)
-    }
-    var areQuickAnswersDynamic: Bool {
-        switch featureFlags.dynamicQuickAnswers {
-        case .control, .baseline:
-            return false
-        case .dynamicNoKeyboard, .dynamicWithKeyboard:
-            return true
-        }
-    }
-    var showKeyboardWhenQuickAnswer: Bool {
-        switch featureFlags.dynamicQuickAnswers {
-        case .control, .baseline, .dynamicNoKeyboard:
-            return false
-        case .dynamicWithKeyboard:
-            return true
-        }
+        return QuickAnswer.quickAnswersForPeriscope(isFree: isFree)
     }
 
     lazy var navBarButtons = Variable<[UIAction]>([])
@@ -314,15 +298,14 @@ class ListingViewModel: BaseViewModel {
     internal override func didBecomeActive(_ firstTime: Bool) {
         guard let listingId = listing.value.objectId else { return }
 
-        if !featureFlags.deckItemPage.isActive
-            && listing.value.isRealEstate
+        if  listing.value.isRealEstate
             && listing.value.realEstate?.realEstateAttributes == RealEstateAttributes.emptyRealEstateAttributes() {
             retrieveRealEstateDetails(listingId: listingId)
         } else {
             isListingDetailsCompleted.value = true
         }
 
-        if !featureFlags.deckItemPage.isActive && featureFlags.allowCallsForProfessionals.isActive {
+        if featureFlags.allowCallsForProfessionals.isActive {
             if isMine {
                 seller.value = myUserRepository.myUser
             } else if let userId = userInfo.value.userId {
@@ -421,6 +404,7 @@ class ListingViewModel: BaseViewModel {
         // bumpeable listing check
         status.asObservable().skip(1).bind { [weak self] status in
             guard let strongSelf = self else  { return }
+            guard strongSelf.active else { return }
             let pendingAreBumpeable = strongSelf.featureFlags.showBumpUpBannerOnNotValidatedListings.isActive
             if status.shouldRefreshBumpBanner(pendingAreBumpeable: pendingAreBumpeable) {
                 self?.refreshBumpeableBanner()

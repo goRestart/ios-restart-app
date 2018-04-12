@@ -27,7 +27,7 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
         var disposeBag: DisposeBag!
 
         var actionButtonsObserver: TestableObserver<[UIAction]>!
-        var quickAnswersObserver: TestableObserver<[[QuickAnswer]]>!
+        var quickAnswersObserver: TestableObserver<[QuickAnswer]>!
         var chatEnabled: TestableObserver<Bool>!
         var directChatPlaceholderObserver: TestableObserver<String>!
         var bumpUpBannerInfoObserver: TestableObserver<BumpUpInfo?>!
@@ -57,7 +57,7 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
                 scheduler.start()
 
                 actionButtonsObserver = scheduler.createObserver([UIAction].self)
-                quickAnswersObserver = scheduler.createObserver([[QuickAnswer]].self)
+                quickAnswersObserver = scheduler.createObserver([QuickAnswer].self)
                 directChatPlaceholderObserver = scheduler.createObserver(String.self)
                 chatEnabled = scheduler.createObserver(Bool.self)
                 bumpUpBannerInfoObserver = scheduler.createObserver(BumpUpInfo?.self)

@@ -195,6 +195,7 @@
 "chat_message_disclaimer_scammer_base_blocked" = "Wees extra voorzichtig bij het uitwisselen van telefoon/e-mailgegevens. Frauduleuze gebruikers vragen je vaak om de letgo chat te verlaten. %@";
 "chat_message_field_hint" = "Schrijf hier je bericht...";
 "chat_message_load_generic_error" = "Er is een fout opgetreden bij het opvragen van jouw gespreksgegevens. Probeer het nog eens.";
+"chat_message_type_not_supported" = "Dit bericht is niet compatibel met jouw app-versie. Update je app nu om de nieuwste functies te ontgrendelen!";
 "chat_not_verified_alert_message" = "Maak verbinding met Facebook, Google of E-mail om jouw identiteit te verifiëren.";
 "chat_not_verified_state_check_button" = "Controleer";
 "chat_not_verified_state_message" = "Controleer of je geverifieerd bent om te beginnen met chatten.";
@@ -357,6 +358,11 @@
 "filter_results_cars_other_results" = "Recent geplaatst in jouw omgeving";
 "filters_car_make_not_set" = "Niet Ingesteld";
 "filters_car_model_not_set" = "Niet Ingesteld";
+"filters_car_seller_type_all" = "All";
+"filters_car_seller_type_dealership" = "Dealership";
+"filters_car_seller_type_invidual" = "Individual";
+"filters_car_seller_type_private" = "Private";
+"filters_car_seller_type_professional" = "Professional";
 "filters_car_year_any_year" = "Elk Jaar";
 "filters_car_year_before_year" = "Voor %i";
 "filters_distance_not_set" = "Niet ingesteld";
@@ -810,6 +816,9 @@
 "profile_sold_no_products_label" = "(NOG!) GEEN ADVERTENTIES";
 "profile_sold_other_no_products_button" = "Blijf browsen";
 "profile_sold_products_tab" = "Verkocht";
+"profile_verifications_email_placeholder" = "EMAIL";
+"profile_verifications_email_view_title" = "Verifieer je e-mail";
+"profile_verifications_send_button" = "Verstuur";
 "profile_verifications_view_add_info_section_title" = "TOEVOEGEN";
 "profile_verifications_view_bio_title" = "Biografie";
 "profile_verifications_view_email_title" = "EMAIL";

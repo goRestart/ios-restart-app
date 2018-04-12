@@ -195,6 +195,7 @@
 "chat_message_disclaimer_scammer_base_blocked" = "Fai particolare attenzione quando scambi dettagli telefonici o email. Utenti disonesti chiedono spesso di lasciare la chat di letgo. %@";
 "chat_message_field_hint" = "Digita qui il tuo messaggio";
 "chat_message_load_generic_error" = "Si è verificato un errore durante il recupero del contenuto della tua conversazione. Riprova più tardi.";
+"chat_message_type_not_supported" = "Questo messaggio non è compatibile con la versione dell'app. Aggiorna subito la tua app per sbloccare le ultime funzionalità!";
 "chat_not_verified_alert_message" = "Accedi con Facebook, Google o tramite email per verificare la tua identità.";
 "chat_not_verified_state_check_button" = "Controlla";
 "chat_not_verified_state_message" = "Controlla di essere un utente verificato per iniziare a chattare.";
@@ -357,6 +358,11 @@
 "filter_results_cars_other_results" = "Pubblicati di recente nella tua zona";
 "filters_car_make_not_set" = "Non Impostato";
 "filters_car_model_not_set" = "Non Impostato";
+"filters_car_seller_type_all" = "All";
+"filters_car_seller_type_dealership" = "Dealership";
+"filters_car_seller_type_invidual" = "Individual";
+"filters_car_seller_type_private" = "Private";
+"filters_car_seller_type_professional" = "Professional";
 "filters_car_year_any_year" = "Qualunque";
 "filters_car_year_before_year" = "Prima del %i";
 "filters_distance_not_set" = "non impostato";
@@ -810,6 +816,9 @@
 "profile_sold_no_products_label" = "ANCORA NESSUN ANNUNCIO!";
 "profile_sold_other_no_products_button" = "Continua la consultazione";
 "profile_sold_products_tab" = "Venduto";
+"profile_verifications_email_placeholder" = "Email";
+"profile_verifications_email_view_title" = "Verifica il tuo indirizzo email";
+"profile_verifications_send_button" = "Invia";
 "profile_verifications_view_add_info_section_title" = "AGGIUNGI IL TUO";
 "profile_verifications_view_bio_title" = "Bio";
 "profile_verifications_view_email_title" = "Email";

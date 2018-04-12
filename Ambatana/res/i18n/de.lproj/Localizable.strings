@@ -195,6 +195,7 @@
 "chat_message_disclaimer_scammer_base_blocked" = "Sei besonders vorsichtig, wenn du Kontaktinformationen wie Telefonnummern oder E-Mail-Adressen austauschst. Betrügerische Nutzer wollen häufig außerhalb des letgo-Systems kommunizieren. %@";
 "chat_message_field_hint" = "Gib hier deine Nachricht ein";
 "chat_message_load_generic_error" = "Beim Abrufen deiner Gesprächsdaten ist ein Fehler aufgetreten. Versuche es bitte noch einmal.";
+"chat_message_type_not_supported" = "Diese Nachricht ist mit deiner Version der App nicht kompatibel. Aktualisiere deine App jetzt, um die neuesten Funktionen freizuschalten!";
 "chat_not_verified_alert_message" = "Verbinde dich mit Facebook, Google oder via E-Mail, um deine Identität zu bestätigen.";
 "chat_not_verified_state_check_button" = "Überprüfen";
 "chat_not_verified_state_message" = "Überprüfe, ob du verifiziert bist, um ein Gespräch zu beginnen.";
@@ -357,6 +358,11 @@
 "filter_results_cars_other_results" = "Kürzlich in deiner Nähe eingestellt";
 "filters_car_make_not_set" = "Nicht ausgewählt";
 "filters_car_model_not_set" = "Nicht ausgewählt";
+"filters_car_seller_type_all" = "All";
+"filters_car_seller_type_dealership" = "Dealership";
+"filters_car_seller_type_invidual" = "Individual";
+"filters_car_seller_type_private" = "Private";
+"filters_car_seller_type_professional" = "Professional";
 "filters_car_year_any_year" = "Beliebiges Baujahr";
 "filters_car_year_before_year" = "Von vor %i";
 "filters_distance_not_set" = "nicht eingestellt";
@@ -810,6 +816,9 @@
 "profile_sold_no_products_label" = "(NOCH) KEINE ANGEBOTE";
 "profile_sold_other_no_products_button" = "Mehr entdecken";
 "profile_sold_products_tab" = "Verkauft";
+"profile_verifications_email_placeholder" = "E-Mail";
+"profile_verifications_email_view_title" = "Verifiziere deine E-Mail-Adresse";
+"profile_verifications_send_button" = "Senden";
 "profile_verifications_view_add_info_section_title" = "HINZUFÜGEN";
 "profile_verifications_view_bio_title" = "Biografie";
 "profile_verifications_view_email_title" = "E-Mail";

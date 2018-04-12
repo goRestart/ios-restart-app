@@ -205,19 +205,16 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
     }
 
     private func setupMapView() {
-        detailMapView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(detailMapView)
+        addSubviewForAutoLayout(detailMapView)
         detailMapView.layout(with: self).fillHorizontal()
-
+        let height = detailMapView.heightAnchor.constraint(equalTo: mapPlaceHolder.heightAnchor)
+        height.priority = .required - 1
         let centerY = detailMapView.centerYAnchor.constraint(equalTo: mapPlaceHolder.centerYAnchor)
-        centerY.priority = .required - 1
-        centerY.isActive = true
+        centerY.priority = .defaultLow
+        let constraints = [centerY, height]
 
-        let mapHeightConstraint = detailMapView.heightAnchor.constraint(equalTo: mapPlaceHolder.heightAnchor,
-                                                                        multiplier: 1.0)
-        mapHeightConstraint.isActive = true
-        mapHeightConstraint.priority = .required - 1
         detailMapView.isUserInteractionEnabled = true
+        NSLayoutConstraint.activate(constraints)
     }
 
     private func setupMapPlaceHolder() {

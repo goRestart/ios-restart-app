@@ -653,6 +653,12 @@ enum AccessibilityId: Equatable {
     case askPhoneNumberTextfield
     case askPhoneNumberSendPhoneButton
     
+    //  MARK - Verticals
+    case realEstateCell
+    case realEstatePromoTitle
+    case realEstatePromoIcon
+    case realEstatePromoPostNowButton
+    
     static func ==(lhs: AccessibilityId, rhs: AccessibilityId) -> Bool {
         return lhs.identifier == rhs.identifier
     }
@@ -1857,6 +1863,16 @@ enum AccessibilityId: Equatable {
             return "askPhoneNumberTextfield"
         case .askPhoneNumberSendPhoneButton:
             return "askPhoneNumberSendPhoneButton"
+            
+            //  MARK: Verticals
+        case .realEstateCell:
+            return "realEstateCell"
+        case .realEstatePromoTitle:
+            return "realEstatePromoTitle"
+        case .realEstatePromoIcon:
+            return "realEstatePromoIcon"
+        case .realEstatePromoPostNowButton:
+            return "realEstatePromoPostNowButton"
         }
     }
 }

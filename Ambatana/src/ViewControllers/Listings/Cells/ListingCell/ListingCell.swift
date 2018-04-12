@@ -13,6 +13,7 @@ protocol ListingCellDelegate: class {
     func chatButtonPressedFor(listing: Listing)
     func editPressedForDiscarded(listing: Listing)
     func moreOptionsPressedForDiscarded(listing: Listing)
+    func postNowButtonPressed(_ view: UIView)
 }
 
 final class ListingCell: UICollectionViewCell, ReusableCell {
@@ -235,10 +236,19 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     }
 
     private func setupThumbnailImageViews() {
+        setupThumbnailImageViewUI()
+        setupThumbnialImageViewConstraints()
+    }
+    
+    private func setupThumbnailImageViewUI() {
+        thumbnailImageView.clipsToBounds = true
+        thumbnailImageView.contentMode = .scaleAspectFill
+    }
+    
+    private func setupThumbnialImageViewConstraints() {
         thumbnailImageView.layout(with: contentView).top().leading().trailing()
         thumbnailImageViewHeight = thumbnailImageView.heightAnchor.constraint(equalToConstant: ListingCellMetrics.thumbnailImageStartingHeight)
         thumbnailImageViewHeight?.isActive = true
-
         thumbnailBgColorView.layout(with: thumbnailImageView).fill()
     }
 

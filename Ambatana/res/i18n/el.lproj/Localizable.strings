@@ -195,6 +195,7 @@
 "chat_message_disclaimer_scammer_base_blocked" = "Να είστε ιδαίτερα προσεκτικοί όταν ανταλλάζετε πληροφορίες τηλεφώνου/email. Οι χρήστες που θέλουν να σας εξαπατήσουν, συχνά ζητούν να αποχωρήσετε από τη letgo συνομιλία. %@";
 "chat_message_field_hint" = "Γράψε το μήνυμά σου εδώ";
 "chat_message_load_generic_error" = "Παρουσιάστηκε σφάλμα κατά την ανάκτηση δεδομένων των συνομιλιών σας. Παρακαλώ, δοκιμάστε ξανά.";
+"chat_message_type_not_supported" = "Το μήνυμα αυτό δεν είναι συμβατό με την έκδοση της εφαρμογής σας. Ενημερώστε την εφαρμογή σας τώρα για να ξεκλειδώσετε τις νεότερες λειτουργίες!";
 "chat_not_verified_alert_message" = "Συνδεθείτε με Facebook, Google ή Email για να επιβεβαιώσετε την ταυτότητά σας.";
 "chat_not_verified_state_check_button" = "Έλεγχος";
 "chat_not_verified_state_message" = "Ελέγξτε αν έχετε κάνει επιβεβαίωση για να ξεκινήσετε να συνομιλείτε.";
@@ -357,6 +358,11 @@
 "filter_results_cars_other_results" = "Πρόσφατες δημοσιεύσεις στην περιοχή σας";
 "filters_car_make_not_set" = "Δεν έχει καθοριστεί";
 "filters_car_model_not_set" = "Δεν έχει καθοριστεί";
+"filters_car_seller_type_all" = "All";
+"filters_car_seller_type_dealership" = "Dealership";
+"filters_car_seller_type_invidual" = "Individual";
+"filters_car_seller_type_private" = "Private";
+"filters_car_seller_type_professional" = "Professional";
 "filters_car_year_any_year" = "Οποιοδήποτε Έτος";
 "filters_car_year_before_year" = "Πριν το %i";
 "filters_distance_not_set" = "Δεν έχει καθοριστεί";
@@ -462,7 +468,7 @@
 "meeting_creation_view_send_button" = "Αποστολή συνάντησης";
 "meeting_creation_view_suggest_cell_select" = "Επιλογή";
 "meeting_creation_view_suggest_cell_selected" = "Επιλεγμένο";
-"meeting_creation_view_title" = "Οργανώστε μια συνάντηση";
+"meeting_creation_view_title" = "Προγραμματίστε μια συνάντηση";
 "ml_camera_in_about_days_text" = "σε περίπου %.f μέρες";
 "ml_camera_in_more_than_days_text" = "σε περισσότερες από %.f μέρες";
 "ml_camera_sells_for_text" = "Συνήθως πωλείται για $%d";
@@ -810,6 +816,9 @@
 "profile_sold_no_products_label" = "ΚΑΜΙΑ ΚΑΤΑΧΩΡΗΣΗ (ΑΚΟΜΗ!)";
 "profile_sold_other_no_products_button" = "Συνεχίστε την πλοήγηση";
 "profile_sold_products_tab" = "Πωλήθηκαν";
+"profile_verifications_email_placeholder" = "Email";
+"profile_verifications_email_view_title" = "Επιβεβαιώστε το Email σας";
+"profile_verifications_send_button" = "Αποστολή";
 "profile_verifications_view_add_info_section_title" = "ΠΡΟΣΘΉΚΗ";
 "profile_verifications_view_bio_title" = "Βιογραφικού";
 "profile_verifications_view_email_title" = "Email";

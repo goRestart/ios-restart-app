@@ -54,6 +54,7 @@ typealias ListingsRequesterCompletion = (ListingsRequesterResult) -> Void
 
 protocol ListingListRequester: class {
     var itemsPerPage: Int { get }
+    var isFirstPage: Bool { get }
     func canRetrieve() -> Bool
     func retrieveFirstPage(_ completion: ListingsRequesterCompletion?)
     func retrieveNextPage(_ completion: ListingsRequesterCompletion?)
@@ -330,7 +331,7 @@ class ListingListViewModel: BaseViewModel {
         case .mostSearchedItems:
             dataDelegate?.vmDidSelectMostSearchedItems()
             return
-        case .emptyCell, .dfpAdvertisement, .mopubAdvertisement:
+        case .emptyCell, .dfpAdvertisement, .mopubAdvertisement, .promo:
             return
         }
     }
@@ -343,7 +344,7 @@ class ListingListViewModel: BaseViewModel {
                 if let thumbnailURL = listing.thumbnail?.fileURL {
                     urls.append(thumbnailURL)
                 }
-            case .emptyCell, .collectionCell, .dfpAdvertisement, .mopubAdvertisement, .mostSearchedItems:
+            case .emptyCell, .collectionCell, .dfpAdvertisement, .mopubAdvertisement, .mostSearchedItems, .promo:
                 break
             }
         }
@@ -386,7 +387,7 @@ class ListingListViewModel: BaseViewModel {
         switch item {
         case let .listingCell(listing):
             return listing
-        case .collectionCell, .emptyCell, .dfpAdvertisement, .mopubAdvertisement, .mostSearchedItems:
+        case .collectionCell, .emptyCell, .dfpAdvertisement, .mopubAdvertisement, .mostSearchedItems, .promo:
             return nil
         }
     }
@@ -396,7 +397,7 @@ class ListingListViewModel: BaseViewModel {
             switch cellModel {
             case let .listingCell(listing):
                 return listing.objectId == listingId
-            case .collectionCell, .emptyCell, .dfpAdvertisement, .mopubAdvertisement, .mostSearchedItems:
+            case .collectionCell, .emptyCell, .dfpAdvertisement, .mopubAdvertisement, .mostSearchedItems, .promo:
                 return false
             }
         })
@@ -500,6 +501,8 @@ class ListingListViewModel: BaseViewModel {
             size = CGSize(width: cellWidth, height: adData.bannerHeight)
         case .mostSearchedItems:
             return CGSize(width: cellWidth, height: MostSearchedItemsListingListCell.height)
+        case .promo:
+            return CGSize(width: cellWidth, height: PromoCellMetrics.height)
         }
         return size
     }
@@ -535,7 +538,7 @@ class ListingListViewModel: BaseViewModel {
             categories = data.categories
         case .mopubAdvertisement(let data):
             categories = data.categories
-        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems:
+        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems, .promo:
             break
         }
         return categories
@@ -558,7 +561,7 @@ class ListingListViewModel: BaseViewModel {
                                                      bannerView: bannerView)
                 objects[position] = ListingCellModel.dfpAdvertisement(data: newAdData)
 
-        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems, .mopubAdvertisement:
+        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems, .mopubAdvertisement, .promo:
             break
         }
     }
@@ -581,7 +584,7 @@ class ListingListViewModel: BaseViewModel {
                                                    moPubView: moPubView)
             objects[position] = ListingCellModel.mopubAdvertisement(data: newAdData)
             
-        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems, .dfpAdvertisement:
+        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems, .dfpAdvertisement, .promo:
             break
         }
     }
@@ -627,7 +630,7 @@ extension ListingListViewModel {
                                                   bannerView: bannerView)
                 objects[forPosition] = ListingCellModel.dfpAdvertisement(data: newAdData)
                 delegate?.vmReloadItemAtIndexPath(indexPath: IndexPath(item: forPosition, section: 0))
-        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems, .mopubAdvertisement:
+        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems, .mopubAdvertisement, .promo:
             break
         }
     }
