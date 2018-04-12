@@ -87,8 +87,14 @@ final class UserPhoneVerificationNumberInputViewModel: BaseViewModel {
         return 0
     }
 
-    func didUpdatePhoneNumber(number: String) {
+    // MARK: - Actions
 
+    func didChangePhone(number: String?) {
+        guard let number = number else {
+            isContinueActionEnabled.value = false
+            return
+        }
+        isContinueActionEnabled.value = number.isValidPhoneNumber
     }
 
     func didTapCountryButton() {
@@ -97,5 +103,25 @@ final class UserPhoneVerificationNumberInputViewModel: BaseViewModel {
 
     func didTapContinueButton() {
         navigator?.openCodeInput()
+    }
+}
+
+// MARK: - Validtors
+
+private extension String {
+    var isValidPhoneNumber: Bool {
+        do {
+            let detector = try NSDataDetector(types: NSTextCheckingResult.CheckingType.phoneNumber.rawValue)
+            let matches = detector.matches(in: self, options: [], range: NSMakeRange(0, self.count))
+            if let res = matches.first {
+                return res.resultType == .phoneNumber
+                    && res.range.location == 0
+                    && res.range.length == self.count
+            } else {
+                return false
+            }
+        } catch {
+            return false
+        }
     }
 }

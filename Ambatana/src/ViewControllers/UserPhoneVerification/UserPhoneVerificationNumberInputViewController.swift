@@ -101,6 +101,7 @@ final class UserPhoneVerificationNumberInputViewController: BaseViewController {
         phoneNumberTextField.placeholder = "Phone number" // FIXME: add localized string
         phoneNumberTextField.keyboardType = .numberPad
         phoneNumberTextField.tintColor = .primaryColor
+        phoneNumberTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
 
         var placeholderAttributes = [NSAttributedStringKey: Any]()
         placeholderAttributes[NSAttributedStringKey.font] = UIFont.smsVerificationInputBigText
@@ -195,5 +196,9 @@ final class UserPhoneVerificationNumberInputViewController: BaseViewController {
 
     @objc private func didTapContinue() {
         viewModel.didTapContinueButton()
+    }
+
+    @objc private func textFieldDidChange(_ textField: UITextField) {
+        viewModel.didChangePhone(number: textField.text)
     }
 }
