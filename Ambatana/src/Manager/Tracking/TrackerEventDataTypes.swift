@@ -343,7 +343,7 @@ enum EventParameterName: String {
     case mostSearchedButton   = "most-searched-button"
     case photoViewerNumberOfPhotos   = "number-photos"
     case abandonStep          = "abandon-step"
-    
+    case sellerReputationBadge = "seller-reputation-badge"
     
     // Machine Learning
     case mlPredictiveFlow = "predictive-flow"
@@ -1233,6 +1233,20 @@ enum EventParameterMostSearched: String {
 
 enum EventParameterTutorialType: String {
     case realEstate = "real-estate"
+}
+
+enum EventParameterUserBadge: String {
+    case none = ""
+    case gold = "gold"
+    case silver = "silver"
+
+    init(userBadge: UserReputationBadge) {
+        switch userBadge {
+        case .none: self = .none
+        case .gold: self = .gold
+        case .silver: self = .silver
+        }
+    }
 }
 
 struct EventParameters {

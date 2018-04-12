@@ -1531,12 +1531,14 @@ fileprivate extension ChatViewModel {
 
     func trackMessageSent(type: ChatWrapperMessageType) {
         guard let info = buildSendMessageInfo(withType: type, error: nil) else { return }
-
+        guard let interlocutor = interlocutor else { return }
+        let badgeParameter = EventParameterUserBadge(userBadge: interlocutor.reputationBadge)
         if shouldTrackFirstMessage {
             shouldTrackFirstMessage = false
             tracker.trackEvent(TrackerEvent.firstMessage(info: info,
                                                          listingVisitSource: .unknown,
-                                                         feedPosition: .none))
+                                                         feedPosition: .none,
+                                                         userBadge: badgeParameter))
         }
         tracker.trackEvent(TrackerEvent.userMessageSent(info: info))
     }

@@ -871,10 +871,12 @@ struct TrackerEvent {
 
     static func firstMessage(info: SendMessageTrackingInfo,
                              listingVisitSource: EventParameterListingVisitSource,
-                             feedPosition: EventParameterFeedPosition) -> TrackerEvent {
+                             feedPosition: EventParameterFeedPosition,
+                             userBadge: EventParameterUserBadge) -> TrackerEvent {
         var params = info.params
         params[.listingVisitSource] = listingVisitSource.rawValue
         params[.feedPosition] = feedPosition.value
+        params[.sellerReputationBadge] = userBadge.rawValue
         return TrackerEvent(name: .firstMessage, params: params)
     }
 

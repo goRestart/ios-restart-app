@@ -378,14 +378,17 @@ extension ProductVMTrackHelper {
                           messageType: ChatWrapperMessageType,
                           isShowingFeaturedStripe: Bool,
                           listingVisitSource: EventParameterListingVisitSource,
-                          feedPosition: EventParameterFeedPosition) {
+                          feedPosition: EventParameterFeedPosition,
+                          sellerBadge: EventParameterUserBadge) {
         guard let info = buildSendMessageInfo(withType: messageType,
                                               isShowingFeaturedStripe: isShowingFeaturedStripe,
                                               error: nil) else { return }
+
         if isFirstMessage {
             tracker.trackEvent(TrackerEvent.firstMessage(info: info,
                                                          listingVisitSource: listingVisitSource,
-                                                         feedPosition: feedPosition))
+                                                         feedPosition: feedPosition,
+                                                         userBadge: sellerBadge))
         }
         tracker.trackEvent(TrackerEvent.userMessageSent(info: info))
     }
