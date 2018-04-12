@@ -48,7 +48,7 @@ final class ListingDeckViewModel: BaseViewModel {
 
     // Just for pagination
     fileprivate(set) var currentIndex: Int = 0 { didSet { setCurrentIndex(currentIndex) } }
-    var isNextPageAvailable: Bool { get { return !pagination.isLast } }
+    var isNextPageAvailable: Bool { return !pagination.isLast }
     var isLoading = false
 
     let prefetching: Prefetching
@@ -330,10 +330,10 @@ final class ListingDeckViewModel: BaseViewModel {
             if let newListings = result.listingsResult.value {
                 self?.pagination = nextPage
                 self?.objects.appendContentsOf(newListings
-                                                .flatMap { ListingCellModel.listingCell(listing: $0) }
-                                                .filter(ListingDeckViewModel.isListable))
+                    .map { ListingCellModel.listingCell(listing: $0) }
+                    .filter(ListingDeckViewModel.isListable))
                 self?.pagination.isLast = self?.listingListRequester.isLastPage(newListings.count) ?? false
-                if let isNextPageAvailable = self?.isNextPageAvailable, newListings.isEmpty && isNextPageAvailable{
+                if let isNextPageAvailable = self?.isNextPageAvailable, newListings.isEmpty && isNextPageAvailable {
                     self?.retrieveNextPage()
                 }
             }
