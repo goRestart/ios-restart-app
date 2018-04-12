@@ -358,6 +358,11 @@
 "filter_results_cars_other_results" = "Nemrégiben meghirdetve a környéken.";
 "filters_car_make_not_set" = "Nincs megadva";
 "filters_car_model_not_set" = "Nincs megadva";
+"filters_car_seller_type_all" = "All";
+"filters_car_seller_type_dealership" = "Dealership";
+"filters_car_seller_type_invidual" = "Individual";
+"filters_car_seller_type_private" = "Private";
+"filters_car_seller_type_professional" = "Professional";
 "filters_car_year_any_year" = "Bármilyen évjárat";
 "filters_car_year_before_year" = "%i előtti";
 "filters_distance_not_set" = "nincs megadva";

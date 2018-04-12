@@ -358,6 +358,11 @@
 "filter_results_cars_other_results" = "Được đăng gần đây tại khu vực của bạn";
 "filters_car_make_not_set" = "Chưa Cài Đặt";
 "filters_car_model_not_set" = "Chưa Cài Đặt";
+"filters_car_seller_type_all" = "All";
+"filters_car_seller_type_dealership" = "Dealership";
+"filters_car_seller_type_invidual" = "Individual";
+"filters_car_seller_type_private" = "Private";
+"filters_car_seller_type_professional" = "Professional";
 "filters_car_year_any_year" = "Mọi Năm";
 "filters_car_year_before_year" = "Trước %i";
 "filters_distance_not_set" = "chưa được cài đặt";
@@ -812,7 +817,7 @@
 "profile_sold_other_no_products_button" = "Tiếp tục Duyệt";
 "profile_sold_products_tab" = "Đã bán";
 "profile_verifications_email_placeholder" = "Email";
-"profile_verifications_email_view_title" = "Verify your Email";
+"profile_verifications_email_view_title" = "Xác minh email của bạn";
 "profile_verifications_send_button" = "Gửi";
 "profile_verifications_view_add_info_section_title" = "THÊM";
 "profile_verifications_view_bio_title" = "Tiểu sử";
