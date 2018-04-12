@@ -117,7 +117,6 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     private var directAnswersBottom = NSLayoutConstraint()
 
     private var bumpUpBanner = BumpUpBanner()
-    private var bumpUpBannerIsVisible: Bool = false
 
     let animator: PushAnimator?
     var pendingMovement: CarouselMovement?
@@ -1261,22 +1260,33 @@ extension ListingCarouselViewController: UITableViewDataSource, UITableViewDeleg
 
 extension ListingCarouselViewController {
     func showBumpUpBanner(bumpInfo: BumpUpInfo){
-        guard !bumpUpBannerIsVisible else {
+        guard bannerContainer.isHidden else {
             // banner is already visible, but info changes
             if bumpUpBanner.type != bumpInfo.type {
                 bumpUpBanner.updateInfo(info: bumpInfo)
+                updateBannerHeightFor(type: bumpInfo.type)
             }
             return
         }
 
         viewModel.bumpUpBannerShown(type: bumpInfo.type)
         bannerContainer.bringSubview(toFront: bumpUpBanner)
-        bumpUpBannerIsVisible = true
         bannerContainer.isHidden = false
         bumpUpBanner.updateInfo(info: bumpInfo)
 
+        updateBannerHeightFor(type: bumpInfo.type)
+    }
+
+    func closeBumpUpBanner() {
+        guard !bannerContainer.isHidden else { return }
+        bannerBottom = -bannerHeight
+        bumpUpBanner.stopCountdown()
+        bannerContainer.isHidden = true
+    }
+
+    private func updateBannerHeightFor(type: BumpUpType) {
         let bannerTotalHeight: CGFloat
-        switch bumpInfo.type {
+        switch type {
         case .boost(let boostBannerVisible):
             bannerTotalHeight = boostBannerVisible ? CarouselUI.bannerHeight*2 : CarouselUI.bannerHeight
         case .free, .hidden, .priced, .restore:
@@ -1284,7 +1294,7 @@ extension ListingCarouselViewController {
         }
 
         delay(0.1) { [weak self] in
-            guard let visible = self?.bumpUpBannerIsVisible, visible else { return }
+            guard let bannerHidden = self?.bannerContainer.isHidden, !bannerHidden else { return }
             self?.bannerBottom = 0
             self?.bannerHeight = bannerTotalHeight
             UIView.animate(withDuration: 0.3, animations: {
@@ -1292,20 +1302,16 @@ extension ListingCarouselViewController {
             })
         }
     }
-
-    func closeBumpUpBanner() {
-        guard bumpUpBannerIsVisible else { return }
-        bumpUpBannerIsVisible = false
-        bannerBottom = -bannerHeight
-        bumpUpBanner.stopCountdown()
-        bannerContainer.isHidden = true
-    }
 }
 
 extension ListingCarouselViewController: BumpUpBannerBoostDelegate {
     func bumpUpTimerReachedZero() {
         closeBumpUpBanner()
         viewModel.bumpUpBannerBoostTimerReachedZero()
+    }
+
+    func updateBoostBannerFor(type: BumpUpType) {
+        updateBannerHeightFor(type: type)
     }
 }
 

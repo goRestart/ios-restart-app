@@ -18,6 +18,7 @@ class MockPurchasesShopper: PurchasesShopper {
     var restoreRetriesCount: Int = 0
 
     var currentBumpTypePage: EventParameterTypePage?
+    var currentBumpIsBoost: Bool = false
 
     func startObservingTransactions() {
 
@@ -32,7 +33,7 @@ class MockPurchasesShopper: PurchasesShopper {
     }
 
     func productsRequestStartForListingId(_ listingId: String,
-                                          paymentItemId: String,
+                                          letgoItemId: String,
                                           withIds ids: [String],
                                           typePage: EventParameterTypePage?) {
 
@@ -47,7 +48,7 @@ class MockPurchasesShopper: PurchasesShopper {
         
         bumpInfoRequesterDelegate?.shopperFinishedProductsRequestForListingId(listingId,
                                                                               withProducts: purchaseableProducts,
-                                                                              paymentItemId: paymentItemId,
+                                                                              letgoItemId: letgoItemId,
                                                                               storeProductId: ids.first,
                                                                               typePage: typePage)
     }
@@ -55,10 +56,10 @@ class MockPurchasesShopper: PurchasesShopper {
     
     func requestPayment(forListingId listingId: String,
                         appstoreProduct: PurchaseableProduct,
-                        paymentItemId: String,
+                        letgoItemId: String,
                         isBoost: Bool) {
-        delegate?.pricedBumpDidStart(typePage: currentBumpTypePage)
-
+        delegate?.restoreBumpDidStart()
+        
         performAfterDelayWithCompletion { [weak self] in
             guard let strongSelf = self else { return }
             if !strongSelf.paymentSucceeds {
@@ -81,20 +82,24 @@ class MockPurchasesShopper: PurchasesShopper {
         return isBumpUpPending
     }
 
-    func requestFreeBumpUp(forListingId listingId: String, paymentItemId: String, shareNetwork: EventParameterShareNetwork) {
+    func requestFreeBumpUp(forListingId listingId: String, letgoItemId: String, shareNetwork: EventParameterShareNetwork) {
 
     }
 
     func restorePaidBumpUp(forListingId listingId: String) {
-        delegate?.pricedBumpDidStart(typePage: currentBumpTypePage)
+        delegate?.pricedBumpDidStart(typePage: currentBumpTypePage, isBoost: currentBumpIsBoost)
         if pricedBumpSucceeds {
             // payment works and bump works
             delegate?.pricedBumpDidSucceed(type: .restore, restoreRetriesCount: restoreRetriesCount,
                                            transactionStatus: .purchasingPurchased,
-                                           typePage: currentBumpTypePage)
+                                           typePage: currentBumpTypePage,
+                                           isBoost: currentBumpIsBoost)
         } else {
             // payment works but bump fails
-            delegate?.pricedBumpDidFail(type: .restore, transactionStatus: .purchasingPurchased, typePage: currentBumpTypePage)
+            delegate?.pricedBumpDidFail(type: .restore,
+                                        transactionStatus: .purchasingPurchased,
+                                        typePage: currentBumpTypePage,
+                                        isBoost: currentBumpIsBoost)
         }
     }
 

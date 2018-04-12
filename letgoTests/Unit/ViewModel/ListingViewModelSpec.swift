@@ -595,12 +595,12 @@ class ListingViewModelSpec: BaseViewModelSpec {
                                 expect(sut.bumpUpBannerInfo.value?.type) == .priced
                             }
                             it ("banner interaction block opens priced bump up view") {
-                                sut.bumpUpBannerInfo.value?.bannerInteractionBlock()
+                                sut.bumpUpBannerInfo.value?.bannerInteractionBlock(0)
                                 expect(self.calledOpenPricedBumpUpView).toEventually(beTrue())
                             }
                             it ("banner button block tries to bump up the product") {
                                 // "tries to" because the result of the bump up feature is tested in another context
-                                sut.bumpUpBannerInfo.value?.buttonBlock()
+                                sut.bumpUpBannerInfo.value?.buttonBlock(0)
                                 expect(self.delegateReceivedShowLoading).toEventually(beTrue())
                             }
                         }
@@ -690,11 +690,11 @@ class ListingViewModelSpec: BaseViewModelSpec {
                                     expect(sut.bumpUpBannerInfo.value?.type) == .free
                                 }
                                 it ("banner interaction block opens free bump up view") {
-                                    sut.bumpUpBannerInfo.value?.bannerInteractionBlock()
+                                    sut.bumpUpBannerInfo.value?.bannerInteractionBlock(0)
                                     expect(self.calledOpenFreeBumpUpView).toEventually(beTrue())
                                 }
                                 it ("banner button block open free bump up view") {
-                                    sut.bumpUpBannerInfo.value?.buttonBlock()
+                                    sut.bumpUpBannerInfo.value?.buttonBlock(0)
                                     expect(self.calledOpenFreeBumpUpView).toEventually(beTrue())
                                 }
                             }
@@ -727,12 +727,12 @@ class ListingViewModelSpec: BaseViewModelSpec {
                                     expect(sut.bumpUpBannerInfo.value?.type) == .priced
                                 }
                                 it ("banner interaction block opens priced bump up view") {
-                                    sut.bumpUpBannerInfo.value?.bannerInteractionBlock()
+                                    sut.bumpUpBannerInfo.value?.bannerInteractionBlock(0)
                                     expect(self.calledOpenPricedBumpUpView).toEventually(beTrue())
                                 }
                                 it ("banner button block tries to bump up the product") {
                                     // "tries to" because the result of the bump up feature is tested in another context
-                                    sut.bumpUpBannerInfo.value?.buttonBlock()
+                                    sut.bumpUpBannerInfo.value?.buttonBlock(0)
                                     expect(self.delegateReceivedShowLoading).toEventually(beTrue())
                                 }
                             }
@@ -766,12 +766,12 @@ class ListingViewModelSpec: BaseViewModelSpec {
                                 }
                                 it ("banner interaction block tres to restore the bump") {
                                     // "tries to" because the result of the bump up feature is tested in another context
-                                    sut.bumpUpBannerInfo.value?.bannerInteractionBlock()
+                                    sut.bumpUpBannerInfo.value?.bannerInteractionBlock(0)
                                     expect(self.delegateReceivedShowLoading).toEventually(beTrue())
                                 }
                                 it ("banner button block tries to restore the bump") {
                                     // "tries to" because the result of the bump up feature is tested in another context
-                                    sut.bumpUpBannerInfo.value?.buttonBlock()
+                                    sut.bumpUpBannerInfo.value?.buttonBlock(0)
                                     expect(self.delegateReceivedShowLoading).toEventually(beTrue())
                                 }
                             }
@@ -896,7 +896,10 @@ extension ListingViewModelSpec: ListingDetailNavigator {
 
     }
     func editListing(_ listing: Listing,
-                     bumpUpProductData: BumpUpProductData?) {
+                     bumpUpProductData: BumpUpProductData?,
+                     listingCanBeBoosted: Bool,
+                     timeSinceLastBump: TimeInterval?,
+                     maxCountdown: TimeInterval?) {
 
     }
     func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?) {
@@ -944,6 +947,11 @@ extension ListingViewModelSpec: ListingDetailNavigator {
                                               actions: [UIAction]) {
 
     }
+
+    func showBumpUpBoostSucceededAlert() {
+
+    }
+
     func openContactUs(forListing listing: Listing, contactUstype: ContactUsType) {
 
     }

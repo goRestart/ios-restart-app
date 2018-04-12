@@ -16,11 +16,11 @@ enum BumpUpPurchaseableData {
 
 struct BumpUpProductData {
     let bumpUpPurchaseableData: BumpUpPurchaseableData
-    let paymentItemId: String?
+    let letgoItemId: String?
     let storeProductId: String?
 
     var hasPaymentId: Bool {
-        return paymentItemId != nil
+        return letgoItemId != nil
     }
 }
 
@@ -42,7 +42,7 @@ class BumpUpCoordinator: Coordinator {
         case .socialMessage(let socialMessage):
             self.init(listing: listing,
                       socialMessage: socialMessage,
-                      paymentItemId: bumpUpProductData.paymentItemId,
+                      letgoItemId: bumpUpProductData.letgoItemId,
                       storeProductId: bumpUpProductData.storeProductId,
                       typePage: typePage,
                       bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
@@ -51,7 +51,7 @@ class BumpUpCoordinator: Coordinator {
             let featureFlags = FeatureFlags.sharedInstance
             self.init(listing: listing,
                       purchaseableProduct: purchaseableProduct,
-                      paymentItemId: bumpUpProductData.paymentItemId,
+                      letgoItemId: bumpUpProductData.letgoItemId,
                       storeProductId: bumpUpProductData.storeProductId,
                       typePage: typePage,
                       bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
@@ -64,7 +64,7 @@ class BumpUpCoordinator: Coordinator {
 
     init(listing: Listing,
          socialMessage: SocialMessage,
-         paymentItemId: String?,
+         letgoItemId: String?,
          storeProductId: String?,
          typePage: EventParameterTypePage?,
          bubbleNotificationManager: BubbleNotificationManager,
@@ -72,7 +72,7 @@ class BumpUpCoordinator: Coordinator {
 
         let bumpUpVM = BumpUpFreeViewModel(listing: listing,
                                            socialMessage: socialMessage,
-                                           paymentItemId: paymentItemId,
+                                           letgoItemId: letgoItemId,
                                            storeProductId: storeProductId,
                                            typePage: typePage)
         let bumpUpVC = BumpUpFreeViewController(viewModel: bumpUpVM)
@@ -86,7 +86,7 @@ class BumpUpCoordinator: Coordinator {
 
     init(listing: Listing,
          purchaseableProduct: PurchaseableProduct,
-         paymentItemId: String?,
+         letgoItemId: String?,
          storeProductId: String?,
          typePage: EventParameterTypePage?,
          bubbleNotificationManager: BubbleNotificationManager,
@@ -97,12 +97,13 @@ class BumpUpCoordinator: Coordinator {
 
         let bumpUpVM = BumpUpPayViewModel(listing: listing,
                                           purchaseableProduct: purchaseableProduct,
-                                          paymentItemId: paymentItemId,
+                                          letgoItemId: letgoItemId,
                                           storeProductId: storeProductId,
                                           typePage: typePage)
 
         let bumpUpVC: BaseViewController
         if let timeSinceLastBump = timeSinceLastBump, let maxCountdown = maxCountdown {
+            bumpUpVM.isBoost = true
             bumpUpVC = BumpUpBoostViewController(viewModel: bumpUpVM,
                                                  featureFlags: featureFlags,
                                                  timeSinceLastBump: timeSinceLastBump,

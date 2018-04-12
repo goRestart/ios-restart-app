@@ -13,6 +13,7 @@ struct FailedBumpInfo {
     static let listingIdKey = "listingId"
     static let transactionIdKey = "transactionId"
     static let paymentIdKey = "paymentId"
+    static let letgoItemIdKey = "letgoItemId"
     static let receiptDataKey = "receiptData"
     static let itemIdKey = "itemId"
     static let itemPriceKey = "itemPrice"
@@ -26,6 +27,7 @@ struct FailedBumpInfo {
     let listingId: String
     let transactionId: String?
     let paymentId: String
+    let letgoItemId: String?
     let receiptData: String
     let itemId: String
     let itemPrice: String
@@ -36,11 +38,13 @@ struct FailedBumpInfo {
     let bundleId: String?
     let numRetries: Int
 
-    init(listingId: String, transactionId: String?, paymentId: String, receiptData: String, itemId: String, itemPrice: String,
-         itemCurrency: String, amplitudeId: String?, appsflyerId: String?, idfa: String?, bundleId: String?, numRetries: Int) {
+    init(listingId: String, transactionId: String?, paymentId: String, letgoItemId: String?, receiptData: String,
+         itemId: String, itemPrice: String, itemCurrency: String, amplitudeId: String?, appsflyerId: String?,
+         idfa: String?, bundleId: String?, numRetries: Int) {
         self.listingId = listingId
         self.transactionId = transactionId
         self.paymentId = paymentId
+        self.letgoItemId = letgoItemId
         self.receiptData = receiptData
         self.itemId = itemId
         self.itemPrice = itemPrice
@@ -63,6 +67,7 @@ struct FailedBumpInfo {
             let numRetries = Int(numRetriesString)
             else { return nil }
 
+        let letgoItemId = dictionary[FailedBumpInfo.letgoItemIdKey] as? String
         let transactionId = dictionary[FailedBumpInfo.transactionIdKey] as? String
 
         let amplitudeId = dictionary[FailedBumpInfo.amplitudeIdKey] as? String
@@ -73,6 +78,7 @@ struct FailedBumpInfo {
         self.init(listingId: listingId,
                   transactionId: transactionId,
                   paymentId: paymentId,
+                  letgoItemId: letgoItemId,
                   receiptData: receiptData,
                   itemId: itemId,
                   itemPrice: itemPrice,
@@ -89,6 +95,7 @@ struct FailedBumpInfo {
         dict[FailedBumpInfo.listingIdKey] = listingId
         dict[FailedBumpInfo.transactionIdKey] = transactionId
         dict[FailedBumpInfo.paymentIdKey] = paymentId
+        dict[FailedBumpInfo.letgoItemIdKey] = letgoItemId
         dict[FailedBumpInfo.receiptDataKey] = receiptData
         dict[FailedBumpInfo.itemIdKey] = itemId
         dict[FailedBumpInfo.itemPriceKey] = itemPrice
@@ -103,7 +110,7 @@ struct FailedBumpInfo {
 
     func updatingNumRetries(newNumRetries: Int) -> FailedBumpInfo {
         return FailedBumpInfo(listingId: listingId, transactionId: transactionId,
-                              paymentId: paymentId, receiptData: receiptData, itemId: itemId,
+                              paymentId: paymentId, letgoItemId: letgoItemId, receiptData: receiptData, itemId: itemId,
                               itemPrice: itemPrice, itemCurrency: itemCurrency, amplitudeId: amplitudeId,
                               appsflyerId: appsflyerId, idfa: idfa, bundleId: bundleId, numRetries: newNumRetries)
     }

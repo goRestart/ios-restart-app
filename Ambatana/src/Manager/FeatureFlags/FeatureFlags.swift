@@ -730,7 +730,7 @@ class FeatureFlags: FeatureFlaggeable {
         let cached = dao.retrieveShowAdvanceReputationSystem()
         return cached ?? ShowAdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value)
     }
-    
+
     var searchCarsIntoNewBackend: SearchCarsIntoNewBackend {
         if Bumper.enabled {
             return Bumper.searchCarsIntoNewBackend
@@ -738,7 +738,6 @@ class FeatureFlags: FeatureFlaggeable {
         return SearchCarsIntoNewBackend.fromPosition(abTests.searchCarsIntoNewBackend.value)
     }
 
-    
     // MARK: - Country features
 
     var freePostingModeAllowed: Bool {
@@ -947,7 +946,7 @@ class FeatureFlags: FeatureFlaggeable {
             return nil
         }
     }
-    
+
     var shouldChangeChatNowCopyInEnglish: Bool {
         if Bumper.enabled {
             return Bumper.copyForChatNowInEnglish.isActive
