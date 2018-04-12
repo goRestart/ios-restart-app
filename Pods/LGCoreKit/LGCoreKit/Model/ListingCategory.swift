@@ -81,4 +81,12 @@ public enum ListingCategory: Int {
     public var isRealEstate: Bool {
         return self == .realEstate
     }
+    
+    public var isCategoryEditable: Bool {
+        return self != .realEstate && self != .cars
+    }
+    
+    public var isCategoryNotEditable: Bool {
+        return !isCategoryEditable
+    }
 }

@@ -367,6 +367,8 @@
 // Change email already registered
 "change_email_error_already_registered" = "This email address is already registered. Please enter a different one.";
 
+"chat_message_type_not_supported" = "This message isn't compatible with your app version. Update your app now to unlock the newest features!";
+
 // Chat inactive conversations cell
 "chat_inactive_conversations_explanation_label" = "Chats older than 3 months are automatically archived.";
 
@@ -1133,6 +1135,21 @@
 // Filters within option 7 days
 "filters_within_week" = "The last 7 days";
 
+// Filters Car seller type: private
+"filters_car_seller_type_private" = "Private";
+
+// Filters Car seller type: professional
+"filters_car_seller_type_professional" = "Professional";
+
+// Filters Car seller type: individual
+"filters_car_seller_type_invidual" = "Individual";
+
+// Filters Car seller type: dealership
+"filters_car_seller_type_dealership" = "Dealership";
+
+// Filters Car seller type: all
+"filters_car_seller_type_all" = "All";
+
 // Filters Make not set
 "filters_car_make_not_set" = "Not Set";
 
@@ -1393,7 +1410,7 @@
 "main_products_invite_navigation_bar_button" = "Invite";
 
 // Title for meeting creation view
-"meeting_creation_view_title" = "Schedule a meetup";
+"meeting_creation_view_title" = "Schedule a meeting";
 
 // place header for meeting creation view
 "meeting_creation_view_place" = "PLACE";
@@ -2510,6 +2527,15 @@
 
 // cell explaining that marking items as sold, increases Karma score
 "profile_verifications_view_mark_as_sold_subtitle" = "+2 pts each (up to 10 pts)";
+
+// Title of the view to verify the email. The user can write its email to send a verification link
+"profile_verifications_email_view_title" = "Verify your Email";
+
+// Placeholder for the enter email field
+"profile_verifications_email_placeholder" = "Email";
+
+// Button to confirm email and send a verification link
+"profile_verifications_send_button" = "Send";
 
 // Disclaimer text telling the user this section is only visibile to him/her
 "profile_karma_visibility_title" = "Only visible to you";

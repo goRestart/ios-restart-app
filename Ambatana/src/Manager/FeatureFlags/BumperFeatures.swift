@@ -48,6 +48,7 @@ extension Bumper  {
         flags.append(CopyForChatNowInTurkey.self)
         flags.append(IncreaseNumberOfPictures.self)
         flags.append(RealEstateTutorial.self)
+        flags.append(RealEstatePromoCell.self)
         flags.append(MachineLearningMVP.self)
         flags.append(AddPriceTitleDistanceToListings.self)
         flags.append(MarkAllConversationsAsRead.self)
@@ -234,6 +235,11 @@ extension Bumper  {
     static var realEstateTutorial: RealEstateTutorial {
         guard let value = Bumper.value(for: RealEstateTutorial.key) else { return .control }
         return RealEstateTutorial(rawValue: value) ?? .control 
+    }
+
+    static var realEstatePromoCell: RealEstatePromoCell {
+        guard let value = Bumper.value(for: RealEstatePromoCell.key) else { return .control }
+        return RealEstatePromoCell(rawValue: value) ?? .control 
     }
 
     static var machineLearningMVP: MachineLearningMVP {
@@ -819,6 +825,22 @@ enum RealEstateTutorial: String, BumperFeature  {
             case 3: return .twoScreens
             case 4: return .threeScreens
             case 5: return .onlyBadge
+            default: return .control
+        }
+    }
+}
+
+enum RealEstatePromoCell: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return RealEstatePromoCell.control.rawValue }
+    static var enumValues: [RealEstatePromoCell] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Real Estate - Show promo cell instead of top banner" } 
+    static func fromPosition(_ position: Int) -> RealEstatePromoCell {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
             default: return .control
         }
     }

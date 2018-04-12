@@ -37,6 +37,8 @@ class SearchRelatedListingListRequester: ListingListRequester {
     
     // MARK: - ListingListRequester
     
+    var isFirstPage: Bool = true
+    
     func canRetrieve() -> Bool { return queryCoordinates != nil }
     
     func retrieveFirstPage(_ completion: ListingsRequesterCompletion?) {
@@ -53,6 +55,7 @@ class SearchRelatedListingListRequester: ListingListRequester {
     }
     
     func retrieveNextPage(_ completion: ListingsRequesterCompletion?) {
+        isFirstPage = false
         retrieve() { [weak self] result in
             if let value = result.value {
                 self?.offset += value.count

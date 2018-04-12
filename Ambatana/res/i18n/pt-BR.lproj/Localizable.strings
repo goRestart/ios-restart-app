@@ -195,6 +195,7 @@
 "chat_message_disclaimer_scammer_base_blocked" = "Be extra careful when exchanging phone/email details. Fraudulent users often ask you to leave the letgo chat. %@";
 "chat_message_field_hint" = "Type your message here";
 "chat_message_load_generic_error" = "An error occurred while retrieving your conversation data. Please try again.";
+"chat_message_type_not_supported" = "This message isn't compatible with your app version. Update your app now to unlock the newest features!";
 "chat_not_verified_alert_message" = "Connect with Facebook, Google or Email to verify your identity.";
 "chat_not_verified_state_check_button" = "Check";
 "chat_not_verified_state_message" = "Check if you're verified in order to start chatting.";
@@ -357,6 +358,11 @@
 "filter_results_cars_other_results" = "Recently posted in your area";
 "filters_car_make_not_set" = "Not Set";
 "filters_car_model_not_set" = "Not Set";
+"filters_car_seller_type_all" = "All";
+"filters_car_seller_type_dealership" = "Dealership";
+"filters_car_seller_type_invidual" = "Individual";
+"filters_car_seller_type_private" = "Private";
+"filters_car_seller_type_professional" = "Professional";
 "filters_car_year_any_year" = "Any Year";
 "filters_car_year_before_year" = "Before %i";
 "filters_distance_not_set" = "not set";
@@ -462,7 +468,7 @@
 "meeting_creation_view_send_button" = "Send meeting";
 "meeting_creation_view_suggest_cell_select" = "Select";
 "meeting_creation_view_suggest_cell_selected" = "Selected";
-"meeting_creation_view_title" = "Schedule a meetup";
+"meeting_creation_view_title" = "Schedule a meeting";
 "ml_camera_in_about_days_text" = "in about %.f days";
 "ml_camera_in_more_than_days_text" = "in more than %.f days";
 "ml_camera_sells_for_text" = "Typically sells for $%d";
@@ -810,6 +816,9 @@
 "profile_sold_no_products_label" = "NO LISTINGS (YET!)";
 "profile_sold_other_no_products_button" = "Keep Browsing";
 "profile_sold_products_tab" = "Sold";
+"profile_verifications_email_placeholder" = "Email";
+"profile_verifications_email_view_title" = "Verify your Email";
+"profile_verifications_send_button" = "Send";
 "profile_verifications_view_add_info_section_title" = "ADD YOUR";
 "profile_verifications_view_bio_title" = "Bio";
 "profile_verifications_view_email_title" = "Email";

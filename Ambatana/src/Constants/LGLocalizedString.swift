@@ -499,6 +499,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("change_email_error_already_registered", comment: "")
 	}
 
+	static var chatMessageTypeNotSupported: String {
+		return NSLocalizedString("chat_message_type_not_supported", comment: "")
+	}
+
 	static var chatInactiveConversationsExplanationLabel: String {
 		return NSLocalizedString("chat_inactive_conversations_explanation_label", comment: "")
 	}
@@ -1529,6 +1533,26 @@ struct LGLocalizedString {
 
 	static var filtersWithinWeek: String {
 		return NSLocalizedString("filters_within_week", comment: "")
+	}
+
+	static var filtersCarSellerTypePrivate: String {
+		return NSLocalizedString("filters_car_seller_type_private", comment: "")
+	}
+
+	static var filtersCarSellerTypeProfessional: String {
+		return NSLocalizedString("filters_car_seller_type_professional", comment: "")
+	}
+
+	static var filtersCarSellerTypeInvidual: String {
+		return NSLocalizedString("filters_car_seller_type_invidual", comment: "")
+	}
+
+	static var filtersCarSellerTypeDealership: String {
+		return NSLocalizedString("filters_car_seller_type_dealership", comment: "")
+	}
+
+	static var filtersCarSellerTypeAll: String {
+		return NSLocalizedString("filters_car_seller_type_all", comment: "")
 	}
 
 	static var filtersCarMakeNotSet: String {
@@ -3369,6 +3393,18 @@ struct LGLocalizedString {
 
 	static var profileVerificationsViewMarkAsSoldSubtitle: String {
 		return NSLocalizedString("profile_verifications_view_mark_as_sold_subtitle", comment: "")
+	}
+
+	static var profileVerificationsEmailViewTitle: String {
+		return NSLocalizedString("profile_verifications_email_view_title", comment: "")
+	}
+
+	static var profileVerificationsEmailPlaceholder: String {
+		return NSLocalizedString("profile_verifications_email_placeholder", comment: "")
+	}
+
+	static var profileVerificationsSendButton: String {
+		return NSLocalizedString("profile_verifications_send_button", comment: "")
 	}
 
 	static var profileKarmaVisibilityTitle: String {

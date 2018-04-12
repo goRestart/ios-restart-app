@@ -256,15 +256,16 @@ class MainListingsViewModel: BaseViewModel {
     let suggestiveSearchInfo = Variable<SuggestiveSearchInfo>(SuggestiveSearchInfo.empty())
     let lastSearches = Variable<[LocalSuggestiveSearch]>([])
     let searchText = Variable<String?>(nil)
-    var lastSearchesCounter: Int {
-        return lastSearches.value.count
-    }
-    var trendingCounter: Int {
-        return trendingSearches.value.count
-    }
     
-    var suggestiveCounter: Int {
-        return suggestiveSearchInfo.value.count
+    func numberOfItems(type: SearchSuggestionType) -> Int {
+        switch type {
+        case .suggestive:
+            return suggestiveSearchInfo.value.count
+        case .lastSearch:
+            return lastSearches.value.count
+        case .trending:
+            return trendingSearches.value.count
+        }
     }
     
     // App share
@@ -275,6 +276,9 @@ class MainListingsViewModel: BaseViewModel {
         return myUserRepository.myUser?.name
     }
     
+    private var isRealEstateSearch: Bool {
+        return filters.selectedCategories == [.realEstate]
+    }
     
     fileprivate let disposeBag = DisposeBag()
     
@@ -320,6 +324,7 @@ class MainListingsViewModel: BaseViewModel {
         super.init()
 
         self.listViewModel.listingCellDelegate = self
+        
         setup()
     }
     
@@ -784,7 +789,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                 let errTitle: String?
                 let errBody: String?
                 
-                let isRealEstateSearch = filters.selectedCategories == [.realEstate]
+                
                 // Search
                 if queryString != nil || hasFilters {
                     errImage = UIImage(named: "err_search_no_products")
@@ -860,6 +865,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         var totalListings = listings
         totalListings = addMostSearchedItems(to: totalListings)
         totalListings = addCollections(to: totalListings, page: page)
+        totalListings = addRealEstatePromoItem(to: totalListings)
         let myUserCreationDate: Date? = myUserRepository.myUser?.creationDate
         if featureFlags.showAdsInFeedWithRatio.isActive &&
             (featureFlags.feedAdsProviderForUS.shouldShowAdsInFeedForUser(createdIn: myUserCreationDate) ||
@@ -983,6 +989,18 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         }
         return cellModels
     }
+    
+    private func addRealEstatePromoItem(to listings: [ListingCellModel]) -> [ListingCellModel] {
+        guard featureFlags.realEstatePromoCell.isActive, isRealEstateSearch, !listings.isEmpty
+            else { return listings }
+        
+        guard (!filters.hasAnyRealEstateAttributes && listingListRequester.multiIsFirstPage) ||
+        (filters.hasAnyRealEstateAttributes && listingListRequester.isFirstPageInLastRequester) else { return listings }
+        
+        var cellModels = listings
+        cellModels.insert(ListingCellModel.promo(data: PromoCellConfiguration.randomCellData,  delegate: self), at: 0)
+        return cellModels
+    }
 
     private func adAbsolutePosition() -> Int {
         var adPosition = 0
@@ -1092,6 +1110,17 @@ extension MainListingsViewModel {
 // MARK: - Suggestions searches
 
 extension MainListingsViewModel {
+    
+    func selected(type: SearchSuggestionType, row: Int) {
+        switch type {
+        case .suggestive:
+            selectedSuggestiveSearchAtIndex(row)
+        case .lastSearch:
+            selectedLastSearchAtIndex(row)
+        case .trending:
+            selectedTrendingSearchAtIndex(row)
+        }
+    }
 
     func trendingSearchAtIndex(_ index: Int) -> String? {
         guard  0..<trendingSearches.value.count ~= index else { return nil }
@@ -1108,13 +1137,13 @@ extension MainListingsViewModel {
         return lastSearches.value[index].suggestiveSearch
     }
 
-    func selectedTrendingSearchAtIndex(_ index: Int) {
+    private func selectedTrendingSearchAtIndex(_ index: Int) {
         guard let trendingSearch = trendingSearchAtIndex(index), !trendingSearch.isEmpty else { return }
         delegate?.vmDidSearch()
         navigator?.openMainListings(withSearchType: .trending(query: trendingSearch), listingFilters: filters)
     }
     
-    func selectedSuggestiveSearchAtIndex(_ index: Int) {
+    private func selectedSuggestiveSearchAtIndex(_ index: Int) {
         guard let (suggestiveSearch, _) = suggestiveSearchAtIndex(index) else { return }
         delegate?.vmDidSearch()
         
@@ -1129,7 +1158,7 @@ extension MainListingsViewModel {
                                     listingFilters: newFilters)
     }
     
-    func selectedLastSearchAtIndex(_ index: Int) {
+    private func selectedLastSearchAtIndex(_ index: Int) {
         guard let lastSearch = lastSearchAtIndex(index), let name = lastSearch.name, !name.isEmpty else { return }
         delegate?.vmDidSearch()
         navigator?.openMainListings(withSearchType: .lastSearch(search: lastSearch),
@@ -1140,8 +1169,6 @@ extension MainListingsViewModel {
         keyValueStorage[.lastSuggestiveSearches] = []
         lastSearches.value = keyValueStorage[.lastSuggestiveSearches]
     }
-    
-    
     
     func retrieveLastUserSearch() {
         // We saved up to lastSearchesSavedMaximum(10) but we show only lastSearchesShowMaximum(3)
@@ -1269,14 +1296,16 @@ extension MainListingsViewModel {
     }
     
     @objc fileprivate dynamic func updateRealEstateBanner() {
-        var currentHeader = mainListingsHeader.value
-        if showRealEstateBanner {
-            currentHeader.insert(MainListingsHeader.RealEstateBanner)
-        } else {
-            currentHeader.remove(MainListingsHeader.RealEstateBanner)
+        if !featureFlags.realEstatePromoCell.isActive {
+            var currentHeader = mainListingsHeader.value
+            if showRealEstateBanner {
+                currentHeader.insert(MainListingsHeader.RealEstateBanner)
+            } else {
+                currentHeader.remove(MainListingsHeader.RealEstateBanner)
+            }
+            guard mainListingsHeader.value != currentHeader else { return }
+            mainListingsHeader.value = currentHeader
         }
-        guard mainListingsHeader.value != currentHeader else { return }
-        mainListingsHeader.value = currentHeader
     }
     
     @objc fileprivate dynamic func updateCategoriesHeader() {
@@ -1499,6 +1528,11 @@ extension MainListingsViewModel: ListingCellDelegate {
     
     // Discarded listings are never shown in the main feed
     func moreOptionsPressedForDiscarded(listing: Listing) {}
+    
+    func postNowButtonPressed(_ view: UIView) {
+        navigator?.openSell(source: .realEstatePromo, postCategory: .realEstate)
+    }
+    
 }
 
 extension NoAdsInFeedForNewUsers {

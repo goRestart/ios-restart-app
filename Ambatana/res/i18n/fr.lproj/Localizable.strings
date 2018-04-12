@@ -19,7 +19,7 @@
 "bump_up_banner_pay_text" = "Vendez au plus vite !";
 "bump_up_banner_pay_text_improvement" = "Vendre !";
 "bump_up_banner_wait_text" = "avant de remettre en vedette";
-"bump_up_boost_success_alert_text" = "Votre annonce a de nouveau été boostée ! Elle sera mise en vedette pour les prochaines 24 heures.";
+"bump_up_boost_success_alert_text" = "Votre annonce a été boostée ! Elle sera mise en vedette pour les prochaines 24 heures.";
 "bump_up_error_bump_generic" = "Une erreur est survenue lors de la mise en vedette de votre annonce. Veuillez réessayer.";
 "bump_up_error_bump_token" = "Votre paiement a été effectué, mais l'annonce n'a pas été mise en vedette.";
 "bump_up_error_payment_failed" = "Impossible de se connecter à l'App Store. Votre paiement n'a pas été traité. Veuillez réessayer.";
@@ -195,6 +195,7 @@
 "chat_message_disclaimer_scammer_base_blocked" = "Soyez très prudents lorsque vous donnez votre email/téléphone. Les fraudeurs demandent souvent de communiquer en dehors de letgo. %@";
 "chat_message_field_hint" = "Entrez votre message ici";
 "chat_message_load_generic_error" = "Une erreur est survenue lors de la récupération de vos données de conversation. Veuillez réessayer.";
+"chat_message_type_not_supported" = "Ce message n'est pas compatible avec la version de l'appli que vous utilisez. Mettez à jour votre appli dès maintenant pour déverrouiller les nouvelles fonctions !";
 "chat_not_verified_alert_message" = "Connectez-vous avec Facebook, Google ou par Email pour vérifier votre identité.";
 "chat_not_verified_state_check_button" = "Vérifier";
 "chat_not_verified_state_message" = "Assurez-vous d'être vérifié pour commencer à chatter.";
@@ -357,6 +358,11 @@
 "filter_results_cars_other_results" = "Publié récemment dans votre secteur";
 "filters_car_make_not_set" = "Non Communiqué";
 "filters_car_model_not_set" = "Non Communiqué";
+"filters_car_seller_type_all" = "All";
+"filters_car_seller_type_dealership" = "Dealership";
+"filters_car_seller_type_invidual" = "Individual";
+"filters_car_seller_type_private" = "Private";
+"filters_car_seller_type_professional" = "Professional";
 "filters_car_year_any_year" = "Toutes les Années";
 "filters_car_year_before_year" = "Avant %i";
 "filters_distance_not_set" = "Aucun";
@@ -810,6 +816,9 @@
 "profile_sold_no_products_label" = "AUCUNE ANNONCE (POUR LE MOMENT !)";
 "profile_sold_other_no_products_button" = "Continuer à naviguer";
 "profile_sold_products_tab" = "Vendu";
+"profile_verifications_email_placeholder" = "Email";
+"profile_verifications_email_view_title" = "Vérifiez votre courriel";
+"profile_verifications_send_button" = "Envoyer";
 "profile_verifications_view_add_info_section_title" = "AJOUTER VOTRE";
 "profile_verifications_view_bio_title" = "Bio";
 "profile_verifications_view_email_title" = "Email";
