@@ -13,7 +13,7 @@ require_relative 'helpers/String'
 require_relative 'helpers/Term'
 
 APP_I18N_PATH = "Ambatana/res/i18n"
-LGRESOURCES_I18N_PATH = "modules/LGResources/LGResources/Assets/i18n"
+RESOURCES_I18N_PATH = "components/LGResources/LGResources/Assets/i18n"
 
 # Moves a folder
   # Params:
@@ -111,15 +111,15 @@ end
 
 def wti_pull(ios_path)
   puts "Executing LG wti pull script for 'Localizable.strings'"
-  system "ruby #{File.dirname(__FILE__)}/helpers/wti.rb -r Localizable.strings -p #{LGRESOURCES_I18N_PATH}"
+  system "ruby #{File.dirname(__FILE__)}/helpers/wti.rb -r Localizable.strings -p #{RESOURCES_I18N_PATH}"
   puts "Executing LG wti pull script for 'InfoPlist.strings'"
   system "ruby #{File.dirname(__FILE__)}/helpers/wti.rb -r InfoPlist.strings -p #{APP_I18N_PATH}"
 end
 
 def drive_pull(ios_path)
   generate_all()
-  system "cp Localizable.strings #{ios_path}#{LGRESOURCES_I18N_PATH}/Base.lproj/Localizable.strings"
-  system "cp Localizable.strings #{ios_path}#{LGRESOURCES_I18N_PATH}/en.lproj/Localizable.strings"
+  system "cp Localizable.strings #{ios_path}#{RESOURCES_I18N_PATH}/Base.lproj/Localizable.strings"
+  system "cp Localizable.strings #{ios_path}#{RESOURCES_I18N_PATH}/en.lproj/Localizable.strings"
   system "rm Localizable.strings"
 end
 
