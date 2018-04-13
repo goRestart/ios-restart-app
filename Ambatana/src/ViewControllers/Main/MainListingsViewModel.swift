@@ -951,7 +951,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                                                   adRequested: false,
                                                   categories: filters.selectedCategories,
                                                   adLoader: adLoader,
-                                                  adxNativeView: nil)
+                                                  adxNativeView: MoPubBlankStateView())
                 adsCellModel = ListingCellModel.adxAdvertisement(data: adData)
                 
             } else {

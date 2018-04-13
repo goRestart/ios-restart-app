@@ -591,12 +591,14 @@ class ListingListViewModel: BaseViewModel {
         }
     }
     
-    func updateAdvertisementRequestedIn(position: Int, contentAdView: GADNativeContentAdView) {
+    func updateAdvertisementRequestedIn(position: Int, nativeContentAd: GADNativeContentAd, contentAdView: GADNativeContentAdView) {
         guard 0..<objects.count ~= position else { return }
         let modelToBeUpdated = objects[position]
         switch modelToBeUpdated {
         case .adxAdvertisement(let data):
             guard data.adPosition == position else { return }
+            contentAdView.nativeContentAd = nativeContentAd
+            (contentAdView as! GoogleAdxNativeView).setUpWith(nativeContentAd: nativeContentAd)
             let newAdData = AdvertisementAdxData(adUnitId: data.adUnitId,
                                                  rootViewController: data.rootViewController,
                                                  adPosition: data.adPosition,
@@ -607,38 +609,9 @@ class ListingListViewModel: BaseViewModel {
                                                  adLoader: data.adLoader,
                                                  adxNativeView: contentAdView)
             objects[position] = ListingCellModel.adxAdvertisement(data: newAdData)
-            break
+            delegate?.vmReloadItemAtIndexPath(indexPath: IndexPath(row: position, section: 0))
         case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems, .dfpAdvertisement, .mopubAdvertisement:
             break
-        }
-    }
-    
-    func updateAdvertisementForAdLoader(adLoader: GADAdLoader, nativeContentAd: GADNativeContentAd) {
-        for index in 0..<objects.count {
-            let cellModel = objects[index]
-            switch cellModel {
-            case .adxAdvertisement(let data):
-                guard data.adLoader == adLoader else { break }
-                if let contentAdView = data.adxNativeView {
-                    contentAdView.nativeContentAd = nativeContentAd
-                    (contentAdView as! GoogleAdxNativeView).setUpWith(nativeContentAd: nativeContentAd)
-                    let newAdData = AdvertisementAdxData(adUnitId: data.adUnitId,
-                                                         rootViewController: data.rootViewController,
-                                                         adPosition: data.adPosition,
-                                                         bannerHeight: data.bannerHeight,
-                                                         showAdsInFeedWithRatio: data.showAdsInFeedWithRatio,
-                                                         adRequested: true,
-                                                         categories: data.categories,
-                                                         adLoader: data.adLoader,
-                                                         adxNativeView: contentAdView)
-                    objects[index] = ListingCellModel.adxAdvertisement(data: newAdData)
-                    delegate?.vmReloadItemAtIndexPath(indexPath: IndexPath(row: index, section: 0))
-                    return
-                }
-                break
-            default:
-                break
-            }
         }
     }
 }

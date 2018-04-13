@@ -59,6 +59,7 @@ final class GoogleAdxNativeView: GADNativeContentAdView {
         callToActionButton.tintColor = UIColor.primaryColor
         callToActionButton.layer.borderColor = UIColor.primaryColor.cgColor
         callToActionButton.layer.borderWidth = 1.0
+        callToActionButton.isUserInteractionEnabled = false
     }
 
     private func setupAdTextLabel() {

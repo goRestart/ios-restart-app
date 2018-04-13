@@ -576,14 +576,10 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             break
         case .adxAdvertisement(let data):
             guard !data.adRequested else { return }
-            
             let adLoader = data.adLoader
             adLoader.delegate = self
+            adLoader.position = data.adPosition
             adLoader.load(GADRequest())
-            let contentAdView = Bundle.main.loadNibNamed("GoogleAdxNativeView", owner: nil, options: nil)?.first as! GoogleAdxNativeView
-            contentAdView.setupUI()
-            contentAdView.tag = data.adPosition
-            viewModel.updateAdvertisementRequestedIn(position: inPosition, contentAdView: contentAdView)
             break
         case .collectionCell, .emptyCell, .listingCell, .mostSearchedItems:        
             break
@@ -672,16 +668,57 @@ extension ListingListView: MPNativeAdDelegate {
 }
 
 // MARK: - GADNativeContentAdLoaderDelegate
-extension ListingListView: GADNativeContentAdLoaderDelegate, GADAdLoaderDelegate {
+extension ListingListView: GADNativeContentAdLoaderDelegate, GADAdLoaderDelegate, GADNativeAdDelegate {
     public func adLoader(_ adLoader: GADAdLoader, didReceive nativeContentAd: GADNativeContentAd) {
-        viewModel.updateAdvertisementForAdLoader(adLoader: adLoader, nativeContentAd: nativeContentAd)
+        nativeContentAd.delegate = self
+        guard let position = adLoader.position else { return }
+        nativeContentAd.position = position
+        let contentAdView = Bundle.main.loadNibNamed("GoogleAdxNativeView", owner: nil, options: nil)?.first as! GoogleAdxNativeView
+        contentAdView.setupUI()
+        viewModel.updateAdvertisementRequestedIn(position: position, nativeContentAd: nativeContentAd, contentAdView: contentAdView)
     }
     
     public func adLoader(_ adLoader: GADAdLoader, didFailToReceiveAdWithError error: GADRequestError) {
-        //TODO: Show blank state cell
         logMessage(.info, type: .monetization, message: "Google Adx failed with error: \(error.localizedDescription)")
     }
+
+    public func nativeAdWillLeaveApplication(_ nativeAd: GADNativeAd) {
+        guard let position = nativeAd.position else { return }
+        let feedPosition: EventParameterFeedPosition = .position(index: position)
+        viewModel.bannerWasTapped(adType: .adx,
+                                  willLeaveApp: .trueParameter,
+                                  categories: viewModel.categoriesForBannerIn(position: position),
+                                  feedPosition: feedPosition)
+    }
+    
 }
+
+extension GADAdLoader {
+    var position: Int? {
+        get  {
+            guard let accessibilityValue = accessibilityValue else { return -1 }
+            return Int(accessibilityValue)
+        }
+        
+        set (newPosition){
+            self.accessibilityValue = String(describing: newPosition)
+        }
+    }
+}
+
+extension GADNativeAd {
+    var position: Int? {
+        get  {
+            guard let accessibilityValue = accessibilityValue else { return -1 }
+            return Int(accessibilityValue)
+        }
+        
+        set (newPosition){
+            self.accessibilityValue = String(describing: newPosition)
+        }
+    }
+}
+
 
 extension ListingListView {
     var errorContentView: UIView { return errorView.containerView }

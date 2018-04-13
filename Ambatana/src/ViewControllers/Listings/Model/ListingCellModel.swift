@@ -133,7 +133,7 @@ struct AdvertisementAdxData {
     var categories: [ListingCategory]?
     
     var adLoader: GADAdLoader
-    var adxNativeView: GADNativeContentAdView?
+    var adxNativeView: UIView?
 }
 
 enum AdProviderType {
