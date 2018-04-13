@@ -44,12 +44,14 @@ extension Bumper  {
         flags.append(OnboardingIncentivizePosting.self)
         flags.append(PromoteBumpInEdit.self)
         flags.append(UserIsTyping.self)
+        flags.append(BumpUpBoost.self)
         flags.append(ServicesCategoryEnabled.self)
         flags.append(CopyForChatNowInTurkey.self)
         flags.append(IncreaseNumberOfPictures.self)
         flags.append(RealEstateTutorial.self)
         flags.append(RealEstatePromoCell.self)
         flags.append(MachineLearningMVP.self)
+        flags.append(ChatNorris.self)
         flags.append(AddPriceTitleDistanceToListings.self)
         flags.append(MarkAllConversationsAsRead.self)
         flags.append(ShowProTagUserProfile.self)
@@ -217,6 +219,11 @@ extension Bumper  {
         return UserIsTyping(rawValue: value) ?? .control 
     }
 
+    static var bumpUpBoost: BumpUpBoost {
+        guard let value = Bumper.value(for: BumpUpBoost.key) else { return .control }
+        return BumpUpBoost(rawValue: value) ?? .control 
+    }
+
     static var servicesCategoryEnabled: ServicesCategoryEnabled {
         guard let value = Bumper.value(for: ServicesCategoryEnabled.key) else { return .control }
         return ServicesCategoryEnabled(rawValue: value) ?? .control 
@@ -245,6 +252,11 @@ extension Bumper  {
     static var machineLearningMVP: MachineLearningMVP {
         guard let value = Bumper.value(for: MachineLearningMVP.key) else { return .control }
         return MachineLearningMVP(rawValue: value) ?? .control 
+    }
+
+    static var chatNorris: ChatNorris {
+        guard let value = Bumper.value(for: ChatNorris.key) else { return .control }
+        return ChatNorris(rawValue: value) ?? .control 
     }
 
     static var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings {
@@ -761,6 +773,25 @@ enum UserIsTyping: String, BumperFeature  {
     }
 }
 
+enum BumpUpBoost: String, BumperFeature  {
+    case control, baseline, sendTop5Mins, sendTop1hour, boostListing1hour, cheaperBoost5Mins
+    static var defaultValue: String { return BumpUpBoost.control.rawValue }
+    static var enumValues: [BumpUpBoost] { return [.control, .baseline, .sendTop5Mins, .sendTop1hour, .boostListing1hour, .cheaperBoost5Mins]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Ability to boost ongoing bump ups" } 
+    static func fromPosition(_ position: Int) -> BumpUpBoost {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .sendTop5Mins
+            case 3: return .sendTop1hour
+            case 4: return .boostListing1hour
+            case 5: return .cheaperBoost5Mins
+            default: return .control
+        }
+    }
+}
+
 enum ServicesCategoryEnabled: String, BumperFeature  {
     case control, baseline, active
     static var defaultValue: String { return ServicesCategoryEnabled.control.rawValue }
@@ -857,6 +888,24 @@ enum MachineLearningMVP: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum ChatNorris: String, BumperFeature  {
+    case control, baseline, redButton, whiteButton, greenButton
+    static var defaultValue: String { return ChatNorris.control.rawValue }
+    static var enumValues: [ChatNorris] { return [.control, .baseline, .redButton, .whiteButton, .greenButton]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show the create meeting option in chat detail view." } 
+    static func fromPosition(_ position: Int) -> ChatNorris {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .redButton
+            case 3: return .whiteButton
+            case 4: return .greenButton
             default: return .control
         }
     }

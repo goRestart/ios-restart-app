@@ -28,18 +28,21 @@ final class LGNavBarSearchField: UIView {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .top
+        stackView.isUserInteractionEnabled = false
         return stackView
     }()
     
     private let magnifierIcon: UIImageView = {
         let logo = UIImageView(image: #imageLiteral(resourceName: "list_search"))
         logo.contentMode = .scaleAspectFit
+        logo.isUserInteractionEnabled = false
         return logo
     }()
     
     private let logoIcon: UIImageView = {
         let logo = UIImageView(image: #imageLiteral(resourceName: "navbar_logo"))
         logo.contentMode = .scaleAspectFit
+        logo.isUserInteractionEnabled = false
         return logo
     }()
     

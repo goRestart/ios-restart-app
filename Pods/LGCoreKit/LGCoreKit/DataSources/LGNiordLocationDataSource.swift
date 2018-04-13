@@ -69,6 +69,7 @@ class LGNiordLocationDataSource: LocationDataSource {
         }
     }
     
+    
     // MARK: - Helpers
     
     static func locationSuggestionDecoder(_ object: Any) -> [Place]? {
