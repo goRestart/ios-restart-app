@@ -21,8 +21,18 @@ extension Int {
         let secs = self%60
         return "\(String(format: "%02d", hours)):\(String(format: "%02d", mins)):\(String(format: "%02d", secs))"
     }
-    
-    func intToDistanteFormat() -> String {
+
+    func secondsToPrettyCountdownFormat() -> String? {
+        guard self >= 0 else { return nil }
+        let hours = self/3600
+        let mins = (self%3600)/60
+        let secs = self%60
+        return LGLocalizedString.commonHoursMinsSecs(String(format: "%02d", hours),
+                                                         String(format: "%02d", mins),
+                                                         String(format: "%02d", secs))
+    }
+
+    func intToDistanceFormat() -> String {
         let value = "\(self) \(DistanceType.systemDistanceType().string)"
         return value
     }

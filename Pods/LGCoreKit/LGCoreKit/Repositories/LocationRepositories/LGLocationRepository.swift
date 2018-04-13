@@ -22,7 +22,6 @@ public class LGLocationRepository: LocationRepository {
                 niordLocationDataSource: LocationDataSource,
                 ipLookupDataSource: IPLookupDataSource,
                 locationManager: CLLocationManagerProtocol) {
-        
         self.appleLocationDataSource = appleLocationDataSource
         self.niordLocationDataSource = niordLocationDataSource
         self.ipLookupDataSource = ipLookupDataSource
@@ -134,7 +133,8 @@ public class LGLocationRepository: LocationRepository {
             }
         }
     }
-    
+
+
     // MARK: - Helpers
     
     private func makeCircularRegion(withLocation location: LGLocation?) -> CLCircularRegion? {

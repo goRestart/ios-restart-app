@@ -204,6 +204,10 @@ class ListingCarouselViewModel: BaseViewModel {
     var adBannerTrackingStatus: AdBannerTrackingStatus? = nil
     let sideMargin: CGFloat = DeviceFamily.current.isWiderOrEqualThan(.iPhone6) ? Metrics.margin : 0
 
+    var meetingsEnabled: Bool {
+        return featureFlags.chatNorris.isActive
+    }
+
     // MARK: - Init
 
     convenience init(listing: Listing,
@@ -421,6 +425,14 @@ class ListingCarouselViewModel: BaseViewModel {
                                                 bumpUpType: bumpUpType,
                                                 bumpUpSource: bumpUpSource,
                                                 typePage: typePage)
+    }
+
+    func bumpUpBannerBoostTimerReachedZero() {
+        currentListingViewModel?.refreshBumpeableBanner()
+    }
+
+    func bumpUpBoostSucceeded() {
+        currentListingViewModel?.bumpUpBoostSucceeded()
     }
 
     func didReceiveAd(bannerTopPosition: CGFloat, bannerBottomPosition: CGFloat, screenHeight: CGFloat) {
@@ -799,21 +811,12 @@ extension ListingCarouselViewModel: ListingViewModelDelegate {
 
 extension CarouselMovement {
 
-    func visitSource(_ originSource: EventParameterListingVisitSource) -> EventParameterListingVisitSource {
-        let sourceIsRelatedListing = originSource == .relatedListings
-        let sourceIsFavourite = originSource == .favourite
-        guard sourceIsRelatedListing || sourceIsFavourite  else {
-            return originSource
-        }
+    func visitSource(_ origin: EventParameterListingVisitSource) -> EventParameterListingVisitSource {
         switch self {
-        case .tap:
-            return sourceIsFavourite ? .nextFavourite : .next
-        case .swipeRight:
-            return sourceIsFavourite ? .nextFavourite : .next
-        case .initial:
-            return originSource
-        case .swipeLeft:
-            return sourceIsFavourite ? .previousFavourite : .previous
+        case .tap: fallthrough
+        case .swipeRight: return origin.next
+        case .initial: return origin
+        case .swipeLeft: return origin.previous
         }
     }
 

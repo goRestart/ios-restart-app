@@ -15,6 +15,7 @@
             <connections>
                 <outlet property="bannerContainer" destination="G8H-Az-QBo" id="p83-Mn-5JX"/>
                 <outlet property="bannerContainerBottomConstraint" destination="cW1-mD-DaV" id="7TA-Cc-9o3"/>
+                <outlet property="bannerContainerHeightConstraint" destination="xZd-V9-2mw" id="acr-Yu-anR"/>
                 <outlet property="buttonBottom" destination="ibM-CY-XRt" id="VOT-6P-Mmb"/>
                 <outlet property="buttonBottomBottomConstraint" destination="xy2-xd-eOf" id="ifU-90-OpV"/>
                 <outlet property="buttonBottomHeight" destination="qTj-cW-IDe" id="4N1-Rl-PlK"/>

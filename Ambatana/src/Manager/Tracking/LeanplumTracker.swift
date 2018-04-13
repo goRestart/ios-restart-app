@@ -135,6 +135,7 @@ fileprivate extension EventParameters {
             } else {
                 res[paramName.rawValue] = value
             }
+
         }
         return res
     }

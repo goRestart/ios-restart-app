@@ -60,11 +60,12 @@ class QuickAnswerSpec: QuickSpec {
 
             var isBuyer: Bool!
 
-            context("is not free, is not buyer, is not dynamic, is not negotiable") {
+            context("is not free, is not buyer") {
                 beforeEach {
                     isFree = false
                     isBuyer = false
-                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree)
+                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree,
+                                                                       chatNorrisABtestVersion: .control)
                 }
                 it("receives 6 groups of quick answers") {
                     expect(quickAnswers.count) == 6
@@ -92,7 +93,8 @@ class QuickAnswerSpec: QuickSpec {
                 beforeEach {
                     isFree = false
                     isBuyer = true
-                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree)
+                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree,
+                                                                       chatNorrisABtestVersion: .control)
                 }
                 it("receives 5 groups of quick answers") {
                     expect(quickAnswers.count) == 5
@@ -113,11 +115,13 @@ class QuickAnswerSpec: QuickSpec {
                     expect(quickAnswers[4]) == QuickAnswer.notInterested
                 }
             }
-            context("is free, is not buyer, is not dynamic, is not negotiable") {
+            context("is free, is not buyer") {
                 beforeEach {
                     isFree = true
                     isBuyer = false
-                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree)
+
+                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree,
+                                                                       chatNorrisABtestVersion: .control)
                 }
                 it("receives 4 groups of quick answers") {
                     expect(quickAnswers.count) == 4
@@ -139,7 +143,8 @@ class QuickAnswerSpec: QuickSpec {
                 beforeEach {
                     isFree = true
                     isBuyer = true
-                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree)
+                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree,
+                                                                       chatNorrisABtestVersion: .control)
                 }
                 it("receives 4 groups of quick answers") {
                     expect(quickAnswers.count) == 4
@@ -155,6 +160,33 @@ class QuickAnswerSpec: QuickSpec {
                 }
                 it("matches fourth group with the right not interested quick answers") {
                     expect(quickAnswers[3]) == QuickAnswer.notInterested
+                }
+            }
+            context("is free, is buyer, and chatNorris ABtest is active") {
+                beforeEach {
+                    isFree = true
+                    isBuyer = true
+
+                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree,
+                                                                       chatNorrisABtestVersion: .redButton)
+                }
+                it("receives 5 groups of quick answers") {
+                    expect(quickAnswers.count) == 5
+                }
+                it("matches first group with meeting assistant answer") {
+                    expect(quickAnswers[0]) == QuickAnswer.meetingAssistant(chatNorrisABtestVersion: .redButton)
+                }
+                it("matches first group with the right interested quick answers") {
+                    expect(quickAnswers[1]) == QuickAnswer.interested
+                }
+                it("matches second group with the right negotiable quick answers") {
+                    expect(quickAnswers[2]) == QuickAnswer.freeStillHave
+                }
+                it("matches third group with the right meet up quick answers") {
+                    expect(quickAnswers[3]) == QuickAnswer.meetUp
+                }
+                it("matches fourth group with the right not interested quick answers") {
+                    expect(quickAnswers[4]) == QuickAnswer.notInterested
                 }
             }
         }

@@ -46,6 +46,7 @@ class ABTests {
     let core = CoreABGroup.make()
     let users = UsersABGroup.make()
 
+
     convenience init() {
         self.init(syncer: LeamplumSyncer())
     }
@@ -78,6 +79,7 @@ class ABTests {
         result.append(contentsOf: chat.boolVariables)
         result.append(contentsOf: core.boolVariables)
         result.append(contentsOf: users.boolVariables)
+
         return result
     }
 
@@ -131,6 +133,7 @@ extension ABTests {
     var showChatSafetyTips: LeanplumABVariable<Bool> { return chat.showChatSafetyTips }
     var userIsTyping: LeanplumABVariable<Int> { return chat.userIsTyping }
     var markAllConversationsAsRead: LeanplumABVariable<Bool> { return chat.markAllConversationsAsRead }
+    var chatNorris: LeanplumABVariable<Int> { return chat.chatNorris }
 }
 
 //  MARK: Money
@@ -146,6 +149,7 @@ extension ABTests {
     var feedAdsProviderForUS: LeanplumABVariable<Int> { return money.feedAdsProviderForUS }
     var copyForChatNowInEnglish: LeanplumABVariable<Int> { return money.copyForChatNowInEnglish }
     var feedAdsProviderForTR: LeanplumABVariable<Int> { return money.feedAdsProviderForTR }
+    var bumpUpBoost: LeanplumABVariable<Int> { return money.bumpUpBoost }
 }
 
 //  MARK: Retention

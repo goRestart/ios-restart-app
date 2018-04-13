@@ -10,8 +10,11 @@
 import UIKit
 import LGCoreKit
 import RxSwift
+import MapKit
 
-class ChatViewController: TextViewController {
+final class ChatViewController: TextViewController {
+
+    private var cellMapViewer: CellMapViewer = CellMapViewer()
 
     let navBarHeight: CGFloat = 64
     let inputBarHeight: CGFloat = 44
@@ -559,12 +562,21 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource  {
             return UITableViewCell()
         }
         
-        let drawer = ChatCellDrawerFactory.drawerForMessage(message)
+        let drawer = ChatCellDrawerFactory.drawerForMessage(message, meetingsEnabled: viewModel.meetingsEnabled)
         let cell = drawer.cell(tableView, atIndexPath: indexPath)
         
         drawer.draw(cell, message: message)
         UIView.performWithoutAnimation {
             cell.transform = tableView.transform
+        }
+
+        if let otherMeetingCell = cell as? ChatOtherMeetingCell {
+            otherMeetingCell.delegate = self
+            otherMeetingCell.locationDelegate = self
+            return otherMeetingCell
+        } else if let myMeetingCell = cell as? ChatMyMeetingCell {
+            myMeetingCell.locationDelegate = self
+            return myMeetingCell
         }
 
         return cell
@@ -788,5 +800,25 @@ extension ChatViewController: UITextFieldDelegate {
             }
         }
         return true
+    }
+}
+
+extension ChatViewController: OtherMeetingCellDelegate {
+    func acceptMeeting() {
+        viewModel.acceptMeeting()
+    }
+
+    func rejectMeeting() {
+        viewModel.rejectMeeting()
+    }
+}
+
+extension ChatViewController: MeetingCellImageDelegate, MKMapViewDelegate {
+    func meetingCellImageViewPressed(imageView: UIImageView, coordinates: LGLocationCoordinates2D) {
+
+        guard let topView = navigationController?.view else { return }
+        cellMapViewer.openMapOnView(mainView: topView, fromInitialView: imageView, withCenterCoordinates: coordinates)
+
+        textView.resignFirstResponder()
     }
 }
