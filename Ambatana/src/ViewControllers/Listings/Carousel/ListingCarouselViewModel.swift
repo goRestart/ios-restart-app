@@ -111,6 +111,7 @@ class ListingCarouselViewModel: BaseViewModel {
     let status = Variable<ListingViewModelStatus>(.pending)
     let isFeatured = Variable<Bool>(false)
 
+    let ownerBadge = Variable<UserReputationBadge>(.noBadge)
     let ownerIsProfessional = Variable<Bool>(false)
     let ownerPhoneNumber = Variable<String?>(nil)
     var deviceCanCall: Bool {
@@ -603,6 +604,9 @@ class ListingCarouselViewModel: BaseViewModel {
         currentVM.seller.asObservable().bind { [weak self] seller in
             self?.ownerIsProfessional.value = seller?.isProfessional ?? false
             self?.ownerPhoneNumber.value = seller?.phone
+            if let flags = self?.featureFlags, flags.showAdvancedReputationSystem.isActive {
+                self?.ownerBadge.value = seller?.reputationBadge ?? .noBadge
+            }
         }.disposed(by: activeDisposeBag)
 
         currentVM.actionButtons.asObservable().bind(to: actionButtons).disposed(by: activeDisposeBag)

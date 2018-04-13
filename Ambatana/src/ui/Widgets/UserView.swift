@@ -98,6 +98,7 @@ class UserView: UIView {
     @IBOutlet weak var ratingsContainer: UIView!
     @IBOutlet weak var ratingsContainerHeight: NSLayoutConstraint!
     @IBOutlet weak var proImageView: UIImageView!
+    @IBOutlet weak var userBadgeImageView: UIImageView!
 
     let userRatings = Variable<Float?>(nil)
 
@@ -136,23 +137,28 @@ class UserView: UIView {
     
     // MARK: - Public methods
 
-    func setupWith(userAvatar avatar: URL?, userName: String?, userId: String?, isProfessional: Bool) {
-        setupWith(userAvatar: avatar, userName: userName, subtitle: nil, userId: userId, isProfessional: isProfessional)
+    func setupWith(userAvatar avatar: URL?, userName: String?, userId: String?, isProfessional: Bool,
+                   userBadge: UserReputationBadge) {
+        setupWith(userAvatar: avatar, userName: userName, subtitle: nil, userId: userId, isProfessional: isProfessional,
+                  userBadge: userBadge)
     }
 
-    func setupWith(userAvatar avatar: URL?, userName: String?, subtitle: String?, userId: String?, isProfessional: Bool) {
+    func setupWith(userAvatar avatar: URL?, userName: String?, subtitle: String?, userId: String?, isProfessional: Bool,
+                   userBadge: UserReputationBadge) {
         let placeholder = LetgoAvatar.avatarWithID(userId, name: userName)
-        setupWith(userAvatar: avatar, placeholder: placeholder, userName: userName, subtitle: subtitle, isProfessional: isProfessional)
+        setupWith(userAvatar: avatar, placeholder: placeholder, userName: userName, subtitle: subtitle,
+                  isProfessional: isProfessional, userBadge: userBadge)
     }
     
     func setupWith(userAvatar avatar: URL?, userName: String?, productTitle: String?, productPrice: String?,
-                   userId: String?, isProfessional: Bool) {
+                   userId: String?, isProfessional: Bool, userBadge: UserReputationBadge) {
         let placeholder = LetgoAvatar.avatarWithID(userId, name: userName)
         setupWith(userAvatar: avatar, placeholder: placeholder, userName: productTitle, subtitle: productPrice,
-                  isProfessional: isProfessional)
+                  isProfessional: isProfessional, userBadge: userBadge)
     }
 
-    func setupWith(userAvatar avatar: URL?, placeholder: UIImage?, userName: String?, subtitle: String?, isProfessional: Bool) {
+    func setupWith(userAvatar avatar: URL?, placeholder: UIImage?, userName: String?, subtitle: String?, isProfessional: Bool,
+                   userBadge: UserReputationBadge) {
         if let avatar = avatar, avatar != avatarURL {
             avatarURL = avatar
             userAvatarImageView.image = placeholder
@@ -167,6 +173,7 @@ class UserView: UIView {
         titleLabel.text = userName
         subtitleLabel.text = subtitle
         proImageView.isHidden = !isProfessional
+        userBadgeImageView.isHidden = isProfessional || userBadge == .noBadge
         if style.textHasShadow {
             [titleLabel, subtitleLabel].forEach { label in
                 label?.layer.shadowColor = UIColor.black.cgColor
