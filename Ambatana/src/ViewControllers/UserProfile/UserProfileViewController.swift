@@ -587,6 +587,13 @@ extension UserProfileViewController {
             })
             .disposed(by: disposeBag)
 
+        viewModel
+            .userBadge
+            .drive(onNext: { [weak self] badge in
+                self?.headerView.userBadge = badge
+            })
+            .disposed(by: disposeBag)
+
         Driver
             .combineLatest(viewModel.userIsDummy, viewModel.userName) { ($0, $1) }
             .drive(onNext: { [weak self] (isDummy, userName) in

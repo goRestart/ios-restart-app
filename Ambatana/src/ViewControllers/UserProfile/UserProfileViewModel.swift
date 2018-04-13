@@ -62,6 +62,7 @@ final class UserProfileViewModel: BaseViewModel {
     var userScore: Driver<Int> { return user.asDriver().map { $0?.reputationPoints ?? 0} }
     var userMemberSinceText: Driver<String?> { return .just(nil) } // Not available in User Model yet
     var userAvatarPlaceholder: Driver<UIImage?> { return makeUserAvatar() }
+    var userBadge: Driver<UserHeaderViewBadge> { return makeUserBadge() }
     let userRelationIsBlocked = Variable<Bool>(false)
     let userRelationIsBlockedBy = Variable<Bool>(false)
     var userRelationText: Driver<String?> { return makeUserRelationText() }
@@ -357,6 +358,19 @@ extension UserProfileViewModel {
             return user.asDriver().map { LetgoAvatar.avatarWithColor(UIColor.defaultAvatarColor, name: $0?.name) }
         } else {
             return user.asDriver().map { LetgoAvatar.avatarWithID($0?.objectId, name: $0?.name) }
+        }
+    }
+
+    private func makeUserBadge() -> Driver<UserHeaderViewBadge> {
+        return user.asDriver().map { [weak self] user in
+            guard let strongSelf = self, let user = user else { return .noBadge }
+            if strongSelf.featureFlags.showProTagUserProfile && user.isProfessional {
+                return .pro
+            } else if strongSelf.featureFlags.showAdvancedReputationSystem.isActive {
+                return UserHeaderViewBadge(userBadge: user.reputationBadge)
+            } else {
+                return .noBadge
+            }
         }
     }
 
