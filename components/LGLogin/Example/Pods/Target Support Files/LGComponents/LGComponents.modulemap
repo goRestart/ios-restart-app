@@ -1,0 +1,6 @@
+framework module LGComponents {
+  umbrella header "LGComponents-umbrella.h"
+
+  export *
+  module * { export * }
+}
