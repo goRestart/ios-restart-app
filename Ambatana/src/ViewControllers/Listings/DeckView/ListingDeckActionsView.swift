@@ -43,7 +43,7 @@ final class ListingDeckActionView: UIView {
         if !isBumpUpVisible {
             height = 2*Layout.Height.blank + Layout.Height.actionButton
         } else {
-            height = 2*Layout.Height.blank + Layout.Height.bumpUp + Layout.Height.actionButton
+            height = 3*Layout.Height.blank + Layout.Height.bumpUp + Layout.Height.actionButton
         }
         return CGSize(width: UIViewNoIntrinsicMetric, height: height)
     }
@@ -64,7 +64,7 @@ final class ListingDeckActionView: UIView {
         actionButtonCenterY = actionButton.centerYAnchor.constraint(equalTo: centerYAnchor)
         actionButtonCenterY?.isActive = true
 
-        let bottom = -(Layout.Height.bumpUp + 2*Layout.Height.blank)
+        let bottom = -(Layout.Height.bumpUp + 3*Layout.Height.blank)
         fullViewContraints.append(contentsOf: [
             actionButton.topAnchor.constraint(equalTo: topAnchor, constant: Layout.Height.blank),
             actionButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: bottom)
