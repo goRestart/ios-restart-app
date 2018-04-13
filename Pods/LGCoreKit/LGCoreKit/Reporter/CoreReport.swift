@@ -157,6 +157,7 @@ enum CoreReportDataSource: ReportType {
         case userRating
         case userRatings
         case relaxQuery
+        case reputationActions
 
         
         var type: Any.Type {
@@ -219,6 +220,8 @@ enum CoreReportDataSource: ReportType {
                 return [LGUserRating].self
             case .relaxQuery:
                 return RelaxQuery.self
+            case .reputationActions:
+                return LGUserReputationAction.self
             }
         }
     }

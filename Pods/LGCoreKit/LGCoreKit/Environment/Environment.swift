@@ -25,4 +25,5 @@ protocol Environment {
     var searchCarsBaseURL: String { get }
     var niordBaseURL: String { get }
     var spellCorrectorBaseURL: String { get }
+    var meetingsBaseURL: String { get }
 }

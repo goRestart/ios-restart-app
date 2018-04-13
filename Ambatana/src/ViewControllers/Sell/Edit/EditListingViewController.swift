@@ -205,6 +205,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         alert.popoverPresentationController?.sourceRect = categoryButton.frame
 
         viewModel.categories.enumerated().forEach { (index, category) in
+            guard category.isCategoryEditable else { return }
             alert.addAction(UIAlertAction(title: viewModel.categoryNameAtIndex(index), style: .default,
                                           handler: { (categoryAction) -> Void in
                                             self.viewModel.selectCategoryAtIndex(index)

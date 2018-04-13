@@ -5,6 +5,8 @@ open class MockMyUserRepository: MyUserRepository {
     public var result: MyUserResult!
     public var myUserVar = Variable<MyUser?>(nil)
 
+    public var resultActions: MyUserReputationActionsResult!
+
     
     // MARK: - Lifecycle
 
@@ -58,5 +60,9 @@ open class MockMyUserRepository: MyUserRepository {
 
     public func refresh(_ completion: MyUserCompletion?) {
         delay(result: result, completion: completion)
+    }
+
+    public func retrieveUserReputationActions(_ completion: MyUserReputationActionsCompletion?) {
+        delay(result: resultActions, completion: completion)
     }
 }
