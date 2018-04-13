@@ -175,8 +175,8 @@ extension ProfileTabCoordinator: UserPhoneVerificationNavigator {
         navigationController.pushViewController(vc, animated: true)
     }
 
-    func openCodeInput() {
-        let vm = UserPhoneVerificationCodeInputViewModel()
+    func openCodeInput(sentTo phoneNumber: String) {
+        let vm = UserPhoneVerificationCodeInputViewModel(phoneNumber: phoneNumber)
         vm.navigator = self
         let vc = UserPhoneVerificationCodeInputViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)

@@ -12,7 +12,10 @@ final class UserPhoneVerificationCodeInputViewModel: BaseViewModel {
 
     weak var navigator: UserPhoneVerificationNavigator?
 
-    init(fake: String? = "") {
+    let phoneNumber: String
+
+    init(phoneNumber: String) {
+        self.phoneNumber = phoneNumber
         super.init()
     }
 }

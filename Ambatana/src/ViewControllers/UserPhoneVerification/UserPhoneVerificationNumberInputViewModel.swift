@@ -101,8 +101,9 @@ final class UserPhoneVerificationNumberInputViewModel: BaseViewModel {
         navigator?.openCountrySelector()
     }
 
-    func didTapContinueButton() {
-        navigator?.openCodeInput()
+    func didTapContinueButton(with phoneNumber: String) {
+        let fullNumber = "+\(country.value?.callingCode) \(phoneNumber)"
+        navigator?.openCodeInput(sentTo: fullNumber)
     }
 }
 
