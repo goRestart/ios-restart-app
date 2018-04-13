@@ -1101,12 +1101,12 @@
 		8ED3C523204811E90078BE39 /* LGAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED3C522204811E90078BE39 /* LGAnimation.swift */; };
 		8ED3C524204811E90078BE39 /* LGAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED3C522204811E90078BE39 /* LGAnimation.swift */; };
 		8EEC7F56206AA60B00616858 /* MoPubNativeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC7F54206AA60800616858 /* MoPubNativeView.swift */; };
-		8EEC7F57206AA60B00616858 /* MoPubBlankStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC7F55206AA60900616858 /* MoPubBlankStateView.swift */; };
+		8EEC7F57206AA60B00616858 /* NativeAdBlankStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC7F55206AA60900616858 /* NativeAdBlankStateView.swift */; };
 		8EEC7F5A206AA62800616858 /* AdvertisementMoPubCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC7F58206AA62600616858 /* AdvertisementMoPubCellDrawer.swift */; };
 		8EEC7F5B206AA62800616858 /* AdvertisementMoPubCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC7F58206AA62600616858 /* AdvertisementMoPubCellDrawer.swift */; };
 		8EEC7F5C206AA62800616858 /* AdvertisementDFPCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC7F59206AA62700616858 /* AdvertisementDFPCellDrawer.swift */; };
 		8EEC7F5D206AA62800616858 /* AdvertisementDFPCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC7F59206AA62700616858 /* AdvertisementDFPCellDrawer.swift */; };
-		8EEC7F5E206AA62D00616858 /* MoPubBlankStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC7F55206AA60900616858 /* MoPubBlankStateView.swift */; };
+		8EEC7F5E206AA62D00616858 /* NativeAdBlankStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC7F55206AA60900616858 /* NativeAdBlankStateView.swift */; };
 		8EEC7F5F206AA63000616858 /* MoPubNativeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC7F54206AA60800616858 /* MoPubNativeView.swift */; };
 		8EEC7F61206AA64000616858 /* MoPubAdsRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC7F60206AA64000616858 /* MoPubAdsRequester.swift */; };
 		8EEC7F62206AA64000616858 /* MoPubAdsRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC7F60206AA64000616858 /* MoPubAdsRequester.swift */; };
@@ -2464,7 +2464,7 @@
 		8EC2051D1EAE52F000E4E5EC /* UIView+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+LG.swift"; sourceTree = "<group>"; };
 		8ED3C522204811E90078BE39 /* LGAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGAnimation.swift; sourceTree = "<group>"; };
 		8EEC7F54206AA60800616858 /* MoPubNativeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoPubNativeView.swift; sourceTree = "<group>"; };
-		8EEC7F55206AA60900616858 /* MoPubBlankStateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoPubBlankStateView.swift; sourceTree = "<group>"; };
+		8EEC7F55206AA60900616858 /* NativeAdBlankStateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NativeAdBlankStateView.swift; sourceTree = "<group>"; };
 		8EEC7F58206AA62600616858 /* AdvertisementMoPubCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdvertisementMoPubCellDrawer.swift; sourceTree = "<group>"; };
 		8EEC7F59206AA62700616858 /* AdvertisementDFPCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdvertisementDFPCellDrawer.swift; sourceTree = "<group>"; };
 		8EEC7F60206AA64000616858 /* MoPubAdsRequester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MoPubAdsRequester.swift; path = Ads/MoPubAdsRequester.swift; sourceTree = "<group>"; };
@@ -4730,7 +4730,7 @@
 			isa = PBXGroup;
 			children = (
 				8E00B71F207E257100485A6B /* GoogleAdxNativeView.xib */,
-				8EEC7F55206AA60900616858 /* MoPubBlankStateView.swift */,
+				8EEC7F55206AA60900616858 /* NativeAdBlankStateView.swift */,
 				8EEC7F54206AA60800616858 /* MoPubNativeView.swift */,
 				8E28A829207B85C70070A7A6 /* GoogleAdxNativeView.swift */,
 				3221E5462062C1690006B12B /* ListingCell */,
@@ -6532,7 +6532,7 @@
 				8EF1CDB22010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift in Sources */,
 				50E557BE1E421CF500327B6A /* LoginNavigator.swift in Sources */,
 				018B82F21FFE3B2D00687233 /* MostSearchedItemsListViewModel.swift in Sources */,
-				8EEC7F57206AA60B00616858 /* MoPubBlankStateView.swift in Sources */,
+				8EEC7F57206AA60B00616858 /* NativeAdBlankStateView.swift in Sources */,
 				C74931731D351E8300E117F1 /* RateUserViewModel.swift in Sources */,
 				C783D9891C64C15B000EE5CA /* ReportUserCell.swift in Sources */,
 				50C9E4BD1B721F6B001E4E92 /* TrackerProxy.swift in Sources */,
@@ -7222,7 +7222,7 @@
 				8EF1CDB32010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift in Sources */,
 				C7DB41AA1C5138B500400945 /* MainListingsViewModel.swift in Sources */,
 				018B82F41FFE3B6A00687233 /* MostSearchedItemsListViewModel.swift in Sources */,
-				8EEC7F5E206AA62D00616858 /* MoPubBlankStateView.swift in Sources */,
+				8EEC7F5E206AA62D00616858 /* NativeAdBlankStateView.swift in Sources */,
 				50E557BF1E421CF500327B6A /* LoginNavigator.swift in Sources */,
 				6A5E1A051D548F5400F92692 /* TypeAliases.swift in Sources */,
 				C727FBBF1CCFC4ED002BC643 /* NotificationsViewController.swift in Sources */,

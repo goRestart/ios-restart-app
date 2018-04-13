@@ -1,5 +1,5 @@
 //
-//  MoPubBlankStateView.swift
+//  NativeAdBlankStateView.swift
 //  LetGo
 //
 //  Created by Kiko Gómez on 22/3/18.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class MoPubBlankStateView: UIView {
+final class NativeAdBlankStateView: UIView {
     
     static let adsLightGrey = UIColor(rgb: 0xd5d3d3)
     private let adTextLabel = UILabel()
@@ -24,7 +24,7 @@ final class MoPubBlankStateView: UIView {
 
     private func setupUI() {
         cornerRadius = LGUIKitConstants.smallCornerRadius
-        backgroundColor = MoPubBlankStateView.adsLightGrey
+        backgroundColor = NativeAdBlankStateView.adsLightGrey
         addSubviewsForAutoLayout([adTextLabel])
 
         adTextLabel.text = LGLocalizedString.mopubAdvertisingText

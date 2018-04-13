@@ -935,7 +935,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                                                     categories: filters.selectedCategories,
                                                     nativeAdRequest: nativeAdRequest,
                                                     moPubNativeAd: nil,
-                                                    moPubView: MoPubBlankStateView())
+                                                    moPubView: NativeAdBlankStateView())
                 adsCellModel = ListingCellModel.mopubAdvertisement(data: adData)
                 
             } else if featureFlags.feedAdsProviderForUS.shouldShowGoogleAdxAds {
@@ -951,7 +951,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                                                   adRequested: false,
                                                   categories: filters.selectedCategories,
                                                   adLoader: adLoader,
-                                                  adxNativeView: MoPubBlankStateView())
+                                                  adxNativeView: NativeAdBlankStateView())
                 adsCellModel = ListingCellModel.adxAdvertisement(data: adData)
                 
             } else {
