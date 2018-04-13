@@ -8,6 +8,12 @@
 
 import LGCoreKit
 
+enum UserReputationBadge: String {
+    case noBadge = ""
+    case silver = "silver"
+    case gold = "gold"
+}
+
 extension User {
     var facebookAccount: Account? {
         return accountWithProvider(.facebook)
@@ -23,6 +29,9 @@ extension User {
     }
     var isVerified: Bool {
         return accounts.filter { $0.verified }.count > 0
+    }
+    var reputationBadge: UserReputationBadge {
+        return reputationPoints >= Constants.Reputation.minScore ? .silver : .noBadge
     }
 }
 

@@ -34,6 +34,7 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
     var hasInitialText: Bool { return textView.isInitialText }
 
     weak var quickChatViewModel: QuickChatViewModel?
+    private var featureFlags: FeatureFlaggeable
 
     let textView = ChatTextView()
     private var textViewBottom: NSLayoutConstraint?
@@ -45,8 +46,13 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
 
     private var alphaAnimationHideTimer: Timer?
 
-    init(chatViewModel: QuickChatViewModel) {
+    convenience init(chatViewModel: QuickChatViewModel) {
+        self.init(chatViewModel: chatViewModel, featureFlags: FeatureFlags.sharedInstance)
+    }
+
+    init(chatViewModel: QuickChatViewModel, featureFlags: FeatureFlaggeable) {
         self.quickChatViewModel = chatViewModel
+        self.featureFlags = featureFlags
         super.init(frame: .zero)
         setupUI()
 
@@ -246,7 +252,10 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
         let messages = quickChatViewModel?.directChatMessages.value ?? []
         guard 0..<messages.count ~= indexPath.row else { return UITableViewCell() }
         let message = messages[indexPath.row]
-        let drawer = ChatCellDrawerFactory.drawerForMessage(message, autoHide: true, disclosure: true)
+        let drawer = ChatCellDrawerFactory.drawerForMessage(message,
+                                                            autoHide: true,
+                                                            disclosure: true,
+                                                            meetingsEnabled: featureFlags.chatNorris.isActive)
         let cell = drawer.cell(tableView, atIndexPath: indexPath)
 
         drawer.draw(cell, message: message)

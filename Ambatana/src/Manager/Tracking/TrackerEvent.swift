@@ -380,14 +380,19 @@ struct TrackerEvent {
     }
 
 
-    static func listingDetailVisit(_ listing: Listing, visitUserAction: ListingVisitUserAction, source: EventParameterListingVisitSource, feedPosition: EventParameterFeedPosition,
-                                   isBumpedUp: EventParameterBoolean) -> TrackerEvent {
+    static func listingDetailVisit(_ listing: Listing,
+                                   visitUserAction: ListingVisitUserAction,
+                                   source: EventParameterListingVisitSource,
+                                   feedPosition: EventParameterFeedPosition,
+                                   isBumpedUp: EventParameterBoolean,
+                                   sellerBadge: EventParameterUserBadge) -> TrackerEvent {
         var params = EventParameters()
         params.addListingParams(listing)
         params[.userAction] = visitUserAction.rawValue
         params[.listingVisitSource] = source.rawValue
         params[.feedPosition] = feedPosition.value
         params[.isBumpedUp] = isBumpedUp.rawValue
+        params[.sellerReputationBadge] = sellerBadge.rawValue
         return TrackerEvent(name: .listingDetailVisit, params: params)
     }
 
@@ -871,10 +876,12 @@ struct TrackerEvent {
 
     static func firstMessage(info: SendMessageTrackingInfo,
                              listingVisitSource: EventParameterListingVisitSource,
-                             feedPosition: EventParameterFeedPosition) -> TrackerEvent {
+                             feedPosition: EventParameterFeedPosition,
+                             userBadge: EventParameterUserBadge) -> TrackerEvent {
         var params = info.params
         params[.listingVisitSource] = listingVisitSource.rawValue
         params[.feedPosition] = feedPosition.value
+        params[.sellerReputationBadge] = userBadge.rawValue
         return TrackerEvent(name: .firstMessage, params: params)
     }
 
@@ -906,6 +913,7 @@ struct TrackerEvent {
             params[.userToId] = user.objectId
             params[.tab] = tab.rawValue
             params[.profileType] = profileType.rawValue
+            params[.sellerReputationBadge] = EventParameterUserBadge(userBadge: user.reputationBadge).rawValue
             return TrackerEvent(name: .profileVisit, params: params)
     }
 
@@ -1250,18 +1258,23 @@ struct TrackerEvent {
         return TrackerEvent(name: .marketingPushNotifications, params: params)
     }
 
-    static func bumpBannerShow(type: EventParameterBumpUpType, listingId: String?, storeProductId: String?) -> TrackerEvent {
+    static func bumpBannerShow(type: EventParameterBumpUpType,
+                               listingId: String?,
+                               storeProductId: String?,
+                               isBoost: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
         params[.bumpUpType] = type.rawValue
         params[.listingId] = listingId ?? ""
         params[.storeProductId] = storeProductId ?? TrackerEvent.notApply
+        params[.boost] = isBoost.rawValue
         return TrackerEvent(name: .bumpBannerShow, params: params)
     }
 
     static func bumpBannerInfoShown(type: EventParameterBumpUpType,
                                     listingId: String?,
                                     storeProductId: String?,
-                                    typePage: EventParameterTypePage?) -> TrackerEvent {
+                                    typePage: EventParameterTypePage?,
+                                    isBoost: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
         params[.bumpUpType] = type.rawValue
         params[.listingId] = listingId ?? ""
@@ -1269,6 +1282,7 @@ struct TrackerEvent {
         if let typePage = typePage {
             params[.typePage] = typePage.rawValue
         }
+        params[.boost] = isBoost.rawValue
         return TrackerEvent(name: .bumpInfoShown, params: params)
     }
 
@@ -1276,7 +1290,8 @@ struct TrackerEvent {
                                    type: EventParameterBumpUpType,
                                    storeProductId: String?,
                                    isPromotedBump: EventParameterBoolean,
-                                   typePage: EventParameterTypePage?) -> TrackerEvent {
+                                   typePage: EventParameterTypePage?,
+                                   isBoost: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
         params.addListingParams(listing)
 
@@ -1287,6 +1302,7 @@ struct TrackerEvent {
         if let typePage = typePage {
             params[.typePage] = typePage.rawValue
         }
+        params[.boost] = isBoost.rawValue
         return TrackerEvent(name: .bumpUpStart, params: params)
     }
 
@@ -1297,7 +1313,8 @@ struct TrackerEvent {
                                       transactionStatus: EventParameterTransactionStatus?,
                                       storeProductId: String?,
                                       isPromotedBump: EventParameterBoolean,
-                                      typePage: EventParameterTypePage?) -> TrackerEvent {
+                                      typePage: EventParameterTypePage?,
+                                      isBoost: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
         params.addListingParams(listing)
         params[.bumpUpPrice] = price.description
@@ -1310,6 +1327,7 @@ struct TrackerEvent {
         if let typePage = typePage {
             params[.typePage] = typePage.rawValue
         }
+        params[.boost] = isBoost.rawValue
         return TrackerEvent(name: .bumpUpComplete, params: params)
     }
 
@@ -1317,7 +1335,8 @@ struct TrackerEvent {
                                   listingId: String?,
                                   transactionStatus: EventParameterTransactionStatus?,
                                   storeProductId: String?,
-                                  typePage: EventParameterTypePage?) -> TrackerEvent {
+                                  typePage: EventParameterTypePage?,
+                                  isBoost: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
         params[.bumpUpType] = type.rawValue
         params[.listingId] = listingId ?? ""
@@ -1326,6 +1345,7 @@ struct TrackerEvent {
         if let typePage = typePage {
             params[.typePage] = typePage.rawValue
         }
+        params[.boost] = isBoost.rawValue
         return TrackerEvent(name: .bumpUpFail, params: params)
     }
 
@@ -1463,8 +1483,14 @@ struct TrackerEvent {
         return TrackerEvent(name: .tutorialDialogAbandon, params: params)
     }
 
-    // MARK: - Private methods
+    static func assistantMeetingStartFor(listingId: String?) -> TrackerEvent {
+        var params = EventParameters()
+        params[.listingId] = listingId ?? TrackerEvent.notApply
+        return TrackerEvent(name: .assistantMeetingStart, params: params)
+    }
 
+
+    // MARK: - Private methods
 
     private static func eventParameterSortByTypeForSorting(_ sorting: ListingSortCriteria?) -> EventParameterSortBy? {
         guard let sorting = sorting else { return nil }
