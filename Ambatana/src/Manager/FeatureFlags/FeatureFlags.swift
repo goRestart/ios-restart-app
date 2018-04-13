@@ -73,6 +73,7 @@ protocol FeatureFlaggeable: class {
     var summaryAsFirstStep: SummaryAsFirstStep { get }
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem { get }
     var searchCarsIntoNewBackend: SearchCarsIntoNewBackend { get }
+    var showExactLocationForPros: Bool { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -733,7 +734,12 @@ class FeatureFlags: FeatureFlaggeable {
         return SearchCarsIntoNewBackend.fromPosition(abTests.searchCarsIntoNewBackend.value)
     }
     
-    
+    var showExactLocationForPros: Bool {
+        if Bumper.enabled {
+            return Bumper.showExactLocationForPros
+        }
+        return abTests.showExactLocationForPros.value
+    }
 
     // MARK: - Country features
 
