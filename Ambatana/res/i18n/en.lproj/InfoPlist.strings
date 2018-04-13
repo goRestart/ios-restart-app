@@ -6,9 +6,9 @@
 // Should have the same style as sell_shortcut_title
 "start_browsing_shortcut_title" = "Start Browsing";
 
-"NSCameraUsageDescription" = "letgo needs access to your camera so you can post listings.";
+"NSCameraUsageDescription" = "Your camera will be used to take pictures of what you want to sell.";
 
-"NSPhotoLibraryUsageDescription" = "letgo needs access to your photo library so you can post listings.";
+"NSPhotoLibraryUsageDescription" = "Your image library will be used so you can select pictures of what you want to sell from all the images in your camera roll.";
 
-"NSPhotoLibraryAddUsageDescription" = "letgo needs access to your photo library so you can post listings.";
+"NSPhotoLibraryAddUsageDescription" = "Your image library will be used so you can select pictures of what you want to sell from all the images in your camera roll.";
 
