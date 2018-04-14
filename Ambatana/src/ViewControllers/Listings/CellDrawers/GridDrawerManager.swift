@@ -28,6 +28,8 @@ class GridDrawerManager {
     private let mostSearchedItemsDrawer = MostSearchedItemsCellDrawer()
     private let showFeaturedStripeHelper = ShowFeaturedStripeHelper(featureFlags: FeatureFlags.sharedInstance,
                                                                     myUserRepository: Core.myUserRepository)
+    private let promoDrawer = PromoCellDrawer()
+    
     private let myUserRepository: MyUserRepository
     private let locationManager: LocationManager
     
@@ -44,6 +46,7 @@ class GridDrawerManager {
         AdvertisementMoPubCellDrawer.registerClassCell(collectionView)
         AdvertisementAdxCellDrawer.registerClassCell(collectionView)
         MostSearchedItemsCellDrawer.registerClassCell(collectionView)
+        PromoCellDrawer.registerClassCell(collectionView)
     }
     
     func cell(_ model: ListingCellModel, collectionView: UICollectionView, atIndexPath: IndexPath) -> UICollectionViewCell {
@@ -62,6 +65,8 @@ class GridDrawerManager {
             return advertisementAdxDrawer.cell(collectionView, atIndexPath: atIndexPath)
         case .mostSearchedItems:
             return mostSearchedItemsDrawer.cell(collectionView, atIndexPath: atIndexPath)
+        case .promo:
+            return promoDrawer.cell(collectionView, atIndexPath: atIndexPath)
         }
     }
 
@@ -145,6 +150,10 @@ class GridDrawerManager {
         case .mostSearchedItems(let data):
             guard let cell = cell as? MostSearchedItemsListingListCell else { return }
             return mostSearchedItemsDrawer.draw(data, style: cellStyle, inCell: cell)
+        case .promo(let data, let delegate):
+            guard let cell = cell as? PromoCell else { return }
+            cell.delegate = delegate
+            return promoDrawer.draw(data, style: cellStyle, inCell: cell)
         default:
             assert(false, "⛔️ You shouldn't be here")
         }

@@ -186,6 +186,16 @@ class LGMyUserRepository: InternalMyUserRepository {
             handleApiResult(result, success: self?.save, completion: completion)
         }
     }
+
+    func retrieveUserReputationActions(_ completion: MyUserReputationActionsCompletion?) {
+        guard let myUserId = myUser?.objectId else {
+            completion?(MyUserReputationActionsResult(error: .internalError(message: "Missing MyUser objectId")))
+            return
+        }
+        dataSource.retrieveUserReputationActions(myUserId) { result in
+            handleApiResult(result, success: nil, completion: completion)
+        }
+    }
     
     /**
      Updates the user if the locale changed.

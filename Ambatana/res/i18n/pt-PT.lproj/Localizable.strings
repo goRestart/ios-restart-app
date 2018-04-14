@@ -19,7 +19,7 @@
 "bump_up_banner_pay_text" = "Venda mais rápido";
 "bump_up_banner_pay_text_improvement" = "Vender mais rápido agora";
 "bump_up_banner_wait_text" = "para destacar de novo";
-"bump_up_boost_success_alert_text" = "O seu anúncio foi impulsionado de novo! Estará destacado durante as próximas 24 horas.";
+"bump_up_boost_success_alert_text" = "O seu anúncio foi impulsionado! Estará destacado durante as próximas 24 horas.";
 "bump_up_error_bump_generic" = "Surgiu um erro ao destacar a sua publicação. Tente de novo.";
 "bump_up_error_bump_token" = "O seu pagamento foi processado mas a sua publicação ainda não foi destacada.";
 "bump_up_error_payment_failed" = "Impossível conectar com a App Store. O seu pagamento não foi processado. Tente novamente.";
@@ -195,6 +195,7 @@
 "chat_message_disclaimer_scammer_base_blocked" = "Seja extremamente cuidadoso ao trocar contactos de telefone/email. Os utilizadores fraudulentos pedem com frequência para abandonar o chat do letgo. %@";
 "chat_message_field_hint" = "Escreva a sua mensagem aqui";
 "chat_message_load_generic_error" = "Ocorreu um erro ao recuperar os dados da conversação. Por favor tente novamente.";
+"chat_message_type_not_supported" = "Esta mensagem não é compatível com a versão da sua app. Atualize agora a sua app para desbloquear os mais recentes recursos!";
 "chat_not_verified_alert_message" = "Entre com o Facebook, Google ou Email para verificar a sua identidade.";
 "chat_not_verified_state_check_button" = "Verifique";
 "chat_not_verified_state_message" = "Confirme se está verificado para poder começar a conversar.";
@@ -357,6 +358,11 @@
 "filter_results_cars_other_results" = "Publicado recentemente na sua área";
 "filters_car_make_not_set" = "Não Definida";
 "filters_car_model_not_set" = "Não Definido";
+"filters_car_seller_type_all" = "All";
+"filters_car_seller_type_dealership" = "Dealership";
+"filters_car_seller_type_invidual" = "Individual";
+"filters_car_seller_type_private" = "Private";
+"filters_car_seller_type_professional" = "Professional";
 "filters_car_year_any_year" = "Qualquer Ano";
 "filters_car_year_before_year" = "Anterior a %i";
 "filters_distance_not_set" = "não definido";
@@ -462,7 +468,7 @@
 "meeting_creation_view_send_button" = "Enviar encontro";
 "meeting_creation_view_suggest_cell_select" = "Selecionar";
 "meeting_creation_view_suggest_cell_selected" = "Selecionado";
-"meeting_creation_view_title" = "Agendar um encontro";
+"meeting_creation_view_title" = "Agende um encontro";
 "ml_camera_in_about_days_text" = "em cerca de %.f dias";
 "ml_camera_in_more_than_days_text" = "em mais de %.f dias";
 "ml_camera_sells_for_text" = "Por norma vende-se por %d €";
@@ -810,6 +816,9 @@
 "profile_sold_no_products_label" = "SEM PUBLICAÇÕES (AINDA!)";
 "profile_sold_other_no_products_button" = "Continue a navegar";
 "profile_sold_products_tab" = "Vendido";
+"profile_verifications_email_placeholder" = "Email";
+"profile_verifications_email_view_title" = "Verifique o seu email";
+"profile_verifications_send_button" = "Enviar";
 "profile_verifications_view_add_info_section_title" = "ADICIONAR A SUA";
 "profile_verifications_view_bio_title" = "Bio";
 "profile_verifications_view_email_title" = "Email";

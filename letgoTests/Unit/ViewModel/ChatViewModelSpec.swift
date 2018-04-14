@@ -39,7 +39,6 @@ class ChatViewModelSpec: BaseViewModelSpec {
         var source: EventParameterTypePage!
         var pushPermissionManager: MockPushPermissionsManager!
         var ratingManager: MockRatingManager!
-
         
         
         // Vars to modify on tests:
@@ -134,7 +133,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                 source = .chat
                 pushPermissionManager = MockPushPermissionsManager()
                 ratingManager = MockRatingManager()
-                
+
                 scheduler = TestScheduler(initialClock: 0)
                 scheduler.start()
                 messages = scheduler.createObserver(Array<ChatViewMessage>.self)
@@ -769,8 +768,6 @@ extension ChatViewModelSpec: ChatViewModelDelegate {
     
     func vmDidRequestShowPrePermissions(_ type: PrePermissionType) {}
     func vmDidNotifyMessage(_ message: String, completion: (() -> ())?) {}
-    
-    func vmDidPressDirectAnswer(quickAnswer: QuickAnswer) {}
 
     func vmAskPhoneNumber() {}
 }

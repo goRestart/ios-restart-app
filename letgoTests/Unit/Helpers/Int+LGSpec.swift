@@ -41,6 +41,32 @@ class IntLGSpec: QuickSpec {
                     }
                 }
             }
+            context("secondsToPrettyCountdownFormat -> 00h 00m 00s") {
+                context("positive num of seconds") {
+                    beforeEach {
+                        countDownString = 90.secondsToPrettyCountdownFormat()
+                    }
+                    it ("result should equal 00h 01m 30s") {
+                        expect(countDownString) == "00h 01m 30s"
+                    }
+                }
+                context("0 seconds") {
+                    beforeEach {
+                        countDownString = 0.secondsToPrettyCountdownFormat()
+                    }
+                    it ("result should equal 00h 00m 00s") {
+                        expect(countDownString) == "00h 00m 00s"
+                    }
+                }
+                context("negative num of seconds") {
+                    beforeEach {
+                        countDownString = (-900).secondsToPrettyCountdownFormat()
+                    }
+                    it ("result should be nil") {
+                        expect(countDownString).to(beNil())
+                    }
+                }
+            }
         }
     }
 }

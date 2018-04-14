@@ -19,6 +19,7 @@ enum ListingCellModel {
     case mopubAdvertisement(data: AdvertisementMoPubData)
     case adxAdvertisement(data: AdvertisementAdxData)
     case mostSearchedItems(data: MostSearchedItemsCardData)
+    case promo(data: PromoCellData, delegate: ListingCellDelegate?)
     
     init(listing: Listing) {
         self = ListingCellModel.listingCell(listing: listing)
@@ -43,6 +44,10 @@ enum ListingCellModel {
     
     init(mostSearchedItemsData: MostSearchedItemsCardData) {
         self = ListingCellModel.mostSearchedItems(data: mostSearchedItemsData)
+    }
+    
+    init(promoData: PromoCellData, delegate: ListingCellDelegate?) {
+        self = ListingCellModel.promo(data: promoData, delegate: delegate)
     }
 }
 
@@ -145,4 +150,11 @@ struct MostSearchedItemsCardData {
     let icon: UIImage? = UIImage(named: "trending_icon")
     let title: String = LGLocalizedString.trendingItemsCardTitle
     let actionTitle: String = LGLocalizedString.trendingItemsCardAction
+}
+
+struct PromoCellData {
+    var appereance: CellAppereance
+    var arrangement: PromoCellArrangement
+    var title: String
+    var image: UIImage
 }

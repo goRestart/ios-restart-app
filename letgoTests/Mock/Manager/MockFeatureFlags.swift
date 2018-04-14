@@ -11,6 +11,7 @@ import Foundation
 import RxSwift
 
 class MockFeatureFlags: FeatureFlaggeable {
+    
     var trackingData: Observable<[(String, ABGroup)]?> {
         return trackingDataVar.asObservable()
     }
@@ -26,7 +27,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var newCarsMultiRequesterEnabled: Bool = false
     var inAppRatingIOS10: Bool = false
     var userReviewsReportEnabled: Bool = true
-    var dynamicQuickAnswers: DynamicQuickAnswers = .control
     var deckItemPage: DeckItemPage = .control
     var searchAutocomplete: SearchAutocomplete = .control
     var realEstateEnabled: RealEstateEnabled = .control
@@ -52,16 +52,20 @@ class MockFeatureFlags: FeatureFlaggeable {
     var discardedProducts: DiscardedProducts = .control
     var promoteBumpInEdit: PromoteBumpInEdit = .control
     var userIsTyping: UserIsTyping = .control
+    var bumpUpBoost: BumpUpBoost = .control
     var servicesCategoryEnabled: ServicesCategoryEnabled = .control
     var increaseNumberOfPictures: IncreaseNumberOfPictures = .control
     var onboardingIncentivizePosting: OnboardingIncentivizePosting = .control
     var machineLearningMVP: MachineLearningMVP = .control
+    var chatNorris: ChatNorris = .control
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings = .control
     var showProTagUserProfile: Bool = false
     var markAllConversationsAsRead: Bool = false
     var realEstateTutorial: RealEstateTutorial = .control
+    var realEstatePromoCell: RealEstatePromoCell = .control
     var summaryAsFirstStep: SummaryAsFirstStep = .control
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem = .control
+    var searchCarsIntoNewBackend: SearchCarsIntoNewBackend = .control
 
     // Country dependant features
     var freePostingModeAllowed = false

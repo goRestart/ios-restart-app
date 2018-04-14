@@ -75,17 +75,34 @@ public struct CarAttributes: Equatable, Decodable {
     // MARK: Decodable
     
     public init(from decoder: Decoder) throws {
-        let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
-        makeId = try keyedContainer.decodeIfPresent(String.self, forKey: .makeId)
+        let keyedContainerProductsApi = try decoder.container(keyedBy: CodingKeysProductsApi.self)
+        let keyedContainerCarsApi = try decoder.container(keyedBy: CodingKeysCarsApi.self)
+        
+        if let makeIdValue = try keyedContainerProductsApi.decodeIfPresent(String.self, forKey: .make) {
+            makeId = makeIdValue
+        } else {
+            makeId = try keyedContainerCarsApi.decodeIfPresent(String.self, forKey: .makeId)
+        }
         make = nil
-        modelId = try keyedContainer.decodeIfPresent(String.self, forKey: .modelId)
+        if let modelIdValue = try keyedContainerProductsApi.decodeIfPresent(String.self, forKey: .model) {
+            modelId = modelIdValue
+        } else {
+            modelId = try keyedContainerCarsApi.decodeIfPresent(String.self, forKey: .modelId)
+        }
         model = nil
-        year = try keyedContainer.decodeIfPresent(Int.self, forKey: .year)
+        year = try keyedContainerCarsApi.decodeIfPresent(Int.self, forKey: .year)
     }
     
-    enum CodingKeys: String, CodingKey {
-        case makeId = "make"
-        case modelId = "model"
+    
+    
+    enum CodingKeysProductsApi: String, CodingKey {
+        case make = "make"
+        case model = "model"
+        case year = "year"
+    }
+    enum CodingKeysCarsApi: String, CodingKey {
+        case makeId = "makeId"
+        case modelId = "modelId"
         case year = "year"
     }
 }

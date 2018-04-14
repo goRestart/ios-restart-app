@@ -24,6 +24,7 @@ public protocol User: BaseModel {
     var phone: String? { get }
     var type: UserType { get }
     var biography: String? { get }
+    var reputationPoints: Int { get }
 }
 
 public protocol MyUser: User {
@@ -68,6 +69,7 @@ struct LGMyUser: MyUser, Decodable {
     var localeIdentifier: String?
     var creationDate: Date?
     var biography: String?
+    var reputationPoints: Int
 
     init(objectId: String?,
          name: String?,
@@ -82,7 +84,8 @@ struct LGMyUser: MyUser, Decodable {
          location: LGLocation?,
          localeIdentifier: String?,
          creationDate: Date?,
-         biography: String?) {
+         biography: String?,
+         reputationPoints: Int) {
         self.objectId = objectId
         self.name = name
         self.avatar = avatar
@@ -98,6 +101,7 @@ struct LGMyUser: MyUser, Decodable {
         self.localeIdentifier = localeIdentifier
         self.creationDate = creationDate
         self.biography = biography
+        self.reputationPoints = reputationPoints
     }
 
 
@@ -177,6 +181,7 @@ struct LGMyUser: MyUser, Decodable {
         let userCreationDateString = try keyedContainer.decodeIfPresent(String.self, forKey: .creationDate)
         self.creationDate = Date.userCreationDateFrom(string: userCreationDateString)
         self.biography = try keyedContainer.decodeIfPresent(String.self, forKey: .biography)
+        self.reputationPoints = try keyedContainer.decodeIfPresent(Int.self, forKey: .reputationPoints) ?? 0
     }
     
     // TODO: some keys are only being used in repository, we may want to re-think this
@@ -204,5 +209,6 @@ struct LGMyUser: MyUser, Decodable {
         case type
         case creationDate = "created_at"
         case biography
+        case reputationPoints = "reputation_points"
     }
 }

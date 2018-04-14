@@ -117,7 +117,7 @@ class ListingCarouselViewModel: BaseViewModel {
         return PhoneCallsHelper.deviceCanCall
     }
 
-    let quickAnswers = Variable<[[QuickAnswer]]>([[]])
+    let quickAnswers = Variable<[QuickAnswer]>([])
     let quickAnswersAvailable = Variable<Bool>(false)
 
     let directChatEnabled = Variable<Bool>(false)
@@ -203,6 +203,10 @@ class ListingCarouselViewModel: BaseViewModel {
     var adRequestQuery: String? = nil
     var adBannerTrackingStatus: AdBannerTrackingStatus? = nil
     let sideMargin: CGFloat = DeviceFamily.current.isWiderOrEqualThan(.iPhone6) ? Metrics.margin : 0
+
+    var meetingsEnabled: Bool {
+        return featureFlags.chatNorris.isActive
+    }
 
     // MARK: - Init
 
@@ -423,9 +427,12 @@ class ListingCarouselViewModel: BaseViewModel {
                                                 typePage: typePage)
     }
 
-    func moveQuickAnswerToTheEnd(_ index: Int) {
-        guard index >= 0 else { return }
-        quickAnswers.value.move(fromIndex: index, toIndex: quickAnswers.value.count-1)
+    func bumpUpBannerBoostTimerReachedZero() {
+        currentListingViewModel?.refreshBumpeableBanner()
+    }
+
+    func bumpUpBoostSucceeded() {
+        currentListingViewModel?.bumpUpBoostSucceeded()
     }
 
     func didReceiveAd(bannerTopPosition: CGFloat, bannerBottomPosition: CGFloat, screenHeight: CGFloat) {
@@ -804,21 +811,12 @@ extension ListingCarouselViewModel: ListingViewModelDelegate {
 
 extension CarouselMovement {
 
-    func visitSource(_ originSource: EventParameterListingVisitSource) -> EventParameterListingVisitSource {
-        let sourceIsRelatedListing = originSource == .relatedListings
-        let sourceIsFavourite = originSource == .favourite
-        guard sourceIsRelatedListing || sourceIsFavourite  else {
-            return originSource
-        }
+    func visitSource(_ origin: EventParameterListingVisitSource) -> EventParameterListingVisitSource {
         switch self {
-        case .tap:
-            return sourceIsFavourite ? .nextFavourite : .next
-        case .swipeRight:
-            return sourceIsFavourite ? .nextFavourite : .next
-        case .initial:
-            return originSource
-        case .swipeLeft:
-            return sourceIsFavourite ? .previousFavourite : .previous
+        case .tap: fallthrough
+        case .swipeRight: return origin.next
+        case .initial: return origin
+        case .swipeLeft: return origin.previous
         }
     }
 
