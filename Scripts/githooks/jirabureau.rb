@@ -20,6 +20,10 @@ module TRANSITIONS
 end
 
 class JiraBureau
+
+	class IssueNotFound < StandardError; end
+	class TransitionNotAvailable < StandardError; end
+
 	@@client
  	
 	@@site = 'https://ambatana.atlassian.net'
@@ -40,13 +44,10 @@ class JiraBureau
         	return JIRA::Client.new(options)
 	end
 
-	def implode(message)         
-		puts message.red
-          	abort()
-  	end
-
 	def fetch_issue(issue_id)
-		return @@client.Issue.find(issue_id)
+		issue =  @@client.Issue.find(issue_id)
+		raise IssueNotFound if issue.nil?
+		return issue
 	end
 	
 	def issue_link(issue_id)
@@ -60,36 +61,18 @@ class JiraBureau
 		available_transitions.each {|ea| puts "#{ea.name} (id #{ea.id})" }
 	end
 	
-	def transition(issue, transition_id, success, failure)
+	def transition(issue, transition_id)
         	issue_transition = issue.transitions.build
-        	if issue_transition.save('transition' => {'id' => transition_id})
-               	then puts success.green
-                else 
-			implode(failure)
-        	end
+        	raise TransitionNotAvailable if !issue_transition.save('transition' => {'id' => transition_id}) 
 	end	
 	
 	def start_doing(issue) 
-		available_transitions = @@client.Transition.all(:issue => issue)
-		can_move_to_doing = available_transitions.map { |issue| issue.id  }.include? TRANSITIONS::START_DOING
-		if can_move_to_doing
-		then 
-			transition(issue, TRANSITIONS::START_DOING, 'Started doing ticket', 'Need backup cannot start doing this ticket!!')
-		else
-			implode("Sorry, I was not able to start doing this ticket")
-		end
+		transition(issue, TRANSITIONS::START_DOING, 'Started doing ticket', 'Need backup cannot start doing this ticket!!')
 	end
 
 	def start_reviewing(issue)
 		available_transitions = @@client.Transition.all(:issue => issue)
-		is_being_done = available_transitions.map { |issue| issue.id  }.include? TRANSITIONS::REQUEST_REVIEW
-		if is_being_done
-		then
-			puts 'Requesting review'.green
-			transition(issue, TRANSITIONS::REQUEST_REVIEW, 'Successfully requested review', 'Need backup reviewing!!')
-		else
-			implode("Sorry, I was not able to request review for this ticket")
-		end
+		transition(issue, TRANSITIONS::REQUEST_REVIEW, 'Successfully requested review', 'Need backup reviewing!!')
 	end
 	
 	def mark_as_done(issue)
@@ -97,8 +80,6 @@ class JiraBureau
         	is_being_done = available_transitions.map { |issue| issue.id  }.include? TRANSITIONS::REQUEST_REVIEW
 		if !is_being_done 
 		then
-			puts 'You should have moved your ticket to doing'.yellow
-			puts "Nevermind. I'll do it for you"
         		mark_as_doing(issue)
 		end
         	start_reviewing(issue)	

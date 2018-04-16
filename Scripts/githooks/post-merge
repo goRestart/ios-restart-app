@@ -57,9 +57,12 @@ then
 	bureau = JiraBureau.new(credentials[KEYS::USERNAME], credentials[KEYS::PASSWORD])
 	
 	fetching_abios = 'Fetching %a ticket' % abios
-	puts fetching_abios.green
-
-	issue = bureau.fetchIssue(abios)
+	begin
+		puts fetching_abios.green
+		issue = bureau.fetchIssue(abios)
+	rescue IssueNotFound => ex
+		puts 'Damn'
+	end
 	bureau.markAsDone(issue)
 else
 	puts 'Please don't waste my time'.yellow
