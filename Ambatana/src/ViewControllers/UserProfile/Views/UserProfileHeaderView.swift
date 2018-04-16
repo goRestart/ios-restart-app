@@ -81,16 +81,9 @@ final class UserProfileHeaderView: UIView {
     }
 
     private func updateBadge() {
-        verifiedBadgeImageView.isHidden = true
-        proBadgeImageView.isHidden = true
-
-        switch userBadge {
-        case .noBadge: break
-        case .silver, .gold:
-            verifiedBadgeImageView.isHidden = false
-        case .pro:
-            proBadgeImageView.isHidden = false
-        }
+        guard userBadge != .noBadge else { return }
+        verifiedBadgeImageView.isHidden = userBadge != .silver && userBadge != .gold
+        proBadgeImageView.isHidden = userBadge != .pro
     }
 
     private func setupView() {
@@ -115,10 +108,12 @@ final class UserProfileHeaderView: UIView {
 
         verifiedBadgeImageView.image = #imageLiteral(resourceName: "ic_karma_badge_active")
         verifiedBadgeImageView.contentMode = .scaleAspectFit
+        verifiedBadgeImageView.isHidden = true
 
         proBadgeImageView.image = #imageLiteral(resourceName: "ic_pro_tag_with_shadow")
-        proBadgeImageView.cornerRadius = 10
+        proBadgeImageView.cornerRadius = LGUIKitConstants.mediumCornerRadius
         proBadgeImageView.contentMode = .scaleAspectFit
+        proBadgeImageView.isHidden = true
     }
 
     private func setupConstraints() {

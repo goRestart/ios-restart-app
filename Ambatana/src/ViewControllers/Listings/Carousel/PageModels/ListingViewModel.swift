@@ -92,9 +92,10 @@ class ListingViewModel: BaseViewModel {
                                             freeModeAllowed: featureFlags.freePostingModeAllowed,
                                             postingFlowType: featureFlags.postingFlowType)
 
-
-            var badge = seller?.reputationBadge ?? .noBadge
-            badge = featureFlags.showAdvancedReputationSystem.isActive ? badge : .noBadge
+            var badge: UserReputationBadge = .noBadge
+            if let reputationBadge = seller?.reputationBadge, featureFlags.showAdvancedReputationSystem.isActive {
+                badge = reputationBadge
+            }
 
             let userInfo = ListingVMUserInfo(userListing: listing.user, myUser: myUserRepository.myUser,
                                              sellerBadge: badge)
