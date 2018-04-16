@@ -18,42 +18,50 @@ def implode(message)
 	abort()
 end
 
-def configFileExists()         
+def config_file_exists()         
 	File.exist?(File.expand_path(KEYS::CONFIG_FILE))
 end
 
-if configFileExists()
-then
-        credentials = YAML.load_file(KEYS::CONFIG_FILE)
-else
-        implode("Houston we have a problem, there is no config file!".red)
+def fetch_last_commit() 
+	return `git log -n -1 --oneline`
 end
 
-def fetchLastCommit() 
-	return `git log --abbrev-commit -1 --pretty=oneline`
+def extract_ABIOS_from(message) 
+	return message[/ABIOS[-, ]?[0-9]{4}/i]
 end
 
-def extractABIOS(message) 
-	return message[/ABIOS-[0-9]{4}/]
-end
-
-def isABIOSTicket(message) 
-	abios = extractABIOS(message)
+def is_ABIOS_ticket(message) 
+	abios = extract_ABIOS_from(message)
 	isEmpty = id if abios.nil? || abios.empty?
 	return !isEmpty
 end
 
-message = fetchLastCommit()
+
+if 
+	config_file_exists()
+then
+	credentials = YAML.load_file(KEYS::CONFIG_FILE)
+else    
+	message = "Houston we have a proble. We can't find %s to setup our configuration" % KEYS::CONFIG_FILE
+	implode(message.red)
+end
+
+message = fetch_last_commit()
 print(message)
-if isABIOSTicket(message) 
+if is_ABIOS_ticket(message) 
 then 
-	puts 'Found an ABIOS ticket'.green 
-	abios = extractABIOS(message)
+	abios = extract_ABIOS(message)
+	found_abios = ''Found %s ticket' % abios
+	puts found_abios.green
+ 
 	bureau = JiraBureau.new(credentials[KEYS::USERNAME], credentials[KEYS::PASSWORD])
-	puts 'Fetching issue'
+	
+	fetching_abios = 'Fetching %a ticket' % abios
+	puts fetching_abios.green
 
 	issue = bureau.fetchIssue(abios)
 	bureau.markAsDone(issue)
 else
-	implode("This is not an ABIOS ticket. Keep moving. Nothing to see here.".yellow)
+	puts 'Please don't waste my time'.yellow
+	implode("This is not an ABIOS ticket")
 end
