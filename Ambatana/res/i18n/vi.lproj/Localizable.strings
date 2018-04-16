@@ -358,11 +358,11 @@
 "filter_results_cars_other_results" = "Được đăng gần đây tại khu vực của bạn";
 "filters_car_make_not_set" = "Chưa Cài Đặt";
 "filters_car_model_not_set" = "Chưa Cài Đặt";
-"filters_car_seller_type_all" = "All";
-"filters_car_seller_type_dealership" = "Dealership";
-"filters_car_seller_type_invidual" = "Individual";
-"filters_car_seller_type_private" = "Private";
-"filters_car_seller_type_professional" = "Professional";
+"filters_car_seller_type_all" = "Tất cả";
+"filters_car_seller_type_dealership" = "Đại lý";
+"filters_car_seller_type_invidual" = "Cá nhân";
+"filters_car_seller_type_private" = "Riêng tư";
+"filters_car_seller_type_professional" = "Chuyên nghiệp";
 "filters_car_year_any_year" = "Mọi Năm";
 "filters_car_year_before_year" = "Trước %i";
 "filters_distance_not_set" = "chưa được cài đặt";
