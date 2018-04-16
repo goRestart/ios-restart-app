@@ -1,6 +1,6 @@
-"NSCameraUsageDescription" = "För att börja sälja, ge letgo tillgång till din kamera";
+"NSCameraUsageDescription" = "Din kamera kommer att användas för att ta bilder på det du vill sälja.";
 "NSLocationWhenInUseUsageDescription" = "letgo behöver åtkomst till din plats för att visa annonser nära dig";
-"NSPhotoLibraryAddUsageDescription" = "Tillåt letgo åtkomst till ditt bildbiblioteket för att spara bilder";
-"NSPhotoLibraryUsageDescription" = "För att börja sälja, ge letgo tillgång till ditt bibliotek";
+"NSPhotoLibraryAddUsageDescription" = "Ditt fotobibliotek kommer att användas för att du ska kunna välja bilder från din kamerarulle på det du vill sälja.";
+"NSPhotoLibraryUsageDescription" = "Ditt fotobibliotek kommer att användas för att du ska kunna välja bilder från din kamerarulle på det du vill sälja.";
 "sell_shortcut_title" = "Sälj dina prylar";
 "start_browsing_shortcut_title" = "Börja surfa runt!";
