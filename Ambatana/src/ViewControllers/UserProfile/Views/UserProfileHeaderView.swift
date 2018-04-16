@@ -116,13 +116,9 @@ final class UserProfileHeaderView: UIView {
         verifiedBadgeImageView.image = #imageLiteral(resourceName: "ic_karma_badge_active")
         verifiedBadgeImageView.contentMode = .scaleAspectFit
 
-        proBadgeImageView.image = #imageLiteral(resourceName: "pro_tag")
+        proBadgeImageView.image = #imageLiteral(resourceName: "ic_pro_tag_with_shadow")
         proBadgeImageView.cornerRadius = 10
         proBadgeImageView.contentMode = .scaleAspectFit
-        proBadgeImageView.layer.shadowColor = UIColor.black.cgColor
-        proBadgeImageView.layer.shadowOffset = .zero
-        proBadgeImageView.layer.shadowOpacity = 0.3
-        proBadgeImageView.layer.shadowRadius = 1.5
     }
 
     private func setupConstraints() {
