@@ -17,6 +17,9 @@ final class ListingDeckActionView: UIView {
             static let actionButton: CGFloat = 48.0
             static let blank: CGFloat = Metrics.shortMargin
             static let bumpUp: CGFloat = 40.0
+
+            static let compressed: CGFloat = 2*Layout.Height.blank + Layout.Height.actionButton
+            static let expanded: CGFloat = 3*Layout.Height.blank + Layout.Height.bumpUp + Layout.Height.actionButton
         }
     }
 
@@ -41,11 +44,9 @@ final class ListingDeckActionView: UIView {
     override var intrinsicContentSize: CGSize {
         let height: CGFloat
         if !isBumpUpVisible {
-            let interItemSpacing = 2*Layout.Height.blank
-            height = interItemSpacing + Layout.Height.actionButton
+            height = Layout.Height.compressed
         } else {
-            let interItemSpacing = 3*Layout.Height.blank
-            height = interItemSpacing + Layout.Height.bumpUp + Layout.Height.actionButton
+            height = Layout.Height.expanded
         }
         return CGSize(width: UIViewNoIntrinsicMetric, height: height)
     }
@@ -66,7 +67,7 @@ final class ListingDeckActionView: UIView {
         actionButtonCenterY = actionButton.centerYAnchor.constraint(equalTo: centerYAnchor)
         actionButtonCenterY?.isActive = true
 
-        let bottom = -(Layout.Height.bumpUp + 3*Layout.Height.blank)
+        let bottom = -Layout.Height.expanded + Layout.Height.actionButton
         fullViewContraints.append(contentsOf: [
             actionButton.topAnchor.constraint(equalTo: topAnchor, constant: Layout.Height.blank),
             actionButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: bottom)
