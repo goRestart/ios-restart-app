@@ -71,8 +71,11 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
             let mapPin = UIImageView(image: #imageLiteral(resourceName: "map_pin"))
             mapPin.contentMode = .scaleAspectFit
             mapSnapShotView.addSubviewForAutoLayout(mapPin)
-            mapPin.layout().height(37).width(26)
-            mapPin.layout(with: mapSnapShotView).center()
+            mapPin.layout()
+                .height(LGUIKitConstants.mapPinHeight)
+                .width(LGUIKitConstants.mapPinWidth)
+            mapPin.layout(with: mapSnapShotView)
+                .center()
         }
     }
 
