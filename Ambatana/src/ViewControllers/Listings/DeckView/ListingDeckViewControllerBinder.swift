@@ -226,7 +226,7 @@ final class ListingDeckViewControllerBinder {
     private func bindChat(withViewController viewController: ListingDeckViewControllerBinderType,
                           viewModel: ListingDeckViewModelType, listingDeckView: ListingDeckViewType,
                           disposeBag: DisposeBag) {
-        viewController.rxContentOffset.skip(1).bind { [weak viewModel, weak viewController] _ in
+        viewController.rxContentOffset.skip(1).bind { [weak viewModel] _ in
             viewModel?.userHasScrolled = true
         }.disposed(by: disposeBag)
 
