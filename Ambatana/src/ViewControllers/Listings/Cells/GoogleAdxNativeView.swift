@@ -22,6 +22,19 @@ final class GoogleAdxNativeView: GADNativeContentAdView {
         setupUI()
     }
     
+    override var nativeContentAd: GADNativeContentAd? {
+        set {
+            super.nativeContentAd = newValue
+            guard let nativeContentAd = newValue else { return }
+            (headlineView as! UILabel).text = nativeContentAd.headline
+            (bodyView as! UILabel).text = nativeContentAd.body
+            (imageView as! UIImageView).image = (nativeContentAd.images?.first as! GADNativeAdImage).image
+            (callToActionView as! UIButton).setTitle(nativeContentAd.callToAction, for: UIControlState.normal)
+        }
+        get {
+            return super.nativeContentAd
+        }
+    }
     func setupUI() {
         cornerRadius = LGUIKitConstants.smallCornerRadius
         backgroundColor = UIColor.white
@@ -29,13 +42,6 @@ final class GoogleAdxNativeView: GADNativeContentAdView {
         setupMainTextLabel()
         setupCallToActionButton()
         setupAdTextLabel()
-    }
-    
-    func setUpWith(nativeContentAd: GADNativeContentAd) {
-        (headlineView as! UILabel).text = nativeContentAd.headline
-        (bodyView as! UILabel).text = nativeContentAd.body
-        (imageView as! UIImageView).image = (nativeContentAd.images?.first as! GADNativeAdImage).image
-        (callToActionView as! UIButton).setTitle(nativeContentAd.callToAction, for: UIControlState.normal)
     }
     
     private func setupTitleLabel() {

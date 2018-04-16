@@ -559,7 +559,6 @@ class ListingListViewModel: BaseViewModel {
                                                      rootViewController: data.rootViewController,
                                                      adPosition: data.adPosition,
                                                      bannerHeight: data.bannerHeight,
-                                                     showAdsInFeedWithRatio: data.showAdsInFeedWithRatio,
                                                      adRequested: true,
                                                      categories: data.categories,
                                                      adRequest: data.adRequest,
@@ -581,7 +580,6 @@ class ListingListViewModel: BaseViewModel {
                                                    rootViewController: data.rootViewController,
                                                    adPosition: data.adPosition,
                                                    bannerHeight: data.bannerHeight,
-                                                   showAdsInFeedWithRatio: data.showAdsInFeedWithRatio,
                                                    adRequested: true,
                                                    categories: data.categories,
                                                    nativeAdRequest: data.nativeAdRequest,
@@ -601,12 +599,10 @@ class ListingListViewModel: BaseViewModel {
         case .adxAdvertisement(let data):
             guard data.adPosition == position else { return }
             contentAdView.nativeContentAd = nativeContentAd
-            (contentAdView as! GoogleAdxNativeView).setUpWith(nativeContentAd: nativeContentAd)
             let newAdData = AdvertisementAdxData(adUnitId: data.adUnitId,
                                                  rootViewController: data.rootViewController,
                                                  adPosition: data.adPosition,
                                                  bannerHeight: data.bannerHeight,
-                                                 showAdsInFeedWithRatio: data.showAdsInFeedWithRatio,
                                                  adRequested: true,
                                                  categories: data.categories,
                                                  adLoader: data.adLoader,
@@ -651,7 +647,6 @@ extension ListingListViewModel {
                                                   rootViewController: data.rootViewController,
                                                   adPosition: data.adPosition,
                                                   bannerHeight: newHeight,
-                                                  showAdsInFeedWithRatio: data.showAdsInFeedWithRatio,
                                                   adRequested: data.adRequested,
                                                   categories: data.categories,
                                                   adRequest: data.adRequest,

@@ -106,7 +106,6 @@ struct AdvertisementDFPData {
     var rootViewController: UIViewController
     var adPosition: Int
     var bannerHeight: CGFloat
-    var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio
     var adRequested: Bool
     var categories: [ListingCategory]?
     
@@ -119,7 +118,6 @@ struct AdvertisementMoPubData {
     var rootViewController: UIViewController
     var adPosition: Int
     var bannerHeight: CGFloat
-    var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio
     var adRequested: Bool
     var categories: [ListingCategory]?
     
@@ -133,7 +131,6 @@ struct AdvertisementAdxData {
     var rootViewController: UIViewController
     var adPosition: Int
     var bannerHeight: CGFloat
-    var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio
     var adRequested: Bool
     var categories: [ListingCategory]?
     
