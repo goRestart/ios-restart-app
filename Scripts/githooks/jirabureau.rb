@@ -21,12 +21,14 @@ end
 
 class JiraBureau
 	@@client
- 
+ 	
+	@@site = 'https://ambatana.atlassian.net'
+
 	def initialize(username, password)
 		options = {
 	        	:username => username,
               		:password => password,
-              		:site     => 'https://ambatana.atlassian.net',
+              		:site     => @@site,
               		:context_path => '',
               		:auth_type          => :cookie,
               		:read_timeout => 120
@@ -43,9 +45,13 @@ class JiraBureau
           	abort()
   	end
 
-	def fetchIssue(identifier)
-		return @@client.Issue.find(identifier)
+	def fetchIssue(issue_id)
+		return @@client.Issue.find(issue_id)
 	end
+	
+	def issueLink(issue_id)
+		return @@site + '/browse/' + issue_id
+	end 
 	
 	def listAvailableTransitions(issue) 
 		puts 'Available transitions :)'
@@ -57,8 +63,9 @@ class JiraBureau
 	def transition(issue, transition_id, success, failure)
         	issue_transition = issue.transitions.build
         	if issue_transition.save('transition' => {'id' => transition_id})
-               		then puts success.green
-                	else implode(failure)
+               	then puts success.green
+                else 
+			implode(failure)
         	end
 	end	
 	
