@@ -32,8 +32,7 @@ end
 
 def is_ABIOS_ticket(message) 
 	abios = extract_ABIOS_from(message)
-	isEmpty = id if abios.nil? || abios.empty?
-	return !isEmpty
+	return !abios.nil? && !abios.empty?
 end
 
 
@@ -51,20 +50,31 @@ puts message
 
 if is_ABIOS_ticket(message) 
 then 
-	abios = extract_ABIOS(message)
-	found_abios = 'Found %s ticket' % abios
+	abios = extract_ABIOS_from(message)
+	found_abios = 'Found %s ticket pattern' % abios
 	puts found_abios.green
  
 	bureau = JiraBureau.new(credentials[KEYS::USERNAME], credentials[KEYS::PASSWORD])
 	
-	fetching_abios = 'Fetching %a ticket' % abios
+	fetching_abios = 'Fetching %s ticket' % abios
 	begin
 		puts fetching_abios.green
-		issue = bureau.fetchIssue(abios)
-	rescue IssueNotFound => ex
-		puts 'Damn'
+		issue = bureau.fetch_issue(abios)
+	rescue Exceptions::IssueNotFound => ex
+		message = "Try opening  %s and do it manually" % ex.url
+		puts "Could not find that issue".red
+		puts message.red
+		implode("Nice to meed you")
 	end
-	bureau.markAsDone(issue)
+	
+	begin
+		bureau.mark_as_done(issue)
+	rescue Exceptions::TransitionNotAvailable => ex
+		message = "Try opening this url:  %s and do it manually." % ex.url
+		puts "The transition is not available. Unfortunately, I am not that intelligent yet".red
+		puts message.red
+		implode("#hastaluego")
+	end
 else
 	puts "Please don't waste my time".yellow
 	implode("This is not an ABIOS ticket")

@@ -19,10 +19,27 @@ module TRANSITIONS
 	START_DOING = '211'
 end
 
-class JiraBureau
+module Exceptions
+	class IssueNotFound < StandardError 
+  		def url
+    			@url
+  		end
+		def initialize(url)
+			@url = url
+		end
+	end
+	class TransitionNotAvailable < StandardError
+		def initialize(url) 
+			@url = url
+		end
 
-	class IssueNotFound < StandardError; end
-	class TransitionNotAvailable < StandardError; end
+		def url
+			@url
+		end
+	end
+end
+
+class JiraBureau
 
 	@@client
  	
@@ -45,8 +62,14 @@ class JiraBureau
 	end
 
 	def fetch_issue(issue_id)
-		issue =  @@client.Issue.find(issue_id)
-		raise IssueNotFound if issue.nil?
+		url = issue_link(issue_id)
+		begin
+			issue = @@client.Issue.find(issue_id)
+		rescue JIRA::HTTPError => ex
+			raise Exceptions::IssueNotFound.new(url)
+		end
+		puts 'finally'
+		raise Exceptions::IssueNotFound.new(url) if issue.nil?
 		return issue
 	end
 	
@@ -61,28 +84,28 @@ class JiraBureau
 		available_transitions.each {|ea| puts "#{ea.name} (id #{ea.id})" }
 	end
 	
-	def transition(issue, transition_id)
+	def transition(issue, issue_id, transition_id)
         	issue_transition = issue.transitions.build
-        	raise TransitionNotAvailable if !issue_transition.save('transition' => {'id' => transition_id}) 
+		url = issue_link(issue_id)
+        	raise Exceptions::TransitionNotAvailable(url) if issue_transition.save('transition' => {'id' => transition_id}) 
 	end	
 	
-	def start_doing(issue) 
-		transition(issue, TRANSITIONS::START_DOING, 'Started doing ticket', 'Need backup cannot start doing this ticket!!')
+	def start_doing(issue, issue_id) 
+		transition(issue, issue_id, TRANSITIONS::START_DOING)
 	end
 
-	def start_reviewing(issue)
-		available_transitions = @@client.Transition.all(:issue => issue)
-		transition(issue, TRANSITIONS::REQUEST_REVIEW, 'Successfully requested review', 'Need backup reviewing!!')
+	def start_reviewing(issue, issue_id)
+		transition(issue, issue_id, TRANSITIONS::REQUEST_REVIEW)
 	end
 	
-	def mark_as_done(issue)
-        	available_transitions = @@client.Transition.all(:issue => issue)
-        	is_being_done = available_transitions.map { |issue| issue.id  }.include? TRANSITIONS::REQUEST_REVIEW
+	def mark_as_done(issue, issue_id)
+		available_transitions = @@client.Transition.all(:issue => issue)
+		is_being_done = available_transitions.map { |issue| issue.id  }.include? TRANSITIONS::REQUEST_REVIEW
 		if !is_being_done 
 		then
         		mark_as_doing(issue)
 		end
         	start_reviewing(issue)	
-        	transition(issue, TRANSITIONS::MERGE, 'Successfully merged your ticket. Nothing to see here', 'Need backup mergin!!')
+        	transition(issue, TRANSITIONS::MERGE)
 	end
 end	
