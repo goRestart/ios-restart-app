@@ -67,6 +67,7 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
         self.region = region
         self.showExactLocationOnMap = showExactLocationOnMap
 
+        cleanSnapshot()
         if showExactLocationOnMap {
             let mapPin = UIImageView(image: #imageLiteral(resourceName: "map_pin"))
             mapPin.contentMode = .scaleAspectFit
@@ -241,4 +242,9 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
         mapView.removeAnnotations(mapView.annotations)
     }
 
+    private func cleanSnapshot() {
+        mapSnapShotView.subviews.forEach { subView in
+            subView.removeFromSuperview()
+        }
+    }
 }
