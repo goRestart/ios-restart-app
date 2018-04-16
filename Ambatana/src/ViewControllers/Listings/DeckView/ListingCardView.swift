@@ -120,7 +120,8 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
         userView.populate(withUserName: info.name,
                           placeholder: info.avatarPlaceholder(),
                           icon: info.avatar,
-                          imageDownloader: ImageDownloader.sharedInstance)
+                          imageDownloader: ImageDownloader.sharedInstance,
+                          badgeType: userInfo?.badge ?? .noBadge)
         UIView.animate(withDuration: 0.1) { self.userView.alpha = 1 }
     }
 

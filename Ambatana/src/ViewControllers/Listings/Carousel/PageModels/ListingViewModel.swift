@@ -42,6 +42,7 @@ class ListingViewModel: BaseViewModel {
 
         func makeListingDeckSnapshot(listingViewModel: ListingViewModel) -> ListingDeckSnapshotType {
             return makeListingDeckSnapshot(listing: listingViewModel.listing.value,
+                                           seller: listingViewModel.seller.value,
                                            isFavorite: listingViewModel.isFavorite.value,
                                            isFeatured: listingViewModel.isShowingFeaturedStripe.value,
                                            socialMessage: listingViewModel.socialMessage.value)
@@ -49,6 +50,7 @@ class ListingViewModel: BaseViewModel {
 
         func makeListingDeckSnapshot(listing: Listing) -> ListingDeckSnapshotType {
             return makeListingDeckSnapshot(listing: listing,
+                                           seller: nil,
                                            isFavorite: false,
                                            isFeatured: false,
                                            socialMessage: nil,
@@ -58,10 +60,12 @@ class ListingViewModel: BaseViewModel {
         }
 
         private func makeListingDeckSnapshot(listing: Listing,
+                                             seller: User?,
                                              isFavorite: Bool,
                                              isFeatured: Bool,
                                              socialMessage: SocialMessage?) -> ListingDeckSnapshotType {
             return makeListingDeckSnapshot(listing: listing,
+                                           seller: seller,
                                            isFavorite: isFavorite,
                                            isFeatured: isFeatured,
                                            socialMessage: socialMessage,
@@ -71,12 +75,13 @@ class ListingViewModel: BaseViewModel {
         }
 
         private func makeListingDeckSnapshot(listing: Listing,
+                                             seller: User?,
                                              isFavorite: Bool,
                                              isFeatured: Bool,
                                              socialMessage: SocialMessage?,
-                                 myUserRepository: MyUserRepository,
-                                 featureFlags: FeatureFlags,
-                                 countryHelper: CountryHelper) -> ListingDeckSnapshotType {
+                                             myUserRepository: MyUserRepository,
+                                             featureFlags: FeatureFlags,
+                                             countryHelper: CountryHelper) -> ListingDeckSnapshotType {
             let isMine = listing.isMine(myUserRepository: myUserRepository)
             let status = ListingViewModelStatus(listing: listing,
                                                 isMine: listing.isMine(myUserRepository: myUserRepository),
@@ -86,7 +91,14 @@ class ListingViewModel: BaseViewModel {
                                             distance: nil,
                                             freeModeAllowed: featureFlags.freePostingModeAllowed,
                                             postingFlowType: featureFlags.postingFlowType)
-            let userInfo = ListingVMUserInfo(userListing: listing.user, myUser: myUserRepository.myUser)
+
+
+            var badge = seller?.reputationBadge ?? .noBadge
+            badge = featureFlags.showAdvancedReputationSystem.isActive ? badge : .noBadge
+
+            let userInfo = ListingVMUserInfo(userListing: listing.user, myUser: myUserRepository.myUser,
+                                             sellerBadge: badge)
+
             return ListingDeckSnapshot(preview: listing.images.first?.fileURL,
                                        imageCount: listing.images.count,
                                        isFavoritable: isMine,
@@ -285,7 +297,9 @@ class ListingViewModel: BaseViewModel {
         self.purchasesShopper = purchasesShopper
         self.monetizationRepository = monetizationRepository
         self.showFeaturedStripeHelper = ShowFeaturedStripeHelper(featureFlags: featureFlags, myUserRepository: myUserRepository)
-        self.userInfo = Variable<ListingVMUserInfo>(ListingVMUserInfo(userListing: listing.user, myUser: myUserRepository.myUser))
+        self.userInfo = Variable<ListingVMUserInfo>(ListingVMUserInfo(userListing: listing.user,
+                                                                      myUser: myUserRepository.myUser,
+                                                                      sellerBadge: .noBadge))
         self.disposeBag = DisposeBag()
 
 
@@ -314,6 +328,10 @@ class ListingViewModel: BaseViewModel {
                     if let value = result.value {
                         strongSelf.seller.value = value
                         strongSelf.sellerAverageUserRating = value.ratingAverage
+                        let badge = strongSelf.featureFlags.showAdvancedReputationSystem.isActive ? value.reputationBadge : .noBadge
+                        strongSelf.userInfo.value = ListingVMUserInfo(userListing: strongSelf.listing.value.user,
+                                                                      myUser: strongSelf.myUserRepository.myUser,
+                                                                      sellerBadge: badge)
                     }
                 }
             }
