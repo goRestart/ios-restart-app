@@ -4,6 +4,7 @@ source 'git@github.com:letgoapp/letgo-ios-specs.git'
 platform :ios, "9.0"
 
 use_frameworks!
+inhibit_all_warnings!
 
 workspace "LetGo.xcworkspace"
 project "LetGo.xcodeproj"
@@ -34,16 +35,16 @@ def shared_pods
     pod "NewRelicAgent",        "6.1.1"     # Obj-c
 
     # letgo Core
-    pod "LGCoreKit",             "4.18.0"
-#   pod "LGCoreKit",            :path => "../lgcorekit"
-#   pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => '347bea899c01d6998f42ce704f0b43ef8b9f70bd'
+    pod "LGCoreKit",             "4.18.0", :inhibit_warnings => false
+#   pod "LGCoreKit",            :path => "../lgcorekit", :inhibit_warnings => false
+#   pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => '347bea899c01d6998f42ce704f0b43ef8b9f70bd', :inhibit_warnings => false
 
     # letgo Collapsible label
-    pod "LGCollapsibleLabel",   "1.2.0"     # :path => "../collapsiblelabel"
+    pod "LGCollapsibleLabel",   "1.2.0", :inhibit_warnings => false     # :path => "../collapsiblelabel"
 
     # letgo bumper (feature flags)
 #    pod "bumper",               "1.1.0"     #:path => "../bumper"
-    pod "bumper",            :git => 'git@github.com:letgoapp/bumper.git', :commit => '7ec04a070eca2337f058954d7f53c474d616d7b1'
+    pod "bumper",            :git => 'git@github.com:letgoapp/bumper.git', :commit => '7ec04a070eca2337f058954d7f53c474d616d7b1', :inhibit_warnings => false
 
 
     # Collection View Custom Layout
@@ -60,10 +61,10 @@ def shared_pods
     # Custom camera
 #    pod "CameraManager",        "4.0.1"
 #    pod "CameraManager",            :path => "../CameraManager"
-    pod "CameraManager",            :git => 'git@github.com:letgoapp/CameraManager.git', :commit => '7b32b50f8bdb1f94f1f1d0fdb6c99a9d21a7ee84'
+    pod "CameraManager",            :git => 'git@github.com:letgoapp/CameraManager.git', :commit => '7b32b50f8bdb1f94f1f1d0fdb6c99a9d21a7ee84', :inhibit_warnings => false
 
     # Ken Burns effect
-    pod "JBKenBurnsView",        :git => 'https://github.com/letgoapp/JBKenBurns', :commit => '56419f79cb763f8d2ee3a75e4eca51ebc1deab6a' # Obj-c
+    pod "JBKenBurnsView",        :git => 'https://github.com/letgoapp/JBKenBurns', :commit => '56419f79cb763f8d2ee3a75e4eca51ebc1deab6a', :inhibit_warnings => false # Obj-c
 
     # Logging
     pod "CocoaLumberjack/Swift", "3.3.0"
@@ -75,7 +76,7 @@ def shared_pods
     pod "SwiftyUserDefaults",   :git => 'https://github.com/Dschee/SwiftyUserDefaults', :commit => 'dd3d8ddc5bf95db09b66185182b5a555ac59efd5' # PR: https://github.com/radex/SwiftyUserDefaults/pull/135 swift 4 (not too much activity)
 
     # TextView with placeholder
-    pod "KMPlaceholderTextView", :git => 'https://github.com/letgoapp/KMPlaceholderTextView', :commit => '426117c98e8da8fc7d64a7d3c2f0f45c48d595e6'
+    pod "KMPlaceholderTextView", :git => 'https://github.com/letgoapp/KMPlaceholderTextView', :commit => '426117c98e8da8fc7d64a7d3c2f0f45c48d595e6', :inhibit_warnings => false 
 
     pod "KeychainSwift",        "10.0.0"
     

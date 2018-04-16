@@ -427,7 +427,7 @@ fileprivate extension PostListingViewModel {
                                                    mostSearchedButton: postingSource.mostSearchedButton,
                                                    machineLearningInfo: MachineLearningTrackingInfo.defaultValues())
         if sessionManager.loggedIn {
-            guard let images = state.value.lastImagesUploadResult?.value,
+            guard let _ = state.value.lastImagesUploadResult?.value,
                 let listingCreationParams = makeListingParams() else { return }
             navigator?.closePostProductAndPostInBackground(params: listingCreationParams,
                                                            trackingInfo: trackingInfo)
