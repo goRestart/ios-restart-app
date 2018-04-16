@@ -8,7 +8,7 @@
 
 import Foundation
 
-private class VerificationCodeTextField: UIView {
+class VerificationCodeTextField: UIView {
 
     private let numberOfDigits: Int
 
