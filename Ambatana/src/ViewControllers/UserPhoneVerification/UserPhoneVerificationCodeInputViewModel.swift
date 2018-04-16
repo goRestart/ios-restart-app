@@ -17,7 +17,7 @@ final class UserPhoneVerificationCodeInputViewModel: BaseViewModel {
     var showResendCodeOption = Variable<Bool>(false)
 
     private var timer: Timer?
-    private let timerDuration = 7.0
+    private let timerDuration = 50.0
 
     init(phoneNumber: String) {
         self.phoneNumber = phoneNumber
