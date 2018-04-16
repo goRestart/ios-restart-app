@@ -50,6 +50,9 @@ DerivedData
 # Local podspecs (pod local references)
 Pods/Local Podspecs/
 
+# githooks
+jiraconfig.yml
+
 #Single files
 LetGo.xcscmblueprint
 report.xml
