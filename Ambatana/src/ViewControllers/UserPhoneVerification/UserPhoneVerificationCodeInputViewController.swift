@@ -49,6 +49,11 @@ final class UserPhoneVerificationCodeInputViewController: BaseViewController {
         codeTextField.becomeFirstResponder()
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        viewModel.viewWillDisappear()
+    }
+
     private func setupUI() {
         title = "Number Verification" // FIXME: localize
 
@@ -60,6 +65,7 @@ final class UserPhoneVerificationCodeInputViewController: BaseViewController {
         setupSubtitleLabelUI()
         setupCodeTextFieldUI()
         setupCodeInformationLabelUI()
+        setupCodeInformationButtonUI()
         setupConstraints()
     }
 
@@ -89,6 +95,14 @@ final class UserPhoneVerificationCodeInputViewController: BaseViewController {
         codeInformationLabel.textAlignment = .center
     }
 
+    private func setupCodeInformationButtonUI() {
+        codeInformationButton.setTitle("No verification code received?", for: .normal) // FIXME: localize this
+        codeInformationButton.setTitleColor(.primaryColor, for: .normal)
+        codeInformationButton.titleLabel?.font = .smsVerificationInputCodeInformation
+        codeInformationButton.addTarget(self, action: #selector(didTapOnCodeNotReceived), for: .touchUpInside)
+        codeInformationButton.isHidden = true
+    }
+
     private func setupConstraints() {
         let constraints = [
             titleLabel.topAnchor.constraint(equalTo: safeTopAnchor, constant: Layout.titleTopMargin),
@@ -102,12 +116,26 @@ final class UserPhoneVerificationCodeInputViewController: BaseViewController {
             codeInformationLabel.topAnchor.constraint(equalTo: codeTextField.bottomAnchor, constant: Layout.contentMargin),
             codeInformationLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: Layout.contentMargin),
             codeInformationLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -Layout.contentMargin),
+            codeInformationButton.topAnchor.constraint(equalTo: codeInformationLabel.topAnchor),
+            codeInformationButton.leftAnchor.constraint(equalTo: codeInformationLabel.leftAnchor),
+            codeInformationButton.rightAnchor.constraint(equalTo: codeInformationLabel.rightAnchor),
         ]
 
         NSLayoutConstraint.activate(constraints)
     }
 
     private func setupRx() {
+        viewModel
+            .showResendCodeOption
+            .asDriver()
+            .drive(onNext: { [weak self] showOption in
+                self?.codeInformationLabel.isHidden = showOption
+                self?.codeInformationButton.isHidden = !showOption
+            })
+            .disposed(by: disposeBag)
+    }
+
+    @objc private func didTapOnCodeNotReceived() {
         // FIXME: implement this
     }
 }
