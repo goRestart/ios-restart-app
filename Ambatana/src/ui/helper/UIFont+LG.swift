@@ -177,4 +177,5 @@ extension UIFont {
     static var smsVerificationInputSmallDescription: UIFont { return UIFont.systemRegularFont(size: 15) }
     static var smsVerificationInputCodeInformation: UIFont { return UIFont.systemMediumFont(size: 14) }
     static var smsVerificationCountryListCellText: UIFont { return UIFont.systemBoldFont(size: 23) }
+    static var smsVerificationCodeInputTextfieldText: UIFont { return UIFont.systemBoldFont(size: 40) }
 }
