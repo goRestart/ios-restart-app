@@ -46,23 +46,22 @@ class VerificationCodeTextField: UIView {
     }
 
     private func setupTextfieldsUI() {
-        for i in 0...numberOfDigits-1 {
-            let textField = UITextField(frame: .zero)
-            textField.tag = i
+        for _ in 0..<numberOfDigits {
+            let textField = CodeTextField(frame: .zero)
             textField.tintColor = .clear
             textField.keyboardType = .numberPad
             textField.font = .smsVerificationCodeInputTextfieldText
             textField.textColor = .blackText
             textField.delegate = self
+            textField.codeTextFieldDelegate = self
             textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
             textFields.append(textField)
         }
     }
 
     private func setupLinesUI() {
-        for i in 0...numberOfDigits-1 {
+        for _ in 0..<numberOfDigits {
             let line = UIView()
-            line.tag = i
             line.backgroundColor = Layout.inactiveLineColor
             lines.append(line)
         }
@@ -128,13 +127,22 @@ class VerificationCodeTextField: UIView {
         return true
     }
 
+    @discardableResult
+    override func resignFirstResponder() -> Bool {
+        super.resignFirstResponder()
+        UIView.animate(withDuration: 0.2, animations: { [weak self] in
+            guard let textFields = self?.textFields,
+                let lines = self?.lines else { return }
+            for (textField, line) in zip(textFields, lines) {
+                textField.resignFirstResponder()
+                line.backgroundColor = Layout.inactiveLineColor
+            }
+        })
+        return true
+    }
+
     private func focusOnDigit(atIndex index: Int) {
-        guard index < textFields.count else {
-            UIView.animate(withDuration: 0.2, animations: { [weak self] in
-                self?.lines.forEach { $0.backgroundColor = Layout.inactiveLineColor }
-            })
-            return
-        }
+        guard index < textFields.count else { return }
 
         textFields[index].becomeFirstResponder()
 
@@ -147,7 +155,9 @@ class VerificationCodeTextField: UIView {
     }
 }
 
-extension VerificationCodeTextField: UITextFieldDelegate {
+// MARK: - TextField Delegate
+
+extension VerificationCodeTextField: UITextFieldDelegate, CodeTextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let aSet = NSCharacterSet(charactersIn:"0123456789").inverted
         let compSepByCharInSet = string.components(separatedBy: aSet)
@@ -156,8 +166,36 @@ extension VerificationCodeTextField: UITextFieldDelegate {
     }
 
     @objc private func textFieldDidChange(_ textField: UITextField) {
-        guard textField.text?.count == 1,
-            let currentIndex = textFields.index(of: textField) else { return }
-        focusOnDigit(atIndex: currentIndex + 1)
+        guard let currentIndex = textFields.index(of: textField) else { return }
+
+        if textField.text?.count == 1,
+            currentIndex < numberOfDigits-1 {
+            focusOnDigit(atIndex: currentIndex + 1)
+        } else {
+            resignFirstResponder()
+        }
+    }
+
+    func textFieldDidDelete(_ textField: UITextField) {
+        guard let currentIndex = textFields.index(of: textField),
+            textField.text?.count == 0,
+            currentIndex > 0 else { return }
+        textFields[currentIndex - 1].text = ""
+        focusOnDigit(atIndex: currentIndex - 1)
+    }
+}
+
+// MARK: - CodeTextField Component
+
+private protocol CodeTextFieldDelegate {
+    func textFieldDidDelete(_ textField: UITextField)
+}
+
+private class CodeTextField: UITextField {
+    var codeTextFieldDelegate: CodeTextFieldDelegate?
+
+    override func deleteBackward() {
+        super.deleteBackward()
+        codeTextFieldDelegate?.textFieldDidDelete(self)
     }
 }
