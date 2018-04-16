@@ -41,9 +41,11 @@ final class ListingDeckActionView: UIView {
     override var intrinsicContentSize: CGSize {
         let height: CGFloat
         if !isBumpUpVisible {
-            height = 2*Layout.Height.blank + Layout.Height.actionButton
+            let interItemSpacing = 2*Layout.Height.blank
+            height = interItemSpacing + Layout.Height.actionButton
         } else {
-            height = 3*Layout.Height.blank + Layout.Height.bumpUp + Layout.Height.actionButton
+            let interItemSpacing = 3*Layout.Height.blank
+            height = interItemSpacing + Layout.Height.bumpUp + Layout.Height.actionButton
         }
         return CGSize(width: UIViewNoIntrinsicMetric, height: height)
     }
