@@ -22,9 +22,11 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
         }
         struct CornerRadius { static let map: CGFloat = LGUIKitConstants.bigCornerRadius }
     }
+    private static let mapPinAnnotationReuseId = "mapPin"
 
     private var region: MKCoordinateRegion?
     private var tapGesture: UITapGestureRecognizer?
+    private var showExactLocationOnMap: Bool = false
 
     private let verticalStackView = UIStackView()
 
@@ -55,7 +57,7 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
         mapHeader.isHidden = name == nil
     }
 
-    func setRegion(_ region: MKCoordinateRegion, size: CGSize) {
+    func setRegion(_ region: MKCoordinateRegion, size: CGSize, showExactLocationOnMap: Bool) {
         MKMapView.snapshotAt(region, size: size, with: { [weak self] (snapshot, error) in
             guard error == nil, let image = snapshot?.image else { return }
             self?.mapSnapShotView.image = image
@@ -63,12 +65,15 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
         })
         mapView.setRegion(region, animated: false)
         self.region = region
-    }
+        self.showExactLocationOnMap = showExactLocationOnMap
 
-    func showRegion(_ region: MKCoordinateRegion, animated: Bool) {
-        setupMap()
-        mapView.setRegion(region, animated: animated)
-        self.region = region
+        if showExactLocationOnMap {
+            let mapPin = UIImageView(image: #imageLiteral(resourceName: "map_pin"))
+            mapPin.contentMode = .scaleAspectFit
+            mapSnapShotView.addSubviewForAutoLayout(mapPin)
+            mapPin.layout().height(37).width(26)
+            mapPin.layout(with: mapSnapShotView).center()
+        }
     }
 
     func showRegion(animated: Bool) {
@@ -165,8 +170,15 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
     private func showMap() {
         if let center = region?.center {
             purgeLocationArea()
-            let overlay = MKCircle(center: center, radius: Constants.accurateRegionRadius)
-            mapView.add(overlay)
+            if showExactLocationOnMap {
+                let mapPinAnnotation = MKPointAnnotation()
+                mapPinAnnotation.coordinate = center
+                mapView.addAnnotation(mapPinAnnotation)
+            } else {
+                let overlay = MKCircle(center: center, radius: Constants.accurateRegionRadius)
+                mapView.add(overlay)
+            }
+
         }
         bringSubview(toFront: mapView)
         UIView.animate(withDuration: 0.3,
@@ -210,8 +222,20 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
         return renderer
     }
 
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard let mapPinView = mapView.dequeueReusableAnnotationView(withIdentifier: ListingCardDetailMapView.mapPinAnnotationReuseId) else {
+            let newMapPinView = MKAnnotationView(annotation: annotation,
+                                                 reuseIdentifier: ListingCardDetailMapView.mapPinAnnotationReuseId)
+            newMapPinView.image = #imageLiteral(resourceName: "map_pin")
+            return newMapPinView
+        }
+        mapPinView.annotation = annotation
+        return mapPinView
+    }
+
     private func purgeLocationArea() {
         mapView.removeOverlays(mapView.overlays)
+        mapView.removeAnnotations(mapView.annotations)
     }
 
 }

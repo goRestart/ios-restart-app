@@ -112,7 +112,7 @@ class ListingCarouselViewModel: BaseViewModel {
     let isFeatured = Variable<Bool>(false)
 
     let ownerIsProfessional = Variable<Bool>(false)
-    let showExactLocationOnMapForProUsers = Variable<Bool>(true)
+    let showExactLocationOnMap = Variable<Bool>(true)
     let ownerPhoneNumber = Variable<String?>(nil)
     var deviceCanCall: Bool {
         return PhoneCallsHelper.deviceCanCall
@@ -568,10 +568,6 @@ class ListingCarouselViewModel: BaseViewModel {
         altActions.asDriver().drive(onNext: { [weak self] (actions) in
             self?.processAltActions(actions)
         }).disposed(by: disposeBag)
-
-        ownerIsProfessional.asObservable().map { [weak self] in $0 && self?.featureFlags.showExactLocationForPros ?? false }
-            .bind(to: showExactLocationOnMapForProUsers)
-            .disposed(by: disposeBag)
     }
 
     private func processAltActions(_ altActions: [UIAction]) {
@@ -633,6 +629,8 @@ class ListingCarouselViewModel: BaseViewModel {
         socialSharer.value = currentVM.socialSharer
 
         moreInfoState.asObservable().bind(to: currentVM.moreInfoState).disposed(by: activeDisposeBag)
+
+        currentVM.showExactLocationOnMap.asObservable().bind(to: showExactLocationOnMap).disposed(by: activeDisposeBag)
     }
 
     private func performCollectionChange(change: CollectionChange<ChatViewMessage>) {

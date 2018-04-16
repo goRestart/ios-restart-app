@@ -205,7 +205,7 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
 
         let productLocation = viewModel.productInfo.asObservable().map { $0?.location }.unwrap()
         let mapInfo = Observable.combineLatest(productLocation.asObservable(),
-                                               viewModel.showExactLocationOnMapForProUsers.asObservable())
+                                               viewModel.showExactLocationOnMap.asObservable())
         mapInfo.bind { [weak self] (coordinate, showExactLocation) in
             guard let strongSelf = self else { return }
             strongSelf.addRegion(with: coordinate, zoomBlocker: true)
