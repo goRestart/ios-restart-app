@@ -1,6 +1,6 @@
-"NSCameraUsageDescription" = "Để bắt đầu bán hàng, hãy để letgo truy cập vào camera của bạn";
+"NSCameraUsageDescription" = "Camera của bạn sẽ được sử dụng để chụp ảnh món đồ bạn muốn bán.";
 "NSLocationWhenInUseUsageDescription" = "letgo cần truy cập địa điểm của bạn để hiển thị các sản phẩm ở khu vực quanh bạn";
-"NSPhotoLibraryAddUsageDescription" = "Để lưu ảnh, hãy cho phép letgo truy cập thư viện của bạn";
-"NSPhotoLibraryUsageDescription" = "Để bắt đầu bán, hãy để letgo truy cập vào thư viện của bạn";
+"NSPhotoLibraryAddUsageDescription" = "Thư viện ảnh của bạn sẽ được sử dụng để bạn lựa chọn ảnh của món đồ bạn muốn bán trong cuộn camera.";
+"NSPhotoLibraryUsageDescription" = "Thư viện ảnh của bạn sẽ được sử dụng để bạn lựa chọn ảnh của món đồ bạn muốn bán trong cuộn camera.";
 "sell_shortcut_title" = "Bán đồ của bạn";
 "start_browsing_shortcut_title" = "Bắt đầu duyệt";
