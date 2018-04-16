@@ -23,7 +23,7 @@ def config_file_exists()
 end
 
 def fetch_last_commit() 
-	return `git log -n -1 --oneline`
+	return `git log -n 1 --oneline`
 end
 
 def extract_ABIOS_from(message) 
@@ -42,16 +42,17 @@ if
 then
 	credentials = YAML.load_file(KEYS::CONFIG_FILE)
 else    
-	message = "Houston we have a proble. We can't find %s to setup our configuration" % KEYS::CONFIG_FILE
+	message = "Houston we have a problem. We can't find %s to setup our configuration" % KEYS::CONFIG_FILE
 	implode(message.red)
 end
 
 message = fetch_last_commit()
-print(message)
+puts message
+
 if is_ABIOS_ticket(message) 
 then 
 	abios = extract_ABIOS(message)
-	found_abios = ''Found %s ticket' % abios
+	found_abios = 'Found %s ticket' % abios
 	puts found_abios.green
  
 	bureau = JiraBureau.new(credentials[KEYS::USERNAME], credentials[KEYS::PASSWORD])
@@ -65,6 +66,6 @@ then
 	end
 	bureau.markAsDone(issue)
 else
-	puts 'Please don't waste my time'.yellow
+	puts "Please don't waste my time".yellow
 	implode("This is not an ABIOS ticket")
 end
