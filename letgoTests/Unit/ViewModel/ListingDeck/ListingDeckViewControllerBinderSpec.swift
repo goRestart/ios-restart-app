@@ -164,7 +164,7 @@ final class ListingDeckViewControllerBinderSpec: QuickSpec {
                                                                       timeSinceLastBump: TimeInterval.makeRandom(),
                                                                       maxCountdown: TimeInterval.makeRandom(),
                                                                       price: nil,
-                                                                      bannerInteractionBlock: {}, buttonBlock: {})
+                                                                      bannerInteractionBlock: { _ in }, buttonBlock: { _ in })
                 }
                 it("showBumpUpBannerBumpInfo method is called") {
                     expect(viewControllerType.isShowBumpUpBannerBumpInfoCalled).toEventually(be(1))

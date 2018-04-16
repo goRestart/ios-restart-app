@@ -146,6 +146,8 @@ struct Constants {
     static let maxRetriesForBumpUpRestore = 20
     static let maxRetriesForFirstTimeBumpUp = 3
     static let promoteAfterPostWaitTime = TimeInterval.make(days: 1)
+    static let fiveMinutesTimeLimit = TimeInterval.make(minutes: 5)
+    static let oneHourTimeLimit = TimeInterval.make(hours: 1)
 
     // Tracking
     static let parameterNotApply = "N/A"
@@ -159,4 +161,8 @@ struct Constants {
     static let usaPhoneNumberDigitsCount = 10
     static let usaFirstDashPosition = 3
     static let usaSecondDashPosition = 7
+
+    // Chat norris
+    static let minSafeHourForMeetings = 10
+    static let maxSafeHourForMeetings = 17
 }

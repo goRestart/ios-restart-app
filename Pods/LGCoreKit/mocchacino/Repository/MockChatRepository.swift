@@ -60,7 +60,8 @@ open class MockChatRepository: InternalChatRepository {
                                receivedAt: nil,
                                readAt: nil,
                                type: type,
-                               warnings: [])
+                               warnings: [],
+                               assistantMeeting: nil)
     }
     
     public func indexMessages(_ conversationId: String,

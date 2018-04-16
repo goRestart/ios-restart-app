@@ -53,12 +53,12 @@ class LGMonetizationRepository : MonetizationRepository {
         }
     }
 
-    func pricedBump(forListingId listingId: String, paymentId: String, receiptData: String, itemId: String, itemPrice: String, itemCurrency: String,
-                    amplitudeId: String?, appsflyerId: String?, idfa: String?, bundleId: String?,
-                    completion: BumpCompletion?) {
+    func pricedBump(forListingId listingId: String, paymentId: String, letgoItemId: String?, receiptData: String,
+                    itemId: String, itemPrice: String, itemCurrency: String, amplitudeId: String?, appsflyerId: String?,
+                    idfa: String?, bundleId: String?, completion: BumpCompletion?) {
         dataSource.pricedBump(forListingId: listingId, receiptData: receiptData, itemId: itemId, itemPrice: itemPrice,
-                              itemCurrency: itemCurrency, paymentId: paymentId, amplitudeId: amplitudeId, appsflyerId: appsflyerId,
-                              idfa: idfa, bundleId: bundleId) { [weak self] result in
+                              itemCurrency: itemCurrency, paymentId: paymentId, letgoItemId: letgoItemId ?? "", amplitudeId: amplitudeId,
+                              appsflyerId: appsflyerId, idfa: idfa, bundleId: bundleId) { [weak self] result in
             if let _ = result.value {
                 self?.listingsLimboDAO.save(listingId)
                 self?.eventBus.onNext(.pricedBump(listingId: listingId))

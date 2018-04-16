@@ -6,7 +6,7 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-enum QuickAnswer {
+enum QuickAnswer: Equatable {
 
     case interested
     case notInterested
@@ -24,6 +24,49 @@ enum QuickAnswer {
     case freeYours
     case freeAvailable
     case freeNotAvailable
+
+    case meetingAssistant(chatNorrisABtestVersion: ChatNorris)
+
+    static public func ==(lhs: QuickAnswer, rhs: QuickAnswer) -> Bool {
+        switch (lhs, rhs) {
+        case (.interested, .interested):
+            return true
+        case (.notInterested, .notInterested):
+            return true
+        case (.meetUp, .meetUp):
+            return true
+        case (.stillAvailable, .stillAvailable):
+            return true
+        case (.isNegotiable, .isNegotiable):
+            return true
+        case (.likeToBuy, .likeToBuy):
+            return true
+        case (.listingCondition, .listingCondition):
+            return true
+        case (.listingStillForSale, .listingStillForSale):
+            return true
+        case (.listingSold, .listingSold):
+            return true
+        case (.whatsOffer, .whatsOffer):
+            return true
+        case (.negotiableYes, .negotiableYes):
+            return true
+        case (.negotiableNo, .negotiableNo):
+            return true
+        case (.freeStillHave, .freeStillHave):
+            return true
+        case (.freeYours, .freeYours):
+            return true
+        case (.freeAvailable, .freeAvailable):
+            return true
+        case (.freeNotAvailable, .freeNotAvailable):
+            return true
+        case (.meetingAssistant(let lTestVar), .meetingAssistant(let rTestVar)):
+            return lTestVar == rTestVar
+        default:
+            return false
+        }
+    }
 
     var text: String {
         switch self {
@@ -59,10 +102,12 @@ enum QuickAnswer {
             return LGLocalizedString.directAnswerFreeAvailable
         case .freeNotAvailable:
             return LGLocalizedString.directAnswerFreeNoAvailable
+        case .meetingAssistant:
+            return LGLocalizedString.directAnswerLetsMeet
         }
     }
 
-    var quickAnswerType: EventParameterQuickAnswerType {
+    var quickAnswerType: EventParameterQuickAnswerType? {
         switch self {
         case .interested:
             return .interested
@@ -96,11 +141,80 @@ enum QuickAnswer {
             return .freeAvailable
         case .freeNotAvailable:
             return .freeNotAvailable
+        case .meetingAssistant:
+            return nil
         }
     }
 
-    static func quickAnswersForChatWith(buyer: Bool, isFree: Bool) -> [QuickAnswer] {
+    var isMeetingAssistant: Bool {
+        switch self {
+        case .meetingAssistant:
+            return true
+        default:
+            return false
+        }
+    }
+
+    var icon: UIImage? {
+        switch self {
+        case .meetingAssistant:
+            return #imageLiteral(resourceName: "ic_calendar").withRenderingMode(.alwaysTemplate)
+        default:
+            return nil
+        }
+    }
+
+    var textColor: UIColor {
+        switch self {
+        case .meetingAssistant(let chatNorrisABtestVersion):
+            switch chatNorrisABtestVersion {
+            case .baseline, .control, .greenButton, .redButton:
+                return UIColor.white
+            case .whiteButton:
+                return UIColor.primaryColor
+            }
+        default:
+            return UIColor.white
+        }
+    }
+
+    var iconTintColor: UIColor {
+        switch self {
+        case .meetingAssistant(let chatNorrisABtestVersion):
+            switch chatNorrisABtestVersion {
+            case .baseline, .control, .greenButton, .redButton:
+                return UIColor.white
+            case .whiteButton:
+                return UIColor.primaryColor
+            }
+        default:
+            return UIColor.white
+        }
+    }
+
+    var bgColor: UIColor {
+        switch self {
+        case .meetingAssistant(let chatNorrisABtestVersion):
+            switch chatNorrisABtestVersion {
+            case .baseline, .control, .redButton:
+                return UIColor.primaryColor
+            case  .greenButton:
+                return UIColor.terciaryColor
+            case .whiteButton:
+                return UIColor.white
+            }
+        default:
+            return UIColor.primaryColor
+        }
+    }
+
+
+
+    static func quickAnswersForChatWith(buyer: Bool, isFree: Bool, chatNorrisABtestVersion: ChatNorris) -> [QuickAnswer] {
         var result = [QuickAnswer]()
+        if chatNorrisABtestVersion.isActive {
+            result.append(.meetingAssistant(chatNorrisABtestVersion: chatNorrisABtestVersion))
+        }
         if isFree {
             if buyer {
                 result.append(.interested)

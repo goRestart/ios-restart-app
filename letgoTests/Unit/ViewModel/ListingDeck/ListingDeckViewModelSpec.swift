@@ -806,13 +806,22 @@ extension ListingDeckViewModelSpec: ListingDetailNavigator {
                           withPhoneNum: String?,
                           source: EventParameterTypePage,
                           interlocutor: User?) { }
-    func editListing(_ listing: Listing, bumpUpProductData: BumpUpProductData?) { }
+    func editListing(_ listing: Listing,
+                     bumpUpProductData: BumpUpProductData?,
+                     listingCanBeBoosted: Bool,
+                     timeSinceLastBump: TimeInterval?,
+                     maxCountdown: TimeInterval?) { }
     func openFreeBumpUp(forListing listing: Listing,
                         bumpUpProductData: BumpUpProductData,
                         typePage: EventParameterTypePage?) {}
     func openPayBumpUp(forListing listing: Listing,
                        bumpUpProductData: BumpUpProductData,
                        typePage: EventParameterTypePage?) {}
+    func openBumpUpBoost(forListing listing: Listing,
+                         bumpUpProductData: BumpUpProductData,
+                         typePage: EventParameterTypePage?,
+                         timeSinceLastBump: TimeInterval,
+                         maxCountdown: TimeInterval) {}
     func closeProductDetail() {}
     func openListingChat(_ listing: Listing, source: EventParameterTypePage) {}
     func closeListingAfterDelete(_ listing: Listing) {}
@@ -829,6 +838,7 @@ extension ListingDeckViewModelSpec: ListingDetailNavigator {
                                               alertType: AlertType,
                                               buttonsLayout: AlertButtonsLayout,
                                               actions: [UIAction]) {}
+    func showBumpUpBoostSucceededAlert() {}
     func openContactUs(forListing listing: Listing, contactUstype: ContactUsType) {}
     func openFeaturedInfo() {}
     func closeFeaturedInfo() {}

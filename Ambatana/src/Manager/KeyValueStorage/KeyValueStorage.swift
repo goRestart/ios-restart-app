@@ -280,6 +280,18 @@ extension KeyValueStorageable {
             currentUserProperties = userProperties
         }
     }
+
+    var meetingSafetyTipsAlreadyShown: Bool {
+        get {
+            return currentUserProperties?.meetingSafetyTipsAlreadyShown ??
+                UserDefaultsUser.meetingSafetyTipsAlreadyShownDefaultValue
+        }
+        set {
+            guard var userProperties = currentUserProperties else { return }
+            userProperties.meetingSafetyTipsAlreadyShown = newValue
+            currentUserProperties = userProperties
+        }
+    }
 }
 
 
