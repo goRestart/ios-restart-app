@@ -45,15 +45,15 @@ class JiraBureau
           	abort()
   	end
 
-	def fetchIssue(issue_id)
+	def fetch_issue(issue_id)
 		return @@client.Issue.find(issue_id)
 	end
 	
-	def issueLink(issue_id)
+	def issue_link(issue_id)
 		return @@site + '/browse/' + issue_id
 	end 
 	
-	def listAvailableTransitions(issue) 
+	def list_available_transitions_for(issue) 
 		puts 'Available transitions :)'
 		puts ''
 		available_transitions = @@client.Transition.all(:issue => issue)
@@ -69,10 +69,10 @@ class JiraBureau
         	end
 	end	
 	
-	def markAsDoing(issue) 
+	def start_doing(issue) 
 		available_transitions = @@client.Transition.all(:issue => issue)
-		canMoveToDoing = available_transitions.map { |issue| issue.id  }.include? TRANSITIONS::START_DOING
-		if canMoveToDoing
+		can_move_to_doing = available_transitions.map { |issue| issue.id  }.include? TRANSITIONS::START_DOING
+		if can_move_to_doing
 		then 
 			transition(issue, TRANSITIONS::START_DOING, 'Started doing ticket', 'Need backup cannot start doing this ticket!!')
 		else
@@ -80,10 +80,10 @@ class JiraBureau
 		end
 	end
 
-	def markAsReviewing(issue)
+	def start_reviewing(issue)
 		available_transitions = @@client.Transition.all(:issue => issue)
-		isDoing = available_transitions.map { |issue| issue.id  }.include? TRANSITIONS::REQUEST_REVIEW
-		if isDoing
+		is_being_done = available_transitions.map { |issue| issue.id  }.include? TRANSITIONS::REQUEST_REVIEW
+		if is_being_done
 		then
 			puts 'Requesting review'.green
 			transition(issue, TRANSITIONS::REQUEST_REVIEW, 'Successfully requested review', 'Need backup reviewing!!')
@@ -92,16 +92,16 @@ class JiraBureau
 		end
 	end
 	
-	def markAsDone(issue)
+	def mark_as_done(issue)
         	available_transitions = @@client.Transition.all(:issue => issue)
-        	doing = available_transitions.map { |issue| issue.id  }.include? TRANSITIONS::REQUEST_REVIEW
-		if !doing 
-			then
+        	is_being_done = available_transitions.map { |issue| issue.id  }.include? TRANSITIONS::REQUEST_REVIEW
+		if !is_being_done 
+		then
 			puts 'You should have moved your ticket to doing'.yellow
 			puts "Nevermind. I'll do it for you"
-        		markAsDoing(issue)
+        		mark_as_doing(issue)
 		end
-        	markAsReviewing(issue)	
+        	start_reviewing(issue)	
         	transition(issue, TRANSITIONS::MERGE, 'Successfully merged your ticket. Nothing to see here', 'Need backup mergin!!')
 	end
 end	
