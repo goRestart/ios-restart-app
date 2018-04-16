@@ -37,9 +37,6 @@ final class ListingCardDetailsViewBinder {
                            viewModel.cardShowExactLocationOnMap.observeOn(MainScheduler.asyncInstance)) { ($0, $1) }
 
         productInfoObservable.observeOn(MainScheduler.asyncInstance).bind { [weak self] (info, showExactLocationOnMap) in
-            print("❌❌❌❌❌❌❌")
-            print(info)
-            print(showExactLocationOnMap)
             self?.detailsView?.populateWith(productInfo: info, showExactLocationOnMap: showExactLocationOnMap)
             }.disposed(by: disposeBag)
     }
