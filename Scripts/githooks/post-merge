@@ -1,0 +1,59 @@
+#!/usr/bin/env ruby
+# encoding: utf-8
+
+require 'rubygems'
+require 'pp'
+require 'yaml'
+require 'colorize'
+require_relative './jirabureau'
+
+module KEYS
+	USERNAME = 'username'
+        PASSWORD = 'password'
+        CONFIG_FILE = 'jiraconfig.yml'
+end
+
+def implode(message)
+	puts message.red
+	abort()
+end
+
+def configFileExists()         
+	File.exist?(File.expand_path(KEYS::CONFIG_FILE))
+end
+
+if configFileExists()
+then
+        credentials = YAML.load_file(KEYS::CONFIG_FILE)
+else
+        implode("Houston we have a problem, there is no config file!".red)
+end
+
+def fetchLastCommit() 
+	return `git log --abbrev-commit -1 --pretty=oneline`
+end
+
+def extractABIOS(message) 
+	return message[/ABIOS-[0-9]{4}/]
+end
+
+def isABIOSTicket(message) 
+	abios = extractABIOS(message)
+	isEmpty = id if abios.nil? || abios.empty?
+	return !isEmpty
+end
+
+message = fetchLastCommit()
+print(message)
+if isABIOSTicket(message) 
+then 
+	puts 'Found an ABIOS ticket'.green 
+	abios = extractABIOS(message)
+	bureau = JiraBureau.new(credentials[KEYS::USERNAME], credentials[KEYS::PASSWORD])
+	puts 'Fetching issue'
+
+	issue = bureau.fetchIssue(abios)
+	bureau.markAsDone(issue)
+else
+	implode("This is not an ABIOS ticket. Keep moving. Nothing to see here.".yellow)
+end
