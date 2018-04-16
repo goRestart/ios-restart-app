@@ -63,7 +63,7 @@ final class QuickChatViewBinder {
         }.disposed(by: bag)
 
         viewModel.rxQuickAnswers.bind {  [weak chatView, weak viewModel] quickAnswers in
-            guard let chatViewModel = viewModel else { return }
+            guard let _ = viewModel else { return }
             chatView?.updateDirectChatWith(answers: quickAnswers)
         }.disposed(by: bag)
 
