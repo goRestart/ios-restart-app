@@ -576,7 +576,6 @@ class MainListingsViewModel: BaseViewModel {
                                                                          name: categoryHeaderInfo.name))
             return // do not update any filters
         case .mostSearchedItems:
-            // TODO: Add tracker. Also check .showMore's tracker top in another method
             return
         }
         applyFilters(categoryHeaderInfo)
