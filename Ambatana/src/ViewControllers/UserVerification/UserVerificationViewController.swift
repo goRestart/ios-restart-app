@@ -81,6 +81,13 @@ final class UserVerificationViewController: BaseViewController {
             self?.navBarView.avatarImageView.lg_setImageWithURL(avatarURL)
         }).disposed(by: disposeBag)
 
+        Observable
+            .combineLatest(viewModel.userAvatar.asObservable(), viewModel.userAvatarPlaceholder.asObservable()) {($0, $1)}
+            .subscribeNext { [weak self] (url, placeholder) in
+                self?.navBarView.setAvatar(url, placeholderImage: placeholder)
+            }
+            .disposed(by: disposeBag)
+
         viewModel.userScore.drive(onNext: { [weak self] score in
             self?.navBarView.score = score
         }).disposed(by: disposeBag)

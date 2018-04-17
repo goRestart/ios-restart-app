@@ -27,6 +27,7 @@ final class UserVerificationViewModel: BaseViewModel {
     private let actionsHistory = Variable<[UserReputationActionType]>([])
     private var user: Driver<MyUser?> { return myUserRepository.rx_myUser.asDriver(onErrorJustReturn: nil) }
     var userAvatar: Driver<URL?> { return user.map { $0?.avatar?.fileURL } }
+    var userAvatarPlaceholder: Driver<UIImage?> { return user.map { LetgoAvatar.avatarWithColor(UIColor.defaultAvatarColor, name: $0?.name) } }
     var userScore: Driver<Int> { return user.map { $0?.reputationPoints ?? 0 } }
 
     var items: Driver<[[UserVerificationItem]]> {
