@@ -8,9 +8,8 @@ require 'colorize'
 require_relative './jirabureau'
 
 module KEYS
-	USERNAME = 'username'
-        PASSWORD = 'password'
-        CONFIG_FILE = 'jiraconfig.yml'
+	PASSWORD = 'IOS_JIRA_PASSWORD'
+        USERNAME = 'IOS_JIRA_USERNAME'
 end
 
 def implode(message)
@@ -36,11 +35,8 @@ def is_ABIOS_ticket(message)
 end
 
 
-if 
-	config_file_exists()
-then
-	credentials = YAML.load_file(KEYS::CONFIG_FILE)
-else    
+if !ENV.has_key?(KEYS::PASSWORD) || !ENV.has_key?(KEYS::USERNAME) 
+then	
 	message = "Houston we have a problem. We can't find %s to setup our configuration" % KEYS::CONFIG_FILE
 	implode(message.red)
 end
@@ -54,7 +50,7 @@ then
 	found_abios = 'Found %s ticket pattern' % abios
 	puts found_abios.green
  
-	bureau = JiraBureau.new(credentials[KEYS::USERNAME], credentials[KEYS::PASSWORD])
+	bureau = JiraBureau.new(ENV[KEYS::USERNAME], ENV[KEYS::PASSWORD])
 	
 	fetching_abios = 'Fetching %s ticket' % abios
 	begin
