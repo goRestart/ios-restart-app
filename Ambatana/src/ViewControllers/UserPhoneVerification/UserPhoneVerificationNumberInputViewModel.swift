@@ -11,14 +11,14 @@ import RxSwift
 import RxCocoa
 import CoreTelephony
 
-struct Country {
+struct PhoneVerificationCountry {
     let regionCode: String
-    let callingCode: Int
+    let callingCode: String
 
     private let currentLocale: Locale
 
     init(regionCode: String,
-         callingCode: Int,
+         callingCode: String,
          locale: Locale = Locale.current) {
         self.regionCode = regionCode
         self.callingCode = callingCode
@@ -37,16 +37,19 @@ final class UserPhoneVerificationNumberInputViewModel: BaseViewModel {
     private let locationManager: LocationManager
     private let locationRepository: LocationRepository
     private let telephonyNetworkInfo: CTTelephonyNetworkInfo
+    private let countryHelper: CountryHelper
 
-    var country = Variable<Country?>(nil)
+    var country = Variable<PhoneVerificationCountry?>(nil)
     var isContinueActionEnabled = Variable<Bool>(false)
 
     init(locationManager: LocationManager = Core.locationManager,
          locationRepository: LocationRepository = Core.locationRepository,
+         countryHelper: CountryHelper = Core.countryHelper,
          telephonyNetworkInfo: CTTelephonyNetworkInfo = CTTelephonyNetworkInfo()) {
         self.locationManager = locationManager
         self.locationRepository = locationRepository
         self.telephonyNetworkInfo = telephonyNetworkInfo
+        self.countryHelper = countryHelper
         super.init()
         retrieveCurrentLocationCountry()
     }
@@ -79,12 +82,12 @@ final class UserPhoneVerificationNumberInputViewModel: BaseViewModel {
 
     private func updateCurrentLocationCountry(with countryCode: String) {
         guard let callingCode = retrieveCallingCode(for: countryCode) else { return }
-        country.value = Country(regionCode: countryCode, callingCode: callingCode)
+        country.value = PhoneVerificationCountry(regionCode: countryCode, callingCode: callingCode)
     }
 
-    private func retrieveCallingCode(for regionCode: String) -> Int? {
-        // FIXME: waiting for product specs
-        return 0
+    private func retrieveCallingCode(for regionCode: String) -> String? {
+        let countryInfo = countryHelper.countryInfoForCountryCode(regionCode)
+        return countryInfo?.countryPhoneCode
     }
 
     // MARK: - Actions
@@ -98,7 +101,8 @@ final class UserPhoneVerificationNumberInputViewModel: BaseViewModel {
     }
 
     func didTapContinueButton(with phoneNumber: String) {
-        let fullNumber = "+\(country.value?.callingCode) \(phoneNumber)"
+        guard let callingCode = country.value?.callingCode else { return }
+        let fullNumber = "+\(callingCode) \(phoneNumber)"
         navigator?.openCodeInput(sentTo: fullNumber)
     }
 }
