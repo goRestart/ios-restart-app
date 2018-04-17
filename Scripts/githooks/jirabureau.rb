@@ -29,10 +29,15 @@ module Exceptions
 		end
 	end
 	class TransitionNotAvailable < StandardError
-		def initialize(url) 
+		def initialize(url, transition) 
 			@url = url
+			@transition = transition
 		end
 
+		def transition
+			@transition
+		end
+	
 		def url
 			@url
 		end
@@ -74,6 +79,14 @@ class JiraBureau
 	
 	def issue_link(issue_id)
 		return @@site + '/browse/' + issue_id
+	end
+
+	def transition_name(transition_id) 
+		if transition_id == TRANSITIONS::START_DOING then return 'START DOING'
+		elsif transition_id == TRANSITIONS::REQUEST_REVIEW then return 'REQUESTING REVIEW'
+		elsif transition_id == TRANSITIONS::MERGE then return 'MERGED'
+		else return 'OTHER'
+		end
 	end 
 	
 	def list_available_transitions_for(issue) 
@@ -86,7 +99,7 @@ class JiraBureau
 	def transition(issue, issue_id, transition_id)
         	issue_transition = issue.transitions.build
 		url = issue_link(issue_id)
-        	raise Exceptions::TransitionNotAvailable(url) if issue_transition.save('transition' => {'id' => transition_id}) 
+        	raise Exceptions::TransitionNotAvailable(url, transition_id) if issue_transition.save('transition' => {'id' => transition_id}) 
 	end	
 	
 	def start_doing(issue, issue_id) 
