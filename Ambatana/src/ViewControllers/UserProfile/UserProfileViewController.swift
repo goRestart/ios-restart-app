@@ -562,7 +562,14 @@ extension UserProfileViewController {
             .userBio
             .drive(onNext: { [weak self] bio in
                 self?.bioAndTrustView.userBio = bio
-                self?.karmaView.score = 12
+            })
+            .disposed(by: disposeBag)
+
+        viewModel
+            .userScore
+            .drive(onNext: { [weak self] score in
+                guard let strongSelf = self, strongSelf.viewModel.showKarmaView else { return }
+                strongSelf.karmaView.score = score
             })
             .disposed(by: disposeBag)
 
@@ -577,6 +584,13 @@ extension UserProfileViewController {
             .userRelationText
             .drive(onNext: { [weak self] text in
                 self?.updateUserRelation(with: text)
+            })
+            .disposed(by: disposeBag)
+
+        viewModel
+            .userBadge
+            .drive(onNext: { [weak self] badge in
+                self?.headerView.userBadge = badge
             })
             .disposed(by: disposeBag)
 
