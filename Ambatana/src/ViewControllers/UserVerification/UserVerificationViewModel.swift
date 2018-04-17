@@ -24,14 +24,16 @@ final class UserVerificationViewModel: BaseViewModel {
     private let googleHelper: GoogleLoginHelper
     fileprivate let tracker: Tracker
 
+    private let actionsHistory = Variable<[UserReputationAction]>([])
     private var user: Driver<MyUser?> { return myUserRepository.rx_myUser.asDriver(onErrorJustReturn: nil) }
     var userAvatar: Driver<URL?> { return user.map{$0?.avatar?.fileURL} }
     var userScore: Driver<Int> { return .just(42) }
 
     var items: Driver<[[UserVerificationItem]]> {
-        return myUserRepository.rx_myUser.asDriver(onErrorJustReturn: nil).map { [weak self] in
-            self?.buildItems(with: $0) ?? []
-        }
+        return Driver
+            .combineLatest(myUserRepository.rx_myUser.asDriver(onErrorJustReturn: nil), actionsHistory.asDriver())
+            .map{($0, $1)}
+            .map(buildItems)
     }
 
     init(myUserRepository: MyUserRepository,
@@ -52,21 +54,39 @@ final class UserVerificationViewModel: BaseViewModel {
                   tracker: TrackerProxy.sharedInstance)
     }
 
-    private func buildItems(with myUser: MyUser?) -> [[UserVerificationItem]] {
+    private func syncHistory() {
+        myUserRepository.retrieveUserReputationActions { [weak self] result in
+            if let value = result.value {
+                self?.actionsHistory.value = value
+            } else if let error = result.error {
+                // Show error?
+            }
+        }
+    }
+
+    private func buildItems(with myUser: MyUser?, actions: [UserReputationAction]) -> [[UserVerificationItem]] {
         guard let user = myUser else { return [] }
+
+        let facebookVerified = actions.contains(where: {$0.type == .facebook })
+        let googleVerified = actions.contains(where: {$0.type == .google })
+        let emailVerified = actions.contains(where: {$0.type == .email })
+
         let firstSection: [UserVerificationItem] = [
-            .facebook(completed: user.facebookAccount?.verified ?? false),
-            .google(completed: user.googleAccount?.verified ?? false),
-            .email(completed: user.emailAccount?.verified ?? false)
+            .facebook(completed: facebookVerified),
+            .google(completed: googleVerified),
+            .email(completed: emailVerified)
         ]
 
+        let hasProfilePicture = user.avatar?.fileURL != nil || actions.contains(where: {$0.type == .avatarUploaded })
+        let hasBio = user.biography != nil
+        
         let secondSection: [UserVerificationItem] = [
-            .profilePicture(completed: user.avatar?.fileURL != nil),
+            .profilePicture(completed: hasProfilePicture),
             .bio(completed: user.biography != nil)
         ]
 
         let thirdSection: [UserVerificationItem] = [
-            .markAsSold(completed: false)
+            .markAsSold(completed: actions.contains(where: {$0.type == .markAsSold }))
         ]
 
         return [firstSection, secondSection, thirdSection]
