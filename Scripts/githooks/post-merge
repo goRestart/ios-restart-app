@@ -22,7 +22,7 @@ def fetch_last_commit()
 end
 
 def extract_ABIOS_from(message) 
-	return message[/ABIOS[-, ]?[0-9]{4}/i]
+	return message[/ABIOS[-, ]?[0-9]{4,5}/i]
 end
 
 def is_ABIOS_ticket(message) 
