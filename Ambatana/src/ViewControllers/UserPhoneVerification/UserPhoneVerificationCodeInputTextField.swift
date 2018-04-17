@@ -159,7 +159,7 @@ class VerificationCodeTextField: UIView {
 
 extension VerificationCodeTextField: UITextFieldDelegate, CodeTextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let aSet = NSCharacterSet(charactersIn:"0123456789").inverted
+        let aSet = NSCharacterSet.decimalDigits.inverted
         let compSepByCharInSet = string.components(separatedBy: aSet)
         let numberFiltered = compSepByCharInSet.joined(separator: "")
         return string == numberFiltered

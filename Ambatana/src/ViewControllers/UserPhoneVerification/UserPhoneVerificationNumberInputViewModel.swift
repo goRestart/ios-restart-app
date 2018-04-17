@@ -90,11 +90,7 @@ final class UserPhoneVerificationNumberInputViewModel: BaseViewModel {
     // MARK: - Actions
 
     func didChangePhone(number: String?) {
-        guard let number = number else {
-            isContinueActionEnabled.value = false
-            return
-        }
-        isContinueActionEnabled.value = number.isValidPhoneNumber
+        isContinueActionEnabled.value = number?.isValidPhoneNumber ?? false
     }
 
     func didTapCountryButton() {
