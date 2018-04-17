@@ -14,7 +14,7 @@ open class MockLocationRepository: LocationRepository {
     public var suggestionDetailsResult: LocationSuggestionDetailsRepositoryResult!
     public var postalAddressResult: PostalAddressLocationRepositoryResult!
     public var ipLookupLocationResult: IPLookupLocationRepositoryResult!
-    
+
     public var locationEnabledValue: Bool = true
     public var authorizationStatusValue: CLAuthorizationStatus = .notDetermined
     

@@ -54,6 +54,7 @@ typealias ListingsRequesterCompletion = (ListingsRequesterResult) -> Void
 
 protocol ListingListRequester: class {
     var itemsPerPage: Int { get }
+    var isFirstPage: Bool { get }
     func canRetrieve() -> Bool
     func retrieveFirstPage(_ completion: ListingsRequesterCompletion?)
     func retrieveNextPage(_ completion: ListingsRequesterCompletion?)
@@ -89,6 +90,7 @@ class ListingListViewModel: BaseViewModel {
     weak var listingCellDelegate: ListingCellDelegate?
     
     let featureFlags: FeatureFlags
+    private let myUserRepository: MyUserRepository
     
     // Requester
     var listingListRequester: ListingListRequester?
@@ -152,7 +154,8 @@ class ListingListViewModel: BaseViewModel {
          tracker: Tracker = TrackerProxy.sharedInstance,
          imageDownloader: ImageDownloaderType = ImageDownloader.sharedInstance,
          reporter: CrashlyticsReporter = CrashlyticsReporter(),
-         featureFlags: FeatureFlags = FeatureFlags.sharedInstance) {
+         featureFlags: FeatureFlags = FeatureFlags.sharedInstance,
+         myUserRepository: MyUserRepository = Core.myUserRepository) {
         self.objects = (listings ?? []).map(ListingCellModel.init)
         self.pageNumber = 0
         self.refreshing = false
@@ -164,6 +167,7 @@ class ListingListViewModel: BaseViewModel {
         self.imageDownloader = imageDownloader
         self.indexToTitleMapping = [:]
         self.featureFlags = featureFlags
+        self.myUserRepository = myUserRepository
         super.init()
         let cellHeight = cellWidth * cellAspectRatio
         self.defaultCellSize = CGSize(width: cellWidth, height: cellHeight)
@@ -327,7 +331,7 @@ class ListingListViewModel: BaseViewModel {
         case .mostSearchedItems:
             dataDelegate?.vmDidSelectMostSearchedItems()
             return
-        case .emptyCell, .dfpAdvertisement, .mopubAdvertisement:
+        case .emptyCell, .dfpAdvertisement, .mopubAdvertisement, .promo:
             return
         }
     }
@@ -340,7 +344,7 @@ class ListingListViewModel: BaseViewModel {
                 if let thumbnailURL = listing.thumbnail?.fileURL {
                     urls.append(thumbnailURL)
                 }
-            case .emptyCell, .collectionCell, .dfpAdvertisement, .mopubAdvertisement, .mostSearchedItems:
+            case .emptyCell, .collectionCell, .dfpAdvertisement, .mopubAdvertisement, .mostSearchedItems, .promo:
                 break
             }
         }
@@ -383,7 +387,7 @@ class ListingListViewModel: BaseViewModel {
         switch item {
         case let .listingCell(listing):
             return listing
-        case .collectionCell, .emptyCell, .dfpAdvertisement, .mopubAdvertisement, .mostSearchedItems:
+        case .collectionCell, .emptyCell, .dfpAdvertisement, .mopubAdvertisement, .mostSearchedItems, .promo:
             return nil
         }
     }
@@ -393,14 +397,17 @@ class ListingListViewModel: BaseViewModel {
             switch cellModel {
             case let .listingCell(listing):
                 return listing.objectId == listingId
-            case .collectionCell, .emptyCell, .dfpAdvertisement, .mopubAdvertisement, .mostSearchedItems:
+            case .collectionCell, .emptyCell, .dfpAdvertisement, .mopubAdvertisement, .mostSearchedItems, .promo:
                 return false
             }
         })
     }
     
     private func featuredInfoAdditionalCellHeight(for listing: Listing, width: CGFloat, isVariantEnabled: Bool, productDetailDisplayType: AddPriceTitleDistanceToListings) -> CGFloat {
-        let minHeightForFeaturedListing: CGFloat = ListingCellMetrics.ActionButton.totalHeight
+        
+        let isMine = listing.isMine(myUserRepository: myUserRepository)
+        
+        let minHeightForFeaturedListing: CGFloat = isMine ? 0.0 : ListingCellMetrics.ActionButton.totalHeight
         guard isVariantEnabled, let featured = listing.featured, featured else {
             return 0
         }
@@ -428,7 +435,7 @@ class ListingListViewModel: BaseViewModel {
     private func normalCellAdditionalHeight(for listing: Listing,
                                             width: CGFloat,
                                             variant: AddPriceTitleDistanceToListings) -> CGFloat {
-        guard let isFeatured = listing.featured, !isFeatured else { return 0 }
+        if let isFeatured = listing.featured, isFeatured { return 0 }
         guard variant.showDetailInNormalCell else { return 0 }
         return ListingCellMetrics.getTotalHeightForPriceAndTitleView(listing.title, containerWidth: width)
     }
@@ -494,6 +501,8 @@ class ListingListViewModel: BaseViewModel {
             size = CGSize(width: cellWidth, height: adData.bannerHeight)
         case .mostSearchedItems:
             return CGSize(width: cellWidth, height: MostSearchedItemsListingListCell.height)
+        case .promo:
+            return CGSize(width: cellWidth, height: PromoCellMetrics.height)
         }
         return size
     }
@@ -529,7 +538,7 @@ class ListingListViewModel: BaseViewModel {
             categories = data.categories
         case .mopubAdvertisement(let data):
             categories = data.categories
-        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems:
+        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems, .promo:
             break
         }
         return categories
@@ -552,7 +561,7 @@ class ListingListViewModel: BaseViewModel {
                                                      bannerView: bannerView)
                 objects[position] = ListingCellModel.dfpAdvertisement(data: newAdData)
 
-        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems, .mopubAdvertisement:
+        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems, .mopubAdvertisement, .promo:
             break
         }
     }
@@ -575,7 +584,7 @@ class ListingListViewModel: BaseViewModel {
                                                    moPubView: moPubView)
             objects[position] = ListingCellModel.mopubAdvertisement(data: newAdData)
             
-        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems, .dfpAdvertisement:
+        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems, .dfpAdvertisement, .promo:
             break
         }
     }
@@ -621,7 +630,7 @@ extension ListingListViewModel {
                                                   bannerView: bannerView)
                 objects[forPosition] = ListingCellModel.dfpAdvertisement(data: newAdData)
                 delegate?.vmReloadItemAtIndexPath(indexPath: IndexPath(item: forPosition, section: 0))
-        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems, .mopubAdvertisement:
+        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems, .mopubAdvertisement, .promo:
             break
         }
     }

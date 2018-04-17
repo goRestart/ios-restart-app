@@ -16,13 +16,4 @@ extension Priceable {
             return price.value > 0 ? formattedPrice() :  LGLocalizedString.productNegotiablePrice
         }
     }
-    
-    func isNegotiable(freeModeAllowed: Bool) -> Bool {
-        switch price {
-        case .free:
-            return !freeModeAllowed
-        case .normal(let value):
-            return value == 0
-        }
-    }
 }

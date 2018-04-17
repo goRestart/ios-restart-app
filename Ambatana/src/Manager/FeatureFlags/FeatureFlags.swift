@@ -24,7 +24,7 @@ enum BumpPriceVariationBucket: Int {
 
 protocol FeatureFlaggeable: class {
 
-    var trackingData: Observable<[(String, ABGroupType)]?> { get }
+    var trackingData: Observable<[(String, ABGroup)]?> { get }
     var syncedData: Observable<Bool> { get }
     func variablesUpdated()
 
@@ -35,13 +35,12 @@ protocol FeatureFlaggeable: class {
     var freeBumpUpEnabled: Bool { get }
     var pricedBumpUpEnabled: Bool { get }
     var userReviewsReportEnabled: Bool { get }
-    var dynamicQuickAnswers: DynamicQuickAnswers { get }
     var searchAutocomplete: SearchAutocomplete { get }
     var realEstateEnabled: RealEstateEnabled { get }
     var requestTimeOut: RequestsTimeOut { get }
     var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
     var showClockInDirectAnswer : ShowClockInDirectAnswer { get }
-    var newItemPage: NewItemPage { get }
+    var deckItemPage: DeckItemPage { get }
     var allowCallsForProfessionals: AllowCallsForProfessionals { get }
     var mostSearchedDemandedItems: MostSearchedDemandedItems { get }
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio { get }
@@ -50,9 +49,7 @@ protocol FeatureFlaggeable: class {
     var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
     var showInactiveConversations: Bool { get }
     var increaseMinPriceBumps: IncreaseMinPriceBumps { get }
-    var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage { get }
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers { get }
-    var emojiSizeIncrement: EmojiSizeIncrement { get }
     var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings { get }
     var newUserProfileView: NewUserProfileView { get }
     var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation { get }
@@ -63,15 +60,20 @@ protocol FeatureFlaggeable: class {
     var discardedProducts: DiscardedProducts { get }
     var promoteBumpInEdit: PromoteBumpInEdit { get }
     var userIsTyping: UserIsTyping { get }
+    var bumpUpBoost: BumpUpBoost { get }
     var servicesCategoryEnabled: ServicesCategoryEnabled { get }
     var increaseNumberOfPictures: IncreaseNumberOfPictures { get }
     var realEstateTutorial: RealEstateTutorial { get }
+    var realEstatePromoCell: RealEstatePromoCell { get }
     var machineLearningMVP: MachineLearningMVP { get }
+    var chatNorris: ChatNorris { get }
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings { get }
     var markAllConversationsAsRead: Bool { get }
     var showProTagUserProfile: Bool { get }
     var summaryAsFirstStep: SummaryAsFirstStep { get }
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem { get }
+    var searchCarsIntoNewBackend: SearchCarsIntoNewBackend { get }
+    var showExactLocationForPros: Bool { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -83,11 +85,14 @@ protocol FeatureFlaggeable: class {
     var feedDFPAdUnitId: String? { get }
     var bumpPriceVariationBucket: BumpPriceVariationBucket { get }
     func collectionsAllowedFor(countryCode: String?) -> Bool
-    var shouldChangeChatNowCopy: Bool { get }
+    var shouldChangeChatNowCopyInTurkey: Bool { get }
     var copyForChatNowInTurkey: CopyForChatNowInTurkey { get }
     var shareTypes: [ShareType] { get }
     var feedAdsProviderForUS:  FeedAdsProviderForUS { get }
     var feedMoPubAdUnitId: String? { get }
+    var shouldChangeChatNowCopyInEnglish: Bool { get }
+    var copyForChatNowInEnglish: CopyForChatNowInEnglish { get }
+    var feedAdsProviderForTR:  FeedAdsProviderForTR { get }
     
 }
 
@@ -98,63 +103,48 @@ extension FeatureFlaggeable {
 }
 
 extension TaxonomiesAndTaxonomyChildrenInFeed {
-    var isActive: Bool { get { return self == .active } }
+    var isActive: Bool { return self == .active }
 }
 
 extension AllowCallsForProfessionals {
-    var isActive: Bool { get { return self == .control || self == .baseline } }
+    var isActive: Bool { return self == .control || self == .baseline }
 }
 
 extension MostSearchedDemandedItems {
     var isActive: Bool {
-        get {
-            return self == .cameraBadge ||
-                self == .trendingButtonExpandableMenu ||
-                self == .subsetAboveExpandableMenu
-        }
+        return self == .cameraBadge ||
+            self == .trendingButtonExpandableMenu ||
+            self == .subsetAboveExpandableMenu
     }
 }
 
 extension RealEstateEnabled {
-    var isActive: Bool { get { return self == .active } }
+    var isActive: Bool { return self == .active }
 }
 
 extension ShowAdsInFeedWithRatio {
-    var isActive: Bool { get { return self != .control && self != .baseline } }
+    var isActive: Bool { return self != .control && self != .baseline }
 }
 
 extension NoAdsInFeedForNewUsers {
     private var shouldShowAdsInFeedForNewUsers: Bool {
-        get {
-            return self == .adsEverywhere || self == .adsForNewUsersOnlyInFeed
-        }
+        return self == .adsEverywhere || self == .adsForNewUsersOnlyInFeed
     }
     private var shouldShowAdsInFeedForOldUsers: Bool {
-        get {
-            return self == .adsEverywhere || self == .adsForNewUsersOnlyInFeed || self == .noAdsForNewUsers
-        }
+        return self == .adsEverywhere || self == .adsForNewUsersOnlyInFeed || self == .noAdsForNewUsers
     }
     var shouldShowAdsInFeed: Bool {
-        get {
-            return shouldShowAdsInFeedForNewUsers || shouldShowAdsInFeedForOldUsers
-        }
+        return shouldShowAdsInFeedForNewUsers || shouldShowAdsInFeedForOldUsers
     }
     private var shouldShowAdsInMoreInfoForNewUsers: Bool {
-        get {
-            return self == .control || self == .baseline || self == .adsEverywhere
-        }
+        return self == .control || self == .baseline || self == .adsEverywhere
     }
     private var shouldShowAdsInMoreInfoForOldUsers: Bool {
-        get {
-            return true
-        }
+        return true
     }
     var shouldShowAdsInMoreInfo: Bool {
-        get {
-            return shouldShowAdsInMoreInfoForNewUsers || shouldShowAdsInMoreInfoForOldUsers
-        }
+        return shouldShowAdsInMoreInfoForNewUsers || shouldShowAdsInMoreInfoForOldUsers
     }
-
 
     func shouldShowAdsInFeedForUser(createdIn: Date?) -> Bool {
         guard let creationDate = createdIn else { return shouldShowAdsInFeedForOldUsers }
@@ -180,52 +170,69 @@ extension NoAdsInFeedForNewUsers {
 }
 
 extension RemoveCategoryWhenClosingPosting {
-    var isActive: Bool { get { return self == .active } }
+    var isActive: Bool { return self == .active }
 }
 
 extension RealEstateNewCopy {
-    var isActive: Bool { get { return self == .active } }
+    var isActive: Bool { return self == .active }
 }
 
 extension DummyUsersInfoProfile {
-    var isActive: Bool { get { return self == .active } }
+    var isActive: Bool { return self == .active }
 }
 
 extension ShowBumpUpBannerOnNotValidatedListings {
-    var isActive: Bool { get { return self == .active } }
+    var isActive: Bool { return self == .active }
 }
 
 extension IncreaseMinPriceBumps {
-    var isActive: Bool { get { return self == .active } }
+    var isActive: Bool { return self == .active }
 }
 extension TurkeyBumpPriceVATAdaptation {
-    var isActive: Bool { get { return self == .active } }
+    var isActive: Bool { return self == .active }
 }
 
 extension DiscardedProducts {
-    var isActive: Bool { get { return self == .active } }
+    var isActive: Bool { return self == .active }
 }
 
 extension OnboardingIncentivizePosting {
-    var isActive: Bool { get { return self == .blockingPosting || self == .blockingPostingSkipWelcome } }
+    var isActive: Bool { return self == .blockingPosting || self == .blockingPostingSkipWelcome }
 }
+
 extension PromoteBumpInEdit {
-    var isActive: Bool { get { return self != .control && self != .baseline } }
+    var isActive: Bool { return self != .control && self != .baseline }
 }
 
 extension UserIsTyping {
-    var isActive: Bool { get { return self == .active } }
-}
-
-extension NewItemPage {
-    var isActive: Bool {get { return self == .active }}
+    var isActive: Bool { return self == .active }
 }
 
 extension ServicesCategoryEnabled {
-    var isActive: Bool { get { return self == .active } }
+    var isActive: Bool { return self == .active }
 }
+
+extension BumpUpBoost {
+    var isActive: Bool { get { return self != .control && self != .baseline } }
+
+    var boostBannerUIUpdateThreshold: TimeInterval? {
+        switch self {
+        case .control, .baseline:
+            return nil
+        case .boostListing1hour, .sendTop1hour:
+            return Constants.oneHourTimeLimit
+        case .sendTop5Mins, .cheaperBoost5Mins:
+            return Constants.fiveMinutesTimeLimit
+        }
+    }
+}
+
+extension DeckItemPage {
+    var isActive: Bool {get { return self == .active }}
+}
+
 extension IncreaseNumberOfPictures {
-    var isActive: Bool { get { return self == .active } }
+    var isActive: Bool { return self == .active }
 }
 
 extension AddPriceTitleDistanceToListings {
@@ -243,7 +250,9 @@ extension AddPriceTitleDistanceToListings {
 }
 
 extension CopyForChatNowInTurkey {
-    var variantString: String { get {
+    var isActive: Bool { return self != .control }
+    
+    var variantString: String {
         switch self {
         case .control:
             return LGLocalizedString.bumpUpProductCellChatNowButton
@@ -256,7 +265,7 @@ extension CopyForChatNowInTurkey {
         case .variantD:
             return LGLocalizedString.bumpUpProductCellChatNowButtonD
         }
-    } }
+    }
 }
 
 extension NewUserProfileView {
@@ -267,8 +276,16 @@ extension RealEstateTutorial {
     var isActive: Bool { return self != .baseline && self != .control }
 }
 
+extension RealEstatePromoCell {
+    var isActive: Bool { return self == .active }
+}
+
 extension MachineLearningMVP {
-    var isActive: Bool { get { return self == .active } }
+    var isActive: Bool { return self == .active }
+}
+
+extension ChatNorris {
+    var isActive: Bool { return self == .redButton || self == .whiteButton || self == .greenButton }
 }
 
 extension SummaryAsFirstStep {
@@ -305,6 +322,54 @@ extension FeedAdsProviderForUS {
     }
 }
 
+extension FeedAdsProviderForTR {
+    private var shouldShowAdsInFeedForNewUsers: Bool {
+        return self == .moPubAdsForAllUsers
+    }
+    private var shouldShowAdsInFeedForOldUsers: Bool {
+        return self == .moPubAdsForOldUsers || self == .moPubAdsForAllUsers
+    }
+    
+    var shouldShowAdsInFeed: Bool {
+        return  shouldShowAdsInFeedForNewUsers || shouldShowAdsInFeedForOldUsers
+    }
+    
+    var shouldShowMoPubAds : Bool {
+        return self == .moPubAdsForOldUsers || self == .moPubAdsForAllUsers
+    }
+    
+    func shouldShowAdsInFeedForUser(createdIn: Date?) -> Bool {
+        guard let creationDate = createdIn else { return shouldShowAdsInFeedForOldUsers }
+        if creationDate.isNewerThan(Constants.newUserTimeThresholdForAds) {
+            return shouldShowAdsInFeedForNewUsers
+        } else {
+            return shouldShowAdsInFeedForOldUsers
+        }
+    }
+}
+
+extension SearchCarsIntoNewBackend {
+    var isActive: Bool { return self == .active }
+}
+
+extension CopyForChatNowInEnglish {
+    var isActive: Bool { get { return self != .control } }
+    
+    var variantString: String { get {
+        switch self {
+        case .control:
+            return LGLocalizedString.bumpUpProductCellChatNowButton
+        case .variantA:
+            return LGLocalizedString.bumpUpProductCellChatNowButtonEnglishA
+        case .variantB:
+            return LGLocalizedString.bumpUpProductCellChatNowButtonEnglishB
+        case .variantC:
+            return LGLocalizedString.bumpUpProductCellChatNowButtonEnglishC
+        case .variantD:
+            return LGLocalizedString.bumpUpProductCellChatNowButtonEnglishD
+        }
+        } }
+}
 
 class FeatureFlags: FeatureFlaggeable {
 
@@ -358,7 +423,7 @@ class FeatureFlags: FeatureFlaggeable {
 
     // MARK: - A/B Tests features
 
-    var trackingData: Observable<[(String, ABGroupType)]?> {
+    var trackingData: Observable<[(String, ABGroup)]?> {
         return abTests.trackingData.asObservable()
     }
 
@@ -414,13 +479,6 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return abTests.userReviewsReportEnabled.value
     }
-
-    var dynamicQuickAnswers: DynamicQuickAnswers {
-        if Bumper.enabled {
-            return Bumper.dynamicQuickAnswers
-        }
-        return DynamicQuickAnswers.fromPosition(abTests.dynamicQuickAnswers.value)
-    }
     
     var searchAutocomplete: SearchAutocomplete {
         if Bumper.enabled {
@@ -429,19 +487,18 @@ class FeatureFlags: FeatureFlaggeable {
         return SearchAutocomplete.fromPosition(abTests.searchAutocomplete.value)
     }
 
-    var realEstateEnabled: RealEstateEnabled
-    {
+    var realEstateEnabled: RealEstateEnabled {
         if Bumper.enabled {
             return Bumper.realEstateEnabled
         }
         return RealEstateEnabled.fromPosition(abTests.realEstateEnabled.value)
     }
 
-    var newItemPage: NewItemPage {
+    var deckItemPage: DeckItemPage {
         if Bumper.enabled {
-            return Bumper.newItemPage
+            return Bumper.deckItemPage
         }
-        return NewItemPage.fromPosition(abTests.newItemPage.value)
+        return DeckItemPage.fromPosition(abTests.deckItemPage.value)
     }
     
     var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed {
@@ -514,25 +571,11 @@ class FeatureFlags: FeatureFlaggeable {
         return IncreaseMinPriceBumps.fromPosition(abTests.increaseMinPriceBumps.value)
     }
     
-    var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage {
-        if Bumper.enabled {
-            return Bumper.showSecurityMeetingChatMessage
-        }
-        return ShowSecurityMeetingChatMessage.fromPosition(abTests.showSecurityMeetingChatMessage.value)
-    }
-
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers {
         if Bumper.enabled {
             return Bumper.noAdsInFeedForNewUsers
         }
         return NoAdsInFeedForNewUsers.fromPosition(abTests.noAdsInFeedForNewUsers.value)
-    }
-    
-    var emojiSizeIncrement: EmojiSizeIncrement {
-        if Bumper.enabled {
-            return Bumper.emojiSizeIncrement
-        }
-        return EmojiSizeIncrement.fromPosition(abTests.emojiSizeIncrement.value)
     }
 
     var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings {
@@ -582,6 +625,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.realEstateTutorial
         }
         return RealEstateTutorial.fromPosition(abTests.realEstateTutorial.value)
+    }
+    
+    var realEstatePromoCell: RealEstatePromoCell {
+        if Bumper.enabled {
+            return Bumper.realEstatePromoCell
+        }
+        return RealEstatePromoCell.fromPosition(abTests.realEstatePromoCell.value)
     }
     
     var machineLearningMVP: MachineLearningMVP {
@@ -648,6 +698,13 @@ class FeatureFlags: FeatureFlaggeable {
         return AddPriceTitleDistanceToListings.fromPosition(abTests.addPriceTitleDistanceToListings.value)
     }
 
+    var bumpUpBoost: BumpUpBoost {
+        if Bumper.enabled {
+            return Bumper.bumpUpBoost
+        }
+        return BumpUpBoost.fromPosition(abTests.bumpUpBoost.value)
+    }
+
     var showProTagUserProfile: Bool {
         if Bumper.enabled {
             return Bumper.showProTagUserProfile
@@ -670,8 +727,20 @@ class FeatureFlags: FeatureFlaggeable {
         return cached ?? ShowAdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value)
     }
 
-
+    var searchCarsIntoNewBackend: SearchCarsIntoNewBackend {
+        if Bumper.enabled {
+            return Bumper.searchCarsIntoNewBackend
+        }
+        return SearchCarsIntoNewBackend.fromPosition(abTests.searchCarsIntoNewBackend.value)
+    }
     
+    var showExactLocationForPros: Bool {
+        if Bumper.enabled {
+            return Bumper.showExactLocationForPros
+        }
+        return abTests.showExactLocationForPros.value
+    }
+
     // MARK: - Country features
 
     var freePostingModeAllowed: Bool {
@@ -817,10 +886,10 @@ class FeatureFlags: FeatureFlaggeable {
             return .defaultValue
         }
     }
-    
-    var shouldChangeChatNowCopy: Bool {
+
+    var shouldChangeChatNowCopyInTurkey: Bool {
         if Bumper.enabled {
-            return true
+            return Bumper.copyForChatNowInTurkey.isActive
         }
         switch (locationCountryCode, localeCountryCode) {
         case (.turkey?, _), (_, .turkey?):
@@ -866,11 +935,57 @@ class FeatureFlags: FeatureFlaggeable {
             default:
                 return nil
             }
+        case .turkey?:
+            switch feedAdsProviderForTR {
+            case .moPubAdsForAllUsers:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubTRForAllUsers
+            case .moPubAdsForOldUsers:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubTRForOldUsers
+            default:
+                return nil
+            }
+            
         default:
             return nil
         }
     }
 
+    var shouldChangeChatNowCopyInEnglish: Bool {
+        if Bumper.enabled {
+            return Bumper.copyForChatNowInEnglish.isActive
+        }
+        switch (localeCountryCode) {
+        case .usa?:
+            return true
+        default:
+            return false
+        }
+    }
+    
+    var copyForChatNowInEnglish: CopyForChatNowInEnglish {
+        if Bumper.enabled {
+            return Bumper.copyForChatNowInEnglish
+        }
+        return CopyForChatNowInEnglish.fromPosition(abTests.copyForChatNowInEnglish.value)
+    }
+    
+    var feedAdsProviderForTR: FeedAdsProviderForTR {
+        if Bumper.enabled {
+            return Bumper.feedAdsProviderForTR
+        }
+        return FeedAdsProviderForTR.fromPosition(abTests.feedAdsProviderForTR.value)
+    }
+
+    var chatNorris: ChatNorris {
+        if Bumper.enabled {
+            return Bumper.chatNorris
+        }
+        return ChatNorris.control
+        // TODO: restore the ABTests code when BE part is working 👇
+//        return  ChatNorris.fromPosition(abTests.chatNorris.value)
+    }
+
+    
     // MARK: - Private
 
     private var locationCountryCode: CountryCode? {
