@@ -7,6 +7,8 @@ public struct MockChatMessage: ChatMessage {
     public var readAt: Date?
     public var type: ChatMessageType
     public var warnings: [ChatMessageWarning]
+    public var assistantMeeting: AssistantMeeting?
+
 
     public func markReceived() -> ChatMessage {
         return MockChatMessage(objectId: objectId,
@@ -16,7 +18,8 @@ public struct MockChatMessage: ChatMessage {
                                receivedAt: Date(),
                                readAt: readAt,
                                type: type,
-                               warnings: warnings)
+                               warnings: warnings,
+                               assistantMeeting: assistantMeeting)
     }
     
     public func makeDictionary() -> [String: Any] {

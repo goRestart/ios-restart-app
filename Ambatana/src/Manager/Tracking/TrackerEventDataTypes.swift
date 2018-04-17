@@ -110,6 +110,7 @@ enum EventName: String {
     case profileShareComplete               = "profile-share-complete"
     case profileEditEmailStart              = "profile-edit-email-start"
     case profileEditEmailComplete           = "profile-edit-email-complete"
+    case profileEditBioComplete             = "profile-edit-bio"
 
     case appInviteFriendStart               = "app-invite-friend-start"
     case appInviteFriend                    = "app-invite-friend"
@@ -194,6 +195,8 @@ enum EventName: String {
     case tutorialDialogAbandon              = "onboarding-dialog-abandon"
 
     case predictedPosting                   = "predicted-posting"
+
+    case assistantMeetingStart              = "assistant-meeting-start"
 
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
@@ -376,6 +379,12 @@ enum EventParameterName: String {
     
     case typeTutorialDialog   = "type-onboarding-dialog"
     case pageNumber           = "page-number"
+
+    case meetingMessageType  = "assistant-meeting-type"
+    case meetingDate         = "assistant-meeting-date"
+    case meetingLocation     = "assistant-meeting-location"
+
+    case boost                = "boost"
 }
 
 enum EventParameterBoolean: String {
@@ -647,6 +656,7 @@ enum EventParameterMessageType: String {
     case expressChat = "express-chat"
     case periscopeDirect = "periscope-direct"
     case phone      = "phone"
+    case meeting = "assistant-meeting"
 }
 
 enum EventParameterLoginError {
@@ -871,6 +881,7 @@ enum EventParameterTab: String {
     case selling = "selling"
     case sold = "sold"
     case favorites = "favorites"
+    case reviews = "reviews"
 }
 
 enum EventParameterSearchCompleteSuccess: String {
@@ -909,26 +920,76 @@ enum EventParameterUserDidRateReason: String {
     case sad = "sad"
 }
 
-enum EventParameterListingVisitSource: String {
-    case listingList = "product-list"
-    case moreInfoRelated = "more-info-related"
-    case collection = "collection"
-    case search = "search"
-    case filter = "filter"
-    case searchAndFilter = "search & filter"
-    case category = "category"
-    case profile = "profile"
-    case favourite = "favourite"
-    case nextFavourite = "next-favourite"
-    case previousFavourite = "previous-favourite"
-    case chat = "chat"
-    case openApp = "open-app"
-    case notifications = "notifications"
-    case relatedListings = "related-items-list"
-    case next = "next-related-items-list"
-    case previous = "previous-related-items-list"
-    case promoteBump = "promote-bump-up"
-    case unknown = "N/A"
+enum EventParameterListingVisitSource {
+    // https://ambatana.atlassian.net/wiki/spaces/MOB/pages/1114200/Parameters
+    // (FWI SEO parameters are for web, we don't need to add them here)
+    var rawValue: String {
+        switch self {
+        case .next(let source): return "next-\(source.rawValue)"
+        case .previous(let source): return "previous-\(source.rawValue)"
+
+        case .listingList: return "product-list" // from the main feed without filters
+        case .collection: return "collection" // from the main feed, touching a collection cell
+        case .search: return "search" // from the main feed, with text filter
+        case .filter: return "filter" // from the main feed, with top filters
+        case .searchAndFilter: return "search-and-filter" // from the main feed, with both
+        case .category: return "category" // from the main feed, with bubble filters
+        case .profile: return "profile" // from the user profile
+        case .relatedChat: return "related-chat" // from the chat, related products
+        case .notificationCenter: return "notification-center" // from notification center
+        case .external: return "external" // from push notification
+        case .relatedListings: return "related-items-list" // related items when you don't find a push listing
+        case .chat: return "chat" // from the chat
+        case .promoteBump: return "promote-bump-up" // from the promote bump up screen
+        case .favourite: return "favourite" // from your private profile favourite's list
+        case .unknown: return "N/A"
+        }
+    }
+
+    private var isNext: Bool {
+        guard case .next(_) = self else { return false }
+        return true
+    }
+
+    private var isPrevious: Bool {
+        guard case .previous(_) = self else { return false }
+        return true
+    }
+
+    var next: EventParameterListingVisitSource {
+        guard !isNext else { return self }
+        guard case let .previous(source) = self else { return .next(self) }
+        return .next(source)
+    }
+
+    var previous: EventParameterListingVisitSource {
+        guard !isPrevious else { return self }
+        guard case let .next(source) = self else { return .previous(self) }
+        return .previous(source)
+    }
+
+    static func ==(lhs: EventParameterListingVisitSource, rhs: EventParameterListingVisitSource) -> Bool {
+        return lhs.rawValue == rhs.rawValue
+    }
+
+    indirect case next(EventParameterListingVisitSource)
+    indirect case previous(EventParameterListingVisitSource)
+
+    case listingList
+    case collection
+    case search
+    case filter
+    case searchAndFilter
+    case category
+    case profile
+    case relatedChat
+    case notificationCenter
+    case external
+    case relatedListings
+    case chat
+    case promoteBump
+    case favourite
+    case unknown
 }
 
 enum EventParameterRelatedListingsVisitSource: String {
@@ -1059,7 +1120,7 @@ enum EventParameterBumpUpType: String {
         switch bumpType {
         case .free:
             self = .free
-        case .priced, .hidden:
+        case .priced, .hidden, .boost:
             self = .paid
         case .restore:
             self = .retry
@@ -1150,6 +1211,7 @@ enum EventParamenterLocationTypePage: String {
 
 enum EventParameterAdType: String {
     case dfp = "dfp"
+    case moPub = "moPub"
 }
 
 enum EventParameterAdQueryType: String {
@@ -1191,6 +1253,23 @@ enum EventParameterAdSenseRequestErrorReason: String {
             self = .networkError
         default:
             self = .internalError
+        }
+    }
+}
+
+enum EventParameterAssistantMeetingType: String {
+    case request = "assistant-meeting-complete"
+    case accept = "assistant-meeting-accept"
+    case decline = "assistant-meeting-decline"
+
+    init(meetingMessageType: MeetingMessageType) {
+        switch meetingMessageType {
+        case .requested:
+            self = .request
+        case .accepted:
+            self = .accept
+        case .rejected:
+            self = .decline
         }
     }
 }

@@ -453,7 +453,10 @@ extension AppCoordinator: AppNavigator {
                             bumpUpProductData: BumpUpProductData?) {
         let editCoordinator = EditListingCoordinator(listing: listing,
                                                      bumpUpProductData: bumpUpProductData,
-                                                     pageType: nil)
+                                                     pageType: nil,
+                                                     listingCanBeBoosted: false,
+                                                     timeSinceLastBump: nil,
+                                                     maxCountdown: nil)
         editCoordinator.delegate = self
         openChild(coordinator: editCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: false, completion: nil)
     }
@@ -484,7 +487,9 @@ extension AppCoordinator: EditListingCoordinatorDelegate {
 
     func editListingCoordinator(_ coordinator: EditListingCoordinator,
                                 didFinishWithListing listing: Listing,
-                                bumpUpProductData: BumpUpProductData?) {
+                                bumpUpProductData: BumpUpProductData?,
+                                timeSinceLastBump: TimeInterval?,
+                                maxCountdown: TimeInterval?) {
         refreshSelectedListingsRefreshable()
         guard let listingId = listing.objectId,
             let bumpData = bumpUpProductData,
@@ -596,11 +601,11 @@ fileprivate extension AppCoordinator {
                     // will be considered bumpeable ONCE WE GOT THE PRICES of the products, not before.
                     strongSelf.timeSinceLastBump = value.timeSinceLastBump
 
-                    // if "paymentItemId" is nil, we don't know the price of the bump, so we check this here to avoid
+                    // if "letgoItemId" is nil, we don't know the price of the bump, so we check this here to avoid
                     // a useless request to apple
-                    if let paymentItemId = paymentItems.first?.itemId {
+                    if let letgoItemId = paymentItems.first?.itemId {
                         strongSelf.purchasesShopper.productsRequestStartForListingId(listingId,
-                                                                                     paymentItemId: paymentItemId,
+                                                                                     letgoItemId: letgoItemId,
                                                                                      withIds: paymentItems.map { $0.providerItemId },
                                                                                      typePage: bumpUpSource.typePageParameter)
                     } else {
@@ -892,13 +897,13 @@ fileprivate extension AppCoordinator {
         case let .listing(listingId):
             tabBarCtl.clearAllPresented(nil)
             afterDelayClosure = { [weak self] in
-                self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: listingId), source: .openApp,
+                self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: listingId), source: .external,
                                                           actionOnFirstAppear: .nonexistent)
             }
         case let .listingShare(listingId):
             tabBarCtl.clearAllPresented(nil)
             afterDelayClosure = { [weak self] in
-                self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: listingId), source: .openApp,
+                self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: listingId), source: .external,
                                                           actionOnFirstAppear: .showShareSheet)
             }
         case let .listingBumpUp(listingId):
@@ -909,8 +914,14 @@ fileprivate extension AppCoordinator {
             afterDelayClosure = { [weak self] in
                 self?.openTab(.profile, force: false) { [weak self] in
                     self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: listingId),
-                                                              source: .openApp, actionOnFirstAppear: .triggerMarkAsSold)
+                                                              source: .external, actionOnFirstAppear: .triggerMarkAsSold)
                 }
+            }
+        case let .listingEdit(listingId):
+            tabBarCtl.clearAllPresented(nil)
+            afterDelayClosure = { [weak self] in
+                self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: listingId), source: .external,
+                                                          actionOnFirstAppear: .edit)
             }
         case let .user(userId):
             if userId == myUserRepository.myUser?.objectId {
@@ -992,7 +1003,7 @@ fileprivate extension AppCoordinator {
         if let child = child, child is SellCoordinator { return }
 
         switch deepLink.action {
-        case .home, .sell, .listing, .listingShare, .listingBumpUp, .listingMarkAsSold, .user, .conversations, .conversationWithMessage, .search, .resetPassword, .userRatings, .userRating, .notificationCenter, .appStore:
+        case .home, .sell, .listing, .listingShare, .listingBumpUp, .listingMarkAsSold, .listingEdit, .user, .conversations, .conversationWithMessage, .search, .resetPassword, .userRatings, .userRating, .notificationCenter, .appStore:
         return // Do nothing
         case let .conversation(data):
             showInappChatNotification(data, message: deepLink.origin.message)
@@ -1082,13 +1093,13 @@ extension AppCoordinator: ChangePasswordNavigator {
 extension AppCoordinator: BumpInfoRequesterDelegate {
     func shopperFinishedProductsRequestForListingId(_ listingId: String?,
                                                     withProducts products: [PurchaseableProduct],
-                                                    paymentItemId: String?,
+                                                    letgoItemId: String?,
                                                     storeProductId: String?,
                                                     typePage: EventParameterTypePage?) {
         guard let requestListingId = listingId, let purchase = products.first, let bumpUpSource = bumpUpSource else { return }
 
         let bumpUpProductData = BumpUpProductData(bumpUpPurchaseableData: .purchaseableProduct(product: purchase),
-                                                  paymentItemId: paymentItemId,
+                                                  letgoItemId: letgoItemId,
                                                   storeProductId: storeProductId)
         switch bumpUpSource {
         case .deepLink:
@@ -1103,7 +1114,7 @@ extension AppCoordinator: BumpInfoRequesterDelegate {
                 }
 
                 self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: requestListingId),
-                                                          source: .openApp, actionOnFirstAppear: actionOnFirstAppear)
+                                                          source: .external, actionOnFirstAppear: actionOnFirstAppear)
             }
         case .promoted:
             tabBarCtl.clearAllPresented(nil)

@@ -432,6 +432,9 @@ class FiltersViewModel: BaseViewModel {
 
     func saveFilters() {
         // Tracking
+        let offerTypeValues = productFilter.realEstateOfferTypes.flatMap({ offerType -> String? in
+            return offerType.rawValue
+        })
         let trackingEvent = TrackerEvent.filterComplete(productFilter.filterCoordinates,
                                                         distanceRadius: productFilter.distanceRadius,
                                                         distanceUnit: productFilter.distanceType,
@@ -445,7 +448,7 @@ class FiltersViewModel: BaseViewModel {
                                                         carYearStart: productFilter.carYearStart?.value,
                                                         carYearEnd: productFilter.carYearEnd?.value,
                                                         propertyType: productFilter.realEstatePropertyType?.rawValue,
-                                                        offerType: productFilter.realEstateOfferType?.rawValue,
+                                                        offerType: offerTypeValues,
                                                         bedrooms: productFilter.realEstateNumberOfBedrooms?.rawValue,
                                                         bathrooms: productFilter.realEstateNumberOfBathrooms?.rawValue,
                                                         sizeSqrMetersMin: productFilter.realEstateSizeRange.min,
@@ -572,7 +575,11 @@ class FiltersViewModel: BaseViewModel {
     
     func selectOfferTypeAtIndex(_ index: Int) {
         guard index < offerTypeOptionsCount else { return }
-        productFilter.realEstateOfferType = isOfferTypeSelectedAtIndex(index) ? nil : offerTypeOptions[index]
+        if isOfferTypeSelectedAtIndex(index), let offerTypeIndexSelected =  productFilter.realEstateOfferTypes.index(of: offerTypeOptions[index]) {
+            productFilter.realEstateOfferTypes.remove(at: offerTypeIndexSelected)
+        } else {
+            productFilter.realEstateOfferTypes.append(offerTypeOptions[index])
+        }
         delegate?.vmDidUpdate()
     }
     
@@ -583,7 +590,7 @@ class FiltersViewModel: BaseViewModel {
     
     func isOfferTypeSelectedAtIndex(_ index: Int) -> Bool {
         guard index < offerTypeOptionsCount else { return false }
-        return offerTypeOptions[index] == productFilter.realEstateOfferType
+        return productFilter.realEstateOfferTypes.index(of: offerTypeOptions[index]) != nil
     }
     
     

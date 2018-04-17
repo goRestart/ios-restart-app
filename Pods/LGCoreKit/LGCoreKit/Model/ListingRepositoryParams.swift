@@ -18,6 +18,63 @@ public struct RetrieveListingParam<T: Equatable> {
     }
 }
 
+struct ApiProductsParamsKeys {
+    static let numberOfResults = "num_results"
+    static let offset = "offset"
+    static let countryCode = "country_code"
+    static let status = "status"
+    static let searchTerm = "search_term"
+    static let quadkey = "quadkey"
+    static let categories = "categories"
+    static let keywordCategory = "keyword_category"
+    static let priceFlag = "price_flag"
+    static let maxPrice = "max_price"
+    static let minPrice = "min_price"
+    static let distanceRadius = "distance_radius"
+    static let distanceType = "distance_type"
+    static let sort = "sort"
+    static let since = "since"
+    static let abtest = "abtest"
+    static let make = "make"
+    static let model = "model"
+    static let startYear = "start_year"
+    static let endYear = "end_year"
+    static let attributes = "attributes"
+    static let negativeAttributes = "negative_attributes"
+}
+
+struct VerticalsParamsKeys {
+    static let searchTerm = "searchTerm"
+    static let quadkey = "quadkey"
+    static let countryCode = "countryCode"
+    static let priceFlag = "priceFlag"
+    static let maxPrice = "maxPrice"
+    static let minPrice = "minPrice"
+    static let distanceRadius = "distanceRadius"
+    static let distanceType = "distanceType"
+    static let numResults = "numResults"
+    static let offset = "offset"
+    static let sort = "sort"
+    static let since = "since"
+}
+
+struct CarAttributesParamsKey {
+    static let makeId = "makeId"
+    static let modelId = "modelId"
+    static let minYear = "minYear"
+    static let maxYear = "maxYear"
+}
+
+struct RealEstateParamsKeys {
+    static let typeOfProperty = "typeOfProperty"
+    static let typeOfListing = "typeOfListing"
+    static let numberOfBedrooms = "numberOfBedrooms"
+    static let numberOfBathrooms = "numberOfBathrooms"
+    static let numberOfLivingRooms = "numberOfLivingRooms"
+    static let sizeSquareMetersFrom = "sizeSquareMetersFrom"
+    static let sizeSquareMetersTo = "sizeSquareMetersTo"
+}
+
 public struct RetrieveListingParams {
     public var queryString: String?
     public var coordinates: LGLocationCoordinates2D?
@@ -40,7 +97,7 @@ public struct RetrieveListingParams {
     public var endYear: RetrieveListingParam<Int>?
     public var abtest: String?
     public var propertyType: String?
-    public var offerType: String?
+    public var offerType: [String]?
     public var numberOfBedrooms: Int?
     public var numberOfBathrooms: Float?
     public var numberOfLivingRooms: Int?
@@ -50,19 +107,19 @@ public struct RetrieveListingParams {
     
     public init() { }
     
-    var relatedProductsApiParams: Dictionary<String, Any> {
-        var params = Dictionary<String, Any>()
-        params["num_results"] = numListings
-        params["offset"] = offset
+    var relatedProductsApiParams: [String: Any] {
+        var params = [String: Any]()
+        params[ApiProductsParamsKeys.numberOfResults] = numListings
+        params[ApiProductsParamsKeys.offset] = offset
         return params
     }
     
-    var userListingApiParams: Dictionary<String, Any> {
-        var params = Dictionary<String, Any>()
+    var userListingApiParams: [String: Any] {
+        var params = [String: Any]()
         
-        params["num_results"] = numListings
-        params["offset"] = offset
-        params["country_code"] = countryCode
+        params[ApiProductsParamsKeys.numberOfResults] = numListings
+        params[ApiProductsParamsKeys.offset] = offset
+        params[ApiProductsParamsKeys.countryCode] = countryCode
 
         if let statuses = statuses {
             var statusValue = ""
@@ -74,76 +131,105 @@ public struct RetrieveListingParams {
             if statuses.contains(.discarded) {
                 statusValue.append(",\(UserListingStatus.discarded)")
             }
-            params["status"] = statusValue
+            params[ApiProductsParamsKeys.status] = statusValue
         }
         
         return params
     }
     
-    var realEstateApiParams: Dictionary<String, Any> {
-        var params = Dictionary<String, Any>()
-        params["searchTerm"] = queryString
-        params["quadkey"] = coordinates?.coordsToQuadKey(LGCoreKit.quadKeyZoomLevel)
+    var carsApiParams: [String: Any] {
+        var params = [String: Any]()
+        params[VerticalsParamsKeys.searchTerm] = queryString
+        params[VerticalsParamsKeys.quadkey] = coordinates?.coordsToQuadKey(LGCoreKit.quadKeyZoomLevel)
         // In case country code is empty we send the request without it.
         if let countryCode = countryCode, !countryCode.isEmpty {
-            params["countryCode"] = countryCode
+            params[VerticalsParamsKeys.countryCode] = countryCode
         }
         if let freePrice = freePrice, freePrice {
-            params["priceFlag"] = ListingPriceFlag.free.rawValue
+            params[VerticalsParamsKeys.priceFlag] = ListingPriceFlag.free.rawValue
         }
-        params["maxPrice"] = maxPrice
-        params["minPrice"] = minPrice
-        params["distanceRadius"] = distanceRadius
-        params["distanceType"] = distanceType?.string
-        params["numResults"] = numListings
-        params["offset"] = offset
-        params["sort"] = sortCriteria?.string
-        params["since"] = timeCriteria?.string
+        params[VerticalsParamsKeys.maxPrice] = maxPrice
+        params[VerticalsParamsKeys.minPrice] = minPrice
+        params[VerticalsParamsKeys.distanceRadius] = distanceRadius
+        params[VerticalsParamsKeys.distanceType] = distanceType?.string
+        params[VerticalsParamsKeys.numResults] = numListings
+        params[VerticalsParamsKeys.offset] = offset
+        params[VerticalsParamsKeys.sort] = sortCriteria?.string
+        params[VerticalsParamsKeys.since] = timeCriteria?.string
+        
+        // Cars attributes
+        params[CarAttributesParamsKey.makeId] = makeId?.value
+        params[CarAttributesParamsKey.modelId] = modelId?.value
+        params[CarAttributesParamsKey.minYear] = startYear?.value
+        params[CarAttributesParamsKey.maxYear] = endYear?.value
+        
+        return params
+    }
+    
+    var realEstateApiParams: [String: Any] {
+        var params = [String: Any]()
+        params[VerticalsParamsKeys.searchTerm] = queryString
+        params[VerticalsParamsKeys.quadkey] = coordinates?.coordsToQuadKey(LGCoreKit.quadKeyZoomLevel)
+        // In case country code is empty we send the request without it.
+        if let countryCode = countryCode, !countryCode.isEmpty {
+            params[VerticalsParamsKeys.countryCode] = countryCode
+        }
+        if let freePrice = freePrice, freePrice {
+            params[VerticalsParamsKeys.priceFlag] = ListingPriceFlag.free.rawValue
+        }
+        params[VerticalsParamsKeys.maxPrice] = maxPrice
+        params[VerticalsParamsKeys.minPrice] = minPrice
+        params[VerticalsParamsKeys.distanceRadius] = distanceRadius
+        params[VerticalsParamsKeys.distanceType] = distanceType?.string
+        params[VerticalsParamsKeys.numResults] = numListings
+        params[VerticalsParamsKeys.offset] = offset
+        params[VerticalsParamsKeys.sort] = sortCriteria?.string
+        params[VerticalsParamsKeys.since] = timeCriteria?.string
         
         // Real Estate attributes
         if let propertyType = propertyType {
-            params["typeOfProperty"] = [propertyType]
+            params[RealEstateParamsKeys.typeOfProperty] = [propertyType]
         }
         if let offerType = offerType {
-            params["typeOfListing"] = [offerType]
+            params[RealEstateParamsKeys.typeOfListing] = offerType
         }
-        params["numberOfBedrooms"] = numberOfBedrooms
-        params["numberOfBathrooms"] = numberOfBathrooms
-        params["numberOfLivingRooms"] = numberOfLivingRooms
-        params["sizeSquareMetersFrom"] = sizeSquareMetersFrom
-        params["sizeSquareMetersTo"] = sizeSquareMetersTo
+        params[RealEstateParamsKeys.numberOfBedrooms] = numberOfBedrooms
+        params[RealEstateParamsKeys.numberOfBathrooms] = numberOfBathrooms
+        params[RealEstateParamsKeys.numberOfLivingRooms] = numberOfLivingRooms
+        params[RealEstateParamsKeys.sizeSquareMetersFrom] = sizeSquareMetersFrom
+        params[RealEstateParamsKeys.sizeSquareMetersTo] = sizeSquareMetersTo
        
         return params
     }
     
-    var letgoApiParams: Dictionary<String, Any> {
-        var params = Dictionary<String, Any>()
-        params["search_term"] = queryString
-        params["quadkey"] = coordinates?.coordsToQuadKey(LGCoreKit.quadKeyZoomLevel)
+    var letgoApiParams: [String: Any] {
+        var params = [String: Any]()
+        params[ApiProductsParamsKeys.searchTerm] = queryString
+        params[ApiProductsParamsKeys.quadkey] = coordinates?.coordsToQuadKey(LGCoreKit.quadKeyZoomLevel)
         // In case country code is empty we send the request without it.
         if let countryCode = countryCode, !countryCode.isEmpty {
-            params["country_code"] = countryCode
+            params[ApiProductsParamsKeys.countryCode] = countryCode
         }
         let categories = categoryIds?.map { String($0) }.joined(separator: ",")
         if categories != "" {
-            params["categories"] = categories
+            params[ApiProductsParamsKeys.categories] = categories
         }
         let superKeywords = superKeywordIds?.map { String($0) }.joined(separator: ",")
         if superKeywords != "" {
-            params["keyword_category"] = superKeywords
+            params[ApiProductsParamsKeys.keywordCategory] = superKeywords
         }
         if let freePrice = freePrice, freePrice {
-            params["price_flag"] = ListingPriceFlag.free.rawValue
+            params[ApiProductsParamsKeys.priceFlag] = ListingPriceFlag.free.rawValue
         }
-        params["max_price"] = maxPrice
-        params["min_price"] = minPrice
-        params["distance_radius"] = distanceRadius
-        params["distance_type"] = distanceType?.string
-        params["num_results"] = numListings
-        params["offset"] = offset
-        params["sort"] = sortCriteria?.string
-        params["since"] = timeCriteria?.string
-        params["abtest"] = abtest
+        params[ApiProductsParamsKeys.maxPrice] = maxPrice
+        params[ApiProductsParamsKeys.minPrice] = minPrice
+        params[ApiProductsParamsKeys.distanceRadius] = distanceRadius
+        params[ApiProductsParamsKeys.distanceType] = distanceType?.string
+        params[ApiProductsParamsKeys.numberOfResults] = numListings
+        params[ApiProductsParamsKeys.offset] = offset
+        params[ApiProductsParamsKeys.sort] = sortCriteria?.string
+        params[ApiProductsParamsKeys.since] = timeCriteria?.string
+        params[ApiProductsParamsKeys.abtest] = abtest
         
         // Car attributes
         var carsPositiveAttrs = [String: Any]()
@@ -152,41 +238,41 @@ public struct RetrieveListingParams {
         if let makeId = makeId {
             let value = makeId.value
             if makeId.isNegated {
-                carsNegativeAttrs["make"] = value
+                carsNegativeAttrs[ApiProductsParamsKeys.make] = value
             } else {
-                carsPositiveAttrs["make"] = value
+                carsPositiveAttrs[ApiProductsParamsKeys.make] = value
             }
         }
         if let modelId = modelId {
             let value = modelId.value
             if modelId.isNegated {
-                carsNegativeAttrs["model"] = value
+                carsNegativeAttrs[ApiProductsParamsKeys.model] = value
             } else {
-                carsPositiveAttrs["model"] = value
+                carsPositiveAttrs[ApiProductsParamsKeys.model] = value
             }
         }
         if let startYear = startYear {
             let value = startYear.value
             if startYear.isNegated {
-                carsNegativeAttrs["start_year"] = value
+                carsNegativeAttrs[ApiProductsParamsKeys.startYear] = value
             } else {
-                carsPositiveAttrs["start_year"] = value
+                carsPositiveAttrs[ApiProductsParamsKeys.startYear] = value
             }
         }
         if let endYear = endYear {
             let value = endYear.value
             if endYear.isNegated {
-                carsNegativeAttrs["end_year"] = value
+                carsNegativeAttrs[ApiProductsParamsKeys.endYear] = value
             } else {
-                carsPositiveAttrs["end_year"] = value
+                carsPositiveAttrs[ApiProductsParamsKeys.endYear] = value
             }
         }
         
         if carsPositiveAttrs.keys.count > 0 {
-            params["attributes"] = carsPositiveAttrs
+            params[ApiProductsParamsKeys.attributes] = carsPositiveAttrs
         }
         if carsNegativeAttrs.keys.count > 0 {
-            params["negative_attributes"] = carsNegativeAttrs
+            params[ApiProductsParamsKeys.negativeAttributes] = carsNegativeAttrs
         }
         return params
     }
@@ -210,12 +296,12 @@ public struct IndexTrendingListingsParams {
                                            numProducts: numListings, offset: offset)
     }
     
-    var letgoApiParams: Dictionary<String, Any> {
-        var params = Dictionary<String, Any>()
-        params["quadkey"] = coordinates?.coordsToQuadKey(LGCoreKit.quadKeyZoomLevel)
-        params["country_code"] = countryCode
-        params["num_results"] = numListings
-        params["offset"] = offset
+    var letgoApiParams: [String: Any] {
+        var params = [String: Any]()
+        params[ApiProductsParamsKeys.quadkey] = coordinates?.coordsToQuadKey(LGCoreKit.quadKeyZoomLevel)
+        params[ApiProductsParamsKeys.countryCode] = countryCode
+        params[ApiProductsParamsKeys.numberOfResults] = numListings
+        params[ApiProductsParamsKeys.offset] = offset
         return params
     }
 }

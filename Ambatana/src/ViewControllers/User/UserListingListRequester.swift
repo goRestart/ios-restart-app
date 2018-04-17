@@ -36,6 +36,8 @@ class UserFavoritesListingListRequester: UserListingListRequester {
         self.listingRepository = listingRepository
         self.locationManager = locationManager
     }
+    
+    var isFirstPage: Bool = true
 
     func canRetrieve() -> Bool {
         return userObjectId != nil
@@ -47,6 +49,7 @@ class UserFavoritesListingListRequester: UserListingListRequester {
     }
     
     func retrieveNextPage(_ completion: ListingsRequesterCompletion?) {
+        isFirstPage = false
         listingsRetrieval(completion)
     }
 
@@ -82,6 +85,7 @@ class UserFavoritesListingListRequester: UserListingListRequester {
 
 
 class UserStatusesListingListRequester: UserListingListRequester {
+    
     func distanceFromListingCoordinates(_ listingCoords: LGLocationCoordinates2D) -> Double? {
         // method needed for protocol implementation, not used for user
         return nil
@@ -111,6 +115,10 @@ class UserStatusesListingListRequester: UserListingListRequester {
         self.locationManager = locationManager
         self.statuses = statuses
         self.itemsPerPage = itemsPerPage
+    }
+    
+    var isFirstPage: Bool {
+        return offset == 0
     }
 
     func canRetrieve() -> Bool {

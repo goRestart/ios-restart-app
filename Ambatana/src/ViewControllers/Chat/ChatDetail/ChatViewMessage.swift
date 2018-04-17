@@ -12,16 +12,31 @@ enum ChatViewMessageType {
     case text(text: String)
     case offer(text: String)
     case sticker(url: String)
-    case disclaimer(showAvatar: Bool, text: NSAttributedString, actionTitle: String? ,action: (() -> ())?)
+    case disclaimer(showAvatar: Bool,text: NSAttributedString, actionTitle: String? ,action: (() -> ())?)
     case userInfo(name: String, address: String?, facebook: Bool, google: Bool, email: Bool)
     case askPhoneNumber(text: String, action: (() -> Void)?)
+    case meeting(type: MeetingMessageType,
+                 date: Date?,
+                 locationName: String?,
+                 coordinates: LGLocationCoordinates2D?,
+                 status: MeetingStatus?,
+                 text: String)
     case interlocutorIsTyping
 
     var isAskPhoneNumber: Bool {
         switch self {
         case .askPhoneNumber:
             return true
-        default:
+        case .text, .offer, .sticker, .disclaimer, .userInfo, .meeting, .interlocutorIsTyping:
+            return false
+        }
+    }
+
+    var isMeeting: Bool {
+        switch self {
+        case .meeting:
+            return true
+        case .text, .offer, .sticker, .disclaimer, .userInfo, .askPhoneNumber, .interlocutorIsTyping:
             return false
         }
     }
@@ -63,6 +78,17 @@ enum ChatViewMessageType {
             switch rhs {
             case let .askPhoneNumber(rhsText, _):
                 return lhsText == rhsText
+            default: return false
+            }
+        case let .meeting(lhsType, lhsDate, lhsLocationName, lhsCoordinates, lhsStatus, lhsText):
+            switch rhs {
+            case let .meeting(rhsType, rhsDate, rhsLocationName, rhsCoordinates, rhsStatus, rhsText):
+                return lhsType == rhsType &&
+                    lhsDate == rhsDate &&
+                    lhsLocationName == rhsLocationName &&
+                    lhsCoordinates == rhsCoordinates &&
+                    lhsStatus == rhsStatus &&
+                    lhsText == rhsText
             default: return false
             }
         case .interlocutorIsTyping:
@@ -111,7 +137,7 @@ struct ChatViewMessage: BaseModel {
         switch type {
         case .text, .offer:
             return true
-        case .sticker, .disclaimer, .userInfo, .askPhoneNumber, .interlocutorIsTyping:
+        case .sticker, .disclaimer, .userInfo, .askPhoneNumber, .meeting, .interlocutorIsTyping:
             return false
         }
     }
@@ -130,6 +156,8 @@ struct ChatViewMessage: BaseModel {
             return name
         case .askPhoneNumber(let text, _):
             return text
+        case let .meeting(_, _, _, _, _, text):
+            return text
         case .interlocutorIsTyping:
             return "..."
         }
@@ -137,13 +165,13 @@ struct ChatViewMessage: BaseModel {
     
     public static func ==(lhs: ChatViewMessage, rhs: ChatViewMessage) -> Bool {
         return lhs.value == rhs.value
-        && lhs.objectId == rhs.objectId
-        && lhs.readAt == rhs.readAt
-        && lhs.receivedAt == rhs.receivedAt
-        && lhs.sentAt == rhs.sentAt
-        && lhs.status == rhs.status
-        && lhs.talkerId == rhs.talkerId
-        && lhs.type == lhs.type
+            && lhs.objectId == rhs.objectId
+            && lhs.readAt == rhs.readAt
+            && lhs.receivedAt == rhs.receivedAt
+            && lhs.sentAt == rhs.sentAt
+            && lhs.status == rhs.status
+            && lhs.talkerId == rhs.talkerId
+            && lhs.type == lhs.type
     }
 }
 
@@ -163,5 +191,56 @@ extension ChatViewMessage {
     func markAsRead(date: Date = Date()) -> ChatViewMessage {
         return ChatViewMessage(objectId: objectId, talkerId: talkerId, sentAt: sentAt, receivedAt: receivedAt,
                                readAt: readAt ?? date, type: type, status: .read, warningStatus: warningStatus)
+    }
+}
+
+
+extension ChatViewMessage {
+    func markAsAccepted() -> ChatViewMessage {
+        switch type {
+        case let .meeting(meetingType, meetingDate, locationName, coordinates, _, text):
+            if meetingType == .requested {
+                let acceptedMessageType: ChatViewMessageType = .meeting(type: meetingType,
+                                                                        date: meetingDate,
+                                                                        locationName: locationName,
+                                                                        coordinates: coordinates,
+                                                                        status: .accepted,
+                                                                        text: text)
+                return ChatViewMessage(objectId: objectId, talkerId: talkerId, sentAt: sentAt,
+                                       receivedAt: receivedAt,
+                                       readAt: readAt,
+                                       type: acceptedMessageType,
+                                       status: status,
+                                       warningStatus: warningStatus)
+            } else {
+                return self
+            }
+        case .text, .offer, .sticker, .disclaimer, .userInfo, .askPhoneNumber, .interlocutorIsTyping:
+            return self
+        }
+    }
+
+    func markAsRejected() -> ChatViewMessage {
+        switch type {
+        case let .meeting(meetingType, meetingDate, locationName, coordinates, _, text):
+            if meetingType == .requested {
+                let rejectedMessageType: ChatViewMessageType = .meeting(type: meetingType,
+                                                                        date: meetingDate,
+                                                                        locationName: locationName,
+                                                                        coordinates: coordinates,
+                                                                        status: .rejected,
+                                                                        text: text)
+                return ChatViewMessage(objectId: objectId, talkerId: talkerId, sentAt: sentAt,
+                                       receivedAt: receivedAt,
+                                       readAt: readAt,
+                                       type: rejectedMessageType,
+                                       status: status,
+                                       warningStatus: warningStatus)
+            } else {
+                return self
+            }
+        case .text, .offer, .sticker, .disclaimer, .userInfo, .askPhoneNumber, .interlocutorIsTyping:
+            return self
+        }
     }
 }

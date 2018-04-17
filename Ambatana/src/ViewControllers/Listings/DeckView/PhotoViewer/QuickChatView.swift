@@ -34,8 +34,9 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
     var hasInitialText: Bool { return textView.isInitialText }
 
     weak var quickChatViewModel: QuickChatViewModel?
+    private var featureFlags: FeatureFlaggeable
 
-    private let textView = ChatTextView()
+    let textView = ChatTextView()
     private var textViewBottom: NSLayoutConstraint?
 
     var directAnswersViewTopAnchor: NSLayoutYAxisAnchor { return directAnswersView.topAnchor }
@@ -45,8 +46,13 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
 
     private var alphaAnimationHideTimer: Timer?
 
-    init(chatViewModel: QuickChatViewModel) {
+    convenience init(chatViewModel: QuickChatViewModel) {
+        self.init(chatViewModel: chatViewModel, featureFlags: FeatureFlags.sharedInstance)
+    }
+
+    init(chatViewModel: QuickChatViewModel, featureFlags: FeatureFlaggeable) {
         self.quickChatViewModel = chatViewModel
+        self.featureFlags = featureFlags
         super.init(frame: .zero)
         setupUI()
 
@@ -118,8 +124,8 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
         textView.clear()
     }
 
-    func updateDirectChatWith(answers: [[QuickAnswer]], isDynamic: Bool) {
-        directAnswersView.update(answers: answers, isDynamic: isDynamic)
+    func updateDirectChatWith(answers: [QuickAnswer]) {
+        directAnswersView.update(answers: answers)
     }
 
     func handleChatChange(_ change: CollectionChange<ChatViewMessage>) {
@@ -207,6 +213,7 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
         textViewBottom?.isActive = true
         textView.setContentCompressionResistancePriority(.required, for: .vertical)
         textView.backgroundColor = .clear
+        setInitialText(LGLocalizedString.chatExpressTextFieldText)
     }
 
     private func setupDirectAnswers() {
@@ -245,7 +252,10 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
         let messages = quickChatViewModel?.directChatMessages.value ?? []
         guard 0..<messages.count ~= indexPath.row else { return UITableViewCell() }
         let message = messages[indexPath.row]
-        let drawer = ChatCellDrawerFactory.drawerForMessage(message, autoHide: true, disclosure: true)
+        let drawer = ChatCellDrawerFactory.drawerForMessage(message,
+                                                            autoHide: true,
+                                                            disclosure: true,
+                                                            meetingsEnabled: featureFlags.chatNorris.isActive)
         let cell = drawer.cell(tableView, atIndexPath: indexPath)
 
         drawer.draw(cell, message: message)

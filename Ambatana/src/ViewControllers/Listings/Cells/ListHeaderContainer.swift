@@ -12,6 +12,11 @@ class ListHeaderContainer: UICollectionReusableView, ReusableCell {
 
     var totalHeight: CGFloat = 0
 
+    enum HeaderStyle {
+        case fullWidth
+        case bubble
+    }
+
     func getHeader(_ tag: Int) -> UIView? {
         for view in subviews {
             if view.tag == tag {
@@ -36,11 +41,17 @@ class ListHeaderContainer: UICollectionReusableView, ReusableCell {
         backgroundColor = .clear
     }
 
-    func addHeader(_ view: UIView, height: CGFloat) {
+    func addHeader(_ view: UIView, height: CGFloat, style: HeaderStyle = .fullWidth) {
         guard getHeader(view.tag) == nil else { return }
         addSubviewForAutoLayout(view)
-        
-        view.layout(with: self).fillHorizontal().top(by: totalHeight)
+
+        switch style {
+        case .fullWidth:
+            view.layout(with: self).fillHorizontal().top(by: totalHeight)
+        case .bubble:
+            view.layout(with: self).fillHorizontal(by: 10).top(by: totalHeight)
+            view.layer.cornerRadius = 10
+        }
         view.layout().height(height)
         totalHeight += height
     }

@@ -19,7 +19,7 @@
 "bump_up_banner_pay_text" = "Add el gyorsabban";
 "bump_up_banner_pay_text_improvement" = "Add el gyorsabban";
 "bump_up_banner_wait_text" = "a következő kiemelésig";
-"bump_up_boost_success_alert_text" = "Hirdetésed láthatóságát ismét fokoztad! A következő 24 órában kiemelt hirdetés lesz.";
+"bump_up_boost_success_alert_text" = "Hirdetésed láthatóságát fokoztad! A következő 24 órában kiemelt hirdetés lesz.";
 "bump_up_error_bump_generic" = "Hiba történt a hirdetésed kiemelése során. Próbálkozz újra.";
 "bump_up_error_bump_token" = "A tranzakciót feldolgoztuk, de hirdetésed nincs kiemelve.";
 "bump_up_error_payment_failed" = "Nem sikerült kapcsolódni az App Store-hoz. Feldolgozatlan befizetés. Próbálkozz újra.";
@@ -191,6 +191,7 @@
 "chat_message_disclaimer_scammer_base_blocked" = "Légy extra óvatos, ha megosztod telefonszámodat vagy e-mail címedet. A csalók gyakran próbálják meg rávenni kiszemeltjeiket a letgo csevegőjének elhagyására. %@";
 "chat_message_field_hint" = "Ide írd az üzeneted…";
 "chat_message_load_generic_error" = "Hiba történt a beszélgetésed adatainak begyűjtése során. Próbálkozz újra.";
+"chat_message_type_not_supported" = "Ez az üzenet nem kompatibilis az alkalmazásod verziójával. Frissítsd az alkalmazást, hogy elérhesd a legújabb funkciókat!";
 "chat_not_verified_alert_message" = "Az azonosításhoz csatlakozz a Facebook, a Google vagy az e-mail címed segítségével.";
 "chat_not_verified_state_check_button" = "Ellenőrzés";
 "chat_not_verified_state_message" = "A csevegéshez ellenőrizd, hogy visszaigazoltad-e magadat.";
@@ -352,6 +353,11 @@
 "filter_results_cars_other_results" = "Nemrégiben meghirdetve a környéken.";
 "filters_car_make_not_set" = "Nincs megadva";
 "filters_car_model_not_set" = "Nincs megadva";
+"filters_car_seller_type_all" = "All";
+"filters_car_seller_type_dealership" = "Dealership";
+"filters_car_seller_type_invidual" = "Individual";
+"filters_car_seller_type_private" = "Private";
+"filters_car_seller_type_professional" = "Professional";
 "filters_car_year_any_year" = "Bármilyen évjárat";
 "filters_car_year_before_year" = "%i előtti";
 "filters_distance_not_set" = "nincs megadva";
@@ -603,6 +609,7 @@
 "product_delete_post_title" = "NEM JÁRTÁL SIKERREL?";
 "product_delete_send_error_generic" = "Hoppá! Hiba történt a hirdetés törlése során. Próbálkozz újra.";
 "product_delete_sold_confirm_message" = "Biztosan törölni szeretnéd ezt a hirdetést?";
+"product_detail_swipe_to_see_related" = "Swipe to see related listings";
 "product_distance_X_from_you" = "%@-re tőled";
 "product_distance_custom_location" = "Egyéni hely";
 "product_distance_more_than" = "Több mint %@";
@@ -797,6 +804,9 @@
 "profile_sold_no_products_label" = "NINCSENEK HIRDETÉSEK (EGYELŐRE!)";
 "profile_sold_other_no_products_button" = "Tovább böngészek";
 "profile_sold_products_tab" = "Eladott";
+"profile_verifications_email_placeholder" = "EMAIL";
+"profile_verifications_email_view_title" = "E-mail cím hitelesítése";
+"profile_verifications_send_button" = "Küldés";
 "profile_verifications_view_add_info_section_title" = "ADD HOZZÁ";
 "profile_verifications_view_bio_title" = "Bemutatkozás";
 "profile_verifications_view_email_title" = "EMAIL";

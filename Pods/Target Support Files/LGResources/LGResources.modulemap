@@ -1,6 +1,0 @@
-framework module LGResources {
-  umbrella header "LGResources-umbrella.h"
-
-  export *
-  module * { export * }
-}

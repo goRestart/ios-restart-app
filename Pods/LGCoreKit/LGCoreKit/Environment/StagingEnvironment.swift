@@ -10,6 +10,8 @@ struct StagingEnvironment: Environment {
     let apiBaseURL = "https://api.stg.letgo.com"
     let realEstateBaseURL = "https://listingrealestate.stg.letgo.com"
     let searchRealEstateBaseURL = "https://searchrealestate.stg.letgo.com"
+    let carsBaseURL = "https://listingcar.stg.letgo.com"
+    let searchCarsBaseURL = "https://searchcar.stg.letgo.com"
     let bouncerBaseURL = "https://bouncer.stg.letgo.com/api"
     let userRatingsBaseURL = "https://rating.stg.letgo.com/api"
     let chatBaseURL = "https://chat.stg.letgo.com"
@@ -20,4 +22,5 @@ struct StagingEnvironment: Environment {
     let searchProductsBaseURL = "https://search-products.stg.letgo.com"
     let niordBaseURL = "https://niord.stg.letgo.com"
     let spellCorrectorBaseURL = "https://spellcorrector.stg.letgo.com"
+    let meetingsBaseURL = "https://meeting.stg.letgo.com"
 }

@@ -9,13 +9,16 @@
 import Foundation
 import LGCoreKit
 import GoogleMobileAds
+import MoPub
 
 enum ListingCellModel {
     case listingCell(listing: Listing)
     case collectionCell(type: CollectionCellType)
     case emptyCell(vm: LGEmptyViewModel)
-    case advertisement(data: AdvertisementData)
+    case dfpAdvertisement(data: AdvertisementDFPData)
+    case mopubAdvertisement(data: AdvertisementMoPubData)
     case mostSearchedItems(data: MostSearchedItemsCardData)
+    case promo(data: PromoCellData, delegate: ListingCellDelegate?)
     
     init(listing: Listing) {
         self = ListingCellModel.listingCell(listing: listing)
@@ -40,6 +43,10 @@ enum ListingCellModel {
     
     init(mostSearchedItemsData: MostSearchedItemsCardData) {
         self = ListingCellModel.mostSearchedItems(data: mostSearchedItemsData)
+    }
+    
+    init(promoData: PromoCellData, delegate: ListingCellDelegate?) {
+        self = ListingCellModel.promo(data: promoData, delegate: delegate)
     }
 }
 
@@ -93,20 +100,47 @@ enum CollectionCellType: String {
     }
 }
 
-struct AdvertisementData {
+struct AdvertisementDFPData {
     var adUnitId: String
     var rootViewController: UIViewController
     var adPosition: Int
     var bannerHeight: CGFloat
+    var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio
+    var adRequested: Bool
+    var categories: [ListingCategory]?
+    
     var adRequest: DFPRequest
     var bannerView: GADBannerView?
+}
+
+struct AdvertisementMoPubData {
+    var adUnitId: String
+    var rootViewController: UIViewController
+    var adPosition: Int
+    var bannerHeight: CGFloat
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio
-    var categories: [ListingCategory]?
     var adRequested: Bool
+    var categories: [ListingCategory]?
+    
+    var nativeAdRequest: MPNativeAdRequest?
+    var moPubNativeAd: MPNativeAd?
+    var moPubView: UIView?
+}
+
+enum AdProviderType {
+    case dfp
+    case moPub
 }
 
 struct MostSearchedItemsCardData {
     let icon: UIImage? = UIImage(named: "trending_icon")
     let title: String = LGLocalizedString.trendingItemsCardTitle
     let actionTitle: String = LGLocalizedString.trendingItemsCardAction
+}
+
+struct PromoCellData {
+    var appereance: CellAppereance
+    var arrangement: PromoCellArrangement
+    var title: String
+    var image: UIImage
 }
