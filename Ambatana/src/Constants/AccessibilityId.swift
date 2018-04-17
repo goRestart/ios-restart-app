@@ -485,15 +485,22 @@ enum AccessibilityId: Equatable {
     case userHeaderExpandedVerifyGoogleButton
     case userHeaderExpandedVerifyEmailButton
     case userHeaderExpandedBuildTrustButton
+    case userHeaderExpandedMemberSinceLabel
     case userEnableNotificationsButton
     case userSellingTab
     case userSoldTab
     case userFavoritesTab
+    case userReviewsTab
     case userListingsFirstLoad
     case userListingsList
     case userListingsError
     case userPushPermissionOK
     case userPushPermissionCancel
+    case userProfileAddBioButton
+    case userProfileBuildTrustButton
+    case userProfileVerifiedTitle
+    case userProfileMoreBioTitle
+    case userProfileBioLabel
 
     // Verify Accounts popup
     case verifyAccountsBackgroundButton
@@ -581,12 +588,36 @@ enum AccessibilityId: Equatable {
     // Bubble notifications
     case bubbleButton
 
+    // Meeting Creation
+    case meetingCreationView
+    case meetingCreationPlaceHeaderLabel
+    case meetingCreationdateTimeHeaderLabel
+    case meetingCreationLocationLabel
+    case meetingCreationSuggestedLocationsCollection
+    case meetingCreationSelectDayLabel
+    case meetingCreationSendMeetingButton
+
+    // Meeting creation tips
+    case meetingCreationTipsView
+    case meetingCreationTipsCloseButton
+    case meetingCreationTipsImageView
+    case meetingCreationTipsTitleLabel
+    case meetingCreationTipsSubtitleLabel
+    case meetingCreationTipsSendMeetingButton
+    case meetingCreationTipsSecondaryCloseButton
+
+
     // Monetization
 
-    // Bubble
+    // Bump Up Banner
     case bumpUpBanner
     case bumpUpBannerButton
     case bumpUpBannerLabel
+
+    // Boost Timer View
+    case boostTitleLabel
+    case boostTimeLabel
+    case boostProgressBar
 
     // Free bump up screen
     case freeBumpUpCloseButton
@@ -601,6 +632,18 @@ enum AccessibilityId: Equatable {
     case paymentBumpUpTitleLabel
     case paymentBumpUpSubtitleLabel
     case paymentBumpUpButton
+
+    // Bump up boost screen
+    case boostViewTimer
+    case boostViewCloseButton
+    case boostViewImage
+    case boostViewTitleLabel
+    case boostViewSubtitleLabel
+    case boostViewButton
+
+    case boostSucceededAlert
+    case boostSuccededAlertLabel
+    case boostSuccededAlertAnimationView
 
     // Bump Up Hidden Alert
     case bumpUpHiddenListingAlertContactButton
@@ -628,6 +671,12 @@ enum AccessibilityId: Equatable {
     case askPhoneNumberLetstalkText
     case askPhoneNumberTextfield
     case askPhoneNumberSendPhoneButton
+    
+    //  MARK - Verticals
+    case realEstateCell
+    case realEstatePromoTitle
+    case realEstatePromoIcon
+    case realEstatePromoPostNowButton
     
     static func ==(lhs: AccessibilityId, rhs: AccessibilityId) -> Bool {
         return lhs.identifier == rhs.identifier
@@ -1552,6 +1601,8 @@ enum AccessibilityId: Equatable {
             return "userHeaderExpandedVerifyEmailButton"
         case .userHeaderExpandedBuildTrustButton:
             return "userHeaderExpandedBuildTrustButton"
+        case .userHeaderExpandedMemberSinceLabel:
+            return "userHeaderExpandedMemberSinceLabel"
         case .userEnableNotificationsButton:
             return "userEnableNotificationsButton"
         case .userSellingTab:
@@ -1560,6 +1611,8 @@ enum AccessibilityId: Equatable {
             return "userSoldTab"
         case .userFavoritesTab:
             return "userFavoritesTab"
+        case .userReviewsTab:
+            return "userReviewsTab"
         case .userListingsFirstLoad:
             return "userListingsFirstLoad"
         case .userListingsList:
@@ -1570,6 +1623,16 @@ enum AccessibilityId: Equatable {
             return "userPushPermissionOK"
         case .userPushPermissionCancel:
             return "userPushPermissionCancel"
+        case .userProfileAddBioButton:
+            return "userProfileAddBioButton"
+        case .userProfileBuildTrustButton:
+            return "userProfileBuildTrustButton"
+        case .userProfileVerifiedTitle:
+            return "userProfileVerifiedTitle"
+        case .userProfileMoreBioTitle:
+            return "userProfileMoreBioTitle"
+        case .userProfileBioLabel:
+            return "userProfileBioLabel"
             
         // Verify Accounts popup
         case .verifyAccountsBackgroundButton:
@@ -1712,17 +1775,58 @@ enum AccessibilityId: Equatable {
         // Bubble notifications
         case .bubbleButton:
             return "bubbleButton"
+
+        // Meeting creation
+        case .meetingCreationView:
+            return "meetingCreationView"
+        case .meetingCreationPlaceHeaderLabel:
+            return "meetingCreationPlaceHeaderLabel"
+        case .meetingCreationdateTimeHeaderLabel:
+            return "meetingCreationdateTimeHeaderLabel"
+        case .meetingCreationLocationLabel:
+            return "meetingCreationLocationLabel"
+        case .meetingCreationSuggestedLocationsCollection:
+            return "meetingCreationSuggestedLocationsCollection"
+        case .meetingCreationSelectDayLabel:
+            return "meetingCreationSelectDayLabel"
+        case .meetingCreationSendMeetingButton:
+            return "meetingCreationSendMeetingButton"
+
+        // Meeting creation tips
+        case .meetingCreationTipsView:
+            return "meetingCreationTipsView"
+        case .meetingCreationTipsCloseButton:
+            return "meetingCreationTipsCloseButton"
+        case .meetingCreationTipsImageView:
+            return "meetingCreationTipsImageView"
+        case .meetingCreationTipsTitleLabel:
+            return "meetingCreationTipsTitleLabel"
+        case .meetingCreationTipsSubtitleLabel:
+            return "meetingCreationTipsSubtitleLabel"
+        case .meetingCreationTipsSendMeetingButton:
+            return "meetingCreationTipsSendMeetingButton"
+        case .meetingCreationTipsSecondaryCloseButton:
+            return "meetingCreationTipsSecondaryCloseButton"
+
+
+        // Monetization
             
-            // Monetization
-            
-        // Bubble
+        // Bump Up Banner
         case .bumpUpBanner:
             return "bumpUpBanner"
         case .bumpUpBannerButton:
             return "bumpUpBannerButton"
         case .bumpUpBannerLabel:
             return "bumpUpBannerLabel"
-            
+
+        // Boost Timer View
+        case .boostTitleLabel:
+            return "boostTitleLabel"
+        case .boostTimeLabel:
+            return "boostTimeLabel"
+        case .boostProgressBar:
+            return "boostProgressBar"
+
         // Free bump up screen
         case .freeBumpUpCloseButton:
             return "freeBumpUpCloseButton"
@@ -1746,7 +1850,28 @@ enum AccessibilityId: Equatable {
             return "paymentBumpUpSubtitleLabel"
         case .paymentBumpUpButton:
             return "paymentBumpUpButton"
-            
+
+        // Bump up boost screen
+
+        case .boostViewTimer:
+            return "boostViewTimer"
+        case .boostViewCloseButton:
+            return "boostViewCloseButton"
+        case .boostViewImage:
+            return "boostViewImage"
+        case .boostViewTitleLabel:
+            return "boostViewTitleLabel"
+        case .boostViewSubtitleLabel:
+            return "boostViewSubtitleLabel"
+        case .boostViewButton:
+            return "boostViewButton"
+        case .boostSucceededAlert:
+            return "boostSucceededAlert"
+        case .boostSuccededAlertLabel:
+            return "boostSuccededAlertLabel"
+        case .boostSuccededAlertAnimationView:
+            return "boostSuccededAlertAnimationView"
+
         // Bump Up Hidden Alert
         case .bumpUpHiddenListingAlertContactButton:
             return "bumpUpHiddenListingAlertContactButton"
@@ -1790,6 +1915,16 @@ enum AccessibilityId: Equatable {
             return "askPhoneNumberTextfield"
         case .askPhoneNumberSendPhoneButton:
             return "askPhoneNumberSendPhoneButton"
+            
+            //  MARK: Verticals
+        case .realEstateCell:
+            return "realEstateCell"
+        case .realEstatePromoTitle:
+            return "realEstatePromoTitle"
+        case .realEstatePromoIcon:
+            return "realEstatePromoIcon"
+        case .realEstatePromoPostNowButton:
+            return "realEstatePromoPostNowButton"
         }
     }
 }

@@ -121,4 +121,21 @@ class EnvironmentProxy: AppEnvironment {
     var feedAdUnitIdDFPUSA20Ratio: String {
         return environment.feedAdUnitIdDFPUSA20Ratio
     }
+    
+    var feedAdUnitIdMoPubUSAForAllUsers: String {
+        return environment.feedAdUnitIdMoPubUSAForAllUsers
+    }
+    
+    var feedAdUnitIdMoPubUSAForOldUsers: String {
+        return environment.feedAdUnitIdMoPubUSAForOldUsers
+    }
+    
+    var feedAdUnitIdMoPubTRForAllUsers: String {
+        return environment.feedAdUnitIdMoPubTRForAllUsers
+    }
+    
+    var feedAdUnitIdMoPubTRForOldUsers: String {
+        return environment.feedAdUnitIdMoPubTRForOldUsers
+    }
+    
 }

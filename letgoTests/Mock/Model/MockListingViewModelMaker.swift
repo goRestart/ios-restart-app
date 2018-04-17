@@ -97,7 +97,8 @@ class MockListingViewModelMaker: ListingViewModelMaker {
                                    stats: nil,
                                    postedDate: nil,
                                    socialSharer: SocialSharer(),
-                                   socialMessage: MockListingSocialMessage())
+                                   socialMessage: MockListingSocialMessage(),
+                                   isMine: true)
     }
 }
 

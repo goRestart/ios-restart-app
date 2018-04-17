@@ -723,6 +723,7 @@ extension UserViewModel: SocialSharerDelegate {
 // MARK: - Tracking
 
 extension UserViewModel {
+
     func trackVisit() {
         guard let user = user.value else { return }
         
@@ -824,4 +825,6 @@ extension UserViewModel: ListingCellDelegate {
         })
         delegate?.vmShowUserActionSheet(LGLocalizedString.commonCancel, actions: [delete])
     }
+    
+    func postNowButtonPressed(_ view: UIView) { }
 }

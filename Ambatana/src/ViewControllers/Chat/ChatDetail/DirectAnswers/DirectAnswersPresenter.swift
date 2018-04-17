@@ -7,7 +7,7 @@
 //
 
 protocol DirectAnswersPresenterDelegate: class {
-    func directAnswersDidTapAnswer(_ presenter: DirectAnswersPresenter, answer: QuickAnswer, index: Int)
+    func directAnswersDidTapAnswer(_ presenter: DirectAnswersPresenter, answer: QuickAnswer)
 }
 
 class DirectAnswersPresenter {
@@ -37,12 +37,10 @@ class DirectAnswersPresenter {
             horizontalView?.answersEnabled = enabled
         }
     }
-    fileprivate weak var horizontalView: DirectAnswersHorizontalView?
+    private weak var horizontalView: DirectAnswersHorizontalView?
 
-    fileprivate var answers: [[QuickAnswer]] = [[]]
+    private var answers: [QuickAnswer] = []
     private static let disabledAlpha: CGFloat = 0.6
-    
-    var isDynamic: Bool = false
 
 
     // MARK: - Public methods
@@ -63,20 +61,15 @@ class DirectAnswersPresenter {
         horizontalView = directAnswers
     }
 
-    func setDirectAnswers(_ answers: [[QuickAnswer]], isDynamic: Bool) {
+    func setDirectAnswers(_ answers: [QuickAnswer]) {
         self.answers = answers
-        self.isDynamic = isDynamic
-        horizontalView?.update(answers: answers, isDynamic: isDynamic)
+        horizontalView?.update(answers: answers)
     }
 }
 
 
 extension DirectAnswersPresenter: DirectAnswersHorizontalViewDelegate {
-    func directAnswersHorizontalViewDidSelect(answer: QuickAnswer, index: Int) {
-        if isDynamic {
-            answers.move(fromIndex: index, toIndex: answers.count-1)
-            horizontalView?.update(answers: answers, isDynamic: isDynamic)
-        }
-        delegate?.directAnswersDidTapAnswer(self, answer: answer, index: index)
+    func directAnswersHorizontalViewDidSelect(answer: QuickAnswer) {
+        delegate?.directAnswersDidTapAnswer(self, answer: answer)
     }
 }

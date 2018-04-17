@@ -81,6 +81,8 @@ final class CoreDI: InternalDI {
                                                 deviceLocationDAO: deviceLocationDAO,
                                                 countryHelper: countryHelper)
 
+        let suggestedLocationsApiDataSource = SuggestedLocationsApiDataSource(apiClient: apiClient)
+
         let carsInfoDataSource = CarsInfoApiDataSource(apiClient: apiClient)
         let carsInfoCache: CarsInfoDAO = CarsInfoRealmDAO() ?? CarsInfoMemoryDAO()
         let carsInfoRepository = LGCarsInfoRepository(dataSource: carsInfoDataSource,
@@ -242,6 +244,10 @@ final class CoreDI: InternalDI {
     lazy var machineLearningRepository: MachineLearningRepository = {
         let machineLearningDataSource = LGMachineLearningDataSource()
         return LGMachineLearningRepository(dataSource: machineLearningDataSource)
+    }()
+    lazy var suggestedLocationsRepository: SuggestedLocationsRepository = {
+        let suggestedLocationsDataSource = SuggestedLocationsApiDataSource(apiClient: self.apiClient)
+        return LGSuggestedLocationsRepository(dataSource: suggestedLocationsDataSource)
     }()
 
 

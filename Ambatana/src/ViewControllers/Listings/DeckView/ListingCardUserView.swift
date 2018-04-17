@@ -72,18 +72,22 @@ final class ListingCardUserView: UIView {
 
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
-    func populate(withUserName userName: String, icon: URL?, imageDownloader: ImageDownloaderType) {
+    func populate(withUserName userName: String,
+                  placeholder: UIImage?,
+                  icon: URL?,
+                  imageDownloader: ImageDownloaderType) {
         userNameLabel.text = userName
         actionButton.tintColor = .white
-
-        guard let url = icon else { return }
-        guard imageDownloader.cachedImageForUrl(url) == nil else {
-            userIcon.setBackgroundImage(imageDownloader.cachedImageForUrl(url), for: .normal)
+        guard let url = icon else {
+            userIcon.setBackgroundImage(placeholder ?? Images.placeholder, for: .normal)
             return
         }
 
-        imageDownloader.downloadImageWithURL(url, completion: { [weak self] (result, url) in
-            if let value = result.value {
+        userIcon.tag = tag
+        imageDownloader.downloadImageWithURL(url, completion: { [weak  self] (result, url) in
+            if let value = result.value,
+                let selfTag = self?.tag,
+                self?.userIcon.tag == selfTag {
                 self?.userIcon.setBackgroundImage(value.image, for: .normal)
                 self?.userIcon.setNeedsLayout()
             }
@@ -92,6 +96,7 @@ final class ListingCardUserView: UIView {
 
     func set(action: Action) {
         action.setupListingCardUserView(self)
+        actionButton.alphaAnimated(1)
     }
 
     fileprivate func set(favourite isFavourite: Bool) {
@@ -202,5 +207,11 @@ final class ListingCardUserView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         userIcon.layer.cornerRadius = min(userIcon.width, userIcon.height) / 2.0
+    }
+
+    func prepareForReuse() {
+        actionButton.alpha = 0.3
+        userIcon.setBackgroundImage(Images.placeholder, for: .normal)
+        userNameLabel.text = ""
     }
 }

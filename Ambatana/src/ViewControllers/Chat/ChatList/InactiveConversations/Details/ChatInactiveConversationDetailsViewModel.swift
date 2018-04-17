@@ -52,6 +52,9 @@ class ChatInactiveConversationDetailsViewModel: BaseViewModel {
         return LetgoAvatar.avatarWithID(conversation.interlocutor?.objectId,
                                         name: conversation.interlocutor?.name)
     }
+    var meetingsEnabled: Bool {
+        return featureFlags.chatNorris.isActive
+    }
     
     // MARK: - Lifecycle
     

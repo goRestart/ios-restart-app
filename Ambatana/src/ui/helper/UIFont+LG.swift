@@ -9,7 +9,7 @@
 extension UIFont {
 
     // Avatar Font
-    static var avatarFont: UIFont { return systemRegularFont(size: 60) }
+    static var avatarFont: UIFont { return systemBoldFont(size: 50) }
 
     // Titles
     static var bigHeadlineFont: UIFont { return systemRegularFont(size: 30) }
@@ -43,12 +43,20 @@ extension UIFont {
     static var bigButtonFont: UIFont { return systemSemiBoldFont(size: 19) }
     static var mediumButtonFont: UIFont { return systemMediumFont(size: 17) }
     static var smallButtonFont: UIFont { return systemMediumFont(size: 15) }
+    static var verySmallButtonFont: UIFont { return systemMediumFont(size: 14) }
     
     // Posting Flow
     static var postingFlowHeadline: UIFont { return systemBoldFont(size: 35) }
     static var postingFlowBody: UIFont { return systemBoldFont(size: 27) }
     static var postingFlowSelectableItem: UIFont { return systemBoldFont(size: 23) }
+    
+    static var adTitleFont: UIFont { return systemMediumFont(size: 16)}
+    static var adDescriptionFont: UIFont { return systemRegularFont(size: 14)}
+    static var adCallToActionFont: UIFont { return systemMediumFont(size: 14)}
+    static var adTextFont: UIFont { return systemRegularFont(size: 14)}
 
+    // User Profile
+    static var profileUserHeadline: UIFont { return systemBoldFont(size: 35) }
 
     // MARK: Private methods
     
@@ -107,7 +115,7 @@ extension UIFont {
 }
 
 
-// MARK: > Notification fonts
+// MARK: - Notification fonts
 
 extension UIFont {
     static var notificationTitleFont: UIFont { return systemRegularFont(size: 17) }
@@ -116,7 +124,7 @@ extension UIFont {
 }
 
 
-// MARK: > Product caroussel
+// MARK: - Product caroussel
 extension UIFont {
     static var productTitleFont: UIFont { return UIFont.systemSemiBoldFont(size: 17) }
     static var productPriceFont: UIFont { return UIFont.systemBoldFont(size: 21) }
@@ -150,8 +158,15 @@ extension UIFont {
     static var deckUsernameFont: UIFont { return systemBoldFont(size: 15) }
 }
 
-// MARK: > PrePremission Push Settings
+// MARK: - PrePremission Push Settings
 extension UIFont {
     static var notificationsSettingsCellTextFont: UIFont { return mediumBodyFont }
     static var notificationsSettingsCellTextMiniFont: UIFont { return smallBodyFont }
+}
+
+// MARK: - User Profile
+extension UIFont {
+    static var userProfileTabsNumberFont: UIFont { return UIFont.systemBoldFont(size: 19)}
+    static var userProfileTabsNameFont: UIFont { return UIFont.systemRegularFont(size: 15)}
+    static var userProfileTabsNameSelectedFont: UIFont { return UIFont.systemBoldFont(size: 15)}
 }

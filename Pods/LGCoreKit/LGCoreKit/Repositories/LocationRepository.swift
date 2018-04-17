@@ -21,7 +21,6 @@ public typealias PostalAddressLocationRepositoryCompletion = (PostalAddressLocat
 public typealias IPLookupLocationRepositoryResult = Result<LGLocationCoordinates2D, IPLookupLocationError>
 public typealias IPLookupLocationRepositoryCompletion = (IPLookupLocationRepositoryResult) -> Void
 
-
 public protocol LocationRepository {
     
     var distance: CLLocationDistance { get set }

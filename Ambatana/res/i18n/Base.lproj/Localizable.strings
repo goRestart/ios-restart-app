@@ -100,6 +100,18 @@
 // Featured product cell chat now button variant D (only in turkish): İletişime Geç
 "bump_up_product_cell_chat_now_button_d" = "Chat Now";
 
+// Featured product cell chat now button variant A (only in English): Chat Now
+"bump_up_product_cell_chat_now_button_english_a" = "Chat Now";
+
+// Featured product cell chat now button variant B (only in English): Contact
+"bump_up_product_cell_chat_now_button_english_b" = "Contact";
+
+// Featured product cell chat now button variant C (only in English): Contact seller
+"bump_up_product_cell_chat_now_button_english_c" = "Contact seller";
+
+// Featured product cell chat now button variant D (only in English): Start chat
+"bump_up_product_cell_chat_now_button_english_d" = "Start chat";
+
 // Text for label in featured products detail
 "bump_up_product_detail_featured_label" = "FEATURED";
 
@@ -140,7 +152,7 @@
 "bump_up_view_boost_subtitle_cheaper" = "Boost your listing right now to get a discount off the typical feature price.";
 
 // Text for boost success alert
-"bump_up_boost_success_alert_text" = "Your listing was boosted again! It will be featured for the next 24 hours.";
+"bump_up_boost_success_alert_text" = "Your listing was boosted! It will be featured for the next 24 hours.";
 
 // Title for payment bump up view
 "bump_up_old_view_pay_title" = "SELL FASTER";
@@ -354,6 +366,8 @@
 
 // Change email already registered
 "change_email_error_already_registered" = "This email address is already registered. Please enter a different one.";
+
+"chat_message_type_not_supported" = "This message isn't compatible with your app version. Update your app now to unlock the newest features!";
 
 // Chat inactive conversations cell
 "chat_inactive_conversations_explanation_label" = "Chats older than 3 months are automatically archived.";
@@ -816,6 +830,9 @@
 // Common yes
 "common_yes" = "Yes";
 
+// Common display for time
+"common_hours_mins_secs" = "%@h %@m %@s";
+
 // Contact subject option location. Check attached image @ "contact_email_field_hint" segment
 "contact_subject_option_location" = "Location issues";
 
@@ -1118,6 +1135,21 @@
 // Filters within option 7 days
 "filters_within_week" = "The last 7 days";
 
+// Filters Car seller type: private
+"filters_car_seller_type_private" = "Private";
+
+// Filters Car seller type: professional
+"filters_car_seller_type_professional" = "Professional";
+
+// Filters Car seller type: individual
+"filters_car_seller_type_invidual" = "Individual";
+
+// Filters Car seller type: dealership
+"filters_car_seller_type_dealership" = "Dealership";
+
+// Filters Car seller type: all
+"filters_car_seller_type_all" = "All";
+
 // Filters Make not set
 "filters_car_make_not_set" = "Not Set";
 
@@ -1378,7 +1410,7 @@
 "main_products_invite_navigation_bar_button" = "Invite";
 
 // Title for meeting creation view
-"meeting_creation_view_title" = "Schedule a meetup";
+"meeting_creation_view_title" = "Schedule a meeting";
 
 // place header for meeting creation view
 "meeting_creation_view_place" = "PLACE";
@@ -2034,6 +2066,21 @@
 // Message title when user didn't allow access to camera
 "product_post_camera_permissions_title" = "Allow access to Camera";
 
+// Video posting, tooltip: hold to record a video
+"product_post_camera_video_recording_tooltip" = "%@ to record a video";
+
+// Video posting, tooltip: hold to record a video, highlighted hold
+"product_post_camera_video_recording_tooltip_highlighted_word" = "Hold";
+
+// Video posting, button to set camera in photo mode
+"product_post_camera_photo_mode_button" = "PHOTO";
+
+// Video posting, button to set camera in video mode
+"product_post_camera_video_mode_button" = "VIDEO";
+
+// Video posting, button to select photos from the gallery
+"product_post_camera_gallery_text_button" = "GALLERY";
+
 // Camera tab on posting
 "product_post_camera_tab_v2" = "CAMERA";
 
@@ -2481,6 +2528,36 @@
 // cell explaining that marking items as sold, increases Karma score
 "profile_verifications_view_mark_as_sold_subtitle" = "+2 pts each (up to 10 pts)";
 
+// Title of the view to verify the email. The user can write its email to send a verification link
+"profile_verifications_email_view_title" = "Verify your Email";
+
+// Placeholder for the enter email field
+"profile_verifications_email_placeholder" = "Email";
+
+// Button to confirm email and send a verification link
+"profile_verifications_send_button" = "Send";
+
+// Disclaimer text telling the user this section is only visibile to him/her
+"profile_karma_visibility_title" = "Only visible to you";
+
+// Text button to open the verifications screen to improve the user score
+"profile_karma_improve_score" = "Improve your Verification Score";
+
+// Subtitle shown when the user is not verified yet (indicating how many points needs)
+"profile_karma_unverified_subtitle" = "Earn %@ to get the Verified User badge";
+
+// number of points -> This will be inside "Earn %@ to get the Verified User Badge"
+"profile_karma_unverified_points_subtitle" = "%@ points";
+
+// Subtitle shown when the user has enough points and is verified
+"profile_karma_verified_subtitle" = "You got the badge!";
+
+// Verification score text inside the private karma view
+"profile_karma_title" = "Verification Score: %@";
+
+// number of points -> This will be inside "Verification Score: %@"
+"profile_karma_points_title" = "%@ pts";
+
 // Button to verify accounts
 "profile_build_trust_button" = "Build Trust";
 
@@ -2861,7 +2938,7 @@
 "real_estate_gallery_view_subtitle" = "Select up to 5 images of the property you want to sell or rent";
 
 // Message inside gallery view to explain about picture selection on RE
-"real_estate_gallery_view_subtitle_params" = "Select up to %d images of the property you want to sell or rent";
+"real_estate_gallery_view_subtitle_params" = "Select up to %d images of the property you want to sell or rent. The first one will be your featured photo so make sure it's a good one!";
 
 // Message inside camera view to explain about picture selection on RE
 "real_estate_camera_view_real_estate_message" = "Snap a picture of the property you want to sell or rent";
@@ -2907,6 +2984,30 @@
 
 // Description for third page on three page option. 
 "real_estate_tutorial_three_pages_third_page_description" = "Completed listings attract 20% more views so you'll sell faster. Don't forget to double your visibility by featuring your listing!";
+
+// Title for Promo Cell in real estate Listing - Version 1
+"real_estate_promo_title_version_1" = "Post Real Estate listings";
+
+// Title for Promo Cell in real estate Listing - Version 2
+"real_estate_promo_title_version_2" = "New! Post property for sale and rent";
+
+// Title for Promo Cell in real estate Listing - Version 3
+"real_estate_promo_title_version_3" = "New! Sell or rent property";
+
+// Title for Promo Cell in real estate Listing - Version 4
+"real_estate_promo_title_version_4" = "Sell or rent property";
+
+// Title for Promo Cell in real estate Listing - Version 5
+"real_estate_promo_title_version_5" = "You can now post Real Estate listings";
+
+// Title for Promo Cell in real estate Listing - Version 6
+"real_estate_promo_title_version_6" = "New! Real Estate listings on letgo";
+
+// Title for Promo Cell in real estate Listing - Version 7
+"real_estate_promo_title_version_7" = "Real Estate for rent or sale";
+
+// Title for Button in Promo Cell real estate Listing
+"real_estate_promo_post_button_title" = "Post Now";
 
 // Title when showing list of related items
 "related_items_title" = "Related listings";

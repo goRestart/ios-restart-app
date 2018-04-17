@@ -221,9 +221,10 @@ enum NavBarTransparentSubStyle {
 }
 
 enum NavBarBackgroundStyle {
+    case white
     case transparent(substyle: NavBarTransparentSubStyle)
-    case `default`
     case custom(background: UIImage, shadow: UIImage)
+    case `default`
 
     var tintColor: UIColor {
         switch self {
@@ -234,7 +235,7 @@ enum NavBarBackgroundStyle {
             case .light:
                 return UIColor.lightBarButton
             }
-        case .default, .custom:
+        case .default, .custom, .white:
             return UIColor.lightBarButton
         }
     }
@@ -248,7 +249,7 @@ enum NavBarBackgroundStyle {
             case .light:
                 return UIColor.lightBarTitle
             }
-        case .default, .custom:
+        case .default, .custom, .white:
             return UIColor.lightBarTitle
         }
     }
@@ -287,15 +288,18 @@ extension UIViewController {
     
     func setNavBarBackgroundStyle(_ style: NavBarBackgroundStyle) {
         switch style {
+        case .white:
+            navigationController?.navigationBar.shadowImage = UIImage()
+            navigationController?.navigationBar.barTintColor = .white
         case .transparent:
             navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
             navigationController?.navigationBar.shadowImage = UIImage()
-        case .default:
-            navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
-            navigationController?.navigationBar.shadowImage = nil
         case let .custom(background, shadow):
             navigationController?.navigationBar.setBackgroundImage(background, for: .default)
             navigationController?.navigationBar.shadowImage = shadow
+        case .default:
+            navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+            navigationController?.navigationBar.shadowImage = nil
         }
 
         navigationController?.navigationBar.tintColor = style.tintColor

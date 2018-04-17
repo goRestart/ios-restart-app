@@ -43,7 +43,7 @@ class CollectionViewFooter: UICollectionReusableView, ReusableCell {
     }
 
     private func setupUI() {
-        backgroundColor = UIColor.grayBackground
+        backgroundColor = .clear
 
         addSubviewsForAutoLayout([activityIndicator, retryButton])
         NSLayoutConstraint.activate([

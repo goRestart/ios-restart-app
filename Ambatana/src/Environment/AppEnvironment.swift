@@ -38,6 +38,12 @@ protocol AppEnvironment {
     var feedAdUnitIdDFPUSA15Ratio: String { get }
     var feedAdUnitIdDFPUSA20Ratio: String { get }
     
+    // MoPub Ads
+    var feedAdUnitIdMoPubUSAForAllUsers: String { get }
+    var feedAdUnitIdMoPubUSAForOldUsers: String { get }
+    var feedAdUnitIdMoPubTRForAllUsers: String { get }
+    var feedAdUnitIdMoPubTRForOldUsers: String { get }
+    
     // AppsFlyer
     var appsFlyerAPIKey: String { get }
     var oneLinkHost: String { get }

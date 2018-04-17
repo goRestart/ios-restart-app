@@ -108,7 +108,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
         itemActionsView.setContentCompressionResistancePriority(.required, for: .vertical)
         itemActionsView.setContentHuggingPriority(.required, for: .vertical)
         itemActionsView.alpha = 0
-        itemActionsView.backgroundColor = UIColor.white
+        itemActionsView.backgroundColor = .white
     }
 
     func normalizedPageOffset(givenOffset: CGFloat) -> CGFloat {

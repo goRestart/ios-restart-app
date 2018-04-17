@@ -11,7 +11,7 @@ import LGCoreKit
 import RxSwift
 
 protocol ListingCardDetailsViewType: class {
-    func populateWith(productInfo: ListingVMProductInfo?)
+    func populateWith(productInfo: ListingVMProductInfo?, showExactLocationOnMap: Bool)
     func populateWith(socialSharer: SocialSharer)
     func populateWith(socialMessage: SocialMessage?)
     func populateWith(listingStats: ListingStats?, postedDate: Date?)
@@ -32,9 +32,13 @@ final class ListingCardDetailsViewBinder {
     }
 
     private func bindProducInfoTo(_ viewModel: ListingCardDetailsViewModel, disposeBag: DisposeBag) {
-        viewModel.cardProductInfo.unwrap().observeOn(MainScheduler.asyncInstance).bind { [weak self] info in
-            self?.detailsView?.populateWith(productInfo: info)
-        }.disposed(by: disposeBag)
+        let productInfoObservable = Observable
+            .combineLatest(viewModel.cardProductInfo.unwrap().observeOn(MainScheduler.asyncInstance),
+                           viewModel.cardShowExactLocationOnMap.observeOn(MainScheduler.asyncInstance)) { ($0, $1) }
+
+        productInfoObservable.observeOn(MainScheduler.asyncInstance).bind { [weak self] (info, showExactLocationOnMap) in
+            self?.detailsView?.populateWith(productInfo: info, showExactLocationOnMap: showExactLocationOnMap)
+            }.disposed(by: disposeBag)
     }
 
     private func bindStatsTo(_ viewModel: ListingCardDetailsViewModel, disposeBag: DisposeBag) {
