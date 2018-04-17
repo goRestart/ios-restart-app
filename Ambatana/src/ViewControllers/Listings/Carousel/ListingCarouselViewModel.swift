@@ -602,10 +602,11 @@ class ListingCarouselViewModel: BaseViewModel {
         currentVM.listingStats.asObservable().bind(to: listingStats).disposed(by: activeDisposeBag)
 
         currentVM.seller.asObservable().bind { [weak self] seller in
-            self?.ownerIsProfessional.value = seller?.isProfessional ?? false
-            self?.ownerPhoneNumber.value = seller?.phone
-            if let flags = self?.featureFlags, flags.showAdvancedReputationSystem.isActive {
-                self?.ownerBadge.value = seller?.reputationBadge ?? .noBadge
+            guard let user = seller else { return }
+            self?.ownerIsProfessional.value = user.isProfessional
+            self?.ownerPhoneNumber.value = user.phone
+            if let flags = self?.featureFlags, flags.showAdvancedReputationSystem.isActive, !user.isProfessional {
+                self?.ownerBadge.value = user.reputationBadge
             }
         }.disposed(by: activeDisposeBag)
 

@@ -173,7 +173,7 @@ class UserView: UIView {
         titleLabel.text = userName
         subtitleLabel.text = subtitle
         proImageView.isHidden = !isProfessional
-        userBadgeImageView.isHidden = isProfessional || userBadge == .noBadge
+        userBadgeImageView.isHidden = userBadge == .noBadge
         if style.textHasShadow {
             [titleLabel, subtitleLabel].forEach { label in
                 label?.layer.shadowColor = UIColor.black.cgColor
