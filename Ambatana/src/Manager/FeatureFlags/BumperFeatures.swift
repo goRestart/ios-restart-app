@@ -62,6 +62,7 @@ extension Bumper  {
         flags.append(FeedAdsProviderForTR.self)
         flags.append(SearchCarsIntoNewBackend.self)
         flags.append(ShowExactLocationForPros.self)
+        flags.append(ShowPasswordlessLogin.self)
         Bumper.initialize(flags)
     } 
 
@@ -308,6 +309,11 @@ extension Bumper  {
     static var showExactLocationForPros: Bool {
         guard let value = Bumper.value(for: ShowExactLocationForPros.key) else { return true }
         return ShowExactLocationForPros(rawValue: value)?.asBool ?? true
+    }
+
+    static var showPasswordlessLogin: ShowPasswordlessLogin {
+        guard let value = Bumper.value(for: ShowPasswordlessLogin.key) else { return .control }
+        return ShowPasswordlessLogin(rawValue: value) ?? .control 
     } 
 }
 
@@ -1061,5 +1067,21 @@ enum ShowExactLocationForPros: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show exact location for professional delaers in listing detail map" } 
     var asBool: Bool { return self == .yes }
+}
+
+enum ShowPasswordlessLogin: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ShowPasswordlessLogin.control.rawValue }
+    static var enumValues: [ShowPasswordlessLogin] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show Passwordless login option" } 
+    static func fromPosition(_ position: Int) -> ShowPasswordlessLogin {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
 }
 

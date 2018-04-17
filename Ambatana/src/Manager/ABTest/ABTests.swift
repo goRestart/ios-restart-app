@@ -112,6 +112,7 @@ class ABTests {
 
 extension ABTests {
     var advancedReputationSystem: LeanplumABVariable<Int> { return users.advancedReputationSystem }
+    var showPasswordlessLogin: LeanplumABVariable<Int> { return users.showPasswordlessLogin }
 }
 
 //  MARK: Core

@@ -67,6 +67,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem = .control
     var searchCarsIntoNewBackend: SearchCarsIntoNewBackend = .control
     var showExactLocationForPros: Bool = true
+    var showPasswordlessLogin: ShowPasswordlessLogin = .control
 
     // Country dependant features
     var freePostingModeAllowed = false
@@ -89,5 +90,4 @@ class MockFeatureFlags: FeatureFlaggeable {
     var shareTypes: [ShareType] = []
     var copyForChatNowInEnglish: CopyForChatNowInEnglish = .control
     var shouldChangeChatNowCopyInEnglish = false
-    
 }
