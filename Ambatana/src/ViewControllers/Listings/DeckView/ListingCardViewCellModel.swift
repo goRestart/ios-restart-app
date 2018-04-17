@@ -15,6 +15,7 @@ protocol ListingCardDetailsViewModel: class {
     var cardProductStats: Observable<ListingStats?> { get }
     var cardSocialSharer: SocialSharer { get }
     var cardSocialMessage: Observable<SocialMessage?> { get }
+    var cardShowExactLocationOnMap: Observable<Bool> { get }
 }
 
 protocol ListingCardViewCellModel: ListingCardDetailsViewModel {
@@ -30,7 +31,7 @@ protocol ListingCardViewCellModel: ListingCardDetailsViewModel {
     var cardUserInfo: Observable<ListingVMUserInfo> { get }
     var cardProductPreview: Observable<(URL?, Int)> { get }
     
-    var cardQuickAnswers: [[QuickAnswer]] { get }
+    var cardQuickAnswers: [QuickAnswer] { get }
     var cardDirectChatEnabled: Observable<Bool> { get }
     var cardDirectChatMessages: Observable<CollectionChange<ChatViewMessage>> { get }
     var cardDirectChatPlaceholder: String { get }
@@ -56,10 +57,12 @@ extension ListingViewModel: ListingCardViewCellModel {
     var cardUserInfo: Observable<ListingVMUserInfo> { return userInfo.asObservable() }
     var cardProductPreview: Observable<(URL?, Int)> { return previewURL.asObservable()}
 
-    var cardQuickAnswers: [[QuickAnswer]] { return quickAnswers }
+    var cardQuickAnswers: [QuickAnswer] { return quickAnswers }
     var cardDirectChatEnabled: Observable<Bool> { return directChatEnabled.asObservable() }
     var cardDirectChatMessages: Observable<CollectionChange<ChatViewMessage>> { return directChatMessages.changesObservable }
     var cardDirectChatPlaceholder: String { return directChatPlaceholder }
 
     var cardBumpUpBannerInfo: Observable<BumpUpInfo?> { return bumpUpBannerInfo.asObservable() }
+
+    var cardShowExactLocationOnMap: Observable<Bool> { return showExactLocationOnMap.asObservable() }
 }

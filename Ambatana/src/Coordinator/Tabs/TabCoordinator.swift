@@ -245,10 +245,15 @@ fileprivate extension TabCoordinator {
         }
 
         let requester = ListingListMultiRequester(requesters: requestersArray)
-        if featureFlags.newItemPage.isActive {
-            openListingNewItemPage(listing, thumbnailImage: thumbnailImage,
-                                   cellModels: nil, originFrame: nil,
-                                   requester: requester, source: source)
+        if featureFlags.deckItemPage.isActive {
+            openListingNewItemPage(listing,
+                                   thumbnailImage: thumbnailImage,
+                                   cellModels: nil,
+                                   originFrame: nil,
+                                   requester: requester,
+                                   source: source,
+                                   actionOnFirstAppear: actionOnFirstAppear,
+                                   trackingIndex: nil)
         } else {
             let vm = ListingCarouselViewModel(listing: listing, thumbnailImage: thumbnailImage,
                                               listingListRequester: requester, source: source,
@@ -262,16 +267,25 @@ fileprivate extension TabCoordinator {
     func openListing(_ listing: Listing, cellModels: [ListingCellModel], requester: ListingListRequester,
                      thumbnailImage: UIImage?, originFrame: CGRect?, showRelated: Bool,
                      source: EventParameterListingVisitSource, index: Int) {
-        if featureFlags.newItemPage.isActive {
-            // TODO: ABIOS-3100 check all the other parameters
-            openListingNewItemPage(listing, thumbnailImage: thumbnailImage, cellModels: cellModels,
-                           originFrame: originFrame,
-                           requester: requester, source: source)
-        } else if showRelated {
+        if showRelated {
             //Same as single product opening
-            openListing(listing: listing, thumbnailImage: thumbnailImage, originFrame: originFrame,
-                        source: source, requester: requester, index: index, discover: false,
+            openListing(listing: listing,
+                        thumbnailImage: thumbnailImage,
+                        originFrame: originFrame,
+                        source: source,
+                        requester: requester,
+                        index: index,
+                        discover: false,
                         actionOnFirstAppear: .nonexistent)
+        } else if featureFlags.deckItemPage.isActive {
+            openListingNewItemPage(listing,
+                                   thumbnailImage: thumbnailImage,
+                                   cellModels: cellModels,
+                                   originFrame: originFrame,
+                                   requester: requester,
+                                   source: source,
+                                   actionOnFirstAppear: .nonexistent,
+                                   trackingIndex: index)
         } else {
             let vm = ListingCarouselViewModel(productListModels: cellModels, initialListing: listing,
                                               thumbnailImage: thumbnailImage, listingListRequester: requester, source: source,
@@ -290,7 +304,7 @@ fileprivate extension TabCoordinator {
         let filteredRequester = FilteredListingListRequester( itemsPerPage: Constants.numListingsPerPageDefault, offset: 0)
         let requester = ListingListMultiRequester(requesters: [relatedRequester, filteredRequester])
 
-        if featureFlags.newItemPage.isActive {
+        if featureFlags.deckItemPage.isActive {
             openListingNewItemPage(listing: .product(localProduct),
                                    listingListRequester: requester,
                                    source: source)
@@ -314,20 +328,43 @@ fileprivate extension TabCoordinator {
     func openListingNewItemPage(listing: Listing,
                                 listingListRequester: ListingListRequester,
                                 source: EventParameterListingVisitSource) {
-        openListingNewItemPage(listing, thumbnailImage: nil, cellModels: nil, originFrame: nil,
-                               requester: listingListRequester, source: source)
+        openListingNewItemPage(listing,
+                               thumbnailImage: nil,
+                               cellModels: nil,
+                               originFrame: nil,
+                               requester: listingListRequester,
+                               source: source,
+                               actionOnFirstAppear: .nonexistent,
+                               trackingIndex: nil)
     }
 
-    func openListingNewItemPage(_ listing: Listing, thumbnailImage: UIImage?, cellModels: [ListingCellModel]?,
-                     originFrame: CGRect?, requester: ListingListRequester, source: EventParameterListingVisitSource) {
-        let coordinator = DeckCoordinator(navigationController: navigationController,
-                                        listing: listing,
-                                          cellModels: cellModels,
-                                          listingListRequester: requester,
-                                          source: source, listingNavigator: self)
+    func openListingNewItemPage(_ listing: Listing,
+                                thumbnailImage: UIImage?,
+                                cellModels: [ListingCellModel]?,
+                                originFrame: CGRect?,
+                                requester: ListingListRequester,
+                                source: EventParameterListingVisitSource,
+                                actionOnFirstAppear: DeckActionOnFirstAppear,
+                                trackingIndex: Int?) {
+        if deckAnimator == nil {
+            let coordinator = DeckCoordinator(withNavigationController: navigationController)
+            deckAnimator = coordinator
+        }
 
-        coordinator.showDeckViewController()
-        deckAnimator = coordinator
+        let viewModel = ListingDeckViewModel(listModels: cellModels ?? [],
+                                             listing: listing,
+                                             listingListRequester: requester,
+                                             source: source,
+                                             detailNavigator: self,
+                                             actionOnFirstAppear: actionOnFirstAppear,
+                                             trackingIndex: trackingIndex)
+
+        let deckViewController = ListingDeckViewController(viewModel: viewModel)
+        viewModel.delegate = deckViewController
+        viewModel.navigator = self
+
+        deckAnimator?.setupWith(viewModel: viewModel)
+        navigationController.pushViewController(deckViewController, animated: true)
     }
 
     func openUser(userId: String, source: UserSource) {
@@ -468,15 +505,20 @@ fileprivate extension TabCoordinator {
 
 extension TabCoordinator: ListingDetailNavigator {
     func closeProductDetail() {
-        navigationController.tabBarController?.setTabBarHidden(false, animated: true)
         navigationController.popViewController(animated: true)
     }
 
     func editListing(_ listing: Listing,
-                     bumpUpProductData: BumpUpProductData?) {
+                     bumpUpProductData: BumpUpProductData?,
+                     listingCanBeBoosted: Bool,
+                     timeSinceLastBump: TimeInterval?,
+                     maxCountdown: TimeInterval?) {
         let navigator = EditListingCoordinator(listing: listing,
                                                bumpUpProductData: bumpUpProductData,
-                                               pageType: nil)
+                                               pageType: nil,
+                                               listingCanBeBoosted: listingCanBeBoosted,
+                                               timeSinceLastBump: timeSinceLastBump,
+                                               maxCountdown: maxCountdown)
         navigator.delegate = self
         openChild(coordinator: navigator,
                   parent: rootViewController,
@@ -528,6 +570,19 @@ extension TabCoordinator: ListingDetailNavigator {
                   completion: nil)
     }
 
+    func openBumpUpBoost(forListing listing: Listing,
+                         bumpUpProductData: BumpUpProductData,
+                         typePage: EventParameterTypePage?,
+                         timeSinceLastBump: TimeInterval,
+                         maxCountdown: TimeInterval) {
+        let bumpCoordinator = BumpUpCoordinator(listing: listing,
+                                                bumpUpProductData: bumpUpProductData,
+                                                typePage: typePage,
+                                                timeSinceLastBump: timeSinceLastBump,
+                                                maxCountdown: maxCountdown)
+        openChild(coordinator: bumpCoordinator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
+    }
+
     func selectBuyerToRate(source: RateUserSource,
                            buyers: [UserListing],
                            listingId: String,
@@ -565,6 +620,19 @@ extension TabCoordinator: ListingDetailNavigator {
                                                 alertType: alertType,
                                                 buttonsLayout: buttonsLayout,
                                                 actions: actions)
+    }
+
+    func showBumpUpBoostSucceededAlert() {
+        let boostSuccessAlert = BoostSuccessAlertView()
+        // the alert view has a thin blur that has to cover the nav bar too
+        navigationController.view.addSubviewForAutoLayout(boostSuccessAlert)
+        boostSuccessAlert.layout(with: navigationController.view).fill()
+        boostSuccessAlert.alpha = 0
+        navigationController.view.layoutIfNeeded()
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            boostSuccessAlert.alpha = 1
+            boostSuccessAlert.startAnimation()
+        }
     }
 
     func openContactUs(forListing listing: Listing, contactUstype: ContactUsType) {
@@ -656,6 +724,13 @@ extension TabCoordinator: ChatDetailNavigator {
     func openLoginIfNeededFromChatDetail(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void)) {
         openLoginIfNeeded(from: from, style: .popup(LGLocalizedString.chatLoginPopupText),
                           loggedInAction: loggedInAction, cancelAction: nil)
+    }
+
+    func openAssistantFor(listingId: String, dataDelegate: MeetingAssistantDataDelegate) {
+        let meetingAssistantVM = MeetingAssistantViewModel(listingId: listingId)
+        meetingAssistantVM.dataDelegate = dataDelegate
+        let meetingAssistantCoord = MeetingAssistantCoordinator(viewModel: meetingAssistantVM)
+        openChild(coordinator: meetingAssistantCoord, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
     }
 }
 
@@ -751,16 +826,25 @@ extension TabCoordinator: EditListingCoordinatorDelegate {
     func editListingCoordinatorDidCancel(_ coordinator: EditListingCoordinator) {
 
     }
-
+    
     func editListingCoordinator(_ coordinator: EditListingCoordinator,
                                 didFinishWithListing listing: Listing,
-                                bumpUpProductData: BumpUpProductData?) {
-        guard let listingIsFeatured = listing.featured, !listingIsFeatured else { return }
+                                bumpUpProductData: BumpUpProductData?,
+                                timeSinceLastBump: TimeInterval?,
+                                maxCountdown: TimeInterval?) {
         guard let bumpData = bumpUpProductData,
             bumpData.hasPaymentId else { return }
-        openPayBumpUp(forListing: listing,
-                      bumpUpProductData: bumpData,
-                      typePage: .edit)
+        if let timeSinceLastBump = timeSinceLastBump, let maxCountdown = maxCountdown {
+            openBumpUpBoost(forListing: listing,
+                            bumpUpProductData: bumpData,
+                            typePage: .edit,
+                            timeSinceLastBump: timeSinceLastBump,
+                            maxCountdown: maxCountdown)
+        } else {
+            openPayBumpUp(forListing: listing,
+                          bumpUpProductData: bumpData,
+                          typePage: .edit)
+        }
     }
 }
 

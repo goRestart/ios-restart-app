@@ -164,7 +164,7 @@ final class ListingDeckViewControllerBinderSpec: QuickSpec {
                                                                       timeSinceLastBump: TimeInterval.makeRandom(),
                                                                       maxCountdown: TimeInterval.makeRandom(),
                                                                       price: nil,
-                                                                      bannerInteractionBlock: {}, buttonBlock: {})
+                                                                      bannerInteractionBlock: { _ in }, buttonBlock: { _ in })
                 }
                 it("showBumpUpBannerBumpInfo method is called") {
                     expect(viewControllerType.isShowBumpUpBannerBumpInfoCalled).toEventually(be(1))
@@ -295,7 +295,6 @@ final class MockListingDeckViewModelType: ListingDeckViewModelType {
 }
 
 private class MockListingDeckViewControllerBinderType: ListingDeckViewControllerBinderType {
-
     var rxDidBeginEditing: ControlEvent<()>? { return textField.rx.controlEvent(.editingDidBegin) }
     var rxDidEndEditing: ControlEvent<()>? { return textField.rx.controlEvent(.editingDidEnd) }
     var textField = UITextField()
@@ -315,9 +314,6 @@ private class MockListingDeckViewControllerBinderType: ListingDeckViewController
         // ☢️ do not know how to test this
     }
     func turnNavigationBar(_ on: Bool) {
-        // ☢️ do not know how to test this
-    }
-    func closeBumpUpBanner() {
         // ☢️ do not know how to test this
     }
 
@@ -361,7 +357,7 @@ private class MockListingDeckViewControllerBinderType: ListingDeckViewController
     func updateWith(keyboardChange: KeyboardChange) {
         isUpdateWithKeyboardChangeCalled += 1
     }
-    func showBumpUpBanner(bumpInfo: BumpUpInfo) {
+    func updateWithBumpUpInfo(_ bumpInfo: BumpUpInfo?) {
         isShowBumpUpBannerBumpInfoCalled += 1
     }
     func didTapShare() {

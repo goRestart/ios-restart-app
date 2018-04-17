@@ -10,8 +10,11 @@
 import UIKit
 import LGCoreKit
 import RxSwift
+import MapKit
 
-class ChatViewController: TextViewController {
+final class ChatViewController: TextViewController {
+
+    private var cellMapViewer: CellMapViewer = CellMapViewer()
 
     let navBarHeight: CGFloat = 64
     let inputBarHeight: CGFloat = 44
@@ -35,7 +38,6 @@ class ChatViewController: TextViewController {
     var professionalSellerBannerTopConstraint: NSLayoutConstraint = NSLayoutConstraint()
     var featureFlags: FeatureFlaggeable
     var pushPermissionManager: PushPermissionsManager
-    var selectedQuickAnswer: QuickAnswer?
 
     var blockedToastOffset: CGFloat {
         return relationInfoView.isHidden ? 0 : RelationInfoView.defaultHeight
@@ -143,11 +145,7 @@ class ChatViewController: TextViewController {
     
     override func sendButtonPressed() {
         guard let message = textView.text else { return }
-        if let quickAnswer = selectedQuickAnswer, message == quickAnswer.text {
-            viewModel.send(quickAnswer: quickAnswer)
-        } else {
-            viewModel.send(text: message)
-        }
+        viewModel.send(text: message)
     }
 
     /**
@@ -260,7 +258,7 @@ class ChatViewController: TextViewController {
     fileprivate func setupDirectAnswers() {
         directAnswersPresenter.hidden = viewModel.directAnswersState.value != .visible
         directAnswersPresenter.setupOnTopOfView(relatedListingsView)
-        directAnswersPresenter.setDirectAnswers(viewModel.directAnswers, isDynamic: viewModel.areQuickAnswersDynamic)
+        directAnswersPresenter.setDirectAnswers(viewModel.directAnswers)
         directAnswersPresenter.delegate = viewModel
     }
 
@@ -564,12 +562,21 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource  {
             return UITableViewCell()
         }
         
-        let drawer = ChatCellDrawerFactory.drawerForMessage(message)
+        let drawer = ChatCellDrawerFactory.drawerForMessage(message, meetingsEnabled: viewModel.meetingsEnabled)
         let cell = drawer.cell(tableView, atIndexPath: indexPath)
         
         drawer.draw(cell, message: message)
         UIView.performWithoutAnimation {
             cell.transform = tableView.transform
+        }
+
+        if let otherMeetingCell = cell as? ChatOtherMeetingCell {
+            otherMeetingCell.delegate = self
+            otherMeetingCell.locationDelegate = self
+            return otherMeetingCell
+        } else if let myMeetingCell = cell as? ChatMyMeetingCell {
+            myMeetingCell.locationDelegate = self
+            return myMeetingCell
         }
 
         return cell
@@ -662,15 +669,6 @@ extension ChatViewController: ChatViewModelDelegate {
         alert.addAction(cancelAction)
 
         present(alert, animated: true, completion: nil)
-    }
-
-
-    // MARK: > Direct answers
-    
-    func vmDidPressDirectAnswer(quickAnswer: QuickAnswer) {
-        selectedQuickAnswer = quickAnswer
-        textView.text = quickAnswer.text
-        textView.becomeFirstResponder()
     }
 }
 
@@ -802,5 +800,25 @@ extension ChatViewController: UITextFieldDelegate {
             }
         }
         return true
+    }
+}
+
+extension ChatViewController: OtherMeetingCellDelegate {
+    func acceptMeeting() {
+        viewModel.acceptMeeting()
+    }
+
+    func rejectMeeting() {
+        viewModel.rejectMeeting()
+    }
+}
+
+extension ChatViewController: MeetingCellImageDelegate, MKMapViewDelegate {
+    func meetingCellImageViewPressed(imageView: UIImageView, coordinates: LGLocationCoordinates2D) {
+
+        guard let topView = navigationController?.view else { return }
+        cellMapViewer.openMapOnView(mainView: topView, fromInitialView: imageView, withCenterCoordinates: coordinates)
+
+        textView.resignFirstResponder()
     }
 }

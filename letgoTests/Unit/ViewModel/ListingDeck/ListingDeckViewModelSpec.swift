@@ -14,7 +14,7 @@ import Quick
 import Nimble
 
 
-class ListingDeckViewModelSpec: BaseViewModelSpec {
+final class ListingDeckViewModelSpec: BaseViewModelSpec {
 
     override func spec() {
         var sut: ListingDeckViewModel!
@@ -41,12 +41,14 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
 
         var cellModelsObserver: TestableObserver<[ListingCellModel]>!
         var actionButtonsObserver: TestableObserver<[UIAction]>!
-        var quickAnswersObserver: TestableObserver<[[QuickAnswer]]>!
+        var quickAnswersObserver: TestableObserver<[QuickAnswer]>!
         var quickAnswersAvailableObserver: TestableObserver<Bool>!
         var directChatEnabledObserver: TestableObserver<Bool>!
         var directChatPlaceholderObserver: TestableObserver<String>!
         var directChatMessagesObserver: TestableObserver<[ChatViewMessage]>!
         var bumpUpBannerInfoObserver: TestableObserver<BumpUpInfo?>!
+
+        var prefetching = Prefetching(previousCount: 3, nextCount: 3)
 
         describe("ListingDeckViewModelSpec") {
 
@@ -63,7 +65,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                 sut.bumpUpBannerInfo.asObservable().bind(to:bumpUpBannerInfoObserver).disposed(by:disposeBag)
             }
 
-            func buildSut(productListModels: [ListingCellModel]? = nil,
+            func buildSut(productListModels: [ListingCellModel] = [],
                           initialProduct: Product? = nil,
                           source: EventParameterListingVisitSource = .listingList,
                           actionOnFirstAppear: ProductCarouselActionOnFirstAppear = .nonexistent,
@@ -74,7 +76,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                 if let initialProduct = initialProduct {
                     initialListing = .product(initialProduct)
                 }
-
                 sut = ListingDeckViewModel(listModels: productListModels,
                                            initialListing: initialListing,
                                            listingListRequester: listingListRequester,
@@ -82,8 +83,15 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                                            source: source,
                                            imageDownloader: imageDownloader,
                                            listingViewModelMaker: listingViewModelMaker,
+                                           myUserRepository: myUserRepository,
+                                           pagination: Pagination.makePagination(first: 0, next: 1, isLast: false),
+                                           prefetching: prefetching,
                                            shouldSyncFirstListing: firstProductSyncRequired,
-                                           binder: ListingDeckViewModelBinder())
+                                           binder: ListingDeckViewModelBinder(),
+                                           tracker: tracker,
+                                           actionOnFirstAppear: actionOnFirstAppear,
+                                           trackingIndex: nil,
+                                           keyValueStorage: MockKeyValueStorage())
 
                 sut.delegate = self
             }
@@ -95,7 +103,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                 chatWrapper = MockChatWrapper()
                 locationManager = MockLocationManager()
                 countryHelper = CountryHelper.mock()
-                product = MockProduct.makeMock()
+                product = MockProduct.makeProductMocks(1, allowDiscarded: false).first!
                 featureFlags = MockFeatureFlags()
                 purchasesShopper = MockPurchasesShopper()
                 notificationsManager = MockNotificationsManager()
@@ -121,7 +129,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                 scheduler.start()
                 cellModelsObserver = scheduler.createObserver(Array<ListingCellModel>.self)
                 actionButtonsObserver = scheduler.createObserver(Array<UIAction>.self)
-                quickAnswersObserver = scheduler.createObserver(Array<Array<QuickAnswer>>.self)
+                quickAnswersObserver = scheduler.createObserver(Array<QuickAnswer>.self)
                 quickAnswersAvailableObserver = scheduler.createObserver(Bool.self)
                 directChatEnabledObserver = scheduler.createObserver(Bool.self)
                 directChatPlaceholderObserver = scheduler.createObserver(String.self)
@@ -172,9 +180,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
             }
             describe("quick answers") {
                 describe("ab test non-dynamic") {
-                    beforeEach {
-                        featureFlags.dynamicQuickAnswers = .control
-                    }
                     context("product is mine and available") {
                         beforeEach {
                             let myUser = MockMyUser.makeMock()
@@ -212,13 +217,13 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                                 expect(quickAnswersObserver.lastValue?.count) == 3
                             }
                             it("matches first group with the right availability quick answers") {
-                                expect(quickAnswersObserver.lastValue?[0]) == [.stillAvailable]
+                                expect(quickAnswersObserver.lastValue?[0]) == .stillAvailable
                             }
                             it("matches second group with the right negotiable quick answers") {
-                                expect(quickAnswersObserver.lastValue?[1]) == [.isNegotiable]
+                                expect(quickAnswersObserver.lastValue?[1]) == .isNegotiable
                             }
                             it("matches third group with the right condition quick answers") {
-                                expect(quickAnswersObserver.lastValue?[2]) == [.listingCondition]
+                                expect(quickAnswersObserver.lastValue?[2]) == .listingCondition
                             }
                         }
                         context("free product") {
@@ -239,96 +244,13 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                                 expect(quickAnswersObserver.lastValue?.count) == 3
                             }
                             it("matches first group with the right interested quick answers") {
-                                expect(quickAnswersObserver.lastValue?[0]) == [.interested]
+                                expect(quickAnswersObserver.lastValue?[0]) == .interested
                             }
                             it("matches second group with the right meet up quick answers") {
-                                expect(quickAnswersObserver.lastValue?[1]) == [.meetUp]
+                                expect(quickAnswersObserver.lastValue?[1]) == .meetUp
                             }
                             it("matches third group with the right condition quick answers") {
-                                expect(quickAnswersObserver.lastValue?[2]) == [.listingCondition]
-                            }
-                        }
-                    }
-                }
-
-                describe("ab test dynamic") {
-                    beforeEach {
-                        featureFlags.dynamicQuickAnswers = .dynamicNoKeyboard
-                    }
-                    context("product is mine and available") {
-                        beforeEach {
-                            let myUser = MockMyUser.makeMock()
-                            myUserRepository.myUserVar.value = myUser
-                            var productUser = MockUserListing.makeMock()
-                            productUser.objectId = myUser.objectId
-                            product.user = productUser
-                            product.status = .approved
-                            buildSut(initialProduct: product)
-                            sut.active = true
-                            startObserving()
-                        }
-                        it("quick answers are not available") {
-                            expect(quickAnswersAvailableObserver.eventValues) == [false] //first product
-                        }
-                        it("quickAnswers are empty") {
-                            expect(quickAnswersObserver.eventValues.map { $0.isEmpty }) == [true] //first product
-                        }
-                    }
-                    context("product is not mine and available") {
-                        context("non free product") {
-                            beforeEach {
-                                let myUser = MockMyUser.makeMock()
-                                myUserRepository.myUserVar.value = myUser
-                                product.status = .approved
-                                product.price = .normal(25)
-                                buildSut(initialProduct: product)
-                                sut.active = true
-                                startObserving()
-                            }
-                            it("quick answers are available") {
-                                expect(quickAnswersAvailableObserver.eventValues) == [true] //first product
-                            }
-                            it("receives 4 groups of quick answers") {
-                                expect(quickAnswersObserver.lastValue?.count) == 4
-                            }
-                            it("matches first group with the right availability quick answers") {
-                                expect(quickAnswersObserver.lastValue?[0]) == [.stillAvailable, .stillForSale, .freeStillHave]
-                            }
-                            it("matches second group with the right meet up quick answers") {
-                                expect(quickAnswersObserver.lastValue?[1]) == [.meetUp, .meetUpLocated, .meetUpWhereYouWant]
-                            }
-                            it("matches third group with the right condition quick answers") {
-                                expect(quickAnswersObserver.lastValue?[2]) == [.listingCondition, .listingConditionGood, .listingConditionDescribe]
-                            }
-                            it("matches fourth group with the right price quick answers") {
-                                expect(quickAnswersObserver.lastValue?[3]) == [.isNegotiable, .priceFirm, .priceWillingToNegotiate]
-                            }
-                        }
-                        context("free product") {
-                            beforeEach {
-                                let myUser = MockMyUser.makeMock()
-                                myUserRepository.myUserVar.value = myUser
-                                product.status = .approved
-                                product.price = .free
-                                featureFlags.freePostingModeAllowed = true
-                                buildSut(initialProduct: product)
-                                sut.active = true
-                                startObserving()
-                            }
-                            it("quick answers are available") {
-                                expect(quickAnswersAvailableObserver.eventValues) == [true] //first product
-                            }
-                            it("receives 3 groups of quick answers") {
-                                expect(quickAnswersObserver.lastValue?.count) == 3
-                            }
-                            it("matches first group with the right availability quick answers") {
-                                expect(quickAnswersObserver.lastValue?[0]) == [.stillAvailable, .freeStillHave]
-                            }
-                            it("matches second group with the right meet up quick answers") {
-                                expect(quickAnswersObserver.lastValue?[1]) == [.meetUp, .meetUpLocated, .meetUpWhereYouWant]
-                            }
-                            it("matches third group with the right condition quick answers") {
-                                expect(quickAnswersObserver.lastValue?[2]) == [.listingCondition, .listingConditionGood, .listingConditionDescribe]
+                                expect(quickAnswersObserver.lastValue?[2]) == .listingCondition
                             }
                         }
                     }
@@ -337,7 +259,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
             describe("pagination") {
                 context("single item") {
                     beforeEach {
-                        listingListRequester.generateItems(30)
+                        listingListRequester.generateItems(30, allowDiscarded: false)
                         buildSut(initialProduct: product)
                         sut.active = true
                         startObserving()
@@ -349,10 +271,10 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                 context("multiple items") {
                     context("item before the threshold") {
                         beforeEach {
-                            var products = MockProduct.makeMocks(count: 20)
+                            var products = MockProduct.makeProductMocks(20, allowDiscarded: false)
                             products[0] = product
                             let productListModels = products.map { ListingCellModel.listingCell(listing: .product($0)) }
-                            listingListRequester.generateItems(30)
+                            listingListRequester.generateItems(30, allowDiscarded: false)
                             buildSut(productListModels: productListModels, initialProduct: product)
                             sut.active = true
                             startObserving()
@@ -371,10 +293,10 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                     }
                     context("item after the threshold") {
                         beforeEach {
-                            var products = MockProduct.makeMocks(count: 20)
+                            var products = MockProduct.makeProductMocks(20, allowDiscarded: false)
                             products[18] = product
                             let productListModels = products.map { ListingCellModel.listingCell(listing: .product($0)) }
-                            listingListRequester.generateItems(30)
+                            listingListRequester.generateItems(30, allowDiscarded: false)
                             buildSut(productListModels: productListModels, initialProduct: product)
                             sut.active = true
                             startObserving()
@@ -383,13 +305,36 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                             expect(sut.objectCount).toEventually(equal(40))
                         }
                     }
+
+                    context("discarded item after the threshold") {
+                        var index: Int!
+                        beforeEach {
+                            index = Int.random(15, 19)
+
+                            var products = MockProduct.makeProductMocks(20, allowDiscarded: false)
+                            product.status = ListingStatus.discarded(reason: nil)
+                            products[index] = product
+                            let productListModels = products.map { ListingCellModel.listingCell(listing: .product($0)) }
+                            listingListRequester.generateItems(30, allowDiscarded: false)
+                            buildSut(productListModels: productListModels, initialProduct: product)
+                            sut.active = true
+                            startObserving()
+                        }
+                        it("filters the product") {
+                            expect(sut.objects.value.map { $0.listing?.objectId }
+                                                    .filter { $0 == product.objectId }).to(beEmpty())
+                        }
+                        it("does not paginate") {
+                            expect(sut.objectCount).toEventually(equal(19))
+                        }
+                    }
                 }
                 context("long pagination") {
                     beforeEach {
                         //Simulating that we're on page 8-10
-                        var products = MockProduct.makeMocks(count: 180)
+                        var products = MockProduct.makeProductMocks(180, allowDiscarded: false)
                         products[160] = product
-                        listingListRequester.generateItems(200)
+                        listingListRequester.generateItems(200, allowDiscarded: false)
                         listingListRequester.offset = 180
                         let productListModels = products.map { ListingCellModel.listingCell(listing: .product($0)) }
                         buildSut(productListModels: productListModels, initialProduct: product)
@@ -418,7 +363,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                 describe("image pre-caching") {
                     var products: [MockProduct]!
                     beforeEach {
-                        products = MockProduct.makeMocks(count: 20)
+                        products = MockProduct.makeProductMocks(20, allowDiscarded: false)
                         for i in 0..<products.count {
                             var product = products[i]
                             var image = MockFile.makeMock()
@@ -457,8 +402,10 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                             sut.active = true
                             startObserving()
                         }
-                        it("requests images for items 9-13") {
-                            let images = products[9...13].flatMap { $0.images.first?.fileURL }
+                        it("requests images for items 7-13") {
+                            let initial = 10 - prefetching.previousCount
+                            let end = 10 + prefetching.nextCount
+                            let images = products[initial...end].flatMap { $0.images.first?.fileURL }
                             expect(imageDownloader.downloadImagesRequested) == images
                         }
                         describe("swipe right") {
@@ -475,7 +422,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                                 sut.moveToListingAtIndex(9, movement: .swipeLeft)
                             }
                             it("just requests one more image on the left") {
-                                let images = [products[8].images.first?.fileURL].flatMap { $0 }
+                                let images = [products[6].images.first?.fileURL].flatMap { $0 }
                                 expect(imageDownloader.downloadImagesRequested) == images
                             }
                         }
@@ -484,7 +431,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                 describe("elements update and visit trackings") {
                     var products: [MockProduct]!
                     beforeEach {
-                        products = MockProduct.makeMocks(count: 20)
+                        products = MockProduct.makeProductMocks(20, allowDiscarded: false)
                         let productListModels = products.map { ListingCellModel.listingCell(listing: .product($0)) }
                         buildSut(productListModels: productListModels)
                         startObserving()
@@ -836,9 +783,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
             }
         }
     }
-
 }
-
 
 extension ListingDeckViewModelSpec: ListingDeckViewModelDelegate {
     func vmRemoveMoreInfoTooltip() { }
@@ -861,13 +806,22 @@ extension ListingDeckViewModelSpec: ListingDetailNavigator {
                           withPhoneNum: String?,
                           source: EventParameterTypePage,
                           interlocutor: User?) { }
-    func editListing(_ listing: Listing, bumpUpProductData: BumpUpProductData?) { }
+    func editListing(_ listing: Listing,
+                     bumpUpProductData: BumpUpProductData?,
+                     listingCanBeBoosted: Bool,
+                     timeSinceLastBump: TimeInterval?,
+                     maxCountdown: TimeInterval?) { }
     func openFreeBumpUp(forListing listing: Listing,
                         bumpUpProductData: BumpUpProductData,
                         typePage: EventParameterTypePage?) {}
     func openPayBumpUp(forListing listing: Listing,
                        bumpUpProductData: BumpUpProductData,
                        typePage: EventParameterTypePage?) {}
+    func openBumpUpBoost(forListing listing: Listing,
+                         bumpUpProductData: BumpUpProductData,
+                         typePage: EventParameterTypePage?,
+                         timeSinceLastBump: TimeInterval,
+                         maxCountdown: TimeInterval) {}
     func closeProductDetail() {}
     func openListingChat(_ listing: Listing, source: EventParameterTypePage) {}
     func closeListingAfterDelete(_ listing: Listing) {}
@@ -884,6 +838,7 @@ extension ListingDeckViewModelSpec: ListingDetailNavigator {
                                               alertType: AlertType,
                                               buttonsLayout: AlertButtonsLayout,
                                               actions: [UIAction]) {}
+    func showBumpUpBoostSucceededAlert() {}
     func openContactUs(forListing listing: Listing, contactUstype: ContactUsType) {}
     func openFeaturedInfo() {}
     func closeFeaturedInfo() {}

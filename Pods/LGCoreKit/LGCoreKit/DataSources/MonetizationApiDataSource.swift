@@ -21,6 +21,7 @@ class MonetizationApiDataSource : MonetizationDataSource {
     static let receiptDataKey = "receipt_data"
     static let priceAmountKey = "price_amount"
     static let priceCurrencyKey = "price_currency"
+    static let letgoItemIdKey = "letgo_item_id"
 
     // Payment tracking info:
     static let analyticsContextKey = "analytics_context"
@@ -64,8 +65,8 @@ class MonetizationApiDataSource : MonetizationDataSource {
     }
 
     func pricedBump(forListingId listingId: String, receiptData: String, itemId: String, itemPrice: String, itemCurrency: String,
-                    paymentId: String, amplitudeId: String?, appsflyerId: String?, idfa: String?, bundleId: String?,
-                    completion: MonetizationDataSourceBumpCompletion?) {
+                    paymentId: String, letgoItemId: String, amplitudeId: String?, appsflyerId: String?, idfa: String?,
+                    bundleId: String?, completion: MonetizationDataSourceBumpCompletion?) {
 
         let analyticsParams: [String : Any] = buildAnalyticsParams(amplitudeId: amplitudeId, appsflyerId: appsflyerId, idfa: idfa, bundleId: bundleId)
 
@@ -75,7 +76,8 @@ class MonetizationApiDataSource : MonetizationDataSource {
                                       MonetizationApiDataSource.listingIdKey: listingId,
                                       MonetizationApiDataSource.priceAmountKey: itemPrice,
                                       MonetizationApiDataSource.priceCurrencyKey: itemCurrency,
-                                      MonetizationApiDataSource.analyticsContextKey: analyticsParams]
+                                      MonetizationApiDataSource.analyticsContextKey: analyticsParams,
+                                      MonetizationApiDataSource.letgoItemIdKey: letgoItemId]
         let request = MonetizationRouter.pricedBump(params: params)
 
         apiClient.request(request, completion: completion)

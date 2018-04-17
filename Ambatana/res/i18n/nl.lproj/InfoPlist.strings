@@ -1,6 +1,6 @@
-"NSCameraUsageDescription" = "Om te beginnen met verkopen, geef letgo toegang tot jouw camera";
+"NSCameraUsageDescription" = "Je camera zal gebruikt worden om foto's te maken van wat je wilt verkopen.";
 "NSLocationWhenInUseUsageDescription" = "letgo heeft toegang nodig tot jouw locatie om je producten te kunnen laten zien in jouw buurt";
-"NSPhotoLibraryAddUsageDescription" = "Om afbeeldingen op te slaan, geef letgo toegang tot jouw bibliotheek";
-"NSPhotoLibraryUsageDescription" = "Om te beginnen met verkopen, geef letgo toegang tot jouw bibliotheek";
+"NSPhotoLibraryAddUsageDescription" = "Je fotobibliotheek zal gebruikt worden, zodat je foto's kunt selecteren van wat je wilt verkopen van alle afbeeldingen in je filmrol.";
+"NSPhotoLibraryUsageDescription" = "Je fotobibliotheek zal gebruikt worden, zodat je foto's kunt selecteren van wat je wilt verkopen van alle afbeeldingen in je filmrol.";
 "sell_shortcut_title" = "Verkoop je spullen";
 "start_browsing_shortcut_title" = "Start met browsen";

@@ -32,7 +32,8 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
 
                     self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                    queryString: nil,
-                                                                                                   itemsPerPage: 20)
+                                                                                                   itemsPerPage: 20,
+                                                                                                   carSearchActive: false)
                 }
                 it ("only one requester, and is the same") {
                     expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true
@@ -50,7 +51,8 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                         
                         self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                        queryString: nil,
-                                                                                                       itemsPerPage: 20)
+                                                                                                       itemsPerPage: 20,
+                                                                                                       carSearchActive: false)
                     }
                     it ("only one requester, and is the same, only cars category") {
                         expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true
@@ -73,7 +75,8 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                             
                             self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                            queryString: nil,
-                                                                                                           itemsPerPage: 20)
+                                                                                                           itemsPerPage: 20,
+                                                                                                           carSearchActive: false)
                         }
                         it ("requesters with make and negated make") {
                             expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true
@@ -95,7 +98,8 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                             
                             self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                            queryString: nil,
-                                                                                                           itemsPerPage: 20)
+                                                                                                           itemsPerPage: 20,
+                                                                                                           carSearchActive: false)
                         }
                         it ("requesters with make 'others' and negated make") {
                             expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true
@@ -126,7 +130,8 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                             
                             self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                            queryString: nil,
-                                                                                                           itemsPerPage: 20)
+                                                                                                           itemsPerPage: 20,
+                                                                                                           carSearchActive: false)
                         }
                         it ("requesters with make and model, negated model and negated make") {
                             expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true
@@ -157,7 +162,8 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                             
                             self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                            queryString: nil,
-                                                                                                           itemsPerPage: 20)
+                                                                                                           itemsPerPage: 20,
+                                                                                                           carSearchActive: false)
                         }
                         it ("requesters with make and model 'other', negated model and negated make") {
                             expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true
@@ -188,7 +194,8 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                             
                             self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                            queryString: nil,
-                                                                                                           itemsPerPage: 20)
+                                                                                                           itemsPerPage: 20,
+                                                                                                           carSearchActive: false)
                         }
                         it ("requesters with make 'others' and model 'other', negated model and negated make") {
                             expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true
@@ -227,7 +234,8 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                             
                             self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                            queryString: nil,
-                                                                                                           itemsPerPage: 20)
+                                                                                                           itemsPerPage: 20,
+                                                                                                           carSearchActive: false)
                         }
                         it ("requesters with make and model and year, negated year, negated model and negated make") {
                             expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true
@@ -266,7 +274,8 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                             
                             self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                            queryString: nil,
-                                                                                                           itemsPerPage: 20)
+                                                                                                           itemsPerPage: 20,
+                                                                                                           carSearchActive: false)
                         }
                         it ("requesters with make and model 'other' and year, negated year, negated model and negated make") {
                             expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true
@@ -305,7 +314,8 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                             
                             self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                            queryString: nil,
-                                                                                                           itemsPerPage: 20)
+                                                                                                           itemsPerPage: 20,
+                                                                                                           carSearchActive: false)
                         }
                         it ("requesters with make 'other', model 'other' and year, negated year, negated model and negated make") {
                             expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true
@@ -349,7 +359,8 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                             
                             self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                            queryString: nil,
-                                                                                                           itemsPerPage: 20)
+                                                                                                           itemsPerPage: 20,
+                                                                                                           carSearchActive: false)
                         }
                         it ("requesters with make and model and year, negated year, negated model and negated make") {
                             expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true
@@ -373,7 +384,8 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                             
                             self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                            queryString: nil,
-                                                                                                           itemsPerPage: 20)
+                                                                                                           itemsPerPage: 20,
+                                                                                                           carSearchActive: false)
                         }
                         it ("requesters with year and negated year") {
                             expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true
@@ -399,7 +411,8 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                             
                             self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                            queryString: nil,
-                                                                                                           itemsPerPage: 20)
+                                                                                                           itemsPerPage: 20,
+                                                                                                           carSearchActive: false)
                         }
                         it ("requesters with year and negated year") {
                             expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true

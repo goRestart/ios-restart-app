@@ -69,14 +69,15 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
         setNeedsLayout()
     }
 
-    func populateWith(productInfo: ListingVMProductInfo?) {
+    func populateWith(productInfo: ListingVMProductInfo?, showExactLocationOnMap: Bool) {
         guard let info = productInfo else { return }
         if let location = info.location {
             let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
             let center = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
 
             let region = MKCoordinateRegion(center: center, span: span)
-            detailMapView.setRegion(region, size: CGSize(width: 300, height: 500))
+            detailMapView.setRegion(region, size: CGSize(width: 300, height: 500),
+                                    showExactLocationOnMap: showExactLocationOnMap)
         }
         titleLabel.text = info.title
         titleLabel.isHidden = info.title == nil
@@ -205,19 +206,16 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
     }
 
     private func setupMapView() {
-        detailMapView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(detailMapView)
+        addSubviewForAutoLayout(detailMapView)
         detailMapView.layout(with: self).fillHorizontal()
-
+        let height = detailMapView.heightAnchor.constraint(equalTo: mapPlaceHolder.heightAnchor)
+        height.priority = .required - 1
         let centerY = detailMapView.centerYAnchor.constraint(equalTo: mapPlaceHolder.centerYAnchor)
-        centerY.priority = .required - 1
-        centerY.isActive = true
+        centerY.priority = .defaultLow
+        let constraints = [centerY, height]
 
-        let mapHeightConstraint = detailMapView.heightAnchor.constraint(equalTo: mapPlaceHolder.heightAnchor,
-                                                                        multiplier: 1.0)
-        mapHeightConstraint.isActive = true
-        mapHeightConstraint.priority = .required - 1
         detailMapView.isUserInteractionEnabled = true
+        NSLayoutConstraint.activate(constraints)
     }
 
     private func setupMapPlaceHolder() {

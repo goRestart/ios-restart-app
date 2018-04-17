@@ -66,7 +66,10 @@ extension ProfileTabCoordinator: ProfileTabNavigator {
     func editListing(_ listing: Listing, pageType: EventParameterTypePage?) {
         let navigator = EditListingCoordinator(listing: listing,
                                                bumpUpProductData: nil,
-                                               pageType: pageType)
+                                               pageType: pageType,
+                                               listingCanBeBoosted: false,
+                                               timeSinceLastBump: nil,
+                                               maxCountdown: nil)
         openChild(coordinator: navigator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
     }
 }

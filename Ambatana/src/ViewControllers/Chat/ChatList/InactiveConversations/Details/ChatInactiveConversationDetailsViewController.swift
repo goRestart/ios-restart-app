@@ -144,7 +144,7 @@ ChatInactiveConversationsViewModelDelegate {
             return UITableViewCell()
         }
         
-        let drawer = ChatCellDrawerFactory.drawerForMessage(message)
+        let drawer = ChatCellDrawerFactory.drawerForMessage(message, meetingsEnabled: viewModel.meetingsEnabled)
         let cell = drawer.cell(tableView, atIndexPath: indexPath)
         
         drawer.draw(cell, message: message)
