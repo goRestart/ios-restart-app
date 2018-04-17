@@ -17,10 +17,6 @@ def implode(message)
 	abort()
 end
 
-def config_file_exists()         
-	File.exist?(File.expand_path(KEYS::CONFIG_FILE))
-end
-
 def fetch_last_commit() 
 	return `git log -n 1 --oneline`
 end
@@ -37,7 +33,7 @@ end
 
 if !ENV.has_key?(KEYS::PASSWORD) || !ENV.has_key?(KEYS::USERNAME) 
 then	
-	message = "Houston we have a problem. We can't find %s to setup our configuration" % KEYS::CONFIG_FILE
+	message = "Houston we have a problem. Our credentials are invalid"
 	implode(message.red)
 end
 
@@ -67,8 +63,9 @@ then
 		bureau.mark_as_done(issue)
 	rescue Exceptions::TransitionNotAvailable => ex
 		message = "Try opening this url:  %s and do it manually." % ex.url
-		puts "The transition is not available. Unfortunately, I am not that intelligent yet".red
-		puts message.red
+		transition_message = "The transition %sis not available. Unfortunately, I am not that intelligent yet" % ex.transition
+		puts transition_message.red
+		puts message.yellow
 		implode("#hastaluego")
 	end
 else
