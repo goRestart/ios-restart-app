@@ -10,7 +10,11 @@ properties([
   node_name = 'mac-mini-1'
   try {
     stopPreviousRunningBuilds()
-    launchUnitTests()
+    if (branch_type == "master") {
+        launchJiraBot() 
+    } else {
+        launchUnitTests()
+    }
   }
   catch (err) {
       currentBuild.result = "FAILURE"   
@@ -42,6 +46,18 @@ def stopPreviousRunningBuilds() {
     } 
   }
 }
+
+def launchJiraBot() {
+    node(node_name) {
+        stage ("Move Tickets") {
+            withCredentials([usernamePassword(credentialsId: '79356c55-62e0-41c0-8a8c-85a56ad45e11', 
+                                              passwordVariable: 'IOS_JIRA_PASSWORD', 
+                                              usernameVariable: 'IOS_JIRA_USERNAME')]) {
+                sh 'ruby Scripts/githooks/post-merge'
+            }
+        }
+    }
+}    
 
 ////////// build, deploy and testing func definition /////////
 def launchUnitTests(){
