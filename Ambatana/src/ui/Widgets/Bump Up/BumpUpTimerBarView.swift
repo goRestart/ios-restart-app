@@ -10,7 +10,7 @@ import Foundation
 
 struct BumpUpTimerBarViewMetrics {
     static let height: CGFloat = 64
-    static let horitzontalMargin: CGFloat = 50
+    static let horitzontalMargin: CGFloat = 20
     static let progressBarHeight: CGFloat = 8
     static let labelHeight: CGFloat = 21
 }
@@ -23,12 +23,10 @@ class BumpUpTimerBarView: UIView {
     private let titleLabel: UILabel = UILabel()
     private let timeLabel: UILabel = UILabel()
     private let progressBar: UIProgressView = UIProgressView(progressViewStyle: .default)
-    private let progressBarContainerView: UIView = UIView()
 
     private let bottomLineView: UIView = UIView()
 
-
-
+    
     // - Lifecycle
 
     override init(frame: CGRect) {
@@ -42,11 +40,17 @@ class BumpUpTimerBarView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        progressBar.setRoundedCorners()
+
+    }
+
     func updateWith(timeLeft: TimeInterval) {
         guard maxTime > 0 else { return }
         let progress = Float(timeLeft/maxTime)
 
-        let timeColor = colorFor(timeLeft: progress)
+        let timeColor = colorFor(timeLeft: timeLeft)
         progressBar.progressTintColor = timeColor
         progressBar.setProgress(progress, animated: timeLeft == maxTime)
 
@@ -54,10 +58,10 @@ class BumpUpTimerBarView: UIView {
         timeLabel.textColor = timeColor
     }
 
-    private func colorFor(timeLeft: Float) -> UIColor {
-        if timeLeft > 2/3 {
+    private func colorFor(timeLeft: TimeInterval) -> UIColor {
+        if timeLeft > Constants.timeIntervalForTwelveHours {
             return UIColor.asparagus
-        } else if timeLeft > 1/3 {
+        } else if timeLeft > Constants.timeIntervalForOneHour {
             return UIColor.macaroniAndCheese
         } else {
             return UIColor.primaryColor
@@ -66,7 +70,7 @@ class BumpUpTimerBarView: UIView {
 
     private func setupUI() {
         titleLabel.text = LGLocalizedString.bumpUpBannerBoostProgressTitle
-        titleLabel.font = UIFont.systemRegularFont(size: 17)
+        titleLabel.font = UIFont.systemBoldFont(size: 17)
 
         timeLabel.textColor = UIColor.asparagus
         timeLabel.font = UIFont.systemBoldFont(size: 17)
@@ -74,14 +78,13 @@ class BumpUpTimerBarView: UIView {
         progressBar.backgroundColor = UIColor.grayLighter
         progressBar.isUserInteractionEnabled = false
 
-        progressBarContainerView.backgroundColor = UIColor.clear
-        progressBarContainerView.setRoundedCorners()
+        progressBar.setRoundedCorners()
 
-        bottomLineView.backgroundColor = UIColor.grayLighter
+        bottomLineView.backgroundColor = UIColor.grayLight
     }
 
     private func setupConstraints() {
-        let subViews: [UIView] = [textContainerView, progressBarContainerView, bottomLineView]
+        let subViews: [UIView] = [textContainerView, progressBar, bottomLineView]
         addSubviewsForAutoLayout(subViews)
 
         textContainerView.layout(with: self)
@@ -90,13 +93,12 @@ class BumpUpTimerBarView: UIView {
             .right(relatedBy: .lessThanOrEqual)
             .centerX()
 
-        progressBarContainerView.layout(with: self)
+        progressBar.layout(with: self)
             .bottom(by: -Metrics.margin)
-            .left(by: BumpUpTimerBarViewMetrics.horitzontalMargin)
-            .right(by: -BumpUpTimerBarViewMetrics.horitzontalMargin)
-            .centerX()
-        progressBarContainerView.layout().height(BumpUpTimerBarViewMetrics.progressBarHeight)
-        progressBarContainerView.layout(with: textContainerView).below(by: Metrics.veryShortMargin)
+            .fillHorizontal(by: Metrics.bigMargin)
+
+        progressBar.layout().height(BumpUpTimerBarViewMetrics.progressBarHeight)
+        progressBar.layout(with: textContainerView).below(by: Metrics.veryShortMargin)
 
         bottomLineView.layout().height(LGUIKitConstants.onePixelSize)
         bottomLineView.layout(with: self).bottom().left().right()
@@ -109,9 +111,6 @@ class BumpUpTimerBarView: UIView {
 
         titleLabel.layout(with: timeLabel).right(to: .left, by: -5).proportionalHeight()
         timeLabel.layout(with: textContainerView).top().bottom().right()
-
-        progressBarContainerView.addSubviewForAutoLayout(progressBar)
-        progressBar.layout(with: progressBarContainerView).fill()
     }
 
     private func setAccessibilityIds() {
