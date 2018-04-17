@@ -172,4 +172,5 @@ extension UIFont {
     static var profileKarmaScoreTitleFont: UIFont { return systemBoldFont(size: 23) }
     static var profileKarmaOpenVerificationFont: UIFont { return UIFont.systemBoldFont(size: 15) }
     static var verificationItemTitle: UIFont { return systemBoldFont(size: 23) }
+    static var verificationEventCountFont: UIFont { return systemBoldFont(size: 10) }
 }

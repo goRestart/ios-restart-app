@@ -16,7 +16,7 @@ enum UserVerificationItem {
     case photoID(completed: Bool)
     case profilePicture(completed: Bool)
     case bio(completed: Bool)
-    case markAsSold(completed: Bool)
+    case markAsSold(completed: Bool, total: Int)
 
     var title: String {
         switch self {
@@ -64,6 +64,13 @@ enum UserVerificationItem {
         }
     }
 
+    var eventCountString: String? {
+        switch self {
+        case .facebook, .google, .email, .phoneNumber, .photoID, .profilePicture, .bio: return nil
+        case .markAsSold(_, let totalCount): return "\(totalCount)/5"
+        }
+    }
+
     var showsAccessoryView: Bool {
         switch self {
         case .facebook, .google, .email, .phoneNumber, .photoID, .profilePicture, .bio: return true
@@ -80,7 +87,7 @@ enum UserVerificationItem {
         case .photoID(let completed): return completed
         case .profilePicture(let completed): return completed
         case .bio(let completed): return completed
-        case .markAsSold(let completed): return completed
+        case .markAsSold(let completed, _): return completed
         }
     }
 

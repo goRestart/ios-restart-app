@@ -44,6 +44,7 @@ final class UserVerificationViewController: BaseViewController {
 
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
+        viewModel.loadData()
         setNavBarBackgroundStyle(.white)
     }
 
