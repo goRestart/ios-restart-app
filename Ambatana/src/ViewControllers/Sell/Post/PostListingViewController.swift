@@ -202,10 +202,14 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
 
     @objc func photoButtonPressed() {
         footer.updateToPhotoMode()
+        viewModel.postListingCameraViewModel.cameraMode.value = .photo
+        cameraView.setCameraModeToPhoto()
     }
 
     @objc func videoButtonPressed() {
         footer.updateToVideoMode()
+        viewModel.postListingCameraViewModel.cameraMode.value = .video
+        cameraView.setCameraModeToVideo()
     }
 
     @IBAction func onRetryButton(_ sender: AnyObject) {

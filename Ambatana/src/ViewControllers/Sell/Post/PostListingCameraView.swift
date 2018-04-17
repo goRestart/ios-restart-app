@@ -68,7 +68,7 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
     }
     fileprivate var viewModel: PostListingCameraViewModel
 
-    fileprivate let cameraWrapper = CameraWrapper()
+    fileprivate let camera = LGCamera()
     private var headerShown = true
 
     let takePhotoEnabled = Variable<Bool>(true)
@@ -99,7 +99,8 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        cameraWrapper.addPreviewLayerTo(view: cameraView)
+        // TODO: New camera library preview layer uses autolayout
+//        cameraWrapper.addPreviewLayerTo(view: cameraView)
     }
 
     // MARK: - Public methods
@@ -123,13 +124,21 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
         }) 
     }
 
+    func setCameraModeToVideo() {
+        camera.cameraMode = .video
+    }
+
+    func setCameraModeToPhoto() {
+        camera.cameraMode = .photo
+    }
+
     func takePhoto() {
         hideFirstTimeAlert()
         guard takePhotoEnabled.value else { return }
-        guard cameraWrapper.isReady else { return }
+        guard camera.isReady else { return }
 
         takePhotoEnabled.value = false
-        cameraWrapper.capturePhoto { [weak self] result in
+        camera.capturePhoto { [weak self] result in
             if let image = result.value {
                 self?.viewModel.photoTaken(image)
             } else {
@@ -222,8 +231,7 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
         captureModeHidden.bind(to: cornersContainer.rx.isHidden).disposed(by: disposeBag)
         captureModeHidden.bind(to: switchCamButton.rx.isHidden).disposed(by: disposeBag)
         captureModeHidden.bind(to: flashButton.rx.isHidden).disposed(by: disposeBag)
-        
-        
+
         if viewModel.isBlockingPosting {
             state.map { $0.shouldShowCloseButtonBlockingPosting }.bind { [weak self] shouldShowClose in
                 guard let strongSelf = self else { return }
@@ -252,13 +260,13 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
 
         let flashMode = viewModel.cameraFlashState.asObservable()
         flashMode.subscribeNext{ [weak self] flashMode in
-            guard let cameraWrapper = self?.cameraWrapper, cameraWrapper.hasFlash else { return }
-            cameraWrapper.flashMode = flashMode
+            guard let camera = self?.camera, camera.hasFlash else { return }
+            camera.flashMode = flashMode
         }.disposed(by: disposeBag)
         flashMode.map{ $0.imageIcon }.bind(to: flashButton.rx.image(for: .normal)).disposed(by: disposeBag)
 
         viewModel.cameraSource.asObservable().subscribeNext{ [weak self] cameraSource in
-            self?.cameraWrapper.cameraSource = cameraSource
+            self?.camera.cameraPosition = cameraSource
         }.disposed(by: disposeBag)
 
         viewModel.shouldShowFirstTimeAlert.asObservable().map { !$0 }.bind(to: firstTimeAlertContainer.rx.isHidden).disposed(by: disposeBag)
@@ -281,14 +289,14 @@ extension PostListingCameraView {
     
     fileprivate func updateCamera() {
         if viewModel.active && viewModel.cameraState.value.captureMode {
-            if cameraWrapper.isAttached {
-                cameraWrapper.resume()
+            if camera.isAttached {
+                camera.resume()
             } else {
-                cameraWrapper.addPreviewLayerTo(view: cameraView)
+                camera.addPreviewLayerTo(view: cameraView)
             }
             cameraView.isHidden = false
         } else {
-            cameraWrapper.pause()
+            camera.pause()
             cameraView.isHidden = true
         }
     }

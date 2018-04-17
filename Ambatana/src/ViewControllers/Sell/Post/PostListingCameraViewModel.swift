@@ -25,6 +25,7 @@ class PostListingCameraViewModel: BaseViewModel {
     let cameraFlashState = Variable<CameraFlashState>(.auto)
     let cameraSource = Variable<CameraSource>(.rear)
     let imageSelected = Variable<UIImage?>(nil)
+    let cameraMode = Variable<CameraMode>(.photo)
 
     let infoShown = Variable<Bool>(false)
     let infoTitle = Variable<String>("")
@@ -108,6 +109,14 @@ class PostListingCameraViewModel: BaseViewModel {
 
     func cameraButtonPressed() {
         cameraSource.value = cameraSource.value.toggle
+    }
+
+    func photoModeButtonPressed() {
+        cameraMode.value = .photo
+    }
+
+    func videoModeButtonPressed() {
+        cameraMode.value = .video
     }
 
     func takePhotoButtonPressed() {
@@ -215,8 +224,7 @@ class PostListingCameraViewModel: BaseViewModel {
         case .notDetermined:
             cameraState.value = .pendingAskPermissions
         case .restricted:
-            // this will never be called, this status is not visible for the user
-            // https://developer.apple.com/library/ios/documentation/AVFoundation/Reference/AVCaptureDevice_Class/#//apple_ref/swift/enum/c:@E@AVAuthorizationStatus
+            cameraState.value = .missingPermissions(LGLocalizedString.productPostCameraPermissionsSubtitle)
             break
         }
     }
