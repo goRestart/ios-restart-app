@@ -239,5 +239,10 @@
         "name": "SearchCarsIntoNewBackend",
         "values": ["control", "baseline", "active"],
         "description": "Search cars into the new Search Car end point"
+    },
+    {
+        "name": "ShowExactLocationForPros",
+        "values": ["yes", "no"],
+        "description": "Show exact location for professional delaers in listing detail map"
     }
 ]

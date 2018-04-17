@@ -150,6 +150,7 @@ extension ABTests {
     var copyForChatNowInEnglish: LeanplumABVariable<Int> { return money.copyForChatNowInEnglish }
     var feedAdsProviderForTR: LeanplumABVariable<Int> { return money.feedAdsProviderForTR }
     var bumpUpBoost: LeanplumABVariable<Int> { return money.bumpUpBoost }
+    var showExactLocationForPros: LeanplumABVariable<Bool> { return money.showExactLocationForPros }
 }
 
 //  MARK: Retention
