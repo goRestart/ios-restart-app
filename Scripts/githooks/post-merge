@@ -64,7 +64,7 @@ then
 		message = "Try opening  %s and do it manually" % ex.url
 		puts "Could not find that issue".red
 		puts message.red
-		implode("Nice to meed you")
+		implode("Nice to meet you")
 	end
 	
 	begin

@@ -68,7 +68,6 @@ class JiraBureau
 		rescue JIRA::HTTPError => ex
 			raise Exceptions::IssueNotFound.new(url)
 		end
-		puts 'finally'
 		raise Exceptions::IssueNotFound.new(url) if issue.nil?
 		return issue
 	end
