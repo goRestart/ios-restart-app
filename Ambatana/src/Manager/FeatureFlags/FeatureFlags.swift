@@ -296,6 +296,10 @@ extension ShowAdvancedReputationSystem {
     var isActive: Bool { return self == .active }
 }
 
+extension ShowPasswordlessLogin{
+    var isActive: Bool { return self == .active }
+}
+
 extension FeedAdsProviderForUS {
     private var shouldShowAdsInFeedForNewUsers: Bool {
         return self == .moPubAdsForAllUsers
@@ -739,6 +743,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.showExactLocationForPros
         }
         return abTests.showExactLocationForPros.value
+    }
+
+    var showPasswordlessLogin: ShowPasswordlessLogin {
+        if Bumper.enabled {
+            return Bumper.showPasswordlessLogin
+        }
+        return ShowPasswordlessLogin.fromPosition(abTests.showPasswordlessLogin.value)
     }
 
     // MARK: - Country features
