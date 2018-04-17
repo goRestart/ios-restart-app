@@ -61,6 +61,7 @@ extension Bumper  {
         flags.append(CopyForChatNowInEnglish.self)
         flags.append(FeedAdsProviderForTR.self)
         flags.append(SearchCarsIntoNewBackend.self)
+        flags.append(ShowExactLocationForPros.self)
         Bumper.initialize(flags)
     } 
 
@@ -302,6 +303,11 @@ extension Bumper  {
     static var searchCarsIntoNewBackend: SearchCarsIntoNewBackend {
         guard let value = Bumper.value(for: SearchCarsIntoNewBackend.key) else { return .control }
         return SearchCarsIntoNewBackend(rawValue: value) ?? .control 
+    }
+
+    static var showExactLocationForPros: Bool {
+        guard let value = Bumper.value(for: ShowExactLocationForPros.key) else { return true }
+        return ShowExactLocationForPros(rawValue: value)?.asBool ?? true
     } 
 }
 
@@ -1046,5 +1052,14 @@ enum SearchCarsIntoNewBackend: String, BumperFeature  {
             default: return .control
         }
     }
+}
+
+enum ShowExactLocationForPros: String, BumperFeature  {
+    case yes, no
+    static var defaultValue: String { return ShowExactLocationForPros.yes.rawValue }
+    static var enumValues: [ShowExactLocationForPros] { return [.yes, .no]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show exact location for professional delaers in listing detail map" } 
+    var asBool: Bool { return self == .yes }
 }
 

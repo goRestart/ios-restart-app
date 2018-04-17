@@ -142,6 +142,7 @@ class ListingViewModel: BaseViewModel {
     let seller = Variable<User?>(nil)
     let isFavorite = Variable<Bool>(false)
     let listingStats = Variable<ListingStats?>(nil)
+    let showExactLocationOnMap = Variable<Bool>(false)
     private var myUserId: String? {
         return myUserRepository.myUser?.objectId
     }
@@ -463,6 +464,12 @@ class ListingViewModel: BaseViewModel {
         }.distinctUntilChanged().bind { [weak self] shown in
             self?.refreshNavBarButtons()
         }.disposed(by: disposeBag)
+
+        seller.asObservable().map { [weak self] in ($0?.isProfessional ?? false) &&
+            (self?.featureFlags.showExactLocationForPros ?? false) }
+            .bind(to: showExactLocationOnMap)
+            .disposed(by: disposeBag)
+
     }
     
     private func distanceString(_ listing: Listing) -> String? {
