@@ -9,7 +9,7 @@
 import Foundation
 
 final class UserVerificationNavBarView: UIView {
-    let avatarImageView = UIImageView()
+    private let avatarImageView = UIImageView()
     private let container = UIView()
     private let scoreLabel = UILabel()
 

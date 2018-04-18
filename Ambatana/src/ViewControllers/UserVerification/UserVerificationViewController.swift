@@ -76,11 +76,6 @@ final class UserVerificationViewController: BaseViewController {
             self?.tableView.reloadData()
         }).disposed(by: disposeBag)
 
-        viewModel.userAvatar.drive(onNext: { [weak self] url in
-            guard let avatarURL = url else { return }
-            self?.navBarView.avatarImageView.lg_setImageWithURL(avatarURL)
-        }).disposed(by: disposeBag)
-
         Observable
             .combineLatest(viewModel.userAvatar.asObservable(), viewModel.userAvatarPlaceholder.asObservable()) {($0, $1)}
             .subscribeNext { [weak self] (url, placeholder) in
