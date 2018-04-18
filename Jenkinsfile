@@ -8,9 +8,14 @@ properties([
 ])
   
   node_name = 'mac-mini-1'
+  branch_type = get_branch_type "${env.BRANCH_NAME}"
   try {
     stopPreviousRunningBuilds()
-    launchUnitTests()
+    if (branch_type == "master") {
+        launchJiraBot() 
+    } else {
+        launchUnitTests()
+    }
   }
   catch (err) {
       currentBuild.result = "FAILURE"   
@@ -43,6 +48,18 @@ def stopPreviousRunningBuilds() {
   }
 }
 
+def launchJiraBot() {
+    node(node_name) {
+        stage ("Move Tickets") {
+            withCredentials([usernamePassword(credentialsId: '79356c55-62e0-41c0-8a8c-85a56ad45e11', 
+                                              passwordVariable: 'IOS_JIRA_PASSWORD', 
+                                              usernameVariable: 'IOS_JIRA_USERNAME')]) {
+                sh 'ruby Scripts/githooks/post-merge'
+            }
+        }
+    }
+}    
+
 ////////// build, deploy and testing func definition /////////
 def launchUnitTests(){
   node(node_name){
@@ -61,6 +78,31 @@ def launchUnitTests(){
       }
     }
   }
+}
+
+def get_branch_type(String branch_name) {
+    def dev_pattern = ".*dev"
+    def release_pattern = ".*release-.*"
+    def feature_pattern = ".*feature-.*"
+    def hotfix_pattern = ".*hotfix-.*"
+    def master_pattern = ".*master"
+    def pr_pattern     = "^PR-\\d+\$" 
+
+    if (branch_name =~ dev_pattern) {
+        return "dev"
+    } else if (branch_name =~ release_pattern) {
+        return "release"
+    } else if (branch_name =~ master_pattern) {
+        return "master"
+    } else if (branch_name =~ feature_pattern) {
+        return "feature"
+    } else if (branch_name =~ hotfix_pattern) {
+        return "hotfix"
+    } else if (branch_name =~ pr_pattern) {
+        return "pr"
+    } else {
+        return null;
+    }
 }
 
 def notifyBuildStatus(String buildStatus = 'STARTED') {
