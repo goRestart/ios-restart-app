@@ -87,6 +87,10 @@ extension UIFont {
     static func systemItalicFont(size: Int) -> UIFont {
         return italicSystemFont(ofSize: CGFloat(size))
     }
+
+    static func systemHeavyFont(size: Int) -> UIFont {
+        return systemFont(ofSize: CGFloat(size), weight: .heavy)
+    }
 }
 
 

@@ -11,8 +11,8 @@ import Lottie
 
 final class BoostSuccessAlertView: UIView {
 
-    private static let animationHeight: CGFloat = 180
-    private static let alertSideMargin: CGFloat = 50
+    private static let animationHeight: CGFloat = 220
+    private static let alertSideMargin: CGFloat = 40
 
     private var blurEffectView: UIVisualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
     private var alertView: UIView = UIView()
@@ -40,13 +40,15 @@ final class BoostSuccessAlertView: UIView {
         alertView.cornerRadius = LGUIKitConstants.bigCornerRadius
         alertView.backgroundColor = UIColor.white
 
-        blurEffectView.alpha = 0.2
+        blurEffectView.alpha = 0.5
 
         titleLabel.text = LGLocalizedString.bumpUpBoostSuccessAlertText
         titleLabel.textColor = UIColor.blackText
-        titleLabel.font = UIFont.systemBoldFont(size: 25)
+        titleLabel.font = UIFont.systemBoldFont(size: 21)
+        titleLabel.adjustsFontSizeToFitWidth = true
+        titleLabel.minimumScaleFactor = 0.3
         titleLabel.textAlignment = .center
-        titleLabel.numberOfLines = 0
+        titleLabel.numberOfLines = 3
 
         animationView.contentMode = .scaleAspectFit
         
@@ -74,13 +76,14 @@ final class BoostSuccessAlertView: UIView {
         animationView.layout().height(BoostSuccessAlertView.animationHeight)
         animationView.layout(with: alertView)
             .top(by: Metrics.bigMargin)
-            .fillHorizontal(by: Metrics.veryBigMargin)
+            .fillHorizontal(by: Metrics.shortMargin)
 
         animationView.layout(with: titleLabel).above(by: -Metrics.veryShortMargin)
 
+        titleLabel.layout(with: animationView).proportionalHeight(multiplier: 0.5)
         titleLabel.layout(with: alertView)
-            .bottom(by: -Metrics.bigMargin)
-            .fillHorizontal(by: Metrics.veryBigMargin)
+            .bottom(by: -Metrics.margin)
+            .fillHorizontal(by: Metrics.bigMargin)
     }
 
     func startAnimation() {

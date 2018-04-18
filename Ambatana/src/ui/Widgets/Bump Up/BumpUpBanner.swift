@@ -53,8 +53,10 @@ enum BumpUpType: Equatable {
         switch self {
         case .restore:
             return BumpUpBanner.bannerDefaultFont
-        case .free, .priced, .hidden, .boost:
+        case .free, .priced, .hidden:
             return UIFont.systemSemiBoldFont(size: 17)
+        case .boost:
+            return UIFont.systemSemiBoldFont(size: 19)
         }
     }
 
@@ -294,6 +296,7 @@ class BumpUpBanner: UIView {
                 if secondsLeft <= 0 {
                     strongSelf.delegate?.bumpUpTimerReachedZero()
                 }
+                strongSelf.textContainerCenterConstraint.isActive = true
             case .free, .priced, .hidden, .restore:
                 if secondsLeft <= 0 {
                     strongSelf.readyToBump = true
