@@ -195,7 +195,8 @@ final class UserPhoneVerificationNumberInputViewController: BaseViewController {
     }
 
     @objc private func didTapContinue() {
-        viewModel.didTapContinueButton()
+        guard let phoneNumber = phoneNumberTextField.text else { return }
+        viewModel.didTapContinueButton(with: phoneNumber)
     }
 
     @objc private func textFieldDidChange(_ textField: UITextField) {
