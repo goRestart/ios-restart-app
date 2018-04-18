@@ -87,15 +87,38 @@ final class UserPhoneVerificationNumberInputViewModel: BaseViewModel {
         return 0
     }
 
-    func didUpdatePhoneNumber(number: String) {
+    // MARK: - Actions
 
+    func didChangePhone(number: String?) {
+        isContinueActionEnabled.value = number?.isValidPhoneNumber ?? false
     }
 
     func didTapCountryButton() {
         navigator?.openCountrySelector()
     }
 
-    func didTapContinueButton() {
-        navigator?.openCodeInput()
+    func didTapContinueButton(with phoneNumber: String) {
+        let fullNumber = "+\(country.value?.callingCode) \(phoneNumber)"
+        navigator?.openCodeInput(sentTo: fullNumber)
+    }
+}
+
+// MARK: - Validtors
+
+private extension String {
+    var isValidPhoneNumber: Bool {
+        do {
+            let detector = try NSDataDetector(types: NSTextCheckingResult.CheckingType.phoneNumber.rawValue)
+            let matches = detector.matches(in: self, options: [], range: NSMakeRange(0, self.count))
+            if let res = matches.first {
+                return res.resultType == .phoneNumber
+                    && res.range.location == 0
+                    && res.range.length == self.count
+            } else {
+                return false
+            }
+        } catch {
+            return false
+        }
     }
 }
