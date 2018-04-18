@@ -73,6 +73,7 @@ protocol FeatureFlaggeable: class {
     var summaryAsFirstStep: SummaryAsFirstStep { get }
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem { get }
     var searchCarsIntoNewBackend: SearchCarsIntoNewBackend { get }
+    var showExactLocationForPros: Bool { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -292,6 +293,10 @@ extension SummaryAsFirstStep {
 }
 
 extension ShowAdvancedReputationSystem {
+    var isActive: Bool { return self == .active }
+}
+
+extension ShowPasswordlessLogin{
     var isActive: Bool { return self == .active }
 }
 
@@ -733,7 +738,19 @@ class FeatureFlags: FeatureFlaggeable {
         return SearchCarsIntoNewBackend.fromPosition(abTests.searchCarsIntoNewBackend.value)
     }
     
-    
+    var showExactLocationForPros: Bool {
+        if Bumper.enabled {
+            return Bumper.showExactLocationForPros
+        }
+        return abTests.showExactLocationForPros.value
+    }
+
+    var showPasswordlessLogin: ShowPasswordlessLogin {
+        if Bumper.enabled {
+            return Bumper.showPasswordlessLogin
+        }
+        return ShowPasswordlessLogin.fromPosition(abTests.showPasswordlessLogin.value)
+    }
 
     // MARK: - Country features
 

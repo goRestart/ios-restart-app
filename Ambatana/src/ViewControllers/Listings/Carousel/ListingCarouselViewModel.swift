@@ -112,6 +112,7 @@ class ListingCarouselViewModel: BaseViewModel {
     let isFeatured = Variable<Bool>(false)
 
     let ownerIsProfessional = Variable<Bool>(false)
+    let showExactLocationOnMap = Variable<Bool>(true)
     let ownerPhoneNumber = Variable<String?>(nil)
     var deviceCanCall: Bool {
         return PhoneCallsHelper.deviceCanCall
@@ -628,6 +629,8 @@ class ListingCarouselViewModel: BaseViewModel {
         socialSharer.value = currentVM.socialSharer
 
         moreInfoState.asObservable().bind(to: currentVM.moreInfoState).disposed(by: activeDisposeBag)
+
+        currentVM.showExactLocationOnMap.asObservable().bind(to: showExactLocationOnMap).disposed(by: activeDisposeBag)
     }
 
     private func performCollectionChange(change: CollectionChange<ChatViewMessage>) {
