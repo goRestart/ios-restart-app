@@ -43,7 +43,6 @@ class BumpUpTimerBarView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         progressBar.setRoundedCorners()
-
     }
 
     func updateWith(timeLeft: TimeInterval) {
@@ -59,9 +58,9 @@ class BumpUpTimerBarView: UIView {
     }
 
     private func colorFor(timeLeft: TimeInterval) -> UIColor {
-        if timeLeft > Constants.timeIntervalForTwelveHours {
+        if timeLeft > TimeInterval.make(hours: 12) {
             return UIColor.asparagus
-        } else if timeLeft > Constants.timeIntervalForOneHour {
+        } else if timeLeft > TimeInterval.make(hours: 1) {
             return UIColor.macaroniAndCheese
         } else {
             return UIColor.primaryColor
