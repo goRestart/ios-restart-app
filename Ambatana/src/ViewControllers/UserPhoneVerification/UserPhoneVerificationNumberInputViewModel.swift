@@ -14,19 +14,14 @@ import CoreTelephony
 struct PhoneVerificationCountry {
     let regionCode: String
     let callingCode: String
-
-    private let currentLocale: Locale
+    let name: String
 
     init(regionCode: String,
          callingCode: String,
          locale: Locale = Locale.current) {
         self.regionCode = regionCode
         self.callingCode = callingCode
-        self.currentLocale = locale
-    }
-
-    var name: String {
-        return currentLocale.localizedString(forRegionCode: regionCode) ?? ""
+        self.name = locale.localizedString(forRegionCode: regionCode) ?? ""
     }
 }
 

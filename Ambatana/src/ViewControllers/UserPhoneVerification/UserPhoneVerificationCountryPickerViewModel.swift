@@ -14,10 +14,13 @@ final class UserPhoneVerificationCountryPickerViewModel: BaseViewModel {
 
     weak var navigator: UserPhoneVerificationNavigator?
 
-    let filteredCountries = Variable<[Country]>([])
-    private var allCountries: [Country] = []
+    private let countryHelper: CountryHelper
 
-    init(fake: String? = "") {
+    let filteredCountries = Variable<[PhoneVerificationCountry]>([])
+    private var allCountries: [PhoneVerificationCountry] = []
+
+    init(countryHelper: CountryHelper = Core.countryHelper) {
+        self.countryHelper = countryHelper
         super.init()
     }
 
@@ -28,22 +31,22 @@ final class UserPhoneVerificationCountryPickerViewModel: BaseViewModel {
         }
     }
 
-    func didSelect(country: Country) {
+    func didSelect(country: PhoneVerificationCountry) {
         // FIXME: implement it
     }
 
 
     func loadCountriesList() {
         allCountries = getCountriesList()
-        filteredCountries.value = allCountries // FIXME: fake data
+        filteredCountries.value = allCountries
     }
 
-    private func getCountriesList() -> [Country] {
-        return [
-            Country(regionCode: "US", callingCode: 355),
-            Country(regionCode: "ES", callingCode: 342),
-            Country(regionCode: "AN", callingCode: 342),
-            Country(regionCode: "AL", callingCode: 342),
-        ]
+    private func getCountriesList() -> [PhoneVerificationCountry] {
+        return countryHelper
+            .fullCountryInfoList()
+            .filter { $0.countryPhoneCode != "" }
+            .map { PhoneVerificationCountry(regionCode: $0.countryCode,
+                                            callingCode: $0.countryPhoneCode) }
+            .sorted { $0.name < $1.name }
     }
 }
