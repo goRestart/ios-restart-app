@@ -243,6 +243,16 @@ class FiltersViewModel: BaseViewModel {
         return FilterRealEstateSection.allValues(postingFlowType: postingFlowType)
     }
     
+    var carSections: [FilterCarSection] {
+        guard featureFlags.searchCarsIntoNewBackend.isActive else { return [] }
+        guard featureFlags.filterSearchCarSellerType.isActive else {
+            return FilterCarSection.all.filter { return !$0.isCarSellerTypeSection }
+        }
+        return FilterCarSection.all
+    }
+    
+    var carSelectedSections: [FilterCarSection] = []
+    
     var postingFlowType: PostingFlowType {
         guard let location = productFilter.place else { return featureFlags.postingFlowType }
         guard let countryCode = location.postalAddress?.countryCode, let country = CountryCode(rawValue: countryCode.localizedLowercase) else { return featureFlags.postingFlowType }
@@ -288,6 +298,7 @@ class FiltersViewModel: BaseViewModel {
         self.carsInfoRepository = carsInfoRepository
         super.init()
         self.sections = generateSections()
+        updateCarSelectedSections()
     }
 
     // MARK: - Actions
@@ -298,6 +309,10 @@ class FiltersViewModel: BaseViewModel {
         return updatedSections.filter { $0 != .price ||  isPriceCellEnabled }
             .filter {$0 != .carsInfo ||  isCarsInfoCellEnabled }
             .filter {!$0.isRealEstateSection || isRealEstateInfoCellEnabled }
+    }
+    
+    private func updateCarSelectedSections() {
+        carSelectedSections = productFilter.carSellerTypes.filterCarSectionsFor(feature: featureFlags.filterSearchCarSellerType)
     }
 
     func locationButtonPressed() {
@@ -406,6 +421,7 @@ class FiltersViewModel: BaseViewModel {
     
     func resetFilters() {
         productFilter = ListingFilters()
+        updateCarSelectedSections()
         sections = generateSections()
         delegate?.vmDidUpdate()
     }
@@ -593,6 +609,25 @@ class FiltersViewModel: BaseViewModel {
         return productFilter.realEstateOfferTypes.index(of: offerTypeOptions[index]) != nil
     }
     
+    // MARK: Car seller type
+    
+    func selectCarSeller(section: FilterCarSection) {
+        
+        defer { delegate?.vmDidUpdate() }
+
+        if section.isCarSellerTypeSection {
+            carSelectedSections = carSelectedSections.updatedFilter(feature: featureFlags.filterSearchCarSellerType, selected: section)
+            productFilter.carSellerTypes = carSelectedSections.carSellerTypes(feature: featureFlags.filterSearchCarSellerType)
+        }
+    }
+    
+    func isCarSellerTypeSelected(type: FilterCarSection) -> Bool {
+        return carSelectedSections.contains(type)
+    }
+    
+    func carCellTitle(section: FilterCarSection) -> String? {
+        return section.title(feature: featureFlags.filterSearchCarSellerType)
+    }
     
     // MARK: Sort by
     
