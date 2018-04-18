@@ -25,7 +25,7 @@ class MockCountryInfoDAO: CountryInfoDAO {
     func fetchCountryInfoWithCountryCode(_ countryCode: String) -> CountryInfo? {
         return countryInfo
     }
-
+    
     func fetchFullCountryInfoList() -> [CountryInfo] {
         return []
     }

@@ -61,6 +61,7 @@ extension Bumper  {
         flags.append(CopyForChatNowInEnglish.self)
         flags.append(FeedAdsProviderForTR.self)
         flags.append(SearchCarsIntoNewBackend.self)
+        flags.append(FilterSearchCarSellerType.self)
         flags.append(ShowExactLocationForPros.self)
         flags.append(ShowPasswordlessLogin.self)
         Bumper.initialize(flags)
@@ -306,6 +307,12 @@ extension Bumper  {
         return SearchCarsIntoNewBackend(rawValue: value) ?? .control 
     }
 
+
+    static var filterSearchCarSellerType: FilterSearchCarSellerType {
+        guard let value = Bumper.value(for: FilterSearchCarSellerType.key) else { return .control }
+        return FilterSearchCarSellerType(rawValue: value) ?? .control 
+    }
+    
     static var showExactLocationForPros: Bool {
         guard let value = Bumper.value(for: ShowExactLocationForPros.key) else { return true }
         return ShowExactLocationForPros(rawValue: value)?.asBool ?? true
@@ -1055,6 +1062,25 @@ enum SearchCarsIntoNewBackend: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum FilterSearchCarSellerType: String, BumperFeature  {
+    case control, baseline, variantA, variantB, variantC, variantD
+    static var defaultValue: String { return FilterSearchCarSellerType.control.rawValue }
+    static var enumValues: [FilterSearchCarSellerType] { return [.control, .baseline, .variantA, .variantB, .variantC, .variantD]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Include Search filter for Car Seller type" } 
+    static func fromPosition(_ position: Int) -> FilterSearchCarSellerType {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .variantA
+            case 3: return .variantB
+            case 4: return .variantC
+            case 5: return .variantD
             default: return .control
         }
     }
