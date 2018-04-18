@@ -16,10 +16,12 @@ final class UserVerificationCell: UITableViewCell, ReusableCell {
     private let customAccessoryView = UIImageView()
     private let completedBadge = UIImageView()
     private var titleViewTopConstraint: NSLayoutConstraint?
+    private var eventCountLabel = UILabel()
 
     private struct Layout {
         static let logoImageHeight: CGFloat = 40
-        static let badgeHeight: CGFloat = 24
+        static let badgeHeight: CGFloat = 26
+        static let eventCountLabelCenterOffset: CGFloat = 2
     }
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -31,16 +33,20 @@ final class UserVerificationCell: UITableViewCell, ReusableCell {
     }
 
     private func setupUI() {
-        contentView.addSubviewsForAutoLayout([logoImageView, titleLabel, subtitleLabel,
-                                              pointsLabel, customAccessoryView, completedBadge])
+        contentView.addSubviewsForAutoLayout([logoImageView, titleLabel, subtitleLabel, pointsLabel,
+                                              customAccessoryView, completedBadge, eventCountLabel])
 
         logoImageView.contentMode = .scaleAspectFit
-        titleLabel.font = UIFont.verificationItemTitle
-        titleLabel.textColor = UIColor.lgBlack
-        subtitleLabel.font = UIFont.mediumBodyFont
-        subtitleLabel.textColor = UIColor.grayDisclaimerText
-        pointsLabel.font = UIFont.verificationItemTitle
-        pointsLabel.textColor = UIColor.verificationPoints
+        titleLabel.font = .verificationItemTitle
+        titleLabel.textColor = .lgBlack
+        subtitleLabel.font = .mediumBodyFont
+        subtitleLabel.textColor = .grayDisclaimerText
+        pointsLabel.font = .verificationItemTitle
+        pointsLabel.textColor = .verificationPoints
+        eventCountLabel.font = .verificationEventCountFont
+        eventCountLabel.textColor = .grayDark
+        eventCountLabel.textAlignment = .center
+        eventCountLabel.isHidden = true
         completedBadge.image = UIImage(named: "verify_check")
         customAccessoryView.image = UIImage(named: "right_chevron")
         setupConstraints()
@@ -62,7 +68,10 @@ final class UserVerificationCell: UITableViewCell, ReusableCell {
             completedBadge.heightAnchor.constraint(equalToConstant: Layout.badgeHeight),
             completedBadge.widthAnchor.constraint(equalTo: completedBadge.heightAnchor),
             completedBadge.topAnchor.constraint(equalTo: logoImageView.topAnchor, constant: Metrics.bigMargin),
-            completedBadge.leftAnchor.constraint(equalTo: logoImageView.leftAnchor, constant: Metrics.bigMargin)
+            completedBadge.leftAnchor.constraint(equalTo: logoImageView.leftAnchor, constant: Metrics.bigMargin),
+            eventCountLabel.centerXAnchor.constraint(equalTo: completedBadge.centerXAnchor),
+            eventCountLabel.centerYAnchor.constraint(equalTo: completedBadge.centerYAnchor,
+                                                     constant: -Layout.eventCountLabelCenterOffset)
         ]
 
         NSLayoutConstraint.activate(contraints)
@@ -77,16 +86,19 @@ final class UserVerificationCell: UITableViewCell, ReusableCell {
         pointsLabel.text = item.pointsValue
         customAccessoryView.isHidden = !item.showsAccessoryView
         selectionStyle = item.canBeSelected ? .default : .none
-        setCompleted(completed: item.completed)
+        setCompleted(completed: item.completed, eventCount: item.eventCountString)
         subtitleLabel.text = item.subtitle
         titleViewTopConstraint?.constant = item.subtitle == nil ? Metrics.bigMargin : Metrics.margin
     }
 
-    private func setCompleted(completed: Bool) {
+    private func setCompleted(completed: Bool, eventCount: String?) {
         logoImageView.alpha = completed ? 0.30 : 1
         titleLabel.alpha = completed ? 0.30 : 1
         pointsLabel.alpha = completed ? 0.30 : 1
         customAccessoryView.alpha = completed ? 0.30 : 1
-        completedBadge.isHidden = !completed
+        completedBadge.isHidden = !completed && eventCount == nil
+        completedBadge.image = eventCount == nil ? #imageLiteral(resourceName: "verify_check") : #imageLiteral(resourceName: "oval")
+        eventCountLabel.isHidden = eventCount == nil
+        eventCountLabel.text = eventCount
     }
 }

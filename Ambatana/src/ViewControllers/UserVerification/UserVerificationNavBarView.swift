@@ -44,6 +44,15 @@ final class UserVerificationNavBarView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    func setAvatar(_ url: URL?, placeholderImage: UIImage?) {
+        if let url = url {
+            avatarImageView.lg_setImageWithURL(url)
+        } else {
+            avatarImageView.image = placeholderImage
+        }
+    }
+
+
     private func setupUI() {
         addSubviewsForAutoLayout([container, avatarImageView, scoreLabel])
 

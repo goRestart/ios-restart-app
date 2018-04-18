@@ -24,14 +24,14 @@ final class UserVerificationViewModel: BaseViewModel {
     private let googleHelper: GoogleLoginHelper
     fileprivate let tracker: Tracker
 
+    private let actionsHistory = Variable<[UserReputationActionType]>([])
     private var user: Driver<MyUser?> { return myUserRepository.rx_myUser.asDriver(onErrorJustReturn: nil) }
-    var userAvatar: Driver<URL?> { return user.map{$0?.avatar?.fileURL} }
-    var userScore: Driver<Int> { return .just(42) }
+    var userAvatar: Driver<URL?> { return user.map { $0?.avatar?.fileURL } }
+    var userAvatarPlaceholder: Driver<UIImage?> { return user.map { LetgoAvatar.avatarWithColor(UIColor.defaultAvatarColor, name: $0?.name) } }
+    var userScore: Driver<Int> { return user.map { $0?.reputationPoints ?? 0 } }
 
     var items: Driver<[[UserVerificationItem]]> {
-        return myUserRepository.rx_myUser.asDriver(onErrorJustReturn: nil).map { [weak self] in
-            self?.buildItems(with: $0) ?? []
-        }
+        return actionsHistory.asDriver().map(buildItems)
     }
 
     init(myUserRepository: MyUserRepository,
@@ -52,21 +52,35 @@ final class UserVerificationViewModel: BaseViewModel {
                   tracker: TrackerProxy.sharedInstance)
     }
 
-    private func buildItems(with myUser: MyUser?) -> [[UserVerificationItem]] {
-        guard let user = myUser else { return [] }
+    func loadData() {
+        syncActions()
+    }
+
+    private func syncActions() {
+        myUserRepository.retrieveUserReputationActions { [weak self] result in
+            if let value = result.value {
+                self?.actionsHistory.value = value.map{ $0.type }
+            } else if let _ = result.error {
+                // Show error?
+            }
+        }
+    }
+
+    private func buildItems(with actions: [UserReputationActionType]) -> [[UserVerificationItem]] {
         let firstSection: [UserVerificationItem] = [
-            .facebook(completed: user.facebookAccount?.verified ?? false),
-            .google(completed: user.googleAccount?.verified ?? false),
-            .email(completed: user.emailAccount?.verified ?? false)
+            .facebook(completed: actions.contains(.facebook)),
+            .google(completed: actions.contains(.google)),
+            .email(completed: actions.contains(.email))
         ]
-
+        
         let secondSection: [UserVerificationItem] = [
-            .profilePicture(completed: user.avatar?.fileURL != nil),
-            .bio(completed: user.biography != nil)
+            .profilePicture(completed: actions.contains(.avatarUpdated)),
+            .bio(completed: actions.contains(.bio))
         ]
 
+        let soldCount = actions.filter{$0 == .markAsSold}.count
         let thirdSection: [UserVerificationItem] = [
-            .markAsSold(completed: false)
+            .markAsSold(completed: actions.contains(.markAsSold), total: soldCount)
         ]
 
         return [firstSection, secondSection, thirdSection]
@@ -92,6 +106,7 @@ final class UserVerificationViewModel: BaseViewModel {
                                       completion: { [weak self] result in
                                         if let _ = result.value {
                                             self?.trackUpdateAvatarComplete()
+                                            self?.syncActions()
                                         } else {
                                             self?.delegate?
                                                 .vmShowAutoFadingMessage(LGLocalizedString.settingsChangeProfilePictureErrorGeneric,
@@ -109,6 +124,7 @@ final class UserVerificationViewModel: BaseViewModel {
                 self?.myUserRepository.linkAccountFacebook(token) { result in
                     if let _ = result.value {
                         self?.verificationSuccess(.facebook)
+                        self?.syncActions()
                     } else {
                         self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.mainSignUpFbConnectErrorGeneric,
                                                                 completion: nil)
@@ -130,6 +146,7 @@ final class UserVerificationViewModel: BaseViewModel {
                 self?.myUserRepository.linkAccountGoogle(serverAuthToken) { result in
                     if let _ = result.value {
                         self?.verificationSuccess(.google)
+                        self?.syncActions()
                     } else {
                         self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.mainSignUpFbConnectErrorGeneric,
                                                                 completion: nil)
@@ -166,6 +183,7 @@ final class UserVerificationViewModel: BaseViewModel {
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorGenericBody, completion: nil)
                 }
             } else {
+                self?.syncActions()
                 self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailSuccess) {
                     self?.verificationSuccess(.email(email))
                 }
