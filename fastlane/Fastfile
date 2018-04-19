@@ -94,11 +94,7 @@ platform :ios do
     build_number = Actions.lane_context[SharedValues::RB_BUILD_NUMBER]
     repository_path = Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER]
 
-<<<<<<< HEAD
-    badge(shield: "#{version_number}-#{build_number}-blue", no_badge: true)
-=======
     add_version_badge version_number:version_number, build_number:build_number
->>>>>>> d526a1a6d... Removing deprecated badge, and updated the icon to better visualization of the build
 
     gym(
       workspace: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] + "/" + ENV["XCODE_WORKSPACE"],
@@ -150,11 +146,7 @@ platform :ios do
  
     add_version_badge version_number:version_number, build_number:build_number
 
-<<<<<<< HEAD
-    badge(shield: "#{version_number}-#{build_number}-blue", no_badge: true)
-
-=======
->>>>>>> d526a1a6d... Removing deprecated badge, and updated the icon to better visualization of the build
+    add_badge(shield: "#{version_number}-#{build_number}-blue", dark: true, shield_geometry: "+0+25%", shield_scale: 0.75)
     gym(
       workspace: ENV["XCODE_WORKSPACE"],
       output_directory: "./",
