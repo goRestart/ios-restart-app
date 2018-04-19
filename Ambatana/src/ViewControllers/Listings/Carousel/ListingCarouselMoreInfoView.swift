@@ -33,11 +33,13 @@ extension MKMapView {
 
 class ListingCarouselMoreInfoView: UIView {
 
-    fileprivate static let relatedItemsHeight: CGFloat = 80
-    fileprivate static let shareViewToMapMargin: CGFloat = 30
-    fileprivate static let navBarDefaultHeight: CGFloat = 64
-    fileprivate static let shareViewToBannerMargin = Metrics.margin
-    fileprivate static let dragViewVerticalExtraMargin: CGFloat = 2 // Center purposes to the custom navigation bar in carousel view
+    private static let relatedItemsHeight: CGFloat = 80
+    private static let shareViewToMapMargin: CGFloat = 30
+    private static let navBarDefaultHeight: CGFloat = 64
+    private static let shareViewToBannerMargin = Metrics.margin
+    private static let dragViewVerticalExtraMargin: CGFloat = 2 // Center purposes to the custom navigation bar in carousel view
+    private static let mapViewBottomMargin: CGFloat = 8
+    private static let mapPinAnnotationReuseId = "mapPin"
 
     @IBOutlet weak var titleTextLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
@@ -81,17 +83,18 @@ class ListingCarouselMoreInfoView: UIView {
     @IBOutlet weak var socialShareTitleLabel: UILabel!
     @IBOutlet weak var socialShareView: SocialShareView!
 
-    fileprivate let disposeBag = DisposeBag()
-    fileprivate var locationZone: MKOverlay?
-    fileprivate let bigMapMargin: CGFloat = 65
-    fileprivate let bigMapBottomMargin: CGFloat = 85
-    fileprivate(set) var mapExpanded: Bool = false
-    fileprivate var mapZoomBlocker: MapZoomBlocker?
+    private let disposeBag = DisposeBag()
+    private var locationZone: MKOverlay?
+    private var mapPinCustomAnnotation: MKPointAnnotation?
+    private let bigMapMargin: CGFloat = 65
+    private let bigMapBottomMargin: CGFloat = 85
+    private(set) var mapExpanded: Bool = false
+    private var mapZoomBlocker: MapZoomBlocker?
     fileprivate var statsView: ListingStatsView?
 
-    fileprivate let statsContainerViewHeight: CGFloat = 24
-    fileprivate let statsContainerViewTop: CGFloat = 26
-    fileprivate var initialDragYposition: CGFloat = 0
+    private let statsContainerViewHeight: CGFloat = 24
+    private let statsContainerViewTop: CGFloat = 26
+    private var initialDragYposition: CGFloat = 0
 
     weak var viewModel: ListingCarouselViewModel?
     weak var delegate: ProductCarouselMoreInfoDelegate?
@@ -199,13 +202,27 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
     }
 
     fileprivate func setupMapRx(viewModel: ListingCarouselViewModel) {
+
         let productLocation = viewModel.productInfo.asObservable().map { $0?.location }.unwrap()
-        productLocation.bind { [weak self] coordinate in
-            self?.addRegion(with: coordinate, zoomBlocker: true)
-            self?.setupMapExpanded(false)
-            self?.locationZone = MKCircle(center:coordinate.coordinates2DfromLocation(),
-                                    radius: Constants.accurateRegionRadius)
-        }.disposed(by: disposeBag)
+        let mapInfo = Observable.combineLatest(productLocation.asObservable(),
+                                               viewModel.showExactLocationOnMap.asObservable())
+        mapInfo.bind { [weak self] (coordinate, showExactLocation) in
+            guard let strongSelf = self else { return }
+            strongSelf.addRegion(with: coordinate, zoomBlocker: true)
+            strongSelf.setupMapExpanded(false)
+            if showExactLocation {
+                strongSelf.mapPinCustomAnnotation = MKPointAnnotation()
+                strongSelf.mapPinCustomAnnotation?.coordinate = coordinate.coordinates2DfromLocation()
+                if let mapAnnotation = strongSelf.mapPinCustomAnnotation {
+                    strongSelf.mapView.addAnnotation(mapAnnotation)
+                }
+            } else {
+                strongSelf.mapView.removeAnnotations(strongSelf.mapView.annotations)
+                strongSelf.mapPinCustomAnnotation = nil
+                strongSelf.locationZone = MKCircle(center:coordinate.coordinates2DfromLocation(),
+                                                   radius: Constants.accurateRegionRadius)
+            }
+            }.disposed(by: disposeBag)
     }
 
     private func layoutMapView(inside container: UIView) {
@@ -213,16 +230,13 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
         if mapView.superview != nil {
             mapView.removeFromSuperview()
         }
-        mapView.translatesAutoresizingMaskIntoConstraints = false
-        container.addSubview(mapView)
-        container.addConstraint(NSLayoutConstraint(item: mapView, attribute: .left, relatedBy: .equal,
-            toItem: container, attribute: .left, multiplier: 1, constant: 0))
-        container.addConstraint(NSLayoutConstraint(item: mapView, attribute: .right, relatedBy: .equal,
-            toItem: container, attribute: .right, multiplier: 1, constant: 0))
-        container.addConstraint(NSLayoutConstraint(item: mapView, attribute: .top, relatedBy: .equal,
-            toItem: container, attribute: .top, multiplier: 1, constant: 0))
-        container.addConstraint(NSLayoutConstraint(item: mapView, attribute: .bottom, relatedBy: .equal,
-            toItem: container, attribute: .bottom, multiplier: 1, constant: 8))
+        container.addSubviewForAutoLayout(mapView)
+
+        mapView.layout(with: container)
+            .fillHorizontal()
+            .top()
+            .bottom(by: -ListingCarouselMoreInfoView.mapViewBottomMargin)
+
         report(AppReport.uikit(error: .breadcrumb), message: "MoreInfoView-LayoutMapView-end")
     }
     
@@ -281,8 +295,8 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
         addSubview(mapViewContainerExpandable)
         mapViewContainerExpandable.frame = convert(mapViewContainer.frame, from: scrollViewContent)
         layoutMapView(inside: mapViewContainerExpandable)
-        
-        if let locationZone = self.locationZone {
+
+            if let locationZone = self.locationZone, mapPinCustomAnnotation == nil {
             mapView.add(locationZone)
         }
 
@@ -328,6 +342,17 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
             return renderer
         }
         return MKCircleRenderer()
+    }
+
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard let mapPinView = mapView.dequeueReusableAnnotationView(withIdentifier: ListingCarouselMoreInfoView.mapPinAnnotationReuseId) else {
+            let newMapPinView = MKAnnotationView(annotation: annotation,
+                                                 reuseIdentifier: ListingCarouselMoreInfoView.mapPinAnnotationReuseId)
+            newMapPinView.image = #imageLiteral(resourceName: "map_pin")
+            return newMapPinView
+        }
+        mapPinView.annotation = annotation
+        return mapPinView
     }
 }
 

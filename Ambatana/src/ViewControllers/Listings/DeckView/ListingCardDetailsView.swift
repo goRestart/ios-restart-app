@@ -69,14 +69,15 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
         setNeedsLayout()
     }
 
-    func populateWith(productInfo: ListingVMProductInfo?) {
+    func populateWith(productInfo: ListingVMProductInfo?, showExactLocationOnMap: Bool) {
         guard let info = productInfo else { return }
         if let location = info.location {
             let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
             let center = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
 
             let region = MKCoordinateRegion(center: center, span: span)
-            detailMapView.setRegion(region, size: CGSize(width: 300, height: 500))
+            detailMapView.setRegion(region, size: CGSize(width: 300, height: 500),
+                                    showExactLocationOnMap: showExactLocationOnMap)
         }
         titleLabel.text = info.title
         titleLabel.isHidden = info.title == nil

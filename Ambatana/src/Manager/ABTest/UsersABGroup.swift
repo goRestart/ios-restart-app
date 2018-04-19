@@ -11,8 +11,10 @@ import Foundation
 struct UsersABGroup: ABGroupType {
     private struct Keys {
         static let advancedReputationSystem = "20180328AdvancedReputationSystem"
+        static let showPasswordlessLogin = "20180417ShowPasswordlessLogin"
     }
     let advancedReputationSystem: LeanplumABVariable<Int>
+    let showPasswordlessLogin: LeanplumABVariable<Int>
 
     let group: ABGroup = .users
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -20,14 +22,22 @@ struct UsersABGroup: ABGroupType {
     var floatVariables: [LeanplumABVariable<Float>] = []
     var boolVariables: [LeanplumABVariable<Bool>] = []
 
-    init(advancedReputationSystem: LeanplumABVariable<Int>) {
+    init(advancedReputationSystem: LeanplumABVariable<Int>,
+         showPasswordlessLogin: LeanplumABVariable<Int>) {
         self.advancedReputationSystem = advancedReputationSystem
-        intVariables.append(contentsOf: [advancedReputationSystem])
+        self.showPasswordlessLogin = showPasswordlessLogin
+
+        intVariables.append(contentsOf: [advancedReputationSystem,
+                                         showPasswordlessLogin])
     }
 
     static func make() -> UsersABGroup {
         return UsersABGroup(advancedReputationSystem: .makeInt(key: Keys.advancedReputationSystem,
                                                                defaultValue: 0,
-                                                               groupType: .users))
+                                                               groupType: .users),
+                            showPasswordlessLogin: .makeInt(key: Keys.showPasswordlessLogin,
+                                                            defaultValue: 0,
+                                                            groupType: .users)
+        )
     }
 }
