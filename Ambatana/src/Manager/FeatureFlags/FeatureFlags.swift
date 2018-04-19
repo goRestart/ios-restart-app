@@ -916,7 +916,14 @@ class FeatureFlags: FeatureFlaggeable {
             case .moPubAdsForOldUsers:
                 return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubUSAForOldUsers
             default:
-                return nil
+                switch feedAdsProviderForTR {
+                case .moPubAdsForAllUsers:
+                    return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubTRForAllUsers
+                case .moPubAdsForOldUsers:
+                    return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubTRForOldUsers
+                default:
+                    return nil
+                }
             }
         }
         switch sensorLocationCountryCode {
