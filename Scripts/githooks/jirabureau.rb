@@ -42,6 +42,16 @@ module Exceptions
 			@url
 		end
 	end
+
+	class VersionNotAvailable < StandardError
+		def initialize(version)
+			@version = version
+		end
+
+		def version
+			@version
+		end
+	end
 end
 
 class JiraBureau
@@ -111,13 +121,48 @@ class JiraBureau
 	end
 	
 	def mark_as_done(issue, issue_id)
+        	transition(issue, TRANSITIONS::MERGE)
+	end
+
+	def start_testing(issue, issue_id) 
+		transition(issue, TRANSITIONS::START_TESTING)
+	end
+
+	def compare(version1, version2) 
+		splitted1 = version1.split('.').map {|n| Integer(n) }
+		splitted2 = version2.split('.').map {|n| Integer(n) }
+
+		if (splitted1[0] > splitted2[0]) then return true end
+		if (splitted1[0] < splitted2[0]) then return false end
+		if (splitted1[1] > splitted2[1]) then return true end
+		if (splitted1[1] < splitted2[1]) then return false end
+		if (splitted1[2] >= splitted2[2]) then return true end
+		return false	
+	end
+
+	def next_unreleased_version(project)
+		valid_versions = project.versions.select { |v| v.name[/([0-9]+)\.([0-9]+)\.([0-9]+)/]  }
+		return valid_versions.select { |version| version.released == false }.first 
+	end
+
+	def tag_next_version(issue, issue_id)
+		project = @@client.Project.find('ABIOS')
+		next_version = next_unreleased_version(project)
+		tag(issue, issue_id, next_version)
+	end
+
+	def tag(issue, issue_id, version) 
+		raise Exceptions::VersionNotAvailable(version) if issue.save({ "fields" => { "fixVersions"  => [version] } })
+	end
+
+	def force_mark_as_done(issue, issue_id)
 		available_transitions = @@client.Transition.all(:issue => issue)
 		is_being_done = available_transitions.map { |issue| issue.id  }.include? TRANSITIONS::REQUEST_REVIEW
-		if !is_being_done 
+		if !is_being_done
 		then
-        		mark_as_doing(issue)
+			start_doing(issue)
 		end
-        	start_reviewing(issue)	
-        	transition(issue, TRANSITIONS::MERGE)
+		start_reviewing(issue)
+		mark_as_done(issue,issue_id)
 	end
 end	
