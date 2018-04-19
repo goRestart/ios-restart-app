@@ -66,9 +66,6 @@ def shared_pods
 #    pod "CameraManager",            :path => "../CameraManager"
     pod "CameraManager",            :git => 'git@github.com:letgoapp/CameraManager.git', :commit => '7b32b50f8bdb1f94f1f1d0fdb6c99a9d21a7ee84', :inhibit_warnings => false
 
-    # Ken Burns effect
-    pod "JBKenBurnsView",        :git => 'https://github.com/letgoapp/JBKenBurns', :commit => '56419f79cb763f8d2ee3a75e4eca51ebc1deab6a', :inhibit_warnings => false # Obj-c
-
     # Logging
     pod "CocoaLumberjack/Swift", "3.3.0"
 

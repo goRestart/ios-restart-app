@@ -18,6 +18,10 @@ enum FilterCarSection {
         return self == .firstSection || self == .secondSection
     }
     
+    var isFirstSection: Bool {
+        return self == .firstSection
+    }
+    
     func title(feature: FilterSearchCarSellerType) -> String {
         switch self {
         case .firstSection:
@@ -34,33 +38,10 @@ enum FilterCarSection {
     }
 }
 
-private extension FilterCarSection {
+extension FilterCarSection {
     var carSellerType: CarSellerType {
         guard case .firstSection = self else { return .professional }
         return .individual
-    }
-}
-
-extension Array where Element == FilterCarSection {
-    func carSellerTypes(feature: FilterSearchCarSellerType) -> [CarSellerType] {
-        let types =  self.filter { $0.isCarSellerTypeSection }.map { $0.carSellerType }
-        if !feature.isMultiselection, types.count > 1 {
-            return []
-        }
-        return types
-    }
-    
-    func updatedFilter(feature: FilterSearchCarSellerType, selected selectedSection: Element) -> [Element] {
-        var currentCarSellerTypes =  self
-        if feature.isMultiselection {
-            if let index = index(where: { $0 == selectedSection }) {
-                currentCarSellerTypes.remove(at: index)
-            } else {
-                currentCarSellerTypes.append(selectedSection)
-            }
-            return currentCarSellerTypes
-        }
-        return [selectedSection]
     }
 }
 

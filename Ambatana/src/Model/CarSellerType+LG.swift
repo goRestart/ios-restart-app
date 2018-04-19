@@ -9,21 +9,15 @@
 import LGCoreKit
 
 extension CarSellerType {
+    
+    var isProfessional: Bool { return self == .professional }
+    
     func title(feature: FilterSearchCarSellerType) -> String {
-        switch self {
-        case .individual:
-            return FilterCarSection.firstSection.title(feature: feature)
-        case .professional:
-            return FilterCarSection.secondSection.title(feature: feature)
-        }
+        return isProfessional ? FilterCarSection.secondSection.title(feature: feature) :
+            FilterCarSection.firstSection.title(feature: feature)
     }
     var filterCarSection: FilterCarSection {
-        switch self {
-        case .individual:
-            return .firstSection
-        case .professional:
-            return .secondSection
-        }
+        return isProfessional ? .secondSection : .firstSection
     }
 }
 
@@ -38,4 +32,35 @@ extension Array where Element == CarSellerType {
         }
         return sections
     }
+
+    func carSectionsFrom(feature: FilterSearchCarSellerType, filter: FilterCarSection) -> [CarSellerType] {
+        var carSections = self
+        if feature.isMultiselection {
+            let carSellerType = filter.carSellerType
+            carSections.removeIfContainsElseAppend(carSellerType)
+        } else {
+            carSections = filter.isFirstSection ? [.individual, .professional] : [.professional]
+        }
+        return carSections
+    }
+    
+    var containsBothCarSellerTypes: Bool {
+        return contains(.individual) && contains(.professional)
+    }
+
+    var trackValue: String {
+        if isEmpty {
+            return TrackSellerTypeValues.none.rawValue
+        } else if containsBothCarSellerTypes {
+            return TrackSellerTypeValues.all.rawValue
+        }
+        return contains(.individual) ? TrackSellerTypeValues.individual.rawValue : TrackSellerTypeValues.professional.rawValue
+    }
+}
+
+private enum TrackSellerTypeValues: String {
+    case none = "none"
+    case individual = "private"
+    case professional = "professional"
+    case all = "all"
 }
