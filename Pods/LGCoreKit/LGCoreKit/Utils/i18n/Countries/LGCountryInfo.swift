@@ -11,6 +11,7 @@ import CoreLocation
 struct LGCountryInfo: CountryInfo {
     let id: Int
     let countryCode: String         // ISO 3166-1 alpha-2
+    let countryPhoneCode: String
     let defaultLocale: String
     let currencyCode: String        // ISO 4217
     let currencySymbol: String
@@ -32,13 +33,21 @@ struct LGCountryInfo: CountryInfo {
     static func fromDictionary(_ dict: Dictionary<String, Any>) -> LGCountryInfo? {
         guard let id = dict["id"] as? Int else { return nil }
         guard let countryCode = dict["countryCode"] as? String else { return nil }
+        guard let countryPhoneCode = dict["countryPhoneCode"] as? String else { return nil }
         guard let defaultLocale = dict["defaultLocale"] as? String else { return nil }
         guard let currencyCode = dict["currencyCode"] as? String else { return nil }
         guard let currencySymbol = dict["currencySymbol"] as? String else { return nil }
         guard let capital = dict["capital"] as? String else { return nil }
         guard let lat = dict["lat"] as? Double else { return nil }
         guard let lon = dict["lon"] as? Double else { return nil }
-        return LGCountryInfo(id: id, countryCode: countryCode, defaultLocale: defaultLocale, currencyCode: currencyCode,
-            currencySymbol: currencySymbol, capital: capital, lat: lat, lon: lon)
+        return LGCountryInfo(id: id,
+                             countryCode: countryCode,
+                             countryPhoneCode: countryPhoneCode,
+                             defaultLocale: defaultLocale,
+                             currencyCode: currencyCode,
+                             currencySymbol: currencySymbol,
+                             capital: capital,
+                             lat: lat,
+                             lon: lon)
     }
 }

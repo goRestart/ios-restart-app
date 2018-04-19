@@ -65,6 +65,7 @@ protocol FeatureFlaggeable: class {
     var increaseNumberOfPictures: IncreaseNumberOfPictures { get }
     var realEstateTutorial: RealEstateTutorial { get }
     var realEstatePromoCell: RealEstatePromoCell { get }
+    var filterSearchCarSellerType: FilterSearchCarSellerType { get }
     var machineLearningMVP: MachineLearningMVP { get }
     var chatNorris: ChatNorris { get }
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings { get }
@@ -73,6 +74,7 @@ protocol FeatureFlaggeable: class {
     var summaryAsFirstStep: SummaryAsFirstStep { get }
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem { get }
     var searchCarsIntoNewBackend: SearchCarsIntoNewBackend { get }
+    var showExactLocationForPros: Bool { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -279,6 +281,14 @@ extension RealEstatePromoCell {
     var isActive: Bool { return self == .active }
 }
 
+extension FilterSearchCarSellerType {
+    var isActive: Bool { return self != .baseline && self != .control }
+    
+    var isMultiselection: Bool {
+        return self == .variantA || self == .variantB
+    }
+}
+
 extension MachineLearningMVP {
     var isActive: Bool { return self == .active }
 }
@@ -292,6 +302,10 @@ extension SummaryAsFirstStep {
 }
 
 extension ShowAdvancedReputationSystem {
+    var isActive: Bool { return self == .active }
+}
+
+extension ShowPasswordlessLogin{
     var isActive: Bool { return self == .active }
 }
 
@@ -637,6 +651,13 @@ class FeatureFlags: FeatureFlaggeable {
         return RealEstatePromoCell.fromPosition(abTests.realEstatePromoCell.value)
     }
     
+    var filterSearchCarSellerType: FilterSearchCarSellerType {
+        if Bumper.enabled {
+            return Bumper.filterSearchCarSellerType
+        }
+        return FilterSearchCarSellerType.fromPosition(abTests.filterSearchCarSellerType.value)
+    }
+    
     var machineLearningMVP: MachineLearningMVP {
         if Bumper.enabled {
             return Bumper.machineLearningMVP
@@ -736,8 +757,20 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return SearchCarsIntoNewBackend.fromPosition(abTests.searchCarsIntoNewBackend.value)
     }
-    
-    
+
+    var showExactLocationForPros: Bool {
+        if Bumper.enabled {
+            return Bumper.showExactLocationForPros
+        }
+        return abTests.showExactLocationForPros.value
+    }
+
+    var showPasswordlessLogin: ShowPasswordlessLogin {
+        if Bumper.enabled {
+            return Bumper.showPasswordlessLogin
+        }
+        return ShowPasswordlessLogin.fromPosition(abTests.showPasswordlessLogin.value)
+    }
 
     // MARK: - Country features
 

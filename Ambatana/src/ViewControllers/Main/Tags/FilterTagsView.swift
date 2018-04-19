@@ -195,7 +195,7 @@ class FilterTagsView: UIView, UICollectionViewDataSource, UICollectionViewDelega
             case .cars:
                 for (i, tag) in tags.enumerated() {
                     switch tag {
-                    case .make, .model, .yearsRange:
+                    case .carSellerType, .make, .model, .yearsRange:
                         relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
                     case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .taxonomyChild,
                          .taxonomy, .secondaryTaxonomyChild, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms,
@@ -213,7 +213,7 @@ class FilterTagsView: UIView, UICollectionViewDataSource, UICollectionViewDelega
                          .realEstateOfferType, .sizeSquareMetersRange, .realEstateNumberOfRooms:
                         relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
                     case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category,
-                         .taxonomyChild, .taxonomy, .secondaryTaxonomyChild, .make, .model, .yearsRange:
+                         .taxonomyChild, .taxonomy, .secondaryTaxonomyChild, .carSellerType, .make, .model, .yearsRange:
                         continue
                     }
                 }
@@ -223,7 +223,7 @@ class FilterTagsView: UIView, UICollectionViewDataSource, UICollectionViewDelega
                 switch tag {
                 case .model:
                     relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
-                case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .make, .yearsRange,
+                case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .carSellerType, .make, .yearsRange,
                      .taxonomyChild, .taxonomy, .secondaryTaxonomyChild, .realEstateNumberOfBedrooms,
                      .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType,
                      .sizeSquareMetersRange, .realEstateNumberOfRooms:
@@ -235,13 +235,13 @@ class FilterTagsView: UIView, UICollectionViewDataSource, UICollectionViewDelega
                 switch tag {
                 case .secondaryTaxonomyChild, .taxonomyChild:
                     relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
-                case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .model, .category, .make,
+                case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .carSellerType, .model, .category, .make,
                      .yearsRange, .taxonomy, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType,
                      .realEstateOfferType, .sizeSquareMetersRange, .realEstateNumberOfRooms:
                     continue
                 }
             }
-        case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .model, .yearsRange, .taxonomyChild,
+        case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .carSellerType, .model, .yearsRange, .taxonomyChild,
              .secondaryTaxonomyChild, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType,
              .realEstateOfferType, .sizeSquareMetersRange, .realEstateNumberOfRooms:
             break

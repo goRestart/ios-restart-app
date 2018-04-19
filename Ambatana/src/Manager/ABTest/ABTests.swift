@@ -112,6 +112,7 @@ class ABTests {
 
 extension ABTests {
     var advancedReputationSystem: LeanplumABVariable<Int> { return users.advancedReputationSystem }
+    var showPasswordlessLogin: LeanplumABVariable<Int> { return users.showPasswordlessLogin }
 }
 
 //  MARK: Core
@@ -150,6 +151,7 @@ extension ABTests {
     var copyForChatNowInEnglish: LeanplumABVariable<Int> { return money.copyForChatNowInEnglish }
     var feedAdsProviderForTR: LeanplumABVariable<Int> { return money.feedAdsProviderForTR }
     var bumpUpBoost: LeanplumABVariable<Int> { return money.bumpUpBoost }
+    var showExactLocationForPros: LeanplumABVariable<Bool> { return money.showExactLocationForPros }
 }
 
 //  MARK: Retention
@@ -174,6 +176,7 @@ extension ABTests {
 extension ABTests {
     var searchCarsIntoNewBackend: LeanplumABVariable<Int> { return verticals.searchCarsIntoNewBackend }
     var realEstatePromoCell: LeanplumABVariable<Int> { return verticals.realEstatePromoCell }
+    var filterSearchCarSellerType: LeanplumABVariable<Int> { return verticals.filterSearchCarSellerType }
 }
 
 //  MARK: Legacy

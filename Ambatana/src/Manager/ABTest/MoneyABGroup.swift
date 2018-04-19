@@ -21,6 +21,7 @@ struct MoneyABGroup: ABGroupType {
         static let copyForChatNowInEnglish = "20180403CopyForChatNowInEnglish"
         static let feedAdsProviderForTR = "20180405FeedAdsProviderForTR"
         static let bumpUpBoost = "20180314bumpUpBoost"
+        static let showExactLocationForPros = "20180413ShowExactLocationForPros"
     }
     let increaseMinPriceBumps: LeanplumABVariable<Int>
     let noAdsInFeedForNewUsers: LeanplumABVariable<Int>
@@ -33,6 +34,7 @@ struct MoneyABGroup: ABGroupType {
     let copyForChatNowInEnglish: LeanplumABVariable<Int>
     let feedAdsProviderForTR: LeanplumABVariable<Int>
     let bumpUpBoost: LeanplumABVariable<Int>
+    let showExactLocationForPros: LeanplumABVariable<Bool>
 
     let group: ABGroup = .money
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -50,7 +52,8 @@ struct MoneyABGroup: ABGroupType {
          feedAdsProviderForUS: LeanplumABVariable<Int>,
          copyForChatNowInEnglish: LeanplumABVariable<Int>,
          feedAdsProviderForTR: LeanplumABVariable<Int>,
-         bumpUpBoost: LeanplumABVariable<Int>) {
+         bumpUpBoost: LeanplumABVariable<Int>,
+         showExactLocationForPros: LeanplumABVariable<Bool>) {
         self.increaseMinPriceBumps = increaseMinPriceBumps
         self.noAdsInFeedForNewUsers = noAdsInFeedForNewUsers
         self.showBumpUpBannerOnNotValidatedListings = showBumpUpBannerOnNotValidatedListings
@@ -62,6 +65,7 @@ struct MoneyABGroup: ABGroupType {
         self.copyForChatNowInEnglish = copyForChatNowInEnglish
         self.feedAdsProviderForTR = feedAdsProviderForTR
         self.bumpUpBoost = bumpUpBoost
+        self.showExactLocationForPros = showExactLocationForPros
 
         intVariables.append(contentsOf: [increaseMinPriceBumps,
                                          noAdsInFeedForNewUsers,
@@ -73,7 +77,8 @@ struct MoneyABGroup: ABGroupType {
                                          copyForChatNowInEnglish,
                                          feedAdsProviderForTR,
                                          bumpUpBoost])
-        boolVariables.append(showProTagUserProfile)
+        boolVariables.append(contentsOf: [showProTagUserProfile,
+                                          showExactLocationForPros])
     }
 
     static func make() -> MoneyABGroup {
@@ -107,7 +112,10 @@ struct MoneyABGroup: ABGroupType {
                                                               groupType: .money),
                             bumpUpBoost: .makeInt(key: Keys.bumpUpBoost,
                                                            defaultValue: 0,
-                                                           groupType: .money))
+                                                           groupType: .money),
+                            showExactLocationForPros: .makeBool(key: Keys.showExactLocationForPros,
+                                                                defaultValue: true,
+                                                                groupType: .money))
         
     }
 }
