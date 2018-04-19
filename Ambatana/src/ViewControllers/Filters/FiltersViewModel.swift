@@ -243,6 +243,16 @@ class FiltersViewModel: BaseViewModel {
         return FilterRealEstateSection.allValues(postingFlowType: postingFlowType)
     }
     
+    var carSections: [FilterCarSection] {
+        guard featureFlags.searchCarsIntoNewBackend.isActive else { return [] }
+        guard featureFlags.filterSearchCarSellerType.isActive else {
+            return FilterCarSection.all.filter { return !$0.isCarSellerTypeSection }
+        }
+        return FilterCarSection.all
+    }
+    
+    var filterCarSellerSelectedSections: [FilterCarSection] = []
+    
     var postingFlowType: PostingFlowType {
         guard let location = productFilter.place else { return featureFlags.postingFlowType }
         guard let countryCode = location.postalAddress?.countryCode, let country = CountryCode(rawValue: countryCode.localizedLowercase) else { return featureFlags.postingFlowType }
@@ -288,6 +298,7 @@ class FiltersViewModel: BaseViewModel {
         self.carsInfoRepository = carsInfoRepository
         super.init()
         self.sections = generateSections()
+        updateCarSelectedSections()
     }
 
     // MARK: - Actions
@@ -298,6 +309,10 @@ class FiltersViewModel: BaseViewModel {
         return updatedSections.filter { $0 != .price ||  isPriceCellEnabled }
             .filter {$0 != .carsInfo ||  isCarsInfoCellEnabled }
             .filter {!$0.isRealEstateSection || isRealEstateInfoCellEnabled }
+    }
+    
+    private func updateCarSelectedSections() {
+        filterCarSellerSelectedSections = productFilter.carSellerTypes.filterCarSectionsFor(feature: featureFlags.filterSearchCarSellerType)
     }
 
     func locationButtonPressed() {
@@ -407,6 +422,7 @@ class FiltersViewModel: BaseViewModel {
     func resetFilters() {
         productFilter = ListingFilters()
         sections = generateSections()
+        updateCarSelectedSections()
         delegate?.vmDidUpdate()
     }
 
@@ -443,6 +459,7 @@ class FiltersViewModel: BaseViewModel {
                                                         postedWithin: productFilter.selectedWithin,
                                                         priceRange: productFilter.priceRange,
                                                         freePostingModeAllowed: featureFlags.freePostingModeAllowed,
+                                                        carSellerType: trackCarSellerType,
                                                         carMake: productFilter.carMakeName,
                                                         carModel: productFilter.carModelName,
                                                         carYearStart: productFilter.carYearStart?.value,
@@ -593,6 +610,25 @@ class FiltersViewModel: BaseViewModel {
         return productFilter.realEstateOfferTypes.index(of: offerTypeOptions[index]) != nil
     }
     
+    // MARK: Car seller type
+    
+    func selectCarSeller(section: FilterCarSection) {
+
+        if section.isCarSellerTypeSection {
+            let carSectionsSelected = productFilter.carSellerTypes.carSectionsFrom(feature: featureFlags.filterSearchCarSellerType, filter: section)
+            productFilter.carSellerTypes = carSectionsSelected
+        }
+        updateCarSelectedSections()
+        delegate?.vmDidUpdate()
+    }
+    
+    func isCarSellerTypeSelected(type: FilterCarSection) -> Bool {
+        return filterCarSellerSelectedSections.contains(type)
+    }
+    
+    func carCellTitle(section: FilterCarSection) -> String? {
+        return section.title(feature: featureFlags.filterSearchCarSellerType)
+    }
     
     // MARK: Sort by
     
@@ -727,6 +763,14 @@ extension FiltersViewModel: TaxonomiesDelegate {
         productFilter.selectedTaxonomyChildren = [taxonomyChild]
         sections = generateSections()
         delegate?.vmDidUpdate()
+    }
+}
+
+
+extension FiltersViewModel {
+    var trackCarSellerType: String? {
+        guard featureFlags.filterSearchCarSellerType.isActive else { return nil }
+        return productFilter.carSellerTypes.trackValue
     }
 }
 

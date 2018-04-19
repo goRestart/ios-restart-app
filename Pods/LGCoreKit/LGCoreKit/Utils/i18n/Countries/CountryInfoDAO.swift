@@ -9,4 +9,5 @@
 public protocol CountryInfoDAO {
     func fetchCountryInfoWithCurrencyCode(_ currencyCode: String) -> CountryInfo?
     func fetchCountryInfoWithCountryCode(_ countryCode: String) -> CountryInfo?
+    func fetchFullCountryInfoList() -> [CountryInfo]
 }

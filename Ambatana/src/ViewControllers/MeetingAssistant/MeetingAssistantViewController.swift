@@ -124,6 +124,7 @@ final class MeetingAssistantViewController: BaseViewController {
         setupLabelActions()
 
         datePickerContainer.alpha = 0
+        datePickerContainer.addTopViewBorderWith(width: LGUIKitConstants.onePixelSize, color: UIColor.grayLight)
         datePickerContainerHeight.constant = 0
 
         let startDate = Date()
@@ -143,6 +144,10 @@ final class MeetingAssistantViewController: BaseViewController {
         let dayTap = UITapGestureRecognizer(target: self, action: #selector(onDayLabelTap))
         selectDayLabel.addGestureRecognizer(dayTap)
         selectDayLabel.isUserInteractionEnabled = true
+
+        let locationTap = UITapGestureRecognizer(target: self, action: #selector(onLocationLabelTap))
+        locationLabel.addGestureRecognizer(locationTap)
+        locationLabel.isUserInteractionEnabled = true
     }
 
     private func setAccesibilityIds() {
@@ -168,6 +173,10 @@ final class MeetingAssistantViewController: BaseViewController {
             self.datePickerContainer.alpha = 1
             self.view.layoutIfNeeded()
         }
+    }
+
+    @objc private func onLocationLabelTap() {
+        viewModel.openLocationSelector()
     }
 
     @objc private func tipsButtonTapped() {

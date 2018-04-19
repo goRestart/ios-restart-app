@@ -58,13 +58,6 @@ struct VerticalsParamsKeys {
     static let since = "since"
 }
 
-struct CarAttributesParamsKey {
-    static let makeId = "makeId"
-    static let modelId = "modelId"
-    static let minYear = "minYear"
-    static let maxYear = "maxYear"
-}
-
 struct RealEstateParamsKeys {
     static let typeOfProperty = "typeOfProperty"
     static let typeOfListing = "typeOfListing"
@@ -91,11 +84,17 @@ public struct RetrieveListingParams {
     public var freePrice: Bool?
     public var distanceRadius: Int?
     public var distanceType: DistanceType?
+    public var abtest: String?
+    public var relaxParam: RelaxParam?
+    
+    //  MARK: Verticals
+    
+    public var userTypes: [CarSellerType]?
     public var makeId: RetrieveListingParam<String>?
     public var modelId: RetrieveListingParam<String>?
     public var startYear: RetrieveListingParam<Int>?
     public var endYear: RetrieveListingParam<Int>?
-    public var abtest: String?
+    
     public var propertyType: String?
     public var offerType: [String]?
     public var numberOfBedrooms: Int?
@@ -103,7 +102,6 @@ public struct RetrieveListingParams {
     public var numberOfLivingRooms: Int?
     public var sizeSquareMetersFrom: Int?
     public var sizeSquareMetersTo: Int?
-    public var relaxParam: RelaxParam?
     
     public init() { }
     
@@ -133,35 +131,6 @@ public struct RetrieveListingParams {
             }
             params[ApiProductsParamsKeys.status] = statusValue
         }
-        
-        return params
-    }
-    
-    var carsApiParams: [String: Any] {
-        var params = [String: Any]()
-        params[VerticalsParamsKeys.searchTerm] = queryString
-        params[VerticalsParamsKeys.quadkey] = coordinates?.coordsToQuadKey(LGCoreKit.quadKeyZoomLevel)
-        // In case country code is empty we send the request without it.
-        if let countryCode = countryCode, !countryCode.isEmpty {
-            params[VerticalsParamsKeys.countryCode] = countryCode
-        }
-        if let freePrice = freePrice, freePrice {
-            params[VerticalsParamsKeys.priceFlag] = ListingPriceFlag.free.rawValue
-        }
-        params[VerticalsParamsKeys.maxPrice] = maxPrice
-        params[VerticalsParamsKeys.minPrice] = minPrice
-        params[VerticalsParamsKeys.distanceRadius] = distanceRadius
-        params[VerticalsParamsKeys.distanceType] = distanceType?.string
-        params[VerticalsParamsKeys.numResults] = numListings
-        params[VerticalsParamsKeys.offset] = offset
-        params[VerticalsParamsKeys.sort] = sortCriteria?.string
-        params[VerticalsParamsKeys.since] = timeCriteria?.string
-        
-        // Cars attributes
-        params[CarAttributesParamsKey.makeId] = makeId?.value
-        params[CarAttributesParamsKey.modelId] = modelId?.value
-        params[CarAttributesParamsKey.minYear] = startYear?.value
-        params[CarAttributesParamsKey.maxYear] = endYear?.value
         
         return params
     }
