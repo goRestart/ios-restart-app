@@ -151,8 +151,8 @@ struct Constants {
     static let fiveMinutesTimeLimit = TimeInterval.make(minutes: 5)
     static let oneHourTimeLimit = TimeInterval.make(hours: 1)
 
-    // TODO: ABIOS-3771 Remove this when integrating LGAnalytics module
     // Tracking
+    // TODO: ABIOS-3771 Remove this when integrating LGAnalytics module
     static let parameterNotApply = "N/A"
     static let parameterSkipValue = "skip"
 

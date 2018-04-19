@@ -61,7 +61,9 @@ extension Bumper  {
         flags.append(CopyForChatNowInEnglish.self)
         flags.append(FeedAdsProviderForTR.self)
         flags.append(SearchCarsIntoNewBackend.self)
+        flags.append(FilterSearchCarSellerType.self)
         flags.append(ShowExactLocationForPros.self)
+        flags.append(ShowPasswordlessLogin.self)
         Bumper.initialize(flags)
     } 
 
@@ -305,9 +307,20 @@ extension Bumper  {
         return SearchCarsIntoNewBackend(rawValue: value) ?? .control 
     }
 
+
+    static var filterSearchCarSellerType: FilterSearchCarSellerType {
+        guard let value = Bumper.value(for: FilterSearchCarSellerType.key) else { return .control }
+        return FilterSearchCarSellerType(rawValue: value) ?? .control 
+    }
+    
     static var showExactLocationForPros: Bool {
         guard let value = Bumper.value(for: ShowExactLocationForPros.key) else { return true }
         return ShowExactLocationForPros(rawValue: value)?.asBool ?? true
+    }
+
+    static var showPasswordlessLogin: ShowPasswordlessLogin {
+        guard let value = Bumper.value(for: ShowPasswordlessLogin.key) else { return .control }
+        return ShowPasswordlessLogin(rawValue: value) ?? .control 
     } 
 }
 
@@ -1054,6 +1067,25 @@ enum SearchCarsIntoNewBackend: String, BumperFeature  {
     }
 }
 
+enum FilterSearchCarSellerType: String, BumperFeature  {
+    case control, baseline, variantA, variantB, variantC, variantD
+    static var defaultValue: String { return FilterSearchCarSellerType.control.rawValue }
+    static var enumValues: [FilterSearchCarSellerType] { return [.control, .baseline, .variantA, .variantB, .variantC, .variantD]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Include Search filter for Car Seller type" } 
+    static func fromPosition(_ position: Int) -> FilterSearchCarSellerType {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .variantA
+            case 3: return .variantB
+            case 4: return .variantC
+            case 5: return .variantD
+            default: return .control
+        }
+    }
+}
+
 enum ShowExactLocationForPros: String, BumperFeature  {
     case yes, no
     static var defaultValue: String { return ShowExactLocationForPros.yes.rawValue }
@@ -1061,5 +1093,21 @@ enum ShowExactLocationForPros: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show exact location for professional delaers in listing detail map" } 
     var asBool: Bool { return self == .yes }
+}
+
+enum ShowPasswordlessLogin: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ShowPasswordlessLogin.control.rawValue }
+    static var enumValues: [ShowPasswordlessLogin] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show Passwordless login option" } 
+    static func fromPosition(_ position: Int) -> ShowPasswordlessLogin {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
 }
 

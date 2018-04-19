@@ -241,8 +241,18 @@
         "description": "Search cars into the new Search Car end point"
     },
     {
+        "name": "FilterSearchCarSellerType",
+        "values": ["control", "baseline", "variantA", "variantB", "variantC", "variantD"],
+        "description": "Include Search filter for Car Seller type"
+    },
+    {
         "name": "ShowExactLocationForPros",
         "values": ["yes", "no"],
         "description": "Show exact location for professional delaers in listing detail map"
+    },
+    {
+      "name": "ShowPasswordlessLogin",
+      "values": ["control", "baseline", "active"],
+      "description": "Show Passwordless login option"
     }
 ]

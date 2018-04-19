@@ -141,6 +141,15 @@ class MainListingsViewModel: BaseViewModel {
             if filters.carYearStart != nil || filters.carYearEnd != nil {
                 resultTags.append(.yearsRange(from: filters.carYearStart?.value, to: filters.carYearEnd?.value))
             }
+
+            if featureFlags.filterSearchCarSellerType.isActive {
+                let carSellerFilterSingleSelection = !featureFlags.filterSearchCarSellerType.isMultiselection
+                let carSellerTypeTags: [FilterTag] = filters.carSellerTypes
+                    .filter { !(carSellerFilterSingleSelection && $0 == .individual) }
+                    .map { .carSellerType(type: $0, name: $0.title(feature: featureFlags.filterSearchCarSellerType)) }
+                
+                resultTags.append(contentsOf: carSellerTypeTags)
+            }
         }
         
         if filters.selectedCategories.contains(.realEstate) {
@@ -416,6 +425,7 @@ class MainListingsViewModel: BaseViewModel {
         var minPrice: Int? = nil
         var maxPrice: Int? = nil
         var free: Bool = false
+        var carSellerTypes: [CarSellerType] = []
         var makeId: String? = nil
         var makeName: String? = nil
         var modelId: String? = nil
@@ -453,6 +463,8 @@ class MainListingsViewModel: BaseViewModel {
                 free = true
             case .distance:
                 break
+            case .carSellerType(let type, _):
+                carSellerTypes.append(type)
             case .make(let id, let name):
                 makeId = id
                 makeName = name
@@ -513,6 +525,12 @@ class MainListingsViewModel: BaseViewModel {
             filters.priceRange = .freePrice
         } else {
             filters.priceRange = .priceRange(min: minPrice, max: maxPrice)
+        }
+        
+        if let removedTag = removedTag,
+            case .carSellerType(let type, _) = removedTag,
+            let filterIndexToRemove = filters.carSellerTypes.index(where: { $0 == type }) {
+            filters.carSellerTypes.remove(at: filterIndexToRemove)
         }
 
         if let makeId = makeId {
@@ -576,7 +594,6 @@ class MainListingsViewModel: BaseViewModel {
                                                                          name: categoryHeaderInfo.name))
             return // do not update any filters
         case .mostSearchedItems:
-            // TODO: Add tracker. Also check .showMore's tracker top in another method
             return
         }
         applyFilters(categoryHeaderInfo)
