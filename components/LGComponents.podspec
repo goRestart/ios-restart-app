@@ -13,6 +13,20 @@ Pod::Spec.new do |s|
 
     s.static_framework = true
 
+    s.subspec 'LGAnalytics' do |spec|
+        spec.source_files = 'LGAnalytics/LGAnalytics/Classes/**/*'
+        
+        spec.dependency 'Amplitude-iOS',      '4.0.4'
+        spec.dependency 'AppsFlyerFramework', '4.8.2'
+        spec.dependency 'Branch',             '0.22.5'
+        spec.dependency 'Crashlytics',        '3.9.3'
+        spec.dependency 'Fabric',             '1.7.2'
+        spec.dependency 'FBSDKCoreKit',       '4.29.0'
+        spec.dependency 'Leanplum-iOS-SDK',   '2.0.5'
+        spec.dependency 'LGCoreKit'
+        spec.dependency 'RxSwift',            '4.0.0'
+    end
+
     s.subspec 'LGLogin' do |loginSpec|
 	    loginSpec.source_files = 'LGLogin/LGLogin/Classes/**/*'
 	    

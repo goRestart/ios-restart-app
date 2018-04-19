@@ -28,7 +28,7 @@ struct AppsFlyerDeepLink {
 
     // Initializer using Appsflyer urls https://letgo.onelink.me/...
     static func buildFromUrl(_ url: URL) -> AppsFlyerDeepLink? {
-        guard let host = url.host, host == EnvironmentProxy.sharedInstance.oneLinkHost else {
+        guard let host = url.host, host == Constants.appsFlyerLinksHost else {
             //Any nil object or host different than letgo.onelink.me will be treated as error
             return nil
         }

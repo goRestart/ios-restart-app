@@ -61,8 +61,19 @@ PODS:
   - Leanplum-iOS-SDK (2.0.5)
   - LGCollapsibleLabel (1.2.0)
   - LGComponents (1.0.0):
+    - LGComponents/LGAnalytics (= 1.0.0)
     - LGComponents/LGLogin (= 1.0.0)
     - LGComponents/LGResources (= 1.0.0)
+  - LGComponents/LGAnalytics (1.0.0):
+    - Amplitude-iOS (= 4.0.4)
+    - AppsFlyerFramework (= 4.8.2)
+    - Branch (= 0.22.5)
+    - Crashlytics (= 3.9.3)
+    - Fabric (= 1.7.2)
+    - FBSDKCoreKit (= 4.29.0)
+    - Leanplum-iOS-SDK (= 2.0.5)
+    - LGCoreKit
+    - RxSwift (= 4.0.0)
   - LGComponents/LGLogin (1.0.0):
     - FBSDKLoginKit (= 4.29.0)
     - GoogleSignIn (= 4.1.1)
@@ -153,7 +164,7 @@ DEPENDENCIES:
   - KMPlaceholderTextView (from `https://github.com/letgoapp/KMPlaceholderTextView`, commit `426117c98e8da8fc7d64a7d3c2f0f45c48d595e6`)
   - Leanplum-iOS-SDK (= 2.0.5)
   - LGCollapsibleLabel (= 1.2.0)
-  - LGComponents (from `./components`)
+  - LGComponents (from `components`)
   - LGCoreKit (= 4.18.0)
   - lottie-ios (= 2.5.0)
   - mopub-ios-sdk (= 4.20.0)
@@ -182,7 +193,7 @@ EXTERNAL SOURCES:
     :commit: 426117c98e8da8fc7d64a7d3c2f0f45c48d595e6
     :git: https://github.com/letgoapp/KMPlaceholderTextView
   LGComponents:
-    :path: ./components
+    :path: components
   SwiftyUserDefaults:
     :commit: dd3d8ddc5bf95db09b66185182b5a555ac59efd5
     :git: https://github.com/Dschee/SwiftyUserDefaults
@@ -234,7 +245,7 @@ SPEC CHECKSUMS:
   KMPlaceholderTextView: 2bbcd19a273648a80a61e1e48f9743a24d8930e3
   Leanplum-iOS-SDK: d7d387b7f3688e697f2893978bfe67092df5b7ca
   LGCollapsibleLabel: 2a5ebb0ff0ff3e1d7ab0c295a17c923db000f557
-  LGComponents: c0750554baf3a96839495da079850ca6e2ecb2f6
+  LGComponents: 188dcbbadf2d12a8cab77c3d675ab457e58914dd
   LGCoreKit: 9f9e4418c2626d6e28c4b3aada601565698a8adc
   lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
   mopub-ios-sdk: 89c6ac9ca01d3b36e9fba16a6cfe31d3c290d354
@@ -253,6 +264,6 @@ SPEC CHECKSUMS:
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   SwiftyUserDefaults: 38267a30d58b7c8570995cd5defd354e43f056c6
 
-PODFILE CHECKSUM: 78c71bbb48ba7c2533f17796ab18a13788d731c8
+PODFILE CHECKSUM: 4b996edfab681c0e1d0d2d051b9d8728ea6fa6b6
 
 COCOAPODS: 1.4.0

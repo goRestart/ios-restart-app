@@ -43,8 +43,8 @@ final class AppsflyerTracker: Tracker {
                      didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?,
                      featureFlags: FeatureFlaggeable) {
         AppsFlyerTracker.shared().appsFlyerDevKey = EnvironmentProxy.sharedInstance.appsFlyerAPIKey
-        AppsFlyerTracker.shared().appleAppID = EnvironmentProxy.sharedInstance.appleAppId
-        AppsFlyerTracker.shared().appInviteOneLinkID = EnvironmentProxy.sharedInstance.oneLinkID
+        AppsFlyerTracker.shared().appleAppID = EnvironmentProxy.sharedInstance.appsFlyerAppleAppId
+        AppsFlyerTracker.shared().appInviteOneLinkID = EnvironmentProxy.sharedInstance.appsFlyerAppInviteOneLinkID
     }
     
     func application(_ application: UIApplication, openURL url: URL, sourceApplication: String?, annotation: Any?) {

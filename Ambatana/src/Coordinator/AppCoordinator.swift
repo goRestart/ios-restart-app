@@ -6,7 +6,6 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-import FBSDKCoreKit
 import LGCoreKit
 import RxSwift
 import UIKit

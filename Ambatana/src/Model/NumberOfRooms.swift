@@ -20,7 +20,8 @@ struct NumberOfRooms {
         }
         return LGLocalizedString.realEstateRoomsValue(numberOfBedrooms, numberOfLivingRooms)
     }
-    
+
+    // TODO: ABIOS-3771 Remove
     var trackingString: String {
         if numberOfBedrooms == 1 && numberOfLivingRooms == 0 {
             return "Studio (1+0)"

@@ -29,13 +29,13 @@ def shared_pods
     pod "Branch",               "0.22.5"    # Obj-c
 
     # Tracking
-    pod "Amplitude-iOS",        "4.0.4"     # Obj-c
+    pod "Amplitude-iOS",        "4.0.4"     # Obj-c     TODO: Remove as it's in LGAnalytics
     pod "AppsFlyerFramework",   "4.8.2"     # Obj-c
     pod "Leanplum-iOS-SDK",     "2.0.5"     # Obj-c
     pod "NewRelicAgent",        "6.1.1"     # Obj-c
 
     # letgo components
-    pod “LGComponents”,            :path => “./components"
+    pod "LGComponents",            :path => "components"
 
     # letgo Core
     pod "LGCoreKit",             "4.18.0", :inhibit_warnings => false
