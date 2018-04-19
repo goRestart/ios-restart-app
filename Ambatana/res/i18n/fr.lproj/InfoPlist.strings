@@ -1,6 +1,6 @@
-"NSCameraUsageDescription" = "Pour commencer à vendre, donnez à letgo accès à votre appareil photo";
+"NSCameraUsageDescription" = "Votre caméra sera utilisée pour prendre des photos de ce que vous voulez vendre.";
 "NSLocationWhenInUseUsageDescription" = "letgo a besoin de votre localisation pour afficher les bien à proximité";
-"NSPhotoLibraryAddUsageDescription" = "Pour sauvegarder des images, donnez à letgo l'accès à votre bibliothèque";
-"NSPhotoLibraryUsageDescription" = "Pour commencer à vendre, donnez à letgo accès à votre album photo";
+"NSPhotoLibraryAddUsageDescription" = "Votre album photo sera utilisé pour que vous puissiez sélectionner des images de ce que vous voulez vendre parmi toutes les photos de votre galerie.";
+"NSPhotoLibraryUsageDescription" = "Votre album photo sera utilisé pour que vous puissiez sélectionner des images de ce que vous voulez vendre parmi toutes les photos de votre galerie.";
 "sell_shortcut_title" = "Vendre vos biens";
 "start_browsing_shortcut_title" = "Découvrir des biens";
