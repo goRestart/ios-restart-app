@@ -32,7 +32,7 @@ PODS:
   - FBSDKShareKit (4.29.0):
     - FBSDKCoreKit
   - FLEX (2.4.0)
-  - Google-Mobile-Ads-SDK (7.24.1)
+  - Google-Mobile-Ads-SDK (7.30.0)
   - GoogleIDFASupport (3.14.0)
   - GoogleSignIn (4.1.1):
     - GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)
@@ -54,7 +54,6 @@ PODS:
   - GTMSessionFetcher/Core (1.1.15)
   - GTMSessionFetcher/Full (1.1.15):
     - GTMSessionFetcher/Core (= 1.1.15)
-  - JBKenBurnsView (1.0)
   - JSONWebToken (2.2.0)
   - KeychainSwift (10.0.0)
   - KMPlaceholderTextView (1.3.0)
@@ -137,10 +136,9 @@ DEPENDENCIES:
   - FBSDKLoginKit (= 4.29.0)
   - FBSDKShareKit (= 4.29.0)
   - FLEX (= 2.4.0)
-  - Google-Mobile-Ads-SDK (= 7.24.1)
+  - Google-Mobile-Ads-SDK (= 7.30.0)
   - GoogleIDFASupport (= 3.14.0)
   - GoogleSignIn (= 4.1.1)
-  - JBKenBurnsView (from `https://github.com/letgoapp/JBKenBurns`, commit `56419f79cb763f8d2ee3a75e4eca51ebc1deab6a`)
   - KeychainSwift (= 10.0.0)
   - KMPlaceholderTextView (from `https://github.com/letgoapp/KMPlaceholderTextView`, commit `426117c98e8da8fc7d64a7d3c2f0f45c48d595e6`)
   - Leanplum-iOS-SDK (= 2.0.5)
@@ -166,9 +164,6 @@ EXTERNAL SOURCES:
   CameraManager:
     :commit: 7b32b50f8bdb1f94f1f1d0fdb6c99a9d21a7ee84
     :git: git@github.com:letgoapp/CameraManager.git
-  JBKenBurnsView:
-    :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
-    :git: https://github.com/letgoapp/JBKenBurns
   KMPlaceholderTextView:
     :commit: 426117c98e8da8fc7d64a7d3c2f0f45c48d595e6
     :git: https://github.com/letgoapp/KMPlaceholderTextView
@@ -183,9 +178,6 @@ CHECKOUT OPTIONS:
   CameraManager:
     :commit: 7b32b50f8bdb1f94f1f1d0fdb6c99a9d21a7ee84
     :git: git@github.com:letgoapp/CameraManager.git
-  JBKenBurnsView:
-    :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
-    :git: https://github.com/letgoapp/JBKenBurns
   KMPlaceholderTextView:
     :commit: 426117c98e8da8fc7d64a7d3c2f0f45c48d595e6
     :git: https://github.com/letgoapp/KMPlaceholderTextView
@@ -211,13 +203,12 @@ SPEC CHECKSUMS:
   FBSDKLoginKit: 56a057ca6822535ea0faa25f57a7c41edb697fd4
   FBSDKShareKit: 18a2cd118aef11dd657fe7e8b64bae5c719088b2
   FLEX: bd1a39e55b56bb413b6f1b34b3c10a0dc44ef079
-  Google-Mobile-Ads-SDK: ed8004a7265b424568dc84f3d2bbe3ea3fff958f
+  Google-Mobile-Ads-SDK: 7404f68120ae8682afeb5af001fbf4aad731c78e
   GoogleIDFASupport: aaf8c10bd429abb1c15349d5252244f5eda8ead1
   GoogleSignIn: 3fdaa34a2ba04dbd7a25d7db39aecb0da98d5bdc
   GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
   GTMOAuth2: c77fe325e4acd453837e72d91e3b5f13116857b2
   GTMSessionFetcher: 5fa5b80fd20e439ef5f545fb2cb3ca6c6714caa2
-  JBKenBurnsView: e40d10fcd4fbeb652c29fa431d4748780a4672ff
   JSONWebToken: 6fae32489632658d563dd6952a5c34020ea813e4
   KeychainSwift: f9f7910449a0c0fd2cabc889121530dd2c477c33
   KMPlaceholderTextView: 2bbcd19a273648a80a61e1e48f9743a24d8930e3
@@ -241,6 +232,6 @@ SPEC CHECKSUMS:
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   SwiftyUserDefaults: 38267a30d58b7c8570995cd5defd354e43f056c6
 
-PODFILE CHECKSUM: e7a15624f8ebffbfa3dae691266a0aaf43847459
+PODFILE CHECKSUM: c126be8f7d4044391821a933766bf21282b3b1eb
 
 COCOAPODS: 1.4.0
