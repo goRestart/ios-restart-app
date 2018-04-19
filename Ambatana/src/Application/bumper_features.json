@@ -254,5 +254,10 @@
       "name": "ShowPasswordlessLogin",
       "values": ["control", "baseline", "active"],
       "description": "Show Passwordless login option"
+    },
+    {
+        "name": "CopyForSellFasterNowInEnglish",
+        "values": ["control", "variantA", "variantB", "variantC", "variantD"],
+        "description": "Try different copies for 'Sell faster now' banner in English"
     }
 ]
