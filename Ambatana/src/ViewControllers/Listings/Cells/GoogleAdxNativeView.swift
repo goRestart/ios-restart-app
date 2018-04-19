@@ -22,20 +22,29 @@ final class GoogleAdxNativeView: GADNativeContentAdView {
         setupUI()
     }
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        setupUI()
+    }
+    
     override var nativeContentAd: GADNativeContentAd? {
         set {
             super.nativeContentAd = newValue
             guard let nativeContentAd = newValue else { return }
-            (headlineView as! UILabel).text = nativeContentAd.headline
-            (bodyView as! UILabel).text = nativeContentAd.body
-            (imageView as! UIImageView).image = (nativeContentAd.images?.first as! GADNativeAdImage).image
-            (callToActionView as! UIButton).setTitle(nativeContentAd.callToAction, for: UIControlState.normal)
+            guard let titleLabel = headlineView as? UILabel else { return }
+            titleLabel.text = nativeContentAd.headline
+            guard let mainTextLabel = bodyView as? UILabel else { return }
+            mainTextLabel.text = nativeContentAd.body
+            guard let mainImageView = imageView as? UIImageView, let images = nativeContentAd.images, let nativeAdImage = images.first as? GADNativeAdImage else { return }
+            mainImageView.image = nativeAdImage.image
+            guard let callToActionButton = callToActionView as? UIButton else { return }
+            callToActionButton.setTitle(nativeContentAd.callToAction, for: UIControlState.normal)
         }
         get {
             return super.nativeContentAd
         }
     }
-    func setupUI() {
+    private func setupUI() {
         cornerRadius = LGUIKitConstants.smallCornerRadius
         backgroundColor = UIColor.white
         setupTitleLabel()
@@ -45,21 +54,21 @@ final class GoogleAdxNativeView: GADNativeContentAdView {
     }
     
     private func setupTitleLabel() {
-        let titleLabel = headlineView as! UILabel
+        guard let titleLabel = headlineView as? UILabel else { return }
         titleLabel.numberOfLines = 2
         titleLabel.font = UIFont.adTitleFont
         titleLabel.textColor = UIColor.darkGrayText
     }
     
     private func setupMainTextLabel() {
-        let mainTextLabel = bodyView as! UILabel
+        guard let mainTextLabel = bodyView as? UILabel else { return }
         mainTextLabel.numberOfLines = 3
         mainTextLabel.font = UIFont.adDescriptionFont
         mainTextLabel.textColor = UIColor.darkGrayText
     }
     
     private func setupCallToActionButton() {
-        let callToActionButton = callToActionView as! UIButton
+        guard let callToActionButton = callToActionView as? UIButton else { return }
         callToActionButton.titleLabel?.font = UIFont.adCallToActionFont
         callToActionButton.backgroundColor = UIColor.white
         callToActionButton.tintColor = UIColor.primaryColor

@@ -127,15 +127,15 @@ struct AdvertisementMoPubData {
 }
 
 struct AdvertisementAdxData {
-    var adUnitId: String
-    var rootViewController: UIViewController
-    var adPosition: Int
-    var bannerHeight: CGFloat
-    var adRequested: Bool
-    var categories: [ListingCategory]?
+    let adUnitId: String
+    let rootViewController: UIViewController
+    let adPosition: Int
+    let bannerHeight: CGFloat
+    let adRequested: Bool
+    let categories: [ListingCategory]?
     
-    var adLoader: GADAdLoader
-    var adxNativeView: UIView?
+    let adLoader: GADAdLoader
+    let adxNativeView: UIView?
 }
 
 enum AdProviderType {

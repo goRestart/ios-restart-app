@@ -677,7 +677,6 @@ extension ListingListView: GADNativeContentAdLoaderDelegate, GADAdLoaderDelegate
         guard let position = adLoader.position else { return }
         nativeContentAd.position = position
         let contentAdView = Bundle.main.loadNibNamed("GoogleAdxNativeView", owner: nil, options: nil)?.first as! GoogleAdxNativeView
-        contentAdView.setupUI()
         viewModel.updateAdvertisementRequestedIn(position: position, nativeContentAd: nativeContentAd, contentAdView: contentAdView)
     }
     
