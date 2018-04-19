@@ -16,12 +16,12 @@ struct LGUserReputationAction: UserReputationAction, Decodable {
 
     public init(from decoder: Decoder) throws {
         let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
-        let createdAtString = try keyedContainer.decode(String.self, forKey: .createdAt)
+        let timestamp = try keyedContainer.decode(TimeInterval.self, forKey: .createdAt)
         let typeString = try keyedContainer.decode(String.self, forKey: .name)
         id = try keyedContainer.decode(String.self, forKey: .id)
         type = UserReputationActionType(rawValue: typeString) ?? .unknown
         points = try keyedContainer.decode(Int.self, forKey: .points)
-        createdAt = LGDateFormatter().date(from: createdAtString)
+        createdAt = Date.makeChatDate(millisecondsIntervalSince1970: timestamp)
     }
 
     enum CodingKeys: String, CodingKey {

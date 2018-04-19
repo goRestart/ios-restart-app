@@ -67,6 +67,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem = .control
     var searchCarsIntoNewBackend: SearchCarsIntoNewBackend = .control
     var showExactLocationForPros: Bool = true
+    var filterSearchCarSellerType: FilterSearchCarSellerType = .control
     var showPasswordlessLogin: ShowPasswordlessLogin = .control
 
     // Country dependant features

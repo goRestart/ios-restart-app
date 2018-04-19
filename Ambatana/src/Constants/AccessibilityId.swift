@@ -822,6 +822,8 @@ enum AccessibilityId: Equatable {
                 idSuffix = "Free"
             case let .distance(distance):
                 idSuffix = "Distance-\(String(distance))"
+            case .carSellerType(_, let name):
+                idSuffix = "CarSeller-\(name)"
             case let .make(carId, carName):
                 idSuffix = "CarMake-\(carId)_\(carName)"
             case let .model(carId, carName):

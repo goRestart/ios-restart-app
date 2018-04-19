@@ -65,6 +65,7 @@ protocol FeatureFlaggeable: class {
     var increaseNumberOfPictures: IncreaseNumberOfPictures { get }
     var realEstateTutorial: RealEstateTutorial { get }
     var realEstatePromoCell: RealEstatePromoCell { get }
+    var filterSearchCarSellerType: FilterSearchCarSellerType { get }
     var machineLearningMVP: MachineLearningMVP { get }
     var chatNorris: ChatNorris { get }
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings { get }
@@ -278,6 +279,14 @@ extension RealEstateTutorial {
 
 extension RealEstatePromoCell {
     var isActive: Bool { return self == .active }
+}
+
+extension FilterSearchCarSellerType {
+    var isActive: Bool { return self != .baseline && self != .control }
+    
+    var isMultiselection: Bool {
+        return self == .variantA || self == .variantB
+    }
 }
 
 extension MachineLearningMVP {
@@ -638,6 +647,13 @@ class FeatureFlags: FeatureFlaggeable {
         return RealEstatePromoCell.fromPosition(abTests.realEstatePromoCell.value)
     }
     
+    var filterSearchCarSellerType: FilterSearchCarSellerType {
+        if Bumper.enabled {
+            return Bumper.filterSearchCarSellerType
+        }
+        return FilterSearchCarSellerType.fromPosition(abTests.filterSearchCarSellerType.value)
+    }
+    
     var machineLearningMVP: MachineLearningMVP {
         if Bumper.enabled {
             return Bumper.machineLearningMVP
@@ -737,7 +753,7 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return SearchCarsIntoNewBackend.fromPosition(abTests.searchCarsIntoNewBackend.value)
     }
-    
+
     var showExactLocationForPros: Bool {
         if Bumper.enabled {
             return Bumper.showExactLocationForPros

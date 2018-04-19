@@ -39,4 +39,8 @@ public class CountryHelper {
     public func countryInfoForCountryCode(_ countryCode: String) -> CountryInfo? {
         return countryInfoDAO.fetchCountryInfoWithCountryCode(countryCode)
     }
+
+    public func fullCountryInfoList() -> [CountryInfo] {
+        return countryInfoDAO.fetchFullCountryInfoList()
+    }
 }

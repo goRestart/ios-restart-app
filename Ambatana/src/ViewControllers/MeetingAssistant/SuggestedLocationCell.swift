@@ -79,9 +79,9 @@ class SuggestedLocationCell: UICollectionViewCell, ReusableCell {
 
     private func showShadow() {
         containerView.layer.shadowRadius = 5
-        containerView.layer.shadowColor = UIColor.black.cgColor
-        containerView.layer.shadowOpacity = 0.3
-        containerView.layer.shadowOffset = CGSize.zero
+        containerView.layer.shadowColor = UIColor.black.withAlphaComponent(0.1).cgColor
+        containerView.layer.shadowOpacity = 0.5
+        containerView.layer.shadowOffset = CGSize(width: 0, height: 2)
         containerView.layer.masksToBounds = false
     }
 
@@ -101,7 +101,7 @@ class SuggestedLocationCell: UICollectionViewCell, ReusableCell {
         locationNameLabel.text = ""
         locationAddressLabel.text = ""
         checkBoxView.isHidden = true
-        selectButton.setTitle(LGLocalizedString.meetingCreationViewSuggestCellSelect, for: .normal)
+        selectButton.setTitle(buttonTitle, for: .normal)
         selectButton.setTitleColor(UIColor.primaryColor, for: .normal)
         selectButton.backgroundColor = UIColor.clear
         showShadow()

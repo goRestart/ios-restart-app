@@ -178,14 +178,16 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
             let width = viewModel.isTaxonomiesAndTaxonomyChildrenInFeedEnabled ? viewWidth : viewWidth * 0.5
             return CGSize(width: width, height: Layout.Height.category)
         case .carsInfo:
-            switch indexPath.item {
-            case 0, 1:
+            let carSection = viewModel.carSections[indexPath.item]
+            switch carSection {
+            case .secondSection:
+                return CGSize(width: view.bounds.width, height: Layout.Height.singleCheckWithMargin)
+            case .firstSection, .make, .model:
                 return CGSize(width: view.bounds.width, height: Layout.Height.singleCheck)
-            case 2:
+            case .year:
                 return CGSize(width: view.bounds.width, height: Layout.Height.year)
-            default:
-                return CGSize(width: view.bounds.width, height: Layout.Height.singleCheck)
             }
+
         case .sortBy, .within, .location:
             return CGSize(width: view.bounds.width, height: Layout.Height.singleCheck)
         case .price:
@@ -216,7 +218,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
         case .categories:
             return viewModel.isTaxonomiesAndTaxonomyChildrenInFeedEnabled ? 1 : viewModel.numOfCategories
         case .carsInfo:
-            return 3
+            return viewModel.carSections.count
         case .within:
             return viewModel.numOfWithinTimes
         case .sortBy:
@@ -281,26 +283,41 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                     return cell
                 }
             case .carsInfo:
-                switch indexPath.item {
-                case 0:
-                    // make
+                let carSection = viewModel.carSections[indexPath.item]
+                switch carSection {
+                case .firstSection:
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterSingleCheckCell.reusableID,
+                                                                        for: indexPath) as? FilterSingleCheckCell else { return UICollectionViewCell() }
+                    cell.titleLabel.text = viewModel.carCellTitle(section: carSection)
+                    cell.isSelected = viewModel.isCarSellerTypeSelected(type: carSection)
+                    cell.topSeparator.isHidden = false
+                    return cell
+                case .secondSection:
+                        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterSingleCheckCell.reusableID,
+                                                                            for: indexPath) as? FilterSingleCheckCell else { return UICollectionViewCell() }
+                        cell.titleLabel.text = viewModel.carCellTitle(section: carSection)
+                        cell.isSelected = viewModel.isCarSellerTypeSelected(type: carSection)
+                        cell.setMargin(bottom: true)
+                        cell.bottomSeparator.isHidden = false
+                        return cell
+                case .make:
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterDisclosureCell.reusableID,
                                                                         for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
 
-                    cell.titleLabel.text = LGLocalizedString.postCategoryDetailCarMake
+                    cell.titleLabel.text = viewModel.carCellTitle(section: carSection)
                     cell.subtitleLabel.text = viewModel.currentCarMakeName ?? LGLocalizedString.filtersCarMakeNotSet
+                    cell.topSeparator?.isHidden = false
                     return cell
-                case 1:
-                    // Model
+                case .model:
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterDisclosureCell.reusableID,
                                                                         for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
                     cell.isUserInteractionEnabled = viewModel.modelCellEnabled
                     cell.titleLabel.isEnabled = viewModel.modelCellEnabled
-                    cell.titleLabel.text = LGLocalizedString.postCategoryDetailCarModel
+                    cell.titleLabel.text = viewModel.carCellTitle(section: carSection)
                     cell.subtitleLabel.text = viewModel.currentCarModelName ?? LGLocalizedString.filtersCarModelNotSet
+                    cell.topSeparator?.isHidden = false
                     return cell
-                case 2:
-                    // Year
+                case .year:
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterSliderYearCell.reusableID,
                                                                         for: indexPath) as? FilterSliderYearCell else { return UICollectionViewCell() }
                     cell.setupSlider(minimumValue: Constants.filterMinCarYear, 
@@ -309,8 +326,6 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                                      maximumValueSelected: viewModel.carYearEnd)
                     cell.delegate = self
                     return cell
-                default:
-                    return UICollectionViewCell()
                 }
             case .realEstateInfo:
                 let realEstateSection = viewModel.filterRealEstateSections[indexPath.item]
@@ -457,19 +472,18 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                 viewModel.selectCategoryAtIndex(indexPath.row)
             }
         case .carsInfo:
-            switch indexPath.item {
-            case 0:
-                // make
+            let carSection = viewModel.carSections[indexPath.item]
+            switch carSection {
+            case .firstSection, .secondSection:
+                viewModel.selectCarSeller(section: carSection)
+            case .make:
                 viewModel.makeButtonPressed()
-            case 1:
-                // Model
+            case .model:
                 viewModel.modelButtonPressed()
-            case 2:
-                // Do nothing for year
-                break
-            default:
+            case .year:
                 break
             }
+            
         case .realEstateInfo:
             switch viewModel.filterRealEstateSections[indexPath.item] {
             case .propertyType:
