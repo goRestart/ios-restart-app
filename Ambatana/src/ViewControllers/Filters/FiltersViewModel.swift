@@ -251,7 +251,7 @@ class FiltersViewModel: BaseViewModel {
         return FilterCarSection.all
     }
     
-    var carSelectedSections: [FilterCarSection] = []
+    var filterCarSellerSelectedSections: [FilterCarSection] = []
     
     var postingFlowType: PostingFlowType {
         guard let location = productFilter.place else { return featureFlags.postingFlowType }
@@ -312,7 +312,7 @@ class FiltersViewModel: BaseViewModel {
     }
     
     private func updateCarSelectedSections() {
-        carSelectedSections = productFilter.carSellerTypes.filterCarSectionsFor(feature: featureFlags.filterSearchCarSellerType)
+        filterCarSellerSelectedSections = productFilter.carSellerTypes.filterCarSectionsFor(feature: featureFlags.filterSearchCarSellerType)
     }
 
     func locationButtonPressed() {
@@ -421,8 +421,8 @@ class FiltersViewModel: BaseViewModel {
     
     func resetFilters() {
         productFilter = ListingFilters()
-        updateCarSelectedSections()
         sections = generateSections()
+        updateCarSelectedSections()
         delegate?.vmDidUpdate()
     }
 
@@ -459,6 +459,7 @@ class FiltersViewModel: BaseViewModel {
                                                         postedWithin: productFilter.selectedWithin,
                                                         priceRange: productFilter.priceRange,
                                                         freePostingModeAllowed: featureFlags.freePostingModeAllowed,
+                                                        carSellerType: trackCarSellerType,
                                                         carMake: productFilter.carMakeName,
                                                         carModel: productFilter.carModelName,
                                                         carYearStart: productFilter.carYearStart?.value,
@@ -612,17 +613,17 @@ class FiltersViewModel: BaseViewModel {
     // MARK: Car seller type
     
     func selectCarSeller(section: FilterCarSection) {
-        
-        defer { delegate?.vmDidUpdate() }
 
         if section.isCarSellerTypeSection {
-            carSelectedSections = carSelectedSections.updatedFilter(feature: featureFlags.filterSearchCarSellerType, selected: section)
-            productFilter.carSellerTypes = carSelectedSections.carSellerTypes(feature: featureFlags.filterSearchCarSellerType)
+            let carSectionsSelected = productFilter.carSellerTypes.carSectionsFrom(feature: featureFlags.filterSearchCarSellerType, filter: section)
+            productFilter.carSellerTypes = carSectionsSelected
         }
+        updateCarSelectedSections()
+        delegate?.vmDidUpdate()
     }
     
     func isCarSellerTypeSelected(type: FilterCarSection) -> Bool {
-        return carSelectedSections.contains(type)
+        return filterCarSellerSelectedSections.contains(type)
     }
     
     func carCellTitle(section: FilterCarSection) -> String? {
@@ -762,6 +763,14 @@ extension FiltersViewModel: TaxonomiesDelegate {
         productFilter.selectedTaxonomyChildren = [taxonomyChild]
         sections = generateSections()
         delegate?.vmDidUpdate()
+    }
+}
+
+
+extension FiltersViewModel {
+    var trackCarSellerType: String? {
+        guard featureFlags.filterSearchCarSellerType.isActive else { return nil }
+        return productFilter.carSellerTypes.trackValue
     }
 }
 
