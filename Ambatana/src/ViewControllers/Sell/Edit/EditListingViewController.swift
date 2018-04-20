@@ -442,7 +442,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         case .remote(let file):
             guard let fileUrl = file.fileURL else {
                 self.dismissLoadingMessageAlert(){
-                    self.showAutoFadingOutMessageAlert(LGLocalizedString.sellPictureSaveIntoCameraRollErrorGeneric)
+                    self.showAutoFadingOutMessageAlert(message: LGLocalizedString.sellPictureSaveIntoCameraRollErrorGeneric)
                 }
                 return
             }
@@ -456,9 +456,9 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     @objc func image(_ image: UIImage!, didFinishSavingWithError error: NSError!, contextInfo: UnsafeMutableRawPointer) {
         self.dismissLoadingMessageAlert(){
             if error == nil { // success
-                self.showAutoFadingOutMessageAlert(LGLocalizedString.sellPictureSaveIntoCameraRollOk)
+                self.showAutoFadingOutMessageAlert(message: LGLocalizedString.sellPictureSaveIntoCameraRollOk)
             } else {
-                self.showAutoFadingOutMessageAlert(LGLocalizedString.sellPictureSaveIntoCameraRollErrorGeneric)
+                self.showAutoFadingOutMessageAlert(message: LGLocalizedString.sellPictureSaveIntoCameraRollErrorGeneric)
             }
         }
     }

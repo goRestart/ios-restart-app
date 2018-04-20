@@ -149,14 +149,14 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
 
     func vmDidFailToFindLocationWithError(_ error: String) {
         guard searchField != nil else { return }
-        showAutoFadingOutMessageAlert(error) { [weak self] in
+        showAutoFadingOutMessageAlert(message: error) { [weak self] in
             // Showing keyboard again as the user must update the text
             self?.searchField.becomeFirstResponder()
         }
     }
 
     func vmShowMessage(_ message: String, completion: (() -> ())?) {
-        showAutoFadingOutMessageAlert(message, completion: completion)
+        showAutoFadingOutMessageAlert(message: message, completion: completion)
     }
 
 
