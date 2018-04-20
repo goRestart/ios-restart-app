@@ -68,6 +68,7 @@ extension AppDelegate: UIApplicationDelegate {
         self.locationRepository = Core.locationRepository
         self.sessionManager = Core.sessionManager
         self.configManager = LGConfigManager.sharedInstance
+        self.locationRepository?.requestAlwaysAuthorization()
 
         let keyValueStorage = KeyValueStorage.sharedInstance
         let versionChecker = VersionChecker.sharedInstance
@@ -144,6 +145,7 @@ extension AppDelegate: UIApplicationDelegate {
         LGCoreKit.applicationDidEnterBackground()
         listingRepository?.updateListingViewCounts()
         TrackerProxy.sharedInstance.applicationDidEnterBackground(application)
+        locationManager?.stopSensorLocationUpdates()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -197,6 +199,29 @@ extension AppDelegate: UIApplicationDelegate {
 
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
         PushManager.sharedInstance.application(application, didReceiveRemoteNotification: userInfo)
+        print("❤️ SAKY Start Sensor location Updates")
+        self.locationManager?.startSensorLocationUpdates()
+    }
+
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any],
+                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+
+        let sniperValue = userInfo["sniper"] as? String
+        NSLog("SAKY Received Push")
+        if let sniper = sniperValue, sniper == "yes" {
+            print("❤️ SAKY Start Sensor location Updates")
+            print("💛 SAKY CurrentAuto: \(self.locationManager!.currentAutoLocation)")
+            NSLog("SAKY StartingLocation")
+            self.locationManager?.locationEvents.take(1).subscribeNext(onNext: { event in
+//                print("💜 SAKY New Location: \(self.locationManager!.lastNotifiedLocation)")
+                let user = Core.myUserRepository.myUser
+                TrackerProxy.sharedInstance.trackEvent(TrackerEvent.searchStart(user))
+                self.locationManager?.stopSensorLocationUpdates()
+            })
+            self.locationManager?.startSensorLocationUpdates()
+        } else {
+            PushManager.sharedInstance.application(application, didReceiveRemoteNotification: userInfo)
+        }
     }
 
     func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification
@@ -328,7 +353,7 @@ fileprivate extension AppDelegate {
             if enabled {
                 self.locationManager?.startSensorLocationUpdates()
             } else {
-                self.locationManager?.stopSensorLocationUpdates()
+//                self.locationManager?.stopSensorLocationUpdates()
             }
             }.disposed(by: disposeBag)
 
