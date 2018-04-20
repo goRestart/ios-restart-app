@@ -91,4 +91,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var shareTypes: [ShareType] = []
     var copyForChatNowInEnglish: CopyForChatNowInEnglish = .control
     var shouldChangeChatNowCopyInEnglish = false
+    var shouldChangeSellFasterNowCopyInEnglish = false
+    var copyForSellFasterNowInEnglish: CopyForSellFasterNowInEnglish = .control
 }
