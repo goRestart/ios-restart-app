@@ -20,6 +20,8 @@ class MockPurchasesShopper: PurchasesShopper {
     var currentBumpTypePage: EventParameterTypePage?
     var currentBumpIsBoost: Bool = false
 
+    var timeOfRecentBump: TimeInterval? = nil
+
     func startObservingTransactions() {
 
     }
@@ -80,6 +82,10 @@ class MockPurchasesShopper: PurchasesShopper {
 
     func isBumpUpPending(forListingId: String) -> Bool {
         return isBumpUpPending
+    }
+
+    func timeSinceRecentBumpFor(listingId: String) -> TimeInterval? {
+        return timeOfRecentBump
     }
 
     func requestFreeBumpUp(forListingId listingId: String, letgoItemId: String, shareNetwork: EventParameterShareNetwork) {
