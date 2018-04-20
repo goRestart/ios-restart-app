@@ -18,10 +18,10 @@
 "bump_up_banner_free_text" = "빠르게 판매하기 위해 무료로 강조해보세요";
 "bump_up_banner_pay_text" = "상품을 빨리 판매해보세요";
 "bump_up_banner_pay_text_improvement" = "지금 빨리 판매하기";
-"bump_up_banner_pay_text_improvement_english_a" = "Sell faster now";
-"bump_up_banner_pay_text_improvement_english_b" = "Get more visibility";
-"bump_up_banner_pay_text_improvement_english_c" = "Attract more buyers";
-"bump_up_banner_pay_text_improvement_english_d" = "Attract 2x more buyers";
+"bump_up_banner_pay_text_improvement_english_a" = "지금 빨리 판매하기";
+"bump_up_banner_pay_text_improvement_english_b" = "지금 빨리 판매하기";
+"bump_up_banner_pay_text_improvement_english_c" = "지금 빨리 판매하기";
+"bump_up_banner_pay_text_improvement_english_d" = "지금 빨리 판매하기";
 "bump_up_banner_wait_text" = "다시 강조하기";
 "bump_up_boost_success_alert_text" = "상품이 강조되었습니다! 상품은 24시간 동안 강조되어 집니다.";
 "bump_up_error_bump_generic" = "상품 목록을 강조하는 동안 오류가 발생했습니다. 다시 시도해주세요.";
