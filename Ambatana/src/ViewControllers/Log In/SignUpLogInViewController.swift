@@ -7,7 +7,6 @@
 //
 
 import GoogleSignIn
-import JBKenBurnsView
 import RxSwift
 import UIKit
 
@@ -16,7 +15,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
     private static let loginSegmentedControlTopMargin: CGFloat = 16
     
     @IBOutlet weak var darkAppereanceBgView: UIView!
-    @IBOutlet weak var kenBurnsView: JBKenBurnsView!
+    @IBOutlet weak var kenBurnsView: KenBurnsView!
     
     @IBOutlet weak var loginSegmentedControl: UISegmentedControl!
     @IBOutlet weak var loginSegmentedControlTopConstraint: NSLayoutConstraint!
@@ -563,14 +562,8 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
     }
 
     func setupKenBurns() {
-        let images: [UIImage] = [
-            UIImage(named: "bg_1_new"),
-            UIImage(named: "bg_2_new"),
-            UIImage(named: "bg_3_new"),
-            UIImage(named: "bg_4_new")
-        ].flatMap { return $0}
         view.layoutIfNeeded()
-        kenBurnsView.animate(withImages: images, transitionDuration: 10, initialDelay: 0, loop: true, isLandscape: true)
+        kenBurnsView.startAnimation(with: [#imageLiteral(resourceName: "bg_1_new"), #imageLiteral(resourceName: "bg_2_new"), #imageLiteral(resourceName: "bg_3_new"), #imageLiteral(resourceName: "bg_4_new")])
     }
 
     private func setupSignupUI() {

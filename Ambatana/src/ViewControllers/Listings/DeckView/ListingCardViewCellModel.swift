@@ -15,6 +15,7 @@ protocol ListingCardDetailsViewModel: class {
     var cardProductStats: Observable<ListingStats?> { get }
     var cardSocialSharer: SocialSharer { get }
     var cardSocialMessage: Observable<SocialMessage?> { get }
+    var cardShowExactLocationOnMap: Observable<Bool> { get }
 }
 
 protocol ListingCardViewCellModel: ListingCardDetailsViewModel {
@@ -62,4 +63,6 @@ extension ListingViewModel: ListingCardViewCellModel {
     var cardDirectChatPlaceholder: String { return directChatPlaceholder }
 
     var cardBumpUpBannerInfo: Observable<BumpUpInfo?> { return bumpUpBannerInfo.asObservable() }
+
+    var cardShowExactLocationOnMap: Observable<Bool> { return showExactLocationOnMap.asObservable() }
 }

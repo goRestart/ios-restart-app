@@ -148,7 +148,7 @@ struct Constants {
     static let promoteAfterPostWaitTime = TimeInterval.make(days: 1)
     static let fiveMinutesTimeLimit = TimeInterval.make(minutes: 5)
     static let oneHourTimeLimit = TimeInterval.make(hours: 1)
-
+    
     // Tracking
     static let parameterNotApply = "N/A"
     static let parameterSkipValue = "skip"

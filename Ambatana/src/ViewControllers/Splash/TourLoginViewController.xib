@@ -25,7 +25,7 @@
                 <outlet property="footerTextView" destination="odo-ww-79k" id="hyR-lO-fOS"/>
                 <outlet property="footerTextViewBottomConstraint" destination="Ube-Lj-cmp" id="KSK-u4-AuG"/>
                 <outlet property="googleButton" destination="mEX-y8-IOU" id="hct-Us-FpP"/>
-                <outlet property="kenBurnsView" destination="tHx-aq-sBy" id="67p-FT-0Ht"/>
+                <outlet property="kenBurnsView" destination="tHx-aq-sBy" id="gHS-cW-LeE"/>
                 <outlet property="mainView" destination="CyB-qf-8tj" id="Gch-ad-dma"/>
                 <outlet property="mainViewBottomConstraint" destination="Rzx-8J-Z9x" id="blz-bv-WS8"/>
                 <outlet property="orUseEmailLabel" destination="sf3-FS-V46" id="JyZ-gi-49q"/>
@@ -41,7 +41,7 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tHx-aq-sBy" customClass="JBKenBurnsView">
+                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tHx-aq-sBy" customClass="KenBurnsView" customModule="LetGo" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </view>

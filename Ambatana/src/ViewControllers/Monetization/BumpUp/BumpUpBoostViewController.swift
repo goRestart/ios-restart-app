@@ -11,7 +11,8 @@ import Foundation
 class BumpUpBoostViewController: BaseViewController {
 
     struct BoostViewMetrics {
-        static let bottomAnchorConstant: CGFloat = 40
+        static let bottomAnchorConstant: CGFloat = 20
+        static let topAnchorConstant: CGFloat = 20
         static let redArrowSize: CGSize = CGSize(width: 15, height: 18)
         static let redArrowYOffset: CGFloat = 30
         static let smallYellowArrowYOffset: CGFloat = 40
@@ -183,7 +184,7 @@ class BumpUpBoostViewController: BaseViewController {
         viewTitleIconView.contentMode = .scaleAspectFit
         viewTitleLabel.text = LGLocalizedString.bumpUpBannerBoostText
         viewTitleLabel.textColor = UIColor.blackText
-        viewTitleLabel.font = UIFont.systemSemiBoldFont(size: 17)
+        viewTitleLabel.font = UIFont.systemBoldFont(size: 19)
         viewTitleLabel.minimumScaleFactor = 0.5
     }
 
@@ -193,7 +194,7 @@ class BumpUpBoostViewController: BaseViewController {
         titleLabel.text = titleLabelText
         titleLabel.textAlignment = .left
         titleLabel.textColor = UIColor.blackText
-        titleLabel.font = UIFont.systemBoldFont(size: 25)
+        titleLabel.font = UIFont.systemHeavyFont(size: 25)
         titleLabel.lineBreakMode = .byWordWrapping
         titleLabel.numberOfLines = 0
         titleLabel.minimumScaleFactor = 0.3
@@ -280,9 +281,10 @@ class BumpUpBoostViewController: BaseViewController {
             infoContainer.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
                                                   constant: BoostViewMetrics.bottomAnchorConstant).isActive = true
         } else {
-            timerProgressView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+            timerProgressView.topAnchor.constraint(equalTo: view.topAnchor,
+                                                   constant: BoostViewMetrics.topAnchorConstant).isActive = true
             infoContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor,
-                                                  constant: BoostViewMetrics.bottomAnchorConstant).isActive = true
+                                                  constant: -BoostViewMetrics.bottomAnchorConstant).isActive = true
         }
         timerProgressView.layout(with: view).left().right()
 
@@ -295,7 +297,7 @@ class BumpUpBoostViewController: BaseViewController {
             .proportionalHeight()
         titleContainer.layout(with: view).centerX().right(by: -Metrics.margin, relatedBy: .lessThanOrEqual)
 
-        infoContainer.layout(with: closeButton).below()
+        infoContainer.layout(with: closeButton).below(by: Metrics.margin)
         infoContainer.layout(with: view).left(by: Metrics.shortMargin).right(by: -Metrics.shortMargin)
 
         setupTitleViewConstraints()
@@ -312,7 +314,7 @@ class BumpUpBoostViewController: BaseViewController {
         viewTitleIconView.layout(with: viewTitleLabel)
             .right(to: .left, by: -Metrics.veryShortMargin, relatedBy: .lessThanOrEqual)
             .centerY()
-        viewTitleLabel.layout(with: titleContainer).right().top().bottom()
+        viewTitleLabel.layout(with: titleContainer).right().top(by: Metrics.margin).bottom()
     }
 
     private func setupInfoContainterConstraints() {
@@ -323,7 +325,7 @@ class BumpUpBoostViewController: BaseViewController {
         infoContainer.addSubviewsForAutoLayout(infoContainerSubviews)
 
         titleLabel.layout(with: infoContainer)
-            .top(by: Metrics.margin)
+            .top(by: Metrics.shortMargin)
             .fillHorizontal(by: Metrics.bigMargin)
 
         titleLabel.layout(with: subtitleLabel).above(by: -Metrics.veryShortMargin)

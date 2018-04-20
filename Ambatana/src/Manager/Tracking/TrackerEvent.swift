@@ -245,7 +245,7 @@ struct TrackerEvent {
     static func filterComplete(_ coordinates: LGLocationCoordinates2D?, distanceRadius: Int?,
                                distanceUnit: DistanceType, categories: [ListingCategory]?, sortBy: ListingSortCriteria?,
                                postedWithin: ListingTimeCriteria?, priceRange: FilterPriceRange, freePostingModeAllowed: Bool,
-                               carMake: String?, carModel: String?, carYearStart: Int?, carYearEnd: Int?, propertyType: String?,
+                               carSellerType: String?, carMake: String?, carModel: String?, carYearStart: Int?, carYearEnd: Int?, propertyType: String?,
                                offerType: [String]?, bedrooms: Int?, bathrooms: Float?, sizeSqrMetersMin: Int?,
                                sizeSqrMetersMax: Int?, rooms: NumberOfRooms?) -> TrackerEvent {
         var params = EventParameters()
@@ -281,6 +281,10 @@ struct TrackerEvent {
 
         var verticalFields: [String] = []
 
+        if let carSellerType = carSellerType {
+            params[.carSellerType] = carSellerType
+        }
+        
         if let make = carMake {
             params[.make] = make
             verticalFields.append(EventParameterName.make.rawValue)

@@ -155,6 +155,7 @@ class ListingViewModel: BaseViewModel {
     let seller = Variable<User?>(nil)
     let isFavorite = Variable<Bool>(false)
     let listingStats = Variable<ListingStats?>(nil)
+    let showExactLocationOnMap = Variable<Bool>(false)
     private var myUserId: String? {
         return myUserRepository.myUser?.objectId
     }
@@ -482,6 +483,12 @@ class ListingViewModel: BaseViewModel {
         }.distinctUntilChanged().bind { [weak self] shown in
             self?.refreshNavBarButtons()
         }.disposed(by: disposeBag)
+
+        seller.asObservable().map { [weak self] in ($0?.isProfessional ?? false) &&
+            (self?.featureFlags.showExactLocationForPros ?? false) }
+            .bind(to: showExactLocationOnMap)
+            .disposed(by: disposeBag)
+
     }
     
     private func distanceString(_ listing: Listing) -> String? {
@@ -516,6 +523,8 @@ class ListingViewModel: BaseViewModel {
         if isBumpUpPending {
             createBumpeableBanner(forListingId: listingId, withPrice: nil, letgoItemId: nil, storeProductId: nil,
                                   bumpUpType: .restore)
+        } else if let timeOfRecentBump = purchasesShopper.timeSinceRecentBumpFor(listingId: listingId) {
+            createBumpeableBannerForRecent(listingId: listingId, bumpUpType: bumpUpType, withTime: timeOfRecentBump)
         } else {
             isUpdatingBumpUpBanner = true
             monetizationRepository.retrieveBumpeableListingInfo(
@@ -666,6 +675,20 @@ class ListingViewModel: BaseViewModel {
                                             price: withPrice,
                                             bannerInteractionBlock: bannerInteractionBlock,
                                             buttonBlock: buttonBlock)
+    }
+    fileprivate func createBumpeableBannerForRecent(listingId: String,
+                                                    bumpUpType: BumpUpType,
+                                                    withTime: TimeInterval) {
+        var updatedBumpUpType = bumpUpType
+        if (bumpUpType == .priced || bumpUpType.isBoost) && featureFlags.bumpUpBoost.isActive {
+            updatedBumpUpType = .boost(boostBannerVisible: false)
+        }
+        bumpUpBannerInfo.value = BumpUpInfo(type: updatedBumpUpType,
+                                            timeSinceLastBump: withTime,
+                                            maxCountdown: bumpMaxCountdown,
+                                            price: nil,
+                                            bannerInteractionBlock: { _ in },
+                                            buttonBlock: { _ in })
     }
 
     func bumpUpHiddenProductContactUs() {
@@ -1358,20 +1381,21 @@ extension ListingViewModel: BumpInfoRequesterDelegate {
 
         bumpUpPurchaseableProduct = purchase
 
-        let bumpUpType: BumpUpType
-        if userIsSoftBlocked {
-            bumpUpType = .hidden
-        } else if featureFlags.bumpUpBoost.isActive && hasBumpInProgress {
-            bumpUpType = .boost(boostBannerVisible: listingCanBeBoosted)
-        } else {
-            bumpUpType = .priced
-        }
-
         createBumpeableBanner(forListingId: requestProdId,
                               withPrice: bumpUpPurchaseableProduct?.formattedCurrencyPrice,
                               letgoItemId: letgoItemId,
                               storeProductId: storeProductId,
                               bumpUpType: bumpUpType)
+    }
+
+    var bumpUpType: BumpUpType {
+        if userIsSoftBlocked {
+            return .hidden
+        } else if featureFlags.bumpUpBoost.isActive && hasBumpInProgress {
+            return .boost(boostBannerVisible: listingCanBeBoosted)
+        } else {
+            return .priced
+        }
     }
 }
 
@@ -1402,7 +1426,8 @@ extension ListingViewModel: PurchasesShopperDelegate {
     // Paid Bump Up
 
     func pricedBumpDidStart(typePage: EventParameterTypePage?, isBoost: Bool) {
-        trackBumpUpStarted(.pay(price: bumpUpPurchaseableProduct?.formattedCurrencyPrice ?? ""), type: .priced,
+        let type: BumpUpType = isBoost ? .boost(boostBannerVisible: true) : .priced
+        trackBumpUpStarted(.pay(price: bumpUpPurchaseableProduct?.formattedCurrencyPrice ?? ""), type: type,
                            storeProductId: storeProductId, isPromotedBump: isPromotedBump, typePage: typePage)
         delegate?.vmShowLoading(LGLocalizedString.bumpUpProcessingPricedText)
     }

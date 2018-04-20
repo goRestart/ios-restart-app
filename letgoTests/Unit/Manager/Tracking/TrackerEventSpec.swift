@@ -990,7 +990,7 @@ class TrackerEventSpec: QuickSpec {
                         sut = TrackerEvent.filterComplete(coords, distanceRadius: 10, distanceUnit: DistanceType.km,
                             categories: [.electronics, .motorsAndAccessories],
                             sortBy: ListingSortCriteria.distance, postedWithin: ListingTimeCriteria.day,
-                            priceRange: .priceRange(min: 5, max: 100), freePostingModeAllowed: true, carMake: "make",
+                            priceRange: .priceRange(min: 5, max: 100), freePostingModeAllowed: true, carSellerType: "professional", carMake: "make",
                             carModel: "model", carYearStart: 1990, carYearEnd: 2000, propertyType: "flat", offerType: ["sale"],
                             bedrooms: 2, bathrooms: 3, sizeSqrMetersMin: 1, sizeSqrMetersMax: nil,
                             rooms: NumberOfRooms(numberOfBedrooms: 2, numberOfLivingRooms: 1))
@@ -1031,6 +1031,9 @@ class TrackerEventSpec: QuickSpec {
                     }
                     it ("free-posting") {
                         expect(sut.params!.stringKeyParams["free-posting"] as? String) == "false"
+                    }
+                    it ("seller type") {
+                        expect(sut.params!.stringKeyParams["seller-type"] as? String) == "professional"
                     }
                     it ("make") {
                         expect(sut.params!.stringKeyParams["product-make"] as? String) == "make"
@@ -1073,7 +1076,7 @@ class TrackerEventSpec: QuickSpec {
                     beforeEach {
                         sut = TrackerEvent.filterComplete(nil, distanceRadius: nil, distanceUnit: DistanceType.km,
                             categories: nil, sortBy: nil, postedWithin: nil, priceRange: .priceRange(min: nil, max: nil),
-                            freePostingModeAllowed: false, carMake: nil,
+                            freePostingModeAllowed: false, carSellerType: nil, carMake: nil,
                             carModel: nil, carYearStart: nil, carYearEnd: nil, propertyType: nil, offerType: nil,
                             bedrooms: nil, bathrooms: nil, sizeSqrMetersMin: nil, sizeSqrMetersMax: nil,
                             rooms: nil)
@@ -1114,6 +1117,9 @@ class TrackerEventSpec: QuickSpec {
                     }
                     it("free posting") {
                         expect(sut.params!.stringKeyParams["free-posting"] as? String) == TrackerEvent.notApply
+                    }
+                    it ("seller type") {
+                        expect(sut.params!.stringKeyParams["seller-type"] as? String).to(beNil())
                     }
                     it ("make") {
                         expect(sut.params!.stringKeyParams["product-make"] as? String) == TrackerEvent.notApply

@@ -326,6 +326,7 @@ enum EventParameterName: String {
     case surveyUrl            = "survey-url"
     case blockButtonPosition  = "block-button-position"
     case postingType          = "posting-type"
+    case carSellerType        = "seller-type"
     case make                 = "product-make"
     case model                = "product-model"
     case year                 = "product-year"

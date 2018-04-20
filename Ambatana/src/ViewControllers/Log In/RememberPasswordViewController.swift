@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
-import JBKenBurnsView
 import LGCoreKit
 import Result
 import UIKit
@@ -23,7 +22,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
 
 
     @IBOutlet weak var darkAppereanceBgView: UIView!
-    @IBOutlet weak var kenBurnsView: JBKenBurnsView!
+    @IBOutlet weak var kenBurnsView: KenBurnsView!
     
     @IBOutlet weak var emailIconImageView: UIImageView!
     @IBOutlet weak var emailButton: LetgoButton!
@@ -211,14 +210,8 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
     }
 
     func setupKenBurns() {
-        let images: [UIImage] = [
-            UIImage(named: "bg_1_new"),
-            UIImage(named: "bg_2_new"),
-            UIImage(named: "bg_3_new"),
-            UIImage(named: "bg_4_new")
-            ].flatMap { return $0}
         view.layoutIfNeeded()
-        kenBurnsView.animate(withImages: images, transitionDuration: 10, initialDelay: 0, loop: true, isLandscape: true)
+        kenBurnsView.startAnimation(with: [#imageLiteral(resourceName: "bg_1_new"), #imageLiteral(resourceName: "bg_2_new"), #imageLiteral(resourceName: "bg_3_new"), #imageLiteral(resourceName: "bg_4_new")])
     }
     
     private func updateSendButtonEnabledState() {

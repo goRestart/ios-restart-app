@@ -7,12 +7,11 @@
 //
 
 import GoogleSignIn
-import JBKenBurnsView
 import LGCoreKit
 import RxSwift
 
 final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
-    @IBOutlet weak var kenBurnsView: JBKenBurnsView!
+    @IBOutlet weak var kenBurnsView: KenBurnsView!
 
     @IBOutlet weak var topLogoImage: UIImageView!
     @IBOutlet weak var claimLabel: UILabel!
@@ -108,15 +107,10 @@ extension TourLoginViewController: TourLoginViewModelDelegate {}
 // MARK: - Private UI methods
 
 fileprivate extension TourLoginViewController {
+
     func setupKenBurns() {
-        let images: [UIImage] = [
-            UIImage(named: "bg_1_new"),
-            UIImage(named: "bg_2_new"),
-            UIImage(named: "bg_3_new"),
-            UIImage(named: "bg_4_new")
-            ].flatMap{return $0}
         view.layoutIfNeeded()
-        kenBurnsView.animate(withImages: images, transitionDuration: 10, initialDelay: 0, loop: true, isLandscape: true)
+        kenBurnsView.startAnimation(with: [#imageLiteral(resourceName: "bg_1_new"), #imageLiteral(resourceName: "bg_2_new"), #imageLiteral(resourceName: "bg_3_new"), #imageLiteral(resourceName: "bg_4_new")])
     }
 
     func setupUI() {

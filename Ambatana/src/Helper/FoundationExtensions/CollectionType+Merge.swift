@@ -39,3 +39,13 @@ extension Array {
         sort(by: areInIncreasingOrder)
     }
 }
+
+extension Array where Element: Equatable {
+    mutating func removeIfContainsElseAppend(_ element: Element) {
+        if let index = index(where: { $0 == element }) {
+            remove(at: index)
+        } else {
+            append(element)
+        }
+    }
+}
