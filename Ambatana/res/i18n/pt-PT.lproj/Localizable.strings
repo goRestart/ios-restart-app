@@ -18,6 +18,10 @@
 "bump_up_banner_free_text" = "Dê prioridade gratuitamente para vender mais rápido";
 "bump_up_banner_pay_text" = "Venda mais rápido";
 "bump_up_banner_pay_text_improvement" = "Vender mais rápido agora";
+"bump_up_banner_pay_text_improvement_english_a" = "Sell faster now";
+"bump_up_banner_pay_text_improvement_english_b" = "Get more visibility";
+"bump_up_banner_pay_text_improvement_english_c" = "Attract more buyers";
+"bump_up_banner_pay_text_improvement_english_d" = "Attract 2x more buyers";
 "bump_up_banner_wait_text" = "para destacar de novo";
 "bump_up_boost_success_alert_text" = "O seu anúncio foi impulsionado! Estará destacado durante as próximas 24 horas.";
 "bump_up_error_bump_generic" = "Surgiu um erro ao destacar a sua publicação. Tente de novo.";

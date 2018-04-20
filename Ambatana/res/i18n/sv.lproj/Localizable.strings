@@ -18,6 +18,10 @@
 "bump_up_banner_free_text" = "Puffa uppåt gratis för att sälja snabbare";
 "bump_up_banner_pay_text" = "Sälj snabbare nu";
 "bump_up_banner_pay_text_improvement" = "Sälj snabbare nu";
+"bump_up_banner_pay_text_improvement_english_a" = "Sell faster now";
+"bump_up_banner_pay_text_improvement_english_b" = "Get more visibility";
+"bump_up_banner_pay_text_improvement_english_c" = "Attract more buyers";
+"bump_up_banner_pay_text_improvement_english_d" = "Attract 2x more buyers";
 "bump_up_banner_wait_text" = "till nästa topplistning";
 "bump_up_boost_success_alert_text" = "Du har boostat din annons! Den kommer att vara topplistad i 24 timmar.";
 "bump_up_error_bump_generic" = "Ett fel uppstod när din annons skulle topplistas. Vänligen försök igen.";
