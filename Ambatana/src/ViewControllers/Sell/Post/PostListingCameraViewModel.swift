@@ -154,7 +154,10 @@ class PostListingCameraViewModel: BaseViewModel {
     }
 
     func retryPhotoButtonPressed() {
-        //TODO: Remove video
+
+        if let filePath = videoRecorded.value?.url.path, FileManager.default.fileExists(atPath: filePath) {
+            try? FileManager.default.removeItem(atPath: filePath)
+        }
         videoRecorded.value = nil
         imageSelected.value = nil
         cameraState.value = .capture

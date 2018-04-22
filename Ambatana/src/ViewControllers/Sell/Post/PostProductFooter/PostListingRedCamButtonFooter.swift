@@ -13,8 +13,8 @@ final class PostListingRedCamButtonFooter: UIView {
     static let cameraIconSide: CGFloat = 84
     
     let galleryButton = UIButton()
-    let photoButton = UIButton() // TODO: Video posting, think how to avoid this
-    let videoButton = UIButton() // TODO: Video posting, think how to avoid this
+    let photoButton = UIButton()
+    let videoButton = UIButton()
     let cameraButton = UIButton()
     let infoButton = UIButton()
     private let infoButtonIncluded: Bool

@@ -43,6 +43,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     
     private let thumbnailBgColorView = UIView()
     private let thumbnailImageView = UIImageView()
+    private let thumbnailGifImageView = UIImageView()
 
     // > Product Detail related Views
 
@@ -107,7 +108,13 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     }
 
     var thumbnailImage: UIImage? {
-        return thumbnailImageView.image
+        let image: UIImage?
+        if thumbnailImageView.image != nil {
+            image = thumbnailImageView.image
+        } else {
+            image = thumbnailGifImageView.currentImage
+        }
+        return image
     }
     
     // MARK: - Lifecycle
@@ -153,13 +160,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
 
     func setupGifUrl(_ imageUrl: URL, imageSize: CGSize) {
         thumbnailImageViewHeight?.constant = imageSize.height
-        thumbnailImageView.lg_setGifWithURL(imageUrl, placeholderImage: nil) {
-            [weak self] (result, url) in
-            if let (_, cached) = result.value, !cached {
-                self?.thumbnailImageView.alpha = 0
-                UIView.animate(withDuration: 0.4, animations: { self?.thumbnailImageView.alpha = 1 })
-            }
-        }
+        thumbnailGifImageView.setGifFromURL(imageUrl, showLoader: false)
     }
 
     func setupFreeStripe() {
@@ -225,7 +226,9 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
 
     // > Sets up UI
     private func setupUI() {
-        contentView.addSubviewsForAutoLayout([thumbnailBgColorView, thumbnailImageView,
+        contentView.addSubviewsForAutoLayout([thumbnailBgColorView,
+                                              thumbnailImageView,
+                                              thumbnailGifImageView,
                                               featuredListingInfoView,
                                               stripeImageView, stripeInfoView,
                                               discardedView,
@@ -255,6 +258,8 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     private func setupThumbnailImageViewUI() {
         thumbnailImageView.clipsToBounds = true
         thumbnailImageView.contentMode = .scaleAspectFill
+        thumbnailGifImageView.clipsToBounds = true
+        thumbnailGifImageView.contentMode = .scaleAspectFill
     }
     
     private func setupThumbnialImageViewConstraints() {
@@ -262,6 +267,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         thumbnailImageViewHeight = thumbnailImageView.heightAnchor.constraint(equalToConstant: ListingCellMetrics.thumbnailImageStartingHeight)
         thumbnailImageViewHeight?.isActive = true
         thumbnailBgColorView.layout(with: thumbnailImageView).fill()
+        thumbnailGifImageView.layout(with: thumbnailImageView).fill()
     }
 
     private func setupFeaturedListingInfoView() {
@@ -451,8 +457,8 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     // > Resets the UI to the initial state
     private func resetUI() {
         setupBackgroundColor(id: nil)
+        thumbnailGifImageView.clear()
         thumbnailImageView.image = nil
-        thumbnailImageView.gifImage = nil
         stripeImageView.image = nil
         stripeLabel.text = ""
         stripeIcon.image = nil

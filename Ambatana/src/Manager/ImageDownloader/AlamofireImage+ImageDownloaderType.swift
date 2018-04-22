@@ -29,23 +29,6 @@ extension AlamofireImage.ImageDownloader: ImageDownloaderType {
         }
     }
 
-    func setGif(imageView: UIImageView, url: URL, placeholderImage: UIImage?, completion: GifDownloadCompletion? = nil) {
-        imageView.af_imageDownloader = self
-        let requestURL = URLRequest(url: url)
-        let cached = imageIsCachedFor(urlRequest: requestURL)
-        imageView.af_setImage(withURL: url, placeholderImage: placeholderImage) { response in
-            let result: GifDownloadResult
-            if let data = response.data {
-                result = GifDownloadResult(value: (data, cached))
-            } else if let error = response.result.error {
-                result = GifDownloadResult(error: ImageDownloadError.downloaderError(error: error))
-            } else {
-                result = GifDownloadResult(error: ImageDownloadError.unknown)
-            }
-            completion?(result, url)
-        }
-    }
-
     func downloadImageWithURL(_ url: URL, completion: ImageDownloadCompletion? = nil) -> RequestReceipt? {
         let requestURL = URLRequest(url: url)
         let cached = imageIsCachedFor(urlRequest: requestURL)
