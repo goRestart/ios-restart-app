@@ -8,6 +8,7 @@
 
 import AlamofireImage
 import Result
+import SwiftyGif
 
 final class ImageDownloader: ImageDownloaderType {
 
@@ -27,6 +28,10 @@ final class ImageDownloader: ImageDownloaderType {
                       completion: ImageDownloadCompletion?) {
         imageDownloader.setImageView(imageView, url: url, placeholderImage: placeholderImage,
                                      completion: completion)
+    }
+
+    func setGif(imageView: UIImageView, url: URL, placeholderImage: UIImage?, completion: GifDownloadCompletion?) {
+        imageDownloader.setGif(imageView: imageView, url: url, placeholderImage: placeholderImage, completion: completion)
     }
 
     @discardableResult
@@ -76,6 +81,17 @@ extension UIImageView {
     func lg_setImageWithURL(_ url: URL, placeholderImage: UIImage? = nil, completion: ImageDownloadCompletion? = nil) {
         ImageDownloader.sharedInstance.setImageView(self, url: url, placeholderImage: placeholderImage,
                                                     completion: completion)
+    }
+
+    func lg_setGifWithURL(_ url: URL, placeholderImage: UIImage? = nil, completion: GifDownloadCompletion? = nil) {
+        ImageDownloader.sharedInstance.setGif(imageView: self, url: url, placeholderImage: placeholderImage) {
+            [weak self] (result, url) in
+            if let data = result.value?.data {
+                let image = UIImage(gifData: data)
+                self?.setGifImage(image)
+            }
+            completion?(result, url)
+        }
     }
 }
 

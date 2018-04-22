@@ -118,6 +118,7 @@ PODS:
   - RxTest (4.0.0):
     - RxSwift (~> 4.0)
   - SocketRocket (0.5.1)
+  - SwiftyGif (4.1.0)
   - SwiftyUserDefaults (3.0.1)
 
 DEPENDENCIES:
@@ -155,6 +156,7 @@ DEPENDENCIES:
   - RxSwift (= 4.0.0)
   - RxSwiftExt (= 3.0.0)
   - RxTest (= 4.0.0)
+  - SwiftyGif (= 4.1.0)
   - SwiftyUserDefaults (from `https://github.com/Dschee/SwiftyUserDefaults`, commit `dd3d8ddc5bf95db09b66185182b5a555ac59efd5`)
 
 EXTERNAL SOURCES:
@@ -232,8 +234,9 @@ SPEC CHECKSUMS:
   RxSwiftExt: b06c47dff66cd33ca7683bba1e74b0c5c8e3592e
   RxTest: 0041e792cede35e53e4749f378d21482af0e9d12
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
+  SwiftyGif: d36c6dfb52e2ca1e48fe349d225f50ec4123ec85
   SwiftyUserDefaults: 38267a30d58b7c8570995cd5defd354e43f056c6
 
-PODFILE CHECKSUM: 952ca402bc72daf4b71f99225f3d072f9c91947c
+PODFILE CHECKSUM: ea9112629f5acb49d7a110ea799c12dd83ae3bc5
 
 COCOAPODS: 1.4.0

@@ -82,6 +82,10 @@ def shared_pods
     # MoPub Ads
     pod "mopub-ios-sdk",        "4.20.0" # Obj-c
 
+    # Gifs
+    pod "SwiftyGif",            "4.1.0"
+
+
 end
 
 target "LetGo" do

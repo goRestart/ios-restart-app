@@ -27,8 +27,12 @@ class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDrawer {
             cell.set(accessibilityId: .listingCell(listingId: id))
             cell.setupBackgroundColor(id: id)
         }
-        
-        if let thumbURL = model.thumbUrl {
+
+        if featureFlags.machineLearningMVP.isVideoPostingActive,
+            model.mediaThumbType == .video,
+            let thumbURL = model.mediaThumbUrl {
+            cell.setupGifUrl(thumbURL, imageSize: model.imageSize)
+        } else if let thumbURL = model.thumbUrl {
             cell.setupImageUrl(thumbURL, imageSize: model.imageSize)
         }
         

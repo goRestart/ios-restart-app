@@ -8,6 +8,7 @@
 
 import UIKit
 import LGCoreKit
+import SwiftyGif
 
 protocol ListingCellDelegate: class {
     func chatButtonPressedFor(listing: Listing)
@@ -148,6 +149,17 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
                 UIView.animate(withDuration: 0.4, animations: { self?.thumbnailImageView.alpha = 1 })
             }
         })
+    }
+
+    func setupGifUrl(_ imageUrl: URL, imageSize: CGSize) {
+        thumbnailImageViewHeight?.constant = imageSize.height
+        thumbnailImageView.lg_setGifWithURL(imageUrl, placeholderImage: nil) {
+            [weak self] (result, url) in
+            if let (_, cached) = result.value, !cached {
+                self?.thumbnailImageView.alpha = 0
+                UIView.animate(withDuration: 0.4, animations: { self?.thumbnailImageView.alpha = 1 })
+            }
+        }
     }
 
     func setupFreeStripe() {
@@ -440,6 +452,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     private func resetUI() {
         setupBackgroundColor(id: nil)
         thumbnailImageView.image = nil
+        thumbnailImageView.gifImage = nil
         stripeImageView.image = nil
         stripeLabel.text = ""
         stripeIcon.image = nil
