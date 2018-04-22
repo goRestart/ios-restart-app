@@ -190,7 +190,91 @@ class MainListingsViewModelSpec: QuickSpec {
                         expect(eventParams?.stringKeyParams["feed-source"] as? String) == "collection"
                     }
                 }
+                
+                context("with filter real estate") {
+                    var listings: [ListingCellModel]!
+                    var totalListings: [ListingCellModel]?
+                    beforeEach {
+                        var userFilters = ListingFilters()
+                        userFilters.selectedCategories = [.realEstate]
+                        let searchType: SearchType? = nil
+                        listings = MockProduct.makeMocks(count: 20).map { ListingCellModel.listingCell(listing: .product($0)) }
+                        sut = MainListingsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, searchRepository: Core.searchRepository, listingRepository: Core.listingRepository, monetizationRepository: Core.monetizationRepository, categoryRepository: Core.categoryRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: mockTracker, searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags, bubbleTextGenerator: DistanceBubbleTextGenerator())
+                    }
+                    
+                    context("receives listing page with promo cell not active") {
+                        beforeEach {
+                            totalListings = sut.vmProcessReceivedListingPage(listings, page: 0)
+                        }
+                        
+                        it("first cell is not promo") {
+                            expect({
+                                guard let firstListing = totalListings?.first,
+                                    case .promo = firstListing else {
+                                        return .succeeded
+                                }
+                                return .failed(reason: "wrong cell type")
+                            }).to(succeed())
+                        }
+                    }
+                    
+                    context("receives listing page with promo cell active") {
+                        beforeEach {
+                            mockFeatureFlags.realEstatePromoCell = .active
+                            totalListings = sut.vmProcessReceivedListingPage(listings, page: 0)
+                        }
+                        
+                        it("first cell is promo") {
+                            expect({
+                                guard let firstListing = totalListings?.first,
+                                    case .promo = firstListing else {
+                                    return .failed(reason: "wrong cell type")
+                                }
+                                return .succeeded
+                            }).to(succeed())
+                        }
+                    }
+                    
+                }
             }
+            
+            context("with filter cars") {
+                
+                beforeEach {
+                    var filters = ListingFilters()
+                    filters.selectedCategories = [.cars]
+                    filters.carSellerTypes = [.individual]
+                    sut = MainListingsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, searchRepository: Core.searchRepository, listingRepository: Core.listingRepository, monetizationRepository: Core.monetizationRepository, categoryRepository: Core.categoryRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: MockTracker(), searchType: nil, filters: filters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags, bubbleTextGenerator: DistanceBubbleTextGenerator())
+                }
+                
+                context("cars new backend active") {
+                    beforeEach {
+                        mockFeatureFlags.searchCarsIntoNewBackend = .active
+                    }
+                    
+                    context("car seller type multiple selection") {
+                        beforeEach {
+                            mockFeatureFlags.filterSearchCarSellerType = .variantA
+                        }
+                        it("has right tags") {
+                            expect(sut.primaryTags).to(contain(.carSellerType(type: .individual,
+                                                                              name: LGLocalizedString.filtersCarSellerTypePrivate)))
+                        }
+                        
+                    }
+                    
+                    context("car seller type single selection") {
+                        beforeEach {
+                            mockFeatureFlags.filterSearchCarSellerType = .variantC
+                        }
+                        it("has NOT All tag") {
+                            expect(sut.primaryTags).toNot(contain(.carSellerType(type: .individual,
+                                                                                 name: LGLocalizedString.filtersCarSellerTypeAll)))
+                        }
+                    }
+                }
+            }
+            
             context("Product list VM failed retrieving products") {
                 var mockTracker: MockTracker!
                 var listingListViewModel: ListingListViewModel!

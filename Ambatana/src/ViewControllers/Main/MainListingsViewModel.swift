@@ -11,6 +11,7 @@ import LGCoreKit
 import Result
 import RxSwift
 import GoogleMobileAds
+import MoPub
 
 protocol MainListingsViewModelDelegate: BaseViewModelDelegate {
     func vmDidSearch()
@@ -47,6 +48,9 @@ struct SuggestiveSearchInfo {
 }
 
 class MainListingsViewModel: BaseViewModel {
+    
+    static let adInFeedInitialPosition = 3
+    static let adsInFeedRatio = 20
     
     // > Input
     var searchString: String? {
@@ -137,16 +141,25 @@ class MainListingsViewModel: BaseViewModel {
             if filters.carYearStart != nil || filters.carYearEnd != nil {
                 resultTags.append(.yearsRange(from: filters.carYearStart?.value, to: filters.carYearEnd?.value))
             }
+
+            if featureFlags.filterSearchCarSellerType.isActive {
+                let carSellerFilterMultiSelection = featureFlags.filterSearchCarSellerType.isMultiselection
+                let containsBothFilters = filters.carSellerTypes.containsBothCarSellerTypes
+                let carSellerTypeTags: [FilterTag] = filters.carSellerTypes
+                    .filter { carSellerFilterMultiSelection || ($0.isProfessional && !containsBothFilters) }
+                    .map { .carSellerType(type: $0, name: $0.title(feature: featureFlags.filterSearchCarSellerType)) }
+                
+                resultTags.append(contentsOf: carSellerTypeTags)
+            }
         }
         
         if filters.selectedCategories.contains(.realEstate) {
             if let propertyType = filters.realEstatePropertyType {
                 resultTags.append(.realEstatePropertyType(propertyType))
             }
-            if let offerType = filters.realEstateOfferType {
-                resultTags.append(.realEstateOfferType(offerType))
-            }
             
+            filters.realEstateOfferTypes.forEach { resultTags.append(.realEstateOfferType($0)) }
+        
             if let numberOfBedrooms = filters.realEstateNumberOfBedrooms {
                 resultTags.append(.realEstateNumberOfBedrooms(numberOfBedrooms))
             }
@@ -256,15 +269,16 @@ class MainListingsViewModel: BaseViewModel {
     let suggestiveSearchInfo = Variable<SuggestiveSearchInfo>(SuggestiveSearchInfo.empty())
     let lastSearches = Variable<[LocalSuggestiveSearch]>([])
     let searchText = Variable<String?>(nil)
-    var lastSearchesCounter: Int {
-        return lastSearches.value.count
-    }
-    var trendingCounter: Int {
-        return trendingSearches.value.count
-    }
     
-    var suggestiveCounter: Int {
-        return suggestiveSearchInfo.value.count
+    func numberOfItems(type: SearchSuggestionType) -> Int {
+        switch type {
+        case .suggestive:
+            return suggestiveSearchInfo.value.count
+        case .lastSearch:
+            return lastSearches.value.count
+        case .trending:
+            return trendingSearches.value.count
+        }
     }
     
     // App share
@@ -275,6 +289,9 @@ class MainListingsViewModel: BaseViewModel {
         return myUserRepository.myUser?.name
     }
     
+    private var isRealEstateSearch: Bool {
+        return filters.selectedCategories == [.realEstate]
+    }
     
     fileprivate let disposeBag = DisposeBag()
     
@@ -307,7 +324,8 @@ class MainListingsViewModel: BaseViewModel {
         let itemsPerPage = show3Columns ? Constants.numListingsPerPageBig : Constants.numListingsPerPageDefault
         self.listingListRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                         queryString: searchType?.query,
-                                                                                        itemsPerPage: itemsPerPage)
+                                                                                        itemsPerPage: itemsPerPage,
+                                                                                        carSearchActive: featureFlags.searchCarsIntoNewBackend.isActive)
         self.listViewModel = ListingListViewModel(requester: self.listingListRequester, listings: nil,
                                                   numberOfColumns: columns, tracker: tracker)
         self.listViewModel.listingListFixedInset = show3Columns ? 6 : 10
@@ -319,6 +337,7 @@ class MainListingsViewModel: BaseViewModel {
         super.init()
 
         self.listViewModel.listingCellDelegate = self
+        
         setup()
     }
     
@@ -407,6 +426,7 @@ class MainListingsViewModel: BaseViewModel {
         var minPrice: Int? = nil
         var maxPrice: Int? = nil
         var free: Bool = false
+        var carSellerTypes: [CarSellerType] = []
         var makeId: String? = nil
         var makeName: String? = nil
         var modelId: String? = nil
@@ -414,7 +434,7 @@ class MainListingsViewModel: BaseViewModel {
         var carYearStart: Int? = nil
         var carYearEnd: Int? = nil
         var realEstatePropertyType: RealEstatePropertyType? = nil
-        var realEstateOfferType: RealEstateOfferType? = nil
+        var realEstateOfferTypes: [RealEstateOfferType] = []
         var realEstateNumberOfBedrooms: NumberOfBedrooms? = nil
         var realEstateNumberOfBathrooms: NumberOfBathrooms? = nil
         var realEstateNumberOfRooms: NumberOfRooms? = nil
@@ -444,6 +464,8 @@ class MainListingsViewModel: BaseViewModel {
                 free = true
             case .distance:
                 break
+            case .carSellerType(let type, _):
+                carSellerTypes.append(type)
             case .make(let id, let name):
                 makeId = id
                 makeName = name
@@ -456,7 +478,7 @@ class MainListingsViewModel: BaseViewModel {
             case .realEstatePropertyType(let propertyType):
                 realEstatePropertyType = propertyType
             case .realEstateOfferType(let offerType):
-                realEstateOfferType = offerType
+                realEstateOfferTypes.append(offerType)
             case .realEstateNumberOfBedrooms(let numberOfBedrooms):
                 realEstateNumberOfBedrooms = numberOfBedrooms
             case .realEstateNumberOfBathrooms(let numberOfBathrooms):
@@ -506,6 +528,8 @@ class MainListingsViewModel: BaseViewModel {
             filters.priceRange = .priceRange(min: minPrice, max: maxPrice)
         }
 
+        filters.carSellerTypes = carSellerTypes
+        
         if let makeId = makeId {
             filters.carMakeId = RetrieveListingParam<String>(value: makeId, isNegated: false)
         } else {
@@ -533,7 +557,7 @@ class MainListingsViewModel: BaseViewModel {
         }
         
         filters.realEstatePropertyType = realEstatePropertyType
-        filters.realEstateOfferType = realEstateOfferType
+        filters.realEstateOfferTypes = realEstateOfferTypes
         filters.realEstateNumberOfBedrooms = realEstateNumberOfBedrooms
         filters.realEstateNumberOfBathrooms = realEstateNumberOfBathrooms
         
@@ -567,7 +591,6 @@ class MainListingsViewModel: BaseViewModel {
                                                                          name: categoryHeaderInfo.name))
             return // do not update any filters
         case .mostSearchedItems:
-            // TODO: Add tracker. Also check .showMore's tracker top in another method
             return
         }
         applyFilters(categoryHeaderInfo)
@@ -633,7 +656,8 @@ class MainListingsViewModel: BaseViewModel {
 
         listingListRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                    queryString: queryString,
-                                                                                   itemsPerPage: currentItemsPerPage)
+                                                                                   itemsPerPage: currentItemsPerPage,
+                                                                                   carSearchActive: featureFlags.searchCarsIntoNewBackend.isActive)
 
         listViewModel.listingListRequester = listingListRequester
 
@@ -782,7 +806,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                 let errTitle: String?
                 let errBody: String?
                 
-                let isRealEstateSearch = filters.selectedCategories == [.realEstate]
+                
                 // Search
                 if queryString != nil || hasFilters {
                     errImage = UIImage(named: "err_search_no_products")
@@ -858,9 +882,11 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         var totalListings = listings
         totalListings = addMostSearchedItems(to: totalListings)
         totalListings = addCollections(to: totalListings, page: page)
+        totalListings = addRealEstatePromoItem(to: totalListings)
         let myUserCreationDate: Date? = myUserRepository.myUser?.creationDate
-        if featureFlags.showAdsInFeedWithRatio.isActive ||
-            featureFlags.noAdsInFeedForNewUsers.shouldShowAdsInFeedForUser(createdIn: myUserCreationDate) {
+        if featureFlags.showAdsInFeedWithRatio.isActive &&
+            (featureFlags.feedAdsProviderForUS.shouldShowAdsInFeedForUser(createdIn: myUserCreationDate) ||
+                featureFlags.feedAdsProviderForTR.shouldShowAdsInFeedForUser(createdIn: myUserCreationDate)) {
             totalListings = addAds(to: totalListings, page: page)
         }
         return totalListings
@@ -897,16 +923,16 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
 
     private func addAds(to listings: [ListingCellModel], page: UInt) -> [ListingCellModel] {
         if page == 0 {
-            lastAdPosition = Constants.adInFeedInitialPosition
+            lastAdPosition = MainListingsViewModel.adInFeedInitialPosition
             previousPagesAdsOffset = 0
         }
         guard let adsDelegate = adsDelegate else { return listings }
-        guard let feedAdUnitId = featureFlags.feedDFPAdUnitId else { return listings }
-
+        let adsActive = featureFlags.feedAdsProviderForUS.shouldShowAdsInFeed || featureFlags.feedAdsProviderForTR.shouldShowAdsInFeed
         var cellModels = listings
 
         var canInsertAds = true
 
+        guard adsActive else { return listings }
         while canInsertAds {
 
             let adPositionInPage = lastAdPosition-previousPagesAdsOffset
@@ -914,35 +940,60 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                                                                   itemsInPage: cellModels.count,
                                                                   pageSize: listingListRequester.itemsPerPage,
                                                                   adPosition: adPositionInPage) else { break }
-
-            let request = DFPRequest()
-            var customTargetingValue = ""
-
-            if featureFlags.showAdsInFeedWithRatio.isActive {
-                customTargetingValue = featureFlags.showAdsInFeedWithRatio.customTargetingValueFor(position: lastAdPosition)
-            } else if featureFlags.noAdsInFeedForNewUsers.shouldShowAdsInFeed {
-                customTargetingValue = featureFlags.noAdsInFeedForNewUsers.customTargetingValueFor(position: lastAdPosition)
+            var adsCellModel: ListingCellModel
+            
+            if featureFlags.feedAdsProviderForUS.shouldShowMoPubAds || featureFlags.feedAdsProviderForTR.shouldShowMoPubAds {
+                guard let adUnit = featureFlags.feedMoPubAdUnitId else { return listings }
+                let settings = MPStaticNativeAdRendererSettings()
+                var configurations = Array<MPNativeAdRendererConfiguration>()
+                settings.renderingViewClass = MoPubNativeView.self
+                let config = MPStaticNativeAdRenderer.rendererConfiguration(with: settings)
+                configurations.append(config!)
+                let nativeAdRequest = MPNativeAdRequest.init(adUnitIdentifier: adUnit,
+                                                             rendererConfigurations: configurations)
+                let adData = AdvertisementMoPubData(adUnitId: adUnit,
+                                                    rootViewController: adsDelegate.rootViewControllerForAds(),
+                                                    adPosition: lastAdPosition,
+                                                    bannerHeight: LGUIKitConstants.advertisementCellMoPubHeight,
+                                                    showAdsInFeedWithRatio: featureFlags.showAdsInFeedWithRatio,
+                                                    adRequested: false,
+                                                    categories: filters.selectedCategories,
+                                                    nativeAdRequest: nativeAdRequest,
+                                                    moPubNativeAd: nil,
+                                                    moPubView: MoPubBlankStateView())
+                adsCellModel = ListingCellModel.mopubAdvertisement(data: adData)
+                
+            } else {
+                guard let feedAdUnitId = featureFlags.feedDFPAdUnitId else { return listings }
+                let request = DFPRequest()
+                var customTargetingValue = ""
+                
+                if featureFlags.showAdsInFeedWithRatio.isActive {
+                    customTargetingValue = featureFlags.showAdsInFeedWithRatio.customTargetingValueFor(position: lastAdPosition)
+                } else if featureFlags.noAdsInFeedForNewUsers.shouldShowAdsInFeed {
+                    customTargetingValue = featureFlags.noAdsInFeedForNewUsers.customTargetingValueFor(position: lastAdPosition)
+                }
+                request.customTargeting = [Constants.adInFeedCustomTargetingKey: customTargetingValue]
+                
+                let adData = AdvertisementDFPData(adUnitId: feedAdUnitId,
+                                                  rootViewController: adsDelegate.rootViewControllerForAds(),
+                                                  adPosition: lastAdPosition,
+                                                  bannerHeight: LGUIKitConstants.advertisementCellPlaceholderHeight,
+                                                  showAdsInFeedWithRatio: featureFlags.showAdsInFeedWithRatio,
+                                                  adRequested: false,
+                                                  categories: filters.selectedCategories,
+                                                  adRequest: request,
+                                                  bannerView: nil)
+                adsCellModel = ListingCellModel.dfpAdvertisement(data: adData)
             }
-
-            request.customTargeting = [Constants.adInFeedCustomTargetingKey: customTargetingValue]
-
-            let adData = AdvertisementData(adUnitId: feedAdUnitId,
-                                           rootViewController: adsDelegate.rootViewControllerForAds(),
-                                           adPosition: lastAdPosition,
-                                           bannerHeight: LGUIKitConstants.advertisementCellPlaceholderHeight,
-                                           adRequest: request,
-                                           bannerView: nil,
-                                           showAdsInFeedWithRatio: featureFlags.showAdsInFeedWithRatio,
-                                           categories: filters.selectedCategories,
-                                           adRequested: false)
-
-            let adsCellModel = ListingCellModel.advertisement(data: adData)
+  
             cellModels.insert(adsCellModel, at: adRelativePosition)
 
             lastAdPosition = adAbsolutePosition()
             canInsertAds = adRelativePosition < cellModels.count
         }
-        previousPagesAdsOffset = previousPagesAdsOffset + (cellModels.count - listings.count)
+        previousPagesAdsOffset += (cellModels.count - listings.count + collections.count)
+        previousPagesAdsOffset += isMostSearchedItemsEnabled ? 1 : 0
         return cellModels
     }
     
@@ -956,19 +1007,25 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         }
         return cellModels
     }
+    
+    private func addRealEstatePromoItem(to listings: [ListingCellModel]) -> [ListingCellModel] {
+        guard featureFlags.realEstatePromoCell.isActive, isRealEstateSearch, !listings.isEmpty
+            else { return listings }
+        
+        guard (!filters.hasAnyRealEstateAttributes && listingListRequester.multiIsFirstPage) ||
+        (filters.hasAnyRealEstateAttributes && listingListRequester.isFirstPageInLastRequester) else { return listings }
+        
+        var cellModels = listings
+        cellModels.insert(ListingCellModel.promo(data: PromoCellConfiguration.randomCellData,  delegate: self), at: 0)
+        return cellModels
+    }
 
     private func adAbsolutePosition() -> Int {
         var adPosition = 0
         if lastAdPosition == 0 {
-            adPosition = Constants.adInFeedInitialPosition
+            adPosition = MainListingsViewModel.adInFeedInitialPosition
         } else {
-            var ratio: Int = 0
-            if featureFlags.showAdsInFeedWithRatio.isActive {
-                ratio = featureFlags.showAdsInFeedWithRatio.ratio
-            } else if featureFlags.noAdsInFeedForNewUsers.shouldShowAdsInFeed {
-                ratio = featureFlags.noAdsInFeedForNewUsers.ratio
-            }
-            adPosition = lastAdPosition + ratio
+            adPosition = lastAdPosition + MainListingsViewModel.adsInFeedRatio
         }
         return adPosition
     }
@@ -1065,6 +1122,17 @@ extension MainListingsViewModel {
 // MARK: - Suggestions searches
 
 extension MainListingsViewModel {
+    
+    func selected(type: SearchSuggestionType, row: Int) {
+        switch type {
+        case .suggestive:
+            selectedSuggestiveSearchAtIndex(row)
+        case .lastSearch:
+            selectedLastSearchAtIndex(row)
+        case .trending:
+            selectedTrendingSearchAtIndex(row)
+        }
+    }
 
     func trendingSearchAtIndex(_ index: Int) -> String? {
         guard  0..<trendingSearches.value.count ~= index else { return nil }
@@ -1081,13 +1149,13 @@ extension MainListingsViewModel {
         return lastSearches.value[index].suggestiveSearch
     }
 
-    func selectedTrendingSearchAtIndex(_ index: Int) {
+    private func selectedTrendingSearchAtIndex(_ index: Int) {
         guard let trendingSearch = trendingSearchAtIndex(index), !trendingSearch.isEmpty else { return }
         delegate?.vmDidSearch()
         navigator?.openMainListings(withSearchType: .trending(query: trendingSearch), listingFilters: filters)
     }
     
-    func selectedSuggestiveSearchAtIndex(_ index: Int) {
+    private func selectedSuggestiveSearchAtIndex(_ index: Int) {
         guard let (suggestiveSearch, _) = suggestiveSearchAtIndex(index) else { return }
         delegate?.vmDidSearch()
         
@@ -1102,7 +1170,7 @@ extension MainListingsViewModel {
                                     listingFilters: newFilters)
     }
     
-    func selectedLastSearchAtIndex(_ index: Int) {
+    private func selectedLastSearchAtIndex(_ index: Int) {
         guard let lastSearch = lastSearchAtIndex(index), let name = lastSearch.name, !name.isEmpty else { return }
         delegate?.vmDidSearch()
         navigator?.openMainListings(withSearchType: .lastSearch(search: lastSearch),
@@ -1113,8 +1181,6 @@ extension MainListingsViewModel {
         keyValueStorage[.lastSuggestiveSearches] = []
         lastSearches.value = keyValueStorage[.lastSuggestiveSearches]
     }
-    
-    
     
     func retrieveLastUserSearch() {
         // We saved up to lastSearchesSavedMaximum(10) but we show only lastSearchesShowMaximum(3)
@@ -1169,7 +1235,6 @@ extension MainListingsViewModel {
     private func cleanUpSuggestiveSearches() {
         suggestiveSearchInfo.value = SuggestiveSearchInfo.empty()
     }
-    
     
     fileprivate func updateLastSearchStored(lastSearch: SearchType) {
         guard let suggestiveSearch = getSuggestiveSearchFrom(searchType: lastSearch) else { return }
@@ -1242,14 +1307,16 @@ extension MainListingsViewModel {
     }
     
     @objc fileprivate dynamic func updateRealEstateBanner() {
-        var currentHeader = mainListingsHeader.value
-        if showRealEstateBanner {
-            currentHeader.insert(MainListingsHeader.RealEstateBanner)
-        } else {
-            currentHeader.remove(MainListingsHeader.RealEstateBanner)
+        if !featureFlags.realEstatePromoCell.isActive {
+            var currentHeader = mainListingsHeader.value
+            if showRealEstateBanner {
+                currentHeader.insert(MainListingsHeader.RealEstateBanner)
+            } else {
+                currentHeader.remove(MainListingsHeader.RealEstateBanner)
+            }
+            guard mainListingsHeader.value != currentHeader else { return }
+            mainListingsHeader.value = currentHeader
         }
-        guard mainListingsHeader.value != currentHeader else { return }
-        mainListingsHeader.value = currentHeader
     }
     
     @objc fileprivate dynamic func updateCategoriesHeader() {
@@ -1472,6 +1539,11 @@ extension MainListingsViewModel: ListingCellDelegate {
     
     // Discarded listings are never shown in the main feed
     func moreOptionsPressedForDiscarded(listing: Listing) {}
+    
+    func postNowButtonPressed(_ view: UIView) {
+        navigator?.openSell(source: .realEstatePromo, postCategory: .realEstate)
+    }
+    
 }
 
 extension NoAdsInFeedForNewUsers {
@@ -1481,7 +1553,7 @@ extension NoAdsInFeedForNewUsers {
 
     func customTargetingValueFor(position: Int) -> String {
         guard self.ratio != 0 else { return "" }
-        let numberOfAd = ((position - Constants.adInFeedInitialPosition)/self.ratio) + 1
+        let numberOfAd = ((position - MainListingsViewModel.adInFeedInitialPosition)/self.ratio) + 1
         return "var_c_pos_\(numberOfAd)"
     }
 }
@@ -1502,7 +1574,7 @@ extension ShowAdsInFeedWithRatio {
 
     func customTargetingValueFor(position: Int) -> String {
         guard self.ratio != 0 else { return "" }
-        let numberOfAd = ((position - Constants.adInFeedInitialPosition)/self.ratio) + 1
+        let numberOfAd = ((position - MainListingsViewModel.adInFeedInitialPosition)/self.ratio) + 1
         switch self {
         case .control, .baseline:
             return ""

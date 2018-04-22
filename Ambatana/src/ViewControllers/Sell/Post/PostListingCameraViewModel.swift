@@ -53,6 +53,21 @@ class PostListingCameraViewModel: BaseViewModel {
         }
         return nil
     }
+    
+    var learnMoreMessage: NSAttributedString {
+            var titleAttributes = [NSAttributedStringKey : Any]()
+            titleAttributes[NSAttributedStringKey.foregroundColor] = UIColor.white
+            titleAttributes[NSAttributedStringKey.underlineStyle] = NSUnderlineStyle.styleSingle.rawValue
+            titleAttributes[NSAttributedStringKey.font] = UIFont.boldSystemFont(ofSize: 23)
+            let text = NSAttributedString(string: LGLocalizedString.realEstateCameraViewRealEstateLearnMore,
+                                          attributes: titleAttributes)
+            return text
+    }
+    
+    var learnMoreIsHidden: Bool {
+        guard let category = postCategory else { return true }
+        return !(category == .realEstate && featureFlags.realEstateTutorial.shouldShowLearnMoreButton)
+    }
 
     
     // MARK: - Lifecycle
@@ -175,6 +190,10 @@ class PostListingCameraViewModel: BaseViewModel {
     func hideVerticalTextAlert() {
         shouldShowVerticalText.value = false
     }
+    
+    func learnMorePressed() {
+        cameraDelegate?.productCameraLearnMoreButton()
+    }
 
     // MARK: - Private methods
 
@@ -278,6 +297,13 @@ class PostListingCameraViewModel: BaseViewModel {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .seconds(5)) { [weak self] in
             self?.hideFirstTimeAlert()
         }
+    }
+}
+
+
+fileprivate extension RealEstateTutorial {
+    var shouldShowLearnMoreButton: Bool {
+        return self == .oneScreen || self == .twoScreens || self == .threeScreens
     }
 }
 

@@ -26,11 +26,6 @@
         "description": "User reviews report enabled"
     },
     {
-        "name": "DynamicQuickAnswers",
-        "values": ["control", "baseline", "dynamicNoKeyboard", "dynamicWithKeyboard"],
-        "description": "Random quick answers with different approaches"
-    },
-    {
         "name": "RealEstateEnabled",
         "values": ["control", "baseline", "active"],
         "description": "Allow to see Real Estate category"
@@ -51,9 +46,9 @@
         "description": "Taxonomies and taxonomy children in feed as filter tags"
     },
     {
-        "name": "NewItemPage",
+        "name": "DeckItemPage",
         "values": ["control", "baseline", "active"],
-        "description": "New item page with card appearance and different navigation"
+        "description": "Deck item page with card appearance and different navigation"
     },
     {
         "name": "ShowClockInDirectAnswer",
@@ -106,19 +101,9 @@
         "description": "Charge min price of 1.99$ instead of 0.99$ on bumps"
     },
     {
-        "name": "ShowSecurityMeetingChatMessage",
-        "values": ["control", "baseline", "variant1", "variant2"],
-        "description": "show a disclaimer message on chat after a message from the interlocutor"
-    },
-    {
         "name": "NoAdsInFeedForNewUsers",
         "values": ["control", "baseline", "AdsEverywhere", "NoAdsForNewUsers", "AdsForNewUsersOnlyInFeed"],
         "description": "Change logic for showing ads to new users (2 weeks old)"
-    },
-    {
-        "name": "EmojiSizeIncrement",
-        "values": ["control", "baseline", "active"],
-        "description": "Increase the size of emojis the text is only emojis and < 4"
     },
     {
         "name": "ShowBumpUpBannerOnNotValidatedListings",
@@ -157,7 +142,7 @@
     },
     {
         "name": "OnboardingIncentivizePosting",
-        "values": ["control", "baseline", "blockingPosting"],
+        "values": ["control", "baseline", "blockingPosting", "blockingPostingSkipWelcome"],
         "description": "Leads the user through the posting feature and onboarding improvements"
     },
     {
@@ -169,6 +154,11 @@
         "name": "UserIsTyping",
         "values": ["control", "baseline", "active"],
         "description": "Show user is typing status on chat"
+    },
+    {
+        "name": "BumpUpBoost",
+        "values": ["control", "baseline", "sendTop5Mins", "sendTop1hour", "boostListing1hour", "cheaperBoost5Mins"],
+        "description": "Ability to boost ongoing bump ups"
     },
     {
         "name": "ServicesCategoryEnabled",
@@ -190,10 +180,20 @@
         "values": ["control", "baseline", "oneScreen", "twoScreens", "threeScreens", "onlyBadge"],
         "description": "Show real estate tutorial when user see Real estate category for first time"
     },
+     {
+         "name": "RealEstatePromoCell",
+         "values": ["control", "baseline", "active"],
+         "description": "Real Estate - Show promo cell instead of top banner"
+     },
     {
         "name": "MachineLearningMVP",
         "values": ["control", "baseline", "active", "videoPostingActive"],
         "description": "Show machine learning posting flow when pressing Other Items on salchichas menu or enable video posting (used this ab test for video posting because they can't coexist)"
+    },
+    {
+        "name": "ChatNorris",
+        "values": ["control", "baseline", "redButton", "whiteButton", "greenButton"],
+        "description": "Show the create meeting option in chat detail view."
     },
     {
         "name": "AddPriceTitleDistanceToListings",
@@ -216,8 +216,43 @@
         "description": "Show directly summary screen instead of Real estate steps"
     },
     {
-        "name": "ShowProTagUserProfile",
-        "values": ["no", "yes"],
-        "description": "Show Professional tag in user profile"
+        "name": "ShowAdvancedReputationSystem",
+        "values": ["control", "baseline", "active"],
+        "description": "Show the new advance reputation system and Karma Score"
+    },
+    {
+        "name": "FeedAdsProviderForUS",
+        "values": ["control", "baseline", "BingAdsForAllUsers", "BingAdsForOldUsers", "MoPubAdsForAllUsers", "MoPubAdsForOldUsers"],
+        "description": "Change logic for showing ads with diferent ads providers in the US"
+    },
+    {
+        "name": "CopyForChatNowInEnglish",
+        "values": ["control", "variantA", "variantB", "variantC", "variantD"],
+        "description": "Try different copies for Chat now button in English"
+    },
+    {
+        "name": "FeedAdsProviderForTR",
+        "values": ["control", "baseline", "MoPubAdsForAllUsers", "MoPubAdsForOldUsers"],
+        "description": "Change logic for showing ads with diferent ads providers in TR"
+    },
+    {
+        "name": "SearchCarsIntoNewBackend",
+        "values": ["control", "baseline", "active"],
+        "description": "Search cars into the new Search Car end point"
+    },
+    {
+        "name": "FilterSearchCarSellerType",
+        "values": ["control", "baseline", "variantA", "variantB", "variantC", "variantD"],
+        "description": "Include Search filter for Car Seller type"
+    },
+    {
+        "name": "ShowExactLocationForPros",
+        "values": ["yes", "no"],
+        "description": "Show exact location for professional delaers in listing detail map"
+    },
+    {
+      "name": "ShowPasswordlessLogin",
+      "values": ["control", "baseline", "active"],
+      "description": "Show Passwordless login option"
     }
 ]

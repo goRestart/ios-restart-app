@@ -11,12 +11,16 @@ import LGCoreKit
 
 class FilterListingListRequesterFactory {
 
-    static func generateRequester(withFilters filters: ListingFilters, queryString: String?, itemsPerPage: Int) -> ListingListMultiRequester {
+    static func generateRequester(withFilters filters: ListingFilters,
+                                  queryString: String?,
+                                  itemsPerPage: Int,
+                                  carSearchActive: Bool) -> ListingListMultiRequester {
         
         var filtersArray: [ListingFilters] = [filters]
         var requestersArray: [ListingListRequester] = []
 
-        if filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsTaxonomy {
+        
+        if !carSearchActive && filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsTaxonomy {
             filtersArray = FilterListingListRequesterFactory.generateCarsNegativeFilters(fromFilters: filters)
         }
 
@@ -27,7 +31,10 @@ class FilterListingListRequesterFactory {
             requestersArray.append(filteredRequester)
         }
         
-        if filters.selectedCategories.contains(.realEstate) && filters.hasAnyRealEstateAttributes {
+        let isRealEstateWithFilters = filters.selectedCategories.contains(.realEstate) && filters.hasAnyRealEstateAttributes
+        let isCarsWithFilters = filters.selectedCategories.contains(.cars) && filters.hasAnyCarAttributes && carSearchActive
+        
+        if  isRealEstateWithFilters || isCarsWithFilters {
             let filteredRequester = SearchRelatedListingListRequester(itemsPerPage: itemsPerPage)
             filteredRequester.filters = filters
             filteredRequester.queryString = queryString

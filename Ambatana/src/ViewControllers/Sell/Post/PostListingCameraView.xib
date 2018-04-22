@@ -28,6 +28,8 @@
                 <outlet property="infoContainer" destination="bbo-Hb-IJv" id="qU9-uX-XwG"/>
                 <outlet property="infoSubtitle" destination="9HN-xW-gbA" id="Qo9-Kj-eud"/>
                 <outlet property="infoTitle" destination="SO4-2P-LhD" id="rOf-io-E92"/>
+                <outlet property="learnMoreButton" destination="e7e-PV-BVI" id="Zqh-UI-eRY"/>
+                <outlet property="learnMoreChevron" destination="6cc-eK-4nT" id="Fff-XI-sNs"/>
                 <outlet property="retryPhotoButton" destination="a8u-Wc-WM7" id="bfv-eR-Y8t"/>
                 <outlet property="switchCamButton" destination="OeN-MM-ewe" id="Han-Kb-6eC"/>
                 <outlet property="usePhotoButton" destination="QjL-HL-daC" id="KqV-La-80e"/>
@@ -314,17 +316,43 @@
                         <constraint firstItem="hHl-mk-Wpg" firstAttribute="top" secondItem="Lax-dW-H1P" secondAttribute="top" id="yhq-6A-HNC"/>
                     </constraints>
                 </view>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CJN-bJ-CFP">
-                    <rect key="frame" x="20" y="85" width="335" height="79"/>
-                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="23"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CJN-bJ-CFP">
+                    <rect key="frame" x="20" y="87" width="335" height="28.5"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="23"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                     <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
                 </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e7e-PV-BVI">
+                    <rect key="frame" x="125.5" y="125.5" width="123" height="40"/>
+                    <fontDescription key="fontDescription" name=".SFNSDisplay" family=".SF NS Display" pointSize="24"/>
+                    <state key="normal" title="Learn more">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="onLearnMoreButton:" destination="-1" eventType="touchUpInside" id="6fu-HQ-Zk8"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6cc-eK-4nT">
+                    <rect key="frame" x="248.5" y="135" width="20" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="1nU-T9-sNj"/>
+                        <constraint firstAttribute="width" constant="20" id="gPX-pW-X6d"/>
+                    </constraints>
+                    <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <state key="normal" image="learnMoreChevron"/>
+                    <connections>
+                        <action selector="onLearnMoreChevron:" destination="-1" eventType="touchUpInside" id="wWW-AP-jO6"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.17254901960784313" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="e7e-PV-BVI" firstAttribute="top" secondItem="CJN-bJ-CFP" secondAttribute="bottom" constant="10" id="1UH-xs-gnK"/>
                 <constraint firstAttribute="bottom" secondItem="lbn-gJ-Tvl" secondAttribute="bottom" id="4rE-7l-C1E"/>
+                <constraint firstItem="6cc-eK-4nT" firstAttribute="centerY" secondItem="e7e-PV-BVI" secondAttribute="centerY" id="66h-ER-LXX"/>
+                <constraint firstItem="e7e-PV-BVI" firstAttribute="centerX" secondItem="u1Y-py-299" secondAttribute="centerX" id="6b1-vH-wkr"/>
+                <constraint firstItem="6cc-eK-4nT" firstAttribute="leading" secondItem="e7e-PV-BVI" secondAttribute="trailing" id="9za-O9-5bJ"/>
                 <constraint firstAttribute="trailing" secondItem="bbo-Hb-IJv" secondAttribute="trailing" id="AIv-wD-9ZU"/>
                 <constraint firstItem="lbn-gJ-Tvl" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="EcG-7k-ts7"/>
                 <constraint firstItem="bbo-Hb-IJv" firstAttribute="top" secondItem="u1Y-py-299" secondAttribute="top" id="F6X-Dr-oKt"/>
@@ -341,7 +369,6 @@
                 <constraint firstItem="CJN-bJ-CFP" firstAttribute="trailing" secondItem="u1Y-py-299" secondAttribute="trailing" constant="-20" id="lNN-6q-7Op"/>
                 <constraint firstItem="lbn-gJ-Tvl" firstAttribute="top" secondItem="u1Y-py-299" secondAttribute="top" id="rTH-Bu-B7u"/>
                 <constraint firstAttribute="trailing" secondItem="Lax-dW-H1P" secondAttribute="trailing" id="vpn-Bn-0TS"/>
-                <constraint firstItem="tJq-a9-ZkV" firstAttribute="top" secondItem="CJN-bJ-CFP" secondAttribute="bottom" constant="15" id="x7C-x8-aeW"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <viewLayoutGuide key="safeArea" id="u1Y-py-299"/>
@@ -353,5 +380,6 @@
         <image name="ic_post_corner" width="16" height="16"/>
         <image name="ic_post_flash_auto" width="36" height="36"/>
         <image name="ic_post_switch_cam" width="36" height="36"/>
+        <image name="learnMoreChevron" width="20" height="20"/>
     </resources>
 </document>

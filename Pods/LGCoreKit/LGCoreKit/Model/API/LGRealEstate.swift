@@ -302,147 +302,33 @@ struct LGRealEstate: RealEstate, Decodable {
      */
     
     public init(from decoder: Decoder) throws {
-        let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
-        let dateFormatter = LGDateFormatter()
-        
-        objectId = try keyedContainer.decodeIfPresent(String.self, forKey: .objectId)
-        if let updatedAtString = try keyedContainer.decodeIfPresent(String.self, forKey: .updatedAt),
-            let updatedAt = dateFormatter.date(from: updatedAtString) {
-            self.updatedAt = updatedAt
-        } else {
-            self.updatedAt = nil
-        }
-        if let createdAtString = try keyedContainer.decodeIfPresent(String.self, forKey: .createdAt),
-            let createdAt = dateFormatter.date(from: createdAtString) {
-            self.createdAt = createdAt
-        } else {
-            self.createdAt = nil
-        }
-        
-        name = try keyedContainer.decodeIfPresent(String.self, forKey: .name)
-        nameAuto = nil
-        descr = try keyedContainer.decodeIfPresent(String.self, forKey: .descr)
-        
-        let priceValue = try keyedContainer.decodeIfPresent(Double.self, forKey: .price)
-        let priceFlag: ListingPriceFlag?
-        if let priceFlagRawValue = try keyedContainer.decodeIfPresent(Int.self, forKey: .priceFlag) {
-            priceFlag = ListingPriceFlag(rawValue: priceFlagRawValue)
-        } else {
-            priceFlag = nil
-        }
-        price = ListingPrice.fromPrice(priceValue, andFlag: priceFlag)
-        
-        let currencyCode = try keyedContainer.decode(String.self, forKey: .currency)
-        currency = Currency.currencyWithCode(currencyCode)
-        
-        let locationKeyedContainer = try keyedContainer.nestedContainer(keyedBy: LocationCodingKeys.self,
-                                                                        forKey: .location)
-        let latitude = try locationKeyedContainer.decode(Double.self, forKey: .latitude)
-        let longitude = try locationKeyedContainer.decode(Double.self, forKey: .longitude)
-        location = LGLocationCoordinates2D(latitude: latitude, longitude: longitude)
-        
-        let postalAddressKeyedContainer = try keyedContainer.nestedContainer(keyedBy: PostalAddressCodingKeys.self,
-                                                                             forKey: .location)
-        postalAddress = PostalAddress(address: try postalAddressKeyedContainer.decodeIfPresent(String.self, forKey: .address),
-                                      city: try postalAddressKeyedContainer.decodeIfPresent(String.self, forKey: .city),
-                                      zipCode: try postalAddressKeyedContainer.decodeIfPresent(String.self, forKey: .zipCode),
-                                      state: try postalAddressKeyedContainer.decodeIfPresent(String.self, forKey: .state),
-                                      countryCode: try postalAddressKeyedContainer.decodeIfPresent(String.self, forKey: .countryCode),
-                                      country: try postalAddressKeyedContainer.decodeIfPresent(String.self, forKey: .country))
-        
-        languageCode = try keyedContainer.decodeIfPresent(String.self, forKey: .languageCode)
-        let categoryRawValue = try keyedContainer.decode(Int.self, forKey: .categoryId)
-        category = ListingCategory(rawValue: categoryRawValue) ?? .realEstate
-        
-        let code = try keyedContainer.decode(Int.self, forKey: .status)
-        let statusCode = ListingStatusCode(rawValue: code) ?? .approved
-        let discardedReason = try keyedContainer.decodeIfPresent(DiscardedReason.self, forKey: .discardedReason)
-        status = ListingStatus(statusCode: statusCode, discardedReason: discardedReason) ?? .pending
-        
-        let thumbnailKeyedContainer = try keyedContainer.nestedContainer(keyedBy: ThumbnailCodingKeys.self, forKey: .thumbnail)
-        let thumbnailUrl = try thumbnailKeyedContainer.decodeIfPresent(String.self, forKey: .url)
-        thumbnail = LGFile(id: nil, urlString: thumbnailUrl)
-        if let thumbnailWidth = try thumbnailKeyedContainer.decodeIfPresent(Float.self, forKey: .width),
-            let thumbnailHeight = try thumbnailKeyedContainer.decodeIfPresent(Float.self, forKey: .height) {
-            thumbnailSize = LGSize(width: thumbnailWidth, height: thumbnailHeight)
-        } else {
-            thumbnailSize = nil
-        }
-        
-        let imagesArray = (try keyedContainer.decode(FailableDecodableArray<LGListingImage>.self, forKey: .images)).validElements
-        images = LGListingImage.mapToFiles(imagesArray)
-        
-        let userKeyedContainer = try keyedContainer.nestedContainer(keyedBy: UserCodingKeys.self,
-                                                                    forKey: .user)
-        let userPostalAddress = PostalAddress(address: nil,
-                                              city: try userKeyedContainer.decodeIfPresent(String.self, forKey: .city),
-                                              zipCode: try userKeyedContainer.decodeIfPresent(String.self, forKey: .zipCode),
-                                              state: nil,
-                                              countryCode: try userKeyedContainer.decodeIfPresent(String.self, forKey: .countryCode),
-                                              country: nil)
-        user = LGUserListing(objectId: try userKeyedContainer.decodeIfPresent(String.self, forKey: .id),
-                             name: try userKeyedContainer.decodeIfPresent(String.self, forKey: .name),
-                             avatar: try userKeyedContainer.decodeIfPresent(String.self, forKey: .avatarUrl),
-                             postalAddress: userPostalAddress,
-                             isDummy: false,
-                             banned: nil,
-                             status: nil)
-        featured = try keyedContainer.decodeIfPresent(Bool.self, forKey: .featured)
+        let baseListing = try LGBaseListing(from: decoder)
+        objectId = baseListing.objectId
+        updatedAt = baseListing.updatedAt
+        createdAt = baseListing.createdAt
+        name = baseListing.name
+        nameAuto = baseListing.nameAuto
+        descr = baseListing.descr
+        price = baseListing.price
+        currency = baseListing.currency
+        location = baseListing.location
+        postalAddress = baseListing.postalAddress
+        languageCode = baseListing.languageCode
+        category = baseListing.category
+        status = baseListing.status
+        thumbnail = baseListing.thumbnail
+        thumbnailSize = baseListing.thumbnailSize
+        images = baseListing.images
+        user = baseListing.user
+        featured = baseListing.featured
 
+        let keyedContainer = try decoder.container(keyedBy: CodingKeysRealEstateAttributes.self)
+        
         realEstateAttributes = (try keyedContainer.decodeIfPresent(RealEstateAttributes.self, forKey: .realEstateAttributes))
             ?? RealEstateAttributes.emptyRealEstateAttributes()
     }
     
-    enum CodingKeys: String, CodingKey {
-        case objectId = "id"
-        case updatedAt = "updatedAt"
-        case createdAt = "createdAt"
-        case name = "name"
-        case descr = "description"
-        case price = "price"
-        case priceFlag = "priceFlag"
-        case currency = "currency"
-        case location = "geo"
-        case languageCode = "languageCode"
-        case categoryId = "categoryId"
-        case status = "status"
-        case thumbnail = "thumb"
-        case images = "images"
-        case user = "owner"
-        case featured = "featured"
-        case discardedReason = "rejectedReason"
+    enum CodingKeysRealEstateAttributes: String, CodingKey {
         case realEstateAttributes = "realEstateAttributes"
-    }
-    
-    enum LocationCodingKeys: String, CodingKey {
-        case latitude = "lat"
-        case longitude = "lng"
-        case countryCode = "countryCode"
-        case city
-        case zipCode = "zipCode"
-    }
-    
-    enum PostalAddressCodingKeys: String, CodingKey {
-        case address = "address"
-        case city = "city"
-        case zipCode = "zipCode"
-        case state = "state"
-        case countryCode = "countryCode"
-        case country = "country"
-    }
-    
-    enum ThumbnailCodingKeys: String, CodingKey {
-        case url
-        case width
-        case height
-    }
-    
-    enum UserCodingKeys: String, CodingKey {
-        case id
-        case name
-        case avatarUrl
-        case zipCode
-        case countryCode
-        case city
     }
 }

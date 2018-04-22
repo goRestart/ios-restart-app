@@ -290,7 +290,6 @@ class LGChatRepository: InternalChatRepository {
         return dataSource.eventBus.filter { $0.conversationId == conversationId }
     }
     
-    
     // MARK: - Private
     
     private func handleQueryMessages(_ conversationId: String, result: ChatWebSocketMessagesResult,

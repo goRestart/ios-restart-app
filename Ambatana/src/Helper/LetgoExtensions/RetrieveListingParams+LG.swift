@@ -9,6 +9,7 @@
 import LGCoreKit
 
 extension RetrieveListingParams {
+    
     mutating func populate(with filters: ListingFilters?) {
         categoryIds = filters?.selectedCategories.flatMap { $0.rawValue }
         let idCategoriesFromTaxonomies = filters?.selectedTaxonomyChildren.getIds(withType: .category)
@@ -31,6 +32,9 @@ extension RetrieveListingParams {
         sortCriteria = filters?.selectedOrdering
         distanceRadius = filters?.distanceRadius
         distanceType = filters?.distanceType
+        
+        //  Car filters
+        userTypes = filters?.carSellerTypes
         makeId = filters?.carMakeId
         modelId = filters?.carModelId
         startYear = filters?.carYearStart
@@ -39,9 +43,8 @@ extension RetrieveListingParams {
         if let propertyTypeValue = filters?.realEstatePropertyType?.rawValue {
             propertyType = propertyTypeValue
         }
-        if let offerTypeValue = filters?.realEstateOfferType?.rawValue {
-            offerType = offerTypeValue
-        }
+
+        offerType = filters?.realEstateOfferTypes.flatMap { $0.rawValue }
         numberOfBedrooms = filters?.realEstateNumberOfBedrooms?.rawValue ?? filters?.realEstateNumberOfRooms?.numberOfBedrooms
         numberOfLivingRooms = filters?.realEstateNumberOfRooms?.numberOfLivingRooms
         numberOfBathrooms = filters?.realEstateNumberOfBathrooms?.rawValue
@@ -59,4 +62,5 @@ extension RetrieveListingParams {
             }
         }
     }
+
 }

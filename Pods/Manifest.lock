@@ -49,18 +49,17 @@ PODS:
   - GoogleToolboxForMac/NSString+URLArguments (2.1.3)
   - GTMOAuth2 (1.1.6):
     - GTMSessionFetcher (~> 1.1)
-  - GTMSessionFetcher (1.1.14):
-    - GTMSessionFetcher/Full (= 1.1.14)
-  - GTMSessionFetcher/Core (1.1.14)
-  - GTMSessionFetcher/Full (1.1.14):
-    - GTMSessionFetcher/Core (= 1.1.14)
-  - JBKenBurnsView (1.0)
+  - GTMSessionFetcher (1.1.15):
+    - GTMSessionFetcher/Full (= 1.1.15)
+  - GTMSessionFetcher/Core (1.1.15)
+  - GTMSessionFetcher/Full (1.1.15):
+    - GTMSessionFetcher/Core (= 1.1.15)
   - JSONWebToken (2.2.0)
   - KeychainSwift (10.0.0)
   - KMPlaceholderTextView (1.3.0)
   - Leanplum-iOS-SDK (2.0.5)
   - LGCollapsibleLabel (1.2.0)
-  - LGCoreKit (4.13.4):
+  - LGCoreKit (4.19.1):
     - Alamofire (~> 4.5.1)
     - CocoaLumberjack/Swift (~> 3.3.0)
     - DeviceGuru (~> 3.0.1)
@@ -73,6 +72,17 @@ PODS:
     - RxSwiftExt (~> 3.0.0)
     - SocketRocket (= 0.5.1)
   - lottie-ios (2.5.0)
+  - mopub-ios-sdk (4.20.0):
+    - mopub-ios-sdk/MoPubSDK (= 4.20.0)
+  - mopub-ios-sdk/Avid (4.20.0):
+    - mopub-ios-sdk/Core
+  - mopub-ios-sdk/Core (4.20.0)
+  - mopub-ios-sdk/Moat (4.20.0):
+    - mopub-ios-sdk/Core
+  - mopub-ios-sdk/MoPubSDK (4.20.0):
+    - mopub-ios-sdk/Avid
+    - mopub-ios-sdk/Core
+    - mopub-ios-sdk/Moat
   - NewRelicAgent (6.1.1)
   - Nimble (7.0.2)
   - OHHTTPStubs (5.2.3):
@@ -116,7 +126,7 @@ DEPENDENCIES:
   - AppsFlyerFramework (= 4.8.2)
   - Branch (= 0.22.5)
   - bumper (from `git@github.com:letgoapp/bumper.git`, commit `7ec04a070eca2337f058954d7f53c474d616d7b1`)
-  - CameraManager (from `git@github.com:letgoapp/CameraManager.git`, commit `41a2c7a8847a76045f71cb9b6bf178ddfebc2fea`)
+  - CameraManager (from `git@github.com:letgoapp/CameraManager.git`, commit `7b32b50f8bdb1f94f1f1d0fdb6c99a9d21a7ee84`)
   - CHTCollectionViewWaterfallLayout (= 0.9.7)
   - CocoaLumberjack/Swift (= 3.3.0)
   - Crashlytics (= 3.9.3)
@@ -129,13 +139,13 @@ DEPENDENCIES:
   - Google-Mobile-Ads-SDK (= 7.24.1)
   - GoogleIDFASupport (= 3.14.0)
   - GoogleSignIn (= 4.1.1)
-  - JBKenBurnsView (from `https://github.com/letgoapp/JBKenBurns`, commit `56419f79cb763f8d2ee3a75e4eca51ebc1deab6a`)
   - KeychainSwift (= 10.0.0)
   - KMPlaceholderTextView (from `https://github.com/letgoapp/KMPlaceholderTextView`, commit `426117c98e8da8fc7d64a7d3c2f0f45c48d595e6`)
   - Leanplum-iOS-SDK (= 2.0.5)
   - LGCollapsibleLabel (= 1.2.0)
-  - LGCoreKit (from `../lgcorekit`)
+  - LGCoreKit (= 4.19.1)
   - lottie-ios (= 2.5.0)
+  - mopub-ios-sdk (= 4.20.0)
   - NewRelicAgent (= 6.1.1)
   - Nimble (= 7.0.2)
   - OHHTTPStubs (= 5.2.3)
@@ -152,16 +162,11 @@ EXTERNAL SOURCES:
     :commit: 7ec04a070eca2337f058954d7f53c474d616d7b1
     :git: git@github.com:letgoapp/bumper.git
   CameraManager:
-    :commit: 41a2c7a8847a76045f71cb9b6bf178ddfebc2fea
+    :commit: 7b32b50f8bdb1f94f1f1d0fdb6c99a9d21a7ee84
     :git: git@github.com:letgoapp/CameraManager.git
-  JBKenBurnsView:
-    :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
-    :git: https://github.com/letgoapp/JBKenBurns
   KMPlaceholderTextView:
     :commit: 426117c98e8da8fc7d64a7d3c2f0f45c48d595e6
     :git: https://github.com/letgoapp/KMPlaceholderTextView
-  LGCoreKit:
-    :path: ../lgcorekit
   SwiftyUserDefaults:
     :commit: dd3d8ddc5bf95db09b66185182b5a555ac59efd5
     :git: https://github.com/Dschee/SwiftyUserDefaults
@@ -171,11 +176,8 @@ CHECKOUT OPTIONS:
     :commit: 7ec04a070eca2337f058954d7f53c474d616d7b1
     :git: git@github.com:letgoapp/bumper.git
   CameraManager:
-    :commit: 41a2c7a8847a76045f71cb9b6bf178ddfebc2fea
+    :commit: 7b32b50f8bdb1f94f1f1d0fdb6c99a9d21a7ee84
     :git: git@github.com:letgoapp/CameraManager.git
-  JBKenBurnsView:
-    :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
-    :git: https://github.com/letgoapp/JBKenBurns
   KMPlaceholderTextView:
     :commit: 426117c98e8da8fc7d64a7d3c2f0f45c48d595e6
     :git: https://github.com/letgoapp/KMPlaceholderTextView
@@ -206,15 +208,15 @@ SPEC CHECKSUMS:
   GoogleSignIn: 3fdaa34a2ba04dbd7a25d7db39aecb0da98d5bdc
   GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
   GTMOAuth2: c77fe325e4acd453837e72d91e3b5f13116857b2
-  GTMSessionFetcher: 390ea358e5a0d0133153806f744662dad933d06b
-  JBKenBurnsView: e40d10fcd4fbeb652c29fa431d4748780a4672ff
+  GTMSessionFetcher: 5fa5b80fd20e439ef5f545fb2cb3ca6c6714caa2
   JSONWebToken: 6fae32489632658d563dd6952a5c34020ea813e4
   KeychainSwift: f9f7910449a0c0fd2cabc889121530dd2c477c33
   KMPlaceholderTextView: 2bbcd19a273648a80a61e1e48f9743a24d8930e3
   Leanplum-iOS-SDK: d7d387b7f3688e697f2893978bfe67092df5b7ca
   LGCollapsibleLabel: 2a5ebb0ff0ff3e1d7ab0c295a17c923db000f557
-  LGCoreKit: f651555f78590adce502297a14279797c7cf7f9b
+  LGCoreKit: 2668a99768f68c878f66292451a5ee01889d6e51
   lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
+  mopub-ios-sdk: 89c6ac9ca01d3b36e9fba16a6cfe31d3c290d354
   NewRelicAgent: 652434a627201e3745cd5849228feeb10afe1879
   Nimble: bfe1f814edabba69ff145cb1283e04ed636a67f2
   OHHTTPStubs: e238cd5b66d8efa51c861db45895de8fe079f4a7
@@ -230,6 +232,6 @@ SPEC CHECKSUMS:
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   SwiftyUserDefaults: 38267a30d58b7c8570995cd5defd354e43f056c6
 
-PODFILE CHECKSUM: 9209673768e785908453f54a9201a1a147115020
+PODFILE CHECKSUM: 4c8fc33be5e6b68bdc4cbad25b7c32e215eeb516
 
 COCOAPODS: 1.4.0

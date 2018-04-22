@@ -48,17 +48,13 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         constraintViewToSafeRootView(listingDeckView)
     }
 
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        quickChatView?.resignFirstResponder()
-    }
-
     override func viewDidFirstAppear(_ animated: Bool) {
         super.viewDidFirstAppear(animated)
 
-        self.updateStartIndex()
+        updateStartIndex()
         listingDeckView.collectionView.layoutIfNeeded()
         guard let current = currentPageCell() else { return }
+        populateCell(current)
         let index = viewModel.currentIndex
         UIView.animate(withDuration: 0.5,
                        delay: 0,
@@ -67,8 +63,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
                         self?.listingDeckView.collectionView.alpha = 1
         }, completion: { [weak self] _ in
             self?.didMoveToItemAtIndex(index)
-            current.delayedOnboardingFlashDetails(withDelay: 0.6, duration: 0.6)
-            self?.bindCard(current)
+            current.delayedOnboardingFlashDetails(withDelay: 0.3, duration: 0.6)
         })
     }
 
@@ -83,20 +78,18 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         reloadData()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setupNavigationBar()
-        listingDeckView.collectionView.clipsToBounds = false
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    override func viewWillDisappearToBackground(_ toBackground: Bool) {
+        super.viewWillDisappearToBackground(toBackground)
         listingDeckView.collectionView.clipsToBounds = true
+        if toBackground {
+            closeBumpUpBanner(animated: true)
+        }
     }
 
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
         setupNavigationBar()
+        listingDeckView.collectionView.clipsToBounds = false
     }
 
     override func viewWillFirstAppear(_ animated: Bool) {
@@ -144,6 +137,8 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListingCardView.reusableID,
                                                          for: indexPath) as? ListingCardView {
             guard let model = viewModel.snapshotModelAt(index: indexPath.row) else { return cell }
+            cell.tag = indexPath.row
+            binder.bind(cell: cell)
             cell.populateWith(model, imageDownloader: viewModel.imageDownloader)
             cell.delegate = self
 
@@ -223,13 +218,14 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     }
 
     func willDisplayCell(_ cell: UICollectionViewCell, atIndexPath indexPath: IndexPath) {
-        cell.isUserInteractionEnabled = false
+        cell.isUserInteractionEnabled = indexPath.row == viewModel.currentIndex
         guard let card = cell as? ListingCardView else { return }
         card.updateVerticalContentInset(animated: false)
     }
 
     func willBeginDragging() {
         lastPageBeforeDragging = listingDeckView.currentPage
+        listingDeckView.bumpUpBanner.alphaAnimated(0)
     }
 
     func didMoveToItemAtIndex(_ index: Int) {
@@ -246,18 +242,19 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     
     func didEndDecelerating() {
         guard let cell = listingDeckView.cardAtIndex(viewModel.currentIndex) else { return }
-        bindCard(cell)
+        populateCell(cell)
     }
 
-    private func bindCard(_ card: ListingCardView) {
-        binder.bind(cell: card)
+    private func populateCell(_ card: ListingCardView) {
         card.isUserInteractionEnabled = true
 
         guard let listing = viewModel.listingCellModelAt(index: viewModel.currentIndex) else { return }
         card.populateWith(cellModel: listing, imageDownloader: viewModel.imageDownloader)
     }
     
-    func didShowMoreInfo() {
+    func cardViewDidShowMoreInfo(_ cardView: ListingCardView) {
+        guard cardView.tag == viewModel.currentIndex else { return }
+        guard isCardVisible(cardView) else { return }
         viewModel.didShowMoreInfo()
     }
 
@@ -312,28 +309,56 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
         viewModel.didTapCardAction()
     }
 
-    func showBumpUpBanner(bumpInfo: BumpUpInfo) {
-        guard !listingDeckView.isBumpUpVisible else {
-            // banner is already visible, but info changes
-            listingDeckView.updateBumpUp(withInfo: bumpInfo)
+    func updateWithBumpUpInfo(_ bumpInfo: BumpUpInfo?) {
+        guard let bumpUp = bumpInfo else {
+            closeBumpUpBanner(animated: true)
             return
         }
 
-        viewModel.bumpUpBannerShown(type: bumpInfo.type)
-        delay(1.0) { [weak self] in
-            self?.listingDeckView.updateBumpUp(withInfo: bumpInfo)
-            self?.listingDeckView.showBumpUp()
-            UIView.animate(withDuration: 0.3,
-                           delay: 0,
-                           options: .curveEaseIn,
-                           animations: { [weak self] in
-                self?.listingDeckView.layoutIfNeeded()
-            }, completion: nil)
+        listingDeckView.bumpUpBanner.alphaAnimated(1)
+        guard !listingDeckView.isBumpUpVisible else {
+            // banner is already visible, but info changes
+            listingDeckView.updateBumpUp(withInfo: bumpUp)
+            return
         }
+
+        viewModel.bumpUpBannerShown(type: bumpUp.type)
+        listingDeckView.updateBumpUp(withInfo: bumpUp)
+        listingDeckView.bumpUpBanner.layoutIfNeeded()
+        UIView.animate(withDuration: 0.3,
+                       delay: 0,
+                       options: .curveEaseIn,
+                       animations: { [weak self] in
+                        self?.listingDeckView.showBumpUp()
+                        self?.listingDeckView.layoutIfNeeded()
+            }, completion: nil)
     }
 
-    func closeBumpUpBanner() {
-        closeBumpUpBanner(animated: true)
+    private func isCardVisible(_ cardView: ListingCardView) -> Bool {
+        let filtered = listingDeckView.collectionView
+            .visibleCells
+            .filter { cell in return cell.tag == cardView.tag }
+        return !filtered.isEmpty
+    }
+}
+
+// TODO: Refactor ABIOS-3814
+extension ListingDeckViewController {
+    private func processActionOnFirstAppear() {
+        switch viewModel.actionOnFirstAppear {
+        case .showKeyboard:
+            quickChatView?.becomeFirstResponder()
+        case .showShareSheet:
+            viewModel.didTapCardAction()
+        case .triggerBumpUp(_,_,_,_):
+            viewModel.showBumpUpView(viewModel.actionOnFirstAppear)
+        case .triggerMarkAsSold:
+            viewModel.currentListingViewModel?.markAsSold()
+        case .edit:
+            viewModel.currentListingViewModel?.editListing()
+        case .nonexistent:
+            break
+        }
     }
 }
 
@@ -357,11 +382,9 @@ extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCard
         cell.showFullMap(fromRect: snapshot.frame)
     }
 
-    func didTapOnPreview() {
-        displayPhotoViewer()
-    }
-
-    func displayPhotoViewer() {
+    func cardViewDidTapOnPreview(_ cardView: ListingCardView) {
+        guard cardView.tag == viewModel.currentIndex else { return }
+        guard viewModel.cachedImageAtIndex(0) != nil else { return }
         viewModel.openPhotoViewer()
     }
     
@@ -378,7 +401,8 @@ extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCard
         cell.hideFullMap()
     }
 
-    func didTapOnStatusView() {
+    func cardViewDidTapOnStatusView(_ cardView: ListingCardView) {
+        guard cardView.tag == viewModel.currentIndex else { return }
         viewModel.didTapStatusView()
     }
 
@@ -399,6 +423,8 @@ extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCard
         self.quickChatView = quickChatView
         
         focusOnCollectionView()
+
+        mainResponder = quickChatView.textView
     }
 
     private func setupDirectChatView(quickChatView: QuickChatView) {

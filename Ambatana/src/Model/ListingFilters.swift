@@ -72,6 +72,7 @@ struct ListingFilters {
     }
     var priceRange: FilterPriceRange
 
+    var carSellerTypes: [CarSellerType]
     var carMakeId: RetrieveListingParam<String>?
     var carMakeName: String?
     var carModelId: RetrieveListingParam<String>?
@@ -80,7 +81,7 @@ struct ListingFilters {
     var carYearEnd: RetrieveListingParam<Int>?
     
     var realEstatePropertyType: RealEstatePropertyType?
-    var realEstateOfferType: RealEstateOfferType?
+    var realEstateOfferTypes: [RealEstateOfferType]
     var realEstateNumberOfBedrooms: NumberOfBedrooms?
     var realEstateNumberOfBathrooms: NumberOfBathrooms?
     var realEstateNumberOfRooms: NumberOfRooms?
@@ -101,6 +102,7 @@ struct ListingFilters {
             selectedWithin: ListingTimeCriteria.defaultOption,
             selectedOrdering: ListingSortCriteria.defaultOption,
             priceRange: .priceRange(min: nil, max: nil),
+            carSellerTypes: [],
             carMakeId: nil,
             carMakeName: nil,
             carModelId: nil,
@@ -108,7 +110,7 @@ struct ListingFilters {
             carYearStart: nil,
             carYearEnd: nil,
             realEstatePropertyType: nil,
-            realEstateOfferType: nil,
+            realEstateOfferType: [],
             realEstateNumberOfBedrooms: nil,
             realEstateNumberOfBathrooms: nil,
             realEstateNumberOfRooms: nil,
@@ -125,6 +127,7 @@ struct ListingFilters {
          selectedWithin: ListingTimeCriteria,
          selectedOrdering: ListingSortCriteria?,
          priceRange: FilterPriceRange,
+         carSellerTypes: [CarSellerType],
          carMakeId: RetrieveListingParam<String>?,
          carMakeName: String?,
          carModelId: RetrieveListingParam<String>?,
@@ -132,7 +135,7 @@ struct ListingFilters {
          carYearStart: RetrieveListingParam<Int>?,
          carYearEnd: RetrieveListingParam<Int>?,
          realEstatePropertyType: RealEstatePropertyType?,
-         realEstateOfferType: RealEstateOfferType?,
+         realEstateOfferType: [RealEstateOfferType],
          realEstateNumberOfBedrooms: NumberOfBedrooms?,
          realEstateNumberOfBathrooms: NumberOfBathrooms?,
          realEstateNumberOfRooms: NumberOfRooms?,
@@ -147,6 +150,7 @@ struct ListingFilters {
         self.selectedWithin = selectedWithin
         self.selectedOrdering = selectedOrdering
         self.priceRange = priceRange
+        self.carSellerTypes = carSellerTypes
         self.carMakeId = carMakeId
         self.carMakeName = carMakeName
         self.carModelId = carModelId
@@ -154,7 +158,7 @@ struct ListingFilters {
         self.carYearStart = carYearStart
         self.carYearEnd = carYearEnd
         self.realEstatePropertyType = realEstatePropertyType
-        self.realEstateOfferType = realEstateOfferType
+        self.realEstateOfferTypes = realEstateOfferType
         self.realEstateNumberOfBedrooms = realEstateNumberOfBedrooms
         self.realEstateNumberOfBathrooms = realEstateNumberOfBathrooms
         self.realEstateNumberOfRooms = realEstateNumberOfRooms
@@ -171,6 +175,7 @@ struct ListingFilters {
                               selectedWithin: selectedWithin,
                               selectedOrdering: selectedOrdering,
                               priceRange: priceRange,
+                              carSellerTypes: carSellerTypes,
                               carMakeId: carMakeId,
                               carMakeName: carMakeName,
                               carModelId: carModelId,
@@ -178,7 +183,7 @@ struct ListingFilters {
                               carYearStart: carYearStart,
                               carYearEnd: carYearEnd,
                               realEstatePropertyType: realEstatePropertyType,
-                              realEstateOfferType: realEstateOfferType,
+                              realEstateOfferType: realEstateOfferTypes,
                               realEstateNumberOfBedrooms: realEstateNumberOfBedrooms,
                               realEstateNumberOfBathrooms: realEstateNumberOfBathrooms,
                               realEstateNumberOfRooms: realEstateNumberOfRooms,
@@ -195,6 +200,7 @@ struct ListingFilters {
                               selectedWithin: selectedWithin,
                               selectedOrdering: selectedOrdering,
                               priceRange: priceRange,
+                              carSellerTypes: carSellerTypes,
                               carMakeId: carMakeId,
                               carMakeName: carMakeName,
                               carModelId: carModelId,
@@ -202,7 +208,7 @@ struct ListingFilters {
                               carYearStart: carYearStart,
                               carYearEnd: carYearEnd,
                               realEstatePropertyType: nil,
-                              realEstateOfferType: nil,
+                              realEstateOfferType: [],
                               realEstateNumberOfBedrooms: nil,
                               realEstateNumberOfBathrooms: nil,
                               realEstateNumberOfRooms: nil,
@@ -219,6 +225,7 @@ struct ListingFilters {
                               selectedWithin: selectedWithin,
                               selectedOrdering: selectedOrdering,
                               priceRange: priceRange,
+                              carSellerTypes: [],
                               carMakeId: nil,
                               carMakeName: nil,
                               carModelId: nil,
@@ -226,7 +233,7 @@ struct ListingFilters {
                               carYearStart: nil,
                               carYearEnd: nil,
                               realEstatePropertyType: realEstatePropertyType,
-                              realEstateOfferType: realEstateOfferType,
+                              realEstateOfferType: realEstateOfferTypes,
                               realEstateNumberOfBedrooms: realEstateNumberOfBedrooms,
                               realEstateNumberOfBathrooms: realEstateNumberOfBathrooms,
                               realEstateNumberOfRooms: realEstateNumberOfRooms,
@@ -249,7 +256,7 @@ struct ListingFilters {
     }
     
     var hasAnyRealEstateAttributes: Bool {
-        return realEstateOfferType != nil || realEstatePropertyType != nil || realEstateNumberOfBathrooms != nil
+        return !realEstateOfferTypes.isEmpty || realEstatePropertyType != nil || realEstateNumberOfBathrooms != nil
             || realEstateNumberOfBedrooms != nil || realEstateNumberOfRooms != nil || realEstateSizeRange != SizeRange(min: nil, max: nil)
     }
     
@@ -317,11 +324,10 @@ extension ListingFilters: Equatable {
             a.carYearStart == b.carYearStart &&
             a.carYearEnd == b.carYearEnd &&
             a.realEstatePropertyType == b.realEstatePropertyType &&
-            a.realEstateOfferType == b.realEstateOfferType &&
+            a.realEstateOfferTypes == b.realEstateOfferTypes &&
             a.realEstateNumberOfBedrooms == b.realEstateNumberOfBedrooms &&
             a.realEstateNumberOfBathrooms == b.realEstateNumberOfBathrooms &&
             a.realEstateSizeRange == b.realEstateSizeRange &&
             a.realEstateNumberOfRooms == b.realEstateNumberOfRooms
     }
 }
-

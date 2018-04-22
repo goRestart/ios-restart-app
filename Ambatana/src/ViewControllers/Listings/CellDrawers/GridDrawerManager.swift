@@ -22,10 +22,13 @@ class GridDrawerManager {
     private let listingDrawer = ListingCellDrawer()
     private let collectionDrawer = ListingCollectionCellDrawer()
     private let emptyCellDrawer = EmptyCellDrawer()
-    private let advertisementDrawer = AdvertisementCellDrawer()
+    private let advertisementDFPDrawer = AdvertisementDFPCellDrawer()
+    private let advertisementMoPubDrawer = AdvertisementMoPubCellDrawer()
     private let mostSearchedItemsDrawer = MostSearchedItemsCellDrawer()
     private let showFeaturedStripeHelper = ShowFeaturedStripeHelper(featureFlags: FeatureFlags.sharedInstance,
                                                                     myUserRepository: Core.myUserRepository)
+    private let promoDrawer = PromoCellDrawer()
+    
     private let myUserRepository: MyUserRepository
     private let locationManager: LocationManager
     
@@ -35,11 +38,13 @@ class GridDrawerManager {
     }
 
     func registerCell(inCollectionView collectionView: UICollectionView) {
-        ListingCellDrawer.registerCell(collectionView)
-        ListingCollectionCellDrawer.registerCell(collectionView)
-        EmptyCellDrawer.registerCell(collectionView)
-        AdvertisementCellDrawer.registerCell(collectionView)
+        ListingCellDrawer.registerClassCell(collectionView)
+        ListingCollectionCellDrawer.registerClassCell(collectionView)
+        EmptyCellDrawer.registerClassCell(collectionView)
+        AdvertisementDFPCellDrawer.registerClassCell(collectionView)
+        AdvertisementMoPubCellDrawer.registerClassCell(collectionView)
         MostSearchedItemsCellDrawer.registerClassCell(collectionView)
+        PromoCellDrawer.registerClassCell(collectionView)
     }
     
     func cell(_ model: ListingCellModel, collectionView: UICollectionView, atIndexPath: IndexPath) -> UICollectionViewCell {
@@ -50,10 +55,14 @@ class GridDrawerManager {
             return collectionDrawer.cell(collectionView, atIndexPath: atIndexPath)
         case .emptyCell:
             return emptyCellDrawer.cell(collectionView, atIndexPath: atIndexPath)
-        case .advertisement:
-            return advertisementDrawer.cell(collectionView, atIndexPath: atIndexPath)
+        case .dfpAdvertisement:
+            return advertisementDFPDrawer.cell(collectionView, atIndexPath: atIndexPath)
+        case .mopubAdvertisement:
+            return advertisementMoPubDrawer.cell(collectionView, atIndexPath: atIndexPath)
         case .mostSearchedItems:
             return mostSearchedItemsDrawer.cell(collectionView, atIndexPath: atIndexPath)
+        case .promo:
+            return promoDrawer.cell(collectionView, atIndexPath: atIndexPath)
         }
     }
 
@@ -81,9 +90,12 @@ class GridDrawerManager {
                                    imageSize: imageSize,
                                    currentLocation: locationManager.currentLocation)
             listingDrawer.willDisplay(data, inCell: cell)
-        case .advertisement(let adData):
+        case .dfpAdvertisement(let adData):
             guard let cell = cell as? AdvertisementCell else { return }
-            advertisementDrawer.willDisplay(adData, inCell: cell)
+            advertisementDFPDrawer.willDisplay(adData, inCell: cell)
+        case .mopubAdvertisement(let adData):
+            guard let cell = cell as? AdvertisementCell else { return }
+            advertisementMoPubDrawer.willDisplay(adData, inCell: cell)
         default:
             return
         }
@@ -119,12 +131,19 @@ class GridDrawerManager {
         case .emptyCell(let vm):
             guard let cell = cell as? EmptyCell else { return }
             return emptyCellDrawer.draw(vm, style: cellStyle, inCell: cell)
-        case .advertisement(let adData):
+        case .dfpAdvertisement(let adData):
             guard let cell = cell as? AdvertisementCell else { return }
-            return advertisementDrawer.draw(adData, style: cellStyle, inCell: cell)
+            return advertisementDFPDrawer.draw(adData, style: cellStyle, inCell: cell)
+        case .mopubAdvertisement(let adData):
+            guard let cell = cell as? AdvertisementCell else { return }
+            return advertisementMoPubDrawer.draw(adData, style: cellStyle, inCell: cell)
         case .mostSearchedItems(let data):
             guard let cell = cell as? MostSearchedItemsListingListCell else { return }
             return mostSearchedItemsDrawer.draw(data, style: cellStyle, inCell: cell)
+        case .promo(let data, let delegate):
+            guard let cell = cell as? PromoCell else { return }
+            cell.delegate = delegate
+            return promoDrawer.draw(data, style: cellStyle, inCell: cell)
         default:
             assert(false, "⛔️ You shouldn't be here")
         }

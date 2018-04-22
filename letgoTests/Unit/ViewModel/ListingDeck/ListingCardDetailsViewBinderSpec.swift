@@ -43,12 +43,16 @@ class ListingCardDetailsViewBinderSpec: QuickSpec {
                                                                                          distance: nil,
                                                                                          freeModeAllowed: true,
                                                                                          postingFlowType: .standard)
+                    mockListingDetailsVM.rxCardShowExactLocationOnMap.value = true
                 }
                 it("the proper populate method is called") {
-                    expect(mockListingDetailsView.isPopulateWithProductInfoCalled).toEventually(equal(1))
+                    expect(mockListingDetailsView.isPopulateWithProductInfoCalled).toEventually(equal(2))
                 }
                 it("social sharer is set") {
                     expect(mockListingDetailsView.isPopulateWithSocialSharerCalled).toEventually(equal(1))
+                }
+                it("show exact location on map changes") {
+                    expect(mockListingDetailsView.showExactLocationOnMap).toEventually(beTrue())
                 }
             }
 
@@ -149,7 +153,6 @@ class ListingCardDetailsViewBinderSpec: QuickSpec {
                     expect(mockListingDetailsView.isPopulateWithSocialSharerCalled).toEventually(equal(1))
                 }
             }
-
             context("we dealloc the view") {
                 beforeEach {
                     mockListingDetailsView = MockListingCardDetailsView()
@@ -177,10 +180,12 @@ private class MockListingCardDetailsViewModel:  ListingCardDetailsViewModel {
     var cardProductStats: Observable<ListingStats?> { return rxCardProductStats.asObservable() }
     var cardSocialSharer: SocialSharer = SocialSharer()
     var cardSocialMessage: Observable<SocialMessage?> { return rxCardSocialMessage.asObservable() }
+    var cardShowExactLocationOnMap: Observable<Bool> { return rxCardShowExactLocationOnMap.asObservable() }
 
     let rxCardProductInfo: Variable<ListingVMProductInfo?> = Variable<ListingVMProductInfo?>(nil)
     let rxCardProductStats: Variable<ListingStats?> =  Variable<ListingStats?>(nil)
     let rxCardSocialMessage: Variable<SocialMessage?> = Variable<SocialMessage?>(nil)
+    let rxCardShowExactLocationOnMap: Variable<Bool> = Variable<Bool>(false)
 }
 
 private class MockListingCardDetailsView: ListingCardDetailsViewType {
@@ -189,12 +194,14 @@ private class MockListingCardDetailsView: ListingCardDetailsViewType {
     var isPopulateWithSocialSharerCalled: Int = 0
     var isPopulateWithSocialMessageCalled: Int = 0
     var isPopulateWithListingStatsCalled: Int = 0
+    var showExactLocationOnMap: Bool = false
 
     func resetAllVariables() {
         isPopulateWithProductInfoCalled = 0
         isPopulateWithSocialSharerCalled = 0
         isPopulateWithSocialMessageCalled = 0
         isPopulateWithListingStatsCalled = 0
+        showExactLocationOnMap = false
     }
 
     func populateWith(socialSharer: SocialSharer) {
@@ -205,8 +212,9 @@ private class MockListingCardDetailsView: ListingCardDetailsViewType {
         isPopulateWithSocialMessageCalled += 1
     }
     
-    func populateWith(productInfo: ListingVMProductInfo?) {
+    func populateWith(productInfo: ListingVMProductInfo?, showExactLocationOnMap: Bool) {
         isPopulateWithProductInfoCalled += 1
+        self.showExactLocationOnMap = showExactLocationOnMap
     }
 
     func populateWith(listingStats: ListingStats?, postedDate: Date?) {

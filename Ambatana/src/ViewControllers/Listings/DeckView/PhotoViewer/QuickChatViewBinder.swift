@@ -21,20 +21,17 @@ protocol QuickChatViewType: class {
     var rxToSendMessage: Observable<String> { get }
     func setInitialText(_ text: String)
     func clearChatTextView()
-    func updateDirectChatWith(answers: [[QuickAnswer]], isDynamic: Bool)
+    func updateDirectChatWith(answers: [QuickAnswer])
     func handleChatChange(_ change: CollectionChange<ChatViewMessage>)
     func showDirectMessages()
 }
 
 protocol QuickChatViewModelRx: class {
-    var areAnswersDynamic: Variable<Bool> { get }
-    var rxAreAnswersDynamic: Driver<Bool> { get }
-
     var directChatPlaceholder: Variable<String> { get }
     var rxDirectChatPlaceholder: Observable<String> { get }
 
-    var quickAnswers: Variable<[[QuickAnswer]]> { get }
-    var rxQuickAnswers: Observable<[[QuickAnswer]]> { get }
+    var quickAnswers: Variable<[QuickAnswer]> { get }
+    var rxQuickAnswers: Observable<[QuickAnswer]> { get }
 
     var chatEnabled: Variable<Bool> { get }
     var rxIsChatEnabled: Observable<Bool> { get }
@@ -59,10 +56,6 @@ final class QuickChatViewBinder {
 
         viewModel.rxDirectChatPlaceholder.bind(to: chatView.rxPlaceholder).disposed(by:bag)
 
-        viewModel.rxAreAnswersDynamic.filter { !$0 }.drive(onNext: { [weak chatView] (dynamic) in
-            chatView?.setInitialText(LGLocalizedString.chatExpressTextFieldText)
-        }).disposed(by: bag)
-
         chatView.rxToSendMessage.bind { [weak chatView, weak viewModel] message in
             guard let quickChatView = chatView else { return }
             viewModel?.send(directMessage: message, isDefaultText: quickChatView.hasInitialText)
@@ -70,9 +63,8 @@ final class QuickChatViewBinder {
         }.disposed(by: bag)
 
         viewModel.rxQuickAnswers.bind {  [weak chatView, weak viewModel] quickAnswers in
-            guard let chatViewModel = viewModel else { return }
-            chatView?.updateDirectChatWith(answers: quickAnswers,
-                                           isDynamic: chatViewModel.areAnswersDynamic.value)
+            guard let _ = viewModel else { return }
+            chatView?.updateDirectChatWith(answers: quickAnswers)
         }.disposed(by: bag)
 
         viewModel.rxDirectMessages.bind { [weak chatView] change in

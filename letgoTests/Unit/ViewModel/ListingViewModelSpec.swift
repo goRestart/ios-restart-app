@@ -22,6 +22,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
     var calledLogin: Bool?
     var calledOpenFreeBumpUpView: Bool?
     var calledOpenPricedBumpUpView: Bool?
+    var calledOpenBumpUpBoostView: Bool?
     var listingViewModelDelegateListingOriginValue: ListingOrigin = ListingOrigin.initial
 
     override func spec() {
@@ -594,12 +595,12 @@ class ListingViewModelSpec: BaseViewModelSpec {
                                 expect(sut.bumpUpBannerInfo.value?.type) == .priced
                             }
                             it ("banner interaction block opens priced bump up view") {
-                                sut.bumpUpBannerInfo.value?.bannerInteractionBlock()
+                                sut.bumpUpBannerInfo.value?.bannerInteractionBlock(0)
                                 expect(self.calledOpenPricedBumpUpView).toEventually(beTrue())
                             }
                             it ("banner button block tries to bump up the product") {
                                 // "tries to" because the result of the bump up feature is tested in another context
-                                sut.bumpUpBannerInfo.value?.buttonBlock()
+                                sut.bumpUpBannerInfo.value?.buttonBlock(0)
                                 expect(self.delegateReceivedShowLoading).toEventually(beTrue())
                             }
                         }
@@ -689,11 +690,11 @@ class ListingViewModelSpec: BaseViewModelSpec {
                                     expect(sut.bumpUpBannerInfo.value?.type) == .free
                                 }
                                 it ("banner interaction block opens free bump up view") {
-                                    sut.bumpUpBannerInfo.value?.bannerInteractionBlock()
+                                    sut.bumpUpBannerInfo.value?.bannerInteractionBlock(0)
                                     expect(self.calledOpenFreeBumpUpView).toEventually(beTrue())
                                 }
                                 it ("banner button block open free bump up view") {
-                                    sut.bumpUpBannerInfo.value?.buttonBlock()
+                                    sut.bumpUpBannerInfo.value?.buttonBlock(0)
                                     expect(self.calledOpenFreeBumpUpView).toEventually(beTrue())
                                 }
                             }
@@ -726,12 +727,12 @@ class ListingViewModelSpec: BaseViewModelSpec {
                                     expect(sut.bumpUpBannerInfo.value?.type) == .priced
                                 }
                                 it ("banner interaction block opens priced bump up view") {
-                                    sut.bumpUpBannerInfo.value?.bannerInteractionBlock()
+                                    sut.bumpUpBannerInfo.value?.bannerInteractionBlock(0)
                                     expect(self.calledOpenPricedBumpUpView).toEventually(beTrue())
                                 }
                                 it ("banner button block tries to bump up the product") {
                                     // "tries to" because the result of the bump up feature is tested in another context
-                                    sut.bumpUpBannerInfo.value?.buttonBlock()
+                                    sut.bumpUpBannerInfo.value?.buttonBlock(0)
                                     expect(self.delegateReceivedShowLoading).toEventually(beTrue())
                                 }
                             }
@@ -765,12 +766,12 @@ class ListingViewModelSpec: BaseViewModelSpec {
                                 }
                                 it ("banner interaction block tres to restore the bump") {
                                     // "tries to" because the result of the bump up feature is tested in another context
-                                    sut.bumpUpBannerInfo.value?.bannerInteractionBlock()
+                                    sut.bumpUpBannerInfo.value?.bannerInteractionBlock(0)
                                     expect(self.delegateReceivedShowLoading).toEventually(beTrue())
                                 }
                                 it ("banner button block tries to restore the bump") {
                                     // "tries to" because the result of the bump up feature is tested in another context
-                                    sut.bumpUpBannerInfo.value?.buttonBlock()
+                                    sut.bumpUpBannerInfo.value?.buttonBlock(0)
                                     expect(self.delegateReceivedShowLoading).toEventually(beTrue())
                                 }
                             }
@@ -806,7 +807,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                         sut.active = true
 
                         expect(sut.bumpUpPurchaseableProduct).toEventuallyNot(beNil())
-                        sut.bumpUpProduct(productId: product.objectId!)
+                        sut.bumpUpProduct(productId: product.objectId!, isBoost: false)
                     }
                     it ("transaction finishes with payment failed") {
                         expect(self.lastLoadingMessageShown).toEventually(equal(LGLocalizedString.bumpUpErrorPaymentFailed))
@@ -821,7 +822,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                         sut.active = true
 
                         expect(sut.bumpUpPurchaseableProduct).toEventuallyNot(beNil())
-                        sut.bumpUpProduct(productId: product.objectId!)
+                        sut.bumpUpProduct(productId: product.objectId!, isBoost: false)
                     }
                     it ("transaction finishes with bump failed") {
                         expect(self.lastLoadingMessageShown).toEventually(equal(LGLocalizedString.bumpUpErrorBumpGeneric))
@@ -836,7 +837,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                         sut.active = true
 
                         expect(sut.bumpUpPurchaseableProduct).toEventuallyNot(beNil())
-                        sut.bumpUpProduct(productId: product.objectId!)
+                        sut.bumpUpProduct(productId: product.objectId!, isBoost: false)
                     }
                     it ("transaction finishes with bump suceeded") {
                         expect(self.lastLoadingMessageShown).toEventually(equal(LGLocalizedString.bumpUpPaySuccess))
@@ -895,7 +896,10 @@ extension ListingViewModelSpec: ListingDetailNavigator {
 
     }
     func editListing(_ listing: Listing,
-                     bumpUpProductData: BumpUpProductData?) {
+                     bumpUpProductData: BumpUpProductData?,
+                     listingCanBeBoosted: Bool,
+                     timeSinceLastBump: TimeInterval?,
+                     maxCountdown: TimeInterval?) {
 
     }
     func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?) {
@@ -913,6 +917,13 @@ extension ListingViewModelSpec: ListingDetailNavigator {
                        bumpUpProductData: BumpUpProductData,
                        typePage: EventParameterTypePage?) {
         calledOpenPricedBumpUpView = true
+    }
+    func openBumpUpBoost(forListing listing: Listing,
+                         bumpUpProductData: BumpUpProductData,
+                         typePage: EventParameterTypePage?,
+                         timeSinceLastBump: TimeInterval,
+                         maxCountdown: TimeInterval) {
+        calledOpenBumpUpBoostView = true
     }
     func selectBuyerToRate(source: RateUserSource,
                            buyers: [UserListing],
@@ -936,6 +947,11 @@ extension ListingViewModelSpec: ListingDetailNavigator {
                                               actions: [UIAction]) {
 
     }
+
+    func showBumpUpBoostSucceededAlert() {
+
+    }
+
     func openContactUs(forListing listing: Listing, contactUstype: ContactUsType) {
 
     }

@@ -18,6 +18,9 @@ class MockPurchasesShopper: PurchasesShopper {
     var restoreRetriesCount: Int = 0
 
     var currentBumpTypePage: EventParameterTypePage?
+    var currentBumpIsBoost: Bool = false
+
+    var timeOfRecentBump: TimeInterval? = nil
 
     func startObservingTransactions() {
 
@@ -32,7 +35,7 @@ class MockPurchasesShopper: PurchasesShopper {
     }
 
     func productsRequestStartForListingId(_ listingId: String,
-                                          paymentItemId: String,
+                                          letgoItemId: String,
                                           withIds ids: [String],
                                           typePage: EventParameterTypePage?) {
 
@@ -47,15 +50,18 @@ class MockPurchasesShopper: PurchasesShopper {
         
         bumpInfoRequesterDelegate?.shopperFinishedProductsRequestForListingId(listingId,
                                                                               withProducts: purchaseableProducts,
-                                                                              paymentItemId: paymentItemId,
+                                                                              letgoItemId: letgoItemId,
                                                                               storeProductId: ids.first,
                                                                               typePage: typePage)
     }
     
     
-    func requestPayment(forListingId listingId: String, appstoreProduct: PurchaseableProduct, paymentItemId: String) {
-        delegate?.pricedBumpDidStart(typePage: currentBumpTypePage)
-
+    func requestPayment(forListingId listingId: String,
+                        appstoreProduct: PurchaseableProduct,
+                        letgoItemId: String,
+                        isBoost: Bool) {
+        delegate?.restoreBumpDidStart()
+        
         performAfterDelayWithCompletion { [weak self] in
             guard let strongSelf = self else { return }
             if !strongSelf.paymentSucceeds {
@@ -64,11 +70,12 @@ class MockPurchasesShopper: PurchasesShopper {
             } else if strongSelf.pricedBumpSucceeds {
                 // payment works and bump works
                 strongSelf.delegate?.pricedBumpDidSucceed(type: .priced, restoreRetriesCount: strongSelf.restoreRetriesCount,
-                                                          transactionStatus: .purchasingPurchased, typePage: strongSelf.currentBumpTypePage)
+                                                          transactionStatus: .purchasingPurchased, typePage: strongSelf.currentBumpTypePage,
+                                                          isBoost: isBoost)
             } else {
                 // payment works but bump fails
                 strongSelf.delegate?.pricedBumpDidFail(type: .priced, transactionStatus: .purchasingPurchased,
-                                                       typePage: strongSelf.currentBumpTypePage)
+                                                       typePage: strongSelf.currentBumpTypePage, isBoost: isBoost)
             }
         }
     }
@@ -77,20 +84,28 @@ class MockPurchasesShopper: PurchasesShopper {
         return isBumpUpPending
     }
 
-    func requestFreeBumpUp(forListingId listingId: String, paymentItemId: String, shareNetwork: EventParameterShareNetwork) {
+    func timeSinceRecentBumpFor(listingId: String) -> TimeInterval? {
+        return timeOfRecentBump
+    }
+
+    func requestFreeBumpUp(forListingId listingId: String, letgoItemId: String, shareNetwork: EventParameterShareNetwork) {
 
     }
 
     func restorePaidBumpUp(forListingId listingId: String) {
-        delegate?.pricedBumpDidStart(typePage: currentBumpTypePage)
+        delegate?.pricedBumpDidStart(typePage: currentBumpTypePage, isBoost: currentBumpIsBoost)
         if pricedBumpSucceeds {
             // payment works and bump works
             delegate?.pricedBumpDidSucceed(type: .restore, restoreRetriesCount: restoreRetriesCount,
                                            transactionStatus: .purchasingPurchased,
-                                           typePage: currentBumpTypePage)
+                                           typePage: currentBumpTypePage,
+                                           isBoost: currentBumpIsBoost)
         } else {
             // payment works but bump fails
-            delegate?.pricedBumpDidFail(type: .restore, transactionStatus: .purchasingPurchased, typePage: currentBumpTypePage)
+            delegate?.pricedBumpDidFail(type: .restore,
+                                        transactionStatus: .purchasingPurchased,
+                                        typePage: currentBumpTypePage,
+                                        isBoost: currentBumpIsBoost)
         }
     }
 

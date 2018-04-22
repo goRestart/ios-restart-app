@@ -7,6 +7,7 @@ extension MockChatMessage: MockFactory {
                                receivedAt: Date?.makeRandom(),
                                readAt: Date?.makeRandom(),
                                type: ChatMessageType.makeMock(),
-                               warnings: ChatMessageWarning.makeMocks(count: Int.makeRandom(min: 0, max: 10)))
+                               warnings: ChatMessageWarning.makeMocks(count: Int.makeRandom(min: 0, max: 10)),
+                               assistantMeeting: nil)
     }
 }

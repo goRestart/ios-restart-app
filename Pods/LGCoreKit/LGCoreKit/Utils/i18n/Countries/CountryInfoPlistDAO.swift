@@ -29,7 +29,7 @@ class CountryInfoPlistDAO: CountryInfoDAO {
         }
     }
 
-    // MARK: - CountryCurrencyInfoDAO
+    // MARK: - CountryInfoDAO
 
     func fetchCountryInfoWithCurrencyCode(_ currencyCode: String) -> CountryInfo? {
         return infosByCurrencyCode[currencyCode]
@@ -37,5 +37,9 @@ class CountryInfoPlistDAO: CountryInfoDAO {
 
     func fetchCountryInfoWithCountryCode(_ countryCode: String) -> CountryInfo? {
         return infosByCountryCode[countryCode]
+    }
+
+    func fetchFullCountryInfoList() -> [CountryInfo] {
+        return infosByCountryCode.map { $0.value }
     }
 }

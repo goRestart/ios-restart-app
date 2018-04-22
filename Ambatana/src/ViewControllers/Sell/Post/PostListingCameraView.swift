@@ -16,6 +16,7 @@ protocol PostListingCameraViewDelegate: class {
     func productCameraDidRecordVideo(video: RecordedVideo)
     func productCameraRequestsScrollLock(_ lock: Bool)
     func productCameraRequestHideTabs(_ hide: Bool)
+    func productCameraLearnMoreButton()
 }
 
 class PostListingCameraView: BaseView, LGViewPagerPage {
@@ -36,7 +37,9 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
     @IBOutlet weak var infoSubtitle: UILabel!
     @IBOutlet weak var infoButton: LetgoButton!
     @IBOutlet weak var verticalPromoLabel: UILabel!
-
+    @IBOutlet weak var learnMoreButton: UIButton!
+    @IBOutlet weak var learnMoreChevron: UIButton!
+    
     @IBOutlet weak var headerContainer: UIView!
     @IBOutlet weak var flashButton: UIButton!
     @IBOutlet weak var retryPhotoButton: UIButton!
@@ -203,6 +206,14 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
         hideFirstTimeAlert()
         viewModel.usePhotoButtonPressed()
     }
+    
+    @IBAction func onLearnMoreButton(_ sender: AnyObject) {
+        viewModel.learnMorePressed()
+    }
+    
+    @IBAction func onLearnMoreChevron(_ sender: AnyObject) {
+        viewModel.learnMorePressed()
+    }
 
 
     // MARK: - Private methods
@@ -233,17 +244,23 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
         retryPhotoButton.setTitle(LGLocalizedString.productPostRetake, for: .normal)
         usePhotoButton.setTitle(usePhotoButtonText, for: .normal)
         usePhotoButton.setStyle(.primary(fontSize: .medium))
-        
         verticalPromoLabel.text = viewModel.verticalPromotionMessage
 
         setupInfoView()
         setupFirstTimeAlertView()
         setAccesibilityIds()
+        setupLearnMore()
         setupRX()
 
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideFirstTimeAlert))
         addGestureRecognizer(tapRecognizer)
         
+    }
+    
+    private func setupLearnMore() {
+        learnMoreButton.setAttributedTitle(viewModel.learnMoreMessage, for: .normal)
+        learnMoreButton.isHidden = viewModel.learnMoreIsHidden
+        learnMoreChevron.isHidden = viewModel.learnMoreIsHidden
     }
 
     private func setupRX() {
@@ -313,6 +330,8 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
         viewModel.shouldShowVerticalText.asObservable().bind { [weak self] visible in
             UIView.animate(withDuration: 0.3, animations: {
                 self?.verticalPromoLabel.alpha = visible ? 1.0 : 0.0
+                self?.learnMoreButton.alpha = visible ? 1.0 : 0.0
+                self?.learnMoreChevron.alpha = visible ? 1.0 : 0.0
             })
         }.disposed(by: disposeBag)
     }

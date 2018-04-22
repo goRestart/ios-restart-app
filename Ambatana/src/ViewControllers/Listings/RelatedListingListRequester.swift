@@ -3,7 +3,7 @@ import LGCoreKit
 class RelatedListingListRequester: ListingListRequester {
     
     fileprivate enum ListingType {
-        case product, realEstate
+        case product, realEstate, car
     }
     
     fileprivate let listingType: ListingType
@@ -30,7 +30,14 @@ class RelatedListingListRequester: ListingListRequester {
     
     convenience init?(listing: Listing, itemsPerPage: Int) {
         guard let objectId = listing.objectId else { return nil }
-        let type: RelatedListingListRequester.ListingType = listing.isRealEstate ? .realEstate : .product
+        let type: RelatedListingListRequester.ListingType
+        if listing.isCar {
+            type = .car
+        } else if listing.isRealEstate {
+            type = .realEstate
+        } else {
+            type = .product
+        }
         self.init(listingType: type,
                   listingId: objectId,
                   itemsPerPage: itemsPerPage,
@@ -49,6 +56,8 @@ class RelatedListingListRequester: ListingListRequester {
         self.itemsPerPage = itemsPerPage
         self.featureFlags = featureFlags
     }
+    
+    var isFirstPage: Bool = true
 
     func canRetrieve() -> Bool {
         return true
@@ -60,6 +69,7 @@ class RelatedListingListRequester: ListingListRequester {
     }
     
     func retrieveNextPage(_ completion: ListingsRequesterCompletion?) {
+        isFirstPage = false
         listingsRetrieval(completion)
     }
 
@@ -110,6 +120,17 @@ fileprivate extension RelatedListingListRequester {
             listingRepository.indexRelatedRealEstate(listingId: listingObjectId,
                                                      params: retrieveListingParams,
                                                      completion: requestCompletion)
+        case (.car, _):
+            if featureFlags.searchCarsIntoNewBackend.isActive {
+                listingRepository.indexRelatedCars(listingId: listingObjectId,
+                                                   params: retrieveListingParams,
+                                                   completion: requestCompletion)
+            } else {
+                listingRepository.indexRelated(listingId: listingObjectId,
+                                               params: retrieveListingParams,
+                                               completion: requestCompletion)
+            }
+            
         }
     }
 }

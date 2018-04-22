@@ -68,7 +68,7 @@ extension UIColor {
     static var disclaimerColor: UIColor { return pale }
 
     static var blueTooltip: UIColor { return cornflower}
-    static var blackTooltip: UIColor { return black }
+    static var blackTooltip: UIColor { return lgBlack }
 
 
     private static let denimBlue = UIColor(rgb: 0x3f5b96) // (63, 91, 150)
@@ -93,8 +93,8 @@ extension UIColor {
     static var gray: UIColor { return UIColor(rgb: 0xbdbdbd) } // (189,189,189)
     static var grayLight: UIColor { return UIColor(rgb: 0xdddddd) } // (221,221,221)
     static var grayLighter: UIColor { return UIColor(rgb: 0xede9e9) } // (237,233,233)
-    static var grayBackground: UIColor { return UIColor(rgb: 0xF7F3F3) } // (247,243,243)
-
+    static var grayBackground: UIColor { return UIColor(rgb: 0xF7F3F3) } // (247,143,243)
+    static var grayDisclaimerText: UIColor { return UIColor(rgb: 0x9b9b9b) } // (155, 155, 155)
 
     // Alpha grays
 
@@ -337,4 +337,9 @@ extension UIColor {
         fileprivate static let almostWatermelon = UIColor(rgb: 0xf6416c) // (244, 65, 108)
         fileprivate static let almostWatermelonDarker = UIColor(rgb: 0xa93f56) // (169, 63, 86)
     }
+}
+// MARK: > Edit User Bio
+
+extension UIColor {
+    static var placeholder: UIColor { return UIColor(rgb: 0x999999) } // 153, 153, 153
 }

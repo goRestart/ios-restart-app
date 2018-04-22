@@ -11,6 +11,9 @@ import Result
 typealias MyUserApiResult = Result<MyUser, ApiError>
 typealias MyUserApiCompletion = (MyUserApiResult) -> Void
 
+typealias UserDataSourceReputationResult = Result<[UserReputationAction], ApiError>
+typealias UserDataSourceReputationCompletion = (UserDataSourceReputationResult) -> Void
+
 protocol MyUserDataSource {
     /**
     Retrieves my user with the given my user identifier.
@@ -70,4 +73,12 @@ protocol MyUserDataSource {
      - parameter completion: completion closure
      */
     func linkAccount(_ userId: String, provider: LinkAccountProvider, completion: ((Result<Void, ApiError>) -> ())?)
+
+    /**
+     Retrieves the list of reputation actions done by the user
+
+     - parameter userid:        identifier of the user to retrieve actions from
+     - parameter completion:    completion closure
+     */
+    func retrieveUserReputationActions(_ userId: String, completion: UserDataSourceReputationCompletion?)
 }

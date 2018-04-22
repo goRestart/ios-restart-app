@@ -12,10 +12,10 @@ import RxSwift
 import LGCoreKit
 import MapKit
 
-protocol ListingCardViewDelegate {
-    func didTapOnStatusView()
-    func didTapOnPreview()
-    func didShowMoreInfo()
+protocol ListingCardViewDelegate: class {
+    func cardViewDidTapOnStatusView(_ cardView: ListingCardView)
+    func cardViewDidTapOnPreview(_ cardView: ListingCardView)
+    func cardViewDidShowMoreInfo(_ cardView: ListingCardView)
 }
 
 final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestureRecognizerDelegate, ReusableCell {
@@ -61,12 +61,16 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     private var scrollViewTapGesture: UITapGestureRecognizer?
 
     private let bias: CGFloat = 1
-    private var fullDetailsOffset: CGFloat { return min(-Layout.Height.userView + bias,
+    private var fullDetailsOffset: CGFloat { return min(-Layout.Height.userView,
                                                         -(contentView.bounds.height - detailsView.bounds.height))}
-    private var detailsViewFullyVisible: Bool { return abs(scrollView.contentOffset.y + Layout.Height.userView) < CGFloat.ulpOfOne }
+    private var lastMoreInfoState: MoreInfoState = MoreInfoState.hidden {
+        didSet { moreInfoStateDidChange(oldValue, current: lastMoreInfoState) }
+    }
+
+    private var detailsViewFullyVisible: Bool { return scrollView.contentOffset.y - fullDetailsOffset >= -CGFloat.ulpOfOne }
     private let detailsView = ListingCardDetailsView()
     private var detailsThreshold: CGFloat { return 0.5 * previewImageView.height }
-    private var isImageVisibleEnough: Bool { return abs(scrollView.contentOffset.y) > detailsThreshold }
+    private var isPreviewVisible: Bool { return abs(scrollView.contentOffset.y) > detailsThreshold }
     private var fullMapConstraints: [NSLayoutConstraint] = []
 
     private var imageDownloader: ImageDownloaderType?
@@ -81,13 +85,16 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     override func prepareForReuse() {
         super.prepareForReuse()
         recycleDisposeBag()
+        userView.prepareForReuse()
         previewImageView.image = nil
         userView.alpha = 0
+        lastMoreInfoState = .hidden
 
         layoutVerticalContentInset(animated: false)
     }
 
     func populateWith(cellModel listingViewModel: ListingCardViewCellModel, imageDownloader: ImageDownloaderType) {
+        userView.tag = self.tag
         self.imageDownloader = imageDownloader
         binder.bind(withViewModel: listingViewModel)
         populateWith(details: listingViewModel)
@@ -97,7 +104,10 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
         self.imageDownloader = imageDownloader
         populateWith(preview: listingSnapshot.preview, imageCount: listingSnapshot.imageCount)
         populateWith(userInfo: listingSnapshot.userInfo)
-        detailsView.populateWith(productInfo: listingSnapshot.productInfo)
+        let action = listingSnapshot.isMine ? ListingCardUserView.Action.edit
+                                            : ListingCardUserView.Action.favourite(isOn: listingSnapshot.isFavorite)
+        userView.set(action: action)
+        detailsView.populateWith(productInfo: listingSnapshot.productInfo, showExactLocationOnMap: false)
         detailsView.populateWith(listingStats: nil, postedDate: nil)
     }
 
@@ -107,7 +117,10 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
 
     func populateWith(userInfo: ListingVMUserInfo?) {
         guard let info = userInfo else { return }
-        userView.populate(withUserName: info.name, icon: info.avatar, imageDownloader: ImageDownloader.sharedInstance)
+        userView.populate(withUserName: info.name,
+                          placeholder: info.avatarPlaceholder(),
+                          icon: info.avatar,
+                          imageDownloader: ImageDownloader.sharedInstance)
         UIView.animate(withDuration: 0.1) { self.userView.alpha = 1 }
     }
 
@@ -125,9 +138,13 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     }
 
     func populateWith(status: ListingViewModelStatus?, featured: Bool) {
-        guard let listingStatus = status else { return }
+        guard let listingStatus = status else {
+            statusView.isHidden = true
+            return
+        }
         statusTapGesture?.isEnabled = featured
-        statusView.isHidden = listingStatus.string == nil
+        let statusVisible = featured || listingStatus.shouldShowStatus
+        statusView.isHidden = !statusVisible
         statusView.setFeaturedStatus(listingStatus, featured: featured)
     }
 
@@ -145,29 +162,32 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     func showFullMap(fromRect rect: CGRect) {
         contentView.bringSubview(toFront: detailsView.detailMapView)
         fullMapConstraints = [
-            detailsView.detailMapView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            detailsView.detailMapView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 1.0)
+            detailsView.detailMapView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 1.0),
+            detailsView.detailMapView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ]
         NSLayoutConstraint.activate(fullMapConstraints)
 
         detailsView.detailMapView.showRegion(animated: true)
         UIView.animate(withDuration: 0.3) {
-            self.userView.alpha = 0
-            self.whiteGradient.alpha = 0
-            self.detailsView.detailMapView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(1)
+            self.updateSubviewsAlphaForMapAnimation(0)
             self.detailsView.layoutIfNeeded()
         }
     }
 
     func hideFullMap() {
-        detailsView.detailMapView.hideMap(animated: true)
         deactivateFullMap()
-        UIView.animate(withDuration: 0.3) {
-            self.userView.alpha = 1
-            self.whiteGradient.alpha = 1
-            self.detailsView.detailMapView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0)
+        detailsView.detailMapView.hideMap(animated: true)
+        UIView.animate(withDuration: 0.3, animations: {
+            self.updateSubviewsAlphaForMapAnimation(1)
             self.detailsView.layoutIfNeeded()
-        }
+        })
+    }
+
+    private func updateSubviewsAlphaForMapAnimation(_ alpha: CGFloat) {
+        self.userView.alpha = alpha
+        self.whiteGradient.alpha = alpha
+        self.statusView.alpha = alpha
+        self.detailsView.detailMapView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(abs(1 - alpha))
     }
 
     private func deactivateFullMap() {
@@ -233,7 +253,8 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
 
     @objc private func touchUpStatusView() {
         statusView.bounce { [weak self] in
-            self?.delegate?.didTapOnStatusView()
+            guard let strongSelf = self else { return }
+            strongSelf.delegate?.cardViewDidTapOnStatusView(strongSelf)
         }
     }
 
@@ -358,12 +379,19 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
 
     // MARK: UIScrollViewDelegate
 
+    private func moreInfoStateDidChange(_ previous: MoreInfoState, current: MoreInfoState) {
+        guard previous != current, current == .shown else { return }
+        delegate?.cardViewDidShowMoreInfo(self)
+    }
+
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y >= -Layout.stickyHeaderThreadshold  {
             setStickyHeaderOn()
         } else {
             setStickyHeaderOff()
         }
+
+        lastMoreInfoState = detailsViewFullyVisible ? .shown : .hidden
         if scrollView.contentOffset.y <= -scrollView.contentInset.top {
             let scaleRatio = (-scrollView.contentOffset.y / scrollView.contentInset.top) * 1.2
             previewImageView.transform = CGAffineTransform.identity.scaledBy(x: scaleRatio, y: scaleRatio)
@@ -373,15 +401,12 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
                 && -scrollView.contentOffset.y / scrollView.contentInset.top < 0.7 {
                 let ratio = -scrollView.contentOffset.y / scrollView.contentInset.top / 0.7
                 updateCount(alpha: ratio)
-                if detailsViewFullyVisible {
-                    delegate?.didShowMoreInfo()
-                }
             }
             let diff = scrollView.contentOffset.y - fullDetailsOffset
             bottomBackgroundHeight?.constant = contentView.bounds.height - previewImageView.bounds.height + max(0, diff)
             whiteGradient.alpha = abs(scrollView.contentOffset.y / scrollView.contentInset.top)
         }
-        detailsView.isUserInteractionEnabled = abs(scrollView.contentOffset.y) < detailsThreshold
+        detailsView.isUserInteractionEnabled = !isPreviewVisible
     }
 
     private func setStickyHeaderOn() {
@@ -389,6 +414,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
         NSLayoutConstraint.activate(userViewTopConstraints)
         UIView.animate(withDuration: 0.3) {
             self.userView.effectView.alpha = 1
+            self.statusView.alpha = 0
         }
     }
 
@@ -397,6 +423,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
         NSLayoutConstraint.activate(userViewScrollingConstraints)
         UIView.animate(withDuration: 0.3) {
             self.userView.effectView.alpha = 0
+            self.statusView.alpha = 1
         }
     }
 
@@ -418,26 +445,17 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
 
     // MARK: UITapGestureRecognizer
 
-    override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        return !detailsView.isMapExpanded
-    }
-
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
-                           shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return gestureRecognizer == statusTapGesture && otherGestureRecognizer == scrollViewTapGesture
-    }
-
     @objc private func didTapOnScrollView(sender: UITapGestureRecognizer) {
         guard !detailsView.isMapExpanded else {
-            detailsView.detailMapView.hideMap(animated: true)
+            hideFullMap()
             return
         }
 
         let didTapBelowUser = sender.location(in: userView).y > 0
-        if didTapBelowUser && isImageVisibleEnough {
+        if didTapBelowUser && isPreviewVisible {
             scrollToDetail()
-        } else if isImageVisibleEnough {
-            delegate?.didTapOnPreview()
+        } else if isPreviewVisible {
+            delegate?.cardViewDidTapOnPreview(self)
         } else {
             showFullImagePreview()
         }
