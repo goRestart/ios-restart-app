@@ -149,8 +149,8 @@ fileprivate extension VPPostListingRedCamFooter {
 
         infoButton.setImage(#imageLiteral(resourceName: "info"), for: .normal)
 
-        let highlightedText = LGLocalizedString.productPostCameraVideoRecordingHintLabelHighlightedWord
-        let hintText = LGLocalizedString.productPostCameraVideoRecordingHintLabel(highlightedText)
+        let highlightedText = LGLocalizedString.productPostCameraVideoRecordingTooltipHighlightedWord
+        let hintText = LGLocalizedString.productPostCameraVideoRecordingTooltip(highlightedText)
         let hintNSString = NSString(string: hintText)
         let range = hintNSString.range(of: highlightedText)
         let attributues: [NSAttributedStringKey : Any] = [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 17),
