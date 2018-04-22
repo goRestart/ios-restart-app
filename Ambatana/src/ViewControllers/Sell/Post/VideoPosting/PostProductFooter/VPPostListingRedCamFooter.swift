@@ -12,14 +12,15 @@ final class VPPostListingRedCamFooter: UIView {
     static let galleryIconSide: CGFloat = 70
     static let cameraIconSide: CGFloat = 80
 
-    let galleryButton = UIButton()
-    let photoButton = UIButton()
-    let videoButton = UIButton()
-    let cameraButton = CameraButton() as UIButton
-    let infoButton = UIButton()
+    let galleryButton: UIButton = UIButton()
+    let photoButton: UIButton = UIButton()
+    let videoButton: UIButton = UIButton()
+    let cameraButton: UIButton = CameraButton()
+    let infoButton: UIButton = UIButton()
     private let infoButtonIncluded: Bool
     private var cameraButtonCenterXConstraint: NSLayoutConstraint?
     private var recordVideoHintLabel = CameraTooltip()
+    private var recordingTooltip = RecordingTooltip()
 
 
     // MARK: - Lifecycle
@@ -72,8 +73,10 @@ extension VPPostListingRedCamFooter: PostListingFooter {
         cameraButton.mode = .Photo
         UIView.animate(withDuration: 0.5, animations: { [weak self] in
             self?.recordVideoHintLabel.alpha = 0
+            self?.recordingTooltip.alpha = 0
         }) { [weak self] (finished) in
             self?.recordVideoHintLabel.isHidden = true
+            self?.recordingTooltip.isHidden = true
         }
     }
 
@@ -87,6 +90,37 @@ extension VPPostListingRedCamFooter: PostListingFooter {
         UIView.animate(withDuration: 0.5, delay: 0.5, options: .curveEaseIn, animations: { [weak self] in
             self?.recordVideoHintLabel.alpha = 1
         }, completion: nil)
+    }
+
+    func startRecording() {
+        guard let cameraButton = cameraButton as? CameraButton else { return }
+        cameraButton.startRecording()
+        recordVideoHintLabel.isHidden = true
+    }
+
+    func stopRecording() {
+        guard let cameraButton = cameraButton as? CameraButton else { return }
+        cameraButton.stopRecording()
+        recordingTooltip.isHidden = true
+    }
+
+    func updateVideoRecordingDurationProgress(progress: CGFloat, remainingTime: TimeInterval) {
+
+        guard progress > 0 else { return }
+        guard let cameraButton = cameraButton as? CameraButton else { return }
+        cameraButton.progress = progress
+
+        let remainingTime: Int = 15 - Int(15 * progress)
+        recordingTooltip.label.text = String(format: "0:%02d", remainingTime)
+        if recordingTooltip.isHidden {
+            recordingTooltip.isHidden = false
+            UIView.animate(withDuration: 0.5, animations: { [weak self] in
+                self?.recordVideoHintLabel.alpha = 0
+                self?.recordingTooltip.alpha = 1
+            }) { [weak self] (finished) in
+                self?.recordVideoHintLabel.isHidden = true
+            }
+        }
     }
 }
 
@@ -105,11 +139,13 @@ fileprivate extension VPPostListingRedCamFooter {
         photoButton.setTitle(LGLocalizedString.productPostCameraPhotoModeButton, for: .normal)
         photoButton.titleLabel?.font = UIFont.systemBoldFont(size: 17)
         photoButton.applyShadow(withOpacity: 0.7, radius: 1)
+        photoButton.setTitleColor(UIColor.Camera.selectedPhotoVideoButton, for: .normal)
 
         videoButton.setTitleColor(UIColor.white, for: .normal)
         videoButton.setTitle(LGLocalizedString.productPostCameraVideoModeButton, for: .normal)
         videoButton.titleLabel?.font = UIFont.systemBoldFont(size: 17)
         videoButton.applyShadow(withOpacity: 0.7, radius: 1)
+        videoButton.setTitleColor(UIColor.Camera.unselectedPhotoVideoButton, for: .normal)
 
         infoButton.setImage(#imageLiteral(resourceName: "info"), for: .normal)
 
@@ -129,7 +165,10 @@ fileprivate extension VPPostListingRedCamFooter {
         recordVideoHintLabel.label.numberOfLines = 0
         recordVideoHintLabel.label.textAlignment = .center
 
-        addSubviewsForAutoLayout([galleryButton, photoButton, videoButton, cameraButton, infoButton, recordVideoHintLabel])
+        recordingTooltip.label.font = UIFont.systemBoldFont(size: 21)
+        recordingTooltip.label.textColor = UIColor.white
+
+        addSubviewsForAutoLayout([galleryButton, photoButton, videoButton, cameraButton, infoButton, recordVideoHintLabel, recordingTooltip])
     }
 
     func setupAccessibilityIds() {
@@ -174,6 +213,10 @@ fileprivate extension VPPostListingRedCamFooter {
         recordVideoHintLabel.isHidden = true
         recordVideoHintLabel.layout(with: cameraButton).above(by: -27).centerX()
         recordVideoHintLabel.layout(with: self).leading(by: Metrics.margin, relatedBy: .greaterThanOrEqual)
+
+        recordingTooltip.isHidden = true
+        recordingTooltip.layout(with: cameraButton).above(by: -50).centerX()
+        recordingTooltip.layout(with: self).leading(by: Metrics.margin, relatedBy: .greaterThanOrEqual)
     }
 }
 
@@ -190,6 +233,11 @@ final class CameraButton: UIButton {
         }
     }
 
+    var progress: CGFloat {
+        get { return videoRecordingProgressLayer.progress }
+        set { videoRecordingProgressLayer.progress = newValue }
+    }
+
     private static let buttonSize: CGSize = CGSize(width: 80, height: 80)
     private static let strokeWidth: CGFloat = 4
 
@@ -198,6 +246,17 @@ final class CameraButton: UIButton {
     private var iconsLayer: CameraButtonIconsLayer = {
         let width = buttonSize.width - 2 * strokeWidth
         let layer = CameraButtonIconsLayer(size: CGSize(width: width, height: width))
+        return layer
+    }()
+
+    private var videoRecordingProgressLayer: VideoRecordingProgressLayer = {
+        let layer = VideoRecordingProgressLayer(size: CGSize(width: 150, height: 150))
+        layer.progress = 0.25
+        return layer
+    }()
+
+    private var videoRecordingLayer: VideoRecordingLayer = {
+        let layer = VideoRecordingLayer(outerCircleSize: CGSize(width: 150, height: 150), innerCircleSize: CGSize(width: 60, height: 60))
         return layer
     }()
 
@@ -225,6 +284,24 @@ final class CameraButton: UIButton {
         }
     }
 
+    func startRecording() {
+        iconsLayer.isHidden = true
+        backgroundLayer.isHidden = true
+        videoRecordingLayer.isHidden = false
+        videoRecordingLayer.startRecording()
+        videoRecordingProgressLayer.progress = 0
+        videoRecordingProgressLayer.isHidden = false
+    }
+
+    func stopRecording() {
+        iconsLayer.isHidden = false
+        backgroundLayer.isHidden = false
+        videoRecordingLayer.isHidden = true
+        videoRecordingLayer.stopRecording()
+        videoRecordingProgressLayer.isHidden = true
+        videoRecordingProgressLayer.progress = 0
+    }
+
     private func updateCameraMode(cameraMode: CameraButtonMode) {
         if cameraMode == .Photo {
             iconsLayer.showCamera()
@@ -246,6 +323,14 @@ final class CameraButton: UIButton {
         iconsLayer.frame = CGRect(origin: center, size: iconsLayer.bounds.size)
         iconsLayer.showCamera()
 
+        videoRecordingLayer.position = center
+        videoRecordingLayer.isHidden = true
+
+        videoRecordingProgressLayer.position = center
+        videoRecordingProgressLayer.isHidden = true
+
+        layer.addSublayer(videoRecordingLayer)
+        layer.addSublayer(videoRecordingProgressLayer)
         layer.addSublayer(backgroundLayer)
         layer.addSublayer(iconsLayer)
     }
@@ -331,6 +416,88 @@ final class CameraButton: UIButton {
             layer.add(animationGroup, forKey: "animationGroup")
         }
     }
+
+    class VideoRecordingLayer: CALayer {
+
+        private let innerCircleLayer = CAShapeLayer()
+        private let outerCircleLayer = CAShapeLayer()
+        private let innerCircleSize: CGSize
+        private let outerCircleSize: CGSize
+
+        init(outerCircleSize: CGSize, innerCircleSize: CGSize) {
+            self.innerCircleSize = innerCircleSize
+            self.outerCircleSize = outerCircleSize
+            super.init()
+
+            innerCircleLayer.path = UIBezierPath(ovalIn: CGRect.centeredFrameWithSize(size: innerCircleSize)).cgPath
+            innerCircleLayer.fillColor = UIColor.white.cgColor
+
+            outerCircleLayer.path = UIBezierPath(ovalIn: CGRect.centeredFrameWithSize(size: innerCircleSize)).cgPath
+            outerCircleLayer.fillColor = UIColor.white.withAlphaComponent(0.7).cgColor
+
+            addSublayer(outerCircleLayer)
+            addSublayer(innerCircleLayer)
+        }
+
+        required init?(coder aDecoder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+
+        func startRecording() {
+            let animation = CABasicAnimation(keyPath: "path")
+            animation.toValue = UIBezierPath(ovalIn: CGRect.centeredFrameWithSize(size: outerCircleSize)).cgPath
+            animation.duration = 0.5
+            animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+            animation.fillMode = kCAFillModeBoth
+            animation.isRemovedOnCompletion = false
+            outerCircleLayer.add(animation, forKey: animation.keyPath)
+        }
+
+        func stopRecording() {
+            outerCircleLayer.path = UIBezierPath(ovalIn: CGRect.centeredFrameWithSize(size: innerCircleSize)).cgPath
+        }
+    }
+
+    class VideoRecordingProgressLayer: CALayer {
+        var progress: CGFloat {
+            get { return progressLayer.strokeEnd }
+            set {
+                if (newValue > 1.0) {
+                    progressLayer.strokeEnd = 1.0
+                } else if (newValue < 0.0) {
+                    progressLayer.strokeEnd = 0.0
+                } else {
+                    progressLayer.strokeEnd = newValue
+                }
+            }
+        }
+        private let progressLayer = CAShapeLayer()
+        private let progressPathLayer = CAShapeLayer()
+
+        init(size: CGSize) {
+            super.init()
+            bounds = CGRect(origin: .zero, size: size)
+            addSublayer(progressPathLayer)
+            addSublayer(progressLayer)
+
+            progressLayer.path = UIBezierPath(ovalIn: bounds).cgPath
+            progressLayer.lineWidth = 4
+            progressLayer.strokeColor = UIColor.Camera.cameraButton.cgColor
+            progressLayer.fillColor = UIColor.clear.cgColor
+            progressLayer.transform = CATransform3DMakeRotation(-CGFloat(90.0 / 180.0 * .pi), 0.0, 0.0, 1.0)
+            progressLayer.frame = bounds
+
+            progressPathLayer.path = UIBezierPath(ovalIn: bounds).cgPath
+            progressPathLayer.lineWidth = 4
+            progressPathLayer.strokeColor = UIColor.white.cgColor
+            progressPathLayer.fillColor = UIColor.clear.cgColor
+            progressPathLayer.frame = bounds
+        }
+
+        required init?(coder aDecoder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+    }
 }
 
 final class CameraTooltip: UIView {
@@ -387,6 +554,116 @@ final class CameraTooltip: UIView {
     }
 }
 
+final class RecordingTooltip: UIView {
+
+    let label: UILabel = UILabel()
+    let recordingIcon: RecordingIcon = RecordingIcon()
+    private let bubbleLayer: CAShapeLayer = CAShapeLayer()
+    private let bubbleCornerRadius: CGFloat = 10
+    private let arrowSize = CGSize(width: 24, height: 10)
+
+    init() {
+        super.init(frame: .zero)
+
+        setupUI()
+        setupAccessibilityIds()
+        setupLayout()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        bubbleLayer.path = UIBezierPath.bubblePath(for: bounds.size,
+                                                   arrowSize: arrowSize,
+                                                   cornerRadius: bubbleCornerRadius).cgPath
+    }
+
+    override var isHidden: Bool {
+        didSet {
+            if !isHidden {
+                recordingIcon.startAnimating()
+            } else {
+                recordingIcon.stopAnimating()
+            }
+        }
+    }
+
+
+    private func setupUI() {
+
+        layer.addSublayer(bubbleLayer)
+
+        bubbleLayer.fillColor = UIColor(white: 44/255, alpha: 0.95).cgColor
+        bubbleLayer.shadowColor = UIColor.black.cgColor
+        bubbleLayer.shadowRadius = 4
+        bubbleLayer.shadowOffset = CGSize(width: 0, height: 2)
+        bubbleLayer.shadowOpacity = 0.5
+        bubbleLayer.path = UIBezierPath.bubblePath(for: bounds.size,
+                                                   arrowSize: arrowSize,
+                                                   cornerRadius: bubbleCornerRadius).cgPath
+
+        recordingIcon.backgroundColor = UIColor.Camera.cameraButton
+
+        addSubviewsForAutoLayout([label, recordingIcon])
+    }
+
+    private func setupAccessibilityIds() {
+
+    }
+
+    private func setupLayout() {
+
+        recordingIcon.layout(with: self)
+            .leading(by: 9)
+
+        label.layout(with: self)
+            .top(by: 7)
+            .bottom(by: -(7 + arrowSize.height))
+            .trailing(by: -Metrics.shortMargin)
+
+        label.layout(with: recordingIcon)
+            .leading(to: .trailing , by: 6)
+            .centerY()
+    }
+
+    final class RecordingIcon: UIView {
+
+        static let size = CGSize(width: 12, height: 12)
+
+        init() {
+            super.init(frame: CGRect(origin: .zero, size: RecordingIcon.size))
+        }
+
+        required init?(coder aDecoder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+
+        override func layoutSubviews() {
+            super.layoutSubviews()
+            layer.cornerRadius = width/2
+        }
+
+        override var intrinsicContentSize: CGSize {
+            return RecordingIcon.size
+        }
+
+        func startAnimating() {
+            alpha = 1
+            UIView.animate(withDuration: 0.5, delay: 0.0, options: [.autoreverse, .repeat], animations: { [weak self] in
+                self?.alpha = 0
+            }, completion: nil)
+        }
+
+        func stopAnimating() {
+            layer.removeAllAnimations()
+            alpha = 1
+        }
+    }
+}
+
 private extension UIBezierPath {
 
     static func bubblePath(for contentSize: CGSize, arrowSize: CGSize, cornerRadius: CGFloat) -> UIBezierPath {
@@ -435,5 +712,13 @@ private extension UIBezierPath {
         bezierPath.close()
 
         return bezierPath
+    }
+}
+
+extension CGRect {
+
+    static func centeredFrameWithSize(size: CGSize) -> CGRect {
+        let origin = CGPoint(x: -(size.width / 2), y: -(size.height / 2))
+        return CGRect(origin: origin, size: size)
     }
 }

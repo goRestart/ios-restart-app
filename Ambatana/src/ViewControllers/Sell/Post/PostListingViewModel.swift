@@ -33,6 +33,8 @@ enum PostingSource {
 class PostListingViewModel: BaseViewModel {
     
     static let carDetailsNumber: Int = 3
+    static let videoMaxDuration: TimeInterval = 15
+    static let videoMinDuration: TimeInterval = 2
     
     weak var delegate: PostListingViewModelDelegate?
     weak var navigator: PostListingNavigator?
@@ -72,6 +74,7 @@ class PostListingViewModel: BaseViewModel {
     
     fileprivate let listingRepository: ListingRepository
     fileprivate let fileRepository: FileRepository
+    fileprivate let preSignedUploadUrlRepository: PreSignedUploadUrlRepository
     fileprivate let carsInfoRepository: CarsInfoRepository
     fileprivate let currencyHelper: CurrencyHelper
     fileprivate let tracker: Tracker
@@ -82,6 +85,8 @@ class PostListingViewModel: BaseViewModel {
     
     fileprivate var imagesSelected: [UIImage]?
     fileprivate var uploadedImageSource: EventParameterPictureSource?
+    fileprivate var recordedVideo: RecordedVideo?
+    fileprivate var uploadingVideo: VideoUpload?
     
     let selectedDetail = Variable<CategoryDetailSelectedInfo?>(nil)
     var selectedCarAttributes: CarAttributes = CarAttributes.emptyCarAttributes()
@@ -101,7 +106,8 @@ class PostListingViewModel: BaseViewModel {
     }
 
     var shouldShowVideoFooter: Bool {
-        return true //TODO: Check video posting feature flag
+        guard let category = postCategory?.listingCategory else { return false }
+        return category.isProduct && featureFlags.machineLearningMVP.isVideoPostingActive
     }
     
     fileprivate let disposeBag: DisposeBag
@@ -119,6 +125,7 @@ class PostListingViewModel: BaseViewModel {
                   isBlockingPosting: isBlockingPosting,
                   listingRepository: Core.listingRepository,
                   fileRepository: Core.fileRepository,
+                  preSignedUploadUrlRepository: Core.preSignedUploadUrlRepository,
                   carsInfoRepository: Core.carsInfoRepository,
                   tracker: TrackerProxy.sharedInstance,
                   sessionManager: Core.sessionManager,
@@ -134,6 +141,7 @@ class PostListingViewModel: BaseViewModel {
          isBlockingPosting: Bool,
          listingRepository: ListingRepository,
          fileRepository: FileRepository,
+         preSignedUploadUrlRepository: PreSignedUploadUrlRepository,
          carsInfoRepository: CarsInfoRepository,
          tracker: Tracker,
          sessionManager: SessionManager,
@@ -149,6 +157,7 @@ class PostListingViewModel: BaseViewModel {
         self.isBlockingPosting = isBlockingPosting
         self.listingRepository = listingRepository
         self.fileRepository = fileRepository
+        self.preSignedUploadUrlRepository = preSignedUploadUrlRepository
         self.carsInfoRepository = carsInfoRepository
         self.postDetailViewModel = PostListingBasicDetailViewModel()
         self.postListingCameraViewModel = PostListingCameraViewModel(postingSource: source,
@@ -197,6 +206,12 @@ class PostListingViewModel: BaseViewModel {
             uploadImages(images, source: source)
         }
     }
+
+    func videoRecorded(video: RecordedVideo) {
+        let uploadingVideo = VideoUpload(recordedVideo: video, snapshot: nil, videoId: nil)
+        self.uploadingVideo = uploadingVideo
+        uploadVideoSnapshot(uploadingVideo: uploadingVideo)
+    }
     
     fileprivate func uploadImages(_ images: [UIImage], source: EventParameterPictureSource) {
         uploadedImageSource = source
@@ -218,6 +233,57 @@ class PostListingViewModel: BaseViewModel {
                 strongSelf.state.value = strongSelf.state.value.updating(uploadError: error)
             }
         }
+    }
+
+    fileprivate func uploadVideoSnapshot(uploadingVideo: VideoUpload) {
+
+        guard sessionManager.loggedIn else {
+            state.value = state.value.updating(pendingToUploadVideo: uploadingVideo.recordedVideo)
+            return
+        }
+        state.value = state.value.updatingStepToUploadingVideoSnapshot(uploadingVideo: uploadingVideo)
+        fileRepository.upload([uploadingVideo.recordedVideo.snapshot], progress: nil) { [weak self] result in
+            guard let strongSelf = self else { return }
+
+            if let image = result.value?.first {
+                let uploadingVideo = VideoUpload(recordedVideo: uploadingVideo.recordedVideo, snapshot: image, videoId: nil)
+                strongSelf.state.value = strongSelf.state.value.updatingStepToCreatingPreSignedUrl(uploadingVideo: uploadingVideo)
+                strongSelf.createPreSignedUploadUrlForVideo(uploadingVideo: uploadingVideo)
+            } else if let error = result.error {
+                strongSelf.state.value = strongSelf.state.value.updating(uploadError: error)
+            }
+        }
+    }
+
+    fileprivate func createPreSignedUploadUrlForVideo(uploadingVideo: VideoUpload) {
+
+        preSignedUploadUrlRepository.create(fileExtension: "mp4") { [weak self] result in
+            guard let strongSelf = self else { return }
+
+            if let preSignedUploadUrl = result.value {
+                let uploadingVideo = VideoUpload(recordedVideo: uploadingVideo.recordedVideo,
+                                                    snapshot: uploadingVideo.snapshot,
+                                                    videoId: preSignedUploadUrl.form.fileKey)
+                strongSelf.state.value = strongSelf.state.value.updatingStepToUploadingVideoFile(uploadingVideo: uploadingVideo)
+                strongSelf.uploadVideo(uploadingVideo: uploadingVideo, preSignedUploadUrl: preSignedUploadUrl)
+            } else if let error = result.error {
+                strongSelf.state.value = strongSelf.state.value.updating(uploadError: error)
+            }
+        }
+    }
+
+    fileprivate func uploadVideo(uploadingVideo: VideoUpload, preSignedUploadUrl: PreSignedUploadUrl) {
+
+        // Upload video
+        self.preSignedUploadUrlRepository.upload(url: preSignedUploadUrl.form.action, file: uploadingVideo.recordedVideo.url, inputs: preSignedUploadUrl.form.inputs, progress: nil, completion: { [weak self] result in
+            guard let strongSelf = self else { return }
+
+            if result.value != nil {
+                strongSelf.state.value = strongSelf.state.value.updatingToSuccessUpload(uploadedVideo: uploadingVideo)
+            } else if let error = result.error {
+                strongSelf.state.value = strongSelf.state.value.updating(uploadError: error)
+            }
+        })
     }
     
     fileprivate func openQueuedRequestsLoading(images: [UIImage], imageSource: EventParameterPictureSource) {
@@ -423,8 +489,7 @@ fileprivate extension PostListingViewModel {
                                                    mostSearchedButton: postingSource.mostSearchedButton,
                                                    machineLearningInfo: MachineLearningTrackingInfo.defaultValues())
         if sessionManager.loggedIn {
-            guard let images = state.value.lastImagesUploadResult?.value,
-                let listingCreationParams = makeListingParams() else { return }
+            guard let listingCreationParams = makeListingParams() else { return }
             navigator?.closePostProductAndPostInBackground(params: listingCreationParams,
                                                            trackingInfo: trackingInfo)
         } else if let images = state.value.pendingToUploadImages {
@@ -432,6 +497,20 @@ fileprivate extension PostListingViewModel {
                 guard let listingParams = self?.makeListingParams() else { return }
                 self?.navigator?.closePostProductAndPostLater(params: listingParams,
                                                               images: images,
+                                                              video: nil,
+                                                              trackingInfo: trackingInfo)
+            }
+            let cancelAction = { [weak self] in
+                guard let _ = self?.state.value else { return }
+                self?.navigator?.cancelPostListing()
+            }
+            navigator?.openLoginIfNeededFromListingPosted(from: .sell, loggedInAction: loggedInAction, cancelAction: cancelAction)
+        } else if let video = state.value.pendingToUploadVideo {
+            let loggedInAction = { [weak self] in
+                guard let listingParams = self?.makeListingParams() else { return }
+                self?.navigator?.closePostProductAndPostLater(params: listingParams,
+                                                              images: nil,
+                                                              video: video,
                                                               trackingInfo: trackingInfo)
             }
             let cancelAction = { [weak self] in

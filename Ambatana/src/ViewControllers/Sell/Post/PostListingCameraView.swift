@@ -13,6 +13,7 @@ import RxCocoa
 protocol PostListingCameraViewDelegate: class {
     func productCameraCloseButton()
     func productCameraDidTakeImage(_ image: UIImage)
+    func productCameraDidRecordVideo(video: RecordedVideo)
     func productCameraRequestsScrollLock(_ lock: Bool)
     func productCameraRequestHideTabs(_ hide: Bool)
 }
@@ -23,6 +24,7 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
 
     @IBOutlet weak var cameraView: UIView!
     @IBOutlet weak var imagePreview: UIImageView!
+    @IBOutlet weak var videoPreview: VideoPreview!
     @IBOutlet weak var cornersContainer: UIView!
 
     @IBOutlet weak var closeButton: UIButton!
@@ -72,7 +74,10 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
     private var headerShown = true
 
     let takePhotoEnabled = Variable<Bool>(true)
+    let recordVideoEnabled = Variable<Bool>(true)
+    let recordingDuration = Variable<TimeInterval>(0)
     fileprivate let disposeBag = DisposeBag()
+    private var recordingDurationTimer: Timer?
  
 
     // MARK: - View lifecycle
@@ -146,6 +151,27 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
             }
             self?.takePhotoEnabled.value = true
         }
+    }
+
+    func recordVideo(maxDuration: TimeInterval) {
+        hideFirstTimeAlert()
+        guard recordVideoEnabled.value, camera.isReady else { return }
+        recordVideoEnabled.value = false
+        startListeningVideoDuration()
+        camera.startRecordingVideo { [weak self] result in
+            self?.stopListeningVideoDuration()
+            if let recordedVideo = result.value, recordedVideo.duration > PostListingViewModel.videoMinDuration {
+                self?.viewModel.videoRecorded(recordedVideo)
+            } else {
+                self?.viewModel.retryPhotoButtonPressed()
+            }
+            self?.recordVideoEnabled.value = true
+        }
+    }
+
+    func stopRecordingVideo() {
+        guard camera.isRecording else { return }
+        camera.stopRecordingVideo()
     }
     
     // MARK: - Actions
@@ -224,9 +250,15 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
         let state = viewModel.cameraState.asObservable()
         state.subscribeNext{ [weak self] state in self?.updateCamera() }.disposed(by: disposeBag)
         let previewModeHidden = state.map{ !$0.previewMode }
-        previewModeHidden.bind(to: imagePreview.rx.isHidden).disposed(by: disposeBag)
         previewModeHidden.bind(to: retryPhotoButton.rx.isHidden).disposed(by: disposeBag)
         previewModeHidden.bind(to: usePhotoButton.rx.isHidden).disposed(by: disposeBag)
+
+        let previewPhotoModeHidden = state.map{ !$0.previewPhotoMode }
+        previewPhotoModeHidden.bind(to: imagePreview.rx.isHidden).disposed(by: disposeBag)
+
+        let previewVideoModeHidden = state.map{ !$0.previewVideoMode }
+        previewVideoModeHidden.bind(to: videoPreview.rx.isHidden).disposed(by: disposeBag)
+
         let captureModeHidden = state.map{ !$0.captureMode }
         captureModeHidden.bind(to: cornersContainer.rx.isHidden).disposed(by: disposeBag)
         captureModeHidden.bind(to: switchCamButton.rx.isHidden).disposed(by: disposeBag)
@@ -256,7 +288,15 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
             }.disposed(by: disposeBag)
         }
     
-        viewModel.imageSelected.asObservable().bind(to: imagePreview.rx.image).disposed(by: disposeBag)
+//        viewModel.imageSelected.asObservable().bind(to: imagePreview.rx.image).disposed(by: disposeBag)
+        viewModel.imageSelected.asObservable().subscribeNext { [weak self] imageSelected in
+            self?.imagePreview.image = imageSelected
+        }.disposed(by: disposeBag)
+        
+        viewModel.videoRecorded.asObservable().ignoreNil().subscribeNext { [weak self] videoRecorded in
+            self?.videoPreview.url = videoRecorded.url
+            self?.videoPreview.play()
+        }.disposed(by: disposeBag)
 
         let flashMode = viewModel.cameraFlashState.asObservable()
         flashMode.subscribeNext{ [weak self] flashMode in
@@ -287,7 +327,7 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
 
 extension PostListingCameraView {
     
-    fileprivate func updateCamera() {
+    private func updateCamera() {
         if viewModel.active && viewModel.cameraState.value.captureMode {
             if camera.isAttached {
                 camera.resume()
@@ -299,6 +339,19 @@ extension PostListingCameraView {
             camera.pause()
             cameraView.isHidden = true
         }
+    }
+
+    private func startListeningVideoDuration() {
+        recordingDurationTimer?.invalidate()
+        recordingDurationTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(PostListingCameraView.updateRecordingDuration), userInfo: nil, repeats: true)
+    }
+
+    private func stopListeningVideoDuration() {
+        recordingDurationTimer?.invalidate()
+    }
+
+    @objc private func updateRecordingDuration() {
+        recordingDuration.value = camera.recordingDuration
     }
 }
 

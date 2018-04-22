@@ -261,6 +261,7 @@ extension RealEstateTutorial {
 
 extension MachineLearningMVP {
     var isActive: Bool { get { return self == .active } }
+    var isVideoPostingActive: Bool { get { return self == .videoPostingActive } }
 }
 
 extension SummaryAsFirstStep {

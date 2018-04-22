@@ -127,6 +127,7 @@ final class SellCoordinator: Coordinator {
 // MARK: - PostListingNavigator
 
 extension SellCoordinator: PostListingNavigator {
+
     func cancelPostListing() {
         closeCoordinator(animated: true) { [weak self] in
             guard let strongSelf = self else { return }
@@ -230,12 +231,16 @@ extension SellCoordinator: PostListingNavigator {
         }
     }
 
-    func closePostProductAndPostLater(params: ListingCreationParams, images: [UIImage],
+    func closePostProductAndPostLater(params: ListingCreationParams,
+                                      images: [UIImage]?,
+                                      video: RecordedVideo?,
                                       trackingInfo: PostListingTrackingInfo) {
         guard let parentVC = parentViewController else { return }
 
         dismissViewController(animated: true) { [weak self] in
-            let listingPostedVM = ListingPostedViewModel(postParams: params, listingImages: images,
+            let listingPostedVM = ListingPostedViewModel(postParams: params,
+                                                         listingImages: images,
+                                                         video: video,
                                                          trackingInfo: trackingInfo)
             listingPostedVM.navigator = self
             let listingPostedVC = ListingPostedViewController(viewModel: listingPostedVM)

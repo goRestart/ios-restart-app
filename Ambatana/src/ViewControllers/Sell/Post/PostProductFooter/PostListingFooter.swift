@@ -18,4 +18,7 @@ protocol PostListingFooter {
     func update(scroll: CGFloat)
     func updateToPhotoMode()
     func updateToVideoMode()
+    func startRecording()
+    func stopRecording()
+    func updateVideoRecordingDurationProgress(progress: CGFloat, remainingTime: TimeInterval)
 }

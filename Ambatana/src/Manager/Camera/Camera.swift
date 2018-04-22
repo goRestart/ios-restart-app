@@ -9,10 +9,15 @@
 import AVFoundation
 import Result
 
-typealias CameraPhotoResult = Result<UIImage, NSError>
-typealias CameraRecordingVideoResult = Result<URL, NSError>
+public enum CameraError: Error {
+    case internalError(message: String)
+    case frameworkError(error: Error)
+}
 
+typealias CameraPhotoResult = Result<UIImage, CameraError>
 typealias CameraPhotoCompletion = (CameraPhotoResult) -> Void
+
+typealias CameraRecordingVideoResult = Result<RecordedVideo, CameraError>
 typealias CameraRecordingVideoCompletion = (CameraRecordingVideoResult) -> Void
 
 enum CameraFlashState {

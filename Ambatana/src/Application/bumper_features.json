@@ -192,8 +192,8 @@
     },
     {
         "name": "MachineLearningMVP",
-        "values": ["control", "baseline", "active"],
-        "description": "Show machine learning posting flow when pressing Other Items on salchichas menu"
+        "values": ["control", "baseline", "active", "videoPostingActive"],
+        "description": "Show machine learning posting flow when pressing Other Items on salchichas menu or enable video posting (used this ab test for video posting because they can't coexist)"
     },
     {
         "name": "AddPriceTitleDistanceToListings",

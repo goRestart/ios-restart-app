@@ -88,7 +88,7 @@ class CameraWrapper {
                 }
                 completion(CameraPhotoResult(image))
             } else if let error = error {
-                completion(CameraPhotoResult(error: error))
+                completion(CameraPhotoResult(error: .frameworkError(error: error)))
             }
         }
     }

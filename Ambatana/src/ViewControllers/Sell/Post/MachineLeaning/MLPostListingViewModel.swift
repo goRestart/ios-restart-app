@@ -384,6 +384,7 @@ fileprivate extension MLPostListingViewModel {
                 guard let listingParams = self?.makeListingParams(images: []) else { return }
                 self?.navigator?.closePostProductAndPostLater(params: listingParams,
                                                               images: images,
+                                                              video: nil,
                                                               trackingInfo: trackingInfo)
             }
             let cancelAction = { [weak self] in

@@ -9,7 +9,21 @@
 import UIKit
 import AVFoundation
 
-class LGCamera: NSObject, Camera {
+private typealias CapturePhotoOutput = AVCaptureOutput & CapturePhotoOutputProtocol
+
+final class LGCamera: Camera {
+
+    private let session: AVCaptureSession = AVCaptureSession()
+    private let sessionQueue: DispatchQueue = DispatchQueue(label: "camera.manager.session.queue")
+    private var isSetup: Bool = false
+    private let previewView: CameraPreviewView = CameraPreviewView()
+    private var currentInputVideoDevice: AVCaptureDeviceInput?
+    private let frontCamera: AVCaptureDevice? = AVCaptureDevice.defaultFrontCameraDevice()
+    private let backCamera: AVCaptureDevice? = AVCaptureDevice.defaultBackCameraDevice()
+    private let motionDeviceOrientation: MotionDeviceOrientation = MotionDeviceOrientation()
+    private let capturePhotoOutput: CapturePhotoOutput
+    private let videoRecorder: VideoRecorder = VideoRecorder()
+    private var pixelsBufferForwarder: PixelsBufferForwarder?
 
     var flashMode: CameraFlashState? {
         set { if let flashMode = newValue { updateFlashMode(flashMode.asFlashMode()) }}
@@ -57,11 +71,25 @@ class LGCamera: NSObject, Camera {
         return videoRecorder.recordingDuration
     }
 
-    public func pause() {
+    convenience init() {
+        let capturePhotoOutput: CapturePhotoOutput
+        if #available(iOS 10.0, *) {
+            capturePhotoOutput = LGCapturePhotoOutput()
+        } else {
+            capturePhotoOutput = LGCaptureStillImageOutput()
+        }
+        self.init(capturePhotoOutput: capturePhotoOutput)
+    }
+
+    private init(capturePhotoOutput: CapturePhotoOutput) {
+        self.capturePhotoOutput = capturePhotoOutput
+    }
+
+    func pause() {
         session.stopRunning()
     }
 
-    public func resume() {
+    func resume() {
         if !isSetup {
             setup()
         } else if !session.isRunning {
@@ -69,15 +97,15 @@ class LGCamera: NSObject, Camera {
         }
     }
 
-    public func addPreviewLayerTo(view: UIView) {
+    func addPreviewLayerTo(view: UIView) {
         guard !view.subviews.contains(previewView) else { return }
 
-        previewView.translatesAutoresizingMaskIntoConstraints = true
-        previewView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        previewView.frame = view.bounds
+        view.addSubviewForAutoLayout(previewView)
+
         previewView.videoPreviewLayer.videoGravity = .resizeAspectFill
         previewView.session = session
-        view.addSubview(previewView)
+
+        previewView.layout(with: view).fill()
 
         let statusBarOrientation = UIApplication.shared.statusBarOrientation
 
@@ -89,41 +117,42 @@ class LGCamera: NSObject, Camera {
     }
 
     func toggleCamera() {
-        if let currentCamera = currentInputVideoDevice?.device {
-            if currentCamera == self.frontCamera {
-                changeToCamera(source: .rear)
-            } else if currentCamera == self.backCamera {
-                changeToCamera(source: .front)
-            }
+        guard let currentCamera = currentInputVideoDevice?.device else { return }
+        if currentCamera == self.frontCamera {
+            changeToCamera(source: .rear)
+        } else if currentCamera == self.backCamera {
+            changeToCamera(source: .front)
         }
     }
 
-    public func capturePhoto(completion: @escaping CameraPhotoCompletion) {
-        guard session.outputs.contains(capturePhotoOutput) else { return }
+    func capturePhoto(completion: @escaping CameraPhotoCompletion) {
+        guard session.outputs.contains(capturePhotoOutput) else {
+            completion(CameraPhotoResult(error: .internalError(message: "")))
+            return
+        }
 
         let settings = PhotoSettings(flashMode: flashMode?.asFlashMode() ?? .auto)
         let deviceOrientation = motionDeviceOrientation.orientation
-        capturePhotoOutput.capturePhoto(settings: settings, captureAnimation: {
+        capturePhotoOutput.capturePhoto(settings: settings, captureAnimation: { [weak self] in
 
-            UIView.animate(withDuration: 0.1, animations: {
-                self.previewView.alpha = 0.0
+            UIView.animate(withDuration: 0.3, animations: {
+                self?.previewView.alpha = 0.0
             }, completion: { (finished) in
-                self.previewView.alpha = 1.0
+                self?.previewView.alpha = 1.0
             })
 
-        }) { (image, error) in
+        }) { [weak self] result in
+            guard let strongSelf = self else {
+                completion(CameraPhotoResult(error: .internalError(message: "")))
+                return
+            }
 
-            if var image = image {
-                image = self.processPhotoImage(image: image,
+            if var image = result.value {
+                image = strongSelf.processPhotoImage(image: image,
                                                deviceOrientation: deviceOrientation,
-                                               aspectRatio: self.previewView.aspectRatio)
-                let result = CameraPhotoResult(image)
-                completion(result)
-            } else if let error = error {
-                let result = CameraPhotoResult(error: error as NSError)
-                completion(result)
+                                               aspectRatio: strongSelf.previewView.aspectRatio)
+                completion(CameraPhotoResult(image))
             } else {
-                let result = CameraPhotoResult(error: NSError())
                 completion(result)
             }
         }
@@ -136,16 +165,7 @@ class LGCamera: NSObject, Camera {
         let fileUrl = URL(fileURLWithPath: outputFilePath)
 
         let videoOrientation = AVCaptureVideoOrientation(deviceOrientation: motionDeviceOrientation.orientation) ?? .portrait
-        videoRecorder.startRecording(fileUrl: fileUrl, orientation: videoOrientation) { (url, error) in
-
-            if let url = url {
-                let result = CameraRecordingVideoResult(url)
-                completion(result)
-            } else if let error = error {
-                let result = CameraRecordingVideoResult(error: error as NSError)
-                completion(result)
-            }
-        }
+        videoRecorder.startRecording(fileUrl: fileUrl, orientation: videoOrientation, completion: completion)
     }
 
     func stopRecordingVideo() {
@@ -171,25 +191,6 @@ class LGCamera: NSObject, Camera {
             self.pixelsBufferForwarder = nil
         }
     }
-
-    // MARK - Private
-    private let session: AVCaptureSession = AVCaptureSession()
-    private let sessionQueue: DispatchQueue = DispatchQueue(label: "camera.manager.session.queue")
-    private var isSetup: Bool = false
-    private let previewView: CameraPreviewView = CameraPreviewView()
-    private var currentInputVideoDevice: AVCaptureDeviceInput?
-    private let frontCamera: AVCaptureDevice? = AVCaptureDevice.defaultFrontCameraDevice()
-    private let backCamera: AVCaptureDevice? = AVCaptureDevice.defaultBackCameraDevice()
-    private let motionDeviceOrientation: MotionDeviceOrientation = MotionDeviceOrientation()
-    private let capturePhotoOutput: AVCaptureOutput & CapturePhotoOutput = {
-        if #available(iOS 10.0, *) {
-            return LGCapturePhotoOutput()
-        } else {
-            return LGCaptureStillImageOutput()
-        }
-    }()
-    private let videoRecorder: VideoRecorder = VideoRecorder()
-    private var pixelsBufferForwarder: PixelsBufferForwarder?
 }
 
 // MARK - Private Methods
@@ -208,8 +209,9 @@ extension LGCamera {
                 self.session.commitConfiguration()
                 self.session.startRunning()
                 self.isSetup = true
-            } catch {
+            } catch let error {
                 self.session.commitConfiguration()
+                logMessage(.error, type: .camera, message: "Error trying to configure camera input: \(error)")
             }
         }
     }
@@ -224,8 +226,9 @@ extension LGCamera {
                     try self.configureInputVideoDevice(device: frontCamera)
                 }
                 self.session.commitConfiguration()
-            } catch {
+            } catch let error {
                 self.session.commitConfiguration()
+                logMessage(.error, type: .camera, message: "Error trying to configure camera input: \(error)")
             }
         }
 
@@ -237,24 +240,28 @@ extension LGCamera {
     private func configureInputVideoDevice(device: AVCaptureDevice) throws {
         let videoDeviceInput = try AVCaptureDeviceInput(device: device)
 
-        if let currentInputVideoDevice = currentInputVideoDevice, self.session.inputs.contains(currentInputVideoDevice) {
-            self.session.removeInput(currentInputVideoDevice)
+        if let currentInputVideoDevice = currentInputVideoDevice, session.inputs.contains(currentInputVideoDevice) {
+            session.removeInput(currentInputVideoDevice)
             self.currentInputVideoDevice = nil
         }
 
-        if self.session.canAddInput(videoDeviceInput) {
-            self.session.addInput(videoDeviceInput)
+        if session.canAddInput(videoDeviceInput) {
+            session.addInput(videoDeviceInput)
             currentInputVideoDevice = videoDeviceInput
         }
     }
 
     private func updateFlashMode(_ flashMode: AVCaptureDevice.FlashMode) {
-        if currentInputVideoDevice?.device.isFlashModeSupported(flashMode) == true {
-            do {
-                try currentInputVideoDevice?.device.lockForConfiguration()
-                currentInputVideoDevice?.device.flashMode = flashMode
-                currentInputVideoDevice?.device.unlockForConfiguration()
-            } catch { }
+
+        guard let currentInputVideoDevice = currentInputVideoDevice,
+            currentInputVideoDevice.device.isFlashModeSupported(flashMode) else { return }
+        
+        do {
+            try currentInputVideoDevice.device.lockForConfiguration()
+            currentInputVideoDevice.device.flashMode = flashMode
+            currentInputVideoDevice.device.unlockForConfiguration()
+        } catch let error {
+            logMessage(.error, type: .camera, message: "Error trying to configure device: \(error)")
         }
     }
 
@@ -314,57 +321,65 @@ extension LGCamera {
     private func processPhotoImage(image: UIImage, deviceOrientation: UIDeviceOrientation, aspectRatio: CGFloat) -> UIImage {
         return image.imageByRotatingBasedOn(deviceOrientation: deviceOrientation)
             .imageByNormalizingOrientation
-            .imageByCroppingTo(aspectRatio: self.previewView.aspectRatio)
+            .imageByCroppingTo(aspectRatio: previewView.aspectRatio)
     }
 }
 
-struct PhotoSettings {
+fileprivate struct PhotoSettings {
     let flashMode: AVCaptureDevice.FlashMode
 }
 
-protocol CapturePhotoOutput {
-    func capturePhoto(settings: PhotoSettings, captureAnimation: @escaping () -> Void, completion: @escaping (UIImage?, Error?) -> Void)
+private protocol CapturePhotoOutputProtocol {
+    func capturePhoto(settings: PhotoSettings, captureAnimation: @escaping () -> Void, completion: @escaping CameraPhotoCompletion)
 }
 
 @available(iOS 10.0, *)
-class LGCapturePhotoOutput: AVCapturePhotoOutput, CapturePhotoOutput {
+private final class LGCapturePhotoOutput: AVCapturePhotoOutput, CapturePhotoOutputProtocol {
 
     private var inProgressPhotoCaptureDelegates: [Int64: PhotoCaptureProcessor] = [Int64: PhotoCaptureProcessor]()
 
-    func capturePhoto(settings: PhotoSettings, captureAnimation: @escaping () -> Void, completion: @escaping (UIImage?, Error?) -> Void) {
+    func capturePhoto(settings: PhotoSettings, captureAnimation: @escaping () -> Void, completion: @escaping CameraPhotoCompletion) {
         let photoSettings = AVCapturePhotoSettings()
         photoSettings.flashMode = settings.flashMode
 
-        let processor = PhotoCaptureProcessor(with: photoSettings,
-                                              willCapturePhotoAnimation: captureAnimation,
-                                              completionHandler: completion)
+        let processor = PhotoCaptureProcessor(with: photoSettings, willCapturePhotoAnimation: captureAnimation) { [weak self] result in
+            self?.inProgressPhotoCaptureDelegates[photoSettings.uniqueID] = nil
+            completion(result)
+        }
 
         inProgressPhotoCaptureDelegates[photoSettings.uniqueID] = processor
         capturePhoto(with: photoSettings, delegate: processor)
     }
 }
 
-class LGCaptureStillImageOutput: AVCaptureStillImageOutput, CapturePhotoOutput {
+private final class LGCaptureStillImageOutput: AVCaptureStillImageOutput, CapturePhotoOutputProtocol {
 
-    func capturePhoto(settings: PhotoSettings, captureAnimation: @escaping () -> Void, completion: @escaping (UIImage?, Error?) -> Void) {
-
-        if let connection = connection(with: .video) {
-            captureStillImageAsynchronously(from: connection, completionHandler: { (sample, error) in
-
-                DispatchQueue.main.async {
-                    captureAnimation()
-                    if let sample = sample,
-                        let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sample),
-                        let image = UIImage(data: imageData) {
-                        completion(image, nil)
-                    } else if let error = error {
-                        completion(nil, error)
-                    } else {
-                        completion(nil, NSError())
-                    }
-                }
-            })
+    func capturePhoto(settings: PhotoSettings,
+                      captureAnimation: @escaping () -> Void,
+                      completion: @escaping CameraPhotoCompletion) {
+        guard let connection = connection(with: .video) else {
+            completion(CameraPhotoResult(error: .internalError(message: "")))
+            return
         }
+        captureStillImageAsynchronously(from: connection, completionHandler: { (sample, error) in
+            let result: CameraPhotoResult
+            if let sample = sample,
+                let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sample) {
+                if let image = UIImage(data: imageData) {
+                    result = CameraPhotoResult(value: image)
+                } else {
+                    result = CameraPhotoResult(error: .internalError(message: ""))
+                }
+            } else if let error = error {
+                result = CameraPhotoResult(error: .frameworkError(error: error))
+            } else {
+                result = CameraPhotoResult(error: .internalError(message: ""))
+            }
+            DispatchQueue.main.async {
+                captureAnimation()
+                completion(result)
+            }
+        })
     }
 }
 
@@ -373,12 +388,12 @@ class PhotoCaptureProcessor: NSObject, AVCapturePhotoCaptureDelegate {
 
     private(set) var requestedPhotoSettings: AVCapturePhotoSettings
     private let willCapturePhotoAnimation: () -> Void
-    private var completionHandler: (UIImage?, Error?) -> Void
-    var photo: UIImage?
+    private var completionHandler: CameraPhotoCompletion
+    private var photo: UIImage?
 
     init(with requestedPhotoSettings: AVCapturePhotoSettings,
          willCapturePhotoAnimation: @escaping () -> Void,
-         completionHandler: @escaping (UIImage?, Error?) -> Void) {
+         completionHandler: @escaping CameraPhotoCompletion) {
         self.requestedPhotoSettings = requestedPhotoSettings
         self.willCapturePhotoAnimation = willCapturePhotoAnimation
         self.completionHandler = completionHandler
@@ -391,13 +406,13 @@ class PhotoCaptureProcessor: NSObject, AVCapturePhotoCaptureDelegate {
     }
 
     @available(iOS 11.0, *)
-    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto capturePhoto: AVCapturePhoto, error: Error?) {
 
         if let error = error {
-            print("Error capturing photo: \(error)")
+            logMessage(.error, type: .camera, message: "Error processing photo: \(error)")
         } else {
-            if let photoData = photo.fileDataRepresentation() {
-                self.photo = UIImage(data: photoData)
+            if let photoData = capturePhoto.fileDataRepresentation() {
+                photo = UIImage(data: photoData)
             }
         }
     }
@@ -410,14 +425,14 @@ class PhotoCaptureProcessor: NSObject, AVCapturePhotoCaptureDelegate {
                      bracketSettings: AVCaptureBracketedStillImageSettings?, error: Error?) {
 
         if let error = error {
-            print(error.localizedDescription)
+            logMessage(.error, type: .camera, message: "Error processing photo: \(error)")
         }
 
         if let sampleBuffer = photoSampleBuffer,
             let previewBuffer = previewPhotoSampleBuffer,
             let dataImage = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: sampleBuffer,
                                                                              previewPhotoSampleBuffer: previewBuffer) {
-            self.photo = UIImage(data: dataImage)
+            photo = UIImage(data: dataImage)
         }
     }
 
@@ -425,7 +440,15 @@ class PhotoCaptureProcessor: NSObject, AVCapturePhotoCaptureDelegate {
                      didFinishCaptureFor resolvedSettings: AVCaptureResolvedPhotoSettings,
                      error: Error?) {
 
-        completionHandler(photo, error)
+        DispatchQueue.main.async {
+            if let error = error {
+                self.completionHandler(CameraPhotoResult(error: .frameworkError(error: error)))
+            } else if let photo = self.photo {
+                self.completionHandler(CameraPhotoResult(value: photo))
+            } else {
+                self.completionHandler(CameraPhotoResult(error: .internalError(message: "")))
+            }
+        }
     }
 }
 
@@ -438,17 +461,22 @@ class VideoRecorder : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
         return output
     }()
     private(set) var recordingDuration: TimeInterval = 0
+    private(set) var snapshot: UIImage?
     private let videoOutputQueue: DispatchQueue = DispatchQueue(label: "camera.video.recording.output.queue")
     private var fileWriter: AVAssetWriter?
     private var videoInput: AVAssetWriterInput?
-    private var completion: ((URL?, Error?) -> Void)?
+    private var completion: CameraRecordingVideoCompletion?
     private var startRecordingTime: CMTime?
-    private let maxRecordingDuration: TimeInterval = 15
+    private let maxRecordingDuration: TimeInterval = 15 //TODO: Should be a startRecording param
     private(set) var isRecording: Bool = false
 
-    public func startRecording(fileUrl: URL, orientation: AVCaptureVideoOrientation, completion: @escaping (URL?, Error?) -> Void) {
-        guard let connection = videoOutput.connection(with: .video), connection.isActive else { return }
+    public func startRecording(fileUrl: URL, orientation: AVCaptureVideoOrientation, completion: @escaping CameraRecordingVideoCompletion) {
+        guard let connection = videoOutput.connection(with: .video), connection.isActive else {
+            completion(CameraRecordingVideoResult(error: .internalError(message: "")))
+            return
+        }
         isRecording = true
+
         connection.videoOrientation = orientation
 
         if FileManager.default.fileExists(atPath: fileUrl.path) {
@@ -462,8 +490,8 @@ class VideoRecorder : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
 
             let videoSettings: [String: Any] = [
                 AVVideoCodecKey: AVVideoCodecH264,
-                AVVideoWidthKey: 360,
-                AVVideoHeightKey: 480,
+                AVVideoWidthKey: 480,
+                AVVideoHeightKey: 640,
                 AVVideoScalingModeKey: AVVideoScalingModeResizeAspectFill
             ];
 
@@ -474,20 +502,38 @@ class VideoRecorder : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
 
             videoOutput.setSampleBufferDelegate(self, queue: videoOutputQueue)
 
-        } catch let error { completion(nil, error) }
+        } catch let error {
+            DispatchQueue.main.async {
+                completion(CameraRecordingVideoResult(error: .frameworkError(error: error)))
+            }
+        }
     }
 
     public func stopRecording() {
         isRecording = false
         videoInput?.markAsFinished()
         videoOutput.setSampleBufferDelegate(nil, queue: nil)
+        let duration = recordingDuration
+        recordingDuration = 0
 
         guard let completion = completion, let fileWriter = fileWriter else { return }
 
         if fileWriter.status == .failed {
-            completion(nil, fileWriter.error)
+            DispatchQueue.main.async {
+                completion(CameraRecordingVideoResult(error: .internalError(message: "")))
+            }
         } else {
-            fileWriter.finishWriting { completion(fileWriter.outputURL, nil) }
+            fileWriter.finishWriting {
+                DispatchQueue.main.async {
+                    do {
+                        let snapshot = try AVURLAsset(url: fileWriter.outputURL).videoSnapshot()
+                        let videoRecorded = RecordedVideo(url: fileWriter.outputURL, snapshot: snapshot, duration: duration)
+                        completion(CameraRecordingVideoResult(value: videoRecorded))
+                    } catch let error {
+                        completion(CameraRecordingVideoResult(error: .frameworkError(error: error)))
+                    }
+                }
+            }
         }
     }
 
@@ -506,8 +552,7 @@ class VideoRecorder : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
             }
 
             if fileWriter.status == .failed {
-                completion?(nil, fileWriter.error)
-                return
+                completion?(CameraRecordingVideoResult(error: .frameworkError(error: fileWriter.error!)))
             }
 
             if videoInput.isReadyForMoreMediaData {
@@ -565,12 +610,13 @@ class PixelsBufferForwarder: NSObject, AVCaptureVideoDataOutputSampleBufferDeleg
     }
 }
 
-class CameraPreviewView: UIView {
+final class CameraPreviewView: UIView {
 
     private let focusMode: AVCaptureDevice.FocusMode = .continuousAutoFocus
     private let exposureMode: AVCaptureDevice.ExposureMode = .continuousAutoExposure
-    private weak var focusGesture: UITapGestureRecognizer?
+    private var focusGesture: UITapGestureRecognizer?
     private var lastFocusRectangle: CAShapeLayer? = nil
+    private let focusRectSize = CGSize(width: 75, height: 75)
 
     override class var layerClass: AnyClass {
         return AVCaptureVideoPreviewLayer.self
@@ -609,9 +655,12 @@ class CameraPreviewView: UIView {
     }
 
     private func removeFocusGestureRecognizer() {
-        if let focusGesture = focusGesture, gestureRecognizers?.contains(focusGesture) ?? false {
-            removeGestureRecognizer(focusGesture)
+        guard let focusGesture = focusGesture,
+            let gestureRecognizers = gestureRecognizers,
+            gestureRecognizers.contains(focusGesture) else {
+                return
         }
+        removeGestureRecognizer(focusGesture)
     }
 
     @objc private func focusTapReceived(recognizer: UITapGestureRecognizer) {
@@ -645,7 +694,9 @@ class CameraPreviewView: UIView {
 
                 device.unlockForConfiguration()
 
-            } catch {}
+            } catch let error {
+                logMessage(.error, type: .camera, message: "Error locking camera for configuration: \(error)")
+            }
         }
     }
 
@@ -655,19 +706,7 @@ class CameraPreviewView: UIView {
             self.lastFocusRectangle = nil
         }
 
-        let size = CGSize(width: 75, height: 75)
-        let rect = CGRect(origin: CGPoint(x: focusPoint.x - size.width / 2.0, y: focusPoint.y - size.height / 2.0), size: size)
-
-        let endPath = UIBezierPath(rect: rect)
-        endPath.move(to: CGPoint(x: rect.minX + size.width / 2.0, y: rect.minY))
-        endPath.addLine(to: CGPoint(x: rect.minX + size.width / 2.0, y: rect.minY + 5.0))
-        endPath.move(to: CGPoint(x: rect.maxX, y: rect.minY + size.height / 2.0))
-        endPath.addLine(to: CGPoint(x: rect.maxX - 5.0, y: rect.minY + size.height / 2.0))
-        endPath.move(to: CGPoint(x: rect.minX + size.width / 2.0, y: rect.maxY))
-        endPath.addLine(to: CGPoint(x: rect.minX + size.width / 2.0, y: rect.maxY - 5.0))
-        endPath.move(to: CGPoint(x: rect.minX, y: rect.minY + size.height / 2.0))
-        endPath.addLine(to: CGPoint(x: rect.minX + 5.0, y: rect.minY + size.height / 2.0))
-
+        let endPath = UIBezierPath.cameraFocusPath(with: focusRectSize, at: focusPoint)
         let startPath = UIBezierPath(cgPath: endPath.cgPath)
         let scaleAroundCenterTransform = CGAffineTransform(translationX: -focusPoint.x, y: -focusPoint.y)
             .concatenating(CGAffineTransform(scaleX: 2.0, y: 2.0)
@@ -703,7 +742,7 @@ class CameraPreviewView: UIView {
         let appearOpacityAnimation = CABasicAnimation(keyPath: "opacity")
         appearOpacityAnimation.fromValue = 0.0
         appearOpacityAnimation.toValue = 1.0
-        shapeLayer.add(appearOpacityAnimation, forKey: "opacity")
+        shapeLayer.add(appearOpacityAnimation, forKey: "appearOpacityAnimation")
 
         let disappearOpacityAnimation = CABasicAnimation(keyPath: "opacity")
         disappearOpacityAnimation.fromValue = 1.0
@@ -711,7 +750,7 @@ class CameraPreviewView: UIView {
         disappearOpacityAnimation.beginTime = CACurrentMediaTime() + 0.8
         disappearOpacityAnimation.fillMode = kCAFillModeForwards
         disappearOpacityAnimation.isRemovedOnCompletion = false
-        shapeLayer.add(disappearOpacityAnimation, forKey: "opacity")
+        shapeLayer.add(disappearOpacityAnimation, forKey: "disappearOpacityAnimation")
 
         CATransaction.commit()
     }
@@ -724,34 +763,32 @@ class CameraPreviewView: UIView {
         let blurEffect = UIBlurEffect(style: .light)
         let blurredView = UIVisualEffectView(effect: blurEffect)
         blurredView.frame = bounds
-
         addSubview(blurredView)
 
-        guard let cameraTransitionView = snapshotView(afterScreenUpdates: true) else {
+        if let cameraTransitionView = snapshotView(afterScreenUpdates: true) {
+            addSubview(cameraTransitionView)
             blurredView.removeFromSuperview()
-            return
-        }
+            transitionAnimating = true
 
-        addSubview(cameraTransitionView)
-        blurredView.removeFromSuperview()
-        transitionAnimating = true
+            UIView.transition(with: self, duration: 0.5, options: .transitionFlipFromLeft , animations: { () -> Void in
 
-        UIView.transition(with: self, duration: 0.5, options: .transitionFlipFromLeft , animations: { () -> Void in
+            }, completion: { (finished) in
 
-        }, completion: { (finished) in
-
-            UIView.animate(withDuration: 0.5, animations: { () -> Void in
-                cameraTransitionView.alpha = 0.0
-            }, completion: { (finished) -> Void in
-                cameraTransitionView.removeFromSuperview()
-                self.transitionAnimating = false
+                UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                    cameraTransitionView.alpha = 0.0
+                }, completion: { (finished) -> Void in
+                    cameraTransitionView.removeFromSuperview()
+                    self.transitionAnimating = false
+                })
             })
-        })
+        } else {
+            blurredView.removeFromSuperview()
+        }
     }
 }
 
 extension AVCaptureDevice {
-    class func defaultBackCameraDevice() -> AVCaptureDevice? {
+    static func defaultBackCameraDevice() -> AVCaptureDevice? {
         if #available(iOS 10.0, *) {
             return AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
         } else {
@@ -759,7 +796,7 @@ extension AVCaptureDevice {
         }
     }
 
-    class func defaultFrontCameraDevice() -> AVCaptureDevice? {
+    static func defaultFrontCameraDevice() -> AVCaptureDevice? {
         if #available(iOS 10.0, *) {
             return AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front)
         } else {
@@ -820,13 +857,31 @@ extension AVCaptureDevice.Position {
     }
 }
 
+private extension UIBezierPath {
+    static func cameraFocusPath(with size: CGSize, at point: CGPoint) -> UIBezierPath {
+        let lineWidth: CGFloat = 5.0
+        let rect = CGRect(origin: CGPoint(x: point.x - size.width / 2.0, y: point.y - size.height / 2.0), size: size)
+        let path = UIBezierPath(rect: rect)
+        path.move(to: CGPoint(x: rect.minX + size.width / 2.0, y: rect.minY))
+        path.addLine(to: CGPoint(x: rect.minX + size.width / 2.0, y: rect.minY + lineWidth))
+        path.move(to: CGPoint(x: rect.maxX, y: rect.minY + size.height / 2.0))
+        path.addLine(to: CGPoint(x: rect.maxX - lineWidth, y: rect.minY + size.height / 2.0))
+        path.move(to: CGPoint(x: rect.minX + size.width / 2.0, y: rect.maxY))
+        path.addLine(to: CGPoint(x: rect.minX + size.width / 2.0, y: rect.maxY - lineWidth))
+        path.move(to: CGPoint(x: rect.minX, y: rect.minY + size.height / 2.0))
+        path.addLine(to: CGPoint(x: rect.minX + lineWidth, y: rect.minY + size.height / 2.0))
+
+        return path
+    }
+}
+
 extension UIView {
     var aspectRatio: CGFloat {
         return bounds.width/bounds.height
     }
 }
 
-fileprivate extension UIImage {
+private extension UIImage {
 
     func imageByRotatingBasedOn(deviceOrientation: UIDeviceOrientation) -> UIImage {
         let orientation: UIImageOrientation
@@ -893,5 +948,16 @@ fileprivate extension UIImage {
         case .right, .left, .up, .down:
             return false
         }
+    }
+}
+
+private extension AVURLAsset {
+
+    func videoSnapshot() throws -> UIImage {
+        let generator = AVAssetImageGenerator(asset: self)
+        generator.appliesPreferredTrackTransform = true
+        let timestamp = kCMTimeZero
+        let imageRef = try generator.copyCGImage(at: timestamp, actualTime: nil)
+        return UIImage(cgImage: imageRef)
     }
 }

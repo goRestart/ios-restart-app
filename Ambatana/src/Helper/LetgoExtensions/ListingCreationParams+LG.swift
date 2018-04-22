@@ -19,6 +19,24 @@ extension ListingCreationParams {
         let listingCreationParams: ListingCreationParams
         let location = postListingState.place?.location ?? location
         let postalAddress = postListingState.place?.postalAddress ?? postalAddress
+        var images: [File]
+        if let uploadedImages = postListingState.lastImagesUploadResult?.value {
+            images = uploadedImages
+        } else {
+            images = []
+        }
+        let videos: [Video]
+        if let uploadedVideo = postListingState.uploadedVideo,
+            let path = uploadedVideo.videoId,
+            let snapshot = uploadedVideo.snapshot,
+            let snapshotId = snapshot.objectId  {
+            let video = LGVideo(path: path, snapshot: snapshotId)
+            videos = [video]
+            images.append(snapshot)
+        } else {
+            videos = []
+        }
+
         if let category = postListingState.category {
             switch category {
             case .car:
@@ -29,7 +47,8 @@ extension ListingCreationParams {
                                                   currency: currency,
                                                   location: location,
                                                   postalAddress: postalAddress,
-                                                  images: postListingState.lastImagesUploadResult?.value ?? [],
+                                                  images: images,
+                                                  videos: videos,
                                                   carAttributes: postListingState.verticalAttributes?.carAttributes ?? CarAttributes.emptyCarAttributes())
                 listingCreationParams = ListingCreationParams.car(carParams)
             case .realEstate:
@@ -40,7 +59,8 @@ extension ListingCreationParams {
                                                                 currency: currency,
                                                                 location: location,
                                                                 postalAddress: postalAddress,
-                                                                images: postListingState.lastImagesUploadResult?.value ?? [],
+                                                                images: images,
+                                                                videos: videos,
                                                                 realEstateAttributes: postListingState.verticalAttributes?.realEstateAttributes ?? RealEstateAttributes.emptyRealEstateAttributes())
                 listingCreationParams = ListingCreationParams.realEstate(realEstateParams)
             case .motorsAndAccessories, .otherItems:
@@ -51,7 +71,8 @@ extension ListingCreationParams {
                                                           currency: currency,
                                                           location: location,
                                                           postalAddress: postalAddress,
-                                                          images: postListingState.lastImagesUploadResult?.value ?? [])
+                                                          images: images,
+                                                          videos: videos)
                 listingCreationParams = ListingCreationParams.product(productParams)
             }
         } else {
@@ -62,7 +83,8 @@ extension ListingCreationParams {
                                                       currency: currency,
                                                       location: location,
                                                       postalAddress: postalAddress,
-                                                      images: postListingState.lastImagesUploadResult?.value ?? [])
+                                                      images: images,
+                                                      videos: videos)
             listingCreationParams = ListingCreationParams.product(productParams)
         }
         return listingCreationParams

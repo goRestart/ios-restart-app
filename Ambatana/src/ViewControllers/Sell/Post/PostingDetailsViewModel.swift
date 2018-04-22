@@ -278,7 +278,18 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             openListingPosting(trackingInfo: trackingInfo)
         } else if let images = postListingState.pendingToUploadImages {
             let loggedInAction = { [weak self] in
-                self?.postActionAfterLogin(images: images, trackingInfo: trackingInfo)
+                self?.postActionAfterLogin(images: images, video: nil, trackingInfo: trackingInfo)
+                return
+            }
+            let cancelAction = { [weak self] in
+                self?.cancelPostListing()
+                return
+            }
+            navigator?.openLoginIfNeededFromListingPosted(from: .sell, loggedInAction: loggedInAction, cancelAction: cancelAction)
+
+        } else if let video = postListingState.pendingToUploadVideo {
+            let loggedInAction = { [weak self] in
+                self?.postActionAfterLogin(images: nil, video: video, trackingInfo: trackingInfo)
                 return
             }
             let cancelAction = { [weak self] in
@@ -301,11 +312,11 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         navigator?.cancelPostListing()
     }
     
-    private func postActionAfterLogin(images: [UIImage]?,
-                                      trackingInfo: PostListingTrackingInfo) {
+    private func postActionAfterLogin(images: [UIImage]?, video: RecordedVideo?, trackingInfo: PostListingTrackingInfo) {
         guard let listingParams = retrieveListingParams(), let images = images else { return }
         navigator?.closePostProductAndPostLater(params: listingParams,
                                                       images: images,
+                                                      video: video,
                                                       trackingInfo: trackingInfo)
     }
     

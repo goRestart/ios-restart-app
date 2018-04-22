@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 
 enum CameraState {
-    case pendingAskPermissions, missingPermissions(String), capture, takingPhoto, preview
+    case pendingAskPermissions, missingPermissions(String), capture, takingPhoto, recordingVideo, previewPhoto, previewVideo
 }
 
 
@@ -25,6 +25,7 @@ class PostListingCameraViewModel: BaseViewModel {
     let cameraFlashState = Variable<CameraFlashState>(.auto)
     let cameraSource = Variable<CameraSource>(.rear)
     let imageSelected = Variable<UIImage?>(nil)
+    let videoRecorded = Variable<RecordedVideo?>(nil)
     let cameraMode = Variable<CameraMode>(.photo)
 
     let infoShown = Variable<Bool>(false)
@@ -86,7 +87,7 @@ class PostListingCameraViewModel: BaseViewModel {
         switch cameraState.value {
         case .pendingAskPermissions, .missingPermissions:
             checkCameraState()
-        case .takingPhoto, .preview, .capture:
+        case .takingPhoto, .recordingVideo, .previewPhoto, .previewVideo, .capture:
             break
         }
     }
@@ -96,7 +97,7 @@ class PostListingCameraViewModel: BaseViewModel {
 
     func closeButtonPressed() {
         switch cameraState.value {
-        case .takingPhoto, .preview:
+        case .takingPhoto, .recordingVideo, .previewPhoto, .previewVideo:
             retryPhotoButtonPressed()
         case .missingPermissions, .pendingAskPermissions, .capture:
             cameraDelegate?.productCameraCloseButton()
@@ -123,19 +124,36 @@ class PostListingCameraViewModel: BaseViewModel {
         cameraState.value = .takingPhoto
     }
 
+    func recordVideoButtonPressed() {
+        cameraState.value = .recordingVideo
+    }
+
     func photoTaken(_ photo: UIImage) {
         imageSelected.value = photo
-        cameraState.value = .preview
+        cameraState.value = .previewPhoto
+    }
+
+    func videoRecorded(_ video: RecordedVideo) {
+        videoRecorded.value = video
+        cameraState.value = .previewVideo
     }
 
     func retryPhotoButtonPressed() {
+        //TODO: Remove video
+        videoRecorded.value = nil
         imageSelected.value = nil
         cameraState.value = .capture
     }
 
     func usePhotoButtonPressed() {
-        guard let image = imageSelected.value else { return }
-        cameraDelegate?.productCameraDidTakeImage(image)
+        switch cameraMode.value {
+        case .photo:
+            guard let image = imageSelected.value else { return }
+            cameraDelegate?.productCameraDidTakeImage(image)
+        case .video:
+            guard let video = videoRecorded.value else { return }
+            cameraDelegate?.productCameraDidRecordVideo(video: video)
+        }
     }
 
     func infoButtonPressed() {
@@ -145,7 +163,7 @@ class PostListingCameraViewModel: BaseViewModel {
             UIApplication.shared.openURL(settingsUrl)
         case .pendingAskPermissions:
             askForPermissions()
-        case .takingPhoto, .capture, .preview:
+        case .takingPhoto, .recordingVideo, .capture, .previewPhoto, .previewVideo:
             break
         }
     }
@@ -174,7 +192,7 @@ class PostListingCameraViewModel: BaseViewModel {
                 strongSelf.infoSubtitle.value = LGLocalizedString.productPostCameraPermissionsSubtitle
                 strongSelf.infoButton.value = LGLocalizedString.productPostCameraPermissionsButton
                 strongSelf.infoShown.value = true
-            case .takingPhoto, .preview:
+            case .takingPhoto, .recordingVideo, .previewPhoto, .previewVideo:
                 strongSelf.infoShown.value = false
             case .capture:
                 strongSelf.infoShown.value = false
@@ -245,7 +263,7 @@ class PostListingCameraViewModel: BaseViewModel {
             askForPermissions()
         case .capture:
             showFirstTimeAlertIfNeeded()
-        case .takingPhoto, .preview, .missingPermissions:
+        case .takingPhoto, .recordingVideo, .previewPhoto, .previewVideo, .missingPermissions:
             break
         }
     }
@@ -269,18 +287,36 @@ class PostListingCameraViewModel: BaseViewModel {
 extension CameraState {
     var captureMode: Bool {
         switch self {
-        case .pendingAskPermissions, .missingPermissions, .preview:
+        case .pendingAskPermissions, .missingPermissions, .previewPhoto, .previewVideo:
             return false
-        case .takingPhoto, .capture:
+        case .takingPhoto, .recordingVideo, .capture:
             return true
         }
     }
 
     var previewMode: Bool {
         switch self {
-        case .pendingAskPermissions, .missingPermissions, .capture, .takingPhoto:
+        case .pendingAskPermissions, .missingPermissions, .capture, .takingPhoto, .recordingVideo:
             return false
-        case .preview:
+        case .previewPhoto, .previewVideo:
+            return true
+        }
+    }
+
+    var previewPhotoMode: Bool {
+        switch self {
+        case .pendingAskPermissions, .missingPermissions, .capture, .takingPhoto, .recordingVideo, .previewVideo:
+            return false
+        case .previewPhoto:
+            return true
+        }
+    }
+
+    var previewVideoMode: Bool {
+        switch self {
+        case .pendingAskPermissions, .missingPermissions, .capture, .takingPhoto, .recordingVideo, .previewPhoto:
+            return false
+        case .previewVideo:
             return true
         }
     }
@@ -289,16 +325,16 @@ extension CameraState {
         switch self {
         case .capture:
             return .takePicture
-        case .preview:
+        case .previewPhoto, .previewVideo:
             return .confirmPicture
-        case .pendingAskPermissions, .missingPermissions, .takingPhoto:
+        case .pendingAskPermissions, .missingPermissions, .takingPhoto, .recordingVideo:
             return nil
         }
     }
     
     var shouldShowCloseButtonBlockingPosting: Bool {
         switch self {
-        case .capture, .takingPhoto, .preview:
+        case .capture, .takingPhoto, .recordingVideo, .previewPhoto, .previewVideo:
             return false
         case .pendingAskPermissions, .missingPermissions:
             return true
@@ -309,7 +345,7 @@ extension CameraState {
         switch self {
         case .pendingAskPermissions, .missingPermissions, .capture:
             return false
-        case .preview, .takingPhoto:
+        case .previewPhoto, .previewVideo, .takingPhoto, .recordingVideo:
             return true
         }
     }

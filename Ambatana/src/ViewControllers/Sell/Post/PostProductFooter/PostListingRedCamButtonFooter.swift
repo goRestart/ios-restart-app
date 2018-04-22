@@ -51,6 +51,14 @@ final class PostListingRedCamButtonFooter: UIView {
 // MARK: - PostListingFooter
 
 extension PostListingRedCamButtonFooter: PostListingFooter {
+    
+    func startRecording() {
+        // This view doesn't implement video posting, check VPPostListingRedCamFooter
+    }
+
+    func stopRecording() {
+        // This view doesn't implement video posting, check VPPostListingRedCamFooter
+    }
 
     func updateToPhotoMode() {
         // This view doesn't implement video posting, check VPPostListingRedCamFooter
@@ -67,7 +75,11 @@ extension PostListingRedCamButtonFooter: PostListingFooter {
         let rightOffset = cameraButton.frame.width/2 + Metrics.margin
         let movement = width/2 - rightOffset
         cameraButtonCenterXConstraint?.constant = movement * (1.0 - scroll)
-    }   
+    }
+
+    func updateVideoRecordingDurationProgress(progress: CGFloat, remainingTime: TimeInterval) {
+        // This view doesn't implement video posting, check VPPostListingRedCamFooter
+    }
 }
 
 

@@ -23,7 +23,9 @@ protocol PostListingNavigator: class {
                                previousStepIsSummary: Bool)
     func closePostProductAndPostInBackground(params: ListingCreationParams,
                                              trackingInfo: PostListingTrackingInfo)
-    func closePostProductAndPostLater(params: ListingCreationParams, images: [UIImage],
+    func closePostProductAndPostLater(params: ListingCreationParams,
+                                      images: [UIImage]?,
+                                      video: RecordedVideo?,
                                       trackingInfo: PostListingTrackingInfo)
     func openLoginIfNeededFromListingPosted(from: EventParameterLoginSourceValue,
                                             loggedInAction: @escaping (() -> Void), cancelAction: (() -> Void)?)
