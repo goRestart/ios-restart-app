@@ -446,7 +446,7 @@ final class CameraButton: UIButton {
         func startRecording() {
             let animation = CABasicAnimation(keyPath: "path")
             animation.toValue = UIBezierPath(ovalIn: CGRect.centeredFrameWithSize(size: outerCircleSize)).cgPath
-            animation.duration = 0.5
+            animation.duration = 0.25
             animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
             animation.fillMode = kCAFillModeBoth
             animation.isRemovedOnCompletion = false
