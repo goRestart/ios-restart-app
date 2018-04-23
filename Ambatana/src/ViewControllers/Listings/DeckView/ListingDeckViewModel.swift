@@ -399,10 +399,11 @@ final class ListingDeckViewModel: BaseViewModel {
     }
 
     func urlAtIndex(_ index: Int) -> URL? {
-        guard let urls = currentListingViewModel?.productImageURLs.value else { return nil }
+//        guard let urls = currentListingViewModel?.productImageURLs.value else { return nil }
+        guard let urls = currentListingViewModel?.productMedia.value else { return nil }
         guard index >= 0 && index < urls.count else { return nil }
 
-        return urls[index]
+        return urls[index].outputs.image
     }
 
     func didShowMoreInfo() {

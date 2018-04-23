@@ -100,7 +100,9 @@ class ListingCarouselViewModel: BaseViewModel {
     let actionOnFirstAppear: ProductCarouselActionOnFirstAppear
 
     let productInfo = Variable<ListingVMProductInfo?>(nil)
-    let productImageURLs = Variable<[URL]>([])
+//    let productImageURLs = Variable<[URL]>([])
+    let productMedia = Variable<[Media]>([])
+    let videoProgress = Variable<CGFloat>(0.0)
     let userInfo = Variable<ListingVMUserInfo?>(nil)
     let listingStats = Variable<ListingStats?>(nil)
 
@@ -597,7 +599,9 @@ class ListingCarouselViewModel: BaseViewModel {
         currentVM.isShowingFeaturedStripe.asObservable().bind(to: isFeatured).disposed(by: activeDisposeBag)
 
         currentVM.productInfo.asObservable().bind(to: productInfo).disposed(by: activeDisposeBag)
-        currentVM.productImageURLs.asObservable().bind(to: productImageURLs).disposed(by: activeDisposeBag)
+//        currentVM.productImageURLs.asObservable().bind(to: productImageURLs).disposed(by: activeDisposeBag)
+        currentVM.productMedia.asObservable().bind(to: productMedia).disposed(by: activeDisposeBag)
+        currentVM.videoProgress.asObservable().bind(to: videoProgress).disposed(by: activeDisposeBag)
         currentVM.userInfo.asObservable().bind(to: userInfo).disposed(by: activeDisposeBag)
         currentVM.listingStats.asObservable().bind(to: listingStats).disposed(by: activeDisposeBag)
 
