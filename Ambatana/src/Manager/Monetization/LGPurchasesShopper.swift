@@ -669,8 +669,9 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
                     continue
                 }
 
+                let bumpType: BumpUpType = paymentProcessingIsBoost ? .boost(boostBannerVisible: false) : .priced
                 requestPricedBumpUp(forListingId: paymentProcessingListingId, receiptData: receiptString,
-                                    transaction: transaction, type: .priced, transactionStatus: transactionStatus,
+                                    transaction: transaction, type: bumpType, transactionStatus: transactionStatus,
                                     isBoost: paymentProcessingIsBoost, letgoItemId: paymentProcessingLetgoItemId)
                 purchasesShopperState = .restoring
             case .failed:
@@ -702,8 +703,9 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
                                                 isBoost: paymentProcessingIsBoost)
                     continue
                 }
+                let bumpType: BumpUpType = paymentProcessingIsBoost ? .boost(boostBannerVisible: false) : .priced
                 requestPricedBumpUp(forListingId: listingId, receiptData: receiptString,
-                                              transaction: transaction, type: .priced,
+                                              transaction: transaction, type: bumpType,
                                               transactionStatus: transactionStatus,
                                               isBoost: paymentProcessingIsBoost,
                                               letgoItemId: paymentProcessingLetgoItemId)
