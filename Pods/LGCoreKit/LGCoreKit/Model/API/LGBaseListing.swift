@@ -232,7 +232,7 @@ struct LGBaseListing: BaseListingModel, Decodable {
         let imagesArray = (try keyedContainerBase.decode(FailableDecodableArray<LGListingImage>.self, forKey: .images)).validElements
         images = LGListingImage.mapToFiles(imagesArray)
 
-        media = (try keyedContainerBase.decode(FailableDecodableArray<LGMedia>.self, forKey: .media)).validElements
+        media = (try keyedContainerBase.decodeIfPresent(FailableDecodableArray<LGMedia>.self, forKey: .media))?.validElements ?? []
         mediaThumbnail = try keyedContainerBase.decodeIfPresent(LGMediaThumbnail.self, forKey: .mediaThumbnail)
 
         user = try keyedContainerBase.decode(LGUserListing.self, forKey: .user)

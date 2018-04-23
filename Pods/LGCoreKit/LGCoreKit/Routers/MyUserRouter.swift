@@ -17,23 +17,17 @@ enum MyUserRouter: URLRequestAuthenticable {
     case resetPassword(myUserId: String, params: [String : Any], token: String)
     case linkAccount(myUserId: String, params: [String : Any])
     case showReputationActions(myUserId: String)
-    case requestSMSCode(myUserId: String, params: [String : Any])
-    case validateSMSCode(myUserId: String, params: [String : Any])
 
     private var endpoint: String {
         switch (self) {
         case .show, .create, .update, .resetPassword:
             return "/users"
-        case let .updateAvatar(myUserId, _):
+        case let .updateAvatar(myUserId, params: _):
             return "/users/\(myUserId)/avatars"
-        case let .linkAccount(myUserId, _):
+        case let .linkAccount(myUserId, params: _):
             return "/users/\(myUserId)/accounts"
         case let .showReputationActions(myUserId):
             return "/users/\(myUserId)/reputation-actions"
-        case let .requestSMSCode(myUserId, _):
-            return "/users/\(myUserId)/validations/sms/issue"
-        case let .validateSMSCode(myUserId, _):
-            return "/users/\(myUserId)/validations/sms"
         }
     }
 
@@ -41,8 +35,7 @@ enum MyUserRouter: URLRequestAuthenticable {
         switch self {
         case .create:
             return .installation
-        case .show, .update, .updateAvatar, .linkAccount,
-             .showReputationActions, .requestSMSCode, .validateSMSCode:
+        case .show, .update, .updateAvatar, .linkAccount, .showReputationActions:
             return .user
         case .resetPassword:
             return .nonexistent
@@ -79,14 +72,6 @@ enum MyUserRouter: URLRequestAuthenticable {
             return try Router<BouncerBaseURL>.create(endpoint: endpoint, params: params, encoding: nil).asURLRequest()
         case .showReputationActions:
             return try Router<BouncerBaseURL>.read(endpoint: endpoint, params: [:]).asURLRequest()
-        case let .requestSMSCode(_, params):
-            return try Router<BouncerBaseURL>.create(endpoint: endpoint,
-                                                     params: params,
-                                                     encoding: nil).asURLRequest()
-        case let .validateSMSCode(_, params):
-            return try Router<BouncerBaseURL>.create(endpoint: endpoint,
-                                                     params: params,
-                                                     encoding: nil).asURLRequest()
         }
     }
 }
