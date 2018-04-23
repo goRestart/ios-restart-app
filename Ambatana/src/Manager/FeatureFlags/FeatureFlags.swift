@@ -90,7 +90,7 @@ protocol FeatureFlaggeable: class {
     var copyForChatNowInTurkey: CopyForChatNowInTurkey { get }
     var shareTypes: [ShareType] { get }
     var feedAdsProviderForUS:  FeedAdsProviderForUS { get }
-    var feedMoPubAdUnitId: String? { get }
+    var feedAdUnitId: String? { get }
     var shouldChangeChatNowCopyInEnglish: Bool { get }
     var copyForChatNowInEnglish: CopyForChatNowInEnglish { get }
     var feedAdsProviderForTR:  FeedAdsProviderForTR { get }
@@ -313,10 +313,10 @@ extension ShowPasswordlessLogin{
 
 extension FeedAdsProviderForUS {
     private var shouldShowAdsInFeedForNewUsers: Bool {
-        return self == .moPubAdsForAllUsers
+        return self == .moPubAdsForAllUsers || self == .googleAdxForAllUsers
     }
     private var shouldShowAdsInFeedForOldUsers: Bool {
-        return self == .moPubAdsForOldUsers || self == .moPubAdsForAllUsers
+        return self == .moPubAdsForOldUsers || self == .moPubAdsForAllUsers || self == .googleAdxForOldUsers || self == .googleAdxForAllUsers
     }
     
     var shouldShowAdsInFeed: Bool {
@@ -325,6 +325,10 @@ extension FeedAdsProviderForUS {
     
     var shouldShowMoPubAds : Bool {
         return self == .moPubAdsForOldUsers || self == .moPubAdsForAllUsers
+    }
+    
+    var shouldShowGoogleAdxAds : Bool {
+        return self == .googleAdxForOldUsers || self == .googleAdxForAllUsers
     }
     
     func shouldShowAdsInFeedForUser(createdIn: Date?) -> Bool {
@@ -961,7 +965,7 @@ class FeatureFlags: FeatureFlaggeable {
         return FeedAdsProviderForUS.fromPosition(abTests.feedAdsProviderForUS.value)
     }
     
-    var feedMoPubAdUnitId: String? {
+    var feedAdUnitId: String? {
         if Bumper.enabled {
             // Bumper overrides country restriction
             switch feedAdsProviderForUS {
@@ -969,8 +973,19 @@ class FeatureFlags: FeatureFlaggeable {
                 return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubUSAForAllUsers
             case .moPubAdsForOldUsers:
                 return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubUSAForOldUsers
+            case .googleAdxForAllUsers:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxUSAForAllUsers
+            case .googleAdxForOldUsers:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxUSAForOldUsers
             default:
-                return nil
+                switch feedAdsProviderForTR {
+                case .moPubAdsForAllUsers:
+                    return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubTRForAllUsers
+                case .moPubAdsForOldUsers:
+                    return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubTRForOldUsers
+                default:
+                    return nil
+                }
             }
         }
         switch sensorLocationCountryCode {
@@ -980,6 +995,10 @@ class FeatureFlags: FeatureFlaggeable {
                 return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubUSAForAllUsers
             case .moPubAdsForOldUsers:
                 return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubUSAForOldUsers
+            case .googleAdxForAllUsers:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxUSAForAllUsers
+            case .googleAdxForOldUsers:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxUSAForOldUsers
             default:
                 return nil
             }

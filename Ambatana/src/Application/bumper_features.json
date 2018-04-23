@@ -222,7 +222,7 @@
     },
     {
         "name": "FeedAdsProviderForUS",
-        "values": ["control", "baseline", "BingAdsForAllUsers", "BingAdsForOldUsers", "MoPubAdsForAllUsers", "MoPubAdsForOldUsers"],
+        "values": ["control", "baseline", "GoogleAdxForAllUsers", "GoogleAdxForOldUsers", "MoPubAdsForAllUsers", "MoPubAdsForOldUsers"],
         "description": "Change logic for showing ads with diferent ads providers in the US"
     },
     {

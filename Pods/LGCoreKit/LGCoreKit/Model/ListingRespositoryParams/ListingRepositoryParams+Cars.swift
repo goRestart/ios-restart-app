@@ -43,10 +43,8 @@ extension RetrieveListingParams {
         params[VerticalsParamsKeys.since] = timeCriteria?.string
         
         // Cars attributes
-        if let userTypes = userTypes,
-            let apiValue = userTypes.first?.apiValue,
-            userTypes.hasOnlyOneCarSellerType {
-            params[CarAttributesParamsKey.userType] = apiValue
+        if let userTypes = userTypes, userTypes.hasOnlyOneCarSellerType, let apiValue = userTypes.first?.apiValue {
+            params[CarAttributesParamsKey.userType] = [apiValue]
         }
         params[CarAttributesParamsKey.makeId] = makeId?.value
         params[CarAttributesParamsKey.modelId] = modelId?.value
@@ -57,19 +55,26 @@ extension RetrieveListingParams {
     }
 }
 
-private extension CarSellerType {
+extension UserType {
     var apiValue: String {
         switch self {
-        case .individual:
+        case .user:
             return CarSellerTypeParamsValue.user
-        case .professional:
+        case .pro:
             return CarSellerTypeParamsValue.professional
+        case .dummy:
+            return ""
         }
     }
 }
 
-private extension Array where Element == CarSellerType {
+private extension Array where Element == UserType {
+    
+    var containsBothNonDummyTypes: Bool {
+        return contains(.pro) && contains(.user)
+    }
+    
     var hasOnlyOneCarSellerType: Bool {
-        return !isEmpty && !(contains(.individual) && contains(.professional))
+        return !isEmpty && !containsBothNonDummyTypes
     }
 }
