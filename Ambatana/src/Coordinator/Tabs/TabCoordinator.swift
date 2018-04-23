@@ -513,6 +513,7 @@ extension TabCoordinator: PhotoViewerNavigator {
 
 extension TabCoordinator: ListingDetailNavigator {
     func openVideoPlayer(atIndex index: Int, listingVM: ListingViewModel, source: EventParameterListingVisitSource) {
+        // FIXME: Add coordinator
         guard let displayable = listingVM.makeDisplable(forMediaAt: index) else { return }
         let vm = PhotoViewerViewModel(with: displayable, source: source)
         vm.navigator = self

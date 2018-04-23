@@ -15,6 +15,7 @@ struct PhotoViewerDisplayable {
     let media: [Media]
     let isMine: Bool
     let isPlayable: Bool
+    let isChatEnabled: Bool
 }
 
 final class PhotoViewerViewModel: BaseViewModel {
@@ -29,7 +30,7 @@ final class PhotoViewerViewModel: BaseViewModel {
 
     private let viewerDisplayable: PhotoViewerDisplayable
 
-    var isChatEnabled: Bool { return !viewerDisplayable.isMine }
+    var isChatEnabled: Bool { return viewerDisplayable.isChatEnabled }
     var isPlayable: Bool { return viewerDisplayable.isPlayable }
 
     convenience init(with viewerDisplayable: PhotoViewerDisplayable,

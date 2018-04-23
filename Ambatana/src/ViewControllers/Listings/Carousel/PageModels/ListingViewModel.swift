@@ -1491,7 +1491,8 @@ extension ListingViewModel {
         return PhotoViewerDisplayable(listing: listing.value,
                                       media: productMedia.value,
                                       isMine: isMine,
-                                      isPlayable: isPlayable)
+                                      isPlayable: isPlayable,
+                                      isChatEnabled: !isMine)
     }
 
     func makeDisplable(forMediaAt index: Int) -> PhotoViewerDisplayable? {
@@ -1499,6 +1500,7 @@ extension ListingViewModel {
         return PhotoViewerDisplayable(listing: listing.value,
                                       media: [productMedia.value[index]],
                                       isMine: isMine,
-                                      isPlayable: isPlayable)
+                                      isPlayable: isPlayable,
+                                      isChatEnabled: false) // forced false
     }
 }
