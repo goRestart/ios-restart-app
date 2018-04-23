@@ -38,9 +38,6 @@ GAD_ASSUME_NONNULL_BEGIN
 /// Tells the delegate that the reward based video ad started playing.
 - (void)rewardBasedVideoAdDidStartPlaying:(GADRewardBasedVideoAd *)rewardBasedVideoAd;
 
-/// Tells the delegate that the reward based video ad completed playing.
-- (void)rewardBasedVideoAdDidCompletePlaying:(GADRewardBasedVideoAd *)rewardBasedVideoAd;
-
 /// Tells the delegate that the reward based video ad closed.
 - (void)rewardBasedVideoAdDidClose:(GADRewardBasedVideoAd *)rewardBasedVideoAd;
 

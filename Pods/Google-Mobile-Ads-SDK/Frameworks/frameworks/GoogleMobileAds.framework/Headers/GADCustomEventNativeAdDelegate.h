@@ -10,7 +10,6 @@
 #import <GoogleMobileAds/GADCustomEventNativeAd.h>
 #import <GoogleMobileAds/GoogleMobileAdsDefines.h>
 #import <GoogleMobileAds/Mediation/GADMediatedNativeAd.h>
-#import <GoogleMobileAds/Mediation/GADMediatedUnifiedNativeAd.h>
 
 GAD_ASSUME_NONNULL_BEGIN
 
@@ -26,10 +25,6 @@ GAD_ASSUME_NONNULL_BEGIN
 /// Tells the delegate that the custom event ad request failed.
 - (void)customEventNativeAd:(id<GADCustomEventNativeAd>)customEventNativeAd
      didFailToLoadWithError:(NSError *)error;
-
-/// Tells the delegate that the custom event ad request succeeded and loaded a unified native ad.
-- (void)customEventNativeAd:(id<GADCustomEventNativeAd>)customEventNativeAd
-    didReceiveMediatedUnifiedNativeAd:(id<GADMediatedUnifiedNativeAd>)mediatedUnifiedNativeAd;
 
 @end
 

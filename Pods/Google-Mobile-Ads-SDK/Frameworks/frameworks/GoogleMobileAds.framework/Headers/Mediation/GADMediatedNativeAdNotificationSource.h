@@ -39,8 +39,6 @@ GAD_ASSUME_NONNULL_BEGIN
 /// or the App Store) to take input focus.
 + (void)mediatedNativeAdWillLeaveApplication:(id<GADMediatedNativeAd>)mediatedNativeAd;
 
-#pragma mark - Mediated Native Video Ad Notifications
-
 /// Called by the adapter when native video playback has begun or resumed.
 + (void)mediatedNativeAdDidPlayVideo:(id<GADMediatedNativeAd>)mediatedNativeAd;
 

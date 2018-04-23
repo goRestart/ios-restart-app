@@ -32,7 +32,7 @@ PODS:
   - FBSDKShareKit (4.29.0):
     - FBSDKCoreKit
   - FLEX (2.4.0)
-  - Google-Mobile-Ads-SDK (7.30.0)
+  - Google-Mobile-Ads-SDK (7.27.0)
   - GoogleIDFASupport (3.14.0)
   - GoogleSignIn (4.1.1):
     - GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)
@@ -136,7 +136,7 @@ DEPENDENCIES:
   - FBSDKLoginKit (= 4.29.0)
   - FBSDKShareKit (= 4.29.0)
   - FLEX (= 2.4.0)
-  - Google-Mobile-Ads-SDK (= 7.30.0)
+  - Google-Mobile-Ads-SDK (= 7.27.0)
   - GoogleIDFASupport (= 3.14.0)
   - GoogleSignIn (= 4.1.1)
   - KeychainSwift (= 10.0.0)
@@ -203,7 +203,7 @@ SPEC CHECKSUMS:
   FBSDKLoginKit: 56a057ca6822535ea0faa25f57a7c41edb697fd4
   FBSDKShareKit: 18a2cd118aef11dd657fe7e8b64bae5c719088b2
   FLEX: bd1a39e55b56bb413b6f1b34b3c10a0dc44ef079
-  Google-Mobile-Ads-SDK: 7404f68120ae8682afeb5af001fbf4aad731c78e
+  Google-Mobile-Ads-SDK: 83f7f890e638ce8f1debd440ea363338c9f6be3b
   GoogleIDFASupport: aaf8c10bd429abb1c15349d5252244f5eda8ead1
   GoogleSignIn: 3fdaa34a2ba04dbd7a25d7db39aecb0da98d5bdc
   GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
@@ -232,6 +232,6 @@ SPEC CHECKSUMS:
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   SwiftyUserDefaults: 38267a30d58b7c8570995cd5defd354e43f056c6
 
-PODFILE CHECKSUM: c126be8f7d4044391821a933766bf21282b3b1eb
+PODFILE CHECKSUM: 8915abc0458b24d339663fc70da0e2166dd31f9b
 
 COCOAPODS: 1.4.0
