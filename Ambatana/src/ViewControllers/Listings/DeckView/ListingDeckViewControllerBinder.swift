@@ -29,7 +29,7 @@ protocol ListingDeckViewControllerBinderType: class {
     func didMoveToItemAtIndex(_ index: Int)
     func didEndDecelerating()
     
-    func updateViewWith(alpha: CGFloat, chatEnabled: Bool, isMine: Bool, actionsEnabled: Bool)
+    func updateViewWith(alpha: CGFloat, chatEnabled: Bool, isMine: Bool, actionsEnabled: Bool, isPlayable: Bool)
     func updateViewWithActions(_ actions: [UIAction])
 
     func turnNavigationBar(_ on: Bool)
@@ -38,7 +38,7 @@ protocol ListingDeckViewControllerBinderType: class {
 protocol ListingDeckViewType: class {
     var rxCollectionView: Reactive<UICollectionView> { get }
     var rxActionButton: Reactive<LetgoButton> { get }
-
+    var rxStartPlayingButton: Reactive<UIButton> { get }
     var currentPage: Int { get }
     func normalizedPageOffset(givenOffset: CGFloat) -> CGFloat
 
@@ -47,7 +47,7 @@ protocol ListingDeckViewType: class {
 
 protocol ListingDeckViewModelType: class {
     var quickChatViewModel: QuickChatViewModel { get }
-
+    var isPlayable: Bool { get }
     var currentIndex: Int { get }
     var userHasScrolled: Bool { get set }
 
@@ -63,6 +63,7 @@ protocol ListingDeckViewModelType: class {
 
     func replaceListingCellModelAtIndex(_ index: Int, withListing listing: Listing)
     func moveToListingAtIndex(_ index: Int, movement: DeckMovement)
+    func openVideoPlayer()
 }
 
 protocol ListingDeckViewControllerBinderCellType {
@@ -139,6 +140,10 @@ final class ListingDeckViewControllerBinder {
             self?.listingDeckViewController?.updateViewWithActions(actionButtons)
             self?.bindActionButtonTap(withActions: actionButtons,
                                       listingDeckView: listingDeckView, disposeBag: disposeBag)
+        }.disposed(by: disposeBag)
+
+        listingDeckView.rxStartPlayingButton.tap.bind { [weak viewModel] in
+            viewModel?.openVideoPlayer()
         }.disposed(by: disposeBag)
     }
 
@@ -248,8 +253,11 @@ final class ListingDeckViewControllerBinder {
                                  areActionsEnabled.distinctUntilChanged()) { ($0, $1, $2, $3) }
             .observeOn(MainScheduler.asyncInstance)
             .bind { [weak viewController] (offsetAlpha, isChatEnabled, isMine, actionsEnabled) in
-                viewController?.updateViewWith(alpha: offsetAlpha, chatEnabled: isChatEnabled,
-                                               isMine: isMine, actionsEnabled: actionsEnabled)
+                viewController?.updateViewWith(alpha: offsetAlpha,
+                                               chatEnabled: isChatEnabled,
+                                               isMine: isMine,
+                                               actionsEnabled: actionsEnabled,
+                                               isPlayable: viewModel.isPlayable)
         }.disposed(by: disposeBag)
     }
 }

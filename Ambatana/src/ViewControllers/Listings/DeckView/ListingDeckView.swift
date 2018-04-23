@@ -29,7 +29,13 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
     private let bottomInsetView = UIView()
 
     let itemActionsView = ListingDeckActionView()
+    private let startPlayingButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(#imageLiteral(resourceName: "ic_videoposting_play"), for: .normal)
+        return button
+    }()
 
+    var rxStartPlayingButton: Reactive<UIButton> { return startPlayingButton.rx }
     var rxActionButton: Reactive<LetgoButton> { return itemActionsView.actionButton.rx }
 
     var currentPage: Int { return collectionLayout.page }
@@ -93,6 +99,20 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
         collectionView.bounces = true
         collectionView.alwaysBounceVertical = false
         collectionView.backgroundColor = UIColor.white
+
+        setupPlayableButton()
+    }
+
+    private func setupPlayableButton() {
+        addSubviewForAutoLayout(startPlayingButton)
+        NSLayoutConstraint.activate([
+            startPlayingButton.centerXAnchor.constraint(equalTo: collectionView.centerXAnchor),
+            startPlayingButton.centerYAnchor.constraint(equalTo: collectionView.centerYAnchor,
+                                                        constant: -Metrics.veryBigMargin),
+            startPlayingButton.widthAnchor.constraint(equalToConstant: 60),
+            startPlayingButton.heightAnchor.constraint(equalTo: startPlayingButton.widthAnchor)
+        ])
+        startPlayingButton.addTarget(self, action: #selector(bouncePlayingButton), for: .touchUpInside)
     }
 
     private func setupPrivateActionsView() {
@@ -113,6 +133,10 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
 
     func normalizedPageOffset(givenOffset: CGFloat) -> CGFloat {
         return collectionLayout.normalizedPageOffset(givenOffset: givenOffset)
+    }
+
+    func updatePlayButtonWith(alpha: CGFloat) {
+        startPlayingButton.alpha = alpha
     }
 
     func updatePrivateActionsWith(alpha: CGFloat) {
@@ -149,6 +173,10 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
 
     func setCollectionLayoutDelegate(_ delegate: ListingDeckCollectionViewLayoutDelegate) {
         collectionLayout.delegate = delegate
+    }
+
+    @objc private func bouncePlayingButton() {
+        startPlayingButton.bounce()
     }
 }
 

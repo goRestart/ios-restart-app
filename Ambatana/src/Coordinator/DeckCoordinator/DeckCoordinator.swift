@@ -17,6 +17,10 @@ protocol DeckNavigator: class {
     func openPhotoViewer(listingViewModel: ListingViewModel,
                          source: EventParameterListingVisitSource,
                          quickChatViewModel: QuickChatViewModel)
+    func openPhotoViewer(listingViewModel: ListingViewModel,
+                         atIndex index: Int,
+                         source: EventParameterListingVisitSource,
+                         quickChatViewModel: QuickChatViewModel)
     func closeDeck()
     func showOnBoarding()
 }
@@ -46,6 +50,17 @@ final class DeckCoordinator: DeckWithPhotoViewerNavigator, ListingDeckOnBoarding
     }
 
     func openPhotoViewer(listingViewModel: ListingViewModel,
+                         source: EventParameterListingVisitSource,
+                         quickChatViewModel: QuickChatViewModel) {
+        let displayable = listingViewModel.makeDisplayable()
+        let photoVM = PhotoViewerViewModel(with: displayable, source: source)
+        photoVM.navigator = self
+        let photoViewer = PhotoViewerViewController(viewModel: photoVM, quickChatViewModel: quickChatViewModel)
+        navigationController?.pushViewController(photoViewer, animated: true)
+    }
+
+    func openPhotoViewer(listingViewModel: ListingViewModel,
+                         atIndex index: Int,
                          source: EventParameterListingVisitSource,
                          quickChatViewModel: QuickChatViewModel) {
         let displayable = listingViewModel.makeDisplayable()
