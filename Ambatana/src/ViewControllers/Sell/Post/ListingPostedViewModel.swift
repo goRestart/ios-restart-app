@@ -313,14 +313,15 @@ class ListingPostedViewModel: BaseViewModel {
                                             }
                                             self?.updateStatusAfterPosting(status: ListingPostedStatus(listingResult: result))
                                         }
-
                                     } else if let error = result.error {
                                         self?.trackPostSellError(error: error)
+                                        self?.updateStatusAfterPosting(status: ListingPostedStatus(error: error))
                                     }
                             })
 
                         } else if let error = result.error {
                             self?.trackPostSellError(error: error)
+                            self?.updateStatusAfterPosting(status: ListingPostedStatus(error: error))
                         }
                     })
                     
