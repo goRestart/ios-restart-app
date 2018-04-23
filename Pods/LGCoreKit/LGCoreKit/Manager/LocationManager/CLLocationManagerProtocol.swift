@@ -10,10 +10,9 @@ import CoreLocation
 
 public protocol CLLocationManagerProtocol {
     var distanceFilter: CLLocationDistance { get set }
-    var desiredAccuracy: CLLocationAccuracy { get set }
+    var desiredAccuracy: CLLocationDistance { get set }
     var location: CLLocation? { get }
     var delegate: CLLocationManagerDelegate? { get set }
-    var allowsBackgroundLocationUpdates: Bool { get set }
     static func locationServicesEnabled() -> Bool
     static func authorizationStatus() -> CLAuthorizationStatus
     func requestAlwaysAuthorization()

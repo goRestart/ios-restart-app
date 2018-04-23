@@ -9,15 +9,13 @@
 import CoreLocation
 
 open class MockLocationRepository: LocationRepository {
-
+    
     public var suggestionsResult: LocationSuggestionsRepositoryResult!
     public var suggestionDetailsResult: LocationSuggestionDetailsRepositoryResult!
     public var postalAddressResult: PostalAddressLocationRepositoryResult!
     public var ipLookupLocationResult: IPLookupLocationRepositoryResult!
 
     public var locationEnabledValue: Bool = true
-    public var emergencyIsActive: Bool = false
-
     public var authorizationStatusValue: CLAuthorizationStatus = .notDetermined
     
     // MARK: - Lifecycle
@@ -27,7 +25,7 @@ open class MockLocationRepository: LocationRepository {
     }
     
     public var distance: CLLocationDistance = 20
-    public var accuracy: CLLocationAccuracy = 20
+    public var accuracy: CLLocationDistance = 20
     public var lastKnownLocation: CLLocation?
     
     public func setLocationManagerDelegate(delegate: CLLocationManagerDelegate) {}
@@ -43,11 +41,9 @@ open class MockLocationRepository: LocationRepository {
     public func requestWhenInUseAuthorization() {}
     
     public func requestAlwaysAuthorization() {}
-    public func startUpdatingLocation() {}
-    public func stopUpdatingLocation() {}
-    public func startEmergencyLocation() {}
-    public func stopEmergencyLocation() {}
-
+    public func startUpdatingLocation() { }
+    
+    public func stopUpdatingLocation() { }
     
     public func retrieveLocationSuggestions(addressString: String, currentLocation: LGLocation?, completion: LocationSuggestionsRepositoryCompletion?) {
         delay(result: suggestionsResult, completion: completion)
