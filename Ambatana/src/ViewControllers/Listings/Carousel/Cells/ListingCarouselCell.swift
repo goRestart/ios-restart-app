@@ -16,7 +16,6 @@ protocol ListingCarouselCellDelegate: class {
     func didPullFromCellWith(_ offset: CGFloat, bottomLimit: CGFloat)
     func canScrollToNextPage() -> Bool
     func didEndDraggingCell()
-    func videoProgressDidChange(progress: Float)
 }
 
 enum ListingCarouselTapSide {
@@ -192,8 +191,6 @@ extension ListingCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
                     }
                 }
             }
-
-            imageCell.videoPreview.url = URL(string: "https://vid.stg.letgo.com/ef/82/80/31/ef828031-6ad2-4cbb-b754-eafb1fc9e20a.mp4")
             
             return imageCell
     }
@@ -201,7 +198,6 @@ extension ListingCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let imageCell = cell as? ListingCarouselImageCell else { return }
         imageCell.resetZoom()
-        imageCell.videoPreview.play()
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -260,10 +256,6 @@ extension ListingCarouselCell: ListingCarouselImageCellDelegate {
     func isZooming(_ zooming: Bool, pageAtIndex index: Int) {
         guard index == currentPage else { return }
         delegate?.isZooming(zooming)
-    }
-
-    func videoProgressDidChange(progress: Float) {
-        delegate?.videoProgressDidChange(progress:progress)
     }
 }
 

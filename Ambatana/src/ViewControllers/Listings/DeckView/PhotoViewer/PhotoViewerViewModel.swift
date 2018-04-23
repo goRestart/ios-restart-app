@@ -13,11 +13,9 @@ import RxSwift
 final class PhotoViewerViewModel: BaseViewModel {
 
     let imageDownloader: ImageDownloaderType
-//    var itemsCount: Int { return urls.count }
-    var itemsCount: Int { return media.count }
+    var itemsCount: Int { return urls.count }
 
-//    private let urls: [URL]
-    private let media: [Media]
+    private let urls: [URL]
     var navigator: DeckNavigator?
     private let tracker: Tracker
     private let listingViewModel: ListingViewModel
@@ -38,8 +36,7 @@ final class PhotoViewerViewModel: BaseViewModel {
          listingViewModel: ListingViewModel,
          tracker: Tracker,
          source: EventParameterListingVisitSource) {
-//        self.urls = listingViewModel.productImageURLs.value
-        self.media = listingViewModel.productMedia.value
+        self.urls = listingViewModel.productImageURLs.value
         self.imageDownloader = imageDownloader
         self.source = source
         self.tracker = tracker
@@ -48,16 +45,12 @@ final class PhotoViewerViewModel: BaseViewModel {
     }
 
     override func didBecomeActive(_ firstTime: Bool) {
-//        tracker.trackEvent(.listingVisitPhotoViewer(listing, source: source, numberOfPictures: urls.count))
-        tracker.trackEvent(.listingVisitPhotoViewer(listing, source: source, numberOfPictures: media.count))
+        tracker.trackEvent(.listingVisitPhotoViewer(listing, source: source, numberOfPictures: urls.count))
     }
 
     func urlsAtIndex(_ index: Int) -> URL? {
-//        guard index >= 0 && index < urls.count else { return nil }
-//        return urls[index]
-        guard index >= 0 && index < media.count else { return nil }
-        return media[index].outputs.image
-
+        guard index >= 0 && index < urls.count else { return nil }
+        return urls[index]
     }
 
     func didOpenChat() {
