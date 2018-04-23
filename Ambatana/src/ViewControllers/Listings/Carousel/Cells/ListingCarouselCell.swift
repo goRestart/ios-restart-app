@@ -137,7 +137,9 @@ final class ListingCarouselCell: UICollectionViewCell {
             layout.scrollDirection = imageScrollDirection
         }
 
-        if let media = productImages.first, let placeholderURL = media.outputs.image, placeholderImage == nil {
+        if let media = productImages.first,
+            let placeholderURL = media.outputs.imageThumbnail,
+            placeholderImage == nil {
             self.placeholderImage = imageDownloader.cachedImageForUrl(placeholderURL)
         }
         
@@ -153,7 +155,7 @@ final class ListingCarouselCell: UICollectionViewCell {
         
     fileprivate func imageAtIndex(_ index: Int) -> URL? {
         guard 0..<productImages.count ~= index else { return nil }
-        return productImages[index].outputs.image
+        return productImages[index].outputs.imageThumbnail
     }
 }
 

@@ -10,52 +10,69 @@ import Foundation
 import LGCoreKit
 import RxSwift
 
+struct PhotoViewerDisplayable {
+    let listing: Listing
+    let media: [Media]
+    let isMine: Bool
+    let isPlayable: Bool
+}
+
 final class PhotoViewerViewModel: BaseViewModel {
 
     let imageDownloader: ImageDownloaderType
-    var itemsCount: Int { return urls.count }
+    var itemsCount: Int { return media.count }
 
-    private let urls: [URL]
-    var navigator: DeckNavigator?
+    private var media: [Media] { return viewerDisplayable.listing.media }
+    var navigator: PhotoViewerNavigator?
     private let tracker: Tracker
-    private let listingViewModel: ListingViewModel
-    private var listing: Listing { return listingViewModel.listing.value }
     private let source: EventParameterListingVisitSource
 
-    var isChatEnabled: Bool { return !listingViewModel.isMine }
+    private let viewerDisplayable: PhotoViewerDisplayable
 
-    convenience init(with listingViewModel: ListingViewModel,
+    var isChatEnabled: Bool { return !viewerDisplayable.isMine }
+    var isPlayable: Bool { return viewerDisplayable.isPlayable }
+
+    convenience init(with viewerDisplayable: PhotoViewerDisplayable,
                      source: EventParameterListingVisitSource) {
         self.init(imageDownloader: ImageDownloader.sharedInstance,
-                  listingViewModel: listingViewModel,
+                  viewerDisplayable: viewerDisplayable,
                   tracker: TrackerProxy.sharedInstance,
                   source: source)
     }
 
     init(imageDownloader: ImageDownloaderType,
-         listingViewModel: ListingViewModel,
+         viewerDisplayable: PhotoViewerDisplayable,
          tracker: Tracker,
          source: EventParameterListingVisitSource) {
-        self.urls = listingViewModel.productImageURLs.value
         self.imageDownloader = imageDownloader
         self.source = source
         self.tracker = tracker
-        self.listingViewModel = listingViewModel
+        self.viewerDisplayable = viewerDisplayable
         super.init()
     }
 
     override func didBecomeActive(_ firstTime: Bool) {
-        tracker.trackEvent(.listingVisitPhotoViewer(listing, source: source, numberOfPictures: urls.count))
+        tracker.trackEvent(.listingVisitPhotoViewer(viewerDisplayable.listing,
+                                                    source: source,
+                                                    numberOfPictures: media.count))
     }
 
     func urlsAtIndex(_ index: Int) -> URL? {
-        guard index >= 0 && index < urls.count else { return nil }
-        return urls[index]
+        return mediaAtIndex(index)?.outputs.imageThumbnail
+    }
+
+    func mediaAtIndexIsPlayable(_ index: Int) -> Bool {
+        return mediaAtIndex(index)?.isPlayable ?? false
+    }
+
+    func mediaAtIndex(_ index: Int) -> Media? {
+        guard index >= 0 && index < media.count else { return nil }
+        return media[index]
     }
 
     func didOpenChat() {
         guard active else { return }
-        tracker.trackEvent(.listingVisitPhotoChat(listing, source: source))
+        tracker.trackEvent(.listingVisitPhotoChat(viewerDisplayable.listing, source: source))
     }
 
     func dismiss() {

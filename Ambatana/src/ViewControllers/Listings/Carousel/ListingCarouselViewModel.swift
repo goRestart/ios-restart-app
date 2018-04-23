@@ -149,12 +149,7 @@ class ListingCarouselViewModel: BaseViewModel {
         return currentListingViewModel?.isMine ?? false
     }
 
-    var isPlayable: Bool {
-        return currentListingViewModel?.productMedia
-            .value
-            .map { $0.type }
-            .reduce(false) { (result, next: MediaType) in return result || next == .video } ?? false
-    }
+    var isPlayable: Bool { return currentListingViewModel?.isPlayable ?? false }
 
     fileprivate var trackingIndex: Int?
     fileprivate var initialThumbnail: UIImage?
@@ -387,6 +382,11 @@ class ListingCarouselViewModel: BaseViewModel {
 
     func userAvatarPressed() {
         currentListingViewModel?.openProductOwnerProfile()
+    }
+
+    func videoButtonTapped() {
+        // FIXME: Proper index
+        currentListingViewModel?.openVideoPlayer(atIndex: 0, source: source)
     }
 
     func directMessagesItemPressed() {

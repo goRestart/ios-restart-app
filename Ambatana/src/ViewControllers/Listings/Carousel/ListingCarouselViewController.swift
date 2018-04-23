@@ -204,8 +204,8 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     }
 
     @objc private func openVideoPlayer() {
-        startPlayingButton.bounce {
-            // FIXME open video player
+        startPlayingButton.bounce { [weak self] in
+            self?.viewModel.videoButtonTapped()
         }
     }
 

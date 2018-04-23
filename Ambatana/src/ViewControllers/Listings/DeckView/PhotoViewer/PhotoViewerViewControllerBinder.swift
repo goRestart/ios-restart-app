@@ -19,7 +19,6 @@ protocol PhotoViewerVCType: class {
 }
 
 protocol PhotoViewerBinderViewType: class {
-    var rxChatButton: Reactive<UIControl>? { get }
     var rxCollectionView: Reactive<UICollectionView> { get }
     var rxTapControlEvents: Observable<UIControlEvents> { get }
 }
@@ -29,27 +28,15 @@ final class PhotoViewerViewControllerBinder {
     weak var viewController: PhotoViewerVCType?
     private var disposeBag: DisposeBag?
 
-    func bind(toView: PhotoViewerBinderViewType, isChatEnabled: Bool) {
+    func bind(toView: PhotoViewerBinderViewType) {
         disposeBag = DisposeBag()
 
         guard let bag = disposeBag else { return }
         guard let vc = viewController else { return }
 
-        if isChatEnabled {
-            bindChatButton(toViewController: vc, view: toView, withDisposeBag: bag)
-        }
         bindContentOffset(toViewController: vc, view: toView, withDisposeBag: bag)
         bindKeyboard(toViewController: vc, view: toView, withDisposeBag: bag)
         bindTapControlEvents(toViewController: vc, view: toView, withDisposeBag: bag)
-    }
-
-    private func bindChatButton(toViewController viewController: PhotoViewerVCType,
-                        view: PhotoViewerBinderViewType, withDisposeBag disposeBag: DisposeBag) {
-        view.rxChatButton?.controlEvent(.touchUpInside)
-            .debounce(0.3, scheduler: MainScheduler.instance)
-            .bind { [weak viewController] in
-            viewController?.showChat()
-        }.disposed(by:disposeBag)
     }
 
     private func bindContentOffset(toViewController viewController: PhotoViewerVCType?,

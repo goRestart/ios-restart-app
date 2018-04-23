@@ -15,8 +15,11 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
     @available(iOS 11.0, *)
     override func preferredScreenEdgesDeferringSystemGestures() -> UIRectEdge { return [.left, .top] }
 
-    let chatView: QuickChatView
+    let chatView: QuickChatView?
     let photoViewer = PhotoViewerView()
+
+    private let chatButton = ChatButton()
+
     private let viewModel: PhotoViewerViewModel
     private let binder = PhotoViewerViewControllerBinder()
 
@@ -35,7 +38,7 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        mainResponder = chatView.textView
+        mainResponder = chatView?.textView
         setupUI()
     }
 
@@ -47,9 +50,21 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
     private func setupUI() {
         setupViewExtendedEdges()
         setupPhotoViewer()
+        setupChatbutton()
         setupGestures()
 
-        chatView.textViewStandardColor = .white
+        chatView?.textViewStandardColor = .white
+    }
+
+    private func setupChatbutton() {
+        chatButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(chatButton)
+
+        chatButton.layout(with: view)
+            .leadingMargin(by: Metrics.margin).bottomMargin(by: -Metrics.bigMargin)
+
+        chatButton.addTarget(self, action: #selector(showChat), for: .touchUpInside)
+        chatButton.isHidden = !viewModel.isChatEnabled
     }
 
     private func setupViewExtendedEdges() {
@@ -61,15 +76,17 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
     }
 
     private func setupPhotoViewer() {
+        photoViewer.register(ListingDeckVideoCell.self,
+                             forCellWithReuseIdentifier: ListingDeckVideoCell.reusableID)
         photoViewer.register(ListingDeckImagePreviewCell.self,
                              forCellWithReuseIdentifier: ListingDeckImagePreviewCell.reusableID)
+
         photoViewer.dataSource = self
         photoViewer.delegate = self
         photoViewer.updateNumberOfPages(viewModel.itemsCount)
-        photoViewer.isChatEnabled = viewModel.isChatEnabled
-        
+
         binder.viewController = self
-        binder.bind(toView: photoViewer, isChatEnabled: viewModel.isChatEnabled)
+        binder.bind(toView: photoViewer)
     }
 
     private func setupGestures() {
@@ -94,11 +111,11 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
 
     private func setupDismissChatGestures() {
         quickChatTap.addTarget(self, action: #selector(dismissChat))
-        chatView.addDismissGestureRecognizer(quickChatTap)
+        chatView?.addDismissGestureRecognizer(quickChatTap)
 
         let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(dismissChat))
         swipeDown.direction = .down
-        chatView.addGestureRecognizer(swipeDown)
+        chatView?.addGestureRecognizer(swipeDown)
     }
 
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
@@ -108,8 +125,8 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        chatView.resignFirstResponder()
-        chatView.removeFromSuperview()
+        chatView?.resignFirstResponder()
+        chatView?.removeFromSuperview()
     }
 
     // MARK: NavBar
@@ -142,12 +159,12 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
 
     func updateWith(keyboardChange: KeyboardChange) {
         let height = view.bounds.height - keyboardChange.origin
-        chatView.updateWith(bottomInset: height,
+        chatView?.updateWith(bottomInset: height,
                             animationTime: TimeInterval(keyboardChange.animationTime),
                             animationOptions: keyboardChange.animationOptions,
                             completion:  { [weak self] completion in
                                 if height <= 0 {
-                                    self?.chatView.removeFromSuperview()
+                                    self?.chatView?.removeFromSuperview()
                                 }})
     }
 
@@ -163,17 +180,26 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
     }
 
     @objc func showChat() {
-        viewModel.didOpenChat()
-        hideLeftButton()
+        chatButton.bounce { [weak self] in
+            guard let strongSelf = self,
+                let chatView = strongSelf.chatView,
+                let view = strongSelf.view else { return }
 
-        chatView.frame = photoViewer.frame
-        view.addSubviewForAutoLayout(chatView)
-        chatView.layout(with: photoViewer).fill()
-        
-        view.setNeedsLayout()
-        view.layoutIfNeeded()
+            strongSelf.viewModel.didOpenChat()
+            strongSelf.hideLeftButton()
 
-        chatView.becomeFirstResponder()
+            chatView.frame = strongSelf.photoViewer.frame
+            view.addSubviewForAutoLayout(chatView)
+            view.bringSubview(toFront: chatView)
+
+            chatView.layout(with: view).fill()
+
+            view.setNeedsLayout()
+            view.layoutIfNeeded()
+
+            chatView.becomeFirstResponder()
+        }
+
     }
 
     @objc func closeView() {
@@ -187,23 +213,33 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: ListingDeckImagePreviewCell.reusableID,
-                                                       for: indexPath)
-        guard let imageCell = cell as? ListingDeckImagePreviewCell,
-            let url = viewModel.urlsAtIndex(indexPath.row) else {
-                return UICollectionViewCell()
-        }
-        imageCell.tag = indexPath.row
-        guard let cache = viewModel.imageDownloader.cachedImageForUrl(url) else {
-            _ = ImageDownloader.sharedInstance.downloadImageWithURL(url) { (result, url) in
-                if let value = result.value, imageCell.tag == indexPath.row {
-                    imageCell.setImage(value.image)
-                }
-            }
+        guard let media = viewModel.mediaAtIndex(indexPath.row) else { return UICollectionViewCell() }
+        if media.isPlayable {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListingDeckVideoCell.reusableID,
+                                                                for: indexPath) as? ListingDeckVideoCell else { return UICollectionViewCell() }
+
+
+            cell.setupWith(previewURL: media.outputs.videoThumbnail, videoURL: media.outputs.video)
             return cell
+        } else {
+            let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: ListingDeckImagePreviewCell.reusableID,
+                                                           for: indexPath)
+            guard let imageCell = cell as? ListingDeckImagePreviewCell,
+                let url = viewModel.urlsAtIndex(indexPath.row) else {
+                    return UICollectionViewCell()
+            }
+            imageCell.tag = indexPath.row
+            guard let cache = viewModel.imageDownloader.cachedImageForUrl(url) else {
+                _ = ImageDownloader.sharedInstance.downloadImageWithURL(url) { (result, url) in
+                    if let value = result.value, imageCell.tag == indexPath.row {
+                        imageCell.setImage(value.image)
+                    }
+                }
+                return cell
+            }
+            imageCell.setImage(cache)
+            return imageCell
         }
-        imageCell.setImage(cache)
-        return imageCell
     }
 
     func collectionView(_ collectionView: UICollectionView,
@@ -220,9 +256,9 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
     // MARK: PhotoViewerVCType
 
     @objc func dismissView() {
-        if chatView.isFirstResponder {
+        if chatView?.isFirstResponder ?? false {
             dismissChat()
-        } else if let current = currentPreviewCell(), current.isZooming {
+        } else if !viewModel.isPlayable, let current = currentPreviewCell(), current.isZooming {
             current.resetZoom()
         } else {
             closeView()
@@ -240,7 +276,7 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
     // MARK: Actions
 
     @objc func dismissChat() {
-        chatView.resignFirstResponder()
+        chatView?.resignFirstResponder()
         setLeftCloseButton()
     }
 
@@ -264,5 +300,80 @@ extension PhotoViewerViewController: UIGestureRecognizerDelegate {
     }
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         return !currentCellIsZooming()
+    }
+}
+
+protocol PhotoViewerViewType: class {
+    func updateCurrentPage(_ current: Int)
+    func updateNumberOfPages(_ pagesCount: Int)
+    func register(_ cellClass: Swift.AnyClass?, forCellWithReuseIdentifier identifier: String)
+}
+
+class ChatButton: UIControl {
+
+    convenience init() {
+        self.init(frame: .zero)
+    }
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupUI()
+    }
+
+    private let textFont = UIFont.systemBoldFont(size: 17)
+
+    override var intrinsicContentSize: CGSize {
+
+        let width = (LGLocalizedString.photoViewerChatButton as NSString)
+            .size(withAttributes: [NSAttributedStringKey.font: textFont]).width
+        return CGSize(width: width + 2*Metrics.margin + 44, height: 44) }
+
+    required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+
+    private func setupUI() {
+        layer.borderWidth = 1.0
+        layer.borderColor = UIColor.white.cgColor
+        applyShadowToLayer(layer)
+
+        let imageView = UIImageView(image: #imageLiteral(resourceName: "nit_photo_chat"))
+        imageView.setContentHuggingPriority(.required, for: .horizontal)
+        imageView.isUserInteractionEnabled = false
+        applyShadowToLayer(imageView.layer)
+
+        let label = UILabel()
+        label.text = LGLocalizedString.photoViewerChatButton
+        label.textColor = UIColor.white
+        label.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        label.setContentCompressionResistancePriority(.required, for: .horizontal)
+        label.font = textFont
+        label.isUserInteractionEnabled = false
+        applyShadowToLayer(label.layer)
+
+        let stackView = UIStackView(arrangedSubviews: [imageView, label])
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.layoutMargins = UIEdgeInsets(top: 0, left: Metrics.margin, bottom: 0, right: Metrics.margin)
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.isUserInteractionEnabled = false
+
+        addSubview(stackView)
+
+        stackView.axis = .horizontal
+        stackView.spacing = Metrics.shortMargin
+        stackView.distribution = .fillProportionally
+        stackView.alignment = .center
+        stackView.layout(with: self).fill()
+    }
+
+    private func applyShadowToLayer(_ layer: CALayer) {
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOpacity = 0.2
+        layer.shadowOffset = CGSize(width: 0, height: 2)
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        setRoundedCorners()
+        let cornerRadius = min(height, width) / 2.0
+        layer.shadowRadius = cornerRadius
     }
 }
