@@ -957,7 +957,14 @@ class FeatureFlags: FeatureFlaggeable {
             case .googleAdxForOldUsers:
                 return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxUSAForOldUsers
             default:
-                return nil
+                switch feedAdsProviderForTR {
+                case .moPubAdsForAllUsers:
+                    return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubTRForAllUsers
+                case .moPubAdsForOldUsers:
+                    return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubTRForOldUsers
+                default:
+                    return nil
+                }
             }
         }
         switch sensorLocationCountryCode {

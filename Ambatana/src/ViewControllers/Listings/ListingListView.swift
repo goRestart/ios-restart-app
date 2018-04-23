@@ -574,7 +574,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
                 nativeAd.delegate = self
                 moPubView.tag = data.adPosition
                 self.viewModel.updateAdvertisementRequestedIn(position: inPosition, moPubNativeAd: nativeAd, moPubView: moPubView)
-                self.vmReloadItemAtIndexPath(indexPath: IndexPath(row: inPosition, section: 0))
             })
             break
         case .adxAdvertisement(let data):

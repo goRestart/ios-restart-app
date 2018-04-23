@@ -75,6 +75,22 @@ struct LGLocalizedString {
 		return NSLocalizedString("bump_up_banner_pay_text_improvement", comment: "")
 	}
 
+	static var bumpUpBannerPayTextImprovementEnglishA: String {
+		return NSLocalizedString("bump_up_banner_pay_text_improvement_english_a", comment: "")
+	}
+
+	static var bumpUpBannerPayTextImprovementEnglishB: String {
+		return NSLocalizedString("bump_up_banner_pay_text_improvement_english_b", comment: "")
+	}
+
+	static var bumpUpBannerPayTextImprovementEnglishC: String {
+		return NSLocalizedString("bump_up_banner_pay_text_improvement_english_c", comment: "")
+	}
+
+	static var bumpUpBannerPayTextImprovementEnglishD: String {
+		return NSLocalizedString("bump_up_banner_pay_text_improvement_english_d", comment: "")
+	}
+
 	static var bumpUpBannerWaitText: String {
 		return NSLocalizedString("bump_up_banner_wait_text", comment: "")
 	}
@@ -4357,6 +4373,18 @@ struct LGLocalizedString {
 
 	static var settingsMarketingNotificationsAlertCancel: String {
 		return NSLocalizedString("settings_marketing_notifications_alert_cancel", comment: "")
+	}
+
+	static var settingsNotificationsButton: String {
+		return NSLocalizedString("settings_notifications_button", comment: "")
+	}
+
+	static var settingsNotificationsTitle: String {
+		return NSLocalizedString("settings_notifications_title", comment: "")
+	}
+
+	static var settingsNotificationsSearchAlerts: String {
+		return NSLocalizedString("settings_notifications_search_alerts", comment: "")
 	}
 
 	static var signUpAcceptanceError: String {

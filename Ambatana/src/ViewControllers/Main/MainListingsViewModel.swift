@@ -884,10 +884,10 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         totalListings = addCollections(to: totalListings, page: page)
         totalListings = addRealEstatePromoItem(to: totalListings)
         let myUserCreationDate: Date? = myUserRepository.myUser?.creationDate
-        if featureFlags.showAdsInFeedWithRatio.isActive &&
-            (featureFlags.feedAdsProviderForUS.shouldShowAdsInFeedForUser(createdIn: myUserCreationDate) ||
-                featureFlags.feedAdsProviderForTR.shouldShowAdsInFeedForUser(createdIn: myUserCreationDate)) {
-            totalListings = addAds(to: totalListings, page: page)
+        if featureFlags.showAdsInFeedWithRatio.isActive ||
+            featureFlags.feedAdsProviderForUS.shouldShowAdsInFeedForUser(createdIn: myUserCreationDate) ||
+            featureFlags.feedAdsProviderForTR.shouldShowAdsInFeedForUser(createdIn: myUserCreationDate) {
+                totalListings = addAds(to: totalListings, page: page)
         }
         return totalListings
     }
@@ -927,7 +927,9 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             previousPagesAdsOffset = 0
         }
         guard let adsDelegate = adsDelegate else { return listings }
-        let adsActive = featureFlags.feedAdsProviderForUS.shouldShowAdsInFeed || featureFlags.feedAdsProviderForTR.shouldShowAdsInFeed
+        let adsActive = featureFlags.showAdsInFeedWithRatio.isActive ||
+            featureFlags.feedAdsProviderForUS.shouldShowAdsInFeed ||
+            featureFlags.feedAdsProviderForTR.shouldShowAdsInFeed
         var cellModels = listings
 
         var canInsertAds = true
