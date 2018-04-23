@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import RxSwift
 
 final class VideoPreview: UIView {
 
@@ -17,6 +18,9 @@ final class VideoPreview: UIView {
 
     var url: URL? {
         didSet {
+            if let playerItem = player.currentItem {
+                NotificationCenter.default.removeObserver(self, name: Notification.Name.AVPlayerItemDidPlayToEndTime, object: playerItem)
+            }
             let playerItem: AVPlayerItem? = url != nil ? AVPlayerItem(url: url!) : nil
             player.replaceCurrentItem(with: playerItem)
         }
@@ -29,12 +33,30 @@ final class VideoPreview: UIView {
         return player
     }()
 
-    var playerLayer: AVPlayerLayer {
+    private var playerLayer: AVPlayerLayer {
         guard let layer = layer as? AVPlayerLayer else {
             fatalError("Expected `AVPlayerLayer` type for layer. Check VideoPreview.layerClass implementation.")
         }
         return layer
     }
+
+    var duration: TimeInterval {
+        guard let duration = player.currentItem?.duration else { return 0}
+        return CMTimeGetSeconds(duration)
+    }
+
+    var currentTime: TimeInterval {
+        guard let currentTime = player.currentItem?.currentTime() else { return 0}
+        return CMTimeGetSeconds(currentTime)
+    }
+
+    var progress: Float {
+        return Float(currentTime / duration)
+    }
+
+    var rx_progress = Variable<Float>(0.0)
+
+    private var periodicTimeObserver: Any?
 
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -42,12 +64,20 @@ final class VideoPreview: UIView {
 
     func play() {
         player.play()
+        let time = CMTimeMake(1, 20)
+        periodicTimeObserver = player.addPeriodicTimeObserver(forInterval: time, queue: DispatchQueue.main) { [weak self] (time) in
+            guard let strongSelf = self else { return }
+            strongSelf.rx_progress.value = strongSelf.progress
+        }
 
         NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd(notification:)), name: Notification.Name.AVPlayerItemDidPlayToEndTime, object: player.currentItem)
     }
 
     func pause() {
         player.pause()
+        if let periodicTimeObserver = periodicTimeObserver {
+            player.removeTimeObserver(periodicTimeObserver)
+        }
     }
 
     @objc func playerItemDidReachEnd(notification: Notification) {
