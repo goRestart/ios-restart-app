@@ -998,17 +998,17 @@ enum ShowAdvancedReputationSystem: String, BumperFeature  {
 }
 
 enum FeedAdsProviderForUS: String, BumperFeature  {
-    case control, baseline, bingAdsForAllUsers, bingAdsForOldUsers, moPubAdsForAllUsers, moPubAdsForOldUsers
+    case control, baseline, googleAdxForAllUsers, googleAdxForOldUsers, moPubAdsForAllUsers, moPubAdsForOldUsers
     static var defaultValue: String { return FeedAdsProviderForUS.control.rawValue }
-    static var enumValues: [FeedAdsProviderForUS] { return [.control, .baseline, .bingAdsForAllUsers, .bingAdsForOldUsers, .moPubAdsForAllUsers, .moPubAdsForOldUsers]}
+    static var enumValues: [FeedAdsProviderForUS] { return [.control, .baseline, .googleAdxForAllUsers, .googleAdxForOldUsers, .moPubAdsForAllUsers, .moPubAdsForOldUsers]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Change logic for showing ads with diferent ads providers in the US" } 
     static func fromPosition(_ position: Int) -> FeedAdsProviderForUS {
         switch position { 
             case 0: return .control
             case 1: return .baseline
-            case 2: return .bingAdsForAllUsers
-            case 3: return .bingAdsForOldUsers
+            case 2: return .googleAdxForAllUsers
+            case 3: return .googleAdxForOldUsers
             case 4: return .moPubAdsForAllUsers
             case 5: return .moPubAdsForOldUsers
             default: return .control

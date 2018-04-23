@@ -331,7 +331,7 @@ class ListingListViewModel: BaseViewModel {
         case .mostSearchedItems:
             dataDelegate?.vmDidSelectMostSearchedItems()
             return
-        case .emptyCell, .dfpAdvertisement, .mopubAdvertisement, .promo:
+        case .emptyCell, .dfpAdvertisement, .mopubAdvertisement, .promo, .adxAdvertisement:
             return
         }
     }
@@ -344,7 +344,7 @@ class ListingListViewModel: BaseViewModel {
                 if let thumbnailURL = listing.thumbnail?.fileURL {
                     urls.append(thumbnailURL)
                 }
-            case .emptyCell, .collectionCell, .dfpAdvertisement, .mopubAdvertisement, .mostSearchedItems, .promo:
+            case .emptyCell, .collectionCell, .dfpAdvertisement, .mopubAdvertisement, .mostSearchedItems, .promo, .adxAdvertisement:
                 break
             }
         }
@@ -387,7 +387,7 @@ class ListingListViewModel: BaseViewModel {
         switch item {
         case let .listingCell(listing):
             return listing
-        case .collectionCell, .emptyCell, .dfpAdvertisement, .mopubAdvertisement, .mostSearchedItems, .promo:
+        case .collectionCell, .emptyCell, .dfpAdvertisement, .mopubAdvertisement, .mostSearchedItems, .promo, .adxAdvertisement:
             return nil
         }
     }
@@ -397,7 +397,7 @@ class ListingListViewModel: BaseViewModel {
             switch cellModel {
             case let .listingCell(listing):
                 return listing.objectId == listingId
-            case .collectionCell, .emptyCell, .dfpAdvertisement, .mopubAdvertisement, .mostSearchedItems, .promo:
+            case .collectionCell, .emptyCell, .dfpAdvertisement, .mopubAdvertisement, .mostSearchedItems, .promo, .adxAdvertisement:
                 return false
             }
         })
@@ -499,6 +499,9 @@ class ListingListViewModel: BaseViewModel {
         case .mopubAdvertisement(let adData):
             guard adData.adPosition == index else { return CGSize(width: cellWidth, height: 0) }
             size = CGSize(width: cellWidth, height: adData.bannerHeight)
+        case .adxAdvertisement(let adData):
+            guard adData.adPosition == index else { return CGSize(width: cellWidth, height: 0) }
+            size = CGSize(width: cellWidth, height: adData.bannerHeight)
         case .mostSearchedItems:
             return CGSize(width: cellWidth, height: MostSearchedItemsListingListCell.height)
         case .promo:
@@ -538,6 +541,8 @@ class ListingListViewModel: BaseViewModel {
             categories = data.categories
         case .mopubAdvertisement(let data):
             categories = data.categories
+        case .adxAdvertisement(let data):
+            categories = data.categories
         case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems, .promo:
             break
         }
@@ -554,14 +559,13 @@ class ListingListViewModel: BaseViewModel {
                                                      rootViewController: data.rootViewController,
                                                      adPosition: data.adPosition,
                                                      bannerHeight: data.bannerHeight,
-                                                     showAdsInFeedWithRatio: data.showAdsInFeedWithRatio,
                                                      adRequested: true,
                                                      categories: data.categories,
                                                      adRequest: data.adRequest,
                                                      bannerView: bannerView)
                 objects[position] = ListingCellModel.dfpAdvertisement(data: newAdData)
 
-        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems, .mopubAdvertisement, .promo:
+        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems, .mopubAdvertisement, .promo, .adxAdvertisement:
             break
         }
     }
@@ -576,7 +580,6 @@ class ListingListViewModel: BaseViewModel {
                                                    rootViewController: data.rootViewController,
                                                    adPosition: data.adPosition,
                                                    bannerHeight: data.bannerHeight,
-                                                   showAdsInFeedWithRatio: data.showAdsInFeedWithRatio,
                                                    adRequested: true,
                                                    categories: data.categories,
                                                    nativeAdRequest: data.nativeAdRequest,
@@ -585,12 +588,33 @@ class ListingListViewModel: BaseViewModel {
             objects[position] = ListingCellModel.mopubAdvertisement(data: newAdData)
             delegate?.vmReloadItemAtIndexPath(indexPath: IndexPath(row: position, section: 0))
             
-        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems, .dfpAdvertisement, .promo:
+        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems, .dfpAdvertisement, .promo, .adxAdvertisement:
+            break
+        }
+    }
+    
+    func updateAdvertisementRequestedIn(position: Int, nativeContentAd: GADNativeContentAd, contentAdView: GADNativeContentAdView) {
+        guard 0..<objects.count ~= position else { return }
+        let modelToBeUpdated = objects[position]
+        switch modelToBeUpdated {
+        case .adxAdvertisement(let data):
+            guard data.adPosition == position else { return }
+            contentAdView.nativeContentAd = nativeContentAd
+            let newAdData = AdvertisementAdxData(adUnitId: data.adUnitId,
+                                                 rootViewController: data.rootViewController,
+                                                 adPosition: data.adPosition,
+                                                 bannerHeight: data.bannerHeight,
+                                                 adRequested: true,
+                                                 categories: data.categories,
+                                                 adLoader: data.adLoader,
+                                                 adxNativeView: contentAdView)
+            objects[position] = ListingCellModel.adxAdvertisement(data: newAdData)
+            delegate?.vmReloadItemAtIndexPath(indexPath: IndexPath(row: position, section: 0))
+        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems, .dfpAdvertisement, .mopubAdvertisement, .promo:
             break
         }
     }
 }
-
 
 // MARK: - Tracking
 
@@ -624,14 +648,13 @@ extension ListingListViewModel {
                                                   rootViewController: data.rootViewController,
                                                   adPosition: data.adPosition,
                                                   bannerHeight: newHeight,
-                                                  showAdsInFeedWithRatio: data.showAdsInFeedWithRatio,
                                                   adRequested: data.adRequested,
                                                   categories: data.categories,
                                                   adRequest: data.adRequest,
                                                   bannerView: bannerView)
                 objects[forPosition] = ListingCellModel.dfpAdvertisement(data: newAdData)
                 delegate?.vmReloadItemAtIndexPath(indexPath: IndexPath(item: forPosition, section: 0))
-        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems, .mopubAdvertisement, .promo:
+        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems, .mopubAdvertisement, .promo, .adxAdvertisement:
             break
         }
     }
