@@ -151,6 +151,13 @@ class ListingCarouselViewModel: BaseViewModel {
         return currentListingViewModel?.isMine ?? false
     }
 
+    var isPlayable: Bool {
+        return currentListingViewModel?.productMedia
+            .value
+            .map { $0.type }
+            .reduce(false) { (result, next) in return result || next == .video } ?? false
+    }
+
     fileprivate var trackingIndex: Int?
     fileprivate var initialThumbnail: UIImage?
 

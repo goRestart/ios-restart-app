@@ -13,6 +13,8 @@ public struct MockRealEstate: RealEstate {
     public var thumbnail: File?
     public var thumbnailSize: LGSize?
     public var images: [File]
+    public var media: [Media]
+    public var mediaThumbnail: MediaThumbnail?
     public var user: UserListing
     public var updatedAt : Date?
     public var createdAt : Date?
@@ -36,6 +38,8 @@ extension MockRealEstate {
                   thumbnail: realEstate.thumbnail,
                   thumbnailSize: realEstate.thumbnailSize,
                   images: realEstate.images,
+                  media: realEstate.media,
+                  mediaThumbnail: realEstate.mediaThumbnail,
                   user: realEstate.user,
                   updatedAt: realEstate.updatedAt,
                   createdAt: realEstate.createdAt,

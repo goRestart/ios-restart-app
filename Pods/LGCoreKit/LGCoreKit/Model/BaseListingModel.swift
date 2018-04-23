@@ -25,6 +25,8 @@ public protocol BaseListingModel: BaseModel, Priceable {
     var thumbnail: File? { get }
     var thumbnailSize: LGSize? { get }
     var images: [File] { get }          // Default value []
+    var media: [Media] { get }
+    var mediaThumbnail: MediaThumbnail? { get }
     
     var user: UserListing { get }
     

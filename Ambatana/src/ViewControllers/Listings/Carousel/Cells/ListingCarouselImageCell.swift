@@ -10,22 +10,20 @@ import RxSwift
 
 protocol ListingCarouselImageCellDelegate: class {
     func isZooming(_ zooming: Bool, pageAtIndex index: Int)
-    func videoProgressDidChange(progress: Float)
+//    func videoProgressDidChange(progress: Float)
 }
 
-class ListingCarouselImageCell: UICollectionViewCell {
+class ListingCarouselImageCell: UICollectionViewCell, ReusableCell {
     
-    static let identifier = "ListingCarouselImageCell"
     private static let zoomDecimalsRounding: CGFloat = 0.0001
     fileprivate static let minZoomScale: CGFloat = 0.5
     fileprivate static let maxZoomScale: CGFloat = 2
 
-
     var position: Int = 0
     var imageURL: URL?
     var imageView: UIImageView
-    var videoURL: URL?
-    var videoPreview: VideoPreview
+//    var videoURL: URL?
+//    var videoPreview: VideoPreview
     fileprivate var scrollView: UIScrollView
     fileprivate var backgroundImage: UIImageView
     fileprivate var effectsView: UIVisualEffectView
@@ -41,13 +39,13 @@ class ListingCarouselImageCell: UICollectionViewCell {
     override init(frame: CGRect) {
         self.scrollView = UIScrollView()
         self.imageView = UIImageView()
-        self.videoPreview = VideoPreview()
+//        self.videoPreview = VideoPreview()
         self.backgroundImage = UIImageView()
         let effect = UIBlurEffect(style: .dark)
         self.effectsView = UIVisualEffectView(effect: effect)
         super.init(frame: frame)
 
-        setupRx()
+//        setupRx()
         setupUI()
         setAccessibilityIds()
     }
@@ -57,8 +55,9 @@ class ListingCarouselImageCell: UICollectionViewCell {
     }
 
     override func prepareForReuse() {
+        super.prepareForReuse()
         resetZoom()
-        stopPlaying()
+//        stopPlaying()
     }
 }
 
@@ -93,9 +92,9 @@ extension ListingCarouselImageCell {
         scrollView.zoomScale = referenceZoomLevel
     }
 
-    func stopPlaying() {
-        videoPreview.pause()
-    }
+//    func stopPlaying() {
+//        videoPreview.pause()
+//    }
 }
 
 
@@ -108,7 +107,7 @@ extension ListingCarouselImageCell: UIScrollViewDelegate {
 
         imageView.center = CGPoint(x: scrollView.contentSize.width * 0.5 + offsetX,
                                        y: scrollView.contentSize.height * 0.5 + offsetY)
-        videoPreview.center = imageView.center
+//        videoPreview.center = imageView.center
 
         let zooming = scrollView.zoomScale > referenceZoomLevel
         scrollView.isScrollEnabled = zooming
@@ -116,7 +115,8 @@ extension ListingCarouselImageCell: UIScrollViewDelegate {
     }
 
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-        return videoPreview
+//        return videoPreview
+        return nil
     }
 }
 
@@ -126,12 +126,14 @@ extension ListingCarouselImageCell: UIScrollViewDelegate {
 
 fileprivate extension ListingCarouselImageCell {
 
-    func setupRx() {
-
-        videoPreview.rx_progress.asObservable().subscribeNext { [weak self] progress in
-            self?.delegate?.videoProgressDidChange(progress: progress)
-        }.disposed(by: disposeBag)
-    }
+//    func setupRx() {
+//        videoPreview.rx_progress
+//            .asDriver()
+//            .drive(onNext: { [weak self] (progress) in
+//                self?.delegate?.videoProgressDidChange(progress: progress)
+//        })
+//            .disposed(by: disposeBag)
+//    }
 
     func setupUI() {
         clipsToBounds = true
@@ -156,11 +158,11 @@ fileprivate extension ListingCarouselImageCell {
         imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         imageView.isUserInteractionEnabled = true
 
-        scrollView.addSubview(videoPreview)
-        videoPreview.frame = bounds
-        videoPreview.contentMode = .scaleAspectFill
-        videoPreview.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        videoPreview.isUserInteractionEnabled = true
+//        scrollView.addSubview(videoPreview)
+//        videoPreview.frame = bounds
+//        videoPreview.contentMode = .scaleAspectFill
+//        videoPreview.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//        videoPreview.isUserInteractionEnabled = true
 
         scrollView.contentSize = imageView.frame.size
         scrollView.minimumZoomScale = ListingCarouselImageCell.minZoomScale

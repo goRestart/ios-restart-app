@@ -16,7 +16,7 @@ protocol ListingCarouselCellDelegate: class {
     func didPullFromCellWith(_ offset: CGFloat, bottomLimit: CGFloat)
     func canScrollToNextPage() -> Bool
     func didEndDraggingCell()
-    func videoProgressDidChange(progress: Float)
+//    func listingCarousellCell(_ cell: ListingCarouselCell, videoProgressDidChangeTo progress: Float)
 }
 
 enum ListingCarouselTapSide {
@@ -24,12 +24,12 @@ enum ListingCarouselTapSide {
     case right
 }
 
-class ListingCarouselCell: UICollectionViewCell {
+final class ListingCarouselCell: UICollectionViewCell {
 
     static let identifier = "ListingCarouselCell"
     var collectionView: UICollectionView
     
-    fileprivate var productImages = [URL]()
+    fileprivate var productImages = [Media]()
     fileprivate var productBackgroundColor: UIColor?
     weak var delegate: ListingCarouselCellDelegate?
     var placeholderImage: UIImage?
@@ -42,7 +42,7 @@ class ListingCarouselCell: UICollectionViewCell {
 
     var imageDownloader: ImageDownloaderType =  ImageDownloader.sharedInstance
 
-    var disposeBag = DisposeBag()
+    private var disposeBag = DisposeBag()
     
     override init(frame: CGRect) {
         let layout = UICollectionViewFlowLayout()
@@ -85,7 +85,7 @@ class ListingCarouselCell: UICollectionViewCell {
         collectionView.allowsSelection = false
         collectionView.isDirectionalLockEnabled = true
         collectionView.register(ListingCarouselImageCell.self,
-                                forCellWithReuseIdentifier: ListingCarouselImageCell.identifier)
+                                forCellWithReuseIdentifier: ListingCarouselImageCell.reusableID)
         
         let singleTap = UITapGestureRecognizer(target: self, action: #selector(doSingleTapAction))
         collectionView.addGestureRecognizer(singleTap)
@@ -93,6 +93,7 @@ class ListingCarouselCell: UICollectionViewCell {
 
     override func prepareForReuse() {
         super.prepareForReuse()
+        disposeBag = DisposeBag()
         delegate = nil
         collectionView.setContentOffset(CGPoint.zero, animated: false)
     }
@@ -127,7 +128,7 @@ class ListingCarouselCell: UICollectionViewCell {
     func configureCellWith(cellModel: ListingCarouselCellModel, placeholderImage: UIImage?, indexPath: IndexPath,
                            imageDownloader: ImageDownloaderType, imageScrollDirection: UICollectionViewScrollDirection) {
         self.tag = (indexPath as NSIndexPath).hash
-        self.productImages = cellModel.images
+        self.productImages = cellModel.media
         self.productBackgroundColor = cellModel.backgroundColor
         self.imageDownloader = imageDownloader
         self.placeholderImage = placeholderImage
@@ -137,8 +138,8 @@ class ListingCarouselCell: UICollectionViewCell {
             layout.scrollDirection = imageScrollDirection
         }
 
-        if let firstImageUrl = productImages.first, placeholderImage == nil {
-            self.placeholderImage = imageDownloader.cachedImageForUrl(firstImageUrl)
+        if let media = productImages.first, let placeholderURL = media.outputs.image, placeholderImage == nil {
+            self.placeholderImage = imageDownloader.cachedImageForUrl(placeholderURL)
         }
         
         collectionView.isScrollEnabled = (imageScrollDirection != .horizontal)
@@ -153,7 +154,7 @@ class ListingCarouselCell: UICollectionViewCell {
         
     fileprivate func imageAtIndex(_ index: Int) -> URL? {
         guard 0..<productImages.count ~= index else { return nil }
-        return productImages[index]
+        return productImages[index].outputs.image
     }
 }
 
@@ -166,7 +167,8 @@ extension ListingCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)
         -> UICollectionViewCell {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListingCarouselImageCell.identifier, for: indexPath)
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListingCarouselImageCell.reusableID,
+                                                          for: indexPath)
             guard let imageCell = cell as? ListingCarouselImageCell else { return ListingCarouselImageCell() }
             guard let imageURL = imageAtIndex(indexPath.row) else { return imageCell }
 
@@ -192,16 +194,15 @@ extension ListingCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
                     }
                 }
             }
-
-            imageCell.videoPreview.url = URL(string: "https://vid.stg.letgo.com/ef/82/80/31/ef828031-6ad2-4cbb-b754-eafb1fc9e20a.mp4")
-            
             return imageCell
     }
 
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView,
+                        willDisplay cell: UICollectionViewCell,
+                        forItemAt indexPath: IndexPath) {
         guard let imageCell = cell as? ListingCarouselImageCell else { return }
         imageCell.resetZoom()
-        imageCell.videoPreview.play()
+//        imageCell.videoPreview.play()
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -262,9 +263,17 @@ extension ListingCarouselCell: ListingCarouselImageCellDelegate {
         delegate?.isZooming(zooming)
     }
 
-    func videoProgressDidChange(progress: Float) {
-        delegate?.videoProgressDidChange(progress:progress)
-    }
+//    func videoProgressDidChange(progress: Float) {
+//        delegate?.listingCarousellCell(self, videoProgressDidChangeTo: progress)
+//    }
+//
+//    func stopVideoPlay() {
+//        guard let videoCell = collectionView.cellForItem(at: IndexPath(row: 0,
+//                                                                       section: 0)) as? ListingCarouselImageCell else {
+//                                                                        return
+//        }
+//        videoCell.stopPlaying()
+//    }
 }
 
 

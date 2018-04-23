@@ -158,6 +158,7 @@ enum CoreReportDataSource: ReportType {
         case userRatings
         case relaxQuery
         case reputationActions
+        case preSignedUploadUrl
 
         
         var type: Any.Type {
@@ -222,6 +223,8 @@ enum CoreReportDataSource: ReportType {
                 return RelaxQuery.self
             case .reputationActions:
                 return LGUserReputationAction.self
+            case .preSignedUploadUrl:
+                return LGPreSignedUploadUrl.self
             }
         }
     }

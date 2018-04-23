@@ -53,7 +53,6 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     @IBOutlet weak var bannerContainerHeightConstraint: NSLayoutConstraint!
 
     private let userView: UserView
-    private let videoProgressView: UIProgressView
     private let fullScreenAvatarEffectView: UIVisualEffectView
     private let fullScreenAvatarView: UIImageView
     private var fullScreenAvatarWidth: NSLayoutConstraint?
@@ -109,6 +108,15 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     private var productOnboardingView: ListingDetailOnboardingView?
     private var didSetupAfterLayout = false
 
+    private var shouldShowPlayButton: Bool = false {
+        didSet { startPlayingButton.isHidden = !shouldShowPlayButton }
+    }
+    private let startPlayingButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(#imageLiteral(resourceName: "ic_videoposting_play"), for: .normal)
+        return button
+    }()
+
     private let moreInfoView: ListingCarouselMoreInfoView
     private let moreInfoAlpha = Variable<CGFloat>(1)
     private let moreInfoState = Variable<MoreInfoState>(.hidden)
@@ -146,7 +154,6 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
          carouselImageDownloader: ImageDownloaderType) {
         self.viewModel = viewModel
         self.userView = UserView.userView(.withProductInfo)
-        self.videoProgressView = UIProgressView()
         let blurEffect = UIBlurEffect(style: .dark)
         self.fullScreenAvatarEffectView = UIVisualEffectView(effect: blurEffect)
         self.fullScreenAvatarView = UIImageView(frame: CGRect.zero)
@@ -181,7 +188,25 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         setupGradientView()
         setupCollectionRx()
         setupZoomRx()
+        setupPlayButton()
         setAccessibilityIds()
+    }
+
+    private func setupPlayButton() {
+        view.addSubviewForAutoLayout(startPlayingButton)
+        NSLayoutConstraint.activate([
+            startPlayingButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            startPlayingButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            startPlayingButton.widthAnchor.constraint(equalToConstant: 60),
+            startPlayingButton.heightAnchor.constraint(equalTo: startPlayingButton.widthAnchor)
+        ])
+        startPlayingButton.addTarget(self, action: #selector(openVideoPlayer), for: .touchUpInside)
+    }
+
+    @objc private func openVideoPlayer() {
+        startPlayingButton.bounce {
+            // FIXME open video player
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -298,8 +323,6 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         view.addSubview(fullScreenAvatarEffectView)
         userView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(userView)
-        videoProgressView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(videoProgressView)
         fullScreenAvatarView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(fullScreenAvatarView)
     }
@@ -339,10 +362,10 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         userView.layout(with: buttonTop)
             .above(by: 0, constraintBlock: nil)
 
-        videoProgressView.progressTintColor = UIColor.gray
-        videoProgressView.trackTintColor = UIColor.black.withAlphaComponent(0.5)
-        videoProgressView.layout(with: userView).above(by: -10)
-        videoProgressView.layout(with: view).leading(by: CarouselUI.itemsMargin).trailing(by: -CarouselUI.itemsMargin)
+//        videoProgressView.progressTintColor = UIColor.gray
+//        videoProgressView.trackTintColor = UIColor.black.withAlphaComponent(0.5)
+//        videoProgressView.layout(with: userView).above(by: -10)
+//        videoProgressView.layout(with: view).leading(by: CarouselUI.itemsMargin).trailing(by: -CarouselUI.itemsMargin)
 
 
         // UserView effect
@@ -472,7 +495,6 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         itemsAlpha.asObservable().bind(to: buttonBottom.rx.alpha).disposed(by: disposeBag)
         itemsAlpha.asObservable().bind(to: buttonTop.rx.alpha).disposed(by: disposeBag)
         itemsAlpha.asObservable().bind(to: userView.rx.alpha).disposed(by: disposeBag)
-        itemsAlpha.asObservable().bind(to: videoProgressView.rx.alpha).disposed(by: disposeBag)
         itemsAlpha.asObservable().bind(to: buttonCall.rx.alpha).disposed(by: disposeBag)
 
         itemsAlpha.asObservable().bind { [weak self] itemsAlpha in
@@ -551,6 +573,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
                 if movement == .tap {
                     self?.finishedTransition()
                 }
+                self?.shouldShowPlayButton = self?.viewModel.isPlayable ?? false
                 strongSelf.returnCellToFirstImage()
             }
             .disposed(by: disposeBag)
@@ -878,6 +901,10 @@ extension ListingCarouselViewController {
     private func finishedTransition() {
         showStatusBar()
     }
+
+    func listingCarouselCellOpenVideoPlayer(_ cell: ListingCarouselCell) {
+        // FIXME: Open player
+    }
 }
 
 extension ListingCarouselViewController: UserViewDelegate {
@@ -985,11 +1012,14 @@ extension ListingCarouselViewController: ListingCarouselCellDelegate {
     func canScrollToNextPage() -> Bool {
         return moreInfoState.value == .hidden
     }
-
-    func videoProgressDidChange(progress: Float) {
-        videoProgressView.progress = progress
-    }
-    
+//
+//    func listingCarousellCell(_ cell: ListingCarouselCell, videoProgressDidChangeTo progress: Float) {
+//        if cell.tag == viewModel.currentIndex {
+//            videoProgressView.progress = progress
+//        } else {
+//            cell.stopVideoPlay()
+//        }
+//    }
 }
 
 
@@ -1189,6 +1219,8 @@ extension ListingCarouselViewController: UICollectionViewDataSource, UICollectio
                                            indexPath: indexPath, imageDownloader: carouselImageDownloader,
                                            imageScrollDirection: viewModel.imageScrollDirection)
             carouselCell.delegate = self
+            carouselCell.tag = indexPath.row
+
 
             return carouselCell
     }
