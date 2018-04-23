@@ -63,7 +63,7 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
         chatButton.layout(with: view)
             .leadingMargin(by: Metrics.margin).bottomMargin(by: -Metrics.bigMargin)
 
-        chatButton.addTarget(self, action: #selector(showChat), for: .touchUpInside)
+        chatButton.addTarget(self, action: #selector(showChatFromButton), for: .touchUpInside)
         chatButton.isHidden = !viewModel.isChatEnabled
     }
 
@@ -179,27 +179,27 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
         return Int(page)
     }
 
-    @objc func showChat() {
+    @objc func showChatFromButton() {
         chatButton.bounce { [weak self] in
-            guard let strongSelf = self,
-                let chatView = strongSelf.chatView,
-                let view = strongSelf.view else { return }
-
-            strongSelf.viewModel.didOpenChat()
-            strongSelf.hideLeftButton()
-
-            chatView.frame = strongSelf.photoViewer.frame
-            view.addSubviewForAutoLayout(chatView)
-            view.bringSubview(toFront: chatView)
-
-            chatView.layout(with: view).fill()
-
-            view.setNeedsLayout()
-            view.layoutIfNeeded()
-
-            chatView.becomeFirstResponder()
+            self?.showChat()
         }
+    }
 
+    @objc func showChat() {
+        guard let chatView = chatView else { return }
+
+        viewModel.didOpenChat()
+        hideLeftButton()
+        chatView.frame = photoViewer.frame
+        view.addSubviewForAutoLayout(chatView)
+        view.bringSubview(toFront: chatView)
+
+        chatView.layout(with: view).fill()
+
+        view.setNeedsLayout()
+        view.layoutIfNeeded()
+
+        chatView.becomeFirstResponder()
     }
 
     @objc func closeView() {
@@ -216,7 +216,8 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
         guard let media = viewModel.mediaAtIndex(indexPath.row) else { return UICollectionViewCell() }
         if media.isPlayable {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListingDeckVideoCell.reusableID,
-                                                                for: indexPath) as? ListingDeckVideoCell else { return UICollectionViewCell() }
+                                                                for: indexPath) as? ListingDeckVideoCell else {
+                                                                    return UICollectionViewCell() }
 
 
             cell.setupWith(previewURL: media.outputs.videoThumbnail, videoURL: media.outputs.video)
@@ -230,9 +231,9 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
             }
             imageCell.tag = indexPath.row
             guard let cache = viewModel.imageDownloader.cachedImageForUrl(url) else {
-                _ = ImageDownloader.sharedInstance.downloadImageWithURL(url) { (result, url) in
-                    if let value = result.value, imageCell.tag == indexPath.row {
-                        imageCell.setImage(value.image)
+                _ = ImageDownloader.sharedInstance.downloadImageWithURL(url) { [weak imageCell] (result, url) in
+                    if let value = result.value, imageCell?.tag == indexPath.row {
+                        imageCell?.setImage(value.image)
                     }
                 }
                 return cell

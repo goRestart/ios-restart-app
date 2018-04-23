@@ -18,16 +18,16 @@ final class VideoPreview: UIView {
 
     var url: URL? {
         didSet {
-            if let playerItem = player.currentItem {
+            if let playerItem = player?.currentItem {
                 NotificationCenter.default.removeObserver(self,
                                                           name: Notification.Name.AVPlayerItemDidPlayToEndTime,
                                                           object: playerItem)
             }
             let playerItem: AVPlayerItem? = url != nil ? AVPlayerItem(url: url!) : nil
-            player.replaceCurrentItem(with: playerItem)
+            player?.replaceCurrentItem(with: playerItem)
         }
     }
-    lazy private var player: AVPlayer = {
+    lazy private var player: AVPlayer? = {
         let player = AVPlayer(playerItem: nil)
         player.actionAtItemEnd = .none
         playerLayer.player = player
@@ -43,12 +43,12 @@ final class VideoPreview: UIView {
     }
 
     var duration: TimeInterval {
-        guard let duration = player.currentItem?.duration else { return 0}
+        guard let duration = player?.currentItem?.duration else { return 0}
         return CMTimeGetSeconds(duration)
     }
 
     var currentTime: TimeInterval {
-        guard let currentTime = player.currentItem?.currentTime() else { return 0}
+        guard let currentTime = player?.currentItem?.currentTime() else { return 0}
         return CMTimeGetSeconds(currentTime)
     }
 
@@ -62,9 +62,11 @@ final class VideoPreview: UIView {
 
     deinit {
         NotificationCenter.default.removeObserver(self)
+        player = nil
     }
 
     func play() {
+        guard let player = player else { return }
         player.play()
         let time = CMTimeMake(1, 20)
         periodicTimeObserver = player.addPeriodicTimeObserver(forInterval: time,
@@ -73,10 +75,14 @@ final class VideoPreview: UIView {
             strongSelf.rx_progress.value = strongSelf.progress
         }
 
-        NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd(notification:)), name: Notification.Name.AVPlayerItemDidPlayToEndTime, object: player.currentItem)
+        NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd(notification:)),
+                                               name: Notification.Name.AVPlayerItemDidPlayToEndTime,
+                                               object: player.currentItem)
     }
 
     func pause() {
+        guard let player = player else { return }
+
         player.pause()
         if let periodicTimeObserver = periodicTimeObserver {
             player.removeTimeObserver(periodicTimeObserver)

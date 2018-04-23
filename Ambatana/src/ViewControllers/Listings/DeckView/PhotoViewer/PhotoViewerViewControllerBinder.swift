@@ -40,24 +40,27 @@ final class PhotoViewerViewControllerBinder {
     }
 
     private func bindContentOffset(toViewController viewController: PhotoViewerVCType?,
-                                   view: PhotoViewerBinderViewType, withDisposeBag disposeBag: DisposeBag) {
+                                   view: PhotoViewerBinderViewType,
+                                   withDisposeBag disposeBag: DisposeBag) {
         view.rxCollectionView.contentOffset.asObservable().bind { [weak viewController] offset in
             viewController?.updatePage(fromContentOffset: offset.x)
         }.disposed(by:disposeBag)
     }
 
     private func bindKeyboard(toViewController viewController: PhotoViewerVCType?,
-                              view: PhotoViewerBinderViewType, withDisposeBag disposeBag: DisposeBag) {
-        viewController?.keyboardChanges.bind {
+                              view: PhotoViewerBinderViewType,
+                              withDisposeBag disposeBag: DisposeBag) {
+        viewController?.keyboardChanges.bind { [weak viewController] in
             viewController?.updateWith(keyboardChange: $0)
         }.disposed(by:disposeBag)
     }
 
     private func bindTapControlEvents(toViewController viewController: PhotoViewerVCType?,
-                                      view: PhotoViewerBinderViewType, withDisposeBag disposeBag: DisposeBag) {
+                                      view: PhotoViewerBinderViewType,
+                                      withDisposeBag disposeBag: DisposeBag) {
         view.rxTapControlEvents
             .filter { $0 == .touchUpInside }
-            .bind { event in
+            .bind { [weak viewController] event in
             viewController?.dismissView()
         }.disposed(by: disposeBag)
     }

@@ -49,8 +49,8 @@ final class ListingDeckVideoCell: UICollectionViewCell, ReusableCell {
         videoPreviewView.url = videoURL
         videoPreviewView.play()
 
-        delay(1, completion: {
-            self.videoPreviewView.alphaAnimated(1)
+        delay(0.5, completion: { [weak self] in
+            self?.videoPreviewView.alphaAnimated(1)
         })
     }
 
@@ -66,14 +66,5 @@ final class ListingDeckVideoCell: UICollectionViewCell, ReusableCell {
         videoPreviewView.layout(with: contentView).fill()
         videoPreviewView.contentMode = .scaleAspectFill
         videoPreviewView.isUserInteractionEnabled = true
-    }
-
-    func resetZoom(animated: Bool = false) {
-
-    }
-
-    func setImage(_ image: UIImage) {
-        blurred.image = image
-
     }
 }

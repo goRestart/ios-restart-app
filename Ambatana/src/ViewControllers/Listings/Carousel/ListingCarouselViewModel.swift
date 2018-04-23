@@ -385,7 +385,6 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     func videoButtonTapped() {
-        // FIXME: Proper index
         currentListingViewModel?.openVideoPlayer(atIndex: 0, source: source)
     }
 

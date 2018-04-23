@@ -1495,7 +1495,7 @@ extension ListingViewModel {
     }
 
     func makeDisplable(forMediaAt index: Int) -> PhotoViewerDisplayable? {
-        guard index > 0 && index < productMedia.value.count else { return nil }
+        guard index >= 0 && index < productMedia.value.count else { return nil }
         return PhotoViewerDisplayable(listing: listing.value,
                                       media: [productMedia.value[index]],
                                       isMine: isMine,

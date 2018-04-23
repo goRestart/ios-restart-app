@@ -888,9 +888,6 @@ extension ListingCarouselViewController {
         showStatusBar()
     }
 
-    func listingCarouselCellOpenVideoPlayer(_ cell: ListingCarouselCell) {
-        // FIXME: Open player
-    }
 }
 
 extension ListingCarouselViewController: UserViewDelegate {
