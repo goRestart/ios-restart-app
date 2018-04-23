@@ -27,6 +27,8 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
     var locationEvents: Observable<LocationEvent> {
         return events
     }
+
+    var lastEmergencyLocation: LGLocation? = nil
     
     // Repositories
     private let myUserRepository: InternalMyUserRepository
@@ -224,7 +226,7 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let lastLocation = locations.last else { return }
-        
+
         // there is no postalAddress at that point, it will update on updateLocation
         guard let newLocation = LGLocation(location: lastLocation, type: .sensor, postalAddress: nil) else { return }
         updateLocation(newLocation)
@@ -293,7 +295,13 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
      */
     private func updateLocation(_ location: LGLocation,
                                 userUpdateCompletion: ((Result<MyUser, RepositoryError>) -> ())? = nil) {
-        
+
+        // If the emergency mode is active. Ignore all the checks and publish the new location.
+        if locationRepository.emergencyIsActive {
+            lastEmergencyLocation = location
+            events.onNext(.emergencyLocationUpdate)
+        }
+
         if let _ = location.postalAddress {
             let deviceLocationUpdated = updateDeviceLocation(location)
             let userLocationUpdated = updateUserLocation(location, completion: userUpdateCompletion)
