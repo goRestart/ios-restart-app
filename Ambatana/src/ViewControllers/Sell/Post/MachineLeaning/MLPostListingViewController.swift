@@ -383,7 +383,6 @@ class MLPostListingViewController: BaseViewController, PostListingViewModelDeleg
         footer.cameraButton.rx.tap.asObservable().subscribeNext { [weak self] in
             self?.cameraButtonPressed()
         }.disposed(by: disposeBag)
-        cameraView.reco
     }
 
     private func setupRx() {

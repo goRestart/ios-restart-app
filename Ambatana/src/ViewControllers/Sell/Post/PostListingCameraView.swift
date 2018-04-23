@@ -281,9 +281,6 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
         captureModeHidden.bind(to: switchCamButton.rx.isHidden).disposed(by: disposeBag)
         captureModeHidden.bind(to: flashButton.rx.isHidden).disposed(by: disposeBag)
 
-        let recordingVideoHidden = state.map { $0.recordingVideo }
-        recordingVideoHidden.bind(to: photoBu)
-
         if viewModel.isBlockingPosting {
             state.map { $0.shouldShowCloseButtonBlockingPosting }.bind { [weak self] shouldShowClose in
                 guard let strongSelf = self else { return }
