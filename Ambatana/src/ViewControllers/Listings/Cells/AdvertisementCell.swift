@@ -33,7 +33,6 @@ class AdvertisementCell: UICollectionViewCell, ReusableCell {
         contentView.addSubviewForAutoLayout(adxNativeView)
         adxNativeView.layout(with: contentView).fill()
         adxNativeView.set(accessibilityId: .advertisementCellBanner)
-        
     }
     
     convenience init() {
