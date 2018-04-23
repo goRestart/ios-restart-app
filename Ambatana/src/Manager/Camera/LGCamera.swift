@@ -165,7 +165,10 @@ final class LGCamera: Camera {
         let fileUrl = URL(fileURLWithPath: outputFilePath)
 
         let videoOrientation = AVCaptureVideoOrientation(deviceOrientation: motionDeviceOrientation.orientation) ?? .portrait
-        videoRecorder.startRecording(fileUrl: fileUrl, orientation: videoOrientation, completion: completion)
+
+        sessionQueue.async {
+            self.videoRecorder.startRecording(fileUrl: fileUrl, orientation: videoOrientation, completion: completion)
+        }
     }
 
     func stopRecordingVideo() {
@@ -455,6 +458,13 @@ class PhotoCaptureProcessor: NSObject, AVCapturePhotoCaptureDelegate {
 // MARK: - Video Recorder
 class VideoRecorder : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
 
+    static let videoSettings: [String: Any] = [
+        AVVideoCodecKey: AVVideoCodecH264,
+        AVVideoWidthKey: 480,
+        AVVideoHeightKey: 640,
+        AVVideoScalingModeKey: AVVideoScalingModeResizeAspectFill
+    ];
+
     private(set) var videoOutput: AVCaptureVideoDataOutput = {
         let output = AVCaptureVideoDataOutput()
         output.alwaysDiscardsLateVideoFrames = false
@@ -488,14 +498,7 @@ class VideoRecorder : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
             self.fileWriter = fileWriter
             self.completion = completion
 
-            let videoSettings: [String: Any] = [
-                AVVideoCodecKey: AVVideoCodecH264,
-                AVVideoWidthKey: 480,
-                AVVideoHeightKey: 640,
-                AVVideoScalingModeKey: AVVideoScalingModeResizeAspectFill
-            ];
-
-            let videoInput = AVAssetWriterInput(mediaType: .video, outputSettings: videoSettings)
+            let videoInput = AVAssetWriterInput(mediaType: .video, outputSettings: VideoRecorder.videoSettings)
             self.videoInput = videoInput
             videoInput.expectsMediaDataInRealTime = true
             fileWriter.add(videoInput)
@@ -503,6 +506,7 @@ class VideoRecorder : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
             videoOutput.setSampleBufferDelegate(self, queue: videoOutputQueue)
 
         } catch let error {
+            isRecording = false
             DispatchQueue.main.async {
                 completion(CameraRecordingVideoResult(error: .frameworkError(error: error)))
             }
@@ -524,15 +528,15 @@ class VideoRecorder : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
             }
         } else {
             fileWriter.finishWriting {
-                DispatchQueue.main.async {
-                    do {
-                        let snapshot = try AVURLAsset(url: fileWriter.outputURL).videoSnapshot()
-                        let videoRecorded = RecordedVideo(url: fileWriter.outputURL, snapshot: snapshot, duration: duration)
-                        completion(CameraRecordingVideoResult(value: videoRecorded))
-                    } catch let error {
-                        completion(CameraRecordingVideoResult(error: .frameworkError(error: error)))
-                    }
+                let result: CameraRecordingVideoResult
+                do {
+                    let snapshot = try AVURLAsset(url: fileWriter.outputURL).videoSnapshot()
+                    let videoRecorded = RecordedVideo(url: fileWriter.outputURL, snapshot: snapshot, duration: duration)
+                    result = CameraRecordingVideoResult(value: videoRecorded)
+                } catch let error {
+                    result = CameraRecordingVideoResult(error: .frameworkError(error: error))
                 }
+                DispatchQueue.main.async { completion(result) }
             }
         }
     }
