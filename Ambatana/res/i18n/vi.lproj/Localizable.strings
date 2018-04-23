@@ -18,6 +18,10 @@
 "bump_up_banner_free_text" = "Đẩy lên miễn phí để bán nhanh hơn";
 "bump_up_banner_pay_text" = "Bán nhanh hơn";
 "bump_up_banner_pay_text_improvement" = "Bán nhanh hơn bây giờ";
+"bump_up_banner_pay_text_improvement_english_a" = "Bán nhanh hơn";
+"bump_up_banner_pay_text_improvement_english_b" = "Bán nhanh hơn";
+"bump_up_banner_pay_text_improvement_english_c" = "Bán nhanh hơn";
+"bump_up_banner_pay_text_improvement_english_d" = "Bán nhanh hơn";
 "bump_up_banner_wait_text" = "để làm nổi bật lại";
 "bump_up_boost_success_alert_text" = "Bài đăng của bạn đã được đẩy lên! Bài đăng sẽ được làm nổi bật trong 24 giờ tới.";
 "bump_up_error_bump_generic" = "Có lỗi trong khi làm nổi bật bài đăng của bạn. Xin vui lòng thử lại.";
@@ -674,10 +678,15 @@
 "product_popular_near_you" = "Sản phẩm phổ biến gần bạn";
 "product_post_camera_first_time_alert_subtitle" = "Chụp một bức ảnh đẹp và bắt đầu kiếm tiền!";
 "product_post_camera_first_time_alert_title" = "Bạn đang bán gì?";
+"product_post_camera_gallery_text_button" = "GALLERY";
 "product_post_camera_permissions_button" = "Cho phép";
 "product_post_camera_permissions_subtitle" = "Để chụp ảnh, bạn cần cho phép truy cập Camera";
 "product_post_camera_permissions_title" = "Cho phép truy cập Camera";
+"product_post_camera_photo_mode_button" = "PHOTO";
 "product_post_camera_tab_v2" = "MÁY ẢNH";
+"product_post_camera_video_mode_button" = "VIDEO";
+"product_post_camera_video_recording_tooltip" = "%@ to record a video";
+"product_post_camera_video_recording_tooltip_highlighted_word" = "Hold";
 "product_post_close_alert_close_button" = "Hủy";
 "product_post_close_alert_description" = "Bạn có còn muốn đăng sản phẩm này để bán?";
 "product_post_close_alert_ok_button" = "Đăng bài";

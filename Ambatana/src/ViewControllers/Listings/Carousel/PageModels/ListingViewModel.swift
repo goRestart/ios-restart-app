@@ -189,10 +189,8 @@ class ListingViewModel: BaseViewModel {
     lazy var shareButtonState = Variable<ButtonState>(.hidden)
 
     lazy var productInfo = Variable<ListingVMProductInfo?>(nil)
-//    lazy var productImageURLs = Variable<[URL]>([])
-    lazy var productMedia = Variable<[Media]>([])
+    lazy var productImageURLs = Variable<[URL]>([])
     lazy var previewURL = Variable<(URL?, Int)>((nil, 0))
-    lazy var videoProgress = Variable<(CGFloat)>(0.0)
 
     let userInfo: Variable<ListingVMUserInfo>
 
@@ -380,13 +378,9 @@ class ListingViewModel: BaseViewModel {
     }
 
     private func setupRxBindings() {
-//        productImageURLs.asObservable().bind { [weak self] urls in
-//            self?.previewURL.value = (urls.first, urls.count)
-//        }.disposed(by: disposeBag)
-
-        productMedia.asObservable().bind { [weak self] media in
-            self?.previewURL.value = (media.first?.outputs.image, media.count)
-            }.disposed(by: disposeBag)
+        productImageURLs.asObservable().bind { [weak self] urls in
+            self?.previewURL.value = (urls.first, urls.count)
+        }.disposed(by: disposeBag)
 
         if let productId = listing.value.objectId {
             listingRepository.updateEvents(for: productId).bind { [weak self] listing in
@@ -441,8 +435,7 @@ class ListingViewModel: BaseViewModel {
                                                                      fallbackToStore: true,
                                                                      myUserId: strongSelf.myUserId,
                                                                      myUserName: strongSelf.myUserName)
-//            strongSelf.productImageURLs.value = listing.images.flatMap { return $0.fileURL }
-            strongSelf.productMedia.value = listing.media
+            strongSelf.productImageURLs.value = listing.images.flatMap { return $0.fileURL }
 
             let productInfo = ListingVMProductInfo(listing: listing,
                                                    isAutoTranslated: listing.isTitleAutoTranslated(strongSelf.countryHelper),

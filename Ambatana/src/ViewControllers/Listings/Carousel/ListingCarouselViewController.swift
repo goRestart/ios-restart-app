@@ -362,12 +362,6 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         userView.layout(with: buttonTop)
             .above(by: 0, constraintBlock: nil)
 
-//        videoProgressView.progressTintColor = UIColor.gray
-//        videoProgressView.trackTintColor = UIColor.black.withAlphaComponent(0.5)
-//        videoProgressView.layout(with: userView).above(by: -10)
-//        videoProgressView.layout(with: view).leading(by: CarouselUI.itemsMargin).trailing(by: -CarouselUI.itemsMargin)
-
-
         // UserView effect
         fullScreenAvatarEffectView.alpha = 0
         fullScreenAvatarView.clipsToBounds = true
@@ -645,21 +639,13 @@ extension ListingCarouselViewController {
     }
 
     private func setupPageControlRx() {
-//        viewModel.productImageURLs.asObservable().bind { [weak self] images in
-//            guard let pageControl = self?.pageControl else { return }
-//            pageControl.currentPage = 0
-//            pageControl.numberOfPages = images.count
-//            pageControl.frame.size = CGSize(width: CarouselUI.pageControlWidth, height:
-//                pageControl.size(forNumberOfPages: images.count).width + CarouselUI.pageControlWidth)
-//        }.disposed(by: disposeBag)
-
-        viewModel.productMedia.asObservable().bind { [weak self] media in
+        viewModel.productImageURLs.asObservable().bind { [weak self] images in
             guard let pageControl = self?.pageControl else { return }
             pageControl.currentPage = 0
-            pageControl.numberOfPages = media.count
+            pageControl.numberOfPages = images.count
             pageControl.frame.size = CGSize(width: CarouselUI.pageControlWidth, height:
-                pageControl.size(forNumberOfPages: media.count).width + CarouselUI.pageControlWidth)
-            }.disposed(by: disposeBag)
+                pageControl.size(forNumberOfPages: images.count).width + CarouselUI.pageControlWidth)
+        }.disposed(by: disposeBag)
     }
 
     fileprivate func setupUserInfoRx() {
@@ -1012,14 +998,7 @@ extension ListingCarouselViewController: ListingCarouselCellDelegate {
     func canScrollToNextPage() -> Bool {
         return moreInfoState.value == .hidden
     }
-//
-//    func listingCarousellCell(_ cell: ListingCarouselCell, videoProgressDidChangeTo progress: Float) {
-//        if cell.tag == viewModel.currentIndex {
-//            videoProgressView.progress = progress
-//        } else {
-//            cell.stopVideoPlay()
-//        }
-//    }
+
 }
 
 

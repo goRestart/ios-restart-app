@@ -18,6 +18,10 @@
 "bump_up_banner_free_text" = "Kostenlos hochholen, um schneller zu verkaufen";
 "bump_up_banner_pay_text" = "Jetzt schneller verkaufen";
 "bump_up_banner_pay_text_improvement" = "Jetzt schneller verkaufen";
+"bump_up_banner_pay_text_improvement_english_a" = "Jetzt schneller verkaufen";
+"bump_up_banner_pay_text_improvement_english_b" = "Jetzt schneller verkaufen";
+"bump_up_banner_pay_text_improvement_english_c" = "Jetzt schneller verkaufen";
+"bump_up_banner_pay_text_improvement_english_d" = "Jetzt schneller verkaufen";
 "bump_up_banner_wait_text" = "um es wieder zu empfehlen";
 "bump_up_boost_success_alert_text" = "Dein Angebot wurde angekurbelt! Es wird nun für die nächsten 24 Stunden empfohlen.";
 "bump_up_error_bump_generic" = "Wir konnten dein Angebot nicht empfehlen. Bitte versuche es erneut.";
@@ -360,7 +364,7 @@
 "filters_car_model_not_set" = "Nicht ausgewählt";
 "filters_car_seller_type_all" = "Alle";
 "filters_car_seller_type_dealership" = "Autohaus";
-"filters_car_seller_type_invidual" = "Individual";
+"filters_car_seller_type_invidual" = "Privatperson";
 "filters_car_seller_type_private" = "Privat";
 "filters_car_seller_type_professional" = "Händler";
 "filters_car_year_any_year" = "Beliebiges Baujahr";
@@ -674,10 +678,15 @@
 "product_popular_near_you" = "Beliebt in deiner Nähe";
 "product_post_camera_first_time_alert_subtitle" = "Mach ein gutes Foto und verdiene bares Geld!";
 "product_post_camera_first_time_alert_title" = "Was möchtest du verkaufen?";
+"product_post_camera_gallery_text_button" = "GALLERY";
 "product_post_camera_permissions_button" = "Erlauben";
 "product_post_camera_permissions_subtitle" = "Um ein Foto machen zu können, musst du den Zugriff auf deine Kamera erlauben";
 "product_post_camera_permissions_title" = "Zugriff auf Kamera zulassen";
+"product_post_camera_photo_mode_button" = "PHOTO";
 "product_post_camera_tab_v2" = "KAMERA";
+"product_post_camera_video_mode_button" = "VIDEO";
+"product_post_camera_video_recording_tooltip" = "%@ to record a video";
+"product_post_camera_video_recording_tooltip_highlighted_word" = "Hold";
 "product_post_close_alert_close_button" = "Verwerfen";
 "product_post_close_alert_description" = "Möchtest du es weiterhin zum Verkauf anbieten?";
 "product_post_close_alert_ok_button" = "Angebot einstellen";

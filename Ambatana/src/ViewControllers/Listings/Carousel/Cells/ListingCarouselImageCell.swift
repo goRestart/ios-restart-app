@@ -6,11 +6,8 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-import RxSwift
-
 protocol ListingCarouselImageCellDelegate: class {
     func isZooming(_ zooming: Bool, pageAtIndex index: Int)
-//    func videoProgressDidChange(progress: Float)
 }
 
 class ListingCarouselImageCell: UICollectionViewCell, ReusableCell {
@@ -22,8 +19,6 @@ class ListingCarouselImageCell: UICollectionViewCell, ReusableCell {
     var position: Int = 0
     var imageURL: URL?
     var imageView: UIImageView
-//    var videoURL: URL?
-//    var videoPreview: VideoPreview
     fileprivate var scrollView: UIScrollView
     fileprivate var backgroundImage: UIImageView
     fileprivate var effectsView: UIVisualEffectView
@@ -31,21 +26,16 @@ class ListingCarouselImageCell: UICollectionViewCell, ReusableCell {
 
     weak var delegate: ListingCarouselImageCellDelegate?
 
-    private let disposeBag = DisposeBag()
-
 
     // MARK: - Lifecycle
 
     override init(frame: CGRect) {
         self.scrollView = UIScrollView()
         self.imageView = UIImageView()
-//        self.videoPreview = VideoPreview()
         self.backgroundImage = UIImageView()
         let effect = UIBlurEffect(style: .dark)
         self.effectsView = UIVisualEffectView(effect: effect)
         super.init(frame: frame)
-
-//        setupRx()
         setupUI()
         setAccessibilityIds()
     }
@@ -57,7 +47,6 @@ class ListingCarouselImageCell: UICollectionViewCell, ReusableCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         resetZoom()
-//        stopPlaying()
     }
 }
 
@@ -91,10 +80,6 @@ extension ListingCarouselImageCell {
         scrollView.isScrollEnabled = false
         scrollView.zoomScale = referenceZoomLevel
     }
-
-//    func stopPlaying() {
-//        videoPreview.pause()
-//    }
 }
 
 
@@ -107,7 +92,6 @@ extension ListingCarouselImageCell: UIScrollViewDelegate {
 
         imageView.center = CGPoint(x: scrollView.contentSize.width * 0.5 + offsetX,
                                        y: scrollView.contentSize.height * 0.5 + offsetY)
-//        videoPreview.center = imageView.center
 
         let zooming = scrollView.zoomScale > referenceZoomLevel
         scrollView.isScrollEnabled = zooming
@@ -115,8 +99,7 @@ extension ListingCarouselImageCell: UIScrollViewDelegate {
     }
 
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-//        return videoPreview
-        return nil
+        return imageView
     }
 }
 
@@ -125,16 +108,6 @@ extension ListingCarouselImageCell: UIScrollViewDelegate {
 // MARK: > Setup
 
 fileprivate extension ListingCarouselImageCell {
-
-//    func setupRx() {
-//        videoPreview.rx_progress
-//            .asDriver()
-//            .drive(onNext: { [weak self] (progress) in
-//                self?.delegate?.videoProgressDidChange(progress: progress)
-//        })
-//            .disposed(by: disposeBag)
-//    }
-
     func setupUI() {
         clipsToBounds = true
 
@@ -157,12 +130,6 @@ fileprivate extension ListingCarouselImageCell {
         imageView.contentMode = .scaleAspectFill
         imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         imageView.isUserInteractionEnabled = true
-
-//        scrollView.addSubview(videoPreview)
-//        videoPreview.frame = bounds
-//        videoPreview.contentMode = .scaleAspectFill
-//        videoPreview.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-//        videoPreview.isUserInteractionEnabled = true
 
         scrollView.contentSize = imageView.frame.size
         scrollView.minimumZoomScale = ListingCarouselImageCell.minZoomScale

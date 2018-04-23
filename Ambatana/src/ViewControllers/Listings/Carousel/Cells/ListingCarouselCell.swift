@@ -16,7 +16,6 @@ protocol ListingCarouselCellDelegate: class {
     func didPullFromCellWith(_ offset: CGFloat, bottomLimit: CGFloat)
     func canScrollToNextPage() -> Bool
     func didEndDraggingCell()
-//    func listingCarousellCell(_ cell: ListingCarouselCell, videoProgressDidChangeTo progress: Float)
 }
 
 enum ListingCarouselTapSide {
@@ -202,7 +201,6 @@ extension ListingCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
                         forItemAt indexPath: IndexPath) {
         guard let imageCell = cell as? ListingCarouselImageCell else { return }
         imageCell.resetZoom()
-//        imageCell.videoPreview.play()
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -262,18 +260,6 @@ extension ListingCarouselCell: ListingCarouselImageCellDelegate {
         guard index == currentPage else { return }
         delegate?.isZooming(zooming)
     }
-
-//    func videoProgressDidChange(progress: Float) {
-//        delegate?.listingCarousellCell(self, videoProgressDidChangeTo: progress)
-//    }
-//
-//    func stopVideoPlay() {
-//        guard let videoCell = collectionView.cellForItem(at: IndexPath(row: 0,
-//                                                                       section: 0)) as? ListingCarouselImageCell else {
-//                                                                        return
-//        }
-//        videoCell.stopPlaying()
-//    }
 }
 
 

@@ -18,6 +18,10 @@
 "bump_up_banner_free_text" = "Destaca gratis para vender más rápido";
 "bump_up_banner_pay_text" = "Destaca para vender más rápido";
 "bump_up_banner_pay_text_improvement" = "Vender más rápido";
+"bump_up_banner_pay_text_improvement_english_a" = "Vender más rápido";
+"bump_up_banner_pay_text_improvement_english_b" = "Vender más rápido";
+"bump_up_banner_pay_text_improvement_english_c" = "Vender más rápido";
+"bump_up_banner_pay_text_improvement_english_d" = "Vender más rápido";
 "bump_up_banner_wait_text" = "para destacar de nuevo";
 "bump_up_boost_success_alert_text" = "¡Tu anuncio ha sido impulsado! Estará destacado durante las próximas 24 horas.";
 "bump_up_error_bump_generic" = "Se ha producido un error al destacar tu anuncio. Por favor, inténtalo de nuevo.";
@@ -674,10 +678,15 @@
 "product_popular_near_you" = "Popular cerca de ti";
 "product_post_camera_first_time_alert_subtitle" = "¡Haz una buena foto y empieza a ganar dinero!";
 "product_post_camera_first_time_alert_title" = "¿Qué quieres vender?";
+"product_post_camera_gallery_text_button" = "GALLERY";
 "product_post_camera_permissions_button" = "Permitir";
 "product_post_camera_permissions_subtitle" = "Para hacer una foto, debes permitir el acceso a la Cámara";
 "product_post_camera_permissions_title" = "Permitir acceso a la Cámara";
+"product_post_camera_photo_mode_button" = "PHOTO";
 "product_post_camera_tab_v2" = "CÁMARA";
+"product_post_camera_video_mode_button" = "VIDEO";
+"product_post_camera_video_recording_tooltip" = "%@ to record a video";
+"product_post_camera_video_recording_tooltip_highlighted_word" = "Hold";
 "product_post_close_alert_close_button" = "Descartar";
 "product_post_close_alert_description" = "¿Todavía quieres ponerlo a la venta?";
 "product_post_close_alert_ok_button" = "Publicar anuncio";
