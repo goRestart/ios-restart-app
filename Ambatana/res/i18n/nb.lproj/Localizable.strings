@@ -678,10 +678,15 @@
 "product_popular_near_you" = "Populært i ditt nærområde";
 "product_post_camera_first_time_alert_subtitle" = "Knips et godt bilde og begynn å tjene penger!";
 "product_post_camera_first_time_alert_title" = "Hva selger du?";
+"product_post_camera_gallery_text_button" = "GALLERY";
 "product_post_camera_permissions_button" = "Tillat";
 "product_post_camera_permissions_subtitle" = "Du må tillate tilgang til kamera for å kunne ta et bilde";
 "product_post_camera_permissions_title" = "Tillat tilgang til kamera";
+"product_post_camera_photo_mode_button" = "PHOTO";
 "product_post_camera_tab_v2" = "KAMERA";
+"product_post_camera_video_mode_button" = "VIDEO";
+"product_post_camera_video_recording_tooltip" = "%@ to record a video";
+"product_post_camera_video_recording_tooltip_highlighted_word" = "Hold";
 "product_post_close_alert_close_button" = "Forkaste";
 "product_post_close_alert_description" = "Ønsker du fortsatt å selge produktet?";
 "product_post_close_alert_ok_button" = "Publiser annonse";

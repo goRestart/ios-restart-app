@@ -678,10 +678,15 @@
 "product_popular_near_you" = "Popular cerca de ti";
 "product_post_camera_first_time_alert_subtitle" = "¡Haz una buena foto y empieza a ganar dinero!";
 "product_post_camera_first_time_alert_title" = "¿Qué quieres vender?";
+"product_post_camera_gallery_text_button" = "GALLERY";
 "product_post_camera_permissions_button" = "Permitir";
 "product_post_camera_permissions_subtitle" = "Para hacer una foto, debes permitir el acceso a la Cámara";
 "product_post_camera_permissions_title" = "Permitir acceso a la Cámara";
+"product_post_camera_photo_mode_button" = "PHOTO";
 "product_post_camera_tab_v2" = "CÁMARA";
+"product_post_camera_video_mode_button" = "VIDEO";
+"product_post_camera_video_recording_tooltip" = "%@ to record a video";
+"product_post_camera_video_recording_tooltip_highlighted_word" = "Hold";
 "product_post_close_alert_close_button" = "Descartar";
 "product_post_close_alert_description" = "¿Todavía quieres ponerlo a la venta?";
 "product_post_close_alert_ok_button" = "Publicar anuncio";
