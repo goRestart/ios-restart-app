@@ -18,6 +18,10 @@
 "bump_up_banner_free_text" = "Đẩy lên miễn phí để bán nhanh hơn";
 "bump_up_banner_pay_text" = "Bán nhanh hơn";
 "bump_up_banner_pay_text_improvement" = "Bán nhanh hơn bây giờ";
+"bump_up_banner_pay_text_improvement_english_a" = "Bán nhanh hơn";
+"bump_up_banner_pay_text_improvement_english_b" = "Bán nhanh hơn";
+"bump_up_banner_pay_text_improvement_english_c" = "Bán nhanh hơn";
+"bump_up_banner_pay_text_improvement_english_d" = "Bán nhanh hơn";
 "bump_up_banner_wait_text" = "để làm nổi bật lại";
 "bump_up_boost_success_alert_text" = "Bài đăng của bạn đã được đẩy lên! Bài đăng sẽ được làm nổi bật trong 24 giờ tới.";
 "bump_up_error_bump_generic" = "Có lỗi trong khi làm nổi bật bài đăng của bạn. Xin vui lòng thử lại.";

@@ -583,6 +583,7 @@ class ListingListViewModel: BaseViewModel {
                                                    moPubNativeAd: moPubNativeAd,
                                                    moPubView: moPubView)
             objects[position] = ListingCellModel.mopubAdvertisement(data: newAdData)
+            delegate?.vmReloadItemAtIndexPath(indexPath: IndexPath(row: position, section: 0))
             
         case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems, .dfpAdvertisement, .promo:
             break

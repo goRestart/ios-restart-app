@@ -1,6 +1,6 @@
-"NSCameraUsageDescription" = "Um Angebote einstellen zu können, benötigt letgo Zugriff auf deine Kamera.";
+"NSCameraUsageDescription" = "Deine Kamera wird benötigt, um Fotos von den Dingen zu machen, die du verkaufen möchtest.";
 "NSLocationWhenInUseUsageDescription" = "letgo benötigt Zugriff auf deinen Standort, um dir Produkte in deiner Nähe anzeigen zu können";
-"NSPhotoLibraryAddUsageDescription" = "Um Angebote einstellen zu können, benötigt letgo Zugriff auf deine Fotogalerie.";
-"NSPhotoLibraryUsageDescription" = "Um Angebote einstellen zu können, benötigt letgo Zugriff auf deine Fotogalerie.";
+"NSPhotoLibraryAddUsageDescription" = "Deine Fotogalerie wird benötigt, damit du die Bilder von dem, was du verkaufen möchtest, auswählen kannst.";
+"NSPhotoLibraryUsageDescription" = "Deine Fotogalerie wird benötigt, damit du die Bilder von dem, was du verkaufen möchtest, auswählen kannst.";
 "sell_shortcut_title" = "Verkaufe deine Dinge";
 "start_browsing_shortcut_title" = "Jetzt entdecken";
