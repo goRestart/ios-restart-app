@@ -143,9 +143,10 @@ class MainListingsViewModel: BaseViewModel {
             }
 
             if featureFlags.filterSearchCarSellerType.isActive {
-                let carSellerFilterSingleSelection = !featureFlags.filterSearchCarSellerType.isMultiselection
+                let carSellerFilterMultiSelection = featureFlags.filterSearchCarSellerType.isMultiselection
+                let containsBothFilters = filters.carSellerTypes.containsBothCarSellerTypes
                 let carSellerTypeTags: [FilterTag] = filters.carSellerTypes
-                    .filter { !(carSellerFilterSingleSelection && $0 == .individual) }
+                    .filter { carSellerFilterMultiSelection || ($0.isProfessional && !containsBothFilters) }
                     .map { .carSellerType(type: $0, name: $0.title(feature: featureFlags.filterSearchCarSellerType)) }
                 
                 resultTags.append(contentsOf: carSellerTypeTags)
@@ -526,13 +527,9 @@ class MainListingsViewModel: BaseViewModel {
         } else {
             filters.priceRange = .priceRange(min: minPrice, max: maxPrice)
         }
-        
-        if let removedTag = removedTag,
-            case .carSellerType(let type, _) = removedTag,
-            let filterIndexToRemove = filters.carSellerTypes.index(where: { $0 == type }) {
-            filters.carSellerTypes.remove(at: filterIndexToRemove)
-        }
 
+        filters.carSellerTypes = carSellerTypes
+        
         if let makeId = makeId {
             filters.carMakeId = RetrieveListingParam<String>(value: makeId, isNegated: false)
         } else {
@@ -887,10 +884,10 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         totalListings = addCollections(to: totalListings, page: page)
         totalListings = addRealEstatePromoItem(to: totalListings)
         let myUserCreationDate: Date? = myUserRepository.myUser?.creationDate
-        if featureFlags.showAdsInFeedWithRatio.isActive &&
-            (featureFlags.feedAdsProviderForUS.shouldShowAdsInFeedForUser(createdIn: myUserCreationDate) ||
-                featureFlags.feedAdsProviderForTR.shouldShowAdsInFeedForUser(createdIn: myUserCreationDate)) {
-            totalListings = addAds(to: totalListings, page: page)
+        if featureFlags.showAdsInFeedWithRatio.isActive ||
+            featureFlags.feedAdsProviderForUS.shouldShowAdsInFeedForUser(createdIn: myUserCreationDate) ||
+            featureFlags.feedAdsProviderForTR.shouldShowAdsInFeedForUser(createdIn: myUserCreationDate) {
+                totalListings = addAds(to: totalListings, page: page)
         }
         return totalListings
     }
@@ -930,7 +927,9 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             previousPagesAdsOffset = 0
         }
         guard let adsDelegate = adsDelegate else { return listings }
-        let adsActive = featureFlags.feedAdsProviderForUS.shouldShowAdsInFeed || featureFlags.feedAdsProviderForTR.shouldShowAdsInFeed
+        let adsActive = featureFlags.showAdsInFeedWithRatio.isActive ||
+            featureFlags.feedAdsProviderForUS.shouldShowAdsInFeed ||
+            featureFlags.feedAdsProviderForTR.shouldShowAdsInFeed
         var cellModels = listings
 
         var canInsertAds = true

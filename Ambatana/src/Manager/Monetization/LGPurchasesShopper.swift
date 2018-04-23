@@ -118,6 +118,10 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
     private var currentBumpStoreProductId: String?
     private var currentBumpTypePage: EventParameterTypePage?
 
+    private var recentBumpsCache: [String: Date] = [:]
+    static private let timeThresholdBetweenBumps: TimeInterval = 30
+
+
     override convenience init() {
         let factory = AppstoreProductsRequestFactory()
         let monetizationRepository = Core.monetizationRepository
@@ -251,6 +255,20 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
             removeFromUserDefaultsBumpUpWithListingId(listingId: listingId)
             return false
         }
+    }
+
+    /**
+     There's a delay from BE when giving bumpeable info immediately after a bump.
+     We cache the latest bumps to avoid users bumping twice in a row.
+     Checks if the listing was bumped recently, and if was bumped but a while ago, it removes it form the
+     recent bumps cache
+     */
+    func timeSinceRecentBumpFor(listingId: String) -> TimeInterval? {
+        guard let recentBumpDate = recentBumpsCache[listingId] else { return nil }
+        let timeDifference = Date().timeIntervalSince1970 - recentBumpDate.timeIntervalSince1970
+        guard LGPurchasesShopper.timeThresholdBetweenBumps < timeDifference else { return timeDifference }
+        recentBumpsCache[listingId] = nil
+        return nil
     }
 
     /**
@@ -438,11 +456,12 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
                                                                             forListingId: listingId,
                                                                             withBumpUpInfo: bump)
 
-                                                    strongSelf.delegate?.pricedBumpDidSucceed(type: type,
-                                                                                         restoreRetriesCount: bump.numRetries,
-                                                                                         transactionStatus: transactionStatus,
-                                                                                         typePage: strongSelf.currentBumpTypePage,
-                                                                                         isBoost: isBoost)
+                                                    strongSelf.pricedBumpDidSucceed(type: type,
+                                                                                    restoreRetriesCount: bump.numRetries,
+                                                                                    transactionStatus: transactionStatus,
+                                                                                    typePage: strongSelf.currentBumpTypePage,
+                                                                                    isBoost: isBoost,
+                                                                                    listingId: listingId)
                                                 } else if let error = result.error {
                                                     switch error {
                                                     case .serverError(code: let code):
@@ -556,6 +575,20 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         let cleanTransactionIds = cleanTransactions.flatMap { $0.transactionIdentifier }
         let cleanTransactionsDict = savedTransactionsDict.filter(keys: cleanTransactionIds)
         keyValueStorage.userPendingTransactionsListingIds = cleanTransactionsDict
+    }
+
+    private func pricedBumpDidSucceed(type: BumpUpType,
+                                      restoreRetriesCount: Int,
+                                      transactionStatus: EventParameterTransactionStatus,
+                                      typePage: EventParameterTypePage?,
+                                      isBoost: Bool,
+                                      listingId: String) {
+        delegate?.pricedBumpDidSucceed(type: type,
+                                       restoreRetriesCount: restoreRetriesCount,
+                                       transactionStatus: transactionStatus,
+                                       typePage: typePage,
+                                       isBoost: isBoost)
+        recentBumpsCache[listingId] = Date()
     }
 }
 

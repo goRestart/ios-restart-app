@@ -43,6 +43,7 @@ protocol PurchasesShopper: class {
                         isBoost: Bool)
 
     func isBumpUpPending(forListingId: String) -> Bool
+    func timeSinceRecentBumpFor(listingId: String) -> TimeInterval?
     func requestFreeBumpUp(forListingId listingId: String, letgoItemId: String, shareNetwork: EventParameterShareNetwork)
     func restorePaidBumpUp(forListingId listingId: String)
 }

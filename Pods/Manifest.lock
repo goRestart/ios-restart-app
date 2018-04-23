@@ -54,7 +54,6 @@ PODS:
   - GTMSessionFetcher/Core (1.1.15)
   - GTMSessionFetcher/Full (1.1.15):
     - GTMSessionFetcher/Core (= 1.1.15)
-  - JBKenBurnsView (1.0)
   - JSONWebToken (2.2.0)
   - KeychainSwift (10.0.0)
   - KMPlaceholderTextView (1.3.0)
@@ -140,7 +139,6 @@ DEPENDENCIES:
   - Google-Mobile-Ads-SDK (= 7.24.1)
   - GoogleIDFASupport (= 3.14.0)
   - GoogleSignIn (= 4.1.1)
-  - JBKenBurnsView (from `https://github.com/letgoapp/JBKenBurns`, commit `56419f79cb763f8d2ee3a75e4eca51ebc1deab6a`)
   - KeychainSwift (= 10.0.0)
   - KMPlaceholderTextView (from `https://github.com/letgoapp/KMPlaceholderTextView`, commit `426117c98e8da8fc7d64a7d3c2f0f45c48d595e6`)
   - Leanplum-iOS-SDK (= 2.0.5)
@@ -166,9 +164,6 @@ EXTERNAL SOURCES:
   CameraManager:
     :commit: 7b32b50f8bdb1f94f1f1d0fdb6c99a9d21a7ee84
     :git: git@github.com:letgoapp/CameraManager.git
-  JBKenBurnsView:
-    :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
-    :git: https://github.com/letgoapp/JBKenBurns
   KMPlaceholderTextView:
     :commit: 426117c98e8da8fc7d64a7d3c2f0f45c48d595e6
     :git: https://github.com/letgoapp/KMPlaceholderTextView
@@ -183,9 +178,6 @@ CHECKOUT OPTIONS:
   CameraManager:
     :commit: 7b32b50f8bdb1f94f1f1d0fdb6c99a9d21a7ee84
     :git: git@github.com:letgoapp/CameraManager.git
-  JBKenBurnsView:
-    :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
-    :git: https://github.com/letgoapp/JBKenBurns
   KMPlaceholderTextView:
     :commit: 426117c98e8da8fc7d64a7d3c2f0f45c48d595e6
     :git: https://github.com/letgoapp/KMPlaceholderTextView
@@ -217,7 +209,6 @@ SPEC CHECKSUMS:
   GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
   GTMOAuth2: c77fe325e4acd453837e72d91e3b5f13116857b2
   GTMSessionFetcher: 5fa5b80fd20e439ef5f545fb2cb3ca6c6714caa2
-  JBKenBurnsView: e40d10fcd4fbeb652c29fa431d4748780a4672ff
   JSONWebToken: 6fae32489632658d563dd6952a5c34020ea813e4
   KeychainSwift: f9f7910449a0c0fd2cabc889121530dd2c477c33
   KMPlaceholderTextView: 2bbcd19a273648a80a61e1e48f9743a24d8930e3
@@ -241,6 +232,6 @@ SPEC CHECKSUMS:
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   SwiftyUserDefaults: 38267a30d58b7c8570995cd5defd354e43f056c6
 
-PODFILE CHECKSUM: e7a15624f8ebffbfa3dae691266a0aaf43847459
+PODFILE CHECKSUM: 4c8fc33be5e6b68bdc4cbad25b7c32e215eeb516
 
 COCOAPODS: 1.4.0

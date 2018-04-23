@@ -18,6 +18,10 @@
 "bump_up_banner_free_text" = "Nosta ilmaiseksi myydäksesi tuotteesi nopeammin";
 "bump_up_banner_pay_text" = "Myy nopeammin nyt";
 "bump_up_banner_pay_text_improvement" = "Myy nopeammin nyt";
+"bump_up_banner_pay_text_improvement_english_a" = "Myy nopeammin nyt";
+"bump_up_banner_pay_text_improvement_english_b" = "Myy nopeammin nyt";
+"bump_up_banner_pay_text_improvement_english_c" = "Myy nopeammin nyt";
+"bump_up_banner_pay_text_improvement_english_d" = "Myy nopeammin nyt";
 "bump_up_banner_wait_text" = "seuraavaan nostoon";
 "bump_up_boost_success_alert_text" = "Ilmoituksesi nostettiin uudelleen! Se on nostettuna esiin seuraavat 24 tuntia.";
 "bump_up_error_bump_generic" = "Nostettaessa ilmoitustasi esiin tapahtui virhe. Ole hyvä ja yritä uudelleen.";
