@@ -271,7 +271,7 @@ enum EventParameterName: String {
     case permissionGoToSettings = "permission-go-to-settings"
     case negotiablePrice      = "negotiable-price"
     case pictureSource        = "picture-source"
-    case videoLength          = "videoLength"
+    case videoLength          = "video-length"
     case editedFields         = "edited-fields"
     case newsletter           = "newsletter"
     case quickAnswer          = "quick-answer"
