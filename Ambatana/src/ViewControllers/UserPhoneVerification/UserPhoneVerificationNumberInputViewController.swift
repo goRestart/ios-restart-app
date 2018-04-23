@@ -164,10 +164,12 @@ final class UserPhoneVerificationNumberInputViewController: BaseViewController {
 
     private func setupRx() {
         keyboardHelper
-            .rx_keyboardHeight
+            .rx_keyboardOrigin
             .asDriver()
             .skip(1) // Ignore the first call with height == 0
-            .drive(onNext: { [weak self] height in
+            .drive(onNext: { [weak self] origin in
+                guard let viewHeight = self?.view.height else { return }
+                let height = viewHeight - origin
                 self?.continueButtonBottomConstraint?.constant = -(height + Layout.continueButtonBottomMargin)
                 UIView.animate(withDuration: 0.2, animations: {
                     self?.view.layoutIfNeeded()
@@ -199,6 +201,7 @@ final class UserPhoneVerificationNumberInputViewController: BaseViewController {
     }
 
     @objc private func didTapContinue() {
+        phoneNumberTextField.resignFirstResponder()
         guard let phoneNumber = phoneNumberTextField.text else { return }
         viewModel.didTapContinueButton(with: phoneNumber)
     }
