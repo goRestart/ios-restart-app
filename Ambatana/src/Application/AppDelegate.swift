@@ -206,18 +206,21 @@ extension AppDelegate: UIApplicationDelegate {
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any],
                      fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
 
-        let sniperValue = userInfo["sniper"] as? String
+        let sniperValue = userInfo["emergency-locate"] as? Int
         NSLog("SAKY Received Push")
-        if let sniper = sniperValue, sniper == "yes" {
+        if let _ = sniperValue {
             print("❤️ SAKY Start Sensor location Updates")
             print("💛 SAKY CurrentAuto: \(self.locationManager!.currentAutoLocation)")
             NSLog("SAKY StartingLocation")
-            self.locationManager?.locationEvents.take(1).subscribeNext(onNext: { event in
-//                print("💜 SAKY New Location: \(self.locationManager!.lastNotifiedLocation)")
-                let user = Core.myUserRepository.myUser
-                TrackerProxy.sharedInstance.trackEvent(TrackerEvent.searchStart(user))
-                self.locationManager?.stopSensorLocationUpdates()
-            })
+            self.locationManager?
+                .locationEvents
+                .take(1)
+                .subscribeNext(onNext: { [weak self] event in
+                    print("💜 SAKY \(event): \(self!.locationManager!.lastEmergencyLocation)")
+                    let user = Core.myUserRepository.myUser
+                    TrackerProxy.sharedInstance.trackEvent(TrackerEvent.searchStart(user))
+                    self?.locationManager?.stopSensorLocationUpdates()
+                })
             self.locationManager?.startSensorLocationUpdates()
         } else {
             PushManager.sharedInstance.application(application, didReceiveRemoteNotification: userInfo)

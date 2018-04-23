@@ -89,7 +89,7 @@ public struct RetrieveListingParams {
     
     //  MARK: Verticals
     
-    public var userTypes: [UserType]?
+    public var userTypes: [CarSellerType]?
     public var makeId: RetrieveListingParam<String>?
     public var modelId: RetrieveListingParam<String>?
     public var startYear: RetrieveListingParam<Int>?
