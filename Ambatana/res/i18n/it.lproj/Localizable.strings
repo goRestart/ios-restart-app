@@ -18,6 +18,10 @@
 "bump_up_banner_free_text" = "Promuovi gratuitamente per vendere più velocemente";
 "bump_up_banner_pay_text" = "Vendi subito più rapidamente";
 "bump_up_banner_pay_text_improvement" = "Vendi più rapidamente";
+"bump_up_banner_pay_text_improvement_english_a" = "Vendi più rapidamente";
+"bump_up_banner_pay_text_improvement_english_b" = "Vendi più rapidamente";
+"bump_up_banner_pay_text_improvement_english_c" = "Vendi più rapidamente";
+"bump_up_banner_pay_text_improvement_english_d" = "Vendi più rapidamente";
 "bump_up_banner_wait_text" = "per promuovere di nuovo";
 "bump_up_boost_success_alert_text" = "Il tuo annuncio è stato promosso! Resterà sponsorizzato per le prossime 24 ore.";
 "bump_up_error_bump_generic" = "Si è verificato un errore durante il tentativo di sponsorizzare l'annuncio. Riprova.";
@@ -358,11 +362,11 @@
 "filter_results_cars_other_results" = "Pubblicati di recente nella tua zona";
 "filters_car_make_not_set" = "Non Impostato";
 "filters_car_model_not_set" = "Non Impostato";
-"filters_car_seller_type_all" = "All";
-"filters_car_seller_type_dealership" = "Dealership";
-"filters_car_seller_type_invidual" = "Individual";
-"filters_car_seller_type_private" = "Private";
-"filters_car_seller_type_professional" = "Professional";
+"filters_car_seller_type_all" = "Tutti";
+"filters_car_seller_type_dealership" = "Concessionari";
+"filters_car_seller_type_invidual" = "Privati";
+"filters_car_seller_type_private" = "Privati";
+"filters_car_seller_type_professional" = "Rivenditori";
 "filters_car_year_any_year" = "Qualunque";
 "filters_car_year_before_year" = "Prima del %i";
 "filters_distance_not_set" = "non impostato";
