@@ -478,6 +478,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     // > Accessibility Ids
     private func setAccessibilityIds() {
         thumbnailImageView.set(accessibilityId: .listingCellThumbnailImageView)
+        thumbnailGifImageView.set(accessibilityId: .listingCellThumbnailImageView)
         stripeImageView.set(accessibilityId: .listingCellStripeImageView)
         stripeLabel.set(accessibilityId: .listingCellStripeLabel)
         stripeIcon.set(accessibilityId: .listingCellStripeIcon)
