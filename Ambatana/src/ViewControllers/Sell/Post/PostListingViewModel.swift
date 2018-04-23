@@ -85,6 +85,7 @@ class PostListingViewModel: BaseViewModel {
     
     fileprivate var imagesSelected: [UIImage]?
     fileprivate var uploadedImageSource: EventParameterPictureSource?
+    fileprivate var uploadedVideoLength: TimeInterval?
     fileprivate var recordedVideo: RecordedVideo?
     fileprivate var uploadingVideo: VideoUpload?
     
@@ -245,6 +246,7 @@ class PostListingViewModel: BaseViewModel {
 
     fileprivate func uploadVideoSnapshot(uploadingVideo: VideoUpload) {
 
+        uploadedImageSource = .video
         guard sessionManager.loggedIn else {
             state.value = state.value.updating(pendingToUploadVideo: uploadingVideo.recordedVideo)
             return
@@ -287,6 +289,7 @@ class PostListingViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
 
             if result.value != nil {
+                strongSelf.uploadedVideoLength = uploadingVideo.recordedVideo.duration
                 strongSelf.state.value = strongSelf.state.value.updatingToSuccessUpload(uploadedVideo: uploadingVideo)
             } else if let error = result.error {
                 strongSelf.state.value = strongSelf.state.value.updating(uploadError: error)
@@ -322,6 +325,7 @@ class PostListingViewModel: BaseViewModel {
                 let trackingInfo = PostListingTrackingInfo(buttonName: .close,
                                                            sellButtonPosition: postingSource.sellButtonPosition,
                                                            imageSource: uploadedImageSource,
+                                                           videoLength: uploadedVideoLength,
                                                            price: postDetailViewModel.price.value,
                                                            typePage: postingSource.typePage,
                                                            mostSearchedButton: postingSource.mostSearchedButton,
@@ -492,6 +496,7 @@ fileprivate extension PostListingViewModel {
         let trackingInfo = PostListingTrackingInfo(buttonName: .done,
                                                    sellButtonPosition: postingSource.sellButtonPosition,
                                                    imageSource: uploadedImageSource,
+                                                   videoLength: uploadedVideoLength,
                                                    price: postDetailViewModel.price.value,
                                                    typePage: postingSource.typePage,
                                                    mostSearchedButton: postingSource.mostSearchedButton,
@@ -535,6 +540,7 @@ fileprivate extension PostListingViewModel {
     func openPostingDetails() {
         navigator?.startDetails(postListingState: state.value,
                                 uploadedImageSource: uploadedImageSource,
+                                uploadedVideoLength: uploadedVideoLength,
                                 postingSource: postingSource,
                                 postListingBasicInfo: postDetailViewModel)
     }
