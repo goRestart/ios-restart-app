@@ -595,6 +595,7 @@ struct TrackerEvent {
                                     sellButtonPosition: EventParameterSellButtonPosition?,
                                     negotiable: EventParameterNegotiablePrice?,
                                     pictureSource: EventParameterPictureSource?,
+                                    videoLength: TimeInterval?,
                                     freePostingModeAllowed: Bool,
                                     typePage: EventParameterTypePage,
                                     mostSearchedButton: EventParameterMostSearched,
@@ -617,6 +618,10 @@ struct TrackerEvent {
         }
         if let pictureSource = pictureSource {
             params[.pictureSource] = pictureSource.rawValue
+        }
+
+        if let videoLength = videoLength {
+            params[.videoLength] = videoLength
         }
 
         switch listing {
