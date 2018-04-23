@@ -2571,7 +2571,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains picture-source") {
                     let data = sut.params!.stringKeyParams["picture-source"] as? String
-                    expect(data).to(equal("gallery"))
+                    expect(data).to(equal("video"))
                 }
                 it("contains video-length") {
                     let data = sut.params!.stringKeyParams["video-length"] as? TimeInterval

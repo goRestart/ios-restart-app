@@ -1930,8 +1930,6 @@ enum AccessibilityId: Equatable {
             return "realEstatePromoIcon"
         case .realEstatePromoPostNowButton:
             return "realEstatePromoPostNowButton"
-        default:
-            <#code#>
         }
     }
 }
