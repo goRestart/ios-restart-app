@@ -1,5 +1,5 @@
 //
-//  CarSellerTypeSpec.swift
+//  UserType+LGSpec.swift
 //  letgoTests
 //
 //  Created by Tomas Cobo on 19/04/2018.
@@ -12,16 +12,16 @@ import LGCoreKit
 @testable import LetGoGodMode
 
 
-class CarSellerTypeSpec: QuickSpec {
+final class UserTypeTypeSpec: QuickSpec {
     
     override func spec() {
-        describe("CarSellerTypeSpec") {
-            context("array of CarSellerType") {
-                var sut : [CarSellerType]!
-                var carSellerType: [CarSellerType] = []
-                describe("both CarSellerType items") {
+        describe("UserTypeTypeSpec") {
+            context("array of UserType") {
+                var sut : [UserType]!
+                var carSellerType: [UserType] = []
+                describe("both UserType items") {
                     beforeEach {
-                        sut = [CarSellerType.individual, CarSellerType.professional]
+                        sut = [.user, .pro]
                     }
                     describe("Variant A - apply firstSection") {
                         beforeEach {
@@ -30,26 +30,26 @@ class CarSellerTypeSpec: QuickSpec {
                         it("it's not empty") {
                             expect(carSellerType).notTo(beEmpty())
                         }
-                        it("contains individual") {
-                            expect(carSellerType).toNot(contain(.individual))
+                        it("NOT contains user") {
+                            expect(carSellerType).toNot(contain(.user))
                         }
-                        it("not contains individual") {
-                            expect(carSellerType).to(contain(.professional))
+                        it("contains pro") {
+                            expect(carSellerType).to(contain(.pro))
                         }
                     }
                     
-                    describe("Variant C - apply firstSection") {
+                    describe("Variant C - apply secondSection") {
                         beforeEach {
                             carSellerType = sut.carSectionsFrom(feature: .variantC, filter: FilterCarSection.secondSection)
                         }
                         it("it's not empty") {
                             expect(carSellerType).notTo(beEmpty())
                         }
-                        it("contains individual") {
-                            expect(carSellerType).to(contain(.professional))
+                        it("contains pro") {
+                            expect(carSellerType).to(contain(.pro))
                         }
-                        it("not contains individual") {
-                            expect(carSellerType).toNot(contain(.individual))
+                        it("NOT contains user") { 
+                            expect(carSellerType).toNot(contain(.user))
                         }
                     }
                 }

@@ -1,5 +1,5 @@
 //
-//  CarSellerType+LG.swift
+//  UserType+LG.swift
 //  LetGo
 //
 //  Created by Tomas Cobo on 16/04/2018.
@@ -8,9 +8,9 @@
 
 import LGCoreKit
 
-extension CarSellerType {
+extension UserType {
     
-    var isProfessional: Bool { return self == .professional }
+    var isProfessional: Bool { return self == .pro }
     
     func title(feature: FilterSearchCarSellerType) -> String {
         return isProfessional ? FilterCarSection.secondSection.title(feature: feature) :
@@ -21,7 +21,7 @@ extension CarSellerType {
     }
 }
 
-extension Array where Element == CarSellerType {
+extension Array where Element == UserType {
     func filterCarSectionsFor(feature: FilterSearchCarSellerType) -> [FilterCarSection] {
         let sections = self.map{ $0.filterCarSection }
         
@@ -33,19 +33,19 @@ extension Array where Element == CarSellerType {
         return sections
     }
 
-    func carSectionsFrom(feature: FilterSearchCarSellerType, filter: FilterCarSection) -> [CarSellerType] {
+    func carSectionsFrom(feature: FilterSearchCarSellerType, filter: FilterCarSection) -> [UserType] {
         var carSections = self
         if feature.isMultiselection {
             let carSellerType = filter.carSellerType
             carSections.removeIfContainsElseAppend(carSellerType)
         } else {
-            carSections = filter.isFirstSection ? [.individual, .professional] : [.professional]
+            carSections = filter.isFirstSection ? [.user, .pro] : [.pro]
         }
         return carSections
     }
     
     var containsBothCarSellerTypes: Bool {
-        return contains(.individual) && contains(.professional)
+        return contains(.user) && contains(.pro)
     }
 
     var trackValue: String {
@@ -54,13 +54,13 @@ extension Array where Element == CarSellerType {
         } else if containsBothCarSellerTypes {
             return TrackSellerTypeValues.all.rawValue
         }
-        return contains(.individual) ? TrackSellerTypeValues.individual.rawValue : TrackSellerTypeValues.professional.rawValue
+        return contains(.user) ? TrackSellerTypeValues.user.rawValue : TrackSellerTypeValues.professional.rawValue
     }
 }
 
 private enum TrackSellerTypeValues: String {
     case none = "none"
-    case individual = "private"
+    case user = "private"
     case professional = "professional"
     case all = "all"
 }

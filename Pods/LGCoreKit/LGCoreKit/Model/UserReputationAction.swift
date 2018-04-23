@@ -20,7 +20,6 @@ public enum UserReputationActionType: String {
 }
 
 public protocol UserReputationAction {
-    var id: String { get }
     var type: UserReputationActionType { get }
     var points: Int { get }
     var createdAt: Date? { get }

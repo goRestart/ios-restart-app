@@ -39,9 +39,9 @@ enum FilterCarSection {
 }
 
 extension FilterCarSection {
-    var carSellerType: CarSellerType {
-        guard case .firstSection = self else { return .professional }
-        return .individual
+    var carSellerType: UserType {
+        guard case .firstSection = self else { return .pro }
+        return .user
     }
 }
 
