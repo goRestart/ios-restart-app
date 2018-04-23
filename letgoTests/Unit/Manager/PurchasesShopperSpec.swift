@@ -329,6 +329,43 @@ class PurchasesShopperSpec: QuickSpec {
                     }
                 }
             }
+            context("recent bumps check") {
+                let transaction = MyPaymentTransaction(myTransactionIdentifier: "123123", myTransactionState: .purchased)
+                context("bump succeeds") {
+                    beforeEach {
+                        sut.paymentProcessingListingId = "listing_id_recent_check_ok"
+                        sut.paymentProcessingLetgoItemId = "letgo_item_id_success"
+                        transaction.myTransactionIdentifier = "purchase_bump_ok"
+                        sut.purchasesShopperState = .purchasing
+                        monetizationRepository.bumpResult = Result<Void, RepositoryError>(value: Void())
+                        sut.paymentQueue(SKPaymentQueue.default(), updatedTransactions: [transaction])
+                        expect(self.mockBumpResult).toEventuallyNot(beNil())
+                    }
+                    it ("bump request succeeds") {
+                        expect(self.mockBumpResult) == .success
+                    }
+                    it ("time since last bump for listing id is bigger than 0") {
+                        expect(sut.timeSinceRecentBumpFor(listingId: "listing_id_recent_check_ok")) > 0
+                    }
+                }
+                context("bump fails") {
+                    beforeEach {
+                        sut.paymentProcessingListingId = "listing_id_recent_check_fail"
+                        sut.paymentProcessingLetgoItemId = "letgo_item_id_fail"
+                        transaction.myTransactionIdentifier = "purchase_bump_fail"
+                        sut.purchasesShopperState = .purchasing
+                        monetizationRepository.bumpResult = Result<Void, RepositoryError>(error: .notFound)
+                        sut.paymentQueue(SKPaymentQueue.default(), updatedTransactions: [transaction])
+                        expect(self.mockBumpResult).toEventuallyNot(beNil())
+                    }
+                    it ("bump request fails") {
+                        expect(self.mockBumpResult) == .fail
+                    }
+                    it ("time since last bump for listing id is nil") {
+                        expect(sut.timeSinceRecentBumpFor(listingId: "listing_id_recent_check_fail")).to(beNil())
+                    }
+                }
+            }
         }
     }
 }
