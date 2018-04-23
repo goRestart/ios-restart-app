@@ -153,7 +153,7 @@ class ListingCarouselViewModel: BaseViewModel {
         return currentListingViewModel?.productMedia
             .value
             .map { $0.type }
-            .reduce(false) { (result, next) in return result || next == .video } ?? false
+            .reduce(false) { (result, next: Media) in return result || next.isPlayable } ?? false
     }
 
     fileprivate var trackingIndex: Int?
