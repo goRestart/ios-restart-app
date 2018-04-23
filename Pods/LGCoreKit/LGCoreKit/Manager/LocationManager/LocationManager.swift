@@ -14,6 +14,7 @@ public enum LocationEvent {
     case locationUpdate
     case movedFarFromSavedManualLocation
     case changedPermissions
+    case emergencyLocationUpdate
 }
 
 public protocol LocationManager {
@@ -44,6 +45,10 @@ public protocol LocationManager {
     */
     var currentAutoLocation: LGLocation? { get }
 
+    /**
+     Returns the last location received after activating the emergency mode
+     */
+    var lastEmergencyLocation: LGLocation? { get }
     /**
     Sets the given location as manual.
     - parameter location: The location.

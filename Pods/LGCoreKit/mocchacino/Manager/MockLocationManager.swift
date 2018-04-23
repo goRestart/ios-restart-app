@@ -3,10 +3,11 @@ import Result
 import RxSwift
 
 open class MockLocationManager: LocationManager {
+
     public var myUserResult: MyUserResult
     public var locationEventsPublishSubject: PublishSubject<LocationEvent>
     public var hasLocationUpdates: Bool
-
+    public var lastEmergencyLocation: LGLocation?
 
     // MARK: - Lifecycle
 

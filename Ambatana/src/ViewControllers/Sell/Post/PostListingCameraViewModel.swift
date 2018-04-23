@@ -323,6 +323,15 @@ extension CameraState {
         }
     }
 
+    var recordingVideo: Bool {
+        switch self {
+        case .pendingAskPermissions, .missingPermissions, .previewPhoto, .previewVideo, .takingPhoto, .capture:
+            return false
+        case .recordingVideo:
+            return true
+        }
+    }
+
     var previewMode: Bool {
         switch self {
         case .pendingAskPermissions, .missingPermissions, .capture, .takingPhoto, .recordingVideo:
