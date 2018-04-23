@@ -24,7 +24,7 @@ final class UserVerificationViewModel: BaseViewModel {
     private let googleHelper: GoogleLoginHelper
     fileprivate let tracker: Tracker
 
-    private let actionsHistory = Variable<[UserReputationActionType]>([])
+    private let actionsHistory = Variable<[UserReputationActionType]?>(nil)
     private var user: Driver<MyUser?> { return myUserRepository.rx_myUser.asDriver(onErrorJustReturn: nil) }
     var userAvatar: Driver<URL?> { return user.map { $0?.avatar?.fileURL } }
     var userAvatarPlaceholder: Driver<UIImage?> { return user.map { LetgoAvatar.avatarWithColor(UIColor.defaultAvatarColor, name: $0?.name) } }
@@ -61,12 +61,25 @@ final class UserVerificationViewModel: BaseViewModel {
             if let value = result.value {
                 self?.actionsHistory.value = value.map{ $0.type }
             } else if let _ = result.error {
-                // Show error?
+                self?.showErrorAlert()
             }
         }
     }
 
-    private func buildItems(with actions: [UserReputationActionType]) -> [[UserVerificationItem]] {
+    private func showErrorAlert() {
+        delegate?.vmShowAlertWithTitle(LGLocalizedString.commonErrorTitle,
+                                       text: LGLocalizedString.commonErrorNetworkBody,
+                                       alertType: .plainAlert,
+                                       buttonsLayout: .horizontal,
+                                       actions: [UIAction.init(interface: .text(LGLocalizedString.commonOk), action: { [weak self] in
+                                        self?.navigator?.closeUserVerification()
+                                       })], dismissAction: { [weak self] in
+                                        self?.navigator?.closeUserVerification()
+        })
+    }
+
+    private func buildItems(with actions: [UserReputationActionType]?) -> [[UserVerificationItem]] {
+        guard let actions = actions else { return [] }
         let firstSection: [UserVerificationItem] = [
             .facebook(completed: actions.contains(.facebook)),
             .google(completed: actions.contains(.google)),
