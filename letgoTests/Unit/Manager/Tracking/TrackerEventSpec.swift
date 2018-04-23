@@ -1160,7 +1160,7 @@ class TrackerEventSpec: QuickSpec {
                                                           state: "Catalonia", countryCode: "US", country: nil)
 
                     sut = TrackerEvent.listingDetailVisit(.product(product), visitUserAction: .none, source: .listingList,
-                                                          feedPosition: .position(index:1), isBumpedUp: .trueParameter)
+                                                          feedPosition: .position(index:1), isBumpedUp: .trueParameter, isVideo: .trueParameter)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-visit"))
@@ -1209,6 +1209,10 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains bumped up param") {
                     let bumpedUp = sut.params!.stringKeyParams["bump-up"] as? String
+                    expect(bumpedUp).to(equal("true"))
+                }
+                it("contains is video param") {
+                    let bumpedUp = sut.params!.stringKeyParams["is_video"] as? String
                     expect(bumpedUp).to(equal("true"))
                 }
             }
