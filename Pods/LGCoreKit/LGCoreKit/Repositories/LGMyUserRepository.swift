@@ -196,38 +196,7 @@ class LGMyUserRepository: InternalMyUserRepository {
             handleApiResult(result, success: nil, completion: completion)
         }
     }
-
-    /**
-     Requests an SMS code to be sent to the given phone prefix and number
-     - parameter prefix: phone prefix where sms the needs to be sent
-     - parameter phone: phone number where sms the needs to be sent
-     - parameter completion: the completion closure
-     */
-    func requestSMSCode(prefix: String, phone: String, completion: MyUserVoidCompletion?) {
-        guard let myUserId = myUser?.objectId else {
-            completion?(MyUserVoidResult(error: .internalError(message: "Missing MyUser objectId")))
-            return
-        }
-        dataSource.requestSMSCode(myUserId, phonePrefix: prefix, phone: phone) { result in
-            handleApiResult(result, success: nil, completion: completion)
-        }
-    }
-
-    /**
-     Requests an SMS code to be sent to the given phone prefix and number
-     - parameter code: the code received by sms that needs to be validated
-     - parameter completion: the completion closure
-     */
-    func validateSMSCode(_ code: String, completion: MyUserVoidCompletion?) {
-        guard let myUserId = myUser?.objectId else {
-            completion?(MyUserVoidResult(error: .internalError(message: "Missing MyUser objectId")))
-            return
-        }
-        dataSource.validateSMSCode(myUserId, code: code) { result in
-            handleApiResult(result, success: nil, completion: completion)
-        }
-    }
-
+    
     /**
      Updates the user if the locale changed.
      - returns: If the update was performed.
