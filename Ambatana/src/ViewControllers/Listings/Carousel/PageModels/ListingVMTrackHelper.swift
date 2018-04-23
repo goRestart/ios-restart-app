@@ -29,7 +29,9 @@ extension ListingViewModel {
     func trackVisit(_ visitUserAction: ListingVisitUserAction, source: EventParameterListingVisitSource, feedPosition: EventParameterFeedPosition) {
         let isBumpedUp = isShowingFeaturedStripe.value ? EventParameterBoolean.trueParameter :
                                                    EventParameterBoolean.falseParameter
-        trackHelper.trackVisit(visitUserAction, source: source, feedPosition: feedPosition, isShowingFeaturedStripe: isBumpedUp)
+        let isVideo = EventParameterBoolean(bool: listing.value.media.contains(where: { $0.type == .video }))
+        trackHelper.trackVisit(visitUserAction, source: source, feedPosition: feedPosition, isVideo: isVideo,
+                               isShowingFeaturedStripe: isBumpedUp)
     }
 
     func trackVisitMoreInfo(isMine: EventParameterBoolean,
@@ -267,12 +269,14 @@ extension ProductVMTrackHelper {
     func trackVisit(_ visitUserAction: ListingVisitUserAction,
                     source: EventParameterListingVisitSource,
                     feedPosition: EventParameterFeedPosition,
+                    isVideo: EventParameterBoolean,
                     isShowingFeaturedStripe: EventParameterBoolean) {
         let trackerEvent = TrackerEvent.listingDetailVisit(listing,
                                                            visitUserAction: visitUserAction,
                                                            source: source,
                                                            feedPosition: feedPosition,
-                                                           isBumpedUp: isShowingFeaturedStripe)
+                                                           isBumpedUp: isShowingFeaturedStripe,
+                                                           isVideo: isVideo)
         tracker.trackEvent(trackerEvent)
     }
 
