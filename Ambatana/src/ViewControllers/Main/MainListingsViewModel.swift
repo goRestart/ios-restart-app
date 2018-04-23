@@ -426,7 +426,7 @@ class MainListingsViewModel: BaseViewModel {
         var minPrice: Int? = nil
         var maxPrice: Int? = nil
         var free: Bool = false
-        var carSellerTypes: [CarSellerType] = []
+        var carSellerTypes: [UserType] = []
         var makeId: String? = nil
         var makeName: String? = nil
         var modelId: String? = nil

@@ -72,7 +72,7 @@ struct ListingFilters {
     }
     var priceRange: FilterPriceRange
 
-    var carSellerTypes: [CarSellerType]
+    var carSellerTypes: [UserType]
     var carMakeId: RetrieveListingParam<String>?
     var carMakeName: String?
     var carModelId: RetrieveListingParam<String>?
@@ -127,7 +127,7 @@ struct ListingFilters {
          selectedWithin: ListingTimeCriteria,
          selectedOrdering: ListingSortCriteria?,
          priceRange: FilterPriceRange,
-         carSellerTypes: [CarSellerType],
+         carSellerTypes: [UserType],
          carMakeId: RetrieveListingParam<String>?,
          carMakeName: String?,
          carModelId: RetrieveListingParam<String>?,
