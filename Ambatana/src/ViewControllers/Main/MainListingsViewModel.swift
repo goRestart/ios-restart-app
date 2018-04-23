@@ -1040,7 +1040,13 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         if lastAdPosition == 0 {
             adPosition = MainListingsViewModel.adInFeedInitialPosition
         } else {
-            adPosition = lastAdPosition + MainListingsViewModel.adsInFeedRatio
+            var ratio = 0
+            if featureFlags.showAdsInFeedWithRatio.isActive {
+                ratio = featureFlags.showAdsInFeedWithRatio.ratio
+            } else {
+                ratio = MainListingsViewModel.adsInFeedRatio
+            }
+            adPosition = lastAdPosition + ratio
         }
         return adPosition
     }
