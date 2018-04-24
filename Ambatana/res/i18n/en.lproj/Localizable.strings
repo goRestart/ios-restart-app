@@ -1,6 +1,3 @@
-// When a user Account is deactivated because is a scammer (includes user name)
-"account_deactivated_w_name" = "%@'s account was deleted";
-
 // When a user Account is deactivated because is a scammer
 "account_pending_moderation" = "Account pending moderation";
 
@@ -30,9 +27,6 @@
 
 // App share whatsapp button
 "app_share_whatsapp_button" = "Invite via Whatsapp";
-
-// App share success message
-"app_share_success" = "App shared!";
 
 // In app notification reply button (reception of message of another user)
 "app_notification_reply" = "Reply";
@@ -3266,6 +3260,12 @@
 
 // Settings option to access search alerts
 "settings_notifications_search_alerts" = "Search Alerts";
+
+// Search alerts view title
+"search_alerts_list_title" = "Search Notifications";
+
+// Search alerts edit button 
+"search_alerts_edit_button" = "Edit";
 
 // Alert when you don't accept one of the above (just turkey)
 "sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";

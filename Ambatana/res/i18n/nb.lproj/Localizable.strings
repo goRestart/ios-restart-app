@@ -1,4 +1,3 @@
-"account_deactivated_w_name" = "Kontoen til %@ ble slettet";
 "account_pending_moderation" = "Konto avventer gjennomgang";
 "account_pending_moderation_w_name" = "%@'s konto avventer gjennomgang";
 "app_notification_reply" = "Svar";
@@ -8,7 +7,6 @@
 "app_share_message_text" = "Ta en titt på appen letgo og tjen penger ved å selge ting du ikke bruker lenger!";
 "app_share_subject_text" = "Ta en titt på letgo";
 "app_share_subtitle" = "Del letgo med dine venner og hjelp oss med å ekspandere vårt samfunn!";
-"app_share_success" = "App ble delt!";
 "app_share_title" = "INVITER DINE VENNER";
 "app_share_whatsapp_button" = "Inviter via Whatsapp";
 "block_user_error_generic" = "En feil oppstod ved blokkering av denne brukeren.";
