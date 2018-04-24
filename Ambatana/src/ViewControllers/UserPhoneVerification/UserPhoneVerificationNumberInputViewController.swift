@@ -57,6 +57,10 @@ final class UserPhoneVerificationNumberInputViewController: BaseViewController {
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
         setNavBarBackgroundStyle(.white)
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         phoneNumberTextField.becomeFirstResponder()
     }
 

@@ -77,7 +77,7 @@ final class UserPhoneVerificationCountryPickerViewController: BaseViewController
             tableView.topAnchor.constraint(equalTo: safeTopAnchor),
             tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
             tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            tableView.bottomAnchor.constraint(equalTo: safeBottomAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             searchBar.heightAnchor.constraint(equalToConstant: Layout.searchBarHeight),
             searchBar.topAnchor.constraint(equalTo: tableHeaderView.topAnchor),
             searchBar.leftAnchor.constraint(equalTo: tableHeaderView.leftAnchor),
