@@ -220,7 +220,7 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
                                                                     return UICollectionViewCell() }
 
 
-            cell.setupWith(previewURL: media.outputs.videoThumbnail, videoURL: media.outputs.video)
+            cell.play(previewURL: media.outputs.videoThumbnail, videoURL: media.outputs.video)
             return cell
         } else {
             let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: ListingDeckImagePreviewCell.reusableID,

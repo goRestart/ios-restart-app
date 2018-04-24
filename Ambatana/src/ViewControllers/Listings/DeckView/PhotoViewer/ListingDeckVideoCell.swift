@@ -32,17 +32,16 @@ final class ListingDeckVideoCell: UICollectionViewCell, ReusableCell {
         setupVideoPreview()
     }
 
-    func setupWith(previewURL: URL?, videoURL: URL?) {
+    func play(previewURL: URL?, videoURL: URL?) {
         if let previewURL = previewURL {
             do {
-                let data = try Data(contentsOf: previewURL)
-                let image = UIImage(data: data)
-                self.blurred.image = image
-
+                if let image = try UIImage.imageFrom(url: previewURL) {
+                    self.blurred.image = image
+                }
                 self.videoPreviewView.alpha = 0
             } catch _ {
                 // do nothing, know nothing
-
+                // FIXME: What do we do here?
             }
         }
 
