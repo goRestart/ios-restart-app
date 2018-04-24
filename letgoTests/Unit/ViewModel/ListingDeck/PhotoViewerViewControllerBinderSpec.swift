@@ -27,7 +27,7 @@ final class PhotoViewerViewControllerBinderSpec: QuickSpec {
 
                 sut = PhotoViewerViewControllerBinder()
                 sut.viewController = photoViewerVC
-                sut.bind(toView: photoView, isChatEnabled: true)
+                sut.bind(toView: photoView)
             }
 
             afterEach {
