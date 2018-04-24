@@ -14,7 +14,8 @@ import RxCocoa
 
 final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewType {
     struct Layout {
-        static let playButtonEdges = UIEdgeInsets(top: Metrics.margin,
+        // to center the play button with the page symbols
+        static let playButtonEdges = UIEdgeInsets(top: 11,
                                                   left: 0,
                                                   bottom: 0,
                                                   right: 30)
@@ -114,7 +115,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
                                                       constant: -Layout.playButtonEdges.right),
             startPlayingButton.topAnchor.constraint(equalTo: collectionView.topAnchor,
                                                     constant: Layout.playButtonEdges.top),
-            startPlayingButton.widthAnchor.constraint(equalToConstant: 20),
+            startPlayingButton.widthAnchor.constraint(equalToConstant: 30),
             startPlayingButton.heightAnchor.constraint(equalTo: startPlayingButton.widthAnchor)
         ])
         startPlayingButton.addTarget(self, action: #selector(bouncePlayingButton), for: .touchUpInside)
