@@ -189,6 +189,7 @@ class ListingViewModel: BaseViewModel {
     lazy var shareButtonState = Variable<ButtonState>(.hidden)
 
     lazy var productInfo = Variable<ListingVMProductInfo?>(nil)
+    lazy var productMedia = Variable<[Media]>([])
     lazy var productImageURLs = Variable<[URL]>([])
     lazy var previewURL = Variable<(URL?, Int)>((nil, 0))
 
@@ -436,7 +437,7 @@ class ListingViewModel: BaseViewModel {
                                                                      myUserId: strongSelf.myUserId,
                                                                      myUserName: strongSelf.myUserName)
             strongSelf.productImageURLs.value = listing.images.flatMap { return $0.fileURL }
-
+            strongSelf.productMedia.value = listing.media
             let productInfo = ListingVMProductInfo(listing: listing,
                                                    isAutoTranslated: listing.isTitleAutoTranslated(strongSelf.countryHelper),
                                                    distance: strongSelf.distanceString(listing),

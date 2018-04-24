@@ -3173,6 +3173,13 @@
 			path = DeckCoordinator;
 			sourceTree = "<group>";
 		};
+		0AE6205A208E058A003B40E4 /* VideoPlayer */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = VideoPlayer;
+			sourceTree = "<group>";
+		};
 		0AEB4FF32018C336003365DE /* OnBoarding */ = {
 			isa = PBXGroup;
 			children = (
@@ -4521,6 +4528,7 @@
 		6AA8278F1D2D03720068C39B /* Carousel */ = {
 			isa = PBXGroup;
 			children = (
+				0AE6205A208E058A003B40E4 /* VideoPlayer */,
 				C7126BD31E6053AA00038CC4 /* PageModels */,
 				C75B5DCD1D59E0C500112368 /* Cells */,
 				C75B5DB31D59E09500112368 /* ProductDetailOnboarding */,

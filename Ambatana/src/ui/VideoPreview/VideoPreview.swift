@@ -19,7 +19,9 @@ final class VideoPreview: UIView {
     var url: URL? {
         didSet {
             if let playerItem = player.currentItem {
-                NotificationCenter.default.removeObserver(self, name: Notification.Name.AVPlayerItemDidPlayToEndTime, object: playerItem)
+                NotificationCenter.default.removeObserver(self,
+                                                          name: Notification.Name.AVPlayerItemDidPlayToEndTime,
+                                                          object: playerItem)
             }
             let playerItem: AVPlayerItem? = url != nil ? AVPlayerItem(url: url!) : nil
             player.replaceCurrentItem(with: playerItem)
@@ -65,7 +67,8 @@ final class VideoPreview: UIView {
     func play() {
         player.play()
         let time = CMTimeMake(1, 20)
-        periodicTimeObserver = player.addPeriodicTimeObserver(forInterval: time, queue: DispatchQueue.main) { [weak self] (time) in
+        periodicTimeObserver = player.addPeriodicTimeObserver(forInterval: time,
+                                                              queue: DispatchQueue.main) { [weak self] (time) in
             guard let strongSelf = self else { return }
             strongSelf.rx_progress.value = strongSelf.progress
         }

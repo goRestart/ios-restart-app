@@ -215,6 +215,12 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
 
 
 extension PostingDetailsViewModelSpec: PostListingNavigator {
+    func closePostProductAndPostLater(params: ListingCreationParams,
+                                      images: [UIImage]?,
+                                      video: RecordedVideo?,
+                                      trackingInfo: PostListingTrackingInfo) {
+        // FIXME: No idea what to do here
+    }
 
     func cancelPostListing() {
         cancelPostingCalled = true
@@ -238,7 +244,10 @@ extension PostingDetailsViewModelSpec: PostListingNavigator {
                                              trackingInfo: PostListingTrackingInfo) {
         closePostProductAndPostInBackgroundCalled = true
     }
-    func closePostProductAndPostLater(params: ListingCreationParams, images: [UIImage]?,
+    func 
+  
+  
+  (params: ListingCreationParams, images: [UIImage]?,
                                       video: RecordedVideo?, trackingInfo: PostListingTrackingInfo) {
         closePostProductAndPostLaterCalled = true
     }
