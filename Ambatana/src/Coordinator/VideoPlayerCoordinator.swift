@@ -12,15 +12,13 @@ import LGCoreKit
 final class VideoPlayerCoordinator: Coordinator, PhotoViewerNavigator {
     var child: Coordinator?
     weak var coordinatorDelegate: CoordinatorDelegate?
-    var viewController: UIViewController {
-        return navigationController
-    }
+    var viewController: UIViewController { return navigationController }
     weak var presentedAlertController: UIAlertController?
     var bubbleNotificationManager: BubbleNotificationManager
     var sessionManager: SessionManager
-    fileprivate let navigationController: UINavigationController
+    private let navigationController: UINavigationController
 
-    var quickChatViewModel: QuickChatViewModel? = nil
+    private var quickChatViewModel: QuickChatViewModel? = nil
 
 
     convenience init?(atIndex index: Int,
@@ -40,7 +38,7 @@ final class VideoPlayerCoordinator: Coordinator, PhotoViewerNavigator {
          sessionManager: SessionManager) {
         self.sessionManager = sessionManager
         self.bubbleNotificationManager = bubbleNotificationManager
-        guard let displayable = listingVM.makeDisplable(forMediaAt: index) else { return nil }
+        guard let displayable = listingVM.makeDisplayable(forMediaAt: index) else { return nil }
         
         let vm = PhotoViewerViewModel(with: displayable, source: source)
 

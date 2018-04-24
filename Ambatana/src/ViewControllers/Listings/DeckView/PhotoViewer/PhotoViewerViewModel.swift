@@ -49,7 +49,7 @@ final class PhotoViewerViewModel: BaseViewModel {
          viewerDisplayable: PhotoViewerDisplayable,
          tracker: Tracker,
          source: EventParameterListingVisitSource,
-         featureFlags: FeatureFlags) {
+         featureFlags: FeatureFlaggeable) {
         self.imageDownloader = imageDownloader
         self.source = source
         self.tracker = tracker

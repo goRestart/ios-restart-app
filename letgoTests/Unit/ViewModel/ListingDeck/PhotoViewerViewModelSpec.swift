@@ -53,7 +53,8 @@ final class PhotoViewerViewModelSpec: QuickSpec {
                     sut = PhotoViewerViewModel(imageDownloader: MockImageDownloader(),
                                                viewerDisplayable: displayable,
                                                tracker: tracker,
-                                               source: source)
+                                               source: source,
+                                               featureFlags: MockFeatureFlags())
                 }
                 it("the photoviewer has no random image") {
                     expect(tracker.trackedEvents.count) == 0
@@ -68,7 +69,8 @@ final class PhotoViewerViewModelSpec: QuickSpec {
                     sut = PhotoViewerViewModel(imageDownloader: MockImageDownloader(),
                                                viewerDisplayable: displayable,
                                                tracker: tracker,
-                                               source: source)
+                                               source: source,
+                                               featureFlags: MockFeatureFlags())
                     sut.active = true
                 }
                 it("the photoviewer has no random image") {
@@ -84,7 +86,8 @@ final class PhotoViewerViewModelSpec: QuickSpec {
                     sut = PhotoViewerViewModel(imageDownloader: MockImageDownloader(),
                                                viewerDisplayable: displayable,
                                                tracker: tracker,
-                                               source: source)
+                                               source: source,
+                                               featureFlags: MockFeatureFlags())
                     sut.active = true
                     sut.didOpenChat()
                 }
@@ -101,7 +104,8 @@ final class PhotoViewerViewModelSpec: QuickSpec {
                     sut = PhotoViewerViewModel(imageDownloader: MockImageDownloader(),
                                                viewerDisplayable: displayable,
                                                tracker: tracker,
-                                               source: source)
+                                               source: source,
+                                               featureFlags: MockFeatureFlags())
                     sut.didOpenChat()
                 }
                 it("the photoviewer has no random image") {
