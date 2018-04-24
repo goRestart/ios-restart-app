@@ -564,7 +564,7 @@ class PixelsBufferForwarder: NSObject, AVCaptureVideoDataOutputSampleBufferDeleg
 
     private(set) var videoOutput: AVCaptureVideoDataOutput
     private let videoOutputQueue = DispatchQueue(label: "camera.manager.video.output.queue")
-    private let delegate: VideoOutputDelegate
+    private weak var delegate: VideoOutputDelegate?
 
     private var pixelsBuffersToForwardPerSecond: Int = 15
     private var videoOutputLastTimestamp = CMTime()
@@ -590,6 +590,8 @@ class PixelsBufferForwarder: NSObject, AVCaptureVideoDataOutputSampleBufferDeleg
     func captureOutput(_ output: AVCaptureOutput,
                        didOutput sampleBuffer: CMSampleBuffer,
                        from connection: AVCaptureConnection) {
+
+        guard let delegate = delegate else { stop(); return }
 
         let timestamp = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
         let deltaTime = timestamp - videoOutputLastTimestamp
