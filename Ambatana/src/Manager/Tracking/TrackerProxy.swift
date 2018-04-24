@@ -150,7 +150,7 @@ final class TrackerProxy: Tracker {
             switch event {
             case .changedPermissions:
                 self?.locationManagerDidChangePermissions()
-            case .locationUpdate:
+            case .locationUpdate, .emergencyLocationUpdate:
                 self?.setLocation(self?.locationManager.currentLocation, postalAddress: self?.locationManager.currentLocation?.postalAddress)
             case .movedFarFromSavedManualLocation:
                 break
