@@ -18,10 +18,13 @@ enum BumpUpType: Equatable {
 
     var bannerText: String {
         switch self {
-        case .free:
-            return LGLocalizedString.bumpUpBannerPayTextImprovement
-        case .priced, .hidden:
-            return LGLocalizedString.bumpUpBannerPayTextImprovement
+        case .free, .priced, .hidden:
+            if FeatureFlags.sharedInstance.shouldChangeSellFasterNowCopyInEnglish {
+                return FeatureFlags.sharedInstance.copyForSellFasterNowInEnglish.variantString
+            } else {
+                return LGLocalizedString.bumpUpBannerPayTextImprovement
+            }
+            
         case .restore:
             return LGLocalizedString.bumpUpErrorBumpToken
         case .boost:

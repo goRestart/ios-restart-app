@@ -94,6 +94,8 @@ protocol FeatureFlaggeable: class {
     var shouldChangeChatNowCopyInEnglish: Bool { get }
     var copyForChatNowInEnglish: CopyForChatNowInEnglish { get }
     var feedAdsProviderForTR:  FeedAdsProviderForTR { get }
+    var shouldChangeSellFasterNowCopyInEnglish: Bool { get }
+    var copyForSellFasterNowInEnglish: CopyForSellFasterNowInEnglish { get }
     
 }
 
@@ -386,6 +388,25 @@ extension CopyForChatNowInEnglish {
             return LGLocalizedString.bumpUpProductCellChatNowButtonEnglishD
         }
         } }
+}
+
+extension CopyForSellFasterNowInEnglish {
+    var isActive: Bool { return self != .control && self != .baseline }
+    
+    var variantString: String {
+        switch self {
+        case .control:
+            return LGLocalizedString.bumpUpBannerPayTextImprovement
+        case .baseline:
+            return LGLocalizedString.bumpUpBannerPayTextImprovementEnglishA
+        case .variantB:
+            return LGLocalizedString.bumpUpBannerPayTextImprovementEnglishB
+        case .variantC:
+            return LGLocalizedString.bumpUpBannerPayTextImprovementEnglishC
+        case .variantD:
+            return LGLocalizedString.bumpUpBannerPayTextImprovementEnglishD
+        }
+    }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -1029,6 +1050,26 @@ class FeatureFlags: FeatureFlaggeable {
         return ChatNorris.control
         // TODO: restore the ABTests code when BE part is working 👇
 //        return  ChatNorris.fromPosition(abTests.chatNorris.value)
+    }
+    
+    var shouldChangeSellFasterNowCopyInEnglish: Bool {
+        if Bumper.enabled {
+            return Bumper.copyForSellFasterNowInEnglish.isActive
+        }
+        switch (localeCountryCode) {
+        case .usa?:
+            return true
+        default:
+            return false
+        }
+    }
+    
+    var copyForSellFasterNowInEnglish: CopyForSellFasterNowInEnglish {
+        if Bumper.enabled {
+            return Bumper.copyForSellFasterNowInEnglish
+        }
+        return CopyForSellFasterNowInEnglish.fromPosition(abTests.copyForSellFasterNowInEnglish.value)
+        
     }
 
     
