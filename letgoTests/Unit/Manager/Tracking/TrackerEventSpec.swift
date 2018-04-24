@@ -2563,7 +2563,7 @@ class TrackerEventSpec: QuickSpec {
                                                            buttonName: .done,
                                                            sellButtonPosition: .floatingButton,
                                                            negotiable: .yes,
-                                                           pictureSource: .videoCamer,
+                                                           pictureSource: .videoCamera,
                                                            videoLength: 12,
                                                            freePostingModeAllowed: true,
                                                            typePage: .sell,
