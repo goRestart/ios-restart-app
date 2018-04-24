@@ -450,14 +450,7 @@ class PhotoCaptureProcessor: NSObject, AVCapturePhotoCaptureDelegate {
 }
 
 // MARK: - Video Recorder
-class VideoRecorder : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
-
-    static let videoSettings: [String: Any] = [
-        AVVideoCodecKey: AVVideoCodecH264,
-        AVVideoWidthKey: 480,
-        AVVideoHeightKey: 640,
-        AVVideoScalingModeKey: AVVideoScalingModeResizeAspectFill
-    ];
+class VideoRecorder : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {    
 
     private(set) var videoOutput: AVCaptureVideoDataOutput = {
         let output = AVCaptureVideoDataOutput()
@@ -492,7 +485,7 @@ class VideoRecorder : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
             self.fileWriter = fileWriter
             self.completion = completion
 
-            let videoInput = AVAssetWriterInput(mediaType: .video, outputSettings: VideoRecorder.videoSettings)
+            let videoInput = AVAssetWriterInput(mediaType: .video, outputSettings: Constants.videoSettings)
             self.videoInput = videoInput
             videoInput.expectsMediaDataInRealTime = true
             fileWriter.add(videoInput)

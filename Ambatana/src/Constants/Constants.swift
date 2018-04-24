@@ -7,6 +7,7 @@
 //
 
 import LGCoreKit
+import AVFoundation
 
 struct Constants {
     // Input validation
@@ -95,7 +96,15 @@ struct Constants {
     static let currencyDefault = "US"
     static let defaultPrice: ListingPrice = .normal(0)
     static let sizeSquareMetersUnit: String = "㎡"
+
+    // Camera
     static let videoFileExtension: String = "mp4"
+    static let videoSettings: [String: Any] = [
+        AVVideoCodecKey: AVVideoCodecH264,
+        AVVideoWidthKey: 480,
+        AVVideoHeightKey: 640,
+        AVVideoScalingModeKey: AVVideoScalingModeResizeAspectFill
+    ];
 
     // Messages retrieving
     static let numMessagesPerPage = 40
