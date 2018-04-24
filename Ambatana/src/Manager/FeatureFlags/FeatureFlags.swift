@@ -90,10 +90,12 @@ protocol FeatureFlaggeable: class {
     var copyForChatNowInTurkey: CopyForChatNowInTurkey { get }
     var shareTypes: [ShareType] { get }
     var feedAdsProviderForUS:  FeedAdsProviderForUS { get }
-    var feedMoPubAdUnitId: String? { get }
+    var feedAdUnitId: String? { get }
     var shouldChangeChatNowCopyInEnglish: Bool { get }
     var copyForChatNowInEnglish: CopyForChatNowInEnglish { get }
     var feedAdsProviderForTR:  FeedAdsProviderForTR { get }
+    var shouldChangeSellFasterNowCopyInEnglish: Bool { get }
+    var copyForSellFasterNowInEnglish: CopyForSellFasterNowInEnglish { get }
     
 }
 
@@ -311,10 +313,10 @@ extension ShowPasswordlessLogin{
 
 extension FeedAdsProviderForUS {
     private var shouldShowAdsInFeedForNewUsers: Bool {
-        return self == .moPubAdsForAllUsers
+        return self == .moPubAdsForAllUsers || self == .googleAdxForAllUsers
     }
     private var shouldShowAdsInFeedForOldUsers: Bool {
-        return self == .moPubAdsForOldUsers || self == .moPubAdsForAllUsers
+        return self == .moPubAdsForOldUsers || self == .moPubAdsForAllUsers || self == .googleAdxForOldUsers || self == .googleAdxForAllUsers
     }
     
     var shouldShowAdsInFeed: Bool {
@@ -323,6 +325,10 @@ extension FeedAdsProviderForUS {
     
     var shouldShowMoPubAds : Bool {
         return self == .moPubAdsForOldUsers || self == .moPubAdsForAllUsers
+    }
+    
+    var shouldShowGoogleAdxAds : Bool {
+        return self == .googleAdxForOldUsers || self == .googleAdxForAllUsers
     }
     
     func shouldShowAdsInFeedForUser(createdIn: Date?) -> Bool {
@@ -382,6 +388,25 @@ extension CopyForChatNowInEnglish {
             return LGLocalizedString.bumpUpProductCellChatNowButtonEnglishD
         }
         } }
+}
+
+extension CopyForSellFasterNowInEnglish {
+    var isActive: Bool { return self != .control && self != .baseline }
+    
+    var variantString: String {
+        switch self {
+        case .control:
+            return LGLocalizedString.bumpUpBannerPayTextImprovement
+        case .baseline:
+            return LGLocalizedString.bumpUpBannerPayTextImprovementEnglishA
+        case .variantB:
+            return LGLocalizedString.bumpUpBannerPayTextImprovementEnglishB
+        case .variantC:
+            return LGLocalizedString.bumpUpBannerPayTextImprovementEnglishC
+        case .variantD:
+            return LGLocalizedString.bumpUpBannerPayTextImprovementEnglishD
+        }
+    }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -940,7 +965,7 @@ class FeatureFlags: FeatureFlaggeable {
         return FeedAdsProviderForUS.fromPosition(abTests.feedAdsProviderForUS.value)
     }
     
-    var feedMoPubAdUnitId: String? {
+    var feedAdUnitId: String? {
         if Bumper.enabled {
             // Bumper overrides country restriction
             switch feedAdsProviderForUS {
@@ -948,6 +973,10 @@ class FeatureFlags: FeatureFlaggeable {
                 return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubUSAForAllUsers
             case .moPubAdsForOldUsers:
                 return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubUSAForOldUsers
+            case .googleAdxForAllUsers:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxUSAForAllUsers
+            case .googleAdxForOldUsers:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxUSAForOldUsers
             default:
                 switch feedAdsProviderForTR {
                 case .moPubAdsForAllUsers:
@@ -966,6 +995,10 @@ class FeatureFlags: FeatureFlaggeable {
                 return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubUSAForAllUsers
             case .moPubAdsForOldUsers:
                 return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubUSAForOldUsers
+            case .googleAdxForAllUsers:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxUSAForAllUsers
+            case .googleAdxForOldUsers:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxUSAForOldUsers
             default:
                 return nil
             }
@@ -1017,6 +1050,26 @@ class FeatureFlags: FeatureFlaggeable {
         return ChatNorris.control
         // TODO: restore the ABTests code when BE part is working 👇
 //        return  ChatNorris.fromPosition(abTests.chatNorris.value)
+    }
+    
+    var shouldChangeSellFasterNowCopyInEnglish: Bool {
+        if Bumper.enabled {
+            return Bumper.copyForSellFasterNowInEnglish.isActive
+        }
+        switch (localeCountryCode) {
+        case .usa?:
+            return true
+        default:
+            return false
+        }
+    }
+    
+    var copyForSellFasterNowInEnglish: CopyForSellFasterNowInEnglish {
+        if Bumper.enabled {
+            return Bumper.copyForSellFasterNowInEnglish
+        }
+        return CopyForSellFasterNowInEnglish.fromPosition(abTests.copyForSellFasterNowInEnglish.value)
+        
     }
 
     

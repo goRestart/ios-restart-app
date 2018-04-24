@@ -43,6 +43,8 @@ class EscrowEnvironment: AppEnvironment {
     let feedAdUnitIdDFPUSA10Ratio = ""
     let feedAdUnitIdDFPUSA15Ratio = ""
     let feedAdUnitIdDFPUSA20Ratio = ""
+    var feedAdUnitIdAdxUSAForAllUsers = ""
+    var feedAdUnitIdAdxUSAForOldUsers = ""
     
     // MoPub Ads
     let feedAdUnitIdMoPubUSAForAllUsers = ""

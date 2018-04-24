@@ -576,7 +576,14 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
                 self.viewModel.updateAdvertisementRequestedIn(position: inPosition, moPubNativeAd: nativeAd, moPubView: moPubView)
             })
             break
-        case .collectionCell, .emptyCell, .listingCell, .mostSearchedItems, .promo:        
+        case .adxAdvertisement(let data):
+            guard !data.adRequested else { return }
+            let adLoader = data.adLoader
+            adLoader.delegate = self
+            adLoader.position = data.adPosition
+            adLoader.load(GADRequest())
+            break
+        case .collectionCell, .emptyCell, .listingCell, .mostSearchedItems, .promo:
             break
         }
     }
@@ -661,6 +668,60 @@ extension ListingListView: MPNativeAdDelegate {
     }
     
 }
+
+// MARK: - GADNativeContentAdLoaderDelegate
+extension ListingListView: GADNativeContentAdLoaderDelegate, GADAdLoaderDelegate, GADNativeAdDelegate {
+    public func adLoader(_ adLoader: GADAdLoader, didReceive nativeContentAd: GADNativeContentAd) {
+        nativeContentAd.delegate = self
+        guard let position = adLoader.position else { return }
+        nativeContentAd.position = position
+        let contentAdView = Bundle.main.loadNibNamed("GoogleAdxNativeView", owner: nil, options: nil)?.first as! GoogleAdxNativeView
+        viewModel.updateAdvertisementRequestedIn(position: position, nativeContentAd: nativeContentAd, contentAdView: contentAdView)
+    }
+    
+    public func adLoader(_ adLoader: GADAdLoader, didFailToReceiveAdWithError error: GADRequestError) {
+        logMessage(.info, type: .monetization, message: "Google Adx failed with error: \(error.localizedDescription)")
+    }
+
+    public func nativeAdWillLeaveApplication(_ nativeAd: GADNativeAd) {
+        guard let position = nativeAd.position else { return }
+        let feedPosition: EventParameterFeedPosition = .position(index: position)
+        viewModel.bannerWasTapped(adType: .adx,
+                                  willLeaveApp: .trueParameter,
+                                  categories: viewModel.categoriesForBannerIn(position: position),
+                                  feedPosition: feedPosition)
+    }
+    
+}
+
+extension GADAdLoader {
+    var position: Int? {
+        get  {
+            guard let accessibilityValue = accessibilityValue else { return -1 }
+            return Int(accessibilityValue)
+        }
+        
+        set (newPosition) {
+            guard let newPosition = newPosition else { return }
+            accessibilityValue = newPosition.description
+        }
+    }
+}
+
+extension GADNativeAd {
+    var position: Int? {
+        get  {
+            guard let accessibilityValue = accessibilityValue else { return -1 }
+            return Int(accessibilityValue)
+        }
+        
+        set (newPosition) {
+            guard let newPosition = newPosition else { return }
+            accessibilityValue = newPosition.description
+        }
+    }
+}
+
 
 extension ListingListView {
     var errorContentView: UIView { return errorView.containerView }

@@ -22,6 +22,7 @@ struct MoneyABGroup: ABGroupType {
         static let feedAdsProviderForTR = "20180405FeedAdsProviderForTR"
         static let bumpUpBoost = "20180314bumpUpBoost"
         static let showExactLocationForPros = "20180413ShowExactLocationForPros"
+        static let copyForSellFasterNowInEnglish = "20180420CopyForSellFasterNowInEnglish"
     }
     let increaseMinPriceBumps: LeanplumABVariable<Int>
     let noAdsInFeedForNewUsers: LeanplumABVariable<Int>
@@ -35,6 +36,7 @@ struct MoneyABGroup: ABGroupType {
     let feedAdsProviderForTR: LeanplumABVariable<Int>
     let bumpUpBoost: LeanplumABVariable<Int>
     let showExactLocationForPros: LeanplumABVariable<Bool>
+    let copyForSellFasterNowInEnglish: LeanplumABVariable<Int>
 
     let group: ABGroup = .money
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -53,7 +55,8 @@ struct MoneyABGroup: ABGroupType {
          copyForChatNowInEnglish: LeanplumABVariable<Int>,
          feedAdsProviderForTR: LeanplumABVariable<Int>,
          bumpUpBoost: LeanplumABVariable<Int>,
-         showExactLocationForPros: LeanplumABVariable<Bool>) {
+         showExactLocationForPros: LeanplumABVariable<Bool>,
+         copyForSellFasterNowInEnglish: LeanplumABVariable<Int>){
         self.increaseMinPriceBumps = increaseMinPriceBumps
         self.noAdsInFeedForNewUsers = noAdsInFeedForNewUsers
         self.showBumpUpBannerOnNotValidatedListings = showBumpUpBannerOnNotValidatedListings
@@ -66,6 +69,7 @@ struct MoneyABGroup: ABGroupType {
         self.feedAdsProviderForTR = feedAdsProviderForTR
         self.bumpUpBoost = bumpUpBoost
         self.showExactLocationForPros = showExactLocationForPros
+        self.copyForSellFasterNowInEnglish = copyForSellFasterNowInEnglish
 
         intVariables.append(contentsOf: [increaseMinPriceBumps,
                                          noAdsInFeedForNewUsers,
@@ -76,7 +80,8 @@ struct MoneyABGroup: ABGroupType {
                                          feedAdsProviderForUS,
                                          copyForChatNowInEnglish,
                                          feedAdsProviderForTR,
-                                         bumpUpBoost])
+                                         bumpUpBoost,
+                                         copyForSellFasterNowInEnglish])
         boolVariables.append(contentsOf: [showProTagUserProfile,
                                           showExactLocationForPros])
     }
@@ -115,7 +120,10 @@ struct MoneyABGroup: ABGroupType {
                                                            groupType: .money),
                             showExactLocationForPros: .makeBool(key: Keys.showExactLocationForPros,
                                                                 defaultValue: true,
-                                                                groupType: .money))
+                                                                groupType: .money),
+                            copyForSellFasterNowInEnglish: .makeInt(key: Keys.copyForSellFasterNowInEnglish,
+                                                                    defaultValue: 0,
+                                                                    groupType: .money))
         
     }
 }
