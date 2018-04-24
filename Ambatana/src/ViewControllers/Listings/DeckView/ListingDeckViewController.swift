@@ -411,13 +411,7 @@ extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCard
     }
 
     func cardViewDidScroll(_ cardView: ListingCardView, contentOffset: CGFloat) {
-        print(contentOffset)
-        let alpha: CGFloat
-        if contentOffset > Metrics.margin {
-            alpha = 0
-        } else {
-            alpha = 1
-        }
+        let alpha: CGFloat = contentOffset > Metrics.margin ? 0 : 1
         animatePlayButton(withAlpha: alpha)
     }
 
