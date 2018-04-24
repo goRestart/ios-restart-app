@@ -158,7 +158,7 @@ final class LGCamera: Camera {
         }
     }
 
-    public func startRecordingVideo(completion: @escaping CameraRecordingVideoCompletion) {
+    public func startRecordingVideo(maxRecordingDuration: TimeInterval, completion: @escaping CameraRecordingVideoCompletion) {
 
         let outputFileName = NSUUID().uuidString
         let outputFilePath = (NSTemporaryDirectory() as NSString).appendingPathComponent((outputFileName as NSString).appendingPathExtension("mp4")!)
@@ -167,7 +167,7 @@ final class LGCamera: Camera {
         let videoOrientation = AVCaptureVideoOrientation(deviceOrientation: motionDeviceOrientation.orientation) ?? .portrait
 
         sessionQueue.async {
-            self.videoRecorder.startRecording(fileUrl: fileUrl, orientation: videoOrientation, completion: completion)
+            self.videoRecorder.startRecording(maxRecordingDuration: maxRecordingDuration, fileUrl: fileUrl, orientation: videoOrientation, completion: completion)
         }
     }
 
@@ -477,16 +477,16 @@ class VideoRecorder : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     private var videoInput: AVAssetWriterInput?
     private var completion: CameraRecordingVideoCompletion?
     private var startRecordingTime: CMTime?
-    private let maxRecordingDuration: TimeInterval = 15 //TODO: Should be a startRecording param
+    private var maxRecordingDuration: TimeInterval = 15
     private(set) var isRecording: Bool = false
 
-    public func startRecording(fileUrl: URL, orientation: AVCaptureVideoOrientation, completion: @escaping CameraRecordingVideoCompletion) {
+    public func startRecording(maxRecordingDuration: TimeInterval, fileUrl: URL, orientation: AVCaptureVideoOrientation, completion: @escaping CameraRecordingVideoCompletion) {
         guard let connection = videoOutput.connection(with: .video), connection.isActive else {
             completion(CameraRecordingVideoResult(error: .internalError(message: "")))
             return
         }
         isRecording = true
-
+        self.maxRecordingDuration = maxRecordingDuration
         connection.videoOrientation = orientation
 
         if FileManager.default.fileExists(atPath: fileUrl.path) {

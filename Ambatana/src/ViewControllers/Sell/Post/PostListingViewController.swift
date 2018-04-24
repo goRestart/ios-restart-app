@@ -192,14 +192,11 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         galleryView.postButtonPressed()
     }
 
-    @objc func cameraButtonPressed() {
+    @objc func cameraButtonTouchDown() {
         if viewPager.currentPage == Tab.camera.index {
-            if self.viewModel.postListingCameraViewModel.cameraMode.value == .video {
-                cameraView.recordVideo(maxDuration: PostListingViewModel.videoMaxDuration)
-                footer.startRecording()
-            } else {
-                cameraView.takePhoto()
-            }
+            guard self.viewModel.postListingCameraViewModel.cameraMode.value == .video else { return }
+            footer.startRecording()
+            cameraView.recordVideo(maxDuration: PostListingViewModel.videoMaxDuration)
         } else {
             viewPager.selectTabAtIndex(Tab.camera.index, animated: true)
         }
@@ -415,7 +412,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         }).disposed(by: disposeBag)
 
         footer.cameraButton.rx.controlEvent(.touchDown).asDriver().drive(onNext: { [weak self] (_) in
-            self?.cameraButtonPressed()
+            self?.cameraButtonTouchDown()
         }).disposed(by: disposeBag)
 
         footer.photoButton.rx.controlEvent(.touchUpInside).asDriver().drive(onNext: { [weak self] (_) in

@@ -1486,18 +1486,26 @@ extension ListingViewModel {
     var isFavoritable: Bool { return !isMine }
 }
 
+struct PhotoViewerDisplayItem: PhotoViewerDisplayable {
+    let listing: Listing
+    let media: [Media]
+    let isMine: Bool
+    let isPlayable: Bool
+    let isChatEnabled: Bool
+}
+
 extension ListingViewModel {
-    func makeDisplayable() -> PhotoViewerDisplayable {
-        return PhotoViewerDisplayable(listing: listing.value,
+    func makeDisplayable() -> PhotoViewerDisplayItem {
+        return PhotoViewerDisplayItem(listing: listing.value,
                                       media: productMedia.value,
                                       isMine: isMine,
                                       isPlayable: isPlayable,
                                       isChatEnabled: !isMine)
     }
 
-    func makeDisplable(forMediaAt index: Int) -> PhotoViewerDisplayable? {
+    func makeDisplable(forMediaAt index: Int) -> PhotoViewerDisplayItem? {
         guard 0..<productMedia.value.count ~= index else { return nil }
-        return PhotoViewerDisplayable(listing: listing.value,
+        return PhotoViewerDisplayItem(listing: listing.value,
                                       media: [productMedia.value[index]],
                                       isMine: isMine,
                                       isPlayable: isPlayable,

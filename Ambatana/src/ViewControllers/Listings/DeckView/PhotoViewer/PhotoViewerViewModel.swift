@@ -10,12 +10,12 @@ import Foundation
 import LGCoreKit
 import RxSwift
 
-struct PhotoViewerDisplayable {
-    let listing: Listing
-    let media: [Media]
-    let isMine: Bool
-    let isPlayable: Bool
-    let isChatEnabled: Bool
+protocol PhotoViewerDisplayable {
+    var listing: Listing { get }
+    var media: [Media] { get }
+    var isMine: Bool { get }
+    var isPlayable: Bool { get }
+    var isChatEnabled: Bool { get }
 }
 
 final class PhotoViewerViewModel: BaseViewModel {
