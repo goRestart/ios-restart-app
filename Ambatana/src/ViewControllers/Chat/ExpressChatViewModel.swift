@@ -183,11 +183,12 @@ extension ExpressChatViewModel {
                                               freePostingModeAllowed: freePostingModeAllowed,
                                               containsEmoji: containsEmoji,
                                               error: nil) else { return }
+        let containsVideo = EventParameterBoolean(bool: listing.containsVideo())
         if shouldSendAskQuestion {
             tracker.trackEvent(TrackerEvent.firstMessage(info: info,
                                                          listingVisitSource: .unknown,
                                                          feedPosition: .none,
-                                                         containsVideo: .notAvailable))
+                                                         containsVideo: containsVideo))
         }
         tracker.trackEvent(TrackerEvent.userMessageSent(info: info))
     }
@@ -208,14 +209,12 @@ extension ExpressChatViewModel {
                                              freePostingModeAllowed: Bool,
                                              containsEmoji: Bool,
                                              error: RepositoryError?) -> SendMessageTrackingInfo? {
-        let containsVideo = EventParameterBoolean(bool: listing.containsVideo())
         let sendMessageInfo = SendMessageTrackingInfo()
             .set(listing: listing, freePostingModeAllowed: freePostingModeAllowed)
             .set(messageType: .text)
             .set(quickAnswerType: nil)
             .set(typePage: .expressChat)
             .set(isBumpedUp: .falseParameter)
-            .set(isVideo: containsVideo)
             .set(containsEmoji: containsEmoji)
 
         if let error = error {
