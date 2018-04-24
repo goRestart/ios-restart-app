@@ -351,7 +351,7 @@ class PostListingState {
 
     
     func updating(uploadError: RepositoryError) -> PostListingState {
-        guard step == .uploadingImage, step == .addingDetails else { return self }
+        guard step == .uploadingImage else { return self }
         let message: String
         switch uploadError {
         case .internalError, .unauthorized, .notFound, .forbidden, .tooManyRequests, .userNotVerified, .serverError, .wsChatError:
