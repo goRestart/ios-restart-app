@@ -105,12 +105,6 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        // TODO: New camera library preview layer uses autolayout
-//        cameraWrapper.addPreviewLayerTo(view: cameraView)
-    }
-
     // MARK: - Public methods
 
     override func didBecomeActive(_ firstTime: Bool) {
