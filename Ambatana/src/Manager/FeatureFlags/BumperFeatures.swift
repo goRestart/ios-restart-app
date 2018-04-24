@@ -65,6 +65,7 @@ extension Bumper  {
         flags.append(ShowExactLocationForPros.self)
         flags.append(ShowPasswordlessLogin.self)
         flags.append(CopyForSellFasterNowInEnglish.self)
+        flags.append(CreateUpdateCarsIntoNewBackend.self)
         Bumper.initialize(flags)
     } 
 
@@ -325,7 +326,12 @@ extension Bumper  {
 
     static var copyForSellFasterNowInEnglish: CopyForSellFasterNowInEnglish {
         guard let value = Bumper.value(for: CopyForSellFasterNowInEnglish.key) else { return .control }
-        return CopyForSellFasterNowInEnglish(rawValue: value) ?? .control 
+        return CopyForSellFasterNowInEnglish(rawValue: value) ?? .control
+    }
+
+    static var createUpdateCarsIntoNewBackend: CreateUpdateCarsIntoNewBackend {
+        guard let value = Bumper.value(for: CreateUpdateCarsIntoNewBackend.key) else { return .control }
+        return CreateUpdateCarsIntoNewBackend(rawValue: value) ?? .control
     } 
 }
 
@@ -1124,11 +1130,27 @@ enum CopyForSellFasterNowInEnglish: String, BumperFeature  {
     static var description: String { return "Try different copies for 'Sell faster now' banner in English" } 
     static func fromPosition(_ position: Int) -> CopyForSellFasterNowInEnglish {
         switch position { 
+        case 0: return .control
+        case 1: return .baseline
+        case 2: return .variantB
+        case 3: return .variantC
+        case 4: return .variantD
+        default: return .control
+        }
+    }
+}
+
+enum CreateUpdateCarsIntoNewBackend: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return CreateUpdateCarsIntoNewBackend.control.rawValue }
+    static var enumValues: [CreateUpdateCarsIntoNewBackend] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Create/Update cars into the new endpoint" } 
+    static func fromPosition(_ position: Int) -> CreateUpdateCarsIntoNewBackend {
+        switch position { 
             case 0: return .control
             case 1: return .baseline
-            case 2: return .variantB
-            case 3: return .variantC
-            case 4: return .variantD
+            case 2: return .active
             default: return .control
         }
     }
