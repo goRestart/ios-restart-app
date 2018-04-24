@@ -127,7 +127,7 @@ final class LGCamera: Camera {
 
     func capturePhoto(completion: @escaping CameraPhotoCompletion) {
         guard session.outputs.contains(capturePhotoOutput) else {
-            completion(CameraPhotoResult(error: .internalError(message: "")))
+            completion(CameraPhotoResult(error: .internalError(message: "Trying to capture photo without AVCaptureOutput")))
             return
         }
 
@@ -135,18 +135,14 @@ final class LGCamera: Camera {
         let deviceOrientation = motionDeviceOrientation.orientation
         capturePhotoOutput.capturePhoto(settings: settings, captureAnimation: { [weak self] in
 
-            UIView.animate(withDuration: 0.3, animations: {
+            UIView.animate(withDuration: 0.2, animations: {
                 self?.previewView.alpha = 0.0
             }, completion: { (finished) in
                 self?.previewView.alpha = 1.0
             })
 
         }) { [weak self] result in
-            guard let strongSelf = self else {
-                completion(CameraPhotoResult(error: .internalError(message: "")))
-                return
-            }
-
+            guard let strongSelf = self else { return }
             if var image = result.value {
                 image = strongSelf.processPhotoImage(image: image,
                                                deviceOrientation: deviceOrientation,
@@ -359,7 +355,7 @@ private final class LGCaptureStillImageOutput: AVCaptureStillImageOutput, Captur
                       captureAnimation: @escaping () -> Void,
                       completion: @escaping CameraPhotoCompletion) {
         guard let connection = connection(with: .video) else {
-            completion(CameraPhotoResult(error: .internalError(message: "")))
+            completion(CameraPhotoResult(error: .internalError(message: "Trying to capture photo without AVCaptureConnection")))
             return
         }
         captureStillImageAsynchronously(from: connection, completionHandler: { (sample, error) in
@@ -369,12 +365,12 @@ private final class LGCaptureStillImageOutput: AVCaptureStillImageOutput, Captur
                 if let image = UIImage(data: imageData) {
                     result = CameraPhotoResult(value: image)
                 } else {
-                    result = CameraPhotoResult(error: .internalError(message: ""))
+                    result = CameraPhotoResult(error: .internalError(message: "Error creating UIImage from capture image data"))
                 }
             } else if let error = error {
                 result = CameraPhotoResult(error: .frameworkError(error: error))
             } else {
-                result = CameraPhotoResult(error: .internalError(message: ""))
+                result = CameraPhotoResult(error: .internalError(message: "Still image capture completion without image or error"))
             }
             DispatchQueue.main.async {
                 captureAnimation()
@@ -447,7 +443,7 @@ class PhotoCaptureProcessor: NSObject, AVCapturePhotoCaptureDelegate {
             } else if let photo = self.photo {
                 self.completionHandler(CameraPhotoResult(value: photo))
             } else {
-                self.completionHandler(CameraPhotoResult(error: .internalError(message: "")))
+                self.completionHandler(CameraPhotoResult(error: .internalError(message: "Still image capture completion without image or error")))
             }
         }
     }
@@ -480,7 +476,7 @@ class VideoRecorder : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
 
     public func startRecording(maxRecordingDuration: TimeInterval, fileUrl: URL, orientation: AVCaptureVideoOrientation, completion: @escaping CameraRecordingVideoCompletion) {
         guard let connection = videoOutput.connection(with: .video), connection.isActive else {
-            completion(CameraRecordingVideoResult(error: .internalError(message: "")))
+            completion(CameraRecordingVideoResult(error: .internalError(message: "Trying to record video without AVCaptureConnection")))
             return
         }
         isRecording = true
@@ -522,7 +518,7 @@ class VideoRecorder : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
 
         if fileWriter.status == .failed {
             DispatchQueue.main.async {
-                completion(CameraRecordingVideoResult(error: .internalError(message: "")))
+                completion(CameraRecordingVideoResult(error: .internalError(message: "Video file writer error")))
             }
         } else {
             fileWriter.finishWriting {
