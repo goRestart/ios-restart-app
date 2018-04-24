@@ -678,10 +678,15 @@
 "product_popular_near_you" = "Популярное рядом с вами";
 "product_post_camera_first_time_alert_subtitle" = "Сделайте хорошее фото и получите деньги!";
 "product_post_camera_first_time_alert_title" = "Что вы продаете?";
+"product_post_camera_gallery_text_button" = "ГАЛЕРЕЯ";
 "product_post_camera_permissions_button" = "Разрешить";
 "product_post_camera_permissions_subtitle" = "Чтобы сделать фото, разрешите доступ к Камере";
 "product_post_camera_permissions_title" = "Разрешить доступ к Камере";
+"product_post_camera_photo_mode_button" = "ФОТО";
 "product_post_camera_tab_v2" = "КАМЕРА";
+"product_post_camera_video_mode_button" = "ВИДЕО";
+"product_post_camera_video_recording_tooltip" = "%@, чтобы снять видео";
+"product_post_camera_video_recording_tooltip_highlighted_word" = "Зажмите";
 "product_post_close_alert_close_button" = "Отмена";
 "product_post_close_alert_description" = "Все еще хотите разместить товар на продажу?";
 "product_post_close_alert_ok_button" = "Опубликовать объявление";

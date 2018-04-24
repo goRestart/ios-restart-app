@@ -678,10 +678,15 @@
 "product_popular_near_you" = "근처에 인기있는 상품";
 "product_post_camera_first_time_alert_subtitle" = "훌륭한 사진을 찍고 현금을 벌어보세요!";
 "product_post_camera_first_time_alert_title" = "무엇을 판매하세요?";
+"product_post_camera_gallery_text_button" = "갤러리";
 "product_post_camera_permissions_button" = "허가";
 "product_post_camera_permissions_subtitle" = "사진을 촬영하기 위해서는, 사진 활용에 대한 접근을 허가해주셔야합니다";
 "product_post_camera_permissions_title" = "카메라 접근 허가하기";
+"product_post_camera_photo_mode_button" = "사진";
 "product_post_camera_tab_v2" = "카메라";
+"product_post_camera_video_mode_button" = "비디오";
+"product_post_camera_video_recording_tooltip" = "비디오를 녹화하기 위해 %@ 사용";
+"product_post_camera_video_recording_tooltip_highlighted_word" = "멈춤";
 "product_post_close_alert_close_button" = "삭제하기";
 "product_post_close_alert_description" = "여전히 판매를 원하시나요?";
 "product_post_close_alert_ok_button" = "상품 게시글 등록";

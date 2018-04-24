@@ -678,10 +678,15 @@
 "product_popular_near_you" = "Suosittuja lähelläsi";
 "product_post_camera_first_time_alert_subtitle" = "Nappaa hyvä kuva ja ala tienata!";
 "product_post_camera_first_time_alert_title" = "Mitä olet myymässä?";
+"product_post_camera_gallery_text_button" = "GALLERIA";
 "product_post_camera_permissions_button" = "Salli";
 "product_post_camera_permissions_subtitle" = "Ottaaksesi kuvan, sinun on annettava lupa käyttää kameraa";
 "product_post_camera_permissions_title" = "Salli kameran käyttö";
+"product_post_camera_photo_mode_button" = "KUVA";
 "product_post_camera_tab_v2" = "KAMERA";
+"product_post_camera_video_mode_button" = "VIDEO";
+"product_post_camera_video_recording_tooltip" = "%@ kuvataksesi videon";
+"product_post_camera_video_recording_tooltip_highlighted_word" = "Pidä pohjassa";
 "product_post_close_alert_close_button" = "Hylkää";
 "product_post_close_alert_description" = "Haluatko silti laittaa tuotteen myyntiin?";
 "product_post_close_alert_ok_button" = "Julkaise ilmoitus";
