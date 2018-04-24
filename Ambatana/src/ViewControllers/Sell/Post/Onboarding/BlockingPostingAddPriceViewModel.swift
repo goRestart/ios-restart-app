@@ -20,6 +20,7 @@ class BlockingPostingAddPriceViewModel: BaseViewModel {
     private let listing: Listing
     private let images: [UIImage]
     private let imageSource: EventParameterPictureSource
+    private let videoLength: TimeInterval?
     private let postingSource: PostingSource
     private let priceListing = Variable<ListingPrice>(Constants.defaultPrice)
     
@@ -38,6 +39,7 @@ class BlockingPostingAddPriceViewModel: BaseViewModel {
     convenience init(listing: Listing,
                      images: [UIImage],
                      imageSource: EventParameterPictureSource,
+                     videoLength: TimeInterval?,
                      postingSource: PostingSource) {
         self.init(listingRepository: Core.listingRepository,
                   locationManager: Core.locationManager,
@@ -46,6 +48,7 @@ class BlockingPostingAddPriceViewModel: BaseViewModel {
                   listing: listing,
                   images: images,
                   imageSource: imageSource,
+                  videoLength: videoLength,
                   postingSource: postingSource)
     }
     
@@ -56,6 +59,7 @@ class BlockingPostingAddPriceViewModel: BaseViewModel {
          listing: Listing,
          images: [UIImage],
          imageSource: EventParameterPictureSource,
+         videoLength: TimeInterval?,
          postingSource: PostingSource) {
         self.listingRepository = listingRepository
         self.locationManager = locationManager
@@ -64,6 +68,7 @@ class BlockingPostingAddPriceViewModel: BaseViewModel {
         self.listing = listing
         self.images = images
         self.imageSource = imageSource
+        self.videoLength = videoLength
         self.postingSource = postingSource
         super.init()
     }
@@ -87,6 +92,8 @@ class BlockingPostingAddPriceViewModel: BaseViewModel {
         if editParams.price != priceListing.value {
             editParams = editParams.updating(price: priceListing.value)
         }
-        navigator?.openListingEditionLoading(listingParams: editParams, listing: listing, images: images, imageSource: imageSource, postingSource: postingSource)
+        navigator?.openListingEditionLoading(listingParams: editParams, listing: listing, images: images,
+                                             imageSource: imageSource, videoLength: videoLength,
+                                             postingSource: postingSource)
     }
 }

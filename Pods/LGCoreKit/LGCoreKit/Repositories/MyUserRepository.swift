@@ -12,9 +12,6 @@ import RxSwift
 public typealias MyUserResult = Result<MyUser, RepositoryError>
 public typealias MyUserCompletion = (MyUserResult) -> Void
 
-public typealias MyUserVoidResult = Result<Void, RepositoryError>
-public typealias MyUserVoidCompletion = (MyUserVoidResult) -> Void
-
 public typealias MyUserReputationActionsResult = Result<[UserReputationAction], RepositoryError>
 public typealias MyUserReputationActionsCompletion = (MyUserReputationActionsResult) -> Void
 
@@ -109,21 +106,6 @@ public protocol MyUserRepository {
      - parameter completion: The completion closure
      */
     func retrieveUserReputationActions(_ completion: MyUserReputationActionsCompletion?)
-
-    /**
-     Requests an SMS code to be sent to the given phone prefix and number
-     - parameter prefix: phone prefix where sms the needs to be sent
-     - parameter phone: phone number where sms the needs to be sent
-     - parameter completion: the completion closure
-     */
-    func requestSMSCode(prefix: String, phone: String, completion: MyUserVoidCompletion?)
-
-    /**
-     Requests an SMS code to be sent to the given phone prefix and number
-     - parameter code: the code received by sms that needs to be validated
-     - parameter completion: the completion closure
-     */
-     func validateSMSCode(_ code: String, completion: MyUserVoidCompletion?)
 }
 
 
