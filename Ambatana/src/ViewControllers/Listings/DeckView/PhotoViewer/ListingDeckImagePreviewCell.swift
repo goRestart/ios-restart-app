@@ -15,7 +15,6 @@ final class ListingDeckImagePreviewCell: UICollectionViewCell, ReusableCell {
     private let blurred = UIImageView()
 
     private let zoomableImageView = ZoomableImageView()
-    private let previewImageView = UIImageView()
 
     var isZooming: Bool { return zoomableImageView.isZooming }
 
@@ -52,17 +51,6 @@ final class ListingDeckImagePreviewCell: UICollectionViewCell, ReusableCell {
 
     func resetZoom(animated: Bool = false) {
         zoomableImageView.resetZoom()
-    }
-
-    func populateWith(previewURL: URL) {
-        do {
-            let data = try Data(contentsOf: previewURL)
-            guard let image = UIImage(data: data) else { return }
-            setImage(image)
-        } catch _ {
-            // do nothing, know nothing
-
-        }
     }
 
     func setImage(_ image: UIImage) {

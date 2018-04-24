@@ -57,11 +57,11 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
     }
 
     private func setupChatbutton() {
-        chatButton.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(chatButton)
+        view.addSubviewForAutoLayout(chatButton)
 
         chatButton.layout(with: view)
-            .leadingMargin(by: Metrics.margin).bottomMargin(by: -Metrics.bigMargin)
+            .leadingMargin(by: Metrics.margin)
+            .bottomMargin(by: -Metrics.bigMargin)
 
         chatButton.addTarget(self, action: #selector(showChatFromButton), for: .touchUpInside)
         chatButton.isHidden = !viewModel.isChatEnabled
@@ -310,7 +310,7 @@ protocol PhotoViewerViewType: class {
     func register(_ cellClass: Swift.AnyClass?, forCellWithReuseIdentifier identifier: String)
 }
 
-class ChatButton: UIControl {
+final class ChatButton: UIControl {
 
     convenience init() {
         self.init(frame: .zero)
@@ -353,10 +353,9 @@ class ChatButton: UIControl {
         let stackView = UIStackView(arrangedSubviews: [imageView, label])
         stackView.isLayoutMarginsRelativeArrangement = true
         stackView.layoutMargins = UIEdgeInsets(top: 0, left: Metrics.margin, bottom: 0, right: Metrics.margin)
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.isUserInteractionEnabled = false
 
-        addSubview(stackView)
+        addSubviewForAutoLayout(stackView)
 
         stackView.axis = .horizontal
         stackView.spacing = Metrics.shortMargin
