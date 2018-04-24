@@ -201,6 +201,7 @@ private class PhotoViewerTransitionPresenter: PhotoViewerTransitionMode {
                                    relativeDuration: duration * 0.5,
                                    animations: {
                                     imageView.frame = fromView.bounds
+                                    imageView.cornerRadius = 0
                 })
                 UIView.addKeyframe(withRelativeStartTime: duration * 0.5,
                                    relativeDuration: duration * 0.5,

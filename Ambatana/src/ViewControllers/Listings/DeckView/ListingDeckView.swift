@@ -14,6 +14,10 @@ import RxCocoa
 
 final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewType {
     struct Layout {
+        static let playButtonEdges = UIEdgeInsets(top: Metrics.margin,
+                                                  left: 0,
+                                                  bottom: 0,
+                                                  right: 30)
         struct Height {
             static let previewFactor: CGFloat = 0.7
         }
@@ -106,10 +110,11 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
     private func setupPlayableButton() {
         addSubviewForAutoLayout(startPlayingButton)
         NSLayoutConstraint.activate([
-            startPlayingButton.centerXAnchor.constraint(equalTo: collectionView.centerXAnchor),
-            startPlayingButton.centerYAnchor.constraint(equalTo: collectionView.centerYAnchor,
-                                                        constant: -Metrics.veryBigMargin),
-            startPlayingButton.widthAnchor.constraint(equalToConstant: 60),
+            startPlayingButton.rightAnchor.constraint(equalTo: collectionView.rightAnchor,
+                                                      constant: -Layout.playButtonEdges.right),
+            startPlayingButton.topAnchor.constraint(equalTo: collectionView.topAnchor,
+                                                    constant: Layout.playButtonEdges.top),
+            startPlayingButton.widthAnchor.constraint(equalToConstant: 20),
             startPlayingButton.heightAnchor.constraint(equalTo: startPlayingButton.widthAnchor)
         ])
         startPlayingButton.addTarget(self, action: #selector(bouncePlayingButton), for: .touchUpInside)

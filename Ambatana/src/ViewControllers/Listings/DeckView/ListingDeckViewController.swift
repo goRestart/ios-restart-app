@@ -226,6 +226,7 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     func willBeginDragging() {
         lastPageBeforeDragging = listingDeckView.currentPage
         listingDeckView.bumpUpBanner.alphaAnimated(0)
+        animatePlayButton(withAlpha: 0)
     }
 
     func didMoveToItemAtIndex(_ index: Int) {
@@ -243,6 +244,7 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     func didEndDecelerating() {
         guard let cell = listingDeckView.cardAtIndex(viewModel.currentIndex) else { return }
         populateCell(cell)
+        animatePlayButton(withAlpha: viewModel.isPlayable ? 1 : 0)
     }
 
     private func populateCell(_ card: ListingCardView) {
@@ -297,7 +299,6 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
             actionsAlpha = 0
         }
 
-        listingDeckView.updatePlayButtonWith(alpha: isPlayable ? clippedAlpha : 0)
         listingDeckView.updatePrivateActionsWith(alpha: actionsAlpha)
         updateChatWith(alpha: chatAlpha)
     }
@@ -341,6 +342,12 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
             .visibleCells
             .filter { cell in return cell.tag == cardView.tag }
         return !filtered.isEmpty
+    }
+
+    private func animatePlayButton(withAlpha alpha: CGFloat) {
+        UIView.animate(withDuration: 0.3) {
+            self.listingDeckView.updatePlayButtonWith(alpha: alpha)
+        }
     }
 }
 
@@ -401,6 +408,17 @@ extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCard
         guard let cell = currentPageCell()  else { return }
         listingDeckView.collectionView.isScrollEnabled = true
         cell.hideFullMap()
+    }
+
+    func cardViewDidScroll(_ cardView: ListingCardView, contentOffset: CGFloat) {
+        print(contentOffset)
+        let alpha: CGFloat
+        if contentOffset > Metrics.margin {
+            alpha = 0
+        } else {
+            alpha = 1
+        }
+        animatePlayButton(withAlpha: alpha)
     }
 
     func cardViewDidTapOnStatusView(_ cardView: ListingCardView) {
