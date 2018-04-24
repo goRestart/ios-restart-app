@@ -152,6 +152,7 @@ extension ABTests {
     var feedAdsProviderForTR: LeanplumABVariable<Int> { return money.feedAdsProviderForTR }
     var bumpUpBoost: LeanplumABVariable<Int> { return money.bumpUpBoost }
     var showExactLocationForPros: LeanplumABVariable<Bool> { return money.showExactLocationForPros }
+    var copyForSellFasterNowInEnglish : LeanplumABVariable<Int> { return money.copyForSellFasterNowInEnglish }
 }
 
 //  MARK: Retention

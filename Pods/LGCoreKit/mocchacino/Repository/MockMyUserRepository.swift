@@ -2,9 +2,10 @@ import Result
 import RxSwift
 
 open class MockMyUserRepository: MyUserRepository {
-    public var result: MyUserResult!
     public var myUserVar = Variable<MyUser?>(nil)
 
+    public var result: MyUserResult!
+    public var resultVoid: MyUserVoidResult!
     public var resultActions: MyUserReputationActionsResult!
 
     
@@ -64,5 +65,13 @@ open class MockMyUserRepository: MyUserRepository {
 
     public func retrieveUserReputationActions(_ completion: MyUserReputationActionsCompletion?) {
         delay(result: resultActions, completion: completion)
+    }
+
+    public func requestSMSCode(prefix: String, phone: String, completion: MyUserVoidCompletion?) {
+        delay(result: resultVoid, completion: completion)
+    }
+
+    public func validateSMSCode(_ code: String, completion: MyUserVoidCompletion?) {
+        delay(result: resultVoid, completion: completion)
     }
 }

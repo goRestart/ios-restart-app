@@ -23,7 +23,7 @@ final class PromoCell: UICollectionViewCell, ReusableCell {
         stackView.axis = .vertical
         stackView.alignment = .center
         stackView.distribution = .fillProportionally
-        stackView.spacing = Metrics.bigMargin
+        stackView.spacing = Metrics.shortMargin
         return stackView
     }()
 
