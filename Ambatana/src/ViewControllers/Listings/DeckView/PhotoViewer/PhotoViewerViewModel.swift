@@ -24,31 +24,37 @@ final class PhotoViewerViewModel: BaseViewModel {
     var itemsCount: Int { return media.count }
 
     private var media: [Media] { return viewerDisplayable.listing.media }
+
     var navigator: PhotoViewerNavigator?
     private let tracker: Tracker
     private let source: EventParameterListingVisitSource
 
     private let viewerDisplayable: PhotoViewerDisplayable
+    private let featureFlags: FeatureFlags
 
     var isChatEnabled: Bool { return viewerDisplayable.isChatEnabled }
     var isPlayable: Bool { return viewerDisplayable.isPlayable }
+    var shouldShowVideos: Bool { return featureFlags.machineLearningMVP.isVideoPostingActive }
 
     convenience init(with viewerDisplayable: PhotoViewerDisplayable,
                      source: EventParameterListingVisitSource) {
         self.init(imageDownloader: ImageDownloader.sharedInstance,
                   viewerDisplayable: viewerDisplayable,
                   tracker: TrackerProxy.sharedInstance,
-                  source: source)
+                  source: source,
+                  featureFlags: FeatureFlags.sharedInstance)
     }
 
     init(imageDownloader: ImageDownloaderType,
          viewerDisplayable: PhotoViewerDisplayable,
          tracker: Tracker,
-         source: EventParameterListingVisitSource) {
+         source: EventParameterListingVisitSource,
+         featureFlags: FeatureFlags) {
         self.imageDownloader = imageDownloader
         self.source = source
         self.tracker = tracker
         self.viewerDisplayable = viewerDisplayable
+        self.featureFlags = featureFlags
         super.init()
     }
 
@@ -59,7 +65,8 @@ final class PhotoViewerViewModel: BaseViewModel {
     }
 
     func urlsAtIndex(_ index: Int) -> URL? {
-        return mediaAtIndex(index)?.outputs.imageThumbnail
+        guard let media = mediaAtIndex(index) else { return nil }
+        return media.outputs.imageThumbnail
     }
 
     func mediaAtIndexIsPlayable(_ index: Int) -> Bool {

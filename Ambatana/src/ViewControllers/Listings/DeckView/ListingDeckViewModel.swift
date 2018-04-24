@@ -65,6 +65,7 @@ final class ListingDeckViewModel: BaseViewModel {
     fileprivate var productsViewModels: [String: ListingViewModel] = [:]
     fileprivate let listingViewModelMaker: ListingViewModelMaker
     fileprivate let tracker: Tracker
+    private let featureFlags: FeatureFlags
 
     let actionOnFirstAppear: DeckActionOnFirstAppear
     let objects = CollectionVariable<ListingCellModel>([])
@@ -86,7 +87,8 @@ final class ListingDeckViewModel: BaseViewModel {
     weak var currentListingViewModel: ListingViewModel? {
         didSet { isMine.value = currentListingViewModel?.isMine ?? false }
     }
-    var isPlayable: Bool { return currentListingViewModel?.isPlayable ?? false }
+    var isPlayable: Bool { return shouldShowVideos && (currentListingViewModel?.isPlayable ?? false) }
+    private var shouldShowVideos: Bool { return featureFlags.machineLearningMVP.isVideoPostingActive }
 
     weak var navigator: ListingDetailNavigator? { didSet { currentListingViewModel?.navigator = navigator } }
     weak var deckNavigator: DeckNavigator?
@@ -129,7 +131,8 @@ final class ListingDeckViewModel: BaseViewModel {
                   tracker: TrackerProxy.sharedInstance,
                   actionOnFirstAppear: actionOnFirstAppear,
                   trackingIndex: trackingIndex,
-                  keyValueStorage: KeyValueStorage.sharedInstance)
+                  keyValueStorage: KeyValueStorage.sharedInstance,
+                  featureFlags: FeatureFlags.sharedInstance)
     }
 
     convenience init(listModels: [ListingCellModel],
@@ -160,7 +163,8 @@ final class ListingDeckViewModel: BaseViewModel {
                   tracker: TrackerProxy.sharedInstance,
                   actionOnFirstAppear: actionOnFirstAppear,
                   trackingIndex: trackingIndex,
-                  keyValueStorage: KeyValueStorage.sharedInstance)
+                  keyValueStorage: KeyValueStorage.sharedInstance,
+                  featureFlags: FeatureFlags.sharedInstance)
     }
 
     init(listModels: [ListingCellModel],
@@ -178,7 +182,8 @@ final class ListingDeckViewModel: BaseViewModel {
          tracker: Tracker,
          actionOnFirstAppear: DeckActionOnFirstAppear,
          trackingIndex: Int?,
-         keyValueStorage: KeyValueStorageable) {
+         keyValueStorage: KeyValueStorageable,
+         featureFlags: FeatureFlags) {
         self.imageDownloader = imageDownloader
         self.pagination = pagination
         self.prefetching = prefetching
@@ -192,7 +197,8 @@ final class ListingDeckViewModel: BaseViewModel {
         self.actionOnFirstAppear = actionOnFirstAppear
         self.trackingIndex = trackingIndex
         self.keyValueStorage = keyValueStorage
-        
+        self.featureFlags = featureFlags
+
         let filteredModels = listModels.filter(ListingDeckViewModel.isListable)
 
         if !filteredModels.isEmpty {
