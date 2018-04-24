@@ -342,11 +342,10 @@ extension PostListingCameraView {
     
     private func updateCamera() {
         if viewModel.active && viewModel.cameraState.value.captureMode {
-            if camera.isAttached {
-                camera.resume()
-            } else {
+            if !camera.isAttached {
                 camera.addPreviewLayerTo(view: cameraView)
             }
+            camera.resume()
             cameraView.isHidden = false
         } else {
             camera.pause()
