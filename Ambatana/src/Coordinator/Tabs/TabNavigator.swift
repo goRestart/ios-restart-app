@@ -102,6 +102,8 @@ protocol ListingDetailNavigator: TabNavigator {
                           withPhoneNum: String?,
                           source: EventParameterTypePage,
                           interlocutor: User?)
+
+    func openVideoPlayer(atIndex index: Int, listingVM: ListingViewModel, source: EventParameterListingVisitSource) 
 }
 
 protocol SimpleProductsNavigator: class {

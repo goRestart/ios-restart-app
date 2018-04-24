@@ -105,12 +105,6 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        // TODO: New camera library preview layer uses autolayout
-//        cameraWrapper.addPreviewLayerTo(view: cameraView)
-    }
-
     // MARK: - Public methods
 
     override func didBecomeActive(_ firstTime: Bool) {
@@ -161,7 +155,7 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
         guard recordVideoEnabled.value, camera.isReady else { return }
         recordVideoEnabled.value = false
         startListeningVideoDuration()
-        camera.startRecordingVideo { [weak self] result in
+        camera.startRecordingVideo(maxRecordingDuration: maxDuration) { [weak self] result in
             self?.stopListeningVideoDuration()
             if let recordedVideo = result.value, recordedVideo.duration > PostListingViewModel.videoMinDuration {
                 self?.viewModel.videoRecorded(recordedVideo)

@@ -49,8 +49,9 @@ final class PhotoViewerViewModelSpec: QuickSpec {
                 beforeEach {
                     let source: EventParameterListingVisitSource = .listingList
                     let viewModel = listingViewModelMaker.make(listing: listing, visitSource: source)
+                    let displayable = viewModel.makeDisplayable()
                     sut = PhotoViewerViewModel(imageDownloader: MockImageDownloader(),
-                                               listingViewModel: viewModel,
+                                               viewerDisplayable: displayable,
                                                tracker: tracker,
                                                source: source)
                 }
@@ -63,8 +64,9 @@ final class PhotoViewerViewModelSpec: QuickSpec {
                 beforeEach {
                     let source: EventParameterListingVisitSource = .listingList
                     let viewModel = listingViewModelMaker.make(listing: listing, visitSource: source)
+                    let displayable = viewModel.makeDisplayable()
                     sut = PhotoViewerViewModel(imageDownloader: MockImageDownloader(),
-                                               listingViewModel: viewModel,
+                                               viewerDisplayable: displayable,
                                                tracker: tracker,
                                                source: source)
                     sut.active = true
@@ -78,8 +80,9 @@ final class PhotoViewerViewModelSpec: QuickSpec {
                 beforeEach {
                     let source: EventParameterListingVisitSource = .listingList
                     let viewModel = listingViewModelMaker.make(listing: listing, visitSource: source)
+                    let displayable = viewModel.makeDisplayable()
                     sut = PhotoViewerViewModel(imageDownloader: MockImageDownloader(),
-                                               listingViewModel: viewModel,
+                                               viewerDisplayable: displayable,
                                                tracker: tracker,
                                                source: source)
                     sut.active = true
@@ -94,8 +97,9 @@ final class PhotoViewerViewModelSpec: QuickSpec {
                 beforeEach {
                     let source: EventParameterListingVisitSource = .listingList
                     let viewModel = listingViewModelMaker.make(listing: listing, visitSource: source)
+                    let displayable = viewModel.makeDisplayable()
                     sut = PhotoViewerViewModel(imageDownloader: MockImageDownloader(),
-                                               listingViewModel: viewModel,
+                                               viewerDisplayable: displayable,
                                                tracker: tracker,
                                                source: source)
                     sut.didOpenChat()

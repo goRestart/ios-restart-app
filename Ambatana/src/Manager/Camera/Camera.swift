@@ -49,7 +49,7 @@ protocol Camera {
     func resume()
     func addPreviewLayerTo(view: UIView)
     func capturePhoto(completion: @escaping CameraPhotoCompletion)
-    func startRecordingVideo(completion: @escaping CameraRecordingVideoCompletion)
+    func startRecordingVideo(maxRecordingDuration: TimeInterval, completion: @escaping CameraRecordingVideoCompletion)
     func stopRecordingVideo()
     func startForwardingPixelBuffers(to delegate: VideoOutputDelegate, pixelsBuffersToForwardPerSecond: Int)
     func stopForwardingPixelBuffers()
