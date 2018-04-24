@@ -64,8 +64,6 @@ protocol FeatureFlaggeable: class {
     var servicesCategoryEnabled: ServicesCategoryEnabled { get }
     var increaseNumberOfPictures: IncreaseNumberOfPictures { get }
     var realEstateTutorial: RealEstateTutorial { get }
-    var realEstatePromoCell: RealEstatePromoCell { get }
-    var filterSearchCarSellerType: FilterSearchCarSellerType { get }
     var machineLearningMVP: MachineLearningMVP { get }
     var chatNorris: ChatNorris { get }
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings { get }
@@ -73,7 +71,7 @@ protocol FeatureFlaggeable: class {
     var showProTagUserProfile: Bool { get }
     var summaryAsFirstStep: SummaryAsFirstStep { get }
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem { get }
-    var searchCarsIntoNewBackend: SearchCarsIntoNewBackend { get }
+    
     var showExactLocationForPros: Bool { get }
 
     // Country dependant features
@@ -96,6 +94,12 @@ protocol FeatureFlaggeable: class {
     var feedAdsProviderForTR:  FeedAdsProviderForTR { get }
     var shouldChangeSellFasterNowCopyInEnglish: Bool { get }
     var copyForSellFasterNowInEnglish: CopyForSellFasterNowInEnglish { get }
+    
+    //  MARK: Verticals
+    var searchCarsIntoNewBackend: SearchCarsIntoNewBackend { get }
+    var realEstatePromoCell: RealEstatePromoCell { get }
+    var filterSearchCarSellerType: FilterSearchCarSellerType { get }
+    var createUpdateIntoNewBackend: CreateUpdateCarsIntoNewBackend { get }
     
 }
 
@@ -289,6 +293,10 @@ extension FilterSearchCarSellerType {
     var isMultiselection: Bool {
         return self == .variantA || self == .variantB
     }
+}
+
+extension CreateUpdateCarsIntoNewBackend {
+    var isActive: Bool { return self != .baseline && self != .control }
 }
 
 extension MachineLearningMVP {
@@ -665,20 +673,6 @@ class FeatureFlags: FeatureFlaggeable {
         return RealEstateTutorial.fromPosition(abTests.realEstateTutorial.value)
     }
     
-    var realEstatePromoCell: RealEstatePromoCell {
-        if Bumper.enabled {
-            return Bumper.realEstatePromoCell
-        }
-        return RealEstatePromoCell.fromPosition(abTests.realEstatePromoCell.value)
-    }
-    
-    var filterSearchCarSellerType: FilterSearchCarSellerType {
-        if Bumper.enabled {
-            return Bumper.filterSearchCarSellerType
-        }
-        return FilterSearchCarSellerType.fromPosition(abTests.filterSearchCarSellerType.value)
-    }
-    
     var machineLearningMVP: MachineLearningMVP {
         if Bumper.enabled {
             return Bumper.machineLearningMVP
@@ -770,13 +764,6 @@ class FeatureFlags: FeatureFlaggeable {
         }
         let cached = dao.retrieveShowAdvanceReputationSystem()
         return cached ?? ShowAdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value)
-    }
-
-    var searchCarsIntoNewBackend: SearchCarsIntoNewBackend {
-        if Bumper.enabled {
-            return Bumper.searchCarsIntoNewBackend
-        }
-        return SearchCarsIntoNewBackend.fromPosition(abTests.searchCarsIntoNewBackend.value)
     }
 
     var showExactLocationForPros: Bool {
@@ -1087,5 +1074,38 @@ class FeatureFlags: FeatureFlaggeable {
     private var sensorLocationCountryCode: CountryCode? {
         guard let countryCode = locationManager.currentAutoLocation?.countryCode else { return nil }
         return CountryCode(string: countryCode)
+    }
+}
+
+// MARK: Verticals
+
+extension FeatureFlags {
+    
+    var searchCarsIntoNewBackend: SearchCarsIntoNewBackend {
+        if Bumper.enabled {
+            return Bumper.searchCarsIntoNewBackend
+        }
+        return SearchCarsIntoNewBackend.fromPosition(abTests.searchCarsIntoNewBackend.value)
+    }
+    
+    var realEstatePromoCell: RealEstatePromoCell {
+        if Bumper.enabled {
+            return Bumper.realEstatePromoCell
+        }
+        return RealEstatePromoCell.fromPosition(abTests.realEstatePromoCell.value)
+    }
+    
+    var filterSearchCarSellerType: FilterSearchCarSellerType {
+        if Bumper.enabled {
+            return Bumper.filterSearchCarSellerType
+        }
+        return FilterSearchCarSellerType.fromPosition(abTests.filterSearchCarSellerType.value)
+    }
+    
+    var createUpdateIntoNewBackend: CreateUpdateCarsIntoNewBackend {
+        if Bumper.enabled {
+            return Bumper.createUpdateCarsIntoNewBackend
+        }
+        return CreateUpdateCarsIntoNewBackend.fromPosition(abTests.createUpdateCarsIntoNewBackend.value)
     }
 }
