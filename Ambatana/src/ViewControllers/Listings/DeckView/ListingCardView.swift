@@ -16,6 +16,7 @@ protocol ListingCardViewDelegate: class {
     func cardViewDidTapOnStatusView(_ cardView: ListingCardView)
     func cardViewDidTapOnPreview(_ cardView: ListingCardView)
     func cardViewDidShowMoreInfo(_ cardView: ListingCardView)
+    func cardViewDidScroll(_ cardView: ListingCardView, contentOffset: CGFloat)
 }
 
 final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestureRecognizerDelegate, ReusableCell {
@@ -407,6 +408,8 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
             whiteGradient.alpha = abs(scrollView.contentOffset.y / scrollView.contentInset.top)
         }
         detailsView.isUserInteractionEnabled = !isPreviewVisible
+
+        delegate?.cardViewDidScroll(self, contentOffset: scrollView.contentOffset.y + scrollView.contentInset.top  )
     }
 
     private func setStickyHeaderOn() {

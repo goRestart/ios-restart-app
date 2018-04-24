@@ -86,6 +86,8 @@ final class ListingDeckViewModel: BaseViewModel {
     weak var currentListingViewModel: ListingViewModel? {
         didSet { isMine.value = currentListingViewModel?.isMine ?? false }
     }
+    var isPlayable: Bool { return currentListingViewModel?.isPlayable ?? false }
+
     weak var navigator: ListingDetailNavigator? { didSet { currentListingViewModel?.navigator = navigator } }
     weak var deckNavigator: DeckNavigator?
     var userHasScrolled: Bool = false
@@ -389,7 +391,10 @@ final class ListingDeckViewModel: BaseViewModel {
 
     func openPhotoViewer() {
         guard let listingViewModel = currentListingViewModel else { return }
+        // we will force index = 0 for now, but in the future we need to move to the exact position
+        // ABIOS-3981
         deckNavigator?.openPhotoViewer(listingViewModel: listingViewModel,
+                                       atIndex: 0,
                                        source: source,
                                        quickChatViewModel: quickChatViewModel)
     }
@@ -516,6 +521,10 @@ extension ListingDeckViewModel: ListingDeckViewModelType {
     var rxObjectChanges: Observable<CollectionChange<ListingCellModel>> { return objects.changesObservable }
     var rxActionButtons: Observable<[UIAction]> { return actionButtons.asObservable() }
     var rxBumpUpBannerInfo: Observable<BumpUpInfo?> { return bumpUpBannerInfo.asObservable() }
+
+    func openVideoPlayer() {
+        openPhotoViewer()
+    }
 }
 
 // MARK: Paginable

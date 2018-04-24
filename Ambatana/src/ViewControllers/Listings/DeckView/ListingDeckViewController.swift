@@ -226,6 +226,7 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     func willBeginDragging() {
         lastPageBeforeDragging = listingDeckView.currentPage
         listingDeckView.bumpUpBanner.alphaAnimated(0)
+        animatePlayButton(withAlpha: 0)
     }
 
     func didMoveToItemAtIndex(_ index: Int) {
@@ -243,6 +244,7 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     func didEndDecelerating() {
         guard let cell = listingDeckView.cardAtIndex(viewModel.currentIndex) else { return }
         populateCell(cell)
+        animatePlayButton(withAlpha: viewModel.isPlayable ? 1 : 0)
     }
 
     private func populateCell(_ card: ListingCardView) {
@@ -281,18 +283,19 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
         }
     }
     
-    func updateViewWith(alpha: CGFloat, chatEnabled: Bool, isMine: Bool, actionsEnabled: Bool) {
+    func updateViewWith(alpha: CGFloat, chatEnabled: Bool, isMine: Bool, actionsEnabled: Bool, isPlayable: Bool) {
         self.chatEnabled = chatEnabled
         let chatAlpha: CGFloat
         let actionsAlpha: CGFloat
+        let clippedAlpha = min(1.0, alpha)
         if isMine && actionsEnabled {
-            actionsAlpha = min(1.0, alpha)
+            actionsAlpha = clippedAlpha
             chatAlpha = 0
         } else if !chatEnabled {
             actionsAlpha = 0
             chatAlpha = 0
         } else {
-            chatAlpha = min(1.0, alpha)
+            chatAlpha = clippedAlpha
             actionsAlpha = 0
         }
 
@@ -339,6 +342,12 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
             .visibleCells
             .filter { cell in return cell.tag == cardView.tag }
         return !filtered.isEmpty
+    }
+
+    private func animatePlayButton(withAlpha alpha: CGFloat) {
+        UIView.animate(withDuration: 0.3) {
+            self.listingDeckView.updatePlayButtonWith(alpha: alpha)
+        }
     }
 }
 
@@ -399,6 +408,11 @@ extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCard
         guard let cell = currentPageCell()  else { return }
         listingDeckView.collectionView.isScrollEnabled = true
         cell.hideFullMap()
+    }
+
+    func cardViewDidScroll(_ cardView: ListingCardView, contentOffset: CGFloat) {
+        let alpha: CGFloat = contentOffset > Metrics.margin ? 0 : 1
+        animatePlayButton(withAlpha: alpha)
     }
 
     func cardViewDidTapOnStatusView(_ cardView: ListingCardView) {

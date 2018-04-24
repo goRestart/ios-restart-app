@@ -226,6 +226,9 @@ private class MockListingDeckViewControllerBinderCellType: ListingDeckViewContro
 }
 
 private class MockListingDeckViewType: ListingDeckViewType {
+    var rxStartPlayingButton: Reactive<UIButton> { return startPlayingButton.rx } // ☢️ do not know how to test this
+    var startPlayingButton: UIButton = UIButton(type: .custom)
+
     var rxCollectionView: Reactive<UICollectionView> { return collectionView.rx }
 
     var rxDidBeginEditing: ControlEvent<()>? // ☢️ do not know how to test this
@@ -253,6 +256,12 @@ private class MockListingDeckViewType: ListingDeckViewType {
 }
 
 final class MockListingDeckViewModelType: ListingDeckViewModelType {
+    var isPlayable: Bool = true
+
+    func openVideoPlayer() {
+        // FIXME: Add test
+    }
+
     var quickChatViewModel: QuickChatViewModel = QuickChatViewModel()
     func replaceListingCellModelAtIndex(_ index: Int, withListing listing: Listing) {
         replaceIndexIsCalled += 1
@@ -295,6 +304,7 @@ final class MockListingDeckViewModelType: ListingDeckViewModelType {
 }
 
 private class MockListingDeckViewControllerBinderType: ListingDeckViewControllerBinderType {
+
     var rxDidBeginEditing: ControlEvent<()>? { return textField.rx.controlEvent(.editingDidBegin) }
     var rxDidEndEditing: ControlEvent<()>? { return textField.rx.controlEvent(.editingDidEnd) }
     var textField = UITextField()
@@ -317,7 +327,7 @@ private class MockListingDeckViewControllerBinderType: ListingDeckViewController
         // ☢️ do not know how to test this
     }
 
-    func updateViewWith(alpha: CGFloat, chatEnabled: Bool, isMine: Bool, actionsEnabled: Bool) {
+    func updateViewWith(alpha: CGFloat, chatEnabled: Bool, isMine: Bool, actionsEnabled: Bool, isPlayable: Bool) {
         isUpdateViewWithAlphaCalled += 1
     }
 
