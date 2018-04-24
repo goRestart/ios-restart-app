@@ -391,13 +391,13 @@ extension CopyForChatNowInEnglish {
 }
 
 extension CopyForSellFasterNowInEnglish {
-    var isActive: Bool { return self != .control }
+    var isActive: Bool { return self != .control && self != .baseline }
     
     var variantString: String {
         switch self {
         case .control:
             return LGLocalizedString.bumpUpBannerPayTextImprovement
-        case .variantA:
+        case .baseline:
             return LGLocalizedString.bumpUpBannerPayTextImprovementEnglishA
         case .variantB:
             return LGLocalizedString.bumpUpBannerPayTextImprovementEnglishB

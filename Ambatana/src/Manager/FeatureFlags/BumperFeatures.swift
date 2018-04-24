@@ -1117,15 +1117,15 @@ enum ShowPasswordlessLogin: String, BumperFeature  {
 }
 
 enum CopyForSellFasterNowInEnglish: String, BumperFeature  {
-    case control, variantA, variantB, variantC, variantD
+    case control, baseline, variantB, variantC, variantD
     static var defaultValue: String { return CopyForSellFasterNowInEnglish.control.rawValue }
-    static var enumValues: [CopyForSellFasterNowInEnglish] { return [.control, .variantA, .variantB, .variantC, .variantD]}
+    static var enumValues: [CopyForSellFasterNowInEnglish] { return [.control, .baseline, .variantB, .variantC, .variantD]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Try different copies for 'Sell faster now' banner in English" } 
     static func fromPosition(_ position: Int) -> CopyForSellFasterNowInEnglish {
         switch position { 
             case 0: return .control
-            case 1: return .variantA
+            case 1: return .baseline
             case 2: return .variantB
             case 3: return .variantC
             case 4: return .variantD

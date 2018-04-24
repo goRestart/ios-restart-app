@@ -257,7 +257,7 @@
     },
     {
         "name": "CopyForSellFasterNowInEnglish",
-        "values": ["control", "variantA", "variantB", "variantC", "variantD"],
+        "values": ["control", "baseline", "variantB", "variantC", "variantD"],
         "description": "Try different copies for 'Sell faster now' banner in English"
     }
 ]
