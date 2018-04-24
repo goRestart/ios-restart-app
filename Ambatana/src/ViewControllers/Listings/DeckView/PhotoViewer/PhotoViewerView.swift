@@ -91,8 +91,7 @@ final class PhotoViewerView: UIView, PhotoViewerViewType, PhotoViewerBinderViewT
     }
 
     private func setupPageControl() {
-        pageControl.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(pageControl)
+        addSubviewForAutoLayout(pageControl)
         pageControl.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Metrics.bigMargin).isActive = true
         pageControl.layout(with: self).centerX()
     }

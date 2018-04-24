@@ -62,7 +62,6 @@ final class VideoPreview: UIView {
 
     deinit {
         NotificationCenter.default.removeObserver(self)
-        player = nil
     }
 
     func play() {

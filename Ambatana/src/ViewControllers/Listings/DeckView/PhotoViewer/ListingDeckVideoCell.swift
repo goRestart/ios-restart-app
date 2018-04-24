@@ -13,7 +13,13 @@ final class ListingDeckVideoCell: UICollectionViewCell, ReusableCell {
     private let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
     private let blurred = UIImageView()
 
-    private let videoPreviewView = VideoPreview(frame: .zero)
+    private let videoPreviewView: VideoPreview = {
+        let preview = VideoPreview(frame: .zero)
+        preview.contentMode = .scaleAspectFill
+        preview.isUserInteractionEnabled = true
+        preview.clipsToBounds = true
+        return preview
+    }()
 
     // MARK: - Lifecycle
 
@@ -63,7 +69,5 @@ final class ListingDeckVideoCell: UICollectionViewCell, ReusableCell {
     private func setupVideoPreview() {
         contentView.addSubviewForAutoLayout(videoPreviewView)
         videoPreviewView.layout(with: contentView).fill()
-        videoPreviewView.contentMode = .scaleAspectFill
-        videoPreviewView.isUserInteractionEnabled = true
     }
 }
