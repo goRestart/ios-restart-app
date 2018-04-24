@@ -172,9 +172,8 @@ final class LGCamera: Camera {
     }
 
     func stopRecordingVideo() {
-        if videoRecorder.isRecording {
-            videoRecorder.stopRecording()
-        }
+        guard videoRecorder.isRecording else { return }
+        videoRecorder.stopRecording()
     }
 
     func startForwardingPixelBuffers(to delegate: VideoOutputDelegate, pixelsBuffersToForwardPerSecond: Int) {
@@ -188,11 +187,10 @@ final class LGCamera: Camera {
     }
 
     func stopForwardingPixelBuffers() {
-        if let pixelsBufferForwarder = self.pixelsBufferForwarder {
-            pixelsBufferForwarder.stop()
-            removePixelBuffersForwarderOutput(output: pixelsBufferForwarder.videoOutput)
-            self.pixelsBufferForwarder = nil
-        }
+        guard let pixelsBufferForwarder = pixelsBufferForwarder else { return }
+        pixelsBufferForwarder.stop()
+        removePixelBuffersForwarderOutput(output: pixelsBufferForwarder.videoOutput)
+        self.pixelsBufferForwarder = nil
     }
 }
 
@@ -235,8 +233,8 @@ extension LGCamera {
             }
         }
 
-        DispatchQueue.main.async {
-            self.previewView.flipAnimation()
+        DispatchQueue.main.async { [weak self] in
+            self?.previewView.flipAnimation()
         }
     }
 
@@ -302,22 +300,22 @@ extension LGCamera {
     }
 
     private func addPixelBuffersForwarderOutput(output: AVCaptureOutput) {
-        sessionQueue.async {
-            if !self.session.outputs.contains(output), self.session.canAddOutput(output) {
-                self.session.beginConfiguration()
-                self.session.addOutput(output)
-                self.session.commitConfiguration()
-            }
+        sessionQueue.async { [weak self] in
+            guard let session = self?.session,
+                !session.outputs.contains(output),
+                session.canAddOutput(output) else { return }
+            session.beginConfiguration()
+            session.addOutput(output)
+            session.commitConfiguration()
         }
     }
 
     private func removePixelBuffersForwarderOutput(output: AVCaptureOutput) {
-        sessionQueue.async {
-            if self.session.outputs.contains(output) {
-                self.session.beginConfiguration()
-                self.session.removeOutput(output)
-                self.session.commitConfiguration()
-            }
+        sessionQueue.async { [weak self] in
+            guard let session = self?.session, session.outputs.contains(output) else { return }
+            session.beginConfiguration()
+            session.removeOutput(output)
+            session.commitConfiguration()
         }
     }
 
