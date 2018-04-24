@@ -1,6 +1,3 @@
-// When a user Account is deactivated because is a scammer (includes user name)
-"account_deactivated_w_name" = "%@'s account was deleted";
-
 // When a user Account is deactivated because is a scammer
 "account_pending_moderation" = "Account pending moderation";
 
@@ -31,9 +28,6 @@
 // App share whatsapp button
 "app_share_whatsapp_button" = "Invite via Whatsapp";
 
-// App share success message
-"app_share_success" = "App shared!";
-
 // In app notification reply button (reception of message of another user)
 "app_notification_reply" = "Reply";
 
@@ -48,6 +42,18 @@
 
 // Text for bubble in payment bump improvement.
 "bump_up_banner_pay_text_improvement" = "Sell faster now";
+
+// Text for bubble in payment bump improvement. Variant A (only in English): Sell faster now
+"bump_up_banner_pay_text_improvement_english_a" = "Sell faster now";
+
+// Text for bubble in payment bump improvement. Variant B (only in English): Get more visibility
+"bump_up_banner_pay_text_improvement_english_b" = "Get more visibility";
+
+// Text for bubble in payment bump improvement. Variant C (only in English): Attract more buyers
+"bump_up_banner_pay_text_improvement_english_c" = "Attract more buyers";
+
+// Text for bubble in payment bump improvement. Variant D (only in English): Attract 2x more buyers
+"bump_up_banner_pay_text_improvement_english_d" = "Attract 2x more buyers";
 
 // Text for bubble while waiting for next bump
 "bump_up_banner_wait_text" = "to feature again";
@@ -2764,13 +2770,13 @@
 "real_estate_bathrooms_1_5" = "1.5";
 
 // Real Estate number of bathrooms 2
-"real_estate_bathrooms_2" = "2";
+"real_estate_bathrooms_2" = "1.1";
 
 // Real Estate number of bathrooms 2.5
 "real_estate_bathrooms_2_5" = "2.5";
 
 // Real Estate number of bathrooms 3
-"real_estate_bathrooms_3" = "3";
+"real_estate_bathrooms_3" = "2.1";
 
 // Real Estate number of bathrooms 3.5
 "real_estate_bathrooms_3_5" = "3.5";
@@ -3254,6 +3260,12 @@
 
 // Settings option to access search alerts
 "settings_notifications_search_alerts" = "Search Alerts";
+
+// Search alerts view title
+"search_alerts_list_title" = "Search Notifications";
+
+// Search alerts edit button 
+"search_alerts_edit_button" = "Edit";
 
 // Alert when you don't accept one of the above (just turkey)
 "sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
