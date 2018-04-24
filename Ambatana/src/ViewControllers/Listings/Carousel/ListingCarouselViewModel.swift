@@ -387,6 +387,7 @@ class ListingCarouselViewModel: BaseViewModel {
 
     func videoButtonTapped() {
         currentListingViewModel?.openVideoPlayer(atIndex: 0, source: source)
+        currentListingViewModel?.trackPlayVideo(source: source)
     }
 
     func directMessagesItemPressed() {

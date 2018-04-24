@@ -142,6 +142,10 @@ extension ListingViewModel {
     func trackOpenFeaturedInfo() {
         trackHelper.trackOpenFeaturedInfo()
     }
+
+    func trackPlayVideo(source: EventParameterListingVisitSource) {
+        trackHelper.trackPlayVideo(source: source)
+    }
 }
 
 
@@ -422,5 +426,10 @@ extension ProductVMTrackHelper {
             sendMessageInfo.set(error: error.chatError)
         }
         return sendMessageInfo
+    }
+
+    func trackPlayVideo(source: EventParameterListingVisitSource) {
+        let trackerEvent = TrackerEvent.listingDetailPlayVideo(listing, source: source)
+        tracker.trackEvent(trackerEvent)
     }
 }

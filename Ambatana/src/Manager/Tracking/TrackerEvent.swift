@@ -397,6 +397,13 @@ struct TrackerEvent {
         return TrackerEvent(name: .listingDetailVisit, params: params)
     }
 
+    static func listingDetailPlayVideo(_ listing: Listing, source: EventParameterListingVisitSource) -> TrackerEvent {
+        var params = EventParameters()
+        params.addListingParams(listing)
+        params[.listingVisitSource] = source.rawValue
+        return TrackerEvent(name: .productDetailPlayVideo, params: params)
+    }
+
     static func listingDetailCall(_ listing: Listing,
                                   source: EventParameterListingVisitSource,
                                   typePage: EventParameterTypePage,
