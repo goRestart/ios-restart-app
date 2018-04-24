@@ -161,7 +161,7 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
         guard recordVideoEnabled.value, camera.isReady else { return }
         recordVideoEnabled.value = false
         startListeningVideoDuration()
-        camera.startRecordingVideo { [weak self] result in
+        camera.startRecordingVideo(maxRecordingDuration: maxDuration) { [weak self] result in
             self?.stopListeningVideoDuration()
             if let recordedVideo = result.value, recordedVideo.duration > PostListingViewModel.videoMinDuration {
                 self?.viewModel.videoRecorded(recordedVideo)
