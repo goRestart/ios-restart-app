@@ -2563,7 +2563,7 @@ class TrackerEventSpec: QuickSpec {
                                                            buttonName: .done,
                                                            sellButtonPosition: .floatingButton,
                                                            negotiable: .yes,
-                                                           pictureSource: .video,
+                                                           pictureSource: .videoCamer,
                                                            videoLength: 12,
                                                            freePostingModeAllowed: true,
                                                            typePage: .sell,
@@ -2615,7 +2615,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains picture-source") {
                     let data = sut.params!.stringKeyParams["picture-source"] as? String
-                    expect(data).to(equal("video"))
+                    expect(data).to(equal("video-camera"))
                 }
                 it("contains video-length") {
                     let data = sut.params!.stringKeyParams["video-length"] as? TimeInterval

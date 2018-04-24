@@ -479,7 +479,7 @@ enum EventParameterNegotiablePrice: String {
 enum EventParameterPictureSource: String {
     case camera = "camera"
     case gallery = "gallery"
-    case video = "video"
+    case videoCamera = "video-camera"
 }
 
 enum EventParameterSortBy: String {
