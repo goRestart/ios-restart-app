@@ -386,14 +386,14 @@ struct TrackerEvent {
 
     static func listingDetailVisit(_ listing: Listing, visitUserAction: ListingVisitUserAction,
                 source: EventParameterListingVisitSource, feedPosition: EventParameterFeedPosition,
-                isBumpedUp: EventParameterBoolean, isVideo: EventParameterBoolean) -> TrackerEvent {
+                isBumpedUp: EventParameterBoolean, containsVideo: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
         params.addListingParams(listing)
         params[.userAction] = visitUserAction.rawValue
         params[.listingVisitSource] = source.rawValue
         params[.feedPosition] = feedPosition.value
         params[.isBumpedUp] = isBumpedUp.rawValue
-        params[.isVideo] = isVideo.rawValue
+        params[.isVideo] = containsVideo.rawValue
         return TrackerEvent(name: .listingDetailVisit, params: params)
     }
 
@@ -882,10 +882,12 @@ struct TrackerEvent {
 
     static func firstMessage(info: SendMessageTrackingInfo,
                              listingVisitSource: EventParameterListingVisitSource,
-                             feedPosition: EventParameterFeedPosition) -> TrackerEvent {
+                             feedPosition: EventParameterFeedPosition,
+                             containsVideo: EventParameterBoolean) -> TrackerEvent {
         var params = info.params
         params[.listingVisitSource] = listingVisitSource.rawValue
         params[.feedPosition] = feedPosition.value
+        params[.isVideo] = containsVideo.rawValue
         return TrackerEvent(name: .firstMessage, params: params)
     }
 

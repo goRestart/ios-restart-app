@@ -77,6 +77,11 @@ class SendMessageTrackingInfo {
         return self
     }
 
+    func set(isVideo: EventParameterBoolean) -> Self {
+        params[.isVideo] = isVideo.rawValue
+        return self
+    }
+
     @discardableResult
     func set(assistantMeeting: AssistantMeeting?) -> Self {
         guard let assistantMeeting = assistantMeeting else { return self }

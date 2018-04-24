@@ -369,7 +369,7 @@ enum EventParameterName: String {
     case mostSearchedButton   = "most-searched-button"
     case photoViewerNumberOfPhotos   = "number-photos"
     case abandonStep          = "abandon-step"
-    case isVideo              = "is_video"
+    case isVideo              = "is-video"
     
     
     // Machine Learning
