@@ -503,7 +503,7 @@ fileprivate extension PostListingViewModel {
                                                    machineLearningInfo: MachineLearningTrackingInfo.defaultValues())
         if sessionManager.loggedIn {
             guard state.value.lastImagesUploadResult?.value != nil || state.value.uploadedVideo != nil,
-            let listingCreationParams = makeListingParams() else { return }
+                let listingCreationParams = makeListingParams() else { return }
             navigator?.closePostProductAndPostInBackground(params: listingCreationParams,
                                                            trackingInfo: trackingInfo)
         } else if let images = state.value.pendingToUploadImages {

@@ -23,7 +23,8 @@ final class VideoPreview: UIView {
                                                           name: Notification.Name.AVPlayerItemDidPlayToEndTime,
                                                           object: playerItem)
             }
-            let playerItem: AVPlayerItem? = url != nil ? AVPlayerItem(url: url!) : nil
+            var playerItem: AVPlayerItem?
+            if let url = url { playerItem = AVPlayerItem(url: url) }
             player.replaceCurrentItem(with: playerItem)
         }
     }

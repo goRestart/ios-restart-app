@@ -299,11 +299,7 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
             }.disposed(by: disposeBag)
         }
     
-//        viewModel.imageSelected.asObservable().bind(to: imagePreview.rx.image).disposed(by: disposeBag)
-        viewModel.imageSelected.asObservable().subscribeNext { [weak self] imageSelected in
-            self?.imagePreview.image = imageSelected
-        }.disposed(by: disposeBag)
-        
+        viewModel.imageSelected.asObservable().bind(to: imagePreview.rx.image).disposed(by: disposeBag)        
         viewModel.videoRecorded.asObservable().ignoreNil().subscribeNext { [weak self] videoRecorded in
             self?.videoPreview.url = videoRecorded.url
             self?.videoPreview.play()
