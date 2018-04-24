@@ -30,7 +30,7 @@ final class PhotoViewerViewModel: BaseViewModel {
     private let source: EventParameterListingVisitSource
 
     private let viewerDisplayable: PhotoViewerDisplayable
-    private let featureFlags: FeatureFlags
+    private let featureFlags: FeatureFlaggeable
 
     var isChatEnabled: Bool { return viewerDisplayable.isChatEnabled }
     var isPlayable: Bool { return viewerDisplayable.isPlayable }
