@@ -392,6 +392,7 @@ final class ListingDeckViewModel: BaseViewModel {
     func openPhotoViewer() {
         guard let listingViewModel = currentListingViewModel else { return }
         // we will force index = 0 for now, but in the future we need to move to the exact position
+        // ABIOS-3981
         deckNavigator?.openPhotoViewer(listingViewModel: listingViewModel,
                                        atIndex: 0,
                                        source: source,
