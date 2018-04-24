@@ -188,7 +188,9 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         setupGradientView()
         setupCollectionRx()
         setupZoomRx()
-        setupPlayButton()
+        if viewModel.shouldAddPlayButton {
+            setupPlayButton()
+        }
         setAccessibilityIds()
     }
 
@@ -1427,6 +1429,7 @@ fileprivate extension ListingCarouselViewController {
         chatTextView.set(accessibilityId: .listingCarouselChatTextView)
         productStatusView.set(accessibilityId: .listingCarouselStatusView)
         directChatTable.accessibilityInspectionEnabled = false
+        startPlayingButton.set(accessibilityId: .listingCarouselPlayButton)
     }
 }
 

@@ -214,7 +214,7 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let media = viewModel.mediaAtIndex(indexPath.row) else { return UICollectionViewCell() }
-        if media.isPlayable {
+        if media.isPlayable && viewModel.shouldShowVideos {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListingDeckVideoCell.reusableID,
                                                                 for: indexPath) as? ListingDeckVideoCell else {
                                                                     return UICollectionViewCell() }

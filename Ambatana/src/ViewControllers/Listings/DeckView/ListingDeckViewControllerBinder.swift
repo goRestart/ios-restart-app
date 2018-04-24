@@ -29,7 +29,7 @@ protocol ListingDeckViewControllerBinderType: class {
     func didMoveToItemAtIndex(_ index: Int)
     func didEndDecelerating()
     
-    func updateViewWith(alpha: CGFloat, chatEnabled: Bool, isMine: Bool, actionsEnabled: Bool, isPlayable: Bool)
+    func updateViewWith(alpha: CGFloat, chatEnabled: Bool, isMine: Bool, actionsEnabled: Bool)
     func updateViewWithActions(_ actions: [UIAction])
 
     func turnNavigationBar(_ on: Bool)
@@ -47,7 +47,6 @@ protocol ListingDeckViewType: class {
 
 protocol ListingDeckViewModelType: class {
     var quickChatViewModel: QuickChatViewModel { get }
-    var isPlayable: Bool { get }
     var currentIndex: Int { get }
     var userHasScrolled: Bool { get set }
 
@@ -256,8 +255,7 @@ final class ListingDeckViewControllerBinder {
                 viewController?.updateViewWith(alpha: offsetAlpha,
                                                chatEnabled: isChatEnabled,
                                                isMine: isMine,
-                                               actionsEnabled: actionsEnabled,
-                                               isPlayable: viewModel.isPlayable)
+                                               actionsEnabled: actionsEnabled)
         }.disposed(by: disposeBag)
     }
 }

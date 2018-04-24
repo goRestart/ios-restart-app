@@ -283,7 +283,7 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
         }
     }
     
-    func updateViewWith(alpha: CGFloat, chatEnabled: Bool, isMine: Bool, actionsEnabled: Bool, isPlayable: Bool) {
+    func updateViewWith(alpha: CGFloat, chatEnabled: Bool, isMine: Bool, actionsEnabled: Bool) {
         self.chatEnabled = chatEnabled
         let chatAlpha: CGFloat
         let actionsAlpha: CGFloat
@@ -345,6 +345,10 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     }
 
     private func animatePlayButton(withAlpha alpha: CGFloat) {
+        guard viewModel.isPlayable else {
+            listingDeckView.updatePlayButtonWith(alpha: 0)
+            return
+        }
         UIView.animate(withDuration: 0.3) {
             self.listingDeckView.updatePlayButtonWith(alpha: alpha)
         }
