@@ -111,6 +111,10 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
 }
 
 extension ListingDeckViewModelBinderSpec: ListingDetailNavigator {
+    func openVideoPlayer(atIndex index: Int,
+                         listingVM: ListingViewModel,
+                         source: EventParameterListingVisitSource) { }
+
     func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?) { }
     func openAskPhoneFor(listing: Listing, interlocutor: User?) { }
     func closeAskPhoneFor(listing: Listing,

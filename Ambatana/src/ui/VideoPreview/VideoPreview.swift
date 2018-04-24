@@ -73,7 +73,9 @@ final class VideoPreview: UIView {
             strongSelf.rx_progress.value = strongSelf.progress
         }
 
-        NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd(notification:)), name: Notification.Name.AVPlayerItemDidPlayToEndTime, object: player.currentItem)
+        NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd(notification:)),
+                                               name: Notification.Name.AVPlayerItemDidPlayToEndTime,
+                                               object: player.currentItem)
     }
 
     func pause() {

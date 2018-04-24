@@ -39,3 +39,10 @@ extension UIImage {
         return UIImageJPEGRepresentation(croppedImage, 0.9)
     }
 }
+
+extension UIImage {
+    static func imageFrom(url: URL) throws -> UIImage? {
+        let data = try Data(contentsOf: url)
+        return UIImage(data: data)
+    }
+}
