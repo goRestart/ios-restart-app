@@ -237,8 +237,7 @@ extension PostingDetailsViewModelSpec: PostListingNavigator {
                                       trackingInfo: PostListingTrackingInfo) {
         closePostProductAndPostLaterCalled = true
     }
-
-    
+  
     func cancelPostListing() {
         cancelPostingCalled = true
         
