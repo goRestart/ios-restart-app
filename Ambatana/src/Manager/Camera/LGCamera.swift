@@ -161,7 +161,7 @@ final class LGCamera: Camera {
     public func startRecordingVideo(maxRecordingDuration: TimeInterval, completion: @escaping CameraRecordingVideoCompletion) {
 
         let outputFileName = NSUUID().uuidString
-        let outputFilePath = (NSTemporaryDirectory() as NSString).appendingPathComponent((outputFileName as NSString).appendingPathExtension("mp4")!)
+        let outputFilePath = (NSTemporaryDirectory() as NSString).appendingPathComponent((outputFileName as NSString).appendingPathExtension(Constants.videoFileExtension)!)
         let fileUrl = URL(fileURLWithPath: outputFilePath)
 
         let videoOrientation = AVCaptureVideoOrientation(deviceOrientation: motionDeviceOrientation.orientation) ?? .portrait

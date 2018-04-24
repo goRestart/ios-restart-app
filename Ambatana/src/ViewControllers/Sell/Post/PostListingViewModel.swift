@@ -267,7 +267,7 @@ class PostListingViewModel: BaseViewModel {
 
     fileprivate func createPreSignedUploadUrlForVideo(uploadingVideo: VideoUpload) {
 
-        preSignedUploadUrlRepository.create(fileExtension: "mp4") { [weak self] result in
+        preSignedUploadUrlRepository.create(fileExtension: Constants.videoFileExtension) { [weak self] result in
             guard let strongSelf = self else { return }
 
             if let preSignedUploadUrl = result.value {

@@ -286,7 +286,7 @@ class ListingPostedViewModel: BaseViewModel {
 
             fileRepository.upload([video.snapshot], progress: nil) { [weak self] result in
                 if let image = result.value?.first {
-                    self?.preSignedUploadUrlRepository.create(fileExtension: "mp4", completion: { [weak self] result in
+                    self?.preSignedUploadUrlRepository.create(fileExtension: Constants.videoFileExtension, completion: { [weak self] result in
 
                         if let preSignedUploadUrl = result.value {
 

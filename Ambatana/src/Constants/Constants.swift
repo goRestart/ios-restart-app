@@ -95,6 +95,7 @@ struct Constants {
     static let currencyDefault = "US"
     static let defaultPrice: ListingPrice = .normal(0)
     static let sizeSquareMetersUnit: String = "㎡"
+    static let videoFileExtension: String = "mp4"
 
     // Messages retrieving
     static let numMessagesPerPage = 40
