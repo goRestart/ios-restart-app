@@ -204,8 +204,8 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     }
 
     @objc private func openVideoPlayer() {
-        startPlayingButton.bounce {
-            // FIXME open video player
+        startPlayingButton.bounce { [weak self] in
+            self?.viewModel.videoButtonTapped()
         }
     }
 
@@ -888,9 +888,6 @@ extension ListingCarouselViewController {
         showStatusBar()
     }
 
-    func listingCarouselCellOpenVideoPlayer(_ cell: ListingCarouselCell) {
-        // FIXME: Open player
-    }
 }
 
 extension ListingCarouselViewController: UserViewDelegate {

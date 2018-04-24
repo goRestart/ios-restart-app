@@ -27,6 +27,7 @@ class TabCoordinator: NSObject, Coordinator {
     let navigationController: UINavigationController
 
     var deckAnimator: DeckAnimator?
+    lazy var quickChatViewModel: QuickChatViewModel? = QuickChatViewModel()
 
     let listingRepository: ListingRepository
     let userRepository: UserRepository
@@ -503,7 +504,28 @@ fileprivate extension TabCoordinator {
 
 // MARK: > ListingDetailNavigator
 
+extension TabCoordinator: PhotoViewerNavigator {
+    func closePhotoViewer() {
+        quickChatViewModel = nil
+        navigationController.dismiss(animated: true, completion: nil)
+    }
+}
+
 extension TabCoordinator: ListingDetailNavigator {
+    func openVideoPlayer(atIndex index: Int, listingVM: ListingViewModel, source: EventParameterListingVisitSource) {
+        // FIXME: Add coordinator
+        guard let displayable = listingVM.makeDisplable(forMediaAt: index) else { return }
+        let vm = PhotoViewerViewModel(with: displayable, source: source)
+        vm.navigator = self
+
+        let chatVM: QuickChatViewModel = QuickChatViewModel()
+        chatVM.listingViewModel = listingVM
+        let vc = PhotoViewerViewController(viewModel: vm, quickChatViewModel: chatVM)
+        navigationController.present(UINavigationController(rootViewController: vc), animated: true)
+
+        quickChatViewModel = chatVM
+    }
+
     func closeProductDetail() {
         navigationController.popViewController(animated: true)
     }

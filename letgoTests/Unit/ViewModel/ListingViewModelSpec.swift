@@ -891,6 +891,12 @@ extension ListingViewModelSpec: ListingViewModelDelegate {
 }
 
 extension ListingViewModelSpec: ListingDetailNavigator {
+    func openVideoPlayer(atIndex index: Int,
+                         listingVM: ListingViewModel,
+                         source: EventParameterListingVisitSource) {
+
+    }
+
 
     func closeProductDetail() {
 

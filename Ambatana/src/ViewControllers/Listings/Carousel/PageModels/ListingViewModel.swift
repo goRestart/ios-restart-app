@@ -247,6 +247,13 @@ class ListingViewModel: BaseViewModel {
     lazy var isShowingFeaturedStripe = Variable<Bool>(false)
     fileprivate lazy var isListingDetailsCompleted = Variable<Bool>(false)
 
+    var isPlayable: Bool {
+        return productMedia
+            .value
+            .map { $0.type }
+            .reduce(false) { (result, next: MediaType) in return result || next == .video } ?? false
+    }
+
     // Retrieval status
     private var relationRetrieved = false
 
@@ -678,6 +685,9 @@ class ListingViewModel: BaseViewModel {
         navigator?.openContactUs(forListing: listing.value, contactUstype: .bumpUpNotAllowed)
     }
 
+    func openVideoPlayer(atIndex index: Int, source: EventParameterListingVisitSource) {
+        navigator?.openVideoPlayer(atIndex: index, listingVM: self, source: source)
+    }
 
     func showBumpUpView(bumpUpProductData: BumpUpProductData,
                         bumpUpType: BumpUpType,
@@ -1474,4 +1484,31 @@ extension ListingViewModel: PurchasesShopperDelegate {
 // new item page
 extension ListingViewModel {
     var isFavoritable: Bool { return !isMine }
+}
+
+struct PhotoViewerDisplayItem: PhotoViewerDisplayable {
+    let listing: Listing
+    let media: [Media]
+    let isMine: Bool
+    let isPlayable: Bool
+    let isChatEnabled: Bool
+}
+
+extension ListingViewModel {
+    func makeDisplayable() -> PhotoViewerDisplayItem {
+        return PhotoViewerDisplayItem(listing: listing.value,
+                                      media: productMedia.value,
+                                      isMine: isMine,
+                                      isPlayable: isPlayable,
+                                      isChatEnabled: !isMine)
+    }
+
+    func makeDisplable(forMediaAt index: Int) -> PhotoViewerDisplayItem? {
+        guard 0..<productMedia.value.count ~= index else { return nil }
+        return PhotoViewerDisplayItem(listing: listing.value,
+                                      media: [productMedia.value[index]],
+                                      isMine: isMine,
+                                      isPlayable: isPlayable,
+                                      isChatEnabled: false) // forced false
+    }
 }
