@@ -51,6 +51,7 @@ enum AccessibilityId: Equatable {
     // Listing Cell
     case listingCell(listingId: String?)
     case listingCellThumbnailImageView
+    case listingCellThumbnailGifImageView
     case listingCellStripeImageView
     case listingCellStripeLabel
     case listingCellStripeIcon
@@ -749,6 +750,8 @@ enum AccessibilityId: Equatable {
             return "listingCell-\(listingId ?? "")"
         case .listingCellThumbnailImageView:
             return "listingCellThumbnailImageView"
+        case .listingCellThumbnailGifImageView:
+            return "listingCellThumbnailGifImageView"
         case .listingCellStripeImageView:
             return "listingCellStripeImageView"
         case .listingCellStripeLabel:

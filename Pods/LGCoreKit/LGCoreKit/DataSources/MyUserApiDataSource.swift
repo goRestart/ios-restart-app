@@ -92,21 +92,6 @@ class MyUserApiDataSource: MyUserDataSource {
         apiClient.request(request, decoder: MyUserApiDataSource.decoderReputationActions, completion: completion)
     }
 
-    func requestSMSCode(_ userId: String, phonePrefix: String, phone: String, completion: MyUserApiVoidCompletion?) {
-        var params: [String: Any] = [:]
-        params["prefix"] = phonePrefix
-        params["telephone"] = phone
-        let request = MyUserRouter.requestSMSCode(myUserId: userId, params: params)
-        apiClient.request(request, completion: completion)
-    }
-
-    func validateSMSCode(_ userId: String, code: String, completion: MyUserApiVoidCompletion?) {
-        var params: [String: Any] = [:]
-        params["code"] = code
-        let request = MyUserRouter.validateSMSCode(myUserId: userId, params: params)
-        apiClient.request(request, completion: completion)
-    }
-
     // MARK: - Private methods
 
     /**
