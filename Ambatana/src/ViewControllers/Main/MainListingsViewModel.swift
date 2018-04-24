@@ -1040,7 +1040,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         if lastAdPosition == 0 {
             adPosition = MainListingsViewModel.adInFeedInitialPosition
         } else {
-            var ratio = 0
+            let ratio: Int
             if featureFlags.showAdsInFeedWithRatio.isActive {
                 ratio = featureFlags.showAdsInFeedWithRatio.ratio
             } else {
