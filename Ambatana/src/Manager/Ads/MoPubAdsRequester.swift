@@ -16,7 +16,7 @@ final class MoPubAdsRequester {
         request.start { (moPub, response, error) in
             if let error = error {
                 logMessage(.error, type: .monetization, message: "Error loading MoPub: \(error)")
-                completion(nil, MoPubBlankStateView())
+                completion(nil, NativeAdBlankStateView())
             } else {
                 if let nativeAd = response {
                     do {
@@ -24,7 +24,7 @@ final class MoPubAdsRequester {
                         completion(nativeAd, advertView)
                     } catch {
                         logMessage(.error, type: .monetization, message: "Error retreiving advert view: \(error)")
-                        completion(nativeAd, MoPubBlankStateView())
+                        completion(nativeAd, NativeAdBlankStateView())
                     }
                 }
             }

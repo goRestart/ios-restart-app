@@ -82,7 +82,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var shouldChangeChatNowCopyInTurkey = false
     var copyForChatNowInTurkey: CopyForChatNowInTurkey = .control
     var feedAdsProviderForUS: FeedAdsProviderForUS = .control
-    var feedMoPubAdUnitId: String? = ""
+    var feedAdUnitId: String? = ""
     var feedAdsProviderForTR: FeedAdsProviderForTR = .control
     
     func collectionsAllowedFor(countryCode: String?) -> Bool {
@@ -91,4 +91,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var shareTypes: [ShareType] = []
     var copyForChatNowInEnglish: CopyForChatNowInEnglish = .control
     var shouldChangeChatNowCopyInEnglish = false
+    var shouldChangeSellFasterNowCopyInEnglish = false
+    var copyForSellFasterNowInEnglish: CopyForSellFasterNowInEnglish = .control
 }

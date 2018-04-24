@@ -834,7 +834,10 @@ extension TabCoordinator: EditListingCoordinatorDelegate {
                                 maxCountdown: TimeInterval?) {
         guard let bumpData = bumpUpProductData,
             bumpData.hasPaymentId else { return }
-        if let timeSinceLastBump = timeSinceLastBump, let maxCountdown = maxCountdown {
+        if let timeSinceLastBump = timeSinceLastBump,
+            let maxCountdown = maxCountdown,
+            timeSinceLastBump > 0,
+            featureFlags.bumpUpBoost.isActive {
             openBumpUpBoost(forListing: listing,
                             bumpUpProductData: bumpData,
                             typePage: .edit,

@@ -243,7 +243,7 @@ class MainListingsViewModelSpec: QuickSpec {
                 beforeEach {
                     var filters = ListingFilters()
                     filters.selectedCategories = [.cars]
-                    filters.carSellerTypes = [.individual]
+                    filters.carSellerTypes = [.user]
                     sut = MainListingsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, searchRepository: Core.searchRepository, listingRepository: Core.listingRepository, monetizationRepository: Core.monetizationRepository, categoryRepository: Core.categoryRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: MockTracker(), searchType: nil, filters: filters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags, bubbleTextGenerator: DistanceBubbleTextGenerator())
                 }
                 
@@ -257,7 +257,7 @@ class MainListingsViewModelSpec: QuickSpec {
                             mockFeatureFlags.filterSearchCarSellerType = .variantA
                         }
                         it("has right tags") {
-                            expect(sut.primaryTags).to(contain(.carSellerType(type: .individual,
+                            expect(sut.primaryTags).to(contain(.carSellerType(type: .user,
                                                                               name: LGLocalizedString.filtersCarSellerTypePrivate)))
                         }
                         
@@ -268,7 +268,7 @@ class MainListingsViewModelSpec: QuickSpec {
                             mockFeatureFlags.filterSearchCarSellerType = .variantC
                         }
                         it("has NOT All tag") {
-                            expect(sut.primaryTags).toNot(contain(.carSellerType(type: .individual,
+                            expect(sut.primaryTags).toNot(contain(.carSellerType(type: .user,
                                                                                  name: LGLocalizedString.filtersCarSellerTypeAll)))
                         }
                     }
