@@ -2770,13 +2770,13 @@
 "real_estate_bathrooms_1_5" = "1.5";
 
 // Real Estate number of bathrooms 2
-"real_estate_bathrooms_2" = "1.1";
+"real_estate_bathrooms_2" = "2";
 
 // Real Estate number of bathrooms 2.5
 "real_estate_bathrooms_2_5" = "2.5";
 
 // Real Estate number of bathrooms 3
-"real_estate_bathrooms_3" = "2.1";
+"real_estate_bathrooms_3" = "3";
 
 // Real Estate number of bathrooms 3.5
 "real_estate_bathrooms_3_5" = "3.5";
