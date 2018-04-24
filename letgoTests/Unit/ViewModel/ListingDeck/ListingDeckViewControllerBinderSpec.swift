@@ -327,7 +327,7 @@ private class MockListingDeckViewControllerBinderType: ListingDeckViewController
         // ☢️ do not know how to test this
     }
 
-    func updateViewWith(alpha: CGFloat, chatEnabled: Bool, isMine: Bool, actionsEnabled: Bool, isPlayable: Bool) {
+    func updateViewWith(alpha: CGFloat, chatEnabled: Bool, isMine: Bool, actionsEnabled: Bool) {
         isUpdateViewWithAlphaCalled += 1
     }
 

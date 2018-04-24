@@ -91,7 +91,8 @@ final class ListingDeckViewModelSpec: BaseViewModelSpec {
                                            tracker: tracker,
                                            actionOnFirstAppear: actionOnFirstAppear,
                                            trackingIndex: nil,
-                                           keyValueStorage: MockKeyValueStorage())
+                                           keyValueStorage: MockKeyValueStorage(),
+                                           featureFlags: MockFeatureFlags())
 
                 sut.delegate = self
             }
