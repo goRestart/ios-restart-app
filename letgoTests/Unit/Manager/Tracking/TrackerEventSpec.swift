@@ -1213,7 +1213,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains is video param") {
                     let bumpedUp = sut.params!.stringKeyParams["is-video"] as? String
-                    expect(bumpedUp).to(equal("true"))
+                    expect(bumpedUp) == "true"
                 }
             }
             
@@ -1753,7 +1753,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains is-video") {
                     let feedPosition = sut.params!.stringKeyParams["is-video"] as? String
-                    expect(feedPosition).to(equal("true"))
+                    expect(feedPosition) == "true"
                 }
                 describe("text message") {
                     beforeEach {
@@ -1779,8 +1779,8 @@ class TrackerEventSpec: QuickSpec {
                         expect(feedPosition).to(equal("2"))
                     }
                     it("contains N/A is-video") {
-                        let feedPosition = sut.params!.stringKeyParams["is-video"] as? String
-                        expect(feedPosition).to(equal("N/A"))
+                        let isVideo = sut.params!.stringKeyParams["is-video"] as? String
+                        expect(isVideo) == "N/A"
                     }
                 }
                 describe("sticker message") {
@@ -1807,8 +1807,8 @@ class TrackerEventSpec: QuickSpec {
                         expect(feedPosition).to(equal("2"))
                     }
                     it("contains N/A is-video") {
-                        let feedPosition = sut.params!.stringKeyParams["is-video"] as? String
-                        expect(feedPosition).to(equal("N/A"))
+                        let isVideo = sut.params!.stringKeyParams["is-video"] as? String
+                        expect(isVideo) == "N/A"
                     }
                 }
                 describe("quick answer message") {
@@ -1837,8 +1837,8 @@ class TrackerEventSpec: QuickSpec {
                         expect(feedPosition).to(equal("2"))
                     }
                     it("contains N/A is-video") {
-                        let feedPosition = sut.params!.stringKeyParams["is-video"] as? String
-                        expect(feedPosition).to(equal("N/A"))
+                        let isVideo = sut.params!.stringKeyParams["is-video"] as? String
+                        expect(isVideo) == "N/A"
                     }
                 }
             }
@@ -1920,8 +1920,8 @@ class TrackerEventSpec: QuickSpec {
                     expect(emoji) == false
                 }
                 it("contains N/A is-video") {
-                    let feedPosition = sut.params!.stringKeyParams["is-video"] as? String
-                    expect(feedPosition).to(equal("N/A"))
+                    let isVideo = sut.params!.stringKeyParams["is-video"] as? String
+                    expect(isVideo) == "N/A"
                 }
                 describe("text message") {
                     beforeEach {
@@ -1947,8 +1947,8 @@ class TrackerEventSpec: QuickSpec {
                         expect(feedPosition).to(equal("2"))
                     }
                     it("contains no is-video") {
-                        let feedPosition = sut.params!.stringKeyParams["is-video"] as? String
-                        expect(feedPosition).to(equal("false"))
+                        let isVideo = sut.params!.stringKeyParams["is-video"] as? String
+                        expect(isVideo) == "false"
                     }
                 }
                 describe("sticker message") {
@@ -1975,8 +1975,8 @@ class TrackerEventSpec: QuickSpec {
                         expect(feedPosition).to(equal("2"))
                     }
                     it("contains N/A is-video") {
-                        let feedPosition = sut.params!.stringKeyParams["is-video"] as? String
-                        expect(feedPosition).to(equal("N/A"))
+                        let isVideo = sut.params!.stringKeyParams["is-video"] as? String
+                        expect(isVideo) == "N/A"
                     }
                 }
                 describe("quick answer message") {
@@ -2005,8 +2005,8 @@ class TrackerEventSpec: QuickSpec {
                         expect(feedPosition).to(equal("2"))
                     }
                     it("contains N/A is-video") {
-                        let feedPosition = sut.params!.stringKeyParams["is-video"] as? String
-                        expect(feedPosition).to(equal("N/A"))
+                        let isVideo = sut.params!.stringKeyParams["is-video"] as? String
+                        expect(isVideo) == "N/A"
                     }
                 }
             }
