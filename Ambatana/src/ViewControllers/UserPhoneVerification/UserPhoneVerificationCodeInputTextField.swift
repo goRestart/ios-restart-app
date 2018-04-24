@@ -8,13 +8,24 @@
 
 import Foundation
 
+protocol VerificationCodeTextFieldDelegate: class {
+    func didEndEditingWith(code: String)
+}
+
 class VerificationCodeTextField: UIView {
 
-    private let numberOfDigits: Int
+    weak var delegate: VerificationCodeTextFieldDelegate?
 
+    private let numberOfDigits: Int
     private let containerView = UIView()
     private var textFields: [UITextField] = []
     private var lines: [UIView] = []
+
+    private var currentCode: String {
+        return textFields
+            .flatMap { $0.text }
+            .reduce("", +)
+    }
 
     private struct Layout {
         static let elementWidth: CGFloat = 26
@@ -123,7 +134,11 @@ class VerificationCodeTextField: UIView {
     @discardableResult
     override func becomeFirstResponder() -> Bool {
         super.becomeFirstResponder()
-        focusOnDigit(atIndex: 0)
+        if let textField = textFields.find(where: {
+            ($0.text?.isEmpty ?? true) || textFields.last == $0
+        }) {
+            focusOnDigit(atIndex: textFields.index(of: textField) ?? 0)
+        }
         return true
     }
 
@@ -139,6 +154,10 @@ class VerificationCodeTextField: UIView {
             }
         })
         return true
+    }
+
+    func clearText() {
+        textFields.forEach { $0.text = nil }
     }
 
     private func focusOnDigit(atIndex index: Int) {
@@ -166,13 +185,14 @@ extension VerificationCodeTextField: UITextFieldDelegate, CodeTextFieldDelegate 
     }
 
     @objc private func textFieldDidChange(_ textField: UITextField) {
-        guard let currentIndex = textFields.index(of: textField) else { return }
+        guard let currentIndex = textFields.index(of: textField),
+            let text = textField.text, !text.isEmpty else { return }
 
-        if textField.text?.count == 1,
-            currentIndex < numberOfDigits-1 {
-            focusOnDigit(atIndex: currentIndex + 1)
-        } else {
+        if currentIndex == numberOfDigits-1 {
             resignFirstResponder()
+            delegate?.didEndEditingWith(code: currentCode)
+        } else {
+            focusOnDigit(atIndex: currentIndex + 1)
         }
     }
 
