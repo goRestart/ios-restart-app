@@ -823,7 +823,7 @@
 "profile_sold_no_products_label" = "NO LISTINGS (YET!)";
 "profile_sold_other_no_products_button" = "Keep Browsing";
 "profile_sold_products_tab" = "Sold";
-"profile_verifications_email_placeholder" = "Email";
+"profile_verifications_email_placeholder" = "+Email";
 "profile_verifications_email_view_title" = "Verify your Email";
 "profile_verifications_send_button" = "Send";
 "profile_verifications_view_add_info_section_title" = "ADD YOUR";
@@ -832,7 +832,7 @@
 "profile_verifications_view_extra_section_title" = "BUY & SELL";
 "profile_verifications_view_facebook_title" = "Facebook";
 "profile_verifications_view_google_title" = "Google";
-"profile_verifications_view_mark_as_sold_subtitle" = "+2 pts each (up to 10 pts)";
+"profile_verifications_view_mark_as_sold_subtitle" = "2 pts each (up to 10 pts)";
 "profile_verifications_view_mark_as_sold_title" = "Mark a listing as sold";
 "profile_verifications_view_phone_number_title" = "Phone number";
 "profile_verifications_view_photo_id_title" = "Photo ID";
@@ -898,9 +898,9 @@
 "real_estate_bathrooms_0" = "None";
 "real_estate_bathrooms_1" = "1";
 "real_estate_bathrooms_1_5" = "1.5";
-"real_estate_bathrooms_2" = "2";
+"real_estate_bathrooms_2" = "1.1";
 "real_estate_bathrooms_2_5" = "2.5";
-"real_estate_bathrooms_3" = "3";
+"real_estate_bathrooms_3" = "2.1";
 "real_estate_bathrooms_3_5" = "3.5";
 "real_estate_bathrooms_4" = "4+";
 "real_estate_bathrooms_title" = "No. of bathrooms";

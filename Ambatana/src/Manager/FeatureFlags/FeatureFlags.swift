@@ -1015,9 +1015,7 @@ class FeatureFlags: FeatureFlaggeable {
         if Bumper.enabled {
             return Bumper.chatNorris
         }
-        return ChatNorris.control
-        // TODO: restore the ABTests code when BE part is working 👇
-//        return  ChatNorris.fromPosition(abTests.chatNorris.value)
+        return  ChatNorris.fromPosition(abTests.chatNorris.value)
     }
 
     

@@ -2532,13 +2532,13 @@
 "profile_verifications_view_mark_as_sold_title" = "Mark a listing as sold";
 
 // cell explaining that marking items as sold, increases Karma score
-"profile_verifications_view_mark_as_sold_subtitle" = "+2 pts each (up to 10 pts)";
+"profile_verifications_view_mark_as_sold_subtitle" = "2 pts each (up to 10 pts)";
 
 // Title of the view to verify the email. The user can write its email to send a verification link
 "profile_verifications_email_view_title" = "Verify your Email";
 
 // Placeholder for the enter email field
-"profile_verifications_email_placeholder" = "Email";
+"profile_verifications_email_placeholder" = "+Email";
 
 // Button to confirm email and send a verification link
 "profile_verifications_send_button" = "Send";
@@ -2770,13 +2770,13 @@
 "real_estate_bathrooms_1_5" = "1.5";
 
 // Real Estate number of bathrooms 2
-"real_estate_bathrooms_2" = "2";
+"real_estate_bathrooms_2" = "1.1";
 
 // Real Estate number of bathrooms 2.5
 "real_estate_bathrooms_2_5" = "2.5";
 
 // Real Estate number of bathrooms 3
-"real_estate_bathrooms_3" = "3";
+"real_estate_bathrooms_3" = "2.1";
 
 // Real Estate number of bathrooms 3.5
 "real_estate_bathrooms_3_5" = "3.5";
