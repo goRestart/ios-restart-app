@@ -284,13 +284,16 @@ class PostListingViewModel: BaseViewModel {
 
     fileprivate func uploadVideo(uploadingVideo: VideoUpload, preSignedUploadUrl: PreSignedUploadUrl) {
 
-        // Upload video
         self.preSignedUploadUrlRepository.upload(url: preSignedUploadUrl.form.action, file: uploadingVideo.recordedVideo.url, inputs: preSignedUploadUrl.form.inputs, progress: nil, completion: { [weak self] result in
             guard let strongSelf = self else { return }
 
             if result.value != nil {
+                guard let video = LGVideo(videoUpload: uploadingVideo) else {
+                    strongSelf.state.value = strongSelf.state.value.updating(uploadError: .internalError(message: "Error creating LGVideo from VideoUpload "))
+                    return
+                }
                 strongSelf.uploadedVideoLength = uploadingVideo.recordedVideo.duration
-                strongSelf.state.value = strongSelf.state.value.updatingToSuccessUpload(uploadedVideo: uploadingVideo)
+                strongSelf.state.value = strongSelf.state.value.updatingToSuccessUpload(uploadedVideo: video)
             } else if let error = result.error {
                 strongSelf.state.value = strongSelf.state.value.updating(uploadError: error)
             }

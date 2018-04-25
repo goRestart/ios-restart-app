@@ -26,12 +26,9 @@ extension ListingCreationParams {
             images = []
         }
         let videos: [Video]
-        if let uploadedVideo = postListingState.uploadedVideo,
-            let path = uploadedVideo.videoId,
-            let snapshot = uploadedVideo.snapshot,
-            let snapshotId = snapshot.objectId  {
-            let video = LGVideo(path: path, snapshot: snapshotId)
-            videos = [video]
+        if let uploadedVideo = postListingState.uploadedVideo {
+            videos = [uploadedVideo]
+            let snapshot = LGFile(id: uploadedVideo.snapshot, url: nil)
             images.append(snapshot)
         } else {
             videos = []

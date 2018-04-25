@@ -13,3 +13,11 @@ struct VideoUpload {
     let snapshot: File?
     let videoId: String?
 }
+
+extension LGVideo {
+    init?(videoUpload: VideoUpload) {
+        guard let path = videoUpload.videoId, let snapshot = videoUpload.snapshot?.objectId else { return nil }
+        self.path = path
+        self.snapshot = snapshot
+    }
+}
