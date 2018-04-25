@@ -36,9 +36,13 @@ final class ListingCardUserView: UIView {
         struct Height {
             static let userIcon: CGFloat = 34.0
             static let intrinsic: CGFloat = 64.0 // totally arbitrary
+            static let userBadge: CGFloat = 20.0
         }
         struct Width { static let shareButton: CGFloat = 28 }
-        struct Spacing { static let betweenButtons: CGFloat = 20 }
+        struct Spacing {
+            static let betweenButtons: CGFloat = 20
+            static let betweenAvatarAndBadge: CGFloat = 3
+        }
     }
 
     override var intrinsicContentSize: CGSize { return CGSize(width: UIViewNoIntrinsicMetric,
@@ -50,6 +54,7 @@ final class ListingCardUserView: UIView {
 
     private let userIcon = UIButton(type: .custom)
     private let userNameLabel = UILabel()
+    private let userBadgeImageView = UIImageView()
 
     private let effect: UIBlurEffect = UIBlurEffect(style: .dark)
     let effectView: UIVisualEffectView
@@ -75,14 +80,15 @@ final class ListingCardUserView: UIView {
     func populate(withUserName userName: String,
                   placeholder: UIImage?,
                   icon: URL?,
-                  imageDownloader: ImageDownloaderType) {
+                  imageDownloader: ImageDownloaderType,
+                  badgeType: UserReputationBadge) {
         userNameLabel.text = userName
         actionButton.tintColor = .white
+        userBadgeImageView.isHidden = badgeType == .noBadge
         guard let url = icon else {
             userIcon.setBackgroundImage(placeholder ?? Images.placeholder, for: .normal)
             return
         }
-
         userIcon.tag = tag
         imageDownloader.downloadImageWithURL(url, completion: { [weak  self] (result, url) in
             if let value = result.value,
@@ -125,6 +131,7 @@ final class ListingCardUserView: UIView {
         setupUserIcon()
         setupUserInfo()
         setupActions()
+        setupUserBadge()
     }
 
     private func setupBlur() {
@@ -154,6 +161,18 @@ final class ListingCardUserView: UIView {
 
         userIcon.contentMode = .scaleAspectFit
         userIcon.clipsToBounds = true
+    }
+
+    private func setupUserBadge() {
+        addSubviewForAutoLayout(userBadgeImageView)
+        userBadgeImageView.image = #imageLiteral(resourceName: "ic_karma_badge_active")
+        userBadgeImageView.contentMode = .scaleAspectFit
+        userBadgeImageView.isHidden = true
+        userBadgeImageView
+            .layout(with: userIcon)
+            .trailing(by: Layout.Spacing.betweenAvatarAndBadge)
+            .bottom(by: Layout.Spacing.betweenAvatarAndBadge)
+        userBadgeImageView.layout().width(Layout.Height.userBadge).widthProportionalToHeight()
     }
 
     private func setupUserInfo() {

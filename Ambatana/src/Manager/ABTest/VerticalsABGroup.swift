@@ -13,6 +13,7 @@ struct VerticalsABGroup: ABGroupType {
     let searchCarsIntoNewBackend: LeanplumABVariable<Int>
     let realEstatePromoCell: LeanplumABVariable<Int>
     let filterSearchCarSellerType: LeanplumABVariable<Int>
+    let createUpdateIntoNewBackend: LeanplumABVariable<Int>
 
     let group: ABGroup = .verticals
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -22,22 +23,27 @@ struct VerticalsABGroup: ABGroupType {
 
     private init(searchCarsIntoNewBackend: LeanplumABVariable<Int>,
          realEstatePromoCell: LeanplumABVariable<Int>,
-         filterSearchCarSellerType: LeanplumABVariable<Int>) {
+         filterSearchCarSellerType: LeanplumABVariable<Int>,
+         createUpdateIntoNewBackend: LeanplumABVariable<Int>) {
         self.searchCarsIntoNewBackend = searchCarsIntoNewBackend
         self.realEstatePromoCell = realEstatePromoCell
         self.filterSearchCarSellerType = filterSearchCarSellerType
-
-        intVariables.append(contentsOf: [searchCarsIntoNewBackend, realEstatePromoCell, filterSearchCarSellerType])
+        self.createUpdateIntoNewBackend = createUpdateIntoNewBackend
+        intVariables.append(contentsOf: [searchCarsIntoNewBackend,
+                                         realEstatePromoCell,
+                                         filterSearchCarSellerType,
+                                         createUpdateIntoNewBackend])
     }
-
+    
     static func make() -> VerticalsABGroup {
-        return VerticalsABGroup(searchCarsIntoNewBackend: .makeInt(key: Keys.searchCarsIntoNewBackend,
-                                                             defaultValue: 0,
-                                                             groupType: .verticals),
-                                realEstatePromoCell: .makeInt(key: Keys.realEstatePromoCell, defaultValue: 0, groupType: .verticals),
-                                filterSearchCarSellerType: .makeInt(key: Keys.filterSearchCarSellerType,
-                                                                    defaultValue: 0,
-                                                                    groupType: .verticals))
+        return VerticalsABGroup(searchCarsIntoNewBackend: verticalsIntFor(key: Keys.searchCarsIntoNewBackend),
+                                realEstatePromoCell: verticalsIntFor(key: Keys.realEstatePromoCell),
+                                filterSearchCarSellerType: verticalsIntFor(key: Keys.filterSearchCarSellerType),
+                                createUpdateIntoNewBackend: verticalsIntFor(key: Keys.createUpdateIntoNewBackend))
+    }
+    
+    private static func verticalsIntFor(key: String) -> LeanplumABVariable<Int> {
+        return .makeInt(key: key, defaultValue: 0, groupType: .verticals)
     }
 }
 
@@ -45,4 +51,5 @@ private struct Keys {
     static let searchCarsIntoNewBackend = "20180403searchCarsIntoNewBackend"
     static let realEstatePromoCell = "20180410realEstatePromoCell"
     static let filterSearchCarSellerType = "20180412filterSearchCarSellerType"
+    static let createUpdateIntoNewBackend = "20180424createUpdateIntoNewBackend"
 }

@@ -426,7 +426,7 @@ class MainListingsViewModel: BaseViewModel {
         var minPrice: Int? = nil
         var maxPrice: Int? = nil
         var free: Bool = false
-        var carSellerTypes: [CarSellerType] = []
+        var carSellerTypes: [UserType] = []
         var makeId: String? = nil
         var makeName: String? = nil
         var modelId: String? = nil
@@ -944,26 +944,40 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                                                                   adPosition: adPositionInPage) else { break }
             var adsCellModel: ListingCellModel
             
+            guard let feedAdUnitId = featureFlags.feedAdUnitId else { return listings }
             if featureFlags.feedAdsProviderForUS.shouldShowMoPubAds || featureFlags.feedAdsProviderForTR.shouldShowMoPubAds {
-                guard let adUnit = featureFlags.feedMoPubAdUnitId else { return listings }
                 let settings = MPStaticNativeAdRendererSettings()
                 var configurations = Array<MPNativeAdRendererConfiguration>()
                 settings.renderingViewClass = MoPubNativeView.self
                 let config = MPStaticNativeAdRenderer.rendererConfiguration(with: settings)
                 configurations.append(config!)
-                let nativeAdRequest = MPNativeAdRequest.init(adUnitIdentifier: adUnit,
+                let nativeAdRequest = MPNativeAdRequest.init(adUnitIdentifier: feedAdUnitId,
                                                              rendererConfigurations: configurations)
-                let adData = AdvertisementMoPubData(adUnitId: adUnit,
+                let adData = AdvertisementMoPubData(adUnitId: feedAdUnitId,
                                                     rootViewController: adsDelegate.rootViewControllerForAds(),
                                                     adPosition: lastAdPosition,
                                                     bannerHeight: LGUIKitConstants.advertisementCellMoPubHeight,
-                                                    showAdsInFeedWithRatio: featureFlags.showAdsInFeedWithRatio,
                                                     adRequested: false,
                                                     categories: filters.selectedCategories,
                                                     nativeAdRequest: nativeAdRequest,
                                                     moPubNativeAd: nil,
-                                                    moPubView: MoPubBlankStateView())
+                                                    moPubView: NativeAdBlankStateView())
                 adsCellModel = ListingCellModel.mopubAdvertisement(data: adData)
+                
+            } else if featureFlags.feedAdsProviderForUS.shouldShowGoogleAdxAds {
+                let adLoader = GADAdLoader(adUnitID: feedAdUnitId,
+                                           rootViewController: adsDelegate.rootViewControllerForAds(),
+                                           adTypes: [GADAdLoaderAdType.nativeContent],
+                                           options: nil)
+                let adData = AdvertisementAdxData(adUnitId: feedAdUnitId,
+                                                  rootViewController: adsDelegate.rootViewControllerForAds(),
+                                                  adPosition: lastAdPosition,
+                                                  bannerHeight: LGUIKitConstants.advertisementCellMoPubHeight,
+                                                  adRequested: false,
+                                                  categories: filters.selectedCategories,
+                                                  adLoader: adLoader,
+                                                  adxNativeView: NativeAdBlankStateView())
+                adsCellModel = ListingCellModel.adxAdvertisement(data: adData)
                 
             } else {
                 guard let feedAdUnitId = featureFlags.feedDFPAdUnitId else { return listings }
@@ -981,7 +995,6 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                                                   rootViewController: adsDelegate.rootViewControllerForAds(),
                                                   adPosition: lastAdPosition,
                                                   bannerHeight: LGUIKitConstants.advertisementCellPlaceholderHeight,
-                                                  showAdsInFeedWithRatio: featureFlags.showAdsInFeedWithRatio,
                                                   adRequested: false,
                                                   categories: filters.selectedCategories,
                                                   adRequest: request,
@@ -1027,7 +1040,13 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         if lastAdPosition == 0 {
             adPosition = MainListingsViewModel.adInFeedInitialPosition
         } else {
-            adPosition = lastAdPosition + MainListingsViewModel.adsInFeedRatio
+            let ratio: Int
+            if featureFlags.showAdsInFeedWithRatio.isActive {
+                ratio = featureFlags.showAdsInFeedWithRatio.ratio
+            } else {
+                ratio = MainListingsViewModel.adsInFeedRatio
+            }
+            adPosition = lastAdPosition + ratio
         }
         return adPosition
     }
