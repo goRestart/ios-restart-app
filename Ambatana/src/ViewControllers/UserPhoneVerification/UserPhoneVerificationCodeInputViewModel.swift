@@ -22,8 +22,8 @@ final class UserPhoneVerificationCodeInputViewModel: BaseViewModel {
     }
 
     let phoneNumber: String
-    var showResendCodeOption = Variable<Bool>(false)
-    var validationState = Variable<ValidationState>(.none)
+    let showResendCodeOption = Variable<Bool>(false)
+    let validationState = Variable<ValidationState>(.none)
 
     init(phoneNumber: String,
          myUserRepository: MyUserRepository = Core.myUserRepository) {

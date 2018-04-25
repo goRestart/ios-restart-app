@@ -171,7 +171,7 @@ final class UserPhoneVerificationCodeInputViewController: BaseViewController {
                     self?.showValidationFinishedWith(success: true)
                 case .failure:
                     self?.showValidationFinishedWith(success: false)
-                default:
+                case .none:
                     break
                 }
             })
@@ -273,7 +273,7 @@ private class FullScreenMessageView: UIView {
             icon.centerXAnchor.constraint(equalTo: centerXAnchor),
             icon.bottomAnchor.constraint(equalTo: centerYAnchor, constant: -Layout.verticalMargin),
             icon.widthAnchor.constraint(equalToConstant: Layout.iconSize),
-            icon.heightAnchor.constraint(equalToConstant: Layout.iconSize),
+            icon.heightAnchor.constraint(equalTo: icon.widthAnchor),
             label.leftAnchor.constraint(equalTo: leftAnchor, constant: Layout.horizontalMargin),
             label.rightAnchor.constraint(equalTo: rightAnchor, constant: -Layout.horizontalMargin),
             label.topAnchor.constraint(equalTo: centerYAnchor, constant: Layout.verticalMargin)

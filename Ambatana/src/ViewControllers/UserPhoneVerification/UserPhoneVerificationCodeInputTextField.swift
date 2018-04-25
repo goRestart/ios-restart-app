@@ -12,7 +12,7 @@ protocol VerificationCodeTextFieldDelegate: class {
     func didEndEditingWith(code: String)
 }
 
-class VerificationCodeTextField: UIView {
+final class VerificationCodeTextField: UIView {
 
     weak var delegate: VerificationCodeTextFieldDelegate?
 
