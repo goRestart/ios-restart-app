@@ -431,6 +431,11 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
             self?.footer.updateVideoRecordingDurationProgress(progress: progress, remainingTime: remainingTime)
         }.disposed(by: disposeBag)
 
+        cameraView.recordVideoEnabled.asObservable().subscribeNext{ [weak self] recordVideoEnabled in
+            self?.footer.photoButton.isHidden = !recordVideoEnabled
+            self?.footer.videoButton.isHidden = !recordVideoEnabled
+            self?.footer.galleryButton.isHidden = !recordVideoEnabled
+        }.disposed(by: disposeBag)
     }
 
     private func setupRx() {

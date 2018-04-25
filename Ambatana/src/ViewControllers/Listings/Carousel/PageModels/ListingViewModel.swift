@@ -1505,7 +1505,7 @@ extension ListingViewModel {
                                       isChatEnabled: !isMine)
     }
 
-    func makeDisplable(forMediaAt index: Int) -> PhotoViewerDisplayItem? {
+    func makeDisplayable(forMediaAt index: Int) -> PhotoViewerDisplayItem? {
         guard 0..<productMedia.value.count ~= index else { return nil }
         return PhotoViewerDisplayItem(listing: listing.value,
                                       media: [productMedia.value[index]],

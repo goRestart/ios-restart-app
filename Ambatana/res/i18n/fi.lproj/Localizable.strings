@@ -1,4 +1,3 @@
-"account_deactivated_w_name" = "Käyttäjän %@ tili on poistettu";
 "account_pending_moderation" = "Tili on poistettu käytöstä moderaattorin toimesta";
 "account_pending_moderation_w_name" = "Käyttäjän %@ tili on poistettu käytöstä moderaattorin toimesta";
 "app_notification_reply" = "Vastaa";
@@ -8,7 +7,6 @@
 "app_share_message_text" = "Tutustu letgo-sovellukseen ja tienaa rahaa myymällä tavaroita, joita et enää käytä!";
 "app_share_subject_text" = "Tutustu letgohun";
 "app_share_subtitle" = "Kutsu ystäväsi letgohun ja auta yhteisöämme kasvamaan!";
-"app_share_success" = "Sovellus jaettu!";
 "app_share_title" = "KUTSU YSTÄVÄSI";
 "app_share_whatsapp_button" = "Kutsu Whatsappilla";
 "block_user_error_generic" = "Tätä käyttäjää estettäessä tapahtui virhe.";
@@ -678,15 +676,15 @@
 "product_popular_near_you" = "Suosittuja lähelläsi";
 "product_post_camera_first_time_alert_subtitle" = "Nappaa hyvä kuva ja ala tienata!";
 "product_post_camera_first_time_alert_title" = "Mitä olet myymässä?";
-"product_post_camera_gallery_text_button" = "GALLERY";
+"product_post_camera_gallery_text_button" = "GALLERIA";
 "product_post_camera_permissions_button" = "Salli";
 "product_post_camera_permissions_subtitle" = "Ottaaksesi kuvan, sinun on annettava lupa käyttää kameraa";
 "product_post_camera_permissions_title" = "Salli kameran käyttö";
-"product_post_camera_photo_mode_button" = "PHOTO";
+"product_post_camera_photo_mode_button" = "KUVA";
 "product_post_camera_tab_v2" = "KAMERA";
 "product_post_camera_video_mode_button" = "VIDEO";
-"product_post_camera_video_recording_tooltip" = "%@ to record a video";
-"product_post_camera_video_recording_tooltip_highlighted_word" = "Hold";
+"product_post_camera_video_recording_tooltip" = "%@ kuvataksesi videon";
+"product_post_camera_video_recording_tooltip_highlighted_word" = "Pidä pohjassa";
 "product_post_close_alert_close_button" = "Hylkää";
 "product_post_close_alert_description" = "Haluatko silti laittaa tuotteen myyntiin?";
 "product_post_close_alert_ok_button" = "Julkaise ilmoitus";

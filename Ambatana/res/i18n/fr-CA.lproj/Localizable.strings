@@ -1,4 +1,3 @@
-"account_deactivated_w_name" = "Le compte de %@ a été supprimé";
 "account_pending_moderation" = "Compte en attente de modération";
 "account_pending_moderation_w_name" = "Le compte de %@ est en attente de modération";
 "app_notification_reply" = "Répondre";
@@ -8,7 +7,6 @@
 "app_share_message_text" = "Essayez l'appli letgo et gagnez de l'argent en vendant des objets que vous n'utilisez plus !";
 "app_share_subject_text" = "Découvrez letgo";
 "app_share_subtitle" = "Invitez vos amis sur letgo et aidez-nous à développer notre communauté !";
-"app_share_success" = "Appli partagée !";
 "app_share_title" = "INVITEZ VOS AMIS";
 "app_share_whatsapp_button" = "Inviter via Whatsapp";
 "block_user_error_generic" = "Une erreur est survenue lors du blocage de cet utilisateur.";
@@ -678,15 +676,15 @@
 "product_popular_near_you" = "Populaire près de chez vous";
 "product_post_camera_first_time_alert_subtitle" = "Prenez une bonne photo et commencez à gagner de l'argent !";
 "product_post_camera_first_time_alert_title" = "Que vendez-vous ?";
-"product_post_camera_gallery_text_button" = "GALLERY";
+"product_post_camera_gallery_text_button" = "ALBUM PHOTOS";
 "product_post_camera_permissions_button" = "Autoriser";
 "product_post_camera_permissions_subtitle" = "Pour prendre une photo, vous devez autoriser l'accès à l'Appareil Photo";
 "product_post_camera_permissions_title" = "Autoriser l'accès à l'Appareil Photo";
 "product_post_camera_photo_mode_button" = "PHOTO";
 "product_post_camera_tab_v2" = "APPAREIL PHOTO";
-"product_post_camera_video_mode_button" = "VIDEO";
-"product_post_camera_video_recording_tooltip" = "%@ to record a video";
-"product_post_camera_video_recording_tooltip_highlighted_word" = "Hold";
+"product_post_camera_video_mode_button" = "VIDÉO";
+"product_post_camera_video_recording_tooltip" = "%@ pour enregistrer une vidéo";
+"product_post_camera_video_recording_tooltip_highlighted_word" = "Maintenez appuyé";
 "product_post_close_alert_close_button" = "Annuler";
 "product_post_close_alert_description" = "Souhaitez-vous toujours le laisser en vente ?";
 "product_post_close_alert_ok_button" = "Publiez l'annonce";

@@ -48,7 +48,7 @@ class MockProductCreationParams: ProductCreationParams, MockFactory {
                    location: LGLocationCoordinates2D.makeMock(),
                    postalAddress: PostalAddress.makeMock(),
                    images: MockFile.makeMocks(count: Int.makeRandom(min: 0, max: 4)),
-                   videos: [])
+                   videos: MockVideo.makeMocks(count: Int.makeRandom(min: 0, max: 4)))
     }
 
     public static func makeMock() -> Self {
@@ -82,7 +82,7 @@ class MockCarCreationParams: CarCreationParams, MockFactory {
                    location: LGLocationCoordinates2D.makeMock(),
                    postalAddress: PostalAddress.makeMock(),
                    images: MockFile.makeMocks(count: Int.makeRandom(min: 0, max: 4)),
-                   videos: [],
+                   videos: MockVideo.makeMocks(count: Int.makeRandom(min: 0, max: 4)),
                    carAttributes: CarAttributes.makeMock())
     }
     
@@ -112,7 +112,7 @@ class MockRealEstateCreationParams: RealEstateCreationParams, MockFactory {
                    location: LGLocationCoordinates2D.makeMock(),
                    postalAddress: PostalAddress.makeMock(),
                    images: MockFile.makeMocks(count: Int.makeRandom(min: 0, max: 4)),
-                   videos: [],
+                   videos: MockVideo.makeMocks(count: Int.makeRandom(min: 0, max: 4)),
                    realEstateAttributes: RealEstateAttributes.makeMock())
     }
     

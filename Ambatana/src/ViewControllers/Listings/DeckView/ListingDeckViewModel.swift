@@ -65,7 +65,7 @@ final class ListingDeckViewModel: BaseViewModel {
     fileprivate var productsViewModels: [String: ListingViewModel] = [:]
     fileprivate let listingViewModelMaker: ListingViewModelMaker
     fileprivate let tracker: Tracker
-    private let featureFlags: FeatureFlags
+    private let featureFlags: FeatureFlaggeable
 
     let actionOnFirstAppear: DeckActionOnFirstAppear
     let objects = CollectionVariable<ListingCellModel>([])
@@ -183,7 +183,7 @@ final class ListingDeckViewModel: BaseViewModel {
          actionOnFirstAppear: DeckActionOnFirstAppear,
          trackingIndex: Int?,
          keyValueStorage: KeyValueStorageable,
-         featureFlags: FeatureFlags) {
+         featureFlags: FeatureFlaggeable) {
         self.imageDownloader = imageDownloader
         self.pagination = pagination
         self.prefetching = prefetching
