@@ -110,7 +110,6 @@ extension VPPostListingRedCamFooter: PostListingFooter {
         guard let cameraButton = cameraButton as? CameraButton else { return }
         cameraButton.progress = progress
 
-        let remainingTime: Int = 15 - Int(15 * progress)
         recordingTooltip.label.text = String(format: "0:%02d", remainingTime)
         if recordingTooltip.isHidden {
             recordingTooltip.isHidden = false
