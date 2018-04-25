@@ -24,7 +24,7 @@
                 <outlet property="emailIconImageView" destination="TP0-kh-nt6" id="XFm-X2-has"/>
                 <outlet property="emailTextField" destination="xhx-t7-hhX" id="NqR-I2-TVe"/>
                 <outlet property="forgotPasswordButton" destination="4VR-gB-SsT" id="9VD-h8-vz2"/>
-                <outlet property="kenBurnsView" destination="GTZ-tx-zEe" id="88n-NE-xKH"/>
+                <outlet property="kenBurnsView" destination="GTZ-tx-zEe" id="MpT-hO-xPs"/>
                 <outlet property="loginSegmentedControl" destination="uub-q6-iKW" id="GbT-gm-t7p"/>
                 <outlet property="loginSegmentedControlTopConstraint" destination="DaP-FJ-X4D" id="7Np-xy-rKp"/>
                 <outlet property="newsletterLabel" destination="E1t-3M-DBD" id="YSp-px-IJa"/>
@@ -59,7 +59,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MKc-8z-pKd">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <subviews>
-                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GTZ-tx-zEe" customClass="JBKenBurnsView">
+                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GTZ-tx-zEe" customClass="KenBurnsView" customModule="LetGo" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         </view>

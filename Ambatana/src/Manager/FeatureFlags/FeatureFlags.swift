@@ -64,7 +64,6 @@ protocol FeatureFlaggeable: class {
     var servicesCategoryEnabled: ServicesCategoryEnabled { get }
     var increaseNumberOfPictures: IncreaseNumberOfPictures { get }
     var realEstateTutorial: RealEstateTutorial { get }
-    var realEstatePromoCell: RealEstatePromoCell { get }
     var machineLearningMVP: MachineLearningMVP { get }
     var chatNorris: ChatNorris { get }
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings { get }
@@ -72,7 +71,7 @@ protocol FeatureFlaggeable: class {
     var showProTagUserProfile: Bool { get }
     var summaryAsFirstStep: SummaryAsFirstStep { get }
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem { get }
-    var searchCarsIntoNewBackend: SearchCarsIntoNewBackend { get }
+    
     var showExactLocationForPros: Bool { get }
 
     // Country dependant features
@@ -89,10 +88,18 @@ protocol FeatureFlaggeable: class {
     var copyForChatNowInTurkey: CopyForChatNowInTurkey { get }
     var shareTypes: [ShareType] { get }
     var feedAdsProviderForUS:  FeedAdsProviderForUS { get }
-    var feedMoPubAdUnitId: String? { get }
+    var feedAdUnitId: String? { get }
     var shouldChangeChatNowCopyInEnglish: Bool { get }
     var copyForChatNowInEnglish: CopyForChatNowInEnglish { get }
     var feedAdsProviderForTR:  FeedAdsProviderForTR { get }
+    var shouldChangeSellFasterNowCopyInEnglish: Bool { get }
+    var copyForSellFasterNowInEnglish: CopyForSellFasterNowInEnglish { get }
+    
+    //  MARK: Verticals
+    var searchCarsIntoNewBackend: SearchCarsIntoNewBackend { get }
+    var realEstatePromoCell: RealEstatePromoCell { get }
+    var filterSearchCarSellerType: FilterSearchCarSellerType { get }
+    var createUpdateIntoNewBackend: CreateUpdateCarsIntoNewBackend { get }
     
 }
 
@@ -280,6 +287,18 @@ extension RealEstatePromoCell {
     var isActive: Bool { return self == .active }
 }
 
+extension FilterSearchCarSellerType {
+    var isActive: Bool { return self != .baseline && self != .control }
+    
+    var isMultiselection: Bool {
+        return self == .variantA || self == .variantB
+    }
+}
+
+extension CreateUpdateCarsIntoNewBackend {
+    var isActive: Bool { return self != .baseline && self != .control }
+}
+
 extension MachineLearningMVP {
     var isActive: Bool { return self == .active }
 }
@@ -302,10 +321,10 @@ extension ShowPasswordlessLogin{
 
 extension FeedAdsProviderForUS {
     private var shouldShowAdsInFeedForNewUsers: Bool {
-        return self == .moPubAdsForAllUsers
+        return self == .moPubAdsForAllUsers || self == .googleAdxForAllUsers
     }
     private var shouldShowAdsInFeedForOldUsers: Bool {
-        return self == .moPubAdsForOldUsers || self == .moPubAdsForAllUsers
+        return self == .moPubAdsForOldUsers || self == .moPubAdsForAllUsers || self == .googleAdxForOldUsers || self == .googleAdxForAllUsers
     }
     
     var shouldShowAdsInFeed: Bool {
@@ -314,6 +333,10 @@ extension FeedAdsProviderForUS {
     
     var shouldShowMoPubAds : Bool {
         return self == .moPubAdsForOldUsers || self == .moPubAdsForAllUsers
+    }
+    
+    var shouldShowGoogleAdxAds : Bool {
+        return self == .googleAdxForOldUsers || self == .googleAdxForAllUsers
     }
     
     func shouldShowAdsInFeedForUser(createdIn: Date?) -> Bool {
@@ -373,6 +396,25 @@ extension CopyForChatNowInEnglish {
             return LGLocalizedString.bumpUpProductCellChatNowButtonEnglishD
         }
         } }
+}
+
+extension CopyForSellFasterNowInEnglish {
+    var isActive: Bool { return self != .control && self != .baseline }
+    
+    var variantString: String {
+        switch self {
+        case .control:
+            return LGLocalizedString.bumpUpBannerPayTextImprovement
+        case .baseline:
+            return LGLocalizedString.bumpUpBannerPayTextImprovementEnglishA
+        case .variantB:
+            return LGLocalizedString.bumpUpBannerPayTextImprovementEnglishB
+        case .variantC:
+            return LGLocalizedString.bumpUpBannerPayTextImprovementEnglishC
+        case .variantD:
+            return LGLocalizedString.bumpUpBannerPayTextImprovementEnglishD
+        }
+    }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -631,13 +673,6 @@ class FeatureFlags: FeatureFlaggeable {
         return RealEstateTutorial.fromPosition(abTests.realEstateTutorial.value)
     }
     
-    var realEstatePromoCell: RealEstatePromoCell {
-        if Bumper.enabled {
-            return Bumper.realEstatePromoCell
-        }
-        return RealEstatePromoCell.fromPosition(abTests.realEstatePromoCell.value)
-    }
-    
     var machineLearningMVP: MachineLearningMVP {
         if Bumper.enabled {
             return Bumper.machineLearningMVP
@@ -731,13 +766,6 @@ class FeatureFlags: FeatureFlaggeable {
         return cached ?? ShowAdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value)
     }
 
-    var searchCarsIntoNewBackend: SearchCarsIntoNewBackend {
-        if Bumper.enabled {
-            return Bumper.searchCarsIntoNewBackend
-        }
-        return SearchCarsIntoNewBackend.fromPosition(abTests.searchCarsIntoNewBackend.value)
-    }
-    
     var showExactLocationForPros: Bool {
         if Bumper.enabled {
             return Bumper.showExactLocationForPros
@@ -924,7 +952,7 @@ class FeatureFlags: FeatureFlaggeable {
         return FeedAdsProviderForUS.fromPosition(abTests.feedAdsProviderForUS.value)
     }
     
-    var feedMoPubAdUnitId: String? {
+    var feedAdUnitId: String? {
         if Bumper.enabled {
             // Bumper overrides country restriction
             switch feedAdsProviderForUS {
@@ -932,8 +960,19 @@ class FeatureFlags: FeatureFlaggeable {
                 return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubUSAForAllUsers
             case .moPubAdsForOldUsers:
                 return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubUSAForOldUsers
+            case .googleAdxForAllUsers:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxUSAForAllUsers
+            case .googleAdxForOldUsers:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxUSAForOldUsers
             default:
-                return nil
+                switch feedAdsProviderForTR {
+                case .moPubAdsForAllUsers:
+                    return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubTRForAllUsers
+                case .moPubAdsForOldUsers:
+                    return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubTRForOldUsers
+                default:
+                    return nil
+                }
             }
         }
         switch sensorLocationCountryCode {
@@ -943,6 +982,10 @@ class FeatureFlags: FeatureFlaggeable {
                 return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubUSAForAllUsers
             case .moPubAdsForOldUsers:
                 return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubUSAForOldUsers
+            case .googleAdxForAllUsers:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxUSAForAllUsers
+            case .googleAdxForOldUsers:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxUSAForOldUsers
             default:
                 return nil
             }
@@ -995,6 +1038,26 @@ class FeatureFlags: FeatureFlaggeable {
         // TODO: restore the ABTests code when BE part is working 👇
 //        return  ChatNorris.fromPosition(abTests.chatNorris.value)
     }
+    
+    var shouldChangeSellFasterNowCopyInEnglish: Bool {
+        if Bumper.enabled {
+            return Bumper.copyForSellFasterNowInEnglish.isActive
+        }
+        switch (localeCountryCode) {
+        case .usa?:
+            return true
+        default:
+            return false
+        }
+    }
+    
+    var copyForSellFasterNowInEnglish: CopyForSellFasterNowInEnglish {
+        if Bumper.enabled {
+            return Bumper.copyForSellFasterNowInEnglish
+        }
+        return CopyForSellFasterNowInEnglish.fromPosition(abTests.copyForSellFasterNowInEnglish.value)
+        
+    }
 
     
     // MARK: - Private
@@ -1011,5 +1074,38 @@ class FeatureFlags: FeatureFlaggeable {
     private var sensorLocationCountryCode: CountryCode? {
         guard let countryCode = locationManager.currentAutoLocation?.countryCode else { return nil }
         return CountryCode(string: countryCode)
+    }
+}
+
+// MARK: Verticals
+
+extension FeatureFlags {
+    
+    var searchCarsIntoNewBackend: SearchCarsIntoNewBackend {
+        if Bumper.enabled {
+            return Bumper.searchCarsIntoNewBackend
+        }
+        return SearchCarsIntoNewBackend.fromPosition(abTests.searchCarsIntoNewBackend.value)
+    }
+    
+    var realEstatePromoCell: RealEstatePromoCell {
+        if Bumper.enabled {
+            return Bumper.realEstatePromoCell
+        }
+        return RealEstatePromoCell.fromPosition(abTests.realEstatePromoCell.value)
+    }
+    
+    var filterSearchCarSellerType: FilterSearchCarSellerType {
+        if Bumper.enabled {
+            return Bumper.filterSearchCarSellerType
+        }
+        return FilterSearchCarSellerType.fromPosition(abTests.filterSearchCarSellerType.value)
+    }
+    
+    var createUpdateIntoNewBackend: CreateUpdateCarsIntoNewBackend {
+        if Bumper.enabled {
+            return Bumper.createUpdateCarsIntoNewBackend
+        }
+        return CreateUpdateCarsIntoNewBackend.fromPosition(abTests.createUpdateCarsIntoNewBackend.value)
     }
 }

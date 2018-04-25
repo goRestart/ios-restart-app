@@ -20,6 +20,7 @@ enum FilterTag: Equatable {
     case freeStuff
     case distance(distance: Int)
     
+    case carSellerType(type: UserType, name: String)
     case make(id: String, name: String)
     case model(id: String, name: String)
     case yearsRange(from: Int?, to: Int?)
@@ -35,7 +36,7 @@ enum FilterTag: Equatable {
 extension FilterTag {
     var isTaxonomy: Bool {
         switch self {
-    case .location, .within, .orderBy, .category, .taxonomyChild, .secondaryTaxonomyChild, .priceRange, .freeStuff, .distance, .make, .model, .yearsRange, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType, .realEstateNumberOfRooms, .sizeSquareMetersRange:
+    case .location, .within, .orderBy, .category, .taxonomyChild, .secondaryTaxonomyChild, .priceRange, .freeStuff, .distance, .carSellerType, .make, .model, .yearsRange, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType, .realEstateNumberOfRooms, .sizeSquareMetersRange:
             return false
         case .taxonomy:
             return true
@@ -44,7 +45,7 @@ extension FilterTag {
     
     var taxonomyChild: TaxonomyChild? {
         switch self {
-        case .location, .within, .orderBy, .category, .taxonomy, .priceRange, .freeStuff, .distance, .make, .model, .yearsRange, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType, .realEstateNumberOfRooms, .sizeSquareMetersRange:
+        case .location, .within, .orderBy, .category, .taxonomy, .priceRange, .freeStuff, .distance, .carSellerType, .make, .model, .yearsRange, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType, .realEstateNumberOfRooms, .sizeSquareMetersRange:
             return nil
         case .taxonomyChild(let taxonomyChild):
             return taxonomyChild
@@ -66,6 +67,7 @@ func ==(a: FilterTag, b: FilterTag) -> Bool {
     case (.priceRange(let a, let b, _), .priceRange(let c, let d, _)) where a == c && b == d: return true
     case (.freeStuff, .freeStuff): return true
     case (.distance(let distanceA), .distance(let distanceB)) where distanceA == distanceB: return true
+    case (.carSellerType(let typeA, let nameA), .carSellerType(let typeB, let nameB)) where typeA == typeB && nameA == nameB: return true
     case (.make(let idA, let nameA), .make(let idB, let nameB)) where idA == idB && nameA == nameB: return true
     case (.model(let idA, let nameA), .model(let idB, let nameB)) where idA == idB && nameA == nameB: return true
     case (.yearsRange(let a, let b), .yearsRange(let c, let d)) where a == c && b == d: return true

@@ -245,7 +245,7 @@ struct TrackerEvent {
     static func filterComplete(_ coordinates: LGLocationCoordinates2D?, distanceRadius: Int?,
                                distanceUnit: DistanceType, categories: [ListingCategory]?, sortBy: ListingSortCriteria?,
                                postedWithin: ListingTimeCriteria?, priceRange: FilterPriceRange, freePostingModeAllowed: Bool,
-                               carMake: String?, carModel: String?, carYearStart: Int?, carYearEnd: Int?, propertyType: String?,
+                               carSellerType: String?, carMake: String?, carModel: String?, carYearStart: Int?, carYearEnd: Int?, propertyType: String?,
                                offerType: [String]?, bedrooms: Int?, bathrooms: Float?, sizeSqrMetersMin: Int?,
                                sizeSqrMetersMax: Int?, rooms: NumberOfRooms?) -> TrackerEvent {
         var params = EventParameters()
@@ -281,6 +281,10 @@ struct TrackerEvent {
 
         var verticalFields: [String] = []
 
+        if let carSellerType = carSellerType {
+            params[.carSellerType] = carSellerType
+        }
+        
         if let make = carMake {
             params[.make] = make
             verticalFields.append(EventParameterName.make.rawValue)
@@ -380,14 +384,19 @@ struct TrackerEvent {
     }
 
 
-    static func listingDetailVisit(_ listing: Listing, visitUserAction: ListingVisitUserAction, source: EventParameterListingVisitSource, feedPosition: EventParameterFeedPosition,
-                                   isBumpedUp: EventParameterBoolean) -> TrackerEvent {
+    static func listingDetailVisit(_ listing: Listing,
+                                   visitUserAction: ListingVisitUserAction,
+                                   source: EventParameterListingVisitSource,
+                                   feedPosition: EventParameterFeedPosition,
+                                   isBumpedUp: EventParameterBoolean,
+                                   sellerBadge: EventParameterUserBadge) -> TrackerEvent {
         var params = EventParameters()
         params.addListingParams(listing)
         params[.userAction] = visitUserAction.rawValue
         params[.listingVisitSource] = source.rawValue
         params[.feedPosition] = feedPosition.value
         params[.isBumpedUp] = isBumpedUp.rawValue
+        params[.sellerReputationBadge] = sellerBadge.rawValue
         return TrackerEvent(name: .listingDetailVisit, params: params)
     }
 
@@ -871,10 +880,12 @@ struct TrackerEvent {
 
     static func firstMessage(info: SendMessageTrackingInfo,
                              listingVisitSource: EventParameterListingVisitSource,
-                             feedPosition: EventParameterFeedPosition) -> TrackerEvent {
+                             feedPosition: EventParameterFeedPosition,
+                             userBadge: EventParameterUserBadge) -> TrackerEvent {
         var params = info.params
         params[.listingVisitSource] = listingVisitSource.rawValue
         params[.feedPosition] = feedPosition.value
+        params[.sellerReputationBadge] = userBadge.rawValue
         return TrackerEvent(name: .firstMessage, params: params)
     }
 
@@ -906,6 +917,7 @@ struct TrackerEvent {
             params[.userToId] = user.objectId
             params[.tab] = tab.rawValue
             params[.profileType] = profileType.rawValue
+            params[.sellerReputationBadge] = EventParameterUserBadge(userBadge: user.reputationBadge).rawValue
             return TrackerEvent(name: .profileVisit, params: params)
     }
 

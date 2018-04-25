@@ -72,6 +72,7 @@ struct ListingFilters {
     }
     var priceRange: FilterPriceRange
 
+    var carSellerTypes: [UserType]
     var carMakeId: RetrieveListingParam<String>?
     var carMakeName: String?
     var carModelId: RetrieveListingParam<String>?
@@ -101,6 +102,7 @@ struct ListingFilters {
             selectedWithin: ListingTimeCriteria.defaultOption,
             selectedOrdering: ListingSortCriteria.defaultOption,
             priceRange: .priceRange(min: nil, max: nil),
+            carSellerTypes: [],
             carMakeId: nil,
             carMakeName: nil,
             carModelId: nil,
@@ -125,6 +127,7 @@ struct ListingFilters {
          selectedWithin: ListingTimeCriteria,
          selectedOrdering: ListingSortCriteria?,
          priceRange: FilterPriceRange,
+         carSellerTypes: [UserType],
          carMakeId: RetrieveListingParam<String>?,
          carMakeName: String?,
          carModelId: RetrieveListingParam<String>?,
@@ -147,6 +150,7 @@ struct ListingFilters {
         self.selectedWithin = selectedWithin
         self.selectedOrdering = selectedOrdering
         self.priceRange = priceRange
+        self.carSellerTypes = carSellerTypes
         self.carMakeId = carMakeId
         self.carMakeName = carMakeName
         self.carModelId = carModelId
@@ -171,6 +175,7 @@ struct ListingFilters {
                               selectedWithin: selectedWithin,
                               selectedOrdering: selectedOrdering,
                               priceRange: priceRange,
+                              carSellerTypes: carSellerTypes,
                               carMakeId: carMakeId,
                               carMakeName: carMakeName,
                               carModelId: carModelId,
@@ -195,6 +200,7 @@ struct ListingFilters {
                               selectedWithin: selectedWithin,
                               selectedOrdering: selectedOrdering,
                               priceRange: priceRange,
+                              carSellerTypes: carSellerTypes,
                               carMakeId: carMakeId,
                               carMakeName: carMakeName,
                               carModelId: carModelId,
@@ -219,6 +225,7 @@ struct ListingFilters {
                               selectedWithin: selectedWithin,
                               selectedOrdering: selectedOrdering,
                               priceRange: priceRange,
+                              carSellerTypes: [],
                               carMakeId: nil,
                               carMakeName: nil,
                               carModelId: nil,
@@ -324,4 +331,3 @@ extension ListingFilters: Equatable {
             a.realEstateNumberOfRooms == b.realEstateNumberOfRooms
     }
 }
-

@@ -138,4 +138,12 @@ class EnvironmentProxy: AppEnvironment {
         return environment.feedAdUnitIdMoPubTRForOldUsers
     }
     
+    var feedAdUnitIdAdxUSAForAllUsers: String {
+        return environment.feedAdUnitIdAdxUSAForAllUsers
+    }
+    
+    var feedAdUnitIdAdxUSAForOldUsers: String {
+        return environment.feedAdUnitIdAdxUSAForOldUsers
+    }
+    
 }
