@@ -286,9 +286,24 @@ class ListingPostedViewModel: BaseViewModel {
 
             fileRepository.upload([video.snapshot], progress: nil) { [weak self] result in
                 if let image = result.value?.first {
-                    self?.preSignedUploadUrlRepository.create(fileExtension: "mp4", completion: { [weak self] result in
+
+                    guard let snapshot = image.objectId else {
+                        let error = RepositoryError.internalError(message: "Missing uploaded image identifier")
+                        self?.trackPostSellError(error: error)
+                        self?.updateStatusAfterPosting(status: ListingPostedStatus(error: error))
+                        return
+                    }
+
+                    self?.preSignedUploadUrlRepository.create(fileExtension: Constants.videoFileExtension, completion: { [weak self] result in
 
                         if let preSignedUploadUrl = result.value {
+
+                            guard let path = preSignedUploadUrl.form.fileKey else {
+                                let error = RepositoryError.internalError(message: "Missing video file id")
+                                self?.trackPostSellError(error: error)
+                                self?.updateStatusAfterPosting(status: ListingPostedStatus(error: error))
+                                return
+                            }
 
                             self?.preSignedUploadUrlRepository.upload(url: preSignedUploadUrl.form.action,
                                                                       file: video.url,
@@ -298,10 +313,6 @@ class ListingPostedViewModel: BaseViewModel {
 
                                     if result.value != nil {
 
-                                        guard let path = preSignedUploadUrl.form.fileKey, let snapshot = image.objectId else {
-                                            self?.trackPostSellError(error: .internalError(message: ""))
-                                            return
-                                        }
                                         let video: Video = LGVideo(path: path , snapshot: snapshot)
                                         let updatedParams = params.updating(videos: [video])
 

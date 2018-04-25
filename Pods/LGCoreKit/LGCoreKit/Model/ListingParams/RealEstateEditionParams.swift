@@ -19,10 +19,7 @@ public class RealEstateEditionParams: RealEstateCreationParams {
         guard let realEstateId = realEstate.objectId, let userId = realEstate.user.objectId else { return nil }
         self.realEstateId = realEstateId
         self.userId = userId
-        let videos: [Video] = realEstate.media.flatMap { media in
-            guard media.type == .video, let path = media.outputs.video?.lastPathComponent else { return nil }
-            return LGVideo(path: path, snapshot: media.snapshotId)
-        }
+        let videos: [Video] = realEstate.media.flatMap(LGVideo.init)
         super.init(name: realEstate.name,
                    description: realEstate.descr,
                    price: realEstate.price,

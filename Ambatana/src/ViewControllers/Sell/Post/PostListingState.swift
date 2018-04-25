@@ -48,7 +48,7 @@ class PostListingState {
     let pendingToUploadVideo: RecordedVideo?
     let lastImagesUploadResult: FilesResult?
     let uploadingVideo: VideoUpload?
-    let uploadedVideo: VideoUpload?
+    let uploadedVideo: Video?
     let price: ListingPrice?
     let verticalAttributes: VerticalAttributes?
     let place: Place?
@@ -90,7 +90,7 @@ class PostListingState {
                  pendingToUploadVideo: RecordedVideo?,
                  lastImagesUploadResult: FilesResult?,
                  uploadingVideo: VideoUpload?,
-                 uploadedVideo: VideoUpload?,
+                 uploadedVideo: Video?,
                  price: ListingPrice?,
                  verticalAttributes: VerticalAttributes?,
                  place: Place?,
@@ -288,7 +288,7 @@ class PostListingState {
                                 title: title)
     }
 
-    func updatingToSuccessUpload(uploadedVideo: VideoUpload) -> PostListingState {
+    func updatingToSuccessUpload(uploadedVideo: Video) -> PostListingState {
         switch step {
         case .uploadingVideo:
             break

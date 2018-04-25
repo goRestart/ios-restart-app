@@ -39,6 +39,7 @@ class PostListingCameraViewModel: BaseViewModel {
     
     private let disposeBag = DisposeBag()
     private let keyValueStorage: KeyValueStorage   //cameraAlreadyShown
+    private let filesManager: FilesManager
     let sourcePosting: PostingSource
     let isBlockingPosting: Bool
 
@@ -73,8 +74,9 @@ class PostListingCameraViewModel: BaseViewModel {
     // MARK: - Lifecycle
 
     init(postingSource: PostingSource, postCategory: PostCategory?, isBlockingPosting: Bool,
-         keyValueStorage: KeyValueStorage, featureFlags: FeatureFlaggeable, mediaPermissions: MediaPermissions) {
+         keyValueStorage: KeyValueStorage, filesManager: FilesManager, featureFlags: FeatureFlaggeable, mediaPermissions: MediaPermissions) {
         self.keyValueStorage = keyValueStorage
+        self.filesManager = filesManager
         self.sourcePosting = postingSource
         self.isBlockingPosting = isBlockingPosting
         self.featureFlags = featureFlags
@@ -89,11 +91,13 @@ class PostListingCameraViewModel: BaseViewModel {
     convenience init(postingSource: PostingSource, postCategory: PostCategory?, isBlockingPosting: Bool) {
         let mediaPermissions: MediaPermissions = LGMediaPermissions()
         let keyValueStorage = KeyValueStorage.sharedInstance
+        let filesManager = LGFilesManager()
         let featureFlags = FeatureFlags.sharedInstance
         self.init(postingSource: postingSource,
                   postCategory: postCategory,
                   isBlockingPosting: isBlockingPosting,
                   keyValueStorage: keyValueStorage,
+                  filesManager: filesManager,
                   featureFlags: featureFlags,
                   mediaPermissions: mediaPermissions)
     }
@@ -155,8 +159,8 @@ class PostListingCameraViewModel: BaseViewModel {
 
     func retryPhotoButtonPressed() {
 
-        if let filePath = videoRecorded.value?.url.path, FileManager.default.fileExists(atPath: filePath) {
-            try? FileManager.default.removeItem(atPath: filePath)
+        if let url = videoRecorded.value?.url {
+            filesManager.removeFile(at: url)
         }
         videoRecorded.value = nil
         imageSelected.value = nil

@@ -1,4 +1,3 @@
-"account_deactivated_w_name" = "Tài khoản của %@ đã bị xoá";
 "account_pending_moderation" = "Tài khoản đang chờ duyệt";
 "account_pending_moderation_w_name" = "Tài khoản của %@ đang chờ duyệt";
 "app_notification_reply" = "Trả lời";
@@ -8,7 +7,6 @@
 "app_share_message_text" = "Hãy ghé thăm ứng dụng letgo và kiếm tiền từ việc bán những món đồ bạn không dùng đến nữa!";
 "app_share_subject_text" = "Duyệt letgo";
 "app_share_subtitle" = "Mời bạn bè sử dụng letgo và giúp chúng tôi mở rộng cộng đồng!";
-"app_share_success" = "Ứng dụng đã được chia sẻ!";
 "app_share_title" = "MỜI BẠN BÈ";
 "app_share_whatsapp_button" = "Mời qua Whatsapp";
 "block_user_error_generic" = "Có lỗi xảy ra trong khi chặn người dùng này.";

@@ -19,10 +19,7 @@ public class CarEditionParams: CarCreationParams {
         guard let carId = car.objectId, let userId = car.user.objectId else { return nil }
         self.carId = carId
         self.userId = userId
-        let videos: [Video] = car.media.flatMap { media in
-            guard media.type == .video, let path = media.outputs.video?.lastPathComponent else { return nil }
-            return LGVideo(path: path, snapshot: media.snapshotId)
-        }
+        let videos: [Video] = car.media.flatMap(LGVideo.init)
         super.init(name: car.name,
                    description: car.descr,
                    price: car.price,

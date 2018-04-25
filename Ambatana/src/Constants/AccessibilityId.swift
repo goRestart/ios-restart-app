@@ -241,7 +241,9 @@ enum AccessibilityId: Equatable {
     case postingGalleryCloseButton
     case postingCloseButton
     case postingGalleryButton
+    case postingCameraButton
     case postingPhotoButton
+    case postingVideoButton
     case postingInfoButton
     case postingLoading
     case postingRetryButton
@@ -1166,8 +1168,12 @@ enum AccessibilityId: Equatable {
             return "postingGalleryButton"
         case .postingInfoButton:
             return "postingInfoButton"
+        case .postingCameraButton:
+            return "postingCameraButton"
         case .postingPhotoButton:
             return "postingPhotoButton"
+        case .postingVideoButton:
+            return "postingVideoButton"
         case .postingLoading:
             return "postingLoading"
         case .postingRetryButton:

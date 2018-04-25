@@ -267,7 +267,7 @@ class PostListingViewModel: BaseViewModel {
 
     fileprivate func createPreSignedUploadUrlForVideo(uploadingVideo: VideoUpload) {
 
-        preSignedUploadUrlRepository.create(fileExtension: "mp4") { [weak self] result in
+        preSignedUploadUrlRepository.create(fileExtension: Constants.videoFileExtension) { [weak self] result in
             guard let strongSelf = self else { return }
 
             if let preSignedUploadUrl = result.value {
@@ -284,13 +284,16 @@ class PostListingViewModel: BaseViewModel {
 
     fileprivate func uploadVideo(uploadingVideo: VideoUpload, preSignedUploadUrl: PreSignedUploadUrl) {
 
-        // Upload video
         self.preSignedUploadUrlRepository.upload(url: preSignedUploadUrl.form.action, file: uploadingVideo.recordedVideo.url, inputs: preSignedUploadUrl.form.inputs, progress: nil, completion: { [weak self] result in
             guard let strongSelf = self else { return }
 
             if result.value != nil {
+                guard let video = LGVideo(videoUpload: uploadingVideo) else {
+                    strongSelf.state.value = strongSelf.state.value.updating(uploadError: .internalError(message: "Error creating LGVideo from VideoUpload "))
+                    return
+                }
                 strongSelf.uploadedVideoLength = uploadingVideo.recordedVideo.duration
-                strongSelf.state.value = strongSelf.state.value.updatingToSuccessUpload(uploadedVideo: uploadingVideo)
+                strongSelf.state.value = strongSelf.state.value.updatingToSuccessUpload(uploadedVideo: video)
             } else if let error = result.error {
                 strongSelf.state.value = strongSelf.state.value.updating(uploadError: error)
             }
@@ -503,7 +506,7 @@ fileprivate extension PostListingViewModel {
                                                    machineLearningInfo: MachineLearningTrackingInfo.defaultValues())
         if sessionManager.loggedIn {
             guard state.value.lastImagesUploadResult?.value != nil || state.value.uploadedVideo != nil,
-            let listingCreationParams = makeListingParams() else { return }
+                let listingCreationParams = makeListingParams() else { return }
             navigator?.closePostProductAndPostInBackground(params: listingCreationParams,
                                                            trackingInfo: trackingInfo)
         } else if let images = state.value.pendingToUploadImages {

@@ -10,11 +10,6 @@ import LGCoreKit
 
 extension PreSignedUploadUrlForm {
     var fileKey: String? {
-
-        if let key = inputs.first(where: { $0.key == "key" }) {
-            return key.value
-        } else {
-            return nil
-        }
+        return inputs.first(where: { $0.key == "key" })?.value
     }
 }

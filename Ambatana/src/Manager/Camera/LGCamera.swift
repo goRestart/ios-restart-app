@@ -127,7 +127,7 @@ final class LGCamera: Camera {
 
     func capturePhoto(completion: @escaping CameraPhotoCompletion) {
         guard session.outputs.contains(capturePhotoOutput) else {
-            completion(CameraPhotoResult(error: .internalError(message: "")))
+            completion(CameraPhotoResult(error: .internalError(message: "Trying to capture photo without AVCaptureOutput")))
             return
         }
 
@@ -135,18 +135,14 @@ final class LGCamera: Camera {
         let deviceOrientation = motionDeviceOrientation.orientation
         capturePhotoOutput.capturePhoto(settings: settings, captureAnimation: { [weak self] in
 
-            UIView.animate(withDuration: 0.3, animations: {
+            UIView.animate(withDuration: 0.2, animations: {
                 self?.previewView.alpha = 0.0
             }, completion: { (finished) in
                 self?.previewView.alpha = 1.0
             })
 
         }) { [weak self] result in
-            guard let strongSelf = self else {
-                completion(CameraPhotoResult(error: .internalError(message: "")))
-                return
-            }
-
+            guard let strongSelf = self else { return }
             if var image = result.value {
                 image = strongSelf.processPhotoImage(image: image,
                                                deviceOrientation: deviceOrientation,
@@ -161,7 +157,7 @@ final class LGCamera: Camera {
     public func startRecordingVideo(maxRecordingDuration: TimeInterval, completion: @escaping CameraRecordingVideoCompletion) {
 
         let outputFileName = NSUUID().uuidString
-        let outputFilePath = (NSTemporaryDirectory() as NSString).appendingPathComponent((outputFileName as NSString).appendingPathExtension("mp4")!)
+        let outputFilePath = (NSTemporaryDirectory() as NSString).appendingPathComponent((outputFileName as NSString).appendingPathExtension(Constants.videoFileExtension)!)
         let fileUrl = URL(fileURLWithPath: outputFilePath)
 
         let videoOrientation = AVCaptureVideoOrientation(deviceOrientation: motionDeviceOrientation.orientation) ?? .portrait
@@ -172,9 +168,8 @@ final class LGCamera: Camera {
     }
 
     func stopRecordingVideo() {
-        if videoRecorder.isRecording {
-            videoRecorder.stopRecording()
-        }
+        guard videoRecorder.isRecording else { return }
+        videoRecorder.stopRecording()
     }
 
     func startForwardingPixelBuffers(to delegate: VideoOutputDelegate, pixelsBuffersToForwardPerSecond: Int) {
@@ -188,11 +183,10 @@ final class LGCamera: Camera {
     }
 
     func stopForwardingPixelBuffers() {
-        if let pixelsBufferForwarder = self.pixelsBufferForwarder {
-            pixelsBufferForwarder.stop()
-            removePixelBuffersForwarderOutput(output: pixelsBufferForwarder.videoOutput)
-            self.pixelsBufferForwarder = nil
-        }
+        guard let pixelsBufferForwarder = pixelsBufferForwarder else { return }
+        pixelsBufferForwarder.stop()
+        removePixelBuffersForwarderOutput(output: pixelsBufferForwarder.videoOutput)
+        self.pixelsBufferForwarder = nil
     }
 }
 
@@ -235,8 +229,8 @@ extension LGCamera {
             }
         }
 
-        DispatchQueue.main.async {
-            self.previewView.flipAnimation()
+        DispatchQueue.main.async { [weak self] in
+            self?.previewView.flipAnimation()
         }
     }
 
@@ -302,22 +296,22 @@ extension LGCamera {
     }
 
     private func addPixelBuffersForwarderOutput(output: AVCaptureOutput) {
-        sessionQueue.async {
-            if !self.session.outputs.contains(output), self.session.canAddOutput(output) {
-                self.session.beginConfiguration()
-                self.session.addOutput(output)
-                self.session.commitConfiguration()
-            }
+        sessionQueue.async { [weak self] in
+            guard let session = self?.session,
+                !session.outputs.contains(output),
+                session.canAddOutput(output) else { return }
+            session.beginConfiguration()
+            session.addOutput(output)
+            session.commitConfiguration()
         }
     }
 
     private func removePixelBuffersForwarderOutput(output: AVCaptureOutput) {
-        sessionQueue.async {
-            if self.session.outputs.contains(output) {
-                self.session.beginConfiguration()
-                self.session.removeOutput(output)
-                self.session.commitConfiguration()
-            }
+        sessionQueue.async { [weak self] in
+            guard let session = self?.session, session.outputs.contains(output) else { return }
+            session.beginConfiguration()
+            session.removeOutput(output)
+            session.commitConfiguration()
         }
     }
 
@@ -361,7 +355,7 @@ private final class LGCaptureStillImageOutput: AVCaptureStillImageOutput, Captur
                       captureAnimation: @escaping () -> Void,
                       completion: @escaping CameraPhotoCompletion) {
         guard let connection = connection(with: .video) else {
-            completion(CameraPhotoResult(error: .internalError(message: "")))
+            completion(CameraPhotoResult(error: .internalError(message: "Trying to capture photo without AVCaptureConnection")))
             return
         }
         captureStillImageAsynchronously(from: connection, completionHandler: { (sample, error) in
@@ -371,12 +365,12 @@ private final class LGCaptureStillImageOutput: AVCaptureStillImageOutput, Captur
                 if let image = UIImage(data: imageData) {
                     result = CameraPhotoResult(value: image)
                 } else {
-                    result = CameraPhotoResult(error: .internalError(message: ""))
+                    result = CameraPhotoResult(error: .internalError(message: "Error creating UIImage from capture image data"))
                 }
             } else if let error = error {
                 result = CameraPhotoResult(error: .frameworkError(error: error))
             } else {
-                result = CameraPhotoResult(error: .internalError(message: ""))
+                result = CameraPhotoResult(error: .internalError(message: "Still image capture completion without image or error"))
             }
             DispatchQueue.main.async {
                 captureAnimation()
@@ -449,21 +443,14 @@ class PhotoCaptureProcessor: NSObject, AVCapturePhotoCaptureDelegate {
             } else if let photo = self.photo {
                 self.completionHandler(CameraPhotoResult(value: photo))
             } else {
-                self.completionHandler(CameraPhotoResult(error: .internalError(message: "")))
+                self.completionHandler(CameraPhotoResult(error: .internalError(message: "Still image capture completion without image or error")))
             }
         }
     }
 }
 
 // MARK: - Video Recorder
-class VideoRecorder : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
-
-    static let videoSettings: [String: Any] = [
-        AVVideoCodecKey: AVVideoCodecH264,
-        AVVideoWidthKey: 480,
-        AVVideoHeightKey: 640,
-        AVVideoScalingModeKey: AVVideoScalingModeResizeAspectFill
-    ];
+class VideoRecorder : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {    
 
     private(set) var videoOutput: AVCaptureVideoDataOutput = {
         let output = AVCaptureVideoDataOutput()
@@ -482,7 +469,7 @@ class VideoRecorder : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
 
     public func startRecording(maxRecordingDuration: TimeInterval, fileUrl: URL, orientation: AVCaptureVideoOrientation, completion: @escaping CameraRecordingVideoCompletion) {
         guard let connection = videoOutput.connection(with: .video), connection.isActive else {
-            completion(CameraRecordingVideoResult(error: .internalError(message: "")))
+            completion(CameraRecordingVideoResult(error: .internalError(message: "Trying to record video without AVCaptureConnection")))
             return
         }
         isRecording = true
@@ -498,7 +485,7 @@ class VideoRecorder : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
             self.fileWriter = fileWriter
             self.completion = completion
 
-            let videoInput = AVAssetWriterInput(mediaType: .video, outputSettings: VideoRecorder.videoSettings)
+            let videoInput = AVAssetWriterInput(mediaType: .video, outputSettings: Constants.videoSettings)
             self.videoInput = videoInput
             videoInput.expectsMediaDataInRealTime = true
             fileWriter.add(videoInput)
@@ -524,7 +511,7 @@ class VideoRecorder : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
 
         if fileWriter.status == .failed {
             DispatchQueue.main.async {
-                completion(CameraRecordingVideoResult(error: .internalError(message: "")))
+                completion(CameraRecordingVideoResult(error: .internalError(message: "Video file writer error")))
             }
         } else {
             fileWriter.finishWriting {
@@ -577,7 +564,7 @@ class PixelsBufferForwarder: NSObject, AVCaptureVideoDataOutputSampleBufferDeleg
 
     private(set) var videoOutput: AVCaptureVideoDataOutput
     private let videoOutputQueue = DispatchQueue(label: "camera.manager.video.output.queue")
-    private let delegate: VideoOutputDelegate
+    private weak var delegate: VideoOutputDelegate?
 
     private var pixelsBuffersToForwardPerSecond: Int = 15
     private var videoOutputLastTimestamp = CMTime()
@@ -603,6 +590,8 @@ class PixelsBufferForwarder: NSObject, AVCaptureVideoDataOutputSampleBufferDeleg
     func captureOutput(_ output: AVCaptureOutput,
                        didOutput sampleBuffer: CMSampleBuffer,
                        from connection: AVCaptureConnection) {
+
+        guard let delegate = delegate else { stop(); return }
 
         let timestamp = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
         let deltaTime = timestamp - videoOutputLastTimestamp
