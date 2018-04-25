@@ -7,11 +7,14 @@
 //
 
 import Foundation
+import RxSwift
+import RxCocoa
 
 final class ListingDeckVideoCell: UICollectionViewCell, ReusableCell {
 
     private let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
     private let blurred = UIImageView()
+    private var disposeBag = DisposeBag()
 
     private let videoPreviewView: VideoPreview = {
         let preview = VideoPreview(frame: .zero)
@@ -21,11 +24,17 @@ final class ListingDeckVideoCell: UICollectionViewCell, ReusableCell {
         return preview
     }()
 
-    // MARK: - Lifecycle
+    private let progressView: UIProgressView = {
+        let bar = UIProgressView()
+        bar.progressTintColor = .gray
+        bar.trackTintColor = UIColor.black.withAlphaComponent(0.5)
+        return bar
+    }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
+        setupRx()
     }
 
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
@@ -36,6 +45,26 @@ final class ListingDeckVideoCell: UICollectionViewCell, ReusableCell {
         clipsToBounds = true
         setupBlur()
         setupVideoPreview()
+        setupProgressView()
+    }
+
+    private func setupProgressView() {
+        contentView.addSubviewForAutoLayout(progressView)
+        NSLayoutConstraint.activate([
+            progressView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: Metrics.margin),
+            progressView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -Metrics.margin),
+            progressView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Metrics.veryBigMargin)
+        ])
+    }
+
+    private func setupRx() {
+        videoPreviewView.rx_progress.asDriver().drive(onNext: { [weak self] progress in
+            self?.updateVideoProgressWith(progress)
+        }).disposed(by: disposeBag)
+    }
+
+    private func updateVideoProgressWith(_ progress: Float) {
+        progressView.progress = progress
     }
 
     func play(previewURL: URL?, videoURL: URL?) {
