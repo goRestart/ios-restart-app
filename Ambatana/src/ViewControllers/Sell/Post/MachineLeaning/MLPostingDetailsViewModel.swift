@@ -282,13 +282,11 @@ class MLPostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableView
         if sessionManager.loggedIn {
             openListingPosting(trackingInfo: trackingInfo)
         } else if let images = postListingState.pendingToUploadImages {
-            let loggedInAction = { [weak self] in
+            let loggedInAction: (() -> Void) = { [weak self] in
                 self?.postActionAfterLogin(images: images, video: nil, trackingInfo: trackingInfo)
-                return
             }
-            let cancelAction = { [weak self] in
+            let cancelAction: (() -> Void) = { [weak self] in
                 self?.cancelPostListing()
-                return
             }
             navigator?.openLoginIfNeededFromListingPosted(from: .sell, loggedInAction: loggedInAction, cancelAction: cancelAction)
         } else {
