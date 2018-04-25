@@ -61,6 +61,8 @@ enum EventName: String {
     case listingMarkAsUnsold                = "product-detail-unsold"
     case listingReport                      = "product-detail-report"
     case listingReportError                 = "product-detail-report-error"
+
+    case productDetailPlayVideo             = "product-detail-play-video"
     
     case listingSellYourStuffButton         = "product-sell-your-stuff-button"
     case listingSellStart                   = "product-sell-start"
