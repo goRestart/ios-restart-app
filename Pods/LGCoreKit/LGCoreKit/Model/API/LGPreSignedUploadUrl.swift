@@ -8,18 +8,6 @@
 
 import Foundation
 
-public enum PreSignedUploadUrlMethod: String, Decodable {
-    case post = "POST"
-
-    public static let allValues: [PreSignedUploadUrlMethod] = [.post]
-}
-
-public enum PreSignedUploadUrlEncodeType: String, Decodable {
-    case multipart = "multipart/form-data"
-
-    public static let allValues: [PreSignedUploadUrlEncodeType] = [.multipart]
-}
-
 public protocol PreSignedUploadUrl {
     var form: PreSignedUploadUrlForm { get }
     var expires: Date? { get }
@@ -28,11 +16,9 @@ public protocol PreSignedUploadUrl {
 public protocol PreSignedUploadUrlForm {
     var inputs: [String: String] { get }
     var action: URL { get }
-    var method: PreSignedUploadUrlMethod { get }
-    var encodeType: PreSignedUploadUrlEncodeType { get }
 }
 
-struct LGPreSignedUploadUrl: PreSignedUploadUrl, Decodable {
+public struct LGPreSignedUploadUrl: PreSignedUploadUrl, Decodable {
 
     public let form: PreSignedUploadUrlForm
     public let expires: Date?
@@ -60,12 +46,10 @@ struct LGPreSignedUploadUrl: PreSignedUploadUrl, Decodable {
     }
 }
 
-struct LGPreSignedUploadUrlForm: PreSignedUploadUrlForm, Decodable {
+public struct LGPreSignedUploadUrlForm: PreSignedUploadUrlForm, Decodable {
     
     public let inputs: [String: String]
     public let action: URL
-    public let method: PreSignedUploadUrlMethod
-    public let encodeType: PreSignedUploadUrlEncodeType
 
     // MARK: Decodable
 
@@ -97,8 +81,6 @@ struct LGPreSignedUploadUrlForm: PreSignedUploadUrlForm, Decodable {
             throw DecodingError.valueNotFound(PreSignedUploadUrlForm.self, error)
         }
         inputs = try keyedContainer.decode([String: String].self, forKey: .inputs)
-        method = try keyedContainer.decode(PreSignedUploadUrlMethod.self, forKey: .method)
-        encodeType = try keyedContainer.decode(PreSignedUploadUrlEncodeType.self, forKey: .encodeType)
     }
 
     enum CodingKeys: String, CodingKey {

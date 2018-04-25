@@ -6,6 +6,4 @@ public struct MockPreSignedUploadUrl: PreSignedUploadUrl {
 public struct MockPreSignedUploadUrlForm: PreSignedUploadUrlForm {
     public var inputs: [String: String]
     public var action: URL
-    public var method: PreSignedUploadUrlMethod
-    public var encodeType: PreSignedUploadUrlEncodeType
 }

@@ -20,20 +20,6 @@ extension MockPreSignedUploadUrlForm: MockFactory {
             inputs[String.makeRandom()] = String.makeRandom()
         }
         return MockPreSignedUploadUrlForm(inputs: inputs,
-                                          action: URL.makeRandom(),
-                                          method: PreSignedUploadUrlMethod.makeMock(),
-                                          encodeType: PreSignedUploadUrlEncodeType.makeMock())
-    }
-}
-
-extension PreSignedUploadUrlMethod: MockFactory {
-    public static func makeMock() -> PreSignedUploadUrlMethod {
-        return PreSignedUploadUrlMethod.allValues.random()!
-    }
-}
-
-extension PreSignedUploadUrlEncodeType: MockFactory {
-    public static func makeMock() -> PreSignedUploadUrlEncodeType {
-        return PreSignedUploadUrlEncodeType.allValues.random()!
+                                          action: URL.makeRandom())
     }
 }
