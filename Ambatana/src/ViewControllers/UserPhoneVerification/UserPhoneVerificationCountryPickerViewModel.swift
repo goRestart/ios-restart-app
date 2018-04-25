@@ -10,9 +10,14 @@ import LGCoreKit
 import RxSwift
 import RxCocoa
 
+protocol UserPhoneVerificationCountryPickerDelegate: class {
+    func didSelect(country: PhoneVerificationCountry)
+}
+
 final class UserPhoneVerificationCountryPickerViewModel: BaseViewModel {
 
     weak var navigator: UserPhoneVerificationNavigator?
+    weak var delegate: UserPhoneVerificationCountryPickerDelegate?
 
     private let countryHelper: CountryHelper
 
@@ -32,7 +37,8 @@ final class UserPhoneVerificationCountryPickerViewModel: BaseViewModel {
     }
 
     func didSelect(country: PhoneVerificationCountry) {
-        // FIXME: implement it
+        delegate?.didSelect(country: country)
+        navigator?.closeCountrySelector()
     }
 
 

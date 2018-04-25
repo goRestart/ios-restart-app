@@ -96,7 +96,7 @@ final class UserPhoneVerificationNumberInputViewModel: BaseViewModel {
     }
 
     func didTapCountryButton() {
-        navigator?.openCountrySelector()
+        navigator?.openCountrySelector(withDelegate: self)
     }
 
     func didTapContinueButton(with phoneNumber: String) {
@@ -123,6 +123,12 @@ final class UserPhoneVerificationNumberInputViewModel: BaseViewModel {
               break // FIXME: waiting for product
             }
         }
+    }
+}
+
+extension UserPhoneVerificationNumberInputViewModel: UserPhoneVerificationCountryPickerDelegate {
+    func didSelect(country: PhoneVerificationCountry) {
+        self.country.value = country
     }
 }
 
