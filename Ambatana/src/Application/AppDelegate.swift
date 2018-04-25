@@ -19,7 +19,6 @@ import GoogleSignIn
 import LGCoreKit
 import RxSwift
 import UIKit
-import os.log
 
 @UIApplicationMain
 final class AppDelegate: UIResponder {
@@ -42,6 +41,7 @@ final class AppDelegate: UIResponder {
     fileprivate let appIsActive = Variable<Bool?>(nil)
     fileprivate var didOpenApp = false
     fileprivate let disposeBag = DisposeBag()
+    fileprivate let backgroundLocationTimeout: Double = 20
 }
 
 
@@ -197,40 +197,15 @@ extension AppDelegate: UIApplicationDelegate {
         PushManager.sharedInstance.application(application, didFailToRegisterForRemoteNotificationsWithError: error)
     }
 
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
-        PushManager.sharedInstance.application(application, didReceiveRemoteNotification: userInfo)
-        print("❤️ SAKY Start Sensor location Updates")
-        self.locationManager?.startSensorLocationUpdates()
-    }
-
-    @available(iOS 10.0, *)
-    static let oslog = OSLog(subsystem: "com.letgo.ios", category: "PUSH-SAKY")
-
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any],
                      fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
 
-        let sniperValue = userInfo["emergency-locate"] as? Int
-        print("💙 SAKY Received PUSH!")
-        if #available(iOS 10.0, *) {
-            os_log("💙 (1) SAKY Received PUSH!", log: AppDelegate.oslog, type: .error)
-        }
-        if let _ = sniperValue {
-            print("❤️ SAKY Start Sensor location Updates")
-            if #available(iOS 10.0, *) {
-                os_log("❤️ (2) SAKY Start Sensor location Updates", log: AppDelegate.oslog, type: .error)
-            }
-            if #available(iOS 10.0, *) {
-                os_log("💛 (3) SAKY CurrentAuto: %@", log: AppDelegate.oslog, type: .error, String(describing: self.locationManager!.currentAutoLocation))
-            }
-            print("💛 SAKY CurrentAuto: \(self.locationManager!.currentAutoLocation)")
-
+        let emergency = userInfo["emergency-locate"] as? Int
+        if let _ = emergency {
             self.locationRepository?.startEmergencyLocation()
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 10, execute: {
-                if #available(iOS 10.0, *) {
-                    os_log("😱 (5) SAKY Automatically disable location", log: AppDelegate.oslog, type: .error)
-                }
-                completionHandler(.noData)
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + backgroundLocationTimeout, execute: {
                 self.locationRepository?.stopEmergencyLocation()
+                completionHandler(.noData)
             })
         } else {
             PushManager.sharedInstance.application(application, didReceiveRemoteNotification: userInfo)
@@ -366,7 +341,7 @@ fileprivate extension AppDelegate {
             if enabled {
                 self.locationManager?.startSensorLocationUpdates()
             } else {
-//                self.locationManager?.stopSensorLocationUpdates()
+                self.locationManager?.stopSensorLocationUpdates()
             }
             }.disposed(by: disposeBag)
 
@@ -396,10 +371,6 @@ fileprivate extension AppDelegate {
         self.locationManager?
             .locationEvents.filter{ $0 == LocationEvent.emergencyLocationUpdate }
             .subscribeNext(onNext: { [weak self] event in
-                if #available(iOS 10.0, *) {
-                    os_log("💜 (4) SAKY New EmergencyLocation: %@", log: AppDelegate.oslog, type: .error, String(describing: self!.locationManager!.lastEmergencyLocation))
-                }
-//                print("💜 SAKY \(event): \(self!.locationManager!.lastEmergencyLocation)")
                 let user = Core.myUserRepository.myUser
                 TrackerProxy.sharedInstance.trackEvent(TrackerEvent.searchStart(user))
                 self?.locationRepository?.stopEmergencyLocation()
