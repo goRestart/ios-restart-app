@@ -369,7 +369,7 @@ enum EventParameterName: String {
     case mostSearchedButton   = "most-searched-button"
     case photoViewerNumberOfPhotos   = "number-photos"
     case abandonStep          = "abandon-step"
-    case isVideo              = "is_video"
+    case isVideo              = "is-video"
     
     
     // Machine Learning
@@ -479,7 +479,7 @@ enum EventParameterNegotiablePrice: String {
 enum EventParameterPictureSource: String {
     case camera = "camera"
     case gallery = "gallery"
-    case video = "video"
+    case videoCamera = "video-camera"
 }
 
 enum EventParameterSortBy: String {

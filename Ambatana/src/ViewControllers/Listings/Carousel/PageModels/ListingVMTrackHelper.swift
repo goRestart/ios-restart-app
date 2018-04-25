@@ -29,8 +29,8 @@ extension ListingViewModel {
     func trackVisit(_ visitUserAction: ListingVisitUserAction, source: EventParameterListingVisitSource, feedPosition: EventParameterFeedPosition) {
         let isBumpedUp = isShowingFeaturedStripe.value ? EventParameterBoolean.trueParameter :
                                                    EventParameterBoolean.falseParameter
-        let isVideo = EventParameterBoolean(bool: listing.value.media.contains(where: { $0.type == .video }))
-        trackHelper.trackVisit(visitUserAction, source: source, feedPosition: feedPosition, isVideo: isVideo,
+        let containsVideo = EventParameterBoolean(bool: listing.value.containsVideo())
+        trackHelper.trackVisit(visitUserAction, source: source, feedPosition: feedPosition, containsVideo: containsVideo,
                                isShowingFeaturedStripe: isBumpedUp)
     }
 
@@ -269,14 +269,14 @@ extension ProductVMTrackHelper {
     func trackVisit(_ visitUserAction: ListingVisitUserAction,
                     source: EventParameterListingVisitSource,
                     feedPosition: EventParameterFeedPosition,
-                    isVideo: EventParameterBoolean,
+                    containsVideo: EventParameterBoolean,
                     isShowingFeaturedStripe: EventParameterBoolean) {
         let trackerEvent = TrackerEvent.listingDetailVisit(listing,
                                                            visitUserAction: visitUserAction,
                                                            source: source,
                                                            feedPosition: feedPosition,
                                                            isBumpedUp: isShowingFeaturedStripe,
-                                                           isVideo: isVideo)
+                                                           containsVideo: containsVideo)
         tracker.trackEvent(trackerEvent)
     }
 
@@ -386,14 +386,16 @@ extension ProductVMTrackHelper {
                           messageType: ChatWrapperMessageType,
                           isShowingFeaturedStripe: Bool,
                           listingVisitSource: EventParameterListingVisitSource,
-                          feedPosition: EventParameterFeedPosition) {
+                          feedPosition: EventParameterFeedPosition,
+                          containsVideo: EventParameterBoolean) {
         guard let info = buildSendMessageInfo(withType: messageType,
                                               isShowingFeaturedStripe: isShowingFeaturedStripe,
                                               error: nil) else { return }
         if isFirstMessage {
             tracker.trackEvent(TrackerEvent.firstMessage(info: info,
                                                          listingVisitSource: listingVisitSource,
-                                                         feedPosition: feedPosition))
+                                                         feedPosition: feedPosition,
+                                                         containsVideo: containsVideo))
         }
         tracker.trackEvent(TrackerEvent.userMessageSent(info: info))
     }

@@ -1238,11 +1238,13 @@ fileprivate extension ListingViewModel {
                 let feedPosition = strongSelf.delegate?.trackingFeedPosition ?? .none
                 let isFirstMessage = firstMessage && !strongSelf.alreadyTrackedFirstMessageSent
                 let visitSource = strongSelf.visitSource(from: strongSelf.visitSource, isFirstMessage: isFirstMessage)
+                let containsVideo = EventParameterBoolean(bool: strongSelf.listing.value.containsVideo())
                 strongSelf.trackHelper.trackMessageSent(isFirstMessage: isFirstMessage,
                                                         messageType: type,
                                                         isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value,
                                                         listingVisitSource: visitSource,
-                                                        feedPosition: feedPosition)
+                                                        feedPosition: feedPosition,
+                                                        containsVideo: containsVideo)
                 strongSelf.alreadyTrackedFirstMessageSent = true
             } else if let error = result.error {
                 strongSelf.trackHelper.trackMessageSentError(messageType: type, isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value, error: error)

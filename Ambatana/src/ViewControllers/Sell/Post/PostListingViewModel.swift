@@ -246,7 +246,7 @@ class PostListingViewModel: BaseViewModel {
 
     fileprivate func uploadVideoSnapshot(uploadingVideo: VideoUpload) {
 
-        uploadedImageSource = .video
+        uploadedImageSource = .videoCamera
         guard sessionManager.loggedIn else {
             state.value = state.value.updating(pendingToUploadVideo: uploadingVideo.recordedVideo)
             return

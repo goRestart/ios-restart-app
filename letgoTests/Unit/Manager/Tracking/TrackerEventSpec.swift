@@ -1160,7 +1160,7 @@ class TrackerEventSpec: QuickSpec {
                                                           state: "Catalonia", countryCode: "US", country: nil)
 
                     sut = TrackerEvent.listingDetailVisit(.product(product), visitUserAction: .none, source: .listingList,
-                                                          feedPosition: .position(index:1), isBumpedUp: .trueParameter, isVideo: .trueParameter)
+                                                          feedPosition: .position(index:1), isBumpedUp: .trueParameter, containsVideo: .trueParameter)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-visit"))
@@ -1212,8 +1212,8 @@ class TrackerEventSpec: QuickSpec {
                     expect(bumpedUp).to(equal("true"))
                 }
                 it("contains is video param") {
-                    let bumpedUp = sut.params!.stringKeyParams["is_video"] as? String
-                    expect(bumpedUp).to(equal("true"))
+                    let isVideo = sut.params!.stringKeyParams["is-video"] as? String
+                    expect(isVideo) == "true"
                 }
             }
             
@@ -1685,7 +1685,8 @@ class TrackerEventSpec: QuickSpec {
                         .set(assistantMeeting: nil)
                     sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                     listingVisitSource: .listingList,
-                                                    feedPosition: .position(index:1))
+                                                    feedPosition: .position(index:1),
+                                                    containsVideo: .trueParameter )
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-ask-question"))
@@ -1750,12 +1751,17 @@ class TrackerEventSpec: QuickSpec {
                     let emoji = sut.params!.stringKeyParams["contain-emoji"] as? Bool
                     expect(emoji) == true
                 }
+                it("contains is-video") {
+                    let isVideo = sut.params!.stringKeyParams["is-video"] as? String
+                    expect(isVideo) == "true"
+                }
                 describe("text message") {
                     beforeEach {
                         sendMessageInfo.set(messageType: .text)
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
-                                                        feedPosition: .position(index:1))
+                                                        feedPosition: .position(index:1),
+                                                        containsVideo: .notAvailable)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1772,13 +1778,18 @@ class TrackerEventSpec: QuickSpec {
                         let feedPosition = sut.params!.stringKeyParams["feed-position"] as? String
                         expect(feedPosition).to(equal("2"))
                     }
+                    it("contains N/A is-video") {
+                        let isVideo = sut.params!.stringKeyParams["is-video"] as? String
+                        expect(isVideo) == "N/A"
+                    }
                 }
                 describe("sticker message") {
                     beforeEach {
                         sendMessageInfo.set(messageType: .sticker)
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
-                                                        feedPosition: .position(index:1))
+                                                        feedPosition: .position(index:1),
+                                                        containsVideo: .notAvailable)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1795,6 +1806,10 @@ class TrackerEventSpec: QuickSpec {
                         let feedPosition = sut.params!.stringKeyParams["feed-position"] as? String
                         expect(feedPosition).to(equal("2"))
                     }
+                    it("contains N/A is-video") {
+                        let isVideo = sut.params!.stringKeyParams["is-video"] as? String
+                        expect(isVideo) == "N/A"
+                    }
                 }
                 describe("quick answer message") {
                     beforeEach {
@@ -1802,7 +1817,8 @@ class TrackerEventSpec: QuickSpec {
                         sendMessageInfo.set(quickAnswerType: .notInterested)
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
-                                                        feedPosition: .position(index:1))
+                                                        feedPosition: .position(index:1),
+                                                        containsVideo: .notAvailable)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1819,6 +1835,10 @@ class TrackerEventSpec: QuickSpec {
                     it("contains feed-position") {
                         let feedPosition = sut.params!.stringKeyParams["feed-position"] as? String
                         expect(feedPosition).to(equal("2"))
+                    }
+                    it("contains N/A is-video") {
+                        let isVideo = sut.params!.stringKeyParams["is-video"] as? String
+                        expect(isVideo) == "N/A"
                     }
                 }
             }
@@ -1845,7 +1865,8 @@ class TrackerEventSpec: QuickSpec {
                         .set(assistantMeeting: nil)
                     sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                     listingVisitSource: .listingList,
-                                                    feedPosition: .position(index:1))
+                                                    feedPosition: .position(index:1),
+                                                    containsVideo: .notAvailable)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-ask-question"))
@@ -1898,12 +1919,17 @@ class TrackerEventSpec: QuickSpec {
                     let emoji = sut.params!.stringKeyParams["contain-emoji"] as? Bool
                     expect(emoji) == false
                 }
+                it("contains N/A is-video") {
+                    let isVideo = sut.params!.stringKeyParams["is-video"] as? String
+                    expect(isVideo) == "N/A"
+                }
                 describe("text message") {
                     beforeEach {
                         sendMessageInfo.set(messageType: .text)
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
-                                                        feedPosition: .position(index:1))
+                                                        feedPosition: .position(index:1),
+                                                        containsVideo: .falseParameter)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1920,13 +1946,18 @@ class TrackerEventSpec: QuickSpec {
                         let feedPosition = sut.params!.stringKeyParams["feed-position"] as? String
                         expect(feedPosition).to(equal("2"))
                     }
+                    it("does not contains is-video") {
+                        let isVideo = sut.params!.stringKeyParams["is-video"] as? String
+                        expect(isVideo) == "false"
+                    }
                 }
                 describe("sticker message") {
                     beforeEach {
                         sendMessageInfo.set(messageType: .sticker)
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
-                                                        feedPosition: .position(index:1))
+                                                        feedPosition: .position(index:1),
+                                                        containsVideo: .notAvailable)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1943,6 +1974,10 @@ class TrackerEventSpec: QuickSpec {
                         let feedPosition = sut.params!.stringKeyParams["feed-position"] as? String
                         expect(feedPosition).to(equal("2"))
                     }
+                    it("contains N/A is-video") {
+                        let isVideo = sut.params!.stringKeyParams["is-video"] as? String
+                        expect(isVideo) == "N/A"
+                    }
                 }
                 describe("quick answer message") {
                     beforeEach {
@@ -1950,7 +1985,8 @@ class TrackerEventSpec: QuickSpec {
                         sendMessageInfo.set(quickAnswerType: .notInterested)
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
-                                                        feedPosition: .position(index:1))
+                                                        feedPosition: .position(index:1),
+                                                        containsVideo: .notAvailable)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1967,6 +2003,10 @@ class TrackerEventSpec: QuickSpec {
                     it("contains feed-position") {
                         let feedPosition = sut.params!.stringKeyParams["feed-position"] as? String
                         expect(feedPosition).to(equal("2"))
+                    }
+                    it("contains N/A is-video") {
+                        let isVideo = sut.params!.stringKeyParams["is-video"] as? String
+                        expect(isVideo) == "N/A"
                     }
                 }
             }
@@ -2523,7 +2563,7 @@ class TrackerEventSpec: QuickSpec {
                                                            buttonName: .done,
                                                            sellButtonPosition: .floatingButton,
                                                            negotiable: .yes,
-                                                           pictureSource: .video,
+                                                           pictureSource: .videoCamera,
                                                            videoLength: 12,
                                                            freePostingModeAllowed: true,
                                                            typePage: .sell,
@@ -2575,7 +2615,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains picture-source") {
                     let data = sut.params!.stringKeyParams["picture-source"] as? String
-                    expect(data).to(equal("video"))
+                    expect(data).to(equal("video-camera"))
                 }
                 it("contains video-length") {
                     let data = sut.params!.stringKeyParams["video-length"] as? TimeInterval
