@@ -3090,6 +3090,12 @@
 // Reset password title. Check image @ "reset_password_email_field_hint" segment
 "reset_password_title" = "Reset password";
 
+// Search alerts edit button 
+"search_alerts_edit_button" = "Edit";
+
+// Subtitle for search alerts header
+"search_alerts_header_subtitle" = "";
+
 // Sell category selection label. Check attached image "sell.png"
 "sell_category_selection_label" = "Category";
 
@@ -3263,9 +3269,6 @@
 
 // Search alerts view title
 "search_alerts_list_title" = "Search Notifications";
-
-// Search alerts edit button 
-"search_alerts_edit_button" = "Edit";
 
 // Alert when you don't accept one of the above (just turkey)
 "sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";

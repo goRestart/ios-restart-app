@@ -136,7 +136,7 @@
 "chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "conseils de sécurité";
 "chat_blocked_disclaimer_scammer_wo_name" = "Pour des raisons se sécurité, ce compté a été supprimé par l'équipe letgo et ces messages ont été supprimés.";
 "chat_connect_account_disclaimer_button" = "Vérifier maintenant !";
-"chat_connect_accounts_title" = "GAGNEZ LA CONFIANCE DES AUTRES !";
+"chat_connect_accounts_title" = "INSPIREZ CONFIANCE";
 "chat_deleted_disclaimer_w_name" = "Vous ne pouvez pas continuer cette discussion car le compte de %@ n'est plus actif.";
 "chat_deleted_disclaimer_wo_name" = "Vous ne pouvez plus continuer cette discussion car ce compte n'est plus actif.";
 "chat_disclaimer_letgo_team" = "EQUIPE LETGO";
@@ -797,7 +797,7 @@
 "profile_blocked_by_me_label" = "Vous avez bloqué cet utilisateur";
 "profile_blocked_by_me_label_w_name" = "Vous avez bloqué %@";
 "profile_blocked_by_other_label" = "Vous avez été bloqué par cet utilisateur";
-"profile_build_trust_button" = "Gagnez la confiance des autres utilisateurs";
+"profile_build_trust_button" = "Inspirez Confiance";
 "profile_connect_accounts_message" = "Vous n'avez toujours pas vérifié votre compte avec :";
 "profile_dummy_user_info" = "Bonjour ! Je suis %@ de letgo. Je suis là pour vous aider à améliorer votre annonce et commencer à vendre.";
 "profile_favourites_my_user_no_products_button" = "Continuer à naviguer";
