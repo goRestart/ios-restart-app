@@ -74,7 +74,7 @@ final class UserProfileKarmaScoreView: UIView {
     }
 
     override var intrinsicContentSize: CGSize {
-        return CGSize(width: 0, height: 200)
+        return CGSize(width: UIViewNoIntrinsicMetric, height: 200)
     }
 
     override func layoutSubviews() {
