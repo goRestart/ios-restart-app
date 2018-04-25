@@ -145,7 +145,6 @@ extension ABTests {
     var showBumpUpBannerOnNotValidatedListings: LeanplumABVariable<Int> { return money.showBumpUpBannerOnNotValidatedListings }
     var copyForChatNowInTurkey: LeanplumABVariable<Int> { return money.copyForChatNowInTurkey }
     var turkeyBumpPriceVATAdaptation: LeanplumABVariable<Int> { return money.turkeyBumpPriceVATAdaptation }
-    var promoteBumpInEdit: LeanplumABVariable<Int> { return money.promoteBumpInEdit }
     var showProTagUserProfile: LeanplumABVariable<Bool> { return money.showProTagUserProfile }
     var feedAdsProviderForUS: LeanplumABVariable<Int> { return money.feedAdsProviderForUS }
     var copyForChatNowInEnglish: LeanplumABVariable<Int> { return money.copyForChatNowInEnglish }

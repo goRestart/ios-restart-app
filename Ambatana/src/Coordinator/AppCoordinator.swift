@@ -474,11 +474,7 @@ extension AppCoordinator: SellCoordinatorDelegate {
     }
 
     func sellCoordinator(_ coordinator: SellCoordinator, closePostAndOpenEditForListing listing: Listing) {
-        if featureFlags.promoteBumpInEdit.isActive {
-            openAfterSellDialogIfNeeded(forListing: listing, bumpUpSource: .edit(listing: listing))
-        } else {
-            openEditForListing(listing: listing, bumpUpProductData: nil)
-        }
+		openAfterSellDialogIfNeeded(forListing: listing, bumpUpSource: .edit(listing: listing))
     }
 }
 
@@ -561,9 +557,7 @@ fileprivate extension AppCoordinator {
 
     fileprivate func shouldRetrieveBumpeableInfoFor(source: BumpUpSource) -> Bool {
         switch source {
-        case .edit:
-            return featureFlags.promoteBumpInEdit.isActive
-        case .deepLink:
+        case .edit, .deepLink:
             return true
         case .promoted:
             return !promoteBumpShownInLastDay

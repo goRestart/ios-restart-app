@@ -42,7 +42,6 @@ extension Bumper  {
         flags.append(ShowChatSafetyTips.self)
         flags.append(DiscardedProducts.self)
         flags.append(OnboardingIncentivizePosting.self)
-        flags.append(PromoteBumpInEdit.self)
         flags.append(UserIsTyping.self)
         flags.append(BumpUpBoost.self)
         flags.append(ServicesCategoryEnabled.self)
@@ -214,11 +213,6 @@ extension Bumper  {
         return OnboardingIncentivizePosting(rawValue: value) ?? .control 
     }
 
-    static var promoteBumpInEdit: PromoteBumpInEdit {
-        guard let value = Bumper.value(for: PromoteBumpInEdit.key) else { return .control }
-        return PromoteBumpInEdit(rawValue: value) ?? .control 
-    }
-
     static var userIsTyping: UserIsTyping {
         guard let value = Bumper.value(for: UserIsTyping.key) else { return .control }
         return UserIsTyping(rawValue: value) ?? .control 
@@ -326,12 +320,12 @@ extension Bumper  {
 
     static var copyForSellFasterNowInEnglish: CopyForSellFasterNowInEnglish {
         guard let value = Bumper.value(for: CopyForSellFasterNowInEnglish.key) else { return .control }
-        return CopyForSellFasterNowInEnglish(rawValue: value) ?? .control
+        return CopyForSellFasterNowInEnglish(rawValue: value) ?? .control 
     }
 
     static var createUpdateCarsIntoNewBackend: CreateUpdateCarsIntoNewBackend {
         guard let value = Bumper.value(for: CreateUpdateCarsIntoNewBackend.key) else { return .control }
-        return CreateUpdateCarsIntoNewBackend(rawValue: value) ?? .control
+        return CreateUpdateCarsIntoNewBackend(rawValue: value) ?? .control 
     } 
 }
 
@@ -768,25 +762,6 @@ enum OnboardingIncentivizePosting: String, BumperFeature  {
     }
 }
 
-enum PromoteBumpInEdit: String, BumperFeature  {
-    case control, baseline, implicit, sellFaster, longRedText, bigIcon
-    static var defaultValue: String { return PromoteBumpInEdit.control.rawValue }
-    static var enumValues: [PromoteBumpInEdit] { return [.control, .baseline, .implicit, .sellFaster, .longRedText, .bigIcon]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Ad a switch to edit listing page to bump the listing" } 
-    static func fromPosition(_ position: Int) -> PromoteBumpInEdit {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .implicit
-            case 3: return .sellFaster
-            case 4: return .longRedText
-            case 5: return .bigIcon
-            default: return .control
-        }
-    }
-}
-
 enum UserIsTyping: String, BumperFeature  {
     case control, baseline, active
     static var defaultValue: String { return UserIsTyping.control.rawValue }
@@ -1130,12 +1105,12 @@ enum CopyForSellFasterNowInEnglish: String, BumperFeature  {
     static var description: String { return "Try different copies for 'Sell faster now' banner in English" } 
     static func fromPosition(_ position: Int) -> CopyForSellFasterNowInEnglish {
         switch position { 
-        case 0: return .control
-        case 1: return .baseline
-        case 2: return .variantB
-        case 3: return .variantC
-        case 4: return .variantD
-        default: return .control
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .variantB
+            case 3: return .variantC
+            case 4: return .variantD
+            default: return .control
         }
     }
 }

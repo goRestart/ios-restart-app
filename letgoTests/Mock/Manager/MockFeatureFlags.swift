@@ -50,7 +50,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var relaxedSearch: RelaxedSearch = .control
     var showChatSafetyTips: Bool = false
     var discardedProducts: DiscardedProducts = .control
-    var promoteBumpInEdit: PromoteBumpInEdit = .control
     var userIsTyping: UserIsTyping = .control
     var bumpUpBoost: BumpUpBoost = .control
     var servicesCategoryEnabled: ServicesCategoryEnabled = .control

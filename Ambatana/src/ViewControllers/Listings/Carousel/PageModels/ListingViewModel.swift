@@ -756,7 +756,7 @@ extension ListingViewModel {
     func editListing() {
         guard myUserId == listing.value.user.objectId else { return }
         var bumpUpProductData: BumpUpProductData? = nil
-        if let purchaseableProduct = bumpUpPurchaseableProduct, featureFlags.promoteBumpInEdit.isActive {
+        if let purchaseableProduct = bumpUpPurchaseableProduct {
             bumpUpProductData = BumpUpProductData(bumpUpPurchaseableData: .purchaseableProduct(product: purchaseableProduct),
                                                   letgoItemId: letgoItemId,
                                                   storeProductId: storeProductId)

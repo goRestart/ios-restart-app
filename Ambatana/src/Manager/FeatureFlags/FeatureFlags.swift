@@ -58,7 +58,6 @@ protocol FeatureFlaggeable: class {
     var showChatSafetyTips: Bool { get }
     var onboardingIncentivizePosting: OnboardingIncentivizePosting { get }
     var discardedProducts: DiscardedProducts { get }
-    var promoteBumpInEdit: PromoteBumpInEdit { get }
     var userIsTyping: UserIsTyping { get }
     var bumpUpBoost: BumpUpBoost { get }
     var servicesCategoryEnabled: ServicesCategoryEnabled { get }
@@ -205,10 +204,6 @@ extension DiscardedProducts {
 
 extension OnboardingIncentivizePosting {
     var isActive: Bool { return self == .blockingPosting || self == .blockingPostingSkipWelcome }
-}
-
-extension PromoteBumpInEdit {
-    var isActive: Bool { return self != .control && self != .baseline }
 }
 
 extension UserIsTyping {
@@ -714,13 +709,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.servicesCategoryEnabled
         }
         return ServicesCategoryEnabled.fromPosition(abTests.servicesCategoryEnabled.value)
-    }
-
-    var promoteBumpInEdit: PromoteBumpInEdit {
-        if Bumper.enabled {
-            return Bumper.promoteBumpInEdit
-        }
-        return PromoteBumpInEdit.fromPosition(abTests.promoteBumpInEdit.value)
     }
     
     var increaseNumberOfPictures: IncreaseNumberOfPictures {

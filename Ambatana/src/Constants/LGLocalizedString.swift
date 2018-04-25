@@ -1423,10 +1423,6 @@ struct LGLocalizedString {
 		return NSLocalizedString("edit_product_unsaved_changes_alert_ok", comment: "")
 	}
 
-	static var editProductFeatureLabelShortText: String {
-		return NSLocalizedString("edit_product_feature_label_short_text", comment: "")
-	}
-
 	static var editProductFeatureLabelLongText: String {
 		return NSLocalizedString("edit_product_feature_label_long_text", comment: "")
 	}
