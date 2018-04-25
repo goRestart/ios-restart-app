@@ -1,4 +1,3 @@
-"account_deactivated_w_name" = "%@'s account was deleted";
 "account_pending_moderation" = "Account pending moderation";
 "account_pending_moderation_w_name" = "%@'s account is pending moderation";
 "app_notification_reply" = "Reply";
@@ -8,7 +7,6 @@
 "app_share_message_text" = "Check out the letgo app and make cash selling stuff you don't use anymore!";
 "app_share_subject_text" = "Check out letgo";
 "app_share_subtitle" = "Invite your friends to letgo and help us grow our community!";
-"app_share_success" = "App shared!";
 "app_share_title" = "INVITE YOUR FRIENDS";
 "app_share_whatsapp_button" = "Invite via Whatsapp";
 "block_user_error_generic" = "An error occurred while blocking this user.";
@@ -678,10 +676,15 @@
 "product_popular_near_you" = "Popular near you";
 "product_post_camera_first_time_alert_subtitle" = "Take a good picture and start making cash!";
 "product_post_camera_first_time_alert_title" = "What are you selling?";
+"product_post_camera_gallery_text_button" = "GALLERY";
 "product_post_camera_permissions_button" = "Allow";
 "product_post_camera_permissions_subtitle" = "To take a photo, you must allow access to Camera";
 "product_post_camera_permissions_title" = "Allow access to Camera";
+"product_post_camera_photo_mode_button" = "PHOTO";
 "product_post_camera_tab_v2" = "CAMERA";
+"product_post_camera_video_mode_button" = "VIDEO";
+"product_post_camera_video_recording_tooltip" = "%@ to record a video";
+"product_post_camera_video_recording_tooltip_highlighted_word" = "Hold";
 "product_post_close_alert_close_button" = "Discard";
 "product_post_close_alert_description" = "Do you still want to list it for sale?";
 "product_post_close_alert_ok_button" = "Post listing";
