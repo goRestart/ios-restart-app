@@ -1,4 +1,3 @@
-"account_deactivated_w_name" = "%@ konto har tagits bort";
 "account_pending_moderation" = "Konto väntar på att modereras";
 "account_pending_moderation_w_name" = "%@s konto väntar på att modereras";
 "app_notification_reply" = "Svara";
@@ -8,7 +7,6 @@
 "app_share_message_text" = "Kolla in appen letgo och tjäna pengar på att sälja prylar du inte längre använder!";
 "app_share_subject_text" = "Kolla in letgo";
 "app_share_subtitle" = "Ju fler desto roligare! Dela letgo med dina vänner";
-"app_share_success" = "Appen har delats!";
 "app_share_title" = "BJUD IN DINA VÄNNER";
 "app_share_whatsapp_button" = "Bjud in via WhatsApp";
 "block_user_error_generic" = "Ett fel uppstod vid blockering av användaren.";
@@ -678,10 +676,15 @@
 "product_popular_near_you" = "Populärt nära dig";
 "product_post_camera_first_time_alert_subtitle" = "Ta en bra bild och börja tjäna pengar!";
 "product_post_camera_first_time_alert_title" = "Vad säljer du?";
+"product_post_camera_gallery_text_button" = "BIBLIOTEK";
 "product_post_camera_permissions_button" = "Tillåt";
 "product_post_camera_permissions_subtitle" = "Du måste tillåta åtkomst till Kameran för att ta en bild";
 "product_post_camera_permissions_title" = "Tillåt åtkomst till Kamera";
+"product_post_camera_photo_mode_button" = "FOTO";
 "product_post_camera_tab_v2" = "KAMERA";
+"product_post_camera_video_mode_button" = "VIDEO";
+"product_post_camera_video_recording_tooltip" = "%@ för att filma";
+"product_post_camera_video_recording_tooltip_highlighted_word" = "Håll in";
 "product_post_close_alert_close_button" = "Släng";
 "product_post_close_alert_description" = "Vill du fortfarande lägga ut den till försäljning?";
 "product_post_close_alert_ok_button" = "Lägg upp annons";
