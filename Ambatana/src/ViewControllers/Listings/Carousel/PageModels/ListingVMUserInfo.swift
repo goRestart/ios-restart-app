@@ -13,6 +13,7 @@ struct ListingVMUserInfo {
     let userId: String?
     let name: String
     let avatar: URL?
+    let badge: UserReputationBadge
 
     private let ownerIsMyUser: Bool
     private let ownerUsername: String?
@@ -27,7 +28,7 @@ struct ListingVMUserInfo {
     }
 
 
-    init(userListing: UserListing, myUser: MyUser?) {
+    init(userListing: UserListing, myUser: MyUser?, sellerBadge: UserReputationBadge) {
         self.ownerId = userListing.objectId
         self.userId = ownerId
 
@@ -44,6 +45,7 @@ struct ListingVMUserInfo {
         self.avatar = ownerIsMyUser ? (myAvatarURL ?? ownerAvatarURL) : ownerAvatarURL
         self.name = ownerIsMyUser ? (myUsername ?? ownerUsername ?? "") : (ownerUsername ?? "")
         self.ownerUsername = ownerUsername
+        self.badge = sellerBadge
     }
 
 }

@@ -85,7 +85,7 @@ class MockListingViewModelMaker: ListingViewModelMaker {
                                         distance: nil,
                                         freeModeAllowed: featureFlags.freePostingModeAllowed,
                                         postingFlowType: featureFlags.postingFlowType)
-        let userInfo = ListingVMUserInfo(userListing: listing.user, myUser: myUserRepository.myUser)
+        let userInfo = ListingVMUserInfo(userListing: listing.user, myUser: myUserRepository.myUser, sellerBadge: .silver)
         return ListingDeckSnapshot(preview: listing.images.first?.fileURL,
                                    imageCount: listing.images.count,
                                    isFavoritable: isMine,
