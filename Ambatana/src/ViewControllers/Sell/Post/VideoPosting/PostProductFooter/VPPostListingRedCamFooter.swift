@@ -173,9 +173,10 @@ fileprivate extension VPPostListingRedCamFooter {
 
     func setupAccessibilityIds() {
         galleryButton.set(accessibilityId: .postingGalleryButton)
-        cameraButton.set(accessibilityId: .postingPhotoButton)
+        cameraButton.set(accessibilityId: .postingCameraButton)
         infoButton.set(accessibilityId: .postingInfoButton)
-        //TODO: Add new elements accesibility ids
+        photoButton.set(accessibilityId: .postingPhotoButton)
+        videoButton.set(accessibilityId: .postingVideoButton)
     }
 
     func setupLayout() {
