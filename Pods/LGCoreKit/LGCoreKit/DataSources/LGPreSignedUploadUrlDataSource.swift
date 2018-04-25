@@ -76,11 +76,9 @@ final class LGPreSignedUploadUrlDataSource: PreSignedUploadUrlDataSource {
                 completion?(PreSignedUploadUrlUploadDataSourceResult(value: ()))
             }
         }) { progressData in
-            let p: Float
+            var p: Float = 0
             if progressData.totalUnitCount > 0 {
                 p = Float(progressData.completedUnitCount)/Float(progressData.totalUnitCount)
-            } else {
-                p = 0
             }
             progress?(p)
         }
@@ -92,8 +90,7 @@ final class LGPreSignedUploadUrlDataSource: PreSignedUploadUrlDataSource {
         guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
 
         do {
-            let form = try LGPreSignedUploadUrl.decode(jsonData: data)
-            return form
+            return try LGPreSignedUploadUrl.decode(jsonData: data)
         } catch {
             logAndReportParseError(object: object, entity: .preSignedUploadUrl,
                                    comment: "\(error.localizedDescription)")

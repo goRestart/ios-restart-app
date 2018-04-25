@@ -22,3 +22,11 @@ public struct LGVideo: Video {
         self.snapshot = snapshot
     }
 }
+
+extension LGVideo {
+    init?(media: Media) {
+        guard media.type == .video, let path = media.outputs.video?.lastPathComponent else { return nil }
+        self.path = path
+        self.snapshot = media.snapshotId
+    }
+}

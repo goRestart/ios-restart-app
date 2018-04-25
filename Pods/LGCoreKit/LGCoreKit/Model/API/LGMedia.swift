@@ -25,12 +25,12 @@ public protocol MediaThumbnail {
     var size: LGSize? { get }
 }
 
-struct LGMediaThumbnail: MediaThumbnail, Decodable {
-    var file: File
-    let type: MediaType
-    let size: LGSize?
+public struct LGMediaThumbnail: MediaThumbnail, Decodable {
+    public var file: File
+    public let type: MediaType
+    public let size: LGSize?
 
-    init(file: File, type: MediaType, size: LGSize) {
+    public init(file: File, type: MediaType, size: LGSize) {
         self.file = file
         self.type = type
         self.size = size
@@ -72,20 +72,20 @@ public protocol MediaOutputs {
     var videoThumbnail: URL? { get }
 }
 
-struct LGMediaOutputs: MediaOutputs, Decodable {
-    let image: URL?
-    let imageThumbnail: URL?
-    let video: URL?
-    let videoThumbnail: URL?
+public struct LGMediaOutputs: MediaOutputs, Decodable {
+    public let image: URL?
+    public let imageThumbnail: URL?
+    public let video: URL?
+    public let videoThumbnail: URL?
 
-    init(image: URL?, imageThumbnail: URL?, video: URL?, videoThumbnail: URL?) {
+    public init(image: URL?, imageThumbnail: URL?, video: URL?, videoThumbnail: URL?) {
         self.image = image
         self.imageThumbnail = imageThumbnail
         self.video = video
         self.videoThumbnail = videoThumbnail
     }
 
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
 
         image = try keyedContainer.decodeIfPresent(URL.self, forKey: .image)
@@ -112,13 +112,13 @@ public protocol Media: BaseModel {
     var outputs: MediaOutputs { get }
 }
 
-struct LGMedia: Media, Decodable {
-    var objectId: String?
-    let type: MediaType
-    let snapshotId: String
-    let outputs: MediaOutputs
+public struct LGMedia: Media, Decodable {
+    public var objectId: String?
+    public let type: MediaType
+    public let snapshotId: String
+    public let outputs: MediaOutputs
 
-    init(type: MediaType, snapshotId: String, outputs: MediaOutputs) {
+    public init(type: MediaType, snapshotId: String, outputs: MediaOutputs) {
         self.type = type
         self.snapshotId = snapshotId
         self.outputs = outputs
