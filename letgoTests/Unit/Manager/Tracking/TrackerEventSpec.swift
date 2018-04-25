@@ -1212,8 +1212,8 @@ class TrackerEventSpec: QuickSpec {
                     expect(bumpedUp).to(equal("true"))
                 }
                 it("contains is video param") {
-                    let bumpedUp = sut.params!.stringKeyParams["is-video"] as? String
-                    expect(bumpedUp) == "true"
+                    let isVideo = sut.params!.stringKeyParams["is-video"] as? String
+                    expect(isVideo) == "true"
                 }
             }
             
@@ -1752,8 +1752,8 @@ class TrackerEventSpec: QuickSpec {
                     expect(emoji) == true
                 }
                 it("contains is-video") {
-                    let feedPosition = sut.params!.stringKeyParams["is-video"] as? String
-                    expect(feedPosition) == "true"
+                    let isVideo = sut.params!.stringKeyParams["is-video"] as? String
+                    expect(isVideo) == "true"
                 }
                 describe("text message") {
                     beforeEach {
