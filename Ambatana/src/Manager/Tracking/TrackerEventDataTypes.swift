@@ -61,6 +61,8 @@ enum EventName: String {
     case listingMarkAsUnsold                = "product-detail-unsold"
     case listingReport                      = "product-detail-report"
     case listingReportError                 = "product-detail-report-error"
+
+    case productDetailPlayVideo             = "product-detail-play-video"
     
     case listingSellYourStuffButton         = "product-sell-your-stuff-button"
     case listingSellStart                   = "product-sell-start"
@@ -271,6 +273,7 @@ enum EventParameterName: String {
     case permissionGoToSettings = "permission-go-to-settings"
     case negotiablePrice      = "negotiable-price"
     case pictureSource        = "picture-source"
+    case videoLength          = "video-length"
     case editedFields         = "edited-fields"
     case newsletter           = "newsletter"
     case quickAnswer          = "quick-answer"
@@ -368,6 +371,7 @@ enum EventParameterName: String {
     case mostSearchedButton   = "most-searched-button"
     case photoViewerNumberOfPhotos   = "number-photos"
     case abandonStep          = "abandon-step"
+    case isVideo              = "is-video"
     
     
     // Machine Learning
@@ -477,6 +481,7 @@ enum EventParameterNegotiablePrice: String {
 enum EventParameterPictureSource: String {
     case camera = "camera"
     case gallery = "gallery"
+    case videoCamera = "video-camera"
 }
 
 enum EventParameterSortBy: String {

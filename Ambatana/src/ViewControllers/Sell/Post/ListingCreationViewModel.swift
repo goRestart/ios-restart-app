@@ -75,6 +75,7 @@ class ListingCreationViewModel : BaseViewModel {
                                                      sellButtonPosition: trackingInfo.sellButtonPosition,
                                                      negotiable: trackingInfo.negotiablePrice,
                                                      pictureSource: trackingInfo.imageSource,
+                                                     videoLength: trackingInfo.videoLength,
                                                      freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                      typePage: trackingInfo.typePage,
                                                      mostSearchedButton: trackingInfo.mostSearchedButton,

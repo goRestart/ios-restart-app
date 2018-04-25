@@ -249,6 +249,10 @@ final class CoreDI: InternalDI {
         let suggestedLocationsDataSource = SuggestedLocationsApiDataSource(apiClient: self.apiClient)
         return LGSuggestedLocationsRepository(dataSource: suggestedLocationsDataSource)
     }()
+    lazy var preSignedUploadUrlRepository: PreSignedUploadUrlRepository = {
+        let dataSource = LGPreSignedUploadUrlDataSource(apiClient: self.apiClient)
+        return LGPreSignedUploadUrlRepository(dataSource: dataSource)
+    }()
 
 
     // MARK: > DAO

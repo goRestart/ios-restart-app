@@ -1,4 +1,3 @@
-"account_deactivated_w_name" = "%@'s account is verwijderd";
 "account_pending_moderation" = "Account in afwachting van matiging";
 "account_pending_moderation_w_name" = "%@'s account in afwachting van matiging";
 "app_notification_reply" = "Antwoord";
@@ -8,7 +7,6 @@
 "app_share_message_text" = "Bekijk de letgo app en verdien geld door het verkopen van spullen die je niet meer gebruikt!";
 "app_share_subject_text" = "Bekijk letgo";
 "app_share_subtitle" = "Nodig je vrienden uit voor letgo en help ons om onze community te laten groeien!";
-"app_share_success" = "App gedeeld!";
 "app_share_title" = "NODIG JE VRIENDEN UIT";
 "app_share_whatsapp_button" = "Uitnodigen via Whatsapp";
 "block_user_error_generic" = "Er is een fout opgetreden tijdens het blokkeren van deze gebruiker.";
@@ -825,7 +823,7 @@
 "profile_sold_no_products_label" = "(NOG!) GEEN ADVERTENTIES";
 "profile_sold_other_no_products_button" = "Blijf browsen";
 "profile_sold_products_tab" = "Verkocht";
-"profile_verifications_email_placeholder" = "EMAIL";
+"profile_verifications_email_placeholder" = "Email";
 "profile_verifications_email_view_title" = "Verifieer je e-mail";
 "profile_verifications_send_button" = "Verstuur";
 "profile_verifications_view_add_info_section_title" = "TOEVOEGEN";

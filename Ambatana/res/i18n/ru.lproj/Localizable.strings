@@ -1,4 +1,3 @@
-"account_deactivated_w_name" = "Аккаунт пользователя %@ был удален";
 "account_pending_moderation" = "Аккаунт на модерации";
 "account_pending_moderation_w_name" = "Аккаунт %@ на модерации";
 "app_notification_reply" = "Ответить";
@@ -8,7 +7,6 @@
 "app_share_message_text" = "Попробуй letgo его и начни получать деньги за вещи, которые больше не нужны!";
 "app_share_subject_text" = "Попробуйте letgo";
 "app_share_subtitle" = "Пригласите друзей в letgo и помогите сделать наше сообщество больше!";
-"app_share_success" = "Приложение отправлено!";
 "app_share_title" = "ПРИГЛАСИТЕ ДРУЗЕЙ";
 "app_share_whatsapp_button" = "Пригласить через Whatsapp";
 "block_user_error_generic" = "При блокировке произошла ошибка.";

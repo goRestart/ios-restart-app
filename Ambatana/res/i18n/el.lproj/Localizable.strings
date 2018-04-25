@@ -1,4 +1,3 @@
-"account_deactivated_w_name" = "Ο λογαριασμός του %@ έχει διαγραφεί";
 "account_pending_moderation" = "Αναμονή ελέγχου λογαριασμού";
 "account_pending_moderation_w_name" = "Ο λογοριασμός του %@ βρίσκεται σε αναμονή ελέγχου";
 "app_notification_reply" = "Απαντήστε";
@@ -8,7 +7,6 @@
 "app_share_message_text" = "Δείτε το letgo και κερδίστε κι εσείς μετρητά πουλώντας πράγματα που δε χρησιμοποιείτε πια!";
 "app_share_subject_text" = "Τσεκάρετε το letgo";
 "app_share_subtitle" = "Προσκαλέστε τους φίλους σας στο letgo και βοηθήστε μας να μεγαλώσουμε την κοινότητά μας!";
-"app_share_success" = "Η εφαρμογή κοινοποιήθηκε!";
 "app_share_title" = "ΠΡΟΣΚΑΛΕΣΤΕ ΤΟΥΣ ΦΙΛΟΥΣ ΣΑΣ";
 "app_share_whatsapp_button" = "Προσκαλέστε μέσω Whatsapp";
 "block_user_error_generic" = "Παρουσιάστηκε σφάλμα κατά το μπλοκάρισμα του χρήστη.";
@@ -685,7 +683,7 @@
 "product_post_camera_photo_mode_button" = "ΦΩΤΟΓΡΑΦΙΑ";
 "product_post_camera_tab_v2" = "ΚΑΜΕΡΑ";
 "product_post_camera_video_mode_button" = "ΒΙΝΤΕΟ";
-"product_post_camera_video_recording_tooltip" = "%@ to record a video";
+"product_post_camera_video_recording_tooltip" = "%@ για να καταγράψετε ένα βίντεο";
 "product_post_camera_video_recording_tooltip_highlighted_word" = "Πατήστε";
 "product_post_close_alert_close_button" = "Απόρριψη";
 "product_post_close_alert_description" = "Θέλετε ακόμη να το καταχωρήσετε για πώληση;";

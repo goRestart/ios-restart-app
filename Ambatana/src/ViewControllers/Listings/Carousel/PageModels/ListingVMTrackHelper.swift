@@ -29,7 +29,9 @@ extension ListingViewModel {
     func trackVisit(_ visitUserAction: ListingVisitUserAction, source: EventParameterListingVisitSource, feedPosition: EventParameterFeedPosition) {
         let isBumpedUp = isShowingFeaturedStripe.value ? EventParameterBoolean.trueParameter :
                                                    EventParameterBoolean.falseParameter
-        trackHelper.trackVisit(visitUserAction, source: source, feedPosition: feedPosition, isShowingFeaturedStripe: isBumpedUp)
+        let containsVideo = EventParameterBoolean(bool: listing.value.containsVideo())
+        trackHelper.trackVisit(visitUserAction, source: source, feedPosition: feedPosition, containsVideo: containsVideo,
+                               isShowingFeaturedStripe: isBumpedUp)
     }
 
     func trackVisitMoreInfo(isMine: EventParameterBoolean,
@@ -139,6 +141,10 @@ extension ListingViewModel {
 
     func trackOpenFeaturedInfo() {
         trackHelper.trackOpenFeaturedInfo()
+    }
+
+    func trackPlayVideo(source: EventParameterListingVisitSource) {
+        trackHelper.trackPlayVideo(source: source)
     }
 }
 
@@ -267,12 +273,14 @@ extension ProductVMTrackHelper {
     func trackVisit(_ visitUserAction: ListingVisitUserAction,
                     source: EventParameterListingVisitSource,
                     feedPosition: EventParameterFeedPosition,
+                    containsVideo: EventParameterBoolean,
                     isShowingFeaturedStripe: EventParameterBoolean) {
         let trackerEvent = TrackerEvent.listingDetailVisit(listing,
                                                            visitUserAction: visitUserAction,
                                                            source: source,
                                                            feedPosition: feedPosition,
-                                                           isBumpedUp: isShowingFeaturedStripe)
+                                                           isBumpedUp: isShowingFeaturedStripe,
+                                                           containsVideo: containsVideo)
         tracker.trackEvent(trackerEvent)
     }
 
@@ -382,14 +390,16 @@ extension ProductVMTrackHelper {
                           messageType: ChatWrapperMessageType,
                           isShowingFeaturedStripe: Bool,
                           listingVisitSource: EventParameterListingVisitSource,
-                          feedPosition: EventParameterFeedPosition) {
+                          feedPosition: EventParameterFeedPosition,
+                          containsVideo: EventParameterBoolean) {
         guard let info = buildSendMessageInfo(withType: messageType,
                                               isShowingFeaturedStripe: isShowingFeaturedStripe,
                                               error: nil) else { return }
         if isFirstMessage {
             tracker.trackEvent(TrackerEvent.firstMessage(info: info,
                                                          listingVisitSource: listingVisitSource,
-                                                         feedPosition: feedPosition))
+                                                         feedPosition: feedPosition,
+                                                         containsVideo: containsVideo))
         }
         tracker.trackEvent(TrackerEvent.userMessageSent(info: info))
     }
@@ -416,5 +426,10 @@ extension ProductVMTrackHelper {
             sendMessageInfo.set(error: error.chatError)
         }
         return sendMessageInfo
+    }
+
+    func trackPlayVideo(source: EventParameterListingVisitSource) {
+        let trackerEvent = TrackerEvent.listingDetailPlayVideo(listing, source: source)
+        tracker.trackEvent(trackerEvent)
     }
 }

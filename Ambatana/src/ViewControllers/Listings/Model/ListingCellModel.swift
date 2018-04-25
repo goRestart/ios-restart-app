@@ -71,6 +71,14 @@ struct ListingData {
         return listing?.thumbnail?.fileURL
     }
 
+    var mediaThumbUrl: URL? {
+        return listing?.mediaThumbnail?.file.fileURL
+    }
+
+    var mediaThumbType: MediaType? {
+        return listing?.mediaThumbnail?.type
+    }
+
     var title: String? {
         return listing?.title
     }

@@ -1,4 +1,3 @@
-"account_deactivated_w_name" = "Käyttäjän %@ tili on poistettu";
 "account_pending_moderation" = "Tili on poistettu käytöstä moderaattorin toimesta";
 "account_pending_moderation_w_name" = "Käyttäjän %@ tili on poistettu käytöstä moderaattorin toimesta";
 "app_notification_reply" = "Vastaa";
@@ -8,7 +7,6 @@
 "app_share_message_text" = "Tutustu letgo-sovellukseen ja tienaa rahaa myymällä tavaroita, joita et enää käytä!";
 "app_share_subject_text" = "Tutustu letgohun";
 "app_share_subtitle" = "Kutsu ystäväsi letgohun ja auta yhteisöämme kasvamaan!";
-"app_share_success" = "Sovellus jaettu!";
 "app_share_title" = "KUTSU YSTÄVÄSI";
 "app_share_whatsapp_button" = "Kutsu Whatsappilla";
 "block_user_error_generic" = "Tätä käyttäjää estettäessä tapahtui virhe.";

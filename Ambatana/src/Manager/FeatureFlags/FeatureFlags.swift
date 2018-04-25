@@ -291,6 +291,7 @@ extension FilterSearchCarSellerType {
 
 extension MachineLearningMVP {
     var isActive: Bool { return self == .active }
+    var isVideoPostingActive: Bool { return self == .videoPostingActive }
 }
 
 extension ChatNorris {

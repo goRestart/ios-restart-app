@@ -384,15 +384,24 @@ struct TrackerEvent {
     }
 
 
-    static func listingDetailVisit(_ listing: Listing, visitUserAction: ListingVisitUserAction, source: EventParameterListingVisitSource, feedPosition: EventParameterFeedPosition,
-                                   isBumpedUp: EventParameterBoolean) -> TrackerEvent {
+    static func listingDetailVisit(_ listing: Listing, visitUserAction: ListingVisitUserAction,
+                source: EventParameterListingVisitSource, feedPosition: EventParameterFeedPosition,
+                isBumpedUp: EventParameterBoolean, containsVideo: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
         params.addListingParams(listing)
         params[.userAction] = visitUserAction.rawValue
         params[.listingVisitSource] = source.rawValue
         params[.feedPosition] = feedPosition.value
         params[.isBumpedUp] = isBumpedUp.rawValue
+        params[.isVideo] = containsVideo.rawValue
         return TrackerEvent(name: .listingDetailVisit, params: params)
+    }
+
+    static func listingDetailPlayVideo(_ listing: Listing, source: EventParameterListingVisitSource) -> TrackerEvent {
+        var params = EventParameters()
+        params.addListingParams(listing)
+        params[.listingVisitSource] = source.rawValue
+        return TrackerEvent(name: .productDetailPlayVideo, params: params)
     }
 
     static func listingDetailCall(_ listing: Listing,
@@ -595,6 +604,7 @@ struct TrackerEvent {
                                     sellButtonPosition: EventParameterSellButtonPosition?,
                                     negotiable: EventParameterNegotiablePrice?,
                                     pictureSource: EventParameterPictureSource?,
+                                    videoLength: TimeInterval?,
                                     freePostingModeAllowed: Bool,
                                     typePage: EventParameterTypePage,
                                     mostSearchedButton: EventParameterMostSearched,
@@ -617,6 +627,10 @@ struct TrackerEvent {
         }
         if let pictureSource = pictureSource {
             params[.pictureSource] = pictureSource.rawValue
+        }
+
+        if let videoLength = videoLength {
+            params[.videoLength] = videoLength
         }
 
         switch listing {
@@ -875,10 +889,12 @@ struct TrackerEvent {
 
     static func firstMessage(info: SendMessageTrackingInfo,
                              listingVisitSource: EventParameterListingVisitSource,
-                             feedPosition: EventParameterFeedPosition) -> TrackerEvent {
+                             feedPosition: EventParameterFeedPosition,
+                             containsVideo: EventParameterBoolean) -> TrackerEvent {
         var params = info.params
         params[.listingVisitSource] = listingVisitSource.rawValue
         params[.feedPosition] = feedPosition.value
+        params[.isVideo] = containsVideo.rawValue
         return TrackerEvent(name: .firstMessage, params: params)
     }
 

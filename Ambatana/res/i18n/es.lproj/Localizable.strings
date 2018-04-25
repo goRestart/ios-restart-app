@@ -1,4 +1,3 @@
-"account_deactivated_w_name" = "La cuenta de %@ ha sido eliminada";
 "account_pending_moderation" = "Cuenta pendiente de moderación";
 "account_pending_moderation_w_name" = "La cuenta de %@ está pendiente de moderación";
 "app_notification_reply" = "Responder";
@@ -8,7 +7,6 @@
 "app_share_message_text" = "¡Échale un vistazo a letgo y gana dinero vendiendo cosas que ya no usas!";
 "app_share_subject_text" = "Échale un vistazo a letgo";
 "app_share_subtitle" = "¡Invita a tus amigos a letgo y haz que crezca la comunidad!";
-"app_share_success" = "¡App compartida!";
 "app_share_title" = "INVITA A TUS AMIGOS";
 "app_share_whatsapp_button" = "Invitar por Whatsapp";
 "block_user_error_generic" = "Se ha producido un error al bloquear a este usuario.";

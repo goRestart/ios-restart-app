@@ -1558,7 +1558,8 @@ fileprivate extension ChatViewModel {
             shouldTrackFirstMessage = false
             tracker.trackEvent(TrackerEvent.firstMessage(info: info,
                                                          listingVisitSource: .unknown,
-                                                         feedPosition: .none))
+                                                         feedPosition: .none,
+                                                         containsVideo: .notAvailable))
         }
         tracker.trackEvent(TrackerEvent.userMessageSent(info: info))
     }
