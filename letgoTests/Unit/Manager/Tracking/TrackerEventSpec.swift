@@ -1946,7 +1946,7 @@ class TrackerEventSpec: QuickSpec {
                         let feedPosition = sut.params!.stringKeyParams["feed-position"] as? String
                         expect(feedPosition).to(equal("2"))
                     }
-                    it("contains no is-video") {
+                    it("does not contains is-video") {
                         let isVideo = sut.params!.stringKeyParams["is-video"] as? String
                         expect(isVideo) == "false"
                     }
