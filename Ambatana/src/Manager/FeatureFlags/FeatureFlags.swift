@@ -480,6 +480,8 @@ class FeatureFlags: FeatureFlaggeable {
             dao.save(timeoutForRequests: TimeInterval(abTests.requestsTimeOut.value))
             dao.save(newUserProfile: NewUserProfileView.fromPosition(abTests.newUserProfileView.value))
             dao.save(showAdvanceReputationSystem: ShowAdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value))
+            dao.save(emergencyLocate: EmergencyLocate.fromPosition(abTests.emergencyLocate.value))
+            self.locationManager.
         }
         abTests.variablesUpdated()
     }
@@ -784,7 +786,8 @@ class FeatureFlags: FeatureFlaggeable {
         if Bumper.enabled {
             return Bumper.emergencyLocate
         }
-        return EmergencyLocate.fromPosition(abTests.emergencyLocate.value)
+        let cached = dao.retrieveEmergencyLocate()
+        return cached ?? EmergencyLocate.fromPosition(abTests.emergencyLocate.value)
     }
 
     // MARK: - Country features
