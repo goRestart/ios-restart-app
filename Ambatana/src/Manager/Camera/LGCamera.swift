@@ -517,7 +517,7 @@ class VideoRecorder : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
             fileWriter.finishWriting {
                 let result: CameraRecordingVideoResult
                 do {
-                    let snapshot = try AVURLAsset(url: fileWriter.outputURL).videoSnapshot()
+                    let snapshot = try AVURLAsset(url: fileWriter.outputURL).videoSnapshot(at: 1)
                     let videoRecorded = RecordedVideo(url: fileWriter.outputURL, snapshot: snapshot, duration: duration)
                     result = CameraRecordingVideoResult(value: videoRecorded)
                 } catch let error {
@@ -531,30 +531,28 @@ class VideoRecorder : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     func captureOutput(_ output: AVCaptureOutput,
                        didOutput sampleBuffer: CMSampleBuffer,
                        from connection: AVCaptureConnection) {
-        guard let fileWriter = fileWriter, let videoInput = videoInput else { return }
+        guard let fileWriter = fileWriter, let videoInput = videoInput, CMSampleBufferDataIsReady(sampleBuffer) else { return }
 
-        if CMSampleBufferDataIsReady(sampleBuffer) {
-            let bufferTimeStamp = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
+        let bufferTimeStamp = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
 
-            if fileWriter.status == .unknown {
-                fileWriter.startWriting()
-                fileWriter.startSession(atSourceTime: bufferTimeStamp)
-                startRecordingTime = bufferTimeStamp
-            }
+        switch fileWriter.status {
+        case .unknown:
+            fileWriter.startWriting()
+            fileWriter.startSession(atSourceTime: bufferTimeStamp)
+            startRecordingTime = bufferTimeStamp
+        case .failed:
+            completion?(CameraRecordingVideoResult(error: .frameworkError(error: fileWriter.error!)))
+        default: break
+        }
 
-            if fileWriter.status == .failed {
-                completion?(CameraRecordingVideoResult(error: .frameworkError(error: fileWriter.error!)))
-            }
+        if videoInput.isReadyForMoreMediaData {
+            videoInput.append(sampleBuffer)
+        }
 
-            if videoInput.isReadyForMoreMediaData {
-                videoInput.append(sampleBuffer)
-            }
-
-            if let startRecordingTime = startRecordingTime {
-                recordingDuration = CMTimeSubtract(bufferTimeStamp, startRecordingTime).seconds
-                if recordingDuration >= maxRecordingDuration {
-                    stopRecording()
-                }
+        if let startRecordingTime = startRecordingTime {
+            recordingDuration = CMTimeSubtract(bufferTimeStamp, startRecordingTime).seconds
+            if recordingDuration >= maxRecordingDuration {
+                stopRecording()
             }
         }
     }
@@ -946,11 +944,11 @@ private extension UIImage {
 
 private extension AVURLAsset {
 
-    func videoSnapshot() throws -> UIImage {
+    func videoSnapshot(at: TimeInterval) throws -> UIImage {
         let generator = AVAssetImageGenerator(asset: self)
         generator.appliesPreferredTrackTransform = true
-        let timestamp = kCMTimeZero
-        let imageRef = try generator.copyCGImage(at: timestamp, actualTime: nil)
+        let time = CMTimeMakeWithSeconds(at, 1)
+        let imageRef = try generator.copyCGImage(at: time, actualTime: nil)
         return UIImage(cgImage: imageRef)
     }
 }
