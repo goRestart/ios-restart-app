@@ -65,7 +65,7 @@ final class UserPhoneVerificationNumberInputViewController: BaseViewController {
     }
 
     private func setupUI() {
-        title = "Number verification" // FIXME: add localized string
+        title = LGLocalizedString.phoneVerificationNumberInputViewTitle
 
         view.backgroundColor = .white
         view.addSubviewsForAutoLayout([descriptionLabel, countryButton, countryButtonArrowImage,
@@ -81,7 +81,7 @@ final class UserPhoneVerificationNumberInputViewController: BaseViewController {
     }
 
     private func setupDescriptionLabelUI() {
-        descriptionLabel.text = "Build trust by verifying your phone number" // FIXME: add localized string
+        descriptionLabel.text = LGLocalizedString.phoneVerificationNumberInputViewDescription
         descriptionLabel.numberOfLines = 0
         descriptionLabel.font = .smsVerificationInputDescription
         descriptionLabel.textColor = .blackText
@@ -102,7 +102,6 @@ final class UserPhoneVerificationNumberInputViewController: BaseViewController {
     private func setupPhoneNumberTextfieldUI () {
         phoneNumberTextField.font = .smsVerificationInputBigText
         phoneNumberTextField.textColor = .blackText
-        phoneNumberTextField.placeholder = "Phone number" // FIXME: add localized string
         phoneNumberTextField.keyboardType = .numberPad
         phoneNumberTextField.tintColor = .primaryColor
         phoneNumberTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
@@ -110,8 +109,7 @@ final class UserPhoneVerificationNumberInputViewController: BaseViewController {
         var placeholderAttributes = [NSAttributedStringKey: Any]()
         placeholderAttributes[NSAttributedStringKey.font] = UIFont.smsVerificationInputBigText
         placeholderAttributes[NSAttributedStringKey.foregroundColor] = UIColor.grayPlaceholderText
-        // FIXME: add localized string
-        phoneNumberTextField.attributedPlaceholder = NSAttributedString(string: "Phone number",
+        phoneNumberTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.phoneVerificationNumberInputViewTextfieldPlaceholder,
                                                                         attributes: placeholderAttributes)
     }
 
@@ -121,7 +119,7 @@ final class UserPhoneVerificationNumberInputViewController: BaseViewController {
     }
 
     private func setupContinueButtonUI () {
-        continueButton.setTitle("continue", for: .normal) // FIXME: add localized string
+        continueButton.setTitle(LGLocalizedString.phoneVerificationNumberInputViewContinueButton, for: .normal)
         continueButton.addTarget(self, action: #selector(didTapContinue), for: .touchUpInside)
     }
 
