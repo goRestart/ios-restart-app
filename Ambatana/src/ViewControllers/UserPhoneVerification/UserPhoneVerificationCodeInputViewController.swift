@@ -63,7 +63,7 @@ final class UserPhoneVerificationCodeInputViewController: BaseViewController {
     }
 
     private func setupUI() {
-        title = "Number Verification" // FIXME: localize
+        title = LGLocalizedString.phoneVerificationCodeInputViewTitle
 
         view.backgroundColor = .white
         view.addSubviewsForAutoLayout([titleLabel, subtitleLabel, codeTextField,
@@ -79,14 +79,14 @@ final class UserPhoneVerificationCodeInputViewController: BaseViewController {
     }
 
     private func setupTitleLabelUI() {
-        titleLabel.text = "Enter the 6-digit code" // FIXME: localize
+        titleLabel.text = LGLocalizedString.phoneVerificationCodeInputViewContentTitle
         titleLabel.font = .smsVerificationInputDescription
         titleLabel.textColor = .blackText
         titleLabel.textAlignment = .center
     }
 
     private func setupSubtitleLabelUI() {
-        subtitleLabel.text = "We've sent it to \(viewModel.phoneNumber)" // FIXME: localize
+        subtitleLabel.text = LGLocalizedString.phoneVerificationCodeInputViewContentSubtitle(viewModel.phoneNumber)
         subtitleLabel.font = .smsVerificationInputSmallDescription
         subtitleLabel.textColor = .darkGrayText
         subtitleLabel.textAlignment = .center
@@ -98,7 +98,7 @@ final class UserPhoneVerificationCodeInputViewController: BaseViewController {
     }
 
     private func setupCodeInformationLabelUI() {
-        codeInformationLabel.text = "You can request another code if you don't recieve it within 0:50" // FIXME: localize
+        codeInformationLabel.text = LGLocalizedString.phoneVerificationCodeInputViewContentSubtext("") // FIXME: do
         codeInformationLabel.font = .smsVerificationInputCodeInformation
         codeInformationLabel.textColor = .grayText
         codeInformationLabel.numberOfLines = 0
@@ -106,7 +106,7 @@ final class UserPhoneVerificationCodeInputViewController: BaseViewController {
     }
 
     private func setupCodeInformationButtonUI() {
-        codeInformationButton.setTitle("No verification code received?", for: .normal) // FIXME: localize this
+        codeInformationButton.setTitle(LGLocalizedString.phoneVerificationCodeInputViewContentSubaction, for: .normal)
         codeInformationButton.setTitleColor(.primaryColor, for: .normal)
         codeInformationButton.titleLabel?.font = .smsVerificationInputCodeInformation
         codeInformationButton.addTarget(self, action: #selector(didTapOnCodeNotReceived), for: .touchUpInside)
@@ -188,12 +188,14 @@ final class UserPhoneVerificationCodeInputViewController: BaseViewController {
             self?.fullscreenMessageView.alpha = 1
         }
 
-        fullscreenMessageView.startAnimatingWith(message: "Validating code...") // FIXME: localize it
+        fullscreenMessageView
+            .startAnimatingWith(message: LGLocalizedString.phoneVerificationCodeInputViewValidatingMessage)
     }
 
     private func showValidationFinishedWith(success: Bool) {
-        let message = success ? "Phone number verified!" : "The verification code you entered is incorrect."
-        fullscreenMessageView.stopAnimatingWith(message: message, success: success) // FIXME: localize it
+        let message = success ? LGLocalizedString.phoneVerificationCodeInputViewValidatedSuccess :
+            LGLocalizedString.phoneVerificationCodeInputViewValidatedFailure
+        fullscreenMessageView.stopAnimatingWith(message: message, success: success)
 
         timer = Timer.scheduledTimer(timeInterval: timerDuration,
                                      target: self,
