@@ -12,4 +12,5 @@ protocol UserPhoneVerificationNavigator: class {
     func openCountrySelector(withDelegate: UserPhoneVerificationCountryPickerDelegate)
     func closeCountrySelector()
     func openCodeInput(sentTo phoneNumber: String)
+    func closePhoneVerificaction()
 }
