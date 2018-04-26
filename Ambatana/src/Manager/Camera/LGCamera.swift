@@ -540,7 +540,9 @@ class VideoRecorder : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
             fileWriter.startSession(atSourceTime: bufferTimeStamp)
             startRecordingTime = bufferTimeStamp
         case .failed:
-            completion?(CameraRecordingVideoResult(error: .frameworkError(error: fileWriter.error!)))
+            if let error = fileWriter.error {
+                completion?(CameraRecordingVideoResult(error: .frameworkError(error: error)))
+            }
         default: break
         }
 
