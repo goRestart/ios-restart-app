@@ -196,6 +196,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         if viewPager.currentPage == Tab.camera.index {
             guard self.viewModel.postListingCameraViewModel.cameraMode.value == .video else { return }
             footer.startRecording()
+            viewPager.scrollEnabled = false
             cameraView.recordVideo(maxDuration: PostListingViewModel.videoMaxDuration)
         } else {
             viewPager.selectTabAtIndex(Tab.camera.index, animated: true)
@@ -207,6 +208,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
             if self.viewModel.postListingCameraViewModel.cameraMode.value == .video {
                 cameraView.stopRecordingVideo()
                 footer.stopRecording()
+                viewPager.scrollEnabled = false
             } else {
                 cameraView.takePhoto()
             }
