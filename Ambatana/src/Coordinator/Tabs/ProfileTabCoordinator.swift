@@ -193,6 +193,7 @@ extension ProfileTabCoordinator: UserPhoneVerificationNavigator {
         let vm = UserPhoneVerificationNumberInputViewModel()
         vm.navigator = self
         let vc = UserPhoneVerificationNumberInputViewController(viewModel: vm)
+        vm.delegate = vc
         navigationController.pushViewController(vc, animated: true)
     }
 

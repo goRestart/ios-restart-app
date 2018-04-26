@@ -8,6 +8,7 @@
 
 protocol BaseViewModelDelegate: class {
     func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?)
+    func vmShowAutoFadingMessage(title: String, message: String, time: Double, completion: (() -> ())?)
 
     func vmShowLoading(_ loadingMessage: String?)
     func vmHideLoading(_ finishedMessage: String?, afterMessageCompletion: (() -> ())?)
@@ -28,8 +29,20 @@ protocol BaseViewModelDelegate: class {
 }
 
 extension UIViewController: BaseViewModelDelegate {
-    @objc func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?) {
-        showAutoFadingOutMessageAlert(message, completion: completion)
+    @objc func vmShowAutoFadingMessage(_ message: String,
+                                       completion: (() -> ())?) {
+        showAutoFadingOutMessageAlert(message: message,
+                                      completion: completion)
+    }
+
+    @objc func vmShowAutoFadingMessage(title: String,
+                                       message: String,
+                                       time: Double,
+                                       completion: (() -> ())?) {
+        showAutoFadingOutMessageAlert(title: title,
+                                      message: message,
+                                      time: time,
+                                      completion: completion)
     }
 
     @objc func vmShowLoading(_ loadingMessage: String?) {

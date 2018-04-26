@@ -28,7 +28,9 @@ struct PhoneVerificationCountry {
 final class UserPhoneVerificationNumberInputViewModel: BaseViewModel {
 
     weak var navigator: UserPhoneVerificationNavigator?
+    weak var delegate: BaseViewModelDelegate?
 
+    private let myUserRepository: MyUserRepository
     private let locationManager: LocationManager
     private let locationRepository: LocationRepository
     private let telephonyNetworkInfo: CTTelephonyNetworkInfo
@@ -37,10 +39,12 @@ final class UserPhoneVerificationNumberInputViewModel: BaseViewModel {
     var country = Variable<PhoneVerificationCountry?>(nil)
     var isContinueActionEnabled = Variable<Bool>(false)
 
-    init(locationManager: LocationManager = Core.locationManager,
+    init(myUserRepository: MyUserRepository = Core.myUserRepository,
+         locationManager: LocationManager = Core.locationManager,
          locationRepository: LocationRepository = Core.locationRepository,
          countryHelper: CountryHelper = Core.countryHelper,
          telephonyNetworkInfo: CTTelephonyNetworkInfo = CTTelephonyNetworkInfo()) {
+        self.myUserRepository = myUserRepository
         self.locationManager = locationManager
         self.locationRepository = locationRepository
         self.telephonyNetworkInfo = telephonyNetworkInfo
@@ -97,8 +101,28 @@ final class UserPhoneVerificationNumberInputViewModel: BaseViewModel {
 
     func didTapContinueButton(with phoneNumber: String) {
         guard let callingCode = country.value?.callingCode else { return }
-        let fullNumber = "+\(callingCode) \(phoneNumber)"
-        navigator?.openCodeInput(sentTo: fullNumber)
+        requestCode(withCallingCode: callingCode, phoneNumber: phoneNumber) { [weak self] in
+            let fullNumber = "+\(callingCode) \(phoneNumber)"
+            self?.navigator?.openCodeInput(sentTo: fullNumber)
+        }
+    }
+
+    private func requestCode(withCallingCode callingCode: String, phoneNumber: String, completion: (()->())?) {
+        delegate?.vmShowLoading("Sending text message...") // FIXME: localize
+        myUserRepository.requestSMSCode(prefix: callingCode, phone: phoneNumber) { [weak self] result in
+            switch result {
+            case .success:
+                let title = "Thank you" // FIXME: localize
+                let message = "We sent a text message with a verification code to +\(callingCode) \(phoneNumber)" // FIXME: localize
+                self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
+                self?.delegate?.vmShowAutoFadingMessage(title: title,
+                                                        message: message,
+                                                        time: 5,
+                                                        completion: completion)
+            case .failure(_):
+              break // FIXME: waiting for product
+            }
+        }
     }
 }
 

@@ -21,6 +21,10 @@ final class UserPhoneVerificationCodeInputViewController: BaseViewController {
     private let codeInformationLabel = UILabel()
     private let codeInformationButton = UIButton()
 
+    private var timer: Timer?
+    private let timerDuration = 2.0
+    private let fullscreenMessageView = FullScreenMessageView()
+
     private struct Layout {
         static let contentMargin: CGFloat = 30
         static let titleTopMargin: CGFloat = 77
@@ -35,6 +39,10 @@ final class UserPhoneVerificationCodeInputViewController: BaseViewController {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    deinit {
+        timer?.invalidate()
     }
 
     override func viewDidLoad() {
@@ -66,6 +74,7 @@ final class UserPhoneVerificationCodeInputViewController: BaseViewController {
         setupCodeTextFieldUI()
         setupCodeInformationLabelUI()
         setupCodeInformationButtonUI()
+        setupFullscreenMessageViewUI()
         setupConstraints()
     }
 
@@ -85,6 +94,7 @@ final class UserPhoneVerificationCodeInputViewController: BaseViewController {
 
     private func setupCodeTextFieldUI() {
         codeTextField.backgroundColor = .red
+        codeTextField.delegate = self
     }
 
     private func setupCodeInformationLabelUI() {
@@ -103,8 +113,15 @@ final class UserPhoneVerificationCodeInputViewController: BaseViewController {
         codeInformationButton.isHidden = true
     }
 
+    private func setupFullscreenMessageViewUI() {
+        navigationController?.view.addSubviewForAutoLayout(fullscreenMessageView)
+        fullscreenMessageView.iconColor = .primaryColor
+        fullscreenMessageView.isHidden = true
+        fullscreenMessageView.alpha = 0
+    }
+
     private func setupConstraints() {
-        let constraints = [
+        var constraints = [
             titleLabel.topAnchor.constraint(equalTo: safeTopAnchor, constant: Layout.titleTopMargin),
             titleLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: Layout.contentMargin),
             titleLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -Layout.contentMargin),
@@ -118,8 +135,17 @@ final class UserPhoneVerificationCodeInputViewController: BaseViewController {
             codeInformationLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -Layout.contentMargin),
             codeInformationButton.topAnchor.constraint(equalTo: codeInformationLabel.topAnchor),
             codeInformationButton.leftAnchor.constraint(equalTo: codeInformationLabel.leftAnchor),
-            codeInformationButton.rightAnchor.constraint(equalTo: codeInformationLabel.rightAnchor),
+            codeInformationButton.rightAnchor.constraint(equalTo: codeInformationLabel.rightAnchor)
         ]
+
+        if let navView = navigationController?.view {
+            constraints += [
+                fullscreenMessageView.topAnchor.constraint(equalTo: navView.topAnchor),
+                fullscreenMessageView.leftAnchor.constraint(equalTo: navView.leftAnchor),
+                fullscreenMessageView.rightAnchor.constraint(equalTo: navView.rightAnchor),
+                fullscreenMessageView.bottomAnchor.constraint(equalTo: navView.bottomAnchor)
+            ]
+        }
 
         NSLayoutConstraint.activate(constraints)
     }
@@ -133,9 +159,135 @@ final class UserPhoneVerificationCodeInputViewController: BaseViewController {
                 self?.codeInformationButton.isHidden = !showOption
             })
             .disposed(by: disposeBag)
+
+        viewModel
+            .validationState
+            .asDriver()
+            .drive(onNext: { [weak self] state in
+                switch state {
+                case .validating:
+                    self?.showValidationLoading()
+                case .success:
+                    self?.showValidationFinishedWith(success: true)
+                case .failure:
+                    self?.showValidationFinishedWith(success: false)
+                case .none:
+                    break
+                }
+            })
+            .disposed(by: disposeBag)
     }
 
     @objc private func didTapOnCodeNotReceived() {
         // FIXME: implement this
+    }
+
+    private func showValidationLoading() {
+        UIView.animate(withDuration: 0.4) { [weak self] in
+            self?.fullscreenMessageView.isHidden = false
+            self?.fullscreenMessageView.alpha = 1
+        }
+
+        fullscreenMessageView.startAnimatingWith(message: "Validating code...") // FIXME: localize it
+    }
+
+    private func showValidationFinishedWith(success: Bool) {
+        let message = success ? "Phone number verified!" : "The verification code you entered is incorrect."
+        fullscreenMessageView.stopAnimatingWith(message: message, success: success) // FIXME: localize it
+
+        timer = Timer.scheduledTimer(timeInterval: timerDuration,
+                                     target: self,
+                                     selector: #selector(didFinishValidationMessageTimer(timer:)),
+                                     userInfo: ["success": success],
+                                     repeats: false)
+    }
+
+    @objc private func didFinishValidationMessageTimer(timer: Timer) {
+        guard let userInfo = timer.userInfo as? [String: Any],
+            let success = userInfo["success"] as? Bool else { return }
+
+        timer.invalidate()
+        if success {
+            viewModel.didFinishVerification()
+        } else {
+            codeTextField.clearText()
+            codeTextField.becomeFirstResponder()
+        }
+
+        UIView.animate(withDuration: 0.5,
+                       animations: { [weak self] in
+                        self?.fullscreenMessageView.alpha = 0
+        }) { [weak self] _ in
+            self?.fullscreenMessageView.isHidden = true
+            if success {
+                self?.fullscreenMessageView.removeFromSuperview()
+            }
+        }
+    }
+}
+
+extension UserPhoneVerificationCodeInputViewController: VerificationCodeTextFieldDelegate {
+    func didEndEditingWith(code: String) {
+        viewModel.validate(code: code)
+    }
+}
+
+private class FullScreenMessageView: UIView {
+
+    private let icon = LoadingIndicator(frame: CGRect(x: 0, y: 0, width: Layout.iconSize, height: Layout.iconSize))
+    private let label = UILabel()
+
+    var iconColor: UIColor = .primaryColor {
+        didSet { icon.color = iconColor }
+    }
+
+    private struct Layout {
+        static let verticalMargin: CGFloat = 10
+        static let horizontalMargin: CGFloat = 20
+        static let iconSize: CGFloat = 80
+    }
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupUI()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func setupUI() {
+        addSubviewsForAutoLayout([icon, label])
+        backgroundColor = .white
+
+        label.font = .smsVerificationInputBigText
+        label.textColor = .blackText
+        label.numberOfLines = 0
+        label.textAlignment = .center
+
+        setupConstraints()
+    }
+
+    private func setupConstraints() {
+        let constraints = [
+            icon.centerXAnchor.constraint(equalTo: centerXAnchor),
+            icon.bottomAnchor.constraint(equalTo: centerYAnchor, constant: -Layout.verticalMargin),
+            icon.widthAnchor.constraint(equalToConstant: Layout.iconSize),
+            icon.heightAnchor.constraint(equalTo: icon.widthAnchor),
+            label.leftAnchor.constraint(equalTo: leftAnchor, constant: Layout.horizontalMargin),
+            label.rightAnchor.constraint(equalTo: rightAnchor, constant: -Layout.horizontalMargin),
+            label.topAnchor.constraint(equalTo: centerYAnchor, constant: Layout.verticalMargin)
+        ]
+        NSLayoutConstraint.activate(constraints)
+    }
+
+    func startAnimatingWith(message: String) {
+        label.text = message
+        icon.startAnimating()
+    }
+
+    func stopAnimatingWith(message: String, success: Bool) {
+        label.text = message
+        icon.stopAnimating(correctState: success)
     }
 }

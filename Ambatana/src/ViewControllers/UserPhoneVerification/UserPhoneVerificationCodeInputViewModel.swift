@@ -13,14 +13,22 @@ final class UserPhoneVerificationCodeInputViewModel: BaseViewModel {
 
     weak var navigator: UserPhoneVerificationNavigator?
 
-    let phoneNumber: String
-    var showResendCodeOption = Variable<Bool>(false)
-
+    private let myUserRepository: MyUserRepository
     private var timer: Timer?
     private let timerDuration = 50.0
 
-    init(phoneNumber: String) {
+    enum ValidationState {
+        case none, validating, success, failure
+    }
+
+    let phoneNumber: String
+    let showResendCodeOption = Variable<Bool>(false)
+    let validationState = Variable<ValidationState>(.none)
+
+    init(phoneNumber: String,
+         myUserRepository: MyUserRepository = Core.myUserRepository) {
         self.phoneNumber = phoneNumber
+        self.myUserRepository = myUserRepository
         super.init()
         setupResendCodeTimer()
     }
@@ -47,5 +55,23 @@ final class UserPhoneVerificationCodeInputViewModel: BaseViewModel {
 
     @objc private func resendCodeTimerDidFinish() {
         showResendCodeOption.value = true
+    }
+
+    // MARK: Code validation
+
+    func validate(code: String) {
+        validationState.value = .validating
+        myUserRepository.validateSMSCode(code) { [weak self] result in
+            switch result {
+            case .success:
+                self?.validationState.value = .success
+            case .failure:
+                self?.validationState.value = .failure
+            }
+        }
+    }
+
+    func didFinishVerification() {
+        //navigator
     }
 }
