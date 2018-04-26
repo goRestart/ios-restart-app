@@ -105,6 +105,16 @@ final class ListingApiDataSource: ListingDataSource {
             apiClient.request(request, decoder: ListingApiDataSource.realEstateDecoder, completion: completion)
         }
     }
+    
+    // To be included in createListing after ABTest is removed
+    func createListingCar(userId: String, listingParams: ListingCreationParams, completion: ListingDataSourceCompletion?) {
+        guard case .car(let carParams) = listingParams else {
+            completion?(Result(error: .internalError(description: "Wrong creation params type")))
+            return
+        }
+        let request: URLRequestAuthenticable = ListingRouter.createCar(params: carParams.apiCarCreationEncode(userId: userId))
+        apiClient.request(request, decoder: ListingApiDataSource.carDecoder, completion: completion)
+    }
 
     func updateListing(listingParams: ListingEditionParams, completion: ListingDataSourceCompletion?) {
         let request: URLRequestAuthenticable

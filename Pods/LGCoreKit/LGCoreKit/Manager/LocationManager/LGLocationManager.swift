@@ -29,7 +29,8 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
     }
 
     var lastEmergencyLocation: LGLocation? = nil
-    
+    var shouldAskForBackgroundLocationPermission: Bool = false
+
     // Repositories
     private let myUserRepository: InternalMyUserRepository
     private let locationRepository: LocationRepository
@@ -184,8 +185,10 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
         
         if enabled {
             // If not determined, ask authorization
-            if shouldAskForLocationPermissions() {
+            if shouldAskForWhenInUseLocationPermissions() {
                 locationRepository.requestWhenInUseAuthorization()
+            } else if shouldAskForAlwaysLocationPermission() {
+                locationRepository.requestAlwaysAuthorization()
             } else {
                 // Otherwise, start the location updates
                 locationRepository.startUpdatingLocation()
@@ -203,9 +206,19 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
     
     
     // MARK: - CLLocationManagerDelegate
-    
+
     func shouldAskForLocationPermissions() -> Bool {
-        return locationRepository.authorizationStatus() == .notDetermined
+        return shouldAskForAlwaysLocationPermission() || shouldAskForWhenInUseLocationPermissions()
+    }
+
+    func shouldAskForWhenInUseLocationPermissions() -> Bool {
+        let status = locationRepository.authorizationStatus()
+        return !shouldAskForBackgroundLocationPermission && status == .notDetermined
+    }
+
+    func shouldAskForAlwaysLocationPermission() -> Bool {
+        let status = locationRepository.authorizationStatus()
+        return shouldAskForBackgroundLocationPermission && (status == .notDetermined || status == .authorizedWhenInUse)
     }
     
     /*

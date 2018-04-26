@@ -68,6 +68,11 @@ public protocol LocationManager {
     */
     var locationServiceStatus: LocationServiceStatus { get }
 
+    /**
+     Configure the LocationManager to also ask for background Location permission
+     This should be used ONLY by the Emergency Locate feature
+     */
+    var shouldAskForBackgroundLocationPermission: Bool { get set }
 
     // MARK: > Sensor location updates
 

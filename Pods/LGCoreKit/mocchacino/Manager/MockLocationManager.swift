@@ -8,6 +8,7 @@ open class MockLocationManager: LocationManager {
     public var locationEventsPublishSubject: PublishSubject<LocationEvent>
     public var hasLocationUpdates: Bool
     public var lastEmergencyLocation: LGLocation?
+    public var shouldAskForBackgroundLocationPermission: Bool = false
 
     // MARK: - Lifecycle
 
@@ -62,7 +63,7 @@ open class MockLocationManager: LocationManager {
             switch authStatus {
             case .notDetermined, .restricted, .denied:
                 break
-            case .authorized:
+            case .authorizedWhenInUse, .authorizedAlways:
                 hasLocationUpdates = true
             }
         }
@@ -72,8 +73,12 @@ open class MockLocationManager: LocationManager {
     public func stopSensorLocationUpdates() {
         hasLocationUpdates = false
     }
-    
+
     public func shouldAskForLocationPermissions() -> Bool {
+        return shouldAskForWhenInUseLocationPermissions() || shouldAskForAlwaysLocationPermission()
+    }
+
+    public func shouldAskForWhenInUseLocationPermissions() -> Bool {
         switch locationServiceStatus {
         case .disabled:
             return false
@@ -81,7 +86,21 @@ open class MockLocationManager: LocationManager {
             switch authStatus {
             case .notDetermined:
                 return true
-            case .restricted, .denied, .authorized:
+            case .restricted, .denied, .authorizedWhenInUse, .authorizedAlways:
+                return false
+            }
+        }
+    }
+
+    public func shouldAskForAlwaysLocationPermission() -> Bool {
+        switch locationServiceStatus {
+        case .disabled:
+            return false
+        case .enabled(let authStatus):
+            switch authStatus {
+            case .notDetermined, .authorizedWhenInUse:
+                return true
+            case .restricted, .denied, .authorizedAlways:
                 return false
             }
         }

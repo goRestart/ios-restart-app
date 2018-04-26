@@ -144,7 +144,6 @@ final class LGListingRepository: ListingRepository {
         }
     }
 
-
     func create(listingParams: ListingCreationParams, completion: ListingCompletion?) {
         guard let myUserId = myUserRepository.myUser?.objectId else {
             completion?(ListingResult(error: .internalError(message: "Missing objectId in MyUser")))
@@ -152,29 +151,41 @@ final class LGListingRepository: ListingRepository {
         }
 
         dataSource.createListing(userId: myUserId, listingParams: listingParams) { [weak self] result in
-            guard let strongSelf = self else { return }
-            var carResult: Result<Listing, ApiError>?
-            if var listing = result.value {
-                // Cache the listing in the limbo
-                if let listingId = listing.objectId {
-                    strongSelf.listingsLimboDAO.save(listingId)
-                }
-                switch listing {
-                case .car(let car):
-                    let newCar = LGCar(car: car)
-                    let carUpdated = strongSelf.fillCarAttributes(car: newCar)
-                    listing = Listing.car(carUpdated)
-                    carResult = Result(value: listing)
-                case .product, .realEstate:
-                    break
-                }
-                // Send event
-                strongSelf.eventBus.onNext(.create(listing))
-            }
-            handleApiResult(carResult ?? result, completion: completion)
+            self?.handleCreate(result, completion)
         }
     }
+    
+    func createCar(listingParams: ListingCreationParams, completion: ListingCompletion?) {
+        guard let myUserId = myUserRepository.myUser?.objectId else {
+            completion?(ListingResult(error: .internalError(message: "Missing objectId in MyUser")))
+            return
+        }
+        dataSource.createListingCar(userId: myUserId, listingParams: listingParams) { [weak self] result in
+            guard let strongSelf = self else { return }
+            strongSelf.handleCreate(result, completion)
+        }
+    }
+    
+    private func handleCreate(_ result: (Result<Listing, ApiError>), _ completion: ListingCompletion?) {
 
+        var carResult: Result<Listing, ApiError>?
+        if var listing = result.value {
+            // Cache the listing in the limbo
+            if let listingId = listing.objectId {
+                listingsLimboDAO.save(listingId)
+            }
+            if case .car(let car) = listing {
+                let newCar = LGCar(car: car)
+                let carUpdated = fillCarAttributes(car: newCar)
+                listing = Listing.car(carUpdated)
+                carResult = Result(value: listing)
+            }
+            // Send event
+            eventBus.onNext(.create(listing))
+        }
+        handleApiResult(carResult ?? result, completion: completion)
+    }
+    
     func update(listingParams: ListingEditionParams, completion: ListingCompletion?) {
         guard listingParams.userId == myUserRepository.myUser?.objectId else {
             completion?(ListingResult(error: .internalError(message: "UserId doesn't match MyUser")))

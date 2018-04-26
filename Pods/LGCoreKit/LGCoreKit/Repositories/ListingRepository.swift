@@ -100,6 +100,8 @@ public protocol ListingRepository {
     
     func create(listingParams: ListingCreationParams, completion: ListingCompletion?)
     func update(listingParams: ListingEditionParams, completion: ListingCompletion?)
+    
+    func createCar(listingParams: ListingCreationParams, completion: ListingCompletion?)
 
     func delete(listingId: String, completion: ListingVoidCompletion?)
     

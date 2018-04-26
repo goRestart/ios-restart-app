@@ -48,6 +48,8 @@ protocol ListingDataSource {
     
     func createListing(userId: String, listingParams: ListingCreationParams, completion: ListingDataSourceCompletion?)
     func updateListing(listingParams: ListingEditionParams, completion: ListingDataSourceCompletion?)
+    
+    func createListingCar(userId: String, listingParams: ListingCreationParams, completion: ListingDataSourceCompletion?)
 
     func delete(_ listingId: String, completion: ListingDataSourceEmptyCompletion?)
 
