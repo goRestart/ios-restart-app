@@ -2543,6 +2543,57 @@
 // Button to confirm email and send a verification link
 "profile_verifications_send_button" = "Send";
 
+// Title shown in the navigation bar as a screen title in the first screen of the phone verification.
+"phone_verification_number_input_view_title" = "Number verification";
+
+// Text shown to explain the screen in the first screen of the phone verification process.
+"phone_verification_number_input_view_description" = "Build trust by verifying your phone number";
+
+// Placeholder shown in the textfield to insert the phone number.
+"phone_verification_number_input_view_textfield_placeholder" = "Phone number";
+
+// Text shown in the button to 'continue' and go the next phone verification step.
+"phone_verification_number_input_view_continue_button" = "Continue";
+
+// Text shown when sms is being sent (as a loding state)
+"phone_verification_number_input_view_sending_message" = "Sending text message...";
+
+// Title shown in the alert to explain that the sms has been sent.
+"phone_verification_number_input_view_confirmation_title" = "Thank you!";
+
+// Text shown in the alert to explain that the sms has been sent. (+34 611111111)
+"phone_verification_number_input_view_confirmation_message" = "We sent a text message with a verification code to +%@ %@";
+
+// Title shown in the navigation bar as a screen title in the second screen of the phone verification.
+"phone_verification_code_input_view_title" = "Number verification";
+
+// Title shown in the content of the 2nd step in the phone verification process.
+"phone_verification_code_input_view_content_title" = "Enter the 6-digit code";
+
+// Subtitle shown in the content of the 2nd step. (%s = phone number)
+"phone_verification_code_input_view_content_subtitle" = "We've sent it to %@";
+
+// Text shown below the code textfield as a contextual information.
+"phone_verification_code_input_view_content_subtext" = "You can request another code if you don't receive it within %@";
+
+// Text shown in the button below the code textfield to request a code again.
+"phone_verification_code_input_view_content_subaction" = "Didn't get the code?";
+
+// Text shown when sms code is being validated by backend.
+"phone_verification_code_input_view_validating_message" = "Validating code...";
+
+// Text shown when sms code has been verified successfully.
+"phone_verification_code_input_view_validated_success" = "Phone number verified!";
+
+// Text shown when sms code has been verified unsuccessfully.
+"phone_verification_code_input_view_validated_failure" = "The verification code you entered is incorrect.";
+
+// Text shown in the navigation bar  as a screen title in the country picker view.
+"phone_verification_country_picker_view_title" = "Country list";
+
+// Text shown as a placeholder in the textfield to search a country in the country list.
+"phone_verification_country_picker_view_search_placeholder" = "Search";
+
 // Disclaimer text telling the user this section is only visibile to him/her
 "profile_karma_visibility_title" = "Only visible to you";
 
@@ -3090,6 +3141,12 @@
 // Reset password title. Check image @ "reset_password_email_field_hint" segment
 "reset_password_title" = "Reset password";
 
+// Search alerts edit button 
+"search_alerts_edit_button" = "Edit";
+
+// Subtitle for search alerts header
+"search_alerts_header_subtitle" = "Get notifications about new listings";
+
 // Sell category selection label. Check attached image "sell.png"
 "sell_category_selection_label" = "Category";
 
@@ -3263,9 +3320,6 @@
 
 // Search alerts view title
 "search_alerts_list_title" = "Search Notifications";
-
-// Search alerts edit button 
-"search_alerts_edit_button" = "Edit";
 
 // Alert when you don't accept one of the above (just turkey)
 "sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
