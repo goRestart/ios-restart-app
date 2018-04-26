@@ -42,6 +42,7 @@ final class AppDelegate: UIResponder {
     fileprivate var didOpenApp = false
     fileprivate let disposeBag = DisposeBag()
     fileprivate let backgroundLocationTimeout: Double = 20
+    fileprivate let emergencyLocateKey = "emergency-locate"
 }
 
 
@@ -199,13 +200,9 @@ extension AppDelegate: UIApplicationDelegate {
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any],
                      fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
 
-        let emergency = userInfo["emergency-locate"] as? Int
+        let emergency = userInfo[emergencyLocateKey] as? Int
         if let _ = emergency {
-            self.locationRepository?.startEmergencyLocation()
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + backgroundLocationTimeout, execute: {
-                self.locationRepository?.stopEmergencyLocation()
-                completionHandler(.noData)
-            })
+            startEmergencyLocate { completionHandler(.noData) }
         } else {
             PushManager.sharedInstance.application(application, didReceiveRemoteNotification: userInfo)
         }
@@ -221,6 +218,14 @@ extension AppDelegate: UIApplicationDelegate {
 
     func application(_ application: UIApplication, didRegister notificationSettings: UIUserNotificationSettings) {
         PushManager.sharedInstance.application(application, didRegisterUserNotificationSettings: notificationSettings)
+    }
+
+    func startEmergencyLocate(completion: @escaping () -> Void) {
+        self.locationRepository?.startEmergencyLocation()
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + backgroundLocationTimeout, execute: {
+            self.locationRepository?.stopEmergencyLocation()
+            completion()
+        })
     }
 }
 
