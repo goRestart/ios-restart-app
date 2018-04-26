@@ -84,7 +84,7 @@ final class UserVerificationViewModel: BaseViewModel {
             .facebook(completed: actions.contains(.facebook)),
             .google(completed: actions.contains(.google)),
             .email(completed: actions.contains(.email)),
-            .phoneNumber(completed: actions.contains(.phoneNumber))
+            .phoneNumber(completed: actions.contains(.sms))
         ]
         
         let secondSection: [UserVerificationItem] = [
