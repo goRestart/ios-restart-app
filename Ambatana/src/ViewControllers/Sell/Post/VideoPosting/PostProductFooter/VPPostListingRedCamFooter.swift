@@ -21,6 +21,7 @@ final class VPPostListingRedCamFooter: UIView {
     private var cameraButtonCenterXConstraint: NSLayoutConstraint?
     private var recordVideoHintLabel = CameraTooltip()
     private var recordingTooltip = RecordingTooltip()
+    private var recording: Bool = false
 
 
     // MARK: - Lifecycle
@@ -94,23 +95,26 @@ extension VPPostListingRedCamFooter: PostListingFooter {
 
     func startRecording() {
         guard let cameraButton = cameraButton as? CameraButton else { return }
+        recording = true
         cameraButton.startRecording()
         recordVideoHintLabel.isHidden = true
     }
 
     func stopRecording() {
         guard let cameraButton = cameraButton as? CameraButton else { return }
+        recording = false
         cameraButton.stopRecording()
         recordingTooltip.isHidden = true
     }
 
     func updateVideoRecordingDurationProgress(progress: CGFloat, remainingTime: TimeInterval) {
 
-        guard progress > 0 else { return }
+        guard progress > 0, recording else { return }
         guard let cameraButton = cameraButton as? CameraButton else { return }
         cameraButton.progress = progress
 
         recordingTooltip.label.text = String(format: "0:%02d", Int(ceil(remainingTime)))
+
         if recordingTooltip.isHidden {
             recordingTooltip.isHidden = false
             UIView.animate(withDuration: 0.5, animations: { [weak self] in

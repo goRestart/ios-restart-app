@@ -501,19 +501,18 @@ class VideoRecorder : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     }
 
     public func stopRecording() {
+        guard isRecording, let completion = completion, let fileWriter = fileWriter else { return }
         isRecording = false
-        videoInput?.markAsFinished()
         videoOutput.setSampleBufferDelegate(nil, queue: nil)
         let duration = recordingDuration
         recordingDuration = 0
 
-        guard let completion = completion, let fileWriter = fileWriter else { return }
-
-        if fileWriter.status == .failed {
+        if fileWriter.status != .writing {
             DispatchQueue.main.async {
                 completion(CameraRecordingVideoResult(error: .internalError(message: "Video file writer error")))
             }
         } else {
+            videoInput?.markAsFinished()
             fileWriter.finishWriting {
                 let result: CameraRecordingVideoResult
                 do {
