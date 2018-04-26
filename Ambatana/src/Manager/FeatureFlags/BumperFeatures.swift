@@ -42,7 +42,6 @@ extension Bumper  {
         flags.append(ShowChatSafetyTips.self)
         flags.append(DiscardedProducts.self)
         flags.append(OnboardingIncentivizePosting.self)
-        flags.append(PromoteBumpInEdit.self)
         flags.append(UserIsTyping.self)
         flags.append(BumpUpBoost.self)
         flags.append(ServicesCategoryEnabled.self)
@@ -213,11 +212,6 @@ extension Bumper  {
     static var onboardingIncentivizePosting: OnboardingIncentivizePosting {
         guard let value = Bumper.value(for: OnboardingIncentivizePosting.key) else { return .control }
         return OnboardingIncentivizePosting(rawValue: value) ?? .control 
-    }
-
-    static var promoteBumpInEdit: PromoteBumpInEdit {
-        guard let value = Bumper.value(for: PromoteBumpInEdit.key) else { return .control }
-        return PromoteBumpInEdit(rawValue: value) ?? .control 
     }
 
     static var userIsTyping: UserIsTyping {
@@ -769,25 +763,6 @@ enum OnboardingIncentivizePosting: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .blockingPosting
             case 3: return .blockingPostingSkipWelcome
-            default: return .control
-        }
-    }
-}
-
-enum PromoteBumpInEdit: String, BumperFeature  {
-    case control, baseline, implicit, sellFaster, longRedText, bigIcon
-    static var defaultValue: String { return PromoteBumpInEdit.control.rawValue }
-    static var enumValues: [PromoteBumpInEdit] { return [.control, .baseline, .implicit, .sellFaster, .longRedText, .bigIcon]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Ad a switch to edit listing page to bump the listing" } 
-    static func fromPosition(_ position: Int) -> PromoteBumpInEdit {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .implicit
-            case 3: return .sellFaster
-            case 4: return .longRedText
-            case 5: return .bigIcon
             default: return .control
         }
     }

@@ -329,9 +329,9 @@ class ChatViewModel: BaseViewModel {
         if firstTime {
             retrieveRelatedListings()
             setupExpressChat()
+            refreshChat()
         }
 
-        refreshChat()
         trackVisit()
     }
 
