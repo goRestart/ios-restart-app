@@ -12,7 +12,8 @@ public enum LocationServicesAuthStatus {
     case notDetermined
     case restricted
     case denied
-    case authorized
+    case authorizedWhenInUse
+    case authorizedAlways
 }
 
 public enum LocationServiceStatus: Equatable {
@@ -32,9 +33,9 @@ public enum LocationServiceStatus: Equatable {
             case .denied:
                 self = .enabled(.denied)
             case .authorizedAlways:
-                self = .enabled(.authorized)
+                self = .enabled(.authorizedAlways)
             case .authorizedWhenInUse:
-                self = .enabled(.authorized)
+                self = .enabled(.authorizedWhenInUse)
             }
         }
     }

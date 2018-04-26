@@ -19,6 +19,7 @@ enum ListingRouter: URLRequestAuthenticable {
     case showRealEstate(listingId: String)
     case create(params: [String : Any])
     case createRealEstate(params: [String : Any])
+    case createCar(params: [String : Any])
     case index(params: [String : Any])
     case indexRealEstate(params: [String : Any])
     case indexRealEstateRelatedSearch(params: [String : Any])
@@ -57,6 +58,8 @@ enum ListingRouter: URLRequestAuthenticable {
             return ListingRouter.listingBaseUrl
         case .createRealEstate, .updateRealEstate:
             return ListingRouter.listingRealEstateBaseUrl
+        case .createCar:
+            return ListingRouter.listingCarsBaseUrl
         case .showRealEstate:
             return ListingRouter.listingRealEstateBaseUrl
         case let .indexRelatedListings(listingId, _):
@@ -106,7 +109,7 @@ enum ListingRouter: URLRequestAuthenticable {
 
     var requiredAuthLevel: AuthLevel {
         switch self {
-        case .delete, .update, .updateRealEstate, .patch, .create, .createRealEstate, .deleteFavorite,
+        case .delete, .update, .updateRealEstate, .patch, .create, .createRealEstate, .createCar, .deleteFavorite,
              .saveFavorite, .userRelation, .saveReport, .indexLimbo, .possibleBuyers, .createTransactionOf,
              .retrieveTransactionsOf:
             return .user
@@ -150,6 +153,8 @@ enum ListingRouter: URLRequestAuthenticable {
             return try Router<APIBaseURL>.create(endpoint: endpoint, params: params, encoding: .url).asURLRequest()
         case let .createRealEstate(params):
             return try Router<RealEstateBaseURL>.create(endpoint: endpoint, params: params, encoding: .json).asURLRequest()
+        case let .createCar(params):
+            return try Router<CarsBaseURL>.create(endpoint: endpoint, params: params, encoding: .json).asURLRequest()
         case let .indexRelatedListings(_, params):
             return try Router<SearchProductsBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
         case let .indexRelatedRealEstate(_, params):

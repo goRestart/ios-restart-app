@@ -568,7 +568,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
             case .restricted, .denied:
                 shouldAskForPermission = true
                 permissionsActionBlock = { [weak self] in self?.openLocationAppSettings() }
-            case .authorized:
+            case .authorizedAlways, .authorizedWhenInUse:
                 shouldAskForPermission = false
             }
         case .disabled:

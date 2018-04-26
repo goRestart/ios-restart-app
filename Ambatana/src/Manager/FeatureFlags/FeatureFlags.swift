@@ -70,7 +70,7 @@ protocol FeatureFlaggeable: class {
     var showProTagUserProfile: Bool { get }
     var summaryAsFirstStep: SummaryAsFirstStep { get }
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem { get }
-    
+    var emergencyLocate: EmergencyLocate { get }
     var showExactLocationForPros: Bool { get }
 
     // Country dependant features
@@ -310,7 +310,11 @@ extension ShowAdvancedReputationSystem {
     var isActive: Bool { return self == .active }
 }
 
-extension ShowPasswordlessLogin{
+extension ShowPasswordlessLogin {
+    var isActive: Bool { return self == .active }
+}
+
+extension EmergencyLocate {
     var isActive: Bool { return self == .active }
 }
 
@@ -419,7 +423,7 @@ class FeatureFlags: FeatureFlaggeable {
     let requestTimeOut: RequestsTimeOut
 
     private let locale: Locale
-    private let locationManager: LocationManager
+    private var locationManager: LocationManager
     private let carrierCountryInfo: CountryConfigurable
     private let abTests: ABTests
     private let dao: FeatureFlagsDAO
@@ -475,6 +479,9 @@ class FeatureFlags: FeatureFlaggeable {
             dao.save(timeoutForRequests: TimeInterval(abTests.requestsTimeOut.value))
             dao.save(newUserProfile: NewUserProfileView.fromPosition(abTests.newUserProfileView.value))
             dao.save(showAdvanceReputationSystem: ShowAdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value))
+            dao.save(emergencyLocate: EmergencyLocate.fromPosition(abTests.emergencyLocate.value))
+            locationManager.shouldAskForBackgroundLocationPermission = EmergencyLocate.fromPosition(abTests.emergencyLocate.value).isActive
+            locationManager.startSensorLocationUpdates()
         }
         abTests.variablesUpdated()
     }
@@ -766,6 +773,14 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.showPasswordlessLogin
         }
         return ShowPasswordlessLogin.fromPosition(abTests.showPasswordlessLogin.value)
+    }
+
+    var emergencyLocate: EmergencyLocate {
+        if Bumper.enabled {
+            return Bumper.emergencyLocate
+        }
+        let cached = dao.retrieveEmergencyLocate()
+        return cached ?? EmergencyLocate.fromPosition(abTests.emergencyLocate.value)
     }
 
     // MARK: - Country features

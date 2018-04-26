@@ -13,4 +13,6 @@ protocol FeatureFlagsDAO {
     func save(newUserProfile: NewUserProfileView)
     func retrieveShowAdvanceReputationSystem() -> ShowAdvancedReputationSystem?
     func save(showAdvanceReputationSystem: ShowAdvancedReputationSystem)
+    func retrieveEmergencyLocate() -> EmergencyLocate?
+    func save(emergencyLocate: EmergencyLocate)
 }

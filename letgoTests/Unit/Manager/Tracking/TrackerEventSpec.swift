@@ -17,7 +17,7 @@ class TrackerEventSpec: QuickSpec {
                 context("event name") {
                     beforeEach {
                         sut = TrackerEvent.location(locationType: .sensor,
-                                                    locationServiceStatus: .enabled(.authorized),
+                                                    locationServiceStatus: .enabled(.authorizedWhenInUse),
                                                     typePage: .filter,
                                                     zipCodeFilled: nil,
                                                     distanceRadius: nil)
@@ -29,7 +29,7 @@ class TrackerEventSpec: QuickSpec {
                 context("type sensor") {
                     beforeEach {
                         sut = TrackerEvent.location(locationType: .sensor,
-                                                    locationServiceStatus: .enabled(.authorized),
+                                                    locationServiceStatus: .enabled(.authorizedWhenInUse),
                                                     typePage: .filter,
                                                     zipCodeFilled: nil,
                                                     distanceRadius: nil)
@@ -41,7 +41,7 @@ class TrackerEventSpec: QuickSpec {
                 context("type manual") {
                     beforeEach {
                         sut = TrackerEvent.location(locationType: .manual,
-                                                    locationServiceStatus: .enabled(.authorized),
+                                                    locationServiceStatus: .enabled(.authorizedWhenInUse),
                                                     typePage: .filter,
                                                     zipCodeFilled: nil,
                                                     distanceRadius: nil)
@@ -53,7 +53,7 @@ class TrackerEventSpec: QuickSpec {
                 context("type iplookup") {
                     beforeEach {
                         sut = TrackerEvent.location(locationType: .ipLookup,
-                                                    locationServiceStatus: .enabled(.authorized),
+                                                    locationServiceStatus: .enabled(.authorizedWhenInUse),
                                                     typePage: .filter,
                                                     zipCodeFilled: nil,
                                                     distanceRadius: nil)
@@ -65,7 +65,7 @@ class TrackerEventSpec: QuickSpec {
                 context("type regional") {
                     beforeEach {
                         sut = TrackerEvent.location(locationType: .regional,
-                                                    locationServiceStatus: .enabled(.authorized),
+                                                    locationServiceStatus: .enabled(.authorizedWhenInUse),
                                                     typePage: .filter,
                                                     zipCodeFilled: nil,
                                                     distanceRadius: nil)
@@ -134,10 +134,10 @@ class TrackerEventSpec: QuickSpec {
                         expect(sut.params!.stringKeyParams["location-allowed"] as? Bool) == false
                     }
                 }
-                context("location .enabled(.authorized)") {
+                context("location .enabled(.authorizedWhenInUse)") {
                     beforeEach {
                         sut = TrackerEvent.location(locationType: .regional,
-                                                    locationServiceStatus: .enabled(.authorized),
+                                                    locationServiceStatus: .enabled(.authorizedWhenInUse),
                                                     typePage: .filter,
                                                     zipCodeFilled: nil,
                                                     distanceRadius: nil)
@@ -152,7 +152,7 @@ class TrackerEventSpec: QuickSpec {
                 context("type page filter") {
                     beforeEach {
                         sut = TrackerEvent.location(locationType: .sensor,
-                                                    locationServiceStatus: .enabled(.authorized),
+                                                    locationServiceStatus: .enabled(.authorizedWhenInUse),
                                                     typePage: .filter,
                                                     zipCodeFilled: nil,
                                                     distanceRadius: nil)
@@ -164,7 +164,7 @@ class TrackerEventSpec: QuickSpec {
                 context("type page profile") {
                     beforeEach {
                         sut = TrackerEvent.location(locationType: .sensor,
-                                                    locationServiceStatus: .enabled(.authorized),
+                                                    locationServiceStatus: .enabled(.authorizedWhenInUse),
                                                     typePage: .profile,
                                                     zipCodeFilled: nil,
                                                     distanceRadius: nil)
@@ -176,7 +176,7 @@ class TrackerEventSpec: QuickSpec {
                 context("type page feedBubble") {
                     beforeEach {
                         sut = TrackerEvent.location(locationType: .sensor,
-                                                    locationServiceStatus: .enabled(.authorized),
+                                                    locationServiceStatus: .enabled(.authorizedWhenInUse),
                                                     typePage: .feedBubble,
                                                     zipCodeFilled: nil,
                                                     distanceRadius: nil)
@@ -188,7 +188,7 @@ class TrackerEventSpec: QuickSpec {
                 context("type page automatic") {
                     beforeEach {
                         sut = TrackerEvent.location(locationType: .sensor,
-                                                    locationServiceStatus: .enabled(.authorized),
+                                                    locationServiceStatus: .enabled(.authorizedWhenInUse),
                                                     typePage: .automatic,
                                                     zipCodeFilled: nil,
                                                     distanceRadius: nil)
@@ -200,7 +200,7 @@ class TrackerEventSpec: QuickSpec {
                 context("zipcode is not set") {
                     beforeEach {
                         sut = TrackerEvent.location(locationType: .sensor,
-                                                    locationServiceStatus: .enabled(.authorized),
+                                                    locationServiceStatus: .enabled(.authorizedWhenInUse),
                                                     typePage: .feedBubble,
                                                     zipCodeFilled: nil,
                                                     distanceRadius: nil)
@@ -212,7 +212,7 @@ class TrackerEventSpec: QuickSpec {
                 context("zipcode is filled") {
                     beforeEach {
                         sut = TrackerEvent.location(locationType: .sensor,
-                                                    locationServiceStatus: .enabled(.authorized),
+                                                    locationServiceStatus: .enabled(.authorizedWhenInUse),
                                                     typePage: .feedBubble,
                                                     zipCodeFilled: true,
                                                     distanceRadius: nil)
@@ -224,7 +224,7 @@ class TrackerEventSpec: QuickSpec {
                 context("zipcode is not filled") {
                     beforeEach {
                         sut = TrackerEvent.location(locationType: .sensor,
-                                                    locationServiceStatus: .enabled(.authorized),
+                                                    locationServiceStatus: .enabled(.authorizedWhenInUse),
                                                     typePage: .feedBubble,
                                                     zipCodeFilled: false,
                                                     distanceRadius: nil)
@@ -236,7 +236,7 @@ class TrackerEventSpec: QuickSpec {
                 context("distanceRadius is not set") {
                     beforeEach {
                         sut = TrackerEvent.location(locationType: .sensor,
-                                                    locationServiceStatus: .enabled(.authorized),
+                                                    locationServiceStatus: .enabled(.authorizedWhenInUse),
                                                     typePage: .feedBubble,
                                                     zipCodeFilled: false,
                                                     distanceRadius: nil)
@@ -248,7 +248,7 @@ class TrackerEventSpec: QuickSpec {
                 context("distanceRadius is set to 1") {
                     beforeEach {
                         sut = TrackerEvent.location(locationType: .sensor,
-                                                    locationServiceStatus: .enabled(.authorized),
+                                                    locationServiceStatus: .enabled(.authorizedWhenInUse),
                                                     typePage: .feedBubble,
                                                     zipCodeFilled: false,
                                                     distanceRadius: 1)
