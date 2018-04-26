@@ -46,7 +46,7 @@ final class UserPhoneVerificationCountryPickerViewController: BaseViewController
     }
 
     private func setupUI() {
-        title = "Country List" // FIXME: add localized string
+        title = LGLocalizedString.phoneVerificationCountryPickerViewTitle
         view.backgroundColor = .white
         view.addSubviewForAutoLayout(tableView)
 
@@ -69,7 +69,7 @@ final class UserPhoneVerificationCountryPickerViewController: BaseViewController
     private func setupSearchBar() {
         searchBar.autocapitalizationType = .words
         searchBar.searchBarStyle = .minimal
-        searchBar.placeholder = "Search" // FIXME: localize
+        searchBar.placeholder = LGLocalizedString.phoneVerificationCountryPickerViewSearchPlaceholder
     }
 
     private func setupConstraints() {
