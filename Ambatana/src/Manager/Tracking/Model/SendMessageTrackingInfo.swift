@@ -85,5 +85,15 @@ class SendMessageTrackingInfo {
         params[.meetingLocation] = assistantMeeting.locationName ?? TrackerEvent.notApply
         return self
     }
+    
+    @discardableResult
+    func set(isProfessional: Bool?) -> Self  {
+        if let isProfessional = isProfessional {
+            params[.listingType] = isProfessional ? EventParameterProductItemType.professional.rawValue : EventParameterProductItemType.real.rawValue
+        } else {
+            params[.listingType] = EventParameterProductItemType.privateOrProfessional.rawValue
+        }
+        return self
+    }
 }
 

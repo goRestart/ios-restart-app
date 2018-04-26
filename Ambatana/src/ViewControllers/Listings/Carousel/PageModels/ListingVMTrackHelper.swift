@@ -389,9 +389,10 @@ extension ProductVMTrackHelper {
         if isFirstMessage {
             tracker.trackEvent(TrackerEvent.firstMessage(info: info,
                                                          listingVisitSource: listingVisitSource,
-                                                         feedPosition: feedPosition))
+                                                         feedPosition: feedPosition,
+                                                         isProfessional: nil))
         }
-        tracker.trackEvent(TrackerEvent.userMessageSent(info: info))
+        tracker.trackEvent(TrackerEvent.userMessageSent(info: info, isProfessional: nil))
     }
 
     func trackMessageSentError(messageType: ChatWrapperMessageType, isShowingFeaturedStripe: Bool, error: RepositoryError) {

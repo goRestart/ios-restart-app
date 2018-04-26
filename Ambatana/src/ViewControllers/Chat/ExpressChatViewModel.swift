@@ -186,9 +186,10 @@ extension ExpressChatViewModel {
         if shouldSendAskQuestion {
             tracker.trackEvent(TrackerEvent.firstMessage(info: info,
                                                          listingVisitSource: .unknown,
-                                                         feedPosition: .none))
+                                                         feedPosition: .none,
+                                                         isProfessional: nil))
         }
-        tracker.trackEvent(TrackerEvent.userMessageSent(info: info))
+        tracker.trackEvent(TrackerEvent.userMessageSent(info: info, isProfessional: nil))
     }
 
     static func singleMessageTrackingError(_ tracker: Tracker,

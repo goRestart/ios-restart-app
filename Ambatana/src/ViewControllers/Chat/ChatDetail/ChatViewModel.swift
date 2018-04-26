@@ -1553,14 +1553,15 @@ fileprivate extension ChatViewModel {
 
     func trackMessageSent(type: ChatWrapperMessageType) {
         guard let info = buildSendMessageInfo(withType: type, error: nil) else { return }
-
+        let isProfessional = interlocutor?.isProfessional ?? nil
         if shouldTrackFirstMessage {
             shouldTrackFirstMessage = false
             tracker.trackEvent(TrackerEvent.firstMessage(info: info,
                                                          listingVisitSource: .unknown,
-                                                         feedPosition: .none))
+                                                         feedPosition: .none,
+                                                         isProfessional: isProfessional))
         }
-        tracker.trackEvent(TrackerEvent.userMessageSent(info: info))
+        tracker.trackEvent(TrackerEvent.userMessageSent(info: info, isProfessional: isProfessional))
     }
 
     func trackMessageSentError(type: ChatWrapperMessageType, error: RepositoryError) {
@@ -1625,6 +1626,7 @@ fileprivate extension ChatViewModel {
             .set(isBumpedUp: .falseParameter)
             .set(containsEmoji: type.text.containsEmoji)
             .set(assistantMeeting: type.assistantMeeting)
+//            .set(isProfessional: interlocutor?.isProfessional ?? nil)
         if let error = error {
             sendMessageInfo.set(error: error.chatError)
         }

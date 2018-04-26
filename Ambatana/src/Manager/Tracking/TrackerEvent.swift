@@ -875,14 +875,17 @@ struct TrackerEvent {
 
     static func firstMessage(info: SendMessageTrackingInfo,
                              listingVisitSource: EventParameterListingVisitSource,
-                             feedPosition: EventParameterFeedPosition) -> TrackerEvent {
+                             feedPosition: EventParameterFeedPosition,
+                             isProfessional: Bool?) -> TrackerEvent {
+        info.set(isProfessional:isProfessional)
         var params = info.params
         params[.listingVisitSource] = listingVisitSource.rawValue
         params[.feedPosition] = feedPosition.value
         return TrackerEvent(name: .firstMessage, params: params)
     }
 
-    static func userMessageSent(info: SendMessageTrackingInfo) -> TrackerEvent {
+    static func userMessageSent(info: SendMessageTrackingInfo, isProfessional: Bool?) -> TrackerEvent {
+        info.set(isProfessional: isProfessional)
         return TrackerEvent(name: .userMessageSent, params: info.params)
     }
 
