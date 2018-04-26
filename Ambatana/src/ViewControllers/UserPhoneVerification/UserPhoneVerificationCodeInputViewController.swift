@@ -98,7 +98,6 @@ final class UserPhoneVerificationCodeInputViewController: BaseViewController {
     }
 
     private func setupCodeInformationLabelUI() {
-        codeInformationLabel.text = LGLocalizedString.phoneVerificationCodeInputViewContentSubtext("") // FIXME: do
         codeInformationLabel.font = .smsVerificationInputCodeInformation
         codeInformationLabel.textColor = .grayText
         codeInformationLabel.numberOfLines = 0
@@ -157,6 +156,15 @@ final class UserPhoneVerificationCodeInputViewController: BaseViewController {
             .drive(onNext: { [weak self] showOption in
                 self?.codeInformationLabel.isHidden = showOption
                 self?.codeInformationButton.isHidden = !showOption
+            })
+            .disposed(by: disposeBag)
+
+        viewModel
+            .resendCodeCountdown
+            .asDriver()
+            .drive(onNext: { [weak self] value in
+                let countdown = "00:\(value)"
+                self?.codeInformationLabel.text = LGLocalizedString.phoneVerificationCodeInputViewContentSubtext(countdown)
             })
             .disposed(by: disposeBag)
 
