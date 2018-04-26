@@ -65,8 +65,8 @@ class MockFeatureFlags: FeatureFlaggeable {
     var summaryAsFirstStep: SummaryAsFirstStep = .control
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem = .control
     var showExactLocationForPros: Bool = true
-    
     var showPasswordlessLogin: ShowPasswordlessLogin = .control
+    var emergencyLocate: EmergencyLocate = .control
 
     // Country dependant features
     var freePostingModeAllowed = false

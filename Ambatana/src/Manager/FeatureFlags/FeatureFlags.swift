@@ -780,6 +780,13 @@ class FeatureFlags: FeatureFlaggeable {
         return ShowPasswordlessLogin.fromPosition(abTests.showPasswordlessLogin.value)
     }
 
+    var emergencyLocate: EmergencyLocate {
+        if Bumper.enabled {
+            return Bumper.emergencyLocate
+        }
+        return EmergencyLocate.fromPosition(abTests.emergencyLocate.value)
+    }
+
     // MARK: - Country features
 
     var freePostingModeAllowed: Bool {
