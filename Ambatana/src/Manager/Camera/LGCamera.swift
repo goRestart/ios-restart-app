@@ -534,14 +534,15 @@ class VideoRecorder : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
         guard let fileWriter = fileWriter, let videoInput = videoInput, CMSampleBufferDataIsReady(sampleBuffer) else { return }
 
         let bufferTimeStamp = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
-        if fileWriter.status == .unknown {
+
+        switch fileWriter.status {
+        case .unknown:
             fileWriter.startWriting()
             fileWriter.startSession(atSourceTime: bufferTimeStamp)
             startRecordingTime = bufferTimeStamp
-        }
-
-        if fileWriter.status == .failed {
+        case .failed:
             completion?(CameraRecordingVideoResult(error: .frameworkError(error: fileWriter.error!)))
+        default: break
         }
 
         if videoInput.isReadyForMoreMediaData {
