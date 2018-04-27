@@ -1686,7 +1686,9 @@ class TrackerEventSpec: QuickSpec {
                         .set(assistantMeeting: nil)
                     sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                     listingVisitSource: .listingList,
-                                                    feedPosition: .position(index:1), isProfessional: false)
+                                                    feedPosition: .position(index:1),
+                                                    userBadge: .silver,
+                                                    isProfessional: false)
                 }
                 context("Interlocutor is a professional") {
                     beforeEach {
@@ -1700,7 +1702,7 @@ class TrackerEventSpec: QuickSpec {
                         expect(itemType) == "2"
                     }
                 }
-                context("We don't if the interlocutor is a professional") {
+                context("We don't know if the interlocutor is a professional") {
                     beforeEach {
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
@@ -1786,6 +1788,7 @@ class TrackerEventSpec: QuickSpec {
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
                                                         feedPosition: .position(index:1),
+                                                        userBadge: .silver,
                                                         isProfessional: false)
                     }
                     it("has message-type param with value text") {
@@ -1810,6 +1813,7 @@ class TrackerEventSpec: QuickSpec {
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
                                                         feedPosition: .position(index:1),
+                                                        userBadge: .silver,
                                                         isProfessional: false)
                     }
                     it("has message-type param with value text") {
@@ -1835,6 +1839,7 @@ class TrackerEventSpec: QuickSpec {
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
                                                         feedPosition: .position(index:1),
+                                                        userBadge: .silver,
                                                         isProfessional: false)
                     }
                     it("has message-type param with value text") {
@@ -1879,6 +1884,7 @@ class TrackerEventSpec: QuickSpec {
                     sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                     listingVisitSource: .listingList,
                                                     feedPosition: .position(index:1),
+                                                    userBadge: .silver,
                                                     isProfessional: false)
                 }
                 context("Interlocutor is a professional") {
@@ -1893,7 +1899,7 @@ class TrackerEventSpec: QuickSpec {
                         expect(itemType) == "2"
                     }
                 }
-                context("We don't if the interlocutor is a professional") {
+                context("We don't know if the interlocutor is a professional") {
                     beforeEach {
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
@@ -1965,7 +1971,9 @@ class TrackerEventSpec: QuickSpec {
                         sendMessageInfo.set(messageType: .text)
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
-                                                        feedPosition: .position(index:1), isProfessional: false)
+                                                        feedPosition: .position(index:1),
+                                                        userBadge: .silver,
+                                                        isProfessional: false)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1988,7 +1996,9 @@ class TrackerEventSpec: QuickSpec {
                         sendMessageInfo.set(messageType: .sticker)
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
-                                                        feedPosition: .position(index:1), isProfessional: false)
+                                                        feedPosition: .position(index:1),
+                                                        userBadge: .silver,
+                                                        isProfessional: false)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -2011,8 +2021,9 @@ class TrackerEventSpec: QuickSpec {
                         sendMessageInfo.set(messageType: .quickAnswer)
                         sendMessageInfo.set(quickAnswerType: .notInterested)
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
-                                                        listingVisitSource: .listingList,
-                                                        feedPosition: .position(index:1), isProfessional: false)
+                                                        feedPosition: .position(index:1),
+                                                        userBadge: .silver,
+                                                        isProfessional: false)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -3414,7 +3425,7 @@ class TrackerEventSpec: QuickSpec {
                         expect(itemType) == "2"
                     }
                 }
-                context("We don't if the interlocutor is a professional") {
+                context("We don't know if the interlocutor is a professional") {
                     beforeEach {
                         sut = TrackerEvent.userMessageSent(info: sendMessageInfo, isProfessional: nil)
                     }

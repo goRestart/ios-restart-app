@@ -399,6 +399,7 @@ extension ProductVMTrackHelper {
             tracker.trackEvent(TrackerEvent.firstMessage(info: info,
                                                          listingVisitSource: listingVisitSource,
                                                          feedPosition: feedPosition,
+                                                         userBadge: sellerBadge,
                                                          isProfessional: nil))
         }
         tracker.trackEvent(TrackerEvent.userMessageSent(info: info, isProfessional: nil))

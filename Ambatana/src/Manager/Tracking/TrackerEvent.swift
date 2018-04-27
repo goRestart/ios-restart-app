@@ -881,6 +881,7 @@ struct TrackerEvent {
     static func firstMessage(info: SendMessageTrackingInfo,
                              listingVisitSource: EventParameterListingVisitSource,
                              feedPosition: EventParameterFeedPosition,
+                             userBadge: EventParameterUserBadge,
                              isProfessional: Bool?) -> TrackerEvent {
         info.set(isProfessional:isProfessional)
         var params = info.params
