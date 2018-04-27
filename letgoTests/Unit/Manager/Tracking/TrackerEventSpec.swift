@@ -1695,6 +1695,7 @@ class TrackerEventSpec: QuickSpec {
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
                                                         feedPosition: .position(index:1),
+                                                        userBadge: .silver,
                                                         isProfessional: true)
                     }
                     it("contains item-type param") {
@@ -1707,6 +1708,7 @@ class TrackerEventSpec: QuickSpec {
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
                                                         feedPosition: .position(index:1),
+                                                        userBadge: .silver,
                                                         isProfessional: nil)
                     }
                     it("contains item-type param") {
@@ -1892,6 +1894,7 @@ class TrackerEventSpec: QuickSpec {
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
                                                         feedPosition: .position(index:1),
+                                                        userBadge: .silver,
                                                         isProfessional: true)
                     }
                     it("contains item-type param") {
@@ -1904,6 +1907,7 @@ class TrackerEventSpec: QuickSpec {
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
                                                         feedPosition: .position(index:1),
+                                                        userBadge: .silver,
                                                         isProfessional: nil)
                     }
                     it("contains item-type param") {
@@ -2021,6 +2025,7 @@ class TrackerEventSpec: QuickSpec {
                         sendMessageInfo.set(messageType: .quickAnswer)
                         sendMessageInfo.set(quickAnswerType: .notInterested)
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
+                                                        listingVisitSource: .listingList,
                                                         feedPosition: .position(index:1),
                                                         userBadge: .silver,
                                                         isProfessional: false)
