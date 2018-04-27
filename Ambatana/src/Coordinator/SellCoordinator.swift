@@ -135,12 +135,15 @@ extension SellCoordinator: PostListingNavigator {
             strongSelf.delegate?.sellCoordinatorDidCancel(strongSelf)
         }
     }
-
     func closePostProductAndPostInBackground(params: ListingCreationParams,
                                              trackingInfo: PostListingTrackingInfo) {
+        
+        let shouldUseCarEndpoint = featureFlags.createUpdateIntoNewBackend.isActive && params.isCarParams
+        let createAction = listingRepository.createAction(shouldUseCarEndpoint)
+        
         dismissViewController(animated: true) { [weak self] in
-
-            self?.listingRepository.create(listingParams: params) { result in
+            
+            createAction(params) { [weak self] result in
                 if let listing = result.value {
                     self?.trackPost(withListing: listing, trackingInfo: trackingInfo)
                     self?.keyValueStorage.userPostProductPostedPreviously = true
@@ -259,7 +262,8 @@ extension SellCoordinator: PostListingNavigator {
         let viewModel = BlockingPostingQueuedRequestsViewModel(images: images,
                                                                listingCreationParams: listingCreationParams,
                                                                imageSource: imageSource,
-                                                               postingSource: postingSource)
+                                                               postingSource: postingSource,
+                                                               featureFlags: featureFlags)
         viewModel.navigator = self
         let vc = BlockingPostingQueuedRequestsViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: false)

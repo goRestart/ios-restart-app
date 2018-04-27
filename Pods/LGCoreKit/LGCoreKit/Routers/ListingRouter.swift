@@ -20,6 +20,7 @@ enum ListingRouter: URLRequestAuthenticable {
     case create(params: [String : Any])
     case createRealEstate(params: [String : Any])
     case createCar(params: [String : Any])
+    case updateCar(listingId: String, params: [String : Any])
     case index(params: [String : Any])
     case indexRealEstate(params: [String : Any])
     case indexRealEstateRelatedSearch(params: [String : Any])
@@ -58,7 +59,7 @@ enum ListingRouter: URLRequestAuthenticable {
             return ListingRouter.listingBaseUrl
         case .createRealEstate, .updateRealEstate:
             return ListingRouter.listingRealEstateBaseUrl
-        case .createCar:
+        case .createCar, .updateCar:
             return ListingRouter.listingCarsBaseUrl
         case .showRealEstate:
             return ListingRouter.listingRealEstateBaseUrl
@@ -109,7 +110,7 @@ enum ListingRouter: URLRequestAuthenticable {
 
     var requiredAuthLevel: AuthLevel {
         switch self {
-        case .delete, .update, .updateRealEstate, .patch, .create, .createRealEstate, .createCar, .deleteFavorite,
+        case .delete, .update, .updateCar, .updateRealEstate, .patch, .create, .createRealEstate, .createCar, .deleteFavorite,
              .saveFavorite, .userRelation, .saveReport, .indexLimbo, .possibleBuyers, .createTransactionOf,
              .retrieveTransactionsOf:
             return .user
@@ -155,6 +156,8 @@ enum ListingRouter: URLRequestAuthenticable {
             return try Router<RealEstateBaseURL>.create(endpoint: endpoint, params: params, encoding: .json).asURLRequest()
         case let .createCar(params):
             return try Router<CarsBaseURL>.create(endpoint: endpoint, params: params, encoding: .json).asURLRequest()
+        case let .updateCar(listingId, params):
+            return try Router<CarsBaseURL>.update(endpoint: endpoint, objectId: listingId, params: params, encoding: .json).asURLRequest()
         case let .indexRelatedListings(_, params):
             return try Router<SearchProductsBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
         case let .indexRelatedRealEstate(_, params):

@@ -56,6 +56,7 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
     private var listingCreationParams: ListingCreationParams
     private let imageSource: EventParameterPictureSource
     private let postingSource: PostingSource
+    private let featureFlags: FeatureFlaggeable
     
     private var listingCreated: Listing?
     let queueState = Variable<QueueState?>(nil)
@@ -71,15 +72,19 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
 
-    convenience init(images: [UIImage], listingCreationParams: ListingCreationParams,
-                     imageSource: EventParameterPictureSource, postingSource: PostingSource) {
+    convenience init(images: [UIImage],
+                     listingCreationParams: ListingCreationParams,
+                     imageSource: EventParameterPictureSource,
+                     postingSource: PostingSource,
+                     featureFlags: FeatureFlaggeable) {
         self.init(listingRepository: Core.listingRepository,
                   fileRepository: Core.fileRepository,
                   tracker: TrackerProxy.sharedInstance,
                   images: images,
                   listingCreationParams: listingCreationParams,
                   imageSource: imageSource,
-                  postingSource: postingSource)
+                  postingSource: postingSource,
+                  featureFlags: featureFlags)
     }
     
     init(listingRepository: ListingRepository,
@@ -88,7 +93,8 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
          images: [UIImage],
          listingCreationParams: ListingCreationParams,
          imageSource: EventParameterPictureSource,
-         postingSource: PostingSource) {
+         postingSource: PostingSource,
+         featureFlags: FeatureFlaggeable) {
         self.listingRepository = listingRepository
         self.fileRepository = fileRepository
         self.tracker = tracker
@@ -96,6 +102,7 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
         self.listingCreationParams = listingCreationParams
         self.imageSource = imageSource
         self.postingSource = postingSource
+        self.featureFlags = featureFlags
         super.init()
         setupRx()
     }
@@ -187,12 +194,12 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
     }
     
     private func createListing() {
-        listingRepository.create(listingParams: listingCreationParams) { [weak self] result in
-            guard let strongSelf = self else { return }
-            strongSelf.createListingResult.value = result
+        let shouldUseCarEndpoint = featureFlags.createUpdateIntoNewBackend.isActive && listingCreationParams.isCarParams
+        let createAction = listingRepository.createAction(shouldUseCarEndpoint)
+        createAction(listingCreationParams) { [weak self] result in
+            self?.createListingResult.value = result
         }
     }
-    
     
     // MARK: - Navigation
     

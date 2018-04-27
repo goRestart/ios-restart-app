@@ -1101,6 +1101,8 @@ extension FeatureFlags {
         if Bumper.enabled {
             return Bumper.createUpdateCarsIntoNewBackend
         }
-        return CreateUpdateCarsIntoNewBackend.fromPosition(abTests.createUpdateCarsIntoNewBackend.value)
+        return .control
+        //  TODO: blocked - update when backend works
+        //  return CreateUpdateCarsIntoNewBackend.fromPosition(CreateUpdateCarsIntoNewBackend.control)
     }
 }

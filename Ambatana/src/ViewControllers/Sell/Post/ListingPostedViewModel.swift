@@ -258,12 +258,15 @@ class ListingPostedViewModel: BaseViewModel {
 
     private func postListing(_ images: [UIImage], params: ListingCreationParams) {
         delegate?.productPostedViewModelSetupLoadingState(self)
-
+        
+        let shouldUseCarEndpoint = featureFlags.createUpdateIntoNewBackend.isActive && params.isCarParams
+        let createAction = listingRepository.createAction(shouldUseCarEndpoint)
+        
         fileRepository.upload(images, progress: nil) { [weak self] result in
             if let images = result.value {
                 let updatedParams = params.updating(images: images)
-
-                self?.listingRepository.create(listingParams: updatedParams) { [weak self] result in
+                
+                createAction(updatedParams) { [weak self] result in
                     if let postedListing = result.value {
                         self?.trackPostSellComplete(postedListing: postedListing)
                     } else if let error = result.error {
@@ -277,7 +280,7 @@ class ListingPostedViewModel: BaseViewModel {
             }
         }
     }
-
+    
     private func updateStatusAfterPosting(status: ListingPostedStatus) {
         self.status = status
         trackProductUploadResultScreen()

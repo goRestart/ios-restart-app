@@ -473,6 +473,8 @@
 		421CB34C207BBE5E006BF8A4 /* Collection+Safe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421CB34A207BBE5E006BF8A4 /* Collection+Safe.swift */; };
 		4245B6EF2084D47A00EF8162 /* UserType+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4245B6EE2084D47A00EF8162 /* UserType+LG.swift */; };
 		4245B6F02084D47A00EF8162 /* UserType+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4245B6EE2084D47A00EF8162 /* UserType+LG.swift */; };
+		424898EE2090820E004B11AC /* ListingRepository+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424898ED2090820E004B11AC /* ListingRepository+LG.swift */; };
+		424898EF2090820E004B11AC /* ListingRepository+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424898ED2090820E004B11AC /* ListingRepository+LG.swift */; };
 		425BB9FB20888CF500FE9BB8 /* UserType+LGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425BB9FA20888CF500FE9BB8 /* UserType+LGSpec.swift */; };
 		427070D520764EBA00C1FEB3 /* CellAppereance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427070D420764EBA00C1FEB3 /* CellAppereance.swift */; };
 		427070D620764EBA00C1FEB3 /* CellAppereance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427070D420764EBA00C1FEB3 /* CellAppereance.swift */; };
@@ -2146,6 +2148,7 @@
 		4219244020761CF900862CEF /* PromoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoCell.swift; sourceTree = "<group>"; };
 		421CB34A207BBE5E006BF8A4 /* Collection+Safe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Safe.swift"; sourceTree = "<group>"; };
 		4245B6EE2084D47A00EF8162 /* UserType+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserType+LG.swift"; sourceTree = "<group>"; };
+		424898ED2090820E004B11AC /* ListingRepository+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ListingRepository+LG.swift"; sourceTree = "<group>"; };
 		425BB9FA20888CF500FE9BB8 /* UserType+LGSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserType+LGSpec.swift"; sourceTree = "<group>"; };
 		427070D420764EBA00C1FEB3 /* CellAppereance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellAppereance.swift; sourceTree = "<group>"; };
 		427CAB89206A827300112D58 /* TrendingSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingSearchView.swift; sourceTree = "<group>"; };
@@ -4497,6 +4500,7 @@
 				F5D91E7C2008C20200DF28E7 /* UserRatingType+RateBack.swift */,
 				01A04809200CEF53008725A1 /* DailyCountIncrementer.swift */,
 				01834969204F573100B14A24 /* ListingEditionParams+LG.swift */,
+				424898ED2090820E004B11AC /* ListingRepository+LG.swift */,
 			);
 			path = LetgoExtensions;
 			sourceTree = "<group>";
@@ -7168,6 +7172,7 @@
 				C78F9DBC1DCA525F00884064 /* ChatTextView.swift in Sources */,
 				502B705B1BAAC3AE00C5D465 /* FloatingButton.swift in Sources */,
 				C75B5DC51D59E09500112368 /* ListingCarouselViewModel.swift in Sources */,
+				424898EE2090820E004B11AC /* ListingRepository+LG.swift in Sources */,
 				556E26F6203C3BA70098ECF0 /* UserProfileViewController.swift in Sources */,
 				8E0EEFB42056C422000C07C9 /* MLPostingDetailsViewController.swift in Sources */,
 				50A61C221DCA1B5A0057436A /* NSLocale+Country.swift in Sources */,
@@ -7902,6 +7907,7 @@
 				8E0EEFB52056C422000C07C9 /* MLPostingDetailsViewController.swift in Sources */,
 				6A5E1A111D548F5400F92692 /* UIImage+LG.swift in Sources */,
 				50A61C231DCA1B5A0057436A /* NSLocale+Country.swift in Sources */,
+				424898EF2090820E004B11AC /* ListingRepository+LG.swift in Sources */,
 				C7DB420D1C5138B500400945 /* FloatingButton.swift in Sources */,
 				0A759E981FB473AC0030FDE0 /* ListingCardViewModel.swift in Sources */,
 				0AF5EB6D1FD060B2001DFAE2 /* QuickChatView.swift in Sources */,

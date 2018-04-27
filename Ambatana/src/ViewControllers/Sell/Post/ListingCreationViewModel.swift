@@ -51,7 +51,9 @@ class ListingCreationViewModel : BaseViewModel {
     }
     
     func createListing() {
-        listingRepository.create(listingParams: listingParams) { [weak self] result in
+        let shouldUseCarEndpoint = featureFlags.createUpdateIntoNewBackend.isActive && listingParams.isCarParams
+        let createAction = listingRepository.createAction(shouldUseCarEndpoint)
+        createAction(listingParams) { [weak self] result in
             if let listing = result.value, let trackingInfo = self?.trackingInfo {
                 self?.trackPost(withListing: listing, trackingInfo: trackingInfo)
             } else if let error = result.error {
