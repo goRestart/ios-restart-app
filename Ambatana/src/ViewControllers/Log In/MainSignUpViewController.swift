@@ -32,6 +32,7 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
 
     @IBOutlet weak var signUpButton: LetgoButton!
     @IBOutlet weak var logInButton: LetgoButton!
+    @IBOutlet weak var continueWithEmailButton: LetgoButton!
     
     // Footer
     
@@ -158,6 +159,7 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
 
         signUpButton.setStyle(.secondary(fontSize: .medium, withBorder: true))
         logInButton.setStyle(.secondary(fontSize: .medium, withBorder: true))
+        continueWithEmailButton.setStyle(.primary(fontSize: .medium))
 
         // i18n
         claimLabel.text = LGLocalizedString.mainSignUpClaimLabel
@@ -172,6 +174,7 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
         orLabel.backgroundColor = view.backgroundColor
         signUpButton.setTitle(LGLocalizedString.mainSignUpSignUpButton, for: .normal)
         logInButton.setTitle(LGLocalizedString.mainSignUpLogInLabel, for: .normal)
+        continueWithEmailButton.setTitle("Continue With Email yepa!", for: .normal)
 
         setupTermsAndConditions()
     }
