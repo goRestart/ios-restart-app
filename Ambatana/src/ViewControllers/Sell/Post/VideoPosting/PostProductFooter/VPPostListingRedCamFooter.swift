@@ -94,14 +94,14 @@ extension VPPostListingRedCamFooter: PostListingFooter {
     }
 
     func startRecording() {
-        guard let cameraButton = cameraButton as? CameraButton else { return }
+        guard !isRecording, let cameraButton = cameraButton as? CameraButton else { return }
         isRecording = true
         cameraButton.startRecording()
         recordVideoHintLabel.isHidden = true
     }
 
     func stopRecording() {
-        guard let cameraButton = cameraButton as? CameraButton else { return }
+        guard isRecording, let cameraButton = cameraButton as? CameraButton else { return }
         isRecording = false
         cameraButton.stopRecording()
         recordingTooltip.isHidden = true
