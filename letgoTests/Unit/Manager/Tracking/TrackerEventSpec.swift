@@ -1657,7 +1657,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
-            fdescribe("firstMessage") {
+            describe("firstMessage") {
                 var listing: Listing!
                 var sendMessageInfo: SendMessageTrackingInfo!
                 beforeEach {
