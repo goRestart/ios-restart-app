@@ -92,6 +92,14 @@ extension ProfileTabCoordinator: UserVerificationNavigator {
         let vc = UserVerificationEmailViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
+
+    func openPhoneNumberVerification() {
+        let vm = UserPhoneVerificationNumberInputViewModel()
+        vm.navigator = self
+        let vc = UserPhoneVerificationNumberInputViewController(viewModel: vm)
+        vm.delegate = vc
+        navigationController.pushViewController(vc, animated: true)
+    }
 }
 
 extension ProfileTabCoordinator: SettingsNavigator {
@@ -189,19 +197,16 @@ extension ProfileTabCoordinator: VerifyUserEmailNavigator {
 }
 
 extension ProfileTabCoordinator: UserPhoneVerificationNavigator {
-    func openPhoneInput() {
-        let vm = UserPhoneVerificationNumberInputViewModel()
+    func openCountrySelector(withDelegate delegate: UserPhoneVerificationCountryPickerDelegate) {
+        let vm = UserPhoneVerificationCountryPickerViewModel()
         vm.navigator = self
-        let vc = UserPhoneVerificationNumberInputViewController(viewModel: vm)
-        vm.delegate = vc
+        vm.delegate = delegate
+        let vc = UserPhoneVerificationCountryPickerViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
 
-    func openCountrySelector() {
-        let vm = UserPhoneVerificationCountryPickerViewModel()
-        vm.navigator = self
-        let vc = UserPhoneVerificationCountryPickerViewController(viewModel: vm)
-        navigationController.pushViewController(vc, animated: true)
+    func closeCountrySelector() {
+        navigationController.popViewController(animated: true)
     }
 
     func openCodeInput(sentTo phoneNumber: String) {
@@ -209,5 +214,11 @@ extension ProfileTabCoordinator: UserPhoneVerificationNavigator {
         vm.navigator = self
         let vc = UserPhoneVerificationCodeInputViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
+    }
+
+    func closePhoneVerificaction() {
+        guard let vc = navigationController.viewControllers
+            .filter({ $0 is UserVerificationViewController }).first else { return }
+        navigationController.popToViewController(vc, animated: true)
     }
 }

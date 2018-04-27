@@ -85,7 +85,7 @@ final class UserPhoneVerificationNumberInputViewModel: BaseViewModel {
     }
 
     private func retrieveCallingCode(for regionCode: String) -> String? {
-        let countryInfo = countryHelper.countryInfoForCountryCode(regionCode)
+        let countryInfo = countryHelper.countryInfoForCountryCode(regionCode.uppercased())
         return countryInfo?.countryPhoneCode
     }
 
@@ -96,7 +96,7 @@ final class UserPhoneVerificationNumberInputViewModel: BaseViewModel {
     }
 
     func didTapCountryButton() {
-        navigator?.openCountrySelector()
+        navigator?.openCountrySelector(withDelegate: self)
     }
 
     func didTapContinueButton(with phoneNumber: String) {
@@ -114,15 +114,23 @@ final class UserPhoneVerificationNumberInputViewModel: BaseViewModel {
             case .success:
                 let title = "Thank you" // FIXME: localize
                 let message = "We sent a text message with a verification code to +\(callingCode) \(phoneNumber)" // FIXME: localize
-                self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
-                self?.delegate?.vmShowAutoFadingMessage(title: title,
-                                                        message: message,
-                                                        time: 5,
-                                                        completion: completion)
+                self?.delegate?.vmHideLoading(nil) {
+                    self?.delegate?.vmShowAutoFadingMessage(title: title,
+                                                            message: message,
+                                                            time: 5,
+                                                            completion: completion)
+                }
             case .failure(_):
-              break // FIXME: waiting for product
+                self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
+                break // FIXME: waiting for product
             }
         }
+    }
+}
+
+extension UserPhoneVerificationNumberInputViewModel: UserPhoneVerificationCountryPickerDelegate {
+    func didSelect(country: PhoneVerificationCountry) {
+        self.country.value = country
     }
 }
 

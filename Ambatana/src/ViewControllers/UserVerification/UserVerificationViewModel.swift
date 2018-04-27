@@ -83,7 +83,8 @@ final class UserVerificationViewModel: BaseViewModel {
         let firstSection: [UserVerificationItem] = [
             .facebook(completed: actions.contains(.facebook)),
             .google(completed: actions.contains(.google)),
-            .email(completed: actions.contains(.email))
+            .email(completed: actions.contains(.email)),
+            .phoneNumber(completed: actions.contains(.sms))
         ]
         
         let secondSection: [UserVerificationItem] = [
@@ -107,8 +108,9 @@ final class UserVerificationViewModel: BaseViewModel {
         case .google: verifyGoogle()
         case .bio: openBio()
         case .email: verifyEmail()
+        case .phoneNumber: verifyPhoneNumber()
         case .profilePicture: selectAvatar()
-        case .phoneNumber, .photoID, .markAsSold: break
+        case .photoID, .markAsSold: break
         }
     }
 
@@ -180,6 +182,10 @@ final class UserVerificationViewModel: BaseViewModel {
         } else {
             navigator?.openEmailVerification()
         }
+    }
+
+    private func verifyPhoneNumber() {
+        navigator?.openPhoneNumberVerification()
     }
 
     private func verifyExistingEmail(email: String) {

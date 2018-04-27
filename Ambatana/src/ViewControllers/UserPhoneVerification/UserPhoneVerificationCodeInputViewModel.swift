@@ -72,6 +72,6 @@ final class UserPhoneVerificationCodeInputViewModel: BaseViewModel {
     }
 
     func didFinishVerification() {
-        //navigator
+        navigator?.closePhoneVerificaction()
     }
 }
