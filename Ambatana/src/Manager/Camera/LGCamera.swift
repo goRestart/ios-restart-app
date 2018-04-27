@@ -472,12 +472,12 @@ class VideoRecorder : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     }
 
     public func startRecording(maxRecordingDuration: TimeInterval, fileUrl: URL, orientation: AVCaptureVideoOrientation, completion: @escaping CameraRecordingVideoCompletion) {
-        isRecording = true
         guard let connection = videoOutput.connection(with: .video), connection.isActive else {
-            isRecording = false
             completion(CameraRecordingVideoResult(error: .internalError(message: "Trying to record video without AVCaptureConnection")))
             return
         }
+
+        isRecording = true
         self.maxRecordingDuration = maxRecordingDuration
 
         videoOutputQueue.async {
@@ -568,7 +568,7 @@ class VideoRecorder : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
         if let startRecordingTime = startRecordingTime {
             recordingDuration = CMTimeSubtract(bufferTimeStamp, startRecordingTime).seconds
             if recordingDuration >= maxRecordingDuration {
-                self.stopRecording()
+                stopRecording()
             }
         }
     }
