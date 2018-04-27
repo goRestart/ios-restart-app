@@ -15,7 +15,6 @@ final class UserPhoneVerificationCodeInputViewModel: BaseViewModel {
 
     private let myUserRepository: MyUserRepository
     private var timer: Timer?
-    private let timerDuration = 50.0
 
     enum ValidationState {
         case none, validating, success, failure
@@ -24,6 +23,7 @@ final class UserPhoneVerificationCodeInputViewModel: BaseViewModel {
     let phoneNumber: String
     let showResendCodeOption = Variable<Bool>(false)
     let validationState = Variable<ValidationState>(.none)
+    let resendCodeCountdown = Variable<Int>(50)
 
     init(phoneNumber: String,
          myUserRepository: MyUserRepository = Core.myUserRepository) {
@@ -45,16 +45,22 @@ final class UserPhoneVerificationCodeInputViewModel: BaseViewModel {
 
     private func setupResendCodeTimer() {
         timer = Timer
-            .scheduledTimer(timeInterval: timerDuration,
+            .scheduledTimer(timeInterval: 1,
                             target: self,
-                            selector: #selector(resendCodeTimerDidFinish),
+                            selector: #selector(resendCodeTimerDidChange),
                             userInfo: nil,
-                            repeats: false)
+                            repeats: true)
 
     }
 
-    @objc private func resendCodeTimerDidFinish() {
-        showResendCodeOption.value = true
+    @objc private func resendCodeTimerDidChange() {
+        guard resendCodeCountdown.value > 0 else {
+            timer?.invalidate()
+            showResendCodeOption.value = true
+            return
+        }
+
+        resendCodeCountdown.value -= 1
     }
 
     // MARK: Code validation
