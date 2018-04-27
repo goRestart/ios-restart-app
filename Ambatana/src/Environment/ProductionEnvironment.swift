@@ -7,6 +7,7 @@
 //
 
 class ProductionEnvironment: AppEnvironment {
+    
     static let amplitudeKey = "6d37fbd6c25243c57676e6d4ce7948bf"
     
     // General
@@ -33,7 +34,8 @@ class ProductionEnvironment: AppEnvironment {
     // Website
     let websiteBaseUrl = "https://www.letgo.com"
     let websiteBaseUrlWithLocaleParams = "https://%@.letgo.com/%@"
-
+    let websiteBaseUrlWithLanguageParam = "https://%@.letgo.com"
+    
     // Google Ads
     let adTestModeActive = false
     let moreInfoAdUnitIdDFP = "/21636273254/turkey/iOS/moreinfo/320x100"

@@ -192,7 +192,7 @@ class ListingCarouselViewModel: BaseViewModel {
 
     var dfpContentURL: String? {
         guard let listingId = currentListingViewModel?.listing.value.objectId else { return nil}
-        return LetgoURLHelper.buildProductURL(listingId: listingId)?.absoluteString
+        return LetgoURLHelper.buildLanguageLocalizedProductURL(listingId: listingId)?.absoluteString
     }
     var randomHardcodedAdQuery: String {
         let popularItems = ["ps4", "iphone", LGLocalizedString.productPostIncentiveDresser]

@@ -29,6 +29,7 @@ protocol AppEnvironment {
     // Website
     var websiteBaseUrl: String { get }
     var websiteBaseUrlWithLocaleParams: String { get }
+    var websiteBaseUrlWithLanguageParam: String { get }
 
     // Google Ads
     var adTestModeActive: Bool { get }
@@ -72,5 +73,10 @@ extension AppEnvironment {
             format = "\(websiteBaseUrlWithLocaleParams)"
         }
         return String(format: format, arguments: [country, language])
+    }
+    
+    func localizedLanguageUrl(_ language: String, endpoint: String) -> String {
+        let format: String = websiteBaseUrlWithLanguageParam
+        return String(format: format, arguments: [language]) + endpoint
     }
 }
