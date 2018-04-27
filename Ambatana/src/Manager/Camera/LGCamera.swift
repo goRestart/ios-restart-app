@@ -536,7 +536,6 @@ class VideoRecorder : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
                     self.completion?(CameraRecordingVideoResult(error: .internalError(message: "Video file writer error")))
                 }
             } else {
-                self.videoInput?.markAsFinished()
                 fileWriter.finishWriting {
                     let result: CameraRecordingVideoResult
                     do {
