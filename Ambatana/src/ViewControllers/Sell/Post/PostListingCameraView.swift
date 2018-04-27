@@ -77,7 +77,7 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
     private var headerShown = true
 
     let takePhotoEnabled = Variable<Bool>(true)
-    let recordVideoEnabled = Variable<Bool>(true)
+    let isRecordingVideo = Variable<Bool>(false)
     let recordingDuration = Variable<TimeInterval>(0)
     fileprivate let disposeBag = DisposeBag()
     private var recordingDurationTimer: Timer?
@@ -152,22 +152,21 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
 
     func recordVideo(maxDuration: TimeInterval) {
         hideFirstTimeAlert()
-        guard recordVideoEnabled.value, camera.isReady else { return }
-        recordVideoEnabled.value = false
+        guard camera.isReady, !camera.isRecording, !isRecordingVideo.value else { return }
+        isRecordingVideo.value = true
         startListeningVideoDuration()
         camera.startRecordingVideo(maxRecordingDuration: maxDuration) { [weak self] result in
             self?.stopListeningVideoDuration()
-            if let recordedVideo = result.value, recordedVideo.duration > PostListingViewModel.videoMinDuration {
-                self?.viewModel.videoRecorded(recordedVideo)
+            if let recordedVideo = result.value {
+                self?.viewModel.videoRecorded(video: recordedVideo)
             } else {
-                self?.viewModel.retryPhotoButtonPressed()
+                self?.viewModel.videoRecordingFailed()
             }
-            self?.recordVideoEnabled.value = true
+            self?.isRecordingVideo.value = false
         }
     }
 
     func stopRecordingVideo() {
-        guard camera.isRecording else { return }
         camera.stopRecordingVideo()
     }
     

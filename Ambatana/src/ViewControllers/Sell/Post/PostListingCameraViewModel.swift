@@ -152,19 +152,24 @@ class PostListingCameraViewModel: BaseViewModel {
         cameraState.value = .previewPhoto
     }
 
-    func videoRecorded(_ video: RecordedVideo) {
-        videoRecorded.value = video
-        cameraState.value = .previewVideo
+    func videoRecorded(video: RecordedVideo) {
+        if video.duration > Constants.videoMinRecordingDuration {
+            videoRecorded.value = video
+            cameraState.value = .previewVideo
+        } else {
+            backToCaptureMode()
+        }
     }
 
-    func retryPhotoButtonPressed() {
-
+    func videoRecordingFailed() {
         if let url = videoRecorded.value?.url {
             filesManager.removeFile(at: url)
         }
-        videoRecorded.value = nil
-        imageSelected.value = nil
-        cameraState.value = .capture
+        backToCaptureMode()
+    }
+
+    func retryPhotoButtonPressed() {
+        backToCaptureMode()
     }
 
     func usePhotoButtonPressed() {
@@ -304,6 +309,12 @@ class PostListingCameraViewModel: BaseViewModel {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .seconds(5)) { [weak self] in
             self?.hideFirstTimeAlert()
         }
+    }
+
+    private func backToCaptureMode() {
+        videoRecorded.value = nil
+        imageSelected.value = nil
+        cameraState.value = .capture
     }
 }
 

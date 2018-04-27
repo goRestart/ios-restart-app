@@ -33,8 +33,6 @@ enum PostingSource {
 class PostListingViewModel: BaseViewModel {
     
     static let carDetailsNumber: Int = 3
-    static let videoMaxDuration: TimeInterval = 15
-    static let videoMinDuration: TimeInterval = 2
     
     weak var delegate: PostListingViewModelDelegate?
     weak var navigator: PostListingNavigator?

@@ -14,7 +14,7 @@ private typealias CapturePhotoOutput = AVCaptureOutput & CapturePhotoOutputProto
 final class LGCamera: Camera {
 
     private let session: AVCaptureSession = AVCaptureSession()
-    private let sessionQueue: DispatchQueue = DispatchQueue(label: "camera.manager.session.queue")
+    private let sessionQueue: DispatchQueue
     private var isSetup: Bool = false
     private let previewView: CameraPreviewView = CameraPreviewView()
     private var currentInputVideoDevice: AVCaptureDeviceInput?
@@ -22,7 +22,7 @@ final class LGCamera: Camera {
     private let backCamera: AVCaptureDevice? = AVCaptureDevice.defaultBackCameraDevice()
     private let motionDeviceOrientation: MotionDeviceOrientation = MotionDeviceOrientation()
     private let capturePhotoOutput: CapturePhotoOutput
-    private let videoRecorder: VideoRecorder = VideoRecorder()
+    private let videoRecorder: VideoRecorder
     private var pixelsBufferForwarder: PixelsBufferForwarder?
 
     var flashMode: CameraFlashState? {
@@ -83,6 +83,8 @@ final class LGCamera: Camera {
 
     private init(capturePhotoOutput: CapturePhotoOutput) {
         self.capturePhotoOutput = capturePhotoOutput
+        self.sessionQueue = DispatchQueue(label: "camera.manager.session.queue")
+        self.videoRecorder = VideoRecorder(queue: self.sessionQueue)
     }
 
     func pause() {
@@ -162,9 +164,7 @@ final class LGCamera: Camera {
 
         let videoOrientation = AVCaptureVideoOrientation(deviceOrientation: motionDeviceOrientation.orientation) ?? .portrait
 
-        sessionQueue.async {
-            self.videoRecorder.startRecording(maxRecordingDuration: maxRecordingDuration, fileUrl: fileUrl, orientation: videoOrientation, completion: completion)
-        }
+        self.videoRecorder.startRecording(maxRecordingDuration: maxRecordingDuration, fileUrl: fileUrl, orientation: videoOrientation, completion: completion)
     }
 
     func stopRecordingVideo() {
@@ -459,7 +459,7 @@ class VideoRecorder : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     }()
     private(set) var recordingDuration: TimeInterval = 0
     private(set) var snapshot: UIImage?
-    private let videoOutputQueue: DispatchQueue = DispatchQueue(label: "camera.video.recording.output.queue")
+    private let videoOutputQueue: DispatchQueue
     private var fileWriter: AVAssetWriter?
     private var videoInput: AVAssetWriterInput?
     private var completion: CameraRecordingVideoCompletion?
@@ -467,63 +467,86 @@ class VideoRecorder : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     private var maxRecordingDuration: TimeInterval = 15
     private(set) var isRecording: Bool = false
 
+    init(queue: DispatchQueue) {
+        self.videoOutputQueue = queue
+    }
+
     public func startRecording(maxRecordingDuration: TimeInterval, fileUrl: URL, orientation: AVCaptureVideoOrientation, completion: @escaping CameraRecordingVideoCompletion) {
         guard let connection = videoOutput.connection(with: .video), connection.isActive else {
             completion(CameraRecordingVideoResult(error: .internalError(message: "Trying to record video without AVCaptureConnection")))
             return
         }
+
         isRecording = true
         self.maxRecordingDuration = maxRecordingDuration
-        connection.videoOrientation = orientation
 
-        if FileManager.default.fileExists(atPath: fileUrl.path) {
-            try? FileManager.default.removeItem(at: fileUrl)
-        }
+        videoOutputQueue.async {
+            connection.videoOrientation = orientation
 
-        do {
-            let fileWriter = try AVAssetWriter(url: fileUrl, fileType: AVFileType.mp4)
-            self.fileWriter = fileWriter
-            self.completion = completion
+            if FileManager.default.fileExists(atPath: fileUrl.path) {
+                try? FileManager.default.removeItem(at: fileUrl)
+            }
 
-            let videoInput = AVAssetWriterInput(mediaType: .video, outputSettings: Constants.videoSettings)
-            self.videoInput = videoInput
-            videoInput.expectsMediaDataInRealTime = true
-            fileWriter.add(videoInput)
+            do {
+                let fileWriter = try AVAssetWriter(url: fileUrl, fileType: AVFileType.mp4)
+                self.fileWriter = fileWriter
+                self.completion = completion
 
-            videoOutput.setSampleBufferDelegate(self, queue: videoOutputQueue)
+                let videoInput = AVAssetWriterInput(mediaType: .video, outputSettings: Constants.videoSettings)
+                self.videoInput = videoInput
+                videoInput.expectsMediaDataInRealTime = true
+                fileWriter.add(videoInput)
 
-        } catch let error {
-            isRecording = false
-            DispatchQueue.main.async {
-                completion(CameraRecordingVideoResult(error: .frameworkError(error: error)))
+                self.videoOutput.setSampleBufferDelegate(self, queue: self.videoOutputQueue)
+
+            } catch let error {
+                self.isRecording = false
+                DispatchQueue.main.async {
+                    completion(CameraRecordingVideoResult(error: .frameworkError(error: error)))
+                }
             }
         }
     }
 
     public func stopRecording() {
-        isRecording = false
-        videoInput?.markAsFinished()
+
+        guard isRecording else {
+            DispatchQueue.main.async {
+                self.completion?(CameraRecordingVideoResult(error: .internalError(message: "Not recording")))
+            }
+            return
+        }
+
+        self.isRecording = false
         videoOutput.setSampleBufferDelegate(nil, queue: nil)
         let duration = recordingDuration
         recordingDuration = 0
 
-        guard let completion = completion, let fileWriter = fileWriter else { return }
-
-        if fileWriter.status == .failed {
+        guard let fileWriter = self.fileWriter else {
             DispatchQueue.main.async {
-                completion(CameraRecordingVideoResult(error: .internalError(message: "Video file writer error")))
+                self.completion?(CameraRecordingVideoResult(error: .internalError(message: "filewritter == nil")))
             }
-        } else {
-            fileWriter.finishWriting {
-                let result: CameraRecordingVideoResult
-                do {
-                    let snapshot = try AVURLAsset(url: fileWriter.outputURL).videoSnapshot(at: 1)
-                    let videoRecorded = RecordedVideo(url: fileWriter.outputURL, snapshot: snapshot, duration: duration)
-                    result = CameraRecordingVideoResult(value: videoRecorded)
-                } catch let error {
-                    result = CameraRecordingVideoResult(error: .frameworkError(error: error))
+            return
+        }
+
+        videoOutputQueue.async {
+
+            if fileWriter.status != .writing {
+                DispatchQueue.main.async {
+                    self.completion?(CameraRecordingVideoResult(error: .internalError(message: "Video file writer error")))
                 }
-                DispatchQueue.main.async { completion(result) }
+            } else {
+                fileWriter.finishWriting {
+                    let result: CameraRecordingVideoResult
+                    do {
+                        let snapshot = try AVURLAsset(url: fileWriter.outputURL).videoSnapshot(at: Constants.videoSnapshotTime)
+                        let videoRecorded = RecordedVideo(url: fileWriter.outputURL, snapshot: snapshot, duration: duration)
+                        result = CameraRecordingVideoResult(value: videoRecorded)
+                    } catch let error {
+                        result = CameraRecordingVideoResult(error: .frameworkError(error: error))
+                    }
+                    DispatchQueue.main.async { self.completion?(result) }
+                }
             }
         }
     }
@@ -531,7 +554,22 @@ class VideoRecorder : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     func captureOutput(_ output: AVCaptureOutput,
                        didOutput sampleBuffer: CMSampleBuffer,
                        from connection: AVCaptureConnection) {
-        guard let fileWriter = fileWriter, let videoInput = videoInput, CMSampleBufferDataIsReady(sampleBuffer) else { return }
+
+        guard isRecording else {
+            videoOutput.setSampleBufferDelegate(nil, queue: nil)
+            DispatchQueue.main.async {
+                self.completion?(CameraRecordingVideoResult(error: .internalError(message: "SampleBuffer received but not recording")))
+            }
+            return
+        }
+        guard let fileWriter = fileWriter, let videoInput = videoInput else {
+            DispatchQueue.main.async {
+                self.completion?(CameraRecordingVideoResult(error: .internalError(message: "filewriter or videoInput == nil")))
+            }
+            return
+        }
+
+        guard CMSampleBufferDataIsReady(sampleBuffer) else { return }
 
         let bufferTimeStamp = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
 
@@ -541,7 +579,9 @@ class VideoRecorder : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
             fileWriter.startSession(atSourceTime: bufferTimeStamp)
             startRecordingTime = bufferTimeStamp
         case .failed:
-            completion?(CameraRecordingVideoResult(error: .frameworkError(error: fileWriter.error!)))
+            if let error = fileWriter.error {
+                completion?(CameraRecordingVideoResult(error: .frameworkError(error: error)))
+            }
         default: break
         }
 
