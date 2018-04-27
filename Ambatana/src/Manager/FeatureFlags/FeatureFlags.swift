@@ -35,7 +35,6 @@ protocol FeatureFlaggeable: class {
     var freeBumpUpEnabled: Bool { get }
     var pricedBumpUpEnabled: Bool { get }
     var userReviewsReportEnabled: Bool { get }
-    var searchAutocomplete: SearchAutocomplete { get }
     var realEstateEnabled: RealEstateEnabled { get }
     var requestTimeOut: RequestsTimeOut { get }
     var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
@@ -526,13 +525,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.userReviewsReportEnabled
         }
         return abTests.userReviewsReportEnabled.value
-    }
-    
-    var searchAutocomplete: SearchAutocomplete {
-        if Bumper.enabled {
-            return Bumper.searchAutocomplete
-        }
-        return SearchAutocomplete.fromPosition(abTests.searchAutocomplete.value)
     }
 
     var realEstateEnabled: RealEstateEnabled {

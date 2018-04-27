@@ -31,11 +31,6 @@
         "description": "Allow to see Real Estate category"
     },
     {
-        "name": "SearchAutocomplete",
-        "values": ["control", "baseline", "withCategories"],
-        "description": "Search suggestions with/without categories filtering."
-    },
-    {
         "name": "RequestsTimeOut",
          "values": ["baseline", "thirty", "forty_five", "sixty", "hundred_and_twenty"],
          "description": "API requests timeout"

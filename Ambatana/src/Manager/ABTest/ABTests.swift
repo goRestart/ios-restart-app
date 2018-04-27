@@ -196,7 +196,6 @@ extension ABTests {
     var userReviewsReportEnabled: LeanplumABVariable<Bool> { return legacy.userReviewsReportEnabled }
     var appRatingDialogInactive: LeanplumABVariable<Bool> { return legacy.appRatingDialogInactive }
     var locationDataSourceType: LeanplumABVariable<Int> { return legacy.locationDataSourceType }
-    var searchAutocomplete: LeanplumABVariable<Int> { return legacy.searchAutocomplete }
     var realEstateEnabled: LeanplumABVariable<Int> { return legacy.realEstateEnabled }
     var requestsTimeOut: LeanplumABVariable<Int> { return legacy.requestsTimeOut }
     var deckItemPage: LeanplumABVariable<Int> { return legacy.newItemPage }

@@ -39,12 +39,10 @@ final class LGSearchRepository: SearchRepository {
     func retrieveSuggestiveSearches(language: String,
                                     limit: Int,
                                     term: String,
-                                    shouldIncludeCategories: Bool,
                                     completion: SuggestiveSearchesCompletion?) {
         dataSource.retrieveSuggestiveSearches(language: language,
                                               limit: limit,
-                                              term: term,
-                                              shouldIncludeCategories: shouldIncludeCategories) { result in
+                                              term: term) { result in
             handleApiResult(result, completion: completion)
         }
     }

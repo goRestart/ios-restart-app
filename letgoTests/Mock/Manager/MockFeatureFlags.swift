@@ -28,7 +28,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var inAppRatingIOS10: Bool = false
     var userReviewsReportEnabled: Bool = true
     var deckItemPage: DeckItemPage = .control
-    var searchAutocomplete: SearchAutocomplete = .control
     var realEstateEnabled: RealEstateEnabled = .control
     var requestTimeOut: RequestsTimeOut = .thirty
     var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed = .control
