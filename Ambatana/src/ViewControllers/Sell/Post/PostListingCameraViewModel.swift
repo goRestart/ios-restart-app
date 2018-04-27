@@ -153,7 +153,7 @@ class PostListingCameraViewModel: BaseViewModel {
     }
 
     func videoRecorded(video: RecordedVideo) {
-        if video.duration > PostListingViewModel.videoMinDuration {
+        if video.duration > Constants.videoMinRecordingDuration {
             videoRecorded.value = video
             cameraState.value = .previewVideo
         } else {

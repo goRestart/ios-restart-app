@@ -530,7 +530,7 @@ class VideoRecorder : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
                 fileWriter.finishWriting {
                     let result: CameraRecordingVideoResult
                     do {
-                        let snapshot = try AVURLAsset(url: fileWriter.outputURL).videoSnapshot(at: 1)
+                        let snapshot = try AVURLAsset(url: fileWriter.outputURL).videoSnapshot(at: Constants.videoSnapshotTime)
                         let videoRecorded = RecordedVideo(url: fileWriter.outputURL, snapshot: snapshot, duration: duration)
                         result = CameraRecordingVideoResult(value: videoRecorded)
                     } catch let error {

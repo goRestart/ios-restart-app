@@ -196,7 +196,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         if viewPager.currentPage == Tab.camera.index {
             if viewModel.postListingCameraViewModel.cameraMode.value == .video {
                 viewPager.scrollEnabled = false
-                cameraView.recordVideo(maxDuration: PostListingViewModel.videoMaxDuration)
+                cameraView.recordVideo(maxDuration: Constants.videoMaxRecordingDuration)
             } else {
                 cameraView.takePhoto()
             }
@@ -431,8 +431,8 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         cameraView.takePhotoEnabled.asObservable().bind(to: footer.cameraButton.rx.isEnabled).disposed(by: disposeBag)
         cameraView.takePhotoEnabled.asObservable().bind(to: footer.galleryButton.rx.isEnabled).disposed(by: disposeBag)
         cameraView.recordingDuration.asObservable().subscribeNext { [weak self] (duration) in
-            let progress = CGFloat(duration/PostListingViewModel.videoMaxDuration)
-            let remainingTime = PostListingViewModel.videoMaxDuration - duration
+            let progress = CGFloat(duration/Constants.videoMaxRecordingDuration)
+            let remainingTime = Constants.videoMaxRecordingDuration - duration
             self?.footer.updateVideoRecordingDurationProgress(progress: progress, remainingTime: remainingTime)
         }.disposed(by: disposeBag)
 

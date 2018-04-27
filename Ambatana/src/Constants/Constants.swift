@@ -98,6 +98,9 @@ struct Constants {
     static let sizeSquareMetersUnit: String = "㎡"
 
     // Camera
+    static let videoMaxRecordingDuration: TimeInterval = 15
+    static let videoMinRecordingDuration: TimeInterval = 2
+    static let videoSnapshotTime: TimeInterval = 1
     static let videoFileExtension: String = "mp4"
     static let videoSettings: [String: Any] = [
         AVVideoCodecKey: AVVideoCodecH264,
