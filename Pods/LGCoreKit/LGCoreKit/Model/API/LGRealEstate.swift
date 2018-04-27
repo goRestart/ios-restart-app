@@ -355,19 +355,20 @@ struct LGRealEstate: RealEstate, Decodable {
         thumbnail = baseListing.thumbnail
         thumbnailSize = baseListing.thumbnailSize
         images = baseListing.images
-        media = baseListing.media
+        media = baseListing.media.isEmpty ? LGMedia.mediaFrom(images: baseListing.images, thumbnail) : baseListing.media
         mediaThumbnail = baseListing.mediaThumbnail
         user = baseListing.user
         featured = baseListing.featured
-
 
         let keyedContainer = try decoder.container(keyedBy: CodingKeysRealEstateAttributes.self)
         
         realEstateAttributes = (try keyedContainer.decodeIfPresent(RealEstateAttributes.self, forKey: .realEstateAttributes))
             ?? RealEstateAttributes.emptyRealEstateAttributes()
+
     }
     
     enum CodingKeysRealEstateAttributes: String, CodingKey {
         case realEstateAttributes = "realEstateAttributes"
     }
 }
+

@@ -78,7 +78,7 @@ public struct LGMediaOutputs: MediaOutputs, Decodable {
     public let video: URL?
     public let videoThumbnail: URL?
 
-    public init(image: URL?, imageThumbnail: URL?, video: URL?, videoThumbnail: URL?) {
+    public init(image: URL? = nil, imageThumbnail: URL? = nil, video: URL? = nil, videoThumbnail: URL? = nil) {
         self.image = image
         self.imageThumbnail = imageThumbnail
         self.video = video
@@ -138,5 +138,15 @@ public struct LGMedia: Media, Decodable {
         case type = "media_type"
         case snapshotId = "snapshot_id"
         case outputs = "outputs"
+    }
+}
+
+//  To be removed after backend is fixed
+extension LGMedia {
+    static func mediaFrom(images: [File], _ thumbnail: File?) -> [LGMedia] {
+        return images.map {
+            let mediaOutput = LGMediaOutputs(image: $0.fileURL, imageThumbnail: thumbnail?.fileURL)
+            return LGMedia(type: .image, snapshotId: "", outputs: mediaOutput)
+        }
     }
 }
