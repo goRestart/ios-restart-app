@@ -59,7 +59,7 @@ PODS:
   - KMPlaceholderTextView (1.3.0)
   - Leanplum-iOS-SDK (2.0.5)
   - LGCollapsibleLabel (1.2.0)
-  - LGCoreKit (4.22.2):
+  - LGCoreKit (4.22.3):
     - Alamofire (~> 4.5.1)
     - CocoaLumberjack/Swift (~> 3.3.0)
     - DeviceGuru (~> 3.0.1)
@@ -143,7 +143,7 @@ DEPENDENCIES:
   - KMPlaceholderTextView (from `https://github.com/letgoapp/KMPlaceholderTextView`, commit `426117c98e8da8fc7d64a7d3c2f0f45c48d595e6`)
   - Leanplum-iOS-SDK (= 2.0.5)
   - LGCollapsibleLabel (= 1.2.0)
-  - LGCoreKit (= 4.22.2)
+  - LGCoreKit (= 4.22.3)
   - lottie-ios (= 2.5.0)
   - mopub-ios-sdk (= 4.20.0)
   - NewRelicAgent (= 6.1.1)
@@ -157,6 +157,50 @@ DEPENDENCIES:
   - RxTest (= 4.0.0)
   - SwiftyUserDefaults (from `https://github.com/Dschee/SwiftyUserDefaults`, commit `dd3d8ddc5bf95db09b66185182b5a555ac59efd5`)
 
+SPEC REPOS:
+  "git@github.com:letgoapp/letgo-ios-specs.git":
+    - LGCollapsibleLabel
+    - LGCoreKit
+  https://github.com/CocoaPods/Specs.git:
+    - Alamofire
+    - AlamofireImage
+    - Amplitude-iOS
+    - AppsFlyerFramework
+    - Bolts
+    - Branch
+    - CHTCollectionViewWaterfallLayout
+    - CocoaLumberjack
+    - Crashlytics
+    - DeviceGuru
+    - Fabric
+    - FBSDKCoreKit
+    - FBSDKLoginKit
+    - FBSDKShareKit
+    - FLEX
+    - Google-Mobile-Ads-SDK
+    - GoogleIDFASupport
+    - GoogleSignIn
+    - GoogleToolboxForMac
+    - GTMOAuth2
+    - GTMSessionFetcher
+    - JSONWebToken
+    - KeychainSwift
+    - Leanplum-iOS-SDK
+    - lottie-ios
+    - mopub-ios-sdk
+    - NewRelicAgent
+    - Nimble
+    - OHHTTPStubs
+    - Quick
+    - ReachabilitySwift
+    - Realm
+    - RealmSwift
+    - Result
+    - RxCocoa
+    - RxSwift
+    - RxSwiftExt
+    - RxTest
+    - SocketRocket
 EXTERNAL SOURCES:
   bumper:
     :commit: 7ec04a070eca2337f058954d7f53c474d616d7b1
@@ -214,7 +258,7 @@ SPEC CHECKSUMS:
   KMPlaceholderTextView: 2bbcd19a273648a80a61e1e48f9743a24d8930e3
   Leanplum-iOS-SDK: d7d387b7f3688e697f2893978bfe67092df5b7ca
   LGCollapsibleLabel: 2a5ebb0ff0ff3e1d7ab0c295a17c923db000f557
-  LGCoreKit: c212f14230988a94a7f2073079379951fa7b1c98
+  LGCoreKit: ea2ad73cb535595f3c644a053198e4f1b026ecd5
   lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
   mopub-ios-sdk: 89c6ac9ca01d3b36e9fba16a6cfe31d3c290d354
   NewRelicAgent: 652434a627201e3745cd5849228feeb10afe1879
@@ -232,6 +276,6 @@ SPEC CHECKSUMS:
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   SwiftyUserDefaults: 38267a30d58b7c8570995cd5defd354e43f056c6
 
-PODFILE CHECKSUM: d3d5f8a5c392f30b1c193c0175197ab240ccf554
+PODFILE CHECKSUM: 97342401ffc7282f19453c2df5923d8661abe4eb
 
 COCOAPODS: 1.4.0

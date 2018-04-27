@@ -16,12 +16,6 @@ enum PostingFlowType: String {
     case turkish
 }
 
-enum BumpPriceVariationBucket: Int {
-    case defaultValue = 0
-    case minPriceIncreaseUSA = 2
-    case vatDecreaseTR = 4
-}
-
 protocol FeatureFlaggeable: class {
 
     var trackingData: Observable<[(String, ABGroup)]?> { get }
@@ -80,7 +74,6 @@ protocol FeatureFlaggeable: class {
     var signUpEmailTermsAndConditionsAcceptRequired: Bool { get }
     var moreInfoDFPAdUnitId: String { get }
     var feedDFPAdUnitId: String? { get }
-    var bumpPriceVariationBucket: BumpPriceVariationBucket { get }
     func collectionsAllowedFor(countryCode: String?) -> Bool
     var shouldChangeChatNowCopyInTurkey: Bool { get }
     var copyForChatNowInTurkey: CopyForChatNowInTurkey { get }
@@ -892,39 +885,6 @@ class FeatureFlags: FeatureFlaggeable {
             }
         default:
             return nil
-        }
-    }
-
-    /**
-     This var is used to inform money BE of the ABtests realated to variations in bump prices
-     */
-    var bumpPriceVariationBucket: BumpPriceVariationBucket {
-        if Bumper.enabled {
-            if increaseMinPriceBumps.isActive {
-                return .minPriceIncreaseUSA
-            } else if turkeyBumpPriceVATAdaptation.isActive {
-                return .vatDecreaseTR
-            } else {
-                return .defaultValue
-            }
-        }
-        switch sensorLocationCountryCode {
-        case .usa?:
-            switch increaseMinPriceBumps {
-            case .control, .baseline:
-                return .defaultValue
-            case .active:
-                return .minPriceIncreaseUSA
-            }
-        case .turkey?:
-            switch turkeyBumpPriceVATAdaptation {
-            case .control, .baseline:
-                return .defaultValue
-            case .active:
-                return .vatDecreaseTR
-            }
-        default:
-            return .defaultValue
         }
     }
 
