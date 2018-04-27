@@ -641,8 +641,8 @@
 "product_favorite_direct_message" = "¡Me gusta! ¿Todavía está disponible?";
 "product_favorite_login_popup_text" = "Para marcar este anuncio como favorito, tienes que iniciar sesión";
 "product_free_price" = "Gratis";
-"product_interested_bubble_message" = "We've let the seller know that you're interested in buying this";
-"product_interested_undo" = "Undo";
+"product_interested_bubble_message" = "Hemos avisado al vendedor de tu interés en comprarlo";
+"product_interested_undo" = "Deshacer";
 "product_is_mine_share_body" = "¡Échale un vistazo a lo que vendo en letgo!";
 "product_is_mine_share_body_free" = "¡Échale un vistazo a lo que regalo en letgo!";
 "product_list_item_given_away_status_label" = "Ya regalado";
@@ -1048,7 +1048,7 @@
 "search_alerts_header_subtitle" = "Recibir notificaciones de nuevos anuncios";
 "search_alerts_placeholder_empty_button" = "Empezar a buscar";
 "search_alerts_placeholder_empty_text" = "Suscríbete a búsquedas para recibir notificaciones cuando se publiquen anuncios nuevos.";
-"search_alerts_placeholder_error_button" = "Try Again";
+"search_alerts_placeholder_error_button" = "Reintentar";
 "search_alerts_placeholder_error_text" = "¡Ups! Se ha producido un error al cargar tus alertas de búsqueda.";
 "sell_category_selection_label" = "Categoría";
 "sell_choose_category_dialog_cancel_button" = "Cancelar";
