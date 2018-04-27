@@ -248,9 +248,9 @@ class PostListingState {
 
     func updatingStepToCreatingPreSignedUrl(uploadingVideo: VideoUpload) -> PostListingState {
         switch step {
-        case .uploadingVideo:
+        case .uploadingVideo, .errorUpload:
             break
-        case .imageSelection, .errorVideoUpload, .uploadingImage, .errorUpload, .detailsSelection, .categorySelection, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
+        case .imageSelection, .errorVideoUpload, .uploadingImage, .detailsSelection, .categorySelection, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
             return self
         }
         return PostListingState(step: .uploadingVideo(state: .creatingPreSignedUploadUrl),
@@ -351,7 +351,7 @@ class PostListingState {
 
     
     func updating(uploadError: RepositoryError) -> PostListingState {
-        guard step == .uploadingImage else { return self }
+        guard step.isUploadingResource() else { return self }
         let message: String
         switch uploadError {
         case .internalError, .unauthorized, .notFound, .forbidden, .tooManyRequests, .userNotVerified, .serverError, .wsChatError:
@@ -489,6 +489,15 @@ enum PostListingStep: Equatable {
     
     case finished
     case addingDetails
+    
+    func isUploadingResource() -> Bool {
+        if case .uploadingVideo = self {
+            return true
+        } else if case .uploadingImage = self {
+            return true
+        }
+        return  false
+    }
 }
 
 func ==(lhs: PostListingStep, rhs: PostListingStep) -> Bool {

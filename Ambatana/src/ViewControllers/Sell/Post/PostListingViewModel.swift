@@ -191,8 +191,17 @@ class PostListingViewModel: BaseViewModel {
     }
    
     func retryButtonPressed() {
-        guard let images = imagesSelected, let source = uploadedImageSource else { return }
-        imagesSelected(images, source: source)
+        guard let source = uploadedImageSource else { return }
+        if let images = imagesSelected {
+            imagesSelected(images, source: source)
+        } else if let uploadingVideo = uploadingVideo {
+            if uploadingVideo.snapshot == nil {
+                uploadVideoSnapshot(uploadingVideo: uploadingVideo)
+            } else {
+                state.value = state.value.updatingStepToCreatingPreSignedUrl(uploadingVideo: uploadingVideo)
+                createPreSignedUploadUrlForVideo(uploadingVideo: uploadingVideo)
+            }
+        }
     }
     
     func infoButtonPressed() {
@@ -256,7 +265,7 @@ class PostListingViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
 
             if let image = result.value?.first {
-                let uploadingVideo = VideoUpload(recordedVideo: uploadingVideo.recordedVideo, snapshot: image, videoId: nil)
+                strongSelf.uploadingVideo = VideoUpload(recordedVideo: uploadingVideo.recordedVideo, snapshot: image, videoId: nil)
                 strongSelf.state.value = strongSelf.state.value.updatingStepToCreatingPreSignedUrl(uploadingVideo: uploadingVideo)
                 strongSelf.createPreSignedUploadUrlForVideo(uploadingVideo: uploadingVideo)
             } else if let error = result.error {
@@ -284,7 +293,11 @@ class PostListingViewModel: BaseViewModel {
 
     fileprivate func uploadVideo(uploadingVideo: VideoUpload, preSignedUploadUrl: PreSignedUploadUrl) {
 
-        self.preSignedUploadUrlRepository.upload(url: preSignedUploadUrl.form.action, file: uploadingVideo.recordedVideo.url, inputs: preSignedUploadUrl.form.inputs, progress: nil, completion: { [weak self] result in
+        preSignedUploadUrlRepository.upload(url: preSignedUploadUrl.form.action,
+                                            file: uploadingVideo.recordedVideo.url,
+                                            inputs: preSignedUploadUrl.form.inputs,
+                                            progress: nil,
+                                            completion: { [weak self] result in
             guard let strongSelf = self else { return }
 
             if result.value != nil {
