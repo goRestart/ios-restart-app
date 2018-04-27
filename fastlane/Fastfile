@@ -315,6 +315,7 @@ platform :ios do
       output_style: "rspec",
       output_directory: "./scanresults",
       output_types: "junit,html",
+      clean: true,
       skip_slack: true,
       code_coverage: true
       )
@@ -328,6 +329,7 @@ platform :ios do
       output_style: "rspec",
       output_directory: "./scanresults",
       output_types: "junit,html",
+      clean: true,
       skip_slack: true,
       code_coverage: true
       )
