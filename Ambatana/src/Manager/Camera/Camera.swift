@@ -37,7 +37,7 @@ protocol Camera {
 
     var flashMode: CameraFlashState? { get set }
     var cameraPosition: CameraSource? { get set }
-    var cameraMode: CameraMode { get set  }
+    var cameraMode: CameraMode { get set }
     var isReady: Bool { get }
     var hasFlash: Bool { get }
     var hasFrontCamera: Bool { get }
