@@ -804,6 +804,11 @@ extension UserViewModel {
 }
 
 extension UserViewModel: ListingCellDelegate {
+    func interestedActionFor(_ listing: Listing) {
+        // this is just meant to be inside the MainFeed
+        return
+    }
+
         
     func chatButtonPressedFor(listing: Listing) {}
     

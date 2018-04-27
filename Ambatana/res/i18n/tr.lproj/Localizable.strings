@@ -641,6 +641,8 @@
 "product_favorite_direct_message" = "Beğendim! Hala satılık mı?";
 "product_favorite_login_popup_text" = "Bu ilanı favorilerine eklemek için giriş yapmalısın";
 "product_free_price" = "Bedava";
+"product_interested_bubble_message" = "İlanıyla ilgilendiğini satıcıya bildirdik";
+"product_interested_undo" = "Geri al";
 "product_is_mine_share_body" = "letgo'da ne sattığıma bak!";
 "product_is_mine_share_body_free" = "letgo'da hangi eşyaları ücretsiz verdiğime bak!";
 "product_list_item_given_away_status_label" = "Çoktan ücretsiz olarak verildi";
@@ -1039,6 +1041,15 @@
 "reset_password_send_ok" = "%@ adresine bir e-posta gönderdik. Şifreni yenilemek için e-postana gönderilen bağlantıya tıkla.";
 "reset_password_send_too_many_requests" = "Şifreni yenilemen için sana bir e-posta gönderdik. Lütfen e-postanı kontrol edip açıklamaları uygula.";
 "reset_password_title" = "Şifreyi yenile";
+"search_alert_delete_error_message" = "Oops! An error occurred while deleting your search alert";
+"search_alert_disable_error_message" = "Oops! An error occurred while disabling your search alert";
+"search_alert_enable_error_message" = "Oops! An error occurred while enabling your search alert";
+"search_alerts_edit_button" = "Düzelt";
+"search_alerts_header_subtitle" = "Yeni ilanlarla ilgili bildirim al";
+"search_alerts_placeholder_empty_button" = "Aramaya Başla";
+"search_alerts_placeholder_empty_text" = "Yeni ilanlar yayınlandığında bildirim almak için aramalara abone ol.";
+"search_alerts_placeholder_error_button" = "Try Again";
+"search_alerts_placeholder_error_text" = "Oops! Arama alarmların yüklenirken bir hata oluştu";
 "sell_category_selection_label" = "Kategori";
 "sell_choose_category_dialog_cancel_button" = "İptal et";
 "sell_choose_category_dialog_title" = "Bir kategori seç";

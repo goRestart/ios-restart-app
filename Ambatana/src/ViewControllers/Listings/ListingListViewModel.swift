@@ -241,6 +241,22 @@ class ListingListViewModel: BaseViewModel {
         delegate?.vmReloadData(self)
     }
 
+    var listingInterestState: [String: InterestedState] = [:]
+
+    func update(listing: Listing, interestedState: InterestedState) {
+        guard state.isData, let listingId = listing.objectId else { return }
+        guard let index = indexFor(listingId: listingId) else { return }
+        listingInterestState[listingId] = interestedState
+
+        delegate?.vmReloadItemAtIndexPath(indexPath: IndexPath(row: index, section: 0))
+    }
+
+    func interestStateFor(listingAtIndex index: Int) -> InterestedState? {
+        guard featureFlags.shouldShowIAmInterestedInFeed.isVisible else { return nil }
+        guard let listingID = objects[index].listing?.objectId else { return nil }
+        return listingInterestState[listingID] ?? .send(enabled: true)
+    }
+
     func prepend(listing: Listing) {
         guard state.isData else { return }
         objects.insert(ListingCellModel(listing: listing), at: 0)

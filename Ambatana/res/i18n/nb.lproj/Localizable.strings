@@ -641,6 +641,8 @@
 "product_favorite_direct_message" = "Jeg liker produktet! Er det fortsatt tilgjengelig?";
 "product_favorite_login_popup_text" = "Du må innlogget for å favorisere denne annonsen";
 "product_free_price" = "Gis bort";
+"product_interested_bubble_message" = "We've let the seller know that you're interested in buying this";
+"product_interested_undo" = "Undo";
 "product_is_mine_share_body" = "Se hva jeg selger på letgo!";
 "product_is_mine_share_body_free" = "Se hva jeg gir bort på letgo!";
 "product_list_item_given_away_status_label" = "Gitt bort allerede";
@@ -1039,6 +1041,15 @@
 "reset_password_send_ok" = "Vi har sendt en e-post til %@. Klikk på linken e-posten for å gjenopprette ditt passord.";
 "reset_password_send_too_many_requests" = "Vi har allerede sendt deg en e-post for tilbakestilling av passord. Vennligst sjekk din e-post og følg instruksene.";
 "reset_password_title" = "Tilbakestill passord";
+"search_alert_delete_error_message" = "Oops! An error occurred while deleting your search alert";
+"search_alert_disable_error_message" = "Oops! An error occurred while disabling your search alert";
+"search_alert_enable_error_message" = "Oops! An error occurred while enabling your search alert";
+"search_alerts_edit_button" = "Edit";
+"search_alerts_header_subtitle" = "Get notifications about new listings";
+"search_alerts_placeholder_empty_button" = "Start Searching";
+"search_alerts_placeholder_empty_text" = "Subscribe to searches to get notifications when new listings are posted.";
+"search_alerts_placeholder_error_button" = "Try Again";
+"search_alerts_placeholder_error_text" = "Oops! An error occurred while loading your search alerts";
 "sell_category_selection_label" = "Kategori";
 "sell_choose_category_dialog_cancel_button" = "Avbryt";
 "sell_choose_category_dialog_title" = "Velg en kategori";

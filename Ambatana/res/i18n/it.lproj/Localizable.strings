@@ -641,6 +641,8 @@
 "product_favorite_direct_message" = "Mi piace! È ancora disponibile?";
 "product_favorite_login_popup_text" = "Per aggiungere questo annuncio ai preferiti, devi effettuare l'accesso";
 "product_free_price" = "Gratis";
+"product_interested_bubble_message" = "We've let the seller know that you're interested in buying this";
+"product_interested_undo" = "Undo";
 "product_is_mine_share_body" = "Guarda cosa sto vendendo su letgo!";
 "product_is_mine_share_body_free" = "Scopri quello che sto regalando su letgo!";
 "product_list_item_given_away_status_label" = "Già regalato";
@@ -1039,6 +1041,15 @@
 "reset_password_send_ok" = "Abbiamo inviato un'email a %@. Clicca sul link all'interno dell'email per ripristinare la tua password!";
 "reset_password_send_too_many_requests" = "Ti abbiamo già inviato una email per reimpostare la password. Controlla la tua casella di posta e segui le istruzioni.";
 "reset_password_title" = "Reimposta Password";
+"search_alert_delete_error_message" = "Oops! An error occurred while deleting your search alert";
+"search_alert_disable_error_message" = "Oops! An error occurred while disabling your search alert";
+"search_alert_enable_error_message" = "Oops! An error occurred while enabling your search alert";
+"search_alerts_edit_button" = "Edit";
+"search_alerts_header_subtitle" = "Get notifications about new listings";
+"search_alerts_placeholder_empty_button" = "Start Searching";
+"search_alerts_placeholder_empty_text" = "Subscribe to searches to get notifications when new listings are posted.";
+"search_alerts_placeholder_error_button" = "Try Again";
+"search_alerts_placeholder_error_text" = "Oops! An error occurred while loading your search alerts";
 "sell_category_selection_label" = "Categoria";
 "sell_choose_category_dialog_cancel_button" = "Annulla";
 "sell_choose_category_dialog_title" = "Scegli una categoria";

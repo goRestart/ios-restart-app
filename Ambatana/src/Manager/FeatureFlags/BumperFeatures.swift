@@ -64,6 +64,7 @@ extension Bumper  {
         flags.append(FilterSearchCarSellerType.self)
         flags.append(ShowExactLocationForPros.self)
         flags.append(ShowPasswordlessLogin.self)
+        flags.append(IAmInterestedFeed.self)
         Bumper.initialize(flags)
     } 
 
@@ -307,12 +308,11 @@ extension Bumper  {
         return SearchCarsIntoNewBackend(rawValue: value) ?? .control 
     }
 
-
     static var filterSearchCarSellerType: FilterSearchCarSellerType {
         guard let value = Bumper.value(for: FilterSearchCarSellerType.key) else { return .control }
         return FilterSearchCarSellerType(rawValue: value) ?? .control 
     }
-    
+
     static var showExactLocationForPros: Bool {
         guard let value = Bumper.value(for: ShowExactLocationForPros.key) else { return true }
         return ShowExactLocationForPros(rawValue: value)?.asBool ?? true
@@ -321,6 +321,11 @@ extension Bumper  {
     static var showPasswordlessLogin: ShowPasswordlessLogin {
         guard let value = Bumper.value(for: ShowPasswordlessLogin.key) else { return .control }
         return ShowPasswordlessLogin(rawValue: value) ?? .control 
+    }
+
+    static var iAmInterestedFeed: IAmInterestedFeed {
+        guard let value = Bumper.value(for: IAmInterestedFeed.key) else { return .control }
+        return IAmInterestedFeed(rawValue: value) ?? .control 
     } 
 }
 
@@ -1107,6 +1112,22 @@ enum ShowPasswordlessLogin: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum IAmInterestedFeed: String, BumperFeature  {
+    case control, baseline, hidden
+    static var defaultValue: String { return IAmInterestedFeed.control.rawValue }
+    static var enumValues: [IAmInterestedFeed] { return [.control, .baseline, .hidden]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show an I am interested button in the main feed" } 
+    static func fromPosition(_ position: Int) -> IAmInterestedFeed {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .hidden
             default: return .control
         }
     }

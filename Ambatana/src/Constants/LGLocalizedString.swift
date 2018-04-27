@@ -2543,6 +2543,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_free_price", comment: "")
 	}
 
+	static var productInterestedBubbleMessage: String {
+		return NSLocalizedString("product_interested_bubble_message", comment: "")
+	}
+
+	static var productInterestedUndo: String {
+		return NSLocalizedString("product_interested_undo", comment: "")
+	}
+
 	static var productProfessionalChatButton: String {
 		return NSLocalizedString("product_professional_chat_button", comment: "")
 	}
@@ -3415,6 +3423,74 @@ struct LGLocalizedString {
 		return NSLocalizedString("profile_verifications_send_button", comment: "")
 	}
 
+	static var phoneVerificationNumberInputViewTitle: String {
+		return NSLocalizedString("phone_verification_number_input_view_title", comment: "")
+	}
+
+	static var phoneVerificationNumberInputViewDescription: String {
+		return NSLocalizedString("phone_verification_number_input_view_description", comment: "")
+	}
+
+	static var phoneVerificationNumberInputViewTextfieldPlaceholder: String {
+		return NSLocalizedString("phone_verification_number_input_view_textfield_placeholder", comment: "")
+	}
+
+	static var phoneVerificationNumberInputViewContinueButton: String {
+		return NSLocalizedString("phone_verification_number_input_view_continue_button", comment: "")
+	}
+
+	static var phoneVerificationNumberInputViewSendingMessage: String {
+		return NSLocalizedString("phone_verification_number_input_view_sending_message", comment: "")
+	}
+
+	static var phoneVerificationNumberInputViewConfirmationTitle: String {
+		return NSLocalizedString("phone_verification_number_input_view_confirmation_title", comment: "")
+	}
+
+	static func phoneVerificationNumberInputViewConfirmationMessage(_ var1: String, _ var2: String) -> String {
+		return String(format: NSLocalizedString("phone_verification_number_input_view_confirmation_message", comment: ""), var1, var2)
+	}
+
+	static var phoneVerificationCodeInputViewTitle: String {
+		return NSLocalizedString("phone_verification_code_input_view_title", comment: "")
+	}
+
+	static var phoneVerificationCodeInputViewContentTitle: String {
+		return NSLocalizedString("phone_verification_code_input_view_content_title", comment: "")
+	}
+
+	static func phoneVerificationCodeInputViewContentSubtitle(_ var1: String) -> String {
+		return String(format: NSLocalizedString("phone_verification_code_input_view_content_subtitle", comment: ""), var1)
+	}
+
+	static func phoneVerificationCodeInputViewContentSubtext(_ var1: String) -> String {
+		return String(format: NSLocalizedString("phone_verification_code_input_view_content_subtext", comment: ""), var1)
+	}
+
+	static var phoneVerificationCodeInputViewContentSubaction: String {
+		return NSLocalizedString("phone_verification_code_input_view_content_subaction", comment: "")
+	}
+
+	static var phoneVerificationCodeInputViewValidatingMessage: String {
+		return NSLocalizedString("phone_verification_code_input_view_validating_message", comment: "")
+	}
+
+	static var phoneVerificationCodeInputViewValidatedSuccess: String {
+		return NSLocalizedString("phone_verification_code_input_view_validated_success", comment: "")
+	}
+
+	static var phoneVerificationCodeInputViewValidatedFailure: String {
+		return NSLocalizedString("phone_verification_code_input_view_validated_failure", comment: "")
+	}
+
+	static var phoneVerificationCountryPickerViewTitle: String {
+		return NSLocalizedString("phone_verification_country_picker_view_title", comment: "")
+	}
+
+	static var phoneVerificationCountryPickerViewSearchPlaceholder: String {
+		return NSLocalizedString("phone_verification_country_picker_view_search_placeholder", comment: "")
+	}
+
 	static var profileKarmaVisibilityTitle: String {
 		return NSLocalizedString("profile_karma_visibility_title", comment: "")
 	}
@@ -4151,6 +4227,42 @@ struct LGLocalizedString {
 		return NSLocalizedString("reset_password_title", comment: "")
 	}
 
+	static var searchAlertsEditButton: String {
+		return NSLocalizedString("search_alerts_edit_button", comment: "")
+	}
+
+	static var searchAlertsHeaderSubtitle: String {
+		return NSLocalizedString("search_alerts_header_subtitle", comment: "")
+	}
+
+	static var searchAlertsPlaceholderEmptyText: String {
+		return NSLocalizedString("search_alerts_placeholder_empty_text", comment: "")
+	}
+
+	static var searchAlertsPlaceholderEmptyButton: String {
+		return NSLocalizedString("search_alerts_placeholder_empty_button", comment: "")
+	}
+
+	static var searchAlertsPlaceholderErrorText: String {
+		return NSLocalizedString("search_alerts_placeholder_error_text", comment: "")
+	}
+
+	static var searchAlertsPlaceholderErrorButton: String {
+		return NSLocalizedString("search_alerts_placeholder_error_button", comment: "")
+	}
+
+	static var searchAlertDeleteErrorMessage: String {
+		return NSLocalizedString("search_alert_delete_error_message", comment: "")
+	}
+
+	static var searchAlertEnableErrorMessage: String {
+		return NSLocalizedString("search_alert_enable_error_message", comment: "")
+	}
+
+	static var searchAlertDisableErrorMessage: String {
+		return NSLocalizedString("search_alert_disable_error_message", comment: "")
+	}
+
 	static var sellCategorySelectionLabel: String {
 		return NSLocalizedString("sell_category_selection_label", comment: "")
 	}
@@ -4381,10 +4493,6 @@ struct LGLocalizedString {
 
 	static var searchAlertsListTitle: String {
 		return NSLocalizedString("search_alerts_list_title", comment: "")
-	}
-
-	static var searchAlertsEditButton: String {
-		return NSLocalizedString("search_alerts_edit_button", comment: "")
 	}
 
 	static var signUpAcceptanceError: String {

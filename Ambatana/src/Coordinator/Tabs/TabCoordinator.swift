@@ -707,6 +707,14 @@ extension TabCoordinator: ListingDetailNavigator {
         viewController.modalPresentationStyle = .overFullScreen
         navigationController.present(viewController, animated: true, completion: nil)
     }
+
+    func showUndoBubble(withMessage message: String,
+                        duration: TimeInterval,
+                        withAction action: @escaping () -> ()) {
+        let action = UIAction(interface: .button(LGLocalizedString.productInterestedUndo, .terciary) , action: action)
+        let data = BubbleNotificationData(text: message, action: action)
+        bubbleNotificationManager.showBubble(data, duration: duration, view: navigationController.view)
+    }
 }
 
 

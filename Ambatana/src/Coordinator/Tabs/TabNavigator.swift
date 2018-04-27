@@ -56,6 +56,9 @@ protocol TabNavigator: class {
     func openRealEstateOnboarding(pages: [LGTutorialPage],
                                   origin: EventParameterTypePage,
                                   tutorialType: EventParameterTutorialType)
+    func showUndoBubble(withMessage message: String,
+                        duration: TimeInterval,
+                        withAction action: @escaping () -> ())
 }
 
 protocol ListingDetailNavigator: TabNavigator {

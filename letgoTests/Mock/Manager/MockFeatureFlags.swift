@@ -10,8 +10,8 @@
 import Foundation
 import RxSwift
 
-class MockFeatureFlags: FeatureFlaggeable {
-    
+final class MockFeatureFlags: FeatureFlaggeable {
+
     var trackingData: Observable<[(String, ABGroup)]?> {
         return trackingDataVar.asObservable()
     }
@@ -62,12 +62,9 @@ class MockFeatureFlags: FeatureFlaggeable {
     var showProTagUserProfile: Bool = false
     var markAllConversationsAsRead: Bool = false
     var realEstateTutorial: RealEstateTutorial = .control
-    var realEstatePromoCell: RealEstatePromoCell = .control
     var summaryAsFirstStep: SummaryAsFirstStep = .control
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem = .control
-    var searchCarsIntoNewBackend: SearchCarsIntoNewBackend = .control
     var showExactLocationForPros: Bool = true
-    var filterSearchCarSellerType: FilterSearchCarSellerType = .control
     var showPasswordlessLogin: ShowPasswordlessLogin = .control
 
     // Country dependant features
@@ -91,4 +88,11 @@ class MockFeatureFlags: FeatureFlaggeable {
     var shareTypes: [ShareType] = []
     var copyForChatNowInEnglish: CopyForChatNowInEnglish = .control
     var shouldChangeChatNowCopyInEnglish = false
+    var shouldShowIAmInterestedInFeed: IAmInterestedFeed = .control
+
+    //  MARK:  Verticals
+    var searchCarsIntoNewBackend: SearchCarsIntoNewBackend = .control
+    var realEstatePromoCell: RealEstatePromoCell = .control
+    var filterSearchCarSellerType: FilterSearchCarSellerType = .control
+
 }

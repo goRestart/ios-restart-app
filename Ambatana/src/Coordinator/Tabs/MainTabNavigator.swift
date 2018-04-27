@@ -19,4 +19,6 @@ protocol MainTabNavigator: TabNavigator {
     func openTaxonomyList(withViewModel viewModel: TaxonomiesViewModel)
 
     func openMostSearchedItems(source: PostingSource, enableSearch: Bool)
+
+    func openLoginIfNeeded(infoMessage: String, then loggedAction: @escaping (() -> Void))
 }

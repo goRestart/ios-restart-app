@@ -641,6 +641,8 @@
 "product_favorite_direct_message" = "Pidän siitä! Onko se vielä vapaana?";
 "product_favorite_login_popup_text" = "Voidaksesi merkitä tämän ilmoituksen suosikiksesi, sinun on kirjauduttava sisään";
 "product_free_price" = "Ilmainen";
+"product_interested_bubble_message" = "We've let the seller know that you're interested in buying this";
+"product_interested_undo" = "Undo";
 "product_is_mine_share_body" = "Katso, mitä minulla on myynnissä letgossa!";
 "product_is_mine_share_body_free" = "Käy katsomassa mitä annan pois letgossa!";
 "product_list_item_given_away_status_label" = "Annettu jo pois";
@@ -1039,6 +1041,15 @@
 "reset_password_send_ok" = "Olemme lähettäneet sähköpostia osoitteeseen %@. Klikkaa sähköpostissa olevaa linkkiä vaihtaaksesi salasanasi!";
 "reset_password_send_too_many_requests" = "Olemme lähettäneet sinulle jo sähköpostin salasanan nollaamiseksi. Ole hyvä ja tarkista sähköpostisi ja seuraa siinä olevia ohjeita.";
 "reset_password_title" = "Nollaa salasana";
+"search_alert_delete_error_message" = "Oops! An error occurred while deleting your search alert";
+"search_alert_disable_error_message" = "Oops! An error occurred while disabling your search alert";
+"search_alert_enable_error_message" = "Oops! An error occurred while enabling your search alert";
+"search_alerts_edit_button" = "Edit";
+"search_alerts_header_subtitle" = "Get notifications about new listings";
+"search_alerts_placeholder_empty_button" = "Start Searching";
+"search_alerts_placeholder_empty_text" = "Subscribe to searches to get notifications when new listings are posted.";
+"search_alerts_placeholder_error_button" = "Try Again";
+"search_alerts_placeholder_error_text" = "Oops! An error occurred while loading your search alerts";
 "sell_category_selection_label" = "Kategoria";
 "sell_choose_category_dialog_cancel_button" = "Peruuta";
 "sell_choose_category_dialog_title" = "Valitse kategoria";

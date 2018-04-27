@@ -114,6 +114,7 @@ extension ListingDeckViewModelBinderSpec: ListingDetailNavigator {
     func openVideoPlayer(atIndex index: Int,
                          listingVM: ListingViewModel,
                          source: EventParameterListingVisitSource) { }
+    func showUndoBubble(withMessage message: String, duration: TimeInterval, withAction action: @escaping () -> ()) { }
 
     func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?) { }
     func openAskPhoneFor(listing: Listing, interlocutor: User?) { }

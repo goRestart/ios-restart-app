@@ -64,8 +64,6 @@ protocol FeatureFlaggeable: class {
     var servicesCategoryEnabled: ServicesCategoryEnabled { get }
     var increaseNumberOfPictures: IncreaseNumberOfPictures { get }
     var realEstateTutorial: RealEstateTutorial { get }
-    var realEstatePromoCell: RealEstatePromoCell { get }
-    var filterSearchCarSellerType: FilterSearchCarSellerType { get }
     var machineLearningMVP: MachineLearningMVP { get }
     var chatNorris: ChatNorris { get }
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings { get }
@@ -73,7 +71,6 @@ protocol FeatureFlaggeable: class {
     var showProTagUserProfile: Bool { get }
     var summaryAsFirstStep: SummaryAsFirstStep { get }
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem { get }
-    var searchCarsIntoNewBackend: SearchCarsIntoNewBackend { get }
     var showExactLocationForPros: Bool { get }
 
     // Country dependant features
@@ -94,7 +91,13 @@ protocol FeatureFlaggeable: class {
     var shouldChangeChatNowCopyInEnglish: Bool { get }
     var copyForChatNowInEnglish: CopyForChatNowInEnglish { get }
     var feedAdsProviderForTR:  FeedAdsProviderForTR { get }
-    
+    var shouldShowIAmInterestedInFeed: IAmInterestedFeed { get }
+
+    //  MARK: Verticals
+    var searchCarsIntoNewBackend: SearchCarsIntoNewBackend { get }
+    var realEstatePromoCell: RealEstatePromoCell { get }
+    var filterSearchCarSellerType: FilterSearchCarSellerType { get }
+
 }
 
 extension FeatureFlaggeable {
@@ -385,7 +388,11 @@ extension CopyForChatNowInEnglish {
         } }
 }
 
-class FeatureFlags: FeatureFlaggeable {
+extension IAmInterestedFeed {
+    var isVisible: Bool { return self == .control || self == .baseline }
+}
+
+final class FeatureFlags: FeatureFlaggeable {
 
     static let sharedInstance: FeatureFlags = FeatureFlags()
 
@@ -1002,6 +1009,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.copyForChatNowInEnglish
         }
         return CopyForChatNowInEnglish.fromPosition(abTests.copyForChatNowInEnglish.value)
+    }
+
+    var shouldShowIAmInterestedInFeed: IAmInterestedFeed {
+        if Bumper.enabled {
+            return Bumper.iAmInterestedFeed
+        }
+        return IAmInterestedFeed.fromPosition(abTests.iAmInterestedInFeed.value)
     }
     
     var feedAdsProviderForTR: FeedAdsProviderForTR {

@@ -15,10 +15,12 @@ protocol ListingCellDelegate: class {
     func editPressedForDiscarded(listing: Listing)
     func moreOptionsPressedForDiscarded(listing: Listing)
     func postNowButtonPressed(_ view: UIView)
+    func interestedActionFor(_ listing: Listing)
 }
 
 final class ListingCell: UICollectionViewCell, ReusableCell {
-    
+
+    private lazy var interestedButton: UIButton = UIButton()
     // > Stripe area
     
     private let stripeImageView = UIImageView()
@@ -139,7 +141,6 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         super.prepareForReuse()
         resetUI()
     }
-
 
     // MARK: - Public / internal methods
 
@@ -381,7 +382,31 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
             bottomDistanceInfoView.setDistance(distanceString)
         }
     }
-    
+
+    func setupWith(interestedState action: InterestedState) {
+        interestedButton.setImage(action.image, for: .normal)
+        interestedButton.imageView?.contentMode = .scaleAspectFit
+        interestedButton.imageView?.clipsToBounds = true
+        guard action != .none else { return }
+
+        guard interestedButton.superview == nil else { return }
+        thumbnailImageView.addSubviewForAutoLayout(interestedButton)
+        thumbnailImageView.isUserInteractionEnabled = true
+        NSLayoutConstraint.activate([
+            interestedButton.rightAnchor.constraint(equalTo: thumbnailImageView.rightAnchor),
+            interestedButton.bottomAnchor.constraint(equalTo: thumbnailImageView.bottomAnchor),
+            interestedButton.heightAnchor.constraint(equalTo: interestedButton.widthAnchor),
+            interestedButton.widthAnchor.constraint(equalToConstant: 54)
+        ])
+        interestedButton.removeTarget(self, action: nil, for: .allEvents)
+        interestedButton.addTarget(self, action: #selector(callDelegateInterestedState), for: .touchUpInside)
+    }
+
+    @objc private func callDelegateInterestedState() {
+        guard let listing = listing else { return }
+        delegate?.interestedActionFor(listing)
+    }
+
     private func layoutFeatureListArea(isMine: Bool, hideProductDetail: Bool) {
         if hideProductDetail {
             showChatButton(isMine: isMine)
@@ -465,6 +490,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         detailViewInImage.clearLabelTexts()
         topDistanceInfoView.clearAll()
         bottomDistanceInfoView.clearAll()
+        setupWith(interestedState: .none)
         
         self.delegate = nil
         self.listing = nil
@@ -491,5 +517,17 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     @objc private func openChat() {
         guard let listing = listing else { return }
         delegate?.chatButtonPressedFor(listing: listing)
+    }
+}
+
+private extension InterestedState {
+    var image: UIImage? {
+        switch self {
+        case .none: return nil
+        case .send(let enabled):
+            let alpha: CGFloat = enabled ? 1 : 0.7
+            return #imageLiteral(resourceName: "ic_iami_send").withAlpha(alpha) ?? #imageLiteral(resourceName: "ic_iami_send")
+        case .seeConversation: return #imageLiteral(resourceName: "ic_iami_seeconv")
+        }
     }
 }

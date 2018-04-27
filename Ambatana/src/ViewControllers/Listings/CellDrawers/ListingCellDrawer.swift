@@ -8,7 +8,7 @@
 
 import LGCoreKit
 
-class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDrawer {
+final class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDrawer {
     
     private let featureFlags: FeatureFlags
     
@@ -41,7 +41,10 @@ class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDrawer {
         configDiscardedProduct(model, inCell: cell)
     }
     
-    func willDisplay(_ model: ListingData, inCell cell: ListingCell) { }
+    func willDisplay(_ model: ListingData, inCell cell: ListingCell) {
+        guard shouldShowInterestedButtonFor(model), let interestedState = model.interestedState else { return }
+        cell.setupWith(interestedState: interestedState)
+    }
     
     
     // MARK:- Private
@@ -84,6 +87,11 @@ class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDrawer {
                                                       title: model.title,
                                                       shouldShow: flag.showDetailInNormalCell)
         }
+    }
+
+    private func shouldShowInterestedButtonFor(_ model: ListingData) -> Bool {
+        let shouldShowDiscarded = featureFlags.discardedProducts.isActive && model.listing?.status.isDiscarded ?? false
+        return featureFlags.shouldShowIAmInterestedInFeed.isVisible && !shouldShowDiscarded
     }
     
     private func configDiscardedProduct(_ model: ListingData, inCell cell: ListingCell) {

@@ -641,6 +641,8 @@
 "product_favorite_direct_message" = "Tetszik! Megvan még?";
 "product_favorite_login_popup_text" = "A kedvencként jelöléshez be kell jelentkezned";
 "product_free_price" = "Ingyenes";
+"product_interested_bubble_message" = "We've let the seller know that you're interested in buying this";
+"product_interested_undo" = "Undo";
 "product_is_mine_share_body" = "Nézzétek, mit árulok a letgo piacán!";
 "product_is_mine_share_body_free" = "Nézzétek, mit szeretnék elajándékozni a letgo piacán!";
 "product_list_item_given_away_status_label" = "Már elajándékozták";
@@ -1039,6 +1041,15 @@
 "reset_password_send_ok" = "E-mailt küldtünk a következő címre: %@. A benne lévő linkre kattintva helyreállíthatod jelszavadat.";
 "reset_password_send_too_many_requests" = "Már küldtünk jelszó-helyreállítási e-mailt. Ellenőrizd postafiókodat, és kövesd az utasításokat!";
 "reset_password_title" = "Jelszóhelyreállítás";
+"search_alert_delete_error_message" = "Oops! An error occurred while deleting your search alert";
+"search_alert_disable_error_message" = "Oops! An error occurred while disabling your search alert";
+"search_alert_enable_error_message" = "Oops! An error occurred while enabling your search alert";
+"search_alerts_edit_button" = "Edit";
+"search_alerts_header_subtitle" = "Get notifications about new listings";
+"search_alerts_placeholder_empty_button" = "Start Searching";
+"search_alerts_placeholder_empty_text" = "Subscribe to searches to get notifications when new listings are posted.";
+"search_alerts_placeholder_error_button" = "Try Again";
+"search_alerts_placeholder_error_text" = "Oops! An error occurred while loading your search alerts";
 "sell_category_selection_label" = "Kategória";
 "sell_choose_category_dialog_cancel_button" = "Mégse";
 "sell_choose_category_dialog_title" = "Válassz kategóriát";
