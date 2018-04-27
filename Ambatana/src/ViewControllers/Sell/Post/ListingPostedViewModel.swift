@@ -259,7 +259,7 @@ class ListingPostedViewModel: BaseViewModel {
     private func postListing(_ images: [UIImage], params: ListingCreationParams) {
         delegate?.productPostedViewModelSetupLoadingState(self)
         
-        let shouldUseCarEndpoint = featureFlags.createUpdateIntoNewBackend.isActive && params.isCarParams
+        let shouldUseCarEndpoint = featureFlags.createUpdateIntoNewBackend.shouldUseCarEndpoint(with: params)
         let createAction = listingRepository.createAction(shouldUseCarEndpoint)
         
         fileRepository.upload(images, progress: nil) { [weak self] result in

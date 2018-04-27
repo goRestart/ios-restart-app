@@ -163,7 +163,9 @@ class ListingPostedDescriptiveViewModel: BaseViewModel, PostingCategoriesPickDel
                 productParams.descr = descriptionChanged ? listingDescription.value : nil
                 updatedParams = .product(productParams)
             }
-            listingRepository.update(listingParams: updatedParams, completion: nil)
+            let shouldUseCarEndpoint = featureFlags.createUpdateIntoNewBackend.shouldUseCarEndpoint(with: updatedParams)
+            let updateAction = listingRepository.updateAction(shouldUseCarEndpoint)
+            updateAction(updatedParams, nil)
         }
     }
 

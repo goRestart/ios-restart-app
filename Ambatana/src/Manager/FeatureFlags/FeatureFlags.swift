@@ -291,6 +291,13 @@ extension FilterSearchCarSellerType {
 
 extension CreateUpdateCarsIntoNewBackend {
     var isActive: Bool { return self != .baseline && self != .control }
+    
+    func shouldUseCarEndpoint(with params: ListingCreationParams) -> Bool {
+        return isActive && params.isCarParams
+    }
+    func shouldUseCarEndpoint(with params: ListingEditionParams) -> Bool {
+        return isActive && params.isCarParams
+    }
 }
 
 extension MachineLearningMVP {
@@ -1101,8 +1108,8 @@ extension FeatureFlags {
         if Bumper.enabled {
             return Bumper.createUpdateCarsIntoNewBackend
         }
-        return .control
         //  TODO: blocked - update when backend works
-        //  return CreateUpdateCarsIntoNewBackend.fromPosition(CreateUpdateCarsIntoNewBackend.control)
+        //  return CreateUpdateCarsIntoNewBackend.fromPosition(abTests.createUpdateCarsIntoNewBackend.value)
+        return .control
     }
 }

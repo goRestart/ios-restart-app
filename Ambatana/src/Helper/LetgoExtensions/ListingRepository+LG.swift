@@ -12,4 +12,8 @@ extension ListingRepository {
     func createAction(_ shouldUseCarEndpoint: Bool) -> ((ListingCreationParams, ListingCompletion?) -> ()) {
         return shouldUseCarEndpoint ?  createCar : create 
     }
+    
+    func updateAction(_ shouldUseCarEndpoint: Bool) -> ((ListingEditionParams, ListingCompletion?) -> ()) {
+        return shouldUseCarEndpoint ?  updateCar : update
+    }
 }

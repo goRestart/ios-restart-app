@@ -138,7 +138,7 @@ extension SellCoordinator: PostListingNavigator {
     func closePostProductAndPostInBackground(params: ListingCreationParams,
                                              trackingInfo: PostListingTrackingInfo) {
         
-        let shouldUseCarEndpoint = featureFlags.createUpdateIntoNewBackend.isActive && params.isCarParams
+        let shouldUseCarEndpoint = featureFlags.createUpdateIntoNewBackend.shouldUseCarEndpoint(with: params)
         let createAction = listingRepository.createAction(shouldUseCarEndpoint)
         
         dismissViewController(animated: true) { [weak self] in
@@ -156,6 +156,10 @@ extension SellCoordinator: PostListingNavigator {
                 }
             }
         }
+    }
+    
+    private static func shouldUseCarEndpoint() {
+        
     }
     
     func startDetails(postListingState: PostListingState, uploadedImageSource: EventParameterPictureSource?, postingSource: PostingSource, postListingBasicInfo: PostListingBasicDetailViewModel) {
