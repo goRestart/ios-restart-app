@@ -37,7 +37,7 @@ protocol Camera {
 
     var flashMode: CameraFlashState? { get set }
     var cameraPosition: CameraSource? { get set }
-    var cameraMode: CameraMode { get set }
+    var cameraMode: CameraMode { get }
     var isReady: Bool { get }
     var hasFlash: Bool { get }
     var hasFrontCamera: Bool { get }
@@ -47,6 +47,7 @@ protocol Camera {
 
     func pause()
     func resume()
+    func changeCamera(mode: CameraMode, completion: @escaping () -> Void)
     func addPreviewLayerTo(view: UIView)
     func capturePhoto(completion: @escaping CameraPhotoCompletion)
     func startRecordingVideo(maxRecordingDuration: TimeInterval, completion: @escaping CameraRecordingVideoCompletion)

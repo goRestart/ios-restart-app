@@ -78,6 +78,7 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
 
     let takePhotoEnabled = Variable<Bool>(true)
     let recordVideoEnabled = Variable<Bool>(true)
+    let isRecordingVideo = Variable<Bool>(false)
     let recordingDuration = Variable<TimeInterval>(0)
     fileprivate let disposeBag = DisposeBag()
     private var recordingDurationTimer: Timer?
@@ -127,11 +128,17 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
     }
 
     func setCameraModeToVideo() {
-        camera.cameraMode = .video
+        recordVideoEnabled.value = false
+        camera.changeCamera(mode: .video) { [weak self] in
+            self?.recordVideoEnabled.value = true
+        }
     }
 
     func setCameraModeToPhoto() {
-        camera.cameraMode = .photo
+        takePhotoEnabled.value = false
+        camera.changeCamera(mode: .photo) { [weak self] in
+            self?.takePhotoEnabled.value = true
+        }
     }
 
     func takePhoto() {
@@ -152,8 +159,8 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
 
     func recordVideo(maxDuration: TimeInterval) {
         hideFirstTimeAlert()
-        guard recordVideoEnabled.value, camera.isReady else { return }
-        recordVideoEnabled.value = false
+        guard camera.isReady, !camera.isRecording, !isRecordingVideo.value else { return }
+        isRecordingVideo.value = true
         startListeningVideoDuration()
         camera.startRecordingVideo(maxRecordingDuration: maxDuration) { [weak self] result in
             self?.stopListeningVideoDuration()
@@ -162,12 +169,12 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
             } else {
                 self?.viewModel.videoRecordingFailed()
             }
-            self?.recordVideoEnabled.value = true
+            self?.isRecordingVideo.value = false
         }
     }
 
     func stopRecordingVideo() {
-        guard camera.isRecording else { return }
+        
         camera.stopRecordingVideo()
     }
     
@@ -323,6 +330,10 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
                 self?.learnMoreButton.alpha = visible ? 1.0 : 0.0
                 self?.learnMoreChevron.alpha = visible ? 1.0 : 0.0
             })
+        }.disposed(by: disposeBag)
+
+        isRecordingVideo.asObservable().map{ $0 }.subscribeNext{ [weak self] _ in
+            self?.recordVideoEnabled.value = false
         }.disposed(by: disposeBag)
     }
 
