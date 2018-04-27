@@ -159,7 +159,7 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
 
     func recordVideo(maxDuration: TimeInterval) {
         hideFirstTimeAlert()
-        guard camera.isReady, !camera.isRecording, !isRecordingVideo.value else { return }
+        guard camera.isReady, !camera.isRecording else { return }
         isRecordingVideo.value = true
         startListeningVideoDuration()
         camera.startRecordingVideo(maxRecordingDuration: maxDuration) { [weak self] result in
@@ -174,7 +174,6 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
     }
 
     func stopRecordingVideo() {
-        
         camera.stopRecordingVideo()
     }
     
