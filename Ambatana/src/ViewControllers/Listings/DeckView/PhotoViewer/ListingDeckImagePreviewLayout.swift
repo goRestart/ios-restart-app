@@ -12,7 +12,9 @@ final class ListingDeckImagePreviewLayout: UICollectionViewFlowLayout {
 
     private var cellSize: CGSize { return collectionView?.bounds.size ?? CGSize(width: 40, height: 80) }
     private var contentOffset: CGPoint { return collectionView?.contentOffset ?? .zero }
-    var currentPage: Int { return Int(contentOffset.x / cellSize.width) }
+    var currentPage: Int {
+        return cellSize.width>0 ? Int(contentOffset.x / cellSize.width) : 0
+    }
 
     override init() {
         super.init()

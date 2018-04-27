@@ -85,6 +85,13 @@ final class PhotoViewerView: UIView, PhotoViewerViewType, PhotoViewerBinderViewT
     func previewCellAt(_ index: Int) -> ListingDeckImagePreviewCell? {
         return collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? ListingDeckImagePreviewCell
     }
+    
+    func resumeVideoCurrentPage() {
+        if let cell = collectionView.cellForItem(at: IndexPath(item: currentPage, section: 0))
+            as? ListingDeckVideoCell {
+            cell.resume()
+        }
+    }
 
     @objc private func didTapCollectionView() {
         tapControlEvents.value = .touchUpInside

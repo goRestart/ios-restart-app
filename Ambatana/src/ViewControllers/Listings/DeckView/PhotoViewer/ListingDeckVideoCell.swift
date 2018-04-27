@@ -87,6 +87,10 @@ final class ListingDeckVideoCell: UICollectionViewCell, ReusableCell {
             self?.videoPreviewView.alphaAnimated(1)
         })
     }
+    
+    func resume() {
+        videoPreviewView.play()
+    }
 
     private func setupBlur() {
         contentView.addSubviewsForAutoLayout([blurred, effectView])

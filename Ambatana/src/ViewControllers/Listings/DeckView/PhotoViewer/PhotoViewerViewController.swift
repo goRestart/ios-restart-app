@@ -46,7 +46,7 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
         super.viewDidAppear(animated)
         setNeedsStatusBarAppearanceUpdate()
     }
-
+    
     private func setupUI() {
         setupViewExtendedEdges()
         setupPhotoViewer()
@@ -121,6 +121,9 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
         setupNavigationBar()
+        if viewModel.mediaAtIndexIsPlayable(photoViewer.currentPage) {
+            photoViewer.resumeVideoCurrentPage()
+        }
     }
 
     override func viewDidDisappear(_ animated: Bool) {
