@@ -26,10 +26,15 @@ class ProductVMTrackHelper {
 
 extension ListingViewModel {
 
-    func trackVisit(_ visitUserAction: ListingVisitUserAction, source: EventParameterListingVisitSource, feedPosition: EventParameterFeedPosition) {
+    func trackVisit(_ visitUserAction: ListingVisitUserAction,
+                    source: EventParameterListingVisitSource,
+                    feedPosition: EventParameterFeedPosition) {
         let isBumpedUp = isShowingFeaturedStripe.value ? EventParameterBoolean.trueParameter :
                                                    EventParameterBoolean.falseParameter
-        trackHelper.trackVisit(visitUserAction, source: source, feedPosition: feedPosition, isShowingFeaturedStripe: isBumpedUp)
+        let badge = seller.value?.reputationBadge ?? .noBadge
+        let sellerBadge = EventParameterUserBadge(userBadge: badge)
+        trackHelper.trackVisit(visitUserAction, source: source, feedPosition: feedPosition,
+                               isShowingFeaturedStripe: isBumpedUp, sellerBadge: sellerBadge)
     }
 
     func trackVisitMoreInfo(isMine: EventParameterBoolean,
@@ -267,12 +272,14 @@ extension ProductVMTrackHelper {
     func trackVisit(_ visitUserAction: ListingVisitUserAction,
                     source: EventParameterListingVisitSource,
                     feedPosition: EventParameterFeedPosition,
-                    isShowingFeaturedStripe: EventParameterBoolean) {
+                    isShowingFeaturedStripe: EventParameterBoolean,
+                    sellerBadge: EventParameterUserBadge) {
         let trackerEvent = TrackerEvent.listingDetailVisit(listing,
                                                            visitUserAction: visitUserAction,
                                                            source: source,
                                                            feedPosition: feedPosition,
-                                                           isBumpedUp: isShowingFeaturedStripe)
+                                                           isBumpedUp: isShowingFeaturedStripe,
+                                                           sellerBadge: sellerBadge)
         tracker.trackEvent(trackerEvent)
     }
 
@@ -382,10 +389,12 @@ extension ProductVMTrackHelper {
                           messageType: ChatWrapperMessageType,
                           isShowingFeaturedStripe: Bool,
                           listingVisitSource: EventParameterListingVisitSource,
-                          feedPosition: EventParameterFeedPosition) {
+                          feedPosition: EventParameterFeedPosition,
+                          sellerBadge: EventParameterUserBadge) {
         guard let info = buildSendMessageInfo(withType: messageType,
                                               isShowingFeaturedStripe: isShowingFeaturedStripe,
                                               error: nil) else { return }
+
         if isFirstMessage {
             tracker.trackEvent(TrackerEvent.firstMessage(info: info,
                                                          listingVisitSource: listingVisitSource,

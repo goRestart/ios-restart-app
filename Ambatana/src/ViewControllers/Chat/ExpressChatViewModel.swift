@@ -183,6 +183,7 @@ extension ExpressChatViewModel {
                                               freePostingModeAllowed: freePostingModeAllowed,
                                               containsEmoji: containsEmoji,
                                               error: nil) else { return }
+
         if shouldSendAskQuestion {
             tracker.trackEvent(TrackerEvent.firstMessage(info: info,
                                                          listingVisitSource: .unknown,

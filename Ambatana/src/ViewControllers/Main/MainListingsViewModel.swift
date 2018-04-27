@@ -40,7 +40,7 @@ struct SuggestiveSearchInfo {
     var count: Int {
         return suggestiveSearches.count
     }
-    
+	
     static func empty() -> SuggestiveSearchInfo {
         return SuggestiveSearchInfo(suggestiveSearches: [],
                                     sourceText: "")
@@ -1040,7 +1040,13 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         if lastAdPosition == 0 {
             adPosition = MainListingsViewModel.adInFeedInitialPosition
         } else {
-            adPosition = lastAdPosition + MainListingsViewModel.adsInFeedRatio
+            let ratio: Int
+            if featureFlags.showAdsInFeedWithRatio.isActive {
+                ratio = featureFlags.showAdsInFeedWithRatio.ratio
+            } else {
+                ratio = MainListingsViewModel.adsInFeedRatio
+            }
+            adPosition = lastAdPosition + ratio
         }
         return adPosition
     }
@@ -1228,18 +1234,10 @@ extension MainListingsViewModel {
     
     private func retrieveSuggestiveSearches(term: String) {
         guard let languageCode = Locale.current.languageCode else { return }
-        
-        let shouldIncludeCategories: Bool
-        switch featureFlags.searchAutocomplete {
-        case .baseline, .control:
-            shouldIncludeCategories = false
-        case .withCategories:
-            shouldIncludeCategories = true
-        }
+		
         searchRepository.retrieveSuggestiveSearches(language: languageCode,
                                                     limit: Constants.listingsSearchSuggestionsMaxResults,
-                                                    term: term,
-                                                    shouldIncludeCategories: shouldIncludeCategories) { [weak self] result in
+                                                    term: term) { [weak self] result in
             // prevent showing results when deleting the search text
             guard let sourceText = self?.searchText.value else { return }
             self?.suggestiveSearchInfo.value = SuggestiveSearchInfo(suggestiveSearches: result.value ?? [],

@@ -42,6 +42,7 @@ final class LeanplumTracker: Tracker {
     private static let userPropCityKey = "user-city"
     private static let userPropCountryKey = "user-country-code"
     private static let userPropPublicUsernameKey = "user-public-username"
+    private static let userPropReputationBadge = "reputation-badge"
 
     private static let userPropInstallationIdKey = "installation-id"
     private static let userPropLoggedIn = "logged-in"
@@ -98,6 +99,7 @@ final class LeanplumTracker: Tracker {
         userAttributes[LeanplumTracker.userPropCityKey] = user?.postalAddress.city
         userAttributes[LeanplumTracker.userPropCountryKey] = user?.postalAddress.countryCode
         userAttributes[LeanplumTracker.userPropLoggedIn] = user != nil
+        userAttributes[LeanplumTracker.userPropReputationBadge] = user?.reputationBadge.rawValue ?? ""
         Leanplum.setUserAttributes(userAttributes)
     }
 

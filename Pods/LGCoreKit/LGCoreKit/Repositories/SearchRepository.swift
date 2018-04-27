@@ -20,6 +20,5 @@ public protocol SearchRepository {
     func retrieveSuggestiveSearches(language: String,
                                     limit: Int,
                                     term: String,
-                                    shouldIncludeCategories: Bool,
                                     completion: SuggestiveSearchesCompletion?)
 }

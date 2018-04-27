@@ -94,7 +94,7 @@ platform :ios do
     build_number = Actions.lane_context[SharedValues::RB_BUILD_NUMBER]
     repository_path = Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER]
 
-    badge(shield: "#{version_number}-#{build_number}-blue", no_badge: true)
+    add_version_badge version_number:version_number, build_number:build_number
 
     gym(
       workspace: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] + "/" + ENV["XCODE_WORKSPACE"],
@@ -143,9 +143,10 @@ platform :ios do
 
     version_number = Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER]
     build_number = Actions.lane_context[SharedValues::RB_BUILD_NUMBER]
+ 
+    add_version_badge version_number:version_number, build_number:build_number
 
-    badge(shield: "#{version_number}-#{build_number}-blue", no_badge: true)
-
+    add_badge(shield: "#{version_number}-#{build_number}-blue", dark: true, shield_geometry: "+0+25%", shield_scale: 0.75)
     gym(
       workspace: ENV["XCODE_WORKSPACE"],
       output_directory: "./",
@@ -294,6 +295,10 @@ platform :ios do
     )
   end
 
+  private_lane :add_version_badge do |options|     
+     add_badge(shield: "#{options[:version_number]}-#{options[:build_number]}-blue", dark: true, shield_gravity: "South", no_badge: true)
+  end
+
   desc "Will generate BumperFlags.switf based on the sources json"
   lane :bumper do
     lg_bumper(
@@ -310,6 +315,7 @@ platform :ios do
       output_style: "rspec",
       output_directory: "./scanresults",
       output_types: "junit,html",
+      clean: true,
       skip_slack: true,
       code_coverage: true
       )
@@ -323,6 +329,7 @@ platform :ios do
       output_style: "rspec",
       output_directory: "./scanresults",
       output_types: "junit,html",
+      clean: true,
       skip_slack: true,
       code_coverage: true
       )

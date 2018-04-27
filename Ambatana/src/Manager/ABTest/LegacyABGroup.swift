@@ -21,7 +21,6 @@ struct LegacyABGroup: ABGroupType {
         static let userReviewsReportEnabled = "20170823userReviewsReportEnabled"
         static let appRatingDialogInactive = "20170831AppRatingDialogInactive"
         static let locationDataSourceType = "20170830LocationDataSourceType"
-        static let searchAutocomplete = "20170914SearchAutocomplete"
         static let realEstateEnabled = "20171228realEstateEnabled"
         static let requestTimeOut = "20170929RequestTimeOut"
         static let deckItemPage = "20180403NewItemPage"
@@ -45,7 +44,6 @@ struct LegacyABGroup: ABGroupType {
     let userReviewsReportEnabled: LeanplumABVariable<Bool>
     let appRatingDialogInactive: LeanplumABVariable<Bool>
     let locationDataSourceType: LeanplumABVariable<Int>
-    let searchAutocomplete: LeanplumABVariable<Int>
     let realEstateEnabled: LeanplumABVariable<Int>
     let requestsTimeOut: LeanplumABVariable<Int>
     let newItemPage: LeanplumABVariable<Int>
@@ -74,7 +72,6 @@ struct LegacyABGroup: ABGroupType {
          userReviewsReportEnabled: LeanplumABVariable<Bool>,
          appRatingDialogInactive: LeanplumABVariable<Bool>,
          locationDataSourceType: LeanplumABVariable<Int>,
-         searchAutocomplete: LeanplumABVariable<Int>,
          realEstateEnabled: LeanplumABVariable<Int>,
          requestsTimeOut: LeanplumABVariable<Int>,
          newItemPage: LeanplumABVariable<Int>,
@@ -96,7 +93,6 @@ struct LegacyABGroup: ABGroupType {
         self.userReviewsReportEnabled = userReviewsReportEnabled
         self.appRatingDialogInactive = appRatingDialogInactive
         self.locationDataSourceType = locationDataSourceType
-        self.searchAutocomplete = searchAutocomplete
         self.realEstateEnabled = realEstateEnabled
         self.requestsTimeOut = requestsTimeOut
         self.newItemPage = newItemPage
@@ -109,7 +105,6 @@ struct LegacyABGroup: ABGroupType {
         
         intVariables.append(contentsOf: [marketingPush,
                                          locationDataSourceType,
-                                         searchAutocomplete,
                                          realEstateEnabled,
                                          requestsTimeOut,
                                          newItemPage,
@@ -138,7 +133,6 @@ struct LegacyABGroup: ABGroupType {
                              userReviewsReportEnabled: .makeBool(key: Keys.userReviewsReportEnabled, defaultValue: true, groupType: .legacyABTests),
                              appRatingDialogInactive: .makeBool(key: Keys.appRatingDialogInactive, defaultValue: false, groupType: .legacyABTests),
                              locationDataSourceType: .makeInt(key: Keys.locationDataSourceType, defaultValue: 0, groupType: .legacyABTests),
-                             searchAutocomplete: .makeInt(key: Keys.searchAutocomplete, defaultValue: 0, groupType: .legacyABTests),
                              realEstateEnabled: .makeInt(key: Keys.realEstateEnabled, defaultValue: 0, groupType: .legacyABTests),
                              requestsTimeOut: .makeInt(key: Keys.requestTimeOut, defaultValue: 30, groupType: .legacyABTests),
                              newItemPage: .makeInt(key: Keys.deckItemPage, defaultValue: 0, groupType: .legacyABTests),

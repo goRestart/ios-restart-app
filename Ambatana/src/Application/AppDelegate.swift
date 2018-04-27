@@ -20,7 +20,6 @@ import LGCoreKit
 import RxSwift
 import UIKit
 
-
 @UIApplicationMain
 final class AppDelegate: UIResponder {
     var window: UIWindow?
@@ -42,6 +41,8 @@ final class AppDelegate: UIResponder {
     fileprivate let appIsActive = Variable<Bool?>(nil)
     fileprivate var didOpenApp = false
     fileprivate let disposeBag = DisposeBag()
+    fileprivate let backgroundLocationTimeout: Double = 20
+    fileprivate let emergencyLocateKey = "emergency-locate"
 }
 
 
@@ -68,7 +69,7 @@ extension AppDelegate: UIApplicationDelegate {
         self.locationRepository = Core.locationRepository
         self.sessionManager = Core.sessionManager
         self.configManager = LGConfigManager.sharedInstance
-
+        self.locationManager?.shouldAskForBackgroundLocationPermission = featureFlags.emergencyLocate.isActive
         let keyValueStorage = KeyValueStorage.sharedInstance
         let versionChecker = VersionChecker.sharedInstance
 
@@ -144,6 +145,7 @@ extension AppDelegate: UIApplicationDelegate {
         LGCoreKit.applicationDidEnterBackground()
         listingRepository?.updateListingViewCounts()
         TrackerProxy.sharedInstance.applicationDidEnterBackground(application)
+        locationManager?.stopSensorLocationUpdates()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -195,8 +197,15 @@ extension AppDelegate: UIApplicationDelegate {
         PushManager.sharedInstance.application(application, didFailToRegisterForRemoteNotificationsWithError: error)
     }
 
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
-        PushManager.sharedInstance.application(application, didReceiveRemoteNotification: userInfo)
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any],
+                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+
+        let emergency = userInfo[emergencyLocateKey] as? Int
+        if let _ = emergency {
+            startEmergencyLocate { completionHandler(.noData) }
+        } else {
+            PushManager.sharedInstance.application(application, didReceiveRemoteNotification: userInfo)
+        }
     }
 
     func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification
@@ -209,6 +218,14 @@ extension AppDelegate: UIApplicationDelegate {
 
     func application(_ application: UIApplication, didRegister notificationSettings: UIUserNotificationSettings) {
         PushManager.sharedInstance.application(application, didRegisterUserNotificationSettings: notificationSettings)
+    }
+
+    func startEmergencyLocate(completion: @escaping () -> Void) {
+        self.locationRepository?.startEmergencyLocation()
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + backgroundLocationTimeout, execute: {
+            self.locationRepository?.stopEmergencyLocation()
+            completion()
+        })
     }
 }
 
@@ -354,6 +371,15 @@ fileprivate extension AppDelegate {
                     }
                 }.disposed(by: disposeBag)
         }
+
+        self.locationManager?
+            .locationEvents.filter{ $0 == LocationEvent.emergencyLocationUpdate }
+            .subscribeNext(onNext: { [weak self] event in
+                let user = Core.myUserRepository.myUser
+                TrackerProxy.sharedInstance.trackEvent(TrackerEvent.searchStart(user))
+                self?.locationRepository?.stopEmergencyLocation()
+            })
+            .disposed(by: disposeBag)
     }
 }
 

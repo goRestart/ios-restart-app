@@ -15,6 +15,7 @@ public class LGLocationRepository: LocationRepository {
     let niordLocationDataSource: LocationDataSource
     let ipLookupDataSource: IPLookupDataSource
     var clLocationManager: CLLocationManagerProtocol
+    public var emergencyIsActive: Bool = false
     
     // MARK: - Lifecycle
 
@@ -38,7 +39,7 @@ public class LGLocationRepository: LocationRepository {
             clLocationManager.distanceFilter = newValue
         }
     }
-    public var accuracy: CLLocationDistance {
+    public var accuracy: CLLocationAccuracy {
         get {
             return clLocationManager.desiredAccuracy
         }
@@ -78,6 +79,20 @@ public class LGLocationRepository: LocationRepository {
     
     public func stopUpdatingLocation() {
         clLocationManager.stopUpdatingLocation()
+    }
+
+    public func startEmergencyLocation() {
+        emergencyIsActive = true
+        clLocationManager.allowsBackgroundLocationUpdates  = true
+        clLocationManager.desiredAccuracy = kCLLocationAccuracyBest
+        clLocationManager.startUpdatingLocation()
+    }
+
+    public func stopEmergencyLocation() {
+        clLocationManager.allowsBackgroundLocationUpdates = false
+        clLocationManager.desiredAccuracy = LGCoreKitConstants.locationDesiredAccuracy
+        clLocationManager.stopUpdatingLocation()
+        emergencyIsActive = false
     }
     
     public func retrieveLocationSuggestions(addressString: String,

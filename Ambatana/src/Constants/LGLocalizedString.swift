@@ -7,10 +7,6 @@
 //
 
 struct LGLocalizedString {
-	static func accountDeactivatedWName(_ var1: String) -> String {
-		return String(format: NSLocalizedString("account_deactivated_w_name", comment: ""), var1)
-	}
-
 	static var accountPendingModeration: String {
 		return NSLocalizedString("account_pending_moderation", comment: "")
 	}
@@ -49,10 +45,6 @@ struct LGLocalizedString {
 
 	static var appShareWhatsappButton: String {
 		return NSLocalizedString("app_share_whatsapp_button", comment: "")
-	}
-
-	static var appShareSuccess: String {
-		return NSLocalizedString("app_share_success", comment: "")
 	}
 
 	static var appNotificationReply: String {
@@ -1421,10 +1413,6 @@ struct LGLocalizedString {
 
 	static var editProductUnsavedChangesAlertOk: String {
 		return NSLocalizedString("edit_product_unsaved_changes_alert_ok", comment: "")
-	}
-
-	static var editProductFeatureLabelShortText: String {
-		return NSLocalizedString("edit_product_feature_label_short_text", comment: "")
 	}
 
 	static var editProductFeatureLabelLongText: String {
@@ -4385,6 +4373,14 @@ struct LGLocalizedString {
 
 	static var settingsNotificationsSearchAlerts: String {
 		return NSLocalizedString("settings_notifications_search_alerts", comment: "")
+	}
+
+	static var searchAlertsListTitle: String {
+		return NSLocalizedString("search_alerts_list_title", comment: "")
+	}
+
+	static var searchAlertsEditButton: String {
+		return NSLocalizedString("search_alerts_edit_button", comment: "")
 	}
 
 	static var signUpAcceptanceError: String {
