@@ -35,7 +35,15 @@ final class LGCamera: Camera {
         set { if let source = newValue { changeToCamera(source: source) } }
     }
 
-    private(set) var cameraMode: CameraMode = .photo
+    var cameraMode: CameraMode = .photo {
+        didSet {
+            sessionQueue.async {
+                self.session.beginConfiguration()
+                self.configureOutputs()
+                self.session.commitConfiguration()
+            }
+        }
+    }
 
     var isReady: Bool {
         return isSetup && session.isRunning
@@ -88,16 +96,6 @@ final class LGCamera: Camera {
             setup()
         } else if !session.isRunning {
             session.startRunning()
-        }
-    }
-
-    func changeCamera(mode: CameraMode, completion: @escaping () -> Void) {
-        cameraMode = mode
-        sessionQueue.async {
-            self.session.beginConfiguration()
-            self.configureOutputs()
-            self.session.commitConfiguration()
-            DispatchQueue.main.async { completion() }
         }
     }
 

@@ -194,10 +194,9 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
 
     @objc func cameraButtonTouchDown() {
         if viewPager.currentPage == Tab.camera.index {
-            if self.viewModel.postListingCameraViewModel.cameraMode.value == .video {
+            if viewModel.postListingCameraViewModel.cameraMode.value == .video {
                 viewPager.scrollEnabled = false
                 cameraView.recordVideo(maxDuration: PostListingViewModel.videoMaxDuration)
-                footer.startRecording()
             } else {
                 cameraView.takePhoto()
             }
@@ -211,7 +210,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
             guard self.viewModel.postListingCameraViewModel.cameraMode.value == .video else { return }
             cameraView.stopRecordingVideo()
             footer.stopRecording()
-            viewPager.scrollEnabled = false
+            viewPager.scrollEnabled = true
         } else {
             viewPager.selectTabAtIndex(Tab.camera.index, animated: true)
         }
@@ -437,11 +436,12 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
             self?.footer.updateVideoRecordingDurationProgress(progress: progress, remainingTime: remainingTime)
         }.disposed(by: disposeBag)
 
-        cameraView.isRecordingVideo.asObservable().subscribeNext{ [weak self] isRecordingVideo in
+        cameraView.isRecordingVideo.asDriver().drive(onNext: { [weak self] isRecordingVideo in
             self?.footer.photoButton.isHidden = isRecordingVideo
             self?.footer.videoButton.isHidden = isRecordingVideo
             self?.footer.galleryButton.isHidden = isRecordingVideo
-        }.disposed(by: disposeBag)
+            isRecordingVideo ? self?.footer.startRecording() : self?.footer.stopRecording()
+        }).disposed(by: disposeBag)
     }
 
     private func setupRx() {

@@ -77,7 +77,6 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
     private var headerShown = true
 
     let takePhotoEnabled = Variable<Bool>(true)
-    let recordVideoEnabled = Variable<Bool>(true)
     let isRecordingVideo = Variable<Bool>(false)
     let recordingDuration = Variable<TimeInterval>(0)
     fileprivate let disposeBag = DisposeBag()
@@ -128,17 +127,11 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
     }
 
     func setCameraModeToVideo() {
-        recordVideoEnabled.value = false
-        camera.changeCamera(mode: .video) { [weak self] in
-            self?.recordVideoEnabled.value = true
-        }
+        camera.cameraMode = .video
     }
 
     func setCameraModeToPhoto() {
-        takePhotoEnabled.value = false
-        camera.changeCamera(mode: .photo) { [weak self] in
-            self?.takePhotoEnabled.value = true
-        }
+        camera.cameraMode = .photo
     }
 
     func takePhoto() {
@@ -159,7 +152,7 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
 
     func recordVideo(maxDuration: TimeInterval) {
         hideFirstTimeAlert()
-        guard camera.isReady, !camera.isRecording else { return }
+        guard camera.isReady, !camera.isRecording, !isRecordingVideo.value else { return }
         isRecordingVideo.value = true
         startListeningVideoDuration()
         camera.startRecordingVideo(maxRecordingDuration: maxDuration) { [weak self] result in
@@ -329,10 +322,6 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
                 self?.learnMoreButton.alpha = visible ? 1.0 : 0.0
                 self?.learnMoreChevron.alpha = visible ? 1.0 : 0.0
             })
-        }.disposed(by: disposeBag)
-
-        isRecordingVideo.asObservable().map{ $0 }.subscribeNext{ [weak self] _ in
-            self?.recordVideoEnabled.value = false
         }.disposed(by: disposeBag)
     }
 
