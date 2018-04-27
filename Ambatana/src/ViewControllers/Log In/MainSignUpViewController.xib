@@ -215,6 +215,9 @@
                                 <constraint firstAttribute="height" constant="50" id="ntU-yJ-FzW"/>
                             </constraints>
                             <state key="normal" title="_Continue With Email"/>
+                            <connections>
+                                <action selector="continueWithEmailButtonPressed:" destination="-1" eventType="touchUpInside" id="n7o-8Y-A8J"/>
+                            </connections>
                         </button>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_passwordless_email" translatesAutoresizingMaskIntoConstraints="NO" id="Ma4-Zf-So8">
                             <rect key="frame" x="25" y="222.5" width="30" height="30"/>

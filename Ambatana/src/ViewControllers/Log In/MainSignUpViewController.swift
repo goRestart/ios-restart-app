@@ -127,7 +127,10 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
     @IBAction func logInButtonPressed(_ sender: AnyObject) {
         viewModel.logInButtonPressed()
     }
-    
+
+    @IBAction func continueWithEmailButtonPressed(_ sender: AnyObject) {
+        // navigate to login passwordless
+    }
     
     // MARK: UITextViewDelegate
     
