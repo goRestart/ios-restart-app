@@ -510,9 +510,10 @@ class VideoRecorder : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
 
     public func stopRecording() {
 
-        guard let completion = completion else { return }
         guard isRecording else {
-            completion(CameraRecordingVideoResult(error: .internalError(message: "Not recording")))
+            DispatchQueue.main.async {
+                self.completion?(CameraRecordingVideoResult(error: .internalError(message: "Not recording")))
+            }
             return
         }
 
@@ -522,7 +523,9 @@ class VideoRecorder : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
         recordingDuration = 0
 
         guard let fileWriter = self.fileWriter else {
-            completion(CameraRecordingVideoResult(error: .internalError(message: "filewritter == nil")))
+            DispatchQueue.main.async {
+                self.completion?(CameraRecordingVideoResult(error: .internalError(message: "filewritter == nil")))
+            }
             return
         }
 
@@ -530,7 +533,7 @@ class VideoRecorder : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
 
             if fileWriter.status != .writing {
                 DispatchQueue.main.async {
-                    completion(CameraRecordingVideoResult(error: .internalError(message: "Video file writer error")))
+                    self.completion?(CameraRecordingVideoResult(error: .internalError(message: "Video file writer error")))
                 }
             } else {
                 self.videoInput?.markAsFinished()
@@ -543,7 +546,7 @@ class VideoRecorder : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
                     } catch let error {
                         result = CameraRecordingVideoResult(error: .frameworkError(error: error))
                     }
-                    DispatchQueue.main.async { completion(result) }
+                    DispatchQueue.main.async { self.completion?(result) }
                 }
             }
         }
@@ -552,7 +555,22 @@ class VideoRecorder : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     func captureOutput(_ output: AVCaptureOutput,
                        didOutput sampleBuffer: CMSampleBuffer,
                        from connection: AVCaptureConnection) {
-        guard let fileWriter = fileWriter, let videoInput = videoInput, isRecording, CMSampleBufferDataIsReady(sampleBuffer) else { return }
+
+        guard isRecording else {
+            videoOutput.setSampleBufferDelegate(nil, queue: nil)
+            DispatchQueue.main.async {
+                self.completion?(CameraRecordingVideoResult(error: .internalError(message: "SampleBuffer received but not recording")))
+            }
+            return
+        }
+        guard let fileWriter = fileWriter, let videoInput = videoInput else {
+            DispatchQueue.main.async {
+                self.completion?(CameraRecordingVideoResult(error: .internalError(message: "filewriter or videoInput == nil")))
+            }
+            return
+        }
+
+        guard CMSampleBufferDataIsReady(sampleBuffer) else { return }
 
         let bufferTimeStamp = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
 
