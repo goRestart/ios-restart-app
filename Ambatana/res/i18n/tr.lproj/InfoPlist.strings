@@ -1,6 +1,6 @@
 "NSCameraUsageDescription" = "Satmak istediğin şeyin fotoğrafını çekmek için kameran kullanılacaktır.";
-"NSLocationAlwaysAndWhenInUseUsageDescription" = "letgo will use your location to show you nearby deals and suggest meeting places";
-"NSLocationAlwaysUsageDescription" = "letgo will use your location to show you nearby deals and suggest meeting places";
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "letgo yakınındaki fırsatları sana göstermek ve buluşma noktaları önermek için konumunu kullanacaktır";
+"NSLocationAlwaysUsageDescription" = "letgo yakınındaki fırsatları sana göstermek ve buluşma noktaları önermek için konumunu kullanacaktır";
 "NSLocationWhenInUseUsageDescription" = "letgo'nun yakınındaki ürünleri gösterebilmesi için, bulunduğun konum bilgisine ulaşması gerekir";
 "NSPhotoLibraryAddUsageDescription" = "Satmak istediğin şeyin resmini fotoğraf albümlerindeki tüm resimler arasından seçebilmen için, fotoğraf galerin kullanılacaktır.";
 "NSPhotoLibraryUsageDescription" = "Satmak istediğin şeyin resmini fotoğraf albümlerindeki tüm resimler arasından seçebilmen için, fotoğraf galerin kullanılacaktır.";
