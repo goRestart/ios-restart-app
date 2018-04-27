@@ -25,6 +25,7 @@
                 <outlet property="connectGoogleButton" destination="wSs-Xo-ka9" id="RoN-dD-02Z"/>
                 <outlet property="continueWithEmailButton" destination="9zN-BQ-beT" id="NYj-ig-vAF"/>
                 <outlet property="dividerView" destination="wq5-H6-G0r" id="1i5-fQ-5fR"/>
+                <outlet property="emailImageView" destination="Ma4-Zf-So8" id="pfe-qY-oNi"/>
                 <outlet property="facebookButtonTopMarginConstraint" destination="nXG-fw-CGk" id="uu6-Xv-ows"/>
                 <outlet property="firstDividerView" destination="IWB-RR-HxV" id="XYt-yq-ihJ"/>
                 <outlet property="googleButtonTopMarginConstraint" destination="iUu-ui-Flj" id="MSi-BD-eRy"/>

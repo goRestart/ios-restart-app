@@ -71,6 +71,7 @@ protocol FeatureFlaggeable: class {
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem { get }
     var emergencyLocate: EmergencyLocate { get }
     var showExactLocationForPros: Bool { get }
+    var showPasswordlessLogin: ShowPasswordlessLogin { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }

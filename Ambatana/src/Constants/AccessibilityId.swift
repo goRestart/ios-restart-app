@@ -353,6 +353,7 @@ enum AccessibilityId: Equatable {
     case mainSignupLogInButton
     case mainSignupCloseButton
     case mainSignupHelpButton
+    case mainSignupContinueWithEmailButton
 
     // SignUpLogin
     case signUpLoginFacebookButton
@@ -1369,6 +1370,9 @@ enum AccessibilityId: Equatable {
             return "mainSignupCloseButton"
         case .mainSignupHelpButton:
             return "mainSignupHelpButton"
+        case .mainSignupContinueWithEmailButton:
+            return "mainSignupContinueWithEmailButton"
+            
             
         // SignUpLogin
         case .signUpLoginFacebookButton:
