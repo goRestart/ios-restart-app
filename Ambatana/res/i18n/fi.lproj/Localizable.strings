@@ -1041,9 +1041,9 @@
 "reset_password_send_ok" = "Olemme lähettäneet sähköpostia osoitteeseen %@. Klikkaa sähköpostissa olevaa linkkiä vaihtaaksesi salasanasi!";
 "reset_password_send_too_many_requests" = "Olemme lähettäneet sinulle jo sähköpostin salasanan nollaamiseksi. Ole hyvä ja tarkista sähköpostisi ja seuraa siinä olevia ohjeita.";
 "reset_password_title" = "Nollaa salasana";
-"search_alert_delete_error_message" = "Oops! An error occurred while deleting your search alert";
-"search_alert_disable_error_message" = "Oops! An error occurred while disabling your search alert";
-"search_alert_enable_error_message" = "Oops! An error occurred while enabling your search alert";
+"search_alert_delete_error_message" = "Hups! Hakuvahtiasi poistettaessa tapahtui virhe";
+"search_alert_disable_error_message" = "Hups! Kun hakuvahtiasi otettiin pois käytöstä, tapahtui virhe";
+"search_alert_enable_error_message" = "Hups! Hakuvahtiasi aktivoitaessa tapahtui virhe";
 "search_alerts_edit_button" = "Muokkaa";
 "search_alerts_header_subtitle" = "Saa ilmoituksia uusista ilmoituksista";
 "search_alerts_placeholder_empty_button" = "Aloita haku";

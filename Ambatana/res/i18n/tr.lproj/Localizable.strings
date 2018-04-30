@@ -1041,9 +1041,9 @@
 "reset_password_send_ok" = "%@ adresine bir e-posta gönderdik. Şifreni yenilemek için e-postana gönderilen bağlantıya tıkla.";
 "reset_password_send_too_many_requests" = "Şifreni yenilemen için sana bir e-posta gönderdik. Lütfen e-postanı kontrol edip açıklamaları uygula.";
 "reset_password_title" = "Şifreyi yenile";
-"search_alert_delete_error_message" = "Oops! An error occurred while deleting your search alert";
-"search_alert_disable_error_message" = "Oops! An error occurred while disabling your search alert";
-"search_alert_enable_error_message" = "Oops! An error occurred while enabling your search alert";
+"search_alert_delete_error_message" = "Oops! Arama alarmın silinirken bir hata oluştu";
+"search_alert_disable_error_message" = "Oops! Arama alarmın devre dışı bırakılırken bir hata oluştu";
+"search_alert_enable_error_message" = "Oops! Arama alarmına izin verilirken bir hata oluştu";
 "search_alerts_edit_button" = "Düzelt";
 "search_alerts_header_subtitle" = "Yeni ilanlarla ilgili bildirim al";
 "search_alerts_placeholder_empty_button" = "Aramaya Başla";

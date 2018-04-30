@@ -1041,9 +1041,9 @@
 "reset_password_send_ok" = "Nous avons envoyé un courriel à %@. Veuillez cliquer sur le lien dans le courriel pour réinitialiser votre mot de passe !";
 "reset_password_send_too_many_requests" = "Nous vous avons déjà envoyé un courriel de réinitialisation de mot de passe. Veuillez vérifier vos courriels et suivre les instructions.";
 "reset_password_title" = "Réinitialiser le mot de passe";
-"search_alert_delete_error_message" = "Oops! An error occurred while deleting your search alert";
-"search_alert_disable_error_message" = "Oops! An error occurred while disabling your search alert";
-"search_alert_enable_error_message" = "Oops! An error occurred while enabling your search alert";
+"search_alert_delete_error_message" = "Oups ! Une erreur est survenue au moment de supprimer votre alerte de recherche";
+"search_alert_disable_error_message" = "Oups ! Une erreur est survenue au moment de désactiver votre alerte de recherche";
+"search_alert_enable_error_message" = "Oups ! Une erreur est survenue au moment d'activer votre alerte de recherche";
 "search_alerts_edit_button" = "Modifier";
 "search_alerts_header_subtitle" = "Recevez des notifications à propos des nouvelles annonces";
 "search_alerts_placeholder_empty_button" = "Commencer à Chercher";

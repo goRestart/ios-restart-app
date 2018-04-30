@@ -1041,9 +1041,9 @@
 "reset_password_send_ok" = "We hebben een e-mail gestuurd naar %@. Klik op de link in de e-mail om je wachtwoord te resetten.";
 "reset_password_send_too_many_requests" = "We hebben je al een e-mail gestuurd om je wachtwoord te resetten. Controleer je e-mail en volg de instructies.";
 "reset_password_title" = "Reset wachtwoord";
-"search_alert_delete_error_message" = "Oops! An error occurred while deleting your search alert";
-"search_alert_disable_error_message" = "Oops! An error occurred while disabling your search alert";
-"search_alert_enable_error_message" = "Oops! An error occurred while enabling your search alert";
+"search_alert_delete_error_message" = "Oeps! Er is een fout opgetreden tijdens het verwijderen van jouw zoekmelding";
+"search_alert_disable_error_message" = "Oeps! Er is een fout opgetreden tijdens het uitschakelen van jouw zoekmelding";
+"search_alert_enable_error_message" = "Oeps! Er is een fout opgetreden tijdens het inschakelen van jouw zoekmelding";
 "search_alerts_edit_button" = "Bewerken";
 "search_alerts_header_subtitle" = "Ontvang meldingen over nieuwe advertenties";
 "search_alerts_placeholder_empty_button" = "Begin met Zoeken";

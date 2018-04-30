@@ -1041,9 +1041,9 @@
 "reset_password_send_ok" = "Σας στείλαμε ένα μήνυμα στο %@. Κάντε κλικ στο σύνδεσμο του email για να επαναφέρετε τον κωδικό πρόσβασης.";
 "reset_password_send_too_many_requests" = "Σας έχουμε στείλει ήδη ένα email για επαναφορά κωδικού. Παρακαλώ ελέγξτε τα email σας και ακολουθήστε τις οδηγίες.";
 "reset_password_title" = "Επαναφορά κωδικού πρόσβασης";
-"search_alert_delete_error_message" = "Oops! An error occurred while deleting your search alert";
-"search_alert_disable_error_message" = "Oops! An error occurred while disabling your search alert";
-"search_alert_enable_error_message" = "Oops! An error occurred while enabling your search alert";
+"search_alert_delete_error_message" = "Όπα! Παρουσιάστηκε σφάλμα κατά τη διαγραφή της ειδοποίησης αναζήτησης";
+"search_alert_disable_error_message" = "Όπα! Παρουσιάστηκε σφάλμα κατά την απενεργοποίηση της ειδοποίησης αναζήτησης";
+"search_alert_enable_error_message" = "Όπα! Παρουσιάστηκε σφάλμα κατά την ενεργοποίηση της ειδοποίησης αναζήτησης";
 "search_alerts_edit_button" = "Επεξεργασία";
 "search_alerts_header_subtitle" = "Λάβετε ειδοποιήσεις για νέες καταχωρήσεις";
 "search_alerts_placeholder_empty_button" = "Ξεκινήστε την Αναζήτηση";

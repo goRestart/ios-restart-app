@@ -1041,9 +1041,9 @@
 "reset_password_send_ok" = "Hemos enviado un email a %@. Haz clic en el enlace dentro del email para restablecer tu contraseña.";
 "reset_password_send_too_many_requests" = "Ya te hemos enviado un email para restablecer la contraseña. Revisa tu bandeja de entrada y sigue las instrucciones del mensaje.";
 "reset_password_title" = "Restablecer la contraseña";
-"search_alert_delete_error_message" = "Oops! An error occurred while deleting your search alert";
-"search_alert_disable_error_message" = "Oops! An error occurred while disabling your search alert";
-"search_alert_enable_error_message" = "Oops! An error occurred while enabling your search alert";
+"search_alert_delete_error_message" = "¡Ups! Se ha producido un error al borrar tu alerta de búsqueda";
+"search_alert_disable_error_message" = "¡Ups! Se ha producido un error al apagar tu alerta de búsqueda";
+"search_alert_enable_error_message" = "¡Ups! Se ha producido un error al encender tu alerta de búsqueda";
 "search_alerts_edit_button" = "Editar";
 "search_alerts_header_subtitle" = "Recibir notificaciones de nuevos anuncios";
 "search_alerts_placeholder_empty_button" = "Empezar a buscar";

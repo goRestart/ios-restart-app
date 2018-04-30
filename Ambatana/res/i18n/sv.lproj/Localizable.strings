@@ -1041,9 +1041,9 @@
 "reset_password_send_ok" = "Vi har skickat ett e-mejl till %@. Klicka på länken i mejlet för att återställa ditt lösenord.";
 "reset_password_send_too_many_requests" = "Vi har redan skickat ett mejl till dig för att återställa ditt lösenord. Kolla i din inkorg och följ instruktionerna i mejlet.";
 "reset_password_title" = "Återställ lösenord";
-"search_alert_delete_error_message" = "Oops! An error occurred while deleting your search alert";
-"search_alert_disable_error_message" = "Oops! An error occurred while disabling your search alert";
-"search_alert_enable_error_message" = "Oops! An error occurred while enabling your search alert";
+"search_alert_delete_error_message" = "Hoppsan! Ett fel inträffade när din sökavisering skulle raderas";
+"search_alert_disable_error_message" = "Hoppsan! Ett fel inträffade när din sökavisering skulle inaktiveras";
+"search_alert_enable_error_message" = "Hoppsan! Ett fel inträffade när din sökavisering skulle aktiveras";
 "search_alerts_edit_button" = "Redigera";
 "search_alerts_header_subtitle" = "Få notiser om nya annonser";
 "search_alerts_placeholder_empty_button" = "Börja Sökning";
