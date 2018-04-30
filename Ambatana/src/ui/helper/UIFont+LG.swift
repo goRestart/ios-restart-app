@@ -150,7 +150,6 @@ extension UIFont {
 }
 
 // MARK: DeckView
-
 extension UIFont {
     static var deckTitleFont: UIFont { return systemMediumFont(size: 17) }
     static var deckPriceFont: UIFont { return systemBoldFont(size: 27) }
@@ -167,14 +166,21 @@ extension UIFont {
 
 // MARK: - User Profile
 extension UIFont {
-    static var userProfileTabsNumberFont: UIFont { return UIFont.systemBoldFont(size: 19) }
-    static var userProfileTabsNameFont: UIFont { return UIFont.systemRegularFont(size: 15) }
-    static var userProfileTabsNameSelectedFont: UIFont { return UIFont.systemBoldFont(size: 15) }
-    static var userProfileVerificationSectionSubtitleFont: UIFont { return UIFont.systemRegularFont(size: 12) }
+    static var userProfileTabsNumberFont: UIFont { return systemBoldFont(size: 19) }
+    static var userProfileTabsNameFont: UIFont { return systemRegularFont(size: 15) }
+    static var userProfileTabsNameSelectedFont: UIFont { return systemBoldFont(size: 15) }
+    static var userProfileVerificationSectionSubtitleFont: UIFont { return systemRegularFont(size: 12) }
     static var profileUserHeadline: UIFont { return systemBoldFont(size: 35) }
     static var profileKarmaSubtitleBoldFont: UIFont { return systemBoldFont(size: 11) }
     static var profileKarmaScoreTitleFont: UIFont { return systemBoldFont(size: 23) }
-    static var profileKarmaOpenVerificationFont: UIFont { return UIFont.systemBoldFont(size: 15) }
+    static var profileKarmaOpenVerificationFont: UIFont { return systemBoldFont(size: 15) }
     static var verificationItemTitle: UIFont { return systemBoldFont(size: 23) }
     static var verificationEventCountFont: UIFont { return systemBoldFont(size: 10) }
+}
+
+// MARK: - Passwordless
+extension UIFont {
+    static var passwordLessEmailTitleFont: UIFont { return systemBoldFont(size: 27) }
+    static var passwordLessEmailDescriptionFont: UIFont { return systemRegularFont(size: 15) }
+    static var passwordLessEmailTextFieldFont: UIFont { return systemBoldFont(size: 23)}
 }
