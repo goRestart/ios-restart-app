@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -149,7 +149,6 @@
                         <constraint firstAttribute="trailing" secondItem="KVY-dS-m7s" secondAttribute="trailing" id="Eh3-dq-9WS"/>
                         <constraint firstItem="uDf-ff-Ecw" firstAttribute="top" secondItem="lbn-gJ-Tvl" secondAttribute="top" id="Jke-jt-tV8"/>
                         <constraint firstItem="x0f-5Z-tRf" firstAttribute="top" secondItem="lbn-gJ-Tvl" secondAttribute="top" id="KKi-K6-Xvv"/>
-                        <constraint firstItem="tJq-a9-ZkV" firstAttribute="centerY" secondItem="lbn-gJ-Tvl" secondAttribute="centerY" id="MYg-gt-HFj"/>
                         <constraint firstItem="KVY-dS-m7s" firstAttribute="leading" secondItem="lbn-gJ-Tvl" secondAttribute="leading" id="NLt-RB-A7W"/>
                         <constraint firstAttribute="bottom" secondItem="wi8-kK-mfg" secondAttribute="bottom" id="PPJ-mE-kDt"/>
                         <constraint firstAttribute="trailing" secondItem="uDf-ff-Ecw" secondAttribute="trailing" id="RXI-Pe-luN"/>
@@ -363,6 +362,7 @@
                 <constraint firstItem="Lax-dW-H1P" firstAttribute="top" secondItem="u1Y-py-299" secondAttribute="top" id="Tzb-Nd-DSP"/>
                 <constraint firstItem="46F-6A-OD4" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Vfk-fB-C22"/>
                 <constraint firstItem="CJN-bJ-CFP" firstAttribute="top" secondItem="Lax-dW-H1P" secondAttribute="bottom" constant="15" id="Vmd-4a-U5K"/>
+                <constraint firstItem="tJq-a9-ZkV" firstAttribute="centerY" secondItem="u1Y-py-299" secondAttribute="centerY" id="YSS-UA-7ZJ"/>
                 <constraint firstAttribute="trailing" secondItem="46F-6A-OD4" secondAttribute="trailing" id="aw5-le-KF8"/>
                 <constraint firstItem="CJN-bJ-CFP" firstAttribute="leading" secondItem="u1Y-py-299" secondAttribute="leading" constant="20" id="bbf-uD-m6R"/>
                 <constraint firstItem="u1Y-py-299" firstAttribute="bottom" secondItem="46F-6A-OD4" secondAttribute="bottom" id="fcj-Wz-udQ"/>

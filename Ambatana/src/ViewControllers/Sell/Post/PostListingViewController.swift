@@ -393,12 +393,10 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
     }
     
     private func setupFooter() {
-        footerView.translatesAutoresizingMaskIntoConstraints = false
-        cameraGalleryContainer.addSubview(footerView)
-        footerView.layout(with: cameraGalleryContainer)
-            .leading()
-            .trailing()
-            .bottom()
+        cameraGalleryContainer.addSubviewForAutoLayout(footerView)
+        footerView.bottomAnchor.constraint(equalTo: safeBottomAnchor).isActive = true
+        footerView.layout(with: cameraGalleryContainer).fillHorizontal()
+
         
         footer.galleryButton.rx.controlEvent(.touchUpInside).asDriver().drive(onNext: { [weak self] (_) in
             self?.galleryButtonPressed()
