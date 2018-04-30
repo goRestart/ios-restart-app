@@ -426,9 +426,8 @@ class PhotoCaptureProcessor: NSObject, AVCapturePhotoCaptureDelegate {
         }
 
         if let sampleBuffer = photoSampleBuffer,
-            let previewBuffer = previewPhotoSampleBuffer,
             let dataImage = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: sampleBuffer,
-                                                                             previewPhotoSampleBuffer: previewBuffer) {
+                                                                             previewPhotoSampleBuffer: previewPhotoSampleBuffer) {
             photo = UIImage(data: dataImage)
         }
     }
