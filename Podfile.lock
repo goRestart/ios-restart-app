@@ -155,52 +155,8 @@ DEPENDENCIES:
   - RxSwift (= 4.0.0)
   - RxSwiftExt (= 3.0.0)
   - RxTest (= 4.0.0)
-  - SwiftyUserDefaults (from `https://github.com/Dschee/SwiftyUserDefaults`, commit `dd3d8ddc5bf95db09b66185182b5a555ac59efd5`)
+  - SwiftyUserDefaults (= 3.0.1)
 
-SPEC REPOS:
-  "git@github.com:letgoapp/letgo-ios-specs.git":
-    - LGCollapsibleLabel
-    - LGCoreKit
-  https://github.com/CocoaPods/Specs.git:
-    - Alamofire
-    - AlamofireImage
-    - Amplitude-iOS
-    - AppsFlyerFramework
-    - Bolts
-    - Branch
-    - CHTCollectionViewWaterfallLayout
-    - CocoaLumberjack
-    - Crashlytics
-    - DeviceGuru
-    - Fabric
-    - FBSDKCoreKit
-    - FBSDKLoginKit
-    - FBSDKShareKit
-    - FLEX
-    - Google-Mobile-Ads-SDK
-    - GoogleIDFASupport
-    - GoogleSignIn
-    - GoogleToolboxForMac
-    - GTMOAuth2
-    - GTMSessionFetcher
-    - JSONWebToken
-    - KeychainSwift
-    - Leanplum-iOS-SDK
-    - lottie-ios
-    - mopub-ios-sdk
-    - NewRelicAgent
-    - Nimble
-    - OHHTTPStubs
-    - Quick
-    - ReachabilitySwift
-    - Realm
-    - RealmSwift
-    - Result
-    - RxCocoa
-    - RxSwift
-    - RxSwiftExt
-    - RxTest
-    - SocketRocket
 EXTERNAL SOURCES:
   bumper:
     :commit: 7ec04a070eca2337f058954d7f53c474d616d7b1
@@ -211,9 +167,6 @@ EXTERNAL SOURCES:
   KMPlaceholderTextView:
     :commit: 426117c98e8da8fc7d64a7d3c2f0f45c48d595e6
     :git: https://github.com/letgoapp/KMPlaceholderTextView
-  SwiftyUserDefaults:
-    :commit: dd3d8ddc5bf95db09b66185182b5a555ac59efd5
-    :git: https://github.com/Dschee/SwiftyUserDefaults
 
 CHECKOUT OPTIONS:
   bumper:
@@ -225,9 +178,6 @@ CHECKOUT OPTIONS:
   KMPlaceholderTextView:
     :commit: 426117c98e8da8fc7d64a7d3c2f0f45c48d595e6
     :git: https://github.com/letgoapp/KMPlaceholderTextView
-  SwiftyUserDefaults:
-    :commit: dd3d8ddc5bf95db09b66185182b5a555ac59efd5
-    :git: https://github.com/Dschee/SwiftyUserDefaults
 
 SPEC CHECKSUMS:
   Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
@@ -274,8 +224,8 @@ SPEC CHECKSUMS:
   RxSwiftExt: b06c47dff66cd33ca7683bba1e74b0c5c8e3592e
   RxTest: 0041e792cede35e53e4749f378d21482af0e9d12
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
-  SwiftyUserDefaults: 38267a30d58b7c8570995cd5defd354e43f056c6
+  SwiftyUserDefaults: 3d273b1739b68ada3145dc754a70ec775bc5c8be
 
-PODFILE CHECKSUM: 97342401ffc7282f19453c2df5923d8661abe4eb
+PODFILE CHECKSUM: fc333798155a1cc8d7be3a0bc0ec3971da001acb
 
 COCOAPODS: 1.4.0
