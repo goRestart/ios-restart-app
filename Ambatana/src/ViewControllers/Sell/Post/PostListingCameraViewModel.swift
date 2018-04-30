@@ -15,7 +15,7 @@ enum CameraState {
 
 
 
-class PostListingCameraViewModel: BaseViewModel {
+final class PostListingCameraViewModel: BaseViewModel {
 
     weak var cameraDelegate: PostListingCameraViewDelegate?
 

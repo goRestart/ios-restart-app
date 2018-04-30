@@ -270,9 +270,16 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
         previewVideoModeHidden.bind(to: videoPreview.rx.isHidden).disposed(by: disposeBag)
 
         let captureModeHidden = state.map{ !$0.captureMode }
-        captureModeHidden.bind(to: cornersContainer.rx.isHidden).disposed(by: disposeBag)
-        captureModeHidden.bind(to: switchCamButton.rx.isHidden).disposed(by: disposeBag)
-        captureModeHidden.bind(to: flashButton.rx.isHidden).disposed(by: disposeBag)
+
+        let shouldHideTopButtons = Observable.combineLatest(captureModeHidden.asObservable(), 
+                                                            isRecordingVideo.asObservable()) { $0 || $1 }
+        shouldHideTopButtons
+            .asDriver(onErrorJustReturn: false)
+            .drive(onNext: { [weak self] shouldShow in
+                self?.cornersContainer.isHidden = shouldShow
+                self?.switchCamButton.isHidden = shouldShow
+                self?.flashButton.isHidden = shouldShow
+            }).disposed(by: disposeBag)
 
         if viewModel.isBlockingPosting {
             state.map { $0.shouldShowCloseButtonBlockingPosting }.bind { [weak self] shouldShowClose in
