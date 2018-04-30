@@ -625,7 +625,12 @@ extension ListingCarouselViewController {
                                                            viewModel.userInfo.asObservable(),
                                                            viewModel.ownerIsProfessional.asObservable(),
                                                            viewModel.ownerBadge.asObservable()) { ($0, $1, $2, $3) }
-        productAndUserInfos.bind { [weak self] (productInfo, userInfo, isProfessional, userBadge) in
+
+        productAndUserInfos.bind { [weak self]
+            (productInfo: ListingVMProductInfo?,
+            userInfo: ListingVMUserInfo?,
+            isProfessional: Bool,
+            userBadge: UserReputationBadge) in
             self?.userView.setupWith(userAvatar: userInfo?.avatar,
                                      userName: userInfo?.name,
                                      productTitle: productInfo?.title,
@@ -633,7 +638,7 @@ extension ListingCarouselViewController {
                                      userId: userInfo?.userId,
                                      isProfessional: isProfessional,
                                      userBadge: userBadge)
-            }.disposed(by: disposeBag)
+        }.disposed(by: disposeBag)
 
         viewModel.userInfo.asObservable().bind { [weak self] userInfo in
             self?.fullScreenAvatarView.alpha = 0
