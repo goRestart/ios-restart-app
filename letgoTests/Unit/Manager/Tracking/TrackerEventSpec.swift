@@ -5002,7 +5002,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.name.rawValue).to(equal("undo-sent-message"))
                 }
                 it("the information is empty") {
-                    expect(sut.params!.params).to(beNil())
+                    expect(sut.params?.params).to(beNil())
                 }
             }
         }

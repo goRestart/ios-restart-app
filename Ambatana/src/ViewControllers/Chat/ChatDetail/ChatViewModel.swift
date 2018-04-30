@@ -1633,7 +1633,6 @@ fileprivate extension ChatViewModel {
     }
 }
 
-
 // MARK: - Private ChatConversation Extension
 
 fileprivate extension ChatConversation {

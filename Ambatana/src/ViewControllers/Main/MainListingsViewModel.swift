@@ -1560,14 +1560,15 @@ extension MainListingsViewModel: TaxonomiesDelegate {
 extension MainListingsViewModel: ListingCellDelegate {
     func interestedActionFor(_ listing: Listing) {
         guard let identifier = listing.objectId else { return }
+        guard let index = listViewModel.indexFor(listingId: identifier) else { return }
         if let state = listViewModel.listingInterestState[identifier],
             case .send(let enabled) = state, !enabled {
             return
         }
-        markListingWithUndoableInterest(listing)
+        markListingWithUndoableInterest(listing, atIndex: index)
     }
 
-    private func markListingWithUndoableInterest(_ listing: Listing) {
+    private func markListingWithUndoableInterest(_ listing: Listing, atIndex index: Int) {
         guard let identifier = listing.objectId else { return }
 
         let action: () -> () = { [weak self] in
@@ -1587,7 +1588,7 @@ extension MainListingsViewModel: ListingCellDelegate {
             timer.subscribe { [weak self] (event) in
                 guard let strSelf = self else { return }
                 guard event.error == nil else {
-                    strSelf.sendInterestedMessage(forListing: listing, withID: identifier)
+                    strSelf.sendInterestedMessage(forListing: listing, atIndex: index, withID: identifier)
                     return
                 }
                 strSelf.undoInterestingMessageFor(listing: listing, withID: identifier)
@@ -1609,12 +1610,29 @@ extension MainListingsViewModel: ListingCellDelegate {
         keyValueStorage.interestingListingIDs = set
     }
 
-    private func sendInterestedMessage(forListing listing: Listing, withID identifier: String) {
+    private func sendInterestedMessage(forListing listing: Listing, atIndex index: Int, withID identifier: String) {
         interestingListingIDs.update(with: identifier)
         syncInterestingListings(interestingListingIDs)
+        let type: ChatWrapperMessageType = .quickAnswer(.interested)
+        let trackingInfo = SendMessageTrackingInfo.makeWith(type: type,
+                                                            listing: listing,
+                                                            freePostingAllowed: featureFlags.freePostingModeAllowed)
+            .set(typePage: .listingList)
+            .set(isBumpedUp: .falseParameter)
+            .set(containsEmoji: false)
+
+        let containsVideo = EventParameterBoolean(bool: listing.containsVideo())
+        tracker.trackEvent(TrackerEvent.userMessageSent(info: trackingInfo))
         chatWrapper.sendMessageFor(listing: listing,
-                                   type: .quickAnswer(.interested),
-                                   completion: nil)
+                                   type: type,
+                                   completion: { [weak self] isFirstMessage in
+                                    if isFirstMessage.value ?? false {
+                                        self?.tracker.trackEvent(TrackerEvent.firstMessage(info: trackingInfo,
+                                                                                           listingVisitSource: .listingList,
+                                                                                           feedPosition: .none,
+                                                                                           containsVideo: containsVideo))
+                                    }
+        })
         listViewModel.update(listing: listing, interestedState: .seeConversation)
     }
 
