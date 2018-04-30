@@ -94,6 +94,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var realEstatePromoCell: RealEstatePromoCell = .control
     var filterSearchCarSellerType: FilterSearchCarSellerType = .control
     var createUpdateIntoNewBackend: CreateUpdateCarsIntoNewBackend = .control
+    var realEstateMap: RealEstateMap = .control
 
 }
 

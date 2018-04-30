@@ -91,7 +91,7 @@ protocol FeatureFlaggeable: class {
     var realEstatePromoCell: RealEstatePromoCell { get }
     var filterSearchCarSellerType: FilterSearchCarSellerType { get }
     var createUpdateIntoNewBackend: CreateUpdateCarsIntoNewBackend { get }
-    
+    var realEstateMap: RealEstateMap { get }
 }
 
 extension FeatureFlaggeable {
@@ -272,6 +272,10 @@ extension RealEstateTutorial {
 
 extension RealEstatePromoCell {
     var isActive: Bool { return self == .active }
+}
+
+extension RealEstateMap {
+    var isActive: Bool { return self != .baseline && self != .control }
 }
 
 extension FilterSearchCarSellerType {
@@ -1071,5 +1075,14 @@ extension FeatureFlags {
         //  TODO: blocked - update when backend works
         //  return CreateUpdateCarsIntoNewBackend.fromPosition(abTests.createUpdateCarsIntoNewBackend.value)
         return .control
+    }
+    
+    var realEstateMap: RealEstateMap {
+        if Bumper.enabled {
+            return Bumper.realEstateMap
+        }
+        return .control
+        //  TODO: blocked - update when feature finish
+        //  return RealEstateMap.fromPosition(abTests.realEstateMap.value)
     }
 }
