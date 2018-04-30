@@ -91,7 +91,7 @@ final class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDr
 
     private func shouldShowInterestedButtonFor(_ model: ListingData) -> Bool {
         let shouldShowDiscarded = featureFlags.discardedProducts.isActive && model.listing?.status.isDiscarded ?? false
-        return featureFlags.shouldShowIAmInterestedInFeed.isVisible && !shouldShowDiscarded
+        return !model.isMine && featureFlags.shouldShowIAmInterestedInFeed.isVisible && !shouldShowDiscarded
     }
     
     private func configDiscardedProduct(_ model: ListingData, inCell cell: ListingCell) {

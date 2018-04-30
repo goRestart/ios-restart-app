@@ -116,9 +116,12 @@ final class UserProfileViewModel: BaseViewModel {
                                                                          itemsPerPage: Constants.numListingsPerPageDefault)
         self.favoritesListingListRequester = UserFavoritesListingListRequester()
 
-        self.sellingListingListViewModel = ListingListViewModel(requester: self.sellingListingListRequester)
-        self.soldListingListViewModel = ListingListViewModel(requester: self.soldListingListRequester)
-        self.favoritesListingListViewModel = ListingListViewModel(requester: self.favoritesListingListRequester)
+        self.sellingListingListViewModel = ListingListViewModel(requester: self.sellingListingListRequester,
+                                                                isPrivateList: true)
+        self.soldListingListViewModel = ListingListViewModel(requester: self.soldListingListRequester,
+                                                             isPrivateList: true)
+        self.favoritesListingListViewModel = ListingListViewModel(requester: self.favoritesListingListRequester,
+                                                                  isPrivateList: true)
         self.ratingListViewModel = UserRatingListViewModel(userId: user?.objectId ?? "", tabNavigator: nil)
 
         self.disposeBag = DisposeBag()
