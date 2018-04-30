@@ -902,6 +902,10 @@ struct TrackerEvent {
         return TrackerEvent(name: .userMessageSent, params: info.params)
     }
 
+    static func undoSentMessage() -> TrackerEvent {
+        return TrackerEvent(name: .undoMessageSent, params: nil)
+    }
+
     static func userMessageSentError(info: SendMessageTrackingInfo) -> TrackerEvent {
         return TrackerEvent(name: .userMessageSentError, params: info.params)
     }

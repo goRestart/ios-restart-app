@@ -4993,6 +4993,18 @@ class TrackerEventSpec: QuickSpec {
                     expect(param) == "12345-qwerty"
                 }
             }
+
+            describe("Undoing a interested message") {
+                beforeEach {
+                    sut = TrackerEvent.undoSentMessage()
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("undo-sent-message"))
+                }
+                it("the information is empty") {
+                    expect(sut.params!.params).to(beNil())
+                }
+            }
         }
     }
 }

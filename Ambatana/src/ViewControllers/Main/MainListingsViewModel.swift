@@ -1574,7 +1574,7 @@ extension MainListingsViewModel: ListingCellDelegate {
             guard let strSelf = self else { return }
             guard !strSelf.interestingListingIDs.contains(identifier) else {
                 strSelf.navigator?.openChat(.listingAPI(listing: listing),
-                                            source: .listingListFeatured,
+                                            source: .listingList,
                                             predefinedMessage: nil)
                 return
             }
@@ -1597,9 +1597,11 @@ extension MainListingsViewModel: ListingCellDelegate {
     }
 
     private func undoInterestingMessageFor(listing: Listing, withID identifier: String) {
+        tracker.trackEvent(TrackerEvent.undoSentMessage())
         interestingListingIDs.remove(identifier)
         syncInterestingListings(interestingListingIDs)
         listViewModel.update(listing: listing, interestedState: .send(enabled: true))
+        
     }
 
     private func syncInterestingListings(_ interestingListingIDs: Set<String>?) {
