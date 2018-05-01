@@ -105,6 +105,10 @@ extension AppDelegate: UIApplicationDelegate {
                                                                    didFinishLaunchingWithOptions: launchOptions) ?? false
 
         appCoordinator.open()
+
+        let pass = PasswordlessUsernameViewController(viewModel: PasswordlessUsernameViewModel())
+        let nav = UINavigationController(rootViewController: pass)
+        appCoordinator.tabBarCtl.present(nav, animated: true, completion: nil)
         
         return deepLinksRouterContinuation || fbSdkContinuation
     }
