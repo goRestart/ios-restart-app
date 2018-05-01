@@ -8,7 +8,7 @@
 
 import Foundation
 
-class PasswordlessEmailSentViewController: BaseViewController {
+final class PasswordlessEmailSentViewController: BaseViewController {
 
     private let viewModel: PasswordlessEmailSentViewModel
 
