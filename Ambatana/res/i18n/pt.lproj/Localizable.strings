@@ -1041,9 +1041,9 @@
 "reset_password_send_ok" = "We've sent an email to %@. Click the link in the email to reset your password!";
 "reset_password_send_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
 "reset_password_title" = "Reset password";
-"search_alert_delete_error_message" = "Oops! An error occurred while deleting your search alert";
-"search_alert_disable_error_message" = "Oops! An error occurred while disabling your search alert";
-"search_alert_enable_error_message" = "Oops! An error occurred while enabling your search alert";
+"search_alert_delete_error_message" = "Oops! An error occurred while deleting your search alert.";
+"search_alert_disable_error_message" = "Oops! An error occurred while deactivating your search alert.";
+"search_alert_enable_error_message" = "Oops! An error occurred while activating your search alert.";
 "search_alerts_edit_button" = "Edit";
 "search_alerts_header_subtitle" = "Get notifications about new listings";
 "search_alerts_placeholder_empty_button" = "Start Searching";

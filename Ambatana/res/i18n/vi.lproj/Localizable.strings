@@ -1041,9 +1041,9 @@
 "reset_password_send_ok" = "Chúng tôi vừa gửi email cho %@! Hãy nhấn vào đường dẫn trong thư để lấy lại mật khẩu.";
 "reset_password_send_too_many_requests" = "Chúng tôi vừa gửi cho bạn email khôi phục mật khẩu. Vui lòng kiểm tra email và làm theo hướng dẫn.";
 "reset_password_title" = "Lấy lại mật khẩu";
-"search_alert_delete_error_message" = "Oops! An error occurred while deleting your search alert";
-"search_alert_disable_error_message" = "Oops! An error occurred while disabling your search alert";
-"search_alert_enable_error_message" = "Oops! An error occurred while enabling your search alert";
+"search_alert_delete_error_message" = "Ồ! Có lỗi xảy ra trong khi xóa thông báo tìm kiếm của bạn";
+"search_alert_disable_error_message" = "Ồ! Có lỗi xảy ra trong khi tắt thông báo tìm kiếm của bạn";
+"search_alert_enable_error_message" = "Ồ! Có lỗi xảy ra trong khi bật thông báo tìm kiếm của bạn";
 "search_alerts_edit_button" = "Chỉnh sửa";
 "search_alerts_header_subtitle" = "Nhận thông báo về bài đăng mới";
 "search_alerts_placeholder_empty_button" = "Bắt đầu Tìm kiếm";

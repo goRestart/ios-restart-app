@@ -3166,13 +3166,13 @@
 "search_alerts_placeholder_error_button" = "Try Again";
 
 // Error message when search alert delete fails
-"search_alert_delete_error_message" = "Oops! An error occurred while deleting your search alert";
+"search_alert_delete_error_message" = "Oops! An error occurred while deleting your search alert.";
 
 // Error message when search alert enable fails
-"search_alert_enable_error_message" = "Oops! An error occurred while enabling your search alert";
+"search_alert_enable_error_message" = "Oops! An error occurred while activating your search alert.";
 
 // Error message when search alert disable fails
-"search_alert_disable_error_message" = "Oops! An error occurred while disabling your search alert";
+"search_alert_disable_error_message" = "Oops! An error occurred while deactivating your search alert.";
 
 // Sell category selection label. Check attached image "sell.png"
 "sell_category_selection_label" = "Category";
