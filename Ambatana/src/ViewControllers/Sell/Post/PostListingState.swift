@@ -227,9 +227,9 @@ class PostListingState {
 
     func updatingStepToUploadingVideoSnapshot(uploadingVideo: VideoUpload) -> PostListingState {
         switch step {
-        case .imageSelection, .errorVideoUpload:
+        case .imageSelection, .errorVideoUpload, .errorUpload:
             break
-        case .uploadingImage, .uploadingVideo, .errorUpload, .detailsSelection, .categorySelection, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
+        case .uploadingImage, .uploadingVideo, .detailsSelection, .categorySelection, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
             return self
         }
         return PostListingState(step: .uploadingVideo(state: .uploadingSnapshot),

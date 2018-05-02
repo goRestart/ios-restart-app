@@ -263,9 +263,10 @@ class PostListingViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
 
             if let image = result.value?.first {
-                strongSelf.uploadingVideo = VideoUpload(recordedVideo: uploadingVideo.recordedVideo, snapshot: image, videoId: nil)
-                strongSelf.state.value = strongSelf.state.value.updatingStepToCreatingPreSignedUrl(uploadingVideo: uploadingVideo)
-                strongSelf.createPreSignedUploadUrlForVideo(uploadingVideo: uploadingVideo)
+                let newUploadingVideo = VideoUpload(recordedVideo: uploadingVideo.recordedVideo, snapshot: image, videoId: nil)
+                strongSelf.uploadingVideo = newUploadingVideo
+                strongSelf.state.value = strongSelf.state.value.updatingStepToCreatingPreSignedUrl(uploadingVideo: newUploadingVideo)
+                strongSelf.createPreSignedUploadUrlForVideo(uploadingVideo: newUploadingVideo)
             } else if let error = result.error {
                 strongSelf.state.value = strongSelf.state.value.updating(uploadError: error)
             }
