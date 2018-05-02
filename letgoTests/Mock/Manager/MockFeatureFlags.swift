@@ -74,7 +74,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var signUpEmailTermsAndConditionsAcceptRequired = false
     var moreInfoDFPAdUnitId = ""
     var feedDFPAdUnitId: String? = ""
-    var bumpPriceVariationBucket: BumpPriceVariationBucket = .defaultValue
     var shouldChangeChatNowCopyInTurkey = false
     var copyForChatNowInTurkey: CopyForChatNowInTurkey = .control
     var feedAdsProviderForUS: FeedAdsProviderForUS = .control
@@ -95,6 +94,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var realEstatePromoCell: RealEstatePromoCell = .control
     var filterSearchCarSellerType: FilterSearchCarSellerType = .control
     var createUpdateIntoNewBackend: CreateUpdateCarsIntoNewBackend = .control
+    var realEstateMap: RealEstateMap = .control
 
 }
 
