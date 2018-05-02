@@ -13,11 +13,19 @@ final class PasswordlessUsernameViewModel: BaseViewModel {
 
     private let myUserRepository: MyUserRepository
     private let tracker: Tracker
+    private let token: String
     var delegate: BaseViewModelDelegate?
 
-    init(myUserRepository: MyUserRepository, tracker: Tracker) {
+    init(myUserRepository: MyUserRepository, tracker: Tracker, token: String) {
         self.myUserRepository = myUserRepository
         self.tracker = tracker
+        self.token = token
+    }
+
+    convenience init(token: String) {
+        self.init(myUserRepository: Core.myUserRepository,
+                  tracker: TrackerProxy.sharedInstance,
+                  token: token)
     }
 
     func didTapDoneWith(name: String) {

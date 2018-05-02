@@ -59,6 +59,8 @@ enum DeepLinkAction: Equatable {
     case userRating(ratingId: String)
     case notificationCenter
     case appStore
+    case passwordlessConfirmUsername(token: String)
+    case passwordlessSignIn(token: String)
     
     static public func ==(lhs: DeepLinkAction, rhs: DeepLinkAction) -> Bool {
         switch (lhs, rhs) {
