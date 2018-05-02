@@ -21,7 +21,7 @@ def shared_pods
     pod "RxCocoa",              "4.0.0"
 
     #Ads
-    pod "Google-Mobile-Ads-SDK","7.24.1"
+    pod "Google-Mobile-Ads-SDK","7.30.0"
 
     #Fabric
     pod "Fabric",               "1.7.2"     # Obj-c
@@ -38,9 +38,9 @@ def shared_pods
     pod "LGComponents",            :path => "components"
 
     # letgo Core
-    pod "LGCoreKit",             "4.19.1", :inhibit_warnings => false
-#   pod "LGCoreKit",            :path => "../lgcorekit", :inhibit_warnings => false
-#   pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => '347bea899c01d6998f42ce704f0b43ef8b9f70bd', :inhibit_warnings => false
+    pod "LGCoreKit",             "4.22.3", :inhibit_warnings => false
+#  pod "LGCoreKit",            :path => "../lgcorekit", :inhibit_warnings => false
+#  pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => '68a37f84d6d32fe9fd6e3be0b34d9aea6e0a6c0f', :inhibit_warnings => false
 
     # letgo Collapsible label
     pod "LGCollapsibleLabel",   "1.2.0", :inhibit_warnings => false     # :path => "../collapsiblelabel"
@@ -73,7 +73,7 @@ def shared_pods
     pod "FLEX",                 "2.4.0"  # Obj-c
 
     # User defaults
-    pod "SwiftyUserDefaults",   :git => 'https://github.com/Dschee/SwiftyUserDefaults', :commit => 'dd3d8ddc5bf95db09b66185182b5a555ac59efd5' # PR: https://github.com/radex/SwiftyUserDefaults/pull/135 swift 4 (not too much activity)
+    pod "SwiftyUserDefaults",   "3.0.1"
 
     # TextView with placeholder
     pod "KMPlaceholderTextView", :git => 'https://github.com/letgoapp/KMPlaceholderTextView', :commit => '426117c98e8da8fc7d64a7d3c2f0f45c48d595e6', :inhibit_warnings => false 

@@ -466,7 +466,7 @@ extension UserViewController {
         .subscribeNext { [weak self] (userName, userLocation, avatar, placeholder, isPro) in
             guard let navBarUserView = self?.navBarUserView else { return }
             navBarUserView.setupWith(userAvatar: avatar, placeholder: placeholder, userName: userName,
-                subtitle: userLocation, isProfessional: isPro)
+                                     subtitle: userLocation, isProfessional: isPro, userBadge: .noBadge)
         }.disposed(by: disposeBag)
 
         viewModel.navBarButtons.asObservable().subscribeNext { [weak self] navBarButtons in

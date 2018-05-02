@@ -16,7 +16,8 @@ class EscrowEnvironment: AppEnvironment {
     
     // AppsFlyer
     let appsFlyerAPIKey = "5EKnCjmwmNKjE2e7gYBo6T"
-    let appsFlyerAppInviteOneLinkID = "O2PG"
+    let oneLinkHost = "letgo.onelink.me"
+    let oneLinkID = "O2PG"
     
     // Google login
     let googleServerClientID = "914431496661-7s28hvdioe432kpco4lvh53frmkqlllv.apps.googleusercontent.com"
@@ -42,6 +43,8 @@ class EscrowEnvironment: AppEnvironment {
     let feedAdUnitIdDFPUSA10Ratio = ""
     let feedAdUnitIdDFPUSA15Ratio = ""
     let feedAdUnitIdDFPUSA20Ratio = ""
+    var feedAdUnitIdAdxUSAForAllUsers = ""
+    var feedAdUnitIdAdxUSAForOldUsers = ""
     
     // MoPub Ads
     let feedAdUnitIdMoPubUSAForAllUsers = ""

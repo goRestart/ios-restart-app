@@ -20,7 +20,7 @@ enum FilterTag: Equatable {
     case freeStuff
     case distance(distance: Int)
     
-    case carSellerType(type: CarSellerType, name: String)
+    case carSellerType(type: UserType, name: String)
     case make(id: String, name: String)
     case model(id: String, name: String)
     case yearsRange(from: Int?, to: Int?)

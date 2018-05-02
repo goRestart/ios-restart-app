@@ -1,6 +1,8 @@
-"NSCameraUsageDescription" = "letgo tarvitsee luvan käyttää kameraasi, jotta voit julkaista ilmoituksia.";
+"NSCameraUsageDescription" = "Kamerallasi otetaan kuvia asioista, jotka haluat myydä.";
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "letgo will use your location to show you nearby deals and suggest meeting places";
+"NSLocationAlwaysUsageDescription" = "letgo will use your location to show you nearby deals and suggest meeting places";
 "NSLocationWhenInUseUsageDescription" = "letgo tarvitsee pääsyn paikkatietoosi voidakseen näyttää sinulle lähellä olevia tuotteita";
-"NSPhotoLibraryAddUsageDescription" = "letgo tarvitsee luvan käyttää kirjastoasi, jotta voit julkaista ilmoituksia.";
-"NSPhotoLibraryUsageDescription" = "letgo tarvitsee luvan käyttää kirjastoasi, jotta voit julkaista ilmoituksia.";
+"NSPhotoLibraryAddUsageDescription" = "Kuvakirjastoasi käytetään siihen, että voit valita kuvat niistä asioista, jotka haluat myydä, kirjastosi kaikkien kuvien joukosta.";
+"NSPhotoLibraryUsageDescription" = "Kuvakirjastoasi käytetään siihen, että voit valita kuvat niistä asioista, jotka haluat myydä, kirjastosi kaikkien kuvien joukosta.";
 "sell_shortcut_title" = "Myy tavarasi";
 "start_browsing_shortcut_title" = "Aloita selaaminen";

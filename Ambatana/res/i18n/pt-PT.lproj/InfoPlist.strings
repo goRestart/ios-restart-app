@@ -1,6 +1,8 @@
-"NSCameraUsageDescription" = "Para poder publicar anúncios deve autorizar o letgo a aceder à sua câmara.";
+"NSCameraUsageDescription" = "A sua câmara será utilizada para tirar fotos ao que pretende vender.";
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "letgo will use your location to show you nearby deals and suggest meeting places";
+"NSLocationAlwaysUsageDescription" = "letgo will use your location to show you nearby deals and suggest meeting places";
 "NSLocationWhenInUseUsageDescription" = "O letgo precisa de aceder à sua localização para lhe poder mostrar artigos situados nas proximidades";
-"NSPhotoLibraryAddUsageDescription" = "Para poder publicar anúncios deve autorizar o letgo a aceder à sua biblioteca de fotos.";
-"NSPhotoLibraryUsageDescription" = "Para poder publicar anúncios deve autorizar o letgo a aceder à sua biblioteca de fotos.";
+"NSPhotoLibraryAddUsageDescription" = "A sua biblioteca de fotos será utilizada para que possa escolher fotos do que quer vender a partir de todas as imagens disponíveis na câmara.";
+"NSPhotoLibraryUsageDescription" = "A sua biblioteca de fotos será utilizada para que possa escolher fotos do que quer vender a partir de todas as imagens disponíveis na câmara.";
 "sell_shortcut_title" = "Venda suas coisas";
 "start_browsing_shortcut_title" = "Comece a navegar!";

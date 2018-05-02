@@ -623,15 +623,22 @@ extension ListingCarouselViewController {
     fileprivate func setupUserInfoRx() {
         let productAndUserInfos = Observable.combineLatest(viewModel.productInfo.asObservable(),
                                                            viewModel.userInfo.asObservable(),
-                                                           viewModel.ownerIsProfessional.asObservable()) { ($0, $1, $2) }
-        productAndUserInfos.bind { [weak self] (productInfo, userInfo, isProfessional) in
+                                                           viewModel.ownerIsProfessional.asObservable(),
+                                                           viewModel.ownerBadge.asObservable()) { ($0, $1, $2, $3) }
+
+        productAndUserInfos.bind { [weak self]
+            (productInfo: ListingVMProductInfo?,
+            userInfo: ListingVMUserInfo?,
+            isProfessional: Bool,
+            userBadge: UserReputationBadge) in
             self?.userView.setupWith(userAvatar: userInfo?.avatar,
                                      userName: userInfo?.name,
                                      productTitle: productInfo?.title,
                                      productPrice: productInfo?.price,
                                      userId: userInfo?.userId,
-                                     isProfessional: isProfessional)
-            }.disposed(by: disposeBag)
+                                     isProfessional: isProfessional,
+                                     userBadge: userBadge)
+        }.disposed(by: disposeBag)
 
         viewModel.userInfo.asObservable().bind { [weak self] userInfo in
             self?.fullScreenAvatarView.alpha = 0

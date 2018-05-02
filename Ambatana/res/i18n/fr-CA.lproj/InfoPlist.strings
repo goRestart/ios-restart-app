@@ -1,6 +1,8 @@
-"NSCameraUsageDescription" = "letgo a besoin d'accéder à votre caméra afin que vous puissiez publier des annonces.";
+"NSCameraUsageDescription" = "Votre caméra sera utilisée pour prendre des photos de ce que vous voulez vendre.";
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "letgo will use your location to show you nearby deals and suggest meeting places";
+"NSLocationAlwaysUsageDescription" = "letgo will use your location to show you nearby deals and suggest meeting places";
 "NSLocationWhenInUseUsageDescription" = "letgo a besoin de connaître votre localisation pour vous indiquer des produits près de chez vous";
-"NSPhotoLibraryAddUsageDescription" = "letgo a besoin d'accéder à votre album photo afin que vous puissiez publier des annonces.";
-"NSPhotoLibraryUsageDescription" = "letgo a besoin d'accéder à votre album photo afin que vous puissiez publier des annonces.";
+"NSPhotoLibraryAddUsageDescription" = "Votre album photo sera utilisé pour que vous puissiez sélectionner des images de ce que vous voulez vendre parmi toutes les photos de votre galerie.";
+"NSPhotoLibraryUsageDescription" = "Votre album photo sera utilisé pour que vous puissiez sélectionner des images de ce que vous voulez vendre parmi toutes les photos de votre galerie.";
 "sell_shortcut_title" = "Vendez Vos Objets";
 "start_browsing_shortcut_title" = "Découvrez des Aubaines";

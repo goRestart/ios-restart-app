@@ -32,7 +32,9 @@ protocol AppEnvironment: AnalyticsAPIKeys {
     var feedAdUnitIdDFPUSA10Ratio: String { get }
     var feedAdUnitIdDFPUSA15Ratio: String { get }
     var feedAdUnitIdDFPUSA20Ratio: String { get }
-
+    var feedAdUnitIdAdxUSAForAllUsers: String { get }
+    var feedAdUnitIdAdxUSAForOldUsers: String { get }
+    
     // MoPub Ads
     var feedAdUnitIdMoPubUSAForAllUsers: String { get }
     var feedAdUnitIdMoPubUSAForOldUsers: String { get }

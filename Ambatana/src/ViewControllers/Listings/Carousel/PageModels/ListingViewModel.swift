@@ -42,6 +42,7 @@ class ListingViewModel: BaseViewModel {
 
         func makeListingDeckSnapshot(listingViewModel: ListingViewModel) -> ListingDeckSnapshotType {
             return makeListingDeckSnapshot(listing: listingViewModel.listing.value,
+                                           seller: listingViewModel.seller.value,
                                            isFavorite: listingViewModel.isFavorite.value,
                                            isFeatured: listingViewModel.isShowingFeaturedStripe.value,
                                            socialMessage: listingViewModel.socialMessage.value)
@@ -49,6 +50,7 @@ class ListingViewModel: BaseViewModel {
 
         func makeListingDeckSnapshot(listing: Listing) -> ListingDeckSnapshotType {
             return makeListingDeckSnapshot(listing: listing,
+                                           seller: nil,
                                            isFavorite: false,
                                            isFeatured: false,
                                            socialMessage: nil,
@@ -58,10 +60,12 @@ class ListingViewModel: BaseViewModel {
         }
 
         private func makeListingDeckSnapshot(listing: Listing,
+                                             seller: User?,
                                              isFavorite: Bool,
                                              isFeatured: Bool,
                                              socialMessage: SocialMessage?) -> ListingDeckSnapshotType {
             return makeListingDeckSnapshot(listing: listing,
+                                           seller: seller,
                                            isFavorite: isFavorite,
                                            isFeatured: isFeatured,
                                            socialMessage: socialMessage,
@@ -71,12 +75,13 @@ class ListingViewModel: BaseViewModel {
         }
 
         private func makeListingDeckSnapshot(listing: Listing,
+                                             seller: User?,
                                              isFavorite: Bool,
                                              isFeatured: Bool,
                                              socialMessage: SocialMessage?,
-                                 myUserRepository: MyUserRepository,
-                                 featureFlags: FeatureFlags,
-                                 countryHelper: CountryHelper) -> ListingDeckSnapshotType {
+                                             myUserRepository: MyUserRepository,
+                                             featureFlags: FeatureFlags,
+                                             countryHelper: CountryHelper) -> ListingDeckSnapshotType {
             let isMine = listing.isMine(myUserRepository: myUserRepository)
             let status = ListingViewModelStatus(listing: listing,
                                                 isMine: listing.isMine(myUserRepository: myUserRepository),
@@ -86,7 +91,15 @@ class ListingViewModel: BaseViewModel {
                                             distance: nil,
                                             freeModeAllowed: featureFlags.freePostingModeAllowed,
                                             postingFlowType: featureFlags.postingFlowType)
-            let userInfo = ListingVMUserInfo(userListing: listing.user, myUser: myUserRepository.myUser)
+
+            var badge: UserReputationBadge = .noBadge
+            if let reputationBadge = seller?.reputationBadge, featureFlags.showAdvancedReputationSystem.isActive {
+                badge = reputationBadge
+            }
+
+            let userInfo = ListingVMUserInfo(userListing: listing.user, myUser: myUserRepository.myUser,
+                                             sellerBadge: badge)
+
             return ListingDeckSnapshot(preview: listing.images.first?.fileURL,
                                        imageCount: listing.images.count,
                                        isFavoritable: isMine,
@@ -286,7 +299,9 @@ class ListingViewModel: BaseViewModel {
         self.purchasesShopper = purchasesShopper
         self.monetizationRepository = monetizationRepository
         self.showFeaturedStripeHelper = ShowFeaturedStripeHelper(featureFlags: featureFlags, myUserRepository: myUserRepository)
-        self.userInfo = Variable<ListingVMUserInfo>(ListingVMUserInfo(userListing: listing.user, myUser: myUserRepository.myUser))
+        self.userInfo = Variable<ListingVMUserInfo>(ListingVMUserInfo(userListing: listing.user,
+                                                                      myUser: myUserRepository.myUser,
+                                                                      sellerBadge: .noBadge))
         self.disposeBag = DisposeBag()
 
 
@@ -315,6 +330,10 @@ class ListingViewModel: BaseViewModel {
                     if let value = result.value {
                         strongSelf.seller.value = value
                         strongSelf.sellerAverageUserRating = value.ratingAverage
+                        let badge = strongSelf.featureFlags.showAdvancedReputationSystem.isActive ? value.reputationBadge : .noBadge
+                        strongSelf.userInfo.value = ListingVMUserInfo(userListing: strongSelf.listing.value.user,
+                                                                      myUser: strongSelf.myUserRepository.myUser,
+                                                                      sellerBadge: badge)
                     }
                 }
             }
@@ -504,11 +523,12 @@ class ListingViewModel: BaseViewModel {
         if isBumpUpPending {
             createBumpeableBanner(forListingId: listingId, withPrice: nil, letgoItemId: nil, storeProductId: nil,
                                   bumpUpType: .restore)
+        } else if let timeOfRecentBump = purchasesShopper.timeSinceRecentBumpFor(listingId: listingId) {
+            createBumpeableBannerForRecent(listingId: listingId, bumpUpType: bumpUpType, withTime: timeOfRecentBump)
         } else {
             isUpdatingBumpUpBanner = true
             monetizationRepository.retrieveBumpeableListingInfo(
                 listingId: listingId,
-                withHigherMinimumPrice: featureFlags.bumpPriceVariationBucket.rawValue,
                 completion: { [weak self] result in
                     guard let strongSelf = self else { return }
                     strongSelf.isUpdatingBumpUpBanner = false
@@ -655,6 +675,20 @@ class ListingViewModel: BaseViewModel {
                                             bannerInteractionBlock: bannerInteractionBlock,
                                             buttonBlock: buttonBlock)
     }
+    fileprivate func createBumpeableBannerForRecent(listingId: String,
+                                                    bumpUpType: BumpUpType,
+                                                    withTime: TimeInterval) {
+        var updatedBumpUpType = bumpUpType
+        if (bumpUpType == .priced || bumpUpType.isBoost) && featureFlags.bumpUpBoost.isActive {
+            updatedBumpUpType = .boost(boostBannerVisible: false)
+        }
+        bumpUpBannerInfo.value = BumpUpInfo(type: updatedBumpUpType,
+                                            timeSinceLastBump: withTime,
+                                            maxCountdown: bumpMaxCountdown,
+                                            price: nil,
+                                            bannerInteractionBlock: { _ in },
+                                            buttonBlock: { _ in })
+    }
 
     func bumpUpHiddenProductContactUs() {
         trackBumpUpNotAllowedContactUs(reason: .notAllowedInternal)
@@ -721,7 +755,7 @@ extension ListingViewModel {
     func editListing() {
         guard myUserId == listing.value.user.objectId else { return }
         var bumpUpProductData: BumpUpProductData? = nil
-        if let purchaseableProduct = bumpUpPurchaseableProduct, featureFlags.promoteBumpInEdit.isActive {
+        if let purchaseableProduct = bumpUpPurchaseableProduct {
             bumpUpProductData = BumpUpProductData(bumpUpPurchaseableData: .purchaseableProduct(product: purchaseableProduct),
                                                   letgoItemId: letgoItemId,
                                                   storeProductId: storeProductId)
@@ -1211,11 +1245,14 @@ fileprivate extension ListingViewModel {
                 let feedPosition = strongSelf.delegate?.trackingFeedPosition ?? .none
                 let isFirstMessage = firstMessage && !strongSelf.alreadyTrackedFirstMessageSent
                 let visitSource = strongSelf.visitSource(from: strongSelf.visitSource, isFirstMessage: isFirstMessage)
+                let badge = strongSelf.seller.value?.reputationBadge ?? .noBadge
+                let badgeParameter = EventParameterUserBadge(userBadge: badge)
                 strongSelf.trackHelper.trackMessageSent(isFirstMessage: isFirstMessage,
                                                         messageType: type,
                                                         isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value,
                                                         listingVisitSource: visitSource,
-                                                        feedPosition: feedPosition)
+                                                        feedPosition: feedPosition,
+                                                        sellerBadge: badgeParameter)
                 strongSelf.alreadyTrackedFirstMessageSent = true
             } else if let error = result.error {
                 strongSelf.trackHelper.trackMessageSentError(messageType: type, isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value, error: error)
@@ -1343,20 +1380,21 @@ extension ListingViewModel: BumpInfoRequesterDelegate {
 
         bumpUpPurchaseableProduct = purchase
 
-        let bumpUpType: BumpUpType
-        if userIsSoftBlocked {
-            bumpUpType = .hidden
-        } else if featureFlags.bumpUpBoost.isActive && hasBumpInProgress {
-            bumpUpType = .boost(boostBannerVisible: listingCanBeBoosted)
-        } else {
-            bumpUpType = .priced
-        }
-
         createBumpeableBanner(forListingId: requestProdId,
                               withPrice: bumpUpPurchaseableProduct?.formattedCurrencyPrice,
                               letgoItemId: letgoItemId,
                               storeProductId: storeProductId,
                               bumpUpType: bumpUpType)
+    }
+
+    var bumpUpType: BumpUpType {
+        if userIsSoftBlocked {
+            return .hidden
+        } else if featureFlags.bumpUpBoost.isActive && hasBumpInProgress {
+            return .boost(boostBannerVisible: listingCanBeBoosted)
+        } else {
+            return .priced
+        }
     }
 }
 
@@ -1387,7 +1425,8 @@ extension ListingViewModel: PurchasesShopperDelegate {
     // Paid Bump Up
 
     func pricedBumpDidStart(typePage: EventParameterTypePage?, isBoost: Bool) {
-        trackBumpUpStarted(.pay(price: bumpUpPurchaseableProduct?.formattedCurrencyPrice ?? ""), type: .priced,
+        let type: BumpUpType = isBoost ? .boost(boostBannerVisible: true) : .priced
+        trackBumpUpStarted(.pay(price: bumpUpPurchaseableProduct?.formattedCurrencyPrice ?? ""), type: type,
                            storeProductId: storeProductId, isPromotedBump: isPromotedBump, typePage: typePage)
         delegate?.vmShowLoading(LGLocalizedString.bumpUpProcessingPricedText)
     }

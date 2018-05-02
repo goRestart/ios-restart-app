@@ -1,6 +1,8 @@
-"NSCameraUsageDescription" = "Az árusításhoz adj a letgo alkalmazásnak hozzáférést a kamerádhoz";
+"NSCameraUsageDescription" = "Használnunk kell a kamerát, hogy fotókat készíthess a hirdetéseidhez.";
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "letgo will use your location to show you nearby deals and suggest meeting places";
+"NSLocationAlwaysUsageDescription" = "letgo will use your location to show you nearby deals and suggest meeting places";
 "NSLocationWhenInUseUsageDescription" = "A letgo hozzáférést igényel a tartózkodási helyedhez, hogy meg tudja jeleníteni a közeli portékákat";
-"NSPhotoLibraryAddUsageDescription" = "Képek mentéséhez engedd meg, hogy a letgo hozzáférjen a fotótárhoz";
-"NSPhotoLibraryUsageDescription" = "Az árusításhoz adj a letgo alkalmazásnak hozzáférést a fotótáradhoz";
+"NSPhotoLibraryAddUsageDescription" = "Használnunk kell a fotótáradat, hogy fotókat választhass a meglévők közül a hirdetéseidhez.";
+"NSPhotoLibraryUsageDescription" = "Használnunk kell a fotótáradat, hogy fotókat választhass a meglévők közül a hirdetéseidhez.";
 "sell_shortcut_title" = "Add el dolgaidat";
 "start_browsing_shortcut_title" = "Kezdj böngészni";

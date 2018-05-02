@@ -19,10 +19,8 @@ struct LegacyABGroup: ABGroupType {
         static let carsMultiReqEnabled = "newCarsMultiRequesterEnabled"
         static let inAppRatingIOS10 = "20170711inAppRatingIOS10"
         static let userReviewsReportEnabled = "20170823userReviewsReportEnabled"
-        static let dynamicQuickAnswers = "20170816DynamicQuickAnswers"
         static let appRatingDialogInactive = "20170831AppRatingDialogInactive"
         static let locationDataSourceType = "20170830LocationDataSourceType"
-        static let searchAutocomplete = "20170914SearchAutocomplete"
         static let realEstateEnabled = "20171228realEstateEnabled"
         static let requestTimeOut = "20170929RequestTimeOut"
         static let deckItemPage = "20180403NewItemPage"
@@ -44,10 +42,8 @@ struct LegacyABGroup: ABGroupType {
     let newCarsMultiRequesterEnabled: LeanplumABVariable<Bool>
     let inAppRatingIOS10: LeanplumABVariable<Bool>
     let userReviewsReportEnabled: LeanplumABVariable<Bool>
-    let dynamicQuickAnswers: LeanplumABVariable<Int>
     let appRatingDialogInactive: LeanplumABVariable<Bool>
     let locationDataSourceType: LeanplumABVariable<Int>
-    let searchAutocomplete: LeanplumABVariable<Int>
     let realEstateEnabled: LeanplumABVariable<Int>
     let requestsTimeOut: LeanplumABVariable<Int>
     let newItemPage: LeanplumABVariable<Int>
@@ -74,10 +70,8 @@ struct LegacyABGroup: ABGroupType {
          newCarsMultiRequesterEnabled: LeanplumABVariable<Bool>,
          inAppRatingIOS10: LeanplumABVariable<Bool>,
          userReviewsReportEnabled: LeanplumABVariable<Bool>,
-         dynamicQuickAnswers: LeanplumABVariable<Int>,
          appRatingDialogInactive: LeanplumABVariable<Bool>,
          locationDataSourceType: LeanplumABVariable<Int>,
-         searchAutocomplete: LeanplumABVariable<Int>,
          realEstateEnabled: LeanplumABVariable<Int>,
          requestsTimeOut: LeanplumABVariable<Int>,
          newItemPage: LeanplumABVariable<Int>,
@@ -97,10 +91,8 @@ struct LegacyABGroup: ABGroupType {
         self.newCarsMultiRequesterEnabled = newCarsMultiRequesterEnabled
         self.inAppRatingIOS10 = inAppRatingIOS10
         self.userReviewsReportEnabled = userReviewsReportEnabled
-        self.dynamicQuickAnswers = dynamicQuickAnswers
         self.appRatingDialogInactive = appRatingDialogInactive
         self.locationDataSourceType = locationDataSourceType
-        self.searchAutocomplete = searchAutocomplete
         self.realEstateEnabled = realEstateEnabled
         self.requestsTimeOut = requestsTimeOut
         self.newItemPage = newItemPage
@@ -112,9 +104,7 @@ struct LegacyABGroup: ABGroupType {
         self.removeCategoryWhenClosingPosting = removeCategoryWhenClosingPosting
         
         intVariables.append(contentsOf: [marketingPush,
-                                         dynamicQuickAnswers,
                                          locationDataSourceType,
-                                         searchAutocomplete,
                                          realEstateEnabled,
                                          requestsTimeOut,
                                          newItemPage,
@@ -141,10 +131,8 @@ struct LegacyABGroup: ABGroupType {
                              newCarsMultiRequesterEnabled: .makeBool(key: Keys.carsMultiReqEnabled, defaultValue: false,  groupType: .legacyABTests),
                              inAppRatingIOS10: .makeBool(key: Keys.inAppRatingIOS10, defaultValue: false, groupType: .legacyABTests),
                              userReviewsReportEnabled: .makeBool(key: Keys.userReviewsReportEnabled, defaultValue: true, groupType: .legacyABTests),
-                             dynamicQuickAnswers: .makeInt(key: Keys.dynamicQuickAnswers, defaultValue: 0, groupType: .legacyABTests),
                              appRatingDialogInactive: .makeBool(key: Keys.appRatingDialogInactive, defaultValue: false, groupType: .legacyABTests),
                              locationDataSourceType: .makeInt(key: Keys.locationDataSourceType, defaultValue: 0, groupType: .legacyABTests),
-                             searchAutocomplete: .makeInt(key: Keys.searchAutocomplete, defaultValue: 0, groupType: .legacyABTests),
                              realEstateEnabled: .makeInt(key: Keys.realEstateEnabled, defaultValue: 0, groupType: .legacyABTests),
                              requestsTimeOut: .makeInt(key: Keys.requestTimeOut, defaultValue: 30, groupType: .legacyABTests),
                              newItemPage: .makeInt(key: Keys.deckItemPage, defaultValue: 0, groupType: .legacyABTests),

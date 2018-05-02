@@ -33,57 +33,6 @@ enum EditListingImageType {
     case remote(file: File)
 }
 
-extension PromoteBumpInEdit {
-    var addBumpCellInEdit: Bool {
-        switch self {
-        case .control, .baseline, .implicit:
-            return false
-        case .sellFaster, .longRedText, .bigIcon:
-            return true
-        }
-    }
-    var text: String? {
-        switch self {
-        case .control, .baseline, .implicit:
-            return nil
-        case .sellFaster:
-            return LGLocalizedString.editProductFeatureLabelShortText
-        case .longRedText, .bigIcon:
-            return LGLocalizedString.editProductFeatureLabelLongText
-        }
-    }
-    var textColor: UIColor? {
-        switch self {
-        case .control, .baseline, .implicit:
-            return nil
-        case .sellFaster, .bigIcon:
-            return UIColor.blackText
-        case .longRedText:
-            return UIColor.primaryColor
-        }
-    }
-    var font: UIFont? {
-        switch self {
-        case .control, .baseline, .implicit:
-            return nil
-        case .sellFaster:
-            return UIFont.systemBoldFont(size: 17)
-        case .bigIcon, .longRedText:
-            return UIFont.systemBoldFont(size: 15)
-        }
-    }
-    var icon: UIImage? {
-        switch self {
-        case .control, .baseline, .implicit:
-            return nil
-        case .sellFaster, .longRedText:
-            return #imageLiteral(resourceName: "ic_lightning")
-        case .bigIcon:
-            return #imageLiteral(resourceName: "ic_lightning_round")
-        }
-    }
-}
-
 class ListingImages {
     var images: [EditListingImageType] = []
     var localImages: [UIImage] {
@@ -128,6 +77,13 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         static let boostLabelFont: UIFont = .systemBoldFont(size: 17)
         static let boostIcon: UIImage = #imageLiteral(resourceName: "ic_extra_boost")
     }
+	
+	struct EditProductFeatureUI {
+		static let editProductFeaturelabelText: String = LGLocalizedString.editProductFeatureLabelLongText
+		static let editProductFeatureTextColor: UIColor = UIColor.primaryColor
+		static let editProductFeatureFont: UIFont = UIFont.systemBoldFont(size: 15)
+		static let editProductFeatureBoostIcon: UIImage = #imageLiteral(resourceName: "ic_lightning")
+	}
 
     // real time cloudsight
     let proposedTitle = Variable<String>("")
@@ -189,16 +145,16 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
     private(set) var shouldShowFeatureListingCell: Bool
     var featureLabelText: String? {
-        return listingCanBeBoosted ? BoostCellUI.boostLabelText : featureFlags.promoteBumpInEdit.text
+        return listingCanBeBoosted ? BoostCellUI.boostLabelText : EditProductFeatureUI.editProductFeaturelabelText
     }
     var featureLabelTextColor: UIColor? {
-        return listingCanBeBoosted ? BoostCellUI.boostLabelTextColor : featureFlags.promoteBumpInEdit.textColor
+        return listingCanBeBoosted ? BoostCellUI.boostLabelTextColor : EditProductFeatureUI.editProductFeatureTextColor
     }
     var featureLabelFont: UIFont? {
-        return listingCanBeBoosted ? BoostCellUI.boostLabelFont : featureFlags.promoteBumpInEdit.font
+        return listingCanBeBoosted ? BoostCellUI.boostLabelFont : EditProductFeatureUI.editProductFeatureFont
     }
     var featureIcon: UIImage? {
-        return listingCanBeBoosted ? BoostCellUI.boostIcon : featureFlags.promoteBumpInEdit.icon
+        return listingCanBeBoosted ? BoostCellUI.boostIcon : EditProductFeatureUI.editProductFeatureBoostIcon
     }
     private let listingCanBeBoosted: Bool
     private let timeSinceLastBump: TimeInterval?
@@ -382,11 +338,9 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         self.timeSinceLastBump = timeSinceLastBump
         self.maxCountdown = maxCountdown
 
-        let listingIsFeatured = listing.featured ?? false
-        let bumpFromEditIsActive = featureFlags.promoteBumpInEdit.addBumpCellInEdit
-        let listingCanBeBumped = bumpFromEditIsActive && !listingIsFeatured
+        let listingCanBeFeatured = !(listing.featured ?? false)
 
-        self.shouldShowFeatureListingCell = (listingCanBeBumped || listingCanBeBoosted) && listinghasPaymentInfo
+        self.shouldShowFeatureListingCell = (listingCanBeFeatured || listingCanBeBoosted) && listinghasPaymentInfo
 
         self.bumpUpProductData = bumpUpProductData
         
@@ -614,7 +568,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
             case .restricted, .denied:
                 shouldAskForPermission = true
                 permissionsActionBlock = { [weak self] in self?.openLocationAppSettings() }
-            case .authorized:
+            case .authorizedAlways, .authorizedWhenInUse:
                 shouldAskForPermission = false
             }
         case .disabled:
@@ -798,11 +752,17 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
         let localImages = listingImages.localImages
         let remoteImages = listingImages.remoteImages
+        
         fileRepository.upload(localImages, progress: { [weak self] in self?.loadingProgress.value = $0 }) {
             [weak self] imagesResult in
             if let newImages = imagesResult.value {
+                
+                guard let strongSelf = self else { return }
                 let updatedParams = editParams.updating(images: remoteImages + newImages)
-                self?.listingRepository.update(listingParams: updatedParams) { result in
+                let shouldUseCarEndpoint = strongSelf.featureFlags.createUpdateIntoNewBackend.shouldUseCarEndpoint(with: updatedParams)
+                let updateAction = strongSelf.listingRepository.updateAction(shouldUseCarEndpoint)
+                
+                updateAction(updatedParams) { result in
                     self?.loadingProgress.value = nil
                     if let responseListing = result.value {
                         self?.savedListing = responseListing

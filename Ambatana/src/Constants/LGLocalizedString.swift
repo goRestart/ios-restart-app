@@ -7,10 +7,6 @@
 //
 
 struct LGLocalizedString {
-	static func accountDeactivatedWName(_ var1: String) -> String {
-		return String(format: NSLocalizedString("account_deactivated_w_name", comment: ""), var1)
-	}
-
 	static var accountPendingModeration: String {
 		return NSLocalizedString("account_pending_moderation", comment: "")
 	}
@@ -51,10 +47,6 @@ struct LGLocalizedString {
 		return NSLocalizedString("app_share_whatsapp_button", comment: "")
 	}
 
-	static var appShareSuccess: String {
-		return NSLocalizedString("app_share_success", comment: "")
-	}
-
 	static var appNotificationReply: String {
 		return NSLocalizedString("app_notification_reply", comment: "")
 	}
@@ -73,6 +65,22 @@ struct LGLocalizedString {
 
 	static var bumpUpBannerPayTextImprovement: String {
 		return NSLocalizedString("bump_up_banner_pay_text_improvement", comment: "")
+	}
+
+	static var bumpUpBannerPayTextImprovementEnglishA: String {
+		return NSLocalizedString("bump_up_banner_pay_text_improvement_english_a", comment: "")
+	}
+
+	static var bumpUpBannerPayTextImprovementEnglishB: String {
+		return NSLocalizedString("bump_up_banner_pay_text_improvement_english_b", comment: "")
+	}
+
+	static var bumpUpBannerPayTextImprovementEnglishC: String {
+		return NSLocalizedString("bump_up_banner_pay_text_improvement_english_c", comment: "")
+	}
+
+	static var bumpUpBannerPayTextImprovementEnglishD: String {
+		return NSLocalizedString("bump_up_banner_pay_text_improvement_english_d", comment: "")
 	}
 
 	static var bumpUpBannerWaitText: String {
@@ -1405,10 +1413,6 @@ struct LGLocalizedString {
 
 	static var editProductUnsavedChangesAlertOk: String {
 		return NSLocalizedString("edit_product_unsaved_changes_alert_ok", comment: "")
-	}
-
-	static var editProductFeatureLabelShortText: String {
-		return NSLocalizedString("edit_product_feature_label_short_text", comment: "")
 	}
 
 	static var editProductFeatureLabelLongText: String {
@@ -4357,6 +4361,26 @@ struct LGLocalizedString {
 
 	static var settingsMarketingNotificationsAlertCancel: String {
 		return NSLocalizedString("settings_marketing_notifications_alert_cancel", comment: "")
+	}
+
+	static var settingsNotificationsButton: String {
+		return NSLocalizedString("settings_notifications_button", comment: "")
+	}
+
+	static var settingsNotificationsTitle: String {
+		return NSLocalizedString("settings_notifications_title", comment: "")
+	}
+
+	static var settingsNotificationsSearchAlerts: String {
+		return NSLocalizedString("settings_notifications_search_alerts", comment: "")
+	}
+
+	static var searchAlertsListTitle: String {
+		return NSLocalizedString("search_alerts_list_title", comment: "")
+	}
+
+	static var searchAlertsEditButton: String {
+		return NSLocalizedString("search_alerts_edit_button", comment: "")
 	}
 
 	static var signUpAcceptanceError: String {

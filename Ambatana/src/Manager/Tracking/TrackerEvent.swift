@@ -52,7 +52,7 @@ struct TrackerEvent {
         case .enabled(let authStatus):
             enabled = true
             switch authStatus {
-            case .authorized:
+            case .authorizedWhenInUse, .authorizedAlways:
                 allowed = true
             case .notDetermined, .restricted, .denied:
                 allowed = false
@@ -384,14 +384,19 @@ struct TrackerEvent {
     }
 
 
-    static func listingDetailVisit(_ listing: Listing, visitUserAction: ListingVisitUserAction, source: EventParameterListingVisitSource, feedPosition: EventParameterFeedPosition,
-                                   isBumpedUp: EventParameterBoolean) -> TrackerEvent {
+    static func listingDetailVisit(_ listing: Listing,
+                                   visitUserAction: ListingVisitUserAction,
+                                   source: EventParameterListingVisitSource,
+                                   feedPosition: EventParameterFeedPosition,
+                                   isBumpedUp: EventParameterBoolean,
+                                   sellerBadge: EventParameterUserBadge) -> TrackerEvent {
         var params = EventParameters()
         params.addListingParams(listing)
         params[.userAction] = visitUserAction.rawValue
         params[.listingVisitSource] = source.rawValue
         params[.feedPosition] = feedPosition.value
         params[.isBumpedUp] = isBumpedUp.rawValue
+        params[.sellerReputationBadge] = sellerBadge.rawValue
         return TrackerEvent(name: .listingDetailVisit, params: params)
     }
 
@@ -875,10 +880,12 @@ struct TrackerEvent {
 
     static func firstMessage(info: SendMessageTrackingInfo,
                              listingVisitSource: EventParameterListingVisitSource,
-                             feedPosition: EventParameterFeedPosition) -> TrackerEvent {
+                             feedPosition: EventParameterFeedPosition,
+                             userBadge: EventParameterUserBadge) -> TrackerEvent {
         var params = info.params
         params[.listingVisitSource] = listingVisitSource.rawValue
         params[.feedPosition] = feedPosition.value
+        params[.sellerReputationBadge] = userBadge.rawValue
         return TrackerEvent(name: .firstMessage, params: params)
     }
 
@@ -910,6 +917,7 @@ struct TrackerEvent {
             params[.userToId] = user.objectId
             params[.tab] = tab.rawValue
             params[.profileType] = profileType.rawValue
+            params[.sellerReputationBadge] = EventParameterUserBadge(userBadge: user.reputationBadge).rawValue
             return TrackerEvent(name: .profileVisit, params: params)
     }
 

@@ -164,7 +164,7 @@ public struct LGAssistantMeeting: AssistantMeeting {
 
     static private func stripLocationFrom(string: String?) -> (name: String?, coords: LGLocationCoordinates2D?) {
         guard let string = string else { return (nil, nil) }
-        let locationComponents = string.components(separatedBy: " (")
+        let locationComponents = string.components(separatedBy: "(")
         guard locationComponents.count == 2 else { return (nil, nil) }
         let locationName = locationComponents[0].trimmingCharacters(in: .whitespacesAndNewlines)
         let coordinates = stripLocationCoordinatesFrom(locationString: locationComponents[1])

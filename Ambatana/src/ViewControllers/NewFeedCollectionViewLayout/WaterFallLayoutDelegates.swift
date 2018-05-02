@@ -36,13 +36,13 @@ protocol WaterFallLayoutDelegate: UICollectionViewDelegate {
                          heightForFooterInSection section: Int) -> CGFloat
 
     func collectionView(_ collectionView: UICollectionView,
-                        stickynessForHeaderAtIndexPath indexPath:IndexPath) -> HeaderStickyType
+                        headerStickynessForSectionAt section: Int) -> HeaderStickyType
 }
 
 extension WaterFallLayoutDelegate {
 
     func collectionView(_ collectionView: UICollectionView,
-                        stickynessForHeaderAtIndexPath indexPath:IndexPath) -> HeaderStickyType {
+                        headerStickynessForSectionAt section: Int) -> HeaderStickyType {
         return .nonSticky
     }
     

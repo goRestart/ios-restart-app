@@ -28,7 +28,7 @@ struct RealEstateBaseURL: BaseURL {
 }
 
 struct CarsBaseURL: BaseURL {
-    static let baseURL = EnvironmentProxy.sharedInstance.realEstateBaseURL
+    static let baseURL = EnvironmentProxy.sharedInstance.carsBaseURL
     static let acceptHeader: String? = "application/json"
     static let contentTypeHeader: String? = nil
 }

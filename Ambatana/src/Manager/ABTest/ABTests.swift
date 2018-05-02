@@ -113,6 +113,7 @@ class ABTests {
 extension ABTests {
     var advancedReputationSystem: LeanplumABVariable<Int> { return users.advancedReputationSystem }
     var showPasswordlessLogin: LeanplumABVariable<Int> { return users.showPasswordlessLogin }
+    var emergencyLocate: LeanplumABVariable<Int> { return users.emergencyLocate }
 }
 
 //  MARK: Core
@@ -145,13 +146,13 @@ extension ABTests {
     var showBumpUpBannerOnNotValidatedListings: LeanplumABVariable<Int> { return money.showBumpUpBannerOnNotValidatedListings }
     var copyForChatNowInTurkey: LeanplumABVariable<Int> { return money.copyForChatNowInTurkey }
     var turkeyBumpPriceVATAdaptation: LeanplumABVariable<Int> { return money.turkeyBumpPriceVATAdaptation }
-    var promoteBumpInEdit: LeanplumABVariable<Int> { return money.promoteBumpInEdit }
     var showProTagUserProfile: LeanplumABVariable<Bool> { return money.showProTagUserProfile }
     var feedAdsProviderForUS: LeanplumABVariable<Int> { return money.feedAdsProviderForUS }
     var copyForChatNowInEnglish: LeanplumABVariable<Int> { return money.copyForChatNowInEnglish }
     var feedAdsProviderForTR: LeanplumABVariable<Int> { return money.feedAdsProviderForTR }
     var bumpUpBoost: LeanplumABVariable<Int> { return money.bumpUpBoost }
     var showExactLocationForPros: LeanplumABVariable<Bool> { return money.showExactLocationForPros }
+    var copyForSellFasterNowInEnglish : LeanplumABVariable<Int> { return money.copyForSellFasterNowInEnglish }
 }
 
 //  MARK: Retention
@@ -177,6 +178,8 @@ extension ABTests {
     var searchCarsIntoNewBackend: LeanplumABVariable<Int> { return verticals.searchCarsIntoNewBackend }
     var realEstatePromoCell: LeanplumABVariable<Int> { return verticals.realEstatePromoCell }
     var filterSearchCarSellerType: LeanplumABVariable<Int> { return verticals.filterSearchCarSellerType }
+    var createUpdateCarsIntoNewBackend: LeanplumABVariable<Int> { return verticals.createUpdateIntoNewBackend }
+    var realEstateMap: LeanplumABVariable<Int> { return verticals.realEstateMap }
 }
 
 //  MARK: Legacy
@@ -194,7 +197,6 @@ extension ABTests {
     var userReviewsReportEnabled: LeanplumABVariable<Bool> { return legacy.userReviewsReportEnabled }
     var appRatingDialogInactive: LeanplumABVariable<Bool> { return legacy.appRatingDialogInactive }
     var locationDataSourceType: LeanplumABVariable<Int> { return legacy.locationDataSourceType }
-    var searchAutocomplete: LeanplumABVariable<Int> { return legacy.searchAutocomplete }
     var realEstateEnabled: LeanplumABVariable<Int> { return legacy.realEstateEnabled }
     var requestsTimeOut: LeanplumABVariable<Int> { return legacy.requestsTimeOut }
     var deckItemPage: LeanplumABVariable<Int> { return legacy.newItemPage }

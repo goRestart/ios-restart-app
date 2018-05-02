@@ -28,7 +28,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var inAppRatingIOS10: Bool = false
     var userReviewsReportEnabled: Bool = true
     var deckItemPage: DeckItemPage = .control
-    var searchAutocomplete: SearchAutocomplete = .control
     var realEstateEnabled: RealEstateEnabled = .control
     var requestTimeOut: RequestsTimeOut = .thirty
     var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed = .control
@@ -50,7 +49,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var relaxedSearch: RelaxedSearch = .control
     var showChatSafetyTips: Bool = false
     var discardedProducts: DiscardedProducts = .control
-    var promoteBumpInEdit: PromoteBumpInEdit = .control
     var userIsTyping: UserIsTyping = .control
     var bumpUpBoost: BumpUpBoost = .control
     var servicesCategoryEnabled: ServicesCategoryEnabled = .control
@@ -62,13 +60,11 @@ class MockFeatureFlags: FeatureFlaggeable {
     var showProTagUserProfile: Bool = false
     var markAllConversationsAsRead: Bool = false
     var realEstateTutorial: RealEstateTutorial = .control
-    var realEstatePromoCell: RealEstatePromoCell = .control
     var summaryAsFirstStep: SummaryAsFirstStep = .control
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem = .control
-    var searchCarsIntoNewBackend: SearchCarsIntoNewBackend = .control
     var showExactLocationForPros: Bool = true
-    var filterSearchCarSellerType: FilterSearchCarSellerType = .control
     var showPasswordlessLogin: ShowPasswordlessLogin = .control
+    var emergencyLocate: EmergencyLocate = .control
 
     // Country dependant features
     var freePostingModeAllowed = false
@@ -78,11 +74,10 @@ class MockFeatureFlags: FeatureFlaggeable {
     var signUpEmailTermsAndConditionsAcceptRequired = false
     var moreInfoDFPAdUnitId = ""
     var feedDFPAdUnitId: String? = ""
-    var bumpPriceVariationBucket: BumpPriceVariationBucket = .defaultValue
     var shouldChangeChatNowCopyInTurkey = false
     var copyForChatNowInTurkey: CopyForChatNowInTurkey = .control
     var feedAdsProviderForUS: FeedAdsProviderForUS = .control
-    var feedMoPubAdUnitId: String? = ""
+    var feedAdUnitId: String? = ""
     var feedAdsProviderForTR: FeedAdsProviderForTR = .control
     
     func collectionsAllowedFor(countryCode: String?) -> Bool {
@@ -91,4 +86,15 @@ class MockFeatureFlags: FeatureFlaggeable {
     var shareTypes: [ShareType] = []
     var copyForChatNowInEnglish: CopyForChatNowInEnglish = .control
     var shouldChangeChatNowCopyInEnglish = false
+    var shouldChangeSellFasterNowCopyInEnglish = false
+    var copyForSellFasterNowInEnglish: CopyForSellFasterNowInEnglish = .control
+    
+    //  MARK:  Verticals
+    var searchCarsIntoNewBackend: SearchCarsIntoNewBackend = .control
+    var realEstatePromoCell: RealEstatePromoCell = .control
+    var filterSearchCarSellerType: FilterSearchCarSellerType = .control
+    var createUpdateIntoNewBackend: CreateUpdateCarsIntoNewBackend = .control
+    var realEstateMap: RealEstateMap = .control
+
 }
+

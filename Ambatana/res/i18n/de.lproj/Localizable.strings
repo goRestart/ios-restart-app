@@ -1,4 +1,3 @@
-"account_deactivated_w_name" = "Das Benutzerkonto von %@ wurde gelöscht";
 "account_pending_moderation" = "Benutzerkonto wird überprüft";
 "account_pending_moderation_w_name" = "Das Benutzerkonto von %@ wird überprüft";
 "app_notification_reply" = "Antwort";
@@ -8,7 +7,6 @@
 "app_share_message_text" = "Schau dir die letgo-App an und verdiene bares Geld mit Sachen, die du nicht mehr brauchst!";
 "app_share_subject_text" = "Schau dir mal letgo an";
 "app_share_subtitle" = "Teile letgo mit deinen Freunden, damit unsere Community weiter wächst!";
-"app_share_success" = "App geteilt!";
 "app_share_title" = "LADE FREUNDE EIN";
 "app_share_whatsapp_button" = "Via Whatsapp einladen";
 "block_user_error_generic" = "Beim Blockieren dieses Nutzers ist ein Fehler aufgetreten.";
@@ -18,6 +16,10 @@
 "bump_up_banner_free_text" = "Kostenlos hochholen, um schneller zu verkaufen";
 "bump_up_banner_pay_text" = "Jetzt schneller verkaufen";
 "bump_up_banner_pay_text_improvement" = "Jetzt schneller verkaufen";
+"bump_up_banner_pay_text_improvement_english_a" = "Jetzt schneller verkaufen";
+"bump_up_banner_pay_text_improvement_english_b" = "Jetzt schneller verkaufen";
+"bump_up_banner_pay_text_improvement_english_c" = "Jetzt schneller verkaufen";
+"bump_up_banner_pay_text_improvement_english_d" = "Jetzt schneller verkaufen";
 "bump_up_banner_wait_text" = "um es wieder zu empfehlen";
 "bump_up_boost_success_alert_text" = "Dein Angebot wurde angekurbelt! Es wird nun für die nächsten 24 Stunden empfohlen.";
 "bump_up_error_bump_generic" = "Wir konnten dein Angebot nicht empfehlen. Bitte versuche es erneut.";
@@ -360,7 +362,7 @@
 "filters_car_model_not_set" = "Nicht ausgewählt";
 "filters_car_seller_type_all" = "Alle";
 "filters_car_seller_type_dealership" = "Autohaus";
-"filters_car_seller_type_invidual" = "Individual";
+"filters_car_seller_type_invidual" = "Privatperson";
 "filters_car_seller_type_private" = "Privat";
 "filters_car_seller_type_professional" = "Händler";
 "filters_car_year_any_year" = "Beliebiges Baujahr";
@@ -674,10 +676,15 @@
 "product_popular_near_you" = "Beliebt in deiner Nähe";
 "product_post_camera_first_time_alert_subtitle" = "Mach ein gutes Foto und verdiene bares Geld!";
 "product_post_camera_first_time_alert_title" = "Was möchtest du verkaufen?";
+"product_post_camera_gallery_text_button" = "GALERIE";
 "product_post_camera_permissions_button" = "Erlauben";
 "product_post_camera_permissions_subtitle" = "Um ein Foto machen zu können, musst du den Zugriff auf deine Kamera erlauben";
 "product_post_camera_permissions_title" = "Zugriff auf Kamera zulassen";
+"product_post_camera_photo_mode_button" = "FOTO";
 "product_post_camera_tab_v2" = "KAMERA";
+"product_post_camera_video_mode_button" = "VIDEO";
+"product_post_camera_video_recording_tooltip" = "%@, um ein Video aufzunehmen";
+"product_post_camera_video_recording_tooltip_highlighted_word" = "Gedrückt halten";
 "product_post_close_alert_close_button" = "Verwerfen";
 "product_post_close_alert_description" = "Möchtest du es weiterhin zum Verkauf anbieten?";
 "product_post_close_alert_ok_button" = "Angebot einstellen";

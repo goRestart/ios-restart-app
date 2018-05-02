@@ -26,6 +26,7 @@ final class UserProfileViewController: BaseViewController {
     private let userRelationView = UserProfileRelationView()
     private let bioAndTrustView: UserProfileBioAndTrustView
     private let dummyView = UserProfileDummyUserDisclaimerView()
+    private lazy var karmaView = UserProfileKarmaScoreView()
     private let tabsView = UserProfileTabsView()
     private let listingView: ListingListView
     private let tableView = UITableView()
@@ -132,6 +133,15 @@ final class UserProfileViewController: BaseViewController {
 
         headerContainerView.addSubviewsForAutoLayout([headerView, dummyView, userRelationView,
                                                       bioAndTrustView, tabsView])
+
+        if viewModel.showKarmaView {
+            headerContainerView.addSubviewForAutoLayout(karmaView)
+
+            let tap = UITapGestureRecognizer(target: self, action: #selector(didTapKarmaScore))
+            karmaView.addGestureRecognizer(tap)
+        }
+        bioAndTrustView.onlyShowBioText = viewModel.showKarmaView
+
         view.addSubviewsForAutoLayout([tableView, listingView, headerContainerView])
 
         navBarUserView.translatesAutoresizingMaskIntoConstraints = false
@@ -232,7 +242,6 @@ final class UserProfileViewController: BaseViewController {
             bioAndTrustView.topAnchor.constraint(equalTo: userRelationView.bottomAnchor, constant: 0) ,
             bioAndTrustView.leftAnchor.constraint(equalTo: headerContainerView.leftAnchor, constant: Layout.sideMargin),
             bioAndTrustView.rightAnchor.constraint(equalTo: headerContainerView.rightAnchor, constant: -Layout.sideMargin),
-            bioAndTrustView.bottomAnchor.constraint(equalTo: headerContainerView.bottomAnchor, constant: -Layout.tabsHeight),
             tabsView.leftAnchor.constraint(equalTo: headerContainerView.leftAnchor, constant: Layout.sideMargin),
             tabsView.rightAnchor.constraint(equalTo: headerContainerView.rightAnchor, constant: -Layout.sideMargin),
             tabsView.bottomAnchor.constraint(equalTo: headerContainerView.bottomAnchor),
@@ -246,6 +255,19 @@ final class UserProfileViewController: BaseViewController {
             tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ]
+
+        if viewModel.showKarmaView {
+            constraints.append(contentsOf: [
+                karmaView.topAnchor.constraint(equalTo: bioAndTrustView.bottomAnchor, constant: Metrics.shortMargin),
+                karmaView.leftAnchor.constraint(equalTo: headerContainerView.leftAnchor, constant: Metrics.shortMargin),
+                karmaView.rightAnchor.constraint(equalTo: headerContainerView.rightAnchor, constant: -Metrics.shortMargin),
+                tabsView.topAnchor.constraint(equalTo: karmaView.bottomAnchor)
+                ])
+        } else {
+            constraints.append(contentsOf: [
+                tabsView.topAnchor.constraint(equalTo: bioAndTrustView.bottomAnchor)
+                ])
+        }
 
         let headerContainerTop =  headerContainerView.topAnchor.constraint(equalTo: safeTopAnchor, constant: Layout.topMargin)
         headerContainerTopConstraint = headerContainerTop
@@ -290,6 +312,10 @@ final class UserProfileViewController: BaseViewController {
     }
 
     // MARK: - UI
+
+    @objc private func didTapKarmaScore() {
+        viewModel.didTapKarmaScoreView()
+    }
 
     private func updateUIBasedOnHeaderResize() {
         let previousInset = listingView.collectionViewContentInset
@@ -540,6 +566,14 @@ extension UserProfileViewController {
             .disposed(by: disposeBag)
 
         viewModel
+            .userScore
+            .drive(onNext: { [weak self] score in
+                guard let strongSelf = self, strongSelf.viewModel.showKarmaView else { return }
+                strongSelf.karmaView.score = score
+            })
+            .disposed(by: disposeBag)
+
+        viewModel
             .userMemberSinceText
             .drive(onNext: { [weak self] memberSince in
                 self?.headerView.memberSinceLabel.text = memberSince
@@ -550,6 +584,13 @@ extension UserProfileViewController {
             .userRelationText
             .drive(onNext: { [weak self] text in
                 self?.updateUserRelation(with: text)
+            })
+            .disposed(by: disposeBag)
+
+        viewModel
+            .userBadge
+            .drive(onNext: { [weak self] badge in
+                self?.headerView.userBadge = badge
             })
             .disposed(by: disposeBag)
 

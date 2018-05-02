@@ -39,14 +39,39 @@ class AppsFlyerDeepLinkSpec: QuickSpec {
                     it("parses utm_medium correctly") {
                         expect(deepLink.medium).to(equal("whatsapp"))
                     }
-                    it("parses utm_medium correctly") {
+                    it("parses utm_campaign correctly") {
                         expect(deepLink.campaign).to(equal("product-detail-share"))
                     }
-                    it("parses utm_medium correctly") {
+                    it("parses utm_source correctly") {
                         expect(deepLink.source).to(equal(DeepLinkSource.external(source: "ios_app")))
                     }
                 }
 
+            }
+            
+            describe("buildFromUrl") {
+                
+                var url: URL!
+                var appsFlyerDeepLink: AppsFlyerDeepLink!
+                
+                context("long url") {
+                    beforeEach {
+                        url = URL(string: "https://letgo.onelink.me/O2PG?pid=organic_email&c=search_alert&af_dp=letgo%3A%2F%2Fsearch%3Fquery%3Dleptop%26utm_source%3Demail%26utm_medium%3Dtransactional%26utm_campaign%3Dsearch_alert&af_web_dp=https%3A%2F%2Fwww.letgo.com%2Fsearch%2Fleptop%3Futm_source%3Demail%26utm_medium%3Dtransactional%26utm_campaign%3Dsearch_alert")
+                        appsFlyerDeepLink = AppsFlyerDeepLink.buildFromUrl(url)
+                    }
+                    it("action is parsed correctly") {
+                        expect(appsFlyerDeepLink.deepLink.action).to(equal(DeepLinkAction.search(query: "leptop", categories: nil)))
+                    }
+                    it("parses utm_medium correctly") {
+                        expect(appsFlyerDeepLink.deepLink.medium).to(equal("transactional"))
+                    }
+                    it("parses campaign correctly") {
+                        expect(appsFlyerDeepLink.deepLink.campaign).to(equal("search_alert"))
+                    }
+                    it("parses utm_source correctly") {
+                        expect(appsFlyerDeepLink.deepLink.source).to(equal(DeepLinkSource.external(source: "email")))
+                    }
+                }
             }
         
             describe("percentEncodeForAmpersands") {

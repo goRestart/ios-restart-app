@@ -17,7 +17,7 @@ class TrackerEventSpec: QuickSpec {
                 context("event name") {
                     beforeEach {
                         sut = TrackerEvent.location(locationType: .sensor,
-                                                    locationServiceStatus: .enabled(.authorized),
+                                                    locationServiceStatus: .enabled(.authorizedWhenInUse),
                                                     typePage: .filter,
                                                     zipCodeFilled: nil,
                                                     distanceRadius: nil)
@@ -29,7 +29,7 @@ class TrackerEventSpec: QuickSpec {
                 context("type sensor") {
                     beforeEach {
                         sut = TrackerEvent.location(locationType: .sensor,
-                                                    locationServiceStatus: .enabled(.authorized),
+                                                    locationServiceStatus: .enabled(.authorizedWhenInUse),
                                                     typePage: .filter,
                                                     zipCodeFilled: nil,
                                                     distanceRadius: nil)
@@ -41,7 +41,7 @@ class TrackerEventSpec: QuickSpec {
                 context("type manual") {
                     beforeEach {
                         sut = TrackerEvent.location(locationType: .manual,
-                                                    locationServiceStatus: .enabled(.authorized),
+                                                    locationServiceStatus: .enabled(.authorizedWhenInUse),
                                                     typePage: .filter,
                                                     zipCodeFilled: nil,
                                                     distanceRadius: nil)
@@ -53,7 +53,7 @@ class TrackerEventSpec: QuickSpec {
                 context("type iplookup") {
                     beforeEach {
                         sut = TrackerEvent.location(locationType: .ipLookup,
-                                                    locationServiceStatus: .enabled(.authorized),
+                                                    locationServiceStatus: .enabled(.authorizedWhenInUse),
                                                     typePage: .filter,
                                                     zipCodeFilled: nil,
                                                     distanceRadius: nil)
@@ -65,7 +65,7 @@ class TrackerEventSpec: QuickSpec {
                 context("type regional") {
                     beforeEach {
                         sut = TrackerEvent.location(locationType: .regional,
-                                                    locationServiceStatus: .enabled(.authorized),
+                                                    locationServiceStatus: .enabled(.authorizedWhenInUse),
                                                     typePage: .filter,
                                                     zipCodeFilled: nil,
                                                     distanceRadius: nil)
@@ -134,10 +134,10 @@ class TrackerEventSpec: QuickSpec {
                         expect(sut.params!.stringKeyParams["location-allowed"] as? Bool) == false
                     }
                 }
-                context("location .enabled(.authorized)") {
+                context("location .enabled(.authorizedWhenInUse)") {
                     beforeEach {
                         sut = TrackerEvent.location(locationType: .regional,
-                                                    locationServiceStatus: .enabled(.authorized),
+                                                    locationServiceStatus: .enabled(.authorizedWhenInUse),
                                                     typePage: .filter,
                                                     zipCodeFilled: nil,
                                                     distanceRadius: nil)
@@ -152,7 +152,7 @@ class TrackerEventSpec: QuickSpec {
                 context("type page filter") {
                     beforeEach {
                         sut = TrackerEvent.location(locationType: .sensor,
-                                                    locationServiceStatus: .enabled(.authorized),
+                                                    locationServiceStatus: .enabled(.authorizedWhenInUse),
                                                     typePage: .filter,
                                                     zipCodeFilled: nil,
                                                     distanceRadius: nil)
@@ -164,7 +164,7 @@ class TrackerEventSpec: QuickSpec {
                 context("type page profile") {
                     beforeEach {
                         sut = TrackerEvent.location(locationType: .sensor,
-                                                    locationServiceStatus: .enabled(.authorized),
+                                                    locationServiceStatus: .enabled(.authorizedWhenInUse),
                                                     typePage: .profile,
                                                     zipCodeFilled: nil,
                                                     distanceRadius: nil)
@@ -176,7 +176,7 @@ class TrackerEventSpec: QuickSpec {
                 context("type page feedBubble") {
                     beforeEach {
                         sut = TrackerEvent.location(locationType: .sensor,
-                                                    locationServiceStatus: .enabled(.authorized),
+                                                    locationServiceStatus: .enabled(.authorizedWhenInUse),
                                                     typePage: .feedBubble,
                                                     zipCodeFilled: nil,
                                                     distanceRadius: nil)
@@ -188,7 +188,7 @@ class TrackerEventSpec: QuickSpec {
                 context("type page automatic") {
                     beforeEach {
                         sut = TrackerEvent.location(locationType: .sensor,
-                                                    locationServiceStatus: .enabled(.authorized),
+                                                    locationServiceStatus: .enabled(.authorizedWhenInUse),
                                                     typePage: .automatic,
                                                     zipCodeFilled: nil,
                                                     distanceRadius: nil)
@@ -200,7 +200,7 @@ class TrackerEventSpec: QuickSpec {
                 context("zipcode is not set") {
                     beforeEach {
                         sut = TrackerEvent.location(locationType: .sensor,
-                                                    locationServiceStatus: .enabled(.authorized),
+                                                    locationServiceStatus: .enabled(.authorizedWhenInUse),
                                                     typePage: .feedBubble,
                                                     zipCodeFilled: nil,
                                                     distanceRadius: nil)
@@ -212,7 +212,7 @@ class TrackerEventSpec: QuickSpec {
                 context("zipcode is filled") {
                     beforeEach {
                         sut = TrackerEvent.location(locationType: .sensor,
-                                                    locationServiceStatus: .enabled(.authorized),
+                                                    locationServiceStatus: .enabled(.authorizedWhenInUse),
                                                     typePage: .feedBubble,
                                                     zipCodeFilled: true,
                                                     distanceRadius: nil)
@@ -224,7 +224,7 @@ class TrackerEventSpec: QuickSpec {
                 context("zipcode is not filled") {
                     beforeEach {
                         sut = TrackerEvent.location(locationType: .sensor,
-                                                    locationServiceStatus: .enabled(.authorized),
+                                                    locationServiceStatus: .enabled(.authorizedWhenInUse),
                                                     typePage: .feedBubble,
                                                     zipCodeFilled: false,
                                                     distanceRadius: nil)
@@ -236,7 +236,7 @@ class TrackerEventSpec: QuickSpec {
                 context("distanceRadius is not set") {
                     beforeEach {
                         sut = TrackerEvent.location(locationType: .sensor,
-                                                    locationServiceStatus: .enabled(.authorized),
+                                                    locationServiceStatus: .enabled(.authorizedWhenInUse),
                                                     typePage: .feedBubble,
                                                     zipCodeFilled: false,
                                                     distanceRadius: nil)
@@ -248,7 +248,7 @@ class TrackerEventSpec: QuickSpec {
                 context("distanceRadius is set to 1") {
                     beforeEach {
                         sut = TrackerEvent.location(locationType: .sensor,
-                                                    locationServiceStatus: .enabled(.authorized),
+                                                    locationServiceStatus: .enabled(.authorizedWhenInUse),
                                                     typePage: .feedBubble,
                                                     zipCodeFilled: false,
                                                     distanceRadius: 1)
@@ -1160,7 +1160,8 @@ class TrackerEventSpec: QuickSpec {
                                                           state: "Catalonia", countryCode: "US", country: nil)
 
                     sut = TrackerEvent.listingDetailVisit(.product(product), visitUserAction: .none, source: .listingList,
-                                                          feedPosition: .position(index:1), isBumpedUp: .trueParameter)
+                                                          feedPosition: .position(index:1), isBumpedUp: .trueParameter,
+                                                          sellerBadge: .silver)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-visit"))
@@ -1210,6 +1211,10 @@ class TrackerEventSpec: QuickSpec {
                 it("contains bumped up param") {
                     let bumpedUp = sut.params!.stringKeyParams["bump-up"] as? String
                     expect(bumpedUp).to(equal("true"))
+                }
+                it("contains seller badge param") {
+                    let badge = sut.params!.stringKeyParams["seller-reputation-badge"] as? String
+                    expect(badge) == "silver"
                 }
             }
             
@@ -1681,7 +1686,8 @@ class TrackerEventSpec: QuickSpec {
                         .set(assistantMeeting: nil)
                     sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                     listingVisitSource: .listingList,
-                                                    feedPosition: .position(index:1))
+                                                    feedPosition: .position(index:1),
+                                                    userBadge: .silver)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-ask-question"))
@@ -1746,12 +1752,17 @@ class TrackerEventSpec: QuickSpec {
                     let emoji = sut.params!.stringKeyParams["contain-emoji"] as? Bool
                     expect(emoji) == true
                 }
+                it("contains seller badge param") {
+                    let badge = sut.params!.stringKeyParams["seller-reputation-badge"] as? String
+                    expect(badge) == "silver"
+                }
                 describe("text message") {
                     beforeEach {
                         sendMessageInfo.set(messageType: .text)
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
-                                                        feedPosition: .position(index:1))
+                                                        feedPosition: .position(index:1),
+                                                        userBadge: .silver)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1774,7 +1785,8 @@ class TrackerEventSpec: QuickSpec {
                         sendMessageInfo.set(messageType: .sticker)
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
-                                                        feedPosition: .position(index:1))
+                                                        feedPosition: .position(index:1),
+                                                        userBadge: .silver)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1798,7 +1810,8 @@ class TrackerEventSpec: QuickSpec {
                         sendMessageInfo.set(quickAnswerType: .notInterested)
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
-                                                        feedPosition: .position(index:1))
+                                                        feedPosition: .position(index:1),
+                                                        userBadge: .silver)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1841,7 +1854,8 @@ class TrackerEventSpec: QuickSpec {
                         .set(assistantMeeting: nil)
                     sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                     listingVisitSource: .listingList,
-                                                    feedPosition: .position(index:1))
+                                                    feedPosition: .position(index:1),
+                                                    userBadge: .silver)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-ask-question"))
@@ -1894,12 +1908,17 @@ class TrackerEventSpec: QuickSpec {
                     let emoji = sut.params!.stringKeyParams["contain-emoji"] as? Bool
                     expect(emoji) == false
                 }
+                it("contains seller badge param") {
+                    let badge = sut.params!.stringKeyParams["seller-reputation-badge"] as? String
+                    expect(badge) == "silver"
+                }
                 describe("text message") {
                     beforeEach {
                         sendMessageInfo.set(messageType: .text)
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
-                                                        feedPosition: .position(index:1))
+                                                        feedPosition: .position(index:1),
+                                                        userBadge: .silver)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1922,7 +1941,8 @@ class TrackerEventSpec: QuickSpec {
                         sendMessageInfo.set(messageType: .sticker)
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
-                                                        feedPosition: .position(index:1))
+                                                        feedPosition: .position(index:1),
+                                                        userBadge: .silver)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1946,7 +1966,8 @@ class TrackerEventSpec: QuickSpec {
                         sendMessageInfo.set(quickAnswerType: .notInterested)
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
-                                                        feedPosition: .position(index:1))
+                                                        feedPosition: .position(index:1),
+                                                        userBadge: .silver)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String

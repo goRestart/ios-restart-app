@@ -24,7 +24,6 @@ open class MockMonetizationRepository: MonetizationRepository {
     // MARK: - MonetizationRepository
 
     public func retrieveBumpeableListingInfo(listingId: String,
-                                             withHigherMinimumPrice minPriceVersion: Int,
                                              completion: BumpeableListingCompletion?) {
         delay(result: retrieveResult, completion: completion)
     }
