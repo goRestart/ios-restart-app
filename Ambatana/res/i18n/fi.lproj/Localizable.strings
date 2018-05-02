@@ -750,6 +750,7 @@
 "product_post_price_label" = "Haluatko lisätä hinnan?";
 "product_post_product_posted" = "Ilmoitus julkaistu. Onneksi olkoon!";
 "product_post_product_posted_not_logged" = "Kuva ladattu!";
+"product_post_product_posted_not_logged_video_posting" = "Video uploaded!";
 "product_post_retake" = "Ota uusi kuva";
 "product_post_retry_button" = "Yritä uudelleen";
 "product_post_select_category_cars" = "Autoja";
@@ -760,6 +761,7 @@
 "product_post_select_category_title" = "Mitä olet julkaisemassa?";
 "product_post_use_photo" = "Käytä";
 "product_post_use_photo_not_logged" = "Käytä kuvaa";
+"product_post_use_video_not_logged" = "Use video";
 "product_professional_call_button" = "Soita";
 "product_professional_chat_button" = "Keskustele";
 "product_report_confirm_message" = "Oletko varma että haluat ilmiantaa tämän ilmoituksen?";

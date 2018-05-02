@@ -750,6 +750,7 @@
 "product_post_price_label" = "가격을 추가하고 싶으신가요?";
 "product_post_product_posted" = "상품 목록이 등록되었습니다. 축하드립니다!";
 "product_post_product_posted_not_logged" = "사진이 업로드 되었습니다!";
+"product_post_product_posted_not_logged_video_posting" = "Video uploaded!";
 "product_post_retake" = "다시 촬영하기";
 "product_post_retry_button" = "다시 시도하기";
 "product_post_select_category_cars" = "자동차";
@@ -760,6 +761,7 @@
 "product_post_select_category_title" = "무엇을 게시하시나요?";
 "product_post_use_photo" = "게시하기";
 "product_post_use_photo_not_logged" = "사진 사용하기";
+"product_post_use_video_not_logged" = "Use video";
 "product_professional_call_button" = "통화";
 "product_professional_chat_button" = "대화";
 "product_report_confirm_message" = "이 상품 목록을 신고할까요?";

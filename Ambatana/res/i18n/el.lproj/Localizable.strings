@@ -750,6 +750,7 @@
 "product_post_price_label" = "Θέλετε να προσθέσετε τιμή;";
 "product_post_product_posted" = "Η καταχώρηση δημοσιεύτηκε. Συγχαρητήρια!";
 "product_post_product_posted_not_logged" = "Η φωτογραφία ανέβηκε!";
+"product_post_product_posted_not_logged_video_posting" = "Video uploaded!";
 "product_post_retake" = "Ξανατραβήξτε";
 "product_post_retry_button" = "Προσπαθήστε Ξανά";
 "product_post_select_category_cars" = "Αυτοκίνητα";
@@ -760,6 +761,7 @@
 "product_post_select_category_title" = "Τί δημοσιεύετε;";
 "product_post_use_photo" = "Δημοσιεύστε";
 "product_post_use_photo_not_logged" = "Χρήση Φωτογραφίας";
+"product_post_use_video_not_logged" = "Use video";
 "product_professional_call_button" = "Κλήση";
 "product_professional_chat_button" = "Συνομιλία";
 "product_report_confirm_message" = "Είστε σίγουροι πως θέλετε να αναφέρετε αυτήν την καταχώρηση;";

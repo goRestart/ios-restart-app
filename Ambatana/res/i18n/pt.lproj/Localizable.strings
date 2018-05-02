@@ -749,7 +749,8 @@
 "product_post_network_error" = "Your listing hasn't been posted.\nPlease check your network settings.";
 "product_post_price_label" = "Want to add a price?";
 "product_post_product_posted" = "Listing posted. Congrats!";
-"product_post_product_posted_not_logged" = "Photo Uploaded!";
+"product_post_product_posted_not_logged" = "Photo uploaded!";
+"product_post_product_posted_not_logged_video_posting" = "Video uploaded!";
 "product_post_retake" = "Retake";
 "product_post_retry_button" = "Try Again";
 "product_post_select_category_cars" = "Cars";
@@ -759,7 +760,8 @@
 "product_post_select_category_real_estate" = "Real Estate";
 "product_post_select_category_title" = "What are you posting?";
 "product_post_use_photo" = "Post";
-"product_post_use_photo_not_logged" = "Use Photo";
+"product_post_use_photo_not_logged" = "Use photo";
+"product_post_use_video_not_logged" = "Use video";
 "product_professional_call_button" = "Call";
 "product_professional_chat_button" = "Chat";
 "product_report_confirm_message" = "Are you sure you want to report this listing?";

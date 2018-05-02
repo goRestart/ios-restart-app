@@ -2232,7 +2232,10 @@
 "product_post_product_posted" = "Listing posted. Congrats!";
 
 // Confirmation BEFORE setting the price when not logged in
-"product_post_product_posted_not_logged" = "Photo Uploaded!";
+"product_post_product_posted_not_logged" = "Photo uploaded!";
+
+// Confirmation BEFORE setting the price when not logged in (video posting)
+"product_post_product_posted_not_logged_video_posting" = "Video uploaded!";
 
 // Retake photo button
 "product_post_retake" = "Retake";
@@ -2244,7 +2247,10 @@
 "product_post_use_photo" = "Post";
 
 // User photo button when not logged in
-"product_post_use_photo_not_logged" = "Use Photo";
+"product_post_use_photo_not_logged" = "Use photo";
+
+// User video button when not logged in
+"product_post_use_video_not_logged" = "Use video";
 
 // Product post category selection title
 "product_post_select_category_title" = "What are you posting?";

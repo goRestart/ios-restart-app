@@ -750,6 +750,7 @@
 "product_post_price_label" = "Bạn muốn bổ sung giá?";
 "product_post_product_posted" = "Bài đã được đăng. Xin chúc mừng!";
 "product_post_product_posted_not_logged" = "Ảnh đã được tải lên!";
+"product_post_product_posted_not_logged_video_posting" = "Video uploaded!";
 "product_post_retake" = "Chụp lại";
 "product_post_retry_button" = "Thử lại";
 "product_post_select_category_cars" = "Xe hơi";
@@ -760,6 +761,7 @@
 "product_post_select_category_title" = "Bạn đang đăng gì?";
 "product_post_use_photo" = "Đăng";
 "product_post_use_photo_not_logged" = "Sử dụng Hình ảnh";
+"product_post_use_video_not_logged" = "Use video";
 "product_professional_call_button" = "Gọi";
 "product_professional_chat_button" = "Trò chuyện";
 "product_report_confirm_message" = "Bạn có chắc chắn muốn báo cáo bài đăng này không?";

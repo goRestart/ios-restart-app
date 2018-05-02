@@ -750,6 +750,7 @@
 "product_post_price_label" = "Vuoi aggiungere un prezzo?";
 "product_post_product_posted" = "Annuncio pubblicato. Complimenti!";
 "product_post_product_posted_not_logged" = "Foto Caricata!";
+"product_post_product_posted_not_logged_video_posting" = "Video uploaded!";
 "product_post_retake" = "Scatta di Nuovo";
 "product_post_retry_button" = "Riprova";
 "product_post_select_category_cars" = "Auto";
@@ -760,6 +761,7 @@
 "product_post_select_category_title" = "Che cosa stai pubblicando?";
 "product_post_use_photo" = "Pubblica";
 "product_post_use_photo_not_logged" = "Utilizza Foto";
+"product_post_use_video_not_logged" = "Use video";
 "product_professional_call_button" = "Chiama";
 "product_professional_chat_button" = "Chat";
 "product_report_confirm_message" = "Sei sicuro di voler segnalare questo annuncio?";

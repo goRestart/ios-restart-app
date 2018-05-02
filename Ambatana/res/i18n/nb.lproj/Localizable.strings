@@ -750,6 +750,7 @@
 "product_post_price_label" = "Ønsker du å legge til pris?";
 "product_post_product_posted" = "Annonse ble publisert. Gratulerer!";
 "product_post_product_posted_not_logged" = "Bildet ble lastet opp!";
+"product_post_product_posted_not_logged_video_posting" = "Video uploaded!";
 "product_post_retake" = "Ta nytt bilde";
 "product_post_retry_button" = "Prøv igjen";
 "product_post_select_category_cars" = "Biler";
@@ -760,6 +761,7 @@
 "product_post_select_category_title" = "Hva publiserer du?";
 "product_post_use_photo" = "Publiser";
 "product_post_use_photo_not_logged" = "Bruk bilde";
+"product_post_use_video_not_logged" = "Use video";
 "product_professional_call_button" = "Ring";
 "product_professional_chat_button" = "Chat";
 "product_report_confirm_message" = "Er du sikker på at du ønsker å rapportere denne annonsen?";

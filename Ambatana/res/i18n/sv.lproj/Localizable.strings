@@ -750,6 +750,7 @@
 "product_post_price_label" = "Vill du lägga till ett pris?";
 "product_post_product_posted" = "Annonsen är upplagd. Grattis!";
 "product_post_product_posted_not_logged" = "Bilden är uppladdad!";
+"product_post_product_posted_not_logged_video_posting" = "Video uploaded!";
 "product_post_retake" = "Ta en ny";
 "product_post_retry_button" = "Försök igen";
 "product_post_select_category_cars" = "Bilar";
@@ -760,6 +761,7 @@
 "product_post_select_category_title" = "Vad lägger du upp?";
 "product_post_use_photo" = "Lägg upp";
 "product_post_use_photo_not_logged" = "Använd foto";
+"product_post_use_video_not_logged" = "Use video";
 "product_professional_call_button" = "Ring";
 "product_professional_chat_button" = "Chatt";
 "product_report_confirm_message" = "Är du säker på att du vill rapportera denna annons?";

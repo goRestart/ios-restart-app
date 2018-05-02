@@ -750,6 +750,7 @@
 "product_post_price_label" = "Hozzáadod az árát?";
 "product_post_product_posted" = "Hirdetés feltöltve. Tapsvihar!";
 "product_post_product_posted_not_logged" = "Fotó feltöltve!";
+"product_post_product_posted_not_logged_video_posting" = "Video uploaded!";
 "product_post_retake" = "Újra";
 "product_post_retry_button" = "Ismét";
 "product_post_select_category_cars" = "Autók";
@@ -760,6 +761,7 @@
 "product_post_select_category_title" = "Mit készülsz meghirdetni?";
 "product_post_use_photo" = "Meghirdetem";
 "product_post_use_photo_not_logged" = "Fotó használata";
+"product_post_use_video_not_logged" = "Use video";
 "product_professional_call_button" = "Hívás";
 "product_professional_chat_button" = "Csevegés";
 "product_report_confirm_message" = "Biztosan jelenteni szeretnéd ezt a hirdetést?";

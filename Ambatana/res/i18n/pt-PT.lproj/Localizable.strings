@@ -750,6 +750,7 @@
 "product_post_price_label" = "Quer adicionar um preço?";
 "product_post_product_posted" = "Artigo publicado. Parabéns!";
 "product_post_product_posted_not_logged" = "Foto carregada!";
+"product_post_product_posted_not_logged_video_posting" = "Video uploaded!";
 "product_post_retake" = "Refazer";
 "product_post_retry_button" = "Tente novamente";
 "product_post_select_category_cars" = "Viaturas";
@@ -760,6 +761,7 @@
 "product_post_select_category_title" = "O que está a publicar?";
 "product_post_use_photo" = "Publicar";
 "product_post_use_photo_not_logged" = "Usar a foto";
+"product_post_use_video_not_logged" = "Use video";
 "product_professional_call_button" = "Chamar";
 "product_professional_chat_button" = "Chat";
 "product_report_confirm_message" = "Deseja mesmo denunciar esta publicação?";

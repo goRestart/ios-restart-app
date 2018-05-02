@@ -750,6 +750,7 @@
 "product_post_price_label" = "Fiyat eklemek ister misin?";
 "product_post_product_posted" = "İlan yayınlandı. Tebrikler!";
 "product_post_product_posted_not_logged" = "Fotoğraf Yüklendi!";
+"product_post_product_posted_not_logged_video_posting" = "Video uploaded!";
 "product_post_retake" = "Tekrar Çek";
 "product_post_retry_button" = "Tekrar dene";
 "product_post_select_category_cars" = "Araba";
@@ -760,6 +761,7 @@
 "product_post_select_category_title" = "Ne satıyorsun?";
 "product_post_use_photo" = "Yayınla";
 "product_post_use_photo_not_logged" = "Fotoğrafı Kullan";
+"product_post_use_video_not_logged" = "Use video";
 "product_professional_call_button" = "Ara";
 "product_professional_chat_button" = "Sohbet";
 "product_report_confirm_message" = "Bu ilanı şikayet etmek istediğine emin misin?";

@@ -3003,6 +3003,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_post_product_posted_not_logged", comment: "")
 	}
 
+	static var productPostProductPostedNotLoggedVideoPosting: String {
+		return NSLocalizedString("product_post_product_posted_not_logged_video_posting", comment: "")
+	}
+
 	static var productPostRetake: String {
 		return NSLocalizedString("product_post_retake", comment: "")
 	}
@@ -3017,6 +3021,10 @@ struct LGLocalizedString {
 
 	static var productPostUsePhotoNotLogged: String {
 		return NSLocalizedString("product_post_use_photo_not_logged", comment: "")
+	}
+
+	static var productPostUseVideoNotLogged: String {
+		return NSLocalizedString("product_post_use_video_not_logged", comment: "")
 	}
 
 	static var productPostSelectCategoryTitle: String {

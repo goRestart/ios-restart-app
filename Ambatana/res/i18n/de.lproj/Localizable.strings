@@ -750,6 +750,7 @@
 "product_post_price_label" = "Möchtest du einen Preis hinzufügen?";
 "product_post_product_posted" = "Angebot eingestellt. Glückwunsch!";
 "product_post_product_posted_not_logged" = "Foto hochgeladen!";
+"product_post_product_posted_not_logged_video_posting" = "Video uploaded!";
 "product_post_retake" = "Nochmal";
 "product_post_retry_button" = "Versuch's noch einmal";
 "product_post_select_category_cars" = "Autos";
@@ -760,6 +761,7 @@
 "product_post_select_category_title" = "Was stellst du ein?";
 "product_post_use_photo" = "Foto verwenden";
 "product_post_use_photo_not_logged" = "Foto nutzen";
+"product_post_use_video_not_logged" = "Use video";
 "product_professional_call_button" = "Anrufen";
 "product_professional_chat_button" = "Chatten";
 "product_report_confirm_message" = "Bist du sicher, dass du dieses Angebot melden möchtest?";
