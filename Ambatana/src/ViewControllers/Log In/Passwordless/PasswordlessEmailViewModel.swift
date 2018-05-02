@@ -11,21 +11,19 @@ import RxSwift
 
 final class PasswordlessEmailViewModel: BaseViewModel {
 
-    let isContinueActionEnabled = Variable<Bool>(false)
+    weak var navigator: PasswordlessNavigator?
 
-    init(foo: String) {
-        // FIXME: implement
-    }
+    let isContinueActionEnabled = Variable<Bool>(false)
 
     func didChange(email: String?) {
         isContinueActionEnabled.value = email?.isEmail() ?? false
     }
 
     func didTapContinueWith(email: String) {
-        // FIXME: implement
+        navigator?.openPasswordlessEmailSentTo(email: email)
     }
 
     func didTapHelp() {
-        // FIXME: implement
+        navigator?.openHelpFromPasswordless()
     }
 }

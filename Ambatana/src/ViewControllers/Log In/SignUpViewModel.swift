@@ -140,6 +140,10 @@ class SignUpViewModel: BaseViewModel {
         navigator?.openLogInEmailFromMainSignUp()
     }
 
+    func continueWithEmailButtonPressed() {
+        navigator?.openPasswordlessEmail()
+    }
+
     func helpButtonPressed() {
         navigator?.openHelpFromMainSignUp()
     }
