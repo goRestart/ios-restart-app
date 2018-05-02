@@ -35,9 +35,9 @@ def shared_pods
     pod "NewRelicAgent",        "6.1.1"     # Obj-c
 
     # letgo Core
-    pod "LGCoreKit",             "4.22.1", :inhibit_warnings => false
-#   pod "LGCoreKit",            :path => "../lgcorekit", :inhibit_warnings => false
-#  pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => 'c105f4835fd6bf92ff2b578f6df10ce36ae89170', :inhibit_warnings => false
+    pod "LGCoreKit",             "4.22.3", :inhibit_warnings => false
+#  pod "LGCoreKit",            :path => "../lgcorekit", :inhibit_warnings => false
+#  pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => '68a37f84d6d32fe9fd6e3be0b34d9aea6e0a6c0f', :inhibit_warnings => false
 
     # letgo Collapsible label
     pod "LGCollapsibleLabel",   "1.2.0", :inhibit_warnings => false     # :path => "../collapsiblelabel"
@@ -70,7 +70,7 @@ def shared_pods
     pod "FLEX",                 "2.4.0"  # Obj-c
 
     # User defaults
-    pod "SwiftyUserDefaults",   :git => 'https://github.com/Dschee/SwiftyUserDefaults', :commit => 'dd3d8ddc5bf95db09b66185182b5a555ac59efd5' # PR: https://github.com/radex/SwiftyUserDefaults/pull/135 swift 4 (not too much activity)
+    pod "SwiftyUserDefaults",   "3.0.1"
 
     # TextView with placeholder
     pod "KMPlaceholderTextView", :git => 'https://github.com/letgoapp/KMPlaceholderTextView', :commit => '426117c98e8da8fc7d64a7d3c2f0f45c48d595e6', :inhibit_warnings => false 

@@ -590,8 +590,7 @@ fileprivate extension AppCoordinator {
     fileprivate func retrieveBumpeableInfoForListing(listingId: String, bumpUpSource: BumpUpSource) {
         purchasesShopper.bumpInfoRequesterDelegate = self
         monetizationRepository.retrieveBumpeableListingInfo(
-            listingId: listingId,
-            withHigherMinimumPrice: featureFlags.bumpPriceVariationBucket.rawValue) { [weak self] result in
+            listingId: listingId) { [weak self] result in
                 guard let strongSelf = self else { return }
                 if let value = result.value {
                     let paymentItems = value.paymentItems.filter { $0.provider == .apple }

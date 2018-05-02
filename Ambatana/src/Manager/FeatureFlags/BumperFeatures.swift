@@ -65,6 +65,7 @@ extension Bumper  {
         flags.append(CopyForSellFasterNowInEnglish.self)
         flags.append(CreateUpdateCarsIntoNewBackend.self)
         flags.append(EmergencyLocate.self)
+        flags.append(RealEstateMap.self)
         Bumper.initialize(flags)
     } 
 
@@ -326,6 +327,11 @@ extension Bumper  {
     static var emergencyLocate: EmergencyLocate {
         guard let value = Bumper.value(for: EmergencyLocate.key) else { return .control }
         return EmergencyLocate(rawValue: value) ?? .control 
+    }
+
+    static var realEstateMap: RealEstateMap {
+        guard let value = Bumper.value(for: RealEstateMap.key) else { return .control }
+        return RealEstateMap(rawValue: value) ?? .control 
     } 
 }
 
@@ -1122,6 +1128,22 @@ enum EmergencyLocate: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Activate the Emergency Locate feature" } 
     static func fromPosition(_ position: Int) -> EmergencyLocate {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum RealEstateMap: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return RealEstateMap.control.rawValue }
+    static var enumValues: [RealEstateMap] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show Real Estate Map" } 
+    static func fromPosition(_ position: Int) -> RealEstateMap {
         switch position { 
             case 0: return .control
             case 1: return .baseline

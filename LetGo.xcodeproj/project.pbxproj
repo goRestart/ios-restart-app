@@ -473,6 +473,8 @@
 		421CB34C207BBE5E006BF8A4 /* Collection+Safe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421CB34A207BBE5E006BF8A4 /* Collection+Safe.swift */; };
 		4245B6EF2084D47A00EF8162 /* UserType+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4245B6EE2084D47A00EF8162 /* UserType+LG.swift */; };
 		4245B6F02084D47A00EF8162 /* UserType+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4245B6EE2084D47A00EF8162 /* UserType+LG.swift */; };
+		424898EE2090820E004B11AC /* ListingRepository+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424898ED2090820E004B11AC /* ListingRepository+LG.swift */; };
+		424898EF2090820E004B11AC /* ListingRepository+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424898ED2090820E004B11AC /* ListingRepository+LG.swift */; };
 		425BB9FB20888CF500FE9BB8 /* UserType+LGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425BB9FA20888CF500FE9BB8 /* UserType+LGSpec.swift */; };
 		427070D520764EBA00C1FEB3 /* CellAppereance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427070D420764EBA00C1FEB3 /* CellAppereance.swift */; };
 		427070D620764EBA00C1FEB3 /* CellAppereance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427070D420764EBA00C1FEB3 /* CellAppereance.swift */; };
@@ -779,6 +781,10 @@
 		556E26F6203C3BA70098ECF0 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556E26F5203C3BA70098ECF0 /* UserProfileViewController.swift */; };
 		556E26F7203C3C0D0098ECF0 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556E26F5203C3BA70098ECF0 /* UserProfileViewController.swift */; };
 		556E26F9203C3C940098ECF0 /* UserProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556E26F8203C3C940098ECF0 /* UserProfileViewModel.swift */; };
+		55A8FBE42097193000F35D65 /* PasswordlessEmailSentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A8FBE32097193000F35D65 /* PasswordlessEmailSentViewController.swift */; };
+		55A8FBE52097193100F35D65 /* PasswordlessEmailSentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A8FBE32097193000F35D65 /* PasswordlessEmailSentViewController.swift */; };
+		55A8FBE72097194B00F35D65 /* PasswordlessEmailSentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A8FBE62097194B00F35D65 /* PasswordlessEmailSentViewModel.swift */; };
+		55A8FBE82097194B00F35D65 /* PasswordlessEmailSentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A8FBE62097194B00F35D65 /* PasswordlessEmailSentViewModel.swift */; };
 		55F1FB36204942B8005D1BD4 /* UserProfileNavBarUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F1FB35204942B8005D1BD4 /* UserProfileNavBarUserView.swift */; };
 		55F1FB37204942B8005D1BD4 /* UserProfileNavBarUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F1FB35204942B8005D1BD4 /* UserProfileNavBarUserView.swift */; };
 		55F90BA0203C3E1000D9F7D0 /* UserProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F90B9F203C3E1000D9F7D0 /* UserProfileHeaderView.swift */; };
@@ -2154,6 +2160,7 @@
 		4219244020761CF900862CEF /* PromoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoCell.swift; sourceTree = "<group>"; };
 		421CB34A207BBE5E006BF8A4 /* Collection+Safe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Safe.swift"; sourceTree = "<group>"; };
 		4245B6EE2084D47A00EF8162 /* UserType+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserType+LG.swift"; sourceTree = "<group>"; };
+		424898ED2090820E004B11AC /* ListingRepository+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ListingRepository+LG.swift"; sourceTree = "<group>"; };
 		425BB9FA20888CF500FE9BB8 /* UserType+LGSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserType+LGSpec.swift"; sourceTree = "<group>"; };
 		427070D420764EBA00C1FEB3 /* CellAppereance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellAppereance.swift; sourceTree = "<group>"; };
 		427CAB89206A827300112D58 /* TrendingSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingSearchView.swift; sourceTree = "<group>"; };
@@ -2381,6 +2388,8 @@
 		5532C4E8209325DA006FD3EA /* PasswordlessEmailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordlessEmailViewModel.swift; sourceTree = "<group>"; };
 		556E26F5203C3BA70098ECF0 /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
 		556E26F8203C3C940098ECF0 /* UserProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewModel.swift; sourceTree = "<group>"; };
+		55A8FBE32097193000F35D65 /* PasswordlessEmailSentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordlessEmailSentViewController.swift; sourceTree = "<group>"; };
+		55A8FBE62097194B00F35D65 /* PasswordlessEmailSentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordlessEmailSentViewModel.swift; sourceTree = "<group>"; };
 		55F1FB35204942B8005D1BD4 /* UserProfileNavBarUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileNavBarUserView.swift; sourceTree = "<group>"; };
 		55F90B9F203C3E1000D9F7D0 /* UserProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileHeaderView.swift; sourceTree = "<group>"; };
 		621A022FD11014184694D7E6 /* Pods-letgoTests.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-letgoTests.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests.adhoc.xcconfig"; sourceTree = "<group>"; };
@@ -4332,6 +4341,8 @@
 				5532C4E8209325DA006FD3EA /* PasswordlessEmailViewModel.swift */,
 				6A11F9942097128300AA7C3B /* PasswordlessUsernameViewController.swift */,
 				6A11F9962097129000AA7C3B /* PasswordlessUsernameViewModel.swift */,
+				55A8FBE32097193000F35D65 /* PasswordlessEmailSentViewController.swift */,
+				55A8FBE62097194B00F35D65 /* PasswordlessEmailSentViewModel.swift */,
 			);
 			path = Passwordless;
 			sourceTree = "<group>";
@@ -4521,6 +4532,7 @@
 				F5D91E7C2008C20200DF28E7 /* UserRatingType+RateBack.swift */,
 				01A04809200CEF53008725A1 /* DailyCountIncrementer.swift */,
 				01834969204F573100B14A24 /* ListingEditionParams+LG.swift */,
+				424898ED2090820E004B11AC /* ListingRepository+LG.swift */,
 			);
 			path = LetgoExtensions;
 			sourceTree = "<group>";
@@ -7194,6 +7206,7 @@
 				C78F9DBC1DCA525F00884064 /* ChatTextView.swift in Sources */,
 				502B705B1BAAC3AE00C5D465 /* FloatingButton.swift in Sources */,
 				C75B5DC51D59E09500112368 /* ListingCarouselViewModel.swift in Sources */,
+				424898EE2090820E004B11AC /* ListingRepository+LG.swift in Sources */,
 				556E26F6203C3BA70098ECF0 /* UserProfileViewController.swift in Sources */,
 				8E0EEFB42056C422000C07C9 /* MLPostingDetailsViewController.swift in Sources */,
 				50A61C221DCA1B5A0057436A /* NSLocale+Country.swift in Sources */,
@@ -7244,6 +7257,7 @@
 				2E6691AF1FBDE45700FC2A77 /* PromoteBumpViewModel.swift in Sources */,
 				0A6E56AE1F8E233500419DDC /* RelatedListingsViewModel.swift in Sources */,
 				2EDCFA331BFF8AB00000E47D /* SignUpLogInViewModel.swift in Sources */,
+				55A8FBE42097193000F35D65 /* PasswordlessEmailSentViewController.swift in Sources */,
 				5095988B1C8733B70026AE2D /* AppReport.swift in Sources */,
 				0A9035101FCC18E800FDE795 /* PhotoViewerViewModel.swift in Sources */,
 				C7126BDB1E6053AA00038CC4 /* ListingVMTrackHelper.swift in Sources */,
@@ -7412,6 +7426,7 @@
 				502047181EE99F6E006C0EC2 /* FeatureFlagsDAO.swift in Sources */,
 				50C59BD81CE0DB4400377124 /* UserDefaultsUser.swift in Sources */,
 				2E64D41A1D11B34F00257B69 /* Tooltip.swift in Sources */,
+				55A8FBE72097194B00F35D65 /* PasswordlessEmailSentViewModel.swift in Sources */,
 				0AFE311F2056DCAB004B6781 /* ListingDeckImagePreviewCell.swift in Sources */,
 				0AA6A5671FFFBCD600F72F4A /* LGCGAffineTransform.swift in Sources */,
 				01834970204F6A9F00B14A24 /* BlockingPostingListingEditionViewModel.swift in Sources */,
@@ -7932,6 +7947,7 @@
 				8E0EEFB52056C422000C07C9 /* MLPostingDetailsViewController.swift in Sources */,
 				6A5E1A111D548F5400F92692 /* UIImage+LG.swift in Sources */,
 				50A61C231DCA1B5A0057436A /* NSLocale+Country.swift in Sources */,
+				424898EF2090820E004B11AC /* ListingRepository+LG.swift in Sources */,
 				C7DB420D1C5138B500400945 /* FloatingButton.swift in Sources */,
 				0A759E981FB473AC0030FDE0 /* ListingCardViewModel.swift in Sources */,
 				0AF5EB6D1FD060B2001DFAE2 /* QuickChatView.swift in Sources */,
@@ -7982,6 +7998,7 @@
 				C788EED51CC6935600B9E26F /* UserListingListRequester.swift in Sources */,
 				5095988C1C8733B70026AE2D /* AppReport.swift in Sources */,
 				0A9035111FCC18E800FDE795 /* PhotoViewerViewModel.swift in Sources */,
+				55A8FBE52097193100F35D65 /* PasswordlessEmailSentViewController.swift in Sources */,
 				C7126BDC1E6053AA00038CC4 /* ListingVMTrackHelper.swift in Sources */,
 				6A12E0561C6398A400C1BFE3 /* TourNotificationsViewModel.swift in Sources */,
 				F57D3A2F1FED01A6006F2CA4 /* TagCollectionViewCell.swift in Sources */,
@@ -8150,6 +8167,7 @@
 				50C59BD91CE0DB4400377124 /* UserDefaultsUser.swift in Sources */,
 				2E64D41B1D11B34F00257B69 /* Tooltip.swift in Sources */,
 				0AFE31202056DCAB004B6781 /* ListingDeckImagePreviewCell.swift in Sources */,
+				55A8FBE82097194B00F35D65 /* PasswordlessEmailSentViewModel.swift in Sources */,
 				0AA6A5681FFFBE7B00F72F4A /* LGCGAffineTransform.swift in Sources */,
 				4287173E20655DB500EE334C /* LGNavBarMetrics.swift in Sources */,
 				01834971204F6A9F00B14A24 /* BlockingPostingListingEditionViewModel.swift in Sources */,

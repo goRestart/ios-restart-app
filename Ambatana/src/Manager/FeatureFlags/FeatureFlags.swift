@@ -16,12 +16,6 @@ enum PostingFlowType: String {
     case turkish
 }
 
-enum BumpPriceVariationBucket: Int {
-    case defaultValue = 0
-    case minPriceIncreaseUSA = 2
-    case vatDecreaseTR = 4
-}
-
 protocol FeatureFlaggeable: class {
 
     var trackingData: Observable<[(String, ABGroup)]?> { get }
@@ -71,6 +65,7 @@ protocol FeatureFlaggeable: class {
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem { get }
     var emergencyLocate: EmergencyLocate { get }
     var showExactLocationForPros: Bool { get }
+    var showPasswordlessLogin: ShowPasswordlessLogin { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -80,7 +75,6 @@ protocol FeatureFlaggeable: class {
     var signUpEmailTermsAndConditionsAcceptRequired: Bool { get }
     var moreInfoDFPAdUnitId: String { get }
     var feedDFPAdUnitId: String? { get }
-    var bumpPriceVariationBucket: BumpPriceVariationBucket { get }
     func collectionsAllowedFor(countryCode: String?) -> Bool
     var shouldChangeChatNowCopyInTurkey: Bool { get }
     var copyForChatNowInTurkey: CopyForChatNowInTurkey { get }
@@ -98,7 +92,7 @@ protocol FeatureFlaggeable: class {
     var realEstatePromoCell: RealEstatePromoCell { get }
     var filterSearchCarSellerType: FilterSearchCarSellerType { get }
     var createUpdateIntoNewBackend: CreateUpdateCarsIntoNewBackend { get }
-    
+    var realEstateMap: RealEstateMap { get }
 }
 
 extension FeatureFlaggeable {
@@ -281,6 +275,10 @@ extension RealEstatePromoCell {
     var isActive: Bool { return self == .active }
 }
 
+extension RealEstateMap {
+    var isActive: Bool { return self != .baseline && self != .control }
+}
+
 extension FilterSearchCarSellerType {
     var isActive: Bool { return self != .baseline && self != .control }
     
@@ -291,6 +289,13 @@ extension FilterSearchCarSellerType {
 
 extension CreateUpdateCarsIntoNewBackend {
     var isActive: Bool { return self != .baseline && self != .control }
+    
+    func shouldUseCarEndpoint(with params: ListingCreationParams) -> Bool {
+        return isActive && params.isCarParams
+    }
+    func shouldUseCarEndpoint(with params: ListingEditionParams) -> Bool {
+        return isActive && params.isCarParams
+    }
 }
 
 extension MachineLearningMVP {
@@ -888,39 +893,6 @@ class FeatureFlags: FeatureFlaggeable {
         }
     }
 
-    /**
-     This var is used to inform money BE of the ABtests realated to variations in bump prices
-     */
-    var bumpPriceVariationBucket: BumpPriceVariationBucket {
-        if Bumper.enabled {
-            if increaseMinPriceBumps.isActive {
-                return .minPriceIncreaseUSA
-            } else if turkeyBumpPriceVATAdaptation.isActive {
-                return .vatDecreaseTR
-            } else {
-                return .defaultValue
-            }
-        }
-        switch sensorLocationCountryCode {
-        case .usa?:
-            switch increaseMinPriceBumps {
-            case .control, .baseline:
-                return .defaultValue
-            case .active:
-                return .minPriceIncreaseUSA
-            }
-        case .turkey?:
-            switch turkeyBumpPriceVATAdaptation {
-            case .control, .baseline:
-                return .defaultValue
-            case .active:
-                return .vatDecreaseTR
-            }
-        default:
-            return .defaultValue
-        }
-    }
-
     var shouldChangeChatNowCopyInTurkey: Bool {
         if Bumper.enabled {
             return Bumper.copyForChatNowInTurkey.isActive
@@ -1101,6 +1073,17 @@ extension FeatureFlags {
         if Bumper.enabled {
             return Bumper.createUpdateCarsIntoNewBackend
         }
-        return CreateUpdateCarsIntoNewBackend.fromPosition(abTests.createUpdateCarsIntoNewBackend.value)
+        //  TODO: blocked - update when backend works
+        //  return CreateUpdateCarsIntoNewBackend.fromPosition(abTests.createUpdateCarsIntoNewBackend.value)
+        return .control
+    }
+    
+    var realEstateMap: RealEstateMap {
+        if Bumper.enabled {
+            return Bumper.realEstateMap
+        }
+        return .control
+        //  TODO: blocked - update when feature finish
+        //  return RealEstateMap.fromPosition(abTests.realEstateMap.value)
     }
 }

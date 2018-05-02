@@ -752,11 +752,17 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
         let localImages = listingImages.localImages
         let remoteImages = listingImages.remoteImages
+        
         fileRepository.upload(localImages, progress: { [weak self] in self?.loadingProgress.value = $0 }) {
             [weak self] imagesResult in
             if let newImages = imagesResult.value {
+                
+                guard let strongSelf = self else { return }
                 let updatedParams = editParams.updating(images: remoteImages + newImages)
-                self?.listingRepository.update(listingParams: updatedParams) { result in
+                let shouldUseCarEndpoint = strongSelf.featureFlags.createUpdateIntoNewBackend.shouldUseCarEndpoint(with: updatedParams)
+                let updateAction = strongSelf.listingRepository.updateAction(shouldUseCarEndpoint)
+                
+                updateAction(updatedParams) { result in
                     self?.loadingProgress.value = nil
                     if let responseListing = result.value {
                         self?.savedListing = responseListing

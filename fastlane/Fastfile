@@ -315,6 +315,7 @@ platform :ios do
       output_style: "rspec",
       output_directory: "./scanresults",
       output_types: "junit,html",
+      clean: true,
       skip_slack: true,
       code_coverage: true
       )
@@ -328,6 +329,7 @@ platform :ios do
       output_style: "rspec",
       output_directory: "./scanresults",
       output_types: "junit,html",
+      clean: true,
       skip_slack: true,
       code_coverage: true
       )
@@ -433,6 +435,33 @@ platform :ios do
   lane :dependencies do
     lg_dependencies(
       lg_just_info: false
+    )
+  end
+
+  desc "Builds LetgoGoDev for simulator to export it for automation process"
+  lane :make_automation_build do
+    timestamp = Time.now.getutc.strftime("_%m_%d_%y_%I_%M_%p")
+    output = "/tmp/xcbuild" + timestamp
+    channel = '#'+ENV["SLACK_IOS_CORE_CHANNEL"]  
+    message = 'Hey, your .app is waiting for you. Zipped in your desktop (I am talking to whoever runned the command). #hastaluego'
+    xcbuild(
+      workspace: ENV["XCODE_WORKSPACE"],
+      scheme: "LetGoDEV",
+      configuration: "Debug",
+      sdk: "iphonesimulator",
+      destionation: "name=iPhone 7,OS=10.2",
+      derivedDataPath: output,
+      buildlog_path: "build.log"
+    )
+
+    zipped_output = "~/Desktop/automation" + timestamp + ".zip"
+    sh("zip -r #{zipped_output} #{output}") 
+    slack(
+    	message: message,
+	success: true,
+	channel: channel, 
+	default_payloads: [],
+	icon_url: "https://cdn.iconscout.com/public/images/icon/premium/png-512/bender-robot-bot-technology-machine-34fbb8f5bb91b753-512x512.png"
     )
   end
 

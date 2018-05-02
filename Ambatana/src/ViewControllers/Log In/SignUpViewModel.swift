@@ -48,6 +48,10 @@ class SignUpViewModel: BaseViewModel {
         return attributtedLegalText
     }
 
+    var showpasswordlessLogin: Bool {
+        return self.featureFlags.showPasswordlessLogin.isActive
+    }
+
     private var termsAndConditionsURL: URL? {
         return LetgoURLHelper.buildTermsAndConditionsURL()
     }

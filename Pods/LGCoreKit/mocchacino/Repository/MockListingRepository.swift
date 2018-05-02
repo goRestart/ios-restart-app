@@ -150,6 +150,10 @@ open class MockListingRepository: ListingRepository {
         delay(result: listingResult, completion: completion)
     }
     
+    public func updateCar(listingParams: ListingEditionParams, completion: ListingCompletion?) {
+        delay(result: listingResult, completion: completion)
+    }
+    
     public func update(product: Product,
                        images: [UIImage],
                        progress: ((Float) -> Void)?, completion: ProductCompletion?) {

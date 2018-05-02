@@ -94,7 +94,7 @@ final class PasswordlessEmailViewController: BaseViewController {
         var placeholderAttributes = [NSAttributedStringKey: Any]()
         placeholderAttributes[NSAttributedStringKey.font] = UIFont.passwordLessEmailTextFieldFont
         placeholderAttributes[NSAttributedStringKey.foregroundColor] = UIColor.grayPlaceholderText
-        emailTextField.attributedPlaceholder = NSAttributedString(string: "Email",
+        emailTextField.attributedPlaceholder = NSAttributedString(string: "Email", // FIXME: localize
                                                                   attributes: placeholderAttributes)
     }
 

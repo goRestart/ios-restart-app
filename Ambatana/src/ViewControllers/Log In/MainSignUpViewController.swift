@@ -32,6 +32,8 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
 
     @IBOutlet weak var signUpButton: LetgoButton!
     @IBOutlet weak var logInButton: LetgoButton!
+    @IBOutlet weak var continueWithEmailButton: LetgoButton!
+    @IBOutlet weak var emailImageView: UIImageView!
     
     // Footer
     
@@ -126,7 +128,10 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
     @IBAction func logInButtonPressed(_ sender: AnyObject) {
         viewModel.logInButtonPressed()
     }
-    
+
+    @IBAction func continueWithEmailButtonPressed(_ sender: AnyObject) {
+        // navigate to login passwordless
+    }
     
     // MARK: UITextViewDelegate
     
@@ -158,6 +163,7 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
 
         signUpButton.setStyle(.secondary(fontSize: .medium, withBorder: true))
         logInButton.setStyle(.secondary(fontSize: .medium, withBorder: true))
+        continueWithEmailButton.setStyle(.primary(fontSize: .medium))
 
         // i18n
         claimLabel.text = LGLocalizedString.mainSignUpClaimLabel
@@ -172,8 +178,14 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
         orLabel.backgroundColor = view.backgroundColor
         signUpButton.setTitle(LGLocalizedString.mainSignUpSignUpButton, for: .normal)
         logInButton.setTitle(LGLocalizedString.mainSignUpLogInLabel, for: .normal)
+        continueWithEmailButton.setTitle("Continue With Email", for: .normal) // FIXME: Localize
 
         setupTermsAndConditions()
+
+        continueWithEmailButton.isHidden = !viewModel.showpasswordlessLogin
+        emailImageView.isHidden = !viewModel.showpasswordlessLogin
+        signUpButton.isHidden = viewModel.showpasswordlessLogin
+        logInButton.isHidden = viewModel.showpasswordlessLogin
     }
 
     private func setupRx() {
