@@ -500,6 +500,9 @@ enum AccessibilityId: Equatable {
     case userProfileVerifiedTitle
     case userProfileMoreBioTitle
     case userProfileBioLabel
+    case userProfileVerifiedWithFacebook
+    case userProfileVerifiedWithGoogle
+    case userProfileVerifiedWithEmail
 
     // Verify Accounts popup
     case verifyAccountsBackgroundButton
@@ -1645,6 +1648,12 @@ enum AccessibilityId: Equatable {
             return "userProfileMoreBioTitle"
         case .userProfileBioLabel:
             return "userProfileBioLabel"
+        case .userProfileVerifiedWithFacebook:
+            return "userProfileVerifiedWithFacebook"
+        case .userProfileVerifiedWithGoogle:
+            return "userProfileVerifiedWithGoogle"
+        case .userProfileVerifiedWithEmail:
+            return "userProfileVerifiedWithEmail"
             
         // Verify Accounts popup
         case .verifyAccountsBackgroundButton:
