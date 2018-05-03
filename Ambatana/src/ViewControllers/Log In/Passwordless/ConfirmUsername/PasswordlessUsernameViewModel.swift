@@ -14,7 +14,8 @@ final class PasswordlessUsernameViewModel: BaseViewModel {
     private let myUserRepository: MyUserRepository
     private let tracker: Tracker
     private let token: String
-    var delegate: BaseViewModelDelegate?
+    weak var delegate: BaseViewModelDelegate?
+    weak var navigator: PasswordlessUsernameNavigator?
 
     init(myUserRepository: MyUserRepository, tracker: Tracker, token: String) {
         self.myUserRepository = myUserRepository
@@ -31,7 +32,7 @@ final class PasswordlessUsernameViewModel: BaseViewModel {
     func didTapDoneWith(name: String) {
         myUserRepository.updateName(name) { [weak self] result in
             if let _ = result.value {
-                // Close view
+                self?.navigator?.closePasswordlessConfirmUsername()
             } else {
                 self?.delegate?.vmShowAlert(LGLocalizedString.commonErrorTitle,
                                       message: LGLocalizedString.commonError,
@@ -42,6 +43,6 @@ final class PasswordlessUsernameViewModel: BaseViewModel {
     }
 
     func didTapHelp() {
-        // FIXME: implement
+        navigator?.openHelp()
     }
 }

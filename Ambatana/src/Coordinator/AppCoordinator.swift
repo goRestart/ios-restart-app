@@ -462,10 +462,12 @@ extension AppCoordinator: AppNavigator {
     }
 
     func openConfirmUsername(token: String) {
-        let viewModel = PasswordlessUsernameViewModel(token: token)
-        let viewController = PasswordlessUsernameViewController(viewModel: viewModel)
-        let nav = UINavigationController(rootViewController: viewController)
-        tabBarCtl.present(nav, animated: true, completion: nil)
+        let confirmUsernameCoordinator = PasswordlessUsernameCoordinator(token: token)
+        openChild(coordinator: confirmUsernameCoordinator,
+                  parent: tabBarCtl,
+                  animated: true,
+                  forceCloseChild: true,
+                  completion: nil)
     }
 }
 
