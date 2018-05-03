@@ -219,8 +219,7 @@ enum AccessibilityId: Equatable {
     case notificationsModularCTA1
     case notificationsModularCTA2
     case notificationsModularCTA3
-    
-    
+
     // Posting
     case postingCameraImagePreview
     case postingCameraSwitchCamButton
@@ -509,6 +508,17 @@ enum AccessibilityId: Equatable {
     case verifyAccountsEmailButton
     case verifyAccountsEmailTextField
     case verifyAccountsEmailTextFieldButton
+
+    // Verifications view
+    case verificationsOptionsTitle
+    case verificationsFacebookOption
+    case verificationsGoogleOption
+    case verificationsEmailOption
+    case verificationsPhoneNumberOption
+    case verificationsPhotoIDOption
+    case verificationsAvatarOption
+    case verificationsBioOption
+    case verificationsMarkAsSoldOption
 
     // Settings
     case settingsList
@@ -1649,7 +1659,27 @@ enum AccessibilityId: Equatable {
             return "verifyAccountsEmailTextField"
         case .verifyAccountsEmailTextFieldButton:
             return "verifyAccountsEmailTextFieldButton"
-            
+
+        // Verifications view
+        case .verificationsOptionsTitle:
+            return "verificationsOptionsTitle"
+        case .verificationsFacebookOption:
+            return "verificationsFacebookOption"
+        case .verificationsGoogleOption:
+            return "verificationsGoogleOption"
+        case .verificationsEmailOption:
+            return "verificationsEmailOption"
+        case .verificationsPhoneNumberOption:
+            return "verificationsPhoneNumberOption"
+        case .verificationsPhotoIDOption:
+            return "verificationsPhotoIDOption"
+        case .verificationsAvatarOption:
+            return "verificationsAvatarOption"
+        case .verificationsBioOption:
+            return "verificationsBioOption"
+        case .verificationsMarkAsSoldOption:
+            return "verificationsMarkAsSoldOption"
+
         // Settings
         case .settingsList:
             return "settingsList"
