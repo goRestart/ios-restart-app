@@ -477,6 +477,7 @@ enum AccessibilityId: Equatable {
     case userHeaderCollapsedLocationLabel
     case userHeaderExpandedNameLabel
     case userHeaderExpandedLocationLabel
+    case userHeaderExpandedAvatar
     case userHeaderExpandedAvatarButton
     case userHeaderExpandedRatingsButton
     case userHeaderExpandedRelationLabel
@@ -1602,6 +1603,8 @@ enum AccessibilityId: Equatable {
             return "userHeaderExpandedNameLabel"
         case .userHeaderExpandedLocationLabel:
             return "userHeaderExpandedLocationLabel"
+        case .userHeaderExpandedAvatar:
+            return "userHeaderExpandedAvatar"
         case .userHeaderExpandedAvatarButton:
             return "userHeaderExpandedAvatarButton"
         case .userHeaderExpandedRatingsButton:
