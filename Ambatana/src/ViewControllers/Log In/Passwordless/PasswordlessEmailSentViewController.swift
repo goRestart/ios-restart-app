@@ -36,6 +36,7 @@ final class PasswordlessEmailSentViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupAccessibilityIds()
     }
 
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
@@ -104,6 +105,12 @@ final class PasswordlessEmailSentViewController: BaseViewController {
         ]
 
         NSLayoutConstraint.activate(constraints)
+    }
+
+    private func setupAccessibilityIds() {
+        titleLabel.set(accessibilityId: .passwordlessEmailSentTitleLabel)
+        subtitleLabel.set(accessibilityId: .passwordlessEmailSentSubtitleLabel)
+        imageView.set(accessibilityId: .passwordlessEmailSentImageView)
     }
 
     @objc private func didTapClose() {
