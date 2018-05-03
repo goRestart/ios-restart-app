@@ -44,11 +44,22 @@ class PostListingViewModel: BaseViewModel {
             return LGLocalizedString.productPostUsePhotoNotLogged
         }
     }
+    var useVideoButtonText: String {
+        if sessionManager.loggedIn {
+            return LGLocalizedString.productPostUsePhoto
+        } else {
+            return LGLocalizedString.productPostUseVideoNotLogged
+        }
+    }
     var confirmationOkText: String {
         if sessionManager.loggedIn {
             return LGLocalizedString.productPostProductPosted
         } else {
-            return LGLocalizedString.productPostProductPostedNotLogged
+            if uploadingVideo != nil {
+                return LGLocalizedString.productPostProductPostedNotLoggedVideoPosting
+            } else {
+                return LGLocalizedString.productPostProductPostedNotLogged
+            }
         }
     }
     
