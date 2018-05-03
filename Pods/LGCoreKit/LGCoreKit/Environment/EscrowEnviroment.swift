@@ -23,4 +23,5 @@ struct EscrowEnvironment: Environment {
     let niordBaseURL = "https://niord.escrowverification.com"
     let spellCorrectorBaseURL = "https://spellcorrector.escrowverification.com"
     let meetingsBaseURL = "https://meeting.escrowverification.com"
+    let searchAlertsBaseURL = "https://searchalerts.escrowverification.letgo.com"
 }

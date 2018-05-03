@@ -410,6 +410,7 @@
 "hidden_phone_tag" = "[NUMÉRO DE TELEPHONE MASQUÉ]";
 "hidden_text_alert_description" = "Nous masquons les informations de contact pour vous aider à acheter et vendre en toute sécurité. Chatter dans letgo est facile et plus sécurisé.";
 "hidden_text_alert_title" = "SOYEZ PRUDENT";
+"listings_map_title" = "Map view";
 "location_permissions_allow_button" = "Autoriser";
 "location_permissions_bubble" = "à 0.1 km de vous";
 "location_permissions_button" = "Oui, Utiliser ma Localisation";
@@ -750,6 +751,7 @@
 "product_post_price_label" = "Vous souhaitez ajouter un prix ?";
 "product_post_product_posted" = "Annonce publiée. Bravo !";
 "product_post_product_posted_not_logged" = "Photo uploadée !";
+"product_post_product_posted_not_logged_video_posting" = "Video uploaded!";
 "product_post_retake" = "Reprendre";
 "product_post_retry_button" = "Réessayer";
 "product_post_select_category_cars" = "Voitures";
@@ -760,6 +762,7 @@
 "product_post_select_category_title" = "Que postez-vous ?";
 "product_post_use_photo" = "Poster";
 "product_post_use_photo_not_logged" = "Utiliser la Photo";
+"product_post_use_video_not_logged" = "Use video";
 "product_professional_call_button" = "Appel";
 "product_professional_chat_button" = "Chat";
 "product_report_confirm_message" = "Êtes-vous certain de vouloir signaler cette annonce ?";
@@ -1041,9 +1044,11 @@
 "reset_password_send_ok" = "Nous avons envoyé un email à %@. Cliquez sur le lien dans l'email pour réinitialiser votre mot de passe.";
 "reset_password_send_too_many_requests" = "Nous vous avons déjà envoyé un email de réinitialisation de mot de passe. Vérifiez vos emails et suivez les instructions.";
 "reset_password_title" = "Réinitialiser le mot de passe";
-"search_alert_delete_error_message" = "Oups ! Une erreur est survenue au moment de supprimer votre alerte de recherche";
+"search_alert_delete_error_message" = "Oups ! Une erreur est survenue au moment de supprimer votre alerte de recherche.";
 "search_alert_disable_error_message" = "Oups ! Une erreur est survenue au moment de désactiver votre alerte de recherche";
 "search_alert_enable_error_message" = "Oups ! Une erreur est survenue au moment d'activer votre alerte de recherche";
+"search_alert_error_too_many_button_text" = "Gérer les Notifications";
+"search_alert_error_too_many_text" = "Oups ! Vous avez atteint le nombre maximum d'alertes de recherche";
 "search_alerts_edit_button" = "Modifier";
 "search_alerts_header_subtitle" = "Recevez des notifications à propos des nouvelles annonces";
 "search_alerts_placeholder_empty_button" = "Commencer à Chercher";

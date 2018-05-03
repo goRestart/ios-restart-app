@@ -26,4 +26,5 @@ protocol Environment {
     var niordBaseURL: String { get }
     var spellCorrectorBaseURL: String { get }
     var meetingsBaseURL: String { get }
+    var searchAlertsBaseURL: String { get }
 }

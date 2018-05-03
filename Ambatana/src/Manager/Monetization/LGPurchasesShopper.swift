@@ -476,7 +476,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
                                                             }
                                                         }
                                                     case .forbidden, .internalError, .network, .notFound, .tooManyRequests,
-                                                         .unauthorized, .userNotVerified, .wsChatError:
+                                                         .unauthorized, .userNotVerified, .wsChatError, .searchAlertError:
                                                         strongSelf.saveToUserDefaults(bumpUp: bump)
                                                     }
                                                     strongSelf.delegate?.pricedBumpDidFail(type: type,
@@ -538,7 +538,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
                                                                 }
                                                             }
                                                         case .forbidden, .internalError, .network, .notFound, .tooManyRequests,
-                                                             .unauthorized, .userNotVerified, .wsChatError:
+                                                             .unauthorized, .userNotVerified, .wsChatError, .searchAlertError:
                                                             self?.recursiveRequestBumpWithPaymentInfo(listingId: listingId,
                                                                                                       transaction: transaction,
                                                                                                       type: type,

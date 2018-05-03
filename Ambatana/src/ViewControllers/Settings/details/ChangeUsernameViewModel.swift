@@ -26,7 +26,8 @@ enum ChangeUsernameError: Error {
             self = .notFound
         case .unauthorized:
             self = .unauthorized
-        case .internalError, .forbidden, .tooManyRequests, .userNotVerified, .serverError, .wsChatError:
+        case .internalError, .forbidden, .tooManyRequests, .userNotVerified, .serverError, .wsChatError,
+             .searchAlertError:
             self = .internalError
         }
     }

@@ -249,6 +249,10 @@ final class CoreDI: InternalDI {
         let suggestedLocationsDataSource = SuggestedLocationsApiDataSource(apiClient: self.apiClient)
         return LGSuggestedLocationsRepository(dataSource: suggestedLocationsDataSource)
     }()
+    lazy var searchAlertsRepository: SearchAlertsRepository = {
+        let searchAlertsDataSource = SearchAlertsApiDataSource(apiClient: self.apiClient)
+        return LGSearchAlertsRepository(dataSource: searchAlertsDataSource, locationManager: self.locationManager)
+    }()
 
 
     // MARK: > DAO

@@ -91,6 +91,15 @@ enum SearchType {
             return true
         }
     }
+
+    var isUserSearch: Bool {
+        switch self {
+        case .user:
+            return true
+        case .lastSearch, .suggestive, .trending, .collection:
+            return false
+        }
+    }
     
     var indexSelected: Int? { // Needed to track suggestive search selections
         switch self {

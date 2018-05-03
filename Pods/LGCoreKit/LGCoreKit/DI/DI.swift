@@ -36,6 +36,7 @@ public protocol DI: class {
     var locationRepository: LocationRepository { get }
     var machineLearningRepository: MachineLearningRepository { get }
     var suggestedLocationsRepository: SuggestedLocationsRepository { get }
+    var searchAlertsRepository: SearchAlertsRepository { get }
 
     // Helper
     var dateFormatter: DateFormatter { get }

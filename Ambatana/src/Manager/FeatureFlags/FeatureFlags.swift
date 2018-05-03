@@ -65,6 +65,7 @@ protocol FeatureFlaggeable: class {
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem { get }
     var emergencyLocate: EmergencyLocate { get }
     var showExactLocationForPros: Bool { get }
+    var searchAlerts: SearchAlerts { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -398,6 +399,10 @@ extension CopyForChatNowInEnglish {
             return LGLocalizedString.bumpUpProductCellChatNowButtonEnglishD
         }
         } }
+}
+
+extension SearchAlerts {
+    var isActive: Bool { return self == .active }
 }
 
 extension CopyForSellFasterNowInEnglish {
@@ -756,7 +761,14 @@ class FeatureFlags: FeatureFlaggeable {
         let cached = dao.retrieveShowAdvanceReputationSystem()
         return cached ?? ShowAdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value)
     }
-
+    
+    var searchAlerts: SearchAlerts {
+        if Bumper.enabled {
+            return Bumper.searchAlerts
+        }
+        return SearchAlerts.fromPosition(abTests.searchAlerts.value)
+    }
+    
     var showExactLocationForPros: Bool {
         if Bumper.enabled {
             return Bumper.showExactLocationForPros

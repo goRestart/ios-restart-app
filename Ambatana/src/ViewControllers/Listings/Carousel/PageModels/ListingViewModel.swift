@@ -1259,7 +1259,7 @@ fileprivate extension ListingViewModel {
                 switch error {
                 case .forbidden:
                     strongSelf.delegate?.vmShowAutoFadingMessage(LGLocalizedString.productChatDirectErrorBlockedUserMessage, completion: nil)
-                case .network, .internalError, .notFound, .unauthorized, .tooManyRequests, .userNotVerified, .serverError:
+                case .network, .internalError, .notFound, .unauthorized, .tooManyRequests, .userNotVerified, .serverError, .searchAlertError:
                     strongSelf.delegate?.vmShowAutoFadingMessage(LGLocalizedString.chatSendErrorGeneric, completion: nil)
                 case let .wsChatError(chatRepositoryError):
                     switch chatRepositoryError {

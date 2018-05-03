@@ -211,7 +211,7 @@ extension SellCoordinator: PostListingNavigator {
             sellError = .forbidden(cause: cause)
         case .serverError, .notFound, .unauthorized, .tooManyRequests, .userNotVerified:
             sellError = .serverError(code: error.errorCode)
-        case .internalError, .wsChatError:
+        case .internalError, .wsChatError, .searchAlertError:
             sellError = .internalError
         }
         let sellErrorDataEvent = TrackerEvent.listingSellErrorData(sellError)

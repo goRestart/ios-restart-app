@@ -812,7 +812,8 @@ extension ChatViewModel {
                     }
                 case .userNotVerified:
                     self?.showUserNotVerifiedAlert()
-                case .forbidden, .internalError, .network, .notFound, .tooManyRequests, .unauthorized, .serverError:
+                case .forbidden, .internalError, .network, .notFound, .tooManyRequests, .unauthorized, .serverError,
+                     .searchAlertError:
                     self?.showSendMessageError(withText: LGLocalizedString.chatSendErrorGeneric)
                 }
             }
@@ -917,7 +918,8 @@ extension ChatViewModel {
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailTooManyRequests, completion: nil)
                 case .network:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorNetworkBody, completion: nil)
-                case .forbidden, .internalError, .notFound, .unauthorized, .userNotVerified, .serverError, .wsChatError:
+                case .forbidden, .internalError, .notFound, .unauthorized, .userNotVerified, .serverError, .wsChatError,
+                     .searchAlertError:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorGenericBody, completion: nil)
                 }
             } else {

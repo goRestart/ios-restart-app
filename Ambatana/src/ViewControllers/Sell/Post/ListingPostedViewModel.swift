@@ -319,7 +319,7 @@ class ListingPostedViewModel: BaseViewModel {
             sellError = .network
         case .serverError, .notFound, .forbidden, .unauthorized, .tooManyRequests, .userNotVerified:
             sellError = .serverError(code: error.errorCode)
-        case .internalError, .wsChatError:
+        case .internalError, .wsChatError, .searchAlertError:
             sellError = .internalError
         }
         let sellErrorDataEvent = TrackerEvent.listingSellErrorData(sellError)

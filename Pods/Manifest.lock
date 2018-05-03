@@ -39,14 +39,14 @@ PODS:
     - GoogleToolboxForMac/NSString+URLArguments (~> 2.1)
     - GTMOAuth2 (~> 1.0)
     - GTMSessionFetcher/Core (~> 1.1)
-  - GoogleToolboxForMac/DebugUtils (2.1.4):
-    - GoogleToolboxForMac/Defines (= 2.1.4)
-  - GoogleToolboxForMac/Defines (2.1.4)
-  - GoogleToolboxForMac/NSDictionary+URLArguments (2.1.4):
-    - GoogleToolboxForMac/DebugUtils (= 2.1.4)
-    - GoogleToolboxForMac/Defines (= 2.1.4)
-    - GoogleToolboxForMac/NSString+URLArguments (= 2.1.4)
-  - GoogleToolboxForMac/NSString+URLArguments (2.1.4)
+  - GoogleToolboxForMac/DebugUtils (2.1.3):
+    - GoogleToolboxForMac/Defines (= 2.1.3)
+  - GoogleToolboxForMac/Defines (2.1.3)
+  - GoogleToolboxForMac/NSDictionary+URLArguments (2.1.3):
+    - GoogleToolboxForMac/DebugUtils (= 2.1.3)
+    - GoogleToolboxForMac/Defines (= 2.1.3)
+    - GoogleToolboxForMac/NSString+URLArguments (= 2.1.3)
+  - GoogleToolboxForMac/NSString+URLArguments (2.1.3)
   - GTMOAuth2 (1.1.6):
     - GTMSessionFetcher (~> 1.1)
   - GTMSessionFetcher (1.1.15):
@@ -59,7 +59,7 @@ PODS:
   - KMPlaceholderTextView (1.3.0)
   - Leanplum-iOS-SDK (2.0.5)
   - LGCollapsibleLabel (1.2.0)
-  - LGCoreKit (4.22.3):
+  - LGCoreKit (4.23.0):
     - Alamofire (~> 4.5.1)
     - CocoaLumberjack/Swift (~> 3.3.0)
     - DeviceGuru (~> 3.0.1)
@@ -143,7 +143,7 @@ DEPENDENCIES:
   - KMPlaceholderTextView (from `https://github.com/letgoapp/KMPlaceholderTextView`, commit `426117c98e8da8fc7d64a7d3c2f0f45c48d595e6`)
   - Leanplum-iOS-SDK (= 2.0.5)
   - LGCollapsibleLabel (= 1.2.0)
-  - LGCoreKit (= 4.22.3)
+  - LGCoreKit (= 4.23.0)
   - lottie-ios (= 2.5.0)
   - mopub-ios-sdk (= 4.20.0)
   - NewRelicAgent (= 6.1.1)
@@ -200,7 +200,7 @@ SPEC CHECKSUMS:
   Google-Mobile-Ads-SDK: 7404f68120ae8682afeb5af001fbf4aad731c78e
   GoogleIDFASupport: aaf8c10bd429abb1c15349d5252244f5eda8ead1
   GoogleSignIn: 3fdaa34a2ba04dbd7a25d7db39aecb0da98d5bdc
-  GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
+  GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
   GTMOAuth2: c77fe325e4acd453837e72d91e3b5f13116857b2
   GTMSessionFetcher: 5fa5b80fd20e439ef5f545fb2cb3ca6c6714caa2
   JSONWebToken: 6fae32489632658d563dd6952a5c34020ea813e4
@@ -208,7 +208,7 @@ SPEC CHECKSUMS:
   KMPlaceholderTextView: 2bbcd19a273648a80a61e1e48f9743a24d8930e3
   Leanplum-iOS-SDK: d7d387b7f3688e697f2893978bfe67092df5b7ca
   LGCollapsibleLabel: 2a5ebb0ff0ff3e1d7ab0c295a17c923db000f557
-  LGCoreKit: ea2ad73cb535595f3c644a053198e4f1b026ecd5
+  LGCoreKit: 934a3342aba16365bec6e5cde2b2ff788fa5d6ed
   lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
   mopub-ios-sdk: 89c6ac9ca01d3b36e9fba16a6cfe31d3c290d354
   NewRelicAgent: 652434a627201e3745cd5849228feeb10afe1879
@@ -226,6 +226,6 @@ SPEC CHECKSUMS:
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   SwiftyUserDefaults: 3d273b1739b68ada3145dc754a70ec775bc5c8be
 
-PODFILE CHECKSUM: fc333798155a1cc8d7be3a0bc0ec3971da001acb
+PODFILE CHECKSUM: 3ecd2624b4b501f50da8b984d8a72fb7dab0f1db
 
 COCOAPODS: 1.4.0

@@ -66,6 +66,8 @@ class MockFeatureFlags: FeatureFlaggeable {
     var showPasswordlessLogin: ShowPasswordlessLogin = .control
     var emergencyLocate: EmergencyLocate = .control
 
+    var searchAlerts: SearchAlerts = .control
+    
     // Country dependant features
     var freePostingModeAllowed = false
     var postingFlowType: PostingFlowType = .standard
