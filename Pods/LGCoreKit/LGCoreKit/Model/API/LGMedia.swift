@@ -143,9 +143,9 @@ public struct LGMedia: Media, Decodable {
 
 //  To be removed after backend is fixed
 extension LGMedia {
-    static func mediaFrom(images: [File], _ thumbnail: File?) -> [LGMedia] {
+    static func mediaFrom(images: [File]) -> [LGMedia] {
         return images.map {
-            let mediaOutput = LGMediaOutputs(image: $0.fileURL, imageThumbnail: thumbnail?.fileURL)
+            let mediaOutput = LGMediaOutputs(image: $0.fileURL, imageThumbnail: $0.fileURL)
             return LGMedia(type: .image, snapshotId: "", outputs: mediaOutput)
         }
     }

@@ -328,7 +328,7 @@ struct LGCar: Car, Decodable {
         thumbnail = baseListing.thumbnail
         thumbnailSize = baseListing.thumbnailSize
         images = baseListing.images
-        media = baseListing.media.isEmpty ? LGMedia.mediaFrom(images: baseListing.images, thumbnail) : baseListing.media
+        media = baseListing.media.isEmpty ? LGMedia.mediaFrom(images: baseListing.images) : baseListing.media
         mediaThumbnail = baseListing.mediaThumbnail
         user = baseListing.user
         featured = baseListing.featured
