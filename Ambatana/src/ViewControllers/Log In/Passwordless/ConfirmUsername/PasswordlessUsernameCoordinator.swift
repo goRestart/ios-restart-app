@@ -32,10 +32,10 @@ class PasswordlessUsernameCoordinator: Coordinator, PasswordlessUsernameNavigato
         self.token = token
 
         let vm = PasswordlessUsernameViewModel(token: token)
-        vm.navigator = self
         let vc = PasswordlessUsernameViewController(viewModel: vm)
         let navigationController = UINavigationController(rootViewController: vc)
         viewController = navigationController
+        vm.navigator = self
     }
 
     func presentViewController(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
