@@ -4588,8 +4588,7 @@
 				6A660A52209B13A200358BF8 /* PasswordlessUsernameCoordinator.swift */,
 				6A660A51209B13A200358BF8 /* PasswordlessUsernameNavigator.swift */,
 			);
-			name = ConfirmUsername;
-			path = "New Group";
+			path = ConfirmUsername;
 			sourceTree = "<group>";
 		};
 		6AA32F381CA29C98003A1677 /* Admin */ = {
