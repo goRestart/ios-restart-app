@@ -13,6 +13,12 @@ final class PasswordlessEmailViewModel: BaseViewModel {
 
     weak var navigator: PasswordlessNavigator?
 
+    private let tracker: TrackerProxy
+
+    init(tracker: TrackerProxy = TrackerProxy.sharedInstance) {
+        self.tracker = tracker
+    }
+
     let isContinueActionEnabled = Variable<Bool>(false)
 
     func didChange(email: String?) {
@@ -20,6 +26,7 @@ final class PasswordlessEmailViewModel: BaseViewModel {
     }
 
     func didTapContinueWith(email: String) {
+        tracker.trackEvent(.loginEmailSubmit())
         navigator?.openPasswordlessEmailSentTo(email: email)
     }
 
