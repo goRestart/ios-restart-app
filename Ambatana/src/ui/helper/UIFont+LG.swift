@@ -183,4 +183,5 @@ extension UIFont {
     static var passwordLessEmailTitleFont: UIFont { return systemBoldFont(size: 27) }
     static var passwordLessEmailDescriptionFont: UIFont { return systemRegularFont(size: 15) }
     static var passwordLessEmailTextFieldFont: UIFont { return systemBoldFont(size: 23)}
+    static var passwordLessUsernameTitleFont: UIFont { return systemBoldFont(size: 35) }
 }

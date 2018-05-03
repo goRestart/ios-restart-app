@@ -460,6 +460,15 @@ extension AppCoordinator: AppNavigator {
         editCoordinator.delegate = self
         openChild(coordinator: editCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: false, completion: nil)
     }
+
+    func openConfirmUsername(token: String) {
+        let confirmUsernameCoordinator = PasswordlessUsernameCoordinator(token: token)
+        openChild(coordinator: confirmUsernameCoordinator,
+                  parent: tabBarCtl,
+                  animated: true,
+                  forceCloseChild: true,
+                  completion: nil)
+    }
 }
 
 
@@ -976,6 +985,14 @@ fileprivate extension AppCoordinator {
             afterDelayClosure = { [weak self] in
                 self?.openAppStore()
             }
+        case .passwordlessConfirmUsername(let token):
+            afterDelayClosure = { [weak self] in
+                self?.openConfirmUsername(token: token)
+            }
+        case .passwordlessSignIn(let token):
+            afterDelayClosure = {
+                // sign in
+            }
         }
 
         if let afterDelayClosure = afterDelayClosure {
@@ -996,7 +1013,7 @@ fileprivate extension AppCoordinator {
         if let child = child, child is SellCoordinator { return }
 
         switch deepLink.action {
-        case .home, .sell, .listing, .listingShare, .listingBumpUp, .listingMarkAsSold, .listingEdit, .user, .conversations, .conversationWithMessage, .search, .resetPassword, .userRatings, .userRating, .notificationCenter, .appStore:
+        case .home, .sell, .listing, .listingShare, .listingBumpUp, .listingMarkAsSold, .listingEdit, .user, .conversations, .conversationWithMessage, .search, .resetPassword, .userRatings, .userRating, .notificationCenter, .appStore, .passwordlessSignIn, .passwordlessConfirmUsername:
         return // Do nothing
         case let .conversation(data):
             showInappChatNotification(data, message: deepLink.origin.message)
