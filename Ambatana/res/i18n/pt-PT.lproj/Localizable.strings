@@ -410,6 +410,7 @@
 "hidden_phone_tag" = "[NÚMERO DE TELEFONE OCULTO]";
 "hidden_text_alert_description" = "Ocultamos os dados de contacto para o ajudarmos a comprar e a vender com segurança. Conversar no letgo é fácil e mais seguro.";
 "hidden_text_alert_title" = "MANTENHA-SE SEGURO";
+"listings_map_title" = "Vista do mapa";
 "location_permissions_allow_button" = "Permitir";
 "location_permissions_bubble" = "1,60 km de si";
 "location_permissions_button" = "Sim, Usem a Minha Localização";
@@ -750,6 +751,7 @@
 "product_post_price_label" = "Quer adicionar um preço?";
 "product_post_product_posted" = "Artigo publicado. Parabéns!";
 "product_post_product_posted_not_logged" = "Foto carregada!";
+"product_post_product_posted_not_logged_video_posting" = "Vídeo carregado!";
 "product_post_retake" = "Refazer";
 "product_post_retry_button" = "Tente novamente";
 "product_post_select_category_cars" = "Viaturas";
@@ -760,6 +762,7 @@
 "product_post_select_category_title" = "O que está a publicar?";
 "product_post_use_photo" = "Publicar";
 "product_post_use_photo_not_logged" = "Usar a foto";
+"product_post_use_video_not_logged" = "Utilizar vídeo";
 "product_professional_call_button" = "Chamar";
 "product_professional_chat_button" = "Chat";
 "product_report_confirm_message" = "Deseja mesmo denunciar esta publicação?";
@@ -1041,9 +1044,11 @@
 "reset_password_send_ok" = "Enviamos um email para %@! Clique no link do email para redefinir a sua password!";
 "reset_password_send_too_many_requests" = "Já lhe enviamos um email para redefinir a sua password. Por favor verifique o seu email e siga as instruções.";
 "reset_password_title" = "Redefinir password";
-"search_alert_delete_error_message" = "Ups! Surgiu um erro ao eliminar o seu alerta de pesquisa";
+"search_alert_delete_error_message" = "Ups! Surgiu um erro ao eliminar o seu alerta de pesquisa.";
 "search_alert_disable_error_message" = "Ups! Surgiu um erro ao desativar o seu alerta de pesquisa";
 "search_alert_enable_error_message" = "Ups! Surgiu um erro ao ativar o seu alerta de pesquisa";
+"search_alert_error_too_many_button_text" = "Gerir notificações";
+"search_alert_error_too_many_text" = "Ups! Alcançou o número máximo de alertas de pesquisa";
 "search_alerts_edit_button" = "Editar";
 "search_alerts_header_subtitle" = "Obtenha notificações sobre novas publicações";
 "search_alerts_placeholder_empty_button" = "Comece a pesquisar";

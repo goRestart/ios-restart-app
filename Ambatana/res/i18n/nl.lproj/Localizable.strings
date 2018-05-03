@@ -410,6 +410,7 @@
 "hidden_phone_tag" = "[TELEFOONNUMMER VERBORGEN]";
 "hidden_text_alert_description" = "Wij verbergen contact informatie zodat je veilig kunt kopen en verkopen. In letgo kun je veilig en gemakkelijk chatten.";
 "hidden_text_alert_title" = "VEILIGHEIDSTIPS";
+"listings_map_title" = "Zie kaart";
 "location_permissions_allow_button" = "Toestaan";
 "location_permissions_bubble" = "1km van bij jou";
 "location_permissions_button" = "Ja, Gebruik mijn Locatie";
@@ -749,7 +750,8 @@
 "product_post_network_error" = "Je advertentie werd niet geplaatst.\nGelieve je netwerkinstellingen te controleren.";
 "product_post_price_label" = "Wil je een prijs toevoegen?";
 "product_post_product_posted" = "Advertentie geplaatst. Gefeliciteerd!";
-"product_post_product_posted_not_logged" = "Foto geupload!";
+"product_post_product_posted_not_logged" = "Foto geüpload!";
+"product_post_product_posted_not_logged_video_posting" = "Video geüpload!";
 "product_post_retake" = "Opnieuw nemen";
 "product_post_retry_button" = "Probeer het nogmaals";
 "product_post_select_category_cars" = "Auto’s";
@@ -760,6 +762,7 @@
 "product_post_select_category_title" = "Wat wil je verkopen?";
 "product_post_use_photo" = "Plaats";
 "product_post_use_photo_not_logged" = "Gebruik foto";
+"product_post_use_video_not_logged" = "Gebruik video";
 "product_professional_call_button" = "Bel";
 "product_professional_chat_button" = "Chat";
 "product_report_confirm_message" = "Weet je zeker dat je deze advertentie wilt rapporteren?";
@@ -1041,9 +1044,11 @@
 "reset_password_send_ok" = "We hebben een e-mail gestuurd naar %@. Klik op de link in de e-mail om je wachtwoord te resetten.";
 "reset_password_send_too_many_requests" = "We hebben je al een e-mail gestuurd om je wachtwoord te resetten. Controleer je e-mail en volg de instructies.";
 "reset_password_title" = "Reset wachtwoord";
-"search_alert_delete_error_message" = "Oeps! Er is een fout opgetreden tijdens het verwijderen van jouw zoekmelding";
-"search_alert_disable_error_message" = "Oeps! Er is een fout opgetreden tijdens het uitschakelen van jouw zoekmelding";
-"search_alert_enable_error_message" = "Oeps! Er is een fout opgetreden tijdens het inschakelen van jouw zoekmelding";
+"search_alert_delete_error_message" = "Oeps! Er is een fout opgetreden tijdens het verwijderen van jouw zoekmelding.";
+"search_alert_disable_error_message" = "Oeps! Er is een fout opgetreden tijdens het deactiveren van jouw zoekmelding";
+"search_alert_enable_error_message" = "Oeps! Er is een fout opgetreden tijdens het activeren van jouw zoekmelding";
+"search_alert_error_too_many_button_text" = "Meldingen beheren";
+"search_alert_error_too_many_text" = "Oeps! Je hebt het maximale aantal zoekmeldingen bereikt";
 "search_alerts_edit_button" = "Bewerken";
 "search_alerts_header_subtitle" = "Ontvang meldingen over nieuwe advertenties";
 "search_alerts_placeholder_empty_button" = "Begin met Zoeken";

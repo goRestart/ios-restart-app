@@ -410,6 +410,7 @@
 "hidden_phone_tag" = "[전화번호 감추기]";
 "hidden_text_alert_description" = "안전하게 구매 및 판매를 하실 수 있도록 연락처를 비공개로 하고 있습니다. letgo에서 대화를 나누시는 것은 더 쉽고 안전합니다.";
 "hidden_text_alert_title" = "안전하게 구매하세요";
+"listings_map_title" = "지도 확인";
 "location_permissions_allow_button" = "허가";
 "location_permissions_bubble" = "약 160m 떨어져 있음";
 "location_permissions_button" = "네, 제 위치를 사용하겠습니다";
@@ -750,6 +751,7 @@
 "product_post_price_label" = "가격을 추가하고 싶으신가요?";
 "product_post_product_posted" = "상품 목록이 등록되었습니다. 축하드립니다!";
 "product_post_product_posted_not_logged" = "사진이 업로드 되었습니다!";
+"product_post_product_posted_not_logged_video_posting" = "비디오가 업로드 되었습니다!";
 "product_post_retake" = "다시 촬영하기";
 "product_post_retry_button" = "다시 시도하기";
 "product_post_select_category_cars" = "자동차";
@@ -760,6 +762,7 @@
 "product_post_select_category_title" = "무엇을 게시하시나요?";
 "product_post_use_photo" = "게시하기";
 "product_post_use_photo_not_logged" = "사진 사용하기";
+"product_post_use_video_not_logged" = "비디오 사용하기";
 "product_professional_call_button" = "통화";
 "product_professional_chat_button" = "대화";
 "product_report_confirm_message" = "이 상품 목록을 신고할까요?";
@@ -1041,9 +1044,11 @@
 "reset_password_send_ok" = "이메일을 %@으로 발송하였습니다. 수신함을 확인하시고 비밀번호 재설정 지시를 따라주세요!";
 "reset_password_send_too_many_requests" = "저희는 비밀번호 재설정 이메일을 발송했습니다. 이메일을 확인하시고 설명을 따라주세요.";
 "reset_password_title" = "비밀번호 재설정";
-"search_alert_delete_error_message" = "이런! 검색알림을 삭제하는 동안 오류가 발생했습니다";
-"search_alert_disable_error_message" = "이런! 검색 알림을 비활성화 하는 동안 오류가 발생했습니다";
-"search_alert_enable_error_message" = "이런! 검색 알림을 활성화 하는 동안 오류가 발생했습니다";
+"search_alert_delete_error_message" = "이런! 검색알림을 삭제하는 동안 오류가 발생했습니다.";
+"search_alert_disable_error_message" = "이런! 검색 알림을 비활성화 하는 동안 오류가 발생했습니다.";
+"search_alert_enable_error_message" = "이런! 검색 알림을 활성화 하는 동안 오류가 발생했습니다.";
+"search_alert_error_too_many_button_text" = "알림 설정";
+"search_alert_error_too_many_text" = "이런! 회원님께서는 검색알림을 받을 수 있는 최대치에 도달하셨습니다";
 "search_alerts_edit_button" = "수정";
 "search_alerts_header_subtitle" = "새로운 게시글 알림 받기";
 "search_alerts_placeholder_empty_button" = "검색 시작";

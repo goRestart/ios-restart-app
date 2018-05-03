@@ -410,6 +410,7 @@
 "hidden_phone_tag" = "[PUHELINNUMERO PIILOTETTU]";
 "hidden_text_alert_description" = "Piilotamme yhteystiedot auttaaksemme sinua ostamaan ja myymään turvallisesti. Keskustelu letgon sisällä on helppoa ja turvallisempaa.";
 "hidden_text_alert_title" = "PYSY TURVASSA";
+"listings_map_title" = "Karttanäkymä";
 "location_permissions_allow_button" = "Salli";
 "location_permissions_bubble" = "0.1 km sinusta";
 "location_permissions_button" = "Kyllä, Käytä Sijaintiani";
@@ -750,6 +751,7 @@
 "product_post_price_label" = "Haluatko lisätä hinnan?";
 "product_post_product_posted" = "Ilmoitus julkaistu. Onneksi olkoon!";
 "product_post_product_posted_not_logged" = "Kuva ladattu!";
+"product_post_product_posted_not_logged_video_posting" = "Video ladattu!";
 "product_post_retake" = "Ota uusi kuva";
 "product_post_retry_button" = "Yritä uudelleen";
 "product_post_select_category_cars" = "Autoja";
@@ -760,6 +762,7 @@
 "product_post_select_category_title" = "Mitä olet julkaisemassa?";
 "product_post_use_photo" = "Käytä";
 "product_post_use_photo_not_logged" = "Käytä kuvaa";
+"product_post_use_video_not_logged" = "Käytä videota";
 "product_professional_call_button" = "Soita";
 "product_professional_chat_button" = "Keskustele";
 "product_report_confirm_message" = "Oletko varma että haluat ilmiantaa tämän ilmoituksen?";
@@ -1041,9 +1044,11 @@
 "reset_password_send_ok" = "Olemme lähettäneet sähköpostia osoitteeseen %@. Klikkaa sähköpostissa olevaa linkkiä vaihtaaksesi salasanasi!";
 "reset_password_send_too_many_requests" = "Olemme lähettäneet sinulle jo sähköpostin salasanan nollaamiseksi. Ole hyvä ja tarkista sähköpostisi ja seuraa siinä olevia ohjeita.";
 "reset_password_title" = "Nollaa salasana";
-"search_alert_delete_error_message" = "Hups! Hakuvahtiasi poistettaessa tapahtui virhe";
-"search_alert_disable_error_message" = "Hups! Kun hakuvahtiasi otettiin pois käytöstä, tapahtui virhe";
-"search_alert_enable_error_message" = "Hups! Hakuvahtiasi aktivoitaessa tapahtui virhe";
+"search_alert_delete_error_message" = "Hups! Hakuvahtiasi poistettaessa tapahtui virhe.";
+"search_alert_disable_error_message" = "Hups! Kun hakuvahtiasi otettiin pois käytöstä, tapahtui virhe.";
+"search_alert_enable_error_message" = "Hups! Hakuvahtiasi aktivoitaessa tapahtui virhe.";
+"search_alert_error_too_many_button_text" = "Hallinnoi ilmoituksia";
+"search_alert_error_too_many_text" = "Hups! Sinulla on jo käytössäsi maksimimäärä hakuvahteja";
 "search_alerts_edit_button" = "Muokkaa";
 "search_alerts_header_subtitle" = "Saa ilmoituksia uusista ilmoituksista";
 "search_alerts_placeholder_empty_button" = "Aloita haku";

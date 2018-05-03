@@ -726,6 +726,12 @@
 // Common Confirm
 "common_confirm" = "Confirm";
 
+// Common Done
+"common_done" = "Done";
+
+// Common Edit
+"common_edit" = "Edit";
+
 // Common error
 "common_error" = "Error";
 
@@ -1222,6 +1228,9 @@
 
 // Alert when clicked hidden_something text
 "hidden_text_alert_description" = "We hide contact information to help you buy and sell safely. Chatting inside letgo is easy and more secure.";
+
+// Title for Listings Map View
+"listings_map_title" = "Map view";
 
 // Fake distance shown in a bubble in a fake product list in onboarding
 "location_permissions_bubble" = "0.1 mi from you";
@@ -2232,7 +2241,10 @@
 "product_post_product_posted" = "Listing posted. Congrats!";
 
 // Confirmation BEFORE setting the price when not logged in
-"product_post_product_posted_not_logged" = "Photo Uploaded!";
+"product_post_product_posted_not_logged" = "Photo uploaded!";
+
+// Confirmation BEFORE setting the price when not logged in (video posting)
+"product_post_product_posted_not_logged_video_posting" = "Video uploaded!";
 
 // Retake photo button
 "product_post_retake" = "Retake";
@@ -2244,7 +2256,10 @@
 "product_post_use_photo" = "Post";
 
 // User photo button when not logged in
-"product_post_use_photo_not_logged" = "Use Photo";
+"product_post_use_photo_not_logged" = "Use photo";
+
+// User video button when not logged in
+"product_post_use_video_not_logged" = "Use video";
 
 // Product post category selection title
 "product_post_select_category_title" = "What are you posting?";
@@ -3173,6 +3188,12 @@
 
 // Error message when search alert disable fails
 "search_alert_disable_error_message" = "Oops! An error occurred while deactivating your search alert.";
+
+// text for error alert when max search alerts reached
+"search_alert_error_too_many_text" = "Oops! You've reached the maximum number of search alerts";
+
+// text for error alert button when max search alerts reached
+"search_alert_error_too_many_button_text" = "Manage notifications";
 
 // Sell category selection label. Check attached image "sell.png"
 "sell_category_selection_label" = "Category";
