@@ -40,8 +40,9 @@ final class PasswordlessEmailViewController: BaseViewController {
         super.viewDidLoad()
         setupUI()
         setupRx()
+        setupAccessibilityIds()
     }
-
+    
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
         setNavBarBackgroundStyle(.white)
@@ -133,6 +134,13 @@ final class PasswordlessEmailViewController: BaseViewController {
                 self?.continueButton.isUserInteractionEnabled = isEnabled
             })
             .disposed(by: disposeBag)
+    }
+
+    private func setupAccessibilityIds() {
+        titleLabel.set(accessibilityId: .passwordlessEmailTitleLabel)
+        descriptionLabel.set(accessibilityId: .passwordlessEmailDescriptionLabel)
+        emailTextField.set(accessibilityId: .passwordlessEmailTextField)
+        continueButton.set(accessibilityId: .passwordlessEmailContinueButton)
     }
 
     @objc private func textFieldDidChange(_ textField: UITextField) {
