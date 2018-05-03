@@ -278,11 +278,11 @@ extension UIViewController {
         }
     }
 
-    func setNavBarBackButton(_ icon: UIImage?) {
+    func setNavBarBackButton(_ icon: UIImage? = nil, selector: Selector? = nil) {
         guard !isRootViewController() else { return }
         let backIconImage = icon ?? UIImage(named: "navbar_back")
         let backButton = UIBarButtonItem(image: backIconImage, style: .plain,
-                                         target: self, action: #selector(UIViewController.popBackViewController))
+                                         target: self, action: selector ?? #selector(UIViewController.popBackViewController))
         self.navigationItem.leftBarButtonItem = backButton
     }
     
@@ -374,7 +374,7 @@ class BaseViewController: UIViewController, TabBarShowable {
     override func viewDidLoad() {
         super.viewDidLoad()
         didCallViewDidLoaded = true
-        setNavBarBackButton(nil)
+        setNavBarBackButton()
         
         setupToastView()
         setReachabilityEnabled(true)
