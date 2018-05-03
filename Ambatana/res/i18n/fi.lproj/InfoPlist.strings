@@ -1,6 +1,6 @@
 "NSCameraUsageDescription" = "Kamerallasi otetaan kuvia asioista, jotka haluat myydä.";
-"NSLocationAlwaysAndWhenInUseUsageDescription" = "letgo will use your location to show you nearby deals and suggest meeting places";
-"NSLocationAlwaysUsageDescription" = "letgo will use your location to show you nearby deals and suggest meeting places";
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "letgo käyttää sijaintiasi näyttääkseen lähistöllä olevia tarjouksia ja ehdottaakseen tapaamispaikkoja";
+"NSLocationAlwaysUsageDescription" = "letgo käyttää sijaintiasi näyttääkseen lähistöllä olevia tarjouksia ja ehdottaakseen tapaamispaikkoja";
 "NSLocationWhenInUseUsageDescription" = "letgo tarvitsee pääsyn paikkatietoosi voidakseen näyttää sinulle lähellä olevia tuotteita";
 "NSPhotoLibraryAddUsageDescription" = "Kuvakirjastoasi käytetään siihen, että voit valita kuvat niistä asioista, jotka haluat myydä, kirjastosi kaikkien kuvien joukosta.";
 "NSPhotoLibraryUsageDescription" = "Kuvakirjastoasi käytetään siihen, että voit valita kuvat niistä asioista, jotka haluat myydä, kirjastosi kaikkien kuvien joukosta.";

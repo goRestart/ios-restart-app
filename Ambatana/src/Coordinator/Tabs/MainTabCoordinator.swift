@@ -51,6 +51,7 @@ class MainTabCoordinator: TabCoordinator {
 }
 
 extension MainTabCoordinator: MainTabNavigator {
+
     func openMainListings(withSearchType searchType: SearchType, listingFilters: ListingFilters) {
         let vm = MainListingsViewModel(searchType: searchType, filters: listingFilters)
         vm.navigator = self
@@ -84,5 +85,20 @@ extension MainTabCoordinator: MainTabNavigator {
     func openTaxonomyList(withViewModel viewModel: TaxonomiesViewModel) {
         let vc = TaxonomiesViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: true)
+    }
+    
+    func openMap(with listingFilters: ListingFilters, locationManager: LocationManager) {
+        let viewModel = ListingsMapViewModel(navigator: self,
+                                             locationManager: locationManager,
+                                             currentFilters: listingFilters,
+                                             featureFlags: featureFlags)
+        let viewController = ListingsMapViewController(viewModel: viewModel)
+        navigationController.pushViewController(viewController, animated: true)
+    }
+}
+
+extension MainTabCoordinator: ListingsMapNavigator {
+    func closeMap() {
+        navigationController.popViewController(animated: true)
     }
 }

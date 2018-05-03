@@ -332,12 +332,14 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         navbarSearch.beginEdit()
     }
     
-    /**
-        Called when the search button is pressed.
-    */
-    @objc private func filtersButtonPressed(_ sender: AnyObject) {
+    @objc func openFilters(_ sender: AnyObject) {
         navbarSearch.searchTextField.resignFirstResponder()
         viewModel.showFilters()
+    }
+    
+    @objc func openMap(_ sender: AnyObject) {
+        navbarSearch.searchTextField.resignFirstResponder()
+        viewModel.showMap()
     }
     
     private func setupTagsView() {
@@ -375,8 +377,8 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     }
     
     private func setFiltersNavBarButton() {
-        setLetGoRightButtonWith(imageName: viewModel.hasFilters ? "ic_filters_active" : "ic_filters",
-                                renderingMode: .alwaysOriginal, selector: "filtersButtonPressed:")
+        let buttons = viewModel.rightBarButtonsItems
+        setLetGoRightButtonsWith(images: buttons.map { $0.image }, selectors: buttons.map { $0.selector })
     }
     
     private func setInviteNavBarButton() {

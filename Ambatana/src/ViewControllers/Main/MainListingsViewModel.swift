@@ -82,6 +82,19 @@ class MainListingsViewModel: BaseViewModel {
         return featureFlags.mostSearchedDemandedItems.isActive
     }
     
+    private var isRealEstateSelected: Bool {
+        return filters.selectedCategories.contains(.realEstate)
+    }
+    
+    var rightBarButtonsItems: [(image: UIImage, selector: Selector)] {
+        var rightButtonItems: [(image: UIImage, selector: Selector)] = []
+        if featureFlags.realEstateMap.isActive && isRealEstateSelected {
+            rightButtonItems.append((image: #imageLiteral(resourceName: "ic_map"), selector: #selector(MainListingsViewController.openMap)))
+        }
+        rightButtonItems.append((image: hasFilters ? #imageLiteral(resourceName: "ic_filters_active") : #imageLiteral(resourceName: "ic_filters"), selector: #selector(MainListingsViewController.openFilters)))
+        return rightButtonItems
+    }
+    
     var defaultBubbleText: String {
         let distance = filters.distanceRadius ?? 0
         let type = filters.distanceType
@@ -153,7 +166,7 @@ class MainListingsViewModel: BaseViewModel {
             }
         }
         
-        if filters.selectedCategories.contains(.realEstate) {
+        if isRealEstateSelected {
             if let propertyType = filters.realEstatePropertyType {
                 resultTags.append(.realEstatePropertyType(propertyType))
             }
@@ -199,7 +212,7 @@ class MainListingsViewModel: BaseViewModel {
     }
     
     private var realEstateSelectedWithFilters: Bool {
-        guard filters.selectedCategories.contains(.realEstate) else { return false }
+        guard isRealEstateSelected else { return false }
         return filters.hasAnyRealEstateAttributes
     }
     
@@ -404,6 +417,10 @@ class MainListingsViewModel: BaseViewModel {
     func showFilters() {
         navigator?.openFilters(withListingFilters: filters, filtersVMDataDelegate: self)
         tracker.trackEvent(TrackerEvent.filterStart())
+    }
+    
+    func showMap() {
+        navigator?.openMap(with: filters, locationManager: locationManager)
     }
 
     /**
