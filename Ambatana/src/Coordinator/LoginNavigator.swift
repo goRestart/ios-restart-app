@@ -15,6 +15,7 @@ protocol MainSignUpNavigator: class {
     func closeMainSignUpAndOpenDeviceNotAllowedAlert(contactURL: URL, network: EventParameterAccountNetwork)
     func openSignUpEmailFromMainSignUp()
     func openLogInEmailFromMainSignUp()
+    func openPasswordlessEmail()
 
     func openHelpFromMainSignUp()
     func open(url: URL)
@@ -36,3 +37,8 @@ protocol RememberPasswordNavigator: class {
     func closeRememberPassword()
 }
 
+protocol PasswordlessNavigator: class {
+    func openPasswordlessEmailSentTo(email: String)
+    func closePasswordlessEmailSent()
+    func openHelpFromPasswordless()
+}

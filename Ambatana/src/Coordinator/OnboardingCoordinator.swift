@@ -265,6 +265,10 @@ extension OnboardingCoordinator: MainSignUpNavigator {
     func openHelpFromMainSignUp() {
         openHelp()
     }
+
+    func openPasswordlessEmail() {
+        // passwordless login should not be opened in on-boarding
+    }
 }
 
 

@@ -190,6 +190,14 @@ extension LoginCoordinator: MainSignUpNavigator {
     func openHelpFromMainSignUp() {
         openHelp()
     }
+
+    func openPasswordlessEmail() {
+        guard let nv = viewController as? UINavigationController else { return }
+        let vm = PasswordlessEmailViewModel()
+        vm.navigator = self
+        let vc = PasswordlessEmailViewController(viewModel: vm)
+        nv.pushViewController(vc, animated: true)
+    }
 }
 
 // MARK: - V1
@@ -281,6 +289,27 @@ extension LoginCoordinator {
     }
 }
 
+// MARK: - Passwordless Navigator
+
+extension LoginCoordinator: PasswordlessNavigator {
+
+    func openPasswordlessEmailSentTo(email: String) {
+        let vm = PasswordlessEmailSentViewModel(email: email)
+        vm.navigator = self
+        let vc = PasswordlessEmailSentViewController(viewModel: vm)
+        let nv = UINavigationController(rootViewController: vc)
+        presentedViewControllers.append(nv)
+        viewController.present(nv, animated: true, completion: nil)
+    }
+
+    func closePasswordlessEmailSent() {
+        dismissLastPresented(animated: true, completion: nil)
+    }
+
+    func openHelpFromPasswordless() {
+        openHelp()
+    }
+}
 
 // MARK: - Private
 

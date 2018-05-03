@@ -89,6 +89,7 @@ final class PasswordlessEmailViewController: BaseViewController {
         emailTextField.font = .passwordLessEmailTextFieldFont
         emailTextField.textColor = .blackText
         emailTextField.tintColor = .primaryColor
+        emailTextField.autocapitalizationType = .none
         emailTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
 
         var placeholderAttributes = [NSAttributedStringKey: Any]()

@@ -10,6 +10,7 @@ import Foundation
 
 final class PasswordlessEmailSentViewModel: BaseViewModel {
 
+    weak var navigator: PasswordlessNavigator?
     let email: String
 
     init(email: String) {
@@ -17,10 +18,10 @@ final class PasswordlessEmailSentViewModel: BaseViewModel {
     }
 
     func didTapClose() {
-        
+        navigator?.closePasswordlessEmailSent()
     }
 
     func didTapHelp() {
-
+        navigator?.openHelpFromPasswordless()
     }
 }
