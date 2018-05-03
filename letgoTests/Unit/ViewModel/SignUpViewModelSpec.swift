@@ -307,6 +307,8 @@ class SignUpViewModelSpec: QuickSpec {
 }
 
 extension SignUpViewModelSpec: MainSignUpNavigator {
+    func openPasswordlessEmail() {}
+
     func cancelMainSignUp() {
         finishedSuccessfully = false
     }
