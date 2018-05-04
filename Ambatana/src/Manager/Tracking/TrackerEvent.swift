@@ -118,7 +118,7 @@ struct TrackerEvent {
     }
 
     static func loginEmailSubmit() -> TrackerEvent {
-        return TrackerEvent(name: .loginEmailStart, params: nil)
+        return TrackerEvent(name: .loginEmailSubmit, params: nil)
     }
 
     static func loginEmailError(_ errorDescription: EventParameterLoginError) -> TrackerEvent {
