@@ -45,6 +45,7 @@ final class PasswordlessUsernameViewController: BaseViewController {
         super.viewDidLoad()
         setupUI()
         setupRx()
+        setupAccessibilityIds()
     }
 
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
@@ -140,6 +141,12 @@ final class PasswordlessUsernameViewController: BaseViewController {
                     self?.view.layoutIfNeeded()
                 })
             }).disposed(by: disposeBag)
+    }
+
+    private func setupAccessibilityIds() {
+        titleLabel.set(accessibilityId: .passwordlessUsernameTitleLabel)
+        usernameTextField.set(accessibilityId: .passwordlessUsernameUsernameTextField)
+        doneButton.set(accessibilityId: .passwordlessDoneButton)
     }
 
     @objc private func didTapDone() {

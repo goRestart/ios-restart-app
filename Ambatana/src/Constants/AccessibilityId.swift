@@ -376,6 +376,18 @@ enum AccessibilityId: Equatable {
     case recaptchaLoading
     case recaptchaWebView
 
+    // Passwordless
+    case passwordlessEmailTitleLabel
+    case passwordlessEmailDescriptionLabel
+    case passwordlessEmailTextField
+    case passwordlessEmailContinueButton
+    case passwordlessUsernameTitleLabel
+    case passwordlessUsernameUsernameTextField
+    case passwordlessDoneButton
+    case passwordlessEmailSentTitleLabel
+    case passwordlessEmailSentSubtitleLabel
+    case passwordlessEmailSentImageView
+
     // ChatGrouped
     case chatGroupedViewRightNavBarButton
 
@@ -672,7 +684,7 @@ enum AccessibilityId: Equatable {
     case askPhoneNumberLetstalkText
     case askPhoneNumberTextfield
     case askPhoneNumberSendPhoneButton
-    
+
     //  MARK - Verticals
     case realEstateCell
     case realEstatePromoTitle
@@ -1411,7 +1423,29 @@ enum AccessibilityId: Equatable {
             return "recaptchaLoading"
         case .recaptchaWebView:
             return "recaptchaWebView"
-            
+
+        // Passowrdless
+        case .passwordlessEmailTitleLabel:
+            return "passwordlessEmailTitleLabel"
+        case .passwordlessEmailDescriptionLabel:
+            return "passwordlessEmailDescriptionLabel"
+        case .passwordlessEmailTextField:
+            return "passwordlessEmailTextField"
+        case .passwordlessEmailContinueButton:
+            return "passwordlessEmailContinueButton"
+        case .passwordlessUsernameTitleLabel:
+            return "passwordlessUsernameTitleLabel"
+        case .passwordlessUsernameUsernameTextField:
+            return "passwordlessUsernameUsernameTextField"
+        case .passwordlessDoneButton:
+            return "passwordlessDoneButton"
+        case .passwordlessEmailSentTitleLabel:
+            return "passwordlessEmailSentTitleLabel"
+        case .passwordlessEmailSentSubtitleLabel:
+            return "passwordlessEmailSentSubtitleLabel"
+        case .passwordlessEmailSentImageView:
+            return "passwordlessEmailSentImageView"
+
         // ChatGrouped
         case .chatGroupedViewRightNavBarButton:
             return "chatGroupedViewRightNavBarButton"
