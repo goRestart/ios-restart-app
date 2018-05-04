@@ -76,14 +76,14 @@ final class PasswordlessEmailViewController: BaseViewController {
     private func setupTitleLabelUI() {
         titleLabel.textColor = .blackText
         titleLabel.font = .passwordLessEmailTitleFont
-        titleLabel.text = "Continue with email" // FIXME: localize
+        titleLabel.text = LGLocalizedString.passwordlessEmailInputTitle
     }
 
     private func setupDescriptionLabelUI() {
         descriptionLabel.textColor = .grayDisclaimerText
         descriptionLabel.font = .passwordLessEmailDescriptionFont
         descriptionLabel.numberOfLines = 0
-        descriptionLabel.text = "Enter your email address to sign in or create an account, and we’ll send a “magic link” to your inbox." // FIXME: localize
+        descriptionLabel.text = LGLocalizedString.passwordlessEmailInputDescription
     }
 
     private func setupEmailTextFieldUI() {
@@ -96,12 +96,12 @@ final class PasswordlessEmailViewController: BaseViewController {
         var placeholderAttributes = [NSAttributedStringKey: Any]()
         placeholderAttributes[NSAttributedStringKey.font] = UIFont.passwordLessEmailTextFieldFont
         placeholderAttributes[NSAttributedStringKey.foregroundColor] = UIColor.grayPlaceholderText
-        emailTextField.attributedPlaceholder = NSAttributedString(string: "Email", // FIXME: localize
+        emailTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.passwordlessEmailInputTextfieldPlaceholder,
                                                                   attributes: placeholderAttributes)
     }
 
     private func setupContinueButtonUI() {
-        continueButton.setTitle("Send magic link", for: .normal) // FIXME: localize
+        continueButton.setTitle(LGLocalizedString.passwordlessEmailInputButton, for: .normal)
         continueButton.addTarget(self, action: #selector(didTapContinue), for: .touchUpInside)
     }
 
