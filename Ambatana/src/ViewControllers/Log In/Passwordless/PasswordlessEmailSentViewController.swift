@@ -46,7 +46,7 @@ final class PasswordlessEmailSentViewController: BaseViewController {
 
     private func setupUI() {
         view.backgroundColor = .white
-        title = "Check your email inbox" // FIXME: localize
+        title = LGLocalizedString.passwordlessEmailSentScreenTitle
         view.addSubviewsForAutoLayout([imageView, titleLabel, subtitleLabel])
 
         setupNavBarActions()
@@ -80,14 +80,14 @@ final class PasswordlessEmailSentViewController: BaseViewController {
         titleLabel.font = .passwordLessEmailTitleFont
         titleLabel.numberOfLines = 0
         titleLabel.textAlignment = .center
-        titleLabel.text = "To sign in, click the 'magic link' we just sent you." // FIXME: localize
+        titleLabel.text = LGLocalizedString.passwordlessEmailSentTitle
     }
 
     private func setupSubtitleLabelUI() {
         subtitleLabel.textColor = .grayDisclaimerText
         subtitleLabel.font = .passwordLessEmailDescriptionFont
         subtitleLabel.textAlignment = .center
-        subtitleLabel.text = "Email address: \(viewModel.email)" // FIXME: localize"
+        subtitleLabel.text = LGLocalizedString.passwordlessEmailSentSubtitle(viewModel.email)
     }
 
     private func setupConstraints() {
