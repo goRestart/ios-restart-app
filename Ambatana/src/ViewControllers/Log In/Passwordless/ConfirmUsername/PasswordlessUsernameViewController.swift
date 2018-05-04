@@ -80,7 +80,7 @@ final class PasswordlessUsernameViewController: BaseViewController {
     private func setupTitleLabelUI() {
         titleLabel.textColor = .blackText
         titleLabel.font = .passwordLessUsernameTitleFont
-        titleLabel.text = "Choose your username" // FIXME: localize
+        titleLabel.text = LGLocalizedString.passwordlessUsernameInputTitle
         titleLabel.numberOfLines = 2
     }
 
@@ -92,12 +92,12 @@ final class PasswordlessUsernameViewController: BaseViewController {
         var placeholderAttributes = [NSAttributedStringKey: Any]()
         placeholderAttributes[NSAttributedStringKey.font] = UIFont.passwordLessEmailTextFieldFont
         placeholderAttributes[NSAttributedStringKey.foregroundColor] = UIColor.grayPlaceholderText
-        usernameTextField.attributedPlaceholder = NSAttributedString(string: "Username",  // FIXME: Localize
+        usernameTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.passwordlessUsernameInputTextfieldPlaceholder,
                                                                  attributes: placeholderAttributes)
     }
 
     private func setupDoneButtonUI() {
-        doneButton.setTitle("Done", for: .normal) // FIXME: localize
+        doneButton.setTitle(LGLocalizedString.passwordlessUsernameInputDoneButton, for: .normal)
         doneButton.addTarget(self, action: #selector(didTapDone), for: .touchUpInside)
     }
 
