@@ -66,7 +66,7 @@ final class PhotoViewerViewModel: BaseViewModel {
 
     func urlsAtIndex(_ index: Int) -> URL? {
         guard let media = mediaAtIndex(index) else { return nil }
-        return media.outputs.imageThumbnail
+        return media.outputs.image
     }
 
     func mediaAtIndexIsPlayable(_ index: Int) -> Bool {
