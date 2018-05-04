@@ -20,6 +20,7 @@ final class UserProfileViewController: BaseViewController {
     private let socialSharer: SocialSharer
 
     // UI
+
     private let headerContainerView = UIView()
     private let headerView: UserProfileHeaderView
     private let navBarUserView = UserProfileNavBarUserView()
@@ -76,7 +77,9 @@ final class UserProfileViewController: BaseViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    init(viewModel: UserProfileViewModel, hidesBottomBarWhenPushed: Bool, socialSharer: SocialSharer) {
+    init(viewModel: UserProfileViewModel,
+         hidesBottomBarWhenPushed: Bool,
+         socialSharer: SocialSharer) {
         self.viewModel = viewModel
         self.disposeBag = DisposeBag()
         self.headerView = UserProfileHeaderView(isPrivate: viewModel.isPrivateProfile)

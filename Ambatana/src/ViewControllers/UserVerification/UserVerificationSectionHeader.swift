@@ -28,6 +28,7 @@ final class UserVerificationMainSectionHeader: UIView {
     required init() {
         super.init(frame: .zero)
         setupUI()
+        setupAccessibilityIds()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -60,6 +61,10 @@ final class UserVerificationMainSectionHeader: UIView {
         ]
 
         NSLayoutConstraint.activate(constraints)
+    }
+
+    private func setupAccessibilityIds() {
+        titleLabel.set(accessibilityId: .verificationsOptionsTitle)
     }
 }
 
