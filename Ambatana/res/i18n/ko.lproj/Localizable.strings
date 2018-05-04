@@ -558,6 +558,17 @@
 "passive_buyers_message" = "유사한 상품에 관심을 가지고 있는 구매자들에게 연락해보세요";
 "passive_buyers_not_available" = "이런! 구매자를 찾을 수 없습니다";
 "passive_buyers_title" = "다음 구매자들이 관심있는 것 같습니다";
+"passwordless_email_input_button" = "Send magic link";
+"passwordless_email_input_description" = "Enter your email address to sign in or create an account, and we’ll send a “magic link” to your inbox.";
+"passwordless_email_input_textfield_placeholder" = "이메일";
+"passwordless_email_input_title" = "이메일로 진행하기";
+"passwordless_email_sent_screen_title" = "Check your email inbox";
+"passwordless_email_sent_subtitle" = "Email address: %@";
+"passwordless_email_sent_title" = "To sign in, click the 'magic link' we just sent you.";
+"passwordless_main_signup_button" = "이메일로 진행하기";
+"passwordless_username_input_done_button" = "완료";
+"passwordless_username_input_textfield_placeholder" = "사용자";
+"passwordless_username_input_title" = "Choose your username";
 "phone_verification_code_input_view_content_subaction" = "코드를 받지 못하셨나요?";
 "phone_verification_code_input_view_content_subtext" = "%@ 이내에 메시지를 받지 못하셨다면, 다른 코드를 요청하실 수 있습니다";
 "phone_verification_code_input_view_content_subtitle" = "%@로 발송해드렸습니다";

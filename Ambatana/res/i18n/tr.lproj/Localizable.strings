@@ -558,6 +558,17 @@
 "passive_buyers_message" = "Benzer ürünlerle ilgilenebilecek bu alıcılarla iletişime geç";
 "passive_buyers_not_available" = "Oops! Alıcılar bulunamadı.";
 "passive_buyers_title" = "BU ALICILAR İLGİLENİYOR OLABİLİR";
+"passwordless_email_input_button" = "Sihirli bağlantı gönder";
+"passwordless_email_input_description" = "Giriş yapmak veya hesap oluşturmak için e-posta adresini gir, ve gelen kutuna bir \"sihirli bağlantı\" gönderelim.";
+"passwordless_email_input_textfield_placeholder" = "E-posta";
+"passwordless_email_input_title" = "E-posta ile devam et";
+"passwordless_email_sent_screen_title" = "E-posta gelen kutunu kontrol et";
+"passwordless_email_sent_subtitle" = "E-posta adresi: %@";
+"passwordless_email_sent_title" = "Giriş yapmak için, sana gönderdiğimiz 'sihirli bağlantı'ya tıkla.";
+"passwordless_main_signup_button" = "E-posta ile devam et";
+"passwordless_username_input_done_button" = "Tamam";
+"passwordless_username_input_textfield_placeholder" = "Kullanıcı Adı";
+"passwordless_username_input_title" = "Kullanıcı adını seç";
 "phone_verification_code_input_view_content_subaction" = "Kodu almadın mı?";
 "phone_verification_code_input_view_content_subtext" = "%@ içinde almazsan başka bir kod talep edebilirsin";
 "phone_verification_code_input_view_content_subtitle" = "%@ numarasına gönderdik";

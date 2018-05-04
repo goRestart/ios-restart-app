@@ -1700,6 +1700,39 @@
 //  Passive buyers screen for seller -> Contact success
 "passive_buyers_contact_success" = "Buyers contacted!";
 
+// Button in main sign up screen to access the passwordless screen
+"passwordless_main_signup_button" = "Continue with email";
+
+// Title in the screen where user inserts the email to receive the magic link
+"passwordless_email_input_title" = "Continue with email";
+
+// Description in the screen where user inserts the email to receive the magic link
+"passwordless_email_input_description" = "Enter your email address to sign in or create an account, and we’ll send a “magic link” to your inbox.";
+
+// Placeholder for the textField where the user inserts the email to receive the magic link
+"passwordless_email_input_textfield_placeholder" = "Email";
+
+// Text in the button of the screen where user inserts email to receive magic link
+"passwordless_email_input_button" = "Send magic link";
+
+// Title in the navigation bar for the Email Sent screen after sending magic link
+"passwordless_email_sent_screen_title" = "Check your email inbox";
+
+// Title in the screen where app explains email has been sent
+"passwordless_email_sent_title" = "To sign in, click the 'magic link' we just sent you.";
+
+// Subtitle in the screen where app explains email has been sent
+"passwordless_email_sent_subtitle" = "Email address: %@";
+
+// Title in the screen where user has to define a username
+"passwordless_username_input_title" = "Choose your username";
+
+// Placeholder for the textField where the user inserts the username
+"passwordless_username_input_textfield_placeholder" = "Username";
+
+// Button title for the screen where user inserts the username
+"passwordless_username_input_done_button" = "Done";
+
 // Button to initiate chat from the full screen photo viewer
 "photo_viewer_chat_button" = "Chat";
 

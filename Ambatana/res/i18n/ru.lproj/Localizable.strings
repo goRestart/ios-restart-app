@@ -558,6 +558,17 @@
 "passive_buyers_message" = "Свяжитесь с покупателями, которые интересовались похожими товарами";
 "passive_buyers_not_available" = "Упс! Покупатели не найдены.";
 "passive_buyers_title" = "ЭТИ ПОКУПАТЕЛИ МОГУТ БЫТЬ ЗАИНТЕРЕСОВАНЫ";
+"passwordless_email_input_button" = "Send magic link";
+"passwordless_email_input_description" = "Enter your email address to sign in or create an account, and we’ll send a “magic link” to your inbox.";
+"passwordless_email_input_textfield_placeholder" = "E-mail";
+"passwordless_email_input_title" = "Продолжить с е-мейл";
+"passwordless_email_sent_screen_title" = "Check your email inbox";
+"passwordless_email_sent_subtitle" = "Email address: %@";
+"passwordless_email_sent_title" = "To sign in, click the 'magic link' we just sent you.";
+"passwordless_main_signup_button" = "Продолжить с е-мейл";
+"passwordless_username_input_done_button" = "Готово";
+"passwordless_username_input_textfield_placeholder" = "Имя пользователя";
+"passwordless_username_input_title" = "Choose your username";
 "phone_verification_code_input_view_content_subaction" = "Не получили код?";
 "phone_verification_code_input_view_content_subtext" = "Вы можете запросить другой код, если не получили его в течение %@";
 "phone_verification_code_input_view_content_subtitle" = "Мы отправили его на %@";

@@ -558,6 +558,17 @@
 "passive_buyers_message" = "Επικοινωνήστε με τους αγοραστές που ενδιαφέρονται για συναφή προϊόντα";
 "passive_buyers_not_available" = "Όπα! Οι αγοραστές δε βρέθηκαν.";
 "passive_buyers_title" = "ΑΥΤΟΙ ΟΙ ΑΓΟΡΑΣΤΕΣ ΜΠΟΡΕΙ ΝΑ ΕΝΔΙΑΦΕΡΟΝΤΑΙ";
+"passwordless_email_input_button" = "Αποστολή μαγικού συνδέσμου";
+"passwordless_email_input_description" = "Εισάγετε τη διεύθυνση email σας για να συνδεθείτε ή δημιουργήστε ένα λογαριασμό και θα στείλουμε ένα \"μαγικό σύνδεσμο\" στα εισερχόμενά σας.";
+"passwordless_email_input_textfield_placeholder" = "Email";
+"passwordless_email_input_title" = "Συνέχεια με email";
+"passwordless_email_sent_screen_title" = "Ελέγξτε τα εισερχόμενα email σας";
+"passwordless_email_sent_subtitle" = "Διεύθυνση email: %@";
+"passwordless_email_sent_title" = "Για να συνδεθείτε, κάντε κλικ στο \"μαγικό σύνδεσμο\" που σας στείλαμε.";
+"passwordless_main_signup_button" = "Συνέχεια με email";
+"passwordless_username_input_done_button" = "Έγινε";
+"passwordless_username_input_textfield_placeholder" = "Όνομα Χρήστη";
+"passwordless_username_input_title" = "Επιλογή ονόματος χρήστη";
 "phone_verification_code_input_view_content_subaction" = "Δε λάβατε τον κωδικό;";
 "phone_verification_code_input_view_content_subtext" = "Μπορείτε να αιτηθείτε έναν άλλο κωδικό αν δεν το λάβατε μέσα σε %@";
 "phone_verification_code_input_view_content_subtitle" = "Το στείλαμε στο %@";
@@ -1046,7 +1057,7 @@
 "reset_password_title" = "Επαναφορά κωδικού πρόσβασης";
 "search_alert_delete_error_message" = "Όπα! Παρουσιάστηκε σφάλμα κατά τη διαγραφή της ειδοποίησης αναζήτησης.";
 "search_alert_disable_error_message" = "Όπα! Παρουσιάστηκε σφάλμα κατά την απενεργοποίηση της ειδοποίησης αναζήτησης.";
-"search_alert_enable_error_message" = "Όπα! Παρουσιάστηκε σφάλμα κατά την ενεργοποίηση της ειδοποίησης αναζήτησης";
+"search_alert_enable_error_message" = "Όπα! Παρουσιάστηκε σφάλμα κατά την ενεργοποίηση της ειδοποίησης αναζήτησης.";
 "search_alert_error_too_many_button_text" = "Διαχείριση Γνωστοποιήσεων";
 "search_alert_error_too_many_text" = "Όπα! Φτάσατε στο όριο του μέγιστου αριθμού ειδοποιήσεων αναζήτησης.";
 "search_alerts_edit_button" = "Επεξεργασία";

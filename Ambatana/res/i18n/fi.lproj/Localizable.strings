@@ -558,6 +558,17 @@
 "passive_buyers_message" = "Ota yhteyttä näihin ostajiin, jotka ovat kiinnostuneita vastaavista tuotteista";
 "passive_buyers_not_available" = "Hups! Ostajia ei löytynyt.";
 "passive_buyers_title" = "NÄMÄ OSTAJAT SAATTAISIVAT OLLA KIINNOSTUNEITA";
+"passwordless_email_input_button" = "Send magic link";
+"passwordless_email_input_description" = "Enter your email address to sign in or create an account, and we’ll send a “magic link” to your inbox.";
+"passwordless_email_input_textfield_placeholder" = "Sähköposti";
+"passwordless_email_input_title" = "Jatka sähköpostilla";
+"passwordless_email_sent_screen_title" = "Check your email inbox";
+"passwordless_email_sent_subtitle" = "Email address: %@";
+"passwordless_email_sent_title" = "To sign in, click the 'magic link' we just sent you.";
+"passwordless_main_signup_button" = "Jatka sähköpostilla";
+"passwordless_username_input_done_button" = "Valmis";
+"passwordless_username_input_textfield_placeholder" = "Käyttäjänimi";
+"passwordless_username_input_title" = "Choose your username";
 "phone_verification_code_input_view_content_subaction" = "Etkö saanut koodia?";
 "phone_verification_code_input_view_content_subtext" = "Voit pyytää uutta koodia, jos et saa koodia %@ sisällä";
 "phone_verification_code_input_view_content_subtitle" = "Lähetimme viestin numeroon %@";

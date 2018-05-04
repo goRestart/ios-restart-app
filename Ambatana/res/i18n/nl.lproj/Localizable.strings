@@ -558,6 +558,17 @@
 "passive_buyers_message" = "Neem contact op met kopers die geïnteresseerd zijn in soortgelijke producten";
 "passive_buyers_not_available" = "Oeps! Kopers niet gevonden.";
 "passive_buyers_title" = "DEZE KOPERS ZIJN MISSCHIEN GEÏNTERESSEERD";
+"passwordless_email_input_button" = "Verstuur magische link";
+"passwordless_email_input_description" = "Voer je e-mailadres in om in te loggen of een account aan te maken en we sturen een 'magische link' naar je inbox.";
+"passwordless_email_input_textfield_placeholder" = "EMAIL";
+"passwordless_email_input_title" = "Doorgaan met e-mail";
+"passwordless_email_sent_screen_title" = "Controleer jouw e-mailinbox";
+"passwordless_email_sent_subtitle" = "E-mailadres: %@";
+"passwordless_email_sent_title" = "Om je aan te melden, klik op de 'magische link' die we je net hebben gestuurd.";
+"passwordless_main_signup_button" = "Doorgaan met e-mail";
+"passwordless_username_input_done_button" = "Klaar";
+"passwordless_username_input_textfield_placeholder" = "Gebruikersnaam";
+"passwordless_username_input_title" = "Kies jouw gebruikersnaam";
 "phone_verification_code_input_view_content_subaction" = "Code niet ontvangen?";
 "phone_verification_code_input_view_content_subtext" = "Je kunt een andere code aanvragen als je deze niet ontvangt binnen %@";
 "phone_verification_code_input_view_content_subtitle" = "We hebben het verzonden naar %@";
