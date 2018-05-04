@@ -1106,7 +1106,7 @@ private enum ListingCreateValidationError: Error {
             self = .internalError
         case .network:
             self = .network
-        case .serverError, .notFound, .forbidden, .unauthorized, .tooManyRequests, .userNotVerified:
+        case .serverError, .notFound, .forbidden, .unauthorized, .tooManyRequests, .userNotVerified, .searchAlertError:
             self = .serverError(code: repoError.errorCode)
         }
     }

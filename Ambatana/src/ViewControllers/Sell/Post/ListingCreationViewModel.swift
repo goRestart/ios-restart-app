@@ -99,7 +99,7 @@ class ListingCreationViewModel : BaseViewModel {
         switch error {
         case .network:
             sellError = .network
-        case .serverError, .notFound, .forbidden, .unauthorized, .tooManyRequests, .userNotVerified:
+        case .serverError, .notFound, .forbidden, .unauthorized, .tooManyRequests, .userNotVerified, .searchAlertError:
             sellError = .serverError(code: error.errorCode)
         case .internalError, .wsChatError:
             sellError = .internalError

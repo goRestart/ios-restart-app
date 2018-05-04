@@ -534,6 +534,13 @@ enum AccessibilityId: Equatable {
     case settingsCellTitle
     case settingsCellValue
     case settingsCellSwitch
+    
+    // SettingsNotifications
+    case settingsNotificationsTableView
+    
+    // SettingsNotificationsCell
+    case settingsNotificationsCellTitle
+    case settingsNotificationsCellSwitch
 
     // ChangeUsername
     case changeUsernameNameField
@@ -691,6 +698,12 @@ enum AccessibilityId: Equatable {
     case realEstatePromoTitle
     case realEstatePromoIcon
     case realEstatePromoPostNowButton
+
+    // Search Alerts Placeholder
+    case searchAlertsPlaceholderIcon
+    case searchAlertsPlaceholderText
+    case searchAlertsPlaceholderButton
+
     
     static func ==(lhs: AccessibilityId, rhs: AccessibilityId) -> Bool {
         return lhs.identifier == rhs.identifier
@@ -1710,6 +1723,16 @@ enum AccessibilityId: Equatable {
         case .settingsCellSwitch:
             return "settingsCellSwitch"
             
+        // SettingsNotifications
+        case .settingsNotificationsTableView:
+            return "settingsNotificationsTableView"
+        
+        // SettingsNotificationsCell
+        case .settingsNotificationsCellTitle:
+            return "settingsNotificationsCellTitle"
+        case .settingsNotificationsCellSwitch:
+            return "settingsNotificationsCellSwitch"
+            
         // ChangeUsername
         case .changeUsernameNameField:
             return "changeUsernameNameField"
@@ -1969,6 +1992,13 @@ enum AccessibilityId: Equatable {
             return "realEstatePromoIcon"
         case .realEstatePromoPostNowButton:
             return "realEstatePromoPostNowButton"
+        // Search Alerts Placeholder
+        case .searchAlertsPlaceholderIcon:
+            return "searchAlertsPlaceholderIcon"
+        case .searchAlertsPlaceholderText:
+            return "searchAlertsPlaceholderText"
+        case .searchAlertsPlaceholderButton:
+            return "searchAlertsPlaceholderButton"
         }
     }
 }

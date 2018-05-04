@@ -1139,7 +1139,32 @@ class TrackerEventSpec: QuickSpec {
                     }
                 }
             }
-            
+
+            describe("searchAlertSwitchChanged") {
+                beforeEach {
+                    sut = TrackerEvent.searchAlertSwitchChanged(userId: "user_id",
+                                                                searchKeyword: "flux capacitor",
+                                                                enabled: .trueParameter,
+                                                                source: .search)
+                }
+
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("search-alert"))
+                }
+                it("contains the user id parameter") {
+                    expect(sut.params!.stringKeyParams["user-id"] as? String) == "user_id"
+                }
+                it("contains search keyword parameter") {
+                    expect(sut.params!.stringKeyParams["search-keyword"] as? String) == "flux capacitor"
+                }
+                it("contains enabled parameter") {
+                    expect(sut.params!.stringKeyParams["enabled"] as? String) == "true"
+                }
+                it("contains alert source parameter") {
+                    expect(sut.params!.stringKeyParams["alert-source"] as? String) == "search"
+                }
+            }
+
             describe("listingDetailVisit") {
                 beforeEach {
                     var userListing = MockUserListing.makeMock()

@@ -979,6 +979,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("common_confirm", comment: "")
 	}
 
+	static var commonDone: String {
+		return NSLocalizedString("common_done", comment: "")
+	}
+
+	static var commonEdit: String {
+		return NSLocalizedString("common_edit", comment: "")
+	}
+
 	static var commonError: String {
 		return NSLocalizedString("common_error", comment: "")
 	}
@@ -3007,6 +3015,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_post_product_posted_not_logged", comment: "")
 	}
 
+	static var productPostProductPostedNotLoggedVideoPosting: String {
+		return NSLocalizedString("product_post_product_posted_not_logged_video_posting", comment: "")
+	}
+
 	static var productPostRetake: String {
 		return NSLocalizedString("product_post_retake", comment: "")
 	}
@@ -3021,6 +3033,10 @@ struct LGLocalizedString {
 
 	static var productPostUsePhotoNotLogged: String {
 		return NSLocalizedString("product_post_use_photo_not_logged", comment: "")
+	}
+
+	static var productPostUseVideoNotLogged: String {
+		return NSLocalizedString("product_post_use_video_not_logged", comment: "")
 	}
 
 	static var productPostSelectCategoryTitle: String {
@@ -4265,6 +4281,14 @@ struct LGLocalizedString {
 
 	static var searchAlertDisableErrorMessage: String {
 		return NSLocalizedString("search_alert_disable_error_message", comment: "")
+	}
+
+	static var searchAlertErrorTooManyText: String {
+		return NSLocalizedString("search_alert_error_too_many_text", comment: "")
+	}
+
+	static var searchAlertErrorTooManyButtonText: String {
+		return NSLocalizedString("search_alert_error_too_many_button_text", comment: "")
 	}
 
 	static var sellCategorySelectionLabel: String {

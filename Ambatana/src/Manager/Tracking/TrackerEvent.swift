@@ -365,6 +365,18 @@ struct TrackerEvent {
         return TrackerEvent(name: .filterComplete, params: params)
     }
 
+    static func searchAlertSwitchChanged(userId: String?,
+                                         searchKeyword: String?,
+                                         enabled: EventParameterBoolean,
+                                         source: EventParameterSearchAlertSource) -> TrackerEvent {
+        var params = EventParameters()
+        params[.userId] = userId
+        params[.searchString] = searchKeyword
+        params[.enabled] = enabled.rawValue
+        params[.searchAlertSource] = source.rawValue
+        return TrackerEvent(name: .searchAlertSwitchChanged, params: params)
+    }
+
     static func listingVisitPhotoViewer(_ listing: Listing,
                                         source: EventParameterListingVisitSource,
                                         numberOfPictures: Int) -> TrackerEvent {

@@ -24,13 +24,14 @@ protocol MainListingsAdsDelegate: class {
 }
 
 struct MainListingsHeader: OptionSet {
-    let rawValue : Int
-    init(rawValue:Int){ self.rawValue = rawValue}
+    let rawValue: Int
+    init(rawValue: Int) { self.rawValue = rawValue }
 
-    static let PushPermissions  = MainListingsHeader(rawValue:1)
-    static let SellButton = MainListingsHeader(rawValue:2)
-    static let CategoriesCollectionBanner = MainListingsHeader(rawValue:4)
-    static let RealEstateBanner = MainListingsHeader(rawValue:8)
+    static let PushPermissions  = MainListingsHeader(rawValue: 1)
+    static let SellButton = MainListingsHeader(rawValue: 2)
+    static let CategoriesCollectionBanner = MainListingsHeader(rawValue: 4)
+    static let RealEstateBanner = MainListingsHeader(rawValue: 8)
+    static let SearchAlerts = MainListingsHeader(rawValue: 16)
 }
 
 struct SuggestiveSearchInfo {
@@ -40,7 +41,7 @@ struct SuggestiveSearchInfo {
     var count: Int {
         return suggestiveSearches.count
     }
-	
+    
     static func empty() -> SuggestiveSearchInfo {
         return SuggestiveSearchInfo(suggestiveSearches: [],
                                     sourceText: "")
@@ -50,7 +51,9 @@ struct SuggestiveSearchInfo {
 class MainListingsViewModel: BaseViewModel {
     
     static let adInFeedInitialPosition = 3
-    static let adsInFeedRatio = 20
+    private static let adsInFeedRatio = 20
+    private static let searchAlertLimit = 20
+
     
     // > Input
     var searchString: String? {
@@ -225,6 +228,11 @@ class MainListingsViewModel: BaseViewModel {
         return keyValueStorage[.lastSuggestiveSearches].count >= minimumSearchesSavedToShowCollection && filters.noFilterCategoryApplied
     }
     
+    var isSearchAlertsEnabled: Bool {
+        guard let searchType = searchType else { return false }
+        return featureFlags.searchAlerts.isActive
+    }
+    
     let mainListingsHeader = Variable<MainListingsHeader>([])
     let filterTitle = Variable<String?>(nil)
     let filterDescription = Variable<String?>(nil)
@@ -239,6 +247,7 @@ class MainListingsViewModel: BaseViewModel {
     fileprivate let currencyHelper: CurrencyHelper
     fileprivate let bubbleTextGenerator: DistanceBubbleTextGenerator
     fileprivate let categoryRepository: CategoryRepository
+    private let searchAlertsRepository: SearchAlertsRepository
 
     fileprivate let tracker: Tracker
     fileprivate let searchType: SearchType? // The initial search
@@ -308,11 +317,14 @@ class MainListingsViewModel: BaseViewModel {
     
     fileprivate let disposeBag = DisposeBag()
     
+    var searchAlertCreationData = Variable<SearchAlertCreationData?>(nil)
+    
     
     // MARK: - Lifecycle
     
     init(sessionManager: SessionManager, myUserRepository: MyUserRepository, searchRepository: SearchRepository,
-         listingRepository: ListingRepository, monetizationRepository: MonetizationRepository, categoryRepository: CategoryRepository,
+         listingRepository: ListingRepository, monetizationRepository: MonetizationRepository,
+         categoryRepository: CategoryRepository, searchAlertsRepository: SearchAlertsRepository,
          locationManager: LocationManager, currencyHelper: CurrencyHelper, tracker: Tracker,
          searchType: SearchType? = nil, filters: ListingFilters, keyValueStorage: KeyValueStorage,
          featureFlags: FeatureFlaggeable, bubbleTextGenerator: DistanceBubbleTextGenerator) {
@@ -323,6 +335,7 @@ class MainListingsViewModel: BaseViewModel {
         self.listingRepository = listingRepository
         self.monetizationRepository = monetizationRepository
         self.categoryRepository = categoryRepository
+        self.searchAlertsRepository = searchAlertsRepository
         self.locationManager = locationManager
         self.currencyHelper = currencyHelper
         self.tracker = tracker
@@ -361,6 +374,7 @@ class MainListingsViewModel: BaseViewModel {
         let listingRepository = Core.listingRepository
         let monetizationRepository = Core.monetizationRepository
         let categoryRepository = Core.categoryRepository
+        let searchAlertsRepository = Core.searchAlertsRepository
         let locationManager = Core.locationManager
         let currencyHelper = Core.currencyHelper
         let tracker = TrackerProxy.sharedInstance
@@ -369,9 +383,10 @@ class MainListingsViewModel: BaseViewModel {
         let bubbleTextGenerator = DistanceBubbleTextGenerator()
         self.init(sessionManager: sessionManager,myUserRepository: myUserRepository, searchRepository: searchRepository,
                   listingRepository: listingRepository, monetizationRepository: monetizationRepository,
-                  categoryRepository: categoryRepository, locationManager: locationManager,
-                  currencyHelper: currencyHelper, tracker: tracker, searchType: searchType, filters: filters,
-                  keyValueStorage: keyValueStorage, featureFlags: featureFlags, bubbleTextGenerator: bubbleTextGenerator)
+                  categoryRepository: categoryRepository, searchAlertsRepository: searchAlertsRepository,
+                  locationManager: locationManager, currencyHelper: currencyHelper, tracker: tracker,
+                  searchType: searchType, filters: filters, keyValueStorage: keyValueStorage, featureFlags: featureFlags,
+                  bubbleTextGenerator: bubbleTextGenerator)
     }
     
     convenience init(searchType: SearchType? = nil, tabNavigator: TabNavigator?) {
@@ -398,6 +413,10 @@ class MainListingsViewModel: BaseViewModel {
             retrieveProductsIfNeededWithNewLocation(currentLocation)
             retrieveLastUserSearch()
             retrieveTrendingSearches()
+        }
+        
+        if let _ = myUserRepository.myUser, isSearchAlertsEnabled && firstTime {
+            createSearchAlert(fromEnable: false)
         }
     }
 
@@ -722,6 +741,130 @@ class MainListingsViewModel: BaseViewModel {
             return CategoryHeaderElement.listingCategory(.cars)
         }
     }
+    
+    
+    // MARK: - Search alerts
+    
+    private func createSearchAlert(fromEnable: Bool) {
+        guard let searchType = searchType, let query = searchType.text else { return }
+        searchAlertsRepository.create(query: query) { [weak self] result in
+            if let value = result.value {
+                self?.searchAlertCreationData.value = value
+                self?.updateSearchAlertsHeader()
+            } else if let error = result.error {
+                switch error {
+                case .searchAlertError(let searchAlertError):
+                    switch searchAlertError {
+                    case .alreadyExists:
+                        self?.retrieveSearchAlert(withQuery: query) { listResult in
+                            if let value = listResult.value {
+                                self?.searchAlertCreationData.value = value
+                                self?.updateSearchAlertsHeader()
+                            }
+                        }
+                    case .limitReached:
+                        if fromEnable {
+                            self?.showSearchAlertsLimitReachedAlert()
+                        }
+                        self?.searchAlertCreationData.value = SearchAlertCreationData(objectId: nil,
+                                                                                      query: query,
+                                                                                      isCreated: false,
+                                                                                      isEnabled: false)
+                        self?.updateSearchAlertsHeader()
+                    case .apiError:
+                        break
+                    }
+                case .tooManyRequests, .network, .forbidden, .internalError, .notFound, .unauthorized, .userNotVerified,
+                     .serverError, .wsChatError:
+                    break
+                }
+            }
+        }
+    }
+    
+    func triggerSearchAlert(fromEnabled: Bool) {
+        if searchAlertCreationData.value?.isCreated ?? false {
+            if fromEnabled {
+                enableSearchAlert()
+            } else {
+                disableSearchAlert()
+            }
+        } else {
+            createSearchAlert(fromEnable: true)
+        }
+
+        let trackerEvent = TrackerEvent.searchAlertSwitchChanged(userId: myUserRepository.myUser?.objectId,
+                                                                 searchKeyword: searchAlertCreationData.value?.query,
+                                                                 enabled: EventParameterBoolean(bool: fromEnabled),
+                                                                 source: .search)
+        tracker.trackEvent(trackerEvent)
+    }
+    
+    private func enableSearchAlert() {
+        guard let searchAlertId = searchAlertCreationData.value?.objectId else { return }
+        searchAlertsRepository.enable(searchAlertId: searchAlertId) { [weak self] result in
+            self?.searchAlertCreationData.value?.isEnabled = result.value != nil
+            self?.updateSearchAlertsHeader()
+            if let error = result.error {
+
+                switch error {
+                case .searchAlertError(let searchAlertError):
+                    switch searchAlertError {
+                    case .alreadyExists, .apiError:
+                        self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.searchAlertEnableErrorMessage, completion: nil)
+                    case .limitReached:
+                        self?.showSearchAlertsLimitReachedAlert()
+                        if let currentSearchAlert = self?.searchAlertCreationData.value {
+                            self?.searchAlertCreationData.value = SearchAlertCreationData(objectId: currentSearchAlert.objectId,
+                                                                                          query: currentSearchAlert.query,
+                                                                                          isCreated: false,
+                                                                                          isEnabled: false)
+                            self?.updateSearchAlertsHeader()
+                        }
+                    }
+                case .tooManyRequests, .network, .forbidden, .internalError, .notFound, .unauthorized, .userNotVerified,
+                     .serverError, .wsChatError:
+                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.searchAlertEnableErrorMessage, completion: nil)
+                }
+            }
+        }
+    }
+    
+    private func disableSearchAlert() {
+        guard let searchAlertId = searchAlertCreationData.value?.objectId else { return }
+        searchAlertsRepository.disable(searchAlertId: searchAlertId) { [weak self] result in
+            self?.searchAlertCreationData.value?.isEnabled = result.value == nil
+            self?.updateSearchAlertsHeader()
+            if let _ = result.error {
+                self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.searchAlertDisableErrorMessage, completion: nil)
+            }
+        }
+    }
+
+    private func showSearchAlertsLimitReachedAlert() {
+        let alertAction = UIAction(interface: .styledText(LGLocalizedString.searchAlertErrorTooManyButtonText, .destructive), action: { [weak self] in
+            self?.navigator?.openSearchAlertsList()
+        })
+
+        let cancelAction = UIAction(interface: .styledText(LGLocalizedString.commonCancel, .destructive), action: {})
+
+        delegate?.vmShowAlert(nil,
+                              message: LGLocalizedString.searchAlertErrorTooManyText,
+                              actions: [alertAction, cancelAction])
+    }
+
+    private func retrieveSearchAlert(withQuery query: String, completion: SearchAlertsCreateCompletion?) {
+        searchAlertsRepository.index(limit: MainListingsViewModel.searchAlertLimit, offset: 0) { result in
+            if let searchAlerts = result.value,
+                let searchAlert = searchAlerts.filter({$0.query == query}).first {
+                let searchAlertCreationData = SearchAlertCreationData(objectId: searchAlert.objectId,
+                                                                      query: searchAlert.query,
+                                                                      isCreated: true,
+                                                                      isEnabled: searchAlert.enabled)
+                completion?(SearchAlertsCreateResult(value: searchAlertCreationData))
+            }
+        }
+    }
 }
 
 
@@ -873,7 +1016,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             switch error {
             case .network:
                 errorString = LGLocalizedString.toastNoNetwork
-            case .internalError, .notFound, .forbidden, .tooManyRequests, .userNotVerified, .serverError, .wsChatError:
+            case .internalError, .notFound, .forbidden, .tooManyRequests, .userNotVerified, .serverError, .wsChatError, .searchAlertError:
                 errorString = LGLocalizedString.toastErrorInternal
             case .unauthorized:
                 errorString = nil
@@ -1309,7 +1452,7 @@ extension MainListingsViewModel {
 extension MainListingsViewModel {
 
     var showCategoriesCollectionBanner: Bool {
-        return primaryTags.isEmpty && !listViewModel.isListingListEmpty.value
+        return primaryTags.isEmpty && !listViewModel.isListingListEmpty.value && !isSearchAlertsEnabled
     }
     
     var showRealEstateBanner: Bool {
@@ -1357,6 +1500,16 @@ extension MainListingsViewModel {
             currentHeader.remove(MainListingsHeader.CategoriesCollectionBanner)
         }
         guard mainListingsHeader.value != currentHeader else { return }
+        mainListingsHeader.value = currentHeader
+    }
+    
+    private func updateSearchAlertsHeader() {
+        var currentHeader = mainListingsHeader.value
+        if !showCategoriesCollectionBanner {
+            currentHeader.insert(MainListingsHeader.SearchAlerts)
+        } else {
+            currentHeader.remove(MainListingsHeader.SearchAlerts)
+        }
         mainListingsHeader.value = currentHeader
     }
 

@@ -198,6 +198,8 @@ enum EventName: String {
 
     case assistantMeetingStart              = "assistant-meeting-start"
 
+    case searchAlertSwitchChanged           = "search-alert"
+
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
     
@@ -368,6 +370,7 @@ enum EventParameterName: String {
     case mostSearchedButton   = "most-searched-button"
     case photoViewerNumberOfPhotos   = "number-photos"
     case abandonStep          = "abandon-step"
+    case searchAlertSource    = "alert-source"
     case sellerReputationBadge = "seller-reputation-badge"
     
     // Machine Learning
@@ -920,6 +923,12 @@ enum EventParameterUserDidRateReason: String {
     case happy = "happy"
     case sad = "sad"
 }
+
+enum EventParameterSearchAlertSource: String {
+    case search = "search"
+    case settings = "settings"
+}
+
 
 enum EventParameterListingVisitSource {
     // https://ambatana.atlassian.net/wiki/spaces/MOB/pages/1114200/Parameters

@@ -410,6 +410,7 @@
 "hidden_phone_tag" = "[НОМЕР ТЕЛЕФОНА СКРЫТ]";
 "hidden_text_alert_description" = "Мы скрыли контактную информацию, чтобы вы могли спокойно торговать. Общаться в letgo легко и безопасно.";
 "hidden_text_alert_title" = "ОСТАВАЙТЕСЬ В БЕЗОПАСНОСТИ";
+"listings_map_title" = "Смотреть на карте";
 "location_permissions_allow_button" = "Разрешить";
 "location_permissions_bubble" = "500 м от вас";
 "location_permissions_button" = "Да, использовать геолокацию";
@@ -750,6 +751,7 @@
 "product_post_price_label" = "Хотите указать цену?";
 "product_post_product_posted" = "Объявление опубликовано. Поздравляем!";
 "product_post_product_posted_not_logged" = "Фото загружено!";
+"product_post_product_posted_not_logged_video_posting" = "Видео загружено!";
 "product_post_retake" = "Переснять";
 "product_post_retry_button" = "Попробовать еще";
 "product_post_select_category_cars" = "Машины";
@@ -759,7 +761,8 @@
 "product_post_select_category_real_estate" = "Недвижимость";
 "product_post_select_category_title" = "Что вы размещаете?";
 "product_post_use_photo" = "Разместить";
-"product_post_use_photo_not_logged" = "Загрузить фото";
+"product_post_use_photo_not_logged" = "Использовать фото";
+"product_post_use_video_not_logged" = "Использовать видео";
 "product_professional_call_button" = "Позвать";
 "product_professional_chat_button" = "Чат";
 "product_report_confirm_message" = "Вы уверены, что хотите пожаловаться на объявление?";
@@ -1041,9 +1044,11 @@
 "reset_password_send_ok" = "Мы отправили письмо %@. Пройдите по ссылке в нем для сброса пароля!";
 "reset_password_send_too_many_requests" = "Мы уже отправили вам письмо для сброса пароля. Пожалуйста, проверьте ящик и следуйте инструкции.";
 "reset_password_title" = "Сбросить пароль";
-"search_alert_delete_error_message" = "Упс! При удалении поискового уведомления произошла ошибка";
+"search_alert_delete_error_message" = "Упс! При удалении поискового уведомления произошла ошибка.";
 "search_alert_disable_error_message" = "Упс! При отключении поискового уведомления произошла ошибка";
 "search_alert_enable_error_message" = "Упс! При включении поискового уведомления произошла ошибка";
+"search_alert_error_too_many_button_text" = "Управления уведомлениями";
+"search_alert_error_too_many_text" = "Упс! Вы достигли максимального количества поисковых уведомлений";
 "search_alerts_edit_button" = "Редактировать";
 "search_alerts_header_subtitle" = "Получать уведомления о новых объявлениях";
 "search_alerts_placeholder_empty_button" = "Начать поиск";

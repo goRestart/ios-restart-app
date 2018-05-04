@@ -410,6 +410,7 @@
 "hidden_phone_tag" = "[ΑΠΟΚΡΥΨΗ ΤΗΛΕΦΩΝΟΥ]";
 "hidden_text_alert_description" = "Αποκρύψαμε τις πληροφορίες επικοινωνίας για να σας βοηθήσουμε να κάνετε αγοραπωλησίες με ασφάλεια. Οι συνομιλίες εντός του easy είναι πιο ασφαλείς.";
 "hidden_text_alert_title" = "ΜΕΙΝΕΤΕ ΑΣΦΑΛΕΙΣ";
+"listings_map_title" = "Προβολή χάρτη";
 "location_permissions_allow_button" = "Να επιτρέπεται";
 "location_permissions_bubble" = "15μ. από εσάς";
 "location_permissions_button" = "Χρήση της Τοποθεσίας μου";
@@ -750,6 +751,7 @@
 "product_post_price_label" = "Θέλετε να προσθέσετε τιμή;";
 "product_post_product_posted" = "Η καταχώρηση δημοσιεύτηκε. Συγχαρητήρια!";
 "product_post_product_posted_not_logged" = "Η φωτογραφία ανέβηκε!";
+"product_post_product_posted_not_logged_video_posting" = "Το βίντεο ανέβηκε!";
 "product_post_retake" = "Ξανατραβήξτε";
 "product_post_retry_button" = "Προσπαθήστε Ξανά";
 "product_post_select_category_cars" = "Αυτοκίνητα";
@@ -759,7 +761,8 @@
 "product_post_select_category_real_estate" = "Μεσιτικά";
 "product_post_select_category_title" = "Τί δημοσιεύετε;";
 "product_post_use_photo" = "Δημοσιεύστε";
-"product_post_use_photo_not_logged" = "Χρήση Φωτογραφίας";
+"product_post_use_photo_not_logged" = "Χρήση φωτογραφίας";
+"product_post_use_video_not_logged" = "Χρήση βίντεο";
 "product_professional_call_button" = "Κλήση";
 "product_professional_chat_button" = "Συνομιλία";
 "product_report_confirm_message" = "Είστε σίγουροι πως θέλετε να αναφέρετε αυτήν την καταχώρηση;";
@@ -1041,9 +1044,11 @@
 "reset_password_send_ok" = "Σας στείλαμε ένα μήνυμα στο %@. Κάντε κλικ στο σύνδεσμο του email για να επαναφέρετε τον κωδικό πρόσβασης.";
 "reset_password_send_too_many_requests" = "Σας έχουμε στείλει ήδη ένα email για επαναφορά κωδικού. Παρακαλώ ελέγξτε τα email σας και ακολουθήστε τις οδηγίες.";
 "reset_password_title" = "Επαναφορά κωδικού πρόσβασης";
-"search_alert_delete_error_message" = "Όπα! Παρουσιάστηκε σφάλμα κατά τη διαγραφή της ειδοποίησης αναζήτησης";
-"search_alert_disable_error_message" = "Όπα! Παρουσιάστηκε σφάλμα κατά την απενεργοποίηση της ειδοποίησης αναζήτησης";
+"search_alert_delete_error_message" = "Όπα! Παρουσιάστηκε σφάλμα κατά τη διαγραφή της ειδοποίησης αναζήτησης.";
+"search_alert_disable_error_message" = "Όπα! Παρουσιάστηκε σφάλμα κατά την απενεργοποίηση της ειδοποίησης αναζήτησης.";
 "search_alert_enable_error_message" = "Όπα! Παρουσιάστηκε σφάλμα κατά την ενεργοποίηση της ειδοποίησης αναζήτησης";
+"search_alert_error_too_many_button_text" = "Διαχείριση Γνωστοποιήσεων";
+"search_alert_error_too_many_text" = "Όπα! Φτάσατε στο όριο του μέγιστου αριθμού ειδοποιήσεων αναζήτησης.";
 "search_alerts_edit_button" = "Επεξεργασία";
 "search_alerts_header_subtitle" = "Λάβετε ειδοποιήσεις για νέες καταχωρήσεις";
 "search_alerts_placeholder_empty_button" = "Ξεκινήστε την Αναζήτηση";

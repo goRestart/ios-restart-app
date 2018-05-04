@@ -147,6 +147,7 @@ enum CoreReportDataSource: ReportType {
         case bumpeableListing
         case myUser
         case notifications
+        case searchAlerts
         case searchSuggestion
         case suggestiveSearch
         case stickers
@@ -200,6 +201,8 @@ enum CoreReportDataSource: ReportType {
                 return LGMyUser.self
             case .notifications:
                 return [LGNotification].self
+            case .searchAlerts:
+                return [LGSearchAlert].self
             case .searchSuggestion:
                 return [String].self
             case .suggestiveSearch:
