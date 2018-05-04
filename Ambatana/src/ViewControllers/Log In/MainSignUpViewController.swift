@@ -178,7 +178,7 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
         orLabel.backgroundColor = view.backgroundColor
         signUpButton.setTitle(LGLocalizedString.mainSignUpSignUpButton, for: .normal)
         logInButton.setTitle(LGLocalizedString.mainSignUpLogInLabel, for: .normal)
-        continueWithEmailButton.setTitle("Continue With Email", for: .normal) // FIXME: Localize
+        continueWithEmailButton.setTitle(LGLocalizedString.passwordlessMainSignupButton, for: .normal)
 
         setupTermsAndConditions()
 
