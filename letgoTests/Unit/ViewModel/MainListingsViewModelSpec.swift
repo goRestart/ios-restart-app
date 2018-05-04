@@ -31,24 +31,42 @@ class MainListingsViewModelSpec: QuickSpec {
             context("Initialization") {
                 it("has firstDate nil (first time in Letgo)") {
                     keyValueStorage[.sessionNumber] = 1
-                    sut = MainListingsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository,
-                                                searchRepository: Core.searchRepository, listingRepository: Core.listingRepository,
-                                                monetizationRepository: Core.monetizationRepository,categoryRepository: Core.categoryRepository,
-                                                searchAlertsRepository: Core.searchAlertsRepository, locationManager: Core.locationManager,
-                                                currencyHelper: Core.currencyHelper, tracker: TrackerProxy.sharedInstance,
-                                                filters: filters, keyValueStorage: keyValueStorage,
-                                                featureFlags: mockFeatureFlags, bubbleTextGenerator: DistanceBubbleTextGenerator())
+                    sut = MainListingsViewModel(sessionManager: Core.sessionManager,
+                                                myUserRepository: Core.myUserRepository,
+                                                searchRepository: Core.searchRepository,
+                                                listingRepository: Core.listingRepository,
+                                                monetizationRepository: Core.monetizationRepository,
+                                                categoryRepository: Core.categoryRepository,
+                                                searchAlertsRepository: Core.searchAlertsRepository,
+                                                locationManager: Core.locationManager,
+                                                currencyHelper: Core.currencyHelper,
+                                                tracker: TrackerProxy.sharedInstance,
+                                                searchType: nil,
+                                                filters: filters,
+                                                keyValueStorage: keyValueStorage,
+                                                featureFlags: mockFeatureFlags,
+                                                bubbleTextGenerator: DistanceBubbleTextGenerator(),
+                                                chatWrapper: MockChatWrapper())
                     expect(sut.currentActiveFilters?.selectedCategories) == []
                 }
                 it("has firstDate no nil (more than one time in Letgo)") {
                     keyValueStorage[.sessionNumber] =  2
-                    sut = MainListingsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository,
-                                                searchRepository: Core.searchRepository, listingRepository: Core.listingRepository,
-                                                monetizationRepository: Core.monetizationRepository,categoryRepository: Core.categoryRepository,
-                                                searchAlertsRepository: Core.searchAlertsRepository, locationManager: Core.locationManager,
-                                                currencyHelper: Core.currencyHelper, tracker: TrackerProxy.sharedInstance,
-                                                filters: filters, keyValueStorage: keyValueStorage,
-                                                featureFlags: mockFeatureFlags, bubbleTextGenerator: DistanceBubbleTextGenerator())
+                    sut = MainListingsViewModel(sessionManager: Core.sessionManager,
+                                                myUserRepository: Core.myUserRepository,
+                                                searchRepository: Core.searchRepository,
+                                                listingRepository: Core.listingRepository,
+                                                monetizationRepository: Core.monetizationRepository,
+                                                categoryRepository: Core.categoryRepository,
+                                                searchAlertsRepository: Core.searchAlertsRepository,
+                                                locationManager: Core.locationManager,
+                                                currencyHelper: Core.currencyHelper,
+                                                tracker: TrackerProxy.sharedInstance,
+                                                searchType: nil,
+                                                filters: filters,
+                                                keyValueStorage: keyValueStorage,
+                                                featureFlags: mockFeatureFlags,
+                                                bubbleTextGenerator: DistanceBubbleTextGenerator(),
+                                                chatWrapper: MockChatWrapper())
                     expect(sut.currentActiveFilters?.selectedCategories) == []
                 }
             }
@@ -65,13 +83,22 @@ class MainListingsViewModelSpec: QuickSpec {
                 }
                 beforeEach {
                     keyValueStorage[.sessionNumber] = 1
-                    sut = MainListingsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository,
-                                                searchRepository: Core.searchRepository, listingRepository: Core.listingRepository,
-                                                monetizationRepository: Core.monetizationRepository,categoryRepository: Core.categoryRepository,
-                                                searchAlertsRepository: Core.searchAlertsRepository, locationManager: Core.locationManager,
-                                                currencyHelper: Core.currencyHelper, tracker: TrackerProxy.sharedInstance,
-                                                filters: filters, keyValueStorage: keyValueStorage,
-                                                featureFlags: mockFeatureFlags, bubbleTextGenerator: DistanceBubbleTextGenerator())
+                    sut = MainListingsViewModel(sessionManager: Core.sessionManager,
+                                                myUserRepository: Core.myUserRepository,
+                                                searchRepository: Core.searchRepository,
+                                                listingRepository: Core.listingRepository,
+                                                monetizationRepository: Core.monetizationRepository,
+                                                categoryRepository: Core.categoryRepository,
+                                                searchAlertsRepository: Core.searchAlertsRepository,
+                                                locationManager: Core.locationManager,
+                                                currencyHelper: Core.currencyHelper,
+                                                tracker: TrackerProxy.sharedInstance,
+                                                searchType: nil,
+                                                filters: userFilters,
+                                                keyValueStorage: keyValueStorage,
+                                                featureFlags: mockFeatureFlags,
+                                                bubbleTextGenerator: DistanceBubbleTextGenerator(),
+                                                chatWrapper: MockChatWrapper())
                 }
                 context("when user set some filters") {
                     
@@ -117,14 +144,22 @@ class MainListingsViewModelSpec: QuickSpec {
                         var userFilters = ListingFilters()
                         userFilters.selectedCategories = []
                         let searchType: SearchType? = nil
-                
-                        sut = MainListingsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository,
-                                                    searchRepository: Core.searchRepository, listingRepository: Core.listingRepository,
-                                                    monetizationRepository: Core.monetizationRepository, categoryRepository: Core.categoryRepository,
-                                                    searchAlertsRepository: Core.searchAlertsRepository, locationManager: Core.locationManager,
-                                                    currencyHelper: Core.currencyHelper, tracker: mockTracker, searchType: searchType,
-                                                    filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags,
-                                                    bubbleTextGenerator: DistanceBubbleTextGenerator())
+                        sut = MainListingsViewModel(sessionManager: Core.sessionManager,
+                                                    myUserRepository: Core.myUserRepository,
+                                                    searchRepository: Core.searchRepository,
+                                                    listingRepository: Core.listingRepository,
+                                                    monetizationRepository: Core.monetizationRepository,
+                                                    categoryRepository: Core.categoryRepository,
+                                                    searchAlertsRepository: Core.searchAlertsRepository,
+                                                    locationManager: Core.locationManager,
+                                                    currencyHelper: Core.currencyHelper,
+                                                    tracker: mockTracker,
+                                                    searchType: searchType,
+                                                    filters: userFilters,
+                                                    keyValueStorage: keyValueStorage,
+                                                    featureFlags: mockFeatureFlags,
+                                                    bubbleTextGenerator: DistanceBubbleTextGenerator(),
+                                                    chatWrapper: MockChatWrapper())
                         sut.listingListVM(listingListViewModel, didSucceedRetrievingListingsPage: 0, withResultsCount: Int.random(), hasListings: true)
                     }
                     it("fires product list event") {
@@ -142,14 +177,22 @@ class MainListingsViewModelSpec: QuickSpec {
                         var userFilters = ListingFilters()
                         userFilters.selectedCategories = []
                         let searchType: SearchType = .user(query: "iphone")
-                        
-                        sut = MainListingsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository,
-                                                    searchRepository: Core.searchRepository, listingRepository: Core.listingRepository,
-                                                    monetizationRepository: Core.monetizationRepository, categoryRepository: Core.categoryRepository,
-                                                    searchAlertsRepository: Core.searchAlertsRepository, locationManager: Core.locationManager,
-                                                    currencyHelper: Core.currencyHelper, tracker: mockTracker, searchType: searchType,
-                                                    filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags,
-                                                    bubbleTextGenerator: DistanceBubbleTextGenerator())
+                        sut = MainListingsViewModel(sessionManager: Core.sessionManager,
+                                                    myUserRepository: Core.myUserRepository,
+                                                    searchRepository: Core.searchRepository,
+                                                    listingRepository: Core.listingRepository,
+                                                    monetizationRepository: Core.monetizationRepository,
+                                                    categoryRepository: Core.categoryRepository,
+                                                    searchAlertsRepository: Core.searchAlertsRepository,
+                                                    locationManager: Core.locationManager,
+                                                    currencyHelper: Core.currencyHelper,
+                                                    tracker: mockTracker,
+                                                    searchType: searchType,
+                                                    filters: userFilters,
+                                                    keyValueStorage: keyValueStorage,
+                                                    featureFlags: mockFeatureFlags,
+                                                    bubbleTextGenerator: DistanceBubbleTextGenerator(),
+                                                    chatWrapper: MockChatWrapper())
                         sut.listingListVM(listingListViewModel, didSucceedRetrievingListingsPage: 0, withResultsCount: Int.random(), hasListings: true)
                     }
                     it("fires listing list event and search complete") {
@@ -167,13 +210,22 @@ class MainListingsViewModelSpec: QuickSpec {
                         var userFilters = ListingFilters()
                         userFilters.selectedCategories = [.motorsAndAccessories]
                         let searchType: SearchType? = nil
-                        sut = MainListingsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository,
-                                                    searchRepository: Core.searchRepository, listingRepository: Core.listingRepository,
-                                                    monetizationRepository: Core.monetizationRepository, categoryRepository: Core.categoryRepository,
-                                                    searchAlertsRepository: Core.searchAlertsRepository, locationManager: Core.locationManager,
-                                                    currencyHelper: Core.currencyHelper, tracker: mockTracker, searchType: searchType,
-                                                    filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags,
-                                                    bubbleTextGenerator: DistanceBubbleTextGenerator())
+                        sut = MainListingsViewModel(sessionManager: Core.sessionManager,
+                                                    myUserRepository: Core.myUserRepository,
+                                                    searchRepository: Core.searchRepository,
+                                                    listingRepository: Core.listingRepository,
+                                                    monetizationRepository: Core.monetizationRepository,
+                                                    categoryRepository: Core.categoryRepository,
+                                                    searchAlertsRepository: Core.searchAlertsRepository,
+                                                    locationManager: Core.locationManager,
+                                                    currencyHelper: Core.currencyHelper,
+                                                    tracker: mockTracker,
+                                                    searchType: searchType,
+                                                    filters: userFilters,
+                                                    keyValueStorage: keyValueStorage,
+                                                    featureFlags: mockFeatureFlags,
+                                                    bubbleTextGenerator: DistanceBubbleTextGenerator(),
+                                                    chatWrapper: MockChatWrapper())
                         sut.listingListVM(listingListViewModel, didSucceedRetrievingListingsPage: 0, withResultsCount: Int.random(), hasListings: true)
                     }
                     it("fires product list event") {
@@ -191,13 +243,22 @@ class MainListingsViewModelSpec: QuickSpec {
                         var userFilters = ListingFilters()
                         userFilters.selectedCategories = [.motorsAndAccessories]
                         let searchType: SearchType = .user(query: "iphone")
-                        sut = MainListingsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository,
-                                                    searchRepository: Core.searchRepository, listingRepository: Core.listingRepository,
-                                                    monetizationRepository: Core.monetizationRepository, categoryRepository: Core.categoryRepository,
-                                                    searchAlertsRepository: Core.searchAlertsRepository, locationManager: Core.locationManager,
-                                                    currencyHelper: Core.currencyHelper, tracker: mockTracker, searchType: searchType,
-                                                    filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags,
-                                                    bubbleTextGenerator: DistanceBubbleTextGenerator())
+                        sut = MainListingsViewModel(sessionManager: Core.sessionManager,
+                                                    myUserRepository: Core.myUserRepository,
+                                                    searchRepository: Core.searchRepository,
+                                                    listingRepository: Core.listingRepository,
+                                                    monetizationRepository: Core.monetizationRepository,
+                                                    categoryRepository: Core.categoryRepository,
+                                                    searchAlertsRepository: Core.searchAlertsRepository,
+                                                    locationManager: Core.locationManager,
+                                                    currencyHelper: Core.currencyHelper,
+                                                    tracker: mockTracker,
+                                                    searchType: searchType,
+                                                    filters: userFilters,
+                                                    keyValueStorage: keyValueStorage,
+                                                    featureFlags: mockFeatureFlags,
+                                                    bubbleTextGenerator: DistanceBubbleTextGenerator(),
+                                                    chatWrapper: MockChatWrapper())
                         sut.listingListVM(listingListViewModel, didSucceedRetrievingListingsPage: 0, withResultsCount: Int.random(), hasListings: true)
                     }
                     it("fires product list event and search complete") {
@@ -215,13 +276,22 @@ class MainListingsViewModelSpec: QuickSpec {
                         var userFilters = ListingFilters()
                         userFilters.selectedCategories = []
                         let searchType: SearchType = .collection(type: .selectedForYou, query: "iphone")
-                        sut = MainListingsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository,
+                        sut = MainListingsViewModel(sessionManager: Core.sessionManager,
+                                                    myUserRepository: Core.myUserRepository,
                                                     searchRepository: Core.searchRepository,
-                                                    listingRepository: Core.listingRepository, monetizationRepository: Core.monetizationRepository,
-                                                    categoryRepository: Core.categoryRepository, searchAlertsRepository: Core.searchAlertsRepository,
-                                                    locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: mockTracker,
-                                                    searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage,
-                                                    featureFlags: mockFeatureFlags, bubbleTextGenerator: DistanceBubbleTextGenerator())
+                                                    listingRepository: Core.listingRepository,
+                                                    monetizationRepository: Core.monetizationRepository,
+                                                    categoryRepository: Core.categoryRepository,
+                                                    searchAlertsRepository: Core.searchAlertsRepository,
+                                                    locationManager: Core.locationManager,
+                                                    currencyHelper: Core.currencyHelper,
+                                                    tracker: mockTracker,
+                                                    searchType: searchType,
+                                                    filters: userFilters,
+                                                    keyValueStorage: keyValueStorage,
+                                                    featureFlags: mockFeatureFlags,
+                                                    bubbleTextGenerator: DistanceBubbleTextGenerator(),
+                                                    chatWrapper: MockChatWrapper())
                         sut.listingListVM(listingListViewModel, didSucceedRetrievingListingsPage: 0, withResultsCount: Int.random(), hasListings: true)
                     }
                     it("fires product list event") {
@@ -242,13 +312,22 @@ class MainListingsViewModelSpec: QuickSpec {
                         userFilters.selectedCategories = [.realEstate]
                         let searchType: SearchType? = nil
                         listings = MockProduct.makeMocks(count: 20).map { ListingCellModel.listingCell(listing: .product($0)) }
-                        sut = MainListingsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository,
-                                                    searchRepository: Core.searchRepository, listingRepository: Core.listingRepository,
-                                                    monetizationRepository: Core.monetizationRepository, categoryRepository: Core.categoryRepository,
-                                                    searchAlertsRepository: Core.searchAlertsRepository, locationManager: Core.locationManager,
-                                                    currencyHelper: Core.currencyHelper, tracker: mockTracker, searchType: searchType,
-                                                    filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags,
-                                                    bubbleTextGenerator: DistanceBubbleTextGenerator())
+                        sut = MainListingsViewModel(sessionManager: Core.sessionManager,
+                                                    myUserRepository: Core.myUserRepository,
+                                                    searchRepository: Core.searchRepository,
+                                                    listingRepository: Core.listingRepository,
+                                                    monetizationRepository: Core.monetizationRepository,
+                                                    categoryRepository: Core.categoryRepository,
+                                                    searchAlertsRepository: Core.searchAlertsRepository,
+                                                    locationManager: Core.locationManager,
+                                                    currencyHelper: Core.currencyHelper,
+                                                    tracker: mockTracker,
+                                                    searchType: searchType,
+                                                    filters: userFilters,
+                                                    keyValueStorage: keyValueStorage,
+                                                    featureFlags: mockFeatureFlags,
+                                                    bubbleTextGenerator: DistanceBubbleTextGenerator(),
+                                                    chatWrapper: MockChatWrapper())
                     }
                     
                     context("receives listing page with promo cell not active") {
@@ -288,18 +367,27 @@ class MainListingsViewModelSpec: QuickSpec {
             }
             
             context("with filter cars") {
-                
+
                 beforeEach {
                     var filters = ListingFilters()
                     filters.selectedCategories = [.cars]
                     filters.carSellerTypes = [.user]
-                    sut = MainListingsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository,
-                                                searchRepository: Core.searchRepository, listingRepository: Core.listingRepository,
-                                                monetizationRepository: Core.monetizationRepository, categoryRepository: Core.categoryRepository,
-                                                searchAlertsRepository: Core.searchAlertsRepository, locationManager: Core.locationManager,
-                                                currencyHelper: Core.currencyHelper, tracker: MockTracker(), searchType: nil,
-                                                filters: filters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags,
-                                                bubbleTextGenerator: DistanceBubbleTextGenerator())
+                    sut = MainListingsViewModel(sessionManager: Core.sessionManager,
+                                                myUserRepository: Core.myUserRepository,
+                                                searchRepository: Core.searchRepository,
+                                                listingRepository: Core.listingRepository,
+                                                monetizationRepository: Core.monetizationRepository,
+                                                categoryRepository: Core.categoryRepository,
+                                                searchAlertsRepository: Core.searchAlertsRepository,
+                                                locationManager: Core.locationManager,
+                                                currencyHelper: Core.currencyHelper,
+                                                tracker: TrackerProxy.sharedInstance,
+                                                searchType: nil,
+                                                filters: filters,
+                                                keyValueStorage: keyValueStorage,
+                                                featureFlags: mockFeatureFlags,
+                                                bubbleTextGenerator: DistanceBubbleTextGenerator(),
+                                                chatWrapper: MockChatWrapper())
                 }
                 
                 context("cars new backend active") {
@@ -337,13 +425,22 @@ class MainListingsViewModelSpec: QuickSpec {
                 beforeEach {
                     mockTracker = MockTracker()
                     listingListViewModel = ListingListViewModel(requester: MockListingListRequester(canRetrieve: true, offset: 0, pageSize: 20))
-                    sut = MainListingsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository,
+                    sut = MainListingsViewModel(sessionManager: Core.sessionManager,
+                                                myUserRepository: Core.myUserRepository,
                                                 searchRepository: Core.searchRepository,
-                                                listingRepository: Core.listingRepository, monetizationRepository: Core.monetizationRepository,
-                                                categoryRepository: Core.categoryRepository, searchAlertsRepository: Core.searchAlertsRepository,
-                                                locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: mockTracker,
-                                                searchType: nil, filters: ListingFilters(), keyValueStorage: keyValueStorage,
-                                                featureFlags: mockFeatureFlags, bubbleTextGenerator: DistanceBubbleTextGenerator())
+                                                listingRepository: Core.listingRepository,
+                                                monetizationRepository: Core.monetizationRepository,
+                                                categoryRepository: Core.categoryRepository,
+                                                searchAlertsRepository: Core.searchAlertsRepository,
+                                                locationManager: Core.locationManager,
+                                                currencyHelper: Core.currencyHelper,
+                                                tracker: mockTracker,
+                                                searchType: nil,
+                                                filters: filters,
+                                                keyValueStorage: keyValueStorage,
+                                                featureFlags: mockFeatureFlags,
+                                                bubbleTextGenerator: DistanceBubbleTextGenerator(),
+                                                chatWrapper: MockChatWrapper())
                 }
                 
                 context("with too many requests") {

@@ -1562,7 +1562,8 @@ fileprivate extension ChatViewModel {
             tracker.trackEvent(TrackerEvent.firstMessage(info: info,
                                                          listingVisitSource: .unknown,
                                                          feedPosition: .none,
-                                                         userBadge: badgeParameter))
+                                                         userBadge: badgeParameter,
+                                                         containsVideo: .notAvailable))
         }
         tracker.trackEvent(TrackerEvent.userMessageSent(info: info))
     }
@@ -1635,7 +1636,6 @@ fileprivate extension ChatViewModel {
         return sendMessageInfo
     }
 }
-
 
 // MARK: - Private ChatConversation Extension
 

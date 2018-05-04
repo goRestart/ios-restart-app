@@ -244,8 +244,8 @@ class FiltersViewModel: BaseViewModel {
     }
     
     var carSections: [FilterCarSection] {
-        guard featureFlags.searchCarsIntoNewBackend.isActive else { return [] }
-        guard featureFlags.filterSearchCarSellerType.isActive else {
+        guard featureFlags.searchCarsIntoNewBackend.isActive,
+            featureFlags.filterSearchCarSellerType.isActive else {
             return FilterCarSection.all.filter { return !$0.isCarSellerTypeSection }
         }
         return FilterCarSection.all

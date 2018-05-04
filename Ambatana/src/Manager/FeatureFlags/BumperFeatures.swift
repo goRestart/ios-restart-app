@@ -67,6 +67,7 @@ extension Bumper  {
         flags.append(CreateUpdateCarsIntoNewBackend.self)
         flags.append(EmergencyLocate.self)
         flags.append(RealEstateMap.self)
+        flags.append(IAmInterestedFeed.self)
         Bumper.initialize(flags)
     } 
 
@@ -339,6 +340,11 @@ extension Bumper  {
         guard let value = Bumper.value(for: RealEstateMap.key) else { return .control }
         return RealEstateMap(rawValue: value) ?? .control 
     }
+
+    static var iAmInterestedFeed: IAmInterestedFeed {
+        guard let value = Bumper.value(for: IAmInterestedFeed.key) else { return .control }
+        return IAmInterestedFeed(rawValue: value) ?? .control 
+    } 
 }
 
 
@@ -879,16 +885,17 @@ enum RealEstatePromoCell: String, BumperFeature  {
 }
 
 enum MachineLearningMVP: String, BumperFeature  {
-    case control, baseline, active
+    case control, baseline, active, videoPostingActive
     static var defaultValue: String { return MachineLearningMVP.control.rawValue }
-    static var enumValues: [MachineLearningMVP] { return [.control, .baseline, .active]}
+    static var enumValues: [MachineLearningMVP] { return [.control, .baseline, .active, .videoPostingActive]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show machine learning posting flow when pressing Other Items on salchichas menu" } 
+    static var description: String { return "Show machine learning posting flow when pressing Other Items on salchichas menu or enable video posting (used this ab test for video posting because they can't coexist)" } 
     static func fromPosition(_ position: Int) -> MachineLearningMVP {
         switch position { 
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
+            case 3: return .videoPostingActive
             default: return .control
         }
     }
@@ -1170,6 +1177,22 @@ enum RealEstateMap: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum IAmInterestedFeed: String, BumperFeature  {
+    case control, baseline, hidden
+    static var defaultValue: String { return IAmInterestedFeed.control.rawValue }
+    static var enumValues: [IAmInterestedFeed] { return [.control, .baseline, .hidden]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show an I am interested button in the main feed" } 
+    static func fromPosition(_ position: Int) -> IAmInterestedFeed {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .hidden
             default: return .control
         }
     }

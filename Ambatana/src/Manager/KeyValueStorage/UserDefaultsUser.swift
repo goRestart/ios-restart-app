@@ -29,6 +29,7 @@ struct UserDefaultsUser {
     static let proSellerAlreadySentPhoneInChatDefaultValue: [String] = []
     static let machineLearningOnboardingShownDefaultValue = false
     static let meetingSafetyTipsAlreadyShownDefaultValue = false
+    static let interestingListingsDefaultValue: [String] = []
 
     var appShared: Bool
     var userLocationApproximate: Bool
@@ -50,6 +51,8 @@ struct UserDefaultsUser {
     var machineLearningOnboardingShown: Bool
     var meetingSafetyTipsAlreadyShown: Bool
 
+    var interestingProducts: Set<String>
+
     init() {
         self.init(appShared: UserDefaultsUser.appSharedDefaultValue,
                   userLocationApproximate: UserDefaultsUser.userLocationApproximateDefaultValue,
@@ -68,7 +71,8 @@ struct UserDefaultsUser {
                   failedBumpsInfo: UserDefaultsUser.failedBumpsInfoDefaultValue,
                   proSellerAlreadySentPhoneInChat: UserDefaultsUser.proSellerAlreadySentPhoneInChatDefaultValue,
                   machineLearningOnboardingShown: UserDefaultsUser.machineLearningOnboardingShownDefaultValue,
-                  meetingSafetyTipsAlreadyShown: UserDefaultsUser.meetingSafetyTipsAlreadyShownDefaultValue)
+                  meetingSafetyTipsAlreadyShown: UserDefaultsUser.meetingSafetyTipsAlreadyShownDefaultValue,
+                  interestingProducts: Set(UserDefaultsUser.interestingListingsDefaultValue))
     }
 
     init(appShared: Bool,
@@ -88,7 +92,8 @@ struct UserDefaultsUser {
          failedBumpsInfo: [String:[String:String?]],
          proSellerAlreadySentPhoneInChat: [String],
          machineLearningOnboardingShown: Bool,
-         meetingSafetyTipsAlreadyShown: Bool) {
+         meetingSafetyTipsAlreadyShown: Bool,
+         interestingProducts: Set<String>) {
         self.appShared = appShared
         self.userLocationApproximate = userLocationApproximate
         self.chatSafetyTipsShown = chatSafetyTipsShown
@@ -107,6 +112,7 @@ struct UserDefaultsUser {
         self.proSellerAlreadySentPhoneInChat = proSellerAlreadySentPhoneInChat
         self.machineLearningOnboardingShown = machineLearningOnboardingShown
         self.meetingSafetyTipsAlreadyShown = meetingSafetyTipsAlreadyShown
+        self.interestingProducts = interestingProducts
     }
 }
 
@@ -151,6 +157,8 @@ extension UserDefaultsUser: UserDefaultsDecodable {
 
         let meetingSafetyTipsAlreadyShown = dictionary.decode(UserDefaultsUserKey.meetingSafetyTipsAlreadyShown.rawValue,
                                                               defaultValue: UserDefaultsUser.meetingSafetyTipsAlreadyShownDefaultValue)
+        let interestingProducts: [String] = dictionary.decode(UserDefaultsUserKey.interestingProducts.rawValue,
+                                                              defaultValue: UserDefaultsUser.interestingListingsDefaultValue)
         return UserDefaultsUser(appShared: appShared,
                                 userLocationApproximate: userLocationApproximate,
                                 chatSafetyTipsShown: chatSafetyTipsShown,
@@ -168,7 +176,8 @@ extension UserDefaultsUser: UserDefaultsDecodable {
                                 failedBumpsInfo: failedBumpsInfo,
                                 proSellerAlreadySentPhoneInChat: proSellerAlreadySentPhoneInChat,
                                 machineLearningOnboardingShown: machineLearningOnboardingShown,
-                                meetingSafetyTipsAlreadyShown: meetingSafetyTipsAlreadyShown)
+                                meetingSafetyTipsAlreadyShown: meetingSafetyTipsAlreadyShown,
+                                interestingProducts: Set(interestingProducts))
     }
 
     func encode() -> [String: Any] {
@@ -196,6 +205,8 @@ extension UserDefaultsUser: UserDefaultsDecodable {
         dict.encode(UserDefaultsUserKey.proSellerAlreadySentPhoneInChat.rawValue, value: proSellerAlreadySentPhoneInChat)
         dict.encode(UserDefaultsUserKey.machineLearningOnboardingShown.rawValue, value: machineLearningOnboardingShown)
         dict.encode(UserDefaultsUserKey.meetingSafetyTipsAlreadyShown.rawValue, value: meetingSafetyTipsAlreadyShown)
+        dict.encode(UserDefaultsUserKey.interestingProducts.rawValue, value: Array(interestingProducts))
+
         return dict
     }
 }
@@ -234,6 +245,7 @@ private enum UserDefaultsUserKey: String {
     case machineLearningOnboardingShown = "machineLearningOnboardingShown"
 
     case meetingSafetyTipsAlreadyShown = "meetingSafetyTipsAlreadyShown"
+    case interestingProducts = "interestingProducts"
 }
 
 

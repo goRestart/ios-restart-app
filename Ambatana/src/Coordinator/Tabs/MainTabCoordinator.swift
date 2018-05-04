@@ -56,6 +56,9 @@ class MainTabCoordinator: TabCoordinator {
 }
 
 extension MainTabCoordinator: MainTabNavigator {
+    func openLoginIfNeeded(infoMessage: String, then loggedAction: @escaping (() -> Void)) {
+        openLoginIfNeeded(from: .directChat, style: .popup(infoMessage), loggedInAction: loggedAction, cancelAction: nil)
+    }
 
     func openMainListings(withSearchType searchType: SearchType, listingFilters: ListingFilters) {
         let vm = MainListingsViewModel(searchType: searchType, filters: listingFilters)

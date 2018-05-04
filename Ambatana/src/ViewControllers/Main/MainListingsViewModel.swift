@@ -48,7 +48,7 @@ struct SuggestiveSearchInfo {
     }
 }
 
-class MainListingsViewModel: BaseViewModel {
+final class MainListingsViewModel: BaseViewModel {
     
     static let adInFeedInitialPosition = 3
     private static let adsInFeedRatio = 20
@@ -68,11 +68,27 @@ class MainListingsViewModel: BaseViewModel {
             return false
         }
     }
+    var interestingListingIDs: Set<String> = Set<String>() {
+        didSet {
+            let empty = [String: InterestedState]()
+            let dict: [String: InterestedState] = interestingListingIDs.reduce(empty) {
+                (dict, identifier) -> [String: InterestedState] in
+                var dict = dict
+                dict[identifier] = .seeConversation
+                return dict
+            }
+            listViewModel.listingInterestState = dict
+        }
+    }
+    private let interestingUndoTimeout: TimeInterval = 5
+    private let chatWrapper: ChatWrapper
+
     let mostSearchedItemsCellPosition: Int = 6
     let bannerCellPosition: Int = 8
     let suggestedSearchesLimit: Int = 10
     var filters: ListingFilters
     var queryString: String?
+    
 
     var hasFilters: Bool {
         return !filters.isDefault()
@@ -322,13 +338,22 @@ class MainListingsViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
     
-    init(sessionManager: SessionManager, myUserRepository: MyUserRepository, searchRepository: SearchRepository,
-         listingRepository: ListingRepository, monetizationRepository: MonetizationRepository,
-         categoryRepository: CategoryRepository, searchAlertsRepository: SearchAlertsRepository,
-         locationManager: LocationManager, currencyHelper: CurrencyHelper, tracker: Tracker,
-         searchType: SearchType? = nil, filters: ListingFilters, keyValueStorage: KeyValueStorage,
-         featureFlags: FeatureFlaggeable, bubbleTextGenerator: DistanceBubbleTextGenerator) {
-        
+    init(sessionManager: SessionManager,
+         myUserRepository: MyUserRepository,
+         searchRepository: SearchRepository,
+         listingRepository: ListingRepository,
+         monetizationRepository: MonetizationRepository,
+         categoryRepository: CategoryRepository,
+         searchAlertsRepository: SearchAlertsRepository,
+         locationManager: LocationManager,
+         currencyHelper: CurrencyHelper,
+         tracker: Tracker,
+         searchType: SearchType? = nil,
+         filters: ListingFilters,
+         keyValueStorage: KeyValueStorage,
+         featureFlags: FeatureFlaggeable,
+         bubbleTextGenerator: DistanceBubbleTextGenerator,
+         chatWrapper: ChatWrapper) {
         self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
         self.searchRepository = searchRepository
@@ -345,6 +370,7 @@ class MainListingsViewModel: BaseViewModel {
         self.keyValueStorage = keyValueStorage
         self.featureFlags = featureFlags
         self.bubbleTextGenerator = bubbleTextGenerator
+        self.chatWrapper = chatWrapper
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         let columns = show3Columns ? 3 : 2
         let itemsPerPage = show3Columns ? Constants.numListingsPerPageBig : Constants.numListingsPerPageDefault
@@ -381,12 +407,23 @@ class MainListingsViewModel: BaseViewModel {
         let keyValueStorage = KeyValueStorage.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
         let bubbleTextGenerator = DistanceBubbleTextGenerator()
-        self.init(sessionManager: sessionManager,myUserRepository: myUserRepository, searchRepository: searchRepository,
-                  listingRepository: listingRepository, monetizationRepository: monetizationRepository,
-                  categoryRepository: categoryRepository, searchAlertsRepository: searchAlertsRepository,
-                  locationManager: locationManager, currencyHelper: currencyHelper, tracker: tracker,
-                  searchType: searchType, filters: filters, keyValueStorage: keyValueStorage, featureFlags: featureFlags,
-                  bubbleTextGenerator: bubbleTextGenerator)
+        let chatWrapper = LGChatWrapper()
+        self.init(sessionManager: sessionManager,
+                  myUserRepository: myUserRepository,
+                  searchRepository: searchRepository,
+                  listingRepository: listingRepository,
+                  monetizationRepository: monetizationRepository,
+                  categoryRepository: categoryRepository,
+                  searchAlertsRepository: searchAlertsRepository,
+                  locationManager: locationManager,
+                  currencyHelper: currencyHelper,
+                  tracker: tracker,
+                  searchType: searchType,
+                  filters: filters,
+                  keyValueStorage: keyValueStorage,
+                  featureFlags: featureFlags,
+                  bubbleTextGenerator: bubbleTextGenerator,
+                  chatWrapper: chatWrapper)
     }
     
     convenience init(searchType: SearchType? = nil, tabNavigator: TabNavigator?) {
@@ -399,6 +436,8 @@ class MainListingsViewModel: BaseViewModel {
     }
 
     override func didBecomeActive(_ firstTime: Bool) {
+        super.didBecomeActive(firstTime)
+        interestingListingIDs = keyValueStorage.interestingListingIDs
         updatePermissionsWarning()
         taxonomyChildren = filterSuperKeywordsHighlighted(taxonomies: getTaxonomyChildren())
         updateCategoriesHeader()
@@ -1710,6 +1749,89 @@ extension MainListingsViewModel: TaxonomiesDelegate {
 // MARK: ListingCellDelegate
 
 extension MainListingsViewModel: ListingCellDelegate {
+    func interestedActionFor(_ listing: Listing) {
+        guard let identifier = listing.objectId else { return }
+        guard let index = listViewModel.indexFor(listingId: identifier) else { return }
+        if let state = listViewModel.listingInterestState[identifier],
+            case .send(let enabled) = state, !enabled {
+            return
+        }
+        markListingWithUndoableInterest(listing, atIndex: index)
+    }
+
+    private func markListingWithUndoableInterest(_ listing: Listing, atIndex index: Int) {
+        guard let identifier = listing.objectId else { return }
+
+        let action: () -> () = { [weak self] in
+            guard let strSelf = self else { return }
+            guard !strSelf.interestingListingIDs.contains(identifier) else {
+                strSelf.navigator?.openChat(.listingAPI(listing: listing),
+                                            source: .listingList,
+                                            predefinedMessage: nil)
+                return
+            }
+
+            strSelf.listViewModel.update(listing: listing, interestedState: .send(enabled: false))
+            let (cancellable, timer) = LGTimer.cancellableWait(strSelf.interestingUndoTimeout)
+            strSelf.showCancellableInterestedBubbleWith(duration: strSelf.interestingUndoTimeout) {
+                cancellable.cancel()
+            }
+            timer.subscribe { [weak self] (event) in
+                guard let strSelf = self else { return }
+                guard event.error == nil else {
+                    strSelf.sendInterestedMessage(forListing: listing, atIndex: index, withID: identifier)
+                    return
+                }
+                strSelf.undoInterestingMessageFor(listing: listing, withID: identifier)
+                }.disposed(by: strSelf.disposeBag)
+        }
+        navigator?.openLoginIfNeeded(infoMessage: LGLocalizedString.chatLoginPopupText, then: action)
+    }
+
+    private func undoInterestingMessageFor(listing: Listing, withID identifier: String) {
+        tracker.trackEvent(TrackerEvent.undoSentMessage())
+        interestingListingIDs.remove(identifier)
+        syncInterestingListings(interestingListingIDs)
+        listViewModel.update(listing: listing, interestedState: .send(enabled: true))
+        
+    }
+
+    private func syncInterestingListings(_ interestingListingIDs: Set<String>?) {
+        guard let set = interestingListingIDs else { return }
+        keyValueStorage.interestingListingIDs = set
+    }
+
+    private func sendInterestedMessage(forListing listing: Listing, atIndex index: Int, withID identifier: String) {
+        interestingListingIDs.update(with: identifier)
+        syncInterestingListings(interestingListingIDs)
+        let type: ChatWrapperMessageType = .quickAnswer(.interested)
+        let trackingInfo = SendMessageTrackingInfo.makeWith(type: type,
+                                                            listing: listing,
+                                                            freePostingAllowed: featureFlags.freePostingModeAllowed)
+            .set(typePage: .listingList)
+            .set(isBumpedUp: .falseParameter)
+            .set(containsEmoji: false)
+
+        let containsVideo = EventParameterBoolean(bool: listing.containsVideo())
+        tracker.trackEvent(TrackerEvent.userMessageSent(info: trackingInfo))
+        chatWrapper.sendMessageFor(listing: listing,
+                                   type: type,
+                                   completion: { [weak self] isFirstMessage in
+                                    if isFirstMessage.value ?? false {
+                                        self?.tracker.trackEvent(TrackerEvent.firstMessage(info: trackingInfo,
+                                                                                           listingVisitSource: .listingList,
+                                                                                           feedPosition: .none,
+                                                                                           userBadge: .noBadge,
+                                                                                           containsVideo: containsVideo))
+                                    }
+        })
+        listViewModel.update(listing: listing, interestedState: .seeConversation)
+    }
+
+    private func showCancellableInterestedBubbleWith(duration: TimeInterval, then action: @escaping ()->()) {
+        let message = LGLocalizedString.productInterestedBubbleMessage
+        navigator?.showUndoBubble(withMessage: message, duration: duration, withAction: action)
+    }
 
     func chatButtonPressedFor(listing: Listing) {
         navigator?.openChat(.listingAPI(listing: listing),

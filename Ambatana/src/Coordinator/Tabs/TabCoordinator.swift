@@ -504,6 +504,17 @@ fileprivate extension TabCoordinator {
 // MARK: > ListingDetailNavigator
 
 extension TabCoordinator: ListingDetailNavigator {
+    func openVideoPlayer(atIndex index: Int, listingVM: ListingViewModel, source: EventParameterListingVisitSource) {
+        guard let coordinator = VideoPlayerCoordinator(atIndex: index, listingVM: listingVM, source: source) else {
+            return
+        }
+        openChild(coordinator: coordinator,
+                  parent: rootViewController,
+                  animated: true,
+                  forceCloseChild: true,
+                  completion: nil)
+    }
+
     func closeProductDetail() {
         navigationController.popViewController(animated: true)
     }
@@ -695,6 +706,14 @@ extension TabCoordinator: ListingDetailNavigator {
         let viewController = LGTutorialViewController(viewModel: viewModel)
         viewController.modalPresentationStyle = .overFullScreen
         navigationController.present(viewController, animated: true, completion: nil)
+    }
+
+    func showUndoBubble(withMessage message: String,
+                        duration: TimeInterval,
+                        withAction action: @escaping () -> ()) {
+        let action = UIAction(interface: .button(LGLocalizedString.productInterestedUndo, .terciary) , action: action)
+        let data = BubbleNotificationData(text: message, action: action)
+        bubbleNotificationManager.showBubble(data, duration: duration, view: navigationController.view)
     }
 }
 

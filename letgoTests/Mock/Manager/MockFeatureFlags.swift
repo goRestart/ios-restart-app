@@ -10,8 +10,8 @@
 import Foundation
 import RxSwift
 
-class MockFeatureFlags: FeatureFlaggeable {
-    
+final class MockFeatureFlags: FeatureFlaggeable {
+
     var trackingData: Observable<[(String, ABGroup)]?> {
         return trackingDataVar.asObservable()
     }
@@ -90,13 +90,13 @@ class MockFeatureFlags: FeatureFlaggeable {
     var shouldChangeChatNowCopyInEnglish = false
     var shouldChangeSellFasterNowCopyInEnglish = false
     var copyForSellFasterNowInEnglish: CopyForSellFasterNowInEnglish = .control
-    
+    var shouldShowIAmInterestedInFeed: IAmInterestedFeed = .control
+
     //  MARK:  Verticals
     var searchCarsIntoNewBackend: SearchCarsIntoNewBackend = .control
     var realEstatePromoCell: RealEstatePromoCell = .control
     var filterSearchCarSellerType: FilterSearchCarSellerType = .control
     var createUpdateIntoNewBackend: CreateUpdateCarsIntoNewBackend = .control
     var realEstateMap: RealEstateMap = .control
-
 }
 

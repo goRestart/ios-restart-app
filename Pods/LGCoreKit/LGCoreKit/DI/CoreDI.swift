@@ -253,6 +253,10 @@ final class CoreDI: InternalDI {
         let searchAlertsDataSource = SearchAlertsApiDataSource(apiClient: self.apiClient)
         return LGSearchAlertsRepository(dataSource: searchAlertsDataSource, locationManager: self.locationManager)
     }()
+    lazy var preSignedUploadUrlRepository: PreSignedUploadUrlRepository = {
+        let dataSource = LGPreSignedUploadUrlDataSource(apiClient: self.apiClient)
+        return LGPreSignedUploadUrlRepository(dataSource: dataSource)
+    }()
 
 
     // MARK: > DAO

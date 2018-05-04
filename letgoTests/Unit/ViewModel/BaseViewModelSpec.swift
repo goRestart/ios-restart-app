@@ -32,6 +32,10 @@ class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
         lastAlertTextShown = nil
     }
 
+    func showUndoBubble(withMessage message: String, duration: TimeInterval, withAction action: @escaping () -> ()) {
+        // not tested
+    }
+
     func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?) {
         delegateReceivedShowAutoFadingMessage = true
         lastAutofadingMessageShown = message

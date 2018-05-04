@@ -292,6 +292,18 @@ extension KeyValueStorageable {
             currentUserProperties = userProperties
         }
     }
+
+    var interestingListingIDs: Set<String> {
+        get {
+            return currentUserProperties?.interestingProducts ??
+                Set(UserDefaultsUser.interestingListingsDefaultValue)
+        }
+        set {
+            guard var userProperties = currentUserProperties else { return }
+            userProperties.interestingProducts = newValue
+            currentUserProperties = userProperties
+        }
+    }
 }
 
 

@@ -15,7 +15,8 @@ public class ProductCreationParams: BaseListingParams {
                 currency: Currency,
                 location: LGLocationCoordinates2D,
                 postalAddress: PostalAddress,
-                images: [File]) {
+                images: [File],
+                videos: [Video]) {
         super.init(name: name,
                    description: description,
                    price: price,
@@ -24,7 +25,8 @@ public class ProductCreationParams: BaseListingParams {
                    location: location,
                    postalAddress: postalAddress,
                    languageCode: Locale.current.identifier,
-                   images: images)
+                   images: images,
+                   videos: videos)
     }
     
     override func apiCreationEncode(userId: String) -> [String: Any] {

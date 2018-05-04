@@ -9,13 +9,13 @@
 import Foundation
 import UIKit
 
-class ListingDeckImagePreviewCell: UICollectionViewCell, ReusableCell {
+final class ListingDeckImagePreviewCell: UICollectionViewCell, ReusableCell {
 
     private let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
     private let blurred = UIImageView()
 
     private let zoomableImageView = ZoomableImageView()
-    
+
     var isZooming: Bool { return zoomableImageView.isZooming }
 
     // MARK: - Lifecycle

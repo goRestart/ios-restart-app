@@ -18,6 +18,10 @@ extension Listing {
     func isMine(myUserRepository: MyUserRepository) -> Bool {
         return belongsTo(userId: myUserRepository.myUser?.objectId)
     }
+
+    func containsVideo() -> Bool {
+        return media.contains(where: { $0.type == .video })
+    }
 }
 
 extension Product {

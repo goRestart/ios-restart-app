@@ -51,6 +51,7 @@ enum AccessibilityId: Equatable {
     // Listing Cell
     case listingCell(listingId: String?)
     case listingCellThumbnailImageView
+    case listingCellThumbnailGifImageView
     case listingCellStripeImageView
     case listingCellStripeLabel
     case listingCellStripeIcon
@@ -154,6 +155,7 @@ enum AccessibilityId: Equatable {
     case listingCarouselUserView
     case listingCarouselChatTextView
     case listingCarouselStatusView
+    case listingCarouselPlayButton
 
     case listingCarouselNavBarCloseButton
     case listingCarouselNavBarEditButton
@@ -238,7 +240,9 @@ enum AccessibilityId: Equatable {
     case postingGalleryCloseButton
     case postingCloseButton
     case postingGalleryButton
+    case postingCameraButton
     case postingPhotoButton
+    case postingVideoButton
     case postingInfoButton
     case postingLoading
     case postingRetryButton
@@ -776,6 +780,8 @@ enum AccessibilityId: Equatable {
             return "listingCell-\(listingId ?? "")"
         case .listingCellThumbnailImageView:
             return "listingCellThumbnailImageView"
+        case .listingCellThumbnailGifImageView:
+            return "listingCellThumbnailGifImageView"
         case .listingCellStripeImageView:
             return "listingCellStripeImageView"
         case .listingCellStripeLabel:
@@ -1032,6 +1038,8 @@ enum AccessibilityId: Equatable {
             return "listingCarouselChatTextView"
         case .listingCarouselStatusView:
             return "listingCarouselStatusView"
+        case .listingCarouselPlayButton:
+            return "listingCarouselPlayButton"
             
         case .listingCarouselNavBarCloseButton:
             return "listingCarouselNavBarCloseButton"
@@ -1187,8 +1195,12 @@ enum AccessibilityId: Equatable {
             return "postingGalleryButton"
         case .postingInfoButton:
             return "postingInfoButton"
+        case .postingCameraButton:
+            return "postingCameraButton"
         case .postingPhotoButton:
             return "postingPhotoButton"
+        case .postingVideoButton:
+            return "postingVideoButton"
         case .postingLoading:
             return "postingLoading"
         case .postingRetryButton:

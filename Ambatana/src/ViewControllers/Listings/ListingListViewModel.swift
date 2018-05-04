@@ -66,7 +66,7 @@ protocol ListingListRequester: class {
     var countryCode: String? { get }
 }
 
-class ListingListViewModel: BaseViewModel {
+final class ListingListViewModel: BaseViewModel {
 
     private let cellMinHeight: CGFloat = 80.0
     private var cellAspectRatio: CGFloat {
@@ -151,12 +151,14 @@ class ListingListViewModel: BaseViewModel {
     init(requester: ListingListRequester?,
          listings: [Listing]? = nil,
          numberOfColumns: Int = 2,
+         isPrivateList: Bool = false,
          tracker: Tracker = TrackerProxy.sharedInstance,
          imageDownloader: ImageDownloaderType = ImageDownloader.sharedInstance,
          reporter: CrashlyticsReporter = CrashlyticsReporter(),
          featureFlags: FeatureFlags = FeatureFlags.sharedInstance,
          myUserRepository: MyUserRepository = Core.myUserRepository) {
         self.objects = (listings ?? []).map(ListingCellModel.init)
+        self.isPrivateList = isPrivateList
         self.pageNumber = 0
         self.refreshing = false
         self.state = .loading
@@ -239,6 +241,24 @@ class ListingListViewModel: BaseViewModel {
         guard let index = indexFor(listingId: listingId) else { return }
         objects[index] = ListingCellModel(listing: listing)
         delegate?.vmReloadData(self)
+    }
+
+    private var isPrivateList: Bool = false
+    var listingInterestState: [String: InterestedState] = [:]
+
+    func update(listing: Listing, interestedState: InterestedState) {
+        guard state.isData, let listingId = listing.objectId else { return }
+        guard let index = indexFor(listingId: listingId) else { return }
+        listingInterestState[listingId] = interestedState
+
+        delegate?.vmReloadItemAtIndexPath(indexPath: IndexPath(row: index, section: 0))
+    }
+
+    func interestStateFor(listingAtIndex index: Int) -> InterestedState? {
+        guard !isPrivateList else { return .none }
+        guard featureFlags.shouldShowIAmInterestedInFeed.isVisible else { return nil }
+        guard let listingID = objects[index].listing?.objectId else { return nil }
+        return listingInterestState[listingID] ?? .send(enabled: true)
     }
 
     func prepend(listing: Listing) {

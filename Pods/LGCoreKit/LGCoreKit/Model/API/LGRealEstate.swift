@@ -27,6 +27,8 @@ struct LGRealEstate: RealEstate, Decodable {
     let thumbnail: File?
     let thumbnailSize: LGSize?
     let images: [File]
+    let media: [Media]
+    let mediaThumbnail: MediaThumbnail?
     var user: UserListing
     let featured: Bool?
     let realEstateAttributes: RealEstateAttributes
@@ -48,6 +50,8 @@ struct LGRealEstate: RealEstate, Decodable {
                   thumbnail: realEstate.thumbnail,
                   thumbnailSize: realEstate.thumbnailSize,
                   images: realEstate.images,
+                  media: realEstate.media,
+                  mediaThumbnail: realEstate.mediaThumbnail,
                   user: realEstate.user,
                   featured: realEstate.featured,
                   realEstateAttributes: realEstate.realEstateAttributes)
@@ -69,6 +73,8 @@ struct LGRealEstate: RealEstate, Decodable {
          thumbnail: File?,
          thumbnailSize: LGSize?,
          images: [File],
+         media: [Media],
+         mediaThumbnail: MediaThumbnail?,
          user: UserListing,
          featured: Bool?,
          realEstateAttributes: RealEstateAttributes?) {
@@ -89,17 +95,35 @@ struct LGRealEstate: RealEstate, Decodable {
         self.thumbnail = thumbnail
         self.thumbnailSize = thumbnailSize
         self.images = images
+        self.media = media
+        self.mediaThumbnail = mediaThumbnail
         self.user = user
         self.featured = featured ?? false
         self.realEstateAttributes = realEstateAttributes ?? RealEstateAttributes.emptyRealEstateAttributes()
     }
     
     init(product: Product) {
-        self.init(objectId: product.objectId, updatedAt: product.updatedAt, createdAt: product.createdAt, name: product.name,
-                  nameAuto: product.nameAuto, descr: product.descr, price: product.price, currency: product.currency, location: product.location,
-                  postalAddress: product.postalAddress, languageCode: product.languageCode, category: product.category,
-                  status: product.status, thumbnail: product.thumbnail, thumbnailSize: product.thumbnailSize,
-                  images: product.images, user: product.user, featured: product.featured, realEstateAttributes: nil)
+        self.init(objectId: product.objectId,
+                  updatedAt: product.updatedAt,
+                  createdAt: product.createdAt,
+                  name: product.name,
+                  nameAuto: product.nameAuto,
+                  descr: product.descr,
+                  price: product.price,
+                  currency: product.currency,
+                  location: product.location,
+                  postalAddress: product.postalAddress,
+                  languageCode: product.languageCode,
+                  category: product.category,
+                  status: product.status,
+                  thumbnail: product.thumbnail,
+                  thumbnailSize: product.thumbnailSize,
+                  images: product.images,
+                  media: product.media,
+                  mediaThumbnail: product.mediaThumbnail,
+                  user: product.user,
+                  featured: product.featured,
+                  realEstateAttributes: nil)
     }
     
     init(chatListing: ChatListing, chatInterlocutor: ChatInterlocutor) {
@@ -125,6 +149,8 @@ struct LGRealEstate: RealEstate, Decodable {
                   thumbnail: chatListing.image,
                   thumbnailSize: nil,
                   images: images,
+                  media: [],
+                  mediaThumbnail: nil,
                   user: user,
                   featured: nil,
                   realEstateAttributes: nil)
@@ -147,6 +173,8 @@ struct LGRealEstate: RealEstate, Decodable {
                      thumbnail: String?,
                      thumbnailSize: LGSize?,
                      images: [LGFile],
+                     media: [Media],
+                     mediaThumbnail: MediaThumbnail?,
                      user: LGUserListing,
                      featured: Bool?,
                      realEstateAttributes: RealEstateAttributes?) -> LGRealEstate {
@@ -173,6 +201,8 @@ struct LGRealEstate: RealEstate, Decodable {
                          thumbnail: actualThumbnail,
                          thumbnailSize: thumbnailSize,
                          images: actualImages,
+                         media: [],
+                         mediaThumbnail: nil,
                          user: user,
                          featured: featured,
                          realEstateAttributes: realEstateAttributes)
@@ -197,6 +227,8 @@ struct LGRealEstate: RealEstate, Decodable {
                             thumbnail: thumbnail,
                             thumbnailSize: thumbnailSize,
                             images: images,
+                            media: media,
+                            mediaThumbnail: mediaThumbnail,
                             user: user,
                             featured: featured,
                             realEstateAttributes: realEstateAttributes)
@@ -219,6 +251,8 @@ struct LGRealEstate: RealEstate, Decodable {
                             thumbnail: thumbnail,
                             thumbnailSize: thumbnailSize,
                             images: images,
+                            media: media,
+                            mediaThumbnail: mediaThumbnail,
                             user: user,
                             featured: featured,
                             realEstateAttributes: realEstateAttributes)
@@ -241,6 +275,8 @@ struct LGRealEstate: RealEstate, Decodable {
                             thumbnail: thumbnail,
                             thumbnailSize: thumbnailSize,
                             images: images,
+                            media: media,
+                            mediaThumbnail: mediaThumbnail,
                             user: user,
                             featured: featured,
                             realEstateAttributes: realEstateAttributes)
@@ -319,6 +355,8 @@ struct LGRealEstate: RealEstate, Decodable {
         thumbnail = baseListing.thumbnail
         thumbnailSize = baseListing.thumbnailSize
         images = baseListing.images
+        media = baseListing.media.isEmpty ? LGMedia.mediaFrom(images: baseListing.images) : baseListing.media
+        mediaThumbnail = baseListing.mediaThumbnail
         user = baseListing.user
         featured = baseListing.featured
 
@@ -326,9 +364,11 @@ struct LGRealEstate: RealEstate, Decodable {
         
         realEstateAttributes = (try keyedContainer.decodeIfPresent(RealEstateAttributes.self, forKey: .realEstateAttributes))
             ?? RealEstateAttributes.emptyRealEstateAttributes()
+
     }
     
     enum CodingKeysRealEstateAttributes: String, CodingKey {
         case realEstateAttributes = "realEstateAttributes"
     }
 }
+

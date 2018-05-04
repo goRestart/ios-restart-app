@@ -395,13 +395,13 @@ struct TrackerEvent {
         return TrackerEvent(name: .listingVisitPhotoChat, params: params)
     }
 
-
     static func listingDetailVisit(_ listing: Listing,
                                    visitUserAction: ListingVisitUserAction,
                                    source: EventParameterListingVisitSource,
                                    feedPosition: EventParameterFeedPosition,
                                    isBumpedUp: EventParameterBoolean,
-                                   sellerBadge: EventParameterUserBadge) -> TrackerEvent {
+                                   sellerBadge: EventParameterUserBadge,
+                                   containsVideo: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
         params.addListingParams(listing)
         params[.userAction] = visitUserAction.rawValue
@@ -409,7 +409,15 @@ struct TrackerEvent {
         params[.feedPosition] = feedPosition.value
         params[.isBumpedUp] = isBumpedUp.rawValue
         params[.sellerReputationBadge] = sellerBadge.rawValue
+        params[.isVideo] = containsVideo.rawValue
         return TrackerEvent(name: .listingDetailVisit, params: params)
+    }
+
+    static func listingDetailPlayVideo(_ listing: Listing, source: EventParameterListingVisitSource) -> TrackerEvent {
+        var params = EventParameters()
+        params.addListingParams(listing)
+        params[.listingVisitSource] = source.rawValue
+        return TrackerEvent(name: .productDetailPlayVideo, params: params)
     }
 
     static func listingDetailCall(_ listing: Listing,
@@ -612,6 +620,7 @@ struct TrackerEvent {
                                     sellButtonPosition: EventParameterSellButtonPosition?,
                                     negotiable: EventParameterNegotiablePrice?,
                                     pictureSource: EventParameterPictureSource?,
+                                    videoLength: TimeInterval?,
                                     freePostingModeAllowed: Bool,
                                     typePage: EventParameterTypePage,
                                     mostSearchedButton: EventParameterMostSearched,
@@ -634,6 +643,10 @@ struct TrackerEvent {
         }
         if let pictureSource = pictureSource {
             params[.pictureSource] = pictureSource.rawValue
+        }
+
+        if let videoLength = videoLength {
+            params[.videoLength] = videoLength
         }
 
         switch listing {
@@ -893,16 +906,22 @@ struct TrackerEvent {
     static func firstMessage(info: SendMessageTrackingInfo,
                              listingVisitSource: EventParameterListingVisitSource,
                              feedPosition: EventParameterFeedPosition,
-                             userBadge: EventParameterUserBadge) -> TrackerEvent {
+                             userBadge: EventParameterUserBadge,
+                             containsVideo: EventParameterBoolean) -> TrackerEvent {
         var params = info.params
         params[.listingVisitSource] = listingVisitSource.rawValue
         params[.feedPosition] = feedPosition.value
         params[.sellerReputationBadge] = userBadge.rawValue
+        params[.isVideo] = containsVideo.rawValue
         return TrackerEvent(name: .firstMessage, params: params)
     }
 
     static func userMessageSent(info: SendMessageTrackingInfo) -> TrackerEvent {
         return TrackerEvent(name: .userMessageSent, params: info.params)
+    }
+
+    static func undoSentMessage() -> TrackerEvent {
+        return TrackerEvent(name: .undoMessageSent, params: nil)
     }
 
     static func userMessageSentError(info: SendMessageTrackingInfo) -> TrackerEvent {
