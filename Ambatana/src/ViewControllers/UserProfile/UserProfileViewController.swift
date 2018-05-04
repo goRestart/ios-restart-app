@@ -524,7 +524,7 @@ extension UserProfileViewController {
         viewModel
             .userName
             .drive(onNext: { [weak self] userName in
-                self?.headerView.userNameLabel.text = userName
+                self?.headerView.username = userName
                 self?.navBarUserView.userNameLabel.text = userName
             })
             .disposed(by: disposeBag)

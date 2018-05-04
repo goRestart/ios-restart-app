@@ -64,4 +64,35 @@ extension UILabel {
         attributedString.addAttribute(NSAttributedStringKey.kern, value: value, range: range)
         attributedText = attributedString
     }
+
+    func isTruncated() -> Bool {
+        return self.countLabelLines() > self.numberOfLines
+    }
+
+    func countLabelLines() -> Int {
+        // Call self.layoutIfNeeded() before if your view uses auto layout
+        guard let myText = self.text as NSString? else { return 1 }
+        let attributes = [NSAttributedStringKey.font: self.font!]
+
+        let labelSize = myText.boundingRect(with: CGSize(width: self.bounds.width,
+                                                         height: CGFloat.greatestFiniteMagnitude),
+                                            options: NSStringDrawingOptions.usesLineFragmentOrigin,
+                                            attributes: attributes, context: nil)
+        return Int(ceil(CGFloat(labelSize.height) / self.font.lineHeight))
+    }
+
+    func truncateWordsWithDotsIfNeeded() {
+        guard let text = self.text, isTruncated() else { return }
+        let words = text.byWords
+        if words.count <= 1 { return }
+        var name = ""
+        for (i, word) in words.enumerated() {
+            if i == 0 {
+                name = word
+            } else {
+                name = name + " " + word.prefix(1) + "."
+            }
+        }
+        self.text = name
+    }
 }
