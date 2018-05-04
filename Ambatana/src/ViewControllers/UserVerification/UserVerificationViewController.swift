@@ -111,6 +111,7 @@ extension UserVerificationViewController: UITableViewDelegate, UITableViewDataSo
         guard let verifyCell = cell as? UserVerificationCell else { return UITableViewCell() }
         let item = items[indexPath.section][indexPath.row]
         verifyCell.configure(with: item)
+        setAccessibilityIdTo(cell: cell, with: item)
         return verifyCell
     }
 
@@ -146,6 +147,21 @@ extension UserVerificationViewController: UITableViewDelegate, UITableViewDataSo
             view.title = LGLocalizedString.profileVerificationsViewExtraSectionTitle
             return view
         }
+    }
+
+    private func setAccessibilityIdTo(cell: UITableViewCell, with item: UserVerificationItem) {
+        let accessibilityId: AccessibilityId
+        switch item {
+        case .facebook: accessibilityId = .verificationsFacebookOption
+        case .google: accessibilityId = .verificationsGoogleOption
+        case .email: accessibilityId = .verificationsEmailOption
+        case .phoneNumber: accessibilityId = .verificationsPhoneNumberOption
+        case .photoID: accessibilityId = .verificationsPhotoIDOption
+        case .profilePicture: accessibilityId = .verificationsAvatarOption
+        case .bio: accessibilityId = .verificationsBioOption
+        case .markAsSold: accessibilityId = .verificationsMarkAsSoldOption
+        }
+        cell.set(accessibilityId: accessibilityId)
     }
 }
 

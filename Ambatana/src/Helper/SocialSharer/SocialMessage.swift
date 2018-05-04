@@ -230,6 +230,11 @@ struct ListingSocialMessage: SocialMessage {
         return LetgoURLHelper.buildProductURL(listingId: listingId)?.absoluteString
     }
     
+    private var webUrlLangLocalizedString: String? {
+        guard !listingId.isEmpty else { return LetgoURLHelper.buildHomeURL()?.absoluteString }
+        return LetgoURLHelper.buildLanguageLocalizedProductURL(listingId: listingId)?.absoluteString
+    }
+    
     private let title: String
     private let listingUserName: String
     private let listingTitle: String
@@ -299,7 +304,7 @@ struct ListingSocialMessage: SocialMessage {
         retrieveShareURL(source: source,
                          campaign: ListingSocialMessage.utmCampaignValue,
                          deepLinkString: deepLinkString,
-                         webURLString: webUrlString,
+                         webURLString: webUrlLangLocalizedString,
                          fallbackToStore: fallbackToStore,
                          myUserId: myUserId,
                          myUserName: myUserName,

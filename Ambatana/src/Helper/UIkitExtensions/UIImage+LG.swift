@@ -39,3 +39,18 @@ extension UIImage {
         return UIImageJPEGRepresentation(croppedImage, 0.9)
     }
 }
+
+extension UIImage {
+    static func imageFrom(url: URL) throws -> UIImage? {
+        let data = try Data(contentsOf: url)
+        return UIImage(data: data)
+    }
+    
+    func withAlpha(_ value: CGFloat) -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(size, false, scale)
+        draw(at: CGPoint.zero, blendMode: .normal, alpha: value)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return newImage
+    }
+}

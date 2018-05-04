@@ -65,6 +65,7 @@ protocol FeatureFlaggeable: class {
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem { get }
     var emergencyLocate: EmergencyLocate { get }
     var showExactLocationForPros: Bool { get }
+    var searchAlerts: SearchAlerts { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -85,7 +86,8 @@ protocol FeatureFlaggeable: class {
     var feedAdsProviderForTR:  FeedAdsProviderForTR { get }
     var shouldChangeSellFasterNowCopyInEnglish: Bool { get }
     var copyForSellFasterNowInEnglish: CopyForSellFasterNowInEnglish { get }
-    
+    var shouldShowIAmInterestedInFeed: IAmInterestedFeed { get }
+
     //  MARK: Verticals
     var searchCarsIntoNewBackend: SearchCarsIntoNewBackend { get }
     var realEstatePromoCell: RealEstatePromoCell { get }
@@ -299,6 +301,7 @@ extension CreateUpdateCarsIntoNewBackend {
 
 extension MachineLearningMVP {
     var isActive: Bool { return self == .active }
+    var isVideoPostingActive: Bool { return self == .videoPostingActive }
 }
 
 extension ChatNorris {
@@ -400,6 +403,10 @@ extension CopyForChatNowInEnglish {
         } }
 }
 
+extension SearchAlerts {
+    var isActive: Bool { return self == .active }
+}
+
 extension CopyForSellFasterNowInEnglish {
     var isActive: Bool { return self != .control && self != .baseline }
     
@@ -419,8 +426,11 @@ extension CopyForSellFasterNowInEnglish {
     }
 }
 
-class FeatureFlags: FeatureFlaggeable {
+extension IAmInterestedFeed {
+    var isVisible: Bool { return self == .control || self == .baseline }
+}
 
+final class FeatureFlags: FeatureFlaggeable {
     static let sharedInstance: FeatureFlags = FeatureFlags()
 
     let requestTimeOut: RequestsTimeOut
@@ -756,7 +766,14 @@ class FeatureFlags: FeatureFlaggeable {
         let cached = dao.retrieveShowAdvanceReputationSystem()
         return cached ?? ShowAdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value)
     }
-
+    
+    var searchAlerts: SearchAlerts {
+        if Bumper.enabled {
+            return Bumper.searchAlerts
+        }
+        return SearchAlerts.fromPosition(abTests.searchAlerts.value)
+    }
+    
     var showExactLocationForPros: Bool {
         if Bumper.enabled {
             return Bumper.showExactLocationForPros
@@ -988,6 +1005,13 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return CopyForChatNowInEnglish.fromPosition(abTests.copyForChatNowInEnglish.value)
     }
+
+    var shouldShowIAmInterestedInFeed: IAmInterestedFeed {
+        if Bumper.enabled {
+            return Bumper.iAmInterestedFeed
+        }
+        return IAmInterestedFeed.fromPosition(abTests.iAmInterestedInFeed.value)
+    }
     
     var feedAdsProviderForTR: FeedAdsProviderForTR {
         if Bumper.enabled {
@@ -1000,9 +1024,7 @@ class FeatureFlags: FeatureFlaggeable {
         if Bumper.enabled {
             return Bumper.chatNorris
         }
-        return ChatNorris.control
-        // TODO: restore the ABTests code when BE part is working 👇
-//        return  ChatNorris.fromPosition(abTests.chatNorris.value)
+        return  ChatNorris.fromPosition(abTests.chatNorris.value)
     }
     
     var shouldChangeSellFasterNowCopyInEnglish: Bool {

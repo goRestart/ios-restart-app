@@ -8,7 +8,7 @@
 
 import LGCoreKit
 
-class SendMessageTrackingInfo {
+final class SendMessageTrackingInfo {
     private(set) var params = EventParameters()
 
     @discardableResult
@@ -77,6 +77,11 @@ class SendMessageTrackingInfo {
         return self
     }
 
+    func set(isVideo: EventParameterBoolean) -> Self {
+        params[.isVideo] = isVideo.rawValue
+        return self
+    }
+
     @discardableResult
     func set(assistantMeeting: AssistantMeeting?) -> Self {
         guard let assistantMeeting = assistantMeeting else { return self }
@@ -87,3 +92,14 @@ class SendMessageTrackingInfo {
     }
 }
 
+extension SendMessageTrackingInfo {
+    static func makeWith(type: ChatWrapperMessageType,
+                         listing: Listing,
+                         freePostingAllowed: Bool) -> SendMessageTrackingInfo {
+        return SendMessageTrackingInfo()
+            .set(listing: listing, freePostingModeAllowed: freePostingAllowed)
+            .set(interlocutorId: listing.user.objectId)
+            .set(messageType: type.chatTrackerType)
+            .set(quickAnswerType: type.quickAnswerType)
+    }
+}

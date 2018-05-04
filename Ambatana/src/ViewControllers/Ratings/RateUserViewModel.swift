@@ -148,7 +148,7 @@ extension RateUserViewModel {
                 case .network:
                     message = LGLocalizedString.commonErrorConnectionFailed
                 case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError,
-                     .wsChatError:
+                     .wsChatError, .searchAlertError:
                     message = LGLocalizedString.commonError
                 }
                 strongSelf.delegate?.vmShowAutoFadingMessage(message, completion: nil)

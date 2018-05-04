@@ -9,7 +9,13 @@
 import LGCoreKit
 import SafariServices
 
+protocol ProfileCoordinatorSearchAlertsDelegate: class {
+    func profileCoordinatorSearchAlertsOpenSearch()
+}
+
 final class ProfileTabCoordinator: TabCoordinator {
+
+    weak var profileCoordinatorSearchAlertsDelegate: ProfileCoordinatorSearchAlertsDelegate?
 
     convenience init() {
         let sessionManager = Core.sessionManager
@@ -131,6 +137,13 @@ extension ProfileTabCoordinator: SettingsNavigator {
         navigationController.pushViewController(vc, animated: true)
     }
 
+    func openSettingsNotifications() {
+        let vm = SettingsNotificationsViewModel()
+        vm.navigator = self
+        let vc = SettingsNotificationsViewController(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
     func closeSettings() {
         navigationController.popViewController(animated: true)
     }
@@ -188,3 +201,26 @@ extension ProfileTabCoordinator: VerifyUserEmailNavigator {
     }
 }
 
+extension ProfileTabCoordinator: SettingsNotificationsNavigator {
+    func closeSettingsNotifications() {
+        navigationController.popViewController(animated: true)
+    }
+
+    func openSearchAlertsList() {
+        let vm = SearchAlertsListViewModel()
+        vm.navigator = self
+        let vc = SearchAlertsListViewController(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
+    }
+}
+
+extension ProfileTabCoordinator: SearchAlertsListNavigator {
+    func closeSearchAlertsList() {
+        navigationController.popViewController(animated: true)
+    }
+
+    func openSearch() {
+        navigationController.popToRootViewController(animated: false)
+        profileCoordinatorSearchAlertsDelegate?.profileCoordinatorSearchAlertsOpenSearch()
+    }
+}

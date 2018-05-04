@@ -75,15 +75,18 @@ class ListingPostedDescriptiveViewModel: BaseViewModel, PostingCategoriesPickDel
     private let listingRepository: ListingRepository
     private let featureFlags: FeatureFlaggeable
     private let imageSource: EventParameterPictureSource
+    private let videoLength: TimeInterval?
     private let postingSource: PostingSource
 
 
     // MARK: - Lifecycle
     
-    convenience init(listing: Listing, listingImages: [UIImage], imageSource: EventParameterPictureSource, postingSource: PostingSource) {
+    convenience init(listing: Listing, listingImages: [UIImage], imageSource: EventParameterPictureSource,
+                     videoLength: TimeInterval?, postingSource: PostingSource) {
         self.init(listing: listing,
                   listingImages: listingImages,
                   imageSource: imageSource,
+                  videoLength: videoLength,
                   postingSource: postingSource,
                   tracker: TrackerProxy.sharedInstance,
                   listingRepository: Core.listingRepository,
@@ -91,12 +94,13 @@ class ListingPostedDescriptiveViewModel: BaseViewModel, PostingCategoriesPickDel
     }
 
     init(listing: Listing, listingImages: [UIImage], imageSource: EventParameterPictureSource,
-         postingSource: PostingSource, tracker: Tracker, listingRepository: ListingRepository,
-         featureFlags: FeatureFlaggeable) {
+         videoLength: TimeInterval?, postingSource: PostingSource, tracker: Tracker,
+         listingRepository: ListingRepository, featureFlags: FeatureFlaggeable) {
         self.listing = listing
         self.listingImage = listingImages.first
         self.imageSource = imageSource
         self.postingSource = postingSource
+        self.videoLength = videoLength
         self.tracker = tracker
         self.listingRepository = listingRepository
         self.featureFlags = featureFlags
@@ -176,6 +180,7 @@ class ListingPostedDescriptiveViewModel: BaseViewModel, PostingCategoriesPickDel
         let trackingInfo = PostListingTrackingInfo(buttonName: .done,
                                                    sellButtonPosition: postingSource.sellButtonPosition,
                                                    imageSource: imageSource,
+                                                   videoLength: videoLength,
                                                    price: String.fromPriceDouble(listing.price.value),
                                                    typePage: postingSource.typePage,
                                                    mostSearchedButton: postingSource.mostSearchedButton,
@@ -186,6 +191,7 @@ class ListingPostedDescriptiveViewModel: BaseViewModel, PostingCategoriesPickDel
                                                      sellButtonPosition: trackingInfo.sellButtonPosition,
                                                      negotiable: trackingInfo.negotiablePrice,
                                                      pictureSource: trackingInfo.imageSource,
+                                                     videoLength: videoLength,
                                                      freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                      typePage: trackingInfo.typePage,
                                                      mostSearchedButton: trackingInfo.mostSearchedButton,

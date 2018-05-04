@@ -55,6 +55,7 @@ class MLPostListingViewModel: BaseViewModel {
     
     fileprivate var imagesSelected: [UIImage]?
     fileprivate var uploadedImageSource: EventParameterPictureSource?
+    fileprivate var uploadedVideoLength: TimeInterval?
     fileprivate var predictionData: MLPredictionDetailsViewData?
     
     let selectedDetail = Variable<CategoryDetailSelectedInfo?>(nil)
@@ -197,6 +198,7 @@ class MLPostListingViewModel: BaseViewModel {
                 let trackingInfo = PostListingTrackingInfo(buttonName: .close,
                                                            sellButtonPosition: postingSource.sellButtonPosition,
                                                            imageSource: uploadedImageSource,
+                                                           videoLength: uploadedVideoLength,
                                                            price: postDetailViewModel.price.value,
                                                            typePage: postingSource.typePage,
                                                            mostSearchedButton: postingSource.mostSearchedButton,
@@ -370,6 +372,7 @@ fileprivate extension MLPostListingViewModel {
         let trackingInfo = PostListingTrackingInfo(buttonName: .done,
                                                    sellButtonPosition: postingSource.sellButtonPosition,
                                                    imageSource: uploadedImageSource,
+                                                   videoLength: uploadedVideoLength,
                                                    price: postDetailViewModel.price.value,
                                                    typePage: postingSource.typePage,
                                                    mostSearchedButton: postingSource.mostSearchedButton,
@@ -384,6 +387,7 @@ fileprivate extension MLPostListingViewModel {
                 guard let listingParams = self?.makeListingParams(images: []) else { return }
                 self?.navigator?.closePostProductAndPostLater(params: listingParams,
                                                               images: images,
+                                                              video: nil,
                                                               trackingInfo: trackingInfo)
             }
             let cancelAction = { [weak self] in
@@ -399,6 +403,7 @@ fileprivate extension MLPostListingViewModel {
     func openPostingDetails() {
         navigator?.startDetails(postListingState: state.value,
                                 uploadedImageSource: uploadedImageSource,
+                                uploadedVideoLength: uploadedVideoLength,
                                 postingSource: postingSource,
                                 postListingBasicInfo: postDetailViewModel)
     }

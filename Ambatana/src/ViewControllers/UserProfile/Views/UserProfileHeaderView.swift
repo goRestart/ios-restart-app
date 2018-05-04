@@ -168,6 +168,7 @@ final class UserProfileHeaderView: UIView {
         userNameLabel.set(accessibilityId: .userHeaderExpandedNameLabel)
         locationLabel.set(accessibilityId: .userHeaderExpandedLocationLabel)
         memberSinceLabel.set(accessibilityId: .userHeaderExpandedMemberSinceLabel)
+        avatarImageView.set(accessibilityId: .userHeaderExpandedAvatar)
         editAvatarButton.set(accessibilityId: .userHeaderExpandedAvatarButton)
     }
 

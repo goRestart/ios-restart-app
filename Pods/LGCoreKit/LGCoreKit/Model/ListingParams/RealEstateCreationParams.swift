@@ -18,6 +18,7 @@ public class RealEstateCreationParams: BaseListingParams {
                 location: LGLocationCoordinates2D,
                 postalAddress: PostalAddress,
                 images: [File],
+                videos: [Video],
                 realEstateAttributes: RealEstateAttributes) {
         self.realEstateAttributes = realEstateAttributes
         super.init(name: name,
@@ -28,7 +29,8 @@ public class RealEstateCreationParams: BaseListingParams {
                    location: location,
                    postalAddress: postalAddress,
                    languageCode: Locale.current.identifier,
-                   images: images)
+                   images: images,
+                   videos: videos)
     }
     
     override func apiCreationEncode(userId: String) -> [String: Any] {
@@ -49,6 +51,8 @@ public class RealEstateCreationParams: BaseListingParams {
         params["address"] = postalAddress.address
         params["zipCode"] = postalAddress.zipCode
         params["images"] = images.flatMap { $0.objectId }
+        let paramsVideos: [[String: Any]] = videos.map { ["path": $0.path, "snapshot": $0.snapshot] }
+        params["videos"] = paramsVideos
 
         var realEstateAttributesDict: [String: Any] = [:]
         realEstateAttributesDict["typeOfProperty"] = realEstateAttributes.propertyType?.rawValue

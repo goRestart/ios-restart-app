@@ -207,6 +207,7 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
         navigator?.openPrice(listing: listing,
                              images: images,
                              imageSource: imageSource,
+                             videoLength: nil,
                              postingSource: postingSource)
     }
     

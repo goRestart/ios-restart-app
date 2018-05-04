@@ -94,7 +94,8 @@ class ChangeEmailViewModel: BaseViewModel {
             message = LGLocalizedString.commonErrorConnectionFailed
         case .forbidden(cause: .emailTaken):
             message = LGLocalizedString.changeEmailErrorAlreadyRegistered
-        case .internalError, .forbidden, .tooManyRequests, .userNotVerified, .serverError, .notFound, .unauthorized, .wsChatError:
+        case .internalError, .forbidden, .tooManyRequests, .userNotVerified, .serverError, .notFound, .unauthorized,
+             .wsChatError, .searchAlertError:
             message = LGLocalizedString.commonErrorGenericBody
         }
         delegate?.vmHideLoading(message, afterMessageCompletion: nil)

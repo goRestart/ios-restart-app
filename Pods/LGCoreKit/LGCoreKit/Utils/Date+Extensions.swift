@@ -32,4 +32,8 @@ extension Date {
         let creationDateString = dateFormatter.string(from: creationDate)
         return creationDateString
     }
+    
+    func roundedMillisecondsSince1970() -> TimeInterval {
+        return (timeIntervalSince1970 * 1000.0).rounded()
+    }
 }

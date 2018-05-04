@@ -144,6 +144,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     private let step: PostingDetailStep
     private var postListingState: PostListingState
     private var uploadedImageSource: EventParameterPictureSource?
+    private var uploadedVideoLength: TimeInterval?
     private let postingSource: PostingSource
     private let postListingBasicInfo: PostListingBasicDetailViewModel
     private let priceListing = Variable<ListingPrice>(Constants.defaultPrice)
@@ -159,12 +160,14 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     convenience init(step: PostingDetailStep,
                      postListingState: PostListingState,
                      uploadedImageSource: EventParameterPictureSource?,
+                     uploadedVideoLength: TimeInterval?,
                      postingSource: PostingSource,
                      postListingBasicInfo: PostListingBasicDetailViewModel,
                      previousStepIsSummary: Bool) {
         self.init(step: step,
                   postListingState: postListingState,
                   uploadedImageSource: uploadedImageSource,
+                  uploadedVideoLength: uploadedVideoLength,
                   postingSource: postingSource,
                   postListingBasicInfo: postListingBasicInfo,
                   previousStepIsSummary: previousStepIsSummary,
@@ -179,6 +182,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     init(step: PostingDetailStep,
          postListingState: PostListingState,
          uploadedImageSource: EventParameterPictureSource?,
+         uploadedVideoLength: TimeInterval?,
          postingSource: PostingSource,
          postListingBasicInfo: PostListingBasicDetailViewModel,
          previousStepIsSummary: Bool,
@@ -191,6 +195,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         self.step = step
         self.postListingState = postListingState
         self.uploadedImageSource = uploadedImageSource
+        self.uploadedVideoLength = uploadedVideoLength
         self.postingSource = postingSource
         self.postListingBasicInfo = postListingBasicInfo
         self.previousStepIsSummary = previousStepIsSummary
@@ -242,6 +247,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
                 let trackingInfo = PostListingTrackingInfo(buttonName: .close,
                                                            sellButtonPosition: postingSource.sellButtonPosition,
                                                            imageSource: uploadedImageSource,
+                                                           videoLength: uploadedVideoLength,
                                                            price: String.fromPriceDouble(postListingState.price?.value ?? 0),
                                                            typePage: postingSource.typePage,
                                                            mostSearchedButton: postingSource.mostSearchedButton,
@@ -270,6 +276,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         let trackingInfo = PostListingTrackingInfo(buttonName: buttonNameType,
                                                    sellButtonPosition: postingSource.sellButtonPosition,
                                                    imageSource: uploadedImageSource,
+                                                   videoLength: uploadedVideoLength,
                                                    price: String.fromPriceDouble(postListingState.price?.value ?? 0),
                                                    typePage: postingSource.typePage,
                                                    mostSearchedButton: postingSource.mostSearchedButton,
@@ -277,13 +284,20 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         if sessionManager.loggedIn {
             openListingPosting(trackingInfo: trackingInfo)
         } else if let images = postListingState.pendingToUploadImages {
-            let loggedInAction = { [weak self] in
-                self?.postActionAfterLogin(images: images, trackingInfo: trackingInfo)
-                return
+            let loggedInAction: (() -> Void) = { [weak self] in
+                self?.postActionAfterLogin(images: images, video: nil, trackingInfo: trackingInfo)
             }
-            let cancelAction = { [weak self] in
+            let cancelAction: (() -> Void) = { [weak self] in
                 self?.cancelPostListing()
-                return
+            }
+            navigator?.openLoginIfNeededFromListingPosted(from: .sell, loggedInAction: loggedInAction, cancelAction: cancelAction)
+
+        } else if let video = postListingState.pendingToUploadVideo {
+            let loggedInAction: (() -> Void) = { [weak self] in
+                self?.postActionAfterLogin(images: nil, video: video, trackingInfo: trackingInfo)
+            }
+            let cancelAction: (() -> Void) = { [weak self] in
+                self?.cancelPostListing()
             }
             navigator?.openLoginIfNeededFromListingPosted(from: .sell, loggedInAction: loggedInAction, cancelAction: cancelAction)
         } else {
@@ -301,16 +315,19 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         navigator?.cancelPostListing()
     }
     
-    private func postActionAfterLogin(images: [UIImage]?,
-                                      trackingInfo: PostListingTrackingInfo) {
+    private func postActionAfterLogin(images: [UIImage]?, video: RecordedVideo?, trackingInfo: PostListingTrackingInfo) {
         guard let listingParams = retrieveListingParams(), let images = images else { return }
         navigator?.closePostProductAndPostLater(params: listingParams,
                                                       images: images,
+                                                      video: video,
                                                       trackingInfo: trackingInfo)
     }
     
     private func advanceNextStep(next: PostingDetailStep) {
-        navigator?.nextPostingDetailStep(step: next, postListingState: postListingState, uploadedImageSource: uploadedImageSource, postingSource: postingSource, postListingBasicInfo: postListingBasicInfo, previousStepIsSummary: false)
+        navigator?.nextPostingDetailStep(step: next, postListingState: postListingState,
+                                         uploadedImageSource: uploadedImageSource, uploadedVideoLength: uploadedVideoLength,
+                                         postingSource: postingSource, postListingBasicInfo: postListingBasicInfo,
+                                         previousStepIsSummary: false)
     }
     
     private func set(price: ListingPrice) {
@@ -450,7 +467,10 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         let event = TrackerEvent.openOptionOnSummary(fieldOpen: EventParameterOptionSummary(optionSelected: didSelectIndex),
                                                      postingType: EventParameterPostingType(category: postListingState.category ?? .otherItems(listingCategory: nil)))
         tracker.trackEvent(event)
-        navigator?.nextPostingDetailStep(step: didSelectIndex.postingDetailStep, postListingState: postListingState, uploadedImageSource: uploadedImageSource, postingSource: postingSource, postListingBasicInfo: postListingBasicInfo, previousStepIsSummary: true)
+        navigator?.nextPostingDetailStep(step: didSelectIndex.postingDetailStep, postListingState: postListingState,
+                                         uploadedImageSource: uploadedImageSource, uploadedVideoLength: uploadedVideoLength,
+                                         postingSource: postingSource, postListingBasicInfo: postListingBasicInfo,
+                                         previousStepIsSummary: true)
     }
     
     func valueFor(section: PostingSummaryOption) -> String? {

@@ -23,8 +23,8 @@ extension UIView: Bounceable {
                        usingSpringWithDamping: 0.2,
                        initialSpringVelocity: 6.0,
                        options: .allowUserInteraction,
-                       animations: {
-                        self.transform = .identity
+                       animations: { [weak self] in
+                        self?.transform = .identity
         })
     }
 
@@ -35,8 +35,8 @@ extension UIView: Bounceable {
                            usingSpringWithDamping: 0.2,
                            initialSpringVelocity: 6.0,
                            options: .allowUserInteraction,
-                           animations: {
-                            self.transform = .identity
+                           animations: { [weak self] in
+                            self?.transform = .identity
             },
                            completion: { completion in
                             completionBlock()
