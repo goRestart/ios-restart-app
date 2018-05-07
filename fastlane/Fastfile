@@ -6,7 +6,7 @@
 # Change the syntax highlighting to Ruby
 # All lines starting with a # are ignored when running `fastlane`
 
-# By default, fastlane will send which actions are used
+#/ By default, fastlane will send which actions are used
 # No personal data is shared, more information on https://github.com/fastlane/enhancer
 # Uncomment the following line to opt out
 # opt_out_usage
@@ -110,8 +110,6 @@ platform :ios do
     )
 
     changelog = "Beta #{version_number}-#{build_number}"
-    crashlytics_message = "Deploying" + changelog 
-    bender message: crashlytics_message, channels: [ENV["BENDER_DEFAULT_SLACK_CHANNEL"]]
     crashlytics(
       api_token: 'da82303e33e3a2dc304cdccaa4e19dba00334a34',
       build_secret: '964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe',
@@ -413,12 +411,8 @@ platform :ios do
       message += "Failed #{failures} UI tests from a total of #{tests} :warning:"
     end
 
-    slack(
-      message: message,
-      success: success,
-      channel: "#ios-develop",  # Optional, by default will post to the default channel configured for the POST URL.
-    )
-
+    bender message: message, channels: [ENV["BENDER_DEFAULT_SLACK_CHANNEL"]]
+ 
     if testException
       raise testException
     end
@@ -434,7 +428,6 @@ platform :ios do
   lane :make_automation_build do
     timestamp = Time.now.getutc.strftime("_%m_%d_%y_%I_%M_%p")
     output = "/tmp/xcbuild" + timestamp
-    channel = '#'+ENV["SLACK_IOS_CORE_CHANNEL"]  
     message = 'Hey, your .app is waiting for you. Zipped in your desktop (I am talking to whoever runned the command). #hastaluego'
     xcbuild(
       workspace: ENV["XCODE_WORKSPACE"],
@@ -448,13 +441,7 @@ platform :ios do
 
     zipped_output = "~/Desktop/automation" + timestamp + ".zip"
     sh("zip -r #{zipped_output} #{output}") 
-    slack(
-    	message: message,
-	success: true,
-	channel: channel, 
-	default_payloads: [],
-	icon_url: "https://cdn.iconscout.com/public/images/icon/premium/png-512/bender-robot-bot-technology-machine-34fbb8f5bb91b753-512x512.png"
-    )
+    bender message: message, channels: [ENV["SLACK_IOS_CORE_CHANNEL"]]    
   end
 
   after_all do |lane|
