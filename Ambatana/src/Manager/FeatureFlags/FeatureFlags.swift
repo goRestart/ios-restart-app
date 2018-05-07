@@ -1014,7 +1014,7 @@ final class FeatureFlags: FeatureFlaggeable {
         }
         return  ChatNorris.fromPosition(abTests.chatNorris.value)
     }
-    
+
     var shouldChangeSellFasterNowCopyInEnglish: Bool {
         if Bumper.enabled {
             return Bumper.copyForSellFasterNowInEnglish.isActive
@@ -1032,7 +1032,6 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.copyForSellFasterNowInEnglish
         }
         return CopyForSellFasterNowInEnglish.fromPosition(abTests.copyForSellFasterNowInEnglish.value)
-        
     }
 
     

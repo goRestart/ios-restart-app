@@ -215,6 +215,7 @@
 "chat_send_error_generic" = "Surgiu um erro ao enviar a mensagem. Por favor tente de novo.";
 "chat_stickers_tooltip_new" = "NOVO!";
 "chat_unblock_user" = "Desbloquear utilizador";
+"chat_user_info_letgo_assistant" = "I'm a virtual assistant that gives you tips and helps you sell.";
 "chat_user_info_name" = "Olá, chamo-me %@";
 "chat_user_info_verified_with" = "Verificado com: ";
 "chat_user_rating_button_tooltip" = "Comente este utilizador";
@@ -410,7 +411,7 @@
 "hidden_phone_tag" = "[NÚMERO DE TELEFONE OCULTO]";
 "hidden_text_alert_description" = "Ocultamos os dados de contacto para o ajudarmos a comprar e a vender com segurança. Conversar no letgo é fácil e mais seguro.";
 "hidden_text_alert_title" = "MANTENHA-SE SEGURO";
-"listings_map_title" = "Map view";
+"listings_map_title" = "Vista do mapa";
 "location_permissions_allow_button" = "Permitir";
 "location_permissions_bubble" = "1,60 km de si";
 "location_permissions_button" = "Sim, Usem a Minha Localização";
@@ -558,10 +559,22 @@
 "passive_buyers_message" = "Contacte estes compradores interessados em produtos semelhantes";
 "passive_buyers_not_available" = "Ups! Compradores não encontrados.";
 "passive_buyers_title" = "ESTES COMPRADORES PODEM ESTAR INTERESSADOS";
+"passwordless_email_input_button" = "Enviar um link mágico";
+"passwordless_email_input_description" = "Introduza o seu endereço de email para iniciar a sessão ou criar uma conta e enviaremos um \"link mágico\" para a sua caixa de entrada.";
+"passwordless_email_input_textfield_placeholder" = "Email";
+"passwordless_email_input_title" = "Continuar com o email";
+"passwordless_email_sent_screen_title" = "Verifique a sua caixa de entrada de emails";
+"passwordless_email_sent_subtitle" = "Endereço de email: %@";
+"passwordless_email_sent_title" = "Para iniciar a sessão clique no \"link mágico\" que acabamos de lhe enviar";
+"passwordless_main_signup_button" = "Continuar com o email";
+"passwordless_username_input_done_button" = "Feito";
+"passwordless_username_input_textfield_placeholder" = "Usuário";
+"passwordless_username_input_title" = "Escolha o seu nome de utilizador";
 "phone_verification_code_input_view_content_subaction" = "Não recebeu o código?";
 "phone_verification_code_input_view_content_subtext" = "Pode pedir um novo código caso não o receba dentro de %@";
 "phone_verification_code_input_view_content_subtitle" = "Enviamo-lo para %@";
 "phone_verification_code_input_view_content_title" = "Introduza o código de 6 dígitos";
+"phone_verification_code_input_view_error_message" = "Oops! An error occurred while validating the code. Please try again.";
 "phone_verification_code_input_view_title" = "Verificação do número";
 "phone_verification_code_input_view_validated_failure" = "O código de verificação que introduziu não está correto.";
 "phone_verification_code_input_view_validated_success" = "Número de telefone verificado!";
@@ -572,6 +585,7 @@
 "phone_verification_number_input_view_confirmation_title" = "Obrigado! O seu feedback ajuda-nos a melhorar";
 "phone_verification_number_input_view_continue_button" = "Continue";
 "phone_verification_number_input_view_description" = "Crie confiança ao verificar o seu número de telefone";
+"phone_verification_number_input_view_error_message" = "Oops! An error occurred while sending the text message. Please try again.";
 "phone_verification_number_input_view_sending_message" = "A enviar mensagem de texto…";
 "phone_verification_number_input_view_textfield_placeholder" = "Número de telefone";
 "phone_verification_number_input_view_title" = "Verificação do número";
@@ -751,7 +765,7 @@
 "product_post_price_label" = "Quer adicionar um preço?";
 "product_post_product_posted" = "Artigo publicado. Parabéns!";
 "product_post_product_posted_not_logged" = "Foto carregada!";
-"product_post_product_posted_not_logged_video_posting" = "Video uploaded!";
+"product_post_product_posted_not_logged_video_posting" = "Vídeo carregado!";
 "product_post_retake" = "Refazer";
 "product_post_retry_button" = "Tente novamente";
 "product_post_select_category_cars" = "Viaturas";
@@ -762,7 +776,7 @@
 "product_post_select_category_title" = "O que está a publicar?";
 "product_post_use_photo" = "Publicar";
 "product_post_use_photo_not_logged" = "Usar a foto";
-"product_post_use_video_not_logged" = "Use video";
+"product_post_use_video_not_logged" = "Utilizar vídeo";
 "product_professional_call_button" = "Chamar";
 "product_professional_chat_button" = "Chat";
 "product_report_confirm_message" = "Deseja mesmo denunciar esta publicação?";

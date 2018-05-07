@@ -169,6 +169,7 @@ class ABTestsSpec: QuickSpec {
                     syncer.sync(variables: retention.stringVariables)
                     syncer.sync(variables: retention.floatVariables)
                 }
+
                 it("the variables registered are 4") {
                     expect(syncer.syncedCount) == 4
                 }

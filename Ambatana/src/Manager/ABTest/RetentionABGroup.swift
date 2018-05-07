@@ -35,8 +35,10 @@ struct RetentionABGroup: ABGroupType {
         self.iAmInterestedInFeed = iAmInterestedInFeed
         self.searchAlerts = searchAlerts
 
-        intVariables.append(contentsOf: [dummyUsersInfoProfile, onboardingIncentivizePosting,
-                                         iAmInterestedInFeed, searchAlerts])
+        intVariables.append(contentsOf: [dummyUsersInfoProfile,
+                                        onboardingIncentivizePosting,
+                                        iAmInterestedInFeed,
+                                        searchAlerts])
     }
 
     static func make() -> RetentionABGroup {

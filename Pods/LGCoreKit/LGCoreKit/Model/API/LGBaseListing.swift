@@ -238,6 +238,15 @@ struct LGBaseListing: BaseListingModel, Decodable {
         user = try keyedContainerBase.decode(LGUserListing.self, forKey: .user)
 
         featured = try keyedContainerBase.decodeIfPresent(Bool.self, forKey: .featured)
+        
+        //  TODO: remove when fixed in backend. Video items should have an image.
+        media = media.map { media in
+            guard media.type == .video else { return media }
+            let imageURL = imagesArray.first(where:  { $0.id == media.snapshotId })
+            let outputs = LGMediaOutputs(image: imageURL?.url ?? imagesArray.first?.url, imageThumbnail: media.outputs.imageThumbnail,
+                                         video: media.outputs.video, videoThumbnail: media.outputs.videoThumbnail)
+            return LGMedia(type: media.type, snapshotId: media.snapshotId , outputs: outputs)
+        }
 
     }
 
