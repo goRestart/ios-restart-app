@@ -204,7 +204,7 @@ platform :ios do
       shallow_clone: false
     )
 
-    build_number = get_build_number(xcodeproj: "LetGo.xcodeproj")
+    build_number = get_build_number(xcodeproj: ENV["XCODE_WORKSPACE"])
 
     xcclean
 
@@ -223,6 +223,13 @@ platform :ios do
       symbols_build_scheme: ENV["XCODE_SCHEME"],
       symbols_backup_path: "./symbols",
       backup_ipa: true
+    )
+    
+    version_number = get_version_number(xcodeproj: ENV["XCODE_WORKSPACE"])
+    add_git_tag(
+      tag: version_number,
+      build_number: build_number,
+      force: true
     )
 
     # # Send release to itunes connect
