@@ -73,9 +73,13 @@ final class UserProfileHeaderView: UIView {
     var username: String? {
         didSet {
             userNameLabel.text = username
-            userNameLabel.layoutIfNeeded()
             userNameLabel.truncateWordsWithDotsIfNeeded()
         }
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        userNameLabel.truncateWordsWithDotsIfNeeded()
     }
 
     func setAvatar(_ url: URL?, placeholderImage: UIImage?) {

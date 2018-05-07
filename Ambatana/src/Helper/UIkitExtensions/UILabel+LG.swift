@@ -82,17 +82,7 @@ extension UILabel {
     }
 
     func truncateWordsWithDotsIfNeeded() {
-        guard let text = self.text, isTruncated() else { return }
-        let words = text.byWords
-        if words.count <= 1 { return }
-        var name = ""
-        for (i, word) in words.enumerated() {
-            if i == 0 {
-                name = word
-            } else {
-                name = name + " " + word.prefix(1) + "."
-            }
-        }
-        self.text = name
+        guard isTruncated() else { return }
+        self.text = text?.truncatedNameStringToInitials()
     }
 }
