@@ -34,7 +34,6 @@ protocol FeatureFlaggeable: class {
     var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
     var showClockInDirectAnswer : ShowClockInDirectAnswer { get }
     var deckItemPage: DeckItemPage { get }
-    var allowCallsForProfessionals: AllowCallsForProfessionals { get }
     var mostSearchedDemandedItems: MostSearchedDemandedItems { get }
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio { get }
     var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting { get }
@@ -43,7 +42,6 @@ protocol FeatureFlaggeable: class {
     var showInactiveConversations: Bool { get }
     var increaseMinPriceBumps: IncreaseMinPriceBumps { get }
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers { get }
-    var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings { get }
     var newUserProfileView: NewUserProfileView { get }
     var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation { get }
     var searchImprovements: SearchImprovements { get }
@@ -65,6 +63,7 @@ protocol FeatureFlaggeable: class {
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem { get }
     var emergencyLocate: EmergencyLocate { get }
     var showExactLocationForPros: Bool { get }
+    var searchAlerts: SearchAlerts { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -85,7 +84,8 @@ protocol FeatureFlaggeable: class {
     var feedAdsProviderForTR:  FeedAdsProviderForTR { get }
     var shouldChangeSellFasterNowCopyInEnglish: Bool { get }
     var copyForSellFasterNowInEnglish: CopyForSellFasterNowInEnglish { get }
-    
+    var shouldShowIAmInterestedInFeed: IAmInterestedFeed { get }
+
     //  MARK: Verticals
     var searchCarsIntoNewBackend: SearchCarsIntoNewBackend { get }
     var realEstatePromoCell: RealEstatePromoCell { get }
@@ -102,10 +102,6 @@ extension FeatureFlaggeable {
 
 extension TaxonomiesAndTaxonomyChildrenInFeed {
     var isActive: Bool { return self == .active }
-}
-
-extension AllowCallsForProfessionals {
-    var isActive: Bool { return self == .control || self == .baseline }
 }
 
 extension MostSearchedDemandedItems {
@@ -176,10 +172,6 @@ extension RealEstateNewCopy {
 }
 
 extension DummyUsersInfoProfile {
-    var isActive: Bool { return self == .active }
-}
-
-extension ShowBumpUpBannerOnNotValidatedListings {
     var isActive: Bool { return self == .active }
 }
 
@@ -299,6 +291,7 @@ extension CreateUpdateCarsIntoNewBackend {
 
 extension MachineLearningMVP {
     var isActive: Bool { return self == .active }
+    var isVideoPostingActive: Bool { return self == .videoPostingActive }
 }
 
 extension ChatNorris {
@@ -400,6 +393,10 @@ extension CopyForChatNowInEnglish {
         } }
 }
 
+extension SearchAlerts {
+    var isActive: Bool { return self == .active }
+}
+
 extension CopyForSellFasterNowInEnglish {
     var isActive: Bool { return self != .control && self != .baseline }
     
@@ -419,8 +416,11 @@ extension CopyForSellFasterNowInEnglish {
     }
 }
 
-class FeatureFlags: FeatureFlaggeable {
+extension IAmInterestedFeed {
+    var isVisible: Bool { return self == .control || self == .baseline }
+}
 
+final class FeatureFlags: FeatureFlaggeable {
     static let sharedInstance: FeatureFlags = FeatureFlags()
 
     let requestTimeOut: RequestsTimeOut
@@ -559,13 +559,6 @@ class FeatureFlags: FeatureFlaggeable {
         return ShowClockInDirectAnswer.fromPosition(abTests.showClockInDirectAnswer.value)
     }
 
-    var allowCallsForProfessionals: AllowCallsForProfessionals {
-        if Bumper.enabled {
-            return Bumper.allowCallsForProfessionals
-        }
-        return AllowCallsForProfessionals.fromPosition(abTests.allowCallsForProfessionals.value)
-    }
-    
     var mostSearchedDemandedItems: MostSearchedDemandedItems {
         if Bumper.enabled {
             return Bumper.mostSearchedDemandedItems
@@ -620,13 +613,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.noAdsInFeedForNewUsers
         }
         return NoAdsInFeedForNewUsers.fromPosition(abTests.noAdsInFeedForNewUsers.value)
-    }
-
-    var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings {
-        if Bumper.enabled {
-            return Bumper.showBumpUpBannerOnNotValidatedListings
-        }
-        return ShowBumpUpBannerOnNotValidatedListings.fromPosition(abTests.showBumpUpBannerOnNotValidatedListings.value)
     }
 
     var searchImprovements: SearchImprovements {
@@ -756,7 +742,14 @@ class FeatureFlags: FeatureFlaggeable {
         let cached = dao.retrieveShowAdvanceReputationSystem()
         return cached ?? ShowAdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value)
     }
-
+    
+    var searchAlerts: SearchAlerts {
+        if Bumper.enabled {
+            return Bumper.searchAlerts
+        }
+        return SearchAlerts.fromPosition(abTests.searchAlerts.value)
+    }
+    
     var showExactLocationForPros: Bool {
         if Bumper.enabled {
             return Bumper.showExactLocationForPros
@@ -988,6 +981,13 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return CopyForChatNowInEnglish.fromPosition(abTests.copyForChatNowInEnglish.value)
     }
+
+    var shouldShowIAmInterestedInFeed: IAmInterestedFeed {
+        if Bumper.enabled {
+            return Bumper.iAmInterestedFeed
+        }
+        return IAmInterestedFeed.fromPosition(abTests.iAmInterestedInFeed.value)
+    }
     
     var feedAdsProviderForTR: FeedAdsProviderForTR {
         if Bumper.enabled {
@@ -1000,11 +1000,9 @@ class FeatureFlags: FeatureFlaggeable {
         if Bumper.enabled {
             return Bumper.chatNorris
         }
-        return ChatNorris.control
-        // TODO: restore the ABTests code when BE part is working 👇
-//        return  ChatNorris.fromPosition(abTests.chatNorris.value)
+        return  ChatNorris.fromPosition(abTests.chatNorris.value)
     }
-    
+
     var shouldChangeSellFasterNowCopyInEnglish: Bool {
         if Bumper.enabled {
             return Bumper.copyForSellFasterNowInEnglish.isActive
@@ -1022,7 +1020,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.copyForSellFasterNowInEnglish
         }
         return CopyForSellFasterNowInEnglish.fromPosition(abTests.copyForSellFasterNowInEnglish.value)
-        
     }
 
     
@@ -1072,9 +1069,7 @@ extension FeatureFlags {
         if Bumper.enabled {
             return Bumper.createUpdateCarsIntoNewBackend
         }
-        //  TODO: blocked - update when backend works
-        //  return CreateUpdateCarsIntoNewBackend.fromPosition(abTests.createUpdateCarsIntoNewBackend.value)
-        return .control
+        return CreateUpdateCarsIntoNewBackend.fromPosition(abTests.createUpdateCarsIntoNewBackend.value)
     }
     
     var realEstateMap: RealEstateMap {

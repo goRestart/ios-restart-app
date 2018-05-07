@@ -7,6 +7,7 @@
 //
 
 struct LGBaseListing: BaseListingModel, Decodable {
+
     let objectId: String?
     let updatedAt: Date?
     let createdAt: Date?
@@ -23,6 +24,8 @@ struct LGBaseListing: BaseListingModel, Decodable {
     let thumbnail: File?
     let thumbnailSize: LGSize?
     let images: [File]
+    var media: [Media]
+    var mediaThumbnail: MediaThumbnail?
     var user: UserListing
     let featured: Bool?
 
@@ -42,6 +45,8 @@ struct LGBaseListing: BaseListingModel, Decodable {
          thumbnail: File?,
          thumbnailSize: LGSize?,
          images: [File],
+         media: [Media],
+         mediaThumbnail: MediaThumbnail?,
          user: UserListing,
          featured: Bool?,
          carAttributes: CarAttributes?) {
@@ -62,6 +67,8 @@ struct LGBaseListing: BaseListingModel, Decodable {
         self.thumbnail = thumbnail
         self.thumbnailSize = thumbnailSize
         self.images = images
+        self.media = media
+        self.mediaThumbnail = mediaThumbnail
         self.user = user
         self.featured = featured ?? false
     }
@@ -225,9 +232,21 @@ struct LGBaseListing: BaseListingModel, Decodable {
         let imagesArray = (try keyedContainerBase.decode(FailableDecodableArray<LGListingImage>.self, forKey: .images)).validElements
         images = LGListingImage.mapToFiles(imagesArray)
 
+        media = (try keyedContainerBase.decodeIfPresent(FailableDecodableArray<LGMedia>.self, forKey: .media))?.validElements ?? []
+        mediaThumbnail = try keyedContainerBase.decodeIfPresent(LGMediaThumbnail.self, forKey: .mediaThumbnail)
+
         user = try keyedContainerBase.decode(LGUserListing.self, forKey: .user)
 
         featured = try keyedContainerBase.decodeIfPresent(Bool.self, forKey: .featured)
+        
+        //  TODO: remove when fixed in backend. Video items should have an image.
+        media = media.map { media in
+            guard media.type == .video else { return media }
+            let imageURL = imagesArray.first(where:  { $0.id == media.snapshotId })
+            let outputs = LGMediaOutputs(image: imageURL?.url ?? imagesArray.first?.url, imageThumbnail: media.outputs.imageThumbnail,
+                                         video: media.outputs.video, videoThumbnail: media.outputs.videoThumbnail)
+            return LGMedia(type: media.type, snapshotId: media.snapshotId , outputs: outputs)
+        }
 
     }
 
@@ -260,6 +279,8 @@ struct LGBaseListing: BaseListingModel, Decodable {
         case status = "status"
         case thumbnail = "thumb"
         case images = "images"
+        case media = "media"
+        case mediaThumbnail = "media_thumb"
         case user = "owner"
         case featured = "featured"
         case currency = "currency"

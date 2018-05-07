@@ -49,10 +49,12 @@ final class PhotoViewerViewModelSpec: QuickSpec {
                 beforeEach {
                     let source: EventParameterListingVisitSource = .listingList
                     let viewModel = listingViewModelMaker.make(listing: listing, visitSource: source)
+                    let displayable = viewModel.makeDisplayable()
                     sut = PhotoViewerViewModel(imageDownloader: MockImageDownloader(),
-                                               listingViewModel: viewModel,
+                                               viewerDisplayable: displayable,
                                                tracker: tracker,
-                                               source: source)
+                                               source: source,
+                                               featureFlags: MockFeatureFlags())
                 }
                 it("the photoviewer has no random image") {
                     expect(tracker.trackedEvents.count) == 0
@@ -63,10 +65,12 @@ final class PhotoViewerViewModelSpec: QuickSpec {
                 beforeEach {
                     let source: EventParameterListingVisitSource = .listingList
                     let viewModel = listingViewModelMaker.make(listing: listing, visitSource: source)
+                    let displayable = viewModel.makeDisplayable()
                     sut = PhotoViewerViewModel(imageDownloader: MockImageDownloader(),
-                                               listingViewModel: viewModel,
+                                               viewerDisplayable: displayable,
                                                tracker: tracker,
-                                               source: source)
+                                               source: source,
+                                               featureFlags: MockFeatureFlags())
                     sut.active = true
                 }
                 it("the photoviewer has no random image") {
@@ -78,10 +82,12 @@ final class PhotoViewerViewModelSpec: QuickSpec {
                 beforeEach {
                     let source: EventParameterListingVisitSource = .listingList
                     let viewModel = listingViewModelMaker.make(listing: listing, visitSource: source)
+                    let displayable = viewModel.makeDisplayable()
                     sut = PhotoViewerViewModel(imageDownloader: MockImageDownloader(),
-                                               listingViewModel: viewModel,
+                                               viewerDisplayable: displayable,
                                                tracker: tracker,
-                                               source: source)
+                                               source: source,
+                                               featureFlags: MockFeatureFlags())
                     sut.active = true
                     sut.didOpenChat()
                 }
@@ -94,10 +100,12 @@ final class PhotoViewerViewModelSpec: QuickSpec {
                 beforeEach {
                     let source: EventParameterListingVisitSource = .listingList
                     let viewModel = listingViewModelMaker.make(listing: listing, visitSource: source)
+                    let displayable = viewModel.makeDisplayable()
                     sut = PhotoViewerViewModel(imageDownloader: MockImageDownloader(),
-                                               listingViewModel: viewModel,
+                                               viewerDisplayable: displayable,
                                                tracker: tracker,
-                                               source: source)
+                                               source: source,
+                                               featureFlags: MockFeatureFlags())
                     sut.didOpenChat()
                 }
                 it("the photoviewer has no random image") {

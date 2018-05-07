@@ -154,6 +154,8 @@ final class AppCoordinator: NSObject, Coordinator {
         self.locationManager = locationManager
         super.init()
 
+        self.profileTabBarCoordinator.profileCoordinatorSearchAlertsDelegate = self
+
         setupTabBarController()
         setupTabCoordinators()
         setupDeepLinkingRx()
@@ -1039,7 +1041,7 @@ fileprivate extension AppCoordinator {
                 case .network:
                     message = LGLocalizedString.commonErrorConnectionFailed
                 case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError,
-                     .wsChatError:
+                     .wsChatError, .searchAlertError:
                     message = LGLocalizedString.commonUserReviewNotAvailable
                 }
                 navCtl.dismissLoadingMessageAlert {
@@ -1155,6 +1157,14 @@ extension AppCoordinator: MostSearchedItemsCoordinatorDelegate {
     
     func openSearchFor(listingTitle: String) {
         mainTabBarCoordinator.openMainListings(withSearchType: .user(query: listingTitle), listingFilters: ListingFilters())
+    }
+}
+
+extension AppCoordinator: ProfileCoordinatorSearchAlertsDelegate {
+    func profileCoordinatorSearchAlertsOpenSearch() {
+        openTab(.home) { [weak self] in
+            self?.mainTabBarCoordinator.readyToSearch()
+        }
     }
 }
 

@@ -15,6 +15,8 @@ public enum ConflictCause {
     case userExists
     case emailRejected
     case requestAlreadyProcessed
+    case searchAlertAlreadyExists
+    case searchAlertLimitReached
 
     case notSpecified
     case other(code: Int)
@@ -30,6 +32,15 @@ public enum ConflictCause {
             return .requestAlreadyProcessed
         default:
             return .other(code: code)
+        }
+    }
+    
+    static func causeWithSearchAlertCode(_ code: SearchAlertsErrorCode) -> ConflictCause {
+        switch code {
+        case .alreadyExists:
+            return .searchAlertAlreadyExists
+        case .limitReached:
+            return .searchAlertLimitReached
         }
     }
 }
@@ -131,6 +142,10 @@ public enum ApiError: Error {
         }
     }
 
+    static func errorForSearchAlertCode(_ apiCode: SearchAlertsErrorCode) -> ApiError {
+        return .conflict(cause: ConflictCause.causeWithSearchAlertCode(apiCode))
+    }
+    
     var httpStatusCode: Int? {
         switch self {
         case .network, .internalError:
@@ -166,6 +181,7 @@ public enum ApiError: Error {
 enum ErrorDecoderType {
     case apiUsersError
     case apiProductsError
+    case searchAlertsError
 }
 
 protocol URLRequestAuthenticable: URLRequestConvertible, ReportableRequest {

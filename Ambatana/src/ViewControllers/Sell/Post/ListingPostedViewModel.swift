@@ -33,11 +33,12 @@ class ListingPostedViewModel: BaseViewModel {
     private let tracker: Tracker
     private let listingRepository: ListingRepository
     private let fileRepository: FileRepository
+    private let preSignedUploadUrlRepository: PreSignedUploadUrlRepository
     private let myUserRepository: MyUserRepository
 
     var wasFreePosting: Bool {
         switch self.status {
-        case let .posting(_, params):
+        case let .posting(_, _, params):
             return params.price.isFree
         case let .success(listing):
             return listing.price.isFree
@@ -62,8 +63,8 @@ class ListingPostedViewModel: BaseViewModel {
                   trackingInfo: trackingInfo)
     }
 
-    convenience init(postParams: ListingCreationParams, listingImages: [UIImage], trackingInfo: PostListingTrackingInfo) {
-        self.init(status: ListingPostedStatus(images: listingImages, params: postParams),
+    convenience init(postParams: ListingCreationParams, listingImages: [UIImage]?, video: RecordedVideo?, trackingInfo: PostListingTrackingInfo) {
+        self.init(status: ListingPostedStatus(images: listingImages, video: video, params: postParams),
                   trackingInfo: trackingInfo)
     }
 
@@ -72,6 +73,7 @@ class ListingPostedViewModel: BaseViewModel {
                   trackingInfo: trackingInfo,
                   listingRepository: Core.listingRepository,
                   fileRepository: Core.fileRepository,
+                  preSignedUploadUrlRepository: Core.preSignedUploadUrlRepository,
                   myUserRepository: Core.myUserRepository,
                   featureFlags: FeatureFlags.sharedInstance,
                   keyValueStorage: KeyValueStorage.sharedInstance,
@@ -82,6 +84,7 @@ class ListingPostedViewModel: BaseViewModel {
          trackingInfo: PostListingTrackingInfo,
          listingRepository: ListingRepository,
          fileRepository: FileRepository,
+         preSignedUploadUrlRepository: PreSignedUploadUrlRepository,
          myUserRepository: MyUserRepository,
          featureFlags: FeatureFlaggeable,
          keyValueStorage: KeyValueStorage,
@@ -93,14 +96,15 @@ class ListingPostedViewModel: BaseViewModel {
         self.tracker = tracker
         self.listingRepository = listingRepository
         self.fileRepository = fileRepository
+        self.preSignedUploadUrlRepository = preSignedUploadUrlRepository
         self.myUserRepository = myUserRepository
     }
 
     override func didBecomeActive(_ firstTime: Bool) {
         if firstTime {
             switch status {
-            case let .posting(images, params):
-                postListing(images, params: params)
+            case let .posting(images, video, params):
+                postListing(images, video: video, params: params)
             case .success:
                 delegate?.productPostedViewModel(self, setupStaticState: true)
                 trackProductUploadResultScreen()
@@ -256,27 +260,83 @@ class ListingPostedViewModel: BaseViewModel {
 
     // MARK: - Private methods
 
-    private func postListing(_ images: [UIImage], params: ListingCreationParams) {
+    private func postListing(_ images: [UIImage]?, video: RecordedVideo?, params: ListingCreationParams) {
         delegate?.productPostedViewModelSetupLoadingState(self)
-        
+
         let shouldUseCarEndpoint = featureFlags.createUpdateIntoNewBackend.shouldUseCarEndpoint(with: params)
         let createAction = listingRepository.createAction(shouldUseCarEndpoint)
-        
-        fileRepository.upload(images, progress: nil) { [weak self] result in
-            if let images = result.value {
-                let updatedParams = params.updating(images: images)
-                
-                createAction(updatedParams) { [weak self] result in
-                    if let postedListing = result.value {
-                        self?.trackPostSellComplete(postedListing: postedListing)
-                    } else if let error = result.error {
-                        self?.trackPostSellError(error: error)
+
+        if let images = images {
+            fileRepository.upload(images, progress: nil) { [weak self] result in
+                if let images = result.value {
+                    let updatedParams = params.updating(images: images)
+
+                    createAction(updatedParams) { [weak self] result in
+                        if let postedListing = result.value {
+                            self?.trackPostSellComplete(postedListing: postedListing)
+                        } else if let error = result.error {
+                            self?.trackPostSellError(error: error)
+                        }
+                        self?.updateStatusAfterPosting(status: ListingPostedStatus(listingResult: result))
                     }
-                    self?.updateStatusAfterPosting(status: ListingPostedStatus(listingResult: result))
+                } else if let error = result.error {
+                    self?.trackPostSellError(error: error)
+                    self?.updateStatusAfterPosting(status: ListingPostedStatus(error: error))
                 }
-            } else if let error = result.error {
-                self?.trackPostSellError(error: error)
-                self?.updateStatusAfterPosting(status: ListingPostedStatus(error: error))
+            }
+        } else if let video = video {
+
+            fileRepository.upload([video.snapshot], progress: nil) { [weak self] result in
+                if let image = result.value?.first {
+                    guard let snapshot = image.objectId else {
+                        let error = RepositoryError.internalError(message: "Missing uploaded image identifier")
+                        self?.trackPostSellError(error: error)
+                        self?.updateStatusAfterPosting(status: ListingPostedStatus(error: error))
+                        return
+                    }
+
+                    self?.preSignedUploadUrlRepository.create(fileExtension: Constants.videoFileExtension, completion: { [weak self] result in
+
+                        if let preSignedUploadUrl = result.value {
+                            guard let path = preSignedUploadUrl.form.fileKey else {
+                                let error = RepositoryError.internalError(message: "Missing video file id")
+                                self?.trackPostSellError(error: error)
+                                self?.updateStatusAfterPosting(status: ListingPostedStatus(error: error))
+                                return
+                            }
+
+                            self?.preSignedUploadUrlRepository.upload(url: preSignedUploadUrl.form.action,
+                                                                      file: video.url,
+                                                                      inputs: preSignedUploadUrl.form.inputs,
+                                                                      progress: nil) { [weak self] result in
+                                    if result.value != nil {
+
+                                        let video: Video = LGVideo(path: path , snapshot: snapshot)
+                                        let updatedParams = params.updating(videos: [video])
+
+                                        createAction(updatedParams) { [weak self] result in
+                                            if let postedListing = result.value {
+                                                self?.trackPostSellComplete(postedListing: postedListing)
+                                            } else if let error = result.error {
+                                                self?.trackPostSellError(error: error)
+                                            }
+                                            self?.updateStatusAfterPosting(status: ListingPostedStatus(listingResult: result))
+                                        }
+                                    } else if let error = result.error {
+                                        self?.trackPostSellError(error: error)
+                                        self?.updateStatusAfterPosting(status: ListingPostedStatus(error: error))
+                                    }
+                            }
+                        } else if let error = result.error {
+                            self?.trackPostSellError(error: error)
+                            self?.updateStatusAfterPosting(status: ListingPostedStatus(error: error))
+                        }
+                    })
+                    
+                } else if let error = result.error {
+                    self?.trackPostSellError(error: error)
+                    self?.updateStatusAfterPosting(status: ListingPostedStatus(error: error))
+                }
             }
         }
     }
@@ -291,12 +351,14 @@ class ListingPostedViewModel: BaseViewModel {
         let buttonName = trackingInfo.buttonName
         let negotiable = trackingInfo.negotiablePrice
         let pictureSource = trackingInfo.imageSource
+        let videoLength = trackingInfo.videoLength
         let typePage = trackingInfo.typePage
         let mostSearchedButton = trackingInfo.mostSearchedButton
         let event = TrackerEvent.listingSellComplete(postedListing,
                                                      buttonName: buttonName,
                                                      sellButtonPosition: trackingInfo.sellButtonPosition,
                                                      negotiable: negotiable, pictureSource: pictureSource,
+                                                     videoLength: videoLength,
                                                      freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                      typePage: typePage,
                                                      mostSearchedButton: mostSearchedButton,
@@ -319,7 +381,7 @@ class ListingPostedViewModel: BaseViewModel {
             sellError = .network
         case .serverError, .notFound, .forbidden, .unauthorized, .tooManyRequests, .userNotVerified:
             sellError = .serverError(code: error.errorCode)
-        case .internalError, .wsChatError:
+        case .internalError, .wsChatError, .searchAlertError:
             sellError = .internalError
         }
         let sellErrorDataEvent = TrackerEvent.listingSellErrorData(sellError)
@@ -342,7 +404,7 @@ class ListingPostedViewModel: BaseViewModel {
 // MARK: - ListingPostedStatus
 
 enum ListingPostedStatus {
-    case posting(images: [UIImage], params: ListingCreationParams)
+    case posting(images: [UIImage]?, video: RecordedVideo?, params: ListingCreationParams)
     case success(listing: Listing)
     case error(error: EventParameterPostListingError)
 
@@ -364,8 +426,8 @@ enum ListingPostedStatus {
         }
     }
 
-    init(images: [UIImage], params: ListingCreationParams) {
-        self = .posting(images: images, params: params)
+    init(images: [UIImage]?, video: RecordedVideo?, params: ListingCreationParams) {
+        self = .posting(images: images, video: video, params: params)
     }
 
     init(listingResult: ListingResult) {

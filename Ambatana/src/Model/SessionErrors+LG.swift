@@ -117,7 +117,7 @@ extension SignupError {
             }
         case .conflict(let cause):
             switch cause {
-            case .userExists, .notSpecified, .other:
+            case .userExists, .notSpecified, .other, .searchAlertLimitReached, .searchAlertAlreadyExists:
                 if let email = userEmail {
                     return LGLocalizedString.signUpSendErrorEmailTaken(email)
                 } else {

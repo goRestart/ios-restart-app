@@ -145,6 +145,10 @@ extension ApiClient {
         } else if let urlError = error as? URLError {
             let onBackground = urlError.errorCode == -997
             return .network(errorCode: urlError.errorCode, onBackground: onBackground)
+        } else if errorDecoderType == .searchAlertsError,
+            let apiCode = response.apiErrorSearchAlertCode(errorDecoderType: errorDecoderType) {
+            let apiError = ApiError.errorForSearchAlertCode(apiCode)
+            return apiError
         } else if let statusCode = response.response?.statusCode {
             return ApiError.errorForCode(statusCode, apiCode: response.apiErrorCode(errorDecoderType: errorDecoderType))
         } else {
@@ -426,7 +430,35 @@ extension DataResponse {
             } catch {
                 logMessage(.debug, type: .parsing, message: "could not parse LGApiUsersErrorCode \(data)")
             }
+        case .searchAlertsError:
+            return nil
         }
         return nil
     }
+    
+    func apiErrorSearchAlertCode(errorDecoderType: ErrorDecoderType?) -> SearchAlertsErrorCode? {
+        guard let errorDecoderType = errorDecoderType else { return nil }
+        guard let data = self.data, data.count > 0 else { return nil }
+        guard let dataDict = try? JSONSerialization.jsonObject(with: data, options: []) else { return nil }
+        guard let dict = dataDict as? [String : Any] else { return nil }
+        guard let errorsDict = dict["errors"] else { return nil }
+        guard let errorsData = try? JSONSerialization.data(withJSONObject: errorsDict, options: .prettyPrinted) else { return nil }
+        switch errorDecoderType {
+        case .searchAlertsError:
+            do {
+                let code = try JSONDecoder().decode(FailableDecodableArray<LGApiSearchAlertsErrorCode>.self, from: errorsData)
+                if let error = code.validElements.first {
+                    return error.code
+                }
+            } catch {
+                logMessage(.debug, type: .parsing, message: "could not parse LGApiUsersErrorCode \(data)")
+            }
+        case .apiProductsError:
+            return nil
+        case .apiUsersError:
+            return nil
+        }
+        return nil
+    }
+
 }

@@ -116,7 +116,7 @@ class ChatViewModel: BaseViewModel {
     var predefinedMessage: String? // is writen in the text field when opening the chat
     var openChatAutomaticMessage: ChatWrapperMessageType?  // is SENT when opening the chat
     var professionalBannerHasCallAction: Bool {
-        return PhoneCallsHelper.deviceCanCall && featureFlags.allowCallsForProfessionals.isActive
+        return PhoneCallsHelper.deviceCanCall
     }
     fileprivate var hasSentAutomaticAnswerForPhoneMessage: Bool = false
     fileprivate var hasSentAutomaticAnswerForOtherMessage: Bool = false
@@ -812,7 +812,8 @@ extension ChatViewModel {
                     }
                 case .userNotVerified:
                     self?.showUserNotVerifiedAlert()
-                case .forbidden, .internalError, .network, .notFound, .tooManyRequests, .unauthorized, .serverError:
+                case .forbidden, .internalError, .network, .notFound, .tooManyRequests, .unauthorized, .serverError,
+                     .searchAlertError:
                     self?.showSendMessageError(withText: LGLocalizedString.chatSendErrorGeneric)
                 }
             }
@@ -857,7 +858,6 @@ extension ChatViewModel {
     }
 
     private func professionalSellerAfterMessageEventsFor(messageType: ChatWrapperMessageType?) {
-        guard featureFlags.allowCallsForProfessionals.isActive else { return }
         guard let listingId = conversation.value.listing?.objectId,
             !keyValueStorage.proSellerAlreadySentPhoneInChat.contains(listingId) else { return }
         guard let type = messageType else {
@@ -917,7 +917,8 @@ extension ChatViewModel {
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailTooManyRequests, completion: nil)
                 case .network:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorNetworkBody, completion: nil)
-                case .forbidden, .internalError, .notFound, .unauthorized, .userNotVerified, .serverError, .wsChatError:
+                case .forbidden, .internalError, .notFound, .unauthorized, .userNotVerified, .serverError, .wsChatError,
+                     .searchAlertError:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorGenericBody, completion: nil)
                 }
             } else {
@@ -1291,7 +1292,6 @@ extension ChatViewModel {
     var askPhoneMessage: ChatViewMessage? {
         guard let listingId = conversation.value.listing?.objectId,
             !keyValueStorage.proSellerAlreadySentPhoneInChat.contains(listingId),
-            featureFlags.allowCallsForProfessionals.isActive,
             shouldShowAskPhoneMessage else { return nil }
 
         let askPhoneAction: (() -> Void)? = { [weak self] in
@@ -1560,7 +1560,8 @@ fileprivate extension ChatViewModel {
             tracker.trackEvent(TrackerEvent.firstMessage(info: info,
                                                          listingVisitSource: .unknown,
                                                          feedPosition: .none,
-                                                         userBadge: badgeParameter))
+                                                         userBadge: badgeParameter,
+                                                         containsVideo: .notAvailable))
         }
         tracker.trackEvent(TrackerEvent.userMessageSent(info: info))
     }
@@ -1633,7 +1634,6 @@ fileprivate extension ChatViewModel {
         return sendMessageInfo
     }
 }
-
 
 // MARK: - Private ChatConversation Extension
 

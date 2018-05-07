@@ -23,6 +23,7 @@ protocol SettingsNavigator: class {
     func closeSettings()
     func open(url: URL)
     func openEditUserBio()
+    func openSettingsNotifications()
 }
 
 protocol ChangeUsernameNavigator: class {
@@ -47,6 +48,16 @@ protocol HelpNavigator: class {
 
 protocol EditUserBioNavigator: class {
     func closeEditUserBio()
+}
+
+protocol SettingsNotificationsNavigator: class {
+    func closeSettingsNotifications()
+    func openSearchAlertsList()
+}
+
+protocol SearchAlertsListNavigator: class {
+    func closeSearchAlertsList()
+    func openSearch()
 }
 
 protocol VerifyUserEmailNavigator: class {

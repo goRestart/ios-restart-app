@@ -139,7 +139,7 @@ enum ListingRouter: URLRequestAuthenticable {
                                              encoding: nil).asURLRequest()
         case let .update(listingId, params):
             return try Router<APIBaseURL>.update(endpoint: endpoint, objectId: listingId, params: params,
-                                             encoding: .url).asURLRequest()
+                                             encoding: .json).asURLRequest()
         case let .updateRealEstate(listingId, params):
             return try Router<RealEstateBaseURL>.update(endpoint: endpoint, objectId: listingId, params: params,
                                                         encoding: .json).asURLRequest()
@@ -151,7 +151,7 @@ enum ListingRouter: URLRequestAuthenticable {
         case let .showRealEstate(listingId):
             return try Router<RealEstateBaseURL>.show(endpoint: endpoint, objectId: listingId).asURLRequest()
         case let .create(params):
-            return try Router<APIBaseURL>.create(endpoint: endpoint, params: params, encoding: .url).asURLRequest()
+            return try Router<APIBaseURL>.create(endpoint: endpoint, params: params, encoding: .json).asURLRequest()
         case let .createRealEstate(params):
             return try Router<RealEstateBaseURL>.create(endpoint: endpoint, params: params, encoding: .json).asURLRequest()
         case let .createCar(params):

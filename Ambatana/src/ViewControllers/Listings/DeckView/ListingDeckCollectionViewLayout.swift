@@ -39,9 +39,6 @@ protocol ListingDeckCollectionViewLayoutDelegate: NSObjectProtocol {
 final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
      private struct Constants {
         static let minAlpha: CGFloat = 0.7
-        struct Height {
-            static let maximumCard: CGFloat = 560
-        }
      }
     private struct Defaults {
         static let itemsCount = 1
@@ -76,7 +73,7 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
 
     var cardSize: CGSize { return CGSize(width: cellWidth, height: cellHeight) }
     var cellWidth: CGFloat { return visibleWidth - 2*cellLayout.insets.left }
-    var cellHeight: CGFloat { return min(visibleHeight, Constants.Height.maximumCard) }
+    var cellHeight: CGFloat { return visibleHeight }
     var cardInsets: UIEdgeInsets { return cellLayout.insets }
     weak var delegate: ListingDeckCollectionViewLayoutDelegate?
 
