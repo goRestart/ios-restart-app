@@ -225,7 +225,7 @@ platform :ios do
     )
 
     rb_git_clone_clean()
-    bender message: "Tim says everything okey. New Version uploaded to app store: #{release_branch}", channels: [ENV[BENDER_DEFAULT_SLACK_CHANNEL], 'ios']
+    bender message: "Tim says everything okay. New Version uploaded to app store: #{release_branch}", channels: [ENV[BENDER_DEFAULT_SLACK_CHANNEL], 'ios']
   end
 
   desc "Will update Web Translate It with the new validated strings from google drive, download all the changes from wti and generate all not-yet valid strings on base + localizables file"
