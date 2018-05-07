@@ -415,7 +415,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         interestedButton.setImage(action.image, for: .normal)
         interestedButton.imageView?.contentMode = .scaleAspectFit
         interestedButton.imageView?.clipsToBounds = true
-        guard action != .none else { return }
+        interestedButton.isUserInteractionEnabled = action != .none
     }
     
     @objc private func callDelegateInterestedState() {
