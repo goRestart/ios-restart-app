@@ -5,6 +5,7 @@ require 'rubygems'
 require 'pp'
 require 'yaml'
 require 'colorize'
+require 'jira-ruby'
 require_relative './jirabureau'
 
 module KEYS

@@ -12,7 +12,7 @@ properties([
   try {
     stopPreviousRunningBuilds()
     if (branch_type == "master") {
-        launchJiraBot() 
+        markJiraIssuesAsDone() 
     } else {
         launchUnitTests()
     }
@@ -48,13 +48,18 @@ def stopPreviousRunningBuilds() {
   }
 }
 
-def launchJiraBot() {
+def markJiraIssuesAsDone() {
     node(node_name) {
         stage ("Move Tickets") {
-            withCredentials([usernamePassword(credentialsId: '79356c55-62e0-41c0-8a8c-85a56ad45e11', 
+		// we move to a secure folder with the repo already checked out
+		sh 'cd ~/Desktop/DONOTDELETE/letgo-ios'
+		sh 'git reset --hard HEAD'
+		sh 'git checkout master'
+		sh 'git pull origin master --rebase'
+		withCredentials([usernamePassword(credentialsId: '79356c55-62e0-41c0-8a8c-85a56ad45e11', 
                                               passwordVariable: 'IOS_JIRA_PASSWORD', 
                                               usernameVariable: 'IOS_JIRA_USERNAME')]) {
-                sh 'ruby Scripts/githooks/post-merge'
+                sh 'ruby ./Scripts/githooks/post-merge'
             }
         }
     }
