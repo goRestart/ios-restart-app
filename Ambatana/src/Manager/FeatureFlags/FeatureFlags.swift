@@ -1013,6 +1013,7 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.chatNorris
         }
         return  ChatNorris.fromPosition(abTests.chatNorris.value)
+    }
 
     var shouldChangeSellFasterNowCopyInEnglish: Bool {
         if Bumper.enabled {
