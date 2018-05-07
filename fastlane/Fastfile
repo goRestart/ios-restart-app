@@ -126,7 +126,7 @@ platform :ios do
 
     rb_git_clone_clean()
 
-    message = "New beta (#{version_number} - #{build_number}) ready @channel :tada:"
+    message = "New beta (#{version_number} - #{build_number}) ready @here :tada:"
     bender message: message, channels: [ENV["BENDER_DEFAULT_SLACK_CHANNEL"]]
   end
 
@@ -157,7 +157,7 @@ platform :ios do
       notes: "#{changelog}",
       groups: "letgo-testers"
     )
-    bender message: "New beta (#{version_number} - #{build_number}) ready @channel :tada:", channels: [ENV["BENDER_DEFAULT_SLACK_CHANNEL"]]
+    bender message: "New beta (#{version_number} - #{build_number}) ready @here :tada:", channels: [ENV["BENDER_DEFAULT_SLACK_CHANNEL"]]
   end
 
 
