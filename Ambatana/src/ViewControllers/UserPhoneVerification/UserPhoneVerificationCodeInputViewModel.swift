@@ -17,7 +17,10 @@ final class UserPhoneVerificationCodeInputViewModel: BaseViewModel {
     private var timer: Timer?
 
     enum ValidationState {
-        case none, validating, success, failure
+        case none
+        case validating
+        case success
+        case failure(message: String)
     }
 
     let phoneNumber: String
@@ -72,7 +75,7 @@ final class UserPhoneVerificationCodeInputViewModel: BaseViewModel {
             case .success:
                 self?.validationState.value = .success
             case .failure:
-                self?.validationState.value = .failure
+                self?.validationState.value = .failure(message: LGLocalizedString.phoneVerificationCodeInputViewErrorMessage)
             }
         }
     }
