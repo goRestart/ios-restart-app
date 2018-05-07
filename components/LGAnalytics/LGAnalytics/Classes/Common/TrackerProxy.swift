@@ -32,7 +32,9 @@ public final class TrackerProxy: Tracker {
     }
 
     private var gpsPermissionEnabled: Bool {
-       return locationManager.locationServiceStatus == .enabled(.authorized)
+       let result = locationManager.locationServiceStatus == .enabled(.authorizedAlways)
+        || locationManager.locationServiceStatus == .enabled(.authorizedWhenInUse)
+        return result
     }
 
     private let locationManager: LocationManager
@@ -146,7 +148,7 @@ public final class TrackerProxy: Tracker {
             switch event {
             case .changedPermissions:
                 self?.locationManagerDidChangePermissions()
-            case .locationUpdate:
+            case .locationUpdate, .emergencyLocationUpdate:
                 self?.setLocation(self?.locationManager.currentLocation, postalAddress: self?.locationManager.currentLocation?.postalAddress)
             case .movedFarFromSavedManualLocation:
                 break

@@ -54,7 +54,7 @@ public struct TrackerEvent {
         case .enabled(let authStatus):
             enabled = true
             switch authStatus {
-            case .authorized:
+            case .authorizedWhenInUse, .authorizedAlways:
                 allowed = true
             case .notDetermined, .restricted, .denied:
                 allowed = false
