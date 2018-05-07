@@ -63,8 +63,7 @@ platform :ios do
       ask_for_version_number: true,
     )
 
-    bender message:"Crafting beta #{Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER]} 🚀'", channels:[ENV["BENDER_DEFAULT_SLACK_CHANNEL"]]
-    bender message:"It's gonna be a though ride", channels: [ENV["BENDER_DEFAULT_SLACK_CHANNEL"]]
+    bender message:"Crafting beta #{Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER]} 🚀  \n It's gonna be a though ride", channels:[ENV["BENDER_DEFAULT_SLACK_CHANNEL"]]
  
     rb_git_clone(
       branch_name: Actions.lane_context[Actions::SharedValues::RB_INFO_BRANCH_NAME],
@@ -128,7 +127,7 @@ platform :ios do
     rb_git_clone_clean()
 
     message = "New beta (#{version_number} - #{build_number}) ready @channel :tada:"
-    bender message: message, channels: [ENV["BENDER_DEFAULT_SLACK_CHANNEL"], "ios"]
+    bender message: message, channels: [ENV["BENDER_DEFAULT_SLACK_CHANNEL"]]
   end
 
   desc "Build and distribute local code to Crashlytics"
@@ -158,7 +157,7 @@ platform :ios do
       notes: "#{changelog}",
       groups: "letgo-testers"
     )
-    bender message: "New beta (#{version_number} - #{build_number}) ready @channel :tada:", channels: [ENV["BENDER_DEFAULT_SLACK_CHANNEL"], 'ios']
+    bender message: "New beta (#{version_number} - #{build_number}) ready @channel :tada:", channels: [ENV["BENDER_DEFAULT_SLACK_CHANNEL"]]
   end
 
 
@@ -178,7 +177,7 @@ platform :ios do
 
     release_branch = ask("Release branch to deploy (release-x.x.x): ".yellow)
 
-    bender message: "Calling Tim Cook for App Store deployment", channels: [ENV[BENDER_DEFAULT_SLACK_CHANNEL]]
+    bender message: "Calling Tim Cook for App Store deployment (#{release_branch})", channels: [ENV[BENDER_DEFAULT_SLACK_CHANNEL]]
     rb_git_clone(
       branch_name: release_branch,
       clone_single_branch: false,
@@ -225,7 +224,7 @@ platform :ios do
     )
 
     rb_git_clone_clean()
-    bender message: "Tim says everything okay. New Version uploaded to app store: #{release_branch}", channels: [ENV[BENDER_DEFAULT_SLACK_CHANNEL], 'ios']
+    bender message: "Tim says everything okay. New Version uploaded to iTunes Connect: #{release_branch}", channels: [ENV[BENDER_DEFAULT_SLACK_CHANNEL]]
   end
 
   desc "Will update Web Translate It with the new validated strings from google drive, download all the changes from wti and generate all not-yet valid strings on base + localizables file"
@@ -282,7 +281,7 @@ platform :ios do
     channels.each do |channel|
       slack(
         message: message,
-        success: true,
+        success: defined?(options[:success]) ? options[:success] : true,
         channel: channel,
         default_payloads: [],
         icon_url: "https://cdn.iconscout.com/public/images/icon/premium/png-512/bender-robot-bot-technology-machine-34fbb8f5bb91b753-512x512.png"
