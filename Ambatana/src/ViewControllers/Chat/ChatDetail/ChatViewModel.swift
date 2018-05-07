@@ -116,7 +116,7 @@ class ChatViewModel: BaseViewModel {
     var predefinedMessage: String? // is writen in the text field when opening the chat
     var openChatAutomaticMessage: ChatWrapperMessageType?  // is SENT when opening the chat
     var professionalBannerHasCallAction: Bool {
-        return PhoneCallsHelper.deviceCanCall && featureFlags.allowCallsForProfessionals.isActive
+        return PhoneCallsHelper.deviceCanCall
     }
     fileprivate var hasSentAutomaticAnswerForPhoneMessage: Bool = false
     fileprivate var hasSentAutomaticAnswerForOtherMessage: Bool = false
@@ -858,7 +858,6 @@ extension ChatViewModel {
     }
 
     private func professionalSellerAfterMessageEventsFor(messageType: ChatWrapperMessageType?) {
-        guard featureFlags.allowCallsForProfessionals.isActive else { return }
         guard let listingId = conversation.value.listing?.objectId,
             !keyValueStorage.proSellerAlreadySentPhoneInChat.contains(listingId) else { return }
         guard let type = messageType else {
@@ -1293,7 +1292,6 @@ extension ChatViewModel {
     var askPhoneMessage: ChatViewMessage? {
         guard let listingId = conversation.value.listing?.objectId,
             !keyValueStorage.proSellerAlreadySentPhoneInChat.contains(listingId),
-            featureFlags.allowCallsForProfessionals.isActive,
             shouldShowAskPhoneMessage else { return nil }
 
         let askPhoneAction: (() -> Void)? = { [weak self] in

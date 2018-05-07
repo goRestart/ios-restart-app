@@ -159,7 +159,6 @@ extension SellCoordinator: PostListingNavigator {
         }
     }
     
-
     func startDetails(postListingState: PostListingState,
                       uploadedImageSource: EventParameterPictureSource?,
                       uploadedVideoLength: TimeInterval?,

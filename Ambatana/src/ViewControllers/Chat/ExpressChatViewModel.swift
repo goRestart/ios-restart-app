@@ -183,6 +183,7 @@ extension ExpressChatViewModel {
                                               freePostingModeAllowed: freePostingModeAllowed,
                                               containsEmoji: containsEmoji,
                                               error: nil) else { return }
+        let containsVideo = EventParameterBoolean(bool: listing.containsVideo())
         if shouldSendAskQuestion {
             let containsVideo = EventParameterBoolean(bool: listing.containsVideo())
             tracker.trackEvent(TrackerEvent.firstMessage(info: info,
