@@ -43,7 +43,6 @@ protocol FeatureFlaggeable: class {
     var showInactiveConversations: Bool { get }
     var increaseMinPriceBumps: IncreaseMinPriceBumps { get }
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers { get }
-    var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings { get }
     var newUserProfileView: NewUserProfileView { get }
     var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation { get }
     var searchImprovements: SearchImprovements { get }
@@ -178,10 +177,6 @@ extension RealEstateNewCopy {
 }
 
 extension DummyUsersInfoProfile {
-    var isActive: Bool { return self == .active }
-}
-
-extension ShowBumpUpBannerOnNotValidatedListings {
     var isActive: Bool { return self == .active }
 }
 
@@ -630,13 +625,6 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.noAdsInFeedForNewUsers
         }
         return NoAdsInFeedForNewUsers.fromPosition(abTests.noAdsInFeedForNewUsers.value)
-    }
-
-    var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings {
-        if Bumper.enabled {
-            return Bumper.showBumpUpBannerOnNotValidatedListings
-        }
-        return ShowBumpUpBannerOnNotValidatedListings.fromPosition(abTests.showBumpUpBannerOnNotValidatedListings.value)
     }
 
     var searchImprovements: SearchImprovements {
