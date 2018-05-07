@@ -33,7 +33,6 @@ extension Bumper  {
         flags.append(ShowInactiveConversations.self)
         flags.append(IncreaseMinPriceBumps.self)
         flags.append(NoAdsInFeedForNewUsers.self)
-        flags.append(ShowBumpUpBannerOnNotValidatedListings.self)
         flags.append(NewUserProfileView.self)
         flags.append(TurkeyBumpPriceVATAdaptation.self)
         flags.append(SearchImprovements.self)
@@ -169,11 +168,6 @@ extension Bumper  {
     static var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers {
         guard let value = Bumper.value(for: NoAdsInFeedForNewUsers.key) else { return .control }
         return NoAdsInFeedForNewUsers(rawValue: value) ?? .control 
-    }
-
-    static var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings {
-        guard let value = Bumper.value(for: ShowBumpUpBannerOnNotValidatedListings.key) else { return .control }
-        return ShowBumpUpBannerOnNotValidatedListings(rawValue: value) ?? .control 
     }
 
     static var newUserProfileView: NewUserProfileView {
@@ -628,22 +622,6 @@ enum NoAdsInFeedForNewUsers: String, BumperFeature  {
             case 2: return .adsEverywhere
             case 3: return .noAdsForNewUsers
             case 4: return .adsForNewUsersOnlyInFeed
-            default: return .control
-        }
-    }
-}
-
-enum ShowBumpUpBannerOnNotValidatedListings: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return ShowBumpUpBannerOnNotValidatedListings.control.rawValue }
-    static var enumValues: [ShowBumpUpBannerOnNotValidatedListings] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show the bump banner for listings pending validation" } 
-    static func fromPosition(_ position: Int) -> ShowBumpUpBannerOnNotValidatedListings {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
             default: return .control
         }
     }
@@ -1107,11 +1085,11 @@ enum SearchAlerts: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Subscription to searches and send alerts to user" } 
     static func fromPosition(_ position: Int) -> SearchAlerts {
-        switch position {
-        case 0: return .control
-        case 1: return .baseline
-        case 2: return .active
-        default: return .control
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
         }
     }
 }
@@ -1173,7 +1151,7 @@ enum RealEstateMap: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show Real Estate Map" } 
     static func fromPosition(_ position: Int) -> RealEstateMap {
-        switch position {
+        switch position { 
             case 0: return .control
             case 1: return .baseline
             case 2: return .active

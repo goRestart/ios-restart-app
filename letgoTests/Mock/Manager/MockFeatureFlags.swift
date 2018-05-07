@@ -42,7 +42,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var dummyUsersInfoProfile: DummyUsersInfoProfile = .control
     var showInactiveConversations: Bool = false
     var increaseMinPriceBumps: IncreaseMinPriceBumps = .control
-    var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings = .control
     var newUserProfileView: NewUserProfileView = .control
     var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation = .control
     var searchImprovements: SearchImprovements = .control
