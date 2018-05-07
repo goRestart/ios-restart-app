@@ -438,11 +438,6 @@ extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCard
         animatePlayButton(withAlpha: alpha)
     }
 
-    func cardViewDidScroll(_ cardView: ListingCardView, contentOffset: CGFloat) {
-        let alpha: CGFloat = contentOffset > Metrics.margin ? 0 : 1
-        animatePlayButton(withAlpha: alpha)
-    }
-
     func cardViewDidTapOnStatusView(_ cardView: ListingCardView) {
         guard cardView.tag == viewModel.currentIndex else { return }
         viewModel.didTapStatusView()
