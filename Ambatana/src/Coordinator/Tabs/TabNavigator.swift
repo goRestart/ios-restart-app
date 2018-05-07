@@ -56,6 +56,9 @@ protocol TabNavigator: class {
     func openRealEstateOnboarding(pages: [LGTutorialPage],
                                   origin: EventParameterTypePage,
                                   tutorialType: EventParameterTutorialType)
+    func showUndoBubble(withMessage message: String,
+                        duration: TimeInterval,
+                        withAction action: @escaping () -> ())
 }
 
 protocol ListingDetailNavigator: TabNavigator {
@@ -102,6 +105,8 @@ protocol ListingDetailNavigator: TabNavigator {
                           withPhoneNum: String?,
                           source: EventParameterTypePage,
                           interlocutor: User?)
+
+    func openVideoPlayer(atIndex index: Int, listingVM: ListingViewModel, source: EventParameterListingVisitSource) 
 }
 
 protocol SimpleProductsNavigator: class {

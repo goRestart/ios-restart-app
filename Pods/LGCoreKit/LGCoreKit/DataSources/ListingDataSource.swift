@@ -11,7 +11,8 @@ import Result
 
 typealias ListingsDataSourceCompletion = (Result<[Listing], ApiError>) -> Void
 
-typealias ListingDataSourceCompletion = (Result<Listing, ApiError>) -> Void
+typealias ListingDataSourceResult = Result<Listing, ApiError>
+typealias ListingDataSourceCompletion = (ListingDataSourceResult) -> Void
 typealias ListingDataSourceEmptyCompletion = (Result<Void, ApiError>) -> Void
 
 typealias ListingDataSourceUserRelationResult = Result<UserListingRelation, ApiError>
@@ -48,6 +49,9 @@ protocol ListingDataSource {
     
     func createListing(userId: String, listingParams: ListingCreationParams, completion: ListingDataSourceCompletion?)
     func updateListing(listingParams: ListingEditionParams, completion: ListingDataSourceCompletion?)
+    
+    func createListingCar(userId: String, listingParams: ListingCreationParams, completion: ListingDataSourceCompletion?)
+    func updateListingCar(listingParams: ListingEditionParams, completion: ListingDataSourceCompletion?)
 
     func delete(_ listingId: String, completion: ListingDataSourceEmptyCompletion?)
 

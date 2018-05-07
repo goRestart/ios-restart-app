@@ -332,12 +332,14 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         navbarSearch.beginEdit()
     }
     
-    /**
-        Called when the search button is pressed.
-    */
-    @objc private func filtersButtonPressed(_ sender: AnyObject) {
+    @objc func openFilters(_ sender: AnyObject) {
         navbarSearch.searchTextField.resignFirstResponder()
         viewModel.showFilters()
+    }
+    
+    @objc func openMap(_ sender: AnyObject) {
+        navbarSearch.searchTextField.resignFirstResponder()
+        viewModel.showMap()
     }
     
     private func setupTagsView() {
@@ -375,8 +377,8 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     }
     
     private func setFiltersNavBarButton() {
-        setLetGoRightButtonWith(imageName: viewModel.hasFilters ? "ic_filters_active" : "ic_filters",
-                                renderingMode: .alwaysOriginal, selector: "filtersButtonPressed:")
+        let buttons = viewModel.rightBarButtonsItems
+        setLetGoRightButtonsWith(images: buttons.map { $0.image }, selectors: buttons.map { $0.selector })
     }
     
     private func setInviteNavBarButton() {
@@ -538,7 +540,8 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
 
 // MARK: - ListingListViewHeaderDelegate
 
-extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermissionsHeaderDelegate, RealEstateBannerDelegate {
+extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermissionsHeaderDelegate,
+RealEstateBannerDelegate, SearchAlertFeedHeaderDelegate {
 
     func totalHeaderHeight() -> CGFloat {
         var totalHeight: CGFloat = 0
@@ -550,6 +553,9 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
         }
         if shouldShowRealEstateBanner {
             totalHeight += RealEstateBanner().intrinsicContentSize.height
+        }
+        if shouldShowSearchAlertBanner {
+            totalHeight += SearchAlertFeedHeader.viewHeight
         }
         return totalHeight
     }
@@ -588,6 +594,13 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
             realEstateBanner.delegate = self
             header.addHeader(realEstateBanner, height: height)
         }
+        
+        if shouldShowSearchAlertBanner, let searchAlertCreationData = viewModel.searchAlertCreationData.value {
+            let searchAlertHeader = SearchAlertFeedHeader(searchAlertCreationData: searchAlertCreationData)
+            searchAlertHeader.tag = 3
+            searchAlertHeader.delegate = self
+            header.addHeader(searchAlertHeader, height: SearchAlertFeedHeader.viewHeight)
+        }
     }
 
     private var shouldShowPermissionsBanner: Bool {
@@ -599,6 +612,9 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
     }
     private var shouldShowRealEstateBanner: Bool {
         return viewModel.mainListingsHeader.value.contains(MainListingsHeader.RealEstateBanner)
+    }
+    private var shouldShowSearchAlertBanner: Bool {
+        return viewModel.mainListingsHeader.value.contains(MainListingsHeader.SearchAlerts)
     }
     
     private func categoryHeaderDidSelect(category: CategoryHeaderInfo) {
@@ -614,6 +630,14 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
     
     func realEstateBannerPressed() {
         viewModel.navigator?.openSell(source: .realEstatePromo, postCategory: .realEstate)
+    }
+
+    func searchTextFieldReadyToSearch() {
+        navbarSearch.searchTextField.becomeFirstResponder()
+    }
+
+    func searchAlertFeedHeaderDidEnableSearchAlert(fromEnabled: Bool) {
+        viewModel.triggerSearchAlert(fromEnabled: fromEnabled)
     }
 }
 

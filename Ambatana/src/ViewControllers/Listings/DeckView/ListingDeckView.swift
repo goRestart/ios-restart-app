@@ -14,6 +14,11 @@ import RxCocoa
 
 final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewType {
     struct Layout {
+        // to center the play button with the page symbols
+        static let playButtonEdges = UIEdgeInsets(top: 11,
+                                                  left: 0,
+                                                  bottom: 0,
+                                                  right: 30)
         struct Height {
             static let previewFactor: CGFloat = 0.7
         }
@@ -29,7 +34,13 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
     private let bottomInsetView = UIView()
 
     let itemActionsView = ListingDeckActionView()
+    private let startPlayingButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(#imageLiteral(resourceName: "ic_videoposting_play"), for: .normal)
+        return button
+    }()
 
+    var rxStartPlayingButton: Reactive<UIButton> { return startPlayingButton.rx }
     var rxActionButton: Reactive<LetgoButton> { return itemActionsView.actionButton.rx }
 
     var currentPage: Int { return collectionLayout.page }
@@ -93,6 +104,21 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
         collectionView.bounces = true
         collectionView.alwaysBounceVertical = false
         collectionView.backgroundColor = UIColor.white
+
+        setupPlayableButton()
+    }
+
+    private func setupPlayableButton() {
+        addSubviewForAutoLayout(startPlayingButton)
+        NSLayoutConstraint.activate([
+            startPlayingButton.rightAnchor.constraint(equalTo: collectionView.rightAnchor,
+                                                      constant: -Layout.playButtonEdges.right),
+            startPlayingButton.topAnchor.constraint(equalTo: collectionView.topAnchor,
+                                                    constant: Layout.playButtonEdges.top),
+            startPlayingButton.widthAnchor.constraint(equalToConstant: 30),
+            startPlayingButton.heightAnchor.constraint(equalTo: startPlayingButton.widthAnchor)
+        ])
+        startPlayingButton.addTarget(self, action: #selector(bouncePlayingButton), for: .touchUpInside)
     }
 
     private func setupPrivateActionsView() {
@@ -113,6 +139,10 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
 
     func normalizedPageOffset(givenOffset: CGFloat) -> CGFloat {
         return collectionLayout.normalizedPageOffset(givenOffset: givenOffset)
+    }
+
+    func updatePlayButtonWith(alpha: CGFloat) {
+        startPlayingButton.alpha = alpha
     }
 
     func updatePrivateActionsWith(alpha: CGFloat) {
@@ -149,6 +179,10 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
 
     func setCollectionLayoutDelegate(_ delegate: ListingDeckCollectionViewLayoutDelegate) {
         collectionLayout.delegate = delegate
+    }
+
+    @objc private func bouncePlayingButton() {
+        startPlayingButton.bounce()
     }
 }
 

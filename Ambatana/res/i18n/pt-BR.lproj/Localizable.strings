@@ -410,6 +410,7 @@
 "hidden_phone_tag" = "[PHONE NUMBER HIDDEN]";
 "hidden_text_alert_description" = "We hide contact information to help you buy and sell safely. Chatting inside letgo is easy and more secure.";
 "hidden_text_alert_title" = "STAY SAFE";
+"listings_map_title" = "Map view";
 "location_permissions_allow_button" = "Allow";
 "location_permissions_bubble" = "0.1 mi from you";
 "location_permissions_button" = "Yes, Use my Location";
@@ -641,6 +642,8 @@
 "product_favorite_direct_message" = "I like it! Is it still available?";
 "product_favorite_login_popup_text" = "To favorite this listing, you have to log in";
 "product_free_price" = "Free";
+"product_interested_bubble_message" = "We've let the seller know that you're interested in buying this";
+"product_interested_undo" = "Undo";
 "product_is_mine_share_body" = "Check out what I'm selling on letgo!";
 "product_is_mine_share_body_free" = "Check out what I'm giving away on letgo!";
 "product_list_item_given_away_status_label" = "Already given away";
@@ -747,7 +750,8 @@
 "product_post_network_error" = "Your listing hasn't been posted.\nPlease check your network settings.";
 "product_post_price_label" = "Want to add a price?";
 "product_post_product_posted" = "Listing posted. Congrats!";
-"product_post_product_posted_not_logged" = "Photo Uploaded!";
+"product_post_product_posted_not_logged" = "Photo uploaded!";
+"product_post_product_posted_not_logged_video_posting" = "Video uploaded!";
 "product_post_retake" = "Retake";
 "product_post_retry_button" = "Try Again";
 "product_post_select_category_cars" = "Cars";
@@ -757,7 +761,8 @@
 "product_post_select_category_real_estate" = "Real Estate";
 "product_post_select_category_title" = "What are you posting?";
 "product_post_use_photo" = "Post";
-"product_post_use_photo_not_logged" = "Use Photo";
+"product_post_use_photo_not_logged" = "Use photo";
+"product_post_use_video_not_logged" = "Use video";
 "product_professional_call_button" = "Call";
 "product_professional_chat_button" = "Chat";
 "product_report_confirm_message" = "Are you sure you want to report this listing?";
@@ -1039,6 +1044,17 @@
 "reset_password_send_ok" = "We've sent an email to %@. Click the link in the email to reset your password!";
 "reset_password_send_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
 "reset_password_title" = "Reset password";
+"search_alert_delete_error_message" = "Oops! An error occurred while deleting your search alert.";
+"search_alert_disable_error_message" = "Oops! An error occurred while deactivating your search alert.";
+"search_alert_enable_error_message" = "Oops! An error occurred while activating your search alert.";
+"search_alert_error_too_many_button_text" = "Manage notifications";
+"search_alert_error_too_many_text" = "Oops! You've reached the maximum number of search alerts";
+"search_alerts_edit_button" = "Edit";
+"search_alerts_header_subtitle" = "Get notifications about new listings";
+"search_alerts_placeholder_empty_button" = "Start Searching";
+"search_alerts_placeholder_empty_text" = "Subscribe to searches to get notifications when new listings are posted.";
+"search_alerts_placeholder_error_button" = "Try Again";
+"search_alerts_placeholder_error_text" = "Oops! An error occurred while loading your search alerts";
 "sell_category_selection_label" = "Category";
 "sell_choose_category_dialog_cancel_button" = "Cancel";
 "sell_choose_category_dialog_title" = "Choose a category";

@@ -16,12 +16,6 @@ enum PostingFlowType: String {
     case turkish
 }
 
-enum BumpPriceVariationBucket: Int {
-    case defaultValue = 0
-    case minPriceIncreaseUSA = 2
-    case vatDecreaseTR = 4
-}
-
 protocol FeatureFlaggeable: class {
 
     var trackingData: Observable<[(String, ABGroup)]?> { get }
@@ -35,7 +29,6 @@ protocol FeatureFlaggeable: class {
     var freeBumpUpEnabled: Bool { get }
     var pricedBumpUpEnabled: Bool { get }
     var userReviewsReportEnabled: Bool { get }
-    var searchAutocomplete: SearchAutocomplete { get }
     var realEstateEnabled: RealEstateEnabled { get }
     var requestTimeOut: RequestsTimeOut { get }
     var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
@@ -58,7 +51,6 @@ protocol FeatureFlaggeable: class {
     var showChatSafetyTips: Bool { get }
     var onboardingIncentivizePosting: OnboardingIncentivizePosting { get }
     var discardedProducts: DiscardedProducts { get }
-    var promoteBumpInEdit: PromoteBumpInEdit { get }
     var userIsTyping: UserIsTyping { get }
     var bumpUpBoost: BumpUpBoost { get }
     var servicesCategoryEnabled: ServicesCategoryEnabled { get }
@@ -71,8 +63,9 @@ protocol FeatureFlaggeable: class {
     var showProTagUserProfile: Bool { get }
     var summaryAsFirstStep: SummaryAsFirstStep { get }
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem { get }
-    
+    var emergencyLocate: EmergencyLocate { get }
     var showExactLocationForPros: Bool { get }
+    var searchAlerts: SearchAlerts { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -82,7 +75,6 @@ protocol FeatureFlaggeable: class {
     var signUpEmailTermsAndConditionsAcceptRequired: Bool { get }
     var moreInfoDFPAdUnitId: String { get }
     var feedDFPAdUnitId: String? { get }
-    var bumpPriceVariationBucket: BumpPriceVariationBucket { get }
     func collectionsAllowedFor(countryCode: String?) -> Bool
     var shouldChangeChatNowCopyInTurkey: Bool { get }
     var copyForChatNowInTurkey: CopyForChatNowInTurkey { get }
@@ -94,13 +86,14 @@ protocol FeatureFlaggeable: class {
     var feedAdsProviderForTR:  FeedAdsProviderForTR { get }
     var shouldChangeSellFasterNowCopyInEnglish: Bool { get }
     var copyForSellFasterNowInEnglish: CopyForSellFasterNowInEnglish { get }
-    
+    var shouldShowIAmInterestedInFeed: IAmInterestedFeed { get }
+
     //  MARK: Verticals
     var searchCarsIntoNewBackend: SearchCarsIntoNewBackend { get }
     var realEstatePromoCell: RealEstatePromoCell { get }
     var filterSearchCarSellerType: FilterSearchCarSellerType { get }
     var createUpdateIntoNewBackend: CreateUpdateCarsIntoNewBackend { get }
-    
+    var realEstateMap: RealEstateMap { get }
 }
 
 extension FeatureFlaggeable {
@@ -207,10 +200,6 @@ extension OnboardingIncentivizePosting {
     var isActive: Bool { return self == .blockingPosting || self == .blockingPostingSkipWelcome }
 }
 
-extension PromoteBumpInEdit {
-    var isActive: Bool { return self != .control && self != .baseline }
-}
-
 extension UserIsTyping {
     var isActive: Bool { return self == .active }
 }
@@ -287,6 +276,10 @@ extension RealEstatePromoCell {
     var isActive: Bool { return self == .active }
 }
 
+extension RealEstateMap {
+    var isActive: Bool { return self != .baseline && self != .control }
+}
+
 extension FilterSearchCarSellerType {
     var isActive: Bool { return self != .baseline && self != .control }
     
@@ -297,10 +290,18 @@ extension FilterSearchCarSellerType {
 
 extension CreateUpdateCarsIntoNewBackend {
     var isActive: Bool { return self != .baseline && self != .control }
+    
+    func shouldUseCarEndpoint(with params: ListingCreationParams) -> Bool {
+        return isActive && params.isCarParams
+    }
+    func shouldUseCarEndpoint(with params: ListingEditionParams) -> Bool {
+        return isActive && params.isCarParams
+    }
 }
 
 extension MachineLearningMVP {
     var isActive: Bool { return self == .active }
+    var isVideoPostingActive: Bool { return self == .videoPostingActive }
 }
 
 extension ChatNorris {
@@ -315,7 +316,11 @@ extension ShowAdvancedReputationSystem {
     var isActive: Bool { return self == .active }
 }
 
-extension ShowPasswordlessLogin{
+extension ShowPasswordlessLogin {
+    var isActive: Bool { return self == .active }
+}
+
+extension EmergencyLocate {
     var isActive: Bool { return self == .active }
 }
 
@@ -398,6 +403,10 @@ extension CopyForChatNowInEnglish {
         } }
 }
 
+extension SearchAlerts {
+    var isActive: Bool { return self == .active }
+}
+
 extension CopyForSellFasterNowInEnglish {
     var isActive: Bool { return self != .control && self != .baseline }
     
@@ -417,14 +426,17 @@ extension CopyForSellFasterNowInEnglish {
     }
 }
 
-class FeatureFlags: FeatureFlaggeable {
+extension IAmInterestedFeed {
+    var isVisible: Bool { return self == .control || self == .baseline }
+}
 
+final class FeatureFlags: FeatureFlaggeable {
     static let sharedInstance: FeatureFlags = FeatureFlags()
 
     let requestTimeOut: RequestsTimeOut
 
     private let locale: Locale
-    private let locationManager: LocationManager
+    private var locationManager: LocationManager
     private let carrierCountryInfo: CountryConfigurable
     private let abTests: ABTests
     private let dao: FeatureFlagsDAO
@@ -480,6 +492,9 @@ class FeatureFlags: FeatureFlaggeable {
             dao.save(timeoutForRequests: TimeInterval(abTests.requestsTimeOut.value))
             dao.save(newUserProfile: NewUserProfileView.fromPosition(abTests.newUserProfileView.value))
             dao.save(showAdvanceReputationSystem: ShowAdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value))
+            dao.save(emergencyLocate: EmergencyLocate.fromPosition(abTests.emergencyLocate.value))
+            locationManager.shouldAskForBackgroundLocationPermission = EmergencyLocate.fromPosition(abTests.emergencyLocate.value).isActive
+            locationManager.startSensorLocationUpdates()
         }
         abTests.variablesUpdated()
     }
@@ -524,13 +539,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.userReviewsReportEnabled
         }
         return abTests.userReviewsReportEnabled.value
-    }
-    
-    var searchAutocomplete: SearchAutocomplete {
-        if Bumper.enabled {
-            return Bumper.searchAutocomplete
-        }
-        return SearchAutocomplete.fromPosition(abTests.searchAutocomplete.value)
     }
 
     var realEstateEnabled: RealEstateEnabled {
@@ -715,13 +723,6 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return ServicesCategoryEnabled.fromPosition(abTests.servicesCategoryEnabled.value)
     }
-
-    var promoteBumpInEdit: PromoteBumpInEdit {
-        if Bumper.enabled {
-            return Bumper.promoteBumpInEdit
-        }
-        return PromoteBumpInEdit.fromPosition(abTests.promoteBumpInEdit.value)
-    }
     
     var increaseNumberOfPictures: IncreaseNumberOfPictures {
         if Bumper.enabled {
@@ -765,7 +766,14 @@ class FeatureFlags: FeatureFlaggeable {
         let cached = dao.retrieveShowAdvanceReputationSystem()
         return cached ?? ShowAdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value)
     }
-
+    
+    var searchAlerts: SearchAlerts {
+        if Bumper.enabled {
+            return Bumper.searchAlerts
+        }
+        return SearchAlerts.fromPosition(abTests.searchAlerts.value)
+    }
+    
     var showExactLocationForPros: Bool {
         if Bumper.enabled {
             return Bumper.showExactLocationForPros
@@ -778,6 +786,14 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.showPasswordlessLogin
         }
         return ShowPasswordlessLogin.fromPosition(abTests.showPasswordlessLogin.value)
+    }
+
+    var emergencyLocate: EmergencyLocate {
+        if Bumper.enabled {
+            return Bumper.emergencyLocate
+        }
+        let cached = dao.retrieveEmergencyLocate()
+        return cached ?? EmergencyLocate.fromPosition(abTests.emergencyLocate.value)
     }
 
     // MARK: - Country features
@@ -893,39 +909,6 @@ class FeatureFlags: FeatureFlaggeable {
         }
     }
 
-    /**
-     This var is used to inform money BE of the ABtests realated to variations in bump prices
-     */
-    var bumpPriceVariationBucket: BumpPriceVariationBucket {
-        if Bumper.enabled {
-            if increaseMinPriceBumps.isActive {
-                return .minPriceIncreaseUSA
-            } else if turkeyBumpPriceVATAdaptation.isActive {
-                return .vatDecreaseTR
-            } else {
-                return .defaultValue
-            }
-        }
-        switch sensorLocationCountryCode {
-        case .usa?:
-            switch increaseMinPriceBumps {
-            case .control, .baseline:
-                return .defaultValue
-            case .active:
-                return .minPriceIncreaseUSA
-            }
-        case .turkey?:
-            switch turkeyBumpPriceVATAdaptation {
-            case .control, .baseline:
-                return .defaultValue
-            case .active:
-                return .vatDecreaseTR
-            }
-        default:
-            return .defaultValue
-        }
-    }
-
     var shouldChangeChatNowCopyInTurkey: Bool {
         if Bumper.enabled {
             return Bumper.copyForChatNowInTurkey.isActive
@@ -1022,6 +1005,13 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return CopyForChatNowInEnglish.fromPosition(abTests.copyForChatNowInEnglish.value)
     }
+
+    var shouldShowIAmInterestedInFeed: IAmInterestedFeed {
+        if Bumper.enabled {
+            return Bumper.iAmInterestedFeed
+        }
+        return IAmInterestedFeed.fromPosition(abTests.iAmInterestedInFeed.value)
+    }
     
     var feedAdsProviderForTR: FeedAdsProviderForTR {
         if Bumper.enabled {
@@ -1034,9 +1024,7 @@ class FeatureFlags: FeatureFlaggeable {
         if Bumper.enabled {
             return Bumper.chatNorris
         }
-        return ChatNorris.control
-        // TODO: restore the ABTests code when BE part is working 👇
-//        return  ChatNorris.fromPosition(abTests.chatNorris.value)
+        return  ChatNorris.fromPosition(abTests.chatNorris.value)
     }
     
     var shouldChangeSellFasterNowCopyInEnglish: Bool {
@@ -1106,6 +1094,17 @@ extension FeatureFlags {
         if Bumper.enabled {
             return Bumper.createUpdateCarsIntoNewBackend
         }
-        return CreateUpdateCarsIntoNewBackend.fromPosition(abTests.createUpdateCarsIntoNewBackend.value)
+        //  TODO: blocked - update when backend works
+        //  return CreateUpdateCarsIntoNewBackend.fromPosition(abTests.createUpdateCarsIntoNewBackend.value)
+        return .control
+    }
+    
+    var realEstateMap: RealEstateMap {
+        if Bumper.enabled {
+            return Bumper.realEstateMap
+        }
+        return .control
+        //  TODO: blocked - update when feature finish
+        //  return RealEstateMap.fromPosition(abTests.realEstateMap.value)
     }
 }

@@ -105,6 +105,16 @@ final class ListingApiDataSource: ListingDataSource {
             apiClient.request(request, decoder: ListingApiDataSource.realEstateDecoder, completion: completion)
         }
     }
+    
+    // TODO: remove with ABIOS-4026
+    func createListingCar(userId: String, listingParams: ListingCreationParams, completion: ListingDataSourceCompletion?) {
+        guard case .car(let carParams) = listingParams else {
+            completion?(Result(error: .internalError(description: "Wrong creation params type")))
+            return
+        }
+        let request: URLRequestAuthenticable = ListingRouter.createCar(params: carParams.apiCarCreationEncode(userId: userId))
+        apiClient.request(request, decoder: ListingApiDataSource.carDecoder, completion: completion)
+    }
 
     func updateListing(listingParams: ListingEditionParams, completion: ListingDataSourceCompletion?) {
         let request: URLRequestAuthenticable
@@ -119,6 +129,16 @@ final class ListingApiDataSource: ListingDataSource {
             request = ListingRouter.updateRealEstate(listingId: realEstateParams.realEstateId, params: realEstateParams.apiEditionEncode())
             apiClient.request(request, decoder: ListingApiDataSource.realEstateDecoder, completion: completion)
         }
+    }
+    
+    // TODO: remove with ABIOS-4026
+    func updateListingCar(listingParams: ListingEditionParams, completion: ListingDataSourceCompletion?) {
+        guard case .car(let carParams) = listingParams else {
+            completion?(Result(error: .internalError(description: "Wrong upadte params type")))
+            return
+        }
+        let request: URLRequestAuthenticable = ListingRouter.updateCar(listingId: carParams.carId, params: carParams.apiCarEditionEncode())
+        apiClient.request(request, decoder: ListingApiDataSource.carDecoder, completion: completion)
     }
 
     

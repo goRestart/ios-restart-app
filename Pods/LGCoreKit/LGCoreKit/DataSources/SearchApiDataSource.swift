@@ -30,10 +30,8 @@ class SearchApiDataSource: SearchDataSource {
     func retrieveSuggestiveSearches(language: String,
                                     limit: Int,
                                     term: String,
-                                    shouldIncludeCategories: Bool,
                                     completion: SuggestiveSearchesDataSourceCompletion?) {
-        let request = SearchRouter.retrieveSuggestiveSearches(params: ["language" : language, "limit" : limit, "term" : term],
-                                                              shouldIncludeCategories: shouldIncludeCategories)
+        let request = SearchRouter.retrieveSuggestiveSearches(params: ["language" : language, "limit" : limit, "term" : term])
         apiClient.request(request, decoder: SearchApiDataSource.decoderSuggestiveResult, completion: completion)
     }
 

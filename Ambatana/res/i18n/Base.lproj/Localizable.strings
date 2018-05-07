@@ -726,6 +726,12 @@
 // Common Confirm
 "common_confirm" = "Confirm";
 
+// Common Done
+"common_done" = "Done";
+
+// Common Edit
+"common_edit" = "Edit";
+
 // Common error
 "common_error" = "Error";
 
@@ -1222,6 +1228,9 @@
 
 // Alert when clicked hidden_something text
 "hidden_text_alert_description" = "We hide contact information to help you buy and sell safely. Chatting inside letgo is easy and more secure.";
+
+// Title for Listings Map View
+"listings_map_title" = "Map view";
 
 // Fake distance shown in a bubble in a fake product list in onboarding
 "location_permissions_bubble" = "0.1 mi from you";
@@ -1889,6 +1898,12 @@
 // Message to show on Free product
 "product_free_price" = "Free";
 
+// Text to be shown inside the bubble (similar as a push) to inform that a message was sent to the seller
+"product_interested_bubble_message" = "We've let the seller know that you're interested in buying this";
+
+// Text to be shown inside the bubble (similar as a push) to undo the message to the seller
+"product_interested_undo" = "Undo";
+
 // Text for chat with professional users button
 "product_professional_chat_button" = "Chat";
 
@@ -2226,7 +2241,10 @@
 "product_post_product_posted" = "Listing posted. Congrats!";
 
 // Confirmation BEFORE setting the price when not logged in
-"product_post_product_posted_not_logged" = "Photo Uploaded!";
+"product_post_product_posted_not_logged" = "Photo uploaded!";
+
+// Confirmation BEFORE setting the price when not logged in (video posting)
+"product_post_product_posted_not_logged_video_posting" = "Video uploaded!";
 
 // Retake photo button
 "product_post_retake" = "Retake";
@@ -2238,7 +2256,10 @@
 "product_post_use_photo" = "Post";
 
 // User photo button when not logged in
-"product_post_use_photo_not_logged" = "Use Photo";
+"product_post_use_photo_not_logged" = "Use photo";
+
+// User video button when not logged in
+"product_post_use_video_not_logged" = "Use video";
 
 // Product post category selection title
 "product_post_select_category_title" = "What are you posting?";
@@ -3146,6 +3167,33 @@
 
 // Subtitle for search alerts header
 "search_alerts_header_subtitle" = "Get notifications about new listings";
+
+// Text for empty search alerts view
+"search_alerts_placeholder_empty_text" = "Subscribe to searches to get notifications when new listings are posted.";
+
+// Text for empty search alerts view action button
+"search_alerts_placeholder_empty_button" = "Start Searching";
+
+// Text for error in search alerts view
+"search_alerts_placeholder_error_text" = "Oops! An error occurred while loading your search alerts";
+
+// Text for error in search alerts view action button
+"search_alerts_placeholder_error_button" = "Try Again";
+
+// Error message when search alert delete fails
+"search_alert_delete_error_message" = "Oops! An error occurred while deleting your search alert.";
+
+// Error message when search alert enable fails
+"search_alert_enable_error_message" = "Oops! An error occurred while activating your search alert.";
+
+// Error message when search alert disable fails
+"search_alert_disable_error_message" = "Oops! An error occurred while deactivating your search alert.";
+
+// text for error alert when max search alerts reached
+"search_alert_error_too_many_text" = "Oops! You've reached the maximum number of search alerts";
+
+// text for error alert button when max search alerts reached
+"search_alert_error_too_many_button_text" = "Manage notifications";
 
 // Sell category selection label. Check attached image "sell.png"
 "sell_category_selection_label" = "Category";

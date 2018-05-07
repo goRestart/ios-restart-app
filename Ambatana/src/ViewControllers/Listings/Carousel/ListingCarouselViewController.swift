@@ -108,6 +108,15 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     private var productOnboardingView: ListingDetailOnboardingView?
     private var didSetupAfterLayout = false
 
+    private var shouldShowPlayButton: Bool = false {
+        didSet { startPlayingButton.isHidden = !shouldShowPlayButton }
+    }
+    private let startPlayingButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(#imageLiteral(resourceName: "ic_videoposting_play"), for: .normal)
+        return button
+    }()
+
     private let moreInfoView: ListingCarouselMoreInfoView
     private let moreInfoAlpha = Variable<CGFloat>(1)
     private let moreInfoState = Variable<MoreInfoState>(.hidden)
@@ -179,7 +188,27 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         setupGradientView()
         setupCollectionRx()
         setupZoomRx()
+        if viewModel.shouldAddPlayButton {
+            setupPlayButton()
+        }
         setAccessibilityIds()
+    }
+
+    private func setupPlayButton() {
+        view.addSubviewForAutoLayout(startPlayingButton)
+        NSLayoutConstraint.activate([
+            startPlayingButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            startPlayingButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            startPlayingButton.widthAnchor.constraint(equalToConstant: 60),
+            startPlayingButton.heightAnchor.constraint(equalTo: startPlayingButton.widthAnchor)
+        ])
+        startPlayingButton.addTarget(self, action: #selector(openVideoPlayer), for: .touchUpInside)
+    }
+
+    @objc private func openVideoPlayer() {
+        startPlayingButton.bounce { [weak self] in
+            self?.viewModel.videoButtonTapped()
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -540,6 +569,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
                 if movement == .tap {
                     self?.finishedTransition()
                 }
+                self?.shouldShowPlayButton = self?.viewModel.isPlayable ?? false
                 strongSelf.returnCellToFirstImage()
             }
             .disposed(by: disposeBag)
@@ -625,7 +655,12 @@ extension ListingCarouselViewController {
                                                            viewModel.userInfo.asObservable(),
                                                            viewModel.ownerIsProfessional.asObservable(),
                                                            viewModel.ownerBadge.asObservable()) { ($0, $1, $2, $3) }
-        productAndUserInfos.bind { [weak self] (productInfo, userInfo, isProfessional, userBadge) in
+
+        productAndUserInfos.bind { [weak self]
+            (productInfo: ListingVMProductInfo?,
+            userInfo: ListingVMUserInfo?,
+            isProfessional: Bool,
+            userBadge: UserReputationBadge) in
             self?.userView.setupWith(userAvatar: userInfo?.avatar,
                                      userName: userInfo?.name,
                                      productTitle: productInfo?.title,
@@ -633,7 +668,7 @@ extension ListingCarouselViewController {
                                      userId: userInfo?.userId,
                                      isProfessional: isProfessional,
                                      userBadge: userBadge)
-            }.disposed(by: disposeBag)
+        }.disposed(by: disposeBag)
 
         viewModel.userInfo.asObservable().bind { [weak self] userInfo in
             self?.fullScreenAvatarView.alpha = 0
@@ -861,6 +896,7 @@ extension ListingCarouselViewController {
     private func finishedTransition() {
         showStatusBar()
     }
+
 }
 
 extension ListingCarouselViewController: UserViewDelegate {
@@ -968,6 +1004,7 @@ extension ListingCarouselViewController: ListingCarouselCellDelegate {
     func canScrollToNextPage() -> Bool {
         return moreInfoState.value == .hidden
     }
+
 }
 
 
@@ -1167,6 +1204,8 @@ extension ListingCarouselViewController: UICollectionViewDataSource, UICollectio
                                            indexPath: indexPath, imageDownloader: carouselImageDownloader,
                                            imageScrollDirection: viewModel.imageScrollDirection)
             carouselCell.delegate = self
+            carouselCell.tag = indexPath.row
+
 
             return carouselCell
     }
@@ -1397,6 +1436,7 @@ fileprivate extension ListingCarouselViewController {
         chatTextView.set(accessibilityId: .listingCarouselChatTextView)
         productStatusView.set(accessibilityId: .listingCarouselStatusView)
         directChatTable.accessibilityInspectionEnabled = false
+        startPlayingButton.set(accessibilityId: .listingCarouselPlayButton)
     }
 }
 

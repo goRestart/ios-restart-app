@@ -144,7 +144,6 @@ final class LGListingRepository: ListingRepository {
         }
     }
 
-
     func create(listingParams: ListingCreationParams, completion: ListingCompletion?) {
         guard let myUserId = myUserRepository.myUser?.objectId else {
             completion?(ListingResult(error: .internalError(message: "Missing objectId in MyUser")))
@@ -152,29 +151,40 @@ final class LGListingRepository: ListingRepository {
         }
 
         dataSource.createListing(userId: myUserId, listingParams: listingParams) { [weak self] result in
-            guard let strongSelf = self else { return }
-            var carResult: Result<Listing, ApiError>?
-            if var listing = result.value {
-                // Cache the listing in the limbo
-                if let listingId = listing.objectId {
-                    strongSelf.listingsLimboDAO.save(listingId)
-                }
-                switch listing {
-                case .car(let car):
-                    let newCar = LGCar(car: car)
-                    let carUpdated = strongSelf.fillCarAttributes(car: newCar)
-                    listing = Listing.car(carUpdated)
-                    carResult = Result(value: listing)
-                case .product, .realEstate:
-                    break
-                }
-                // Send event
-                strongSelf.eventBus.onNext(.create(listing))
-            }
-            handleApiResult(carResult ?? result, completion: completion)
+            self?.handleCreate(result, completion)
         }
     }
+    
+    func createCar(listingParams: ListingCreationParams, completion: ListingCompletion?) {
+        guard let myUserId = myUserRepository.myUser?.objectId else {
+            completion?(ListingResult(error: .internalError(message: "Missing objectId in MyUser")))
+            return
+        }
+        dataSource.createListingCar(userId: myUserId, listingParams: listingParams) { [weak self] result in
+            self?.handleCreate(result, completion)
+        }
+    }
+    
+    private func handleCreate(_ result: ListingDataSourceResult, _ completion: ListingCompletion?) {
 
+        var carResult: ListingDataSourceResult?
+        if var listing = result.value {
+            // Cache the listing in the limbo
+            if let listingId = listing.objectId {
+                listingsLimboDAO.save(listingId)
+            }
+            if case .car(let car) = listing {
+                let newCar = LGCar(car: car)
+                let carUpdated = updateCarAttributes(car: newCar)
+                listing = Listing.car(carUpdated)
+                carResult = Result(value: listing)
+            }
+            // Send event
+            eventBus.onNext(.create(listing))
+        }
+        handleApiResult(carResult ?? result, completion: completion)
+    }
+    
     func update(listingParams: ListingEditionParams, completion: ListingCompletion?) {
         guard listingParams.userId == myUserRepository.myUser?.objectId else {
             completion?(ListingResult(error: .internalError(message: "UserId doesn't match MyUser")))
@@ -182,23 +192,37 @@ final class LGListingRepository: ListingRepository {
         }
 
         dataSource.updateListing(listingParams: listingParams) { [weak self] result in
-            guard let strongSelf = self else { return }
-            var carResult: Result<Listing, ApiError>?
-            if var listing = result.value {
-                switch listing {
-                case .car(let car):
-                    let newCar = LGCar(car: car)
-                    let carUpdated = strongSelf.fillCarAttributes(car: newCar)
-                    listing = Listing.car(carUpdated)
-                    carResult = Result(value: listing)
-                case .product, .realEstate:
-                    break
-                }
-                // Send event
-                strongSelf.eventBus.onNext(.update(listing))
-            }
-            handleApiResult(carResult ?? result, completion: completion)
+            self?.handleUpdate(result, completion)
         }
+    }
+    
+    func updateCar(listingParams: ListingEditionParams, completion: ListingCompletion?) {
+        guard listingParams.userId == myUserRepository.myUser?.objectId else {
+            completion?(ListingResult(error: .internalError(message: "UserId doesn't match MyUser")))
+            return
+        }
+        
+        dataSource.updateListingCar(listingParams: listingParams) { [weak self] result in
+            self?.handleUpdate(result, completion)
+        }
+    }
+    
+    private func handleUpdate(_ result: ListingDataSourceResult, _ completion: ListingCompletion?) {
+        var carResult: ListingDataSourceResult?
+        if var listing = result.value {
+            switch listing {
+            case .car(let car):
+                let newCar = LGCar(car: car)
+                let carUpdated = updateCarAttributes(car: newCar)
+                listing = Listing.car(carUpdated)
+                carResult = Result(value: listing)
+            case .product, .realEstate:
+                break
+            }
+            // Send event
+            eventBus.onNext(.update(listing))
+        }
+        handleApiResult(carResult ?? result, completion: completion)
     }
 
     func delete(listingId: String, completion: ListingVoidCompletion?) {
@@ -374,7 +398,7 @@ final class LGListingRepository: ListingRepository {
                     case .product, .realEstate:
                         newListings.append(listing)
                     case .car(let car):
-                        let updatedCar = strongSelf.fillCarAttributes(car: car)
+                        let updatedCar = strongSelf.updateCarAttributes(car: car)
                         newListings.append(Listing.car(updatedCar))
                     }
                 }
@@ -459,7 +483,7 @@ final class LGListingRepository: ListingRepository {
                     case .product, .realEstate:
                         updatedListings.append(listing)
                     case .car(let car):
-                        let updatedCar = strongSelf.fillCarAttributes(car: car)
+                        let updatedCar = strongSelf.updateCarAttributes(car: car)
                         updatedListings.append(Listing.car(updatedCar))
                     }
                 }
@@ -482,7 +506,7 @@ final class LGListingRepository: ListingRepository {
         }
     }
     
-    private func fillCarAttributes(car: Car) -> Car {
+    private func updateCarAttributes(car: Car) -> Car {
         let mutableCar = LGCar(car: car)
         guard let makeId = car.carAttributes.makeId else { return car }
         let make = carsInfoRepository.retrieveMakeName(with: makeId)

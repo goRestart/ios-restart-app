@@ -2,7 +2,7 @@ import Result
 import RxSwift
 
 open class MockListingRepository: ListingRepository {
-
+    
     public var eventsPublishSubject = PublishSubject<ListingEvent>()
     
     public var indexResult: ListingsResult!
@@ -75,6 +75,8 @@ open class MockListingRepository: ListingRepository {
                            thumbnail: product.thumbnail,
                            thumbnailSize: product.thumbnailSize,
                            images: product.images,
+                           media: product.media,
+                           mediaThumbnail: product.mediaThumbnail,
                            user: product.user,
                            updatedAt: product.updatedAt,
                            createdAt: product.createdAt,
@@ -128,6 +130,10 @@ open class MockListingRepository: ListingRepository {
     public func create(listingParams: ListingCreationParams, completion: ListingCompletion?) {
         delay(result: listingResult, completion: completion)
     }
+    
+    public func createCar(listingParams: ListingCreationParams, completion: ListingCompletion?) {
+        delay(result: listingResult, completion: completion)
+    }
 
     public func create(product: Product,
                        images: [UIImage],
@@ -143,6 +149,10 @@ open class MockListingRepository: ListingRepository {
     }
 
     public func update(listingParams: ListingEditionParams, completion: ListingCompletion?) {
+        delay(result: listingResult, completion: completion)
+    }
+    
+    public func updateCar(listingParams: ListingEditionParams, completion: ListingCompletion?) {
         delay(result: listingResult, completion: completion)
     }
     

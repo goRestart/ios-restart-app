@@ -18,6 +18,7 @@ public class CarCreationParams: BaseListingParams {
                 location: LGLocationCoordinates2D,
                 postalAddress: PostalAddress,
                 images: [File],
+                videos: [Video],
                 carAttributes: CarAttributes) {
         self.carAttributes = carAttributes
         super.init(name: name,
@@ -28,7 +29,8 @@ public class CarCreationParams: BaseListingParams {
                    location: location,
                    postalAddress: postalAddress,
                    languageCode: Locale.current.identifier,
-                   images: images)
+                   images: images,
+                   videos: videos)
     }
     
     override func apiCreationEncode(userId: String) -> [String: Any] {
@@ -41,6 +43,22 @@ public class CarCreationParams: BaseListingParams {
         carAttributesDict["year"] = carAttributes.year ?? 0
         
         params["attributes"] = carAttributesDict
+        
+        return params
+    }
+    
+    
+    func apiCarCreationEncode(userId: String) -> [String: Any] {
+        
+        var params = super.apiCreationEncode(userId: userId)
+        params.removeValue(forKey: "price_flag")
+        
+        let carAttributesDict: [String: Any] = ["makeId": carAttributes.makeId ?? "",
+                                                "modelId" : carAttributes.modelId ?? "",
+                                                "year" : carAttributes.year ?? 0]
+        params["carAttributes"] = carAttributesDict
+        params["images"] = images.flatMap { $0.objectId }
+        params["priceFlag"] = price.priceFlag.rawValue
         
         return params
     }

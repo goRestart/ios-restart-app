@@ -61,6 +61,8 @@ enum EventName: String {
     case listingMarkAsUnsold                = "product-detail-unsold"
     case listingReport                      = "product-detail-report"
     case listingReportError                 = "product-detail-report-error"
+
+    case productDetailPlayVideo             = "product-detail-play-video"
     
     case listingSellYourStuffButton         = "product-sell-your-stuff-button"
     case listingSellStart                   = "product-sell-start"
@@ -97,6 +99,7 @@ enum EventName: String {
     case chatViewInactiveConversations      = "chat-view-inactive-conversations"
     case chatInactiveConversationsShown     = "chat-inactive-conversations-shown"
     case markMessagesAsRead                 = "mark-messages-as-read"
+    case undoMessageSent                    = "undo-sent-message"
 
     case profileVisit                       = "profile-visit"
     case profileEditStart                   = "profile-edit-start"
@@ -198,6 +201,8 @@ enum EventName: String {
 
     case assistantMeetingStart              = "assistant-meeting-start"
 
+    case searchAlertSwitchChanged           = "search-alert"
+
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
     
@@ -271,6 +276,7 @@ enum EventParameterName: String {
     case permissionGoToSettings = "permission-go-to-settings"
     case negotiablePrice      = "negotiable-price"
     case pictureSource        = "picture-source"
+    case videoLength          = "video-length"
     case editedFields         = "edited-fields"
     case newsletter           = "newsletter"
     case quickAnswer          = "quick-answer"
@@ -368,7 +374,9 @@ enum EventParameterName: String {
     case mostSearchedButton   = "most-searched-button"
     case photoViewerNumberOfPhotos   = "number-photos"
     case abandonStep          = "abandon-step"
+    case searchAlertSource    = "alert-source"
     case sellerReputationBadge = "seller-reputation-badge"
+    case isVideo              = "is-video"
     
     // Machine Learning
     case mlPredictiveFlow = "predictive-flow"
@@ -477,6 +485,7 @@ enum EventParameterNegotiablePrice: String {
 enum EventParameterPictureSource: String {
     case camera = "camera"
     case gallery = "gallery"
+    case videoCamera = "video-camera"
 }
 
 enum EventParameterSortBy: String {
@@ -920,6 +929,12 @@ enum EventParameterUserDidRateReason: String {
     case happy = "happy"
     case sad = "sad"
 }
+
+enum EventParameterSearchAlertSource: String {
+    case search = "search"
+    case settings = "settings"
+}
+
 
 enum EventParameterListingVisitSource {
     // https://ambatana.atlassian.net/wiki/spaces/MOB/pages/1114200/Parameters

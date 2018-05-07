@@ -12,10 +12,9 @@ enum SearchRouter: URLRequestAuthenticable {
 
     static let trendingSearchesBaseUrl = "/api/trending_searches"
     static let suggestiveSearchBaseUrl = "/search"
-    static let suggestiveSearchWithCategoriesBaseUrl = "/suggestions"
 
     case index(params: [String: Any])
-    case retrieveSuggestiveSearches(params: [String: Any], shouldIncludeCategories: Bool)
+    case retrieveSuggestiveSearches(params: [String: Any])
 
     var requiredAuthLevel: AuthLevel {
         return .nonexistent
@@ -27,10 +26,8 @@ enum SearchRouter: URLRequestAuthenticable {
         switch self {
         case let .index(params):
             return try Router<SearchProductsBaseURL>.index(endpoint: SearchRouter.trendingSearchesBaseUrl, params: params).asURLRequest()
-        case let .retrieveSuggestiveSearches(params, shouldIncludeCategories):
-            let endpoint = shouldIncludeCategories ?
-                SearchRouter.suggestiveSearchWithCategoriesBaseUrl : SearchRouter.suggestiveSearchBaseUrl
-            return try Router<SuggestiveSearchBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
+        case let .retrieveSuggestiveSearches(params):
+            return try Router<SuggestiveSearchBaseURL>.index(endpoint: SearchRouter.suggestiveSearchBaseUrl, params: params).asURLRequest()
         }
     }
 }

@@ -13,6 +13,8 @@ final class PostListingRedCamButtonFooter: UIView {
     static let cameraIconSide: CGFloat = 84
     
     let galleryButton = UIButton()
+    let photoButton = UIButton()
+    let videoButton = UIButton()
     let cameraButton = UIButton()
     let infoButton = UIButton()
     private let infoButtonIncluded: Bool
@@ -49,6 +51,23 @@ final class PostListingRedCamButtonFooter: UIView {
 // MARK: - PostListingFooter
 
 extension PostListingRedCamButtonFooter: PostListingFooter {
+    
+    func startRecording() {
+        // This view doesn't implement video posting, check VPPostListingRedCamFooter
+    }
+
+    func stopRecording() {
+        // This view doesn't implement video posting, check VPPostListingRedCamFooter
+    }
+
+    func updateToPhotoMode() {
+        // This view doesn't implement video posting, check VPPostListingRedCamFooter
+    }
+
+    func updateToVideoMode() {
+        // This view doesn't implement video posting, check VPPostListingRedCamFooter
+    }
+
     func update(scroll: CGFloat) {
         galleryButton.alpha = scroll
         infoButton.alpha = scroll
@@ -56,7 +75,11 @@ extension PostListingRedCamButtonFooter: PostListingFooter {
         let rightOffset = cameraButton.frame.width/2 + Metrics.margin
         let movement = width/2 - rightOffset
         cameraButtonCenterXConstraint?.constant = movement * (1.0 - scroll)
-    }   
+    }
+
+    func updateVideoRecordingDurationProgress(progress: CGFloat, remainingTime: TimeInterval) {
+        // This view doesn't implement video posting, check VPPostListingRedCamFooter
+    }
 }
 
 

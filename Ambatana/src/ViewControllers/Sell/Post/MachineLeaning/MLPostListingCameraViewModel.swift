@@ -93,7 +93,7 @@ class MLPostListingCameraViewModel: BaseViewModel {
         switch cameraState.value {
         case .pendingAskPermissions, .missingPermissions:
             checkCameraState()
-        case .takingPhoto, .preview, .capture:
+        case .takingPhoto, .recordingVideo, .previewPhoto, .previewVideo, .capture:
             break
         }
     }
@@ -107,7 +107,7 @@ class MLPostListingCameraViewModel: BaseViewModel {
 
     func closeButtonPressed() {
         switch cameraState.value {
-        case .takingPhoto, .preview:
+        case .takingPhoto, .recordingVideo, .previewPhoto, .previewVideo:
             retryPhotoButtonPressed()
         case .missingPermissions, .pendingAskPermissions, .capture:
             cameraDelegate?.productCameraCloseButton()
@@ -134,7 +134,7 @@ class MLPostListingCameraViewModel: BaseViewModel {
 
     func photoTaken(_ photo: UIImage) {
         imageSelected.value = photo
-        cameraState.value = .preview
+        cameraState.value = .previewPhoto
     }
 
     func retryPhotoButtonPressed() {
@@ -154,7 +154,7 @@ class MLPostListingCameraViewModel: BaseViewModel {
             UIApplication.shared.openURL(settingsUrl)
         case .pendingAskPermissions:
             askForPermissions()
-        case .takingPhoto, .capture, .preview:
+        case .takingPhoto, .recordingVideo, .capture, .previewPhoto, .previewVideo:
             break
         }
     }
@@ -183,7 +183,7 @@ class MLPostListingCameraViewModel: BaseViewModel {
                 strongSelf.infoSubtitle.value = LGLocalizedString.productPostCameraPermissionsSubtitle
                 strongSelf.infoButton.value = LGLocalizedString.productPostCameraPermissionsButton
                 strongSelf.infoShown.value = true
-            case .takingPhoto, .preview:
+            case .takingPhoto, .previewPhoto, .previewVideo, .recordingVideo:
                 strongSelf.infoShown.value = false
             case .capture:
                 strongSelf.infoShown.value = false
@@ -317,7 +317,7 @@ class MLPostListingCameraViewModel: BaseViewModel {
             askForPermissions()
         case .capture:
             showFirstTimeAlertIfNeeded()
-        case .takingPhoto, .preview, .missingPermissions:
+        case .takingPhoto, .recordingVideo, .previewPhoto, .previewVideo, .missingPermissions:
             break
         }
     }
@@ -342,7 +342,7 @@ extension CameraState {
         switch self {
         case .pendingAskPermissions, .missingPermissions, .capture:
             return false
-        case .preview, .takingPhoto:
+        case .previewPhoto, .previewVideo, .takingPhoto, .recordingVideo:
             return true
         }
     }

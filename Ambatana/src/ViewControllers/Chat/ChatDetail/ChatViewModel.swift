@@ -329,9 +329,9 @@ class ChatViewModel: BaseViewModel {
         if firstTime {
             retrieveRelatedListings()
             setupExpressChat()
+            refreshChat()
         }
 
-        refreshChat()
         trackVisit()
     }
 
@@ -812,7 +812,8 @@ extension ChatViewModel {
                     }
                 case .userNotVerified:
                     self?.showUserNotVerifiedAlert()
-                case .forbidden, .internalError, .network, .notFound, .tooManyRequests, .unauthorized, .serverError:
+                case .forbidden, .internalError, .network, .notFound, .tooManyRequests, .unauthorized, .serverError,
+                     .searchAlertError:
                     self?.showSendMessageError(withText: LGLocalizedString.chatSendErrorGeneric)
                 }
             }
@@ -917,7 +918,8 @@ extension ChatViewModel {
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailTooManyRequests, completion: nil)
                 case .network:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorNetworkBody, completion: nil)
-                case .forbidden, .internalError, .notFound, .unauthorized, .userNotVerified, .serverError, .wsChatError:
+                case .forbidden, .internalError, .notFound, .unauthorized, .userNotVerified, .serverError, .wsChatError,
+                     .searchAlertError:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorGenericBody, completion: nil)
                 }
             } else {
@@ -1560,7 +1562,8 @@ fileprivate extension ChatViewModel {
             tracker.trackEvent(TrackerEvent.firstMessage(info: info,
                                                          listingVisitSource: .unknown,
                                                          feedPosition: .none,
-                                                         userBadge: badgeParameter))
+                                                         userBadge: badgeParameter,
+                                                         containsVideo: .notAvailable))
         }
         tracker.trackEvent(TrackerEvent.userMessageSent(info: info))
     }
@@ -1633,7 +1636,6 @@ fileprivate extension ChatViewModel {
         return sendMessageInfo
     }
 }
-
 
 // MARK: - Private ChatConversation Extension
 

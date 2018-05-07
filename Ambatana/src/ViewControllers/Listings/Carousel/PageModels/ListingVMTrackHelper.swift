@@ -33,8 +33,13 @@ extension ListingViewModel {
                                                    EventParameterBoolean.falseParameter
         let badge = seller.value?.reputationBadge ?? .noBadge
         let sellerBadge = EventParameterUserBadge(userBadge: badge)
-        trackHelper.trackVisit(visitUserAction, source: source, feedPosition: feedPosition,
-                               isShowingFeaturedStripe: isBumpedUp, sellerBadge: sellerBadge)
+        let containsVideo = EventParameterBoolean(bool: listing.value.containsVideo())
+        trackHelper.trackVisit(visitUserAction,
+                               source: source,
+                               feedPosition: feedPosition,
+                               isShowingFeaturedStripe: isBumpedUp,
+                               sellerBadge: sellerBadge,
+                               containsVideo: containsVideo)
     }
 
     func trackVisitMoreInfo(isMine: EventParameterBoolean,
@@ -144,6 +149,10 @@ extension ListingViewModel {
 
     func trackOpenFeaturedInfo() {
         trackHelper.trackOpenFeaturedInfo()
+    }
+
+    func trackPlayVideo(source: EventParameterListingVisitSource) {
+        trackHelper.trackPlayVideo(source: source)
     }
 }
 
@@ -273,13 +282,15 @@ extension ProductVMTrackHelper {
                     source: EventParameterListingVisitSource,
                     feedPosition: EventParameterFeedPosition,
                     isShowingFeaturedStripe: EventParameterBoolean,
-                    sellerBadge: EventParameterUserBadge) {
+                    sellerBadge: EventParameterUserBadge,
+                    containsVideo: EventParameterBoolean) {
         let trackerEvent = TrackerEvent.listingDetailVisit(listing,
                                                            visitUserAction: visitUserAction,
                                                            source: source,
                                                            feedPosition: feedPosition,
                                                            isBumpedUp: isShowingFeaturedStripe,
-                                                           sellerBadge: sellerBadge)
+                                                           sellerBadge: sellerBadge,
+                                                           containsVideo: containsVideo)
         tracker.trackEvent(trackerEvent)
     }
 
@@ -390,7 +401,8 @@ extension ProductVMTrackHelper {
                           isShowingFeaturedStripe: Bool,
                           listingVisitSource: EventParameterListingVisitSource,
                           feedPosition: EventParameterFeedPosition,
-                          sellerBadge: EventParameterUserBadge) {
+                          sellerBadge: EventParameterUserBadge,
+                          containsVideo: EventParameterBoolean) {
         guard let info = buildSendMessageInfo(withType: messageType,
                                               isShowingFeaturedStripe: isShowingFeaturedStripe,
                                               error: nil) else { return }
@@ -399,7 +411,8 @@ extension ProductVMTrackHelper {
             tracker.trackEvent(TrackerEvent.firstMessage(info: info,
                                                          listingVisitSource: listingVisitSource,
                                                          feedPosition: feedPosition,
-                                                         userBadge: sellerBadge))
+                                                         userBadge: sellerBadge,
+                                                         containsVideo: containsVideo))
         }
         tracker.trackEvent(TrackerEvent.userMessageSent(info: info))
     }
@@ -426,5 +439,10 @@ extension ProductVMTrackHelper {
             sendMessageInfo.set(error: error.chatError)
         }
         return sendMessageInfo
+    }
+
+    func trackPlayVideo(source: EventParameterListingVisitSource) {
+        let trackerEvent = TrackerEvent.listingDetailPlayVideo(listing, source: source)
+        tracker.trackEvent(trackerEvent)
     }
 }

@@ -41,6 +41,7 @@ class BlockingPostingListingEditionViewModel: BaseViewModel {
     private var listing: Listing
     private let images: [UIImage]
     private let imageSource: EventParameterPictureSource
+    private let videoLength: TimeInterval?
     private let postingSource: PostingSource
     
     var state = Variable<ListingEditionState?>(nil)
@@ -51,7 +52,7 @@ class BlockingPostingListingEditionViewModel: BaseViewModel {
     // MARK: - Lifecycle
 
     convenience init(listingParams: ListingEditionParams, listing: Listing, images: [UIImage],
-                     imageSource: EventParameterPictureSource, postingSource: PostingSource) {
+                     imageSource: EventParameterPictureSource, videoLength: TimeInterval?, postingSource: PostingSource) {
         self.init(listingRepository: Core.listingRepository,
                   tracker: TrackerProxy.sharedInstance,
                   featureFlags: FeatureFlags.sharedInstance,
@@ -59,6 +60,7 @@ class BlockingPostingListingEditionViewModel: BaseViewModel {
                   listing: listing,
                   images: images,
                   imageSource: imageSource,
+                  videoLength: videoLength,
                   postingSource: postingSource)
     }
 
@@ -69,6 +71,7 @@ class BlockingPostingListingEditionViewModel: BaseViewModel {
          listing: Listing,
          images: [UIImage],
          imageSource: EventParameterPictureSource,
+         videoLength: TimeInterval?,
          postingSource: PostingSource) {
         self.listingRepository = listingRepository
         self.tracker = tracker
@@ -78,6 +81,7 @@ class BlockingPostingListingEditionViewModel: BaseViewModel {
         self.images = images
         self.imageSource = imageSource
         self.postingSource = postingSource
+        self.videoLength = videoLength
         super.init()
     }
 
@@ -86,7 +90,9 @@ class BlockingPostingListingEditionViewModel: BaseViewModel {
     
     func updateListing() {
         state.value = .updatingListing
-        listingRepository.update(listingParams: listingParams) { [weak self] result in
+        let shouldUseCarEndpoint = featureFlags.createUpdateIntoNewBackend.shouldUseCarEndpoint(with: listingParams)
+        let updateAction = listingRepository.updateAction(shouldUseCarEndpoint)
+        updateAction(listingParams) { [weak self] result in
             if let responseListing = result.value {
                 self?.listing = responseListing
                 self?.state.value = .success
@@ -103,6 +109,7 @@ class BlockingPostingListingEditionViewModel: BaseViewModel {
         navigator?.openListingPosted(listing: listing,
                                      images: images,
                                      imageSource: imageSource,
+                                     videoLength: videoLength,
                                      postingSource: postingSource)
     }
     
@@ -118,6 +125,7 @@ class BlockingPostingListingEditionViewModel: BaseViewModel {
         let trackingInfo = PostListingTrackingInfo(buttonName: .close,
                                                    sellButtonPosition: postingSource.sellButtonPosition,
                                                    imageSource: imageSource,
+                                                   videoLength: videoLength,
                                                    price: String.fromPriceDouble(listing.price.value),
                                                    typePage: postingSource.typePage,
                                                    mostSearchedButton: postingSource.mostSearchedButton,
@@ -128,6 +136,7 @@ class BlockingPostingListingEditionViewModel: BaseViewModel {
                                                      sellButtonPosition: trackingInfo.sellButtonPosition,
                                                      negotiable: trackingInfo.negotiablePrice,
                                                      pictureSource: trackingInfo.imageSource,
+                                                     videoLength: trackingInfo.videoLength,
                                                      freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                      typePage: trackingInfo.typePage,
                                                      mostSearchedButton: trackingInfo.mostSearchedButton,
