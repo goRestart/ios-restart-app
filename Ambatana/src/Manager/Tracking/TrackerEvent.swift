@@ -401,6 +401,7 @@ struct TrackerEvent {
                                    feedPosition: EventParameterFeedPosition,
                                    isBumpedUp: EventParameterBoolean,
                                    sellerBadge: EventParameterUserBadge,
+                                   isMine: EventParameterBoolean,
                                    containsVideo: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
         params.addListingParams(listing)
@@ -409,6 +410,7 @@ struct TrackerEvent {
         params[.feedPosition] = feedPosition.value
         params[.isBumpedUp] = isBumpedUp.rawValue
         params[.sellerReputationBadge] = sellerBadge.rawValue
+        params[.isMine] = isMine.rawValue
         params[.isVideo] = containsVideo.rawValue
         return TrackerEvent(name: .listingDetailVisit, params: params)
     }
