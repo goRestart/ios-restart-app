@@ -10,7 +10,10 @@ import LGCoreKit
 import RxSwift
 
 class ListingCarouselViewController: KeyboardViewController, AnimatableTransition {
-
+    private struct Layout {
+        static let pageControlArbitraryTopMargin: CGFloat = 40
+        static let pageControlArbitraryWidth: CGFloat = 50
+    }
     @IBOutlet weak var imageBackground: UIImageView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -95,6 +98,9 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
 
 
     private let pageControl: UIPageControl
+    private var pageControlWidth: NSLayoutConstraint?
+    private var pageControlTopMargin: NSLayoutConstraint?
+
     private var moreInfoTooltip: Tooltip?
 
     private let collectionContentOffset = Variable<CGPoint>(CGPoint.zero)
@@ -270,7 +276,6 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         guard !didSetupAfterLayout else { return } // Already setup, just do nothing
-
         if let animator = animator {
             if animator.toViewValidatedFrame {
                 setupAfterLayout(backgroundImage: animator.fromViewSnapshot, activeAnimator: animator.active)
@@ -318,15 +323,8 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     // MARK: Setup
 
     func addSubviews() {
-        mainViewBlurEffectView.translatesAutoresizingMaskIntoConstraints = false
-        imageBackground.addSubview(mainViewBlurEffectView)
-        view.addSubview(pageControl)
-        fullScreenAvatarEffectView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(fullScreenAvatarEffectView)
-        userView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(userView)
-        fullScreenAvatarView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(fullScreenAvatarView)
+        imageBackground.addSubviewForAutoLayout(mainViewBlurEffectView)
+        view.addSubviewsForAutoLayout([pageControl, fullScreenAvatarEffectView, userView, fullScreenAvatarView])
     }
 
     func setupUI() {
@@ -348,7 +346,23 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         collectionView.alwaysBounceHorizontal = false
         automaticallyAdjustsScrollViewInsets = false
 
-        CarouselUIHelper.setupPageControl(pageControl, topBarHeight: topBarHeight)
+        let pcWidth = pageControl.widthAnchor.constraint(equalToConstant: Layout.pageControlArbitraryWidth)
+        let pcTopMargin = pageControl.centerYAnchor.constraint(equalTo: safeTopAnchor,
+                                                               constant: Layout.pageControlArbitraryTopMargin)
+
+        NSLayoutConstraint.activate([
+            pageControl.centerXAnchor.constraint(equalTo: view.leftAnchor, constant: CarouselUI.pageControlMargin),
+            pageControl.heightAnchor.constraint(equalToConstant: Metrics.bigMargin),
+            pcTopMargin, pcWidth
+        ])
+        pageControlWidth = pcWidth
+        pageControlTopMargin = pcTopMargin
+
+        pageControl.cornerRadius = CarouselUI.pageControlWidth/2
+        pageControl.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi / 2))
+        pageControl.backgroundColor = UIColor.black.withAlphaComponent(0.2)
+        pageControl.currentPageIndicatorTintColor = .white
+        pageControl.hidesForSinglePage = true
 
         mainViewBlurEffectView.layout(with: imageBackground).fill()
         fullScreenAvatarEffectView.layout(with: view).fill()
@@ -645,8 +659,11 @@ extension ListingCarouselViewController {
             guard let pageControl = self?.pageControl else { return }
             pageControl.currentPage = 0
             pageControl.numberOfPages = images.count
-            pageControl.frame.size = CGSize(width: CarouselUI.pageControlWidth, height:
-                pageControl.size(forNumberOfPages: images.count).width + CarouselUI.pageControlWidth)
+
+            let width = pageControl.size(forNumberOfPages: images.count).width + CarouselUI.pageControlWidth
+            self?.pageControlWidth?.constant = width
+            self?.pageControlTopMargin?.constant = width / 2.0
+
         }.disposed(by: disposeBag)
     }
 
