@@ -143,7 +143,6 @@ extension ABTests {
 extension ABTests {
     var increaseMinPriceBumps: LeanplumABVariable<Int> { return money.increaseMinPriceBumps }
     var noAdsInFeedForNewUsers: LeanplumABVariable<Int> { return money.noAdsInFeedForNewUsers }
-    var showBumpUpBannerOnNotValidatedListings: LeanplumABVariable<Int> { return money.showBumpUpBannerOnNotValidatedListings }
     var copyForChatNowInTurkey: LeanplumABVariable<Int> { return money.copyForChatNowInTurkey }
     var turkeyBumpPriceVATAdaptation: LeanplumABVariable<Int> { return money.turkeyBumpPriceVATAdaptation }
     var showProTagUserProfile: LeanplumABVariable<Bool> { return money.showProTagUserProfile }
