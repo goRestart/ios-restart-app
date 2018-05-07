@@ -215,6 +215,7 @@
 "chat_send_error_generic" = "Hiba történt az üzenet küldése során. Próbálkozz újra.";
 "chat_stickers_tooltip_new" = "ÚJ!";
 "chat_unblock_user" = "Blokkolás feloldása";
+"chat_user_info_letgo_assistant" = "I'm a virtual assistant that gives you tips and helps you sell.";
 "chat_user_info_name" = "Szia, %@ vagyok";
 "chat_user_info_verified_with" = "Visszaigazolva ezzel: ";
 "chat_user_rating_button_tooltip" = "Felhasználó értékelése";
@@ -573,6 +574,7 @@
 "phone_verification_code_input_view_content_subtext" = "Új kódot kérhetsz, ha %@ után sem érkezik meg";
 "phone_verification_code_input_view_content_subtitle" = "Ide küldtük: %@";
 "phone_verification_code_input_view_content_title" = "Add meg a 6 jegyű kódot";
+"phone_verification_code_input_view_error_message" = "Oops! An error occurred while validating the code. Please try again.";
 "phone_verification_code_input_view_title" = "Telefonos hitelesítés";
 "phone_verification_code_input_view_validated_failure" = "A megadott megerősítő kód érvénytelen.";
 "phone_verification_code_input_view_validated_success" = "Telefonszám megerősítve!";
@@ -583,6 +585,7 @@
 "phone_verification_number_input_view_confirmation_title" = "Köszönjük! Visszajelzésed sokat segít!";
 "phone_verification_number_input_view_continue_button" = "Continue";
 "phone_verification_number_input_view_description" = "Kelts bizalmat telefonszámod megerősítésével";
+"phone_verification_number_input_view_error_message" = "Oops! An error occurred while sending the text message. Please try again.";
 "phone_verification_number_input_view_sending_message" = "Üzenet küldése...";
 "phone_verification_number_input_view_textfield_placeholder" = "Telefonszám";
 "phone_verification_number_input_view_title" = "Telefonos hitelesítés";

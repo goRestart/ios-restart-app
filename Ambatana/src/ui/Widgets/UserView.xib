@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -111,6 +112,13 @@
                         <constraint firstItem="3PK-NL-M1r" firstAttribute="bottom" secondItem="nSf-FG-uxy" secondAttribute="top" id="zbn-K4-arb"/>
                     </constraints>
                 </view>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_karma_badge_active" translatesAutoresizingMaskIntoConstraints="NO" id="B7v-dn-eET">
+                    <rect key="frame" x="30" y="30" width="20" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="B7v-dn-eET" secondAttribute="height" multiplier="1:1" id="3YK-WF-Yqp"/>
+                        <constraint firstAttribute="width" constant="20" id="TC7-V7-gW8"/>
+                    </constraints>
+                </imageView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
@@ -121,10 +129,12 @@
                 <constraint firstAttribute="trailing" secondItem="ZlW-xO-9bZ" secondAttribute="trailing" constant="10" id="Pfm-rM-5cB"/>
                 <constraint firstAttribute="bottom" secondItem="LGU-BV-Hk5" secondAttribute="bottom" id="Pjq-5g-571"/>
                 <constraint firstItem="j4c-6K-nbq" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="QOa-wF-hRO"/>
+                <constraint firstItem="B7v-dn-eET" firstAttribute="trailing" secondItem="j4c-6K-nbq" secondAttribute="trailing" id="g30-lH-1xE"/>
                 <constraint firstItem="LGU-BV-Hk5" firstAttribute="width" secondItem="j4c-6K-nbq" secondAttribute="width" id="iU0-dZ-ei8"/>
                 <constraint firstAttribute="bottom" secondItem="j4c-6K-nbq" secondAttribute="bottom" id="pQY-Bk-hA4"/>
                 <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="ZlW-xO-9bZ" secondAttribute="bottom" id="tzw-1S-hPh"/>
                 <constraint firstItem="ZlW-xO-9bZ" firstAttribute="centerY" secondItem="j4c-6K-nbq" secondAttribute="centerY" id="upr-W8-gHt"/>
+                <constraint firstItem="B7v-dn-eET" firstAttribute="bottom" secondItem="j4c-6K-nbq" secondAttribute="bottom" id="ypB-1h-Crk"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <nil key="simulatedTopBarMetrics"/>
@@ -138,6 +148,7 @@
                 <outlet property="textInfoContainer" destination="ZlW-xO-9bZ" id="cvk-xM-JrR"/>
                 <outlet property="titleLabel" destination="3PK-NL-M1r" id="4SY-vn-3GN"/>
                 <outlet property="userAvatarImageView" destination="j4c-6K-nbq" id="hry-vN-n8T"/>
+                <outlet property="userBadgeImageView" destination="B7v-dn-eET" id="C3A-PR-WlM"/>
                 <outletCollection property="avatarMarginConstraints" destination="FdU-AC-bEm" collectionClass="NSMutableArray" id="fow-Jq-VRv"/>
                 <outletCollection property="avatarMarginConstraints" destination="QOa-wF-hRO" collectionClass="NSMutableArray" id="UdT-sU-uwR"/>
                 <outletCollection property="avatarMarginConstraints" destination="pQY-Bk-hA4" collectionClass="NSMutableArray" id="jbC-bB-wZ6"/>
@@ -145,6 +156,7 @@
         </view>
     </objects>
     <resources>
+        <image name="ic_karma_badge_active" width="30" height="30"/>
         <image name="ic_star" width="30" height="30"/>
         <image name="ic_star_filled" width="30" height="30"/>
         <image name="pro_tag" width="49" height="18"/>

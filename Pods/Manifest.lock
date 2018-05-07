@@ -32,7 +32,7 @@ PODS:
   - FBSDKShareKit (4.29.0):
     - FBSDKCoreKit
   - FLEX (2.4.0)
-  - Google-Mobile-Ads-SDK (7.24.1)
+  - Google-Mobile-Ads-SDK (7.30.0)
   - GoogleIDFASupport (3.14.0)
   - GoogleSignIn (4.1.1):
     - GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)
@@ -59,7 +59,7 @@ PODS:
   - KMPlaceholderTextView (1.3.0)
   - Leanplum-iOS-SDK (2.0.5)
   - LGCollapsibleLabel (1.2.0)
-  - LGCoreKit (4.19.6):
+  - LGCoreKit (4.24.0):
     - Alamofire (~> 4.5.1)
     - CocoaLumberjack/Swift (~> 3.3.0)
     - DeviceGuru (~> 3.0.1)
@@ -137,14 +137,14 @@ DEPENDENCIES:
   - FBSDKLoginKit (= 4.29.0)
   - FBSDKShareKit (= 4.29.0)
   - FLEX (= 2.4.0)
-  - Google-Mobile-Ads-SDK (= 7.24.1)
+  - Google-Mobile-Ads-SDK (= 7.30.0)
   - GoogleIDFASupport (= 3.14.0)
   - GoogleSignIn (= 4.1.1)
   - KeychainSwift (= 10.0.0)
   - KMPlaceholderTextView (from `https://github.com/letgoapp/KMPlaceholderTextView`, commit `426117c98e8da8fc7d64a7d3c2f0f45c48d595e6`)
   - Leanplum-iOS-SDK (= 2.0.5)
   - LGCollapsibleLabel (= 1.2.0)
-  - LGCoreKit (= 4.19.6)
+  - LGCoreKit (= 4.24.0)
   - lottie-ios (= 2.5.0)
   - mopub-ios-sdk (= 4.20.0)
   - NewRelicAgent (= 6.1.1)
@@ -157,7 +157,7 @@ DEPENDENCIES:
   - RxSwiftExt (= 3.0.0)
   - RxTest (= 4.0.0)
   - SwiftyGif (= 4.1.0)
-  - SwiftyUserDefaults (from `https://github.com/Dschee/SwiftyUserDefaults`, commit `dd3d8ddc5bf95db09b66185182b5a555ac59efd5`)
+  - SwiftyUserDefaults (= 3.0.1)
 
 EXTERNAL SOURCES:
   bumper:
@@ -169,9 +169,6 @@ EXTERNAL SOURCES:
   KMPlaceholderTextView:
     :commit: 426117c98e8da8fc7d64a7d3c2f0f45c48d595e6
     :git: https://github.com/letgoapp/KMPlaceholderTextView
-  SwiftyUserDefaults:
-    :commit: dd3d8ddc5bf95db09b66185182b5a555ac59efd5
-    :git: https://github.com/Dschee/SwiftyUserDefaults
 
 CHECKOUT OPTIONS:
   bumper:
@@ -183,9 +180,6 @@ CHECKOUT OPTIONS:
   KMPlaceholderTextView:
     :commit: 426117c98e8da8fc7d64a7d3c2f0f45c48d595e6
     :git: https://github.com/letgoapp/KMPlaceholderTextView
-  SwiftyUserDefaults:
-    :commit: dd3d8ddc5bf95db09b66185182b5a555ac59efd5
-    :git: https://github.com/Dschee/SwiftyUserDefaults
 
 SPEC CHECKSUMS:
   Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
@@ -205,7 +199,7 @@ SPEC CHECKSUMS:
   FBSDKLoginKit: 56a057ca6822535ea0faa25f57a7c41edb697fd4
   FBSDKShareKit: 18a2cd118aef11dd657fe7e8b64bae5c719088b2
   FLEX: bd1a39e55b56bb413b6f1b34b3c10a0dc44ef079
-  Google-Mobile-Ads-SDK: ed8004a7265b424568dc84f3d2bbe3ea3fff958f
+  Google-Mobile-Ads-SDK: 7404f68120ae8682afeb5af001fbf4aad731c78e
   GoogleIDFASupport: aaf8c10bd429abb1c15349d5252244f5eda8ead1
   GoogleSignIn: 3fdaa34a2ba04dbd7a25d7db39aecb0da98d5bdc
   GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
@@ -216,7 +210,7 @@ SPEC CHECKSUMS:
   KMPlaceholderTextView: 2bbcd19a273648a80a61e1e48f9743a24d8930e3
   Leanplum-iOS-SDK: d7d387b7f3688e697f2893978bfe67092df5b7ca
   LGCollapsibleLabel: 2a5ebb0ff0ff3e1d7ab0c295a17c923db000f557
-  LGCoreKit: 3ba48b8de7062c9539fa48ddcd5e36350971a63d
+  LGCoreKit: 80d2dfd22c56e1629c74e01526c45c99a519e07e
   lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
   mopub-ios-sdk: 89c6ac9ca01d3b36e9fba16a6cfe31d3c290d354
   NewRelicAgent: 652434a627201e3745cd5849228feeb10afe1879
@@ -233,8 +227,8 @@ SPEC CHECKSUMS:
   RxTest: 0041e792cede35e53e4749f378d21482af0e9d12
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   SwiftyGif: d36c6dfb52e2ca1e48fe349d225f50ec4123ec85
-  SwiftyUserDefaults: 38267a30d58b7c8570995cd5defd354e43f056c6
+  SwiftyUserDefaults: 3d273b1739b68ada3145dc754a70ec775bc5c8be
 
-PODFILE CHECKSUM: a9d310a1b0f8b08a728178d8723a4ebc19057e03
+PODFILE CHECKSUM: b8cbe788aeb9f2bcd84b081bc1ff278077351197
 
 COCOAPODS: 1.4.0

@@ -740,7 +740,7 @@ Fabric: Copyright 2017 Google, Inc. All Rights Reserved. Use of this software is
 
 ## Google-Mobile-Ads-SDK
 
-Copyright 2017 Google
+Copyright 2018 Google
 
 ## GoogleIDFASupport
 

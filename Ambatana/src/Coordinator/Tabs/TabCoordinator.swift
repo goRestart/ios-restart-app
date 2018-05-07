@@ -193,7 +193,7 @@ fileprivate extension TabCoordinator {
                         self?.navigationController.showAutoFadingOutMessageAlert(LGLocalizedString.commonErrorConnectionFailed)
                     }
                 case .internalError, .unauthorized, .tooManyRequests, .userNotVerified, .serverError,
-                     .wsChatError:
+                     .wsChatError, .searchAlertError:
                     self?.navigationController.dismissLoadingMessageAlert {
                         self?.navigationController.showAutoFadingOutMessageAlert(LGLocalizedString.commonProductNotAvailable)
                     }
@@ -380,7 +380,7 @@ fileprivate extension TabCoordinator {
                 case .network:
                     message = LGLocalizedString.commonErrorConnectionFailed
                 case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError,
-                     .wsChatError:
+                     .wsChatError, .searchAlertError:
                     message = LGLocalizedString.commonUserNotAvailable
                 }
                 self?.navigationController.dismissLoadingMessageAlert {
@@ -477,7 +477,7 @@ fileprivate extension TabCoordinator {
         case .network:
             message = LGLocalizedString.commonErrorConnectionFailed
         case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError,
-             .wsChatError:
+             .wsChatError, .searchAlertError:
             message = LGLocalizedString.commonChatNotAvailable
         }
         navigationController.showAutoFadingOutMessageAlert(message)
@@ -877,7 +877,7 @@ extension TabCoordinator {
     func trackProductNotAvailable(source: EventParameterListingVisitSource, repositoryError: RepositoryError) {
         var reason: EventParameterNotAvailableReason
         switch repositoryError {
-        case .internalError, .wsChatError:
+        case .internalError, .wsChatError, .searchAlertError:
             reason = .internalError
         case .notFound:
             reason = .notFound

@@ -215,6 +215,7 @@
 "chat_send_error_generic" = "Ett fel uppstod när meddelandet sändes. Vänligen försök igen.";
 "chat_stickers_tooltip_new" = "NY!";
 "chat_unblock_user" = "Avblockera användare";
+"chat_user_info_letgo_assistant" = "I'm a virtual assistant that gives you tips and helps you sell.";
 "chat_user_info_name" = "Hej, jag heter %@";
 "chat_user_info_verified_with" = "Verifierad med: ";
 "chat_user_rating_button_tooltip" = "Bedöm denna användare";
@@ -573,6 +574,7 @@
 "phone_verification_code_input_view_content_subtext" = "Du kan begära en ny kod om du inte har fått den inom %@";
 "phone_verification_code_input_view_content_subtitle" = "Vi har skickat den till %@";
 "phone_verification_code_input_view_content_title" = "Ange den 6-siffriga koden";
+"phone_verification_code_input_view_error_message" = "Oops! An error occurred while validating the code. Please try again.";
 "phone_verification_code_input_view_title" = "Verifikationsnummer";
 "phone_verification_code_input_view_validated_failure" = "Din verifikationskod är ogiltig.";
 "phone_verification_code_input_view_validated_success" = "Telefonnumret har verifierats!";
@@ -583,6 +585,7 @@
 "phone_verification_number_input_view_confirmation_title" = "Tack!";
 "phone_verification_number_input_view_continue_button" = "Gå vidare";
 "phone_verification_number_input_view_description" = "Skapa förtroende genom att verifiera ditt telefonnummer";
+"phone_verification_number_input_view_error_message" = "Oops! An error occurred while sending the text message. Please try again.";
 "phone_verification_number_input_view_sending_message" = "Textmeddelandet skickas...";
 "phone_verification_number_input_view_textfield_placeholder" = "Telefonnummer";
 "phone_verification_number_input_view_title" = "Verifikationsnummer";

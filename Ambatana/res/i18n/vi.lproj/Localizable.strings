@@ -215,6 +215,7 @@
 "chat_send_error_generic" = "Có lỗi xảy ra trong khi gửi tin nhắn. Xin vui lòng thử lại.";
 "chat_stickers_tooltip_new" = "MỚI!";
 "chat_unblock_user" = "Bỏ chặn Người dùng";
+"chat_user_info_letgo_assistant" = "I'm a virtual assistant that gives you tips and helps you sell.";
 "chat_user_info_name" = "Xin chào, tôi là %@";
 "chat_user_info_verified_with" = "Xác nhận bằng: ";
 "chat_user_rating_button_tooltip" = "Đánh giá người dùng này";
@@ -573,6 +574,7 @@
 "phone_verification_code_input_view_content_subtext" = "Bạn có thể yêu cầu một mã khác nếu bạn không nhận được mã trong %@";
 "phone_verification_code_input_view_content_subtitle" = "Chúng tôi vừa gửi tới %@";
 "phone_verification_code_input_view_content_title" = "Nhập mã 6 chữ số";
+"phone_verification_code_input_view_error_message" = "Oops! An error occurred while validating the code. Please try again.";
 "phone_verification_code_input_view_title" = "Xác thực số điện thoại";
 "phone_verification_code_input_view_validated_failure" = "Mã xác nhận bạn nhập không chính xác.";
 "phone_verification_code_input_view_validated_success" = "Đã xác minh số điện thoại!";
@@ -583,6 +585,7 @@
 "phone_verification_number_input_view_confirmation_title" = "Cảm ơn bạn!";
 "phone_verification_number_input_view_continue_button" = "Tiếp tục";
 "phone_verification_number_input_view_description" = "Xây dựng lòng tin bằng việc xác thực số điện thoại của bạn";
+"phone_verification_number_input_view_error_message" = "Oops! An error occurred while sending the text message. Please try again.";
 "phone_verification_number_input_view_sending_message" = "Đang gửi tin nhắn…";
 "phone_verification_number_input_view_textfield_placeholder" = "Số Điện thoại";
 "phone_verification_number_input_view_title" = "Xác thực số điện thoại";

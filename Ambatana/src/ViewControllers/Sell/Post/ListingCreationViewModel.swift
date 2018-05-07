@@ -51,7 +51,9 @@ class ListingCreationViewModel : BaseViewModel {
     }
     
     func createListing() {
-        listingRepository.create(listingParams: listingParams) { [weak self] result in
+        let shouldUseCarEndpoint = featureFlags.createUpdateIntoNewBackend.shouldUseCarEndpoint(with: listingParams)
+        let createAction = listingRepository.createAction(shouldUseCarEndpoint)
+        createAction(listingParams) { [weak self] result in
             if let listing = result.value, let trackingInfo = self?.trackingInfo {
                 self?.trackPost(withListing: listing, trackingInfo: trackingInfo)
             } else if let error = result.error {
@@ -98,7 +100,7 @@ class ListingCreationViewModel : BaseViewModel {
         switch error {
         case .network:
             sellError = .network
-        case .serverError, .notFound, .forbidden, .unauthorized, .tooManyRequests, .userNotVerified:
+        case .serverError, .notFound, .forbidden, .unauthorized, .tooManyRequests, .userNotVerified, .searchAlertError:
             sellError = .serverError(code: error.errorCode)
         case .internalError, .wsChatError:
             sellError = .internalError

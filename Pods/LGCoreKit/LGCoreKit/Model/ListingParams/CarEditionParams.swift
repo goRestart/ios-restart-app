@@ -39,6 +39,10 @@ public class CarEditionParams: CarCreationParams {
         return super.apiCreationEncode(userId: userId)
     }
     
+    func apiCarEditionEncode() -> [String: Any] {
+        return super.apiCarCreationEncode(userId: userId)
+    }
+    
     static private func createCarParams(withListing listing: Listing) -> Car {
         let car = LGCar(objectId: listing.objectId,
                         updatedAt: listing.updatedAt,

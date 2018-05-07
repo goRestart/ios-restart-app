@@ -201,6 +201,8 @@ enum EventName: String {
 
     case assistantMeetingStart              = "assistant-meeting-start"
 
+    case searchAlertSwitchChanged           = "search-alert"
+
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
     
@@ -372,9 +374,10 @@ enum EventParameterName: String {
     case mostSearchedButton   = "most-searched-button"
     case photoViewerNumberOfPhotos   = "number-photos"
     case abandonStep          = "abandon-step"
+    case searchAlertSource    = "alert-source"
+    case sellerReputationBadge = "seller-reputation-badge"
     case isVideo              = "is-video"
-    
-    
+
     // Machine Learning
     case mlPredictiveFlow = "predictive-flow"
     case mlPredictionActive = "prediction-active"
@@ -927,6 +930,12 @@ enum EventParameterUserDidRateReason: String {
     case sad = "sad"
 }
 
+enum EventParameterSearchAlertSource: String {
+    case search = "search"
+    case settings = "settings"
+}
+
+
 enum EventParameterListingVisitSource {
     // https://ambatana.atlassian.net/wiki/spaces/MOB/pages/1114200/Parameters
     // (FWI SEO parameters are for web, we don't need to add them here)
@@ -1219,6 +1228,7 @@ enum EventParamenterLocationTypePage: String {
 enum EventParameterAdType: String {
     case dfp = "dfp"
     case moPub = "moPub"
+    case adx = "adx"
 }
 
 enum EventParameterAdQueryType: String {
@@ -1338,6 +1348,20 @@ enum EventParameterMostSearched: String {
 
 enum EventParameterTutorialType: String {
     case realEstate = "real-estate"
+}
+
+enum EventParameterUserBadge: String {
+    case noBadge = ""
+    case gold = "gold"
+    case silver = "silver"
+
+    init(userBadge: UserReputationBadge) {
+        switch userBadge {
+        case .noBadge: self = .noBadge
+        case .gold: self = .gold
+        case .silver: self = .silver
+        }
+    }
 }
 
 struct EventParameters {

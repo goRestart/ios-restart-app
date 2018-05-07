@@ -373,6 +373,9 @@
 // Change email already registered
 "change_email_error_already_registered" = "This email address is already registered. Please enter a different one.";
 
+// Information regarding the asssitant of letgo
+"chat_user_info_letgo_assistant" = "I'm a virtual assistant that gives you tips and helps you sell.";
+
 "chat_message_type_not_supported" = "This message isn't compatible with your app version. Update your app now to unlock the newest features!";
 
 // Chat inactive conversations cell
@@ -2618,6 +2621,9 @@
 // Text shown in the alert to explain that the sms has been sent. (+34 611111111)
 "phone_verification_number_input_view_confirmation_message" = "We sent a text message with a verification code to +%@ %@";
 
+// Text shown when something goes wrong trying to send a sms to the user
+"phone_verification_number_input_view_error_message" = "Oops! An error occurred while sending the text message. Please try again.";
+
 // Title shown in the navigation bar as a screen title in the second screen of the phone verification.
 "phone_verification_code_input_view_title" = "Number verification";
 
@@ -2641,6 +2647,9 @@
 
 // Text shown when sms code has been verified unsuccessfully.
 "phone_verification_code_input_view_validated_failure" = "The verification code you entered is incorrect.";
+
+// Text shown when something goes wrong trying to validate the code
+"phone_verification_code_input_view_error_message" = "Oops! An error occurred while validating the code. Please try again.";
 
 // Text shown in the navigation bar  as a screen title in the country picker view.
 "phone_verification_country_picker_view_title" = "Country list";

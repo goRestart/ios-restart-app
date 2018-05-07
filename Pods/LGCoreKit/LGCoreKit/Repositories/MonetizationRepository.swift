@@ -33,7 +33,6 @@ public protocol MonetizationRepository {
     var events: Observable<MonetizationEvent> { get }
     
     func retrieveBumpeableListingInfo(listingId: String,
-                                      withHigherMinimumPrice minPriceVersion: Int,
                                       completion: BumpeableListingCompletion?)
     func freeBump(forListingId listingId: String, itemId: String, completion: BumpCompletion?)
     func pricedBump(forListingId listingId: String, paymentId: String, letgoItemId: String?, receiptData: String,

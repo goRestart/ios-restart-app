@@ -36,9 +36,13 @@ final class ListingCardUserView: UIView {
         struct Height {
             static let userIcon: CGFloat = 34.0
             static let intrinsic: CGFloat = 64.0 // totally arbitrary
+            static let userBadge: CGFloat = 20.0
         }
         struct Width { static let shareButton: CGFloat = 28 }
-        struct Spacing { static let betweenButtons: CGFloat = 20 }
+        struct Spacing {
+            static let betweenButtons: CGFloat = 20
+            static let betweenAvatarAndBadge: CGFloat = 3
+        }
     }
 
     override var intrinsicContentSize: CGSize { return CGSize(width: UIViewNoIntrinsicMetric,
@@ -50,9 +54,7 @@ final class ListingCardUserView: UIView {
 
     private let userIcon = UIButton(type: .custom)
     private let userNameLabel = UILabel()
-
-    private let effect: UIBlurEffect = UIBlurEffect(style: .dark)
-    let effectView: UIVisualEffectView
+    private let userBadgeImageView = UIImageView()
 
     private let actionLayoutGuide = UILayoutGuide()
     private let actionButton = UIButton()
@@ -61,7 +63,6 @@ final class ListingCardUserView: UIView {
     convenience init() { self.init(frame: .zero) }
 
     override init(frame: CGRect) {
-        effectView = UIVisualEffectView(effect: effect)
         rxShareButton = shareButton.rx
         rxActionButton = actionButton.rx
         rxUserIcon = userIcon.rx
@@ -75,14 +76,15 @@ final class ListingCardUserView: UIView {
     func populate(withUserName userName: String,
                   placeholder: UIImage?,
                   icon: URL?,
-                  imageDownloader: ImageDownloaderType) {
+                  imageDownloader: ImageDownloaderType,
+                  badgeType: UserReputationBadge) {
         userNameLabel.text = userName
         actionButton.tintColor = .white
+        userBadgeImageView.isHidden = badgeType == .noBadge
         guard let url = icon else {
             userIcon.setBackgroundImage(placeholder ?? Images.placeholder, for: .normal)
             return
         }
-
         userIcon.tag = tag
         imageDownloader.downloadImageWithURL(url, completion: { [weak  self] (result, url) in
             if let value = result.value,
@@ -120,33 +122,14 @@ final class ListingCardUserView: UIView {
     }
 
     private func setupUI() {
-        setupBlur()
-        setupGradient()
         setupUserIcon()
         setupUserInfo()
         setupActions()
-    }
-
-    private func setupBlur() {
-        effectView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(effectView)
-        effectView.layout(with: self).fill()
-        effectView.backgroundColor = UIColor.clear
-
-        effectView.alpha = 0
-    }
-
-    private func setupGradient() {
-        let gradient = GradientView(colors: [UIColor.black.withAlphaComponent(0), UIColor.black.withAlphaComponent(0.2)])
-        gradient.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(gradient)
-        gradient.layout(with: self).fill()
+        setupUserBadge()
     }
 
     private func setupUserIcon() {
-        userIcon.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(userIcon)
-        userIcon.setBackgroundImage(Images.placeholder, for: .normal)
+        addSubviewForAutoLayout(userIcon)
         userIcon.layout(with: self)
             .top(by: Metrics.margin)
             .leading(by: Metrics.margin).bottom(by: -Metrics.margin)
@@ -156,13 +139,25 @@ final class ListingCardUserView: UIView {
         userIcon.clipsToBounds = true
     }
 
+    private func setupUserBadge() {
+        addSubviewForAutoLayout(userBadgeImageView)
+        userBadgeImageView.image = #imageLiteral(resourceName: "ic_karma_badge_active")
+        userBadgeImageView.contentMode = .scaleAspectFit
+        userBadgeImageView.isHidden = true
+        userBadgeImageView
+            .layout(with: userIcon)
+            .trailing(by: Layout.Spacing.betweenAvatarAndBadge)
+            .bottom(by: Layout.Spacing.betweenAvatarAndBadge)
+        userBadgeImageView.layout().width(Layout.Height.userBadge).widthProportionalToHeight()
+    }
+
     private func setupUserInfo() {
-        userNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(userNameLabel)
+        addSubviewForAutoLayout(userNameLabel)
         userNameLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
         userNameLabel.setContentHuggingPriority(.required, for: .vertical)
 
-        userNameLabel.layout(with: userIcon)
+        userNameLabel
+            .layout(with: userIcon)
             .leading(to: .trailingMargin, by: Metrics.margin)
             .top(by: Metrics.veryShortMargin)
         userNameLabel.font = UIFont.deckUsernameFont
@@ -171,16 +166,13 @@ final class ListingCardUserView: UIView {
 
     private func setupActions() {
         addLayoutGuide(actionLayoutGuide)
-        addSubview(actionButton)
-        addSubview(shareButton)
+        addSubviewsForAutoLayout([actionButton, shareButton])
 
-        actionButton.translatesAutoresizingMaskIntoConstraints = false
         actionButton.setImage(Images.favourite, for: .normal)
         actionButton.imageView?.contentMode = .center
         actionButton.addTarget(self, action: #selector(didTouchUpActionButton), for: .touchUpInside)
         actionButton.applyDefaultShadow()
 
-        shareButton.translatesAutoresizingMaskIntoConstraints = false
         shareButton.setImage(Images.share, for: .normal)
         shareButton.imageView?.contentMode = .center
         shareButton.applyDefaultShadow()

@@ -263,12 +263,15 @@ class ListingPostedViewModel: BaseViewModel {
     private func postListing(_ images: [UIImage]?, video: RecordedVideo?, params: ListingCreationParams) {
         delegate?.productPostedViewModelSetupLoadingState(self)
 
+        let shouldUseCarEndpoint = featureFlags.createUpdateIntoNewBackend.shouldUseCarEndpoint(with: params)
+        let createAction = listingRepository.createAction(shouldUseCarEndpoint)
+
         if let images = images {
             fileRepository.upload(images, progress: nil) { [weak self] result in
                 if let images = result.value {
                     let updatedParams = params.updating(images: images)
 
-                    self?.listingRepository.create(listingParams: updatedParams) { [weak self] result in
+                    createAction(updatedParams) { [weak self] result in
                         if let postedListing = result.value {
                             self?.trackPostSellComplete(postedListing: postedListing)
                         } else if let error = result.error {
@@ -281,12 +284,10 @@ class ListingPostedViewModel: BaseViewModel {
                     self?.updateStatusAfterPosting(status: ListingPostedStatus(error: error))
                 }
             }
-
         } else if let video = video {
 
             fileRepository.upload([video.snapshot], progress: nil) { [weak self] result in
                 if let image = result.value?.first {
-
                     guard let snapshot = image.objectId else {
                         let error = RepositoryError.internalError(message: "Missing uploaded image identifier")
                         self?.trackPostSellError(error: error)
@@ -297,7 +298,6 @@ class ListingPostedViewModel: BaseViewModel {
                     self?.preSignedUploadUrlRepository.create(fileExtension: Constants.videoFileExtension, completion: { [weak self] result in
 
                         if let preSignedUploadUrl = result.value {
-
                             guard let path = preSignedUploadUrl.form.fileKey else {
                                 let error = RepositoryError.internalError(message: "Missing video file id")
                                 self?.trackPostSellError(error: error)
@@ -308,15 +308,13 @@ class ListingPostedViewModel: BaseViewModel {
                             self?.preSignedUploadUrlRepository.upload(url: preSignedUploadUrl.form.action,
                                                                       file: video.url,
                                                                       inputs: preSignedUploadUrl.form.inputs,
-                                                                      progress: nil, completion:
-                                { [weak self] result in
-
+                                                                      progress: nil) { [weak self] result in
                                     if result.value != nil {
 
                                         let video: Video = LGVideo(path: path , snapshot: snapshot)
                                         let updatedParams = params.updating(videos: [video])
 
-                                        self?.listingRepository.create(listingParams: updatedParams) { [weak self] result in
+                                        createAction(updatedParams) { [weak self] result in
                                             if let postedListing = result.value {
                                                 self?.trackPostSellComplete(postedListing: postedListing)
                                             } else if let error = result.error {
@@ -328,8 +326,7 @@ class ListingPostedViewModel: BaseViewModel {
                                         self?.trackPostSellError(error: error)
                                         self?.updateStatusAfterPosting(status: ListingPostedStatus(error: error))
                                     }
-                            })
-
+                            }
                         } else if let error = result.error {
                             self?.trackPostSellError(error: error)
                             self?.updateStatusAfterPosting(status: ListingPostedStatus(error: error))
@@ -343,7 +340,7 @@ class ListingPostedViewModel: BaseViewModel {
             }
         }
     }
-
+    
     private func updateStatusAfterPosting(status: ListingPostedStatus) {
         self.status = status
         trackProductUploadResultScreen()
@@ -384,7 +381,7 @@ class ListingPostedViewModel: BaseViewModel {
             sellError = .network
         case .serverError, .notFound, .forbidden, .unauthorized, .tooManyRequests, .userNotVerified:
             sellError = .serverError(code: error.errorCode)
-        case .internalError, .wsChatError:
+        case .internalError, .wsChatError, .searchAlertError:
             sellError = .internalError
         }
         let sellErrorDataEvent = TrackerEvent.listingSellErrorData(sellError)

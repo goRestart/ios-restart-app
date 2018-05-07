@@ -136,12 +136,15 @@ extension SellCoordinator: PostListingNavigator {
             strongSelf.delegate?.sellCoordinatorDidCancel(strongSelf)
         }
     }
-
     func closePostProductAndPostInBackground(params: ListingCreationParams,
                                              trackingInfo: PostListingTrackingInfo) {
+        
+        let shouldUseCarEndpoint = featureFlags.createUpdateIntoNewBackend.shouldUseCarEndpoint(with: params)
+        let createAction = listingRepository.createAction(shouldUseCarEndpoint)
+        
         dismissViewController(animated: true) { [weak self] in
-
-            self?.listingRepository.create(listingParams: params) { result in
+            
+            createAction(params) { [weak self] result in
                 if let listing = result.value {
                     self?.trackPost(withListing: listing, trackingInfo: trackingInfo)
                     self?.keyValueStorage.userPostProductPostedPreviously = true
@@ -156,10 +159,11 @@ extension SellCoordinator: PostListingNavigator {
         }
     }
     
-    func startDetails(postListingState: PostListingState, uploadedImageSource: EventParameterPictureSource?,
-                      uploadedVideoLength: TimeInterval?, postingSource: PostingSource,
+    func startDetails(postListingState: PostListingState,
+                      uploadedImageSource: EventParameterPictureSource?,
+                      uploadedVideoLength: TimeInterval?,
+                      postingSource: PostingSource,
                       postListingBasicInfo: PostListingBasicDetailViewModel) {
-        
         let firstStep: PostingDetailStep = featureFlags.summaryAsFirstStep.isActive ? .summary : .price
         
         let viewModel = PostingDetailsViewModel(step: firstStep,
@@ -210,7 +214,7 @@ extension SellCoordinator: PostListingNavigator {
             sellError = .forbidden(cause: cause)
         case .serverError, .notFound, .unauthorized, .tooManyRequests, .userNotVerified:
             sellError = .serverError(code: error.errorCode)
-        case .internalError, .wsChatError:
+        case .internalError, .wsChatError, .searchAlertError:
             sellError = .internalError
         }
         let sellErrorDataEvent = TrackerEvent.listingSellErrorData(sellError)
@@ -269,7 +273,8 @@ extension SellCoordinator: PostListingNavigator {
         let viewModel = BlockingPostingQueuedRequestsViewModel(images: images,
                                                                listingCreationParams: listingCreationParams,
                                                                imageSource: imageSource,
-                                                               postingSource: postingSource)
+                                                               postingSource: postingSource,
+                                                               featureFlags: featureFlags)
         viewModel.navigator = self
         let vc = BlockingPostingQueuedRequestsViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: false)
