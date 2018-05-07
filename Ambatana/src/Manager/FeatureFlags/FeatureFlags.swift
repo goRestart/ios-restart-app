@@ -34,7 +34,6 @@ protocol FeatureFlaggeable: class {
     var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
     var showClockInDirectAnswer : ShowClockInDirectAnswer { get }
     var deckItemPage: DeckItemPage { get }
-    var allowCallsForProfessionals: AllowCallsForProfessionals { get }
     var mostSearchedDemandedItems: MostSearchedDemandedItems { get }
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio { get }
     var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting { get }
@@ -103,10 +102,6 @@ extension FeatureFlaggeable {
 
 extension TaxonomiesAndTaxonomyChildrenInFeed {
     var isActive: Bool { return self == .active }
-}
-
-extension AllowCallsForProfessionals {
-    var isActive: Bool { return self == .control || self == .baseline }
 }
 
 extension MostSearchedDemandedItems {
@@ -564,13 +559,6 @@ final class FeatureFlags: FeatureFlaggeable {
         return ShowClockInDirectAnswer.fromPosition(abTests.showClockInDirectAnswer.value)
     }
 
-    var allowCallsForProfessionals: AllowCallsForProfessionals {
-        if Bumper.enabled {
-            return Bumper.allowCallsForProfessionals
-        }
-        return AllowCallsForProfessionals.fromPosition(abTests.allowCallsForProfessionals.value)
-    }
-    
     var mostSearchedDemandedItems: MostSearchedDemandedItems {
         if Bumper.enabled {
             return Bumper.mostSearchedDemandedItems
