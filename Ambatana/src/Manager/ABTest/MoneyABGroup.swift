@@ -12,7 +12,6 @@ struct MoneyABGroup: ABGroupType {
     private struct Keys {
         static let increaseMinPriceBumps = "20180208IncreaseMinPriceBumps"
         static let noAdsInFeedForNewUsers = "20180212NoAdsInFeedForNewUsers"
-        static let showBumpUpBannerOnNotValidatedListings = "20180214showBumpUpBannerOnNotValidatedListings"
         static let copyForChatNowInTurkey = "20180312CopyForChatNowInTurkey"
         static let turkeyBumpPriceVATAdaptation = "20180221TurkeyBumpPriceVATAdaptation"
         static let showProTagUserProfile = "20180319ShowProTagUserProfile"
@@ -25,7 +24,6 @@ struct MoneyABGroup: ABGroupType {
     }
     let increaseMinPriceBumps: LeanplumABVariable<Int>
     let noAdsInFeedForNewUsers: LeanplumABVariable<Int>
-    let showBumpUpBannerOnNotValidatedListings: LeanplumABVariable<Int>
     let copyForChatNowInTurkey: LeanplumABVariable<Int>
     let turkeyBumpPriceVATAdaptation: LeanplumABVariable<Int>
     let showProTagUserProfile: LeanplumABVariable<Bool>
@@ -44,7 +42,6 @@ struct MoneyABGroup: ABGroupType {
 
     init(increaseMinPriceBumps: LeanplumABVariable<Int>,
          noAdsInFeedForNewUsers: LeanplumABVariable<Int>,
-         showBumpUpBannerOnNotValidatedListings: LeanplumABVariable<Int>,
          copyForChatNowInTurkey: LeanplumABVariable<Int>,
          turkeyBumpPriceVATAdaptation: LeanplumABVariable<Int>,
          showProTagUserProfile: LeanplumABVariable<Bool>,
@@ -56,7 +53,6 @@ struct MoneyABGroup: ABGroupType {
          copyForSellFasterNowInEnglish: LeanplumABVariable<Int>){
         self.increaseMinPriceBumps = increaseMinPriceBumps
         self.noAdsInFeedForNewUsers = noAdsInFeedForNewUsers
-        self.showBumpUpBannerOnNotValidatedListings = showBumpUpBannerOnNotValidatedListings
         self.copyForChatNowInTurkey = copyForChatNowInTurkey
         self.turkeyBumpPriceVATAdaptation = turkeyBumpPriceVATAdaptation
         self.showProTagUserProfile = showProTagUserProfile
@@ -69,7 +65,6 @@ struct MoneyABGroup: ABGroupType {
 
         intVariables.append(contentsOf: [increaseMinPriceBumps,
                                          noAdsInFeedForNewUsers,
-                                         showBumpUpBannerOnNotValidatedListings,
                                          copyForChatNowInTurkey,
                                          turkeyBumpPriceVATAdaptation,
                                          feedAdsProviderForUS,
@@ -88,9 +83,6 @@ struct MoneyABGroup: ABGroupType {
                             noAdsInFeedForNewUsers: .makeInt(key: Keys.noAdsInFeedForNewUsers,
                                                              defaultValue: 0,
                                                              groupType: .money),
-                            showBumpUpBannerOnNotValidatedListings: .makeInt(key: Keys.showBumpUpBannerOnNotValidatedListings,
-                                                                             defaultValue: 0,
-                                                                             groupType: .money),
                             copyForChatNowInTurkey: .makeInt(key: Keys.copyForChatNowInTurkey,
                                                              defaultValue: 0,
                                                              groupType: .money),
