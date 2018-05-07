@@ -6,7 +6,7 @@
 # Change the syntax highlighting to Ruby
 # All lines starting with a # are ignored when running `fastlane`
 
-#/ By default, fastlane will send which actions are used
+# By default, fastlane will send which actions are used
 # No personal data is shared, more information on https://github.com/fastlane/enhancer
 # Uncomment the following line to opt out
 # opt_out_usage
