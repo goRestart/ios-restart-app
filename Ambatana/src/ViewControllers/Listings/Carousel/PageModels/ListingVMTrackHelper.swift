@@ -31,9 +31,6 @@ extension ListingViewModel {
                     feedPosition: EventParameterFeedPosition) {
         let isBumpedUp = isShowingFeaturedStripe.value ? EventParameterBoolean.trueParameter :
                                                    EventParameterBoolean.falseParameter
-        let containsVideo = EventParameterBoolean(bool: listing.value.containsVideo())
-        trackHelper.trackVisit(visitUserAction, source: source, feedPosition: feedPosition, containsVideo: containsVideo,
-                               isShowingFeaturedStripe: isBumpedUp)
         let badge = seller.value?.reputationBadge ?? .noBadge
         let sellerBadge = EventParameterUserBadge(userBadge: badge)
         let containsVideo = EventParameterBoolean(bool: listing.value.containsVideo())
