@@ -407,6 +407,7 @@
 		2E9716AB1D5A284F009B3A32 /* ExpressChatViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E97169D1D59E958009B3A32 /* ExpressChatViewController.xib */; };
 		2E9716AE1D5B2C59009B3A32 /* ChatWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9716AD1D5B2C59009B3A32 /* ChatWrapper.swift */; };
 		2E9716AF1D5B2C59009B3A32 /* ChatWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9716AD1D5B2C59009B3A32 /* ChatWrapper.swift */; };
+		2E9A899720A0822B009F6BB7 /* ChatOtherMeetingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E42378F205BE2920077B62A /* ChatOtherMeetingCell.xib */; };
 		2E9DF9741E8AA23800969E0F /* CarsInfo.json in Resources */ = {isa = PBXBuildFile; fileRef = 2EB636151E8A941B0063E8EA /* CarsInfo.json */; };
 		2EAC5F10209234D500DFCE38 /* SearchAlertsPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EAC5F0F209234D500DFCE38 /* SearchAlertsPlaceholderView.swift */; };
 		2EAC5F11209234D500DFCE38 /* SearchAlertsPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EAC5F0F209234D500DFCE38 /* SearchAlertsPlaceholderView.swift */; };
@@ -3952,7 +3953,6 @@
 				50AB5F211ED4447200E9909D /* UserRatingTag.swift */,
 				01A04803200CE474008725A1 /* LocalMostSearchedItem.swift */,
 				42059D10207E31DF00083438 /* FilterCarSection.swift */,
-				4245B6EE2084D47A00EF8162 /* CarSellerType+LG.swift */,
 				4245B6EE2084D47A00EF8162 /* UserType+LG.swift */,
 				C21E6073208A8828008A1956 /* RecordedVideo.swift */,
 				C26D224C208B47E500C66EC0 /* UploadingVideo.swift */,
@@ -6014,6 +6014,7 @@
 				6A38ADEB1C650294009E1A31 /* TourLocationViewControllerMini.xib in Resources */,
 				508011001D4748120073F362 /* SettingsViewController.xib in Resources */,
 				C7B588611CE1DE1C009B3975 /* RelationInfoView.xib in Resources */,
+				2E9A899720A0822B009F6BB7 /* ChatOtherMeetingCell.xib in Resources */,
 				508C3F7C1C984BEC00CF431F /* UserViewHeader.xib in Resources */,
 				C75B5DC31D59E09500112368 /* ListingCarouselViewController.xib in Resources */,
 				2E9716A41D5A0535009B3A32 /* ExpressChatCell.xib in Resources */,
