@@ -72,9 +72,7 @@ final class UserPhoneVerificationNumberInputViewModel: BaseViewModel {
             case .success(let place):
                 guard let countryCode = place.postalAddress?.countryCode else { return }
                 self?.updateCurrentLocationCountry(with: countryCode)
-            case .failure(_):
-                // FIXME: waiting for product specs
-                break
+            case .failure(_): break
             }
         }
     }
@@ -110,8 +108,8 @@ final class UserPhoneVerificationNumberInputViewModel: BaseViewModel {
     private func requestCode(withCallingCode callingCode: String, phoneNumber: String, completion: (()->())?) {
         delegate?.vmShowLoading(LGLocalizedString.phoneVerificationNumberInputViewSendingMessage)
         myUserRepository.requestSMSCode(prefix: callingCode, phone: phoneNumber) { [weak self] result in
-            switch result {
-            case .success:
+//            switch result {
+//            case .success:
                 let title = LGLocalizedString.phoneVerificationNumberInputViewConfirmationTitle
                 let message = LGLocalizedString.phoneVerificationNumberInputViewConfirmationMessage(callingCode, phoneNumber)
                 self?.delegate?.vmHideLoading(nil) {
@@ -120,10 +118,10 @@ final class UserPhoneVerificationNumberInputViewModel: BaseViewModel {
                                                             time: 5,
                                                             completion: completion)
                 }
-            case .failure(_):
-                self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
-                break // FIXME: waiting for product
-            }
+//            case .failure(_):
+//                self?.delegate?.vmHideLoading(LGLocalizedString.phoneVerificationNumberInputViewErrorMessage,
+//                                              afterMessageCompletion: nil)
+//            }
         }
     }
 }
