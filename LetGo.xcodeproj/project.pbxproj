@@ -940,6 +940,7 @@
 		6AA9E90C203EC5DC004EACC4 /* UserProfileTabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA9E90B203EC5DC004EACC4 /* UserProfileTabsView.swift */; };
 		6AA9E90D203EDCB2004EACC4 /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA9E909203EC59D004EACC4 /* RatingView.swift */; };
 		6AA9E90E203EDCB5004EACC4 /* UserProfileTabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA9E90B203EC5DC004EACC4 /* UserProfileTabsView.swift */; };
+		6ABAB53C20A063A800B84FC8 /* PasswordlessEmailViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ABAB53B20A063A700B84FC8 /* PasswordlessEmailViewModelSpec.swift */; };
 		6ACC24BA1D2A5C570064B165 /* GridCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ACC24B91D2A5C570064B165 /* GridCellDrawer.swift */; };
 		6ACC24BB1D2A5C570064B165 /* GridCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ACC24B91D2A5C570064B165 /* GridCellDrawer.swift */; };
 		6ACC24C41D2A90400064B165 /* GridDrawerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ACC24C31D2A90400064B165 /* GridDrawerManager.swift */; };
@@ -2481,6 +2482,7 @@
 		6AA32F391CA29CC4003A1677 /* AdminViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdminViewController.swift; sourceTree = "<group>"; };
 		6AA9E909203EC59D004EACC4 /* RatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
 		6AA9E90B203EC5DC004EACC4 /* UserProfileTabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileTabsView.swift; sourceTree = "<group>"; };
+		6ABAB53B20A063A700B84FC8 /* PasswordlessEmailViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordlessEmailViewModelSpec.swift; sourceTree = "<group>"; };
 		6ACC24B91D2A5C570064B165 /* GridCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridCellDrawer.swift; sourceTree = "<group>"; };
 		6ACC24C31D2A90400064B165 /* GridDrawerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridDrawerManager.swift; sourceTree = "<group>"; };
 		6ADACDC61CEDC68A008A5603 /* ChatStickersView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatStickersView.swift; sourceTree = "<group>"; };
@@ -4306,6 +4308,7 @@
 				8EBEF9781F3CA50500473822 /* LGSliderViewModelSpec.swift */,
 				6A94D709205FB4B600B27C41 /* EditUserBioViewModelSpec.swift */,
 				6A7F9591205928530044D1AC /* UserProfileViewModelSpec.swift */,
+				6ABAB53B20A063A700B84FC8 /* PasswordlessEmailViewModelSpec.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -6658,6 +6661,7 @@
 				724D77A91FC3467700DB43C0 /* CarAttributes+LGSpec.swift in Sources */,
 				50D08DCD1E69AF14009CC260 /* NotificationsManagerSpec.swift in Sources */,
 				50D08DDB1E69AF14009CC260 /* BaseViewModelSpec.swift in Sources */,
+				6ABAB53C20A063A800B84FC8 /* PasswordlessEmailViewModelSpec.swift in Sources */,
 				50D08DD21E69AF14009CC260 /* ConfigSpec.swift in Sources */,
 				50D08DCA1E69AF14009CC260 /* ConfigFileManagerSpec.swift in Sources */,
 				72D928DE1E83DE360030F4C3 /* MockConfigManager.swift in Sources */,

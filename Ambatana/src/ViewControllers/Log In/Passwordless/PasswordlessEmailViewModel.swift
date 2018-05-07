@@ -13,9 +13,9 @@ final class PasswordlessEmailViewModel: BaseViewModel {
 
     weak var navigator: PasswordlessNavigator?
 
-    private let tracker: TrackerProxy
+    private let tracker: Tracker
 
-    init(tracker: TrackerProxy = TrackerProxy.sharedInstance) {
+    init(tracker: Tracker = TrackerProxy.sharedInstance) {
         self.tracker = tracker
     }
 
