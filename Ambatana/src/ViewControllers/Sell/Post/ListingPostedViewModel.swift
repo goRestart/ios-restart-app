@@ -285,9 +285,9 @@ class ListingPostedViewModel: BaseViewModel {
                 }
             }
         } else if let video = video {
+
             fileRepository.upload([video.snapshot], progress: nil) { [weak self] result in
                 if let image = result.value?.first {
-
                     guard let snapshot = image.objectId else {
                         let error = RepositoryError.internalError(message: "Missing uploaded image identifier")
                         self?.trackPostSellError(error: error)
@@ -327,7 +327,6 @@ class ListingPostedViewModel: BaseViewModel {
                                         self?.updateStatusAfterPosting(status: ListingPostedStatus(error: error))
                                     }
                             }
-
                         } else if let error = result.error {
                             self?.trackPostSellError(error: error)
                             self?.updateStatusAfterPosting(status: ListingPostedStatus(error: error))

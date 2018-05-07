@@ -373,6 +373,9 @@
 // Change email already registered
 "change_email_error_already_registered" = "This email address is already registered. Please enter a different one.";
 
+// Information regarding the asssitant of letgo
+"chat_user_info_letgo_assistant" = "I'm a virtual assistant that gives you tips and helps you sell.";
+
 "chat_message_type_not_supported" = "This message isn't compatible with your app version. Update your app now to unlock the newest features!";
 
 // Chat inactive conversations cell
@@ -1700,6 +1703,39 @@
 //  Passive buyers screen for seller -> Contact success
 "passive_buyers_contact_success" = "Buyers contacted!";
 
+// Button in main sign up screen to access the passwordless screen
+"passwordless_main_signup_button" = "Continue with email";
+
+// Title in the screen where user inserts the email to receive the magic link
+"passwordless_email_input_title" = "Continue with email";
+
+// Description in the screen where user inserts the email to receive the magic link
+"passwordless_email_input_description" = "Enter your email address to sign in or create an account, and we’ll send a “magic link” to your inbox.";
+
+// Placeholder for the textField where the user inserts the email to receive the magic link
+"passwordless_email_input_textfield_placeholder" = "Email";
+
+// Text in the button of the screen where user inserts email to receive magic link
+"passwordless_email_input_button" = "Send magic link";
+
+// Title in the navigation bar for the Email Sent screen after sending magic link
+"passwordless_email_sent_screen_title" = "Check your email inbox";
+
+// Title in the screen where app explains email has been sent
+"passwordless_email_sent_title" = "To sign in, click the 'magic link' we just sent you.";
+
+// Subtitle in the screen where app explains email has been sent
+"passwordless_email_sent_subtitle" = "Email address: %@";
+
+// Title in the screen where user has to define a username
+"passwordless_username_input_title" = "Choose your username";
+
+// Placeholder for the textField where the user inserts the username
+"passwordless_username_input_textfield_placeholder" = "Username";
+
+// Button title for the screen where user inserts the username
+"passwordless_username_input_done_button" = "Done";
+
 // Button to initiate chat from the full screen photo viewer
 "photo_viewer_chat_button" = "Chat";
 
@@ -2585,6 +2621,9 @@
 // Text shown in the alert to explain that the sms has been sent. (+34 611111111)
 "phone_verification_number_input_view_confirmation_message" = "We sent a text message with a verification code to +%@ %@";
 
+// Text shown when something goes wrong trying to send a sms to the user
+"phone_verification_number_input_view_error_message" = "Oops! An error occurred while sending the text message. Please try again.";
+
 // Title shown in the navigation bar as a screen title in the second screen of the phone verification.
 "phone_verification_code_input_view_title" = "Number verification";
 
@@ -2608,6 +2647,9 @@
 
 // Text shown when sms code has been verified unsuccessfully.
 "phone_verification_code_input_view_validated_failure" = "The verification code you entered is incorrect.";
+
+// Text shown when something goes wrong trying to validate the code
+"phone_verification_code_input_view_error_message" = "Oops! An error occurred while validating the code. Please try again.";
 
 // Text shown in the navigation bar  as a screen title in the country picker view.
 "phone_verification_country_picker_view_title" = "Country list";

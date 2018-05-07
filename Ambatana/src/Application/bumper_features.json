@@ -56,11 +56,6 @@
         "description": "Display a list of top seller items that inspire users to post new items"
     },
     {
-        "name": "AllowCallsForProfessionals",
-        "values": ["control", "baseline", "inactive"],
-        "description": "Users can call professional sellers"
-    },
-    {
         "name": "ShowAdsInFeedWithRatio",
         "values": ["control", "baseline", "ten", "fifteen", "twenty"],
         "description": "show ads in feed every X cells"

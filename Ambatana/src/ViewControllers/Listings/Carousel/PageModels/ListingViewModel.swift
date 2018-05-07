@@ -329,20 +329,18 @@ class ListingViewModel: BaseViewModel {
             isListingDetailsCompleted.value = true
         }
 
-        if featureFlags.allowCallsForProfessionals.isActive {
-            if isMine {
-                seller.value = myUserRepository.myUser
-            } else if let userId = userInfo.value.userId {
-                userRepository.show(userId) { [weak self] result in
-                    guard let strongSelf = self else { return }
-                    if let value = result.value {
-                        strongSelf.seller.value = value
-                        strongSelf.sellerAverageUserRating = value.ratingAverage
-                        let badge = strongSelf.featureFlags.showAdvancedReputationSystem.isActive ? value.reputationBadge : .noBadge
-                        strongSelf.userInfo.value = ListingVMUserInfo(userListing: strongSelf.listing.value.user,
-                                                                      myUser: strongSelf.myUserRepository.myUser,
-                                                                      sellerBadge: badge)
-                    }
+        if isMine {
+            seller.value = myUserRepository.myUser
+        } else if let userId = userInfo.value.userId {
+            userRepository.show(userId) { [weak self] result in
+                guard let strongSelf = self else { return }
+                if let value = result.value {
+                    strongSelf.seller.value = value
+                    strongSelf.sellerAverageUserRating = value.ratingAverage
+                    let badge = strongSelf.featureFlags.showAdvancedReputationSystem.isActive ? value.reputationBadge : .noBadge
+                    strongSelf.userInfo.value = ListingVMUserInfo(userListing: strongSelf.listing.value.user,
+                                                                  myUser: strongSelf.myUserRepository.myUser,
+                                                                  sellerBadge: badge)
                 }
             }
         }
@@ -1050,7 +1048,7 @@ extension ListingViewModel {
             actionButtons.append(UIAction(interface: .button(LGLocalizedString.productSellAgainButton, .secondary(fontSize: .big, withBorder: false)),
                                           action: { [weak self] in self?.confirmToMarkAsUnSold(free: false) }))
         case .otherAvailable, .otherAvailableFree:
-            if isProfessional && featureFlags.allowCallsForProfessionals.isActive {
+            if isProfessional {
                 actionButtons.append(UIAction(interface: .button(LGLocalizedString.productProfessionalChatButton, .secondary(fontSize: .big, withBorder: false)),
                                               action: { [weak self] in self?.openAskPhone() }))
             }

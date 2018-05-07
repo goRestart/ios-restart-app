@@ -24,7 +24,6 @@ extension Bumper  {
         flags.append(DeckItemPage.self)
         flags.append(ShowClockInDirectAnswer.self)
         flags.append(MostSearchedDemandedItems.self)
-        flags.append(AllowCallsForProfessionals.self)
         flags.append(ShowAdsInFeedWithRatio.self)
         flags.append(RealEstateFlowType.self)
         flags.append(RemoveCategoryWhenClosingPosting.self)
@@ -123,11 +122,6 @@ extension Bumper  {
     static var mostSearchedDemandedItems: MostSearchedDemandedItems {
         guard let value = Bumper.value(for: MostSearchedDemandedItems.key) else { return .control }
         return MostSearchedDemandedItems(rawValue: value) ?? .control 
-    }
-
-    static var allowCallsForProfessionals: AllowCallsForProfessionals {
-        guard let value = Bumper.value(for: AllowCallsForProfessionals.key) else { return .control }
-        return AllowCallsForProfessionals(rawValue: value) ?? .control 
     }
 
     static var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio {
@@ -482,22 +476,6 @@ enum MostSearchedDemandedItems: String, BumperFeature  {
             case 2: return .cameraBadge
             case 3: return .trendingButtonExpandableMenu
             case 4: return .subsetAboveExpandableMenu
-            default: return .control
-        }
-    }
-}
-
-enum AllowCallsForProfessionals: String, BumperFeature  {
-    case control, baseline, inactive
-    static var defaultValue: String { return AllowCallsForProfessionals.control.rawValue }
-    static var enumValues: [AllowCallsForProfessionals] { return [.control, .baseline, .inactive]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Users can call professional sellers" } 
-    static func fromPosition(_ position: Int) -> AllowCallsForProfessionals {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .inactive
             default: return .control
         }
     }
