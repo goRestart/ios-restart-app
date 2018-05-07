@@ -29,7 +29,8 @@ fileprivate extension LGEmptyViewModel {
             return onBackground
         case .wsChatError(let chatError):
             return isBackground(chatError)
-        case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
+        case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError,
+             .searchAlertError:
             return false
         }
     }
@@ -49,7 +50,8 @@ fileprivate extension LGEmptyViewModel {
             return UIImage(named: "err_network")
         case .wsChatError(let chatError):
             return icon(for: chatError)
-        case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
+        case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError,
+             .searchAlertError:
             return UIImage(named: "err_generic")
         }
     }
@@ -69,7 +71,8 @@ fileprivate extension LGEmptyViewModel {
             return LGLocalizedString.commonErrorNetworkBody
         case .wsChatError(let chatError):
             return body(for: chatError)
-        case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
+        case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError,
+             .searchAlertError:
             return LGLocalizedString.commonErrorGenericBody
         }
     }
@@ -103,6 +106,8 @@ fileprivate extension LGEmptyViewModel {
             return .forbidden
         case .tooManyRequests:
             return .tooManyRequests
+        case .searchAlertError:
+            return .internalError
         }
     }
 
@@ -135,7 +140,7 @@ fileprivate extension LGEmptyViewModel {
             return code
         case .internalError(let message):
             return Int(message)
-        case .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified:
+        case .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .searchAlertError:
             return nil
         }
     }

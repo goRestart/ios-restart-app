@@ -410,6 +410,7 @@
 "hidden_phone_tag" = "[NÚMERO DE TELÉFONO OCULTO]";
 "hidden_text_alert_description" = "Ocultamos datos de contacto para ayudarte a comprar y vender con seguridad. Chatear dentro de letgo es fácil y más seguro.";
 "hidden_text_alert_title" = "CONSEJOS DE SEGURIDAD";
+"listings_map_title" = "Vista de mapa";
 "location_permissions_allow_button" = "Permitir";
 "location_permissions_bubble" = "a 1km de ti";
 "location_permissions_button" = "Sí, Usar mi Ubicación";
@@ -749,8 +750,8 @@
 "product_post_network_error" = "Tu anuncio no se ha publicado.\nPor favor comprueba tu conexión.";
 "product_post_price_label" = "¿Quieres añadir un precio?";
 "product_post_product_posted" = "Anuncio publicado. ¡Enhorabuena!";
-"product_post_product_posted_not_logged" = "¡Foto subida!";
-"product_post_product_posted_not_logged_video_posting" = "Video uploaded!";
+"product_post_product_posted_not_logged" = "¡Foto publicada!";
+"product_post_product_posted_not_logged_video_posting" = "¡Vídeo publicado!";
 "product_post_retake" = "Cambiar";
 "product_post_retry_button" = "Vuelve a intentarlo";
 "product_post_select_category_cars" = "Coches";
@@ -761,7 +762,7 @@
 "product_post_select_category_title" = "¿Qué estás publicando?";
 "product_post_use_photo" = "Publicar";
 "product_post_use_photo_not_logged" = "Usar foto";
-"product_post_use_video_not_logged" = "Use video";
+"product_post_use_video_not_logged" = "Usar vídeo";
 "product_professional_call_button" = "Llamar";
 "product_professional_chat_button" = "Chat";
 "product_report_confirm_message" = "¿Estás seguro de que quieres denunciar este anuncio?";
@@ -1043,9 +1044,11 @@
 "reset_password_send_ok" = "Hemos enviado un email a %@. Haz clic en el enlace dentro del email para restablecer tu contraseña.";
 "reset_password_send_too_many_requests" = "Ya te hemos enviado un email para restablecer la contraseña. Revisa tu bandeja de entrada y sigue las instrucciones del mensaje.";
 "reset_password_title" = "Restablecer la contraseña";
-"search_alert_delete_error_message" = "¡Ups! Se ha producido un error al borrar tu alerta de búsqueda";
-"search_alert_disable_error_message" = "¡Ups! Se ha producido un error al apagar tu alerta de búsqueda";
-"search_alert_enable_error_message" = "¡Ups! Se ha producido un error al encender tu alerta de búsqueda";
+"search_alert_delete_error_message" = "¡Ups! Se ha producido un error al borrar tu alerta de búsqueda.";
+"search_alert_disable_error_message" = "¡Ups! Se ha producido un error al desactivar tu alerta de búsqueda.";
+"search_alert_enable_error_message" = "¡Ups! Se ha producido un error al activar tu alerta de búsqueda.";
+"search_alert_error_too_many_button_text" = "Gestionar notificaciones";
+"search_alert_error_too_many_text" = "¡Ups! Has llegado al máximo de alertas de búsqueda";
 "search_alerts_edit_button" = "Editar";
 "search_alerts_header_subtitle" = "Recibir notificaciones de nuevos anuncios";
 "search_alerts_placeholder_empty_button" = "Empezar a buscar";

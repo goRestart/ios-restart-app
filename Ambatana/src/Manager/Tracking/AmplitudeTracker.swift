@@ -19,7 +19,7 @@ final class AmplitudeTracker: Tracker {
     private static let userPropLatitudeKey = "user-lat"
     private static let userPropLongitudeKey = "user-lon"
     private static let userPropCountryCodeKey = "user-country-code"
-
+    private static let userPropReputationBadge = "reputation-badge"
     private static let userPropInstallationIdKey = "installation-id"
 
     // enabled permissions
@@ -86,6 +86,8 @@ final class AmplitudeTracker: Tracker {
         identify.set(AmplitudeTracker.userPropIdKey, value: userIdValue)
         let ratingAverageValue = NSNumber(value: user?.ratingAverage ?? 0)
         identify.set(AmplitudeTracker.userPropUserRating, value: ratingAverageValue)
+        let reputationBadge = NSString(string: user?.reputationBadge.rawValue ?? "")
+        identify.set(AmplitudeTracker.userPropReputationBadge, value: reputationBadge)
         Amplitude.instance().identify(identify)
 
         loggedIn = user != nil

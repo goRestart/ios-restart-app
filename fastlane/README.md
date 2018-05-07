@@ -91,6 +91,11 @@ Will run CI UI tests job
 fastlane ios dependencies
 ```
 
+### ios make_automation_build
+```
+fastlane ios make_automation_build
+```
+Builds LetgoGoDev for simulator to export it for automation process
 
 ----
 

@@ -24,6 +24,7 @@ class GridDrawerManager {
     private let emptyCellDrawer = EmptyCellDrawer()
     private let advertisementDFPDrawer = AdvertisementDFPCellDrawer()
     private let advertisementMoPubDrawer = AdvertisementMoPubCellDrawer()
+    private let advertisementAdxDrawer = AdvertisementAdxCellDrawer()
     private let mostSearchedItemsDrawer = MostSearchedItemsCellDrawer()
     private let showFeaturedStripeHelper = ShowFeaturedStripeHelper(featureFlags: FeatureFlags.sharedInstance,
                                                                     myUserRepository: Core.myUserRepository)
@@ -43,6 +44,7 @@ class GridDrawerManager {
         EmptyCellDrawer.registerClassCell(collectionView)
         AdvertisementDFPCellDrawer.registerClassCell(collectionView)
         AdvertisementMoPubCellDrawer.registerClassCell(collectionView)
+        AdvertisementAdxCellDrawer.registerClassCell(collectionView)
         MostSearchedItemsCellDrawer.registerClassCell(collectionView)
         PromoCellDrawer.registerClassCell(collectionView)
     }
@@ -59,6 +61,8 @@ class GridDrawerManager {
             return advertisementDFPDrawer.cell(collectionView, atIndexPath: atIndexPath)
         case .mopubAdvertisement:
             return advertisementMoPubDrawer.cell(collectionView, atIndexPath: atIndexPath)
+        case .adxAdvertisement:
+            return advertisementAdxDrawer.cell(collectionView, atIndexPath: atIndexPath)
         case .mostSearchedItems:
             return mostSearchedItemsDrawer.cell(collectionView, atIndexPath: atIndexPath)
         case .promo:
@@ -97,6 +101,9 @@ class GridDrawerManager {
         case .mopubAdvertisement(let adData):
             guard let cell = cell as? AdvertisementCell else { return }
             advertisementMoPubDrawer.willDisplay(adData, inCell: cell)
+        case .adxAdvertisement(let adData):
+            guard let cell = cell as? AdvertisementCell else { return }
+            advertisementAdxDrawer.willDisplay(adData, inCell: cell)
         default:
             return
         }
@@ -139,6 +146,9 @@ class GridDrawerManager {
         case .mopubAdvertisement(let adData):
             guard let cell = cell as? AdvertisementCell else { return }
             return advertisementMoPubDrawer.draw(adData, style: cellStyle, inCell: cell)
+        case .adxAdvertisement(let adData):
+            guard let cell = cell as? AdvertisementCell else { return }
+            return advertisementAdxDrawer.draw(adData, style: cellStyle, inCell: cell)
         case .mostSearchedItems(let data):
             guard let cell = cell as? MostSearchedItemsListingListCell else { return }
             return mostSearchedItemsDrawer.draw(data, style: cellStyle, inCell: cell)

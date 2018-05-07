@@ -155,6 +155,8 @@ final class AppCoordinator: NSObject, Coordinator {
         self.locationManager = locationManager
         super.init()
 
+        self.profileTabBarCoordinator.profileCoordinatorSearchAlertsDelegate = self
+
         setupTabBarController()
         setupTabCoordinators()
         setupDeepLinkingRx()
@@ -474,11 +476,7 @@ extension AppCoordinator: SellCoordinatorDelegate {
     }
 
     func sellCoordinator(_ coordinator: SellCoordinator, closePostAndOpenEditForListing listing: Listing) {
-        if featureFlags.promoteBumpInEdit.isActive {
-            openAfterSellDialogIfNeeded(forListing: listing, bumpUpSource: .edit(listing: listing))
-        } else {
-            openEditForListing(listing: listing, bumpUpProductData: nil)
-        }
+		openAfterSellDialogIfNeeded(forListing: listing, bumpUpSource: .edit(listing: listing))
     }
 }
 
@@ -561,9 +559,7 @@ fileprivate extension AppCoordinator {
 
     fileprivate func shouldRetrieveBumpeableInfoFor(source: BumpUpSource) -> Bool {
         switch source {
-        case .edit:
-            return featureFlags.promoteBumpInEdit.isActive
-        case .deepLink:
+        case .edit, .deepLink:
             return true
         case .promoted:
             return !promoteBumpShownInLastDay
@@ -589,8 +585,7 @@ fileprivate extension AppCoordinator {
     fileprivate func retrieveBumpeableInfoForListing(listingId: String, bumpUpSource: BumpUpSource) {
         purchasesShopper.bumpInfoRequesterDelegate = self
         monetizationRepository.retrieveBumpeableListingInfo(
-            listingId: listingId,
-            withHigherMinimumPrice: featureFlags.bumpPriceVariationBucket.rawValue) { [weak self] result in
+            listingId: listingId) { [weak self] result in
                 guard let strongSelf = self else { return }
                 if let value = result.value {
                     let paymentItems = value.paymentItems.filter { $0.provider == .apple }
@@ -1047,7 +1042,7 @@ fileprivate extension AppCoordinator {
                 case .network:
                     message = LGLocalizedString.commonErrorConnectionFailed
                 case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError,
-                     .wsChatError:
+                     .wsChatError, .searchAlertError:
                     message = LGLocalizedString.commonUserReviewNotAvailable
                 }
                 navCtl.dismissLoadingMessageAlert {
@@ -1163,6 +1158,14 @@ extension AppCoordinator: MostSearchedItemsCoordinatorDelegate {
     
     func openSearchFor(listingTitle: String) {
         mainTabBarCoordinator.openMainListings(withSearchType: .user(query: listingTitle), listingFilters: ListingFilters())
+    }
+}
+
+extension AppCoordinator: ProfileCoordinatorSearchAlertsDelegate {
+    func profileCoordinatorSearchAlertsOpenSearch() {
+        openTab(.home) { [weak self] in
+            self?.mainTabBarCoordinator.readyToSearch()
+        }
     }
 }
 

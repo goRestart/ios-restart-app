@@ -329,9 +329,9 @@ class ChatViewModel: BaseViewModel {
         if firstTime {
             retrieveRelatedListings()
             setupExpressChat()
+            refreshChat()
         }
 
-        refreshChat()
         trackVisit()
     }
 
@@ -812,7 +812,8 @@ extension ChatViewModel {
                     }
                 case .userNotVerified:
                     self?.showUserNotVerifiedAlert()
-                case .forbidden, .internalError, .network, .notFound, .tooManyRequests, .unauthorized, .serverError:
+                case .forbidden, .internalError, .network, .notFound, .tooManyRequests, .unauthorized, .serverError,
+                     .searchAlertError:
                     self?.showSendMessageError(withText: LGLocalizedString.chatSendErrorGeneric)
                 }
             }
@@ -917,7 +918,8 @@ extension ChatViewModel {
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailTooManyRequests, completion: nil)
                 case .network:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorNetworkBody, completion: nil)
-                case .forbidden, .internalError, .notFound, .unauthorized, .userNotVerified, .serverError, .wsChatError:
+                case .forbidden, .internalError, .notFound, .unauthorized, .userNotVerified, .serverError, .wsChatError,
+                     .searchAlertError:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorGenericBody, completion: nil)
                 }
             } else {
@@ -1553,12 +1555,14 @@ fileprivate extension ChatViewModel {
 
     func trackMessageSent(type: ChatWrapperMessageType) {
         guard let info = buildSendMessageInfo(withType: type, error: nil) else { return }
-
+        guard let interlocutor = interlocutor else { return }
+        let badgeParameter = EventParameterUserBadge(userBadge: interlocutor.reputationBadge)
         if shouldTrackFirstMessage {
             shouldTrackFirstMessage = false
             tracker.trackEvent(TrackerEvent.firstMessage(info: info,
                                                          listingVisitSource: .unknown,
                                                          feedPosition: .none,
+                                                         userBadge: badgeParameter,
                                                          containsVideo: .notAvailable))
         }
         tracker.trackEvent(TrackerEvent.userMessageSent(info: info))

@@ -46,4 +46,20 @@ public class CarCreationParams: BaseListingParams {
         
         return params
     }
+    
+    
+    func apiCarCreationEncode(userId: String) -> [String: Any] {
+        
+        var params = super.apiCreationEncode(userId: userId)
+        params.removeValue(forKey: "price_flag")
+        
+        let carAttributesDict: [String: Any] = ["makeId": carAttributes.makeId ?? "",
+                                                "modelId" : carAttributes.modelId ?? "",
+                                                "year" : carAttributes.year ?? 0]
+        params["carAttributes"] = carAttributesDict
+        params["images"] = images.flatMap { $0.objectId }
+        params["priceFlag"] = price.priceFlag.rawValue
+        
+        return params
+    }
 }

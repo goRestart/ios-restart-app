@@ -12,9 +12,11 @@ struct UsersABGroup: ABGroupType {
     private struct Keys {
         static let advancedReputationSystem = "20180328AdvancedReputationSystem"
         static let showPasswordlessLogin = "20180417ShowPasswordlessLogin"
+        static let emergencyLocate = "20180425EmergencyLocate"
     }
     let advancedReputationSystem: LeanplumABVariable<Int>
     let showPasswordlessLogin: LeanplumABVariable<Int>
+    let emergencyLocate: LeanplumABVariable<Int>
 
     let group: ABGroup = .users
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -23,12 +25,14 @@ struct UsersABGroup: ABGroupType {
     var boolVariables: [LeanplumABVariable<Bool>] = []
 
     init(advancedReputationSystem: LeanplumABVariable<Int>,
-         showPasswordlessLogin: LeanplumABVariable<Int>) {
+         showPasswordlessLogin: LeanplumABVariable<Int>,
+         emergencyLocate: LeanplumABVariable<Int>) {
         self.advancedReputationSystem = advancedReputationSystem
         self.showPasswordlessLogin = showPasswordlessLogin
-
+        self.emergencyLocate = emergencyLocate
         intVariables.append(contentsOf: [advancedReputationSystem,
-                                         showPasswordlessLogin])
+                                         showPasswordlessLogin,
+                                         emergencyLocate])
     }
 
     static func make() -> UsersABGroup {
@@ -37,7 +41,10 @@ struct UsersABGroup: ABGroupType {
                                                                groupType: .users),
                             showPasswordlessLogin: .makeInt(key: Keys.showPasswordlessLogin,
                                                             defaultValue: 0,
-                                                            groupType: .users)
+                                                            groupType: .users),
+                            emergencyLocate: .makeInt(key: Keys.emergencyLocate,
+                                                      defaultValue: 0,
+                                                      groupType: .users)
         )
     }
 }

@@ -13,6 +13,21 @@ protocol UserProfileHeaderDelegate: class {
     func didTapAvatar()
 }
 
+enum UserHeaderViewBadge {
+    case noBadge
+    case silver
+    case gold
+    case pro
+
+    init(userBadge: UserReputationBadge) {
+        switch userBadge {
+        case .noBadge: self = .noBadge
+        case .silver: self = .silver
+        case .gold : self = .gold
+        }
+    }
+}
+
 final class UserProfileHeaderView: UIView {
     let userNameLabel = UILabel()
     let ratingView = RatingView(layout: .normal)
@@ -20,6 +35,8 @@ final class UserProfileHeaderView: UIView {
     let memberSinceLabel = UILabel()
     private let avatarImageView = UIImageView()
     private let editAvatarButton = UIButton()
+    private let verifiedBadgeImageView = UIImageView()
+    private let proBadgeImageView = UIImageView()
     weak var delegate: UserProfileHeaderDelegate?
 
     let isPrivate: Bool
@@ -27,9 +44,12 @@ final class UserProfileHeaderView: UIView {
     private struct Layout {
         static let verticalMargin: CGFloat = 5.0
         static let imageHeight: CGFloat = 110.0
+        static let verifiedBadgeHeight: CGFloat = 30
         static let editAvatarButtonHeight: CGFloat = 44
         static let editAvatarButtonRightInset: CGFloat = 7
         static let editAvatarButtonTopInset: CGFloat = 4
+        static let proBadgeHeight: CGFloat = 20
+        static let proBadgeWidth: CGFloat = 50
     }
 
     init(isPrivate: Bool) {
@@ -44,6 +64,12 @@ final class UserProfileHeaderView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    var userBadge: UserHeaderViewBadge = .noBadge {
+        didSet {
+            updateBadge()
+        }
+    }
+
     func setAvatar(_ url: URL?, placeholderImage: UIImage?) {
         if let url = url {
             avatarImageView.lg_setImageWithURL(url)
@@ -54,9 +80,15 @@ final class UserProfileHeaderView: UIView {
         }
     }
 
+    private func updateBadge() {
+        guard userBadge != .noBadge else { return }
+        verifiedBadgeImageView.isHidden = userBadge != .silver && userBadge != .gold
+        proBadgeImageView.isHidden = userBadge != .pro
+    }
+
     private func setupView() {
-        addSubviewsForAutoLayout([userNameLabel, ratingView, locationLabel,
-                                  memberSinceLabel, avatarImageView, editAvatarButton])
+        addSubviewsForAutoLayout([userNameLabel, ratingView, locationLabel, memberSinceLabel, avatarImageView,
+                                  editAvatarButton, verifiedBadgeImageView, proBadgeImageView])
 
         avatarImageView.contentMode = .scaleAspectFill
         avatarImageView.backgroundColor = .grayLight
@@ -73,6 +105,15 @@ final class UserProfileHeaderView: UIView {
         memberSinceLabel.textColor = .grayDark
         editAvatarButton.isHidden = !isPrivate
         editAvatarButton.addTarget(self, action: #selector(didTapEditAvatar), for: .touchUpInside)
+
+        verifiedBadgeImageView.image = #imageLiteral(resourceName: "ic_karma_badge_active")
+        verifiedBadgeImageView.contentMode = .scaleAspectFit
+        verifiedBadgeImageView.isHidden = true
+
+        proBadgeImageView.image = #imageLiteral(resourceName: "ic_pro_tag_with_shadow")
+        proBadgeImageView.cornerRadius = LGUIKitConstants.mediumCornerRadius
+        proBadgeImageView.contentMode = .scaleAspectFit
+        proBadgeImageView.isHidden = true
     }
 
     private func setupConstraints() {
@@ -99,7 +140,17 @@ final class UserProfileHeaderView: UIView {
             editAvatarButton.topAnchor.constraint(equalTo: avatarImageView.topAnchor, constant: -Layout.editAvatarButtonTopInset),
             editAvatarButton.rightAnchor.constraint(equalTo: avatarImageView.rightAnchor, constant: Layout.editAvatarButtonRightInset),
             editAvatarButton.heightAnchor.constraint(equalToConstant: Layout.editAvatarButtonHeight),
-            editAvatarButton.widthAnchor.constraint(equalToConstant: Layout.editAvatarButtonHeight)
+            editAvatarButton.widthAnchor.constraint(equalToConstant: Layout.editAvatarButtonHeight),
+
+            verifiedBadgeImageView.bottomAnchor.constraint(equalTo: avatarImageView.bottomAnchor),
+            verifiedBadgeImageView.rightAnchor.constraint(equalTo: avatarImageView.rightAnchor),
+            verifiedBadgeImageView.heightAnchor.constraint(equalToConstant: Layout.verifiedBadgeHeight),
+            verifiedBadgeImageView.widthAnchor.constraint(equalToConstant: Layout.verifiedBadgeHeight),
+
+            proBadgeImageView.centerYAnchor.constraint(equalTo: avatarImageView.bottomAnchor),
+            proBadgeImageView.centerXAnchor.constraint(equalTo: avatarImageView.centerXAnchor),
+            proBadgeImageView.heightAnchor.constraint(equalToConstant: Layout.proBadgeHeight),
+            proBadgeImageView.widthAnchor.constraint(equalToConstant: Layout.proBadgeWidth),
         ]
         NSLayoutConstraint.activate(constraints)
     }
@@ -108,6 +159,7 @@ final class UserProfileHeaderView: UIView {
         userNameLabel.set(accessibilityId: .userHeaderExpandedNameLabel)
         locationLabel.set(accessibilityId: .userHeaderExpandedLocationLabel)
         memberSinceLabel.set(accessibilityId: .userHeaderExpandedMemberSinceLabel)
+        avatarImageView.set(accessibilityId: .userHeaderExpandedAvatar)
         editAvatarButton.set(accessibilityId: .userHeaderExpandedAvatarButton)
     }
 

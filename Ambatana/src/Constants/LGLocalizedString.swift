@@ -979,6 +979,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("common_confirm", comment: "")
 	}
 
+	static var commonDone: String {
+		return NSLocalizedString("common_done", comment: "")
+	}
+
+	static var commonEdit: String {
+		return NSLocalizedString("common_edit", comment: "")
+	}
+
 	static var commonError: String {
 		return NSLocalizedString("common_error", comment: "")
 	}
@@ -1653,6 +1661,10 @@ struct LGLocalizedString {
 
 	static var hiddenTextAlertDescription: String {
 		return NSLocalizedString("hidden_text_alert_description", comment: "")
+	}
+
+	static var listingsMapTitle: String {
+		return NSLocalizedString("listings_map_title", comment: "")
 	}
 
 	static var locationPermissionsBubble: String {
@@ -4269,6 +4281,14 @@ struct LGLocalizedString {
 
 	static var searchAlertDisableErrorMessage: String {
 		return NSLocalizedString("search_alert_disable_error_message", comment: "")
+	}
+
+	static var searchAlertErrorTooManyText: String {
+		return NSLocalizedString("search_alert_error_too_many_text", comment: "")
+	}
+
+	static var searchAlertErrorTooManyButtonText: String {
+		return NSLocalizedString("search_alert_error_too_many_button_text", comment: "")
 	}
 
 	static var sellCategorySelectionLabel: String {

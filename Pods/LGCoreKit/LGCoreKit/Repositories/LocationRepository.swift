@@ -24,9 +24,10 @@ public typealias IPLookupLocationRepositoryCompletion = (IPLookupLocationReposit
 public protocol LocationRepository {
     
     var distance: CLLocationDistance { get set }
-    var accuracy: CLLocationDistance { get set }
+    var accuracy: CLLocationAccuracy { get set }
     var lastKnownLocation: CLLocation? { get }
-    
+    var emergencyIsActive: Bool { get }
+
     func setLocationManagerDelegate(delegate: CLLocationManagerDelegate)
     
     func locationEnabled() -> Bool
@@ -37,6 +38,9 @@ public protocol LocationRepository {
     
     func startUpdatingLocation()
     func stopUpdatingLocation()
+
+    func startEmergencyLocation()
+    func stopEmergencyLocation()
     
     func retrieveLocationSuggestions(addressString: String, currentLocation: LGLocation?, completion: LocationSuggestionsRepositoryCompletion?)
     func retrieveLocationSuggestionDetails(placeId: String, completion: LocationSuggestionDetailsRepositoryCompletion?)

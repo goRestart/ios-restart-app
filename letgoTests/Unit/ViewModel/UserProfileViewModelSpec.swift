@@ -21,6 +21,7 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
     var openUserReportCalled: Bool = false
     var openVerifyAccountsCalled: Bool = false
     var openMostSearchedItemsCalled: Bool = false
+    var openVerificationsViewCalled: Bool = false
     var showAlertCalled: Bool = false
     var showNativeShareCalled: Bool = false
 
@@ -85,6 +86,7 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
                 self.openMostSearchedItemsCalled = false
                 self.showAlertCalled = false
                 self.showNativeShareCalled = false
+                self.openVerificationsViewCalled = false
 
                 var myUser = MockMyUser.makeMock()
                 myUser.name = "whatever"
@@ -240,6 +242,15 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
                         expect(self.showAlertCalled) == true
                     }
                 }
+
+                context("open verifications view") {
+                    beforeEach {
+                        sut.didTapKarmaScoreView()
+                    }
+                    it("calls navigator to open verifications view") {
+                        expect(self.openVerificationsViewCalled) == true
+                    }
+                }
             }
 
             context("Init with public profile") {
@@ -317,6 +328,15 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
                         expect(self.showAlertCalled) == true
                     }
                 }
+
+                context("open verifications view") {
+                    beforeEach {
+                        sut.didTapKarmaScoreView()
+                    }
+                    it("deoesn't navigator to open verifications view") {
+                        expect(self.openVerificationsViewCalled) == false
+                    }
+                }
             }
         }
     }
@@ -339,6 +359,10 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
 
     override func openUserReport(source: EventParameterTypePage, userReportedId: String) {
         openUserReportCalled = true
+    }
+
+    func openVerificationView() {
+        openVerificationsViewCalled = true
     }
 
     override func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, actions: [UIAction]?) {

@@ -410,6 +410,7 @@
 "hidden_phone_tag" = "[NUMERO DI TELEFONO NASCOSTO]";
 "hidden_text_alert_description" = "Nascondiamo le informazioni di contatto per proteggere le tue compravendite. Chattare all'interno di letgo è più facile e sicuro.";
 "hidden_text_alert_title" = "CONSIGLI PER LA SICUREZZA";
+"listings_map_title" = "Map view";
 "location_permissions_allow_button" = "Consenti";
 "location_permissions_bubble" = "0.1 km da te";
 "location_permissions_button" = "Sì, Utilizza la mia Posizione";
@@ -1043,9 +1044,11 @@
 "reset_password_send_ok" = "Abbiamo inviato un'email a %@. Clicca sul link all'interno dell'email per ripristinare la tua password!";
 "reset_password_send_too_many_requests" = "Ti abbiamo già inviato una email per reimpostare la password. Controlla la tua casella di posta e segui le istruzioni.";
 "reset_password_title" = "Reimposta Password";
-"search_alert_delete_error_message" = "Ops! Si è verificato un errore durante l'eliminazione dei tuoi avvisi di ricerca";
+"search_alert_delete_error_message" = "Ops! Si è verificato un errore durante l'eliminazione dei tuoi avvisi di ricerca.";
 "search_alert_disable_error_message" = "Ops! Si è verificato un errore durante la disattivazione dei tuoi avvisi di ricerca";
 "search_alert_enable_error_message" = "Ops! Si è verificato un errore durante l'attivazione dei tuoi avvisi di ricerca";
+"search_alert_error_too_many_button_text" = "Gestisci notifiche";
+"search_alert_error_too_many_text" = "Ops! Hai raggiunto il numero massimo di avvisi di ricerca";
 "search_alerts_edit_button" = "Modifica";
 "search_alerts_header_subtitle" = "Ricevi notifiche su nuovi annunci";
 "search_alerts_placeholder_empty_button" = "Inizia la ricerca";

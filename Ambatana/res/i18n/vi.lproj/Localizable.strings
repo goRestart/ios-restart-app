@@ -410,6 +410,7 @@
 "hidden_phone_tag" = "[SỐ ĐIỆN THOẠI BỊ ẨN]";
 "hidden_text_alert_description" = "Chúng tôi ẩn thông tin liên lạc để giúp bạn mua và bán được an toàn. Trò chuyện trên letgo luôn dễ dàng và bảo mật hơn.";
 "hidden_text_alert_title" = "GIỮ AN TOÀN";
+"listings_map_title" = "Map view";
 "location_permissions_allow_button" = "Cho phép";
 "location_permissions_bubble" = "Cách bạn 100m";
 "location_permissions_button" = "Có, hãy Sử dụng Địa điểm của tôi";
@@ -1043,9 +1044,11 @@
 "reset_password_send_ok" = "Chúng tôi vừa gửi email cho %@! Hãy nhấn vào đường dẫn trong thư để lấy lại mật khẩu.";
 "reset_password_send_too_many_requests" = "Chúng tôi vừa gửi cho bạn email khôi phục mật khẩu. Vui lòng kiểm tra email và làm theo hướng dẫn.";
 "reset_password_title" = "Lấy lại mật khẩu";
-"search_alert_delete_error_message" = "Ồ! Có lỗi xảy ra trong khi xóa thông báo tìm kiếm của bạn";
+"search_alert_delete_error_message" = "Ồ! Có lỗi xảy ra trong khi xóa thông báo tìm kiếm của bạn.";
 "search_alert_disable_error_message" = "Ồ! Có lỗi xảy ra trong khi tắt thông báo tìm kiếm của bạn";
 "search_alert_enable_error_message" = "Ồ! Có lỗi xảy ra trong khi bật thông báo tìm kiếm của bạn";
+"search_alert_error_too_many_button_text" = "Quản lý Thông báo";
+"search_alert_error_too_many_text" = "Ồ! Bạn đã đạt tối đa số lượng thông báo tìm kiếm";
 "search_alerts_edit_button" = "Chỉnh sửa";
 "search_alerts_header_subtitle" = "Nhận thông báo về bài đăng mới";
 "search_alerts_placeholder_empty_button" = "Bắt đầu Tìm kiếm";

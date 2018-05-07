@@ -26,12 +26,20 @@ class ProductVMTrackHelper {
 
 extension ListingViewModel {
 
-    func trackVisit(_ visitUserAction: ListingVisitUserAction, source: EventParameterListingVisitSource, feedPosition: EventParameterFeedPosition) {
+    func trackVisit(_ visitUserAction: ListingVisitUserAction,
+                    source: EventParameterListingVisitSource,
+                    feedPosition: EventParameterFeedPosition) {
         let isBumpedUp = isShowingFeaturedStripe.value ? EventParameterBoolean.trueParameter :
                                                    EventParameterBoolean.falseParameter
+        let badge = seller.value?.reputationBadge ?? .noBadge
+        let sellerBadge = EventParameterUserBadge(userBadge: badge)
         let containsVideo = EventParameterBoolean(bool: listing.value.containsVideo())
-        trackHelper.trackVisit(visitUserAction, source: source, feedPosition: feedPosition, containsVideo: containsVideo,
-                               isShowingFeaturedStripe: isBumpedUp)
+        trackHelper.trackVisit(visitUserAction,
+                               source: source,
+                               feedPosition: feedPosition,
+                               isShowingFeaturedStripe: isBumpedUp,
+                               sellerBadge: sellerBadge,
+                               containsVideo: containsVideo)
     }
 
     func trackVisitMoreInfo(isMine: EventParameterBoolean,
@@ -273,13 +281,15 @@ extension ProductVMTrackHelper {
     func trackVisit(_ visitUserAction: ListingVisitUserAction,
                     source: EventParameterListingVisitSource,
                     feedPosition: EventParameterFeedPosition,
-                    containsVideo: EventParameterBoolean,
-                    isShowingFeaturedStripe: EventParameterBoolean) {
+                    isShowingFeaturedStripe: EventParameterBoolean,
+                    sellerBadge: EventParameterUserBadge,
+                    containsVideo: EventParameterBoolean) {
         let trackerEvent = TrackerEvent.listingDetailVisit(listing,
                                                            visitUserAction: visitUserAction,
                                                            source: source,
                                                            feedPosition: feedPosition,
                                                            isBumpedUp: isShowingFeaturedStripe,
+                                                           sellerBadge: sellerBadge,
                                                            containsVideo: containsVideo)
         tracker.trackEvent(trackerEvent)
     }
@@ -391,14 +401,17 @@ extension ProductVMTrackHelper {
                           isShowingFeaturedStripe: Bool,
                           listingVisitSource: EventParameterListingVisitSource,
                           feedPosition: EventParameterFeedPosition,
+                          sellerBadge: EventParameterUserBadge,
                           containsVideo: EventParameterBoolean) {
         guard let info = buildSendMessageInfo(withType: messageType,
                                               isShowingFeaturedStripe: isShowingFeaturedStripe,
                                               error: nil) else { return }
+
         if isFirstMessage {
             tracker.trackEvent(TrackerEvent.firstMessage(info: info,
                                                          listingVisitSource: listingVisitSource,
                                                          feedPosition: feedPosition,
+                                                         userBadge: sellerBadge,
                                                          containsVideo: containsVideo))
         }
         tracker.trackEvent(TrackerEvent.userMessageSent(info: info))

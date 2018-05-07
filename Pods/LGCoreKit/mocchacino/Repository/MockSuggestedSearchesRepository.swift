@@ -23,7 +23,6 @@ open class MockSearchRepository: SearchRepository {
     public func retrieveSuggestiveSearches(language: String,
                                            limit: Int,
                                            term: String,
-                                           shouldIncludeCategories: Bool,
                                            completion: SuggestiveSearchesCompletion?) {
         delay(result: retrieveSuggestiveSearchResult, completion: completion)
     }

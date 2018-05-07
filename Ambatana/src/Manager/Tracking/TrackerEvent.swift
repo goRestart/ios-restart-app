@@ -52,7 +52,7 @@ struct TrackerEvent {
         case .enabled(let authStatus):
             enabled = true
             switch authStatus {
-            case .authorized:
+            case .authorizedWhenInUse, .authorizedAlways:
                 allowed = true
             case .notDetermined, .restricted, .denied:
                 allowed = false
@@ -365,6 +365,18 @@ struct TrackerEvent {
         return TrackerEvent(name: .filterComplete, params: params)
     }
 
+    static func searchAlertSwitchChanged(userId: String?,
+                                         searchKeyword: String?,
+                                         enabled: EventParameterBoolean,
+                                         source: EventParameterSearchAlertSource) -> TrackerEvent {
+        var params = EventParameters()
+        params[.userId] = userId
+        params[.searchString] = searchKeyword
+        params[.enabled] = enabled.rawValue
+        params[.searchAlertSource] = source.rawValue
+        return TrackerEvent(name: .searchAlertSwitchChanged, params: params)
+    }
+
     static func listingVisitPhotoViewer(_ listing: Listing,
                                         source: EventParameterListingVisitSource,
                                         numberOfPictures: Int) -> TrackerEvent {
@@ -383,16 +395,20 @@ struct TrackerEvent {
         return TrackerEvent(name: .listingVisitPhotoChat, params: params)
     }
 
-
-    static func listingDetailVisit(_ listing: Listing, visitUserAction: ListingVisitUserAction,
-                source: EventParameterListingVisitSource, feedPosition: EventParameterFeedPosition,
-                isBumpedUp: EventParameterBoolean, containsVideo: EventParameterBoolean) -> TrackerEvent {
+    static func listingDetailVisit(_ listing: Listing,
+                                   visitUserAction: ListingVisitUserAction,
+                                   source: EventParameterListingVisitSource,
+                                   feedPosition: EventParameterFeedPosition,
+                                   isBumpedUp: EventParameterBoolean,
+                                   sellerBadge: EventParameterUserBadge,
+                                   containsVideo: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
         params.addListingParams(listing)
         params[.userAction] = visitUserAction.rawValue
         params[.listingVisitSource] = source.rawValue
         params[.feedPosition] = feedPosition.value
         params[.isBumpedUp] = isBumpedUp.rawValue
+        params[.sellerReputationBadge] = sellerBadge.rawValue
         params[.isVideo] = containsVideo.rawValue
         return TrackerEvent(name: .listingDetailVisit, params: params)
     }
@@ -890,10 +906,12 @@ struct TrackerEvent {
     static func firstMessage(info: SendMessageTrackingInfo,
                              listingVisitSource: EventParameterListingVisitSource,
                              feedPosition: EventParameterFeedPosition,
+                             userBadge: EventParameterUserBadge,
                              containsVideo: EventParameterBoolean) -> TrackerEvent {
         var params = info.params
         params[.listingVisitSource] = listingVisitSource.rawValue
         params[.feedPosition] = feedPosition.value
+        params[.sellerReputationBadge] = userBadge.rawValue
         params[.isVideo] = containsVideo.rawValue
         return TrackerEvent(name: .firstMessage, params: params)
     }
@@ -930,6 +948,7 @@ struct TrackerEvent {
             params[.userToId] = user.objectId
             params[.tab] = tab.rawValue
             params[.profileType] = profileType.rawValue
+            params[.sellerReputationBadge] = EventParameterUserBadge(userBadge: user.reputationBadge).rawValue
             return TrackerEvent(name: .profileVisit, params: params)
     }
 
