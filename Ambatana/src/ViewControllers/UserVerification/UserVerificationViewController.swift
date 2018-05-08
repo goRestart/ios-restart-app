@@ -9,6 +9,7 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import GoogleSignIn
 
 enum UserVerificationTableViewSections: Int {
     case verifications = 0
@@ -16,7 +17,7 @@ enum UserVerificationTableViewSections: Int {
     case buyAndSell = 2
 }
 
-final class UserVerificationViewController: BaseViewController {
+final class UserVerificationViewController: BaseViewController, GIDSignInUIDelegate {
 
     private let viewModel: UserVerificationViewModel
     private let disposeBag = DisposeBag()
@@ -61,6 +62,7 @@ final class UserVerificationViewController: BaseViewController {
         setNavBarBackgroundStyle(.white)
         setupNavBar()
         setupConstraints()
+        GIDSignIn.sharedInstance().uiDelegate = self
     }
 
     private func setupNavBar() {
