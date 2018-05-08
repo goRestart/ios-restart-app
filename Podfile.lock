@@ -144,7 +144,7 @@ DEPENDENCIES:
   - KMPlaceholderTextView (from `https://github.com/letgoapp/KMPlaceholderTextView`, commit `426117c98e8da8fc7d64a7d3c2f0f45c48d595e6`)
   - Leanplum-iOS-SDK (= 2.0.5)
   - LGCollapsibleLabel (= 1.2.0)
-  - LGCoreKit (from `git@github.com:letgoapp/letgo-ios-lgcorekit.git`, commit `14b649c35e0498788db6fe49f5df652e3e53fffd`)
+  - LGCoreKit (= 4.25.1)
   - lottie-ios (= 2.5.0)
   - mopub-ios-sdk (= 4.20.0)
   - NewRelicAgent (= 6.1.1)
@@ -169,9 +169,6 @@ EXTERNAL SOURCES:
   KMPlaceholderTextView:
     :commit: 426117c98e8da8fc7d64a7d3c2f0f45c48d595e6
     :git: https://github.com/letgoapp/KMPlaceholderTextView
-  LGCoreKit:
-    :commit: 14b649c35e0498788db6fe49f5df652e3e53fffd
-    :git: git@github.com:letgoapp/letgo-ios-lgcorekit.git
 
 CHECKOUT OPTIONS:
   bumper:
@@ -183,9 +180,6 @@ CHECKOUT OPTIONS:
   KMPlaceholderTextView:
     :commit: 426117c98e8da8fc7d64a7d3c2f0f45c48d595e6
     :git: https://github.com/letgoapp/KMPlaceholderTextView
-  LGCoreKit:
-    :commit: 14b649c35e0498788db6fe49f5df652e3e53fffd
-    :git: git@github.com:letgoapp/letgo-ios-lgcorekit.git
 
 SPEC CHECKSUMS:
   Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
@@ -216,7 +210,7 @@ SPEC CHECKSUMS:
   KMPlaceholderTextView: 2bbcd19a273648a80a61e1e48f9743a24d8930e3
   Leanplum-iOS-SDK: d7d387b7f3688e697f2893978bfe67092df5b7ca
   LGCollapsibleLabel: 2a5ebb0ff0ff3e1d7ab0c295a17c923db000f557
-  LGCoreKit: 4d05ba0e15368caf769ceaaa2364f55f8f7bdb04
+  LGCoreKit: 2fc8663b43e1fd91fe5751da1723be2e4cbd8378
   lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
   mopub-ios-sdk: 89c6ac9ca01d3b36e9fba16a6cfe31d3c290d354
   NewRelicAgent: 652434a627201e3745cd5849228feeb10afe1879
@@ -235,6 +229,6 @@ SPEC CHECKSUMS:
   SwiftyGif: d36c6dfb52e2ca1e48fe349d225f50ec4123ec85
   SwiftyUserDefaults: 3d273b1739b68ada3145dc754a70ec775bc5c8be
 
-PODFILE CHECKSUM: 17c25e247bd08eecdc81f81c423010a33f8e5277
+PODFILE CHECKSUM: 4c200d8993275c3d56335f27360e1a8f3bd8cdb2
 
 COCOAPODS: 1.4.0
