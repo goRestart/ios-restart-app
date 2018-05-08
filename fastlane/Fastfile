@@ -451,6 +451,7 @@ platform :ios do
     push_git_tags(
        tag: options[:tag_name],
        remote: "origin"
+    )
     end
 
   desc "Builds LetgoGoDev for simulator to export it for automation process"
