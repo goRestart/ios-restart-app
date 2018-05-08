@@ -155,7 +155,7 @@ final class ListingCarouselCell: UICollectionViewCell {
         
     fileprivate func imageAtIndex(_ index: Int) -> URL? {
         guard 0..<productImages.count ~= index else { return nil }
-        return productImages[index].outputs.imageThumbnail
+        return productImages[index].outputs.image
     }
 }
 

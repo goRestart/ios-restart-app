@@ -507,6 +507,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("change_email_error_already_registered", comment: "")
 	}
 
+	static var chatUserInfoLetgoAssistant: String {
+		return NSLocalizedString("chat_user_info_letgo_assistant", comment: "")
+	}
+
 	static var chatMessageTypeNotSupported: String {
 		return NSLocalizedString("chat_message_type_not_supported", comment: "")
 	}
@@ -2291,6 +2295,50 @@ struct LGLocalizedString {
 		return NSLocalizedString("passive_buyers_contact_success", comment: "")
 	}
 
+	static var passwordlessMainSignupButton: String {
+		return NSLocalizedString("passwordless_main_signup_button", comment: "")
+	}
+
+	static var passwordlessEmailInputTitle: String {
+		return NSLocalizedString("passwordless_email_input_title", comment: "")
+	}
+
+	static var passwordlessEmailInputDescription: String {
+		return NSLocalizedString("passwordless_email_input_description", comment: "")
+	}
+
+	static var passwordlessEmailInputTextfieldPlaceholder: String {
+		return NSLocalizedString("passwordless_email_input_textfield_placeholder", comment: "")
+	}
+
+	static var passwordlessEmailInputButton: String {
+		return NSLocalizedString("passwordless_email_input_button", comment: "")
+	}
+
+	static var passwordlessEmailSentScreenTitle: String {
+		return NSLocalizedString("passwordless_email_sent_screen_title", comment: "")
+	}
+
+	static var passwordlessEmailSentTitle: String {
+		return NSLocalizedString("passwordless_email_sent_title", comment: "")
+	}
+
+	static func passwordlessEmailSentSubtitle(_ var1: String) -> String {
+		return String(format: NSLocalizedString("passwordless_email_sent_subtitle", comment: ""), var1)
+	}
+
+	static var passwordlessUsernameInputTitle: String {
+		return NSLocalizedString("passwordless_username_input_title", comment: "")
+	}
+
+	static var passwordlessUsernameInputTextfieldPlaceholder: String {
+		return NSLocalizedString("passwordless_username_input_textfield_placeholder", comment: "")
+	}
+
+	static var passwordlessUsernameInputDoneButton: String {
+		return NSLocalizedString("passwordless_username_input_done_button", comment: "")
+	}
+
 	static var photoViewerChatButton: String {
 		return NSLocalizedString("photo_viewer_chat_button", comment: "")
 	}
@@ -3471,6 +3519,10 @@ struct LGLocalizedString {
 		return String(format: NSLocalizedString("phone_verification_number_input_view_confirmation_message", comment: ""), var1, var2)
 	}
 
+	static var phoneVerificationNumberInputViewErrorMessage: String {
+		return NSLocalizedString("phone_verification_number_input_view_error_message", comment: "")
+	}
+
 	static var phoneVerificationCodeInputViewTitle: String {
 		return NSLocalizedString("phone_verification_code_input_view_title", comment: "")
 	}
@@ -3501,6 +3553,10 @@ struct LGLocalizedString {
 
 	static var phoneVerificationCodeInputViewValidatedFailure: String {
 		return NSLocalizedString("phone_verification_code_input_view_validated_failure", comment: "")
+	}
+
+	static var phoneVerificationCodeInputViewErrorMessage: String {
+		return NSLocalizedString("phone_verification_code_input_view_error_message", comment: "")
 	}
 
 	static var phoneVerificationCountryPickerViewTitle: String {
