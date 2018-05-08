@@ -172,8 +172,8 @@
 "chat_list_buying_title" = "COMPRA";
 "chat_list_delete" = "Eliminar";
 "chat_list_delete_alert_send" = "Eliminar";
-"chat_list_delete_alert_text_multiple" = "Vas a eliminar estos chats";
-"chat_list_delete_alert_text_one" = "Vas a eliminar este chat";
+"chat_list_delete_alert_text_multiple" = "Vas a eliminar estos chats permanentemente";
+"chat_list_delete_alert_text_one" = "Vas a eliminar este chat permanentemente";
 "chat_list_delete_alert_title_multiple" = "Eliminar chats";
 "chat_list_delete_alert_title_one" = "Eliminar chat";
 "chat_list_delete_error_one" = "Se ha producido un error al eliminar este chat. Por favor, inténtalo de nuevo.";
@@ -215,6 +215,7 @@
 "chat_send_error_generic" = "Se ha producido un error al enviar tu mensaje. Por favor, inténtalo de nuevo.";
 "chat_stickers_tooltip_new" = "¡NUEVO!";
 "chat_unblock_user" = "Desbloquear usuario";
+"chat_user_info_letgo_assistant" = "Soy una asistente virtual que te da consejos y te ayuda a vender.";
 "chat_user_info_name" = "Hola, soy %@";
 "chat_user_info_verified_with" = "Verificado con: ";
 "chat_user_rating_button_tooltip" = "Valora a este usuario";
@@ -573,6 +574,7 @@
 "phone_verification_code_input_view_content_subtext" = "Puedes pedir otro código si no lo recibes en %@";
 "phone_verification_code_input_view_content_subtitle" = "Enviado a %@";
 "phone_verification_code_input_view_content_title" = "Introduce el código de 6 dígitos";
+"phone_verification_code_input_view_error_message" = "¡Ups! Se ha producido un error al validar el código. Inténtalo de nuevo.";
 "phone_verification_code_input_view_title" = "Verificación de teléfono";
 "phone_verification_code_input_view_validated_failure" = "El código que has introducido es incorrecto.";
 "phone_verification_code_input_view_validated_success" = "¡Teléfono verificado!";
@@ -583,6 +585,7 @@
 "phone_verification_number_input_view_confirmation_title" = "¡Gracias!";
 "phone_verification_number_input_view_continue_button" = "Continuar";
 "phone_verification_number_input_view_description" = "Crea confianza verificando tu número de teléfono";
+"phone_verification_number_input_view_error_message" = "¡Ups! Se ha producido un error al enviar el mensaje de texto. Inténtalo de nuevo.";
 "phone_verification_number_input_view_sending_message" = "Enviando mensaje de texto…";
 "phone_verification_number_input_view_textfield_placeholder" = "Número de teléfono";
 "phone_verification_number_input_view_title" = "Verificación de teléfono";
@@ -837,10 +840,10 @@
 "profile_favourites_my_user_no_products_label" = "NO HAY FAVORITOS (¡TODAVÍA!)";
 "profile_favourites_products_tab" = "Favoritos";
 "profile_karma_improve_score" = "Consigue más Puntos de Verificación";
-"profile_karma_points_title" = "%@ puntos";
+"profile_karma_points_title" = "%@";
 "profile_karma_title" = "Puntos de verificación: %@";
 "profile_karma_unverified_points_subtitle" = "%@ puntos";
-"profile_karma_unverified_subtitle" = "Gana %@ para conseguir la insignia de Usuario Verificado";
+"profile_karma_unverified_subtitle" = "Gana %@ y consigue la insignia de Usuario Verificado";
 "profile_karma_verified_subtitle" = "¡Has conseguido la insignia!";
 "profile_karma_visibility_title" = "Solo visible para ti";
 "profile_permissions_alert_cancel" = "Ahora no";
@@ -865,8 +868,8 @@
 "profile_verifications_view_extra_section_title" = "COMPRA Y VENDE";
 "profile_verifications_view_facebook_title" = "Facebook";
 "profile_verifications_view_google_title" = "Google";
-"profile_verifications_view_mark_as_sold_subtitle" = "+2 puntos cada uno (hasta 10 puntos)";
-"profile_verifications_view_mark_as_sold_title" = "Marcar un anuncio como vendido";
+"profile_verifications_view_mark_as_sold_subtitle" = "+2 puntos por cada artículo (hasta 10 puntos)";
+"profile_verifications_view_mark_as_sold_title" = "Marcar como vendido";
 "profile_verifications_view_phone_number_title" = "Número de teléfono";
 "profile_verifications_view_photo_id_title" = "Documento de identidad";
 "profile_verifications_view_profile_picture_title" = "Foto de perfil";

@@ -215,6 +215,7 @@
 "chat_send_error_generic" = "Er is een fout opgetreden tijdens het versturen van het bericht. Probeer het later nog eens.";
 "chat_stickers_tooltip_new" = "NIEUW!";
 "chat_unblock_user" = "Deblokkeer gebruiker";
+"chat_user_info_letgo_assistant" = "Ik ben een virtuele assistent die je tips geeft en je helpt verkopen.";
 "chat_user_info_name" = "Hoi, ik ben %@";
 "chat_user_info_verified_with" = "Geverifieerd met:";
 "chat_user_rating_button_tooltip" = "Beoordeel deze gebruiker";
@@ -573,6 +574,7 @@
 "phone_verification_code_input_view_content_subtext" = "Je kunt een andere code aanvragen als je deze niet ontvangt binnen %@";
 "phone_verification_code_input_view_content_subtitle" = "We hebben het verzonden naar %@";
 "phone_verification_code_input_view_content_title" = "Voer de 6-cijferige code in";
+"phone_verification_code_input_view_error_message" = "Oeps! Er is een fout opgetreden tijdens het valideren van de code. Probeer het opnieuw.";
 "phone_verification_code_input_view_title" = "Nummerverificatie";
 "phone_verification_code_input_view_validated_failure" = "De verificatiecode die je hebt ingevoerd is onjuist.";
 "phone_verification_code_input_view_validated_success" = "Telefoonnummer geverifieerd!";
@@ -583,6 +585,7 @@
 "phone_verification_number_input_view_confirmation_title" = "Bedankt!";
 "phone_verification_number_input_view_continue_button" = "Doorgaan";
 "phone_verification_number_input_view_description" = "Bouw vertrouwen op door je telefoonnummer te verifiëren";
+"phone_verification_number_input_view_error_message" = "Oeps! Er is een fout opgetreden tijdens het verzenden van het SMS-bericht. Probeer het opnieuw.";
 "phone_verification_number_input_view_sending_message" = "Versturen van bericht...";
 "phone_verification_number_input_view_textfield_placeholder" = "Telefoonnummer";
 "phone_verification_number_input_view_title" = "Nummerverificatie";
@@ -865,8 +868,8 @@
 "profile_verifications_view_extra_section_title" = "KOPEN EN VERKOPEN";
 "profile_verifications_view_facebook_title" = "Facebook";
 "profile_verifications_view_google_title" = "Google";
-"profile_verifications_view_mark_as_sold_subtitle" = "+2 ptn elk (maximaal 10 ptn)";
-"profile_verifications_view_mark_as_sold_title" = "Markeer een advertentie als verkocht";
+"profile_verifications_view_mark_as_sold_subtitle" = "+2 ptn voor elke advertentie (maximaal 10 ptn)";
+"profile_verifications_view_mark_as_sold_title" = "Markeer als verkocht";
 "profile_verifications_view_phone_number_title" = "Telefoonnummer";
 "profile_verifications_view_photo_id_title" = "Foto ID";
 "profile_verifications_view_profile_picture_title" = "Profielfoto";
