@@ -11,6 +11,6 @@ import LGCoreKit
 protocol UserPhoneVerificationNavigator: class {
     func openCountrySelector(withDelegate: UserPhoneVerificationCountryPickerDelegate)
     func closeCountrySelector()
-    func openCodeInput(sentTo phoneNumber: String)
+    func openCodeInput(sentTo phoneNumber: String, with callingCode: String)
     func closePhoneVerificaction()
 }

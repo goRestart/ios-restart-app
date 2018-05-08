@@ -222,10 +222,12 @@ extension ProfileTabCoordinator: UserPhoneVerificationNavigator {
         navigationController.popViewController(animated: true)
     }
 
-    func openCodeInput(sentTo phoneNumber: String) {
-        let vm = UserPhoneVerificationCodeInputViewModel(phoneNumber: phoneNumber)
+    func openCodeInput(sentTo phoneNumber: String, with callingCode: String) {
+        let vm = UserPhoneVerificationCodeInputViewModel(callingCode: callingCode,
+                                                         phoneNumber: phoneNumber)
         vm.navigator = self
         let vc = UserPhoneVerificationCodeInputViewController(viewModel: vm)
+        vm.delegate = vc
         navigationController.pushViewController(vc, animated: true)
     }
 
