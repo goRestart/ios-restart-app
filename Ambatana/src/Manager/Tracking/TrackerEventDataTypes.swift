@@ -875,7 +875,7 @@ enum EventParameterTypePage: String {
     case postingLearnMore = "posting-learn-more-button"
     case sellStart = "product-sell-start"
     case userVerifications = "user-verifications"
-    case smsVerification = "sms=verification"
+    case smsVerification = "sms-verification"
 }
 
 enum EventParameterPermissionType: String {
