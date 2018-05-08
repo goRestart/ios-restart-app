@@ -14,6 +14,7 @@ final class UserPhoneVerificationCodeInputViewModel: BaseViewModel {
     weak var navigator: UserPhoneVerificationNavigator?
 
     private let myUserRepository: MyUserRepository
+    private let tracker: Tracker
     private var timer: Timer?
 
     enum ValidationState {
@@ -26,9 +27,11 @@ final class UserPhoneVerificationCodeInputViewModel: BaseViewModel {
     let resendCodeCountdown = Variable<Int>(50)
 
     init(phoneNumber: String,
-         myUserRepository: MyUserRepository = Core.myUserRepository) {
+         myUserRepository: MyUserRepository = Core.myUserRepository,
+         tracker: Tracker = TrackerProxy.sharedInstance) {
         self.phoneNumber = phoneNumber
         self.myUserRepository = myUserRepository
+        self.tracker = tracker
         super.init()
         setupResendCodeTimer()
     }
@@ -71,6 +74,7 @@ final class UserPhoneVerificationCodeInputViewModel: BaseViewModel {
             switch result {
             case .success:
                 self?.validationState.value = .success
+                self?.tracker.trackEvent(.verifyAccountComplete(.smsVerification, network: .sms))
             case .failure:
                 self?.validationState.value = .failure
             }
