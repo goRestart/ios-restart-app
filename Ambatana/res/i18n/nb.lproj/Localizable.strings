@@ -574,7 +574,7 @@
 "phone_verification_code_input_view_content_subtext" = "Du kan be om en ny kode hvis du ikke mottar den innen %@";
 "phone_verification_code_input_view_content_subtitle" = "Vi har sendt den til %@";
 "phone_verification_code_input_view_content_title" = "Tast inn den 6-sifrede koden";
-"phone_verification_code_input_view_error_message" = "Oops! An error occurred while validating the code. Please try again.";
+"phone_verification_code_input_view_error_message" = "Oops! En feil oppstod ved validering av kode. Vennligst prøv igjen.";
 "phone_verification_code_input_view_title" = "Nummerverifisering";
 "phone_verification_code_input_view_validated_failure" = "Verifiseringskoden du valgte er ugyldig.";
 "phone_verification_code_input_view_validated_success" = "Mobilnummer er verifisert!";
@@ -585,7 +585,7 @@
 "phone_verification_number_input_view_confirmation_title" = "Takk!";
 "phone_verification_number_input_view_continue_button" = "Fortsett";
 "phone_verification_number_input_view_description" = "Bygg tillit ved å verifisere ditt mobilnummer";
-"phone_verification_number_input_view_error_message" = "Oops! An error occurred while sending the text message. Please try again.";
+"phone_verification_number_input_view_error_message" = "Oops! En feil oppstod ved sending av tekstmelding. Vennligst prøv igjen.";
 "phone_verification_number_input_view_sending_message" = "Sender tekstmelding…";
 "phone_verification_number_input_view_textfield_placeholder" = "Mobilnummer";
 "phone_verification_number_input_view_title" = "Nummerverifisering";
@@ -869,7 +869,7 @@
 "profile_verifications_view_facebook_title" = "Facebook";
 "profile_verifications_view_google_title" = "Google";
 "profile_verifications_view_mark_as_sold_subtitle" = "+2 poeng hver (opp til 10 poeng)";
-"profile_verifications_view_mark_as_sold_title" = "Marker en annonsen som solgt";
+"profile_verifications_view_mark_as_sold_title" = "Merk som solgt";
 "profile_verifications_view_phone_number_title" = "Telefonnummer";
 "profile_verifications_view_photo_id_title" = "Foto ID";
 "profile_verifications_view_profile_picture_title" = "Profilbilde";
