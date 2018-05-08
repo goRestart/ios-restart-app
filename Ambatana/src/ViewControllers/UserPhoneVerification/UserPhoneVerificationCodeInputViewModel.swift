@@ -102,8 +102,8 @@ final class UserPhoneVerificationCodeInputViewModel: BaseViewModel {
                                                            completion: completion)
                 }
             case .failure(_):
-                self.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
-                break // FIXME: waiting for product
+                self.delegate?.vmHideLoading(LGLocalizedString.phoneVerificationNumberInputViewErrorMessage,
+                                              afterMessageCompletion: nil)
             }
 
         }
