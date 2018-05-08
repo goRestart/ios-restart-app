@@ -37,7 +37,7 @@ struct Constants {
     static let branchWebsiteURL = "https://app.letgo.com"
     static let branchLinksHost = "app.letgo.com"
     // AppsFlyer
-    static let appsFlyerLinksHost = "https://letgo.onelink.me/"
+    static let appsFlyerLinksHost = "letgo.onelink.me"
 
     // Website
     static let websiteRecaptchaEndpoint = "/mcaptcha"
