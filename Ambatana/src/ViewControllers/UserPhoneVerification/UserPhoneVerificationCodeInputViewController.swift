@@ -60,6 +60,7 @@ final class UserPhoneVerificationCodeInputViewController: BaseViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         viewModel.viewWillDisappear()
+        timer?.invalidate()
     }
 
     private func setupUI() {
@@ -176,9 +177,10 @@ final class UserPhoneVerificationCodeInputViewController: BaseViewController {
                 case .validating:
                     self?.showValidationLoading()
                 case .success:
-                    self?.showValidationFinishedWith(success: true)
-                case .failure:
-                    self?.showValidationFinishedWith(success: false)
+                    self?.showValidationFinishedWith(success: true,
+                                                     message: LGLocalizedString.phoneVerificationCodeInputViewValidatedSuccess)
+                case .failure(let message):
+                    self?.showUnknownErrorAlertWith(message: message)
                 case .none:
                     break
                 }
@@ -200,19 +202,26 @@ final class UserPhoneVerificationCodeInputViewController: BaseViewController {
             .startAnimatingWith(message: LGLocalizedString.phoneVerificationCodeInputViewValidatingMessage)
     }
 
-    private func showValidationFinishedWith(success: Bool) {
-        let message = success ? LGLocalizedString.phoneVerificationCodeInputViewValidatedSuccess :
-            LGLocalizedString.phoneVerificationCodeInputViewValidatedFailure
+    private func showValidationFinishedWith(success: Bool, message: String) {
         fullscreenMessageView.stopAnimatingWith(message: message, success: success)
-
         timer = Timer.scheduledTimer(timeInterval: timerDuration,
                                      target: self,
-                                     selector: #selector(didFinishValidationMessageTimer(timer:)),
+                                     selector: #selector(didFinishValidationMessage(timer:)),
                                      userInfo: ["success": success],
                                      repeats: false)
     }
 
-    @objc private func didFinishValidationMessageTimer(timer: Timer) {
+    private func showUnknownErrorAlertWith(message: String) {
+        fullscreenMessageView.stopAnimatingWith(message: "", success: false)
+        dismissFullscreenMessage() { [weak self] in
+            self?.vmShowAutoFadingMessage(message) {
+                self?.codeTextField.clearText()
+                self?.codeTextField.becomeFirstResponder()
+            }
+        }
+    }
+
+    @objc private func didFinishValidationMessage(timer: Timer) {
         guard let userInfo = timer.userInfo as? [String: Any],
             let success = userInfo["success"] as? Bool else { return }
 
@@ -224,14 +233,19 @@ final class UserPhoneVerificationCodeInputViewController: BaseViewController {
             codeTextField.becomeFirstResponder()
         }
 
+        dismissFullscreenMessage() { [weak self] in
+            guard success else  { return }
+            self?.fullscreenMessageView.removeFromSuperview()
+        }
+    }
+
+    private func dismissFullscreenMessage(completionBlock: (()->())? = nil) {
         UIView.animate(withDuration: 0.5,
                        animations: { [weak self] in
                         self?.fullscreenMessageView.alpha = 0
         }) { [weak self] _ in
             self?.fullscreenMessageView.isHidden = true
-            if success {
-                self?.fullscreenMessageView.removeFromSuperview()
-            }
+            completionBlock?()
         }
     }
 }
