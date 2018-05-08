@@ -184,7 +184,7 @@ platform :ios do
       shallow_clone: false
     )
 
-    build_number = get_build_number(xcodeproj: "LetGo.xcodeproj")
+    build_number = get_build_number(xcodeproj: ENV["XCODE_WORKSPACE"])
 
     xcclean
 
@@ -204,6 +204,9 @@ platform :ios do
       symbols_backup_path: "./symbols",
       backup_ipa: true
     )
+    
+    version_number = get_version_number(xcodeproj: ENV["XCODE_WORKSPACE"])
+    tag_release tag_name: version_number, build_number: build_number  
 
     # # Send release to itunes connect
     deliver(
@@ -423,6 +426,19 @@ platform :ios do
       lg_just_info: false
     )
   end
+
+  desc "Tags current branch and pushes to remote"
+  private_lane :tag_release do |options|
+    add_git_tag(
+       tag: options[:tag_name],
+       build_number: options[:build_number],
+       force: true
+    )
+    push_git_tags(
+       tag: options[:tag_name],
+       remote: "origin"
+    )
+    end
 
   desc "Builds LetgoGoDev for simulator to export it for automation process"
   lane :make_automation_build do
