@@ -20,7 +20,7 @@ final class UserVerificationViewController: BaseViewController {
 
     private let viewModel: UserVerificationViewModel
     private let disposeBag = DisposeBag()
-    private let tableView = UITableView()
+    private let tableView = UITableView(frame: .zero, style: .grouped)
     private let navBarView = UserVerificationNavBarView()
     private var items: [[UserVerificationItem]] = []
 
@@ -56,6 +56,7 @@ final class UserVerificationViewController: BaseViewController {
         tableView.separatorStyle = .none
         tableView.sectionHeaderHeight = 66
         tableView.contentInset = UIEdgeInsetsMake(0, 0, Metrics.bigMargin, 0)
+        tableView.backgroundColor = .white
         tableView.register(UserVerificationCell.self, forCellReuseIdentifier: UserVerificationCell.reusableID)
         setNavBarBackgroundStyle(.white)
         setupNavBar()
