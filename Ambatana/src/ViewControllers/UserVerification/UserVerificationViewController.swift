@@ -55,6 +55,7 @@ final class UserVerificationViewController: BaseViewController {
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = .none
         tableView.sectionHeaderHeight = 66
+        tableView.contentInset = UIEdgeInsetsMake(0, 0, Metrics.bigMargin, 0)
         tableView.register(UserVerificationCell.self, forCellReuseIdentifier: UserVerificationCell.reusableID)
         setNavBarBackgroundStyle(.white)
         setupNavBar()
