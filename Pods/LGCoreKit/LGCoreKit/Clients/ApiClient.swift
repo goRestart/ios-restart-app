@@ -482,6 +482,8 @@ extension DataResponse {
             } catch {
                 logMessage(.debug, type: .parsing, message: "could not parse LGApiUsersErrorCode \(data)")
             }
+        case .searchAlertsError:
+            return nil
         }
         return nil
     }
