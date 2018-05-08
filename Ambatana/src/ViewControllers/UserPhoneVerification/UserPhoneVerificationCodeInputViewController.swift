@@ -87,7 +87,7 @@ final class UserPhoneVerificationCodeInputViewController: BaseViewController {
     }
 
     private func setupSubtitleLabelUI() {
-        subtitleLabel.text = LGLocalizedString.phoneVerificationCodeInputViewContentSubtitle(viewModel.phoneNumber)
+        subtitleLabel.text = LGLocalizedString.phoneVerificationCodeInputViewContentSubtitle(viewModel.fullPhoneNumber)
         subtitleLabel.font = .smsVerificationInputSmallDescription
         subtitleLabel.textColor = .darkGrayText
         subtitleLabel.textAlignment = .center
@@ -189,7 +189,7 @@ final class UserPhoneVerificationCodeInputViewController: BaseViewController {
     }
 
     @objc private func didTapOnCodeNotReceived() {
-        // FIXME: implement this
+        viewModel.resendCode()
     }
 
     private func showValidationLoading() {
