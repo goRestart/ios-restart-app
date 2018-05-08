@@ -62,7 +62,7 @@ class PasswordlessEmailViewModelSpec: BaseViewModelSpec {
                     buildPasswordlessEmailViewModel()
                     sut.didChange(email: "invalid@email")
                 }
-                it("with invalid email") {
+                it("disables the continue button") {
                     expect(isContinueActionEnabled.eventValues).toEventually(equal([false, false]))
                 }
             }
@@ -72,7 +72,7 @@ class PasswordlessEmailViewModelSpec: BaseViewModelSpec {
                     buildPasswordlessEmailViewModel()
                     sut.didChange(email: "valid@email.com")
                 }
-                it("with invalid email") {
+                it("enables the continue button") {
                     expect(isContinueActionEnabled.eventValues).toEventually(equal([false, true]))
                 }
             }
@@ -82,7 +82,7 @@ class PasswordlessEmailViewModelSpec: BaseViewModelSpec {
                     buildPasswordlessEmailViewModel()
                     sut.didTapContinueWith(email: "valid@email.com")
                 }
-                it("with invalid email") {
+                it("opens email sent view") {
                     expect(self.openEmailSent) == true
                 }
             }
@@ -92,7 +92,7 @@ class PasswordlessEmailViewModelSpec: BaseViewModelSpec {
                     buildPasswordlessEmailViewModel()
                     sut.didTapHelp()
                 }
-                it("with invalid email") {
+                it("opens the Help view") {
                     expect(self.openHelpCalled) == true
                 }
             }

@@ -45,7 +45,7 @@ class PasswordlessUsernameViewModelSpec: BaseViewModelSpec {
                     buildPasswordlessUsernameViewModel()
                     sut.didTapDoneWith(name: "RandomName")
                 }
-                it("with invalid email") {
+                it("closes the view") {
                     expect(self.closeUsernameViewCalled).toEventually(beTrue())
                 }
             }
@@ -55,7 +55,7 @@ class PasswordlessUsernameViewModelSpec: BaseViewModelSpec {
                     buildPasswordlessUsernameViewModel()
                     sut.didTapHelp()
                 }
-                it("with invalid email") {
+                it("opens the Help view") {
                     expect(self.openHelpCalled) == true
                 }
             }
