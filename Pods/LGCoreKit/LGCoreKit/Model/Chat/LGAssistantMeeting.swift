@@ -103,6 +103,8 @@ public struct LGAssistantMeeting: AssistantMeeting {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM/dd/yyyy hh:mm a ZZZZ"
         dateFormatter.timeZone = TimeZone.current
+        dateFormatter.amSymbol = "AM"
+        dateFormatter.pmSymbol = "PM"
         return dateFormatter
     }()
 
