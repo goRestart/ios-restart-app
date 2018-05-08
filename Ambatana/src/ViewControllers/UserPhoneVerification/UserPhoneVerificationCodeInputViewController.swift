@@ -60,6 +60,7 @@ final class UserPhoneVerificationCodeInputViewController: BaseViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         viewModel.viewWillDisappear()
+        timer?.invalidate()
     }
 
     private func setupUI() {
@@ -205,7 +206,7 @@ final class UserPhoneVerificationCodeInputViewController: BaseViewController {
         fullscreenMessageView.stopAnimatingWith(message: message, success: success)
         timer = Timer.scheduledTimer(timeInterval: timerDuration,
                                      target: self,
-                                     selector: #selector(didFinishValidationMessageTimer(timer:)),
+                                     selector: #selector(didFinishValidationMessage(timer:)),
                                      userInfo: ["success": success],
                                      repeats: false)
     }
@@ -220,7 +221,7 @@ final class UserPhoneVerificationCodeInputViewController: BaseViewController {
         }
     }
 
-    @objc private func didFinishValidationMessageTimer(timer: Timer) {
+    @objc private func didFinishValidationMessage(timer: Timer) {
         guard let userInfo = timer.userInfo as? [String: Any],
             let success = userInfo["success"] as? Bool else { return }
 
