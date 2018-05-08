@@ -16,8 +16,7 @@ class ProductionEnvironment: AppEnvironment {
     
     // AppsFlyer
     let appsFlyerAPIKey = "5EKnCjmwmNKjE2e7gYBo6T"
-    let oneLinkHost = "letgo.onelink.me"
-    let oneLinkID = "O2PG"
+    let appsFlyerAppInviteOneLinkID = "O2PG"
 
     // Google login
     let googleServerClientID = "914431496661-7s28hvdioe432kpco4lvh53frmkqlllv.apps.googleusercontent.com"
