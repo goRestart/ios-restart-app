@@ -206,12 +206,12 @@ class ABTestsSpec: QuickSpec {
             }
 
             context("registering all the variables") {
-                it("the chat int variable registered is 2") {
-                    expect(chat.intVariables.count) == 2
+                it("the chat int variable registered is 3") {
+                    expect(chat.intVariables.count) == 3
                 }
 
-                it("the chat bool variable registered are 3") {
-                    expect(chat.boolVariables.count) == 3
+                it("the chat bool variable registered are 2") {
+                    expect(chat.boolVariables.count) == 2
                 }
 
                 it("the chat string variable registered are 0") {
