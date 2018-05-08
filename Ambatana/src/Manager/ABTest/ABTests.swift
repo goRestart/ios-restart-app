@@ -45,6 +45,7 @@ class ABTests {
     let chat = ChatABGroup.make()
     let core = CoreABGroup.make()
     let users = UsersABGroup.make()
+    let products = ProductsABGroup.make()
 
 
     convenience init() {
@@ -66,6 +67,7 @@ class ABTests {
         result.append(contentsOf: chat.intVariables)
         result.append(contentsOf: core.intVariables)
         result.append(contentsOf: users.intVariables)
+        result.append(contentsOf: products.intVariables)
         return result
     }
 
@@ -79,7 +81,7 @@ class ABTests {
         result.append(contentsOf: chat.boolVariables)
         result.append(contentsOf: core.boolVariables)
         result.append(contentsOf: users.boolVariables)
-
+        result.append(contentsOf: products.boolVariables)
         return result
     }
 
@@ -181,6 +183,12 @@ extension ABTests {
     var filterSearchCarSellerType: LeanplumABVariable<Int> { return verticals.filterSearchCarSellerType }
     var createUpdateCarsIntoNewBackend: LeanplumABVariable<Int> { return verticals.createUpdateIntoNewBackend }
     var realEstateMap: LeanplumABVariable<Int> { return verticals.realEstateMap }
+}
+
+//  MARK: Products
+
+extension ABTests {
+    var servicesCategoryOnSalchichasMenu: LeanplumABVariable<Int> { return products.servicesCategoryOnSalchichasMenu }
 }
 
 //  MARK: Legacy

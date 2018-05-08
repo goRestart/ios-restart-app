@@ -92,6 +92,9 @@ protocol FeatureFlaggeable: class {
     var filterSearchCarSellerType: FilterSearchCarSellerType { get }
     var createUpdateIntoNewBackend: CreateUpdateCarsIntoNewBackend { get }
     var realEstateMap: RealEstateMap { get }
+
+    // MARK: Products
+    var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu { get }
 }
 
 extension FeatureFlaggeable {
@@ -418,6 +421,10 @@ extension CopyForSellFasterNowInEnglish {
 
 extension IAmInterestedFeed {
     var isVisible: Bool { return self == .control || self == .baseline }
+}
+
+extension ServicesCategoryOnSalchichasMenu {
+    var isActive: Bool { return self != .control && self != .baseline }    
 }
 
 final class FeatureFlags: FeatureFlaggeable {
@@ -1081,3 +1088,16 @@ extension FeatureFlags {
         //  return RealEstateMap.fromPosition(abTests.realEstateMap.value)
     }
 }
+
+// MARK: Products
+
+extension FeatureFlags {
+
+    var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu {
+        if Bumper.enabled {
+            return Bumper.servicesCategoryOnSalchichasMenu
+        }
+        return ServicesCategoryOnSalchichasMenu.fromPosition(abTests.servicesCategoryOnSalchichasMenu.value)
+    }
+}
+

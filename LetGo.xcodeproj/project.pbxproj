@@ -1262,6 +1262,8 @@
 		C21E6075208A8828008A1956 /* RecordedVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C21E6073208A8828008A1956 /* RecordedVideo.swift */; };
 		C21E6078208A89AF008A1956 /* VideoPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = C21E6077208A89AF008A1956 /* VideoPreview.swift */; };
 		C21E6079208A89AF008A1956 /* VideoPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = C21E6077208A89AF008A1956 /* VideoPreview.swift */; };
+		C25C371620A18DE700B0C9E0 /* ProductsABGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = C25C371520A18DE700B0C9E0 /* ProductsABGroup.swift */; };
+		C25C371720A18DE700B0C9E0 /* ProductsABGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = C25C371520A18DE700B0C9E0 /* ProductsABGroup.swift */; };
 		C2636F6E208B7A9600534D01 /* PreSignedUploadUrlForm+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2636F6D208B7A9600534D01 /* PreSignedUploadUrlForm+LG.swift */; };
 		C2636F6F208B7A9600534D01 /* PreSignedUploadUrlForm+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2636F6D208B7A9600534D01 /* PreSignedUploadUrlForm+LG.swift */; };
 		C26D224D208B47E500C66EC0 /* UploadingVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C26D224C208B47E500C66EC0 /* UploadingVideo.swift */; };
@@ -2700,6 +2702,7 @@
 		B7604A34937163380AC2D30A /* Pods-letgoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-letgoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests.release.xcconfig"; sourceTree = "<group>"; };
 		C21E6073208A8828008A1956 /* RecordedVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordedVideo.swift; sourceTree = "<group>"; };
 		C21E6077208A89AF008A1956 /* VideoPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPreview.swift; sourceTree = "<group>"; };
+		C25C371520A18DE700B0C9E0 /* ProductsABGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsABGroup.swift; sourceTree = "<group>"; };
 		C2636F6D208B7A9600534D01 /* PreSignedUploadUrlForm+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PreSignedUploadUrlForm+LG.swift"; sourceTree = "<group>"; };
 		C26D224C208B47E500C66EC0 /* UploadingVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadingVideo.swift; sourceTree = "<group>"; };
 		C271D01F206B7C8B00D898F1 /* LGCamera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGCamera.swift; sourceTree = "<group>"; };
@@ -3169,6 +3172,7 @@
 				0A04D5C820760A9C00471B9D /* RealEstateABGroup.swift */,
 				0A04D5C920760A9C00471B9D /* RetentionABGroup.swift */,
 				0A04D5DF207614F000471B9D /* UsersABGroup.swift */,
+				C25C371520A18DE700B0C9E0 /* ProductsABGroup.swift */,
 			);
 			path = ABTest;
 			sourceTree = "<group>";
@@ -3953,7 +3957,6 @@
 				50AB5F211ED4447200E9909D /* UserRatingTag.swift */,
 				01A04803200CE474008725A1 /* LocalMostSearchedItem.swift */,
 				42059D10207E31DF00083438 /* FilterCarSection.swift */,
-				4245B6EE2084D47A00EF8162 /* CarSellerType+LG.swift */,
 				4245B6EE2084D47A00EF8162 /* UserType+LG.swift */,
 				C21E6073208A8828008A1956 /* RecordedVideo.swift */,
 				C26D224C208B47E500C66EC0 /* UploadingVideo.swift */,
@@ -4807,8 +4810,7 @@
 			children = (
 				72769A662008CA5B00A7E627 /* RealEstateBanner.swift */,
 			);
-			name = RealEstateBanner;
-			path = "New Group";
+			path = RealEstateBanner;
 			sourceTree = "<group>";
 		};
 		8E04C7471ED81F2C0014F58B /* DistanceSlider */ = {
@@ -7051,6 +7053,7 @@
 				C784FDFF1C21B45B00846AB7 /* LoadingIndicator.swift in Sources */,
 				C7B588291CE1DE1C009B3975 /* BlockedUsersListView.swift in Sources */,
 				2EF4E3AE1D3688AB00A09DFD /* LGConfigManager.swift in Sources */,
+				C25C371620A18DE700B0C9E0 /* ProductsABGroup.swift in Sources */,
 				0183BB1E203C8B6800204383 /* PostingGetStartedViewModel.swift in Sources */,
 				2EDCFA311BFF8AB00000E47D /* SignUpLogInViewController.swift in Sources */,
 				C7415EE21DEDDB460003D6C1 /* KeyboardViewController.swift in Sources */,
@@ -8179,6 +8182,7 @@
 				C7B588501CE1DE1C009B3975 /* DirectAnswerCell.swift in Sources */,
 				C7B5888E1CE1DFA6009B3975 /* ChatOthersMessageCell.swift in Sources */,
 				2E6691B01FBDE45700FC2A77 /* PromoteBumpViewModel.swift in Sources */,
+				C25C371720A18DE700B0C9E0 /* ProductsABGroup.swift in Sources */,
 				55F90BA1203C3E1000D9F7D0 /* UserProfileHeaderView.swift in Sources */,
 				C7DE3ADC1CBD099F002CB482 /* TabBarViewModel.swift in Sources */,
 				C788EED51CC6935600B9E26F /* UserListingListRequester.swift in Sources */,
