@@ -112,6 +112,7 @@ final class UserVerificationViewModel: BaseViewModel {
         case .profilePicture: selectAvatar()
         case .photoID, .markAsSold: break
         }
+        trackSelectionOf(verification: item)
     }
 
     func updateAvatar(with image: UIImage) {
@@ -221,6 +222,28 @@ final class UserVerificationViewModel: BaseViewModel {
 
     private func verificationSuccess(_ verificationType: VerificationType) {
         trackComplete(verificationType)
+    }
+
+    private func trackSelectionOf(verification item: UserVerificationItem) {
+        let event: TrackerEvent?
+        switch item {
+        case .facebook:
+            event = .verifyAccountSelectNetwork(.userVerifications, network: .facebook)
+        case .google:
+            event = .verifyAccountSelectNetwork(.userVerifications, network: .google)
+        case .email:
+            event = .verifyAccountSelectNetwork(.userVerifications, network: .email)
+        case .phoneNumber:
+            event = .verifyAccountSelectNetwork(.userVerifications, network: .sms)
+        case .profilePicture:
+            event = .verifyAccountSelectNetwork(.userVerifications, network: .profilePhoto)
+        default:
+            event = nil
+        }
+
+        if let event = event {
+            tracker.trackEvent(event)
+        }
     }
 }
 
