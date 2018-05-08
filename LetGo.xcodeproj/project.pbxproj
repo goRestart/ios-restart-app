@@ -941,6 +941,7 @@
 		6AA9E90D203EDCB2004EACC4 /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA9E909203EC59D004EACC4 /* RatingView.swift */; };
 		6AA9E90E203EDCB5004EACC4 /* UserProfileTabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA9E90B203EC5DC004EACC4 /* UserProfileTabsView.swift */; };
 		6ABAB53C20A063A800B84FC8 /* PasswordlessEmailViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ABAB53B20A063A700B84FC8 /* PasswordlessEmailViewModelSpec.swift */; };
+		6ABAB53E20A06E0200B84FC8 /* PasswordlessUsernameViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ABAB53D20A06E0200B84FC8 /* PasswordlessUsernameViewModelSpec.swift */; };
 		6ACC24BA1D2A5C570064B165 /* GridCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ACC24B91D2A5C570064B165 /* GridCellDrawer.swift */; };
 		6ACC24BB1D2A5C570064B165 /* GridCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ACC24B91D2A5C570064B165 /* GridCellDrawer.swift */; };
 		6ACC24C41D2A90400064B165 /* GridDrawerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ACC24C31D2A90400064B165 /* GridDrawerManager.swift */; };
@@ -2483,6 +2484,7 @@
 		6AA9E909203EC59D004EACC4 /* RatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
 		6AA9E90B203EC5DC004EACC4 /* UserProfileTabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileTabsView.swift; sourceTree = "<group>"; };
 		6ABAB53B20A063A700B84FC8 /* PasswordlessEmailViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordlessEmailViewModelSpec.swift; sourceTree = "<group>"; };
+		6ABAB53D20A06E0200B84FC8 /* PasswordlessUsernameViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordlessUsernameViewModelSpec.swift; sourceTree = "<group>"; };
 		6ACC24B91D2A5C570064B165 /* GridCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridCellDrawer.swift; sourceTree = "<group>"; };
 		6ACC24C31D2A90400064B165 /* GridDrawerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridDrawerManager.swift; sourceTree = "<group>"; };
 		6ADACDC61CEDC68A008A5603 /* ChatStickersView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatStickersView.swift; sourceTree = "<group>"; };
@@ -4309,6 +4311,7 @@
 				6A94D709205FB4B600B27C41 /* EditUserBioViewModelSpec.swift */,
 				6A7F9591205928530044D1AC /* UserProfileViewModelSpec.swift */,
 				6ABAB53B20A063A700B84FC8 /* PasswordlessEmailViewModelSpec.swift */,
+				6ABAB53D20A06E0200B84FC8 /* PasswordlessUsernameViewModelSpec.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -6647,6 +6650,7 @@
 				50D08DB71E69AF14009CC260 /* MockTracker.swift in Sources */,
 				50D08DE61E69AF14009CC260 /* SignUpViewModelSpec.swift in Sources */,
 				727463AD1FB0674D00AD8261 /* ListingPrice+LGSpec.swift in Sources */,
+				6ABAB53E20A06E0200B84FC8 /* PasswordlessUsernameViewModelSpec.swift in Sources */,
 				502047221EEA9A2F006C0EC2 /* MockFeatureFlagsDAO.swift in Sources */,
 				0A653BC01FAB7C8600C2AA77 /* ListingDeckViewModelSpec.swift in Sources */,
 				01B06D88202B187100083DD1 /* MockEventParameterMostSearched.swift in Sources */,
