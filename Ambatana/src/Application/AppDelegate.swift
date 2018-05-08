@@ -343,6 +343,8 @@ fileprivate extension AppDelegate {
         appActiveAfterTour.subscribeNext { [weak self] enabled in
             guard let `self` = self else { return }
             if enabled {
+                let emergencyActive = self.featureFlags?.emergencyLocate.isActive ?? false
+                self.locationManager?.shouldAskForBackgroundLocationPermission = emergencyActive
                 self.locationManager?.startSensorLocationUpdates()
             } else {
                 self.locationManager?.stopSensorLocationUpdates()
