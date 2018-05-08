@@ -23,7 +23,7 @@ Pod::Spec.new do |s|
         spec.dependency 'Fabric',             '1.7.2'
         spec.dependency 'FBSDKCoreKit',       '4.29.0'
         spec.dependency 'Leanplum-iOS-SDK',   '2.0.5'
-        spec.dependency 'LGCoreKit'
+        spec.dependency 'LGCoreKit',          '4.25.0'
         spec.dependency 'RxSwift',            '4.0.0'
     end
 

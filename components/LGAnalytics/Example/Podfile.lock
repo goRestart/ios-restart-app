@@ -31,9 +31,9 @@ PODS:
     - Fabric (= 1.7.2)
     - FBSDKCoreKit (= 4.29.0)
     - Leanplum-iOS-SDK (= 2.0.5)
-    - LGCoreKit
-    - RxSwift (~> 4.0.0)
-  - LGCoreKit (4.18.0):
+    - LGCoreKit (= 4.25.0)
+    - RxSwift (= 4.0.0)
+  - LGCoreKit (4.25.0):
     - Alamofire (~> 4.5.1)
     - CocoaLumberjack/Swift (~> 3.3.0)
     - DeviceGuru (~> 3.0.1)
@@ -45,7 +45,7 @@ PODS:
     - RxSwift (~> 4.0.0)
     - RxSwiftExt (~> 3.0.0)
     - SocketRocket (= 0.5.1)
-  - Nimble (7.0.3)
+  - Nimble (7.0.2)
   - Quick (1.2.0)
   - ReachabilitySwift (4.1.0)
   - Realm (3.0.2):
@@ -63,8 +63,8 @@ PODS:
 
 DEPENDENCIES:
   - LGComponents/LGAnalytics (from `../../`)
-  - Nimble (~> 7.0.2)
-  - Quick (~> 1.2.0)
+  - Nimble (= 7.0.2)
+  - Quick (= 1.2.0)
 
 EXTERNAL SOURCES:
   LGComponents:
@@ -84,9 +84,9 @@ SPEC CHECKSUMS:
   JSONWebToken: 6fae32489632658d563dd6952a5c34020ea813e4
   KeychainSwift: f9f7910449a0c0fd2cabc889121530dd2c477c33
   Leanplum-iOS-SDK: d7d387b7f3688e697f2893978bfe67092df5b7ca
-  LGComponents: 59d531ab918f66d087f51f4c6ddbc7f972fff888
-  LGCoreKit: 9f9e4418c2626d6e28c4b3aada601565698a8adc
-  Nimble: 7f5a9c447a33002645a071bddafbfb24ea70e0ac
+  LGComponents: 4ad0af3418a0e1a9249ce5c38ce2c7ecd09d38dc
+  LGCoreKit: c4a55b0d2c6320e88ce6e87824dac83193e603bf
+  Nimble: bfe1f814edabba69ff145cb1283e04ed636a67f2
   Quick: 58d203b1c5e27fff7229c4c1ae445ad7069a7a08
   ReachabilitySwift: 6849231cd4e06559f3b9ef4a97a0a0f96d41e09f
   Realm: 6f23fd1f178a09342eac21bfa7c2bf4312a7a180
@@ -96,6 +96,6 @@ SPEC CHECKSUMS:
   RxSwiftExt: b06c47dff66cd33ca7683bba1e74b0c5c8e3592e
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
 
-PODFILE CHECKSUM: 719ab73b8ec9612752f8bc69427a39976c774302
+PODFILE CHECKSUM: b4a088f36c83f111810be1e2d5797ca1e76e81a4
 
 COCOAPODS: 1.4.0
