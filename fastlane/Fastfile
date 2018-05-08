@@ -226,7 +226,7 @@ platform :ios do
     )
     
     version_number = get_version_number(xcodeproj: ENV["XCODE_WORKSPACE"])
-    tag_release tag_name: version_number build_number: build_number  
+    tag_release tag_name: version_number, build_number: build_number  
 
     # # Send release to itunes connect
     deliver(
