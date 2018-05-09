@@ -172,8 +172,8 @@
 "chat_list_buying_title" = "KÄUFE";
 "chat_list_delete" = "Löschen";
 "chat_list_delete_alert_send" = "Löschen";
-"chat_list_delete_alert_text_multiple" = "Du bist dabei diese Gespräche zu löschen";
-"chat_list_delete_alert_text_one" = "Du bist dabei dieses Gespräch zu löschen";
+"chat_list_delete_alert_text_multiple" = "Du bist dabei diese Gespräche dauerhaft zu löschen";
+"chat_list_delete_alert_text_one" = "Du bist dabei dieses Gespräch dauerhaft zu löschen";
 "chat_list_delete_alert_title_multiple" = "Gespräche löschen";
 "chat_list_delete_alert_title_one" = "Gespräch löschen";
 "chat_list_delete_error_one" = "Beim Löschen des Gesprächs ist ein Fehler aufgetreten. Bitte versuche es erneut.";
@@ -215,7 +215,7 @@
 "chat_send_error_generic" = "Beim Senden der Nachricht ist ein Fehler aufgetreten. Bitte versuche es noch einmal.";
 "chat_stickers_tooltip_new" = "NEU!";
 "chat_unblock_user" = "Blockierung aufheben";
-"chat_user_info_letgo_assistant" = "I'm a virtual assistant that gives you tips and helps you sell.";
+"chat_user_info_letgo_assistant" = "Ich bin eine virtuelle Assistentin, die dir Tipps gibt und dir beim Verkaufen hilft.";
 "chat_user_info_name" = "Hallo, ich bin %@";
 "chat_user_info_verified_with" = "Verifiziert mit: ";
 "chat_user_rating_button_tooltip" = "Bewerte diesen Nutzer";
@@ -574,7 +574,7 @@
 "phone_verification_code_input_view_content_subtext" = "Du kannst dir einen weiteren Code zuschicken lassen, falls du ihn nicht innerhalb von %@ erhältst";
 "phone_verification_code_input_view_content_subtitle" = "Wir haben ihn an %@ geschickt";
 "phone_verification_code_input_view_content_title" = "Gib den 6-stelligen Code ein";
-"phone_verification_code_input_view_error_message" = "Oops! An error occurred while validating the code. Please try again.";
+"phone_verification_code_input_view_error_message" = "Hoppla! Beim Validieren des Codes ist ein Fehler aufgetreten. Bitte versuche es erneut.";
 "phone_verification_code_input_view_title" = "Verifikationsnummer";
 "phone_verification_code_input_view_validated_failure" = "Der von dir eingegebene Verifizierungscode ist inkorrekt.";
 "phone_verification_code_input_view_validated_success" = "Telefonnummer verifiziert!";
@@ -585,7 +585,7 @@
 "phone_verification_number_input_view_confirmation_title" = "Danke!";
 "phone_verification_number_input_view_continue_button" = "Fortfahren";
 "phone_verification_number_input_view_description" = "Schaffe Vertrauen, indem du deine Telefonnummer verifizierst";
-"phone_verification_number_input_view_error_message" = "Oops! An error occurred while sending the text message. Please try again.";
+"phone_verification_number_input_view_error_message" = "Hoppla! Beim Senden der Textnachricht ist ein Fehler aufgetreten. Bitte versuche es erneut.";
 "phone_verification_number_input_view_sending_message" = "Textnachricht wird verschickt…";
 "phone_verification_number_input_view_textfield_placeholder" = "Telefonnummer";
 "phone_verification_number_input_view_title" = "Verifikationsnummer";
@@ -868,8 +868,8 @@
 "profile_verifications_view_extra_section_title" = "KAUFEN & VERKAUFEN";
 "profile_verifications_view_facebook_title" = "Facebook";
 "profile_verifications_view_google_title" = "Google";
-"profile_verifications_view_mark_as_sold_subtitle" = "Je +2 Punkte (biz zu 10 Punkte)";
-"profile_verifications_view_mark_as_sold_title" = "Markiere ein Angebot als verkauft";
+"profile_verifications_view_mark_as_sold_subtitle" = "+2 Punkte pro Angebot (bis zu 10 Punkte)";
+"profile_verifications_view_mark_as_sold_title" = "Als verkauft markieren";
 "profile_verifications_view_phone_number_title" = "Telefonnummer";
 "profile_verifications_view_photo_id_title" = "Lichtbildausweis";
 "profile_verifications_view_profile_picture_title" = "Profilbild";

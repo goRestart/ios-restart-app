@@ -3107,6 +3107,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_post_select_category_housing", comment: "")
 	}
 
+	static var productPostSelectCategoryServices: String {
+		return NSLocalizedString("product_post_select_category_services", comment: "")
+	}
+
 	static var productPostSelectCategoryRealEstate: String {
 		return NSLocalizedString("product_post_select_category_real_estate", comment: "")
 	}
