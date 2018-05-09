@@ -215,7 +215,7 @@
 "chat_send_error_generic" = "Παρουσιάστηκε σφάλμα κατά την αποστολή του μηνύματος. Παρακαλώ προσπαθήστε ξανά.";
 "chat_stickers_tooltip_new" = "ΝΕΟ!";
 "chat_unblock_user" = "Ξεμπλοκάρισμα Χρήστη";
-"chat_user_info_letgo_assistant" = "I'm a virtual assistant that gives you tips and helps you sell.";
+"chat_user_info_letgo_assistant" = "Είμαι μια εικονική βοηθός που σου δίνει συμβουλές και σε βοηθάει να πουλήσεις.";
 "chat_user_info_name" = "Γεια, είμαι ο/η %@";
 "chat_user_info_verified_with" = "Επιβεβαιωμένο με: ";
 "chat_user_rating_button_tooltip" = "Κάντε κριτική αυτού του χρήστη";
@@ -574,7 +574,7 @@
 "phone_verification_code_input_view_content_subtext" = "Μπορείτε να αιτηθείτε έναν άλλο κωδικό αν δεν το λάβατε μέσα σε %@";
 "phone_verification_code_input_view_content_subtitle" = "Το στείλαμε στο %@";
 "phone_verification_code_input_view_content_title" = "Εισαγωγή του 6ψήφιου κωδικού";
-"phone_verification_code_input_view_error_message" = "Oops! An error occurred while validating the code. Please try again.";
+"phone_verification_code_input_view_error_message" = "Όπα! Παρουσιάστηκε σφάλμα κατά την επιβεβαίωση του κωδικού. Παρακαλώ δοκιμάστε ξανά.";
 "phone_verification_code_input_view_title" = "Αριθμός επιβεβαίωσης";
 "phone_verification_code_input_view_validated_failure" = "Ο κωδικός επιβεβαίωσης που εισάγατε είναι λανθασμένος.";
 "phone_verification_code_input_view_validated_success" = "Επιβεβαιωμένος αριθμός τηλεφώνου!";
@@ -585,7 +585,7 @@
 "phone_verification_number_input_view_confirmation_title" = "Ευχαριστώ!";
 "phone_verification_number_input_view_continue_button" = "Συνέχεια";
 "phone_verification_number_input_view_description" = "Κερδίστε εμπιστοσύνη επιβεβαιώνοντας τον αριθμό τηλεφώνου σας";
-"phone_verification_number_input_view_error_message" = "Oops! An error occurred while sending the text message. Please try again.";
+"phone_verification_number_input_view_error_message" = "Όπα! Παρουσιάστηκε σφάλμα κατά την αποστολή του μηνύματος κειμένου. Παρακαλώ δοκιμάστε ξανά.";
 "phone_verification_number_input_view_sending_message" = "Αποστολή μηνύματος κειμένου...";
 "phone_verification_number_input_view_textfield_placeholder" = "Αριθμός Τηλεφώνου";
 "phone_verification_number_input_view_title" = "Αριθμός επιβεβαίωσης";
@@ -869,7 +869,7 @@
 "profile_verifications_view_facebook_title" = "Facebook";
 "profile_verifications_view_google_title" = "Google";
 "profile_verifications_view_mark_as_sold_subtitle" = "+2 πόντους για το καθένα (μέχρι 10 πόντους)";
-"profile_verifications_view_mark_as_sold_title" = "Μαρκάρισμα καταχώρησης ως πουλημένης";
+"profile_verifications_view_mark_as_sold_title" = "Μάρκαρε ότι πωλήθηκε";
 "profile_verifications_view_phone_number_title" = "Αριθμός Τηλεφώνου";
 "profile_verifications_view_photo_id_title" = "Φωτογραφία Tαυτότητας";
 "profile_verifications_view_profile_picture_title" = "Εικόνας προφίλ";

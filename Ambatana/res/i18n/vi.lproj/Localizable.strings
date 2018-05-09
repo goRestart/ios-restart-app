@@ -574,7 +574,7 @@
 "phone_verification_code_input_view_content_subtext" = "Bạn có thể yêu cầu một mã khác nếu bạn không nhận được mã trong %@";
 "phone_verification_code_input_view_content_subtitle" = "Chúng tôi vừa gửi tới %@";
 "phone_verification_code_input_view_content_title" = "Nhập mã 6 chữ số";
-"phone_verification_code_input_view_error_message" = "Oops! An error occurred while validating the code. Please try again.";
+"phone_verification_code_input_view_error_message" = "Ồ! Có lỗi xảy ra trong khi xác minh mã. Xin vui lòng thử lại.";
 "phone_verification_code_input_view_title" = "Xác thực số điện thoại";
 "phone_verification_code_input_view_validated_failure" = "Mã xác nhận bạn nhập không chính xác.";
 "phone_verification_code_input_view_validated_success" = "Đã xác minh số điện thoại!";
@@ -585,7 +585,7 @@
 "phone_verification_number_input_view_confirmation_title" = "Cảm ơn bạn!";
 "phone_verification_number_input_view_continue_button" = "Tiếp tục";
 "phone_verification_number_input_view_description" = "Xây dựng lòng tin bằng việc xác thực số điện thoại của bạn";
-"phone_verification_number_input_view_error_message" = "Oops! An error occurred while sending the text message. Please try again.";
+"phone_verification_number_input_view_error_message" = "Ồ! Có lỗi xảy ra trong khi gửi tin nhắn. Xin vui lòng thử lại.";
 "phone_verification_number_input_view_sending_message" = "Đang gửi tin nhắn…";
 "phone_verification_number_input_view_textfield_placeholder" = "Số Điện thoại";
 "phone_verification_number_input_view_title" = "Xác thực số điện thoại";
@@ -869,7 +869,7 @@
 "profile_verifications_view_facebook_title" = "Facebook";
 "profile_verifications_view_google_title" = "Google";
 "profile_verifications_view_mark_as_sold_subtitle" = "+2 điểm mỗi bài (tối đa 10 điểm)";
-"profile_verifications_view_mark_as_sold_title" = "Đánh dấu đã bán cho bài đăng";
+"profile_verifications_view_mark_as_sold_title" = "Đánh dấu Đã bán";
 "profile_verifications_view_phone_number_title" = "Số Điện thoại";
 "profile_verifications_view_photo_id_title" = "ID có ảnh";
 "profile_verifications_view_profile_picture_title" = "Ảnh hồ sơ";

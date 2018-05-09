@@ -215,7 +215,7 @@
 "chat_send_error_generic" = "Une erreur est survenue lors de l'envoi du message. Veuillez réessayer.";
 "chat_stickers_tooltip_new" = "NOUVEAU !";
 "chat_unblock_user" = "Débloquer l'Utilisateur";
-"chat_user_info_letgo_assistant" = "I'm a virtual assistant that gives you tips and helps you sell.";
+"chat_user_info_letgo_assistant" = "Je suis une assistante virtuelle qui vous donne des conseils et vous aide à vendre.";
 "chat_user_info_name" = "Bonjour, je m'appelle %@";
 "chat_user_info_verified_with" = "Vérifié avec :";
 "chat_user_rating_button_tooltip" = "Notez cet utilisateur";
@@ -574,7 +574,7 @@
 "phone_verification_code_input_view_content_subtext" = "Vous pouvez demander un autre code si vous ne le recevez pas dans les prochaines %@";
 "phone_verification_code_input_view_content_subtitle" = "Nous l'avons envoyé à %@";
 "phone_verification_code_input_view_content_title" = "Entrez le code à 6 chiffres";
-"phone_verification_code_input_view_error_message" = "Oops! An error occurred while validating the code. Please try again.";
+"phone_verification_code_input_view_error_message" = "Oups! Une erreur est survenue au moment de valider le code. Veuillez réessayer.";
 "phone_verification_code_input_view_title" = "Vérification du numéro";
 "phone_verification_code_input_view_validated_failure" = "Le code de vérification que vous avez entré est incorrect.";
 "phone_verification_code_input_view_validated_success" = "Numéro de téléphone vérifié !";
@@ -585,7 +585,7 @@
 "phone_verification_number_input_view_confirmation_title" = "Merci !";
 "phone_verification_number_input_view_continue_button" = "Continuer";
 "phone_verification_number_input_view_description" = "Inspirez confiance en vérifiant votre numéro de téléphone";
-"phone_verification_number_input_view_error_message" = "Oops! An error occurred while sending the text message. Please try again.";
+"phone_verification_number_input_view_error_message" = "Oups ! Une erreur est survenue au moment d'envoyer le message texte. Veuillez réessayer.";
 "phone_verification_number_input_view_sending_message" = "Envoi du message texte en cours…";
 "phone_verification_number_input_view_textfield_placeholder" = "Numéro de Téléphone";
 "phone_verification_number_input_view_title" = "Vérification du numéro";
@@ -869,7 +869,7 @@
 "profile_verifications_view_facebook_title" = "Facebook";
 "profile_verifications_view_google_title" = "Google";
 "profile_verifications_view_mark_as_sold_subtitle" = "+2 pts chaque (jusqu'à 10 pts)";
-"profile_verifications_view_mark_as_sold_title" = "Indiquer « vendu » sur une annonce";
+"profile_verifications_view_mark_as_sold_title" = "Marquer \"Vendu\"";
 "profile_verifications_view_phone_number_title" = "Numéro de Téléphone";
 "profile_verifications_view_photo_id_title" = "Pièce d'identité avec photo";
 "profile_verifications_view_profile_picture_title" = "Image de profil";
