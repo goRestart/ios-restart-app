@@ -27,6 +27,7 @@ class ABTestsSpec: QuickSpec {
         var chat: ChatABGroup!
         var core: CoreABGroup!
         var users: UsersABGroup!
+        var products: ProductsABGroup!
 
         afterEach { syncer.clear() }
 
@@ -43,6 +44,7 @@ class ABTestsSpec: QuickSpec {
                 money = MoneyABGroup.make()
                 retention = RetentionABGroup.make()
                 users = UsersABGroup.make()
+                products = ProductsABGroup.make()
             }
 
             context("registering all the variables") { 
@@ -50,7 +52,7 @@ class ABTestsSpec: QuickSpec {
                     sut.registerVariables()
                 }
                 it("registers all the variables") {
-                    expect(syncer.syncedCount) == 58
+                    expect(syncer.syncedCount) == 59
                 }
             }
 
@@ -59,7 +61,8 @@ class ABTestsSpec: QuickSpec {
                     sut.registerVariables()
                     uniqueSyncer = LeamplumSyncerCounter()
 
-                    let abGroups: [ABGroupType] = [legacy, realEstate, verticals, retention, core, chat, money, users]
+                    let abGroups: [ABGroupType] = [legacy, realEstate, verticals, retention, core, chat, money, users,
+                                                   products]
                     abGroups.forEach {
                         uniqueSyncer.sync(variables: Array(Set($0.intVariables)))
                         uniqueSyncer.sync(variables: Array(Set($0.boolVariables)))
@@ -292,6 +295,35 @@ class ABTestsSpec: QuickSpec {
                 }
                 it("the variables registered are 3") {
                     expect(syncer.syncedCount) == 3
+                }
+            }
+            context("registering all the variables") {
+                it("the products int variable registered are 1") {
+                    expect(products.intVariables.count) == 1
+                }
+
+                it("the products bool variable registered are 0") {
+                    expect(products.boolVariables.count) == 0
+                }
+
+                it("the products string variable registered are 0") {
+                    expect(products.stringVariables.count) == 0
+                }
+
+                it("the products float variable registered are 0") {
+                    expect(products.floatVariables.count) == 0
+                }
+            }
+
+            context("manually registering all the products variables") {
+                beforeEach {
+                    syncer.sync(variables: products.intVariables)
+                    syncer.sync(variables: products.boolVariables)
+                    syncer.sync(variables: products.stringVariables)
+                    syncer.sync(variables: products.floatVariables)
+                }
+                it("the variables registered are 1") {
+                    expect(syncer.syncedCount) == 1
                 }
             }
         }

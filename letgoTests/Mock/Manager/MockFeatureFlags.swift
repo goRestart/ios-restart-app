@@ -96,5 +96,8 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var filterSearchCarSellerType: FilterSearchCarSellerType = .control
     var createUpdateIntoNewBackend: CreateUpdateCarsIntoNewBackend = .control
     var realEstateMap: RealEstateMap = .control
+
+    //  MARK:  Products
+    var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu = .control
 }
 

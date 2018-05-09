@@ -83,6 +83,9 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
     // MARK: - UI
     
     private func setupNewBadge() {
+        guard let newBadgeCategory = viewModel.newBadgeCategory,
+            let position = viewModel.categoriesAvailable.index(of: newBadgeCategory) else { return }
+        
         newBadgeView.backgroundColor = .white
         
         let labelNew = UILabel()
@@ -95,12 +98,10 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
         newBadgeView.clipsToBounds = true
         newBadgeView.applyDefaultShadow()
         addSubviewForAutoLayout(newBadgeView)
-        
-        if let position = viewModel.realEstateCategoryPosition, position < buttons.count  {
-            newBadgeView.layout(with: buttons[position])
-                .right(by: Metrics.veryShortMargin)
-                .top(by: -Metrics.veryShortMargin)
-        }
+
+        newBadgeView.layout(with: buttons[position])
+            .right(by: Metrics.veryShortMargin)
+            .top(by: -Metrics.veryShortMargin)
     }
 
     private func addButtons() {
@@ -153,7 +154,7 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
         closeButton.layout().height(buttonCloseSide)
         
         addButtons()
-        if viewModel.newBadgeEnabled {
+        if viewModel.newBadgeCategory != nil {
             setupNewBadge()
         }
         
@@ -323,7 +324,9 @@ fileprivate extension ExpandableCategory {
                 return #imageLiteral(resourceName: "motorsAndAccesories")
             case .realEstate:
                 return #imageLiteral(resourceName: "housingIcon")
-            case .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .services:
+            case .services:
+                return #imageLiteral(resourceName: "servicesIcon")
+            case .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames:
                 return listingCategory.image
             }
         case .mostSearchedItems:
