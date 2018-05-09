@@ -90,8 +90,9 @@ class BumpUpPayViewController: BaseViewController {
         titleLabel.text = LGLocalizedString.bumpUpViewPayTitle
         subtitleLabel.text = LGLocalizedString.bumpUpViewPaySubtitle
         viewTitleLabel.text = LGLocalizedString.bumpUpBannerPayTextImprovement
-        guard FeatureFlags.sharedInstance.shouldChangeSellFasterNowCopyInEnglish else { return }
-        viewTitleLabel.text = FeatureFlags.sharedInstance.copyForSellFasterNowInEnglish.variantString
+        if FeatureFlags.sharedInstance.shouldChangeSellFasterNowCopyInEnglish {
+            viewTitleLabel.text = FeatureFlags.sharedInstance.copyForSellFasterNowInEnglish.variantString
+        }
     }
     
     private func setupCellBottomContainer() {
