@@ -172,8 +172,8 @@
 "chat_list_buying_title" = "ACHAT";
 "chat_list_delete" = "Supprimer";
 "chat_list_delete_alert_send" = "Supprimer";
-"chat_list_delete_alert_text_multiple" = "Vous êtes sur le point de supprimer ces chats";
-"chat_list_delete_alert_text_one" = "Vous êtes sur le point de supprimer ce chat";
+"chat_list_delete_alert_text_multiple" = "Vous êtes sur le point de supprimer ces clavardages de façon permanente";
+"chat_list_delete_alert_text_one" = "Vous êtes sur le point de supprimer ce clavardage de façon permanente";
 "chat_list_delete_alert_title_multiple" = "Supprimer les chats";
 "chat_list_delete_alert_title_one" = "Supprimer le chat";
 "chat_list_delete_error_one" = "Une erreur est survenue lors de la suppression du chat. Veuillez réessayer.";
@@ -411,6 +411,7 @@
 "hidden_phone_tag" = "[NUMÉRO DE TELEPHONE MASQUÉ]";
 "hidden_text_alert_description" = "Nous masquons les informations de contact pour vous aider à acheter et vendre en toute sécurité. Chatter dans letgo est facile et plus sécurisé.";
 "hidden_text_alert_title" = "SOYEZ PRUDENT";
+"listings_map_no_results_message" = "No exact matches for your search. Try looking in a different area or using different filters.";
 "listings_map_title" = "Vue de la carte";
 "location_permissions_allow_button" = "Autoriser";
 "location_permissions_bubble" = "à 0.1 km de vous";
@@ -868,7 +869,7 @@
 "profile_verifications_view_extra_section_title" = "ACHETER & VENDRE";
 "profile_verifications_view_facebook_title" = "Facebook";
 "profile_verifications_view_google_title" = "Google";
-"profile_verifications_view_mark_as_sold_subtitle" = "+2 pts chaque (jusqu'à 10 pts)";
+"profile_verifications_view_mark_as_sold_subtitle" = "+2 pts par annonce (jusqu'à 10 pts)";
 "profile_verifications_view_mark_as_sold_title" = "Marquer \"Vendu\"";
 "profile_verifications_view_phone_number_title" = "Numéro de Téléphone";
 "profile_verifications_view_photo_id_title" = "Pièce d'identité avec photo";

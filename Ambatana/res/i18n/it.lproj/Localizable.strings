@@ -411,6 +411,7 @@
 "hidden_phone_tag" = "[NUMERO DI TELEFONO NASCOSTO]";
 "hidden_text_alert_description" = "Nascondiamo le informazioni di contatto per proteggere le tue compravendite. Chattare all'interno di letgo è più facile e sicuro.";
 "hidden_text_alert_title" = "CONSIGLI PER LA SICUREZZA";
+"listings_map_no_results_message" = "No exact matches for your search. Try looking in a different area or using different filters.";
 "listings_map_title" = "Visualizzazione mappa";
 "location_permissions_allow_button" = "Consenti";
 "location_permissions_bubble" = "0.1 km da te";

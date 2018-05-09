@@ -172,8 +172,8 @@
 "chat_list_buying_title" = "구매";
 "chat_list_delete" = "삭제";
 "chat_list_delete_alert_send" = "삭제";
-"chat_list_delete_alert_text_multiple" = "당신은 이 채팅들을 삭제할 것입니다";
-"chat_list_delete_alert_text_one" = "당신은 이 채팅을 삭제할 것입니다";
+"chat_list_delete_alert_text_multiple" = "해당 채팅들을 영구적으로 삭제하게 됩니다";
+"chat_list_delete_alert_text_one" = "해당 채팅을 영구적으로 삭제하게 됩니다";
 "chat_list_delete_alert_title_multiple" = "채팅들 삭제";
 "chat_list_delete_alert_title_one" = "채팅 삭제";
 "chat_list_delete_error_one" = "이 채팅을 삭제하는 동안 오류가 발생했습니다. 다시 시도해주십시오.";
@@ -411,6 +411,7 @@
 "hidden_phone_tag" = "[전화번호 감추기]";
 "hidden_text_alert_description" = "안전하게 구매 및 판매를 하실 수 있도록 연락처를 비공개로 하고 있습니다. letgo에서 대화를 나누시는 것은 더 쉽고 안전합니다.";
 "hidden_text_alert_title" = "안전하게 구매하세요";
+"listings_map_no_results_message" = "No exact matches for your search. Try looking in a different area or using different filters.";
 "listings_map_title" = "지도 확인";
 "location_permissions_allow_button" = "허가";
 "location_permissions_bubble" = "약 160m 떨어져 있음";

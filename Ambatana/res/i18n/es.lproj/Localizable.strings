@@ -172,8 +172,8 @@
 "chat_list_buying_title" = "COMPRA";
 "chat_list_delete" = "Eliminar";
 "chat_list_delete_alert_send" = "Eliminar";
-"chat_list_delete_alert_text_multiple" = "Vas a eliminar estos chats";
-"chat_list_delete_alert_text_one" = "Vas a eliminar este chat";
+"chat_list_delete_alert_text_multiple" = "Vas a eliminar estos chats permanentemente";
+"chat_list_delete_alert_text_one" = "Vas a eliminar este chat permanentemente";
 "chat_list_delete_alert_title_multiple" = "Eliminar chats";
 "chat_list_delete_alert_title_one" = "Eliminar chat";
 "chat_list_delete_error_one" = "Se ha producido un error al eliminar este chat. Por favor, inténtalo de nuevo.";
@@ -411,6 +411,7 @@
 "hidden_phone_tag" = "[NÚMERO DE TELÉFONO OCULTO]";
 "hidden_text_alert_description" = "Ocultamos datos de contacto para ayudarte a comprar y vender con seguridad. Chatear dentro de letgo es fácil y más seguro.";
 "hidden_text_alert_title" = "CONSEJOS DE SEGURIDAD";
+"listings_map_no_results_message" = "No exact matches for your search. Try looking in a different area or using different filters.";
 "listings_map_title" = "Vista de mapa";
 "location_permissions_allow_button" = "Permitir";
 "location_permissions_bubble" = "a 1km de ti";

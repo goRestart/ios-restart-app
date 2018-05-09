@@ -1235,6 +1235,9 @@
 // Title for Listings Map View
 "listings_map_title" = "Map view";
 
+// Message for no results in Listings Map View
+"listings_map_no_results_message" = "No exact matches for your search. Try looking in a different area or using different filters.";
+
 // Fake distance shown in a bubble in a fake product list in onboarding
 "location_permissions_bubble" = "0.1 mi from you";
 

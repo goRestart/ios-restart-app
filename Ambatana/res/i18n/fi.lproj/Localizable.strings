@@ -172,8 +172,8 @@
 "chat_list_buying_title" = "OSTOT";
 "chat_list_delete" = "Poista";
 "chat_list_delete_alert_send" = "Poista";
-"chat_list_delete_alert_text_multiple" = "Olet poistamassa näitä keskusteluja";
-"chat_list_delete_alert_text_one" = "Olet poistamassa tätä keskustelua";
+"chat_list_delete_alert_text_multiple" = "Olet poistamassa nämä keskustelut pysyvästi";
+"chat_list_delete_alert_text_one" = "Olet poistamassa tämän keskustelun pysyvästi";
 "chat_list_delete_alert_title_multiple" = "Poista keskustelut";
 "chat_list_delete_alert_title_one" = "Poista keskustelu";
 "chat_list_delete_error_one" = "Tätä keskustelua poistettaessa tapahtui virhe. Ole hyvä ja yritä uudelleen.";
@@ -411,6 +411,7 @@
 "hidden_phone_tag" = "[PUHELINNUMERO PIILOTETTU]";
 "hidden_text_alert_description" = "Piilotamme yhteystiedot auttaaksemme sinua ostamaan ja myymään turvallisesti. Keskustelu letgon sisällä on helppoa ja turvallisempaa.";
 "hidden_text_alert_title" = "PYSY TURVASSA";
+"listings_map_no_results_message" = "No exact matches for your search. Try looking in a different area or using different filters.";
 "listings_map_title" = "Karttanäkymä";
 "location_permissions_allow_button" = "Salli";
 "location_permissions_bubble" = "0.1 km sinusta";

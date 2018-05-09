@@ -172,8 +172,8 @@
 "chat_list_buying_title" = "ΑΓΟΡΕΣ";
 "chat_list_delete" = "Διαγραφή";
 "chat_list_delete_alert_send" = "Διαγραφή";
-"chat_list_delete_alert_text_multiple" = "Θα διαγράψετε αυτές τις συνομιλίες";
-"chat_list_delete_alert_text_one" = "Θα διαγράψετε αυτή τη συνομιλία";
+"chat_list_delete_alert_text_multiple" = "Θα διαγράψετε οριστικά αυτές τις συνομιλίες";
+"chat_list_delete_alert_text_one" = "Θα διαγράψετε οριστικά αυτή τη συνομιλία";
 "chat_list_delete_alert_title_multiple" = "Διαγραφή Συνομιλιών";
 "chat_list_delete_alert_title_one" = "Διαγραφή Συνομιλίας";
 "chat_list_delete_error_one" = "Παρουσιάστηκε σφάλμα κατά τη διαγραφή της συνομιλίας. Παρακαλώ, δοκιμάστε ξανά.";
@@ -411,6 +411,7 @@
 "hidden_phone_tag" = "[ΑΠΟΚΡΥΨΗ ΤΗΛΕΦΩΝΟΥ]";
 "hidden_text_alert_description" = "Αποκρύψαμε τις πληροφορίες επικοινωνίας για να σας βοηθήσουμε να κάνετε αγοραπωλησίες με ασφάλεια. Οι συνομιλίες εντός του easy είναι πιο ασφαλείς.";
 "hidden_text_alert_title" = "ΜΕΙΝΕΤΕ ΑΣΦΑΛΕΙΣ";
+"listings_map_no_results_message" = "No exact matches for your search. Try looking in a different area or using different filters.";
 "listings_map_title" = "Προβολή χάρτη";
 "location_permissions_allow_button" = "Να επιτρέπεται";
 "location_permissions_bubble" = "15μ. από εσάς";
@@ -868,7 +869,7 @@
 "profile_verifications_view_extra_section_title" = "ΑΓΟΡΆ & ΠΏΛΗΣΗ";
 "profile_verifications_view_facebook_title" = "Facebook";
 "profile_verifications_view_google_title" = "Google";
-"profile_verifications_view_mark_as_sold_subtitle" = "+2 πόντους για το καθένα (μέχρι 10 πόντους)";
+"profile_verifications_view_mark_as_sold_subtitle" = "+2 πόντους για κάθε καταχώρηση (μέχρι 10 πόντους)";
 "profile_verifications_view_mark_as_sold_title" = "Μάρκαρε ότι πωλήθηκε";
 "profile_verifications_view_phone_number_title" = "Αριθμός Τηλεφώνου";
 "profile_verifications_view_photo_id_title" = "Φωτογραφία Tαυτότητας";

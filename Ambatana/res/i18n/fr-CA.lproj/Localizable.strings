@@ -172,8 +172,8 @@
 "chat_list_buying_title" = "ACHAT";
 "chat_list_delete" = "Supprimer";
 "chat_list_delete_alert_send" = "Supprimer";
-"chat_list_delete_alert_text_multiple" = "Vous êtes sur le point de supprimer ces clavardages";
-"chat_list_delete_alert_text_one" = "Vous êtes sur le point de supprimer ce clavardage";
+"chat_list_delete_alert_text_multiple" = "Vous êtes sur le point de supprimer ces clavardages de façon permanente";
+"chat_list_delete_alert_text_one" = "Vous êtes sur le point de supprimer ce clavardage de façon permanente";
 "chat_list_delete_alert_title_multiple" = "Supprimer Clavardages";
 "chat_list_delete_alert_title_one" = "Supprimer Clavardage";
 "chat_list_delete_error_one" = "Une erreur est survenue lors de la suppression de ce clavardage. Veuillez réessayer.";
@@ -411,6 +411,7 @@
 "hidden_phone_tag" = "[NUMÉRO DE TÉLÉPHONE MASQUÉ]";
 "hidden_text_alert_description" = "Nous masquons les coordonnées pour vous aider à vendre et acheter en toute sécurité. Clavarder dans letgo est facile et plus sécuritaire.";
 "hidden_text_alert_title" = "SOYEZ PRUDENTS";
+"listings_map_no_results_message" = "No exact matches for your search. Try looking in a different area or using different filters.";
 "listings_map_title" = "Vue de la carte";
 "location_permissions_allow_button" = "Autoriser";
 "location_permissions_bubble" = "à 0.1 km de chez vous";

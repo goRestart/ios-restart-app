@@ -172,8 +172,8 @@
 "chat_list_buying_title" = "KJØP";
 "chat_list_delete" = "Slett";
 "chat_list_delete_alert_send" = "Slett";
-"chat_list_delete_alert_text_multiple" = "Du er i ferd med å slette disse samtalene";
-"chat_list_delete_alert_text_one" = "Du er i ferd med å slette denne samtalen";
+"chat_list_delete_alert_text_multiple" = "Du er i ferd med å slette disse samtalene permanent";
+"chat_list_delete_alert_text_one" = "Du er i ferd med å slette denne samtalen permanent";
 "chat_list_delete_alert_title_multiple" = "Slett samtaler";
 "chat_list_delete_alert_title_one" = "Slett samtale";
 "chat_list_delete_error_one" = "En feil oppstod ved sletting av denne samtalen. Vennligst prøv igjen.";
@@ -411,6 +411,7 @@
 "hidden_phone_tag" = "[TELEFONNUMMER SKJULT]";
 "hidden_text_alert_description" = "Vi skjuler kontaktinformasjon for å hjelpe deg med et sikkert kjøp og salg. Å kommunisere i letgo er enklere og gir deg mer sikkerhet.";
 "hidden_text_alert_title" = "VÆR FORSIKTIG";
+"listings_map_no_results_message" = "No exact matches for your search. Try looking in a different area or using different filters.";
 "listings_map_title" = "Kartvisning";
 "location_permissions_allow_button" = "Tillat";
 "location_permissions_bubble" = "0.1 km fra deg";
@@ -868,7 +869,7 @@
 "profile_verifications_view_extra_section_title" = "KJØP & SELG";
 "profile_verifications_view_facebook_title" = "Facebook";
 "profile_verifications_view_google_title" = "Google";
-"profile_verifications_view_mark_as_sold_subtitle" = "+2 poeng hver (opp til 10 poeng)";
+"profile_verifications_view_mark_as_sold_subtitle" = "+2 poeng for hver annonse (opp til 10 poeng)";
 "profile_verifications_view_mark_as_sold_title" = "Merk som solgt";
 "profile_verifications_view_phone_number_title" = "Telefonnummer";
 "profile_verifications_view_photo_id_title" = "Foto ID";
