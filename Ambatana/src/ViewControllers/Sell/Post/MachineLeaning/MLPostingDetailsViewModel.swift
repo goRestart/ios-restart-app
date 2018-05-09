@@ -142,7 +142,7 @@ class MLPostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableView
     private let sessionManager: SessionManager
     
     private let step: PostingDetailStep
-    private var postListingState: MLPostListingState
+    private var postListingState: PostListingState
     private var uploadedImageSource: EventParameterPictureSource?
     private var uploadedVideoLength: TimeInterval?
     private let postingSource: PostingSource
@@ -158,7 +158,7 @@ class MLPostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableView
     // MARK: - LifeCycle
     
     convenience init(step: PostingDetailStep,
-                     postListingState: MLPostListingState,
+                     postListingState: PostListingState,
                      uploadedImageSource: EventParameterPictureSource?,
                      uploadedVideoLength: TimeInterval?,
                      postingSource: PostingSource,
@@ -180,7 +180,7 @@ class MLPostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableView
     }
     
     init(step: PostingDetailStep,
-         postListingState: MLPostListingState,
+         postListingState: PostListingState,
          uploadedImageSource: EventParameterPictureSource?,
          uploadedVideoLength: TimeInterval?,
          postingSource: PostingSource,
