@@ -203,6 +203,8 @@ enum EventName: String {
 
     case searchAlertSwitchChanged           = "search-alert"
 
+    case screenshot                         = "os-screenshot"
+
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
     

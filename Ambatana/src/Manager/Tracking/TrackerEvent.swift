@@ -1526,6 +1526,11 @@ struct TrackerEvent {
         return TrackerEvent(name: .assistantMeetingStart, params: params)
     }
 
+    static func userDidTakeScreenshot() -> TrackerEvent {
+        let params = EventParameters()
+        return TrackerEvent(name: .screenshot, params: params)
+    }
+
 
     // MARK: - Private methods
 
