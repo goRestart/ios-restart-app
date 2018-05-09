@@ -19,7 +19,7 @@ final class UserPhoneVerificationCodeInputViewModel: BaseViewModel {
     private let myUserRepository: MyUserRepository
     private let tracker: Tracker
     private var timer: Timer?
-    private let timerInterval = 50
+    private let countdown = 50
 
     enum ValidationState {
         case none
@@ -57,7 +57,7 @@ final class UserPhoneVerificationCodeInputViewModel: BaseViewModel {
 
     private func setupResendCodeTimer() {
         showResendCodeOption.value = false
-        resendCodeCountdown.value = timerInterval
+        resendCodeCountdown.value = countdown
         timer?.invalidate()
         timer = Timer
             .scheduledTimer(timeInterval: 1,
@@ -85,27 +85,27 @@ final class UserPhoneVerificationCodeInputViewModel: BaseViewModel {
     }
 
     // MARK: - Resend code
-
+    
     private func requestCode(completion: (()->())?) {
         delegate?.vmShowLoading(LGLocalizedString.phoneVerificationNumberInputViewSendingMessage)
         myUserRepository.requestSMSCode(prefix: callingCode, phone: phoneNumber) { [weak self] result in
-            guard let `self` = self else { return }
+            guard let strongSelf = self else { return }
             switch result {
             case .success:
                 let title = LGLocalizedString.phoneVerificationNumberInputViewConfirmationTitle
-                let message = LGLocalizedString.phoneVerificationNumberInputViewConfirmationMessage(self.callingCode,
-                                                                                                    self.phoneNumber)
-                self.delegate?.vmHideLoading(nil) {
-                    self.delegate?.vmShowAutoFadingMessage(title: title,
-                                                           message: message,
-                                                           time: 5,
-                                                           completion: completion)
+                let message = LGLocalizedString.phoneVerificationNumberInputViewConfirmationMessage(strongSelf.callingCode,
+                                                                                                    strongSelf.phoneNumber)
+                strongSelf.delegate?.vmHideLoading(nil) {
+                    strongSelf.delegate?.vmShowAutoFadingMessage(title: title,
+                                                                 message: message,
+                                                                 time: 5,
+                                                                 completion: completion)
                 }
             case .failure(_):
-                self.delegate?.vmHideLoading(LGLocalizedString.phoneVerificationNumberInputViewErrorMessage,
-                                              afterMessageCompletion: nil)
+                strongSelf.delegate?.vmHideLoading(LGLocalizedString.phoneVerificationNumberInputViewErrorMessage,
+                                                   afterMessageCompletion: nil)
             }
-
+            
         }
     }
 
