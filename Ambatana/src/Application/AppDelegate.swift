@@ -81,7 +81,7 @@ extension AppDelegate: UIApplicationDelegate {
                                         versionChange: VersionChecker.sharedInstance.versionChange)
         self.crashManager = crashManager
         self.keyValueStorage = keyValueStorage
-        self.appEventsManager = AppEventsManager()
+        self.appEventsManager = AppEventsManager.sharedInstance
 
         setupRxBindings()
         crashCheck()
