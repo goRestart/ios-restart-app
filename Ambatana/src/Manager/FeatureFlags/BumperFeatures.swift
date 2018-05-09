@@ -250,9 +250,9 @@ extension Bumper  {
         return AddPriceTitleDistanceToListings(rawValue: value) ?? .control 
     }
 
-    static var markAllConversationsAsRead: Bool {
-        guard let value = Bumper.value(for: MarkAllConversationsAsRead.key) else { return false }
-        return MarkAllConversationsAsRead(rawValue: value)?.asBool ?? false
+    static var markAllConversationsAsRead: MarkAllConversationsAsRead {
+        guard let value = Bumper.value(for: MarkAllConversationsAsRead.key) else { return .control }
+        return MarkAllConversationsAsRead(rawValue: value) ?? .control 
     }
 
     static var showProTagUserProfile: Bool {
@@ -899,12 +899,19 @@ enum AddPriceTitleDistanceToListings: String, BumperFeature  {
 }
 
 enum MarkAllConversationsAsRead: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return MarkAllConversationsAsRead.no.rawValue }
-    static var enumValues: [MarkAllConversationsAsRead] { return [.no, .yes]}
+    case control, baseline, active
+    static var defaultValue: String { return MarkAllConversationsAsRead.control.rawValue }
+    static var enumValues: [MarkAllConversationsAsRead] { return [.control, .baseline, .active]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show a button to mark all conversations as read" } 
-    var asBool: Bool { return self == .yes }
+    static func fromPosition(_ position: Int) -> MarkAllConversationsAsRead {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
 }
 
 enum ShowProTagUserProfile: String, BumperFeature  {

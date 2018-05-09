@@ -720,6 +720,7 @@
 		50CA9FB01C91696800350C5F /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CA9FAF1C91696800350C5F /* UserViewModel.swift */; };
 		50CA9FB11C91696800350C5F /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CA9FAF1C91696800350C5F /* UserViewModel.swift */; };
 		50CBCD5F1BF0BB8F00A329BB /* CollectionViewFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CBCD5D1BF0BB8F00A329BB /* CollectionViewFooter.swift */; };
+		50CFB2F420A2D94800255EE8 /* UserVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A38A99E2077610300F3B292 /* UserVerificationViewController.swift */; };
 		50D08D331E6985A3009CC260 /* letgoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D301E6985A3009CC260 /* letgoUITests.swift */; };
 		50D08DA61E69AF14009CC260 /* RatingManagerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D541E69AF14009CC260 /* RatingManagerSpec.swift */; };
 		50D08DA71E69AF14009CC260 /* iOScfgMockKOIncomplete.json in Resources */ = {isa = PBXBuildFile; fileRef = 50D08D571E69AF14009CC260 /* iOScfgMockKOIncomplete.json */; };
@@ -853,7 +854,6 @@
 		6A38A998207618DE00F3B292 /* UserProfileKarmaScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A38A997207618DE00F3B292 /* UserProfileKarmaScoreView.swift */; };
 		6A38A9992076304A00F3B292 /* UserProfileKarmaScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A38A997207618DE00F3B292 /* UserProfileKarmaScoreView.swift */; };
 		6A38A9A42077610400F3B292 /* UserVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A38A99E2077610300F3B292 /* UserVerificationViewController.swift */; };
-		6A38A9A52077610400F3B292 /* UserVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A38A99E2077610300F3B292 /* UserVerificationViewController.swift */; };
 		6A38A9A62077610400F3B292 /* UserVerificationNavBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A38A99F2077610300F3B292 /* UserVerificationNavBarView.swift */; };
 		6A38A9A72077610400F3B292 /* UserVerificationNavBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A38A99F2077610300F3B292 /* UserVerificationNavBarView.swift */; };
 		6A38A9A82077610400F3B292 /* UserVerificationSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A38A9A02077610300F3B292 /* UserVerificationSectionHeader.swift */; };
@@ -8027,6 +8027,7 @@
 				8E69F3F31E9E30EE00E14F12 /* CategoryDetailTableView.swift in Sources */,
 				C7B5884C1CE1DE1C009B3975 /* ChatViewModel.swift in Sources */,
 				C707D4591E9B8C0B00042C03 /* RepositoryError+LG.swift in Sources */,
+				50CFB2F420A2D94800255EE8 /* UserVerificationViewController.swift in Sources */,
 				C7DE8AD71C88929A005CF37E /* PostListingCameraView.swift in Sources */,
 				0A3048292041E20100C11498 /* ListingDeckSnapshotType.swift in Sources */,
 				C7E1DE551E51F644003818F6 /* DirectAnswersHorizontalView.swift in Sources */,
@@ -8146,7 +8147,6 @@
 				0AC489441F9DE2C000CD6C53 /* ListingCardView.swift in Sources */,
 				F57D3A311FED01A6006F2CA4 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
 				C7B5887E1CE1DFA6009B3975 /* BaseChatCellDrawer.swift in Sources */,
-				6A38A9A52077610400F3B292 /* UserVerificationViewController.swift in Sources */,
 				0A73F1FD209216070016CC72 /* LGTimer.swift in Sources */,
 				012C56F12017A09400C087D0 /* MostSearchedItemsListingListCell.swift in Sources */,
 				C7BB25D11E36153600649396 /* GodModeManager.swift in Sources */,

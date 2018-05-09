@@ -140,7 +140,13 @@ fileprivate extension LGEmptyViewModel {
             return code
         case .internalError(let message):
             return Int(message)
-        case .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .searchAlertError:
+        case .unauthorized(_, let description):
+            if let description = description {
+                return Int(description)
+            } else {
+                return nil
+            }
+        case .notFound, .forbidden, .tooManyRequests, .userNotVerified, .searchAlertError:
             return nil
         }
     }
