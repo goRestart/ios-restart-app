@@ -172,8 +172,8 @@
 "chat_list_buying_title" = "KOPEN";
 "chat_list_delete" = "Verwijderen";
 "chat_list_delete_alert_send" = "Verwijderen";
-"chat_list_delete_alert_text_multiple" = "Je staat op het punt deze chats te verwijderen";
-"chat_list_delete_alert_text_one" = "Je staat op het punt deze chat te verwijderen";
+"chat_list_delete_alert_text_multiple" = "Je staat op het punt deze chats definitief te verwijderen";
+"chat_list_delete_alert_text_one" = "Je staat op het punt deze chat definitief te verwijderen";
 "chat_list_delete_alert_title_multiple" = "Verwijder Chats";
 "chat_list_delete_alert_title_one" = "Verwijder Chat";
 "chat_list_delete_error_one" = "Er is een fout opgetreden tijdens het verwijderen van deze chat. Probeer het nog eens.";

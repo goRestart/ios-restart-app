@@ -172,8 +172,8 @@
 "chat_list_buying_title" = "OSTOT";
 "chat_list_delete" = "Poista";
 "chat_list_delete_alert_send" = "Poista";
-"chat_list_delete_alert_text_multiple" = "Olet poistamassa näitä keskusteluja";
-"chat_list_delete_alert_text_one" = "Olet poistamassa tätä keskustelua";
+"chat_list_delete_alert_text_multiple" = "Olet poistamassa nämä keskustelut pysyvästi";
+"chat_list_delete_alert_text_one" = "Olet poistamassa tämän keskustelun pysyvästi";
 "chat_list_delete_alert_title_multiple" = "Poista keskustelut";
 "chat_list_delete_alert_title_one" = "Poista keskustelu";
 "chat_list_delete_error_one" = "Tätä keskustelua poistettaessa tapahtui virhe. Ole hyvä ja yritä uudelleen.";

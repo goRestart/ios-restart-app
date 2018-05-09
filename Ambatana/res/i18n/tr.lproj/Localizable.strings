@@ -172,8 +172,8 @@
 "chat_list_buying_title" = "ALIŞ";
 "chat_list_delete" = "Sil";
 "chat_list_delete_alert_send" = "Sil";
-"chat_list_delete_alert_text_multiple" = "Bu sohbetleri sileceksin";
-"chat_list_delete_alert_text_one" = "Bu sohbeti sileceksin";
+"chat_list_delete_alert_text_multiple" = "Bu sohbetleri kalıcı olarak sileceksin";
+"chat_list_delete_alert_text_one" = "Bu sohbeti kalıcı olarak sileceksin";
 "chat_list_delete_alert_title_multiple" = "Sohbetleri Sil";
 "chat_list_delete_alert_title_one" = "Sohbeti Sil";
 "chat_list_delete_error_one" = "Bu sohbet silinirken hata oluştu. Lütfen tekrar dene.";
@@ -868,7 +868,7 @@
 "profile_verifications_view_extra_section_title" = "AL & SAT";
 "profile_verifications_view_facebook_title" = "Facebook";
 "profile_verifications_view_google_title" = "Google";
-"profile_verifications_view_mark_as_sold_subtitle" = "Her biri +2 puan (10 puana kadar)";
+"profile_verifications_view_mark_as_sold_subtitle" = "Her ilan için +2 puan (10 puana kadar)";
 "profile_verifications_view_mark_as_sold_title" = "Satıldı olarak işaretle";
 "profile_verifications_view_phone_number_title" = "Telefon Numarası";
 "profile_verifications_view_photo_id_title" = "Kimlik fotoğrafı";

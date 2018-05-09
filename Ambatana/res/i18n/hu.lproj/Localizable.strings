@@ -172,8 +172,8 @@
 "chat_list_buying_title" = "VÁSÁRLÓ";
 "chat_list_delete" = "Törlés";
 "chat_list_delete_alert_send" = "Törlés";
-"chat_list_delete_alert_text_multiple" = "A csevegések törlésére készülsz";
-"chat_list_delete_alert_text_one" = "A csevegés törlésére készülsz";
+"chat_list_delete_alert_text_multiple" = "Véglegesen törölni fogod ezeket a beszélgetéseket";
+"chat_list_delete_alert_text_one" = "Véglegesen törölni fogod ezt a beszélgetést";
 "chat_list_delete_alert_title_multiple" = "Csevegések törlése";
 "chat_list_delete_alert_title_one" = "Csevegés törlése";
 "chat_list_delete_error_one" = "Hiba történt a csevegések törlése során. Próbálkozz újra.";
@@ -868,7 +868,7 @@
 "profile_verifications_view_extra_section_title" = "KERESKEDJ";
 "profile_verifications_view_facebook_title" = "Facebook";
 "profile_verifications_view_google_title" = "Google";
-"profile_verifications_view_mark_as_sold_subtitle" = "Egyenként +2 pont (legfeljebb 10)";
+"profile_verifications_view_mark_as_sold_subtitle" = "Hirdetésenként +2 pont (legfeljebb 10)";
 "profile_verifications_view_mark_as_sold_title" = "Megjelölés eladottként";
 "profile_verifications_view_phone_number_title" = "Telefonszám";
 "profile_verifications_view_photo_id_title" = "Fényképes igazolvány";

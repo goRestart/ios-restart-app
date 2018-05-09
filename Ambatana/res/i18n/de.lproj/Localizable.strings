@@ -172,8 +172,8 @@
 "chat_list_buying_title" = "KÄUFE";
 "chat_list_delete" = "Löschen";
 "chat_list_delete_alert_send" = "Löschen";
-"chat_list_delete_alert_text_multiple" = "Du bist dabei diese Gespräche zu löschen";
-"chat_list_delete_alert_text_one" = "Du bist dabei dieses Gespräch zu löschen";
+"chat_list_delete_alert_text_multiple" = "Du bist dabei diese Gespräche dauerhaft zu löschen";
+"chat_list_delete_alert_text_one" = "Du bist dabei dieses Gespräch dauerhaft zu löschen";
 "chat_list_delete_alert_title_multiple" = "Gespräche löschen";
 "chat_list_delete_alert_title_one" = "Gespräch löschen";
 "chat_list_delete_error_one" = "Beim Löschen des Gesprächs ist ein Fehler aufgetreten. Bitte versuche es erneut.";
@@ -868,7 +868,7 @@
 "profile_verifications_view_extra_section_title" = "KAUFEN & VERKAUFEN";
 "profile_verifications_view_facebook_title" = "Facebook";
 "profile_verifications_view_google_title" = "Google";
-"profile_verifications_view_mark_as_sold_subtitle" = "Je +2 Punkte (biz zu 10 Punkte)";
+"profile_verifications_view_mark_as_sold_subtitle" = "+2 Punkte pro Angebot (bis zu 10 Punkte)";
 "profile_verifications_view_mark_as_sold_title" = "Als verkauft markieren";
 "profile_verifications_view_phone_number_title" = "Telefonnummer";
 "profile_verifications_view_photo_id_title" = "Lichtbildausweis";

@@ -172,8 +172,8 @@
 "chat_list_buying_title" = "ПОКУПКА";
 "chat_list_delete" = "Удалить";
 "chat_list_delete_alert_send" = "Удалить";
-"chat_list_delete_alert_text_multiple" = "Вы собираетесь удалить эти чаты";
-"chat_list_delete_alert_text_one" = "Вы собираетесь удалить этот чат";
+"chat_list_delete_alert_text_multiple" = "Вы собираетесь удалить эти чаты насовсем";
+"chat_list_delete_alert_text_one" = "Вы собираетесь удалить этот чат насовсем";
 "chat_list_delete_alert_title_multiple" = "Удалить чаты";
 "chat_list_delete_alert_title_one" = "Удалить чат";
 "chat_list_delete_error_one" = "При удалении чата произошла ошибка. Пожалуйста, попробуйте еще раз.";

@@ -172,8 +172,8 @@
 "chat_list_buying_title" = "MUA";
 "chat_list_delete" = "Xóa";
 "chat_list_delete_alert_send" = "Xóa";
-"chat_list_delete_alert_text_multiple" = "Bạn sắp xóa các trò chuyện này";
-"chat_list_delete_alert_text_one" = "Bạn sắp xóa trò chuyện này";
+"chat_list_delete_alert_text_multiple" = "Bạn sắp xóa những trò chuyện này vĩnh viễn";
+"chat_list_delete_alert_text_one" = "Bạn sắp xóa trò chuyện này vĩnh viễn";
 "chat_list_delete_alert_title_multiple" = "Xóa các Trò chuyện";
 "chat_list_delete_alert_title_one" = "Xóa Trò chuyện";
 "chat_list_delete_error_one" = "Có lỗi xảy ra trong khi xóa trò chuyện này. Xin vui lòng thử lại.";
@@ -215,7 +215,7 @@
 "chat_send_error_generic" = "Có lỗi xảy ra trong khi gửi tin nhắn. Xin vui lòng thử lại.";
 "chat_stickers_tooltip_new" = "MỚI!";
 "chat_unblock_user" = "Bỏ chặn Người dùng";
-"chat_user_info_letgo_assistant" = "I'm a virtual assistant that gives you tips and helps you sell.";
+"chat_user_info_letgo_assistant" = "Tôi là một trợ lý ảo, người sẽ cho bạn các lời khuyên và giúp bạn bán hàng.";
 "chat_user_info_name" = "Xin chào, tôi là %@";
 "chat_user_info_verified_with" = "Xác nhận bằng: ";
 "chat_user_rating_button_tooltip" = "Đánh giá người dùng này";
@@ -868,7 +868,7 @@
 "profile_verifications_view_extra_section_title" = "MUA & BÁN";
 "profile_verifications_view_facebook_title" = "Facebook";
 "profile_verifications_view_google_title" = "Google";
-"profile_verifications_view_mark_as_sold_subtitle" = "+2 điểm mỗi bài (tối đa 10 điểm)";
+"profile_verifications_view_mark_as_sold_subtitle" = "+2 điểm cho mỗi bài đăng (tối đa 10 điểm)";
 "profile_verifications_view_mark_as_sold_title" = "Đánh dấu Đã bán";
 "profile_verifications_view_phone_number_title" = "Số Điện thoại";
 "profile_verifications_view_photo_id_title" = "ID có ảnh";
