@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.29.3</string>
+	<string>1.30.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -141,11 +141,11 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>To start selling, give letgo access to your camera</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>letgo needs to access your location to show you products nearby</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>letgo needs to access your location to show you products nearby</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>letgo needs to access your location to show you products nearby</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>letgo needs to access your location to show you products nearby</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>o save images, give letgo access to your library</string>
