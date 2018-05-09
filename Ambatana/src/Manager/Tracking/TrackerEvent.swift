@@ -1527,8 +1527,7 @@ struct TrackerEvent {
     }
 
     static func userDidTakeScreenshot() -> TrackerEvent {
-        let params = EventParameters()
-        return TrackerEvent(name: .screenshot, params: params)
+        return TrackerEvent(name: .screenshot, params: nil)
     }
 
 
