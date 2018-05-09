@@ -56,7 +56,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var chatNorris: ChatNorris = .control
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings = .control
     var showProTagUserProfile: Bool = false
-    var markAllConversationsAsRead: Bool = false
+    var markAllConversationsAsRead: MarkAllConversationsAsRead = .control
     var realEstateTutorial: RealEstateTutorial = .control
     var summaryAsFirstStep: SummaryAsFirstStep = .control
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem = .control

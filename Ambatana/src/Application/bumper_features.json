@@ -182,7 +182,7 @@
     },
     {
         "name": "MarkAllConversationsAsRead",
-        "values": ["no", "yes"],
+        "values": ["control", "baseline", "active"],
         "description": "Show a button to mark all conversations as read"
     },
     {

@@ -15,8 +15,8 @@ protocol ListingCardDetailMapViewDelegate: class {
 final class ListingCardDetailMapView: UIView {
     private struct Layout {
         struct Defaults {
-            static let insets = UIEdgeInsets(top: Metrics.margin, left: Metrics.margin,
-                                             bottom: Metrics.margin, right: Metrics.margin)
+            static let insets = UIEdgeInsets(top: Metrics.margin, left: Metrics.veryShortMargin,
+                                             bottom: Metrics.margin, right: Metrics.veryShortMargin)
             
         }
         struct CornerRadius { static let map: CGFloat = LGUIKitConstants.bigCornerRadius }

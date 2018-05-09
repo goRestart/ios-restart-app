@@ -172,8 +172,8 @@
 "chat_list_buying_title" = "BUYING";
 "chat_list_delete" = "Delete";
 "chat_list_delete_alert_send" = "Delete";
-"chat_list_delete_alert_text_multiple" = "You're going to delete these chats";
-"chat_list_delete_alert_text_one" = "You're going to delete this chat";
+"chat_list_delete_alert_text_multiple" = "You're going to permanently delete these chats";
+"chat_list_delete_alert_text_one" = "You're going to permanently delete this chat";
 "chat_list_delete_alert_title_multiple" = "Delete Chats";
 "chat_list_delete_alert_title_one" = "Delete Chat";
 "chat_list_delete_error_one" = "An error occurred while deleting this chat. Please try again.";
@@ -868,8 +868,8 @@
 "profile_verifications_view_extra_section_title" = "BUY & SELL";
 "profile_verifications_view_facebook_title" = "Facebook";
 "profile_verifications_view_google_title" = "Google";
-"profile_verifications_view_mark_as_sold_subtitle" = "+2 pts each (up to 10 pts)";
-"profile_verifications_view_mark_as_sold_title" = "Mark a listing as sold";
+"profile_verifications_view_mark_as_sold_subtitle" = "+2 pts for each listing (up to 10 pts)";
+"profile_verifications_view_mark_as_sold_title" = "Mark as sold";
 "profile_verifications_view_phone_number_title" = "Phone number";
 "profile_verifications_view_photo_id_title" = "Photo ID";
 "profile_verifications_view_profile_picture_title" = "Profile picture";

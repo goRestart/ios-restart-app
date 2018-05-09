@@ -57,7 +57,7 @@ protocol FeatureFlaggeable: class {
     var machineLearningMVP: MachineLearningMVP { get }
     var chatNorris: ChatNorris { get }
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings { get }
-    var markAllConversationsAsRead: Bool { get }
+    var markAllConversationsAsRead: MarkAllConversationsAsRead { get }
     var showProTagUserProfile: Bool { get }
     var summaryAsFirstStep: SummaryAsFirstStep { get }
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem { get }
@@ -314,6 +314,10 @@ extension EmergencyLocate {
     var isActive: Bool { return self == .active }
 }
 
+extension MarkAllConversationsAsRead {
+    var isActive: Bool { return self == .active }
+}
+
 extension FeedAdsProviderForUS {
     private var shouldShowAdsInFeedForNewUsers: Bool {
         return self == .moPubAdsForAllUsers || self == .googleAdxForAllUsers
@@ -483,8 +487,6 @@ final class FeatureFlags: FeatureFlaggeable {
             dao.save(newUserProfile: NewUserProfileView.fromPosition(abTests.newUserProfileView.value))
             dao.save(showAdvanceReputationSystem: ShowAdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value))
             dao.save(emergencyLocate: EmergencyLocate.fromPosition(abTests.emergencyLocate.value))
-            locationManager.shouldAskForBackgroundLocationPermission = EmergencyLocate.fromPosition(abTests.emergencyLocate.value).isActive
-            locationManager.startSensorLocationUpdates()
         }
         abTests.variablesUpdated()
     }
@@ -664,11 +666,11 @@ final class FeatureFlags: FeatureFlaggeable {
         return MachineLearningMVP.fromPosition(abTests.machineLearningMVP.value)
     }
     
-    var markAllConversationsAsRead: Bool {
+    var markAllConversationsAsRead: MarkAllConversationsAsRead {
         if Bumper.enabled {
             return Bumper.markAllConversationsAsRead
         }
-        return abTests.markAllConversationsAsRead.value
+        return MarkAllConversationsAsRead.fromPosition(abTests.markAllConversationsAsRead.value)
     }
     
     var newUserProfileView: NewUserProfileView {
