@@ -294,9 +294,13 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     func updateViewWith(alpha: CGFloat, chatEnabled: Bool, actionsEnabled: Bool) {
         whiteBackground.isHidden = !chatEnabled
         self.chatEnabled = chatEnabled
+
         let clippedAlpha = min(1.0, alpha)
 
-        listingDeckView.updatePrivateActionsWith(alpha: actionsEnabled ? clippedAlpha : 0)
+        let actionsAlpha = actionsEnabled ? clippedAlpha : 0
+        let bumpBannerAlpha: CGFloat = (actionsEnabled || !chatEnabled) ? 1.0 : 0
+
+        listingDeckView.updatePrivateActionsWith(actionsAlpha: actionsAlpha, bumpBannerAlpha: bumpBannerAlpha)
         updateChatWith(alpha: (chatEnabled && !actionsEnabled) ? clippedAlpha : 0)
     }
     
