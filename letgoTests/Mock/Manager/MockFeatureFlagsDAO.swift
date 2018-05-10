@@ -11,7 +11,6 @@
 class MockFeatureFlagsDAO: FeatureFlagsDAO {
     
     var timeoutForRequests: TimeInterval?
-    var newUserProfile: NewUserProfileView?
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem?
     var emergencyLocate: EmergencyLocate?
     var chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs?
@@ -22,14 +21,6 @@ class MockFeatureFlagsDAO: FeatureFlagsDAO {
 
     func save(timeoutForRequests: TimeInterval) {
         self.timeoutForRequests = timeoutForRequests
-    }
-
-    func retrieveNewUserProfile() -> NewUserProfileView? {
-        return newUserProfile
-    }
-
-    func save(newUserProfile: NewUserProfileView) {
-        self.newUserProfile = newUserProfile
     }
 
     func retrieveShowAdvanceReputationSystem() -> ShowAdvancedReputationSystem? {
