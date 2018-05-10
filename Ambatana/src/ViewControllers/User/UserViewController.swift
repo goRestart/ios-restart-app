@@ -60,7 +60,7 @@ class UserViewController: BaseViewController {
     fileprivate static let userLabelsContainerMarginLong: CGFloat = 90
     fileprivate static let userLabelsContainerMarginShort: CGFloat = 50
 
-    fileprivate var navBarUserView: UserView
+    fileprivate var navBarUserView: UserView //keep
     fileprivate var navBarUserViewAlpha: CGFloat = 0.0 {
         didSet {
             navBarUserView.alpha = navBarUserViewAlpha
@@ -71,7 +71,7 @@ class UserViewController: BaseViewController {
     @IBOutlet weak var userBgView: UIView!
     @IBOutlet weak var userBgEffectView: UIVisualEffectView!
 
-    @IBOutlet weak var headerContainer: UserViewHeaderContainer!
+    @IBOutlet weak var headerContainer: UserViewHeaderContainer! // remove
     @IBOutlet weak var headerContainerBottom: NSLayoutConstraint!
     @IBOutlet weak var headerContainerHeight: NSLayoutConstraint!
     fileprivate let headerGestureRecognizer: UIPanGestureRecognizer
