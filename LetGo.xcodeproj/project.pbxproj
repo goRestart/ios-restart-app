@@ -792,8 +792,6 @@
 		50D934D71E803C9E00BDD5FF /* PostListingStateSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D934D61E803C9E00BDD5FF /* PostListingStateSpec.swift */; };
 		50D934D91E81283100BDD5FF /* PostListingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D934D81E81283100BDD5FF /* PostListingState.swift */; };
 		50D934DA1E81283100BDD5FF /* PostListingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D934D81E81283100BDD5FF /* PostListingState.swift */; };
-		50E0E84B1D40B11600A6397C /* UserViewHeaderContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E0E84A1D40B11600A6397C /* UserViewHeaderContainer.swift */; };
-		50E0E84C1D40B11600A6397C /* UserViewHeaderContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E0E84A1D40B11600A6397C /* UserViewHeaderContainer.swift */; };
 		50E557BB1E421CB900327B6A /* LoginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E557BA1E421CB900327B6A /* LoginCoordinator.swift */; };
 		50E557BC1E421CB900327B6A /* LoginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E557BA1E421CB900327B6A /* LoginCoordinator.swift */; };
 		50E557BE1E421CF500327B6A /* LoginNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E557BD1E421CF500327B6A /* LoginNavigator.swift */; };
@@ -2438,7 +2436,6 @@
 		50D67B9C1D182F07003AC0A5 /* SellNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellNavigator.swift; sourceTree = "<group>"; };
 		50D934D61E803C9E00BDD5FF /* PostListingStateSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = PostListingStateSpec.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		50D934D81E81283100BDD5FF /* PostListingState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = PostListingState.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		50E0E84A1D40B11600A6397C /* UserViewHeaderContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewHeaderContainer.swift; sourceTree = "<group>"; };
 		50E557BA1E421CB900327B6A /* LoginCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCoordinator.swift; sourceTree = "<group>"; };
 		50E557BD1E421CF500327B6A /* LoginNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginNavigator.swift; sourceTree = "<group>"; };
 		50E8A08A1B79F8D800DE49CC /* ContactSubject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactSubject.swift; sourceTree = "<group>"; };
@@ -4112,7 +4109,6 @@
 				50CA9FAA1C91695F00350C5F /* UserViewController.xib */,
 				508C3F781C984BCA00CF431F /* UserViewHeader.swift */,
 				508C3F7B1C984BEC00CF431F /* UserViewHeader.xib */,
-				50E0E84A1D40B11600A6397C /* UserViewHeaderContainer.swift */,
 				0127AA85200E3FB00058AAC5 /* MostSearchedItemsUserHeader.swift */,
 			);
 			path = User;
@@ -7321,7 +7317,6 @@
 				C7111EF91CA43822000C5C5A /* DeepLinksRouter.swift in Sources */,
 				2E57B80C2051A1E9008B2082 /* PostListingCategoryCell.swift in Sources */,
 				F57D3A2B1FED0147006F2CA4 /* TagCollectionViewCell.swift in Sources */,
-				50E0E84B1D40B11600A6397C /* UserViewHeaderContainer.swift in Sources */,
 				F5BBF6791FD06488000E37A0 /* ListingAttributePickerTableView.swift in Sources */,
 				2E4A9DBA1D8054DE00F99026 /* ListingListMultiRequester.swift in Sources */,
 				C7C61E041D633FDB00F9505D /* SearchType.swift in Sources */,
@@ -8095,7 +8090,6 @@
 				C7DB42031C5138B500400945 /* MainSignUpViewController.swift in Sources */,
 				50D934DA1E81283100BDD5FF /* PostListingState.swift in Sources */,
 				C7DB42041C5138B500400945 /* ContactSubject.swift in Sources */,
-				50E0E84C1D40B11600A6397C /* UserViewHeaderContainer.swift in Sources */,
 				2E6691B61FBDF2E100FC2A77 /* PromoteBumpCoordinator.swift in Sources */,
 				C7C61E051D633FDB00F9505D /* SearchType.swift in Sources */,
 				0A90350B1FCC18E800FDE795 /* PhotoViewerTransitionAnimator.swift in Sources */,
