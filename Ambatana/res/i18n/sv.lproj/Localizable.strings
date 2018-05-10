@@ -137,6 +137,9 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "Av säkerhetsskäl har det här kontot tagits bort av letgo och dessa meddelanden har raderats.";
 "chat_connect_account_disclaimer_button" = "Verifiera nu!";
 "chat_connect_accounts_title" = "SKAPA FÖRTROENDE!";
+"chat_conversations_list_filter_all" = "Alla";
+"chat_conversations_list_filter_buying" = "Köper";
+"chat_conversations_list_filter_selling" = "Säljer";
 "chat_deleted_disclaimer_w_name" = "Du kan inte fortsätta denna konversation, för %@s konto är inte längre aktivt.";
 "chat_deleted_disclaimer_wo_name" = "Du kan inte fortsätta den här konversationen för detta konto är inte längre aktivt.";
 "chat_disclaimer_letgo_team" = "LETGO-TEAMET";
@@ -172,8 +175,8 @@
 "chat_list_buying_title" = "KÖPER";
 "chat_list_delete" = "Radera";
 "chat_list_delete_alert_send" = "Radera";
-"chat_list_delete_alert_text_multiple" = "Du kommer att radera de här chatten";
-"chat_list_delete_alert_text_one" = "Du kommer att radera den här chatten";
+"chat_list_delete_alert_text_multiple" = "Du kommer att radera de här chattarna permanent";
+"chat_list_delete_alert_text_one" = "Du kommer att radera den här chatten permanent";
 "chat_list_delete_alert_title_multiple" = "Radera chatt";
 "chat_list_delete_alert_title_one" = "Radera chatten";
 "chat_list_delete_error_one" = "Ett fel uppstod när chatten skulle raderas. Var vänlig försök igen.";
@@ -411,6 +414,7 @@
 "hidden_phone_tag" = "[DOLT TELEFONNUMMER]";
 "hidden_text_alert_description" = "Vi döljer kontaktinformation för att du ska kunna köpa och sälja säkert. Att chatta via letgo är både enkelt och säkrare.";
 "hidden_text_alert_title" = "SÄKERHETSTIPS";
+"listings_map_no_results_message" = "Ingen exakt matchning hittades. Sök på ett annat område eller ändra sökfilter.";
 "listings_map_title" = "Kartvy";
 "location_permissions_allow_button" = "Tillåt";
 "location_permissions_bubble" = "1 km från dig";
@@ -773,6 +777,7 @@
 "product_post_select_category_motors_and_accessories" = "Andra Fordon och Reservdelar";
 "product_post_select_category_other" = "Något annat";
 "product_post_select_category_real_estate" = "Bostad";
+"product_post_select_category_services" = "Tjänster";
 "product_post_select_category_title" = "Vad lägger du upp?";
 "product_post_use_photo" = "Lägg upp";
 "product_post_use_photo_not_logged" = "Använd bild";
@@ -868,7 +873,7 @@
 "profile_verifications_view_extra_section_title" = "KÖP & SÄLJ";
 "profile_verifications_view_facebook_title" = "Facebook";
 "profile_verifications_view_google_title" = "Google";
-"profile_verifications_view_mark_as_sold_subtitle" = "+2 poäng var (upp till 10 p)";
+"profile_verifications_view_mark_as_sold_subtitle" = "+2 poäng för var annons (upp till 10 p)";
 "profile_verifications_view_mark_as_sold_title" = "Markera som såld";
 "profile_verifications_view_phone_number_title" = "Telefonnummer";
 "profile_verifications_view_photo_id_title" = "ID-foto";

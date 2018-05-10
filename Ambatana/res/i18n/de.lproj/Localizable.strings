@@ -137,6 +137,9 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "Aus Sicherheitsgründen wurden dieses Benutzerkonto und die dazugehörigen Nachrichten vom letgo-Team gelöscht.";
 "chat_connect_account_disclaimer_button" = "Jetzt verifizieren!";
 "chat_connect_accounts_title" = "SCHAFFE VERTRAUEN!";
+"chat_conversations_list_filter_all" = "Alle";
+"chat_conversations_list_filter_buying" = "Käufe";
+"chat_conversations_list_filter_selling" = "Verkäufe";
 "chat_deleted_disclaimer_w_name" = "Du kannst dieses Gespräch nicht fortführen, weil das Benutzerkonto von %@ nicht mehr aktiv ist.";
 "chat_deleted_disclaimer_wo_name" = "Du kannst dieses Gespräch nicht fortführen, weil dieses Benutzerkonto nicht mehr aktiv ist.";
 "chat_disclaimer_letgo_team" = "LETGO-TEAM";
@@ -172,8 +175,8 @@
 "chat_list_buying_title" = "KÄUFE";
 "chat_list_delete" = "Löschen";
 "chat_list_delete_alert_send" = "Löschen";
-"chat_list_delete_alert_text_multiple" = "Du bist dabei diese Gespräche zu löschen";
-"chat_list_delete_alert_text_one" = "Du bist dabei dieses Gespräch zu löschen";
+"chat_list_delete_alert_text_multiple" = "Du bist dabei diese Gespräche dauerhaft zu löschen";
+"chat_list_delete_alert_text_one" = "Du bist dabei dieses Gespräch dauerhaft zu löschen";
 "chat_list_delete_alert_title_multiple" = "Gespräche löschen";
 "chat_list_delete_alert_title_one" = "Gespräch löschen";
 "chat_list_delete_error_one" = "Beim Löschen des Gesprächs ist ein Fehler aufgetreten. Bitte versuche es erneut.";
@@ -411,6 +414,7 @@
 "hidden_phone_tag" = "[TELEFONNUMMER VERSTECKT]";
 "hidden_text_alert_description" = "Wir verstecken Kontaktinformationen, damit du sicher kaufen und verkaufen kannst. Gespräche innerhalb letgos zu führen ist leicht und außerdem sicherer.";
 "hidden_text_alert_title" = "SICHERHEITSHINWEIS";
+"listings_map_no_results_message" = "Keine exakten Treffer für deine Suche. Suche in einer anderen Gegend oder nutze andere Filter.";
 "listings_map_title" = "Kartenansicht";
 "location_permissions_allow_button" = "Erlauben";
 "location_permissions_bubble" = "0,1 km von dir entfernt";
@@ -773,6 +777,7 @@
 "product_post_select_category_motors_and_accessories" = "Andere Fahrzeuge und Teile";
 "product_post_select_category_other" = "Etwas anderes";
 "product_post_select_category_real_estate" = "Immobilien";
+"product_post_select_category_services" = "Dienstleistungen";
 "product_post_select_category_title" = "Was stellst du ein?";
 "product_post_use_photo" = "Foto verwenden";
 "product_post_use_photo_not_logged" = "Foto nutzen";
@@ -868,7 +873,7 @@
 "profile_verifications_view_extra_section_title" = "KAUFEN & VERKAUFEN";
 "profile_verifications_view_facebook_title" = "Facebook";
 "profile_verifications_view_google_title" = "Google";
-"profile_verifications_view_mark_as_sold_subtitle" = "Je +2 Punkte (biz zu 10 Punkte)";
+"profile_verifications_view_mark_as_sold_subtitle" = "+2 Punkte pro Angebot (bis zu 10 Punkte)";
 "profile_verifications_view_mark_as_sold_title" = "Als verkauft markieren";
 "profile_verifications_view_phone_number_title" = "Telefonnummer";
 "profile_verifications_view_photo_id_title" = "Lichtbildausweis";

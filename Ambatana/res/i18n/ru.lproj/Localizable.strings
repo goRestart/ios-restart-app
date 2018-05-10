@@ -137,6 +137,9 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "В целях безопасности этот аккаунт был удален командой letgo вместе с сообщениями.";
 "chat_connect_account_disclaimer_button" = "Подтвердить сейчас!";
 "chat_connect_accounts_title" = "УКРЕПИТЕ ДОВЕРИЕ!";
+"chat_conversations_list_filter_all" = "Все";
+"chat_conversations_list_filter_buying" = "Покупка";
+"chat_conversations_list_filter_selling" = "Продажа";
 "chat_deleted_disclaimer_w_name" = "Вы не можете продолжать чат, так как аккаунт %@ больше не активен.";
 "chat_deleted_disclaimer_wo_name" = "Вы не можете продолжать чат, так как этот аккаунт больше не активен.";
 "chat_disclaimer_letgo_team" = "КОМАНДА LETGO";
@@ -172,8 +175,8 @@
 "chat_list_buying_title" = "ПОКУПКА";
 "chat_list_delete" = "Удалить";
 "chat_list_delete_alert_send" = "Удалить";
-"chat_list_delete_alert_text_multiple" = "Вы собираетесь удалить эти чаты";
-"chat_list_delete_alert_text_one" = "Вы собираетесь удалить этот чат";
+"chat_list_delete_alert_text_multiple" = "Вы собираетесь удалить эти чаты насовсем";
+"chat_list_delete_alert_text_one" = "Вы собираетесь удалить этот чат насовсем";
 "chat_list_delete_alert_title_multiple" = "Удалить чаты";
 "chat_list_delete_alert_title_one" = "Удалить чат";
 "chat_list_delete_error_one" = "При удалении чата произошла ошибка. Пожалуйста, попробуйте еще раз.";
@@ -411,6 +414,7 @@
 "hidden_phone_tag" = "[НОМЕР ТЕЛЕФОНА СКРЫТ]";
 "hidden_text_alert_description" = "Мы скрыли контактную информацию, чтобы вы могли спокойно торговать. Общаться в letgo легко и безопасно.";
 "hidden_text_alert_title" = "ОСТАВАЙТЕСЬ В БЕЗОПАСНОСТИ";
+"listings_map_no_results_message" = "Поиск не дал результатов. Попробуйте поискать в другом районе или с другими фильтрами.";
 "listings_map_title" = "Смотреть на карте";
 "location_permissions_allow_button" = "Разрешить";
 "location_permissions_bubble" = "500 м от вас";
@@ -773,6 +777,7 @@
 "product_post_select_category_motors_and_accessories" = "Транспорт и запчасти";
 "product_post_select_category_other" = "Другие товары";
 "product_post_select_category_real_estate" = "Недвижимость";
+"product_post_select_category_services" = "Услуги";
 "product_post_select_category_title" = "Что вы размещаете?";
 "product_post_use_photo" = "Разместить";
 "product_post_use_photo_not_logged" = "Использовать фото";
