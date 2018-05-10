@@ -57,18 +57,17 @@ def stopPreviousRunningBuilds() {
 }
 
 def markJiraIssuesAsDone() {
-    node(node_name) {
-        stage ("Move Tickets") {
-          git branch: 'master', poll: false, url: 'git@github.com:letgoapp/letgo-ios-scripts.git'
-    // we move to a secure folder with the repo already checked out
-    withCredentials([usernamePassword(credentialsId: '79356c55-62e0-41c0-8a8c-85a56ad45e11', 
-                                              passwordVariable: 'IOS_JIRA_PASSWORD', 
-                                              usernameVariable: 'IOS_JIRA_USERNAME')],
-                    [usernamePassword(credentialsId: 'fc7205d5-6635-441c-943e-d40b5030df0f', 
-                                              passwordVariable: 'LG_GITHUB_PASSWORD', 
-                                              usernameVariable: 'LG_GITHUB_USER')]) {
-                
-		sh 'ruby ./letgo-ios-scripts/scripts/hooks/post-merge'
+	node(node_name) {
+		stage ("Move Tickets") {
+			git branch: 'master', poll: false, url: 'git@github.com:letgoapp/letgo-ios-scripts.git'
+    			withCredentials([
+				usernamePassword(credentialsId: '79356c55-62e0-41c0-8a8c-85a56ad45e11', 
+					passwordVariable: 'IOS_JIRA_PASSWORD', 
+					usernameVariable: 'IOS_JIRA_USERNAME'),
+				usernamePassword(credentialsId: 'fc7205d5-6635-441c-943e-d40b5030df0f', 
+					passwordVariable: 'LG_GITHUB_PASSWORD', 
+					usernameVariable: 'LG_GITHUB_USER')]) {
+			sh 'ruby ./letgo-ios-scripts/scripts/hooks/post-merge'
             }
         }
     }
