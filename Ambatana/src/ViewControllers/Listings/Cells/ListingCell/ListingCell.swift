@@ -124,7 +124,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         return image
     }
     
-    // MARK: - Lifecycle
+    // MARK:- Lifecycle
     
     convenience init() {
         self.init(frame: .zero)

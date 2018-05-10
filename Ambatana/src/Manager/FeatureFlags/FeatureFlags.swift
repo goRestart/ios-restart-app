@@ -92,6 +92,10 @@ protocol FeatureFlaggeable: class {
     var filterSearchCarSellerType: FilterSearchCarSellerType { get }
     var createUpdateIntoNewBackend: CreateUpdateCarsIntoNewBackend { get }
     var realEstateMap: RealEstateMap { get }
+    
+    // MARK: Discovery
+    var personalizedFeed: PersonalizedFeed { get }
+    var personalizedFeedABTestIntValue: Int? { get }
 
     // MARK: Products
     var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu { get }
@@ -425,6 +429,10 @@ extension CopyForSellFasterNowInEnglish {
 
 extension IAmInterestedFeed {
     var isVisible: Bool { return self == .control || self == .baseline }
+}
+
+extension PersonalizedFeed {
+    var isActive: Bool { return self != .control && self != .baseline }
 }
 
 extension ServicesCategoryOnSalchichasMenu {
@@ -1091,6 +1099,31 @@ extension FeatureFlags {
     }
 }
 
+extension FeatureFlags {
+    /**
+     This AB test has 3 cases: control(0), baseline(1) and active(2)
+     But discovery team wants to be able to send values that are larger than 2 without us touching the code.
+     
+     Therefore, we assign all cases with abtest value > 2 as active
+                and the rest falls back to control or baseline.
+     ABIOS-4113 https://ambatana.atlassian.net/browse/ABIOS-4113
+     */
+    var personalizedFeed: PersonalizedFeed {
+        if Bumper.enabled {
+            return Bumper.personalizedFeed
+        }
+        if abTests.personlizedFeedIsActive {
+            return PersonalizedFeed.personalized
+        } else {
+            return PersonalizedFeed.fromPosition(abTests.personalizedFeed.value)
+        }
+    }
+    
+    var personalizedFeedABTestIntValue: Int? {
+        return abTests.personlizedFeedIsActive ? abTests.personalizedFeed.value : nil
+    }
+}
+
 // MARK: Products
 
 extension FeatureFlags {
@@ -1102,4 +1135,3 @@ extension FeatureFlags {
         return ServicesCategoryOnSalchichasMenu.fromPosition(abTests.servicesCategoryOnSalchichasMenu.value)
     }
 }
-

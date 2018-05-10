@@ -38,7 +38,8 @@ final class AmplitudeTracker: Tracker {
     private static let userPropABTestsChat = "AB-test-chat"
     private static let userPropABTestsProducts = "AB-test-products"
     private static let userPropABTestsUsers = "AB-test-users"
-    
+    private static let userPropABTestsDiscovery = "AB-test-discovery"
+
     private static let userPropMktPushNotificationKey = "marketing-push-notification"
     private static let userPropMktPushNotificationValueOn = "on"
     private static let userPropMktPushNotificationValueOff = "off"
@@ -162,6 +163,8 @@ final class AmplitudeTracker: Tracker {
             var chatAbTests: [String] = []
             var productsAbTests: [String] = []
             var usersAbTests: [String] = []
+            var discoveryAbTests: [String] = []
+            
             trackingData.forEach({ (identifier, abGroupType) in
                 switch abGroupType {
                 case .legacyABTests:
@@ -182,6 +185,8 @@ final class AmplitudeTracker: Tracker {
                     productsAbTests.append(identifier)
                 case .users:
                     usersAbTests.append(identifier)
+                case .discovery:
+                    discoveryAbTests.append(identifier)
                 }
             })
             let dict: [String: [String]] = [AmplitudeTracker.userPropABTestsCore: coreAbtests,
@@ -192,7 +197,8 @@ final class AmplitudeTracker: Tracker {
                                             AmplitudeTracker.userPropABTestsChat: chatAbTests,
                                             AmplitudeTracker.userPropABTestsProducts: productsAbTests,
                                             AmplitudeTracker.userPropABTestsUsers: usersAbTests,
-                                            AmplitudeTracker.userPropABTests: legacyABTests]
+                                            AmplitudeTracker.userPropABTests: legacyABTests,
+                                            AmplitudeTracker.userPropABTestsDiscovery: discoveryAbTests]
             dict.forEach({ (type, variables) in
                 let identify = AMPIdentify()
                 let trackingDataValue = NSArray(array: variables)

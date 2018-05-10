@@ -66,6 +66,7 @@ extension Bumper  {
         flags.append(EmergencyLocate.self)
         flags.append(RealEstateMap.self)
         flags.append(IAmInterestedFeed.self)
+        flags.append(PersonalizedFeed.self)
         flags.append(ServicesCategoryOnSalchichasMenu.self)
         Bumper.initialize(flags)
     } 
@@ -335,10 +336,15 @@ extension Bumper  {
         return IAmInterestedFeed(rawValue: value) ?? .control 
     }
 
+    static var personalizedFeed: PersonalizedFeed {
+        guard let value = Bumper.value(for: PersonalizedFeed.key) else { return .control }
+        return PersonalizedFeed(rawValue: value) ?? .control 
+    }
+    
     static var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu {
         guard let value = Bumper.value(for: ServicesCategoryOnSalchichasMenu.key) else { return .control }
         return ServicesCategoryOnSalchichasMenu(rawValue: value) ?? .control 
-    } 
+    }
 }
 
 
@@ -1167,6 +1173,21 @@ enum IAmInterestedFeed: String, BumperFeature  {
     }
 }
 
+enum PersonalizedFeed: String, BumperFeature  {
+    case control, baseline, personalized
+    static var defaultValue: String { return PersonalizedFeed.control.rawValue }
+    static var enumValues: [PersonalizedFeed] { return [.control, .baseline, .personalized]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Personalize the feed" } 
+    static func fromPosition(_ position: Int) -> PersonalizedFeed {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .personalized
+            default: return .control
+        }
+    }
+}
 enum ServicesCategoryOnSalchichasMenu: String, BumperFeature  {
     case control, baseline, variantA, variantB, variantC
     static var defaultValue: String { return ServicesCategoryOnSalchichasMenu.control.rawValue }

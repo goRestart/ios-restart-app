@@ -27,6 +27,11 @@ final class ListingApiDataSource: ListingDataSource {
         apiClient.request(request, decoder: ListingApiDataSource.decoderArray, completion: completion)
     }
     
+    func indexCustomFeed(_ parameters: [String: Any], completion: ListingsDataSourceCompletion?) {
+        let request = ListingRouter.indexCustomFeed(params: parameters)
+        apiClient.request(request, decoder: ListingApiDataSource.decoderArray, completion: completion)
+    }
+    
     func indexForUser(_ userId: String, parameters: [String: Any], completion: ListingsDataSourceCompletion?) {
         let request = ListingRouter.indexForUser(userId: userId, params: parameters)
         apiClient.request(request, decoder: ListingApiDataSource.decoderArray, completion: completion)
@@ -230,7 +235,6 @@ final class ListingApiDataSource: ListingDataSource {
         let request = ListingRouter.possibleBuyers(listingId: listingId)
         apiClient.request(request, decoder: ListingApiDataSource.decoderUserArray, completion: completion)
     }
-    
     
     func createTransactionOf(createTransactionParams: CreateTransactionParams, completion: ListingDataSourceTransactionCompletion?) {
         let request = ListingRouter.createTransactionOf(listingId: createTransactionParams.listingId, params: createTransactionParams.letgoApiParams)

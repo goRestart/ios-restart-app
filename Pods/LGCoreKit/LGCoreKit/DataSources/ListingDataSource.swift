@@ -32,6 +32,7 @@ typealias ListingDataSourceTransactionCompletion = (ListingDataSourceTransaction
 
 protocol ListingDataSource {
     func index(_ parameters: [String: Any], completion: ListingsDataSourceCompletion?)
+    func indexCustomFeed(_ parameters: [String: Any], completion: ListingsDataSourceCompletion?)
     func indexForUser(_ userId: String, parameters: [String: Any], completion: ListingsDataSourceCompletion?)
     func indexFavorites(userId: String, numberOfResults: Int?, resultsOffset: Int?, completion: ListingsDataSourceCompletion?)
     func indexRelatedListings(_ listingId: String, parameters: [String: Any], completion: ListingsDataSourceCompletion?)

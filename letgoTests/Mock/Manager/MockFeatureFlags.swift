@@ -96,6 +96,10 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var filterSearchCarSellerType: FilterSearchCarSellerType = .control
     var createUpdateIntoNewBackend: CreateUpdateCarsIntoNewBackend = .control
     var realEstateMap: RealEstateMap = .control
+    
+    // MARK: Discovery
+    var personalizedFeed: PersonalizedFeed = .control
+    var personalizedFeedABTestIntValue: Int? = nil
 
     //  MARK:  Products
     var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu = .control

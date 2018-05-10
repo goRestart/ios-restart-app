@@ -266,6 +266,11 @@
         "description": "Show an I am interested button in the main feed"
     },
     {
+        "name": "PersonalizedFeed",
+        "values": ["control", "baseline", "personalized"],
+        "description": "Personalize the feed"
+    },
+    {
         "name": "ServicesCategoryOnSalchichasMenu",
         "values": ["control", "baseline", "VariantA", "VariantB", "VariantC"],
         "description": "Show services category on salchichas menu"
