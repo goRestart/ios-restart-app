@@ -10,6 +10,14 @@ import LGCoreKit
 import RxSwift
 import RxCocoa
 
+enum UserSource {
+    case tabBar
+    case listingDetail
+    case chat
+    case notifications
+    case link
+}
+
 protocol UserProfileViewModelDelegate: BaseViewModelDelegate {
     func vmShowNativeShare(_ socialMessage: SocialMessage)
 }

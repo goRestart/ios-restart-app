@@ -9,14 +9,6 @@
 import LGCoreKit
 import RxSwift
 
-enum UserSource {
-    case tabBar
-    case listingDetail
-    case chat
-    case notifications
-    case link
-}
-
 protocol UserViewModelDelegate: BaseViewModelDelegate {
     func vmOpenReportUser(_ reportUserVM: ReportUsersViewModel)
     func vmShowUserActionSheet(_ cancelLabel: String, actions: [UIAction])
