@@ -1051,7 +1051,8 @@ extension ListingViewModel {
                                           action: { [weak self] in self?.confirmToMarkAsUnSold(free: false) }))
         case .otherAvailable, .otherAvailableFree:
             if isProfessional && featureFlags.allowCallsForProfessionals.isActive {
-                actionButtons.append(UIAction(interface: .button(LGLocalizedString.productProfessionalChatButton, .secondary(fontSize: .big, withBorder: false)),
+                let style: ButtonStyle = .secondary(fontSize: .big, withBorder: featureFlags.deckItemPage.isActive)
+                actionButtons.append(UIAction(interface: .button(LGLocalizedString.productProfessionalChatButton, style),
                                               action: { [weak self] in self?.openAskPhone() }))
             }
         case .availableFree:
