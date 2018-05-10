@@ -62,6 +62,7 @@ final class UserProfileKarmaScoreView: UIView {
         static let chevronImageHeight: CGFloat = 13
         static let chevronImageWidth: CGFloat = 8
         static let separatorHeight: CGFloat = 1
+        static let openVerificationsLabelHeight: CGFloat = 48
     }
 
     required init() {
@@ -187,7 +188,7 @@ final class UserProfileKarmaScoreView: UIView {
             horizontalSeparator.heightAnchor.constraint(equalToConstant: Layout.separatorHeight),
 
             openVerificationsLabel.topAnchor.constraint(equalTo: progressView.bottomAnchor, constant: Metrics.veryBigMargin),
-            openVerificationsLabel.heightAnchor.constraint(equalToConstant: 48),
+            openVerificationsLabel.heightAnchor.constraint(equalToConstant: Layout.openVerificationsLabelHeight),
             openVerificationsLabel.bottomAnchor.constraint(equalTo: innerContainer.bottomAnchor),
             openVerificationsLabel.leftAnchor.constraint(equalTo: outerContainer.leftAnchor, constant: Metrics.margin),
             openVerificationsLabel.rightAnchor.constraint(equalTo: openVerificationsAccessoryView.leftAnchor, constant: -Metrics.shortMargin),
