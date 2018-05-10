@@ -14,8 +14,6 @@
 		012C56F12017A09400C087D0 /* MostSearchedItemsListingListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012C56EF2017A09400C087D0 /* MostSearchedItemsListingListCell.swift */; };
 		012C56F32017AD6700C087D0 /* MostSearchedItemsCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012C56F22017AD6700C087D0 /* MostSearchedItemsCellDrawer.swift */; };
 		012C56F42017AD6700C087D0 /* MostSearchedItemsCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012C56F22017AD6700C087D0 /* MostSearchedItemsCellDrawer.swift */; };
-		012DA4A9201F3A9300C33542 /* DummyUserDisclaimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012DA4A8201F3A9300C33542 /* DummyUserDisclaimerView.swift */; };
-		012DA4AA201F3A9300C33542 /* DummyUserDisclaimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012DA4A8201F3A9300C33542 /* DummyUserDisclaimerView.swift */; };
 		01337B952085F55D00AC8385 /* SettingsNotificationsSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01337B942085F55D00AC8385 /* SettingsNotificationsSwitchCell.swift */; };
 		01337B962085F55D00AC8385 /* SettingsNotificationsSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01337B942085F55D00AC8385 /* SettingsNotificationsSwitchCell.swift */; };
 		0150866B20520BFF0007E792 /* MockEventParameterPostingAbandonStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0150866A20520BFF0007E792 /* MockEventParameterPostingAbandonStep.swift */; };
@@ -652,10 +650,6 @@
 		508011261D474ED80073F362 /* ProductOnboarding-Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 508011121D474ED80073F362 /* ProductOnboarding-Images.xcassets */; };
 		508AFB0A1E51D1BF0007363D /* AutocompleteField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508AFB091E51D1BF0007363D /* AutocompleteField.swift */; };
 		508AFB0B1E51D1BF0007363D /* AutocompleteField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508AFB091E51D1BF0007363D /* AutocompleteField.swift */; };
-		508C3F791C984BCA00CF431F /* UserViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508C3F781C984BCA00CF431F /* UserViewHeader.swift */; };
-		508C3F7A1C984BCA00CF431F /* UserViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508C3F781C984BCA00CF431F /* UserViewHeader.swift */; };
-		508C3F7C1C984BEC00CF431F /* UserViewHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508C3F7B1C984BEC00CF431F /* UserViewHeader.xib */; };
-		508C3F7D1C984BEC00CF431F /* UserViewHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508C3F7B1C984BEC00CF431F /* UserViewHeader.xib */; };
 		508D48651CCF4FFC00C52BE3 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D48631CCF4FFC00C52BE3 /* ImageDownloader.swift */; };
 		508D48661CCF4FFC00C52BE3 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D48631CCF4FFC00C52BE3 /* ImageDownloader.swift */; };
 		508D48671CCF4FFC00C52BE3 /* ImageDownloaderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D48641CCF4FFC00C52BE3 /* ImageDownloaderType.swift */; };
@@ -1959,7 +1953,6 @@
 		012B73E51F54216600068537 /* QuickAnswerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickAnswerSpec.swift; sourceTree = "<group>"; };
 		012C56EF2017A09400C087D0 /* MostSearchedItemsListingListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostSearchedItemsListingListCell.swift; sourceTree = "<group>"; };
 		012C56F22017AD6700C087D0 /* MostSearchedItemsCellDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostSearchedItemsCellDrawer.swift; sourceTree = "<group>"; };
-		012DA4A8201F3A9300C33542 /* DummyUserDisclaimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyUserDisclaimerView.swift; sourceTree = "<group>"; };
 		01337B942085F55D00AC8385 /* SettingsNotificationsSwitchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsNotificationsSwitchCell.swift; sourceTree = "<group>"; };
 		0150866A20520BFF0007E792 /* MockEventParameterPostingAbandonStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockEventParameterPostingAbandonStep.swift; sourceTree = "<group>"; };
 		0155D99A200FBA2900E2E583 /* MostSearchedItemsListHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostSearchedItemsListHeader.swift; sourceTree = "<group>"; };
@@ -2320,8 +2313,6 @@
 		508011111D474ED80073F362 /* ProductCellBanners.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ProductCellBanners.xcassets; sourceTree = "<group>"; };
 		508011121D474ED80073F362 /* ProductOnboarding-Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "ProductOnboarding-Images.xcassets"; sourceTree = "<group>"; };
 		508AFB091E51D1BF0007363D /* AutocompleteField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutocompleteField.swift; sourceTree = "<group>"; };
-		508C3F781C984BCA00CF431F /* UserViewHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewHeader.swift; sourceTree = "<group>"; };
-		508C3F7B1C984BEC00CF431F /* UserViewHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserViewHeader.xib; sourceTree = "<group>"; };
 		508D48631CCF4FFC00C52BE3 /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		508D48641CCF4FFC00C52BE3 /* ImageDownloaderType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloaderType.swift; sourceTree = "<group>"; };
 		508D486C1CD09E8500C52BE3 /* AlamofireImage+ImageDownloaderType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AlamofireImage+ImageDownloaderType.swift"; sourceTree = "<group>"; };
@@ -3100,14 +3091,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		012DA4A7201F39C700C33542 /* Dummy */ = {
-			isa = PBXGroup;
-			children = (
-				012DA4A8201F3A9300C33542 /* DummyUserDisclaimerView.swift */,
-			);
-			path = Dummy;
-			sourceTree = "<group>";
-		};
 		0178CBD61F0E462700620BA6 /* DeepLinks */ = {
 			isa = PBXGroup;
 			children = (
@@ -4103,12 +4086,9 @@
 			children = (
 				C788EED31CC6935600B9E26F /* UserListingListRequester.swift */,
 				503D4BF01CCE53AE0039FE14 /* UserViewHeaderAccounts.swift */,
-				012DA4A7201F39C700C33542 /* Dummy */,
 				C7F1EE761CFDD15100B027E2 /* Verify */,
 				50CA9FA91C91695F00350C5F /* UserViewController.swift */,
 				50CA9FAA1C91695F00350C5F /* UserViewController.xib */,
-				508C3F781C984BCA00CF431F /* UserViewHeader.swift */,
-				508C3F7B1C984BEC00CF431F /* UserViewHeader.xib */,
 				0127AA85200E3FB00058AAC5 /* MostSearchedItemsUserHeader.swift */,
 			);
 			path = User;
@@ -6028,7 +6008,6 @@
 				508011001D4748120073F362 /* SettingsViewController.xib in Resources */,
 				C7B588611CE1DE1C009B3975 /* RelationInfoView.xib in Resources */,
 				2E9A899520A048D4009F6BB7 /* ChatOtherMeetingCell.xib in Resources */,
-				508C3F7C1C984BEC00CF431F /* UserViewHeader.xib in Resources */,
 				C75B5DC31D59E09500112368 /* ListingCarouselViewController.xib in Resources */,
 				2E9716A41D5A0535009B3A32 /* ExpressChatCell.xib in Resources */,
 				C783D98B1C64C15B000EE5CA /* ReportUserCell.xib in Resources */,
@@ -6157,7 +6136,6 @@
 				508011041D4749030073F362 /* LaunchScreen.xib in Resources */,
 				508011011D4748120073F362 /* SettingsViewController.xib in Resources */,
 				C7B588621CE1DE1C009B3975 /* RelationInfoView.xib in Resources */,
-				508C3F7D1C984BEC00CF431F /* UserViewHeader.xib in Resources */,
 				C75B5DC41D59E09500112368 /* ListingCarouselViewController.xib in Resources */,
 				C783D98C1C64C15B000EE5CA /* ReportUserCell.xib in Resources */,
 				508011221D474ED80073F362 /* iPhoneParts.xcassets in Resources */,
@@ -7104,7 +7082,6 @@
 				8E0EEFB62056C422000C07C9 /* MLPostingDetailsViewModel.swift in Sources */,
 				C78BB50B1C5A314700614096 /* AppShareViewController.swift in Sources */,
 				50D67B971D0AFF24003AC0A5 /* TabBarShowable.swift in Sources */,
-				508C3F791C984BCA00CF431F /* UserViewHeader.swift in Sources */,
 				2E4BDE721EDD7E6A00CBDC8C /* DistanceBubbleTextGenerator.swift in Sources */,
 				6A8335842057CE2C00171A68 /* UserProfileDummyUserDisclaimerView.swift in Sources */,
 				0A04D5D920760A9D00471B9D /* ABTests.swift in Sources */,
@@ -7390,7 +7367,6 @@
 				508010FE1D4748120073F362 /* SettingsViewController.swift in Sources */,
 				6AA9E90C203EC5DC004EACC4 /* UserProfileTabsView.swift in Sources */,
 				7224B0312015EBC800DC8B33 /* PostingAddDetailSizeView.swift in Sources */,
-				012DA4A9201F3A9300C33542 /* DummyUserDisclaimerView.swift in Sources */,
 				C73FABBC1DD3895E008F4519 /* SettingsInfoCell.swift in Sources */,
 				0A759E971FB472F60030FDE0 /* ListingCardViewModel.swift in Sources */,
 				C7B5887D1CE1DFA6009B3975 /* BaseChatCellDrawer.swift in Sources */,
@@ -7890,7 +7866,6 @@
 				C78BB50C1C5A314700614096 /* AppShareViewController.swift in Sources */,
 				50D67B981D0AFF24003AC0A5 /* TabBarShowable.swift in Sources */,
 				72D928E51E83EBC10030F4C3 /* LGRatingManager.swift in Sources */,
-				508C3F7A1C984BCA00CF431F /* UserViewHeader.swift in Sources */,
 				0A8823AB2052BCDE004414CA /* ZoomableImageView.swift in Sources */,
 				C7DB41CF1C5138B500400945 /* RememberPasswordViewController.swift in Sources */,
 				7204593B1F5008ED008D5A97 /* ListingCell.swift in Sources */,
@@ -8151,7 +8126,6 @@
 				0A759E981FB473AC0030FDE0 /* ListingCardViewModel.swift in Sources */,
 				0AF5EB6D1FD060B2001DFAE2 /* QuickChatView.swift in Sources */,
 				7224B0322015EBC800DC8B33 /* PostingAddDetailSizeView.swift in Sources */,
-				012DA4AA201F3A9300C33542 /* DummyUserDisclaimerView.swift in Sources */,
 				6AA9E90E203EDCB5004EACC4 /* UserProfileTabsView.swift in Sources */,
 				C7DB42111C5138B500400945 /* UIApplication+TopViewController.swift in Sources */,
 				2EED4D261D23F03E0024328A /* ChatListing+title.swift in Sources */,
