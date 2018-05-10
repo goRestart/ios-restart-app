@@ -66,6 +66,7 @@ extension Bumper  {
         flags.append(EmergencyLocate.self)
         flags.append(RealEstateMap.self)
         flags.append(IAmInterestedFeed.self)
+        flags.append(ChatConversationsListWithoutTabs.self)
         flags.append(PersonalizedFeed.self)
         flags.append(ServicesCategoryOnSalchichasMenu.self)
         Bumper.initialize(flags)
@@ -336,15 +337,20 @@ extension Bumper  {
         return IAmInterestedFeed(rawValue: value) ?? .control 
     }
 
+    static var chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs {
+        guard let value = Bumper.value(for: ChatConversationsListWithoutTabs.key) else { return .control }
+        return ChatConversationsListWithoutTabs(rawValue: value) ?? .control 
+    }
+
     static var personalizedFeed: PersonalizedFeed {
         guard let value = Bumper.value(for: PersonalizedFeed.key) else { return .control }
         return PersonalizedFeed(rawValue: value) ?? .control 
     }
-    
+
     static var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu {
         guard let value = Bumper.value(for: ServicesCategoryOnSalchichasMenu.key) else { return .control }
         return ServicesCategoryOnSalchichasMenu(rawValue: value) ?? .control 
-    }
+    } 
 }
 
 
@@ -1173,6 +1179,22 @@ enum IAmInterestedFeed: String, BumperFeature  {
     }
 }
 
+enum ChatConversationsListWithoutTabs: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ChatConversationsListWithoutTabs.control.rawValue }
+    static var enumValues: [ChatConversationsListWithoutTabs] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Chat conversation list without tabs" } 
+    static func fromPosition(_ position: Int) -> ChatConversationsListWithoutTabs {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
 enum PersonalizedFeed: String, BumperFeature  {
     case control, baseline, personalized
     static var defaultValue: String { return PersonalizedFeed.control.rawValue }
@@ -1188,6 +1210,7 @@ enum PersonalizedFeed: String, BumperFeature  {
         }
     }
 }
+
 enum ServicesCategoryOnSalchichasMenu: String, BumperFeature  {
     case control, baseline, variantA, variantB, variantC
     static var defaultValue: String { return ServicesCategoryOnSalchichasMenu.control.rawValue }

@@ -15,6 +15,7 @@ final class FeatureFlagsUDDAO: FeatureFlagsDAO {
         case newUserProfileEnabled = "newUserProfileEnabled"
         case showAdvancedReputationSystemEnabled = "showAdvancedReputationSystemEnabled"
         case emergencyLocate = "emergencyLocate"
+        case chatConversationsListWithoutTabs = "chatConversationsListWithoutTabs"
     }
 
     fileprivate var dictionary: [String: Any]
@@ -71,6 +72,16 @@ final class FeatureFlagsUDDAO: FeatureFlagsDAO {
 
     func save(emergencyLocate: EmergencyLocate) {
         save(key: .emergencyLocate, value: emergencyLocate.rawValue)
+        sync()
+    }
+
+    func retrieveChatConversationsListWithoutTabs() -> ChatConversationsListWithoutTabs? {
+        guard let rawValue: String = retrieve(key: .chatConversationsListWithoutTabs) else { return nil }
+        return ChatConversationsListWithoutTabs(rawValue: rawValue)
+    }
+    
+    func save(chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs) {
+        save(key: .chatConversationsListWithoutTabs, value: chatConversationsListWithoutTabs.rawValue)
         sync()
     }
 }

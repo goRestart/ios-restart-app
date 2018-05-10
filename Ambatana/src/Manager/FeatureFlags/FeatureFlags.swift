@@ -39,25 +39,20 @@ protocol FeatureFlaggeable: class {
     var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting { get }
     var realEstateNewCopy: RealEstateNewCopy { get }
     var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
-    var showInactiveConversations: Bool { get }
     var increaseMinPriceBumps: IncreaseMinPriceBumps { get }
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers { get }
     var newUserProfileView: NewUserProfileView { get }
     var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation { get }
     var searchImprovements: SearchImprovements { get }
     var relaxedSearch: RelaxedSearch { get }
-    var showChatSafetyTips: Bool { get }
     var onboardingIncentivizePosting: OnboardingIncentivizePosting { get }
     var discardedProducts: DiscardedProducts { get }
-    var userIsTyping: UserIsTyping { get }
     var bumpUpBoost: BumpUpBoost { get }
     var servicesCategoryEnabled: ServicesCategoryEnabled { get }
     var increaseNumberOfPictures: IncreaseNumberOfPictures { get }
     var realEstateTutorial: RealEstateTutorial { get }
     var machineLearningMVP: MachineLearningMVP { get }
-    var chatNorris: ChatNorris { get }
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings { get }
-    var markAllConversationsAsRead: MarkAllConversationsAsRead { get }
     var showProTagUserProfile: Bool { get }
     var summaryAsFirstStep: SummaryAsFirstStep { get }
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem { get }
@@ -86,7 +81,15 @@ protocol FeatureFlaggeable: class {
     var copyForSellFasterNowInEnglish: CopyForSellFasterNowInEnglish { get }
     var shouldShowIAmInterestedInFeed: IAmInterestedFeed { get }
 
-    //  MARK: Verticals
+    // MARK: Chat
+    var showInactiveConversations: Bool { get }
+    var showChatSafetyTips: Bool { get }
+    var userIsTyping: UserIsTyping { get }
+    var markAllConversationsAsRead: MarkAllConversationsAsRead { get }
+    var chatNorris: ChatNorris { get }
+    var chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs { get }
+
+    // MARK: Verticals
     var searchCarsIntoNewBackend: SearchCarsIntoNewBackend { get }
     var realEstatePromoCell: RealEstatePromoCell { get }
     var filterSearchCarSellerType: FilterSearchCarSellerType { get }
@@ -197,10 +200,6 @@ extension OnboardingIncentivizePosting {
     var isActive: Bool { return self == .blockingPosting || self == .blockingPostingSkipWelcome }
 }
 
-extension UserIsTyping {
-    var isActive: Bool { return self == .active }
-}
-
 extension ServicesCategoryEnabled {
     var isActive: Bool { return self == .active }
 }
@@ -301,10 +300,6 @@ extension MachineLearningMVP {
     var isVideoPostingActive: Bool { return self == .videoPostingActive }
 }
 
-extension ChatNorris {
-    var isActive: Bool { return self == .redButton || self == .whiteButton || self == .greenButton }
-}
-
 extension SummaryAsFirstStep {
     var isActive: Bool { return self == .active }
 }
@@ -318,10 +313,6 @@ extension ShowPasswordlessLogin {
 }
 
 extension EmergencyLocate {
-    var isActive: Bool { return self == .active }
-}
-
-extension MarkAllConversationsAsRead {
     var isActive: Bool { return self == .active }
 }
 
@@ -502,6 +493,7 @@ final class FeatureFlags: FeatureFlaggeable {
             dao.save(newUserProfile: NewUserProfileView.fromPosition(abTests.newUserProfileView.value))
             dao.save(showAdvanceReputationSystem: ShowAdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value))
             dao.save(emergencyLocate: EmergencyLocate.fromPosition(abTests.emergencyLocate.value))
+            dao.save(chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs.fromPosition(abTests.chatConversationsListWithoutTabs.value))
         }
         abTests.variablesUpdated()
     }
@@ -610,13 +602,6 @@ final class FeatureFlags: FeatureFlaggeable {
         }
         return DummyUsersInfoProfile.fromPosition(abTests.dummyUsersInfoProfile.value)
     }
-    
-    var showInactiveConversations: Bool {
-        if Bumper.enabled {
-            return Bumper.showInactiveConversations
-        }
-        return abTests.showInactiveConversations.value
-    }
 
     var increaseMinPriceBumps: IncreaseMinPriceBumps {
         if Bumper.enabled {
@@ -659,13 +644,6 @@ final class FeatureFlags: FeatureFlaggeable {
         }
         return DiscardedProducts.fromPosition(abTests.discardedProducts.value)
     }
-
-    var userIsTyping: UserIsTyping {
-        if Bumper.enabled {
-            return Bumper.userIsTyping
-        }
-        return UserIsTyping.fromPosition(abTests.userIsTyping.value)
-    }
     
     var realEstateTutorial: RealEstateTutorial {
         if Bumper.enabled {
@@ -681,26 +659,12 @@ final class FeatureFlags: FeatureFlaggeable {
         return MachineLearningMVP.fromPosition(abTests.machineLearningMVP.value)
     }
     
-    var markAllConversationsAsRead: MarkAllConversationsAsRead {
-        if Bumper.enabled {
-            return Bumper.markAllConversationsAsRead
-        }
-        return MarkAllConversationsAsRead.fromPosition(abTests.markAllConversationsAsRead.value)
-    }
-    
     var newUserProfileView: NewUserProfileView {
         if Bumper.enabled {
             return Bumper.newUserProfileView
         } else {
             return dao.retrieveNewUserProfile() ?? NewUserProfileView.fromPosition(abTests.newUserProfileView.value)
         }
-    }
-    
-    var showChatSafetyTips: Bool {
-        if Bumper.enabled {
-            return Bumper.showChatSafetyTips
-        }
-        return abTests.showChatSafetyTips.value
     }
 
     var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation {
@@ -1013,13 +977,6 @@ final class FeatureFlags: FeatureFlaggeable {
         return FeedAdsProviderForTR.fromPosition(abTests.feedAdsProviderForTR.value)
     }
 
-    var chatNorris: ChatNorris {
-        if Bumper.enabled {
-            return Bumper.chatNorris
-        }
-        return  ChatNorris.fromPosition(abTests.chatNorris.value)
-    }
-
     var shouldChangeSellFasterNowCopyInEnglish: Bool {
         if Bumper.enabled {
             return Bumper.copyForSellFasterNowInEnglish.isActive
@@ -1054,6 +1011,72 @@ final class FeatureFlags: FeatureFlaggeable {
     private var sensorLocationCountryCode: CountryCode? {
         guard let countryCode = locationManager.currentAutoLocation?.countryCode else { return nil }
         return CountryCode(string: countryCode)
+    }
+}
+
+// MARK: Chat
+
+extension UserIsTyping {
+    var isActive: Bool { return self == .active }
+}
+
+extension MarkAllConversationsAsRead {
+    var isActive: Bool { return self == .active }
+}
+
+extension ChatNorris {
+    var isActive: Bool { return self == .redButton || self == .whiteButton || self == .greenButton }
+}
+
+extension ChatConversationsListWithoutTabs {
+    var isActive: Bool { return self == .active }
+}
+
+extension FeatureFlags {
+    
+    var showInactiveConversations: Bool {
+        if Bumper.enabled {
+            return Bumper.showInactiveConversations
+        }
+        return abTests.showInactiveConversations.value
+    }
+    
+    var showChatSafetyTips: Bool {
+        if Bumper.enabled {
+            return Bumper.showChatSafetyTips
+        }
+        return abTests.showChatSafetyTips.value
+    }
+    
+    var userIsTyping: UserIsTyping {
+        if Bumper.enabled {
+            return Bumper.userIsTyping
+        }
+        return UserIsTyping.fromPosition(abTests.userIsTyping.value)
+    }
+    
+    var markAllConversationsAsRead: MarkAllConversationsAsRead {
+        if Bumper.enabled {
+            return Bumper.markAllConversationsAsRead
+        }
+        return MarkAllConversationsAsRead.fromPosition(abTests.markAllConversationsAsRead.value)
+    }
+    
+    var chatNorris: ChatNorris {
+        if Bumper.enabled {
+            return Bumper.chatNorris
+        }
+        return  ChatNorris.fromPosition(abTests.chatNorris.value)
+    }
+    
+    var chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs {
+        if Bumper.enabled {
+            return Bumper.chatConversationsListWithoutTabs
+        }
+        // TODO: change once development is completed
+        return .control
+        // let cached = dao.retrieveChatConversationsListWithoutTabs()
+        // return cached ?? ChatConversationsListWithoutTabs.fromPosition(abTests.chatConversationsListWithoutTabs.value)
     }
 }
 

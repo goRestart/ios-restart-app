@@ -162,6 +162,7 @@ extension ABTests {
     var userIsTyping: LeanplumABVariable<Int> { return chat.userIsTyping }
     var markAllConversationsAsRead: LeanplumABVariable<Int> { return chat.markAllConversationsAsRead }
     var chatNorris: LeanplumABVariable<Int> { return chat.chatNorris }
+    var chatConversationsListWithoutTabs: LeanplumABVariable<Int> { return chat.chatConversationsListWithoutTabs }
 }
 
 //  MARK: Money
