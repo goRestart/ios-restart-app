@@ -264,5 +264,10 @@
         "name": "IAmInterestedFeed",
         "values": ["control", "baseline", "hidden"],
         "description": "Show an I am interested button in the main feed"
+    },
+    {
+        "name": "ServicesCategoryOnSalchichasMenu",
+        "values": ["control", "baseline", "VariantA", "VariantB", "VariantC"],
+        "description": "Show services category on salchichas menu"
     }
 ]
