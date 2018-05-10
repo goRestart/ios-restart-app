@@ -41,7 +41,6 @@ protocol FeatureFlaggeable: class {
     var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
     var increaseMinPriceBumps: IncreaseMinPriceBumps { get }
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers { get }
-    var newUserProfileView: NewUserProfileView { get }
     var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation { get }
     var searchImprovements: SearchImprovements { get }
     var relaxedSearch: RelaxedSearch { get }
@@ -259,10 +258,6 @@ extension CopyForChatNowInTurkey {
             return LGLocalizedString.bumpUpProductCellChatNowButtonD
         }
     }
-}
-
-extension NewUserProfileView {
-    var isActive: Bool { get { return self == .active } }
 }
 
 extension RealEstateTutorial {
@@ -492,7 +487,6 @@ final class FeatureFlags: FeatureFlaggeable {
             dao.save(timeoutForRequests: TimeInterval(Bumper.requestsTimeOut.timeout))
         } else {
             dao.save(timeoutForRequests: TimeInterval(abTests.requestsTimeOut.value))
-            dao.save(newUserProfile: NewUserProfileView.fromPosition(abTests.newUserProfileView.value))
             dao.save(showAdvanceReputationSystem: ShowAdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value))
             dao.save(emergencyLocate: EmergencyLocate.fromPosition(abTests.emergencyLocate.value))
             dao.save(chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs.fromPosition(abTests.chatConversationsListWithoutTabs.value))
@@ -661,12 +655,18 @@ final class FeatureFlags: FeatureFlaggeable {
         return MachineLearningMVP.fromPosition(abTests.machineLearningMVP.value)
     }
     
-    var newUserProfileView: NewUserProfileView {
+    var markAllConversationsAsRead: MarkAllConversationsAsRead {
         if Bumper.enabled {
-            return Bumper.newUserProfileView
-        } else {
-            return dao.retrieveNewUserProfile() ?? NewUserProfileView.fromPosition(abTests.newUserProfileView.value)
+            return Bumper.markAllConversationsAsRead
         }
+        return MarkAllConversationsAsRead.fromPosition(abTests.markAllConversationsAsRead.value)
+    }
+        
+    var showChatSafetyTips: Bool {
+        if Bumper.enabled {
+            return Bumper.showChatSafetyTips
+        }
+        return abTests.showChatSafetyTips.value
     }
 
     var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation {
