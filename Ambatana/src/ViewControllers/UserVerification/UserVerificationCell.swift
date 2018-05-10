@@ -39,11 +39,14 @@ final class UserVerificationCell: UITableViewCell, ReusableCell {
         logoImageView.contentMode = .scaleAspectFit
         titleLabel.font = .verificationItemTitle
         titleLabel.textColor = .lgBlack
+        titleLabel.numberOfLines = 0
+        titleLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         subtitleLabel.font = .mediumBodyFont
         subtitleLabel.textColor = .grayDisclaimerText
         subtitleLabel.numberOfLines = 0
         pointsLabel.font = .verificationItemTitle
         pointsLabel.textColor = .verificationPoints
+        pointsLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         eventCountLabel.font = .verificationEventCountFont
         eventCountLabel.textColor = .grayDark
         eventCountLabel.textAlignment = .center
