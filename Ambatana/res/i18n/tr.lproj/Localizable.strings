@@ -137,6 +137,7 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "Güvenlik nedeniyle, bu kullanıcının hesabı letgo ekibi tarafından silinmiştir ve bu mesajlar da kaldırılmıştır.";
 "chat_connect_account_disclaimer_button" = "Hemen hesabını doğrula!";
 "chat_connect_accounts_title" = "GÜVEN KAZAN!";
+"chat_conversations_list_blocked_users_button" = "View blocked users";
 "chat_conversations_list_filter_all" = "Hepsi";
 "chat_conversations_list_filter_buying" = "Aliş";
 "chat_conversations_list_filter_selling" = "Satiş";

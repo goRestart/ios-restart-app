@@ -137,6 +137,7 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "Por razones de seguridad, el equipo de letgo ha eliminado esta cuenta y estos mensajes se han borrado.";
 "chat_connect_account_disclaimer_button" = "¡Verificar ahora!";
 "chat_connect_accounts_title" = "¡CREA CONFIANZA!";
+"chat_conversations_list_blocked_users_button" = "Ver usuarios bloqueados";
 "chat_conversations_list_filter_all" = "Todos";
 "chat_conversations_list_filter_buying" = "Compra";
 "chat_conversations_list_filter_selling" = "Venta";

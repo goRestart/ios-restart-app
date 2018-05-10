@@ -137,6 +137,7 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "Av sikkerhetsgrunner er denne kontoen slettet av letgo's team, samt disse meldingene.";
 "chat_connect_account_disclaimer_button" = "Verifiser nå!";
 "chat_connect_accounts_title" = "BYGG TILLIT!";
+"chat_conversations_list_blocked_users_button" = "View blocked users";
 "chat_conversations_list_filter_all" = "Alle";
 "chat_conversations_list_filter_buying" = "Kjøp";
 "chat_conversations_list_filter_selling" = "Salg";

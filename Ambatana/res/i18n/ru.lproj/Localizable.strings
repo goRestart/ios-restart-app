@@ -137,6 +137,7 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "В целях безопасности этот аккаунт был удален командой letgo вместе с сообщениями.";
 "chat_connect_account_disclaimer_button" = "Подтвердить сейчас!";
 "chat_connect_accounts_title" = "УКРЕПИТЕ ДОВЕРИЕ!";
+"chat_conversations_list_blocked_users_button" = "View blocked users";
 "chat_conversations_list_filter_all" = "Все";
 "chat_conversations_list_filter_buying" = "Покупка";
 "chat_conversations_list_filter_selling" = "Продажа";
@@ -845,7 +846,7 @@
 "profile_favourites_my_user_no_products_label" = "НЕТ ИЗБРАННОГО (ПОКА ЧТО!)";
 "profile_favourites_products_tab" = "Избранное";
 "profile_karma_improve_score" = "Увеличьте свой Рейтинг Верификации";
-"profile_karma_points_title" = "%@ очков";
+"profile_karma_points_title" = "%@";
 "profile_karma_title" = "Рейтинг Верификации: %@";
 "profile_karma_unverified_points_subtitle" = "%@ очков";
 "profile_karma_unverified_subtitle" = "Заработайте %@, чтобы получить значок Верифицированного Пользователя";

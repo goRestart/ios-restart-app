@@ -137,6 +137,7 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "letgo-tiimi on poistanut tämän tilin turvallisuussyistä, ja nämä viestit on poistettu.";
 "chat_connect_account_disclaimer_button" = "Todenna nyt!";
 "chat_connect_accounts_title" = "KASVATA LUOTTAMUSTA!";
+"chat_conversations_list_blocked_users_button" = "View blocked users";
 "chat_conversations_list_filter_all" = "Kaikki";
 "chat_conversations_list_filter_buying" = "Ostot";
 "chat_conversations_list_filter_selling" = "Myynit";

@@ -137,6 +137,7 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "Pour des raisons se sécurité, ce compté a été supprimé par l'équipe letgo et ces messages ont été supprimés.";
 "chat_connect_account_disclaimer_button" = "Vérifier maintenant !";
 "chat_connect_accounts_title" = "INSPIREZ CONFIANCE";
+"chat_conversations_list_blocked_users_button" = "View blocked users";
 "chat_conversations_list_filter_all" = "Tous";
 "chat_conversations_list_filter_buying" = "Achat";
 "chat_conversations_list_filter_selling" = "Vente";

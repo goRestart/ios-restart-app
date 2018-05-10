@@ -137,6 +137,7 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "Vì lý do an toàn, tài khoản này đã bị letgo xóa và các tin nhắn cũng được gỡ bỏ.";
 "chat_connect_account_disclaimer_button" = "Xác minh ngay bây giờ!";
 "chat_connect_accounts_title" = "XÂY DỰNG NIỀM TIN!";
+"chat_conversations_list_blocked_users_button" = "View blocked users";
 "chat_conversations_list_filter_all" = "Tất cả";
 "chat_conversations_list_filter_buying" = "Mua";
 "chat_conversations_list_filter_selling" = "Bán";

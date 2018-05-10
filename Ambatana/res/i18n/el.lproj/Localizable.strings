@@ -137,6 +137,7 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "Για λόγους ασφαλείας, ο λογαριασμός αυτός έχει σβηστεί από την ομάδα του letgo και τα μηνύματα αυτά έχουν αφαιρεθεί.";
 "chat_connect_account_disclaimer_button" = "Επιβεβαιώστε τώρα!";
 "chat_connect_accounts_title" = "ΚΕΡΔΙΣΤΕ ΕΜΠΙΣΤΟΣΥΝΗ!";
+"chat_conversations_list_blocked_users_button" = "View blocked users";
 "chat_conversations_list_filter_all" = "Όλα";
 "chat_conversations_list_filter_buying" = "Αγορες";
 "chat_conversations_list_filter_selling" = "Πώληση";
@@ -845,7 +846,7 @@
 "profile_favourites_my_user_no_products_label" = "ΚΑΝΕΝΑ ΑΓΑΠΗΜΕΝΟ (ΑΚΟΜΗ!)";
 "profile_favourites_products_tab" = "Αγαπημένα";
 "profile_karma_improve_score" = "Βελτιώστε το Βαθμό Επιβεβαίωσής σας";
-"profile_karma_points_title" = "%@ πόντους";
+"profile_karma_points_title" = "%@";
 "profile_karma_title" = "Βαθμός Επιβεβαίωσης: %@";
 "profile_karma_unverified_points_subtitle" = "%@ πόντους";
 "profile_karma_unverified_subtitle" = "Κερδίστε %@ για να λάβετε ένα σήμα Επιβεβαιωμένου Χρήστη";
