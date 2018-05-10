@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import MapKit
 import LGCoreKit
 
 fileprivate struct DetailNumberOfLines {
@@ -36,7 +35,6 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
     }
     private struct Map {
         static let snapshotSize = CGSize(width: 300, height: 500)
-        static let snapshotSpan = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
     }
 
     var delegate: (ListingCardDetailsViewDelegate & ListingCardDetailMapViewDelegate)? {
@@ -133,9 +131,9 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
     func populateWith(productInfo: ListingVMProductInfo?, showExactLocationOnMap: Bool) {
         guard let info = productInfo else { return }
         if let location = info.location {
-            let center = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
-            let region = MKCoordinateRegion(center: center, span: Map.snapshotSpan)
-            detailMapView.setRegion(region, size: Map.snapshotSize, showExactLocationOnMap: showExactLocationOnMap)
+            detailMapView.setLocation(location,
+                                      size: Map.snapshotSize,
+                                      showExactLocationOnMap: showExactLocationOnMap)
         }
         titleLabel.text = info.title
         titleLabel.isHidden = info.title == nil

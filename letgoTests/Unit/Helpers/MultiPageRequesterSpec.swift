@@ -61,7 +61,7 @@ class MultipageRequesterSpec: QuickSpec {
                     pageResults[6] = (10, StringResult(error: .tooManyRequests))
                     pageResults[7] = (10, StringResult(error: .internalError(message: "oh my god")))
                     pageResults[8] = (10, StringResult(error: .userNotVerified))
-                    pageResults[9] = (10, StringResult(error: .unauthorized(code: 1992)))
+                    pageResults[9] = (10, StringResult(error: .unauthorized(code: 1992, description: "oh my god")))
                     result = nil
                     pages = []
                 }

@@ -414,7 +414,11 @@
 "hidden_phone_tag" = "[TELEFONNUMMER SKJULT]";
 "hidden_text_alert_description" = "Vi skjuler kontaktinformasjon for å hjelpe deg med et sikkert kjøp og salg. Å kommunisere i letgo er enklere og gir deg mer sikkerhet.";
 "hidden_text_alert_title" = "VÆR FORSIKTIG";
+<<<<<<< HEAD
 "listings_map_no_results_message" = "Ingen resultater samsvarte med ditt søk. Prøv å se i et annet område eller bruk andre filtre.";
+=======
+"listings_map_no_results_message" = "No exact matches for your search. Try looking in a different area or using different filters.";
+>>>>>>> release-1.30.0
 "listings_map_title" = "Kartvisning";
 "location_permissions_allow_button" = "Tillat";
 "location_permissions_bubble" = "0.1 km fra deg";

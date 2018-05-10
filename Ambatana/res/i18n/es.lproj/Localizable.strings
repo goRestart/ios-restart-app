@@ -414,7 +414,11 @@
 "hidden_phone_tag" = "[NÚMERO DE TELÉFONO OCULTO]";
 "hidden_text_alert_description" = "Ocultamos datos de contacto para ayudarte a comprar y vender con seguridad. Chatear dentro de letgo es fácil y más seguro.";
 "hidden_text_alert_title" = "CONSEJOS DE SEGURIDAD";
+<<<<<<< HEAD
 "listings_map_no_results_message" = "No hay resultados exactos para tu búsqueda. Prueba buscando en otra zona o usando filtros distintos.";
+=======
+"listings_map_no_results_message" = "No exact matches for your search. Try looking in a different area or using different filters.";
+>>>>>>> release-1.30.0
 "listings_map_title" = "Vista de mapa";
 "location_permissions_allow_button" = "Permitir";
 "location_permissions_bubble" = "a 1km de ti";

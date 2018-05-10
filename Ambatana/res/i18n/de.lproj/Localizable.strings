@@ -414,7 +414,11 @@
 "hidden_phone_tag" = "[TELEFONNUMMER VERSTECKT]";
 "hidden_text_alert_description" = "Wir verstecken Kontaktinformationen, damit du sicher kaufen und verkaufen kannst. Gespräche innerhalb letgos zu führen ist leicht und außerdem sicherer.";
 "hidden_text_alert_title" = "SICHERHEITSHINWEIS";
+<<<<<<< HEAD
 "listings_map_no_results_message" = "Keine exakten Treffer für deine Suche. Suche in einer anderen Gegend oder nutze andere Filter.";
+=======
+"listings_map_no_results_message" = "No exact matches for your search. Try looking in a different area or using different filters.";
+>>>>>>> release-1.30.0
 "listings_map_title" = "Kartenansicht";
 "location_permissions_allow_button" = "Erlauben";
 "location_permissions_bubble" = "0,1 km von dir entfernt";

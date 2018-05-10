@@ -278,8 +278,8 @@ class BumpUpBoostViewController: BaseViewController {
 
         if #available(iOS 11, *) {
             timerProgressView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-            infoContainer.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
-                                                  constant: BoostViewMetrics.bottomAnchorConstant).isActive = true
+            infoContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor,
+                                                  constant: -BoostViewMetrics.bottomAnchorConstant).isActive = true
         } else {
             timerProgressView.topAnchor.constraint(equalTo: view.topAnchor,
                                                    constant: BoostViewMetrics.topAnchorConstant).isActive = true
