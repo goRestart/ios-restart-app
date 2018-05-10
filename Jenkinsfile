@@ -7,7 +7,7 @@ properties([
   pipelineTriggers([[$class: 'PeriodicFolderTrigger', interval: '2h']])
 ])
   
-  node_name = 'mac-mini-1'
+  node_name = 'osx-slave'
   branch_type = get_branch_type "${env.BRANCH_NAME}"
   try {
     stopPreviousRunningBuilds()
