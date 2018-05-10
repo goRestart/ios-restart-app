@@ -561,7 +561,8 @@ extension PostListingViewController {
 
 // MARK: - State selection
 
-fileprivate extension PostListingState {
+// FIXME: Set private when remove MLPostingViewController
+extension PostListingState {
     var closeButtonAlpha: CGFloat {
         switch step {
         case .carDetailsSelection:

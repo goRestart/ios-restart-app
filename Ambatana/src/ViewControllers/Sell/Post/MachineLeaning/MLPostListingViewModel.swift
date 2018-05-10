@@ -36,7 +36,7 @@ class MLPostListingViewModel: BaseViewModel {
         return true
     }
 
-    let state: Variable<MLPostListingState>
+    let state: Variable<PostListingState>
     let category: Variable<PostCategory?>
 
     let postDetailViewModel: PostListingBasicDetailViewModel
@@ -100,7 +100,7 @@ class MLPostListingViewModel: BaseViewModel {
          featureFlags: FeatureFlaggeable,
          locationManager: LocationManager,
          currencyHelper: CurrencyHelper) {
-        self.state = Variable<MLPostListingState>(MLPostListingState(postCategory: postCategory, title: listingTitle))
+        self.state = Variable<PostListingState>(PostListingState(postCategory: postCategory, title: listingTitle))
         self.category = Variable<PostCategory?>(postCategory)
         
         self.postingSource = source

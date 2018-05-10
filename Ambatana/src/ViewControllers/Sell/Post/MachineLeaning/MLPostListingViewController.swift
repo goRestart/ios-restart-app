@@ -498,145 +498,8 @@ extension MLPostListingViewController {
     }
 }
 
-
-// MARK: - State selection
-
-fileprivate extension MLPostListingState {
-    var closeButtonAlpha: CGFloat {
-        switch step {
-        case .carDetailsSelection:
-            return 0
-        case .imageSelection, .uploadingImage, .errorUpload, .detailsSelection, .categorySelection, .finished, .uploadSuccess, .addingDetails:
-            return 1
-        }
-    }
-    
-    var isOtherStepsContainerAlpha: CGFloat {
-        switch step {
-        case .imageSelection:
-            return 0
-        case .uploadingImage, .errorUpload, .detailsSelection, .categorySelection, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
-            return 1
-        }
-    }
-    
-    var customLoadingViewAlpha: CGFloat {
-        guard !isRealEstate else { return 0 }
-        switch step {
-        case .imageSelection, .categorySelection, .carDetailsSelection, .finished, .addingDetails:
-            return 0
-        case .uploadingImage, .errorUpload, .detailsSelection, .uploadSuccess:
-            return 1
-        }
-    }
-    
-    var stackViewLoadingAlpha: CGFloat {
-        switch step {
-        case .imageSelection, .categorySelection, .carDetailsSelection, .finished, .addingDetails:
-            return 0
-        case .uploadingImage, .errorUpload, .detailsSelection, .uploadSuccess:
-            return 1
-        }
-    }
-    
-    var postedInfoLabelAlpha: CGFloat {
-        guard !isRealEstate else { return 0 }
-        switch step {
-        case .imageSelection, .categorySelection, .uploadingImage, .errorUpload, .carDetailsSelection, .finished, .addingDetails:
-            return 0
-        case .detailsSelection, .uploadSuccess:
-            return 1
-        }
-    }
-    
-    func postedInfoLabelText(confirmationText: String?) -> String? {
-        return isError ? LGLocalizedString.commonErrorTitle.localizedCapitalized : confirmationText
-    }
-    
-    func messageForLoadedImage(confirmationText: String?) -> String? {
-        return isError ? LGLocalizedString.commonErrorPostingLoadedImage : confirmationText
-    }
-    
-    var postErrorLabelAlpha: CGFloat {
-        guard let category = category, category == .realEstate else { return isError ? 1 : 0 }
-        return 0
-    }
-    
-    var postErrorLabelText: String? {
-        switch step {
-        case .imageSelection, .detailsSelection, .categorySelection, .uploadingImage, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
-            return nil
-        case let .errorUpload(message):
-            return message
-        }
-    }
-    
-    var retryButtonAlpha: CGFloat {
-        guard isRealEstate else { return isError ? 1 : 0 }
-        return 0
-    }
-    
-    var priceViewAlpha: CGFloat {
-        switch step {
-        case .imageSelection, .categorySelection, .carDetailsSelection, .uploadingImage, .errorUpload, .finished, .uploadSuccess, .addingDetails:
-            return 0
-        case .detailsSelection:
-            return 1
-        }
-    }
-    
-    var categorySelectionViewAlpha: CGFloat {
-        switch step {
-        case .imageSelection, .carDetailsSelection, .uploadingImage, .errorUpload, .detailsSelection, .finished, .uploadSuccess, .addingDetails:
-            return 0
-        case .categorySelection:
-            return 1
-        }
-    }
-    
-    var carDetailsViewAlpha: CGFloat {
-        switch step {
-        case .imageSelection, .categorySelection, .uploadingImage, .errorUpload, .detailsSelection, .finished, .uploadSuccess, .addingDetails:
-            return 0
-        case .carDetailsSelection:
-            return 1
-        }
-    }
-    
-    func priceViewShouldBecomeFirstResponder() -> Bool {
-        switch step {
-        case .imageSelection, .categorySelection, .uploadingImage, .errorUpload, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
-            return false
-        case .detailsSelection:
-            return true
-        }
-    }
-    
-    func priceViewShouldResignFirstResponder() -> Bool {
-        return isError
-    }
-    
-    var isError: Bool {
-        switch step {
-        case .imageSelection, .detailsSelection, .categorySelection, .uploadingImage, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
-            return false
-        case .errorUpload:
-            return true
-        }
-    }
-    
-    var isLoading: Bool {
-        switch step {
-        case .imageSelection, .detailsSelection, .categorySelection, .errorUpload, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
-            return false
-        case .uploadingImage:
-            return true
-        }
-    }
-}
-
 extension MLPostListingViewController {
-    fileprivate func update(state: MLPostListingState) {
+    fileprivate func update(state: PostListingState) {
 
         if let view = viewToAdjustDetailsScrollContentInset(state: state) {
             adjustDetailsScrollContentInset(to: view)
@@ -693,7 +556,7 @@ extension MLPostListingViewController {
         }
     }
     
-    private func viewToAdjustDetailsScrollContentInset(state: MLPostListingState) -> UIView? {
+    private func viewToAdjustDetailsScrollContentInset(state: PostListingState) -> UIView? {
         switch state.step {
         case .detailsSelection:
             return customLoadingView
@@ -701,7 +564,7 @@ extension MLPostListingViewController {
             return categorySelectionView
         case .carDetailsSelection:
             return carDetailsView
-        case .imageSelection, .uploadingImage, .errorUpload, .finished, .uploadSuccess, .addingDetails:
+        case .imageSelection, .uploadingImage, .uploadingVideo, .errorUpload, .errorVideoUpload, .finished, .uploadSuccess, .addingDetails:
             return nil
         }
     }
