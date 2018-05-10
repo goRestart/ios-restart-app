@@ -193,10 +193,7 @@ class SettingsViewModel: BaseViewModel {
             location = countryCode
         }
         profileSettings.append(.changeLocation(location: location))
-
-        if featureFlags.newUserProfileView.isActive {
-            profileSettings.append(.changeUserBio)
-        }
+        profileSettings.append(.changeUserBio)
 
         if let email = myUser?.email, email.isEmail() {
             profileSettings.append(.changePassword)
