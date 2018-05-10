@@ -9,7 +9,7 @@
 import Foundation
 
 extension UIView {
-    func alphaAnimated(_ alpha: CGFloat, duration: TimeInterval = 0.2, completion: ((Bool) -> Void)? = nil) {
+    func animateTo(alpha: CGFloat, duration: TimeInterval = 0.2, completion: ((Bool) -> Void)? = nil) {
         layoutIfNeeded()
         UIView.animate(withDuration: duration, animations: { [weak self] in
             self?.alpha = alpha

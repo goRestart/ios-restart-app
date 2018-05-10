@@ -120,7 +120,7 @@ final class LGNavBarSearchField: UIView {
     
     private func setupTextFieldEditMode() {
         logosLeft()
-        logoIcon.alphaAnimated(0) { [weak self] finished in
+        logoIcon.animateTo(alpha: 0) { [weak self] finished in
             if finished {
                 self?.searchTextField.showCursor = true
             }
@@ -129,7 +129,7 @@ final class LGNavBarSearchField: UIView {
     
     private func setupTextFieldCleanMode() {
         logosCentered()
-        logoIcon.alphaAnimated(1) { [weak self] finished in
+        logoIcon.animateTo(alpha: 1) { [weak self] finished in
             if finished {
                 self?.searchTextField.showCursor = false
             }
