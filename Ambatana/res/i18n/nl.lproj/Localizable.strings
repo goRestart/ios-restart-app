@@ -137,6 +137,9 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "Om veiligheidsredenen werd dit account verwijderd door het letgo team en deze berichten zijn gewist.";
 "chat_connect_account_disclaimer_button" = "Verifieer nu!";
 "chat_connect_accounts_title" = "VERTROUWEN OPBOUWEN!";
+"chat_conversations_list_filter_all" = "Alle";
+"chat_conversations_list_filter_buying" = "Kopen";
+"chat_conversations_list_filter_selling" = "Verkopen";
 "chat_deleted_disclaimer_w_name" = "Je kunt niet verdergaan met dit gesprek omdat %@'s account niet meer actief is.";
 "chat_deleted_disclaimer_wo_name" = "Je kunt niet verder gaan met dit gesprek omdat dit account niet meer actief is.";
 "chat_disclaimer_letgo_team" = "LETGO TEAM";
@@ -411,7 +414,7 @@
 "hidden_phone_tag" = "[TELEFOONNUMMER VERBORGEN]";
 "hidden_text_alert_description" = "Wij verbergen contact informatie zodat je veilig kunt kopen en verkopen. In letgo kun je veilig en gemakkelijk chatten.";
 "hidden_text_alert_title" = "VEILIGHEIDSTIPS";
-"listings_map_no_results_message" = "No exact matches for your search. Try looking in a different area or using different filters.";
+"listings_map_no_results_message" = "Geen exacte overeenkomsten voor jouw zoekopdracht. Probeer in een ander gebied te zoeken of gebruik andere filters.";
 "listings_map_title" = "Zie kaart";
 "location_permissions_allow_button" = "Toestaan";
 "location_permissions_bubble" = "1km van bij jou";
@@ -774,6 +777,7 @@
 "product_post_select_category_motors_and_accessories" = "Overige Voertuigen en Onderdelen";
 "product_post_select_category_other" = "Overige items";
 "product_post_select_category_real_estate" = "Onroerend Goed";
+"product_post_select_category_services" = "Diensten";
 "product_post_select_category_title" = "Wat wil je verkopen?";
 "product_post_use_photo" = "Plaats";
 "product_post_use_photo_not_logged" = "Gebruik foto";

@@ -137,6 +137,9 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "A letgo csapata biztonsági okokból törölte ezt a fiókot, és vele együtt ezeket az üzeneteket is.";
 "chat_connect_account_disclaimer_button" = "Igazold!";
 "chat_connect_accounts_title" = "KELTS BIZALMAT";
+"chat_conversations_list_filter_all" = "Mind";
+"chat_conversations_list_filter_buying" = "Vásárló";
+"chat_conversations_list_filter_selling" = "Árult";
 "chat_deleted_disclaimer_w_name" = "Nem tudod folytatni a beszélgetést, mert %@ fiókja már nem aktív.";
 "chat_deleted_disclaimer_wo_name" = "Nem tudod folytatni a beszélgetést, mert ez a fiók már nem aktív.";
 "chat_disclaimer_letgo_team" = "A LETGO CSAPATA";
@@ -774,6 +777,7 @@
 "product_post_select_category_motors_and_accessories" = "Más járművek és alkatrészek";
 "product_post_select_category_other" = "Valami más";
 "product_post_select_category_real_estate" = "Ingatlan";
+"product_post_select_category_services" = "Szolgáltatások";
 "product_post_select_category_title" = "Mit készülsz meghirdetni?";
 "product_post_use_photo" = "Meghirdetem";
 "product_post_use_photo_not_logged" = "Fotó használata";

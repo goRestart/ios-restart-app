@@ -137,6 +137,9 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "letgo-tiimi on poistanut tämän tilin turvallisuussyistä, ja nämä viestit on poistettu.";
 "chat_connect_account_disclaimer_button" = "Todenna nyt!";
 "chat_connect_accounts_title" = "KASVATA LUOTTAMUSTA!";
+"chat_conversations_list_filter_all" = "Kaikki";
+"chat_conversations_list_filter_buying" = "Ostot";
+"chat_conversations_list_filter_selling" = "Myynit";
 "chat_deleted_disclaimer_w_name" = "Et voi jatkaa tätä keskustelua, koska käyttäjän %@ tili ei ole enää aktiivinen.";
 "chat_deleted_disclaimer_wo_name" = "Et voi jatkaa tätä keskustelua, koska tämä tili ei ole enää aktiivinen.";
 "chat_disclaimer_letgo_team" = "LETGO-TIIMI";
@@ -411,7 +414,7 @@
 "hidden_phone_tag" = "[PUHELINNUMERO PIILOTETTU]";
 "hidden_text_alert_description" = "Piilotamme yhteystiedot auttaaksemme sinua ostamaan ja myymään turvallisesti. Keskustelu letgon sisällä on helppoa ja turvallisempaa.";
 "hidden_text_alert_title" = "PYSY TURVASSA";
-"listings_map_no_results_message" = "No exact matches for your search. Try looking in a different area or using different filters.";
+"listings_map_no_results_message" = "Täysin hakuasi vastaavia osumia ei löytynyt. Kokeile hakea toiselta alueelta tai eri suodattimien avulla.";
 "listings_map_title" = "Karttanäkymä";
 "location_permissions_allow_button" = "Salli";
 "location_permissions_bubble" = "0.1 km sinusta";
@@ -774,6 +777,7 @@
 "product_post_select_category_motors_and_accessories" = "Muut ajoneuvot ja varusteet";
 "product_post_select_category_other" = "Muut tuotteet";
 "product_post_select_category_real_estate" = "Kiinteistöt";
+"product_post_select_category_services" = "Palvelut";
 "product_post_select_category_title" = "Mitä olet julkaisemassa?";
 "product_post_use_photo" = "Käytä";
 "product_post_use_photo_not_logged" = "Käytä kuvaa";

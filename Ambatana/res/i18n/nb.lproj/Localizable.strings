@@ -137,6 +137,9 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "Av sikkerhetsgrunner er denne kontoen slettet av letgo's team, samt disse meldingene.";
 "chat_connect_account_disclaimer_button" = "Verifiser nå!";
 "chat_connect_accounts_title" = "BYGG TILLIT!";
+"chat_conversations_list_filter_all" = "Alle";
+"chat_conversations_list_filter_buying" = "Kjøp";
+"chat_conversations_list_filter_selling" = "Salg";
 "chat_deleted_disclaimer_w_name" = "Du kan ikke fortsette denne samtalen, fordi %@'s konto ikke lenger er aktiv.";
 "chat_deleted_disclaimer_wo_name" = "Du kan ikke fortsette denne samtalen, fordi denne kontoen ikke lenger er aktiv.";
 "chat_disclaimer_letgo_team" = "LETGO TEAMET";
@@ -411,7 +414,7 @@
 "hidden_phone_tag" = "[TELEFONNUMMER SKJULT]";
 "hidden_text_alert_description" = "Vi skjuler kontaktinformasjon for å hjelpe deg med et sikkert kjøp og salg. Å kommunisere i letgo er enklere og gir deg mer sikkerhet.";
 "hidden_text_alert_title" = "VÆR FORSIKTIG";
-"listings_map_no_results_message" = "No exact matches for your search. Try looking in a different area or using different filters.";
+"listings_map_no_results_message" = "Ingen resultater samsvarte med ditt søk. Prøv å se i et annet område eller bruk andre filtre.";
 "listings_map_title" = "Kartvisning";
 "location_permissions_allow_button" = "Tillat";
 "location_permissions_bubble" = "0.1 km fra deg";
@@ -774,6 +777,7 @@
 "product_post_select_category_motors_and_accessories" = "Andre kjøretøyer og bildeler";
 "product_post_select_category_other" = "Andre produkter";
 "product_post_select_category_real_estate" = "Real Estate";
+"product_post_select_category_services" = "Tjenester";
 "product_post_select_category_title" = "Hva publiserer du?";
 "product_post_use_photo" = "Publiser";
 "product_post_use_photo_not_logged" = "Bruk bilde";

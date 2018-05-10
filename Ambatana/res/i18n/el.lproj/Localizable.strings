@@ -137,6 +137,9 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "Για λόγους ασφαλείας, ο λογαριασμός αυτός έχει σβηστεί από την ομάδα του letgo και τα μηνύματα αυτά έχουν αφαιρεθεί.";
 "chat_connect_account_disclaimer_button" = "Επιβεβαιώστε τώρα!";
 "chat_connect_accounts_title" = "ΚΕΡΔΙΣΤΕ ΕΜΠΙΣΤΟΣΥΝΗ!";
+"chat_conversations_list_filter_all" = "Όλα";
+"chat_conversations_list_filter_buying" = "Αγορες";
+"chat_conversations_list_filter_selling" = "Πώληση";
 "chat_deleted_disclaimer_w_name" = "Δεν μπορείτε να συνεχίσετε αυτή τη συνομιλία επειδή ο λογαριασμός του %@ δεν είναι πια ενεργός.";
 "chat_deleted_disclaimer_wo_name" = "Δεν μπορείτε να συνεχίσετε αυτή τη συνομιλία επειδή ο λογαριασμός αυτός δεν είναι πια ενεργός.";
 "chat_disclaimer_letgo_team" = "ΟΜΑΔΑ LETGO";
@@ -411,7 +414,7 @@
 "hidden_phone_tag" = "[ΑΠΟΚΡΥΨΗ ΤΗΛΕΦΩΝΟΥ]";
 "hidden_text_alert_description" = "Αποκρύψαμε τις πληροφορίες επικοινωνίας για να σας βοηθήσουμε να κάνετε αγοραπωλησίες με ασφάλεια. Οι συνομιλίες εντός του easy είναι πιο ασφαλείς.";
 "hidden_text_alert_title" = "ΜΕΙΝΕΤΕ ΑΣΦΑΛΕΙΣ";
-"listings_map_no_results_message" = "No exact matches for your search. Try looking in a different area or using different filters.";
+"listings_map_no_results_message" = "Δε βρέθηκαν ακριβή αποτελέσματα για την αναζήτησή σας. Δοκιμάστε να ψάξετε σε κάποια άλλη περιοχή ή να χρησιμοποιήσετε διαφορετικά φίλτρα.";
 "listings_map_title" = "Προβολή χάρτη";
 "location_permissions_allow_button" = "Να επιτρέπεται";
 "location_permissions_bubble" = "15μ. από εσάς";
@@ -774,6 +777,7 @@
 "product_post_select_category_motors_and_accessories" = "Άλλα Οχήματα και Εξαρτήματα";
 "product_post_select_category_other" = "Άλλα αντικείμενα";
 "product_post_select_category_real_estate" = "Μεσιτικά";
+"product_post_select_category_services" = "Υπηρεσίες";
 "product_post_select_category_title" = "Τί δημοσιεύετε;";
 "product_post_use_photo" = "Δημοσιεύστε";
 "product_post_use_photo_not_logged" = "Χρήση φωτογραφίας";

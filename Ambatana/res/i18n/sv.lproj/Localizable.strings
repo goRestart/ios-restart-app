@@ -137,6 +137,9 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "Av säkerhetsskäl har det här kontot tagits bort av letgo och dessa meddelanden har raderats.";
 "chat_connect_account_disclaimer_button" = "Verifiera nu!";
 "chat_connect_accounts_title" = "SKAPA FÖRTROENDE!";
+"chat_conversations_list_filter_all" = "Alla";
+"chat_conversations_list_filter_buying" = "Köper";
+"chat_conversations_list_filter_selling" = "Säljer";
 "chat_deleted_disclaimer_w_name" = "Du kan inte fortsätta denna konversation, för %@s konto är inte längre aktivt.";
 "chat_deleted_disclaimer_wo_name" = "Du kan inte fortsätta den här konversationen för detta konto är inte längre aktivt.";
 "chat_disclaimer_letgo_team" = "LETGO-TEAMET";
@@ -411,7 +414,7 @@
 "hidden_phone_tag" = "[DOLT TELEFONNUMMER]";
 "hidden_text_alert_description" = "Vi döljer kontaktinformation för att du ska kunna köpa och sälja säkert. Att chatta via letgo är både enkelt och säkrare.";
 "hidden_text_alert_title" = "SÄKERHETSTIPS";
-"listings_map_no_results_message" = "No exact matches for your search. Try looking in a different area or using different filters.";
+"listings_map_no_results_message" = "Ingen exakt matchning hittades. Sök på ett annat område eller ändra sökfilter.";
 "listings_map_title" = "Kartvy";
 "location_permissions_allow_button" = "Tillåt";
 "location_permissions_bubble" = "1 km från dig";
@@ -774,6 +777,7 @@
 "product_post_select_category_motors_and_accessories" = "Andra Fordon och Reservdelar";
 "product_post_select_category_other" = "Något annat";
 "product_post_select_category_real_estate" = "Bostad";
+"product_post_select_category_services" = "Tjänster";
 "product_post_select_category_title" = "Vad lägger du upp?";
 "product_post_use_photo" = "Lägg upp";
 "product_post_use_photo_not_logged" = "Använd bild";

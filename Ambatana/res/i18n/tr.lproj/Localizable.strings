@@ -137,6 +137,9 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "Güvenlik nedeniyle, bu kullanıcının hesabı letgo ekibi tarafından silinmiştir ve bu mesajlar da kaldırılmıştır.";
 "chat_connect_account_disclaimer_button" = "Hemen hesabını doğrula!";
 "chat_connect_accounts_title" = "GÜVEN KAZAN!";
+"chat_conversations_list_filter_all" = "Hepsi";
+"chat_conversations_list_filter_buying" = "Aliş";
+"chat_conversations_list_filter_selling" = "Satiş";
 "chat_deleted_disclaimer_w_name" = "%@ isimli kullanıcının hesabı artık aktif olmadığı için bu sohbete devam edemezsin.";
 "chat_deleted_disclaimer_wo_name" = "Bu hesap artık aktif olmadığı için bu sohbete devam edemezsin.";
 "chat_disclaimer_letgo_team" = "LETGO EKİBİ";
@@ -411,7 +414,7 @@
 "hidden_phone_tag" = "[TELEFON NUMARASI GİZLENMİŞTİR]";
 "hidden_text_alert_description" = "Güvenli alışveriş yapmana yardımcı olmak adına iletişim bilgilerini gizledik. letgo üzerinden mesajlaşmak kolay ve daha güvenlidir.";
 "hidden_text_alert_title" = "GÜVENDE KAL";
-"listings_map_no_results_message" = "No exact matches for your search. Try looking in a different area or using different filters.";
+"listings_map_no_results_message" = "Araman ile tam eşleşen bir şey yok. Farklı bir bölgede aramayı ya da farklı filtreler kullanmayı dene.";
 "listings_map_title" = "Harita görünümü";
 "location_permissions_allow_button" = "İzin Ver";
 "location_permissions_bubble" = "senden 1km uzakta";
@@ -774,6 +777,7 @@
 "product_post_select_category_motors_and_accessories" = "Diğer Araçlar ve Yedek Parça";
 "product_post_select_category_other" = "Diğer eşyalar";
 "product_post_select_category_real_estate" = "Emlak";
+"product_post_select_category_services" = "Hizmetler";
 "product_post_select_category_title" = "Ne satıyorsun?";
 "product_post_use_photo" = "Yayınla";
 "product_post_use_photo_not_logged" = "Fotoğraf Kullan";

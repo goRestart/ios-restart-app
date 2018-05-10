@@ -373,6 +373,12 @@
 // Change email already registered
 "change_email_error_already_registered" = "This email address is already registered. Please enter a different one.";
 
+"chat_conversations_list_filter_all" = "All";
+
+"chat_conversations_list_filter_selling" = "Selling";
+
+"chat_conversations_list_filter_buying" = "Buying";
+
 // Information regarding the asssitant of letgo
 "chat_user_info_letgo_assistant" = "I'm a virtual assistant that gives you tips and helps you sell.";
 

@@ -137,6 +137,9 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "Por razones de seguridad, el equipo de letgo ha eliminado esta cuenta y estos mensajes se han borrado.";
 "chat_connect_account_disclaimer_button" = "¡Verificar ahora!";
 "chat_connect_accounts_title" = "¡CREA CONFIANZA!";
+"chat_conversations_list_filter_all" = "Todos";
+"chat_conversations_list_filter_buying" = "Compra";
+"chat_conversations_list_filter_selling" = "Venta";
 "chat_deleted_disclaimer_w_name" = "No puedes continuar esta conversación porque la cuenta de %@ ya no está activa.";
 "chat_deleted_disclaimer_wo_name" = "No puedes continuar esta conversación porque esta cuenta ya no está activa.";
 "chat_disclaimer_letgo_team" = "EQUIPO LETGO";
@@ -411,7 +414,7 @@
 "hidden_phone_tag" = "[NÚMERO DE TELÉFONO OCULTO]";
 "hidden_text_alert_description" = "Ocultamos datos de contacto para ayudarte a comprar y vender con seguridad. Chatear dentro de letgo es fácil y más seguro.";
 "hidden_text_alert_title" = "CONSEJOS DE SEGURIDAD";
-"listings_map_no_results_message" = "No exact matches for your search. Try looking in a different area or using different filters.";
+"listings_map_no_results_message" = "No hay resultados exactos para tu búsqueda. Prueba buscando en otra zona o usando filtros distintos.";
 "listings_map_title" = "Vista de mapa";
 "location_permissions_allow_button" = "Permitir";
 "location_permissions_bubble" = "a 1km de ti";
@@ -774,6 +777,7 @@
 "product_post_select_category_motors_and_accessories" = "Otros Vehículos y Accesorios";
 "product_post_select_category_other" = "Otros artículos";
 "product_post_select_category_real_estate" = "Inmobiliaria";
+"product_post_select_category_services" = "Servicios";
 "product_post_select_category_title" = "¿Qué estás publicando?";
 "product_post_use_photo" = "Publicar";
 "product_post_use_photo_not_logged" = "Usar foto";
@@ -840,7 +844,7 @@
 "profile_favourites_my_user_no_products_button" = "Sigue navegando";
 "profile_favourites_my_user_no_products_label" = "NO HAY FAVORITOS (¡TODAVÍA!)";
 "profile_favourites_products_tab" = "Favoritos";
-"profile_karma_improve_score" = "Consigue más Puntos de Verificación";
+"profile_karma_improve_score" = "Consigue más puntos";
 "profile_karma_points_title" = "%@";
 "profile_karma_title" = "Puntos de verificación: %@";
 "profile_karma_unverified_points_subtitle" = "%@ puntos";
