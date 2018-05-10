@@ -1435,28 +1435,36 @@ extension ChatViewModel {
         var isFirstPage: Bool {
             return messages.count < Constants.numMessagesPerPage
         }
-
-        var fifthInterlocutorMessageIndex: Int? {
-            let elementNumber = 5
-            let interlocutorMessages = messages.reversed().filter {
+        var priceIsEqualOrHigherThan250: Bool {
+            guard let price = conversation.value.listing?.price.value else { return false }
+            return price >= 250
+        }
+        var firstInterlocutorMessageIndex: Int? {
+            guard let i = messages.reversed().index(where: {
                 switch $0.type {
                 case .disclaimer, .userInfo, .askPhoneNumber, .interlocutorIsTyping:
                     return false
                 case .offer, .sticker, .text, .meeting:
                     return $0.talkerId != myUserRepository.myUser?.objectId
                 }
-            }
-            guard interlocutorMessages.count >= elementNumber else { return nil }
-            let fifthInterlocutorMessage = interlocutorMessages[elementNumber-1]
-            
-            let index = messages.index(where: {
-                $0 == fifthInterlocutorMessage
-            })
+            }) else { return nil }
+            let index = messages.index(before: i.base)
             return index
         }
-
+        var securityTooltipWasShownToday: Bool {
+            guard let lastShownDate = keyValueStorage[.lastShownSecurityWarningDate] else { return false }
+            return lastShownDate.isFromLast24h()
+        }
+        
         guard isFirstPage else { return nil }
-        return fifthInterlocutorMessageIndex
+        guard priceIsEqualOrHigherThan250 else { return nil }
+        if isBuyer {
+            return firstInterlocutorMessageIndex
+        } else if !securityTooltipWasShownToday {
+            keyValueStorage[.lastShownSecurityWarningDate] = Date()
+            return firstInterlocutorMessageIndex
+        }
+        return nil
     }
 
     private func afterRetrieveChatMessagesEvents() {
