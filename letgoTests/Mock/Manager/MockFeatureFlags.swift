@@ -32,7 +32,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var requestTimeOut: RequestsTimeOut = .thirty
     var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed = .control
     var showClockInDirectAnswer: ShowClockInDirectAnswer = .control
-    var allowCallsForProfessionals: AllowCallsForProfessionals = .control
     var mostSearchedDemandedItems: MostSearchedDemandedItems = .control
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers = .control
 
@@ -42,7 +41,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var dummyUsersInfoProfile: DummyUsersInfoProfile = .control
     var showInactiveConversations: Bool = false
     var increaseMinPriceBumps: IncreaseMinPriceBumps = .control
-    var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings = .control
     var newUserProfileView: NewUserProfileView = .control
     var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation = .control
     var searchImprovements: SearchImprovements = .control
@@ -58,7 +56,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var chatNorris: ChatNorris = .control
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings = .control
     var showProTagUserProfile: Bool = false
-    var markAllConversationsAsRead: Bool = false
+    var markAllConversationsAsRead: MarkAllConversationsAsRead = .control
     var realEstateTutorial: RealEstateTutorial = .control
     var summaryAsFirstStep: SummaryAsFirstStep = .control
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem = .control
@@ -98,5 +96,8 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var filterSearchCarSellerType: FilterSearchCarSellerType = .control
     var createUpdateIntoNewBackend: CreateUpdateCarsIntoNewBackend = .control
     var realEstateMap: RealEstateMap = .control
+
+    //  MARK:  Products
+    var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu = .control
 }
 

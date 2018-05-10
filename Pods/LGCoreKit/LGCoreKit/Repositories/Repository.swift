@@ -16,7 +16,7 @@ public enum RepositoryError: Error, ApiErrorConvertible, WebSocketErrorConvertib
     case internalError(message: String)
     case network(errorCode: Int, onBackground: Bool)
     case notFound
-    case unauthorized(code: Int?)
+    case unauthorized(code: Int?, description: String?)
     case forbidden(cause: ForbiddenCause)
     case tooManyRequests
     case userNotVerified
@@ -32,14 +32,14 @@ public enum RepositoryError: Error, ApiErrorConvertible, WebSocketErrorConvertib
             self = .internalError(message: description)
         case .badRequest(let cause):
             self = .internalError(message: "Bad request with cause: \(cause)")
-        case .unauthorized:
-            self = .unauthorized(code: apiError.httpStatusCode)
+        case let .unauthorized(message):
+            self = .unauthorized(code: apiError.httpStatusCode, description: message)
         case .notFound:
             self = .notFound
         case .forbidden(let cause):
             self = .forbidden(cause: cause)
         case .scammer:
-            self = .unauthorized(code: apiError.httpStatusCode)
+            self = .unauthorized(code: apiError.httpStatusCode, description: nil)
         case .tooManyRequests:
             self = .tooManyRequests
         case .userNotVerified:
@@ -66,7 +66,7 @@ public enum RepositoryError: Error, ApiErrorConvertible, WebSocketErrorConvertib
         switch self {
         case .network, .internalError, .wsChatError, .searchAlertError:
             return nil
-        case let .unauthorized(code):
+        case let .unauthorized(code, _):
             return code
         case .notFound:
             return 404

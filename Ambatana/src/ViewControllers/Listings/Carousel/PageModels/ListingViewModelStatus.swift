@@ -147,14 +147,12 @@ enum ListingViewModelStatus {
         }
     }
 
-    func shouldRefreshBumpBanner(pendingAreBumpeable: Bool) -> Bool {
+    var shouldRefreshBumpBanner: Bool {
         switch self {
-        case .available, .availableFree, .pendingAndFeatured:
+        case .available, .availableFree, .pendingAndFeatured, .pending:
             return true
         case .otherAvailable, .otherAvailableFree, .notAvailable, .sold, .otherSold, .otherSoldFree, .soldFree:
             return false
-        case .pending:
-            return pendingAreBumpeable
         }
     }
 }

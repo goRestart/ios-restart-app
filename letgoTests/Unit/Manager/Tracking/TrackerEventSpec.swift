@@ -1186,7 +1186,7 @@ class TrackerEventSpec: QuickSpec {
 
                     sut = TrackerEvent.listingDetailVisit(.product(product), visitUserAction: .none, source: .listingList,
                                                           feedPosition: .position(index:1), isBumpedUp: .trueParameter,
-                                                          sellerBadge: .silver, containsVideo: .trueParameter)
+                                                          sellerBadge: .silver, isMine: .falseParameter, containsVideo: .trueParameter)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-visit"))
@@ -1240,6 +1240,10 @@ class TrackerEventSpec: QuickSpec {
                 it("contains seller badge param") {
                     let badge = sut.params!.stringKeyParams["seller-reputation-badge"] as? String
                     expect(badge) == "silver"
+                }
+                it("contains is mine param") {
+                    let isMine = sut.params!.stringKeyParams["is-mine"] as? String
+                    expect(isMine) == "false"
                 }
                 it("contains is video param") {
                     let isVideo = sut.params!.stringKeyParams["is-video"] as? String

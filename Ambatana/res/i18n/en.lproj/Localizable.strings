@@ -526,10 +526,10 @@
 "chat_list_delete_alert_send" = "Delete";
 
 // Chat list delete confirmation alert text (multiple)
-"chat_list_delete_alert_text_multiple" = "You're going to delete these chats";
+"chat_list_delete_alert_text_multiple" = "You're going to permanently delete these chats";
 
 // Chat list delete confirmation alert text (single)
-"chat_list_delete_alert_text_one" = "You're going to delete this chat";
+"chat_list_delete_alert_text_one" = "You're going to permanently delete this chat";
 
 // Chat list delete confirmation alert title (multiple)
 "chat_list_delete_alert_title_multiple" = "Delete Chats";
@@ -2312,6 +2312,9 @@
 // Product post category selection real Estate button
 "product_post_select_category_housing" = "Housing for Rent / Sale";
 
+// Product post category selection services button
+"product_post_select_category_services" = "Services";
+
 // Product post category selection real Estate button
 "product_post_select_category_real_estate" = "Real Estate";
 
@@ -2586,10 +2589,10 @@
 "profile_verifications_view_extra_section_title" = "BUY & SELL";
 
 // cell explaining that marking items as sold, increases Karma score
-"profile_verifications_view_mark_as_sold_title" = "Mark a listing as sold";
+"profile_verifications_view_mark_as_sold_title" = "Mark as sold";
 
 // cell explaining that marking items as sold, increases Karma score
-"profile_verifications_view_mark_as_sold_subtitle" = "+2 pts each (up to 10 pts)";
+"profile_verifications_view_mark_as_sold_subtitle" = "+2 pts for each listing (up to 10 pts)";
 
 // Title of the view to verify the email. The user can write its email to send a verification link
 "profile_verifications_email_view_title" = "Verify your Email";

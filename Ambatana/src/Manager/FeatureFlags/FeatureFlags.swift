@@ -34,7 +34,6 @@ protocol FeatureFlaggeable: class {
     var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
     var showClockInDirectAnswer : ShowClockInDirectAnswer { get }
     var deckItemPage: DeckItemPage { get }
-    var allowCallsForProfessionals: AllowCallsForProfessionals { get }
     var mostSearchedDemandedItems: MostSearchedDemandedItems { get }
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio { get }
     var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting { get }
@@ -43,7 +42,6 @@ protocol FeatureFlaggeable: class {
     var showInactiveConversations: Bool { get }
     var increaseMinPriceBumps: IncreaseMinPriceBumps { get }
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers { get }
-    var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings { get }
     var newUserProfileView: NewUserProfileView { get }
     var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation { get }
     var searchImprovements: SearchImprovements { get }
@@ -59,7 +57,7 @@ protocol FeatureFlaggeable: class {
     var machineLearningMVP: MachineLearningMVP { get }
     var chatNorris: ChatNorris { get }
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings { get }
-    var markAllConversationsAsRead: Bool { get }
+    var markAllConversationsAsRead: MarkAllConversationsAsRead { get }
     var showProTagUserProfile: Bool { get }
     var summaryAsFirstStep: SummaryAsFirstStep { get }
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem { get }
@@ -94,6 +92,9 @@ protocol FeatureFlaggeable: class {
     var filterSearchCarSellerType: FilterSearchCarSellerType { get }
     var createUpdateIntoNewBackend: CreateUpdateCarsIntoNewBackend { get }
     var realEstateMap: RealEstateMap { get }
+
+    // MARK: Products
+    var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu { get }
 }
 
 extension FeatureFlaggeable {
@@ -104,10 +105,6 @@ extension FeatureFlaggeable {
 
 extension TaxonomiesAndTaxonomyChildrenInFeed {
     var isActive: Bool { return self == .active }
-}
-
-extension AllowCallsForProfessionals {
-    var isActive: Bool { return self == .control || self == .baseline }
 }
 
 extension MostSearchedDemandedItems {
@@ -178,10 +175,6 @@ extension RealEstateNewCopy {
 }
 
 extension DummyUsersInfoProfile {
-    var isActive: Bool { return self == .active }
-}
-
-extension ShowBumpUpBannerOnNotValidatedListings {
     var isActive: Bool { return self == .active }
 }
 
@@ -324,6 +317,10 @@ extension EmergencyLocate {
     var isActive: Bool { return self == .active }
 }
 
+extension MarkAllConversationsAsRead {
+    var isActive: Bool { return self == .active }
+}
+
 extension FeedAdsProviderForUS {
     private var shouldShowAdsInFeedForNewUsers: Bool {
         return self == .moPubAdsForAllUsers || self == .googleAdxForAllUsers
@@ -430,6 +427,10 @@ extension IAmInterestedFeed {
     var isVisible: Bool { return self == .control || self == .baseline }
 }
 
+extension ServicesCategoryOnSalchichasMenu {
+    var isActive: Bool { return self != .control && self != .baseline }    
+}
+
 final class FeatureFlags: FeatureFlaggeable {
     static let sharedInstance: FeatureFlags = FeatureFlags()
 
@@ -493,8 +494,6 @@ final class FeatureFlags: FeatureFlaggeable {
             dao.save(newUserProfile: NewUserProfileView.fromPosition(abTests.newUserProfileView.value))
             dao.save(showAdvanceReputationSystem: ShowAdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value))
             dao.save(emergencyLocate: EmergencyLocate.fromPosition(abTests.emergencyLocate.value))
-            locationManager.shouldAskForBackgroundLocationPermission = EmergencyLocate.fromPosition(abTests.emergencyLocate.value).isActive
-            locationManager.startSensorLocationUpdates()
         }
         abTests.variablesUpdated()
     }
@@ -569,13 +568,6 @@ final class FeatureFlags: FeatureFlaggeable {
         return ShowClockInDirectAnswer.fromPosition(abTests.showClockInDirectAnswer.value)
     }
 
-    var allowCallsForProfessionals: AllowCallsForProfessionals {
-        if Bumper.enabled {
-            return Bumper.allowCallsForProfessionals
-        }
-        return AllowCallsForProfessionals.fromPosition(abTests.allowCallsForProfessionals.value)
-    }
-    
     var mostSearchedDemandedItems: MostSearchedDemandedItems {
         if Bumper.enabled {
             return Bumper.mostSearchedDemandedItems
@@ -632,13 +624,6 @@ final class FeatureFlags: FeatureFlaggeable {
         return NoAdsInFeedForNewUsers.fromPosition(abTests.noAdsInFeedForNewUsers.value)
     }
 
-    var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings {
-        if Bumper.enabled {
-            return Bumper.showBumpUpBannerOnNotValidatedListings
-        }
-        return ShowBumpUpBannerOnNotValidatedListings.fromPosition(abTests.showBumpUpBannerOnNotValidatedListings.value)
-    }
-
     var searchImprovements: SearchImprovements {
         if Bumper.enabled {
             return Bumper.searchImprovements
@@ -688,11 +673,11 @@ final class FeatureFlags: FeatureFlaggeable {
         return MachineLearningMVP.fromPosition(abTests.machineLearningMVP.value)
     }
     
-    var markAllConversationsAsRead: Bool {
+    var markAllConversationsAsRead: MarkAllConversationsAsRead {
         if Bumper.enabled {
             return Bumper.markAllConversationsAsRead
         }
-        return abTests.markAllConversationsAsRead.value
+        return MarkAllConversationsAsRead.fromPosition(abTests.markAllConversationsAsRead.value)
     }
     
     var newUserProfileView: NewUserProfileView {
@@ -1026,7 +1011,7 @@ final class FeatureFlags: FeatureFlaggeable {
         }
         return  ChatNorris.fromPosition(abTests.chatNorris.value)
     }
-    
+
     var shouldChangeSellFasterNowCopyInEnglish: Bool {
         if Bumper.enabled {
             return Bumper.copyForSellFasterNowInEnglish.isActive
@@ -1044,7 +1029,6 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.copyForSellFasterNowInEnglish
         }
         return CopyForSellFasterNowInEnglish.fromPosition(abTests.copyForSellFasterNowInEnglish.value)
-        
     }
 
     
@@ -1094,9 +1078,7 @@ extension FeatureFlags {
         if Bumper.enabled {
             return Bumper.createUpdateCarsIntoNewBackend
         }
-        //  TODO: blocked - update when backend works
-        //  return CreateUpdateCarsIntoNewBackend.fromPosition(abTests.createUpdateCarsIntoNewBackend.value)
-        return .control
+        return CreateUpdateCarsIntoNewBackend.fromPosition(abTests.createUpdateCarsIntoNewBackend.value)
     }
     
     var realEstateMap: RealEstateMap {
@@ -1108,3 +1090,16 @@ extension FeatureFlags {
         //  return RealEstateMap.fromPosition(abTests.realEstateMap.value)
     }
 }
+
+// MARK: Products
+
+extension FeatureFlags {
+
+    var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu {
+        if Bumper.enabled {
+            return Bumper.servicesCategoryOnSalchichasMenu
+        }
+        return ServicesCategoryOnSalchichasMenu.fromPosition(abTests.servicesCategoryOnSalchichasMenu.value)
+    }
+}
+

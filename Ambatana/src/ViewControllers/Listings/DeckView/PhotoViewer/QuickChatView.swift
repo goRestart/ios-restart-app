@@ -24,7 +24,12 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
     var isTableInteractionEnabled = true
 
     var textViewFocusColor: UIColor = .white
-    var textViewStandardColor: UIColor = UIColor.black.withAlphaComponent(0.07)
+    var textViewStandardColor: UIColor = UIColor.black.withAlphaComponent(0.07) {
+        didSet {
+            guard !textView.isFirstResponder else { return }
+            textView.setTextViewBackgroundColor(textViewStandardColor)
+        }
+    }
 
     var rxDidBeginEditing: ControlEvent<()> { return textView.rx.didBeginEditing }
     var rxDidEndEditing: ControlEvent<()> { return textView.rx.didEndEditing }
@@ -39,8 +44,7 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
     let textView = ChatTextView()
     private var textViewBottom: NSLayoutConstraint?
 
-    var directAnswersViewTopAnchor: NSLayoutYAxisAnchor { return directAnswersView.topAnchor }
-    private let directAnswersView = DirectAnswersHorizontalView(answers: [])
+    let directAnswersView = DirectAnswersHorizontalView(answers: [])
     private let tableView = CustomTouchesTableView()
     private let binder = QuickChatViewBinder()
 
@@ -100,13 +104,13 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
         }, completion: completion)
     }
 
-    func revealAnimation() {
+    private func revealAnimation() {
         self.textView.alpha = 1
         self.directAnswersView.alpha = 1
         self.tableView.alpha = 1
     }
 
-    func dissappearAnimation() {
+    private func dissappearAnimation() {
         alphaAnimationHideTimer?.invalidate()
         if isRemovedWhenResigningFirstResponder {
             textView.alpha = 0

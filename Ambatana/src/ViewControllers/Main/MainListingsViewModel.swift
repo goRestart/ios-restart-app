@@ -337,7 +337,7 @@ final class MainListingsViewModel: BaseViewModel {
     
     
     // MARK: - Lifecycle
-    
+
     init(sessionManager: SessionManager,
          myUserRepository: MyUserRepository,
          searchRepository: SearchRepository,

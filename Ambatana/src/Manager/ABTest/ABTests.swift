@@ -45,6 +45,7 @@ class ABTests {
     let chat = ChatABGroup.make()
     let core = CoreABGroup.make()
     let users = UsersABGroup.make()
+    let products = ProductsABGroup.make()
 
 
     convenience init() {
@@ -66,6 +67,7 @@ class ABTests {
         result.append(contentsOf: chat.intVariables)
         result.append(contentsOf: core.intVariables)
         result.append(contentsOf: users.intVariables)
+        result.append(contentsOf: products.intVariables)
         return result
     }
 
@@ -79,7 +81,7 @@ class ABTests {
         result.append(contentsOf: chat.boolVariables)
         result.append(contentsOf: core.boolVariables)
         result.append(contentsOf: users.boolVariables)
-
+        result.append(contentsOf: products.boolVariables)
         return result
     }
 
@@ -134,7 +136,7 @@ extension ABTests {
     var showInactiveConversations: LeanplumABVariable<Bool> { return chat.showInactiveConversations }
     var showChatSafetyTips: LeanplumABVariable<Bool> { return chat.showChatSafetyTips }
     var userIsTyping: LeanplumABVariable<Int> { return chat.userIsTyping }
-    var markAllConversationsAsRead: LeanplumABVariable<Bool> { return chat.markAllConversationsAsRead }
+    var markAllConversationsAsRead: LeanplumABVariable<Int> { return chat.markAllConversationsAsRead }
     var chatNorris: LeanplumABVariable<Int> { return chat.chatNorris }
 }
 
@@ -143,7 +145,6 @@ extension ABTests {
 extension ABTests {
     var increaseMinPriceBumps: LeanplumABVariable<Int> { return money.increaseMinPriceBumps }
     var noAdsInFeedForNewUsers: LeanplumABVariable<Int> { return money.noAdsInFeedForNewUsers }
-    var showBumpUpBannerOnNotValidatedListings: LeanplumABVariable<Int> { return money.showBumpUpBannerOnNotValidatedListings }
     var copyForChatNowInTurkey: LeanplumABVariable<Int> { return money.copyForChatNowInTurkey }
     var turkeyBumpPriceVATAdaptation: LeanplumABVariable<Int> { return money.turkeyBumpPriceVATAdaptation }
     var showProTagUserProfile: LeanplumABVariable<Bool> { return money.showProTagUserProfile }
@@ -184,6 +185,12 @@ extension ABTests {
     var realEstateMap: LeanplumABVariable<Int> { return verticals.realEstateMap }
 }
 
+//  MARK: Products
+
+extension ABTests {
+    var servicesCategoryOnSalchichasMenu: LeanplumABVariable<Int> { return products.servicesCategoryOnSalchichasMenu }
+}
+
 //  MARK: Legacy
 
 extension ABTests {
@@ -204,7 +211,6 @@ extension ABTests {
     var deckItemPage: LeanplumABVariable<Int> { return legacy.newItemPage }
     var taxonomiesAndTaxonomyChildrenInFeed: LeanplumABVariable<Int> { return legacy.taxonomiesAndTaxonomyChildrenInFeed }
     var showClockInDirectAnswer: LeanplumABVariable<Int> { return legacy.showClockInDirectAnswer }
-    var allowCallsForProfessionals: LeanplumABVariable<Int> { return legacy.allowCallsForProfessionals }
     var mostSearchedDemandedItems: LeanplumABVariable<Int> { return legacy.mostSearchedDemandedItems }
     var showAdsInFeedWithRatio: LeanplumABVariable<Int> { return legacy.showAdsInFeedWithRatio }
     var removeCategoryWhenClosingPosting: LeanplumABVariable<Int> { return legacy.removeCategoryWhenClosingPosting }
