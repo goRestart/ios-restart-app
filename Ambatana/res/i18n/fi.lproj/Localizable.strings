@@ -414,11 +414,7 @@
 "hidden_phone_tag" = "[PUHELINNUMERO PIILOTETTU]";
 "hidden_text_alert_description" = "Piilotamme yhteystiedot auttaaksemme sinua ostamaan ja myymään turvallisesti. Keskustelu letgon sisällä on helppoa ja turvallisempaa.";
 "hidden_text_alert_title" = "PYSY TURVASSA";
-<<<<<<< HEAD
 "listings_map_no_results_message" = "Täysin hakuasi vastaavia osumia ei löytynyt. Kokeile hakea toiselta alueelta tai eri suodattimien avulla.";
-=======
-"listings_map_no_results_message" = "No exact matches for your search. Try looking in a different area or using different filters.";
->>>>>>> release-1.30.0
 "listings_map_title" = "Karttanäkymä";
 "location_permissions_allow_button" = "Salli";
 "location_permissions_bubble" = "0.1 km sinusta";

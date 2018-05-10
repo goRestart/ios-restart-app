@@ -414,11 +414,7 @@
 "hidden_phone_tag" = "[ΑΠΟΚΡΥΨΗ ΤΗΛΕΦΩΝΟΥ]";
 "hidden_text_alert_description" = "Αποκρύψαμε τις πληροφορίες επικοινωνίας για να σας βοηθήσουμε να κάνετε αγοραπωλησίες με ασφάλεια. Οι συνομιλίες εντός του easy είναι πιο ασφαλείς.";
 "hidden_text_alert_title" = "ΜΕΙΝΕΤΕ ΑΣΦΑΛΕΙΣ";
-<<<<<<< HEAD
 "listings_map_no_results_message" = "Δε βρέθηκαν ακριβή αποτελέσματα για την αναζήτησή σας. Δοκιμάστε να ψάξετε σε κάποια άλλη περιοχή ή να χρησιμοποιήσετε διαφορετικά φίλτρα.";
-=======
-"listings_map_no_results_message" = "No exact matches for your search. Try looking in a different area or using different filters.";
->>>>>>> release-1.30.0
 "listings_map_title" = "Προβολή χάρτη";
 "location_permissions_allow_button" = "Να επιτρέπεται";
 "location_permissions_bubble" = "15μ. από εσάς";

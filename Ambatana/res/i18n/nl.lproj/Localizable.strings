@@ -414,11 +414,7 @@
 "hidden_phone_tag" = "[TELEFOONNUMMER VERBORGEN]";
 "hidden_text_alert_description" = "Wij verbergen contact informatie zodat je veilig kunt kopen en verkopen. In letgo kun je veilig en gemakkelijk chatten.";
 "hidden_text_alert_title" = "VEILIGHEIDSTIPS";
-<<<<<<< HEAD
 "listings_map_no_results_message" = "Geen exacte overeenkomsten voor jouw zoekopdracht. Probeer in een ander gebied te zoeken of gebruik andere filters.";
-=======
-"listings_map_no_results_message" = "No exact matches for your search. Try looking in a different area or using different filters.";
->>>>>>> release-1.30.0
 "listings_map_title" = "Zie kaart";
 "location_permissions_allow_button" = "Toestaan";
 "location_permissions_bubble" = "1km van bij jou";

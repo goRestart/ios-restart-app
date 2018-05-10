@@ -414,11 +414,7 @@
 "hidden_phone_tag" = "[NUMÉRO DE TÉLÉPHONE MASQUÉ]";
 "hidden_text_alert_description" = "Nous masquons les coordonnées pour vous aider à vendre et acheter en toute sécurité. Clavarder dans letgo est facile et plus sécuritaire.";
 "hidden_text_alert_title" = "SOYEZ PRUDENTS";
-<<<<<<< HEAD
 "listings_map_no_results_message" = "Aucune réponse exacte à votre recherche. Essayez de chercher dans un autre secteur ou en utilisant d'autres filtres.";
-=======
-"listings_map_no_results_message" = "No exact matches for your search. Try looking in a different area or using different filters.";
->>>>>>> release-1.30.0
 "listings_map_title" = "Vue de la carte";
 "location_permissions_allow_button" = "Autoriser";
 "location_permissions_bubble" = "à 0.1 km de chez vous";

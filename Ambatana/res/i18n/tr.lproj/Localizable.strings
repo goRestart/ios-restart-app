@@ -414,11 +414,7 @@
 "hidden_phone_tag" = "[TELEFON NUMARASI GİZLENMİŞTİR]";
 "hidden_text_alert_description" = "Güvenli alışveriş yapmana yardımcı olmak adına iletişim bilgilerini gizledik. letgo üzerinden mesajlaşmak kolay ve daha güvenlidir.";
 "hidden_text_alert_title" = "GÜVENDE KAL";
-<<<<<<< HEAD
 "listings_map_no_results_message" = "Araman ile tam eşleşen bir şey yok. Farklı bir bölgede aramayı ya da farklı filtreler kullanmayı dene.";
-=======
-"listings_map_no_results_message" = "No exact matches for your search. Try looking in a different area or using different filters.";
->>>>>>> release-1.30.0
 "listings_map_title" = "Harita görünümü";
 "location_permissions_allow_button" = "İzin Ver";
 "location_permissions_bubble" = "senden 1km uzakta";
