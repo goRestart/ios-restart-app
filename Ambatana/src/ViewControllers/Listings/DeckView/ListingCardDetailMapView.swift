@@ -147,5 +147,5 @@ final class ListingCardDetailMapView: UIView {
 }
 
 extension LGLocationCoordinates2D: Hashable {
-    public var hashValue: Int { return ((3*latitude).hashValue + (7*longitude).hashValue).hashValue }
+    public var hashValue: Int { return  "\(latitude)-\(longitude)".hashValue }
 }
