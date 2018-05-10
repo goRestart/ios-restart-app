@@ -80,6 +80,7 @@ class PostListingViewModel: BaseViewModel {
     let postingSource: PostingSource
     let postCategory: PostCategory?
     let isBlockingPosting: Bool
+    let machineLearningSupported: Bool
     
     fileprivate let listingRepository: ListingRepository
     fileprivate let fileRepository: FileRepository
@@ -128,11 +129,13 @@ class PostListingViewModel: BaseViewModel {
     convenience init(source: PostingSource,
                      postCategory: PostCategory?,
                      listingTitle: String?,
-                     isBlockingPosting: Bool) {
+                     isBlockingPosting: Bool,
+                     machineLearningSupported: Bool) {
         self.init(source: source,
                   postCategory: postCategory,
                   listingTitle: listingTitle,
                   isBlockingPosting: isBlockingPosting,
+                  machineLearningSupported: machineLearningSupported,
                   listingRepository: Core.listingRepository,
                   fileRepository: Core.fileRepository,
                   preSignedUploadUrlRepository: Core.preSignedUploadUrlRepository,
@@ -149,6 +152,7 @@ class PostListingViewModel: BaseViewModel {
          postCategory: PostCategory?,
          listingTitle: String?,
          isBlockingPosting: Bool,
+         machineLearningSupported: Bool,
          listingRepository: ListingRepository,
          fileRepository: FileRepository,
          preSignedUploadUrlRepository: PreSignedUploadUrlRepository,
@@ -165,6 +169,7 @@ class PostListingViewModel: BaseViewModel {
         self.postingSource = source
         self.postCategory = postCategory
         self.isBlockingPosting = isBlockingPosting
+        self.machineLearningSupported = machineLearningSupported
         self.listingRepository = listingRepository
         self.fileRepository = fileRepository
         self.preSignedUploadUrlRepository = preSignedUploadUrlRepository
@@ -172,7 +177,8 @@ class PostListingViewModel: BaseViewModel {
         self.postDetailViewModel = PostListingBasicDetailViewModel()
         self.postListingCameraViewModel = PostListingCameraViewModel(postingSource: source,
                                                                      postCategory: postCategory,
-                                                                     isBlockingPosting: isBlockingPosting)
+                                                                     isBlockingPosting: isBlockingPosting,
+                                                                     machineLearningSupported: machineLearningSupported)
         self.tracker = tracker
         self.sessionManager = sessionManager
         self.featureFlags = featureFlags

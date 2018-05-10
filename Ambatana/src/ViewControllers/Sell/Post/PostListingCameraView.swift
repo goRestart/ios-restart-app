@@ -43,6 +43,7 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
     @IBOutlet weak var headerContainer: UIView!
     @IBOutlet weak var flashButton: UIButton!
     @IBOutlet weak var retryPhotoButton: UIButton!
+    let machineLeaningButton = UIButton(type: .custom)
 
     @IBOutlet weak var firstTimeAlertContainer: UIView!
     @IBOutlet weak var firstTimeAlert: UIView!
@@ -247,7 +248,40 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
 
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideFirstTimeAlert))
         addGestureRecognizer(tapRecognizer)
-        
+
+        if viewModel.machineLearningSupported {
+            setupMachineLearningButton()
+            // TODO: Will be done in next PRs
+            setupMachineLearning(enabled: true)
+//            setupMachineLearning(enabled: machineLearningEnabled)
+        }
+
+    }
+    @objc func machineLearningSwitch() {
+        // TODO: Will be done in next PRs
+//        viewModel.machineLearningButtonPressed()
+//        setupMachineLearning(enabled: machineLearningEnabled)
+        setupMachineLearning(enabled: true)
+    }
+
+    private func setupMachineLearningButton() {
+        headerContainer.addSubviewForAutoLayout(machineLeaningButton)
+        machineLeaningButton.layout(with: headerContainer).top()
+        machineLeaningButton.layout(with: switchCamButton).right(to: .left, by: -12).centerY()
+        machineLeaningButton.addTarget(self, action: #selector(machineLearningSwitch), for: .touchUpInside)
+    }
+
+    private func setupMachineLearning(enabled: Bool) {
+        // TODO: Will be done in next PRs
+        if enabled {
+            machineLeaningButton.setImage(#imageLiteral(resourceName: "ml_icon_on"), for: .normal)
+//            cameraWrapper.enableVideoOutput(withDelegate: viewModel.machineLearning)
+//            predictionLabel.alphaAnimated(1)
+        } else {
+            machineLeaningButton.setImage(#imageLiteral(resourceName: "ml_icon_off"), for: .normal)
+//            cameraWrapper.disableVideoOutput()
+//            predictionLabel.alphaAnimated(0)
+        }
     }
     
     private func setupLearnMore() {
