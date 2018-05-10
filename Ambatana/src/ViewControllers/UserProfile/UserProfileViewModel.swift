@@ -18,6 +18,15 @@ enum UserSource {
     case link
 }
 
+struct UserViewHeaderAccounts {
+    let facebookLinked: Bool
+    let facebookVerified: Bool
+    let googleLinked: Bool
+    let googleVerified: Bool
+    let emailLinked: Bool
+    let emailVerified: Bool
+}
+
 protocol UserProfileViewModelDelegate: BaseViewModelDelegate {
     func vmShowNativeShare(_ socialMessage: SocialMessage)
 }
