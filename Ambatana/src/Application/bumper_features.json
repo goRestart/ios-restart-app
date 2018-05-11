@@ -279,5 +279,10 @@
         "name": "ServicesCategoryOnSalchichasMenu",
         "values": ["control", "baseline", "VariantA", "VariantB", "VariantC"],
         "description": "Show services category on salchichas menu"
+    },
+    {
+        "name": "GoogleAdxForTR",
+        "values": ["control", "baseline", "GoogleAdxForAllUsers", "GoogleAdxForOldUsers"],
+        "description": "Change logic for showing GoogleAdx in TR"
     }
 ]
