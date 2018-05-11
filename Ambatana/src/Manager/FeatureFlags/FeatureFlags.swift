@@ -654,20 +654,6 @@ final class FeatureFlags: FeatureFlaggeable {
         }
         return MachineLearningMVP.fromPosition(abTests.machineLearningMVP.value)
     }
-    
-    var markAllConversationsAsRead: MarkAllConversationsAsRead {
-        if Bumper.enabled {
-            return Bumper.markAllConversationsAsRead
-        }
-        return MarkAllConversationsAsRead.fromPosition(abTests.markAllConversationsAsRead.value)
-    }
-        
-    var showChatSafetyTips: Bool {
-        if Bumper.enabled {
-            return Bumper.showChatSafetyTips
-        }
-        return abTests.showChatSafetyTips.value
-    }
 
     var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation {
         if Bumper.enabled {
