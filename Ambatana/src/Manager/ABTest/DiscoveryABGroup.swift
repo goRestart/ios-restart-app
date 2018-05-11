@@ -11,8 +11,10 @@ import Foundation
 struct DiscoveryABGroup: ABGroupType {
     private struct Keys {
         static let personalizedFeed = "20180509PersonalizedFeed"
+        static let searchBoxImprovements = "20180511SearchBoxImprovements"
     }
     let personalizedFeed: LeanplumABVariable<Int>
+    let searchBoxImprovements: LeanplumABVariable<Int>
     
     let group: ABGroup = .discovery
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -20,14 +22,20 @@ struct DiscoveryABGroup: ABGroupType {
     var floatVariables: [LeanplumABVariable<Float>] = []
     var boolVariables: [LeanplumABVariable<Bool>] = []
     
-    init(personalizedFeed: LeanplumABVariable<Int>) {
+    init(personalizedFeed: LeanplumABVariable<Int>,
+         searchBoxImprovements: LeanplumABVariable<Int>) {
         self.personalizedFeed = personalizedFeed
-        intVariables.append(contentsOf: [personalizedFeed])
+        self.searchBoxImprovements = searchBoxImprovements
+        intVariables.append(contentsOf: [personalizedFeed, searchBoxImprovements])
     }
     
     static func make() -> DiscoveryABGroup {
+
         return DiscoveryABGroup(personalizedFeed: .makeInt(key: Keys.personalizedFeed,
                                                             defaultValue: 0,
-                                                            groupType: .discovery))
+                                                            groupType: .discovery),
+                                searchBoxImprovements: .makeInt(key: Keys.searchBoxImprovements,
+                                                                 defaultValue: 0,
+                                                                 groupType: .discovery))
     }
 }

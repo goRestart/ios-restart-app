@@ -279,5 +279,10 @@
         "name": "ServicesCategoryOnSalchichasMenu",
         "values": ["control", "baseline", "VariantA", "VariantB", "VariantC"],
         "description": "Show services category on salchichas menu"
+    },
+    {
+        "name": "SearchBoxImprovements",
+        "values": ["control", "baseline", "changeCopy", "biggerBox", "changeCopyAndBoxSize"],
+        "description": "Improve search box visibility by changing its size and copy"
     }
 ]

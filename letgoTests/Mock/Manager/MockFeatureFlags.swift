@@ -103,7 +103,8 @@ final class MockFeatureFlags: FeatureFlaggeable {
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed = .control
     var personalizedFeedABTestIntValue: Int? = nil
-
+    var searchBoxImprovements: SearchBoxImprovements = .control
+    
     //  MARK:  Products
     var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu = .control
 }
