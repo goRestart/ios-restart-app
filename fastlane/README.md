@@ -56,11 +56,11 @@ Clean un-used assets
 fastlane ios clean
 ```
 Clean project
-### ios refresh_dsyms
+### ios update_dsyms
 ```
-fastlane ios refresh_dsyms
+fastlane ios update_dsyms
 ```
-Download all available dSYM symbolication files from iTunes Connect and upload them to crashlytics.
+Download all the given dSYM symbolication files from iTunes Connect and upload them to crashlytics.
 ### ios bumper
 ```
 fastlane ios bumper

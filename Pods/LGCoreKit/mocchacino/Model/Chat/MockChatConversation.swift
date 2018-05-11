@@ -25,12 +25,12 @@ public struct MockChatConversation: ChatConversation {
     
     func makeDictionary() -> [String: Any] {
         var result = [String: Any]()
-        result["conversation_id"] = objectId
-        result["unread_messages_count"] = unreadMessageCount
-        result["last_message_sent_at"] = Int64((lastMessageSentAt ?? Date()).timeIntervalSince1970 * 1000.0)
-        result["am_i_selling"] = amISelling
-        result["product"] = MockChatListing.makeMock().makeDictionary()
-        result["interlocutor"] = MockChatInterlocutor.makeMock().makeDictionary()
+        result[LGChatConversation.CodingKeys.objectId.rawValue] = objectId
+        result[LGChatConversation.CodingKeys.unreadMessageCount.rawValue] = unreadMessageCount
+        result[LGChatConversation.CodingKeys.lastMessageSentAt.rawValue] = Int64((lastMessageSentAt ?? Date()).timeIntervalSince1970 * 1000.0)
+        result[LGChatConversation.CodingKeys.amISelling.rawValue] = amISelling
+        result[LGChatConversation.CodingKeys.listing.rawValue] = MockChatListing.makeMock().makeDictionary()
+        result[LGChatConversation.CodingKeys.interlocutor.rawValue] = MockChatInterlocutor.makeMock().makeDictionary()
         return result
     }
 }

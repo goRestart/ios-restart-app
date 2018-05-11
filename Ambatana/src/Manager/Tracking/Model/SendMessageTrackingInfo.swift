@@ -39,9 +39,9 @@ final class SendMessageTrackingInfo {
     }
 
     @discardableResult
-    func set(quickAnswerType: EventParameterQuickAnswerType?) -> Self {
-        params[.quickAnswerType] = quickAnswerType?.rawValue
-        let isQuickAnswer: EventParameterBoolean = quickAnswerType != nil ? .trueParameter : .falseParameter
+    func set(quickAnswerTypeParameter: String?) -> Self {
+        params[.quickAnswerType] = quickAnswerTypeParameter
+        let isQuickAnswer: EventParameterBoolean = quickAnswerTypeParameter != nil ? .trueParameter : .falseParameter
         params[.quickAnswer] = isQuickAnswer.rawValue
         return self
     }
@@ -100,6 +100,6 @@ extension SendMessageTrackingInfo {
             .set(listing: listing, freePostingModeAllowed: freePostingAllowed)
             .set(interlocutorId: listing.user.objectId)
             .set(messageType: type.chatTrackerType)
-            .set(quickAnswerType: type.quickAnswerType)
+            .set(quickAnswerTypeParameter: type.quickAnswerTypeParameter)
     }
 }

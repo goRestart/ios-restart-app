@@ -6,6 +6,8 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
+import LGCoreKit
+
 enum QuickAnswer: Equatable {
 
     case interested
@@ -26,46 +28,64 @@ enum QuickAnswer: Equatable {
     case freeNotAvailable
 
     case meetingAssistant(chatNorrisABtestVersion: ChatNorris)
+    case dynamic(chatAnswer: ChatAnswer)
+    
 
     static public func ==(lhs: QuickAnswer, rhs: QuickAnswer) -> Bool {
-        switch (lhs, rhs) {
-        case (.interested, .interested):
-            return true
-        case (.notInterested, .notInterested):
-            return true
-        case (.meetUp, .meetUp):
-            return true
-        case (.stillAvailable, .stillAvailable):
-            return true
-        case (.isNegotiable, .isNegotiable):
-            return true
-        case (.likeToBuy, .likeToBuy):
-            return true
-        case (.listingCondition, .listingCondition):
-            return true
-        case (.listingStillForSale, .listingStillForSale):
-            return true
-        case (.listingSold, .listingSold):
-            return true
-        case (.whatsOffer, .whatsOffer):
-            return true
-        case (.negotiableYes, .negotiableYes):
-            return true
-        case (.negotiableNo, .negotiableNo):
-            return true
-        case (.freeStillHave, .freeStillHave):
-            return true
-        case (.freeYours, .freeYours):
-            return true
-        case (.freeAvailable, .freeAvailable):
-            return true
-        case (.freeNotAvailable, .freeNotAvailable):
-            return true
-        case (.meetingAssistant(let lTestVar), .meetingAssistant(let rTestVar)):
-            return lTestVar == rTestVar
-        default:
-            return false
+        switch lhs {
+        case .interested:
+            if case .interested = rhs { return true }
+        case .notInterested:
+            if case .notInterested = rhs { return true }
+        case .meetUp:
+            if case .meetUp = rhs { return true }
+        case .stillAvailable:
+            if case .stillAvailable = rhs { return true }
+        case .isNegotiable:
+            if case .isNegotiable = rhs { return true }
+        case .likeToBuy:
+            if case .likeToBuy = rhs { return true }
+        case .listingCondition:
+            if case .listingCondition = rhs { return true }
+        case .listingStillForSale:
+            if case .listingStillForSale = rhs { return true }
+        case .listingSold:
+            if case .listingSold = rhs { return true }
+        case .whatsOffer:
+            if case .whatsOffer = rhs { return true }
+        case .negotiableYes:
+            if case .negotiableYes = rhs { return true }
+        case .negotiableNo:
+            if case .negotiableNo = rhs { return true }
+        case .freeStillHave:
+            if case .freeStillHave = rhs { return true }
+        case .freeYours:
+            if case .freeYours = rhs { return true }
+        case .freeAvailable:
+            if case .freeAvailable = rhs { return true }
+        case .freeNotAvailable:
+            if case .freeNotAvailable = rhs { return true }
+        case .meetingAssistant(let lhsABTest):
+            if case .meetingAssistant(let rhsABTest) = rhs {
+                return lhsABTest == rhsABTest
+            }
+        case .dynamic(let lhsAnswer):
+            if case .dynamic(let rhsAnswer) = rhs {
+                guard lhsAnswer.id == rhsAnswer.id else { return false }
+                switch lhsAnswer.type {
+                case .replyText(let rhsTextToShow, let rhsTextToReply):
+                    if case ChatAnswerType.replyText(let lhsTextToShow, let lhsTextToReply) = rhsAnswer {
+                        return rhsTextToShow == lhsTextToShow && rhsTextToReply == lhsTextToReply
+                    }
+                case .callToAction(let rhsTextToShow, let rhsTextToReply, let rhsDeeplink):
+                    if case ChatAnswerType.callToAction(let lhsTextToShow, let lhsTextToReply, let lhsDeeplink) = rhsAnswer {
+                        return rhsTextToShow == lhsTextToShow && rhsTextToReply == lhsTextToReply
+                            && rhsDeeplink == lhsDeeplink
+                    }
+                }
+            }
         }
+        return false
     }
 
     var text: String {
@@ -104,45 +124,76 @@ enum QuickAnswer: Equatable {
             return LGLocalizedString.directAnswerFreeNoAvailable
         case .meetingAssistant:
             return LGLocalizedString.directAnswerLetsMeet
+        case .dynamic(let chatAnswer):
+            switch chatAnswer.type {
+            case .replyText(let textToShow, _):
+                return textToShow
+            case .callToAction(let textToShow, _, _):
+                return textToShow
+            }
+        }
+    }
+    
+    var id: String? {
+        switch self {
+        case .interested, .notInterested, .meetUp, .stillAvailable, .isNegotiable, .likeToBuy, .listingCondition,
+            .listingStillForSale, .listingSold, .whatsOffer, .negotiableYes, .negotiableNo, .freeStillHave,
+            .freeYours, .freeAvailable, .freeNotAvailable, .meetingAssistant:
+            return nil
+        case .dynamic(let chatAnswer):
+            return chatAnswer.id
+        }
+    }
+    
+    var key: String? {
+        switch self {
+        case .interested, .notInterested, .meetUp, .stillAvailable, .isNegotiable, .likeToBuy, .listingCondition,
+             .listingStillForSale, .listingSold, .whatsOffer, .negotiableYes, .negotiableNo, .freeStillHave,
+             .freeYours, .freeAvailable, .freeNotAvailable, .meetingAssistant:
+            return nil
+        case .dynamic(let chatAnswer):
+            return chatAnswer.key
         }
     }
 
-    var quickAnswerType: EventParameterQuickAnswerType? {
+    var quickAnswerTypeParameter: String? {
         switch self {
         case .interested:
-            return .interested
+            return EventParameterQuickAnswerType.interested.rawValue
         case .notInterested:
-            return .notInterested
+            return EventParameterQuickAnswerType.notInterested.rawValue
         case .meetUp:
-            return .meetUp
+            return EventParameterQuickAnswerType.meetUp.rawValue
         case .stillAvailable:
-            return .stillAvailable
+            return EventParameterQuickAnswerType.stillAvailable.rawValue
         case .isNegotiable:
-            return .isNegotiable
+            return EventParameterQuickAnswerType.isNegotiable.rawValue
         case .likeToBuy:
-            return .likeToBuy
+            return EventParameterQuickAnswerType.likeToBuy.rawValue
         case .listingCondition:
-            return .listingCondition
+            return EventParameterQuickAnswerType.listingCondition.rawValue
         case .listingStillForSale:
-            return .listingStillForSale
+            return EventParameterQuickAnswerType.listingStillForSale.rawValue
         case .listingSold:
-            return .listingSold
+            return EventParameterQuickAnswerType.listingSold.rawValue
         case .whatsOffer:
-            return .whatsOffer
+            return EventParameterQuickAnswerType.whatsOffer.rawValue
         case .negotiableYes:
-            return .negotiableYes
+            return EventParameterQuickAnswerType.negotiableYes.rawValue
         case .negotiableNo:
-            return .negotiableNo
+            return EventParameterQuickAnswerType.negotiableNo.rawValue
         case .freeStillHave:
-            return .freeStillHave
+            return EventParameterQuickAnswerType.freeStillHave.rawValue
         case .freeYours:
-            return .freeYours
+            return EventParameterQuickAnswerType.freeYours.rawValue
         case .freeAvailable:
-            return .freeAvailable
+            return EventParameterQuickAnswerType.freeAvailable.rawValue
         case .freeNotAvailable:
-            return .freeNotAvailable
+            return EventParameterQuickAnswerType.freeNotAvailable.rawValue
         case .meetingAssistant:
             return nil
+        case .dynamic(let chatAnswer):
+            return chatAnswer.key
         }
     }
 
@@ -208,7 +259,12 @@ enum QuickAnswer: Equatable {
         }
     }
 
-
+    static func quickAnswersForChatMessage(chatViewMessage: ChatViewMessage) -> [QuickAnswer]? {
+        if case .multiAnswer(_, let answers) = chatViewMessage.type {
+            return answers.map { QuickAnswer.dynamic(chatAnswer: $0) }
+        }
+        return nil
+    }
 
     static func quickAnswersForChatWith(buyer: Bool, isFree: Bool, chatNorrisABtestVersion: ChatNorris) -> [QuickAnswer] {
         var result = [QuickAnswer]()

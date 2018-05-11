@@ -13,10 +13,14 @@ extension Date {
     static var dateFormatter: DateFormatter = DateFormatter()
 
     /// Date creation for Chat (websockets).
-    static func makeChatDate(millisecondsIntervalSince1970 milliseconds: Double?) -> Date? {
+    static func makeChatDate(millisecondsIntervalSince1970 milliseconds: TimeInterval?) -> Date? {
         guard let millisecondsValue = milliseconds else { return nil }
         let seconds = millisecondsValue/1000
         return Date(timeIntervalSince1970: seconds)
+    }
+    
+    func millisecondsSince1970() -> TimeInterval {
+        return timeIntervalSince1970*1000
     }
 
     static func userCreationDateFrom(string: String?) -> Date? {

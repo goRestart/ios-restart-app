@@ -507,6 +507,22 @@ struct LGLocalizedString {
 		return NSLocalizedString("change_email_error_already_registered", comment: "")
 	}
 
+	static var chatConversationsListFilterAll: String {
+		return NSLocalizedString("chat_conversations_list_filter_all", comment: "")
+	}
+
+	static var chatConversationsListFilterSelling: String {
+		return NSLocalizedString("chat_conversations_list_filter_selling", comment: "")
+	}
+
+	static var chatConversationsListFilterBuying: String {
+		return NSLocalizedString("chat_conversations_list_filter_buying", comment: "")
+	}
+
+	static var chatConversationsListBlockedUsersButton: String {
+		return NSLocalizedString("chat_conversations_list_blocked_users_button", comment: "")
+	}
+
 	static var chatUserInfoLetgoAssistant: String {
 		return NSLocalizedString("chat_user_info_letgo_assistant", comment: "")
 	}
@@ -1669,6 +1685,14 @@ struct LGLocalizedString {
 
 	static var listingsMapTitle: String {
 		return NSLocalizedString("listings_map_title", comment: "")
+	}
+
+	static var listingsMapNoResultsMessage: String {
+		return NSLocalizedString("listings_map_no_results_message", comment: "")
+	}
+
+	static var listingMapRedoSearch: String {
+		return NSLocalizedString("listing_map_redo_search", comment: "")
 	}
 
 	static var locationPermissionsBubble: String {
