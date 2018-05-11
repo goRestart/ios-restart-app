@@ -36,7 +36,6 @@ final class LoginCoordinator: Coordinator, ChangePasswordPresenter {
     fileprivate let loggedInAction: () -> Void
     fileprivate let cancelAction: (() -> Void)?
 
-    fileprivate let keyValueStorage: KeyValueStorage
     fileprivate let tracker: Tracker
 
     fileprivate let disposeBag = DisposeBag()
@@ -44,29 +43,11 @@ final class LoginCoordinator: Coordinator, ChangePasswordPresenter {
 
     // MARK: - Lifecycle
 
-    convenience init(source: EventParameterLoginSourceValue,
-                     style: LoginStyle,
-                     loggedInAction: @escaping (() -> Void),
-                     cancelAction: (() -> Void)?,
-                     termsAndConditionsEnabled: Bool
-                     ) {
-        self.init(source: source,
-                  style: style,
-                  loggedInAction: loggedInAction,
-                  cancelAction: cancelAction,
-                  bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
-                  keyValueStorage: KeyValueStorage.sharedInstance,
-                  tracker: TrackerProxy.sharedInstance,
-                  sessionManager: Core.sessionManager,
-                  termsAndConditionsEnabled: termsAndConditionsEnabled)
-    }
-
     init(source: EventParameterLoginSourceValue,
          style: LoginStyle,
          loggedInAction: @escaping (() -> Void),
          cancelAction: (() -> Void)?,
          bubbleNotificationManager: BubbleNotificationManager,
-         keyValueStorage: KeyValueStorage,
          tracker: Tracker,
          sessionManager: SessionManager,
          termsAndConditionsEnabled: Bool) {
@@ -76,7 +57,6 @@ final class LoginCoordinator: Coordinator, ChangePasswordPresenter {
         self.loggedInAction = loggedInAction
         self.cancelAction = cancelAction
 
-        self.keyValueStorage = keyValueStorage
         self.tracker = tracker
         self.sessionManager = sessionManager
         let viewModel = SignUpViewModel(appearance: LoginAppearance.light,
