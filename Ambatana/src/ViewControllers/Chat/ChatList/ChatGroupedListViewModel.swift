@@ -416,7 +416,9 @@ fileprivate extension BaseChatGroupedListViewModel {
     
     func trackErrorStateShown(emptyViewModel: LGEmptyViewModel) {
         guard let emptyReason = emptyViewModel.emptyReason else { return }
-        let event = TrackerEvent.emptyStateVisit(typePage: .chatList, reason: emptyReason, errorCode: emptyViewModel.errorCode)
+        let event = TrackerEvent.emptyStateVisit(typePage: .chatList, reason: emptyReason,
+                                                 errorCode: emptyViewModel.errorCode,
+                                                 errorDescription: emptyViewModel.errorDescription)
         tracker.trackEvent(event)
     }
 }

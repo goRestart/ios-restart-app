@@ -666,7 +666,7 @@ extension UserViewModel: ListingListViewModelDataDelegate {
         
         let emptyViewModel = LGEmptyViewModel(icon: nil, title: errTitle, body: nil, buttonTitle: errButTitle,
                                               action: errButAction, secondaryButtonTitle: nil, secondaryAction: nil,
-                                              emptyReason: .emptyResults, errorCode: nil)
+                                              emptyReason: .emptyResults, errorCode: nil, errorDescription: nil)
         
         viewModel.setEmptyState(emptyViewModel)
     }
