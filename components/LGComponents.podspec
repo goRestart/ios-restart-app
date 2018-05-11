@@ -13,6 +13,25 @@ Pod::Spec.new do |s|
 
     s.static_framework = true
 
+    s.subspec 'LGLogin' do |loginSpec|
+	    loginSpec.source_files = 'LGLogin/LGLogin/Classes/**/*'
+        
+        loginSpec.resource_bundles = {
+            'LGLoginBundle' => ['LGLogin/LGLogin/Assets/**/*']
+        }
+	    
+        loginSpec.dependency 'LGComponents/LGAnalytics'
+        loginSpec.dependency 'LGComponents/LGShared'
+    	loginSpec.dependency 'LGComponents/LGResources'
+
+        loginSpec.dependency 'LGCoreKit',       '4.25.0'        
+
+        loginSpec.dependency 'FBSDKLoginKit',   '4.29.0'  # Obj-c
+        loginSpec.dependency 'GoogleSignIn',    '4.1.1'  # Obj-c
+        loginSpec.dependency 'RxSwift',         '4.0.0'
+        loginSpec.dependency 'RxCocoa',         '4.0.0'
+    end
+
     s.subspec 'LGAnalytics' do |spec|
         spec.source_files = 'LGAnalytics/LGAnalytics/Classes/**/*'
         
@@ -27,13 +46,14 @@ Pod::Spec.new do |s|
         spec.dependency 'RxSwift',            '4.0.0'
     end
 
-    s.subspec 'LGLogin' do |loginSpec|
-	    loginSpec.source_files = 'LGLogin/LGLogin/Classes/**/*'
-	    
-    	loginSpec.dependency 'LGComponents/LGResources'
+    s.subspec 'LGShared' do |sharedSpec|  
+        sharedSpec.source_files = 'LGShared/LGShared/Classes/**/*'
 
-    	loginSpec.dependency 'FBSDKLoginKit', '4.29.0'  # Obj-c
-    	loginSpec.dependency 'GoogleSignIn', '4.1.1'  # Obj-c
+        sharedSpec.frameworks = 'CoreText'
+
+        sharedSpec.dependency 'AlamofireImage',       '3.3.0'
+        sharedSpec.dependency 'SwiftyUserDefaults',   '3.0.1'
+        sharedSpec.dependency 'CocoaLumberjack/Swift', '3.3.0'
     end
 
     s.subspec 'LGResources' do |resourcesSpec|

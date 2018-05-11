@@ -35,7 +35,8 @@ def shared_pods
     pod "NewRelicAgent",        "6.1.1"     # Obj-c
 
     # letgo components
-    pod "LGComponents",            :path => "components"
+    pod "LGComponents/LGAnalytics",            :path => "components"
+
 
     # letgo Core
     pod "LGCoreKit",             "4.25.0", :inhibit_warnings => false

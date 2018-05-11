@@ -1,7 +1,7 @@
 {
   "name": "LGComponents",
   "version": "1.0.0",
-  "summary": "Bundle with strings, images and other resources.",
+  "summary": "Framework containing all the different components the Letgo app uses.",
   "homepage": "https://github.com/letgoapp",
   "license": "Copyright",
   "authors": {
@@ -20,15 +20,84 @@
     {
       "name": "LGLogin",
       "source_files": "LGLogin/LGLogin/Classes/**/*",
+      "resource_bundles": {
+        "LGLoginBundle": [
+          "LGLogin/LGLogin/Assets/**/*"
+        ]
+      },
       "dependencies": {
+        "LGComponents/LGAnalytics": [
+
+        ],
+        "LGComponents/LGShared": [
+
+        ],
         "LGComponents/LGResources": [
 
+        ],
+        "LGCoreKit": [
+          "4.25.0"
         ],
         "FBSDKLoginKit": [
           "4.29.0"
         ],
         "GoogleSignIn": [
           "4.1.1"
+        ],
+        "RxSwift": [
+          "4.0.0"
+        ],
+        "RxCocoa": [
+          "4.0.0"
+        ]
+      }
+    },
+    {
+      "name": "LGAnalytics",
+      "source_files": "LGAnalytics/LGAnalytics/Classes/**/*",
+      "dependencies": {
+        "Amplitude-iOS": [
+          "4.0.4"
+        ],
+        "AppsFlyerFramework": [
+          "4.8.2"
+        ],
+        "Branch": [
+          "0.22.5"
+        ],
+        "Crashlytics": [
+          "3.9.3"
+        ],
+        "Fabric": [
+          "1.7.2"
+        ],
+        "FBSDKCoreKit": [
+          "4.29.0"
+        ],
+        "Leanplum-iOS-SDK": [
+          "2.0.5"
+        ],
+        "LGCoreKit": [
+          "4.25.0"
+        ],
+        "RxSwift": [
+          "4.0.0"
+        ]
+      }
+    },
+    {
+      "name": "LGShared",
+      "source_files": "LGShared/LGShared/Classes/**/*",
+      "frameworks": "CoreText",
+      "dependencies": {
+        "AlamofireImage": [
+          "3.3.0"
+        ],
+        "SwiftyUserDefaults": [
+          "3.0.1"
+        ],
+        "CocoaLumberjack/Swift": [
+          "3.3.0"
         ]
       }
     },
@@ -40,14 +109,9 @@
           "LGResources/LGResources/Assets/**/*"
         ]
       },
-      "dependencies": {
-        "SwiftGen": [
-          "5.3.0"
-        ]
-      },
       "script_phases": {
         "name": "Generate R structure",
-        "script": "find \"$PODS_TARGET_SRCROOT\"/LGResources/ -type d -iname *.xcassets -exec \"$PODS_ROOT\"/SwiftGen/bin/swiftgen xcassets -p \"$PODS_TARGET_SRCROOT\"/LGResources/LGResources/swiftgen-template/xcassets/letgo-swift4-template.stencil --param publicAccess -o \"$PODS_TARGET_SRCROOT\"/LGResources/LGResources/Classes/Assets.swift {} +;\"$PODS_ROOT\"/SwiftGen/bin/swiftgen strings -p \"$PODS_TARGET_SRCROOT\"/LGResources/LGResources/swiftgen-template/strings/letgo-flat-swift4.stencil --param publicAccess --param enumName=Strings \"$PODS_TARGET_SRCROOT\"/LGResources/LGResources/Assets/i18n/Base.lproj/Localizable.strings -o \"$PODS_TARGET_SRCROOT\"/LGResources/LGResources/Classes/Strings.swift ;",
+        "script": "${PODS_TARGET_SRCROOT}/LGResources/LGResources/generate-r-struct.sh",
         "execution_position": "before_compile"
       }
     }

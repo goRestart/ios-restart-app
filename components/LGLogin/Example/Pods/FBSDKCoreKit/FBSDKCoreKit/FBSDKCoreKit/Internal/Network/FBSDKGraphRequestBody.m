@@ -28,26 +28,20 @@
 @implementation FBSDKGraphRequestBody
 {
   NSMutableData *_data;
-  NSMutableDictionary *_json;
 }
 
 - (instancetype)init
 {
   if ((self = [super init])) {
     _data = [[NSMutableData alloc] init];
-    _json = [NSMutableDictionary dictionary];
   }
 
   return self;
 }
 
-- (NSString *)mimeContentType
++ (NSString *)mimeContentType
 {
-  if (_json) {
-    return @"application/json";
-  } else {
-    return [NSString stringWithFormat:@"multipart/form-data; boundary=%@",kStringBoundary];
-  }
+  return [NSString stringWithFormat:@"multipart/form-data; boundary=%@", kStringBoundary];
 }
 
 - (void)appendUTF8:(NSString *)utf8
@@ -68,9 +62,6 @@
   [self _appendWithKey:key filename:nil contentType:nil contentBlock:^{
     [self appendUTF8:value];
   }];
-  if (key && value) {
-    [_json setObject:value forKey:key];
-  }
   [logger appendFormat:@"\n    %@:\t%@", key, (NSString *)value];
 }
 
@@ -82,7 +73,6 @@
   [self _appendWithKey:key filename:key contentType:@"image/jpeg" contentBlock:^{
     [_data appendData:data];
   }];
-  _json = nil;
   [logger appendFormat:@"\n    %@:\t<Image - %lu kB>", key, (unsigned long)([data length] / 1024)];
 }
 
@@ -93,7 +83,6 @@
   [self _appendWithKey:key filename:key contentType:@"content/unknown" contentBlock:^{
     [_data appendData:data];
   }];
-  _json = nil;
   [logger appendFormat:@"\n    %@:\t<Data - %lu kB>", key, (unsigned long)([data length] / 1024)];
 }
 
@@ -107,22 +96,11 @@
   [self _appendWithKey:key filename:filename contentType:contentType contentBlock:^{
     [_data appendData:data];
   }];
-  _json = nil;
   [logger appendFormat:@"\n    %@:\t<Data - %lu kB>", key, (unsigned long)([data length] / 1024)];
 }
 
 - (NSData *)data
 {
-  if (_json) {
-    NSData *jsonData;
-    if (_json.allKeys.count > 0) {
-      jsonData = [NSJSONSerialization dataWithJSONObject:_json options:0 error:nil];
-    } else {
-      jsonData = [NSData data];
-    }
-
-    return jsonData;
-  }
   return [_data copy];
 }
 
