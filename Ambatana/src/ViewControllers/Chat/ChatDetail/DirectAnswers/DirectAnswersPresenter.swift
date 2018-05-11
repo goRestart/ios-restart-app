@@ -37,29 +37,12 @@ class DirectAnswersPresenter {
             horizontalView?.answersEnabled = enabled
         }
     }
-    private weak var horizontalView: DirectAnswersHorizontalView?
+    weak var horizontalView: DirectAnswersHorizontalView?
 
-    private var answers: [QuickAnswer] = []
+    var answers: [QuickAnswer] = []
     private static let disabledAlpha: CGFloat = 0.6
 
-
     // MARK: - Public methods
-
-    func setupOnTopOfView(_ sibling: UIView) {
-        guard let parentView = sibling.superview else { return }
-        let defaultHeight = DirectAnswersHorizontalView.Layout.Height.standard
-        let defaultWidth = DirectAnswersHorizontalView.Layout.Width.standard
-        let initialFrame = CGRect(x: 0, y: sibling.top - defaultHeight, width: defaultWidth, height: defaultHeight)
-        let directAnswers = DirectAnswersHorizontalView(frame: initialFrame, answers: answers)
-        directAnswers.delegate = self
-        directAnswers.answersEnabled = enabled
-        directAnswers.isHidden = hidden
-        directAnswers.translatesAutoresizingMaskIntoConstraints = false
-        parentView.insertSubview(directAnswers, belowSubview: sibling)
-        directAnswers.layout(with: parentView).leading().trailing()
-        directAnswers.layout(with: sibling).bottom(to: .top, by: -DirectAnswersHorizontalView.Layout.standardSideMargin)
-        horizontalView = directAnswers
-    }
 
     func setDirectAnswers(_ answers: [QuickAnswer]) {
         self.answers = answers

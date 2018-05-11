@@ -54,7 +54,12 @@ protocol ChatDataSource {
     func typingStopped(_ conversationId: String)
     
     // Commands
-    func sendMessage(_ conversationId: String, messageId: String, type: String, text: String, completion: ChatWebSocketCommandCompletion?)
+    func sendMessage(_ conversationId: String,
+                     messageId: String,
+                     type: WebSocketSendMessageType,
+                     text: String,
+                     answerKey: String?,
+                     completion: ChatWebSocketCommandCompletion?)
     func confirmReception(_ conversationId: String, messageIds: [String], completion: ChatWebSocketCommandCompletion?)
     func confirmRead(_ conversationId: String, messageIds: [String], completion: ChatWebSocketCommandCompletion?)
     func archiveConversations(_ conversationIds: [String], completion: ChatWebSocketCommandCompletion?)

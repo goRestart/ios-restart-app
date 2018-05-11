@@ -137,6 +137,10 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "Por questões de segurança esta conta foi eliminada pela equipa letgo e estas mensagens foram removidas.";
 "chat_connect_account_disclaimer_button" = "Verifique agora!";
 "chat_connect_accounts_title" = "CONSTRUA CONFIANÇA!";
+"chat_conversations_list_blocked_users_button" = "Visualizar utilizadores bloqueados";
+"chat_conversations_list_filter_all" = "Todos";
+"chat_conversations_list_filter_buying" = "A comprar";
+"chat_conversations_list_filter_selling" = "A vender";
 "chat_deleted_disclaimer_w_name" = "Não pode dar continuidade a esta conversa porque a conta de %@ já não se encontra ativa.";
 "chat_deleted_disclaimer_wo_name" = "Não pode dar continuidade a esta conversa porque esta conta já não se encontra ativa.";
 "chat_disclaimer_letgo_team" = "EQUIPA LETGO";
@@ -411,6 +415,8 @@
 "hidden_phone_tag" = "[NÚMERO DE TELEFONE OCULTO]";
 "hidden_text_alert_description" = "Ocultamos os dados de contacto para o ajudarmos a comprar e a vender com segurança. Conversar no letgo é fácil e mais seguro.";
 "hidden_text_alert_title" = "MANTENHA-SE SEGURO";
+"listing_map_redo_search" = "Search this area";
+"listings_map_no_results_message" = "A sua pesquisa não devolveu resultados exatos. Experimente procurar numa área diferente ou usar filtros diferentes.";
 "listings_map_title" = "Vista do mapa";
 "location_permissions_allow_button" = "Permitir";
 "location_permissions_bubble" = "1,60 km de si";
@@ -773,6 +779,7 @@
 "product_post_select_category_motors_and_accessories" = "Outros Veículos e Peças";
 "product_post_select_category_other" = "Outros itens";
 "product_post_select_category_real_estate" = "Imobiliário";
+"product_post_select_category_services" = "Serviços";
 "product_post_select_category_title" = "O que está a publicar?";
 "product_post_use_photo" = "Publicar";
 "product_post_use_photo_not_logged" = "Usar a foto";
@@ -840,10 +847,10 @@
 "profile_favourites_my_user_no_products_label" = "SEM FAVORITOS (AINDA!)";
 "profile_favourites_products_tab" = "Favoritos";
 "profile_karma_improve_score" = "Melhore a sua Pontuação de Verificação";
-"profile_karma_points_title" = "%@ pontos";
+"profile_karma_points_title" = "%@";
 "profile_karma_title" = "Pontuação de Verificação: %@";
 "profile_karma_unverified_points_subtitle" = "%@ pontos";
-"profile_karma_unverified_subtitle" = "Ganhe %@ para receber o emblema de Utilizador Verificado";
+"profile_karma_unverified_subtitle" = "Ganhe %@ para ter o crachá Utilizador Verificado";
 "profile_karma_verified_subtitle" = "Ganhou o emblema!";
 "profile_karma_visibility_title" = "Apenas visível para si";
 "profile_permissions_alert_cancel" = "Agora não";

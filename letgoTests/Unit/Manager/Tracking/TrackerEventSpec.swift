@@ -1711,7 +1711,7 @@ class TrackerEventSpec: QuickSpec {
                     sendMessageInfo = SendMessageTrackingInfo()
                         .set(listing: listing, freePostingModeAllowed: true)
                         .set(messageType: .text)
-                        .set(quickAnswerType: nil)
+                        .set(quickAnswerTypeParameter: nil)
                         .set(typePage: .listingDetail)
                         .set(sellerRating: 4)
                         .set(isBumpedUp: .trueParameter)
@@ -1855,7 +1855,7 @@ class TrackerEventSpec: QuickSpec {
                 describe("quick answer message") {
                     beforeEach {
                         sendMessageInfo.set(messageType: .quickAnswer)
-                        sendMessageInfo.set(quickAnswerType: .notInterested)
+                        sendMessageInfo.set(quickAnswerTypeParameter: EventParameterQuickAnswerType.notInterested.rawValue)
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
                                                         feedPosition: .position(index:1),
@@ -1899,7 +1899,7 @@ class TrackerEventSpec: QuickSpec {
                         .set(chatListing: product, freePostingModeAllowed: true)
                         .set(interlocutorId: "67890")
                         .set(messageType: .text)
-                        .set(quickAnswerType: nil)
+                        .set(quickAnswerTypeParameter: nil)
                         .set(typePage: .listingDetail)
                         .set(sellerRating: 4)
                         .set(isBumpedUp: .trueParameter)
@@ -2031,7 +2031,7 @@ class TrackerEventSpec: QuickSpec {
                 describe("quick answer message") {
                     beforeEach {
                         sendMessageInfo.set(messageType: .quickAnswer)
-                        sendMessageInfo.set(quickAnswerType: .notInterested)
+                        sendMessageInfo.set(quickAnswerTypeParameter: EventParameterQuickAnswerType.notInterested.rawValue)
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
                                                         feedPosition: .position(index:1),
@@ -3559,7 +3559,7 @@ class TrackerEventSpec: QuickSpec {
                     sendMessageInfo = SendMessageTrackingInfo()
                         .set(listing: .product(product), freePostingModeAllowed: true)
                         .set(messageType: .text)
-                        .set(quickAnswerType: nil)
+                        .set(quickAnswerTypeParameter: nil)
                         .set(typePage: .chat)
                         .set(sellerRating: 4)
                         .set(isBumpedUp: .trueParameter)
@@ -3663,7 +3663,7 @@ class TrackerEventSpec: QuickSpec {
                 describe("quick answer message") {
                     beforeEach {
                         sendMessageInfo.set(messageType: .quickAnswer)
-                        sendMessageInfo.set(quickAnswerType: .notInterested)
+                        sendMessageInfo.set(quickAnswerTypeParameter: EventParameterQuickAnswerType.notInterested.rawValue)
                         sut = TrackerEvent.userMessageSent(info: sendMessageInfo)
                     }
                     it("has message-type param with value text") {
@@ -3708,7 +3708,7 @@ class TrackerEventSpec: QuickSpec {
                     sendMessageInfo = SendMessageTrackingInfo()
                         .set(listing: .product(product), freePostingModeAllowed: true)
                         .set(messageType: .text)
-                        .set(quickAnswerType: nil)
+                        .set(quickAnswerTypeParameter: nil)
                         .set(typePage: .chat)
                         .set(sellerRating: 4)
                         .set(isBumpedUp: .trueParameter)
@@ -3808,7 +3808,7 @@ class TrackerEventSpec: QuickSpec {
                 describe("quick answer message") {
                     beforeEach {
                         sendMessageInfo.set(messageType: .quickAnswer)
-                        sendMessageInfo.set(quickAnswerType: .notInterested)
+                        sendMessageInfo.set(quickAnswerTypeParameter: EventParameterQuickAnswerType.notInterested.rawValue)
                         sut = TrackerEvent.userMessageSentError(info: sendMessageInfo)
                     }
                     it("has message-type param with value text") {
@@ -4974,6 +4974,23 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("mark-messages-as-read"))
+                }
+            }
+            
+            describe("chat letgo service message received") {
+                beforeEach {
+                    sut = TrackerEvent.chatLetgoServiceQuestionReceived(questionKey: "key", listingId: "1234")
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("chat-letgo-service-question-received"))
+                }
+                it("contains the key") {
+                    let param = sut.params!.stringKeyParams["message-goal"] as? String
+                    expect(param) == "key"
+                }
+                it("contains the listing id") {
+                    let param = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(param) == "1234"
                 }
             }
             

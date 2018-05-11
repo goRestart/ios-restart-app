@@ -942,6 +942,13 @@ struct TrackerEvent {
         params[.shownReason] = shownReason.rawValue
         return TrackerEvent(name: .chatRelatedItemsComplete, params: params)
     }
+    
+    static func chatLetgoServiceQuestionReceived(questionKey: String, listingId: String) -> TrackerEvent {
+        var params = EventParameters()
+        params[.messageGoal] = questionKey
+        params[.listingId] = listingId
+        return TrackerEvent(name: .chatLetgoServiceQuestionReceived, params: params)
+    }
 
     static func profileVisit(_ user: User, profileType: EventParameterProfileType, typePage: EventParameterTypePage, tab: EventParameterTab)
         -> TrackerEvent {
@@ -1200,6 +1207,10 @@ struct TrackerEvent {
     
     static func chatMarkMessagesAsRead() -> TrackerEvent {
         return TrackerEvent(name: .markMessagesAsRead, params: EventParameters())
+    }
+    
+    static func chatUpdateAppWarningShow() -> TrackerEvent {
+        return TrackerEvent(name: .chatUpdateAppWarningShow, params: EventParameters())
     }
     
     static func expressChatStart(_ trigger: EventParameterExpressChatTrigger) -> TrackerEvent {

@@ -9,7 +9,7 @@
 public enum ChatEventType: Equatable {
     case interlocutorTypingStarted
     case interlocutorTypingStopped
-    case interlocutorMessageSent(messageId: String, sentAt: Date, text: String, type: ChatMessageType)
+    case interlocutorMessageSent(messageId: String, sentAt: Date, content: ChatMessageContent)
     case interlocutorReceptionConfirmed(messagesIds: [String])
     case interlocutorReadConfirmed(messagesIds: [String])
     case authenticationTokenExpired
@@ -21,9 +21,11 @@ public enum ChatEventType: Equatable {
             return true
         case (.interlocutorTypingStopped, .interlocutorTypingStopped):
             return true
-        case (.interlocutorMessageSent(let messageIdA, let sentAtA, let textA, let typeA),
-              .interlocutorMessageSent(let messageIdB, let sentAtB, let textB, let typeB)):
-            return messageIdA == messageIdB && sentAtA == sentAtB && textA == textB && typeA == typeB
+        case (.interlocutorMessageSent(let messageIdA, let sentAtA, let contentA),
+              .interlocutorMessageSent(let messageIdB, let sentAtB, let contentB)):
+            guard let lgContentA = contentA as? LGChatMessageContent,
+                let lgContentB = contentB as? LGChatMessageContent else { return false }
+            return messageIdA == messageIdB && sentAtA == sentAtB && lgContentA == lgContentB
         case (.interlocutorReceptionConfirmed(let messageIdsA),
               .interlocutorReceptionConfirmed(let messageIdsB)):
             return messageIdsA == messageIdsB
@@ -79,8 +81,12 @@ struct LGChatEvent: ChatEvent, Decodable {
      "conversation_id": [uuid],
      "warnings": [array[string]]
      "sent_at": [unix_timestamp],
-     "message_type": [string],
-     "text": [string]
+     "content": {
+        "text": "Hi! I'd like to buy it",
+        "type": "text",
+        "default": "You've received a message not supported for your app version.
+                    \nPlease update your app to use the newest features!"
+     }
      }
      }
      
@@ -139,8 +145,7 @@ struct LGChatEvent: ChatEvent, Decodable {
         case .interlocutorMessageSent:
             guard let messageId = data.messageId,
                 let sendAt = data.sentAt,
-                let text = data.text,
-                let messageType = data.messageType
+                let content = data.content
             else {
                 throw DecodingError.valueNotFound(ChatEventDataDecodable.self,
                                                   DecodingError.Context(codingPath: [],
@@ -148,8 +153,7 @@ struct LGChatEvent: ChatEvent, Decodable {
             }
             type = .interlocutorMessageSent(messageId: messageId,
                                             sentAt: sendAt,
-                                            text: text,
-                                            type: messageType)
+                                            content: content)
         case .interlocutorReceptionConfirmed:
             guard let messageIds = data.messageIds else {
                 throw DecodingError.valueNotFound(ChatEventDataDecodable.self,
@@ -178,7 +182,7 @@ struct LGChatEvent: ChatEvent, Decodable {
     }
 }
 
-private enum ChatEventTypeDecodable: String, Decodable {
+enum ChatEventTypeDecodable: String, Decodable {
     case interlocutorTypingStarted = "interlocutor_typing_started"
     case interlocutorTypingStopped = "interlocutor_typing_stopped"
     case interlocutorMessageSent = "interlocutor_message_sent"
@@ -188,15 +192,14 @@ private enum ChatEventTypeDecodable: String, Decodable {
     case talkerUnauthenticated = "talker_unauthenticated"
 }
 
-private struct ChatEventDataDecodable: Decodable {
+struct ChatEventDataDecodable: Decodable {
     let messageId: String?
     let messageIds: [String]?
     let conversationId: String?
     let warnings: [ChatMessageWarning]?
     let sentAt: Date?
-    let messageType: ChatMessageType?
-    let text: String?
     let talkerId: String?
+    let content: ChatMessageContent?
     
     public init(from decoder: Decoder) throws {
         let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
@@ -204,11 +207,10 @@ private struct ChatEventDataDecodable: Decodable {
         messageIds = try keyedContainer.decodeIfPresent([String].self, forKey: .messageIds)
         conversationId = try keyedContainer.decodeIfPresent(String.self, forKey: .conversationId)
         warnings = (try keyedContainer.decodeIfPresent(FailableDecodableArray<ChatMessageWarning>.self, forKey: .warnings))?.validElements
-        let sentAtValue = try keyedContainer.decodeIfPresent(Double.self, forKey: .sentAt)
+        let sentAtValue = try keyedContainer.decodeIfPresent(TimeInterval.self, forKey: .sentAt)
         sentAt = Date.makeChatDate(millisecondsIntervalSince1970: sentAtValue)
-        messageType = try keyedContainer.decodeIfPresent(ChatMessageType.self, forKey: .messageType)
-        text = try keyedContainer.decodeIfPresent(String.self, forKey: .text)
         talkerId = try keyedContainer.decodeIfPresent(String.self, forKey: .talkerId)
+        content = try keyedContainer.decodeIfPresent(LGChatMessageContent.self, forKey: .content)
     }
     
     enum CodingKeys: String, CodingKey {
@@ -217,8 +219,7 @@ private struct ChatEventDataDecodable: Decodable {
         case conversationId = "conversation_id"
         case warnings
         case sentAt = "sent_at"
-        case messageType = "message_type"
-        case text
         case talkerId = "talker_id"
+        case content
     }
 }
