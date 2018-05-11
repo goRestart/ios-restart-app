@@ -100,8 +100,7 @@ final class UserPhoneVerificationNumberInputViewModel: BaseViewModel {
     func didTapContinueButton(with phoneNumber: String) {
         guard let callingCode = country.value?.callingCode else { return }
         requestCode(withCallingCode: callingCode, phoneNumber: phoneNumber) { [weak self] in
-            let fullNumber = "+\(callingCode) \(phoneNumber)"
-            self?.navigator?.openCodeInput(sentTo: fullNumber)
+            self?.navigator?.openCodeInput(sentTo: phoneNumber, with: callingCode)
         }
     }
 
