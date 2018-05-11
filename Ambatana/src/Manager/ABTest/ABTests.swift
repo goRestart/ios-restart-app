@@ -45,6 +45,7 @@ class ABTests {
     let chat = ChatABGroup.make()
     let core = CoreABGroup.make()
     let users = UsersABGroup.make()
+    let discovery = DiscoveryABGroup.make()
     let products = ProductsABGroup.make()
 
 
@@ -67,6 +68,7 @@ class ABTests {
         result.append(contentsOf: chat.intVariables)
         result.append(contentsOf: core.intVariables)
         result.append(contentsOf: users.intVariables)
+        result.append(contentsOf: discovery.intVariables)
         result.append(contentsOf: products.intVariables)
         return result
     }
@@ -81,6 +83,7 @@ class ABTests {
         result.append(contentsOf: chat.boolVariables)
         result.append(contentsOf: core.boolVariables)
         result.append(contentsOf: users.boolVariables)
+        result.append(contentsOf: discovery.boolVariables)
         result.append(contentsOf: products.boolVariables)
         return result
     }
@@ -107,6 +110,27 @@ class ABTests {
         trackingData.append(contentsOf: syncer.trackingData(variables: uniquesFloat))
 
         self.trackingData.value = trackingData
+    }
+}
+
+// MARK: Discovery
+    
+extension ABTests {
+    var personalizedFeed: LeanplumABVariable<Int> {
+        return discovery.personalizedFeed
+    }
+    
+    /**
+     It is for a special request from Discovery team.
+     
+     This AB test has 3 cases: control(0), baseline(1) and active(2)
+     But they want to be able to send values that are larger than 2 without us touching the code.
+     
+     Therefore, the test is considered active if the value is > 1
+     ABIOS-4113 https://ambatana.atlassian.net/browse/ABIOS-4113
+    */
+    var personlizedFeedIsActive: Bool {
+        return personalizedFeed.value > 1
     }
 }
 
@@ -138,6 +162,7 @@ extension ABTests {
     var userIsTyping: LeanplumABVariable<Int> { return chat.userIsTyping }
     var markAllConversationsAsRead: LeanplumABVariable<Int> { return chat.markAllConversationsAsRead }
     var chatNorris: LeanplumABVariable<Int> { return chat.chatNorris }
+    var chatConversationsListWithoutTabs: LeanplumABVariable<Int> { return chat.chatConversationsListWithoutTabs }
 }
 
 //  MARK: Money

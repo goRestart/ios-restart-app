@@ -24,4 +24,5 @@ struct StagingEnvironment: Environment {
     let spellCorrectorBaseURL = "https://spellcorrector.stg.letgo.com"
     let meetingsBaseURL = "https://meeting.stg.letgo.com"
     let searchAlertsBaseURL = "https://searchalerts.stg.letgo.com"
+    let customFeedBaseURL = "https://customfeed.stg.letgo.com"
 }

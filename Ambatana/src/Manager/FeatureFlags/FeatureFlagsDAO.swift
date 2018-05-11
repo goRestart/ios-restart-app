@@ -15,4 +15,6 @@ protocol FeatureFlagsDAO {
     func save(showAdvanceReputationSystem: ShowAdvancedReputationSystem)
     func retrieveEmergencyLocate() -> EmergencyLocate?
     func save(emergencyLocate: EmergencyLocate)
+    func retrieveChatConversationsListWithoutTabs() -> ChatConversationsListWithoutTabs?
+    func save(chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs)
 }

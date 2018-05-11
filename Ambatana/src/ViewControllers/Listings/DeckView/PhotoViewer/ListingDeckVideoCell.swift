@@ -84,7 +84,7 @@ final class ListingDeckVideoCell: UICollectionViewCell, ReusableCell {
         videoPreviewView.play()
 
         delay(0.5, completion: { [weak self] in
-            self?.videoPreviewView.alphaAnimated(1)
+            self?.videoPreviewView.animateTo(alpha: 1)
         })
     }
     

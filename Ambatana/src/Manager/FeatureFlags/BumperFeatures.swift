@@ -66,6 +66,8 @@ extension Bumper  {
         flags.append(EmergencyLocate.self)
         flags.append(RealEstateMap.self)
         flags.append(IAmInterestedFeed.self)
+        flags.append(ChatConversationsListWithoutTabs.self)
+        flags.append(PersonalizedFeed.self)
         flags.append(ServicesCategoryOnSalchichasMenu.self)
         Bumper.initialize(flags)
     } 
@@ -333,6 +335,16 @@ extension Bumper  {
     static var iAmInterestedFeed: IAmInterestedFeed {
         guard let value = Bumper.value(for: IAmInterestedFeed.key) else { return .control }
         return IAmInterestedFeed(rawValue: value) ?? .control 
+    }
+
+    static var chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs {
+        guard let value = Bumper.value(for: ChatConversationsListWithoutTabs.key) else { return .control }
+        return ChatConversationsListWithoutTabs(rawValue: value) ?? .control 
+    }
+
+    static var personalizedFeed: PersonalizedFeed {
+        guard let value = Bumper.value(for: PersonalizedFeed.key) else { return .control }
+        return PersonalizedFeed(rawValue: value) ?? .control 
     }
 
     static var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu {
@@ -1162,6 +1174,38 @@ enum IAmInterestedFeed: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .hidden
+            default: return .control
+        }
+    }
+}
+
+enum ChatConversationsListWithoutTabs: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ChatConversationsListWithoutTabs.control.rawValue }
+    static var enumValues: [ChatConversationsListWithoutTabs] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Chat conversation list without tabs" } 
+    static func fromPosition(_ position: Int) -> ChatConversationsListWithoutTabs {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum PersonalizedFeed: String, BumperFeature  {
+    case control, baseline, personalized
+    static var defaultValue: String { return PersonalizedFeed.control.rawValue }
+    static var enumValues: [PersonalizedFeed] { return [.control, .baseline, .personalized]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Personalize the feed" } 
+    static func fromPosition(_ position: Int) -> PersonalizedFeed {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .personalized
             default: return .control
         }
     }

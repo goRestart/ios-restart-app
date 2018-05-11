@@ -27,4 +27,5 @@ protocol Environment {
     var spellCorrectorBaseURL: String { get }
     var meetingsBaseURL: String { get }
     var searchAlertsBaseURL: String { get }
+    var customFeedBaseURL: String { get }
 }
