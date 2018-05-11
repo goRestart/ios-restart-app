@@ -268,7 +268,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
             self?.onboardingView.backgroundColor = .clear
             UIView.animate(withDuration: 0.2, animations: {
                 self?.onboardingView.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
-                self?.onboardingView.center = self?.cameraView.machineLearningButton.center ?? CGPoint.zero
+                self?.onboardingView.center = self?.cameraView.machineLearningButtonCenter ?? CGPoint.zero
             }, completion: { _ in
                 self?.onboardingView.removeFromSuperview()
             })

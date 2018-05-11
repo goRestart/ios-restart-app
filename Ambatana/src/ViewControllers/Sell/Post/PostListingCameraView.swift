@@ -43,7 +43,7 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
     @IBOutlet weak var headerContainer: UIView!
     @IBOutlet weak var flashButton: UIButton!
     @IBOutlet weak var retryPhotoButton: UIButton!
-    let machineLearningButton = UIButton(type: .custom)
+    private let machineLearningButton = UIButton(type: .custom)
 
     @IBOutlet weak var firstTimeAlertContainer: UIView!
     @IBOutlet weak var firstTimeAlert: UIView!
@@ -67,11 +67,16 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
         }
     }
 
+    var machineLearningButtonCenter: CGPoint {
+        return machineLearningButton.center
+    }
+
     weak var delegate: PostListingCameraViewDelegate? {
         didSet {
             viewModel.cameraDelegate = delegate
         }
     }
+
     fileprivate var viewModel: PostListingCameraViewModel
 
     fileprivate let camera = LGCamera()
