@@ -14,19 +14,19 @@ final class EditUserBioViewController: BaseViewController {
     private let viewModel: EditUserBioViewModel
     private let textView = UITextView()
     private let placeholderLabel = UILabel()
+    private let charCounterLabel = UILabel()
     private let saveButton = LetgoButton(withStyle: .primary(fontSize: .big))
     private let disposeBag = DisposeBag()
     private let keyboardHelper = KeyboardHelper()
     private var saveButtonBottomConstraint: NSLayoutConstraint?
-    fileprivate let characterLimit = 150
+    private let characterLimit = 150
 
     struct Layout {
-        static let sideMargin: CGFloat = 20
+        static let margin: CGFloat = 20
         static let placeholderTopMargin: CGFloat = 8
         static let placeholderSideMargin: CGFloat = 5
         static let saveButtonHeight: CGFloat = 50
         static let saveButtonBottomMargin: CGFloat = 15
-        static let textViewHeight: CGFloat = 300
     }
 
     init(viewModel: EditUserBioViewModel) {
@@ -57,7 +57,7 @@ final class EditUserBioViewController: BaseViewController {
 
     private func setupUI() {
         view.backgroundColor = .white
-        view.addSubviewsForAutoLayout([textView, saveButton, placeholderLabel])
+        view.addSubviewsForAutoLayout([textView, saveButton, placeholderLabel, charCounterLabel])
         title = LGLocalizedString.changeBioTitle
 
         textView.tintColor = UIColor.primaryColor
@@ -69,6 +69,10 @@ final class EditUserBioViewController: BaseViewController {
         placeholderLabel.font = UIFont.bigBodyFont
         placeholderLabel.textColor = UIColor.placeholder
 
+        charCounterLabel.text = "\(characterLimit)"
+        charCounterLabel.font = .smallBodyFont
+        charCounterLabel.textColor = .darkGrayText
+
         saveButton.setTitle(LGLocalizedString.changeBioSaveButton, for: .normal)
         saveButton.addTarget(self, action: #selector(didTapSave), for: .touchUpInside)
         setupConstraints()
@@ -76,21 +80,27 @@ final class EditUserBioViewController: BaseViewController {
 
     private func setupConstraints() {
         var constraints = [
-            textView.topAnchor.constraint(equalTo: safeTopAnchor, constant: Layout.sideMargin),
-            textView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: Layout.sideMargin),
-            textView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -Layout.sideMargin),
-            textView.heightAnchor.constraint(equalToConstant: Layout.textViewHeight),
+            textView.topAnchor.constraint(equalTo: safeTopAnchor, constant: Layout.margin),
+            textView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: Layout.margin),
+            textView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -Layout.margin),
             placeholderLabel.topAnchor.constraint(equalTo: textView.topAnchor, constant: Layout.placeholderTopMargin),
             placeholderLabel.leftAnchor.constraint(equalTo: textView.leftAnchor, constant: Layout.placeholderSideMargin),
             placeholderLabel.rightAnchor.constraint(equalTo: textView.rightAnchor, constant: -Layout.placeholderSideMargin),
-            saveButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: Layout.sideMargin),
-            saveButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -Layout.sideMargin),
+
+            charCounterLabel.topAnchor.constraint(equalTo: textView.bottomAnchor, constant: Layout.margin),
+            charCounterLabel.rightAnchor.constraint(equalTo: textView.rightAnchor),
+            charCounterLabel.bottomAnchor.constraint(equalTo: saveButton.topAnchor, constant: -Layout.margin),
+
+            saveButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: Layout.margin),
+            saveButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -Layout.margin),
             saveButton.heightAnchor.constraint(equalToConstant: Layout.saveButtonHeight)
         ]
         let save = saveButton.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -Layout.saveButtonBottomMargin)
         constraints.append(save)
         NSLayoutConstraint.activate(constraints)
         saveButtonBottomConstraint = save
+
+        charCounterLabel.setContentHuggingPriority(.required, for: .vertical)
     }
 
     private func setupRx() {
@@ -127,6 +137,18 @@ extension EditUserBioViewController: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let currentText = textView.text as NSString
         let updatedText = currentText.replacingCharacters(in: range, with: text)
+        updateCharCounterWith(count: updatedText.count)
+
+        if updatedText.count > characterLimit {
+            textView.text = String(updatedText.prefix(characterLimit))
+        }
+
         return updatedText.count <= characterLimit
+    }
+
+    private func updateCharCounterWith(count: Int) {
+        let counter = characterLimit-count < 0 ? 0 : characterLimit-count
+        charCounterLabel.text = "\(counter)"
+        charCounterLabel.textColor = count <= 0 ? .darkGrayText : .blackText
     }
 }
