@@ -20,6 +20,7 @@ enum ABGroup {
     case chat
     case products
     case users
+    case discovery
 }
 
 protocol ABVariable {

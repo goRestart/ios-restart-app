@@ -435,7 +435,7 @@ extension ProductVMTrackHelper {
         let sendMessageInfo = SendMessageTrackingInfo()
             .set(listing: listing, freePostingModeAllowed: featureFlags.freePostingModeAllowed)
             .set(messageType: messageType.chatTrackerType)
-            .set(quickAnswerType: messageType.quickAnswerType)
+            .set(quickAnswerTypeParameter: messageType.quickAnswerTypeParameter)
             .set(typePage: .listingDetail)
             .set(isBumpedUp: isBumpedUp)
             .set(containsEmoji: messageType.text.containsEmoji)

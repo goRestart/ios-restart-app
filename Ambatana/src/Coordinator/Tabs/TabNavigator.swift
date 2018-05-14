@@ -116,6 +116,7 @@ protocol SimpleProductsNavigator: class {
 
 protocol ChatDetailNavigator: TabNavigator {
     func closeChatDetail()
+    func openDeeplink(url: URL)
     func openExpressChat(_ listings: [Listing], sourceListingId: String, manualOpen: Bool)
     func selectBuyerToRate(source: RateUserSource,
                            buyers: [UserListing],

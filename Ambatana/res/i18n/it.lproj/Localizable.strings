@@ -137,6 +137,10 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "Per ragioni di sicurezza, questo account è stato eliminato dal team letgo e questi messaggi sono stati rimossi.";
 "chat_connect_account_disclaimer_button" = "Verifica subito!";
 "chat_connect_accounts_title" = "SVILUPPA FIDUCIA!";
+"chat_conversations_list_blocked_users_button" = "Visualizza utenti bloccati";
+"chat_conversations_list_filter_all" = "Tutti";
+"chat_conversations_list_filter_buying" = "Acquisti";
+"chat_conversations_list_filter_selling" = "Vendite";
 "chat_deleted_disclaimer_w_name" = "Non puoi continuare questa conversazione perché l'account di %@ non è più attivo.";
 "chat_deleted_disclaimer_wo_name" = "Non puoi continuare questa conversazione perché questo account non è più attivo.";
 "chat_disclaimer_letgo_team" = "IL TEAM DI LETGO";
@@ -172,8 +176,8 @@
 "chat_list_buying_title" = "ACQUISTI";
 "chat_list_delete" = "Elimina";
 "chat_list_delete_alert_send" = "Elimina";
-"chat_list_delete_alert_text_multiple" = "Stai per eliminare queste conversazioni";
-"chat_list_delete_alert_text_one" = "Stai per eliminare questa conversazione";
+"chat_list_delete_alert_text_multiple" = "Stai per eliminare definitivamente queste conversazioni";
+"chat_list_delete_alert_text_one" = "Stai per eliminare definitivamente questa conversazione";
 "chat_list_delete_alert_title_multiple" = "Elimina Conversazioni";
 "chat_list_delete_alert_title_one" = "Elimina Conversazione";
 "chat_list_delete_error_one" = "Si è verificato un errore durante l'eliminazione di questa conversazione. Riprova.";
@@ -411,6 +415,8 @@
 "hidden_phone_tag" = "[NUMERO DI TELEFONO NASCOSTO]";
 "hidden_text_alert_description" = "Nascondiamo le informazioni di contatto per proteggere le tue compravendite. Chattare all'interno di letgo è più facile e sicuro.";
 "hidden_text_alert_title" = "CONSIGLI PER LA SICUREZZA";
+"listing_map_redo_search" = "Search this area";
+"listings_map_no_results_message" = "Nessuna risultato esatto per la tua ricerca. Prova a cercare in una zona diversa o utilizzare altri filtri.";
 "listings_map_title" = "Visualizzazione mappa";
 "location_permissions_allow_button" = "Consenti";
 "location_permissions_bubble" = "0.1 km da te";
@@ -773,6 +779,7 @@
 "product_post_select_category_motors_and_accessories" = "Altri veicoli e ricambi";
 "product_post_select_category_other" = "Altri articoli";
 "product_post_select_category_real_estate" = "Immobili";
+"product_post_select_category_services" = "Servizi";
 "product_post_select_category_title" = "Che cosa stai pubblicando?";
 "product_post_use_photo" = "Pubblica";
 "product_post_use_photo_not_logged" = "Utilizza foto";

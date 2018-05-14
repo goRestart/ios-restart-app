@@ -137,6 +137,10 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "For safety reasons, this account has been deleted by the letgo team and these messages have been removed.";
 "chat_connect_account_disclaimer_button" = "Verify now!";
 "chat_connect_accounts_title" = "BUILD TRUST!";
+"chat_conversations_list_blocked_users_button" = "View blocked users";
+"chat_conversations_list_filter_all" = "All";
+"chat_conversations_list_filter_buying" = "Buying";
+"chat_conversations_list_filter_selling" = "Selling";
 "chat_deleted_disclaimer_w_name" = "You can't continue this conversation because %@'s account is no longer active.";
 "chat_deleted_disclaimer_wo_name" = "You can't continue this conversation because this account is no longer active.";
 "chat_disclaimer_letgo_team" = "LETGO TEAM";
@@ -411,6 +415,8 @@
 "hidden_phone_tag" = "[PHONE NUMBER HIDDEN]";
 "hidden_text_alert_description" = "We hide contact information to help you buy and sell safely. Chatting inside letgo is easy and more secure.";
 "hidden_text_alert_title" = "STAY SAFE";
+"listing_map_redo_search" = "Search this area";
+"listings_map_no_results_message" = "No exact matches for your search. Try looking in a different area or using different filters.";
 "listings_map_title" = "Map view";
 "location_permissions_allow_button" = "Allow";
 "location_permissions_bubble" = "0.1 mi from you";
@@ -773,6 +779,7 @@
 "product_post_select_category_motors_and_accessories" = "Other Vehicles and Parts";
 "product_post_select_category_other" = "Other items";
 "product_post_select_category_real_estate" = "Real Estate";
+"product_post_select_category_services" = "Services";
 "product_post_select_category_title" = "What are you posting?";
 "product_post_use_photo" = "Post";
 "product_post_use_photo_not_logged" = "Use photo";

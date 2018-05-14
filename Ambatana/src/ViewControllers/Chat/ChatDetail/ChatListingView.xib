@@ -80,10 +80,14 @@
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pro_tag" translatesAutoresizingMaskIntoConstraints="NO" id="6ND-9Y-PKj">
                             <rect key="frame" x="0.0" y="63.5" width="89" height="29.5"/>
                         </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_assistant_tag" translatesAutoresizingMaskIntoConstraints="NO" id="V3S-fd-YlA" userLabel="letgo assistance tag">
+                            <rect key="frame" x="75" y="79" width="14" height="14"/>
+                        </imageView>
                     </subviews>
                     <constraints>
                         <constraint firstItem="6ND-9Y-PKj" firstAttribute="baseline" secondItem="8L5-nL-5he" secondAttribute="baseline" id="1yF-Qr-ZIh"/>
                         <constraint firstItem="6kP-z9-oUp" firstAttribute="centerY" secondItem="8L5-nL-5he" secondAttribute="centerY" id="9sc-9U-VvE"/>
+                        <constraint firstItem="V3S-fd-YlA" firstAttribute="bottom" secondItem="8L5-nL-5he" secondAttribute="bottom" id="C6M-vo-q00"/>
                         <constraint firstAttribute="bottom" secondItem="ruo-Pz-RdL" secondAttribute="bottom" constant="8" id="DeL-gR-JdU"/>
                         <constraint firstItem="ruo-Pz-RdL" firstAttribute="top" secondItem="BMI-MF-wDZ" secondAttribute="top" constant="3" id="Dpb-SW-UTA"/>
                         <constraint firstAttribute="trailing" secondItem="tXA-rl-mNl" secondAttribute="trailing" id="E8T-F9-LyL"/>
@@ -100,6 +104,7 @@
                         <constraint firstItem="tXA-rl-mNl" firstAttribute="width" secondItem="VgI-GQ-SIV" secondAttribute="width" id="e40-Vu-Cwk"/>
                         <constraint firstItem="8L5-nL-5he" firstAttribute="leading" secondItem="BMI-MF-wDZ" secondAttribute="leading" id="kP8-m6-gHq"/>
                         <constraint firstItem="6kP-z9-oUp" firstAttribute="leading" secondItem="8L5-nL-5he" secondAttribute="trailing" constant="5" id="l6y-PA-VZ9"/>
+                        <constraint firstItem="V3S-fd-YlA" firstAttribute="trailing" secondItem="8L5-nL-5he" secondAttribute="trailing" id="m4Z-8Y-4Sg"/>
                         <constraint firstItem="tXA-rl-mNl" firstAttribute="top" secondItem="BMI-MF-wDZ" secondAttribute="top" id="mN5-Uw-gbg"/>
                         <constraint firstItem="VgI-GQ-SIV" firstAttribute="top" secondItem="BMI-MF-wDZ" secondAttribute="top" id="nkl-4g-Tk8"/>
                         <constraint firstItem="6ND-9Y-PKj" firstAttribute="centerX" secondItem="8L5-nL-5he" secondAttribute="centerX" id="pHa-bC-IyG"/>
@@ -125,6 +130,7 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="backgroundView" destination="BMI-MF-wDZ" id="nry-t8-f6l"/>
+                <outlet property="letgoAssistantTag" destination="V3S-fd-YlA" id="5bj-CU-1F8"/>
                 <outlet property="listingButton" destination="tXA-rl-mNl" id="15R-Xv-xSD"/>
                 <outlet property="listingImage" destination="ruo-Pz-RdL" id="Jmg-Ze-nnw"/>
                 <outlet property="listingName" destination="29i-nA-Bwk" id="Xw7-Ug-WRM"/>
@@ -138,6 +144,7 @@
         </view>
     </objects>
     <resources>
+        <image name="ic_assistant_tag" width="14" height="14"/>
         <image name="pro_tag" width="49" height="18"/>
     </resources>
 </document>

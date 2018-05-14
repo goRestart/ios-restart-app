@@ -66,7 +66,10 @@ extension Bumper  {
         flags.append(EmergencyLocate.self)
         flags.append(RealEstateMap.self)
         flags.append(IAmInterestedFeed.self)
+        flags.append(ChatConversationsListWithoutTabs.self)
+        flags.append(PersonalizedFeed.self)
         flags.append(ServicesCategoryOnSalchichasMenu.self)
+        flags.append(SearchBoxImprovements.self)
         Bumper.initialize(flags)
     } 
 
@@ -335,9 +338,24 @@ extension Bumper  {
         return IAmInterestedFeed(rawValue: value) ?? .control 
     }
 
+    static var chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs {
+        guard let value = Bumper.value(for: ChatConversationsListWithoutTabs.key) else { return .control }
+        return ChatConversationsListWithoutTabs(rawValue: value) ?? .control 
+    }
+
+    static var personalizedFeed: PersonalizedFeed {
+        guard let value = Bumper.value(for: PersonalizedFeed.key) else { return .control }
+        return PersonalizedFeed(rawValue: value) ?? .control 
+    }
+
     static var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu {
         guard let value = Bumper.value(for: ServicesCategoryOnSalchichasMenu.key) else { return .control }
         return ServicesCategoryOnSalchichasMenu(rawValue: value) ?? .control 
+    }
+
+    static var searchBoxImprovements: SearchBoxImprovements {
+        guard let value = Bumper.value(for: SearchBoxImprovements.key) else { return .control }
+        return SearchBoxImprovements(rawValue: value) ?? .control 
     } 
 }
 
@@ -1167,6 +1185,38 @@ enum IAmInterestedFeed: String, BumperFeature  {
     }
 }
 
+enum ChatConversationsListWithoutTabs: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ChatConversationsListWithoutTabs.control.rawValue }
+    static var enumValues: [ChatConversationsListWithoutTabs] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Chat conversation list without tabs" } 
+    static func fromPosition(_ position: Int) -> ChatConversationsListWithoutTabs {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum PersonalizedFeed: String, BumperFeature  {
+    case control, baseline, personalized
+    static var defaultValue: String { return PersonalizedFeed.control.rawValue }
+    static var enumValues: [PersonalizedFeed] { return [.control, .baseline, .personalized]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Personalize the feed" } 
+    static func fromPosition(_ position: Int) -> PersonalizedFeed {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .personalized
+            default: return .control
+        }
+    }
+}
+
 enum ServicesCategoryOnSalchichasMenu: String, BumperFeature  {
     case control, baseline, variantA, variantB, variantC
     static var defaultValue: String { return ServicesCategoryOnSalchichasMenu.control.rawValue }
@@ -1180,6 +1230,24 @@ enum ServicesCategoryOnSalchichasMenu: String, BumperFeature  {
             case 2: return .variantA
             case 3: return .variantB
             case 4: return .variantC
+            default: return .control
+        }
+    }
+}
+
+enum SearchBoxImprovements: String, BumperFeature  {
+    case control, baseline, changeCopy, biggerBox, changeCopyAndBoxSize
+    static var defaultValue: String { return SearchBoxImprovements.control.rawValue }
+    static var enumValues: [SearchBoxImprovements] { return [.control, .baseline, .changeCopy, .biggerBox, .changeCopyAndBoxSize]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Improve search box visibility by changing its size and copy" } 
+    static func fromPosition(_ position: Int) -> SearchBoxImprovements {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .changeCopy
+            case 3: return .biggerBox
+            case 4: return .changeCopyAndBoxSize
             default: return .control
         }
     }

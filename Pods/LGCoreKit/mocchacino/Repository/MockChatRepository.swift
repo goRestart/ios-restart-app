@@ -51,16 +51,17 @@ open class MockChatRepository: InternalChatRepository {
     public let conversationsLock: NSLock = NSLock()
     
     public func createNewMessage(_ talkerId: String,
-                                 text: String,
+                                 text: String?,
                                  type: ChatMessageType) -> ChatMessage {
         return MockChatMessage(objectId: String.makeRandom(),
                                talkerId: talkerId,
-                               text: text,
                                sentAt: nil,
                                receivedAt: nil,
                                readAt: nil,
-                               type: type,
                                warnings: [],
+                               content: MockChatMessageContent(type: type,
+                                                               defaultText: String.makeRandom(),
+                                                               text: text),
                                assistantMeeting: nil)
     }
     
@@ -118,8 +119,9 @@ open class MockChatRepository: InternalChatRepository {
     
     public func internalSendMessage(_ conversationId: String,
                                     messageId: String,
-                                    type: ChatMessageType,
+                                    type: WebSocketSendMessageType,
                                     text: String,
+                                    answerKey: String?,
                                     completion: ChatCommandCompletion?) {
         delay(result: sendMessageCommandResult, completion: completion)
     }

@@ -24,4 +24,5 @@ struct ProductionEnvironment: Environment {
     let spellCorrectorBaseURL = "https://spellcorrector.letgo.com"
     let meetingsBaseURL = "https://meeting.letgo.com"
     let searchAlertsBaseURL = "https://searchalerts.letgo.com"
+    let customFeedBaseURL = "https://customfeed.letgo.com"
 }

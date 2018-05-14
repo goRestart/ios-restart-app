@@ -373,6 +373,14 @@
 // Change email already registered
 "change_email_error_already_registered" = "This email address is already registered. Please enter a different one.";
 
+"chat_conversations_list_filter_all" = "All";
+
+"chat_conversations_list_filter_selling" = "Selling";
+
+"chat_conversations_list_filter_buying" = "Buying";
+
+"chat_conversations_list_blocked_users_button" = "View blocked users";
+
 // Information regarding the asssitant of letgo
 "chat_user_info_letgo_assistant" = "I'm a virtual assistant that gives you tips and helps you sell.";
 
@@ -1234,6 +1242,12 @@
 
 // Title for Listings Map View
 "listings_map_title" = "Map view";
+
+// Message for no results in Listings Map View
+"listings_map_no_results_message" = "No exact matches for your search. Try looking in a different area or using different filters.";
+
+// Button to refresh a search when user changes the location
+"listing_map_redo_search" = "Search this area";
 
 // Fake distance shown in a bubble in a fake product list in onboarding
 "location_permissions_bubble" = "0.1 mi from you";

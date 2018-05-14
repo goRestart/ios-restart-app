@@ -55,11 +55,14 @@ enum WebSocketRequestType: String {
 }
 
 struct WebSocketRouter {
-    static func request(with id: String, type: WebSocketRequestType, data: [String : Any]?) -> String {
+    static func request(with id: String, type: WebSocketRequestType, data: [String : Any]?, meta: [String : Any]? = nil) -> String {
         var dict: [String : Any] = [:]
         dict["id"] = id
         dict["type"] = type.rawValue
         dict["data"] = data
+        if let meta = meta {
+            dict["meta"] = meta
+        }
         guard let JSONData = try? JSONSerialization.data(withJSONObject: dict, options: [.prettyPrinted]),
             let JSONText = String(data: JSONData, encoding: .utf8)
             else { return "" }

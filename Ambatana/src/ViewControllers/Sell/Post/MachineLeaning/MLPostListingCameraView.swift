@@ -304,11 +304,11 @@ class MLPostListingCameraView: BaseView, LGViewPagerPage, MLPredictionDetailsVie
         if enabled {
             machineLeaningButton.setImage(#imageLiteral(resourceName: "ml_icon_on"), for: .normal)
             cameraWrapper.enableVideoOutput(withDelegate: viewModel.machineLearning)
-            predictionLabel.alphaAnimated(1)
+            predictionLabel.animateTo(alpha: 1)
         } else {
             machineLeaningButton.setImage(#imageLiteral(resourceName: "ml_icon_off"), for: .normal)
             cameraWrapper.disableVideoOutput()
-            predictionLabel.alphaAnimated(0)
+            predictionLabel.animateTo(alpha: 0)
         }
     }
 
