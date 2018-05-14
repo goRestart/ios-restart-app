@@ -43,6 +43,7 @@ final class UserVerificationMainSectionHeader: UIView {
         titleLabel.font = UIFont.sectionTitleFont
         subtitleLabel.textColor = UIColor.grayDark
         subtitleLabel.font = UIFont.userProfileVerificationSectionSubtitleFont
+        subtitleLabel.numberOfLines = 0
         imageView.image = UIImage(named: "ic_password_dark")
         imageView.contentMode = .scaleAspectFit
         setupConstraints()
@@ -57,7 +58,8 @@ final class UserVerificationMainSectionHeader: UIView {
             imageView.leftAnchor.constraint(equalTo: leftAnchor, constant: Metrics.margin),
             imageView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Metrics.shortMargin),
             subtitleLabel.centerYAnchor.constraint(equalTo: imageView.centerYAnchor),
-            subtitleLabel.leftAnchor.constraint(equalTo: imageView.rightAnchor, constant: Metrics.veryShortMargin)
+            subtitleLabel.leftAnchor.constraint(equalTo: imageView.rightAnchor, constant: Metrics.veryShortMargin),
+            subtitleLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -Metrics.margin)
         ]
 
         NSLayoutConstraint.activate(constraints)

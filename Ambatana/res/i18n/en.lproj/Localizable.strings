@@ -3254,6 +3254,9 @@
 // text for error alert button when max search alerts reached
 "search_alert_error_too_many_button_text" = "Manage notifications";
 
+// text shown in feed search bar
+"search_letgo" = "Search letgo";
+
 // Sell category selection label. Check attached image "sell.png"
 "sell_category_selection_label" = "Category";
 
