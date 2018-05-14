@@ -8,6 +8,6 @@
 
 import UIKit
 
-protocol BubbleNotificationManager {
+public protocol BubbleNotificationManager {
     func showBubble(_ data: BubbleNotificationData, duration: TimeInterval?, view: UIView)
 }

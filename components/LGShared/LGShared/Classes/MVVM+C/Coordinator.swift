@@ -9,11 +9,11 @@
 import UIKit
 import LGCoreKit
 
-protocol CoordinatorDelegate: class {
+public protocol CoordinatorDelegate: class {
     func coordinatorDidClose(_ coordinator: Coordinator)
 }
 
-protocol Coordinator: CoordinatorDelegate {
+public protocol Coordinator: CoordinatorDelegate {
 
     /// Possible child coordinator. Will be automatically set on `openChild` method
     var child: Coordinator? { get set }
@@ -57,7 +57,7 @@ protocol Coordinator: CoordinatorDelegate {
 // MARK: - CoordinatorDelegate
 
 extension Coordinator {
-    func coordinatorDidClose(_ coordinator: Coordinator) {
+    public func coordinatorDidClose(_ coordinator: Coordinator) {
         child = nil
     }
 }

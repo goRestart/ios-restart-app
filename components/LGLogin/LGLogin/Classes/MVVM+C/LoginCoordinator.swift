@@ -20,12 +20,12 @@ protocol RecaptchaTokenDelegate: class {
 }
 
 public final class LoginCoordinator: Coordinator, ChangePasswordPresenter {
-    var child: Coordinator?
-    var viewController: UIViewController
-    weak var coordinatorDelegate: CoordinatorDelegate?
-    weak var presentedAlertController: UIAlertController?
-    let bubbleNotificationManager: BubbleNotificationManager
-    let sessionManager: SessionManager
+    public var child: Coordinator?
+    public var viewController: UIViewController
+    public weak var coordinatorDelegate: CoordinatorDelegate?
+    public weak var presentedAlertController: UIAlertController?
+    public let bubbleNotificationManager: BubbleNotificationManager
+    public let sessionManager: SessionManager
 
     fileprivate var parentViewController: UIViewController?
     fileprivate var presentedViewControllers: [UIViewController] = []
@@ -78,7 +78,7 @@ public final class LoginCoordinator: Coordinator, ChangePasswordPresenter {
         openChild(coordinator: coordinator, parent: topPresentedController(), animated: true, forceCloseChild: true, completion: nil)
     }
 
-    func presentViewController(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
+    public func presentViewController(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
         guard viewController.parent == nil else { return }
 
         parentViewController = parent
@@ -86,7 +86,7 @@ public final class LoginCoordinator: Coordinator, ChangePasswordPresenter {
         parent.present(viewController, animated: animated, completion: completion)
     }
 
-    func dismissViewController(animated: Bool, completion: (() -> Void)?) {
+    public func dismissViewController(animated: Bool, completion: (() -> Void)?) {
         if let vc = presentedViewControllers.last {
             presentedViewControllers.removeLast()
             vc.dismissWithPresented(animated: false) { [weak self] in
