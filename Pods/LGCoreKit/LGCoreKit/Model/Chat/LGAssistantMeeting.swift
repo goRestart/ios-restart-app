@@ -51,7 +51,7 @@ public protocol AssistantMeeting {
     var coordinates: LGLocationCoordinates2D? { get }
     var status: MeetingStatus? { get }
 
-    static func makeMeeting(from message: String) -> AssistantMeeting?
+    static func makeMeeting(from message: String?) -> AssistantMeeting?
     var textForMeeting: String { get }
 }
 
@@ -75,7 +75,8 @@ public struct LGAssistantMeeting: AssistantMeeting {
         self.status = status
     }
 
-    public static func makeMeeting(from message: String) -> AssistantMeeting? {
+    public static func makeMeeting(from message: String?) -> AssistantMeeting? {
+        guard let message = message else { return nil }
         return createMeetingFromMessage(message: message)
     }
 

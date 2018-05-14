@@ -69,6 +69,7 @@ extension Bumper  {
         flags.append(ChatConversationsListWithoutTabs.self)
         flags.append(PersonalizedFeed.self)
         flags.append(ServicesCategoryOnSalchichasMenu.self)
+        flags.append(SearchBoxImprovements.self)
         flags.append(GoogleAdxForTR.self)
         Bumper.initialize(flags)
     } 
@@ -351,6 +352,11 @@ extension Bumper  {
     static var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu {
         guard let value = Bumper.value(for: ServicesCategoryOnSalchichasMenu.key) else { return .control }
         return ServicesCategoryOnSalchichasMenu(rawValue: value) ?? .control 
+    }
+
+    static var searchBoxImprovements: SearchBoxImprovements {
+        guard let value = Bumper.value(for: SearchBoxImprovements.key) else { return .control }
+        return SearchBoxImprovements(rawValue: value) ?? .control 
     }
 
     static var googleAdxForTR: GoogleAdxForTR {
@@ -1230,6 +1236,24 @@ enum ServicesCategoryOnSalchichasMenu: String, BumperFeature  {
             case 2: return .variantA
             case 3: return .variantB
             case 4: return .variantC
+            default: return .control
+        }
+    }
+}
+
+enum SearchBoxImprovements: String, BumperFeature  {
+    case control, baseline, changeCopy, biggerBox, changeCopyAndBoxSize
+    static var defaultValue: String { return SearchBoxImprovements.control.rawValue }
+    static var enumValues: [SearchBoxImprovements] { return [.control, .baseline, .changeCopy, .biggerBox, .changeCopyAndBoxSize]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Improve search box visibility by changing its size and copy" } 
+    static func fromPosition(_ position: Int) -> SearchBoxImprovements {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .changeCopy
+            case 3: return .biggerBox
+            case 4: return .changeCopyAndBoxSize
             default: return .control
         }
     }

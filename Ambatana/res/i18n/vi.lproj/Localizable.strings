@@ -137,6 +137,10 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "Vì lý do an toàn, tài khoản này đã bị letgo xóa và các tin nhắn cũng được gỡ bỏ.";
 "chat_connect_account_disclaimer_button" = "Xác minh ngay bây giờ!";
 "chat_connect_accounts_title" = "XÂY DỰNG NIỀM TIN!";
+"chat_conversations_list_blocked_users_button" = "Xem người dùng bị chặn";
+"chat_conversations_list_filter_all" = "Tất cả";
+"chat_conversations_list_filter_buying" = "Mua";
+"chat_conversations_list_filter_selling" = "Bán";
 "chat_deleted_disclaimer_w_name" = "Bạn không thể tiếp tục cuộc trò chuyện này bởi tài khoản của %@ không còn hoạt động.";
 "chat_deleted_disclaimer_wo_name" = "Bạn không thể tiếp tục cuộc trò chuyện này bởi tài khoản này không còn hoạt động.";
 "chat_disclaimer_letgo_team" = "ĐỘI NGŨ LETGO";
@@ -411,6 +415,8 @@
 "hidden_phone_tag" = "[SỐ ĐIỆN THOẠI BỊ ẨN]";
 "hidden_text_alert_description" = "Chúng tôi ẩn thông tin liên lạc để giúp bạn mua và bán được an toàn. Trò chuyện trên letgo luôn dễ dàng và bảo mật hơn.";
 "hidden_text_alert_title" = "GIỮ AN TOÀN";
+"listing_map_redo_search" = "Search this area";
+"listings_map_no_results_message" = "Không có kết quả nào khớp với tìm kiếm của bạn. Hãy thử tìm ở một khu vực khác hoặc sử dụng bộ lọc khác.";
 "listings_map_title" = "Xem bản đồ";
 "location_permissions_allow_button" = "Cho phép";
 "location_permissions_bubble" = "Cách bạn 100m";
@@ -773,6 +779,7 @@
 "product_post_select_category_motors_and_accessories" = "Phương tiện và Phụ tùng khác";
 "product_post_select_category_other" = "Sản phẩm khác";
 "product_post_select_category_real_estate" = "Bất động sản";
+"product_post_select_category_services" = "Dịch vụ";
 "product_post_select_category_title" = "Bạn đang đăng gì?";
 "product_post_use_photo" = "Đăng";
 "product_post_use_photo_not_logged" = "Sử dụng hình ảnh";

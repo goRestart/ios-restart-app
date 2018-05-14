@@ -153,10 +153,17 @@ class ChatWebSocketDataSource: ChatDataSource {
     
     // MARK: - Commands
     
-    func sendMessage(_ conversationId: String, messageId: String, type: String, text: String,
+    func sendMessage(_ conversationId: String,
+                     messageId: String,
+                     type: WebSocketSendMessageType,
+                     text: String,
+                     answerKey: String?,
                      completion: ChatWebSocketCommandCompletion?) {
-        let request = webSocketCommandRouter.sendMessage(conversationId, messageId: messageId, type: type,
-                                                         text: text)
+        let request = webSocketCommandRouter.sendMessage(conversationId,
+                                                         messageId: messageId,
+                                                         type: type,
+                                                         text: text,
+                                                         answerKey: answerKey)
         webSocketClient.sendCommand(request, completion: completion)
     }
     

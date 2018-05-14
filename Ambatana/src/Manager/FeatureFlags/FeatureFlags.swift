@@ -100,6 +100,7 @@ protocol FeatureFlaggeable: class {
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed { get }
     var personalizedFeedABTestIntValue: Int? { get }
+    var searchBoxImprovements: SearchBoxImprovements { get }
 
     // MARK: Products
     var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu { get }
@@ -458,6 +459,7 @@ extension GoogleAdxForTR {
 }
 
 final class FeatureFlags: FeatureFlaggeable {
+    
     static let sharedInstance: FeatureFlags = FeatureFlags()
 
     let requestTimeOut: RequestsTimeOut
@@ -1169,6 +1171,9 @@ extension FeatureFlags {
     }
 }
 
+
+// MARK: Discovery
+
 extension FeatureFlags {
     /**
      This AB test has 3 cases: control(0), baseline(1) and active(2)
@@ -1191,6 +1196,13 @@ extension FeatureFlags {
     
     var personalizedFeedABTestIntValue: Int? {
         return abTests.personlizedFeedIsActive ? abTests.personalizedFeed.value : nil
+    }
+    
+    var searchBoxImprovements: SearchBoxImprovements {
+        if Bumper.enabled {
+            return Bumper.searchBoxImprovements
+        }
+        return SearchBoxImprovements.fromPosition(abTests.searchImprovements.value)
     }
 }
 

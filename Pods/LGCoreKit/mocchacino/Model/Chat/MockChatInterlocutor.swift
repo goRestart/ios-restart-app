@@ -6,6 +6,7 @@ public struct MockChatInterlocutor: ChatInterlocutor {
     public var isMuted: Bool
     public var hasMutedYou: Bool
     public var status: UserStatus
+    public var userType: UserType
     
     public init(objectId: String?,
                 name: String,
@@ -13,7 +14,8 @@ public struct MockChatInterlocutor: ChatInterlocutor {
                 isBanned: Bool,
                 isMuted: Bool,
                 hasMutedYou: Bool,
-                status: UserStatus) {
+                status: UserStatus,
+                userType: UserType) {
         
         self.objectId = objectId
         self.name = name
@@ -22,17 +24,19 @@ public struct MockChatInterlocutor: ChatInterlocutor {
         self.isMuted = isMuted
         self.hasMutedYou = hasMutedYou
         self.status = status
+        self.userType = userType
     }
     
     func makeDictionary() -> [String: Any] {
         var result = [String: Any]()
-        result["id"] = objectId
-        result["name"] = name
-        result["avatar"] = avatar?.fileURL?.absoluteString
-        result["is_banned"] = isBanned
-        result["is_muted"] = isMuted
-        result["has_muted_you"] = hasMutedYou
-        result["status"] = status.rawValue
+        result[LGChatInterlocutor.CodingKeys.objectId.rawValue] = objectId
+        result[LGChatInterlocutor.CodingKeys.name.rawValue] = name
+        result[LGChatInterlocutor.CodingKeys.avatar.rawValue] = avatar?.fileURL?.absoluteString
+        result[LGChatInterlocutor.CodingKeys.isBanned.rawValue] = isBanned
+        result[LGChatInterlocutor.CodingKeys.isMuted.rawValue] = isMuted
+        result[LGChatInterlocutor.CodingKeys.hasMutedYou.rawValue] = hasMutedYou
+        result[LGChatInterlocutor.CodingKeys.status.rawValue] = status.rawValue
+        result[LGChatInterlocutor.CodingKeys.type.rawValue] = userType.rawValue
         return result
     }
 }

@@ -13,6 +13,7 @@ public protocol ChatInterlocutor: BaseModel {
     var isMuted: Bool { get }
     var hasMutedYou: Bool { get }
     var status: UserStatus { get }
+    var userType: UserType { get }
     
     init(objectId: String?,
          name: String,
@@ -20,7 +21,8 @@ public protocol ChatInterlocutor: BaseModel {
          isBanned: Bool,
          isMuted: Bool,
          hasMutedYou: Bool,
-         status: UserStatus)
+         status: UserStatus,
+         userType: UserType)
 }
 
 extension ChatInterlocutor {
@@ -31,7 +33,8 @@ extension ChatInterlocutor {
                                    isBanned: isBanned,
                                    isMuted: isMuted,
                                    hasMutedYou: hasMutedYou,
-                                   status: status)
+                                   status: status,
+                                   userType: userType)
     }
 }
 
@@ -43,6 +46,7 @@ struct LGChatInterlocutor: ChatInterlocutor, Decodable {
     let isMuted: Bool
     let hasMutedYou: Bool
     let status: UserStatus
+    let userType: UserType
     
     init(objectId: String?,
          name: String,
@@ -50,7 +54,9 @@ struct LGChatInterlocutor: ChatInterlocutor, Decodable {
          isBanned: Bool,
          isMuted: Bool,
          hasMutedYou: Bool,
-         status: UserStatus) {
+         status: UserStatus,
+         userType: UserType) {
+        
         self.objectId = objectId
         self.name = name
         self.avatar = avatar
@@ -58,6 +64,7 @@ struct LGChatInterlocutor: ChatInterlocutor, Decodable {
         self.isMuted = isMuted
         self.hasMutedYou = hasMutedYou
         self.status = status
+        self.userType = userType
     }
     
     fileprivate static func make(objectId: String?,
@@ -66,14 +73,17 @@ struct LGChatInterlocutor: ChatInterlocutor, Decodable {
                                  isBanned: Bool,
                                  isMuted: Bool,
                                  hasMutedYou: Bool,
-                                 status: UserStatus) -> LGChatInterlocutor {
+                                 status: UserStatus,
+                                 userType: UserType) -> LGChatInterlocutor {
+        
         return LGChatInterlocutor(objectId: objectId,
                                   name: name,
                                   avatar: avatar,
                                   isBanned: isBanned,
                                   isMuted: isMuted,
                                   hasMutedYou: hasMutedYou,
-                                  status: status)
+                                  status: status,
+                                  userType: userType)
     }
     
     // MARK: Decodable
@@ -86,7 +96,8 @@ struct LGChatInterlocutor: ChatInterlocutor, Decodable {
      "is_banned": [bool|null],
      "status": [string|null],
      "is_muted": [bool|null],
-     "has_muted_you": [bool|null]
+     "has_muted_you": [bool|null],
+     "type": [string|null]
      }
      */
     
@@ -102,7 +113,8 @@ struct LGChatInterlocutor: ChatInterlocutor, Decodable {
         isBanned = try keyedContainer.decodeIfPresent(Bool.self, forKey: .isBanned) ?? false
         isMuted = try keyedContainer.decodeIfPresent(Bool.self, forKey: .isMuted) ?? false
         hasMutedYou = try keyedContainer.decodeIfPresent(Bool.self, forKey: .hasMutedYou) ?? false
-        status = try keyedContainer.decode(UserStatus.self, forKey: .status)
+        status = try keyedContainer.decodeIfPresent(UserStatus.self, forKey: .status) ?? .active
+        userType = try keyedContainer.decodeIfPresent(UserType.self, forKey: .type) ?? .user
     }
     
     enum CodingKeys: String, CodingKey {
@@ -113,5 +125,6 @@ struct LGChatInterlocutor: ChatInterlocutor, Decodable {
         case isMuted = "is_muted"
         case hasMutedYou = "has_muted_you"
         case status
+        case type
     }
 }

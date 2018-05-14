@@ -1463,7 +1463,6 @@
 		C75B5DD61D59E0C500112368 /* ListingCarouselImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75B5DD01D59E0C500112368 /* ListingCarouselImageCell.swift */; };
 		C765EE471E7FE58200063750 /* MockDeepLinksRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C765EE461E7FE58200063750 /* MockDeepLinksRouter.swift */; };
 		C765EE491E7FEA4500063750 /* DeepLink+MockFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C765EE481E7FEA4500063750 /* DeepLink+MockFactory.swift */; };
-		C765EE4B1E7FEEE200063750 /* MockChatEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C765EE4A1E7FEEE200063750 /* MockChatEvent.swift */; };
 		C765EE7F1E84036400063750 /* SessionErrors+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C765EE7E1E84036400063750 /* SessionErrors+LG.swift */; };
 		C765EE801E84036400063750 /* SessionErrors+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C765EE7E1E84036400063750 /* SessionErrors+LG.swift */; };
 		C768CC1A1CA44B5F00E39E5F /* BranchDeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = C768CC191CA44B5F00E39E5F /* BranchDeepLink.swift */; };
@@ -2820,7 +2819,6 @@
 		C75B5DD01D59E0C500112368 /* ListingCarouselImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCarouselImageCell.swift; sourceTree = "<group>"; };
 		C765EE461E7FE58200063750 /* MockDeepLinksRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockDeepLinksRouter.swift; sourceTree = "<group>"; };
 		C765EE481E7FEA4500063750 /* DeepLink+MockFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DeepLink+MockFactory.swift"; sourceTree = "<group>"; };
-		C765EE4A1E7FEEE200063750 /* MockChatEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockChatEvent.swift; sourceTree = "<group>"; };
 		C765EE7E1E84036400063750 /* SessionErrors+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SessionErrors+LG.swift"; sourceTree = "<group>"; };
 		C768CC191CA44B5F00E39E5F /* BranchDeepLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BranchDeepLink.swift; sourceTree = "<group>"; };
 		C7732F681D87FA3400EAD5B7 /* TourPostingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourPostingViewController.swift; sourceTree = "<group>"; };
@@ -4289,7 +4287,6 @@
 				50D08D721E69AF14009CC260 /* MockPurchaseableProductsResponse+MockFactory.swift */,
 				50D08D731E69AF14009CC260 /* MockPurchaseableProductsResponse.swift */,
 				C765EE481E7FEA4500063750 /* DeepLink+MockFactory.swift */,
-				C765EE4A1E7FEEE200063750 /* MockChatEvent.swift */,
 				0A8275091F7D090C00A6A0C5 /* MockDeferredDeepLinkMaker.swift */,
 				0A85BD9A2074D48200A850AF /* MockProduct+MockFactory.swift */,
 			);
@@ -6827,7 +6824,6 @@
 				C750AA8B1E6D76DC005F87C5 /* MockListingViewModelMaker.swift in Sources */,
 				50D08DE11E69AF14009CC260 /* ListingCarouselViewModelSpec.swift in Sources */,
 				2EF0BB131E784468006808B5 /* MockPaymentQueue.swift in Sources */,
-				C765EE4B1E7FEEE200063750 /* MockChatEvent.swift in Sources */,
 				72C7A1BF1FA0ECF60089F175 /* PostingDetailsViewModelSpec.swift in Sources */,
 				0A104696206CFB99003F1577 /* ABTestsSpec.swift in Sources */,
 				8EBEF9791F3CA50500473822 /* LGSliderViewModelSpec.swift in Sources */,
