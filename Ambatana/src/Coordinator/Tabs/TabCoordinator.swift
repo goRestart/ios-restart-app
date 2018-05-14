@@ -738,6 +738,11 @@ extension TabCoordinator: ChatDetailNavigator {
     func closeChatDetail() {
         navigationController.popViewController(animated: true)
     }
+    
+    func openDeeplink(url: URL) {
+        guard let deepLink = UriScheme.buildFromUrl(url)?.deepLink else { return }
+        openDeepLink(deepLink)
+    }
 
     func openExpressChat(_ listings: [Listing], sourceListingId: String, manualOpen: Bool) {
         guard let expressChatCoordinator = ExpressChatCoordinator(listings: listings, sourceProductId: sourceListingId, manualOpen: manualOpen) else { return }

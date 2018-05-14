@@ -137,7 +137,7 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "Av säkerhetsskäl har det här kontot tagits bort av letgo och dessa meddelanden har raderats.";
 "chat_connect_account_disclaimer_button" = "Verifiera nu!";
 "chat_connect_accounts_title" = "SKAPA FÖRTROENDE!";
-"chat_conversations_list_blocked_users_button" = "View blocked users";
+"chat_conversations_list_blocked_users_button" = "Se blockerade användare";
 "chat_conversations_list_filter_all" = "Alla";
 "chat_conversations_list_filter_buying" = "Köper";
 "chat_conversations_list_filter_selling" = "Säljer";
@@ -415,6 +415,7 @@
 "hidden_phone_tag" = "[DOLT TELEFONNUMMER]";
 "hidden_text_alert_description" = "Vi döljer kontaktinformation för att du ska kunna köpa och sälja säkert. Att chatta via letgo är både enkelt och säkrare.";
 "hidden_text_alert_title" = "SÄKERHETSTIPS";
+"listing_map_redo_search" = "Search this area";
 "listings_map_no_results_message" = "Ingen exakt matchning hittades. Sök på ett annat område eller ändra sökfilter.";
 "listings_map_title" = "Kartvy";
 "location_permissions_allow_button" = "Tillåt";

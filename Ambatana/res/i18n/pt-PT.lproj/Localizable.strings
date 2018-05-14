@@ -415,6 +415,7 @@
 "hidden_phone_tag" = "[NÚMERO DE TELEFONE OCULTO]";
 "hidden_text_alert_description" = "Ocultamos os dados de contacto para o ajudarmos a comprar e a vender com segurança. Conversar no letgo é fácil e mais seguro.";
 "hidden_text_alert_title" = "MANTENHA-SE SEGURO";
+"listing_map_redo_search" = "Search this area";
 "listings_map_no_results_message" = "A sua pesquisa não devolveu resultados exatos. Experimente procurar numa área diferente ou usar filtros diferentes.";
 "listings_map_title" = "Vista do mapa";
 "location_permissions_allow_button" = "Permitir";

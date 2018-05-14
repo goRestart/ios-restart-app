@@ -137,7 +137,7 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "Για λόγους ασφαλείας, ο λογαριασμός αυτός έχει σβηστεί από την ομάδα του letgo και τα μηνύματα αυτά έχουν αφαιρεθεί.";
 "chat_connect_account_disclaimer_button" = "Επιβεβαιώστε τώρα!";
 "chat_connect_accounts_title" = "ΚΕΡΔΙΣΤΕ ΕΜΠΙΣΤΟΣΥΝΗ!";
-"chat_conversations_list_blocked_users_button" = "View blocked users";
+"chat_conversations_list_blocked_users_button" = "Δείτε μπλοκαρισμένους χρήστες";
 "chat_conversations_list_filter_all" = "Όλα";
 "chat_conversations_list_filter_buying" = "Αγορες";
 "chat_conversations_list_filter_selling" = "Πώληση";
@@ -415,6 +415,7 @@
 "hidden_phone_tag" = "[ΑΠΟΚΡΥΨΗ ΤΗΛΕΦΩΝΟΥ]";
 "hidden_text_alert_description" = "Αποκρύψαμε τις πληροφορίες επικοινωνίας για να σας βοηθήσουμε να κάνετε αγοραπωλησίες με ασφάλεια. Οι συνομιλίες εντός του easy είναι πιο ασφαλείς.";
 "hidden_text_alert_title" = "ΜΕΙΝΕΤΕ ΑΣΦΑΛΕΙΣ";
+"listing_map_redo_search" = "Search this area";
 "listings_map_no_results_message" = "Δε βρέθηκαν ακριβή αποτελέσματα για την αναζήτησή σας. Δοκιμάστε να ψάξετε σε κάποια άλλη περιοχή ή να χρησιμοποιήσετε διαφορετικά φίλτρα.";
 "listings_map_title" = "Προβολή χάρτη";
 "location_permissions_allow_button" = "Να επιτρέπεται";

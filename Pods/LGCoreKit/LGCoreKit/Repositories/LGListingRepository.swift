@@ -70,6 +70,10 @@ final class LGListingRepository: ListingRepository {
         }
         retrieveIndexWithRelax(queryString, params, relaxParam, completion: completion)
     }
+    
+    func indexCustomFeed(_ params: RetrieveListingParams, completion: ListingsCompletion?) {
+        dataSource.indexCustomFeed(params.customFeedApiParams, completion: updateCompletion(completion))
+    }
 
     func index(userId: String, params: RetrieveListingParams, completion: ListingsCompletion?)  {
         dataSource.indexForUser(userId, parameters: params.userListingApiParams,

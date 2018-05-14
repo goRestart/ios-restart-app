@@ -236,7 +236,7 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
 
     func willBeginDragging() {
         lastPageBeforeDragging = listingDeckView.currentPage
-        listingDeckView.bumpUpBanner.alphaAnimated(0)
+        listingDeckView.bumpUpBanner.animateTo(alpha: 0)
         animatePlayButton(withAlpha: 0)
     }
 
@@ -320,7 +320,7 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
             return
         }
 
-        listingDeckView.bumpUpBanner.alphaAnimated(1)
+        listingDeckView.bumpUpBanner.animateTo(alpha: 1)
         currentPageCell()?.update(bottomContentInset: Layout.Insets.bump)
         guard !listingDeckView.isBumpUpVisible else {
             // banner is already visible, but info changes

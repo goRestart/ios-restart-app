@@ -13,15 +13,17 @@ struct ChatABGroup: ABGroupType {
         static let showInactiveConversations = "20180206ShowInactiveConversations"
         static let showChatSafetyTips = "20180226ShowChatSafetyTips"
         static let userIsTyping = "20180305UserIsTyping"
-        static let markAllConversationsAsRead = "20180321MarkAllConversationsAsRead"
+        static let markAllConversationsAsRead = "20180508MarkAllConversationsAsRead"
         static let chatNorris = "20180319ChatNorris"
+        static let chatConversationsListWithoutTabs = "20180509ChatConversationsListWithoutTabs"
     }
 
     let showInactiveConversations: LeanplumABVariable<Bool>
     let showChatSafetyTips: LeanplumABVariable<Bool>
     let userIsTyping: LeanplumABVariable<Int>
-    let markAllConversationsAsRead: LeanplumABVariable<Bool>
+    let markAllConversationsAsRead: LeanplumABVariable<Int>
     let chatNorris: LeanplumABVariable<Int>
+    let chatConversationsListWithoutTabs: LeanplumABVariable<Int>
 
     let group: ABGroup = .chat
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -32,20 +34,23 @@ struct ChatABGroup: ABGroupType {
     init(showInactiveConversations: LeanplumABVariable<Bool>,
          showChatSafetyTips: LeanplumABVariable<Bool>,
          userIsTyping: LeanplumABVariable<Int>,
-         markAllConversationsAsRead: LeanplumABVariable<Bool>,
-         chatNorris: LeanplumABVariable<Int>) {
+         markAllConversationsAsRead: LeanplumABVariable<Int>,
+         chatNorris: LeanplumABVariable<Int>,
+         chatConversationsListWithoutTabs: LeanplumABVariable<Int>) {
         self.showInactiveConversations = showInactiveConversations
         self.showChatSafetyTips = showChatSafetyTips
         self.userIsTyping = userIsTyping
         self.markAllConversationsAsRead = markAllConversationsAsRead
         self.chatNorris = chatNorris
+        self.chatConversationsListWithoutTabs = chatConversationsListWithoutTabs
 
         intVariables.append(contentsOf: [userIsTyping,
-                                         chatNorris])
+                                         markAllConversationsAsRead,
+                                         chatNorris,
+                                         chatConversationsListWithoutTabs])
 
         boolVariables.append(contentsOf: [showInactiveConversations,
-                                          showChatSafetyTips,
-                                          markAllConversationsAsRead])
+                                          showChatSafetyTips])
     }
 
     static func make() -> ChatABGroup {
@@ -58,11 +63,14 @@ struct ChatABGroup: ABGroupType {
                            userIsTyping: .makeInt(key: Keys.userIsTyping,
                                                   defaultValue: 0,
                                                   groupType: .chat),
-                           markAllConversationsAsRead: .makeBool(key: Keys.markAllConversationsAsRead,
-                                                                 defaultValue: false,
+                           markAllConversationsAsRead: .makeInt(key: Keys.markAllConversationsAsRead,
+                                                                 defaultValue: 0,
                                                                  groupType: .chat),
                            chatNorris: .makeInt(key: Keys.chatNorris,
                                                 defaultValue: 0,
-                                                groupType: .chat))
+                                                groupType: .chat),
+                           chatConversationsListWithoutTabs: .makeInt(key: Keys.chatConversationsListWithoutTabs,
+                                                                     defaultValue: 0,
+                                                                     groupType: .chat))
     }
 }

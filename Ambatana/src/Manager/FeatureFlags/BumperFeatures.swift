@@ -24,7 +24,6 @@ extension Bumper  {
         flags.append(DeckItemPage.self)
         flags.append(ShowClockInDirectAnswer.self)
         flags.append(MostSearchedDemandedItems.self)
-        flags.append(AllowCallsForProfessionals.self)
         flags.append(ShowAdsInFeedWithRatio.self)
         flags.append(RealEstateFlowType.self)
         flags.append(RemoveCategoryWhenClosingPosting.self)
@@ -67,6 +66,9 @@ extension Bumper  {
         flags.append(EmergencyLocate.self)
         flags.append(RealEstateMap.self)
         flags.append(IAmInterestedFeed.self)
+        flags.append(ChatConversationsListWithoutTabs.self)
+        flags.append(PersonalizedFeed.self)
+        flags.append(ServicesCategoryOnSalchichasMenu.self)
         Bumper.initialize(flags)
     } 
 
@@ -123,11 +125,6 @@ extension Bumper  {
     static var mostSearchedDemandedItems: MostSearchedDemandedItems {
         guard let value = Bumper.value(for: MostSearchedDemandedItems.key) else { return .control }
         return MostSearchedDemandedItems(rawValue: value) ?? .control 
-    }
-
-    static var allowCallsForProfessionals: AllowCallsForProfessionals {
-        guard let value = Bumper.value(for: AllowCallsForProfessionals.key) else { return .control }
-        return AllowCallsForProfessionals(rawValue: value) ?? .control 
     }
 
     static var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio {
@@ -255,9 +252,9 @@ extension Bumper  {
         return AddPriceTitleDistanceToListings(rawValue: value) ?? .control 
     }
 
-    static var markAllConversationsAsRead: Bool {
-        guard let value = Bumper.value(for: MarkAllConversationsAsRead.key) else { return false }
-        return MarkAllConversationsAsRead(rawValue: value)?.asBool ?? false
+    static var markAllConversationsAsRead: MarkAllConversationsAsRead {
+        guard let value = Bumper.value(for: MarkAllConversationsAsRead.key) else { return .control }
+        return MarkAllConversationsAsRead(rawValue: value) ?? .control 
     }
 
     static var showProTagUserProfile: Bool {
@@ -338,6 +335,21 @@ extension Bumper  {
     static var iAmInterestedFeed: IAmInterestedFeed {
         guard let value = Bumper.value(for: IAmInterestedFeed.key) else { return .control }
         return IAmInterestedFeed(rawValue: value) ?? .control 
+    }
+
+    static var chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs {
+        guard let value = Bumper.value(for: ChatConversationsListWithoutTabs.key) else { return .control }
+        return ChatConversationsListWithoutTabs(rawValue: value) ?? .control 
+    }
+
+    static var personalizedFeed: PersonalizedFeed {
+        guard let value = Bumper.value(for: PersonalizedFeed.key) else { return .control }
+        return PersonalizedFeed(rawValue: value) ?? .control 
+    }
+
+    static var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu {
+        guard let value = Bumper.value(for: ServicesCategoryOnSalchichasMenu.key) else { return .control }
+        return ServicesCategoryOnSalchichasMenu(rawValue: value) ?? .control 
     } 
 }
 
@@ -482,22 +494,6 @@ enum MostSearchedDemandedItems: String, BumperFeature  {
             case 2: return .cameraBadge
             case 3: return .trendingButtonExpandableMenu
             case 4: return .subsetAboveExpandableMenu
-            default: return .control
-        }
-    }
-}
-
-enum AllowCallsForProfessionals: String, BumperFeature  {
-    case control, baseline, inactive
-    static var defaultValue: String { return AllowCallsForProfessionals.control.rawValue }
-    static var enumValues: [AllowCallsForProfessionals] { return [.control, .baseline, .inactive]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Users can call professional sellers" } 
-    static func fromPosition(_ position: Int) -> AllowCallsForProfessionals {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .inactive
             default: return .control
         }
     }
@@ -915,12 +911,19 @@ enum AddPriceTitleDistanceToListings: String, BumperFeature  {
 }
 
 enum MarkAllConversationsAsRead: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return MarkAllConversationsAsRead.no.rawValue }
-    static var enumValues: [MarkAllConversationsAsRead] { return [.no, .yes]}
+    case control, baseline, active
+    static var defaultValue: String { return MarkAllConversationsAsRead.control.rawValue }
+    static var enumValues: [MarkAllConversationsAsRead] { return [.control, .baseline, .active]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show a button to mark all conversations as read" } 
-    var asBool: Bool { return self == .yes }
+    static func fromPosition(_ position: Int) -> MarkAllConversationsAsRead {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
 }
 
 enum ShowProTagUserProfile: String, BumperFeature  {
@@ -1171,6 +1174,56 @@ enum IAmInterestedFeed: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .hidden
+            default: return .control
+        }
+    }
+}
+
+enum ChatConversationsListWithoutTabs: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ChatConversationsListWithoutTabs.control.rawValue }
+    static var enumValues: [ChatConversationsListWithoutTabs] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Chat conversation list without tabs" } 
+    static func fromPosition(_ position: Int) -> ChatConversationsListWithoutTabs {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum PersonalizedFeed: String, BumperFeature  {
+    case control, baseline, personalized
+    static var defaultValue: String { return PersonalizedFeed.control.rawValue }
+    static var enumValues: [PersonalizedFeed] { return [.control, .baseline, .personalized]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Personalize the feed" } 
+    static func fromPosition(_ position: Int) -> PersonalizedFeed {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .personalized
+            default: return .control
+        }
+    }
+}
+
+enum ServicesCategoryOnSalchichasMenu: String, BumperFeature  {
+    case control, baseline, variantA, variantB, variantC
+    static var defaultValue: String { return ServicesCategoryOnSalchichasMenu.control.rawValue }
+    static var enumValues: [ServicesCategoryOnSalchichasMenu] { return [.control, .baseline, .variantA, .variantB, .variantC]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show services category on salchichas menu" } 
+    static func fromPosition(_ position: Int) -> ServicesCategoryOnSalchichasMenu {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .variantA
+            case 3: return .variantB
+            case 4: return .variantC
             default: return .control
         }
     }

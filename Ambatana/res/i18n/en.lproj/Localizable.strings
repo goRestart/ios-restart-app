@@ -1246,6 +1246,9 @@
 // Message for no results in Listings Map View
 "listings_map_no_results_message" = "No exact matches for your search. Try looking in a different area or using different filters.";
 
+// Button to refresh a search when user changes the location
+"listing_map_redo_search" = "Search this area";
+
 // Fake distance shown in a bubble in a fake product list in onboarding
 "location_permissions_bubble" = "0.1 mi from you";
 

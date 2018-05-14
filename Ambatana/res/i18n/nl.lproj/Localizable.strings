@@ -137,7 +137,7 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "Om veiligheidsredenen werd dit account verwijderd door het letgo team en deze berichten zijn gewist.";
 "chat_connect_account_disclaimer_button" = "Verifieer nu!";
 "chat_connect_accounts_title" = "VERTROUWEN OPBOUWEN!";
-"chat_conversations_list_blocked_users_button" = "View blocked users";
+"chat_conversations_list_blocked_users_button" = "Bekijk geblokkeerde gebruikers";
 "chat_conversations_list_filter_all" = "Alle";
 "chat_conversations_list_filter_buying" = "Kopen";
 "chat_conversations_list_filter_selling" = "Verkopen";
@@ -415,6 +415,7 @@
 "hidden_phone_tag" = "[TELEFOONNUMMER VERBORGEN]";
 "hidden_text_alert_description" = "Wij verbergen contact informatie zodat je veilig kunt kopen en verkopen. In letgo kun je veilig en gemakkelijk chatten.";
 "hidden_text_alert_title" = "VEILIGHEIDSTIPS";
+"listing_map_redo_search" = "Search this area";
 "listings_map_no_results_message" = "Geen exacte overeenkomsten voor jouw zoekopdracht. Probeer in een ander gebied te zoeken of gebruik andere filters.";
 "listings_map_title" = "Zie kaart";
 "location_permissions_allow_button" = "Toestaan";

@@ -20,7 +20,7 @@ class ChatCellDrawerFactory {
         
         let isMine = message.talkerId == myUserRepository.myUser?.objectId
         switch message.type {
-        case .offer, .text:
+        case .offer, .text, .multiAnswer, .unsupported:
             if isMine {
                 return ChatMyMessageCellDrawer(showDisclose: disclosure, autoHide: autoHide, showClock: showClock)
             } else {

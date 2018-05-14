@@ -137,7 +137,7 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "안전상의 이유로, 이 계정 및 메세지는 letgo 팀에 의해서 삭제되었습니다.";
 "chat_connect_account_disclaimer_button" = "지금 인증하기!";
 "chat_connect_accounts_title" = "신뢰도를 쌓으세요!";
-"chat_conversations_list_blocked_users_button" = "View blocked users";
+"chat_conversations_list_blocked_users_button" = "차단된 사용자 확인하기";
 "chat_conversations_list_filter_all" = "전체";
 "chat_conversations_list_filter_buying" = "구매";
 "chat_conversations_list_filter_selling" = "판매";
@@ -415,6 +415,7 @@
 "hidden_phone_tag" = "[전화번호 감추기]";
 "hidden_text_alert_description" = "안전하게 구매 및 판매를 하실 수 있도록 연락처를 비공개로 하고 있습니다. letgo에서 대화를 나누시는 것은 더 쉽고 안전합니다.";
 "hidden_text_alert_title" = "안전하게 구매하세요";
+"listing_map_redo_search" = "Search this area";
 "listings_map_no_results_message" = "검색결과에 일치하는 결과가 없습니다. 다른 지역을 살펴보거나 다른 필터를 사용해주세요.";
 "listings_map_title" = "지도 확인";
 "location_permissions_allow_button" = "허가";

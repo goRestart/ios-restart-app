@@ -45,6 +45,8 @@ class ABTests {
     let chat = ChatABGroup.make()
     let core = CoreABGroup.make()
     let users = UsersABGroup.make()
+    let discovery = DiscoveryABGroup.make()
+    let products = ProductsABGroup.make()
 
 
     convenience init() {
@@ -66,6 +68,8 @@ class ABTests {
         result.append(contentsOf: chat.intVariables)
         result.append(contentsOf: core.intVariables)
         result.append(contentsOf: users.intVariables)
+        result.append(contentsOf: discovery.intVariables)
+        result.append(contentsOf: products.intVariables)
         return result
     }
 
@@ -79,7 +83,8 @@ class ABTests {
         result.append(contentsOf: chat.boolVariables)
         result.append(contentsOf: core.boolVariables)
         result.append(contentsOf: users.boolVariables)
-
+        result.append(contentsOf: discovery.boolVariables)
+        result.append(contentsOf: products.boolVariables)
         return result
     }
 
@@ -105,6 +110,27 @@ class ABTests {
         trackingData.append(contentsOf: syncer.trackingData(variables: uniquesFloat))
 
         self.trackingData.value = trackingData
+    }
+}
+
+// MARK: Discovery
+    
+extension ABTests {
+    var personalizedFeed: LeanplumABVariable<Int> {
+        return discovery.personalizedFeed
+    }
+    
+    /**
+     It is for a special request from Discovery team.
+     
+     This AB test has 3 cases: control(0), baseline(1) and active(2)
+     But they want to be able to send values that are larger than 2 without us touching the code.
+     
+     Therefore, the test is considered active if the value is > 1
+     ABIOS-4113 https://ambatana.atlassian.net/browse/ABIOS-4113
+    */
+    var personlizedFeedIsActive: Bool {
+        return personalizedFeed.value > 1
     }
 }
 
@@ -134,8 +160,9 @@ extension ABTests {
     var showInactiveConversations: LeanplumABVariable<Bool> { return chat.showInactiveConversations }
     var showChatSafetyTips: LeanplumABVariable<Bool> { return chat.showChatSafetyTips }
     var userIsTyping: LeanplumABVariable<Int> { return chat.userIsTyping }
-    var markAllConversationsAsRead: LeanplumABVariable<Bool> { return chat.markAllConversationsAsRead }
+    var markAllConversationsAsRead: LeanplumABVariable<Int> { return chat.markAllConversationsAsRead }
     var chatNorris: LeanplumABVariable<Int> { return chat.chatNorris }
+    var chatConversationsListWithoutTabs: LeanplumABVariable<Int> { return chat.chatConversationsListWithoutTabs }
 }
 
 //  MARK: Money
@@ -183,6 +210,12 @@ extension ABTests {
     var realEstateMap: LeanplumABVariable<Int> { return verticals.realEstateMap }
 }
 
+//  MARK: Products
+
+extension ABTests {
+    var servicesCategoryOnSalchichasMenu: LeanplumABVariable<Int> { return products.servicesCategoryOnSalchichasMenu }
+}
+
 //  MARK: Legacy
 
 extension ABTests {
@@ -203,7 +236,6 @@ extension ABTests {
     var deckItemPage: LeanplumABVariable<Int> { return legacy.newItemPage }
     var taxonomiesAndTaxonomyChildrenInFeed: LeanplumABVariable<Int> { return legacy.taxonomiesAndTaxonomyChildrenInFeed }
     var showClockInDirectAnswer: LeanplumABVariable<Int> { return legacy.showClockInDirectAnswer }
-    var allowCallsForProfessionals: LeanplumABVariable<Int> { return legacy.allowCallsForProfessionals }
     var mostSearchedDemandedItems: LeanplumABVariable<Int> { return legacy.mostSearchedDemandedItems }
     var showAdsInFeedWithRatio: LeanplumABVariable<Int> { return legacy.showAdsInFeedWithRatio }
     var removeCategoryWhenClosingPosting: LeanplumABVariable<Int> { return legacy.removeCategoryWhenClosingPosting }

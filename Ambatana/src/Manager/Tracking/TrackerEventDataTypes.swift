@@ -100,6 +100,8 @@ enum EventName: String {
     case chatInactiveConversationsShown     = "chat-inactive-conversations-shown"
     case markMessagesAsRead                 = "mark-messages-as-read"
     case undoMessageSent                    = "undo-sent-message"
+    case chatUpdateAppWarningShow           = "chat-update-app-warning-show"
+    case chatLetgoServiceQuestionReceived   = "chat-letgo-service-question-received"
 
     case profileVisit                       = "profile-visit"
     case profileEditStart                   = "profile-edit-start"
@@ -379,7 +381,8 @@ enum EventParameterName: String {
     case searchAlertSource    = "alert-source"
     case sellerReputationBadge = "seller-reputation-badge"
     case isVideo              = "is-video"
-
+    case messageGoal          = "message-goal"
+    
     // Machine Learning
     case mlPredictiveFlow = "predictive-flow"
     case mlPredictionActive = "prediction-active"

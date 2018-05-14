@@ -415,6 +415,7 @@
 "hidden_phone_tag" = "[PHONE NUMBER HIDDEN]";
 "hidden_text_alert_description" = "We hide contact information to help you buy and sell safely. Chatting inside letgo is easy and more secure.";
 "hidden_text_alert_title" = "STAY SAFE";
+"listing_map_redo_search" = "Search this area";
 "listings_map_no_results_message" = "No exact matches for your search. Try looking in a different area or using different filters.";
 "listings_map_title" = "Map view";
 "location_permissions_allow_button" = "Allow";

@@ -519,6 +519,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_conversations_list_filter_buying", comment: "")
 	}
 
+	static var chatConversationsListBlockedUsersButton: String {
+		return NSLocalizedString("chat_conversations_list_blocked_users_button", comment: "")
+	}
+
 	static var chatUserInfoLetgoAssistant: String {
 		return NSLocalizedString("chat_user_info_letgo_assistant", comment: "")
 	}
@@ -1685,6 +1689,10 @@ struct LGLocalizedString {
 
 	static var listingsMapNoResultsMessage: String {
 		return NSLocalizedString("listings_map_no_results_message", comment: "")
+	}
+
+	static var listingMapRedoSearch: String {
+		return NSLocalizedString("listing_map_redo_search", comment: "")
 	}
 
 	static var locationPermissionsBubble: String {

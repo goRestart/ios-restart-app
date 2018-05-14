@@ -29,10 +29,10 @@ enum UserHeaderViewBadge {
 }
 
 final class UserProfileHeaderView: UIView {
-    let userNameLabel = UILabel()
     let ratingView = RatingView(layout: .normal)
     let locationLabel = UILabel()
     let memberSinceLabel = UILabel()
+    private let userNameLabel = UILabel()
     private let avatarImageView = UIImageView()
     private let editAvatarButton = UIButton()
     private let verifiedBadgeImageView = UIImageView()
@@ -70,6 +70,18 @@ final class UserProfileHeaderView: UIView {
         }
     }
 
+    var username: String? {
+        didSet {
+            userNameLabel.text = username
+            userNameLabel.truncateWordsWithDotsIfNeeded()
+        }
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        userNameLabel.truncateWordsWithDotsIfNeeded()
+    }
+
     func setAvatar(_ url: URL?, placeholderImage: UIImage?) {
         if let url = url {
             avatarImageView.lg_setImageWithURL(url)
@@ -97,6 +109,7 @@ final class UserProfileHeaderView: UIView {
 
         userNameLabel.font = .profileUserHeadline
         userNameLabel.textColor = .lgBlack
+        userNameLabel.numberOfLines = 1
 
         locationLabel.font = .smallButtonFont
         locationLabel.textColor = .lgBlack

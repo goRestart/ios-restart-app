@@ -137,7 +137,7 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "letgo-tiimi on poistanut tämän tilin turvallisuussyistä, ja nämä viestit on poistettu.";
 "chat_connect_account_disclaimer_button" = "Todenna nyt!";
 "chat_connect_accounts_title" = "KASVATA LUOTTAMUSTA!";
-"chat_conversations_list_blocked_users_button" = "View blocked users";
+"chat_conversations_list_blocked_users_button" = "Näytä estetyt käyttäjät";
 "chat_conversations_list_filter_all" = "Kaikki";
 "chat_conversations_list_filter_buying" = "Ostot";
 "chat_conversations_list_filter_selling" = "Myynit";
@@ -415,6 +415,7 @@
 "hidden_phone_tag" = "[PUHELINNUMERO PIILOTETTU]";
 "hidden_text_alert_description" = "Piilotamme yhteystiedot auttaaksemme sinua ostamaan ja myymään turvallisesti. Keskustelu letgon sisällä on helppoa ja turvallisempaa.";
 "hidden_text_alert_title" = "PYSY TURVASSA";
+"listing_map_redo_search" = "Search this area";
 "listings_map_no_results_message" = "Täysin hakuasi vastaavia osumia ei löytynyt. Kokeile hakea toiselta alueelta tai eri suodattimien avulla.";
 "listings_map_title" = "Karttanäkymä";
 "location_permissions_allow_button" = "Salli";
