@@ -90,6 +90,18 @@
       "source_files": "LGShared/LGShared/Classes/**/*",
       "frameworks": "CoreText",
       "dependencies": {
+        "LGComponents/LGAnalytics": [
+
+        ],
+        "LGComponents/LGResources": [
+
+        ],
+        "LGCoreKit": [
+          "4.25.0"
+        ],
+        "DeviceGuru": [
+          "3.0.1"
+        ],
         "AlamofireImage": [
           "3.3.0"
         ],
@@ -98,6 +110,9 @@
         ],
         "CocoaLumberjack/Swift": [
           "3.3.0"
+        ],
+        "RxCocoa": [
+          "4.0.0"
         ]
       }
     },
