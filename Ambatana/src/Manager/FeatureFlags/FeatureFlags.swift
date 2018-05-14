@@ -69,8 +69,8 @@ protocol FeatureFlaggeable: class {
     var freePostingModeAllowed: Bool { get }
     var postingFlowType: PostingFlowType { get }
     var locationRequiresManualChangeSuggestion: Bool { get }
-//    var signUpEmailNewsletterAcceptRequired: Bool { get }
-//    var signUpEmailTermsAndConditionsAcceptRequired: Bool { get }
+    var signUpEmailNewsletterAcceptRequired: Bool { get }
+    var signUpEmailTermsAndConditionsAcceptRequired: Bool { get }
     var moreInfoDFPAdUnitId: String { get }
     var feedDFPAdUnitId: String? { get }
     func collectionsAllowedFor(countryCode: String?) -> Bool
