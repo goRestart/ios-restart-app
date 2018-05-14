@@ -68,7 +68,7 @@ extension ProfileTabCoordinator: ProfileTabNavigator {
                                                pageType: pageType,
                                                listingCanBeBoosted: false,
                                                timeSinceLastBump: nil,
-                                               maxCountdown: nil)
+                                               maxCountdown: 0)
         openChild(coordinator: navigator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
     }
 

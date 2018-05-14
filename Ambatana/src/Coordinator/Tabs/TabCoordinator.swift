@@ -490,6 +490,7 @@ fileprivate extension TabCoordinator {
 // MARK: > ListingDetailNavigator
 
 extension TabCoordinator: ListingDetailNavigator {
+    
     func openVideoPlayer(atIndex index: Int, listingVM: ListingViewModel, source: EventParameterListingVisitSource) {
         guard let coordinator = VideoPlayerCoordinator(atIndex: index, listingVM: listingVM, source: source) else {
             return
@@ -509,7 +510,7 @@ extension TabCoordinator: ListingDetailNavigator {
                      bumpUpProductData: BumpUpProductData?,
                      listingCanBeBoosted: Bool,
                      timeSinceLastBump: TimeInterval?,
-                     maxCountdown: TimeInterval?) {
+                     maxCountdown: TimeInterval) {
         let navigator = EditListingCoordinator(listing: listing,
                                                bumpUpProductData: bumpUpProductData,
                                                pageType: nil,
@@ -543,10 +544,12 @@ extension TabCoordinator: ListingDetailNavigator {
 
     func openFreeBumpUp(forListing listing: Listing,
                         bumpUpProductData: BumpUpProductData,
-                        typePage: EventParameterTypePage?) {
+                        typePage: EventParameterTypePage?,
+                        maxCountdown: TimeInterval) {
         let bumpCoordinator = BumpUpCoordinator(listing: listing,
                                                 bumpUpProductData: bumpUpProductData,
-                                                typePage: typePage)
+                                                typePage: typePage,
+                                                maxCountdown: maxCountdown)
         openChild(coordinator: bumpCoordinator,
                   parent: rootViewController,
                   animated: true,
@@ -556,10 +559,12 @@ extension TabCoordinator: ListingDetailNavigator {
 
     func openPayBumpUp(forListing listing: Listing,
                        bumpUpProductData: BumpUpProductData,
-                       typePage: EventParameterTypePage?) {
+                       typePage: EventParameterTypePage?,
+                       maxCountdown: TimeInterval) {
         let bumpCoordinator = BumpUpCoordinator(listing: listing,
                                                 bumpUpProductData: bumpUpProductData,
-                                                typePage: typePage)
+                                                typePage: typePage,
+                                                maxCountdown: maxCountdown)
         openChild(coordinator: bumpCoordinator,
                   parent: rootViewController,
                   animated: true,
@@ -841,11 +846,10 @@ extension TabCoordinator: EditListingCoordinatorDelegate {
                                 didFinishWithListing listing: Listing,
                                 bumpUpProductData: BumpUpProductData?,
                                 timeSinceLastBump: TimeInterval?,
-                                maxCountdown: TimeInterval?) {
+                                maxCountdown: TimeInterval) {
         guard let bumpData = bumpUpProductData,
             bumpData.hasPaymentId else { return }
         if let timeSinceLastBump = timeSinceLastBump,
-            let maxCountdown = maxCountdown,
             timeSinceLastBump > 0,
             featureFlags.bumpUpBoost.isActive {
             openBumpUpBoost(forListing: listing,
@@ -856,7 +860,8 @@ extension TabCoordinator: EditListingCoordinatorDelegate {
         } else {
             openPayBumpUp(forListing: listing,
                           bumpUpProductData: bumpData,
-                          typePage: .edit)
+                          typePage: .edit,
+                          maxCountdown: maxCountdown)
         }
     }
 }

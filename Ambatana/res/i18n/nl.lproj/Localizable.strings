@@ -415,7 +415,7 @@
 "hidden_phone_tag" = "[TELEFOONNUMMER VERBORGEN]";
 "hidden_text_alert_description" = "Wij verbergen contact informatie zodat je veilig kunt kopen en verkopen. In letgo kun je veilig en gemakkelijk chatten.";
 "hidden_text_alert_title" = "VEILIGHEIDSTIPS";
-"listing_map_redo_search" = "Search this area";
+"listing_map_redo_search" = "Zoek in deze omgeving";
 "listings_map_no_results_message" = "Geen exacte overeenkomsten voor jouw zoekopdracht. Probeer in een ander gebied te zoeken of gebruik andere filters.";
 "listings_map_title" = "Zie kaart";
 "location_permissions_allow_button" = "Toestaan";
@@ -1076,6 +1076,7 @@
 "search_alerts_placeholder_empty_text" = "Meld je aan voor zoekopdrachten om meldingen te ontvangen wanneer nieuwe advertenties worden geplaatst.";
 "search_alerts_placeholder_error_button" = "Probeer het opnieuw";
 "search_alerts_placeholder_error_text" = "Oeps! Er is een fout opgetreden tijdens het laden van je zoekmeldingen";
+"search_letgo" = "Zoek in letgo";
 "sell_category_selection_label" = "Categorie";
 "sell_choose_category_dialog_cancel_button" = "Annuleren";
 "sell_choose_category_dialog_title" = "Kies een categorie";

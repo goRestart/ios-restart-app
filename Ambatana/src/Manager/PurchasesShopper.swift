@@ -35,15 +35,17 @@ protocol PurchasesShopper: class {
     func productsRequestStartForListingId(_ listingId: String,
                                           letgoItemId: String,
                                           withIds ids: [String],
+                                          maxCountdown: TimeInterval,
                                           typePage: EventParameterTypePage?)
     
     func requestPayment(forListingId listingId: String,
                         appstoreProduct: PurchaseableProduct,
                         letgoItemId: String,
-                        isBoost: Bool)
+                        isBoost: Bool,
+                        maxCountdown: TimeInterval)
 
     func isBumpUpPending(forListingId: String) -> Bool
-    func timeSinceRecentBumpFor(listingId: String) -> TimeInterval?
+    func timeSinceRecentBumpFor(listingId: String) -> (timeDifference: TimeInterval, maxCountdown: TimeInterval)?
     func requestFreeBumpUp(forListingId listingId: String, letgoItemId: String, shareNetwork: EventParameterShareNetwork)
     func restorePaidBumpUp(forListingId listingId: String)
 }

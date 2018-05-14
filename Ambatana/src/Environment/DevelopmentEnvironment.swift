@@ -33,7 +33,6 @@ class DevelopmentEnvironment: AppEnvironment {
     // Website
     let websiteBaseUrl = "https://www.stg.letgo.com"
     let websiteBaseUrlWithLocaleParams = "https://%@.stg.letgo.com/%@"
-    let websiteBaseUrlWithLanguageParam = "https://%@.stg.letgo.com"
     
     // Google Ads
     let adTestModeActive = true
