@@ -30,10 +30,10 @@ final public class LoginComponentFactory {
 
     // MARK: - Factory
 
-    func makeLoginCoordinator(source: EventParameterLoginSourceValue,
-                              style: LoginStyle,
-                              loggedInAction: @escaping (() -> Void),
-                              cancelAction: (() -> Void)?) -> LoginCoordinator {
+    public func makeLoginCoordinator(source: EventParameterLoginSourceValue,
+                                     style: LoginStyle,
+                                     loggedInAction: @escaping (() -> Void),
+                                     cancelAction: (() -> Void)?) -> LoginCoordinator {
         return LoginCoordinator(source: source,
                                 style: style,
                                 loggedInAction: loggedInAction,

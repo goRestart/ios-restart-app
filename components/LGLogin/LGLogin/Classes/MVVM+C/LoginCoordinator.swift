@@ -10,7 +10,7 @@ import LGCoreKit
 import RxSwift
 import SafariServices
 
-enum LoginStyle {
+public enum LoginStyle {
     case fullScreen
     case popup(String)
 }
@@ -19,7 +19,7 @@ protocol RecaptchaTokenDelegate: class {
     func recaptchaTokenObtained(token: String, action: LoginActionType)
 }
 
-final class LoginCoordinator: Coordinator, ChangePasswordPresenter {
+public final class LoginCoordinator: Coordinator, ChangePasswordPresenter {
     var child: Coordinator?
     var viewController: UIViewController
     weak var coordinatorDelegate: CoordinatorDelegate?
