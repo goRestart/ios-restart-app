@@ -13,8 +13,9 @@
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
-		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
 		8247BBF1F301CAD5F89C524F /* Pods_LGShared_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03D31A9DD67490B5904748C1 /* Pods_LGShared_Example.framework */; };
+		F500AFC620A5F43C0058074A /* String+LGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F500AFC320A5F43C0058074A /* String+LGSpec.swift */; };
+		F500AFC720A5F43C0058074A /* LGEmojiSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F500AFC420A5F43C0058074A /* LGEmojiSpec.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,12 +41,13 @@
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		607FACE51AFB9204008FA782 /* LGShared_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LGShared_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		61481A1F78908FF438262D69 /* Pods-LGShared_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LGShared_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LGShared_Tests/Pods-LGShared_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		86A2BB7B3FFEC5FB1720FFA6 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		CBF25FCC2019F97510AF9FD2 /* LGShared.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file; name = LGShared.podspec; path = ../LGShared.podspec; sourceTree = "<group>"; };
 		CD456F2F3F97B1367CAB5668 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		F31406FFAA7ABD864C692F34 /* Pods-LGShared_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LGShared_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LGShared_Example/Pods-LGShared_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		F500AFC320A5F43C0058074A /* String+LGSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+LGSpec.swift"; sourceTree = "<group>"; };
+		F500AFC420A5F43C0058074A /* LGEmojiSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGEmojiSpec.swift; sourceTree = "<group>"; };
 		FA6141D3641543BCEA767F44 /* Pods_LGShared_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LGShared_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -135,7 +137,8 @@
 		607FACE81AFB9204008FA782 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				607FACEB1AFB9204008FA782 /* Tests.swift */,
+				F500AFC520A5F43C0058074A /* Mocks */,
+				F500AFC220A5F43C0058074A /* Unit */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 			);
 			path = Tests;
@@ -157,6 +160,22 @@
 				86A2BB7B3FFEC5FB1720FFA6 /* LICENSE */,
 			);
 			name = "Podspec Metadata";
+			sourceTree = "<group>";
+		};
+		F500AFC220A5F43C0058074A /* Unit */ = {
+			isa = PBXGroup;
+			children = (
+				F500AFC320A5F43C0058074A /* String+LGSpec.swift */,
+				F500AFC420A5F43C0058074A /* LGEmojiSpec.swift */,
+			);
+			path = Unit;
+			sourceTree = "<group>";
+		};
+		F500AFC520A5F43C0058074A /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Mocks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -376,7 +395,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F500AFC620A5F43C0058074A /* String+LGSpec.swift in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
+				F500AFC720A5F43C0058074A /* LGEmojiSpec.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -385,7 +406,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				607FACEC1AFB9204008FA782 /* Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -554,6 +574,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3673DD3328C0ACE8DEFBD3FF /* Pods-LGShared_Tests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -568,6 +589,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LGShared_Example.app/LGShared_Example";
 			};
 			name = Debug;
 		};
@@ -575,6 +597,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 61481A1F78908FF438262D69 /* Pods-LGShared_Tests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -585,6 +608,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LGShared_Example.app/LGShared_Example";
 			};
 			name = Release;
 		};
