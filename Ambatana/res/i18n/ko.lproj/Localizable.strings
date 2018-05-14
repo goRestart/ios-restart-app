@@ -415,7 +415,7 @@
 "hidden_phone_tag" = "[전화번호 감추기]";
 "hidden_text_alert_description" = "안전하게 구매 및 판매를 하실 수 있도록 연락처를 비공개로 하고 있습니다. letgo에서 대화를 나누시는 것은 더 쉽고 안전합니다.";
 "hidden_text_alert_title" = "안전하게 구매하세요";
-"listing_map_redo_search" = "Search this area";
+"listing_map_redo_search" = "지역 검색 하기";
 "listings_map_no_results_message" = "검색결과에 일치하는 결과가 없습니다. 다른 지역을 살펴보거나 다른 필터를 사용해주세요.";
 "listings_map_title" = "지도 확인";
 "location_permissions_allow_button" = "허가";
@@ -1076,6 +1076,7 @@
 "search_alerts_placeholder_empty_text" = "새로운 목록이 게시될 때 알림을 받기 위해 검색 기능을 구독해주세요";
 "search_alerts_placeholder_error_button" = "다시 시도하세요";
 "search_alerts_placeholder_error_text" = "이런! 검색 알림을 로딩하던 중 오류가 발생했습니다";
+"search_letgo" = "letgo 검색";
 "sell_category_selection_label" = "항목";
 "sell_choose_category_dialog_cancel_button" = "취소";
 "sell_choose_category_dialog_title" = "목록 고르기";

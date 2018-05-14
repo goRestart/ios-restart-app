@@ -97,10 +97,6 @@ class EnvironmentProxy: AppEnvironment {
     var websiteBaseUrlWithLocaleParams: String {
         return environment.websiteBaseUrlWithLocaleParams
     }
-    
-    var websiteBaseUrlWithLanguageParam: String {
-        return environment.websiteBaseUrlWithLanguageParam
-    }
 
     var adTestModeActive: Bool {
         return environment.adTestModeActive

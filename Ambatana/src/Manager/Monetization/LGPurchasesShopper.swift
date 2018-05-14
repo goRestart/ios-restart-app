@@ -48,6 +48,7 @@ protocol BumpInfoRequesterDelegate: class {
                                                     withProducts products: [PurchaseableProduct],
                                                     letgoItemId: String?,
                                                     storeProductId: String?,
+                                                    maxCountdown: TimeInterval,
                                                     typePage: EventParameterTypePage?)
 }
 
@@ -113,13 +114,14 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
     var paymentProcessingListingId: String?
     var paymentProcessingLetgoItemId: String?
     var paymentProcessingIsBoost: Bool = false
+    var paymentProcessingMaxCountdown: TimeInterval = 0
 
     private var currentBumpLetgoItemId: String?
     private var currentBumpStoreProductId: String?
     private var currentBumpTypePage: EventParameterTypePage?
 
-    private var recentBumpsCache: [String: Date] = [:]
-    static private let timeThresholdBetweenBumps: TimeInterval = 30
+    private var recentBumpsCache: [String: (Date, TimeInterval)] = [:]
+    static private let timeThresholdBetweenBumps: TimeInterval = 60
 
 
     override convenience init() {
@@ -211,6 +213,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
     func productsRequestStartForListingId(_ listingId: String,
                                           letgoItemId: String,
                                           withIds ids: [String],
+                                          maxCountdown: TimeInterval,
                                           typePage: EventParameterTypePage?) {
         guard listingId != currentListingId else { return }
         guard canMakePayments else { return }
@@ -225,10 +228,11 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
             // if product has been previously requested, we don't repeat the request, so the banner loads faster
             letgoProductsDict[listingId] = alreadyChosenProducts
             bumpInfoRequesterDelegate?.shopperFinishedProductsRequestForListingId(listingId,
-                                                                                withProducts: alreadyChosenProducts,
-                                                                                letgoItemId: letgoItemId,
-                                                                                storeProductId: ids.first,
-                                                                                typePage: typePage)
+                                                                                  withProducts: alreadyChosenProducts,
+                                                                                  letgoItemId: letgoItemId,
+                                                                                  storeProductId: ids.first,
+                                                                                  maxCountdown: maxCountdown,
+                                                                                  typePage: typePage)
             return
         }
 
@@ -263,10 +267,14 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
      Checks if the listing was bumped recently, and if was bumped but a while ago, it removes it form the
      recent bumps cache
      */
-    func timeSinceRecentBumpFor(listingId: String) -> TimeInterval? {
-        guard let recentBumpDate = recentBumpsCache[listingId] else { return nil }
+    func timeSinceRecentBumpFor(listingId: String) -> (timeDifference: TimeInterval, maxCountdown: TimeInterval)? {
+        guard let recentBumpInfo = recentBumpsCache[listingId] else { return nil }
+        let recentBumpDate = recentBumpInfo.0
+        let recentBumpMaxCountdown = recentBumpInfo.1
         let timeDifference = Date().timeIntervalSince1970 - recentBumpDate.timeIntervalSince1970
-        guard LGPurchasesShopper.timeThresholdBetweenBumps < timeDifference else { return timeDifference }
+        guard LGPurchasesShopper.timeThresholdBetweenBumps < timeDifference else {
+            return (timeDifference, recentBumpMaxCountdown)
+        }
         recentBumpsCache[listingId] = nil
         return nil
     }
@@ -277,7 +285,8 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
     func requestPayment(forListingId listingId: String,
                         appstoreProduct: PurchaseableProduct,
                         letgoItemId: String,
-                        isBoost: Bool) {
+                        isBoost: Bool,
+                        maxCountdown: TimeInterval) {
         guard canMakePayments else { return }
         guard let appstoreProducts = letgoProductsDict[listingId],
             let appstoreChosenProduct = appstoreProduct as? SKProduct,
@@ -291,6 +300,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         paymentProcessingListingId = listingId
         paymentProcessingLetgoItemId = letgoItemId
         paymentProcessingIsBoost = isBoost
+        paymentProcessingMaxCountdown = maxCountdown
         
         // request payment to appstore with "appstoreChosenProduct"
         let payment = SKMutablePayment(product: appstoreChosenProduct)
@@ -369,7 +379,8 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
                                          type: BumpUpType,
                                          transactionStatus: EventParameterTransactionStatus,
                                          isBoost: Bool,
-                                         letgoItemId: String?) {
+                                         letgoItemId: String?,
+                                         maxCountdown: TimeInterval) {
 
         var price: String?
         var currency: String?
@@ -393,7 +404,8 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
                                   paymentId: paymentId, letgoItemId: letgoItemId, receiptData: receiptData,
                                   itemId: transaction.payment.productIdentifier, itemPrice: price ?? "0",
                                   itemCurrency: currency ?? "", amplitudeId: amplitudeId,
-                                  appsflyerId: appsflyerId, idfa: idfa, bundleId: bundleId, numRetries: 0)
+                                  appsflyerId: appsflyerId, idfa: idfa, bundleId: bundleId, numRetries: 0,
+                                  maxCountdown: maxCountdown)
 
         requestBumpWithPaymentInfo(listingId: listingId,
                                    transaction: transaction,
@@ -461,7 +473,8 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
                                                                                     transactionStatus: transactionStatus,
                                                                                     typePage: strongSelf.currentBumpTypePage,
                                                                                     isBoost: isBoost,
-                                                                                    listingId: listingId)
+                                                                                    listingId: listingId,
+                                                                                    maxCountdown: bump.maxCountdown)
                                                 } else if let error = result.error {
                                                     switch error {
                                                     case .serverError(code: let code):
@@ -582,13 +595,14 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
                                       transactionStatus: EventParameterTransactionStatus,
                                       typePage: EventParameterTypePage?,
                                       isBoost: Bool,
-                                      listingId: String) {
+                                      listingId: String,
+                                      maxCountdown: TimeInterval) {
         delegate?.pricedBumpDidSucceed(type: type,
                                        restoreRetriesCount: restoreRetriesCount,
                                        transactionStatus: transactionStatus,
                                        typePage: typePage,
                                        isBoost: isBoost)
-        recentBumpsCache[listingId] = Date()
+        recentBumpsCache[listingId] = (Date(), maxCountdown)
     }
 }
 
@@ -619,6 +633,7 @@ extension LGPurchasesShopper: PurchaseableProductsRequestDelegate {
                                                                               withProducts: response.purchaseableProducts,
                                                                               letgoItemId: currentBumpLetgoItemId,
                                                                               storeProductId: currentBumpStoreProductId,
+                                                                              maxCountdown: paymentProcessingMaxCountdown,
                                                                               typePage: currentBumpTypePage)
         currentListingId = nil
     }
@@ -672,7 +687,8 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
                 let bumpType: BumpUpType = paymentProcessingIsBoost ? .boost(boostBannerVisible: false) : .priced
                 requestPricedBumpUp(forListingId: paymentProcessingListingId, receiptData: receiptString,
                                     transaction: transaction, type: bumpType, transactionStatus: transactionStatus,
-                                    isBoost: paymentProcessingIsBoost, letgoItemId: paymentProcessingLetgoItemId)
+                                    isBoost: paymentProcessingIsBoost, letgoItemId: paymentProcessingLetgoItemId,
+                                    maxCountdown: paymentProcessingMaxCountdown)
                 purchasesShopperState = .restoring
             case .failed:
                 delegate?.pricedBumpPaymentDidFail(withReason: transaction.error?.localizedDescription,
@@ -708,7 +724,8 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
                                               transaction: transaction, type: bumpType,
                                               transactionStatus: transactionStatus,
                                               isBoost: paymentProcessingIsBoost,
-                                              letgoItemId: paymentProcessingLetgoItemId)
+                                              letgoItemId: paymentProcessingLetgoItemId,
+                                              maxCountdown: paymentProcessingMaxCountdown)
             case .failed:
                 delegate?.pricedBumpPaymentDidFail(withReason: transaction.error?.localizedDescription,
                                                    transactionStatus: transactionStatus)

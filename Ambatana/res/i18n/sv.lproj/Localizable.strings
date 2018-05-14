@@ -415,7 +415,7 @@
 "hidden_phone_tag" = "[DOLT TELEFONNUMMER]";
 "hidden_text_alert_description" = "Vi döljer kontaktinformation för att du ska kunna köpa och sälja säkert. Att chatta via letgo är både enkelt och säkrare.";
 "hidden_text_alert_title" = "SÄKERHETSTIPS";
-"listing_map_redo_search" = "Search this area";
+"listing_map_redo_search" = "Sök på detta område";
 "listings_map_no_results_message" = "Ingen exakt matchning hittades. Sök på ett annat område eller ändra sökfilter.";
 "listings_map_title" = "Kartvy";
 "location_permissions_allow_button" = "Tillåt";
@@ -1076,6 +1076,7 @@
 "search_alerts_placeholder_empty_text" = "Prenumerera på sökningar för att få notifikationer när nya annonser läggs upp.";
 "search_alerts_placeholder_error_button" = "Try Again";
 "search_alerts_placeholder_error_text" = "Hoppsan! Ett fel uppstod när dina sökaviseringar skulle laddas upp";
+"search_letgo" = "Sök på letgo";
 "sell_category_selection_label" = "Kategori";
 "sell_choose_category_dialog_cancel_button" = "Avbryt";
 "sell_choose_category_dialog_title" = "Välj en kategori";

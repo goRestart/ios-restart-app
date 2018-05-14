@@ -39,10 +39,14 @@ final class UserVerificationCell: UITableViewCell, ReusableCell {
         logoImageView.contentMode = .scaleAspectFit
         titleLabel.font = .verificationItemTitle
         titleLabel.textColor = .lgBlack
+        titleLabel.numberOfLines = 0
+        titleLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         subtitleLabel.font = .mediumBodyFont
         subtitleLabel.textColor = .grayDisclaimerText
+        subtitleLabel.numberOfLines = 0
         pointsLabel.font = .verificationItemTitle
         pointsLabel.textColor = .verificationPoints
+        pointsLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         eventCountLabel.font = .verificationEventCountFont
         eventCountLabel.textColor = .grayDark
         eventCountLabel.textAlignment = .center
@@ -59,11 +63,13 @@ final class UserVerificationCell: UITableViewCell, ReusableCell {
             logoImageView.heightAnchor.constraint(equalToConstant: Layout.logoImageHeight),
             logoImageView.widthAnchor.constraint(equalTo: logoImageView.heightAnchor),
             titleLabel.leftAnchor.constraint(equalTo: logoImageView.rightAnchor, constant: Metrics.margin),
+            titleLabel.rightAnchor.constraint(lessThanOrEqualTo: pointsLabel.leftAnchor, constant: -Metrics.shortMargin),
             subtitleLabel.leftAnchor.constraint(equalTo: logoImageView.rightAnchor, constant: Metrics.margin),
+            subtitleLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -Metrics.veryBigMargin),
             subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Metrics.veryShortMargin),
             customAccessoryView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             customAccessoryView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -Metrics.margin),
-            pointsLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            pointsLabel.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
             pointsLabel.rightAnchor.constraint(equalTo: customAccessoryView.leftAnchor, constant: -Metrics.margin),
             completedBadge.heightAnchor.constraint(equalToConstant: Layout.badgeHeight),
             completedBadge.widthAnchor.constraint(equalTo: completedBadge.heightAnchor),

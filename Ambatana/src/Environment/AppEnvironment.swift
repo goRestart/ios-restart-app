@@ -29,7 +29,6 @@ protocol AppEnvironment {
     // Website
     var websiteBaseUrl: String { get }
     var websiteBaseUrlWithLocaleParams: String { get }
-    var websiteBaseUrlWithLanguageParam: String { get }
 
     // Google Ads
     var adTestModeActive: Bool { get }
@@ -69,7 +68,8 @@ extension AppEnvironment {
     func websiteUrl(_ endpoint: String) -> String {
         return String(format: "\(websiteBaseUrl)\(endpoint)", arguments: [endpoint])
     }
-    func localizedWebsiteUrl(_ country: String, language: String, endpoint: String? = nil) -> String {
+
+    func localizedWebsiteUrl(country: String, language: String, endpoint: String? = nil) -> String {
         let format: String
         if let endpoint = endpoint {
             format = "\(websiteBaseUrlWithLocaleParams)\(endpoint)"
@@ -77,10 +77,5 @@ extension AppEnvironment {
             format = "\(websiteBaseUrlWithLocaleParams)"
         }
         return String(format: format, arguments: [country, language])
-    }
-    
-    func localizedLanguageUrl(_ language: String, endpoint: String) -> String {
-        let format: String = websiteBaseUrlWithLanguageParam
-        return String(format: format, arguments: [language]) + endpoint
     }
 }

@@ -34,7 +34,6 @@ class ProductionEnvironment: AppEnvironment {
     // Website
     let websiteBaseUrl = "https://www.letgo.com"
     let websiteBaseUrlWithLocaleParams = "https://%@.letgo.com/%@"
-    let websiteBaseUrlWithLanguageParam = "https://%@.letgo.com"
     
     // Google Ads
     let adTestModeActive = false
