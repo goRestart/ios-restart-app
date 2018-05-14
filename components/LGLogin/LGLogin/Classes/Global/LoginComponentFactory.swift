@@ -7,6 +7,8 @@ final public class LoginComponentFactory {
     private let sessionManager: SessionManager
 
 
+    // MARK: - Lifecycle
+
     public convenience init(config: LoginComponentConfig) {
         self.init(config: config,
                   bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
@@ -24,6 +26,9 @@ final public class LoginComponentFactory {
         self.tracker = tracker
         self.sessionManager = sessionManager
     }
+
+
+    // MARK: - Factory
 
     func makeLoginCoordinator(source: EventParameterLoginSourceValue,
                               style: LoginStyle,
