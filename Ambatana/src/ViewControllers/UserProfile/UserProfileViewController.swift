@@ -540,6 +540,13 @@ extension UserProfileViewController {
             })
             .disposed(by: disposeBag)
 
+        viewModel
+            .userRatingCount
+            .drive(onNext: { [weak self] in
+                self?.headerView.setUser(hasRatings: $0 > 0)
+            })
+            .disposed(by: disposeBag)
+
         Observable
             .combineLatest(viewModel.userAvatarURL.asObservable(), viewModel.userAvatarPlaceholder.asObservable()) { ($0, $1) }
             .subscribeNext { [weak self] (url, placeholder) in
