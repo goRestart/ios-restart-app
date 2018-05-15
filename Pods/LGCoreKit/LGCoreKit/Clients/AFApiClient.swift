@@ -248,7 +248,8 @@ class AFApiClient: ApiClient {
         progress: ((Progress) -> Void)?) {
             
             guard request.requiredAuthLevel <= tokenDAO.level else {
-                completion?(ResultResult<T, ApiError>.t(error: .unauthorized(description: "Insufficient token level when uploading")))
+                let errorDescription = "required auth level: \(request.requiredAuthLevel); current level: \(tokenDAO.level) when uploading"
+                completion?(ResultResult<T, ApiError>.t(error: .unauthorized(description: errorDescription)))
                 report(CoreReportSession.insufficientTokenLevel, message: "when uploading")
                 return
             }
