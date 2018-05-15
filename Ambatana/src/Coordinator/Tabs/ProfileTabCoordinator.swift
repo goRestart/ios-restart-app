@@ -28,14 +28,8 @@ final class ProfileTabCoordinator: TabCoordinator {
         let keyValueStorage = KeyValueStorage.sharedInstance
         let tracker = TrackerProxy.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
-        let rootViewController: UIViewController
-        let viewModel = UserViewModel.myUserUserViewModel(.tabBar)
-        let newViewModel = UserProfileViewModel.makePrivateProfile(source: .tabBar)
-        if featureFlags.newUserProfileView.isActive {
-            rootViewController = UserProfileViewController(viewModel: newViewModel)
-        } else {
-            rootViewController = UserViewController(viewModel: viewModel)
-        }
+        let viewModel = UserProfileViewModel.makePrivateProfile(source: .tabBar)
+        let rootViewController = UserProfileViewController(viewModel: viewModel)
 
         self.init(listingRepository: listingRepository,
                   userRepository: userRepository,
@@ -49,7 +43,6 @@ final class ProfileTabCoordinator: TabCoordinator {
                   featureFlags: featureFlags,
                   sessionManager: sessionManager)
 
-        newViewModel.profileNavigator = self
         viewModel.profileNavigator = self
     }
 }
@@ -75,7 +68,7 @@ extension ProfileTabCoordinator: ProfileTabNavigator {
                                                pageType: pageType,
                                                listingCanBeBoosted: false,
                                                timeSinceLastBump: nil,
-                                               maxCountdown: nil)
+                                               maxCountdown: 0)
         openChild(coordinator: navigator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
     }
 

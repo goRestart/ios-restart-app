@@ -40,7 +40,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var realEstateNewCopy: RealEstateNewCopy = .control
     var dummyUsersInfoProfile: DummyUsersInfoProfile = .control
     var increaseMinPriceBumps: IncreaseMinPriceBumps = .control
-    var newUserProfileView: NewUserProfileView = .control
     var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation = .control
     var searchImprovements: SearchImprovements = .control
     var relaxedSearch: RelaxedSearch = .control
@@ -84,6 +83,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var shouldChangeSellFasterNowCopyInEnglish = false
     var copyForSellFasterNowInEnglish: CopyForSellFasterNowInEnglish = .control
     var shouldShowIAmInterestedInFeed: IAmInterestedFeed = .control
+    var googleAdxForTR: GoogleAdxForTR = .control
 
     // MARK: Chat
     var showInactiveConversations: Bool = false

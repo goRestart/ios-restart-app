@@ -41,7 +41,6 @@ protocol FeatureFlaggeable: class {
     var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
     var increaseMinPriceBumps: IncreaseMinPriceBumps { get }
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers { get }
-    var newUserProfileView: NewUserProfileView { get }
     var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation { get }
     var searchImprovements: SearchImprovements { get }
     var relaxedSearch: RelaxedSearch { get }
@@ -80,7 +79,8 @@ protocol FeatureFlaggeable: class {
     var shouldChangeSellFasterNowCopyInEnglish: Bool { get }
     var copyForSellFasterNowInEnglish: CopyForSellFasterNowInEnglish { get }
     var shouldShowIAmInterestedInFeed: IAmInterestedFeed { get }
-
+    var googleAdxForTR: GoogleAdxForTR { get }
+    
     // MARK: Chat
     var showInactiveConversations: Bool { get }
     var showChatSafetyTips: Bool { get }
@@ -261,10 +261,6 @@ extension CopyForChatNowInTurkey {
     }
 }
 
-extension NewUserProfileView {
-    var isActive: Bool { get { return self == .active } }
-}
-
 extension RealEstateTutorial {
     var isActive: Bool { return self != .baseline && self != .control }
 }
@@ -431,6 +427,32 @@ extension ServicesCategoryOnSalchichasMenu {
     var isActive: Bool { return self != .control && self != .baseline }    
 }
 
+extension GoogleAdxForTR {
+    private var shouldShowAdsInFeedForNewUsers: Bool {
+        return self == .googleAdxForAllUsers
+    }
+    private var shouldShowAdsInFeedForOldUsers: Bool {
+        return self == .googleAdxForOldUsers || self == .googleAdxForAllUsers
+    }
+    
+    var shouldShowAdsInFeed: Bool {
+        return  shouldShowAdsInFeedForNewUsers || shouldShowAdsInFeedForOldUsers
+    }
+    
+    var shouldShowGoogleAdxAds : Bool {
+        return self == .googleAdxForOldUsers || self == .googleAdxForAllUsers
+    }
+    
+    func shouldShowAdsInFeedForUser(createdIn: Date?) -> Bool {
+        guard let creationDate = createdIn else { return shouldShowAdsInFeedForOldUsers }
+        if creationDate.isNewerThan(Constants.newUserTimeThresholdForAds) {
+            return shouldShowAdsInFeedForNewUsers
+        } else {
+            return shouldShowAdsInFeedForOldUsers
+        }
+    }
+}
+
 final class FeatureFlags: FeatureFlaggeable {
     
     static let sharedInstance: FeatureFlags = FeatureFlags()
@@ -492,7 +514,6 @@ final class FeatureFlags: FeatureFlaggeable {
             dao.save(timeoutForRequests: TimeInterval(Bumper.requestsTimeOut.timeout))
         } else {
             dao.save(timeoutForRequests: TimeInterval(abTests.requestsTimeOut.value))
-            dao.save(newUserProfile: NewUserProfileView.fromPosition(abTests.newUserProfileView.value))
             dao.save(showAdvanceReputationSystem: ShowAdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value))
             dao.save(emergencyLocate: EmergencyLocate.fromPosition(abTests.emergencyLocate.value))
             dao.save(chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs.fromPosition(abTests.chatConversationsListWithoutTabs.value))
@@ -659,14 +680,6 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.machineLearningMVP
         }
         return MachineLearningMVP.fromPosition(abTests.machineLearningMVP.value)
-    }
-    
-    var newUserProfileView: NewUserProfileView {
-        if Bumper.enabled {
-            return Bumper.newUserProfileView
-        } else {
-            return dao.retrieveNewUserProfile() ?? NewUserProfileView.fromPosition(abTests.newUserProfileView.value)
-        }
     }
 
     var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation {
@@ -907,13 +920,20 @@ final class FeatureFlags: FeatureFlaggeable {
             case .googleAdxForOldUsers:
                 return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxUSAForOldUsers
             default:
-                switch feedAdsProviderForTR {
-                case .moPubAdsForAllUsers:
-                    return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubTRForAllUsers
-                case .moPubAdsForOldUsers:
-                    return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubTRForOldUsers
+                switch googleAdxForTR {
+                case .googleAdxForAllUsers:
+                    return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxTRForAllUsers
+                case .googleAdxForOldUsers:
+                    return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxTRForOldUsers
                 default:
-                    return nil
+                    switch feedAdsProviderForTR {
+                    case .moPubAdsForAllUsers:
+                        return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubTRForAllUsers
+                    case .moPubAdsForOldUsers:
+                        return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubTRForOldUsers
+                    default:
+                        return nil
+                    }
                 }
             }
         }
@@ -932,13 +952,20 @@ final class FeatureFlags: FeatureFlaggeable {
                 return nil
             }
         case .turkey?:
-            switch feedAdsProviderForTR {
-            case .moPubAdsForAllUsers:
-                return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubTRForAllUsers
-            case .moPubAdsForOldUsers:
-                return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubTRForOldUsers
+            switch googleAdxForTR {
+            case .googleAdxForAllUsers:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxTRForAllUsers
+            case .googleAdxForOldUsers:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdAdxTRForOldUsers
             default:
-                return nil
+                switch feedAdsProviderForTR {
+                case .moPubAdsForAllUsers:
+                    return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubTRForAllUsers
+                case .moPubAdsForOldUsers:
+                    return EnvironmentProxy.sharedInstance.feedAdUnitIdMoPubTRForOldUsers
+                default:
+                    return nil
+                }
             }
             
         default:
@@ -998,6 +1025,12 @@ final class FeatureFlags: FeatureFlaggeable {
         return CopyForSellFasterNowInEnglish.fromPosition(abTests.copyForSellFasterNowInEnglish.value)
     }
 
+    var googleAdxForTR: GoogleAdxForTR {
+        if Bumper.enabled {
+            return Bumper.googleAdxForTR
+        }
+        return GoogleAdxForTR.fromPosition(abTests.googleAdxForTR.value)
+    }
     
     // MARK: - Private
 

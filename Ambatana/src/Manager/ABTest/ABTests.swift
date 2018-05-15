@@ -146,7 +146,6 @@ extension ABTests {
 
 extension ABTests {
     var discardedProducts: LeanplumABVariable<Int> { return core.discardedProducts }
-    var newUserProfileView: LeanplumABVariable<Int> { return core.newUserProfileView }
     var searchImprovements: LeanplumABVariable<Int> { return core.searchImprovements }
     var servicesCategoryEnabled: LeanplumABVariable<Int> { return core.servicesCategoryEnabled }
     var machineLearningMVP: LeanplumABVariable<Int> { return core.machineLearningMVP }
@@ -179,6 +178,7 @@ extension ABTests {
     var bumpUpBoost: LeanplumABVariable<Int> { return money.bumpUpBoost }
     var showExactLocationForPros: LeanplumABVariable<Bool> { return money.showExactLocationForPros }
     var copyForSellFasterNowInEnglish : LeanplumABVariable<Int> { return money.copyForSellFasterNowInEnglish }
+    var googleAdxForTR: LeanplumABVariable<Int> { return money.googleAdxForTR }
 }
 
 //  MARK: Retention
