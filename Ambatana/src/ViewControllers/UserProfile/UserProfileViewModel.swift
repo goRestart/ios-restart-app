@@ -74,6 +74,7 @@ final class UserProfileViewModel: BaseViewModel {
     var userLocation: Driver<String?> { return user.asDriver().map{$0?.postalAddress.cityStateString} }
     var userAccounts: Driver<UserViewHeaderAccounts?> { return user.asDriver().map { [weak self] in self?.buildAccountsModel($0) } }
     var userRatingAverage: Driver<Float> { return user.asDriver().map{$0?.ratingAverage ?? 0} }
+    var userRatingCount: Driver<Int> { return user.asDriver().map{$0?.ratingCount ?? 0} }
     var userIsProfessional: Driver<Bool> { return user.asDriver().map {$0?.type == .pro} }
     var userBio: Driver<String?> { return user.asDriver().map { $0?.biography } }
     var userScore: Driver<Int> { return user.asDriver().map { $0?.reputationPoints ?? 0} }
