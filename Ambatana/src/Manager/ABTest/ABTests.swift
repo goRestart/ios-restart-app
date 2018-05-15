@@ -132,6 +132,10 @@ extension ABTests {
     var personlizedFeedIsActive: Bool {
         return personalizedFeed.value > 1
     }
+    
+    var searchBoxImprovement: LeanplumABVariable<Int> {
+        return discovery.searchBoxImprovements
+    }
 }
 
 //  MARK: Users

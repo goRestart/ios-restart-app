@@ -1188,7 +1188,7 @@ extension FeatureFlags {
         if Bumper.enabled {
             return Bumper.searchBoxImprovements
         }
-        return SearchBoxImprovements.fromPosition(abTests.searchImprovements.value)
+        return SearchBoxImprovements.fromPosition(abTests.searchBoxImprovement.value)
     }
 }
 

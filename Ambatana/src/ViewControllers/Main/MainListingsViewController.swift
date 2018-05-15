@@ -95,7 +95,9 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     // MARK: - Lifecycle
 
     required init(viewModel: MainListingsViewModel) {
-        navbarSearch = LGNavBarSearchField(viewModel.searchString)
+        navbarSearch = LGNavBarSearchField(viewModel.searchString,
+                                           searchBoxSize: viewModel.searchBoxSize,
+                                           searchFieldStyle: viewModel.searchFieldStyle)
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
         viewModel.delegate = self
@@ -316,7 +318,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         trendingSearchView.isHidden = true
         setFiltersNavBarButton()
         setInviteNavBarButton()
-        navbarSearch.endEdit()
+        navbarSearch.cancelEdit()
     }
 
     private func beginEdit() {
