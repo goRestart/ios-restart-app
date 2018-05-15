@@ -1,11 +1,24 @@
 import UIKit
 import LGComponents
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class MainViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     private static let cellIdentifier = "UITableViewCellIdentifier"
 
-    private let tableView: UITableView = UITableView()
+    private let viewModel: MainViewModel
+    private let tableView: UITableView
 
+
+    // MARK: - Lifecycle
+
+    init(viewModel: MainViewModel) {
+        self.viewModel = viewModel
+        self.tableView = UITableView()
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +38,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
                            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
                            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)]
-
         } else {
             constraints = [tableView.topAnchor.constraint(equalTo: view.topAnchor),
                            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -34,21 +46,25 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
         constraints.forEach { $0.isActive = true }
 
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: ViewController.cellIdentifier)
+        tableView.register(UITableViewCell.self,
+                           forCellReuseIdentifier: MainViewController.cellIdentifier)
         tableView.delegate = self
         tableView.dataSource = self
     }
 
+
     // MARK: - UITableViewDataSource
 
-    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return ViewControllerListItem.allValues.count
+    public func tableView(_ tableView: UITableView,
+                          numberOfRowsInSection section: Int) -> Int {
+        return viewModel.numberOfItems()
     }
 
-    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ViewController.cellIdentifier) ?? UITableViewCell()
-        let item = ViewControllerListItem.allValues[indexPath.row]
-        cell.textLabel?.text = item.title
+    public func tableView(_ tableView: UITableView,
+                          cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: MainViewController.cellIdentifier) ?? UITableViewCell()
+        let index = indexPath.row
+        cell.textLabel?.text = viewModel.titleForItemAt(index: index)
         return cell
     }
 
@@ -56,30 +72,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     // MARK: - UITableViewDelegate
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let item = ViewControllerListItem.allValues[indexPath.row]
-
-        let config = LoginConfig(signUpEmailTermsAndConditionsAcceptRequired: false)
-        let factory = LoginComponentFactory(config: config)
-        let coordinator = factory.makeLoginCoordinator(source: .install,
-                                                       style: .fullScreen,
-                                                       loggedInAction: { print("action!") },
-                                                       cancelAction: nil)
-    }
-}
-
-struct LoginConfig: LoginComponentConfig {
-    let signUpEmailTermsAndConditionsAcceptRequired: Bool
-}
-
-enum ViewControllerListItem {
-    case fullScreen
-
-    static var allValues: [ViewControllerListItem] = [.fullScreen]
-
-    var title: String {
-        switch self {
-        case .fullScreen:
-            return "Full Screen"
-        }
+        let index = indexPath.row
+        viewModel.selectItemAt(index: index)
     }
 }

@@ -2,12 +2,16 @@ import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    var window: UIWindow?
+    lazy var window: UIWindow? = {
+        return UIWindow(frame: UIScreen.main.bounds)
+    }()
+    lazy var coordinator: MainCoordinator = {
+        return MainCoordinator()
+    }()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        window = UIWindow(frame: UIScreen.main.bounds)
         window?.backgroundColor = UIColor.white
-        window?.rootViewController = ViewController()
+        window?.rootViewController = coordinator.viewController
         window?.makeKeyAndVisible()
         return true
     }

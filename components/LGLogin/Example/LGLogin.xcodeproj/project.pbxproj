@@ -10,8 +10,13 @@
 		50D901E220A5A79F0023FB92 /* MockLoginComponentConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CFB31020A59ED300255EE8 /* MockLoginComponentConfig.swift */; };
 		50D901E320A5A7AB0023FB92 /* LoginComponentFactorySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CFB30D20A59E1600255EE8 /* LoginComponentFactorySpec.swift */; };
 		50D901E720A5B37A0023FB92 /* Pods_LGLogin_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D901E820A5B37A0023FB92 /* Pods_LGLogin_Example.framework */; };
+		50D901F220A9A3680023FB92 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D901F120A9A3680023FB92 /* MainCoordinator.swift */; };
+		50DBCBA620AABDFE00AA9396 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBCBA520AABDFE00AA9396 /* MainViewModel.swift */; };
+		50DBCBAA20AABFB300AA9396 /* MainViewModelNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBCBA920AABFB300AA9396 /* MainViewModelNavigator.swift */; };
+		50DBCBAC20AAC27300AA9396 /* MockBubbleNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBCBAB20AAC27300AA9396 /* MockBubbleNotificationManager.swift */; };
+		50DBCBAE20AAC3A600AA9396 /* LoginConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBCBAD20AAC3A600AA9396 /* LoginConfig.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
-		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
+		607FACD81AFB9204008FA782 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* MainViewController.swift */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
@@ -37,10 +42,15 @@
 		50CFB31020A59ED300255EE8 /* MockLoginComponentConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLoginComponentConfig.swift; sourceTree = "<group>"; };
 		50D901E520A5B1B70023FB92 /* Pods_LGLogin_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_LGLogin_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		50D901E820A5B37A0023FB92 /* Pods_LGLogin_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_LGLogin_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		50D901F120A9A3680023FB92 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
+		50DBCBA520AABDFE00AA9396 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+		50DBCBA920AABFB300AA9396 /* MainViewModelNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModelNavigator.swift; sourceTree = "<group>"; };
+		50DBCBAB20AAC27300AA9396 /* MockBubbleNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockBubbleNotificationManager.swift; sourceTree = "<group>"; };
+		50DBCBAD20AAC3A600AA9396 /* LoginConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginConfig.swift; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* LGLogin_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LGLogin_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		607FACD71AFB9204008FA782 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		607FACD71AFB9204008FA782 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		607FACDC1AFB9204008FA782 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		607FACE51AFB9204008FA782 /* LGLogin_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LGLogin_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -129,9 +139,14 @@
 			isa = PBXGroup;
 			children = (
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
-				607FACD71AFB9204008FA782 /* ViewController.swift */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
+				50DBCBAD20AAC3A600AA9396 /* LoginConfig.swift */,
+				50D901F120A9A3680023FB92 /* MainCoordinator.swift */,
+				607FACD71AFB9204008FA782 /* MainViewController.swift */,
+				50DBCBA520AABDFE00AA9396 /* MainViewModel.swift */,
+				50DBCBA920AABFB300AA9396 /* MainViewModelNavigator.swift */,
+				50DBCBAB20AAC27300AA9396 /* MockBubbleNotificationManager.swift */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
 			);
 			name = "Example for LGLogin";
@@ -525,8 +540,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
+				607FACD81AFB9204008FA782 /* MainViewController.swift in Sources */,
+				50DBCBAA20AABFB300AA9396 /* MainViewModelNavigator.swift in Sources */,
+				50D901F220A9A3680023FB92 /* MainCoordinator.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
+				50DBCBAC20AAC27300AA9396 /* MockBubbleNotificationManager.swift in Sources */,
+				50DBCBAE20AAC3A600AA9396 /* LoginConfig.swift in Sources */,
+				50DBCBA620AABDFE00AA9396 /* MainViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

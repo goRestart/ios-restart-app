@@ -66,8 +66,8 @@ extension Coordinator {
 // MARK: - Helpers
 
 extension Coordinator {
-    func openChild(coordinator: Coordinator, parent: UIViewController, animated: Bool, forceCloseChild: Bool,
-                         completion: (() -> Void)?) {
+    public func openChild(coordinator: Coordinator, parent: UIViewController, animated: Bool, forceCloseChild: Bool,
+                          completion: (() -> Void)?) {
         let presentBlock = {
             self.child?.coordinatorDelegate = nil
             self.child = coordinator
@@ -90,7 +90,7 @@ extension Coordinator {
         }
     }
 
-    func closeCoordinator(animated: Bool, completion: (() -> Void)?) {
+    public func closeCoordinator(animated: Bool, completion: (() -> Void)?) {
         let dismiss: () -> Void = { [weak self] in
             self?.dismissViewController(animated: animated) {
                 guard let strongSelf = self else { return }
