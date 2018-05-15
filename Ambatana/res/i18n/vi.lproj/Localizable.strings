@@ -415,7 +415,7 @@
 "hidden_phone_tag" = "[SỐ ĐIỆN THOẠI BỊ ẨN]";
 "hidden_text_alert_description" = "Chúng tôi ẩn thông tin liên lạc để giúp bạn mua và bán được an toàn. Trò chuyện trên letgo luôn dễ dàng và bảo mật hơn.";
 "hidden_text_alert_title" = "GIỮ AN TOÀN";
-"listing_map_redo_search" = "Search this area";
+"listing_map_redo_search" = "Tìm kiếm khu vực này";
 "listings_map_no_results_message" = "Không có kết quả nào khớp với tìm kiếm của bạn. Hãy thử tìm ở một khu vực khác hoặc sử dụng bộ lọc khác.";
 "listings_map_title" = "Xem bản đồ";
 "location_permissions_allow_button" = "Cho phép";
@@ -1076,6 +1076,7 @@
 "search_alerts_placeholder_empty_text" = "Đăng ký tìm kiếm để nhận thông báo khi có bài đăng mới.";
 "search_alerts_placeholder_error_button" = "Thử lại";
 "search_alerts_placeholder_error_text" = "Ồ! Có lỗi xảy ra trong khi tải thông báo tìm kiếm";
+"search_letgo" = "Tìm kiếm letgo";
 "sell_category_selection_label" = "Danh mục";
 "sell_choose_category_dialog_cancel_button" = "Hủy";
 "sell_choose_category_dialog_title" = "Chọn một danh mục";

@@ -1076,6 +1076,7 @@
 "search_alerts_placeholder_empty_text" = "Subscribe to searches to get notifications when new listings are posted.";
 "search_alerts_placeholder_error_button" = "Try Again";
 "search_alerts_placeholder_error_text" = "Oops! An error occurred while loading your search alerts";
+"search_letgo" = "Search letgo";
 "sell_category_selection_label" = "Category";
 "sell_choose_category_dialog_cancel_button" = "Cancel";
 "sell_choose_category_dialog_title" = "Choose a category";

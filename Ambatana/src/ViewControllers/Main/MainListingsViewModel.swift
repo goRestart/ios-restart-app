@@ -1085,7 +1085,8 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         let myUserCreationDate: Date? = myUserRepository.myUser?.creationDate
         if featureFlags.showAdsInFeedWithRatio.isActive ||
             featureFlags.feedAdsProviderForUS.shouldShowAdsInFeedForUser(createdIn: myUserCreationDate) ||
-            featureFlags.feedAdsProviderForTR.shouldShowAdsInFeedForUser(createdIn: myUserCreationDate) {
+            featureFlags.feedAdsProviderForTR.shouldShowAdsInFeedForUser(createdIn: myUserCreationDate) ||
+            featureFlags.googleAdxForTR.shouldShowAdsInFeedForUser(createdIn: myUserCreationDate) {
                 totalListings = addAds(to: totalListings, page: page)
         }
         return totalListings
@@ -1128,7 +1129,8 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         guard let adsDelegate = adsDelegate else { return listings }
         let adsActive = featureFlags.showAdsInFeedWithRatio.isActive ||
             featureFlags.feedAdsProviderForUS.shouldShowAdsInFeed ||
-            featureFlags.feedAdsProviderForTR.shouldShowAdsInFeed
+            featureFlags.feedAdsProviderForTR.shouldShowAdsInFeed ||
+            featureFlags.googleAdxForTR.shouldShowAdsInFeed
         var cellModels = listings
 
         var canInsertAds = true
@@ -1144,7 +1146,22 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             var adsCellModel: ListingCellModel
             
             guard let feedAdUnitId = featureFlags.feedAdUnitId else { return listings }
-            if featureFlags.feedAdsProviderForUS.shouldShowMoPubAds || featureFlags.feedAdsProviderForTR.shouldShowMoPubAds {
+            if featureFlags.feedAdsProviderForUS.shouldShowGoogleAdxAds || featureFlags.googleAdxForTR.shouldShowGoogleAdxAds {
+                let adLoader = GADAdLoader(adUnitID: feedAdUnitId,
+                                           rootViewController: adsDelegate.rootViewControllerForAds(),
+                                           adTypes: [GADAdLoaderAdType.nativeContent],
+                                           options: nil)
+                let adData = AdvertisementAdxData(adUnitId: feedAdUnitId,
+                                                  rootViewController: adsDelegate.rootViewControllerForAds(),
+                                                  adPosition: lastAdPosition,
+                                                  bannerHeight: LGUIKitConstants.advertisementCellMoPubHeight,
+                                                  adRequested: false,
+                                                  categories: filters.selectedCategories,
+                                                  adLoader: adLoader,
+                                                  adxNativeView: NativeAdBlankStateView())
+                adsCellModel = ListingCellModel.adxAdvertisement(data: adData)
+                
+            } else if featureFlags.feedAdsProviderForUS.shouldShowMoPubAds || featureFlags.feedAdsProviderForTR.shouldShowMoPubAds {
                 let settings = MPStaticNativeAdRendererSettings()
                 var configurations = Array<MPNativeAdRendererConfiguration>()
                 settings.renderingViewClass = MoPubNativeView.self
@@ -1162,21 +1179,6 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                                                     moPubNativeAd: nil,
                                                     moPubView: NativeAdBlankStateView())
                 adsCellModel = ListingCellModel.mopubAdvertisement(data: adData)
-                
-            } else if featureFlags.feedAdsProviderForUS.shouldShowGoogleAdxAds {
-                let adLoader = GADAdLoader(adUnitID: feedAdUnitId,
-                                           rootViewController: adsDelegate.rootViewControllerForAds(),
-                                           adTypes: [GADAdLoaderAdType.nativeContent],
-                                           options: nil)
-                let adData = AdvertisementAdxData(adUnitId: feedAdUnitId,
-                                                  rootViewController: adsDelegate.rootViewControllerForAds(),
-                                                  adPosition: lastAdPosition,
-                                                  bannerHeight: LGUIKitConstants.advertisementCellMoPubHeight,
-                                                  adRequested: false,
-                                                  categories: filters.selectedCategories,
-                                                  adLoader: adLoader,
-                                                  adxNativeView: NativeAdBlankStateView())
-                adsCellModel = ListingCellModel.adxAdvertisement(data: adData)
                 
             } else {
                 guard let feedAdUnitId = featureFlags.feedDFPAdUnitId else { return listings }

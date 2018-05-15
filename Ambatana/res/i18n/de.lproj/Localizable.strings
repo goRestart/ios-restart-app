@@ -415,7 +415,7 @@
 "hidden_phone_tag" = "[TELEFONNUMMER VERSTECKT]";
 "hidden_text_alert_description" = "Wir verstecken Kontaktinformationen, damit du sicher kaufen und verkaufen kannst. Gespräche innerhalb letgos zu führen ist leicht und außerdem sicherer.";
 "hidden_text_alert_title" = "SICHERHEITSHINWEIS";
-"listing_map_redo_search" = "Search this area";
+"listing_map_redo_search" = "Suche in dieser Gegend";
 "listings_map_no_results_message" = "Keine exakten Treffer für deine Suche. Suche in einer anderen Gegend oder nutze andere Filter.";
 "listings_map_title" = "Kartenansicht";
 "location_permissions_allow_button" = "Erlauben";
@@ -1076,6 +1076,7 @@
 "search_alerts_placeholder_empty_text" = "Abonniere Suchen, um Benachrichtigungen zu erhalten, wenn neue Angebote eingestellt werden.";
 "search_alerts_placeholder_error_button" = "Erneut versuchen";
 "search_alerts_placeholder_error_text" = "Hoppla! Beim Laden deiner gespeicherten Suchen ist ein Fehler aufgetreten";
+"search_letgo" = "letgo durchsuchen";
 "sell_category_selection_label" = "Kategorie";
 "sell_choose_category_dialog_cancel_button" = "Abbrechen";
 "sell_choose_category_dialog_title" = "Wähle eine Kategorie";

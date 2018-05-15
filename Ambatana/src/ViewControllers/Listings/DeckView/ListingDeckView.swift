@@ -24,6 +24,8 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
         }
         static let collectionVerticalInset: CGFloat = 18
     }
+    static let actionsViewBackgroundColor: UIColor = UIColor.white.withAlphaComponent(0.8)
+
     var cardSize: CGSize { return collectionLayout.cardSize }
     var cellHeight: CGFloat { return collectionLayout.cellHeight }
 
@@ -109,7 +111,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
         itemActionsView.setContentCompressionResistancePriority(.required, for: .vertical)
         itemActionsView.setContentHuggingPriority(.required, for: .vertical)
         itemActionsView.alpha = 0
-        itemActionsView.backgroundColor = UIColor.white.withAlphaComponent(0.8)
+        itemActionsView.backgroundColor = ListingDeckView.actionsViewBackgroundColor
     }
 
     func normalizedPageOffset(givenOffset: CGFloat) -> CGFloat {
@@ -120,8 +122,10 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
         startPlayingButton.alpha = alpha
     }
 
-    func updatePrivateActionsWith(alpha: CGFloat) {
-        itemActionsView.alpha = alpha
+    func updatePrivateActionsWith(actionsAlpha: CGFloat, bumpBannerAlpha: CGFloat) {
+        itemActionsView.alpha = max(actionsAlpha, bumpBannerAlpha)
+        itemActionsView.backgroundColor = actionsAlpha > 0 ? ListingDeckView.actionsViewBackgroundColor : .clear
+        itemActionsView.updatePrivateActionsWith(actionsAlpha: actionsAlpha, bumpBannerAlpha: bumpBannerAlpha)
     }
 
     // MARK: ItemActionsView

@@ -23,6 +23,7 @@ struct FailedBumpInfo {
     static let idfaKey = "idfa"
     static let bundleIdKey = "bundleId"
     static let numRetriesKey = "numRetries"
+    static let maxCountdownKey = "maxCountdown"
 
     let listingId: String
     let transactionId: String?
@@ -37,10 +38,11 @@ struct FailedBumpInfo {
     let idfa: String?
     let bundleId: String?
     let numRetries: Int
+    let maxCountdown: TimeInterval
 
     init(listingId: String, transactionId: String?, paymentId: String, letgoItemId: String?, receiptData: String,
          itemId: String, itemPrice: String, itemCurrency: String, amplitudeId: String?, appsflyerId: String?,
-         idfa: String?, bundleId: String?, numRetries: Int) {
+         idfa: String?, bundleId: String?, numRetries: Int, maxCountdown: TimeInterval) {
         self.listingId = listingId
         self.transactionId = transactionId
         self.paymentId = paymentId
@@ -54,6 +56,7 @@ struct FailedBumpInfo {
         self.idfa = idfa
         self.bundleId = bundleId
         self.numRetries = numRetries
+        self.maxCountdown = maxCountdown
     }
 
     init?(dictionary: [String:String?]) {
@@ -64,8 +67,9 @@ struct FailedBumpInfo {
         guard let itemPrice = dictionary[FailedBumpInfo.itemPriceKey] as? String else { return nil }
         guard let itemCurrency = dictionary[FailedBumpInfo.itemCurrencyKey] as? String else { return nil }
         guard let numRetriesString = dictionary[FailedBumpInfo.numRetriesKey] as? String,
-            let numRetries = Int(numRetriesString)
-            else { return nil }
+            let numRetries = Int(numRetriesString) else { return nil }
+        guard let maxCountdownString = dictionary[FailedBumpInfo.maxCountdownKey] as? String,
+            let maxCountdown = TimeInterval(maxCountdownString) else { return nil }
 
         let letgoItemId = dictionary[FailedBumpInfo.letgoItemIdKey] as? String
         let transactionId = dictionary[FailedBumpInfo.transactionIdKey] as? String
@@ -87,7 +91,8 @@ struct FailedBumpInfo {
                   appsflyerId: appsflyerId,
                   idfa: idfa,
                   bundleId: bundleId,
-                  numRetries: numRetries)
+                  numRetries: numRetries,
+                  maxCountdown: maxCountdown)
     }
 
     func dictionaryValue() -> [String:String?] {
@@ -105,6 +110,7 @@ struct FailedBumpInfo {
         dict[FailedBumpInfo.idfaKey] = idfa
         dict[FailedBumpInfo.bundleIdKey] = bundleId
         dict[FailedBumpInfo.numRetriesKey] = String(numRetries)
+        dict[FailedBumpInfo.maxCountdownKey] = String(describing: maxCountdown)
         return dict
     }
 
@@ -112,6 +118,7 @@ struct FailedBumpInfo {
         return FailedBumpInfo(listingId: listingId, transactionId: transactionId,
                               paymentId: paymentId, letgoItemId: letgoItemId, receiptData: receiptData, itemId: itemId,
                               itemPrice: itemPrice, itemCurrency: itemCurrency, amplitudeId: amplitudeId,
-                              appsflyerId: appsflyerId, idfa: idfa, bundleId: bundleId, numRetries: newNumRetries)
+                              appsflyerId: appsflyerId, idfa: idfa, bundleId: bundleId, numRetries: newNumRetries,
+                              maxCountdown: maxCountdown)
     }
 }

@@ -75,18 +75,15 @@ class BumpUpBoostViewController: BaseViewController {
     private let featureFlags: FeatureFlaggeable
     private let viewModel: BumpUpPayViewModel
 
-    private let maxCountdown: TimeInterval
     private var timer: Timer = Timer()
     private var timeIntervalLeft: TimeInterval
 
     init(viewModel: BumpUpPayViewModel,
          featureFlags: FeatureFlaggeable,
-         timeSinceLastBump: TimeInterval,
-         maxCountdown: TimeInterval) {
+         timeSinceLastBump: TimeInterval) {
         self.viewModel = viewModel
         self.featureFlags = featureFlags
-        self.maxCountdown = maxCountdown
-        self.timeIntervalLeft = maxCountdown-timeSinceLastBump
+        self.timeIntervalLeft = viewModel.maxCountdown-timeSinceLastBump
         super.init(viewModel: viewModel, nibName: nil)
         modalPresentationStyle = .overCurrentContext
     }
@@ -174,7 +171,7 @@ class BumpUpBoostViewController: BaseViewController {
     }
 
     private func setupTopView() {
-        timerProgressView.maxTime = maxCountdown
+        timerProgressView.maxTime = viewModel.maxCountdown
         timerProgressView.updateWith(timeLeft: timeIntervalLeft)
 
         closeButton.setImage(#imageLiteral(resourceName: "gray_chevron_down"), for: .normal)

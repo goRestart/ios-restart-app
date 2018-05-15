@@ -97,10 +97,6 @@ class EnvironmentProxy: AppEnvironment {
     var websiteBaseUrlWithLocaleParams: String {
         return environment.websiteBaseUrlWithLocaleParams
     }
-    
-    var websiteBaseUrlWithLanguageParam: String {
-        return environment.websiteBaseUrlWithLanguageParam
-    }
 
     var adTestModeActive: Bool {
         return environment.adTestModeActive
@@ -148,6 +144,14 @@ class EnvironmentProxy: AppEnvironment {
     
     var feedAdUnitIdAdxUSAForOldUsers: String {
         return environment.feedAdUnitIdAdxUSAForOldUsers
+    }
+    
+    var feedAdUnitIdAdxTRForAllUsers: String {
+        return environment.feedAdUnitIdAdxTRForAllUsers
+    }
+    
+    var feedAdUnitIdAdxTRForOldUsers: String {
+        return environment.feedAdUnitIdAdxTRForOldUsers
     }
     
 }
