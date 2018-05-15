@@ -23,7 +23,9 @@ final class MainCoordinator: Coordinator, MainViewModelNavigator {
         self.child = nil
         self.coordinatorDelegate = nil
         let viewModel = MainViewModel()
-        self.viewController = MainViewController(viewModel: viewModel)
+        let viewController = MainViewController(viewModel: viewModel)
+        let navigationController = UINavigationController(rootViewController: viewController)
+        self.viewController = navigationController
         self.presentedAlertController = nil
         self.sessionManager = sessionManager
         self.bubbleNotificationManager = bubbleNotificationManager
@@ -52,10 +54,10 @@ final class MainCoordinator: Coordinator, MainViewModelNavigator {
                                                        style: .fullScreen,
                                                        loggedInAction: { print("loggedInAction!") },
                                                        cancelAction: nil)
-        coordinator.openChild(coordinator: coordinator,
-                              parent: viewController,
-                              animated: true,
-                              forceCloseChild: true,
-                              completion: nil)
+        openChild(coordinator: coordinator,
+                  parent: viewController,
+                  animated: true,
+                  forceCloseChild: true,
+                  completion: nil)
     }
 }
