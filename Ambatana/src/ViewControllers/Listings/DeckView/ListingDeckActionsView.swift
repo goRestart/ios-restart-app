@@ -103,6 +103,12 @@ final class ListingDeckActionView: UIView {
             ])
     }
 
+    func updatePrivateActionsWith(actionsAlpha: CGFloat, bumpBannerAlpha: CGFloat) {
+        actionButton.alpha = actionsAlpha
+        separator.alpha = actionsAlpha
+        bumpUpBanner.alpha = bumpBannerAlpha
+    }
+
     func resetCountdown() {
         bumpUpBanner.resetCountdown()
     }

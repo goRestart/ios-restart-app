@@ -37,7 +37,7 @@ class BumpUpCoordinator: Coordinator {
                      bumpUpProductData: BumpUpProductData,
                      typePage: EventParameterTypePage?,
                      timeSinceLastBump: TimeInterval? = nil,
-                     maxCountdown: TimeInterval? = nil) {
+                     maxCountdown: TimeInterval) {
         switch bumpUpProductData.bumpUpPurchaseableData {
         case .socialMessage(let socialMessage):
             self.init(listing: listing,
@@ -93,24 +93,23 @@ class BumpUpCoordinator: Coordinator {
          sessionManager: SessionManager,
          featureFlags: FeatureFlaggeable,
          timeSinceLastBump: TimeInterval? = nil,
-         maxCountdown: TimeInterval? = nil) {
+         maxCountdown: TimeInterval) {
 
         let bumpUpVM = BumpUpPayViewModel(listing: listing,
                                           purchaseableProduct: purchaseableProduct,
                                           letgoItemId: letgoItemId,
                                           storeProductId: storeProductId,
-                                          typePage: typePage)
+                                          typePage: typePage,
+                                          maxCountdown: maxCountdown)
 
         let bumpUpVC: BaseViewController
         if let timeSinceLastBump = timeSinceLastBump,
-            let maxCountdown = maxCountdown,
             timeSinceLastBump > 0,
             featureFlags.bumpUpBoost.isActive {
             bumpUpVM.isBoost = true
             bumpUpVC = BumpUpBoostViewController(viewModel: bumpUpVM,
                                                  featureFlags: featureFlags,
-                                                 timeSinceLastBump: timeSinceLastBump,
-                                                 maxCountdown: maxCountdown)
+                                                 timeSinceLastBump: timeSinceLastBump)
         } else {
             bumpUpVC = BumpUpPayViewController(viewModel: bumpUpVM)
         }

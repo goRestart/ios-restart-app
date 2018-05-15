@@ -5072,6 +5072,18 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.params?.params).to(beNil())
                 }
             }
+
+            describe("Taking an screenshot") {
+                beforeEach {
+                    sut = TrackerEvent.userDidTakeScreenshot()
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("os-screenshot"))
+                }
+                it("the information is empty") {
+                    expect(sut.params?.params).to(beNil())
+                }
+            }
         }
     }
 }

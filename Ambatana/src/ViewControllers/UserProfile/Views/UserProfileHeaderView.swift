@@ -140,6 +140,7 @@ final class UserProfileHeaderView: UIView {
 
             locationLabel.leftAnchor.constraint(equalTo: leftAnchor),
             locationLabel.topAnchor.constraint(equalTo: ratingView.bottomAnchor, constant: Layout.verticalMargin),
+            locationLabel.rightAnchor.constraint(lessThanOrEqualTo: avatarImageView.leftAnchor, constant: -Layout.verticalMargin),
 
             memberSinceLabel.leftAnchor.constraint(equalTo: leftAnchor),
             memberSinceLabel.topAnchor.constraint(equalTo: locationLabel.bottomAnchor, constant: Layout.verticalMargin),

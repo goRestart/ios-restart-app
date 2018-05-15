@@ -29,7 +29,7 @@ protocol ListingDeckViewControllerBinderType: class {
     func didMoveToItemAtIndex(_ index: Int)
     func didEndDecelerating()
     
-    func updateViewWith(alpha: CGFloat, chatEnabled: Bool, isMine: Bool, actionsEnabled: Bool)
+    func updateViewWith(alpha: CGFloat, chatEnabled: Bool, actionsEnabled: Bool)
     func updateViewWithActions(_ actions: [UIAction])
 
     func turnNavigationBar(_ on: Bool)
@@ -58,7 +58,6 @@ protocol ListingDeckViewModelType: class {
 
     var rxObjectChanges: Observable<CollectionChange<ListingCellModel>> { get }
     var rxIsChatEnabled: Observable<Bool> { get }
-    var rxIsMine: Observable<Bool> { get }
 
     func replaceListingCellModelAtIndex(_ index: Int, withListing listing: Listing)
     func moveToListingAtIndex(_ index: Int, movement: DeckMovement)
@@ -248,13 +247,11 @@ final class ListingDeckViewControllerBinder {
         let chatEnabled: Observable<Bool> = viewModel.rxIsChatEnabled.distinctUntilChanged()
         Observable.combineLatest(contentOffsetAlphaSignal,
                                  chatEnabled,
-                                 viewModel.rxIsMine.distinctUntilChanged(),
-                                 areActionsEnabled.distinctUntilChanged()) { ($0, $1, $2, $3) }
+                                 areActionsEnabled.distinctUntilChanged()) { ($0, $1, $2) }
             .observeOn(MainScheduler.asyncInstance)
-            .bind { [weak viewController] (offsetAlpha, isChatEnabled, isMine, actionsEnabled) in
+            .bind { [weak viewController] (offsetAlpha, isChatEnabled, actionsEnabled) in
                 viewController?.updateViewWith(alpha: offsetAlpha,
                                                chatEnabled: isChatEnabled,
-                                               isMine: isMine,
                                                actionsEnabled: actionsEnabled)
         }.disposed(by: disposeBag)
     }

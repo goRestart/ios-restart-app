@@ -13,9 +13,11 @@ class BumpUpPayViewModel: BaseViewModel {
 
     var isBoost: Bool = false
     var listing: Listing
+    let maxCountdown: TimeInterval
     private let letgoItemId: String?
     private let storeProductId: String?
     private let typePage: EventParameterTypePage?
+
 
     var price: String {
         return purchaseableProduct.formattedCurrencyPrice
@@ -33,11 +35,13 @@ class BumpUpPayViewModel: BaseViewModel {
                      purchaseableProduct: PurchaseableProduct,
                      letgoItemId: String?,
                      storeProductId: String?,
-                     typePage: EventParameterTypePage?) {
+                     typePage: EventParameterTypePage?,
+                     maxCountdown: TimeInterval) {
         let purchasesShopper = LGPurchasesShopper.sharedInstance
         self.init(listing: listing, purchaseableProduct: purchaseableProduct,
                   purchasesShopper: purchasesShopper, letgoItemId: letgoItemId,
-                  storeProductId: storeProductId, typePage: typePage, tracker: TrackerProxy.sharedInstance)
+                  storeProductId: storeProductId, typePage: typePage, maxCountdown: maxCountdown,
+                  tracker: TrackerProxy.sharedInstance)
     }
 
     init(listing: Listing,
@@ -46,6 +50,7 @@ class BumpUpPayViewModel: BaseViewModel {
          letgoItemId: String?,
          storeProductId: String?,
          typePage: EventParameterTypePage?,
+         maxCountdown: TimeInterval,
          tracker: Tracker) {
         self.listing = listing
         self.purchaseableProduct = purchaseableProduct
@@ -54,6 +59,7 @@ class BumpUpPayViewModel: BaseViewModel {
         self.letgoItemId = letgoItemId
         self.storeProductId = storeProductId
         self.typePage = typePage
+        self.maxCountdown = maxCountdown
     }
 
     func viewDidAppear() {
@@ -98,7 +104,8 @@ class BumpUpPayViewModel: BaseViewModel {
         purchasesShopper.requestPayment(forListingId: listingId,
                                         appstoreProduct: purchaseableProduct,
                                         letgoItemId: letgoItemId,
-                                        isBoost: false)
+                                        isBoost: false,
+                                        maxCountdown: maxCountdown)
     }
 
     private func boostProduct() {
@@ -107,6 +114,7 @@ class BumpUpPayViewModel: BaseViewModel {
         purchasesShopper.requestPayment(forListingId: listingId,
                                         appstoreProduct: purchaseableProduct,
                                         letgoItemId: letgoItemId,
-                                        isBoost: true)
+                                        isBoost: true,
+                                        maxCountdown: maxCountdown)
     }
 }

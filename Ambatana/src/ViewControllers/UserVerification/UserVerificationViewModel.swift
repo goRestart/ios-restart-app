@@ -104,7 +104,7 @@ final class UserVerificationViewModel: BaseViewModel {
 
         let soldCount = actions.filter{$0 == .markAsSold}.count
         let thirdSection: [UserVerificationItem] = [
-            .markAsSold(completed: actions.contains(.markAsSold), total: soldCount)
+            .markAsSold(completed: soldCount >= 5, total: soldCount)
         ]
 
         return [firstSection, secondSection, thirdSection]

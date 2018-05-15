@@ -62,6 +62,7 @@ final class UserProfileKarmaScoreView: UIView {
         static let chevronImageHeight: CGFloat = 13
         static let chevronImageWidth: CGFloat = 8
         static let separatorHeight: CGFloat = 1
+        static let openVerificationsLabelHeight: CGFloat = 48
     }
 
     required init() {
@@ -71,10 +72,6 @@ final class UserProfileKarmaScoreView: UIView {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    override var intrinsicContentSize: CGSize {
-        return CGSize(width: UIViewNoIntrinsicMetric, height: 200)
     }
 
     override func layoutSubviews() {
@@ -107,6 +104,7 @@ final class UserProfileKarmaScoreView: UIView {
 
         subtitleLabel.font = .subtitleFont
         subtitleLabel.textColor = .grayDark
+        subtitleLabel.numberOfLines = 0
 
         progressBackgroundView.backgroundColor = .grayLighter
         progressBackgroundView.cornerRadius = Layout.progressHeight / 2
@@ -162,9 +160,10 @@ final class UserProfileKarmaScoreView: UIView {
             subtitleImageView.leftAnchor.constraint(equalTo: outerContainer.leftAnchor, constant: Metrics.margin),
             subtitleImageView.heightAnchor.constraint(equalToConstant: Layout.tickImageHeight),
             subtitleImageView.widthAnchor.constraint(equalTo: subtitleImageView.heightAnchor),
-            subtitleLabel.centerYAnchor.constraint(equalTo: subtitleImageView.centerYAnchor),
+            subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Metrics.veryShortMargin),
+            subtitleLabel.rightAnchor.constraint(equalTo: innerContainer.rightAnchor, constant: -Metrics.shortMargin),
 
-            progressBackgroundView.topAnchor.constraint(equalTo: subtitleImageView.bottomAnchor, constant: Layout.progressTopMargin),
+            progressBackgroundView.topAnchor.constraint(equalTo: subtitleLabel.bottomAnchor, constant: Layout.progressTopMargin),
             progressBackgroundView.leftAnchor.constraint(equalTo: outerContainer.leftAnchor, constant: Metrics.margin),
             progressBackgroundView.rightAnchor.constraint(equalTo: innerContainer.rightAnchor, constant: -Layout.progressRightMargin),
             progressBackgroundView.heightAnchor.constraint(equalToConstant: Layout.progressHeight),
@@ -183,17 +182,20 @@ final class UserProfileKarmaScoreView: UIView {
             badgeImageView.widthAnchor.constraint(equalTo: badgeImageView.heightAnchor),
             badgeImageView.centerYAnchor.constraint(equalTo: progressBackgroundView.centerYAnchor),
 
-            openVerificationsLabel.bottomAnchor.constraint(equalTo: outerContainer.bottomAnchor, constant: -Metrics.margin),
+            horizontalSeparator.topAnchor.constraint(equalTo: progressView.bottomAnchor, constant: Metrics.veryBigMargin),
+            horizontalSeparator.leftAnchor.constraint(equalTo: outerContainer.leftAnchor, constant: Metrics.margin),
+            horizontalSeparator.rightAnchor.constraint(equalTo: outerContainer.rightAnchor, constant: -Metrics.margin),
+            horizontalSeparator.heightAnchor.constraint(equalToConstant: Layout.separatorHeight),
+
+            openVerificationsLabel.topAnchor.constraint(equalTo: progressView.bottomAnchor, constant: Metrics.veryBigMargin),
+            openVerificationsLabel.heightAnchor.constraint(equalToConstant: Layout.openVerificationsLabelHeight),
+            openVerificationsLabel.bottomAnchor.constraint(equalTo: innerContainer.bottomAnchor),
             openVerificationsLabel.leftAnchor.constraint(equalTo: outerContainer.leftAnchor, constant: Metrics.margin),
             openVerificationsLabel.rightAnchor.constraint(equalTo: openVerificationsAccessoryView.leftAnchor, constant: -Metrics.shortMargin),
             openVerificationsAccessoryView.rightAnchor.constraint(equalTo: outerContainer.rightAnchor, constant: -Metrics.margin),
             openVerificationsAccessoryView.centerYAnchor.constraint(equalTo: openVerificationsLabel.centerYAnchor),
             openVerificationsAccessoryView.heightAnchor.constraint(equalToConstant: Layout.chevronImageHeight),
             openVerificationsAccessoryView.widthAnchor.constraint(equalToConstant: Layout.chevronImageWidth),
-            horizontalSeparator.topAnchor.constraint(equalTo: openVerificationsLabel.topAnchor, constant: -Metrics.margin),
-            horizontalSeparator.leftAnchor.constraint(equalTo: outerContainer.leftAnchor, constant: Metrics.margin),
-            horizontalSeparator.rightAnchor.constraint(equalTo: outerContainer.rightAnchor, constant: -Metrics.margin),
-            horizontalSeparator.heightAnchor.constraint(equalToConstant: Layout.separatorHeight)
         ]
 
         let subtitleLeft = subtitleLabel.leftAnchor.constraint(equalTo: outerContainer.leftAnchor)
@@ -216,7 +218,7 @@ final class UserProfileKarmaScoreView: UIView {
         badgeImageView.image = verified ? UIImage(named: "ic_karma_badge_active") : UIImage(named: "ic_karma_badge_inactive")
         progressViewWidthConstraint?.constant = CGFloat(min(score, Constants.Reputation.maxScore)) / CGFloat(Constants.Reputation.maxScore) * progressBackgroundView.width
         subtitleImageView.isHidden = !verified
-        subtitleLeftConstraint?.constant = verified ? Layout.subtitleLeftMarginVerified : Metrics.bigMargin
+        subtitleLeftConstraint?.constant = verified ? Layout.subtitleLeftMarginVerified : Metrics.margin
         updateTitleLabel()
         updateSubtitleLabel()
     }
