@@ -394,32 +394,18 @@ fileprivate extension TabCoordinator {
         // If it's me do not then open the user profile
         guard myUserRepository.myUser?.objectId != user.objectId else { return }
 
-        if featureFlags.newUserProfileView.isActive {
-            let vm = UserProfileViewModel.makePublicProfile(user: user, source: source)
-            vm.navigator = self
-            let vc = UserProfileViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
-            navigationController.pushViewController(vc, animated: true)
-        } else {
-            let vm = UserViewModel(user: user, source: source)
-            vm.navigator = self
-            let vc = UserViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
-            navigationController.pushViewController(vc, animated: true)
-        }
+        let vm = UserProfileViewModel.makePublicProfile(user: user, source: source)
+        vm.navigator = self
+        let vc = UserProfileViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
+        navigationController.pushViewController(vc, animated: true)
     }
 
 
     func openUser(_ interlocutor: ChatInterlocutor) {
-        if featureFlags.newUserProfileView.isActive {
-            let vm = UserProfileViewModel.makePublicProfile(chatInterlocutor: interlocutor, source: .chat)
-            vm.navigator = self
-            let vc = UserProfileViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
-            navigationController.pushViewController(vc, animated: true)
-        } else {
-            let vm = UserViewModel(chatInterlocutor: interlocutor, source: .chat)
-            vm.navigator = self
-            let vc = UserViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
-            navigationController.pushViewController(vc, animated: true)
-        }
+        let vm = UserProfileViewModel.makePublicProfile(chatInterlocutor: interlocutor, source: .chat)
+        vm.navigator = self
+        let vc = UserProfileViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
+        navigationController.pushViewController(vc, animated: true)
     }
 
     func openConversation(_ conversation: ChatConversation, source: EventParameterTypePage, predefinedMessage: String?) {
