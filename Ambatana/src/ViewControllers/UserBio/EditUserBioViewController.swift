@@ -22,7 +22,7 @@ final class EditUserBioViewController: BaseViewController {
     private let characterLimit = 150
 
     struct Layout {
-        static let margin: CGFloat = 20
+        static let bigMargin: CGFloat = 20
         static let placeholderTopMargin: CGFloat = 8
         static let placeholderSideMargin: CGFloat = 5
         static let saveButtonHeight: CGFloat = 50
@@ -80,19 +80,19 @@ final class EditUserBioViewController: BaseViewController {
 
     private func setupConstraints() {
         var constraints = [
-            textView.topAnchor.constraint(equalTo: safeTopAnchor, constant: Layout.margin),
-            textView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: Layout.margin),
-            textView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -Layout.margin),
+            textView.topAnchor.constraint(equalTo: safeTopAnchor, constant: Layout.bigMargin),
+            textView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: Layout.bigMargin),
+            textView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -Layout.bigMargin),
             placeholderLabel.topAnchor.constraint(equalTo: textView.topAnchor, constant: Layout.placeholderTopMargin),
             placeholderLabel.leftAnchor.constraint(equalTo: textView.leftAnchor, constant: Layout.placeholderSideMargin),
             placeholderLabel.rightAnchor.constraint(equalTo: textView.rightAnchor, constant: -Layout.placeholderSideMargin),
 
-            charCounterLabel.topAnchor.constraint(equalTo: textView.bottomAnchor, constant: Layout.margin),
+            charCounterLabel.topAnchor.constraint(equalTo: textView.bottomAnchor, constant: Layout.bigMargin),
             charCounterLabel.rightAnchor.constraint(equalTo: textView.rightAnchor),
-            charCounterLabel.bottomAnchor.constraint(equalTo: saveButton.topAnchor, constant: -Layout.margin),
+            charCounterLabel.bottomAnchor.constraint(equalTo: saveButton.topAnchor, constant: -Layout.bigMargin),
 
-            saveButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: Layout.margin),
-            saveButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -Layout.margin),
+            saveButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: Layout.bigMargin),
+            saveButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -Layout.bigMargin),
             saveButton.heightAnchor.constraint(equalToConstant: Layout.saveButtonHeight)
         ]
         let save = saveButton.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -Layout.saveButtonBottomMargin)
