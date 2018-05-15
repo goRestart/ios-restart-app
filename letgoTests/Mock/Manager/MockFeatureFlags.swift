@@ -54,6 +54,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var realEstateTutorial: RealEstateTutorial = .control
     var summaryAsFirstStep: SummaryAsFirstStep = .control
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem = .control
+    var sectionedMainFeed: SectionedMainFeed = .control
     var showExactLocationForPros: Bool = true
     var showPasswordlessLogin: ShowPasswordlessLogin = .control
     var emergencyLocate: EmergencyLocate = .control

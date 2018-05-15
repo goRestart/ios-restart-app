@@ -56,6 +56,7 @@ extension Bumper  {
         flags.append(CopyForChatNowInEnglish.self)
         flags.append(FeedAdsProviderForTR.self)
         flags.append(SearchCarsIntoNewBackend.self)
+        flags.append(SectionedMainFeed.self)
         flags.append(FilterSearchCarSellerType.self)
         flags.append(ShowExactLocationForPros.self)
         flags.append(ShowPasswordlessLogin.self)
@@ -286,6 +287,11 @@ extension Bumper  {
     static var searchCarsIntoNewBackend: SearchCarsIntoNewBackend {
         guard let value = Bumper.value(for: SearchCarsIntoNewBackend.key) else { return .control }
         return SearchCarsIntoNewBackend(rawValue: value) ?? .control 
+    }
+
+    static var sectionedMainFeed: SectionedMainFeed {
+        guard let value = Bumper.value(for: SectionedMainFeed.key) else { return .control }
+        return SectionedMainFeed(rawValue: value) ?? .control 
     }
 
     static var filterSearchCarSellerType: FilterSearchCarSellerType {
@@ -1027,6 +1033,24 @@ enum SearchCarsIntoNewBackend: String, BumperFeature  {
     }
 }
 
+enum SectionedMainFeed: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return SectionedMainFeed.control.rawValue }
+    static var enumValues: [SectionedMainFeed] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "A new fully sectioned main feed" } 
+    static func fromPosition(_ position: Int) -> SectionedMainFeed {
+        switch position {
+        case 0: return .control
+        case 1: return .baseline
+        case 2: return .active
+        default: return .control
+        }
+    }
+    var isActive: Bool { return self == .active }
+}
+
+        
 enum FilterSearchCarSellerType: String, BumperFeature  {
     case control, baseline, variantA, variantB, variantC, variantD
     static var defaultValue: String { return FilterSearchCarSellerType.control.rawValue }
@@ -1062,7 +1086,7 @@ enum ShowPasswordlessLogin: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show Passwordless login option" } 
     static func fromPosition(_ position: Int) -> ShowPasswordlessLogin {
-        switch position { 
+        switch position {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
