@@ -52,18 +52,29 @@ final class UserVerificationViewModel: BaseViewModel {
                   tracker: TrackerProxy.sharedInstance)
     }
 
-    func loadData() {
+    func loadData(completion: (() -> Void)? = nil) {
         syncActions()
     }
 
-    private func syncActions() {
+    private func syncActions(repetitions: Int = 0) {
+        guard repetitions < 4 else { return }
+        refresh { [weak self] in
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
+                self?.syncActions(repetitions: repetitions+1)
+            })
+        }
+    }
+
+    private func refresh(completion: (() -> Void)? = nil) {
         myUserRepository.retrieveUserReputationActions { [weak self] result in
             if let value = result.value {
                 self?.actionsHistory.value = value.map{ $0.type }
+                completion?()
             } else if let _ = result.error {
                 self?.showErrorAlert()
             }
         }
+        myUserRepository.refresh(nil)
     }
 
     private func showErrorAlert() {
