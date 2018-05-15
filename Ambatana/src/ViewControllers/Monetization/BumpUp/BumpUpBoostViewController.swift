@@ -8,7 +8,7 @@
 
 import Foundation
 
-class BumpUpBoostViewController: BaseViewController {
+final class BumpUpBoostViewController: BaseViewController {
 
     struct BoostViewMetrics {
         static let bottomAnchorConstant: CGFloat = 20
@@ -85,7 +85,6 @@ class BumpUpBoostViewController: BaseViewController {
         self.featureFlags = featureFlags
         self.timeIntervalLeft = viewModel.maxCountdown-timeSinceLastBump
         super.init(viewModel: viewModel, nibName: nil)
-        modalPresentationStyle = .overCurrentContext
     }
 
     required init?(coder aDecoder: NSCoder) {

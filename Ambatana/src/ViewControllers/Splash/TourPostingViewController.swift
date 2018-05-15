@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class TourPostingViewController: BaseViewController {
+final class TourPostingViewController: BaseViewController {
 
     @IBOutlet weak var photoContainer: UIView!
     @IBOutlet var cameraCorners: [UIImageView]!
@@ -30,8 +30,6 @@ class TourPostingViewController: BaseViewController {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: "TourPostingViewController", statusBarStyle: .lightContent,
                    navBarBackgroundStyle: .transparent(substyle: .dark))
-        modalPresentationStyle = .overCurrentContext
-        modalTransitionStyle = .crossDissolve
         self.viewModel.delegate = self
     }
     

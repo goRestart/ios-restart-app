@@ -31,6 +31,12 @@ enum AccessibilityId: Equatable {
     case mainListingsInfoBubbleLabel
     case mainListingsSuggestionSearchesTable
 
+    // SectionedFeed
+    case feedNavBarSearch
+    case feedFilterButton
+    case feedInviteButton
+    case feedCollectionView
+    
     // Passive buyers
     case passiveBuyersTitle
     case passiveBuyersMessage
@@ -744,6 +750,16 @@ enum AccessibilityId: Equatable {
             return "mainListingsInfoBubbleLabel"
         case .mainListingsSuggestionSearchesTable:
             return "mainListingsSuggestionSearchesTable"
+           
+        // Sectioned Feed
+        case .feedFilterButton:
+            return "feedFilterButton"
+        case .feedInviteButton:
+            return "feedInviteButton"
+        case .feedNavBarSearch:
+            return "feedNavBarSearch"
+        case .feedCollectionView:
+            return "feedCollectionView"
             
         // Passive buyers
         case .passiveBuyersTitle:

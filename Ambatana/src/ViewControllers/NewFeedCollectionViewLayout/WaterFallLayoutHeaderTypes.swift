@@ -15,4 +15,12 @@ import Foundation
 /// - pinned: once scrolled to the top of collectionView, it stays on the top even if all cells in its section disappear
 enum HeaderStickyType: Int {
     case nonSticky, sticky, pinned
+    
+    var headerZIndex: Int {
+        switch self {
+        case .nonSticky: return 0
+        case .sticky: return 1
+        case .pinned: return 2
+        }
+    }
 }

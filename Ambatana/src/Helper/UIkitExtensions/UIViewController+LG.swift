@@ -19,6 +19,21 @@ fileprivate extension UIBarButtonItem {
     }
 }
 
+struct ButtonImage {
+    let normal: UIImage
+    let selected: UIImage
+    
+    init(normal: UIImage, selected: UIImage) {
+        self.normal = normal
+        self.selected = selected
+    }
+    
+    init(normal: UIImage) {
+        self.normal = normal
+        self.selected = normal
+    }
+}
+
 extension UIViewController {
 
     var isModal: Bool {
@@ -109,12 +124,50 @@ extension UIViewController {
             tags: tags)
     }
     
-    private func setLetGoRightButtonsWith(images: [UIImage], renderingMode: [UIImageRenderingMode],
-        selectors: [Selector], tags: [Int]? = nil) -> [UIButton] {
+    @discardableResult
+    /// Set right navigation bar buttons
+    ///
+    /// - Parameters:
+    ///   - buttonImages: a struct contains image for .normal and .selected button control state
+    ///   - selectors: button selectors
+    ///   - tags: button tag
+    /// - Returns: a list of UIButtons for navigation bar right navigation items
+    func setLetGoRightButtonsWith(buttonImages: [ButtonImage],
+                                  selectors: [Selector],
+                                  tags: [Int]? = nil) -> [UIButton] {
+        let renderingMode: [UIImageRenderingMode] = buttonImages.map({ _ in return .alwaysOriginal })
+        return setLetGoRightButtonsWith(buttonImages: buttonImages, renderingMode: renderingMode, selectors: selectors,
+                                        tags: tags)
+    }
+    
+    private func setLetGoRightButtonsWith(buttonImages: [ButtonImage], renderingMode: [UIImageRenderingMode],
+                                          selectors: [Selector], tags: [Int]? = nil) -> [UIButton] {
+        if (buttonImages.count != selectors.count) { return [] }
+        
+        var buttons: [UIButton] = []
+        for i in 0..<buttonImages.count {
+            let button = configureButton(image: buttonImages[i].normal,
+                                         selectedImage: buttonImages[i].selected,
+                                         renderingMode: renderingMode[i],
+                                         selector: selectors[i],
+                                         tag: tags != nil ? tags![i] : i)
+            buttons.append(button)
+        }
+        
+        setNavigationBarRightButtons(buttons)
+        
+        return buttons
+    }
+    
+    private func setLetGoRightButtonsWith(images: [UIImage],
+                                          renderingMode: [UIImageRenderingMode],
+                                          selectors: [Selector],
+                                          tags: [Int]? = nil) -> [UIButton] {
             if (images.count != selectors.count) { return [] }
 
             var buttons: [UIButton] = []
             for i in 0..<images.count {
+
                 let button = UIButton(type: .system)
                 button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.right
                 button.tag = tags != nil ? tags![i] : i
@@ -128,6 +181,24 @@ extension UIViewController {
             setNavigationBarRightButtons(buttons)
 
         return buttons
+    }
+    
+    private func configureButton(image: UIImage,
+                                 selectedImage: UIImage?,
+                                 renderingMode: UIImageRenderingMode,
+                                 selector: Selector,
+                                 tag: Int) -> UIButton {
+        let button = UIButton(type: .custom)
+        button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.right
+        button.tag = tag
+        button.setImage(image.withRenderingMode(renderingMode), for: .normal)
+        if let selectedImage = selectedImage {
+            button.setImage(selectedImage.withRenderingMode(renderingMode), for: .selected)
+        }
+        button.imageView?.contentMode = .scaleAspectFit
+        button.imageView?.clipsToBounds = true
+        button.addTarget(self, action: selector, for: UIControlEvents.touchUpInside)
+        return button
     }
     
     func setNavigationBarRightButtons(_ buttons: [UIButton]) {
@@ -242,6 +313,11 @@ extension UIViewController {
     }
 }
 
+extension UIViewController {
+    func setupForModalWithNonOpaqueBackground() {
+        modalPresentationStyle = .overCurrentContext
+    }
+}
 
 // MARK: - Internal urls presenters
 

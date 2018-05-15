@@ -54,7 +54,7 @@ class ABTestsSpec: QuickSpec {
                     sut.registerVariables()
                 }
                 it("registers all the variables") {
-                    expect(syncer.syncedCount) == 62
+                    expect(syncer.syncedCount) == 63
                 }
             }
 
@@ -63,8 +63,7 @@ class ABTestsSpec: QuickSpec {
                     sut.registerVariables()
                     uniqueSyncer = LeamplumSyncerCounter()
 
-                    let abGroups: [ABGroupType] = [legacy, realEstate, verticals, retention, core, chat, money, users,
-                                                   products, discovery]
+                    let abGroups: [ABGroupType] = [legacy, realEstate, verticals, retention, core, chat, money, users, products, discovery]
                     abGroups.forEach {
                         uniqueSyncer.sync(variables: Array(Set($0.intVariables)))
                         uniqueSyncer.sync(variables: Array(Set($0.boolVariables)))
@@ -78,8 +77,8 @@ class ABTestsSpec: QuickSpec {
             }
             
             context("registering all the variables- discovery") {
-                it("the discovery int variable registered are 2") {
-                    expect(discovery.intVariables.count) == 2
+                it("the discovery int variable registered are 3") {
+                    expect(discovery.intVariables.count) == 3
                 }
                 
                 it("the discovery bool variable registered are 0") {
@@ -102,8 +101,8 @@ class ABTestsSpec: QuickSpec {
                     syncer.sync(variables: discovery.stringVariables)
                     syncer.sync(variables: discovery.floatVariables)
                 }
-                it("the variables registered are 2") {
-                    expect(syncer.syncedCount) == 2
+                it("the variables registered are 3") {
+                    expect(syncer.syncedCount) == 3
                 }
             }
 
@@ -329,7 +328,38 @@ class ABTestsSpec: QuickSpec {
                     expect(syncer.syncedCount) == 3
                 }
             }
-            context("registering all the variables") {
+            
+            context("registering all discovery variables") {
+                it("the discovery int variable registered is 3") {
+                    expect(discovery.intVariables.count) == 3
+                }
+                
+                it("the discovery bool variable registered are 0") {
+                    expect(discovery.boolVariables.count) == 0
+                }
+                
+                it("the discovery string variable registered are 0") {
+                    expect(discovery.stringVariables.count) == 0
+                }
+                
+                it("the discovery float variable registered are 0") {
+                    expect(discovery.floatVariables.count) == 0
+                }
+            }
+            
+            context("manually registering all the discovery variables") {
+                beforeEach {
+                    syncer.sync(variables: discovery.intVariables)
+                    syncer.sync(variables: discovery.boolVariables)
+                    syncer.sync(variables: discovery.stringVariables)
+                    syncer.sync(variables: discovery.floatVariables)
+                    it("the variables registered are 1") {
+                        expect(syncer.syncedCount) == 1
+                    }
+                }
+            }
+                    
+                    context("registering all the variables") {
                 it("the products int variable registered are 1") {
                     expect(products.intVariables.count) == 1
                 }

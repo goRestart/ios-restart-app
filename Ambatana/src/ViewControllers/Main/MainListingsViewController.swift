@@ -572,11 +572,8 @@ RealEstateBannerDelegate, SearchAlertFeedHeaderDelegate {
         }
        
         if shouldShowCategoryCollectionBanner {
-            let screenWidth: CGFloat = UIScreen.main.bounds.size.width
-            categoriesHeader = CategoriesHeaderCollectionView(categories: viewModel.categoryHeaderElements,
-                                                              frame: CGRect(x: 0, y: 0, width: screenWidth, height: CategoriesHeaderCollectionView.viewHeight),
-                                                              categoryHighlighted: viewModel.categoryHeaderHighlighted,
-                                                              isMostSearchedItemsEnabled: viewModel.isMostSearchedItemsEnabled)
+            categoriesHeader = CategoriesHeaderCollectionView()
+            categoriesHeader?.configure(with: viewModel.categoryHeaderElements, categoryHighlighted: viewModel.categoryHeaderHighlighted, isMostSearchedItemsEnabled: viewModel.isMostSearchedItemsEnabled)
             categoriesHeader?.delegateCategoryHeader = viewModel
             categoriesHeader?.categorySelected.asObservable().bind { [weak self] categoryHeaderInfo in
                 guard let category = categoryHeaderInfo else { return }

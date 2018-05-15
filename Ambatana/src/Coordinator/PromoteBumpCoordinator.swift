@@ -46,7 +46,6 @@ final class PromoteBumpCoordinator: Coordinator {
                                                  bumpUpProductData: bumpUpProductData,
                                                  typePage: typePage)
         let promoteBumpVC = PromoteBumpViewController(viewModel: promoteBumpVM)
-        promoteBumpVC.modalPresentationStyle = .overCurrentContext
         self.viewController = promoteBumpVC
         self.bubbleNotificationManager = bubbleNotificationManager
         self.sessionManager = sessionManager

@@ -55,6 +55,7 @@ protocol FeatureFlaggeable: class {
     var showProTagUserProfile: Bool { get }
     var summaryAsFirstStep: SummaryAsFirstStep { get }
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem { get }
+    var sectionedMainFeed: SectionedMainFeed { get }
     var emergencyLocate: EmergencyLocate { get }
     var showExactLocationForPros: Bool { get }
     var searchAlerts: SearchAlerts { get }
@@ -739,6 +740,13 @@ final class FeatureFlags: FeatureFlaggeable {
         return cached ?? ShowAdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value)
     }
     
+    var sectionedMainFeed: SectionedMainFeed {
+        if Bumper.enabled {
+            return Bumper.sectionedMainFeed
+        }
+        return SectionedMainFeed.fromPosition(abTests.sectionedMainFeed.value)
+    }
+
     var searchAlerts: SearchAlerts {
         if Bumper.enabled {
             return Bumper.searchAlerts

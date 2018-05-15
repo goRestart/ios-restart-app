@@ -9,7 +9,7 @@
 import Foundation
 
 
-class NPSViewController: BaseViewController {
+final class NPSViewController: BaseViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!
     @IBOutlet weak var notLikelyLabel: UILabel!
@@ -24,7 +24,7 @@ class NPSViewController: BaseViewController {
     init(viewModel: NPSViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: "NPSViewController")
-        modalPresentationStyle = .overCurrentContext
+        setupForModalWithNonOpaqueBackground()
     }
     
     required init?(coder aDecoder: NSCoder) {

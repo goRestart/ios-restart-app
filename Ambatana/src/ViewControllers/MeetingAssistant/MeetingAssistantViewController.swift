@@ -43,7 +43,6 @@ final class MeetingAssistantViewController: BaseViewController {
     init(viewModel: MeetingAssistantViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: "MeetingAssistantViewController")
-        modalPresentationStyle = .overCurrentContext
     }
 
     required init?(coder aDecoder: NSCoder) {

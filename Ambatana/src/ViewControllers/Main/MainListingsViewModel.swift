@@ -48,7 +48,7 @@ struct SuggestiveSearchInfo {
     }
 }
 
-final class MainListingsViewModel: BaseViewModel {
+final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     
     static let adInFeedInitialPosition = 3
     private static let adsInFeedRatio = 20
@@ -210,19 +210,25 @@ final class MainListingsViewModel: BaseViewModel {
             }
             
             filters.realEstateOfferTypes.forEach { resultTags.append(.realEstateOfferType($0)) }
+        }
         
-            if let numberOfBedrooms = filters.realEstateNumberOfBedrooms {
-                resultTags.append(.realEstateNumberOfBedrooms(numberOfBedrooms))
-            }
-            if let numberOfBathrooms = filters.realEstateNumberOfBathrooms {
-                resultTags.append(.realEstateNumberOfBathrooms(numberOfBathrooms))
-            }
-            if let numberOfRooms = filters.realEstateNumberOfRooms {
-                resultTags.append(.realEstateNumberOfRooms(numberOfRooms))
-            }
-            if filters.realEstateSizeRange.min != nil || filters.realEstateSizeRange.max != nil {
-                resultTags.append(.sizeSquareMetersRange(from: filters.realEstateSizeRange.min, to: filters.realEstateSizeRange.max))
-            }
+        if let propertyType = filters.realEstatePropertyType {
+            resultTags.append(.realEstatePropertyType(propertyType))
+        }
+        
+        filters.realEstateOfferTypes.forEach { resultTags.append(.realEstateOfferType($0)) }
+        
+        if let numberOfBedrooms = filters.realEstateNumberOfBedrooms {
+            resultTags.append(.realEstateNumberOfBedrooms(numberOfBedrooms))
+        }
+        if let numberOfBathrooms = filters.realEstateNumberOfBathrooms {
+            resultTags.append(.realEstateNumberOfBathrooms(numberOfBathrooms))
+        }
+        if let numberOfRooms = filters.realEstateNumberOfRooms {
+            resultTags.append(.realEstateNumberOfRooms(numberOfRooms))
+        }
+        if filters.realEstateSizeRange.min != nil || filters.realEstateSizeRange.max != nil {
+            resultTags.append(.sizeSquareMetersRange(from: filters.realEstateSizeRange.min, to: filters.realEstateSizeRange.max))
         }
 
         return resultTags
@@ -299,7 +305,8 @@ final class MainListingsViewModel: BaseViewModel {
 
     // > Navigator
     weak var navigator: MainTabNavigator?
-    
+    var feedNavigator: FeedNavigator? { return navigator }
+
     // List VM
     let listViewModel: ListingListViewModel
     fileprivate var listingListRequester: ListingListMultiRequester
