@@ -120,7 +120,7 @@ public enum ApiError: Error {
         case 400:
             return .badRequest(cause: BadRequestCause.causeWithCode(apiCode))
         case 401:   // Wrong credentials
-            return .unauthorized(description: description)
+            return .unauthorized(description: description ?? "Token expired on server")
         case 403:
             return .forbidden(cause: ForbiddenCause.causeWithCode(apiCode))
         case 404:
@@ -248,7 +248,7 @@ class AFApiClient: ApiClient {
         progress: ((Progress) -> Void)?) {
             
             guard request.requiredAuthLevel <= tokenDAO.level else {
-                completion?(ResultResult<T, ApiError>.t(error: .unauthorized(description: nil)))
+                completion?(ResultResult<T, ApiError>.t(error: .unauthorized(description: "Insufficient token level when uploading")))
                 report(CoreReportSession.insufficientTokenLevel, message: "when uploading")
                 return
             }
