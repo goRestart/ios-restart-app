@@ -22,6 +22,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "LGLogin Example"
         setupUI()
     }
 
@@ -74,5 +75,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let index = indexPath.row
         viewModel.selectItemAt(index: index)
+
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

@@ -14,7 +14,7 @@
         </array>
     </customFonts>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PopupSignUpViewController" customModule="LetGo" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PopupSignUpViewController" customModule="LGLoginBundle" customModuleProvider="target">
             <connections>
                 <outlet property="claimLabel" destination="Dt8-rl-jct" id="dgH-vE-Bz9"/>
                 <outlet property="connectFBButton" destination="czH-3U-QbA" id="fR8-MR-iq1"/>
@@ -58,7 +58,7 @@
                             <color key="textColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.17254901960784313" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="czH-3U-QbA" userLabel="Connect FB Button" customClass="LetgoButton" customModule="LetGo" customModuleProvider="target">
+                        <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="czH-3U-QbA" userLabel="Connect FB Button" customClass="LetgoButton" customModule="LGComponents">
                             <rect key="frame" x="16" y="113" width="238" height="50"/>
                             <color key="backgroundColor" red="0.19070276618003845" green="0.27647864818572998" blue="0.51629549264907837" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
@@ -81,7 +81,7 @@
                                 <constraint firstAttribute="width" constant="28" id="kZc-Zp-mMn"/>
                             </constraints>
                         </imageView>
-                        <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VDD-5O-BL3" userLabel="Connect Google Button" customClass="LetgoButton" customModule="LetGo" customModuleProvider="target">
+                        <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VDD-5O-BL3" userLabel="Connect Google Button" customClass="LetgoButton" customModule="LGComponents">
                             <rect key="frame" x="16" y="179" width="238" height="50"/>
                             <color key="backgroundColor" red="0.20474728941917419" green="0.42595943808555603" blue="0.94441002607345581" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>

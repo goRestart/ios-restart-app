@@ -10,6 +10,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        setupAppearance()
         window?.backgroundColor = UIColor.white
         window?.rootViewController = coordinator.viewController
         window?.makeKeyAndVisible()
@@ -29,5 +30,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
+    }
+    private func setupAppearance() {
+        UINavigationBar.appearance().tintColor = UIColor(rgb: 0xff3f55)
     }
 }

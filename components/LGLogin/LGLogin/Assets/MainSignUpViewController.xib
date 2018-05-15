@@ -18,7 +18,7 @@
         </array>
     </customFonts>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MainSignUpViewController" customModule="LetGo" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MainSignUpViewController" customModule="LGLoginBundle" customModuleProvider="target">
             <connections>
                 <outlet property="claimLabel" destination="jqP-ji-UY6" id="oyY-7m-DiF"/>
                 <outlet property="connectFBButton" destination="1Du-cc-Xo5" id="Sue-Qc-LLv"/>
@@ -110,7 +110,7 @@
                                 <constraint firstAttribute="height" constant="16" id="ans-yE-fU4"/>
                             </constraints>
                         </view>
-                        <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Du-cc-Xo5" userLabel="Connect FB Button" customClass="LetgoButton" customModule="LetGo" customModuleProvider="target">
+                        <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Du-cc-Xo5" userLabel="Connect FB Button" customClass="LetgoButton" customModule="LGComponents">
                             <rect key="frame" x="15" y="36" width="345" height="50"/>
                             <color key="backgroundColor" red="0.19070276618003845" green="0.27647864818572998" blue="0.51629549264907837" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
@@ -133,7 +133,7 @@
                                 <constraint firstAttribute="width" constant="30" id="eK2-Oi-VEB"/>
                             </constraints>
                         </imageView>
-                        <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wSs-Xo-ka9" userLabel="Connect Google Button" customClass="LetgoButton" customModule="LetGo" customModuleProvider="target">
+                        <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wSs-Xo-ka9" userLabel="Connect Google Button" customClass="LetgoButton" customModule="LGComponents">
                             <rect key="frame" x="15" y="96" width="345" height="50"/>
                             <color key="backgroundColor" red="0.20474728941917419" green="0.42595943808555603" blue="0.94441002607345581" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
@@ -180,7 +180,7 @@
                                 <constraint firstAttribute="trailing" secondItem="1pc-RV-rnQ" secondAttribute="trailing" constant="8" id="u15-29-Rvx"/>
                             </constraints>
                         </view>
-                        <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="19L-e5-VDY" userLabel="Sign Up Button" customClass="LetgoButton" customModule="LetGo" customModuleProvider="target">
+                        <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="19L-e5-VDY" userLabel="Sign Up Button" customClass="LetgoButton" customModule="LGComponents">
                             <rect key="frame" x="15" y="213" width="167.5" height="50"/>
                             <color key="backgroundColor" red="0.9166492223739624" green="0.91662180423736572" blue="0.91663730144500732" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
@@ -195,7 +195,7 @@
                                 <action selector="signUpButtonPressed:" destination="-1" eventType="touchUpInside" id="KgQ-6e-jBN"/>
                             </connections>
                         </button>
-                        <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pdp-VZ-cZN" userLabel="Log In Button" customClass="LetgoButton" customModule="LetGo" customModuleProvider="target">
+                        <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pdp-VZ-cZN" userLabel="Log In Button" customClass="LetgoButton" customModule="LGComponents">
                             <rect key="frame" x="192.5" y="213" width="167.5" height="50"/>
                             <color key="backgroundColor" red="0.9166492223739624" green="0.91662180423736572" blue="0.91663730144500732" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
