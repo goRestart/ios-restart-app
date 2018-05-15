@@ -83,6 +83,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var shouldChangeSellFasterNowCopyInEnglish = false
     var copyForSellFasterNowInEnglish: CopyForSellFasterNowInEnglish = .control
     var shouldShowIAmInterestedInFeed: IAmInterestedFeed = .control
+    var googleAdxForTR: GoogleAdxForTR = .control
 
     // MARK: Chat
     var showInactiveConversations: Bool = false

@@ -69,6 +69,7 @@ extension Bumper  {
         flags.append(PersonalizedFeed.self)
         flags.append(ServicesCategoryOnSalchichasMenu.self)
         flags.append(SearchBoxImprovements.self)
+        flags.append(GoogleAdxForTR.self)
         Bumper.initialize(flags)
     } 
 
@@ -350,6 +351,11 @@ extension Bumper  {
     static var searchBoxImprovements: SearchBoxImprovements {
         guard let value = Bumper.value(for: SearchBoxImprovements.key) else { return .control }
         return SearchBoxImprovements(rawValue: value) ?? .control 
+    }
+
+    static var googleAdxForTR: GoogleAdxForTR {
+        guard let value = Bumper.value(for: GoogleAdxForTR.key) else { return .control }
+        return GoogleAdxForTR(rawValue: value) ?? .control 
     } 
 }
 
@@ -1226,6 +1232,23 @@ enum SearchBoxImprovements: String, BumperFeature  {
             case 2: return .changeCopy
             case 3: return .biggerBox
             case 4: return .changeCopyAndBoxSize
+            default: return .control
+        }
+    }
+}
+
+enum GoogleAdxForTR: String, BumperFeature  {
+    case control, baseline, googleAdxForAllUsers, googleAdxForOldUsers
+    static var defaultValue: String { return GoogleAdxForTR.control.rawValue }
+    static var enumValues: [GoogleAdxForTR] { return [.control, .baseline, .googleAdxForAllUsers, .googleAdxForOldUsers]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Change logic for showing GoogleAdx in TR" } 
+    static func fromPosition(_ position: Int) -> GoogleAdxForTR {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .googleAdxForAllUsers
+            case 3: return .googleAdxForOldUsers
             default: return .control
         }
     }
