@@ -85,7 +85,11 @@ final class UserVerificationEmailViewController: BaseViewController {
             .asDriver()
             .skip(1) // Ignore the first call with height == 0
             .drive(onNext: { [weak self] height in
-                self?.saveButtonBottomConstraint?.constant = -(height + Layout.saveButtonBottomMargin)
+                var buttonBottomMargin = -(height + Layout.saveButtonBottomMargin)
+                if #available(iOS 11.0, *) {
+                    buttonBottomMargin += self?.view.safeAreaInsets.bottom ?? 0
+                }
+                self?.saveButtonBottomConstraint?.constant = buttonBottomMargin
                 UIView.animate(withDuration: 0.2, animations: {
                     self?.view.layoutIfNeeded()
                 })
