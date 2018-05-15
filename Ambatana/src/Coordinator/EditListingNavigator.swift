@@ -14,6 +14,6 @@ protocol EditListingNavigator: class {
     func editingListingDidFinish(_ editedListing: Listing,
                                  bumpUpProductData: BumpUpProductData?,
                                  timeSinceLastBump: TimeInterval?,
-                                 maxCountdown: TimeInterval?)
+                                 maxCountdown: TimeInterval)
     func openListingAttributePicker(viewModel: ListingAttributePickerViewModel)
 }

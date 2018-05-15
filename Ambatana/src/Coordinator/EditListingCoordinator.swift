@@ -15,7 +15,7 @@ protocol EditListingCoordinatorDelegate: class {
                                 didFinishWithListing listing: Listing,
                                 bumpUpProductData: BumpUpProductData?,
                                 timeSinceLastBump: TimeInterval?,
-                                maxCountdown: TimeInterval?)
+                                maxCountdown: TimeInterval)
 }
 
 final class EditListingCoordinator: Coordinator, EditListingNavigator {
@@ -37,7 +37,7 @@ final class EditListingCoordinator: Coordinator, EditListingNavigator {
                      pageType: EventParameterTypePage?,
                      listingCanBeBoosted: Bool,
                      timeSinceLastBump: TimeInterval?,
-                     maxCountdown: TimeInterval?) {
+                     maxCountdown: TimeInterval) {
         self.init(listing: listing,
                   bumpUpProductData: bumpUpProductData,
                   pageType: pageType,
@@ -53,7 +53,7 @@ final class EditListingCoordinator: Coordinator, EditListingNavigator {
          pageType: EventParameterTypePage?,
          listingCanBeBoosted: Bool,
          timeSinceLastBump: TimeInterval?,
-         maxCountdown: TimeInterval?,
+         maxCountdown: TimeInterval,
          bubbleNotificationManager: BubbleNotificationManager,
          sessionManager: SessionManager) {
         let editVM = EditListingViewModel(listing: listing,
@@ -92,7 +92,7 @@ final class EditListingCoordinator: Coordinator, EditListingNavigator {
     func editingListingDidFinish(_ editedListing: Listing,
                                  bumpUpProductData: BumpUpProductData?,
                                  timeSinceLastBump: TimeInterval?,
-                                 maxCountdown: TimeInterval?) {
+                                 maxCountdown: TimeInterval) {
         closeCoordinator(animated: false) { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.delegate?.editListingCoordinator(strongSelf,

@@ -21,6 +21,7 @@ class MockPurchasesShopper: PurchasesShopper {
     var currentBumpIsBoost: Bool = false
 
     var timeOfRecentBump: TimeInterval? = nil
+    var maxCountdown: TimeInterval? = nil
 
     func startObservingTransactions() {
 
@@ -37,6 +38,7 @@ class MockPurchasesShopper: PurchasesShopper {
     func productsRequestStartForListingId(_ listingId: String,
                                           letgoItemId: String,
                                           withIds ids: [String],
+                                          maxCountdown: TimeInterval,
                                           typePage: EventParameterTypePage?) {
 
         currentBumpTypePage = typePage
@@ -52,6 +54,7 @@ class MockPurchasesShopper: PurchasesShopper {
                                                                               withProducts: purchaseableProducts,
                                                                               letgoItemId: letgoItemId,
                                                                               storeProductId: ids.first,
+                                                                              maxCountdown: maxCountdown,
                                                                               typePage: typePage)
     }
     
@@ -59,7 +62,8 @@ class MockPurchasesShopper: PurchasesShopper {
     func requestPayment(forListingId listingId: String,
                         appstoreProduct: PurchaseableProduct,
                         letgoItemId: String,
-                        isBoost: Bool) {
+                        isBoost: Bool,
+                        maxCountdown: TimeInterval) {
         delegate?.restoreBumpDidStart()
         
         performAfterDelayWithCompletion { [weak self] in
@@ -84,8 +88,9 @@ class MockPurchasesShopper: PurchasesShopper {
         return isBumpUpPending
     }
 
-    func timeSinceRecentBumpFor(listingId: String) -> TimeInterval? {
-        return timeOfRecentBump
+    func timeSinceRecentBumpFor(listingId: String) -> (timeDifference: TimeInterval, maxCountdown: TimeInterval)? {
+        guard let timeOfRecentBump = timeOfRecentBump, let maxCountdown = maxCountdown else { return nil }
+        return (timeOfRecentBump, maxCountdown)
     }
 
     func requestFreeBumpUp(forListingId listingId: String, letgoItemId: String, shareNetwork: EventParameterShareNetwork) {
