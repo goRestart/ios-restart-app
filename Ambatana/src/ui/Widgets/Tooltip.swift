@@ -27,7 +27,7 @@ enum TooltipStyle {
     var bgColor: UIColor {
         switch self {
         case .black:
-            return UIColor.blackTooltip.withAlphaComponent(0.95)
+            return UIColor.blackTooltip
         case .blue:
             return UIColor.blueTooltip.withAlphaComponent(0.95)
         }
@@ -256,8 +256,10 @@ class Tooltip: UIView {
         let width = NSLayoutConstraint(item: downTooltipPeak, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 15)
         downTooltipPeak.addConstraints([width])
 
+        let targetCenter = self.convert(targetView.center, from: targetView)
+        let diff = self.centerX - targetCenter.x
         let top = NSLayoutConstraint(item: downTooltipPeak, attribute: .top, relatedBy: .equal, toItem: coloredView, attribute: .bottom, multiplier: 1, constant: 0)
-        let centerX = NSLayoutConstraint(item: downTooltipPeak, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: peakOffset)
+        let centerX = NSLayoutConstraint(item: downTooltipPeak, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: -diff)
         let bottom = NSLayoutConstraint(item: downTooltipPeak, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1, constant: 0)
 
         self.addConstraints([top, centerX, bottom])
@@ -317,12 +319,12 @@ class Tooltip: UIView {
  */
 
 func setupExternalConstraintsForTooltip(_ tooltip: Tooltip, targetView: UIView, containerView: UIView,
-                                               margin: CGFloat = 0) {
+                                        margin: CGFloat = 0, horizontalMargin: CGFloat = 40) {
 
     let targetGlobalCenter = containerView.convert(targetView.center, to: nil)
     
-    let tooltipLeadingAnchor = tooltip.leadingAnchor.constraint(greaterThanOrEqualTo: containerView.leadingAnchor, constant: 40)
-    let tooltipTrailingAnchor =  tooltip.trailingAnchor.constraint(lessThanOrEqualTo: containerView.trailingAnchor, constant: -40)
+    let tooltipLeadingAnchor = tooltip.leadingAnchor.constraint(greaterThanOrEqualTo: containerView.leadingAnchor, constant: horizontalMargin)
+    let tooltipTrailingAnchor =  tooltip.trailingAnchor.constraint(lessThanOrEqualTo: containerView.trailingAnchor, constant: -horizontalMargin)
 
     let peakAligment: NSLayoutConstraint
     if tooltip.peakOnTop {
@@ -333,14 +335,15 @@ func setupExternalConstraintsForTooltip(_ tooltip: Tooltip, targetView: UIView, 
         peakAligment = tooltip.bottomAnchor.constraint(equalTo: targetView.topAnchor, constant: -margin)
     }
 
-    let alignmentConstraint: NSLayoutConstraint
-    
-    if targetGlobalCenter.x < containerView.width/3 {
-        alignmentConstraint = tooltip.leadingAnchor.constraint(equalTo: targetView.leadingAnchor)
-    } else if targetGlobalCenter.x > (containerView.width/3)*2 {
-        alignmentConstraint = tooltip.trailingAnchor.constraint(equalTo: targetView.trailingAnchor)
-    } else {
-        alignmentConstraint = tooltip.centerXAnchor.constraint(equalTo: targetView.centerXAnchor)
-    }
-    NSLayoutConstraint.activate([peakAligment, alignmentConstraint, tooltipLeadingAnchor, tooltipTrailingAnchor])
+
+//    let alignmentConstraint: NSLayoutConstraint
+//
+//    if targetGlobalCenter.x < containerView.width/3 {
+//        alignmentConstraint = tooltip.leadingAnchor.constraint(equalTo: targetView.leadingAnchor)
+//    } else if targetGlobalCenter.x > (containerView.width/3)*2 {
+//        alignmentConstraint = tooltip.trailingAnchor.constraint(equalTo: targetView.trailingAnchor)
+//    } else {
+//        alignmentConstraint = tooltip.centerXAnchor.constraint(equalTo: targetView.centerXAnchor)
+//    }
+    NSLayoutConstraint.activate([peakAligment, tooltipLeadingAnchor, tooltipTrailingAnchor])
 }

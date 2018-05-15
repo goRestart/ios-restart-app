@@ -102,6 +102,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     private var pageControlTopMargin: NSLayoutConstraint?
 
     private var moreInfoTooltip: Tooltip?
+    private var reputationBadgeTooltip: Tooltip?
 
     private let collectionContentOffset = Variable<CGPoint>(CGPoint.zero)
     private let itemsAlpha = Variable<CGFloat>(1)
@@ -314,6 +315,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         setupMoreInfo()
         setupMoreInfoDragging()
         setupMoreInfoTooltip()
+        setupReputationBadgeTooltip()
         setupOverlayRxBindings()
 
         resetMoreInfoState()
@@ -684,7 +686,7 @@ extension ListingCarouselViewController {
                                      productPrice: productInfo?.price,
                                      userId: userInfo?.userId,
                                      isProfessional: isProfessional,
-                                     userBadge: userBadge)
+                                     userBadge: .silver)
         }.disposed(by: disposeBag)
 
         viewModel.userInfo.asObservable().bind { [weak self] userInfo in
@@ -1185,6 +1187,25 @@ extension ListingCarouselViewController {
     fileprivate func removeMoreInfoTooltip() {
         moreInfoTooltip?.removeFromSuperview()
         moreInfoTooltip = nil
+    }
+
+    fileprivate func setupReputationBadgeTooltip() {
+        let title = NSAttributedString(string: "User verified! Tap if you want to be verified too")
+        let tooltip = Tooltip(targetView: userView,
+                              superView: view,
+                              title: title,
+                              style: TooltipStyle.black(closeEnabled: false),
+                              peakOnTop: false, actionBlock: {
+            print("action!")
+        }, closeBlock: nil)
+        view.addSubview(tooltip)
+        setupExternalConstraintsForTooltip(tooltip, targetView: userView.userBadgeImageView, containerView: view, margin: 10, horizontalMargin: 10)
+        self.reputationBadgeTooltip = tooltip
+    }
+
+    fileprivate func remoteReputationBadgeTooltip() {
+        reputationBadgeTooltip?.removeFromSuperview()
+        reputationBadgeTooltip = nil
     }
 }
 

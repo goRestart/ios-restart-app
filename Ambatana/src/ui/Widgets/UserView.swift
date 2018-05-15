@@ -99,6 +99,7 @@ class UserView: UIView {
     @IBOutlet weak var ratingsContainerHeight: NSLayoutConstraint!
     @IBOutlet weak var proImageView: UIImageView!
     @IBOutlet weak var userBadgeImageView: UIImageView!
+    var tooltip: Tooltip?
 
     let userRatings = Variable<Float?>(nil)
 
