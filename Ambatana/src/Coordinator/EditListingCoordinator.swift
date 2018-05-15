@@ -72,7 +72,6 @@ final class EditListingCoordinator: Coordinator, EditListingNavigator {
 
     func presentViewController(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
         guard viewController.parent == nil else { return }
-        viewController.modalPresentationStyle = .overFullScreen
         parent.present(viewController, animated: animated, completion: completion)
     }
 

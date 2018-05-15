@@ -76,7 +76,6 @@ class BumpUpCoordinator: Coordinator {
                                            storeProductId: storeProductId,
                                            typePage: typePage)
         let bumpUpVC = BumpUpFreeViewController(viewModel: bumpUpVM)
-        bumpUpVC.modalPresentationStyle = .overCurrentContext
         self.viewController = bumpUpVC
         self.bubbleNotificationManager = bubbleNotificationManager
         self.sessionManager = sessionManager
@@ -114,7 +113,6 @@ class BumpUpCoordinator: Coordinator {
             bumpUpVC = BumpUpPayViewController(viewModel: bumpUpVM)
         }
 
-        bumpUpVC.modalPresentationStyle = .overCurrentContext
         self.viewController = bumpUpVC
         self.bubbleNotificationManager = bubbleNotificationManager
         self.sessionManager = sessionManager

@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import RxSwift
 
-class ProfessionalDealerAskPhoneViewController: KeyboardViewController, UITextFieldDelegate {
+final class ProfessionalDealerAskPhoneViewController: KeyboardViewController, UITextFieldDelegate {
 
     private let introTextMinimumHeight: CGFloat = 100
     private let introTextRightMargin: CGFloat = 46
@@ -35,7 +35,6 @@ class ProfessionalDealerAskPhoneViewController: KeyboardViewController, UITextFi
         self.viewModel = viewModel
         self.keyboardHelper = KeyboardHelper()
         super.init(viewModel: viewModel, nibName: nil)
-        modalPresentationStyle = .overCurrentContext
     }
 
     required init?(coder aDecoder: NSCoder) {

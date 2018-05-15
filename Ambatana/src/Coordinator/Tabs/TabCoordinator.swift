@@ -662,6 +662,7 @@ extension TabCoordinator: ListingDetailNavigator {
         let askNumVM = ProfessionalDealerAskPhoneViewModel(listing: listing, interlocutor: interlocutor)
         askNumVM.navigator = self
         let askNumVC = ProfessionalDealerAskPhoneViewController(viewModel: askNumVM)
+        askNumVC.setupForModalWithNonOpaqueBackground()
         rootViewController.present(askNumVC, animated: true, completion: nil)
     }
 
@@ -695,7 +696,6 @@ extension TabCoordinator: ListingDetailNavigator {
         guard pages.count > 0 else { return }
         let viewModel = LGTutorialViewModel(pages: pages, origin: origin, tutorialType: tutorialType)
         let viewController = LGTutorialViewController(viewModel: viewModel)
-        viewController.modalPresentationStyle = .overFullScreen
         navigationController.present(viewController, animated: true, completion: nil)
     }
 

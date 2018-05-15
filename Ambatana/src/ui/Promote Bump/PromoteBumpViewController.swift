@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PromoteBumpViewController: BaseViewController {
+final class PromoteBumpViewController: BaseViewController {
 
     private static let alertSideMargin: CGFloat = 50
 
@@ -27,7 +27,7 @@ class PromoteBumpViewController: BaseViewController {
     required init(viewModel: PromoteBumpViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
-        modalPresentationStyle = .overCurrentContext
+        setupForModalWithNonOpaqueBackground()
     }
 
     required init?(coder: NSCoder) {

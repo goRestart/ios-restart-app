@@ -407,7 +407,7 @@ extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCard
         let vc = DeckMapViewController(with: DeckMapData(size: size,
                                                          location: location,
                                                          shouldHighlightCenter: shouldShowExactLocation))
-        vc.modalPresentationStyle = .overCurrentContext
+        vc.setupForModalWithNonOpaqueBackground()
         vc.delegate = self
         self.present(vc, animated: true, completion: nil)
     }

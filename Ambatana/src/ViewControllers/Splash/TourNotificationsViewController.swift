@@ -44,8 +44,6 @@ final class TourNotificationsViewController: BaseViewController {
         case .iPhone5, .iPhone6, .iPhone6Plus, .biggerUnknown:
             super.init(viewModel: viewModel, nibName: "TourNotificationsViewController", statusBarStyle: .lightContent)
         }
-        modalPresentationStyle = .overCurrentContext
-        modalTransitionStyle = .crossDissolve
         self.viewModel.delegate = self
     }
     

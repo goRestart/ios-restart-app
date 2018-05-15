@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FeaturedInfoViewController: BaseViewController {
+final class FeaturedInfoViewController: BaseViewController {
 
     private static let tipsIconHeight: CGFloat = 75
 
@@ -39,7 +39,6 @@ class FeaturedInfoViewController: BaseViewController {
     init(viewModel: FeaturedInfoViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
-        modalPresentationStyle = .overCurrentContext
     }
 
     required init?(coder aDecoder: NSCoder) {

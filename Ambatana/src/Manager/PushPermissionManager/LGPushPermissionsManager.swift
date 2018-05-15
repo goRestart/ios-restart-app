@@ -111,6 +111,7 @@ class LGPushPermissionsManager: PushPermissionsManager {
                                                    completion: (() -> ())?) -> UIViewController {
         let vm = PushPrePermissionsSettingsViewModel(source: type)
         let vc = PushPrePermissionsSettingsViewController(viewModel: vm)
+        vc.modalTransitionStyle = .crossDissolve
         vc.completion = completion
         viewController.present(vc, animated: true, completion: nil)
         return vc

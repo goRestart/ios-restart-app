@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BumpUpPayViewController: BaseViewController {
+final class BumpUpPayViewController: BaseViewController {
 
     @IBOutlet weak var titleSafeAreaTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var closeButton: UIButton!
@@ -29,7 +29,6 @@ class BumpUpPayViewController: BaseViewController {
     init(viewModel: BumpUpPayViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: "BumpUpPayViewController")
-        modalPresentationStyle = .overCurrentContext
     }
 
     required init?(coder aDecoder: NSCoder) {

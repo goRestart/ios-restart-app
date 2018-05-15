@@ -313,6 +313,11 @@ extension UIViewController {
     }
 }
 
+extension UIViewController {
+    func setupForModalWithNonOpaqueBackground() {
+        modalPresentationStyle = .overCurrentContext
+    }
+}
 
 // MARK: - Internal urls presenters
 
