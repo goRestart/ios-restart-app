@@ -19,6 +19,7 @@ public class RealEstateEditionParams: RealEstateCreationParams {
         guard let realEstateId = realEstate.objectId, let userId = realEstate.user.objectId else { return nil }
         self.realEstateId = realEstateId
         self.userId = userId
+        let videos: [Video] = realEstate.media.flatMap(LGVideo.init)
         super.init(name: realEstate.name,
                    description: realEstate.descr,
                    price: realEstate.price,
@@ -27,6 +28,7 @@ public class RealEstateEditionParams: RealEstateCreationParams {
                    location: realEstate.location,
                    postalAddress: realEstate.postalAddress,
                    images: realEstate.images,
+                   videos: videos,
                    realEstateAttributes: realEstate.realEstateAttributes)
         if let languageCode = realEstate.languageCode {
             self.languageCode = languageCode
@@ -38,11 +40,27 @@ public class RealEstateEditionParams: RealEstateCreationParams {
     }
     
     static private func createRealEstateParams(withListing listing: Listing) -> RealEstate {
-        let realEstate = LGRealEstate(objectId: listing.objectId, updatedAt: listing.updatedAt, createdAt: listing.createdAt, name: listing.name,
-                                      nameAuto: listing.nameAuto, descr: listing.descr, price: listing.price, currency: listing.currency,
-                                      location: listing.location, postalAddress: listing.postalAddress, languageCode: listing.languageCode,
-                                      category: .cars, status: listing.status, thumbnail: listing.thumbnail, thumbnailSize: listing.thumbnailSize,
-                                      images: listing.images, user: listing.user, featured: listing.featured, realEstateAttributes: listing.realEstate?.realEstateAttributes)
+        let realEstate = LGRealEstate(objectId: listing.objectId,
+                                      updatedAt: listing.updatedAt,
+                                      createdAt: listing.createdAt,
+                                      name: listing.name,
+                                      nameAuto: listing.nameAuto,
+                                      descr: listing.descr,
+                                      price: listing.price,
+                                      currency: listing.currency,
+                                      location: listing.location,
+                                      postalAddress: listing.postalAddress,
+                                      languageCode: listing.languageCode,
+                                      category: .cars,
+                                      status: listing.status,
+                                      thumbnail: listing.thumbnail,
+                                      thumbnailSize: listing.thumbnailSize,
+                                      images: listing.images,
+                                      media: listing.media,
+                                      mediaThumbnail: listing.mediaThumbnail,
+                                      user: listing.user,
+                                      featured: listing.featured,
+                                      realEstateAttributes: listing.realEstate?.realEstateAttributes)
         return realEstate
     }
 }

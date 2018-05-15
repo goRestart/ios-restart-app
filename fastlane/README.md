@@ -56,6 +56,11 @@ Clean un-used assets
 fastlane ios clean
 ```
 Clean project
+### ios update_dsyms
+```
+fastlane ios update_dsyms
+```
+Download all the given dSYM symbolication files from iTunes Connect and upload them to crashlytics.
 ### ios bumper
 ```
 fastlane ios bumper
@@ -91,6 +96,11 @@ Will run CI UI tests job
 fastlane ios dependencies
 ```
 
+### ios make_automation_build
+```
+fastlane ios make_automation_build
+```
+Builds LetgoGoDev for simulator to export it for automation process
 
 ----
 

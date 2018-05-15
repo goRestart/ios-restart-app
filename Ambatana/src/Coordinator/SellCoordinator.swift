@@ -129,6 +129,7 @@ final class SellCoordinator: Coordinator {
 // MARK: - PostListingNavigator
 
 extension SellCoordinator: PostListingNavigator {
+
     func cancelPostListing() {
         closeCoordinator(animated: true) { [weak self] in
             guard let strongSelf = self else { return }
@@ -158,17 +159,17 @@ extension SellCoordinator: PostListingNavigator {
         }
     }
     
-    private static func shouldUseCarEndpoint() {
-        
-    }
-    
-    func startDetails(postListingState: PostListingState, uploadedImageSource: EventParameterPictureSource?, postingSource: PostingSource, postListingBasicInfo: PostListingBasicDetailViewModel) {
-        
+    func startDetails(postListingState: PostListingState,
+                      uploadedImageSource: EventParameterPictureSource?,
+                      uploadedVideoLength: TimeInterval?,
+                      postingSource: PostingSource,
+                      postListingBasicInfo: PostListingBasicDetailViewModel) {
         let firstStep: PostingDetailStep = featureFlags.summaryAsFirstStep.isActive ? .summary : .price
         
         let viewModel = PostingDetailsViewModel(step: firstStep,
                                                 postListingState: postListingState,
                                                 uploadedImageSource: uploadedImageSource,
+                                                uploadedVideoLength: uploadedVideoLength,
                                                 postingSource: postingSource,
                                                 postListingBasicInfo: postListingBasicInfo,
                                                 previousStepIsSummary: false)
@@ -187,12 +188,14 @@ extension SellCoordinator: PostListingNavigator {
     func nextPostingDetailStep(step: PostingDetailStep,
                                postListingState: PostListingState,
                                uploadedImageSource: EventParameterPictureSource?,
+                               uploadedVideoLength: TimeInterval?,
                                postingSource: PostingSource,
                                postListingBasicInfo: PostListingBasicDetailViewModel,
                                previousStepIsSummary: Bool) {
         let viewModel = PostingDetailsViewModel(step: step,
                                                 postListingState: postListingState,
                                                 uploadedImageSource: uploadedImageSource,
+                                                uploadedVideoLength: uploadedVideoLength,
                                                 postingSource: postingSource,
                                                 postListingBasicInfo: postListingBasicInfo,
                                                 previousStepIsSummary: previousStepIsSummary)
@@ -211,7 +214,7 @@ extension SellCoordinator: PostListingNavigator {
             sellError = .forbidden(cause: cause)
         case .serverError, .notFound, .unauthorized, .tooManyRequests, .userNotVerified:
             sellError = .serverError(code: error.errorCode)
-        case .internalError, .wsChatError:
+        case .internalError, .wsChatError, .searchAlertError:
             sellError = .internalError
         }
         let sellErrorDataEvent = TrackerEvent.listingSellErrorData(sellError)
@@ -239,12 +242,16 @@ extension SellCoordinator: PostListingNavigator {
         }
     }
 
-    func closePostProductAndPostLater(params: ListingCreationParams, images: [UIImage],
+    func closePostProductAndPostLater(params: ListingCreationParams,
+                                      images: [UIImage]?,
+                                      video: RecordedVideo?,
                                       trackingInfo: PostListingTrackingInfo) {
         guard let parentVC = parentViewController else { return }
 
         dismissViewController(animated: true) { [weak self] in
-            let listingPostedVM = ListingPostedViewModel(postParams: params, listingImages: images,
+            let listingPostedVM = ListingPostedViewModel(postParams: params,
+                                                         listingImages: images,
+                                                         video: video,
                                                          trackingInfo: trackingInfo)
             listingPostedVM.navigator = self
             let listingPostedVC = ListingPostedViewController(viewModel: listingPostedVM)
@@ -346,6 +353,7 @@ extension SellCoordinator: ListingPostedNavigator {
 // MARK: - BlockingPostingNavigator
 
 extension SellCoordinator: BlockingPostingNavigator  {
+
     func openCamera() {
         let postListingVM = PostListingViewModel(source: .onboardingBlockingPosting,
                                                  postCategory: nil,
@@ -357,20 +365,22 @@ extension SellCoordinator: BlockingPostingNavigator  {
         navigationController.pushViewController(postListingVC, animated: true)
     }
     
-    func openPrice(listing: Listing, images: [UIImage], imageSource: EventParameterPictureSource, postingSource: PostingSource) {
+    func openPrice(listing: Listing, images: [UIImage], imageSource: EventParameterPictureSource, videoLength: TimeInterval?, postingSource: PostingSource) {
         let viewModel = BlockingPostingAddPriceViewModel(listing: listing,
                                                          images: images,
                                                          imageSource: imageSource,
+                                                         videoLength: videoLength,
                                                          postingSource: postingSource)
         viewModel.navigator = self
         let vc = BlockingPostingAddPriceViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func openListingPosted(listing: Listing, images: [UIImage], imageSource: EventParameterPictureSource, postingSource: PostingSource) {
+    func openListingPosted(listing: Listing, images: [UIImage], imageSource: EventParameterPictureSource, videoLength: TimeInterval?, postingSource: PostingSource) {
         let viewModel = ListingPostedDescriptiveViewModel(listing: listing,
                                                           listingImages: images,
                                                           imageSource: imageSource,
+                                                          videoLength: videoLength,
                                                           postingSource: postingSource)
         viewModel.navigator = self
         let vc = ListingPostedDescriptiveViewController(viewModel: viewModel)
@@ -405,11 +415,13 @@ extension SellCoordinator: BlockingPostingNavigator  {
                                    listing: Listing,
                                    images: [UIImage],
                                    imageSource: EventParameterPictureSource,
+                                   videoLength: TimeInterval?,
                                    postingSource: PostingSource) {
         let viewModel = BlockingPostingListingEditionViewModel(listingParams: listingParams,
                                                                listing: listing,
                                                                images: images,
                                                                imageSource: imageSource,
+                                                               videoLength: videoLength,
                                                                postingSource: postingSource)
         viewModel.navigator = self
         let vc = BlockingPostingListingEditionViewController(viewModel: viewModel)
@@ -427,6 +439,7 @@ fileprivate extension SellCoordinator {
                                                      sellButtonPosition: trackingInfo.sellButtonPosition,
                                                      negotiable: trackingInfo.negotiablePrice,
                                                      pictureSource: trackingInfo.imageSource,
+                                                     videoLength: trackingInfo.videoLength,
                                                      freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                      typePage: trackingInfo.typePage,
                                                      mostSearchedButton: trackingInfo.mostSearchedButton,
@@ -448,13 +461,16 @@ fileprivate extension SellCoordinator {
 // MARK: Machine Learning
 
 extension SellCoordinator {
-    func startDetails(postListingState: MLPostListingState, uploadedImageSource: EventParameterPictureSource?, postingSource: PostingSource, postListingBasicInfo: PostListingBasicDetailViewModel) {
+    func startDetails(postListingState: MLPostListingState, uploadedImageSource: EventParameterPictureSource?,
+                      uploadedVideoLength: TimeInterval?, postingSource: PostingSource,
+                      postListingBasicInfo: PostListingBasicDetailViewModel) {
         
         let firstStep: PostingDetailStep = featureFlags.summaryAsFirstStep.isActive ? .summary : .price
         
         let viewModel = MLPostingDetailsViewModel(step: firstStep,
                                                   postListingState: postListingState,
                                                   uploadedImageSource: uploadedImageSource,
+                                                  uploadedVideoLength: uploadedVideoLength,
                                                   postingSource: postingSource,
                                                   postListingBasicInfo: postListingBasicInfo,
                                                   previousStepIsSummary: false)
@@ -467,12 +483,14 @@ extension SellCoordinator {
     func nextPostingDetailStep(step: PostingDetailStep,
                                postListingState: MLPostListingState,
                                uploadedImageSource: EventParameterPictureSource?,
+                               uploadedVideoLength: TimeInterval?,
                                postingSource: PostingSource,
                                postListingBasicInfo: PostListingBasicDetailViewModel,
                                previousStepIsSummary: Bool) {
         let viewModel = MLPostingDetailsViewModel(step: step,
                                                   postListingState: postListingState,
                                                   uploadedImageSource: uploadedImageSource,
+                                                  uploadedVideoLength: uploadedVideoLength,
                                                   postingSource: postingSource,
                                                   postListingBasicInfo: postListingBasicInfo,
                                                   previousStepIsSummary: previousStepIsSummary)

@@ -155,6 +155,8 @@ final class AppCoordinator: NSObject, Coordinator {
         self.locationManager = locationManager
         super.init()
 
+        self.profileTabBarCoordinator.profileCoordinatorSearchAlertsDelegate = self
+
         setupTabBarController()
         setupTabCoordinators()
         setupDeepLinkingRx()
@@ -450,13 +452,14 @@ extension AppCoordinator: AppNavigator {
     }
 
     func openEditForListing(listing: Listing,
-                            bumpUpProductData: BumpUpProductData?) {
+                            bumpUpProductData: BumpUpProductData?,
+                            maxCountdown: TimeInterval) {
         let editCoordinator = EditListingCoordinator(listing: listing,
                                                      bumpUpProductData: bumpUpProductData,
                                                      pageType: nil,
                                                      listingCanBeBoosted: false,
                                                      timeSinceLastBump: nil,
-                                                     maxCountdown: nil)
+                                                     maxCountdown: maxCountdown)
         editCoordinator.delegate = self
         openChild(coordinator: editCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: false, completion: nil)
     }
@@ -485,7 +488,7 @@ extension AppCoordinator: EditListingCoordinatorDelegate {
                                 didFinishWithListing listing: Listing,
                                 bumpUpProductData: BumpUpProductData?,
                                 timeSinceLastBump: TimeInterval?,
-                                maxCountdown: TimeInterval?) {
+                                maxCountdown: TimeInterval) {
         refreshSelectedListingsRefreshable()
         guard let listingId = listing.objectId,
             let bumpData = bumpUpProductData,
@@ -583,8 +586,7 @@ fileprivate extension AppCoordinator {
     fileprivate func retrieveBumpeableInfoForListing(listingId: String, bumpUpSource: BumpUpSource) {
         purchasesShopper.bumpInfoRequesterDelegate = self
         monetizationRepository.retrieveBumpeableListingInfo(
-            listingId: listingId,
-            withHigherMinimumPrice: featureFlags.bumpPriceVariationBucket.rawValue) { [weak self] result in
+            listingId: listingId) { [weak self] result in
                 guard let strongSelf = self else { return }
                 if let value = result.value {
                     let paymentItems = value.paymentItems.filter { $0.provider == .apple }
@@ -601,6 +603,7 @@ fileprivate extension AppCoordinator {
                         strongSelf.purchasesShopper.productsRequestStartForListingId(listingId,
                                                                                      letgoItemId: letgoItemId,
                                                                                      withIds: paymentItems.map { $0.providerItemId },
+                                                                                     maxCountdown: value.maxCountdown,
                                                                                      typePage: bumpUpSource.typePageParameter)
                     } else {
                         strongSelf.bumpUpFallbackFor(source: bumpUpSource)
@@ -614,7 +617,7 @@ fileprivate extension AppCoordinator {
     private func bumpUpFallbackFor(source: BumpUpSource) {
         switch source {
         case .edit(let listing):
-            openEditForListing(listing: listing, bumpUpProductData: nil)
+            openEditForListing(listing: listing, bumpUpProductData: nil, maxCountdown: 0)
         case .deepLink, .promoted:
             break
         }
@@ -1041,7 +1044,7 @@ fileprivate extension AppCoordinator {
                 case .network:
                     message = LGLocalizedString.commonErrorConnectionFailed
                 case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError,
-                     .wsChatError:
+                     .wsChatError, .searchAlertError:
                     message = LGLocalizedString.commonUserReviewNotAvailable
                 }
                 navCtl.dismissLoadingMessageAlert {
@@ -1089,6 +1092,7 @@ extension AppCoordinator: BumpInfoRequesterDelegate {
                                                     withProducts products: [PurchaseableProduct],
                                                     letgoItemId: String?,
                                                     storeProductId: String?,
+                                                    maxCountdown: TimeInterval,
                                                     typePage: EventParameterTypePage?) {
         guard let requestListingId = listingId, let purchase = products.first, let bumpUpSource = bumpUpSource else { return }
 
@@ -1121,7 +1125,8 @@ extension AppCoordinator: BumpInfoRequesterDelegate {
                                         typePage: typePage)
         case .edit(let listing):
             openEditForListing(listing: listing,
-                               bumpUpProductData: bumpUpProductData)
+                               bumpUpProductData: bumpUpProductData,
+                               maxCountdown: maxCountdown)
         }
     }
 }
@@ -1157,6 +1162,14 @@ extension AppCoordinator: MostSearchedItemsCoordinatorDelegate {
     
     func openSearchFor(listingTitle: String) {
         mainTabBarCoordinator.openMainListings(withSearchType: .user(query: listingTitle), listingFilters: ListingFilters())
+    }
+}
+
+extension AppCoordinator: ProfileCoordinatorSearchAlertsDelegate {
+    func profileCoordinatorSearchAlertsOpenSearch() {
+        openTab(.home) { [weak self] in
+            self?.mainTabBarCoordinator.readyToSearch()
+        }
     }
 }
 

@@ -20,6 +20,7 @@ final class UserProfileViewController: BaseViewController {
     private let socialSharer: SocialSharer
 
     // UI
+
     private let headerContainerView = UIView()
     private let headerView: UserProfileHeaderView
     private let navBarUserView = UserProfileNavBarUserView()
@@ -76,7 +77,9 @@ final class UserProfileViewController: BaseViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    init(viewModel: UserProfileViewModel, hidesBottomBarWhenPushed: Bool, socialSharer: SocialSharer) {
+    init(viewModel: UserProfileViewModel,
+         hidesBottomBarWhenPushed: Bool,
+         socialSharer: SocialSharer) {
         self.viewModel = viewModel
         self.disposeBag = DisposeBag()
         self.headerView = UserProfileHeaderView(isPrivate: viewModel.isPrivateProfile)
@@ -242,8 +245,8 @@ final class UserProfileViewController: BaseViewController {
             bioAndTrustView.topAnchor.constraint(equalTo: userRelationView.bottomAnchor, constant: 0) ,
             bioAndTrustView.leftAnchor.constraint(equalTo: headerContainerView.leftAnchor, constant: Layout.sideMargin),
             bioAndTrustView.rightAnchor.constraint(equalTo: headerContainerView.rightAnchor, constant: -Layout.sideMargin),
-            tabsView.leftAnchor.constraint(equalTo: headerContainerView.leftAnchor, constant: Layout.sideMargin),
-            tabsView.rightAnchor.constraint(equalTo: headerContainerView.rightAnchor, constant: -Layout.sideMargin),
+            tabsView.leftAnchor.constraint(equalTo: headerContainerView.leftAnchor, constant: Metrics.shortMargin),
+            tabsView.rightAnchor.constraint(equalTo: headerContainerView.rightAnchor, constant: -Metrics.shortMargin),
             tabsView.bottomAnchor.constraint(equalTo: headerContainerView.bottomAnchor),
             tabsView.heightAnchor.constraint(equalToConstant: Layout.tabsHeight),
             listingView.topAnchor.constraint(equalTo: safeTopAnchor),
@@ -524,7 +527,7 @@ extension UserProfileViewController {
         viewModel
             .userName
             .drive(onNext: { [weak self] userName in
-                self?.headerView.userNameLabel.text = userName
+                self?.headerView.username = userName
                 self?.navBarUserView.userNameLabel.text = userName
             })
             .disposed(by: disposeBag)
@@ -534,6 +537,13 @@ extension UserProfileViewController {
             .drive(onNext: { [weak self] in
                 self?.headerView.ratingView.setupValue(rating: $0)
                 self?.navBarUserView.userRatingView.setupValue(rating: $0)
+            })
+            .disposed(by: disposeBag)
+
+        viewModel
+            .userRatingCount
+            .drive(onNext: { [weak self] in
+                self?.headerView.setUser(hasRatings: $0 > 0)
             })
             .disposed(by: disposeBag)
 

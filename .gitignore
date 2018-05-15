@@ -50,6 +50,9 @@ DerivedData
 # Local podspecs (pod local references)
 Pods/Local Podspecs/
 
+# fastlane
+build.log
+
 # githooks
 jiraconfig.yml
 

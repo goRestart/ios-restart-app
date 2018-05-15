@@ -13,7 +13,7 @@ extension RepositoryError {
         switch self {
         case .network:
             return .network(code: nil)
-        case .serverError, .notFound, .forbidden, .unauthorized, .tooManyRequests, .userNotVerified:
+        case .serverError, .notFound, .forbidden, .unauthorized, .tooManyRequests, .userNotVerified, .searchAlertError:
             return .serverError(code: self.errorCode)
         case let .internalError(message):
             return .internalError(description: message)
@@ -41,7 +41,8 @@ extension RepositoryError {
         switch self {
         case .network:
             return .network
-        case .serverError, .notFound, .forbidden, .unauthorized, .tooManyRequests, .userNotVerified, .wsChatError:
+        case .serverError, .notFound, .forbidden, .unauthorized, .tooManyRequests, .userNotVerified, .wsChatError,
+             .searchAlertError:
             return .serverError
         case .internalError:
             return .internalError

@@ -72,7 +72,7 @@ struct LGChatInactiveConversation: ChatInactiveConversation, Decodable {
     public init(from decoder: Decoder) throws {
         let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
         objectId = try keyedContainer.decode(String.self, forKey: .objectId)
-        let lastMessageSentAtValue = try keyedContainer.decodeIfPresent(Double.self, forKey: .lastMessageSentAt)
+        let lastMessageSentAtValue = try keyedContainer.decodeIfPresent(TimeInterval.self, forKey: .lastMessageSentAt)
         lastMessageSentAt = Date.makeChatDate(millisecondsIntervalSince1970: lastMessageSentAtValue)
         listing = try keyedContainer.decodeIfPresent(LGChatListing.self, forKey: .listing)
         interlocutor = try keyedContainer.decodeIfPresent(LGChatInterlocutor.self, forKey: .interlocutor)

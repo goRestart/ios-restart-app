@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import MapKit
 import LGCoreKit
 
 fileprivate struct DetailNumberOfLines {
@@ -26,31 +25,91 @@ protocol ListingCardDetailsViewDelegate: class {
 final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCardDetailsViewType {
     private struct Layout {
         struct Height { static let mapView: CGFloat = 136.0  }
-        struct Margin { static let statsToDetail: CGFloat = 30 }
+        struct Margin {
+            static let statsToDetail: CGFloat = 30
+            static let socialView: CGFloat = -3
+        }
+    }
+    private struct Colors {
+        static let headerColor = #colorLiteral(red: 0.4588235294, green: 0.4588235294, blue: 0.4588235294, alpha: 1)
+    }
+    private struct Map {
+        static let snapshotSize = CGSize(width: 300, height: 500)
     }
 
     var delegate: (ListingCardDetailsViewDelegate & ListingCardDetailMapViewDelegate)? {
         didSet { detailMapView.delegate = delegate }
     }
 
-    private let headerStackView = UIStackView()
-    private let titleLabel = UILabel()
-    private let priceLabel = UILabel()
+    private let headerStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .fillProportionally
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.layoutMargins = .zero
+        stackView.spacing = 0
+        return stackView
+    }()
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.deckTitleFont
+        label.textAlignment = .left
+        label.numberOfLines = 0
+        label.backgroundColor = .white
+        return label
+    }()
+    private let priceLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.deckPriceFont
+        label.textAlignment = .left
+        label.numberOfLines = 1
+        label.backgroundColor = .white
+        return label
+    }()
 
-    private let detailLabel = UILabel()
-    private let statsView = ListingStatsView.make(withStyle: .light)!
+    private let detailLabel: UILabel = {
+        let label = UILabel()
+        label.setContentCompressionResistancePriority(.required, for: .vertical)
+        label.isUserInteractionEnabled = true
+        label.numberOfLines = 3
+        label.textAlignment = .left
+        label.font = UIFont.deckDetailFont
+        label.textColor = .grayDark
+        label.backgroundColor = .white
+        return label
+    }()
+    private let statsView: ListingStatsView = {
+        let view = ListingStatsView.make(withStyle: .light)!
+        view.timePostedView.layer.borderColor = UIColor.grayLight.cgColor
+        view.timePostedView.layer.borderWidth = 1.0
+        view.backgroundColor = UIColor.white
+        return view
+    }()
 
     private var locationToStats: NSLayoutConstraint?
     private var locationToDetail: NSLayoutConstraint?
 
     let detailMapView = ListingCardDetailMapView()
-    let mapPlaceHolder = UIView()
-    var isMapExpanded: Bool { return detailMapView.isExpanded }
     private var mapSnapShotToBottom: NSLayoutConstraint?
     private var mapSnapShotToSocialView: NSLayoutConstraint?
 
-    private let socialMediaHeader = UILabel()
-    private let socialShareView = SocialShareView()
+    private let socialMediaHeader: UILabel = {
+        let label = UILabel()
+        label.textColor = Colors.headerColor
+        label.backgroundColor = UIColor.white
+        label.font = UIFont.deckSocialHeaderFont
+        label.textAlignment = .left
+        label.text = LGLocalizedString.productShareTitleLabel
+        label.setContentCompressionResistancePriority(.required, for: .vertical)
+        label.setContentHuggingPriority(.required, for: .vertical)
+        return label
+    }()
+    private let socialShareView: SocialShareView = {
+        let view = SocialShareView()
+        view.style = .grid
+        view.gridColumns = 4
+        return view
+    }()
 
     private var detailNumberOfLines = DetailNumberOfLines(current: 3, next: 0)
 
@@ -72,12 +131,9 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
     func populateWith(productInfo: ListingVMProductInfo?, showExactLocationOnMap: Bool) {
         guard let info = productInfo else { return }
         if let location = info.location {
-            let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
-            let center = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
-
-            let region = MKCoordinateRegion(center: center, span: span)
-            detailMapView.setRegion(region, size: CGSize(width: 300, height: 500),
-                                    showExactLocationOnMap: showExactLocationOnMap)
+            detailMapView.setLocation(location,
+                                      size: Map.snapshotSize,
+                                      showExactLocationOnMap: showExactLocationOnMap)
         }
         titleLabel.text = info.title
         titleLabel.isHidden = info.title == nil
@@ -133,139 +189,77 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
     // MARK: SetupView
     private func setupUI() {
         backgroundColor = .white
+        addSubviewsForAutoLayout([headerStackView, detailLabel, statsView,
+                                  detailMapView, socialMediaHeader, socialShareView])
         setupHeaderUI()
         setupDetailUI()
         setupStatsView()
         setupMapPlaceHolder()
         setupSocialMedia()
-        setupMapView()
     }
 
     private func setupHeaderUI() {
-        func setupHeaderStackView() {
-            headerStackView.axis = .vertical
-            headerStackView.distribution = .fillProportionally
-            headerStackView.isLayoutMarginsRelativeArrangement = true
-            headerStackView.layoutMargins = .zero
+        headerStackView.addArrangedSubview(priceLabel)
+        headerStackView.addArrangedSubview(titleLabel)
 
-            headerStackView.spacing = 0
-            headerStackView.addArrangedSubview(priceLabel)
-            headerStackView.addArrangedSubview(titleLabel)
-
-            addSubview(headerStackView)
-            headerStackView.translatesAutoresizingMaskIntoConstraints = false
-            headerStackView.layout(with: self)
-                .top(by: Metrics.margin)
-                .leading(by: Metrics.margin).trailing(by: -Metrics.margin)
-        }
-
-        func setupTitleLabel() {
-            titleLabel.font = UIFont.deckTitleFont
-            titleLabel.textAlignment = .left
-            titleLabel.numberOfLines = 0
-            titleLabel.backgroundColor = UIColor.white
-        }
-
-        func setupPriceLabel() {
-            priceLabel.font = UIFont.deckPriceFont
-            priceLabel.textAlignment = .left
-            priceLabel.numberOfLines = 1
-            priceLabel.backgroundColor = UIColor.white
-        }
-
-        setupHeaderStackView()
-        setupPriceLabel()
-        setupTitleLabel()
+        headerStackView
+            .layout(with: self)
+            .top(by: Metrics.margin)
+            .fillHorizontal(by: Metrics.veryShortMargin)
     }
 
     private func setupDetailUI() {
-        addSubview(detailLabel)
-        detailLabel.translatesAutoresizingMaskIntoConstraints = false
-
-        detailLabel.layout(with: headerStackView).below(by: Metrics.veryShortMargin)
-        detailLabel.layout(with: self).leading(by: Metrics.margin).trailing(by: -Metrics.margin)
-        detailLabel.setContentCompressionResistancePriority(.required, for: .vertical)
-
-        detailLabel.isUserInteractionEnabled = true
+        detailLabel
+            .layout(with: headerStackView)
+            .below(by: Metrics.veryShortMargin)
+        detailLabel
+            .layout(with: self)
+            .fillHorizontal(by: Metrics.veryShortMargin)
         detailLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(toggleDetailLines)))
-        detailLabel.numberOfLines = 3
-        detailLabel.textAlignment = .left
-        detailLabel.font = UIFont.deckDetailFont
-        detailLabel.textColor = .grayDark
-        detailLabel.backgroundColor = UIColor.white
     }
 
     private func setupStatsView() {
-        addSubview(statsView)
-        statsView.translatesAutoresizingMaskIntoConstraints = false
-        statsView.layout(with: detailLabel).below(by: Layout.Margin.statsToDetail)
-        statsView.layout(with: self).leading(by: Metrics.margin).trailing(by: -Metrics.margin)
-        statsView.timePostedView.layer.borderColor = UIColor.grayLight.cgColor
-        statsView.timePostedView.layer.borderWidth = 1.0
-        statsView.backgroundColor = UIColor.white
-    }
-
-    private func setupMapView() {
-        addSubviewForAutoLayout(detailMapView)
-        detailMapView.layout(with: self).fillHorizontal()
-        let height = detailMapView.heightAnchor.constraint(equalTo: mapPlaceHolder.heightAnchor)
-        height.priority = .required - 1
-        let centerY = detailMapView.centerYAnchor.constraint(equalTo: mapPlaceHolder.centerYAnchor)
-        centerY.priority = .defaultLow
-        let constraints = [centerY, height]
-
-        detailMapView.isUserInteractionEnabled = true
-        NSLayoutConstraint.activate(constraints)
+        statsView
+            .layout(with: detailLabel)
+            .below(by: Layout.Margin.statsToDetail)
+        statsView
+            .layout(with: self)
+            .fillHorizontal(by: Metrics.veryShortMargin)
     }
 
     private func setupMapPlaceHolder() {
-        mapPlaceHolder.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(mapPlaceHolder)
-        mapPlaceHolder.layout().height(Layout.Height.mapView)
-        mapPlaceHolder.layout(with: self).fillHorizontal()
-        mapPlaceHolder.backgroundColor = backgroundColor
-
-        locationToStats = mapPlaceHolder.topAnchor.constraint(equalTo: statsView.bottomAnchor,
+        detailMapView
+            .layout(with: self)
+            .fillHorizontal()
+        detailMapView.layout().height(Layout.Height.mapView)
+        detailMapView.isUserInteractionEnabled = true
+        locationToStats = detailMapView.topAnchor.constraint(equalTo: statsView.bottomAnchor,
                                                               constant: 2*Metrics.margin)
         locationToStats?.isActive = true
-
-        mapSnapShotToBottom = mapPlaceHolder.bottomAnchor.constraint(equalTo: bottomAnchor,
+        mapSnapShotToBottom = detailMapView.bottomAnchor.constraint(equalTo: bottomAnchor,
                                                                      constant: -2*Metrics.margin)
-        mapSnapShotToBottom?.isActive = false
-
-        locationToDetail = mapPlaceHolder.topAnchor.constraint(equalTo: detailLabel.bottomAnchor)
+        locationToDetail = detailMapView.topAnchor.constraint(equalTo: detailLabel.bottomAnchor)
     }
 
     private func setupSocialMedia() {
         func setupSocialMediaHeader() {
-            socialMediaHeader.translatesAutoresizingMaskIntoConstraints = false
-            addSubview(socialMediaHeader)
-
-            mapSnapShotToSocialView = socialMediaHeader.topAnchor.constraint(equalTo: mapPlaceHolder.bottomAnchor,
+            mapSnapShotToSocialView = socialMediaHeader.topAnchor.constraint(equalTo: detailMapView.bottomAnchor,
                                                                              constant: 2*Metrics.margin)
             mapSnapShotToSocialView?.isActive = true
-            socialMediaHeader.layout(with: self).fillHorizontal(by: Metrics.margin)
-
-            socialMediaHeader.textColor = #colorLiteral(red: 0.4588235294, green: 0.4588235294, blue: 0.4588235294, alpha: 1)
-            socialMediaHeader.backgroundColor = UIColor.white
-            socialMediaHeader.font = UIFont.deckSocialHeaderFont
-            socialMediaHeader.textAlignment = .left
-            socialMediaHeader.text = LGLocalizedString.productShareTitleLabel
-            socialMediaHeader.setContentCompressionResistancePriority(.required, for: .vertical)
-            socialMediaHeader.setContentHuggingPriority(.required, for: .vertical)
+            socialMediaHeader
+                .layout(with: self)
+                .fillHorizontal(by: Metrics.shortMargin)
         }
 
         func setupSocialView() {
-            socialShareView.translatesAutoresizingMaskIntoConstraints = false
-            addSubview(socialShareView)
             socialShareView.topAnchor.constraint(equalTo: socialMediaHeader.bottomAnchor).isActive = true
-            socialShareView.layout(with: self).fillHorizontal(by: 7.0)
+            socialShareView
+                .layout(with: self)
+                .fillHorizontal(by: Layout.Margin.socialView)
             socialShareView.bottomAnchor.constraint(equalTo: bottomAnchor,
                                                     constant: -2*Metrics.margin).isActive = true
             socialShareView.setupBackgroundColor(.white)
             socialShareView.delegate = self
-            socialShareView.style = .grid
-            socialShareView.gridColumns = 4
         }
 
         setupSocialMediaHeader()
@@ -283,7 +277,6 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
     @objc private func toggleDetailLines() {
         detailNumberOfLines = detailNumberOfLines.toggle()
         detailLabel.numberOfLines = detailNumberOfLines.current
-
         setNeedsLayout()
     }
 

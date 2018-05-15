@@ -84,7 +84,7 @@ enum ExternalServiceAuthResult {
             return nil
         case .conflict(let cause):
             switch cause {
-            case .userExists, .notSpecified, .other:
+            case .userExists, .notSpecified, .other, .searchAlertAlreadyExists, .searchAlertLimitReached:
                 return LGLocalizedString.mainSignUpFbConnectErrorEmailTaken
             case .emailRejected:
                 return LGLocalizedString.mainSignUpErrorUserRejected

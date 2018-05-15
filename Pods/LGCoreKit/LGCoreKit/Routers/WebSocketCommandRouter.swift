@@ -6,6 +6,16 @@
 //  Copyright © 2016 Ambatana Inc. All rights reserved.
 //
 
+public enum WebSocketSendMessageType: String {
+    case text = "text"
+    case offer = "offer"
+    case sticker = "sticker"
+    case quickAnswer = "quick_answer"
+    case expressChat = "express_chat"
+    case favoritedListing  = "favorited_product"
+    case phone = "phone"
+    case meeting = "chat_norris"
+}
 
 struct WebSocketCommandRequest: WebSocketCommandRequestConvertible {
     var message: String
@@ -24,10 +34,15 @@ struct WebSocketCommandRouter {
         return WebSocketCommandRequest(message: message, uuid: uuid, type: .authenticate)
     }
     
-    func sendMessage(_ conversationId: String, messageId: String, type: String, text: String) -> WebSocketCommandRequest {
+    func sendMessage(_ conversationId: String, messageId: String, type: WebSocketSendMessageType, text: String, answerKey: String?) -> WebSocketCommandRequest {
         let uuid = uuidGenerator.UUIDString
-        let data = ["conversation_id": conversationId, "message_id": messageId, "message_type": type, "text": text]
-        let message = WebSocketRouter.request(with: uuid, type: .sendMessage, data: data)
+        let data = ["conversation_id": conversationId, "message_id": messageId, "message_type": type.rawValue, "text": text]
+        let message: String
+        if let answerKey = answerKey {
+            message = WebSocketRouter.request(with: uuid, type: .sendMessage, data: data, meta: ["answer_key": answerKey])
+        } else {
+            message = WebSocketRouter.request(with: uuid, type: .sendMessage, data: data)
+        }
         return WebSocketCommandRequest(message: message, uuid: uuid, type: .sendMessage)
     }
     

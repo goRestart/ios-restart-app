@@ -170,7 +170,10 @@ extension ListingCategory {
             return .car
         case .motorsAndAccessories:
             return .motorsAndAccessories
-        case .babyAndChild, .electronics, .fashionAndAccesories, .homeAndGarden, .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .unassigned, .services:
+        case .services:
+            return .otherItems(listingCategory: self)
+        case .babyAndChild, .electronics, .fashionAndAccesories, .homeAndGarden, .moviesBooksAndMusic, .other,
+             .sportsLeisureAndGames, .unassigned:
             return .otherItems(listingCategory: nil)
         }
     }

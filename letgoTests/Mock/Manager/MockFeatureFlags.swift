@@ -10,8 +10,8 @@
 import Foundation
 import RxSwift
 
-class MockFeatureFlags: FeatureFlaggeable {
-    
+final class MockFeatureFlags: FeatureFlaggeable {
+
     var trackingData: Observable<[(String, ABGroup)]?> {
         return trackingDataVar.asObservable()
     }
@@ -32,7 +32,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var requestTimeOut: RequestsTimeOut = .thirty
     var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed = .control
     var showClockInDirectAnswer: ShowClockInDirectAnswer = .control
-    var allowCallsForProfessionals: AllowCallsForProfessionals = .control
     var mostSearchedDemandedItems: MostSearchedDemandedItems = .control
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers = .control
 
@@ -40,25 +39,18 @@ class MockFeatureFlags: FeatureFlaggeable {
     var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting = .control
     var realEstateNewCopy: RealEstateNewCopy = .control
     var dummyUsersInfoProfile: DummyUsersInfoProfile = .control
-    var showInactiveConversations: Bool = false
     var increaseMinPriceBumps: IncreaseMinPriceBumps = .control
-    var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings = .control
-    var newUserProfileView: NewUserProfileView = .control
     var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation = .control
     var searchImprovements: SearchImprovements = .control
     var relaxedSearch: RelaxedSearch = .control
-    var showChatSafetyTips: Bool = false
     var discardedProducts: DiscardedProducts = .control
-    var userIsTyping: UserIsTyping = .control
     var bumpUpBoost: BumpUpBoost = .control
     var servicesCategoryEnabled: ServicesCategoryEnabled = .control
     var increaseNumberOfPictures: IncreaseNumberOfPictures = .control
     var onboardingIncentivizePosting: OnboardingIncentivizePosting = .control
     var machineLearningMVP: MachineLearningMVP = .control
-    var chatNorris: ChatNorris = .control
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings = .control
     var showProTagUserProfile: Bool = false
-    var markAllConversationsAsRead: Bool = false
     var realEstateTutorial: RealEstateTutorial = .control
     var summaryAsFirstStep: SummaryAsFirstStep = .control
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem = .control
@@ -66,6 +58,8 @@ class MockFeatureFlags: FeatureFlaggeable {
     var showPasswordlessLogin: ShowPasswordlessLogin = .control
     var emergencyLocate: EmergencyLocate = .control
 
+    var searchAlerts: SearchAlerts = .control
+    
     // Country dependant features
     var freePostingModeAllowed = false
     var postingFlowType: PostingFlowType = .standard
@@ -74,7 +68,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var signUpEmailTermsAndConditionsAcceptRequired = false
     var moreInfoDFPAdUnitId = ""
     var feedDFPAdUnitId: String? = ""
-    var bumpPriceVariationBucket: BumpPriceVariationBucket = .defaultValue
     var shouldChangeChatNowCopyInTurkey = false
     var copyForChatNowInTurkey: CopyForChatNowInTurkey = .control
     var feedAdsProviderForUS: FeedAdsProviderForUS = .control
@@ -89,12 +82,30 @@ class MockFeatureFlags: FeatureFlaggeable {
     var shouldChangeChatNowCopyInEnglish = false
     var shouldChangeSellFasterNowCopyInEnglish = false
     var copyForSellFasterNowInEnglish: CopyForSellFasterNowInEnglish = .control
+    var shouldShowIAmInterestedInFeed: IAmInterestedFeed = .control
+    var googleAdxForTR: GoogleAdxForTR = .control
+
+    // MARK: Chat
+    var showInactiveConversations: Bool = false
+    var showChatSafetyTips: Bool = false
+    var userIsTyping: UserIsTyping = .control
+    var markAllConversationsAsRead: MarkAllConversationsAsRead = .control
+    var chatNorris: ChatNorris = .control
+    var chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs = .control
     
-    //  MARK:  Verticals
+    // MARK:  Verticals
     var searchCarsIntoNewBackend: SearchCarsIntoNewBackend = .control
     var realEstatePromoCell: RealEstatePromoCell = .control
     var filterSearchCarSellerType: FilterSearchCarSellerType = .control
     var createUpdateIntoNewBackend: CreateUpdateCarsIntoNewBackend = .control
-
+    var realEstateMap: RealEstateMap = .control
+    
+    // MARK: Discovery
+    var personalizedFeed: PersonalizedFeed = .control
+    var personalizedFeedABTestIntValue: Int? = nil
+    var searchBoxImprovements: SearchBoxImprovements = .control
+    
+    //  MARK:  Products
+    var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu = .control
 }
 

@@ -7,6 +7,7 @@
 //
 
 class ProductionEnvironment: AppEnvironment {
+    
     static let amplitudeKey = "6d37fbd6c25243c57676e6d4ce7948bf"
     
     // General
@@ -33,7 +34,7 @@ class ProductionEnvironment: AppEnvironment {
     // Website
     let websiteBaseUrl = "https://www.letgo.com"
     let websiteBaseUrlWithLocaleParams = "https://%@.letgo.com/%@"
-
+    
     // Google Ads
     let adTestModeActive = false
     let moreInfoAdUnitIdDFP = "/21636273254/turkey/iOS/moreinfo/320x100"
@@ -45,6 +46,8 @@ class ProductionEnvironment: AppEnvironment {
     
     var feedAdUnitIdAdxUSAForAllUsers = "/21666124832/us/iOS/feed/c_render_var_a"
     var feedAdUnitIdAdxUSAForOldUsers = "/21666124832/us/iOS/feed/c_render_var_b"
+    var feedAdUnitIdAdxTRForAllUsers = "/21636273254/turkey/iOS/feed/c_render_var_a"
+    var feedAdUnitIdAdxTRForOldUsers = "/21636273254/turkey/iOS/feed/c_render_var_b"
     
     // MoPub Ads
     let feedAdUnitIdMoPubUSAForAllUsers = "23d1d6db6b9848ba94f27887bb3585d2"

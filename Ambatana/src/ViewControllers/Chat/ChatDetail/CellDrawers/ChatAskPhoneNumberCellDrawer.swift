@@ -9,7 +9,7 @@
 import Foundation
 import LGCoreKit
 
-class ChatAskPhoneNumberCellDrawer: BaseChatCellDrawer<ChatAskPhoneNumberCell> {
+final class ChatAskPhoneNumberCellDrawer: BaseChatCellDrawer<ChatAskPhoneNumberCell> {
 
     override init(autoHide: Bool) {
         super.init(autoHide: autoHide)
@@ -24,7 +24,7 @@ class ChatAskPhoneNumberCellDrawer: BaseChatCellDrawer<ChatAskPhoneNumberCell> {
             cell.leavePhoneNumberButton.isEnabled = action != nil
             cell.leavePhoneNumberButton.setStyle(.secondary(fontSize: .small, withBorder: true))
             cell.leavePhoneNumberButton.setTitle(LGLocalizedString.professionalDealerAskPhoneAddPhoneCellButton, for: .normal)
-        case .text, .sticker, .offer, .userInfo, .disclaimer, .meeting, .interlocutorIsTyping:
+        default:
             cell.buttonAction = nil
             cell.leavePhoneNumberButton.isHidden = true
         }

@@ -65,7 +65,7 @@ class ListingCarouselMoreInfoView: UIView {
     fileprivate let mapView: MKMapView = MKMapView.sharedInstance
     fileprivate var vmRegion: MKCoordinateRegion? = nil
     @IBOutlet weak var mapViewContainer: UIView!
-    fileprivate var mapViewContainerExpandable: UIView? = nil
+    fileprivate lazy var mapViewContainerExpandable = UIView()
     fileprivate var mapViewTapGesture: UITapGestureRecognizer? = nil
 
     @IBOutlet weak var bannerContainerView: UIView!
@@ -86,7 +86,7 @@ class ListingCarouselMoreInfoView: UIView {
     private let disposeBag = DisposeBag()
     private var locationZone: MKOverlay?
     private var mapPinCustomAnnotation: MKPointAnnotation?
-    private let bigMapMargin: CGFloat = 65
+    private let bigMapMargin: CGFloat = 85
     private let bigMapBottomMargin: CGFloat = 85
     private(set) var mapExpanded: Bool = false
     private var mapZoomBlocker: MapZoomBlocker?
@@ -288,15 +288,11 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
     
     func expandMap() {
         guard !mapExpanded else { return }
-        if mapViewContainerExpandable == nil {
-            mapViewContainerExpandable = UIView()
-        }
-        guard let mapViewContainerExpandable = mapViewContainerExpandable else { return }
         addSubview(mapViewContainerExpandable)
         mapViewContainerExpandable.frame = convert(mapViewContainer.frame, from: scrollViewContent)
         layoutMapView(inside: mapViewContainerExpandable)
 
-            if let locationZone = self.locationZone, mapPinCustomAnnotation == nil {
+        if let locationZone = self.locationZone, mapPinCustomAnnotation == nil {
             mapView.add(locationZone)
         }
 
@@ -305,8 +301,8 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
         expandedFrame.origin.y = bigMapMargin
         expandedFrame.size.height = height - (bigMapMargin + bigMapBottomMargin)
         UIView.animate(withDuration: 0.3, animations: { [weak self] in
-            self?.mapViewContainerExpandable?.frame = expandedFrame
-            self?.mapViewContainerExpandable?.layoutIfNeeded()
+            self?.mapViewContainerExpandable.frame = expandedFrame
+            self?.mapViewContainerExpandable.layoutIfNeeded()
             }, completion: { [weak self] completed in
                 self?.setupMapExpanded(true)
         })
@@ -318,8 +314,8 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
         self.delegate?.request(fullScreen: false)
         let compressedFrame = convert(mapViewContainer.frame, from: scrollViewContent)
         UIView.animate(withDuration: 0.3, animations: { [weak self] in
-            self?.mapViewContainerExpandable?.frame = compressedFrame
-            self?.mapViewContainerExpandable?.layoutIfNeeded()
+            self?.mapViewContainerExpandable.frame = compressedFrame
+            self?.mapViewContainerExpandable.layoutIfNeeded()
             }, completion: { [weak self] completed in
                 guard let strongSelf = self else { return }
                 strongSelf.setupMapExpanded(false)
@@ -327,7 +323,7 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
                     strongSelf.mapView.remove(locationZone)
                 }
                 strongSelf.layoutMapView(inside: strongSelf.mapViewContainer)
-                strongSelf.mapViewContainerExpandable?.removeFromSuperview()
+                strongSelf.mapViewContainerExpandable.removeFromSuperview()
                 strongSelf.mapZoomBlocker?.stop()
                 if let region = strongSelf.vmRegion {
                     strongSelf.mapView.setRegion(region, animated: true)

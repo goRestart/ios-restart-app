@@ -102,15 +102,15 @@ extension UIViewController {
         return rightitem
     }
     
-    // Used to set right buttons in the LetGo style and link them with proper actions.
-    func setLetGoRightButtonsWith(imageNames images: [String], selectors: [String], tags: [Int]? = nil) -> [UIButton] {
-        let renderingMode: [UIImageRenderingMode] = images.map({ _ in return .alwaysTemplate })
-        return setLetGoRightButtonsWith(imageNames: images, renderingMode: renderingMode, selectors: selectors,
+    @discardableResult
+    func setLetGoRightButtonsWith(images: [UIImage], selectors: [Selector], tags: [Int]? = nil) -> [UIButton] {
+        let renderingMode: [UIImageRenderingMode] = images.map({ _ in return .alwaysOriginal })
+        return setLetGoRightButtonsWith(images: images, renderingMode: renderingMode, selectors: selectors,
             tags: tags)
     }
-
-    func setLetGoRightButtonsWith(imageNames images: [String], renderingMode: [UIImageRenderingMode],
-        selectors: [String], tags: [Int]? = nil) -> [UIButton] {
+    
+    private func setLetGoRightButtonsWith(images: [UIImage], renderingMode: [UIImageRenderingMode],
+        selectors: [Selector], tags: [Int]? = nil) -> [UIButton] {
             if (images.count != selectors.count) { return [] }
 
             var buttons: [UIButton] = []
@@ -118,8 +118,10 @@ extension UIViewController {
                 let button = UIButton(type: .system)
                 button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.right
                 button.tag = tags != nil ? tags![i] : i
-                button.setImage(UIImage(named: images[i])?.withRenderingMode(renderingMode[i]), for: .normal)
-                button.addTarget(self, action: Selector(selectors[i]), for: UIControlEvents.touchUpInside)
+                button.setImage(images[i].withRenderingMode(renderingMode[i]), for: .normal)
+                if responds(to: selectors[i]) {
+                    button.addTarget(self, action: selectors[i], for: UIControlEvents.touchUpInside)
+                }
                 buttons.append(button)
             }
 

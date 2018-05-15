@@ -31,6 +31,7 @@ extension ListingCreationParams {
                                                   location: location,
                                                   postalAddress: postalAddress,
                                                   images: postListingState.lastImagesUploadResult?.value ?? [],
+                                                  videos: [],
                                                   carAttributes: postListingState.verticalAttributes?.carAttributes ?? CarAttributes.emptyCarAttributes())
                 listingCreationParams = ListingCreationParams.car(carParams)
             case .realEstate:
@@ -42,6 +43,7 @@ extension ListingCreationParams {
                                                                 location: location,
                                                                 postalAddress: postalAddress,
                                                                 images: postListingState.lastImagesUploadResult?.value ?? [],
+                                                                videos: [],
                                                                 realEstateAttributes: postListingState.verticalAttributes?.realEstateAttributes ?? RealEstateAttributes.emptyRealEstateAttributes())
                 listingCreationParams = ListingCreationParams.realEstate(realEstateParams)
             case .motorsAndAccessories, .otherItems:
@@ -52,7 +54,8 @@ extension ListingCreationParams {
                                                           currency: currency,
                                                           location: location,
                                                           postalAddress: postalAddress,
-                                                          images: postListingState.lastImagesUploadResult?.value ?? [])
+                                                          images: postListingState.lastImagesUploadResult?.value ?? [],
+                                                          videos: [])
                 listingCreationParams = ListingCreationParams.product(productParams)
             }
         } else {
@@ -63,7 +66,8 @@ extension ListingCreationParams {
                                                       currency: currency,
                                                       location: location,
                                                       postalAddress: postalAddress,
-                                                      images: postListingState.lastImagesUploadResult?.value ?? [])
+                                                      images: postListingState.lastImagesUploadResult?.value ?? [],
+                                                      videos: [])
             listingCreationParams = ListingCreationParams.product(productParams)
         }
         return listingCreationParams

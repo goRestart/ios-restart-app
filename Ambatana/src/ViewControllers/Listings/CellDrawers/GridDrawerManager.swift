@@ -32,7 +32,7 @@ class GridDrawerManager {
     
     private let myUserRepository: MyUserRepository
     private let locationManager: LocationManager
-    
+
     init(myUserRepository: MyUserRepository, locationManager: LocationManager) {
         self.myUserRepository = myUserRepository
         self.locationManager = locationManager
@@ -73,8 +73,8 @@ class GridDrawerManager {
     func willDisplay(_ model: ListingCellModel,
                      inCell cell: UICollectionViewCell,
                      delegate: ListingCellDelegate?,
-                     imageSize: CGSize)
-    {
+                     imageSize: CGSize,
+                     interestedState: InterestedState?) {
         switch model {
         case let .listingCell(listing) where cell is ListingCell:
             guard let cell = cell as? ListingCell else { return }
@@ -92,7 +92,8 @@ class GridDrawerManager {
                                    isMine: isMine,
                                    price: listing.priceString(freeModeAllowed: freePostingAllowed),
                                    imageSize: imageSize,
-                                   currentLocation: locationManager.currentLocation)
+                                   currentLocation: locationManager.currentLocation,
+                                   interestedState: interestedState)
             listingDrawer.willDisplay(data, inCell: cell)
         case .dfpAdvertisement(let adData):
             guard let cell = cell as? AdvertisementCell else { return }
@@ -130,7 +131,8 @@ class GridDrawerManager {
                                    isMine: isMine,
                                    price: listing.priceString(freeModeAllowed: freePostingAllowed),
                                    imageSize: imageSize,
-                                   currentLocation: locationManager.currentLocation)
+                                   currentLocation: locationManager.currentLocation,
+                                   interestedState: .send(enabled: true))
             return listingDrawer.draw(data, style: cellStyle, inCell: cell)
         case .collectionCell(let style) where cell is CollectionCell:
             guard let cell = cell as? CollectionCell else { return }

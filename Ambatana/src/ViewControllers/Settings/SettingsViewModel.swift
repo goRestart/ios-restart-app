@@ -23,6 +23,7 @@ enum LetGoSetting {
     case privacyPolicy
     case logOut
     case versionInfo
+    case notifications
 }
 
 struct SettingsSection {
@@ -58,6 +59,10 @@ class SettingsViewModel: BaseViewModel {
     
     private var privacyURL: URL? {
         return LetgoURLHelper.buildPrivacyURL()
+    }
+    
+    private var isSearchAlertsEnabled: Bool {
+        return featureFlags.searchAlerts.isActive
     }
     
     convenience override init() {
@@ -188,16 +193,19 @@ class SettingsViewModel: BaseViewModel {
             location = countryCode
         }
         profileSettings.append(.changeLocation(location: location))
-
-        if featureFlags.newUserProfileView.isActive {
-            profileSettings.append(.changeUserBio)
-        }
+        profileSettings.append(.changeUserBio)
 
         if let email = myUser?.email, email.isEmail() {
             profileSettings.append(.changePassword)
         }
-        profileSettings.append(.marketingNotifications(switchValue: switchMarketingNotificationValue,
-            changeClosure: { [weak self] enabled in self?.checkMarketingNotifications(enabled) } ))
+        
+        if isSearchAlertsEnabled {
+            profileSettings.append(.notifications)
+        } else {
+            profileSettings.append(.marketingNotifications(switchValue: switchMarketingNotificationValue,
+                                                           changeClosure: { [weak self] enabled in
+                                                            self?.checkMarketingNotifications(enabled) } ))
+        }
 
         settingSections.append(SettingsSection(title: LGLocalizedString.settingsSectionProfile, settings: profileSettings))
 
@@ -248,6 +256,8 @@ class SettingsViewModel: BaseViewModel {
                                            alertType: .plainAlertOld, actions: [positive, negative])
         case .versionInfo, .marketingNotifications:
             break
+        case .notifications:
+            navigator?.openSettingsNotifications()
         }
     }
 

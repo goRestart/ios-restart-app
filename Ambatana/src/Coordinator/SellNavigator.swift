@@ -13,17 +13,21 @@ protocol PostListingNavigator: class {
     func cancelPostListing()
     func startDetails(postListingState: PostListingState,
                       uploadedImageSource: EventParameterPictureSource?,
+                      uploadedVideoLength: TimeInterval?,
                       postingSource: PostingSource,
                       postListingBasicInfo: PostListingBasicDetailViewModel)
     func nextPostingDetailStep(step: PostingDetailStep,
                                postListingState: PostListingState,
                                uploadedImageSource: EventParameterPictureSource?,
+                               uploadedVideoLength: TimeInterval?,
                                postingSource: PostingSource,
                                postListingBasicInfo: PostListingBasicDetailViewModel,
                                previousStepIsSummary: Bool)
     func closePostProductAndPostInBackground(params: ListingCreationParams,
                                              trackingInfo: PostListingTrackingInfo)
-    func closePostProductAndPostLater(params: ListingCreationParams, images: [UIImage],
+    func closePostProductAndPostLater(params: ListingCreationParams,
+                                      images: [UIImage]?,
+                                      video: RecordedVideo?,
                                       trackingInfo: PostListingTrackingInfo)
     func openLoginIfNeededFromListingPosted(from: EventParameterLoginSourceValue,
                                             loggedInAction: @escaping (() -> Void), cancelAction: (() -> Void)?)
@@ -39,11 +43,13 @@ protocol PostListingNavigator: class {
     // MARK: Machine Learning
     func startDetails(postListingState: MLPostListingState,
                       uploadedImageSource: EventParameterPictureSource?,
+                      uploadedVideoLength: TimeInterval?,
                       postingSource: PostingSource,
                       postListingBasicInfo: PostListingBasicDetailViewModel)
     func nextPostingDetailStep(step: PostingDetailStep,
                                postListingState: MLPostListingState,
                                uploadedImageSource: EventParameterPictureSource?,
+                               uploadedVideoLength: TimeInterval?,
                                postingSource: PostingSource,
                                postListingBasicInfo: PostListingBasicDetailViewModel,
                                previousStepIsSummary: Bool)
@@ -57,9 +63,9 @@ protocol ListingPostedNavigator: class {
 
 protocol BlockingPostingNavigator: class {
     func openCamera()
-    func openPrice(listing: Listing, images: [UIImage], imageSource: EventParameterPictureSource, postingSource: PostingSource)
-    func openListingEditionLoading(listingParams: ListingEditionParams, listing: Listing, images: [UIImage], imageSource: EventParameterPictureSource, postingSource: PostingSource)
-    func openListingPosted(listing: Listing, images: [UIImage], imageSource: EventParameterPictureSource, postingSource: PostingSource)
+    func openPrice(listing: Listing, images: [UIImage], imageSource: EventParameterPictureSource, videoLength: TimeInterval?, postingSource: PostingSource)
+    func openListingEditionLoading(listingParams: ListingEditionParams, listing: Listing, images: [UIImage], imageSource: EventParameterPictureSource, videoLength: TimeInterval?, postingSource: PostingSource)
+    func openListingPosted(listing: Listing, images: [UIImage], imageSource: EventParameterPictureSource, videoLength: TimeInterval?, postingSource: PostingSource)
     func openCategoriesPickerWith(selectedCategory: ListingCategory?, delegate: PostingCategoriesPickDelegate)
     func closeCategoriesPicker()
     func closePosting()

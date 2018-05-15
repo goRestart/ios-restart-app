@@ -295,9 +295,6 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                 }
             }
             describe("quick answers") {
-                beforeEach {
-                    featureFlags.allowCallsForProfessionals = .control
-                }
                 describe ("seller is not professional") {
                     beforeEach {
                         var user = MockUser.makeMock()
@@ -1075,9 +1072,6 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                         }
                     }
                     context("approved - normal") {
-                        beforeEach {
-                            featureFlags.allowCallsForProfessionals = .control
-                        }
                         context ("non professional seller") {
                             beforeEach {
                                 var user = MockUser.makeMock()
@@ -1174,9 +1168,6 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                         }
                     }
                     context("approved - free") {
-                        beforeEach {
-                            featureFlags.allowCallsForProfessionals = .control
-                        }
                         context ("non professional seller") {
                             beforeEach {
                                 var user = MockUser.makeMock()

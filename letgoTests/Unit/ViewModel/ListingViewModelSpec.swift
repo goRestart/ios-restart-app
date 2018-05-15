@@ -123,70 +123,35 @@ class ListingViewModelSpec: BaseViewModelSpec {
                 }
                 
                 context("buyer selection enabled newMarkAsSoldFlow") {
-                    context("allow calling dealers test disabled") {
-                        beforeEach {
-                            featureFlags.allowCallsForProfessionals = .inactive
-                            let userListing = MockUserListing.makeMock()
-                            listingRepository.listingBuyersResult = ListingBuyersResult([userListing])
-                            buildListingViewModel()
-                            sut.active = true
+                    beforeEach {
+                        let userListing = MockUserListing.makeMock()
+                        listingRepository.listingBuyersResult = ListingBuyersResult([userListing])
+                        buildListingViewModel()
+                        sut.active = true
 
-                            // There should appear one button
-                            expect(sut.actionButtons.value.count).toEventually(equal(1))
-                            sut.actionButtons.value.first?.action()
+                        // There should appear one button
+                        expect(sut.actionButtons.value.count).toEventually(equal(1))
+                        sut.actionButtons.value.first?.action()
 
-                            expect(tracker.trackedEvents.count).toEventually(equal(1))
-                        }
-                        it("has mark as sold and then sell it again button") {
-                            let buttonTexts: [String] = bottomButtonsObserver.eventValues.flatMap { $0.first?.text }
-                            expect(buttonTexts) == [LGLocalizedString.productMarkAsSoldButton,
-                                                    LGLocalizedString.productSellAgainButton]
-                        }
-                        it("requests buyer selection") {
-                            expect(self.selectBuyersCalled).toEventually(beTrue())
-                        }
-                        it("has shown mark as sold alert") {
-                            expect(self.shownAlertText!) == LGLocalizedString.productMarkAsSoldAlertMessage
-                        }
-                        it("calls show loading in delegate") {
-                            expect(self.delegateReceivedShowLoading) == true
-                        }
-                        it("calls hide loading in delegate") {
-                            expect(self.delegateReceivedHideLoading).toEventually(beTrue())
-                        }
+                        expect(tracker.trackedEvents.count).toEventually(equal(1))
                     }
-                    context("allow calling dealers test enabled") {
-                        beforeEach {
-                            featureFlags.allowCallsForProfessionals = .control
-                            let userListing = MockUserListing.makeMock()
-                            listingRepository.listingBuyersResult = ListingBuyersResult([userListing])
-                            buildListingViewModel()
-                            sut.active = true
-
-                            // There should appear one button
-                            expect(sut.actionButtons.value.count).toEventually(equal(1))
-                            sut.actionButtons.value.first?.action()
-
-                            expect(tracker.trackedEvents.count).toEventually(equal(1))
-                        }
-                        it("has mark as sold twice (button updates after user show request) and then sell it again button") {
-                            let buttonTexts: [String] = bottomButtonsObserver.eventValues.flatMap { $0.first?.text }
-                            expect(buttonTexts) == [LGLocalizedString.productMarkAsSoldButton,
-                                                    LGLocalizedString.productMarkAsSoldButton,
-                                                    LGLocalizedString.productSellAgainButton]
-                        }
-                        it("requests buyer selection") {
-                            expect(self.selectBuyersCalled).toEventually(beTrue())
-                        }
-                        it("has shown mark as sold alert") {
-                            expect(self.shownAlertText!) == LGLocalizedString.productMarkAsSoldAlertMessage
-                        }
-                        it("calls show loading in delegate") {
-                            expect(self.delegateReceivedShowLoading) == true
-                        }
-                        it("calls hide loading in delegate") {
-                            expect(self.delegateReceivedHideLoading).toEventually(beTrue())
-                        }
+                    it("has mark as sold twice (button updates after user show request) and then sell it again button") {
+                        let buttonTexts: [String] = bottomButtonsObserver.eventValues.flatMap { $0.first?.text }
+                        expect(buttonTexts) == [LGLocalizedString.productMarkAsSoldButton,
+                                                LGLocalizedString.productMarkAsSoldButton,
+                                                LGLocalizedString.productSellAgainButton]
+                    }
+                    it("requests buyer selection") {
+                        expect(self.selectBuyersCalled).toEventually(beTrue())
+                    }
+                    it("has shown mark as sold alert") {
+                        expect(self.shownAlertText!) == LGLocalizedString.productMarkAsSoldAlertMessage
+                    }
+                    it("calls show loading in delegate") {
+                        expect(self.delegateReceivedShowLoading) == true
+                    }
+                    it("calls hide loading in delegate") {
+                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
                 }
             }
@@ -436,9 +401,6 @@ class ListingViewModelSpec: BaseViewModelSpec {
 
             describe ("check user type") {
                 var seller: User!
-                beforeEach {
-                    featureFlags.allowCallsForProfessionals = .control
-                }
                 context ("User is professional and has a phone number") {
                     beforeEach {
                         var user = MockUser.makeMock()
@@ -891,6 +853,12 @@ extension ListingViewModelSpec: ListingViewModelDelegate {
 }
 
 extension ListingViewModelSpec: ListingDetailNavigator {
+    func openVideoPlayer(atIndex index: Int,
+                         listingVM: ListingViewModel,
+                         source: EventParameterListingVisitSource) {
+
+    }
+
 
     func closeProductDetail() {
 
@@ -899,7 +867,7 @@ extension ListingViewModelSpec: ListingDetailNavigator {
                      bumpUpProductData: BumpUpProductData?,
                      listingCanBeBoosted: Bool,
                      timeSinceLastBump: TimeInterval?,
-                     maxCountdown: TimeInterval?) {
+                     maxCountdown: TimeInterval) {
 
     }
     func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?) {
@@ -910,12 +878,14 @@ extension ListingViewModelSpec: ListingDetailNavigator {
     }
     func openFreeBumpUp(forListing listing: Listing,
                         bumpUpProductData: BumpUpProductData,
-                        typePage: EventParameterTypePage?) {
+                        typePage: EventParameterTypePage?,
+                        maxCountdown: TimeInterval) {
         calledOpenFreeBumpUpView = true
     }
     func openPayBumpUp(forListing listing: Listing,
                        bumpUpProductData: BumpUpProductData,
-                       typePage: EventParameterTypePage?) {
+                       typePage: EventParameterTypePage?,
+                       maxCountdown: TimeInterval) {
         calledOpenPricedBumpUpView = true
     }
     func openBumpUpBoost(forListing listing: Listing,

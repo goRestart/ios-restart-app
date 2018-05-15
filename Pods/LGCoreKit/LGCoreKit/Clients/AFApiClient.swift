@@ -15,6 +15,8 @@ public enum ConflictCause {
     case userExists
     case emailRejected
     case requestAlreadyProcessed
+    case searchAlertAlreadyExists
+    case searchAlertLimitReached
 
     case notSpecified
     case other(code: Int)
@@ -30,6 +32,15 @@ public enum ConflictCause {
             return .requestAlreadyProcessed
         default:
             return .other(code: code)
+        }
+    }
+    
+    static func causeWithSearchAlertCode(_ code: SearchAlertsErrorCode) -> ConflictCause {
+        switch code {
+        case .alreadyExists:
+            return .searchAlertAlreadyExists
+        case .limitReached:
+            return .searchAlertLimitReached
         }
     }
 }
@@ -90,7 +101,7 @@ public enum ApiError: Error {
     case internalError(description: String)
 
     case badRequest(cause: BadRequestCause)
-    case unauthorized
+    case unauthorized(description: String?)
     case notFound
     case forbidden(cause: ForbiddenCause)
     case conflict(cause: ConflictCause)
@@ -102,14 +113,14 @@ public enum ApiError: Error {
     case notModified
     case other(httpCode: Int)
 
-    static func errorForCode(_ code: Int, apiCode: Int?) -> ApiError {
+    static func errorForCode(_ code: Int, apiCode: Int?, description: String?) -> ApiError {
         switch code {
         case 304:
             return .notModified
         case 400:
             return .badRequest(cause: BadRequestCause.causeWithCode(apiCode))
         case 401:   // Wrong credentials
-            return .unauthorized
+            return .unauthorized(description: description)
         case 403:
             return .forbidden(cause: ForbiddenCause.causeWithCode(apiCode))
         case 404:
@@ -131,6 +142,10 @@ public enum ApiError: Error {
         }
     }
 
+    static func errorForSearchAlertCode(_ apiCode: SearchAlertsErrorCode) -> ApiError {
+        return .conflict(cause: ConflictCause.causeWithSearchAlertCode(apiCode))
+    }
+    
     var httpStatusCode: Int? {
         switch self {
         case .network, .internalError:
@@ -166,6 +181,7 @@ public enum ApiError: Error {
 enum ErrorDecoderType {
     case apiUsersError
     case apiProductsError
+    case searchAlertsError
 }
 
 protocol URLRequestAuthenticable: URLRequestConvertible, ReportableRequest {
@@ -232,7 +248,7 @@ class AFApiClient: ApiClient {
         progress: ((Progress) -> Void)?) {
             
             guard request.requiredAuthLevel <= tokenDAO.level else {
-                completion?(ResultResult<T, ApiError>.t(error: .unauthorized))
+                completion?(ResultResult<T, ApiError>.t(error: .unauthorized(description: nil)))
                 report(CoreReportSession.insufficientTokenLevel, message: "when uploading")
                 return
             }

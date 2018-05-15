@@ -44,6 +44,11 @@ class MainTabCoordinator: TabCoordinator {
         navigationController.pushViewController(vc, animated: true)
     }
 
+    func readyToSearch() {
+        guard let vc = rootViewController as? MainListingsViewController else { return }
+        vc.searchTextFieldReadyToSearch()
+    }
+
     // Note: override in subclasses
     override func shouldHideSellButtonAtViewController(_ viewController: UIViewController) -> Bool {
         return super.shouldHideSellButtonAtViewController(viewController) && !(viewController is MainListingsViewController)
@@ -51,6 +56,10 @@ class MainTabCoordinator: TabCoordinator {
 }
 
 extension MainTabCoordinator: MainTabNavigator {
+    func openLoginIfNeeded(infoMessage: String, then loggedAction: @escaping (() -> Void)) {
+        openLoginIfNeeded(from: .directChat, style: .popup(infoMessage), loggedInAction: loggedAction, cancelAction: nil)
+    }
+
     func openMainListings(withSearchType searchType: SearchType, listingFilters: ListingFilters) {
         let vm = MainListingsViewModel(searchType: searchType, filters: listingFilters)
         vm.navigator = self
@@ -85,4 +94,38 @@ extension MainTabCoordinator: MainTabNavigator {
         let vc = TaxonomiesViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: true)
     }
+
+    func openSearchAlertsList() {
+        let vm = SearchAlertsListViewModel()
+        vm.navigator = self
+        let vc = SearchAlertsListViewController(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
+    }
+
+    func openMap(with listingFilters: ListingFilters, locationManager: LocationManager) {
+        let viewModel = ListingsMapViewModel(navigator: self,
+                                             locationManager: locationManager,
+                                             currentFilters: listingFilters,
+                                             featureFlags: featureFlags)
+        let viewController = ListingsMapViewController(viewModel: viewModel)
+        navigationController.pushViewController(viewController, animated: true)
+    }
 }
+
+extension MainTabCoordinator: ListingsMapNavigator {
+    func closeMap() {
+        navigationController.popViewController(animated: true)
+    }
+}
+
+extension MainTabCoordinator: SearchAlertsListNavigator {
+    func closeSearchAlertsList() {
+        navigationController.popViewController(animated: true)
+    }
+
+    func openSearch() {
+        navigationController.popToRootViewController(animated: false)
+        readyToSearch()
+    }
+}
+

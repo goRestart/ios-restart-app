@@ -117,7 +117,7 @@ class NotificationsViewModel: BaseViewModel {
             } else if let error = result.error {
                 switch error {
                     case .forbidden, .internalError, .notFound, .serverError, .tooManyRequests, .unauthorized, .userNotVerified,
-                         .network(errorCode: _, onBackground: false), .wsChatError:
+                         .network(errorCode: _, onBackground: false), .wsChatError, .searchAlertError:
                         if let emptyViewModel = LGEmptyViewModel.map(from: error, action: { [weak self] in
                                 self?.viewState.value = .loading
                                 self?.reloadNotifications()

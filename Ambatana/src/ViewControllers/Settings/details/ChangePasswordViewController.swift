@@ -43,7 +43,7 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setNavBarBackButton(nil)
+        setNavBarBackButton()
 
         setupUI()
         setupAccessibilityIds()

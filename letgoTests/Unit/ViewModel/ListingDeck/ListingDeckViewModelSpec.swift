@@ -91,7 +91,8 @@ final class ListingDeckViewModelSpec: BaseViewModelSpec {
                                            tracker: tracker,
                                            actionOnFirstAppear: actionOnFirstAppear,
                                            trackingIndex: nil,
-                                           keyValueStorage: MockKeyValueStorage())
+                                           keyValueStorage: MockKeyValueStorage(),
+                                           featureFlags: MockFeatureFlags())
 
                 sut.delegate = self
             }
@@ -799,6 +800,10 @@ extension ListingDeckViewModelSpec: ListingDeckViewModelDelegate {
 }
 
 extension ListingDeckViewModelSpec: ListingDetailNavigator {
+    func openVideoPlayer(atIndex index: Int,
+                         listingVM: ListingViewModel,
+                         source: EventParameterListingVisitSource) { }
+
     func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?) { }
     func openAskPhoneFor(listing: Listing, interlocutor: User?) { }
     func closeAskPhoneFor(listing: Listing,
@@ -810,13 +815,15 @@ extension ListingDeckViewModelSpec: ListingDetailNavigator {
                      bumpUpProductData: BumpUpProductData?,
                      listingCanBeBoosted: Bool,
                      timeSinceLastBump: TimeInterval?,
-                     maxCountdown: TimeInterval?) { }
+                     maxCountdown: TimeInterval) { }
     func openFreeBumpUp(forListing listing: Listing,
                         bumpUpProductData: BumpUpProductData,
-                        typePage: EventParameterTypePage?) {}
+                        typePage: EventParameterTypePage?,
+                        maxCountdown: TimeInterval) {}
     func openPayBumpUp(forListing listing: Listing,
                        bumpUpProductData: BumpUpProductData,
-                       typePage: EventParameterTypePage?) {}
+                       typePage: EventParameterTypePage?,
+                       maxCountdown: TimeInterval) {}
     func openBumpUpBoost(forListing listing: Listing,
                          bumpUpProductData: BumpUpProductData,
                          typePage: EventParameterTypePage?,

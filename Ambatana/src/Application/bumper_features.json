@@ -56,11 +56,6 @@
         "description": "Display a list of top seller items that inspire users to post new items"
     },
     {
-        "name": "AllowCallsForProfessionals",
-        "values": ["control", "baseline", "inactive"],
-        "description": "Users can call professional sellers"
-    },
-    {
         "name": "ShowAdsInFeedWithRatio",
         "values": ["control", "baseline", "ten", "fifteen", "twenty"],
         "description": "show ads in feed every X cells"
@@ -99,16 +94,6 @@
         "name": "NoAdsInFeedForNewUsers",
         "values": ["control", "baseline", "AdsEverywhere", "NoAdsForNewUsers", "AdsForNewUsersOnlyInFeed"],
         "description": "Change logic for showing ads to new users (2 weeks old)"
-    },
-    {
-        "name": "ShowBumpUpBannerOnNotValidatedListings",
-        "values": ["control", "baseline", "active"],
-        "description": "Show the bump banner for listings pending validation"
-    },
-    {
-        "name": "NewUserProfileView",
-        "values": ["control", "baseline", "active"],
-        "description": "Refactor of the User Profile view controller"
     },
     {
         "name": "TurkeyBumpPriceVATAdaptation",
@@ -177,8 +162,8 @@
      },
     {
         "name": "MachineLearningMVP",
-        "values": ["control", "baseline", "active"],
-        "description": "Show machine learning posting flow when pressing Other Items on salchichas menu"
+        "values": ["control", "baseline", "active", "videoPostingActive"],
+        "description": "Show machine learning posting flow when pressing Other Items on salchichas menu or enable video posting (used this ab test for video posting because they can't coexist)"
     },
     {
         "name": "ChatNorris",
@@ -192,7 +177,7 @@
     },
     {
         "name": "MarkAllConversationsAsRead",
-        "values": ["no", "yes"],
+        "values": ["control", "baseline", "active"],
         "description": "Show a button to mark all conversations as read"
     },
     {
@@ -246,18 +231,58 @@
       "description": "Show Passwordless login option"
     },
     {
+        "name": "SearchAlerts",
+        "values": ["control", "baseline", "active"],
+        "description": "Subscription to searches and send alerts to user"
+    },
+    {
         "name": "CopyForSellFasterNowInEnglish",
         "values": ["control", "baseline", "variantB", "variantC", "variantD"],
         "description": "Try different copies for 'Sell faster now' banner in English"
     },
     {
-     "name": "CreateUpdateCarsIntoNewBackend",
-     "values": ["control", "baseline", "active"],
-     "description": "Create/Update cars into the new endpoint"
+        "name": "CreateUpdateCarsIntoNewBackend",
+        "values": ["control", "baseline", "active"],
+        "description": "Create/Update cars into the new endpoint"
     },
-     {
-     "name": "EmergencyLocate",
-     "values": ["control", "baseline", "active"],
-     "description": "Activate the Emergency Locate feature"
-     }
+    {
+        "name": "EmergencyLocate",
+        "values": ["control", "baseline", "active"],
+        "description": "Activate the Emergency Locate feature"
+    },
+    {
+        "name": "RealEstateMap",
+        "values": ["control", "baseline", "active"],
+        "description": "Show Real Estate Map"
+    },
+    {
+        "name": "IAmInterestedFeed",
+        "values": ["control", "baseline", "hidden"],
+        "description": "Show an I am interested button in the main feed"
+    },
+    {
+        "name": "ChatConversationsListWithoutTabs",
+        "values": ["control", "baseline", "active"],
+        "description": "Chat conversation list without tabs"
+    },
+    {
+        "name": "PersonalizedFeed",
+        "values": ["control", "baseline", "personalized"],
+        "description": "Personalize the feed"
+    },
+    {
+        "name": "ServicesCategoryOnSalchichasMenu",
+        "values": ["control", "baseline", "VariantA", "VariantB", "VariantC"],
+        "description": "Show services category on salchichas menu"
+    },
+    {
+        "name": "SearchBoxImprovements",
+        "values": ["control", "baseline", "changeCopy", "biggerBox", "changeCopyAndBoxSize"],
+        "description": "Improve search box visibility by changing its size and copy"
+    },
+    {
+        "name": "GoogleAdxForTR",
+        "values": ["control", "baseline", "GoogleAdxForAllUsers", "GoogleAdxForOldUsers"],
+        "description": "Change logic for showing GoogleAdx in TR"
+    }
 ]

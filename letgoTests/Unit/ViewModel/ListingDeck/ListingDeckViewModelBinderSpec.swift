@@ -111,6 +111,11 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
 }
 
 extension ListingDeckViewModelBinderSpec: ListingDetailNavigator {
+    func openVideoPlayer(atIndex index: Int,
+                         listingVM: ListingViewModel,
+                         source: EventParameterListingVisitSource) { }
+    func showUndoBubble(withMessage message: String, duration: TimeInterval, withAction action: @escaping () -> ()) { }
+
     func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?) { }
     func openAskPhoneFor(listing: Listing, interlocutor: User?) { }
     func closeAskPhoneFor(listing: Listing,
@@ -123,14 +128,16 @@ extension ListingDeckViewModelBinderSpec: ListingDetailNavigator {
                      bumpUpProductData: BumpUpProductData?,
                      listingCanBeBoosted: Bool,
                      timeSinceLastBump: TimeInterval?,
-                     maxCountdown: TimeInterval?) { }
+                     maxCountdown: TimeInterval) { }
     func openFreeBumpUp(forListing listing: Listing,
                         bumpUpProductData: BumpUpProductData,
-                        typePage: EventParameterTypePage?) { }
+                        typePage: EventParameterTypePage?,
+                        maxCountdown: TimeInterval) { }
 
     func openPayBumpUp(forListing listing: Listing,
                        bumpUpProductData: BumpUpProductData,
-                       typePage: EventParameterTypePage?) { }
+                       typePage: EventParameterTypePage?,
+                       maxCountdown: TimeInterval) { }
     func openBumpUpBoost(forListing listing: Listing,
                          bumpUpProductData: BumpUpProductData,
                          typePage: EventParameterTypePage?,

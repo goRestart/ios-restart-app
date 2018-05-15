@@ -373,6 +373,17 @@
 // Change email already registered
 "change_email_error_already_registered" = "This email address is already registered. Please enter a different one.";
 
+"chat_conversations_list_filter_all" = "All";
+
+"chat_conversations_list_filter_selling" = "Selling";
+
+"chat_conversations_list_filter_buying" = "Buying";
+
+"chat_conversations_list_blocked_users_button" = "View blocked users";
+
+// Information regarding the asssitant of letgo
+"chat_user_info_letgo_assistant" = "I'm a virtual assistant that gives you tips and helps you sell.";
+
 "chat_message_type_not_supported" = "This message isn't compatible with your app version. Update your app now to unlock the newest features!";
 
 // Chat inactive conversations cell
@@ -523,10 +534,10 @@
 "chat_list_delete_alert_send" = "Delete";
 
 // Chat list delete confirmation alert text (multiple)
-"chat_list_delete_alert_text_multiple" = "You're going to delete these chats";
+"chat_list_delete_alert_text_multiple" = "You're going to permanently delete these chats";
 
 // Chat list delete confirmation alert text (single)
-"chat_list_delete_alert_text_one" = "You're going to delete this chat";
+"chat_list_delete_alert_text_one" = "You're going to permanently delete this chat";
 
 // Chat list delete confirmation alert title (multiple)
 "chat_list_delete_alert_title_multiple" = "Delete Chats";
@@ -725,6 +736,12 @@
 
 // Common Confirm
 "common_confirm" = "Confirm";
+
+// Common Done
+"common_done" = "Done";
+
+// Common Edit
+"common_edit" = "Edit";
 
 // Common error
 "common_error" = "Error";
@@ -1223,6 +1240,15 @@
 // Alert when clicked hidden_something text
 "hidden_text_alert_description" = "We hide contact information to help you buy and sell safely. Chatting inside letgo is easy and more secure.";
 
+// Title for Listings Map View
+"listings_map_title" = "Map view";
+
+// Message for no results in Listings Map View
+"listings_map_no_results_message" = "No exact matches for your search. Try looking in a different area or using different filters.";
+
+// Button to refresh a search when user changes the location
+"listing_map_redo_search" = "Search this area";
+
 // Fake distance shown in a bubble in a fake product list in onboarding
 "location_permissions_bubble" = "0.1 mi from you";
 
@@ -1691,6 +1717,39 @@
 //  Passive buyers screen for seller -> Contact success
 "passive_buyers_contact_success" = "Buyers contacted!";
 
+// Button in main sign up screen to access the passwordless screen
+"passwordless_main_signup_button" = "Continue with email";
+
+// Title in the screen where user inserts the email to receive the magic link
+"passwordless_email_input_title" = "Continue with email";
+
+// Description in the screen where user inserts the email to receive the magic link
+"passwordless_email_input_description" = "Enter your email address to sign in or create an account, and we’ll send a “magic link” to your inbox.";
+
+// Placeholder for the textField where the user inserts the email to receive the magic link
+"passwordless_email_input_textfield_placeholder" = "Email";
+
+// Text in the button of the screen where user inserts email to receive magic link
+"passwordless_email_input_button" = "Send magic link";
+
+// Title in the navigation bar for the Email Sent screen after sending magic link
+"passwordless_email_sent_screen_title" = "Check your email inbox";
+
+// Title in the screen where app explains email has been sent
+"passwordless_email_sent_title" = "To sign in, click the 'magic link' we just sent you.";
+
+// Subtitle in the screen where app explains email has been sent
+"passwordless_email_sent_subtitle" = "Email address: %@";
+
+// Title in the screen where user has to define a username
+"passwordless_username_input_title" = "Choose your username";
+
+// Placeholder for the textField where the user inserts the username
+"passwordless_username_input_textfield_placeholder" = "Username";
+
+// Button title for the screen where user inserts the username
+"passwordless_username_input_done_button" = "Done";
+
 // Button to initiate chat from the full screen photo viewer
 "photo_viewer_chat_button" = "Chat";
 
@@ -1888,6 +1947,12 @@
 
 // Message to show on Free product
 "product_free_price" = "Free";
+
+// Text to be shown inside the bubble (similar as a push) to inform that a message was sent to the seller
+"product_interested_bubble_message" = "We've let the seller know that you're interested in buying this";
+
+// Text to be shown inside the bubble (similar as a push) to undo the message to the seller
+"product_interested_undo" = "Undo";
 
 // Text for chat with professional users button
 "product_professional_chat_button" = "Chat";
@@ -2226,7 +2291,10 @@
 "product_post_product_posted" = "Listing posted. Congrats!";
 
 // Confirmation BEFORE setting the price when not logged in
-"product_post_product_posted_not_logged" = "Photo Uploaded!";
+"product_post_product_posted_not_logged" = "Photo uploaded!";
+
+// Confirmation BEFORE setting the price when not logged in (video posting)
+"product_post_product_posted_not_logged_video_posting" = "Video uploaded!";
 
 // Retake photo button
 "product_post_retake" = "Retake";
@@ -2238,7 +2306,10 @@
 "product_post_use_photo" = "Post";
 
 // User photo button when not logged in
-"product_post_use_photo_not_logged" = "Use Photo";
+"product_post_use_photo_not_logged" = "Use photo";
+
+// User video button when not logged in
+"product_post_use_video_not_logged" = "Use video";
 
 // Product post category selection title
 "product_post_select_category_title" = "What are you posting?";
@@ -2254,6 +2325,9 @@
 
 // Product post category selection real Estate button
 "product_post_select_category_housing" = "Housing for Rent / Sale";
+
+// Product post category selection services button
+"product_post_select_category_services" = "Services";
 
 // Product post category selection real Estate button
 "product_post_select_category_real_estate" = "Real Estate";
@@ -2529,10 +2603,10 @@
 "profile_verifications_view_extra_section_title" = "BUY & SELL";
 
 // cell explaining that marking items as sold, increases Karma score
-"profile_verifications_view_mark_as_sold_title" = "Mark a listing as sold";
+"profile_verifications_view_mark_as_sold_title" = "Mark as sold";
 
 // cell explaining that marking items as sold, increases Karma score
-"profile_verifications_view_mark_as_sold_subtitle" = "+2 pts each (up to 10 pts)";
+"profile_verifications_view_mark_as_sold_subtitle" = "+2 pts for each listing (up to 10 pts)";
 
 // Title of the view to verify the email. The user can write its email to send a verification link
 "profile_verifications_email_view_title" = "Verify your Email";
@@ -2542,6 +2616,63 @@
 
 // Button to confirm email and send a verification link
 "profile_verifications_send_button" = "Send";
+
+// Title shown in the navigation bar as a screen title in the first screen of the phone verification.
+"phone_verification_number_input_view_title" = "Number verification";
+
+// Text shown to explain the screen in the first screen of the phone verification process.
+"phone_verification_number_input_view_description" = "Build trust by verifying your phone number";
+
+// Placeholder shown in the textfield to insert the phone number.
+"phone_verification_number_input_view_textfield_placeholder" = "Phone number";
+
+// Text shown in the button to 'continue' and go the next phone verification step.
+"phone_verification_number_input_view_continue_button" = "Continue";
+
+// Text shown when sms is being sent (as a loding state)
+"phone_verification_number_input_view_sending_message" = "Sending text message...";
+
+// Title shown in the alert to explain that the sms has been sent.
+"phone_verification_number_input_view_confirmation_title" = "Thank you!";
+
+// Text shown in the alert to explain that the sms has been sent. (+34 611111111)
+"phone_verification_number_input_view_confirmation_message" = "We sent a text message with a verification code to +%@ %@";
+
+// Text shown when something goes wrong trying to send a sms to the user
+"phone_verification_number_input_view_error_message" = "Oops! An error occurred while sending the text message. Please try again.";
+
+// Title shown in the navigation bar as a screen title in the second screen of the phone verification.
+"phone_verification_code_input_view_title" = "Number verification";
+
+// Title shown in the content of the 2nd step in the phone verification process.
+"phone_verification_code_input_view_content_title" = "Enter the 6-digit code";
+
+// Subtitle shown in the content of the 2nd step. (%s = phone number)
+"phone_verification_code_input_view_content_subtitle" = "We've sent it to %@";
+
+// Text shown below the code textfield as a contextual information.
+"phone_verification_code_input_view_content_subtext" = "You can request another code if you don't receive it within %@";
+
+// Text shown in the button below the code textfield to request a code again.
+"phone_verification_code_input_view_content_subaction" = "Didn't get the code?";
+
+// Text shown when sms code is being validated by backend.
+"phone_verification_code_input_view_validating_message" = "Validating code...";
+
+// Text shown when sms code has been verified successfully.
+"phone_verification_code_input_view_validated_success" = "Phone number verified!";
+
+// Text shown when sms code has been verified unsuccessfully.
+"phone_verification_code_input_view_validated_failure" = "The verification code you entered is incorrect.";
+
+// Text shown when something goes wrong trying to validate the code
+"phone_verification_code_input_view_error_message" = "Oops! An error occurred while validating the code. Please try again.";
+
+// Text shown in the navigation bar  as a screen title in the country picker view.
+"phone_verification_country_picker_view_title" = "Country list";
+
+// Text shown as a placeholder in the textfield to search a country in the country list.
+"phone_verification_country_picker_view_search_placeholder" = "Search";
 
 // Disclaimer text telling the user this section is only visibile to him/her
 "profile_karma_visibility_title" = "Only visible to you";
@@ -3090,6 +3221,42 @@
 // Reset password title. Check image @ "reset_password_email_field_hint" segment
 "reset_password_title" = "Reset password";
 
+// Search alerts edit button 
+"search_alerts_edit_button" = "Edit";
+
+// Subtitle for search alerts header
+"search_alerts_header_subtitle" = "Get notifications about new listings";
+
+// Text for empty search alerts view
+"search_alerts_placeholder_empty_text" = "Subscribe to searches to get notifications when new listings are posted.";
+
+// Text for empty search alerts view action button
+"search_alerts_placeholder_empty_button" = "Start Searching";
+
+// Text for error in search alerts view
+"search_alerts_placeholder_error_text" = "Oops! An error occurred while loading your search alerts";
+
+// Text for error in search alerts view action button
+"search_alerts_placeholder_error_button" = "Try Again";
+
+// Error message when search alert delete fails
+"search_alert_delete_error_message" = "Oops! An error occurred while deleting your search alert.";
+
+// Error message when search alert enable fails
+"search_alert_enable_error_message" = "Oops! An error occurred while activating your search alert.";
+
+// Error message when search alert disable fails
+"search_alert_disable_error_message" = "Oops! An error occurred while deactivating your search alert.";
+
+// text for error alert when max search alerts reached
+"search_alert_error_too_many_text" = "Oops! You've reached the maximum number of search alerts";
+
+// text for error alert button when max search alerts reached
+"search_alert_error_too_many_button_text" = "Manage notifications";
+
+// text shown in feed search bar
+"search_letgo" = "Search letgo";
+
 // Sell category selection label. Check attached image "sell.png"
 "sell_category_selection_label" = "Category";
 
@@ -3263,9 +3430,6 @@
 
 // Search alerts view title
 "search_alerts_list_title" = "Search Notifications";
-
-// Search alerts edit button 
-"search_alerts_edit_button" = "Edit";
 
 // Alert when you don't accept one of the above (just turkey)
 "sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";

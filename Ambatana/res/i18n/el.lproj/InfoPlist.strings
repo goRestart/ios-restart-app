@@ -1,6 +1,6 @@
 "NSCameraUsageDescription" = "Θα γίνει χρήση της κάμεράς σας για να τραβήξετε φωτογραφίες απ' ότι θέλετε να πουλήσετε.";
-"NSLocationAlwaysAndWhenInUseUsageDescription" = "letgo will use your location to show you nearby deals and suggest meeting places";
-"NSLocationAlwaysUsageDescription" = "letgo will use your location to show you nearby deals and suggest meeting places";
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "Το letgo θα χρησιμοποιήσει την τοποθεσία σας για να σας παρουσιάσει κοντινές προσφορές και να σας προτείνει σημεία συνάντησης";
+"NSLocationAlwaysUsageDescription" = "Το letgo θα χρησιμοποιήσει την τοποθεσία σας για να σας παρουσιάσει κοντινές προσφορές και να σας προτείνει σημεία συνάντησης";
 "NSLocationWhenInUseUsageDescription" = "Το letgo πρέπει να αποκτήσει πρόσβαση στη τοποθεσία σου, έτσι ώστε να μπορεί να εμφανίζει προϊόντα κοντά σε εσένα";
 "NSPhotoLibraryAddUsageDescription" = "Θα γίνει χρήση του άλμπουμ φωτογραφιών σας για να επιλέξετε τις εικόνες απ' ότι θέλετε να πουλήσετε από τις φωτογραφίες της γκαλερί σας.";
 "NSPhotoLibraryUsageDescription" = "Θα γίνει χρήση του άλμπουμ φωτογραφιών σας για να επιλέξετε τις εικόνες απ' ότι θέλετε να πουλήσετε από τις φωτογραφίες της γκαλερί σας.";

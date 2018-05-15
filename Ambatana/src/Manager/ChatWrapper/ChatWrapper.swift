@@ -22,6 +22,13 @@ enum ChatWrapperMessageType {
     case favoritedListing(String)
     case phone(String)
     case meeting(AssistantMeeting, String)
+    
+    var quickAnswerKey: String? {
+        if case .quickAnswer(let quickAnswer) = self {
+            return quickAnswer.key
+        }
+        return nil
+    }
 }
 
 protocol ChatWrapper {
@@ -52,10 +59,10 @@ class LGChatWrapper: ChatWrapper {
             return
         }
 
-        sendChatMessage(listingId, sellerId: sellerId, text: type.text, type: type.chatType, completion: completion)
+        sendChatMessage(listingId, sellerId: sellerId, text: type.text, type: type, completion: completion)
     }
 
-    private func sendChatMessage(_ listingId: String, sellerId: String, text: String, type: ChatMessageType,
+    private func sendChatMessage(_ listingId: String, sellerId: String, text: String, type: ChatWrapperMessageType,
                                           completion: ChatWrapperCompletion?) {
         // get conversation
         chatRepository.showConversation(sellerId, listingId: listingId) { [weak self] result in
@@ -69,14 +76,14 @@ class LGChatWrapper: ChatWrapper {
                     return
                 }
 
-                let message = self?.chatRepository.createNewMessage(userId, text: text, type: type)
-
+                let message = self?.chatRepository.createNewMessage(userId, text: text, type: type.chatType)
+                
                 guard let messageId = message?.objectId else {
                     completion?(Result(error: .internalError(message: "There's no message info")))
                     return
                 }
                 let shouldSendFirstMessageEvent = value.lastMessageSentAt == nil
-                self?.chatRepository.sendMessage(conversationId, messageId: messageId, type: type, text: text) { result in
+                self?.chatRepository.sendMessage(conversationId, messageId: messageId, type: type.websocketType, text: text, answerKey: type.quickAnswerKey) { result in
                     if let _ = result.value {
                         completion?(Result(value: shouldSendFirstMessageEvent))
                     } else if let error = result.error {
@@ -120,6 +127,27 @@ extension ChatWrapperMessageType {
             return .text
         case .chatSticker:
             return .sticker
+        case .quickAnswer(let quickAnswer):
+            return .quickAnswer(id: quickAnswer.id, text: quickAnswer.text)
+        case .expressChat:
+            return .expressChat
+        case .favoritedListing:
+            return .favoritedListing
+        case .phone:
+            return .phone
+        case .meeting:
+            return .meeting
+        }
+    }
+    
+    var websocketType: WebSocketSendMessageType {
+        switch self {
+        case .text:
+            return .text
+        case .periscopeDirect:
+            return .text
+        case .chatSticker:
+            return .sticker
         case .quickAnswer:
             return .quickAnswer
         case .expressChat:
@@ -132,7 +160,7 @@ extension ChatWrapperMessageType {
             return .meeting
         }
     }
-    
+
     var chatTrackerType: EventParameterMessageType {
         switch self {
         case .text:
@@ -154,10 +182,10 @@ extension ChatWrapperMessageType {
         }
     }
 
-    var quickAnswerType: EventParameterQuickAnswerType? {
+    var quickAnswerTypeParameter: String? {
         switch self {
         case let .quickAnswer(quickAnswer):
-            return quickAnswer.quickAnswerType
+            return quickAnswer.quickAnswerTypeParameter
         case .text, .chatSticker, .expressChat, .favoritedListing, .periscopeDirect, .phone, .meeting:
             return nil
         }

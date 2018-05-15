@@ -245,17 +245,17 @@ class ConversationCell: UITableViewCell, ReusableCell {
     
     private func setUserIsTyping(enabled: Bool) {
         if enabled {
-            listingLabel.alphaAnimated(0)
-            timeLabel.alphaAnimated(0)
-            statusImageView.alphaAnimated(0)
+            listingLabel.animateTo(alpha: 0)
+            timeLabel.animateTo(alpha: 0)
+            statusImageView.animateTo(alpha: 0)
             userIsTypingAnimationView.play()
-            userIsTypingAnimationViewContainer.alphaAnimated(1)
+            userIsTypingAnimationViewContainer.animateTo(alpha: 1)
         } else {
-            userIsTypingAnimationViewContainer.alphaAnimated(0)
+            userIsTypingAnimationViewContainer.animateTo(alpha: 0)
             userIsTypingAnimationView.stop()
-            listingLabel.alphaAnimated(1)
-            timeLabel.alphaAnimated(1)
-            statusImageView.alphaAnimated(1)
+            listingLabel.animateTo(alpha: 1)
+            timeLabel.animateTo(alpha: 1)
+            statusImageView.animateTo(alpha: 1)
         }
     }
 }

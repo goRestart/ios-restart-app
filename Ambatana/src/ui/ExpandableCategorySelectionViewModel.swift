@@ -47,6 +47,40 @@ enum ExpandableCategory: Equatable {
     }
 }
 
+extension ExpandableCategory {
+
+    func sortWeight(featureFlags: FeatureFlaggeable) -> Int {
+        switch self {
+        case .listingCategory(let listingCategory):
+            switch listingCategory {
+            case .cars:
+                return 100
+            case .motorsAndAccessories:
+                return 80
+            case .realEstate:
+                return 60
+            case .services:
+                switch featureFlags.servicesCategoryOnSalchichasMenu {
+                case .variantA:
+                    return 110  // Should appear above cars
+                case .variantB:
+                    return 70   // Should appear below motors and accesories
+                case .variantC:
+                    return 50   // Should appear below real estate
+                default:
+                    return 10 // Not active, should never happen
+                }
+            case .unassigned:
+                return 0    // Usually at bottom
+            default:
+                return 10
+            }
+        case .mostSearchedItems:
+            return -10
+        }
+    }
+}
+
 protocol ExpandableCategorySelectionDelegate: class {
     func didPressCloseButton()
     func didPressCategory(_ category: ExpandableCategory)
@@ -58,7 +92,7 @@ class ExpandableCategorySelectionViewModel: BaseViewModel {
     weak var delegate: ExpandableCategorySelectionDelegate?
     let categoriesAvailable: [ExpandableCategory]
     let tagsEnabled: Bool
-    let newBadgeEnabled: Bool
+    private(set) var newBadgeCategory: ExpandableCategory?
     
     var mostSearchedItems: [LocalMostSearchedItem] {
         return LocalMostSearchedItem.allValues
@@ -67,26 +101,37 @@ class ExpandableCategorySelectionViewModel: BaseViewModel {
         return mostSearchedItems.map { $0.name }
     }
     
-    var realEstateCategoryPosition: Int? {
-        return categoriesAvailable.index(of: .listingCategory(listingCategory: .realEstate))
-    }
-    
     // MARK: - View lifecycle
     
-    init(realEstateEnabled: Bool, trendingButtonEnabled: Bool, tagsEnabled: Bool, newBadgeEnabled: Bool) {
-        var categories: [ExpandableCategory] = [.listingCategory(listingCategory: .unassigned),
-                                                .listingCategory(listingCategory: .motorsAndAccessories),
-                                                .listingCategory(listingCategory: .cars)]
+    init(featureFlags: FeatureFlaggeable) {
+
+        let servicesEnabled = featureFlags.servicesCategoryOnSalchichasMenu.isActive
+        let realEstateEnabled = featureFlags.realEstateEnabled.isActive
+        let trendingButtonEnabled = featureFlags.mostSearchedDemandedItems == .trendingButtonExpandableMenu
+
+        var categories: [ExpandableCategory] = []
+        categories.append(.listingCategory(listingCategory: .unassigned))
+        categories.append(.listingCategory(listingCategory: .motorsAndAccessories))
+        categories.append(.listingCategory(listingCategory: .cars))
+
         if realEstateEnabled {
-            let insertIndex = categories.count >= 1 ? 1 : 0
-            categories.insert(.listingCategory(listingCategory: .realEstate), at: insertIndex)
+            categories.append(.listingCategory(listingCategory: .realEstate))
+        }
+        if servicesEnabled {
+            categories.append(.listingCategory(listingCategory: .services))
         }
         if trendingButtonEnabled {
-            categories.insert(.mostSearchedItems, at: 0)
+            categories.append(.mostSearchedItems)
         }
-        self.categoriesAvailable = categories
-        self.tagsEnabled = tagsEnabled
-        self.newBadgeEnabled = newBadgeEnabled
+        self.categoriesAvailable = categories.sorted(by: {
+            $0.sortWeight(featureFlags: featureFlags) < $1.sortWeight(featureFlags: featureFlags)
+        })
+        if servicesEnabled {
+            self.newBadgeCategory = .listingCategory(listingCategory: .services)
+        } else if featureFlags.realEstateTutorial.isActive && featureFlags.realEstateEnabled.isActive {
+            self.newBadgeCategory = .listingCategory(listingCategory: .realEstate)
+        }
+        self.tagsEnabled = featureFlags.mostSearchedDemandedItems == .subsetAboveExpandableMenu
         super.init()
     }
     

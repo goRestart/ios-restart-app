@@ -93,7 +93,7 @@ final class UserVerificationViewModel: BaseViewModel {
 
         let soldCount = actions.filter{$0 == .markAsSold}.count
         let thirdSection: [UserVerificationItem] = [
-            .markAsSold(completed: actions.contains(.markAsSold), total: soldCount)
+            .markAsSold(completed: soldCount >= 5, total: soldCount)
         ]
 
         return [firstSection, secondSection, thirdSection]
@@ -192,7 +192,8 @@ final class UserVerificationViewModel: BaseViewModel {
                                                             completion: nil)
                 case .network:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorNetworkBody, completion: nil)
-                case .forbidden, .internalError, .notFound, .unauthorized, .userNotVerified, .serverError, .wsChatError:
+                case .forbidden, .internalError, .notFound, .unauthorized, .userNotVerified, .serverError, .wsChatError,
+                     .searchAlertError:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorGenericBody, completion: nil)
                 }
             } else {

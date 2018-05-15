@@ -10,6 +10,23 @@ import LGCoreKit
 import RxSwift
 import RxCocoa
 
+enum UserSource {
+    case tabBar
+    case listingDetail
+    case chat
+    case notifications
+    case link
+}
+
+struct UserViewHeaderAccounts {
+    let facebookLinked: Bool
+    let facebookVerified: Bool
+    let googleLinked: Bool
+    let googleVerified: Bool
+    let emailLinked: Bool
+    let emailVerified: Bool
+}
+
 protocol UserProfileViewModelDelegate: BaseViewModelDelegate {
     func vmShowNativeShare(_ socialMessage: SocialMessage)
 }
@@ -57,6 +74,7 @@ final class UserProfileViewModel: BaseViewModel {
     var userLocation: Driver<String?> { return user.asDriver().map{$0?.postalAddress.cityStateString} }
     var userAccounts: Driver<UserViewHeaderAccounts?> { return user.asDriver().map { [weak self] in self?.buildAccountsModel($0) } }
     var userRatingAverage: Driver<Float> { return user.asDriver().map{$0?.ratingAverage ?? 0} }
+    var userRatingCount: Driver<Int> { return user.asDriver().map{$0?.ratingCount ?? 0} }
     var userIsProfessional: Driver<Bool> { return user.asDriver().map {$0?.type == .pro} }
     var userBio: Driver<String?> { return user.asDriver().map { $0?.biography } }
     var userScore: Driver<Int> { return user.asDriver().map { $0?.reputationPoints ?? 0} }
@@ -122,9 +140,12 @@ final class UserProfileViewModel: BaseViewModel {
                                                                          itemsPerPage: Constants.numListingsPerPageDefault)
         self.favoritesListingListRequester = UserFavoritesListingListRequester()
 
-        self.sellingListingListViewModel = ListingListViewModel(requester: self.sellingListingListRequester)
-        self.soldListingListViewModel = ListingListViewModel(requester: self.soldListingListRequester)
-        self.favoritesListingListViewModel = ListingListViewModel(requester: self.favoritesListingListRequester)
+        self.sellingListingListViewModel = ListingListViewModel(requester: self.sellingListingListRequester,
+                                                                isPrivateList: true)
+        self.soldListingListViewModel = ListingListViewModel(requester: self.soldListingListRequester,
+                                                             isPrivateList: true)
+        self.favoritesListingListViewModel = ListingListViewModel(requester: self.favoritesListingListRequester,
+                                                                  isPrivateList: true)
         self.ratingListViewModel = UserRatingListViewModel(userId: user?.objectId ?? "", tabNavigator: nil)
 
         self.disposeBag = DisposeBag()
@@ -734,6 +755,10 @@ extension UserProfileViewModel {
 }
 
 extension UserProfileViewModel: ListingCellDelegate {
+    func interestedActionFor(_ listing: Listing) {
+        // this is just meant to be inside the MainFeed
+        return
+    }
 
     func chatButtonPressedFor(listing: Listing) {}
 

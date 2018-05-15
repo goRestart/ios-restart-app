@@ -59,7 +59,7 @@ PODS:
   - KMPlaceholderTextView (1.3.0)
   - Leanplum-iOS-SDK (2.0.5)
   - LGCollapsibleLabel (1.2.0)
-  - LGCoreKit (4.22.2):
+  - LGCoreKit (4.26.0):
     - Alamofire (~> 4.5.1)
     - CocoaLumberjack/Swift (~> 3.3.0)
     - DeviceGuru (~> 3.0.1)
@@ -118,6 +118,7 @@ PODS:
   - RxTest (4.0.0):
     - RxSwift (~> 4.0)
   - SocketRocket (0.5.1)
+  - SwiftyGif (4.1.0)
   - SwiftyUserDefaults (3.0.1)
 
 DEPENDENCIES:
@@ -143,7 +144,7 @@ DEPENDENCIES:
   - KMPlaceholderTextView (from `https://github.com/letgoapp/KMPlaceholderTextView`, commit `426117c98e8da8fc7d64a7d3c2f0f45c48d595e6`)
   - Leanplum-iOS-SDK (= 2.0.5)
   - LGCollapsibleLabel (= 1.2.0)
-  - LGCoreKit (= 4.22.2)
+  - LGCoreKit (= 4.26.0)
   - lottie-ios (= 2.5.0)
   - mopub-ios-sdk (= 4.20.0)
   - NewRelicAgent (= 6.1.1)
@@ -155,7 +156,8 @@ DEPENDENCIES:
   - RxSwift (= 4.0.0)
   - RxSwiftExt (= 3.0.0)
   - RxTest (= 4.0.0)
-  - SwiftyUserDefaults (from `https://github.com/Dschee/SwiftyUserDefaults`, commit `dd3d8ddc5bf95db09b66185182b5a555ac59efd5`)
+  - SwiftyGif (= 4.1.0)
+  - SwiftyUserDefaults (= 3.0.1)
 
 EXTERNAL SOURCES:
   bumper:
@@ -167,9 +169,6 @@ EXTERNAL SOURCES:
   KMPlaceholderTextView:
     :commit: 426117c98e8da8fc7d64a7d3c2f0f45c48d595e6
     :git: https://github.com/letgoapp/KMPlaceholderTextView
-  SwiftyUserDefaults:
-    :commit: dd3d8ddc5bf95db09b66185182b5a555ac59efd5
-    :git: https://github.com/Dschee/SwiftyUserDefaults
 
 CHECKOUT OPTIONS:
   bumper:
@@ -181,9 +180,6 @@ CHECKOUT OPTIONS:
   KMPlaceholderTextView:
     :commit: 426117c98e8da8fc7d64a7d3c2f0f45c48d595e6
     :git: https://github.com/letgoapp/KMPlaceholderTextView
-  SwiftyUserDefaults:
-    :commit: dd3d8ddc5bf95db09b66185182b5a555ac59efd5
-    :git: https://github.com/Dschee/SwiftyUserDefaults
 
 SPEC CHECKSUMS:
   Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
@@ -214,7 +210,7 @@ SPEC CHECKSUMS:
   KMPlaceholderTextView: 2bbcd19a273648a80a61e1e48f9743a24d8930e3
   Leanplum-iOS-SDK: d7d387b7f3688e697f2893978bfe67092df5b7ca
   LGCollapsibleLabel: 2a5ebb0ff0ff3e1d7ab0c295a17c923db000f557
-  LGCoreKit: c212f14230988a94a7f2073079379951fa7b1c98
+  LGCoreKit: 374b2d9a83a338cc34bc2fa4a3db7fb07d749bf5
   lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
   mopub-ios-sdk: 89c6ac9ca01d3b36e9fba16a6cfe31d3c290d354
   NewRelicAgent: 652434a627201e3745cd5849228feeb10afe1879
@@ -230,8 +226,9 @@ SPEC CHECKSUMS:
   RxSwiftExt: b06c47dff66cd33ca7683bba1e74b0c5c8e3592e
   RxTest: 0041e792cede35e53e4749f378d21482af0e9d12
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
-  SwiftyUserDefaults: 38267a30d58b7c8570995cd5defd354e43f056c6
+  SwiftyGif: d36c6dfb52e2ca1e48fe349d225f50ec4123ec85
+  SwiftyUserDefaults: 3d273b1739b68ada3145dc754a70ec775bc5c8be
 
-PODFILE CHECKSUM: d3d5f8a5c392f30b1c193c0175197ab240ccf554
+PODFILE CHECKSUM: b501c7a5bc6ee3217be044b2f47135c8320a6dec
 
 COCOAPODS: 1.4.0

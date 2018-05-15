@@ -93,6 +93,8 @@ fileprivate extension LetGoSetting {
             return ""
         case .changeUserBio:
             return LGLocalizedString.settingsChangeUserBioButton
+        case .notifications:
+            return LGLocalizedString.settingsNotificationsButton
         }
     }
 
@@ -120,6 +122,8 @@ fileprivate extension LetGoSetting {
             return nil
         case let .changePhoto(placeholder,_):
             return placeholder
+        case .notifications:
+            return UIImage(named: "ic_setting_notifications")
         }
     }
 

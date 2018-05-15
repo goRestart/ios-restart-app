@@ -190,14 +190,14 @@ public let Defaults = UserDefaults.standard
 /// Extend this class and add your user defaults keys as static constants
 /// so you can use the shortcut dot notation (e.g. `Defaults[.yourKey]`)
 
-open class DefaultsKeys {
+public class DefaultsKeys {
     fileprivate init() {}
 }
 
 /// Base class for static user defaults keys. Specialize with value type
 /// and pass key name to the initializer to create a key.
 
-open class DefaultsKey<ValueType>: DefaultsKeys {
+public class DefaultsKey<ValueType>: DefaultsKeys {
     // TODO: Can we use protocols to ensure ValueType is a compatible type?
     public let _key: String
     

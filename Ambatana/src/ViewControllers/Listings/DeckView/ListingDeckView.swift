@@ -14,22 +14,33 @@ import RxCocoa
 
 final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewType {
     struct Layout {
+        // to center the play button with the page symbols
+        static let playButtonEdges = UIEdgeInsets(top: 11,
+                                                  left: 0,
+                                                  bottom: 0,
+                                                  right: 30)
         struct Height {
             static let previewFactor: CGFloat = 0.7
         }
+        static let collectionVerticalInset: CGFloat = 18
     }
+    static let actionsViewBackgroundColor: UIColor = UIColor.white.withAlphaComponent(0.8)
+
     var cardSize: CGSize { return collectionLayout.cardSize }
     var cellHeight: CGFloat { return collectionLayout.cellHeight }
 
-    private let topInsetView = UIView()
     let collectionView: UICollectionView
     private let collectionLayout = ListingDeckCollectionViewLayout()
     let rxCollectionView: Reactive<UICollectionView>
-    
-    private let bottomInsetView = UIView()
 
     let itemActionsView = ListingDeckActionView()
+    private let startPlayingButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(#imageLiteral(resourceName: "ic_videoposting_play"), for: .normal)
+        return button
+    }()
 
+    var rxStartPlayingButton: Reactive<UIButton> { return startPlayingButton.rx }
     var rxActionButton: Reactive<LetgoButton> { return itemActionsView.actionButton.rx }
 
     var currentPage: Int { return collectionLayout.page }
@@ -44,16 +55,10 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
         setupUI()
     }
 
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    required init?(coder aDecoder: NSCoder) { fatalError("Die xibs die") }
 
     func scrollToIndex(_ index: IndexPath) {
         collectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: false)
-    }
-
-    func constraintCollectionBottomTo(_ anchor: NSLayoutYAxisAnchor, constant: CGFloat) -> NSLayoutConstraint {
-        return bottomInsetView.bottomAnchor.constraint(equalTo: anchor, constant: constant)
     }
 
     private func setupUI() {
@@ -64,28 +69,13 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
     }
 
     private func setupCollectionView() {
-        addSubviewsForAutoLayout([topInsetView, bottomInsetView, collectionView])
-        let topInsetConstraint = topInsetView.topAnchor.constraint(equalTo: topAnchor)
+        addSubviewForAutoLayout(collectionView)
         NSLayoutConstraint.activate([
-            topInsetConstraint,
-            topInsetView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            topInsetView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            topInsetView.heightAnchor.constraint(equalToConstant: 18),
-
-            collectionView.topAnchor.constraint(equalTo: topInsetView.bottomAnchor),
+            collectionView.topAnchor.constraint(equalTo: topAnchor, constant: Layout.collectionVerticalInset),
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
-
-            bottomInsetView.topAnchor.constraint(equalTo: collectionView.bottomAnchor),
-            bottomInsetView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            bottomInsetView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            bottomInsetView.heightAnchor.constraint(equalTo: topInsetView.heightAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Layout.collectionVerticalInset)
         ])
-
-        topInsetView.isUserInteractionEnabled = false
-        topInsetView.alpha = 0
-        bottomInsetView.isUserInteractionEnabled = false
-        bottomInsetView.alpha = 0
 
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.decelerationRate = 0
@@ -93,30 +83,49 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
         collectionView.bounces = true
         collectionView.alwaysBounceVertical = false
         collectionView.backgroundColor = UIColor.white
+
+        setupPlayableButton()
+    }
+
+    private func setupPlayableButton() {
+        addSubviewForAutoLayout(startPlayingButton)
+        startPlayingButton.alpha = 0
+        NSLayoutConstraint.activate([
+            startPlayingButton.rightAnchor.constraint(equalTo: collectionView.rightAnchor,
+                                                      constant: -Layout.playButtonEdges.right),
+            startPlayingButton.topAnchor.constraint(equalTo: collectionView.topAnchor,
+                                                    constant: Layout.playButtonEdges.top),
+            startPlayingButton.widthAnchor.constraint(equalToConstant: 30),
+            startPlayingButton.heightAnchor.constraint(equalTo: startPlayingButton.widthAnchor)
+        ])
+        startPlayingButton.addTarget(self, action: #selector(bouncePlayingButton), for: .touchUpInside)
     }
 
     private func setupPrivateActionsView() {
         addSubview(itemActionsView)
         itemActionsView.translatesAutoresizingMaskIntoConstraints = false
 
-        let collectionBottom = itemActionsView.topAnchor.constraint(equalTo: bottomInsetView.bottomAnchor)
-        collectionBottom.priority = .required - 1
-        collectionBottom.isActive = true
         itemActionsView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         itemActionsView.layout(with: self).fillHorizontal()
 
         itemActionsView.setContentCompressionResistancePriority(.required, for: .vertical)
         itemActionsView.setContentHuggingPriority(.required, for: .vertical)
         itemActionsView.alpha = 0
-        itemActionsView.backgroundColor = .white
+        itemActionsView.backgroundColor = ListingDeckView.actionsViewBackgroundColor
     }
 
     func normalizedPageOffset(givenOffset: CGFloat) -> CGFloat {
         return collectionLayout.normalizedPageOffset(givenOffset: givenOffset)
     }
 
-    func updatePrivateActionsWith(alpha: CGFloat) {
-        itemActionsView.alpha = alpha
+    func updatePlayButtonWith(alpha: CGFloat) {
+        startPlayingButton.alpha = alpha
+    }
+
+    func updatePrivateActionsWith(actionsAlpha: CGFloat, bumpBannerAlpha: CGFloat) {
+        itemActionsView.alpha = max(actionsAlpha, bumpBannerAlpha)
+        itemActionsView.backgroundColor = actionsAlpha > 0 ? ListingDeckView.actionsViewBackgroundColor : .clear
+        itemActionsView.updatePrivateActionsWith(actionsAlpha: actionsAlpha, bumpBannerAlpha: bumpBannerAlpha)
     }
 
     // MARK: ItemActionsView
@@ -149,6 +158,10 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
 
     func setCollectionLayoutDelegate(_ delegate: ListingDeckCollectionViewLayoutDelegate) {
         collectionLayout.delegate = delegate
+    }
+
+    @objc private func bouncePlayingButton() {
+        startPlayingButton.bounce()
     }
 }
 

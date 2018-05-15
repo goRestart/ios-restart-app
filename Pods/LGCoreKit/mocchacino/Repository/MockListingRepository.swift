@@ -75,6 +75,8 @@ open class MockListingRepository: ListingRepository {
                            thumbnail: product.thumbnail,
                            thumbnailSize: product.thumbnailSize,
                            images: product.images,
+                           media: product.media,
+                           mediaThumbnail: product.mediaThumbnail,
                            user: product.user,
                            updatedAt: product.updatedAt,
                            createdAt: product.createdAt,
@@ -86,6 +88,10 @@ open class MockListingRepository: ListingRepository {
     }
 
     public func index(_ params: RetrieveListingParams, completion: ListingsCompletion?) {
+        delay(result: indexResult, completion: completion)
+    }
+    
+    public func indexCustomFeed(_ params: RetrieveListingParams, completion: ListingsCompletion?) {
         delay(result: indexResult, completion: completion)
     }
 

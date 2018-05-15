@@ -27,6 +27,7 @@ final class AppDelegate: UIResponder {
     fileprivate var configManager: ConfigManager?
     fileprivate var crashManager: CrashManager?
     fileprivate var keyValueStorage: KeyValueStorage?
+    private var appEventsManager: AppEventsManager?
 
     fileprivate var listingRepository: ListingRepository?
     fileprivate var locationManager: LocationManager?
@@ -80,6 +81,7 @@ extension AppDelegate: UIApplicationDelegate {
                                         versionChange: VersionChecker.sharedInstance.versionChange)
         self.crashManager = crashManager
         self.keyValueStorage = keyValueStorage
+        self.appEventsManager = AppEventsManager.sharedInstance
 
         setupRxBindings()
         crashCheck()
@@ -343,6 +345,8 @@ fileprivate extension AppDelegate {
         appActiveAfterTour.subscribeNext { [weak self] enabled in
             guard let `self` = self else { return }
             if enabled {
+                let emergencyActive = self.featureFlags?.emergencyLocate.isActive ?? false
+                self.locationManager?.shouldAskForBackgroundLocationPermission = emergencyActive
                 self.locationManager?.startSensorLocationUpdates()
             } else {
                 self.locationManager?.stopSensorLocationUpdates()

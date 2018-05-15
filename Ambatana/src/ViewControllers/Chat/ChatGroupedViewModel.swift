@@ -244,7 +244,7 @@ class ChatGroupedViewModel: BaseViewModel {
             }))
         }
         
-        if currentTab.value.markAllConversationAsReadButtonEnabled(isFeatureFlagEnabled: featureFlags.markAllConversationsAsRead) {
+        if currentTab.value.markAllConversationAsReadButtonEnabled(isFeatureFlagEnabled: featureFlags.markAllConversationsAsRead.isActive) {
             actions.append(UIAction(interface: UIActionInterface.text(LGLocalizedString.chatMarkConversationAsReadButton),
                                     action: { [weak self] in
                                         self?.markAllConversationAsRead()

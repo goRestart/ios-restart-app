@@ -13,6 +13,8 @@ public struct MockCar: Car {
     public var thumbnail: File?
     public var thumbnailSize: LGSize?
     public var images: [File]
+    public var media: [Media]
+    public var mediaThumbnail: MediaThumbnail?
     public var user: UserListing
     public var updatedAt : Date?
     public var createdAt : Date?
@@ -36,6 +38,8 @@ extension MockCar {
                   thumbnail: car.thumbnail,
                   thumbnailSize: car.thumbnailSize,
                   images: car.images,
+                  media: car.media,
+                  mediaThumbnail: car.mediaThumbnail,
                   user: car.user,
                   updatedAt: car.updatedAt,
                   createdAt: car.createdAt,

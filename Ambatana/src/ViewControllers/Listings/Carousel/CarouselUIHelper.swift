@@ -14,7 +14,7 @@ struct CarouselUI {
     static let shareButtonHorizontalSpacing: CGFloat = 3
 
     static let pageControlWidth: CGFloat = 18
-    static let pageControlMargin: CGFloat = 18
+    static let pageControlMargin: CGFloat = 30
     static let moreInfoDragMargin: CGFloat = 45
     static let moreInfoExtraHeight: CGFloat = 62
     static let bottomOverscrollDragMargin: CGFloat = 70
@@ -26,16 +26,6 @@ struct CarouselUI {
 }
 
 class CarouselUIHelper {
-    static func setupPageControl(_ pageControl: UIPageControl, topBarHeight: CGFloat) {
-        pageControl.autoresizingMask = [.flexibleRightMargin, .flexibleBottomMargin]
-        pageControl.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi/2))
-        pageControl.frame.origin = CGPoint(x: CarouselUI.pageControlMargin, y: topBarHeight + CarouselUI.pageControlMargin)
-        pageControl.backgroundColor = UIColor.black.withAlphaComponent(0.2)
-        pageControl.currentPageIndicatorTintColor = UIColor.white
-        pageControl.hidesForSinglePage = true
-        pageControl.cornerRadius = CarouselUI.pageControlWidth/2
-        pageControl.clipsToBounds = true
-    }
 
     static func buildShareButton(_ text: String?, icon: UIImage?) -> UIButton {
         let shareButton = UIButton(type: .system)

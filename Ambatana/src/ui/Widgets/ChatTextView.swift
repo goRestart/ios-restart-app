@@ -37,7 +37,7 @@ extension Reactive where Base: ChatTextView {
 }
 
 
-class ChatTextView: UIView {
+final class ChatTextView: UIView {
     static let minimumHeight: CGFloat = 44
     static let minimumWidth: CGFloat = 100
     static let minimumButtonWidth: CGFloat = 70

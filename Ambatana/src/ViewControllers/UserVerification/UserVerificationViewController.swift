@@ -9,6 +9,7 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import GoogleSignIn
 
 enum UserVerificationTableViewSections: Int {
     case verifications = 0
@@ -16,11 +17,11 @@ enum UserVerificationTableViewSections: Int {
     case buyAndSell = 2
 }
 
-final class UserVerificationViewController: BaseViewController {
+final class UserVerificationViewController: BaseViewController, GIDSignInUIDelegate {
 
     private let viewModel: UserVerificationViewModel
     private let disposeBag = DisposeBag()
-    private let tableView = UITableView()
+    private let tableView = UITableView(frame: .zero, style: .grouped)
     private let navBarView = UserVerificationNavBarView()
     private var items: [[UserVerificationItem]] = []
 
@@ -55,10 +56,13 @@ final class UserVerificationViewController: BaseViewController {
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = .none
         tableView.sectionHeaderHeight = 66
+        tableView.contentInset = UIEdgeInsetsMake(0, 0, Metrics.bigMargin, 0)
+        tableView.backgroundColor = .white
         tableView.register(UserVerificationCell.self, forCellReuseIdentifier: UserVerificationCell.reusableID)
         setNavBarBackgroundStyle(.white)
         setupNavBar()
         setupConstraints()
+        GIDSignIn.sharedInstance().uiDelegate = self
     }
 
     private func setupNavBar() {
@@ -111,6 +115,7 @@ extension UserVerificationViewController: UITableViewDelegate, UITableViewDataSo
         guard let verifyCell = cell as? UserVerificationCell else { return UITableViewCell() }
         let item = items[indexPath.section][indexPath.row]
         verifyCell.configure(with: item)
+        setAccessibilityIdTo(cell: cell, with: item)
         return verifyCell
     }
 
@@ -146,6 +151,21 @@ extension UserVerificationViewController: UITableViewDelegate, UITableViewDataSo
             view.title = LGLocalizedString.profileVerificationsViewExtraSectionTitle
             return view
         }
+    }
+
+    private func setAccessibilityIdTo(cell: UITableViewCell, with item: UserVerificationItem) {
+        let accessibilityId: AccessibilityId
+        switch item {
+        case .facebook: accessibilityId = .verificationsFacebookOption
+        case .google: accessibilityId = .verificationsGoogleOption
+        case .email: accessibilityId = .verificationsEmailOption
+        case .phoneNumber: accessibilityId = .verificationsPhoneNumberOption
+        case .photoID: accessibilityId = .verificationsPhotoIDOption
+        case .profilePicture: accessibilityId = .verificationsAvatarOption
+        case .bio: accessibilityId = .verificationsBioOption
+        case .markAsSold: accessibilityId = .verificationsMarkAsSoldOption
+        }
+        cell.set(accessibilityId: accessibilityId)
     }
 }
 

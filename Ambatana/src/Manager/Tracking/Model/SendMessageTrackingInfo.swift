@@ -8,7 +8,7 @@
 
 import LGCoreKit
 
-class SendMessageTrackingInfo {
+final class SendMessageTrackingInfo {
     private(set) var params = EventParameters()
 
     @discardableResult
@@ -39,9 +39,9 @@ class SendMessageTrackingInfo {
     }
 
     @discardableResult
-    func set(quickAnswerType: EventParameterQuickAnswerType?) -> Self {
-        params[.quickAnswerType] = quickAnswerType?.rawValue
-        let isQuickAnswer: EventParameterBoolean = quickAnswerType != nil ? .trueParameter : .falseParameter
+    func set(quickAnswerTypeParameter: String?) -> Self {
+        params[.quickAnswerType] = quickAnswerTypeParameter
+        let isQuickAnswer: EventParameterBoolean = quickAnswerTypeParameter != nil ? .trueParameter : .falseParameter
         params[.quickAnswer] = isQuickAnswer.rawValue
         return self
     }
@@ -77,6 +77,11 @@ class SendMessageTrackingInfo {
         return self
     }
 
+    func set(isVideo: EventParameterBoolean) -> Self {
+        params[.isVideo] = isVideo.rawValue
+        return self
+    }
+
     @discardableResult
     func set(assistantMeeting: AssistantMeeting?) -> Self {
         guard let assistantMeeting = assistantMeeting else { return self }
@@ -97,3 +102,14 @@ class SendMessageTrackingInfo {
     }
 }
 
+extension SendMessageTrackingInfo {
+    static func makeWith(type: ChatWrapperMessageType,
+                         listing: Listing,
+                         freePostingAllowed: Bool) -> SendMessageTrackingInfo {
+        return SendMessageTrackingInfo()
+            .set(listing: listing, freePostingModeAllowed: freePostingAllowed)
+            .set(interlocutorId: listing.user.objectId)
+            .set(messageType: type.chatTrackerType)
+            .set(quickAnswerTypeParameter: type.quickAnswerTypeParameter)
+    }
+}

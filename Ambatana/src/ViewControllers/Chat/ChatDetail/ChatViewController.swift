@@ -212,6 +212,7 @@ final class ChatViewController: TextViewController {
 
     private func setupNavigationBar() {
         listingView.height = navigationBarHeight
+        listingView.letgoAssistantTag.isHidden = !viewModel.isUserDummy
         listingView.layoutIfNeeded()
 
         setNavBarTitleStyle(.custom(listingView))
@@ -257,7 +258,20 @@ final class ChatViewController: TextViewController {
 
     fileprivate func setupDirectAnswers() {
         directAnswersPresenter.hidden = viewModel.directAnswersState.value != .visible
-        directAnswersPresenter.setupOnTopOfView(relatedListingsView)
+        guard let parentView = relatedListingsView.superview else { return }
+        directAnswersPresenter.horizontalView?.removeFromSuperview()
+        let defaultHeight = DirectAnswersHorizontalView.Layout.Height.standard
+        let defaultWidth = DirectAnswersHorizontalView.Layout.Width.standard
+        let initialFrame = CGRect(x: 0, y: relatedListingsView.top - defaultHeight, width: defaultWidth, height: defaultHeight)
+        let directAnswers = DirectAnswersHorizontalView(frame: initialFrame, answers: directAnswersPresenter.answers)
+        directAnswers.delegate = directAnswersPresenter
+        directAnswers.answersEnabled = directAnswersPresenter.enabled
+        directAnswers.isHidden = directAnswersPresenter.hidden
+        directAnswers.translatesAutoresizingMaskIntoConstraints = false
+        parentView.insertSubview(directAnswers, belowSubview: relatedListingsView)
+        directAnswers.layout(with: parentView).leading().trailing()
+        directAnswers.layout(with: relatedListingsView).bottom(to: .top, by: -DirectAnswersHorizontalView.Layout.standardSideMargin)
+        directAnswersPresenter.horizontalView = directAnswers
         directAnswersPresenter.setDirectAnswers(viewModel.directAnswers)
         directAnswersPresenter.delegate = viewModel
     }
@@ -446,6 +460,11 @@ fileprivate extension ChatViewController {
             self?.setTextViewBarHidden(!enabled, animated: true)
             self?.textView.isUserInteractionEnabled = enabled
             }.disposed(by: disposeBag)
+        
+        viewModel.textBoxVisible.asDriver().drive(onNext: { [weak self] enabled in
+            self?.setTextViewBarHidden(!enabled, animated: true)
+            self?.textView.isUserInteractionEnabled = enabled
+        }).disposed(by: disposeBag)
 
         viewModel.chatStatus.asObservable().bind { [weak self] status in
             self?.relationInfoView.setupUIForStatus(status, otherUserName: self?.viewModel.interlocutorName.value)
@@ -481,7 +500,7 @@ fileprivate extension ChatViewController {
             guard let url = imageUrl else { return }
             self?.listingView.listingImage.lg_setImageWithURL(url)
             }.disposed(by: disposeBag)
-        viewModel.shouldUpdateQuickAnswers.asObservable().filter{ $0 }.distinctUntilChanged().subscribeNext { [weak self] _ in
+        viewModel.shouldUpdateQuickAnswers.asObservable().filter{ $0 }.subscribeNext { [weak self] _ in
             self?.setupDirectAnswers()
         }.disposed(by: disposeBag)
         

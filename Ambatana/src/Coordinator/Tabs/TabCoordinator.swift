@@ -193,7 +193,7 @@ fileprivate extension TabCoordinator {
                         self?.navigationController.showAutoFadingOutMessageAlert(LGLocalizedString.commonErrorConnectionFailed)
                     }
                 case .internalError, .unauthorized, .tooManyRequests, .userNotVerified, .serverError,
-                     .wsChatError:
+                     .wsChatError, .searchAlertError:
                     self?.navigationController.dismissLoadingMessageAlert {
                         self?.navigationController.showAutoFadingOutMessageAlert(LGLocalizedString.commonProductNotAvailable)
                     }
@@ -380,7 +380,7 @@ fileprivate extension TabCoordinator {
                 case .network:
                     message = LGLocalizedString.commonErrorConnectionFailed
                 case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError,
-                     .wsChatError:
+                     .wsChatError, .searchAlertError:
                     message = LGLocalizedString.commonUserNotAvailable
                 }
                 self?.navigationController.dismissLoadingMessageAlert {
@@ -394,32 +394,18 @@ fileprivate extension TabCoordinator {
         // If it's me do not then open the user profile
         guard myUserRepository.myUser?.objectId != user.objectId else { return }
 
-        if featureFlags.newUserProfileView.isActive {
-            let vm = UserProfileViewModel.makePublicProfile(user: user, source: source)
-            vm.navigator = self
-            let vc = UserProfileViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
-            navigationController.pushViewController(vc, animated: true)
-        } else {
-            let vm = UserViewModel(user: user, source: source)
-            vm.navigator = self
-            let vc = UserViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
-            navigationController.pushViewController(vc, animated: true)
-        }
+        let vm = UserProfileViewModel.makePublicProfile(user: user, source: source)
+        vm.navigator = self
+        let vc = UserProfileViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
+        navigationController.pushViewController(vc, animated: true)
     }
 
 
     func openUser(_ interlocutor: ChatInterlocutor) {
-        if featureFlags.newUserProfileView.isActive {
-            let vm = UserProfileViewModel.makePublicProfile(chatInterlocutor: interlocutor, source: .chat)
-            vm.navigator = self
-            let vc = UserProfileViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
-            navigationController.pushViewController(vc, animated: true)
-        } else {
-            let vm = UserViewModel(chatInterlocutor: interlocutor, source: .chat)
-            vm.navigator = self
-            let vc = UserViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
-            navigationController.pushViewController(vc, animated: true)
-        }
+        let vm = UserProfileViewModel.makePublicProfile(chatInterlocutor: interlocutor, source: .chat)
+        vm.navigator = self
+        let vc = UserProfileViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
+        navigationController.pushViewController(vc, animated: true)
     }
 
     func openConversation(_ conversation: ChatConversation, source: EventParameterTypePage, predefinedMessage: String?) {
@@ -477,7 +463,7 @@ fileprivate extension TabCoordinator {
         case .network:
             message = LGLocalizedString.commonErrorConnectionFailed
         case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError,
-             .wsChatError:
+             .wsChatError, .searchAlertError:
             message = LGLocalizedString.commonChatNotAvailable
         }
         navigationController.showAutoFadingOutMessageAlert(message)
@@ -504,6 +490,18 @@ fileprivate extension TabCoordinator {
 // MARK: > ListingDetailNavigator
 
 extension TabCoordinator: ListingDetailNavigator {
+    
+    func openVideoPlayer(atIndex index: Int, listingVM: ListingViewModel, source: EventParameterListingVisitSource) {
+        guard let coordinator = VideoPlayerCoordinator(atIndex: index, listingVM: listingVM, source: source) else {
+            return
+        }
+        openChild(coordinator: coordinator,
+                  parent: rootViewController,
+                  animated: true,
+                  forceCloseChild: true,
+                  completion: nil)
+    }
+
     func closeProductDetail() {
         navigationController.popViewController(animated: true)
     }
@@ -512,7 +510,7 @@ extension TabCoordinator: ListingDetailNavigator {
                      bumpUpProductData: BumpUpProductData?,
                      listingCanBeBoosted: Bool,
                      timeSinceLastBump: TimeInterval?,
-                     maxCountdown: TimeInterval?) {
+                     maxCountdown: TimeInterval) {
         let navigator = EditListingCoordinator(listing: listing,
                                                bumpUpProductData: bumpUpProductData,
                                                pageType: nil,
@@ -546,10 +544,12 @@ extension TabCoordinator: ListingDetailNavigator {
 
     func openFreeBumpUp(forListing listing: Listing,
                         bumpUpProductData: BumpUpProductData,
-                        typePage: EventParameterTypePage?) {
+                        typePage: EventParameterTypePage?,
+                        maxCountdown: TimeInterval) {
         let bumpCoordinator = BumpUpCoordinator(listing: listing,
                                                 bumpUpProductData: bumpUpProductData,
-                                                typePage: typePage)
+                                                typePage: typePage,
+                                                maxCountdown: maxCountdown)
         openChild(coordinator: bumpCoordinator,
                   parent: rootViewController,
                   animated: true,
@@ -559,10 +559,12 @@ extension TabCoordinator: ListingDetailNavigator {
 
     func openPayBumpUp(forListing listing: Listing,
                        bumpUpProductData: BumpUpProductData,
-                       typePage: EventParameterTypePage?) {
+                       typePage: EventParameterTypePage?,
+                       maxCountdown: TimeInterval) {
         let bumpCoordinator = BumpUpCoordinator(listing: listing,
                                                 bumpUpProductData: bumpUpProductData,
-                                                typePage: typePage)
+                                                typePage: typePage,
+                                                maxCountdown: maxCountdown)
         openChild(coordinator: bumpCoordinator,
                   parent: rootViewController,
                   animated: true,
@@ -696,6 +698,14 @@ extension TabCoordinator: ListingDetailNavigator {
         viewController.modalPresentationStyle = .overFullScreen
         navigationController.present(viewController, animated: true, completion: nil)
     }
+
+    func showUndoBubble(withMessage message: String,
+                        duration: TimeInterval,
+                        withAction action: @escaping () -> ()) {
+        let action = UIAction(interface: .button(LGLocalizedString.productInterestedUndo, .terciary) , action: action)
+        let data = BubbleNotificationData(text: message, action: action)
+        bubbleNotificationManager.showBubble(data, duration: duration, view: navigationController.view)
+    }
 }
 
 
@@ -713,6 +723,11 @@ extension TabCoordinator: SimpleProductsNavigator {
 extension TabCoordinator: ChatDetailNavigator {
     func closeChatDetail() {
         navigationController.popViewController(animated: true)
+    }
+    
+    func openDeeplink(url: URL) {
+        guard let deepLink = UriScheme.buildFromUrl(url)?.deepLink else { return }
+        openDeepLink(deepLink)
     }
 
     func openExpressChat(_ listings: [Listing], sourceListingId: String, manualOpen: Bool) {
@@ -831,11 +846,10 @@ extension TabCoordinator: EditListingCoordinatorDelegate {
                                 didFinishWithListing listing: Listing,
                                 bumpUpProductData: BumpUpProductData?,
                                 timeSinceLastBump: TimeInterval?,
-                                maxCountdown: TimeInterval?) {
+                                maxCountdown: TimeInterval) {
         guard let bumpData = bumpUpProductData,
             bumpData.hasPaymentId else { return }
         if let timeSinceLastBump = timeSinceLastBump,
-            let maxCountdown = maxCountdown,
             timeSinceLastBump > 0,
             featureFlags.bumpUpBoost.isActive {
             openBumpUpBoost(forListing: listing,
@@ -846,7 +860,8 @@ extension TabCoordinator: EditListingCoordinatorDelegate {
         } else {
             openPayBumpUp(forListing: listing,
                           bumpUpProductData: bumpData,
-                          typePage: .edit)
+                          typePage: .edit,
+                          maxCountdown: maxCountdown)
         }
     }
 }
@@ -858,7 +873,7 @@ extension TabCoordinator {
     func trackProductNotAvailable(source: EventParameterListingVisitSource, repositoryError: RepositoryError) {
         var reason: EventParameterNotAvailableReason
         switch repositoryError {
-        case .internalError, .wsChatError:
+        case .internalError, .wsChatError, .searchAlertError:
             reason = .internalError
         case .notFound:
             reason = .notFound

@@ -9,7 +9,13 @@
 import LGCoreKit
 import SafariServices
 
+protocol ProfileCoordinatorSearchAlertsDelegate: class {
+    func profileCoordinatorSearchAlertsOpenSearch()
+}
+
 final class ProfileTabCoordinator: TabCoordinator {
+
+    weak var profileCoordinatorSearchAlertsDelegate: ProfileCoordinatorSearchAlertsDelegate?
 
     convenience init() {
         let sessionManager = Core.sessionManager
@@ -22,14 +28,8 @@ final class ProfileTabCoordinator: TabCoordinator {
         let keyValueStorage = KeyValueStorage.sharedInstance
         let tracker = TrackerProxy.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
-        let rootViewController: UIViewController
-        let viewModel = UserViewModel.myUserUserViewModel(.tabBar)
-        let newViewModel = UserProfileViewModel.makePrivateProfile(source: .tabBar)
-        if featureFlags.newUserProfileView.isActive {
-            rootViewController = UserProfileViewController(viewModel: newViewModel)
-        } else {
-            rootViewController = UserViewController(viewModel: viewModel)
-        }
+        let viewModel = UserProfileViewModel.makePrivateProfile(source: .tabBar)
+        let rootViewController = UserProfileViewController(viewModel: viewModel)
 
         self.init(listingRepository: listingRepository,
                   userRepository: userRepository,
@@ -43,7 +43,6 @@ final class ProfileTabCoordinator: TabCoordinator {
                   featureFlags: featureFlags,
                   sessionManager: sessionManager)
 
-        newViewModel.profileNavigator = self
         viewModel.profileNavigator = self
     }
 }
@@ -69,7 +68,7 @@ extension ProfileTabCoordinator: ProfileTabNavigator {
                                                pageType: pageType,
                                                listingCanBeBoosted: false,
                                                timeSinceLastBump: nil,
-                                               maxCountdown: nil)
+                                               maxCountdown: 0)
         openChild(coordinator: navigator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
     }
 
@@ -131,6 +130,13 @@ extension ProfileTabCoordinator: SettingsNavigator {
         navigationController.pushViewController(vc, animated: true)
     }
 
+    func openSettingsNotifications() {
+        let vm = SettingsNotificationsViewModel()
+        vm.navigator = self
+        let vc = SettingsNotificationsViewController(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
     func closeSettings() {
         navigationController.popViewController(animated: true)
     }
@@ -188,3 +194,26 @@ extension ProfileTabCoordinator: VerifyUserEmailNavigator {
     }
 }
 
+extension ProfileTabCoordinator: SettingsNotificationsNavigator {
+    func closeSettingsNotifications() {
+        navigationController.popViewController(animated: true)
+    }
+
+    func openSearchAlertsList() {
+        let vm = SearchAlertsListViewModel()
+        vm.navigator = self
+        let vc = SearchAlertsListViewController(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
+    }
+}
+
+extension ProfileTabCoordinator: SearchAlertsListNavigator {
+    func closeSearchAlertsList() {
+        navigationController.popViewController(animated: true)
+    }
+
+    func openSearch() {
+        navigationController.popToRootViewController(animated: false)
+        profileCoordinatorSearchAlertsDelegate?.profileCoordinatorSearchAlertsOpenSearch()
+    }
+}

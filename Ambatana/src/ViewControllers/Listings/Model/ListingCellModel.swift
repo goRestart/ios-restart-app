@@ -54,6 +54,25 @@ enum ListingCellModel {
 
 // MARK: Listing
 
+enum InterestedState: Equatable {
+    case send(enabled: Bool)
+    case seeConversation
+    case none
+
+    static func ==(lhs: InterestedState, rhs: InterestedState) -> Bool {
+        switch (lhs, rhs) {
+        case (.send(let lEnabled), .send(let rEnabled)):
+            return lEnabled == rEnabled
+        case (.seeConversation, .seeConversation): return true
+        case (.none, .none): return true
+        case (.send(_), _): return false
+        case (_, .send(_)): return false
+        case (.seeConversation, _): return false
+        case (_, .seeConversation): return false
+        }
+    }
+}
+
 struct ListingData {
     var listing: Listing?
     var delegate: ListingCellDelegate?
@@ -63,13 +82,22 @@ struct ListingData {
     var price: String
     let imageSize: CGSize
     let currentLocation: LGLocation?
-    
+    let interestedState: InterestedState?
+
     var listingId: String? {
         return listing?.objectId
     }
 
     var thumbUrl: URL? {
         return listing?.thumbnail?.fileURL
+    }
+
+    var mediaThumbUrl: URL? {
+        return listing?.mediaThumbnail?.file.fileURL
+    }
+
+    var mediaThumbType: MediaType? {
+        return listing?.mediaThumbnail?.type
     }
 
     var title: String? {

@@ -143,7 +143,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         }
     }
 
-    private(set) var shouldShowFeatureListingCell: Bool
+    private(set) var listingCanBeFeatured: Bool
     var featureLabelText: String? {
         return listingCanBeBoosted ? BoostCellUI.boostLabelText : EditProductFeatureUI.editProductFeaturelabelText
     }
@@ -158,7 +158,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
     private let listingCanBeBoosted: Bool
     private let timeSinceLastBump: TimeInterval?
-    private let maxCountdown: TimeInterval?
+    private let maxCountdown: TimeInterval
 
     private let bumpUpProductData: BumpUpProductData?
 
@@ -235,7 +235,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
                      bumpUpProductData: BumpUpProductData?,
                      listingCanBeBoosted: Bool,
                      timeSinceLastBump: TimeInterval?,
-                     maxCountdown: TimeInterval?) {
+                     maxCountdown: TimeInterval) {
         self.init(listing: listing,
                   pageType: pageType,
                   bumpUpProductData: bumpUpProductData,
@@ -265,7 +265,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
          featureFlags: FeatureFlaggeable,
          listingCanBeBoosted: Bool,
          timeSinceLastBump: TimeInterval?,
-         maxCountdown: TimeInterval?) {
+         maxCountdown: TimeInterval) {
         self.myUserRepository = myUserRepository
         self.listingRepository = listingRepository
         self.fileRepository = fileRepository
@@ -332,15 +332,15 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         self.isFreePosting.value = featureFlags.freePostingModeAllowed && listing.price.isFree
         self.pageType = pageType
 
-        let listinghasPaymentInfo = bumpUpProductData?.hasPaymentId ?? false
+        let listingHasPaymentInfo = bumpUpProductData?.hasPaymentId ?? false
 
         self.listingCanBeBoosted = listingCanBeBoosted
         self.timeSinceLastBump = timeSinceLastBump
         self.maxCountdown = maxCountdown
 
-        let listingCanBeFeatured = !(listing.featured ?? false)
+        let listingCanBeBumped = !(listing.featured ?? false)
 
-        self.shouldShowFeatureListingCell = (listingCanBeFeatured || listingCanBeBoosted) && listinghasPaymentInfo
+        self.listingCanBeFeatured = (listingCanBeBumped || listingCanBeBoosted) && listingHasPaymentInfo
 
         self.bumpUpProductData = bumpUpProductData
         
@@ -829,18 +829,19 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     private func closeEdit() {
         delegate?.vmHideKeyboard()
         delegate?.vmDismiss { [weak self] in
-            guard let editedListing = self?.savedListing else {
-                self?.navigator?.editingListingDidCancel()
+            guard let strongSelf = self else { return }
+            guard let editedListing = strongSelf.savedListing else {
+                strongSelf.navigator?.editingListingDidCancel()
                 return
             }
-            let showBumpItem = self?.shouldFeatureItemAfterEdit.value ?? false
+            let showBumpItem = strongSelf.shouldFeatureItemAfterEdit.value && strongSelf.listingCanBeFeatured
 
-            let bumpUpProductData = showBumpItem ? self?.bumpUpProductData : nil
+            let bumpUpProductData = showBumpItem ? strongSelf.bumpUpProductData : nil
 
             self?.navigator?.editingListingDidFinish(editedListing,
                                                      bumpUpProductData: bumpUpProductData,
-                                                     timeSinceLastBump: self?.timeSinceLastBump,
-                                                     maxCountdown: self?.maxCountdown)
+                                                     timeSinceLastBump: strongSelf.timeSinceLastBump,
+                                                     maxCountdown: strongSelf.maxCountdown)
         }
     }
 
@@ -1106,7 +1107,7 @@ private enum ListingCreateValidationError: Error {
             self = .internalError
         case .network:
             self = .network
-        case .serverError, .notFound, .forbidden, .unauthorized, .tooManyRequests, .userNotVerified:
+        case .serverError, .notFound, .forbidden, .unauthorized, .tooManyRequests, .userNotVerified, .searchAlertError:
             self = .serverError(code: repoError.errorCode)
         }
     }

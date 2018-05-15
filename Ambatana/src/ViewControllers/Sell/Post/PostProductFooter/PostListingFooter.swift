@@ -12,6 +12,13 @@ protocol PostListingFooter {
     var galleryButton: UIButton { get }
     var cameraButton: UIButton { get }
     var infoButton: UIButton { get }
+    var photoButton: UIButton { get }
+    var videoButton: UIButton { get }
     var isHidden: Bool { get set }
     func update(scroll: CGFloat)
+    func updateToPhotoMode()
+    func updateToVideoMode()
+    func startRecording()
+    func stopRecording()
+    func updateVideoRecordingDurationProgress(progress: CGFloat, remainingTime: TimeInterval)
 }

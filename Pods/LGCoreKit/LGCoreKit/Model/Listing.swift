@@ -152,6 +152,20 @@ public enum Listing: BaseListingModel, Priceable, Decodable {
         case .realEstate(let realEstate): return realEstate.images
         }
     }
+    public var media: [Media] {
+        switch self {
+        case .product(let product): return product.media
+        case .car(let car): return car.media
+        case .realEstate(let realEstate): return realEstate.media
+        }
+    }
+    public var mediaThumbnail: MediaThumbnail? {
+        switch self {
+        case .product(let product): return product.mediaThumbnail
+        case .car(let car): return car.mediaThumbnail
+        case .realEstate(let realEstate): return realEstate.mediaThumbnail
+        }
+    }
     public var user: UserListing {
         switch self {
         case .product(let product): return product.user

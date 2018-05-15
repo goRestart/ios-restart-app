@@ -13,7 +13,7 @@ enum ChatViewMessageType {
     case offer(text: String)
     case sticker(url: String)
     case disclaimer(showAvatar: Bool,text: NSAttributedString, actionTitle: String? ,action: (() -> ())?)
-    case userInfo(name: String, address: String?, facebook: Bool, google: Bool, email: Bool)
+    case userInfo(isDummy: Bool, name: String, address: String?, facebook: Bool, google: Bool, email: Bool)
     case askPhoneNumber(text: String, action: (() -> Void)?)
     case meeting(type: MeetingMessageType,
                  date: Date?,
@@ -21,24 +21,22 @@ enum ChatViewMessageType {
                  coordinates: LGLocationCoordinates2D?,
                  status: MeetingStatus?,
                  text: String)
+    case multiAnswer(question: ChatQuestion, answers: [ChatAnswer])
     case interlocutorIsTyping
+    case unsupported(text: String)
 
     var isAskPhoneNumber: Bool {
-        switch self {
-        case .askPhoneNumber:
+        if case .askPhoneNumber = self {
             return true
-        case .text, .offer, .sticker, .disclaimer, .userInfo, .meeting, .interlocutorIsTyping:
-            return false
         }
+        return false
     }
 
     var isMeeting: Bool {
-        switch self {
-        case .meeting:
+        if case .meeting = self {
             return true
-        case .text, .offer, .sticker, .disclaimer, .userInfo, .askPhoneNumber, .interlocutorIsTyping:
-            return false
         }
+        return false
     }
     
     public static func ==(lhs: ChatViewMessageType, rhs: ChatViewMessageType) -> Bool {
@@ -67,11 +65,11 @@ enum ChatViewMessageType {
                 return lhsShowAvatar == rhsShowAvatar && lhsText == rhsText && lhsActionTitle == rhsActionTitle
             default: return false
             }
-        case let .userInfo(lhsName, lhsAddress, lhsFacebook, lhsGoogle, lhsEmail):
+        case let .userInfo(lhsIsDummy, lhsName, lhsAddress, lhsFacebook, lhsGoogle, lhsEmail):
             switch rhs {
-            case let .userInfo(rhsName, rhsAddress, rhsFacebook, rhsGoogle, rhsEmail):
-                return lhsName == rhsName && lhsAddress == rhsAddress && lhsFacebook == rhsFacebook
-                    && lhsGoogle == rhsGoogle && lhsEmail == rhsEmail
+            case let .userInfo(rhsIsDummy, rhsName, rhsAddress, rhsFacebook, rhsGoogle, rhsEmail):
+                return lhsIsDummy == rhsIsDummy && lhsName == rhsName && lhsAddress == rhsAddress
+                    && lhsFacebook == rhsFacebook && lhsGoogle == rhsGoogle && lhsEmail == rhsEmail
             default: return false
             }
         case let .askPhoneNumber(lhsText, _):
@@ -91,13 +89,25 @@ enum ChatViewMessageType {
                     lhsText == rhsText
             default: return false
             }
+        case .multiAnswer(let rhsQuestion, let rhsAnswers):
+            if case .multiAnswer(let lhsQuestion, let lhsAnswers) = lhs {
+                return rhsQuestion.text == lhsQuestion.text && rhsQuestion.key == lhsQuestion.key
+                    && rhsAnswers.map { $0.id } == lhsAnswers.map { $0.id }
+            }
         case .interlocutorIsTyping:
             switch rhs {
             case .interlocutorIsTyping:
                 return true
             default: return false
             }
+        case .unsupported(let lhsText):
+            switch rhs {
+            case .unsupported(let rhsText):
+                return lhsText == rhsText
+            default: return false
+            }
         }
+        return false
     }
 }
 
@@ -137,7 +147,7 @@ struct ChatViewMessage: BaseModel {
         switch type {
         case .text, .offer:
             return true
-        case .sticker, .disclaimer, .userInfo, .askPhoneNumber, .meeting, .interlocutorIsTyping:
+        case .sticker, .disclaimer, .userInfo, .askPhoneNumber, .meeting, .interlocutorIsTyping, .unsupported, .multiAnswer:
             return false
         }
     }
@@ -152,14 +162,18 @@ struct ChatViewMessage: BaseModel {
             return url
         case .disclaimer(_, let text, _, _):
             return text.string
-        case .userInfo(let name, _, _, _, _):
+        case .userInfo(_, let name, _, _, _, _):
             return name
         case .askPhoneNumber(let text, _):
             return text
         case let .meeting(_, _, _, _, _, text):
             return text
+        case .multiAnswer(let question, _):
+            return question.text
         case .interlocutorIsTyping:
             return "..."
+        case .unsupported(let text):
+            return text
         }
     }
     
@@ -197,49 +211,41 @@ extension ChatViewMessage {
 
 extension ChatViewMessage {
     func markAsAccepted() -> ChatViewMessage {
-        switch type {
-        case let .meeting(meetingType, meetingDate, locationName, coordinates, _, text):
-            if meetingType == .requested {
-                let acceptedMessageType: ChatViewMessageType = .meeting(type: meetingType,
-                                                                        date: meetingDate,
-                                                                        locationName: locationName,
-                                                                        coordinates: coordinates,
-                                                                        status: .accepted,
-                                                                        text: text)
-                return ChatViewMessage(objectId: objectId, talkerId: talkerId, sentAt: sentAt,
-                                       receivedAt: receivedAt,
-                                       readAt: readAt,
-                                       type: acceptedMessageType,
-                                       status: status,
-                                       warningStatus: warningStatus)
-            } else {
-                return self
-            }
-        case .text, .offer, .sticker, .disclaimer, .userInfo, .askPhoneNumber, .interlocutorIsTyping:
+        if case let .meeting(meetingType, meetingDate, locationName, coordinates, _, text) = type,
+            meetingType == .requested {
+            let acceptedMessageType: ChatViewMessageType = .meeting(type: meetingType,
+                                                                    date: meetingDate,
+                                                                    locationName: locationName,
+                                                                    coordinates: coordinates,
+                                                                    status: .accepted,
+                                                                    text: text)
+            return ChatViewMessage(objectId: objectId, talkerId: talkerId, sentAt: sentAt,
+                                   receivedAt: receivedAt,
+                                   readAt: readAt,
+                                   type: acceptedMessageType,
+                                   status: status,
+                                   warningStatus: warningStatus)
+        } else {
             return self
         }
     }
-
+    
     func markAsRejected() -> ChatViewMessage {
-        switch type {
-        case let .meeting(meetingType, meetingDate, locationName, coordinates, _, text):
-            if meetingType == .requested {
-                let rejectedMessageType: ChatViewMessageType = .meeting(type: meetingType,
-                                                                        date: meetingDate,
-                                                                        locationName: locationName,
-                                                                        coordinates: coordinates,
-                                                                        status: .rejected,
-                                                                        text: text)
-                return ChatViewMessage(objectId: objectId, talkerId: talkerId, sentAt: sentAt,
-                                       receivedAt: receivedAt,
-                                       readAt: readAt,
-                                       type: rejectedMessageType,
-                                       status: status,
-                                       warningStatus: warningStatus)
-            } else {
-                return self
-            }
-        case .text, .offer, .sticker, .disclaimer, .userInfo, .askPhoneNumber, .interlocutorIsTyping:
+        if case let .meeting(meetingType, meetingDate, locationName, coordinates, _, text) = type,
+            meetingType == .requested {
+            let rejectedMessageType: ChatViewMessageType = .meeting(type: meetingType,
+                                                                    date: meetingDate,
+                                                                    locationName: locationName,
+                                                                    coordinates: coordinates,
+                                                                    status: .rejected,
+                                                                    text: text)
+            return ChatViewMessage(objectId: objectId, talkerId: talkerId, sentAt: sentAt,
+                                   receivedAt: receivedAt,
+                                   readAt: readAt,
+                                   type: rejectedMessageType,
+                                   status: status,
+                                   warningStatus: warningStatus)
+        } else {
             return self
         }
     }

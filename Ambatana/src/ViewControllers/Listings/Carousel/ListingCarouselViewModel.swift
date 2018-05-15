@@ -150,6 +150,9 @@ class ListingCarouselViewModel: BaseViewModel {
         return currentListingViewModel?.isMine ?? false
     }
 
+    var isPlayable: Bool { return currentListingViewModel?.isPlayable ?? false }
+    var shouldAddPlayButton: Bool { return featureFlags.machineLearningMVP.isVideoPostingActive }
+
     fileprivate var trackingIndex: Int?
     fileprivate var initialThumbnail: UIImage?
 
@@ -189,8 +192,8 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     var dfpContentURL: String? {
-        guard let listingId = currentListingViewModel?.listing.value.objectId else { return nil}
-        return LetgoURLHelper.buildProductURL(listingId: listingId)?.absoluteString
+        guard let listingId = currentListingViewModel?.listing.value.objectId else { return nil }
+        return LetgoURLHelper.buildProductURL(listingId: listingId, isLocalized: true)?.absoluteString
     }
     var randomHardcodedAdQuery: String {
         let popularItems = ["ps4", "iphone", LGLocalizedString.productPostIncentiveDresser]
@@ -381,6 +384,11 @@ class ListingCarouselViewModel: BaseViewModel {
 
     func userAvatarPressed() {
         currentListingViewModel?.openProductOwnerProfile()
+    }
+
+    func videoButtonTapped() {
+        currentListingViewModel?.openVideoPlayer(atIndex: 0, source: source)
+        currentListingViewModel?.trackPlayVideo(source: source)
     }
 
     func directMessagesItemPressed() {

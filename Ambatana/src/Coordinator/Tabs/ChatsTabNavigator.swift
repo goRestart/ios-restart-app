@@ -7,5 +7,5 @@
 //
 
 protocol ChatsTabNavigator: TabNavigator {
-    
+    func openBlockedUsers()
 }

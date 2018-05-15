@@ -9,17 +9,6 @@
 import CameraManager
 import Result
 
-typealias CameraPhotoResult = Result<UIImage, NSError>
-typealias CameraPhotoCompletion = (CameraPhotoResult) -> Void
-
-enum CameraFlashState {
-    case auto, on, off
-}
-
-enum CameraSource {
-    case front, rear
-}
-
 class CameraWrapper {
 
     var flashMode: CameraFlashState = .auto {
@@ -99,7 +88,7 @@ class CameraWrapper {
                 }
                 completion(CameraPhotoResult(image))
             } else if let error = error {
-                completion(CameraPhotoResult(error: error))
+                completion(CameraPhotoResult(error: .frameworkError(error: error)))
             }
         }
     }

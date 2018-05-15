@@ -14,6 +14,8 @@ extension MockCar: MockFactory {
                            thumbnail: MockFile?.makeMock(),
                            thumbnailSize: LGSize?.makeMock(),
                            images: MockFile.makeMocks(count: Int.makeRandom(min: 0, max: 10)),
+                           media: MockMedia.makeMocks(count: Int.makeRandom(min: 0, max: 10)),
+                           mediaThumbnail: MockMediaThumbnail.makeMock(),
                            user: MockUserListing.makeMock(),
                            updatedAt: Date?.makeRandom(),
                            createdAt: Date?.makeRandom(),

@@ -1,6 +1,6 @@
 "NSCameraUsageDescription" = "Deine Kamera wird benötigt, um Fotos von den Dingen zu machen, die du verkaufen möchtest.";
-"NSLocationAlwaysAndWhenInUseUsageDescription" = "letgo will use your location to show you nearby deals and suggest meeting places";
-"NSLocationAlwaysUsageDescription" = "letgo will use your location to show you nearby deals and suggest meeting places";
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "letgo nutzt deinen Standort, um dir Schnäppchen in deiner Nähe zu zeigen und Treffpunkte vorzuschlagen";
+"NSLocationAlwaysUsageDescription" = "letgo nutzt deinen Standort, um dir Schnäppchen in deiner Nähe zu zeigen und Treffpunkte vorzuschlagen";
 "NSLocationWhenInUseUsageDescription" = "letgo benötigt Zugriff auf deinen Standort, um dir Produkte in deiner Nähe anzeigen zu können";
 "NSPhotoLibraryAddUsageDescription" = "Deine Fotogalerie wird benötigt, damit du die Bilder von dem, was du verkaufen möchtest, auswählen kannst.";
 "NSPhotoLibraryUsageDescription" = "Deine Fotogalerie wird benötigt, damit du die Bilder von dem, was du verkaufen möchtest, auswählen kannst.";

@@ -39,6 +39,8 @@ protocol AppEnvironment {
     var feedAdUnitIdDFPUSA20Ratio: String { get }
     var feedAdUnitIdAdxUSAForAllUsers: String { get }
     var feedAdUnitIdAdxUSAForOldUsers: String { get }
+    var feedAdUnitIdAdxTRForAllUsers: String { get }
+    var feedAdUnitIdAdxTRForOldUsers: String { get }
     
     // MoPub Ads
     var feedAdUnitIdMoPubUSAForAllUsers: String { get }
@@ -66,7 +68,8 @@ extension AppEnvironment {
     func websiteUrl(_ endpoint: String) -> String {
         return String(format: "\(websiteBaseUrl)\(endpoint)", arguments: [endpoint])
     }
-    func localizedWebsiteUrl(_ country: String, language: String, endpoint: String? = nil) -> String {
+
+    func localizedWebsiteUrl(country: String, language: String, endpoint: String? = nil) -> String {
         let format: String
         if let endpoint = endpoint {
             format = "\(websiteBaseUrlWithLocaleParams)\(endpoint)"

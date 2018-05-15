@@ -1,6 +1,6 @@
 "NSCameraUsageDescription" = "Din kamera kommer att användas för att ta bilder på det du vill sälja.";
-"NSLocationAlwaysAndWhenInUseUsageDescription" = "letgo will use your location to show you nearby deals and suggest meeting places";
-"NSLocationAlwaysUsageDescription" = "letgo will use your location to show you nearby deals and suggest meeting places";
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "letgo kommer att använda din platsinfo för att hitta fynd nära dig och föreslå lämpliga mötesplatser";
+"NSLocationAlwaysUsageDescription" = "letgo kommer att använda din platsinfo för att hitta fynd nära dig och föreslå lämpliga mötesplatser";
 "NSLocationWhenInUseUsageDescription" = "letgo behöver åtkomst till din plats för att visa annonser nära dig";
 "NSPhotoLibraryAddUsageDescription" = "Ditt fotobibliotek kommer att användas för att du ska kunna välja bilder från din kamerarulle på det du vill sälja.";
 "NSPhotoLibraryUsageDescription" = "Ditt fotobibliotek kommer att användas för att du ska kunna välja bilder från din kamerarulle på det du vill sälja.";

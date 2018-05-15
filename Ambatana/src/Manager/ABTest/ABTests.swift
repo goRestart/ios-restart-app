@@ -45,6 +45,8 @@ class ABTests {
     let chat = ChatABGroup.make()
     let core = CoreABGroup.make()
     let users = UsersABGroup.make()
+    let discovery = DiscoveryABGroup.make()
+    let products = ProductsABGroup.make()
 
 
     convenience init() {
@@ -66,6 +68,8 @@ class ABTests {
         result.append(contentsOf: chat.intVariables)
         result.append(contentsOf: core.intVariables)
         result.append(contentsOf: users.intVariables)
+        result.append(contentsOf: discovery.intVariables)
+        result.append(contentsOf: products.intVariables)
         return result
     }
 
@@ -79,7 +83,8 @@ class ABTests {
         result.append(contentsOf: chat.boolVariables)
         result.append(contentsOf: core.boolVariables)
         result.append(contentsOf: users.boolVariables)
-
+        result.append(contentsOf: discovery.boolVariables)
+        result.append(contentsOf: products.boolVariables)
         return result
     }
 
@@ -108,6 +113,31 @@ class ABTests {
     }
 }
 
+// MARK: Discovery
+    
+extension ABTests {
+    var personalizedFeed: LeanplumABVariable<Int> {
+        return discovery.personalizedFeed
+    }
+    
+    /**
+     It is for a special request from Discovery team.
+     
+     This AB test has 3 cases: control(0), baseline(1) and active(2)
+     But they want to be able to send values that are larger than 2 without us touching the code.
+     
+     Therefore, the test is considered active if the value is > 1
+     ABIOS-4113 https://ambatana.atlassian.net/browse/ABIOS-4113
+    */
+    var personlizedFeedIsActive: Bool {
+        return personalizedFeed.value > 1
+    }
+    
+    var searchBoxImprovement: LeanplumABVariable<Int> {
+        return discovery.searchBoxImprovements
+    }
+}
+
 //  MARK: Users
 
 extension ABTests {
@@ -120,7 +150,6 @@ extension ABTests {
 
 extension ABTests {
     var discardedProducts: LeanplumABVariable<Int> { return core.discardedProducts }
-    var newUserProfileView: LeanplumABVariable<Int> { return core.newUserProfileView }
     var searchImprovements: LeanplumABVariable<Int> { return core.searchImprovements }
     var servicesCategoryEnabled: LeanplumABVariable<Int> { return core.servicesCategoryEnabled }
     var machineLearningMVP: LeanplumABVariable<Int> { return core.machineLearningMVP }
@@ -134,8 +163,9 @@ extension ABTests {
     var showInactiveConversations: LeanplumABVariable<Bool> { return chat.showInactiveConversations }
     var showChatSafetyTips: LeanplumABVariable<Bool> { return chat.showChatSafetyTips }
     var userIsTyping: LeanplumABVariable<Int> { return chat.userIsTyping }
-    var markAllConversationsAsRead: LeanplumABVariable<Bool> { return chat.markAllConversationsAsRead }
+    var markAllConversationsAsRead: LeanplumABVariable<Int> { return chat.markAllConversationsAsRead }
     var chatNorris: LeanplumABVariable<Int> { return chat.chatNorris }
+    var chatConversationsListWithoutTabs: LeanplumABVariable<Int> { return chat.chatConversationsListWithoutTabs }
 }
 
 //  MARK: Money
@@ -143,7 +173,6 @@ extension ABTests {
 extension ABTests {
     var increaseMinPriceBumps: LeanplumABVariable<Int> { return money.increaseMinPriceBumps }
     var noAdsInFeedForNewUsers: LeanplumABVariable<Int> { return money.noAdsInFeedForNewUsers }
-    var showBumpUpBannerOnNotValidatedListings: LeanplumABVariable<Int> { return money.showBumpUpBannerOnNotValidatedListings }
     var copyForChatNowInTurkey: LeanplumABVariable<Int> { return money.copyForChatNowInTurkey }
     var turkeyBumpPriceVATAdaptation: LeanplumABVariable<Int> { return money.turkeyBumpPriceVATAdaptation }
     var showProTagUserProfile: LeanplumABVariable<Bool> { return money.showProTagUserProfile }
@@ -153,6 +182,7 @@ extension ABTests {
     var bumpUpBoost: LeanplumABVariable<Int> { return money.bumpUpBoost }
     var showExactLocationForPros: LeanplumABVariable<Bool> { return money.showExactLocationForPros }
     var copyForSellFasterNowInEnglish : LeanplumABVariable<Int> { return money.copyForSellFasterNowInEnglish }
+    var googleAdxForTR: LeanplumABVariable<Int> { return money.googleAdxForTR }
 }
 
 //  MARK: Retention
@@ -160,6 +190,8 @@ extension ABTests {
 extension ABTests {
     var dummyUsersInfoProfile: LeanplumABVariable<Int> { return retention.dummyUsersInfoProfile }
     var onboardingIncentivizePosting: LeanplumABVariable<Int> { return retention.onboardingIncentivizePosting }
+    var iAmInterestedInFeed: LeanplumABVariable<Int> { return retention.iAmInterestedInFeed }
+    var searchAlerts: LeanplumABVariable<Int> { return retention.searchAlerts }
 }
 
 //  MARK: RealEstate
@@ -179,6 +211,13 @@ extension ABTests {
     var realEstatePromoCell: LeanplumABVariable<Int> { return verticals.realEstatePromoCell }
     var filterSearchCarSellerType: LeanplumABVariable<Int> { return verticals.filterSearchCarSellerType }
     var createUpdateCarsIntoNewBackend: LeanplumABVariable<Int> { return verticals.createUpdateIntoNewBackend }
+    var realEstateMap: LeanplumABVariable<Int> { return verticals.realEstateMap }
+}
+
+//  MARK: Products
+
+extension ABTests {
+    var servicesCategoryOnSalchichasMenu: LeanplumABVariable<Int> { return products.servicesCategoryOnSalchichasMenu }
 }
 
 //  MARK: Legacy
@@ -201,7 +240,6 @@ extension ABTests {
     var deckItemPage: LeanplumABVariable<Int> { return legacy.newItemPage }
     var taxonomiesAndTaxonomyChildrenInFeed: LeanplumABVariable<Int> { return legacy.taxonomiesAndTaxonomyChildrenInFeed }
     var showClockInDirectAnswer: LeanplumABVariable<Int> { return legacy.showClockInDirectAnswer }
-    var allowCallsForProfessionals: LeanplumABVariable<Int> { return legacy.allowCallsForProfessionals }
     var mostSearchedDemandedItems: LeanplumABVariable<Int> { return legacy.mostSearchedDemandedItems }
     var showAdsInFeedWithRatio: LeanplumABVariable<Int> { return legacy.showAdsInFeedWithRatio }
     var removeCategoryWhenClosingPosting: LeanplumABVariable<Int> { return legacy.removeCategoryWhenClosingPosting }

@@ -1,6 +1,6 @@
 "NSCameraUsageDescription" = "Használnunk kell a kamerát, hogy fotókat készíthess a hirdetéseidhez.";
-"NSLocationAlwaysAndWhenInUseUsageDescription" = "letgo will use your location to show you nearby deals and suggest meeting places";
-"NSLocationAlwaysUsageDescription" = "letgo will use your location to show you nearby deals and suggest meeting places";
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "A letgo közeli hirdetések megjelenítéséhez és ideális találkozóhelyszínek felajánlásához használja a helyadatokat";
+"NSLocationAlwaysUsageDescription" = "A letgo közeli hirdetések megjelenítéséhez és ideális találkozóhelyszínek felajánlásához használja a helyadatokat";
 "NSLocationWhenInUseUsageDescription" = "A letgo hozzáférést igényel a tartózkodási helyedhez, hogy meg tudja jeleníteni a közeli portékákat";
 "NSPhotoLibraryAddUsageDescription" = "Használnunk kell a fotótáradat, hogy fotókat választhass a meglévők közül a hirdetéseidhez.";
 "NSPhotoLibraryUsageDescription" = "Használnunk kell a fotótáradat, hogy fotókat választhass a meglévők közül a hirdetéseidhez.";

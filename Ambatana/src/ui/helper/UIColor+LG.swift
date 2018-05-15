@@ -325,6 +325,19 @@ extension UIColor {
     }
 }
 
+// MARK: - Camera
+
+extension UIColor {
+    struct Camera {
+        static var cameraButton: UIColor { return almostWatermelon }
+        static var cameraButtonHighlighted: UIColor { return almostWatermelonDarker }
+        static var selectedPhotoVideoButton: UIColor { return almostWatermelon }
+        static var unselectedPhotoVideoButton: UIColor { return UIColor.white }
+
+        fileprivate static let almostWatermelon = UIColor(rgb: 0xf6416c) // (244, 65, 108)
+        fileprivate static let almostWatermelonDarker = UIColor(rgb: 0xa93f56) // (169, 63, 86)
+    }
+}
 // MARK: > Edit User Bio
 
 extension UIColor {

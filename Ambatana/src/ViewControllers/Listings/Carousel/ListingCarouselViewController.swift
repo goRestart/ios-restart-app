@@ -10,7 +10,10 @@ import LGCoreKit
 import RxSwift
 
 class ListingCarouselViewController: KeyboardViewController, AnimatableTransition {
-
+    private struct Layout {
+        static let pageControlArbitraryTopMargin: CGFloat = 40
+        static let pageControlArbitraryWidth: CGFloat = 50
+    }
     @IBOutlet weak var imageBackground: UIImageView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -95,6 +98,9 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
 
 
     private let pageControl: UIPageControl
+    private var pageControlWidth: NSLayoutConstraint?
+    private var pageControlTopMargin: NSLayoutConstraint?
+
     private var moreInfoTooltip: Tooltip?
 
     private let collectionContentOffset = Variable<CGPoint>(CGPoint.zero)
@@ -107,6 +113,15 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
 
     private var productOnboardingView: ListingDetailOnboardingView?
     private var didSetupAfterLayout = false
+
+    private var shouldShowPlayButton: Bool = false {
+        didSet { startPlayingButton.isHidden = !shouldShowPlayButton }
+    }
+    private let startPlayingButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(#imageLiteral(resourceName: "ic_videoposting_play"), for: .normal)
+        return button
+    }()
 
     private let moreInfoView: ListingCarouselMoreInfoView
     private let moreInfoAlpha = Variable<CGFloat>(1)
@@ -179,7 +194,27 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         setupGradientView()
         setupCollectionRx()
         setupZoomRx()
+        if viewModel.shouldAddPlayButton {
+            setupPlayButton()
+        }
         setAccessibilityIds()
+    }
+
+    private func setupPlayButton() {
+        view.addSubviewForAutoLayout(startPlayingButton)
+        NSLayoutConstraint.activate([
+            startPlayingButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            startPlayingButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            startPlayingButton.widthAnchor.constraint(equalToConstant: 60),
+            startPlayingButton.heightAnchor.constraint(equalTo: startPlayingButton.widthAnchor)
+        ])
+        startPlayingButton.addTarget(self, action: #selector(openVideoPlayer), for: .touchUpInside)
+    }
+
+    @objc private func openVideoPlayer() {
+        startPlayingButton.bounce { [weak self] in
+            self?.viewModel.videoButtonTapped()
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -241,7 +276,6 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         guard !didSetupAfterLayout else { return } // Already setup, just do nothing
-
         if let animator = animator {
             if animator.toViewValidatedFrame {
                 setupAfterLayout(backgroundImage: animator.fromViewSnapshot, activeAnimator: animator.active)
@@ -289,15 +323,8 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     // MARK: Setup
 
     func addSubviews() {
-        mainViewBlurEffectView.translatesAutoresizingMaskIntoConstraints = false
-        imageBackground.addSubview(mainViewBlurEffectView)
-        view.addSubview(pageControl)
-        fullScreenAvatarEffectView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(fullScreenAvatarEffectView)
-        userView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(userView)
-        fullScreenAvatarView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(fullScreenAvatarView)
+        imageBackground.addSubviewForAutoLayout(mainViewBlurEffectView)
+        view.addSubviewsForAutoLayout([pageControl, fullScreenAvatarEffectView, userView, fullScreenAvatarView])
     }
 
     func setupUI() {
@@ -319,7 +346,23 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         collectionView.alwaysBounceHorizontal = false
         automaticallyAdjustsScrollViewInsets = false
 
-        CarouselUIHelper.setupPageControl(pageControl, topBarHeight: topBarHeight)
+        let pcWidth = pageControl.widthAnchor.constraint(equalToConstant: Layout.pageControlArbitraryWidth)
+        let pcTopMargin = pageControl.centerYAnchor.constraint(equalTo: safeTopAnchor,
+                                                               constant: Layout.pageControlArbitraryTopMargin)
+
+        NSLayoutConstraint.activate([
+            pageControl.centerXAnchor.constraint(equalTo: view.leftAnchor, constant: CarouselUI.pageControlMargin),
+            pageControl.heightAnchor.constraint(equalToConstant: Metrics.bigMargin),
+            pcTopMargin, pcWidth
+        ])
+        pageControlWidth = pcWidth
+        pageControlTopMargin = pcTopMargin
+
+        pageControl.cornerRadius = CarouselUI.pageControlWidth/2
+        pageControl.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi / 2))
+        pageControl.backgroundColor = UIColor.black.withAlphaComponent(0.2)
+        pageControl.currentPageIndicatorTintColor = .white
+        pageControl.hidesForSinglePage = true
 
         mainViewBlurEffectView.layout(with: imageBackground).fill()
         fullScreenAvatarEffectView.layout(with: view).fill()
@@ -540,6 +583,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
                 if movement == .tap {
                     self?.finishedTransition()
                 }
+                self?.shouldShowPlayButton = self?.viewModel.isPlayable ?? false
                 strongSelf.returnCellToFirstImage()
             }
             .disposed(by: disposeBag)
@@ -615,8 +659,11 @@ extension ListingCarouselViewController {
             guard let pageControl = self?.pageControl else { return }
             pageControl.currentPage = 0
             pageControl.numberOfPages = images.count
-            pageControl.frame.size = CGSize(width: CarouselUI.pageControlWidth, height:
-                pageControl.size(forNumberOfPages: images.count).width + CarouselUI.pageControlWidth)
+
+            let width = pageControl.size(forNumberOfPages: images.count).width + CarouselUI.pageControlWidth
+            self?.pageControlWidth?.constant = width
+            self?.pageControlTopMargin?.constant = width / 2.0
+
         }.disposed(by: disposeBag)
     }
 
@@ -625,7 +672,12 @@ extension ListingCarouselViewController {
                                                            viewModel.userInfo.asObservable(),
                                                            viewModel.ownerIsProfessional.asObservable(),
                                                            viewModel.ownerBadge.asObservable()) { ($0, $1, $2, $3) }
-        productAndUserInfos.bind { [weak self] (productInfo, userInfo, isProfessional, userBadge) in
+
+        productAndUserInfos.bind { [weak self]
+            (productInfo: ListingVMProductInfo?,
+            userInfo: ListingVMUserInfo?,
+            isProfessional: Bool,
+            userBadge: UserReputationBadge) in
             self?.userView.setupWith(userAvatar: userInfo?.avatar,
                                      userName: userInfo?.name,
                                      productTitle: productInfo?.title,
@@ -633,7 +685,7 @@ extension ListingCarouselViewController {
                                      userId: userInfo?.userId,
                                      isProfessional: isProfessional,
                                      userBadge: userBadge)
-            }.disposed(by: disposeBag)
+        }.disposed(by: disposeBag)
 
         viewModel.userInfo.asObservable().bind { [weak self] userInfo in
             self?.fullScreenAvatarView.alpha = 0
@@ -861,6 +913,7 @@ extension ListingCarouselViewController {
     private func finishedTransition() {
         showStatusBar()
     }
+
 }
 
 extension ListingCarouselViewController: UserViewDelegate {
@@ -968,6 +1021,7 @@ extension ListingCarouselViewController: ListingCarouselCellDelegate {
     func canScrollToNextPage() -> Bool {
         return moreInfoState.value == .hidden
     }
+
 }
 
 
@@ -1167,6 +1221,8 @@ extension ListingCarouselViewController: UICollectionViewDataSource, UICollectio
                                            indexPath: indexPath, imageDownloader: carouselImageDownloader,
                                            imageScrollDirection: viewModel.imageScrollDirection)
             carouselCell.delegate = self
+            carouselCell.tag = indexPath.row
+
 
             return carouselCell
     }
@@ -1397,6 +1453,7 @@ fileprivate extension ListingCarouselViewController {
         chatTextView.set(accessibilityId: .listingCarouselChatTextView)
         productStatusView.set(accessibilityId: .listingCarouselStatusView)
         directChatTable.accessibilityInspectionEnabled = false
+        startPlayingButton.set(accessibilityId: .listingCarouselPlayButton)
     }
 }
 

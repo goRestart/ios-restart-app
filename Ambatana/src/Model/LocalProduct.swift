@@ -28,6 +28,9 @@ struct LocalProduct: Product {
     let thumbnailSize: LGSize?
     let images: [File]
 
+    let media: [Media]
+    let mediaThumbnail: MediaThumbnail?
+
     let user: UserListing
 
     let updatedAt : Date?
@@ -60,6 +63,8 @@ struct LocalProduct: Product {
         self.thumbnail = chatListing.image
         self.thumbnailSize = nil
         self.images = [chatListing.image].flatMap{ $0 }
+        self.media = []
+        self.mediaThumbnail = nil
         self.updatedAt = nil
         self.createdAt = nil
         self.featured = false

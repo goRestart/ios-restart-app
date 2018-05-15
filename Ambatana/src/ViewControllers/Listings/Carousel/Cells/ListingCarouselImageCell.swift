@@ -10,13 +10,11 @@ protocol ListingCarouselImageCellDelegate: class {
     func isZooming(_ zooming: Bool, pageAtIndex index: Int)
 }
 
-class ListingCarouselImageCell: UICollectionViewCell {
+class ListingCarouselImageCell: UICollectionViewCell, ReusableCell {
     
-    static let identifier = "ListingCarouselImageCell"
     private static let zoomDecimalsRounding: CGFloat = 0.0001
     fileprivate static let minZoomScale: CGFloat = 0.5
     fileprivate static let maxZoomScale: CGFloat = 2
-
 
     var position: Int = 0
     var imageURL: URL?
@@ -47,6 +45,7 @@ class ListingCarouselImageCell: UICollectionViewCell {
     }
 
     override func prepareForReuse() {
+        super.prepareForReuse()
         resetZoom()
     }
 }
