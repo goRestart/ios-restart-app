@@ -341,8 +341,12 @@ class BaseViewController: UIViewController, TabBarShowable {
 
     // MARK: Lifecycle
 
-    init(viewModel: BaseViewModel?, nibName nibNameOrNil: String?, statusBarStyle: UIStatusBarStyle = .default,
-         navBarBackgroundStyle: NavBarBackgroundStyle = .default, swipeBackGestureEnabled: Bool = true) {
+    init(viewModel: BaseViewModel?,
+         nibName nibNameOrNil: String?,
+         statusBarStyle: UIStatusBarStyle = .default,
+         navBarBackgroundStyle: NavBarBackgroundStyle = .default,
+         swipeBackGestureEnabled: Bool = true,
+         bundle: Bundle? = nil) {
         self.viewModel = viewModel
         self.subviews = []
         self.statusBarStyle = statusBarStyle
@@ -350,7 +354,7 @@ class BaseViewController: UIViewController, TabBarShowable {
         self.navBarBackgroundStyle = navBarBackgroundStyle
         self.floatingSellButtonHidden = false
         self.swipeBackGestureEnabled = swipeBackGestureEnabled
-        super.init(nibName: nibNameOrNil, bundle: nil)
+        super.init(nibName: nibNameOrNil, bundle: bundle)
 
         // Setup
         hidesBottomBarWhenPushed = true

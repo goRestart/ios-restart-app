@@ -100,8 +100,11 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
             statusBarStyle = .default
             navBarBackgroundStyle = .transparent(substyle: .light)
         }
-        super.init(viewModel: viewModel, nibName: "SignUpLogInViewController",
-                   statusBarStyle: statusBarStyle, navBarBackgroundStyle: navBarBackgroundStyle)
+        super.init(viewModel: viewModel,
+                   nibName: "SignUpLogInViewController",
+                   statusBarStyle: statusBarStyle,
+                   navBarBackgroundStyle: navBarBackgroundStyle,
+                   bundle: loginBundle)
         self.viewModel.delegate = self
         automaticallyAdjustsScrollViewInsets = false
     }

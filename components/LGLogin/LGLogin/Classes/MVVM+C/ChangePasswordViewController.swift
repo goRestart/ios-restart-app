@@ -28,7 +28,9 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
     init(viewModel: ChangePasswordViewModel) {
         self.viewModel = viewModel
         self.lines = []
-        super.init(viewModel:viewModel, nibName: "ChangePasswordViewController")
+        super.init(viewModel:viewModel,
+                   nibName: "ChangePasswordViewController",
+                   bundle: loginBundle)
         self.viewModel.delegate = self
     }
     

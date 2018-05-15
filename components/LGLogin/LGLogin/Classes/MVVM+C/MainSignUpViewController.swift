@@ -63,8 +63,10 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
         self.viewModel = viewModel
         self.lines = []
         self.disposeBag = DisposeBag()
-        super.init(viewModel: viewModel, nibName: "MainSignUpViewController",
-                   navBarBackgroundStyle: .transparent(substyle: .light))
+        super.init(viewModel: viewModel,
+                   nibName: "MainSignUpViewController",
+                   navBarBackgroundStyle: .transparent(substyle: .light),
+                   bundle: loginBundle)
         self.viewModel.delegate = self
     }
     
