@@ -249,12 +249,24 @@ extension UserProfileViewModel {
                                       completion: { [weak self] result in
                                         if let _ = result.value {
                                             self?.trackUpdateAvatarComplete()
+                                            self?.refreshUser()
                                         } else {
                                             self?.delegate?
                                                 .vmShowAutoFadingMessage(LGLocalizedString.settingsChangeProfilePictureErrorGeneric,
                                                                          completion: nil)
                                         }
         })
+    }
+
+    // The Reputation Points after an Avatar Update takes a few second to be updated.
+    // We refresh the user a few times to make sure the points are up to date.
+    private func refreshUser(retries: Int = 0) {
+        guard retries < 4 else { return }
+        myUserRepository.refresh { [weak self] _ in
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
+                self?.refreshUser(retries: retries + 1)
+            })
+        }
     }
 
     func didTapShareButton() {
