@@ -258,10 +258,10 @@ extension UserProfileViewModel {
         })
     }
 
-    // The Reputation Points after an Avatar Update takes a few second to be updated.
+    // The Reputation Points after an Avatar Update takes some time to be processed
     // We refresh the user a few times to make sure the points are up to date.
     private func refreshUser(retries: Int = 0) {
-        guard retries < 4 else { return }
+        guard retries < 3 else { return }
         myUserRepository.refresh { [weak self] _ in
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
                 self?.refreshUser(retries: retries + 1)

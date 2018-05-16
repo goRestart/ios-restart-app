@@ -58,11 +58,11 @@ final class UserVerificationViewModel: BaseViewModel {
 
     // The reputation actions take a few second to be processed.
     // We refresh the actions a few times to make sure the points and actions are up to date.
-    private func syncActions(repetitions: Int = 0) {
-        guard repetitions < 4 else { return }
+    private func syncActions(retries: Int = 0) {
+        guard retries < 3 else { return }
         refresh { [weak self] in
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
-                self?.syncActions(repetitions: repetitions+1)
+                self?.syncActions(retries: retries + 1)
             })
         }
     }
