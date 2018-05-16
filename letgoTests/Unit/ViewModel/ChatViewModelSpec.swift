@@ -326,7 +326,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                                 expect(tracker.trackedEvents.count).toEventually(equal(3))
                             }
                             it("adds interlocutor introduction and one element on messages") {
-                                expect(messages.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.text, sut.userInfoMessage!.value]
+                                expect(messages.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.textToReply, sut.userInfoMessage!.value]
                             }
                             it("tracks sent first message + message sent") {
                                 expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "product-detail-ask-question", "user-sent-message"]
@@ -440,7 +440,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                             sut.send(quickAnswer: .meetUp)
                         }
                         it("adds one element on messages") {
-                            expect(messages.lastValue?.first?.value) == QuickAnswer.meetUp.text
+                            expect(messages.lastValue?.first?.value) == QuickAnswer.meetUp.textToReply
                         }
                         it("tracks sent first message + message sent") {
                             expect(tracker.trackedEvents.map { $0.actualName }).toEventually(equal(["chat-window-open", "user-sent-message"]))

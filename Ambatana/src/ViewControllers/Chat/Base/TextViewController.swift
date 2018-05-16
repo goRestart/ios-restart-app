@@ -100,8 +100,14 @@ class TextViewController: KeyboardViewController {
         guard textViewBarHidden != hidden else { return }
         textViewBarHidden = hidden
         if animated {
-            UIView.animate(withDuration: TextViewController.animationTime, delay: 0, options: [.beginFromCurrentState],
-                                       animations: { [weak self] in self?.view.layoutIfNeeded()}, completion: nil)
+            UIView.animate(withDuration: TextViewController.animationTime,
+                           delay: 0,
+                           options: [.beginFromCurrentState],
+                           animations: { [weak self] in self?.view.layoutIfNeeded()},
+                           completion: { [weak self] _ in self?.textViewBar.isHidden = hidden }
+            )
+        } else {
+            textViewBar.isHidden = hidden
         }
     }
 

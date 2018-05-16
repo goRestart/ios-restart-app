@@ -26,10 +26,10 @@ class DirectAnswerCell: UICollectionViewCell, ReusableCell {
 
     static func sizeForDirectAnswer(_ quickAnswer: QuickAnswer) -> CGSize {
         let constraintRect = CGSize(width: CGFloat.greatestFiniteMagnitude, height: DirectAnswerCell.cellHeight)
-        let boundingBox = quickAnswer.text.boundingRect(with: constraintRect,
-                                                        options: NSStringDrawingOptions.usesFontLeading,
-                                                        attributes: [NSAttributedStringKey.font: UIFont.mediumBodyFont],
-                                                        context: nil)
+        let boundingBox = quickAnswer.textToShow.boundingRect(with: constraintRect,
+                                                              options: NSStringDrawingOptions.usesFontLeading,
+                                                              attributes: [NSAttributedStringKey.font: UIFont.mediumBodyFont],
+                                                              context: nil)
         var width = boundingBox.width + Metrics.shortMargin*2
         if quickAnswer.isMeetingAssistant {
             width += DirectAnswerCell.calendarWidth + DirectAnswerCell.calendarHorizontalMargin
@@ -67,7 +67,7 @@ class DirectAnswerCell: UICollectionViewCell, ReusableCell {
     // MARK: - Public methods
 
     func setupWithDirectAnswer(_ quickAnswer: QuickAnswer) {
-        cellText.text = quickAnswer.text
+        cellText.text = quickAnswer.textToShow
 
         contentView.layer.backgroundColor = quickAnswer.bgColor.cgColor
         cellText.textColor = quickAnswer.textColor
