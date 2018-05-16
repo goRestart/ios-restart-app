@@ -52,12 +52,35 @@ final class MainCoordinator: Coordinator, MainViewModelNavigator {
         let factory = LoginComponentFactory(config: config)
         let coordinator = factory.makeLoginCoordinator(source: .install,
                                                        style: .fullScreen,
-                                                       loggedInAction: { print("loggedInAction!") },
-                                                       cancelAction: nil)
+                                                       loggedInAction: showLogInSuccessfulAlert,
+                                                       cancelAction: showLogInCancelledAlert)
         openChild(coordinator: coordinator,
                   parent: viewController,
                   animated: true,
                   forceCloseChild: true,
                   completion: nil)
+    }
+
+    private func showLogInSuccessfulAlert() {
+        showAlert(message: "Log in successful")
+    }
+
+    private func showLogInCancelledAlert() {
+        showAlert(message: "Log in cancelled")
+    }
+
+    private func showAlert(message: String) {
+        guard presentedAlertController == nil else { return }
+        let alert = UIAlertController(title: nil,
+                                      message: message,
+                                      preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: { [weak self] _ in
+            self?.presentedAlertController = nil
+        })
+        alert.addAction(okAction)
+        presentedAlertController = alert
+        viewController.present(alert,
+                               animated: true,
+                               completion: nil)
     }
 }
