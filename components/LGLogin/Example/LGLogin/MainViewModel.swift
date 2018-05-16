@@ -13,6 +13,8 @@ final class MainViewModel {
         switch item {
         case .fullScreen:
             return "Full Screen"
+        case .popUp:
+            return "Pop Up"
         }
     }
 
@@ -21,6 +23,8 @@ final class MainViewModel {
         switch item {
         case .fullScreen:
             navigator?.openFullScreenLogin()
+        case .popUp:
+            navigator?.openPopUpLogin()
         }
     }
 
@@ -33,6 +37,7 @@ final class MainViewModel {
 
 private enum MainViewModelItem {
     case fullScreen
+    case popUp
 
-    static let allValues: [MainViewModelItem] = [.fullScreen]
+    static let allValues: [MainViewModelItem] = [.fullScreen, .popUp]
 }

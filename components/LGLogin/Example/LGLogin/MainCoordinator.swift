@@ -61,6 +61,20 @@ final class MainCoordinator: Coordinator, MainViewModelNavigator {
                   completion: nil)
     }
 
+    func openPopUpLogin() {
+        let config = LoginConfig(signUpEmailTermsAndConditionsAcceptRequired: false)
+        let factory = LoginComponentFactory(config: config)
+        let coordinator = factory.makeLoginCoordinator(source: .install,
+                                                       style: .popup("You need to show you how to log in from a pop up 💅🏻"),
+                                                       loggedInAction: showLogInSuccessfulAlert,
+                                                       cancelAction: showLogInCancelledAlert)
+        openChild(coordinator: coordinator,
+                  parent: viewController,
+                  animated: true,
+                  forceCloseChild: true,
+                  completion: nil)
+    }
+
     private func showLogInSuccessfulAlert() {
         showAlert(message: "Log in successful")
     }
