@@ -1841,7 +1841,7 @@ extension MainListingsViewModel: ListingCellDelegate {
             .set(containsEmoji: false)
 
         let containsVideo = EventParameterBoolean(bool: listing.containsVideo())
-        tracker.trackEvent(TrackerEvent.userMessageSent(info: trackingInfo))
+        tracker.trackEvent(TrackerEvent.userMessageSent(info: trackingInfo, isProfessional: nil))
         chatWrapper.sendMessageFor(listing: listing,
                                    type: type,
                                    completion: { [weak self] isFirstMessage in
@@ -1850,7 +1850,7 @@ extension MainListingsViewModel: ListingCellDelegate {
                                                                                            listingVisitSource: .listingList,
                                                                                            feedPosition: .none,
                                                                                            userBadge: .noBadge,
-                                                                                           containsVideo: containsVideo))
+                                                                                           containsVideo: containsVideo, isProfessional: nil))
                                     }
         })
         listViewModel.update(listing: listing, interestedState: .seeConversation)
