@@ -71,6 +71,7 @@ extension Bumper  {
         flags.append(ServicesCategoryOnSalchichasMenu.self)
         flags.append(SearchBoxImprovements.self)
         flags.append(GoogleAdxForTR.self)
+        flags.append(MultiContactAfterSearch.self)
         Bumper.initialize(flags)
     } 
 
@@ -362,6 +363,11 @@ extension Bumper  {
     static var googleAdxForTR: GoogleAdxForTR {
         guard let value = Bumper.value(for: GoogleAdxForTR.key) else { return .control }
         return GoogleAdxForTR(rawValue: value) ?? .control 
+    }
+
+    static var multiContactAfterSearch: MultiContactAfterSearch {
+        guard let value = Bumper.value(for: MultiContactAfterSearch.key) else { return .control }
+        return MultiContactAfterSearch(rawValue: value) ?? .control 
     } 
 }
 
@@ -1273,6 +1279,23 @@ enum GoogleAdxForTR: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .googleAdxForAllUsers
             case 3: return .googleAdxForOldUsers
+            default: return .control
+        }
+    }
+}
+
+enum MultiContactAfterSearch: String, BumperFeature  {
+    case control, baseline, photoAndInfo, onlyPhoto
+    static var defaultValue: String { return MultiContactAfterSearch.control.rawValue }
+    static var enumValues: [MultiContactAfterSearch] { return [.control, .baseline, .photoAndInfo, .onlyPhoto]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "MultiContact After Search" } 
+    static func fromPosition(_ position: Int) -> MultiContactAfterSearch {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .photoAndInfo
+            case 3: return .onlyPhoto
             default: return .control
         }
     }

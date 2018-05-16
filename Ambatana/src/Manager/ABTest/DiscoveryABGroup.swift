@@ -13,36 +13,43 @@ struct DiscoveryABGroup: ABGroupType {
         static let sectionedMainFeed = "20180411SectionedMainFeed"
         static let personalizedFeed = "20180509PersonalizedFeed"
         static let searchBoxImprovements = "20180511SearchBoxImprovements"
+        static let multiContact = "20180515MultiContact"
     }
     
     let sectionedMainFeed: LeanplumABVariable<Int>
     let personalizedFeed: LeanplumABVariable<Int>
     let searchBoxImprovements: LeanplumABVariable<Int>
+    let multiContact: LeanplumABVariable<Int>
+    
     let group: ABGroup = .discovery
     var intVariables: [LeanplumABVariable<Int>] = []
     var stringVariables: [LeanplumABVariable<String>] = []
     var floatVariables: [LeanplumABVariable<Float>] = []
     var boolVariables: [LeanplumABVariable<Bool>] = []
     
-    init(personalizedFeed: LeanplumABVariable<Int>,
+    init(sectionedMainFeed: LeanplumABVariable<Int>,
+         personalizedFeed: LeanplumABVariable<Int>,
          searchBoxImprovements: LeanplumABVariable<Int>,
-         sectionedMainFeed: LeanplumABVariable<Int>) {
+         multiContact: LeanplumABVariable<Int>) {
+        self.sectionedMainFeed = sectionedMainFeed
         self.personalizedFeed = personalizedFeed
         self.searchBoxImprovements = searchBoxImprovements
-        intVariables.append(contentsOf: [personalizedFeed, searchBoxImprovements])
-        
-        self.sectionedMainFeed = sectionedMainFeed
-        intVariables.append(contentsOf: [sectionedMainFeed])
+        self.multiContact = multiContact
+        intVariables.append(contentsOf: [sectionedMainFeed, personalizedFeed, searchBoxImprovements, multiContact])
     }
 
     static func make() -> DiscoveryABGroup {
-        return DiscoveryABGroup(personalizedFeed: .makeInt(key: Keys.personalizedFeed,
+        return DiscoveryABGroup(sectionedMainFeed: .makeInt(key: Keys.sectionedMainFeed,
+                                                            defaultValue: 0,
+                                                            groupType: .discovery),
+                                personalizedFeed: .makeInt(key: Keys.personalizedFeed,
                                                            defaultValue: 0,
                                                            groupType: .discovery),
                                 searchBoxImprovements: .makeInt(key: Keys.searchBoxImprovements,
-                                                                defaultValue: 0,
-                                                                groupType: .discovery),
-                                sectionedMainFeed: .makeInt(key: Keys.sectionedMainFeed,
-                                                            defaultValue: 0, groupType: .discovery))
+                                                                 defaultValue: 0,
+                                                                 groupType: .discovery),
+                                multiContact: .makeInt(key: Keys.multiContact,
+                                                       defaultValue: 0,
+                                                       groupType: .discovery))
     }
 }

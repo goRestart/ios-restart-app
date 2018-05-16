@@ -101,6 +101,7 @@ protocol FeatureFlaggeable: class {
     var personalizedFeed: PersonalizedFeed { get }
     var personalizedFeedABTestIntValue: Int? { get }
     var searchBoxImprovements: SearchBoxImprovements { get }
+    var multiContactAfterSearch: MultiContactAfterSearch { get }
 
     // MARK: Products
     var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu { get }
@@ -1197,6 +1198,11 @@ extension FeatureFlags {
             return Bumper.searchBoxImprovements
         }
         return SearchBoxImprovements.fromPosition(abTests.searchBoxImprovement.value)
+    }
+    
+    var multiContactAfterSearch: MultiContactAfterSearch {
+        if Bumper.enabled { return Bumper.multiContactAfterSearch }
+        return MultiContactAfterSearch.fromPosition(abTests.multiContactAfterSearch.value)
     }
 }
 

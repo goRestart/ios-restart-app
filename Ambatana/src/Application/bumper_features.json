@@ -288,5 +288,10 @@
         "name": "GoogleAdxForTR",
         "values": ["control", "baseline", "GoogleAdxForAllUsers", "GoogleAdxForOldUsers"],
         "description": "Change logic for showing GoogleAdx in TR"
+    },
+    {
+        "name": "MultiContactAfterSearch",
+        "values": ["control", "baseline", "photoAndInfo", "onlyPhoto"],
+        "description": "MultiContact After Search"
     }
 ]
