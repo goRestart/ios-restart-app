@@ -1440,13 +1440,17 @@ struct TrackerEvent {
     }
     
     static func emptyStateVisit(typePage: EventParameterTypePage, reason: EventParameterEmptyReason,
-                                errorCode: Int?) -> TrackerEvent {
+                                errorCode:Int?, errorDescription: String?) -> TrackerEvent {
         var params = EventParameters()
         params[.typePage] = typePage.rawValue
         params[.reason] = reason.rawValue
-        var errorDetails: String = TrackerEvent.notApply
+        let errorDetails: String
         if let errorCode = errorCode {
             errorDetails = String(errorCode)
+        } else if let errorDescription = errorDescription {
+            errorDetails = errorDescription
+        } else {
+            errorDetails = TrackerEvent.notApply
         }
         params[.errorDetails] = errorDetails
         return TrackerEvent(name: .emptyStateError, params: params)

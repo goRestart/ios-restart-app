@@ -627,7 +627,8 @@ extension UserProfileViewModel {
                                 secondaryButtonTitle: nil,
                                 secondaryAction: nil,
                                 emptyReason: .emptyResults,
-                                errorCode: nil)
+                                errorCode: nil,
+                                errorDescription: nil)
     }
 }
 
