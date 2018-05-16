@@ -89,7 +89,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         options: [UIApplicationOpenURLOptionsKey: Any]) -> Bool {
         let sourceApplication = options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String
         let annotation = options[UIApplicationOpenURLOptionsKey.annotation]
-        let fbHandled = FBSDKApplicationDelegate.sharedInstance().application(app,
+        let fbHandled = FBSDKApplicationDelegate.sharedInstance().application(application,
                                                                               open: url,
                                                                               sourceApplication: sourceApplication,
                                                                               annotation: annotation)
