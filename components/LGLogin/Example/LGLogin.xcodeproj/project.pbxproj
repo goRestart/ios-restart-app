@@ -7,12 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		50905F0C20AD7364008C2AF6 /* LoginConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50905F0320AD7361008C2AF6 /* LoginConfig.swift */; };
+		50905F0D20AD7364008C2AF6 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50905F0420AD7361008C2AF6 /* MainViewModel.swift */; };
+		50905F0E20AD7364008C2AF6 /* EmbeddedLoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50905F0520AD7361008C2AF6 /* EmbeddedLoginViewModel.swift */; };
+		50905F0F20AD7364008C2AF6 /* EmbeddedLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50905F0620AD7361008C2AF6 /* EmbeddedLoginViewController.swift */; };
+		50905F1020AD7364008C2AF6 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50905F0720AD7361008C2AF6 /* MainCoordinator.swift */; };
+		50905F1120AD7364008C2AF6 /* MainViewModelNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50905F0820AD7361008C2AF6 /* MainViewModelNavigator.swift */; };
+		50905F1220AD7364008C2AF6 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50905F0920AD7361008C2AF6 /* MainViewController.swift */; };
+		50905F1320AD7364008C2AF6 /* MockBubbleNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50905F0A20AD7363008C2AF6 /* MockBubbleNotificationManager.swift */; };
+		50905F1420AD7364008C2AF6 /* EmbeddedLoginViewModelNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50905F0B20AD7363008C2AF6 /* EmbeddedLoginViewModelNavigator.swift */; };
 		50D901E220A5A79F0023FB92 /* MockLoginComponentConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CFB31020A59ED300255EE8 /* MockLoginComponentConfig.swift */; };
 		50D901E320A5A7AB0023FB92 /* LoginComponentFactorySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CFB30D20A59E1600255EE8 /* LoginComponentFactorySpec.swift */; };
 		50D901E720A5B37A0023FB92 /* Pods_LGLogin_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D901E820A5B37A0023FB92 /* Pods_LGLogin_Example.framework */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
-		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
-		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
@@ -33,6 +40,16 @@
 /* Begin PBXFileReference section */
 		2536F4CC0D865563320CF478 /* Pods-LGLogin_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LGLogin_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LGLogin_Example/Pods-LGLogin_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		397B649748A01FA3A92CF8F0 /* Pods-LGLogin_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LGLogin_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LGLogin_Tests/Pods-LGLogin_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		50905F0320AD7361008C2AF6 /* LoginConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginConfig.swift; sourceTree = "<group>"; };
+		50905F0420AD7361008C2AF6 /* MainViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+		50905F0520AD7361008C2AF6 /* EmbeddedLoginViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmbeddedLoginViewModel.swift; sourceTree = "<group>"; };
+		50905F0620AD7361008C2AF6 /* EmbeddedLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmbeddedLoginViewController.swift; sourceTree = "<group>"; };
+		50905F0720AD7361008C2AF6 /* MainCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
+		50905F0820AD7361008C2AF6 /* MainViewModelNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewModelNavigator.swift; sourceTree = "<group>"; };
+		50905F0920AD7361008C2AF6 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		50905F0A20AD7363008C2AF6 /* MockBubbleNotificationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockBubbleNotificationManager.swift; sourceTree = "<group>"; };
+		50905F0B20AD7363008C2AF6 /* EmbeddedLoginViewModelNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmbeddedLoginViewModelNavigator.swift; sourceTree = "<group>"; };
+		50905F1520AD73B3008C2AF6 /* LGComponents.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; name = LGComponents.podspec; path = ../../LGComponents.podspec; sourceTree = "<group>"; };
 		50CFB30D20A59E1600255EE8 /* LoginComponentFactorySpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginComponentFactorySpec.swift; sourceTree = "<group>"; };
 		50CFB31020A59ED300255EE8 /* MockLoginComponentConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLoginComponentConfig.swift; sourceTree = "<group>"; };
 		50D901E520A5B1B70023FB92 /* Pods_LGLogin_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_LGLogin_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -40,8 +57,6 @@
 		607FACD01AFB9204008FA782 /* LGLogin_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LGLogin_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		607FACD71AFB9204008FA782 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		607FACDA1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		607FACDC1AFB9204008FA782 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		607FACE51AFB9204008FA782 /* LGLogin_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LGLogin_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -49,7 +64,6 @@
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		6D24A46AB50B9DC3CD468EAF /* Pods-LGLogin_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LGLogin_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LGLogin_Tests/Pods-LGLogin_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		77A7A99E3C39B08686657238 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
-		7BF2317157E8A81308E263B6 /* LGLogin.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file; name = LGLogin.podspec; path = ../LGLogin.podspec; sourceTree = "<group>"; };
 		932801D4618A040BB79F9703 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		B4CE3FB8E25F43B98BE2377F /* Pods-LGLogin_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LGLogin_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-LGLogin_Example/Pods-LGLogin_Example.release.xcconfig"; sourceTree = "<group>"; };
 		B8E3561CBAABD249E046BBE1 /* Pods_LGLogin_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LGLogin_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -128,11 +142,18 @@
 		607FACD21AFB9204008FA782 /* Example for LGLogin */ = {
 			isa = PBXGroup;
 			children = (
+				50905F0A20AD7363008C2AF6 /* MockBubbleNotificationManager.swift */,
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
-				607FACD71AFB9204008FA782 /* ViewController.swift */,
-				607FACD91AFB9204008FA782 /* Main.storyboard */,
+				50905F0620AD7361008C2AF6 /* EmbeddedLoginViewController.swift */,
+				50905F0520AD7361008C2AF6 /* EmbeddedLoginViewModel.swift */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
+				50905F0B20AD7363008C2AF6 /* EmbeddedLoginViewModelNavigator.swift */,
+				50905F0320AD7361008C2AF6 /* LoginConfig.swift */,
+				50905F0720AD7361008C2AF6 /* MainCoordinator.swift */,
+				50905F0920AD7361008C2AF6 /* MainViewController.swift */,
+				50905F0420AD7361008C2AF6 /* MainViewModel.swift */,
+				50905F0820AD7361008C2AF6 /* MainViewModelNavigator.swift */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
 			);
 			name = "Example for LGLogin";
@@ -169,7 +190,7 @@
 		607FACF51AFB993E008FA782 /* Podspec Metadata */ = {
 			isa = PBXGroup;
 			children = (
-				7BF2317157E8A81308E263B6 /* LGLogin.podspec */,
+				50905F1520AD73B3008C2AF6 /* LGComponents.podspec */,
 				932801D4618A040BB79F9703 /* README.md */,
 				77A7A99E3C39B08686657238 /* LICENSE */,
 			);
@@ -278,7 +299,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
 			);
@@ -460,8 +480,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
+				50905F1320AD7364008C2AF6 /* MockBubbleNotificationManager.swift in Sources */,
+				50905F1020AD7364008C2AF6 /* MainCoordinator.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
+				50905F1120AD7364008C2AF6 /* MainViewModelNavigator.swift in Sources */,
+				50905F0F20AD7364008C2AF6 /* EmbeddedLoginViewController.swift in Sources */,
+				50905F0C20AD7364008C2AF6 /* LoginConfig.swift in Sources */,
+				50905F1220AD7364008C2AF6 /* MainViewController.swift in Sources */,
+				50905F0E20AD7364008C2AF6 /* EmbeddedLoginViewModel.swift in Sources */,
+				50905F0D20AD7364008C2AF6 /* MainViewModel.swift in Sources */,
+				50905F1420AD7364008C2AF6 /* EmbeddedLoginViewModelNavigator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -486,14 +514,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		607FACD91AFB9204008FA782 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				607FACDA1AFB9204008FA782 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		607FACDE1AFB9204008FA782 /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
