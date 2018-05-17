@@ -210,7 +210,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                             expect(self.calledLogin) == true
                         }
                         it("adds one element on directMessages") {
-                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.text]
+                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.textToReply]
                         }
                         it("tracks sent first message + message sent") {
                             expect(tracker.trackedEvents.map { $0.actualName }) == ["product-detail-ask-question", "user-sent-message"]
@@ -233,7 +233,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                             expect(self.calledLogin) == true
                         }
                         it("adds one element on directMessages") {
-                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.text]
+                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.textToReply]
                         }
                         it("tracks sent first message + message sent") {
                             expect(tracker.trackedEvents.map { $0.actualName }) == ["product-detail-ask-question", "user-sent-message"]
@@ -257,7 +257,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                             expect(self.calledLogin) == true
                         }
                         it("adds one element on directMessages") {
-                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.text]
+                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.textToReply]
                         }
                         it("tracks sent first message + message sent") {
                             expect(tracker.trackedEvents.map { $0.actualName }) == ["product-detail-ask-question", "user-sent-message"]
@@ -281,7 +281,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                             expect(self.calledLogin) == true
                         }
                         it("adds one element on directMessages") {
-                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.text]
+                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.textToReply]
                         }
                         it("tracks sent first message + message sent") {
                             expect(tracker.trackedEvents.map { $0.actualName }) == ["product-detail-ask-question", "user-sent-message"]
@@ -304,7 +304,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                             expect(self.calledLogin) == true
                         }
                         it("adds one element on directMessages") {
-                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.text]
+                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.textToReply]
                         }
                         it("tracks sent first message + message sent") {
                             expect(tracker.trackedEvents.map { $0.actualName }) == ["user-sent-message"]
@@ -320,7 +320,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                             expect(self.calledLogin) == true
                         }
                         it("adds one element on directMessages") {
-                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.text]
+                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.textToReply]
                         }
                         describe("failure arrives") {
                             beforeEach {

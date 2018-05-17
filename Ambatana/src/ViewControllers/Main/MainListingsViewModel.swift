@@ -1804,7 +1804,7 @@ extension MainListingsViewModel: ListingCellDelegate {
     private func sendInterestedMessage(forListing listing: Listing, atIndex index: Int, withID identifier: String) {
         interestingListingIDs.update(with: identifier)
         syncInterestingListings(interestingListingIDs)
-        let type: ChatWrapperMessageType = ChatWrapperMessageType.interested(QuickAnswer.interested.text)
+        let type: ChatWrapperMessageType = ChatWrapperMessageType.interested(QuickAnswer.interested.textToReply)
         let trackingInfo = SendMessageTrackingInfo.makeWith(type: type,
                                                             listing: listing,
                                                             freePostingAllowed: featureFlags.freePostingModeAllowed)
