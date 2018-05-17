@@ -63,6 +63,7 @@ final class EditUserBioViewController: BaseViewController {
         textView.tintColor = UIColor.primaryColor
         textView.font = UIFont.bigBodyFont
         textView.delegate = self
+        textView.text = viewModel.userBio
 
         placeholderLabel.text = LGLocalizedString.changeBioPlaceholder
         placeholderLabel.numberOfLines = 0
@@ -114,8 +115,6 @@ final class EditUserBioViewController: BaseViewController {
                     self?.view.layoutIfNeeded()
                 })
             }).disposed(by: disposeBag)
-
-        viewModel.userBio.asObservable().bind(to: textView.rx.text).disposed(by: disposeBag)
     }
 
     @objc private func didTapSave() {
