@@ -55,6 +55,9 @@ extension UIFont {
     static var adCallToActionFont: UIFont { return systemMediumFont(size: 14)}
     static var adTextFont: UIFont { return systemRegularFont(size: 14)}
 
+    // Letgo Tooltip
+    static var tooltipMessageFont: UIFont { return systemBoldFont(size: 17) }
+
     // MARK: Private methods
 
     static func systemFont(size: Int) -> UIFont {

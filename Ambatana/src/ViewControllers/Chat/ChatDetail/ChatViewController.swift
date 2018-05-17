@@ -38,6 +38,7 @@ final class ChatViewController: TextViewController {
     var professionalSellerBannerTopConstraint: NSLayoutConstraint = NSLayoutConstraint()
     var featureFlags: FeatureFlaggeable
     var pushPermissionManager: PushPermissionsManager
+    let tooltip = LetgoTooltip()
 
     var blockedToastOffset: CGFloat {
         return relationInfoView.isHidden ? 0 : RelationInfoView.defaultHeight
@@ -190,6 +191,7 @@ final class ChatViewController: TextViewController {
         sendButton.tintColor = UIColor.primaryColor
         sendButton.titleLabel?.font = UIFont.smallButtonFont
         reloadLeftActions()
+        tooltip.message = "User verified! Tap if you want to be verified too."
 
         addSubviews()
         setupFrames()
@@ -227,6 +229,7 @@ final class ChatViewController: TextViewController {
         view.addSubview(relationInfoView)
         view.addSubview(activityIndicator)
         view.addSubview(professionalSellerBanner)
+        view.addSubviewForAutoLayout(tooltip)
     }
 
     private func setupFrames() {
@@ -245,6 +248,9 @@ final class ChatViewController: TextViewController {
         expressChatBanner.layout().height(expressBannerHeight, relatedBy: .greaterThanOrEqual)
         expressChatBanner.layout(with: view).fillHorizontal()
         expressChatBanner.layout(with: relationInfoView).below(by: -relationInfoView.height, constraintBlock: { [weak self] in self?.expressChatBannerTopConstraint = $0 })
+
+        tooltip.layout(with: topLayoutGuide).below(by: Metrics.veryShortMargin)
+        tooltip.layout(with: view).leading(by: 40)
     }
 
     fileprivate func setupRelatedProducts() {
@@ -561,6 +567,9 @@ fileprivate extension ChatViewController {
 
         viewModel.interlocutorIsVerified.asDriver().drive(onNext: { [weak self] verified in
             self?.listingView.badgeImageView.isHidden = !verified
+            if verified {
+                self?.tooltip.show(peakOnTop: true, peakOffsetFromLeft: 40)
+            }   
         }).disposed(by: disposeBag)
 
         textView.rx.text
