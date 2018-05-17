@@ -670,6 +670,7 @@ enum EventParameterMessageType: String {
     case quickAnswer = "quick-answer"
     case expressChat = "express-chat"
     case periscopeDirect = "periscope-direct"
+    case interested = "interested"
     case phone      = "phone"
     case meeting = "assistant-meeting"
 }

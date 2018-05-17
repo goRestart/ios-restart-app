@@ -13,6 +13,7 @@ public enum WebSocketSendMessageType: String {
     case quickAnswer = "quick_answer"
     case expressChat = "express_chat"
     case favoritedListing  = "favorited_product"
+    case interested = "interested"
     case phone = "phone"
     case meeting = "chat_norris"
 }
