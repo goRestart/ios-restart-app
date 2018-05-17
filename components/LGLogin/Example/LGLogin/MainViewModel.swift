@@ -15,6 +15,8 @@ final class MainViewModel {
             return "Full Screen"
         case .popUp:
             return "Pop Up"
+        case .embedded:
+            return "Embedded"
         }
     }
 
@@ -25,6 +27,8 @@ final class MainViewModel {
             navigator?.openFullScreenLogin()
         case .popUp:
             navigator?.openPopUpLogin()
+        case .embedded:
+            navigator?.openEmbeddedLogin()
         }
     }
 
@@ -38,6 +42,7 @@ final class MainViewModel {
 private enum MainViewModelItem {
     case fullScreen
     case popUp
+    case embedded
 
-    static let allValues: [MainViewModelItem] = [.fullScreen, .popUp]
+    static let allValues: [MainViewModelItem] = [.fullScreen, .popUp, .embedded]
 }

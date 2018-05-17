@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		50905EFA20AC2090008C2AF6 /* EmbeddedLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50905EF920AC2090008C2AF6 /* EmbeddedLoginViewController.swift */; };
+		50905F0120AC2427008C2AF6 /* EmbeddedLoginViewModelNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50905EFF20AC2425008C2AF6 /* EmbeddedLoginViewModelNavigator.swift */; };
+		50905F0220AC2427008C2AF6 /* EmbeddedLoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50905F0020AC2425008C2AF6 /* EmbeddedLoginViewModel.swift */; };
 		50D901E220A5A79F0023FB92 /* MockLoginComponentConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CFB31020A59ED300255EE8 /* MockLoginComponentConfig.swift */; };
 		50D901E320A5A7AB0023FB92 /* LoginComponentFactorySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CFB30D20A59E1600255EE8 /* LoginComponentFactorySpec.swift */; };
 		50D901E720A5B37A0023FB92 /* Pods_LGLogin_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D901E820A5B37A0023FB92 /* Pods_LGLogin_Example.framework */; };
@@ -38,6 +41,9 @@
 /* Begin PBXFileReference section */
 		2536F4CC0D865563320CF478 /* Pods-LGLogin_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LGLogin_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LGLogin_Example/Pods-LGLogin_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		397B649748A01FA3A92CF8F0 /* Pods-LGLogin_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LGLogin_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LGLogin_Tests/Pods-LGLogin_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		50905EF920AC2090008C2AF6 /* EmbeddedLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmbeddedLoginViewController.swift; sourceTree = "<group>"; };
+		50905EFF20AC2425008C2AF6 /* EmbeddedLoginViewModelNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmbeddedLoginViewModelNavigator.swift; sourceTree = "<group>"; };
+		50905F0020AC2425008C2AF6 /* EmbeddedLoginViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmbeddedLoginViewModel.swift; sourceTree = "<group>"; };
 		50CFB30D20A59E1600255EE8 /* LoginComponentFactorySpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginComponentFactorySpec.swift; sourceTree = "<group>"; };
 		50CFB31020A59ED300255EE8 /* MockLoginComponentConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLoginComponentConfig.swift; sourceTree = "<group>"; };
 		50D901E520A5B1B70023FB92 /* Pods_LGLogin_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_LGLogin_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -139,6 +145,9 @@
 			isa = PBXGroup;
 			children = (
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
+				50905EF920AC2090008C2AF6 /* EmbeddedLoginViewController.swift */,
+				50905F0020AC2425008C2AF6 /* EmbeddedLoginViewModel.swift */,
+				50905EFF20AC2425008C2AF6 /* EmbeddedLoginViewModelNavigator.swift */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 				50DBCBAD20AAC3A600AA9396 /* LoginConfig.swift */,
@@ -540,12 +549,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50905F0120AC2427008C2AF6 /* EmbeddedLoginViewModelNavigator.swift in Sources */,
 				607FACD81AFB9204008FA782 /* MainViewController.swift in Sources */,
 				50DBCBAA20AABFB300AA9396 /* MainViewModelNavigator.swift in Sources */,
 				50D901F220A9A3680023FB92 /* MainCoordinator.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
+				50905EFA20AC2090008C2AF6 /* EmbeddedLoginViewController.swift in Sources */,
 				50DBCBAC20AAC27300AA9396 /* MockBubbleNotificationManager.swift in Sources */,
 				50DBCBAE20AAC3A600AA9396 /* LoginConfig.swift in Sources */,
+				50905F0220AC2427008C2AF6 /* EmbeddedLoginViewModel.swift in Sources */,
 				50DBCBA620AABDFE00AA9396 /* MainViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

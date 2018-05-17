@@ -2,13 +2,16 @@ import LGComponents
 import LGCoreKit
 import UIKit
 
-final class MainCoordinator: Coordinator, MainViewModelNavigator {
+final class MainCoordinator: Coordinator, MainViewModelNavigator, EmbeddedLoginViewModelNavigator {
     var child: Coordinator?
     var coordinatorDelegate: CoordinatorDelegate?
-    var viewController: UIViewController
+    var viewController: UIViewController {
+        return navigationController
+    }
     var presentedAlertController: UIAlertController?
     var bubbleNotificationManager: BubbleNotificationManager
     var sessionManager: SessionManager
+    private let navigationController: UINavigationController
 
 
     // MARK: - Lifecycle
@@ -22,13 +25,13 @@ final class MainCoordinator: Coordinator, MainViewModelNavigator {
          bubbleNotificationManager: BubbleNotificationManager) {
         self.child = nil
         self.coordinatorDelegate = nil
-        let viewModel = MainViewModel()
-        let viewController = MainViewController(viewModel: viewModel)
-        let navigationController = UINavigationController(rootViewController: viewController)
-        self.viewController = navigationController
         self.presentedAlertController = nil
         self.sessionManager = sessionManager
         self.bubbleNotificationManager = bubbleNotificationManager
+        let viewModel = MainViewModel()
+        let viewController = MainViewController(viewModel: viewModel)
+        let navigationController = UINavigationController(rootViewController: viewController)
+        self.navigationController = navigationController
 
         viewModel.navigator = self
     }
@@ -74,6 +77,23 @@ final class MainCoordinator: Coordinator, MainViewModelNavigator {
                   forceCloseChild: true,
                   completion: nil)
     }
+
+    func openEmbeddedLogin() {
+        let viewModel = EmbeddedLoginViewModel()
+        viewModel.navigator = self
+        let viewController = EmbeddedLoginViewController(viewModel: viewModel)
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
+    
+    // MARK: - EmbeddedLoginViewModelNavigator
+
+    func closeEmbeddedLogin() {
+        navigationController.popViewController(animated: true)
+    }
+
+
+    // MARK: - Helpers
 
     private func showLogInSuccessfulAlert() {
         showAlert(message: "Log in successful")
