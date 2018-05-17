@@ -70,6 +70,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             2. Copy handle(application:didFinishLaunchingWithOptions) func and its call from UIApplicationDelegate func
             3. Copy handleApplicationDidBecomeActive(application:) func and its call from UIApplicationDelegate func
             4. Copy handle(application:openURL:options:) func and its call from UIApplicationDelegate func
+            5. You're ready! 🎉🎉🎉 Just check the example and starting prompting the login flow 😎
+
+            ⚠️⚠️⚠️ ⬆️ ⬆️ ⬆️ ⬆️ ⬆️ READ ABOVE ⬆️ ⬆️ ⬆️ ⬆️ ⬆️ ⚠️⚠️⚠️
+
+
+
         """)
     }
 
