@@ -67,11 +67,11 @@ final class UserVerificationViewModel: BaseViewModel {
         }
     }
 
-    private func refresh(completion: (() -> Void)? = nil) {
+    private func refresh(success: (() -> Void)? = nil) {
         myUserRepository.retrieveUserReputationActions { [weak self] result in
             if let value = result.value {
                 self?.actionsHistory.value = value.map{ $0.type }
-                completion?()
+                success?()
             } else if let _ = result.error {
                 self?.showErrorAlert()
             }
