@@ -67,7 +67,7 @@ def markJiraIssuesAsDone() {
 				usernamePassword(credentialsId: 'fc7205d5-6635-441c-943e-d40b5030df0f', 
 					passwordVariable: 'LG_GITHUB_PASSWORD', 
 					usernameVariable: 'LG_GITHUB_USER')]) {
-			sh 'ruby ./letgo-ios-scripts/scripts/hooks/post-merge'
+			sh 'ruby ./scripts/hooks/post-merge'
             }
         }
     }
@@ -98,6 +98,7 @@ def get_branch_type(String branch_name) {
     def release_pattern = ".*release-.*"
     def feature_pattern = ".*feature-.*"
     def hotfix_pattern = ".*hotfix-.*"
+    def jira_integration = ".*jiraintegration.*"
     def master_pattern = ".*master"
     def pr_pattern     = "^PR-\\d+\$" 
 
@@ -113,6 +114,8 @@ def get_branch_type(String branch_name) {
         return "hotfix"
     } else if (branch_name =~ pr_pattern) {
         return "pr"
+    } else if (branch_name =~ jira_integration) {
+        return "jiraintegration"
     } else {
         return null;
     }
