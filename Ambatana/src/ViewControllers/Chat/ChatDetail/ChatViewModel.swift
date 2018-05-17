@@ -90,6 +90,7 @@ class ChatViewModel: BaseViewModel {
     let interlocutorAvatarURL = Variable<URL?>(nil)
     let interlocutorName = Variable<String>("")
     let interlocutorId = Variable<String?>(nil)
+    let interlocutorIsVerified = Variable<Bool>(false)
     let stickers = Variable<[Sticker]>([])
     let chatStatus = Variable<ChatInfoViewStatus>(.available)
     let chatEnabled = Variable<Bool>(true)
@@ -505,6 +506,7 @@ class ChatViewModel: BaseViewModel {
                 guard let strongSelf = self else { return }
                 guard let user = result.value else { return }
                 strongSelf.interlocutor = user
+                strongSelf.interlocutorIsVerified.value = user.isVerified
                 let proInfo = InterlocutorProfessionalInfo(isProfessional: user.isProfessional, phoneNumber: user.phone)
                 strongSelf.interlocutorProfessionalInfo.value = proInfo
                 if let userInfoMessage = strongSelf.userInfoMessage, strongSelf.shouldShowOtherUserInfo {

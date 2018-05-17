@@ -558,7 +558,11 @@ fileprivate extension ChatViewController {
             strongSelf.setupProfessionalSellerBannerWithPhone(phoneNumber: professionalInfo.phoneNumber)
             strongSelf.showProfessionalSellerBanner()
         }.disposed(by: disposeBag)
-        
+
+        viewModel.interlocutorIsVerified.asDriver().drive(onNext: { [weak self] verified in
+            self?.listingView.badgeImageView.isHidden = !verified
+        }).disposed(by: disposeBag)
+
         textView.rx.text
             .orEmpty
             .skip(1)
