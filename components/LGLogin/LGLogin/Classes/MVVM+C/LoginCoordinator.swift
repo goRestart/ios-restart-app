@@ -36,7 +36,7 @@ public final class LoginCoordinator: Coordinator, ChangePasswordPresenter {
     fileprivate let loggedInAction: () -> Void
     fileprivate let cancelAction: (() -> Void)?
 
-    fileprivate let tracker: Tracker!
+    fileprivate let tracker: Tracker
 
     fileprivate let disposeBag = DisposeBag()
 
@@ -48,7 +48,7 @@ public final class LoginCoordinator: Coordinator, ChangePasswordPresenter {
          loggedInAction: @escaping (() -> Void),
          cancelAction: (() -> Void)?,
          bubbleNotificationManager: BubbleNotificationManager,
-         tracker: Tracker?,
+         tracker: Tracker,
          sessionManager: SessionManager,
          termsAndConditionsEnabled: Bool) {
         self.bubbleNotificationManager = bubbleNotificationManager
