@@ -63,7 +63,7 @@ platform :ios do
       ask_for_version_number: true,
     )
 
-    bender message:"Crafting beta #{Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER]} 🚀  \n It's gonna be a though ride", channels:[ENV["BENDER_DEFAULT_SLACK_CHANNEL"]]
+    bender message:"Crafting beta #{Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER]} 🚀  \n It's gonna be a though ride", channels:[ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]
  
     rb_git_clone(
       branch_name: Actions.lane_context[Actions::SharedValues::RB_INFO_BRANCH_NAME],
@@ -127,7 +127,7 @@ platform :ios do
     rb_git_clone_clean()
 
     message = "New beta (#{version_number} - #{build_number}) ready @here :tada:"
-    bender message: message, channels: [ENV["BENDER_DEFAULT_SLACK_CHANNEL"]]
+    bender message: message, channels: [ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]
   end
 
   desc "Build and distribute local code to Crashlytics"
@@ -157,7 +157,7 @@ platform :ios do
       notes: "#{changelog}",
       groups: "letgo-testers"
     )
-    bender message: "New beta (#{version_number} - #{build_number}) ready @here :tada:", channels: [ENV["BENDER_DEFAULT_SLACK_CHANNEL"]]
+    bender message: "New beta (#{version_number} - #{build_number}) ready @here :tada:", channels: [ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]
   end
 
 
@@ -177,7 +177,7 @@ lane :deploy_to_appstore do
 
     	release_branch = ask("Release branch to deploy (release-x.x.x): ".yellow)
 
-    	bender message: "Calling Tim Cook for App Store deployment (#{release_branch})", channels: [ENV[BENDER_DEFAULT_SLACK_CHANNEL]]
+    	bender message: "Calling Tim Cook for App Store deployment (#{release_branch})", channels: [ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]
     	rb_git_clone(
       		branch_name: release_branch,
       		clone_single_branch: false,
@@ -218,9 +218,9 @@ lane :deploy_to_appstore do
     	)
 
 	rb_git_clone_clean()
-	bender message: "Tim says everything okay. New Version uploaded to iTunes Connect: #{release_branch}", channels: [ENV[BENDER_DEFAULT_SLACK_CHANNEL]]
+	bender message: "Tim says everything okay. New Version uploaded to iTunes Connect: #{release_branch}", channels: [ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]
 	update_dsyms version: version_number, build_number: build_number
-    	bender message: "Uploaded dsyms to fabric.", channels:[ENV[BENDER_DEFAULT_SLACK_CHANNEL]]  
+    	bender message: "Uploaded dsyms to fabric.", channels:[ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]  
 end
 
   desc "Will update Web Translate It with the new validated strings from google drive, download all the changes from wti and generate all not-yet valid strings on base + localizables file"
@@ -414,7 +414,7 @@ end
       message += "Failed #{failures} UI tests from a total of #{tests} :warning:"
     end
 
-    bender message: message, channels: [ENV["BENDER_DEFAULT_SLACK_CHANNEL"]]
+    bender message: message, channels: [ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]
  
     if testException
       raise testException
