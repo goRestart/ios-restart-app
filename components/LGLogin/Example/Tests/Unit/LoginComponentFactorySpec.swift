@@ -3,7 +3,7 @@ import Foundation
 import Nimble
 import Quick
 
-class LoginComponentFactorySpec: QuickSpec {
+final class LoginComponentFactorySpec: QuickSpec {
     override func spec() {
         var sut: LoginComponentFactory!
 
