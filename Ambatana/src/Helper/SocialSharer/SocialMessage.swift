@@ -227,12 +227,12 @@ struct ListingSocialMessage: SocialMessage {
     }
     private var webUrlString: String? {
         guard !listingId.isEmpty else { return LetgoURLHelper.buildHomeURL()?.absoluteString }
-        return LetgoURLHelper.buildProductURL(listingId: listingId)?.absoluteString
+        return LetgoURLHelper.buildProductURL(listingId: listingId, isLocalized: false)?.absoluteString
     }
     
     private var webUrlLangLocalizedString: String? {
         guard !listingId.isEmpty else { return LetgoURLHelper.buildHomeURL()?.absoluteString }
-        return LetgoURLHelper.buildLanguageLocalizedProductURL(listingId: listingId)?.absoluteString
+        return LetgoURLHelper.buildProductURL(listingId: listingId, isLocalized: true)?.absoluteString
     }
     
     private let title: String

@@ -45,16 +45,6 @@ final class FeatureFlagsUDDAO: FeatureFlagsDAO {
         networkDAO.timeoutIntervalForRequests = timeoutForRequests
     }
 
-    func retrieveNewUserProfile() -> NewUserProfileView? {
-        guard let rawValue: String = retrieve(key: .newUserProfileEnabled) else { return nil }
-        return NewUserProfileView(rawValue: rawValue)
-    }
-
-    func save(newUserProfile: NewUserProfileView) {
-        save(key: .newUserProfileEnabled, value: newUserProfile.rawValue)
-        sync()
-    }
-
     func retrieveShowAdvanceReputationSystem() -> ShowAdvancedReputationSystem? {
         guard let rawValue: String = retrieve(key: .showAdvancedReputationSystemEnabled) else { return nil }
         return ShowAdvancedReputationSystem(rawValue: rawValue)

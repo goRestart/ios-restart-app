@@ -100,7 +100,7 @@ final class LoginCoordinator: Coordinator, ChangePasswordPresenter {
         guard viewController.parent == nil else { return }
 
         parentViewController = parent
-        viewController.modalPresentationStyle = .overFullScreen
+        viewController.modalTransitionStyle = .crossDissolve
         parent.present(viewController, animated: animated, completion: completion)
     }
 

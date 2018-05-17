@@ -105,7 +105,7 @@ extension ChatWrapperMessageType {
         case let .chatSticker(sticker):
             return sticker.name
         case let .quickAnswer(quickAnswer):
-            return quickAnswer.text
+            return quickAnswer.textToReply
         case let .expressChat(text):
             return text
         case let .favoritedListing(text):
@@ -128,7 +128,7 @@ extension ChatWrapperMessageType {
         case .chatSticker:
             return .sticker
         case .quickAnswer(let quickAnswer):
-            return .quickAnswer(id: quickAnswer.id, text: quickAnswer.text)
+            return .quickAnswer(id: quickAnswer.id, text: quickAnswer.textToReply)
         case .expressChat:
             return .expressChat
         case .favoritedListing:

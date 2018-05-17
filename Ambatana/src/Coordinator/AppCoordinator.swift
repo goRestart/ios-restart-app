@@ -411,6 +411,8 @@ extension AppCoordinator: AppNavigator {
     func openVerifyAccounts(_ types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?) {
         let viewModel = VerifyAccountsViewModel(verificationTypes: types, source: source, completionBlock: completionBlock)
         let viewController = VerifyAccountsViewController(viewModel: viewModel)
+        viewController.setupForModalWithNonOpaqueBackground()
+        viewController.modalTransitionStyle = .crossDissolve
         tabBarCtl.present(viewController, animated: true, completion: nil)
     }
 
@@ -452,13 +454,14 @@ extension AppCoordinator: AppNavigator {
     }
 
     func openEditForListing(listing: Listing,
-                            bumpUpProductData: BumpUpProductData?) {
+                            bumpUpProductData: BumpUpProductData?,
+                            maxCountdown: TimeInterval) {
         let editCoordinator = EditListingCoordinator(listing: listing,
                                                      bumpUpProductData: bumpUpProductData,
                                                      pageType: nil,
                                                      listingCanBeBoosted: false,
                                                      timeSinceLastBump: nil,
-                                                     maxCountdown: nil)
+                                                     maxCountdown: maxCountdown)
         editCoordinator.delegate = self
         openChild(coordinator: editCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: false, completion: nil)
     }
@@ -487,7 +490,7 @@ extension AppCoordinator: EditListingCoordinatorDelegate {
                                 didFinishWithListing listing: Listing,
                                 bumpUpProductData: BumpUpProductData?,
                                 timeSinceLastBump: TimeInterval?,
-                                maxCountdown: TimeInterval?) {
+                                maxCountdown: TimeInterval) {
         refreshSelectedListingsRefreshable()
         guard let listingId = listing.objectId,
             let bumpData = bumpUpProductData,
@@ -602,6 +605,7 @@ fileprivate extension AppCoordinator {
                         strongSelf.purchasesShopper.productsRequestStartForListingId(listingId,
                                                                                      letgoItemId: letgoItemId,
                                                                                      withIds: paymentItems.map { $0.providerItemId },
+                                                                                     maxCountdown: value.maxCountdown,
                                                                                      typePage: bumpUpSource.typePageParameter)
                     } else {
                         strongSelf.bumpUpFallbackFor(source: bumpUpSource)
@@ -615,7 +619,7 @@ fileprivate extension AppCoordinator {
     private func bumpUpFallbackFor(source: BumpUpSource) {
         switch source {
         case .edit(let listing):
-            openEditForListing(listing: listing, bumpUpProductData: nil)
+            openEditForListing(listing: listing, bumpUpProductData: nil, maxCountdown: 0)
         case .deepLink, .promoted:
             break
         }
@@ -1090,6 +1094,7 @@ extension AppCoordinator: BumpInfoRequesterDelegate {
                                                     withProducts products: [PurchaseableProduct],
                                                     letgoItemId: String?,
                                                     storeProductId: String?,
+                                                    maxCountdown: TimeInterval,
                                                     typePage: EventParameterTypePage?) {
         guard let requestListingId = listingId, let purchase = products.first, let bumpUpSource = bumpUpSource else { return }
 
@@ -1122,7 +1127,8 @@ extension AppCoordinator: BumpInfoRequesterDelegate {
                                         typePage: typePage)
         case .edit(let listing):
             openEditForListing(listing: listing,
-                               bumpUpProductData: bumpUpProductData)
+                               bumpUpProductData: bumpUpProductData,
+                               maxCountdown: maxCountdown)
         }
     }
 }

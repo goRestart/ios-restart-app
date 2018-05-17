@@ -548,7 +548,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
             freePostViewSeparatorTopConstraint.constant = 0
         }
 
-        featureViewHeightConstraint.constant = viewModel.shouldShowFeatureListingCell ? EditListingViewController.viewOptionGenericHeight : 0
+        featureViewHeightConstraint.constant = viewModel.listingCanBeFeatured ? EditListingViewController.viewOptionGenericHeight : 0
 
         // CollectionView
         imageCollectionView.delegate = self

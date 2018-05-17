@@ -8,7 +8,7 @@
 
 import LGCoreKit
 
-protocol MainTabNavigator: TabNavigator {
+protocol MainTabNavigator: TabNavigator, FeedNavigator {
     func openMainListings(withSearchType searchType: SearchType,
                          listingFilters: ListingFilters)
 	func openFilters(withListingFilters listingFilters: ListingFilters,

@@ -96,11 +96,6 @@
         "description": "Change logic for showing ads to new users (2 weeks old)"
     },
     {
-        "name": "NewUserProfileView",
-        "values": ["control", "baseline", "active"],
-        "description": "Refactor of the User Profile view controller"
-    },
-    {
         "name": "TurkeyBumpPriceVATAdaptation",
         "values": ["control", "baseline", "active"],
         "description": "Change bump price scaling for listings in TR"
@@ -221,6 +216,10 @@
         "description": "Search cars into the new Search Car end point"
     },
     {
+        "name": "SectionedMainFeed",
+        "values": ["control", "baseline", "active"],
+        "description": "A new fully sectioned main feed"
+    },
         "name": "FilterSearchCarSellerType",
         "values": ["control", "baseline", "variantA", "variantB", "variantC", "variantD"],
         "description": "Include Search filter for Car Seller type"
@@ -284,5 +283,15 @@
         "name": "SearchBoxImprovements",
         "values": ["control", "baseline", "changeCopy", "biggerBox", "changeCopyAndBoxSize"],
         "description": "Improve search box visibility by changing its size and copy"
+    },
+    {
+        "name": "GoogleAdxForTR",
+        "values": ["control", "baseline", "GoogleAdxForAllUsers", "GoogleAdxForOldUsers"],
+        "description": "Change logic for showing GoogleAdx in TR"
+    },
+    {
+        "name": "MultiContactAfterSearch",
+        "values": ["control", "baseline", "photoAndInfo", "onlyPhoto"],
+        "description": "MultiContact After Search"
     }
 ]

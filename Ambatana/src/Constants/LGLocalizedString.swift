@@ -4375,6 +4375,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("search_alert_error_too_many_button_text", comment: "")
 	}
 
+	static var searchLetgo: String {
+		return NSLocalizedString("search_letgo", comment: "")
+	}
+
 	static var sellCategorySelectionLabel: String {
 		return NSLocalizedString("sell_category_selection_label", comment: "")
 	}

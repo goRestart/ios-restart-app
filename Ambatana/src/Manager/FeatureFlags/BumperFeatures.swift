@@ -32,7 +32,6 @@ extension Bumper  {
         flags.append(ShowInactiveConversations.self)
         flags.append(IncreaseMinPriceBumps.self)
         flags.append(NoAdsInFeedForNewUsers.self)
-        flags.append(NewUserProfileView.self)
         flags.append(TurkeyBumpPriceVATAdaptation.self)
         flags.append(SearchImprovements.self)
         flags.append(RelaxedSearch.self)
@@ -57,6 +56,7 @@ extension Bumper  {
         flags.append(CopyForChatNowInEnglish.self)
         flags.append(FeedAdsProviderForTR.self)
         flags.append(SearchCarsIntoNewBackend.self)
+        flags.append(SectionedMainFeed.self)
         flags.append(FilterSearchCarSellerType.self)
         flags.append(ShowExactLocationForPros.self)
         flags.append(ShowPasswordlessLogin.self)
@@ -70,6 +70,8 @@ extension Bumper  {
         flags.append(PersonalizedFeed.self)
         flags.append(ServicesCategoryOnSalchichasMenu.self)
         flags.append(SearchBoxImprovements.self)
+        flags.append(GoogleAdxForTR.self)
+        flags.append(MultiContactAfterSearch.self)
         Bumper.initialize(flags)
     } 
 
@@ -166,11 +168,6 @@ extension Bumper  {
     static var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers {
         guard let value = Bumper.value(for: NoAdsInFeedForNewUsers.key) else { return .control }
         return NoAdsInFeedForNewUsers(rawValue: value) ?? .control 
-    }
-
-    static var newUserProfileView: NewUserProfileView {
-        guard let value = Bumper.value(for: NewUserProfileView.key) else { return .control }
-        return NewUserProfileView(rawValue: value) ?? .control 
     }
 
     static var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation {
@@ -293,6 +290,11 @@ extension Bumper  {
         return SearchCarsIntoNewBackend(rawValue: value) ?? .control 
     }
 
+    static var sectionedMainFeed: SectionedMainFeed {
+        guard let value = Bumper.value(for: SectionedMainFeed.key) else { return .control }
+        return SectionedMainFeed(rawValue: value) ?? .control 
+    }
+
     static var filterSearchCarSellerType: FilterSearchCarSellerType {
         guard let value = Bumper.value(for: FilterSearchCarSellerType.key) else { return .control }
         return FilterSearchCarSellerType(rawValue: value) ?? .control 
@@ -356,6 +358,16 @@ extension Bumper  {
     static var searchBoxImprovements: SearchBoxImprovements {
         guard let value = Bumper.value(for: SearchBoxImprovements.key) else { return .control }
         return SearchBoxImprovements(rawValue: value) ?? .control 
+    }
+
+    static var googleAdxForTR: GoogleAdxForTR {
+        guard let value = Bumper.value(for: GoogleAdxForTR.key) else { return .control }
+        return GoogleAdxForTR(rawValue: value) ?? .control 
+    }
+
+    static var multiContactAfterSearch: MultiContactAfterSearch {
+        guard let value = Bumper.value(for: MultiContactAfterSearch.key) else { return .control }
+        return MultiContactAfterSearch(rawValue: value) ?? .control 
     } 
 }
 
@@ -624,22 +636,6 @@ enum NoAdsInFeedForNewUsers: String, BumperFeature  {
             case 2: return .adsEverywhere
             case 3: return .noAdsForNewUsers
             case 4: return .adsForNewUsersOnlyInFeed
-            default: return .control
-        }
-    }
-}
-
-enum NewUserProfileView: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return NewUserProfileView.control.rawValue }
-    static var enumValues: [NewUserProfileView] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Refactor of the User Profile view controller" } 
-    static func fromPosition(_ position: Int) -> NewUserProfileView {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
             default: return .control
         }
     }
@@ -1043,6 +1039,24 @@ enum SearchCarsIntoNewBackend: String, BumperFeature  {
     }
 }
 
+enum SectionedMainFeed: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return SectionedMainFeed.control.rawValue }
+    static var enumValues: [SectionedMainFeed] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "A new fully sectioned main feed" } 
+    static func fromPosition(_ position: Int) -> SectionedMainFeed {
+        switch position {
+        case 0: return .control
+        case 1: return .baseline
+        case 2: return .active
+        default: return .control
+        }
+    }
+    var isActive: Bool { return self == .active }
+}
+
+        
 enum FilterSearchCarSellerType: String, BumperFeature  {
     case control, baseline, variantA, variantB, variantC, variantD
     static var defaultValue: String { return FilterSearchCarSellerType.control.rawValue }
@@ -1078,7 +1092,7 @@ enum ShowPasswordlessLogin: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show Passwordless login option" } 
     static func fromPosition(_ position: Int) -> ShowPasswordlessLogin {
-        switch position { 
+        switch position {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
@@ -1248,6 +1262,40 @@ enum SearchBoxImprovements: String, BumperFeature  {
             case 2: return .changeCopy
             case 3: return .biggerBox
             case 4: return .changeCopyAndBoxSize
+            default: return .control
+        }
+    }
+}
+
+enum GoogleAdxForTR: String, BumperFeature  {
+    case control, baseline, googleAdxForAllUsers, googleAdxForOldUsers
+    static var defaultValue: String { return GoogleAdxForTR.control.rawValue }
+    static var enumValues: [GoogleAdxForTR] { return [.control, .baseline, .googleAdxForAllUsers, .googleAdxForOldUsers]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Change logic for showing GoogleAdx in TR" } 
+    static func fromPosition(_ position: Int) -> GoogleAdxForTR {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .googleAdxForAllUsers
+            case 3: return .googleAdxForOldUsers
+            default: return .control
+        }
+    }
+}
+
+enum MultiContactAfterSearch: String, BumperFeature  {
+    case control, baseline, photoAndInfo, onlyPhoto
+    static var defaultValue: String { return MultiContactAfterSearch.control.rawValue }
+    static var enumValues: [MultiContactAfterSearch] { return [.control, .baseline, .photoAndInfo, .onlyPhoto]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "MultiContact After Search" } 
+    static func fromPosition(_ position: Int) -> MultiContactAfterSearch {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .photoAndInfo
+            case 3: return .onlyPhoto
             default: return .control
         }
     }

@@ -190,9 +190,10 @@ extension ExpressChatViewModel {
                                                          listingVisitSource: .unknown,
                                                          feedPosition: .none,
                                                          userBadge: .noBadge,
-                                                         containsVideo: containsVideo))
+                                                         containsVideo: containsVideo,
+                                                         isProfessional: nil))
         }
-        tracker.trackEvent(TrackerEvent.userMessageSent(info: info))
+        tracker.trackEvent(TrackerEvent.userMessageSent(info: info, isProfessional: nil))
     }
 
     static func singleMessageTrackingError(_ tracker: Tracker,

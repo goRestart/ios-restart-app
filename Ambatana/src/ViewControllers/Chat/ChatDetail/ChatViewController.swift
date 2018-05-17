@@ -457,12 +457,12 @@ fileprivate extension ChatViewController {
 
     func setupRxBindings() {
         viewModel.chatEnabled.asObservable().bind { [weak self] enabled in
-            self?.setTextViewBarHidden(!enabled, animated: true)
+            self?.setTextViewBarHidden(!enabled, animated: false)
             self?.textView.isUserInteractionEnabled = enabled
             }.disposed(by: disposeBag)
         
         viewModel.textBoxVisible.asDriver().drive(onNext: { [weak self] enabled in
-            self?.setTextViewBarHidden(!enabled, animated: true)
+            self?.setTextViewBarHidden(!enabled, animated: false)
             self?.textView.isUserInteractionEnabled = enabled
         }).disposed(by: disposeBag)
 

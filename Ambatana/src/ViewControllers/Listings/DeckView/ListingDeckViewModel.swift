@@ -77,16 +77,12 @@ final class ListingDeckViewModel: BaseViewModel {
 
     let quickChatViewModel = QuickChatViewModel()
     lazy var bumpUpBannerInfo = Variable<BumpUpInfo?>(nil)
-    var rxIsMine: Observable<Bool> { return isMine.asObservable() }
-    private lazy var isMine: Variable<Bool> = Variable(false)
 
     let imageDownloader: ImageDownloaderType
 
     weak var delegate: ListingDeckViewModelDelegate?
 
-    weak var currentListingViewModel: ListingViewModel? {
-        didSet { isMine.value = currentListingViewModel?.isMine ?? false }
-    }
+    weak var currentListingViewModel: ListingViewModel?
     var isPlayable: Bool { return shouldShowVideos && (currentListingViewModel?.isPlayable ?? false) }
     private var shouldShowVideos: Bool { return featureFlags.machineLearningMVP.isVideoPostingActive }
 

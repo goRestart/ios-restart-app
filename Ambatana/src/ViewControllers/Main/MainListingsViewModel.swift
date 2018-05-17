@@ -48,7 +48,7 @@ struct SuggestiveSearchInfo {
     }
 }
 
-final class MainListingsViewModel: BaseViewModel {
+final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     
     static let adInFeedInitialPosition = 3
     private static let adsInFeedRatio = 20
@@ -59,6 +59,25 @@ final class MainListingsViewModel: BaseViewModel {
     var searchString: String? {
         return searchType?.text
     }
+    
+    var searchBoxSize: SearchBoxSize {
+        switch featureFlags.searchBoxImprovements {
+        case .baseline, .control, .changeCopy:
+            return .normal
+        case .biggerBox, .changeCopyAndBoxSize:
+            return .large
+        }
+    }
+    
+    var searchFieldStyle: SearchFieldStyle {
+        switch featureFlags.searchBoxImprovements {
+        case .baseline, .control, .biggerBox:
+            return .letgoRed
+        case .changeCopy, .changeCopyAndBoxSize:
+            return .grey
+        }
+    }
+    
     var clearTextOnSearch: Bool {
         guard let searchType = searchType else { return false }
         switch searchType {
@@ -191,19 +210,25 @@ final class MainListingsViewModel: BaseViewModel {
             }
             
             filters.realEstateOfferTypes.forEach { resultTags.append(.realEstateOfferType($0)) }
+        }
         
-            if let numberOfBedrooms = filters.realEstateNumberOfBedrooms {
-                resultTags.append(.realEstateNumberOfBedrooms(numberOfBedrooms))
-            }
-            if let numberOfBathrooms = filters.realEstateNumberOfBathrooms {
-                resultTags.append(.realEstateNumberOfBathrooms(numberOfBathrooms))
-            }
-            if let numberOfRooms = filters.realEstateNumberOfRooms {
-                resultTags.append(.realEstateNumberOfRooms(numberOfRooms))
-            }
-            if filters.realEstateSizeRange.min != nil || filters.realEstateSizeRange.max != nil {
-                resultTags.append(.sizeSquareMetersRange(from: filters.realEstateSizeRange.min, to: filters.realEstateSizeRange.max))
-            }
+        if let propertyType = filters.realEstatePropertyType {
+            resultTags.append(.realEstatePropertyType(propertyType))
+        }
+        
+        filters.realEstateOfferTypes.forEach { resultTags.append(.realEstateOfferType($0)) }
+        
+        if let numberOfBedrooms = filters.realEstateNumberOfBedrooms {
+            resultTags.append(.realEstateNumberOfBedrooms(numberOfBedrooms))
+        }
+        if let numberOfBathrooms = filters.realEstateNumberOfBathrooms {
+            resultTags.append(.realEstateNumberOfBathrooms(numberOfBathrooms))
+        }
+        if let numberOfRooms = filters.realEstateNumberOfRooms {
+            resultTags.append(.realEstateNumberOfRooms(numberOfRooms))
+        }
+        if filters.realEstateSizeRange.min != nil || filters.realEstateSizeRange.max != nil {
+            resultTags.append(.sizeSquareMetersRange(from: filters.realEstateSizeRange.min, to: filters.realEstateSizeRange.max))
         }
 
         return resultTags
@@ -280,7 +305,8 @@ final class MainListingsViewModel: BaseViewModel {
 
     // > Navigator
     weak var navigator: MainTabNavigator?
-    
+    var feedNavigator: FeedNavigator? { return navigator }
+
     // List VM
     let listViewModel: ListingListViewModel
     fileprivate var listingListRequester: ListingListMultiRequester
@@ -1085,7 +1111,8 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         let myUserCreationDate: Date? = myUserRepository.myUser?.creationDate
         if featureFlags.showAdsInFeedWithRatio.isActive ||
             featureFlags.feedAdsProviderForUS.shouldShowAdsInFeedForUser(createdIn: myUserCreationDate) ||
-            featureFlags.feedAdsProviderForTR.shouldShowAdsInFeedForUser(createdIn: myUserCreationDate) {
+            featureFlags.feedAdsProviderForTR.shouldShowAdsInFeedForUser(createdIn: myUserCreationDate) ||
+            featureFlags.googleAdxForTR.shouldShowAdsInFeedForUser(createdIn: myUserCreationDate) {
                 totalListings = addAds(to: totalListings, page: page)
         }
         return totalListings
@@ -1128,7 +1155,8 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         guard let adsDelegate = adsDelegate else { return listings }
         let adsActive = featureFlags.showAdsInFeedWithRatio.isActive ||
             featureFlags.feedAdsProviderForUS.shouldShowAdsInFeed ||
-            featureFlags.feedAdsProviderForTR.shouldShowAdsInFeed
+            featureFlags.feedAdsProviderForTR.shouldShowAdsInFeed ||
+            featureFlags.googleAdxForTR.shouldShowAdsInFeed
         var cellModels = listings
 
         var canInsertAds = true
@@ -1144,7 +1172,22 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             var adsCellModel: ListingCellModel
             
             guard let feedAdUnitId = featureFlags.feedAdUnitId else { return listings }
-            if featureFlags.feedAdsProviderForUS.shouldShowMoPubAds || featureFlags.feedAdsProviderForTR.shouldShowMoPubAds {
+            if featureFlags.feedAdsProviderForUS.shouldShowGoogleAdxAds || featureFlags.googleAdxForTR.shouldShowGoogleAdxAds {
+                let adLoader = GADAdLoader(adUnitID: feedAdUnitId,
+                                           rootViewController: adsDelegate.rootViewControllerForAds(),
+                                           adTypes: [GADAdLoaderAdType.nativeContent],
+                                           options: nil)
+                let adData = AdvertisementAdxData(adUnitId: feedAdUnitId,
+                                                  rootViewController: adsDelegate.rootViewControllerForAds(),
+                                                  adPosition: lastAdPosition,
+                                                  bannerHeight: LGUIKitConstants.advertisementCellMoPubHeight,
+                                                  adRequested: false,
+                                                  categories: filters.selectedCategories,
+                                                  adLoader: adLoader,
+                                                  adxNativeView: NativeAdBlankStateView())
+                adsCellModel = ListingCellModel.adxAdvertisement(data: adData)
+                
+            } else if featureFlags.feedAdsProviderForUS.shouldShowMoPubAds || featureFlags.feedAdsProviderForTR.shouldShowMoPubAds {
                 let settings = MPStaticNativeAdRendererSettings()
                 var configurations = Array<MPNativeAdRendererConfiguration>()
                 settings.renderingViewClass = MoPubNativeView.self
@@ -1162,21 +1205,6 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                                                     moPubNativeAd: nil,
                                                     moPubView: NativeAdBlankStateView())
                 adsCellModel = ListingCellModel.mopubAdvertisement(data: adData)
-                
-            } else if featureFlags.feedAdsProviderForUS.shouldShowGoogleAdxAds {
-                let adLoader = GADAdLoader(adUnitID: feedAdUnitId,
-                                           rootViewController: adsDelegate.rootViewControllerForAds(),
-                                           adTypes: [GADAdLoaderAdType.nativeContent],
-                                           options: nil)
-                let adData = AdvertisementAdxData(adUnitId: feedAdUnitId,
-                                                  rootViewController: adsDelegate.rootViewControllerForAds(),
-                                                  adPosition: lastAdPosition,
-                                                  bannerHeight: LGUIKitConstants.advertisementCellMoPubHeight,
-                                                  adRequested: false,
-                                                  categories: filters.selectedCategories,
-                                                  adLoader: adLoader,
-                                                  adxNativeView: NativeAdBlankStateView())
-                adsCellModel = ListingCellModel.adxAdvertisement(data: adData)
                 
             } else {
                 guard let feedAdUnitId = featureFlags.feedDFPAdUnitId else { return listings }
@@ -1813,7 +1841,7 @@ extension MainListingsViewModel: ListingCellDelegate {
             .set(containsEmoji: false)
 
         let containsVideo = EventParameterBoolean(bool: listing.containsVideo())
-        tracker.trackEvent(TrackerEvent.userMessageSent(info: trackingInfo))
+        tracker.trackEvent(TrackerEvent.userMessageSent(info: trackingInfo, isProfessional: nil))
         chatWrapper.sendMessageFor(listing: listing,
                                    type: type,
                                    completion: { [weak self] isFirstMessage in
@@ -1822,7 +1850,7 @@ extension MainListingsViewModel: ListingCellDelegate {
                                                                                            listingVisitSource: .listingList,
                                                                                            feedPosition: .none,
                                                                                            userBadge: .noBadge,
-                                                                                           containsVideo: containsVideo))
+                                                                                           containsVideo: containsVideo, isProfessional: nil))
                                     }
         })
         listViewModel.update(listing: listing, interestedState: .seeConversation)

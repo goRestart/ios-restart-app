@@ -206,6 +206,8 @@ enum EventName: String {
 
     case searchAlertSwitchChanged           = "search-alert"
 
+    case screenshot                         = "os-screenshot"
+
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
     
@@ -437,6 +439,8 @@ enum EventParameterLoginSourceValue: String {
 enum EventParameterProductItemType: String {
     case real = "1"
     case dummy = "0"
+    case professional = "2"
+    case privateOrProfessional = "3"
 }
 
 enum EventParameterButtonNameType: String {
