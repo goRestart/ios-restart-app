@@ -16,6 +16,7 @@ protocol ListingCardViewDelegate: class {
     func cardViewDidTapOnPreview(_ cardView: ListingCardView)
     func cardViewDidShowMoreInfo(_ cardView: ListingCardView)
     func cardViewDidScroll(_ cardView: ListingCardView, contentOffset: CGFloat)
+    func cardViewDidTapOnReputationTooltip(_ cardView: ListingCardView)
 }
 
 final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestureRecognizerDelegate, ReusableCell {
@@ -36,6 +37,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
         return userView
     }()
 
+    private var reputationTooltip: LetgoTooltip?
     private let binder = ListingCardViewBinder()
     private(set) var disposeBag = DisposeBag()
 
@@ -108,6 +110,10 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
         userView.set(action: action)
         detailsView.populateWith(productInfo: listingSnapshot.productInfo, showExactLocationOnMap: false)
         detailsView.populateWith(listingStats: nil, postedDate: nil)
+
+        if listingSnapshot.showReputationBadge {
+            showReputationTooltip()
+        }
     }
 
     func populateWith(details listingViewModel: ListingCardViewCellModel) {
@@ -369,3 +375,27 @@ extension ListingCardView: ListingDeckViewControllerBinderCellType {
     }
 }
 
+extension ListingCardView: LetgoTooltipDelegate {
+    fileprivate func showReputationTooltip() {
+        guard reputationTooltip == nil else { return }
+        let tooltip = LetgoTooltip()
+        addSubviewForAutoLayout(tooltip)
+        reputationTooltip = tooltip
+        reputationTooltip?.peakOnTop = false
+        reputationTooltip?.peakOffsetFromLeft = 40
+        reputationTooltip?.message = "User verified! Tap if you want to be verified too"
+        reputationTooltip?.leftAnchor.constraint(equalTo: userView.leftAnchor, constant: Metrics.veryShortMargin).isActive = true
+        reputationTooltip?.bottomAnchor.constraint(equalTo: userView.topAnchor, constant: Metrics.veryBigMargin).isActive = true
+        reputationTooltip?.delegate = self
+    }
+
+    fileprivate func hideReputationTooltip() {
+        reputationTooltip?.removeFromSuperview()
+        reputationTooltip = nil
+    }
+
+    func didTapTooltip() {
+        hideReputationTooltip()
+        delegate?.cardViewDidTapOnReputationTooltip(self)
+    }
+}

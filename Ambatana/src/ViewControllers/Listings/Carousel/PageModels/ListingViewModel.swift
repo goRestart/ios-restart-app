@@ -112,7 +112,8 @@ class ListingViewModel: BaseViewModel {
                                        postedDate: nil,
                                        socialSharer: SocialSharer(),
                                        socialMessage: socialMessage,
-                                       isMine: isMine)
+                                       isMine: isMine,
+                                       showReputationBadge: seller?.isVerified ?? false)
         }
 
         func make(listing: Listing, visitSource source: EventParameterListingVisitSource) -> ListingViewModel {
