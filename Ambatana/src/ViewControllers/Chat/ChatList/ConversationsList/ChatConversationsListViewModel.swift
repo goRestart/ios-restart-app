@@ -229,7 +229,8 @@ final class ChatConversationsListViewModel: BaseViewModel, RxPaginable {
                                 secondaryButtonTitle: nil,
                                 secondaryAction: nil,
                                 emptyReason: .verification,
-                                errorCode: nil)
+                                errorCode: nil,
+                                errorDescription: nil)
     }
     
     private func emptyViewModel(for filter: ChatConversationsListFilter) -> LGEmptyViewModel {
@@ -259,7 +260,8 @@ final class ChatConversationsListViewModel: BaseViewModel, RxPaginable {
                                 secondaryButtonTitle: filter.emptyViewModelSecundaryButtonTitleLocalizedString,
                                 secondaryAction: secundaryAction,
                                 emptyReason: nil,
-                                errorCode: nil)
+                                errorCode: nil,
+                                errorDescription: nil)
     }
     
     private func emptyViewModel(for error: RepositoryError) -> LGEmptyViewModel? {
@@ -274,6 +276,7 @@ final class ChatConversationsListViewModel: BaseViewModel, RxPaginable {
         guard let emptyReason = emptyViewModel.emptyReason else { return }
         tracker.trackEvent(TrackerEvent.emptyStateVisit(typePage: .chatList,
                                                         reason: emptyReason,
-                                                        errorCode: emptyViewModel.errorCode))
+                                                        errorCode: emptyViewModel.errorCode,
+                                                        errorDescription: nil))
     }
 }
