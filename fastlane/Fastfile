@@ -99,7 +99,7 @@ platform :ios do
     add_version_badge version_number:version_number, build_number:build_number
 
     gym(
-      workspace: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] + "/" + ENV["XCODE_WORKSPACE"],
+      workspace: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] + "/" + ENV["LETGO_WORKSPACE"],
       output_directory: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
       configuration: "Adhoc",
       scheme: "LetGoPROD",
@@ -140,7 +140,7 @@ platform :ios do
 
     add_badge(shield: "#{version_number}-#{build_number}-blue", dark: true, shield_geometry: "+0+25%", shield_scale: 0.75)
     gym(
-      workspace: ENV["XCODE_WORKSPACE"],
+      workspace: ENV["LETGO_WORKSPACE"],
       output_directory: "./",
       configuration: "Adhoc",
       scheme: "LetGoPROD",
@@ -161,66 +161,66 @@ platform :ios do
   end
 
 
-desc "Deploys a new version to App Store"
-lane :deploy_to_appstore do
-	UI.important ("\n\n ⚠️ \nThis lane will build release-x-x-x branch and send it to Apple. \n\n")
-	UI.message ("📝  Before we begin...").cyan
+  desc "Deploys a new version to App Store"
+  lane :deploy_to_appstore do
+    UI.important ("\n\n ⚠️ \nThis lane will build release-x-x-x branch and send it to Apple. \n\n")
+    UI.message ("📝  Before we begin...").cyan
 
-    	# Merge release branch into master #manual
-	manual_done = ask("Have you merged release branch into master? YOU HAVE TO DO THIS MANUALLY (y/n) = ".yellow)
-    	if manual_done.nil? || manual_done != "y"
-      		raise "Please make sure to update master with all the release-fixes!"
-    	end
+    # Merge release branch into master #manual
+    manual_done = ask("Have you merged release branch into master? YOU HAVE TO DO THIS MANUALLY (y/n) = ".yellow)
+    if manual_done.nil? || manual_done != "y"
+      raise "Please make sure to update master with all the release-fixes!"
+    end
 
-    	build_configuration = "Release"
-    	ENV["XCODE_SCHEME"] = "LetGo"
+    release_branch = ask("Release branch to deploy (release-x.x.x): ".yellow)
 
-    	release_branch = ask("Release branch to deploy (release-x.x.x): ".yellow)
-
-    	bender message: "Calling Tim Cook for App Store deployment (#{release_branch})", channels: [ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]
-    	rb_git_clone(
-      		branch_name: release_branch,
-      		clone_single_branch: false,
-      		shallow_clone: false
-    	)
-    	xcodeproj = Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] + ENV["XCODE_PROJECT"]
-	build_number = get_build_number(xcodeproj: xcodeproj)
-    	version_number = get_version_number(xcodeproj: xcodeproj)
+    bender message: "Calling Tim Cook for App Store deployment (#{release_branch})", channels: [ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]
+    rb_git_clone(
+      branch_name: release_branch,
+      clone_single_branch: false,
+      shallow_clone: false
+    )
+    # xcodeproj = Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] + "/" + ENV["LETGO_PROJECT"]
+    # build_number = get_build_number(xcodeproj: xcodeproj)
+    # version_number = get_version_number(xcodeproj: xcodeproj)
     
-	xcclean
+    xcclean(
+      workspace: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] + "/" + ENV["LETGO_WORKSPACE"],
+      scheme: ENV["LETGO_APPSTORE_SCHEME"]
+      )
 	
-   	gym(
-		workspace: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] + "/" + ENV["XCODE_WORKSPACE"],
-		output_directory: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
-		scheme: ENV["XCODE_SCHEME"],
-		configuration: "Release",
-		export_xcargs: "-allowProvisioningUpdates",
-		include_bitcode: true
-	)
+    gym(
+      workspace: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] + "/" + ENV["LETGO_WORKSPACE"],
+      output_directory: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
+      scheme: ENV["LETGO_APPSTORE_SCHEME"],
+      configuration: "Release",
+      export_xcargs: "-allowProvisioningUpdates",
+      include_bitcode: true
+    )
 
-	tag_release tag_name: version_number, build_number: build_number  
-	# # Send release to itunes connect
-	deliver(
-	username: "ios-automation@letgo.com",
-      	app: "986339882",
-      	skip_screenshots: true,
-      	skip_metadata: true,
-      	force: true,  # Set to true to skip PDF verification
-      	submit_for_review: true,
-      	automatic_release: false,
-      	submission_information: {
-        	export_compliance_encryption_updated: false,
-        	add_id_info_uses_idfa: true,
-        	add_id_info_serves_ads: false,
-        	add_id_info_tracks_install: true,
-        	add_id_info_tracks_action: true
-      	}
-    	)
+    # tag_release tag_name: version_number, build_number: build_number  
+    # # Send release to itunes connect
+    deliver(
+      username: "ios-automation@letgo.com",
+      app: "986339882",
+      skip_screenshots: true,
+      skip_metadata: true,
+      force: true,  # Set to true to skip PDF verification
+      submit_for_review: true,
+      automatic_release: false,
+      submission_information: {
+        export_compliance_encryption_updated: false,
+        add_id_info_uses_idfa: true,
+        add_id_info_serves_ads: false,
+        add_id_info_tracks_install: true,
+        add_id_info_tracks_action: true
+      }
+    )
 
-	rb_git_clone_clean()
-	bender message: "Tim says everything okay. New Version uploaded to iTunes Connect: #{release_branch}", channels: [ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]
-	update_dsyms version: version_number, build_number: build_number
-    	bender message: "Uploaded dsyms to fabric.", channels:[ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]  
+    rb_git_clone_clean()
+    bender message: "Tim says everything okay. New Version uploaded to iTunes Connect: #{release_branch}", channels: [ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]
+    # update_dsyms version: version_number, build_number: build_number
+    # bender message: "Uploaded dsyms to fabric.", channels:[ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]  
 end
 
   desc "Will update Web Translate It with the new validated strings from google drive, download all the changes from wti and generate all not-yet valid strings on base + localizables file"
@@ -446,7 +446,7 @@ end
     output = "/tmp/xcbuild" + timestamp
     message = 'Hey, your .app is waiting for you. Zipped in your desktop (I am talking to whoever runned the command). #hastaluego'
     xcbuild(
-      workspace: ENV["XCODE_WORKSPACE"],
+      workspace: ENV["LETGO_WORKSPACE"],
       scheme: "LetGoDEV",
       configuration: "Debug",
       sdk: "iphonesimulator",
