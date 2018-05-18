@@ -38,7 +38,7 @@ final class ChatViewController: TextViewController {
     var professionalSellerBannerTopConstraint: NSLayoutConstraint = NSLayoutConstraint()
     var featureFlags: FeatureFlaggeable
     var pushPermissionManager: PushPermissionsManager
-    let tooltip = LetgoTooltip()
+    var tooltip: LetgoTooltip?
 
     var blockedToastOffset: CGFloat {
         return relationInfoView.isHidden ? 0 : RelationInfoView.defaultHeight
@@ -192,9 +192,9 @@ final class ChatViewController: TextViewController {
         sendButton.titleLabel?.font = UIFont.smallButtonFont
         reloadLeftActions()
 
-        tooltip.message = "User verified! Tap if you want to be verified too."
-        tooltip.peakOnTop = true
-        tooltip.delegate = self
+        tooltip?.message = "User verified! Tap if you want to be verified too."
+        tooltip?.peakOnTop = true
+        tooltip?.delegate = self
         
         addSubviews()
         setupFrames()
@@ -232,7 +232,6 @@ final class ChatViewController: TextViewController {
         view.addSubview(relationInfoView)
         view.addSubview(activityIndicator)
         view.addSubview(professionalSellerBanner)
-        view.addSubviewForAutoLayout(tooltip)
     }
 
     private func setupFrames() {
@@ -251,10 +250,6 @@ final class ChatViewController: TextViewController {
         expressChatBanner.layout().height(expressBannerHeight, relatedBy: .greaterThanOrEqual)
         expressChatBanner.layout(with: view).fillHorizontal()
         expressChatBanner.layout(with: relationInfoView).below(by: -relationInfoView.height, constraintBlock: { [weak self] in self?.expressChatBannerTopConstraint = $0 })
-
-        tooltip.layout(with: topLayoutGuide).below(by: Metrics.veryShortMargin)
-        tooltip.layout(with: view).leading(by: 40)
-        tooltip.peakOffsetFromLeft = 40
     }
 
     fileprivate func setupRelatedProducts() {
@@ -572,7 +567,7 @@ fileprivate extension ChatViewController {
         viewModel.interlocutorIsVerified.asDriver().drive(onNext: { [weak self] verified in
             self?.listingView.badgeImageView.isHidden = !verified
             if verified {
-                self?.tooltip.isHidden = false
+                self?.showReputationTooltip()
             }
         }).disposed(by: disposeBag)
 
@@ -581,6 +576,31 @@ fileprivate extension ChatViewController {
             .skip(1)
             .bind(to: viewModel.chatBoxText)
             .disposed(by: disposeBag)
+    }
+}
+
+extension ChatViewController: LetgoTooltipDelegate {
+    fileprivate func showReputationTooltip() {
+        guard tooltip == nil else { return }
+        let reputationTooltip = LetgoTooltip()
+        view.addSubviewForAutoLayout(reputationTooltip)
+        tooltip = reputationTooltip
+        tooltip?.peakOnTop = true
+        tooltip?.peakOffsetFromLeft = 40
+        tooltip?.message = "User verified! Tap if you want to be verified too"
+        tooltip?.delegate = self
+        tooltip?.layout(with: topLayoutGuide).below(by: Metrics.veryShortMargin)
+        tooltip?.layout(with: view).leading(by: 40)
+    }
+
+    fileprivate func hideReputationTooltip() {
+        tooltip?.removeFromSuperview()
+        tooltip = nil
+    }
+
+    func didTapTooltip() {
+        hideReputationTooltip()
+        viewModel.reputationTooltipTapped()
     }
 }
 
@@ -856,11 +876,5 @@ extension ChatViewController: MeetingCellImageDelegate, MKMapViewDelegate {
         cellMapViewer.openMapOnView(mainView: topView, fromInitialView: imageView, withCenterCoordinates: coordinates)
 
         textView.resignFirstResponder()
-    }
-}
-
-extension ChatViewController: LetgoTooltipDelegate {
-    func didTapTooltip() {
-        viewModel.reputationTooltipTapped()
     }
 }

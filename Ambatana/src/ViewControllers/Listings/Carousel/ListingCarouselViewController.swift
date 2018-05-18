@@ -102,7 +102,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     private var pageControlTopMargin: NSLayoutConstraint?
 
     private var moreInfoTooltip: Tooltip?
-    private var reputationBadgeTooltip: LetgoTooltip?
+    private var reputationTooltip: LetgoTooltip?
 
     private let collectionContentOffset = Variable<CGPoint>(CGPoint.zero)
     private let itemsAlpha = Variable<CGFloat>(1)
@@ -315,7 +315,6 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         setupMoreInfo()
         setupMoreInfoDragging()
         setupMoreInfoTooltip()
-        setupReputationBadgeTooltip()
         setupOverlayRxBindings()
 
         resetMoreInfoState()
@@ -688,7 +687,7 @@ extension ListingCarouselViewController {
                                      isProfessional: isProfessional,
                                      userBadge: userBadge)
             if userBadge != .noBadge {
-                self?.reputationBadgeTooltip?.isHidden = false
+                self?.showReputationTooltip()
             }
 
         }.disposed(by: disposeBag)
@@ -1193,24 +1192,26 @@ extension ListingCarouselViewController: LetgoTooltipDelegate {
         moreInfoTooltip = nil
     }
 
-    fileprivate func setupReputationBadgeTooltip() {
+    fileprivate func showReputationTooltip() {
+        guard reputationTooltip == nil else { return }
         let tooltip = LetgoTooltip()
         view.addSubviewForAutoLayout(tooltip)
-        reputationBadgeTooltip = tooltip
-        reputationBadgeTooltip?.peakOnTop = false
-        reputationBadgeTooltip?.peakOffsetFromLeft = 40
-        reputationBadgeTooltip?.message = "User verified! Tap if you want to be verified too"
-        reputationBadgeTooltip?.leftAnchor.constraint(equalTo: userView.leftAnchor).isActive = true
-        reputationBadgeTooltip?.bottomAnchor.constraint(equalTo: userView.topAnchor, constant: Metrics.veryBigMargin).isActive = true
-        reputationBadgeTooltip?.delegate = self
+        reputationTooltip = tooltip
+        reputationTooltip?.peakOnTop = false
+        reputationTooltip?.peakOffsetFromLeft = 40
+        reputationTooltip?.message = "User verified! Tap if you want to be verified too"
+        reputationTooltip?.leftAnchor.constraint(equalTo: userView.leftAnchor).isActive = true
+        reputationTooltip?.bottomAnchor.constraint(equalTo: userView.topAnchor, constant: Metrics.veryBigMargin).isActive = true
+        reputationTooltip?.delegate = self
     }
 
-    fileprivate func remoteReputationBadgeTooltip() {
-        reputationBadgeTooltip?.removeFromSuperview()
-        reputationBadgeTooltip = nil
+    fileprivate func hideReputationTooltip() {
+        reputationTooltip?.removeFromSuperview()
+        reputationTooltip = nil
     }
 
     func didTapTooltip() {
+        hideReputationTooltip()
         viewModel.reputationTooltipTapped()
     }
 }
