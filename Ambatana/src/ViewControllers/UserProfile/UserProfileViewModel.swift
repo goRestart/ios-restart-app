@@ -10,6 +10,23 @@ import LGCoreKit
 import RxSwift
 import RxCocoa
 
+enum UserSource {
+    case tabBar
+    case listingDetail
+    case chat
+    case notifications
+    case link
+}
+
+struct UserViewHeaderAccounts {
+    let facebookLinked: Bool
+    let facebookVerified: Bool
+    let googleLinked: Bool
+    let googleVerified: Bool
+    let emailLinked: Bool
+    let emailVerified: Bool
+}
+
 protocol UserProfileViewModelDelegate: BaseViewModelDelegate {
     func vmShowNativeShare(_ socialMessage: SocialMessage)
 }
@@ -57,6 +74,7 @@ final class UserProfileViewModel: BaseViewModel {
     var userLocation: Driver<String?> { return user.asDriver().map{$0?.postalAddress.cityStateString} }
     var userAccounts: Driver<UserViewHeaderAccounts?> { return user.asDriver().map { [weak self] in self?.buildAccountsModel($0) } }
     var userRatingAverage: Driver<Float> { return user.asDriver().map{$0?.ratingAverage ?? 0} }
+    var userRatingCount: Driver<Int> { return user.asDriver().map{$0?.ratingCount ?? 0} }
     var userIsProfessional: Driver<Bool> { return user.asDriver().map {$0?.type == .pro} }
     var userBio: Driver<String?> { return user.asDriver().map { $0?.biography } }
     var userScore: Driver<Int> { return user.asDriver().map { $0?.reputationPoints ?? 0} }

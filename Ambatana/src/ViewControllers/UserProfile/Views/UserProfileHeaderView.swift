@@ -37,6 +37,7 @@ final class UserProfileHeaderView: UIView {
     private let editAvatarButton = UIButton()
     private let verifiedBadgeImageView = UIImageView()
     private let proBadgeImageView = UIImageView()
+    private var locationLabelTopConstraint: NSLayoutConstraint?
     weak var delegate: UserProfileHeaderDelegate?
 
     let isPrivate: Bool
@@ -80,22 +81,6 @@ final class UserProfileHeaderView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         userNameLabel.truncateWordsWithDotsIfNeeded()
-    }
-
-    func setAvatar(_ url: URL?, placeholderImage: UIImage?) {
-        if let url = url {
-            avatarImageView.lg_setImageWithURL(url)
-            editAvatarButton.setImage(UIImage(named: "user_profile_edit_avatar"), for: .normal)
-        } else {
-            avatarImageView.image = placeholderImage
-            editAvatarButton.setImage(UIImage(named: "user_profile_add_avatar"), for: .normal)
-        }
-    }
-
-    private func updateBadge() {
-        guard userBadge != .noBadge else { return }
-        verifiedBadgeImageView.isHidden = userBadge != .silver && userBadge != .gold
-        proBadgeImageView.isHidden = userBadge != .pro
     }
 
     private func setupView() {
@@ -167,6 +152,10 @@ final class UserProfileHeaderView: UIView {
             proBadgeImageView.widthAnchor.constraint(equalToConstant: Layout.proBadgeWidth),
         ]
         NSLayoutConstraint.activate(constraints)
+
+        locationLabelTopConstraint = locationLabel.topAnchor.constraint(equalTo: ratingView.bottomAnchor,
+                                                                        constant: Layout.verticalMargin)
+        locationLabelTopConstraint?.isActive = true
     }
 
     private func setupAccessibilityIds() {
@@ -175,6 +164,32 @@ final class UserProfileHeaderView: UIView {
         memberSinceLabel.set(accessibilityId: .userHeaderExpandedMemberSinceLabel)
         avatarImageView.set(accessibilityId: .userHeaderExpandedAvatar)
         editAvatarButton.set(accessibilityId: .userHeaderExpandedAvatarButton)
+    }
+
+    func setAvatar(_ url: URL?, placeholderImage: UIImage?) {
+        if let url = url {
+            avatarImageView.lg_setImageWithURL(url)
+            editAvatarButton.setImage(UIImage(named: "user_profile_edit_avatar"), for: .normal)
+        } else {
+            avatarImageView.image = placeholderImage
+            editAvatarButton.setImage(UIImage(named: "user_profile_add_avatar"), for: .normal)
+        }
+    }
+
+    func setUser(hasRatings: Bool) {
+        ratingView.isHidden = !hasRatings
+
+        locationLabelTopConstraint?.isActive = false
+        locationLabelTopConstraint = locationLabel.topAnchor
+            .constraint(equalTo: (hasRatings ? ratingView : userNameLabel).bottomAnchor,
+                        constant: Layout.verticalMargin)
+        locationLabelTopConstraint?.isActive = true
+    }
+
+    private func updateBadge() {
+        guard userBadge != .noBadge else { return }
+        verifiedBadgeImageView.isHidden = userBadge != .silver && userBadge != .gold
+        proBadgeImageView.isHidden = userBadge != .pro
     }
 
     @objc private func didTapEditAvatar() {

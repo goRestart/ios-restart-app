@@ -40,7 +40,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var realEstateNewCopy: RealEstateNewCopy = .control
     var dummyUsersInfoProfile: DummyUsersInfoProfile = .control
     var increaseMinPriceBumps: IncreaseMinPriceBumps = .control
-    var newUserProfileView: NewUserProfileView = .control
     var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation = .control
     var searchImprovements: SearchImprovements = .control
     var relaxedSearch: RelaxedSearch = .control
@@ -55,6 +54,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var realEstateTutorial: RealEstateTutorial = .control
     var summaryAsFirstStep: SummaryAsFirstStep = .control
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem = .control
+    var sectionedMainFeed: SectionedMainFeed = .control
     var showExactLocationForPros: Bool = true
     var showPasswordlessLogin: ShowPasswordlessLogin = .control
     var emergencyLocate: EmergencyLocate = .control
@@ -84,6 +84,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var shouldChangeSellFasterNowCopyInEnglish = false
     var copyForSellFasterNowInEnglish: CopyForSellFasterNowInEnglish = .control
     var shouldShowIAmInterestedInFeed: IAmInterestedFeed = .control
+    var googleAdxForTR: GoogleAdxForTR = .control
 
     // MARK: Chat
     var showInactiveConversations: Bool = false
@@ -103,7 +104,9 @@ final class MockFeatureFlags: FeatureFlaggeable {
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed = .control
     var personalizedFeedABTestIntValue: Int? = nil
-
+    var searchBoxImprovements: SearchBoxImprovements = .control
+    var multiContactAfterSearch: MultiContactAfterSearch = .control
+    
     //  MARK:  Products
     var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu = .control
 }

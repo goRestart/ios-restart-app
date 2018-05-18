@@ -15,14 +15,14 @@ final class SendMessageTrackingInfo {
     func set(listing: Listing, freePostingModeAllowed: Bool) -> Self {
         params.addListingParams(listing)
         params[.userToId] = listing.user.objectId
-        params[.freePosting] = TrackerEvent.eventParameterFreePostingWithPrice(freePostingModeAllowed, price: listing.price).rawValue
+        params[.freePosting] = listing.price.allowFreeFilters(freePostingModeAllowed: freePostingModeAllowed).rawValue
         return self
     }
 
     @discardableResult
     func set(chatListing: ChatListing, freePostingModeAllowed: Bool) -> Self {
         params.addChatListingParams(chatListing)
-        params[.freePosting] = TrackerEvent.eventParameterFreePostingWithPrice(freePostingModeAllowed, price: chatListing.price).rawValue
+        params[.freePosting] = chatListing.price.allowFreeFilters(freePostingModeAllowed: freePostingModeAllowed).rawValue
         return self
     }
 
@@ -88,6 +88,16 @@ final class SendMessageTrackingInfo {
         params[.meetingMessageType] = EventParameterAssistantMeetingType(meetingMessageType: assistantMeeting.meetingType).rawValue
         params[.meetingDate] = assistantMeeting.date?.formattedForTracking() ?? TrackerEvent.notApply
         params[.meetingLocation] = assistantMeeting.locationName ?? TrackerEvent.notApply
+        return self
+    }
+    
+    @discardableResult
+    func set(isProfessional: Bool?) -> Self  {
+        if let isProfessional = isProfessional {
+            params[.listingType] = isProfessional ? EventParameterProductItemType.professional.rawValue : EventParameterProductItemType.real.rawValue
+        } else {
+            params[.listingType] = EventParameterProductItemType.privateOrProfessional.rawValue
+        }
         return self
     }
 }

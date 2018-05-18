@@ -31,6 +31,12 @@ enum AccessibilityId: Equatable {
     case mainListingsInfoBubbleLabel
     case mainListingsSuggestionSearchesTable
 
+    // SectionedFeed
+    case feedNavBarSearch
+    case feedFilterButton
+    case feedInviteButton
+    case feedCollectionView
+    
     // Passive buyers
     case passiveBuyersTitle
     case passiveBuyersMessage
@@ -378,6 +384,10 @@ enum AccessibilityId: Equatable {
     case recaptchaLoading
     case recaptchaWebView
 
+    // ChatConversationsList
+    case chatConversationsListOptionsNavBarButton
+    case chatConversationsListFiltersNavBarButton
+    
     // ChatGrouped
     case chatGroupedViewRightNavBarButton
 
@@ -402,6 +412,10 @@ enum AccessibilityId: Equatable {
     case conversationCellThumbnailImageView
     case conversationCellAvatarImageView
     case conversationCellStatusImageView
+
+    // ChatBlockedUserVC
+    case chatBlockedUsersTableView
+    case chatBlockedUsersEmptyView
 
     // BlockedUserCell
     case blockedUserCellAvatarImageView
@@ -744,6 +758,16 @@ enum AccessibilityId: Equatable {
             return "mainListingsInfoBubbleLabel"
         case .mainListingsSuggestionSearchesTable:
             return "mainListingsSuggestionSearchesTable"
+           
+        // Sectioned Feed
+        case .feedFilterButton:
+            return "feedFilterButton"
+        case .feedInviteButton:
+            return "feedInviteButton"
+        case .feedNavBarSearch:
+            return "feedNavBarSearch"
+        case .feedCollectionView:
+            return "feedCollectionView"
             
         // Passive buyers
         case .passiveBuyersTitle:
@@ -1447,6 +1471,12 @@ enum AccessibilityId: Equatable {
         case .recaptchaWebView:
             return "recaptchaWebView"
             
+        // ChatConversationsList
+        case .chatConversationsListOptionsNavBarButton:
+            return "chatConversationsListOptionsNavBarButton"
+        case .chatConversationsListFiltersNavBarButton:
+            return "chatConversationsListFiltersNavBarButton"
+            
         // ChatGrouped
         case .chatGroupedViewRightNavBarButton:
             return "chatGroupedViewRightNavBarButton"
@@ -1489,6 +1519,12 @@ enum AccessibilityId: Equatable {
             return "conversationCellAvatarImageView"
         case .conversationCellStatusImageView:
             return "conversationCellStatusImageView"
+
+        // ChatBlockedUserVC
+        case .chatBlockedUsersTableView:
+            return "chatBlockedUsersTableView"
+        case .chatBlockedUsersEmptyView:
+            return "chatBlockedUsersEmptyView"
             
         // BlockedUserCell
         case .blockedUserCellAvatarImageView:

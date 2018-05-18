@@ -110,7 +110,7 @@ struct FailedBumpInfo {
         dict[FailedBumpInfo.idfaKey] = idfa
         dict[FailedBumpInfo.bundleIdKey] = bundleId
         dict[FailedBumpInfo.numRetriesKey] = String(numRetries)
-        dict[FailedBumpInfo.maxCountdownKey] = String(describing: maxCountdown)
+        dict[FailedBumpInfo.maxCountdownKey] = "\(maxCountdown)"
         return dict
     }
 

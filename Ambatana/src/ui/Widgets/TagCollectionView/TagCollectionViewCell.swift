@@ -4,12 +4,13 @@ import UIKit
 enum TagCollectionViewCellStyle {
     case blackBackground
     case whiteBackground
+    case grayBorder
     
     var backgroundColor: UIColor {
         switch self {
         case .blackBackground:
             return UIColor.black.withAlphaComponent(0.54)
-        case .whiteBackground:
+        case .whiteBackground, .grayBorder:
             return UIColor.white
         }
     }
@@ -20,6 +21,8 @@ enum TagCollectionViewCellStyle {
             return UIFont.systemFont(size: 13)
         case .whiteBackground:
             return UIFont.systemSemiBoldFont(size: 15)
+        case .grayBorder:
+            return UIFont.systemMediumFont(size: 13)
         }
     }
     
@@ -29,6 +32,17 @@ enum TagCollectionViewCellStyle {
             return UIColor.white
         case .whiteBackground:
             return UIColor.darkGrayText
+        case .grayBorder:
+            return UIColor.gray
+        }
+    }
+    
+    var borderColor: UIColor {
+        switch self {
+        case .blackBackground, .whiteBackground:
+            return .clear
+        case .grayBorder:
+            return .grayLight
         }
     }
     
@@ -38,6 +52,8 @@ enum TagCollectionViewCellStyle {
             return UIEdgeInsets(top: 5, left: 12, bottom: 5, right: 12)
         case .whiteBackground:
             return UIEdgeInsets(top: 6, left: 15, bottom: 6, right: 15)
+        case .grayBorder:
+            return UIEdgeInsets(top: 4, left: 10, bottom: 4, right: 10)
         }
     }
 }
@@ -74,6 +90,10 @@ class TagCollectionViewCell: UICollectionViewCell, ReusableCell {
         tagLabel.font = style.font
         tagLabel.textColor = style.textColor
         tagLabel.padding = style.padding
+        if style == .grayBorder {
+            tagLabel.layer.borderWidth = 1
+            tagLabel.layer.borderColor = style.borderColor.cgColor
+        }
     }
     
     private func setupViews() {

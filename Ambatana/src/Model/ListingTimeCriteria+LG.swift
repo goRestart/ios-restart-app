@@ -28,4 +28,17 @@ extension ListingTimeCriteria {
     
     static func allValues() -> [ListingTimeCriteria] { return [.day, .week, .month, .all] }
 
+    var trackValue: EventParameterPostedWithin {
+        switch self {
+        case .day:
+            return .day
+        case .week:
+            return .week
+        case .month:
+            return .month
+        case .all:
+            return .all
+        }
+    }
+    
 }

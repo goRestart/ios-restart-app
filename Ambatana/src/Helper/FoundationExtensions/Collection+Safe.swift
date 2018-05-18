@@ -7,7 +7,7 @@
 //
 
 extension Collection {
-    func object(safeAt index: Index) -> Element? {
+    subscript (safeAt index: Index) -> Element? {
         return indices.contains(index) ? self[index] : nil
     }
 }

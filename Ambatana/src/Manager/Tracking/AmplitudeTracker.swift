@@ -164,7 +164,7 @@ final class AmplitudeTracker: Tracker {
             var productsAbTests: [String] = []
             var usersAbTests: [String] = []
             var discoveryAbTests: [String] = []
-            
+
             trackingData.forEach({ (identifier, abGroupType) in
                 switch abGroupType {
                 case .legacyABTests:
@@ -198,7 +198,8 @@ final class AmplitudeTracker: Tracker {
                                             AmplitudeTracker.userPropABTestsProducts: productsAbTests,
                                             AmplitudeTracker.userPropABTestsUsers: usersAbTests,
                                             AmplitudeTracker.userPropABTests: legacyABTests,
-                                            AmplitudeTracker.userPropABTestsDiscovery: discoveryAbTests]
+                                            AmplitudeTracker.userPropABTestsDiscovery: discoveryAbTests
+                                            ]
             dict.forEach({ (type, variables) in
                 let identify = AMPIdentify()
                 let trackingDataValue = NSArray(array: variables)

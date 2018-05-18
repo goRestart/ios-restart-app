@@ -11,7 +11,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
+final class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
 
     @IBOutlet weak var contentContainer: UIView!
     @IBOutlet weak var contentContainerCenterY: NSLayoutConstraint!
@@ -56,8 +56,6 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
         self.keyboardHelper = keyboardHelper
         super.init(viewModel: viewModel, nibName: "VerifyAccountsViewController", statusBarStyle: .lightContent)
         viewModel.delegate = self
-        modalPresentationStyle = .overCurrentContext
-        modalTransitionStyle = .crossDissolve
     }
 
     required init?(coder: NSCoder) {

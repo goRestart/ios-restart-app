@@ -39,6 +39,8 @@ protocol AppEnvironment {
     var feedAdUnitIdDFPUSA20Ratio: String { get }
     var feedAdUnitIdAdxUSAForAllUsers: String { get }
     var feedAdUnitIdAdxUSAForOldUsers: String { get }
+    var feedAdUnitIdAdxTRForAllUsers: String { get }
+    var feedAdUnitIdAdxTRForOldUsers: String { get }
     
     // MoPub Ads
     var feedAdUnitIdMoPubUSAForAllUsers: String { get }

@@ -44,8 +44,6 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
                    navBarBackgroundStyle: .transparent(substyle: .dark))
 
         self.viewModel.delegate = self
-        modalPresentationStyle = .overCurrentContext
-        modalTransitionStyle = .crossDissolve
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -1592,6 +1592,10 @@ fileprivate extension ChatViewModel {
     
     func trackMessageSent(type: ChatWrapperMessageType) {
         guard let info = buildSendMessageInfo(withType: type, error: nil) else { return }
+        var isProfessional: Bool? = nil
+        if let interlocutor = interlocutor {
+            isProfessional = interlocutor.isProfessional
+        }
         if shouldTrackFirstMessage {
             shouldTrackFirstMessage = false
             let badgeParameter: EventParameterUserBadge
@@ -1604,9 +1608,10 @@ fileprivate extension ChatViewModel {
                                                          listingVisitSource: .unknown,
                                                          feedPosition: .none,
                                                          userBadge: badgeParameter,
-                                                         containsVideo: .notAvailable))
+                                                         containsVideo: .notAvailable,
+                                                         isProfessional: isProfessional))
         }
-        tracker.trackEvent(TrackerEvent.userMessageSent(info: info))
+        tracker.trackEvent(TrackerEvent.userMessageSent(info: info, isProfessional: isProfessional))
     }
 
     func trackMessageSentError(type: ChatWrapperMessageType, error: RepositoryError) {

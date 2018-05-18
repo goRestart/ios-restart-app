@@ -411,6 +411,8 @@ extension AppCoordinator: AppNavigator {
     func openVerifyAccounts(_ types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?) {
         let viewModel = VerifyAccountsViewModel(verificationTypes: types, source: source, completionBlock: completionBlock)
         let viewController = VerifyAccountsViewController(viewModel: viewModel)
+        viewController.setupForModalWithNonOpaqueBackground()
+        viewController.modalTransitionStyle = .crossDissolve
         tabBarCtl.present(viewController, animated: true, completion: nil)
     }
 

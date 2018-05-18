@@ -59,12 +59,24 @@ final class ChatsTabCoordinator: TabCoordinator {
     }
     
     func setNeedsRefreshConversations() {
-        chatGroupedViewModel.setNeedsRefreshConversations()
+        if featureFlags.chatConversationsListWithoutTabs.isActive {
+            chatConversationsListViewModel.refreshCurrentPage()
+        } else {
+            chatGroupedViewModel.setNeedsRefreshConversations()
+        }
     }
 }
 
 extension ChatsTabCoordinator: ChatsTabNavigator {
     func openBlockedUsers() {
-        
+        let vm = ChatBlockedUsersViewModel(navigator: self)
+        let vc = ChatBlockedUsersViewController(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
+    }
+
+    func openInactiveConversations() {
+        let vm = ChatInactiveConversationsListViewModel(navigator: self)
+        let vc = ChatInactiveConversationsListViewController(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
     }
 }

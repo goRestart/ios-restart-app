@@ -73,9 +73,11 @@ class MockPurchasesShopper: PurchasesShopper {
                 strongSelf.delegate?.pricedBumpPaymentDidFail(withReason: nil, transactionStatus: .purchasingPurchased)
             } else if strongSelf.pricedBumpSucceeds {
                 // payment works and bump works
+                let paymentId = UUID().uuidString.lowercased()
                 strongSelf.delegate?.pricedBumpDidSucceed(type: .priced, restoreRetriesCount: strongSelf.restoreRetriesCount,
                                                           transactionStatus: .purchasingPurchased, typePage: strongSelf.currentBumpTypePage,
-                                                          isBoost: isBoost)
+                                                          isBoost: isBoost,
+                                                          paymentId: paymentId)
             } else {
                 // payment works but bump fails
                 strongSelf.delegate?.pricedBumpDidFail(type: .priced, transactionStatus: .purchasingPurchased,
@@ -101,10 +103,12 @@ class MockPurchasesShopper: PurchasesShopper {
         delegate?.pricedBumpDidStart(typePage: currentBumpTypePage, isBoost: currentBumpIsBoost)
         if pricedBumpSucceeds {
             // payment works and bump works
+            let paymentId = UUID().uuidString.lowercased()
             delegate?.pricedBumpDidSucceed(type: .restore, restoreRetriesCount: restoreRetriesCount,
                                            transactionStatus: .purchasingPurchased,
                                            typePage: currentBumpTypePage,
-                                           isBoost: currentBumpIsBoost)
+                                           isBoost: currentBumpIsBoost,
+                                           paymentId: paymentId)
         } else {
             // payment works but bump fails
             delegate?.pricedBumpDidFail(type: .restore,

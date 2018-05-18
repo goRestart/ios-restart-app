@@ -119,10 +119,11 @@ extension ListingViewModel {
                               transactionStatus: EventParameterTransactionStatus?,
                               storeProductId: String?,
                               isPromotedBump: Bool,
-                              typePage: EventParameterTypePage?) {
+                              typePage: EventParameterTypePage?,
+                              paymentId: String?) {
         trackHelper.trackBumpUpCompleted(price, type: type, restoreRetriesCount: restoreRetriesCount, network: network,
                                          transactionStatus: transactionStatus, storeProductId: storeProductId,
-                                         isPromotedBump: isPromotedBump, typePage: typePage)
+                                         isPromotedBump: isPromotedBump, typePage: typePage, paymentId: paymentId)
     }
 
     func trackBumpUpFail(type: BumpUpType,
@@ -221,7 +222,8 @@ extension ProductVMTrackHelper {
                               transactionStatus: EventParameterTransactionStatus?,
                               storeProductId: String?,
                               isPromotedBump: Bool,
-                              typePage: EventParameterTypePage?) {
+                              typePage: EventParameterTypePage?,
+                              paymentId: String?) {
         let trackerEvent = TrackerEvent.listingBumpUpComplete(listing, price: price,
                                                               type: EventParameterBumpUpType(bumpType: type),
                                                               restoreRetriesCount: restoreRetriesCount,
@@ -230,7 +232,8 @@ extension ProductVMTrackHelper {
                                                               storeProductId: storeProductId,
                                                               isPromotedBump: EventParameterBoolean(bool: isPromotedBump),
                                                               typePage: typePage,
-                                                              isBoost: EventParameterBoolean(bool: type.isBoost))
+                                                              isBoost: EventParameterBoolean(bool: type.isBoost),
+                                                              paymentId: paymentId)
         tracker.trackEvent(trackerEvent)
     }
 
@@ -416,9 +419,10 @@ extension ProductVMTrackHelper {
                                                          listingVisitSource: listingVisitSource,
                                                          feedPosition: feedPosition,
                                                          userBadge: sellerBadge,
-                                                         containsVideo: containsVideo))
+                                                         containsVideo: containsVideo,
+                                                         isProfessional: nil))
         }
-        tracker.trackEvent(TrackerEvent.userMessageSent(info: info))
+        tracker.trackEvent(TrackerEvent.userMessageSent(info: info, isProfessional: nil))
     }
 
     func trackMessageSentError(messageType: ChatWrapperMessageType, isShowingFeaturedStripe: Bool, error: RepositoryError) {

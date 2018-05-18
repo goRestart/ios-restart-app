@@ -22,3 +22,11 @@ extension ListingPrice {
         return Core.currencyHelper.formattedAmountWithCurrencyCode(actualCurrencyCode, amount: value)
     }
 }
+
+
+extension ListingPrice {
+    func allowFreeFilters(freePostingModeAllowed: Bool) -> EventParameterBoolean {
+        guard freePostingModeAllowed else { return .notAvailable }
+        return isFree ? .trueParameter : .falseParameter
+    }
+}
