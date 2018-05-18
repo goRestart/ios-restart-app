@@ -142,18 +142,18 @@
 		607FACD21AFB9204008FA782 /* Example for LGLogin */ = {
 			isa = PBXGroup;
 			children = (
-				50905F0A20AD7363008C2AF6 /* MockBubbleNotificationManager.swift */,
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				50905F0620AD7361008C2AF6 /* EmbeddedLoginViewController.swift */,
 				50905F0520AD7361008C2AF6 /* EmbeddedLoginViewModel.swift */,
+				50905F0B20AD7363008C2AF6 /* EmbeddedLoginViewModelNavigator.swift */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
-				50905F0B20AD7363008C2AF6 /* EmbeddedLoginViewModelNavigator.swift */,
 				50905F0320AD7361008C2AF6 /* LoginConfig.swift */,
 				50905F0720AD7361008C2AF6 /* MainCoordinator.swift */,
 				50905F0920AD7361008C2AF6 /* MainViewController.swift */,
 				50905F0420AD7361008C2AF6 /* MainViewModel.swift */,
 				50905F0820AD7361008C2AF6 /* MainViewModelNavigator.swift */,
+				50905F0A20AD7363008C2AF6 /* MockBubbleNotificationManager.swift */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
 			);
 			name = "Example for LGLogin";

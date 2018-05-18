@@ -43,4 +43,10 @@ final public class LoginComponentFactory {
                                 sessionManager: sessionManager,
                                 termsAndConditionsEnabled: config.signUpEmailTermsAndConditionsAcceptRequired)
     }
+
+    public func makeTourSignUpViewModel(source: EventParameterLoginSourceValue) -> SignUpViewModel {
+        return SignUpViewModel(appearance: .dark,
+                               source: source,
+                               termsAndConditionsEnabled: config.signUpEmailTermsAndConditionsAcceptRequired)
+    }
 }

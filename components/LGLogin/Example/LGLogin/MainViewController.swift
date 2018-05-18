@@ -1,7 +1,7 @@
 import UIKit
 import LGComponents
 
-class MainViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class MainViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
     private static let cellIdentifier = "UITableViewCellIdentifier"
 
     private let viewModel: MainViewModel
@@ -13,7 +13,8 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     init(viewModel: MainViewModel) {
         self.viewModel = viewModel
         self.tableView = UITableView()
-        super.init(nibName: nil, bundle: nil)
+        super.init(viewModel: viewModel,
+                   nibName: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {

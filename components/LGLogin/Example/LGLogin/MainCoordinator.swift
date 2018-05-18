@@ -2,7 +2,7 @@ import LGComponents
 import LGCoreKit
 import UIKit
 
-final class MainCoordinator: Coordinator, MainViewModelNavigator, EmbeddedLoginViewModelNavigator {
+final class MainCoordinator: Coordinator, MainViewModelNavigator, EmbeddedLoginViewModelNavigator, MainSignUpNavigator {
     var child: Coordinator?
     var coordinatorDelegate: CoordinatorDelegate?
     var viewController: UIViewController {
@@ -79,13 +79,54 @@ final class MainCoordinator: Coordinator, MainViewModelNavigator, EmbeddedLoginV
     }
 
     func openEmbeddedLogin() {
-        let viewModel = EmbeddedLoginViewModel()
+        let config = LoginConfig(signUpEmailTermsAndConditionsAcceptRequired: false)
+        let factory = LoginComponentFactory(config: config)
+        let signUpViewModel = factory.makeTourSignUpViewModel(source: .install)
+        signUpViewModel.navigator = self
+        let viewModel = EmbeddedLoginViewModel(signUpViewModel: signUpViewModel)
         viewModel.navigator = self
         let viewController = EmbeddedLoginViewController(viewModel: viewModel)
+        signUpViewModel.delegate = viewController
         navigationController.pushViewController(viewController, animated: true)
     }
 
-    
+
+    // MARK: - MainSignUpNavigator
+
+    func cancelMainSignUp() {
+        closeEmbeddedLogin()
+    }
+
+    func closeMainSignUpSuccessful(with myUser: MyUser) {
+        closeEmbeddedLogin()
+    }
+
+    func closeMainSignUpAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork) {
+        closeEmbeddedLogin()
+    }
+
+    func closeMainSignUpAndOpenDeviceNotAllowedAlert(contactURL: URL,
+                                                     network: EventParameterAccountNetwork) {
+        closeEmbeddedLogin()
+    }
+
+    func openSignUpEmailFromMainSignUp(termsAndConditionsEnabled: Bool) {
+        // TODO: !
+    }
+
+    func openLogInEmailFromMainSignUp(termsAndConditionsEnabled: Bool) {
+        // TODO: !
+    }
+
+    func openHelpFromMainSignUp() {
+        // TODO: !
+    }
+
+    func open(url: URL) {
+        // TODO: !
+    }
+
+
     // MARK: - EmbeddedLoginViewModelNavigator
 
     func closeEmbeddedLogin() {

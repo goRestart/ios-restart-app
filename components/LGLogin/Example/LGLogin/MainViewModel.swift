@@ -1,7 +1,10 @@
-final class MainViewModel {
+import LGComponents
+
+final class MainViewModel: BaseViewModel {
     weak var navigator: MainViewModelNavigator?
 
-    init() {
+    override init() {
+        super.init()
     }
 
     func numberOfItems() -> Int {

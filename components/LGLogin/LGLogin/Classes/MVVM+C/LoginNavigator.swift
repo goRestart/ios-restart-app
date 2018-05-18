@@ -8,7 +8,7 @@
 
 import LGCoreKit
 
-protocol MainSignUpNavigator: class {
+public protocol MainSignUpNavigator: class {
     func cancelMainSignUp()
     func closeMainSignUpSuccessful(with myUser: MyUser)
     func closeMainSignUpAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork)

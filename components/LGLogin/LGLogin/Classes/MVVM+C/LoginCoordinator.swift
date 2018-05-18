@@ -102,23 +102,23 @@ public final class LoginCoordinator: Coordinator, ChangePasswordPresenter {
 // MARK: - MainSignUpNavigator
 
 extension LoginCoordinator: MainSignUpNavigator {
-    func cancelMainSignUp() {
+    public func cancelMainSignUp() {
         closeRoot(didLogIn: false)
     }
 
-    func closeMainSignUpSuccessful(with myUser: MyUser) {
+    public func closeMainSignUpSuccessful(with myUser: MyUser) {
         closeRoot(didLogIn: true)
     }
 
-    func closeMainSignUpAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork) {
+    public func closeMainSignUpAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork) {
         closeRootAndOpenScammerAlert(contactURL: contactURL, network: network)
     }
 
-    func closeMainSignUpAndOpenDeviceNotAllowedAlert(contactURL: URL, network: EventParameterAccountNetwork) {
+    public func closeMainSignUpAndOpenDeviceNotAllowedAlert(contactURL: URL, network: EventParameterAccountNetwork) {
         closeRootAndOpenDeviceNotAllowedAlert(contactURL: contactURL, network: network)
     }
 
-    func openSignUpEmailFromMainSignUp(termsAndConditionsEnabled: Bool) {
+    public func openSignUpEmailFromMainSignUp(termsAndConditionsEnabled: Bool) {
         let vc: UIViewController
         let vm = SignUpLogInViewModel(
             source: source, action:
@@ -146,7 +146,7 @@ extension LoginCoordinator: MainSignUpNavigator {
         }
     }
 
-    func openLogInEmailFromMainSignUp(termsAndConditionsEnabled: Bool) {
+    public func openLogInEmailFromMainSignUp(termsAndConditionsEnabled: Bool) {
         let vc: UIViewController
 
         let vm = SignUpLogInViewModel(
@@ -175,7 +175,7 @@ extension LoginCoordinator: MainSignUpNavigator {
         }
     }
 
-    func openHelpFromMainSignUp() {
+    public func openHelpFromMainSignUp() {
         openHelp()
     }
 }
@@ -261,7 +261,7 @@ extension LoginCoordinator: RecaptchaNavigator {
 // MARK: - Common Navigator
 
 extension LoginCoordinator {
-    func open(url: URL) {
+    public func open(url: URL) {
         let svc = SFSafariViewController(url: url, entersReaderIfAvailable: false)
         svc.view.tintColor = UIColor.primaryColor
         let vc = topViewController()

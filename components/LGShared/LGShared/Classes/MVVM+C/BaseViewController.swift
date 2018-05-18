@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
+import LGComponents
 import LGCoreKit
 
 // MARK: - ToastView
@@ -216,11 +217,11 @@ extension UIViewController {
 
 // MARK: - NavigationBar
 
-enum NavBarTransparentSubStyle {
+public enum NavBarTransparentSubStyle {
     case dark, light
 }
 
-enum NavBarBackgroundStyle {
+public enum NavBarBackgroundStyle {
     case white
     case transparent(substyle: NavBarTransparentSubStyle)
     case custom(background: UIImage, shadow: UIImage)
@@ -280,7 +281,7 @@ extension UIViewController {
 
     func setNavBarBackButton(_ icon: UIImage?) {
         guard !isRootViewController() else { return }
-        let backIconImage = icon ?? UIImage(named: "navbar_back")
+        let backIconImage = icon ?? R.Asset.IconsButtons.navbarBack.image
         let backButton = UIBarButtonItem(image: backIconImage, style: .plain,
                                          target: self, action: #selector(UIViewController.popBackViewController))
         self.navigationItem.leftBarButtonItem = backButton
@@ -311,7 +312,7 @@ extension UIViewController {
 
 // MARK: - BaseViewController
 
-class BaseViewController: UIViewController, TabBarShowable {
+open class BaseViewController: UIViewController, TabBarShowable {
 
     // VM & active
     private var viewModel: BaseViewModel?
@@ -341,12 +342,12 @@ class BaseViewController: UIViewController, TabBarShowable {
 
     // MARK: Lifecycle
 
-    init(viewModel: BaseViewModel?,
-         nibName nibNameOrNil: String?,
-         statusBarStyle: UIStatusBarStyle = .default,
-         navBarBackgroundStyle: NavBarBackgroundStyle = .default,
-         swipeBackGestureEnabled: Bool = true,
-         bundle: Bundle? = nil) {
+    public init(viewModel: BaseViewModel?,
+                nibName nibNameOrNil: String?,
+                statusBarStyle: UIStatusBarStyle = .default,
+                navBarBackgroundStyle: NavBarBackgroundStyle = .default,
+                swipeBackGestureEnabled: Bool = true,
+                bundle: Bundle? = nil) {
         self.viewModel = viewModel
         self.subviews = []
         self.statusBarStyle = statusBarStyle
@@ -360,7 +361,7 @@ class BaseViewController: UIViewController, TabBarShowable {
         hidesBottomBarWhenPushed = true
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -375,7 +376,7 @@ class BaseViewController: UIViewController, TabBarShowable {
         }
     }
 
-    override func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
         didCallViewDidLoaded = true
         setNavBarBackButton(nil)
@@ -387,7 +388,7 @@ class BaseViewController: UIViewController, TabBarShowable {
         view.backgroundColor = UIColor.viewControllerBackground
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewWillAppearFromBackground(false)
         if firstWillAppear {
@@ -396,12 +397,12 @@ class BaseViewController: UIViewController, TabBarShowable {
         }
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
+    open override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         viewWillDisappearToBackground(false)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if firstAppear {
             viewDidFirstAppear(animated)
@@ -411,7 +412,7 @@ class BaseViewController: UIViewController, TabBarShowable {
         navigationController?.interactivePopGestureRecognizer?.isEnabled = swipeBackGestureEnabled
     }
 
-    override func viewDidLayoutSubviews() {
+    open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         if firstLayout {
             viewDidFirstLayoutSubviews()
@@ -419,21 +420,22 @@ class BaseViewController: UIViewController, TabBarShowable {
         }
     }
     
-    func viewWillFirstAppear(_ animated: Bool) {
+    open func viewWillFirstAppear(_ animated: Bool) {
         // implement in subclasses
     }
 
-    func viewDidFirstAppear(_ animated: Bool) {
+    open func viewDidFirstAppear(_ animated: Bool) {
         // implement in subclasses
     }
 
-    func viewDidFirstLayoutSubviews() {
+    open func viewDidFirstLayoutSubviews() {
         // implement in subclasses
     }
+
     
     // MARK: Extended lifecycle
     
-    internal func viewWillAppearFromBackground(_ fromBackground: Bool) {
+    func viewWillAppearFromBackground(_ fromBackground: Bool) {
         setNavBarBackgroundStyle(navBarBackgroundStyle)
 
         if !fromBackground {
@@ -444,8 +446,7 @@ class BaseViewController: UIViewController, TabBarShowable {
         active = true
     }
     
-    internal func viewWillDisappearToBackground(_ toBackground: Bool) {
-        
+    func viewWillDisappearToBackground(_ toBackground: Bool) {
         if !toBackground {
             if !isRootViewController() || isModal {
                 statusBarStyle = previousStatusBarStyle
@@ -459,7 +460,7 @@ class BaseViewController: UIViewController, TabBarShowable {
     
     // MARK: StatusBarStyle
 
-    override var preferredStatusBarStyle: UIStatusBarStyle {
+    open override var preferredStatusBarStyle: UIStatusBarStyle {
         return statusBarStyle
     }
     
