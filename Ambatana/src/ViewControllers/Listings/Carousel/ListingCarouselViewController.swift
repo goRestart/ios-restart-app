@@ -1175,7 +1175,7 @@ extension ListingCarouselViewController: ProductCarouselMoreInfoDelegate {
 
 // MARK: > ToolTip
 
-extension ListingCarouselViewController {
+extension ListingCarouselViewController: LetgoTooltipDelegate {
 
     fileprivate func setupMoreInfoTooltip() {
         guard viewModel.shouldShowMoreInfoTooltip else { return }
@@ -1202,11 +1202,16 @@ extension ListingCarouselViewController {
         reputationBadgeTooltip?.message = "User verified! Tap if you want to be verified too"
         reputationBadgeTooltip?.leftAnchor.constraint(equalTo: userView.leftAnchor).isActive = true
         reputationBadgeTooltip?.bottomAnchor.constraint(equalTo: userView.topAnchor, constant: Metrics.veryBigMargin).isActive = true
+        reputationBadgeTooltip?.delegate = self
     }
 
     fileprivate func remoteReputationBadgeTooltip() {
         reputationBadgeTooltip?.removeFromSuperview()
         reputationBadgeTooltip = nil
+    }
+
+    func didTapTooltip() {
+        viewModel.reputationTooltipTapped()
     }
 }
 

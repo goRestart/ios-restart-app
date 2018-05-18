@@ -536,6 +536,9 @@ class ListingCarouselViewModel: BaseViewModel {
         currentListingViewModel?.trackCallTapped(source: source, feedPosition: trackingFeedPosition)
     }
 
+    func reputationTooltipTapped() {
+        navigator?.openUserVerificationView()
+    }
 
     // MARK: - Private Methods
 
