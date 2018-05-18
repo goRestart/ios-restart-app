@@ -191,7 +191,9 @@ final class ChatViewController: TextViewController {
         sendButton.tintColor = UIColor.primaryColor
         sendButton.titleLabel?.font = UIFont.smallButtonFont
         reloadLeftActions()
+
         tooltip.message = "User verified! Tap if you want to be verified too."
+        tooltip.peakOnTop = true
 
         addSubviews()
         setupFrames()
@@ -251,6 +253,7 @@ final class ChatViewController: TextViewController {
 
         tooltip.layout(with: topLayoutGuide).below(by: Metrics.veryShortMargin)
         tooltip.layout(with: view).leading(by: 40)
+        tooltip.peakOffsetFromLeft = 40
     }
 
     fileprivate func setupRelatedProducts() {
@@ -568,8 +571,8 @@ fileprivate extension ChatViewController {
         viewModel.interlocutorIsVerified.asDriver().drive(onNext: { [weak self] verified in
             self?.listingView.badgeImageView.isHidden = !verified
             if verified {
-                self?.tooltip.show(peakOnTop: true, peakOffsetFromLeft: 40)
-            }   
+                self?.tooltip.isHidden = false
+            }
         }).disposed(by: disposeBag)
 
         textView.rx.text

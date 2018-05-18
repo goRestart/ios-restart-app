@@ -18,6 +18,31 @@ final class LetgoTooltip: UIView {
     private var peakOnBottomConstraint: NSLayoutConstraint!
     private var peakCenterConstraint: NSLayoutConstraint!
 
+    private var topPeakImage: UIImage {
+        return #imageLiteral(resourceName: "tooltip_peak_center_black").rotatedImage().rotatedImage().withRenderingMode(.alwaysTemplate)
+    }
+
+    private var bottomPeakImage: UIImage {
+        return #imageLiteral(resourceName: "tooltip_peak_center_black").withRenderingMode(.alwaysTemplate)
+    }
+
+    var peakOnTop: Bool = true {
+        didSet {
+            peakOnTopConstraint.isActive = peakOnTop
+            peakOnBottomConstraint.isActive = !peakOnTop
+            peakImageView.image = peakOnTop ? topPeakImage : bottomPeakImage
+            layoutIfNeeded()
+        }
+    }
+
+    var peakOffsetFromLeft: CGFloat = 0 {
+        didSet {
+            self.peakCenterConstraint.constant = peakOffsetFromLeft
+            self.peakCenterConstraint.isActive = true
+            layoutIfNeeded()
+        }
+    }
+
     struct Layout {
         static let peakHeight: CGFloat = 8
         static let peakWidth: CGFloat = 18
@@ -53,13 +78,12 @@ final class LetgoTooltip: UIView {
         titleLabel.text = ""
 
         chevronImageView.image = #imageLiteral(resourceName: "ml_icon_chevron")
-        peakImageView.image = #imageLiteral(resourceName: "tooltip_peak_center_black").rotatedImage().rotatedImage().withRenderingMode(.alwaysTemplate)
         peakImageView.tintColor = .lgBlack
         self.isHidden = true
     }
 
     func setupConstraints() {
-        let constraints: [NSLayoutConstraint] = [
+        var constraints: [NSLayoutConstraint] = [
             container.widthAnchor.constraint(lessThanOrEqualToConstant: Layout.maxWidth),
             container.topAnchor.constraint(equalTo: topAnchor, constant: Layout.peakHeight),
             container.leftAnchor.constraint(equalTo: leftAnchor),
@@ -77,20 +101,11 @@ final class LetgoTooltip: UIView {
             peakImageView.widthAnchor.constraint(equalToConstant: Layout.peakWidth)
         ]
 
-        NSLayoutConstraint.activate(constraints)
-
-        // Inactive constraints until the tooltip is shown
         peakOnTopConstraint = peakImageView.bottomAnchor.constraint(equalTo: container.topAnchor)
         peakOnBottomConstraint = peakImageView.topAnchor.constraint(equalTo: container.bottomAnchor)
         peakCenterConstraint = peakImageView.centerXAnchor.constraint(equalTo: leftAnchor, constant: 0)
-    }
 
-    func show(peakOnTop: Bool, peakOffsetFromLeft: CGFloat) {
-        self.peakCenterConstraint.constant = peakOffsetFromLeft
-        self.peakCenterConstraint.isActive = true
-        peakOnTopConstraint.isActive = peakOnTop
-        peakOnBottomConstraint.isActive = !peakOnTop
-        layoutIfNeeded()
-        self.isHidden = false
+        constraints.append(contentsOf: [peakOnTopConstraint, peakCenterConstraint])
+        NSLayoutConstraint.activate(constraints)
     }
 }
