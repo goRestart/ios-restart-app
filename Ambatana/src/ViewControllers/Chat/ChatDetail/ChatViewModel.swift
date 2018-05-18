@@ -724,6 +724,9 @@ class ChatViewModel: BaseViewModel {
         trackCallSeller()
     }
 
+    func reputationTooltipTapped() {
+        navigator?.openUserVerificationView()
+    }
 }
 
 

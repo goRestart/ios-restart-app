@@ -62,13 +62,6 @@ extension ProfileTabCoordinator: ProfileTabNavigator {
         navigationController.pushViewController(vc, animated: true)
     }
 
-    func openEditUserBio() {
-        let vm = EditUserBioViewModel()
-        vm.navigator = self
-        let vc = EditUserBioViewController(viewModel: vm)
-        navigationController.pushViewController(vc, animated: true)
-    }
-
     func editListing(_ listing: Listing, pageType: EventParameterTypePage?) {
         let navigator = EditListingCoordinator(listing: listing,
                                                bumpUpProductData: nil,
@@ -83,19 +76,6 @@ extension ProfileTabCoordinator: ProfileTabNavigator {
         let vm = UserVerificationViewModel()
         vm.navigator = self
         let vc = UserVerificationViewController(viewModel: vm)
-        navigationController.pushViewController(vc, animated: true)
-    }
-}
-
-extension ProfileTabCoordinator: UserVerificationNavigator {
-    func closeUserVerification() {
-        navigationController.popViewController(animated: true)
-    }
-
-    func openEmailVerification() {
-        let vm = UserVerificationEmailViewModel()
-        vm.navigator = self
-        let vc = UserVerificationEmailViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
 }
@@ -185,18 +165,6 @@ extension ProfileTabCoordinator: HelpNavigator {
     }
 
     func closeHelp() {
-        navigationController.popViewController(animated: true)
-    }
-}
-
-extension ProfileTabCoordinator: EditUserBioNavigator {
-    func closeEditUserBio() {
-        navigationController.popViewController(animated: true)
-    }
-}
-
-extension ProfileTabCoordinator: VerifyUserEmailNavigator {
-    func closeEmailVerification() {
         navigationController.popViewController(animated: true)
     }
 }

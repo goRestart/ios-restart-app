@@ -8,6 +8,10 @@
 
 import Foundation
 
+protocol LetgoTooltipDelegate: class {
+    func didTapTooltip()
+}
+
 final class LetgoTooltip: UIView {
     private let container = UIView()
     private let peakImageView = UIImageView()
@@ -17,6 +21,7 @@ final class LetgoTooltip: UIView {
     private var peakOnTopConstraint: NSLayoutConstraint!
     private var peakOnBottomConstraint: NSLayoutConstraint!
     private var peakCenterConstraint: NSLayoutConstraint!
+    weak var delegate: LetgoTooltipDelegate?
 
     private var topPeakImage: UIImage {
         return #imageLiteral(resourceName: "tooltip_peak_center_black").rotatedImage().rotatedImage().withRenderingMode(.alwaysTemplate)
@@ -79,7 +84,13 @@ final class LetgoTooltip: UIView {
 
         chevronImageView.image = #imageLiteral(resourceName: "ml_icon_chevron")
         peakImageView.tintColor = .lgBlack
-        self.isHidden = true
+
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapTooltip))
+        container.addGestureRecognizer(tap)
+    }
+
+    @objc func didTapTooltip() {
+        delegate?.didTapTooltip()
     }
 
     func setupConstraints() {

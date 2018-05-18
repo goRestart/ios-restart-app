@@ -194,7 +194,8 @@ final class ChatViewController: TextViewController {
 
         tooltip.message = "User verified! Tap if you want to be verified too."
         tooltip.peakOnTop = true
-
+        tooltip.delegate = self
+        
         addSubviews()
         setupFrames()
         setupConstraints()
@@ -855,5 +856,11 @@ extension ChatViewController: MeetingCellImageDelegate, MKMapViewDelegate {
         cellMapViewer.openMapOnView(mainView: topView, fromInitialView: imageView, withCenterCoordinates: coordinates)
 
         textView.resignFirstResponder()
+    }
+}
+
+extension ChatViewController: LetgoTooltipDelegate {
+    func didTapTooltip() {
+        viewModel.reputationTooltipTapped()
     }
 }

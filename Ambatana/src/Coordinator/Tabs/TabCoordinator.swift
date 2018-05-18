@@ -172,6 +172,13 @@ extension TabCoordinator: TabNavigator {
         appNavigator?.openDeepLink(deepLink: deeplink)
     }
 
+    func openUserVerificationView() {
+        let vm = UserVerificationViewModel()
+        vm.navigator = self
+        let vc = UserVerificationViewController(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
+    }
+
     var hidesBottomBarWhenPushed: Bool {
         return navigationController.viewControllers.count == 1
     }
@@ -498,6 +505,38 @@ fileprivate extension TabCoordinator {
         
         trackRelatedListings(listingId: listingId,
                              source: .notFound)
+    }
+}
+
+extension TabCoordinator: UserVerificationNavigator {
+    func closeUserVerification() {
+        navigationController.popViewController(animated: true)
+    }
+
+    func openEmailVerification() {
+        let vm = UserVerificationEmailViewModel()
+        vm.navigator = self
+        let vc = UserVerificationEmailViewController(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
+    }
+
+    func openEditUserBio() {
+        let vm = EditUserBioViewModel()
+        vm.navigator = self
+        let vc = EditUserBioViewController(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
+    }
+}
+
+extension TabCoordinator: EditUserBioNavigator {
+    func closeEditUserBio() {
+        navigationController.popViewController(animated: true)
+    }
+}
+
+extension TabCoordinator: VerifyUserEmailNavigator {
+    func closeEmailVerification() {
+        navigationController.popViewController(animated: true)
     }
 }
 

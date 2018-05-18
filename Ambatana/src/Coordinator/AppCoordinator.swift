@@ -253,7 +253,6 @@ extension AppCoordinator: AppNavigator {
                   forceCloseChild: true,
                   completion: nil)
     }
-
     
     // MARK: App Review
 
@@ -463,7 +462,6 @@ extension AppCoordinator: AppNavigator {
         openChild(coordinator: editCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: false, completion: nil)
     }
 }
-
 
 // MARK: - SellCoordinatorDelegate
 
