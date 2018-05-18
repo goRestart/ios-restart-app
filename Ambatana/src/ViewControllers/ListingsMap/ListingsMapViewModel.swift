@@ -14,78 +14,93 @@ import MapKit
 
 final class ListingsMapViewModel: BaseViewModel {
     
-    private let requester: ListingListRequester
-    private let navigator: ListingsMapNavigator
-    private let productFilter : ListingFilters
+    private let navigator: TabNavigator
+    private var productFilter : ListingFilters
     private let featureFlags: FeatureFlaggeable
     private let locationManager: LocationManager
+
+    let listingsVariable: Variable<[Listing]?> = Variable(nil)
+
+    let isLoading = Variable(false)
+    let errorMessage = Variable<String?>(nil)
     
-    let listingsVariable = Variable([Listing]())
-    let isEmptyVariable = Variable(false)
-    let isLoadingVariable = Variable(false)
-    let mkAnnotationVariable = Variable([MKAnnotation]())
-    
-    init(requester: ListingListRequester,
-         navigator:ListingsMapNavigator,
+    init(navigator: TabNavigator,
          locationManager: LocationManager,
          currentFilters: ListingFilters,
          featureFlags: FeatureFlaggeable) {
-        self.requester = requester
         self.navigator = navigator
         self.locationManager = locationManager
         self.productFilter = currentFilters
         self.featureFlags = featureFlags
         super.init()
-    }
-    
-    func close() {
-        navigator.closeMap()
+        retrieve(with: currentFilters)
     }
     
     var location: LGLocationCoordinates2D? {
-        return productFilter.place?.location
+        if let filterLocation = productFilter.place?.location {
+            return filterLocation
+        } else if let positionCoordinate = locationManager.currentLocation?.coordinate {
+            return LGLocationCoordinates2D(coordinates: positionCoordinate)
+        }
+        return nil
     }
     
-    func retrieve() {
+    var accuracy: Double {
+        return productFilter.selectedCategories.first?.mapAccuracy ?? Constants.nonAccurateRegionRadius
+    }
+    
+    private func retrieve(with filters: ListingFilters) {
+        isLoading.value = true
+        let requester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
+                                                                            queryString: nil,
+                                                                            itemsPerPage: 50,
+                                                                            carSearchActive: featureFlags.searchCarsIntoNewBackend.isActive)
         requester.retrieveFirstPage { [weak self] result in
             guard let strongSelf = self else { return }
-            strongSelf.isLoadingVariable.value = true
-            if let newListings = result.listingsResult.value {
+            if let error = result.listingsResult.error {
+                strongSelf.showMap(error: error)
+            } else if let newListings = result.listingsResult.value {
                 strongSelf.listingsVariable.value = newListings
-                strongSelf.isEmptyVariable.value = newListings.isEmpty
-                strongSelf.isLoadingVariable.value = false
-                strongSelf.mkAnnotationVariable.value = newListings.annotations
             }
+            strongSelf.isLoading.value = false
         }
     }
     
-}
-
-extension Listing {
-    
-    var type: MapAnnotationType {
-        switch self {
-        case .product, .car: return .general
-        case .realEstate: return .realEstate
-        }
+    private func resetMap() {
+        listingsVariable.value = nil
     }
     
-    var configuration: LGMapAnnotationConfiguration {
-        return LGMapAnnotationConfiguration(location: location,
-                                            title: name ?? "",
-                                            type: type,
-                                            isFeatured: featured ?? false)
+    private func showMap(error: RepositoryError) {
+        var errorString: String? = nil
+            switch error {
+            case .network:
+                errorString = LGLocalizedString.toastNoNetwork
+            case .internalError, .notFound, .forbidden, .tooManyRequests, .userNotVerified, .serverError, .wsChatError, .searchAlertError:
+                errorString = LGLocalizedString.toastErrorInternal
+            case .unauthorized:
+                errorString = nil
+            }
+        errorMessage.value = errorString
     }
     
-    var annotation: MKAnnotation {
-        return LGMapAnnotation(configuration: configuration)
+    func update(with location: LGLocationCoordinates2D, radius: Int) {
+        resetMap()
+        var filter = productFilter
+        filter.place?.location = location
+        filter.distanceRadius = radius
+        retrieve(with: filter)
     }
     
-}
-
-
-private extension Array where Element == Listing {
-    var annotations: [MKAnnotation] {
-        return map { return $0.annotation }
+    func listing(at index: Int) -> Listing? {
+        return listingsVariable.value?[safeAt: index]
     }
+    
+    func tags(at index: Int) -> [String] {
+        return listing(at: index)?.tags(postingFlowType: featureFlags.postingFlowType) ?? []
+    }
+    
+    func open(_ listingData: ListingDetailData) {
+        navigator.openListing(listingData, source: .filter, actionOnFirstAppear: .nonexistent)
+    }
+    
 }

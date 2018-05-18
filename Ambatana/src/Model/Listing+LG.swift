@@ -24,6 +24,17 @@ extension Listing {
     }
 }
 
+extension Listing {
+    func tags(postingFlowType: PostingFlowType) -> [String]? {
+        switch self {
+        case .product, .car:
+            return nil
+        case .realEstate(let realEstate):
+            return realEstate.realEstateAttributes.generateTags(postingFlowType: postingFlowType)
+        }
+    }
+}
+
 extension Product {
     func belongsTo(userId: String?) -> Bool {
         let ownerId = user.objectId
@@ -35,3 +46,4 @@ extension Product {
         return belongsTo(userId: myUserRepository.myUser?.objectId)
     }
 }
+

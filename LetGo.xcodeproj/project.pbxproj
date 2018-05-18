@@ -546,20 +546,26 @@
 		4245B6F02084D47A00EF8162 /* UserType+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4245B6EE2084D47A00EF8162 /* UserType+LG.swift */; };
 		424898EE2090820E004B11AC /* ListingRepository+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424898ED2090820E004B11AC /* ListingRepository+LG.swift */; };
 		424898EF2090820E004B11AC /* ListingRepository+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424898ED2090820E004B11AC /* ListingRepository+LG.swift */; };
+		425B40A720A99981000968CF /* MKMapView+Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425B40A620A99981000968CF /* MKMapView+Location.swift */; };
+		425B40A820A99981000968CF /* MKMapView+Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425B40A620A99981000968CF /* MKMapView+Location.swift */; };
 		425BB9FB20888CF500FE9BB8 /* UserType+LGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425BB9FA20888CF500FE9BB8 /* UserType+LGSpec.swift */; };
 		427070D520764EBA00C1FEB3 /* CellAppereance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427070D420764EBA00C1FEB3 /* CellAppereance.swift */; };
 		427070D620764EBA00C1FEB3 /* CellAppereance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427070D420764EBA00C1FEB3 /* CellAppereance.swift */; };
 		42713C68207629A10077F88A /* PromoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4219244020761CF900862CEF /* PromoCell.swift */; };
 		4273565120A2E9C200C71D49 /* LGMapAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4273565020A2E9C200C71D49 /* LGMapAnnotation.swift */; };
 		4273565220A2E9C200C71D49 /* LGMapAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4273565020A2E9C200C71D49 /* LGMapAnnotation.swift */; };
+		4273565420A308A300C71D49 /* LGMapDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4273565320A308A300C71D49 /* LGMapDetailView.swift */; };
+		4273565520A308A300C71D49 /* LGMapDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4273565320A308A300C71D49 /* LGMapDetailView.swift */; };
+		4273565720A32F5000C71D49 /* Listing+Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4273565620A32F5000C71D49 /* Listing+Map.swift */; };
+		4273565820A32F5000C71D49 /* Listing+Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4273565620A32F5000C71D49 /* Listing+Map.swift */; };
 		427CAB86206A7D5600112D58 /* InfoBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FADDDD2069257F00B6B774 /* InfoBubbleView.swift */; };
 		427CAB87206A7D5700112D58 /* InfoBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FADDDD2069257F00B6B774 /* InfoBubbleView.swift */; };
 		427CAB8A206A827300112D58 /* TrendingSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427CAB89206A827300112D58 /* TrendingSearchView.swift */; };
 		427CAB8B206A8B4E00112D58 /* TrendingSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427CAB89206A827300112D58 /* TrendingSearchView.swift */; };
 		4287173D20655B0600EE334C /* LGNavBarMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4287173C20655B0600EE334C /* LGNavBarMetrics.swift */; };
 		4287173E20655DB500EE334C /* LGNavBarMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4287173C20655B0600EE334C /* LGNavBarMetrics.swift */; };
-		42CA899520973F2800CE7B5B /* ListingsMapNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CA899420973F2800CE7B5B /* ListingsMapNavigator.swift */; };
-		42CA899620973F2800CE7B5B /* ListingsMapNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CA899420973F2800CE7B5B /* ListingsMapNavigator.swift */; };
+		42B7029A20A595840031B9BD /* LGRibbonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B7029920A595840031B9BD /* LGRibbonView.swift */; };
+		42B7029B20A595840031B9BD /* LGRibbonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B7029920A595840031B9BD /* LGRibbonView.swift */; };
 		42CA899920973F7300CE7B5B /* ListingsMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CA899820973F7300CE7B5B /* ListingsMapViewController.swift */; };
 		42CA899A20973F7300CE7B5B /* ListingsMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CA899820973F7300CE7B5B /* ListingsMapViewController.swift */; };
 		42CA899C2097498900CE7B5B /* LGMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CA899B2097498900CE7B5B /* LGMapView.swift */; };
@@ -2294,13 +2300,16 @@
 		421CB34A207BBE5E006BF8A4 /* Collection+Safe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Safe.swift"; sourceTree = "<group>"; };
 		4245B6EE2084D47A00EF8162 /* UserType+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserType+LG.swift"; sourceTree = "<group>"; };
 		424898ED2090820E004B11AC /* ListingRepository+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ListingRepository+LG.swift"; sourceTree = "<group>"; };
+		425B40A620A99981000968CF /* MKMapView+Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKMapView+Location.swift"; sourceTree = "<group>"; };
 		425BB9FA20888CF500FE9BB8 /* UserType+LGSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserType+LGSpec.swift"; sourceTree = "<group>"; };
 		427070D420764EBA00C1FEB3 /* CellAppereance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellAppereance.swift; sourceTree = "<group>"; };
 		4273565020A2E9C200C71D49 /* LGMapAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGMapAnnotation.swift; sourceTree = "<group>"; };
+		4273565320A308A300C71D49 /* LGMapDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGMapDetailView.swift; sourceTree = "<group>"; };
+		4273565620A32F5000C71D49 /* Listing+Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Listing+Map.swift"; sourceTree = "<group>"; };
 		427CAB89206A827300112D58 /* TrendingSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingSearchView.swift; sourceTree = "<group>"; };
 		4287173C20655B0600EE334C /* LGNavBarMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGNavBarMetrics.swift; sourceTree = "<group>"; };
 		428846C02080B76300011D27 /* LGCollapsibleLabel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = LGCollapsibleLabel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		42CA899420973F2800CE7B5B /* ListingsMapNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingsMapNavigator.swift; sourceTree = "<group>"; };
+		42B7029920A595840031B9BD /* LGRibbonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGRibbonView.swift; sourceTree = "<group>"; };
 		42CA899820973F7300CE7B5B /* ListingsMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingsMapViewController.swift; sourceTree = "<group>"; };
 		42CA899B2097498900CE7B5B /* LGMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGMapView.swift; sourceTree = "<group>"; };
 		42CA899E20975BF400CE7B5B /* ListingsMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingsMapViewModel.swift; sourceTree = "<group>"; };
@@ -3723,6 +3732,16 @@
 			path = PromoCell;
 			sourceTree = "<group>";
 		};
+		425B40A920A99E32000968CF /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				42CA899B2097498900CE7B5B /* LGMapView.swift */,
+				4273565020A2E9C200C71D49 /* LGMapAnnotation.swift */,
+				4273565320A308A300C71D49 /* LGMapDetailView.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
 		427CAB88206A825700112D58 /* TrendingSearch */ = {
 			isa = PBXGroup;
 			children = (
@@ -3951,6 +3970,7 @@
 		505B06A41B15A9910049F9CD /* Widgets */ = {
 			isa = PBXGroup;
 			children = (
+				425B40A920A99E32000968CF /* Map */,
 				2EB32D611DF184CB00E01E93 /* BumpUp */,
 				F57D3A231FECFCFC006F2CA4 /* TagCollectionView */,
 				509F79AE1ED6E54D00AF2F70 /* CenterAlignedCollectionViewFlowLayout.swift */,
@@ -3974,10 +3994,9 @@
 				C6E770982099B12D002CFA99 /* PushPermissions */,
 				2E64D4191D11B34F00257B69 /* Tooltip.swift */,
 				727463B11FB0AEAB00AD8261 /* LGSearchMap.swift */,
-				42CA899B2097498900CE7B5B /* LGMapView.swift */,
-				4273565020A2E9C200C71D49 /* LGMapAnnotation.swift */,
 				727463B41FB0AF1400AD8261 /* LGSearchMapViewModel.swift */,
 				F5D212B41FF53F4C00B31593 /* ProgressView.swift */,
+				42B7029920A595840031B9BD /* LGRibbonView.swift */,
 			);
 			path = Widgets;
 			sourceTree = "<group>";
@@ -4024,7 +4043,6 @@
 				01920C852010E27400B73875 /* MostSearchedItemsCoordinator.swift */,
 				01920C882010E27F00B73875 /* MostSearchedItemsNavigator.swift */,
 				0A5333CF208F53BC000D3F42 /* VideoPlayerCoordinator.swift */,
-				42CA899420973F2800CE7B5B /* ListingsMapNavigator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -4084,6 +4102,7 @@
 				C780281C1BF0FB64002B26C5 /* FilterSection.swift */,
 				7265F458202B10EA00533FE7 /* FilterRealEstateSection.swift */,
 				C7BAC9CC1E49E81E005BD0AF /* Listing+LG.swift */,
+				4273565620A32F5000C71D49 /* Listing+Map.swift */,
 				72C7A1C21FA73AC80089F175 /* ListingPrice+LG.swift */,
 				C7239A191C158139006CB5A6 /* Listing+Negotiable.swift */,
 				504652F11CC0F0B3003F5070 /* Listing+Title.swift */,
@@ -4744,6 +4763,7 @@
 				0AFC21532063D35300C09B24 /* NSAttributedString+LG.swift */,
 				2E6248D7207E352300F4144C /* Sequence+LG.swift */,
 				421CB34A207BBE5E006BF8A4 /* Collection+Safe.swift */,
+				425B40A620A99981000968CF /* MKMapView+Location.swift */,
 			);
 			path = FoundationExtensions;
 			sourceTree = "<group>";
@@ -7155,6 +7175,7 @@
 				6A5E19DE1D548F5400F92692 /* FBLoginHelper.swift in Sources */,
 				6A672C131CCFB22900AB9175 /* UIColor+LG.swift in Sources */,
 				C77593E11BF0B8C60097D62F /* FiltersViewModel.swift in Sources */,
+				4273565720A32F5000C71D49 /* Listing+Map.swift in Sources */,
 				C29F01832067A03E00A43E2F /* Camera.swift in Sources */,
 				3221E53B206152C50006B12B /* DistanceInfoView.swift in Sources */,
 				6AF75CFE1CF35EFB00EACCF0 /* ChatStickerCellDrawer.swift in Sources */,
@@ -7462,6 +7483,7 @@
 				2E50E9A71D057E92002DC4C1 /* LGAlertViewController.swift in Sources */,
 				2E4ADEC6200515FC00D07D8A /* FeaturedInfoViewModel.swift in Sources */,
 				0183496D204F6A8900B14A24 /* BlockingPostingListingEditionViewController.swift in Sources */,
+				42B7029A20A595840031B9BD /* LGRibbonView.swift in Sources */,
 				2E42378B205BE2880077B62A /* ChatOtherMeetingCellDrawer.swift in Sources */,
 				0AFC21542063D35300C09B24 /* NSAttributedString+LG.swift in Sources */,
 				8E69F3F21E9E30EE00E14F12 /* CategoryDetailTableView.swift in Sources */,
@@ -7568,6 +7590,7 @@
 				0A63DFC01FB0A9A600C065F2 /* ListingCardDetailsView.swift in Sources */,
 				2E303F49207BAD7300C2CE1D /* CellMapViewer.swift in Sources */,
 				501495EE1D895B5800AC67CA /* DiscoverListingListRequester.swift in Sources */,
+				425B40A720A99981000968CF /* MKMapView+Location.swift in Sources */,
 				C730FD111E77FC5A00175C27 /* BooleanDAO.swift in Sources */,
 				326C7304208F898D009D21DB /* RealEstateBannerPresenter.swift in Sources */,
 				6A5E19FE1D548F5400F92692 /* LGLocationCoordinates2D+Distance.swift in Sources */,
@@ -7584,6 +7607,7 @@
 				C7890A821E55AC0E0079964C /* CameraWrapper.swift in Sources */,
 				507F1BFB1C89DDF9001F0A95 /* PostalAddress+String.swift in Sources */,
 				6A5E1A101D548F5400F92692 /* UIImage+LG.swift in Sources */,
+				4273565420A308A300C71D49 /* LGMapDetailView.swift in Sources */,
 				C627573520A3439C00B401E7 /* OrderConditionable.swift in Sources */,
 				2EED4D251D23F03E0024328A /* ChatListing+title.swift in Sources */,
 				508010FE1D4748120073F362 /* SettingsViewController.swift in Sources */,
@@ -7948,6 +7972,7 @@
 				509F79B01ED6E54D00AF2F70 /* CenterAlignedCollectionViewFlowLayout.swift in Sources */,
 				2E423796205C00460077B62A /* ChatMyMeetingCell.swift in Sources */,
 				6A5E19DF1D548F5400F92692 /* FBLoginHelper.swift in Sources */,
+				4273565820A32F5000C71D49 /* Listing+Map.swift in Sources */,
 				C21E6075208A8828008A1956 /* RecordedVideo.swift in Sources */,
 				6A672C141CCFB22900AB9175 /* UIColor+LG.swift in Sources */,
 				503996D81C60C3EE004D2E09 /* LGViewPager.swift in Sources */,
@@ -8256,6 +8281,7 @@
 				2E607ECC1E3F417700ADFED1 /* BumpUpNavigator.swift in Sources */,
 				3221E5452062C0400006B12B /* ListingCellMetrics.swift in Sources */,
 				C7126BD81E6053AA00038CC4 /* ListingViewModel.swift in Sources */,
+				42B7029B20A595840031B9BD /* LGRibbonView.swift in Sources */,
 				7EA1474E1E12769500C3F462 /* LGLayout.swift in Sources */,
 				8E8236F1202CA50200A70A33 /* LGEmoji.swift in Sources */,
 				727EF06A1E0AF0220037DA4E /* LocationManager+LG.swift in Sources */,
@@ -8362,6 +8388,7 @@
 				501495EF1D895B5800AC67CA /* DiscoverListingListRequester.swift in Sources */,
 				6A5E19FF1D548F5400F92692 /* LGLocationCoordinates2D+Distance.swift in Sources */,
 				2E303F4A207BAD7300C2CE1D /* CellMapViewer.swift in Sources */,
+				425B40A820A99981000968CF /* MKMapView+Location.swift in Sources */,
 				0A04D5D420760A9D00471B9D /* MoneyABGroup.swift in Sources */,
 				C79740501D2A95B100381A4A /* LeanplumTracker.swift in Sources */,
 				C75B5DC61D59E09500112368 /* ListingCarouselViewModel.swift in Sources */,
@@ -8377,6 +8404,7 @@
 				C7DB420D1C5138B500400945 /* FloatingButton.swift in Sources */,
 				0A759E981FB473AC0030FDE0 /* ListingCardViewModel.swift in Sources */,
 				0AF5EB6D1FD060B2001DFAE2 /* QuickChatView.swift in Sources */,
+				4273565520A308A300C71D49 /* LGMapDetailView.swift in Sources */,
 				7224B0322015EBC800DC8B33 /* PostingAddDetailSizeView.swift in Sources */,
 				6AA9E90E203EDCB5004EACC4 /* UserProfileTabsView.swift in Sources */,
 				C627573620A3439C00B401E7 /* OrderConditionable.swift in Sources */,

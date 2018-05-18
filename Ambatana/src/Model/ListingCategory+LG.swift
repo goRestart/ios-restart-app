@@ -177,4 +177,14 @@ extension ListingCategory {
             return .otherItems(listingCategory: nil)
         }
     }
+    
+    var mapAccuracy: Double {
+        switch self {
+        case .realEstate:
+            return Constants.largestRegionRadius
+        case .cars,.motorsAndAccessories,.babyAndChild, .electronics, .fashionAndAccesories, .homeAndGarden,
+             .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .unassigned, .services:
+            return Constants.nonAccurateRegionRadius
+        }
+    }
 }

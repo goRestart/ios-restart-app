@@ -46,9 +46,9 @@ extension UIViewController {
     var barButtonsHoritzontalSpacing: CGFloat {
         switch DeviceFamily.current {
         case .iPhone4, .iPhone5:
-            return 8
+            return 4
         default:
-            return 16
+            return 8
         }
     }
 
@@ -211,7 +211,7 @@ extension UIViewController {
             
             let buttonWidth = icon.size.width + barButtonsHoritzontalSpacing
             button.frame = CGRect(x: x, y: 0, width: buttonWidth, height: height)
-            button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.right
+            button.contentHorizontalAlignment = .right
             
             x += buttonWidth
             
