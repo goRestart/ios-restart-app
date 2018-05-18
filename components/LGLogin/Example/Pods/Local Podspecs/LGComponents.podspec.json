@@ -53,6 +53,21 @@
       }
     },
     {
+      "name": "LGLoginMocks",
+      "source_files": "LGLogin/LGLogin/Mocks/**/*",
+      "dependencies": {
+        "LGComponents/LGLogin": [
+
+        ],
+        "LGComponents/LGAnalyticsMocks": [
+
+        ],
+        "LGComponents/LGSharedMocks": [
+
+        ]
+      }
+    },
+    {
       "name": "LGAnalytics",
       "source_files": "LGAnalytics/LGAnalytics/Classes/**/*",
       "dependencies": {
@@ -86,10 +101,31 @@
       }
     },
     {
+      "name": "LGAnalyticsMocks",
+      "source_files": "LGAnalytics/LGAnalytics/Mocks/**/*",
+      "dependencies": {
+        "LGComponents/LGAnalytics": [
+
+        ]
+      }
+    },
+    {
       "name": "LGShared",
       "source_files": "LGShared/LGShared/Classes/**/*",
       "frameworks": "CoreText",
       "dependencies": {
+        "LGComponents/LGAnalytics": [
+
+        ],
+        "LGComponents/LGResources": [
+
+        ],
+        "LGCoreKit": [
+          "4.25.0"
+        ],
+        "DeviceGuru": [
+          "3.0.1"
+        ],
         "AlamofireImage": [
           "3.3.0"
         ],
@@ -98,6 +134,18 @@
         ],
         "CocoaLumberjack/Swift": [
           "3.3.0"
+        ],
+        "RxCocoa": [
+          "4.0.0"
+        ]
+      }
+    },
+    {
+      "name": "LGSharedMocks",
+      "source_files": "LGShared/LGShared/Mocks/**/*",
+      "dependencies": {
+        "LGComponents/LGShared": [
+
         ]
       }
     },
