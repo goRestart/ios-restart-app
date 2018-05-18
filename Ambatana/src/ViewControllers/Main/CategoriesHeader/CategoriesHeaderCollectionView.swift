@@ -21,36 +21,41 @@ protocol CategoriesHeaderCollectionViewDelegate: class {
     func openMostSearchedItems()
 }
 
-class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+final class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    fileprivate var categoryHeaderElements: [CategoryHeaderElement]
-    fileprivate var categoryHighlighted: CategoryHeaderElement
+    fileprivate var categoryHeaderElements: [CategoryHeaderElement] = []
+    fileprivate var categoryHighlighted: CategoryHeaderElement?
+    
     weak var delegateCategoryHeader: CategoriesHeaderCollectionViewDelegate?
+    
     fileprivate var isShowingSuperKeywords: Bool {
         return categoryHeaderElements.first?.isSuperKeyword ?? false
     }
+    
     var categorySelected = Variable<CategoryHeaderInfo?>(nil)
     
     static let viewHeight: CGFloat = CategoryHeaderCell.cellSize().height
     
-    init(categories: [CategoryHeaderElement], frame: CGRect, categoryHighlighted: CategoryHeaderElement, isMostSearchedItemsEnabled: Bool) {
+    init() {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 0
         layout.itemSize = CategoryHeaderCell.cellSize()
+        super.init(frame: .zero, collectionViewLayout: layout)
+        setup()
+        setAccessibilityIds()
+    }
+    
+    func configure(with categories: [CategoryHeaderElement], categoryHighlighted: CategoryHeaderElement, isMostSearchedItemsEnabled: Bool) {
         self.categoryHeaderElements = categories
         self.categoryHighlighted = categoryHighlighted
-        super.init(frame: frame, collectionViewLayout: layout)
-        
         if isShowingSuperKeywords {
             categoryHeaderElements.append(CategoryHeaderElement.showMore)
         }
         if isMostSearchedItemsEnabled {
             categoryHeaderElements.insert(CategoryHeaderElement.mostSearchedItems, at: 0)
         }
-        setup()
-        setAccessibilityIds()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -83,7 +88,7 @@ class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate
                     cell.categoryIcon.lg_setImageWithURL(url)
                 }
             }
-            if categoryHeaderElement == categoryHighlighted {
+            if let categoryHighlighted = self.categoryHighlighted, categoryHeaderElement == categoryHighlighted {
                 cell.addNewTagToCategory()
             }
         return cell

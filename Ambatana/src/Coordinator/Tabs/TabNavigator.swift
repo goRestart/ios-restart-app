@@ -68,15 +68,17 @@ protocol ListingDetailNavigator: TabNavigator {
                      bumpUpProductData: BumpUpProductData?,
                      listingCanBeBoosted: Bool,
                      timeSinceLastBump: TimeInterval?,
-                     maxCountdown: TimeInterval?)
+                     maxCountdown: TimeInterval)
     func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?)
     func closeListingAfterDelete(_ listing: Listing)
     func openFreeBumpUp(forListing listing: Listing,
                         bumpUpProductData: BumpUpProductData,
-                        typePage: EventParameterTypePage?)
+                        typePage: EventParameterTypePage?,
+                        maxCountdown: TimeInterval)
     func openPayBumpUp(forListing listing: Listing,
                        bumpUpProductData: BumpUpProductData,
-                       typePage: EventParameterTypePage?)
+                       typePage: EventParameterTypePage?,
+                       maxCountdown: TimeInterval)
     func openBumpUpBoost(forListing listing: Listing,
                          bumpUpProductData: BumpUpProductData,
                          typePage: EventParameterTypePage?,

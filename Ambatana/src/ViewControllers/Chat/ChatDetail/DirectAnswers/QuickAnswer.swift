@@ -88,7 +88,7 @@ enum QuickAnswer: Equatable {
         return false
     }
 
-    var text: String {
+    var textToShow: String {
         switch self {
         case .interested:
             return LGLocalizedString.directAnswerInterested
@@ -130,6 +130,22 @@ enum QuickAnswer: Equatable {
                 return textToShow
             case .callToAction(let textToShow, _, _):
                 return textToShow
+            }
+        }
+    }
+    
+    var textToReply: String {
+        switch self {
+        case .interested, .notInterested, .meetUp, .stillAvailable, .isNegotiable, .likeToBuy,
+             .listingCondition, .listingStillForSale, .listingSold, .whatsOffer, .negotiableYes,
+             .negotiableNo, .freeStillHave, .freeYours, .freeAvailable, .freeNotAvailable, .meetingAssistant:
+            return textToShow
+        case .dynamic(let chatAnswer):
+            switch chatAnswer.type {
+            case .replyText(_, let textToReply):
+                return textToReply
+            case .callToAction(_, let textToReply, _):
+                return textToReply
             }
         }
     }

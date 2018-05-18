@@ -415,7 +415,7 @@
 "hidden_phone_tag" = "[NUMÉRO DE TÉLÉPHONE MASQUÉ]";
 "hidden_text_alert_description" = "Nous masquons les coordonnées pour vous aider à vendre et acheter en toute sécurité. Clavarder dans letgo est facile et plus sécuritaire.";
 "hidden_text_alert_title" = "SOYEZ PRUDENTS";
-"listing_map_redo_search" = "Search this area";
+"listing_map_redo_search" = "Chercher dans ce secteur";
 "listings_map_no_results_message" = "Aucune réponse exacte à votre recherche. Essayez de chercher dans un autre secteur ou en utilisant d'autres filtres.";
 "listings_map_title" = "Vue de la carte";
 "location_permissions_allow_button" = "Autoriser";
@@ -1076,6 +1076,7 @@
 "search_alerts_placeholder_empty_text" = "Abonnez-vous aux recherches afin de recevoir des notifications quand de nouvelles annonces sont publiées.";
 "search_alerts_placeholder_error_button" = "Réessayer";
 "search_alerts_placeholder_error_text" = "Oups ! Une erreur est survenue lors du chargement de vos alertes de recherche";
+"search_letgo" = "Recherche letgo";
 "sell_category_selection_label" = "Catégorie";
 "sell_choose_category_dialog_cancel_button" = "Annuler";
 "sell_choose_category_dialog_title" = "Choisissez une catégorie";

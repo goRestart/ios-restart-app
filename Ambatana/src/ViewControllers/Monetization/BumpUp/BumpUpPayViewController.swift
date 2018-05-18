@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BumpUpPayViewController: BaseViewController {
+final class BumpUpPayViewController: BaseViewController {
 
     @IBOutlet weak var titleSafeAreaTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var closeButton: UIButton!
@@ -29,7 +29,6 @@ class BumpUpPayViewController: BaseViewController {
     init(viewModel: BumpUpPayViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: "BumpUpPayViewController")
-        modalPresentationStyle = .overCurrentContext
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -89,7 +88,11 @@ class BumpUpPayViewController: BaseViewController {
     private func setupLabels() {
         titleLabel.text = LGLocalizedString.bumpUpViewPayTitle
         subtitleLabel.text = LGLocalizedString.bumpUpViewPaySubtitle
-        viewTitleLabel.text = LGLocalizedString.bumpUpBannerPayTextImprovement
+        if FeatureFlags.sharedInstance.shouldChangeSellFasterNowCopyInEnglish {
+            viewTitleLabel.text = FeatureFlags.sharedInstance.copyForSellFasterNowInEnglish.variantString
+        } else {
+            viewTitleLabel.text = LGLocalizedString.bumpUpBannerPayTextImprovement
+        }
     }
     
     private func setupCellBottomContainer() {

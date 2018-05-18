@@ -416,9 +416,10 @@ extension ProductVMTrackHelper {
                                                          listingVisitSource: listingVisitSource,
                                                          feedPosition: feedPosition,
                                                          userBadge: sellerBadge,
-                                                         containsVideo: containsVideo))
+                                                         containsVideo: containsVideo,
+                                                         isProfessional: nil))
         }
-        tracker.trackEvent(TrackerEvent.userMessageSent(info: info))
+        tracker.trackEvent(TrackerEvent.userMessageSent(info: info, isProfessional: nil))
     }
 
     func trackMessageSentError(messageType: ChatWrapperMessageType, isShowingFeaturedStripe: Bool, error: RepositoryError) {

@@ -35,9 +35,6 @@ final class PushPrePermissionsSettingsViewController: BaseViewController {
             super.init(viewModel: viewModel, nibName: "PushPrePermissionsSettingsViewController",
                        statusBarStyle: .lightContent)
         }
-        
-        modalPresentationStyle = .overCurrentContext
-        modalTransitionStyle = .crossDissolve
     }
     
     required init?(coder aDecoder: NSCoder) {

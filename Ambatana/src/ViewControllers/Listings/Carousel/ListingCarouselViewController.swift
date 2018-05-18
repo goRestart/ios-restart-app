@@ -1451,7 +1451,8 @@ extension ListingCarouselViewController: ListingDetailOnboardingViewDelegate {
 extension ListingCarouselViewController {
     // MARK: UITabBarController / TabBar animations & position
 
-    override func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)? = nil) {
+    override func present(_ viewControllerToPresent: UIViewController,
+                          animated flag: Bool, completion: (() -> Void)? = nil) {
         viewControllerToPresent.modalPresentationStyle = .overFullScreen
         super.present(viewControllerToPresent, animated: flag, completion: completion)
     }

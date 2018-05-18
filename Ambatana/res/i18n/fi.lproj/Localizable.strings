@@ -415,7 +415,7 @@
 "hidden_phone_tag" = "[PUHELINNUMERO PIILOTETTU]";
 "hidden_text_alert_description" = "Piilotamme yhteystiedot auttaaksemme sinua ostamaan ja myymään turvallisesti. Keskustelu letgon sisällä on helppoa ja turvallisempaa.";
 "hidden_text_alert_title" = "PYSY TURVASSA";
-"listing_map_redo_search" = "Search this area";
+"listing_map_redo_search" = "Hae tältä alueelta";
 "listings_map_no_results_message" = "Täysin hakuasi vastaavia osumia ei löytynyt. Kokeile hakea toiselta alueelta tai eri suodattimien avulla.";
 "listings_map_title" = "Karttanäkymä";
 "location_permissions_allow_button" = "Salli";
@@ -1076,6 +1076,7 @@
 "search_alerts_placeholder_empty_text" = "Tilaa hakuvahteja saadaksesi tiedon, kun uusia ilmoituksia julkaistaan.";
 "search_alerts_placeholder_error_button" = "Try Again";
 "search_alerts_placeholder_error_text" = "Hups! Hakuvahtejasi ladattaessa tapahtui virhe";
+"search_letgo" = "Etsi letgosta";
 "sell_category_selection_label" = "Kategoria";
 "sell_choose_category_dialog_cancel_button" = "Peruuta";
 "sell_choose_category_dialog_title" = "Valitse kategoria";

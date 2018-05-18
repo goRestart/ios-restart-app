@@ -173,6 +173,8 @@ extension UIFont {
     static var userProfileTabsNumberFont: UIFont { return UIFont.systemBoldFont(size: 19) }
     static var userProfileTabsNameFont: UIFont { return UIFont.systemRegularFont(size: 15) }
     static var userProfileTabsNameSelectedFont: UIFont { return UIFont.systemBoldFont(size: 15) }
+    static var userProfileTabsNameMiniFont: UIFont { return UIFont.systemRegularFont(size: 13) }
+    static var userProfileTabsNameSelectedMiniFont: UIFont { return UIFont.systemBoldFont(size: 13) }
     static var userProfileVerificationSectionSubtitleFont: UIFont { return UIFont.systemRegularFont(size: 12) }
     static var profileUserHeadline: UIFont { return systemBoldFont(size: 35) }
     static var profileKarmaSubtitleBoldFont: UIFont { return systemBoldFont(size: 11) }

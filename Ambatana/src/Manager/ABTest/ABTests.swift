@@ -114,6 +114,10 @@ class ABTests {
 }
 
 // MARK: Discovery
+
+extension ABTests {
+    var sectionedMainFeed: LeanplumABVariable<Int> { return discovery.sectionedMainFeed }
+}
     
 extension ABTests {
     var personalizedFeed: LeanplumABVariable<Int> {
@@ -132,6 +136,14 @@ extension ABTests {
     var personlizedFeedIsActive: Bool {
         return personalizedFeed.value > 1
     }
+    
+    var multiContactAfterSearch: LeanplumABVariable<Int> {
+        return discovery.multiContact
+    }
+    
+    var searchBoxImprovement: LeanplumABVariable<Int> {
+        return discovery.searchBoxImprovements
+    }
 }
 
 //  MARK: Users
@@ -146,7 +158,6 @@ extension ABTests {
 
 extension ABTests {
     var discardedProducts: LeanplumABVariable<Int> { return core.discardedProducts }
-    var newUserProfileView: LeanplumABVariable<Int> { return core.newUserProfileView }
     var searchImprovements: LeanplumABVariable<Int> { return core.searchImprovements }
     var servicesCategoryEnabled: LeanplumABVariable<Int> { return core.servicesCategoryEnabled }
     var machineLearningMVP: LeanplumABVariable<Int> { return core.machineLearningMVP }
@@ -179,6 +190,7 @@ extension ABTests {
     var bumpUpBoost: LeanplumABVariable<Int> { return money.bumpUpBoost }
     var showExactLocationForPros: LeanplumABVariable<Bool> { return money.showExactLocationForPros }
     var copyForSellFasterNowInEnglish : LeanplumABVariable<Int> { return money.copyForSellFasterNowInEnglish }
+    var googleAdxForTR: LeanplumABVariable<Int> { return money.googleAdxForTR }
 }
 
 //  MARK: Retention

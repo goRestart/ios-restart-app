@@ -95,7 +95,9 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     // MARK: - Lifecycle
 
     required init(viewModel: MainListingsViewModel) {
-        navbarSearch = LGNavBarSearchField(viewModel.searchString)
+        navbarSearch = LGNavBarSearchField(viewModel.searchString,
+                                           searchBoxSize: viewModel.searchBoxSize,
+                                           searchFieldStyle: viewModel.searchFieldStyle)
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
         viewModel.delegate = self
@@ -316,7 +318,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         trendingSearchView.isHidden = true
         setFiltersNavBarButton()
         setInviteNavBarButton()
-        navbarSearch.endEdit()
+        navbarSearch.cancelEdit()
     }
 
     private func beginEdit() {
@@ -570,11 +572,8 @@ RealEstateBannerDelegate, SearchAlertFeedHeaderDelegate {
         }
        
         if shouldShowCategoryCollectionBanner {
-            let screenWidth: CGFloat = UIScreen.main.bounds.size.width
-            categoriesHeader = CategoriesHeaderCollectionView(categories: viewModel.categoryHeaderElements,
-                                                              frame: CGRect(x: 0, y: 0, width: screenWidth, height: CategoriesHeaderCollectionView.viewHeight),
-                                                              categoryHighlighted: viewModel.categoryHeaderHighlighted,
-                                                              isMostSearchedItemsEnabled: viewModel.isMostSearchedItemsEnabled)
+            categoriesHeader = CategoriesHeaderCollectionView()
+            categoriesHeader?.configure(with: viewModel.categoryHeaderElements, categoryHighlighted: viewModel.categoryHeaderHighlighted, isMostSearchedItemsEnabled: viewModel.isMostSearchedItemsEnabled)
             categoriesHeader?.delegateCategoryHeader = viewModel
             categoriesHeader?.categorySelected.asObservable().bind { [weak self] categoryHeaderInfo in
                 guard let category = categoryHeaderInfo else { return }

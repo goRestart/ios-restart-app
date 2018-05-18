@@ -267,9 +267,6 @@ final class MockListingDeckViewModelType: ListingDeckViewModelType {
         replaceIndexIsCalled += 1
     }
 
-    var rxIsMine: Observable<Bool>  { return isMine.asObservable() }
-    var isMine: Variable<Bool> = Variable<Bool>(false)
-
     var rxIsChatEnabled: Observable<Bool> { return isChatEnabled.asObservable() }
     var isChatEnabled: Variable<Bool> = Variable<Bool>(true)
 
@@ -304,7 +301,6 @@ final class MockListingDeckViewModelType: ListingDeckViewModelType {
 }
 
 private class MockListingDeckViewControllerBinderType: ListingDeckViewControllerBinderType {
-
     var rxDidBeginEditing: ControlEvent<()>? { return textField.rx.controlEvent(.editingDidBegin) }
     var rxDidEndEditing: ControlEvent<()>? { return textField.rx.controlEvent(.editingDidEnd) }
     var textField = UITextField()
@@ -327,7 +323,7 @@ private class MockListingDeckViewControllerBinderType: ListingDeckViewController
         // ☢️ do not know how to test this
     }
 
-    func updateViewWith(alpha: CGFloat, chatEnabled: Bool, isMine: Bool, actionsEnabled: Bool) {
+    func updateViewWith(alpha: CGFloat, chatEnabled: Bool, actionsEnabled: Bool) {
         isUpdateViewWithAlphaCalled += 1
     }
 
