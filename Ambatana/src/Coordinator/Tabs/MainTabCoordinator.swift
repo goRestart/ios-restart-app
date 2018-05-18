@@ -158,8 +158,12 @@ extension MainTabCoordinator: MainTabNavigator {
         navigationController.pushViewController(vc, animated: true)
     }
 
-    func openMap(with listingFilters: ListingFilters, locationManager: LocationManager) {
-        let viewModel = ListingsMapViewModel(navigator: self,
+
+    func openMap(requester: ListingListMultiRequester,
+                 listingFilters: ListingFilters,
+                 locationManager: LocationManager) {
+        let viewModel = ListingsMapViewModel(requester: requester,
+                                             navigator: self,
                                              locationManager: locationManager,
                                              currentFilters: listingFilters,
                                              featureFlags: featureFlags)

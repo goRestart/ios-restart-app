@@ -504,7 +504,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     }
     
     func showMap() {
-        navigator?.openMap(with: filters, locationManager: locationManager)
+        navigator?.openMap(requester: listingListRequester, listingFilters: filters, locationManager: locationManager)
     }
 
     /**

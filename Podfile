@@ -19,6 +19,7 @@ def shared_pods
     pod "RxSwift",              "4.0.0"
     pod "RxSwiftExt",           "3.0.0"
     pod "RxCocoa",              "4.0.0"
+    pod "RxMKMapView",          "4.0.0"
 
     #Ads
     pod "Google-Mobile-Ads-SDK","7.30.0"
@@ -35,7 +36,7 @@ def shared_pods
     pod "NewRelicAgent",        "6.1.1"     # Obj-c
 
     # letgo Core
-    pod "LGCoreKit",             "4.26.0", :inhibit_warnings => false
+    pod "LGCoreKit",             "4.26.1", :inhibit_warnings => false
 #    pod "LGCoreKit",            :path => "../lgcorekit", :inhibit_warnings => false
 #    pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => '32315e5d47993b82304239716876e5ae6cd4db80', :inhibit_warnings => false
 
