@@ -1365,7 +1365,8 @@ struct TrackerEvent {
                                       storeProductId: String?,
                                       isPromotedBump: EventParameterBoolean,
                                       typePage: EventParameterTypePage?,
-                                      isBoost: EventParameterBoolean) -> TrackerEvent {
+                                      isBoost: EventParameterBoolean,
+                                      paymentId: String?) -> TrackerEvent {
         var params = EventParameters()
         params.addListingParams(listing)
         params[.bumpUpPrice] = price.description
@@ -1379,6 +1380,7 @@ struct TrackerEvent {
             params[.typePage] = typePage.rawValue
         }
         params[.boost] = isBoost.rawValue
+        params[.paymentId] = paymentId
         return TrackerEvent(name: .bumpUpComplete, params: params)
     }
 

@@ -4725,7 +4725,7 @@ class TrackerEventSpec: QuickSpec {
                     sut = TrackerEvent.listingBumpUpComplete(.product(product), price: .free, type: .free, restoreRetriesCount: 8,
                                                              network: .facebook, transactionStatus: .purchasingPurchased,
                                                              storeProductId: nil, isPromotedBump: .falseParameter, typePage: .edit,
-                                                             isBoost: .falseParameter)
+                                                             isBoost: .falseParameter, paymentId: "c91582aa-d030-444f-aefe-f4cd691e7486")
                 }
                 it("has its event name ") {
                     expect(sut.name.rawValue).to(equal("bump-up-complete"))
@@ -4759,6 +4759,9 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("boost param is false") {
                     expect(sut.params?.stringKeyParams["boost"] as? String) == "false"
+                }
+                it("payment id matches") {
+                    expect(sut.params?.stringKeyParams["payment-id"] as? String) == "c91582aa-d030-444f-aefe-f4cd691e7486"
                 }
             }
             describe("bump up fail") {

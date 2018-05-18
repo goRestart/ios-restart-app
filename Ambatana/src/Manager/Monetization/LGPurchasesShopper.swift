@@ -54,7 +54,9 @@ protocol BumpInfoRequesterDelegate: class {
 
 protocol PurchasesShopperDelegate: class {
     func freeBumpDidStart(typePage: EventParameterTypePage?)
-    func freeBumpDidSucceed(withNetwork network: EventParameterShareNetwork, typePage: EventParameterTypePage?)
+    func freeBumpDidSucceed(withNetwork network: EventParameterShareNetwork,
+                            typePage: EventParameterTypePage?,
+                            paymentId: String)
     func freeBumpDidFail(withNetwork network: EventParameterShareNetwork, typePage: EventParameterTypePage?)
 
     func pricedBumpDidStart(typePage: EventParameterTypePage?, isBoost: Bool)
@@ -63,7 +65,8 @@ protocol PurchasesShopperDelegate: class {
                               restoreRetriesCount: Int,
                               transactionStatus: EventParameterTransactionStatus,
                               typePage: EventParameterTypePage?,
-                              isBoost: Bool)
+                              isBoost: Bool,
+                              paymentId: String)
     func pricedBumpDidFail(type: BumpUpType,
                            transactionStatus: EventParameterTransactionStatus,
                            typePage: EventParameterTypePage?,
@@ -317,7 +320,8 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         delegate?.freeBumpDidStart(typePage: currentBumpTypePage)
         monetizationRepository.freeBump(forListingId: listingId, itemId: letgoItemId) { [weak self] result in
             if let _ = result.value {
-                self?.delegate?.freeBumpDidSucceed(withNetwork: shareNetwork, typePage: self?.currentBumpTypePage)
+                let paymentId = UUID().uuidString.lowercased()
+                self?.delegate?.freeBumpDidSucceed(withNetwork: shareNetwork, typePage: self?.currentBumpTypePage, paymentId: paymentId)
             } else if let _ = result.error {
                 self?.delegate?.freeBumpDidFail(withNetwork: shareNetwork, typePage: self?.currentBumpTypePage)
             }
@@ -474,7 +478,8 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
                                                                                     typePage: strongSelf.currentBumpTypePage,
                                                                                     isBoost: isBoost,
                                                                                     listingId: listingId,
-                                                                                    maxCountdown: bump.maxCountdown)
+                                                                                    maxCountdown: bump.maxCountdown,
+                                                                                    paymentId: bump.paymentId)
                                                 } else if let error = result.error {
                                                     switch error {
                                                     case .serverError(code: let code):
@@ -596,12 +601,14 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
                                       typePage: EventParameterTypePage?,
                                       isBoost: Bool,
                                       listingId: String,
-                                      maxCountdown: TimeInterval) {
+                                      maxCountdown: TimeInterval,
+                                      paymentId: String) {
         delegate?.pricedBumpDidSucceed(type: type,
                                        restoreRetriesCount: restoreRetriesCount,
                                        transactionStatus: transactionStatus,
                                        typePage: typePage,
-                                       isBoost: isBoost)
+                                       isBoost: isBoost,
+                                       paymentId: paymentId)
         recentBumpsCache[listingId] = (Date(), maxCountdown)
     }
 }
