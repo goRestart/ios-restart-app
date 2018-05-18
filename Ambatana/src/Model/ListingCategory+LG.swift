@@ -187,4 +187,12 @@ extension ListingCategory {
             return Constants.nonAccurateRegionRadius
         }
     }
+
+}
+
+extension Array where Element == ListingCategory {
+    var trackValue: String {
+        return self.map { String($0.rawValue) }
+            .joined(separator: ",")
+    }
 }

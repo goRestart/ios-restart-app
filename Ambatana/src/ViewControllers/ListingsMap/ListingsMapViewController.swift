@@ -54,17 +54,7 @@ final class ListingsMapViewController: BaseViewController {
     }
     
     private func setupRx() {
-        mapView.selectedAnnotationIndexVariable
-            .asDriver()
-            .drive(onNext: {[weak self] index in
-                guard let index = index,
-                    let listing = self?.viewModel.listing(at: index) else {
-                        return
-                }
-                let tags = self?.viewModel.tags(at: index) ?? []
-                self?.mapView.updateDetail(with: listing, tags: tags)
-            }).disposed(by: disposeBag)
-        viewModel.listingsVariable
+        viewModel.listings
             .asDriver()
             .drive(onNext: { [weak self] listings in
                 if let annotations = listings?.annotations {
@@ -82,6 +72,17 @@ final class ListingsMapViewController: BaseViewController {
                 self?.mapView.showMapError.value = errorMessage != nil
                 self?.setToastViewHidden(errorMessage == nil)
             }.disposed(by: disposeBag)
+        viewModel.selectedListing
+            .asDriver()
+            .drive(onNext: { [weak self] (listing, tags) in
+                guard let listing = listing else { return }
+                self?.mapView.updateDetail(with: listing, tags: tags)
+            }).disposed(by: disposeBag)
+        mapView.selectedAnnotationIndexVariable
+            .asDriver()
+            .drive(onNext: {[weak self] index in
+                self?.viewModel.selectedListingsIndex.value = index
+            }).disposed(by: disposeBag)
         viewModel.isLoading
             .asDriver()
             .drive(onNext: { [weak self] isLoading in
@@ -96,6 +97,7 @@ final class ListingsMapViewController: BaseViewController {
 }
 
 extension ListingsMapViewController: LGMapViewDelegate {
+
     func gpsButtonTapped() {
         // to be implemented in following interactions
     }
@@ -111,4 +113,5 @@ extension ListingsMapViewController: LGMapViewDelegate {
                                    thumbnailImage: originImageView?.image,
                                    originFrame: imageFrameInVC))
     }
+
 }

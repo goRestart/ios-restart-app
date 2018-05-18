@@ -16,9 +16,10 @@ class ListingPriceLGSpec: QuickSpec {
     override func spec() {
         var listingPrice: ListingPrice!
         var currency: Currency!
-        var sut: String!
+        
         
         describe("ListingPrice + LG methods") {
+            var sut: String!
             beforeEach {
                 currency = Currency.makeMock()
             }
@@ -55,6 +56,39 @@ class ListingPriceLGSpec: QuickSpec {
                 }
             }
 
+        }
+        
+        describe("allowFreeFilters") {
+            var sut:EventParameterBoolean!
+            context("listingPrice free") {
+                beforeEach {
+                    listingPrice = .free
+                    sut = listingPrice.allowFreeFilters(freePostingModeAllowed: true)
+                }
+                it("true value") {
+                    expect(sut) == .trueParameter
+                }
+            }
+            
+            context("listingPrice NOT free") {
+                beforeEach {
+                    listingPrice = .normal(1.0)
+                    sut = listingPrice.allowFreeFilters(freePostingModeAllowed: true)
+                }
+                it("true value") {
+                    expect(sut) == .falseParameter
+                }
+            }
+            
+            context("listingPrice NOT available") {
+                beforeEach {
+                    listingPrice = .normal(1.0)
+                    sut = listingPrice.allowFreeFilters(freePostingModeAllowed: false)
+                }
+                it("true value") {
+                    expect(sut) == .notAvailable
+                }
+            }
         }
     }
 }

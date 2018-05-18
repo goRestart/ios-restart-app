@@ -26,7 +26,7 @@ final class LGMapView: UIView {
     
     private let mkAnnotationsVariable: Variable<[MKAnnotation]?> = Variable(nil)
     let selectedAnnotationIndexVariable: Variable<Int?> = Variable(nil)
-    
+
     let showMapError = Variable(false)
     
     private var isDetailMapVisible = false
@@ -123,6 +123,7 @@ final class LGMapView: UIView {
     }
     
     private func setupRx() {
+
         mkAnnotationsVariable
             .asDriver()
             .drive(onNext: { [weak self] annotations in
@@ -149,6 +150,9 @@ final class LGMapView: UIView {
                 annotationView.image = lgAnnotationView.deselectedAnnotation
                 self?.showDetail(false)
             }).disposed(by: disposeBag)
+        showMapError.asDriver().drive(onNext: { [weak self] error in
+                self?.showDetail(false)
+            }).disposed(by: disposeBag)
         
         showMapError
             .asDriver()
@@ -162,6 +166,7 @@ final class LGMapView: UIView {
         mapMessageView.updateMessage(with: LGLocalizedString.listingsMapNoResultsMessage)
     }
     
+
     private func showDetail(_ show: Bool) {
         if !isDetailMapVisible && show {
             updateDetailConstraint(toShowDetail: true)

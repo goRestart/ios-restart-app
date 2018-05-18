@@ -986,14 +986,7 @@ class TrackerEventSpec: QuickSpec {
             describe("filterComplete") {
                 context("receiving all params") {
                     beforeEach {
-                        let coords = LGLocationCoordinates2D(latitude: 41.123, longitude: 2.123)
-                        sut = TrackerEvent.filterComplete(coords, distanceRadius: 10, distanceUnit: DistanceType.km,
-                            categories: [.electronics, .motorsAndAccessories],
-                            sortBy: ListingSortCriteria.distance, postedWithin: ListingTimeCriteria.day,
-                            priceRange: .priceRange(min: 5, max: 100), freePostingModeAllowed: true, carSellerType: "professional", carMake: "make",
-                            carModel: "model", carYearStart: 1990, carYearEnd: 2000, propertyType: "flat", offerType: ["sale"],
-                            bedrooms: 2, bathrooms: 3, sizeSqrMetersMin: 1, sizeSqrMetersMax: nil,
-                            rooms: NumberOfRooms(numberOfBedrooms: 2, numberOfLivingRooms: 1))
+                        sut = TrackerEvent.filterComplete(ListingFilters.makeMock(), carSellerType: "professional", freePostingModeAllowed: true)
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("filter-complete"))
@@ -1074,12 +1067,9 @@ class TrackerEventSpec: QuickSpec {
                 }
                 context("not receiving all params, contains the default params") {
                     beforeEach {
-                        sut = TrackerEvent.filterComplete(nil, distanceRadius: nil, distanceUnit: DistanceType.km,
-                            categories: nil, sortBy: nil, postedWithin: nil, priceRange: .priceRange(min: nil, max: nil),
-                            freePostingModeAllowed: false, carSellerType: nil, carMake: nil,
-                            carModel: nil, carYearStart: nil, carYearEnd: nil, propertyType: nil, offerType: nil,
-                            bedrooms: nil, bathrooms: nil, sizeSqrMetersMin: nil, sizeSqrMetersMax: nil,
-                            rooms: nil)
+                        var mockFilter = ListingFilters()
+                        mockFilter.distanceType = .km
+                        sut = TrackerEvent.filterComplete(mockFilter, carSellerType: nil, freePostingModeAllowed: false)
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("filter-complete"))
@@ -1107,7 +1097,7 @@ class TrackerEventSpec: QuickSpec {
                         expect(sut.params!.stringKeyParams["sort-by"] as? String).to(beNil())
                     }
                     it("doesn't have within") {
-                        expect(sut.params!.stringKeyParams["posted-within"] as? String).to(beNil())
+                        expect(sut.params!.stringKeyParams["posted-within"] as? String).to(beEmpty())
                     }
                     it("min price") {
                         expect(sut.params!.stringKeyParams["price-from"] as? String) == "false"
@@ -5158,7 +5148,127 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.params?.params).to(beNil())
                 }
             }
-
+            describe("listingOpenListingMap") {
+                context("all params") {
+                    beforeEach {
+                        var mockFilters = ListingFilters.makeMock()
+                        mockFilters.selectedCategories = [.realEstate]
+                        sut = TrackerEvent.listingOpenListingMap(action: .showMap,
+                                                                 returnedResults: .trueParameter,
+                                                                 featuredResults: 2, filters: mockFilters)
+                    }
+                    
+                    it("has its event name") {
+                        expect(sut.params!.stringKeyParams["action"] as? String).to(equal("show-map"))
+                    }
+                    it("has its results") {
+                        expect(sut.params!.stringKeyParams["returned-results"] as? String).to(equal("true"))
+                    }
+                    it("has featured") {
+                        expect(sut.params!.stringKeyParams["featured-results"] as? Int).to(equal(2))
+                    }
+                    it("has coords info") {
+                        expect(sut.params!.stringKeyParams["filter-lat"]).notTo(beNil())
+                        let lat = sut.params!.stringKeyParams["filter-lat"] as? Double
+                        expect(lat).to(equal(41.123))
+                        
+                        expect(sut.params!.stringKeyParams["filter-lng"]).notTo(beNil())
+                        let lng = sut.params!.stringKeyParams["filter-lng"] as? Double
+                        expect(lng).to(equal(2.123))
+                    }
+                    it("distance radius") {
+                        expect(sut.params!.stringKeyParams["distance-radius"] as? Int).to(equal(10))
+                    }
+                    it("distance unit") {
+                        expect(sut.params!.stringKeyParams["distance-unit"] as? String).to(equal("km"))
+                    }
+                    it("has categories") {
+                        expect(sut.params!.stringKeyParams["category-id"] as? String).to(equal("10"))
+                    }
+                    it("has sort by") {
+                        expect(sut.params!.stringKeyParams["sort-by"] as? String).to(equal("distance"))
+                    }
+                    it("has posted within") {
+                        expect(sut.params!.stringKeyParams["posted-within"] as? String).to(equal("day"))
+                    }
+                    it("min price") {
+                        expect(sut.params!.stringKeyParams["price-from"] as? String) == "true"
+                    }
+                    it("max price") {
+                        expect(sut.params!.stringKeyParams["price-to"] as? String) == "true"
+                    }
+                    it ("make") {
+                        expect(sut.params!.stringKeyParams["product-make"] as? String) == "make"
+                    }
+                    it ("model") {
+                        expect(sut.params!.stringKeyParams["product-model"] as? String) == "model"
+                    }
+                    it ("start") {
+                        expect(sut.params!.stringKeyParams["product-year-start"] as? String) == "1990"
+                    }
+                    it ("end") {
+                        expect(sut.params!.stringKeyParams["product-year-end"] as? String) == "2000"
+                    }
+                    it ("property-type") {
+                        expect(sut.params!.stringKeyParams["property-type"] as? String) == "flat"
+                    }
+                    it ("offer-type") {
+                        expect(sut.params!.stringKeyParams["deal-type"] as? String) == "sale"
+                    }
+                    it ("bedrooms") {
+                        expect(sut.params!.stringKeyParams["bedroom-number"] as? String) == "2"
+                    }
+                    it ("bathrooms") {
+                        expect(sut.params!.stringKeyParams["bathroom-number"] as? String) == "3.0"
+                    }
+                    it ("sizeSqrMetersMin") {
+                        expect(sut.params!.stringKeyParams["size-from"] as? String) == "1"
+                    }
+                    it ("sizeSqrMetersMax") {
+                        expect(sut.params!.stringKeyParams["size-to"] as? String) == "N/A"
+                    }
+                    it ("rooms-number") {
+                        expect(sut.params!.stringKeyParams["room-number"] as? String) == "2+1"
+                    }
+                    it ("vertical fields") {
+                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "product-make,product-model,product-year-start,product-year-end,property-type,deal-type,bedroom-number,bathroom-number,size-from,room-number"
+                    }
+                }
+            }
+            
+            describe("listingMapOpenPreviewMap") {
+                context("all params") {
+                    beforeEach {
+                        var mockListing = MockRealEstate.makeMock()
+                        mockListing.media = [LGMedia(type: .video, snapshotId: "", outputs: LGMediaOutputs())]
+                        mockListing.featured = true
+                        sut = TrackerEvent.listingMapOpenPreviewMap(.realEstate(mockListing),
+                                                                    source: .map,
+                                                                    userId: "user-id",
+                                                                    isMine: .trueParameter)
+                    }
+                    
+                    it("has source") {
+                        expect(sut.params!.stringKeyParams["visit-source"] as? String).to(equal("map"))
+                    }
+                    it("has user id") {
+                        expect(sut.params!.stringKeyParams["user-to-id"] as? String).to(equal("user-id"))
+                    }
+                    it("has ismine") {
+                        expect(sut.params!.stringKeyParams["is-mine"] as? String).to(equal("true"))
+                    }
+                    it("has video") {
+                        expect(sut.params!.stringKeyParams["is-video"] as? String).to(equal("true"))
+                    }
+                    it("has bump up") {
+                        expect(sut.params!.stringKeyParams["bump-up"] as? String).to(equal("true"))
+                    }
+                    it("Do not have reputation") {
+                        expect(sut.params!.stringKeyParams["seller-reputation-badge"] as? String).to(equal("N/A"))
+                    }
+                }
+            }
+            
             describe("Taking an screenshot") {
                 beforeEach {
                     sut = TrackerEvent.userDidTakeScreenshot()

@@ -204,6 +204,9 @@ enum EventName: String {
     case assistantMeetingStart              = "assistant-meeting-start"
 
     case searchAlertSwitchChanged           = "search-alert"
+    
+    case productListMapShow                 = "product-list-map-show"
+    case productDetailPreview               = "product-detail-preview"
 
     case screenshot                         = "os-screenshot"
 
@@ -399,6 +402,10 @@ enum EventParameterName: String {
     case meetingLocation     = "assistant-meeting-location"
 
     case boost                = "boost"
+    
+    case returnedResults    = "returned-results"
+    case featuredResults    = "featured-results"
+    case action             = "action"
 }
 
 enum EventParameterBoolean: String {
@@ -942,6 +949,12 @@ enum EventParameterSearchAlertSource: String {
     case settings = "settings"
 }
 
+enum EventParameterMapUserAction: String {
+    case showMap = "show-map"
+    case filterComplete = "filter-complete"
+    case redo = "redo"
+}
+
 
 enum EventParameterListingVisitSource {
     // https://ambatana.atlassian.net/wiki/spaces/MOB/pages/1114200/Parameters
@@ -965,6 +978,7 @@ enum EventParameterListingVisitSource {
         case .chat: return "chat" // from the chat
         case .promoteBump: return "promote-bump-up" // from the promote bump up screen
         case .favourite: return "favourite" // from your private profile favourite's list
+        case .map: return "map"
         case .unknown: return "N/A"
         }
     }
@@ -1012,6 +1026,7 @@ enum EventParameterListingVisitSource {
     case chat
     case promoteBump
     case favourite
+    case map
     case unknown
 }
 

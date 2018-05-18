@@ -36,4 +36,7 @@ extension Array where Element == Listing {
     var annotations: [MKAnnotation] {
         return map { $0.annotation }
     }
+    var featuredCount: Int {
+        return reduce(0) { $0 + (($1.featured ?? false) ? 1 : 0) }
+    }
 }

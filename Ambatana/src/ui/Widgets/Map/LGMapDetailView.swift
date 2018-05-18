@@ -27,6 +27,7 @@ protocol LGMapDetailViewDelegate: class {
 final class LGMapDetailView: UIView {
     
     private let disposeBag = DisposeBag()
+
     private var imageDownloader: ImageDownloaderType?
     
     private let listingVariable: Variable<Listing?> = Variable(nil)
