@@ -1256,6 +1256,10 @@
 		8E8EAD3420A2EBFD00ADEAFE /* ChatConversationsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8EAD2E20A2EBB800ADEAFE /* ChatConversationsListViewController.swift */; };
 		8E8EAD3620A2EC1400ADEAFE /* ChatConversationsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8EAD3520A2EC1400ADEAFE /* ChatConversationsListViewModel.swift */; };
 		8E8EAD3720A2EC1400ADEAFE /* ChatConversationsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8EAD3520A2EC1400ADEAFE /* ChatConversationsListViewModel.swift */; };
+		8E92B2F920A4993C00CE48DA /* ChatStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E92B2F820A4993C00CE48DA /* ChatStatusView.swift */; };
+		8E92B2FA20A4993C00CE48DA /* ChatStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E92B2F820A4993C00CE48DA /* ChatStatusView.swift */; };
+		8E92B2FB20A9CCEB00CE48DA /* ChatConversationsListFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E56D74720A342EF00097B61 /* ChatConversationsListFilter.swift */; };
+		8E92B2FC20A9CCEB00CE48DA /* ChatConversationsListFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E56D74720A342EF00097B61 /* ChatConversationsListFilter.swift */; };
 		8EADA729203453CC00DE8126 /* ChatInterlocutorIsTypingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8EADA728203453CB00DE8126 /* ChatInterlocutorIsTypingCell.xib */; };
 		8EADA72A203453CC00DE8126 /* ChatInterlocutorIsTypingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8EADA728203453CB00DE8126 /* ChatInterlocutorIsTypingCell.xib */; };
 		8EADA72D20347EC600DE8126 /* lottie_chat_typing_animation.json in Resources */ = {isa = PBXBuildFile; fileRef = 8EADA72C20347EC600DE8126 /* lottie_chat_typing_animation.json */; };
@@ -2742,6 +2746,7 @@
 		8E28A829207B85C70070A7A6 /* GoogleAdxNativeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAdxNativeView.swift; sourceTree = "<group>"; };
 		8E28A82C207BC5E70070A7A6 /* AdvertisementAdxCellDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertisementAdxCellDrawer.swift; sourceTree = "<group>"; };
 		8E56D74420A2ED1300097B61 /* ChatConversationsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatConversationsListView.swift; sourceTree = "<group>"; };
+		8E56D74720A342EF00097B61 /* ChatConversationsListFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatConversationsListFilter.swift; sourceTree = "<group>"; };
 		8E69F3F11E9E30EE00E14F12 /* CategoryDetailTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryDetailTableView.swift; sourceTree = "<group>"; };
 		8E8017972010B8F2004CE244 /* ChatInactiveConversationsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInactiveConversationsListViewModel.swift; sourceTree = "<group>"; };
 		8E80179A2010DB67004CE244 /* ChatInactiveConversationsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInactiveConversationsListViewController.swift; sourceTree = "<group>"; };
@@ -2755,6 +2760,7 @@
 		8E85EA251FD0539700A24ADE /* Data+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extensions.swift"; sourceTree = "<group>"; };
 		8E8EAD2E20A2EBB800ADEAFE /* ChatConversationsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatConversationsListViewController.swift; sourceTree = "<group>"; };
 		8E8EAD3520A2EC1400ADEAFE /* ChatConversationsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatConversationsListViewModel.swift; sourceTree = "<group>"; };
+		8E92B2F820A4993C00CE48DA /* ChatStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatStatusView.swift; sourceTree = "<group>"; };
 		8EADA728203453CB00DE8126 /* ChatInterlocutorIsTypingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatInterlocutorIsTypingCell.xib; sourceTree = "<group>"; };
 		8EADA72C20347EC600DE8126 /* lottie_chat_typing_animation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = lottie_chat_typing_animation.json; sourceTree = "<group>"; };
 		8EB650F12059279400FF50E4 /* MLPredictionDetailsViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLPredictionDetailsViewCell.swift; sourceTree = "<group>"; };
@@ -5051,6 +5057,8 @@
 				8E8EAD2E20A2EBB800ADEAFE /* ChatConversationsListViewController.swift */,
 				8E56D74420A2ED1300097B61 /* ChatConversationsListView.swift */,
 				8E8EAD3520A2EC1400ADEAFE /* ChatConversationsListViewModel.swift */,
+				8E56D74720A342EF00097B61 /* ChatConversationsListFilter.swift */,
+				8E92B2F820A4993C00CE48DA /* ChatStatusView.swift */,
 			);
 			path = ConversationsList;
 			sourceTree = "<group>";
@@ -7100,6 +7108,7 @@
 				C739C1D81D11A2FB0014AD6A /* ChatOtherInfoCellDrawer.swift in Sources */,
 				50C9E50C1B74EEED001E4E92 /* DLImageResizing.swift in Sources */,
 				5015881B1C7396A8006AEFC8 /* UserView.swift in Sources */,
+				8E92B2FB20A9CCEB00CE48DA /* ChatConversationsListFilter.swift in Sources */,
 				F57D3A291FED011C006F2CA4 /* TagCollectionViewModel.swift in Sources */,
 				5061ACBF1DE36535002E5423 /* ExternalAuthHelper.swift in Sources */,
 				0A6BAC1E1FC58D680008A703 /* ListingCardViewCellModel.swift in Sources */,
@@ -7168,6 +7177,7 @@
 				326C7307209077B9009D21DB /* CategoryFeedPresenter.swift in Sources */,
 				C72794361D549342009C25AB /* ChangePasswordViewController.swift in Sources */,
 				0AF5EB681FD0118F001DFAE2 /* MapViewSnapShot.swift in Sources */,
+				8E92B2F920A4993C00CE48DA /* ChatStatusView.swift in Sources */,
 				8E15D7971E9B97D3000A99C0 /* PostCategoryDetailRowView.swift in Sources */,
 				8E2600731E2FB15D00242B3F /* ChangeEmailViewModel.swift in Sources */,
 				509F79AF1ED6E54D00AF2F70 /* CenterAlignedCollectionViewFlowLayout.swift in Sources */,
@@ -7896,6 +7906,7 @@
 				C7DB418D1C5138B500400945 /* DLImageResizing.swift in Sources */,
 				8E26007D1E30E1C300242B3F /* ChangeEmailView.swift in Sources */,
 				5015881C1C7396A8006AEFC8 /* UserView.swift in Sources */,
+				8E92B2FC20A9CCEB00CE48DA /* ChatConversationsListFilter.swift in Sources */,
 				5063949D1C8DA8FD0091C831 /* UIAction.swift in Sources */,
 				F57D3A301FED01A6006F2CA4 /* TagCollectionViewModel.swift in Sources */,
 				5061ACBE1DE36534002E5423 /* ExternalAuthHelper.swift in Sources */,
@@ -7964,6 +7975,7 @@
 				C7B5884A1CE1DE1C009B3975 /* ChatViewController.swift in Sources */,
 				8EF026171EDD7E880097A3A9 /* FiltersCoordinator.swift in Sources */,
 				326C7308209077B9009D21DB /* CategoryFeedPresenter.swift in Sources */,
+				8E92B2FA20A4993C00CE48DA /* ChatStatusView.swift in Sources */,
 				507440DF1E3F97EB006976F7 /* LoginAppearance+Helper.swift in Sources */,
 				C77D64691CBD250700A22510 /* Tab.swift in Sources */,
 				8E15D7981E9B97D3000A99C0 /* PostCategoryDetailRowView.swift in Sources */,
