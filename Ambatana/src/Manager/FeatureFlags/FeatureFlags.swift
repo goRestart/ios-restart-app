@@ -1160,9 +1160,7 @@ extension FeatureFlags {
         if Bumper.enabled {
             return Bumper.realEstateMap
         }
-        return .control
-        //  TODO: blocked - update when feature finish
-        //  return RealEstateMap.fromPosition(abTests.realEstateMap.value)
+        return RealEstateMap.fromPosition(abTests.realEstateMap.value)
     }
 }
 

@@ -17,5 +17,7 @@ protocol FeedNavigator: class {
     func openTaxonomyList(withViewModel viewModel: TaxonomiesViewModel)
     func openMostSearchedItems(source: PostingSource, enableSearch: Bool)
     func showPushPermissionsAlert(withPositiveAction positiveAction: @escaping (() -> Void), negativeAction: @escaping (() -> Void))
-    func openMap(with listingFilters: ListingFilters, locationManager: LocationManager)
+    func openMap(requester: ListingListMultiRequester,
+                 listingFilters: ListingFilters,
+                 locationManager: LocationManager)
 }

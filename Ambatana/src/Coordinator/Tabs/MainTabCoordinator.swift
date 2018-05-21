@@ -9,6 +9,7 @@
 import LGCoreKit
 
 final class MainTabCoordinator: TabCoordinator, FeedNavigator {
+
     private let feedAssembly: FeedAssembly
     private let pushPermissionsManager: PushPermissionsManager
 
@@ -158,21 +159,21 @@ extension MainTabCoordinator: MainTabNavigator {
         navigationController.pushViewController(vc, animated: true)
     }
 
-    func openMap(with listingFilters: ListingFilters, locationManager: LocationManager) {
+
+    func openMap(requester: ListingListMultiRequester,
+                 listingFilters: ListingFilters,
+                 locationManager: LocationManager) {
         let viewModel = ListingsMapViewModel(navigator: self,
+                                             tracker: tracker,
+                                             myUserRepository: myUserRepository,
                                              locationManager: locationManager,
                                              currentFilters: listingFilters,
                                              featureFlags: featureFlags)
         let viewController = ListingsMapViewController(viewModel: viewModel)
         navigationController.pushViewController(viewController, animated: true)
     }
-}
 
-extension MainTabCoordinator: ListingsMapNavigator {
-    func closeMap() {
-        navigationController.popViewController(animated: true)
-    }
-}
+} 
 
 extension MainTabCoordinator: SearchAlertsListNavigator {
     func closeSearchAlertsList() {

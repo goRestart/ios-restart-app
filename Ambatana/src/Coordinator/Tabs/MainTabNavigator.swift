@@ -20,5 +20,7 @@ protocol MainTabNavigator: TabNavigator, FeedNavigator {
     func openMostSearchedItems(source: PostingSource, enableSearch: Bool)
     func openLoginIfNeeded(infoMessage: String, then loggedAction: @escaping (() -> Void))
     func openSearchAlertsList()
-    func openMap(with listingFilters: ListingFilters, locationManager: LocationManager)
+    func openMap(requester: ListingListMultiRequester,
+                 listingFilters: ListingFilters,
+                 locationManager: LocationManager)
 }

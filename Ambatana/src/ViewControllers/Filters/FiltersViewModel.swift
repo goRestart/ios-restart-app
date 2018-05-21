@@ -447,31 +447,9 @@ class FiltersViewModel: BaseViewModel {
     }
 
     func saveFilters() {
-        // Tracking
-        let offerTypeValues = productFilter.realEstateOfferTypes.flatMap({ offerType -> String? in
-            return offerType.rawValue
-        })
-        let trackingEvent = TrackerEvent.filterComplete(productFilter.filterCoordinates,
-                                                        distanceRadius: productFilter.distanceRadius,
-                                                        distanceUnit: productFilter.distanceType,
-                                                        categories: productFilter.selectedCategories,
-                                                        sortBy: productFilter.selectedOrdering,
-                                                        postedWithin: productFilter.selectedWithin,
-                                                        priceRange: productFilter.priceRange,
-                                                        freePostingModeAllowed: featureFlags.freePostingModeAllowed,
-                                                        carSellerType: trackCarSellerType,
-                                                        carMake: productFilter.carMakeName,
-                                                        carModel: productFilter.carModelName,
-                                                        carYearStart: productFilter.carYearStart?.value,
-                                                        carYearEnd: productFilter.carYearEnd?.value,
-                                                        propertyType: productFilter.realEstatePropertyType?.rawValue,
-                                                        offerType: offerTypeValues,
-                                                        bedrooms: productFilter.realEstateNumberOfBedrooms?.rawValue,
-                                                        bathrooms: productFilter.realEstateNumberOfBathrooms?.rawValue,
-                                                        sizeSqrMetersMin: productFilter.realEstateSizeRange.min,
-                                                        sizeSqrMetersMax: productFilter.realEstateSizeRange.max,
-                                                        rooms: productFilter.realEstateNumberOfRooms)
-        TrackerProxy.sharedInstance.trackEvent(trackingEvent)
+        TrackerProxy.sharedInstance.trackEvent(.filterComplete(productFilter,
+                                                               carSellerType: trackCarSellerType,
+                                                               freePostingModeAllowed: featureFlags.freePostingModeAllowed))
         dataDelegate?.viewModelDidUpdateFilters(self, filters: productFilter)
     }
     

@@ -437,7 +437,7 @@ extension PurchasesShopperSpec: PurchasesShopperDelegate {
     func freeBumpDidStart(typePage: EventParameterTypePage?) {
     }
 
-    func freeBumpDidSucceed(withNetwork network: EventParameterShareNetwork, typePage: EventParameterTypePage?) {
+    func freeBumpDidSucceed(withNetwork network: EventParameterShareNetwork, typePage: EventParameterTypePage?, paymentId: String) {
         self.network = network
         self.mockBumpResult = .success
     }
@@ -457,7 +457,8 @@ extension PurchasesShopperSpec: PurchasesShopperDelegate {
                               restoreRetriesCount: Int,
                               transactionStatus: EventParameterTransactionStatus,
                               typePage: EventParameterTypePage?,
-                              isBoost: Bool) {
+                              isBoost: Bool,
+                              paymentId: String) {
         self.mockBumpResult = .success
         self.restoreRetriesCount = restoreRetriesCount
     }
