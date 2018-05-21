@@ -571,6 +571,10 @@ fileprivate extension ChatViewController {
             }
         }).disposed(by: disposeBag)
 
+        viewModel.shouldShowReputationTooltip.asDriver().drive(onNext: { [weak self] showTooltip in
+            showTooltip ? self?.showReputationTooltip() : self?.hideReputationTooltip()
+        }).disposed(by: disposeBag)
+
         textView.rx.text
             .orEmpty
             .skip(1)
@@ -591,6 +595,7 @@ extension ChatViewController: LetgoTooltipDelegate {
         tooltip?.delegate = self
         tooltip?.layout(with: topLayoutGuide).below(by: Metrics.veryShortMargin)
         tooltip?.layout(with: view).leading(by: 40)
+        viewModel.reputationTooltipShown()
     }
 
     fileprivate func hideReputationTooltip() {
