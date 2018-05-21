@@ -9,6 +9,7 @@
 import LGCoreKit
 import RxSwift
 import GoogleMobileAds
+import RxCocoa
 
 protocol ListingCarouselViewModelDelegate: BaseViewModelDelegate {
     func vmRemoveMoreInfoTooltip()
@@ -133,6 +134,9 @@ class ListingCarouselViewModel: BaseViewModel {
 
     let socialMessage = Variable<SocialMessage?>(nil)
     let socialSharer = Variable<SocialSharer>(SocialSharer())
+    var shouldShowReputationTooltip: Driver<Bool> {
+        return ownerBadge.asDriver().map{ $0 != .noBadge && self.reputationTooltipManager.shouldShowTooltip() }
+    }
 
     // UI - Input
     let moreInfoState = Variable<MoreInfoState>(.hidden)
@@ -167,6 +171,7 @@ class ListingCarouselViewModel: BaseViewModel {
     let featureFlags: FeatureFlaggeable
     fileprivate let locationManager: LocationManager
     fileprivate let myUserRepository: MyUserRepository
+    fileprivate let reputationTooltipManager: ReputationTooltipManager
 
     fileprivate let disposeBag = DisposeBag()
 
@@ -268,7 +273,8 @@ class ListingCarouselViewModel: BaseViewModel {
                   listingViewModelMaker: ListingViewModel.ConvenienceMaker(),
                   adsRequester: AdsRequester(),
                   locationManager: Core.locationManager,
-                  myUserRepository: Core.myUserRepository)
+                  myUserRepository: Core.myUserRepository,
+                  reputationTooltipManager: LGReputationTooltipManager.sharedInstance)
     }
 
     init(productListModels: [ListingCellModel]?,
@@ -285,7 +291,8 @@ class ListingCarouselViewModel: BaseViewModel {
          listingViewModelMaker: ListingViewModelMaker,
          adsRequester: AdsRequester,
          locationManager: LocationManager,
-         myUserRepository: MyUserRepository) {
+         myUserRepository: MyUserRepository,
+         reputationTooltipManager: ReputationTooltipManager) {
         if let productListModels = productListModels {
             let listingCarouselCellModels = productListModels
                 .flatMap(ListingCarouselCellModel.adapter)
@@ -311,6 +318,7 @@ class ListingCarouselViewModel: BaseViewModel {
         self.adsRequester = adsRequester
         self.locationManager = locationManager
         self.myUserRepository = myUserRepository
+        self.reputationTooltipManager = reputationTooltipManager
         if let initialListing = initialListing {
             self.startIndex = objects.value.index(where: { $0.listing.objectId == initialListing.objectId}) ?? 0
         } else {
@@ -538,6 +546,10 @@ class ListingCarouselViewModel: BaseViewModel {
 
     func reputationTooltipTapped() {
         navigator?.openUserVerificationView()
+    }
+
+    func reputationTooltipShown() {
+        reputationTooltipManager.didShowTooltip()
     }
 
     // MARK: - Private Methods

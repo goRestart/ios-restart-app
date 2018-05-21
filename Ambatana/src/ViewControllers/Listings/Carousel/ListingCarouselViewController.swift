@@ -692,6 +692,10 @@ extension ListingCarouselViewController {
 
         }.disposed(by: disposeBag)
 
+        viewModel.shouldShowReputationTooltip.drive(onNext: { [weak self] shouldShowTooltip in
+            shouldShowTooltip ? self?.showReputationTooltip() : self?.hideReputationTooltip()
+        }).disposed(by: disposeBag)
+
         viewModel.userInfo.asObservable().bind { [weak self] userInfo in
             self?.fullScreenAvatarView.alpha = 0
             self?.fullScreenAvatarView.image = userInfo?.avatarPlaceholder()
@@ -1203,6 +1207,7 @@ extension ListingCarouselViewController: LetgoTooltipDelegate {
         reputationTooltip?.leftAnchor.constraint(equalTo: userView.leftAnchor).isActive = true
         reputationTooltip?.bottomAnchor.constraint(equalTo: userView.topAnchor, constant: Metrics.veryBigMargin).isActive = true
         reputationTooltip?.delegate = self
+        viewModel.reputationTooltipShown()
     }
 
     fileprivate func hideReputationTooltip() {
