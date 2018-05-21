@@ -170,6 +170,10 @@ extension Date {
         return isNewerThan(86400)
     }
 
+    func isOlderThan(days: Int) -> Bool {
+        return isNewerThan(Double(86400 * days))
+    }
+
     func isNewerThan(_ seconds: TimeInterval) -> Bool {
         let time = self.timeIntervalSince1970
         let now = Date().timeIntervalSince1970

@@ -506,7 +506,7 @@ class ChatViewModel: BaseViewModel {
                 guard let strongSelf = self else { return }
                 guard let user = result.value else { return }
                 strongSelf.interlocutor = user
-                strongSelf.interlocutorIsVerified.value = user.isVerified
+                strongSelf.interlocutorIsVerified.value = user.reputationBadge != .noBadge
                 let proInfo = InterlocutorProfessionalInfo(isProfessional: user.isProfessional, phoneNumber: user.phone)
                 strongSelf.interlocutorProfessionalInfo.value = proInfo
                 if let userInfoMessage = strongSelf.userInfoMessage, strongSelf.shouldShowOtherUserInfo {
