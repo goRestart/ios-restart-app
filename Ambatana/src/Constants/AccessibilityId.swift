@@ -542,6 +542,12 @@ enum AccessibilityId: Equatable {
     case verificationsBioOption
     case verificationsMarkAsSoldOption
 
+    // Phone Verification
+    case phoneVerificationNumberInputCountryButton
+    case phoneVerificationNumberInputCountryCodeLabel
+    case phoneVerificationNumberInputTextField
+    case phoneVerificationNumberInputContinueButton
+
     // Settings
     case settingsList
     case settingsLogoutAlertCancel
@@ -1752,6 +1758,16 @@ enum AccessibilityId: Equatable {
             return "verificationsBioOption"
         case .verificationsMarkAsSoldOption:
             return "verificationsMarkAsSoldOption"
+
+        // Phone Verification
+        case .phoneVerificationNumberInputCountryButton:
+            return "phoneVerificationNumberInputCountryButton"
+        case .phoneVerificationNumberInputCountryCodeLabel:
+            return "phoneVerificationNumberInputCountryCodeLabel"
+        case .phoneVerificationNumberInputTextField:
+            return "phoneVerificationNumberInputTextField"
+        case .phoneVerificationNumberInputContinueButton:
+            return "phoneVerificationNumberInputContinueButton"
 
         // Settings
         case .settingsList:

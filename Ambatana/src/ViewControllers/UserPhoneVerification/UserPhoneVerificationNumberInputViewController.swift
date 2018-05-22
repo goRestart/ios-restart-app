@@ -52,6 +52,7 @@ final class UserPhoneVerificationNumberInputViewController: BaseViewController {
         super.viewDidLoad()
         setupUI()
         setupRx()
+        setupAccessibilityIds()
     }
 
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
@@ -192,6 +193,13 @@ final class UserPhoneVerificationNumberInputViewController: BaseViewController {
                 self?.continueButton.isUserInteractionEnabled = isEnabled
             })
             .disposed(by: disposeBag)
+    }
+
+    private func setupAccessibilityIds() {
+        countryButton.set(accessibilityId: .phoneVerificationNumberInputCountryButton)
+        countryCodeLabel.set(accessibilityId: .phoneVerificationNumberInputCountryCodeLabel)
+        phoneNumberTextField.set(accessibilityId: .phoneVerificationNumberInputTextField)
+        continueButton.set(accessibilityId: .phoneVerificationNumberInputContinueButton)
     }
 
     @objc private func didTapSelectCountry() {
