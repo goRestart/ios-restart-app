@@ -63,7 +63,7 @@ class ChatViewMessageAdapter {
         switch message.content.type {
         case .offer:
             type = ChatViewMessageType.offer(text: text)
-        case .text, .expressChat, .favoritedListing:
+        case .text, .expressChat, .favoritedListing, .interested:
             type = ChatViewMessageType.text(text: text)
         case .quickAnswer(_, let text):
             type = ChatViewMessageType.text(text: text)
@@ -110,7 +110,7 @@ class ChatViewMessageAdapter {
         switch message.content.type {
         case .offer:
             type = ChatViewMessageType.offer(text: text)
-        case .text, .expressChat, .favoritedListing:
+        case .text, .expressChat, .favoritedListing, .interested:
             type = ChatViewMessageType.text(text: text)
         case .quickAnswer(_, let text):
             type = ChatViewMessageType.text(text: text)

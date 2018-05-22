@@ -28,7 +28,7 @@ final class ChatBlockedUsersViewModel: BaseViewModel {
                                 title: LGLocalizedString.chatListBlockedEmptyTitle,
                                 body: LGLocalizedString.chatListBlockedEmptyBody, buttonTitle: nil,
                                 action: nil, secondaryButtonTitle: nil, secondaryAction: nil,
-                                emptyReason: .emptyResults, errorCode: nil)
+                                emptyReason: .emptyResults, errorCode: nil, errorDescription: nil)
     }()
 
     let errorStateVM: LGEmptyViewModel = {
@@ -36,7 +36,7 @@ final class ChatBlockedUsersViewModel: BaseViewModel {
                                 title: LGLocalizedString.chatListBlockedEmptyTitle,
                                 body: LGLocalizedString.chatListBlockedEmptyBody, buttonTitle: nil,
                                 action: nil, secondaryButtonTitle: nil, secondaryAction: nil,
-                                emptyReason: .emptyResults, errorCode: nil)
+                                emptyReason: .emptyResults, errorCode: nil, errorDescription: nil)
     }()
 
 

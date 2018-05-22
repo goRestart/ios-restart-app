@@ -48,6 +48,9 @@ public struct MockChatMessageContent: ChatMessageContent {
         case .favoritedListing:
             result[typeKey] = ChatMessageTypeDecodable.favoritedListing.rawValue
             result[textKey] = text
+        case .interested:
+            result[typeKey] = ChatMessageTypeDecodable.interested.rawValue
+            result[textKey] = text
         case .phone:
             result[typeKey] = ChatMessageTypeDecodable.phone.rawValue
             result[textKey] = text
