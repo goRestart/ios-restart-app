@@ -20,6 +20,7 @@ enum ChatWrapperMessageType {
     case quickAnswer(QuickAnswer)
     case expressChat(String)
     case favoritedListing(String)
+    case interested(String)
     case phone(String)
     case meeting(AssistantMeeting, String)
     
@@ -112,6 +113,8 @@ extension ChatWrapperMessageType {
             return text
         case let .periscopeDirect(text):
             return text
+        case let .interested(text):
+            return text
         case let .phone(text):
             return text
         case let .meeting(_,text):
@@ -133,6 +136,8 @@ extension ChatWrapperMessageType {
             return .expressChat
         case .favoritedListing:
             return .favoritedListing
+        case .interested:
+            return .interested
         case .phone:
             return .phone
         case .meeting:
@@ -154,6 +159,8 @@ extension ChatWrapperMessageType {
             return .expressChat
         case .favoritedListing:
             return .favoritedListing
+        case .interested:
+            return .interested
         case .phone:
             return .phone
         case .meeting:
@@ -175,6 +182,8 @@ extension ChatWrapperMessageType {
             return .favorite
         case .periscopeDirect:
             return .periscopeDirect
+        case .interested:
+            return .interested
         case .phone:
             return .phone
         case .meeting:
@@ -186,7 +195,7 @@ extension ChatWrapperMessageType {
         switch self {
         case let .quickAnswer(quickAnswer):
             return quickAnswer.quickAnswerTypeParameter
-        case .text, .chatSticker, .expressChat, .favoritedListing, .periscopeDirect, .phone, .meeting:
+        case .text, .chatSticker, .expressChat, .favoritedListing, .periscopeDirect, .interested, .phone, .meeting:
             return nil
         }
     }
@@ -195,7 +204,7 @@ extension ChatWrapperMessageType {
         switch self {
         case .text:
             return true
-        case .quickAnswer, .chatSticker, .expressChat, .favoritedListing, .periscopeDirect, .phone, .meeting:
+        case .quickAnswer, .chatSticker, .expressChat, .favoritedListing, .periscopeDirect, .interested, .phone, .meeting:
             return false
         }
     }
@@ -204,7 +213,7 @@ extension ChatWrapperMessageType {
         switch self {
         case .quickAnswer:
             return true
-        case .text, .chatSticker, .expressChat, .favoritedListing, .periscopeDirect, .phone, .meeting:
+        case .text, .chatSticker, .expressChat, .favoritedListing, .periscopeDirect, .interested, .phone, .meeting:
             return false
         }
     }
@@ -213,7 +222,7 @@ extension ChatWrapperMessageType {
         switch self {
         case .phone:
             return true
-        case .text, .chatSticker, .expressChat, .favoritedListing, .periscopeDirect, .quickAnswer, .meeting:
+        case .text, .chatSticker, .expressChat, .favoritedListing, .periscopeDirect, .interested, .quickAnswer, .meeting:
             return false
         }
     }
@@ -222,7 +231,7 @@ extension ChatWrapperMessageType {
         switch self {
         case let .meeting(assistantMeeting, _):
             return assistantMeeting
-        case .text, .chatSticker, .expressChat, .favoritedListing, .periscopeDirect, .phone, .quickAnswer:
+        case .text, .chatSticker, .expressChat, .favoritedListing, .periscopeDirect, .interested, .phone, .quickAnswer:
             return nil
         }
     }

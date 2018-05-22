@@ -23,16 +23,11 @@ class EditUserBioViewModelSpec: BaseViewModelSpec {
         var sut: EditUserBioViewModel!
         var tracker: MockTracker!
         var myUserRepository: MockMyUserRepository!
-        let disposeBag = DisposeBag()
-        var scheduler: TestScheduler!
-        var userBioObserver: TestableObserver<String?>!
 
         describe("PostingDetailsViewModelSpec") {
             func buildEditUserBioViewModel() {
                 sut = EditUserBioViewModel(myUserRepository: myUserRepository,
                                            tracker: tracker)
-
-                sut.userBio.asObservable().bind(to: userBioObserver).disposed(by: disposeBag)
 
                 sut.navigator = self
             }
@@ -45,10 +40,6 @@ class EditUserBioViewModelSpec: BaseViewModelSpec {
                 var myUser = MockMyUser.makeMock()
                 myUser.biography = "initial Bio"
                 myUserRepository.myUserVar.value = myUser
-
-                scheduler = TestScheduler(initialClock: 0)
-                scheduler.start()
-                userBioObserver = scheduler.createObserver(String?.self)
             }
 
             context("init") {
@@ -57,7 +48,7 @@ class EditUserBioViewModelSpec: BaseViewModelSpec {
                     buildEditUserBioViewModel()
                 }
                 it("has a initial bio") {
-                    expect(userBioObserver.eventValues).toEventually(equal(["initial Bio"]))
+                    expect(sut.userBio).toEventually(equal("initial Bio"))
                 }
 
                 context("Tap save button") {
