@@ -110,10 +110,6 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
         userView.set(action: action)
         detailsView.populateWith(productInfo: listingSnapshot.productInfo, showExactLocationOnMap: false)
         detailsView.populateWith(listingStats: nil, postedDate: nil)
-
-        if listingSnapshot.showReputationBadge {
-            showReputationTooltip()
-        }
     }
 
     func populateWith(details listingViewModel: ListingCardViewCellModel) {
@@ -376,7 +372,7 @@ extension ListingCardView: ListingDeckViewControllerBinderCellType {
 }
 
 extension ListingCardView: LetgoTooltipDelegate {
-    fileprivate func showReputationTooltip() {
+    func showReputationTooltip() {
         guard reputationTooltip == nil else { return }
         let tooltip = LetgoTooltip()
         addSubviewForAutoLayout(tooltip)
@@ -389,7 +385,7 @@ extension ListingCardView: LetgoTooltipDelegate {
         reputationTooltip?.delegate = self
     }
 
-    fileprivate func hideReputationTooltip() {
+    func hideReputationTooltip() {
         reputationTooltip?.removeFromSuperview()
         reputationTooltip = nil
     }

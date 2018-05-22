@@ -23,7 +23,6 @@ protocol ListingDeckSnapshotType {
     var socialSharer: SocialSharer { get }
     var socialMessage: SocialMessage? { get }
     var isMine: Bool { get }
-    var showReputationBadge: Bool { get }
 }
 
 struct ListingDeckSnapshot: ListingDeckSnapshotType {
@@ -40,5 +39,4 @@ struct ListingDeckSnapshot: ListingDeckSnapshotType {
     let socialSharer: SocialSharer
     let socialMessage: SocialMessage?
     let isMine: Bool
-    let showReputationBadge: Bool
 }
