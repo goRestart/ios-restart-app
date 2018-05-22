@@ -512,9 +512,8 @@ class ChatViewModel: BaseViewModel {
                 guard let strongSelf = self else { return }
                 guard let user = result.value else { return }
                 strongSelf.interlocutor = user
-                let hasBadge = user.reputationBadge != .noBadge
-                strongSelf.interlocutorIsVerified.value = hasBadge
-                strongSelf.shouldShowReputationTooltip.value = hasBadge && strongSelf.reputationTooltipManager.shouldShowTooltip()
+                strongSelf.interlocutorIsVerified.value = user.hasBadge
+                strongSelf.shouldShowReputationTooltip.value = user.hasBadge && strongSelf.reputationTooltipManager.shouldShowTooltip()
                 let proInfo = InterlocutorProfessionalInfo(isProfessional: user.isProfessional, phoneNumber: user.phone)
                 strongSelf.interlocutorProfessionalInfo.value = proInfo
                 if let userInfoMessage = strongSelf.userInfoMessage, strongSelf.shouldShowOtherUserInfo {

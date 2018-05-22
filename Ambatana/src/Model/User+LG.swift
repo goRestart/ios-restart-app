@@ -33,6 +33,9 @@ extension User {
     var reputationBadge: UserReputationBadge {
         return reputationPoints >= Constants.Reputation.minScore ? .silver : .noBadge
     }
+    var hasBadge: Bool {
+        return reputationBadge != .noBadge
+    }
 }
 
 extension User {

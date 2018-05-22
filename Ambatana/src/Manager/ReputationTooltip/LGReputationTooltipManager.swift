@@ -7,21 +7,25 @@
 //
 
 import Foundation
+import LGCoreKit
 
 class LGReputationTooltipManager: ReputationTooltipManager {
 
     static let sharedInstance = LGReputationTooltipManager()
     private let keyValueStorage: KeyValueStorage
+    private let myUserRepository: MyUserRepository
 
-    init(keyValueStorage: KeyValueStorage) {
+    init(keyValueStorage: KeyValueStorage, myUserRepository: MyUserRepository) {
         self.keyValueStorage = keyValueStorage
+        self.myUserRepository = myUserRepository
     }
 
     convenience init() {
-        self.init(keyValueStorage: KeyValueStorage.sharedInstance)
+        self.init(keyValueStorage: KeyValueStorage.sharedInstance, myUserRepository: Core.myUserRepository)
     }
 
     func shouldShowTooltip() -> Bool {
+        guard let myUser = myUserRepository.myUser, !myUser.hasBadge else { return false }
         if !keyValueStorage[.reputationTooltipShown] { return true }
         guard let lastShownDate = keyValueStorage[.lastShownReputationTooltipDate] else { return true }
         return lastShownDate.isOlderThan(days: 30)
