@@ -686,10 +686,6 @@ extension ListingCarouselViewController {
                                      userId: userInfo?.userId,
                                      isProfessional: isProfessional,
                                      userBadge: userBadge)
-            if userBadge != .noBadge {
-                self?.showReputationTooltip()
-            }
-
         }.disposed(by: disposeBag)
 
         viewModel.shouldShowReputationTooltip.drive(onNext: { [weak self] shouldShowTooltip in
