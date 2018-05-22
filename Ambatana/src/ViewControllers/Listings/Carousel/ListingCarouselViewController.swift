@@ -1199,7 +1199,7 @@ extension ListingCarouselViewController: LetgoTooltipDelegate {
         reputationTooltip = tooltip
         reputationTooltip?.peakOnTop = false
         reputationTooltip?.peakOffsetFromLeft = 40
-        reputationTooltip?.message = "User verified! Tap if you want to be verified too"
+        reputationTooltip?.message = LGLocalizedString.profileReputationTooltipTitle
         reputationTooltip?.leftAnchor.constraint(equalTo: userView.leftAnchor).isActive = true
         reputationTooltip?.bottomAnchor.constraint(equalTo: userView.topAnchor, constant: Metrics.veryBigMargin).isActive = true
         reputationTooltip?.delegate = self

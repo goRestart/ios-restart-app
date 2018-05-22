@@ -191,10 +191,6 @@ final class ChatViewController: TextViewController {
         sendButton.tintColor = UIColor.primaryColor
         sendButton.titleLabel?.font = UIFont.smallButtonFont
         reloadLeftActions()
-
-        tooltip?.message = "User verified! Tap if you want to be verified too."
-        tooltip?.peakOnTop = true
-        tooltip?.delegate = self
         
         addSubviews()
         setupFrames()
@@ -591,7 +587,7 @@ extension ChatViewController: LetgoTooltipDelegate {
         tooltip = reputationTooltip
         tooltip?.peakOnTop = true
         tooltip?.peakOffsetFromLeft = 40
-        tooltip?.message = "User verified! Tap if you want to be verified too"
+        tooltip?.message = LGLocalizedString.profileReputationTooltipTitle
         tooltip?.delegate = self
         tooltip?.layout(with: topLayoutGuide).below(by: Metrics.veryShortMargin)
         tooltip?.layout(with: view).leading(by: 40)
