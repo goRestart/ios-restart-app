@@ -547,6 +547,11 @@ enum AccessibilityId: Equatable {
     case phoneVerificationNumberInputCountryCodeLabel
     case phoneVerificationNumberInputTextField
     case phoneVerificationNumberInputContinueButton
+    case phoneVerificationCodeInputTitle
+    case phoneVerificationCodeInputSubtitle
+    case phoneVerificationCodeInputTextfield
+    case phoneVerificationCodeInputInfoLabel
+    case phoneVerificationCodeInputInfoButton
 
     // Settings
     case settingsList
@@ -1768,6 +1773,17 @@ enum AccessibilityId: Equatable {
             return "phoneVerificationNumberInputTextField"
         case .phoneVerificationNumberInputContinueButton:
             return "phoneVerificationNumberInputContinueButton"
+        case .phoneVerificationCodeInputTitle:
+            return "phoneVerificationCodeInputTitle"
+        case .phoneVerificationCodeInputSubtitle:
+            return "phoneVerificationCodeInputSubtitle"
+        case .phoneVerificationCodeInputTextfield:
+            return "phoneVerificationCodeInputTextfield"
+        case .phoneVerificationCodeInputInfoLabel:
+            return "phoneVerificationCodeInputInfoLabel"
+        case .phoneVerificationCodeInputInfoButton:
+            return "phoneVerificationCodeInputInfoButton"
+
 
         // Settings
         case .settingsList:

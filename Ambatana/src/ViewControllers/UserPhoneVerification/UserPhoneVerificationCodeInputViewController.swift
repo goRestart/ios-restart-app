@@ -49,6 +49,7 @@ final class UserPhoneVerificationCodeInputViewController: BaseViewController {
         super.viewDidLoad()
         setupUI()
         setupRx()
+        setupAccessibilityIds()
     }
 
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
@@ -186,6 +187,14 @@ final class UserPhoneVerificationCodeInputViewController: BaseViewController {
                 }
             })
             .disposed(by: disposeBag)
+    }
+
+    private func setupAccessibilityIds() {
+        titleLabel.set(accessibilityId: .phoneVerificationCodeInputTitle)
+        subtitleLabel.set(accessibilityId: .phoneVerificationCodeInputSubtitle)
+        codeTextField.set(accessibilityId: .phoneVerificationCodeInputTextfield)
+        codeInformationLabel.set(accessibilityId: .phoneVerificationCodeInputInfoLabel)
+        codeInformationButton.set(accessibilityId: .phoneVerificationCodeInputInfoButton)
     }
 
     @objc private func didTapOnCodeNotReceived() {
