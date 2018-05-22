@@ -207,7 +207,7 @@ final class UserProfileViewModel: BaseViewModel {
         case .selling: sellingListingListViewModel.retrieveListings()
         case .sold: soldListingListViewModel.retrieveListings()
         case .favorites: favoritesListingListViewModel.retrieveListings()
-        case .reviews: break
+        case .reviews: ratingListViewModel.userRatingListRequester.retrieveFirstPage()
         }
     }
 
