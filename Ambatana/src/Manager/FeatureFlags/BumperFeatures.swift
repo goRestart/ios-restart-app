@@ -72,6 +72,7 @@ extension Bumper  {
         flags.append(SearchBoxImprovements.self)
         flags.append(GoogleAdxForTR.self)
         flags.append(MultiContactAfterSearch.self)
+        flags.append(ShowServicesFeatures.self)
         Bumper.initialize(flags)
     } 
 
@@ -368,6 +369,11 @@ extension Bumper  {
     static var multiContactAfterSearch: MultiContactAfterSearch {
         guard let value = Bumper.value(for: MultiContactAfterSearch.key) else { return .control }
         return MultiContactAfterSearch(rawValue: value) ?? .control 
+    }
+
+    static var showServicesFeatures: ShowServicesFeatures {
+        guard let value = Bumper.value(for: ShowServicesFeatures.key) else { return .control }
+        return ShowServicesFeatures(rawValue: value) ?? .control 
     } 
 }
 
@@ -1046,17 +1052,15 @@ enum SectionedMainFeed: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "A new fully sectioned main feed" } 
     static func fromPosition(_ position: Int) -> SectionedMainFeed {
-        switch position {
-        case 0: return .control
-        case 1: return .baseline
-        case 2: return .active
-        default: return .control
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
         }
     }
-    var isActive: Bool { return self == .active }
 }
 
-        
 enum FilterSearchCarSellerType: String, BumperFeature  {
     case control, baseline, variantA, variantB, variantC, variantD
     static var defaultValue: String { return FilterSearchCarSellerType.control.rawValue }
@@ -1092,7 +1096,7 @@ enum ShowPasswordlessLogin: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show Passwordless login option" } 
     static func fromPosition(_ position: Int) -> ShowPasswordlessLogin {
-        switch position {
+        switch position { 
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
@@ -1296,6 +1300,24 @@ enum MultiContactAfterSearch: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .photoAndInfo
             case 3: return .onlyPhoto
+            default: return .control
+        }
+    }
+}
+
+enum ShowServicesFeatures: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ShowServicesFeatures.control.rawValue }
+    static var enumValues: [ShowServicesFeatures] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String {
+        return "Show services-specific features (search & filters updates, posting flow changes, and editing view changes)"
+    }
+    static func fromPosition(_ position: Int) -> ShowServicesFeatures {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
             default: return .control
         }
     }

@@ -15,14 +15,14 @@ final class SendMessageTrackingInfo {
     func set(listing: Listing, freePostingModeAllowed: Bool) -> Self {
         params.addListingParams(listing)
         params[.userToId] = listing.user.objectId
-        params[.freePosting] = TrackerEvent.eventParameterFreePostingWithPrice(freePostingModeAllowed, price: listing.price).rawValue
+        params[.freePosting] = listing.price.allowFreeFilters(freePostingModeAllowed: freePostingModeAllowed).rawValue
         return self
     }
 
     @discardableResult
     func set(chatListing: ChatListing, freePostingModeAllowed: Bool) -> Self {
         params.addChatListingParams(chatListing)
-        params[.freePosting] = TrackerEvent.eventParameterFreePostingWithPrice(freePostingModeAllowed, price: chatListing.price).rawValue
+        params[.freePosting] = chatListing.price.allowFreeFilters(freePostingModeAllowed: freePostingModeAllowed).rawValue
         return self
     }
 

@@ -1433,9 +1433,18 @@ extension ListingViewModel: PurchasesShopperDelegate {
         delegate?.vmShowLoading(LGLocalizedString.bumpUpProcessingFreeText)
     }
 
-    func freeBumpDidSucceed(withNetwork network: EventParameterShareNetwork, typePage: EventParameterTypePage?) {
-        trackBumpUpCompleted(.free, type: .free, restoreRetriesCount: 0, network: network, transactionStatus: nil,
-                             storeProductId: storeProductId, isPromotedBump: isPromotedBump, typePage: typePage)
+    func freeBumpDidSucceed(withNetwork network: EventParameterShareNetwork,
+                            typePage: EventParameterTypePage?,
+                            paymentId: String) {
+        trackBumpUpCompleted(.free,
+                             type: .free,
+                             restoreRetriesCount: 0,
+                             network: network,
+                             transactionStatus: nil,
+                             storeProductId: storeProductId,
+                             isPromotedBump: isPromotedBump,
+                             typePage: typePage,
+                             paymentId: paymentId)
         delegate?.vmHideLoading(LGLocalizedString.bumpUpFreeSuccess, afterMessageCompletion: { [weak self] in
             self?.delegate?.vmResetBumpUpBannerCountdown()
             self?.isShowingFeaturedStripe.value = true
@@ -1466,8 +1475,12 @@ extension ListingViewModel: PurchasesShopperDelegate {
         delegate?.vmHideLoading(LGLocalizedString.bumpUpErrorPaymentFailed, afterMessageCompletion: nil)
     }
 
-    func pricedBumpDidSucceed(type: BumpUpType, restoreRetriesCount: Int, transactionStatus: EventParameterTransactionStatus,
-                              typePage: EventParameterTypePage?, isBoost: Bool) {
+    func pricedBumpDidSucceed(type: BumpUpType,
+                              restoreRetriesCount: Int,
+                              transactionStatus: EventParameterTransactionStatus,
+                              typePage: EventParameterTypePage?,
+                              isBoost: Bool,
+                              paymentId: String) {
         trackBumpUpCompleted(.pay(price: bumpUpPurchaseableProduct?.formattedCurrencyPrice ?? ""),
                              type: type,
                              restoreRetriesCount: restoreRetriesCount,
@@ -1475,7 +1488,8 @@ extension ListingViewModel: PurchasesShopperDelegate {
                              transactionStatus: transactionStatus,
                              storeProductId: storeProductId,
                              isPromotedBump: isPromotedBump,
-                             typePage: typePage)
+                             typePage: typePage,
+                             paymentId: paymentId)
 
         delegate?.vmHideLoading(isBoost ? nil : LGLocalizedString.bumpUpPaySuccess, afterMessageCompletion: { [weak self] in
             guard let strongSelf = self else { return }

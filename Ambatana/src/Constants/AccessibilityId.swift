@@ -384,6 +384,10 @@ enum AccessibilityId: Equatable {
     case recaptchaLoading
     case recaptchaWebView
 
+    // ChatConversationsList
+    case chatConversationsListOptionsNavBarButton
+    case chatConversationsListFiltersNavBarButton
+    
     // ChatGrouped
     case chatGroupedViewRightNavBarButton
 
@@ -1466,6 +1470,12 @@ enum AccessibilityId: Equatable {
             return "recaptchaLoading"
         case .recaptchaWebView:
             return "recaptchaWebView"
+            
+        // ChatConversationsList
+        case .chatConversationsListOptionsNavBarButton:
+            return "chatConversationsListOptionsNavBarButton"
+        case .chatConversationsListFiltersNavBarButton:
+            return "chatConversationsListFiltersNavBarButton"
             
         // ChatGrouped
         case .chatGroupedViewRightNavBarButton:

@@ -46,9 +46,9 @@ extension UIViewController {
     var barButtonsHoritzontalSpacing: CGFloat {
         switch DeviceFamily.current {
         case .iPhone4, .iPhone5:
-            return 8
+            return 4
         default:
-            return 16
+            return 8
         }
     }
 
@@ -81,6 +81,16 @@ extension UIViewController {
         tapBlock(rightItem.rx.tap)
         navigationItem.rightBarButtonItems = nil
         navigationItem.rightBarButtonItem = rightItem
+        return rightItem
+    }
+    
+    @discardableResult
+    func setLetGoRightButtonWith(barButtonSystemItem: UIBarButtonSystemItem,
+                                 selector: Selector,
+                                 animated: Bool = false) -> UIBarButtonItem {
+        let rightItem = UIBarButtonItem(barButtonSystemItem: barButtonSystemItem, target: self, action: selector)
+        navigationItem.setRightBarButtonItems(nil, animated: animated)
+        navigationItem.setRightBarButton(rightItem, animated: animated)
         return rightItem
     }
 
@@ -201,7 +211,7 @@ extension UIViewController {
         return button
     }
     
-    func setNavigationBarRightButtons(_ buttons: [UIButton]) {
+    func setNavigationBarRightButtons(_ buttons: [UIButton], animated: Bool = false) {
         let height: CGFloat = 44
 
         var x: CGFloat = 0
@@ -211,15 +221,14 @@ extension UIViewController {
             
             let buttonWidth = icon.size.width + barButtonsHoritzontalSpacing
             button.frame = CGRect(x: x, y: 0, width: buttonWidth, height: height)
-            button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.right
+            button.contentHorizontalAlignment = .right
             
             x += buttonWidth
             
             return UIBarButtonItem(customView: button)
         }
-
-        navigationItem.rightBarButtonItem = nil
-        navigationItem.rightBarButtonItems = items.reversed()
+        navigationItem.setRightBarButton(nil, animated: animated)
+        navigationItem.setRightBarButtonItems(items.reversed(), animated: animated)
     }
 }
 

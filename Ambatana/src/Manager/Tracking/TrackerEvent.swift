@@ -18,6 +18,7 @@ func ==(a: TrackerEvent, b: TrackerEvent) -> Bool {
 
 struct TrackerEvent {
     static let notApply: String = "N/A"
+    static let defaultValue = "default"
     fileprivate static let itemsCountThreshold = 50
 
     private(set) var name: EventName
@@ -184,7 +185,7 @@ struct TrackerEvent {
         var params = EventParameters()
 
         params[.feedSource] = feedSource.rawValue
-        params[.categoryId] = TrackerEvent.stringFrom(categories: categories)
+        params[.categoryId] = (categories ?? [.unassigned]).trackValue
         params[.keywordName] = taxonomy?.name ?? TrackerEvent.notApply
         // Search query
         if let actualSearchQuery = searchQuery {
@@ -242,125 +243,15 @@ struct TrackerEvent {
         return TrackerEvent(name: .filterLocationStart, params: nil)
     }
 
-    static func filterComplete(_ coordinates: LGLocationCoordinates2D?, distanceRadius: Int?,
-                               distanceUnit: DistanceType, categories: [ListingCategory]?, sortBy: ListingSortCriteria?,
-                               postedWithin: ListingTimeCriteria?, priceRange: FilterPriceRange, freePostingModeAllowed: Bool,
-                               carSellerType: String?, carMake: String?, carModel: String?, carYearStart: Int?, carYearEnd: Int?, propertyType: String?,
-                               offerType: [String]?, bedrooms: Int?, bathrooms: Float?, sizeSqrMetersMin: Int?,
-                               sizeSqrMetersMax: Int?, rooms: NumberOfRooms?) -> TrackerEvent {
-        var params = EventParameters()
-
-        // Filter Coordinates
-        if let actualCoords = coordinates {
-            params[.filterLat] = actualCoords.latitude
-            params[.filterLng] = actualCoords.longitude
-        } else {
-            params[.filterLat] = "default"
-            params[.filterLng] = "default"
-        }
-
-        // Distance
-        params[.filterDistanceRadius] = distanceRadius ?? "default"
-        params[.filterDistanceUnit] = distanceUnit.string
-
-        // Categories
-        params[.categoryId] = TrackerEvent.stringFrom(categories: categories)
-
-        // Sorting
-        if let sortByParam = eventParameterSortByTypeForSorting(sortBy) {
-            params[.filterSortBy] = sortByParam.rawValue
-        }
-        if let postedWithin = eventParameterPostedWithinForTime(postedWithin) {
-            params[.filterPostedWithin] = postedWithin.rawValue
-        }
-
-        params[.priceFrom] = eventParameterHasPriceFilter(priceRange.min).rawValue
-        params[.priceTo] = eventParameterHasPriceFilter(priceRange.max).rawValue
+    static func filterComplete(_ filters: ListingFilters, carSellerType: String?, freePostingModeAllowed: Bool) -> TrackerEvent {
+        var params = filters.trackingParams
         
-        params[.freePosting] = eventParameterFreePostingWithPriceRange(freePostingModeAllowed, priceRange: priceRange).rawValue
-
-        var verticalFields: [String] = []
-
+        params[.freePosting] = eventParameterFreePostingWithPriceRange(freePostingModeAllowed,
+                                                                       priceRange: filters.priceRange).rawValue
+        
         if let carSellerType = carSellerType {
             params[.carSellerType] = carSellerType
         }
-        
-        if let make = carMake {
-            params[.make] = make
-            verticalFields.append(EventParameterName.make.rawValue)
-        } else {
-            params[.make] = TrackerEvent.notApply
-        }
-        if let make = carModel {
-            params[.model] = make
-            verticalFields.append(EventParameterName.model.rawValue)
-        } else {
-            params[.model] = TrackerEvent.notApply
-        }
-
-        if let carYearStart = carYearStart {
-            params[.yearStart] = String(carYearStart)
-            verticalFields.append(EventParameterName.yearStart.rawValue)
-        } else {
-            params[.yearStart] = TrackerEvent.notApply
-        }
-        if let carYearEnd = carYearEnd {
-            params[.yearEnd] = String(carYearEnd)
-            verticalFields.append(EventParameterName.yearEnd.rawValue)
-        } else {
-            params[.yearEnd] = TrackerEvent.notApply
-        }
-        
-        if let propertyType = propertyType {
-            params[.propertyType] = String(propertyType)
-            verticalFields.append(EventParameterName.propertyType.rawValue)
-        } else {
-            params[.propertyType] = TrackerEvent.notApply
-        }
-        
-        if let offerType = offerType {
-            params[.offerType] = offerType.joined(separator: ",")
-            verticalFields.append(EventParameterName.offerType.rawValue)
-        } else {
-            params[.offerType] = TrackerEvent.notApply
-        }
-        
-        if let bedrooms = bedrooms {
-            params[.bedrooms] = String(bedrooms)
-            verticalFields.append(EventParameterName.bedrooms.rawValue)
-        } else {
-            params[.bedrooms] = TrackerEvent.notApply
-        }
-        
-        if let bathrooms = bathrooms {
-            params[.bathrooms] = String(bathrooms)
-            verticalFields.append(EventParameterName.bathrooms.rawValue)
-        } else {
-            params[.bathrooms] = TrackerEvent.notApply
-        }
-        
-        if let sizeSqrMetersMin = sizeSqrMetersMin {
-            params[.sizeSqrMetersMin] = String(sizeSqrMetersMin)
-            verticalFields.append(EventParameterName.sizeSqrMetersMin.rawValue)
-        } else {
-            params[.sizeSqrMeters] = TrackerEvent.notApply
-        }
-        
-        if let sizeSqrMetersMax = sizeSqrMetersMax {
-            params[.sizeSqrMetersMax] = String(sizeSqrMetersMax)
-            verticalFields.append(EventParameterName.sizeSqrMetersMax.rawValue)
-        } else {
-            params[.sizeSqrMetersMax] = TrackerEvent.notApply
-        }
-        
-        if let rooms = rooms {
-            params[.rooms] = rooms.trackingString
-            verticalFields.append(EventParameterName.rooms.rawValue)
-        } else {
-            params[.rooms] = TrackerEvent.notApply
-        }
-
-        params[.verticalFields] = verticalFields.isEmpty ? TrackerEvent.notApply : verticalFields.joined(separator: ",")
 
         return TrackerEvent(name: .filterComplete, params: params)
     }
@@ -505,7 +396,7 @@ struct TrackerEvent {
         params[.adActionLeftApp] = willLeaveApp.rawValue
         params[.typePage] = typePage.rawValue
         params[.feedPosition] = feedPosition.value
-        params[.categoryId] = TrackerEvent.stringFrom(categories: categories)
+        params[.categoryId] = (categories ?? [.unassigned]).trackValue
 
         return TrackerEvent(name: .adTapped, params: params)
     }
@@ -628,7 +519,7 @@ struct TrackerEvent {
                                     mostSearchedButton: EventParameterMostSearched,
                                     machineLearningTrackingInfo: MachineLearningTrackingInfo) -> TrackerEvent {
         var params = EventParameters()
-        params[.freePosting] = eventParameterFreePostingWithPrice(freePostingModeAllowed, price: listing.price).rawValue
+        params[.freePosting] = listing.price.allowFreeFilters(freePostingModeAllowed: freePostingModeAllowed).rawValue
         params[.listingId] = listing.objectId ?? ""
         params[.categoryId] = listing.category.rawValue
         params[.listingName] = listing.name ?? ""
@@ -1365,7 +1256,8 @@ struct TrackerEvent {
                                       storeProductId: String?,
                                       isPromotedBump: EventParameterBoolean,
                                       typePage: EventParameterTypePage?,
-                                      isBoost: EventParameterBoolean) -> TrackerEvent {
+                                      isBoost: EventParameterBoolean,
+                                      paymentId: String?) -> TrackerEvent {
         var params = EventParameters()
         params.addListingParams(listing)
         params[.bumpUpPrice] = price.description
@@ -1379,6 +1271,7 @@ struct TrackerEvent {
             params[.typePage] = typePage.rawValue
         }
         params[.boost] = isBoost.rawValue
+        params[.paymentId] = paymentId
         return TrackerEvent(name: .bumpUpComplete, params: params)
     }
 
@@ -1540,65 +1433,42 @@ struct TrackerEvent {
         return TrackerEvent(name: .assistantMeetingStart, params: params)
     }
 
+    static func listingOpenListingMap(action: EventParameterMapUserAction,
+                                      returnedResults: EventParameterBoolean,
+                                      featuredResults: Int,
+                                      filters: ListingFilters) -> TrackerEvent {
+        var params = filters.trackingParams
+        params[.action] = action.rawValue
+        params[.returnedResults] = returnedResults.rawValue
+        params[.featuredResults] = featuredResults
+        return TrackerEvent(name: .productListMapShow, params: params)
+    }
+    
+    static func listingMapOpenPreviewMap(_ listing: Listing,
+                                         source: EventParameterListingVisitSource,
+                                         userId: String,
+                                         isMine: EventParameterBoolean) -> TrackerEvent {
+        var params = EventParameters()
+        params.addListingParams(listing)
+        params[.listingVisitSource] = source.rawValue
+        params[.isVideo] = EventParameterBoolean(bool: listing.containsVideo()).rawValue
+        params[.isBumpedUp] = EventParameterBoolean(bool: listing.featured ?? false).rawValue
+        params[.userToId] = userId
+        params[.sellerReputationBadge] = EventParameterBoolean.notAvailable.rawValue
+        params[.isMine] = isMine.rawValue
+        return TrackerEvent(name: .productDetailPreview, params: params)
+    }
+    
     static func userDidTakeScreenshot() -> TrackerEvent {
         return TrackerEvent(name: .screenshot, params: nil)
     }
 
-
     // MARK: - Private methods
-
-    private static func eventParameterSortByTypeForSorting(_ sorting: ListingSortCriteria?) -> EventParameterSortBy? {
-        guard let sorting = sorting else { return nil }
-        let sortBy: EventParameterSortBy?
-        switch (sorting) {
-        case .distance:
-            sortBy = EventParameterSortBy.distance
-        case .creation:
-            sortBy = EventParameterSortBy.creationDate
-        case .priceAsc:
-            sortBy = EventParameterSortBy.priceAsc
-        case .priceDesc:
-            sortBy = EventParameterSortBy.priceDesc
-        }
-        
-        return sortBy
-    }
-
-    private static func eventParameterPostedWithinForTime(_ time: ListingTimeCriteria?) -> EventParameterPostedWithin? {
-        guard let time = time else { return nil }
-        switch time {
-        case .day:
-            return .day
-        case .week:
-            return .week
-        case .month:
-            return .month
-        case .all:
-            return .all
-        }
-    }
-
-    private static func eventParameterHasPriceFilter(_ price: Int?) -> EventParameterBoolean {
-        return price != nil ? .trueParameter : .falseParameter
-    }
     
-    static func eventParameterFreePostingWithPrice(_ freePostingModeAllowed: Bool, price: ListingPrice) -> EventParameterBoolean {
-        guard freePostingModeAllowed else {return .notAvailable}
-        return price.isFree ? .trueParameter : .falseParameter
-    }
-    
-    private static func eventParameterFreePostingWithPriceRange(_ freePostingModeAllowed: Bool, priceRange: FilterPriceRange) -> EventParameterBoolean {
+    static func eventParameterFreePostingWithPriceRange(_ freePostingModeAllowed: Bool,
+                                                                priceRange: FilterPriceRange) -> EventParameterBoolean {
         guard freePostingModeAllowed else {return .notAvailable}
         return priceRange.free ? .trueParameter : .falseParameter
-    }
-
-    private static func stringFrom(categories: [ListingCategory]?) -> String {
-        // Categories
-        var categoryIds: [String] = []
-        if let actualCategories = categories {
-            categoryIds = actualCategories.map { String($0.rawValue) }
-        }
-        return categoryIds.isEmpty ? "0" : categoryIds.joined(separator: ",")
     }
 }
 

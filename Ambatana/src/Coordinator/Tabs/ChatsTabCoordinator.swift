@@ -59,7 +59,11 @@ final class ChatsTabCoordinator: TabCoordinator {
     }
     
     func setNeedsRefreshConversations() {
-        chatGroupedViewModel.setNeedsRefreshConversations()
+        if featureFlags.chatConversationsListWithoutTabs.isActive {
+            chatConversationsListViewModel.refreshCurrentPage()
+        } else {
+            chatGroupedViewModel.setNeedsRefreshConversations()
+        }
     }
 }
 

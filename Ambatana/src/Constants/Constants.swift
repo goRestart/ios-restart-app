@@ -22,6 +22,7 @@ struct Constants {
                                         "yandex.com"]
 
     // Map
+    static let largestRegionRadius = 20000.0
     static let accurateRegionRadius = 1000.0    // meters
     static let nonAccurateRegionRadius = 5000.0 // meters
     static let metersInOneMile: Double = 1609.34
