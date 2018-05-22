@@ -37,6 +37,7 @@ final class UserPhoneVerificationCountryPickerViewController: BaseViewController
         super.viewDidLoad()
         setupUI()
         setupRx()
+        setupAccessibilityIds()
         viewModel.loadCountriesList()
     }
 
@@ -106,6 +107,11 @@ final class UserPhoneVerificationCountryPickerViewController: BaseViewController
                 self?.viewModel.filterCountries(by: query)
             })
             .disposed(by: disposeBag)
+    }
+
+    private func setupAccessibilityIds() {
+        tableView.set(accessibilityId: .phoneVerificationCountryPickerTable)
+        searchBar.set(accessibilityId: .phoneVerificationCountryPickerSearchBar)
     }
 }
 
