@@ -20,6 +20,7 @@ final class ChatViewController: TextViewController {
     let inputBarHeight: CGFloat = 44
     let expressBannerHeight: CGFloat = 44
     let professionalSellerBannerHeight: CGFloat = 44
+    let reputationTooltipMargin: CGFloat = 40
 
     let listingView: ChatListingView
     var selectedCellIndexPath: IndexPath?
@@ -562,9 +563,6 @@ fileprivate extension ChatViewController {
 
         viewModel.interlocutorIsVerified.asDriver().drive(onNext: { [weak self] verified in
             self?.listingView.badgeImageView.isHidden = !verified
-            if verified {
-                self?.showReputationTooltip()
-            }
         }).disposed(by: disposeBag)
 
         viewModel.shouldShowReputationTooltip.asDriver().drive(onNext: { [weak self] showTooltip in
@@ -586,11 +584,11 @@ extension ChatViewController: LetgoTooltipDelegate {
         view.addSubviewForAutoLayout(reputationTooltip)
         tooltip = reputationTooltip
         tooltip?.peakOnTop = true
-        tooltip?.peakOffsetFromLeft = 40
+        tooltip?.peakOffsetFromLeft = reputationTooltipMargin
         tooltip?.message = LGLocalizedString.profileReputationTooltipTitle
         tooltip?.delegate = self
         tooltip?.layout(with: topLayoutGuide).below(by: Metrics.veryShortMargin)
-        tooltip?.layout(with: view).leading(by: 40)
+        tooltip?.layout(with: view).leading(by: reputationTooltipMargin)
         viewModel.reputationTooltipShown()
     }
 

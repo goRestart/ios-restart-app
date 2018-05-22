@@ -13,6 +13,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     private struct Layout {
         static let pageControlArbitraryTopMargin: CGFloat = 40
         static let pageControlArbitraryWidth: CGFloat = 50
+        static let reputationTooltipMargin: CGFloat = 40
     }
     @IBOutlet weak var imageBackground: UIImageView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
@@ -1198,7 +1199,7 @@ extension ListingCarouselViewController: LetgoTooltipDelegate {
         view.addSubviewForAutoLayout(tooltip)
         reputationTooltip = tooltip
         reputationTooltip?.peakOnTop = false
-        reputationTooltip?.peakOffsetFromLeft = 40
+        reputationTooltip?.peakOffsetFromLeft = Layout.reputationTooltipMargin
         reputationTooltip?.message = LGLocalizedString.profileReputationTooltipTitle
         reputationTooltip?.leftAnchor.constraint(equalTo: userView.leftAnchor).isActive = true
         reputationTooltip?.bottomAnchor.constraint(equalTo: userView.topAnchor, constant: Metrics.veryBigMargin).isActive = true
