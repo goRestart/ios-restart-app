@@ -9,7 +9,7 @@
 import Foundation
 
 extension SectionedMainFeed {
-    var feedAssembly: FeedAssembly { return isActive ? .pro : .classic }
+    var feedAssembly: FeedAssembly { return self == .active ? .pro : .classic }
 }
  
 enum FeedAssembly {

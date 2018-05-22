@@ -1162,6 +1162,15 @@ extension FeatureFlags {
         }
         return RealEstateMap.fromPosition(abTests.realEstateMap.value)
     }
+    
+    var showServicesFeatures: ShowServicesFeatures {
+        if Bumper.enabled {
+            return Bumper.showServicesFeatures
+        }
+        return .control
+        // TODO: when the feature is opened, use the line below
+        // return ShowServicesFeatures.fromPosition(abTests.showServicesFeatures.value)
+    }
 }
 
 
