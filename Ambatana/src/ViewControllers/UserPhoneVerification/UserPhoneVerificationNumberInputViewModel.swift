@@ -131,7 +131,7 @@ extension UserPhoneVerificationNumberInputViewModel: UserPhoneVerificationCountr
     }
 }
 
-// MARK: - Validtors
+// MARK: - Validators
 
 private extension String {
     var isValidPhoneNumber: Bool {
