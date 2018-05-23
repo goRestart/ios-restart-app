@@ -96,15 +96,7 @@ class ListingCreationViewModel : BaseViewModel {
     }
     
     private func trackPostSellError(error: RepositoryError) {
-        let sellError: EventParameterPostListingError
-        switch error {
-        case .network:
-            sellError = .network
-        case .serverError, .notFound, .forbidden, .unauthorized, .tooManyRequests, .userNotVerified, .searchAlertError:
-            sellError = .serverError(code: error.errorCode)
-        case .internalError, .wsChatError:
-            sellError = .internalError
-        }
+        let sellError = EventParameterPostListingError(error: error)
         let sellErrorDataEvent = TrackerEvent.listingSellErrorData(sellError)
         tracker.trackEvent(sellErrorDataEvent)
     }
