@@ -645,7 +645,6 @@
 		503996D71C60C258004D2E09 /* LGViewPagerTabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503996D51C60C258004D2E09 /* LGViewPagerTabItem.swift */; };
 		503996D81C60C3EE004D2E09 /* LGViewPager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503996D41C60C258004D2E09 /* LGViewPager.swift */; };
 		503996D91C60C3F0004D2E09 /* LGViewPagerTabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503996D51C60C258004D2E09 /* LGViewPagerTabItem.swift */; };
-		5042D6771BDA8B6F00E54064 /* LGLocalizedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5042D6761BDA8B6F00E54064 /* LGLocalizedString.swift */; };
 		504652F21CC0F0B3003F5070 /* Listing+Title.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504652F11CC0F0B3003F5070 /* Listing+Title.swift */; };
 		504652F31CC0F398003F5070 /* Listing+Title.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504652F11CC0F0B3003F5070 /* Listing+Title.swift */; };
 		504ADFBF1DB7564E00CCAEAA /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 504ADFBE1DB7564E00CCAEAA /* UserNotifications.framework */; };
@@ -1811,7 +1810,6 @@
 		C7DB421C1C5138B500400945 /* FiltersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77593DC1BF0B8A00097D62F /* FiltersViewController.swift */; };
 		C7DB421E1C5138B500400945 /* FacebookTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4C41B723E87001E4E92 /* FacebookTracker.swift */; };
 		C7DB42201C5138B500400945 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50560B891B25D18F0021D8D9 /* BaseViewModel.swift */; };
-		C7DB42211C5138B500400945 /* LGLocalizedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5042D6761BDA8B6F00E54064 /* LGLocalizedString.swift */; };
 		C7DB42221C5138B500400945 /* LGNavBarSearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4436301BF389E000814624 /* LGNavBarSearchField.swift */; };
 		C7DB42241C5138B500400945 /* UIImage+Tint.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4912A821B08E12C00DACD5A /* UIImage+Tint.swift */; };
 		C7DB42251C5138B500400945 /* SocialShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B89CB81C20271E00536A6C /* SocialShareView.swift */; };
@@ -2400,7 +2398,6 @@
 		5033F6D61B5E7CD40004FECB /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		503996D41C60C258004D2E09 /* LGViewPager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGViewPager.swift; sourceTree = "<group>"; };
 		503996D51C60C258004D2E09 /* LGViewPagerTabItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGViewPagerTabItem.swift; sourceTree = "<group>"; };
-		5042D6761BDA8B6F00E54064 /* LGLocalizedString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGLocalizedString.swift; sourceTree = "<group>"; };
 		504652F11CC0F0B3003F5070 /* Listing+Title.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Listing+Title.swift"; sourceTree = "<group>"; };
 		504ADFBE1DB7564E00CCAEAA /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		504C63B81ECAE0AB00D33BFA /* PushManagerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushManagerSpec.swift; sourceTree = "<group>"; };
@@ -5921,7 +5918,6 @@
 				50582C281D6C7F4F00787E91 /* AccessibilityId.swift */,
 				D4443D6A1B1288B700237095 /* Constants.swift */,
 				504E61FA1C872E2400EBF38F /* Debug.swift */,
-				5042D6761BDA8B6F00E54064 /* LGLocalizedString.swift */,
 				5009F83D1E5B01890064ED22 /* Metrics.swift */,
 			);
 			path = Constants;
@@ -7874,7 +7870,6 @@
 				727EF06C1E0BE16D0037DA4E /* CountryCode.swift in Sources */,
 				C72794401D549342009C25AB /* ChangeUsernameViewModel.swift in Sources */,
 				320843B820A1FDF7009A1DC5 /* DiscoveryABGroup.swift in Sources */,
-				5042D6771BDA8B6F00E54064 /* LGLocalizedString.swift in Sources */,
 				6A5E1A1A1D548F5400F92692 /* UIViewController+Alert.swift in Sources */,
 				4219244120761CF900862CEF /* PromoCell.swift in Sources */,
 				0183BB18203C71D400204383 /* ListingPostedDescriptiveViewModel.swift in Sources */,
@@ -8701,7 +8696,6 @@
 				6A5E1A1B1D548F5400F92692 /* UIViewController+Alert.swift in Sources */,
 				2EE47D2F2017812D004B04EE /* ChatAskPhoneNumberCellDrawer.swift in Sources */,
 				721A83121E827FD300507E47 /* MediaPermissions.swift in Sources */,
-				C7DB42211C5138B500400945 /* LGLocalizedString.swift in Sources */,
 				2E4DE8DA206422970016D5A8 /* BoostSuccessAlertView.swift in Sources */,
 				6A5E19F11D548F5400F92692 /* String+LG.swift in Sources */,
 				722FEA361F1E36E300838116 /* FilterFreeCell.swift in Sources */,
