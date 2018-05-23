@@ -110,9 +110,9 @@ extension Date {
 
         switch seconds {
         case second..<hour:
-            return String(format: R.Strings.productListItemTimeMinuteLabel, Int(minsAgo))
+            return R.Strings.productListItemTimeMinuteLabel(Int(minsAgo))
         default:
-            return String(format: R.Strings.productListItemTimeHourLabel, Int(hoursAgo))
+            return R.Strings.productListItemTimeHourLabel(Int(hoursAgo))
         }
     }
 
@@ -141,21 +141,21 @@ extension Date {
         case second..<minute, minute:
             return R.Strings.productDateOneMinuteAgo
         case minute..<hour:
-            return String(format: R.Strings.productDateXMinutesAgo, Int(minsAgo))
+            return R.Strings.productDateXMinutesAgo(Int(minsAgo))
         case hour..<hourEnd:
             return R.Strings.productDateOneHourAgo
         case hourEnd..<day:
-            return String(format: R.Strings.productDateXHoursAgo, Int(hoursAgo))
+            return R.Strings.productDateXHoursAgo(Int(hoursAgo))
         case day..<dayEnd:
             return R.Strings.productDateOneDayAgo
         case dayEnd..<month:
-            return String(format: R.Strings.productDateXDaysAgo, Int(daysAgo))
+            return R.Strings.productDateXDaysAgo(Int(daysAgo))
         case month..<monthEnd:
             return R.Strings.productDateOneMonthAgo
         case monthEnd..<month*Float(maxMonthsAgo):
-            return String(format: R.Strings.productDateXMonthsAgo, Int(monthsAgo))
+            return R.Strings.productDateXMonthsAgo(Int(monthsAgo))
         default:
-            return String(format: R.Strings.productDateMoreThanXMonthsAgo, maxMonthsAgo)
+            return R.Strings.productDateMoreThanXMonthsAgo(maxMonthsAgo)
         }
     }
 

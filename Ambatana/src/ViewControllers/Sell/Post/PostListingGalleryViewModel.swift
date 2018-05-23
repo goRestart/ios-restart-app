@@ -237,7 +237,7 @@ class PostListingGalleryViewModel: BaseViewModel {
             } else {
                 // build title with num of selected pics
                 strongSelf.albumButtonEnabled.value = false
-                strongSelf.albumTitle.value =  String(format: R.Strings.productPostGalleryMultiplePicsSelected, numImgs)
+                strongSelf.albumTitle.value = R.Strings.productPostGalleryMultiplePicsSelected(numImgs)
             }
         }.disposed(by: disposeBag)
     }
