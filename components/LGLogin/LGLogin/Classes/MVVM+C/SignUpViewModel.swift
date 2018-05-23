@@ -22,7 +22,7 @@ enum LoginSource: String {
     case ReportFraud = "report-fraud"
 }
 
-enum LoginAppearance {
+public enum LoginAppearance {
     case dark, light
 }
 

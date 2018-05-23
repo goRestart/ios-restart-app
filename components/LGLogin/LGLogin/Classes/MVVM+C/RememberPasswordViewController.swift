@@ -10,7 +10,7 @@ import LGCoreKit
 import Result
 import UIKit
 
-class RememberPasswordViewController: BaseViewController, RememberPasswordViewModelDelegate, UITextFieldDelegate {
+public class RememberPasswordViewController: BaseViewController, RememberPasswordViewModelDelegate, UITextFieldDelegate {
 
     // Constants & enum
     enum TextFieldTag: Int {
@@ -38,7 +38,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
     
     // MARK: - Lifecycle
 
-    init(viewModel: RememberPasswordViewModel, appearance: LoginAppearance = .light) {
+    public init(viewModel: RememberPasswordViewModel, appearance: LoginAppearance = .light) {
         self.viewModel = viewModel
         self.appearance = appearance
 
@@ -60,11 +60,11 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
         self.viewModel.delegate = self
     }
 
-    required init?(coder: NSCoder) {
+    public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         
         setupUI()
@@ -78,7 +78,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
         
     }
 
-    override func viewWillFirstAppear(_ animated: Bool) {
+    public override func viewWillFirstAppear(_ animated: Bool) {
         super.viewWillFirstAppear(animated)
         switch appearance {
         case .light:
@@ -105,7 +105,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
 
     // MARK: - UITextFieldDelegate
     
-    func textFieldDidBeginEditing(_ textField: UITextField) {
+    public func textFieldDidBeginEditing(_ textField: UITextField) {
         if let tag = TextFieldTag(rawValue: textField.tag) {
             let iconImageView: UIImageView
             switch (tag) {
@@ -116,7 +116,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
         }
     }
     
-    func textFieldDidEndEditing(_ textField: UITextField) {
+    public func textFieldDidEndEditing(_ textField: UITextField) {
         if let tag = TextFieldTag(rawValue: textField.tag) {
             let iconImageView: UIImageView
             switch (tag) {
@@ -127,12 +127,12 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
         }
     }
     
-    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+    public func textFieldShouldClear(_ textField: UITextField) -> Bool {
         updateViewModelText("", fromTextFieldTag: textField.tag)
         return true
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         let tag = textField.tag
         let nextView = view.viewWithTag(tag + 1)
         if let actualNextView = nextView {
@@ -144,7 +144,9 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
         return true
     }
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    public func textField(_ textField: UITextField,
+                          shouldChangeCharactersIn range: NSRange,
+                          replacementString string: String) -> Bool {
         if let textFieldText = textField.text {
             let text = (textFieldText as NSString).replacingCharacters(in: range, with: string)
             updateViewModelText(text, fromTextFieldTag: textField.tag)
@@ -214,7 +216,10 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
 
     func setupKenBurns() {
         view.layoutIfNeeded()
-        kenBurnsView.startAnimation(with: [#imageLiteral(resourceName: "bg_1_new"), #imageLiteral(resourceName: "bg_2_new"), #imageLiteral(resourceName: "bg_3_new"), #imageLiteral(resourceName: "bg_4_new")])
+        kenBurnsView.startAnimation(with: [R.Asset.BackgroundsAndImages.bg1New.image,
+                                           R.Asset.BackgroundsAndImages.bg2New.image,
+                                           R.Asset.BackgroundsAndImages.bg3New.image,
+                                           R.Asset.BackgroundsAndImages.bg4New.image])
     }
     
     private func updateSendButtonEnabledState() {

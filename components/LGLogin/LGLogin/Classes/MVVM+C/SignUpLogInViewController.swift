@@ -397,7 +397,9 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         showPasswordButton.setImage(UIImage(named: "ic_show_password_inactive"), for: .normal)
 
         if isRootViewController() {
-            let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .plain, target: self,
+            let closeButton = UIBarButtonItem(image: R.Asset.IconsButtons.navbarClose.image,
+                                              style: .plain,
+                                              target: self,
                 action: #selector(SignUpLogInViewController.closeButtonPressed))
             navigationItem.leftBarButtonItem = closeButton
         }
@@ -566,7 +568,10 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
 
     func setupKenBurns() {
         view.layoutIfNeeded()
-        kenBurnsView.startAnimation(with: [#imageLiteral(resourceName: "bg_1_new"), #imageLiteral(resourceName: "bg_2_new"), #imageLiteral(resourceName: "bg_3_new"), #imageLiteral(resourceName: "bg_4_new")])
+        kenBurnsView.startAnimation(with: [R.Asset.BackgroundsAndImages.bg1New.image,
+                                           R.Asset.BackgroundsAndImages.bg2New.image,
+                                           R.Asset.BackgroundsAndImages.bg3New.image,
+                                           R.Asset.BackgroundsAndImages.bg4New.image])
     }
 
     private func setupSignupUI() {

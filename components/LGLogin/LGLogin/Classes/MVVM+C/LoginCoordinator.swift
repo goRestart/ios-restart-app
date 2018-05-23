@@ -15,7 +15,7 @@ public enum LoginStyle {
     case popup(String)
 }
 
-protocol RecaptchaTokenDelegate: class {
+public protocol RecaptchaTokenDelegate: class {
     func recaptchaTokenObtained(token: String, action: LoginActionType)
 }
 
@@ -185,24 +185,24 @@ extension LoginCoordinator: MainSignUpNavigator {
 
 extension LoginCoordinator: SignUpLogInNavigator {
 
-    func cancelSignUpLogIn() {
+    public func cancelSignUpLogIn() {
         // called when closing from popup login so it's not closing root only presented controller
         dismissLastPresented(animated: true, completion: nil)
     }
 
-    func closeSignUpLogInSuccessful(with myUser: MyUser) {
+    public func closeSignUpLogInSuccessful(with myUser: MyUser) {
         closeRoot(didLogIn: true)
     }
 
-    func closeSignUpLogInAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork) {
+    public func closeSignUpLogInAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork) {
         closeRootAndOpenScammerAlert(contactURL: contactURL, network: network)
     }
 
-    func closeSignUpLogInAndOpenDeviceNotAllowedAlert(contactURL: URL, network: EventParameterAccountNetwork) {
+    public func closeSignUpLogInAndOpenDeviceNotAllowedAlert(contactURL: URL, network: EventParameterAccountNetwork) {
         closeRootAndOpenDeviceNotAllowedAlert(contactURL: contactURL, network: network)
     }
 
-    func openRecaptcha(action: LoginActionType) {
+    public func openRecaptcha(action: LoginActionType) {
         let topVC = topViewController()
 
         let vm = RecaptchaViewModel(action: action)
@@ -212,11 +212,11 @@ extension LoginCoordinator: SignUpLogInNavigator {
         topVC.present(vc, animated: true, completion: nil)
     }
 
-    func openRememberPasswordFromSignUpLogIn(email: String?) {
+    public func openRememberPasswordFromSignUpLogIn(email: String?) {
         openRememberPassword(email: email)
     }
 
-    func openHelpFromSignUpLogin() {
+    public func openHelpFromSignUpLogin() {
         openHelp()
     }
 }
@@ -225,7 +225,7 @@ extension LoginCoordinator: SignUpLogInNavigator {
 // MARK: - RememberPasswordNavigator
 
 extension LoginCoordinator: RememberPasswordNavigator {
-    func closeRememberPassword() {
+    public func closeRememberPassword() {
         guard let navCtl = currentNavigationController() else { return }
         navCtl.popViewController(animated: true)
     }
@@ -245,12 +245,12 @@ extension LoginCoordinator: HelpNavigator {
 // MARK: - RecaptchaNavigator
 
 extension LoginCoordinator: RecaptchaNavigator {
-    func recaptchaClose() {
+    public func recaptchaClose() {
         guard topViewController() is RecaptchaViewController else { return }
         dismissLastPresented(animated: true, completion: nil)
     }
 
-    func recaptchaFinishedWithToken(_ token: String, action: LoginActionType) {
+    public func recaptchaFinishedWithToken(_ token: String, action: LoginActionType) {
         guard topViewController() is RecaptchaViewController else { return }
         dismissLastPresented(animated: true) { [weak self] in
             self?.recaptchaTokenDelegate?.recaptchaTokenObtained(token: token, action: action)

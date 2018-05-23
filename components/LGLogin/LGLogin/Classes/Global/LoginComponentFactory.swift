@@ -49,4 +49,17 @@ final public class LoginComponentFactory {
                                source: source,
                                termsAndConditionsEnabled: config.signUpEmailTermsAndConditionsAcceptRequired)
     }
+
+    public func makeTourSignUpLogInViewController(source: EventParameterLoginSourceValue,
+                                                  action: LoginActionType,
+                                                  navigator: SignUpLogInNavigator) -> (UIViewController, RecaptchaTokenDelegate?) {
+        let viewModel = SignUpLogInViewModel(source: source,
+                                             action: action,
+                                             termsAndConditionsEnabled: config.signUpEmailTermsAndConditionsAcceptRequired)
+        viewModel.navigator = navigator
+        let viewController = SignUpLogInViewController(viewModel: viewModel,
+                                                       appearance: .dark,
+                                                       keyboardFocus: true)
+        return (viewController, viewModel)
+    }
 }
