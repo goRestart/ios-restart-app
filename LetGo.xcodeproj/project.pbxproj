@@ -2693,7 +2693,7 @@
 		722B505D1F599D7500FA20AB /* ExpandableCategorySelectionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpandableCategorySelectionViewModel.swift; sourceTree = "<group>"; };
 		722FEA341F1E36E300838116 /* FilterFreeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterFreeCell.swift; sourceTree = "<group>"; };
 		723A45C81DDC4D470001D02C /* UILabel+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+LG.swift"; sourceTree = "<group>"; };
-		72462FB31FDE971B0030399F /* SearchRelatedListingListRequester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchRelatedListingListRequester.swift; path = ../Listings/SearchRelatedListingListRequester.swift; sourceTree = "<group>"; };
+		72462FB31FDE971B0030399F /* SearchRelatedListingListRequester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRelatedListingListRequester.swift; sourceTree = "<group>"; };
 		724635B21F2742CD002997D1 /* CategoryHeaderElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CategoryHeaderElement.swift; path = Ambatana/src/ViewControllers/Main/CategoriesHeader/CategoryHeaderElement.swift; sourceTree = SOURCE_ROOT; };
 		724D77A31FC3251E00DB43C0 /* RealEstateAttributes+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RealEstateAttributes+LG.swift"; sourceTree = "<group>"; };
 		724D77A61FC338E200DB43C0 /* RealEstateAttributes+LGSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RealEstateAttributes+LGSpec.swift"; sourceTree = "<group>"; };
@@ -3574,6 +3574,10 @@
 			isa = PBXGroup;
 			children = (
 				2E4A9DB91D8054DE00F99026 /* ListingListMultiRequester.swift */,
+				C788EED61CC7847400B9E26F /* FilteredListingListRequester.swift */,
+				72462FB31FDE971B0030399F /* SearchRelatedListingListRequester.swift */,
+				2E4B359B1CC90A9500B8CB64 /* RelatedListingListRequester.swift */,
+				501495ED1D895B5800AC67CA /* DiscoverListingListRequester.swift */,
 				2ED5E52C1EC5BAFB00B6D4F6 /* FilterListingListRequesterFactory.swift */,
 			);
 			name = "Listings Requester";
@@ -4007,8 +4011,6 @@
 				C796430C1D4F5ABA000C5FCE /* RelatedListings */,
 				D412E0851B4F179F00683FFD /* ListingListView.swift */,
 				D412E07E1B4EFF2800683FFD /* ListingListViewModel.swift */,
-				2E4B359B1CC90A9500B8CB64 /* RelatedListingListRequester.swift */,
-				501495ED1D895B5800AC67CA /* DiscoverListingListRequester.swift */,
 				C7415ED41DE880BD0003D6C1 /* SimpleListingsViewController.swift */,
 				C7415ED51DE880BD0003D6C1 /* SimpleListingsViewController.xib */,
 				C7415EDA1DE898580003D6C1 /* SimpleListingsViewModel.swift */,
@@ -5958,8 +5960,6 @@
 				8E1139E11EC9AD5B00A9D772 /* FilterDescriptionHeaderView.swift */,
 				8E1139E41EC9AD7100A9D772 /* FilterTitleHeaderView.swift */,
 				D4BFE5B11B640C36006A8CB6 /* MainListingsViewModel.swift */,
-				C788EED61CC7847400B9E26F /* FilteredListingListRequester.swift */,
-				72462FB31FDE971B0030399F /* SearchRelatedListingListRequester.swift */,
 				0A3E5FEC207FAB9A00577670 /* FeedAssembly.swift */,
 			);
 			path = Main;

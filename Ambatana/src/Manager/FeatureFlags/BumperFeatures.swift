@@ -71,6 +71,7 @@ extension Bumper  {
         flags.append(GoogleAdxForTR.self)
         flags.append(MultiContactAfterSearch.self)
         flags.append(ShowServicesFeatures.self)
+        flags.append(EmptySearchImprovements.self)
         Bumper.initialize(flags)
     } 
 
@@ -362,6 +363,11 @@ extension Bumper  {
     static var showServicesFeatures: ShowServicesFeatures {
         guard let value = Bumper.value(for: ShowServicesFeatures.key) else { return .control }
         return ShowServicesFeatures(rawValue: value) ?? .control 
+    }
+
+    static var emptySearchImprovements: EmptySearchImprovements {
+        guard let value = Bumper.value(for: EmptySearchImprovements.key) else { return .control }
+        return EmptySearchImprovements(rawValue: value) ?? .control 
     } 
 }
 
@@ -1266,14 +1272,29 @@ enum ShowServicesFeatures: String, BumperFeature  {
     static var defaultValue: String { return ShowServicesFeatures.control.rawValue }
     static var enumValues: [ShowServicesFeatures] { return [.control, .baseline, .active]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String {
-        return "Show services-specific features (search & filters updates, posting flow changes, and editing view changes)"
-    }
+    static var description: String { return "Show services features (search & filters, posting, editing)" } 
     static func fromPosition(_ position: Int) -> ShowServicesFeatures {
         switch position { 
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum EmptySearchImprovements: String, BumperFeature  {
+    case control, baseline, popularNearYou, similarQueries
+    static var defaultValue: String { return EmptySearchImprovements.control.rawValue }
+    static var enumValues: [EmptySearchImprovements] { return [.control, .baseline, .popularNearYou, .similarQueries]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Improve empty search experience by proposing relavant listings" } 
+    static func fromPosition(_ position: Int) -> EmptySearchImprovements {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .popularNearYou
+            case 3: return .similarQueries
             default: return .control
         }
     }

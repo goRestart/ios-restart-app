@@ -206,17 +206,7 @@ extension SellCoordinator: PostListingNavigator {
     
     
     fileprivate func trackListingPostedInBackground(withError error: RepositoryError) {
-        let sellError: EventParameterPostListingError
-        switch error {
-        case .network:
-            sellError = .network
-        case let .forbidden(cause: cause):
-            sellError = .forbidden(cause: cause)
-        case .serverError, .notFound, .unauthorized, .tooManyRequests, .userNotVerified:
-            sellError = .serverError(code: error.errorCode)
-        case .internalError, .wsChatError, .searchAlertError:
-            sellError = .internalError
-        }
+        let sellError = EventParameterPostListingError(error: error)
         let sellErrorDataEvent = TrackerEvent.listingSellErrorData(sellError)
         TrackerProxy.sharedInstance.trackEvent(sellErrorDataEvent)
     }
