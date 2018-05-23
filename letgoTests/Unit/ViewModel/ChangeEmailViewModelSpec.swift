@@ -16,6 +16,7 @@ import RxTest
 
 class ChangeEmailViewModelSpec: QuickSpec {
     var loading: Bool = false
+    var loadingTitle: String = ""
     var loadingMessage: String = ""
     var finishedSuccessfully: Bool = false
     
@@ -178,11 +179,18 @@ class ChangeEmailViewModelSpec: QuickSpec {
 }
 
 extension ChangeEmailViewModelSpec: ChangeEmailViewModelDelegate {
+
     func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?) {
         loading = true
         loadingMessage = message
     }
-    
+
+    func vmShowAutoFadingMessage(title: String, message: String, time: Double, completion: (() -> ())?) {
+        loading = true
+        loadingTitle = title
+        loadingMessage = message
+    }
+
     func vmShowLoading(_ loadingMessage: String?) {
         loading = true
         self.loadingMessage = loadingMessage ?? ""

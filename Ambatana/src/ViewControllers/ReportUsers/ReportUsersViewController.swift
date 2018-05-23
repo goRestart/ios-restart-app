@@ -82,7 +82,7 @@ class ReportUsersViewController: BaseViewController, ReportUsersViewModelDelegat
 
     func reportUsersViewModel(_ viewModel: ReportUsersViewModel, didSendReport successMsg: String) {
         dismissLoadingMessageAlert() { [weak self] in
-            self?.showAutoFadingOutMessageAlert(successMsg) { [weak self] in
+            self?.showAutoFadingOutMessageAlert(message: successMsg) { [weak self] in
                 self?.popViewController(animated: true, completion: nil)
             }
         }
@@ -90,7 +90,7 @@ class ReportUsersViewController: BaseViewController, ReportUsersViewModelDelegat
 
     func reportUsersViewModel(_ viewModel: ReportUsersViewModel, failedSendingReport errorMsg: String) {
         dismissLoadingMessageAlert() { [weak self] in
-            self?.showAutoFadingOutMessageAlert(errorMsg)
+            self?.showAutoFadingOutMessageAlert(message: errorMsg)
         }
     }
 

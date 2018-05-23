@@ -190,12 +190,12 @@ fileprivate extension TabCoordinator {
                 switch error {
                 case .network:
                     self?.navigationController.dismissLoadingMessageAlert {
-                        self?.navigationController.showAutoFadingOutMessageAlert(LGLocalizedString.commonErrorConnectionFailed)
+                        self?.navigationController.showAutoFadingOutMessageAlert(message: LGLocalizedString.commonErrorConnectionFailed)
                     }
                 case .internalError, .unauthorized, .tooManyRequests, .userNotVerified, .serverError,
                      .wsChatError, .searchAlertError:
                     self?.navigationController.dismissLoadingMessageAlert {
-                        self?.navigationController.showAutoFadingOutMessageAlert(LGLocalizedString.commonProductNotAvailable)
+                        self?.navigationController.showAutoFadingOutMessageAlert(message: LGLocalizedString.commonProductNotAvailable)
                     }
                 case .notFound, .forbidden:
                     let relatedRequester = RelatedListingListRequester(listingId: listingId,
@@ -208,7 +208,7 @@ fileprivate extension TabCoordinator {
                                                                                requester: relatedRequester,
                                                                                relatedListings: relatedListings)
                             }
-                            self?.navigationController.showAutoFadingOutMessageAlert(LGLocalizedString.commonProductNotAvailable)
+                            self?.navigationController.showAutoFadingOutMessageAlert(message: LGLocalizedString.commonProductNotAvailable)
                         }
                     }
                 }
@@ -384,7 +384,7 @@ fileprivate extension TabCoordinator {
                     message = LGLocalizedString.commonUserNotAvailable
                 }
                 self?.navigationController.dismissLoadingMessageAlert {
-                    self?.navigationController.showAutoFadingOutMessageAlert(message)
+                    self?.navigationController.showAutoFadingOutMessageAlert(message: message)
                 }
             }
         }
@@ -466,7 +466,7 @@ fileprivate extension TabCoordinator {
              .wsChatError, .searchAlertError:
             message = LGLocalizedString.commonChatNotAvailable
         }
-        navigationController.showAutoFadingOutMessageAlert(message)
+        navigationController.showAutoFadingOutMessageAlert(message: message)
     }
 
 
@@ -821,7 +821,7 @@ extension TabCoordinator: ExpressChatCoordinatorDelegate {
     func expressChatCoordinatorDidSentMessages(_ coordinator: ExpressChatCoordinator, count: Int) {
         let message = count == 1 ? LGLocalizedString.chatExpressOneMessageSentSuccessAlert :
             LGLocalizedString.chatExpressSeveralMessagesSentSuccessAlert
-        rootViewController.showAutoFadingOutMessageAlert(message)
+        rootViewController.showAutoFadingOutMessageAlert(message: message)
     }
 }
 

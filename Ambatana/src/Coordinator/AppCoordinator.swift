@@ -738,7 +738,7 @@ fileprivate extension AppCoordinator {
             case let .logout(kickedOut):
                 self?.openTab(.home) { [weak self] in
                     if kickedOut {
-                        self?.tabBarCtl.showAutoFadingOutMessageAlert(LGLocalizedString.toastErrorInternal)
+                        self?.tabBarCtl.showAutoFadingOutMessageAlert(message: LGLocalizedString.toastErrorInternal)
                     }
                 }
             }
@@ -1050,7 +1050,7 @@ fileprivate extension AppCoordinator {
                     message = LGLocalizedString.commonUserReviewNotAvailable
                 }
                 navCtl.dismissLoadingMessageAlert {
-                    navCtl.showAutoFadingOutMessageAlert(message)
+                    navCtl.showAutoFadingOutMessageAlert(message: message)
                 }
             }
         }

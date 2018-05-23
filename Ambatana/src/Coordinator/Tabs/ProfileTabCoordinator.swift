@@ -91,6 +91,14 @@ extension ProfileTabCoordinator: UserVerificationNavigator {
         let vc = UserVerificationEmailViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
+
+    func openPhoneNumberVerification() {
+        let vm = UserPhoneVerificationNumberInputViewModel()
+        vm.navigator = self
+        let vc = UserPhoneVerificationNumberInputViewController(viewModel: vm)
+        vm.delegate = vc
+        navigationController.pushViewController(vc, animated: true)
+    }
 }
 
 extension ProfileTabCoordinator: SettingsNavigator {
@@ -191,6 +199,35 @@ extension ProfileTabCoordinator: EditUserBioNavigator {
 extension ProfileTabCoordinator: VerifyUserEmailNavigator {
     func closeEmailVerification() {
         navigationController.popViewController(animated: true)
+    }
+}
+
+extension ProfileTabCoordinator: UserPhoneVerificationNavigator {
+    func openCountrySelector(withDelegate delegate: UserPhoneVerificationCountryPickerDelegate) {
+        let vm = UserPhoneVerificationCountryPickerViewModel()
+        vm.navigator = self
+        vm.delegate = delegate
+        let vc = UserPhoneVerificationCountryPickerViewController(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
+    }
+
+    func closeCountrySelector() {
+        navigationController.popViewController(animated: true)
+    }
+
+    func openCodeInput(sentTo phoneNumber: String, with callingCode: String) {
+        let vm = UserPhoneVerificationCodeInputViewModel(callingCode: callingCode,
+                                                         phoneNumber: phoneNumber)
+        vm.navigator = self
+        let vc = UserPhoneVerificationCodeInputViewController(viewModel: vm)
+        vm.delegate = vc
+        navigationController.pushViewController(vc, animated: true)
+    }
+
+    func closePhoneVerificaction() {
+        guard let vc = navigationController.viewControllers
+            .filter({ $0 is UserVerificationViewController }).first else { return }
+        navigationController.popToViewController(vc, animated: true)
     }
 }
 

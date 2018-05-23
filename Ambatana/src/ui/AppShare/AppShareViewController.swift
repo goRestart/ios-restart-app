@@ -152,7 +152,7 @@ final class AppShareViewController: UIViewController {
 
     fileprivate func dismissShowingShareOk() {
         view.isHidden = true
-        showAutoFadingOutMessageAlert(LGLocalizedString.settingsInviteFacebookFriendsOk) { [weak self] in
+        showAutoFadingOutMessageAlert(message: LGLocalizedString.settingsInviteFacebookFriendsOk) { [weak self] in
             self?.dismiss(animated: false, completion: nil)
         }
     }

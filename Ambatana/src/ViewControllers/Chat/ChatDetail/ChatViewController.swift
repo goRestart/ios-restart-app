@@ -624,14 +624,14 @@ extension ChatViewController: ChatViewModelDelegate {
     
     func vmDidFailRetrievingChatMessages() {
         showActivityIndicator(false)
-        showAutoFadingOutMessageAlert(LGLocalizedString.chatMessageLoadGenericError) { [weak self] in
+        showAutoFadingOutMessageAlert(message: LGLocalizedString.chatMessageLoadGenericError) { [weak self] in
             self?.popBackViewController()
         }
     }
 
     func vmDidUpdateProduct(messageToShow message: String?) {
         guard let message = message else { return }
-        showAutoFadingOutMessageAlert(message)
+        showAutoFadingOutMessageAlert(message: message)
     }
     
     func vmDidSendMessage() {
@@ -667,7 +667,7 @@ extension ChatViewController: ChatViewModelDelegate {
     }
     
     func vmDidNotifyMessage(_ message: String, completion: (() -> ())?) {
-        showAutoFadingOutMessageAlert(message, completion: completion)
+        showAutoFadingOutMessageAlert(message: message, completion: completion)
     }
     
     func vmAskPhoneNumber() {
