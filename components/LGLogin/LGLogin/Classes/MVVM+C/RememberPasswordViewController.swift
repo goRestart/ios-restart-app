@@ -190,8 +190,8 @@ public class RememberPasswordViewController: BaseViewController, RememberPasswor
         textfieldPlaceholderAttrs[NSAttributedStringKey.foregroundColor] = textfieldTextPlaceholderColor
 
         emailButton.setStyle(.lightField)
-        emailIconImageView.image = UIImage(named: "ic_email")
-        emailIconImageView.highlightedImage = UIImage(named: "ic_email_active")
+        emailIconImageView.image = R.Asset.IconsButtons.icEmail.image
+        emailIconImageView.highlightedImage = R.Asset.IconsButtons.icEmailActive.image
         emailTextField.textColor = textfieldTextColor
         emailTextField.attributedPlaceholder = NSAttributedString(string: R.Strings.signUpEmailFieldHint,
                                                                   attributes: textfieldPlaceholderAttrs)
@@ -207,8 +207,8 @@ public class RememberPasswordViewController: BaseViewController, RememberPasswor
         textfieldPlaceholderAttrs[NSAttributedStringKey.foregroundColor] = textfieldTextPlaceholderColor
 
         emailButton.setStyle(.darkField)
-        emailIconImageView.image = UIImage(named: "ic_email_dark")
-        emailIconImageView.highlightedImage = UIImage(named: "ic_email_active_dark")
+        emailIconImageView.image = R.Asset.IconsButtons.icEmailDark.image
+        emailIconImageView.highlightedImage = R.Asset.IconsButtons.icEmailActiveDark.image
         emailTextField.textColor = textfieldTextColor
         emailTextField.attributedPlaceholder = NSAttributedString(string: R.Strings.signUpEmailFieldHint,
                                                                   attributes: textfieldPlaceholderAttrs)
