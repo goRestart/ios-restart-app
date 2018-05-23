@@ -376,13 +376,12 @@ extension ListingCardView: LetgoTooltipDelegate {
         guard reputationTooltip == nil else { return }
         let tooltip = LetgoTooltip()
         addSubviewForAutoLayout(tooltip)
+        tooltip.setupWith(peakOnTop: false, peakOffsetFromLeft: 40,
+                          message: LGLocalizedString.profileReputationTooltipTitle)
+        tooltip.leftAnchor.constraint(equalTo: userView.leftAnchor, constant: Metrics.veryShortMargin).isActive = true
+        tooltip.bottomAnchor.constraint(equalTo: userView.topAnchor, constant: Metrics.veryBigMargin).isActive = true
+        tooltip.delegate = self
         reputationTooltip = tooltip
-        reputationTooltip?.peakOnTop = false
-        reputationTooltip?.peakOffsetFromLeft = 40
-        reputationTooltip?.message = LGLocalizedString.profileReputationTooltipTitle
-        reputationTooltip?.leftAnchor.constraint(equalTo: userView.leftAnchor, constant: Metrics.veryShortMargin).isActive = true
-        reputationTooltip?.bottomAnchor.constraint(equalTo: userView.topAnchor, constant: Metrics.veryBigMargin).isActive = true
-        reputationTooltip?.delegate = self
     }
 
     func hideReputationTooltip() {

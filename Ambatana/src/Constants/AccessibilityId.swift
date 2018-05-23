@@ -722,6 +722,9 @@ enum AccessibilityId: Equatable {
     case searchAlertsPlaceholderText
     case searchAlertsPlaceholderButton
 
+    // Letgo Tooltip
+    case letgoTooltipButton
+    case letgoTooltipText
     
     static func ==(lhs: AccessibilityId, rhs: AccessibilityId) -> Bool {
         return lhs.identifier == rhs.identifier
@@ -2047,6 +2050,11 @@ enum AccessibilityId: Equatable {
             return "searchAlertsPlaceholderText"
         case .searchAlertsPlaceholderButton:
             return "searchAlertsPlaceholderButton"
+        // Letgo Tooltip
+        case .letgoTooltipButton:
+            return "letgoTooltipButton"
+        case .letgoTooltipText:
+            return "letgoTooltipText"
         }
     }
 }

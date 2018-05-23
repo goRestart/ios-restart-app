@@ -1,15 +1,7 @@
-//
-//  LGReputationTooltipManager.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 21/5/18.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
 
-class LGReputationTooltipManager: ReputationTooltipManager {
+final class LGReputationTooltipManager: ReputationTooltipManager {
 
     static let sharedInstance = LGReputationTooltipManager()
     private let keyValueStorage: KeyValueStorage

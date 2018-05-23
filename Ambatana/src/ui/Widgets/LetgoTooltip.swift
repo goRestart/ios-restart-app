@@ -1,11 +1,3 @@
-//
-//  LetgoTooltip.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 17/5/18.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 
 protocol LetgoTooltipDelegate: class {
@@ -42,13 +34,13 @@ final class LetgoTooltip: UIView {
 
     var peakOffsetFromLeft: CGFloat = 0 {
         didSet {
-            self.peakCenterConstraint.constant = peakOffsetFromLeft
-            self.peakCenterConstraint.isActive = true
+            peakCenterConstraint.constant = peakOffsetFromLeft
+            peakCenterConstraint.isActive = true
             layoutIfNeeded()
         }
     }
 
-    struct Layout {
+    private struct Layout {
         static let peakHeight: CGFloat = 8
         static let peakWidth: CGFloat = 18
         static let maxWidth: CGFloat = 250
@@ -66,13 +58,20 @@ final class LetgoTooltip: UIView {
         super.init(frame: .zero)
         setupUI()
         setupConstraints()
+        setupAcccessibilityIDs()
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func setupUI() {
+    func setupWith(peakOnTop: Bool, peakOffsetFromLeft: CGFloat, message: String) {
+        self.peakOnTop = peakOnTop
+        self.peakOffsetFromLeft = peakOffsetFromLeft
+        self.message = message
+    }
+
+    private func setupUI() {
         addSubviewsForAutoLayout([container, peakImageView, titleLabel, chevronImageView])
         container.backgroundColor = .lgBlack
         container.layer.cornerRadius = 10
@@ -89,11 +88,11 @@ final class LetgoTooltip: UIView {
         container.addGestureRecognizer(tap)
     }
 
-    @objc func didTapTooltip() {
+    @objc private func didTapTooltip() {
         delegate?.didTapTooltip()
     }
 
-    func setupConstraints() {
+    private func setupConstraints() {
         var constraints: [NSLayoutConstraint] = [
             container.widthAnchor.constraint(lessThanOrEqualToConstant: Layout.maxWidth),
             container.topAnchor.constraint(equalTo: topAnchor, constant: Layout.peakHeight),
@@ -118,5 +117,10 @@ final class LetgoTooltip: UIView {
 
         constraints.append(contentsOf: [peakOnTopConstraint, peakCenterConstraint])
         NSLayoutConstraint.activate(constraints)
+    }
+
+    private func setupAcccessibilityIDs() {
+        container.set(accessibilityId: .letgoTooltipButton)
+        titleLabel.set(accessibilityId: .letgoTooltipText)
     }
 }
