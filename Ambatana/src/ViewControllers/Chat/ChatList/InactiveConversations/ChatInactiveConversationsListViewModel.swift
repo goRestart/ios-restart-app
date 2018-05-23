@@ -174,6 +174,8 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, RxPaginable {
                                     userImageUrl: conversation.interlocutor?.avatar?.fileURL,
                                     userImagePlaceholder: LetgoAvatar.avatarWithID(conversation.interlocutor?.objectId,
                                                                                    name: conversation.interlocutor?.name),
+                                    userType: conversation.interlocutor?.userType,
+                                    amISelling: false,
                                     listingId: conversation.listing?.objectId,
                                     listingName: conversation.listing?.name ?? "",
                                     listingImageUrl: conversation.listing?.image?.fileURL,

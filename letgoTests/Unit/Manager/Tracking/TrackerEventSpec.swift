@@ -1706,7 +1706,7 @@ class TrackerEventSpec: QuickSpec {
                         .set(sellerRating: 4)
                         .set(isBumpedUp: .trueParameter)
                         .set(containsEmoji: true)
-                        .set(assistantMeeting: nil)
+                        .set(assistantMeeting: nil, isSuggestedPlace: nil)
                     sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                     listingVisitSource: .listingList,
                                                     feedPosition: .position(index:1),
@@ -1927,7 +1927,7 @@ class TrackerEventSpec: QuickSpec {
                         .set(sellerRating: 4)
                         .set(isBumpedUp: .trueParameter)
                         .set(containsEmoji: false)
-                        .set(assistantMeeting: nil)
+                        .set(assistantMeeting: nil, isSuggestedPlace: nil)
                     sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                     listingVisitSource: .listingList,
                                                     feedPosition: .position(index:1),
@@ -3619,7 +3619,7 @@ class TrackerEventSpec: QuickSpec {
                         .set(sellerRating: 4)
                         .set(isBumpedUp: .trueParameter)
                         .set(containsEmoji: false)
-                        .set(assistantMeeting: assistantMeeting)
+                        .set(assistantMeeting: assistantMeeting, isSuggestedPlace: true)
                     sut = TrackerEvent.userMessageSent(info: sendMessageInfo, isProfessional: false)
                 }
                 context("Interlocutor is a professional") {
@@ -3697,6 +3697,10 @@ class TrackerEventSpec: QuickSpec {
                 it("has meeting message location name") {
                     let meetingLocation = sut.params!.stringKeyParams["assistant-meeting-location"] as? String
                     expect(meetingLocation) == "Pasa tapas"
+                }
+                it("has meeting location suggested type") {
+                    let locationSuggested = sut.params!.stringKeyParams["assistant-location-suggested"] as? String
+                    expect(locationSuggested) == "true"
                 }
 
                 describe("text message") {
@@ -3787,7 +3791,7 @@ class TrackerEventSpec: QuickSpec {
                         .set(isBumpedUp: .trueParameter)
                         .set(error: error)
                         .set(containsEmoji: false)
-                        .set(assistantMeeting: nil)
+                        .set(assistantMeeting: nil, isSuggestedPlace: nil)
                     sut = TrackerEvent.userMessageSentError(info: sendMessageInfo)
                 }
                 it("has its event name") {

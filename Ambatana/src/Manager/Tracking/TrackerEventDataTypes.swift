@@ -401,6 +401,7 @@ enum EventParameterName: String {
     case meetingMessageType  = "assistant-meeting-type"
     case meetingDate         = "assistant-meeting-date"
     case meetingLocation     = "assistant-meeting-location"
+    case suggestedLocation   = "assistant-location-suggested"
 
     case boost                = "boost"
     

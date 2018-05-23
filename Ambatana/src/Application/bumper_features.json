@@ -86,19 +86,9 @@
         "description": "Show button to access inactive conversations"
     },
     {
-        "name": "IncreaseMinPriceBumps",
-        "values": ["control", "baseline", "active"],
-        "description": "Charge min price of 1.99$ instead of 0.99$ on bumps"
-    },
-    {
         "name": "NoAdsInFeedForNewUsers",
         "values": ["control", "baseline", "AdsEverywhere", "NoAdsForNewUsers", "AdsForNewUsersOnlyInFeed"],
         "description": "Change logic for showing ads to new users (2 weeks old)"
-    },
-    {
-        "name": "TurkeyBumpPriceVATAdaptation",
-        "values": ["control", "baseline", "active"],
-        "description": "Change bump price scaling for listings in TR"
     },
     {
         "name": "SearchImprovements",

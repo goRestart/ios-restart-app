@@ -179,10 +179,8 @@ extension ABTests {
 //  MARK: Money
 
 extension ABTests {
-    var increaseMinPriceBumps: LeanplumABVariable<Int> { return money.increaseMinPriceBumps }
     var noAdsInFeedForNewUsers: LeanplumABVariable<Int> { return money.noAdsInFeedForNewUsers }
     var copyForChatNowInTurkey: LeanplumABVariable<Int> { return money.copyForChatNowInTurkey }
-    var turkeyBumpPriceVATAdaptation: LeanplumABVariable<Int> { return money.turkeyBumpPriceVATAdaptation }
     var showProTagUserProfile: LeanplumABVariable<Bool> { return money.showProTagUserProfile }
     var feedAdsProviderForUS: LeanplumABVariable<Int> { return money.feedAdsProviderForUS }
     var copyForChatNowInEnglish: LeanplumABVariable<Int> { return money.copyForChatNowInEnglish }

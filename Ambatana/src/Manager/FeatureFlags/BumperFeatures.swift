@@ -30,9 +30,7 @@ extension Bumper  {
         flags.append(RealEstateNewCopy.self)
         flags.append(DummyUsersInfoProfile.self)
         flags.append(ShowInactiveConversations.self)
-        flags.append(IncreaseMinPriceBumps.self)
         flags.append(NoAdsInFeedForNewUsers.self)
-        flags.append(TurkeyBumpPriceVATAdaptation.self)
         flags.append(SearchImprovements.self)
         flags.append(RelaxedSearch.self)
         flags.append(ShowChatSafetyTips.self)
@@ -161,19 +159,9 @@ extension Bumper  {
         return ShowInactiveConversations(rawValue: value)?.asBool ?? false
     }
 
-    static var increaseMinPriceBumps: IncreaseMinPriceBumps {
-        guard let value = Bumper.value(for: IncreaseMinPriceBumps.key) else { return .control }
-        return IncreaseMinPriceBumps(rawValue: value) ?? .control 
-    }
-
     static var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers {
         guard let value = Bumper.value(for: NoAdsInFeedForNewUsers.key) else { return .control }
         return NoAdsInFeedForNewUsers(rawValue: value) ?? .control 
-    }
-
-    static var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation {
-        guard let value = Bumper.value(for: TurkeyBumpPriceVATAdaptation.key) else { return .control }
-        return TurkeyBumpPriceVATAdaptation(rawValue: value) ?? .control 
     }
 
     static var searchImprovements: SearchImprovements {
@@ -613,22 +601,6 @@ enum ShowInactiveConversations: String, BumperFeature  {
     var asBool: Bool { return self == .yes }
 }
 
-enum IncreaseMinPriceBumps: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return IncreaseMinPriceBumps.control.rawValue }
-    static var enumValues: [IncreaseMinPriceBumps] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Charge min price of 1.99$ instead of 0.99$ on bumps" } 
-    static func fromPosition(_ position: Int) -> IncreaseMinPriceBumps {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
 enum NoAdsInFeedForNewUsers: String, BumperFeature  {
     case control, baseline, adsEverywhere, noAdsForNewUsers, adsForNewUsersOnlyInFeed
     static var defaultValue: String { return NoAdsInFeedForNewUsers.control.rawValue }
@@ -642,22 +614,6 @@ enum NoAdsInFeedForNewUsers: String, BumperFeature  {
             case 2: return .adsEverywhere
             case 3: return .noAdsForNewUsers
             case 4: return .adsForNewUsersOnlyInFeed
-            default: return .control
-        }
-    }
-}
-
-enum TurkeyBumpPriceVATAdaptation: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return TurkeyBumpPriceVATAdaptation.control.rawValue }
-    static var enumValues: [TurkeyBumpPriceVATAdaptation] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Change bump price scaling for listings in TR" } 
-    static func fromPosition(_ position: Int) -> TurkeyBumpPriceVATAdaptation {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
             default: return .control
         }
     }
