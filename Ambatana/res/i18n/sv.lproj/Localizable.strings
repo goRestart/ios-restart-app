@@ -141,7 +141,7 @@
 "chat_conversations_list_filter_all" = "Alla";
 "chat_conversations_list_filter_buying" = "Köper";
 "chat_conversations_list_filter_selling" = "Säljer";
-"chat_conversations_list_letgo_assistant_tag" = "letgo assistant";
+"chat_conversations_list_letgo_assistant_tag" = "letgo assistent";
 "chat_deleted_disclaimer_w_name" = "Du kan inte fortsätta denna konversation, för %@s konto är inte längre aktivt.";
 "chat_deleted_disclaimer_wo_name" = "Du kan inte fortsätta den här konversationen för detta konto är inte längre aktivt.";
 "chat_disclaimer_letgo_team" = "LETGO-TEAMET";
@@ -859,7 +859,7 @@
 "profile_permissions_alert_ok" = "Tillåt";
 "profile_permissions_alert_title" = "MISSA INGA SVAR!";
 "profile_permissions_header_message" = "Tillåt meddelandenotifieringar";
-"profile_reputation_tooltip_title" = "Verified user! Tap if you want to be verified too.";
+"profile_reputation_tooltip_title" = "Verifierad användare! Klicka om du också vill verifiera dig";
 "profile_reviews_count" = "Omdömen";
 "profile_reviews_tab" = "Omdömen";
 "profile_selling_no_products_label" = "INGA ANNONSER (ÄN!)";

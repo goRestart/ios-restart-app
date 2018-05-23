@@ -141,7 +141,7 @@
 "chat_conversations_list_filter_all" = "Όλα";
 "chat_conversations_list_filter_buying" = "Αγορες";
 "chat_conversations_list_filter_selling" = "Πώληση";
-"chat_conversations_list_letgo_assistant_tag" = "letgo assistant";
+"chat_conversations_list_letgo_assistant_tag" = "letgo βοηθός";
 "chat_deleted_disclaimer_w_name" = "Δεν μπορείτε να συνεχίσετε αυτή τη συνομιλία επειδή ο λογαριασμός του %@ δεν είναι πια ενεργός.";
 "chat_deleted_disclaimer_wo_name" = "Δεν μπορείτε να συνεχίσετε αυτή τη συνομιλία επειδή ο λογαριασμός αυτός δεν είναι πια ενεργός.";
 "chat_disclaimer_letgo_team" = "ΟΜΑΔΑ LETGO";
