@@ -18,6 +18,7 @@ def shared_pods
 
     pod "RxSwift",              "4.0.0"
     pod "RxSwiftExt",           "3.0.0"
+    pod "RxDataSources",        "3.0.2"
     pod "RxCocoa",              "4.0.0"
     pod "RxMKMapView",          "4.0.0"
 
