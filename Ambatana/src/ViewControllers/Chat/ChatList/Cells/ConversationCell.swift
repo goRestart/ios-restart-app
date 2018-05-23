@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
+import LGCoreKit
 import UIKit
 import Lottie
 
@@ -19,6 +20,44 @@ enum ConversationCellStatus {
     case userDeleted
     case userBlocked
     case blockedByUser
+
+    var icon: UIImage? {
+        switch self {
+        case .forbidden:
+            return #imageLiteral(resourceName: "ic_pending_moderation")
+        case .listingSold, .listingGivenAway:
+            return #imageLiteral(resourceName: "ic_dollar_sold")
+        case .listingDeleted, .userPendingDelete, .userDeleted:
+            return #imageLiteral(resourceName: "ic_alert_yellow_white_inside")
+        case .userBlocked, .blockedByUser:
+            return #imageLiteral(resourceName: "ic_blocked")
+        case .available:
+            return nil
+        }
+    }
+
+    var message: String? {
+        switch self {
+        case .forbidden:
+            return LGLocalizedString.accountPendingModeration
+        case .listingSold:
+            return LGLocalizedString.commonProductSold
+        case .listingGivenAway:
+            return LGLocalizedString.commonProductGivenAway
+        case .listingDeleted:
+            return LGLocalizedString.commonProductNotAvailable
+        case .userPendingDelete:
+            return LGLocalizedString.chatListAccountDeleted
+        case .userDeleted:
+            return LGLocalizedString.chatListAccountDeleted
+        case .userBlocked:
+            return LGLocalizedString.chatListBlockedUserLabel
+        case .blockedByUser:
+            return LGLocalizedString.chatBlockedByOtherLabel
+        case .available:
+            return nil
+        }
+    }
 }
 
 struct ConversationCellData {
@@ -28,6 +67,8 @@ struct ConversationCellData {
     let userName: String
     let userImageUrl: URL?
     let userImagePlaceholder: UIImage?
+    let userType: UserType?
+    let amISelling: Bool
     let listingId: String?
     let listingName: String
     let listingImageUrl: URL?
@@ -149,28 +190,13 @@ class ConversationCell: UITableViewCell, ReusableCell {
             userLabel.font = UIFont.conversationUserNameFont
         }
 
-        switch data.status {
-        case .forbidden:
-            setInfo(text: LGLocalizedString.accountPendingModeration, icon: UIImage(named: "ic_pending_moderation"))
-        case .listingSold:
-            setInfo(text: LGLocalizedString.commonProductSold, icon: UIImage(named: "ic_dollar_sold"))
-        case .listingGivenAway:
-            setInfo(text: LGLocalizedString.commonProductGivenAway, icon: UIImage(named: "ic_dollar_sold"))
-        case .listingDeleted:
-            setInfo(text: LGLocalizedString.commonProductNotAvailable, icon: UIImage(named: "ic_alert_yellow_white_inside"))
-        case .userPendingDelete:
-            setInfo(text: LGLocalizedString.chatListAccountDeleted, icon: UIImage(named: "ic_alert_yellow_white_inside"))
-        case .userDeleted:
-            setInfo(text: LGLocalizedString.chatListAccountDeleted, icon: UIImage(named: "ic_alert_yellow_white_inside"))
+        let statusText = data.status == .available ? data.messageDate?.relativeTimeString(false) ?? "" : data.status.message
+        setInfo(text: statusText, icon: data.status.icon)
+
+        if data.status == .userDeleted {
             userLabel.text = LGLocalizedString.chatListAccountDeletedUsername
             listingLabel.text = nil
             avatarImageView.image = UIImage(named: "user_placeholder")
-        case .available:
-            setInfo(text: data.messageDate?.relativeTimeString(false) ?? "", icon: nil)
-        case .userBlocked:
-            setInfo(text: LGLocalizedString.chatListBlockedUserLabel, icon: UIImage(named: "ic_blocked"))
-        case .blockedByUser:
-            setInfo(text: LGLocalizedString.chatBlockedByOtherLabel, icon: UIImage(named: "ic_blocked"))
         }
 
         let badge: String? = data.unreadCount > 0 ? String(data.unreadCount) : nil

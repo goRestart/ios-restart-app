@@ -141,6 +141,7 @@
 "chat_conversations_list_filter_all" = "Tất cả";
 "chat_conversations_list_filter_buying" = "Mua";
 "chat_conversations_list_filter_selling" = "Bán";
+"chat_conversations_list_letgo_assistant_tag" = "letgo assistant";
 "chat_deleted_disclaimer_w_name" = "Bạn không thể tiếp tục cuộc trò chuyện này bởi tài khoản của %@ không còn hoạt động.";
 "chat_deleted_disclaimer_wo_name" = "Bạn không thể tiếp tục cuộc trò chuyện này bởi tài khoản này không còn hoạt động.";
 "chat_disclaimer_letgo_team" = "ĐỘI NGŨ LETGO";
@@ -858,6 +859,7 @@
 "profile_permissions_alert_ok" = "Bật";
 "profile_permissions_alert_title" = "ĐỪNG BỎ LỠ TRẢ LỜI NÀO!";
 "profile_permissions_header_message" = "Bật thông báo tin nhắn";
+"profile_reputation_tooltip_title" = "User verified! Tap if you want to be verified too";
 "profile_reviews_count" = "Đánh giá";
 "profile_reviews_tab" = "Đánh giá";
 "profile_selling_no_products_label" = "KHÔNG (CHƯA) CÓ BÀI ĐĂNG NÀO!";

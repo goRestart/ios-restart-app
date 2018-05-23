@@ -39,8 +39,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting = .control
     var realEstateNewCopy: RealEstateNewCopy = .control
     var dummyUsersInfoProfile: DummyUsersInfoProfile = .control
-    var increaseMinPriceBumps: IncreaseMinPriceBumps = .control
-    var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation = .control
     var searchImprovements: SearchImprovements = .control
     var relaxedSearch: RelaxedSearch = .control
     var discardedProducts: DiscardedProducts = .control

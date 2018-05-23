@@ -141,6 +141,7 @@
 "chat_conversations_list_filter_all" = "전체";
 "chat_conversations_list_filter_buying" = "구매";
 "chat_conversations_list_filter_selling" = "판매";
+"chat_conversations_list_letgo_assistant_tag" = "letgo assistant";
 "chat_deleted_disclaimer_w_name" = "%@의 계정이 비활성화 되었기 때문에 사용자께서는 이 대화를 진행하실 수 없습니다.";
 "chat_deleted_disclaimer_wo_name" = "이 계정이 비활성화 되었기 때문에 사용자께서는 이 대화를 진행하실 수 없습니다.";
 "chat_disclaimer_letgo_team" = "LETGO 팀";
@@ -858,6 +859,7 @@
 "profile_permissions_alert_ok" = "활성화";
 "profile_permissions_alert_title" = "대답하는 것을 잊지 마세요!";
 "profile_permissions_header_message" = "메세지 알림 활성화";
+"profile_reputation_tooltip_title" = "User verified! Tap if you want to be verified too";
 "profile_reviews_count" = "리뷰";
 "profile_reviews_tab" = "리뷰";
 "profile_selling_no_products_label" = "상품 목록이 없습니다 (아직이에요!)";

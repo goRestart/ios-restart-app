@@ -413,6 +413,13 @@ enum AccessibilityId: Equatable {
     case conversationCellAvatarImageView
     case conversationCellStatusImageView
 
+    // Chat Assistant Conversation Cell
+    case assistantConversationCellNameLabel
+    case assistantConversationCellAvatarImageView
+    case assistantConversationCellInfoLabel
+    case assistantConversationCellTimeLabel
+    case assistantConversationCellBadgeLabel
+
     // ChatBlockedUserVC
     case chatBlockedUsersTableView
     case chatBlockedUsersEmptyView
@@ -1532,6 +1539,19 @@ enum AccessibilityId: Equatable {
             return "conversationCellAvatarImageView"
         case .conversationCellStatusImageView:
             return "conversationCellStatusImageView"
+
+        // Chat Assistant Conversation Cell
+
+        case .assistantConversationCellNameLabel:
+            return "assistantConversationCellNameLabel"
+        case .assistantConversationCellAvatarImageView:
+            return "assistantConversationCellAvatarImageView"
+        case .assistantConversationCellInfoLabel:
+            return "assistantConversationCellInfoLabel"
+        case .assistantConversationCellTimeLabel:
+            return "assistantConversationCellTimeLabel"
+        case .assistantConversationCellBadgeLabel:
+            return "assistantConversationCellBadgeLabel"
 
         // ChatBlockedUserVC
         case .chatBlockedUsersTableView:

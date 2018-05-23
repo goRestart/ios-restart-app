@@ -523,6 +523,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_conversations_list_blocked_users_button", comment: "")
 	}
 
+	static var chatConversationsListLetgoAssistantTag: String {
+		return NSLocalizedString("chat_conversations_list_letgo_assistant_tag", comment: "")
+	}
+
 	static var chatUserInfoLetgoAssistant: String {
 		return NSLocalizedString("chat_user_info_letgo_assistant", comment: "")
 	}
@@ -3593,6 +3597,10 @@ struct LGLocalizedString {
 
 	static var phoneVerificationCountryPickerViewSearchPlaceholder: String {
 		return NSLocalizedString("phone_verification_country_picker_view_search_placeholder", comment: "")
+	}
+
+	static var profileReputationTooltipTitle: String {
+		return NSLocalizedString("profile_reputation_tooltip_title", comment: "")
 	}
 
 	static var profileKarmaVisibilityTitle: String {

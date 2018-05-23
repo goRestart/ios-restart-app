@@ -37,6 +37,8 @@ final class ChatConversationsListView: UIView {
     private func setupUI() {
         backgroundColor = UIColor.listBackgroundColor
         tableView.alpha = 0
+        tableView.layoutMargins = .zero
+        tableView.separatorInset = .zero
         emptyView.alpha = 0
         addRefreshControl()
     }

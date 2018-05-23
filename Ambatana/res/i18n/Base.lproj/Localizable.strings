@@ -381,6 +381,9 @@
 
 "chat_conversations_list_blocked_users_button" = "View blocked users";
 
+// Tag for the letgo assistant conversation cells 
+"chat_conversations_list_letgo_assistant_tag" = "letgo assistant";
+
 // Information regarding the asssitant of letgo
 "chat_user_info_letgo_assistant" = "I'm a virtual assistant that gives you tips and helps you sell.";
 
@@ -2673,6 +2676,9 @@
 
 // Text shown as a placeholder in the textfield to search a country in the country list.
 "phone_verification_country_picker_view_search_placeholder" = "Search";
+
+// Text in a tooltip shown when the current user sees a user with a badge for the first time
+"profile_reputation_tooltip_title" = "User verified! Tap if you want to be verified too";
 
 // Disclaimer text telling the user this section is only visibile to him/her
 "profile_karma_visibility_title" = "Only visible to you";

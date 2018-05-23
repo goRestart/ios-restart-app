@@ -141,6 +141,7 @@
 "chat_conversations_list_filter_all" = "Todos";
 "chat_conversations_list_filter_buying" = "Compra";
 "chat_conversations_list_filter_selling" = "Venta";
+"chat_conversations_list_letgo_assistant_tag" = "letgo assistant";
 "chat_deleted_disclaimer_w_name" = "No puedes continuar esta conversación porque la cuenta de %@ ya no está activa.";
 "chat_deleted_disclaimer_wo_name" = "No puedes continuar esta conversación porque esta cuenta ya no está activa.";
 "chat_disclaimer_letgo_team" = "EQUIPO LETGO";
@@ -858,6 +859,7 @@
 "profile_permissions_alert_ok" = "Activar";
 "profile_permissions_alert_title" = "¡NO TE PIERDAS UNA RESPUESTA!";
 "profile_permissions_header_message" = "Activa las notificaciones de mensaje";
+"profile_reputation_tooltip_title" = "User verified! Tap if you want to be verified too";
 "profile_reviews_count" = "Valoraciones";
 "profile_reviews_tab" = "Valoraciones";
 "profile_selling_no_products_label" = "NO HAY ANUNCIOS (¡TODAVÍA!)";

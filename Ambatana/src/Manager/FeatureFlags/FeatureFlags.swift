@@ -39,9 +39,7 @@ protocol FeatureFlaggeable: class {
     var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting { get }
     var realEstateNewCopy: RealEstateNewCopy { get }
     var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
-    var increaseMinPriceBumps: IncreaseMinPriceBumps { get }
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers { get }
-    var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation { get }
     var searchImprovements: SearchImprovements { get }
     var relaxedSearch: RelaxedSearch { get }
     var onboardingIncentivizePosting: OnboardingIncentivizePosting { get }
@@ -185,13 +183,6 @@ extension RealEstateNewCopy {
 }
 
 extension DummyUsersInfoProfile {
-    var isActive: Bool { return self == .active }
-}
-
-extension IncreaseMinPriceBumps {
-    var isActive: Bool { return self == .active }
-}
-extension TurkeyBumpPriceVATAdaptation {
     var isActive: Bool { return self == .active }
 }
 
@@ -628,13 +619,6 @@ final class FeatureFlags: FeatureFlaggeable {
         return DummyUsersInfoProfile.fromPosition(abTests.dummyUsersInfoProfile.value)
     }
 
-    var increaseMinPriceBumps: IncreaseMinPriceBumps {
-        if Bumper.enabled {
-            return Bumper.increaseMinPriceBumps
-        }
-        return IncreaseMinPriceBumps.fromPosition(abTests.increaseMinPriceBumps.value)
-    }
-    
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers {
         if Bumper.enabled {
             return Bumper.noAdsInFeedForNewUsers
@@ -682,13 +666,6 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.machineLearningMVP
         }
         return MachineLearningMVP.fromPosition(abTests.machineLearningMVP.value)
-    }
-
-    var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation {
-        if Bumper.enabled {
-            return Bumper.turkeyBumpPriceVATAdaptation
-        }
-        return TurkeyBumpPriceVATAdaptation.fromPosition(abTests.turkeyBumpPriceVATAdaptation.value)
     }
 
     var servicesCategoryEnabled: ServicesCategoryEnabled {

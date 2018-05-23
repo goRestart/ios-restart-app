@@ -126,6 +126,8 @@ class ChatListViewModel: BaseChatGroupedListViewModel<ChatConversation> {
                                     userImageUrl: conversation.interlocutor?.avatar?.fileURL,
                                     userImagePlaceholder: LetgoAvatar.avatarWithID(conversation.interlocutor?.objectId,
                                                                                    name: conversation.interlocutor?.name),
+                                    userType: conversation.interlocutor?.userType,
+                                    amISelling: conversation.amISelling,
                                     listingId: conversation.listing?.objectId,
                                     listingName: conversation.listing?.name ?? "",
                                     listingImageUrl: conversation.listing?.image?.fileURL,
@@ -217,7 +219,7 @@ fileprivate extension ChatsType {
     }
 }
 
-fileprivate extension ChatConversation {
+extension ChatConversation {
     var conversationCellStatus: ConversationCellStatus {
         guard let listing = listing, let interlocutor = interlocutor else { return .userDeleted }
         if interlocutor.isBanned { return .forbidden }
