@@ -1,14 +1,7 @@
-//
-//  RememberPasswordViewController.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 15/06/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import Result
 import UIKit
+import LGComponents
 
 class RememberPasswordViewController: BaseViewController, RememberPasswordViewModelDelegate, UITextFieldDelegate {
 
@@ -159,10 +152,10 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
         resetPasswordButton.setStyle(.primary(fontSize: .medium))
         
         // i18n
-        setNavBarTitle(LGLocalizedString.resetPasswordTitle)
-        emailTextField.placeholder = LGLocalizedString.resetPasswordEmailFieldHint
-        resetPasswordButton.setTitle(LGLocalizedString.resetPasswordSendButton, for: .normal)
-        instructionsLabel.text = LGLocalizedString.resetPasswordInstructions
+        setNavBarTitle(R.Strings.resetPasswordTitle)
+        emailTextField.placeholder = R.Strings.resetPasswordEmailFieldHint
+        resetPasswordButton.setTitle(R.Strings.resetPasswordSendButton, for: .normal)
+        instructionsLabel.text = R.Strings.resetPasswordInstructions
         
         // Tags
         emailTextField.tag = TextFieldTag.email.rawValue
@@ -188,7 +181,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
         emailIconImageView.image = UIImage(named: "ic_email")
         emailIconImageView.highlightedImage = UIImage(named: "ic_email_active")
         emailTextField.textColor = textfieldTextColor
-        emailTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.signUpEmailFieldHint,
+        emailTextField.attributedPlaceholder = NSAttributedString(string: R.Strings.signUpEmailFieldHint,
                                                                   attributes: textfieldPlaceholderAttrs)
     }
 
@@ -205,7 +198,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
         emailIconImageView.image = UIImage(named: "ic_email_dark")
         emailIconImageView.highlightedImage = UIImage(named: "ic_email_active_dark")
         emailTextField.textColor = textfieldTextColor
-        emailTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.signUpEmailFieldHint,
+        emailTextField.attributedPlaceholder = NSAttributedString(string: R.Strings.signUpEmailFieldHint,
                                                                   attributes: textfieldPlaceholderAttrs)
     }
 

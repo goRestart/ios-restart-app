@@ -1,13 +1,5 @@
-//
-//  NPSViewController.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 26/8/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import Foundation
-
+import LGComponents
 
 final class NPSViewController: BaseViewController {
     @IBOutlet weak var titleLabel: UILabel!
@@ -60,10 +52,10 @@ final class NPSViewController: BaseViewController {
             $0.titleLabel?.font = UIFont.systemBoldFont(size: 19)
         }
         
-        titleLabel.text = LGLocalizedString.npsSurveyTitle
-        subtitleLabel.text = LGLocalizedString.npsSurveySubtitle
-        notLikelyLabel.text = LGLocalizedString.npsSurveyVeryBad
-        extremelyLikelyLabel.text = LGLocalizedString.npsSurveyVeryGood
+        titleLabel.text = R.Strings.npsSurveyTitle
+        subtitleLabel.text = R.Strings.npsSurveySubtitle
+        notLikelyLabel.text = R.Strings.npsSurveyVeryBad
+        extremelyLikelyLabel.text = R.Strings.npsSurveyVeryGood
         notLikelyImage.image = UIImage(named: "nps_bad")
         extremelyLikelyImage.image = UIImage(named: "nps_good")
         

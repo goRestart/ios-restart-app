@@ -1,20 +1,13 @@
-//
-//  FeedViewModel.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 12/04/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 import RxSwift
 import RxCocoa
 import LGCoreKit
+import LGComponents
 
 final class FeedViewModel: BaseViewModel, FeedViewModelType {
     
     private let tracker: Tracker
-    let infoBubbleText = Variable<String>(LGLocalizedString.productPopularNearYou)
+    let infoBubbleText = Variable<String>(R.Strings.productPopularNearYou)
     let infoBubbleVisible = Variable<Bool>(true) // FIXME: Change to false after implementing Listing Cells
     
     var rxHasFilter: Driver<Bool> {

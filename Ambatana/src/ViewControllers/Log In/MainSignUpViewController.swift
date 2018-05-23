@@ -1,15 +1,8 @@
-//
-//  MainSignUpViewController.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 10/06/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
 import GoogleSignIn
 import LGCoreKit
 import Result
 import RxSwift
+import LGComponents
 
 class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignInUIDelegate, SignUpViewModelDelegate {
     
@@ -148,7 +141,7 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
         closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .plain, target: self,
             action: #selector(MainSignUpViewController.closeButtonPressed))
         navigationItem.leftBarButtonItem = closeButton
-        helpButton = UIBarButtonItem(title: LGLocalizedString.mainSignUpHelpButton, style: .plain, target: self,
+        helpButton = UIBarButtonItem(title: R.Strings.mainSignUpHelpButton, style: .plain, target: self,
             action: #selector(MainSignUpViewController.helpButtonPressed))
         navigationItem.rightBarButtonItem = helpButton
 
@@ -160,18 +153,18 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
         logInButton.setStyle(.secondary(fontSize: .medium, withBorder: true))
 
         // i18n
-        claimLabel.text = LGLocalizedString.mainSignUpClaimLabel
+        claimLabel.text = R.Strings.mainSignUpClaimLabel
         claimLabel.font = UIFont.smallBodyFont
         claimLabel.textColor = UIColor.lgBlack
-        quicklyLabel.text = LGLocalizedString.mainSignUpQuicklyLabel
+        quicklyLabel.text = R.Strings.mainSignUpQuicklyLabel
         quicklyLabel.font = UIFont.smallBodyFont
         quicklyLabel.backgroundColor = view.backgroundColor
 
-        orLabel.text = LGLocalizedString.mainSignUpOrLabel
+        orLabel.text = R.Strings.mainSignUpOrLabel
         orLabel.font = UIFont.smallBodyFont
         orLabel.backgroundColor = view.backgroundColor
-        signUpButton.setTitle(LGLocalizedString.mainSignUpSignUpButton, for: .normal)
-        logInButton.setTitle(LGLocalizedString.mainSignUpLogInLabel, for: .normal)
+        signUpButton.setTitle(R.Strings.mainSignUpSignUpButton, for: .normal)
+        logInButton.setTitle(R.Strings.mainSignUpLogInLabel, for: .normal)
 
         setupTermsAndConditions()
     }
@@ -181,9 +174,9 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
         viewModel.previousFacebookUsername.asObservable()
             .map { username in
                 if let username = username {
-                    return LGLocalizedString.mainSignUpFacebookConnectButtonWName(username)
+                    return R.Strings.mainSignUpFacebookConnectButtonWName(username)
                 } else {
-                    return LGLocalizedString.mainSignUpFacebookConnectButton
+                    return R.Strings.mainSignUpFacebookConnectButton
                 }
             }.bind(to: connectFBButton.rx.title(for: .normal))
             .disposed(by: disposeBag)
@@ -192,9 +185,9 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
         viewModel.previousGoogleUsername.asObservable()
             .map { username in
                 if let username = username {
-                    return LGLocalizedString.mainSignUpGoogleConnectButtonWName(username)
+                    return R.Strings.mainSignUpGoogleConnectButtonWName(username)
                 } else {
-                    return LGLocalizedString.mainSignUpGoogleConnectButton
+                    return R.Strings.mainSignUpGoogleConnectButton
                 }
             }.bind(to: connectGoogleButton.rx.title(for: .normal))
             .disposed(by: disposeBag)

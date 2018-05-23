@@ -1,13 +1,6 @@
-//
-//  FilteredListingListRequester.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 20/04/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import CoreLocation
+import LGComponents
 
 class FilteredListingListRequester: ListingListRequester {
 
@@ -138,7 +131,7 @@ class FilteredListingListRequester: ListingListRequester {
 
         if  filtersHasAnyCarAttributes && titleFromFilters.isEmpty {
             // if there's a make filter active but no title, is "Other Results"
-            titleFromFilters = LGLocalizedString.filterResultsCarsOtherResults
+            titleFromFilters = R.Strings.filterResultsCarsOtherResults
         }
 
         return titleFromFilters.isEmpty ? nil : titleFromFilters.localizedUppercase
@@ -164,9 +157,9 @@ class FilteredListingListRequester: ListingListRequester {
         } else if let endYear = filters.carYearEnd, !endYear.isNegated {
             // only end specified
             if endYear.value == Constants.filterMinCarYear {
-                return String(format: LGLocalizedString.filtersCarYearBeforeYear, Constants.filterMinCarYear)
+                return String(format: R.Strings.filtersCarYearBeforeYear, Constants.filterMinCarYear)
             } else {
-                return String(format: LGLocalizedString.filtersCarYearBeforeYear, Constants.filterMinCarYear) + " - " + String(endYear.value)
+                return String(format: R.Strings.filtersCarYearBeforeYear, Constants.filterMinCarYear) + " - " + String(endYear.value)
             }
         } else {
             // no year specified

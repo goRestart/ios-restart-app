@@ -1,14 +1,7 @@
-//
-//  ListingCarouselViewModel.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 14/4/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import RxSwift
 import GoogleMobileAds
+import LGComponents
 
 protocol ListingCarouselViewModelDelegate: BaseViewModelDelegate {
     func vmRemoveMoreInfoTooltip()
@@ -196,7 +189,7 @@ class ListingCarouselViewModel: BaseViewModel {
         return LetgoURLHelper.buildProductURL(listingId: listingId, isLocalized: true)?.absoluteString
     }
     var randomHardcodedAdQuery: String {
-        let popularItems = ["ps4", "iphone", LGLocalizedString.productPostIncentiveDresser]
+        let popularItems = ["ps4", "iphone", R.Strings.productPostIncentiveDresser]
         let term = popularItems.random() ?? "iphone"
         return term
     }
@@ -582,10 +575,10 @@ class ListingCarouselViewModel: BaseViewModel {
     private func processAltActions(_ altActions: [UIAction]) {
         guard altActions.count > 0 else { return }
         
-        let cancel = LGLocalizedString.commonCancel
+        let cancel = R.Strings.commonCancel
         var finalActions: [UIAction] = altActions
         //Adding show onboarding action
-        let title = LGLocalizedString.productOnboardingShowAgainButtonTitle
+        let title = R.Strings.productOnboardingShowAgainButtonTitle
         finalActions.append(UIAction(interface: .text(title), action: { [weak self] in
             self?.delegate?.vmShowOnboarding()
         }))

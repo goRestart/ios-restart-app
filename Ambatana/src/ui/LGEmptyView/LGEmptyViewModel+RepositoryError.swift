@@ -1,4 +1,5 @@
 import LGCoreKit
+import LGComponents
 
 extension LGEmptyViewModel {
     
@@ -11,9 +12,9 @@ extension LGEmptyViewModel {
         let errorDescription = LGEmptyViewModel.errorDescription(for: error)
         return LGEmptyViewModel(
             icon: icon,
-            title: LGLocalizedString.commonErrorTitle,
+            title: R.Strings.commonErrorTitle,
             body: body,
-            buttonTitle: LGLocalizedString.commonErrorRetryButton,
+            buttonTitle: R.Strings.commonErrorRetryButton,
             action: action,
             secondaryButtonTitle: nil,
             secondaryAction: nil,
@@ -70,21 +71,21 @@ fileprivate extension LGEmptyViewModel {
     static func body(for error: RepositoryError) -> String {
         switch error {
         case .network:
-            return LGLocalizedString.commonErrorNetworkBody
+            return R.Strings.commonErrorNetworkBody
         case .wsChatError(let chatError):
             return body(for: chatError)
         case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError,
              .searchAlertError:
-            return LGLocalizedString.commonErrorGenericBody
+            return R.Strings.commonErrorGenericBody
         }
     }
     
     static func body(for chatError: ChatRepositoryError) -> String {
         switch chatError {
         case .network:
-            return LGLocalizedString.commonErrorNetworkBody
+            return R.Strings.commonErrorNetworkBody
         case .notAuthenticated, .userNotVerified, .userBlocked, .internalError, .apiError, .differentCountry:
-            return LGLocalizedString.commonErrorGenericBody
+            return R.Strings.commonErrorGenericBody
         }
     }
     

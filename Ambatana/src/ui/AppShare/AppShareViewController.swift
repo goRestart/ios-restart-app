@@ -1,13 +1,5 @@
-//
-//  AppShareViewController.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 28/01/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
-
+import LGComponents
 
 final class AppShareViewController: UIViewController {
 
@@ -113,9 +105,9 @@ final class AppShareViewController: UIViewController {
     private func setupUI() {
         contentContainer.cornerRadius = LGUIKitConstants.bigCornerRadius
 
-        inviteFBMessengerBtn.setTitle(LGLocalizedString.appShareFbmessengerButton, for: .normal)
-        inviteWhatsappBtn.setTitle(LGLocalizedString.appShareWhatsappButton, for: .normal)
-        inviteEmailBtn.setTitle(LGLocalizedString.appShareEmailButton, for: .normal)
+        inviteFBMessengerBtn.setTitle(R.Strings.appShareFbmessengerButton, for: .normal)
+        inviteWhatsappBtn.setTitle(R.Strings.appShareWhatsappButton, for: .normal)
+        inviteEmailBtn.setTitle(R.Strings.appShareEmailButton, for: .normal)
         
         if !SocialSharer.canShareIn(.fbMessenger) {
             inviteFBMessengerHeight.constant = 0
@@ -139,9 +131,9 @@ final class AppShareViewController: UIViewController {
         }
 
         headerImageView.image = UIImage(named: "invite_letgo")
-        titleLabel.text = LGLocalizedString.appShareTitle
+        titleLabel.text = R.Strings.appShareTitle
         titleLabel.font = UIFont.systemMediumFont(size: 17)
-        subtitleLabel.text = LGLocalizedString.appShareSubtitle
+        subtitleLabel.text = R.Strings.appShareSubtitle
         subtitleLabel.font = UIFont.systemRegularFont(size: 15)
     }
 
@@ -152,7 +144,7 @@ final class AppShareViewController: UIViewController {
 
     fileprivate func dismissShowingShareOk() {
         view.isHidden = true
-        showAutoFadingOutMessageAlert(message: LGLocalizedString.settingsInviteFacebookFriendsOk) { [weak self] in
+        showAutoFadingOutMessageAlert(message: R.Strings.settingsInviteFacebookFriendsOk) { [weak self] in
             self?.dismiss(animated: false, completion: nil)
         }
     }

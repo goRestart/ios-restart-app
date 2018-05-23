@@ -1,12 +1,5 @@
-//
-//  DiscardedView.swift
-//  LetGo
-//
-//  Created by Haiyan Ma on 19/03/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 final class DiscardedView: UIView {
     private let moreOptionsButton: UIButton = {
@@ -19,7 +12,7 @@ final class DiscardedView: UIView {
     }()
     private let title: UILabel = {
         let label = UILabel()
-        label.text = LGLocalizedString.discarded
+        label.text = R.Strings.discarded
         label.font = UIFont.systemFont(size: 25)
         label.textAlignment = .center
         label.textColor = .white
@@ -36,7 +29,7 @@ final class DiscardedView: UIView {
     }()
     private let editButton: LetgoButton = {
         let button = LetgoButton(withStyle: .primary(fontSize: .small))
-        button.setTitle(LGLocalizedString.discardedProductsEdit, for: .normal)
+        button.setTitle(R.Strings.discardedProductsEdit, for: .normal)
         return button
     }()
     

@@ -1,14 +1,7 @@
-//
-//  UserRatingViewController.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 12/07/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
 import RxSwift
 import RxCocoa
+import LGComponents
 
 class RateUserViewController: KeyboardViewController {
     @IBOutlet weak var scrollView: UIScrollView!
@@ -113,13 +106,13 @@ class RateUserViewController: KeyboardViewController {
         automaticallyAdjustsScrollViewInsets = false
         
         if showSkipButton {
-            setLetGoRightButtonWith(text: LGLocalizedString.userRatingSkipButton, selector: #selector(skipButtonPressed))
+            setLetGoRightButtonWith(text: R.Strings.userRatingSkipButton, selector: #selector(skipButtonPressed))
         } else {
             navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .plain,
                                                                target: self, action: #selector(closeButtonPressed))
         }
         
-        setNavBarTitle(LGLocalizedString.userRatingTitle)
+        setNavBarTitle(R.Strings.userRatingTitle)
 
         userImage.setRoundedCorners()
         if let avatar = viewModel.userAvatar {
@@ -128,7 +121,7 @@ class RateUserViewController: KeyboardViewController {
         userNameText.text = viewModel.userName
         rateInfoText.text = viewModel.infoText
         
-        ratingsTitle.text = LGLocalizedString.userRatingSelectATag
+        ratingsTitle.text = R.Strings.userRatingSelectATag
         ratingTagsCollectionView.collectionViewLayout = CenterAlignedCollectionViewFlowLayout()
         ratingTagsCollectionView.allowsSelection = true
         ratingTagsCollectionView.allowsMultipleSelection = true
@@ -141,7 +134,7 @@ class RateUserViewController: KeyboardViewController {
         descriptionText.textColor = descrPlaceholderColor
         
         footerView.backgroundColor = UIColor.viewControllerBackground
-        footerLabel.text = LGLocalizedString.userRatingReviewInfo
+        footerLabel.text = R.Strings.userRatingReviewInfo
 
         footerView.layoutIfNeeded()
         descriptionContainerBottomConstraint.constant = footerView.height + Metrics.margin

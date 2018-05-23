@@ -1,14 +1,7 @@
-//
-//  MLPostListingViewController.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 11/12/15.
-//  Copyright © 2015 Ambatana. All rights reserved.
-//
-
 import UIKit
 import RxSwift
 import LGCoreKit
+import LGComponents
 
 final class MLPostListingViewController: BaseViewController, PostListingViewModelDelegate {
 
@@ -245,7 +238,7 @@ final class MLPostListingViewController: BaseViewController, PostListingViewMode
         retryButtonUploadingImageRealEstate.layout()
             .height(MLPostListingViewController.retryButtonHeight)
             .width(MLPostListingViewController.retryButtonWidth, relatedBy: .greaterThanOrEqual)
-        retryButtonUploadingImageRealEstate.setTitle(LGLocalizedString.commonErrorListRetryButton, for: .normal)
+        retryButtonUploadingImageRealEstate.setTitle(R.Strings.commonErrorListRetryButton, for: .normal)
         retryButtonUploadingImageRealEstate.addTarget(self, action: #selector(MLPostListingViewController.onRetryButton), for: .touchUpInside)
         uploadImageStackView.addArrangedSubview(messageLabelUploadingImage)
         uploadImageStackView.addArrangedSubview(retryButtonUploadingImageRealEstate)
@@ -282,7 +275,7 @@ final class MLPostListingViewController: BaseViewController, PostListingViewMode
     }
 
     private func setupPriceView() {
-        retryButton.setTitle(LGLocalizedString.commonErrorListRetryButton, for: .normal)
+        retryButton.setTitle(R.Strings.commonErrorListRetryButton, for: .normal)
         retryButton.setStyle(.primary(fontSize: .medium))
         priceView.translatesAutoresizingMaskIntoConstraints = false
         detailsContainer.addSubview(priceView)
@@ -549,11 +542,11 @@ fileprivate extension MLPostListingState {
     }
     
     func postedInfoLabelText(confirmationText: String?) -> String? {
-        return isError ? LGLocalizedString.commonErrorTitle.localizedCapitalized : confirmationText
+        return isError ? R.Strings.commonErrorTitle.localizedCapitalized : confirmationText
     }
     
     func messageForLoadedImage(confirmationText: String?) -> String? {
-        return isError ? LGLocalizedString.commonErrorPostingLoadedImage : confirmationText
+        return isError ? R.Strings.commonErrorPostingLoadedImage : confirmationText
     }
     
     var postErrorLabelAlpha: CGFloat {
@@ -734,7 +727,7 @@ extension MLPostListingViewController: MLPostListingCameraViewDelegate {
     }
     
     func productCameraRequestCategory() {
-        let alert = UIAlertController(title: LGLocalizedString.sellChooseCategoryDialogTitle, message: nil,
+        let alert = UIAlertController(title: R.Strings.sellChooseCategoryDialogTitle, message: nil,
                                       preferredStyle: .actionSheet)
         alert.popoverPresentationController?.sourceView = cameraView
         alert.popoverPresentationController?.sourceRect = cameraView.frame
@@ -748,7 +741,7 @@ extension MLPostListingViewController: MLPostListingCameraViewDelegate {
             }))
         }
         
-        alert.addAction(UIAlertAction(title: LGLocalizedString.sellChooseCategoryDialogCancelButton,
+        alert.addAction(UIAlertAction(title: R.Strings.sellChooseCategoryDialogCancelButton,
                                       style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
@@ -865,10 +858,10 @@ extension MLPostListingViewController: LGViewPagerDataSource, LGViewPagerDelegat
         let attributes = tabTitleTextAttributes()
         if index == Tab.gallery.index {
             icon = #imageLiteral(resourceName: "ic_post_tab_gallery")
-            text = LGLocalizedString.productPostGalleryTab
+            text = R.Strings.productPostGalleryTab
         } else {
             icon = #imageLiteral(resourceName: "ic_post_tab_camera")
-            text = LGLocalizedString.productPostCameraTabV2
+            text = R.Strings.productPostCameraTabV2
         }
         let attachment = NSTextAttachment()
         attachment.image = icon

@@ -1,15 +1,8 @@
-//
-//  EditUserBioViewModel.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 5/3/18.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
 import RxSwift
 import RxCocoa
+import LGComponents
 
 final class EditUserBioViewModel: BaseViewModel {
 
@@ -41,7 +34,7 @@ final class EditUserBioViewModel: BaseViewModel {
                     self?.trackBioUpdate(userId)
                 }
             } else if let _ = result.error {
-                self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.changeBioErrorMessage, completion: nil)
+                self?.delegate?.vmShowAutoFadingMessage(R.Strings.changeBioErrorMessage, completion: nil)
             }
         }
     }

@@ -1,17 +1,9 @@
-//
-//  EditListingViewController.swift
-//  LetGo
-//
-//  Created by Dídac on 23/07/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
 import FBSDKShareKit
 import LGCoreKit
 import Result
 import RxSwift
 import KMPlaceholderTextView
-
+import LGComponents
 
 class EditListingViewController: BaseViewController, UITextFieldDelegate,
     UITextViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate,
@@ -199,7 +191,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
   
     @IBAction func categoryButtonPressed(_ sender: AnyObject) {
         
-        let alert = UIAlertController(title: LGLocalizedString.sellChooseCategoryDialogTitle, message: nil,
+        let alert = UIAlertController(title: R.Strings.sellChooseCategoryDialogTitle, message: nil,
             preferredStyle: .actionSheet)
         alert.popoverPresentationController?.sourceView = categoryButton
         alert.popoverPresentationController?.sourceRect = categoryButton.frame
@@ -212,7 +204,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
             }))
         }
         
-        alert.addAction(UIAlertAction(title: LGLocalizedString.sellChooseCategoryDialogCancelButton,
+        alert.addAction(UIAlertAction(title: R.Strings.sellChooseCategoryDialogCancelButton,
             style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
 
@@ -360,7 +352,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
             
         } else if (indexPath.item < viewModel.numberOfImages) {
             // remove image
-            let alert = UIAlertController(title: LGLocalizedString.sellPictureSelectedTitle,
+            let alert = UIAlertController(title: R.Strings.sellPictureSelectedTitle,
                                           message: nil,
                                           preferredStyle: .actionSheet)
             
@@ -368,7 +360,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
             alert.popoverPresentationController?.sourceView = cell
             alert.popoverPresentationController?.sourceRect = cell?.bounds ?? .zero
             
-            alert.addAction(UIAlertAction(title: LGLocalizedString.sellPictureSelectedDeleteButton,
+            alert.addAction(UIAlertAction(title: R.Strings.sellPictureSelectedDeleteButton,
                                           style: .destructive,
                                           handler: { [weak self] _ in
                                             self?.deleteAlreadyUploadedImageWithIndex(indexPath.item)
@@ -376,12 +368,12 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
                                             collectionView.scrollToItem(at: IndexPath(item: indexPath.item-1, section: 0),
                                                                         at: .right, animated: true)
             }))
-            alert.addAction(UIAlertAction(title: LGLocalizedString.sellPictureSelectedSaveIntoCameraRollButton,
+            alert.addAction(UIAlertAction(title: R.Strings.sellPictureSelectedSaveIntoCameraRollButton,
                                           style: .default,
                                           handler: { [weak self] _ in
                                             self?.saveProductImageToDiskAtIndex(indexPath.item)
             }))
-            alert.addAction(UIAlertAction(title: LGLocalizedString.sellPictureSelectedCancelButton, style: .cancel))
+            alert.addAction(UIAlertAction(title: R.Strings.sellPictureSelectedCancelButton, style: .cancel))
             present(alert, animated: true)
         }
     }
@@ -418,10 +410,10 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
             if strongSelf.mediaPermissions.isLibraryAccessAuthorized {
                 strongSelf.saveProductImageToDiskAtIndex(index)
             } else {
-                let alert = UIAlertController(title: LGLocalizedString.commonErrorTitle,
-                                              message: LGLocalizedString.productSellPhotolibraryRestrictedError,
+                let alert = UIAlertController(title: R.Strings.commonErrorTitle,
+                                              message: R.Strings.productSellPhotolibraryRestrictedError,
                                               preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: LGLocalizedString.commonOk, style: .default))
+                alert.addAction(UIAlertAction(title: R.Strings.commonOk, style: .default))
                 strongSelf.presentViewController(alert, animated: true, onMainThread: true, completion: nil)
             }
         }
@@ -432,7 +424,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
             requestLibraryAuthorizationAndSaveImageToDiskAtIndex(index)
             return
         }
-        showLoadingMessageAlert(LGLocalizedString.sellPictureSaveIntoCameraRollLoading)
+        showLoadingMessageAlert(R.Strings.sellPictureSaveIntoCameraRollLoading)
         
         // get the image and launch the saving action.
         let imageTypeAtIndex = viewModel.imageAtIndex(index)
@@ -442,7 +434,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         case .remote(let file):
             guard let fileUrl = file.fileURL else {
                 self.dismissLoadingMessageAlert(){
-                    self.showAutoFadingOutMessageAlert(message: LGLocalizedString.sellPictureSaveIntoCameraRollErrorGeneric)
+                    self.showAutoFadingOutMessageAlert(message: R.Strings.sellPictureSaveIntoCameraRollErrorGeneric)
                 }
                 return
             }
@@ -456,9 +448,9 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     @objc func image(_ image: UIImage!, didFinishSavingWithError error: NSError!, contextInfo: UnsafeMutableRawPointer) {
         self.dismissLoadingMessageAlert(){
             if error == nil { // success
-                self.showAutoFadingOutMessageAlert(message: LGLocalizedString.sellPictureSaveIntoCameraRollOk)
+                self.showAutoFadingOutMessageAlert(message: R.Strings.sellPictureSaveIntoCameraRollOk)
             } else {
-                self.showAutoFadingOutMessageAlert(message: LGLocalizedString.sellPictureSaveIntoCameraRollErrorGeneric)
+                self.showAutoFadingOutMessageAlert(message: R.Strings.sellPictureSaveIntoCameraRollErrorGeneric)
             }
         }
     }
@@ -468,7 +460,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
 
     func setupUI() {
 
-        setNavBarTitle(LGLocalizedString.editProductTitle)
+        setNavBarTitle(R.Strings.editProductTitle)
         let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: UIBarButtonItemStyle.plain,
                                           target: self, action: #selector(EditListingViewController.closeButtonPressed))
         self.navigationItem.leftBarButtonItem = closeButton;
@@ -477,7 +469,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         containerEditOptionsView.cornerRadius = LGUIKitConstants.bigCornerRadius
         updateButtonBottomConstraint.constant = 0
         
-        titleTextField.placeholder = LGLocalizedString.sellTitleFieldHint
+        titleTextField.placeholder = R.Strings.sellTitleFieldHint
         titleTextField.text = viewModel.title
         titleTextField.tag = TextFieldTag.listingTitle.rawValue
         titleDisclaimer.textColor = UIColor.darkGrayText
@@ -485,16 +477,16 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
 
         titleDisclaimerActivityIndicator.transform = titleDisclaimerActivityIndicator.transform.scaledBy(x: 0.8, y: 0.8)
 
-        postFreeLabel.text = LGLocalizedString.sellPostFreeLabel
+        postFreeLabel.text = R.Strings.sellPostFreeLabel
         
         currencyLabel.text = viewModel.currency?.code
 
-        priceTextField.placeholder = LGLocalizedString.productNegotiablePrice
+        priceTextField.placeholder = R.Strings.productNegotiablePrice
         priceTextField.text = viewModel.price
         priceTextField.tag = TextFieldTag.listingPrice.rawValue
         priceTextField.insetX = 16.0
         
-        realEstateTurkishSizeTextField.placeholder = LGLocalizedString.realEstateSummarySizeTitle
+        realEstateTurkishSizeTextField.placeholder = R.Strings.realEstateSummarySizeTitle
         realEstateTurkishSizeTextField.text = viewModel.realEstateSizeSquareMetersString
         realEstateTurkishSizeTextField.tag = TextFieldTag.sizeSquareMeters.rawValue
         realEstateTurkishSizeTextField.keyboardType = .numberPad
@@ -502,37 +494,37 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
 
         descriptionTextView.text = viewModel.descr ?? ""
         descriptionTextView.textColor = UIColor.blackText
-        descriptionTextView.placeholder = LGLocalizedString.sellDescriptionFieldHint
+        descriptionTextView.placeholder = R.Strings.sellDescriptionFieldHint
         descriptionTextView.placeholderColor = UIColor.gray
         descriptionTextView.textContainerInset = UIEdgeInsetsMake(12.0, 11.0, 12.0, 11.0)
         descriptionTextView.tintColor = UIColor.primaryColor
         descriptionTextView.tag = TextFieldTag.listingDescription.rawValue
         descriptionCharCountLabel.text = "\(viewModel.descriptionCharCount)"
 
-        setLocationTitleLabel.text = LGLocalizedString.settingsChangeLocationButton
+        setLocationTitleLabel.text = R.Strings.settingsChangeLocationButton
 
-        categoryTitleLabel.text = LGLocalizedString.sellCategorySelectionLabel
+        categoryTitleLabel.text = R.Strings.sellCategorySelectionLabel
         categorySelectedLabel.text = viewModel.categoryName ?? ""
 
-        carsMakeTitleLabel.text = LGLocalizedString.postCategoryDetailCarMake
-        carsModelTitleLabel.text = LGLocalizedString.postCategoryDetailCarModel
-        carsYearTitleLabel.text = LGLocalizedString.postCategoryDetailCarYear
+        carsMakeTitleLabel.text = R.Strings.postCategoryDetailCarMake
+        carsModelTitleLabel.text = R.Strings.postCategoryDetailCarModel
+        carsYearTitleLabel.text = R.Strings.postCategoryDetailCarYear
         
-        realEstateStandardPropertyTypeTitleLabel.text = LGLocalizedString.realEstateTypePropertyTitle
-        realEstateStandardOfferTypeTitleLabel.text = LGLocalizedString.realEstateOfferTypeTitle
-        realEstateStandardNumberOfBedroomsTitleLabel.text = LGLocalizedString.realEstateBedroomsTitle
-        realEstateStandardNumberOfBathroomsTitleLabel.text = LGLocalizedString.realEstateBathroomsTitle
+        realEstateStandardPropertyTypeTitleLabel.text = R.Strings.realEstateTypePropertyTitle
+        realEstateStandardOfferTypeTitleLabel.text = R.Strings.realEstateOfferTypeTitle
+        realEstateStandardNumberOfBedroomsTitleLabel.text = R.Strings.realEstateBedroomsTitle
+        realEstateStandardNumberOfBathroomsTitleLabel.text = R.Strings.realEstateBathroomsTitle
         
-        realEstateTurkishPropertyTypeTitleLabel.text = LGLocalizedString.realEstateTypePropertyTitle
-        realEstateTurkishOfferTypeTitleLabel.text = LGLocalizedString.realEstateOfferTypeTitle
-        realEstateTurkishNumberOfRoomsTitleLabel.text = LGLocalizedString.realEstateRoomsTitle
+        realEstateTurkishPropertyTypeTitleLabel.text = R.Strings.realEstateTypePropertyTitle
+        realEstateTurkishOfferTypeTitleLabel.text = R.Strings.realEstateOfferTypeTitle
+        realEstateTurkishNumberOfRoomsTitleLabel.text = R.Strings.realEstateRoomsTitle
         realEstateTurkishSizeTitleLabel.text = Constants.sizeSquareMetersUnit
         
-        sendButton.setTitle(LGLocalizedString.editProductSendButton, for: .normal)
+        sendButton.setTitle(R.Strings.editProductSendButton, for: .normal)
         sendButton.setStyle(.primary(fontSize:.big))
         
         shareFBSwitch.isOn = viewModel.shouldShareInFB
-        shareFBLabel.text = LGLocalizedString.sellShareOnFacebookLabel
+        shareFBLabel.text = R.Strings.sellShareOnFacebookLabel
 
         featureLabel.text = viewModel.featureLabelText
         featureLabel.textColor = viewModel.featureLabelTextColor
@@ -556,7 +548,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         let cellNib = UINib(nibName: SellListingCell.reusableID, bundle: nil)
         self.imageCollectionView.register(cellNib, forCellWithReuseIdentifier: SellListingCell.reusableID)
         
-        loadingLabel.text = LGLocalizedString.sellUploadingLabel
+        loadingLabel.text = R.Strings.sellUploadingLabel
         view.bringSubview(toFront: loadingView)
         
         // hide keyboard on tap
@@ -568,9 +560,9 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
             viewModel.titleAutogenerated.asObservable(),
             viewModel.titleAutotranslated.asObservable()) { (titleAutogenerated, titleAutotranslated) -> String? in
                 if titleAutogenerated && titleAutotranslated {
-                    return LGLocalizedString.sellTitleAutogenAutotransLabel
+                    return R.Strings.sellTitleAutogenAutotransLabel
                 } else if titleAutogenerated {
-                    return LGLocalizedString.sellTitleAutogenLabel
+                    return R.Strings.sellTitleAutogenLabel
                 } else {
                     return nil
                 }
@@ -609,7 +601,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
                 strongSelf.titleDisclaimer.isHidden = false
                 strongSelf.titleDisclaimerHeightConstraint.constant = EditListingViewController.titleDisclaimerHeightConstraint
                 strongSelf.titleDisclaimerBottomConstraint.constant = EditListingViewController.titleDisclaimerBottomConstraintVisible
-                strongSelf.titleDisclaimer.text = LGLocalizedString.editProductSuggestingTitle
+                strongSelf.titleDisclaimer.text = R.Strings.editProductSuggestingTitle
             case .clean:
                 strongSelf.autoGeneratedTitleButton.isHidden = true
                 strongSelf.titleDisclaimerActivityIndicator.stopAnimating()
@@ -642,7 +634,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
 
         viewModel.category.asObservable().bind{ [weak self] category in
             guard let strongSelf = self else { return }
-            strongSelf.categorySelectedLabel.text = category?.name ?? LGLocalizedString.categoriesUnassigned
+            strongSelf.categorySelectedLabel.text = category?.name ?? R.Strings.categoriesUnassigned
             strongSelf.updateVerticalFields(category: category)
         }.disposed(by: disposeBag)
         

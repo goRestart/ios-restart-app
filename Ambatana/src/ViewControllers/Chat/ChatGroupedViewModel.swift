@@ -1,13 +1,6 @@
-//
-//  ChatGroupedViewModel.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 27/01/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 protocol ChatGroupedViewModelDelegate: BaseViewModelDelegate {
     func vmDidPressDelete()
@@ -32,13 +25,13 @@ class ChatGroupedViewModel: BaseViewModel {
         }
 
         func editButtonText(_ editing: Bool) -> String {
-            guard !editing else { return LGLocalizedString.commonCancel }
+            guard !editing else { return R.Strings.commonCancel }
 
             switch(self) {
             case .all, .selling, .buying:
-                return LGLocalizedString.chatListDelete
+                return R.Strings.chatListDelete
             case .blockedUsers:
-                return LGLocalizedString.chatListUnblock
+                return R.Strings.chatListUnblock
             }
         }
         
@@ -121,8 +114,8 @@ class ChatGroupedViewModel: BaseViewModel {
             case .blockedUsers:
                 blockedUsersListViewModel.emptyStatusViewModel = LGEmptyViewModel(
                     icon: UIImage(named: "err_list_no_blocked_users"),
-                    title: LGLocalizedString.chatListBlockedEmptyTitle,
-                    body: LGLocalizedString.chatListBlockedEmptyBody, buttonTitle: nil, action: nil,
+                    title: R.Strings.chatListBlockedEmptyTitle,
+                    body: R.Strings.chatListBlockedEmptyBody, buttonTitle: nil, action: nil,
                     secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: .emptyResults, errorCode: nil,
                     errorDescription: nil)
             }
@@ -133,9 +126,9 @@ class ChatGroupedViewModel: BaseViewModel {
 
     func setupVerificationPendingEmptyVM() {
         verificationPendingEmptyVM = LGEmptyViewModel(icon: UIImage(named: "ic_build_trust_big"),
-                                                      title: LGLocalizedString.chatNotVerifiedStateTitle,
-                                                      body: LGLocalizedString.chatNotVerifiedStateMessage,
-                                                      buttonTitle: LGLocalizedString.chatNotVerifiedStateCheckButton,
+                                                      title: R.Strings.chatNotVerifiedStateTitle,
+                                                      body: R.Strings.chatNotVerifiedStateMessage,
+                                                      buttonTitle: R.Strings.chatNotVerifiedStateCheckButton,
                                                       action: { [weak self] in
                                                         self?.refreshCurrentPage()
                                                         },
@@ -178,13 +171,13 @@ class ChatGroupedViewModel: BaseViewModel {
         let string: NSAttributedString
         switch tab {
         case .all:
-            string = NSAttributedString(string: LGLocalizedString.chatListAllTitle, attributes: titleAttributes)
+            string = NSAttributedString(string: R.Strings.chatListAllTitle, attributes: titleAttributes)
         case .buying:
-            string = NSAttributedString(string: LGLocalizedString.chatListBuyingTitle, attributes: titleAttributes)
+            string = NSAttributedString(string: R.Strings.chatListBuyingTitle, attributes: titleAttributes)
         case .selling:
-            string = NSAttributedString(string: LGLocalizedString.chatListSellingTitle, attributes: titleAttributes)
+            string = NSAttributedString(string: R.Strings.chatListSellingTitle, attributes: titleAttributes)
         case .blockedUsers:
-            string = NSAttributedString(string: LGLocalizedString.chatListBlockedUsersTitle, attributes: titleAttributes)
+            string = NSAttributedString(string: R.Strings.chatListBlockedUsersTitle, attributes: titleAttributes)
         }
         return string
     }
@@ -246,14 +239,14 @@ class ChatGroupedViewModel: BaseViewModel {
         }
         
         if currentTab.value.markAllConversationAsReadButtonEnabled(isFeatureFlagEnabled: featureFlags.markAllConversationsAsRead.isActive) {
-            actions.append(UIAction(interface: UIActionInterface.text(LGLocalizedString.chatMarkConversationAsReadButton),
+            actions.append(UIAction(interface: UIActionInterface.text(R.Strings.chatMarkConversationAsReadButton),
                                     action: { [weak self] in
                                         self?.markAllConversationAsRead()
             }))
         }
         
         if let vm = currentPageViewModel.value, vm.shouldShowInactiveConversations {
-            var buttonText: String = LGLocalizedString.chatInactiveConversationsButton
+            var buttonText: String = R.Strings.chatInactiveConversationsButton
             if let inactiveCount = vm.inactiveConversationsCount, inactiveCount > 0 {
                 buttonText = buttonText + " (\(inactiveCount))"
             }
@@ -263,7 +256,7 @@ class ChatGroupedViewModel: BaseViewModel {
             }))
         }
         
-        delegate?.vmShowActionSheet(LGLocalizedString.commonCancel, actions: actions)
+        delegate?.vmShowActionSheet(R.Strings.commonCancel, actions: actions)
     }
 
     // MARK: - Private
@@ -276,12 +269,12 @@ class ChatGroupedViewModel: BaseViewModel {
     private func buildChatListAll(_ chatsType: ChatsType) -> ChatListViewModel {
         let emptyVM = LGEmptyViewModel(
             icon: UIImage(named: "err_list_no_chats"),
-            title: LGLocalizedString.chatListAllEmptyTitle,
-            body: nil, buttonTitle: LGLocalizedString.chatListSellingEmptyButton,
+            title: R.Strings.chatListAllEmptyTitle,
+            body: nil, buttonTitle: R.Strings.chatListSellingEmptyButton,
             action: { [weak self] in
                 self?.tabNavigator?.openSell(source: .sellButton, postCategory: nil)
             },
-            secondaryButtonTitle: LGLocalizedString.chatListBuyingEmptyButton,
+            secondaryButtonTitle: R.Strings.chatListBuyingEmptyButton,
             secondaryAction: { [weak self] in
                 self?.tabNavigator?.openHome()
             }, emptyReason: nil, errorCode: nil, errorDescription: nil)
@@ -294,8 +287,8 @@ class ChatGroupedViewModel: BaseViewModel {
     private func buildChatListSelling(_ chatsType: ChatsType) -> ChatListViewModel {
         let emptyVM = LGEmptyViewModel(
             icon: UIImage(named: "err_list_no_chats"),
-            title: LGLocalizedString.chatListSellingEmptyTitle,
-            body: nil, buttonTitle: LGLocalizedString.chatListSellingEmptyButton,
+            title: R.Strings.chatListSellingEmptyTitle,
+            body: nil, buttonTitle: R.Strings.chatListSellingEmptyButton,
             action: { [weak self] in
                 self?.tabNavigator?.openSell(source: .sellButton, postCategory: nil)
             },
@@ -309,8 +302,8 @@ class ChatGroupedViewModel: BaseViewModel {
     private func buildChatListBuying(_ chatsType: ChatsType) -> ChatListViewModel {
         let emptyVM = LGEmptyViewModel(
             icon: UIImage(named: "err_list_no_chats"),
-            title: LGLocalizedString.chatListBuyingEmptyTitle,
-            body: nil, buttonTitle: LGLocalizedString.chatListBuyingEmptyButton,
+            title: R.Strings.chatListBuyingEmptyTitle,
+            body: nil, buttonTitle: R.Strings.chatListBuyingEmptyButton,
             action: { [weak self] in
                 self?.tabNavigator?.openHome()
             },
@@ -367,8 +360,8 @@ extension ChatGroupedViewModel {
         
         chatRepository.chatStatus.map { $0 == .openNotVerified }.distinctUntilChanged().filter { $0 }.subscribeNext { [weak self] _ in
             self?.tabNavigator?.openVerifyAccounts([.facebook, .google, .email(self?.myUserRepository.myUser?.email)],
-                source: .chat(title: LGLocalizedString.chatConnectAccountsTitle,
-                    description: LGLocalizedString.chatNotVerifiedAlertMessage),
+                source: .chat(title: R.Strings.chatConnectAccountsTitle,
+                    description: R.Strings.chatNotVerifiedAlertMessage),
                 completionBlock: nil)
         }.disposed(by: disposeBag)
     }

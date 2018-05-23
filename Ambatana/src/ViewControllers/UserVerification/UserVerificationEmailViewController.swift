@@ -1,13 +1,6 @@
-//
-//  UserVerificationEmailViewController.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 9/4/18.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 import RxSwift
+import LGComponents
 
 final class UserVerificationEmailViewController: BaseViewController {
 
@@ -53,13 +46,13 @@ final class UserVerificationEmailViewController: BaseViewController {
     private func setupUI() {
         view.backgroundColor = .white
         view.addSubviewsForAutoLayout([textField, saveButton])
-        title = LGLocalizedString.profileVerificationsEmailViewTitle
+        title = R.Strings.profileVerificationsEmailViewTitle
 
         textField.tintColor = UIColor.primaryColor
         textField.font = UIFont.bigBodyFont
-        textField.placeholder = LGLocalizedString.profileVerificationsEmailPlaceholder
+        textField.placeholder = R.Strings.profileVerificationsEmailPlaceholder
 
-        saveButton.setTitle(LGLocalizedString.profileVerificationsSendButton, for: .normal)
+        saveButton.setTitle(R.Strings.profileVerificationsSendButton, for: .normal)
         saveButton.addTarget(self, action: #selector(didTapSave), for: .touchUpInside)
         setupConstraints()
     }

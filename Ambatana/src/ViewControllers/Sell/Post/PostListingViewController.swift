@@ -1,13 +1,6 @@
-//
-//  PostListingViewController.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 11/12/15.
-//  Copyright © 2015 Ambatana. All rights reserved.
-//
-
 import UIKit
 import RxSwift
+import LGComponents
 
 final class PostListingViewController: BaseViewController, PostListingViewModelDelegate {
 
@@ -273,7 +266,7 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
         retryButtonUploadingImageRealEstate.layout()
             .height(PostListingViewController.retryButtonHeight)
             .width(PostListingViewController.retryButtonWidth, relatedBy: .greaterThanOrEqual)
-        retryButtonUploadingImageRealEstate.setTitle(LGLocalizedString.commonErrorListRetryButton, for: .normal)
+        retryButtonUploadingImageRealEstate.setTitle(R.Strings.commonErrorListRetryButton, for: .normal)
         retryButtonUploadingImageRealEstate.addTarget(self, action: #selector(PostListingViewController.onRetryButton), for: .touchUpInside)
         uploadImageStackView.addArrangedSubview(messageLabelUploadingImage)
         uploadImageStackView.addArrangedSubview(retryButtonUploadingImageRealEstate)
@@ -310,7 +303,7 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
     }
 
     private func setupPriceView() {
-        retryButton.setTitle(LGLocalizedString.commonErrorListRetryButton, for: .normal)
+        retryButton.setTitle(R.Strings.commonErrorListRetryButton, for: .normal)
         retryButton.setStyle(.primary(fontSize: .medium))
         priceView.translatesAutoresizingMaskIntoConstraints = false
         detailsContainer.addSubview(priceView)
@@ -610,11 +603,11 @@ fileprivate extension PostListingState {
     }
     
     func postedInfoLabelText(confirmationText: String?) -> String? {
-        return isError ? LGLocalizedString.commonErrorTitle.localizedCapitalized : confirmationText
+        return isError ? R.Strings.commonErrorTitle.localizedCapitalized : confirmationText
     }
     
     func messageForLoadedImage(confirmationText: String?) -> String? {
-        return isError ? LGLocalizedString.commonErrorPostingLoadedImage : confirmationText
+        return isError ? R.Strings.commonErrorPostingLoadedImage : confirmationText
     }
     
     var postErrorLabelAlpha: CGFloat {
@@ -916,10 +909,10 @@ extension PostListingViewController: LGViewPagerDataSource, LGViewPagerDelegate,
         let attributes = tabTitleTextAttributes()
         if index == Tab.gallery.index {
             icon = #imageLiteral(resourceName: "ic_post_tab_gallery")
-            text = LGLocalizedString.productPostGalleryTab
+            text = R.Strings.productPostGalleryTab
         } else {
             icon = #imageLiteral(resourceName: "ic_post_tab_camera")
-            text = LGLocalizedString.productPostCameraTabV2
+            text = R.Strings.productPostCameraTabV2
         }
         let attachment = NSTextAttachment()
         attachment.image = icon

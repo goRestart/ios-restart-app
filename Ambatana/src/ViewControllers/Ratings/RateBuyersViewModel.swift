@@ -1,13 +1,6 @@
-//
-//  RateBuyersViewModel.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 03/02/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 enum VisibilityFormat {
     case compact(visibleElements: Int)
@@ -89,7 +82,7 @@ class RateBuyersViewModel: BaseViewModel {
                     self?.navigator?.rateBuyersFinish(withUser: buyer, listingId: self?.listingId)
                 }
             } else {
-                message = LGLocalizedString.commonError
+                message = R.Strings.commonError
                 afterMessageCompletion = nil
             }
             self?.delegate?.vmHideLoading(message, afterMessageCompletion: afterMessageCompletion)
@@ -110,7 +103,7 @@ class RateBuyersViewModel: BaseViewModel {
                     self?.navigator?.rateBuyersFinishNotOnLetgo()
                 }
             } else {
-                message = LGLocalizedString.commonError
+                message = R.Strings.commonError
                 afterMessageCompletion = nil
             }
             self?.delegate?.vmHideLoading(message, afterMessageCompletion: afterMessageCompletion)
@@ -189,9 +182,9 @@ class RateBuyersViewModel: BaseViewModel {
     func secondaryOptionsTitleAt(index: Int) -> String? {
         switch index {
         case 0:
-            return LGLocalizedString.rateBuyersNotOnLetgoTitleButton
+            return R.Strings.rateBuyersNotOnLetgoTitleButton
         case 1:
-            return LGLocalizedString.rateBuyersWillDoLaterTitle
+            return R.Strings.rateBuyersWillDoLaterTitle
         default:
             return nil
         }
@@ -201,9 +194,9 @@ class RateBuyersViewModel: BaseViewModel {
     func secondaryOptionsSubtitleAt(index: Int) -> String? {
         switch index {
         case 0:
-            return LGLocalizedString.rateBuyersNotOnLetgoButton
+            return R.Strings.rateBuyersNotOnLetgoButton
         case 1:
-            return LGLocalizedString.rateBuyersWillDoLaterSubtitle
+            return R.Strings.rateBuyersWillDoLaterSubtitle
         default:
             return nil
        }
@@ -212,9 +205,9 @@ class RateBuyersViewModel: BaseViewModel {
     private func textForSeeMoreLabel() -> String {
         switch visibilityFormat.value {
         case .compact:
-            return LGLocalizedString.rateBuyersSeeXMore
+            return R.Strings.rateBuyersSeeXMore
         case .full:
-            return LGLocalizedString.rateBuyersSeeLess
+            return R.Strings.rateBuyersSeeLess
         }
     }
 

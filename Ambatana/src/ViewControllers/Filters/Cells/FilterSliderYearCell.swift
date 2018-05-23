@@ -1,12 +1,5 @@
-//
-//  FilterSliderYearCell.swift
-//  LetGo
-//
-//  Created by Nestor on 04/08/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 protocol FilterCarInfoYearCellDelegate: class {
     func filterYearChanged(withStartYear startYear: Int?, endYear: Int?)
@@ -40,10 +33,10 @@ class FilterSliderYearCell: UICollectionViewCell, LGSliderDelegate, ReusableCell
                      minimumValueSelected: Int?,
                      maximumValueSelected: Int?) {
         
-        let vm = LGSliderViewModel(title: LGLocalizedString.postCategoryDetailCarYear,
-                                   minimumValueNotSelectedText: String(format: LGLocalizedString.filtersCarYearBeforeYear, minimumValue),
+        let vm = LGSliderViewModel(title: R.Strings.postCategoryDetailCarYear,
+                                   minimumValueNotSelectedText: String(format: R.Strings.filtersCarYearBeforeYear, minimumValue),
                                    maximumValueNotSelectedText: String(maximumValue),
-                                   minimumAndMaximumValuesNotSelectedText: LGLocalizedString.filtersCarYearAnyYear,
+                                   minimumAndMaximumValuesNotSelectedText: R.Strings.filtersCarYearAnyYear,
                                    minimumValue: minimumValue,
                                    maximumValue: maximumValue,
                                    minimumValueSelected: minimumValueSelected,

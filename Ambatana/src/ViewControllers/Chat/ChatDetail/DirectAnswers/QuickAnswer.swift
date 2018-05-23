@@ -1,12 +1,5 @@
-//
-//  QuickAnswer.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 16/02/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
+import LGComponents
 
 enum QuickAnswer: Equatable {
 
@@ -91,39 +84,39 @@ enum QuickAnswer: Equatable {
     var textToShow: String {
         switch self {
         case .interested:
-            return LGLocalizedString.directAnswerInterested
+            return R.Strings.directAnswerInterested
         case .notInterested:
-            return LGLocalizedString.directAnswerNotInterested
+            return R.Strings.directAnswerNotInterested
         case .meetUp:
-            return LGLocalizedString.directAnswerMeetUp
+            return R.Strings.directAnswerMeetUp
         case .stillAvailable:
-            return LGLocalizedString.directAnswerStillAvailable
+            return R.Strings.directAnswerStillAvailable
         case .isNegotiable:
-            return LGLocalizedString.directAnswerIsNegotiable
+            return R.Strings.directAnswerIsNegotiable
         case .likeToBuy:
-            return LGLocalizedString.directAnswerLikeToBuy
+            return R.Strings.directAnswerLikeToBuy
         case .listingCondition:
-            return LGLocalizedString.directAnswerCondition
+            return R.Strings.directAnswerCondition
         case .listingStillForSale:
-            return LGLocalizedString.directAnswerStillForSale
+            return R.Strings.directAnswerStillForSale
         case .listingSold:
-            return LGLocalizedString.directAnswerProductSold
+            return R.Strings.directAnswerProductSold
         case .whatsOffer:
-            return LGLocalizedString.directAnswerWhatsOffer
+            return R.Strings.directAnswerWhatsOffer
         case .negotiableYes:
-            return LGLocalizedString.directAnswerNegotiableYes
+            return R.Strings.directAnswerNegotiableYes
         case .negotiableNo:
-            return LGLocalizedString.directAnswerNegotiableNo
+            return R.Strings.directAnswerNegotiableNo
         case .freeStillHave:
-            return LGLocalizedString.directAnswerFreeStillHave
+            return R.Strings.directAnswerFreeStillHave
         case .freeYours:
-            return LGLocalizedString.directAnswerFreeYours
+            return R.Strings.directAnswerFreeYours
         case .freeAvailable:
-            return LGLocalizedString.directAnswerFreeAvailable
+            return R.Strings.directAnswerFreeAvailable
         case .freeNotAvailable:
-            return LGLocalizedString.directAnswerFreeNoAvailable
+            return R.Strings.directAnswerFreeNoAvailable
         case .meetingAssistant:
-            return LGLocalizedString.directAnswerLetsMeet
+            return R.Strings.directAnswerLetsMeet
         case .dynamic(let chatAnswer):
             switch chatAnswer.type {
             case .replyText(let textToShow, _):

@@ -1,12 +1,5 @@
-//
-//  BaseViewController.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 12/05/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
+import LGComponents
 
 // MARK: - ToastView
 
@@ -505,7 +498,7 @@ class BaseViewController: UIViewController, TabBarShowable {
             }
             reachability?.unreachableBlock = { [weak self] in
                 self?.setToastViewHidden(false)
-                self?.toastView?.title = LGLocalizedString.toastNoNetwork
+                self?.toastView?.title = R.Strings.toastNoNetwork
             }
             reachability?.start()
         } else {

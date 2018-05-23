@@ -1,12 +1,5 @@
-//
-//  Date+LG.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 20/04/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 extension Date {
 
@@ -46,52 +39,52 @@ extension Date {
         let weeks = round(days/7)
 
         if seconds < 10 {
-            return shortForm ? LGLocalizedString.commonShortTimeMinutesAgoLabel(1) :
-                LGLocalizedString.commonTimeNowLabel
+            return shortForm ? R.Strings.commonShortTimeMinutesAgoLabel(1) :
+                R.Strings.commonTimeNowLabel
         } else if seconds < 60 {
             // less than 1 minute
-            return shortForm ? LGLocalizedString.commonShortTimeMinutesAgoLabel(1) :
-                LGLocalizedString.commonTimeSecondsAgoLabel(Int(seconds))
+            return shortForm ? R.Strings.commonShortTimeMinutesAgoLabel(1) :
+                R.Strings.commonTimeSecondsAgoLabel(Int(seconds))
         } else if seconds < 3600 {
             // less than 1 hour
             if minutes == 1 {
-                return shortForm ? LGLocalizedString.commonShortTimeMinutesAgoLabel(Int(minutes)) :
-                    LGLocalizedString.commonTimeAMinuteAgoLabel
+                return shortForm ? R.Strings.commonShortTimeMinutesAgoLabel(Int(minutes)) :
+                    R.Strings.commonTimeAMinuteAgoLabel
             } else {
-                return shortForm ? LGLocalizedString.commonShortTimeMinutesAgoLabel(Int(minutes)) :
-                    LGLocalizedString.commonTimeMinutesAgoLabel(Int(minutes))
+                return shortForm ? R.Strings.commonShortTimeMinutesAgoLabel(Int(minutes)) :
+                    R.Strings.commonTimeMinutesAgoLabel(Int(minutes))
             }
         } else if seconds < 86400 {
             // less than 1 day
             if hours == 1 {
-                return shortForm ? LGLocalizedString.commonShortTimeHoursAgoLabel(Int(hours)) :
-                    LGLocalizedString.commonTimeHourAgoLabel
+                return shortForm ? R.Strings.commonShortTimeHoursAgoLabel(Int(hours)) :
+                    R.Strings.commonTimeHourAgoLabel
             } else {
-                return shortForm ? LGLocalizedString.commonShortTimeHoursAgoLabel(Int(hours)) :
-                    LGLocalizedString.commonTimeHoursAgoLabel(Int(hours))
+                return shortForm ? R.Strings.commonShortTimeHoursAgoLabel(Int(hours)) :
+                    R.Strings.commonTimeHoursAgoLabel(Int(hours))
             }
         } else if seconds < 604800 {
             // less than 1 week
             if days == 1 {
-                return shortForm ? LGLocalizedString.commonShortTimeDayAgoLabel(Int(days)) :
-                    LGLocalizedString.commonTimeDayAgoLabel
+                return shortForm ? R.Strings.commonShortTimeDayAgoLabel(Int(days)) :
+                    R.Strings.commonTimeDayAgoLabel
             } else {
-                return shortForm ? LGLocalizedString.commonShortTimeDaysAgoLabel(Int(days)) :
-                    LGLocalizedString.commonTimeDaysAgoLabel(Int(days))
+                return shortForm ? R.Strings.commonShortTimeDaysAgoLabel(Int(days)) :
+                    R.Strings.commonTimeDaysAgoLabel(Int(days))
             }
         } else if seconds <= 2419200 {
             // less than 4 weeks
             if weeks == 1 {
-                return shortForm ? LGLocalizedString.commonShortTimeWeekAgoLabel(Int(weeks)) :
-                    LGLocalizedString.commonTimeWeekAgoLabel
+                return shortForm ? R.Strings.commonShortTimeWeekAgoLabel(Int(weeks)) :
+                    R.Strings.commonTimeWeekAgoLabel
             } else {
-                return shortForm ? LGLocalizedString.commonShortTimeWeeksAgoLabel(Int(weeks)) :
-                    LGLocalizedString.commonTimeWeeksAgoLabel(Int(weeks))
+                return shortForm ? R.Strings.commonShortTimeWeeksAgoLabel(Int(weeks)) :
+                    R.Strings.commonTimeWeeksAgoLabel(Int(weeks))
             }
         }
         // more than 4 weeks -> + 1 month
-        return shortForm ? LGLocalizedString.commonShortTimeMoreThanOneMonthAgoLabel :
-            LGLocalizedString.commonTimeMoreThanOneMonthAgoLabel
+        return shortForm ? R.Strings.commonShortTimeMoreThanOneMonthAgoLabel :
+            R.Strings.commonTimeMoreThanOneMonthAgoLabel
     }
 
     /**
@@ -117,9 +110,9 @@ extension Date {
 
         switch seconds {
         case second..<hour:
-            return String(format: LGLocalizedString.productListItemTimeMinuteLabel, Int(minsAgo))
+            return String(format: R.Strings.productListItemTimeMinuteLabel, Int(minsAgo))
         default:
-            return String(format: LGLocalizedString.productListItemTimeHourLabel, Int(hoursAgo))
+            return String(format: R.Strings.productListItemTimeHourLabel, Int(hoursAgo))
         }
     }
 
@@ -146,23 +139,23 @@ extension Date {
 
         switch seconds {
         case second..<minute, minute:
-            return LGLocalizedString.productDateOneMinuteAgo
+            return R.Strings.productDateOneMinuteAgo
         case minute..<hour:
-            return String(format: LGLocalizedString.productDateXMinutesAgo, Int(minsAgo))
+            return String(format: R.Strings.productDateXMinutesAgo, Int(minsAgo))
         case hour..<hourEnd:
-            return LGLocalizedString.productDateOneHourAgo
+            return R.Strings.productDateOneHourAgo
         case hourEnd..<day:
-            return String(format: LGLocalizedString.productDateXHoursAgo, Int(hoursAgo))
+            return String(format: R.Strings.productDateXHoursAgo, Int(hoursAgo))
         case day..<dayEnd:
-            return LGLocalizedString.productDateOneDayAgo
+            return R.Strings.productDateOneDayAgo
         case dayEnd..<month:
-            return String(format: LGLocalizedString.productDateXDaysAgo, Int(daysAgo))
+            return String(format: R.Strings.productDateXDaysAgo, Int(daysAgo))
         case month..<monthEnd:
-            return LGLocalizedString.productDateOneMonthAgo
+            return R.Strings.productDateOneMonthAgo
         case monthEnd..<month*Float(maxMonthsAgo):
-            return String(format: LGLocalizedString.productDateXMonthsAgo, Int(monthsAgo))
+            return String(format: R.Strings.productDateXMonthsAgo, Int(monthsAgo))
         default:
-            return String(format: LGLocalizedString.productDateMoreThanXMonthsAgo, maxMonthsAgo)
+            return String(format: R.Strings.productDateMoreThanXMonthsAgo, maxMonthsAgo)
         }
     }
 

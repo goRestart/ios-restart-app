@@ -1,54 +1,47 @@
-//
-//  RealEstatePropertyType.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 11/10/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
+import LGComponents
 
 extension RealEstatePropertyType {
     var localizedString: String {
         switch self {
         case .apartment:
-            return LGLocalizedString.realEstateTypePropertyApartment
+            return R.Strings.realEstateTypePropertyApartment
         case .room:
-            return LGLocalizedString.realEstateTypePropertyRoom
+            return R.Strings.realEstateTypePropertyRoom
         case .house:
-            return LGLocalizedString.realEstateTypePropertyHouse
+            return R.Strings.realEstateTypePropertyHouse
         case .other:
-            return LGLocalizedString.realEstateTypePropertyOthers
+            return R.Strings.realEstateTypePropertyOthers
         case .commercial:
-            return LGLocalizedString.realEstateTypePropertyCommercial
+            return R.Strings.realEstateTypePropertyCommercial
         case .flat:
-            return LGLocalizedString.realEstateTypePropertyFlat
+            return R.Strings.realEstateTypePropertyFlat
         case .land:
-            return LGLocalizedString.realEstateTypePropertyLand
+            return R.Strings.realEstateTypePropertyLand
         case .villa:
-            return LGLocalizedString.realEstateTypePropertyVilla
+            return R.Strings.realEstateTypePropertyVilla
         }
     }
     
     var shortLocalizedString: String {
         switch self {
         case .apartment:
-            return LGLocalizedString.realEstateTitleGeneratorPropertyTypeApartment
+            return R.Strings.realEstateTitleGeneratorPropertyTypeApartment
         case .room:
-            return LGLocalizedString.realEstateTitleGeneratorPropertyTypeRoom
+            return R.Strings.realEstateTitleGeneratorPropertyTypeRoom
         case .house:
-            return LGLocalizedString.realEstateTitleGeneratorPropertyTypeHouse
+            return R.Strings.realEstateTitleGeneratorPropertyTypeHouse
         case .other:
-            return LGLocalizedString.realEstateTitleGeneratorPropertyTypeOther
+            return R.Strings.realEstateTitleGeneratorPropertyTypeOther
         case .commercial:
-            return LGLocalizedString.realEstateTitleGeneratorPropertyTypeCommercial
+            return R.Strings.realEstateTitleGeneratorPropertyTypeCommercial
         case .flat:
-            return LGLocalizedString.realEstateTypePropertyFlat
+            return R.Strings.realEstateTypePropertyFlat
         case .land:
-            return LGLocalizedString.realEstateTypePropertyLand
+            return R.Strings.realEstateTypePropertyLand
         case .villa:
-            return LGLocalizedString.realEstateTypePropertyVilla
+            return R.Strings.realEstateTypePropertyVilla
         }
     }
     

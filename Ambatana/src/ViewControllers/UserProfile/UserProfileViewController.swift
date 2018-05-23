@@ -1,15 +1,8 @@
-//
-//  UserProfileViewController.swift
-//  LetGo
-//
-//  Created by Sergi Gracia on 20/02/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 import RxSwift
 import RxCocoa
 import LGCoreKit
+import LGComponents
 
 final class UserProfileViewController: BaseViewController {
 
@@ -301,10 +294,10 @@ final class UserProfileViewController: BaseViewController {
     private func setupContent() {
         headerView.delegate = self
         bioAndTrustView.delegate = self
-        bioAndTrustView.buildTrustButtonTitle = LGLocalizedString.profileBuildTrustButton
-        bioAndTrustView.addBioButtonTitle = "+ " + LGLocalizedString.profileBioAddButton
-        bioAndTrustView.verifiedTitleText = LGLocalizedString.profileVerifiedAccountsTitle
-        bioAndTrustView.moreBioButtonTitle = LGLocalizedString.profileBioShowMoreButton
+        bioAndTrustView.buildTrustButtonTitle = R.Strings.profileBuildTrustButton
+        bioAndTrustView.addBioButtonTitle = "+ " + R.Strings.profileBioAddButton
+        bioAndTrustView.verifiedTitleText = R.Strings.profileVerifiedAccountsTitle
+        bioAndTrustView.moreBioButtonTitle = R.Strings.profileBioShowMoreButton
 
         var tabs = [UserProfileTabValue(type: .selling), UserProfileTabValue(type: .sold)]
         if viewModel.isPrivateProfile {
@@ -410,16 +403,16 @@ extension UserProfileViewController {
     }
 
     @objc private func didTapOnNavBarMore() {
-        let reportAction = UIAction(interface: .text(LGLocalizedString.reportUserTitle),
+        let reportAction = UIAction(interface: .text(R.Strings.reportUserTitle),
                                     action: viewModel.didTapReportUserButton)
-        let unblockAction = UIAction(interface: .text(LGLocalizedString.chatUnblockUser),
+        let unblockAction = UIAction(interface: .text(R.Strings.chatUnblockUser),
                                      action: viewModel.didTapUnblockUserButton)
-        let blockAction = UIAction(interface: .text(LGLocalizedString.chatBlockUser),
+        let blockAction = UIAction(interface: .text(R.Strings.chatBlockUser),
                                    action: viewModel.didTapBlockUserButton)
 
         let alternativeAction = viewModel.userRelationIsBlocked.value ? unblockAction : blockAction
 
-        showActionSheet(LGLocalizedString.commonCancel, actions: [reportAction, alternativeAction])
+        showActionSheet(R.Strings.commonCancel, actions: [reportAction, alternativeAction])
     }
 }
 
@@ -665,7 +658,7 @@ extension UserProfileViewController {
             userRelationView.isHidden = true
         }
         dummyViewHeightConstraint?.constant = isDummy ? Layout.dummyDisclaimerHeight : 0
-        dummyView.infoText = LGLocalizedString.profileDummyUserInfo(user)
+        dummyView.infoText = R.Strings.profileDummyUserInfo(user)
     }
 }
 

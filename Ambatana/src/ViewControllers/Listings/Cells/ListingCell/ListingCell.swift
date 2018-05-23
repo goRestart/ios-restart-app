@@ -1,14 +1,7 @@
-//
-//  ListingCell.swift
-//  LetGo
-//
-//  Created by AHL on 13/3/15.
-//  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
-//
-
 import UIKit
 import LGCoreKit
 import SwiftyGif
+import LGComponents
 
 private struct InterestedLayout {
     static let width: CGFloat = 54
@@ -196,7 +189,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         stripeIconWidth?.constant = ListingCellMetrics.stripeIconWidth
         stripeImageView.image = UIImage(named: "stripe_white")
         stripeIcon.image = UIImage(named: "ic_heart")
-        stripeLabel.text = LGLocalizedString.productFreePrice
+        stripeLabel.text = R.Strings.productFreePrice
         stripeLabel.textColor = UIColor.primaryColor
         stripeImageView.isHidden = false
         stripeInfoView.isHidden = false
@@ -206,7 +199,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         stripeIconWidth?.constant = 0
         stripeImageView.image = UIImage(named: "stripe_white")
         stripeIcon.image = nil
-        stripeLabel.text = LGLocalizedString.bumpUpProductCellFeaturedStripe
+        stripeLabel.text = R.Strings.bumpUpProductCellFeaturedStripe
         stripeLabel.textColor = textColor
         stripeImageView.isHidden = false
         stripeInfoView.isHidden = false
@@ -483,7 +476,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
             featuredListingChatButton.setTitle(featureFlags.copyForChatNowInEnglish.variantString,
                                                for: .normal)
         } else {
-            featuredListingChatButton.setTitle(LGLocalizedString.bumpUpProductCellChatNowButton,
+            featuredListingChatButton.setTitle(R.Strings.bumpUpProductCellChatNowButton,
                                                for: .normal)
         }
         featuredListingChatButton.addTarget(self, action: #selector(openChat), for: .touchUpInside)

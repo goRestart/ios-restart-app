@@ -1,13 +1,6 @@
-//
-//  SettingsNotificationsViewModel.swift
-//  LetGo
-//
-//  Created by Raúl de Oñate Blanco on 13/04/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 enum NotificationsSetting {
     case marketingNotifications(switchValue: Variable<Bool>, changeClosure: ((Bool) -> Void))
@@ -16,9 +9,9 @@ enum NotificationsSetting {
     var title: String {
         switch self {
         case .marketingNotifications:
-            return LGLocalizedString.settingsMarketingNotificationsSwitch
+            return R.Strings.settingsMarketingNotificationsSwitch
         case .searchAlerts:
-            return LGLocalizedString.settingsNotificationsSearchAlerts
+            return R.Strings.settingsNotificationsSearchAlerts
         }
     }
     
@@ -129,33 +122,33 @@ final class SettingsNotificationsViewModel: BaseViewModel {
             return
         }
         let cancelAction = UIAction(
-            interface: .button(LGLocalizedString.settingsMarketingNotificationsAlertCancel, .secondary(fontSize: .medium, withBorder: true)),
+            interface: .button(R.Strings.settingsMarketingNotificationsAlertCancel, .secondary(fontSize: .medium, withBorder: true)),
             action: { [weak self] in
                 self?.forceMarketingNotifications(enabled: false)
         })
-        let activateAction = UIAction(interface: .button(LGLocalizedString.settingsMarketingNotificationsAlertActivate,
+        let activateAction = UIAction(interface: .button(R.Strings.settingsMarketingNotificationsAlertActivate,
                                                          .primary(fontSize: .medium)),
                                       action: { [weak self] in
                                         self?.setMarketingNotification(enabled: true)
                                         self?.pushPermissionManager.showPushPermissionsAlert(prePermissionType: .profile)
         })
         
-        delegate?.vmShowAlertWithTitle(nil, text: LGLocalizedString.settingsGeneralNotificationsAlertMessage,
+        delegate?.vmShowAlertWithTitle(nil, text: R.Strings.settingsGeneralNotificationsAlertMessage,
                                        alertType: .plainAlertOld, actions: [cancelAction, activateAction])
     }
     
     private func showDeactivateConfirmation() {
         let cancelAction = UIAction(
-            interface: .button(LGLocalizedString.settingsMarketingNotificationsAlertCancel, .secondary(fontSize: .medium, withBorder: true)),
+            interface: .button(R.Strings.settingsMarketingNotificationsAlertCancel, .secondary(fontSize: .medium, withBorder: true)),
             action: { [weak self] in
                 self?.forceMarketingNotifications(enabled: true)
         })
         let  deactivateAction = UIAction(
-            interface: .button(LGLocalizedString.settingsMarketingNotificationsAlertDeactivate, .secondary(fontSize: .medium, withBorder: true)),
+            interface: .button(R.Strings.settingsMarketingNotificationsAlertDeactivate, .secondary(fontSize: .medium, withBorder: true)),
             action: { [weak self] in
                 self?.setMarketingNotification(enabled: false)
         })
-        delegate?.vmShowAlertWithTitle(nil, text: LGLocalizedString.settingsMarketingNotificationsAlertMessage,
+        delegate?.vmShowAlertWithTitle(nil, text: R.Strings.settingsMarketingNotificationsAlertMessage,
                                        alertType: .plainAlertOld, actions: [cancelAction, deactivateAction], dismissAction: cancelAction.action)
     }
     

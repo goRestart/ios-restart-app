@@ -1,11 +1,3 @@
-//
-//  LGMapView.swift
-//  LetGo
-//
-//  Created by Tomas Cobo on 30/04/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import UIKit
 import MapKit
 import CoreLocation
@@ -13,6 +5,7 @@ import LGCoreKit
 import RxSwift
 import RxCocoa
 import RxMKMapView
+import LGComponents
 
 protocol LGMapViewDelegate: class {
     func gpsButtonTapped()
@@ -163,7 +156,7 @@ final class LGMapView: UIView {
     }
     
     private func showNoResultMessage() {
-        mapMessageView.updateMessage(with: LGLocalizedString.listingsMapNoResultsMessage)
+        mapMessageView.updateMessage(with: R.Strings.listingsMapNoResultsMessage)
     }
     
 
@@ -318,7 +311,7 @@ final class LGMapRetryView: UIView {
         let button = UIButton(type: .custom)
         button.backgroundColor = .white
         button.setTitleColor(.lgBlack, for: .normal)
-        button.setTitle(LGLocalizedString.listingMapRedoSearch, for: .normal)
+        button.setTitle(R.Strings.listingMapRedoSearch, for: .normal)
         button.titleLabel?.font = UIFont.systemMediumFont(size: 16)
         button.setContentHuggingPriority(.required, for: .horizontal)
         button.contentEdgeInsets = UIEdgeInsetsMake(0, Metrics.bigMargin, 0, Metrics.bigMargin)

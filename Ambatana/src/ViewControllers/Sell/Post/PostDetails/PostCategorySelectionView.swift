@@ -1,14 +1,7 @@
-//
-//  PostCategorySelectionView.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 20/03/17.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import RxSwift
 import UIKit
+import LGComponents
 
 enum PostCategory: Equatable {
     case car
@@ -120,7 +113,7 @@ fileprivate extension PostCategorySelectionView {
         titleLabel.font = UIFont.systemSemiBoldFont(size: 17)
         titleLabel.textAlignment = .center
         titleLabel.textColor = UIColor.white
-        titleLabel.text = LGLocalizedString.productPostSelectCategoryTitle
+        titleLabel.text = R.Strings.productPostSelectCategoryTitle
         addSubview(titleLabel)
         
         categoriesContainerView.translatesAutoresizingMaskIntoConstraints = false
@@ -130,21 +123,21 @@ fileprivate extension PostCategorySelectionView {
             switch category {
             case .car:
                 addButton(button: carsCategoryButton,
-                          title: LGLocalizedString.productPostSelectCategoryCars,
+                          title: R.Strings.productPostSelectCategoryCars,
                           image: #imageLiteral(resourceName: "categories_cars_inactive"),
                           postCategoryLink: .car)
             case .otherItems:
                 addButton(button: otherCategoryButton,
-                          title: LGLocalizedString.productPostSelectCategoryOther,
+                          title: R.Strings.productPostSelectCategoryOther,
                           image: #imageLiteral(resourceName: "categories_other_items"),
                           postCategoryLink: .otherItems(listingCategory: nil))
             case .motorsAndAccessories:
                 addButton(button: motorsAndAccessoriesButton,
-                          title: LGLocalizedString.productPostSelectCategoryMotorsAndAccessories,
+                          title: R.Strings.productPostSelectCategoryMotorsAndAccessories,
                           image: #imageLiteral(resourceName: "categories_motors_inactive"),
                           postCategoryLink: .motorsAndAccessories)
             case .realEstate:
-                let title = FeatureFlags.sharedInstance.realEstateNewCopy.isActive ? LGLocalizedString.productPostSelectCategoryRealEstate : LGLocalizedString.productPostSelectCategoryHousing
+                let title = FeatureFlags.sharedInstance.realEstateNewCopy.isActive ? R.Strings.productPostSelectCategoryRealEstate : R.Strings.productPostSelectCategoryHousing
                 addButton(button: realEstateCategoryButton,
                           title: title,
                           image: #imageLiteral(resourceName: "categories_realestate_inactive"),

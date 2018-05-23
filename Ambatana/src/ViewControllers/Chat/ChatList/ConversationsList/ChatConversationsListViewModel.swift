@@ -1,13 +1,6 @@
-//
-//  ChatConversationsListViewModel.swift
-//  LetGo
-//
-//  Created by Nestor on 09/05/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 typealias NavigationActionSheet = (cancelTitle: String, actions: [UIAction])
 
@@ -67,28 +60,28 @@ final class ChatConversationsListViewModel: BaseViewModel, RxPaginable {
     
     func navigationBarTitle(with filter: ChatConversationsListFilter) -> String {
         if case .all = filter {
-            return LGLocalizedString.chatListTitle
+            return R.Strings.chatListTitle
         }
-        return LGLocalizedString.chatListTitle + " (\(filter.localizedString))"
+        return R.Strings.chatListTitle + " (\(filter.localizedString))"
     }
     
     // MARK: Actions
     
     func openOptionsActionSheet() {
         var deleteAction: UIAction {
-            return UIAction(interface: .text(LGLocalizedString.chatListDelete),
+            return UIAction(interface: .text(R.Strings.chatListDelete),
                             action: { [weak self] in self?.deleteActionBlock?() })
         }
         var markAllConvesationsAsReadAction: UIAction {
-            return UIAction(interface: .text(LGLocalizedString.chatMarkConversationAsReadButton),
+            return UIAction(interface: .text(R.Strings.chatMarkConversationAsReadButton),
                             action: { [weak self] in self?.markAllConversationAsRead() })
         }
         var showBlockedUsersAction: UIAction {
-            return UIAction(interface: .text(LGLocalizedString.chatConversationsListBlockedUsersButton),
+            return UIAction(interface: .text(R.Strings.chatConversationsListBlockedUsersButton),
                             action: { [weak self] in self?.openBlockedUsers() })
         }
         var showInactiveConversationsAction: UIAction {
-            var buttonText: String = LGLocalizedString.chatInactiveConversationsButton
+            var buttonText: String = R.Strings.chatInactiveConversationsButton
             if let inactiveCount = rx_inactiveConversationsCount.value, inactiveCount > 0 {
                 buttonText = buttonText + " (\(inactiveCount))"
             }
@@ -105,7 +98,7 @@ final class ChatConversationsListViewModel: BaseViewModel, RxPaginable {
             actions.append(showInactiveConversationsAction)
         }
         actions.append(showBlockedUsersAction)
-        rx_navigationActionSheet.onNext((cancelTitle: LGLocalizedString.commonCancel, actions: actions))
+        rx_navigationActionSheet.onNext((cancelTitle: R.Strings.commonCancel, actions: actions))
     }
     
     func openFiltersActionSheet() {
@@ -115,7 +108,7 @@ final class ChatConversationsListViewModel: BaseViewModel, RxPaginable {
             actions.append(UIAction(interface: .text(filter.localizedString),
                                     action: { [weak self] in self?.rx_filter.value = filter }))
         }
-        rx_navigationActionSheet.onNext((cancelTitle: LGLocalizedString.commonCancel, actions: actions))
+        rx_navigationActionSheet.onNext((cancelTitle: R.Strings.commonCancel, actions: actions))
     }
     
     func markAllConversationAsRead() {
@@ -222,9 +215,9 @@ final class ChatConversationsListViewModel: BaseViewModel, RxPaginable {
     
     private var verificationPendingEmptyViewModel: LGEmptyViewModel {
         return LGEmptyViewModel(icon: #imageLiteral(resourceName: "ic_build_trust_big"),
-                                title: LGLocalizedString.chatNotVerifiedStateTitle,
-                                body: LGLocalizedString.chatNotVerifiedStateMessage,
-                                buttonTitle: LGLocalizedString.chatNotVerifiedStateCheckButton,
+                                title: R.Strings.chatNotVerifiedStateTitle,
+                                body: R.Strings.chatNotVerifiedStateMessage,
+                                buttonTitle: R.Strings.chatNotVerifiedStateCheckButton,
                                 action: { [weak self] in self?.refreshCurrentPage() },
                                 secondaryButtonTitle: nil,
                                 secondaryAction: nil,

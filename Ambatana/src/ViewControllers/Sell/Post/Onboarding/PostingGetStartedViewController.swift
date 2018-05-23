@@ -1,12 +1,5 @@
-//
-//  PostingGetStartedViewController.swift
-//  LetGo
-//
-//  Created by Raúl de Oñate Blanco on 20/02/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import RxSwift
+import LGComponents
 
 class PostingGetStartedViewController: BaseViewController {
 
@@ -109,7 +102,7 @@ class PostingGetStartedViewController: BaseViewController {
         discardLabel.textAlignment = .center
         
         if viewModel.shouldShowSkipButton {
-            skipButton.setTitle(LGLocalizedString.postingButtonSkip, for: .normal)
+            skipButton.setTitle(R.Strings.postingButtonSkip, for: .normal)
             skipButton.titleLabel?.font = UIFont.systemSemiBoldFont(size: 17)
             skipButton.titleLabel?.textAlignment = .center
             skipButton.titleLabel?.minimumScaleFactor = 0.5

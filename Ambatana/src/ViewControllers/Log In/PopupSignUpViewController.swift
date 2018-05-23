@@ -1,13 +1,6 @@
-//
-//  PopupSignUpViewController.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 20/01/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import GoogleSignIn
 import UIKit
+import LGComponents
 
 final class PopupSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignInUIDelegate, SignUpViewModelDelegate {
 
@@ -90,10 +83,10 @@ final class PopupSignUpViewController: BaseViewController, UITextViewDelegate, G
             for: .normal)
         logInButton.cornerRadius = LGUIKitConstants.smallCornerRadius
 
-        connectFBButton.setTitle(LGLocalizedString.mainSignUpFacebookConnectButton, for: .normal)
-        connectGoogleButton.setTitle(LGLocalizedString.mainSignUpGoogleConnectButton, for: .normal)
-        signUpButton.setTitle(LGLocalizedString.mainSignUpSignUpButton, for: .normal)
-        logInButton.setTitle(LGLocalizedString.mainSignUpLogInLabel, for: .normal)
+        connectFBButton.setTitle(R.Strings.mainSignUpFacebookConnectButton, for: .normal)
+        connectGoogleButton.setTitle(R.Strings.mainSignUpGoogleConnectButton, for: .normal)
+        signUpButton.setTitle(R.Strings.mainSignUpSignUpButton, for: .normal)
+        logInButton.setTitle(R.Strings.mainSignUpLogInLabel, for: .normal)
 
         claimLabel.text = topMessage
 

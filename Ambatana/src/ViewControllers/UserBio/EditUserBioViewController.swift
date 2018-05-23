@@ -1,13 +1,6 @@
-//
-//  EditUserBioViewController.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 5/3/18.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 import RxSwift
+import LGComponents
 
 final class EditUserBioViewController: BaseViewController {
 
@@ -58,14 +51,14 @@ final class EditUserBioViewController: BaseViewController {
     private func setupUI() {
         view.backgroundColor = .white
         view.addSubviewsForAutoLayout([textView, saveButton, placeholderLabel, charCounterLabel])
-        title = LGLocalizedString.changeBioTitle
+        title = R.Strings.changeBioTitle
 
         textView.tintColor = UIColor.primaryColor
         textView.font = UIFont.bigBodyFont
         textView.delegate = self
         textView.text = viewModel.userBio
 
-        placeholderLabel.text = LGLocalizedString.changeBioPlaceholder
+        placeholderLabel.text = R.Strings.changeBioPlaceholder
         placeholderLabel.numberOfLines = 0
         placeholderLabel.font = UIFont.bigBodyFont
         placeholderLabel.textColor = UIColor.placeholder
@@ -74,7 +67,7 @@ final class EditUserBioViewController: BaseViewController {
         charCounterLabel.font = .smallBodyFont
         charCounterLabel.textColor = .darkGrayText
 
-        saveButton.setTitle(LGLocalizedString.changeBioSaveButton, for: .normal)
+        saveButton.setTitle(R.Strings.changeBioSaveButton, for: .normal)
         saveButton.addTarget(self, action: #selector(didTapSave), for: .touchUpInside)
         setupConstraints()
     }

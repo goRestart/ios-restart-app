@@ -1,15 +1,8 @@
-//
-//  SMSPhoneInputViewModel.swift
-//  LetGo
-//
-//  Created by Sergi Gracia on 03/04/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import RxSwift
 import RxCocoa
 import CoreTelephony
+import LGComponents
 
 struct PhoneVerificationCountry {
     let regionCode: String
@@ -105,12 +98,12 @@ final class UserPhoneVerificationNumberInputViewModel: BaseViewModel {
     }
 
     private func requestCode(withCallingCode callingCode: String, phoneNumber: String, completion: (()->())?) {
-        delegate?.vmShowLoading(LGLocalizedString.phoneVerificationNumberInputViewSendingMessage)
+        delegate?.vmShowLoading(R.Strings.phoneVerificationNumberInputViewSendingMessage)
         myUserRepository.requestSMSCode(prefix: "+\(callingCode)", phone: phoneNumber) { [weak self] result in
             switch result {
             case .success:
-                let title = LGLocalizedString.phoneVerificationNumberInputViewConfirmationTitle
-                let message = LGLocalizedString.phoneVerificationNumberInputViewConfirmationMessage(callingCode, phoneNumber)
+                let title = R.Strings.phoneVerificationNumberInputViewConfirmationTitle
+                let message = R.Strings.phoneVerificationNumberInputViewConfirmationMessage(callingCode, phoneNumber)
                 self?.delegate?.vmHideLoading(nil) {
                     self?.delegate?.vmShowAutoFadingMessage(title: title,
                                                             message: message,
@@ -118,7 +111,7 @@ final class UserPhoneVerificationNumberInputViewModel: BaseViewModel {
                                                             completion: completion)
                 }
             case .failure(_):
-                self?.delegate?.vmHideLoading(LGLocalizedString.phoneVerificationNumberInputViewErrorMessage,
+                self?.delegate?.vmHideLoading(R.Strings.phoneVerificationNumberInputViewErrorMessage,
                                               afterMessageCompletion: nil)
             }
         }
