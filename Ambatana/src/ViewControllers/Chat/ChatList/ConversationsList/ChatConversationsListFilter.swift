@@ -6,10 +6,34 @@
 //  Copyright © 2018 Ambatana. All rights reserved.
 //
 
+import LGCoreKit
+
 enum ChatConversationsListFilter {
     case all
     case selling
     case buying
+    
+    func collectionVariable(from chatRepository: ChatRepository) -> CollectionVariable<ChatConversation> {
+        switch self {
+        case .all:
+            return chatRepository.allConversations
+        case .selling:
+            return chatRepository.sellingConversations
+        case .buying:
+            return chatRepository.buyingConversations
+        }
+    }
+    
+    var webSocketConversationFilter: WebSocketConversationFilter {
+        switch self {
+        case .all:
+            return .all
+        case .selling:
+            return .asSeller
+        case .buying:
+            return .asBuyer
+        }
+    }
     
     var localizedString: String {
         switch self {
