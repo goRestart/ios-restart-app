@@ -987,8 +987,6 @@
 		6A5E1A151D548F5400F92692 /* UIScrollView+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19D71D548F5400F92692 /* UIScrollView+LG.swift */; };
 		6A5E1A161D548F5400F92692 /* UITextField+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19D81D548F5400F92692 /* UITextField+LG.swift */; };
 		6A5E1A171D548F5400F92692 /* UITextField+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19D81D548F5400F92692 /* UITextField+LG.swift */; };
-		6A5E1A181D548F5400F92692 /* UIView+Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19D91D548F5400F92692 /* UIView+Geometry.swift */; };
-		6A5E1A191D548F5400F92692 /* UIView+Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19D91D548F5400F92692 /* UIView+Geometry.swift */; };
 		6A5E1A1A1D548F5400F92692 /* UIViewController+Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19DA1D548F5400F92692 /* UIViewController+Alert.swift */; };
 		6A5E1A1B1D548F5400F92692 /* UIViewController+Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19DA1D548F5400F92692 /* UIViewController+Alert.swift */; };
 		6A5E1A1C1D548F5400F92692 /* UIViewController+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19DB1D548F5400F92692 /* UIViewController+LG.swift */; };
@@ -2639,7 +2637,6 @@
 		6A5E19D61D548F5400F92692 /* UINavigationController+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationController+LG.swift"; sourceTree = "<group>"; };
 		6A5E19D71D548F5400F92692 /* UIScrollView+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScrollView+LG.swift"; sourceTree = "<group>"; };
 		6A5E19D81D548F5400F92692 /* UITextField+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextField+LG.swift"; sourceTree = "<group>"; };
-		6A5E19D91D548F5400F92692 /* UIView+Geometry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Geometry.swift"; sourceTree = "<group>"; };
 		6A5E19DA1D548F5400F92692 /* UIViewController+Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Alert.swift"; sourceTree = "<group>"; };
 		6A5E19DB1D548F5400F92692 /* UIViewController+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+LG.swift"; sourceTree = "<group>"; };
 		6A672C121CCFB22900AB9175 /* UIColor+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+LG.swift"; sourceTree = "<group>"; };
@@ -4902,7 +4899,6 @@
 				6A5E19D61D548F5400F92692 /* UINavigationController+LG.swift */,
 				6A5E19D71D548F5400F92692 /* UIScrollView+LG.swift */,
 				6A5E19D81D548F5400F92692 /* UITextField+LG.swift */,
-				6A5E19D91D548F5400F92692 /* UIView+Geometry.swift */,
 				6A5E19DA1D548F5400F92692 /* UIViewController+Alert.swift */,
 				6A5E19DB1D548F5400F92692 /* UIViewController+LG.swift */,
 				C742340B1D5A132D0082D1CD /* UITableView+Changes.swift */,
@@ -6517,10 +6513,14 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests-resources.sh",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/LGComponents/LGLoginBundle.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/LGComponents/LGResourcesBundle.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/LGLoginBundle.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/LGResourcesBundle.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -6903,10 +6903,14 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-LetGo/Pods-LetGo-resources.sh",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/LGComponents/LGLoginBundle.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/LGComponents/LGResourcesBundle.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/LGLoginBundle.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/LGResourcesBundle.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -6921,10 +6925,14 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode-resources.sh",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/LGComponents/LGLoginBundle.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/LGComponents/LGResourcesBundle.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/LGLoginBundle.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/LGResourcesBundle.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -7889,7 +7897,6 @@
 				C6E770B220A03D96002CFA99 /* RealEstateHeaderCell.swift in Sources */,
 				01772B5F204F0F340037FD5F /* BlockingPostingStepHeaderView.swift in Sources */,
 				72C7A1C61FAB31EF0089F175 /* PostingAddDetailSummaryTableViewCell.swift in Sources */,
-				6A5E1A181D548F5400F92692 /* UIView+Geometry.swift in Sources */,
 				2E75EC4F1FA86F6D00C5F48F /* AdBannerTrackingStatus.swift in Sources */,
 				50146BD01D4F5F9F00B0F635 /* ChatsTabCoordinator.swift in Sources */,
 				2E92CBFB20248DC600451B65 /* MeetingAssistantViewController.swift in Sources */,
@@ -8704,7 +8711,6 @@
 				72C7A1C71FAB31EF0089F175 /* PostingAddDetailSummaryTableViewCell.swift in Sources */,
 				C749317A1D3533DE00E117F1 /* UserRatingNavigator.swift in Sources */,
 				2E75EC501FA86F6E00C5F48F /* AdBannerTrackingStatus.swift in Sources */,
-				6A5E1A191D548F5400F92692 /* UIView+Geometry.swift in Sources */,
 				2E92CC0220248E2800451B65 /* MeetingAssistantViewController.swift in Sources */,
 				50146BD11D4F5F9F00B0F635 /* ChatsTabCoordinator.swift in Sources */,
 				721384051F20EC43006DB039 /* TaxonomiesTableView.swift in Sources */,

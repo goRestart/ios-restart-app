@@ -1,13 +1,6 @@
-//
-//  DeckCoordinator.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 02/12/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
+import LGComponents
 
 protocol PhotoViewerNavigator: class {
     func closePhotoViewer()
