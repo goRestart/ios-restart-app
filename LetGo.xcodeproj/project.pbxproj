@@ -1950,6 +1950,10 @@
 		F57D3A301FED01A6006F2CA4 /* TagCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57D3A281FED011C006F2CA4 /* TagCollectionViewModel.swift */; };
 		F57D3A311FED01A6006F2CA4 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57D3A261FECFD2D006F2CA4 /* LeftAlignedCollectionViewFlowLayout.swift */; };
 		F57D3A321FED01A6006F2CA4 /* UIRoundedLabelWithPadding.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57D3A2C1FED017A006F2CA4 /* UIRoundedLabelWithPadding.swift */; };
+		F59755FA20B5A89E00C5103F /* UIApplication+AnalyticsApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = F59755F920B5A89E00C5103F /* UIApplication+AnalyticsApplication.swift */; };
+		F59755FB20B5A8AA00C5103F /* UIApplication+AnalyticsApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = F59755F920B5A89E00C5103F /* UIApplication+AnalyticsApplication.swift */; };
+		F59755FD20B5AA2F00C5103F /* ABGroup+AnalyticsABTestGroupIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = F59755FC20B5AA2F00C5103F /* ABGroup+AnalyticsABTestGroupIdentifier.swift */; };
+		F59755FE20B5AE5D00C5103F /* ABGroup+AnalyticsABTestGroupIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = F59755FC20B5AA2F00C5103F /* ABGroup+AnalyticsABTestGroupIdentifier.swift */; };
 		F5A836AB1FD1AE32009E636D /* ListingAttributePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A836AA1FD1AE32009E636D /* ListingAttributePickerViewController.swift */; };
 		F5A836AD1FD1AEB1009E636D /* ListingAttributePickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A836AC1FD1AEB1009E636D /* ListingAttributePickerViewModel.swift */; };
 		F5A836AE1FD1BA11009E636D /* ListingAttributePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A836AA1FD1AE32009E636D /* ListingAttributePickerViewController.swift */; };
@@ -3143,6 +3147,8 @@
 		F57D3A281FED011C006F2CA4 /* TagCollectionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagCollectionViewModel.swift; sourceTree = "<group>"; };
 		F57D3A2A1FED0147006F2CA4 /* TagCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagCollectionViewCell.swift; sourceTree = "<group>"; };
 		F57D3A2C1FED017A006F2CA4 /* UIRoundedLabelWithPadding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIRoundedLabelWithPadding.swift; sourceTree = "<group>"; };
+		F59755F920B5A89E00C5103F /* UIApplication+AnalyticsApplication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+AnalyticsApplication.swift"; sourceTree = "<group>"; };
+		F59755FC20B5AA2F00C5103F /* ABGroup+AnalyticsABTestGroupIdentifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ABGroup+AnalyticsABTestGroupIdentifier.swift"; sourceTree = "<group>"; };
 		F5A836AA1FD1AE32009E636D /* ListingAttributePickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingAttributePickerViewController.swift; sourceTree = "<group>"; };
 		F5A836AC1FD1AEB1009E636D /* ListingAttributePickerViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingAttributePickerViewModel.swift; sourceTree = "<group>"; };
 		F5BBF6771FD06488000E37A0 /* ListingAttributePickerTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingAttributePickerTableView.swift; sourceTree = "<group>"; };
@@ -3290,6 +3296,7 @@
 		0A04D5C320760A9C00471B9D /* ABTest */ = {
 			isa = PBXGroup;
 			children = (
+				F59755FC20B5AA2F00C5103F /* ABGroup+AnalyticsABTestGroupIdentifier.swift */,
 				0A04D5C520760A9C00471B9D /* ABDynamicVar.swift */,
 				0A04D5CA20760A9C00471B9D /* ABTests.swift */,
 				0A04D5CC20760A9C00471B9D /* LegacyABGroup.swift */,
@@ -4351,6 +4358,7 @@
 		50CD8F5B1BC27D960031DCD3 /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				F59755F920B5A89E00C5103F /* UIApplication+AnalyticsApplication.swift */,
 				C735101A1D94246C00D67040 /* bumper_features.json */,
 				50BA5C041C3C093E00F34042 /* AppDelegate.swift */,
 				508011021D4749030073F362 /* LaunchScreen.xib */,
@@ -7471,6 +7479,7 @@
 				C7B5887F1CE1DFA6009B3975 /* ChatCellDrawer.swift in Sources */,
 				0A0C0491209C91A30028A75D /* SettingsNotificationsViewController.swift in Sources */,
 				507532E21FEA47D400FCF9D5 /* UILabel+Rx.swift in Sources */,
+				F59755FA20B5A89E00C5103F /* UIApplication+AnalyticsApplication.swift in Sources */,
 				2E9716A31D5A0535009B3A32 /* ExpressChatCell.swift in Sources */,
 				8EF026161EDD74020097A3A9 /* FiltersNavigator.swift in Sources */,
 				2EFF0D9C1E69732E00FBF3D5 /* Dictionary+Filter.swift in Sources */,
@@ -7602,6 +7611,7 @@
 				72FE02D61F95FCE5005BD672 /* PostingDetailStep.swift in Sources */,
 				C75B5DD11D59E0C500112368 /* ListingCarouselCell.swift in Sources */,
 				01A171BD208DD1A300C98D4C /* SearchAlertsListViewController.swift in Sources */,
+				F59755FD20B5AA2F00C5103F /* ABGroup+AnalyticsABTestGroupIdentifier.swift in Sources */,
 				3299E5E7207FB7AB002935AE /* WaterFallLayoutSettings.swift in Sources */,
 				C7111F081CA4458F000C5C5A /* ShortcutItem.swift in Sources */,
 				509598871C8733B70026AE2D /* CrashlyticsLogger.swift in Sources */,
@@ -8281,6 +8291,7 @@
 				C7905B881DF1D090009CD191 /* UITextView+Lines.swift in Sources */,
 				506846481CD390CA00FA00C2 /* AppNavigator.swift in Sources */,
 				C79842021CC8E8C900C300FF /* User+LG.swift in Sources */,
+				F59755FB20B5A8AA00C5103F /* UIApplication+AnalyticsApplication.swift in Sources */,
 				50D250051DAFB68600B45EC2 /* UIApplication+PushNotification.swift in Sources */,
 				507532E31FEA47D400FCF9D5 /* UILabel+Rx.swift in Sources */,
 				C7798EA31D2EB6AB00C81DD4 /* UICollectionView+Helper.swift in Sources */,
@@ -8412,6 +8423,7 @@
 				C7DB41FD1C5138B500400945 /* FilterCategoryCell.swift in Sources */,
 				50EAFB221F7A2A9F003B96D5 /* LocalSuggestiveSearch.swift in Sources */,
 				C26D224E208B47E500C66EC0 /* UploadingVideo.swift in Sources */,
+				F59755FE20B5AE5D00C5103F /* ABGroup+AnalyticsABTestGroupIdentifier.swift in Sources */,
 				727EF0701E0BE6600037DA4E /* LGLocation+isAuto.swift in Sources */,
 				72CD80CB203469FB0042E1E0 /* LGTutorialCollectionViewCell.swift in Sources */,
 				C7DB41FE1C5138B500400945 /* AppsflyerTracker.swift in Sources */,

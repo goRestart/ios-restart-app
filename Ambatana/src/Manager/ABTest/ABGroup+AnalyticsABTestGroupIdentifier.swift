@@ -29,6 +29,8 @@ extension ABGroup {
             return .products
         case .users:
             return .users
+        case .discovery:
+            return .discovery
         }
     }
 }
