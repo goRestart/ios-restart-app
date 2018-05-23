@@ -8,7 +8,10 @@
 
 import LGCoreKit
 
-class MainTabCoordinator: TabCoordinator {
+final class MainTabCoordinator: TabCoordinator, FeedNavigator {
+
+    private let feedAssembly: FeedAssembly
+    private let pushPermissionsManager: PushPermissionsManager
 
     convenience init() {
         let listingRepository = Core.listingRepository
@@ -21,16 +24,51 @@ class MainTabCoordinator: TabCoordinator {
         let tracker = TrackerProxy.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
         let sessionManager = Core.sessionManager
-        let viewModel = MainListingsViewModel(searchType: nil, tabNavigator: nil)
-        let rootViewController = MainListingsViewController(viewModel: viewModel)
-        self.init(listingRepository: listingRepository, userRepository: userRepository,
-                  chatRepository: chatRepository, myUserRepository: myUserRepository,
-                  installationRepository: installationRepository, bubbleNotificationManager: bubbleNotificationManager,
-                  keyValueStorage: keyValueStorage, tracker: tracker, rootViewController: rootViewController,
-                  featureFlags: featureFlags, sessionManager: sessionManager)
-
-        viewModel.navigator = self
+        let assembly = featureFlags.sectionedMainFeed.feedAssembly
+        let pushPermissionsManager = LGPushPermissionsManager.sharedInstance
+        self.init(listingRepository: listingRepository,
+                  userRepository: userRepository,
+                  chatRepository: chatRepository,
+                  myUserRepository: myUserRepository,
+                  installationRepository: installationRepository,
+                  bubbleNotificationManager: bubbleNotificationManager,
+                  keyValueStorage: keyValueStorage,
+                  tracker: tracker,
+                  featureFlags: featureFlags,
+                  sessionManager: sessionManager,
+                  feedAssembly: assembly,
+                  pushPermissionsManager: pushPermissionsManager)
     }
+
+    init(listingRepository: ListingRepository,
+         userRepository: UserRepository,
+         chatRepository: ChatRepository,
+         myUserRepository: MyUserRepository,
+         installationRepository: InstallationRepository,
+         bubbleNotificationManager: BubbleNotificationManager,
+         keyValueStorage: KeyValueStorage,
+         tracker: Tracker,
+         featureFlags: FeatureFlaggeable,
+         sessionManager: SessionManager,
+         feedAssembly: FeedAssembly,
+         pushPermissionsManager: PushPermissionsManager) {
+        self.feedAssembly = feedAssembly
+        let (vc, vm) = feedAssembly.make()
+        self.pushPermissionsManager = pushPermissionsManager
+        super.init(listingRepository: listingRepository,
+                   userRepository: userRepository,
+                   chatRepository: chatRepository,
+                   myUserRepository: myUserRepository,
+                   installationRepository: installationRepository,
+                   bubbleNotificationManager: bubbleNotificationManager,
+                   keyValueStorage: keyValueStorage,
+                   tracker: tracker,
+                   rootViewController: vc,
+                   featureFlags: featureFlags,
+                   sessionManager: sessionManager)
+        vm.navigator = self
+    }
+    
 
     func openSearch(_ query: String, categoriesString: String?) {
         var filters = ListingFilters()
@@ -56,14 +94,14 @@ class MainTabCoordinator: TabCoordinator {
 }
 
 extension MainTabCoordinator: MainTabNavigator {
+
     func openLoginIfNeeded(infoMessage: String, then loggedAction: @escaping (() -> Void)) {
         openLoginIfNeeded(from: .directChat, style: .popup(infoMessage), loggedInAction: loggedAction, cancelAction: nil)
     }
 
     func openMainListings(withSearchType searchType: SearchType, listingFilters: ListingFilters) {
-        let vm = MainListingsViewModel(searchType: searchType, filters: listingFilters)
+        let (vc, vm) = feedAssembly.makeWith(searchType: searchType, filters: listingFilters)
         vm.navigator = self
-        let vc = MainListingsViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
 
@@ -94,7 +132,26 @@ extension MainTabCoordinator: MainTabNavigator {
         let vc = TaxonomiesViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: true)
     }
+    
 
+    func showPushPermissionsAlert(withPositiveAction positiveAction: @escaping (() -> Void), negativeAction: @escaping (() -> Void)) {
+        
+        let positive: UIAction = UIAction(interface: .styledText(LGLocalizedString.profilePermissionsAlertOk, .standard),
+                                          action: { [weak self] in
+                                            positiveAction()
+                                            self?.pushPermissionsManager.showPushPermissionsAlert(prePermissionType: .listingListBanner)
+        },
+                                          accessibilityId: .userPushPermissionOK)
+        
+        let negative: UIAction = UIAction(interface: .styledText(LGLocalizedString.profilePermissionsAlertCancel, .cancel),
+                                          action: negativeAction,
+                                          accessibilityId: .userPushPermissionCancel)
+        navigationController.showAlertWithTitle(LGLocalizedString.profilePermissionsAlertTitle,
+                                                text: LGLocalizedString.profilePermissionsAlertMessage,
+                                                alertType: .iconAlert(icon: UIImage(named: "custom_permission_profile")),
+                                                actions: [positive, negative])
+    }
+    
     func openSearchAlertsList() {
         let vm = SearchAlertsListViewModel()
         vm.navigator = self
@@ -102,21 +159,21 @@ extension MainTabCoordinator: MainTabNavigator {
         navigationController.pushViewController(vc, animated: true)
     }
 
-    func openMap(with listingFilters: ListingFilters, locationManager: LocationManager) {
+
+    func openMap(requester: ListingListMultiRequester,
+                 listingFilters: ListingFilters,
+                 locationManager: LocationManager) {
         let viewModel = ListingsMapViewModel(navigator: self,
+                                             tracker: tracker,
+                                             myUserRepository: myUserRepository,
                                              locationManager: locationManager,
                                              currentFilters: listingFilters,
                                              featureFlags: featureFlags)
         let viewController = ListingsMapViewController(viewModel: viewModel)
         navigationController.pushViewController(viewController, animated: true)
     }
-}
 
-extension MainTabCoordinator: ListingsMapNavigator {
-    func closeMap() {
-        navigationController.popViewController(animated: true)
-    }
-}
+} 
 
 extension MainTabCoordinator: SearchAlertsListNavigator {
     func closeSearchAlertsList() {

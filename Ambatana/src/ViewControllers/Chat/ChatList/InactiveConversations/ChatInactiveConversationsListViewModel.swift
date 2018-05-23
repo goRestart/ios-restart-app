@@ -52,7 +52,8 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, RxPaginable {
                                 secondaryButtonTitle: nil,
                                 secondaryAction: nil,
                                 emptyReason: .emptyResults,
-                                errorCode: nil)
+                                errorCode: nil,
+                                errorDescription: nil)
     }
     
     // MARK: - Lifecycle
@@ -112,7 +113,8 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, RxPaginable {
                 switch viewState {
                 case let .error(emptyVM):
                     if let emptyReason = self?.emptyViewModel?.emptyReason {
-                        self?.trackErrorStateShown(reason: emptyReason, errorCode: emptyVM.errorCode)
+                        self?.trackErrorStateShown(reason: emptyReason, errorCode: emptyVM.errorCode,
+                                                   errorDescription: emptyVM.errorDescription)
                     }
                 case .loading, .data, .empty:
                     break
@@ -172,6 +174,8 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, RxPaginable {
                                     userImageUrl: conversation.interlocutor?.avatar?.fileURL,
                                     userImagePlaceholder: LetgoAvatar.avatarWithID(conversation.interlocutor?.objectId,
                                                                                    name: conversation.interlocutor?.name),
+                                    userType: conversation.interlocutor?.userType,
+                                    amISelling: false,
                                     listingId: conversation.listing?.objectId,
                                     listingName: conversation.listing?.name ?? "",
                                     listingImageUrl: conversation.listing?.image?.fileURL,
@@ -242,8 +246,10 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, RxPaginable {
     
     // MARK: - Tracking
     
-    func trackErrorStateShown(reason: EventParameterEmptyReason, errorCode: Int?) {
-        let event = TrackerEvent.emptyStateVisit(typePage: .chatList, reason: reason, errorCode: errorCode)
+    func trackErrorStateShown(reason: EventParameterEmptyReason, errorCode: Int?, errorDescription: String?) {
+        let event = TrackerEvent.emptyStateVisit(typePage: .chatList, reason: reason,
+                                                 errorCode: errorCode,
+                                                 errorDescription: errorDescription)
         tracker.trackEvent(event)
     }
     

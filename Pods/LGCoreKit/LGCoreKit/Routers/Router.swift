@@ -111,6 +111,12 @@ struct SearchAlertsBaseURL: BaseURL {
     static let contentTypeHeader: String? = "application/json"
 }
 
+struct CustomFeedBaseURL: BaseURL {
+    static let baseURL = EnvironmentProxy.sharedInstance.customFeedBaseURL
+    static let acceptHeader: String? = "application/json;version=2"
+    static let contentTypeHeader: String? = nil
+}
+
 enum Encoding {
     case json, url
 }

@@ -100,6 +100,8 @@ enum EventName: String {
     case chatInactiveConversationsShown     = "chat-inactive-conversations-shown"
     case markMessagesAsRead                 = "mark-messages-as-read"
     case undoMessageSent                    = "undo-sent-message"
+    case chatUpdateAppWarningShow           = "chat-update-app-warning-show"
+    case chatLetgoServiceQuestionReceived   = "chat-letgo-service-question-received"
 
     case profileVisit                       = "profile-visit"
     case profileEditStart                   = "profile-edit-start"
@@ -152,6 +154,7 @@ enum EventName: String {
     case surveyCompleted                    = "survey-completed"
 
     case verifyAccountStart                 = "verify-account-start"
+    case verifyAccountSelectNetwork         = "verify-account-select-network"
     case verifyAccountComplete              = "verify-account-complete"
 
     case inappChatNotificationStart         = "in-app-chat-notification-start"
@@ -202,6 +205,11 @@ enum EventName: String {
     case assistantMeetingStart              = "assistant-meeting-start"
 
     case searchAlertSwitchChanged           = "search-alert"
+    
+    case productListMapShow                 = "product-list-map-show"
+    case productDetailPreview               = "product-detail-preview"
+
+    case screenshot                         = "os-screenshot"
 
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
@@ -377,7 +385,8 @@ enum EventParameterName: String {
     case searchAlertSource    = "alert-source"
     case sellerReputationBadge = "seller-reputation-badge"
     case isVideo              = "is-video"
-
+    case messageGoal          = "message-goal"
+    
     // Machine Learning
     case mlPredictiveFlow = "predictive-flow"
     case mlPredictionActive = "prediction-active"
@@ -394,6 +403,10 @@ enum EventParameterName: String {
     case meetingLocation     = "assistant-meeting-location"
 
     case boost                = "boost"
+    
+    case returnedResults    = "returned-results"
+    case featuredResults    = "featured-results"
+    case action             = "action"
 }
 
 enum EventParameterBoolean: String {
@@ -433,6 +446,8 @@ enum EventParameterLoginSourceValue: String {
 enum EventParameterProductItemType: String {
     case real = "1"
     case dummy = "0"
+    case professional = "2"
+    case privateOrProfessional = "3"
 }
 
 enum EventParameterButtonNameType: String {
@@ -665,6 +680,7 @@ enum EventParameterMessageType: String {
     case quickAnswer = "quick-answer"
     case expressChat = "express-chat"
     case periscopeDirect = "periscope-direct"
+    case interested = "interested"
     case phone      = "phone"
     case meeting = "assistant-meeting"
 }
@@ -873,6 +889,8 @@ enum EventParameterTypePage: String {
     case postingIconInfo = "posting-icon-information"
     case postingLearnMore = "posting-learn-more-button"
     case sellStart = "product-sell-start"
+    case userVerifications = "user-verifications"
+    case smsVerification = "sms-verification"
 }
 
 enum EventParameterPermissionType: String {
@@ -935,6 +953,12 @@ enum EventParameterSearchAlertSource: String {
     case settings = "settings"
 }
 
+enum EventParameterMapUserAction: String {
+    case showMap = "show-map"
+    case filterComplete = "filter-complete"
+    case redo = "redo"
+}
+
 
 enum EventParameterListingVisitSource {
     // https://ambatana.atlassian.net/wiki/spaces/MOB/pages/1114200/Parameters
@@ -958,6 +982,7 @@ enum EventParameterListingVisitSource {
         case .chat: return "chat" // from the chat
         case .promoteBump: return "promote-bump-up" // from the promote bump up screen
         case .favourite: return "favourite" // from your private profile favourite's list
+        case .map: return "map"
         case .unknown: return "N/A"
         }
     }
@@ -1005,6 +1030,7 @@ enum EventParameterListingVisitSource {
     case chat
     case promoteBump
     case favourite
+    case map
     case unknown
 }
 
@@ -1040,6 +1066,9 @@ enum EventParameterAccountNetwork: String {
     case facebook = "facebook"
     case google = "google"
     case email = "email"
+    case sms = "sms"
+    case id = "id"
+    case profilePhoto = "profilePhoto"
 }
 
 enum EventParameterBlockedAccountReason: String {

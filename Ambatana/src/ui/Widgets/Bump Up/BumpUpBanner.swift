@@ -120,6 +120,19 @@ protocol BumpUpBannerBoostDelegate: class {
 
 class BumpUpBanner: UIView {
 
+    private static let bannerHeight: CGFloat = 64
+
+    override var intrinsicContentSize: CGSize {
+        switch type {
+        case .free, .hidden, .restore, .priced:
+            return CGSize(width: UIViewNoIntrinsicMetric,
+                          height: BumpUpBanner.bannerHeight)
+        case .boost(let boostBannerVisible):
+            return CGSize(width: UIViewNoIntrinsicMetric,
+                          height: boostBannerVisible ? 2*BumpUpBanner.bannerHeight : BumpUpBanner.bannerHeight)
+        }
+    }
+
     static let bannerDefaultFont: UIFont = UIFont.systemMediumFont(size: 15)
 
     static let timeLabelWidth: CGFloat = 80

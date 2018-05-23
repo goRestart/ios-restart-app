@@ -98,7 +98,7 @@ final class ListingCardUserView: UIView {
 
     func set(action: Action) {
         action.setupListingCardUserView(self)
-        actionButton.alphaAnimated(1)
+        actionButton.animateTo(alpha: 1)
     }
 
     fileprivate func set(favourite isFavourite: Bool) {

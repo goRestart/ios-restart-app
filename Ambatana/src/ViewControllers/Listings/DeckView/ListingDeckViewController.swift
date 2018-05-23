@@ -236,7 +236,7 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
 
     func willBeginDragging() {
         lastPageBeforeDragging = listingDeckView.currentPage
-        listingDeckView.bumpUpBanner.alphaAnimated(0)
+        listingDeckView.bumpUpBanner.animateTo(alpha: 0)
         animatePlayButton(withAlpha: 0)
     }
 
@@ -291,25 +291,17 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
         }
     }
     
-    func updateViewWith(alpha: CGFloat, chatEnabled: Bool, isMine: Bool, actionsEnabled: Bool) {
+    func updateViewWith(alpha: CGFloat, chatEnabled: Bool, actionsEnabled: Bool) {
         whiteBackground.isHidden = !chatEnabled
         self.chatEnabled = chatEnabled
-        let chatAlpha: CGFloat
-        let actionsAlpha: CGFloat
-        let clippedAlpha = min(1.0, alpha)
-        if isMine && actionsEnabled {
-            actionsAlpha = clippedAlpha
-            chatAlpha = 0
-        } else if !chatEnabled {
-            actionsAlpha = 0
-            chatAlpha = 0
-        } else {
-            chatAlpha = clippedAlpha
-            actionsAlpha = 0
-        }
 
-        listingDeckView.updatePrivateActionsWith(alpha: actionsAlpha)
-        updateChatWith(alpha: chatAlpha)
+        let clippedAlpha = min(1.0, alpha)
+
+        let actionsAlpha = actionsEnabled ? clippedAlpha : 0
+        let bumpBannerAlpha: CGFloat = (actionsEnabled || !chatEnabled) ? 1.0 : 0
+
+        listingDeckView.updatePrivateActionsWith(actionsAlpha: actionsAlpha, bumpBannerAlpha: bumpBannerAlpha)
+        updateChatWith(alpha: (chatEnabled && !actionsEnabled) ? clippedAlpha : 0)
     }
     
 
@@ -328,7 +320,7 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
             return
         }
 
-        listingDeckView.bumpUpBanner.alphaAnimated(1)
+        listingDeckView.bumpUpBanner.animateTo(alpha: 1)
         currentPageCell()?.update(bottomContentInset: Layout.Insets.bump)
         guard !listingDeckView.isBumpUpVisible else {
             // banner is already visible, but info changes
@@ -415,7 +407,7 @@ extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCard
         let vc = DeckMapViewController(with: DeckMapData(size: size,
                                                          location: location,
                                                          shouldHighlightCenter: shouldShowExactLocation))
-        vc.modalPresentationStyle = .overCurrentContext
+        vc.setupForModalWithNonOpaqueBackground()
         vc.delegate = self
         self.present(vc, animated: true, completion: nil)
     }

@@ -9,7 +9,7 @@
 import UIKit
 import RxSwift
 
-class PostListingViewController: BaseViewController, PostListingViewModelDelegate {
+final class PostListingViewController: BaseViewController, PostListingViewModelDelegate {
 
     private static let retryButtonHeight: CGFloat = 50
     private static let retryButtonWidth: CGFloat = 100
@@ -109,7 +109,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         self.carDetailsView = PostCarDetailsView(initialValues: viewModel.carInfo(forDetail: .make).carInfoWrappers)
         super.init(viewModel: viewModel, nibName: "PostListingViewController",
                    statusBarStyle: UIApplication.shared.statusBarStyle)
-        modalPresentationStyle = .overCurrentContext
+        setupForModalWithNonOpaqueBackground()
         viewModel.delegate = self
     }
 

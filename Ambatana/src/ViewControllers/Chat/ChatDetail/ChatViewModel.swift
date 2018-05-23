@@ -93,6 +93,7 @@ class ChatViewModel: BaseViewModel {
     let stickers = Variable<[Sticker]>([])
     let chatStatus = Variable<ChatInfoViewStatus>(.available)
     let chatEnabled = Variable<Bool>(true)
+    let textBoxVisible = Variable<Bool>(true)
     let directAnswersState = Variable<DirectAnswersState>(.notAvailable)
     let userIsTyping = Variable<Bool>(false)
     let messages = CollectionVariable<ChatViewMessage>([])
@@ -100,7 +101,7 @@ class ChatViewModel: BaseViewModel {
     var shouldTrackFirstMessage: Bool = false
     let shouldShowExpressBanner = Variable<Bool>(false)
     let relatedListingsState = Variable<ChatRelatedItemsState>(.loading)
-    var shouldUpdateQuickAnswers = Variable<Bool>(false)
+    let shouldUpdateQuickAnswers = Variable<Bool>(false)
     let interlocutorProfessionalInfo = Variable<InterlocutorProfessionalInfo>(InterlocutorProfessionalInfo(isProfessional: false, phoneNumber: nil))
     let lastMessageSentType = Variable<ChatWrapperMessageType?>(nil)
     let messagesDidFinishRefreshing = Variable<Bool>(false)
@@ -124,6 +125,14 @@ class ChatViewModel: BaseViewModel {
 
     var meetingsEnabled: Bool {
         return featureFlags.chatNorris.isActive
+    }
+    
+    var isUserDummy: Bool {
+        guard let userType = conversation.value.interlocutor?.userType else { return false }
+        if case userType = UserType.dummy {
+            return true
+        }
+        return false
     }
 
     // fileprivate
@@ -179,7 +188,7 @@ class ChatViewModel: BaseViewModel {
     fileprivate var shouldShowOtherUserInfo: Bool {
         guard conversation.value.isSaved else { return true }
         let alreadyShown = messages.value.reduce(false) { (result, current)  in
-            if case ChatViewMessageType.userInfo(_,_,_,_,_) = current.type {
+            if case ChatViewMessageType.userInfo(_,_,_,_,_,_) = current.type {
                 return true
             }
             return result
@@ -207,6 +216,7 @@ class ChatViewModel: BaseViewModel {
     }
 
     fileprivate var shouldShowSafetyTips: Bool {
+        guard !isUserDummy else { return false }
         return featureFlags.showChatSafetyTips && !keyValueStorage.userChatSafetyTipsShown && didReceiveMessageFromOtherUser
     }
 
@@ -314,9 +324,13 @@ class ChatViewModel: BaseViewModel {
         self.predefinedMessage = predefinedMessage
         self.openChatAutomaticMessage = openChatAutomaticMessage
         self.interlocutor = interlocutor
-        let interlocutorIsProfessional = interlocutor?.isProfessional ?? false
-        self.interlocutorProfessionalInfo.value = InterlocutorProfessionalInfo(isProfessional: interlocutorIsProfessional,
-                                                                               phoneNumber: interlocutor?.phone)
+        if let isProfessional = interlocutor?.isProfessional {
+            self.interlocutorProfessionalInfo.value = InterlocutorProfessionalInfo(isProfessional: isProfessional,
+                                                                                   phoneNumber: interlocutor?.phone)
+        } else if let userType = conversation.interlocutor?.userType, userType == .pro {
+            self.interlocutorProfessionalInfo.value = InterlocutorProfessionalInfo(isProfessional: true,
+                                                                                   phoneNumber: nil)
+        }
         interlocutorTypingChatViewMessage = chatViewMessageAdapter.createInterlocutorIsTyping()
         super.init()
         setupRx()
@@ -327,18 +341,19 @@ class ChatViewModel: BaseViewModel {
         super.didBecomeActive(firstTime)
 
         if firstTime {
+            if isUserDummy {
+                textBoxVisible.value = false
+            }
             retrieveRelatedListings()
             setupExpressChat()
             refreshChat()
         }
-
         trackVisit()
     }
 
     func didAppear() {
-        if chatEnabled.value &&  !interlocutorProfessionalInfo.value.isProfessional {
-            delegate?.vmDidBeginEditing()
-        }
+        guard chatEnabled.value && !interlocutorProfessionalInfo.value.isProfessional else { return }
+        delegate?.vmDidBeginEditing()
     }
 
     fileprivate func refreshChat() {
@@ -496,7 +511,7 @@ class ChatViewModel: BaseViewModel {
                     strongSelf.messages.append(userInfoMessage)
                 }
             }
-        }.disposed(by: disposeBag)
+            }.disposed(by: disposeBag)
 
         let automaticMessagesSignal = Observable.combineLatest(messagesDidFinishRefreshing.asObservable(),
                                                                interlocutorProfessionalInfo.asObservable(),
@@ -640,8 +655,8 @@ class ChatViewModel: BaseViewModel {
         guard let convId = conversation.value.objectId else { return }
         chatRepository.chatEventsIn(convId).subscribeNext { [weak self] event in
             switch event.type {
-            case let .interlocutorMessageSent(messageId, sentAt, text, type):
-                self?.handleNewMessageFromInterlocutor(messageId, sentAt: sentAt, text: text, type: type)
+            case let .interlocutorMessageSent(messageId, sentAt, content):
+                self?.handleNewMessageFromInterlocutor(messageId, sentAt: sentAt, text: content.text ?? "", type: content.type)
             case let .interlocutorReadConfirmed(messagesIds):
                 self?.markMessagesAsRead(messagesIds)
             case let .interlocutorReceptionConfirmed(messagesIds):
@@ -789,7 +804,7 @@ extension ChatViewModel {
         let viewMessage = chatViewMessageAdapter.adapt(newMessage)?.markAsSent()
         guard let messageId = newMessage.objectId else { return }
         insertFirst(viewMessage: viewMessage)
-        chatRepository.sendMessage(convId, messageId: messageId, type: newMessage.type, text: message) {
+        chatRepository.sendMessage(convId, messageId: messageId, type: type.websocketType, text: message, answerKey: type.quickAnswerKey) {
             [weak self] result in
             guard let strongSelf = self else { return }
             if let _ = result.value {
@@ -873,7 +888,7 @@ extension ChatViewModel {
                                                     isPhone: true)
                 disableAskPhoneMessageButton()
             }
-        case .text, .quickAnswer, .chatSticker, .expressChat, .periscopeDirect, .favoritedListing, .meeting:
+        case .text, .quickAnswer, .chatSticker, .expressChat, .periscopeDirect, .favoritedListing, .meeting, .interested:
             insertAskPhoneNumberMessage()
             if !hasSentAutomaticAnswerForOtherMessage {
                 sendProfessionalAutomaticAnswerWith(message: LGLocalizedString.professionalDealerAskPhoneThanksOtherCellMessage,
@@ -978,9 +993,11 @@ extension ChatViewModel {
         } else {
             messages.insert(viewMessage, atIndex: 0)
         }
+        shouldUpdateQuickAnswers.value = true
+        trackLetgoServiceMessageReceived()
     }
 
-    fileprivate func handleNewMessageFromInterlocutor(_ messageId: String, sentAt: Date, text: String, type: ChatMessageType) {
+    fileprivate func handleNewMessageFromInterlocutor(_ messageId: String, sentAt: Date, text: String?, type: ChatMessageType) {
         guard let convId = conversation.value.objectId else { return }
         guard let interlocutorId = conversation.value.interlocutor?.objectId else { return }
         let message: ChatMessage = chatRepository.createNewMessage(interlocutorId, text: text, type: type)
@@ -1321,6 +1338,8 @@ extension ChatViewModel {
                 strongSelf.delegate?.vmDidFailRetrievingChatMessages()
             }
             strongSelf.setupInterlocutorIsTypingRx()
+            strongSelf.shouldUpdateQuickAnswers.value = true
+            strongSelf.trackLetgoServiceMessageReceived()
         }
     }
     
@@ -1432,31 +1451,41 @@ extension ChatViewModel {
     }
     
     fileprivate func securityMeetingIndex(for messages: [ChatViewMessage]) -> Int? {
+        guard !isUserDummy else { return nil }
+        
         var isFirstPage: Bool {
             return messages.count < Constants.numMessagesPerPage
         }
-
-        var fifthInterlocutorMessageIndex: Int? {
-            let elementNumber = 5
-            let interlocutorMessages = messages.reversed().filter {
+        var priceIsEqualOrHigherThan250: Bool {
+            guard let price = conversation.value.listing?.price.value else { return false }
+            return price >= 250
+        }
+        var firstInterlocutorMessageIndex: Int? {
+            guard let i = messages.reversed().index(where: {
                 switch $0.type {
-                case .disclaimer, .userInfo, .askPhoneNumber, .interlocutorIsTyping:
+                case .disclaimer, .userInfo, .askPhoneNumber, .interlocutorIsTyping, .multiAnswer:
                     return false
-                case .offer, .sticker, .text, .meeting:
+                case .offer, .sticker, .text, .meeting, .unsupported:
                     return $0.talkerId != myUserRepository.myUser?.objectId
                 }
-            }
-            guard interlocutorMessages.count >= elementNumber else { return nil }
-            let fifthInterlocutorMessage = interlocutorMessages[elementNumber-1]
-            
-            let index = messages.index(where: {
-                $0 == fifthInterlocutorMessage
-            })
+            }) else { return nil }
+            let index = messages.index(before: i.base)
             return index
         }
-
+        var securityTooltipWasShownToday: Bool {
+            guard let lastShownDate = keyValueStorage[.lastShownSecurityWarningDate] else { return false }
+            return lastShownDate.isFromLast24h()
+        }
+        
         guard isFirstPage else { return nil }
-        return fifthInterlocutorMessageIndex
+        guard priceIsEqualOrHigherThan250 else { return nil }
+        if isBuyer {
+            return firstInterlocutorMessageIndex
+        } else if !securityTooltipWasShownToday {
+            keyValueStorage[.lastShownSecurityWarningDate] = Date()
+            return firstInterlocutorMessageIndex
+        }
+        return nil
     }
 
     private func afterRetrieveChatMessagesEvents() {
@@ -1551,19 +1580,38 @@ fileprivate extension ChatViewModel {
 
 fileprivate extension ChatViewModel {
 
+    func trackLetgoServiceMessageReceived() {
+        guard let listingId = conversation.value.listing?.objectId,
+            let lastMessage = messages.value.last
+            else { return }
+        if case .multiAnswer(let question, _) = lastMessage.type,
+            let questionKey = question.key {
+            tracker.trackEvent(TrackerEvent.chatLetgoServiceQuestionReceived(questionKey: questionKey, listingId: listingId))
+        }
+    }
+    
     func trackMessageSent(type: ChatWrapperMessageType) {
         guard let info = buildSendMessageInfo(withType: type, error: nil) else { return }
-        guard let interlocutor = interlocutor else { return }
-        let badgeParameter = EventParameterUserBadge(userBadge: interlocutor.reputationBadge)
+        var isProfessional: Bool? = nil
+        if let interlocutor = interlocutor {
+            isProfessional = interlocutor.isProfessional
+        }
         if shouldTrackFirstMessage {
             shouldTrackFirstMessage = false
+            let badgeParameter: EventParameterUserBadge
+            if let interlocutor = interlocutor {
+                badgeParameter = EventParameterUserBadge(userBadge: interlocutor.reputationBadge)
+            } else {
+                badgeParameter = EventParameterUserBadge.noBadge
+            }
             tracker.trackEvent(TrackerEvent.firstMessage(info: info,
                                                          listingVisitSource: .unknown,
                                                          feedPosition: .none,
                                                          userBadge: badgeParameter,
-                                                         containsVideo: .notAvailable))
+                                                         containsVideo: .notAvailable,
+                                                         isProfessional: isProfessional))
         }
-        tracker.trackEvent(TrackerEvent.userMessageSent(info: info))
+        tracker.trackEvent(TrackerEvent.userMessageSent(info: info, isProfessional: isProfessional))
     }
 
     func trackMessageSentError(type: ChatWrapperMessageType, error: RepositoryError) {
@@ -1622,7 +1670,7 @@ fileprivate extension ChatViewModel {
             .set(chatListing: listing, freePostingModeAllowed: featureFlags.freePostingModeAllowed)
             .set(interlocutorId: userId)
             .set(messageType: type.chatTrackerType)
-            .set(quickAnswerType: type.quickAnswerType)
+            .set(quickAnswerTypeParameter: type.quickAnswerTypeParameter)
             .set(typePage: typePage)
             .set(sellerRating: sellerRating)
             .set(isBumpedUp: .falseParameter)
@@ -1691,12 +1739,19 @@ fileprivate extension ChatConversation {
 extension ChatViewModel: DirectAnswersPresenterDelegate {
     
     var directAnswers: [QuickAnswer] {
-        let isFree = featureFlags.freePostingModeAllowed && listingIsFree.value
-        let isBuyer = !conversation.value.amISelling
-
-        return QuickAnswer.quickAnswersForChatWith(buyer: isBuyer,
-                                                   isFree: isFree,
-                                                   chatNorrisABtestVersion: featureFlags.chatNorris)
+        if let lastMessage = messages.value.first,
+            let userId = myUserRepository.myUser?.objectId,
+            lastMessage.talkerId != userId,
+            let quickAnswers = QuickAnswer.quickAnswersForChatMessage(chatViewMessage: lastMessage) {
+            return quickAnswers
+        } else if !isUserDummy {
+            let isFree = featureFlags.freePostingModeAllowed && listingIsFree.value
+            let isBuyer = !conversation.value.amISelling
+            return QuickAnswer.quickAnswersForChatWith(buyer: isBuyer,
+                                                       isFree: isFree,
+                                                       chatNorrisABtestVersion: featureFlags.chatNorris)
+        }
+        return []
     }
 
     func directAnswersDidTapAnswer(_ controller: DirectAnswersPresenter, answer: QuickAnswer) {
@@ -1711,6 +1766,14 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
             send(quickAnswer: answer)
         case .meetingAssistant:
             onMeetingAssistantPressed()
+        case .dynamic(let chatAnswer):
+            send(quickAnswer: QuickAnswer.dynamic(chatAnswer: chatAnswer))
+            switch chatAnswer.type {
+            case .replyText:
+                break
+            case .callToAction(_, _, let deeplinkURL):
+                navigator?.openDeeplink(url: deeplinkURL)
+            }
         }
     }
     
@@ -1760,7 +1823,7 @@ extension ChatViewModel {
     static let maxRelatedListingsForExpressChat = 4
 
     fileprivate func retrieveRelatedListings() {
-        guard isBuyer else { return }
+        guard isBuyer, !isUserDummy else { return }
         guard let listingId = conversation.value.listing?.objectId else { return }
         listingRepository.indexRelated(listingId: listingId, params: RetrieveListingParams()) {
             [weak self] result in
@@ -1787,6 +1850,7 @@ extension ChatViewModel {
     // Express Chat Banner methods
 
     fileprivate func setupExpressChat() {
+        guard !isUserDummy else { return }
         expressMessagesAlreadySent.value = expressChatMessageSentForCurrentListing()
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .seconds(3)) { [weak self] in
             self?.expressBannerTimerFinished.value = true
@@ -1834,17 +1898,14 @@ extension ChatViewModel {
         var firstMeetingId: String?
         var otherMeetingIds: [String] = []
         for chatViewMessage in messages.value {
-            switch chatViewMessage.type {
-            case let .meeting(type, _, _, _, _, _):
-                if let meetingId = chatViewMessage.objectId, type == .requested {
-                    if firstMeetingId == nil {
-                        firstMeetingId = meetingId
-                    } else {
-                        otherMeetingIds.append(meetingId)
-                    }
+            if case .meeting(let type, _, _, _, _, _) = chatViewMessage.type,
+                let meetingId = chatViewMessage.objectId, type == .requested {
+                
+                if firstMeetingId == nil {
+                    firstMeetingId = meetingId
+                } else {
+                    otherMeetingIds.append(meetingId)
                 }
-            case .text, .offer, .sticker, .disclaimer, .userInfo, .askPhoneNumber, .interlocutorIsTyping:
-                continue
             }
         }
         markMeetingAsAccepted(firstMeetingId)
@@ -1854,13 +1915,12 @@ extension ChatViewModel {
     private func markAllPreviousRequestedMeetingsAsRejectedAfter(messageId: String?) {
         var meetingIds: [String] = []
         for chatViewMessage in messages.value {
-            switch chatViewMessage.type {
-            case let .meeting(type, _, _, _, _, _):
-                if let meetingId = chatViewMessage.objectId, type == .requested, meetingId != messageId {
-                    meetingIds.append(meetingId)
-                }
-            case .text, .offer, .sticker, .disclaimer, .userInfo, .askPhoneNumber, .interlocutorIsTyping:
-                continue
+            if case .meeting(let type, _, _, _, _, _) = chatViewMessage.type,
+                let meetingId = chatViewMessage.objectId,
+                type == .requested,
+                meetingId != messageId {
+                
+                meetingIds.append(meetingId)
             }
         }
         markMeetingsAsRejected(meetingIds)
@@ -1898,6 +1958,6 @@ extension ChatViewModel {
     }
 
     private func firstMeetingIn(messages: [ChatMessage]) -> ChatMessage? {
-        return messages.first(matching: { $0.type == .meeting } )
+        return messages.first(matching: { $0.content.type == .meeting } )
     }
 }

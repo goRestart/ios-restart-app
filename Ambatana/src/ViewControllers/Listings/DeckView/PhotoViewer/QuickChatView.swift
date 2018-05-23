@@ -24,7 +24,12 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
     var isTableInteractionEnabled = true
 
     var textViewFocusColor: UIColor = .white
-    var textViewStandardColor: UIColor = UIColor.black.withAlphaComponent(0.07)
+    var textViewStandardColor: UIColor = UIColor.black.withAlphaComponent(0.07) {
+        didSet {
+            guard !textView.isFirstResponder else { return }
+            textView.setTextViewBackgroundColor(textViewStandardColor)
+        }
+    }
 
     var rxDidBeginEditing: ControlEvent<()> { return textView.rx.didBeginEditing }
     var rxDidEndEditing: ControlEvent<()> { return textView.rx.didEndEditing }

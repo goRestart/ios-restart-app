@@ -19,6 +19,7 @@ class FilteredListingListRequester: ListingListRequester {
     fileprivate var queryFirstCallCountryCode: String?
     fileprivate var offset: Int = 0
     fileprivate var initialOffset: Int
+    private let customFeedVariant: Int?
 
     var queryString: String?
     var filters: ListingFilters?
@@ -33,6 +34,7 @@ class FilteredListingListRequester: ListingListRequester {
         self.featureFlags = featureFlags
         self.initialOffset = offset
         self.itemsPerPage = itemsPerPage
+        self.customFeedVariant = featureFlags.personalizedFeedABTestIntValue
     }
 
 
@@ -77,8 +79,11 @@ class FilteredListingListRequester: ListingListRequester {
     
     private func retrieve(_ completion: ListingsCompletion?) {
         if let category = filters?.selectedCategories.first {
-            let action = category.index(listingRepository: listingRepository, searchCarsEnabled: featureFlags.searchCarsIntoNewBackend.isActive)
+            let action = category.index(listingRepository: listingRepository,
+                                        searchCarsEnabled: featureFlags.searchCarsIntoNewBackend.isActive)
             action(retrieveListingsParams, completion)
+        } else if isEmptyQueryAndDefaultFilters, featureFlags.personalizedFeed.isActive {
+            listingRepository.indexCustomFeed(retrieveCustomFeedParams, completion: completion)
         } else {
             listingRepository.index(retrieveListingsParams, completion: completion)
         }
@@ -214,9 +219,17 @@ fileprivate extension FilteredListingListRequester {
         params.countryCode = countryCode
         params.abtest = featureFlags.searchImprovements.stringValue
         params.relaxParam = featureFlags.relaxedSearch.relaxParam
-        
         params.populate(with: filters)
-       
+        return params
+    }
+    
+    var retrieveCustomFeedParams: RetrieveListingParams {
+        var params: RetrieveListingParams = RetrieveListingParams()
+        params.numListings = itemsPerPage
+        params.offset = offset
+        params.coordinates = queryCoordinates
+        params.countryCode = countryCode
+        params.customFeedVariant = customFeedVariant
         return params
     }
 

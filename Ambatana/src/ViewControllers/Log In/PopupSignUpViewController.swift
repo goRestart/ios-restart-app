@@ -9,7 +9,7 @@
 import GoogleSignIn
 import UIKit
 
-class PopupSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignInUIDelegate, SignUpViewModelDelegate {
+final class PopupSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignInUIDelegate, SignUpViewModelDelegate {
 
     @IBOutlet weak var contentContainer: UIView!
     @IBOutlet weak var claimLabel: UILabel!
@@ -30,8 +30,6 @@ class PopupSignUpViewController: BaseViewController, UITextViewDelegate, GIDSign
         self.topMessage = topMessage
         super.init(viewModel: viewModel, nibName: "PopupSignUpViewController")
         self.viewModel.delegate = self
-        modalPresentationStyle = .overCurrentContext
-        modalTransitionStyle = .crossDissolve
     }
 
     required init?(coder: NSCoder) {

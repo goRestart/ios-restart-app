@@ -29,6 +29,12 @@ final class ListingDeckImagePreviewCell: UICollectionViewCell, ReusableCell {
 
     // MARK: > Setup
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        zoomableImageView.setImage(nil)
+        blurred.image = nil
+    }
+
     func setupUI() {
         clipsToBounds = true
         setupBlur()
@@ -55,6 +61,6 @@ final class ListingDeckImagePreviewCell: UICollectionViewCell, ReusableCell {
 
     func setImage(_ image: UIImage) {
         blurred.image = image
-        zoomableImageView.setImage(image: image)
+        zoomableImageView.setImage(image)
     }
 }

@@ -137,6 +137,11 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "Aus Sicherheitsgründen wurden dieses Benutzerkonto und die dazugehörigen Nachrichten vom letgo-Team gelöscht.";
 "chat_connect_account_disclaimer_button" = "Jetzt verifizieren!";
 "chat_connect_accounts_title" = "SCHAFFE VERTRAUEN!";
+"chat_conversations_list_blocked_users_button" = "Blockierte Nutzer ansehen";
+"chat_conversations_list_filter_all" = "Alle";
+"chat_conversations_list_filter_buying" = "Käufe";
+"chat_conversations_list_filter_selling" = "Verkäufe";
+"chat_conversations_list_letgo_assistant_tag" = "letgo assistant";
 "chat_deleted_disclaimer_w_name" = "Du kannst dieses Gespräch nicht fortführen, weil das Benutzerkonto von %@ nicht mehr aktiv ist.";
 "chat_deleted_disclaimer_wo_name" = "Du kannst dieses Gespräch nicht fortführen, weil dieses Benutzerkonto nicht mehr aktiv ist.";
 "chat_disclaimer_letgo_team" = "LETGO-TEAM";
@@ -172,8 +177,8 @@
 "chat_list_buying_title" = "KÄUFE";
 "chat_list_delete" = "Löschen";
 "chat_list_delete_alert_send" = "Löschen";
-"chat_list_delete_alert_text_multiple" = "Du bist dabei diese Gespräche zu löschen";
-"chat_list_delete_alert_text_one" = "Du bist dabei dieses Gespräch zu löschen";
+"chat_list_delete_alert_text_multiple" = "Du bist dabei diese Gespräche dauerhaft zu löschen";
+"chat_list_delete_alert_text_one" = "Du bist dabei dieses Gespräch dauerhaft zu löschen";
 "chat_list_delete_alert_title_multiple" = "Gespräche löschen";
 "chat_list_delete_alert_title_one" = "Gespräch löschen";
 "chat_list_delete_error_one" = "Beim Löschen des Gesprächs ist ein Fehler aufgetreten. Bitte versuche es erneut.";
@@ -215,7 +220,7 @@
 "chat_send_error_generic" = "Beim Senden der Nachricht ist ein Fehler aufgetreten. Bitte versuche es noch einmal.";
 "chat_stickers_tooltip_new" = "NEU!";
 "chat_unblock_user" = "Blockierung aufheben";
-"chat_user_info_letgo_assistant" = "I'm a virtual assistant that gives you tips and helps you sell.";
+"chat_user_info_letgo_assistant" = "Ich bin eine virtuelle Assistentin, die dir Tipps gibt und dir beim Verkaufen hilft.";
 "chat_user_info_name" = "Hallo, ich bin %@";
 "chat_user_info_verified_with" = "Verifiziert mit: ";
 "chat_user_rating_button_tooltip" = "Bewerte diesen Nutzer";
@@ -411,6 +416,8 @@
 "hidden_phone_tag" = "[TELEFONNUMMER VERSTECKT]";
 "hidden_text_alert_description" = "Wir verstecken Kontaktinformationen, damit du sicher kaufen und verkaufen kannst. Gespräche innerhalb letgos zu führen ist leicht und außerdem sicherer.";
 "hidden_text_alert_title" = "SICHERHEITSHINWEIS";
+"listing_map_redo_search" = "Suche in dieser Gegend";
+"listings_map_no_results_message" = "Keine exakten Treffer für deine Suche. Suche in einer anderen Gegend oder nutze andere Filter.";
 "listings_map_title" = "Kartenansicht";
 "location_permissions_allow_button" = "Erlauben";
 "location_permissions_bubble" = "0,1 km von dir entfernt";
@@ -574,7 +581,7 @@
 "phone_verification_code_input_view_content_subtext" = "Du kannst dir einen weiteren Code zuschicken lassen, falls du ihn nicht innerhalb von %@ erhältst";
 "phone_verification_code_input_view_content_subtitle" = "Wir haben ihn an %@ geschickt";
 "phone_verification_code_input_view_content_title" = "Gib den 6-stelligen Code ein";
-"phone_verification_code_input_view_error_message" = "Oops! An error occurred while validating the code. Please try again.";
+"phone_verification_code_input_view_error_message" = "Hoppla! Beim Validieren des Codes ist ein Fehler aufgetreten. Bitte versuche es erneut.";
 "phone_verification_code_input_view_title" = "Verifikationsnummer";
 "phone_verification_code_input_view_validated_failure" = "Der von dir eingegebene Verifizierungscode ist inkorrekt.";
 "phone_verification_code_input_view_validated_success" = "Telefonnummer verifiziert!";
@@ -585,7 +592,7 @@
 "phone_verification_number_input_view_confirmation_title" = "Danke!";
 "phone_verification_number_input_view_continue_button" = "Fortfahren";
 "phone_verification_number_input_view_description" = "Schaffe Vertrauen, indem du deine Telefonnummer verifizierst";
-"phone_verification_number_input_view_error_message" = "Oops! An error occurred while sending the text message. Please try again.";
+"phone_verification_number_input_view_error_message" = "Hoppla! Beim Senden der Textnachricht ist ein Fehler aufgetreten. Bitte versuche es erneut.";
 "phone_verification_number_input_view_sending_message" = "Textnachricht wird verschickt…";
 "phone_verification_number_input_view_textfield_placeholder" = "Telefonnummer";
 "phone_verification_number_input_view_title" = "Verifikationsnummer";
@@ -773,6 +780,7 @@
 "product_post_select_category_motors_and_accessories" = "Andere Fahrzeuge und Teile";
 "product_post_select_category_other" = "Etwas anderes";
 "product_post_select_category_real_estate" = "Immobilien";
+"product_post_select_category_services" = "Dienstleistungen";
 "product_post_select_category_title" = "Was stellst du ein?";
 "product_post_use_photo" = "Foto verwenden";
 "product_post_use_photo_not_logged" = "Foto nutzen";
@@ -851,6 +859,7 @@
 "profile_permissions_alert_ok" = "Aktivieren";
 "profile_permissions_alert_title" = "VERPASSE KEINE ANTWORT!";
 "profile_permissions_header_message" = "Aktiviere Mitteilungen";
+"profile_reputation_tooltip_title" = "User verified! Tap if you want to be verified too";
 "profile_reviews_count" = "Bewertungen";
 "profile_reviews_tab" = "Bewertungen";
 "profile_selling_no_products_label" = "(NOCH) KEINE ANGEBOTE";
@@ -868,8 +877,8 @@
 "profile_verifications_view_extra_section_title" = "KAUFEN & VERKAUFEN";
 "profile_verifications_view_facebook_title" = "Facebook";
 "profile_verifications_view_google_title" = "Google";
-"profile_verifications_view_mark_as_sold_subtitle" = "Je +2 Punkte (biz zu 10 Punkte)";
-"profile_verifications_view_mark_as_sold_title" = "Markiere ein Angebot als verkauft";
+"profile_verifications_view_mark_as_sold_subtitle" = "+2 Punkte pro Angebot (bis zu 10 Punkte)";
+"profile_verifications_view_mark_as_sold_title" = "Als verkauft markieren";
 "profile_verifications_view_phone_number_title" = "Telefonnummer";
 "profile_verifications_view_photo_id_title" = "Lichtbildausweis";
 "profile_verifications_view_profile_picture_title" = "Profilbild";
@@ -1069,6 +1078,7 @@
 "search_alerts_placeholder_empty_text" = "Abonniere Suchen, um Benachrichtigungen zu erhalten, wenn neue Angebote eingestellt werden.";
 "search_alerts_placeholder_error_button" = "Erneut versuchen";
 "search_alerts_placeholder_error_text" = "Hoppla! Beim Laden deiner gespeicherten Suchen ist ein Fehler aufgetreten";
+"search_letgo" = "letgo durchsuchen";
 "sell_category_selection_label" = "Kategorie";
 "sell_choose_category_dialog_cancel_button" = "Abbrechen";
 "sell_choose_category_dialog_title" = "Wähle eine Kategorie";

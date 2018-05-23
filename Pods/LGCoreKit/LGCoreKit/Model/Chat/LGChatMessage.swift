@@ -6,18 +6,6 @@
 //  Copyright © 2016 Ambatana Inc. All rights reserved.
 //
 
-public enum ChatMessageType: String, Decodable, Equatable {
-    case text = "text"
-    case offer = "offer"
-    case sticker = "sticker"
-    case quickAnswer = "quick_answer"
-    case expressChat = "express_chat"
-    case favoritedListing  = "favorited_product"
-    case phone = "phone"
-    case meeting = "chat_norris"
-    case interlocutorIsTyping
-}
-
 public enum ChatMessageWarning: String, Decodable {
     case spam = "spam"
 }
@@ -31,12 +19,11 @@ public enum ChatMessageStatus {
 
 public protocol ChatMessage: BaseModel {
     var talkerId: String { get }
-    var text: String { get }
     var sentAt: Date? { get }
     var receivedAt: Date? { get }
     var readAt: Date? { get }
-    var type: ChatMessageType { get }
     var warnings: [ChatMessageWarning] { get }
+    var content: ChatMessageContent { get }
     var assistantMeeting: AssistantMeeting? { get }
     
     func markReceived() -> ChatMessage
@@ -54,42 +41,50 @@ extension ChatMessage {
 struct LGChatMessage: ChatMessage, Decodable {
     let objectId: String?
     let talkerId: String
-    let text: String
-    var sentAt: Date?
-    var receivedAt: Date?
-    var readAt: Date?
-    let type: ChatMessageType
-    var warnings: [ChatMessageWarning]
+    let sentAt: Date?
+    let receivedAt: Date?
+    let readAt: Date?
+    let warnings: [ChatMessageWarning]
+    let content: ChatMessageContent
     let assistantMeeting: AssistantMeeting?
     
     init(objectId: String?,
          talkerId: String,
-         text: String,
          sentAt: Date?,
          receivedAt: Date?,
          readAt: Date?,
-         type: ChatMessageType,
-         warnings: [ChatMessageWarning]) {
+         warnings: [ChatMessageWarning],
+         content: ChatMessageContent) {
         
         self.objectId = objectId
         self.talkerId = talkerId
-        self.text = text
         self.sentAt = sentAt
         self.receivedAt = receivedAt
         self.readAt = readAt
-        self.type = type
         self.warnings = warnings
-        self.assistantMeeting = type == .meeting ? LGAssistantMeeting.makeMeeting(from: text) : nil
+        self.content = content
+        self.assistantMeeting = content.type == .meeting ? LGAssistantMeeting.makeMeeting(from: content.text) : nil
+    }
+    
+    static func make(talkerId: String, text: String?, type: ChatMessageType) -> ChatMessage {
+        // if the message type is QuickAnswer with a key, we need to send it as the message_id (blame our backend/tracking requirements)
+        return LGChatMessage(objectId: type.quickAnswerId ?? LGUUID().UUIDString,
+                             talkerId: talkerId,
+                             sentAt: nil,
+                             receivedAt: nil,
+                             readAt: nil,
+                             warnings: [],
+                             content: LGChatMessageContent(type: type, defaultText: nil, text: text))
     }
     
     func markReceived() -> ChatMessage {
         return LGChatMessage(objectId: objectId,
                              talkerId: talkerId,
-                             text: text, sentAt: sentAt,
+                             sentAt: sentAt,
                              receivedAt: receivedAt ?? Date(),
                              readAt: readAt,
-                             type: type,
-                             warnings: warnings)
+                             warnings: warnings,
+                             content: content)
     }
     
     // MARK: Decodable
@@ -99,11 +94,15 @@ struct LGChatMessage: ChatMessage, Decodable {
      "message_id": [uuid],
      "talker_id": [uuid|objectId],
      "warnings": [array[string]],
-     "text": [string],
      "sent_at": [unix_timestamp],
      "received_at": [unix_timestamp|null],
      "read_at": [unix_timestamp|null],
-     "type": [ChatMessageWarning]
+     "content": {
+        "text": "Hi! I'd like to buy it",
+        "type": "unknown_type",
+        "default": "You've received a message not supported for your app version.
+                    \nPlease update your app to use the newest features!"
+     }
      }
      */
     
@@ -111,28 +110,24 @@ struct LGChatMessage: ChatMessage, Decodable {
         let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
         objectId = try keyedContainer.decode(String.self, forKey: .objectId)
         talkerId = try keyedContainer.decode(String.self, forKey: .talkerId)
-        text = try keyedContainer.decode(String.self, forKey: .text)
-        let sentAtValue = try keyedContainer.decode(Double.self, forKey: .sentAt)
+        let sentAtValue = try keyedContainer.decode(TimeInterval.self, forKey: .sentAt)
         sentAt = Date.makeChatDate(millisecondsIntervalSince1970: sentAtValue)
-        let receivedAtValue = try keyedContainer.decodeIfPresent(Double.self, forKey: .receivedAt)
+        let receivedAtValue = try keyedContainer.decodeIfPresent(TimeInterval.self, forKey: .receivedAt)
         receivedAt = Date.makeChatDate(millisecondsIntervalSince1970: receivedAtValue)
-        let readAtValue = try keyedContainer.decodeIfPresent(Double.self, forKey: .readAt)
+        let readAtValue = try keyedContainer.decodeIfPresent(TimeInterval.self, forKey: .readAt)
         readAt = Date.makeChatDate(millisecondsIntervalSince1970: readAtValue)
-        // ChatMessageType defaults to .text as fallback for future message types
-        let stringChatMessageType = try keyedContainer.decode(String.self, forKey: .type)
-        type = ChatMessageType(rawValue: stringChatMessageType) ?? .text
         warnings = (try keyedContainer.decode(FailableDecodableArray<ChatMessageWarning>.self, forKey: .warnings)).validElements
-        assistantMeeting = type == .meeting ? LGAssistantMeeting.makeMeeting(from: text) : nil
+        content = try keyedContainer.decode(LGChatMessageContent.self, forKey: .content)
+        assistantMeeting = content.type == .meeting ? LGAssistantMeeting.makeMeeting(from: content.text) : nil
     }
     
     enum CodingKeys: String, CodingKey {
         case objectId = "message_id"
         case talkerId = "talker_id"
-        case text
         case sentAt = "sent_at"
         case receivedAt = "received_at"
         case readAt = "read_at"
-        case type
         case warnings
+        case content
     }
 }

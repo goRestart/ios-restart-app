@@ -39,7 +39,7 @@ struct LGChatInactiveMessage: ChatInactiveMessage, Decodable {
         let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
         objectId = try keyedContainer.decode(String.self, forKey: .objectId)
         talkerId = try keyedContainer.decode(String.self, forKey: .talkerId)
-        let sentAtValue = try keyedContainer.decodeIfPresent(Double.self, forKey: .sentAt)
+        let sentAtValue = try keyedContainer.decodeIfPresent(TimeInterval.self, forKey: .sentAt)
         sentAt = Date.makeChatDate(millisecondsIntervalSince1970: sentAtValue)
         let warningsElements = try keyedContainer.decodeIfPresent(FailableDecodableArray<ChatMessageWarning>.self, forKey: .warnings)
         warnings = warningsElements?.validElements ?? []

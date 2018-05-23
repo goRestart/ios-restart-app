@@ -815,13 +815,15 @@ extension ListingDeckViewModelSpec: ListingDetailNavigator {
                      bumpUpProductData: BumpUpProductData?,
                      listingCanBeBoosted: Bool,
                      timeSinceLastBump: TimeInterval?,
-                     maxCountdown: TimeInterval?) { }
+                     maxCountdown: TimeInterval) { }
     func openFreeBumpUp(forListing listing: Listing,
                         bumpUpProductData: BumpUpProductData,
-                        typePage: EventParameterTypePage?) {}
+                        typePage: EventParameterTypePage?,
+                        maxCountdown: TimeInterval) {}
     func openPayBumpUp(forListing listing: Listing,
                        bumpUpProductData: BumpUpProductData,
-                       typePage: EventParameterTypePage?) {}
+                       typePage: EventParameterTypePage?,
+                       maxCountdown: TimeInterval) {}
     func openBumpUpBoost(forListing listing: Listing,
                          bumpUpProductData: BumpUpProductData,
                          typePage: EventParameterTypePage?,

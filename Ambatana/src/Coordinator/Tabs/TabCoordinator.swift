@@ -190,12 +190,12 @@ fileprivate extension TabCoordinator {
                 switch error {
                 case .network:
                     self?.navigationController.dismissLoadingMessageAlert {
-                        self?.navigationController.showAutoFadingOutMessageAlert(LGLocalizedString.commonErrorConnectionFailed)
+                        self?.navigationController.showAutoFadingOutMessageAlert(message: LGLocalizedString.commonErrorConnectionFailed)
                     }
                 case .internalError, .unauthorized, .tooManyRequests, .userNotVerified, .serverError,
                      .wsChatError, .searchAlertError:
                     self?.navigationController.dismissLoadingMessageAlert {
-                        self?.navigationController.showAutoFadingOutMessageAlert(LGLocalizedString.commonProductNotAvailable)
+                        self?.navigationController.showAutoFadingOutMessageAlert(message: LGLocalizedString.commonProductNotAvailable)
                     }
                 case .notFound, .forbidden:
                     let relatedRequester = RelatedListingListRequester(listingId: listingId,
@@ -208,7 +208,7 @@ fileprivate extension TabCoordinator {
                                                                                requester: relatedRequester,
                                                                                relatedListings: relatedListings)
                             }
-                            self?.navigationController.showAutoFadingOutMessageAlert(LGLocalizedString.commonProductNotAvailable)
+                            self?.navigationController.showAutoFadingOutMessageAlert(message: LGLocalizedString.commonProductNotAvailable)
                         }
                     }
                 }
@@ -384,7 +384,7 @@ fileprivate extension TabCoordinator {
                     message = LGLocalizedString.commonUserNotAvailable
                 }
                 self?.navigationController.dismissLoadingMessageAlert {
-                    self?.navigationController.showAutoFadingOutMessageAlert(message)
+                    self?.navigationController.showAutoFadingOutMessageAlert(message: message)
                 }
             }
         }
@@ -394,32 +394,18 @@ fileprivate extension TabCoordinator {
         // If it's me do not then open the user profile
         guard myUserRepository.myUser?.objectId != user.objectId else { return }
 
-        if featureFlags.newUserProfileView.isActive {
-            let vm = UserProfileViewModel.makePublicProfile(user: user, source: source)
-            vm.navigator = self
-            let vc = UserProfileViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
-            navigationController.pushViewController(vc, animated: true)
-        } else {
-            let vm = UserViewModel(user: user, source: source)
-            vm.navigator = self
-            let vc = UserViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
-            navigationController.pushViewController(vc, animated: true)
-        }
+        let vm = UserProfileViewModel.makePublicProfile(user: user, source: source)
+        vm.navigator = self
+        let vc = UserProfileViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
+        navigationController.pushViewController(vc, animated: true)
     }
 
 
     func openUser(_ interlocutor: ChatInterlocutor) {
-        if featureFlags.newUserProfileView.isActive {
-            let vm = UserProfileViewModel.makePublicProfile(chatInterlocutor: interlocutor, source: .chat)
-            vm.navigator = self
-            let vc = UserProfileViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
-            navigationController.pushViewController(vc, animated: true)
-        } else {
-            let vm = UserViewModel(chatInterlocutor: interlocutor, source: .chat)
-            vm.navigator = self
-            let vc = UserViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
-            navigationController.pushViewController(vc, animated: true)
-        }
+        let vm = UserProfileViewModel.makePublicProfile(chatInterlocutor: interlocutor, source: .chat)
+        vm.navigator = self
+        let vc = UserProfileViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
+        navigationController.pushViewController(vc, animated: true)
     }
 
     func openConversation(_ conversation: ChatConversation, source: EventParameterTypePage, predefinedMessage: String?) {
@@ -480,7 +466,7 @@ fileprivate extension TabCoordinator {
              .wsChatError, .searchAlertError:
             message = LGLocalizedString.commonChatNotAvailable
         }
-        navigationController.showAutoFadingOutMessageAlert(message)
+        navigationController.showAutoFadingOutMessageAlert(message: message)
     }
 
 
@@ -504,6 +490,7 @@ fileprivate extension TabCoordinator {
 // MARK: > ListingDetailNavigator
 
 extension TabCoordinator: ListingDetailNavigator {
+    
     func openVideoPlayer(atIndex index: Int, listingVM: ListingViewModel, source: EventParameterListingVisitSource) {
         guard let coordinator = VideoPlayerCoordinator(atIndex: index, listingVM: listingVM, source: source) else {
             return
@@ -523,7 +510,7 @@ extension TabCoordinator: ListingDetailNavigator {
                      bumpUpProductData: BumpUpProductData?,
                      listingCanBeBoosted: Bool,
                      timeSinceLastBump: TimeInterval?,
-                     maxCountdown: TimeInterval?) {
+                     maxCountdown: TimeInterval) {
         let navigator = EditListingCoordinator(listing: listing,
                                                bumpUpProductData: bumpUpProductData,
                                                pageType: nil,
@@ -557,10 +544,12 @@ extension TabCoordinator: ListingDetailNavigator {
 
     func openFreeBumpUp(forListing listing: Listing,
                         bumpUpProductData: BumpUpProductData,
-                        typePage: EventParameterTypePage?) {
+                        typePage: EventParameterTypePage?,
+                        maxCountdown: TimeInterval) {
         let bumpCoordinator = BumpUpCoordinator(listing: listing,
                                                 bumpUpProductData: bumpUpProductData,
-                                                typePage: typePage)
+                                                typePage: typePage,
+                                                maxCountdown: maxCountdown)
         openChild(coordinator: bumpCoordinator,
                   parent: rootViewController,
                   animated: true,
@@ -570,10 +559,12 @@ extension TabCoordinator: ListingDetailNavigator {
 
     func openPayBumpUp(forListing listing: Listing,
                        bumpUpProductData: BumpUpProductData,
-                       typePage: EventParameterTypePage?) {
+                       typePage: EventParameterTypePage?,
+                       maxCountdown: TimeInterval) {
         let bumpCoordinator = BumpUpCoordinator(listing: listing,
                                                 bumpUpProductData: bumpUpProductData,
-                                                typePage: typePage)
+                                                typePage: typePage,
+                                                maxCountdown: maxCountdown)
         openChild(coordinator: bumpCoordinator,
                   parent: rootViewController,
                   animated: true,
@@ -671,6 +662,7 @@ extension TabCoordinator: ListingDetailNavigator {
         let askNumVM = ProfessionalDealerAskPhoneViewModel(listing: listing, interlocutor: interlocutor)
         askNumVM.navigator = self
         let askNumVC = ProfessionalDealerAskPhoneViewController(viewModel: askNumVM)
+        askNumVC.setupForModalWithNonOpaqueBackground()
         rootViewController.present(askNumVC, animated: true, completion: nil)
     }
 
@@ -704,7 +696,6 @@ extension TabCoordinator: ListingDetailNavigator {
         guard pages.count > 0 else { return }
         let viewModel = LGTutorialViewModel(pages: pages, origin: origin, tutorialType: tutorialType)
         let viewController = LGTutorialViewController(viewModel: viewModel)
-        viewController.modalPresentationStyle = .overFullScreen
         navigationController.present(viewController, animated: true, completion: nil)
     }
 
@@ -732,6 +723,11 @@ extension TabCoordinator: SimpleProductsNavigator {
 extension TabCoordinator: ChatDetailNavigator {
     func closeChatDetail() {
         navigationController.popViewController(animated: true)
+    }
+    
+    func openDeeplink(url: URL) {
+        guard let deepLink = UriScheme.buildFromUrl(url)?.deepLink else { return }
+        openDeepLink(deepLink)
     }
 
     func openExpressChat(_ listings: [Listing], sourceListingId: String, manualOpen: Bool) {
@@ -825,7 +821,7 @@ extension TabCoordinator: ExpressChatCoordinatorDelegate {
     func expressChatCoordinatorDidSentMessages(_ coordinator: ExpressChatCoordinator, count: Int) {
         let message = count == 1 ? LGLocalizedString.chatExpressOneMessageSentSuccessAlert :
             LGLocalizedString.chatExpressSeveralMessagesSentSuccessAlert
-        rootViewController.showAutoFadingOutMessageAlert(message)
+        rootViewController.showAutoFadingOutMessageAlert(message: message)
     }
 }
 
@@ -850,11 +846,10 @@ extension TabCoordinator: EditListingCoordinatorDelegate {
                                 didFinishWithListing listing: Listing,
                                 bumpUpProductData: BumpUpProductData?,
                                 timeSinceLastBump: TimeInterval?,
-                                maxCountdown: TimeInterval?) {
+                                maxCountdown: TimeInterval) {
         guard let bumpData = bumpUpProductData,
             bumpData.hasPaymentId else { return }
         if let timeSinceLastBump = timeSinceLastBump,
-            let maxCountdown = maxCountdown,
             timeSinceLastBump > 0,
             featureFlags.bumpUpBoost.isActive {
             openBumpUpBoost(forListing: listing,
@@ -865,7 +860,8 @@ extension TabCoordinator: EditListingCoordinatorDelegate {
         } else {
             openPayBumpUp(forListing: listing,
                           bumpUpProductData: bumpData,
-                          typePage: .edit)
+                          typePage: .edit,
+                          maxCountdown: maxCountdown)
         }
     }
 }

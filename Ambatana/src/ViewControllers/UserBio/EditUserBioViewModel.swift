@@ -19,8 +19,8 @@ final class EditUserBioViewModel: BaseViewModel {
     weak var navigator: EditUserBioNavigator?
     weak var delegate: BaseViewModelDelegate?
 
-    var userBio: Driver<String?> {
-        return myUserRepository.rx_myUser.asDriver(onErrorJustReturn: nil).map { $0?.biography }
+    var userBio: String? {
+        return myUserRepository.myUser?.biography
     }
 
     init(myUserRepository: MyUserRepository, tracker: Tracker) {

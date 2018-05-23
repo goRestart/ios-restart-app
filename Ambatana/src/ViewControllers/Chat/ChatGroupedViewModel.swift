@@ -123,7 +123,8 @@ class ChatGroupedViewModel: BaseViewModel {
                     icon: UIImage(named: "err_list_no_blocked_users"),
                     title: LGLocalizedString.chatListBlockedEmptyTitle,
                     body: LGLocalizedString.chatListBlockedEmptyBody, buttonTitle: nil, action: nil,
-                    secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: .emptyResults, errorCode: nil)
+                    secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: .emptyResults, errorCode: nil,
+                    errorDescription: nil)
             }
         }
         setupRxBindings()
@@ -139,7 +140,7 @@ class ChatGroupedViewModel: BaseViewModel {
                                                         self?.refreshCurrentPage()
                                                         },
                                                       secondaryButtonTitle: nil, secondaryAction: nil,
-                                                      emptyReason: .verification, errorCode: nil)
+                                                      emptyReason: .verification, errorCode: nil, errorDescription: nil)
     }
 
     // MARK: - Public methods
@@ -244,7 +245,7 @@ class ChatGroupedViewModel: BaseViewModel {
             }))
         }
         
-        if currentTab.value.markAllConversationAsReadButtonEnabled(isFeatureFlagEnabled: featureFlags.markAllConversationsAsRead) {
+        if currentTab.value.markAllConversationAsReadButtonEnabled(isFeatureFlagEnabled: featureFlags.markAllConversationsAsRead.isActive) {
             actions.append(UIAction(interface: UIActionInterface.text(LGLocalizedString.chatMarkConversationAsReadButton),
                                     action: { [weak self] in
                                         self?.markAllConversationAsRead()
@@ -283,8 +284,7 @@ class ChatGroupedViewModel: BaseViewModel {
             secondaryButtonTitle: LGLocalizedString.chatListBuyingEmptyButton,
             secondaryAction: { [weak self] in
                 self?.tabNavigator?.openHome()
-            }, emptyReason: nil, errorCode: nil
-        )
+            }, emptyReason: nil, errorCode: nil, errorDescription: nil)
         let chatListViewModel: ChatListViewModel
         chatListViewModel = ChatListViewModel(chatsType: chatsType, tabNavigator: tabNavigator)
         chatListViewModel.emptyStatusViewModel = emptyVM
@@ -299,8 +299,7 @@ class ChatGroupedViewModel: BaseViewModel {
             action: { [weak self] in
                 self?.tabNavigator?.openSell(source: .sellButton, postCategory: nil)
             },
-            secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: nil, errorCode: nil
-        )
+            secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: nil, errorCode: nil, errorDescription: nil)
         let chatListViewModel: ChatListViewModel
         chatListViewModel = ChatListViewModel(chatsType: chatsType, tabNavigator: tabNavigator)
         chatListViewModel.emptyStatusViewModel = emptyVM
@@ -315,8 +314,7 @@ class ChatGroupedViewModel: BaseViewModel {
             action: { [weak self] in
                 self?.tabNavigator?.openHome()
             },
-            secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: nil, errorCode: nil
-        )
+            secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: nil, errorCode: nil, errorDescription: nil)
         let chatListViewModel: ChatListViewModel
         chatListViewModel = ChatListViewModel(chatsType: chatsType, tabNavigator: tabNavigator)
         chatListViewModel.emptyStatusViewModel = emptyVM

@@ -140,7 +140,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedListViewDelegate
     func chatListView(_ chatListView: ChatListView, didFinishArchivingWithMessage message: String?) {
         dismissLoadingMessageAlert { [weak self] in
             if let message = message {
-                self?.showAutoFadingOutMessageAlert(message)
+                self?.showAutoFadingOutMessageAlert(message: message)
             } else {
                 self?.setEditing(false, animated: true)
             }
@@ -150,7 +150,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedListViewDelegate
     func chatListView(_ chatListView: ChatListView, didFinishUnarchivingWithMessage message: String?) {
         dismissLoadingMessageAlert { [weak self] in
             if let message = message {
-                self?.showAutoFadingOutMessageAlert(message)
+                self?.showAutoFadingOutMessageAlert(message: message)
             } else {
                 self?.setEditing(false, animated: true)
             }
@@ -171,7 +171,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedListViewDelegate
     func didFinishUnblockingWithMessage(_ message: String?) {
         dismissLoadingMessageAlert { [weak self] in
             if let message = message {
-                self?.showAutoFadingOutMessageAlert(message)
+                self?.showAutoFadingOutMessageAlert(message: message)
             } else {
                 self?.setEditing(false, animated: true)
             }

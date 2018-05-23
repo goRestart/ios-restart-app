@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import MapKit
 import LGCoreKit
 
 fileprivate struct DetailNumberOfLines {
@@ -26,14 +25,16 @@ protocol ListingCardDetailsViewDelegate: class {
 final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCardDetailsViewType {
     private struct Layout {
         struct Height { static let mapView: CGFloat = 136.0  }
-        struct Margin { static let statsToDetail: CGFloat = 30 }
+        struct Margin {
+            static let statsToDetail: CGFloat = 30
+            static let socialView: CGFloat = -3
+        }
     }
     private struct Colors {
         static let headerColor = #colorLiteral(red: 0.4588235294, green: 0.4588235294, blue: 0.4588235294, alpha: 1)
     }
     private struct Map {
         static let snapshotSize = CGSize(width: 300, height: 500)
-        static let snapshotSpan = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
     }
 
     var delegate: (ListingCardDetailsViewDelegate & ListingCardDetailMapViewDelegate)? {
@@ -130,9 +131,9 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
     func populateWith(productInfo: ListingVMProductInfo?, showExactLocationOnMap: Bool) {
         guard let info = productInfo else { return }
         if let location = info.location {
-            let center = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
-            let region = MKCoordinateRegion(center: center, span: Map.snapshotSpan)
-            detailMapView.setRegion(region, size: Map.snapshotSize, showExactLocationOnMap: showExactLocationOnMap)
+            detailMapView.setLocation(location,
+                                      size: Map.snapshotSize,
+                                      showExactLocationOnMap: showExactLocationOnMap)
         }
         titleLabel.text = info.title
         titleLabel.isHidden = info.title == nil
@@ -247,14 +248,14 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
             mapSnapShotToSocialView?.isActive = true
             socialMediaHeader
                 .layout(with: self)
-                .fillHorizontal(by: Metrics.margin)
+                .fillHorizontal(by: Metrics.shortMargin)
         }
 
         func setupSocialView() {
             socialShareView.topAnchor.constraint(equalTo: socialMediaHeader.bottomAnchor).isActive = true
             socialShareView
                 .layout(with: self)
-                .fillHorizontal(by: 7.0)
+                .fillHorizontal(by: Layout.Margin.socialView)
             socialShareView.bottomAnchor.constraint(equalTo: bottomAnchor,
                                                     constant: -2*Metrics.margin).isActive = true
             socialShareView.setupBackgroundColor(.white)

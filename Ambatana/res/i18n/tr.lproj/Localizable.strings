@@ -137,6 +137,11 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "Güvenlik nedeniyle, bu kullanıcının hesabı letgo ekibi tarafından silinmiştir ve bu mesajlar da kaldırılmıştır.";
 "chat_connect_account_disclaimer_button" = "Hemen hesabını doğrula!";
 "chat_connect_accounts_title" = "GÜVEN KAZAN!";
+"chat_conversations_list_blocked_users_button" = "Engellenmiş kullanıcıları gör";
+"chat_conversations_list_filter_all" = "Hepsi";
+"chat_conversations_list_filter_buying" = "Aliş";
+"chat_conversations_list_filter_selling" = "Satiş";
+"chat_conversations_list_letgo_assistant_tag" = "letgo assistant";
 "chat_deleted_disclaimer_w_name" = "%@ isimli kullanıcının hesabı artık aktif olmadığı için bu sohbete devam edemezsin.";
 "chat_deleted_disclaimer_wo_name" = "Bu hesap artık aktif olmadığı için bu sohbete devam edemezsin.";
 "chat_disclaimer_letgo_team" = "LETGO EKİBİ";
@@ -172,8 +177,8 @@
 "chat_list_buying_title" = "ALIŞ";
 "chat_list_delete" = "Sil";
 "chat_list_delete_alert_send" = "Sil";
-"chat_list_delete_alert_text_multiple" = "Bu sohbetleri sileceksin";
-"chat_list_delete_alert_text_one" = "Bu sohbeti sileceksin";
+"chat_list_delete_alert_text_multiple" = "Bu sohbetleri kalıcı olarak sileceksin";
+"chat_list_delete_alert_text_one" = "Bu sohbeti kalıcı olarak sileceksin";
 "chat_list_delete_alert_title_multiple" = "Sohbetleri Sil";
 "chat_list_delete_alert_title_one" = "Sohbeti Sil";
 "chat_list_delete_error_one" = "Bu sohbet silinirken hata oluştu. Lütfen tekrar dene.";
@@ -215,7 +220,7 @@
 "chat_send_error_generic" = "Mesaj gönderilirken bir hata oluştu. Lütfen tekrar dene.";
 "chat_stickers_tooltip_new" = "YENİ!";
 "chat_unblock_user" = "Engellemeyi Kaldır";
-"chat_user_info_letgo_assistant" = "I'm a virtual assistant that gives you tips and helps you sell.";
+"chat_user_info_letgo_assistant" = "Ben, sana ipuçları veren ve satış yapmana yardım eden sanal bir asistanım.";
 "chat_user_info_name" = "Merhaba, Ben %@";
 "chat_user_info_verified_with" = "Şununla doğrulandı: ";
 "chat_user_rating_button_tooltip" = "Bu kullanıcıyı değerlendir";
@@ -411,6 +416,8 @@
 "hidden_phone_tag" = "[TELEFON NUMARASI GİZLENMİŞTİR]";
 "hidden_text_alert_description" = "Güvenli alışveriş yapmana yardımcı olmak adına iletişim bilgilerini gizledik. letgo üzerinden mesajlaşmak kolay ve daha güvenlidir.";
 "hidden_text_alert_title" = "GÜVENDE KAL";
+"listing_map_redo_search" = "Bu bölgeyi ara";
+"listings_map_no_results_message" = "Araman ile tam eşleşen bir şey yok. Farklı bir bölgede aramayı ya da farklı filtreler kullanmayı dene.";
 "listings_map_title" = "Harita görünümü";
 "location_permissions_allow_button" = "İzin Ver";
 "location_permissions_bubble" = "senden 1km uzakta";
@@ -574,7 +581,7 @@
 "phone_verification_code_input_view_content_subtext" = "%@ içinde almazsan başka bir kod talep edebilirsin";
 "phone_verification_code_input_view_content_subtitle" = "%@ numarasına gönderdik";
 "phone_verification_code_input_view_content_title" = "6 haneli kodu gir";
-"phone_verification_code_input_view_error_message" = "Oops! An error occurred while validating the code. Please try again.";
+"phone_verification_code_input_view_error_message" = "Oops! Kod doğrulanırken bir hata oluştu. Lütfen tekrar dene.";
 "phone_verification_code_input_view_title" = "Numara doğrulama";
 "phone_verification_code_input_view_validated_failure" = "Girdiğin doğrulama kodu yanlış.";
 "phone_verification_code_input_view_validated_success" = "Telefon numarası doğrulandı!";
@@ -585,7 +592,7 @@
 "phone_verification_number_input_view_confirmation_title" = "Teşekkürler!";
 "phone_verification_number_input_view_continue_button" = "Devam Et";
 "phone_verification_number_input_view_description" = "Telefon numaranı doğrulayarak güven kazan";
-"phone_verification_number_input_view_error_message" = "Oops! An error occurred while sending the text message. Please try again.";
+"phone_verification_number_input_view_error_message" = "Oops! Kısa mesaj gönderilirken bir hata oluştu. Lütfen tekrar dene.";
 "phone_verification_number_input_view_sending_message" = "Kısa mesaj gönderiliyor…";
 "phone_verification_number_input_view_textfield_placeholder" = "Telefon Numarası";
 "phone_verification_number_input_view_title" = "Numara doğrulama";
@@ -773,6 +780,7 @@
 "product_post_select_category_motors_and_accessories" = "Diğer Araçlar ve Yedek Parça";
 "product_post_select_category_other" = "Diğer eşyalar";
 "product_post_select_category_real_estate" = "Emlak";
+"product_post_select_category_services" = "Hizmetler";
 "product_post_select_category_title" = "Ne satıyorsun?";
 "product_post_use_photo" = "Yayınla";
 "product_post_use_photo_not_logged" = "Fotoğraf Kullan";
@@ -851,6 +859,7 @@
 "profile_permissions_alert_ok" = "Aç";
 "profile_permissions_alert_title" = "YANITLARI KAÇIRMA!";
 "profile_permissions_header_message" = "Mesaj bildirimlerini aç";
+"profile_reputation_tooltip_title" = "User verified! Tap if you want to be verified too";
 "profile_reviews_count" = "Yorum";
 "profile_reviews_tab" = "Yorum";
 "profile_selling_no_products_label" = "(HENÜZ!) İLAN YOK";
@@ -868,8 +877,8 @@
 "profile_verifications_view_extra_section_title" = "AL & SAT";
 "profile_verifications_view_facebook_title" = "Facebook";
 "profile_verifications_view_google_title" = "Google";
-"profile_verifications_view_mark_as_sold_subtitle" = "Her biri +2 puan (10 puana kadar)";
-"profile_verifications_view_mark_as_sold_title" = "Bir ilanı satıldı olarak işaretle";
+"profile_verifications_view_mark_as_sold_subtitle" = "Her ilan için +2 puan (10 puana kadar)";
+"profile_verifications_view_mark_as_sold_title" = "Satıldı olarak işaretle";
 "profile_verifications_view_phone_number_title" = "Telefon Numarası";
 "profile_verifications_view_photo_id_title" = "Kimlik fotoğrafı";
 "profile_verifications_view_profile_picture_title" = "Profil resmi";
@@ -1069,6 +1078,7 @@
 "search_alerts_placeholder_empty_text" = "Yeni ilanlar yayınlandığında bildirim almak için aramalara abone ol.";
 "search_alerts_placeholder_error_button" = "Try Again";
 "search_alerts_placeholder_error_text" = "Oops! Arama alarmların yüklenirken bir hata oluştu";
+"search_letgo" = "letgo'da ara";
 "sell_category_selection_label" = "Kategori";
 "sell_choose_category_dialog_cancel_button" = "İptal et";
 "sell_choose_category_dialog_title" = "Bir kategori seç";

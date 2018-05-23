@@ -35,7 +35,6 @@ class EscrowEnvironment: AppEnvironment {
     // Website
     let websiteBaseUrl = "https://www.escrowverification.com"
     let websiteBaseUrlWithLocaleParams = "https://%@.escrowverification.com/%@"
-    let websiteBaseUrlWithLanguageParam = "https://%@.escrowverification.com"
     
     // Google Ads
     let adTestModeActive = true
@@ -47,6 +46,8 @@ class EscrowEnvironment: AppEnvironment {
     let feedAdUnitIdDFPUSA20Ratio = ""
     var feedAdUnitIdAdxUSAForAllUsers = ""
     var feedAdUnitIdAdxUSAForOldUsers = ""
+    var feedAdUnitIdAdxTRForAllUsers = ""
+    var feedAdUnitIdAdxTRForOldUsers = ""
     
     // MoPub Ads
     let feedAdUnitIdMoPubUSAForAllUsers = ""

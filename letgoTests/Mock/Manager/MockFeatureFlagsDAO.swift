@@ -9,10 +9,11 @@
 @testable import LetGoGodMode
 
 class MockFeatureFlagsDAO: FeatureFlagsDAO {
+    
     var timeoutForRequests: TimeInterval?
-    var newUserProfile: NewUserProfileView?
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem?
     var emergencyLocate: EmergencyLocate?
+    var chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs?
 
     func retrieveTimeoutForRequests() -> TimeInterval? {
         return timeoutForRequests
@@ -20,14 +21,6 @@ class MockFeatureFlagsDAO: FeatureFlagsDAO {
 
     func save(timeoutForRequests: TimeInterval) {
         self.timeoutForRequests = timeoutForRequests
-    }
-
-    func retrieveNewUserProfile() -> NewUserProfileView? {
-        return newUserProfile
-    }
-
-    func save(newUserProfile: NewUserProfileView) {
-        self.newUserProfile = newUserProfile
     }
 
     func retrieveShowAdvanceReputationSystem() -> ShowAdvancedReputationSystem? {
@@ -44,5 +37,13 @@ class MockFeatureFlagsDAO: FeatureFlagsDAO {
 
     func save(emergencyLocate: EmergencyLocate) {
         self.emergencyLocate = emergencyLocate
+    }
+    
+    func retrieveChatConversationsListWithoutTabs() -> ChatConversationsListWithoutTabs? {
+        return chatConversationsListWithoutTabs
+    }
+    
+    func save(chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs) {
+        self.chatConversationsListWithoutTabs = chatConversationsListWithoutTabs
     }
 }

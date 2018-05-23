@@ -10,6 +10,23 @@ import LGCoreKit
 import RxSwift
 import RxCocoa
 
+enum UserSource {
+    case tabBar
+    case listingDetail
+    case chat
+    case notifications
+    case link
+}
+
+struct UserViewHeaderAccounts {
+    let facebookLinked: Bool
+    let facebookVerified: Bool
+    let googleLinked: Bool
+    let googleVerified: Bool
+    let emailLinked: Bool
+    let emailVerified: Bool
+}
+
 protocol UserProfileViewModelDelegate: BaseViewModelDelegate {
     func vmShowNativeShare(_ socialMessage: SocialMessage)
 }
@@ -57,6 +74,7 @@ final class UserProfileViewModel: BaseViewModel {
     var userLocation: Driver<String?> { return user.asDriver().map{$0?.postalAddress.cityStateString} }
     var userAccounts: Driver<UserViewHeaderAccounts?> { return user.asDriver().map { [weak self] in self?.buildAccountsModel($0) } }
     var userRatingAverage: Driver<Float> { return user.asDriver().map{$0?.ratingAverage ?? 0} }
+    var userRatingCount: Driver<Int> { return user.asDriver().map{$0?.ratingCount ?? 0} }
     var userIsProfessional: Driver<Bool> { return user.asDriver().map {$0?.type == .pro} }
     var userBio: Driver<String?> { return user.asDriver().map { $0?.biography } }
     var userScore: Driver<Int> { return user.asDriver().map { $0?.reputationPoints ?? 0} }
@@ -189,7 +207,7 @@ final class UserProfileViewModel: BaseViewModel {
         case .selling: sellingListingListViewModel.retrieveListings()
         case .sold: soldListingListViewModel.retrieveListings()
         case .favorites: favoritesListingListViewModel.retrieveListings()
-        case .reviews: break
+        case .reviews: ratingListViewModel.userRatingListRequester.retrieveFirstPage()
         }
     }
 
@@ -249,12 +267,24 @@ extension UserProfileViewModel {
                                       completion: { [weak self] result in
                                         if let _ = result.value {
                                             self?.trackUpdateAvatarComplete()
+                                            self?.refreshUser()
                                         } else {
                                             self?.delegate?
                                                 .vmShowAutoFadingMessage(LGLocalizedString.settingsChangeProfilePictureErrorGeneric,
                                                                          completion: nil)
                                         }
         })
+    }
+
+    // The Reputation Points after an Avatar Update takes some time to be processed
+    // We refresh the user a few times to make sure the points are up to date.
+    private func refreshUser(retries: Int = 0) {
+        guard retries < 3 else { return }
+        myUserRepository.refresh { [weak self] _ in
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
+                self?.refreshUser(retries: retries + 1)
+            })
+        }
     }
 
     func didTapShareButton() {
@@ -615,7 +645,8 @@ extension UserProfileViewModel {
                                 secondaryButtonTitle: nil,
                                 secondaryAction: nil,
                                 emptyReason: .emptyResults,
-                                errorCode: nil)
+                                errorCode: nil,
+                                errorDescription: nil)
     }
 }
 

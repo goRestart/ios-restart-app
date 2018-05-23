@@ -39,9 +39,6 @@ final class TourLocationViewController: BaseViewController {
             super.init(viewModel: nil, nibName: "TourLocationViewController",
                        statusBarStyle: .lightContent)
         }
-
-        modalPresentationStyle = .overCurrentContext
-        modalTransitionStyle = .crossDissolve
         self.viewModel.delegate = self
     }
 

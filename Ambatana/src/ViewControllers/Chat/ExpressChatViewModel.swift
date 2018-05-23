@@ -190,9 +190,10 @@ extension ExpressChatViewModel {
                                                          listingVisitSource: .unknown,
                                                          feedPosition: .none,
                                                          userBadge: .noBadge,
-                                                         containsVideo: containsVideo))
+                                                         containsVideo: containsVideo,
+                                                         isProfessional: nil))
         }
-        tracker.trackEvent(TrackerEvent.userMessageSent(info: info))
+        tracker.trackEvent(TrackerEvent.userMessageSent(info: info, isProfessional: nil))
     }
 
     static func singleMessageTrackingError(_ tracker: Tracker,
@@ -214,7 +215,7 @@ extension ExpressChatViewModel {
         let sendMessageInfo = SendMessageTrackingInfo()
             .set(listing: listing, freePostingModeAllowed: freePostingModeAllowed)
             .set(messageType: .text)
-            .set(quickAnswerType: nil)
+            .set(quickAnswerTypeParameter: nil)
             .set(typePage: .expressChat)
             .set(isBumpedUp: .falseParameter)
             .set(containsEmoji: containsEmoji)

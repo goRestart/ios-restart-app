@@ -9,7 +9,7 @@
 import UIKit
 
 
-class AppShareViewController: UIViewController {
+final class AppShareViewController: UIViewController {
 
     @IBOutlet weak var contentContainer: UIView!
     @IBOutlet weak var headerImageView: UIImageView!
@@ -55,7 +55,7 @@ class AppShareViewController: UIViewController {
         self.myUserId = myUserId
         self.myUserName = myUserName
         super.init(nibName: "AppShareViewController", bundle: nil)
-        modalPresentationStyle = .overCurrentContext
+        setupForModalWithNonOpaqueBackground()
         modalTransitionStyle = .crossDissolve
         socialSharer.delegate = self
     }
@@ -152,7 +152,7 @@ class AppShareViewController: UIViewController {
 
     fileprivate func dismissShowingShareOk() {
         view.isHidden = true
-        showAutoFadingOutMessageAlert(LGLocalizedString.settingsInviteFacebookFriendsOk) { [weak self] in
+        showAutoFadingOutMessageAlert(message: LGLocalizedString.settingsInviteFacebookFriendsOk) { [weak self] in
             self?.dismiss(animated: false, completion: nil)
         }
     }

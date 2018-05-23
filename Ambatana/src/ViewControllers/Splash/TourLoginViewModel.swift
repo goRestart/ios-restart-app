@@ -67,6 +67,9 @@ extension TourLoginViewModel: SignUpViewModelDelegate {
     func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?) {
         delegate?.vmShowAutoFadingMessage(message, completion: completion)
     }
+    func vmShowAutoFadingMessage(title: String, message: String, time: Double, completion: (() -> ())?) {
+        delegate?.vmShowAutoFadingMessage(title: title, message: message, time: time, completion: completion)
+    }
     func vmShowLoading(_ loadingMessage: String?) {
         delegate?.vmShowLoading(loadingMessage)
     }

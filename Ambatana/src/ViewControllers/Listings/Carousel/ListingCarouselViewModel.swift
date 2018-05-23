@@ -192,8 +192,8 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     var dfpContentURL: String? {
-        guard let listingId = currentListingViewModel?.listing.value.objectId else { return nil}
-        return LetgoURLHelper.buildLanguageLocalizedProductURL(listingId: listingId)?.absoluteString
+        guard let listingId = currentListingViewModel?.listing.value.objectId else { return nil }
+        return LetgoURLHelper.buildProductURL(listingId: listingId, isLocalized: true)?.absoluteString
     }
     var randomHardcodedAdQuery: String {
         let popularItems = ["ps4", "iphone", LGLocalizedString.productPostIncentiveDresser]
@@ -779,6 +779,9 @@ extension ListingCarouselViewModel: ListingViewModelDelegate {
     
     func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?) {
         delegate?.vmShowAutoFadingMessage(message, completion: completion)
+    }
+    func vmShowAutoFadingMessage(title: String, message: String, time: Double, completion: (() -> ())?) {
+        delegate?.vmShowAutoFadingMessage(title: title, message: message, time: time, completion: completion)
     }
     func vmShowLoading(_ loadingMessage: String?) {
         delegate?.vmShowLoading(loadingMessage)

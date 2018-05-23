@@ -141,7 +141,7 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
         case .network, .internalError:
             message = LGLocalizedString.changePasswordSendErrorGeneric
         }
-        self.showAutoFadingOutMessageAlert(message)
+        self.showAutoFadingOutMessageAlert(message: message)
     }
     
     func viewModel(_ viewModel: ChangePasswordViewModel, didFinishSendingPasswordWithResult
@@ -155,7 +155,7 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
                     self.passwordTextfield.text = ""
                     self.confirmPasswordTextfield.text = ""
                     
-                    self.showAutoFadingOutMessageAlert(LGLocalizedString.changePasswordSendOk) { [weak self] in
+                    self.showAutoFadingOutMessageAlert(message: LGLocalizedString.changePasswordSendOk) { [weak self] in
                         self?.viewModel.passwordChangedCorrectly()
                     }
                 }
@@ -174,7 +174,7 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
                     message = LGLocalizedString.changePasswordSendErrorGeneric
                 }
                 completion = {
-                    self.showAutoFadingOutMessageAlert(message)
+                    self.showAutoFadingOutMessageAlert(message: message)
                 }
             }
             dismissLoadingMessageAlert(completion)

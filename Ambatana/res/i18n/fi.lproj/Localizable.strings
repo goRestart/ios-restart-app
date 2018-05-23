@@ -137,6 +137,11 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "letgo-tiimi on poistanut tämän tilin turvallisuussyistä, ja nämä viestit on poistettu.";
 "chat_connect_account_disclaimer_button" = "Todenna nyt!";
 "chat_connect_accounts_title" = "KASVATA LUOTTAMUSTA!";
+"chat_conversations_list_blocked_users_button" = "Näytä estetyt käyttäjät";
+"chat_conversations_list_filter_all" = "Kaikki";
+"chat_conversations_list_filter_buying" = "Ostot";
+"chat_conversations_list_filter_selling" = "Myynit";
+"chat_conversations_list_letgo_assistant_tag" = "letgo assistant";
 "chat_deleted_disclaimer_w_name" = "Et voi jatkaa tätä keskustelua, koska käyttäjän %@ tili ei ole enää aktiivinen.";
 "chat_deleted_disclaimer_wo_name" = "Et voi jatkaa tätä keskustelua, koska tämä tili ei ole enää aktiivinen.";
 "chat_disclaimer_letgo_team" = "LETGO-TIIMI";
@@ -172,8 +177,8 @@
 "chat_list_buying_title" = "OSTOT";
 "chat_list_delete" = "Poista";
 "chat_list_delete_alert_send" = "Poista";
-"chat_list_delete_alert_text_multiple" = "Olet poistamassa näitä keskusteluja";
-"chat_list_delete_alert_text_one" = "Olet poistamassa tätä keskustelua";
+"chat_list_delete_alert_text_multiple" = "Olet poistamassa nämä keskustelut pysyvästi";
+"chat_list_delete_alert_text_one" = "Olet poistamassa tämän keskustelun pysyvästi";
 "chat_list_delete_alert_title_multiple" = "Poista keskustelut";
 "chat_list_delete_alert_title_one" = "Poista keskustelu";
 "chat_list_delete_error_one" = "Tätä keskustelua poistettaessa tapahtui virhe. Ole hyvä ja yritä uudelleen.";
@@ -215,7 +220,7 @@
 "chat_send_error_generic" = "Viestiä lähetettäessä tapahtui virhe. Ole hyvä ja yritä uudelleen.";
 "chat_stickers_tooltip_new" = "UUTTA!";
 "chat_unblock_user" = "Poista käyttäjän esto";
-"chat_user_info_letgo_assistant" = "I'm a virtual assistant that gives you tips and helps you sell.";
+"chat_user_info_letgo_assistant" = "Olen virtuaaliassistentti, joka antaa sinulle vinkkejä ja auttaa sinua myymään.";
 "chat_user_info_name" = "Hei, olen %@";
 "chat_user_info_verified_with" = "Todennettu käyttäen: ";
 "chat_user_rating_button_tooltip" = "Arvostele tämä käyttäjä";
@@ -411,6 +416,8 @@
 "hidden_phone_tag" = "[PUHELINNUMERO PIILOTETTU]";
 "hidden_text_alert_description" = "Piilotamme yhteystiedot auttaaksemme sinua ostamaan ja myymään turvallisesti. Keskustelu letgon sisällä on helppoa ja turvallisempaa.";
 "hidden_text_alert_title" = "PYSY TURVASSA";
+"listing_map_redo_search" = "Hae tältä alueelta";
+"listings_map_no_results_message" = "Täysin hakuasi vastaavia osumia ei löytynyt. Kokeile hakea toiselta alueelta tai eri suodattimien avulla.";
 "listings_map_title" = "Karttanäkymä";
 "location_permissions_allow_button" = "Salli";
 "location_permissions_bubble" = "0.1 km sinusta";
@@ -574,7 +581,7 @@
 "phone_verification_code_input_view_content_subtext" = "Voit pyytää uutta koodia, jos et saa koodia %@ sisällä";
 "phone_verification_code_input_view_content_subtitle" = "Lähetimme viestin numeroon %@";
 "phone_verification_code_input_view_content_title" = "Syötä 6-numeroinen koodi";
-"phone_verification_code_input_view_error_message" = "Oops! An error occurred while validating the code. Please try again.";
+"phone_verification_code_input_view_error_message" = "Hups! Koodia todennettaessa tapahtui virhe. Ole hyvä ja yritä uudelleen.";
 "phone_verification_code_input_view_title" = "Numeron vahvistus";
 "phone_verification_code_input_view_validated_failure" = "Syöttämäsi vahvistuskoodi on väärä.";
 "phone_verification_code_input_view_validated_success" = "Puhelinnumero vahvistettu!";
@@ -585,7 +592,7 @@
 "phone_verification_number_input_view_confirmation_title" = "Kiitos!";
 "phone_verification_number_input_view_continue_button" = "Jatka";
 "phone_verification_number_input_view_description" = "Luo luottamusta vahvistamalla puhelinnumerosi";
-"phone_verification_number_input_view_error_message" = "Oops! An error occurred while sending the text message. Please try again.";
+"phone_verification_number_input_view_error_message" = "Hups! Tekstiviestiä lähetettäessä tapahtui virhe. Ole hyvä ja yritä uudelleen.";
 "phone_verification_number_input_view_sending_message" = "Lähetetään tekstiviestiä…";
 "phone_verification_number_input_view_textfield_placeholder" = "Puhelinnumero";
 "phone_verification_number_input_view_title" = "Numeron vahvistus";
@@ -773,6 +780,7 @@
 "product_post_select_category_motors_and_accessories" = "Muut ajoneuvot ja varusteet";
 "product_post_select_category_other" = "Muut tuotteet";
 "product_post_select_category_real_estate" = "Kiinteistöt";
+"product_post_select_category_services" = "Palvelut";
 "product_post_select_category_title" = "Mitä olet julkaisemassa?";
 "product_post_use_photo" = "Käytä";
 "product_post_use_photo_not_logged" = "Käytä kuvaa";
@@ -851,6 +859,7 @@
 "profile_permissions_alert_ok" = "Ota käyttöön";
 "profile_permissions_alert_title" = "ÄLÄ MISSAA VASTAUSTA!";
 "profile_permissions_header_message" = "Ota viesti-ilmoitukset käyttöön";
+"profile_reputation_tooltip_title" = "User verified! Tap if you want to be verified too";
 "profile_reviews_count" = "arvostelua";
 "profile_reviews_tab" = "arvostelua";
 "profile_selling_no_products_label" = "EI ILMOITUKSIA (VIELÄ!)";
@@ -868,8 +877,8 @@
 "profile_verifications_view_extra_section_title" = "OSTA & MYY";
 "profile_verifications_view_facebook_title" = "Facebook";
 "profile_verifications_view_google_title" = "Google";
-"profile_verifications_view_mark_as_sold_subtitle" = "+2 p jokaisesta (10 p saakka)";
-"profile_verifications_view_mark_as_sold_title" = "Merkitse ilmoitus myydyksi";
+"profile_verifications_view_mark_as_sold_subtitle" = "+2 p jokaisesta ilmoituksesta (10 p saakka)";
+"profile_verifications_view_mark_as_sold_title" = "Merkitse Myydyksi";
 "profile_verifications_view_phone_number_title" = "Puhelinnumero";
 "profile_verifications_view_photo_id_title" = "Kuvallinen henkilötodistus";
 "profile_verifications_view_profile_picture_title" = "Profiilikuva";
@@ -1069,6 +1078,7 @@
 "search_alerts_placeholder_empty_text" = "Tilaa hakuvahteja saadaksesi tiedon, kun uusia ilmoituksia julkaistaan.";
 "search_alerts_placeholder_error_button" = "Try Again";
 "search_alerts_placeholder_error_text" = "Hups! Hakuvahtejasi ladattaessa tapahtui virhe";
+"search_letgo" = "Etsi letgosta";
 "sell_category_selection_label" = "Kategoria";
 "sell_choose_category_dialog_cancel_button" = "Peruuta";
 "sell_choose_category_dialog_title" = "Valitse kategoria";

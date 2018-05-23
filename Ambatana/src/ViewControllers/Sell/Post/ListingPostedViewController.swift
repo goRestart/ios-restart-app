@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ListingPostedViewController: BaseViewController, ListingPostedViewModelDelegate {
+final class ListingPostedViewController: BaseViewController, ListingPostedViewModelDelegate {
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var shareButton: UIButton!
     @IBOutlet weak var contentContainer: UIView!
@@ -43,7 +43,6 @@ class ListingPostedViewController: BaseViewController, ListingPostedViewModelDel
         super.init(viewModel: viewModel, nibName: "ListingPostedViewController")
         viewModel.delegate = self
         socialSharer.delegate = self
-        modalPresentationStyle = .overCurrentContext
         modalTransitionStyle = .crossDissolve
         modalPresentationCapturesStatusBarAppearance = true
         setReachabilityEnabled(false)

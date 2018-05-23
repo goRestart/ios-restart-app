@@ -29,4 +29,17 @@ extension ListingSortCriteria {
     static func allValues() -> [ListingSortCriteria] {
         return [.creation, .distance, .priceAsc, .priceDesc]
     }
+    
+    var trackValue: EventParameterSortBy {
+        switch self {
+        case .distance:
+            return .distance
+        case .creation:
+            return .creationDate
+        case .priceAsc:
+            return .priceAsc
+        case .priceDesc:
+            return .priceDesc
+        }
+    }
 }

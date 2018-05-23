@@ -61,7 +61,7 @@ class MultipageRequesterSpec: QuickSpec {
                     pageResults[6] = (10, StringResult(error: .tooManyRequests))
                     pageResults[7] = (10, StringResult(error: .internalError(message: "oh my god")))
                     pageResults[8] = (10, StringResult(error: .userNotVerified))
-                    pageResults[9] = (10, StringResult(error: .unauthorized(code: 1992)))
+                    pageResults[9] = (10, StringResult(error: .unauthorized(code: 1992, description: "oh my god")))
                     result = nil
                     pages = []
                 }
@@ -111,9 +111,9 @@ class MultipageRequesterSpec: QuickSpec {
                     }
                 }
 
-                context("5 failing pages with all pages taking the same time to call back") {
+                context("3 failing pages with all pages taking the same time to call back") {
                     beforeEach {
-                        pages = [5,6,7,8,9]
+                        pages = [5,6,8]
                         sut.request(pages: pages, completion: completion)
                         expect(result).toEventuallyNot(beNil())
                     }
@@ -121,18 +121,21 @@ class MultipageRequesterSpec: QuickSpec {
                     it("calls the completion block with an error result") {
                         expect(result.error).notTo(beNil())
                     }
-                    it("calls the completion block with the first received error") {
-                        expect(result.error!._code) == RepositoryError.notFound._code
+                    it("calls the completion block of one of the expected errors") {
+                        expect(result.error).notTo(beNil())
+                        expect([RepositoryError.notFound._code,
+                                RepositoryError.tooManyRequests._code,
+                                RepositoryError.userNotVerified._code]).to(contain(result.error!._code))
                     }
                 }
 
                 context("5 failing pages which each takes longer to call back") {
                     beforeEach {
-                        pageResults[5]?.delay = 10
-                        pageResults[6]?.delay = 20
-                        pageResults[7]?.delay = 30
-                        pageResults[8]?.delay = 40
-                        pageResults[9]?.delay = 50
+                        pageResults[5]?.delay = 100
+                        pageResults[6]?.delay = 10
+                        pageResults[7]?.delay = 100
+                        pageResults[8]?.delay = 100
+                        pageResults[9]?.delay = 100
                         pages = [5,6,7,8,9]
                         sut.request(pages: pages, completion: completion)
                         expect(result).toEventuallyNot(beNil())
@@ -142,7 +145,7 @@ class MultipageRequesterSpec: QuickSpec {
                         expect(result.error).notTo(beNil())
                     }
                     it("calls the completion block with the first received error") {
-                        expect(result.error!._code) == RepositoryError.notFound._code
+                        expect(result.error!._code) == RepositoryError.tooManyRequests._code
                     }
                 }
 
@@ -163,7 +166,7 @@ class MultipageRequesterSpec: QuickSpec {
 
                 context("3 successful pages and 3 failing pages") {
                     beforeEach {
-                        pages = [0,1,2,5,6,7]
+                        pages = [0,1,2,5,6,8]
                         sut.request(pages: pages, completion: completion)
                         expect(result).toEventuallyNot(beNil())
                     }
@@ -172,7 +175,10 @@ class MultipageRequesterSpec: QuickSpec {
                         expect(result.error).notTo(beNil())
                     }
                     it("calls the completion block with the first received error") {
-                        expect(result.error!._code) == RepositoryError.notFound._code
+                        expect(result.error).notTo(beNil())
+                        expect([RepositoryError.notFound._code,
+                                RepositoryError.tooManyRequests._code,
+                                RepositoryError.userNotVerified._code]).to(contain(result.error!._code))
                     }
                 }
 

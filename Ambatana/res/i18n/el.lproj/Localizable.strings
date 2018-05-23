@@ -137,6 +137,11 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "Για λόγους ασφαλείας, ο λογαριασμός αυτός έχει σβηστεί από την ομάδα του letgo και τα μηνύματα αυτά έχουν αφαιρεθεί.";
 "chat_connect_account_disclaimer_button" = "Επιβεβαιώστε τώρα!";
 "chat_connect_accounts_title" = "ΚΕΡΔΙΣΤΕ ΕΜΠΙΣΤΟΣΥΝΗ!";
+"chat_conversations_list_blocked_users_button" = "Δείτε μπλοκαρισμένους χρήστες";
+"chat_conversations_list_filter_all" = "Όλα";
+"chat_conversations_list_filter_buying" = "Αγορες";
+"chat_conversations_list_filter_selling" = "Πώληση";
+"chat_conversations_list_letgo_assistant_tag" = "letgo assistant";
 "chat_deleted_disclaimer_w_name" = "Δεν μπορείτε να συνεχίσετε αυτή τη συνομιλία επειδή ο λογαριασμός του %@ δεν είναι πια ενεργός.";
 "chat_deleted_disclaimer_wo_name" = "Δεν μπορείτε να συνεχίσετε αυτή τη συνομιλία επειδή ο λογαριασμός αυτός δεν είναι πια ενεργός.";
 "chat_disclaimer_letgo_team" = "ΟΜΑΔΑ LETGO";
@@ -172,8 +177,8 @@
 "chat_list_buying_title" = "ΑΓΟΡΕΣ";
 "chat_list_delete" = "Διαγραφή";
 "chat_list_delete_alert_send" = "Διαγραφή";
-"chat_list_delete_alert_text_multiple" = "Θα διαγράψετε αυτές τις συνομιλίες";
-"chat_list_delete_alert_text_one" = "Θα διαγράψετε αυτή τη συνομιλία";
+"chat_list_delete_alert_text_multiple" = "Θα διαγράψετε οριστικά αυτές τις συνομιλίες";
+"chat_list_delete_alert_text_one" = "Θα διαγράψετε οριστικά αυτή τη συνομιλία";
 "chat_list_delete_alert_title_multiple" = "Διαγραφή Συνομιλιών";
 "chat_list_delete_alert_title_one" = "Διαγραφή Συνομιλίας";
 "chat_list_delete_error_one" = "Παρουσιάστηκε σφάλμα κατά τη διαγραφή της συνομιλίας. Παρακαλώ, δοκιμάστε ξανά.";
@@ -215,7 +220,7 @@
 "chat_send_error_generic" = "Παρουσιάστηκε σφάλμα κατά την αποστολή του μηνύματος. Παρακαλώ προσπαθήστε ξανά.";
 "chat_stickers_tooltip_new" = "ΝΕΟ!";
 "chat_unblock_user" = "Ξεμπλοκάρισμα Χρήστη";
-"chat_user_info_letgo_assistant" = "I'm a virtual assistant that gives you tips and helps you sell.";
+"chat_user_info_letgo_assistant" = "Είμαι μια εικονική βοηθός που σου δίνει συμβουλές και σε βοηθάει να πουλήσεις.";
 "chat_user_info_name" = "Γεια, είμαι ο/η %@";
 "chat_user_info_verified_with" = "Επιβεβαιωμένο με: ";
 "chat_user_rating_button_tooltip" = "Κάντε κριτική αυτού του χρήστη";
@@ -411,6 +416,8 @@
 "hidden_phone_tag" = "[ΑΠΟΚΡΥΨΗ ΤΗΛΕΦΩΝΟΥ]";
 "hidden_text_alert_description" = "Αποκρύψαμε τις πληροφορίες επικοινωνίας για να σας βοηθήσουμε να κάνετε αγοραπωλησίες με ασφάλεια. Οι συνομιλίες εντός του easy είναι πιο ασφαλείς.";
 "hidden_text_alert_title" = "ΜΕΙΝΕΤΕ ΑΣΦΑΛΕΙΣ";
+"listing_map_redo_search" = "Κάντε αναζήτηση σε αυτήν την περιοχή";
+"listings_map_no_results_message" = "Δε βρέθηκαν ακριβή αποτελέσματα για την αναζήτησή σας. Δοκιμάστε να ψάξετε σε κάποια άλλη περιοχή ή να χρησιμοποιήσετε διαφορετικά φίλτρα.";
 "listings_map_title" = "Προβολή χάρτη";
 "location_permissions_allow_button" = "Να επιτρέπεται";
 "location_permissions_bubble" = "15μ. από εσάς";
@@ -574,7 +581,7 @@
 "phone_verification_code_input_view_content_subtext" = "Μπορείτε να αιτηθείτε έναν άλλο κωδικό αν δεν το λάβατε μέσα σε %@";
 "phone_verification_code_input_view_content_subtitle" = "Το στείλαμε στο %@";
 "phone_verification_code_input_view_content_title" = "Εισαγωγή του 6ψήφιου κωδικού";
-"phone_verification_code_input_view_error_message" = "Oops! An error occurred while validating the code. Please try again.";
+"phone_verification_code_input_view_error_message" = "Όπα! Παρουσιάστηκε σφάλμα κατά την επιβεβαίωση του κωδικού. Παρακαλώ δοκιμάστε ξανά.";
 "phone_verification_code_input_view_title" = "Αριθμός επιβεβαίωσης";
 "phone_verification_code_input_view_validated_failure" = "Ο κωδικός επιβεβαίωσης που εισάγατε είναι λανθασμένος.";
 "phone_verification_code_input_view_validated_success" = "Επιβεβαιωμένος αριθμός τηλεφώνου!";
@@ -585,7 +592,7 @@
 "phone_verification_number_input_view_confirmation_title" = "Ευχαριστώ!";
 "phone_verification_number_input_view_continue_button" = "Συνέχεια";
 "phone_verification_number_input_view_description" = "Κερδίστε εμπιστοσύνη επιβεβαιώνοντας τον αριθμό τηλεφώνου σας";
-"phone_verification_number_input_view_error_message" = "Oops! An error occurred while sending the text message. Please try again.";
+"phone_verification_number_input_view_error_message" = "Όπα! Παρουσιάστηκε σφάλμα κατά την αποστολή του μηνύματος κειμένου. Παρακαλώ δοκιμάστε ξανά.";
 "phone_verification_number_input_view_sending_message" = "Αποστολή μηνύματος κειμένου...";
 "phone_verification_number_input_view_textfield_placeholder" = "Αριθμός Τηλεφώνου";
 "phone_verification_number_input_view_title" = "Αριθμός επιβεβαίωσης";
@@ -773,6 +780,7 @@
 "product_post_select_category_motors_and_accessories" = "Άλλα Οχήματα και Εξαρτήματα";
 "product_post_select_category_other" = "Άλλα αντικείμενα";
 "product_post_select_category_real_estate" = "Μεσιτικά";
+"product_post_select_category_services" = "Υπηρεσίες";
 "product_post_select_category_title" = "Τί δημοσιεύετε;";
 "product_post_use_photo" = "Δημοσιεύστε";
 "product_post_use_photo_not_logged" = "Χρήση φωτογραφίας";
@@ -840,7 +848,7 @@
 "profile_favourites_my_user_no_products_label" = "ΚΑΝΕΝΑ ΑΓΑΠΗΜΕΝΟ (ΑΚΟΜΗ!)";
 "profile_favourites_products_tab" = "Αγαπημένα";
 "profile_karma_improve_score" = "Βελτιώστε το Βαθμό Επιβεβαίωσής σας";
-"profile_karma_points_title" = "%@ πόντους";
+"profile_karma_points_title" = "%@";
 "profile_karma_title" = "Βαθμός Επιβεβαίωσης: %@";
 "profile_karma_unverified_points_subtitle" = "%@ πόντους";
 "profile_karma_unverified_subtitle" = "Κερδίστε %@ για να λάβετε ένα σήμα Επιβεβαιωμένου Χρήστη";
@@ -851,6 +859,7 @@
 "profile_permissions_alert_ok" = "Ενεργοποίηση";
 "profile_permissions_alert_title" = "ΜΗ ΧΆΝΕΤΕ ΑΠΑΝΤΉΣΕΙΣ!";
 "profile_permissions_header_message" = "Ενεργοποιήστε τις γνωστοποιησεις μηνυμάτων";
+"profile_reputation_tooltip_title" = "User verified! Tap if you want to be verified too";
 "profile_reviews_count" = "Κριτικές";
 "profile_reviews_tab" = "Κριτικές";
 "profile_selling_no_products_label" = "ΚΑΜΙΑ ΚΑΤΑΧΩΡΗΣΗ (ΑΚΟΜΗ!)";
@@ -868,8 +877,8 @@
 "profile_verifications_view_extra_section_title" = "ΑΓΟΡΆ & ΠΏΛΗΣΗ";
 "profile_verifications_view_facebook_title" = "Facebook";
 "profile_verifications_view_google_title" = "Google";
-"profile_verifications_view_mark_as_sold_subtitle" = "+2 πόντους για το καθένα (μέχρι 10 πόντους)";
-"profile_verifications_view_mark_as_sold_title" = "Μαρκάρισμα καταχώρησης ως πουλημένης";
+"profile_verifications_view_mark_as_sold_subtitle" = "+2 πόντους για κάθε καταχώρηση (μέχρι 10 πόντους)";
+"profile_verifications_view_mark_as_sold_title" = "Μάρκαρε ότι πωλήθηκε";
 "profile_verifications_view_phone_number_title" = "Αριθμός Τηλεφώνου";
 "profile_verifications_view_photo_id_title" = "Φωτογραφία Tαυτότητας";
 "profile_verifications_view_profile_picture_title" = "Εικόνας προφίλ";
@@ -1069,6 +1078,7 @@
 "search_alerts_placeholder_empty_text" = "Εγγραφείτε στις αναζητήσεις για να λαμβάνετε ειδοποιήσεις κάθε φορά που δημοσιεύονται νέες καταχωρήσεις.";
 "search_alerts_placeholder_error_button" = "Προσπαθήστε ξανά";
 "search_alerts_placeholder_error_text" = "Όπα! Παρουσιάστηκε σφάλμα κατά τη φόρτωση των ειδοποιήσεων αναζήτησής σας";
+"search_letgo" = "Αναζήτηση letgo";
 "sell_category_selection_label" = "Κατηγορία";
 "sell_choose_category_dialog_cancel_button" = "Ακύρωση";
 "sell_choose_category_dialog_title" = "Επιλογή Κατηγορίας";
