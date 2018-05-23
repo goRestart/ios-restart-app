@@ -17,6 +17,7 @@ final class LGReputationTooltipManager: ReputationTooltipManager {
     }
 
     func shouldShowTooltip() -> Bool {
+        return false // Disabled until Product decides to use this
         guard let myUser = myUserRepository.myUser, !myUser.hasBadge else { return false }
         if !keyValueStorage[.reputationTooltipShown] { return true }
         guard let lastShownDate = keyValueStorage[.lastShownReputationTooltipDate] else { return true }
