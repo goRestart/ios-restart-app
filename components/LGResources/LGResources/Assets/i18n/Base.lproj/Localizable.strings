@@ -1,6 +1,3 @@
-// When a user Account is deactivated because is a scammer (includes user name)
-"account_deactivated_w_name" = "%@'s account was deleted";
-
 // When a user Account is deactivated because is a scammer
 "account_pending_moderation" = "Account pending moderation";
 
@@ -31,9 +28,6 @@
 // App share whatsapp button
 "app_share_whatsapp_button" = "Invite via Whatsapp";
 
-// App share success message
-"app_share_success" = "App shared!";
-
 // In app notification reply button (reception of message of another user)
 "app_notification_reply" = "Reply";
 
@@ -48,6 +42,18 @@
 
 // Text for bubble in payment bump improvement.
 "bump_up_banner_pay_text_improvement" = "Sell faster now";
+
+// Text for bubble in payment bump improvement. Variant A (only in English): Sell faster now
+"bump_up_banner_pay_text_improvement_english_a" = "Sell faster now";
+
+// Text for bubble in payment bump improvement. Variant B (only in English): Get more visibility
+"bump_up_banner_pay_text_improvement_english_b" = "Get more visibility";
+
+// Text for bubble in payment bump improvement. Variant C (only in English): Attract more buyers
+"bump_up_banner_pay_text_improvement_english_c" = "Attract more buyers";
+
+// Text for bubble in payment bump improvement. Variant D (only in English): Attract 2x more buyers
+"bump_up_banner_pay_text_improvement_english_d" = "Attract 2x more buyers";
 
 // Text for bubble while waiting for next bump
 "bump_up_banner_wait_text" = "to feature again";
@@ -100,6 +106,18 @@
 // Featured product cell chat now button variant D (only in turkish): İletişime Geç
 "bump_up_product_cell_chat_now_button_d" = "Chat Now";
 
+// Featured product cell chat now button variant A (only in English): Chat Now
+"bump_up_product_cell_chat_now_button_english_a" = "Chat Now";
+
+// Featured product cell chat now button variant B (only in English): Contact
+"bump_up_product_cell_chat_now_button_english_b" = "Contact";
+
+// Featured product cell chat now button variant C (only in English): Contact seller
+"bump_up_product_cell_chat_now_button_english_c" = "Contact seller";
+
+// Featured product cell chat now button variant D (only in English): Start chat
+"bump_up_product_cell_chat_now_button_english_d" = "Start chat";
+
 // Text for label in featured products detail
 "bump_up_product_detail_featured_label" = "FEATURED";
 
@@ -140,7 +158,7 @@
 "bump_up_view_boost_subtitle_cheaper" = "Boost your listing right now to get a discount off the typical feature price.";
 
 // Text for boost success alert
-"bump_up_boost_success_alert_text" = "Your listing was boosted again! It will be featured for the next 24 hours.";
+"bump_up_boost_success_alert_text" = "Your listing was boosted! It will be featured for the next 24 hours.";
 
 // Title for payment bump up view
 "bump_up_old_view_pay_title" = "SELL FASTER";
@@ -355,6 +373,22 @@
 // Change email already registered
 "change_email_error_already_registered" = "This email address is already registered. Please enter a different one.";
 
+"chat_conversations_list_filter_all" = "All";
+
+"chat_conversations_list_filter_selling" = "Selling";
+
+"chat_conversations_list_filter_buying" = "Buying";
+
+"chat_conversations_list_blocked_users_button" = "View blocked users";
+
+// Tag for the letgo assistant conversation cells 
+"chat_conversations_list_letgo_assistant_tag" = "letgo assistant";
+
+// Information regarding the asssitant of letgo
+"chat_user_info_letgo_assistant" = "I'm a virtual assistant that gives you tips and helps you sell.";
+
+"chat_message_type_not_supported" = "This message isn't compatible with your app version. Update your app now to unlock the newest features!";
+
 // Chat inactive conversations cell
 "chat_inactive_conversations_explanation_label" = "Chats older than 3 months are automatically archived.";
 
@@ -503,10 +537,10 @@
 "chat_list_delete_alert_send" = "Delete";
 
 // Chat list delete confirmation alert text (multiple)
-"chat_list_delete_alert_text_multiple" = "You're going to delete these chats";
+"chat_list_delete_alert_text_multiple" = "You're going to permanently delete these chats";
 
 // Chat list delete confirmation alert text (single)
-"chat_list_delete_alert_text_one" = "You're going to delete this chat";
+"chat_list_delete_alert_text_one" = "You're going to permanently delete this chat";
 
 // Chat list delete confirmation alert title (multiple)
 "chat_list_delete_alert_title_multiple" = "Delete Chats";
@@ -628,6 +662,24 @@
 // Button in chat conversation list to mark all conversations as read
 "chat_mark_conversation_as_read_button" = "Mark all as read";
 
+// meeting cell title
+"chat_meeting_cell_title" = "Let’s meet at:";
+
+// decline button text
+"chat_meeting_cell_decline_button" = "Decline";
+
+// accept button text
+"chat_meeting_cell_accept_button" = "Accept";
+
+// pending meeting status text
+"chat_meeting_cell_status_pending" = "Pending";
+
+// accepted meeting status text
+"chat_meeting_cell_status_accepted" = "Accepted";
+
+// declined meeting status text
+"chat_meeting_cell_status_declined" = "Declined";
+
 // Title of transport collection
 "collection_transport_title" = "Travel in style";
 
@@ -687,6 +739,12 @@
 
 // Common Confirm
 "common_confirm" = "Confirm";
+
+// Common Done
+"common_done" = "Done";
+
+// Common Edit
+"common_edit" = "Edit";
 
 // Common error
 "common_error" = "Error";
@@ -797,6 +855,9 @@
 
 // Common yes
 "common_yes" = "Yes";
+
+// Common display for time
+"common_hours_mins_secs" = "%@h %@m %@s";
 
 // Contact subject option location. Check attached image @ "contact_email_field_hint" segment
 "contact_subject_option_location" = "Location issues";
@@ -941,6 +1002,8 @@
 
 // Chat direct not negotiable title
 "direct_answer_not_negotiable_title" = "Not negotiable...";
+
+"direct_answer_lets_meet" = "Let's meet";
 
 // Show user a product is discarded
 "discarded" = "Discarded";
@@ -1098,6 +1161,21 @@
 // Filters within option 7 days
 "filters_within_week" = "The last 7 days";
 
+// Filters Car seller type: private
+"filters_car_seller_type_private" = "Private";
+
+// Filters Car seller type: professional
+"filters_car_seller_type_professional" = "Professional";
+
+// Filters Car seller type: individual
+"filters_car_seller_type_invidual" = "Individual";
+
+// Filters Car seller type: dealership
+"filters_car_seller_type_dealership" = "Dealership";
+
+// Filters Car seller type: all
+"filters_car_seller_type_all" = "All";
+
 // Filters Make not set
 "filters_car_make_not_set" = "Not Set";
 
@@ -1165,6 +1243,15 @@
 // Alert when clicked hidden_something text
 "hidden_text_alert_description" = "We hide contact information to help you buy and sell safely. Chatting inside letgo is easy and more secure.";
 
+// Title for Listings Map View
+"listings_map_title" = "Map view";
+
+// Message for no results in Listings Map View
+"listings_map_no_results_message" = "No exact matches for your search. Try looking in a different area or using different filters.";
+
+// Button to refresh a search when user changes the location
+"listing_map_redo_search" = "Search this area";
+
 // Fake distance shown in a bubble in a fake product list in onboarding
 "location_permissions_bubble" = "0.1 mi from you";
 
@@ -1196,7 +1283,7 @@
 "log_in_send_button" = "Log In";
 
 // Log in title. Check image @ "log_in_email_field_hint" segment
-"log_in_title" = "Sign in with email";
+"log_in_title" = "Log in with email";
 
 // Alert shown to users that fail to login due to scammer error
 "login_scammer_alert_title" = "ACCOUNT UNDER REVIEW";
@@ -1356,6 +1443,51 @@
 
 // Navigation bar button 'Invite'' 
 "main_products_invite_navigation_bar_button" = "Invite";
+
+// Title for meeting creation view
+"meeting_creation_view_title" = "Schedule a meeting";
+
+// place header for meeting creation view
+"meeting_creation_view_place" = "PLACE";
+
+// select location label for meeting creation view
+"meeting_creation_view_select_location" = "Select a location";
+
+// date header for meeting creation view
+"meeting_creation_view_date_time" = "DATE & TIME";
+
+// select date label for meeting creation view
+"meeting_creation_view_select_date_time" = "Select date and time";
+
+// suggestion cell select button text
+"meeting_creation_view_suggest_cell_select" = "Select";
+
+// suggestion cell selected button text
+"meeting_creation_view_suggest_cell_selected" = "Selected";
+
+// custom location cell title
+"meeting_creation_view_search_cell_title" = "Search another location";
+
+// custom location cell button text
+"meeting_creation_view_search_cell_search" = "Search";
+
+// send meeting button text
+"meeting_creation_view_send_button" = "Send meeting";
+
+// safety tips view title
+"meeting_creation_tips_view_title" = "Pick a safe, convenient place to meet";
+
+// safety tips view subtitle
+"meeting_creation_tips_view_subtitle" = "We recommend meeting during daylight hours at a busy, well-lit, public place like a local coffee shop or bank lobby.";
+
+// send meeting button text
+"meeting_creation_tips_view_send_button" = "Send meeting";
+
+// change meeting button text
+"meeting_creation_tips_view_change_button" = "Change meeting";
+
+// no changes and close button text
+"meeting_creation_tips_view_gotit_button" = "Got it";
 
 // MoPub advertising indicator "Ad"
 "mopub_advertising_text" = "Ad";
@@ -1588,6 +1720,39 @@
 //  Passive buyers screen for seller -> Contact success
 "passive_buyers_contact_success" = "Buyers contacted!";
 
+// Button in main sign up screen to access the passwordless screen
+"passwordless_main_signup_button" = "Continue with email";
+
+// Title in the screen where user inserts the email to receive the magic link
+"passwordless_email_input_title" = "Continue with email";
+
+// Description in the screen where user inserts the email to receive the magic link
+"passwordless_email_input_description" = "Enter your email address to sign in or create an account, and we’ll send a “magic link” to your inbox.";
+
+// Placeholder for the textField where the user inserts the email to receive the magic link
+"passwordless_email_input_textfield_placeholder" = "Email";
+
+// Text in the button of the screen where user inserts email to receive magic link
+"passwordless_email_input_button" = "Send magic link";
+
+// Title in the navigation bar for the Email Sent screen after sending magic link
+"passwordless_email_sent_screen_title" = "Check your email inbox";
+
+// Title in the screen where app explains email has been sent
+"passwordless_email_sent_title" = "To sign in, click the 'magic link' we just sent you.";
+
+// Subtitle in the screen where app explains email has been sent
+"passwordless_email_sent_subtitle" = "Email address: %@";
+
+// Title in the screen where user has to define a username
+"passwordless_username_input_title" = "Choose your username";
+
+// Placeholder for the textField where the user inserts the username
+"passwordless_username_input_textfield_placeholder" = "Username";
+
+// Button title for the screen where user inserts the username
+"passwordless_username_input_done_button" = "Done";
+
 // Button to initiate chat from the full screen photo viewer
 "photo_viewer_chat_button" = "Chat";
 
@@ -1786,6 +1951,12 @@
 // Message to show on Free product
 "product_free_price" = "Free";
 
+// Text to be shown inside the bubble (similar as a push) to inform that a message was sent to the seller
+"product_interested_bubble_message" = "We've let the seller know that you're interested in buying this";
+
+// Text to be shown inside the bubble (similar as a push) to undo the message to the seller
+"product_interested_undo" = "Undo";
+
 // Text for chat with professional users button
 "product_professional_chat_button" = "Chat";
 
@@ -1969,6 +2140,21 @@
 // Message title when user didn't allow access to camera
 "product_post_camera_permissions_title" = "Allow access to Camera";
 
+// Video posting, tooltip: hold to record a video
+"product_post_camera_video_recording_tooltip" = "%@ to record a video";
+
+// Video posting, tooltip: hold to record a video, highlighted hold
+"product_post_camera_video_recording_tooltip_highlighted_word" = "Hold";
+
+// Video posting, button to set camera in photo mode
+"product_post_camera_photo_mode_button" = "PHOTO";
+
+// Video posting, button to set camera in video mode
+"product_post_camera_video_mode_button" = "VIDEO";
+
+// Video posting, button to select photos from the gallery
+"product_post_camera_gallery_text_button" = "GALLERY";
+
 // Camera tab on posting
 "product_post_camera_tab_v2" = "CAMERA";
 
@@ -2108,7 +2294,10 @@
 "product_post_product_posted" = "Listing posted. Congrats!";
 
 // Confirmation BEFORE setting the price when not logged in
-"product_post_product_posted_not_logged" = "Photo Uploaded!";
+"product_post_product_posted_not_logged" = "Photo uploaded!";
+
+// Confirmation BEFORE setting the price when not logged in (video posting)
+"product_post_product_posted_not_logged_video_posting" = "Video uploaded!";
 
 // Retake photo button
 "product_post_retake" = "Retake";
@@ -2120,7 +2309,10 @@
 "product_post_use_photo" = "Post";
 
 // User photo button when not logged in
-"product_post_use_photo_not_logged" = "Use Photo";
+"product_post_use_photo_not_logged" = "Use photo";
+
+// User video button when not logged in
+"product_post_use_video_not_logged" = "Use video";
 
 // Product post category selection title
 "product_post_select_category_title" = "What are you posting?";
@@ -2136,6 +2328,9 @@
 
 // Product post category selection real Estate button
 "product_post_select_category_housing" = "Housing for Rent / Sale";
+
+// Product post category selection services button
+"product_post_select_category_services" = "Services";
 
 // Product post category selection real Estate button
 "product_post_select_category_real_estate" = "Real Estate";
@@ -2411,10 +2606,100 @@
 "profile_verifications_view_extra_section_title" = "BUY & SELL";
 
 // cell explaining that marking items as sold, increases Karma score
-"profile_verifications_view_mark_as_sold_title" = "Mark a listing as sold";
+"profile_verifications_view_mark_as_sold_title" = "Mark as sold";
 
 // cell explaining that marking items as sold, increases Karma score
-"profile_verifications_view_mark_as_sold_subtitle" = "+2 pts each (up to 10 pts)";
+"profile_verifications_view_mark_as_sold_subtitle" = "+2 pts for each listing (up to 10 pts)";
+
+// Title of the view to verify the email. The user can write its email to send a verification link
+"profile_verifications_email_view_title" = "Verify your Email";
+
+// Placeholder for the enter email field
+"profile_verifications_email_placeholder" = "Email";
+
+// Button to confirm email and send a verification link
+"profile_verifications_send_button" = "Send";
+
+// Title shown in the navigation bar as a screen title in the first screen of the phone verification.
+"phone_verification_number_input_view_title" = "Number verification";
+
+// Text shown to explain the screen in the first screen of the phone verification process.
+"phone_verification_number_input_view_description" = "Build trust by verifying your phone number";
+
+// Placeholder shown in the textfield to insert the phone number.
+"phone_verification_number_input_view_textfield_placeholder" = "Phone number";
+
+// Text shown in the button to 'continue' and go the next phone verification step.
+"phone_verification_number_input_view_continue_button" = "Continue";
+
+// Text shown when sms is being sent (as a loding state)
+"phone_verification_number_input_view_sending_message" = "Sending text message...";
+
+// Title shown in the alert to explain that the sms has been sent.
+"phone_verification_number_input_view_confirmation_title" = "Thank you!";
+
+// Text shown in the alert to explain that the sms has been sent. (+34 611111111)
+"phone_verification_number_input_view_confirmation_message" = "We sent a text message with a verification code to +%@ %@";
+
+// Text shown when something goes wrong trying to send a sms to the user
+"phone_verification_number_input_view_error_message" = "Oops! An error occurred while sending the text message. Please try again.";
+
+// Title shown in the navigation bar as a screen title in the second screen of the phone verification.
+"phone_verification_code_input_view_title" = "Number verification";
+
+// Title shown in the content of the 2nd step in the phone verification process.
+"phone_verification_code_input_view_content_title" = "Enter the 6-digit code";
+
+// Subtitle shown in the content of the 2nd step. (%s = phone number)
+"phone_verification_code_input_view_content_subtitle" = "We've sent it to %@";
+
+// Text shown below the code textfield as a contextual information.
+"phone_verification_code_input_view_content_subtext" = "You can request another code if you don't receive it within %@";
+
+// Text shown in the button below the code textfield to request a code again.
+"phone_verification_code_input_view_content_subaction" = "Didn't get the code?";
+
+// Text shown when sms code is being validated by backend.
+"phone_verification_code_input_view_validating_message" = "Validating code...";
+
+// Text shown when sms code has been verified successfully.
+"phone_verification_code_input_view_validated_success" = "Phone number verified!";
+
+// Text shown when sms code has been verified unsuccessfully.
+"phone_verification_code_input_view_validated_failure" = "The verification code you entered is incorrect.";
+
+// Text shown when something goes wrong trying to validate the code
+"phone_verification_code_input_view_error_message" = "Oops! An error occurred while validating the code. Please try again.";
+
+// Text shown in the navigation bar  as a screen title in the country picker view.
+"phone_verification_country_picker_view_title" = "Country list";
+
+// Text shown as a placeholder in the textfield to search a country in the country list.
+"phone_verification_country_picker_view_search_placeholder" = "Search";
+
+// Text in a tooltip shown when the current user sees a user with a badge for the first time
+"profile_reputation_tooltip_title" = "Verified user! Tap if you want to be verified too.";
+
+// Disclaimer text telling the user this section is only visibile to him/her
+"profile_karma_visibility_title" = "Only visible to you";
+
+// Text button to open the verifications screen to improve the user score
+"profile_karma_improve_score" = "Improve your Verification Score";
+
+// Subtitle shown when the user is not verified yet (indicating how many points needs)
+"profile_karma_unverified_subtitle" = "Earn %@ to get the Verified User badge";
+
+// number of points -> This will be inside "Earn %@ to get the Verified User Badge"
+"profile_karma_unverified_points_subtitle" = "%@ points";
+
+// Subtitle shown when the user has enough points and is verified
+"profile_karma_verified_subtitle" = "You got the badge!";
+
+// Verification score text inside the private karma view
+"profile_karma_title" = "Verification Score: %@";
+
+// number of points -> This will be inside "Verification Score: %@"
+"profile_karma_points_title" = "%@ pts";
 
 // Button to verify accounts
 "profile_build_trust_button" = "Build Trust";
@@ -2796,7 +3081,7 @@
 "real_estate_gallery_view_subtitle" = "Select up to 5 images of the property you want to sell or rent";
 
 // Message inside gallery view to explain about picture selection on RE
-"real_estate_gallery_view_subtitle_params" = "Select up to %d images of the property you want to sell or rent";
+"real_estate_gallery_view_subtitle_params" = "Select up to %d images of the property you want to sell or rent. The first one will be your featured photo so make sure it's a good one!";
 
 // Message inside camera view to explain about picture selection on RE
 "real_estate_camera_view_real_estate_message" = "Snap a picture of the property you want to sell or rent";
@@ -2842,6 +3127,30 @@
 
 // Description for third page on three page option. 
 "real_estate_tutorial_three_pages_third_page_description" = "Completed listings attract 20% more views so you'll sell faster. Don't forget to double your visibility by featuring your listing!";
+
+// Title for Promo Cell in real estate Listing - Version 1
+"real_estate_promo_title_version_1" = "Post Real Estate listings";
+
+// Title for Promo Cell in real estate Listing - Version 2
+"real_estate_promo_title_version_2" = "New! Post property for sale and rent";
+
+// Title for Promo Cell in real estate Listing - Version 3
+"real_estate_promo_title_version_3" = "New! Sell or rent property";
+
+// Title for Promo Cell in real estate Listing - Version 4
+"real_estate_promo_title_version_4" = "Sell or rent property";
+
+// Title for Promo Cell in real estate Listing - Version 5
+"real_estate_promo_title_version_5" = "You can now post Real Estate listings";
+
+// Title for Promo Cell in real estate Listing - Version 6
+"real_estate_promo_title_version_6" = "New! Real Estate listings on letgo";
+
+// Title for Promo Cell in real estate Listing - Version 7
+"real_estate_promo_title_version_7" = "Real Estate for rent or sale";
+
+// Title for Button in Promo Cell real estate Listing
+"real_estate_promo_post_button_title" = "Post Now";
 
 // Title when showing list of related items
 "related_items_title" = "Related listings";
@@ -2917,6 +3226,42 @@
 
 // Reset password title. Check image @ "reset_password_email_field_hint" segment
 "reset_password_title" = "Reset password";
+
+// Search alerts edit button 
+"search_alerts_edit_button" = "Edit";
+
+// Subtitle for search alerts header
+"search_alerts_header_subtitle" = "Get notifications about new listings";
+
+// Text for empty search alerts view
+"search_alerts_placeholder_empty_text" = "Subscribe to searches to get notifications when new listings are posted.";
+
+// Text for empty search alerts view action button
+"search_alerts_placeholder_empty_button" = "Start Searching";
+
+// Text for error in search alerts view
+"search_alerts_placeholder_error_text" = "Oops! An error occurred while loading your search alerts";
+
+// Text for error in search alerts view action button
+"search_alerts_placeholder_error_button" = "Try Again";
+
+// Error message when search alert delete fails
+"search_alert_delete_error_message" = "Oops! An error occurred while deleting your search alert.";
+
+// Error message when search alert enable fails
+"search_alert_enable_error_message" = "Oops! An error occurred while activating your search alert.";
+
+// Error message when search alert disable fails
+"search_alert_disable_error_message" = "Oops! An error occurred while deactivating your search alert.";
+
+// text for error alert when max search alerts reached
+"search_alert_error_too_many_text" = "Oops! You've reached the maximum number of search alerts";
+
+// text for error alert button when max search alerts reached
+"search_alert_error_too_many_button_text" = "Manage notifications";
+
+// text shown in feed search bar
+"search_letgo" = "Search letgo";
 
 // Sell category selection label. Check attached image "sell.png"
 "sell_category_selection_label" = "Category";
@@ -3079,6 +3424,18 @@
 
 // Alert button to cancel de action
 "settings_marketing_notifications_alert_cancel" = "Cancel";
+
+// Settings option to access notifications settings
+"settings_notifications_button" = "Notifications";
+
+// Notifications settings view title
+"settings_notifications_title" = "Notifications";
+
+// Settings option to access search alerts
+"settings_notifications_search_alerts" = "Search Alerts";
+
+// Search alerts view title
+"search_alerts_list_title" = "Search Notifications";
 
 // Alert when you don't accept one of the above (just turkey)
 "sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
