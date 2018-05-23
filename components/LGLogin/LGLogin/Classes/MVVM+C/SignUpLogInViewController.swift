@@ -25,8 +25,10 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
     @IBOutlet weak var textFieldsView: UIView!
 
     @IBOutlet weak var connectFBButton: LetgoButton!
+    @IBOutlet weak var connectFBIcon: UIImageView!
     @IBOutlet weak var connectGoogleButton: LetgoButton!
-    
+    @IBOutlet weak var connectGoogleIcon: UIImageView!
+
     @IBOutlet var dividerViews: [UIView]!
     @IBOutlet weak var orLabel: UILabel!
     @IBOutlet weak var orLabelTopConstraint: NSLayoutConstraint!
@@ -240,7 +242,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         passwordTextField.isSecureTextEntry = !passwordTextField.isSecureTextEntry
 
         let imgButton = passwordTextField.isSecureTextEntry ?
-            UIImage(named: "ic_show_password_inactive") : UIImage(named: "ic_show_password")
+            R.Asset.IconsButtons.icShowPasswordInactive.image : R.Asset.IconsButtons.icShowPassword.image
         showPasswordButton.setImage(imgButton, for: .normal)
 
         // workaround to avoid weird font type
@@ -389,12 +391,15 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
 
         // common appearance
         connectFBButton.setStyle(.facebook)
+        connectFBIcon.image = R.Asset.IconsButtons.icFacebookRounded.image
         connectGoogleButton.setStyle(.google)
+        connectGoogleIcon.image = R.Asset.IconsButtons.icGoogleRounded.image
 
         sendButton.setStyle(.primary(fontSize: .medium))
         sendButton.isEnabled = false
 
-        showPasswordButton.setImage(UIImage(named: "ic_show_password_inactive"), for: .normal)
+        showPasswordButton.setImage(R.Asset.IconsButtons.icShowPasswordInactive.image,
+                                    for: .normal)
 
         if isRootViewController() {
             let closeButton = UIBarButtonItem(image: R.Asset.IconsButtons.navbarClose.image,
@@ -506,20 +511,20 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         lines.forEach { $0.backgroundColor = UIColor.darkGrayText.cgColor }
 
         emailButton.setStyle(.lightField)
-        emailIconImageView.image = UIImage(named: "ic_email")
-        emailIconImageView.highlightedImage = UIImage(named: "ic_email_active")
+        emailIconImageView.image = R.Asset.IconsButtons.icEmail.image
+        emailIconImageView.highlightedImage = R.Asset.IconsButtons.icEmailActive.image
         emailTextField.textColor = textfieldTextColor
         emailTextField.attributedPlaceholder = NSAttributedString(string: R.Strings.signUpEmailFieldHint,
                                                                   attributes: textfieldPlaceholderAttrs)
         passwordButton.setStyle(.lightField)
-        passwordIconImageView.image = UIImage(named: "ic_password")
-        passwordIconImageView.highlightedImage = UIImage(named: "ic_password_active")
+        passwordIconImageView.image = R.Asset.IconsButtons.icPassword.image
+        passwordIconImageView.highlightedImage = R.Asset.IconsButtons.icPasswordActive.image
         passwordTextField.textColor = textfieldTextColor
         passwordTextField.attributedPlaceholder = NSAttributedString(string: R.Strings.signUpPasswordFieldHint,
                                                                      attributes: textfieldPlaceholderAttrs)
         usernameButton.setStyle(.lightField)
-        usernameIconImageView.image = UIImage(named: "ic_name")
-        usernameIconImageView.highlightedImage = UIImage(named: "ic_name_active")
+        usernameIconImageView.image = R.Asset.IconsButtons.icName.image
+        usernameIconImageView.highlightedImage = R.Asset.IconsButtons.icNameActive.image
         usernameTextField.textColor = textfieldTextColor
         usernameTextField.attributedPlaceholder = NSAttributedString(string: R.Strings.signUpUsernameFieldHint,
                                                                      attributes: textfieldPlaceholderAttrs)
@@ -544,20 +549,20 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         lines.forEach { $0.backgroundColor = UIColor.white.cgColor }
 
         emailButton.setStyle(.darkField)
-        emailIconImageView.image = UIImage(named: "ic_email_dark")
-        emailIconImageView.highlightedImage = UIImage(named: "ic_email_active_dark")
+        emailIconImageView.image = R.Asset.IconsButtons.icEmailDark.image
+        emailIconImageView.highlightedImage = R.Asset.IconsButtons.icEmailActiveDark.image
         emailTextField.textColor = textfieldTextColor
         emailTextField.attributedPlaceholder = NSAttributedString(string: R.Strings.signUpEmailFieldHint,
                                                                   attributes: textfieldPlaceholderAttrs)
         passwordButton.setStyle(.darkField)
-        passwordIconImageView.image = UIImage(named: "ic_password_dark")
-        passwordIconImageView.highlightedImage = UIImage(named: "ic_password_active_dark")
+        passwordIconImageView.image = R.Asset.IconsButtons.icPasswordDark.image
+        passwordIconImageView.highlightedImage = R.Asset.IconsButtons.icPasswordActiveDark.image
         passwordTextField.textColor = textfieldTextColor
         passwordTextField.attributedPlaceholder = NSAttributedString(string: R.Strings.signUpPasswordFieldHint,
                                                                      attributes: textfieldPlaceholderAttrs)
         usernameButton.setStyle(.darkField)
-        usernameIconImageView.image = UIImage(named: "ic_name_dark")
-        usernameIconImageView.highlightedImage = UIImage(named: "ic_name_active_dark")
+        usernameIconImageView.image = R.Asset.IconsButtons.icNameDark.image
+        usernameIconImageView.highlightedImage = R.Asset.IconsButtons.icNameActiveDark.image
         usernameTextField.textColor = textfieldTextColor
         usernameTextField.attributedPlaceholder = NSAttributedString(string: R.Strings.signUpUsernameFieldHint,
                                                                      attributes: textfieldPlaceholderAttrs)
