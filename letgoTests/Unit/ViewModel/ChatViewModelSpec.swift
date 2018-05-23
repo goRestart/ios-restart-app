@@ -36,7 +36,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
         var sessionManager: MockSessionManager!
         var keyValueStorage: KeyValueStorage!
         var featureFlags: MockFeatureFlags!
-        var source: EventParameterTypePage!
+        var source: LetGoGodMode.EventParameterTypePage!
         var pushPermissionManager: MockPushPermissionsManager!
         var ratingManager: MockRatingManager!
         

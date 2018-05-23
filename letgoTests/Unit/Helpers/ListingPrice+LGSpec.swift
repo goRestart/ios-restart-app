@@ -60,7 +60,7 @@ class ListingPriceLGSpec: QuickSpec {
         }
         
         describe("allowFreeFilters") {
-            var sut:EventParameterBoolean!
+            var sut: LetGoGodMode.EventParameterBoolean!
             context("listingPrice free") {
                 beforeEach {
                     listingPrice = .free

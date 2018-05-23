@@ -10,6 +10,7 @@
 import LGCoreKit
 import Quick
 import Nimble
+import LGComponents
 
 class DistanceBubbleTextGeneratorSpec: QuickSpec {
     override func spec() {

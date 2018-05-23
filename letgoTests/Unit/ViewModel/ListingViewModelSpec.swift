@@ -35,7 +35,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
         var locationManager: MockLocationManager!
         var countryHelper: CountryHelper!
         var product: MockProduct!
-        var source: EventParameterListingVisitSource!
+        var source: LetGoGodMode.EventParameterListingVisitSource!
         var featureFlags: MockFeatureFlags!
         var purchasesShopper: MockPurchasesShopper!
         var monetizationRepository: MockMonetizationRepository!
@@ -51,7 +51,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
 
         describe("ListingViewModelSpec") {
 
-            func buildListingViewModel(visitSource: EventParameterListingVisitSource = .listingList) {
+            func buildListingViewModel(visitSource: LetGoGodMode.EventParameterListingVisitSource = .listingList) {
                 let socialSharer = SocialSharer()
                 sut = ListingViewModel(listing: .product(product),
                                        visitSource: visitSource,
@@ -216,7 +216,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                             expect(tracker.trackedEvents.map { $0.actualName }) == ["product-detail-ask-question", "user-sent-message"]
                         }
                         it("tracks visit source as product-list") {
-                            let firstMessage: TrackerEvent = tracker.trackedEvents.filter { $0.actualName == EventName.firstMessage.rawValue }.first!
+                            let firstMessage: LetGoGodMode.TrackerEvent = tracker.trackedEvents.filter { $0.actualName == LetGoGodMode.EventName.firstMessage.rawValue }.first!
                             let visitSourceParam = firstMessage.params!.params[EventParameterName.listingVisitSource] as! String
                             expect(visitSourceParam).to(equal("product-list"))
                         }
@@ -239,7 +239,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                             expect(tracker.trackedEvents.map { $0.actualName }) == ["product-detail-ask-question", "user-sent-message"]
                         }
                         it("tracks visit source as favourite") {
-                            let firstMessage: TrackerEvent = tracker.trackedEvents.filter { $0.actualName == EventName.firstMessage.rawValue }.first!
+                            let firstMessage: LetGoGodMode.TrackerEvent = tracker.trackedEvents.filter { $0.actualName == LetGoGodMode.EventName.firstMessage.rawValue }.first!
                             let visitSourceParam = firstMessage.params!.params[EventParameterName.listingVisitSource] as! String
                             expect(visitSourceParam).to(equal("favourite"))
                         }
@@ -263,7 +263,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                             expect(tracker.trackedEvents.map { $0.actualName }) == ["product-detail-ask-question", "user-sent-message"]
                         }
                         it("tracks visit source as next-favourite") {
-                            let firstMessage: TrackerEvent = tracker.trackedEvents.filter { $0.actualName == EventName.firstMessage.rawValue }.first!
+                            let firstMessage: LetGoGodMode.TrackerEvent = tracker.trackedEvents.filter { $0.actualName == LetGoGodMode.EventName.firstMessage.rawValue }.first!
                             let visitSourceParam = firstMessage.params!.params[EventParameterName.listingVisitSource] as! String
                             expect(visitSourceParam).to(equal("next-favourite"))
                         }
@@ -287,7 +287,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                             expect(tracker.trackedEvents.map { $0.actualName }) == ["product-detail-ask-question", "user-sent-message"]
                         }
                         it("tracks visit source as previous-favourite") {
-                            let firstMessage: TrackerEvent = tracker.trackedEvents.filter { $0.actualName == EventName.firstMessage.rawValue }.first!
+                            let firstMessage: LetGoGodMode.TrackerEvent = tracker.trackedEvents.filter { $0.actualName == LetGoGodMode.EventName.firstMessage.rawValue }.first!
                             let visitSourceParam = firstMessage.params!.params[EventParameterName.listingVisitSource] as! String
                             expect(visitSourceParam).to(equal("previous-favourite"))
                         }
@@ -840,7 +840,7 @@ extension ListingViewModelSpec: ListingViewModelDelegate {
         return (UIViewController(), nil)
     }
 
-    var trackingFeedPosition: EventParameterFeedPosition {
+    var trackingFeedPosition: LetGoGodMode.EventParameterFeedPosition {
         return .none
     }
 
@@ -855,7 +855,7 @@ extension ListingViewModelSpec: ListingViewModelDelegate {
 extension ListingViewModelSpec: ListingDetailNavigator {
     func openVideoPlayer(atIndex index: Int,
                          listingVM: ListingViewModel,
-                         source: EventParameterListingVisitSource) {
+                         source: LetGoGodMode.EventParameterListingVisitSource) {
 
     }
 
@@ -870,7 +870,7 @@ extension ListingViewModelSpec: ListingDetailNavigator {
                      maxCountdown: TimeInterval) {
 
     }
-    func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?) {
+    func openListingChat(_ listing: Listing, source: LetGoGodMode.EventParameterTypePage, interlocutor: User?) {
 
     }
     func closeListingAfterDelete(_ listing: Listing) {
@@ -878,19 +878,19 @@ extension ListingViewModelSpec: ListingDetailNavigator {
     }
     func openFreeBumpUp(forListing listing: Listing,
                         bumpUpProductData: BumpUpProductData,
-                        typePage: EventParameterTypePage?,
+                        typePage: LetGoGodMode.EventParameterTypePage?,
                         maxCountdown: TimeInterval) {
         calledOpenFreeBumpUpView = true
     }
     func openPayBumpUp(forListing listing: Listing,
                        bumpUpProductData: BumpUpProductData,
-                       typePage: EventParameterTypePage?,
+                       typePage: LetGoGodMode.EventParameterTypePage?,
                        maxCountdown: TimeInterval) {
         calledOpenPricedBumpUpView = true
     }
     func openBumpUpBoost(forListing listing: Listing,
                          bumpUpProductData: BumpUpProductData,
-                         typePage: EventParameterTypePage?,
+                         typePage: LetGoGodMode.EventParameterTypePage?,
                          timeSinceLastBump: TimeInterval,
                          maxCountdown: TimeInterval) {
         calledOpenBumpUpBoostView = true
@@ -899,13 +899,13 @@ extension ListingViewModelSpec: ListingDetailNavigator {
                            buyers: [UserListing],
                            listingId: String,
                            sourceRateBuyers: SourceRateBuyers?,
-                           trackingInfo: MarkAsSoldTrackingInfo) {
+                           trackingInfo: LetGoGodMode.MarkAsSoldTrackingInfo) {
         self.selectBuyersCalled = true
     }
     func showProductFavoriteBubble(with data: BubbleNotificationData) {
         shownFavoriteBubble = true
     }
-    func openLoginIfNeededFromProductDetail(from: EventParameterLoginSourceValue, infoMessage: String,
+    func openLoginIfNeededFromProductDetail(from: LetGoGodMode.EventParameterLoginSourceValue, infoMessage: String,
                                             loggedInAction: @escaping (() -> Void)) {
         calledLogin = true
         loggedInAction()
@@ -938,7 +938,7 @@ extension ListingViewModelSpec: ListingDetailNavigator {
 
     }
 
-    func closeAskPhoneFor(listing: Listing, openChat: Bool, withPhoneNum: String?, source: EventParameterTypePage,
+    func closeAskPhoneFor(listing: Listing, openChat: Bool, withPhoneNum: String?, source: LetGoGodMode.EventParameterTypePage,
                           interlocutor: User?) {
 
     }

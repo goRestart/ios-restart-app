@@ -69,7 +69,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
         describe("ListingCarouselViewModelSpec") {
             func buildSut(productListModels: [ListingCellModel]? = nil,
                           initialProduct: Product? = nil,
-                          source: EventParameterListingVisitSource = .listingList,
+                          source: LetGoGodMode.EventParameterListingVisitSource = .listingList,
                           actionOnFirstAppear: ProductCarouselActionOnFirstAppear = .nonexistent,
                           trackingIndex: Int? = nil,
                           firstProductSyncRequired: Bool = false) {
