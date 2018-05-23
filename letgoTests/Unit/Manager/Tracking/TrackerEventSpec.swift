@@ -4905,7 +4905,8 @@ class TrackerEventSpec: QuickSpec {
             
             describe("empty state error") {
                 beforeEach {
-                    sut = TrackerEvent.emptyStateVisit(typePage: .chat, reason: .notFound, errorCode: 404)
+                    sut = TrackerEvent.emptyStateVisit(typePage: .chat, reason: .notFound,
+                                                       errorCode: 404, errorDescription: "Internal error")
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("empty-state-error"))
@@ -4921,6 +4922,27 @@ class TrackerEventSpec: QuickSpec {
                 it("contains error details parameter") {
                     let param = sut.params!.stringKeyParams["error-details"] as? String
                     expect(param) == "404"
+                }
+            }
+            describe("empty state error") {
+                beforeEach {
+                    sut = TrackerEvent.emptyStateVisit(typePage: .chat, reason: .notFound,
+                                                       errorCode: nil, errorDescription: "Internal error")
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("empty-state-error"))
+                }
+                it("contains typePage parameter") {
+                    let param = sut.params!.stringKeyParams["type-page"] as? String
+                    expect(param) == "chat"
+                }
+                it("contains reason parameter") {
+                    let param = sut.params!.stringKeyParams["reason"] as? String
+                    expect(param) == "not-found"
+                }
+                it("contains error details parameter") {
+                    let param = sut.params!.stringKeyParams["error-details"] as? String
+                    expect(param) == "Internal error"
                 }
             }
             describe("user rating report") {
@@ -5165,6 +5187,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.params?.params).to(beNil())
                 }
             }
+
             describe("listingOpenListingMap") {
                 context("all params") {
                     beforeEach {

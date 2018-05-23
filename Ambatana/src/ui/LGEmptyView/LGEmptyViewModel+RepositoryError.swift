@@ -8,6 +8,7 @@ extension LGEmptyViewModel {
         let body = LGEmptyViewModel.body(for: error)
         let reason = LGEmptyViewModel.reason(for: error)
         let errorCode = LGEmptyViewModel.errorCode(for: error)
+        let errorDescription = LGEmptyViewModel.errorDescription(for: error)
         return LGEmptyViewModel(
             icon: icon,
             title: LGLocalizedString.commonErrorTitle,
@@ -17,7 +18,8 @@ extension LGEmptyViewModel {
             secondaryButtonTitle: nil,
             secondaryAction: nil,
             emptyReason: reason,
-            errorCode: errorCode)
+            errorCode: errorCode,
+            errorDescription: errorDescription)
     }
 }
 
@@ -160,6 +162,28 @@ fileprivate extension LGEmptyViewModel {
         case .internalError(let message):
             return Int(message)
         case .notAuthenticated, .userNotVerified, .userBlocked, .differentCountry:
+            return nil
+        }
+    }
+
+    static func errorDescription(for error: RepositoryError) -> String? {
+        switch error {
+        case .wsChatError(let chatError):
+            return errorDescription(for: chatError)
+        case .internalError(let message):
+            return message
+        case .unauthorized(_, let description):
+            return description
+        case .network, .serverError, .notFound, .forbidden, .tooManyRequests, .userNotVerified, .searchAlertError:
+            return nil
+        }
+    }
+
+    static func errorDescription(for chatError: ChatRepositoryError) -> String? {
+        switch chatError {
+        case .internalError(let message):
+            return message
+        case  .network, .apiError, .notAuthenticated, .userNotVerified, .userBlocked, .differentCountry:
             return nil
         }
     }

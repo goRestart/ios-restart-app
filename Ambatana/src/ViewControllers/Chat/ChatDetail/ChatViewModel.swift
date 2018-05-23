@@ -888,7 +888,7 @@ extension ChatViewModel {
                                                     isPhone: true)
                 disableAskPhoneMessageButton()
             }
-        case .text, .quickAnswer, .chatSticker, .expressChat, .periscopeDirect, .favoritedListing, .meeting:
+        case .text, .quickAnswer, .chatSticker, .expressChat, .periscopeDirect, .favoritedListing, .meeting, .interested:
             insertAskPhoneNumberMessage()
             if !hasSentAutomaticAnswerForOtherMessage {
                 sendProfessionalAutomaticAnswerWith(message: LGLocalizedString.professionalDealerAskPhoneThanksOtherCellMessage,

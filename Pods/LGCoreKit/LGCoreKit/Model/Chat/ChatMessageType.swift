@@ -13,6 +13,7 @@ public enum ChatMessageType: Equatable {
     case quickAnswer(id: String?, text: String)
     case expressChat
     case favoritedListing
+    case interested
     case phone
     case meeting
     case multiAnswer(question: ChatQuestion, answers: [ChatAnswer])
@@ -22,7 +23,7 @@ public enum ChatMessageType: Equatable {
     // Some types of messages are not allowed to be sent from client
     var canSend: Bool {
         switch self {
-        case .text, .offer, .sticker, .quickAnswer, .expressChat, .favoritedListing, .phone, .meeting:
+        case .text, .offer, .sticker, .quickAnswer, .expressChat, .favoritedListing, .interested, .phone, .meeting:
             return true
         case .interlocutorIsTyping, .unsupported, .multiAnswer:
             return false
@@ -52,6 +53,8 @@ public enum ChatMessageType: Equatable {
             if case .expressChat = rhs { return true }
         case .favoritedListing:
             if case .favoritedListing = rhs { return true }
+        case .interested:
+            if case .interested = rhs { return true }
         case .phone:
             if case .phone = rhs { return true }
         case .meeting:

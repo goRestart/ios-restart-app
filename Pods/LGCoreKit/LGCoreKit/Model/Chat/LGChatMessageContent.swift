@@ -13,6 +13,7 @@ enum ChatMessageTypeDecodable: String, Decodable {
     case quickAnswer = "quick_answer"
     case expressChat = "express_chat"
     case favoritedListing  = "favorited_product"
+    case interested = "interested"
     case phone = "phone"
     case meeting = "chat_norris"
     case multiAnswer = "multi_answer"
@@ -76,6 +77,9 @@ struct LGChatMessageContent: ChatMessageContent, Decodable, Equatable {
                 text = textValue
             case .favoritedListing:
                 type = .favoritedListing
+                text = textValue
+            case .interested:
+                type = .interested
                 text = textValue
             case .phone:
                 type = .phone
