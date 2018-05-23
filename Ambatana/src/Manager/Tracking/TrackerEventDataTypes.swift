@@ -401,6 +401,7 @@ enum EventParameterName: String {
     case meetingMessageType  = "assistant-meeting-type"
     case meetingDate         = "assistant-meeting-date"
     case meetingLocation     = "assistant-meeting-location"
+    case suggestedLocation   = "assistant-location-suggested"
 
     case boost                = "boost"
     
@@ -764,7 +765,7 @@ enum EventParameterLoginError {
 
 enum EventParameterPostListingError {
     case network
-    case internalError
+    case internalError(description: String?)
     case forbidden(cause: ForbiddenCause)
     case serverError(code: Int?)
 
@@ -772,8 +773,8 @@ enum EventParameterPostListingError {
         switch self {
         case .network:
             return "product-sell-network"
-        case .internalError:
-            return "product-sell-internal"
+        case .internalError(let description):
+            return "product-sell-internal" + "-\(String(describing: description))"
         case let .forbidden(cause):
             return  cause == .differentCountry ? "product-sell-different-country-error" : "product-sell-server-error"
         case .serverError:

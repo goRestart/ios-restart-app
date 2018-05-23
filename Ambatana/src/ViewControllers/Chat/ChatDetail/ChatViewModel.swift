@@ -743,9 +743,9 @@ extension ChatViewModel {
 
 extension ChatViewModel {
 
-    func sendMeetingMessage(meeting: AssistantMeeting) {
+    func sendMeetingMessage(meeting: AssistantMeeting, isSuggestedPlace: Bool?) {
         let meetingText = meeting.textForMeeting
-        sendMessage(type: .meeting(meeting, meetingText))
+        sendMessage(type: .meeting(meeting: meeting, text: meetingText, isSuggestedPlace: isSuggestedPlace))
     }
 
     func send(sticker: Sticker) {
@@ -1667,7 +1667,7 @@ fileprivate extension ChatViewModel {
             .set(sellerRating: sellerRating)
             .set(isBumpedUp: .falseParameter)
             .set(containsEmoji: type.text.containsEmoji)
-            .set(assistantMeeting: type.assistantMeeting)
+            .set(assistantMeeting: type.assistantMeeting, isSuggestedPlace: type.isSuggestedPlace)
         if let error = error {
             sendMessageInfo.set(error: error.chatError)
         }
@@ -1859,8 +1859,8 @@ extension ChatViewModel {
 }
 
 extension ChatViewModel: MeetingAssistantDataDelegate {
-    func sendMeeting(meeting: AssistantMeeting) {
-        sendMeetingMessage(meeting: meeting)
+    func sendMeeting(meeting: AssistantMeeting, isSuggestedPlace: Bool?) {
+        sendMeetingMessage(meeting: meeting, isSuggestedPlace: isSuggestedPlace)
     }
 }
 
@@ -1873,7 +1873,7 @@ extension ChatViewModel {
                                                  locationName: nil,
                                                  coordinates: nil,
                                                  status: .accepted)
-        sendMeetingMessage(meeting: acceptedMeeting)
+        sendMeetingMessage(meeting: acceptedMeeting, isSuggestedPlace: nil)
         markAsAcceptedLastMeetingAndRejectOthers()
     }
 
@@ -1883,7 +1883,7 @@ extension ChatViewModel {
                                                  locationName: nil,
                                                  coordinates: nil,
                                                  status: .rejected)
-        sendMeetingMessage(meeting: rejectedMeeting)
+        sendMeetingMessage(meeting: rejectedMeeting, isSuggestedPlace: nil)
     }
 
     private func markAsAcceptedLastMeetingAndRejectOthers() {

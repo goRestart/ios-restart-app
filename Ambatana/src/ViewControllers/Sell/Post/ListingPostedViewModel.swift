@@ -367,15 +367,7 @@ class ListingPostedViewModel: BaseViewModel {
     }
 
     private func trackPostSellError(error: RepositoryError) {
-        let sellError: EventParameterPostListingError
-        switch error {
-        case .network:
-            sellError = .network
-        case .serverError, .notFound, .forbidden, .unauthorized, .tooManyRequests, .userNotVerified:
-            sellError = .serverError(code: error.errorCode)
-        case .internalError, .wsChatError, .searchAlertError:
-            sellError = .internalError
-        }
+        let sellError = EventParameterPostListingError(error: error)
         let sellErrorDataEvent = TrackerEvent.listingSellErrorData(sellError)
         tracker.trackEvent(sellErrorDataEvent)
     }
@@ -426,25 +418,41 @@ enum ListingPostedStatus {
         if let listing = listingResult.value {
             self = .success(listing: listing)
         } else if let error = listingResult.error {
-            switch error {
-            case .network:
-                self = .error(error: .network)
-            case let .forbidden(cause: cause):
-                self = .error(error: .forbidden(cause: cause))
-            default:
-                self = .error(error: .internalError)
-            }
+            self = .error(error: EventParameterPostListingError(error: error))
         } else {
-            self = .error(error: .internalError)
+            self = .error(error: .internalError(description: nil))
         }
     }
 
     init(error: RepositoryError) {
+        let eventParameterPostListingError = EventParameterPostListingError(error: error)
+        self = .error(error: eventParameterPostListingError)
+    }
+}
+
+extension EventParameterPostListingError {
+    init(error: RepositoryError) {
         switch error {
-        case .network:
-            self = .error(error: .network)
-        default:
-            self = .error(error: .internalError)
+        case .network(_, _):
+            self = .network
+        case .serverError(let code):
+            self = .serverError(code: code)
+        case .wsChatError(let error): // we need to contemplate this case because everything is a RError
+            self = .internalError(description: "chat-\(error)")
+        case .searchAlertError(let error):
+            self = .internalError(description: "search-alerts-\(error)")
+        case .forbidden(let cause):
+            self = .forbidden(cause: cause)
+        case .notFound:
+            self = .internalError(description: "not-found")
+        case .tooManyRequests:
+            self = .internalError(description: "too-many-requests")
+        case .userNotVerified:
+            self = .internalError(description: "user-not-verified")
+        case .unauthorized(_, let description):
+            self = .internalError(description: description)
+        case .internalError(_):
+            self = .internalError(description: nil)
         }
     }
 }

@@ -93,6 +93,7 @@ protocol FeatureFlaggeable: class {
     var personalizedFeedABTestIntValue: Int? { get }
     var searchBoxImprovements: SearchBoxImprovements { get }
     var multiContactAfterSearch: MultiContactAfterSearch { get }
+    var emptySearchImprovements: EmptySearchImprovements { get }
 
     // MARK: Products
     var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu { get }
@@ -1180,6 +1181,11 @@ extension FeatureFlags {
     var multiContactAfterSearch: MultiContactAfterSearch {
         if Bumper.enabled { return Bumper.multiContactAfterSearch }
         return MultiContactAfterSearch.fromPosition(abTests.multiContactAfterSearch.value)
+    }
+    
+    var emptySearchImprovements: EmptySearchImprovements {
+        if Bumper.enabled { return Bumper.emptySearchImprovements }
+        return EmptySearchImprovements.fromPosition(abTests.emptySearchImprovements.value)
     }
 }
 
