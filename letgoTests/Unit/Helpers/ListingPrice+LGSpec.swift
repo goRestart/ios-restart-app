@@ -11,6 +11,7 @@
 import LGCoreKit
 import Quick
 import Nimble
+import LGComponents
 
 class ListingPriceLGSpec: QuickSpec {
     override func spec() {
@@ -30,7 +31,7 @@ class ListingPriceLGSpec: QuickSpec {
                         sut = listingPrice.stringValue(currency: currency, isFreeEnabled: true)
                     }
                     it("Free") {
-                        expect(sut) == LGLocalizedString.productFreePrice
+                        expect(sut) == R.Strings.productFreePrice
                     }
                 }
                 context("listingPrice normal without price") {
@@ -40,7 +41,7 @@ class ListingPriceLGSpec: QuickSpec {
                         
                     }
                     it("is negotiable") {
-                        expect(sut) == LGLocalizedString.productNegotiablePrice
+                        expect(sut) == R.Strings.productNegotiablePrice
                     }
                 }
             }
@@ -51,7 +52,7 @@ class ListingPriceLGSpec: QuickSpec {
                         sut = listingPrice.stringValue(currency: currency, isFreeEnabled: false)
                     }
                     it("is negotiable") {
-                        expect(sut) == LGLocalizedString.productNegotiablePrice
+                        expect(sut) == R.Strings.productNegotiablePrice
                     }
                 }
             }

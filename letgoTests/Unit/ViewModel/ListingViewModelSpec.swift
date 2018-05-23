@@ -12,7 +12,7 @@ import RxSwift
 import LGCoreKit
 import Quick
 import Nimble
-
+import LGComponents
 
 class ListingViewModelSpec: BaseViewModelSpec {
 
@@ -137,15 +137,15 @@ class ListingViewModelSpec: BaseViewModelSpec {
                     }
                     it("has mark as sold twice (button updates after user show request) and then sell it again button") {
                         let buttonTexts: [String] = bottomButtonsObserver.eventValues.flatMap { $0.first?.text }
-                        expect(buttonTexts) == [LGLocalizedString.productMarkAsSoldButton,
-                                                LGLocalizedString.productMarkAsSoldButton,
-                                                LGLocalizedString.productSellAgainButton]
+                        expect(buttonTexts) == [R.Strings.productMarkAsSoldButton,
+                                                R.Strings.productMarkAsSoldButton,
+                                                R.Strings.productSellAgainButton]
                     }
                     it("requests buyer selection") {
                         expect(self.selectBuyersCalled).toEventually(beTrue())
                     }
                     it("has shown mark as sold alert") {
-                        expect(self.shownAlertText!) == LGLocalizedString.productMarkAsSoldAlertMessage
+                        expect(self.shownAlertText!) == R.Strings.productMarkAsSoldAlertMessage
                     }
                     it("calls show loading in delegate") {
                         expect(self.delegateReceivedShowLoading) == true
@@ -772,7 +772,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                         sut.bumpUpProduct(productId: product.objectId!, isBoost: false)
                     }
                     it ("transaction finishes with payment failed") {
-                        expect(self.lastLoadingMessageShown).toEventually(equal(LGLocalizedString.bumpUpErrorPaymentFailed))
+                        expect(self.lastLoadingMessageShown).toEventually(equal(R.Strings.bumpUpErrorPaymentFailed))
                     }
                 }
                 context ("appstore payment succeeds but bump fails") {
@@ -787,7 +787,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                         sut.bumpUpProduct(productId: product.objectId!, isBoost: false)
                     }
                     it ("transaction finishes with bump failed") {
-                        expect(self.lastLoadingMessageShown).toEventually(equal(LGLocalizedString.bumpUpErrorBumpGeneric))
+                        expect(self.lastLoadingMessageShown).toEventually(equal(R.Strings.bumpUpErrorBumpGeneric))
                     }
                 }
                 context ("appstore payment and bump succeed") {
@@ -802,7 +802,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                         sut.bumpUpProduct(productId: product.objectId!, isBoost: false)
                     }
                     it ("transaction finishes with bump suceeded") {
-                        expect(self.lastLoadingMessageShown).toEventually(equal(LGLocalizedString.bumpUpPaySuccess))
+                        expect(self.lastLoadingMessageShown).toEventually(equal(R.Strings.bumpUpPaySuccess))
                     }
                 }
             }

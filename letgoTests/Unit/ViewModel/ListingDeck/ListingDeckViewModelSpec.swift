@@ -12,7 +12,7 @@ import RxSwift
 import LGCoreKit
 import Quick
 import Nimble
-
+import LGComponents
 
 final class ListingDeckViewModelSpec: BaseViewModelSpec {
 
@@ -544,7 +544,7 @@ final class ListingDeckViewModelSpec: BaseViewModelSpec {
                             expect(actionButtonsObserver.eventValues.map { $0.count }) == [0, 1]
                         }
                         it("action buttons item is to mark as sold") {
-                            expect(actionButtonsObserver.lastValue?.first?.text) == LGLocalizedString.productMarkAsSoldButton
+                            expect(actionButtonsObserver.lastValue?.first?.text) == R.Strings.productMarkAsSoldButton
                         }
                     }
                 }
@@ -618,7 +618,7 @@ final class ListingDeckViewModelSpec: BaseViewModelSpec {
                             startObserving()
                         }
                         it("there is a mark sold action") {
-                            expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [LGLocalizedString.productMarkAsSoldButton]
+                            expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [R.Strings.productMarkAsSoldButton]
                         }
                         it("quick answers are disabled") {
                             expect(quickAnswersAvailableObserver.lastValue) == false
@@ -637,7 +637,7 @@ final class ListingDeckViewModelSpec: BaseViewModelSpec {
                             startObserving()
                         }
                         it("there is a mark sold action") {
-                            expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [LGLocalizedString.productMarkAsSoldFreeButton]
+                            expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [R.Strings.productMarkAsSoldFreeButton]
                         }
                         it("quick answers are disabled") {
                             expect(quickAnswersAvailableObserver.lastValue) == false
@@ -656,7 +656,7 @@ final class ListingDeckViewModelSpec: BaseViewModelSpec {
                             startObserving()
                         }
                         it("there is a sell again action") {
-                            expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [LGLocalizedString.productSellAgainButton]
+                            expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [R.Strings.productSellAgainButton]
                         }
                         it("quick answers are disabled") {
                             expect(quickAnswersAvailableObserver.lastValue) == false
@@ -675,7 +675,7 @@ final class ListingDeckViewModelSpec: BaseViewModelSpec {
                             startObserving()
                         }
                         it("there is a sell again action") {
-                            expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [LGLocalizedString.productSellAgainFreeButton]
+                            expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [R.Strings.productSellAgainFreeButton]
                         }
                         it("quick answers are disabled") {
                             expect(quickAnswersAvailableObserver.lastValue) == false

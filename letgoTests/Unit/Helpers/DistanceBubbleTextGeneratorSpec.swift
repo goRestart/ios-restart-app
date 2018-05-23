@@ -36,10 +36,10 @@ class DistanceBubbleTextGeneratorSpec: QuickSpec {
                         }
 
                         it ("1 Km -> Near you - 1 km") {
-                            expect(sut.bubbleInfoText(forDistance: 1, type: .km, distanceRadius: nil, place: nil)) == "\(LGLocalizedString.productDistanceNearYou) - 1 km"
+                            expect(sut.bubbleInfoText(forDistance: 1, type: .km, distanceRadius: nil, place: nil)) == "\(R.Strings.productDistanceNearYou) - 1 km"
                         }
                         it ("100 Km -> Near you - more than 20 km") {
-                            expect(sut.bubbleInfoText(forDistance: 100, type: .km, distanceRadius: nil, place: nil)) == "\(LGLocalizedString.productDistanceNearYou) - \(LGLocalizedString.productDistanceMoreThan("20 km"))"
+                            expect(sut.bubbleInfoText(forDistance: 100, type: .km, distanceRadius: nil, place: nil)) == "\(R.Strings.productDistanceNearYou) - \(R.Strings.productDistanceMoreThan("20 km"))"
                         }
 
                     }
@@ -55,7 +55,7 @@ class DistanceBubbleTextGeneratorSpec: QuickSpec {
                                 expect(sut.bubbleInfoText(forDistance: 1, type: .km, distanceRadius: nil, place: nil)) == "Barcelona - 1 km"
                             }
                             it ("100 Km -> Near you - more than 20 km") {
-                                expect(sut.bubbleInfoText(forDistance: 100, type: .km, distanceRadius: nil, place: nil)) == "Barcelona - \(LGLocalizedString.productDistanceMoreThan("20 km"))"
+                                expect(sut.bubbleInfoText(forDistance: 100, type: .km, distanceRadius: nil, place: nil)) == "Barcelona - \(R.Strings.productDistanceMoreThan("20 km"))"
                             }
                         }
                         context ("city is empty") {
@@ -66,10 +66,10 @@ class DistanceBubbleTextGeneratorSpec: QuickSpec {
                             }
 
                             it ("1 Km -> Near you - 1 km") {
-                                expect(sut.bubbleInfoText(forDistance: 1, type: .km, distanceRadius: nil, place: nil)) == "\(LGLocalizedString.productDistanceNearYou) - 1 km"
+                                expect(sut.bubbleInfoText(forDistance: 1, type: .km, distanceRadius: nil, place: nil)) == "\(R.Strings.productDistanceNearYou) - 1 km"
                             }
                             it ("100 Km -> Near you - more than 20 km") {
-                                expect(sut.bubbleInfoText(forDistance: 100, type: .km, distanceRadius: nil, place: nil)) == "\(LGLocalizedString.productDistanceNearYou) - \(LGLocalizedString.productDistanceMoreThan("20 km"))"
+                                expect(sut.bubbleInfoText(forDistance: 100, type: .km, distanceRadius: nil, place: nil)) == "\(R.Strings.productDistanceNearYou) - \(R.Strings.productDistanceMoreThan("20 km"))"
                             }
                         }
                     }
@@ -86,7 +86,7 @@ class DistanceBubbleTextGeneratorSpec: QuickSpec {
                                 expect(sut.bubbleInfoText(forDistance: 1, type: .km, distanceRadius: nil, place: place)) == "Barcelona - 1 km"
                             }
                             it ("100 Km -> Barcelona - more than 20 km") {
-                                expect(sut.bubbleInfoText(forDistance: 100, type: .km, distanceRadius: nil, place: place)) == "Barcelona - \(LGLocalizedString.productDistanceMoreThan("20 km"))"
+                                expect(sut.bubbleInfoText(forDistance: 100, type: .km, distanceRadius: nil, place: place)) == "Barcelona - \(R.Strings.productDistanceMoreThan("20 km"))"
                             }
                         }
                         context ("city is empty") {
@@ -99,7 +99,7 @@ class DistanceBubbleTextGeneratorSpec: QuickSpec {
                                 expect(sut.bubbleInfoText(forDistance: 1, type: .km, distanceRadius: nil, place: place)) == "08039 - 1 km"
                             }
                             it ("100 Km -> Barcelona - more than 20 km") {
-                                expect(sut.bubbleInfoText(forDistance: 100, type: .km, distanceRadius: nil, place: place)) == "08039 - \(LGLocalizedString.productDistanceMoreThan("20 km"))"
+                                expect(sut.bubbleInfoText(forDistance: 100, type: .km, distanceRadius: nil, place: place)) == "08039 - \(R.Strings.productDistanceMoreThan("20 km"))"
                             }
                         }
                     }
@@ -113,7 +113,7 @@ class DistanceBubbleTextGeneratorSpec: QuickSpec {
                             expect(sut.bubbleInfoText(forDistance: 1, type: .km, distanceRadius: nil, place: place)) == "08039 - 1 km"
                         }
                         it ("100 Km -> Barcelona - more than 20 km") {
-                            expect(sut.bubbleInfoText(forDistance: 100, type: .km, distanceRadius: nil, place: place)) == "08039 - \(LGLocalizedString.productDistanceMoreThan("20 km"))"
+                            expect(sut.bubbleInfoText(forDistance: 100, type: .km, distanceRadius: nil, place: place)) == "08039 - \(R.Strings.productDistanceMoreThan("20 km"))"
                         }
                     }
                     context ("location has no city, neither has zip code") {
@@ -123,10 +123,10 @@ class DistanceBubbleTextGeneratorSpec: QuickSpec {
                             place = Place(postalAddress: postalAddress, location: location)
                         }
                         it ("1 Km -> Barcelona - 1 km") {
-                            expect(sut.bubbleInfoText(forDistance: 1, type: .km, distanceRadius: nil, place: place)) == "\(LGLocalizedString.productDistanceCustomLocation) - 1 km"
+                            expect(sut.bubbleInfoText(forDistance: 1, type: .km, distanceRadius: nil, place: place)) == "\(R.Strings.productDistanceCustomLocation) - 1 km"
                         }
                         it ("100 Km -> Barcelona - more than 20 km") {
-                            expect(sut.bubbleInfoText(forDistance: 100, type: .km, distanceRadius: nil, place: place)) == "\(LGLocalizedString.productDistanceCustomLocation) - \(LGLocalizedString.productDistanceMoreThan("20 km"))"
+                            expect(sut.bubbleInfoText(forDistance: 100, type: .km, distanceRadius: nil, place: place)) == "\(R.Strings.productDistanceCustomLocation) - \(R.Strings.productDistanceMoreThan("20 km"))"
                         }
                     }
                 }
@@ -141,10 +141,10 @@ class DistanceBubbleTextGeneratorSpec: QuickSpec {
                             locationManager.currentLocation = location
                         }
                         it ("1 Km -> Barcelona - 1 km") {
-                            expect(sut.bubbleInfoText(forDistance: 1, type: .km, distanceRadius: radius, place: nil)) == "\(LGLocalizedString.productDistanceNearYou) - 1 km"
+                            expect(sut.bubbleInfoText(forDistance: 1, type: .km, distanceRadius: radius, place: nil)) == "\(R.Strings.productDistanceNearYou) - 1 km"
                         }
                         it ("100 Km -> Barcelona - 30 km") {
-                            expect(sut.bubbleInfoText(forDistance: 100, type: .km, distanceRadius: radius, place: nil)) == "\(LGLocalizedString.productDistanceNearYou) - 30 km"
+                            expect(sut.bubbleInfoText(forDistance: 100, type: .km, distanceRadius: radius, place: nil)) == "\(R.Strings.productDistanceNearYou) - 30 km"
                         }
 
                     }
@@ -199,10 +199,10 @@ class DistanceBubbleTextGeneratorSpec: QuickSpec {
                             radius = 30
                         }
                         it ("1 Km -> Custom Location - 1 km") {
-                            expect(sut.bubbleInfoText(forDistance: 1, type: .km, distanceRadius: radius, place: place)) == "\(LGLocalizedString.productDistanceCustomLocation) - 1 km"
+                            expect(sut.bubbleInfoText(forDistance: 1, type: .km, distanceRadius: radius, place: place)) == "\(R.Strings.productDistanceCustomLocation) - 1 km"
                         }
                         it ("100 Km -> Custom Location - 30 km") {
-                            expect(sut.bubbleInfoText(forDistance: 100, type: .km, distanceRadius: radius, place: place)) == "\(LGLocalizedString.productDistanceCustomLocation) - 30 km"
+                            expect(sut.bubbleInfoText(forDistance: 100, type: .km, distanceRadius: radius, place: place)) == "\(R.Strings.productDistanceCustomLocation) - 30 km"
                         }
                     }
                 }

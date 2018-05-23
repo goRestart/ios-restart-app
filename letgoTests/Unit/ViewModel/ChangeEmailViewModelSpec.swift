@@ -13,6 +13,7 @@ import Nimble
 import Result
 import RxSwift
 import RxTest
+import LGComponents
 
 class ChangeEmailViewModelSpec: QuickSpec {
     var loading: Bool = false
@@ -120,7 +121,7 @@ class ChangeEmailViewModelSpec: QuickSpec {
                         sut.updateEmail()
                     }
                     it("Shows the emailTaken message") {
-                        expect(self.loadingMessage).toEventually(equal(LGLocalizedString.changeEmailErrorAlreadyRegistered))
+                        expect(self.loadingMessage).toEventually(equal(R.Strings.changeEmailErrorAlreadyRegistered))
                     }
                 }
                 describe("network error emssage") {
@@ -131,7 +132,7 @@ class ChangeEmailViewModelSpec: QuickSpec {
                         sut.updateEmail()
                     }
                     it("Shows the error connection message") {
-                        expect(self.loadingMessage).toEventually(equal(LGLocalizedString.commonErrorConnectionFailed))
+                        expect(self.loadingMessage).toEventually(equal(R.Strings.commonErrorConnectionFailed))
                     }
                 }
                 describe("generic error emssage") {
@@ -142,7 +143,7 @@ class ChangeEmailViewModelSpec: QuickSpec {
                         sut.updateEmail()
                     }
                     it("Shows the generic error message") {
-                        expect(self.loadingMessage).toEventually(equal(LGLocalizedString.commonErrorGenericBody))
+                        expect(self.loadingMessage).toEventually(equal(R.Strings.commonErrorGenericBody))
                     }
                 }
             }

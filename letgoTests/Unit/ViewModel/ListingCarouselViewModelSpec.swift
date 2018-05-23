@@ -13,7 +13,7 @@ import RxSwift
 import LGCoreKit
 import Quick
 import Nimble
-
+import LGComponents
 
 class ListingCarouselViewModelSpec: BaseViewModelSpec {
 
@@ -739,7 +739,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                             expect(actionButtonsObserver.eventValues.map { $0.count }) == [0, 1]
                         }
                         it("action buttons item is to mark as sold") {
-                            expect(actionButtonsObserver.lastValue?.first?.text) == LGLocalizedString.productMarkAsSoldButton
+                            expect(actionButtonsObserver.lastValue?.first?.text) == R.Strings.productMarkAsSoldButton
                         }
                         it("navbar buttons now have share and edit") {
                             let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarEditButton, .listingCarouselNavBarActionsButton]
@@ -877,7 +877,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                             expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
                         }
                         it("there is a mark sold action") {
-                            expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [LGLocalizedString.productMarkAsSoldButton]
+                            expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [R.Strings.productMarkAsSoldButton]
                         }
                         it("product vm status is pending") {
                             expect(statusObserver.lastValue) == .available
@@ -920,7 +920,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                             expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
                         }
                         it("there is a mark sold action") {
-                            expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [LGLocalizedString.productMarkAsSoldFreeButton]
+                            expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [R.Strings.productMarkAsSoldFreeButton]
                         }
                         it("product vm status is pending") {
                             expect(statusObserver.lastValue) == .availableFree
@@ -963,7 +963,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                             expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
                         }
                         it("there is a sell again action") {
-                            expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [LGLocalizedString.productSellAgainButton]
+                            expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [R.Strings.productSellAgainButton]
                         }
                         it("product vm status is pending") {
                             expect(statusObserver.lastValue) == .sold
@@ -1006,7 +1006,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                             expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
                         }
                         it("there is a sell again action") {
-                            expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [LGLocalizedString.productSellAgainFreeButton]
+                            expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [R.Strings.productSellAgainFreeButton]
                         }
                         it("product vm status is pending") {
                             expect(statusObserver.lastValue) == .soldFree
