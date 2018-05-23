@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
         loginSpec.dependency 'LGComponents/LGShared'
         loginSpec.dependency 'LGComponents/LGResources'
 
-        loginSpec.dependency 'LGCoreKit',       '4.25.0'
+        loginSpec.dependency 'LGCoreKit',       '4.26.3'
 
         loginSpec.dependency 'FBSDKLoginKit',   '4.29.0'  # Obj-c
         loginSpec.dependency 'GoogleSignIn',    '4.1.1'  # Obj-c
@@ -44,13 +44,13 @@ Pod::Spec.new do |s|
         analyticsSpec.source_files = 'LGAnalytics/LGAnalytics/Classes/**/*'
         
         analyticsSpec.dependency 'Amplitude-iOS',      '4.0.4'
-        analyticsSpec.dependency 'AppsFlyerFramework', '4.8.2'
+        analyticsSpec.dependency 'AppsFlyerFramework', '4.8.4'
         analyticsSpec.dependency 'Branch',             '0.22.5'
         analyticsSpec.dependency 'Crashlytics',        '3.9.3'
         analyticsSpec.dependency 'Fabric',             '1.7.2'
         analyticsSpec.dependency 'FBSDKCoreKit',       '4.29.0'
         analyticsSpec.dependency 'Leanplum-iOS-SDK',   '2.0.5'
-        analyticsSpec.dependency 'LGCoreKit',          '4.25.0'
+        analyticsSpec.dependency 'LGCoreKit',          '4.26.3'
         analyticsSpec.dependency 'RxSwift',            '4.0.0'
     end
 
@@ -68,7 +68,7 @@ Pod::Spec.new do |s|
         sharedSpec.dependency 'LGComponents/LGAnalytics'
         sharedSpec.dependency 'LGComponents/LGResources'
 
-        sharedSpec.dependency 'LGCoreKit',             '4.25.0'
+        sharedSpec.dependency 'LGCoreKit',             '4.26.3'
 
         sharedSpec.dependency 'DeviceGuru',            '3.0.1'
         sharedSpec.dependency 'AlamofireImage',        '3.3.0'
