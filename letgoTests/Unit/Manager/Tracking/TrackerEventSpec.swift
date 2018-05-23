@@ -4516,6 +4516,23 @@ class TrackerEventSpec: QuickSpec {
                     }
                 }
 
+                context("Verify Account Select Network") {
+                    beforeEach {
+                        sut = TrackerEvent.verifyAccountSelectNetwork(.smsVerification, network: .facebook)
+                    }
+                    it("has its event name") {
+                        expect(sut.name.rawValue) == "verify-account-select-network"
+                    }
+                    it("contains type-page param") {
+                        let param = sut.params!.stringKeyParams["type-page"] as? String
+                        expect(param) == "sms-verification"
+                    }
+                    it("contains account-network param") {
+                        let param = sut.params!.stringKeyParams["account-network"] as? String
+                        expect(param) == "facebook"
+                    }
+                }
+
                 context("Verify Account Complete") {
                     beforeEach {
                         sut = TrackerEvent.verifyAccountComplete(.chat, network: .facebook)

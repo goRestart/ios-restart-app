@@ -152,7 +152,7 @@ extension UIFont {
     static var tourLocationDistanceLabelFont: UIFont { return systemMediumFont(size: 16) }
 }
 
-// MARK: DeckView
+// MARK: - DeckView
 
 extension UIFont {
     static var deckTitleFont: UIFont { return systemMediumFont(size: 17) }
@@ -182,4 +182,13 @@ extension UIFont {
     static var profileKarmaOpenVerificationFont: UIFont { return UIFont.systemBoldFont(size: 15) }
     static var verificationItemTitle: UIFont { return systemBoldFont(size: 23) }
     static var verificationEventCountFont: UIFont { return systemBoldFont(size: 10) }
+}
+
+extension UIFont {
+    static var smsVerificationInputBigText: UIFont { return UIFont.systemBoldFont(size: 30) }
+    static var smsVerificationInputDescription: UIFont { return UIFont.systemMediumFont(size: 20) }
+    static var smsVerificationInputSmallDescription: UIFont { return UIFont.systemRegularFont(size: 15) }
+    static var smsVerificationInputCodeInformation: UIFont { return UIFont.systemMediumFont(size: 14) }
+    static var smsVerificationCountryListCellText: UIFont { return UIFont.systemBoldFont(size: 23) }
+    static var smsVerificationCodeInputTextfieldText: UIFont { return UIFont.systemBoldFont(size: 40) }
 }

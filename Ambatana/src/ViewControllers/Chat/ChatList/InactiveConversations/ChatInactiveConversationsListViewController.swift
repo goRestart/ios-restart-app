@@ -254,7 +254,7 @@ UITableViewDelegate  {
     
     func didFailArchivingChats() {
         dismissLoadingMessageAlert { [weak self] in
-            self?.showAutoFadingOutMessageAlert(LGLocalizedString.chatListArchiveErrorMultiple)
+            self?.showAutoFadingOutMessageAlert(message: LGLocalizedString.chatListArchiveErrorMultiple)
         }
     }
     

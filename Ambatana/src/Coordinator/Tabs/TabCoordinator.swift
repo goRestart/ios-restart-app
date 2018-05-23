@@ -197,12 +197,12 @@ fileprivate extension TabCoordinator {
                 switch error {
                 case .network:
                     self?.navigationController.dismissLoadingMessageAlert {
-                        self?.navigationController.showAutoFadingOutMessageAlert(LGLocalizedString.commonErrorConnectionFailed)
+                        self?.navigationController.showAutoFadingOutMessageAlert(message: LGLocalizedString.commonErrorConnectionFailed)
                     }
                 case .internalError, .unauthorized, .tooManyRequests, .userNotVerified, .serverError,
                      .wsChatError, .searchAlertError:
                     self?.navigationController.dismissLoadingMessageAlert {
-                        self?.navigationController.showAutoFadingOutMessageAlert(LGLocalizedString.commonProductNotAvailable)
+                        self?.navigationController.showAutoFadingOutMessageAlert(message: LGLocalizedString.commonProductNotAvailable)
                     }
                 case .notFound, .forbidden:
                     let relatedRequester = RelatedListingListRequester(listingId: listingId,
@@ -215,7 +215,7 @@ fileprivate extension TabCoordinator {
                                                                                requester: relatedRequester,
                                                                                relatedListings: relatedListings)
                             }
-                            self?.navigationController.showAutoFadingOutMessageAlert(LGLocalizedString.commonProductNotAvailable)
+                            self?.navigationController.showAutoFadingOutMessageAlert(message: LGLocalizedString.commonProductNotAvailable)
                         }
                     }
                 }
@@ -391,7 +391,7 @@ fileprivate extension TabCoordinator {
                     message = LGLocalizedString.commonUserNotAvailable
                 }
                 self?.navigationController.dismissLoadingMessageAlert {
-                    self?.navigationController.showAutoFadingOutMessageAlert(message)
+                    self?.navigationController.showAutoFadingOutMessageAlert(message: message)
                 }
             }
         }
@@ -473,7 +473,7 @@ fileprivate extension TabCoordinator {
              .wsChatError, .searchAlertError:
             message = LGLocalizedString.commonChatNotAvailable
         }
-        navigationController.showAutoFadingOutMessageAlert(message)
+        navigationController.showAutoFadingOutMessageAlert(message: message)
     }
 
 
@@ -512,6 +512,14 @@ extension TabCoordinator: UserVerificationNavigator {
         let vc = EditUserBioViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
+
+    func openPhoneNumberVerification() {
+        let vm = UserPhoneVerificationNumberInputViewModel()
+        vm.navigator = self
+        let vc = UserPhoneVerificationNumberInputViewController(viewModel: vm)
+        vm.delegate = vc
+        navigationController.pushViewController(vc, animated: true)
+    }
 }
 
 extension TabCoordinator: EditUserBioNavigator {
@@ -523,6 +531,35 @@ extension TabCoordinator: EditUserBioNavigator {
 extension TabCoordinator: VerifyUserEmailNavigator {
     func closeEmailVerification() {
         navigationController.popViewController(animated: true)
+    }
+}
+
+extension TabCoordinator: UserPhoneVerificationNavigator {
+    func openCountrySelector(withDelegate delegate: UserPhoneVerificationCountryPickerDelegate) {
+        let vm = UserPhoneVerificationCountryPickerViewModel()
+        vm.navigator = self
+        vm.delegate = delegate
+        let vc = UserPhoneVerificationCountryPickerViewController(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
+    }
+
+    func closeCountrySelector() {
+        navigationController.popViewController(animated: true)
+    }
+
+    func openCodeInput(sentTo phoneNumber: String, with callingCode: String) {
+        let vm = UserPhoneVerificationCodeInputViewModel(callingCode: callingCode,
+                                                         phoneNumber: phoneNumber)
+        vm.navigator = self
+        let vc = UserPhoneVerificationCodeInputViewController(viewModel: vm)
+        vm.delegate = vc
+        navigationController.pushViewController(vc, animated: true)
+    }
+
+    func closePhoneVerificaction() {
+        guard let vc = navigationController.viewControllers
+            .filter({ $0 is UserVerificationViewController }).first else { return }
+        navigationController.popToViewController(vc, animated: true)
     }
 }
 
@@ -860,7 +897,7 @@ extension TabCoordinator: ExpressChatCoordinatorDelegate {
     func expressChatCoordinatorDidSentMessages(_ coordinator: ExpressChatCoordinator, count: Int) {
         let message = count == 1 ? LGLocalizedString.chatExpressOneMessageSentSuccessAlert :
             LGLocalizedString.chatExpressSeveralMessagesSentSuccessAlert
-        rootViewController.showAutoFadingOutMessageAlert(message)
+        rootViewController.showAutoFadingOutMessageAlert(message: message)
     }
 }
 

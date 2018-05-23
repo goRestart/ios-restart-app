@@ -70,7 +70,7 @@ extension UIViewController {
         let completion: (() -> ())?
         if let message = finishedMessage {
             completion = { [weak self] in
-                self?.showAutoFadingOutMessageAlert(message, time: 3, completion: afterMessageCompletion)
+                self?.showAutoFadingOutMessageAlert(message: message, time: 3, completion: afterMessageCompletion)
             }
         } else if let afterMessageCompletion = afterMessageCompletion {
             completion = afterMessageCompletion
@@ -86,9 +86,9 @@ extension UIViewController {
 
 extension UIViewController {
     // Shows an alert message that fades out after kLetGoFadingAlertDismissalTime seconds
-    func showAutoFadingOutMessageAlert(_ message: String, time: Double = kLetGoFadingAlertDismissalTime,
+    func showAutoFadingOutMessageAlert(title: String? = nil, message: String, time: Double = kLetGoFadingAlertDismissalTime,
                                        completion: (() -> Void)? = nil) {
-        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         present(alert, animated: true, completion: nil)
         delay(time) {
             alert.dismiss(animated: true) { completion?() }

@@ -89,7 +89,7 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
                 return true
             }
             else {
-                self.showAutoFadingOutMessageAlert(
+                self.showAutoFadingOutMessageAlert(message: 
                     LGLocalizedString.changeUsernameErrorInvalidUsername(Constants.fullNameMinLength), time: 3.5)
                 return false
             }
@@ -115,7 +115,7 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
             message = LGLocalizedString.changeUsernameErrorInvalidUsernameLetgo(viewModel.username)
         }
         
-        self.showAutoFadingOutMessageAlert(message)
+        self.showAutoFadingOutMessageAlert(message: message)
     }
     
     func viewModel(_ viewModel: ChangeUsernameViewModel, didFinishSendingUserWithResult
@@ -125,7 +125,7 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
         switch (result) {
         case .success:
             completion = {
-                self.showAutoFadingOutMessageAlert(LGLocalizedString.changeUsernameSendOk) { [weak self] in
+                self.showAutoFadingOutMessageAlert(message: LGLocalizedString.changeUsernameSendOk) { [weak self] in
                     self?.viewModel.userNameSaved()
                 }
             }
@@ -141,7 +141,7 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
                 message = LGLocalizedString.changeUsernameErrorInvalidUsernameLetgo(viewModel.username)
             }
             completion = { [weak self] in
-                self?.showAutoFadingOutMessageAlert(message)
+                self?.showAutoFadingOutMessageAlert(message: message)
             }
         }
         

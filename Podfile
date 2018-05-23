@@ -19,6 +19,7 @@ def shared_pods
     pod "RxSwift",              "4.0.0"
     pod "RxSwiftExt",           "3.0.0"
     pod "RxCocoa",              "4.0.0"
+    pod "RxMKMapView",          "4.0.0"
 
     #Ads
     pod "Google-Mobile-Ads-SDK","7.30.0"
@@ -30,7 +31,7 @@ def shared_pods
 
     # Tracking
     pod "Amplitude-iOS",        "4.0.4"     # Obj-c
-    pod "AppsFlyerFramework",   "4.8.2"     # Obj-c
+    pod "AppsFlyerFramework",   "4.8.4"     # Obj-c
     pod "Leanplum-iOS-SDK",     "2.0.5"     # Obj-c
     pod "NewRelicAgent",        "6.1.1"     # Obj-c
 

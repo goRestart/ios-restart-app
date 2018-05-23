@@ -1156,6 +1156,13 @@ struct TrackerEvent {
         return TrackerEvent(name: .verifyAccountStart, params: params)
     }
 
+    static func verifyAccountSelectNetwork(_ typePage: EventParameterTypePage, network: EventParameterAccountNetwork) -> TrackerEvent {
+        var params = EventParameters()
+        params[.typePage] = typePage.rawValue
+        params[.accountNetwork] = network.rawValue
+        return TrackerEvent(name: .verifyAccountSelectNetwork, params: params)
+    }
+
     static func verifyAccountComplete(_ typePage: EventParameterTypePage, network: EventParameterAccountNetwork) -> TrackerEvent {
         var params = EventParameters()
         params[.typePage] = typePage.rawValue

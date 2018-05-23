@@ -154,6 +154,7 @@ enum EventName: String {
     case surveyCompleted                    = "survey-completed"
 
     case verifyAccountStart                 = "verify-account-start"
+    case verifyAccountSelectNetwork         = "verify-account-select-network"
     case verifyAccountComplete              = "verify-account-complete"
 
     case inappChatNotificationStart         = "in-app-chat-notification-start"
@@ -888,6 +889,8 @@ enum EventParameterTypePage: String {
     case postingIconInfo = "posting-icon-information"
     case postingLearnMore = "posting-learn-more-button"
     case sellStart = "product-sell-start"
+    case userVerifications = "user-verifications"
+    case smsVerification = "sms-verification"
 }
 
 enum EventParameterPermissionType: String {
@@ -1063,6 +1066,9 @@ enum EventParameterAccountNetwork: String {
     case facebook = "facebook"
     case google = "google"
     case email = "email"
+    case sms = "sms"
+    case id = "id"
+    case profilePhoto = "profilePhoto"
 }
 
 enum EventParameterBlockedAccountReason: String {

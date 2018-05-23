@@ -246,7 +246,7 @@ extension UIViewController {
     Helper to present a view controller using the main thread
     */
     func presentViewController(_ viewControllerToPresent: UIViewController, animated: Bool, onMainThread: Bool,
-        completion: (() -> Void)?) {
+        completion: (() -> Void)? = nil) {
             if onMainThread {
                 DispatchQueue.main.async { [weak self] in
                     self?.present(viewControllerToPresent, animated: animated, completion: completion)
@@ -263,7 +263,7 @@ extension UIViewController {
     - parameter animated:   whether to animate or not
     - parameter completion: completion callback
     */
-    func popViewController(animated: Bool, completion: (() -> Void)?) {
+    func popViewController(animated: Bool, completion: (() -> Void)? = nil) {
         guard let navigationController = navigationController else { return }
         if animated {
             CATransaction.begin()
@@ -282,7 +282,7 @@ extension UIViewController {
     - parameter animated:   whether to animate or not
     - parameter completion: completion callback
     */
-    func pushViewController(_ viewController: UIViewController, animated: Bool, completion: (() -> Void)?) {
+    func pushViewController(_ viewController: UIViewController, animated: Bool, completion: (() -> Void)? = nil) {
         guard let navigationController = navigationController else { return }
         if animated {
             CATransaction.begin()
