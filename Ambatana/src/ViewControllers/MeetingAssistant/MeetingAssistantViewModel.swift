@@ -12,7 +12,7 @@ import RxSwift
 import MapKit
 
 protocol MeetingAssistantDataDelegate: class {
-    func sendMeeting(meeting: AssistantMeeting)
+    func sendMeeting(meeting: AssistantMeeting, isSuggestedPlace: Bool?)
 }
 
 
@@ -148,11 +148,11 @@ final class MeetingAssistantViewModel: BaseViewModel {
         
         if keyValueStorage.meetingSafetyTipsAlreadyShown ||
             meetingIsSafe(selectedLocation: selectedLocation.value, time: date.value) {
-            dataDelegate?.sendMeeting(meeting: meeting)
+            dataDelegate?.sendMeeting(meeting: meeting, isSuggestedPlace: selectedLocation.value != nil)
             navigator?.meetingCreationDidFinish()
         } else {
             navigator?.openMeetingTipsWith(closeCompletion: { [weak self] in
-                self?.dataDelegate?.sendMeeting(meeting: meeting)
+                self?.dataDelegate?.sendMeeting(meeting: meeting, isSuggestedPlace: self?.selectedLocation.value != nil)
                 self?.navigator?.meetingCreationDidFinish()
             })
         }
