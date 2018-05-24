@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import LGComponents
 
 final class PasswordlessEmailViewController: BaseViewController {
 
@@ -66,7 +67,7 @@ final class PasswordlessEmailViewController: BaseViewController {
     }
 
     private func setupNavBarActions() {
-        let helpButton = UIBarButtonItem(title: LGLocalizedString.mainSignUpHelpButton,
+        let helpButton = UIBarButtonItem(title: R.Strings.mainSignUpHelpButton,
                                          style: .plain,
                                          target: self,
                                          action: #selector(didTapHelp))
@@ -76,14 +77,14 @@ final class PasswordlessEmailViewController: BaseViewController {
     private func setupTitleLabelUI() {
         titleLabel.textColor = .blackText
         titleLabel.font = .passwordLessEmailTitleFont
-        titleLabel.text = LGLocalizedString.passwordlessEmailInputTitle
+        titleLabel.text = R.Strings.passwordlessEmailInputTitle
     }
 
     private func setupDescriptionLabelUI() {
         descriptionLabel.textColor = .grayDisclaimerText
         descriptionLabel.font = .passwordLessEmailDescriptionFont
         descriptionLabel.numberOfLines = 0
-        descriptionLabel.text = LGLocalizedString.passwordlessEmailInputDescription
+        descriptionLabel.text = R.Strings.passwordlessEmailInputDescription
     }
 
     private func setupEmailTextFieldUI() {
@@ -96,12 +97,12 @@ final class PasswordlessEmailViewController: BaseViewController {
         var placeholderAttributes = [NSAttributedStringKey: Any]()
         placeholderAttributes[NSAttributedStringKey.font] = UIFont.passwordLessEmailTextFieldFont
         placeholderAttributes[NSAttributedStringKey.foregroundColor] = UIColor.grayPlaceholderText
-        emailTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.passwordlessEmailInputTextfieldPlaceholder,
+        emailTextField.attributedPlaceholder = NSAttributedString(string: R.Strings.passwordlessEmailInputTextfieldPlaceholder,
                                                                   attributes: placeholderAttributes)
     }
 
     private func setupContinueButtonUI() {
-        continueButton.setTitle(LGLocalizedString.passwordlessEmailInputButton, for: .normal)
+        continueButton.setTitle(R.Strings.passwordlessEmailInputButton, for: .normal)
         continueButton.addTarget(self, action: #selector(didTapContinue), for: .touchUpInside)
     }
 

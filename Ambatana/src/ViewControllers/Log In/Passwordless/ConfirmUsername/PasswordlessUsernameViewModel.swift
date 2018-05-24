@@ -8,6 +8,7 @@
 
 import Foundation
 import LGCoreKit
+import LGComponents
 
 final class PasswordlessUsernameViewModel: BaseViewModel {
 
@@ -34,9 +35,9 @@ final class PasswordlessUsernameViewModel: BaseViewModel {
             if let _ = result.value {
                 self?.navigator?.closePasswordlessConfirmUsername()
             } else {
-                self?.delegate?.vmShowAlert(LGLocalizedString.commonErrorTitle,
-                                      message: LGLocalizedString.commonError,
-                                      cancelLabel: LGLocalizedString.commonOk,
+                self?.delegate?.vmShowAlert(R.Strings.commonErrorTitle,
+                                      message: R.Strings.commonError,
+                                      cancelLabel: R.Strings.commonOk,
                                       actions: [])
             }
         }

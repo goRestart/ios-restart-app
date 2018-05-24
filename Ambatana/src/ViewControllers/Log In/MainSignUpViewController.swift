@@ -169,7 +169,7 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
         orLabel.text = R.Strings.mainSignUpOrLabel
         orLabel.font = UIFont.smallBodyFont
         orLabel.backgroundColor = view.backgroundColor
-        continueWithEmailButton.setTitle(R.strings.passwordlessMainSignupButton, for: .normal)
+        continueWithEmailButton.setTitle(R.Strings.passwordlessMainSignupButton, for: .normal)
         signUpButton.setTitle(R.Strings.mainSignUpSignUpButton, for: .normal)
         logInButton.setTitle(R.Strings.mainSignUpLogInLabel, for: .normal)
 

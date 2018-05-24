@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import LGComponents
 
 final class PasswordlessUsernameViewController: BaseViewController {
 
@@ -70,7 +71,7 @@ final class PasswordlessUsernameViewController: BaseViewController {
     }
 
     private func setupNavBarActions() {
-        let helpButton = UIBarButtonItem(title: LGLocalizedString.mainSignUpHelpButton,
+        let helpButton = UIBarButtonItem(title: R.Strings.mainSignUpHelpButton,
                                          style: .plain,
                                          target: self,
                                          action: #selector(didTapHelp))
@@ -80,7 +81,7 @@ final class PasswordlessUsernameViewController: BaseViewController {
     private func setupTitleLabelUI() {
         titleLabel.textColor = .blackText
         titleLabel.font = .passwordLessUsernameTitleFont
-        titleLabel.text = LGLocalizedString.passwordlessUsernameInputTitle
+        titleLabel.text = R.Strings.passwordlessUsernameInputTitle
         titleLabel.numberOfLines = 2
     }
 
@@ -92,12 +93,12 @@ final class PasswordlessUsernameViewController: BaseViewController {
         var placeholderAttributes = [NSAttributedStringKey: Any]()
         placeholderAttributes[NSAttributedStringKey.font] = UIFont.passwordLessEmailTextFieldFont
         placeholderAttributes[NSAttributedStringKey.foregroundColor] = UIColor.grayPlaceholderText
-        usernameTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.passwordlessUsernameInputTextfieldPlaceholder,
+        usernameTextField.attributedPlaceholder = NSAttributedString(string: R.Strings.passwordlessUsernameInputTextfieldPlaceholder,
                                                                  attributes: placeholderAttributes)
     }
 
     private func setupDoneButtonUI() {
-        doneButton.setTitle(LGLocalizedString.passwordlessUsernameInputDoneButton, for: .normal)
+        doneButton.setTitle(R.Strings.passwordlessUsernameInputDoneButton, for: .normal)
         doneButton.addTarget(self, action: #selector(didTapDone), for: .touchUpInside)
     }
 

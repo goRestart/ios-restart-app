@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import LGComponents
 
 final class PasswordlessEmailSentViewController: BaseViewController {
 
@@ -46,7 +47,7 @@ final class PasswordlessEmailSentViewController: BaseViewController {
 
     private func setupUI() {
         view.backgroundColor = .white
-        title = LGLocalizedString.passwordlessEmailSentScreenTitle
+        title = R.Strings.passwordlessEmailSentScreenTitle
         view.addSubviewsForAutoLayout([imageView, titleLabel, subtitleLabel])
 
         setupNavBarActions()
@@ -63,7 +64,7 @@ final class PasswordlessEmailSentViewController: BaseViewController {
                                           action: #selector(didTapClose))
         navigationItem.leftBarButtonItem = closeButton
 
-        let helpButton = UIBarButtonItem(title: LGLocalizedString.mainSignUpHelpButton,
+        let helpButton = UIBarButtonItem(title: R.Strings.mainSignUpHelpButton,
                                          style: .plain,
                                          target: self,
                                          action: #selector(didTapHelp))
@@ -80,14 +81,14 @@ final class PasswordlessEmailSentViewController: BaseViewController {
         titleLabel.font = .passwordLessEmailTitleFont
         titleLabel.numberOfLines = 0
         titleLabel.textAlignment = .center
-        titleLabel.text = LGLocalizedString.passwordlessEmailSentTitle
+        titleLabel.text = R.Strings.passwordlessEmailSentTitle
     }
 
     private func setupSubtitleLabelUI() {
         subtitleLabel.textColor = .grayDisclaimerText
         subtitleLabel.font = .passwordLessEmailDescriptionFont
         subtitleLabel.textAlignment = .center
-        subtitleLabel.text = LGLocalizedString.passwordlessEmailSentSubtitle(viewModel.email)
+        subtitleLabel.text = R.Strings.passwordlessEmailSentSubtitle(viewModel.email)
     }
 
     private func setupConstraints() {
