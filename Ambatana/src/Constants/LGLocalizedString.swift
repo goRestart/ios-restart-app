@@ -507,6 +507,30 @@ struct LGLocalizedString {
 		return NSLocalizedString("change_email_error_already_registered", comment: "")
 	}
 
+	static var chatConversationsListFilterAll: String {
+		return NSLocalizedString("chat_conversations_list_filter_all", comment: "")
+	}
+
+	static var chatConversationsListFilterSelling: String {
+		return NSLocalizedString("chat_conversations_list_filter_selling", comment: "")
+	}
+
+	static var chatConversationsListFilterBuying: String {
+		return NSLocalizedString("chat_conversations_list_filter_buying", comment: "")
+	}
+
+	static var chatConversationsListBlockedUsersButton: String {
+		return NSLocalizedString("chat_conversations_list_blocked_users_button", comment: "")
+	}
+
+	static var chatConversationsListLetgoAssistantTag: String {
+		return NSLocalizedString("chat_conversations_list_letgo_assistant_tag", comment: "")
+	}
+
+	static var chatUserInfoLetgoAssistant: String {
+		return NSLocalizedString("chat_user_info_letgo_assistant", comment: "")
+	}
+
 	static var chatMessageTypeNotSupported: String {
 		return NSLocalizedString("chat_message_type_not_supported", comment: "")
 	}
@@ -1665,6 +1689,14 @@ struct LGLocalizedString {
 
 	static var listingsMapTitle: String {
 		return NSLocalizedString("listings_map_title", comment: "")
+	}
+
+	static var listingsMapNoResultsMessage: String {
+		return NSLocalizedString("listings_map_no_results_message", comment: "")
+	}
+
+	static var listingMapRedoSearch: String {
+		return NSLocalizedString("listing_map_redo_search", comment: "")
 	}
 
 	static var locationPermissionsBubble: String {
@@ -3103,6 +3135,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_post_select_category_housing", comment: "")
 	}
 
+	static var productPostSelectCategoryServices: String {
+		return NSLocalizedString("product_post_select_category_services", comment: "")
+	}
+
 	static var productPostSelectCategoryRealEstate: String {
 		return NSLocalizedString("product_post_select_category_real_estate", comment: "")
 	}
@@ -3515,6 +3551,10 @@ struct LGLocalizedString {
 		return String(format: NSLocalizedString("phone_verification_number_input_view_confirmation_message", comment: ""), var1, var2)
 	}
 
+	static var phoneVerificationNumberInputViewErrorMessage: String {
+		return NSLocalizedString("phone_verification_number_input_view_error_message", comment: "")
+	}
+
 	static var phoneVerificationCodeInputViewTitle: String {
 		return NSLocalizedString("phone_verification_code_input_view_title", comment: "")
 	}
@@ -3547,12 +3587,20 @@ struct LGLocalizedString {
 		return NSLocalizedString("phone_verification_code_input_view_validated_failure", comment: "")
 	}
 
+	static var phoneVerificationCodeInputViewErrorMessage: String {
+		return NSLocalizedString("phone_verification_code_input_view_error_message", comment: "")
+	}
+
 	static var phoneVerificationCountryPickerViewTitle: String {
 		return NSLocalizedString("phone_verification_country_picker_view_title", comment: "")
 	}
 
 	static var phoneVerificationCountryPickerViewSearchPlaceholder: String {
 		return NSLocalizedString("phone_verification_country_picker_view_search_placeholder", comment: "")
+	}
+
+	static var profileReputationTooltipTitle: String {
+		return NSLocalizedString("profile_reputation_tooltip_title", comment: "")
 	}
 
 	static var profileKarmaVisibilityTitle: String {
@@ -4333,6 +4381,10 @@ struct LGLocalizedString {
 
 	static var searchAlertErrorTooManyButtonText: String {
 		return NSLocalizedString("search_alert_error_too_many_button_text", comment: "")
+	}
+
+	static var searchLetgo: String {
+		return NSLocalizedString("search_letgo", comment: "")
 	}
 
 	static var sellCategorySelectionLabel: String {

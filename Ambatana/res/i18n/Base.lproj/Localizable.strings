@@ -373,6 +373,20 @@
 // Change email already registered
 "change_email_error_already_registered" = "This email address is already registered. Please enter a different one.";
 
+"chat_conversations_list_filter_all" = "All";
+
+"chat_conversations_list_filter_selling" = "Selling";
+
+"chat_conversations_list_filter_buying" = "Buying";
+
+"chat_conversations_list_blocked_users_button" = "View blocked users";
+
+// Tag for the letgo assistant conversation cells 
+"chat_conversations_list_letgo_assistant_tag" = "letgo assistant";
+
+// Information regarding the asssitant of letgo
+"chat_user_info_letgo_assistant" = "I'm a virtual assistant that gives you tips and helps you sell.";
+
 "chat_message_type_not_supported" = "This message isn't compatible with your app version. Update your app now to unlock the newest features!";
 
 // Chat inactive conversations cell
@@ -523,10 +537,10 @@
 "chat_list_delete_alert_send" = "Delete";
 
 // Chat list delete confirmation alert text (multiple)
-"chat_list_delete_alert_text_multiple" = "You're going to delete these chats";
+"chat_list_delete_alert_text_multiple" = "You're going to permanently delete these chats";
 
 // Chat list delete confirmation alert text (single)
-"chat_list_delete_alert_text_one" = "You're going to delete this chat";
+"chat_list_delete_alert_text_one" = "You're going to permanently delete this chat";
 
 // Chat list delete confirmation alert title (multiple)
 "chat_list_delete_alert_title_multiple" = "Delete Chats";
@@ -1232,6 +1246,12 @@
 // Title for Listings Map View
 "listings_map_title" = "Map view";
 
+// Message for no results in Listings Map View
+"listings_map_no_results_message" = "No exact matches for your search. Try looking in a different area or using different filters.";
+
+// Button to refresh a search when user changes the location
+"listing_map_redo_search" = "Search this area";
+
 // Fake distance shown in a bubble in a fake product list in onboarding
 "location_permissions_bubble" = "0.1 mi from you";
 
@@ -1263,7 +1283,7 @@
 "log_in_send_button" = "Log In";
 
 // Log in title. Check image @ "log_in_email_field_hint" segment
-"log_in_title" = "Sign in with email";
+"log_in_title" = "Log in with email";
 
 // Alert shown to users that fail to login due to scammer error
 "login_scammer_alert_title" = "ACCOUNT UNDER REVIEW";
@@ -2309,6 +2329,9 @@
 // Product post category selection real Estate button
 "product_post_select_category_housing" = "Housing for Rent / Sale";
 
+// Product post category selection services button
+"product_post_select_category_services" = "Services";
+
 // Product post category selection real Estate button
 "product_post_select_category_real_estate" = "Real Estate";
 
@@ -2583,10 +2606,10 @@
 "profile_verifications_view_extra_section_title" = "BUY & SELL";
 
 // cell explaining that marking items as sold, increases Karma score
-"profile_verifications_view_mark_as_sold_title" = "Mark a listing as sold";
+"profile_verifications_view_mark_as_sold_title" = "Mark as sold";
 
 // cell explaining that marking items as sold, increases Karma score
-"profile_verifications_view_mark_as_sold_subtitle" = "+2 pts each (up to 10 pts)";
+"profile_verifications_view_mark_as_sold_subtitle" = "+2 pts for each listing (up to 10 pts)";
 
 // Title of the view to verify the email. The user can write its email to send a verification link
 "profile_verifications_email_view_title" = "Verify your Email";
@@ -2618,6 +2641,9 @@
 // Text shown in the alert to explain that the sms has been sent. (+34 611111111)
 "phone_verification_number_input_view_confirmation_message" = "We sent a text message with a verification code to +%@ %@";
 
+// Text shown when something goes wrong trying to send a sms to the user
+"phone_verification_number_input_view_error_message" = "Oops! An error occurred while sending the text message. Please try again.";
+
 // Title shown in the navigation bar as a screen title in the second screen of the phone verification.
 "phone_verification_code_input_view_title" = "Number verification";
 
@@ -2642,11 +2668,17 @@
 // Text shown when sms code has been verified unsuccessfully.
 "phone_verification_code_input_view_validated_failure" = "The verification code you entered is incorrect.";
 
+// Text shown when something goes wrong trying to validate the code
+"phone_verification_code_input_view_error_message" = "Oops! An error occurred while validating the code. Please try again.";
+
 // Text shown in the navigation bar  as a screen title in the country picker view.
 "phone_verification_country_picker_view_title" = "Country list";
 
 // Text shown as a placeholder in the textfield to search a country in the country list.
 "phone_verification_country_picker_view_search_placeholder" = "Search";
+
+// Text in a tooltip shown when the current user sees a user with a badge for the first time
+"profile_reputation_tooltip_title" = "Verified user! Tap if you want to be verified too.";
 
 // Disclaimer text telling the user this section is only visibile to him/her
 "profile_karma_visibility_title" = "Only visible to you";
@@ -3227,6 +3259,9 @@
 
 // text for error alert button when max search alerts reached
 "search_alert_error_too_many_button_text" = "Manage notifications";
+
+// text shown in feed search bar
+"search_letgo" = "Search letgo";
 
 // Sell category selection label. Check attached image "sell.png"
 "sell_category_selection_label" = "Category";

@@ -137,6 +137,11 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "For safety reasons, this account has been deleted by the letgo team and these messages have been removed.";
 "chat_connect_account_disclaimer_button" = "Verify now!";
 "chat_connect_accounts_title" = "BUILD TRUST!";
+"chat_conversations_list_blocked_users_button" = "View blocked users";
+"chat_conversations_list_filter_all" = "All";
+"chat_conversations_list_filter_buying" = "Buying";
+"chat_conversations_list_filter_selling" = "Selling";
+"chat_conversations_list_letgo_assistant_tag" = "letgo assistant";
 "chat_deleted_disclaimer_w_name" = "You can't continue this conversation because %@'s account is no longer active.";
 "chat_deleted_disclaimer_wo_name" = "You can't continue this conversation because this account is no longer active.";
 "chat_disclaimer_letgo_team" = "LETGO TEAM";
@@ -172,8 +177,8 @@
 "chat_list_buying_title" = "BUYING";
 "chat_list_delete" = "Delete";
 "chat_list_delete_alert_send" = "Delete";
-"chat_list_delete_alert_text_multiple" = "You're going to delete these chats";
-"chat_list_delete_alert_text_one" = "You're going to delete this chat";
+"chat_list_delete_alert_text_multiple" = "You're going to permanently delete these chats";
+"chat_list_delete_alert_text_one" = "You're going to permanently delete this chat";
 "chat_list_delete_alert_title_multiple" = "Delete Chats";
 "chat_list_delete_alert_title_one" = "Delete Chat";
 "chat_list_delete_error_one" = "An error occurred while deleting this chat. Please try again.";
@@ -215,6 +220,7 @@
 "chat_send_error_generic" = "An error occurred while sending the message. Please try again.";
 "chat_stickers_tooltip_new" = "NEW!";
 "chat_unblock_user" = "Unblock User";
+"chat_user_info_letgo_assistant" = "I'm a virtual assistant that gives you tips and helps you sell.";
 "chat_user_info_name" = "Hi, I'm %@";
 "chat_user_info_verified_with" = "Verified with: ";
 "chat_user_rating_button_tooltip" = "Review this user";
@@ -410,6 +416,8 @@
 "hidden_phone_tag" = "[PHONE NUMBER HIDDEN]";
 "hidden_text_alert_description" = "We hide contact information to help you buy and sell safely. Chatting inside letgo is easy and more secure.";
 "hidden_text_alert_title" = "STAY SAFE";
+"listing_map_redo_search" = "Search this area";
+"listings_map_no_results_message" = "No exact matches for your search. Try looking in a different area or using different filters.";
 "listings_map_title" = "Map view";
 "location_permissions_allow_button" = "Allow";
 "location_permissions_bubble" = "0.1 mi from you";
@@ -430,7 +438,7 @@
 "log_in_error_send_error_user_not_found_or_wrong_password" = "Invalid email or password. Please try again.";
 "log_in_reset_password_button" = "Forgot your password?";
 "log_in_send_button" = "Log In";
-"log_in_title" = "Sign in with email";
+"log_in_title" = "Log in with email";
 "login_device_not_allowed_alert_contact_button" = "Contact Us";
 "login_device_not_allowed_alert_message" = "You've never logged in on this device before. We've sent you a verification email so check your inbox to continue.";
 "login_device_not_allowed_alert_ok_button" = "OK";
@@ -573,6 +581,7 @@
 "phone_verification_code_input_view_content_subtext" = "You can request another code if you don't receive it within %@";
 "phone_verification_code_input_view_content_subtitle" = "We've sent it to %@";
 "phone_verification_code_input_view_content_title" = "Enter the 6-digit code";
+"phone_verification_code_input_view_error_message" = "Oops! An error occurred while validating the code. Please try again.";
 "phone_verification_code_input_view_title" = "Number verification";
 "phone_verification_code_input_view_validated_failure" = "The verification code you entered is incorrect.";
 "phone_verification_code_input_view_validated_success" = "Phone number verified!";
@@ -583,6 +592,7 @@
 "phone_verification_number_input_view_confirmation_title" = "Thank you!";
 "phone_verification_number_input_view_continue_button" = "Continue";
 "phone_verification_number_input_view_description" = "Build trust by verifying your phone number";
+"phone_verification_number_input_view_error_message" = "Oops! An error occurred while sending the text message. Please try again.";
 "phone_verification_number_input_view_sending_message" = "Sending text message...";
 "phone_verification_number_input_view_textfield_placeholder" = "Phone number";
 "phone_verification_number_input_view_title" = "Number verification";
@@ -770,6 +780,7 @@
 "product_post_select_category_motors_and_accessories" = "Other Vehicles and Parts";
 "product_post_select_category_other" = "Other items";
 "product_post_select_category_real_estate" = "Real Estate";
+"product_post_select_category_services" = "Services";
 "product_post_select_category_title" = "What are you posting?";
 "product_post_use_photo" = "Post";
 "product_post_use_photo_not_logged" = "Use photo";
@@ -848,6 +859,7 @@
 "profile_permissions_alert_ok" = "Enable";
 "profile_permissions_alert_title" = "DON'T MISS A REPLY!";
 "profile_permissions_header_message" = "Enable message notifications";
+"profile_reputation_tooltip_title" = "Verified user! Tap if you want to be verified too.";
 "profile_reviews_count" = "Reviews";
 "profile_reviews_tab" = "Reviews";
 "profile_selling_no_products_label" = "NO LISTINGS (YET!)";
@@ -865,8 +877,8 @@
 "profile_verifications_view_extra_section_title" = "BUY & SELL";
 "profile_verifications_view_facebook_title" = "Facebook";
 "profile_verifications_view_google_title" = "Google";
-"profile_verifications_view_mark_as_sold_subtitle" = "+2 pts each (up to 10 pts)";
-"profile_verifications_view_mark_as_sold_title" = "Mark a listing as sold";
+"profile_verifications_view_mark_as_sold_subtitle" = "+2 pts for each listing (up to 10 pts)";
+"profile_verifications_view_mark_as_sold_title" = "Mark as sold";
 "profile_verifications_view_phone_number_title" = "Phone number";
 "profile_verifications_view_photo_id_title" = "Photo ID";
 "profile_verifications_view_profile_picture_title" = "Profile picture";
@@ -1066,6 +1078,7 @@
 "search_alerts_placeholder_empty_text" = "Subscribe to searches to get notifications when new listings are posted.";
 "search_alerts_placeholder_error_button" = "Try Again";
 "search_alerts_placeholder_error_text" = "Oops! An error occurred while loading your search alerts";
+"search_letgo" = "Search letgo";
 "sell_category_selection_label" = "Category";
 "sell_choose_category_dialog_cancel_button" = "Cancel";
 "sell_choose_category_dialog_title" = "Choose a category";
