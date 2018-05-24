@@ -105,6 +105,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var personalizedFeedABTestIntValue: Int? = nil
     var searchBoxImprovements: SearchBoxImprovements = .control
     var multiContactAfterSearch: MultiContactAfterSearch = .control
+    var emptySearchImprovements: EmptySearchImprovements = .control
     
     //  MARK:  Products
     var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu = .control

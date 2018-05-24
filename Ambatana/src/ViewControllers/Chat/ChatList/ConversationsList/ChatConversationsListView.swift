@@ -6,19 +6,32 @@
 //  Copyright © 2018 Ambatana. All rights reserved.
 //
 
+import RxSwift
+
 final class ChatConversationsListView: UIView {
     
+    struct Time {
+        static let animationDuration: TimeInterval = 0.1
+    }
+    
     struct Layout {
-        static let animationDuration = 0.1
+        static let rowHeight: CGFloat = 76
     }
     
     private let statusView = ChatStatusView()
     private let tableView = UITableView()
     private let emptyView = LGEmptyView()
     private let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
-    
     private let refreshControl = UIRefreshControl()
+    
     var refreshControlBlock: (() -> Void)?
+    var rx_tableView: Reactive<UITableView> {
+        return tableView.rx
+    }
+    var indexPathsForVisibleRows: [IndexPath]? {
+        return tableView.indexPathsForVisibleRows
+    }
+    
     
     // MARK: Lifecycle
     
@@ -36,11 +49,18 @@ final class ChatConversationsListView: UIView {
     
     private func setupUI() {
         backgroundColor = UIColor.listBackgroundColor
+        emptyView.alpha = 0
+        setupTableView()
+        addRefreshControl()
+    }
+    
+    private func setupTableView() {
+        tableView.register(UINib(nibName: "ConversationCell", bundle: nil), forCellReuseIdentifier: "ConversationCell")
         tableView.alpha = 0
+        tableView.rowHeight = Layout.rowHeight
+        tableView.separatorStyle = .singleLine
         tableView.layoutMargins = .zero
         tableView.separatorInset = .zero
-        emptyView.alpha = 0
-        addRefreshControl()
     }
     
     private func setupConstraints() {
@@ -94,20 +114,22 @@ final class ChatConversationsListView: UIView {
     
     func showEmptyView(with emptyViewModel: LGEmptyViewModel) {
         emptyView.setupWithModel(emptyViewModel)
-        tableView.animateTo(alpha: 0, duration: Layout.animationDuration)
-        emptyView.animateTo(alpha: 1, duration: Layout.animationDuration) { [weak self] finished in
+        tableView.animateTo(alpha: 0, duration: Time.animationDuration)
+        emptyView.animateTo(alpha: 1, duration: Time.animationDuration) { [weak self] finished in
             self?.activityIndicatorView.stopAnimating()
         }
     }
     
     func showTableView() {
-        emptyView.animateTo(alpha: 0, duration: Layout.animationDuration)
-        tableView.animateTo(alpha: 1, duration: Layout.animationDuration) { [weak self] finished in
+        emptyView.animateTo(alpha: 0, duration: Time.animationDuration)
+        tableView.animateTo(alpha: 1, duration: Time.animationDuration) { [weak self] finished in
             self?.activityIndicatorView.stopAnimating()
         }
     }
     
     func showActivityIndicator() {
+        emptyView.animateTo(alpha: 0, duration: Time.animationDuration)
+        tableView.animateTo(alpha: 0, duration: Time.animationDuration)
         activityIndicatorView.startAnimating()
     }
 }
