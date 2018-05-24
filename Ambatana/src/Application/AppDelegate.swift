@@ -46,6 +46,7 @@ final class AppDelegate: UIResponder {
     fileprivate let disposeBag = DisposeBag()
     fileprivate let backgroundLocationTimeout: Double = 20
     fileprivate let emergencyLocateKey = "emergency-locate"
+    fileprivate let offensiveReportKey = "offensive-report"
 }
 
 
@@ -209,6 +210,11 @@ extension AppDelegate: UIApplicationDelegate {
             startEmergencyLocate { completionHandler(.noData) }
         } else {
             PushManager.sharedInstance.application(application, didReceiveRemoteNotification: userInfo)
+        }
+
+        let offensiveReport = userInfo[offensiveReportKey] as? Int
+        if let _ = offensiveReport {
+
         }
     }
 
