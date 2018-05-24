@@ -1,13 +1,6 @@
-//
-//  FilterDistanceSlider.swift
-//  LetGo
-//
-//  Created by Nestor on 24/05/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import UIKit
 import LGCoreKit
+import LGComponents
 
 protocol FilterDistanceSliderDelegate: class {
     func filterDistanceChanged(distance: Int)
@@ -162,9 +155,9 @@ class FilterDistanceSlider: UIView {
     private func updateTipLabel() {
         let currDist = distance
         if (currDist == positions.first) { // 0: distance "not set"
-            distanceLabel.text = LGLocalizedString.filtersDistanceNotSet
+            distanceLabel.text = R.Strings.filtersDistanceNotSet
         } else if (currDist == positions.last) { // 100: distance "max"
-            distanceLabel.text = LGLocalizedString.commonMax
+            distanceLabel.text = R.Strings.commonMax
         } else {
             distanceLabel.text = "\(distance) \(distanceType.string)"
         }

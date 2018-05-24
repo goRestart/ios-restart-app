@@ -1,30 +1,23 @@
-//
-//  RealEstateOfferType+LG.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 11/10/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
+import LGComponents
 
 extension RealEstateOfferType {
     var localizedString: String {
         switch self {
         case .rent:
-            return LGLocalizedString.realEstateOfferTypeRent
+            return R.Strings.realEstateOfferTypeRent
         case .sale:
-            return LGLocalizedString.realEstateOfferTypeSale
+            return R.Strings.realEstateOfferTypeSale
         }
     }
     
     var shortLocalizedString: String {
         switch self {
         case .rent:
-            return LGLocalizedString.realEstateTitleGeneratorOfferTypeRent
+            return R.Strings.realEstateTitleGeneratorOfferTypeRent
         case .sale:
-            return LGLocalizedString.realEstateTitleGeneratorOfferTypeSale
+            return R.Strings.realEstateTitleGeneratorOfferTypeSale
         }
     }
     

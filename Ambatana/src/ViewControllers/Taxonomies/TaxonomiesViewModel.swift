@@ -1,14 +1,6 @@
-//
-//  TaxonomiesViewModel.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 20/07/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import RxSwift
 import LGCoreKit
-
+import LGComponents
 
 protocol TaxonomiesViewModelDelegate: BaseViewModelDelegate {}
 
@@ -35,7 +27,7 @@ class TaxonomiesViewModel : BaseViewModel {
     
     init(taxonomies: [Taxonomy], taxonomySelected: Taxonomy? , taxonomyChildSelected: TaxonomyChild?,
          source: EventParameterTypePage, tracker: Tracker) {
-        title = LGLocalizedString.categoriesTitle
+        title = R.Strings.categoriesTitle
         self.taxonomies = taxonomies
         self.currentTaxonomySelected = taxonomySelected
         self.currentTaxonomyChildSelected = taxonomyChildSelected

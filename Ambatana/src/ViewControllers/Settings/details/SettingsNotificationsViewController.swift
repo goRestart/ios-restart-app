@@ -1,12 +1,5 @@
-//
-//  SettingsNotificationsViewController.swift
-//  LetGo
-//
-//  Created by Raúl de Oñate Blanco on 13/04/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import RxSwift
+import LGComponents
 
 final class SettingsNotificationsViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
 
@@ -37,7 +30,7 @@ final class SettingsNotificationsViewController: BaseViewController, UITableView
     }
     
     private func setupUI() {
-        setNavBarTitle(LGLocalizedString.settingsTitle)
+        setNavBarTitle(R.Strings.settingsTitle)
         
         automaticallyAdjustsScrollViewInsets = false
         

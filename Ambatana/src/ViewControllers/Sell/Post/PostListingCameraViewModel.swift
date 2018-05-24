@@ -1,13 +1,6 @@
-//
-//  PostListingCameraViewModel.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 10/03/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import Foundation
 import RxSwift
+import LGComponents
 
 enum CameraState {
     case pendingAskPermissions, missingPermissions(String), capture, takingPhoto, recordingVideo, previewPhoto, previewVideo
@@ -50,7 +43,7 @@ final class PostListingCameraViewModel: BaseViewModel {
     
     var verticalPromotionMessage: String? {
         if let category = postCategory, category == .realEstate {
-            return LGLocalizedString.realEstateCameraViewRealEstateMessage
+            return R.Strings.realEstateCameraViewRealEstateMessage
         }
         return nil
     }
@@ -60,7 +53,7 @@ final class PostListingCameraViewModel: BaseViewModel {
             titleAttributes[NSAttributedStringKey.foregroundColor] = UIColor.white
             titleAttributes[NSAttributedStringKey.underlineStyle] = NSUnderlineStyle.styleSingle.rawValue
             titleAttributes[NSAttributedStringKey.font] = UIFont.boldSystemFont(ofSize: 23)
-            let text = NSAttributedString(string: LGLocalizedString.realEstateCameraViewRealEstateLearnMore,
+            let text = NSAttributedString(string: R.Strings.realEstateCameraViewRealEstateLearnMore,
                                           attributes: titleAttributes)
             return text
     }
@@ -214,14 +207,14 @@ final class PostListingCameraViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
             switch state {
             case .missingPermissions(let msg):
-                strongSelf.infoTitle.value = LGLocalizedString.productPostCameraPermissionsTitle
+                strongSelf.infoTitle.value = R.Strings.productPostCameraPermissionsTitle
                 strongSelf.infoSubtitle.value = msg
-                strongSelf.infoButton.value = LGLocalizedString.productPostCameraPermissionsButton
+                strongSelf.infoButton.value = R.Strings.productPostCameraPermissionsButton
                 strongSelf.infoShown.value = true
             case .pendingAskPermissions:
-                strongSelf.infoTitle.value = LGLocalizedString.productPostCameraPermissionsTitle
-                strongSelf.infoSubtitle.value = LGLocalizedString.productPostCameraPermissionsSubtitle
-                strongSelf.infoButton.value = LGLocalizedString.productPostCameraPermissionsButton
+                strongSelf.infoTitle.value = R.Strings.productPostCameraPermissionsTitle
+                strongSelf.infoSubtitle.value = R.Strings.productPostCameraPermissionsSubtitle
+                strongSelf.infoButton.value = R.Strings.productPostCameraPermissionsButton
                 strongSelf.infoShown.value = true
             case .takingPhoto, .recordingVideo, .previewPhoto, .previewVideo:
                 strongSelf.infoShown.value = false
@@ -249,8 +242,8 @@ final class PostListingCameraViewModel: BaseViewModel {
     }
     
     private func setupFirstShownLiterals() {
-        firstTimeTitle = LGLocalizedString.productPostCameraFirstTimeAlertTitle
-        firstTimeSubtitle = LGLocalizedString.productPostCameraFirstTimeAlertSubtitle
+        firstTimeTitle = R.Strings.productPostCameraFirstTimeAlertTitle
+        firstTimeSubtitle = R.Strings.productPostCameraFirstTimeAlertSubtitle
     }
     
     private func setupVerticalTextAlert() {
@@ -261,7 +254,7 @@ final class PostListingCameraViewModel: BaseViewModel {
 
     private func checkCameraState() {
         guard mediaPermissions.isCameraAvailable else {
-            cameraState.value = .missingPermissions(LGLocalizedString.productSellCameraRestrictedError)
+            cameraState.value = .missingPermissions(R.Strings.productSellCameraRestrictedError)
             return
         }
         let status = mediaPermissions.videoAuthorizationStatus
@@ -269,11 +262,11 @@ final class PostListingCameraViewModel: BaseViewModel {
         case .authorized:
             cameraState.value = .capture
         case .denied:
-            cameraState.value = .missingPermissions(LGLocalizedString.productPostCameraPermissionsSubtitle)
+            cameraState.value = .missingPermissions(R.Strings.productPostCameraPermissionsSubtitle)
         case .notDetermined:
             cameraState.value = .pendingAskPermissions
         case .restricted:
-            cameraState.value = .missingPermissions(LGLocalizedString.productPostCameraPermissionsSubtitle)
+            cameraState.value = .missingPermissions(R.Strings.productPostCameraPermissionsSubtitle)
             break
         }
     }
@@ -283,7 +276,7 @@ final class PostListingCameraViewModel: BaseViewModel {
             //This is required :(, callback is not on main thread so app would crash otherwise.
             DispatchQueue.main.async { [weak self] in
                 self?.cameraState.value = granted ?
-                    .capture : .missingPermissions(LGLocalizedString.productPostCameraPermissionsSubtitle)
+                    .capture : .missingPermissions(R.Strings.productPostCameraPermissionsSubtitle)
             }
         }
     }

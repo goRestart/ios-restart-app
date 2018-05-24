@@ -1,13 +1,6 @@
-//
-//  ChatAskPhoneNumberCellDrawer.swift
-//  LetGo
-//
-//  Created by Dídac on 23/01/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
+import LGComponents
 
 final class ChatAskPhoneNumberCellDrawer: BaseChatCellDrawer<ChatAskPhoneNumberCell> {
 
@@ -23,7 +16,7 @@ final class ChatAskPhoneNumberCellDrawer: BaseChatCellDrawer<ChatAskPhoneNumberC
             cell.buttonAction = action
             cell.leavePhoneNumberButton.isEnabled = action != nil
             cell.leavePhoneNumberButton.setStyle(.secondary(fontSize: .small, withBorder: true))
-            cell.leavePhoneNumberButton.setTitle(LGLocalizedString.professionalDealerAskPhoneAddPhoneCellButton, for: .normal)
+            cell.leavePhoneNumberButton.setTitle(R.Strings.professionalDealerAskPhoneAddPhoneCellButton, for: .normal)
         default:
             cell.buttonAction = nil
             cell.leavePhoneNumberButton.isHidden = true

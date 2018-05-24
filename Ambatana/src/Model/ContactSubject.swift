@@ -1,10 +1,4 @@
-//
-//  ContactSubject.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 11/08/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
+import LGComponents
 
 enum ContactSubject {
     case profileEdit, listingEdit, location, login, report, other
@@ -13,17 +7,17 @@ enum ContactSubject {
         get {
             switch(self) {
             case .profileEdit:
-                return LGLocalizedString.contactSubjectOptionProfileEdit
+                return R.Strings.contactSubjectOptionProfileEdit
             case .listingEdit:
-                return LGLocalizedString.contactSubjectOptionProductEdit
+                return R.Strings.contactSubjectOptionProductEdit
             case .location:
-                return LGLocalizedString.contactSubjectOptionLocation
+                return R.Strings.contactSubjectOptionLocation
             case .login:
-                return LGLocalizedString.contactSubjectOptionLogin
+                return R.Strings.contactSubjectOptionLogin
             case .report:
-                return LGLocalizedString.contactSubjectOptionReport
+                return R.Strings.contactSubjectOptionReport
             case .other:
-                return LGLocalizedString.contactSubjectOptionOther
+                return R.Strings.contactSubjectOptionOther
             }
         }
     }

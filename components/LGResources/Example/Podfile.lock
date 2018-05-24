@@ -1,0 +1,16 @@
+PODS:
+  - LGResources (0.1.0)
+
+DEPENDENCIES:
+  - LGResources (from `../`)
+
+EXTERNAL SOURCES:
+  LGResources:
+    :path: ../
+
+SPEC CHECKSUMS:
+  LGResources: 247951d7c99c323a92bb01756e4377d6d57bd57c
+
+PODFILE CHECKSUM: e504ea7d65d30e2a3654e4eb3a2172521be76b60
+
+COCOAPODS: 1.4.0

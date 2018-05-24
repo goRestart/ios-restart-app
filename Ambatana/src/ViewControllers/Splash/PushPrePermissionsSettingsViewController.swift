@@ -1,12 +1,5 @@
-//
-//  PushPrePermissionsSettings.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 7/3/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 final class PushPrePermissionsSettingsViewController: BaseViewController {
     
@@ -75,19 +68,19 @@ final class PushPrePermissionsSettingsViewController: BaseViewController {
     
     func setupStrings() {
         titleLabel.text = viewModel.title
-        subtitleLabel.text = LGLocalizedString.notificationsPermissionsSettingsSubtitle
+        subtitleLabel.text = R.Strings.notificationsPermissionsSettingsSubtitle
         firstSectionLabel.attributedText = firstSectionAttributedTitle()
-        notificationsLabel.text = LGLocalizedString.notificationsPermissionsSettingsCell1
+        notificationsLabel.text = R.Strings.notificationsPermissionsSettingsCell1
         secondSectionLabel.attributedText = secondSectionAttributedTitle()
-        allowNotificationsLabel.text = LGLocalizedString.notificationsPermissionsSettingsCell2
-        yesButton.setTitle(LGLocalizedString.notificationsPermissionsSettingsYesButton, for: .normal)
+        allowNotificationsLabel.text = R.Strings.notificationsPermissionsSettingsCell2
+        yesButton.setTitle(R.Strings.notificationsPermissionsSettingsYesButton, for: .normal)
     }
     
     
     func firstSectionAttributedTitle() -> NSAttributedString {
         let attributes = [NSAttributedStringKey.foregroundColor: UIColor.primaryColor]
         let title = NSMutableAttributedString(string: "1. ", attributes: attributes)
-        let t = NSAttributedString(string: LGLocalizedString.notificationsPermissionsSettingsSection1, attributes: nil)
+        let t = NSAttributedString(string: R.Strings.notificationsPermissionsSettingsSection1, attributes: nil)
         title.append(t)
         return title
     }
@@ -95,7 +88,7 @@ final class PushPrePermissionsSettingsViewController: BaseViewController {
     func secondSectionAttributedTitle() -> NSAttributedString {
         let attributes = [NSAttributedStringKey.foregroundColor: UIColor.primaryColor]
         let title = NSMutableAttributedString(string: "2. ", attributes: attributes)
-        let t = NSAttributedString(string: LGLocalizedString.notificationsPermissionsSettingsSection2, attributes: nil)
+        let t = NSAttributedString(string: R.Strings.notificationsPermissionsSettingsSection2, attributes: nil)
         title.append(t)
         return title
     }

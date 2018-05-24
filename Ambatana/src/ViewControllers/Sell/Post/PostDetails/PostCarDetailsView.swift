@@ -1,13 +1,6 @@
-//
-//  PostCarDetailsView.swift
-//  LetGo
-//
-//  Created by Nestor on 06/04/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import UIKit
 import RxSwift
+import LGComponents
 
 enum PostCarDetailState: Equatable {
     case selectDetail
@@ -46,9 +39,9 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
     private let navigationOkButton = UIButton()
     private let descriptionLabel = UILabel()
     private let progressView = PostCategoryDetailProgressView()
-    let makeRowView = PostCategoryDetailRowView(withTitle: LGLocalizedString.postCategoryDetailCarMake)
-    let modelRowView = PostCategoryDetailRowView(withTitle: LGLocalizedString.postCategoryDetailCarModel)
-    let yearRowView = PostCategoryDetailRowView(withTitle: LGLocalizedString.postCategoryDetailCarYear)
+    let makeRowView = PostCategoryDetailRowView(withTitle: R.Strings.postCategoryDetailCarMake)
+    let modelRowView = PostCategoryDetailRowView(withTitle: R.Strings.postCategoryDetailCarModel)
+    let yearRowView = PostCategoryDetailRowView(withTitle: R.Strings.postCategoryDetailCarYear)
     let doneButton = LetgoButton()
     
     private var progressTopConstraint: NSLayoutConstraint = NSLayoutConstraint()
@@ -96,7 +89,7 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
         navigationTitle.font = UIFont.systemSemiBoldFont(size: 17)
         navigationTitle.textAlignment = .center
         navigationTitle.textColor = UIColor.white
-        navigationTitle.text = LGLocalizedString.postCategoryDetailsNavigationTitle
+        navigationTitle.text = R.Strings.postCategoryDetailsNavigationTitle
         
         navigationMakeButton.setTitleColor(UIColor.white, for: .normal)
         navigationMakeButton.setTitleColor(UIColor.whiteTextHighAlpha, for: .highlighted)
@@ -116,7 +109,7 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
         
         navigationOkButton.setTitleColor(UIColor.white, for: .normal)
         navigationOkButton.setTitleColor(UIColor.whiteTextHighAlpha, for: .highlighted)
-        navigationOkButton.setTitle(LGLocalizedString.postCategoryDetailOkButton, for: .normal)
+        navigationOkButton.setTitle(R.Strings.postCategoryDetailOkButton, for: .normal)
         navigationOkButton.titleLabel?.font = UIFont.boldBarButtonFont
         navigationOkButton.addTarget(self, action: #selector(navigationButtonOkPressed), for: .touchUpInside)
         
@@ -127,11 +120,11 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
         }
         descriptionLabel.textAlignment = .left
         descriptionLabel.textColor = UIColor.white
-        descriptionLabel.text = LGLocalizedString.postCategoryDetailsDescription
+        descriptionLabel.text = R.Strings.postCategoryDetailsDescription
         descriptionLabel.numberOfLines = 0
         
         doneButton.setStyle(.primary(fontSize: .big))
-        doneButton.setTitle(LGLocalizedString.productPostDone, for: .normal)
+        doneButton.setTitle(R.Strings.productPostDone, for: .normal)
         doneButton.isEnabled = false
         
         selectDetailVisibleViews().forEach { $0.alpha = 1 }
@@ -260,7 +253,7 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
     // MARK: - Helpers
     
     func updateMake(withMake make: String?) {
-        var buttonTitle = LGLocalizedString.postCategoryDetailCarMake
+        var buttonTitle = R.Strings.postCategoryDetailCarMake
         if let make = make, !make.isEmpty {
             buttonTitle = make
             doneButton.isEnabled = true
@@ -280,7 +273,7 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
     }
     
     func updateModel(withModel model: String?) {
-        var buttonTitle = LGLocalizedString.postCategoryDetailCarModel
+        var buttonTitle = R.Strings.postCategoryDetailCarModel
         if let model = model, !model.isEmpty {
             buttonTitle = model
         }
@@ -289,7 +282,7 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
     }
     
     func updateYear(withYear year: String?) {
-        var buttonTitle = LGLocalizedString.postCategoryDetailCarYear
+        var buttonTitle = R.Strings.postCategoryDetailCarYear
         if let year = year, !year.isEmpty {
             buttonTitle = year
         }

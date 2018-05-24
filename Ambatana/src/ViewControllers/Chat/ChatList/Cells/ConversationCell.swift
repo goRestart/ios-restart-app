@@ -1,14 +1,7 @@
-//
-//  ConversationCell.swift
-//  LetGo
-//
-//  Created by AHL on 25/4/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import UIKit
 import Lottie
+import LGComponents
 
 enum ConversationCellStatus {
     case available
@@ -39,21 +32,21 @@ enum ConversationCellStatus {
     var message: String? {
         switch self {
         case .forbidden:
-            return LGLocalizedString.accountPendingModeration
+            return R.Strings.accountPendingModeration
         case .listingSold:
-            return LGLocalizedString.commonProductSold
+            return R.Strings.commonProductSold
         case .listingGivenAway:
-            return LGLocalizedString.commonProductGivenAway
+            return R.Strings.commonProductGivenAway
         case .listingDeleted:
-            return LGLocalizedString.commonProductNotAvailable
+            return R.Strings.commonProductNotAvailable
         case .userPendingDelete:
-            return LGLocalizedString.chatListAccountDeleted
+            return R.Strings.chatListAccountDeleted
         case .userDeleted:
-            return LGLocalizedString.chatListAccountDeleted
+            return R.Strings.chatListAccountDeleted
         case .userBlocked:
-            return LGLocalizedString.chatListBlockedUserLabel
+            return R.Strings.chatListBlockedUserLabel
         case .blockedByUser:
-            return LGLocalizedString.chatBlockedByOtherLabel
+            return R.Strings.chatBlockedByOtherLabel
         case .available:
             return nil
         }
@@ -194,7 +187,7 @@ class ConversationCell: UITableViewCell, ReusableCell {
         setInfo(text: statusText, icon: data.status.icon)
 
         if data.status == .userDeleted {
-            userLabel.text = LGLocalizedString.chatListAccountDeletedUsername
+            userLabel.text = R.Strings.chatListAccountDeletedUsername
             listingLabel.text = nil
             avatarImageView.image = UIImage(named: "user_placeholder")
         }

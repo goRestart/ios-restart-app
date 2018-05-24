@@ -1,15 +1,8 @@
-//
-//  ChangeEmailViewModel.swift
-//  LetGo
-//
-//  Created by Nestor on 18/01/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import Foundation
 import Result
 import RxSwift
+import LGComponents
 
 protocol ChangeEmailViewModelDelegate: BaseViewModelDelegate {}
 
@@ -72,10 +65,10 @@ class ChangeEmailViewModel: BaseViewModel {
     func updateEmail() {
         guard let emailAddress = newEmail.value else { return }
         guard isValidEmail(emailAddress) else {
-            delegate?.vmShowAutoFadingMessage(LGLocalizedString.changeEmailErrorInvalidEmail, completion: nil)
+            delegate?.vmShowAutoFadingMessage(R.Strings.changeEmailErrorInvalidEmail, completion: nil)
             return
         }
-        delegate?.vmShowLoading(LGLocalizedString.changeEmailLoading)
+        delegate?.vmShowLoading(R.Strings.changeEmailLoading)
         myUserRepository.updateEmail(emailAddress) { [weak self] (updateResult) in
             guard let strongSelf = self else { return }
             switch (updateResult) {
@@ -91,19 +84,19 @@ class ChangeEmailViewModel: BaseViewModel {
         let message: String
         switch error {
         case .network:
-            message = LGLocalizedString.commonErrorConnectionFailed
+            message = R.Strings.commonErrorConnectionFailed
         case .forbidden(cause: .emailTaken):
-            message = LGLocalizedString.changeEmailErrorAlreadyRegistered
+            message = R.Strings.changeEmailErrorAlreadyRegistered
         case .internalError, .forbidden, .tooManyRequests, .userNotVerified, .serverError, .notFound, .unauthorized,
              .wsChatError, .searchAlertError:
-            message = LGLocalizedString.commonErrorGenericBody
+            message = R.Strings.commonErrorGenericBody
         }
         delegate?.vmHideLoading(message, afterMessageCompletion: nil)
     }
     
     private func updateEmailDidSuccess(with address: String) {
         trackEditEmailComplete()
-        delegate?.vmHideLoading(LGLocalizedString.changeEmailSendOk(address), afterMessageCompletion: { [weak self] in
+        delegate?.vmHideLoading(R.Strings.changeEmailSendOk(address), afterMessageCompletion: { [weak self] in
             self?.navigator?.closeChangeEmail()
         })
     }

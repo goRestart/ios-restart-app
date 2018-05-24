@@ -1,17 +1,8 @@
-//
-//  PostingAddDetailLocation.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 06/11/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
-
 import RxSwift
 import MapKit
 import LGCoreKit
 import CoreLocation
-
+import LGComponents
 
 final class PostingAddDetailLocation: UIView, PostingViewConfigurable {
     
@@ -43,7 +34,7 @@ final class PostingAddDetailLocation: UIView, PostingViewConfigurable {
     // MARK: - UI
     
     private func setupUI() {
-        bottomMessage.text = LGLocalizedString.realEstateLocationNotificationMessage
+        bottomMessage.text = R.Strings.realEstateLocationNotificationMessage
         bottomMessage.font = UIFont.subtitleFont
         bottomMessage.textColor = UIColor.white
     }

@@ -1,14 +1,7 @@
-//
-//  UserPhoneVerificationCountryPickerViewController.swift
-//  LetGo
-//
-//  Created by Sergi Gracia on 05/04/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 import RxSwift
 import RxCocoa
+import LGComponents
 
 final class UserPhoneVerificationCountryPickerViewController: BaseViewController {
 
@@ -47,7 +40,7 @@ final class UserPhoneVerificationCountryPickerViewController: BaseViewController
     }
 
     private func setupUI() {
-        title = LGLocalizedString.phoneVerificationCountryPickerViewTitle
+        title = R.Strings.phoneVerificationCountryPickerViewTitle
         view.backgroundColor = .white
         view.addSubviewForAutoLayout(tableView)
 
@@ -70,7 +63,7 @@ final class UserPhoneVerificationCountryPickerViewController: BaseViewController
     private func setupSearchBar() {
         searchBar.autocapitalizationType = .words
         searchBar.searchBarStyle = .minimal
-        searchBar.placeholder = LGLocalizedString.phoneVerificationCountryPickerViewSearchPlaceholder
+        searchBar.placeholder = R.Strings.phoneVerificationCountryPickerViewSearchPlaceholder
     }
 
     private func setupConstraints() {

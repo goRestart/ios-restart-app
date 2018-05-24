@@ -1,12 +1,5 @@
-//
-//  MostSearchedItemsListViewModel.swift
-//  LetGo
-//
-//  Created by Raúl de Oñate Blanco on 03/01/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
+import LGComponents
 
 class MostSearchedItemsListViewModel: BaseViewModel {
     
@@ -20,9 +13,9 @@ class MostSearchedItemsListViewModel: BaseViewModel {
     let mostSearchedItems: [LocalMostSearchedItem]
     var titleString: String {
         if let city = locationManager.currentLocation?.postalAddress?.city, !city.isEmpty {
-            return LGLocalizedString.trendingItemsViewTitle(city)
+            return R.Strings.trendingItemsViewTitle(city)
         } else {
-            return LGLocalizedString.trendingItemsViewTitleNoLocation
+            return R.Strings.trendingItemsViewTitleNoLocation
         }
     }
     

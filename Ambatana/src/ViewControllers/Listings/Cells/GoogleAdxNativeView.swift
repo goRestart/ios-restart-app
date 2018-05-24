@@ -1,13 +1,6 @@
-//
-//  GooogleAdxNativeView.swift
-//  LetGo
-//
-//  Created by Kiko Gómez on 9/4/18.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import UIKit
 import GoogleMobileAds
+import LGComponents
 
 final class GoogleAdxNativeView: GADNativeContentAdView {
     
@@ -78,7 +71,7 @@ final class GoogleAdxNativeView: GADNativeContentAdView {
     }
 
     private func setupAdTextLabel() {
-        adTextLabel.text = LGLocalizedString.mopubAdvertisingText
+        adTextLabel.text = R.Strings.mopubAdvertisingText
         adTextLabel.font = UIFont.adTextFont
         adTextLabel.textColor = UIColor.grayText
         adTextLabel.textAlignment = .right

@@ -10,7 +10,7 @@
 import LGCoreKit
 import Quick
 import Nimble
-
+import LGComponents
 
 class MainListingsViewModelSpec: QuickSpec {
     override func spec() {
@@ -401,7 +401,7 @@ class MainListingsViewModelSpec: QuickSpec {
                         }
                         it("has right tags") {
                             expect(sut.primaryTags).to(contain(.carSellerType(type: .user,
-                                                                              name: LGLocalizedString.filtersCarSellerTypePrivate)))
+                                                                              name: R.Strings.filtersCarSellerTypePrivate)))
                         }
                         
                     }
@@ -412,7 +412,7 @@ class MainListingsViewModelSpec: QuickSpec {
                         }
                         it("has NOT All tag") {
                             expect(sut.primaryTags).toNot(contain(.carSellerType(type: .user,
-                                                                                 name: LGLocalizedString.filtersCarSellerTypeAll)))
+                                                                                 name: R.Strings.filtersCarSellerTypeAll)))
                         }
                     }
                 }

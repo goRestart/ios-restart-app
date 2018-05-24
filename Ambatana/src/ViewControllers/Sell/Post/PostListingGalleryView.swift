@@ -1,15 +1,8 @@
-//
-//  PostListingGalleryView.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 04/03/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
 import Photos
 import RxSwift
 import RxCocoa
+import LGComponents
 
 protocol PostListingGalleryViewDelegate: class {
     func listingGalleryCloseButton()
@@ -44,12 +37,12 @@ enum MessageInfoType {
             title.text = ""
             subtitle.text = ""
         case .noImages:
-            title.text = LGLocalizedString.productPostGallerySelectPicturesTitle
+            title.text = R.Strings.productPostGallerySelectPicturesTitle
             subtitle.text = noImageSubtitleText
             
         case .wrongImage:
-            title.text = LGLocalizedString.productPostGalleryLoadImageErrorTitle
-            subtitle.text = LGLocalizedString.productPostGalleryLoadImageErrorSubtitle
+            title.text = R.Strings.productPostGalleryLoadImageErrorTitle
+            subtitle.text = R.Strings.productPostGalleryLoadImageErrorSubtitle
         }
     }
 }
@@ -339,19 +332,19 @@ extension PostListingGalleryView {
             self?.imageLoadActivityIndicator.stopAnimating()
             switch state {
             case .empty:
-                strongSelf.infoTitle.text = LGLocalizedString.productPostEmptyGalleryTitle
-                strongSelf.infoSubtitle.text = LGLocalizedString.productPostEmptyGallerySubtitle
-                strongSelf.infoButton.setTitle(LGLocalizedString.productPostEmptyGalleryButton, for: .normal)
+                strongSelf.infoTitle.text = R.Strings.productPostEmptyGalleryTitle
+                strongSelf.infoSubtitle.text = R.Strings.productPostEmptyGallerySubtitle
+                strongSelf.infoButton.setTitle(R.Strings.productPostEmptyGalleryButton, for: .normal)
                 strongSelf.infoContainer.isHidden = false
             case .pendingAskPermissions:
-                strongSelf.infoTitle.text = LGLocalizedString.productPostGalleryPermissionsTitle
-                strongSelf.infoSubtitle.text = LGLocalizedString.productPostGalleryPermissionsSubtitle
-                strongSelf.infoButton.setTitle(LGLocalizedString.productPostGalleryPermissionsButton, for: .normal)
+                strongSelf.infoTitle.text = R.Strings.productPostGalleryPermissionsTitle
+                strongSelf.infoSubtitle.text = R.Strings.productPostGalleryPermissionsSubtitle
+                strongSelf.infoButton.setTitle(R.Strings.productPostGalleryPermissionsButton, for: .normal)
                 strongSelf.infoContainer.isHidden = false
             case .missingPermissions(let msg):
-                strongSelf.infoTitle.text = LGLocalizedString.productPostGalleryPermissionsTitle
+                strongSelf.infoTitle.text = R.Strings.productPostGalleryPermissionsTitle
                 strongSelf.infoSubtitle.text = msg
-                strongSelf.infoButton.setTitle(LGLocalizedString.productPostGalleryPermissionsButton, for: .normal)
+                strongSelf.infoButton.setTitle(R.Strings.productPostGalleryPermissionsButton, for: .normal)
                 strongSelf.infoContainer.isHidden = false
             case .normal:
                 strongSelf.infoContainer.isHidden = true

@@ -1,17 +1,9 @@
-//
-//  ListingsMapViewModel.swift
-//  LetGo
-//
-//  Created by Tomas Cobo on 30/04/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import CoreLocation
 import LGCoreKit
 import RxSwift
 import RxCocoa
 import MapKit
-
+import LGComponents
 
 final class ListingsMapViewModel: BaseViewModel {
     
@@ -95,9 +87,9 @@ final class ListingsMapViewModel: BaseViewModel {
         var errorString: String? = nil
             switch error {
             case .network:
-                errorString = LGLocalizedString.toastNoNetwork
+                errorString = R.Strings.toastNoNetwork
             case .internalError, .notFound, .forbidden, .tooManyRequests, .userNotVerified, .serverError, .wsChatError, .searchAlertError:
-                errorString = LGLocalizedString.toastErrorInternal
+                errorString = R.Strings.toastErrorInternal
             case .unauthorized:
                 errorString = nil
             }

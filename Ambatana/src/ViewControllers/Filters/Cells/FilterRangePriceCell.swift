@@ -1,12 +1,5 @@
-//
-//  FilterPriceCell.swift
-//  LetGo
-//
-//  Created by Dídac on 26/08/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 protocol FilterRangePriceCellDelegate: class {
     func priceTextFieldValueActive()
@@ -85,12 +78,12 @@ class FilterRangePriceCell: UICollectionViewCell, ReusableCell, FilterCell {
         titleLabelFrom.font = UIFont.systemFont(size: 16)
         titleLabelFrom.textColor = UIColor.blackText
         textFieldFrom.tintColor = UIColor.primaryColor
-        textFieldFrom.placeholder = LGLocalizedString.filtersSectionPrice
+        textFieldFrom.placeholder = R.Strings.filtersSectionPrice
         
         titleLabelTo.textColor = UIColor.blackText
         titleLabelTo.font = UIFont.systemFont(size: 16)
         titleLabelTo.tintColor = UIColor.primaryColor
-        textFieldTo.placeholder = LGLocalizedString.filtersSectionPrice
+        textFieldTo.placeholder = R.Strings.filtersSectionPrice
         
         textFieldFrom.delegate = self
         textFieldTo.delegate = self

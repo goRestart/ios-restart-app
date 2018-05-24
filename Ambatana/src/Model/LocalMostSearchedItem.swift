@@ -1,12 +1,5 @@
-//
-//  LocalMostSearchedItem.swift
-//  LetGo
-//
-//  Created by Raúl de Oñate Blanco on 15/01/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
+import LGComponents
 
 enum LocalMostSearchedItem: Int {
     case iPhone = 1
@@ -33,35 +26,35 @@ enum LocalMostSearchedItem: Int {
     var name: String {
         switch self {
         case .iPhone:
-            return LGLocalizedString.trendingItemIphone
+            return R.Strings.trendingItemIPhone
         case .atv:
-            return LGLocalizedString.trendingItemAtv
+            return R.Strings.trendingItemAtv
         case .smartphone:
-            return LGLocalizedString.trendingItemSmartphone
+            return R.Strings.trendingItemSmartphone
         case .sedan:
-            return LGLocalizedString.trendingItemSedan
+            return R.Strings.trendingItemSedan
         case .scooter:
-            return LGLocalizedString.trendingItemScooter
+            return R.Strings.trendingItemScooter
         case .computer:
-            return LGLocalizedString.trendingItemComputer
+            return R.Strings.trendingItemComputer
         case .coupe:
-            return LGLocalizedString.trendingItemCoupe
+            return R.Strings.trendingItemCoupe
         case .tablet:
-            return LGLocalizedString.trendingItemTablet
+            return R.Strings.trendingItemTablet
         case .motorcycle:
-            return LGLocalizedString.trendingItemMotorcycle
+            return R.Strings.trendingItemMotorcycle
         case .truck:
-            return LGLocalizedString.trendingItemTruck
+            return R.Strings.trendingItemTruck
         case .gadget:
-            return LGLocalizedString.trendingItemGadget
+            return R.Strings.trendingItemGadget
         case .trailer:
-            return LGLocalizedString.trendingItemTrailer
+            return R.Strings.trendingItemTrailer
         case .controller:
-            return LGLocalizedString.trendingItemController
+            return R.Strings.trendingItemController
         case .dresser:
-            return LGLocalizedString.trendingItemDresser
+            return R.Strings.trendingItemDresser
         case .subwoofer:
-            return LGLocalizedString.trendingItemSubwoofer
+            return R.Strings.trendingItemSubwoofer
         }
     }
     

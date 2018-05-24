@@ -1,12 +1,5 @@
-//
-//  RateBuyersView.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 03/02/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 enum SourceRateBuyers {
     case markAsSold
@@ -77,15 +70,15 @@ class RateBuyersHeader: UIView {
     
     private func setTitle() -> String {
         guard let source = source, source == .markAsSold else {
-            return  LGLocalizedString.rateBuyersSubMessage
+            return  R.Strings.rateBuyersSubMessage
         }
-        return LGLocalizedString.rateBuyersMessage
+        return R.Strings.rateBuyersMessage
     }
     
     private func setSubtitle() -> String {
         guard let source = source, source == .markAsSold else {
             return ""
         }
-        return LGLocalizedString.rateBuyersSubMessage
+        return R.Strings.rateBuyersSubMessage
     }
 }

@@ -16,8 +16,10 @@ import CocoaLumberjack
 import Fabric
 import FBSDKCoreKit
 import GoogleSignIn
+import LGComponents
 import LGCoreKit
 import RxSwift
+import RxSwiftExt
 import UIKit
 
 @UIApplicationMain
@@ -155,7 +157,7 @@ extension AppDelegate: UIApplicationDelegate {
          changes made on entering the background.*/
 
         LGCoreKit.applicationWillEnterForeground()
-        TrackerProxy.sharedInstance.applicationWillEnterForeground(application)
+        LGComponents.TrackerProxy.sharedInstance.applicationWillEnterForeground()
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -165,7 +167,7 @@ extension AppDelegate: UIApplicationDelegate {
         keyValueStorage?[.didEnterBackground] = false
         appIsActive.value = true
         PushManager.sharedInstance.applicationDidBecomeActive(application)
-        TrackerProxy.sharedInstance.applicationDidBecomeActive(application)
+        LGComponents.TrackerProxy.sharedInstance.applicationDidBecomeActive()
         navigator?.openSurveyIfNeeded()
     }
 
@@ -319,15 +321,42 @@ fileprivate extension AppDelegate {
         // Push notifications, get the deep link if any
         PushManager.sharedInstance.application(application, didFinishLaunchingWithOptions: launchOptions)
 
-        // Tracking
-        TrackerProxy.sharedInstance.application(application,
-                                                didFinishLaunchingWithOptions: launchOptions,
-                                                featureFlags: featureFlags)
+        // Leanplum
+        Leanplum.onVariablesChanged { [weak featureFlags] in
+            featureFlags?.variablesUpdated()
+        }
 
-        LGNotificationsManager.sharedInstance.setup()
+        // Tracking
+        var actualLaunchOptions = [String: Any]()
+        if let launchOptions = launchOptions {
+            launchOptions.keys.forEach { actualLaunchOptions[$0.rawValue] = launchOptions[$0] }
+        }
+        let tracker: LGComponents.TrackerProxy = LGComponents.TrackerProxy.sharedInstance // TODO: Remove LGComponents when fully component is fully integrated
+        tracker.application = application
+        tracker.logger = { logMessage(.verbose, type: .tracking, message: $0) }
+        tracker.add(tracker: NewRelicTracker())   // need to inject as its pod cannot be added in a framework of ours
+        tracker.applicationDidFinishLaunching(launchOptions: actualLaunchOptions,
+                                              apiKeys: EnvironmentProxy.sharedInstance)
+
+        featureFlags.trackingData
+            .unwrap()
+            .map { identifierAndGroups in
+                return identifierAndGroups.map { AnalyticsABTestUserProperty(identifier: $0.0,
+                                                                             groupIdentifier: $0.1.analyticsGroupIdentifier) } }
+            .subscribeNext { tracker.setABTests($0) }
+            .disposed(by: disposeBag)
+
+        let notificationsManager: NotificationsManager = LGNotificationsManager.sharedInstance
+        notificationsManager.setup()
+        notificationsManager.loggedInMktNofitications
+            .asObservable()
+            .subscribeNext { tracker.setMarketingNotifications($0) }
+            .disposed(by: disposeBag)
+
         StickersManager.sharedInstance.setup()
     }
 }
+
 
 // MARK: > Rx
 
@@ -396,10 +425,6 @@ fileprivate extension AppDelegate {
              sourceApplication: String?,
              annotation: Any?,
              options: [UIApplicationOpenURLOptionsKey : Any]?) -> Bool {
-        TrackerProxy.sharedInstance.application(app,
-                                                openURL: url,
-                                                sourceApplication: sourceApplication,
-                                                annotation: annotation)
         let routerHandling = deepLinksRouter?.openUrl(url,
                                                       sourceApplication: sourceApplication,
                                                       annotation: annotation) ?? false

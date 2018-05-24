@@ -18,23 +18,21 @@ options = Parser.new do |p|
   p.banner = 'Wti script (c) 2015 Ambatana <albert@letgo.com>'
   p.version = '1.0'
   p.option :wtifile, ".Wti file path", :default => '.wti'
-  p.option :i18n, 'i18n path', :default => 'Ambatana/res/i18n'
+  p.option :i18n, 'i18n path', :default => 'Ambatana/res/i18n', :short => 'p'
+  p.option :resourcetolocalize, 'resource to localize', :default => 'Localizable.strings', :short => 'r'
   p.option :localesuffix, "Locale folder suffix", :default => '.lproj'
   p.option :basemapping, "Language to base mapping", :default => 'en'
   p.option :printwrong, "Print missing or wrong keys", :default => true
-  p.option :localizedgen, "Localized generator path", :default => "#{File.dirname(__FILE__)}"
-  p.option :localizedconst, "Localized constants path", :default => 'Ambatana/src/Constants/'
 end.process!
 
 ########################################## CONSTANTS ##########################################
 
 wti_path = options[:wtifile]
 i18n_path = options[:i18n]   # "../Ambatana/res/i18n"
+resource_to_localize = options[:resourcetolocalize] # e.g. "InfoPlist.strings"
 locale_folder_suffix = options[:localesuffix]      # ".lproj"
 mapping_base_to = options[:basemapping] # "en"
 should_print_missing_or_wrong_keys = options[:printwrong]   # true
-localized_gen_path = options[:localizedgen]
-localized_const_path = options[:localizedconst]
 
 ########################################### METHODS ###########################################
 
@@ -45,16 +43,6 @@ def find_locales_in_xcode(i18n_path, locale_folder_suffix)
         locales_in_xcode.push(locale)
     }
     locales_in_xcode
-end
-
-def find_base_locales_filenames()
-    base_locales_filenames = []
-    Dir.glob("*.strings") { |filename|
-        if filename.split(".").size == 2
-            base_locales_filenames.push(filename)
-        end
-    }
-    base_locales_filenames
 end
 
 def find_base_localizable_file(filename, base_localizable_files)
@@ -130,7 +118,7 @@ print_main_info("Pulling from WTI")
 system "wti pull -c #{wti_path}"
 
 # Find Base localizable files
-base_filenames = find_base_locales_filenames()
+base_filenames = [resource_to_localize]
 
 # Build up Base LocalizableFiles, copy it to mapping_base_to & move the actual files to i18n Base folder
 print_main_info("Moving 'Base' localizable files")
@@ -270,7 +258,5 @@ print_main_warning("Issues (#{warnings.size}):")
 warnings.each { |warning|
     puts "   #{warning}"
 }
-
-system("ruby", "#{localized_gen_path}/localized_generator.rb", "-s", "#{i18n_path}/Base.lproj/Localizable.strings", "-d", "#{localized_const_path}")
 
 print_main_info("Finished")

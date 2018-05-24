@@ -1,16 +1,9 @@
-//
-//  ProductsViewController.swift
-//  letgo
-//
-//  Created by AHL on 3/5/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
 import CoreLocation
 import LGCoreKit
 import UIKit
 import CHTCollectionViewWaterfallLayout
 import RxSwift
+import LGComponents
 
 enum SearchSuggestionType {
     case suggestive
@@ -387,7 +380,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         guard isRootViewController() else { return }
         guard viewModel.shouldShowInviteButton  else { return }
 
-        let invite = UIBarButtonItem(title: LGLocalizedString.mainProductsInviteNavigationBarButton,
+        let invite = UIBarButtonItem(title: R.Strings.mainProductsInviteNavigationBarButton,
                                      style: .plain,
                                      target: self,
                                      action: #selector(openInvite))

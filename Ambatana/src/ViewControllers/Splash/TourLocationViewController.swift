@@ -1,13 +1,6 @@
-//
-//  TourLocationViewController.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 5/2/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
+import LGComponents
 
 final class TourLocationViewController: BaseViewController {
     private static let iphone5InfoHeight: CGFloat = 210
@@ -83,16 +76,16 @@ final class TourLocationViewController: BaseViewController {
     private func setupUI() {
         view.backgroundColor = .clear
         titleLabel.text = viewModel.title
-        subtitleLabel.text = LGLocalizedString.locationPermissonsSubtitle
-        distanceLabel.text = LGLocalizedString.locationPermissionsBubble
+        subtitleLabel.text = R.Strings.locationPermissonsSubtitle
+        distanceLabel.text = R.Strings.locationPermissionsBubble
 
         iphoneBckgImage.image = viewModel.infoImage
-        yesButton.setTitle(LGLocalizedString.locationPermissionsButton, for: .normal)
+        yesButton.setTitle(R.Strings.locationPermissionsButton, for: .normal)
         yesButton.setStyle(.primary(fontSize: .medium))
 
         distanceLabel.font = UIFont.tourLocationDistanceLabelFont
         distanceLabel.textColor = UIColor.lgBlack
-        alertOkLabel.text = LGLocalizedString.locationPermissionsAllowButton
+        alertOkLabel.text = R.Strings.locationPermissionsAllowButton
         
         switch DeviceFamily.current {
         case .iPhone4:

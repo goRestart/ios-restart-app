@@ -1,12 +1,5 @@
-//
-//  BumpUpPayViewController.swift
-//  LetGo
-//
-//  Created by Dídac on 19/12/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 final class BumpUpPayViewController: BaseViewController {
 
@@ -86,12 +79,12 @@ final class BumpUpPayViewController: BaseViewController {
     }
     
     private func setupLabels() {
-        titleLabel.text = LGLocalizedString.bumpUpViewPayTitle
-        subtitleLabel.text = LGLocalizedString.bumpUpViewPaySubtitle
+        titleLabel.text = R.Strings.bumpUpViewPayTitle
+        subtitleLabel.text = R.Strings.bumpUpViewPaySubtitle
         if FeatureFlags.sharedInstance.shouldChangeSellFasterNowCopyInEnglish {
             viewTitleLabel.text = FeatureFlags.sharedInstance.copyForSellFasterNowInEnglish.variantString
         } else {
-            viewTitleLabel.text = LGLocalizedString.bumpUpBannerPayTextImprovement
+            viewTitleLabel.text = R.Strings.bumpUpBannerPayTextImprovement
         }
     }
     
@@ -124,7 +117,7 @@ final class BumpUpPayViewController: BaseViewController {
     
     private func setupBumpUpButton() {
         bumpUpButton.setStyle(.primary(fontSize: .big))
-        bumpUpButton.setTitle(LGLocalizedString.bumpUpViewPayButtonTitle(viewModel.price), for: .normal)
+        bumpUpButton.setTitle(R.Strings.bumpUpViewPayButtonTitle(viewModel.price), for: .normal)
         bumpUpButton.titleLabel?.numberOfLines = 2
         bumpUpButton.titleLabel?.adjustsFontSizeToFitWidth = true
         bumpUpButton.titleLabel?.minimumScaleFactor = 0.8

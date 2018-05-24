@@ -1,13 +1,6 @@
-//
-//  CarAttributeSelectionViewModel.swift
-//  LetGo
-//
-//  Created by Dídac on 24/04/17.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import RxSwift
 import LGCoreKit
+import LGComponents
 
 enum CarAttributeSelectionTableStyle {
     case edit
@@ -18,11 +11,11 @@ extension CarDetailType {
     var navigationTitle: String {
         switch self {
         case .make:
-            return LGLocalizedString.postCategoryDetailCarMake
+            return R.Strings.postCategoryDetailCarMake
         case .model:
-            return LGLocalizedString.postCategoryDetailCarModel
+            return R.Strings.postCategoryDetailCarModel
         case .year:
-            return LGLocalizedString.postCategoryDetailCarYear
+            return R.Strings.postCategoryDetailCarYear
         }
     }
 }
@@ -55,7 +48,7 @@ class CarAttributeSelectionViewModel : BaseViewModel {
         var carInfoWrapperList: [CarInfoWrapper] = carsMakes.map { CarInfoWrapper(id: $0.makeId, name: $0.makeName, type: .make )}
         switch style {
         case .filter:
-            carInfoWrapperList.append(CarInfoWrapper(id: "", name: LGLocalizedString.categoriesOther, type: .make))
+            carInfoWrapperList.append(CarInfoWrapper(id: "", name: R.Strings.categoriesOther, type: .make))
         case .edit:
             break
         }
@@ -73,7 +66,7 @@ class CarAttributeSelectionViewModel : BaseViewModel {
         var carInfoWrapperList: [CarInfoWrapper] = carsModels.map { CarInfoWrapper(id: $0.modelId, name: $0.modelName, type: .model )}
         switch style {
         case .filter:
-            carInfoWrapperList.append(CarInfoWrapper(id: "", name: LGLocalizedString.categoriesOther, type: .model))
+            carInfoWrapperList.append(CarInfoWrapper(id: "", name: R.Strings.categoriesOther, type: .model))
         case .edit:
             break
         }

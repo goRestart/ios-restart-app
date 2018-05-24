@@ -1,15 +1,8 @@
-//
-//  LGMapDetailView.swift
-//  LetGo
-//
-//  Created by Tomas Cobo on 09/05/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import UIKit
 import LGCoreKit
 import RxCocoa
 import RxSwift
+import LGComponents
 
 private struct LGMapDetailViewMetrics {
     static let height: CGFloat = 180
@@ -51,7 +44,7 @@ final class LGMapDetailView: UIView {
     
     private let ribbonView: LGRibbonView = {
         let ribbonView = LGRibbonView()
-        ribbonView.title = LGLocalizedString.bumpUpProductCellFeaturedStripe
+        ribbonView.title = R.Strings.bumpUpProductCellFeaturedStripe
         return ribbonView
     }()
     

@@ -1,14 +1,7 @@
-//
-//  PostListingCameraView.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 03/03/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
 import RxSwift
 import RxCocoa
+import LGComponents
 
 protocol PostListingCameraViewDelegate: class {
     func productCameraCloseButton()
@@ -234,7 +227,7 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
         }
 
         //i18n
-        retryPhotoButton.setTitle(LGLocalizedString.productPostRetake, for: .normal)
+        retryPhotoButton.setTitle(R.Strings.productPostRetake, for: .normal)
         usePhotoButton.setTitle(usePhotoButtonText, for: .normal)
         usePhotoButton.setStyle(.primary(fontSize: .medium))
         verticalPromoLabel.text = viewModel.verticalPromotionMessage

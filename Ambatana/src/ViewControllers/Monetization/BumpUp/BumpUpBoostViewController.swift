@@ -1,12 +1,5 @@
-//
-//  BumpUpBoostViewController.swift
-//  LetGo
-//
-//  Created by Dídac on 21/03/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 final class BumpUpBoostViewController: BaseViewController {
 
@@ -25,22 +18,22 @@ final class BumpUpBoostViewController: BaseViewController {
     var titleLabelText: String {
         switch featureFlags.bumpUpBoost {
         case .control, .baseline, .sendTop1hour, .sendTop5Mins:
-            return LGLocalizedString.bumpUpViewBoostTitleSendTop
+            return R.Strings.bumpUpViewBoostTitleSendTop
         case .boostListing1hour:
-            return LGLocalizedString.bumpUpViewBoostTitleBoostListing
+            return R.Strings.bumpUpViewBoostTitleBoostListing
         case .cheaperBoost5Mins:
-            return LGLocalizedString.bumpUpViewBoostTitleCheaperBoost
+            return R.Strings.bumpUpViewBoostTitleCheaperBoost
         }
     }
 
     var subtitleLabelText: String {
         switch featureFlags.bumpUpBoost {
         case .control, .baseline, .sendTop1hour, .sendTop5Mins:
-            return LGLocalizedString.bumpUpViewBoostSubtitleSendTop
+            return R.Strings.bumpUpViewBoostSubtitleSendTop
         case .boostListing1hour:
-            return LGLocalizedString.bumpUpViewBoostSubtitleBoostListing
+            return R.Strings.bumpUpViewBoostSubtitleBoostListing
         case .cheaperBoost5Mins:
-            return LGLocalizedString.bumpUpViewBoostSubtitleCheaper
+            return R.Strings.bumpUpViewBoostSubtitleCheaper
         }
     }
 
@@ -178,7 +171,7 @@ final class BumpUpBoostViewController: BaseViewController {
 
         viewTitleIconView.image = #imageLiteral(resourceName: "ic_extra_boost")
         viewTitleIconView.contentMode = .scaleAspectFit
-        viewTitleLabel.text = LGLocalizedString.bumpUpBannerBoostText
+        viewTitleLabel.text = R.Strings.bumpUpBannerBoostText
         viewTitleLabel.textColor = UIColor.blackText
         viewTitleLabel.font = UIFont.systemBoldFont(size: 19)
         viewTitleLabel.minimumScaleFactor = 0.5
@@ -255,7 +248,7 @@ final class BumpUpBoostViewController: BaseViewController {
 
     private func setupBoostButton() {
         boostButton.setStyle(.primary(fontSize: .big))
-        boostButton.setTitle(LGLocalizedString.bumpUpViewBoostPayButtonTitle(viewModel.price), for: .normal)
+        boostButton.setTitle(R.Strings.bumpUpViewBoostPayButtonTitle(viewModel.price), for: .normal)
         boostButton.titleLabel?.numberOfLines = 2
         boostButton.titleLabel?.adjustsFontSizeToFitWidth = true
         boostButton.titleLabel?.minimumScaleFactor = 0.5

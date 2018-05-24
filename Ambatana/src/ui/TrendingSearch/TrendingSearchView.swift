@@ -1,10 +1,4 @@
-//
-//  TrendingSearchView.swift
-//  LetGo
-//
-//  Created by Tomas Cobo on 27/03/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
+import LGComponents
 
 protocol TrendingSearchViewDelegate: class {
     func trendingSearchBackgroundTapped(_ view: TrendingSearchView)
@@ -157,7 +151,7 @@ private final class TrendingSearchTableHeader: UIView {
         button.titleLabel?.textAlignment = .right
         button.titleLabel?.font = .sectionTitleFont
         button.setTitleColor(.darkGrayText, for: .normal)
-        button.setTitle(LGLocalizedString.suggestionsLastSearchesClearButton.localizedUppercase, for: .normal)
+        button.setTitle(R.Strings.suggestionsLastSearchesClearButton.localizedUppercase, for: .normal)
         return button
     }()
     
@@ -194,13 +188,13 @@ private final class TrendingSearchTableHeader: UIView {
         switch sectionType {
         case .suggestive:
             clearButton.isHidden = true
-            suggestionTitleLabel.text = LGLocalizedString.suggestedSearchesTitle.localizedUppercase
+            suggestionTitleLabel.text = R.Strings.suggestedSearchesTitle.localizedUppercase
         case .lastSearch:
             clearButton.isHidden = false
-            suggestionTitleLabel.text = LGLocalizedString.suggestionsLastSearchesTitle.localizedUppercase
+            suggestionTitleLabel.text = R.Strings.suggestionsLastSearchesTitle.localizedUppercase
         case .trending:
             clearButton.isHidden = true
-            suggestionTitleLabel.text = LGLocalizedString.trendingSearchesTitle.localizedUppercase
+            suggestionTitleLabel.text = R.Strings.trendingSearchesTitle.localizedUppercase
         }
     }
 }

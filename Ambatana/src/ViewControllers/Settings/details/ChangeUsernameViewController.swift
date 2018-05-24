@@ -1,15 +1,7 @@
-//
-//  ChangeUserNameViewController.swift
-//  LetGo
-//
-//  Created by Dídac on 21/07/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import Result
 import UIKit
-
+import LGComponents
 
 class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, ChangeUsernameViewModelDelegate {
 
@@ -90,7 +82,7 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
             }
             else {
                 self.showAutoFadingOutMessageAlert(message: 
-                    LGLocalizedString.changeUsernameErrorInvalidUsername(Constants.fullNameMinLength), time: 3.5)
+                    R.Strings.changeUsernameErrorInvalidUsername(Constants.fullNameMinLength), time: 3.5)
                 return false
             }
         } else {
@@ -101,18 +93,18 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
     // MARK : - ChangeUsernameViewModelDelegate Methods
     
     func viewModelDidStartSendingUser(_ viewModel: ChangeUsernameViewModel) {
-        showLoadingMessageAlert(LGLocalizedString.changeUsernameLoading)
+        showLoadingMessageAlert(R.Strings.changeUsernameLoading)
     }
     
     func viewModel(_ viewModel: ChangeUsernameViewModel, didFailValidationWithError error: ChangeUsernameError) {
         let message: String
         switch (error) {
         case .network, .internalError, .notFound, .unauthorized:
-            message = LGLocalizedString.commonErrorConnectionFailed
+            message = R.Strings.commonErrorConnectionFailed
         case .invalidUsername:
-            message = LGLocalizedString.changeUsernameErrorInvalidUsername(Constants.fullNameMinLength)
+            message = R.Strings.changeUsernameErrorInvalidUsername(Constants.fullNameMinLength)
         case .usernameTaken:
-            message = LGLocalizedString.changeUsernameErrorInvalidUsernameLetgo(viewModel.username)
+            message = R.Strings.changeUsernameErrorInvalidUsernameLetgo(viewModel.username)
         }
         
         self.showAutoFadingOutMessageAlert(message: message)
@@ -125,7 +117,7 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
         switch (result) {
         case .success:
             completion = {
-                self.showAutoFadingOutMessageAlert(message: LGLocalizedString.changeUsernameSendOk) { [weak self] in
+                self.showAutoFadingOutMessageAlert(message: R.Strings.changeUsernameSendOk) { [weak self] in
                     self?.viewModel.userNameSaved()
                 }
             }
@@ -134,11 +126,11 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
             let message: String
             switch (error) {
             case .network, .internalError, .notFound, .unauthorized:
-                message = LGLocalizedString.commonErrorConnectionFailed
+                message = R.Strings.commonErrorConnectionFailed
             case .invalidUsername:
-                message = LGLocalizedString.changeUsernameErrorInvalidUsername(Constants.fullNameMinLength)
+                message = R.Strings.changeUsernameErrorInvalidUsername(Constants.fullNameMinLength)
             case .usernameTaken:
-                message = LGLocalizedString.changeUsernameErrorInvalidUsernameLetgo(viewModel.username)
+                message = R.Strings.changeUsernameErrorInvalidUsernameLetgo(viewModel.username)
             }
             completion = { [weak self] in
                 self?.showAutoFadingOutMessageAlert(message: message)
@@ -157,12 +149,12 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
         
         usernameTextfield.delegate = self
 
-        setNavBarTitle(LGLocalizedString.changeUsernameTitle)
+        setNavBarTitle(R.Strings.changeUsernameTitle)
         
-        usernameTextfield.placeholder = LGLocalizedString.changeUsernameFieldHint
+        usernameTextfield.placeholder = R.Strings.changeUsernameFieldHint
         usernameTextfield.text = viewModel.username
         
-        saveButton.setTitle(LGLocalizedString.changeUsernameSaveButton, for: .normal)
+        saveButton.setTitle(R.Strings.changeUsernameSaveButton, for: .normal)
         saveButton.setStyle(.primary(fontSize: .big))
         saveButton.isEnabled = false
     }

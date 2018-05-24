@@ -1,14 +1,7 @@
-//
-//  SettingsCell.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 18/05/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
 import UIKit
 import RxSwift
 import RxCocoa
+import LGComponents
 
 class SettingsSwitchCell: UITableViewCell, ReusableCell {
 
@@ -105,7 +98,7 @@ fileprivate extension LetGoSetting {
     var title: String {
         switch (self) {
         case .marketingNotifications:
-            return LGLocalizedString.settingsMarketingNotificationsSwitch
+            return R.Strings.settingsMarketingNotificationsSwitch
         default:
             return ""
         }

@@ -1,13 +1,6 @@
-//
-//  MLPostListingViewModel.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 11/12/15.
-//  Copyright © 2015 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 class MLPostListingViewModel: BaseViewModel {
     
@@ -18,16 +11,16 @@ class MLPostListingViewModel: BaseViewModel {
 
     var usePhotoButtonText: String {
         if sessionManager.loggedIn {
-            return LGLocalizedString.productPostUsePhoto
+            return R.Strings.productPostUsePhoto
         } else {
-            return LGLocalizedString.productPostUsePhotoNotLogged
+            return R.Strings.productPostUsePhotoNotLogged
         }
     }
     var confirmationOkText: String {
         if sessionManager.loggedIn {
-            return LGLocalizedString.productPostProductPosted
+            return R.Strings.productPostProductPosted
         } else {
-            return LGLocalizedString.productPostProductPostedNotLogged
+            return R.Strings.productPostProductPostedNotLogged
         }
     }
     
@@ -354,12 +347,12 @@ fileprivate extension MLPostListingViewModel {
     }
     
     func openPostAbandonAlertNotLoggedIn() {
-        let title = LGLocalizedString.productPostCloseAlertTitle
-        let message = LGLocalizedString.productPostCloseAlertDescription
-        let cancelAction = UIAction(interface: .text(LGLocalizedString.productPostCloseAlertCloseButton), action: { [weak self] in
+        let title = R.Strings.productPostCloseAlertTitle
+        let message = R.Strings.productPostCloseAlertDescription
+        let cancelAction = UIAction(interface: .text(R.Strings.productPostCloseAlertCloseButton), action: { [weak self] in
             self?.navigator?.cancelPostListing()
         })
-        let postAction = UIAction(interface: .text(LGLocalizedString.productPostCloseAlertOkButton), action: { [weak self] in
+        let postAction = UIAction(interface: .text(R.Strings.productPostCloseAlertOkButton), action: { [weak self] in
             self?.postListing()
         })
         delegate?.vmShowAlert(title, message: message, actions: [cancelAction, postAction])

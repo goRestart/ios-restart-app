@@ -1,11 +1,5 @@
-//
-//  FilterCarSection.swift
-//  LetGo
-//
-//  Created by Tomas Cobo on 11/04/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
 import LGCoreKit
+import LGComponents
 
 enum FilterCarSection {
     case firstSection, secondSection, make, model, year
@@ -29,9 +23,9 @@ enum FilterCarSection {
         case .secondSection:
             return feature.secondSectionTitle
         case .make:
-            return LGLocalizedString.postCategoryDetailCarMake
+            return R.Strings.postCategoryDetailCarMake
         case .model:
-            return LGLocalizedString.postCategoryDetailCarModel
+            return R.Strings.postCategoryDetailCarModel
         case .year:
             return ""
         }
@@ -51,11 +45,11 @@ private extension FilterSearchCarSellerType {
         case .control, .baseline:
             return ""
         case .variantA:
-            return LGLocalizedString.filtersCarSellerTypePrivate
+            return R.Strings.filtersCarSellerTypePrivate
         case .variantB:
-            return LGLocalizedString.filtersCarSellerTypeInvidual
+            return R.Strings.filtersCarSellerTypeInvidual
         case .variantC, .variantD:
-            return LGLocalizedString.filtersCarSellerTypeAll
+            return R.Strings.filtersCarSellerTypeAll
         }
     }
     
@@ -64,9 +58,9 @@ private extension FilterSearchCarSellerType {
         case .control, .baseline:
             return ""
         case .variantA, .variantC:
-            return LGLocalizedString.filtersCarSellerTypeProfessional
+            return R.Strings.filtersCarSellerTypeProfessional
         case .variantB, .variantD:
-            return LGLocalizedString.filtersCarSellerTypeDealership
+            return R.Strings.filtersCarSellerTypeDealership
         }
     }
 }
