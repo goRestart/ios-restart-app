@@ -141,7 +141,11 @@
 "chat_conversations_list_filter_all" = "Mind";
 "chat_conversations_list_filter_buying" = "Vásárló";
 "chat_conversations_list_filter_selling" = "Árult";
+<<<<<<< HEAD
 "chat_conversations_list_letgo_assistant_tag" = "letgo-asszisztens";
+=======
+"chat_conversations_list_letgo_assistant_tag" = "letgo assistant";
+>>>>>>> master
 "chat_deleted_disclaimer_w_name" = "Nem tudod folytatni a beszélgetést, mert %@ fiókja már nem aktív.";
 "chat_deleted_disclaimer_wo_name" = "Nem tudod folytatni a beszélgetést, mert ez a fiók már nem aktív.";
 "chat_disclaimer_letgo_team" = "A LETGO CSAPATA";
@@ -859,7 +863,11 @@
 "profile_permissions_alert_ok" = "Engedélyezés";
 "profile_permissions_alert_title" = "NE MARADJ LE A VÁLASZOKRÓL!";
 "profile_permissions_header_message" = "Üzenetértesítések engedélyezése";
+<<<<<<< HEAD
 "profile_reputation_tooltip_title" = "Visszaigazolt felhasználó! Koppints, ha te is visszaigazolnád magadat.";
+=======
+"profile_reputation_tooltip_title" = "User verified! Tap if you want to be verified too";
+>>>>>>> master
 "profile_reviews_count" = "Értékelések";
 "profile_reviews_tab" = "Értékelések";
 "profile_selling_no_products_label" = "NINCSENEK HIRDETÉSEK (EGYELŐRE!)";

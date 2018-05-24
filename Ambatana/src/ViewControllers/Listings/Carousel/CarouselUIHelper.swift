@@ -1,12 +1,5 @@
-//
-//  CarouselUIHelper.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 04/11/2016.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 struct CarouselUI {
     static let bannerHeight: CGFloat = 64
@@ -14,7 +7,7 @@ struct CarouselUI {
     static let shareButtonHorizontalSpacing: CGFloat = 3
 
     static let pageControlWidth: CGFloat = 18
-    static let pageControlMargin: CGFloat = 18
+    static let pageControlMargin: CGFloat = 30
     static let moreInfoDragMargin: CGFloat = 45
     static let moreInfoExtraHeight: CGFloat = 62
     static let bottomOverscrollDragMargin: CGFloat = 70
@@ -26,16 +19,6 @@ struct CarouselUI {
 }
 
 class CarouselUIHelper {
-    static func setupPageControl(_ pageControl: UIPageControl, topBarHeight: CGFloat) {
-        pageControl.autoresizingMask = [.flexibleRightMargin, .flexibleBottomMargin]
-        pageControl.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi/2))
-        pageControl.frame.origin = CGPoint(x: CarouselUI.pageControlMargin, y: topBarHeight + CarouselUI.pageControlMargin)
-        pageControl.backgroundColor = UIColor.black.withAlphaComponent(0.2)
-        pageControl.currentPageIndicatorTintColor = UIColor.white
-        pageControl.hidesForSinglePage = true
-        pageControl.cornerRadius = CarouselUI.pageControlWidth/2
-        pageControl.clipsToBounds = true
-    }
 
     static func buildShareButton(_ text: String?, icon: UIImage?) -> UIButton {
         let shareButton = UIButton(type: .system)
@@ -69,9 +52,9 @@ class CarouselUIHelper {
                                                                 NSAttributedStringKey.font : UIFont.systemBoldFont(size: 17)]
         let infoTextAttributes: [NSAttributedStringKey : Any] = [ NSAttributedStringKey.foregroundColor : UIColor.grayLighter,
                                                                   NSAttributedStringKey.font : UIFont.systemSemiBoldFont(size: 17)]
-        let plainText = LGLocalizedString.productMoreInfoTooltipPart2(LGLocalizedString.productMoreInfoTooltipPart1)
+        let plainText = R.Strings.productMoreInfoTooltipPart2(R.Strings.productMoreInfoTooltipPart1)
         let resultText = NSMutableAttributedString(string: plainText, attributes: infoTextAttributes)
-        let boldRange = NSString(string: plainText).range(of: LGLocalizedString.productMoreInfoTooltipPart1,
+        let boldRange = NSString(string: plainText).range(of: R.Strings.productMoreInfoTooltipPart1,
                                                                   options: .caseInsensitive)
         resultText.addAttributes(tapTextAttributes, range: boldRange)
         return resultText

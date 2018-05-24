@@ -1,14 +1,6 @@
-//
-//  SettingsViewModel.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 05/08/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import RxSwift
 import LGCoreKit
-
+import LGComponents
 
 enum LetGoSetting {
     case changePhoto(placeholder: UIImage?, avatarUrl: URL?)
@@ -23,6 +15,7 @@ enum LetGoSetting {
     case privacyPolicy
     case logOut
     case versionInfo
+    case notifications
 }
 
 struct SettingsSection {
@@ -58,6 +51,10 @@ class SettingsViewModel: BaseViewModel {
     
     private var privacyURL: URL? {
         return LetgoURLHelper.buildPrivacyURL()
+    }
+    
+    private var isSearchAlertsEnabled: Bool {
+        return featureFlags.searchAlerts.isActive
     }
     
     convenience override init() {
@@ -143,7 +140,7 @@ class SettingsViewModel: BaseViewModel {
                     self?.populateSettings()
                     self?.tracker.trackEvent(TrackerEvent.profileEditEditPicture())
                 } else {
-                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.settingsChangeProfilePictureErrorGeneric,
+                    self?.delegate?.vmShowAutoFadingMessage(R.Strings.settingsChangeProfilePictureErrorGeneric,
                         completion: nil)
                 }
             }
@@ -159,11 +156,11 @@ class SettingsViewModel: BaseViewModel {
         let trackerEvent = TrackerEvent.appInviteFriendComplete(.facebook, typePage: .settings)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
 
-        delegate?.vmShowAutoFadingMessage(LGLocalizedString.settingsInviteFacebookFriendsOk, completion: nil)
+        delegate?.vmShowAutoFadingMessage(R.Strings.settingsInviteFacebookFriendsOk, completion: nil)
     }
 
     func fbAppInviteFailed() {
-        delegate?.vmShowAutoFadingMessage(LGLocalizedString.settingsInviteFacebookFriendsError, completion: nil)
+        delegate?.vmShowAutoFadingMessage(R.Strings.settingsInviteFacebookFriendsError, completion: nil)
     }
 
 
@@ -188,24 +185,27 @@ class SettingsViewModel: BaseViewModel {
             location = countryCode
         }
         profileSettings.append(.changeLocation(location: location))
-
-        if featureFlags.newUserProfileView.isActive {
-            profileSettings.append(.changeUserBio)
-        }
+        profileSettings.append(.changeUserBio)
 
         if let email = myUser?.email, email.isEmail() {
             profileSettings.append(.changePassword)
         }
-        profileSettings.append(.marketingNotifications(switchValue: switchMarketingNotificationValue,
-            changeClosure: { [weak self] enabled in self?.checkMarketingNotifications(enabled) } ))
+        
+        if isSearchAlertsEnabled {
+            profileSettings.append(.notifications)
+        } else {
+            profileSettings.append(.marketingNotifications(switchValue: switchMarketingNotificationValue,
+                                                           changeClosure: { [weak self] enabled in
+                                                            self?.checkMarketingNotifications(enabled) } ))
+        }
 
-        settingSections.append(SettingsSection(title: LGLocalizedString.settingsSectionProfile, settings: profileSettings))
+        settingSections.append(SettingsSection(title: R.Strings.settingsSectionProfile, settings: profileSettings))
 
         var supportSettings = [LetGoSetting]()
         supportSettings.append(.help)
         supportSettings.append(.termsAndConditions)
         supportSettings.append(.privacyPolicy)
-        settingSections.append(SettingsSection(title: LGLocalizedString.settingsSectionSupport, settings: supportSettings))
+        settingSections.append(SettingsSection(title: R.Strings.settingsSectionSupport, settings: supportSettings))
 
         var logoutAndInfo = [LetGoSetting]()
         logoutAndInfo.append(.logOut)
@@ -237,17 +237,19 @@ class SettingsViewModel: BaseViewModel {
             guard let url = privacyURL else { return }
             navigator?.open(url: url)
         case .logOut:
-            let positive = UIAction(interface: .styledText(LGLocalizedString.settingsLogoutAlertOk, .standard),
+            let positive = UIAction(interface: .styledText(R.Strings.settingsLogoutAlertOk, .standard),
                                     action: { [weak self] in
                     self?.logoutUser()
                 }, accessibilityId: .settingsLogoutAlertOK)
 
-            let negative = UIAction(interface: .styledText(LGLocalizedString.commonCancel, .cancel),
+            let negative = UIAction(interface: .styledText(R.Strings.commonCancel, .cancel),
                                     action: {}, accessibilityId: .settingsLogoutAlertCancel)
-            delegate?.vmShowAlertWithTitle(nil, text: LGLocalizedString.settingsLogoutAlertMessage,
+            delegate?.vmShowAlertWithTitle(nil, text: R.Strings.settingsLogoutAlertMessage,
                                            alertType: .plainAlertOld, actions: [positive, negative])
         case .versionInfo, .marketingNotifications:
             break
+        case .notifications:
+            navigator?.openSettingsNotifications()
         }
     }
 
@@ -283,33 +285,33 @@ class SettingsViewModel: BaseViewModel {
             return
         }
         let cancelAction = UIAction(
-            interface: .button(LGLocalizedString.settingsMarketingNotificationsAlertCancel, .secondary(fontSize: .medium, withBorder: true)),
+            interface: .button(R.Strings.settingsMarketingNotificationsAlertCancel, .secondary(fontSize: .medium, withBorder: true)),
             action: { [weak self] in
                 self?.forceMarketingNotifications(enabled: false)
         })
         let  activateAction = UIAction(
-            interface: .button(LGLocalizedString.settingsMarketingNotificationsAlertActivate, .primary(fontSize: .medium)),
+            interface: .button(R.Strings.settingsMarketingNotificationsAlertActivate, .primary(fontSize: .medium)),
             action: { [weak self] in
                 self?.setMarketingNotification(enabled: true)
                 self?.pushPermissionManager.showPushPermissionsAlert(prePermissionType: .profile)
         })
         
-        delegate?.vmShowAlertWithTitle(nil, text: LGLocalizedString.settingsGeneralNotificationsAlertMessage,
+        delegate?.vmShowAlertWithTitle(nil, text: R.Strings.settingsGeneralNotificationsAlertMessage,
                                        alertType: .plainAlertOld, actions: [cancelAction, activateAction])
     }
     
     private func showDeactivateConfirmation() {
         let cancelAction = UIAction(
-            interface: .button(LGLocalizedString.settingsMarketingNotificationsAlertCancel, .secondary(fontSize: .medium, withBorder: true)),
+            interface: .button(R.Strings.settingsMarketingNotificationsAlertCancel, .secondary(fontSize: .medium, withBorder: true)),
             action: { [weak self] in
                 self?.forceMarketingNotifications(enabled: true)
         })
         let  deactivateAction = UIAction(
-            interface: .button(LGLocalizedString.settingsMarketingNotificationsAlertDeactivate, .secondary(fontSize: .medium, withBorder: true)),
+            interface: .button(R.Strings.settingsMarketingNotificationsAlertDeactivate, .secondary(fontSize: .medium, withBorder: true)),
             action: { [weak self] in
                 self?.setMarketingNotification(enabled: false)
         })
-        delegate?.vmShowAlertWithTitle(nil, text: LGLocalizedString.settingsMarketingNotificationsAlertMessage,
+        delegate?.vmShowAlertWithTitle(nil, text: R.Strings.settingsMarketingNotificationsAlertMessage,
                                        alertType: .plainAlertOld, actions: [cancelAction, deactivateAction], dismissAction: cancelAction.action)
     }
     

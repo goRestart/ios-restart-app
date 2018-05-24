@@ -859,7 +859,11 @@
 "profile_permissions_alert_ok" = "Attiva";
 "profile_permissions_alert_title" = "NON PERDERE NEANCHE UNA RISPOSTA!";
 "profile_permissions_header_message" = "Attiva notifiche messaggi";
+<<<<<<< HEAD
 "profile_reputation_tooltip_title" = "Verified user! Tap if you want to be verified too.";
+=======
+"profile_reputation_tooltip_title" = "User verified! Tap if you want to be verified too";
+>>>>>>> master
 "profile_reviews_count" = "Recensioni";
 "profile_reviews_tab" = "Recensioni";
 "profile_selling_no_products_label" = "ANCORA NESSUN ANNUNCIO!";

@@ -1,12 +1,5 @@
-//
-//  PostListingState.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 21/03/17.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
+import LGComponents
 
 public enum VerticalAttributes {
     case carInfo(CarAttributes)
@@ -45,7 +38,10 @@ class PostListingState {
     let previousStep: PostListingStep?
     let category: PostCategory?
     let pendingToUploadImages: [UIImage]?
+    let pendingToUploadVideo: RecordedVideo?
     let lastImagesUploadResult: FilesResult?
+    let uploadingVideo: VideoUpload?
+    let uploadedVideo: Video?
     let price: ListingPrice?
     let verticalAttributes: VerticalAttributes?
     let place: Place?
@@ -70,7 +66,10 @@ class PostListingState {
                   previousStep: nil,
                   category: postCategory,
                   pendingToUploadImages: nil,
+                  pendingToUploadVideo: nil,
                   lastImagesUploadResult: nil,
+                  uploadingVideo: nil,
+                  uploadedVideo: nil,
                   price: nil,
                   verticalAttributes: nil,
                   place: nil,
@@ -81,7 +80,10 @@ class PostListingState {
                  previousStep: PostListingStep?,
                  category: PostCategory?,
                  pendingToUploadImages: [UIImage]?,
+                 pendingToUploadVideo: RecordedVideo?,
                  lastImagesUploadResult: FilesResult?,
+                 uploadingVideo: VideoUpload?,
+                 uploadedVideo: Video?,
                  price: ListingPrice?,
                  verticalAttributes: VerticalAttributes?,
                  place: Place?,
@@ -90,7 +92,10 @@ class PostListingState {
         self.previousStep = previousStep
         self.category = category
         self.pendingToUploadImages = pendingToUploadImages
+        self.pendingToUploadVideo = pendingToUploadVideo
         self.lastImagesUploadResult = lastImagesUploadResult
+        self.uploadingVideo = uploadingVideo
+        self.uploadedVideo = uploadedVideo
         self.price = price
         self.verticalAttributes = verticalAttributes
         self.place = place
@@ -112,7 +117,10 @@ class PostListingState {
                                 previousStep: step,
                                 category: category,
                                 pendingToUploadImages: pendingToUploadImages,
+                                pendingToUploadVideo: pendingToUploadVideo,
                                 lastImagesUploadResult: lastImagesUploadResult,
+                                uploadingVideo: uploadingVideo,
+                                uploadedVideo: uploadedVideo,
                                 price: price,
                                 verticalAttributes: verticalAttributes,
                                 place: place,
@@ -125,7 +133,10 @@ class PostListingState {
                                 previousStep: previousStep,
                                 category: .otherItems(listingCategory: nil),
                                 pendingToUploadImages: pendingToUploadImages,
+                                pendingToUploadVideo: pendingToUploadVideo,
                                 lastImagesUploadResult: lastImagesUploadResult,
+                                uploadingVideo: uploadingVideo,
+                                uploadedVideo: uploadedVideo,
                                 price: price,
                                 verticalAttributes: nil,
                                 place: place,
@@ -136,14 +147,17 @@ class PostListingState {
         switch step {
         case .imageSelection, .errorUpload:
             break
-        case .uploadingImage, .detailsSelection, .categorySelection, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
+        case .uploadingImage, .uploadingVideo, .errorVideoUpload, .detailsSelection, .categorySelection, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
             return self
         }
         return PostListingState(step: .uploadingImage,
                                 previousStep: step,
                                 category: category,
                                 pendingToUploadImages: pendingToUploadImages,
+                                pendingToUploadVideo: pendingToUploadVideo,
                                 lastImagesUploadResult: lastImagesUploadResult,
+                                uploadingVideo: uploadingVideo,
+                                uploadedVideo: uploadedVideo,
                                 price: price,
                                 verticalAttributes: verticalAttributes,
                                 place: place,
@@ -154,7 +168,7 @@ class PostListingState {
         switch step {
         case .imageSelection:
             break
-        case .uploadingImage, .errorUpload, .detailsSelection, .categorySelection, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
+        case .uploadingImage, .errorUpload, .uploadingVideo, .errorVideoUpload, .detailsSelection, .categorySelection, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
             return self
         }
         let newStep: PostListingStep
@@ -167,13 +181,128 @@ class PostListingState {
                                 previousStep: step,
                                 category: category,
                                 pendingToUploadImages: pendingToUploadImages,
+                                pendingToUploadVideo: pendingToUploadVideo,
                                 lastImagesUploadResult: lastImagesUploadResult,
+                                uploadingVideo: uploadingVideo,
+                                uploadedVideo: uploadedVideo,
                                 price: price,
                                 verticalAttributes: verticalAttributes,
                                 place: place,
                                 title: title)
     }
-    
+
+    func updating(pendingToUploadVideo: RecordedVideo) -> PostListingState {
+        switch step {
+        case .imageSelection:
+            break
+        case .uploadingImage, .errorUpload, .uploadingVideo, .errorVideoUpload, .detailsSelection, .categorySelection, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
+            return self
+        }
+        let newStep: PostListingStep
+        if let currentCategory = category, currentCategory == .realEstate {
+            newStep = .addingDetails
+        } else {
+            newStep = .detailsSelection
+        }
+        return PostListingState(step: newStep,
+                                previousStep: step,
+                                category: category,
+                                pendingToUploadImages: pendingToUploadImages,
+                                pendingToUploadVideo: pendingToUploadVideo,
+                                lastImagesUploadResult: lastImagesUploadResult,
+                                uploadingVideo: uploadingVideo,
+                                uploadedVideo: uploadedVideo,
+                                price: price,
+                                verticalAttributes: verticalAttributes,
+                                place: place,
+                                title: title)
+    }
+
+    func updatingStepToUploadingVideoSnapshot(uploadingVideo: VideoUpload) -> PostListingState {
+        switch step {
+        case .imageSelection, .errorVideoUpload, .errorUpload:
+            break
+        case .uploadingImage, .uploadingVideo, .detailsSelection, .categorySelection, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
+            return self
+        }
+        return PostListingState(step: .uploadingVideo(state: .uploadingSnapshot),
+                                previousStep: step,
+                                category: category,
+                                pendingToUploadImages: pendingToUploadImages,
+                                pendingToUploadVideo: pendingToUploadVideo,
+                                lastImagesUploadResult: lastImagesUploadResult,
+                                uploadingVideo: uploadingVideo,
+                                uploadedVideo: uploadedVideo,
+                                price: price,
+                                verticalAttributes: verticalAttributes,
+                                place: place,
+                                title: title)
+    }
+
+    func updatingStepToCreatingPreSignedUrl(uploadingVideo: VideoUpload) -> PostListingState {
+        switch step {
+        case .uploadingVideo, .errorUpload:
+            break
+        case .imageSelection, .errorVideoUpload, .uploadingImage, .detailsSelection, .categorySelection, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
+            return self
+        }
+        return PostListingState(step: .uploadingVideo(state: .creatingPreSignedUploadUrl),
+                                previousStep: step,
+                                category: category,
+                                pendingToUploadImages: pendingToUploadImages,
+                                pendingToUploadVideo: pendingToUploadVideo,
+                                lastImagesUploadResult: lastImagesUploadResult,
+                                uploadingVideo: uploadingVideo,
+                                uploadedVideo: uploadedVideo,
+                                price: price,
+                                verticalAttributes: verticalAttributes,
+                                place: place,
+                                title: title)
+    }
+
+    func updatingStepToUploadingVideoFile(uploadingVideo: VideoUpload) -> PostListingState {
+        switch step {
+        case .uploadingVideo:
+            break
+        case .imageSelection, .errorVideoUpload, .uploadingImage, .errorUpload, .detailsSelection, .categorySelection, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
+            return self
+        }
+        return PostListingState(step: .uploadingVideo(state: .uploadingVideo),
+                                previousStep: step,
+                                category: category,
+                                pendingToUploadImages: pendingToUploadImages,
+                                pendingToUploadVideo: nil,
+                                lastImagesUploadResult: lastImagesUploadResult,
+                                uploadingVideo: uploadingVideo,
+                                uploadedVideo: uploadedVideo,
+                                price: price,
+                                verticalAttributes: verticalAttributes,
+                                place: place,
+                                title: title)
+    }
+
+    func updatingToSuccessUpload(uploadedVideo: Video) -> PostListingState {
+        switch step {
+        case .uploadingVideo:
+            break
+        case .imageSelection, .errorVideoUpload, .uploadingImage, .errorUpload, .detailsSelection, .categorySelection, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
+            return self
+        }
+        return PostListingState(step: .uploadSuccess,
+                                previousStep: step,
+                                category: category,
+                                pendingToUploadImages: nil,
+                                pendingToUploadVideo: nil,
+                                lastImagesUploadResult: nil,
+                                uploadingVideo: nil,
+                                uploadedVideo: uploadedVideo,
+                                price: price,
+                                verticalAttributes: verticalAttributes,
+                                place: place,
+                                title: title)
+    }
+
+
     func updatingAfterUploadingSuccess() -> PostListingState {
         guard step == .uploadSuccess else { return self }
         let nextStep: PostListingStep
@@ -186,7 +315,10 @@ class PostListingState {
                                 previousStep: step,
                                 category: category,
                                 pendingToUploadImages: pendingToUploadImages,
+                                pendingToUploadVideo: pendingToUploadVideo,
                                 lastImagesUploadResult: lastImagesUploadResult,
+                                uploadingVideo: uploadingVideo,
+                                uploadedVideo: uploadedVideo,
                                 price: price,
                                 verticalAttributes: verticalAttributes,
                                 place: place,
@@ -200,28 +332,36 @@ class PostListingState {
                                 previousStep: step,
                                 category: category,
                                 pendingToUploadImages: pendingToUploadImages,
+                                pendingToUploadVideo: pendingToUploadVideo,
                                 lastImagesUploadResult: FilesResult(value: uploadedImages),
+                                uploadingVideo: uploadingVideo,
+                                uploadedVideo: uploadedVideo,
                                 price: price,
                                 verticalAttributes: verticalAttributes,
                                 place: place,
                                 title: title)
     }
+
     
     func updating(uploadError: RepositoryError) -> PostListingState {
-        guard step == .uploadingImage else { return self }
+        guard step.isUploadingResource() else { return self }
         let message: String
         switch uploadError {
-        case .internalError, .unauthorized, .notFound, .forbidden, .tooManyRequests, .userNotVerified, .serverError, .wsChatError:
-            message = LGLocalizedString.productPostGenericError
+        case .internalError, .unauthorized, .notFound, .forbidden, .tooManyRequests, .userNotVerified, .serverError,
+             .wsChatError, .searchAlertError:
+            message = R.Strings.productPostGenericError
         case .network:
-            message = LGLocalizedString.productPostNetworkError
+            message = R.Strings.productPostNetworkError
         }
         
         return PostListingState(step: .errorUpload(message: message),
                                 previousStep: step,
                                 category: category,
                                 pendingToUploadImages: pendingToUploadImages,
+                                pendingToUploadVideo: pendingToUploadVideo,
                                 lastImagesUploadResult: FilesResult(error: uploadError),
+                                uploadingVideo: uploadingVideo,
+                                uploadedVideo: uploadedVideo,
                                 price: price,
                                 verticalAttributes: verticalAttributes,
                                 place: place,
@@ -247,7 +387,10 @@ class PostListingState {
                                 previousStep: step,
                                 category: category,
                                 pendingToUploadImages: pendingToUploadImages,
+                                pendingToUploadVideo: pendingToUploadVideo,
                                 lastImagesUploadResult: lastImagesUploadResult,
+                                uploadingVideo: uploadingVideo,
+                                uploadedVideo: uploadedVideo,
                                 price: price,
                                 verticalAttributes: verticalAttributes,
                                 place: place,
@@ -261,7 +404,10 @@ class PostListingState {
                                 previousStep: step,
                                 category: category,
                                 pendingToUploadImages: pendingToUploadImages,
+                                pendingToUploadVideo: pendingToUploadVideo,
                                 lastImagesUploadResult: lastImagesUploadResult,
+                                uploadingVideo: uploadingVideo,
+                                uploadedVideo: uploadedVideo,
                                 price: price,
                                 verticalAttributes: .carInfo(carInfo),
                                 place: place,
@@ -274,7 +420,10 @@ class PostListingState {
                                 previousStep: step,
                                 category: category,
                                 pendingToUploadImages: pendingToUploadImages,
+                                pendingToUploadVideo: pendingToUploadVideo,
                                 lastImagesUploadResult: lastImagesUploadResult,
+                                uploadingVideo: uploadingVideo,
+                                uploadedVideo: uploadedVideo,
                                 price: price,
                                 verticalAttributes: .realEstateInfo(realEstateInfo),
                                 place: place,
@@ -287,7 +436,10 @@ class PostListingState {
                                 previousStep: nil,
                                 category: category,
                                 pendingToUploadImages: pendingToUploadImages,
+                                pendingToUploadVideo: pendingToUploadVideo,
                                 lastImagesUploadResult: lastImagesUploadResult,
+                                uploadingVideo: uploadingVideo,
+                                uploadedVideo: uploadedVideo,
                                 price: price,
                                 verticalAttributes: verticalAttributes,
                                 place: place,
@@ -300,7 +452,10 @@ class PostListingState {
                                 previousStep: step,
                                 category: category,
                                 pendingToUploadImages: pendingToUploadImages,
+                                pendingToUploadVideo: pendingToUploadVideo,
                                 lastImagesUploadResult: lastImagesUploadResult,
+                                uploadingVideo: uploadingVideo,
+                                uploadedVideo: uploadedVideo,
                                 price: price,
                                 verticalAttributes: verticalAttributes,
                                 place: place,
@@ -308,10 +463,18 @@ class PostListingState {
     }
 }
 
+enum VideoUploadState {
+    case uploadingSnapshot
+    case creatingPreSignedUploadUrl
+    case uploadingVideo
+}
+
 enum PostListingStep: Equatable {
     case imageSelection
     case uploadingImage
     case errorUpload(message: String)
+    case uploadingVideo(state: VideoUploadState)
+    case errorVideoUpload(message: String)
     case detailsSelection
     case uploadSuccess
     
@@ -320,6 +483,15 @@ enum PostListingStep: Equatable {
     
     case finished
     case addingDetails
+    
+    func isUploadingResource() -> Bool {
+        if case .uploadingVideo = self {
+            return true
+        } else if case .uploadingImage = self {
+            return true
+        }
+        return  false
+    }
 }
 
 func ==(lhs: PostListingStep, rhs: PostListingStep) -> Bool {
@@ -330,6 +502,8 @@ func ==(lhs: PostListingStep, rhs: PostListingStep) -> Bool {
         return true
     case (let .errorUpload(lMessage), let .errorUpload(rMessage)):
         return lMessage == rMessage
+    case (let .uploadingVideo(lState), let .uploadingVideo(rState)):
+        return lState == rState
     default:
         return false
     }

@@ -10,20 +10,18 @@ import Foundation
 import UIKit
 import RxSwift
 import LGCoreKit
-import MapKit
 
 protocol ListingCardViewDelegate: class {
     func cardViewDidTapOnStatusView(_ cardView: ListingCardView)
     func cardViewDidTapOnPreview(_ cardView: ListingCardView)
     func cardViewDidShowMoreInfo(_ cardView: ListingCardView)
+    func cardViewDidScroll(_ cardView: ListingCardView, contentOffset: CGFloat)
 }
 
 final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestureRecognizerDelegate, ReusableCell {
     private struct Layout {
         struct Height {
             static let userView: CGFloat = 64.0
-            static let whiteGradient: CGFloat = 0.7 * DeviceFamily.insetCorrection
-            static let topInset: CGFloat = 350 // completly random
         }
         static let stickyHeaderThreadshold = Layout.Height.userView
     }
@@ -31,12 +29,12 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     var delegate: (ListingCardDetailsViewDelegate & ListingCardViewDelegate & ListingCardDetailMapViewDelegate)? {
         didSet { detailsView.delegate = delegate }
     }
-    var defaultContentInset: UIEdgeInsets = UIEdgeInsets(top: Layout.Height.topInset, left: 0, bottom: 0, right: 0)
-    private var verticalInset: CGFloat = 0
 
-    let userView = ListingCardUserView()
-    private var userViewTopConstraints: [NSLayoutConstraint] = []
-    private var userViewScrollingConstraints: [NSLayoutConstraint] = []
+    let userView: ListingCardUserView = {
+        let userView = ListingCardUserView()
+        userView.clipsToBounds = true
+        return userView
+    }()
 
     private let binder = ListingCardViewBinder()
     private(set) var disposeBag = DisposeBag()
@@ -44,34 +42,37 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     private let statusView = ProductStatusView()
     private var statusTapGesture: UITapGestureRecognizer?
 
-    private let previewImageView = UIImageView()
+    private let previewImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFit
+        imageView.backgroundColor = .white
+        return imageView
+    }()
+    private var previewHeight: NSLayoutConstraint?
+
     var previewVisibleFrame: CGRect {
         let size = CGSize(width: contentView.width, height: previewImageView.height)
         return CGRect(origin: frame.origin, size: size)
     }
-    private let gradient = GradientView(colors: [UIColor.black.withAlphaComponent(0.2), UIColor.black.withAlphaComponent(0)])
+    private let gradient = GradientView(colors: [UIColor.black.withAlphaComponent(0.2), .clear])
     private let countImageView = UIImageView(image: #imageLiteral(resourceName: "nit_preview_count"))
     private let imageCountLabel = UILabel()
 
-    private let whiteGradient = GradientView(colors: [UIColor.white.withAlphaComponent(0),
-                                                      UIColor.white.withAlphaComponent(0.9)])
-    private let bottomBackground = UIView()
-    private var bottomBackgroundHeight: NSLayoutConstraint?
-    private let scrollView = UIScrollView()
-    private var scrollViewTapGesture: UITapGestureRecognizer?
-
-    private let bias: CGFloat = 1
-    private var fullDetailsOffset: CGFloat { return min(-Layout.Height.userView,
-                                                        -(contentView.bounds.height - detailsView.bounds.height))}
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.backgroundColor = .white
+        return scrollView
+    }()
+    private var fullDetailsOffset: CGFloat { return previewImageView.bounds.height }
     private var lastMoreInfoState: MoreInfoState = MoreInfoState.hidden {
         didSet { moreInfoStateDidChange(oldValue, current: lastMoreInfoState) }
     }
 
     private var detailsViewFullyVisible: Bool { return scrollView.contentOffset.y - fullDetailsOffset >= -CGFloat.ulpOfOne }
     private let detailsView = ListingCardDetailsView()
-    private var detailsThreshold: CGFloat { return 0.5 * previewImageView.height }
-    private var isPreviewVisible: Bool { return abs(scrollView.contentOffset.y) > detailsThreshold }
-    private var fullMapConstraints: [NSLayoutConstraint] = []
+    private var isPreviewVisible: Bool { return scrollView.contentOffset.y == 0 }
 
     private var imageDownloader: ImageDownloaderType?
     private(set) var pageCount: Int = 0
@@ -89,8 +90,6 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
         previewImageView.image = nil
         userView.alpha = 0
         lastMoreInfoState = .hidden
-
-        layoutVerticalContentInset(animated: false)
     }
 
     func populateWith(cellModel listingViewModel: ListingCardViewCellModel, imageDownloader: ImageDownloaderType) {
@@ -132,10 +131,21 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
             if let value = result.value {
                 DispatchQueue.main.async {
                     self?.previewImageView.image = value.image
+                    self?.updateImage(withRatio: value.image.size.height / value.image.size.width)
                     self?.previewImageView.setNeedsDisplay()
                 }
             }
         }
+    }
+
+    private func updateImage(withRatio ratio: CGFloat) {
+        if let heightConstraint = previewHeight {
+            previewImageView.removeConstraint(heightConstraint)
+        }
+        let height = previewImageView.heightAnchor.constraint(equalTo: previewImageView.widthAnchor, multiplier: ratio)
+        height.isActive = true
+        previewHeight = height
+        setNeedsLayout()
     }
 
     func populateWith(status: ListingViewModelStatus?, featured: Bool) {
@@ -160,89 +170,33 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
         }
     }
 
-    func showFullMap(fromRect rect: CGRect) {
-        contentView.bringSubview(toFront: detailsView.detailMapView)
-        fullMapConstraints = [
-            detailsView.detailMapView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 1.0),
-            detailsView.detailMapView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
-        ]
-        NSLayoutConstraint.activate(fullMapConstraints)
-
-        detailsView.detailMapView.showRegion(animated: true)
-        UIView.animate(withDuration: 0.3) {
-            self.updateSubviewsAlphaForMapAnimation(0)
-            self.detailsView.layoutIfNeeded()
-        }
-    }
-
-    func hideFullMap() {
-        deactivateFullMap()
-        detailsView.detailMapView.hideMap(animated: true)
-        UIView.animate(withDuration: 0.3, animations: {
-            self.updateSubviewsAlphaForMapAnimation(1)
-            self.detailsView.layoutIfNeeded()
-        })
-    }
-
-    private func updateSubviewsAlphaForMapAnimation(_ alpha: CGFloat) {
-        self.userView.alpha = alpha
-        self.whiteGradient.alpha = alpha
-        self.statusView.alpha = alpha
-        self.detailsView.detailMapView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(abs(1 - alpha))
-    }
-
-    private func deactivateFullMap() {
-        fullMapConstraints.forEach {
-            contentView.removeConstraint($0)
-            detailsView.detailMapView.removeConstraint($0)
-        }
-    }
-
     private func setupUI() {
-        contentView.clipsToBounds = true
-        setupPreviewImageView()
-        setupBottomBackground()
-        setupImagesCount()
+        let userViewGradient = GradientView(colors: [.clear, UIColor.black.withAlphaComponent(0.2)])
+
+        contentView.addSubviewsForAutoLayout([scrollView, gradient, statusView, userView])
+        previewImageView.addSubviewForAutoLayout(userViewGradient)
+        scrollView.addSubviewsForAutoLayout([previewImageView, detailsView])
+        gradient.addSubviewsForAutoLayout([countImageView, imageCountLabel])
+
+        NSLayoutConstraint.activate([
+            userViewGradient.leftAnchor.constraint(equalTo: previewImageView.leftAnchor),
+            userViewGradient.rightAnchor.constraint(equalTo: previewImageView.rightAnchor),
+            userViewGradient.bottomAnchor.constraint(equalTo: previewImageView.topAnchor),
+            userViewGradient.heightAnchor.constraint(equalTo: userView.heightAnchor, constant: 2)
+        ])
         setupVerticalScrollView()
+        setupPreviewImageView()
+
+        setupImagesCount()
         setupStatusView()
-        setupWhiteGradient()
+        setupDetails()
 
         backgroundColor = .clear
         contentView.clipsToBounds = true
         contentView.backgroundColor = .white
     }
 
-    private func setupBottomBackground() {
-        contentView.addSubviewForAutoLayout(bottomBackground)
-        bottomBackground.backgroundColor = .white
-        bottomBackground.isOpaque = true
-        let bottomHeight = bottomBackground.heightAnchor.constraint(equalToConstant: 20)
-        NSLayoutConstraint.activate([
-            bottomBackground.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            bottomBackground.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            bottomBackground.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            bottomHeight
-        ])
-        bottomBackgroundHeight = bottomHeight
-    }
-
-    private func setupWhiteGradient() {
-        whiteGradient.translatesAutoresizingMaskIntoConstraints = false
-        whiteGradient.clipsToBounds = true
-        whiteGradient.isUserInteractionEnabled = false
-        contentView.addSubview(whiteGradient)
-        NSLayoutConstraint.activate([
-            whiteGradient.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            whiteGradient.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            whiteGradient.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            whiteGradient.heightAnchor.constraint(equalToConstant: Layout.Height.whiteGradient)
-        ])
-    }
-
     private func setupStatusView() {
-        contentView.addSubview(statusView)
-        statusView.translatesAutoresizingMaskIntoConstraints = false
-
         statusView.topAnchor.constraint(equalTo: contentView.topAnchor,
                                         constant: Metrics.margin).isActive = true
         statusView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
@@ -260,122 +214,86 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     }
 
     private func setupPreviewImageView() {
-        previewImageView.translatesAutoresizingMaskIntoConstraints = false
-        previewImageView.clipsToBounds = true
-        previewImageView.contentMode = .scaleAspectFill
-        contentView.addSubview(previewImageView)
-        previewImageView.layout(with: contentView).fillHorizontal().top()
-        previewImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
-                                                 constant: -(DeviceFamily.insetCorrection - 20)).isActive = true
+        NSLayoutConstraint.activate([
+            previewImageView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            previewImageView.leftAnchor.constraint(equalTo: scrollView.leftAnchor),
+            previewImageView.rightAnchor.constraint(equalTo: scrollView.rightAnchor),
+            previewImageView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
+        ])
     }
 
     private func setupImagesCount() {
-        gradient.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(gradient)
         let gradientTop = gradient.topAnchor.constraint(equalTo: contentView.topAnchor)
         gradientTop.isActive = true
         gradientTop.priority = .required - 1
 
-        gradient.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
-        gradient.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
-        gradient.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.4)
+        NSLayoutConstraint.activate([
+            gradient.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            gradient.rightAnchor.constraint(equalTo: contentView.rightAnchor),
+            gradient.heightAnchor.constraint(equalTo: userView.heightAnchor),
 
+            countImageView.widthAnchor.constraint(equalToConstant: 32),
+            countImageView.heightAnchor.constraint(lessThanOrEqualTo: countImageView.widthAnchor),
+            countImageView.leftAnchor.constraint(equalTo: gradient.leftAnchor, constant: Metrics.margin),
+            countImageView.topAnchor.constraint(greaterThanOrEqualTo: gradient.topAnchor),
+            countImageView.bottomAnchor.constraint(lessThanOrEqualTo: gradient.bottomAnchor),
+
+            imageCountLabel.leftAnchor.constraint(equalTo: countImageView.rightAnchor),
+            imageCountLabel.topAnchor.constraint(equalTo: gradient.topAnchor, constant: Metrics.margin),
+            imageCountLabel.rightAnchor.constraint(equalTo: gradient.rightAnchor),
+            imageCountLabel.topAnchor.constraint(equalTo: gradient.bottomAnchor),
+
+            countImageView.centerYAnchor.constraint(equalTo: imageCountLabel.centerYAnchor)
+        ])
         countImageView.contentMode = .center
         countImageView.setContentHuggingPriority(.required, for: .horizontal)
 
-        gradient.addSubview(countImageView)
-        gradient.addSubview(imageCountLabel)
-
-        countImageView.translatesAutoresizingMaskIntoConstraints = false
-        countImageView.layout().widthProportionalToHeight().width(32)
-        countImageView.layout(with: gradient)
-            .leading(by: Metrics.shortMargin).top(relatedBy: .greaterThanOrEqual).bottom(relatedBy: .lessThanOrEqual)
-
-        imageCountLabel.translatesAutoresizingMaskIntoConstraints = false
-        imageCountLabel.layout(with: countImageView).leading(to: .trailing)
-
-        imageCountLabel.layout(with: gradient).top(by: Metrics.shortMargin).trailing().bottom()
         imageCountLabel.textColor = .white
         imageCountLabel.font = UIFont.mediumButtonFont
-
-        countImageView.layout(with: imageCountLabel).centerY()
     }
 
     private func setupVerticalScrollView() {
-        scrollView.showsVerticalScrollIndicator = false
         scrollView.delegate = self
-        contentView.addSubviewForAutoLayout(scrollView)
-        scrollView.layout(with: contentView).leading().trailing().bottom().top()
-        scrollView.backgroundColor = .clear
-        scrollView.contentInset = defaultContentInset
+        scrollView.alwaysBounceVertical = true
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            scrollView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            scrollView.leftAnchor.constraint(equalTo: contentView.leftAnchor)
+        ])
+    }
 
-        userView.clipsToBounds = true
-        contentView.addSubviewForAutoLayout(userView)
-        userView.heightAnchor.constraint(equalToConstant: Layout.Height.userView).isActive = true
-
+    private func setupDetails() {
         detailsView.backgroundColor = .white
         detailsView.isUserInteractionEnabled = false
-        scrollView.addSubviewForAutoLayout(detailsView)
-
-        detailsView.layout(with: scrollView).fillHorizontal().centerX()
-        detailsView.layout(with: scrollView).bottom().centerX().top()
 
         let scrollTap = UITapGestureRecognizer(target: self, action: #selector(didTapOnScrollView))
-        scrollTap.delegate = self
-        scrollView.addGestureRecognizer(scrollTap)
-        scrollViewTapGesture = scrollTap
+        contentView.addGestureRecognizer(scrollTap)
 
-        userViewTopConstraints.append(contentsOf: [
-            userView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            userView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            userView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
-        ])
-
-        userViewScrollingConstraints.append(contentsOf: [
+        NSLayoutConstraint.activate([
             userView.topAnchor.constraint(greaterThanOrEqualTo: gradient.bottomAnchor),
             userView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             userView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            detailsView.topAnchor.constraint(equalTo: userView.bottomAnchor)
+            detailsView.topAnchor.constraint(equalTo: userView.bottomAnchor),
+
+            userView.heightAnchor.constraint(equalToConstant: Layout.Height.userView),
+            detailsView.topAnchor.constraint(equalTo: previewImageView.bottomAnchor),
+            detailsView.leftAnchor.constraint(equalTo: scrollView.leftAnchor),
+            detailsView.rightAnchor.constraint(equalTo: scrollView.rightAnchor),
+            detailsView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
+            detailsView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
         ])
-        NSLayoutConstraint.activate(userViewScrollingConstraints)
     }
-
-    func updateVerticalContentInset(animated: Bool) {
-        let insetWithUser = contentView.height - DeviceFamily.insetCorrection
-        if animated {
-            layoutVerticalContentInset(animated: animated)
-        } else if verticalInset != insetWithUser {
-            verticalInset = insetWithUser
-            layoutVerticalContentInset(animated: animated)
-        }
-
-    }
-
-    func layoutVerticalContentInset(animated: Bool) {
-        updateTopInset(verticalInset)
-        let duration: TimeInterval = animated ? 0.3 : 0
-        let inset = -verticalInset
-        UIView.animate(withDuration: duration) {
-            self.scrollView.setContentOffset(CGPoint(x: 0, y: inset), animated: animated)
-        }
-    }
-
-    private func updateTopInset(_ inset: CGFloat) {
-        let inset = UIEdgeInsets(top: inset, left: 0, bottom: 0, right: 0)
-        scrollView.contentInset = inset
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        guard scrollView.contentInset.top != contentView.height - DeviceFamily.insetCorrection else { return }
-        updateTopInset(contentView.height - DeviceFamily.insetCorrection)
-    }
-
+    
     override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
         super.apply(layoutAttributes)
         contentView.layer.cornerRadius = Metrics.margin
-        applyShadow(withOpacity: 0.15, radius: Metrics.margin)
-        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: Metrics.margin).cgPath
+        previewImageView.layer.cornerRadius = Metrics.margin
+    }
+
+    func update(bottomContentInset inset: CGFloat) {
+        scrollView.contentOffset = .zero
+        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: inset, right: 0)
     }
 
     // MARK: UIScrollViewDelegate
@@ -386,46 +304,19 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView.contentOffset.y >= -Layout.stickyHeaderThreadshold  {
-            setStickyHeaderOn()
+        if scrollView.contentOffset.y < 0 {
+            let scaleFactor = 1 + (-5*scrollView.contentOffset.y / contentView.bounds.height) // multiplied by 5 to avoid seeing the bottom of the card
+            previewImageView.transform = CGAffineTransform.identity
+                .translatedBy(x: 0, y: scrollView.contentOffset.y)
+                .scaledBy(x: scaleFactor, y: scaleFactor)
         } else {
-            setStickyHeaderOff()
+            previewImageView.transform = CGAffineTransform.identity
         }
-
+        previewImageView.setNeedsDisplay()
         lastMoreInfoState = detailsViewFullyVisible ? .shown : .hidden
-        if scrollView.contentOffset.y <= -scrollView.contentInset.top {
-            let scaleRatio = (-scrollView.contentOffset.y / scrollView.contentInset.top) * 1.2
-            previewImageView.transform = CGAffineTransform.identity.scaledBy(x: scaleRatio, y: scaleRatio)
-            bottomBackgroundHeight?.constant = 0
-        } else {
-            if scrollView.contentInset.top != 0
-                && -scrollView.contentOffset.y / scrollView.contentInset.top < 0.7 {
-                let ratio = -scrollView.contentOffset.y / scrollView.contentInset.top / 0.7
-                updateCount(alpha: ratio)
-            }
-            let diff = scrollView.contentOffset.y - fullDetailsOffset
-            bottomBackgroundHeight?.constant = contentView.bounds.height - previewImageView.bounds.height + max(0, diff)
-            whiteGradient.alpha = abs(scrollView.contentOffset.y / scrollView.contentInset.top)
-        }
         detailsView.isUserInteractionEnabled = !isPreviewVisible
-    }
 
-    private func setStickyHeaderOn() {
-        NSLayoutConstraint.deactivate(userViewScrollingConstraints)
-        NSLayoutConstraint.activate(userViewTopConstraints)
-        UIView.animate(withDuration: 0.3) {
-            self.userView.effectView.alpha = 1
-            self.statusView.alpha = 0
-        }
-    }
-
-    private func setStickyHeaderOff() {
-        NSLayoutConstraint.deactivate(userViewTopConstraints)
-        NSLayoutConstraint.activate(userViewScrollingConstraints)
-        UIView.animate(withDuration: 0.3) {
-            self.userView.effectView.alpha = 0
-            self.statusView.alpha = 1
-        }
+        delegate?.cardViewDidScroll(self, contentOffset: scrollView.contentOffset.y + scrollView.contentInset.top  )
     }
 
     private func updateCount(alpha: CGFloat) {
@@ -436,22 +327,16 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
 
     private func showFullImagePreview() {
         detailsView.isUserInteractionEnabled = false
-        let offsetY = -scrollView.contentInset.top
         UIView.animate(withDuration: 0.3,
                        delay: 0,
                        options: .curveEaseIn, animations: { [weak self] in
-                        self?.scrollView.setContentOffset(CGPoint(x: 0, y: offsetY), animated: true)
+                        self?.scrollView.setContentOffset(.zero, animated: true)
             }, completion: nil)
     }
 
     // MARK: UITapGestureRecognizer
 
     @objc private func didTapOnScrollView(sender: UITapGestureRecognizer) {
-        guard !detailsView.isMapExpanded else {
-            hideFullMap()
-            return
-        }
-
         let didTapBelowUser = sender.location(in: userView).y > 0
         if didTapBelowUser && isPreviewVisible {
             scrollToDetail()
@@ -464,30 +349,14 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
 
     private func scrollToDetail() {
         detailsView.isUserInteractionEnabled = true
-        let offsetY = fullDetailsOffset
+        let detailsOffset = previewImageView.height - contentView.height + detailsView.height
+        let y = min(previewImageView.height, detailsOffset)
         UIView.animate(withDuration: 0.3,
                        delay: 0,
                        options: .curveEaseIn, animations: { [weak self] in
-                        self?.scrollView.setContentOffset(CGPoint(x: 0, y: offsetY), animated: true)
+                        self?.scrollView.setContentOffset(CGPoint(x: 0, y: y), animated: true)
             }, completion: nil)
     }
-
-    func delayedOnboardingFlashDetails(withDelay delayed: Double, duration: TimeInterval) {
-        let currentOffset = scrollView.contentOffset
-        let flashOffset = CGPoint(x: 0, y: currentOffset.y + 20)
-        let duration: TimeInterval = 0.2
-        delay(delayed) {
-            UIView.animate(withDuration: duration / 2, animations: { [weak self] in
-                self?.scrollView.setContentOffset(flashOffset, animated: true)
-            })
-            delay(duration / 2) { [weak self] in // otherwise this won't work as expected
-                UIView.animate(withDuration: duration / 2, animations: { [weak self] in
-                    self?.scrollView.setContentOffset(currentOffset, animated: true)
-                })
-            }
-        }
-    }
-    
 }
 
 extension ListingCardView: ListingDeckViewControllerBinderCellType {
@@ -497,18 +366,6 @@ extension ListingCardView: ListingDeckViewControllerBinderCellType {
 
     func recycleDisposeBag() {
         disposeBag = DisposeBag()
-    }
-}
-
-fileprivate extension DeviceFamily {
-    static var insetCorrection: CGFloat {
-        switch DeviceFamily.current {
-        case .iPhone6Plus: return 134
-        case .biggerUnknown: return 134 // iPhoneX
-        case .iPhone4: return 76
-        case .iPhone5: return 86
-        case .iPhone6: return 125
-        }
     }
 }
 

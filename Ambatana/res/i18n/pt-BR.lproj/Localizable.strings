@@ -859,7 +859,11 @@
 "profile_permissions_alert_ok" = "Enable";
 "profile_permissions_alert_title" = "DON'T MISS A REPLY!";
 "profile_permissions_header_message" = "Enable message notifications";
+<<<<<<< HEAD
 "profile_reputation_tooltip_title" = "Verified user! Tap if you want to be verified too.";
+=======
+"profile_reputation_tooltip_title" = "User verified! Tap if you want to be verified too";
+>>>>>>> master
 "profile_reviews_count" = "Reviews";
 "profile_reviews_tab" = "Reviews";
 "profile_selling_no_products_label" = "NO LISTINGS (YET!)";

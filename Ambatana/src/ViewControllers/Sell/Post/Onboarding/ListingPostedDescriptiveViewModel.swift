@@ -1,13 +1,6 @@
-//
-//  ListingPostedDescriptiveViewModel.swift
-//  LetGo
-//
-//  Created by Raúl de Oñate Blanco on 20/02/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 enum PostingDescriptionType {
     case withTitle
@@ -19,29 +12,29 @@ class ListingPostedDescriptiveViewModel: BaseViewModel, PostingCategoriesPickDel
     var descriptionType: PostingDescriptionType
 
     var doneText: String {
-        return LGLocalizedString.postDescriptionDoneText
+        return R.Strings.postDescriptionDoneText
     }
 
     var saveButtonText: String {
-        return LGLocalizedString.postDescriptionSaveButtonText
+        return R.Strings.postDescriptionSaveButtonText
     }
 
     var discardButtonText: String {
-        return LGLocalizedString.postDescriptionDiscardButtonText
+        return R.Strings.postDescriptionDiscardButtonText
     }
 
     var listingInfoTitleText: String {
-        return LGLocalizedString.postDescriptionInfoTitle.uppercased()
+        return R.Strings.postDescriptionInfoTitle.uppercased()
     }
 
     var namePlaceholder: String {
-        return LGLocalizedString.postDescriptionNamePlaceholder
+        return R.Strings.postDescriptionNamePlaceholder
     }
     var categoryButtonPlaceholder: String {
-        return LGLocalizedString.postDescriptionCategoryTitle
+        return R.Strings.postDescriptionCategoryTitle
     }
     var descriptionPlaceholder: String {
-        return LGLocalizedString.postDescriptionDescriptionPlaceholder
+        return R.Strings.postDescriptionDescriptionPlaceholder
     }
     var categoryButtonImage: UIImage? {
         return #imageLiteral(resourceName: "ic_arrow_right_white").withRenderingMode(.alwaysTemplate)
@@ -75,15 +68,18 @@ class ListingPostedDescriptiveViewModel: BaseViewModel, PostingCategoriesPickDel
     private let listingRepository: ListingRepository
     private let featureFlags: FeatureFlaggeable
     private let imageSource: EventParameterPictureSource
+    private let videoLength: TimeInterval?
     private let postingSource: PostingSource
 
 
     // MARK: - Lifecycle
     
-    convenience init(listing: Listing, listingImages: [UIImage], imageSource: EventParameterPictureSource, postingSource: PostingSource) {
+    convenience init(listing: Listing, listingImages: [UIImage], imageSource: EventParameterPictureSource,
+                     videoLength: TimeInterval?, postingSource: PostingSource) {
         self.init(listing: listing,
                   listingImages: listingImages,
                   imageSource: imageSource,
+                  videoLength: videoLength,
                   postingSource: postingSource,
                   tracker: TrackerProxy.sharedInstance,
                   listingRepository: Core.listingRepository,
@@ -91,12 +87,13 @@ class ListingPostedDescriptiveViewModel: BaseViewModel, PostingCategoriesPickDel
     }
 
     init(listing: Listing, listingImages: [UIImage], imageSource: EventParameterPictureSource,
-         postingSource: PostingSource, tracker: Tracker, listingRepository: ListingRepository,
-         featureFlags: FeatureFlaggeable) {
+         videoLength: TimeInterval?, postingSource: PostingSource, tracker: Tracker,
+         listingRepository: ListingRepository, featureFlags: FeatureFlaggeable) {
         self.listing = listing
         self.listingImage = listingImages.first
         self.imageSource = imageSource
         self.postingSource = postingSource
+        self.videoLength = videoLength
         self.tracker = tracker
         self.listingRepository = listingRepository
         self.featureFlags = featureFlags
@@ -176,6 +173,7 @@ class ListingPostedDescriptiveViewModel: BaseViewModel, PostingCategoriesPickDel
         let trackingInfo = PostListingTrackingInfo(buttonName: .done,
                                                    sellButtonPosition: postingSource.sellButtonPosition,
                                                    imageSource: imageSource,
+                                                   videoLength: videoLength,
                                                    price: String.fromPriceDouble(listing.price.value),
                                                    typePage: postingSource.typePage,
                                                    mostSearchedButton: postingSource.mostSearchedButton,
@@ -186,6 +184,7 @@ class ListingPostedDescriptiveViewModel: BaseViewModel, PostingCategoriesPickDel
                                                      sellButtonPosition: trackingInfo.sellButtonPosition,
                                                      negotiable: trackingInfo.negotiablePrice,
                                                      pictureSource: trackingInfo.imageSource,
+                                                     videoLength: videoLength,
                                                      freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                      typePage: trackingInfo.typePage,
                                                      mostSearchedButton: trackingInfo.mostSearchedButton,

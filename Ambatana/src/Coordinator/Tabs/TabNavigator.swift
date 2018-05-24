@@ -56,6 +56,9 @@ protocol TabNavigator: class {
     func openRealEstateOnboarding(pages: [LGTutorialPage],
                                   origin: EventParameterTypePage,
                                   tutorialType: EventParameterTutorialType)
+    func showUndoBubble(withMessage message: String,
+                        duration: TimeInterval,
+                        withAction action: @escaping () -> ())
 }
 
 protocol ListingDetailNavigator: TabNavigator {
@@ -64,15 +67,17 @@ protocol ListingDetailNavigator: TabNavigator {
                      bumpUpProductData: BumpUpProductData?,
                      listingCanBeBoosted: Bool,
                      timeSinceLastBump: TimeInterval?,
-                     maxCountdown: TimeInterval?)
+                     maxCountdown: TimeInterval)
     func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?)
     func closeListingAfterDelete(_ listing: Listing)
     func openFreeBumpUp(forListing listing: Listing,
                         bumpUpProductData: BumpUpProductData,
-                        typePage: EventParameterTypePage?)
+                        typePage: EventParameterTypePage?,
+                        maxCountdown: TimeInterval)
     func openPayBumpUp(forListing listing: Listing,
                        bumpUpProductData: BumpUpProductData,
-                       typePage: EventParameterTypePage?)
+                       typePage: EventParameterTypePage?,
+                       maxCountdown: TimeInterval)
     func openBumpUpBoost(forListing listing: Listing,
                          bumpUpProductData: BumpUpProductData,
                          typePage: EventParameterTypePage?,
@@ -102,6 +107,8 @@ protocol ListingDetailNavigator: TabNavigator {
                           withPhoneNum: String?,
                           source: EventParameterTypePage,
                           interlocutor: User?)
+
+    func openVideoPlayer(atIndex index: Int, listingVM: ListingViewModel, source: EventParameterListingVisitSource) 
 }
 
 protocol SimpleProductsNavigator: class {
@@ -111,6 +118,7 @@ protocol SimpleProductsNavigator: class {
 
 protocol ChatDetailNavigator: TabNavigator {
     func closeChatDetail()
+    func openDeeplink(url: URL)
     func openExpressChat(_ listings: [Listing], sourceListingId: String, manualOpen: Bool)
     func selectBuyerToRate(source: RateUserSource,
                            buyers: [UserListing],

@@ -18,6 +18,7 @@ class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
     var delegateReceivedShowAlert = false
     var delegateReceivedShowActionSheet = false
     var lastLoadingMessageShown: String?
+    var lastAutofadingTitleShown: String?
     var lastAutofadingMessageShown: String?
     var lastAlertTextShown: String?
 
@@ -32,8 +33,21 @@ class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
         lastAlertTextShown = nil
     }
 
+    func showUndoBubble(withMessage message: String, duration: TimeInterval, withAction action: @escaping () -> ()) {
+        // not tested
+    }
+
     func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?) {
         delegateReceivedShowAutoFadingMessage = true
+        lastAutofadingMessageShown = message
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(50)) {
+            completion?()
+        }
+    }
+
+    func vmShowAutoFadingMessage(title: String, message: String, time: Double, completion: (() -> ())?) {
+        delegateReceivedShowAutoFadingMessage = true
+        lastAutofadingTitleShown = title
         lastAutofadingMessageShown = message
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(50)) {
             completion?()

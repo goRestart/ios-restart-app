@@ -1,12 +1,5 @@
-//
-//  SessionErrors+LG.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 23/03/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
+import LGComponents
 
 extension LoginError {
     var trackingError: EventParameterLoginError {
@@ -44,14 +37,14 @@ extension LoginError {
     var errorMessage: String? {
         switch self {
         case .network:
-            return LGLocalizedString.commonErrorConnectionFailed
+            return R.Strings.commonErrorConnectionFailed
         case .unauthorized:
-            return LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
+            return R.Strings.logInErrorSendErrorUserNotFoundOrWrongPassword
         case .scammer, .deviceNotAllowed:
             return nil
         case .notFound, .internalError, .forbidden, .conflict, .tooManyRequests, .badRequest,
              .userNotVerified:
-            return LGLocalizedString.logInErrorSendErrorGeneric
+            return R.Strings.logInErrorSendErrorGeneric
         }
 
     }
@@ -107,33 +100,33 @@ extension SignupError {
     func errorMessage(userEmail: String?) -> String? {
         switch self {
         case .network:
-            return LGLocalizedString.commonErrorConnectionFailed
+            return R.Strings.commonErrorConnectionFailed
         case .badRequest(let cause):
             switch cause {
             case .notSpecified, .other:
-                return LGLocalizedString.signUpSendErrorGeneric
+                return R.Strings.signUpSendErrorGeneric
             case .nonAcceptableParams:
-                return LGLocalizedString.signUpSendErrorInvalidDomain
+                return R.Strings.signUpSendErrorInvalidDomain
             }
         case .conflict(let cause):
             switch cause {
-            case .userExists, .notSpecified, .other:
+            case .userExists, .notSpecified, .other, .searchAlertLimitReached, .searchAlertAlreadyExists:
                 if let email = userEmail {
-                    return LGLocalizedString.signUpSendErrorEmailTaken(email)
+                    return R.Strings.signUpSendErrorEmailTaken(email)
                 } else {
-                    return LGLocalizedString.signUpSendErrorGeneric
+                    return R.Strings.signUpSendErrorGeneric
                 }
             case .emailRejected:
-                return LGLocalizedString.mainSignUpErrorUserRejected
+                return R.Strings.mainSignUpErrorUserRejected
             case .requestAlreadyProcessed:
-                return LGLocalizedString.mainSignUpErrorRequestAlreadySent
+                return R.Strings.mainSignUpErrorRequestAlreadySent
             }
         case .nonExistingEmail:
-            return LGLocalizedString.signUpSendErrorInvalidEmail
+            return R.Strings.signUpSendErrorInvalidEmail
         case .scammer, .userNotVerified:
             return nil
         case .notFound, .internalError, .forbidden, .unauthorized, .tooManyRequests:
-            return LGLocalizedString.signUpSendErrorGeneric
+            return R.Strings.signUpSendErrorGeneric
         }
     }
 }

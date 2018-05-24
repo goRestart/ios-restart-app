@@ -1,15 +1,8 @@
-//
-//  ChatGroupedViewController.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 27/01/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import RxCocoa
 import RxSwift
 import UIKit
+import LGComponents
 
 class ChatGroupedViewController: BaseViewController, ChatGroupedListViewDelegate,
                                  ChatListViewDelegate, BlockedUsersListViewDelegate, LGViewPagerDataSource,
@@ -140,7 +133,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedListViewDelegate
     func chatListView(_ chatListView: ChatListView, didFinishArchivingWithMessage message: String?) {
         dismissLoadingMessageAlert { [weak self] in
             if let message = message {
-                self?.showAutoFadingOutMessageAlert(message)
+                self?.showAutoFadingOutMessageAlert(message: message)
             } else {
                 self?.setEditing(false, animated: true)
             }
@@ -150,7 +143,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedListViewDelegate
     func chatListView(_ chatListView: ChatListView, didFinishUnarchivingWithMessage message: String?) {
         dismissLoadingMessageAlert { [weak self] in
             if let message = message {
-                self?.showAutoFadingOutMessageAlert(message)
+                self?.showAutoFadingOutMessageAlert(message: message)
             } else {
                 self?.setEditing(false, animated: true)
             }
@@ -171,7 +164,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedListViewDelegate
     func didFinishUnblockingWithMessage(_ message: String?) {
         dismissLoadingMessageAlert { [weak self] in
             if let message = message {
-                self?.showAutoFadingOutMessageAlert(message)
+                self?.showAutoFadingOutMessageAlert(message: message)
             } else {
                 self?.setEditing(false, animated: true)
             }
@@ -245,7 +238,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedListViewDelegate
         setupValidationEmptyState()
 
         view.backgroundColor = UIColor.listBackgroundColor
-        setNavBarTitle(LGLocalizedString.chatListTitle)
+        setNavBarTitle(R.Strings.chatListTitle)
         setupMoreOptionsNavigationsBarButton()
         
         viewPager.dataSource = self
@@ -285,7 +278,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedListViewDelegate
     }
     
     private func setupCancelNavigationsBarButton() {
-        setLetGoRightButtonWith(text: LGLocalizedString.commonCancel, selector: #selector(switchEditing))
+        setLetGoRightButtonWith(text: R.Strings.commonCancel, selector: #selector(switchEditing))
     }
     
     // MARK: - ChatGroupedViewModelDelegate

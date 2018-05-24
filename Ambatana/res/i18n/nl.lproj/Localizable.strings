@@ -141,7 +141,11 @@
 "chat_conversations_list_filter_all" = "Alle";
 "chat_conversations_list_filter_buying" = "Kopen";
 "chat_conversations_list_filter_selling" = "Verkopen";
+<<<<<<< HEAD
 "chat_conversations_list_letgo_assistant_tag" = "letgo assistent";
+=======
+"chat_conversations_list_letgo_assistant_tag" = "letgo assistant";
+>>>>>>> master
 "chat_deleted_disclaimer_w_name" = "Je kunt niet verdergaan met dit gesprek omdat %@'s account niet meer actief is.";
 "chat_deleted_disclaimer_wo_name" = "Je kunt niet verder gaan met dit gesprek omdat dit account niet meer actief is.";
 "chat_disclaimer_letgo_team" = "LETGO TEAM";
@@ -859,7 +863,11 @@
 "profile_permissions_alert_ok" = "Inschakelen";
 "profile_permissions_alert_title" = "MIS GEEN ENKELE REACTIE!";
 "profile_permissions_header_message" = "Bericht meldingen inschakelen";
+<<<<<<< HEAD
 "profile_reputation_tooltip_title" = "Geverifieerde gebruiker! Tik als je ook geverifieerd wilt worden.";
+=======
+"profile_reputation_tooltip_title" = "User verified! Tap if you want to be verified too";
+>>>>>>> master
 "profile_reviews_count" = "Beoordelingen";
 "profile_reviews_tab" = "Beoordelingen";
 "profile_selling_no_products_label" = "(NOG!) GEEN ADVERTENTIES";

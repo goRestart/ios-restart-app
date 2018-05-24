@@ -13,6 +13,8 @@ public struct MockProduct: Product {
     public var thumbnail: File?
     public var thumbnailSize: LGSize?
     public var images: [File]
+    public var media: [Media]
+    public var mediaThumbnail: MediaThumbnail?
     public var user: UserListing
     public var updatedAt : Date?
     public var createdAt : Date?
@@ -35,6 +37,8 @@ extension MockProduct {
                   thumbnail: product.thumbnail,
                   thumbnailSize: product.thumbnailSize,
                   images: product.images,
+                  media: product.media,
+                  mediaThumbnail: product.mediaThumbnail,
                   user: product.user,
                   updatedAt: product.updatedAt,
                   createdAt: product.createdAt,

@@ -12,6 +12,13 @@ require 'byebug'
 require_relative 'helpers/String'
 require_relative 'helpers/Term'
 
+APP_I18N_PATH = "Ambatana/res/i18n"
+RESOURCES_I18N_PATH = "components/LGResources/LGResources/Assets/i18n"
+
+# Moves a folder
+  # Params:
+  # +src+:: folder tobe moved
+  # +dst+:: new path where to move the folder to
 def move_with_path(src, dst)
   FileUtils.mkdir_p(File.dirname(dst))
   if File.dirname(src) != File.dirname(dst)
@@ -23,9 +30,14 @@ end
 def show_error(error_string)
   puts 'Error!'.red
   puts error_string
-  exit
+  exit 1
 end
 
+# Given a template creates a new file
+  # Params:
+  # +template_name+:: a .erb file template
+  # +target_directory+:: folder where the new file will be created
+  # +generated_file_name+:: name of the new file
 def process_template(template_name, target_directory, generated_file_name)
   input_file = File.open("#{File.dirname(__FILE__)}/templates/"+template_name, "rb")
   template = input_file.read
@@ -40,6 +52,10 @@ end
 
 # Generation for iOS
 
+# Creates a new localized strings file for a given language
+  # Params:
+  # +language+:: the language to localize
+  # +target_directory+:: folder where the new file will be created
 def generate_ios(language, target_directory)
   @current_lang = language
   process_template 'ios_localizable.erb', target_directory, "Localizable.strings"
@@ -49,11 +65,6 @@ def generate_ios(language, target_directory)
     puts 'Wrong Localizable.strings generation!'.red
     exit 1
   end
-end
-
-def generate_ios_constants(target_directory)
-  process_template 'ios_localized_swift.erb', target_directory, 'LGLocalizedString.swift'
-  puts ' > '+'LGLocalizedString.swift'.yellow
 end
 
 #Prints on screen all the unused keys and also marks that keys on spreadsheet as unused
@@ -91,11 +102,6 @@ def check_unused_ios(worksheet, from_row, to_row, target_directory, mark, remove
   end
 end
 
-def find_text_on_ios_files(path,text)
-  output = `find #{path} -type f -name *.m -exec grep -li \"#{text}\" {} +`
-  output += `find #{path} -type f -name *.h ! -name *LocalizableConstants.h -exec grep -li \"#{text}\" {} +`
-  return output
-end
 
 def wti_push(ios_path)
   puts "Updating base Localizable.strings on wti"
@@ -104,15 +110,16 @@ def wti_push(ios_path)
 end
 
 def wti_pull(ios_path)
-  puts "Executing LG wti pull script"
-  system "ruby #{File.dirname(__FILE__)}/helpers/wti.rb -w #{ios_path}.wti -i #{ios_path}Ambatana/res/i18n -c #{ios_path}Ambatana/src/Constants/"
+  puts "Executing LG wti pull script for 'Localizable.strings'"
+  system "ruby #{File.dirname(__FILE__)}/helpers/wti.rb -r Localizable.strings -p #{RESOURCES_I18N_PATH}"
+  puts "Executing LG wti pull script for 'InfoPlist.strings'"
+  system "ruby #{File.dirname(__FILE__)}/helpers/wti.rb -r InfoPlist.strings -p #{APP_I18N_PATH}"
 end
 
 def drive_pull(ios_path)
   generate_all()
-  generate_ios_constants("#{ios_path}Ambatana/src/Constants/")
-  system "cp Localizable.strings #{ios_path}Ambatana/res/i18n/Base.lproj/Localizable.strings"
-  system "cp Localizable.strings #{ios_path}Ambatana/res/i18n/en.lproj/Localizable.strings"
+  system "cp Localizable.strings #{ios_path}#{RESOURCES_I18N_PATH}/Base.lproj/Localizable.strings"
+  system "cp Localizable.strings #{ios_path}#{RESOURCES_I18N_PATH}/en.lproj/Localizable.strings"
   system "rm Localizable.strings"
 end
 
@@ -129,9 +136,8 @@ end
 # Parsing and commandline checks
 
 options = Parser.new do |p|
-  p.banner = 'Strings-update (c) 2015 LetGo <eli.kohen@letgo.com>'
+  p.banner = 'Strings-update'
   p.version = '0.1'
-  p.option :client, 'Client json path', :default => "#{File.dirname(__FILE__)}/drive-spreadsheet-secret.json", :short => 'u'
   p.option :spreadsheet, 'Spreadsheet containing the localization info', :default => 'LetGo'
   p.option :output_ios, 'Path to the iOS project directory', :default => './', :short => 'i'
   p.option :keep_keys, 'Whether to maintain original keys or not', :default => true, :short => 'k'
@@ -140,7 +146,6 @@ options = Parser.new do |p|
   p.option :check_unused_remove, 'If checking keys -> remove them from spreadsheet', :default => false , :short => 'r'
 end.process!
 
-client_json_path = options[:client]
 ios_path = options[:output_ios]
 spreadsheet = options[:spreadsheet]
 check_unused = options[:check_unused]

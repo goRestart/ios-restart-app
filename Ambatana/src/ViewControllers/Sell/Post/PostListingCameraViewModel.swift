@@ -1,21 +1,14 @@
-//
-//  PostListingCameraViewModel.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 10/03/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import Foundation
 import RxSwift
+import LGComponents
 
 enum CameraState {
-    case pendingAskPermissions, missingPermissions(String), capture, takingPhoto, preview
+    case pendingAskPermissions, missingPermissions(String), capture, takingPhoto, recordingVideo, previewPhoto, previewVideo
 }
 
 
 
-class PostListingCameraViewModel: BaseViewModel {
+final class PostListingCameraViewModel: BaseViewModel {
 
     weak var cameraDelegate: PostListingCameraViewDelegate?
 
@@ -25,6 +18,8 @@ class PostListingCameraViewModel: BaseViewModel {
     let cameraFlashState = Variable<CameraFlashState>(.auto)
     let cameraSource = Variable<CameraSource>(.rear)
     let imageSelected = Variable<UIImage?>(nil)
+    let videoRecorded = Variable<RecordedVideo?>(nil)
+    let cameraMode = Variable<CameraMode>(.photo)
 
     let infoShown = Variable<Bool>(false)
     let infoTitle = Variable<String>("")
@@ -37,6 +32,7 @@ class PostListingCameraViewModel: BaseViewModel {
     
     private let disposeBag = DisposeBag()
     private let keyValueStorage: KeyValueStorage   //cameraAlreadyShown
+    private let filesManager: FilesManager
     let sourcePosting: PostingSource
     let isBlockingPosting: Bool
 
@@ -47,7 +43,7 @@ class PostListingCameraViewModel: BaseViewModel {
     
     var verticalPromotionMessage: String? {
         if let category = postCategory, category == .realEstate {
-            return LGLocalizedString.realEstateCameraViewRealEstateMessage
+            return R.Strings.realEstateCameraViewRealEstateMessage
         }
         return nil
     }
@@ -57,7 +53,7 @@ class PostListingCameraViewModel: BaseViewModel {
             titleAttributes[NSAttributedStringKey.foregroundColor] = UIColor.white
             titleAttributes[NSAttributedStringKey.underlineStyle] = NSUnderlineStyle.styleSingle.rawValue
             titleAttributes[NSAttributedStringKey.font] = UIFont.boldSystemFont(ofSize: 23)
-            let text = NSAttributedString(string: LGLocalizedString.realEstateCameraViewRealEstateLearnMore,
+            let text = NSAttributedString(string: R.Strings.realEstateCameraViewRealEstateLearnMore,
                                           attributes: titleAttributes)
             return text
     }
@@ -71,8 +67,9 @@ class PostListingCameraViewModel: BaseViewModel {
     // MARK: - Lifecycle
 
     init(postingSource: PostingSource, postCategory: PostCategory?, isBlockingPosting: Bool,
-         keyValueStorage: KeyValueStorage, featureFlags: FeatureFlaggeable, mediaPermissions: MediaPermissions) {
+         keyValueStorage: KeyValueStorage, filesManager: FilesManager, featureFlags: FeatureFlaggeable, mediaPermissions: MediaPermissions) {
         self.keyValueStorage = keyValueStorage
+        self.filesManager = filesManager
         self.sourcePosting = postingSource
         self.isBlockingPosting = isBlockingPosting
         self.featureFlags = featureFlags
@@ -87,11 +84,13 @@ class PostListingCameraViewModel: BaseViewModel {
     convenience init(postingSource: PostingSource, postCategory: PostCategory?, isBlockingPosting: Bool) {
         let mediaPermissions: MediaPermissions = LGMediaPermissions()
         let keyValueStorage = KeyValueStorage.sharedInstance
+        let filesManager = LGFilesManager()
         let featureFlags = FeatureFlags.sharedInstance
         self.init(postingSource: postingSource,
                   postCategory: postCategory,
                   isBlockingPosting: isBlockingPosting,
                   keyValueStorage: keyValueStorage,
+                  filesManager: filesManager,
                   featureFlags: featureFlags,
                   mediaPermissions: mediaPermissions)
     }
@@ -100,7 +99,7 @@ class PostListingCameraViewModel: BaseViewModel {
         switch cameraState.value {
         case .pendingAskPermissions, .missingPermissions:
             checkCameraState()
-        case .takingPhoto, .preview, .capture:
+        case .takingPhoto, .recordingVideo, .previewPhoto, .previewVideo, .capture:
             break
         }
     }
@@ -110,7 +109,7 @@ class PostListingCameraViewModel: BaseViewModel {
 
     func closeButtonPressed() {
         switch cameraState.value {
-        case .takingPhoto, .preview:
+        case .takingPhoto, .recordingVideo, .previewPhoto, .previewVideo:
             retryPhotoButtonPressed()
         case .missingPermissions, .pendingAskPermissions, .capture:
             cameraDelegate?.productCameraCloseButton()
@@ -125,23 +124,56 @@ class PostListingCameraViewModel: BaseViewModel {
         cameraSource.value = cameraSource.value.toggle
     }
 
+    func photoModeButtonPressed() {
+        cameraMode.value = .photo
+    }
+
+    func videoModeButtonPressed() {
+        cameraMode.value = .video
+    }
+
     func takePhotoButtonPressed() {
         cameraState.value = .takingPhoto
     }
 
+    func recordVideoButtonPressed() {
+        cameraState.value = .recordingVideo
+    }
+
     func photoTaken(_ photo: UIImage) {
         imageSelected.value = photo
-        cameraState.value = .preview
+        cameraState.value = .previewPhoto
+    }
+
+    func videoRecorded(video: RecordedVideo) {
+        if video.duration > Constants.videoMinRecordingDuration {
+            videoRecorded.value = video
+            cameraState.value = .previewVideo
+        } else {
+            backToCaptureMode()
+        }
+    }
+
+    func videoRecordingFailed() {
+        if let url = videoRecorded.value?.url {
+            filesManager.removeFile(at: url)
+        }
+        backToCaptureMode()
     }
 
     func retryPhotoButtonPressed() {
-        imageSelected.value = nil
-        cameraState.value = .capture
+        backToCaptureMode()
     }
 
     func usePhotoButtonPressed() {
-        guard let image = imageSelected.value else { return }
-        cameraDelegate?.productCameraDidTakeImage(image)
+        switch cameraMode.value {
+        case .photo:
+            guard let image = imageSelected.value else { return }
+            cameraDelegate?.productCameraDidTakeImage(image)
+        case .video:
+            guard let video = videoRecorded.value else { return }
+            cameraDelegate?.productCameraDidRecordVideo(video: video)
+        }
     }
 
     func infoButtonPressed() {
@@ -151,7 +183,7 @@ class PostListingCameraViewModel: BaseViewModel {
             UIApplication.shared.openURL(settingsUrl)
         case .pendingAskPermissions:
             askForPermissions()
-        case .takingPhoto, .capture, .preview:
+        case .takingPhoto, .recordingVideo, .capture, .previewPhoto, .previewVideo:
             break
         }
     }
@@ -175,16 +207,16 @@ class PostListingCameraViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
             switch state {
             case .missingPermissions(let msg):
-                strongSelf.infoTitle.value = LGLocalizedString.productPostCameraPermissionsTitle
+                strongSelf.infoTitle.value = R.Strings.productPostCameraPermissionsTitle
                 strongSelf.infoSubtitle.value = msg
-                strongSelf.infoButton.value = LGLocalizedString.productPostCameraPermissionsButton
+                strongSelf.infoButton.value = R.Strings.productPostCameraPermissionsButton
                 strongSelf.infoShown.value = true
             case .pendingAskPermissions:
-                strongSelf.infoTitle.value = LGLocalizedString.productPostCameraPermissionsTitle
-                strongSelf.infoSubtitle.value = LGLocalizedString.productPostCameraPermissionsSubtitle
-                strongSelf.infoButton.value = LGLocalizedString.productPostCameraPermissionsButton
+                strongSelf.infoTitle.value = R.Strings.productPostCameraPermissionsTitle
+                strongSelf.infoSubtitle.value = R.Strings.productPostCameraPermissionsSubtitle
+                strongSelf.infoButton.value = R.Strings.productPostCameraPermissionsButton
                 strongSelf.infoShown.value = true
-            case .takingPhoto, .preview:
+            case .takingPhoto, .recordingVideo, .previewPhoto, .previewVideo:
                 strongSelf.infoShown.value = false
             case .capture:
                 strongSelf.infoShown.value = false
@@ -210,8 +242,8 @@ class PostListingCameraViewModel: BaseViewModel {
     }
     
     private func setupFirstShownLiterals() {
-        firstTimeTitle = LGLocalizedString.productPostCameraFirstTimeAlertTitle
-        firstTimeSubtitle = LGLocalizedString.productPostCameraFirstTimeAlertSubtitle
+        firstTimeTitle = R.Strings.productPostCameraFirstTimeAlertTitle
+        firstTimeSubtitle = R.Strings.productPostCameraFirstTimeAlertSubtitle
     }
     
     private func setupVerticalTextAlert() {
@@ -222,7 +254,7 @@ class PostListingCameraViewModel: BaseViewModel {
 
     private func checkCameraState() {
         guard mediaPermissions.isCameraAvailable else {
-            cameraState.value = .missingPermissions(LGLocalizedString.productSellCameraRestrictedError)
+            cameraState.value = .missingPermissions(R.Strings.productSellCameraRestrictedError)
             return
         }
         let status = mediaPermissions.videoAuthorizationStatus
@@ -230,12 +262,11 @@ class PostListingCameraViewModel: BaseViewModel {
         case .authorized:
             cameraState.value = .capture
         case .denied:
-            cameraState.value = .missingPermissions(LGLocalizedString.productPostCameraPermissionsSubtitle)
+            cameraState.value = .missingPermissions(R.Strings.productPostCameraPermissionsSubtitle)
         case .notDetermined:
             cameraState.value = .pendingAskPermissions
         case .restricted:
-            // this will never be called, this status is not visible for the user
-            // https://developer.apple.com/library/ios/documentation/AVFoundation/Reference/AVCaptureDevice_Class/#//apple_ref/swift/enum/c:@E@AVAuthorizationStatus
+            cameraState.value = .missingPermissions(R.Strings.productPostCameraPermissionsSubtitle)
             break
         }
     }
@@ -245,7 +276,7 @@ class PostListingCameraViewModel: BaseViewModel {
             //This is required :(, callback is not on main thread so app would crash otherwise.
             DispatchQueue.main.async { [weak self] in
                 self?.cameraState.value = granted ?
-                    .capture : .missingPermissions(LGLocalizedString.productPostCameraPermissionsSubtitle)
+                    .capture : .missingPermissions(R.Strings.productPostCameraPermissionsSubtitle)
             }
         }
     }
@@ -256,7 +287,7 @@ class PostListingCameraViewModel: BaseViewModel {
             askForPermissions()
         case .capture:
             showFirstTimeAlertIfNeeded()
-        case .takingPhoto, .preview, .missingPermissions:
+        case .takingPhoto, .recordingVideo, .previewPhoto, .previewVideo, .missingPermissions:
             break
         }
     }
@@ -271,6 +302,12 @@ class PostListingCameraViewModel: BaseViewModel {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .seconds(5)) { [weak self] in
             self?.hideFirstTimeAlert()
         }
+    }
+
+    private func backToCaptureMode() {
+        videoRecorded.value = nil
+        imageSelected.value = nil
+        cameraState.value = .capture
     }
 }
 
@@ -287,18 +324,36 @@ fileprivate extension RealEstateTutorial {
 extension CameraState {
     var captureMode: Bool {
         switch self {
-        case .pendingAskPermissions, .missingPermissions, .preview:
+        case .pendingAskPermissions, .missingPermissions, .previewPhoto, .previewVideo:
             return false
-        case .takingPhoto, .capture:
+        case .takingPhoto, .recordingVideo, .capture:
             return true
         }
     }
 
     var previewMode: Bool {
         switch self {
-        case .pendingAskPermissions, .missingPermissions, .capture, .takingPhoto:
+        case .pendingAskPermissions, .missingPermissions, .capture, .takingPhoto, .recordingVideo:
             return false
-        case .preview:
+        case .previewPhoto, .previewVideo:
+            return true
+        }
+    }
+
+    var previewPhotoMode: Bool {
+        switch self {
+        case .pendingAskPermissions, .missingPermissions, .capture, .takingPhoto, .recordingVideo, .previewVideo:
+            return false
+        case .previewPhoto:
+            return true
+        }
+    }
+
+    var previewVideoMode: Bool {
+        switch self {
+        case .pendingAskPermissions, .missingPermissions, .capture, .takingPhoto, .recordingVideo, .previewPhoto:
+            return false
+        case .previewVideo:
             return true
         }
     }
@@ -307,16 +362,16 @@ extension CameraState {
         switch self {
         case .capture:
             return .takePicture
-        case .preview:
+        case .previewPhoto, .previewVideo:
             return .confirmPicture
-        case .pendingAskPermissions, .missingPermissions, .takingPhoto:
+        case .pendingAskPermissions, .missingPermissions, .takingPhoto, .recordingVideo:
             return nil
         }
     }
     
     var shouldShowCloseButtonBlockingPosting: Bool {
         switch self {
-        case .capture, .takingPhoto, .preview:
+        case .capture, .takingPhoto, .recordingVideo, .previewPhoto, .previewVideo:
             return false
         case .pendingAskPermissions, .missingPermissions:
             return true
@@ -327,7 +382,7 @@ extension CameraState {
         switch self {
         case .pendingAskPermissions, .missingPermissions, .capture:
             return false
-        case .preview, .takingPhoto:
+        case .previewPhoto, .previewVideo, .takingPhoto, .recordingVideo:
             return true
         }
     }

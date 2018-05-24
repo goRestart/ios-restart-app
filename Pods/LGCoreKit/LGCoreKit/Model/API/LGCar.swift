@@ -11,6 +11,7 @@ public protocol Car: BaseListingModel {
 }
 
 struct LGCar: Car, Decodable {
+
     let objectId: String?
     let updatedAt: Date?
     let createdAt: Date?
@@ -27,6 +28,8 @@ struct LGCar: Car, Decodable {
     let thumbnail: File?
     let thumbnailSize: LGSize?
     let images: [File]
+    var media: [Media]
+    var mediaThumbnail: MediaThumbnail?
     var user: UserListing
     let featured: Bool?
     let carAttributes: CarAttributes
@@ -48,6 +51,8 @@ struct LGCar: Car, Decodable {
                   thumbnail: car.thumbnail,
                   thumbnailSize: car.thumbnailSize,
                   images: car.images,
+                  media: car.media,
+                  mediaThumbnail: car.mediaThumbnail,
                   user: car.user,
                   featured: car.featured,
                   carAttributes: car.carAttributes)
@@ -69,6 +74,8 @@ struct LGCar: Car, Decodable {
          thumbnail: File?,
          thumbnailSize: LGSize?,
          images: [File],
+         media: [Media],
+         mediaThumbnail: MediaThumbnail?,
          user: UserListing,
          featured: Bool?,
          carAttributes: CarAttributes?) {
@@ -89,6 +96,8 @@ struct LGCar: Car, Decodable {
         self.thumbnail = thumbnail
         self.thumbnailSize = thumbnailSize
         self.images = images
+        self.media = media
+        self.mediaThumbnail = mediaThumbnail
         self.user = user
         self.featured = featured ?? false
         self.carAttributes = carAttributes ?? CarAttributes.emptyCarAttributes()
@@ -117,6 +126,8 @@ struct LGCar: Car, Decodable {
                   thumbnail: chatListing.image,
                   thumbnailSize: nil,
                   images: images,
+                  media: [],
+                  mediaThumbnail: nil,
                   user: user,
                   featured: nil,
                   carAttributes: CarAttributes.emptyCarAttributes()
@@ -140,6 +151,8 @@ struct LGCar: Car, Decodable {
                           thumbnail: String?,
                           thumbnailSize: LGSize?,
                           images: [LGFile],
+                          media: [Media],
+                          mediaThumbnail: MediaThumbnail?,
                           user: LGUserListing,
                           featured: Bool?,
                           carAttributes: CarAttributes?) -> LGCar {
@@ -165,6 +178,8 @@ struct LGCar: Car, Decodable {
                          thumbnail: actualThumbnail,
                          thumbnailSize: thumbnailSize,
                          images: actualImages,
+                         media: media,
+                         mediaThumbnail: mediaThumbnail,
                          user: user,
                          featured: featured,
                          carAttributes: carAttributes)
@@ -188,6 +203,8 @@ struct LGCar: Car, Decodable {
                      thumbnail: thumbnail,
                      thumbnailSize: thumbnailSize,
                      images: images,
+                     media: media,
+                     mediaThumbnail: mediaThumbnail,
                      user: user,
                      featured: featured,
                      carAttributes: carAttributes)
@@ -210,6 +227,8 @@ struct LGCar: Car, Decodable {
                      thumbnail: thumbnail,
                      thumbnailSize: thumbnailSize,
                      images: images,
+                     media: media,
+                     mediaThumbnail: mediaThumbnail,
                      user: user,
                      featured: featured,
                      carAttributes: carAttributes)
@@ -232,6 +251,8 @@ struct LGCar: Car, Decodable {
                      thumbnail: thumbnail,
                      thumbnailSize: thumbnailSize,
                      images: images,
+                     media: media,
+                     mediaThumbnail: mediaThumbnail,
                      user: user,
                      featured: featured,
                      carAttributes: carAttributes)
@@ -307,6 +328,8 @@ struct LGCar: Car, Decodable {
         thumbnail = baseListing.thumbnail
         thumbnailSize = baseListing.thumbnailSize
         images = baseListing.images
+        media = baseListing.media.isEmpty ? LGMedia.mediaFrom(images: baseListing.images) : baseListing.media
+        mediaThumbnail = baseListing.mediaThumbnail
         user = baseListing.user
         featured = baseListing.featured
         

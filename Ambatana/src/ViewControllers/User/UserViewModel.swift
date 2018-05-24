@@ -145,12 +145,15 @@ class UserViewModel: BaseViewModel {
         self.notificationsManager = notificationsManager
         self.sellingListingListRequester = UserStatusesListingListRequester(statuses: sellingListingStatusCode,
                                                                             itemsPerPage: Constants.numListingsPerPageDefault)
-        self.sellingListingListViewModel = ListingListViewModel(requester: self.sellingListingListRequester)
+        self.sellingListingListViewModel = ListingListViewModel(requester: self.sellingListingListRequester,
+                                                                isPrivateList: true)
         self.soldListingListRequester = UserStatusesListingListRequester(statuses: soldListingStatusCode,
                                                                          itemsPerPage: Constants.numListingsPerPageDefault)
-        self.soldListingListViewModel = ListingListViewModel(requester: self.soldListingListRequester)
+        self.soldListingListViewModel = ListingListViewModel(requester: self.soldListingListRequester,
+                                                             isPrivateList: true)
         self.favoritesListingListRequester = UserFavoritesListingListRequester()
-        self.favoritesListingListViewModel = ListingListViewModel(requester: self.favoritesListingListRequester)
+        self.favoritesListingListViewModel = ListingListViewModel(requester: self.favoritesListingListRequester,
+                                                                  isPrivateList: true)
         
         self.listingListViewModel = Variable<ListingListViewModel>(sellingListingListViewModel)
         self.disposeBag = DisposeBag()
@@ -663,7 +666,7 @@ extension UserViewModel: ListingListViewModelDataDelegate {
         
         let emptyViewModel = LGEmptyViewModel(icon: nil, title: errTitle, body: nil, buttonTitle: errButTitle,
                                               action: errButAction, secondaryButtonTitle: nil, secondaryAction: nil,
-                                              emptyReason: .emptyResults, errorCode: nil)
+                                              emptyReason: .emptyResults, errorCode: nil, errorDescription: nil)
         
         viewModel.setEmptyState(emptyViewModel)
     }
@@ -804,6 +807,10 @@ extension UserViewModel {
 }
 
 extension UserViewModel: ListingCellDelegate {
+    func interestedActionFor(_ listing: Listing) {
+        // this is just meant to be inside the MainFeed
+        return
+    }
         
     func chatButtonPressedFor(listing: Listing) {}
     

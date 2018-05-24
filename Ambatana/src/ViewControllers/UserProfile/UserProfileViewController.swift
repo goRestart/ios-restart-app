@@ -1,15 +1,8 @@
-//
-//  UserProfileViewController.swift
-//  LetGo
-//
-//  Created by Sergi Gracia on 20/02/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 import RxSwift
 import RxCocoa
 import LGCoreKit
+import LGComponents
 
 final class UserProfileViewController: BaseViewController {
 
@@ -20,6 +13,7 @@ final class UserProfileViewController: BaseViewController {
     private let socialSharer: SocialSharer
 
     // UI
+
     private let headerContainerView = UIView()
     private let headerView: UserProfileHeaderView
     private let navBarUserView = UserProfileNavBarUserView()
@@ -39,7 +33,9 @@ final class UserProfileViewController: BaseViewController {
     private var updatingUserRelation: Bool = false
 
     private var scrollableContentInset: UIEdgeInsets {
-        return UIEdgeInsets(top: Layout.topMargin + headerContainerView.height, left: 0, bottom: 0, right: 0)
+        let topInset = Layout.topMargin + headerContainerView.height
+        let bottomInset = viewModel.isPrivateProfile ? Layout.bottomScrollableContentInset : 0
+        return UIEdgeInsets(top: topInset, left: 0, bottom: bottomInset, right: 0)
     }
 
     private var listingViewAdjustedContentInset: UIEdgeInsets {
@@ -68,6 +64,7 @@ final class UserProfileViewController: BaseViewController {
         static let userRelationHeight: CGFloat = 48
         static let dummyDisclaimerHeight: CGFloat = 50
         static let headerBottomMargin: CGFloat = Metrics.margin
+        static let bottomScrollableContentInset: CGFloat = 60
     }
 
     // MARK: - Lifecycle
@@ -76,7 +73,9 @@ final class UserProfileViewController: BaseViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    init(viewModel: UserProfileViewModel, hidesBottomBarWhenPushed: Bool, socialSharer: SocialSharer) {
+    init(viewModel: UserProfileViewModel,
+         hidesBottomBarWhenPushed: Bool,
+         socialSharer: SocialSharer) {
         self.viewModel = viewModel
         self.disposeBag = DisposeBag()
         self.headerView = UserProfileHeaderView(isPrivate: viewModel.isPrivateProfile)
@@ -148,28 +147,32 @@ final class UserProfileViewController: BaseViewController {
         navBarUserView.alpha = 0
         tabsView.delegate = self
 
+        setupHeaderUI()
+        setupListingsUI()
+        setupRatingsUI()
+        setupConstraints()
+    }
+
+    private func setupHeaderUI() {
         headerContainerView.backgroundColor = .white
         headerContainerView.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
         headerContainerView.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
         headerContainerView.layer.shadowRadius = 4.0
+        headerGestureRecognizer.addTarget(self, action: #selector(handleScrollingGestureRecognizer))
+        headerContainerView.addGestureRecognizer(headerGestureRecognizer)
+    }
 
+    private func setupListingsUI() {
         listingView.scrollDelegate = self
         listingView.headerDelegate = self
         listingView.removePullToRefresh()
         listingView.shouldScrollToTopOnFirstPageReload = false
         listingView.collectionView.showsVerticalScrollIndicator = false
-
-        headerGestureRecognizer.addTarget(self, action: #selector(handleScrollingGestureRecognizer))
-        headerContainerView.addGestureRecognizer(headerGestureRecognizer)
-
         listingView.collectionView.clipsToBounds = true
         listingView.clipsToBounds = true
-
-        setupRatingsTableView()
-        setupConstraints()
     }
 
-    private func setupRatingsTableView() {
+    private func setupRatingsUI() {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.isHidden = true
@@ -242,8 +245,8 @@ final class UserProfileViewController: BaseViewController {
             bioAndTrustView.topAnchor.constraint(equalTo: userRelationView.bottomAnchor, constant: 0) ,
             bioAndTrustView.leftAnchor.constraint(equalTo: headerContainerView.leftAnchor, constant: Layout.sideMargin),
             bioAndTrustView.rightAnchor.constraint(equalTo: headerContainerView.rightAnchor, constant: -Layout.sideMargin),
-            tabsView.leftAnchor.constraint(equalTo: headerContainerView.leftAnchor, constant: Layout.sideMargin),
-            tabsView.rightAnchor.constraint(equalTo: headerContainerView.rightAnchor, constant: -Layout.sideMargin),
+            tabsView.leftAnchor.constraint(equalTo: headerContainerView.leftAnchor, constant: Metrics.shortMargin),
+            tabsView.rightAnchor.constraint(equalTo: headerContainerView.rightAnchor, constant: -Metrics.shortMargin),
             tabsView.bottomAnchor.constraint(equalTo: headerContainerView.bottomAnchor),
             tabsView.heightAnchor.constraint(equalToConstant: Layout.tabsHeight),
             listingView.topAnchor.constraint(equalTo: safeTopAnchor),
@@ -291,10 +294,10 @@ final class UserProfileViewController: BaseViewController {
     private func setupContent() {
         headerView.delegate = self
         bioAndTrustView.delegate = self
-        bioAndTrustView.buildTrustButtonTitle = LGLocalizedString.profileBuildTrustButton
-        bioAndTrustView.addBioButtonTitle = "+ " + LGLocalizedString.profileBioAddButton
-        bioAndTrustView.verifiedTitleText = LGLocalizedString.profileVerifiedAccountsTitle
-        bioAndTrustView.moreBioButtonTitle = LGLocalizedString.profileBioShowMoreButton
+        bioAndTrustView.buildTrustButtonTitle = R.Strings.profileBuildTrustButton
+        bioAndTrustView.addBioButtonTitle = "+ " + R.Strings.profileBioAddButton
+        bioAndTrustView.verifiedTitleText = R.Strings.profileVerifiedAccountsTitle
+        bioAndTrustView.moreBioButtonTitle = R.Strings.profileBioShowMoreButton
 
         var tabs = [UserProfileTabValue(type: .selling), UserProfileTabValue(type: .sold)]
         if viewModel.isPrivateProfile {
@@ -400,16 +403,16 @@ extension UserProfileViewController {
     }
 
     @objc private func didTapOnNavBarMore() {
-        let reportAction = UIAction(interface: .text(LGLocalizedString.reportUserTitle),
+        let reportAction = UIAction(interface: .text(R.Strings.reportUserTitle),
                                     action: viewModel.didTapReportUserButton)
-        let unblockAction = UIAction(interface: .text(LGLocalizedString.chatUnblockUser),
+        let unblockAction = UIAction(interface: .text(R.Strings.chatUnblockUser),
                                      action: viewModel.didTapUnblockUserButton)
-        let blockAction = UIAction(interface: .text(LGLocalizedString.chatBlockUser),
+        let blockAction = UIAction(interface: .text(R.Strings.chatBlockUser),
                                    action: viewModel.didTapBlockUserButton)
 
         let alternativeAction = viewModel.userRelationIsBlocked.value ? unblockAction : blockAction
 
-        showActionSheet(LGLocalizedString.commonCancel, actions: [reportAction, alternativeAction])
+        showActionSheet(R.Strings.commonCancel, actions: [reportAction, alternativeAction])
     }
 }
 
@@ -524,7 +527,7 @@ extension UserProfileViewController {
         viewModel
             .userName
             .drive(onNext: { [weak self] userName in
-                self?.headerView.userNameLabel.text = userName
+                self?.headerView.username = userName
                 self?.navBarUserView.userNameLabel.text = userName
             })
             .disposed(by: disposeBag)
@@ -534,6 +537,13 @@ extension UserProfileViewController {
             .drive(onNext: { [weak self] in
                 self?.headerView.ratingView.setupValue(rating: $0)
                 self?.navBarUserView.userRatingView.setupValue(rating: $0)
+            })
+            .disposed(by: disposeBag)
+
+        viewModel
+            .userRatingCount
+            .drive(onNext: { [weak self] in
+                self?.headerView.setUser(hasRatings: $0 > 0)
             })
             .disposed(by: disposeBag)
 
@@ -648,7 +658,7 @@ extension UserProfileViewController {
             userRelationView.isHidden = true
         }
         dummyViewHeightConstraint?.constant = isDummy ? Layout.dummyDisclaimerHeight : 0
-        dummyView.infoText = LGLocalizedString.profileDummyUserInfo(user)
+        dummyView.infoText = R.Strings.profileDummyUserInfo(user)
     }
 }
 

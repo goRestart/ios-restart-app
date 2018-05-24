@@ -6,6 +6,7 @@ extension MockChatInterlocutor: MockFactory {
                                     isBanned: Bool.makeRandom(),
                                     isMuted: Bool.makeRandom(),
                                     hasMutedYou: Bool.makeRandom(),
-                                    status: UserStatus.makeMock())
+                                    status: UserStatus.makeMock(),
+                                    userType: UserType.makeMock())
     }
 }

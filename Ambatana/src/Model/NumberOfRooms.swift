@@ -1,12 +1,5 @@
-//
-//  NumberOfRooms.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 17/01/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 struct NumberOfRooms {
     let numberOfBedrooms: Int
@@ -14,13 +7,14 @@ struct NumberOfRooms {
     
     var localizedString: String {
         if numberOfBedrooms == 1 && numberOfLivingRooms == 0 {
-            return LGLocalizedString.realEstateRoomsStudio
+            return R.Strings.realEstateRoomsStudio
         } else if numberOfBedrooms == 10 && numberOfLivingRooms == 0 {
-            return LGLocalizedString.realEstateRoomsOverTen
+            return R.Strings.realEstateRoomsOverTen
         }
-        return LGLocalizedString.realEstateRoomsValue(numberOfBedrooms, numberOfLivingRooms)
+        return R.Strings.realEstateRoomsValue(numberOfBedrooms, numberOfLivingRooms)
     }
-    
+
+    // TODO: ABIOS-3771 Remove
     var trackingString: String {
         if numberOfBedrooms == 1 && numberOfLivingRooms == 0 {
             return "Studio (1+0)"

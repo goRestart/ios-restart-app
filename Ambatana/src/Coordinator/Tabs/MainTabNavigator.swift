@@ -8,7 +8,7 @@
 
 import LGCoreKit
 
-protocol MainTabNavigator: TabNavigator {
+protocol MainTabNavigator: TabNavigator, FeedNavigator {
     func openMainListings(withSearchType searchType: SearchType,
                          listingFilters: ListingFilters)
 	func openFilters(withListingFilters listingFilters: ListingFilters,
@@ -17,6 +17,10 @@ protocol MainTabNavigator: TabNavigator {
                                distanceRadius: Int?,
                                locationDelegate: EditLocationDelegate)
     func openTaxonomyList(withViewModel viewModel: TaxonomiesViewModel)
-
     func openMostSearchedItems(source: PostingSource, enableSearch: Bool)
+    func openLoginIfNeeded(infoMessage: String, then loggedAction: @escaping (() -> Void))
+    func openSearchAlertsList()
+    func openMap(requester: ListingListMultiRequester,
+                 listingFilters: ListingFilters,
+                 locationManager: LocationManager)
 }

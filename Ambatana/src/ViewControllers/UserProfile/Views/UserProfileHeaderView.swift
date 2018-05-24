@@ -29,14 +29,15 @@ enum UserHeaderViewBadge {
 }
 
 final class UserProfileHeaderView: UIView {
-    let userNameLabel = UILabel()
     let ratingView = RatingView(layout: .normal)
     let locationLabel = UILabel()
     let memberSinceLabel = UILabel()
+    private let userNameLabel = UILabel()
     private let avatarImageView = UIImageView()
     private let editAvatarButton = UIButton()
     private let verifiedBadgeImageView = UIImageView()
     private let proBadgeImageView = UIImageView()
+    private var locationLabelTopConstraint: NSLayoutConstraint?
     weak var delegate: UserProfileHeaderDelegate?
 
     let isPrivate: Bool
@@ -70,20 +71,16 @@ final class UserProfileHeaderView: UIView {
         }
     }
 
-    func setAvatar(_ url: URL?, placeholderImage: UIImage?) {
-        if let url = url {
-            avatarImageView.lg_setImageWithURL(url)
-            editAvatarButton.setImage(UIImage(named: "user_profile_edit_avatar"), for: .normal)
-        } else {
-            avatarImageView.image = placeholderImage
-            editAvatarButton.setImage(UIImage(named: "user_profile_add_avatar"), for: .normal)
+    var username: String? {
+        didSet {
+            userNameLabel.text = username
+            userNameLabel.truncateWordsWithDotsIfNeeded()
         }
     }
 
-    private func updateBadge() {
-        guard userBadge != .noBadge else { return }
-        verifiedBadgeImageView.isHidden = userBadge != .silver && userBadge != .gold
-        proBadgeImageView.isHidden = userBadge != .pro
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        userNameLabel.truncateWordsWithDotsIfNeeded()
     }
 
     private func setupView() {
@@ -97,6 +94,7 @@ final class UserProfileHeaderView: UIView {
 
         userNameLabel.font = .profileUserHeadline
         userNameLabel.textColor = .lgBlack
+        userNameLabel.numberOfLines = 1
 
         locationLabel.font = .smallButtonFont
         locationLabel.textColor = .lgBlack
@@ -127,6 +125,7 @@ final class UserProfileHeaderView: UIView {
 
             locationLabel.leftAnchor.constraint(equalTo: leftAnchor),
             locationLabel.topAnchor.constraint(equalTo: ratingView.bottomAnchor, constant: Layout.verticalMargin),
+            locationLabel.rightAnchor.constraint(lessThanOrEqualTo: avatarImageView.leftAnchor, constant: -Layout.verticalMargin),
 
             memberSinceLabel.leftAnchor.constraint(equalTo: leftAnchor),
             memberSinceLabel.topAnchor.constraint(equalTo: locationLabel.bottomAnchor, constant: Layout.verticalMargin),
@@ -153,13 +152,44 @@ final class UserProfileHeaderView: UIView {
             proBadgeImageView.widthAnchor.constraint(equalToConstant: Layout.proBadgeWidth),
         ]
         NSLayoutConstraint.activate(constraints)
+
+        locationLabelTopConstraint = locationLabel.topAnchor.constraint(equalTo: ratingView.bottomAnchor,
+                                                                        constant: Layout.verticalMargin)
+        locationLabelTopConstraint?.isActive = true
     }
 
     private func setupAccessibilityIds() {
         userNameLabel.set(accessibilityId: .userHeaderExpandedNameLabel)
         locationLabel.set(accessibilityId: .userHeaderExpandedLocationLabel)
         memberSinceLabel.set(accessibilityId: .userHeaderExpandedMemberSinceLabel)
+        avatarImageView.set(accessibilityId: .userHeaderExpandedAvatar)
         editAvatarButton.set(accessibilityId: .userHeaderExpandedAvatarButton)
+    }
+
+    func setAvatar(_ url: URL?, placeholderImage: UIImage?) {
+        if let url = url {
+            avatarImageView.lg_setImageWithURL(url)
+            editAvatarButton.setImage(UIImage(named: "user_profile_edit_avatar"), for: .normal)
+        } else {
+            avatarImageView.image = placeholderImage
+            editAvatarButton.setImage(UIImage(named: "user_profile_add_avatar"), for: .normal)
+        }
+    }
+
+    func setUser(hasRatings: Bool) {
+        ratingView.isHidden = !hasRatings
+
+        locationLabelTopConstraint?.isActive = false
+        locationLabelTopConstraint = locationLabel.topAnchor
+            .constraint(equalTo: (hasRatings ? ratingView : userNameLabel).bottomAnchor,
+                        constant: Layout.verticalMargin)
+        locationLabelTopConstraint?.isActive = true
+    }
+
+    private func updateBadge() {
+        guard userBadge != .noBadge else { return }
+        verifiedBadgeImageView.isHidden = userBadge != .silver && userBadge != .gold
+        proBadgeImageView.isHidden = userBadge != .pro
     }
 
     @objc private func didTapEditAvatar() {

@@ -1,15 +1,8 @@
-//
-//  ChangeEmailViewController.swift
-//  LetGo
-//
-//  Created by Nestor on 18/01/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import Foundation
 import Result
 import RxSwift
+import LGComponents
 
 extension ChangeEmailViewController: ChangeEmailViewModelDelegate {}
 
@@ -52,12 +45,12 @@ class ChangeEmailViewController: BaseViewController, UITextFieldDelegate {
     
     private func setupUI() {
         customView.addToViewController(self, inView: view)
-        setNavBarTitle(LGLocalizedString.changeEmailTitle)
-        customView.emailTitleLabel.text = LGLocalizedString.changeEmailCurrentEmailLabel
+        setNavBarTitle(R.Strings.changeEmailTitle)
+        customView.emailTitleLabel.text = R.Strings.changeEmailCurrentEmailLabel
         customView.emailLabel.text = viewModel.currentEmail
-        customView.emailTextField.placeholder = LGLocalizedString.changeEmailFieldHint
+        customView.emailTextField.placeholder = R.Strings.changeEmailFieldHint
         customView.emailTextField.delegate = self
-        customView.saveButton.setTitle(LGLocalizedString.changeUsernameSaveButton, for: .normal)
+        customView.saveButton.setTitle(R.Strings.changeUsernameSaveButton, for: .normal)
         customView.saveButton.isEnabled = false
     }
     

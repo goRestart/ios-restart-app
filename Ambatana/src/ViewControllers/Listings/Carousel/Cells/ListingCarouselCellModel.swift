@@ -27,6 +27,8 @@ enum ListingCarouselCellModel {
         return listing.images.flatMap { $0.fileURL }
     }
 
+    var media: [Media] { return listing.media }
+
     var backgroundColor: UIColor {
         return UIColor.placeholderBackgroundColor(listing.objectId)
     }
@@ -39,4 +41,8 @@ enum ListingCarouselCellModel {
             return nil
         }
     }
+}
+
+extension Media {
+    var isPlayable: Bool { return type == .video }
 }

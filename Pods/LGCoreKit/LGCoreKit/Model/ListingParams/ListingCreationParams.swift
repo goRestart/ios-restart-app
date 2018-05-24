@@ -72,6 +72,23 @@ public enum ListingCreationParams {
         }
     }
 
+    public func updating(videos: [Video]) -> ListingCreationParams {
+        switch self {
+        case .product(let productParams):
+            let newParams = productParams
+            newParams.videos = videos
+            return ListingCreationParams.product(newParams)
+        case .car(let carParams):
+            let newParams = carParams
+            newParams.videos = videos
+            return ListingCreationParams.car(newParams)
+        case .realEstate(let realEstateParams):
+            let newParams = realEstateParams
+            newParams.videos = videos
+            return ListingCreationParams.realEstate(newParams)
+        }
+    }
+
     // MARK: - Variables
     
     public var name: String? {
@@ -137,7 +154,15 @@ public enum ListingCreationParams {
         case .realEstate(let realEstateParams): return realEstateParams.images
         }
     }
-    
+
+    public var videos: [Video] {
+        switch self {
+        case .product(let productParams): return productParams.videos
+        case .car(let carParams): return carParams.videos
+        case .realEstate(let realEstateParams): return realEstateParams.videos
+        }
+    }
+
     // MARK: - Methods
     
     public func apiEncode(userId: String) -> [String: Any] {

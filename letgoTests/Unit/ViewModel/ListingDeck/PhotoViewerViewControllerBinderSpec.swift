@@ -27,7 +27,7 @@ final class PhotoViewerViewControllerBinderSpec: QuickSpec {
 
                 sut = PhotoViewerViewControllerBinder()
                 sut.viewController = photoViewerVC
-                sut.bind(toView: photoView, isChatEnabled: true)
+                sut.bind(toView: photoView)
             }
 
             afterEach {
@@ -35,37 +35,11 @@ final class PhotoViewerViewControllerBinderSpec: QuickSpec {
                 photoViewerVC.updatePageCalled = 0
             }
 
-            context("chat event is sent") {
-                beforeEach {
-                    photoView.chatButton.sendActions(for: .touchUpInside)
-                }
-                it("showChat is called") {
-                    expect(photoViewerVC.showChatCalled).toEventually(equal(1))
-                }
-                it("updatePage is not called after setup") {
-                    expect(photoViewerVC.updatePageCalled).toEventually(equal(1))
-                }
-            }
-
             context("no event is sent") {
                 it("showChat is called") {
                     expect(photoViewerVC.showChatCalled).toEventually(equal(0))
                 }
                 it("updatePage is not called after setup") {
-                    expect(photoViewerVC.updatePageCalled).toEventually(equal(1))
-                }
-            }
-
-            context("chat event is sent twice") {
-                beforeEach {
-                    photoView.chatButton.sendActions(for: .touchUpInside)
-                    photoView.chatButton.sendActions(for: .touchUpInside)
-                }
-
-                it("showChat is called only once") {
-                    expect(photoViewerVC.showChatCalled).toEventually(equal(1))
-                }
-                it("updatePage is not not called after setup") {
                     expect(photoViewerVC.updatePageCalled).toEventually(equal(1))
                 }
             }
@@ -107,12 +81,10 @@ final class PhotoViewerViewControllerBinderSpec: QuickSpec {
 }
 
 private class MockPhotoViewerView: PhotoViewerBinderViewType {
-    let chatButton = UIButton()
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     let tapControlEvents: Variable<UIControlEvents?> = Variable<UIControlEvents?>(nil)
 
     var rxTapControlEvents: Observable<UIControlEvents> { return tapControlEvents.asObservable().ignoreNil() }
-    var rxChatButton: Reactive<UIControl>? { return (chatButton as UIControl).rx }
     var rxCollectionView: Reactive<UICollectionView> { return collectionView.rx }
 }
 

@@ -8,8 +8,7 @@ gem 'micro-optparse'
 gem 'google_drive'
 gem 'colorize'
 gem 'web_translate_it'
-
-gem 'fastlane'
+gem 'jira-ruby'
 
 plugins_path = File.join(File.dirname(__FILE__), 'fastlane', 'Pluginfile')
 eval_gemfile(plugins_path) if File.exist?(plugins_path)

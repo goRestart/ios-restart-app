@@ -9,13 +9,13 @@
 import Foundation
 import UIKit
 
-class ListingDeckImagePreviewCell: UICollectionViewCell, ReusableCell {
+final class ListingDeckImagePreviewCell: UICollectionViewCell, ReusableCell {
 
     private let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
     private let blurred = UIImageView()
 
     private let zoomableImageView = ZoomableImageView()
-    
+
     var isZooming: Bool { return zoomableImageView.isZooming }
 
     // MARK: - Lifecycle
@@ -28,6 +28,12 @@ class ListingDeckImagePreviewCell: UICollectionViewCell, ReusableCell {
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     // MARK: > Setup
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        zoomableImageView.setImage(nil)
+        blurred.image = nil
+    }
 
     func setupUI() {
         clipsToBounds = true
@@ -55,6 +61,6 @@ class ListingDeckImagePreviewCell: UICollectionViewCell, ReusableCell {
 
     func setImage(_ image: UIImage) {
         blurred.image = image
-        zoomableImageView.setImage(image: image)
+        zoomableImageView.setImage(image)
     }
 }

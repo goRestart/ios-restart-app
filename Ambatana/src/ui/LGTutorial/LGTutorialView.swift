@@ -1,10 +1,4 @@
-//
-//  LGTutorialView.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 11/17/17.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
+import LGComponents
 
 protocol LGTutorialViewDelegate: class {
     func closeButtonPressed()
@@ -64,7 +58,7 @@ final class LGTutorialView: UIView {
     }
     
     private func setupClose() {
-        close.setTitle(LGLocalizedString.tutorialSkipButtonTitle, for: .normal)
+        close.setTitle(R.Strings.tutorialSkipButtonTitle, for: .normal)
         close.topAnchor.constraint(equalTo: topAnchor, constant: Metrics.margin).isActive = true
         close.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -30).isActive = true
          
@@ -93,7 +87,7 @@ final class LGTutorialView: UIView {
         acceptButton.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         acceptButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         acceptButton.widthAnchor.constraint(equalTo: collectionView.widthAnchor, multiplier: 0.8).isActive = true
-        acceptButton.setTitle(LGLocalizedString.tutorialAcceptButtonTitle, for: .normal)
+        acceptButton.setTitle(R.Strings.tutorialAcceptButtonTitle, for: .normal)
         
         acceptButton.addTarget(self, action: #selector(LGTutorialView.getStartedPressed), for: .touchUpInside)
     }

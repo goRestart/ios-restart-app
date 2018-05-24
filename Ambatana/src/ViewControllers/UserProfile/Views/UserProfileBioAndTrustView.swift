@@ -210,15 +210,15 @@ final class UserProfileBioAndTrustView: UIView {
         guard let verifiedAccounts = accounts else { return }
         verifiedLogosStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         if verifiedAccounts.facebookVerified {
-            addVerifiedAccountWithImage(named: "ic_verified_fb")
+            addVerifiedAccountWithImage(named: "ic_verified_fb", accessibilityId: .userProfileVerifiedWithFacebook)
         }
 
         if verifiedAccounts.googleVerified {
-            addVerifiedAccountWithImage(named: "ic_verified_google")
+            addVerifiedAccountWithImage(named: "ic_verified_google", accessibilityId: .userProfileVerifiedWithGoogle)
         }
 
         if verifiedAccounts.emailVerified {
-            addVerifiedAccountWithImage(named: "ic_verified_email")
+            addVerifiedAccountWithImage(named: "ic_verified_email", accessibilityId: .userProfileVerifiedWithEmail)
         }
 
         verifiedContainer.isHidden = !verifiedAccountsVisible
@@ -226,12 +226,13 @@ final class UserProfileBioAndTrustView: UIView {
         updateButtonContainerVisibility()
     }
 
-    private func addVerifiedAccountWithImage(named: String) {
+    private func addVerifiedAccountWithImage(named: String, accessibilityId: AccessibilityId) {
         let image = UIImage(named: named)
         let imageView = UIImageView(image: image)
         imageView.contentMode = .scaleAspectFill
         imageView.heightAnchor.constraint(equalToConstant: Layout.logoSize).isActive = true
         imageView.widthAnchor.constraint(equalToConstant: Layout.logoSize).isActive = true
+        imageView.set(accessibilityId: accessibilityId)
         verifiedLogosStackView.addArrangedSubview(imageView)
     }
 

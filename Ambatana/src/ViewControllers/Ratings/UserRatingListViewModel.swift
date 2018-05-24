@@ -1,13 +1,6 @@
-//
-//  UserRatingListViewModel.swift
-//  LetGo
-//
-//  Created by Dídac on 18/07/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
+import LGComponents
 
 protocol UserRatingListViewModelDelegate : BaseViewModelDelegate {
     func vmIsLoadingUserRatingsRequest(_ isLoading: Bool, firstPage: Bool)
@@ -136,24 +129,24 @@ extension UserRatingListViewModel:  UserRatingCellDelegate {
         
         var actions: [UIAction] = []
 
-        let reviewAction = UIAction(interface: .text(LGLocalizedString.ratingListActionReviewUser), action: { [weak self] in
+        let reviewAction = UIAction(interface: .text(R.Strings.ratingListActionReviewUser), action: { [weak self] in
             guard let userData = RateUserData(user: userFrom, listingId: rating.listingId, ratingType: rating.type.rateBackType) else { return }
             self?.tabNavigator?.openUserRating(.userRatingList, data: userData)
         }, accessibilityId: .ratingListCellReview)
         actions.append(reviewAction)
 
         if isReportActionEnabled {
-            let reportAction = UIAction(interface: .text(LGLocalizedString.ratingListActionReportReview), action: { [weak self] in
+            let reportAction = UIAction(interface: .text(R.Strings.ratingListActionReportReview), action: { [weak self] in
                 self?.delegate?.vmShowLoading(nil)
                 self?.userRatingListRequester.reportRating(rating, completion: { result in
                     if let ratingUpdated = result.value {
                         self?.replaceRating(ratingUpdated)
                         self?.delegate?.vmRefresh()
-                        self?.delegate?.vmHideLoading(LGLocalizedString.ratingListActionReportReviewSuccessMessage,
+                        self?.delegate?.vmHideLoading(R.Strings.ratingListActionReportReviewSuccessMessage,
                                                       afterMessageCompletion: nil)
                         self?.trackReviewReported(userFromId: rating.userFrom.objectId , ratingStars: rating.value)
                     } else if let _ = result.error {
-                        self?.delegate?.vmHideLoading(LGLocalizedString.ratingListActionReportReviewErrorMessage,
+                        self?.delegate?.vmHideLoading(R.Strings.ratingListActionReportReviewErrorMessage,
                                                       afterMessageCompletion: nil)
                     }
                 })
@@ -161,7 +154,7 @@ extension UserRatingListViewModel:  UserRatingCellDelegate {
             actions.append(reportAction)
         }
 
-        let cancelAction = UIAction(interface: .text(LGLocalizedString.commonCancel), action: {})
+        let cancelAction = UIAction(interface: .text(R.Strings.commonCancel), action: {})
         delegate?.vmShowActionSheet(cancelAction, actions: actions)
     }
 }

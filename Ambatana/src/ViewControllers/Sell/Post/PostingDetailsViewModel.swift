@@ -1,13 +1,6 @@
-//
-//  PostingDetailsViewModel.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 04/10/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import RxSwift
 import LGCoreKit
+import LGComponents
 
 protocol PostingDetailsViewModelDelegate: BaseViewModelDelegate {}
 
@@ -22,14 +15,14 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     var buttonTitle: String {
         switch step {
         case .bathrooms, .bedrooms, .rooms, .offerType, .propertyType, .make, .model, .year:
-            return  previousStepIsSummary ? LGLocalizedString.productPostDone : LGLocalizedString.postingButtonSkip
+            return  previousStepIsSummary ? R.Strings.productPostDone : R.Strings.postingButtonSkip
         case .price, .summary:
-            return LGLocalizedString.productPostDone
+            return R.Strings.productPostDone
         case .location:
-            return LGLocalizedString.changeLocationApplyButton
+            return R.Strings.changeLocationApplyButton
         case .sizeSquareMeters:
-            let value = previousStepIsSummary ? LGLocalizedString.productPostDone : LGLocalizedString.postingButtonSkip
-            return sizeListing.value == nil ? value : LGLocalizedString.productPostDone
+            let value = previousStepIsSummary ? R.Strings.productPostDone : R.Strings.postingButtonSkip
+            return sizeListing.value == nil ? value : R.Strings.productPostDone
         }
     }
     
@@ -144,6 +137,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     private let step: PostingDetailStep
     private var postListingState: PostListingState
     private var uploadedImageSource: EventParameterPictureSource?
+    private var uploadedVideoLength: TimeInterval?
     private let postingSource: PostingSource
     private let postListingBasicInfo: PostListingBasicDetailViewModel
     private let priceListing = Variable<ListingPrice>(Constants.defaultPrice)
@@ -159,12 +153,14 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     convenience init(step: PostingDetailStep,
                      postListingState: PostListingState,
                      uploadedImageSource: EventParameterPictureSource?,
+                     uploadedVideoLength: TimeInterval?,
                      postingSource: PostingSource,
                      postListingBasicInfo: PostListingBasicDetailViewModel,
                      previousStepIsSummary: Bool) {
         self.init(step: step,
                   postListingState: postListingState,
                   uploadedImageSource: uploadedImageSource,
+                  uploadedVideoLength: uploadedVideoLength,
                   postingSource: postingSource,
                   postListingBasicInfo: postListingBasicInfo,
                   previousStepIsSummary: previousStepIsSummary,
@@ -179,6 +175,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     init(step: PostingDetailStep,
          postListingState: PostListingState,
          uploadedImageSource: EventParameterPictureSource?,
+         uploadedVideoLength: TimeInterval?,
          postingSource: PostingSource,
          postListingBasicInfo: PostListingBasicDetailViewModel,
          previousStepIsSummary: Bool,
@@ -191,6 +188,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         self.step = step
         self.postListingState = postListingState
         self.uploadedImageSource = uploadedImageSource
+        self.uploadedVideoLength = uploadedVideoLength
         self.postingSource = postingSource
         self.postListingBasicInfo = postListingBasicInfo
         self.previousStepIsSummary = previousStepIsSummary
@@ -242,6 +240,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
                 let trackingInfo = PostListingTrackingInfo(buttonName: .close,
                                                            sellButtonPosition: postingSource.sellButtonPosition,
                                                            imageSource: uploadedImageSource,
+                                                           videoLength: uploadedVideoLength,
                                                            price: String.fromPriceDouble(postListingState.price?.value ?? 0),
                                                            typePage: postingSource.typePage,
                                                            mostSearchedButton: postingSource.mostSearchedButton,
@@ -255,12 +254,12 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     }
     
     private func openPostAbandonAlertNotLoggedIn() {
-        let title = LGLocalizedString.productPostCloseAlertTitle
-        let message = LGLocalizedString.productPostCloseAlertDescription
-        let cancelAction = UIAction(interface: .text(LGLocalizedString.productPostCloseAlertCloseButton), action: { [weak self] in
+        let title = R.Strings.productPostCloseAlertTitle
+        let message = R.Strings.productPostCloseAlertDescription
+        let cancelAction = UIAction(interface: .text(R.Strings.productPostCloseAlertCloseButton), action: { [weak self] in
             self?.navigator?.cancelPostListing()
         })
-        let postAction = UIAction(interface: .text(LGLocalizedString.productPostCloseAlertOkButton), action: { [weak self] in
+        let postAction = UIAction(interface: .text(R.Strings.productPostCloseAlertOkButton), action: { [weak self] in
             self?.postListing(buttonNameType: .close)
         })
         delegate?.vmShowAlert(title, message: message, actions: [cancelAction, postAction])
@@ -270,6 +269,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         let trackingInfo = PostListingTrackingInfo(buttonName: buttonNameType,
                                                    sellButtonPosition: postingSource.sellButtonPosition,
                                                    imageSource: uploadedImageSource,
+                                                   videoLength: uploadedVideoLength,
                                                    price: String.fromPriceDouble(postListingState.price?.value ?? 0),
                                                    typePage: postingSource.typePage,
                                                    mostSearchedButton: postingSource.mostSearchedButton,
@@ -277,13 +277,20 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         if sessionManager.loggedIn {
             openListingPosting(trackingInfo: trackingInfo)
         } else if let images = postListingState.pendingToUploadImages {
-            let loggedInAction = { [weak self] in
-                self?.postActionAfterLogin(images: images, trackingInfo: trackingInfo)
-                return
+            let loggedInAction: (() -> Void) = { [weak self] in
+                self?.postActionAfterLogin(images: images, video: nil, trackingInfo: trackingInfo)
             }
-            let cancelAction = { [weak self] in
+            let cancelAction: (() -> Void) = { [weak self] in
                 self?.cancelPostListing()
-                return
+            }
+            navigator?.openLoginIfNeededFromListingPosted(from: .sell, loggedInAction: loggedInAction, cancelAction: cancelAction)
+
+        } else if let video = postListingState.pendingToUploadVideo {
+            let loggedInAction: (() -> Void) = { [weak self] in
+                self?.postActionAfterLogin(images: nil, video: video, trackingInfo: trackingInfo)
+            }
+            let cancelAction: (() -> Void) = { [weak self] in
+                self?.cancelPostListing()
             }
             navigator?.openLoginIfNeededFromListingPosted(from: .sell, loggedInAction: loggedInAction, cancelAction: cancelAction)
         } else {
@@ -301,16 +308,19 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         navigator?.cancelPostListing()
     }
     
-    private func postActionAfterLogin(images: [UIImage]?,
-                                      trackingInfo: PostListingTrackingInfo) {
+    private func postActionAfterLogin(images: [UIImage]?, video: RecordedVideo?, trackingInfo: PostListingTrackingInfo) {
         guard let listingParams = retrieveListingParams(), let images = images else { return }
         navigator?.closePostProductAndPostLater(params: listingParams,
                                                       images: images,
+                                                      video: video,
                                                       trackingInfo: trackingInfo)
     }
     
     private func advanceNextStep(next: PostingDetailStep) {
-        navigator?.nextPostingDetailStep(step: next, postListingState: postListingState, uploadedImageSource: uploadedImageSource, postingSource: postingSource, postListingBasicInfo: postListingBasicInfo, previousStepIsSummary: false)
+        navigator?.nextPostingDetailStep(step: next, postListingState: postListingState,
+                                         uploadedImageSource: uploadedImageSource, uploadedVideoLength: uploadedVideoLength,
+                                         postingSource: postingSource, postListingBasicInfo: postListingBasicInfo,
+                                         previousStepIsSummary: false)
     }
     
     private func set(price: ListingPrice) {
@@ -450,7 +460,10 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         let event = TrackerEvent.openOptionOnSummary(fieldOpen: EventParameterOptionSummary(optionSelected: didSelectIndex),
                                                      postingType: EventParameterPostingType(category: postListingState.category ?? .otherItems(listingCategory: nil)))
         tracker.trackEvent(event)
-        navigator?.nextPostingDetailStep(step: didSelectIndex.postingDetailStep, postListingState: postListingState, uploadedImageSource: uploadedImageSource, postingSource: postingSource, postListingBasicInfo: postListingBasicInfo, previousStepIsSummary: true)
+        navigator?.nextPostingDetailStep(step: didSelectIndex.postingDetailStep, postListingState: postListingState,
+                                         uploadedImageSource: uploadedImageSource, uploadedVideoLength: uploadedVideoLength,
+                                         postingSource: postingSource, postListingBasicInfo: postListingBasicInfo,
+                                         previousStepIsSummary: true)
     }
     
     func valueFor(section: PostingSummaryOption) -> String? {
@@ -459,7 +472,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         case .price:
             if let countryCodeValue = countryCode, let price = postListingState.price?.stringValue(currency: currencyHelper.currencyWithCountryCode(countryCodeValue),
                                                                                                   isFreeEnabled: featureFlags.freePostingModeAllowed) {
-                value = LGLocalizedString.realEstateSummaryPriceTitle(price)
+                value = R.Strings.realEstateSummaryPriceTitle(price)
             }
         case .propertyType:
             value = postListingState.verticalAttributes?.realEstateAttributes?.propertyType?.localizedString

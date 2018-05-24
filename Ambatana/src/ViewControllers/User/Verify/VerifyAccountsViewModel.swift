@@ -1,15 +1,7 @@
-//
-//  VerifyAccountsViewModel.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 30/08/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
 import RxSwift
-
+import LGComponents
 
 protocol VerifyAccountsViewModelDelegate: BaseViewModelDelegate {
     func vmResignResponders()
@@ -176,13 +168,13 @@ fileprivate extension VerifyAccountsViewModel {
                     if let _ = result.value {
                         self?.verificationSuccess(.facebook)
                     } else {
-                        self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.mainSignUpFbConnectErrorGeneric, completion: { self?.verificationFailed() })
+                        self?.delegate?.vmShowAutoFadingMessage(R.Strings.mainSignUpFbConnectErrorGeneric, completion: { self?.verificationFailed() })
                     }
                 }
             case .cancelled:
                 break
             case .error:
-                self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.mainSignUpFbConnectErrorGeneric, completion: { self?.verificationFailed() })
+                self?.delegate?.vmShowAutoFadingMessage(R.Strings.mainSignUpFbConnectErrorGeneric, completion: { self?.verificationFailed() })
             }
         }
     }
@@ -197,13 +189,13 @@ fileprivate extension VerifyAccountsViewModel {
                     if let _ = result.value {
                         self?.verificationSuccess(.google)
                     } else {
-                        self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.mainSignUpFbConnectErrorGeneric, completion: { self?.verificationFailed() })
+                        self?.delegate?.vmShowAutoFadingMessage(R.Strings.mainSignUpFbConnectErrorGeneric, completion: { self?.verificationFailed() })
                     }
                 }
             case .cancelled:
                 break
             case .error:
-                self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.mainSignUpFbConnectErrorGeneric, completion: { self?.verificationFailed() })
+                self?.delegate?.vmShowAutoFadingMessage(R.Strings.mainSignUpFbConnectErrorGeneric, completion: { self?.verificationFailed() })
             }
         }
     }
@@ -217,14 +209,14 @@ fileprivate extension VerifyAccountsViewModel {
             if let error = result.error {
                 switch error {
                 case .tooManyRequests:
-                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailTooManyRequests, completion: { self?.verificationFailed() })
+                    self?.delegate?.vmShowAutoFadingMessage(R.Strings.profileVerifyEmailTooManyRequests, completion: { self?.verificationFailed() })
                 case .network:
-                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorNetworkBody, completion: { self?.verificationFailed() })
-                case .forbidden, .internalError, .notFound, .unauthorized, .userNotVerified, .serverError, .wsChatError:
-                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorGenericBody, completion: { self?.verificationFailed() })
+                    self?.delegate?.vmShowAutoFadingMessage(R.Strings.commonErrorNetworkBody, completion: { self?.verificationFailed() })
+                case .forbidden, .internalError, .notFound, .unauthorized, .userNotVerified, .serverError, .wsChatError, .searchAlertError:
+                    self?.delegate?.vmShowAutoFadingMessage(R.Strings.commonErrorGenericBody, completion: { self?.verificationFailed() })
                 }
             } else {
-                self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailSuccess) {
+                self?.delegate?.vmShowAutoFadingMessage(R.Strings.profileVerifyEmailSuccess) {
                     self?.verificationSuccess(.email(email))
                 }
             }

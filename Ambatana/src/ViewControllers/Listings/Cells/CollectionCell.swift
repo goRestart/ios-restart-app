@@ -1,12 +1,5 @@
-//
-//  CollectionCell.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 16/08/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 class CollectionCell: UICollectionViewCell, ReusableCell {
 
@@ -44,7 +37,7 @@ class CollectionCell: UICollectionViewCell, ReusableCell {
 
     private let exploreButton: LetgoButton = {
         let button = LetgoButton(withStyle: .primary(fontSize: .small))
-        button.setTitle(LGLocalizedString.collectionExploreButton, for: .normal)
+        button.setTitle(R.Strings.collectionExploreButton, for: .normal)
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         return button
     }()

@@ -68,5 +68,4 @@ final class InfoBubbleView: UIView {
         let width = title.intrinsicContentSize.width + arrow.intrinsicContentSize.width + Metrics.shortMargin + 2*Metrics.bigMargin
         return CGSize(width: width, height: InfoBubbleView.bubbleHeight)
     }
-
 }

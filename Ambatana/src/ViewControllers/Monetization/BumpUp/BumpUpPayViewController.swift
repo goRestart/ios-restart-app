@@ -1,14 +1,7 @@
-//
-//  BumpUpPayViewController.swift
-//  LetGo
-//
-//  Created by Dídac on 19/12/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
-class BumpUpPayViewController: BaseViewController {
+final class BumpUpPayViewController: BaseViewController {
 
     @IBOutlet weak var titleSafeAreaTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var closeButton: UIButton!
@@ -29,7 +22,6 @@ class BumpUpPayViewController: BaseViewController {
     init(viewModel: BumpUpPayViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: "BumpUpPayViewController")
-        modalPresentationStyle = .overCurrentContext
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -87,9 +79,13 @@ class BumpUpPayViewController: BaseViewController {
     }
     
     private func setupLabels() {
-        titleLabel.text = LGLocalizedString.bumpUpViewPayTitle
-        subtitleLabel.text = LGLocalizedString.bumpUpViewPaySubtitle
-        viewTitleLabel.text = LGLocalizedString.bumpUpBannerPayTextImprovement
+        titleLabel.text = R.Strings.bumpUpViewPayTitle
+        subtitleLabel.text = R.Strings.bumpUpViewPaySubtitle
+        if FeatureFlags.sharedInstance.shouldChangeSellFasterNowCopyInEnglish {
+            viewTitleLabel.text = FeatureFlags.sharedInstance.copyForSellFasterNowInEnglish.variantString
+        } else {
+            viewTitleLabel.text = R.Strings.bumpUpBannerPayTextImprovement
+        }
     }
     
     private func setupCellBottomContainer() {
@@ -121,7 +117,7 @@ class BumpUpPayViewController: BaseViewController {
     
     private func setupBumpUpButton() {
         bumpUpButton.setStyle(.primary(fontSize: .big))
-        bumpUpButton.setTitle(LGLocalizedString.bumpUpViewPayButtonTitle(viewModel.price), for: .normal)
+        bumpUpButton.setTitle(R.Strings.bumpUpViewPayButtonTitle(viewModel.price), for: .normal)
         bumpUpButton.titleLabel?.numberOfLines = 2
         bumpUpButton.titleLabel?.adjustsFontSizeToFitWidth = true
         bumpUpButton.titleLabel?.minimumScaleFactor = 0.8

@@ -136,6 +136,14 @@ public enum ListingEditionParams {
         case .realEstate(let realEstateParams): return realEstateParams.images
         }
     }
+
+    public var videos: [Video] {
+        switch self {
+        case .product(let productParams): return productParams.videos
+        case .car(let carParams): return carParams.videos
+        case .realEstate(let realEstateParams): return realEstateParams.videos
+        }
+    }
     
     var languageCode: String {
         switch self {
@@ -168,6 +176,23 @@ public enum ListingEditionParams {
         case .realEstate(let realEstateParams):
             let newParams = realEstateParams
             newParams.images = images
+            return ListingEditionParams.realEstate(newParams)
+        }
+    }
+
+    public func updating(videos: [Video]) -> ListingEditionParams {
+        switch self {
+        case .product(let productParams):
+            let newParams = productParams
+            newParams.videos = videos
+            return ListingEditionParams.product(newParams)
+        case .car(let carParams):
+            let newParams = carParams
+            newParams.videos = videos
+            return ListingEditionParams.car(newParams)
+        case .realEstate(let realEstateParams):
+            let newParams = realEstateParams
+            newParams.videos = videos
             return ListingEditionParams.realEstate(newParams)
         }
     }

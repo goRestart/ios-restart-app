@@ -15,6 +15,7 @@ public class BaseListingParams {
     public var location: LGLocationCoordinates2D
     public var postalAddress: PostalAddress
     public var images: [File]
+    public var videos: [Video]
     var languageCode: String
     
     public init(name: String?,
@@ -25,7 +26,8 @@ public class BaseListingParams {
                 location: LGLocationCoordinates2D,
                 postalAddress: PostalAddress,
                 languageCode: String,
-                images: [File]) {
+                images: [File],
+                videos: [Video]) {
         self.name = name
         self.descr = description
         self.price = price
@@ -35,6 +37,7 @@ public class BaseListingParams {
         self.postalAddress = postalAddress
         self.languageCode = languageCode
         self.images = images
+        self.videos = videos
     }
     
     func apiCreationEncode(userId: String) -> [String: Any] {
@@ -56,7 +59,10 @@ public class BaseListingParams {
         
         let tokensString = images.flatMap{$0.objectId}.map{"\"" + $0 + "\""}.joined(separator: ",")
         params["images"] = "[" + tokensString + "]"
-        
+
+        let paramsVideos: [[String: Any]] = videos.map { ["path": $0.path, "snapshot": $0.snapshot] }
+        params["videos"] = paramsVideos
+
         return params
     }
 }

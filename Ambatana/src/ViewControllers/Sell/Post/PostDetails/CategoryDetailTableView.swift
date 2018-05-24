@@ -1,14 +1,7 @@
-//
-//  CategoryDetailTableView.swift
-//  LetGo
-//
-//  Created by Nestor on 12/04/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import UIKit
 import RxSwift
 import LGCoreKit
+import LGComponents
 
 enum CategoryDetailStyle {
     case lightContent // Light content, for use on dark backgrounds
@@ -111,8 +104,8 @@ enum CarDetailType {
     
     var addOtherString: String? {
         switch self {
-        case .make: return LGLocalizedString.postCategoryDetailAddMake
-        case .model: return LGLocalizedString.postCategoryDetailAddModel
+        case .make: return R.Strings.postCategoryDetailAddMake
+        case .model: return R.Strings.postCategoryDetailAddModel
         case .year: return nil
         }
     }
@@ -231,7 +224,7 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
             textField.backgroundColor = .clear
             textField.textColor = style.searchTextColor
             textField.attributedPlaceholder =
-                NSAttributedString(string: LGLocalizedString.postCategoryDetailSearchPlaceholder,
+                NSAttributedString(string: R.Strings.postCategoryDetailSearchPlaceholder,
                                    attributes: [NSAttributedStringKey.foregroundColor: style.placeholderTextColor])
             if let iconSearchImageView = textField.leftView as? UIImageView {
                 iconSearchImageView.image = iconSearchImageView.image?.withRenderingMode(.alwaysTemplate)

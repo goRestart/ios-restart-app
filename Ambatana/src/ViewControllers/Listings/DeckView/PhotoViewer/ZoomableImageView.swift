@@ -55,8 +55,12 @@ final class ZoomableImageView: UIView, UIScrollViewDelegate {
 
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
-    func setImage(image: UIImage) {
-        let zoom = Zoom(withImage: image, screenAspectRatio: UIScreen.main.aspectRatio)
+    func setImage(_ image: UIImage?) {
+        guard let zoomableImage = image else {
+            imageView.image = nil
+            return
+        }
+        let zoom = Zoom(withImage: zoomableImage, screenAspectRatio: UIScreen.main.aspectRatio)
 
         scrollView.updateWithZoom(zoom)
         scrollView.contentSize = imageView.bounds.size
@@ -64,7 +68,7 @@ final class ZoomableImageView: UIView, UIScrollViewDelegate {
         imageView.bounds = CGRect(x: 0, y: 0, width: bounds.width / zoom.referenceZoomLevel, height: bounds.height)
         imageView.center = scrollView.center
         imageView.alpha = 1
-        imageView.image = image
+        imageView.image = zoomableImage
         self.zoom = zoom
         scrollView.isScrollEnabled = false
     }

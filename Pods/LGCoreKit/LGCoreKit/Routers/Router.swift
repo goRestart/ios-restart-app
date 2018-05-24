@@ -105,6 +105,18 @@ struct MeetingsBaseURL: BaseURL {
     static let contentTypeHeader: String? = nil
 }
 
+struct SearchAlertsBaseURL: BaseURL {
+    static let baseURL = EnvironmentProxy.sharedInstance.searchAlertsBaseURL
+    static let acceptHeader: String? = "application/json"
+    static let contentTypeHeader: String? = "application/json"
+}
+
+struct CustomFeedBaseURL: BaseURL {
+    static let baseURL = EnvironmentProxy.sharedInstance.customFeedBaseURL
+    static let acceptHeader: String? = "application/json;version=2"
+    static let contentTypeHeader: String? = nil
+}
+
 enum Encoding {
     case json, url
 }
@@ -115,7 +127,7 @@ enum Router<T: BaseURL>: URLRequestConvertible {
     case show(endpoint: String, objectId: String)
     case create(endpoint: String, params: [String : Any], encoding: Encoding?)
     case batchCreate(endpoint: String, params: Any)
-    case update(endpoint: String, objectId: String, params: [String : Any], encoding: Encoding?)
+    case update(endpoint: String, objectId: String?, params: [String : Any], encoding: Encoding?)
     case batchUpdate(endpoint: String, params: [String : Any], encoding: Encoding?)
     case patch(endpoint: String, objectId: String, params: [String : Any], encoding: Encoding?)
     case batchPatch(endpoint: String, params: [String : Any], encoding: Encoding?)
@@ -197,7 +209,11 @@ enum Router<T: BaseURL>: URLRequestConvertible {
             urlRequest.url = baseUrl.appendingPathComponent(endpoint)
             urlRequest = try encode(urlRequest, withJSONObject: jsonObject)
         case let .update(endpoint, objectId, params, _):
-            urlRequest.url = baseUrl.appendingPathComponent(endpoint).appendingPathComponent(objectId)
+            var url = baseUrl.appendingPathComponent(endpoint)
+            if let objectId = objectId {
+                url = url.appendingPathComponent(objectId)
+            }
+            urlRequest.url = url
             urlRequest = try encode(urlRequest, with: params)
         case let .batchUpdate(endpoint, params, _):
             urlRequest.url = baseUrl.appendingPathComponent(endpoint)

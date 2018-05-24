@@ -1,33 +1,34 @@
-//
-//  SettingsCell.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 18/05/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
 import UIKit
 import RxSwift
 import RxCocoa
+import LGComponents
 
 class SettingsSwitchCell: UITableViewCell, ReusableCell {
 
-    @IBOutlet weak var iconImageView: UIImageView!
-    @IBOutlet weak var label: UILabel!
-    @IBOutlet weak var settingSwitch: UISwitch!
-
+    private let iconImageView = UIImageView()
+    private let label = UILabel()
+    private let settingSwitch = UISwitch()
+    
     var showBottomBorder = true
 
     private var lines: [CALayer] = []
     private var switchAction: ((Bool) -> Void)?
     private let disposeBag = DisposeBag()
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    
+    // MARK: - Lifecycle
+    
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
+        setupConstraints()
         setupAccessibilityIds()
     }
-
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         lines.forEach { $0.removeFromSuperlayer() }
@@ -35,6 +36,46 @@ class SettingsSwitchCell: UITableViewCell, ReusableCell {
         if showBottomBorder {
             lines.append(contentView.addBottomBorderWithWidth(LGUIKitConstants.onePixelSize, xPosition: 50, color: UIColor.lineGray))
         }
+    }
+    
+    
+    // MARK: - UI
+    
+    private func setupUI() {
+        iconImageView.clipsToBounds = true
+        iconImageView.contentMode = .center
+
+        label.font = UIFont.systemRegularFont(size: 17)
+        
+        settingSwitch.addTarget(self, action: #selector(switchValueChanged), for: .valueChanged)
+    }
+    
+    private func setupConstraints() {
+        contentView.addSubviewsForAutoLayout([label, settingSwitch, iconImageView])
+        
+        let contentViewMargins = contentView.layoutMarginsGuide
+        let constraints = [
+            iconImageView.topAnchor.constraint(equalTo: contentViewMargins.topAnchor),
+            iconImageView.bottomAnchor.constraint(equalTo: contentViewMargins.bottomAnchor),
+            iconImageView.leadingAnchor.constraint(equalTo: contentViewMargins.leadingAnchor),
+            iconImageView.widthAnchor.constraint(equalToConstant: 38),
+            iconImageView.heightAnchor.constraint(equalToConstant: 38),
+            
+            label.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: 10),
+            label.topAnchor.constraint(equalTo: contentViewMargins.topAnchor),
+            label.bottomAnchor.constraint(equalTo: contentViewMargins.bottomAnchor),
+            label.trailingAnchor.constraint(equalTo: contentViewMargins.trailingAnchor, constant: 64),
+
+            settingSwitch.centerYAnchor.constraint(equalTo: centerYAnchor),
+            settingSwitch.trailingAnchor.constraint(equalTo: contentViewMargins.trailingAnchor, constant: -8)
+        ]
+        NSLayoutConstraint.activate(constraints)
+    }
+    
+    private func setupAccessibilityIds() {
+        iconImageView.set(accessibilityId: .settingsCellIcon)
+        label.set(accessibilityId: .settingsCellTitle)
+        settingSwitch.set(accessibilityId: .settingsCellSwitch)
     }
 
     func setupWithSetting(_ setting: LetGoSetting) {
@@ -45,27 +86,19 @@ class SettingsSwitchCell: UITableViewCell, ReusableCell {
         switchAction = setting.switchAction
     }
     
-    @IBAction func switchValueChanged(_ sender: AnyObject) {
+    
+    // MARK: - UI Actions
+    
+    @objc func switchValueChanged(_ sender: AnyObject) {
         switchAction?(settingSwitch.isOn)
     }
-
-    private func setupUI() {
-        iconImageView.clipsToBounds = true
-    }
-
-    private func setupAccessibilityIds() {
-        iconImageView.set(accessibilityId: .settingsCellIcon)
-        label.set(accessibilityId: .settingsCellTitle)
-        settingSwitch.set(accessibilityId: .settingsCellSwitch)
-    }
-
 }
 
 fileprivate extension LetGoSetting {
     var title: String {
         switch (self) {
         case .marketingNotifications:
-            return LGLocalizedString.settingsMarketingNotificationsSwitch
+            return R.Strings.settingsMarketingNotificationsSwitch
         default:
             return ""
         }

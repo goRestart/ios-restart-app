@@ -1,14 +1,7 @@
-//
-//  TourLoginViewController.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 4/2/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import GoogleSignIn
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
     @IBOutlet weak var kenBurnsView: KenBurnsView!
@@ -44,8 +37,6 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
                    navBarBackgroundStyle: .transparent(substyle: .dark))
 
         self.viewModel.delegate = self
-        modalPresentationStyle = .overCurrentContext
-        modalTransitionStyle = .crossDissolve
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -125,7 +116,7 @@ fileprivate extension TourLoginViewController {
         
         facebookButton.setStyle(.facebook)
         googleButton.setStyle(.google)
-        orUseEmailLabel.text = LGLocalizedString.tourOrLabel
+        orUseEmailLabel.text = R.Strings.tourOrLabel
         orUseEmailLabel.font = UIFont.smallBodyFont
         
         emailButtonJustText.isHidden = false
@@ -134,10 +125,10 @@ fileprivate extension TourLoginViewController {
         footerTextView.delegate = self
 
         // i18n
-        claimLabel.text = LGLocalizedString.tourClaimLabel
-        facebookButton.setTitle(LGLocalizedString.tourFacebookButton, for: .normal)
-        googleButton.setTitle(LGLocalizedString.tourGoogleButton, for: .normal)
-        emailButtonJustText.setTitle(LGLocalizedString.tourContinueWEmail, for: .normal)
+        claimLabel.text = R.Strings.tourClaimLabel
+        facebookButton.setTitle(R.Strings.tourFacebookButton, for: .normal)
+        googleButton.setTitle(R.Strings.tourGoogleButton, for: .normal)
+        emailButtonJustText.setTitle(R.Strings.tourContinueWEmail, for: .normal)
         footerTextView.attributedText = viewModel.attributedLegalText
     }
 

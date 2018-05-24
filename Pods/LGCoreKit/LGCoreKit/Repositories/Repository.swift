@@ -16,12 +16,12 @@ public enum RepositoryError: Error, ApiErrorConvertible, WebSocketErrorConvertib
     case internalError(message: String)
     case network(errorCode: Int, onBackground: Bool)
     case notFound
-    case unauthorized(code: Int?)
+    case unauthorized(code: Int?, description: String?)
     case forbidden(cause: ForbiddenCause)
     case tooManyRequests
     case userNotVerified
     case wsChatError(error: ChatRepositoryError)
-
+    case searchAlertError(error: SearchAlertError)
     case serverError(code: Int?)
 
     public init(apiError: ApiError) {
@@ -32,19 +32,28 @@ public enum RepositoryError: Error, ApiErrorConvertible, WebSocketErrorConvertib
             self = .internalError(message: description)
         case .badRequest(let cause):
             self = .internalError(message: "Bad request with cause: \(cause)")
-        case .unauthorized:
-            self = .unauthorized(code: apiError.httpStatusCode)
+        case let .unauthorized(message):
+            self = .unauthorized(code: apiError.httpStatusCode, description: message)
         case .notFound:
             self = .notFound
         case .forbidden(let cause):
             self = .forbidden(cause: cause)
         case .scammer:
-            self = .unauthorized(code: apiError.httpStatusCode)
+            self = .unauthorized(code: apiError.httpStatusCode, description: nil)
         case .tooManyRequests:
             self = .tooManyRequests
         case .userNotVerified:
             self = .userNotVerified
-        case .conflict, .unprocessableEntity, .internalServerError, .notModified, .other:
+        case let .conflict(cause):
+            switch cause {
+            case .userExists, .emailRejected, .requestAlreadyProcessed, .notSpecified, .other:
+                self = .serverError(code: apiError.httpStatusCode)
+            case .searchAlertLimitReached:
+                self = .searchAlertError(error: .limitReached)
+            case .searchAlertAlreadyExists:
+                self = .searchAlertError(error: .alreadyExists)
+            }
+        case .unprocessableEntity, .internalServerError, .notModified, .other:
             self = .serverError(code: apiError.httpStatusCode)
         }
     }
@@ -52,12 +61,12 @@ public enum RepositoryError: Error, ApiErrorConvertible, WebSocketErrorConvertib
     init(webSocketError: WebSocketError) {
         self = .wsChatError(error: ChatRepositoryError(webSocketError: webSocketError))
     }
-
+    
     public var errorCode: Int? {
         switch self {
-        case .network, .internalError, .wsChatError:
+        case .network, .internalError, .wsChatError, .searchAlertError:
             return nil
-        case let .unauthorized(code):
+        case let .unauthorized(code, _):
             return code
         case .notFound:
             return 404
@@ -129,6 +138,27 @@ public enum ChatRepositoryError: Error, ApiErrorConvertible, WebSocketErrorConve
     // unread count sends an api error
     init(apiError: ApiError) {
         self = .apiError(httpCode: apiError.httpStatusCode)
+    }
+}
+
+public enum SearchAlertError: Error {
+    
+    case alreadyExists
+    case limitReached
+    case apiError(httpCode: Int?)
+    
+    init(apiError: ApiError, code: String) {
+        switch apiError {
+        case .conflict:
+            let alertErrorCode = SearchAlertsErrorCode(rawValue: code)
+            if alertErrorCode == .alreadyExists {
+                self = .alreadyExists
+            } else {
+                self = .limitReached
+            }
+        default:
+            self = .apiError(httpCode: apiError.httpStatusCode)
+        }
     }
 }
 

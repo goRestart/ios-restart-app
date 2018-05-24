@@ -1,15 +1,8 @@
-//
-//  UserVerificationEmailViewModel.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 9/4/18.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
 import RxSwift
 import RxCocoa
+import LGComponents
 
 final class UserVerificationEmailViewModel: BaseViewModel {
     private let myUserRepository: MyUserRepository
@@ -34,17 +27,18 @@ final class UserVerificationEmailViewModel: BaseViewModel {
             if let error = result.error {
                 switch error {
                 case .tooManyRequests:
-                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailTooManyRequests,
+                    self?.delegate?.vmShowAutoFadingMessage(R.Strings.profileVerifyEmailTooManyRequests,
                                                             completion: { self?.verificationFailed() })
                 case .network:
-                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorNetworkBody,
+                    self?.delegate?.vmShowAutoFadingMessage(R.Strings.commonErrorNetworkBody,
                                                             completion: { self?.verificationFailed() })
-                case .forbidden, .internalError, .notFound, .unauthorized, .userNotVerified, .serverError, .wsChatError:
-                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorGenericBody,
+                case .forbidden, .internalError, .notFound, .unauthorized, .userNotVerified, .serverError, .wsChatError,
+                     .searchAlertError:
+                    self?.delegate?.vmShowAutoFadingMessage(R.Strings.commonErrorGenericBody,
                                                             completion: { self?.verificationFailed() })
                 }
             } else {
-                self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailSuccess) {
+                self?.delegate?.vmShowAutoFadingMessage(R.Strings.profileVerifyEmailSuccess) {
                     self?.verificationSuccess()
                 }
             }

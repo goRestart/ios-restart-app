@@ -1,13 +1,6 @@
-//
-//  ChatAlertView.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 23/05/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
 import RxSwift
+import LGComponents
 
 class ChatDisclaimerCell: UITableViewCell, ReusableCell {
     
@@ -111,7 +104,7 @@ fileprivate extension ChatDisclaimerCell {
         backgroundTopConstraint?.constant = hide ? ChatDisclaimerCell.backgroundWithOutImageTop : ChatDisclaimerCell.backgroundWithImageTop
         titleTopConstraint?.constant = hide ? ChatDisclaimerCell.titleInvisibleTop : ChatDisclaimerCell.titleVisibleTop
         avatarImageView.isHidden = hide
-        titleLabel.text = hide ? nil : LGLocalizedString.chatDisclaimerLetgoTeam
+        titleLabel.text = hide ? nil : R.Strings.chatDisclaimerLetgoTeam
     }
     
     func hideButton(_ hide: Bool) {

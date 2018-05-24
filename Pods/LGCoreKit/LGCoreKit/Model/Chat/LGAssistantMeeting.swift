@@ -51,7 +51,7 @@ public protocol AssistantMeeting {
     var coordinates: LGLocationCoordinates2D? { get }
     var status: MeetingStatus? { get }
 
-    static func makeMeeting(from message: String) -> AssistantMeeting?
+    static func makeMeeting(from message: String?) -> AssistantMeeting?
     var textForMeeting: String { get }
 }
 
@@ -75,7 +75,8 @@ public struct LGAssistantMeeting: AssistantMeeting {
         self.status = status
     }
 
-    public static func makeMeeting(from message: String) -> AssistantMeeting? {
+    public static func makeMeeting(from message: String?) -> AssistantMeeting? {
+        guard let message = message else { return nil }
         return createMeetingFromMessage(message: message)
     }
 
@@ -103,6 +104,8 @@ public struct LGAssistantMeeting: AssistantMeeting {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM/dd/yyyy hh:mm a ZZZZ"
         dateFormatter.timeZone = TimeZone.current
+        dateFormatter.amSymbol = "AM"
+        dateFormatter.pmSymbol = "PM"
         return dateFormatter
     }()
 

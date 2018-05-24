@@ -1,5 +1,5 @@
 app_identifier "com.letgo.ios" # The bundle identifier of your app
-apple_id "didac@letgo.com" # Your Apple email address
+apple_id "ios-automation@letgo.com" # Your Apple email address
 
 # You can uncomment any of the lines below and add your own
 # team selection in case you're in multiple teams

@@ -1,13 +1,6 @@
-//
-//  TourNotificationsViewController.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 4/2/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
+import LGComponents
 
 final class TourNotificationsViewController: BaseViewController {
 
@@ -44,8 +37,6 @@ final class TourNotificationsViewController: BaseViewController {
         case .iPhone5, .iPhone6, .iPhone6Plus, .biggerUnknown:
             super.init(viewModel: viewModel, nibName: "TourNotificationsViewController", statusBarStyle: .lightContent)
         }
-        modalPresentationStyle = .overCurrentContext
-        modalTransitionStyle = .crossDissolve
         self.viewModel.delegate = self
     }
     
@@ -138,10 +129,10 @@ final class TourNotificationsViewController: BaseViewController {
         subtitleLabel.text = viewModel.subtitle
         notificationMessageLabel.text = viewModel.pushText
         
-        notifyButton.setTitle(LGLocalizedString.notificationsPermissionsYesButton, for: .normal)
-        notificationTimeLabel.text = LGLocalizedString.commonTimeNowLabel
+        notifyButton.setTitle(R.Strings.notificationsPermissionsYesButton, for: .normal)
+        notificationTimeLabel.text = R.Strings.commonTimeNowLabel
 
-        alertOkLabel.text = LGLocalizedString.commonOk
+        alertOkLabel.text = R.Strings.commonOk
     }
     
     func setupUI() {

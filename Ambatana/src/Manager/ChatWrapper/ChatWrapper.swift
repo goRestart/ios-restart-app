@@ -20,8 +20,16 @@ enum ChatWrapperMessageType {
     case quickAnswer(QuickAnswer)
     case expressChat(String)
     case favoritedListing(String)
+    case interested(String)
     case phone(String)
-    case meeting(AssistantMeeting, String)
+    case meeting(meeting: AssistantMeeting, text: String, isSuggestedPlace: Bool?)
+    
+    var quickAnswerKey: String? {
+        if case .quickAnswer(let quickAnswer) = self {
+            return quickAnswer.key
+        }
+        return nil
+    }
 }
 
 protocol ChatWrapper {
@@ -52,10 +60,10 @@ class LGChatWrapper: ChatWrapper {
             return
         }
 
-        sendChatMessage(listingId, sellerId: sellerId, text: type.text, type: type.chatType, completion: completion)
+        sendChatMessage(listingId, sellerId: sellerId, text: type.text, type: type, completion: completion)
     }
 
-    private func sendChatMessage(_ listingId: String, sellerId: String, text: String, type: ChatMessageType,
+    private func sendChatMessage(_ listingId: String, sellerId: String, text: String, type: ChatWrapperMessageType,
                                           completion: ChatWrapperCompletion?) {
         // get conversation
         chatRepository.showConversation(sellerId, listingId: listingId) { [weak self] result in
@@ -69,14 +77,14 @@ class LGChatWrapper: ChatWrapper {
                     return
                 }
 
-                let message = self?.chatRepository.createNewMessage(userId, text: text, type: type)
-
+                let message = self?.chatRepository.createNewMessage(userId, text: text, type: type.chatType)
+                
                 guard let messageId = message?.objectId else {
                     completion?(Result(error: .internalError(message: "There's no message info")))
                     return
                 }
                 let shouldSendFirstMessageEvent = value.lastMessageSentAt == nil
-                self?.chatRepository.sendMessage(conversationId, messageId: messageId, type: type, text: text) { result in
+                self?.chatRepository.sendMessage(conversationId, messageId: messageId, type: type.websocketType, text: text, answerKey: type.quickAnswerKey) { result in
                     if let _ = result.value {
                         completion?(Result(value: shouldSendFirstMessageEvent))
                     } else if let error = result.error {
@@ -98,21 +106,46 @@ extension ChatWrapperMessageType {
         case let .chatSticker(sticker):
             return sticker.name
         case let .quickAnswer(quickAnswer):
-            return quickAnswer.text
+            return quickAnswer.textToReply
         case let .expressChat(text):
             return text
         case let .favoritedListing(text):
             return text
         case let .periscopeDirect(text):
             return text
+        case let .interested(text):
+            return text
         case let .phone(text):
             return text
-        case let .meeting(_,text):
+        case let .meeting(_,text, _):
             return text
         }
     }
 
     var chatType: ChatMessageType {
+        switch self {
+        case .text:
+            return .text
+        case .periscopeDirect:
+            return .text
+        case .chatSticker:
+            return .sticker
+        case .quickAnswer(let quickAnswer):
+            return .quickAnswer(id: quickAnswer.id, text: quickAnswer.textToReply)
+        case .expressChat:
+            return .expressChat
+        case .favoritedListing:
+            return .favoritedListing
+        case .interested:
+            return .interested
+        case .phone:
+            return .phone
+        case .meeting:
+            return .meeting
+        }
+    }
+    
+    var websocketType: WebSocketSendMessageType {
         switch self {
         case .text:
             return .text
@@ -126,13 +159,15 @@ extension ChatWrapperMessageType {
             return .expressChat
         case .favoritedListing:
             return .favoritedListing
+        case .interested:
+            return .interested
         case .phone:
             return .phone
         case .meeting:
             return .meeting
         }
     }
-    
+
     var chatTrackerType: EventParameterMessageType {
         switch self {
         case .text:
@@ -147,6 +182,8 @@ extension ChatWrapperMessageType {
             return .favorite
         case .periscopeDirect:
             return .periscopeDirect
+        case .interested:
+            return .interested
         case .phone:
             return .phone
         case .meeting:
@@ -154,11 +191,11 @@ extension ChatWrapperMessageType {
         }
     }
 
-    var quickAnswerType: EventParameterQuickAnswerType? {
+    var quickAnswerTypeParameter: String? {
         switch self {
         case let .quickAnswer(quickAnswer):
-            return quickAnswer.quickAnswerType
-        case .text, .chatSticker, .expressChat, .favoritedListing, .periscopeDirect, .phone, .meeting:
+            return quickAnswer.quickAnswerTypeParameter
+        case .text, .chatSticker, .expressChat, .favoritedListing, .periscopeDirect, .interested, .phone, .meeting:
             return nil
         }
     }
@@ -167,7 +204,7 @@ extension ChatWrapperMessageType {
         switch self {
         case .text:
             return true
-        case .quickAnswer, .chatSticker, .expressChat, .favoritedListing, .periscopeDirect, .phone, .meeting:
+        case .quickAnswer, .chatSticker, .expressChat, .favoritedListing, .periscopeDirect, .interested, .phone, .meeting:
             return false
         }
     }
@@ -176,7 +213,7 @@ extension ChatWrapperMessageType {
         switch self {
         case .quickAnswer:
             return true
-        case .text, .chatSticker, .expressChat, .favoritedListing, .periscopeDirect, .phone, .meeting:
+        case .text, .chatSticker, .expressChat, .favoritedListing, .periscopeDirect, .interested, .phone, .meeting:
             return false
         }
     }
@@ -185,16 +222,25 @@ extension ChatWrapperMessageType {
         switch self {
         case .phone:
             return true
-        case .text, .chatSticker, .expressChat, .favoritedListing, .periscopeDirect, .quickAnswer, .meeting:
+        case .text, .chatSticker, .expressChat, .favoritedListing, .periscopeDirect, .interested, .quickAnswer, .meeting:
             return false
         }
     }
 
     var assistantMeeting: AssistantMeeting? {
         switch self {
-        case let .meeting(assistantMeeting, _):
+        case let .meeting(assistantMeeting, _, _):
             return assistantMeeting
-        case .text, .chatSticker, .expressChat, .favoritedListing, .periscopeDirect, .phone, .quickAnswer:
+        case .text, .chatSticker, .expressChat, .favoritedListing, .periscopeDirect, .interested, .phone, .quickAnswer:
+            return nil
+        }
+    }
+
+    var isSuggestedPlace: Bool? {
+        switch self {
+        case let .meeting(_, _, isSuggestedPlace):
+            return isSuggestedPlace
+        case .text, .chatSticker, .expressChat, .favoritedListing, .periscopeDirect, .phone, .quickAnswer, .interested:
             return nil
         }
     }

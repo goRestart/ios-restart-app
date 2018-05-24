@@ -1,13 +1,6 @@
-//
-//  BoostSuccessAlertView.swift
-//  LetGo
-//
-//  Created by Dídac on 22/03/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 import Lottie
+import LGComponents
 
 final class BoostSuccessAlertView: UIView {
 
@@ -42,7 +35,7 @@ final class BoostSuccessAlertView: UIView {
 
         blurEffectView.alpha = 0.5
 
-        titleLabel.text = LGLocalizedString.bumpUpBoostSuccessAlertText
+        titleLabel.text = R.Strings.bumpUpBoostSuccessAlertText
         titleLabel.textColor = UIColor.blackText
         titleLabel.font = UIFont.systemBoldFont(size: 21)
         titleLabel.adjustsFontSizeToFitWidth = true

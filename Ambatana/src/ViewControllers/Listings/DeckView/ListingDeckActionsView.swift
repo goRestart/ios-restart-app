@@ -1,14 +1,7 @@
-//
-//  ListingDeckActionsView.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 25/10/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
 import UIKit
 import LGCoreKit
+import LGComponents
 
 final class ListingDeckActionView: UIView {
 
@@ -16,16 +9,24 @@ final class ListingDeckActionView: UIView {
         struct Height {
             static let actionButton: CGFloat = 48.0
             static let blank: CGFloat = Metrics.shortMargin
-            static let bumpUp: CGFloat = 40.0
+            static let bumpUp: CGFloat = 64.0
 
             static let compressed: CGFloat = 2*Layout.Height.blank + Layout.Height.actionButton
-            static let expanded: CGFloat = 3*Layout.Height.blank + Layout.Height.bumpUp + Layout.Height.actionButton
+
+            static func expandedWith(banner: BumpUpBanner) -> CGFloat {
+                return 3*Layout.Height.blank + banner.intrinsicContentSize.height + Layout.Height.actionButton
+            }
         }
     }
 
     let actionButton = LetgoButton(withStyle: .terciary)
     private var fullViewContraints: [NSLayoutConstraint] = []
     private var actionButtonCenterY: NSLayoutConstraint?
+    private var actionButtonBottomAnchorConstraint: NSLayoutConstraint = NSLayoutConstraint()
+
+    private var actionButtonBottomMargin: CGFloat {
+        return -(bumpUpBanner.intrinsicContentSize.height+Layout.Height.blank)
+    }
 
     private let separator = UIView()
 
@@ -46,7 +47,7 @@ final class ListingDeckActionView: UIView {
         if !isBumpUpVisible {
             height = Layout.Height.compressed
         } else {
-            height = Layout.Height.expanded
+            height = Layout.Height.expandedWith(banner: bumpUpBanner)
         }
         return CGSize(width: UIViewNoIntrinsicMetric, height: height)
     }
@@ -67,13 +68,15 @@ final class ListingDeckActionView: UIView {
         actionButtonCenterY = actionButton.centerYAnchor.constraint(equalTo: centerYAnchor)
         actionButtonCenterY?.isActive = true
 
-        let bottom = -Layout.Height.expanded + Layout.Height.actionButton
+        actionButtonBottomAnchorConstraint = actionButton.bottomAnchor.constraint(equalTo: bottomAnchor,
+                                                                                  constant: actionButtonBottomMargin)
+
         fullViewContraints.append(contentsOf: [
             actionButton.topAnchor.constraint(equalTo: topAnchor, constant: Layout.Height.blank),
-            actionButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: bottom)
+            actionButtonBottomAnchorConstraint
         ])
 
-        actionButton.setTitle(LGLocalizedString.productMarkAsSoldButton, for: .normal)
+        actionButton.setTitle(R.Strings.productMarkAsSoldButton, for: .normal)
     }
 
     private func setupSeparator() {
@@ -86,12 +89,17 @@ final class ListingDeckActionView: UIView {
 
     private func setupBumpUpBanner() {
         NSLayoutConstraint.activate([
-            bumpUpBanner.topAnchor.constraint(equalTo: separator.bottomAnchor, constant: Layout.Height.blank),
-            bumpUpBanner.leftAnchor.constraint(greaterThanOrEqualTo: leftAnchor),
-            bumpUpBanner.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor),
-            bumpUpBanner.centerXAnchor.constraint(equalTo: centerXAnchor),
-            bumpUpBanner.heightAnchor.constraint(equalToConstant: Layout.Height.bumpUp)
-        ])
+            bumpUpBanner.topAnchor.constraint(equalTo: separator.bottomAnchor),
+            bumpUpBanner.leftAnchor.constraint(equalTo: leftAnchor),
+            bumpUpBanner.rightAnchor.constraint(equalTo: rightAnchor),
+            bumpUpBanner.centerXAnchor.constraint(equalTo: centerXAnchor)
+            ])
+    }
+
+    func updatePrivateActionsWith(actionsAlpha: CGFloat, bumpBannerAlpha: CGFloat) {
+        actionButton.alpha = actionsAlpha
+        separator.alpha = actionsAlpha
+        bumpUpBanner.alpha = bumpBannerAlpha
     }
 
     func resetCountdown() {
@@ -108,6 +116,7 @@ final class ListingDeckActionView: UIView {
 
     func updateBumpUp(withInfo info: BumpUpInfo) {
         bumpUpBanner.updateInfo(info: info)
+        actionButtonBottomAnchorConstraint.constant = actionButtonBottomMargin
     }
 
     func showBumpUp() {
@@ -120,7 +129,6 @@ final class ListingDeckActionView: UIView {
 
     private func setupUI() {
         backgroundColor = .clear
-        bumpUpBanner.backgroundColor = .clear
         separator.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
         bumpUpBanner.isHidden = true
         separator.isHidden = true

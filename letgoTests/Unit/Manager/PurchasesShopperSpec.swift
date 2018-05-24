@@ -65,7 +65,8 @@ class PurchasesShopperSpec: QuickSpec {
                 context("the device can't make purchases") {
                     beforeEach {
                         paymentQueue.canMakePayments = false
-                        sut.productsRequestStartForListingId("a_listing_id", letgoItemId: "letgo_item_id", withIds: ["appstoreId1"], typePage: nil)
+                        sut.productsRequestStartForListingId("a_listing_id", letgoItemId: "letgo_item_id",
+                                                             withIds: ["appstoreId1"], maxCountdown: 1000, typePage: nil)
                     }
                     it ("the delegate is never called") {
                         expect(self.requestsFinished).toEventually(equal([]))
@@ -73,7 +74,8 @@ class PurchasesShopperSpec: QuickSpec {
                 }
                 context("on simple call") {
                     beforeEach {
-                        sut.productsRequestStartForListingId("a_listing_id", letgoItemId: "letgo_item_id", withIds: ["appstoreId1"], typePage: nil)
+                        sut.productsRequestStartForListingId("a_listing_id", letgoItemId: "letgo_item_id",
+                                                             withIds: ["appstoreId1"], maxCountdown: 1000, typePage: nil)
                     }
                     it ("the delegate is called with the requested productId") {
                         expect(self.requestsFinished).toEventually(equal(["a_listing_id"]))
@@ -82,8 +84,10 @@ class PurchasesShopperSpec: QuickSpec {
                 context("several consecutive quick calls, different product Ids") {
                     beforeEach {
                         requestFactory.responseDelay = 0.05
-                        sut.productsRequestStartForListingId("a_listing_id", letgoItemId: "letgo_item_id", withIds: ["appstoreId1"], typePage: nil)
-                        sut.productsRequestStartForListingId("b_listing_id", letgoItemId: "letgo_item_id", withIds: ["appstoreId2"], typePage: nil)
+                        sut.productsRequestStartForListingId("a_listing_id", letgoItemId: "letgo_item_id",
+                                                             withIds: ["appstoreId1"], maxCountdown: 1000, typePage: nil)
+                        sut.productsRequestStartForListingId("b_listing_id", letgoItemId: "letgo_item_id",
+                                                             withIds: ["appstoreId2"], maxCountdown: 1000, typePage: nil)
                     }
                     it ("calls the delegate only for the last productId") {
                         expect(self.requestsFinished).toEventually(equal(["b_listing_id"]))
@@ -92,9 +96,12 @@ class PurchasesShopperSpec: QuickSpec {
                 context("several consecutive quick calls, repeating some product Ids") {
                     beforeEach {
                         requestFactory.responseDelay = 0.05
-                        sut.productsRequestStartForListingId("a_listing_id", letgoItemId: "letgo_item_id", withIds: ["appstoreId1"], typePage: nil)
-                        sut.productsRequestStartForListingId("b_listing_id", letgoItemId: "letgo_item_id", withIds: ["appstoreId2"], typePage: nil)
-                        sut.productsRequestStartForListingId("a_listing_id", letgoItemId: "letgo_item_id", withIds: ["appstoreId1"], typePage: nil)
+                        sut.productsRequestStartForListingId("a_listing_id", letgoItemId: "letgo_item_id",
+                                                             withIds: ["appstoreId1"], maxCountdown: 1000, typePage: nil)
+                        sut.productsRequestStartForListingId("b_listing_id", letgoItemId: "letgo_item_id",
+                                                             withIds: ["appstoreId2"], maxCountdown: 1000, typePage: nil)
+                        sut.productsRequestStartForListingId("a_listing_id", letgoItemId: "letgo_item_id",
+                                                             withIds: ["appstoreId1"], maxCountdown: 1000, typePage: nil)
                     }
                     it ("calls the delegate only for the last productId") {
                         expect(self.requestsFinished).toEventually(equal(["a_listing_id"]))
@@ -102,9 +109,11 @@ class PurchasesShopperSpec: QuickSpec {
                 }
                 context("several consecutive spaced calls, different product Ids") {
                     beforeEach {
-                        sut.productsRequestStartForListingId("a_listing_id", letgoItemId: "letgo_item_id", withIds: ["appstoreId1"], typePage: nil)
+                        sut.productsRequestStartForListingId("a_listing_id", letgoItemId: "letgo_item_id",
+                                                             withIds: ["appstoreId1"], maxCountdown: 1000, typePage: nil)
                         expect(self.requestsFinished).toEventually(equal(["a_listing_id"]))
-                        sut.productsRequestStartForListingId("b_listing_id", letgoItemId: "letgo_item_id", withIds: ["appstoreId2"], typePage: nil)
+                        sut.productsRequestStartForListingId("b_listing_id", letgoItemId: "letgo_item_id",
+                                                             withIds: ["appstoreId2"], maxCountdown: 1000, typePage: nil)
                     }
                     it ("calls the delegate for both productIds") {
                         expect(self.requestsFinished).toEventually(equal(["a_listing_id", "b_listing_id"]))
@@ -155,7 +164,8 @@ class PurchasesShopperSpec: QuickSpec {
                         sut.requestPayment(forListingId: "listing_id",
                                            appstoreProduct: myAppstoreProduct,
                                            letgoItemId: "letgo_item_id",
-                                           isBoost: false)
+                                           isBoost: false,
+                                           maxCountdown: 1000)
                     }
                     it ("doesn't add a new payment to the queue") {
                         expect(sut.numPendingTransactions) == initialPendingPayments
@@ -169,7 +179,8 @@ class PurchasesShopperSpec: QuickSpec {
                         sut.requestPayment(forListingId: "listing_id",
                                            appstoreProduct: myAppstoreProduct,
                                            letgoItemId: "letgo_item_id",
-                                           isBoost: false)
+                                           isBoost: false,
+                                           maxCountdown: 1000)
                     }
                     it ("adds a new payment to the queue") {
                         expect(sut.numPendingTransactions) == initialPendingPayments + 1
@@ -184,7 +195,8 @@ class PurchasesShopperSpec: QuickSpec {
                         sut.requestPayment(forListingId: "listing_id",
                                            appstoreProduct: unavailableAppstoreProduct,
                                            letgoItemId: "letgo_item_id",
-                                           isBoost: false)
+                                           isBoost: false,
+                                           maxCountdown: 1000)
                     }
                     it ("doesn't add a new payment to the queue") {
                         expect(sut.numPendingTransactions) == initialPendingPayments
@@ -280,7 +292,8 @@ class PurchasesShopperSpec: QuickSpec {
                                                      paymentId: "listing_id_restore", letgoItemId: "letgo_item_id_restore",
                                                      receiptData: "receipt_data", itemId: "payment_id_restore",
                                                      itemPrice: "1.99", itemCurrency: "$", amplitudeId: nil,
-                                                     appsflyerId: nil, idfa: nil, bundleId: nil, numRetries: 5)
+                                                     appsflyerId: nil, idfa: nil, bundleId: nil, numRetries: 5,
+                                                     maxCountdown: 80000)
 
                         var failedBumpsDict: [String:Any] = [:]
                         failedBumpsDict[currentBump.listingId] = currentBump.dictionaryValue()
@@ -335,6 +348,7 @@ class PurchasesShopperSpec: QuickSpec {
                     beforeEach {
                         sut.paymentProcessingListingId = "listing_id_recent_check_ok"
                         sut.paymentProcessingLetgoItemId = "letgo_item_id_success"
+                        sut.paymentProcessingMaxCountdown = 1000
                         transaction.myTransactionIdentifier = "purchase_bump_ok"
                         sut.purchasesShopperState = .purchasing
                         monetizationRepository.bumpResult = Result<Void, RepositoryError>(value: Void())
@@ -344,8 +358,14 @@ class PurchasesShopperSpec: QuickSpec {
                     it ("bump request succeeds") {
                         expect(self.mockBumpResult) == .success
                     }
+                    it("recent bump info is not nil") {
+                        expect(sut.timeSinceRecentBumpFor(listingId: "listing_id_recent_check_ok")).notTo(beNil())
+                    }
                     it ("time since last bump for listing id is bigger than 0") {
-                        expect(sut.timeSinceRecentBumpFor(listingId: "listing_id_recent_check_ok")) > 0
+                        expect(sut.timeSinceRecentBumpFor(listingId: "listing_id_recent_check_ok")!.timeDifference) > 0
+                    }
+                    it ("max countdown of bump for listing id is 1000") {
+                        expect(sut.timeSinceRecentBumpFor(listingId: "listing_id_recent_check_ok")!.maxCountdown) == 1000
                     }
                 }
                 context("bump fails") {
@@ -361,7 +381,7 @@ class PurchasesShopperSpec: QuickSpec {
                     it ("bump request fails") {
                         expect(self.mockBumpResult) == .fail
                     }
-                    it ("time since last bump for listing id is nil") {
+                    it ("recent bump info is nil") {
                         expect(sut.timeSinceRecentBumpFor(listingId: "listing_id_recent_check_fail")).to(beNil())
                     }
                 }
@@ -405,6 +425,7 @@ extension PurchasesShopperSpec: BumpInfoRequesterDelegate {
                                                     withProducts products: [PurchaseableProduct],
                                                     letgoItemId: String?,
                                                     storeProductId: String?,
+                                                    maxCountdown: TimeInterval,
                                                     typePage: EventParameterTypePage?) {
         guard let id = listingId else { return }
         self.requestsFinished.append(id)
@@ -416,7 +437,7 @@ extension PurchasesShopperSpec: PurchasesShopperDelegate {
     func freeBumpDidStart(typePage: EventParameterTypePage?) {
     }
 
-    func freeBumpDidSucceed(withNetwork network: EventParameterShareNetwork, typePage: EventParameterTypePage?) {
+    func freeBumpDidSucceed(withNetwork network: EventParameterShareNetwork, typePage: EventParameterTypePage?, paymentId: String) {
         self.network = network
         self.mockBumpResult = .success
     }
@@ -436,7 +457,8 @@ extension PurchasesShopperSpec: PurchasesShopperDelegate {
                               restoreRetriesCount: Int,
                               transactionStatus: EventParameterTransactionStatus,
                               typePage: EventParameterTypePage?,
-                              isBoost: Bool) {
+                              isBoost: Bool,
+                              paymentId: String) {
         self.mockBumpResult = .success
         self.restoreRetriesCount = restoreRetriesCount
     }

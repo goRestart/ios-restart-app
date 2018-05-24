@@ -18,7 +18,9 @@ def shared_pods
 
     pod "RxSwift",              "4.0.0"
     pod "RxSwiftExt",           "3.0.0"
+    pod "RxDataSources",        "3.0.2"
     pod "RxCocoa",              "4.0.0"
+    pod "RxMKMapView",          "4.0.0"
 
     #Ads
     pod "Google-Mobile-Ads-SDK","7.30.0"
@@ -30,17 +32,21 @@ def shared_pods
 
     # Tracking
     pod "Amplitude-iOS",        "4.0.4"     # Obj-c
-    pod "AppsFlyerFramework",   "4.8.2"     # Obj-c
+    pod "AppsFlyerFramework",   "4.8.4"     # Obj-c
     pod "Leanplum-iOS-SDK",     "2.0.5"     # Obj-c
     pod "NewRelicAgent",        "6.1.1"     # Obj-c
 
+    # letgo components
+    pod "LGComponents",            :path => "components"
+
+
     # letgo Core
-    pod "LGCoreKit",             "4.22.3", :inhibit_warnings => false
-#  pod "LGCoreKit",            :path => "../lgcorekit", :inhibit_warnings => false
-#  pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => '68a37f84d6d32fe9fd6e3be0b34d9aea6e0a6c0f', :inhibit_warnings => false
+    pod "LGCoreKit",             "4.26.3", :inhibit_warnings => false
+#    pod "LGCoreKit",            :path => "../lgcorekit", :inhibit_warnings => false
+#    pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => 'a4387462fe07621d5dff00a92cefb5f6b2b06192', :inhibit_warnings => false
 
     # letgo Collapsible label
-    pod "LGCollapsibleLabel",   "1.2.0", :inhibit_warnings => false     # :path => "../collapsiblelabel"
+        pod "LGCollapsibleLabel",   "1.2.0", :inhibit_warnings => false     # :path => "../collapsiblelabel"
 
     # letgo bumper (feature flags)
 #    pod "bumper",               "1.1.0"     #:path => "../bumper"
@@ -73,7 +79,7 @@ def shared_pods
     pod "SwiftyUserDefaults",   "3.0.1"
 
     # TextView with placeholder
-    pod "KMPlaceholderTextView", :git => 'https://github.com/letgoapp/KMPlaceholderTextView', :commit => '426117c98e8da8fc7d64a7d3c2f0f45c48d595e6', :inhibit_warnings => false 
+    pod "KMPlaceholderTextView", :git => 'https://github.com/letgoapp/KMPlaceholderTextView', :commit => '426117c98e8da8fc7d64a7d3c2f0f45c48d595e6', :inhibit_warnings => false
 
     pod "KeychainSwift",        "10.0.0"
     
@@ -82,6 +88,8 @@ def shared_pods
     # MoPub Ads
     pod "mopub-ios-sdk",        "4.20.0" # Obj-c
 
+    # Gifs
+    pod "SwiftyGif",            "4.1.0"
 end
 
 target "LetGo" do

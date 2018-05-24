@@ -149,7 +149,8 @@ extension UIFont {
     static var tourLocationDistanceLabelFont: UIFont { return systemMediumFont(size: 16) }
 }
 
-// MARK: DeckView
+// MARK: - DeckView
+
 extension UIFont {
     static var deckTitleFont: UIFont { return systemMediumFont(size: 17) }
     static var deckPriceFont: UIFont { return systemBoldFont(size: 27) }
@@ -170,6 +171,7 @@ extension UIFont {
     static var userProfileTabsNameFont: UIFont { return systemRegularFont(size: 15) }
     static var userProfileTabsNameSelectedFont: UIFont { return systemBoldFont(size: 15) }
     static var userProfileVerificationSectionSubtitleFont: UIFont { return systemRegularFont(size: 12) }
+    static var userProfileTabsNameSelectedMiniFont: UIFont { return UIFont.systemBoldFont(size: 13) }
     static var profileUserHeadline: UIFont { return systemBoldFont(size: 35) }
     static var profileKarmaSubtitleBoldFont: UIFont { return systemBoldFont(size: 11) }
     static var profileKarmaScoreTitleFont: UIFont { return systemBoldFont(size: 23) }
@@ -184,4 +186,13 @@ extension UIFont {
     static var passwordLessEmailDescriptionFont: UIFont { return systemRegularFont(size: 15) }
     static var passwordLessEmailTextFieldFont: UIFont { return systemBoldFont(size: 23)}
     static var passwordLessUsernameTitleFont: UIFont { return systemBoldFont(size: 35) }
+}
+
+extension UIFont {
+    static var smsVerificationInputBigText: UIFont { return UIFont.systemBoldFont(size: 30) }
+    static var smsVerificationInputDescription: UIFont { return UIFont.systemMediumFont(size: 20) }
+    static var smsVerificationInputSmallDescription: UIFont { return UIFont.systemRegularFont(size: 15) }
+    static var smsVerificationInputCodeInformation: UIFont { return UIFont.systemMediumFont(size: 14) }
+    static var smsVerificationCountryListCellText: UIFont { return UIFont.systemBoldFont(size: 23) }
+    static var smsVerificationCodeInputTextfieldText: UIFont { return UIFont.systemBoldFont(size: 40) }
 }

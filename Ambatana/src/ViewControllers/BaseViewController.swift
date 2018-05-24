@@ -1,12 +1,5 @@
-//
-//  BaseViewController.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 12/05/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
+import LGComponents
 
 // MARK: - ToastView
 
@@ -278,11 +271,11 @@ extension UIViewController {
         }
     }
 
-    func setNavBarBackButton(_ icon: UIImage?) {
+    func setNavBarBackButton(_ icon: UIImage? = nil, selector: Selector? = nil) {
         guard !isRootViewController() else { return }
         let backIconImage = icon ?? UIImage(named: "navbar_back")
         let backButton = UIBarButtonItem(image: backIconImage, style: .plain,
-                                         target: self, action: #selector(UIViewController.popBackViewController))
+                                         target: self, action: selector ?? #selector(UIViewController.popBackViewController))
         self.navigationItem.leftBarButtonItem = backButton
     }
     
@@ -374,7 +367,7 @@ class BaseViewController: UIViewController, TabBarShowable {
     override func viewDidLoad() {
         super.viewDidLoad()
         didCallViewDidLoaded = true
-        setNavBarBackButton(nil)
+        setNavBarBackButton()
         
         setupToastView()
         setReachabilityEnabled(true)
@@ -505,7 +498,7 @@ class BaseViewController: UIViewController, TabBarShowable {
             }
             reachability?.unreachableBlock = { [weak self] in
                 self?.setToastViewHidden(false)
-                self?.toastView?.title = LGLocalizedString.toastNoNetwork
+                self?.toastView?.title = R.Strings.toastNoNetwork
             }
             reachability?.start()
         } else {

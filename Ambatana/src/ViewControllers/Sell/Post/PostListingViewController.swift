@@ -1,15 +1,8 @@
-//
-//  PostListingViewController.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 11/12/15.
-//  Copyright © 2015 Ambatana. All rights reserved.
-//
-
 import UIKit
 import RxSwift
+import LGComponents
 
-class PostListingViewController: BaseViewController, PostListingViewModelDelegate {
+final class PostListingViewController: BaseViewController, PostListingViewModelDelegate {
 
     private static let retryButtonHeight: CGFloat = 50
     private static let retryButtonWidth: CGFloat = 100
@@ -84,7 +77,12 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
                   keyboardHelper: KeyboardHelper) {
         
         let tabPosition: LGViewPagerTabPosition = .hidden
-        let postFooter = PostListingRedCamButtonFooter(infoButtonIncluded: viewModel.shouldShowInfoButton)
+        var postFooter: UIView & PostListingFooter
+        if viewModel.shouldShowVideoFooter {
+            postFooter = VPPostListingRedCamFooter(infoButtonIncluded: false)
+        } else {
+            postFooter = PostListingRedCamButtonFooter(infoButtonIncluded: viewModel.shouldShowInfoButton)
+        }
         self.footer = postFooter
         self.footerView = postFooter
 
@@ -104,7 +102,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         self.carDetailsView = PostCarDetailsView(initialValues: viewModel.carInfo(forDetail: .make).carInfoWrappers)
         super.init(viewModel: viewModel, nibName: "PostListingViewController",
                    statusBarStyle: UIApplication.shared.statusBarStyle)
-        modalPresentationStyle = .overCurrentContext
+        setupForModalWithNonOpaqueBackground()
         viewModel.delegate = self
     }
 
@@ -187,12 +185,42 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         galleryView.postButtonPressed()
     }
 
-    @objc func cameraButtonPressed() {
+    @objc func cameraButtonTouchDown() {
         if viewPager.currentPage == Tab.camera.index {
-            cameraView.takePhoto()
+            if viewModel.postListingCameraViewModel.cameraMode.value == .video {
+                viewPager.scrollEnabled = false
+                cameraView.recordVideo(maxDuration: Constants.videoMaxRecordingDuration)
+            } else {
+                cameraView.takePhoto()
+            }
         } else {
             viewPager.selectTabAtIndex(Tab.camera.index, animated: true)
         }
+    }
+
+    @objc func cameraButtonReleased() {
+        if viewPager.currentPage == Tab.camera.index {
+            guard self.viewModel.postListingCameraViewModel.cameraMode.value == .video else { return }
+            cameraView.stopRecordingVideo()
+            footer.stopRecording()
+            viewPager.scrollEnabled = true
+        } else {
+            viewPager.selectTabAtIndex(Tab.camera.index, animated: true)
+        }
+    }
+
+    @objc func photoButtonPressed() {
+        footer.updateToPhotoMode()
+        viewModel.postListingCameraViewModel.cameraMode.value = .photo
+        cameraView.setCameraModeToPhoto()
+        cameraView.usePhotoButtonText = viewModel.usePhotoButtonText
+    }
+
+    @objc func videoButtonPressed() {
+        footer.updateToVideoMode()
+        viewModel.postListingCameraViewModel.cameraMode.value = .video
+        cameraView.setCameraModeToVideo()
+        cameraView.usePhotoButtonText = viewModel.useVideoButtonText
     }
 
     @IBAction func onRetryButton(_ sender: AnyObject) {
@@ -238,7 +266,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         retryButtonUploadingImageRealEstate.layout()
             .height(PostListingViewController.retryButtonHeight)
             .width(PostListingViewController.retryButtonWidth, relatedBy: .greaterThanOrEqual)
-        retryButtonUploadingImageRealEstate.setTitle(LGLocalizedString.commonErrorListRetryButton, for: .normal)
+        retryButtonUploadingImageRealEstate.setTitle(R.Strings.commonErrorListRetryButton, for: .normal)
         retryButtonUploadingImageRealEstate.addTarget(self, action: #selector(PostListingViewController.onRetryButton), for: .touchUpInside)
         uploadImageStackView.addArrangedSubview(messageLabelUploadingImage)
         uploadImageStackView.addArrangedSubview(retryButtonUploadingImageRealEstate)
@@ -275,7 +303,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
     }
 
     private func setupPriceView() {
-        retryButton.setTitle(LGLocalizedString.commonErrorListRetryButton, for: .normal)
+        retryButton.setTitle(R.Strings.commonErrorListRetryButton, for: .normal)
         retryButton.setStyle(.primary(fontSize: .medium))
         priceView.translatesAutoresizingMaskIntoConstraints = false
         detailsContainer.addSubview(priceView)
@@ -360,12 +388,10 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
     }
     
     private func setupFooter() {
-        footerView.translatesAutoresizingMaskIntoConstraints = false
-        cameraGalleryContainer.addSubview(footerView)
-        footerView.layout(with: cameraGalleryContainer)
-            .leading()
-            .trailing()
-            .bottom()
+        cameraGalleryContainer.addSubviewForAutoLayout(footerView)
+        footerView.bottomAnchor.constraint(equalTo: safeBottomAnchor).isActive = true
+        footerView.layout(with: cameraGalleryContainer).fillHorizontal()
+
         
         footer.galleryButton.rx.controlEvent(.touchUpInside).asDriver().drive(onNext: { [weak self] (_) in
             self?.galleryButtonPressed()
@@ -376,12 +402,39 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         }).disposed(by: disposeBag)
         
         footer.cameraButton.rx.controlEvent(.touchUpInside).asDriver().drive(onNext: { [weak self] (_) in
-            self?.cameraButtonPressed()
+            self?.cameraButtonReleased()
+        }).disposed(by: disposeBag)
+
+        footer.cameraButton.rx.controlEvent(.touchUpOutside).asDriver().drive(onNext: { [weak self] (_) in
+            self?.cameraButtonReleased()
+        }).disposed(by: disposeBag)
+
+        footer.cameraButton.rx.controlEvent(.touchDown).asDriver().drive(onNext: { [weak self] (_) in
+            self?.cameraButtonTouchDown()
+        }).disposed(by: disposeBag)
+
+        footer.photoButton.rx.controlEvent(.touchUpInside).asDriver().drive(onNext: { [weak self] (_) in
+            self?.photoButtonPressed()
+        }).disposed(by: disposeBag)
+        
+        footer.videoButton.rx.controlEvent(.touchUpInside).asDriver().drive(onNext: { [weak self] (_) in
+            self?.videoButtonPressed()
         }).disposed(by: disposeBag)
         
         cameraView.takePhotoEnabled.asObservable().bind(to: footer.cameraButton.rx.isEnabled).disposed(by: disposeBag)
         cameraView.takePhotoEnabled.asObservable().bind(to: footer.galleryButton.rx.isEnabled).disposed(by: disposeBag)
-        
+        cameraView.recordingDuration.asObservable().subscribeNext { [weak self] (duration) in
+            let progress = CGFloat(duration/Constants.videoMaxRecordingDuration)
+            let remainingTime = Constants.videoMaxRecordingDuration - duration
+            self?.footer.updateVideoRecordingDurationProgress(progress: progress, remainingTime: remainingTime)
+        }.disposed(by: disposeBag)
+
+        cameraView.isRecordingVideo.asDriver().drive(onNext: { [weak self] isRecordingVideo in
+            self?.footer.photoButton.isHidden = isRecordingVideo
+            self?.footer.videoButton.isHidden = isRecordingVideo
+            self?.footer.galleryButton.isHidden = isRecordingVideo
+            isRecordingVideo ? self?.footer.startRecording() : self?.footer.stopRecording()
+        }).disposed(by: disposeBag)
     }
 
     private func setupRx() {
@@ -506,7 +559,7 @@ fileprivate extension PostListingState {
         switch step {
         case .carDetailsSelection:
             return 0
-        case .imageSelection, .uploadingImage, .errorUpload, .detailsSelection, .categorySelection, .finished, .uploadSuccess, .addingDetails:
+        case .imageSelection, .uploadingImage, .errorUpload, .uploadingVideo, .errorVideoUpload, .detailsSelection, .categorySelection, .finished, .uploadSuccess, .addingDetails:
             return 1
         }
     }
@@ -515,7 +568,7 @@ fileprivate extension PostListingState {
         switch step {
         case .imageSelection:
             return 0
-        case .uploadingImage, .errorUpload, .detailsSelection, .categorySelection, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
+        case .uploadingImage, .errorUpload, .uploadingVideo, .errorVideoUpload, .detailsSelection, .categorySelection, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
             return 1
         }
     }
@@ -525,7 +578,7 @@ fileprivate extension PostListingState {
         switch step {
         case .imageSelection, .categorySelection, .carDetailsSelection, .finished, .addingDetails:
             return 0
-        case .uploadingImage, .errorUpload, .detailsSelection, .uploadSuccess:
+        case .uploadingImage, .errorUpload, .uploadingVideo, .errorVideoUpload, .detailsSelection, .uploadSuccess:
             return 1
         }
     }
@@ -534,7 +587,7 @@ fileprivate extension PostListingState {
         switch step {
         case .imageSelection, .categorySelection, .carDetailsSelection, .finished, .addingDetails:
             return 0
-        case .uploadingImage, .errorUpload, .detailsSelection, .uploadSuccess:
+        case .uploadingImage, .errorUpload, .uploadingVideo, .errorVideoUpload, .detailsSelection, .uploadSuccess:
             return 1
         }
     }
@@ -542,7 +595,7 @@ fileprivate extension PostListingState {
     var postedInfoLabelAlpha: CGFloat {
         guard !isRealEstate else { return 0 }
         switch step {
-        case .imageSelection, .categorySelection, .uploadingImage, .errorUpload, .carDetailsSelection, .finished, .addingDetails:
+        case .imageSelection, .categorySelection, .uploadingImage, .errorUpload, .uploadingVideo, .errorVideoUpload, .carDetailsSelection, .finished, .addingDetails:
             return 0
         case .detailsSelection, .uploadSuccess:
             return 1
@@ -550,11 +603,11 @@ fileprivate extension PostListingState {
     }
     
     func postedInfoLabelText(confirmationText: String?) -> String? {
-        return isError ? LGLocalizedString.commonErrorTitle.localizedCapitalized : confirmationText
+        return isError ? R.Strings.commonErrorTitle.localizedCapitalized : confirmationText
     }
     
     func messageForLoadedImage(confirmationText: String?) -> String? {
-        return isError ? LGLocalizedString.commonErrorPostingLoadedImage : confirmationText
+        return isError ? R.Strings.commonErrorPostingLoadedImage : confirmationText
     }
     
     var postErrorLabelAlpha: CGFloat {
@@ -564,9 +617,9 @@ fileprivate extension PostListingState {
     
     var postErrorLabelText: String? {
         switch step {
-        case .imageSelection, .detailsSelection, .categorySelection, .uploadingImage, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
+        case .imageSelection, .detailsSelection, .categorySelection, .uploadingImage, .uploadingVideo, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
             return nil
-        case let .errorUpload(message):
+        case let .errorUpload(message), let .errorVideoUpload(message):
             return message
         }
     }
@@ -578,7 +631,7 @@ fileprivate extension PostListingState {
     
     var priceViewAlpha: CGFloat {
         switch step {
-        case .imageSelection, .categorySelection, .carDetailsSelection, .uploadingImage, .errorUpload, .finished, .uploadSuccess, .addingDetails:
+        case .imageSelection, .categorySelection, .carDetailsSelection, .uploadingImage, .errorUpload, .uploadingVideo, .errorVideoUpload, .finished, .uploadSuccess, .addingDetails:
             return 0
         case .detailsSelection:
             return 1
@@ -587,7 +640,7 @@ fileprivate extension PostListingState {
     
     var categorySelectionViewAlpha: CGFloat {
         switch step {
-        case .imageSelection, .carDetailsSelection, .uploadingImage, .errorUpload, .detailsSelection, .finished, .uploadSuccess, .addingDetails:
+        case .imageSelection, .carDetailsSelection, .uploadingImage, .errorUpload, .uploadingVideo, .errorVideoUpload, .detailsSelection, .finished, .uploadSuccess, .addingDetails:
             return 0
         case .categorySelection:
             return 1
@@ -596,7 +649,7 @@ fileprivate extension PostListingState {
     
     var carDetailsViewAlpha: CGFloat {
         switch step {
-        case .imageSelection, .categorySelection, .uploadingImage, .errorUpload, .detailsSelection, .finished, .uploadSuccess, .addingDetails:
+        case .imageSelection, .categorySelection, .uploadingImage, .errorUpload, .uploadingVideo, .errorVideoUpload, .detailsSelection, .finished, .uploadSuccess, .addingDetails:
             return 0
         case .carDetailsSelection:
             return 1
@@ -605,7 +658,7 @@ fileprivate extension PostListingState {
     
     func priceViewShouldBecomeFirstResponder() -> Bool {
         switch step {
-        case .imageSelection, .categorySelection, .uploadingImage, .errorUpload, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
+        case .imageSelection, .categorySelection, .uploadingImage, .errorUpload, .uploadingVideo, .errorVideoUpload, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
             return false
         case .detailsSelection:
             return true
@@ -618,18 +671,18 @@ fileprivate extension PostListingState {
     
     var isError: Bool {
         switch step {
-        case .imageSelection, .detailsSelection, .categorySelection, .uploadingImage, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
+        case .imageSelection, .detailsSelection, .categorySelection, .uploadingImage, .uploadingVideo, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
             return false
-        case .errorUpload:
+        case .errorUpload, .errorVideoUpload:
             return true
         }
     }
     
     var isLoading: Bool {
         switch step {
-        case .imageSelection, .detailsSelection, .categorySelection, .errorUpload, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
+        case .imageSelection, .detailsSelection, .categorySelection, .errorUpload, .errorVideoUpload, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
             return false
-        case .uploadingImage:
+        case .uploadingImage, .uploadingVideo:
             return true
         }
     }
@@ -701,7 +754,7 @@ extension PostListingViewController {
             return categorySelectionView
         case .carDetailsSelection:
             return carDetailsView
-        case .imageSelection, .uploadingImage, .errorUpload, .finished, .uploadSuccess, .addingDetails:
+        case .imageSelection, .uploadingImage, .errorUpload, .uploadingVideo, .errorVideoUpload, .finished, .uploadSuccess, .addingDetails:
             return nil
         }
     }
@@ -715,6 +768,7 @@ extension PostListingViewController {
 // MARK: - PostListingCameraViewDelegate
 
 extension PostListingViewController: PostListingCameraViewDelegate {
+
     func productCameraCloseButton() {
         onCloseButton(cameraView)
     }
@@ -724,6 +778,13 @@ extension PostListingViewController: PostListingCameraViewDelegate {
             navigationController.updateBackground(image: cameraGalleryContainer.takeSnapshot())
         }
         viewModel.imagesSelected([image], source: .camera)
+    }
+
+    func productCameraDidRecordVideo(video: RecordedVideo) {
+        if let navigationController = navigationController as? SellNavigationController {
+            navigationController.updateBackground(image: cameraGalleryContainer.takeSnapshot())
+        }
+        viewModel.videoRecorded(video: video)
     }
 
     func productCameraRequestHideTabs(_ hide: Bool) {
@@ -848,10 +909,10 @@ extension PostListingViewController: LGViewPagerDataSource, LGViewPagerDelegate,
         let attributes = tabTitleTextAttributes()
         if index == Tab.gallery.index {
             icon = #imageLiteral(resourceName: "ic_post_tab_gallery")
-            text = LGLocalizedString.productPostGalleryTab
+            text = R.Strings.productPostGalleryTab
         } else {
             icon = #imageLiteral(resourceName: "ic_post_tab_camera")
-            text = LGLocalizedString.productPostCameraTabV2
+            text = R.Strings.productPostCameraTabV2
         }
         let attachment = NSTextAttachment()
         attachment.image = icon

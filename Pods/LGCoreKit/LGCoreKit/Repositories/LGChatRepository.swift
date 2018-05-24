@@ -62,7 +62,7 @@ class LGChatRepository: InternalChatRepository {
         chatEvents.subscribeNext { [weak self] event in
             guard let conversationId = event.conversationId else { return }
             switch event.type {
-            case let .interlocutorMessageSent(messageId, _, _, _):
+            case let .interlocutorMessageSent(messageId, _, _):
                 self?.confirmReception(conversationId, messageIds: [messageId]) { _ in
                     self?.updateLocalConversationByFetching(conversationId: conversationId, moveToTop: true)
                 }
@@ -130,10 +130,8 @@ class LGChatRepository: InternalChatRepository {
     // MARK: > Public Methods
     // MARK: - Messages
     
-    func createNewMessage(_ talkerId: String, text: String, type: ChatMessageType) -> ChatMessage {
-        let message = LGChatMessage(objectId: LGUUID().UUIDString, talkerId: talkerId, text: text, sentAt: nil,
-                                    receivedAt: nil, readAt: nil, type: type, warnings: [])
-        return message
+    func createNewMessage(_ talkerId: String, text: String?, type: ChatMessageType) -> ChatMessage {
+        return LGChatMessage.make(talkerId: talkerId, text: text, type: type)
     }
     
     func indexMessages(_ conversationId: String, numResults: Int, offset: Int,
@@ -214,9 +212,13 @@ class LGChatRepository: InternalChatRepository {
     
     // MARK: - Commands
     
-    func internalSendMessage(_ conversationId: String, messageId: String, type: ChatMessageType, text: String,
+    func internalSendMessage(_ conversationId: String,
+                             messageId: String,
+                             type: WebSocketSendMessageType,
+                             text: String,
+                             answerKey: String?,
                              completion: ChatCommandCompletion?) {
-        dataSource.sendMessage(conversationId, messageId: messageId, type: type.rawValue, text: text) { result in
+        dataSource.sendMessage(conversationId, messageId: messageId, type: type, text: text, answerKey: answerKey) { result in
             handleWebSocketResult(result, completion: completion)
         }
     }

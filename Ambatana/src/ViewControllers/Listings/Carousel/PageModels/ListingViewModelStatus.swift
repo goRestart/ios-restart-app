@@ -1,12 +1,5 @@
-//
-//  ListingViewModelStatus.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 06/02/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
+import LGComponents
 
 enum ListingViewModelStatus {
 
@@ -116,9 +109,9 @@ enum ListingViewModelStatus {
     var string: String? {
         switch self {
         case .sold, .otherSold:
-            return LGLocalizedString.productListItemSoldStatusLabel
+            return R.Strings.productListItemSoldStatusLabel
         case .soldFree, .otherSoldFree:
-            return LGLocalizedString.productListItemGivenAwayStatusLabel
+            return R.Strings.productListItemGivenAwayStatusLabel
         case .pending, .available, .otherAvailable, .availableFree, .otherAvailableFree,
              .notAvailable, .pendingAndFeatured:
             return nil
@@ -147,14 +140,12 @@ enum ListingViewModelStatus {
         }
     }
 
-    func shouldRefreshBumpBanner(pendingAreBumpeable: Bool) -> Bool {
+    var shouldRefreshBumpBanner: Bool {
         switch self {
-        case .available, .availableFree, .pendingAndFeatured:
+        case .available, .availableFree, .pendingAndFeatured, .pending:
             return true
         case .otherAvailable, .otherAvailableFree, .notAvailable, .sold, .otherSold, .otherSoldFree, .soldFree:
             return false
-        case .pending:
-            return pendingAreBumpeable
         }
     }
 }

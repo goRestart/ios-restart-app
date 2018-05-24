@@ -141,7 +141,11 @@
 "chat_conversations_list_filter_all" = "Hepsi";
 "chat_conversations_list_filter_buying" = "Aliş";
 "chat_conversations_list_filter_selling" = "Satiş";
+<<<<<<< HEAD
 "chat_conversations_list_letgo_assistant_tag" = "letgo asistanı";
+=======
+"chat_conversations_list_letgo_assistant_tag" = "letgo assistant";
+>>>>>>> master
 "chat_deleted_disclaimer_w_name" = "%@ isimli kullanıcının hesabı artık aktif olmadığı için bu sohbete devam edemezsin.";
 "chat_deleted_disclaimer_wo_name" = "Bu hesap artık aktif olmadığı için bu sohbete devam edemezsin.";
 "chat_disclaimer_letgo_team" = "LETGO EKİBİ";
@@ -859,7 +863,11 @@
 "profile_permissions_alert_ok" = "Aç";
 "profile_permissions_alert_title" = "YANITLARI KAÇIRMA!";
 "profile_permissions_header_message" = "Mesaj bildirimlerini aç";
+<<<<<<< HEAD
 "profile_reputation_tooltip_title" = "Onaylı kullanıcı! Siz de onaylı olmak istiyorsanız tıklayın.";
+=======
+"profile_reputation_tooltip_title" = "User verified! Tap if you want to be verified too";
+>>>>>>> master
 "profile_reviews_count" = "Yorum";
 "profile_reviews_tab" = "Yorum";
 "profile_selling_no_products_label" = "(HENÜZ!) İLAN YOK";

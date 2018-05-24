@@ -1,16 +1,9 @@
-//
-//  ProductsViewController.swift
-//  letgo
-//
-//  Created by AHL on 3/5/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
 import CoreLocation
 import LGCoreKit
 import UIKit
 import CHTCollectionViewWaterfallLayout
 import RxSwift
+import LGComponents
 
 enum SearchSuggestionType {
     case suggestive
@@ -95,7 +88,9 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     // MARK: - Lifecycle
 
     required init(viewModel: MainListingsViewModel) {
-        navbarSearch = LGNavBarSearchField(viewModel.searchString)
+        navbarSearch = LGNavBarSearchField(viewModel.searchString,
+                                           searchBoxSize: viewModel.searchBoxSize,
+                                           searchFieldStyle: viewModel.searchFieldStyle)
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
         viewModel.delegate = self
@@ -316,7 +311,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         trendingSearchView.isHidden = true
         setFiltersNavBarButton()
         setInviteNavBarButton()
-        navbarSearch.endEdit()
+        navbarSearch.cancelEdit()
     }
 
     private func beginEdit() {
@@ -332,12 +327,14 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         navbarSearch.beginEdit()
     }
     
-    /**
-        Called when the search button is pressed.
-    */
-    @objc private func filtersButtonPressed(_ sender: AnyObject) {
+    @objc func openFilters(_ sender: AnyObject) {
         navbarSearch.searchTextField.resignFirstResponder()
         viewModel.showFilters()
+    }
+    
+    @objc func openMap(_ sender: AnyObject) {
+        navbarSearch.searchTextField.resignFirstResponder()
+        viewModel.showMap()
     }
     
     private func setupTagsView() {
@@ -375,15 +372,15 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     }
     
     private func setFiltersNavBarButton() {
-        setLetGoRightButtonWith(imageName: viewModel.hasFilters ? "ic_filters_active" : "ic_filters",
-                                renderingMode: .alwaysOriginal, selector: "filtersButtonPressed:")
+        let buttons = viewModel.rightBarButtonsItems
+        setLetGoRightButtonsWith(images: buttons.map { $0.image }, selectors: buttons.map { $0.selector })
     }
     
     private func setInviteNavBarButton() {
         guard isRootViewController() else { return }
         guard viewModel.shouldShowInviteButton  else { return }
 
-        let invite = UIBarButtonItem(title: LGLocalizedString.mainProductsInviteNavigationBarButton,
+        let invite = UIBarButtonItem(title: R.Strings.mainProductsInviteNavigationBarButton,
                                      style: .plain,
                                      target: self,
                                      action: #selector(openInvite))
@@ -538,7 +535,8 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
 
 // MARK: - ListingListViewHeaderDelegate
 
-extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermissionsHeaderDelegate, RealEstateBannerDelegate {
+extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermissionsHeaderDelegate,
+RealEstateBannerDelegate, SearchAlertFeedHeaderDelegate {
 
     func totalHeaderHeight() -> CGFloat {
         var totalHeight: CGFloat = 0
@@ -550,6 +548,9 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
         }
         if shouldShowRealEstateBanner {
             totalHeight += RealEstateBanner().intrinsicContentSize.height
+        }
+        if shouldShowSearchAlertBanner {
+            totalHeight += SearchAlertFeedHeader.viewHeight
         }
         return totalHeight
     }
@@ -564,11 +565,8 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
         }
        
         if shouldShowCategoryCollectionBanner {
-            let screenWidth: CGFloat = UIScreen.main.bounds.size.width
-            categoriesHeader = CategoriesHeaderCollectionView(categories: viewModel.categoryHeaderElements,
-                                                              frame: CGRect(x: 0, y: 0, width: screenWidth, height: CategoriesHeaderCollectionView.viewHeight),
-                                                              categoryHighlighted: viewModel.categoryHeaderHighlighted,
-                                                              isMostSearchedItemsEnabled: viewModel.isMostSearchedItemsEnabled)
+            categoriesHeader = CategoriesHeaderCollectionView()
+            categoriesHeader?.configure(with: viewModel.categoryHeaderElements, categoryHighlighted: viewModel.categoryHeaderHighlighted, isMostSearchedItemsEnabled: viewModel.isMostSearchedItemsEnabled)
             categoriesHeader?.delegateCategoryHeader = viewModel
             categoriesHeader?.categorySelected.asObservable().bind { [weak self] categoryHeaderInfo in
                 guard let category = categoryHeaderInfo else { return }
@@ -588,6 +586,13 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
             realEstateBanner.delegate = self
             header.addHeader(realEstateBanner, height: height)
         }
+        
+        if shouldShowSearchAlertBanner, let searchAlertCreationData = viewModel.searchAlertCreationData.value {
+            let searchAlertHeader = SearchAlertFeedHeader(searchAlertCreationData: searchAlertCreationData)
+            searchAlertHeader.tag = 3
+            searchAlertHeader.delegate = self
+            header.addHeader(searchAlertHeader, height: SearchAlertFeedHeader.viewHeight)
+        }
     }
 
     private var shouldShowPermissionsBanner: Bool {
@@ -599,6 +604,9 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
     }
     private var shouldShowRealEstateBanner: Bool {
         return viewModel.mainListingsHeader.value.contains(MainListingsHeader.RealEstateBanner)
+    }
+    private var shouldShowSearchAlertBanner: Bool {
+        return viewModel.mainListingsHeader.value.contains(MainListingsHeader.SearchAlerts)
     }
     
     private func categoryHeaderDidSelect(category: CategoryHeaderInfo) {
@@ -614,6 +622,14 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
     
     func realEstateBannerPressed() {
         viewModel.navigator?.openSell(source: .realEstatePromo, postCategory: .realEstate)
+    }
+
+    func searchTextFieldReadyToSearch() {
+        navbarSearch.searchTextField.becomeFirstResponder()
+    }
+
+    func searchAlertFeedHeaderDidEnableSearchAlert(fromEnabled: Bool) {
+        viewModel.triggerSearchAlert(fromEnabled: fromEnabled)
     }
 }
 

@@ -22,7 +22,10 @@ struct WaterFallLayoutSettings {
     static let topHeaderIsStretchy: Bool = false
     
     // Spacing
-    static let minimumColumnSpacing: CGFloat = 10
-    static let minimumLineSpacing: CGFloat = 10
-    static let sectionInset: UIEdgeInsets = .zero
+    static let minimumColumnSpacing: CGFloat = Metrics.shortMargin
+    static let minimumLineSpacing: CGFloat = Metrics.shortMargin
+    static let sectionInset: UIEdgeInsets = UIEdgeInsets(top: Metrics.shortMargin,
+                                                         left: Metrics.shortMargin,
+                                                         bottom: Metrics.shortMargin,
+                                                         right: Metrics.shortMargin)
 }

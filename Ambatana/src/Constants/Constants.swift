@@ -7,6 +7,7 @@
 //
 
 import LGCoreKit
+import AVFoundation
 
 struct Constants {
     // Input validation
@@ -21,6 +22,7 @@ struct Constants {
                                         "yandex.com"]
 
     // Map
+    static let largestRegionRadius = 20000.0
     static let accurateRegionRadius = 1000.0    // meters
     static let nonAccurateRegionRadius = 5000.0 // meters
     static let metersInOneMile: Double = 1609.34
@@ -35,6 +37,8 @@ struct Constants {
     // Branch
     static let branchWebsiteURL = "https://app.letgo.com"
     static let branchLinksHost = "app.letgo.com"
+    // AppsFlyer
+    static let appsFlyerLinksHost = "letgo.onelink.me"
 
     // Website
     static let websiteRecaptchaEndpoint = "/mcaptcha"
@@ -96,6 +100,18 @@ struct Constants {
     static let defaultPrice: ListingPrice = .normal(0)
     static let sizeSquareMetersUnit: String = "㎡"
 
+    // Camera
+    static let videoMaxRecordingDuration: TimeInterval = 15
+    static let videoMinRecordingDuration: TimeInterval = 2
+    static let videoSnapshotTime: TimeInterval = 1
+    static let videoFileExtension: String = "mp4"
+    static let videoSettings: [String: Any] = [
+        AVVideoCodecKey: AVVideoCodecH264,
+        AVVideoWidthKey: 480,
+        AVVideoHeightKey: 640,
+        AVVideoScalingModeKey: AVVideoScalingModeResizeAspectFill
+    ];
+
     // Messages retrieving
     static let numMessagesPerPage = 40
 
@@ -148,8 +164,9 @@ struct Constants {
     static let promoteAfterPostWaitTime = TimeInterval.make(days: 1)
     static let fiveMinutesTimeLimit = TimeInterval.make(minutes: 5)
     static let oneHourTimeLimit = TimeInterval.make(hours: 1)
-    
+
     // Tracking
+    // TODO: ABIOS-3771 Remove this when integrating LGAnalytics module
     static let parameterNotApply = "N/A"
     static let parameterSkipValue = "skip"
 

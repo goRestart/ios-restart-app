@@ -11,14 +11,16 @@
 import LGCoreKit
 import Quick
 import Nimble
+import LGComponents
 
 class ListingPriceLGSpec: QuickSpec {
     override func spec() {
         var listingPrice: ListingPrice!
         var currency: Currency!
-        var sut: String!
+        
         
         describe("ListingPrice + LG methods") {
+            var sut: String!
             beforeEach {
                 currency = Currency.makeMock()
             }
@@ -29,7 +31,7 @@ class ListingPriceLGSpec: QuickSpec {
                         sut = listingPrice.stringValue(currency: currency, isFreeEnabled: true)
                     }
                     it("Free") {
-                        expect(sut) == LGLocalizedString.productFreePrice
+                        expect(sut) == R.Strings.productFreePrice
                     }
                 }
                 context("listingPrice normal without price") {
@@ -39,7 +41,7 @@ class ListingPriceLGSpec: QuickSpec {
                         
                     }
                     it("is negotiable") {
-                        expect(sut) == LGLocalizedString.productNegotiablePrice
+                        expect(sut) == R.Strings.productNegotiablePrice
                     }
                 }
             }
@@ -50,11 +52,44 @@ class ListingPriceLGSpec: QuickSpec {
                         sut = listingPrice.stringValue(currency: currency, isFreeEnabled: false)
                     }
                     it("is negotiable") {
-                        expect(sut) == LGLocalizedString.productNegotiablePrice
+                        expect(sut) == R.Strings.productNegotiablePrice
                     }
                 }
             }
 
+        }
+        
+        describe("allowFreeFilters") {
+            var sut: LetGoGodMode.EventParameterBoolean!
+            context("listingPrice free") {
+                beforeEach {
+                    listingPrice = .free
+                    sut = listingPrice.allowFreeFilters(freePostingModeAllowed: true)
+                }
+                it("true value") {
+                    expect(sut) == .trueParameter
+                }
+            }
+            
+            context("listingPrice NOT free") {
+                beforeEach {
+                    listingPrice = .normal(1.0)
+                    sut = listingPrice.allowFreeFilters(freePostingModeAllowed: true)
+                }
+                it("true value") {
+                    expect(sut) == .falseParameter
+                }
+            }
+            
+            context("listingPrice NOT available") {
+                beforeEach {
+                    listingPrice = .normal(1.0)
+                    sut = listingPrice.allowFreeFilters(freePostingModeAllowed: false)
+                }
+                it("true value") {
+                    expect(sut) == .notAvailable
+                }
+            }
         }
     }
 }

@@ -1,14 +1,7 @@
-//
-//  LoginCoordinator.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 01/02/17.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import RxSwift
 import SafariServices
+import LGComponents
 
 enum LoginStyle {
     case fullScreen
@@ -100,7 +93,7 @@ final class LoginCoordinator: Coordinator, ChangePasswordPresenter {
         guard viewController.parent == nil else { return }
 
         parentViewController = parent
-        viewController.modalPresentationStyle = .overFullScreen
+        viewController.modalTransitionStyle = .crossDissolve
         parent.present(viewController, animated: animated, completion: completion)
     }
 
@@ -331,7 +324,7 @@ fileprivate extension LoginCoordinator {
     func closeRootAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork) {
         dismissViewController(animated: true) { [weak self] in
             let contact = UIAction(
-                interface: .button(LGLocalizedString.loginScammerAlertContactButton, .primary(fontSize: .medium)),
+                interface: .button(R.Strings.loginScammerAlertContactButton, .primary(fontSize: .medium)),
                 action: {
                     self?.tracker.trackEvent(TrackerEvent.loginBlockedAccountContactUs(network, reason: .accountUnderReview))
                     self?.closeCoordinator(animated: false) {
@@ -340,15 +333,15 @@ fileprivate extension LoginCoordinator {
 
             })
             let keepBrowsing = UIAction(
-                interface: .button(LGLocalizedString.loginScammerAlertKeepBrowsingButton, .secondary(fontSize: .medium,
+                interface: .button(R.Strings.loginScammerAlertKeepBrowsingButton, .secondary(fontSize: .medium,
                                                                                                      withBorder: false)),
                 action: {
                     self?.tracker.trackEvent(TrackerEvent.loginBlockedAccountKeepBrowsing(network, reason: .accountUnderReview))
                     self?.closeCoordinator(animated: false, completion: nil)
             })
             let actions = [contact, keepBrowsing]
-            self?.parentViewController?.showAlertWithTitle(LGLocalizedString.loginScammerAlertTitle,
-                                                           text: LGLocalizedString.loginScammerAlertMessage,
+            self?.parentViewController?.showAlertWithTitle(R.Strings.loginScammerAlertTitle,
+                                                           text: R.Strings.loginScammerAlertMessage,
                                                            alertType: .iconAlert(icon: #imageLiteral(resourceName: "ic_moderation_alert")),
                                                            buttonsLayout: .vertical, actions: actions)
             self?.tracker.trackEvent(TrackerEvent.loginBlockedAccountStart(network, reason: .accountUnderReview))
@@ -358,7 +351,7 @@ fileprivate extension LoginCoordinator {
     func closeRootAndOpenDeviceNotAllowedAlert(contactURL: URL, network: EventParameterAccountNetwork) {
         dismissViewController(animated: true) { [weak self] in
             let contact = UIAction(
-                interface: .button(LGLocalizedString.loginDeviceNotAllowedAlertContactButton, .primary(fontSize: .medium)),
+                interface: .button(R.Strings.loginDeviceNotAllowedAlertContactButton, .primary(fontSize: .medium)),
                 action: {
                     self?.tracker.trackEvent(TrackerEvent.loginBlockedAccountContactUs(network, reason: .secondDevice))
                     self?.closeCoordinator(animated: false) {
@@ -367,15 +360,15 @@ fileprivate extension LoginCoordinator {
 
             })
             let keepBrowsing = UIAction(
-                interface: .button(LGLocalizedString.loginDeviceNotAllowedAlertOkButton, .secondary(fontSize: .medium,
+                interface: .button(R.Strings.loginDeviceNotAllowedAlertOkButton, .secondary(fontSize: .medium,
                                                                                                      withBorder: false)),
                 action: {
                     self?.tracker.trackEvent(TrackerEvent.loginBlockedAccountKeepBrowsing(network, reason: .secondDevice))
                     self?.closeCoordinator(animated: false, completion: nil)
             })
             let actions = [contact, keepBrowsing]
-            self?.parentViewController?.showAlertWithTitle(LGLocalizedString.loginDeviceNotAllowedAlertTitle,
-                                                           text: LGLocalizedString.loginDeviceNotAllowedAlertMessage,
+            self?.parentViewController?.showAlertWithTitle(R.Strings.loginDeviceNotAllowedAlertTitle,
+                                                           text: R.Strings.loginDeviceNotAllowedAlertMessage,
                                                            alertType: .iconAlert(icon: #imageLiteral(resourceName: "ic_device_blocked_alert")),
                                                            buttonsLayout: .vertical, actions: actions)
             self?.tracker.trackEvent(TrackerEvent.loginBlockedAccountStart(network, reason: .secondDevice))

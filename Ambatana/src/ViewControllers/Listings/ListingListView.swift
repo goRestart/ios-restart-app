@@ -254,10 +254,12 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         guard let item = viewModel.itemAtIndex(indexPath.row) else { return }
 
         let imageSize = viewModel.imageViewSizeForItem(at: indexPath.row)
+        let interestedState = viewModel.interestStateFor(listingAtIndex: indexPath.row)
         drawerManager.willDisplay(item,
                                   inCell: cell,
                                   delegate: viewModel.listingCellDelegate,
-                                  imageSize: imageSize)
+                                  imageSize: imageSize,
+                                  interestedState: interestedState)
 
         viewModel.setCurrentItemIndex(indexPath.item)
 
@@ -334,6 +336,11 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     func vmReloadData(_ vm: ListingListViewModel) {
         guard viewModel === vm else { return }
         reloadData()
+    }
+
+    func vmReloadData(_ vm: ListingListViewModel, atIndex index: IndexPath) {
+        guard viewModel === vm else { return }
+        collectionView.reloadItems(at: [index])
     }
 
     func vmDidUpdateState(_ vm: ListingListViewModel, state: ViewState) {

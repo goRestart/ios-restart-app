@@ -1,14 +1,7 @@
-//
-//  ExpressChatViewModel.swift
-//  LetGo
-//
-//  Created by Dídac on 09/08/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 protocol ExpressChatViewModelDelegate: class {
     func sendMessageSuccess()
@@ -27,7 +20,7 @@ class ExpressChatViewModel: BaseViewModel {
     }
 
     let selectedListings = Variable<[Listing]>([])
-    let messageText = Variable<String>(LGLocalizedString.chatExpressTextFieldText)
+    let messageText = Variable<String>(R.Strings.chatExpressTextFieldText)
     let sendButtonEnabled = Variable<Bool>(false)
 
     weak var navigator: ExpressChatNavigator?
@@ -160,8 +153,8 @@ class ExpressChatViewModel: BaseViewModel {
 
         selectedItemsCount.asObservable().subscribeNext { [weak self] numSelected in
             self?.sendMessageTitle.value = numSelected > 1 ?
-                LGLocalizedString.chatExpressContactVariousButtonText(String(numSelected)) :
-                LGLocalizedString.chatExpressContactOneButtonText
+                R.Strings.chatExpressContactVariousButtonText(String(numSelected)) :
+                R.Strings.chatExpressContactOneButtonText
         }.disposed(by: disposeBag)
 
         selectedItemsCount.asObservable().subscribeNext { [weak self] selectedCount in
@@ -183,14 +176,17 @@ extension ExpressChatViewModel {
                                               freePostingModeAllowed: freePostingModeAllowed,
                                               containsEmoji: containsEmoji,
                                               error: nil) else { return }
-
+        let containsVideo = EventParameterBoolean(bool: listing.containsVideo())
         if shouldSendAskQuestion {
+            let containsVideo = EventParameterBoolean(bool: listing.containsVideo())
             tracker.trackEvent(TrackerEvent.firstMessage(info: info,
                                                          listingVisitSource: .unknown,
                                                          feedPosition: .none,
-                                                         userBadge: .noBadge))
+                                                         userBadge: .noBadge,
+                                                         containsVideo: containsVideo,
+                                                         isProfessional: nil))
         }
-        tracker.trackEvent(TrackerEvent.userMessageSent(info: info))
+        tracker.trackEvent(TrackerEvent.userMessageSent(info: info, isProfessional: nil))
     }
 
     static func singleMessageTrackingError(_ tracker: Tracker,
@@ -212,7 +208,7 @@ extension ExpressChatViewModel {
         let sendMessageInfo = SendMessageTrackingInfo()
             .set(listing: listing, freePostingModeAllowed: freePostingModeAllowed)
             .set(messageType: .text)
-            .set(quickAnswerType: nil)
+            .set(quickAnswerTypeParameter: nil)
             .set(typePage: .expressChat)
             .set(isBumpedUp: .falseParameter)
             .set(containsEmoji: containsEmoji)

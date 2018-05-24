@@ -1,12 +1,5 @@
-//
-//  MLPostListingState.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 21/03/17.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
+import LGComponents
 
 final class MLPostListingState {
     let step: MLPostListingStep
@@ -191,10 +184,11 @@ final class MLPostListingState {
         guard step == .uploadingImage else { return self }
         let message: String
         switch uploadError {
-        case .internalError, .unauthorized, .notFound, .forbidden, .tooManyRequests, .userNotVerified, .serverError, .wsChatError:
-            message = LGLocalizedString.productPostGenericError
+        case .internalError, .unauthorized, .notFound, .forbidden, .tooManyRequests, .userNotVerified, .serverError,
+             .wsChatError, .searchAlertError:
+            message = R.Strings.productPostGenericError
         case .network:
-            message = LGLocalizedString.productPostNetworkError
+            message = R.Strings.productPostNetworkError
         }
         
         return MLPostListingState(step: .errorUpload(message: message),

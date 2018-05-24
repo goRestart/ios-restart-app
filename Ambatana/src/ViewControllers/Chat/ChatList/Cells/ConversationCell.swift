@@ -1,13 +1,7 @@
-//
-//  ConversationCell.swift
-//  LetGo
-//
-//  Created by AHL on 25/4/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
+import LGCoreKit
 import UIKit
 import Lottie
+import LGComponents
 
 enum ConversationCellStatus {
     case available
@@ -19,6 +13,44 @@ enum ConversationCellStatus {
     case userDeleted
     case userBlocked
     case blockedByUser
+
+    var icon: UIImage? {
+        switch self {
+        case .forbidden:
+            return #imageLiteral(resourceName: "ic_pending_moderation")
+        case .listingSold, .listingGivenAway:
+            return #imageLiteral(resourceName: "ic_dollar_sold")
+        case .listingDeleted, .userPendingDelete, .userDeleted:
+            return #imageLiteral(resourceName: "ic_alert_yellow_white_inside")
+        case .userBlocked, .blockedByUser:
+            return #imageLiteral(resourceName: "ic_blocked")
+        case .available:
+            return nil
+        }
+    }
+
+    var message: String? {
+        switch self {
+        case .forbidden:
+            return R.Strings.accountPendingModeration
+        case .listingSold:
+            return R.Strings.commonProductSold
+        case .listingGivenAway:
+            return R.Strings.commonProductGivenAway
+        case .listingDeleted:
+            return R.Strings.commonProductNotAvailable
+        case .userPendingDelete:
+            return R.Strings.chatListAccountDeleted
+        case .userDeleted:
+            return R.Strings.chatListAccountDeleted
+        case .userBlocked:
+            return R.Strings.chatListBlockedUserLabel
+        case .blockedByUser:
+            return R.Strings.chatBlockedByOtherLabel
+        case .available:
+            return nil
+        }
+    }
 }
 
 struct ConversationCellData {
@@ -28,6 +60,8 @@ struct ConversationCellData {
     let userName: String
     let userImageUrl: URL?
     let userImagePlaceholder: UIImage?
+    let userType: UserType?
+    let amISelling: Bool
     let listingId: String?
     let listingName: String
     let listingImageUrl: URL?
@@ -149,28 +183,13 @@ class ConversationCell: UITableViewCell, ReusableCell {
             userLabel.font = UIFont.conversationUserNameFont
         }
 
-        switch data.status {
-        case .forbidden:
-            setInfo(text: LGLocalizedString.accountPendingModeration, icon: UIImage(named: "ic_pending_moderation"))
-        case .listingSold:
-            setInfo(text: LGLocalizedString.commonProductSold, icon: UIImage(named: "ic_dollar_sold"))
-        case .listingGivenAway:
-            setInfo(text: LGLocalizedString.commonProductGivenAway, icon: UIImage(named: "ic_dollar_sold"))
-        case .listingDeleted:
-            setInfo(text: LGLocalizedString.commonProductNotAvailable, icon: UIImage(named: "ic_alert_yellow_white_inside"))
-        case .userPendingDelete:
-            setInfo(text: LGLocalizedString.chatListAccountDeleted, icon: UIImage(named: "ic_alert_yellow_white_inside"))
-        case .userDeleted:
-            setInfo(text: LGLocalizedString.chatListAccountDeleted, icon: UIImage(named: "ic_alert_yellow_white_inside"))
-            userLabel.text = LGLocalizedString.chatListAccountDeletedUsername
+        let statusText = data.status == .available ? data.messageDate?.relativeTimeString(false) ?? "" : data.status.message
+        setInfo(text: statusText, icon: data.status.icon)
+
+        if data.status == .userDeleted {
+            userLabel.text = R.Strings.chatListAccountDeletedUsername
             listingLabel.text = nil
             avatarImageView.image = UIImage(named: "user_placeholder")
-        case .available:
-            setInfo(text: data.messageDate?.relativeTimeString(false) ?? "", icon: nil)
-        case .userBlocked:
-            setInfo(text: LGLocalizedString.chatListBlockedUserLabel, icon: UIImage(named: "ic_blocked"))
-        case .blockedByUser:
-            setInfo(text: LGLocalizedString.chatBlockedByOtherLabel, icon: UIImage(named: "ic_blocked"))
         }
 
         let badge: String? = data.unreadCount > 0 ? String(data.unreadCount) : nil
@@ -245,17 +264,17 @@ class ConversationCell: UITableViewCell, ReusableCell {
     
     private func setUserIsTyping(enabled: Bool) {
         if enabled {
-            listingLabel.alphaAnimated(0)
-            timeLabel.alphaAnimated(0)
-            statusImageView.alphaAnimated(0)
+            listingLabel.animateTo(alpha: 0)
+            timeLabel.animateTo(alpha: 0)
+            statusImageView.animateTo(alpha: 0)
             userIsTypingAnimationView.play()
-            userIsTypingAnimationViewContainer.alphaAnimated(1)
+            userIsTypingAnimationViewContainer.animateTo(alpha: 1)
         } else {
-            userIsTypingAnimationViewContainer.alphaAnimated(0)
+            userIsTypingAnimationViewContainer.animateTo(alpha: 0)
             userIsTypingAnimationView.stop()
-            listingLabel.alphaAnimated(1)
-            timeLabel.alphaAnimated(1)
-            statusImageView.alphaAnimated(1)
+            listingLabel.animateTo(alpha: 1)
+            timeLabel.animateTo(alpha: 1)
+            statusImageView.animateTo(alpha: 1)
         }
     }
 }

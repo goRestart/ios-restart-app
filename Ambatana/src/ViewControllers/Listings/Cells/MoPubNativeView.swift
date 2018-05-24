@@ -1,13 +1,6 @@
-//
-//  MoPubNativeView.sw
-//  LetGo
-//
-//  Created by Francisco Manuel Gómez Rodríguez on 5/3/18.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import UIKit
 import MoPub
+import LGComponents
 
 final class MoPubNativeView: UIView, MPNativeAdRendering {
     
@@ -79,7 +72,7 @@ final class MoPubNativeView: UIView, MPNativeAdRendering {
     }
     
     private func setupAdTextLabel() {
-        adTextLabel.text = LGLocalizedString.mopubAdvertisingText
+        adTextLabel.text = R.Strings.mopubAdvertisingText
         adTextLabel.font = UIFont.adTextFont
         adTextLabel.textColor = UIColor.grayText
         adTextLabel.textAlignment = .right

@@ -56,9 +56,6 @@ final class ListingCardUserView: UIView {
     private let userNameLabel = UILabel()
     private let userBadgeImageView = UIImageView()
 
-    private let effect: UIBlurEffect = UIBlurEffect(style: .dark)
-    let effectView: UIVisualEffectView
-
     private let actionLayoutGuide = UILayoutGuide()
     private let actionButton = UIButton()
     private let shareButton = UIButton()
@@ -66,7 +63,6 @@ final class ListingCardUserView: UIView {
     convenience init() { self.init(frame: .zero) }
 
     override init(frame: CGRect) {
-        effectView = UIVisualEffectView(effect: effect)
         rxShareButton = shareButton.rx
         rxActionButton = actionButton.rx
         rxUserIcon = userIcon.rx
@@ -102,7 +98,7 @@ final class ListingCardUserView: UIView {
 
     func set(action: Action) {
         action.setupListingCardUserView(self)
-        actionButton.alphaAnimated(1)
+        actionButton.animateTo(alpha: 1)
     }
 
     fileprivate func set(favourite isFavourite: Bool) {
@@ -126,34 +122,14 @@ final class ListingCardUserView: UIView {
     }
 
     private func setupUI() {
-        setupBlur()
-        setupGradient()
         setupUserIcon()
         setupUserInfo()
         setupActions()
         setupUserBadge()
     }
 
-    private func setupBlur() {
-        effectView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(effectView)
-        effectView.layout(with: self).fill()
-        effectView.backgroundColor = UIColor.clear
-
-        effectView.alpha = 0
-    }
-
-    private func setupGradient() {
-        let gradient = GradientView(colors: [UIColor.black.withAlphaComponent(0), UIColor.black.withAlphaComponent(0.2)])
-        gradient.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(gradient)
-        gradient.layout(with: self).fill()
-    }
-
     private func setupUserIcon() {
-        userIcon.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(userIcon)
-        userIcon.setBackgroundImage(Images.placeholder, for: .normal)
+        addSubviewForAutoLayout(userIcon)
         userIcon.layout(with: self)
             .top(by: Metrics.margin)
             .leading(by: Metrics.margin).bottom(by: -Metrics.margin)
@@ -176,12 +152,12 @@ final class ListingCardUserView: UIView {
     }
 
     private func setupUserInfo() {
-        userNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(userNameLabel)
+        addSubviewForAutoLayout(userNameLabel)
         userNameLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
         userNameLabel.setContentHuggingPriority(.required, for: .vertical)
 
-        userNameLabel.layout(with: userIcon)
+        userNameLabel
+            .layout(with: userIcon)
             .leading(to: .trailingMargin, by: Metrics.margin)
             .top(by: Metrics.veryShortMargin)
         userNameLabel.font = UIFont.deckUsernameFont
@@ -190,16 +166,13 @@ final class ListingCardUserView: UIView {
 
     private func setupActions() {
         addLayoutGuide(actionLayoutGuide)
-        addSubview(actionButton)
-        addSubview(shareButton)
+        addSubviewsForAutoLayout([actionButton, shareButton])
 
-        actionButton.translatesAutoresizingMaskIntoConstraints = false
         actionButton.setImage(Images.favourite, for: .normal)
         actionButton.imageView?.contentMode = .center
         actionButton.addTarget(self, action: #selector(didTouchUpActionButton), for: .touchUpInside)
         actionButton.applyDefaultShadow()
 
-        shareButton.translatesAutoresizingMaskIntoConstraints = false
         shareButton.setImage(Images.share, for: .normal)
         shareButton.imageView?.contentMode = .center
         shareButton.applyDefaultShadow()

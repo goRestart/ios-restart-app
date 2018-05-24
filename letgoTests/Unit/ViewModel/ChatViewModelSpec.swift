@@ -13,7 +13,7 @@ import LGCoreKit
 import Quick
 import Nimble
 import Foundation
-
+import LGComponents
 
 class ChatViewModelSpec: BaseViewModelSpec {
     
@@ -36,7 +36,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
         var sessionManager: MockSessionManager!
         var keyValueStorage: KeyValueStorage!
         var featureFlags: MockFeatureFlags!
-        var source: EventParameterTypePage!
+        var source: LetGoGodMode.EventParameterTypePage!
         var pushPermissionManager: MockPushPermissionsManager!
         var ratingManager: MockRatingManager!
         
@@ -154,6 +154,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                     chatMessages = []
                     productResult = self.makeMockProduct(with: .approved)
                     chatInterlocutor = self.makeChatInterlocutor(with: .active, isMuted: false, isBanned: false, hasMutedYou: false)
+                    chatInterlocutor.userType = .user
                     user = self.makeUser(with: .active, isDummy: false, userId: mockMyUser.objectId!)
                     
                 }
@@ -305,7 +306,6 @@ class ChatViewModelSpec: BaseViewModelSpec {
                 describe("new conversation") {
                     describe ("with a regular user") {
                         beforeEach {
-                            featureFlags.allowCallsForProfessionals = .control
                             mockMyUser = self.makeMockMyUser(with: .active, isDummy: false)
                             chatMessages = []
                             productResult = self.makeMockProduct(with: .approved)
@@ -326,7 +326,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                                 expect(tracker.trackedEvents.count).toEventually(equal(3))
                             }
                             it("adds interlocutor introduction and one element on messages") {
-                                expect(messages.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.text, sut.userInfoMessage!.value]
+                                expect(messages.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.textToReply, sut.userInfoMessage!.value]
                             }
                             it("tracks sent first message + message sent") {
                                 expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "product-detail-ask-question", "user-sent-message"]
@@ -370,89 +370,51 @@ class ChatViewModelSpec: BaseViewModelSpec {
                         }
                     }
                     describe ("with a professional user") {
-                        context ("allowCallsForProfessionals ABTest active") {
+                        beforeEach {
+                            mockMyUser = self.makeMockMyUser(with: .active, isDummy: false)
+                            chatMessages = []
+                            productResult = self.makeMockProduct(with: .approved)
+                            chatInterlocutor = self.makeChatInterlocutor(with: .active, isMuted: false, isBanned: false, hasMutedYou: false)
+                            chatConversation = self.makeChatConversation(with: chatInterlocutor, unreadMessageCount: 0, lastMessageSentAt: nil, amISelling: false)
+                            user = self.makeUser(with: .active, isDummy: false, userId: mockMyUser.objectId!)
+                            user.type = .pro
+                            user.phone = "666-666-666"
+                            buildChatViewModel(myUser: mockMyUser,
+                                               chatMessages: chatMessages,
+                                               product: productResult,
+                                               chatConversation: chatConversation,
+                                               user: user,
+                                               interlocutor: user)
+                            sut.active = true
+                        }
+                        context("send phone") {
                             beforeEach {
-                                featureFlags.allowCallsForProfessionals = .control
-                                mockMyUser = self.makeMockMyUser(with: .active, isDummy: false)
-                                chatMessages = []
-                                productResult = self.makeMockProduct(with: .approved)
-                                chatInterlocutor = self.makeChatInterlocutor(with: .active, isMuted: false, isBanned: false, hasMutedYou: false)
-                                chatConversation = self.makeChatConversation(with: chatInterlocutor, unreadMessageCount: 0, lastMessageSentAt: nil, amISelling: false)
-                                user = self.makeUser(with: .active, isDummy: false, userId: mockMyUser.objectId!)
-                                user.type = .pro
-                                user.phone = "666-666-666"
-                                buildChatViewModel(myUser: mockMyUser,
-                                                   chatMessages: chatMessages,
-                                                   product: productResult,
-                                                   chatConversation: chatConversation,
-                                                   user: user,
-                                                   interlocutor: user)
-                                sut.active = true
+                                sut.send(phone: "123-456-789")
+                                expect(tracker.trackedEvents.count).toEventually(equal(3))
                             }
-                            context("send phone") {
-                                beforeEach {
-                                    sut.send(phone: "123-456-789")
-                                    expect(tracker.trackedEvents.count).toEventually(equal(3))
-                                }
-                                it("adds interlocutor introduction, the user message and the automatic messages") {
-                                    expect(messages.lastValue?.map{ $0.value }) == [LGLocalizedString.professionalDealerAskPhoneThanksPhoneCellMessage,
-                                                                                    LGLocalizedString.professionalDealerAskPhoneAddPhoneCellMessage,
-                                                                                    LGLocalizedString.professionalDealerAskPhoneChatMessage("123-456-789"),
-                                                                                    sut.userInfoMessage!.value]
-                                }
-                                it("tracks sent first message + message sent") {
-                                    expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "product-detail-ask-question", "user-sent-message"]
-                                }
+                            it("adds interlocutor introduction, the user message and the automatic messages") {
+                                expect(messages.lastValue?.map{ $0.value }) == [R.Strings.professionalDealerAskPhoneThanksPhoneCellMessage,
+                                                                                R.Strings.professionalDealerAskPhoneAddPhoneCellMessage,
+                                                                                R.Strings.professionalDealerAskPhoneChatMessage("123-456-789"),
+                                                                                sut.userInfoMessage!.value]
                             }
-                            context("send regular text") {
-                                beforeEach {
-                                    sut.send(text: "hello")
-                                    expect(tracker.trackedEvents.count).toEventually(equal(3))
-                                }
-                                it("adds interlocutor introduction, the user message and the automatic messages") {
-                                    expect(messages.lastValue?.map{ $0.value }) == [LGLocalizedString.professionalDealerAskPhoneThanksOtherCellMessage,
-                                                                                    LGLocalizedString.professionalDealerAskPhoneAddPhoneCellMessage,
-                                                                                    "hello",
-                                                                                    sut.userInfoMessage!.value]
-                                }
-                                it("tracks sent first message + message sent") {
-                                    expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "product-detail-ask-question", "user-sent-message"]
-                                }
+                            it("tracks sent first message + message sent") {
+                                expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "product-detail-ask-question", "user-sent-message"]
                             }
                         }
-                        context ("allowCallsForProfessionals ABTest inactive") {
+                        context("send regular text") {
                             beforeEach {
-                                featureFlags.allowCallsForProfessionals = .inactive
-                                mockMyUser = self.makeMockMyUser(with: .active, isDummy: false)
-                                chatMessages = []
-                                productResult = self.makeMockProduct(with: .approved)
-                                chatInterlocutor = self.makeChatInterlocutor(with: .active, isMuted: false, isBanned: false, hasMutedYou: false)
-                                chatConversation = self.makeChatConversation(with: chatInterlocutor, unreadMessageCount: 0, lastMessageSentAt: nil, amISelling: false)
-                                user = self.makeUser(with: .active, isDummy: false, userId: mockMyUser.objectId!)
-                                user.type = .pro
-                                user.phone = "666-666-666"
-                                buildChatViewModel(myUser: mockMyUser,
-                                                   chatMessages: chatMessages,
-                                                   product: productResult,
-                                                   chatConversation: chatConversation,
-                                                   user: user,
-                                                   interlocutor: user)
-                                sut.active = true
+                                sut.send(text: "hello")
+                                expect(tracker.trackedEvents.count).toEventually(equal(3))
                             }
-                            context("custom text") {
-                                beforeEach {
-                                    sut.send(text: "text")
-                                    expect(tracker.trackedEvents.count).toEventually(equal(3))
-                                }
-                                it("adds interlocutor introduction and one element on messages") {
-                                    expect(messages.lastValue?.map{ $0.value }) == ["text", sut.userInfoMessage!.value]
-                                }
-                                it("tracks sent first message + message sent") {
-                                    expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "product-detail-ask-question", "user-sent-message"]
-                                }
-                                it("should clean textField") {
-                                    expect(self.textFieldCleaned) == true
-                                }
+                            it("adds interlocutor introduction, the user message and the automatic messages") {
+                                expect(messages.lastValue?.map{ $0.value }) == [R.Strings.professionalDealerAskPhoneThanksOtherCellMessage,
+                                                                                R.Strings.professionalDealerAskPhoneAddPhoneCellMessage,
+                                                                                "hello",
+                                                                                sut.userInfoMessage!.value]
+                            }
+                            it("tracks sent first message + message sent") {
+                                expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "product-detail-ask-question", "user-sent-message"]
                             }
                         }
                     }
@@ -478,7 +440,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                             sut.send(quickAnswer: .meetUp)
                         }
                         it("adds one element on messages") {
-                            expect(messages.lastValue?.first?.value) == QuickAnswer.meetUp.text
+                            expect(messages.lastValue?.first?.value) == QuickAnswer.meetUp.textToReply
                         }
                         it("tracks sent first message + message sent") {
                             expect(tracker.trackedEvents.map { $0.actualName }).toEventually(equal(["chat-window-open", "user-sent-message"]))

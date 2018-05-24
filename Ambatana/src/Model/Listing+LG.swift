@@ -18,6 +18,21 @@ extension Listing {
     func isMine(myUserRepository: MyUserRepository) -> Bool {
         return belongsTo(userId: myUserRepository.myUser?.objectId)
     }
+
+    func containsVideo() -> Bool {
+        return media.contains(where: { $0.type == .video })
+    }
+}
+
+extension Listing {
+    func tags(postingFlowType: PostingFlowType) -> [String]? {
+        switch self {
+        case .product, .car:
+            return nil
+        case .realEstate(let realEstate):
+            return realEstate.realEstateAttributes.generateTags(postingFlowType: postingFlowType)
+        }
+    }
 }
 
 extension Product {
@@ -31,3 +46,4 @@ extension Product {
         return belongsTo(userId: myUserRepository.myUser?.objectId)
     }
 }
+

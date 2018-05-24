@@ -31,6 +31,12 @@ enum AccessibilityId: Equatable {
     case mainListingsInfoBubbleLabel
     case mainListingsSuggestionSearchesTable
 
+    // SectionedFeed
+    case feedNavBarSearch
+    case feedFilterButton
+    case feedInviteButton
+    case feedCollectionView
+    
     // Passive buyers
     case passiveBuyersTitle
     case passiveBuyersMessage
@@ -51,6 +57,7 @@ enum AccessibilityId: Equatable {
     // Listing Cell
     case listingCell(listingId: String?)
     case listingCellThumbnailImageView
+    case listingCellThumbnailGifImageView
     case listingCellStripeImageView
     case listingCellStripeLabel
     case listingCellStripeIcon
@@ -154,6 +161,7 @@ enum AccessibilityId: Equatable {
     case listingCarouselUserView
     case listingCarouselChatTextView
     case listingCarouselStatusView
+    case listingCarouselPlayButton
 
     case listingCarouselNavBarCloseButton
     case listingCarouselNavBarEditButton
@@ -219,8 +227,7 @@ enum AccessibilityId: Equatable {
     case notificationsModularCTA1
     case notificationsModularCTA2
     case notificationsModularCTA3
-    
-    
+
     // Posting
     case postingCameraImagePreview
     case postingCameraSwitchCamButton
@@ -239,7 +246,9 @@ enum AccessibilityId: Equatable {
     case postingGalleryCloseButton
     case postingCloseButton
     case postingGalleryButton
+    case postingCameraButton
     case postingPhotoButton
+    case postingVideoButton
     case postingInfoButton
     case postingLoading
     case postingRetryButton
@@ -388,6 +397,10 @@ enum AccessibilityId: Equatable {
     case passwordlessEmailSentSubtitleLabel
     case passwordlessEmailSentImageView
 
+    // ChatConversationsList
+    case chatConversationsListOptionsNavBarButton
+    case chatConversationsListFiltersNavBarButton
+    
     // ChatGrouped
     case chatGroupedViewRightNavBarButton
 
@@ -412,6 +425,17 @@ enum AccessibilityId: Equatable {
     case conversationCellThumbnailImageView
     case conversationCellAvatarImageView
     case conversationCellStatusImageView
+
+    // Chat Assistant Conversation Cell
+    case assistantConversationCellNameLabel
+    case assistantConversationCellAvatarImageView
+    case assistantConversationCellInfoLabel
+    case assistantConversationCellTimeLabel
+    case assistantConversationCellBadgeLabel
+
+    // ChatBlockedUserVC
+    case chatBlockedUsersTableView
+    case chatBlockedUsersEmptyView
 
     // BlockedUserCell
     case blockedUserCellAvatarImageView
@@ -491,6 +515,7 @@ enum AccessibilityId: Equatable {
     case userHeaderCollapsedLocationLabel
     case userHeaderExpandedNameLabel
     case userHeaderExpandedLocationLabel
+    case userHeaderExpandedAvatar
     case userHeaderExpandedAvatarButton
     case userHeaderExpandedRatingsButton
     case userHeaderExpandedRelationLabel
@@ -514,6 +539,9 @@ enum AccessibilityId: Equatable {
     case userProfileVerifiedTitle
     case userProfileMoreBioTitle
     case userProfileBioLabel
+    case userProfileVerifiedWithFacebook
+    case userProfileVerifiedWithGoogle
+    case userProfileVerifiedWithEmail
 
     // Verify Accounts popup
     case verifyAccountsBackgroundButton
@@ -522,6 +550,30 @@ enum AccessibilityId: Equatable {
     case verifyAccountsEmailButton
     case verifyAccountsEmailTextField
     case verifyAccountsEmailTextFieldButton
+
+    // Verifications view
+    case verificationsOptionsTitle
+    case verificationsFacebookOption
+    case verificationsGoogleOption
+    case verificationsEmailOption
+    case verificationsPhoneNumberOption
+    case verificationsPhotoIDOption
+    case verificationsAvatarOption
+    case verificationsBioOption
+    case verificationsMarkAsSoldOption
+
+    // Phone Verification
+    case phoneVerificationNumberInputCountryButton
+    case phoneVerificationNumberInputCountryCodeLabel
+    case phoneVerificationNumberInputTextField
+    case phoneVerificationNumberInputContinueButton
+    case phoneVerificationCodeInputTitle
+    case phoneVerificationCodeInputSubtitle
+    case phoneVerificationCodeInputTextfield
+    case phoneVerificationCodeInputInfoLabel
+    case phoneVerificationCodeInputInfoButton
+    case phoneVerificationCountryPickerTable
+    case phoneVerificationCountryPickerSearchBar
 
     // Settings
     case settingsList
@@ -533,6 +585,13 @@ enum AccessibilityId: Equatable {
     case settingsCellTitle
     case settingsCellValue
     case settingsCellSwitch
+    
+    // SettingsNotifications
+    case settingsNotificationsTableView
+    
+    // SettingsNotificationsCell
+    case settingsNotificationsCellTitle
+    case settingsNotificationsCellSwitch
 
     // ChangeUsername
     case changeUsernameNameField
@@ -690,6 +749,12 @@ enum AccessibilityId: Equatable {
     case realEstatePromoTitle
     case realEstatePromoIcon
     case realEstatePromoPostNowButton
+
+    // Search Alerts Placeholder
+    case searchAlertsPlaceholderIcon
+    case searchAlertsPlaceholderText
+    case searchAlertsPlaceholderButton
+
     
     static func ==(lhs: AccessibilityId, rhs: AccessibilityId) -> Bool {
         return lhs.identifier == rhs.identifier
@@ -726,6 +791,16 @@ enum AccessibilityId: Equatable {
             return "mainListingsInfoBubbleLabel"
         case .mainListingsSuggestionSearchesTable:
             return "mainListingsSuggestionSearchesTable"
+           
+        // Sectioned Feed
+        case .feedFilterButton:
+            return "feedFilterButton"
+        case .feedInviteButton:
+            return "feedInviteButton"
+        case .feedNavBarSearch:
+            return "feedNavBarSearch"
+        case .feedCollectionView:
+            return "feedCollectionView"
             
         // Passive buyers
         case .passiveBuyersTitle:
@@ -762,6 +837,8 @@ enum AccessibilityId: Equatable {
             return "listingCell-\(listingId ?? "")"
         case .listingCellThumbnailImageView:
             return "listingCellThumbnailImageView"
+        case .listingCellThumbnailGifImageView:
+            return "listingCellThumbnailGifImageView"
         case .listingCellStripeImageView:
             return "listingCellStripeImageView"
         case .listingCellStripeLabel:
@@ -1018,6 +1095,8 @@ enum AccessibilityId: Equatable {
             return "listingCarouselChatTextView"
         case .listingCarouselStatusView:
             return "listingCarouselStatusView"
+        case .listingCarouselPlayButton:
+            return "listingCarouselPlayButton"
             
         case .listingCarouselNavBarCloseButton:
             return "listingCarouselNavBarCloseButton"
@@ -1173,8 +1252,12 @@ enum AccessibilityId: Equatable {
             return "postingGalleryButton"
         case .postingInfoButton:
             return "postingInfoButton"
+        case .postingCameraButton:
+            return "postingCameraButton"
         case .postingPhotoButton:
             return "postingPhotoButton"
+        case .postingVideoButton:
+            return "postingVideoButton"
         case .postingLoading:
             return "postingLoading"
         case .postingRetryButton:
@@ -1446,6 +1529,13 @@ enum AccessibilityId: Equatable {
         case .passwordlessEmailSentImageView:
             return "passwordlessEmailSentImageView"
 
+            
+        // ChatConversationsList
+        case .chatConversationsListOptionsNavBarButton:
+            return "chatConversationsListOptionsNavBarButton"
+        case .chatConversationsListFiltersNavBarButton:
+            return "chatConversationsListFiltersNavBarButton"
+            
         // ChatGrouped
         case .chatGroupedViewRightNavBarButton:
             return "chatGroupedViewRightNavBarButton"
@@ -1488,6 +1578,25 @@ enum AccessibilityId: Equatable {
             return "conversationCellAvatarImageView"
         case .conversationCellStatusImageView:
             return "conversationCellStatusImageView"
+
+        // Chat Assistant Conversation Cell
+
+        case .assistantConversationCellNameLabel:
+            return "assistantConversationCellNameLabel"
+        case .assistantConversationCellAvatarImageView:
+            return "assistantConversationCellAvatarImageView"
+        case .assistantConversationCellInfoLabel:
+            return "assistantConversationCellInfoLabel"
+        case .assistantConversationCellTimeLabel:
+            return "assistantConversationCellTimeLabel"
+        case .assistantConversationCellBadgeLabel:
+            return "assistantConversationCellBadgeLabel"
+
+        // ChatBlockedUserVC
+        case .chatBlockedUsersTableView:
+            return "chatBlockedUsersTableView"
+        case .chatBlockedUsersEmptyView:
+            return "chatBlockedUsersEmptyView"
             
         // BlockedUserCell
         case .blockedUserCellAvatarImageView:
@@ -1627,6 +1736,8 @@ enum AccessibilityId: Equatable {
             return "userHeaderExpandedNameLabel"
         case .userHeaderExpandedLocationLabel:
             return "userHeaderExpandedLocationLabel"
+        case .userHeaderExpandedAvatar:
+            return "userHeaderExpandedAvatar"
         case .userHeaderExpandedAvatarButton:
             return "userHeaderExpandedAvatarButton"
         case .userHeaderExpandedRatingsButton:
@@ -1673,6 +1784,12 @@ enum AccessibilityId: Equatable {
             return "userProfileMoreBioTitle"
         case .userProfileBioLabel:
             return "userProfileBioLabel"
+        case .userProfileVerifiedWithFacebook:
+            return "userProfileVerifiedWithFacebook"
+        case .userProfileVerifiedWithGoogle:
+            return "userProfileVerifiedWithGoogle"
+        case .userProfileVerifiedWithEmail:
+            return "userProfileVerifiedWithEmail"
             
         // Verify Accounts popup
         case .verifyAccountsBackgroundButton:
@@ -1687,7 +1804,51 @@ enum AccessibilityId: Equatable {
             return "verifyAccountsEmailTextField"
         case .verifyAccountsEmailTextFieldButton:
             return "verifyAccountsEmailTextFieldButton"
-            
+
+        // Verifications view
+        case .verificationsOptionsTitle:
+            return "verificationsOptionsTitle"
+        case .verificationsFacebookOption:
+            return "verificationsFacebookOption"
+        case .verificationsGoogleOption:
+            return "verificationsGoogleOption"
+        case .verificationsEmailOption:
+            return "verificationsEmailOption"
+        case .verificationsPhoneNumberOption:
+            return "verificationsPhoneNumberOption"
+        case .verificationsPhotoIDOption:
+            return "verificationsPhotoIDOption"
+        case .verificationsAvatarOption:
+            return "verificationsAvatarOption"
+        case .verificationsBioOption:
+            return "verificationsBioOption"
+        case .verificationsMarkAsSoldOption:
+            return "verificationsMarkAsSoldOption"
+
+        // Phone Verification
+        case .phoneVerificationNumberInputCountryButton:
+            return "phoneVerificationNumberInputCountryButton"
+        case .phoneVerificationNumberInputCountryCodeLabel:
+            return "phoneVerificationNumberInputCountryCodeLabel"
+        case .phoneVerificationNumberInputTextField:
+            return "phoneVerificationNumberInputTextField"
+        case .phoneVerificationNumberInputContinueButton:
+            return "phoneVerificationNumberInputContinueButton"
+        case .phoneVerificationCodeInputTitle:
+            return "phoneVerificationCodeInputTitle"
+        case .phoneVerificationCodeInputSubtitle:
+            return "phoneVerificationCodeInputSubtitle"
+        case .phoneVerificationCodeInputTextfield:
+            return "phoneVerificationCodeInputTextfield"
+        case .phoneVerificationCodeInputInfoLabel:
+            return "phoneVerificationCodeInputInfoLabel"
+        case .phoneVerificationCodeInputInfoButton:
+            return "phoneVerificationCodeInputInfoButton"
+        case .phoneVerificationCountryPickerTable:
+            return "phoneVerificationCountryPickerTable"
+        case .phoneVerificationCountryPickerSearchBar:
+            return "phoneVerificationCountryPickerSearchBar"
+
         // Settings
         case .settingsList:
             return "settingsList"
@@ -1705,6 +1866,16 @@ enum AccessibilityId: Equatable {
             return "settingsCellValue"
         case .settingsCellSwitch:
             return "settingsCellSwitch"
+            
+        // SettingsNotifications
+        case .settingsNotificationsTableView:
+            return "settingsNotificationsTableView"
+        
+        // SettingsNotificationsCell
+        case .settingsNotificationsCellTitle:
+            return "settingsNotificationsCellTitle"
+        case .settingsNotificationsCellSwitch:
+            return "settingsNotificationsCellSwitch"
             
         // ChangeUsername
         case .changeUsernameNameField:
@@ -1965,6 +2136,13 @@ enum AccessibilityId: Equatable {
             return "realEstatePromoIcon"
         case .realEstatePromoPostNowButton:
             return "realEstatePromoPostNowButton"
+        // Search Alerts Placeholder
+        case .searchAlertsPlaceholderIcon:
+            return "searchAlertsPlaceholderIcon"
+        case .searchAlertsPlaceholderText:
+            return "searchAlertsPlaceholderText"
+        case .searchAlertsPlaceholderButton:
+            return "searchAlertsPlaceholderButton"
         }
     }
 }

@@ -77,6 +77,7 @@ class ListingCreationViewModel : BaseViewModel {
                                                      sellButtonPosition: trackingInfo.sellButtonPosition,
                                                      negotiable: trackingInfo.negotiablePrice,
                                                      pictureSource: trackingInfo.imageSource,
+                                                     videoLength: trackingInfo.videoLength,
                                                      freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                      typePage: trackingInfo.typePage,
                                                      mostSearchedButton: trackingInfo.mostSearchedButton,
@@ -95,15 +96,7 @@ class ListingCreationViewModel : BaseViewModel {
     }
     
     private func trackPostSellError(error: RepositoryError) {
-        let sellError: EventParameterPostListingError
-        switch error {
-        case .network:
-            sellError = .network
-        case .serverError, .notFound, .forbidden, .unauthorized, .tooManyRequests, .userNotVerified:
-            sellError = .serverError(code: error.errorCode)
-        case .internalError, .wsChatError:
-            sellError = .internalError
-        }
+        let sellError = EventParameterPostListingError(error: error)
         let sellErrorDataEvent = TrackerEvent.listingSellErrorData(sellError)
         tracker.trackEvent(sellErrorDataEvent)
     }

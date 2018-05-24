@@ -36,7 +36,6 @@ final class ChangePasswordCoordinator: Coordinator {
         let changePasswordVM = ChangePasswordViewModel(token: token)
         let changePasswordVC = ChangePasswordViewController(viewModel: changePasswordVM)
         let navC = UINavigationController(rootViewController: changePasswordVC)
-        navC.modalPresentationStyle = .overCurrentContext
         self.viewController = navC
         self.bubbleNotificationManager = bubbleNotificationManager
         self.sessionManager = sessionManager

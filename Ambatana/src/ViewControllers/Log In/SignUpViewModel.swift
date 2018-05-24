@@ -1,15 +1,8 @@
-//
-//  MainSignUpViewModel.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 10/06/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
 import UIKit
 import LGCoreKit
 import Result
 import RxSwift
+import LGComponents
 
 enum LoginSource: String {
     case Chats = "messages"
@@ -32,12 +25,12 @@ class SignUpViewModel: BaseViewModel {
 
     var attributedLegalText: NSAttributedString {
         guard let conditionsURL = termsAndConditionsURL, let privacyURL = privacyURL else {
-            return NSAttributedString(string: LGLocalizedString.mainSignUpTermsConditions)
+            return NSAttributedString(string: R.Strings.mainSignUpTermsConditions)
         }
 
-        let links = [LGLocalizedString.mainSignUpTermsConditionsTermsPart: conditionsURL,
-            LGLocalizedString.mainSignUpTermsConditionsPrivacyPart: privacyURL]
-        let localizedLegalText = LGLocalizedString.mainSignUpTermsConditions
+        let links = [R.Strings.mainSignUpTermsConditionsTermsPart: conditionsURL,
+            R.Strings.mainSignUpTermsConditionsPrivacyPart: privacyURL]
+        let localizedLegalText = R.Strings.mainSignUpTermsConditions
         let attributtedLegalText = localizedLegalText.attributedHyperlinkedStringWithURLDict(links,
             textColor: UIColor.darkGrayText)
         let range = NSMakeRange(0, attributtedLegalText.length)

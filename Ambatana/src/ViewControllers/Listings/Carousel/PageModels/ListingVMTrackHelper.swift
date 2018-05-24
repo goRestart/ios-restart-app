@@ -33,8 +33,15 @@ extension ListingViewModel {
                                                    EventParameterBoolean.falseParameter
         let badge = seller.value?.reputationBadge ?? .noBadge
         let sellerBadge = EventParameterUserBadge(userBadge: badge)
-        trackHelper.trackVisit(visitUserAction, source: source, feedPosition: feedPosition,
-                               isShowingFeaturedStripe: isBumpedUp, sellerBadge: sellerBadge)
+        let isMine = EventParameterBoolean(bool: self.isMine)
+        let containsVideo = EventParameterBoolean(bool: listing.value.containsVideo())
+        trackHelper.trackVisit(visitUserAction,
+                               source: source,
+                               feedPosition: feedPosition,
+                               isShowingFeaturedStripe: isBumpedUp,
+                               sellerBadge: sellerBadge,
+                               isMine: isMine,
+                               containsVideo: containsVideo)
     }
 
     func trackVisitMoreInfo(isMine: EventParameterBoolean,
@@ -112,10 +119,11 @@ extension ListingViewModel {
                               transactionStatus: EventParameterTransactionStatus?,
                               storeProductId: String?,
                               isPromotedBump: Bool,
-                              typePage: EventParameterTypePage?) {
+                              typePage: EventParameterTypePage?,
+                              paymentId: String?) {
         trackHelper.trackBumpUpCompleted(price, type: type, restoreRetriesCount: restoreRetriesCount, network: network,
                                          transactionStatus: transactionStatus, storeProductId: storeProductId,
-                                         isPromotedBump: isPromotedBump, typePage: typePage)
+                                         isPromotedBump: isPromotedBump, typePage: typePage, paymentId: paymentId)
     }
 
     func trackBumpUpFail(type: BumpUpType,
@@ -144,6 +152,10 @@ extension ListingViewModel {
 
     func trackOpenFeaturedInfo() {
         trackHelper.trackOpenFeaturedInfo()
+    }
+
+    func trackPlayVideo(source: EventParameterListingVisitSource) {
+        trackHelper.trackPlayVideo(source: source)
     }
 }
 
@@ -210,7 +222,8 @@ extension ProductVMTrackHelper {
                               transactionStatus: EventParameterTransactionStatus?,
                               storeProductId: String?,
                               isPromotedBump: Bool,
-                              typePage: EventParameterTypePage?) {
+                              typePage: EventParameterTypePage?,
+                              paymentId: String?) {
         let trackerEvent = TrackerEvent.listingBumpUpComplete(listing, price: price,
                                                               type: EventParameterBumpUpType(bumpType: type),
                                                               restoreRetriesCount: restoreRetriesCount,
@@ -219,7 +232,8 @@ extension ProductVMTrackHelper {
                                                               storeProductId: storeProductId,
                                                               isPromotedBump: EventParameterBoolean(bool: isPromotedBump),
                                                               typePage: typePage,
-                                                              isBoost: EventParameterBoolean(bool: type.isBoost))
+                                                              isBoost: EventParameterBoolean(bool: type.isBoost),
+                                                              paymentId: paymentId)
         tracker.trackEvent(trackerEvent)
     }
 
@@ -273,13 +287,17 @@ extension ProductVMTrackHelper {
                     source: EventParameterListingVisitSource,
                     feedPosition: EventParameterFeedPosition,
                     isShowingFeaturedStripe: EventParameterBoolean,
-                    sellerBadge: EventParameterUserBadge) {
+                    sellerBadge: EventParameterUserBadge,
+                    isMine: EventParameterBoolean,
+                    containsVideo: EventParameterBoolean) {
         let trackerEvent = TrackerEvent.listingDetailVisit(listing,
                                                            visitUserAction: visitUserAction,
                                                            source: source,
                                                            feedPosition: feedPosition,
                                                            isBumpedUp: isShowingFeaturedStripe,
-                                                           sellerBadge: sellerBadge)
+                                                           sellerBadge: sellerBadge,
+                                                           isMine: isMine,
+                                                           containsVideo: containsVideo)
         tracker.trackEvent(trackerEvent)
     }
 
@@ -390,7 +408,8 @@ extension ProductVMTrackHelper {
                           isShowingFeaturedStripe: Bool,
                           listingVisitSource: EventParameterListingVisitSource,
                           feedPosition: EventParameterFeedPosition,
-                          sellerBadge: EventParameterUserBadge) {
+                          sellerBadge: EventParameterUserBadge,
+                          containsVideo: EventParameterBoolean) {
         guard let info = buildSendMessageInfo(withType: messageType,
                                               isShowingFeaturedStripe: isShowingFeaturedStripe,
                                               error: nil) else { return }
@@ -399,9 +418,11 @@ extension ProductVMTrackHelper {
             tracker.trackEvent(TrackerEvent.firstMessage(info: info,
                                                          listingVisitSource: listingVisitSource,
                                                          feedPosition: feedPosition,
-                                                         userBadge: sellerBadge))
+                                                         userBadge: sellerBadge,
+                                                         containsVideo: containsVideo,
+                                                         isProfessional: nil))
         }
-        tracker.trackEvent(TrackerEvent.userMessageSent(info: info))
+        tracker.trackEvent(TrackerEvent.userMessageSent(info: info, isProfessional: nil))
     }
 
     func trackMessageSentError(messageType: ChatWrapperMessageType, isShowingFeaturedStripe: Bool, error: RepositoryError) {
@@ -418,7 +439,7 @@ extension ProductVMTrackHelper {
         let sendMessageInfo = SendMessageTrackingInfo()
             .set(listing: listing, freePostingModeAllowed: featureFlags.freePostingModeAllowed)
             .set(messageType: messageType.chatTrackerType)
-            .set(quickAnswerType: messageType.quickAnswerType)
+            .set(quickAnswerTypeParameter: messageType.quickAnswerTypeParameter)
             .set(typePage: .listingDetail)
             .set(isBumpedUp: isBumpedUp)
             .set(containsEmoji: messageType.text.containsEmoji)
@@ -426,5 +447,10 @@ extension ProductVMTrackHelper {
             sendMessageInfo.set(error: error.chatError)
         }
         return sendMessageInfo
+    }
+
+    func trackPlayVideo(source: EventParameterListingVisitSource) {
+        let trackerEvent = TrackerEvent.listingDetailPlayVideo(listing, source: source)
+        tracker.trackEvent(trackerEvent)
     }
 }

@@ -8,6 +8,8 @@
 
 extension MockChatMessageContent: MockFactory {
     public static func makeMock() -> MockChatMessageContent {
-        return MockChatMessageContent(type: ChatMessageType.makeMock(), text: String.makeRandom())
+        return MockChatMessageContent(type: ChatMessageType.makeMock(),
+                                      defaultText: String.makeRandom(),
+                                      text: String.makeRandom())
     }
 }

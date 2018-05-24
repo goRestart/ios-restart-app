@@ -37,20 +37,14 @@ final class PhotoViewerTransitionAnimator: NSObject, UIViewControllerAnimatedTra
         let duration = transitionDuration(using: transitionContext)
         transitioner.animator = self
         let (visualEffectView, imageView) = buildBlurrableImageView(withImage: image, initialFrame: initialFrame)
-        let smallImageView = buildPreviewImageView(withImage: image)
 
 
         transitioner.animateTransition(using: transitionContext,
                                        withDuration: duration,
                                        initialFrame: initialFrame,
                                        imageView: imageView,
-                                       shouldBlurImage: shouldAddBlurToImage(image),
-                                       smallImageView: smallImageView,
+                                       shouldBlurImage: true,
                                        blurredView: visualEffectView)
-    }
-
-    private func shouldAddBlurToImage(_ image: UIImage) -> Bool {
-        return image.size.width >= image.size.height
     }
 
     private func buildBlurrableImageView(withImage image: UIImage,
@@ -80,7 +74,6 @@ private protocol PhotoViewerTransitionMode {
                            initialFrame: CGRect,
                            imageView: UIImageView,
                            shouldBlurImage: Bool,
-                           smallImageView: UIImageView,
                            blurredView: UIVisualEffectView)
 }
 
@@ -95,7 +88,6 @@ private class PhotoViewerTransitionDismisser: PhotoViewerTransitionMode {
                            initialFrame: CGRect,
                            imageView: UIImageView,
                            shouldBlurImage: Bool,
-                           smallImageView: UIImageView,
                            blurredView: UIVisualEffectView) {
         guard let fromView = transitionContext.view(forKey: .from),
             let toView = transitionContext.view(forKey: .to) else {
@@ -170,7 +162,6 @@ private class PhotoViewerTransitionPresenter: PhotoViewerTransitionMode {
                            initialFrame: CGRect,
                            imageView: UIImageView,
                            shouldBlurImage: Bool,
-                           smallImageView: UIImageView,
                            blurredView: UIVisualEffectView) {
         guard let fromView = transitionContext.view(forKey: .from),
             let photoVC = transitionContext.viewController(forKey: .to) as? PhotoViewerViewController,
@@ -195,11 +186,6 @@ private class PhotoViewerTransitionPresenter: PhotoViewerTransitionMode {
         if shouldBlurImage {
             imageView.addSubviewForAutoLayout(blurredView)
             blurredView.layout(with: imageView).fill()
-
-            containerView.addSubview(smallImageView)
-            smallImageView.contentMode = .scaleAspectFit
-            smallImageView.frame = fromView.bounds
-            smallImageView.alpha = 0
         }
 
         UIView.animateKeyframes(withDuration: duration,
@@ -215,12 +201,12 @@ private class PhotoViewerTransitionPresenter: PhotoViewerTransitionMode {
                                    relativeDuration: duration * 0.5,
                                    animations: {
                                     imageView.frame = fromView.bounds
+                                    imageView.cornerRadius = 0
                 })
                 UIView.addKeyframe(withRelativeStartTime: duration * 0.5,
                                    relativeDuration: duration * 0.5,
                                    animations: {
                     blurredView.alpha = 1
-                    smallImageView.alpha = 1
                 })
         }, completion: { [weak self] _ in
             self?.animator?.transitioner = transitioner
@@ -229,7 +215,6 @@ private class PhotoViewerTransitionPresenter: PhotoViewerTransitionMode {
             fromView.alpha = 1
             toView.alpha = 1
             imageView.removeFromSuperview()
-            smallImageView.removeFromSuperview()
             blurredView.removeFromSuperview()
             transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         })

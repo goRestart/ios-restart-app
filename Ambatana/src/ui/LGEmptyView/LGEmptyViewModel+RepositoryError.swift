@@ -1,4 +1,5 @@
 import LGCoreKit
+import LGComponents
 
 extension LGEmptyViewModel {
     
@@ -8,16 +9,18 @@ extension LGEmptyViewModel {
         let body = LGEmptyViewModel.body(for: error)
         let reason = LGEmptyViewModel.reason(for: error)
         let errorCode = LGEmptyViewModel.errorCode(for: error)
+        let errorDescription = LGEmptyViewModel.errorDescription(for: error)
         return LGEmptyViewModel(
             icon: icon,
-            title: LGLocalizedString.commonErrorTitle,
+            title: R.Strings.commonErrorTitle,
             body: body,
-            buttonTitle: LGLocalizedString.commonErrorRetryButton,
+            buttonTitle: R.Strings.commonErrorRetryButton,
             action: action,
             secondaryButtonTitle: nil,
             secondaryAction: nil,
             emptyReason: reason,
-            errorCode: errorCode)
+            errorCode: errorCode,
+            errorDescription: errorDescription)
     }
 }
 
@@ -29,7 +32,8 @@ fileprivate extension LGEmptyViewModel {
             return onBackground
         case .wsChatError(let chatError):
             return isBackground(chatError)
-        case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
+        case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError,
+             .searchAlertError:
             return false
         }
     }
@@ -49,7 +53,8 @@ fileprivate extension LGEmptyViewModel {
             return UIImage(named: "err_network")
         case .wsChatError(let chatError):
             return icon(for: chatError)
-        case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
+        case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError,
+             .searchAlertError:
             return UIImage(named: "err_generic")
         }
     }
@@ -66,20 +71,21 @@ fileprivate extension LGEmptyViewModel {
     static func body(for error: RepositoryError) -> String {
         switch error {
         case .network:
-            return LGLocalizedString.commonErrorNetworkBody
+            return R.Strings.commonErrorNetworkBody
         case .wsChatError(let chatError):
             return body(for: chatError)
-        case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
-            return LGLocalizedString.commonErrorGenericBody
+        case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError,
+             .searchAlertError:
+            return R.Strings.commonErrorGenericBody
         }
     }
     
     static func body(for chatError: ChatRepositoryError) -> String {
         switch chatError {
         case .network:
-            return LGLocalizedString.commonErrorNetworkBody
+            return R.Strings.commonErrorNetworkBody
         case .notAuthenticated, .userNotVerified, .userBlocked, .internalError, .apiError, .differentCountry:
-            return LGLocalizedString.commonErrorGenericBody
+            return R.Strings.commonErrorGenericBody
         }
     }
     
@@ -103,6 +109,8 @@ fileprivate extension LGEmptyViewModel {
             return .forbidden
         case .tooManyRequests:
             return .tooManyRequests
+        case .searchAlertError:
+            return .internalError
         }
     }
 
@@ -135,7 +143,13 @@ fileprivate extension LGEmptyViewModel {
             return code
         case .internalError(let message):
             return Int(message)
-        case .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified:
+        case .unauthorized(_, let description):
+            if let description = description {
+                return Int(description)
+            } else {
+                return nil
+            }
+        case .notFound, .forbidden, .tooManyRequests, .userNotVerified, .searchAlertError:
             return nil
         }
     }
@@ -149,6 +163,28 @@ fileprivate extension LGEmptyViewModel {
         case .internalError(let message):
             return Int(message)
         case .notAuthenticated, .userNotVerified, .userBlocked, .differentCountry:
+            return nil
+        }
+    }
+
+    static func errorDescription(for error: RepositoryError) -> String? {
+        switch error {
+        case .wsChatError(let chatError):
+            return errorDescription(for: chatError)
+        case .internalError(let message):
+            return message
+        case .unauthorized(_, let description):
+            return description
+        case .network, .serverError, .notFound, .forbidden, .tooManyRequests, .userNotVerified, .searchAlertError:
+            return nil
+        }
+    }
+
+    static func errorDescription(for chatError: ChatRepositoryError) -> String? {
+        switch chatError {
+        case .internalError(let message):
+            return message
+        case  .network, .apiError, .notAuthenticated, .userNotVerified, .userBlocked, .differentCountry:
             return nil
         }
     }

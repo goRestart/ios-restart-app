@@ -1,15 +1,8 @@
-//
-//  MLPostListingCameraView.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 03/03/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
 import RxSwift
 import RxCocoa
 import LGCoreKit
+import LGComponents
 
 protocol MLPostListingCameraViewDelegate: class {
     func productCameraCloseButton()
@@ -217,7 +210,7 @@ class MLPostListingCameraView: BaseView, LGViewPagerPage, MLPredictionDetailsVie
         }
 
         //i18n
-        retryPhotoButton.setTitle(LGLocalizedString.productPostRetake, for: .normal)
+        retryPhotoButton.setTitle(R.Strings.productPostRetake, for: .normal)
         usePhotoButton.setTitle(usePhotoButtonText, for: .normal)
         usePhotoButton.setStyle(.primary(fontSize: .medium))
         
@@ -304,11 +297,11 @@ class MLPostListingCameraView: BaseView, LGViewPagerPage, MLPredictionDetailsVie
         if enabled {
             machineLeaningButton.setImage(#imageLiteral(resourceName: "ml_icon_on"), for: .normal)
             cameraWrapper.enableVideoOutput(withDelegate: viewModel.machineLearning)
-            predictionLabel.alphaAnimated(1)
+            predictionLabel.animateTo(alpha: 1)
         } else {
             machineLeaningButton.setImage(#imageLiteral(resourceName: "ml_icon_off"), for: .normal)
             cameraWrapper.disableVideoOutput()
-            predictionLabel.alphaAnimated(0)
+            predictionLabel.animateTo(alpha: 0)
         }
     }
 

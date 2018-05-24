@@ -1,13 +1,6 @@
-//
-//  ExternalServiceAuthenticationHelper.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 16/2/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
+import LGComponents
 
 enum ExternalServiceAuthResult {
     case success(myUser: MyUser)
@@ -84,15 +77,15 @@ enum ExternalServiceAuthResult {
             return nil
         case .conflict(let cause):
             switch cause {
-            case .userExists, .notSpecified, .other:
-                return LGLocalizedString.mainSignUpFbConnectErrorEmailTaken
+            case .userExists, .notSpecified, .other, .searchAlertAlreadyExists, .searchAlertLimitReached:
+                return R.Strings.mainSignUpFbConnectErrorEmailTaken
             case .emailRejected:
-                return LGLocalizedString.mainSignUpErrorUserRejected
+                return R.Strings.mainSignUpErrorUserRejected
             case .requestAlreadyProcessed:
-                return LGLocalizedString.mainSignUpErrorRequestAlreadySent
+                return R.Strings.mainSignUpErrorRequestAlreadySent
             }
         case .network, .notFound, .badRequest, .internalError, .loginError:
-            return LGLocalizedString.mainSignUpFbConnectErrorGeneric
+            return R.Strings.mainSignUpFbConnectErrorGeneric
         }
     }
 }

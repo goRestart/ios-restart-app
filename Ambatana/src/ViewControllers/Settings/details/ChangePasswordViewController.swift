@@ -1,14 +1,7 @@
-//
-//  ChangePasswordViewController.swift
-//  LetGo
-//
-//  Created by Ignacio Nieto Carvajal on 19/2/15.
-//  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
-//
-
 import LGCoreKit
 import Result
 import UIKit
+import LGComponents
 
 class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, ChangePasswordViewModelDelegate {
     
@@ -43,7 +36,7 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setNavBarBackButton(nil)
+        setNavBarBackButton()
 
         setupUI()
         setupAccessibilityIds()
@@ -132,16 +125,16 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
         let message: String
         switch (error) {
         case .invalidPassword:
-            message = LGLocalizedString.changePasswordSendErrorInvalidPasswordWithMax(Constants.passwordMinLength,
+            message = R.Strings.changePasswordSendErrorInvalidPasswordWithMax(Constants.passwordMinLength,
                 Constants.passwordMaxLength)
         case .passwordMismatch:
-            message = LGLocalizedString.changePasswordSendErrorPasswordsMismatch
+            message = R.Strings.changePasswordSendErrorPasswordsMismatch
         case .resetPasswordLinkExpired:
-            message = LGLocalizedString.changePasswordSendErrorLinkExpired
+            message = R.Strings.changePasswordSendErrorLinkExpired
         case .network, .internalError:
-            message = LGLocalizedString.changePasswordSendErrorGeneric
+            message = R.Strings.changePasswordSendErrorGeneric
         }
-        self.showAutoFadingOutMessageAlert(message)
+        self.showAutoFadingOutMessageAlert(message: message)
     }
     
     func viewModel(_ viewModel: ChangePasswordViewModel, didFinishSendingPasswordWithResult
@@ -155,7 +148,7 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
                     self.passwordTextfield.text = ""
                     self.confirmPasswordTextfield.text = ""
                     
-                    self.showAutoFadingOutMessageAlert(LGLocalizedString.changePasswordSendOk) { [weak self] in
+                    self.showAutoFadingOutMessageAlert(message: R.Strings.changePasswordSendOk) { [weak self] in
                         self?.viewModel.passwordChangedCorrectly()
                     }
                 }
@@ -164,17 +157,17 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
                 let message: String
                 switch (error) {
                 case .invalidPassword:
-                    message = LGLocalizedString.changePasswordSendErrorInvalidPasswordWithMax(
+                    message = R.Strings.changePasswordSendErrorInvalidPasswordWithMax(
                         Constants.passwordMinLength, Constants.passwordMaxLength)
                 case .passwordMismatch:
-                    message = LGLocalizedString.changePasswordSendErrorPasswordsMismatch
+                    message = R.Strings.changePasswordSendErrorPasswordsMismatch
                 case .resetPasswordLinkExpired:
-                    message = LGLocalizedString.changePasswordSendErrorLinkExpired
+                    message = R.Strings.changePasswordSendErrorLinkExpired
                 case .network, .internalError:
-                    message = LGLocalizedString.changePasswordSendErrorGeneric
+                    message = R.Strings.changePasswordSendErrorGeneric
                 }
                 completion = {
-                    self.showAutoFadingOutMessageAlert(message)
+                    self.showAutoFadingOutMessageAlert(message: message)
                 }
             }
             dismissLoadingMessageAlert(completion)
@@ -202,15 +195,15 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
         confirmPasswordTextfield.delegate = self
         confirmPasswordTextfield.tag = TextFieldTag.confirmPassword.rawValue
 
-        setNavBarTitle(LGLocalizedString.changePasswordTitle)
+        setNavBarTitle(R.Strings.changePasswordTitle)
 
         sendButton.setStyle(.primary(fontSize: .big))
-        sendButton.setTitle(LGLocalizedString.changePasswordTitle, for: .normal)
+        sendButton.setTitle(R.Strings.changePasswordTitle, for: .normal)
         sendButton.isEnabled = false
 
         // internationalization
-        passwordTextfield.placeholder = LGLocalizedString.changePasswordNewPasswordFieldHint
-        confirmPasswordTextfield.placeholder = LGLocalizedString.changePasswordConfirmPasswordFieldHint
+        passwordTextfield.placeholder = R.Strings.changePasswordNewPasswordFieldHint
+        confirmPasswordTextfield.placeholder = R.Strings.changePasswordConfirmPasswordFieldHint
     }
 
     private func setupAccessibilityIds() {

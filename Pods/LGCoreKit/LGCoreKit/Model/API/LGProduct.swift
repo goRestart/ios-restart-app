@@ -26,6 +26,8 @@ struct LGProduct: Product, Decodable {
     let thumbnail: File?
     let thumbnailSize: LGSize?
     let images: [File]
+    var media: [Media]
+    var mediaThumbnail: MediaThumbnail?
     var user: UserListing
     let featured: Bool?
     
@@ -47,6 +49,8 @@ struct LGProduct: Product, Decodable {
                   thumbnail: product.thumbnail,
                   thumbnailSize: product.thumbnailSize,
                   images: product.images,
+                  media: product.media,
+                  mediaThumbnail: product.mediaThumbnail,
                   user: product.user,
                   featured: product.featured)
     }
@@ -67,6 +71,8 @@ struct LGProduct: Product, Decodable {
          thumbnail: File?,
          thumbnailSize: LGSize?,
          images: [File],
+         media: [Media],
+         mediaThumbnail: MediaThumbnail?,
          user: UserListing,
          featured: Bool?) {
         
@@ -86,6 +92,9 @@ struct LGProduct: Product, Decodable {
         self.thumbnail = thumbnail
         self.thumbnailSize = thumbnailSize
         self.images = images
+        self.media = media
+        self.mediaThumbnail = mediaThumbnail
+
         self.user = user
         self.featured = featured ?? false
     }
@@ -113,6 +122,8 @@ struct LGProduct: Product, Decodable {
                   thumbnail: chatListing.image,
                   thumbnailSize: nil,
                   images: images,
+                  media: [],
+                  mediaThumbnail: nil,
                   user: user,
                   featured: nil
                   )
@@ -135,6 +146,8 @@ struct LGProduct: Product, Decodable {
                               thumbnail: String?,
                               thumbnailSize: LGSize?,
                               images: [LGFile],
+                              media: [Media],
+                              mediaThumbnail: MediaThumbnail?,
                               user: LGUserListing,
                               featured: Bool?) -> LGProduct {
         
@@ -160,6 +173,8 @@ struct LGProduct: Product, Decodable {
                          thumbnail: actualThumbnail,
                          thumbnailSize: thumbnailSize,
                          images: actualImages,
+                         media: media,
+                         mediaThumbnail: mediaThumbnail,
                          user: user,
                          featured: featured
         )
@@ -184,6 +199,8 @@ struct LGProduct: Product, Decodable {
                          thumbnail: thumbnail,
                          thumbnailSize: thumbnailSize,
                          images: images,
+                         media: media,
+                         mediaThumbnail: mediaThumbnail,
                          user: user,
                          featured: featured
         )
@@ -206,6 +223,8 @@ struct LGProduct: Product, Decodable {
                          thumbnail: thumbnail,
                          thumbnailSize: thumbnailSize,
                          images: images,
+                         media: media,
+                         mediaThumbnail: mediaThumbnail,
                          user: user,
                          featured: featured
         )
@@ -277,6 +296,8 @@ struct LGProduct: Product, Decodable {
         thumbnail = baseListing.thumbnail
         thumbnailSize = baseListing.thumbnailSize
         images = baseListing.images
+        media = baseListing.media
+        mediaThumbnail = baseListing.mediaThumbnail
         user = baseListing.user
         featured = baseListing.featured
     }

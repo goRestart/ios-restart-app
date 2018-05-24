@@ -1,16 +1,9 @@
-//
-//  ListingCarouselMoreInfoView.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 4/5/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import MapKit
 import LGCoreKit
 import RxSwift
 import LGCollapsibleLabel
 import GoogleMobileAds
+import LGComponents
 
 // This might go away if the new design ABIOS-3100 wins
 enum MoreInfoState {
@@ -65,7 +58,7 @@ class ListingCarouselMoreInfoView: UIView {
     fileprivate let mapView: MKMapView = MKMapView.sharedInstance
     fileprivate var vmRegion: MKCoordinateRegion? = nil
     @IBOutlet weak var mapViewContainer: UIView!
-    fileprivate var mapViewContainerExpandable: UIView? = nil
+    fileprivate lazy var mapViewContainerExpandable = UIView()
     fileprivate var mapViewTapGesture: UITapGestureRecognizer? = nil
 
     @IBOutlet weak var bannerContainerView: UIView!
@@ -86,7 +79,7 @@ class ListingCarouselMoreInfoView: UIView {
     private let disposeBag = DisposeBag()
     private var locationZone: MKOverlay?
     private var mapPinCustomAnnotation: MKPointAnnotation?
-    private let bigMapMargin: CGFloat = 65
+    private let bigMapMargin: CGFloat = 85
     private let bigMapBottomMargin: CGFloat = 85
     private(set) var mapExpanded: Bool = false
     private var mapZoomBlocker: MapZoomBlocker?
@@ -288,15 +281,11 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
     
     func expandMap() {
         guard !mapExpanded else { return }
-        if mapViewContainerExpandable == nil {
-            mapViewContainerExpandable = UIView()
-        }
-        guard let mapViewContainerExpandable = mapViewContainerExpandable else { return }
         addSubview(mapViewContainerExpandable)
         mapViewContainerExpandable.frame = convert(mapViewContainer.frame, from: scrollViewContent)
         layoutMapView(inside: mapViewContainerExpandable)
 
-            if let locationZone = self.locationZone, mapPinCustomAnnotation == nil {
+        if let locationZone = self.locationZone, mapPinCustomAnnotation == nil {
             mapView.add(locationZone)
         }
 
@@ -305,8 +294,8 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
         expandedFrame.origin.y = bigMapMargin
         expandedFrame.size.height = height - (bigMapMargin + bigMapBottomMargin)
         UIView.animate(withDuration: 0.3, animations: { [weak self] in
-            self?.mapViewContainerExpandable?.frame = expandedFrame
-            self?.mapViewContainerExpandable?.layoutIfNeeded()
+            self?.mapViewContainerExpandable.frame = expandedFrame
+            self?.mapViewContainerExpandable.layoutIfNeeded()
             }, completion: { [weak self] completed in
                 self?.setupMapExpanded(true)
         })
@@ -318,8 +307,8 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
         self.delegate?.request(fullScreen: false)
         let compressedFrame = convert(mapViewContainer.frame, from: scrollViewContent)
         UIView.animate(withDuration: 0.3, animations: { [weak self] in
-            self?.mapViewContainerExpandable?.frame = compressedFrame
-            self?.mapViewContainerExpandable?.layoutIfNeeded()
+            self?.mapViewContainerExpandable.frame = compressedFrame
+            self?.mapViewContainerExpandable.layoutIfNeeded()
             }, completion: { [weak self] completed in
                 guard let strongSelf = self else { return }
                 strongSelf.setupMapExpanded(false)
@@ -327,7 +316,7 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
                     strongSelf.mapView.remove(locationZone)
                 }
                 strongSelf.layoutMapView(inside: strongSelf.mapViewContainer)
-                strongSelf.mapViewContainerExpandable?.removeFromSuperview()
+                strongSelf.mapViewContainerExpandable.removeFromSuperview()
                 strongSelf.mapZoomBlocker?.stop()
                 if let region = strongSelf.vmRegion {
                     strongSelf.mapView.setRegion(region, animated: true)
@@ -416,8 +405,8 @@ fileprivate extension ListingCarouselMoreInfoView {
         descriptionLabel.textColor = UIColor.grayLight
 
         descriptionLabel.addGestureRecognizer(tapGesture)
-        descriptionLabel.expandText = LGLocalizedString.commonExpand.localizedUppercase
-        descriptionLabel.collapseText = LGLocalizedString.commonCollapse.localizedUppercase
+        descriptionLabel.expandText = R.Strings.commonExpand.localizedUppercase
+        descriptionLabel.collapseText = R.Strings.commonCollapse.localizedUppercase
         descriptionLabel.gradientColor = .clear
         descriptionLabel.expandTextColor = UIColor.white
 
@@ -429,7 +418,7 @@ fileprivate extension ListingCarouselMoreInfoView {
         dragButton.layer.borderWidth = 1
         dragButton.backgroundColor = .clear
         
-        dragViewTitle.text = LGLocalizedString.productMoreInfoOpenButton
+        dragViewTitle.text = R.Strings.productMoreInfoOpenButton
         dragViewTitle.textColor = .white
         dragViewTitle.font = .systemSemiBoldFont(size: 13)
 
@@ -482,7 +471,7 @@ fileprivate extension ListingCarouselMoreInfoView {
         report(AppReport.uikit(error: .breadcrumb), message: "MoreInfoView-setupSocialShareView-start")
         socialShareTitleLabel.textColor = UIColor.white
         socialShareTitleLabel.font = UIFont.productSocialShareTitleFont
-        socialShareTitleLabel.text = LGLocalizedString.productShareTitleLabel
+        socialShareTitleLabel.text = R.Strings.productShareTitleLabel
 
         socialShareView.delegate = self
         socialShareView.style = .grid
@@ -516,8 +505,8 @@ fileprivate extension ListingCarouselMoreInfoView {
         viewModel.productInfo.asObservable().unwrap().bind { [weak self] info in
             self?.titleTextLabel.attributedText = info.styledTitle?.stringByRemovingLinks
             self?.priceLabel.text = info.price
-            self?.autoTitleLabel.text = info.titleAutoGenerated ? LGLocalizedString.productAutoGeneratedTitleLabel : nil
-            self?.transTitleLabel.text = info.titleAutoTranslated ? LGLocalizedString.productAutoGeneratedTranslatedTitleLabel : nil
+            self?.autoTitleLabel.text = info.titleAutoGenerated ? R.Strings.productAutoGeneratedTitleLabel : nil
+            self?.transTitleLabel.text = info.titleAutoTranslated ? R.Strings.productAutoGeneratedTranslatedTitleLabel : nil
             self?.addressLabel.text = info.address
             self?.distanceLabel.text = info.distance
             self?.descriptionLabel.mainAttributedText = info.styledDescription

@@ -69,6 +69,8 @@ final class OnboardingCoordinator: Coordinator, ChangePasswordPresenter {
             let tourVM = TourLoginViewModel(signUpViewModel: signUpVM)
             tourVM.navigator = strongSelf
             let tourVC = TourLoginViewController(viewModel: tourVM)
+            tourVC.setupForModalWithNonOpaqueBackground()
+            tourVC.modalTransitionStyle = .crossDissolve
             strongSelf.presentedViewControllers.append(tourVC)
             strongSelf.viewController.present(tourVC, animated: true, completion: completion)
         }
@@ -113,6 +115,7 @@ final class OnboardingCoordinator: Coordinator, ChangePasswordPresenter {
                                             source: type)
         vm.navigator = self
         let vc = TourNotificationsViewController(viewModel: vm)
+        vc.modalTransitionStyle = .crossDissolve
         hideVC(topVC)
         presentedViewControllers.append(vc)
         topVC.present(vc, animated: true, completion: nil)
@@ -123,6 +126,8 @@ final class OnboardingCoordinator: Coordinator, ChangePasswordPresenter {
         let vm = TourLocationViewModel(source: .install)
         vm.navigator = self
         let vc = TourLocationViewController(viewModel: vm)
+        vc.modalTransitionStyle = .crossDissolve
+
         hideVC(topVC)
         presentedViewControllers.append(vc)
         topVC.present(vc, animated: true, completion: nil)
@@ -133,6 +138,7 @@ final class OnboardingCoordinator: Coordinator, ChangePasswordPresenter {
         let vm = TourPostingViewModel()
         vm.navigator = self
         let vc = TourPostingViewController(viewModel: vm)
+        vc.modalTransitionStyle = .crossDissolve
         hideVC(topVC)
         presentedViewControllers.append(vc)
         topVC.present(vc, animated: true, completion: nil)

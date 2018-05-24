@@ -1,21 +1,14 @@
-//
-//  MeetingSafetyTipsViewModel.swift
-//  LetGo
-//
-//  Created by Dídac on 24/03/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 final class MeetingSafetyTipsViewModel: BaseViewModel {
 
     var titleText: String {
-        return LGLocalizedString.meetingCreationTipsViewTitle
+        return R.Strings.meetingCreationTipsViewTitle
     }
 
     var subtitleText: String {
-        return LGLocalizedString.meetingCreationTipsViewSubtitle
+        return R.Strings.meetingCreationTipsViewSubtitle
     }
 
     var sendMeetingButtonIsHidden: Bool {
@@ -23,14 +16,14 @@ final class MeetingSafetyTipsViewModel: BaseViewModel {
     }
 
     var sendMeetingButtonTitle: String {
-        return LGLocalizedString.meetingCreationTipsViewSendButton
+        return R.Strings.meetingCreationTipsViewSendButton
     }
 
     var secondaryCloseButtonTitle: String {
         if let _ = closeCompletion {
-            return LGLocalizedString.meetingCreationTipsViewChangeButton
+            return R.Strings.meetingCreationTipsViewChangeButton
         } else {
-            return LGLocalizedString.meetingCreationTipsViewGotitButton
+            return R.Strings.meetingCreationTipsViewGotitButton
         }
     }
 

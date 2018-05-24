@@ -1,14 +1,7 @@
-//
-//  SettingsViewController.swift
-//  LetGo
-//
-//  Created by Ignacio Nieto Carvajal on 13/2/15.
-//  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
-//
-
 import UIKit
 import FBSDKShareKit
 import RxSwift
+import LGComponents
 
 class SettingsViewController: BaseViewController {
 
@@ -55,9 +48,9 @@ class SettingsViewController: BaseViewController {
     // MARK: - Private
 
     private func setupUI() {
-        settingProfileImageLabel.text = LGLocalizedString.settingsChangeProfilePictureLoading
+        settingProfileImageLabel.text = R.Strings.settingsChangeProfilePictureLoading
         settingProfileImageView.isHidden = true
-        setNavBarTitle(LGLocalizedString.settingsTitle)
+        setNavBarTitle(R.Strings.settingsTitle)
     
         let cellNib = UINib(nibName: SettingsCell.reusableID, bundle: nil)
         tableView.register(cellNib, forCellReuseIdentifier: SettingsCell.reusableID)
@@ -65,8 +58,7 @@ class SettingsViewController: BaseViewController {
         tableView.register(logoutCellNib, forCellReuseIdentifier: SettingsLogoutCell.reusableID)
         let infoCellNib = UINib(nibName: SettingsInfoCell.reusableID, bundle: nil)
         tableView.register(infoCellNib, forCellReuseIdentifier: SettingsInfoCell.reusableID)
-        let switchCellNib = UINib(nibName: SettingsSwitchCell.reusableID, bundle: nil)
-        tableView.register(switchCellNib, forCellReuseIdentifier: SettingsSwitchCell.reusableID)
+        tableView.register(SettingsSwitchCell.self, forCellReuseIdentifier: SettingsSwitchCell.reusableID)
         tableView.backgroundColor = UIColor.grayBackground
         tableView.contentInset.bottom = 15
         automaticallyAdjustsScrollViewInsets = false
@@ -246,8 +238,8 @@ extension LetGoSetting {
 
     var cellHeight: CGFloat {
         switch self {
-        case .changePhoto, .changeUsername, .changeEmail, .changeLocation, .changePassword,
-             .help, .marketingNotifications, .termsAndConditions, .privacyPolicy, .changeUserBio:
+        case .changePhoto, .changeUsername, .changeEmail, .changeLocation, .changePassword, .help,
+             .marketingNotifications, .termsAndConditions, .privacyPolicy, .changeUserBio, .notifications:
             return 50
         case .logOut:
             return 44

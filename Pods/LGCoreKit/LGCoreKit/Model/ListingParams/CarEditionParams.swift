@@ -19,6 +19,7 @@ public class CarEditionParams: CarCreationParams {
         guard let carId = car.objectId, let userId = car.user.objectId else { return nil }
         self.carId = carId
         self.userId = userId
+        let videos: [Video] = car.media.flatMap(LGVideo.init)
         super.init(name: car.name,
                    description: car.descr,
                    price: car.price,
@@ -27,6 +28,7 @@ public class CarEditionParams: CarCreationParams {
                    location: car.location,
                    postalAddress: car.postalAddress,
                    images: car.images,
+                   videos: videos,
                    carAttributes: car.carAttributes)
         if let languageCode = car.languageCode {
             self.languageCode = languageCode
@@ -42,11 +44,26 @@ public class CarEditionParams: CarCreationParams {
     }
     
     static private func createCarParams(withListing listing: Listing) -> Car {
-        let car = LGCar(objectId: listing.objectId, updatedAt: listing.updatedAt, createdAt: listing.createdAt, name: listing.name,
-                        nameAuto: listing.nameAuto, descr: listing.descr, price: listing.price, currency: listing.currency,
-                        location: listing.location, postalAddress: listing.postalAddress, languageCode: listing.languageCode,
-                        category: .cars, status: listing.status, thumbnail: listing.thumbnail, thumbnailSize: listing.thumbnailSize,
-                        images: listing.images, user: listing.user, featured: listing.featured,
+        let car = LGCar(objectId: listing.objectId,
+                        updatedAt: listing.updatedAt,
+                        createdAt: listing.createdAt,
+                        name: listing.name,
+                        nameAuto: listing.nameAuto,
+                        descr: listing.descr,
+                        price: listing.price,
+                        currency: listing.currency,
+                        location: listing.location,
+                        postalAddress: listing.postalAddress,
+                        languageCode: listing.languageCode,
+                        category: .cars,
+                        status: listing.status,
+                        thumbnail: listing.thumbnail,
+                        thumbnailSize: listing.thumbnailSize,
+                        images: listing.images,
+                        media: listing.media,
+                        mediaThumbnail: listing.mediaThumbnail,
+                        user: listing.user,
+                        featured: listing.featured,
                         carAttributes: listing.car?.carAttributes)
         return car
     }

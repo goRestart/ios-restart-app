@@ -1,22 +1,24 @@
-//
-//  DeckCoordinator.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 02/12/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
+import LGComponents
+
+protocol PhotoViewerNavigator: class {
+    func closePhotoViewer()
+}
 
 protocol DeckNavigator: class {
     func openPhotoViewer(listingViewModel: ListingViewModel,
                          source: EventParameterListingVisitSource,
                          quickChatViewModel: QuickChatViewModel)
-    func closePhotoViewer()
+    func openPhotoViewer(listingViewModel: ListingViewModel,
+                         atIndex index: Int,
+                         source: EventParameterListingVisitSource,
+                         quickChatViewModel: QuickChatViewModel)
     func closeDeck()
     func showOnBoarding()
 }
+
+typealias DeckWithPhotoViewerNavigator = DeckNavigator & PhotoViewerNavigator
 
 protocol DeckAnimator: class {
     func setupWith(viewModel: ListingDeckViewModel)
@@ -27,7 +29,7 @@ protocol DeckAnimator: class {
     var interactiveTransitioner: UIPercentDrivenInteractiveTransition? { get }
 }
 
-final class DeckCoordinator: DeckNavigator, ListingDeckOnBoardingNavigator, DeckAnimator {
+final class DeckCoordinator: DeckWithPhotoViewerNavigator, ListingDeckOnBoardingNavigator, DeckAnimator {
 
     fileprivate weak var navigationController: UINavigationController?
     var interactiveTransitioner: UIPercentDrivenInteractiveTransition?
@@ -43,7 +45,19 @@ final class DeckCoordinator: DeckNavigator, ListingDeckOnBoardingNavigator, Deck
     func openPhotoViewer(listingViewModel: ListingViewModel,
                          source: EventParameterListingVisitSource,
                          quickChatViewModel: QuickChatViewModel) {
-        let photoVM = PhotoViewerViewModel(with: listingViewModel, source: source)
+        let displayable = listingViewModel.makeDisplayable()
+        let photoVM = PhotoViewerViewModel(with: displayable, source: source)
+        photoVM.navigator = self
+        let photoViewer = PhotoViewerViewController(viewModel: photoVM, quickChatViewModel: quickChatViewModel)
+        navigationController?.pushViewController(photoViewer, animated: true)
+    }
+
+    func openPhotoViewer(listingViewModel: ListingViewModel,
+                         atIndex index: Int,
+                         source: EventParameterListingVisitSource,
+                         quickChatViewModel: QuickChatViewModel) {
+        let displayable = listingViewModel.makeDisplayable()
+        let photoVM = PhotoViewerViewModel(with: displayable, source: source)
         photoVM.navigator = self
         let photoViewer = PhotoViewerViewController(viewModel: photoVM, quickChatViewModel: quickChatViewModel)
         navigationController?.pushViewController(photoViewer, animated: true)
