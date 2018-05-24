@@ -14,24 +14,28 @@ final class MainViewModel: BaseViewModel {
     func titleForItemAt(index: Int) -> String? {
         guard let item = itemAt(index: index) else { return nil }
         switch item {
-        case .fullScreen:
-            return "Full Screen"
-        case .popUp:
-            return "Pop Up"
-        case .embedded:
-            return "Embedded"
+        case .fullScreenLogin:
+            return "Full Screen Login"
+        case .popUpLogin:
+            return "Pop Up Login"
+        case .embeddedLogin:
+            return "Embedded Login"
+        case .changePassword:
+            return "Change Password"
         }
     }
 
     func selectItemAt(index: Int) {
         guard let item = itemAt(index: index) else { return }
         switch item {
-        case .fullScreen:
+        case .fullScreenLogin:
             navigator?.openFullScreenLogin()
-        case .popUp:
+        case .popUpLogin:
             navigator?.openPopUpLogin()
-        case .embedded:
+        case .embeddedLogin:
             navigator?.openEmbeddedLogin()
+        case .changePassword:
+            navigator?.openChangePassword()
         }
     }
 
@@ -43,9 +47,10 @@ final class MainViewModel: BaseViewModel {
 }
 
 private enum MainViewModelItem {
-    case fullScreen
-    case popUp
-    case embedded
+    case fullScreenLogin
+    case popUpLogin
+    case embeddedLogin
+    case changePassword
 
-    static let allValues: [MainViewModelItem] = [.fullScreen, .popUp, .embedded]
+    static let allValues: [MainViewModelItem] = [.fullScreenLogin, .popUpLogin, .embeddedLogin, .changePassword]
 }

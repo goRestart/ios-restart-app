@@ -9,7 +9,8 @@ final class MainCoordinator: Coordinator,
                              SignUpLogInNavigator,
                              RecaptchaNavigator,
                              RememberPasswordNavigator,
-                             HelpNavigator {
+                             HelpNavigator,
+                             ChangePasswordNavigator {
     var child: Coordinator?
     var coordinatorDelegate: CoordinatorDelegate?
     var viewController: UIViewController {
@@ -98,6 +99,13 @@ final class MainCoordinator: Coordinator,
         let viewController = EmbeddedLoginViewController(viewModel: viewModel)
         signUpViewModel.delegate = viewController
         navigationController.pushViewController(viewController, animated: true)
+    }
+
+    func openChangePassword() {
+        let vm = ChangePasswordViewModel()
+        vm.navigator = self
+        let vc = ChangePasswordViewController(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
     }
 
 
@@ -245,6 +253,13 @@ final class MainCoordinator: Coordinator,
 
     func closeHelp() {
         presentedNavigationController?.popViewController(animated: true)
+    }
+
+
+    // MARK: - ChangePasswordNavigator
+
+    func closeChangePassword() {
+        navigationController.popViewController(animated: true)
     }
 
 
