@@ -1,12 +1,5 @@
-//
-//  PostCategoryDetailProgressView.swift
-//  LetGo
-//
-//  Created by Nestor on 06/04/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 final class PostCategoryDetailProgressView: UIView {
     
@@ -94,7 +87,7 @@ final class PostCategoryDetailProgressView: UIView {
         
         if percentage == Float(1) {
             progressView.progressTintColor = UIColor.asparagus
-            titleLabel.text = LGLocalizedString.postCategoryDetailsProgress100
+            titleLabel.text = R.Strings.postCategoryDetailsProgress100
             imageViewCenterConstraint.constant = (imageView.frame.width + Metrics.veryShortMargin)/2
             imageView.alpha = 1
         } else {
@@ -103,7 +96,7 @@ final class PostCategoryDetailProgressView: UIView {
             } else {
                 progressView.progressTintColor = UIColor.white
             }
-            titleLabel.text = LGLocalizedString.postCategoryDetailsProgress(String(Int(percentage*100))+"%")
+            titleLabel.text = R.Strings.postCategoryDetailsProgress(String(Int(percentage*100))+"%")
             imageViewCenterConstraint.constant = 0
             imageView.alpha = 0
         }

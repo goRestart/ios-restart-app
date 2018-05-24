@@ -1,13 +1,6 @@
-//
-//  Coordinator.swift
-//  LetGo
-//
-//  Created by AHL on 20/4/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
 import LGCoreKit
+import LGComponents
 
 protocol CoordinatorDelegate: class {
     func coordinatorDidClose(_ coordinator: Coordinator)
@@ -192,10 +185,10 @@ extension Coordinator {
     
     // MARK: > Loading indicators
     
-    func openLoading(message: String? = LGLocalizedString.commonLoading,
+    func openLoading(message: String? = R.Strings.commonLoading,
                      animated: Bool = true,
                      completion: (() -> Void)? = nil) {
-        let finalMessage = (message ?? LGLocalizedString.commonLoading) + "\n\n\n"
+        let finalMessage = (message ?? R.Strings.commonLoading) + "\n\n\n"
         let alert = UIAlertController(title: finalMessage, message: nil, preferredStyle: .alert)
         let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
         activityIndicator.color = UIColor.black

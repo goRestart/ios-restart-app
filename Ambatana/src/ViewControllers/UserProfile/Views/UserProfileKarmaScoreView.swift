@@ -1,12 +1,5 @@
-//
-//  UserProfileKarmaScoreView.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 27/3/18.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 final class UserProfileKarmaScoreView: UIView {
 
@@ -95,7 +88,7 @@ final class UserProfileKarmaScoreView: UIView {
 
         visibilityImageView.image = UIImage(named: "ic_karma_eye")
         visibilityImageView.contentMode = .scaleAspectFit
-        visibilityLabel.text = LGLocalizedString.profileKarmaVisibilityTitle
+        visibilityLabel.text = R.Strings.profileKarmaVisibilityTitle
         visibilityLabel.textColor = .white
         visibilityLabel.font = UIFont.profileKarmaSubtitleBoldFont
 
@@ -123,7 +116,7 @@ final class UserProfileKarmaScoreView: UIView {
         progressMaxKarmaLabel.textColor = .grayDark
         progressMaxKarmaLabel.font = .subtitleFont
 
-        openVerificationsLabel.text = LGLocalizedString.profileKarmaImproveScore
+        openVerificationsLabel.text = R.Strings.profileKarmaImproveScore
         openVerificationsLabel.textColor = .black
         openVerificationsLabel.font = .profileKarmaOpenVerificationFont
 
@@ -225,8 +218,8 @@ final class UserProfileKarmaScoreView: UIView {
 
     private func updateTitleLabel() {
         let points = String(score)
-        let pointsString = LGLocalizedString.profileKarmaPointsTitle(points)
-        let fullTitle = LGLocalizedString.profileKarmaTitle(pointsString)
+        let pointsString = R.Strings.profileKarmaPointsTitle(points)
+        let fullTitle = R.Strings.profileKarmaTitle(pointsString)
         let range = (fullTitle as NSString).range(of: pointsString)
 
         let attributedString = NSMutableAttributedString(string: fullTitle, attributes: [
@@ -241,11 +234,11 @@ final class UserProfileKarmaScoreView: UIView {
 
     private func updateSubtitleLabel() {
         if verified {
-            subtitleLabel.text = LGLocalizedString.profileKarmaVerifiedSubtitle
+            subtitleLabel.text = R.Strings.profileKarmaVerifiedSubtitle
         } else {
             let missingPoints = String(Constants.Reputation.minScore-score)
-            let points = LGLocalizedString.profileKarmaUnverifiedPointsSubtitle(missingPoints)
-            let fullString = LGLocalizedString.profileKarmaUnverifiedSubtitle(points)
+            let points = R.Strings.profileKarmaUnverifiedPointsSubtitle(missingPoints)
+            let fullString = R.Strings.profileKarmaUnverifiedSubtitle(points)
             let range = (fullString as NSString).range(of: points)
 
             let attributedString = NSMutableAttributedString(string: fullString, attributes: [

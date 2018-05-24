@@ -1,12 +1,5 @@
-//
-//  ReportUsersViewController.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 05/02/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 class ReportUsersViewController: BaseViewController, ReportUsersViewModelDelegate {
 
@@ -21,7 +14,7 @@ class ReportUsersViewController: BaseViewController, ReportUsersViewModelDelegat
     fileprivate static let textBottomSpace: CGFloat = 76
     fileprivate var cellSize: CGSize = CGSize(width: 160.0, height: 150.0)
     fileprivate var isCommentPlaceholder: Bool {
-        return commentTextView.text == LGLocalizedString.reportUserTextPlaceholder &&
+        return commentTextView.text == R.Strings.reportUserTextPlaceholder &&
             commentTextView.textColor == UIColor.grayPlaceholderText
     }
 
@@ -101,16 +94,16 @@ class ReportUsersViewController: BaseViewController, ReportUsersViewModelDelegat
         ReportUserCellDrawer.registerCell(collectionView)
 
         sendButton.setStyle(.primary(fontSize: .medium))
-        sendButton.setTitle(LGLocalizedString.reportUserSendButton, for: .normal)
+        sendButton.setTitle(R.Strings.reportUserSendButton, for: .normal)
         sendButton.isEnabled = false
 
-        commentTextView.text = LGLocalizedString.reportUserTextPlaceholder
+        commentTextView.text = R.Strings.reportUserTextPlaceholder
         commentTextView.textColor = UIColor.grayPlaceholderText
 
         let cellWidth = UIScreen.main.bounds.size.width * 0.33 //3 columns
         cellSize = CGSize(width: cellWidth, height: 140)
 
-        setNavBarTitle(LGLocalizedString.reportUserTitle)
+        setNavBarTitle(R.Strings.reportUserTitle)
     }
 }
 
@@ -162,7 +155,7 @@ extension ReportUsersViewController: UITextViewDelegate {
 
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
-            textView.text = LGLocalizedString.reportUserTextPlaceholder
+            textView.text = R.Strings.reportUserTextPlaceholder
             textView.textColor = UIColor.grayPlaceholderText
         }
     }

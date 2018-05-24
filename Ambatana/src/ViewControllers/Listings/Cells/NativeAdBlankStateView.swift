@@ -1,12 +1,5 @@
-//
-//  NativeAdBlankStateView.swift
-//  LetGo
-//
-//  Created by Kiko Gómez on 22/3/18.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 final class NativeAdBlankStateView: UIView {
     
@@ -27,7 +20,7 @@ final class NativeAdBlankStateView: UIView {
         backgroundColor = NativeAdBlankStateView.adsLightGrey
         addSubviewsForAutoLayout([adTextLabel])
 
-        adTextLabel.text = LGLocalizedString.mopubAdvertisingText
+        adTextLabel.text = R.Strings.mopubAdvertisingText
         adTextLabel.font = UIFont.adTextFont
         adTextLabel.textColor = UIColor.white
         adTextLabel.textAlignment = .right

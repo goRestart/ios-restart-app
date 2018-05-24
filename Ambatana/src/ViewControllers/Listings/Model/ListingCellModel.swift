@@ -1,15 +1,8 @@
-//
-//  ListingCellModel.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 30/6/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
 import GoogleMobileAds
 import MoPub
+import LGComponents
 
 enum ListingCellModel {
     case listingCell(listing: Listing)
@@ -124,7 +117,7 @@ enum CollectionCellType: String {
     var title: String {
         switch self {
         case .selectedForYou:
-            return LGLocalizedString.collectionYouTitle
+            return R.Strings.collectionYouTitle
         }
     }
 }
@@ -173,8 +166,8 @@ enum AdProviderType {
 
 struct MostSearchedItemsCardData {
     let icon: UIImage? = UIImage(named: "trending_icon")
-    let title: String = LGLocalizedString.trendingItemsCardTitle
-    let actionTitle: String = LGLocalizedString.trendingItemsCardAction
+    let title: String = R.Strings.trendingItemsCardTitle
+    let actionTitle: String = R.Strings.trendingItemsCardAction
 }
 
 struct PromoCellData {

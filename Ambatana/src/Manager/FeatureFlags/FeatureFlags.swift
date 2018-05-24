@@ -1,15 +1,8 @@
-//
-//  FeatureFlags.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 18/04/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import CoreTelephony
 import bumper
 import RxSwift
+import LGComponents
 
 enum PostingFlowType: String {
     case standard
@@ -242,15 +235,15 @@ extension CopyForChatNowInTurkey {
     var variantString: String {
         switch self {
         case .control:
-            return LGLocalizedString.bumpUpProductCellChatNowButton
+            return R.Strings.bumpUpProductCellChatNowButton
         case .variantA:
-            return LGLocalizedString.bumpUpProductCellChatNowButtonA
+            return R.Strings.bumpUpProductCellChatNowButtonA
         case .variantB:
-            return LGLocalizedString.bumpUpProductCellChatNowButtonB
+            return R.Strings.bumpUpProductCellChatNowButtonB
         case .variantC:
-            return LGLocalizedString.bumpUpProductCellChatNowButtonC
+            return R.Strings.bumpUpProductCellChatNowButtonC
         case .variantD:
-            return LGLocalizedString.bumpUpProductCellChatNowButtonD
+            return R.Strings.bumpUpProductCellChatNowButtonD
         }
     }
 }
@@ -373,15 +366,15 @@ extension CopyForChatNowInEnglish {
     var variantString: String { get {
         switch self {
         case .control:
-            return LGLocalizedString.bumpUpProductCellChatNowButton
+            return R.Strings.bumpUpProductCellChatNowButton
         case .variantA:
-            return LGLocalizedString.bumpUpProductCellChatNowButtonEnglishA
+            return R.Strings.bumpUpProductCellChatNowButtonEnglishA
         case .variantB:
-            return LGLocalizedString.bumpUpProductCellChatNowButtonEnglishB
+            return R.Strings.bumpUpProductCellChatNowButtonEnglishB
         case .variantC:
-            return LGLocalizedString.bumpUpProductCellChatNowButtonEnglishC
+            return R.Strings.bumpUpProductCellChatNowButtonEnglishC
         case .variantD:
-            return LGLocalizedString.bumpUpProductCellChatNowButtonEnglishD
+            return R.Strings.bumpUpProductCellChatNowButtonEnglishD
         }
         } }
 }
@@ -396,15 +389,15 @@ extension CopyForSellFasterNowInEnglish {
     var variantString: String {
         switch self {
         case .control:
-            return LGLocalizedString.bumpUpBannerPayTextImprovement
+            return R.Strings.bumpUpBannerPayTextImprovement
         case .baseline:
-            return LGLocalizedString.bumpUpBannerPayTextImprovementEnglishA
+            return R.Strings.bumpUpBannerPayTextImprovementEnglishA
         case .variantB:
-            return LGLocalizedString.bumpUpBannerPayTextImprovementEnglishB
+            return R.Strings.bumpUpBannerPayTextImprovementEnglishB
         case .variantC:
-            return LGLocalizedString.bumpUpBannerPayTextImprovementEnglishC
+            return R.Strings.bumpUpBannerPayTextImprovementEnglishC
         case .variantD:
-            return LGLocalizedString.bumpUpBannerPayTextImprovementEnglishD
+            return R.Strings.bumpUpBannerPayTextImprovementEnglishD
         }
     }
 }

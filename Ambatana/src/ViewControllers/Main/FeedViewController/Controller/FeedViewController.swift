@@ -1,13 +1,6 @@
-//
-//  FeedViewController.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 12/04/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 import RxSwift
+import LGComponents
 
 final class FeedViewController: BaseViewController {
     
@@ -149,7 +142,7 @@ final class FeedViewController: BaseViewController {
         guard isRootViewController() else { return }
         guard viewModel.shouldShowInviteButton  else { return }
 
-        let invite = UIBarButtonItem(title: LGLocalizedString.mainProductsInviteNavigationBarButton,
+        let invite = UIBarButtonItem(title: R.Strings.mainProductsInviteNavigationBarButton,
                                      style: .plain,
                                      target: self,
                                      action: #selector(openInvite))

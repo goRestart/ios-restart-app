@@ -1,15 +1,6 @@
-//
-//  PostingAddDetailSizeView.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 22/01/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
-
 import LGCoreKit
 import RxSwift
-
+import LGComponents
 
 class PostingAddDetailSizeView: UIView, PostingViewConfigurable, UITextFieldDelegate {
     
@@ -29,7 +20,7 @@ class PostingAddDetailSizeView: UIView, PostingViewConfigurable, UITextFieldDele
     }
     
     var placeholder: NSAttributedString {
-        return NSAttributedString(string: LGLocalizedString.realEstateSizeSquareMetersPlaceholder,
+        return NSAttributedString(string: R.Strings.realEstateSizeSquareMetersPlaceholder,
                            attributes: [NSAttributedStringKey.foregroundColor: UIColor.grayLight,
                                         NSAttributedStringKey.font: UIFont.systemBoldFont(size: 26)])
     }

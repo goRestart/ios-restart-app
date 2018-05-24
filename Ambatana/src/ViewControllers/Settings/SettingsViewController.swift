@@ -1,14 +1,7 @@
-//
-//  SettingsViewController.swift
-//  LetGo
-//
-//  Created by Ignacio Nieto Carvajal on 13/2/15.
-//  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
-//
-
 import UIKit
 import FBSDKShareKit
 import RxSwift
+import LGComponents
 
 class SettingsViewController: BaseViewController {
 
@@ -55,9 +48,9 @@ class SettingsViewController: BaseViewController {
     // MARK: - Private
 
     private func setupUI() {
-        settingProfileImageLabel.text = LGLocalizedString.settingsChangeProfilePictureLoading
+        settingProfileImageLabel.text = R.Strings.settingsChangeProfilePictureLoading
         settingProfileImageView.isHidden = true
-        setNavBarTitle(LGLocalizedString.settingsTitle)
+        setNavBarTitle(R.Strings.settingsTitle)
     
         let cellNib = UINib(nibName: SettingsCell.reusableID, bundle: nil)
         tableView.register(cellNib, forCellReuseIdentifier: SettingsCell.reusableID)

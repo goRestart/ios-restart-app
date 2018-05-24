@@ -1,10 +1,4 @@
-//
-//  TextHiddenTags.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 06/04/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
+import LGComponents
 
 enum TextHiddenTags: String {
     case phone = "[TL_HIDDEN]"
@@ -15,9 +9,9 @@ enum TextHiddenTags: String {
     var localized: String {
         switch self {
         case .phone:
-            return LGLocalizedString.hiddenPhoneTag
+            return R.Strings.hiddenPhoneTag
         case .email:
-            return LGLocalizedString.hiddenEmailTag
+            return R.Strings.hiddenEmailTag
         }
     }
 

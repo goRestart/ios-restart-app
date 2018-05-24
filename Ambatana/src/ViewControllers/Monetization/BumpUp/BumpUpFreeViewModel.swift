@@ -1,14 +1,6 @@
-//
-//  BumpUpFreeViewModel.swift
-//  LetGo
-//
-//  Created by Dídac on 26/10/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
-
+import LGComponents
 
 class BumpUpFreeViewModel: BaseViewModel {
     let shareTypes: [ShareType]
@@ -65,8 +57,8 @@ class BumpUpFreeViewModel: BaseViewModel {
         self.letgoItemId = letgoItemId
         self.storeProductId = storeProductId
         self.typePage = typePage
-        self.title = LGLocalizedString.bumpUpViewFreeTitle
-        self.subtitle = LGLocalizedString.bumpUpViewFreeSubtitle
+        self.title = R.Strings.bumpUpViewFreeTitle
+        self.subtitle = R.Strings.bumpUpViewFreeSubtitle
 
         super.init()
 
@@ -151,19 +143,19 @@ extension BumpUpFreeViewModel: SocialSharerDelegate {
     private func messageForShareIn(_ shareType: ShareType, finishedWithState state: SocialShareState) -> String? {
         switch (shareType, state) {
         case (.email, .failed):
-            return LGLocalizedString.productShareEmailError
+            return R.Strings.productShareEmailError
         case (.facebook, .failed):
-            return LGLocalizedString.sellSendErrorSharingFacebook
+            return R.Strings.sellSendErrorSharingFacebook
         case (.fbMessenger, .failed):
-            return LGLocalizedString.sellSendErrorSharingFacebook
+            return R.Strings.sellSendErrorSharingFacebook
         case (.sms, .completed):
-            return LGLocalizedString.productShareSmsOk
+            return R.Strings.productShareSmsOk
         case (.sms, .failed):
-            return LGLocalizedString.productShareSmsError
+            return R.Strings.productShareSmsError
         case (.copyLink, .completed):
-            return LGLocalizedString.productShareCopylinkOk
+            return R.Strings.productShareCopylinkOk
         case (_, .completed):
-            return LGLocalizedString.productShareGenericOk
+            return R.Strings.productShareGenericOk
         default:
             break
         }

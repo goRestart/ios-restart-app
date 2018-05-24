@@ -1,12 +1,5 @@
-//
-//  CarouselUIHelper.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 04/11/2016.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 struct CarouselUI {
     static let bannerHeight: CGFloat = 64
@@ -59,9 +52,9 @@ class CarouselUIHelper {
                                                                 NSAttributedStringKey.font : UIFont.systemBoldFont(size: 17)]
         let infoTextAttributes: [NSAttributedStringKey : Any] = [ NSAttributedStringKey.foregroundColor : UIColor.grayLighter,
                                                                   NSAttributedStringKey.font : UIFont.systemSemiBoldFont(size: 17)]
-        let plainText = LGLocalizedString.productMoreInfoTooltipPart2(LGLocalizedString.productMoreInfoTooltipPart1)
+        let plainText = R.Strings.productMoreInfoTooltipPart2(R.Strings.productMoreInfoTooltipPart1)
         let resultText = NSMutableAttributedString(string: plainText, attributes: infoTextAttributes)
-        let boldRange = NSString(string: plainText).range(of: LGLocalizedString.productMoreInfoTooltipPart1,
+        let boldRange = NSString(string: plainText).range(of: R.Strings.productMoreInfoTooltipPart1,
                                                                   options: .caseInsensitive)
         resultText.addAttributes(tapTextAttributes, range: boldRange)
         return resultText

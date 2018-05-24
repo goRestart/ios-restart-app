@@ -1,15 +1,7 @@
-//
-//  ChatUserConversationCell.swift
-//  LetGo
-//
-//  Created by Dídac on 16/05/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 import UIKit
 import Lottie
-
+import LGComponents
 
 final class ChatUserConversationCell: UITableViewCell, ReusableCell {
 
@@ -288,7 +280,7 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
         timeLastMessageLabel.isHidden = true
 
         if status == .userDeleted {
-            userNameLabel.text = LGLocalizedString.chatListAccountDeletedUsername
+            userNameLabel.text = R.Strings.chatListAccountDeletedUsername
             listingTitleLabel.text = nil
             userImageView.image = #imageLiteral(resourceName: "user_placeholder")
         }

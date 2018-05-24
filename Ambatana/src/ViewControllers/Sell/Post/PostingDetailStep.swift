@@ -1,13 +1,5 @@
-//
-//  PostingDetailStep.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 17/10/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
-
+import LGComponents
 
 enum PostingDetailStep {
     case price
@@ -26,29 +18,29 @@ enum PostingDetailStep {
     var title: String {
         switch self {
         case .price:
-            return LGLocalizedString.realEstatePriceTitle
+            return R.Strings.realEstatePriceTitle
         case .propertyType:
-            return LGLocalizedString.realEstateTypePropertyTitle
+            return R.Strings.realEstateTypePropertyTitle
         case .offerType:
-            return LGLocalizedString.realEstateOfferTypeTitle
+            return R.Strings.realEstateOfferTypeTitle
         case .bedrooms:
-            return LGLocalizedString.realEstateBedroomsTitle
+            return R.Strings.realEstateBedroomsTitle
         case .rooms:
-            return LGLocalizedString.realEstateRoomsTitle
+            return R.Strings.realEstateRoomsTitle
         case .sizeSquareMeters:
-            return LGLocalizedString.realEstateSizeSquareMetersTitle
+            return R.Strings.realEstateSizeSquareMetersTitle
         case .bathrooms:
-            return LGLocalizedString.realEstateBathroomsTitle
+            return R.Strings.realEstateBathroomsTitle
         case .summary:
-            return LGLocalizedString.realEstateSummaryTitle
+            return R.Strings.realEstateSummaryTitle
         case .location:
-            return LGLocalizedString.realEstateLocationTitle
+            return R.Strings.realEstateLocationTitle
         case .make:
-            return LGLocalizedString.postCategoryDetailCarMake
+            return R.Strings.postCategoryDetailCarMake
         case .model:
-            return LGLocalizedString.postCategoryDetailCarModel
+            return R.Strings.postCategoryDetailCarModel
         case .year:
-            return LGLocalizedString.postCategoryDetailCarYear
+            return R.Strings.postCategoryDetailCarYear
         }
     }
     

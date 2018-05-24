@@ -1,14 +1,7 @@
-//
-//  ListingsMapViewController.swift
-//  LetGo
-//
-//  Created by Tomas Cobo on 30/04/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import UIKit
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 final class ListingsMapViewController: BaseViewController {
     
@@ -44,7 +37,7 @@ final class ListingsMapViewController: BaseViewController {
     }
     
     private func updateNavigationBar() {
-        setNavBarTitleStyle(.text(LGLocalizedString.listingsMapTitle))
+        setNavBarTitleStyle(.text(R.Strings.listingsMapTitle))
         setNavBarBackButton(#imageLiteral(resourceName: "navbar_back_red"), selector: #selector(ListingsMapViewController.onNavBarBack))
     }
     

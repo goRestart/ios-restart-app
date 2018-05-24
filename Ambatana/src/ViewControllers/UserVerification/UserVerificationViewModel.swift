@@ -1,15 +1,8 @@
-//
-//  UserVerificationViewModel.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 19/3/18.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
 import RxSwift
 import RxCocoa
+import LGComponents
 
 protocol UserVerificationViewModelDelegate: BaseViewModelDelegate {
     func startAvatarSelection()
@@ -80,11 +73,11 @@ final class UserVerificationViewModel: BaseViewModel {
     }
 
     private func showErrorAlert() {
-        delegate?.vmShowAlertWithTitle(LGLocalizedString.commonErrorTitle,
-                                       text: LGLocalizedString.commonErrorNetworkBody,
+        delegate?.vmShowAlertWithTitle(R.Strings.commonErrorTitle,
+                                       text: R.Strings.commonErrorNetworkBody,
                                        alertType: .plainAlert,
                                        buttonsLayout: .horizontal,
-                                       actions: [UIAction.init(interface: .text(LGLocalizedString.commonOk), action: { [weak self] in
+                                       actions: [UIAction.init(interface: .text(R.Strings.commonOk), action: { [weak self] in
                                         self?.navigator?.closeUserVerification()
                                        })], dismissAction: { [weak self] in
                                         self?.navigator?.closeUserVerification()
@@ -138,7 +131,7 @@ final class UserVerificationViewModel: BaseViewModel {
                                             self?.syncActions()
                                         } else {
                                             self?.delegate?
-                                                .vmShowAutoFadingMessage(LGLocalizedString.settingsChangeProfilePictureErrorGeneric,
+                                                .vmShowAutoFadingMessage(R.Strings.settingsChangeProfilePictureErrorGeneric,
                                                                          completion: nil)
                                         }
         })
@@ -155,14 +148,14 @@ final class UserVerificationViewModel: BaseViewModel {
                         self?.verificationSuccess(.facebook)
                         self?.syncActions()
                     } else {
-                        self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.mainSignUpFbConnectErrorGeneric,
+                        self?.delegate?.vmShowAutoFadingMessage(R.Strings.mainSignUpFbConnectErrorGeneric,
                                                                 completion: nil)
                     }
                 }
             case .cancelled:
                 break
             case .error:
-                self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.mainSignUpFbConnectErrorGeneric,
+                self?.delegate?.vmShowAutoFadingMessage(R.Strings.mainSignUpFbConnectErrorGeneric,
                                                         completion: nil)
             }
         }
@@ -177,14 +170,14 @@ final class UserVerificationViewModel: BaseViewModel {
                         self?.verificationSuccess(.google)
                         self?.syncActions()
                     } else {
-                        self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.mainSignUpFbConnectErrorGeneric,
+                        self?.delegate?.vmShowAutoFadingMessage(R.Strings.mainSignUpFbConnectErrorGeneric,
                                                                 completion: nil)
                     }
                 }
             case .cancelled:
                 break
             case .error:
-                self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.mainSignUpFbConnectErrorGeneric,
+                self?.delegate?.vmShowAutoFadingMessage(R.Strings.mainSignUpFbConnectErrorGeneric,
                                                         completion: nil)
             }
         }
@@ -208,17 +201,17 @@ final class UserVerificationViewModel: BaseViewModel {
             if let error = result.error {
                 switch error {
                 case .tooManyRequests:
-                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailTooManyRequests,
+                    self?.delegate?.vmShowAutoFadingMessage(R.Strings.profileVerifyEmailTooManyRequests,
                                                             completion: nil)
                 case .network:
-                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorNetworkBody, completion: nil)
+                    self?.delegate?.vmShowAutoFadingMessage(R.Strings.commonErrorNetworkBody, completion: nil)
                 case .forbidden, .internalError, .notFound, .unauthorized, .userNotVerified, .serverError, .wsChatError,
                      .searchAlertError:
-                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorGenericBody, completion: nil)
+                    self?.delegate?.vmShowAutoFadingMessage(R.Strings.commonErrorGenericBody, completion: nil)
                 }
             } else {
                 self?.syncActions()
-                self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailSuccess) {
+                self?.delegate?.vmShowAutoFadingMessage(R.Strings.profileVerifyEmailSuccess) {
                     self?.verificationSuccess(.email(email))
                 }
             }

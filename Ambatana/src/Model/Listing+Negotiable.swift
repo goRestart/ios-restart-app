@@ -1,19 +1,12 @@
-//
-//  Listing+Negotiable.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 07/12/15.
-//  Copyright © 2015 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
+import LGComponents
 
 extension Priceable {
     func priceString(freeModeAllowed: Bool) -> String {
         if freeModeAllowed && price.isFree {
-            return LGLocalizedString.productFreePrice
+            return R.Strings.productFreePrice
         } else {
-            return price.value > 0 ? formattedPrice() :  LGLocalizedString.productNegotiablePrice
+            return price.value > 0 ? formattedPrice() :  R.Strings.productNegotiablePrice
         }
     }
 }

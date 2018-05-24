@@ -1,10 +1,4 @@
-//
-//  ChatSafetyTipsView.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 09/09/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
+import LGComponents
 
 class ChatSafetyTipsView: UIView {
 
@@ -70,9 +64,9 @@ class ChatSafetyTipsView: UIView {
         tipsView.cornerRadius = LGUIKitConstants.smallCornerRadius
         okButton.setStyle(.primary(fontSize: .medium))
 
-        titleLabel.text = LGLocalizedString.chatSafetyTipsTitle
-        messageLabel.text = LGLocalizedString.chatSafetyTipsMessage
-        okButton.setTitle(LGLocalizedString.commonOk, for: .normal)
+        titleLabel.text = R.Strings.chatSafetyTipsTitle
+        messageLabel.text = R.Strings.chatSafetyTipsMessage
+        okButton.setTitle(R.Strings.commonOk, for: .normal)
 
         okButton.set(accessibilityId: .safetyTipsOkButton)
     }

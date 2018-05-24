@@ -1,0 +1,19 @@
+source 'https://github.com/CocoaPods/Specs.git'
+source 'git@github.com:letgoapp/letgo-ios-specs.git'
+
+use_frameworks!
+
+platform :ios, "9.0"
+
+target 'LGLogin_Example' do
+  pod 'LGComponents/LGLogin', :path => '../../'
+
+end
+
+target 'LGLogin_Tests' do
+  pod 'LGComponents/LGLoginMocks', :path => '../../'
+
+  pod 'Quick', '1.2.0'
+  pod 'Nimble', '7.0.2'
+end
+

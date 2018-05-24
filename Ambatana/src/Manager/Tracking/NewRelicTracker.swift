@@ -6,10 +6,11 @@
 //  Copyright © 2017 Ambatana. All rights reserved.
 //
 
+import LGComponents
 import LGCoreKit
 
-final class NewRelicTracker: Tracker {
-
+final class NewRelicTracker: Tracker, LGComponents.Tracker {
+    // TODO: ABIOS-3771 Remove : Tracker & LGComponents. when removing tracker in app
     // Constants
     // > Properties
 
@@ -20,21 +21,28 @@ final class NewRelicTracker: Tracker {
     private static let UserSessionType = "user"
     private static let guestSessionType = "guest"
 
-    func application(_ application: UIApplication,
-                     didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?,
-                     featureFlags: FeatureFlaggeable) {
+    
+    // MARK: - Tracker
+
+    var application: AnalyticsApplication?
+
+    func applicationDidFinishLaunching(launchOptions: [String: Any]?,
+                                       apiKeys: AnalyticsAPIKeys) {
     }
 
-    func application(_ application: UIApplication, openURL url: URL, sourceApplication: String?, annotation: Any?) {
+    func application(openURL url: URL,
+                     sourceApplication: String?,
+                     annotation: Any?) {
     }
 
-    func applicationDidEnterBackground(_ application: UIApplication) {
+
+    func applicationDidEnterBackground() {
     }
 
-    func applicationWillEnterForeground(_ application: UIApplication) {
+    func applicationWillEnterForeground() {
     }
 
-    func applicationDidBecomeActive(_ application: UIApplication) {
+    func applicationDidBecomeActive() {
     }
 
     func setInstallation(_ installation: Installation?) {
@@ -58,7 +66,7 @@ final class NewRelicTracker: Tracker {
         }
     }
 
-    func trackEvent(_ event: TrackerEvent) {
+    func trackEvent(_ event: LGComponents.TrackerEvent) {   // TODO: ABIOS-3771 Remove LGComponents.
     }
 
     func setLocation(_ location: LGLocation?, postalAddress: PostalAddress?) {
@@ -71,5 +79,29 @@ final class NewRelicTracker: Tracker {
     }
 
     func setMarketingNotifications(_ enabled: Bool) {
+    }
+
+    func setABTests(_ abTests: [AnalyticsABTestUserProperty]) {
+    }
+
+
+    // MARK: - Tracker (legacy) To be Removed
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]?, featureFlags: FeatureFlaggeable) {
+    }
+
+    func application(_ application: UIApplication, openURL url: URL, sourceApplication: String?, annotation: Any?) {
+    }
+
+    func applicationDidEnterBackground(_ application: UIApplication) {
+    }
+
+    func applicationWillEnterForeground(_ application: UIApplication) {
+    }
+
+    func applicationDidBecomeActive(_ application: UIApplication) {
+    }
+
+    func trackEvent(_ event: TrackerEvent) {
     }
 }

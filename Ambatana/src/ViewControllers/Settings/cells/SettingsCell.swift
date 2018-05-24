@@ -1,12 +1,5 @@
-//
-//  SettingsCell.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 18/05/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 class SettingsCell: UITableViewCell, ReusableCell {
 
@@ -70,31 +63,31 @@ fileprivate extension LetGoSetting {
     var title: String {
         switch self {
         case .changePhoto:
-            return LGLocalizedString.settingsChangeProfilePictureButton
+            return R.Strings.settingsChangeProfilePictureButton
         case .changeUsername:
-            return LGLocalizedString.settingsChangeUsernameButton
+            return R.Strings.settingsChangeUsernameButton
         case .changeEmail:
-            return LGLocalizedString.settingsChangeEmailButton
+            return R.Strings.settingsChangeEmailButton
         case .changeLocation:
-            return LGLocalizedString.settingsChangeLocationButton
+            return R.Strings.settingsChangeLocationButton
         case .changePassword:
-            return LGLocalizedString.settingsChangePasswordButton
+            return R.Strings.settingsChangePasswordButton
         case .marketingNotifications:
-            return LGLocalizedString.settingsMarketingNotificationsSwitch
+            return R.Strings.settingsMarketingNotificationsSwitch
         case .help:
-            return LGLocalizedString.settingsHelpButton
+            return R.Strings.settingsHelpButton
         case .termsAndConditions:
-            return LGLocalizedString.mainSignUpTermsConditionsTermsPart
+            return R.Strings.mainSignUpTermsConditionsTermsPart
         case .privacyPolicy:
-            return LGLocalizedString.helpTermsConditionsPrivacyPart
+            return R.Strings.helpTermsConditionsPrivacyPart
         case .logOut:
-            return LGLocalizedString.settingsLogoutButton
+            return R.Strings.settingsLogoutButton
         case .versionInfo:
             return ""
         case .changeUserBio:
-            return LGLocalizedString.settingsChangeUserBioButton
+            return R.Strings.settingsChangeUserBioButton
         case .notifications:
-            return LGLocalizedString.settingsNotificationsButton
+            return R.Strings.settingsNotificationsButton
         }
     }
 
