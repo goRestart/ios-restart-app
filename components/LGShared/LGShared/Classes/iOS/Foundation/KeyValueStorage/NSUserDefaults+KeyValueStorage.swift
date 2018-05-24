@@ -9,7 +9,7 @@
 import LGCoreKit
 import SwiftyUserDefaults
 
-class StorageableUserDefaults: KeyValueStorageable {
+final class StorageableUserDefaults: KeyValueStorageable {
 
     private let userDefaults: UserDefaults
     
