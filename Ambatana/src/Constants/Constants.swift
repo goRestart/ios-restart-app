@@ -37,6 +37,8 @@ struct Constants {
     // Branch
     static let branchWebsiteURL = "https://app.letgo.com"
     static let branchLinksHost = "app.letgo.com"
+    // AppsFlyer
+    static let appsFlyerLinksHost = "letgo.onelink.me"
 
     // Website
     static let websiteRecaptchaEndpoint = "/mcaptcha"
@@ -162,8 +164,9 @@ struct Constants {
     static let promoteAfterPostWaitTime = TimeInterval.make(days: 1)
     static let fiveMinutesTimeLimit = TimeInterval.make(minutes: 5)
     static let oneHourTimeLimit = TimeInterval.make(hours: 1)
-    
+
     // Tracking
+    // TODO: ABIOS-3771 Remove this when integrating LGAnalytics module
     static let parameterNotApply = "N/A"
     static let parameterSkipValue = "skip"
 

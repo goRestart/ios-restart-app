@@ -1,13 +1,6 @@
-//
-//  FilterTagCell.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 16/11/15.
-//  Copyright © 2015 Ambatana. All rights reserved.
-//
-
 import UIKit
 import LGCoreKit
+import LGComponents
 
 protocol FilterTagCellDelegate : class {
     func onFilterTagClosed(_ filterTagCell: FilterTagCell)
@@ -99,9 +92,9 @@ class FilterTagCell: UICollectionViewCell {
         if !minText.isEmpty && !maxText.isEmpty {
             return minText + " " + "-" + " " + maxText
         } else if !minText.isEmpty {
-            return LGLocalizedString.filtersPriceFromFeedFilterCell + " " + minText
+            return R.Strings.filtersPriceFromFeedFilterCell + " " + minText
         } else if !maxText.isEmpty {
-            return LGLocalizedString.filtersPriceToFeedFilterCell + " " + maxText
+            return R.Strings.filtersPriceToFeedFilterCell + " " + maxText
         } else {
             // should never ever happen
             return "🤑"
@@ -109,7 +102,7 @@ class FilterTagCell: UICollectionViewCell {
     }
 
     private static func stringForYearsRange(_ startYear: Int?, endYear: Int?) -> String {
-        var startText = String(format: LGLocalizedString.filtersCarYearBeforeYear, Constants.filterMinCarYear)
+        var startText = R.Strings.filtersCarYearBeforeYear(Constants.filterMinCarYear)
         var endText = String(Date().year)
 
         if let startYear = startYear {
@@ -145,9 +138,9 @@ class FilterTagCell: UICollectionViewCell {
         if !startText.isEmpty && !endText.isEmpty {
             return startText.addingSquareMeterUnit + " " + "-" + " " + endText.addingSquareMeterUnit
         } else if !startText.isEmpty {
-            return LGLocalizedString.filtersRealEstateSizeFromFeedFilterCell + " " + startText.addingSquareMeterUnit
+            return R.Strings.filtersRealEstateSizeFromFeedFilterCell + " " + startText.addingSquareMeterUnit
         } else if !endText.isEmpty {
-            return LGLocalizedString.filtersRealEstateSizeToFeedFilterCell + " " + endText.addingSquareMeterUnit
+            return R.Strings.filtersRealEstateSizeToFeedFilterCell + " " + endText.addingSquareMeterUnit
         } else {
             // should never ever happen
             return ""

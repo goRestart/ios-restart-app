@@ -1,12 +1,5 @@
-//
-//  SearchRelatedListingListRequester.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 11/12/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
+import LGComponents
 
 class SearchRelatedListingListRequester: ListingListRequester {
     
@@ -107,7 +100,7 @@ class SearchRelatedListingListRequester: ListingListRequester {
     }
     
     private var requesterTitle: String? {
-        return LGLocalizedString.realEstateRelatedSearchTitle.localizedUppercase
+        return R.Strings.realEstateRelatedSearchTitle.localizedUppercase
     }
     
     func distanceFromListingCoordinates(_ listingCoords: LGLocationCoordinates2D) -> Double? {

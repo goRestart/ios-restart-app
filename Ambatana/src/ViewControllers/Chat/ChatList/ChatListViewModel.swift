@@ -1,14 +1,7 @@
-//
-//  ChatListViewModel.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 10/05/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import Result
 import RxSwift
+import LGComponents
 
 protocol ChatListViewModelDelegate: class {
     func chatListViewModelDidFailArchivingChats(_ viewModel: ChatListViewModel)
@@ -30,7 +23,7 @@ class ChatListViewModel: BaseChatGroupedListViewModel<ChatConversation> {
     fileprivate var selectedConversationIds: Set<String>
 
     var titleForDeleteButton: String {
-        return LGLocalizedString.chatListDelete
+        return R.Strings.chatListDelete
     }
 
     private let disposeBag = DisposeBag()
@@ -169,21 +162,21 @@ class ChatListViewModel: BaseChatGroupedListViewModel<ChatConversation> {
 fileprivate extension ChatListViewModel {
 
     func deleteConfirmationTitle(_ itemCount: Int) -> String {
-        return itemCount <= 1 ? LGLocalizedString.chatListDeleteAlertTitleOne :
-            LGLocalizedString.chatListDeleteAlertTitleMultiple
+        return itemCount <= 1 ? R.Strings.chatListDeleteAlertTitleOne :
+            R.Strings.chatListDeleteAlertTitleMultiple
     }
 
     func deleteConfirmationMessage(_ itemCount: Int) -> String {
-        return itemCount <= 1 ? LGLocalizedString.chatListDeleteAlertTextOne :
-            LGLocalizedString.chatListDeleteAlertTextMultiple
+        return itemCount <= 1 ? R.Strings.chatListDeleteAlertTextOne :
+            R.Strings.chatListDeleteAlertTextMultiple
     }
 
     func deleteConfirmationCancelTitle() -> String {
-        return LGLocalizedString.commonCancel
+        return R.Strings.commonCancel
     }
 
     func deleteConfirmationSendButton() -> String {
-        return LGLocalizedString.chatListDeleteAlertSend
+        return R.Strings.chatListDeleteAlertSend
     }
     
     func deleteSelectedChats() {

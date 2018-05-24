@@ -1,14 +1,7 @@
-//
-//  LGSearchMap.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 06/11/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import MapKit
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
 
@@ -59,7 +52,7 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
     
     private func setupUI() {
         searchField.insetX = 40
-        searchField.placeholder = LGLocalizedString.changeLocationSearchFieldHint
+        searchField.placeholder = R.Strings.changeLocationSearchFieldHint
         searchField.cornerRadius = LGUIKitConstants.mediumCornerRadius
         searchField.layer.borderColor = UIColor.lineGray.cgColor
         searchField.layer.borderWidth = LGUIKitConstants.onePixelSize

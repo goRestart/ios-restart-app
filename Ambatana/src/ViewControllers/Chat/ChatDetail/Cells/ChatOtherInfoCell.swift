@@ -1,12 +1,5 @@
-//
-//  ChatOtherInfoCell.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 14/06/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 class ChatOtherInfoCell: UITableViewCell, ReusableCell {
 
@@ -74,7 +67,7 @@ extension ChatOtherInfoCell {
         setLocationEnabled(false)
         setVerifyEnabled(false)
         setInfoEnabled(true)
-        infoLabel.text = LGLocalizedString.chatUserInfoLetgoAssistant
+        infoLabel.text = R.Strings.chatUserInfoLetgoAssistant
     }
     
     private func setLocationEnabled(_ enabled: Bool) {
@@ -109,7 +102,7 @@ fileprivate extension ChatOtherInfoCell {
         userInfoContainer.layer.shouldRasterize = true
         userInfoContainer.layer.rasterizationScale = UIScreen.main.scale
         backgroundColor = .clear
-        verifyLabel.text = LGLocalizedString.chatUserInfoVerifiedWith
+        verifyLabel.text = R.Strings.chatUserInfoVerifiedWith
     }
     
     func setAccessibilityIds() {

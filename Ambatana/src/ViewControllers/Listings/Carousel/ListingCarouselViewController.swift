@@ -1,13 +1,6 @@
-//
-//  ListingCarouselViewController.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 14/4/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 class ListingCarouselViewController: KeyboardViewController, AnimatableTransition {
     private struct Layout {
@@ -311,7 +304,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         let startIndexPath = IndexPath(item: viewModel.startIndex, section: 0)
         collectionView.scrollToItem(at: startIndexPath, at: .right, animated: false)
 
-        chatTextView.setInitialText(LGLocalizedString.chatExpressTextFieldText)
+        chatTextView.setInitialText(R.Strings.chatExpressTextFieldText)
         
         setupMoreInfo()
         setupMoreInfoDragging()
@@ -407,7 +400,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         setupCallButton()
 
         CarouselUIHelper.setupShareButton(shareButton,
-                                          text: LGLocalizedString.productShareNavbarButton,
+                                          text: R.Strings.productShareNavbarButton,
                                           icon: UIImage(named:"ic_share"))
 
         mainResponder = chatTextView
@@ -417,7 +410,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
 
     private func setupCallButton() {
         buttonCall.setStyle(.primary(fontSize: .big))
-        buttonCall.setTitle(LGLocalizedString.productProfessionalCallButton, for: .normal)
+        buttonCall.setTitle(R.Strings.productProfessionalCallButton, for: .normal)
         buttonCall.setImage(UIImage(named: "ic_phone_call"), for: .normal)
         buttonCall.imageEdgeInsets = UIEdgeInsets(top: 0, left: -Metrics.shortMargin, bottom: 0, right: 0)
         buttonCall.titleEdgeInsets = UIEdgeInsets(top: 0, left: Metrics.shortMargin, bottom: 0, right: 0)
@@ -837,7 +830,7 @@ extension ListingCarouselViewController {
             guard let strongSelf = self else { return }
             if isFeatured {
                 strongSelf.productStatusView.backgroundColor = UIColor.white
-                let featuredText = LGLocalizedString.bumpUpProductDetailFeaturedLabel
+                let featuredText = R.Strings.bumpUpProductDetailFeaturedLabel
                 strongSelf.productStatusLabel.text = featuredText.capitalizedFirstLetterOnly
                 strongSelf.productStatusLabel.textColor = UIColor.blackText
                 strongSelf.productStatusImageView.isHidden = false

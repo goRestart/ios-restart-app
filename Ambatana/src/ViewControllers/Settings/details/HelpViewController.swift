@@ -1,12 +1,5 @@
-//
-//  HelpViewController.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 24/09/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
 import WebKit
+import LGComponents
 
 class HelpViewController: BaseViewController {
     private let webView = WKWebView()
@@ -32,7 +25,7 @@ class HelpViewController: BaseViewController {
         webView.addToViewController(self, inView: self.view)
 
         // Navigation Bar
-        setNavBarTitle(LGLocalizedString.helpTitle)
+        setNavBarTitle(R.Strings.helpTitle)
 
         if let url = viewModel.url {
             let request = URLRequest(url: url)

@@ -1,14 +1,6 @@
-
-//
-//  ChatViewModel.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 27/4/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 protocol ChatViewModelDelegate: BaseViewModelDelegate {
 
@@ -753,8 +745,8 @@ extension ChatViewModel {
         guard !showingVerifyAccounts else { return }
         showingVerifyAccounts = true
         navigator?.openVerifyAccounts([.facebook, .google, .email(myUserRepository.myUser?.email)],
-                                         source: .chat(title: LGLocalizedString.chatConnectAccountsTitle,
-                                         description: LGLocalizedString.chatNotVerifiedAlertMessage),
+                                         source: .chat(title: R.Strings.chatConnectAccountsTitle,
+                                         description: R.Strings.chatNotVerifiedAlertMessage),
                                          completionBlock: { [weak self] in
                                             self?.navigator?.closeChatDetail()
                                             self?.showingVerifyAccounts = false
@@ -792,7 +784,7 @@ extension ChatViewModel {
         guard let textField = alert.textFields?.first,
             let textFieldText = textField.text?.replacingOccurrences(of: "-", with: ""),
             textFieldText.isPhoneNumber else {
-                delegate?.vmShowAutoFadingMessage(LGLocalizedString.professionalDealerAskPhoneAlertNotValidPhone, completion: nil)
+                delegate?.vmShowAutoFadingMessage(R.Strings.professionalDealerAskPhoneAlertNotValidPhone, completion: nil)
                 return
         }
         send(phone: textFieldText)
@@ -837,15 +829,15 @@ extension ChatViewModel {
                     case .userNotVerified:
                         self?.showUserNotVerifiedAlert()
                     case .notAuthenticated, .userBlocked, .internalError, .network, .apiError:
-                        self?.showSendMessageError(withText: LGLocalizedString.chatSendErrorGeneric)
+                        self?.showSendMessageError(withText: R.Strings.chatSendErrorGeneric)
                     case .differentCountry:
-                        self?.showSendMessageError(withText: LGLocalizedString.chatSendErrorDifferentCountry)
+                        self?.showSendMessageError(withText: R.Strings.chatSendErrorDifferentCountry)
                     }
                 case .userNotVerified:
                     self?.showUserNotVerifiedAlert()
                 case .forbidden, .internalError, .network, .notFound, .tooManyRequests, .unauthorized, .serverError,
                      .searchAlertError:
-                    self?.showSendMessageError(withText: LGLocalizedString.chatSendErrorGeneric)
+                    self?.showSendMessageError(withText: R.Strings.chatSendErrorGeneric)
                 }
             }
         }
@@ -862,20 +854,20 @@ extension ChatViewModel {
             var soldQuestionText: String
             
             if listingIsFree.value {
-                interfaceText = LGLocalizedString.directAnswerGivenAwayQuestionOk
-                alertTitle = LGLocalizedString.directAnswerGivenAwayQuestionTitle
-                soldQuestionText = LGLocalizedString.directAnswerGivenAwayQuestionMessage
+                interfaceText = R.Strings.directAnswerGivenAwayQuestionOk
+                alertTitle = R.Strings.directAnswerGivenAwayQuestionTitle
+                soldQuestionText = R.Strings.directAnswerGivenAwayQuestionMessage
             } else {
-                interfaceText = LGLocalizedString.directAnswerSoldQuestionOk
-                alertTitle = LGLocalizedString.directAnswerSoldQuestionTitle
-                soldQuestionText = LGLocalizedString.directAnswerSoldQuestionMessage
+                interfaceText = R.Strings.directAnswerSoldQuestionOk
+                alertTitle = R.Strings.directAnswerSoldQuestionTitle
+                soldQuestionText = R.Strings.directAnswerSoldQuestionMessage
             }
             shouldAskListingSold = false
             let action = UIAction(interface: UIActionInterface.text(interfaceText),
                                   action: { [weak self] in self?.markListingAsSold() })
             delegate?.vmShowAlert(alertTitle,
                                   message: soldQuestionText,
-                                  cancelLabel: LGLocalizedString.commonCancel,
+                                  cancelLabel: R.Strings.commonCancel,
                                   actions: [action])
         } else if pushPermissionsManager.shouldShowPushPermissionsAlertFromViewController(.chat(buyer: isBuyer)) {
             delegate?.vmDidRequestShowPrePermissions(.chat(buyer: isBuyer))
@@ -900,14 +892,14 @@ extension ChatViewModel {
         case .phone:
             saveProSellerAlreadySentPhoneInChatFor(listingId: listingId)
             if !hasSentAutomaticAnswerForPhoneMessage {
-                sendProfessionalAutomaticAnswerWith(message: LGLocalizedString.professionalDealerAskPhoneThanksPhoneCellMessage,
+                sendProfessionalAutomaticAnswerWith(message: R.Strings.professionalDealerAskPhoneThanksPhoneCellMessage,
                                                     isPhone: true)
                 disableAskPhoneMessageButton()
             }
         case .text, .quickAnswer, .chatSticker, .expressChat, .periscopeDirect, .favoritedListing, .meeting, .interested:
             insertAskPhoneNumberMessage()
             if !hasSentAutomaticAnswerForOtherMessage {
-                sendProfessionalAutomaticAnswerWith(message: LGLocalizedString.professionalDealerAskPhoneThanksOtherCellMessage,
+                sendProfessionalAutomaticAnswerWith(message: R.Strings.professionalDealerAskPhoneThanksOtherCellMessage,
                                                     isPhone: false)
             }
         }
@@ -945,15 +937,15 @@ extension ChatViewModel {
             if let error = result.error {
                 switch error {
                 case .tooManyRequests:
-                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailTooManyRequests, completion: nil)
+                    self?.delegate?.vmShowAutoFadingMessage(R.Strings.profileVerifyEmailTooManyRequests, completion: nil)
                 case .network:
-                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorNetworkBody, completion: nil)
+                    self?.delegate?.vmShowAutoFadingMessage(R.Strings.commonErrorNetworkBody, completion: nil)
                 case .forbidden, .internalError, .notFound, .unauthorized, .userNotVerified, .serverError, .wsChatError,
                      .searchAlertError:
-                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorGenericBody, completion: nil)
+                    self?.delegate?.vmShowAutoFadingMessage(R.Strings.commonErrorGenericBody, completion: nil)
                 }
             } else {
-                self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailSuccess, completion: nil)
+                self?.delegate?.vmShowAutoFadingMessage(R.Strings.profileVerifyEmailSuccess, completion: nil)
             }
         }
     }
@@ -1069,7 +1061,7 @@ extension ChatViewModel {
             if let _ = result.value {
                 self?.trackMarkAsSold()
             }
-            let errorMessage: String? = result.error != nil ? LGLocalizedString.productMarkAsSoldErrorGeneric : nil
+            let errorMessage: String? = result.error != nil ? R.Strings.productMarkAsSoldErrorGeneric : nil
             self?.delegate?.vmHideLoading(errorMessage) {
                 guard let _ = result.value else { return }
                 self?.refreshConversation()
@@ -1086,43 +1078,43 @@ extension ChatViewModel {
     func openOptionsMenu() {
         var actions: [UIAction] = []
         
-        let safetyTips = UIAction(interface: UIActionInterface.text(LGLocalizedString.chatSafetyTips), action: { [weak self] in
+        let safetyTips = UIAction(interface: UIActionInterface.text(R.Strings.chatSafetyTips), action: { [weak self] in
             self?.delegate?.vmDidRequestSafetyTips()
         })
         actions.append(safetyTips)
 
         if conversation.value.isSaved {
             if !isDeleted && !isEmptyConversation.value {
-                let delete = UIAction(interface: UIActionInterface.text(LGLocalizedString.chatListDelete),
+                let delete = UIAction(interface: UIActionInterface.text(R.Strings.chatListDelete),
                                                    action: deleteAction)
                 actions.append(delete)
             }
 
             if interlocutorEnabled {
-                let report = UIAction(interface: UIActionInterface.text(LGLocalizedString.reportUserTitle),
+                let report = UIAction(interface: UIActionInterface.text(R.Strings.reportUserTitle),
                                       action: reportUserAction)
                 actions.append(report)
               
                 if interlocutorIsMuted.value {
-                    let unblock = UIAction(interface: UIActionInterface.text(LGLocalizedString.chatUnblockUser),
+                    let unblock = UIAction(interface: UIActionInterface.text(R.Strings.chatUnblockUser),
                                           action: unblockUserAction)
                     actions.append(unblock)
                 } else {
-                    let block = UIAction(interface: UIActionInterface.text(LGLocalizedString.chatBlockUser),
+                    let block = UIAction(interface: UIActionInterface.text(R.Strings.chatBlockUser),
                                          action:  { [weak self] in self?.blockUserAction(buttonPosition: .threeDots) } )
                     actions.append(block)
                 }
             }
         }
 
-        delegate?.vmShowActionSheet(LGLocalizedString.commonCancel, actions: actions)
+        delegate?.vmShowActionSheet(R.Strings.commonCancel, actions: actions)
     }
     
     private func deleteAction() {
         guard !isDeleted else { return }
         
         
-        let action = UIAction(interface: .styledText(LGLocalizedString.chatListDeleteAlertSend, .destructive), action: {
+        let action = UIAction(interface: .styledText(R.Strings.chatListDeleteAlertSend, .destructive), action: {
             [weak self] in
             self?.delete() { [weak self] success in
                 if success {
@@ -1130,15 +1122,15 @@ extension ChatViewModel {
                     self?.tracker.trackEvent(TrackerEvent.chatDeleteComplete(numberOfConversations: 1,
                                                                              isInactiveConversation: false))
                 }
-                let message = success ? LGLocalizedString.chatListDeleteOkOne : LGLocalizedString.chatListDeleteErrorOne
+                let message = success ? R.Strings.chatListDeleteOkOne : R.Strings.chatListDeleteErrorOne
                 self?.delegate?.vmDidNotifyMessage(message) { [weak self] in
                     self?.navigator?.closeChatDetail()
                 }
             }
         })
-        delegate?.vmShowAlert(LGLocalizedString.chatListDeleteAlertTitleOne,
-                              message: LGLocalizedString.chatListDeleteAlertTextOne,
-                              cancelLabel: LGLocalizedString.commonCancel,
+        delegate?.vmShowAlert(R.Strings.chatListDeleteAlertTitleOne,
+                              message: R.Strings.chatListDeleteAlertTextOne,
+                              cancelLabel: R.Strings.commonCancel,
                               actions: [action])
     }
     
@@ -1160,7 +1152,7 @@ extension ChatViewModel {
     
     fileprivate func blockUserAction(buttonPosition: EventParameterBlockButtonPosition) {
         
-        let action = UIAction(interface: .styledText(LGLocalizedString.chatBlockUserAlertBlockButton, .destructive), action: {
+        let action = UIAction(interface: .styledText(R.Strings.chatBlockUserAlertBlockButton, .destructive), action: {
             [weak self] in
             self?.blockUser(buttonPosition: buttonPosition) { [weak self] success in
                 if success {
@@ -1169,14 +1161,14 @@ extension ChatViewModel {
                     self?.chatEnabled.value = false
                     self?.refreshChat()
                 } else {
-                    self?.delegate?.vmDidNotifyMessage(LGLocalizedString.blockUserErrorGeneric, completion: nil)
+                    self?.delegate?.vmDidNotifyMessage(R.Strings.blockUserErrorGeneric, completion: nil)
                 }
             }
         })
         
-        delegate?.vmShowAlert(LGLocalizedString.chatBlockUserAlertTitle,
-                              message: LGLocalizedString.chatBlockUserAlertText,
-                              cancelLabel: LGLocalizedString.commonCancel,
+        delegate?.vmShowAlert(R.Strings.chatBlockUserAlertTitle,
+                              message: R.Strings.chatBlockUserAlertText,
+                              cancelLabel: R.Strings.commonCancel,
                               actions: [action])
     }
     
@@ -1208,7 +1200,7 @@ extension ChatViewModel {
                     strongSelf.chatEnabled.value = true
                 }
             } else {
-                strongSelf.delegate?.vmDidNotifyMessage(LGLocalizedString.unblockUserErrorGeneric, completion: nil)
+                strongSelf.delegate?.vmDidNotifyMessage(R.Strings.unblockUserErrorGeneric, completion: nil)
             }
         }
     }
@@ -1574,7 +1566,7 @@ fileprivate extension ChatViewModel {
                 strongSelf.preSendMessageCompletion = nil
                 guard sellerId != strongSelf.myUserRepository.myUser?.objectId else {
                     //A user cannot have a conversation with himself
-                    strongSelf.delegate?.vmShowAutoFadingMessage(LGLocalizedString.chatWithYourselfAlertMsg) {
+                    strongSelf.delegate?.vmShowAutoFadingMessage(R.Strings.chatWithYourselfAlertMsg) {
                         [weak self] in
                         self?.navigator?.closeChatDetail()
                     }

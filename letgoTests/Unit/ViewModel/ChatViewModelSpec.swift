@@ -13,7 +13,7 @@ import LGCoreKit
 import Quick
 import Nimble
 import Foundation
-
+import LGComponents
 
 class ChatViewModelSpec: BaseViewModelSpec {
     
@@ -36,7 +36,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
         var sessionManager: MockSessionManager!
         var keyValueStorage: KeyValueStorage!
         var featureFlags: MockFeatureFlags!
-        var source: EventParameterTypePage!
+        var source: LetGoGodMode.EventParameterTypePage!
         var pushPermissionManager: MockPushPermissionsManager!
         var ratingManager: MockRatingManager!
         var reputationTooltipManager: MockReputationTooltipManager!
@@ -394,9 +394,9 @@ class ChatViewModelSpec: BaseViewModelSpec {
                                 expect(tracker.trackedEvents.count).toEventually(equal(3))
                             }
                             it("adds interlocutor introduction, the user message and the automatic messages") {
-                                expect(messages.lastValue?.map{ $0.value }) == [LGLocalizedString.professionalDealerAskPhoneThanksPhoneCellMessage,
-                                                                                LGLocalizedString.professionalDealerAskPhoneAddPhoneCellMessage,
-                                                                                LGLocalizedString.professionalDealerAskPhoneChatMessage("123-456-789"),
+                                expect(messages.lastValue?.map{ $0.value }) == [R.Strings.professionalDealerAskPhoneThanksPhoneCellMessage,
+                                                                                R.Strings.professionalDealerAskPhoneAddPhoneCellMessage,
+                                                                                R.Strings.professionalDealerAskPhoneChatMessage("123-456-789"),
                                                                                 sut.userInfoMessage!.value]
                             }
                             it("tracks sent first message + message sent") {
@@ -409,8 +409,8 @@ class ChatViewModelSpec: BaseViewModelSpec {
                                 expect(tracker.trackedEvents.count).toEventually(equal(3))
                             }
                             it("adds interlocutor introduction, the user message and the automatic messages") {
-                                expect(messages.lastValue?.map{ $0.value }) == [LGLocalizedString.professionalDealerAskPhoneThanksOtherCellMessage,
-                                                                                LGLocalizedString.professionalDealerAskPhoneAddPhoneCellMessage,
+                                expect(messages.lastValue?.map{ $0.value }) == [R.Strings.professionalDealerAskPhoneThanksOtherCellMessage,
+                                                                                R.Strings.professionalDealerAskPhoneAddPhoneCellMessage,
                                                                                 "hello",
                                                                                 sut.userInfoMessage!.value]
                             }

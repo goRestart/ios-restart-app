@@ -1,12 +1,5 @@
-//
-//  BlockedUsersListView.swift
-//  LetGo
-//
-//  Created by Dídac on 10/02/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
+import LGComponents
 
 protocol BlockedUsersListViewDelegate: class {
     func didSelectBlockedUser(_ user: User)
@@ -54,7 +47,7 @@ class BlockedUsersListView: ChatGroupedListView, BlockedUsersListViewModelDelega
         tableView.allowsMultipleSelectionDuringEditing = true
         tableView.rowHeight = BlockedUserCell.defaultHeight
 
-        footerButton.setTitle(LGLocalizedString.chatListUnblock, for: .normal)
+        footerButton.setTitle(R.Strings.chatListUnblock, for: .normal)
         footerButton.addTarget(self, action: #selector(BlockedUsersListView.unblockUsersPressed),
                                for: .touchUpInside)
     }
@@ -91,7 +84,7 @@ class BlockedUsersListView: ChatGroupedListView, BlockedUsersListViewModelDelega
     }
 
     func didFailUnblockingUsers(_ viewModel: BlockedUsersListViewModel) {
-        blockedUsersListViewDelegate?.didFinishUnblockingWithMessage(LGLocalizedString.unblockUserErrorGeneric)
+        blockedUsersListViewDelegate?.didFinishUnblockingWithMessage(R.Strings.unblockUserErrorGeneric)
     }
 
     func didSucceedUnblockingUsers(_ viewModel: BlockedUsersListViewModel) {

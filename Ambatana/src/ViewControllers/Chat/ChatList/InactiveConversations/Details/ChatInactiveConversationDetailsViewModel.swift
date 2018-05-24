@@ -1,13 +1,6 @@
-//
-//  ChatInactiveConversationDetailsViewModel.swift
-//  LetGo
-//
-//  Created by Nestor on 18/01/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 protocol ChatInactiveConversationsViewModelDelegate: BaseViewModelDelegate {
     func vmDidNotifyMessage(_ message: String, completion: (() -> ())?)
@@ -107,16 +100,16 @@ class ChatInactiveConversationDetailsViewModel: BaseViewModel {
     func openOptionsMenu() {
         var actions: [UIAction] = []
         if !isDeleted {
-            let delete = UIAction(interface: UIActionInterface.text(LGLocalizedString.chatListDelete),
+            let delete = UIAction(interface: UIActionInterface.text(R.Strings.chatListDelete),
                                   action: deleteAction)
             actions.append(delete)
         }
-        delegate?.vmShowActionSheet(LGLocalizedString.commonCancel, actions: actions)
+        delegate?.vmShowActionSheet(R.Strings.commonCancel, actions: actions)
     }
     
     private func deleteAction() {
         guard !isDeleted else { return }
-        let action = UIAction(interface: .styledText(LGLocalizedString.chatListDeleteAlertSend, .destructive), action: {
+        let action = UIAction(interface: .styledText(R.Strings.chatListDeleteAlertSend, .destructive), action: {
             [weak self] in
             self?.delete() { [weak self] success in
                 if success {
@@ -124,15 +117,15 @@ class ChatInactiveConversationDetailsViewModel: BaseViewModel {
                     self?.tracker.trackEvent(TrackerEvent.chatDeleteComplete(numberOfConversations: 1,
                                                                              isInactiveConversation: true))
                 }
-                let message = success ? LGLocalizedString.chatListDeleteOkOne : LGLocalizedString.chatListDeleteErrorOne
+                let message = success ? R.Strings.chatListDeleteOkOne : R.Strings.chatListDeleteErrorOne
                 self?.delegate?.vmDidNotifyMessage(message) { [weak self] in
                     self?.navigator?.closeChatInactiveDetail()
                 }
             }
         })
-        delegate?.vmShowAlert(LGLocalizedString.chatListDeleteAlertTitleOne,
-                              message: LGLocalizedString.chatListDeleteAlertTextOne,
-                              cancelLabel: LGLocalizedString.commonCancel,
+        delegate?.vmShowAlert(R.Strings.chatListDeleteAlertTitleOne,
+                              message: R.Strings.chatListDeleteAlertTextOne,
+                              cancelLabel: R.Strings.commonCancel,
                               actions: [action])
     }
     

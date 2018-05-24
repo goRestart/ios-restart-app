@@ -1,13 +1,6 @@
-//
-//  PostingAddDetailSummaryTableView.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 23/10/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import RxSwift
 import LGCoreKit
+import LGComponents
 
 protocol PostingAddDetailSummaryTableViewDelegate: class {
     func postingAddDetailSummary(_ postingAddDetailSummary: PostingAddDetailSummaryTableView, didSelectIndex: PostingSummaryOption)
@@ -63,27 +56,27 @@ enum PostingSummaryOption {
     var emptyLocalizeString: String {
         switch self {
         case .price:
-            return LGLocalizedString.realEstateSummaryPriceEmpty
+            return R.Strings.realEstateSummaryPriceEmpty
         case .propertyType:
-            return LGLocalizedString.realEstateSummaryTypePropertyEmpty
+            return R.Strings.realEstateSummaryTypePropertyEmpty
         case .offerType:
-            return LGLocalizedString.realEstateSummaryOfferTypeEmpty
+            return R.Strings.realEstateSummaryOfferTypeEmpty
         case .bedrooms:
-            return LGLocalizedString.realEstateSummaryBedroomsEmtpy
+            return R.Strings.realEstateSummaryBedroomsEmtpy
         case .rooms:
-            return LGLocalizedString.realEstateSummaryRoomsEmpty
+            return R.Strings.realEstateSummaryRoomsEmpty
         case .sizeSquareMeters:
-            return LGLocalizedString.realEstateSummarySizeEmpty
+            return R.Strings.realEstateSummarySizeEmpty
         case .bathrooms:
-            return LGLocalizedString.realEstateSummaryBathroomsEmpty
+            return R.Strings.realEstateSummaryBathroomsEmpty
         case .location:
-            return LGLocalizedString.realEstateSummaryLocationEmpty
+            return R.Strings.realEstateSummaryLocationEmpty
         case .make:
-            return LGLocalizedString.postCategoryDetailAddMake
+            return R.Strings.postCategoryDetailAddMake
         case .model:
-            return LGLocalizedString.postCategoryDetailAddModel
+            return R.Strings.postCategoryDetailAddModel
         case .year:
-            return LGLocalizedString.postCategoryDetailCarYear
+            return R.Strings.postCategoryDetailCarYear
         }
     }
     static func optionsIncluded(with postCategory: PostCategory, postingFlowType: PostingFlowType) -> [PostingSummaryOption] {

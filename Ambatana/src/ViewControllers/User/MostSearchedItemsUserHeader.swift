@@ -1,10 +1,4 @@
-//
-//  MostSearchedItemsUserHeader.swift
-//  LetGo
-//
-//  Created by Raúl de Oñate Blanco on 16/01/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
+import LGComponents
 
 protocol MostSearchedItemsUserHeaderDelegate: class {
     func didTapMostSearchedItemsHeader()
@@ -51,14 +45,14 @@ class MostSearchedItemsUserHeader: UIView {
         
         titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
         titleLabel.textColor = UIColor.black
-        titleLabel.text = LGLocalizedString.trendingItemsProfileTitle
+        titleLabel.text = R.Strings.trendingItemsProfileTitle
         titleLabel.numberOfLines = 2
         titleLabel.adjustsFontSizeToFitWidth = true
         titleLabel.minimumScaleFactor = 0.4
         
         subtitleLabel.font = UIFont.systemRegularFont(size: 11)
         subtitleLabel.textColor = UIColor.black
-        subtitleLabel.text = LGLocalizedString.trendingItemsProfileSubtitle
+        subtitleLabel.text = R.Strings.trendingItemsProfileSubtitle
         subtitleLabel.numberOfLines = 2
         subtitleLabel.adjustsFontSizeToFitWidth = true
         subtitleLabel.minimumScaleFactor = 0.4

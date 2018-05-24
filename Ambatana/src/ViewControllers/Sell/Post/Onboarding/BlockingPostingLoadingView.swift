@@ -1,10 +1,4 @@
-//
-//  BlockingPostingLoadingView.swift
-//  LetGo
-//
-//  Created by Raúl de Oñate Blanco on 07/03/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
+import LGComponents
 
 protocol BlockingPostingLoadingViewDelegate: class {
     func didPressRetryButton()
@@ -59,7 +53,7 @@ class BlockingPostingLoadingView: UIView {
         messageLabel.minimumScaleFactor = 0.6
 
         retryButton.setStyle(.primary(fontSize: .medium))
-        retryButton.setTitle(LGLocalizedString.commonErrorListRetryButton, for: .normal)
+        retryButton.setTitle(R.Strings.commonErrorListRetryButton, for: .normal)
         retryButton.addTarget(self, action: #selector(BlockingPostingLoadingView.retryButtonAction), for: .touchUpInside)
 
         retryButton.isHidden = true

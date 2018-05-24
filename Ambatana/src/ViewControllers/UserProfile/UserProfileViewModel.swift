@@ -1,14 +1,7 @@
-//
-//  UserProfileViewModel.swift
-//  LetGo
-//
-//  Created by Sergi Gracia on 20/02/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import RxSwift
 import RxCocoa
+import LGComponents
 
 enum UserSource {
     case tabBar
@@ -156,10 +149,6 @@ final class UserProfileViewModel: BaseViewModel {
         self.soldListingListViewModel.dataDelegate = self
         self.favoritesListingListViewModel.dataDelegate = self
 
-        self.sellingListingListViewModel.retrieveListings()
-        self.soldListingListViewModel.retrieveListings()
-        self.favoritesListingListViewModel.retrieveListings()
-
         setupRxBindings()
 
         if isPrivateProfile {
@@ -255,8 +244,8 @@ extension UserProfileViewModel {
         }
         guard !verifyTypes.isEmpty else { return }
         navigator?.openVerifyAccounts(verifyTypes,
-                                      source: .profile(title: LGLocalizedString.chatConnectAccountsTitle,
-                                                       description: LGLocalizedString.profileConnectAccountsMessage),
+                                      source: .profile(title: R.Strings.chatConnectAccountsTitle,
+                                                       description: R.Strings.profileConnectAccountsMessage),
                                       completionBlock: nil)
     }
 
@@ -270,7 +259,7 @@ extension UserProfileViewModel {
                                             self?.refreshUser()
                                         } else {
                                             self?.delegate?
-                                                .vmShowAutoFadingMessage(LGLocalizedString.settingsChangeProfilePictureErrorGeneric,
+                                                .vmShowAutoFadingMessage(R.Strings.settingsChangeProfilePictureErrorGeneric,
                                                                          completion: nil)
                                         }
         })
@@ -311,7 +300,7 @@ extension UserProfileViewModel {
 
     func didTapBlockUserButton() {
         guard let userId = user.value?.objectId else { return }
-        delegate?.vmShowLoading(LGLocalizedString.commonLoading)
+        delegate?.vmShowLoading(R.Strings.commonLoading)
         userRepository.blockUserWithId(userId) { [weak self] result in
             self?.trackBlock(userId)
 
@@ -320,7 +309,7 @@ extension UserProfileViewModel {
                 self?.userRelationIsBlocked.value = true
             } else {
                 afterMessageCompletion = {
-                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.blockUserErrorGeneric, completion: nil)
+                    self?.delegate?.vmShowAutoFadingMessage(R.Strings.blockUserErrorGeneric, completion: nil)
                 }
             }
             self?.delegate?.vmHideLoading(nil, afterMessageCompletion: afterMessageCompletion)
@@ -330,7 +319,7 @@ extension UserProfileViewModel {
     func didTapUnblockUserButton() {
         guard let userId = user.value?.objectId else { return }
 
-        delegate?.vmShowLoading(LGLocalizedString.commonLoading)
+        delegate?.vmShowLoading(R.Strings.commonLoading)
         userRepository.unblockUserWithId(userId) { [weak self] result in
             self?.trackUnblock(userId)
 
@@ -339,7 +328,7 @@ extension UserProfileViewModel {
                 self?.userRelationIsBlocked.value = false
             } else {
                 afterMessageCompletion = {
-                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.unblockUserErrorGeneric, completion: nil)
+                    self?.delegate?.vmShowAutoFadingMessage(R.Strings.unblockUserErrorGeneric, completion: nil)
                 }
             }
             self?.delegate?.vmHideLoading(nil, afterMessageCompletion: afterMessageCompletion)
@@ -375,12 +364,12 @@ extension UserProfileViewModel {
                                     userName) { (blocked, blockedBy, userName) -> String? in
                                         if blocked {
                                             if let userName = userName {
-                                                return LGLocalizedString.profileBlockedByMeLabelWName(userName)
+                                                return R.Strings.profileBlockedByMeLabelWName(userName)
                                             } else {
-                                                return LGLocalizedString.profileBlockedByMeLabel
+                                                return R.Strings.profileBlockedByMeLabel
                                             }
                                         } else if blockedBy {
-                                            return LGLocalizedString.profileBlockedByOtherLabel
+                                            return R.Strings.profileBlockedByOtherLabel
                                         }
                                         return nil
         }
@@ -522,9 +511,9 @@ extension UserProfileViewModel {
     }
 
     private func deleteListing(withId listingId: String) {
-        delegate?.vmShowLoading(LGLocalizedString.commonLoading)
+        delegate?.vmShowLoading(R.Strings.commonLoading)
         listingRepository.delete(listingId: listingId) { [weak self] result in
-            let message: String? = result.error != nil ? LGLocalizedString.productDeleteSendErrorGeneric : nil
+            let message: String? = result.error != nil ? R.Strings.productDeleteSendErrorGeneric : nil
             self?.delegate?.vmHideLoading(message, afterMessageCompletion: nil)
         }
     }
@@ -546,15 +535,15 @@ extension UserProfileViewModel {
             self?.trackPushPermissionCancel()
         }
 
-        let positive = UIAction(interface: .styledText(LGLocalizedString.profilePermissionsAlertOk, .standard),
+        let positive = UIAction(interface: .styledText(R.Strings.profilePermissionsAlertOk, .standard),
                                 action: positiveClosure,
                                 accessibilityId: .userPushPermissionOK)
-        let negative = UIAction(interface: .styledText(LGLocalizedString.profilePermissionsAlertCancel, .cancel),
+        let negative = UIAction(interface: .styledText(R.Strings.profilePermissionsAlertCancel, .cancel),
                                 action:negativeClosure,
                                 accessibilityId: .userPushPermissionCancel)
 
-        delegate?.vmShowAlertWithTitle(LGLocalizedString.profilePermissionsAlertTitle,
-                                       text: LGLocalizedString.profilePermissionsAlertMessage,
+        delegate?.vmShowAlertWithTitle(R.Strings.profilePermissionsAlertTitle,
+                                       text: R.Strings.profilePermissionsAlertMessage,
                                        alertType: .iconAlert(icon: UIImage(named: "custom_permission_profile")),
                                        actions: [negative, positive])
     }
@@ -624,14 +613,14 @@ extension UserProfileViewModel {
 
         switch viewModel {
         case let vm where vm === sellingListingListViewModel:
-            errTitle = LGLocalizedString.profileSellingNoProductsLabel
-            errButTitle = itsMe ? nil : LGLocalizedString.profileSellingOtherUserNoProductsButton
+            errTitle = R.Strings.profileSellingNoProductsLabel
+            errButTitle = itsMe ? nil : R.Strings.profileSellingOtherUserNoProductsButton
         case let vm where vm === soldListingListViewModel:
-            errTitle = LGLocalizedString.profileSoldNoProductsLabel
-            errButTitle = itsMe ? nil : LGLocalizedString.profileSoldOtherNoProductsButton
+            errTitle = R.Strings.profileSoldNoProductsLabel
+            errButTitle = itsMe ? nil : R.Strings.profileSoldOtherNoProductsButton
         case let vm where vm === favoritesListingListViewModel:
-            errTitle = LGLocalizedString.profileFavouritesMyUserNoProductsLabel
-            errButTitle = itsMe ? nil : LGLocalizedString.profileFavouritesMyUserNoProductsButton
+            errTitle = R.Strings.profileFavouritesMyUserNoProductsLabel
+            errButTitle = itsMe ? nil : R.Strings.profileFavouritesMyUserNoProductsButton
             errButAction = { [weak self] in self?.navigator?.openHome() }
         default:
             return nil
@@ -781,17 +770,17 @@ extension UserProfileViewModel: ListingCellDelegate {
 
     func moreOptionsPressedForDiscarded(listing: Listing) {
         guard let listingId = listing.objectId else { return }
-        let deleteTitle = LGLocalizedString.discardedProductsDelete
+        let deleteTitle = R.Strings.discardedProductsDelete
         let delete = UIAction(interface: .text(deleteTitle), action: { [weak self] in
-            let actionOk = UIAction(interface: UIActionInterface.text(LGLocalizedString.commonYes), action: {
+            let actionOk = UIAction(interface: UIActionInterface.text(R.Strings.commonYes), action: {
                 self?.deleteListing(withId: listingId)
             })
-            let actionCancel = UIAction(interface: UIActionInterface.text(LGLocalizedString.commonNo), action: {})
+            let actionCancel = UIAction(interface: UIActionInterface.text(R.Strings.commonNo), action: {})
             self?.delegate?.vmShowAlert(nil,
-                                        message: LGLocalizedString.discardedProductsDeleteConfirmation,
+                                        message: R.Strings.discardedProductsDeleteConfirmation,
                                         actions: [actionCancel, actionOk])
         })
-        delegate?.vmShowActionSheet(LGLocalizedString.commonCancel, actions: [delete])
+        delegate?.vmShowActionSheet(R.Strings.commonCancel, actions: [delete])
     }
     
     func postNowButtonPressed(_ view: UIView) { }

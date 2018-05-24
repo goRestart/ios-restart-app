@@ -1,11 +1,4 @@
-//
-//  UIViewController+Alert.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 04/05/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
+import LGComponents
 
 // ABIOS-2082 All alert handling should be presented/dismissed via coordinator
 import UIKit
@@ -36,10 +29,10 @@ extension UIViewController {
 
 
     // Shows a loading alert message. It will not fade away, so must be explicitly dismissed by calling dismissAlert()
-    func showLoadingMessageAlert(_ message: String? = LGLocalizedString.commonLoading) {
+    func showLoadingMessageAlert(_ message: String? = R.Strings.commonLoading) {
         guard self.loading == nil else { return }
 
-        let finalMessage = (message ?? LGLocalizedString.commonLoading)+"\n\n\n"
+        let finalMessage = (message ?? R.Strings.commonLoading)+"\n\n\n"
         let alert = UIAlertController(title: finalMessage, message: nil, preferredStyle: .alert)
         let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
         activityIndicator.color = UIColor.black
@@ -168,7 +161,7 @@ extension UIViewController {
             alert.popoverPresentationController?.sourceRect = sourceRect
             alert.popoverPresentationController?.sourceView = sourceView
         } else if DeviceFamily.isiPad {
-            showAlert(nil, message: nil, cancelLabel: LGLocalizedString.commonCancel, actions: actions, completion: completion)
+            showAlert(nil, message: nil, cancelLabel: R.Strings.commonCancel, actions: actions, completion: completion)
             return
         }
         

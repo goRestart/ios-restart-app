@@ -1,14 +1,6 @@
-//
-//  ListingPostedViewModel.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 14/12/15.
-//  Copyright © 2015 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import RxSwift
-
+import LGComponents
 
 // MARK: - ListingPostedViewModelDelegate
 
@@ -123,9 +115,9 @@ class ListingPostedViewModel: BaseViewModel {
         case .posting:
             return nil
         case .success:
-            return wasFreePosting ? LGLocalizedString.productPostFreeConfirmationAnotherButton : LGLocalizedString.productPostConfirmationAnotherListingButton
+            return wasFreePosting ? R.Strings.productPostFreeConfirmationAnotherButton : R.Strings.productPostConfirmationAnotherListingButton
         case .error:
-            return LGLocalizedString.productPostRetryButton
+            return R.Strings.productPostRetryButton
         }
     }
     
@@ -150,9 +142,9 @@ class ListingPostedViewModel: BaseViewModel {
         case .posting:
             return nil
         case .success:
-            return LGLocalizedString.productPostIncentiveTitle
+            return R.Strings.productPostIncentiveTitle
         case .error:
-            return LGLocalizedString.commonErrorTitle.localizedCapitalized
+            return R.Strings.commonErrorTitle.localizedCapitalized
         }
     }
 
@@ -161,15 +153,15 @@ class ListingPostedViewModel: BaseViewModel {
         case .posting:
             return nil
         case .success:
-            return wasFreePosting ? LGLocalizedString.productPostIncentiveSubtitleFree : LGLocalizedString.productPostIncentiveSubtitle
+            return wasFreePosting ? R.Strings.productPostIncentiveSubtitleFree : R.Strings.productPostIncentiveSubtitle
         case let .error(error):
             switch error {
             case .forbidden(cause: .differentCountry):
-                return LGLocalizedString.productPostDifferentCountryError
+                return R.Strings.productPostDifferentCountryError
             case .network:
-                return LGLocalizedString.productPostNetworkError
+                return R.Strings.productPostNetworkError
             default:
-                return LGLocalizedString.productPostGenericError
+                return R.Strings.productPostGenericError
             }
         }
     }

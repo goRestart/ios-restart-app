@@ -1,14 +1,6 @@
-//
-//  NotificationsViewModel.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 26/04/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import RxSwift
-
+import LGComponents
 
 class NotificationsViewModel: BaseViewModel {
 
@@ -101,8 +93,8 @@ class NotificationsViewModel: BaseViewModel {
                 strongSelf.notificationsData = remoteNotifications
                 if strongSelf.notificationsData.isEmpty {
                     let emptyViewModel = LGEmptyViewModel(icon: UIImage(named: "ic_notifications_empty" ),
-                        title:  LGLocalizedString.notificationsEmptyTitle,
-                        body: LGLocalizedString.notificationsEmptySubtitle, buttonTitle: LGLocalizedString.tabBarToolTip,
+                        title:  R.Strings.notificationsEmptyTitle,
+                        body: R.Strings.notificationsEmptySubtitle, buttonTitle: R.Strings.tabBarToolTip,
                         action: { [weak self] in self?.navigator?.openSell(source: .notifications, postCategory: nil) },
                         secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: .emptyResults, errorCode: nil,
                         errorDescription: nil)

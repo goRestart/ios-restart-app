@@ -1,0 +1,17 @@
+source 'https://github.com/CocoaPods/Specs.git'
+source 'git@github.com:letgoapp/letgo-ios-specs.git'
+
+use_frameworks!
+
+platform :ios, "9.0"
+
+target 'LGShared_Example' do
+  pod 'LGComponents/LGShared', :path => '../../'
+
+  target 'LGShared_Tests' do
+    inherit! :search_paths
+
+    pod 'Quick', '1.2.0'
+    pod 'Nimble', '7.0.2'
+  end
+end

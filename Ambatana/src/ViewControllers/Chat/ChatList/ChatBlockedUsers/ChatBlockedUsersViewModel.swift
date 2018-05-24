@@ -1,15 +1,7 @@
-//
-//  ChatBlockedUsersViewModel.swift
-//  LetGo
-//
-//  Created by Dídac on 10/05/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import Result
 import RxSwift
-
+import LGComponents
 
 final class ChatBlockedUsersViewModel: BaseViewModel {
 
@@ -25,16 +17,16 @@ final class ChatBlockedUsersViewModel: BaseViewModel {
 
     let emptyStateVM: LGEmptyViewModel = {
         return LGEmptyViewModel(icon: UIImage(named: "err_list_no_blocked_users"),
-                                title: LGLocalizedString.chatListBlockedEmptyTitle,
-                                body: LGLocalizedString.chatListBlockedEmptyBody, buttonTitle: nil,
+                                title: R.Strings.chatListBlockedEmptyTitle,
+                                body: R.Strings.chatListBlockedEmptyBody, buttonTitle: nil,
                                 action: nil, secondaryButtonTitle: nil, secondaryAction: nil,
                                 emptyReason: .emptyResults, errorCode: nil, errorDescription: nil)
     }()
 
     let errorStateVM: LGEmptyViewModel = {
         return LGEmptyViewModel(icon: UIImage(named: "err_list_no_blocked_users"),
-                                title: LGLocalizedString.chatListBlockedEmptyTitle,
-                                body: LGLocalizedString.chatListBlockedEmptyBody, buttonTitle: nil,
+                                title: R.Strings.chatListBlockedEmptyTitle,
+                                body: R.Strings.chatListBlockedEmptyBody, buttonTitle: nil,
                                 action: nil, secondaryButtonTitle: nil, secondaryAction: nil,
                                 emptyReason: .emptyResults, errorCode: nil, errorDescription: nil)
     }()

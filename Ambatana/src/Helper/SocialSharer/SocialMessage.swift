@@ -1,14 +1,7 @@
-//
-//  SocialMessage.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 22/04/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import FBSDKShareKit
 import LGCoreKit
 import AppsFlyerLib
+import LGComponents
 
 typealias MessageWithURLCompletion = (String) -> ()
 typealias NativeShareItemsCompletion = ([Any]) -> ()
@@ -206,7 +199,7 @@ struct ListingSocialMessage: SocialMessage {
 
     let emailShareIsHtml = false
     var emailShareSubject: String {
-        return LGLocalizedString.productShareTitleOnLetgo(listingTitle)
+        return R.Strings.productShareTitleOnLetgo(listingTitle)
     }
     let fallbackToStore: Bool
     var controlParameter: String {
@@ -221,7 +214,7 @@ struct ListingSocialMessage: SocialMessage {
     private var body: String {
         var body = listingTitle
         if !isMine {
-            body += " " + LGLocalizedString.productSharePostedBy(listingUserName)
+            body += " " + R.Strings.productSharePostedBy(listingUserName)
         }
         return body
     }
@@ -258,9 +251,9 @@ struct ListingSocialMessage: SocialMessage {
     
     init(listing: Listing, fallbackToStore: Bool, myUserId: String?, myUserName: String?) {
         let listingIsMine = Core.myUserRepository.myUser?.objectId == listing.user.objectId
-        let socialTitleMyListing = listing.price.isFree ? LGLocalizedString.productIsMineShareBodyFree :
-            LGLocalizedString.productIsMineShareBody
-        let socialTitle = listingIsMine ? socialTitleMyListing : LGLocalizedString.productShareBody
+        let socialTitleMyListing = listing.price.isFree ? R.Strings.productIsMineShareBodyFree :
+            R.Strings.productIsMineShareBody
+        let socialTitle = listingIsMine ? socialTitleMyListing : R.Strings.productShareBody
         self.init(title: socialTitle, listing: listing, isMine: listingIsMine, fallbackToStore: fallbackToStore,
                   myUserId: myUserId, myUserName: myUserName)
     }
@@ -284,7 +277,7 @@ struct ListingSocialMessage: SocialMessage {
             let shareUrlString = shareUrl.absoluteString
             var message = self.title + " " + shareUrlString
             if !self.isMine {
-                message += " " + LGLocalizedString.productSharePostedBy(self.listingUserName)
+                message += " " + R.Strings.productSharePostedBy(self.listingUserName)
             }
             completion(message)
         }
@@ -321,7 +314,7 @@ struct AppShareSocialMessage: SocialMessage {
     
     let emailShareIsHtml = true
     var emailShareSubject: String {
-        return LGLocalizedString.appShareSubjectText
+        return R.Strings.appShareSubjectText
     }
     let fallbackToStore = true
     let controlParameter = "home"
@@ -336,20 +329,20 @@ struct AppShareSocialMessage: SocialMessage {
     func retrieveNativeShareItems(completion: @escaping NativeShareItemsCompletion) {
         retrieveShareURL(source: .native) { url in
             if let shareUrl = url {
-                completion([shareUrl, LGLocalizedString.appShareMessageText])
+                completion([shareUrl, R.Strings.appShareMessageText])
             } else {
-                completion([LGLocalizedString.appShareMessageText])
+                completion([R.Strings.appShareMessageText])
             }
         }
     }
 
     func retrieveEmailShareBody(completion: @escaping MessageWithURLCompletion) {
-        var shareBody = LGLocalizedString.appShareMessageText
+        var shareBody = R.Strings.appShareMessageText
         retrieveShareURL(source: .email) { url in
             if let shareUrl = url {
                 shareBody += ":\n\n"
                 let shareUrlString = shareUrl.absoluteString
-                let fullBody = shareBody + "<a href=\"" + shareUrlString + "\">"+LGLocalizedString.appShareDownloadText+"</a>"
+                let fullBody = shareBody + "<a href=\"" + shareUrlString + "\">"+R.Strings.appShareDownloadText+"</a>"
                 completion(fullBody)
             } else {
                 completion(shareBody)
@@ -358,7 +351,7 @@ struct AppShareSocialMessage: SocialMessage {
     }
 
     func retrieveFullMessageWithURL(source: ShareSource, completion: @escaping MessageWithURLCompletion) {
-        let fullMessage = LGLocalizedString.appShareMessageText
+        let fullMessage = R.Strings.appShareMessageText
         retrieveShareURL(source: source) { url in
             let urlString = url?.absoluteString ?? ""
             let fullMessage = fullMessage.isEmpty ? urlString : fullMessage + ":\n" + urlString
@@ -416,14 +409,14 @@ struct UserSocialMessage: SocialMessage {
         self.myUserId = myUserId
         self.myUserName = myUserName
         if itsMe {
-            titleText = LGLocalizedString.userShareTitleTextMine
-            messageText = LGLocalizedString.userShareMessageMine
+            titleText = R.Strings.userShareTitleTextMine
+            messageText = R.Strings.userShareMessageMine
         } else if let userName = user.name, !userName.isEmpty {
-            titleText = LGLocalizedString.userShareTitleTextOtherWName(userName)
-            messageText = LGLocalizedString.userShareMessageOtherWName(userName)
+            titleText = R.Strings.userShareTitleTextOtherWName(userName)
+            messageText = R.Strings.userShareMessageOtherWName(userName)
         } else {
-            titleText = LGLocalizedString.userShareTitleTextOther
-            messageText = LGLocalizedString.userShareMessageOther
+            titleText = R.Strings.userShareTitleTextOther
+            messageText = R.Strings.userShareMessageOther
         }
     }
 

@@ -1,14 +1,7 @@
-//
-//  SignUpLogInViewController.swift
-//  LetGo
-//
-//  Created by Dídac on 18/11/15.
-//  Copyright © 2015 Ambatana. All rights reserved.
-//
-
 import GoogleSignIn
 import RxSwift
 import UIKit
+import LGComponents
 
 class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UITextViewDelegate, GIDSignInUIDelegate {
     
@@ -242,7 +235,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
 
         // workaround to avoid weird font type
         passwordTextField.font = UIFont(name: "systemFont", size: 17)
-        passwordTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.signUpPasswordFieldHint,
+        passwordTextField.attributedPlaceholder = NSAttributedString(string: R.Strings.signUpPasswordFieldHint,
             attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 17) ])
        
     }
@@ -358,17 +351,17 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         view.backgroundColor = UIColor.white
         
         // i18n
-        loginSegmentedControl.setTitle(LGLocalizedString.mainSignUpSignUpButton, forSegmentAt: 0)
-        loginSegmentedControl.setTitle(LGLocalizedString.mainSignUpLogInLabel, forSegmentAt: 1)
+        loginSegmentedControl.setTitle(R.Strings.mainSignUpSignUpButton, forSegmentAt: 0)
+        loginSegmentedControl.setTitle(R.Strings.mainSignUpLogInLabel, forSegmentAt: 1)
         loginSegmentedControl.cornerRadius = 15
         loginSegmentedControl.layer.borderWidth = 1
         loginSegmentedControl.layer.masksToBounds = true
 
-        newsletterLabel.text = LGLocalizedString.signUpNewsleter
+        newsletterLabel.text = R.Strings.signUpNewsleter
         newsletterLabel.textColor = UIColor.grayText
-        orLabel.text = LGLocalizedString.mainSignUpOrLabel
+        orLabel.text = R.Strings.mainSignUpOrLabel
         orLabel.font = UIFont.smallBodyFont
-        forgotPasswordButton.setTitle(LGLocalizedString.logInResetPasswordButton, for: .normal)
+        forgotPasswordButton.setTitle(R.Strings.logInResetPasswordButton, for: .normal)
 
         emailTextField.clearButtonOffset = 0
         emailTextField.pixelCorrection = -1
@@ -399,7 +392,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
             navigationItem.leftBarButtonItem = closeButton
         }
 
-        helpButton = UIBarButtonItem(title: LGLocalizedString.mainSignUpHelpButton, style: .plain, target: self,
+        helpButton = UIBarButtonItem(title: R.Strings.mainSignUpHelpButton, style: .plain, target: self,
             action: #selector(SignUpLogInViewController.helpButtonPressed))
         navigationItem.rightBarButtonItem = helpButton
     }
@@ -437,9 +430,9 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         viewModel.previousFacebookUsername.asObservable()
             .map { username in
                 if let username = username {
-                    return LGLocalizedString.mainSignUpFacebookConnectButtonWName(username)
+                    return R.Strings.mainSignUpFacebookConnectButtonWName(username)
                 } else {
-                    return LGLocalizedString.mainSignUpFacebookConnectButton
+                    return R.Strings.mainSignUpFacebookConnectButton
                 }
             }.bind(to: connectFBButton.rx.title(for: .normal))
             .disposed(by: disposeBag)
@@ -448,9 +441,9 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         viewModel.previousGoogleUsername.asObservable()
             .map { username in
                 if let username = username {
-                    return LGLocalizedString.mainSignUpGoogleConnectButtonWName(username)
+                    return R.Strings.mainSignUpGoogleConnectButtonWName(username)
                 } else {
-                    return LGLocalizedString.mainSignUpGoogleConnectButton
+                    return R.Strings.mainSignUpGoogleConnectButton
                 }
             }.bind(to: connectGoogleButton.rx.title(for: .normal))
             .disposed(by: disposeBag)
@@ -478,10 +471,10 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
             setupLoginUI()
         }
 
-        let sendButtonTitle = isSignup ? LGLocalizedString.signUpSendButton : LGLocalizedString.logInSendButton
+        let sendButtonTitle = isSignup ? R.Strings.signUpSendButton : R.Strings.logInSendButton
         sendButton.setTitle(sendButtonTitle, for: .normal)
 
-        let navBarTitle = isSignup ? LGLocalizedString.signUpTitle : LGLocalizedString.logInTitle
+        let navBarTitle = isSignup ? R.Strings.signUpTitle : R.Strings.logInTitle
         setNavBarTitle(navBarTitle)
     }
 
@@ -504,19 +497,19 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         emailIconImageView.image = UIImage(named: "ic_email")
         emailIconImageView.highlightedImage = UIImage(named: "ic_email_active")
         emailTextField.textColor = textfieldTextColor
-        emailTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.signUpEmailFieldHint,
+        emailTextField.attributedPlaceholder = NSAttributedString(string: R.Strings.signUpEmailFieldHint,
                                                                   attributes: textfieldPlaceholderAttrs)
         passwordButton.setStyle(.lightField)
         passwordIconImageView.image = UIImage(named: "ic_password")
         passwordIconImageView.highlightedImage = UIImage(named: "ic_password_active")
         passwordTextField.textColor = textfieldTextColor
-        passwordTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.signUpPasswordFieldHint,
+        passwordTextField.attributedPlaceholder = NSAttributedString(string: R.Strings.signUpPasswordFieldHint,
                                                                      attributes: textfieldPlaceholderAttrs)
         usernameButton.setStyle(.lightField)
         usernameIconImageView.image = UIImage(named: "ic_name")
         usernameIconImageView.highlightedImage = UIImage(named: "ic_name_active")
         usernameTextField.textColor = textfieldTextColor
-        usernameTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.signUpUsernameFieldHint,
+        usernameTextField.attributedPlaceholder = NSAttributedString(string: R.Strings.signUpUsernameFieldHint,
                                                                      attributes: textfieldPlaceholderAttrs)
         termsConditionsText.tintColor = UIColor.primaryColor
 
@@ -542,19 +535,19 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         emailIconImageView.image = UIImage(named: "ic_email_dark")
         emailIconImageView.highlightedImage = UIImage(named: "ic_email_active_dark")
         emailTextField.textColor = textfieldTextColor
-        emailTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.signUpEmailFieldHint,
+        emailTextField.attributedPlaceholder = NSAttributedString(string: R.Strings.signUpEmailFieldHint,
                                                                   attributes: textfieldPlaceholderAttrs)
         passwordButton.setStyle(.darkField)
         passwordIconImageView.image = UIImage(named: "ic_password_dark")
         passwordIconImageView.highlightedImage = UIImage(named: "ic_password_active_dark")
         passwordTextField.textColor = textfieldTextColor
-        passwordTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.signUpPasswordFieldHint,
+        passwordTextField.attributedPlaceholder = NSAttributedString(string: R.Strings.signUpPasswordFieldHint,
                                                                      attributes: textfieldPlaceholderAttrs)
         usernameButton.setStyle(.darkField)
         usernameIconImageView.image = UIImage(named: "ic_name_dark")
         usernameIconImageView.highlightedImage = UIImage(named: "ic_name_active_dark")
         usernameTextField.textColor = textfieldTextColor
-        usernameTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.signUpUsernameFieldHint,
+        usernameTextField.attributedPlaceholder = NSAttributedString(string: R.Strings.signUpUsernameFieldHint,
                                                                      attributes: textfieldPlaceholderAttrs)
         termsConditionsText.tintColor = UIColor.white
 

@@ -1,13 +1,6 @@
-//
-//  UserPhoneVerificationCodeInputViewModel.swift
-//  LetGo
-//
-//  Created by Sergi Gracia on 05/04/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 final class UserPhoneVerificationCodeInputViewModel: BaseViewModel {
 
@@ -87,13 +80,13 @@ final class UserPhoneVerificationCodeInputViewModel: BaseViewModel {
     // MARK: - Resend code
     
     private func requestCode(completion: (()->())?) {
-        delegate?.vmShowLoading(LGLocalizedString.phoneVerificationNumberInputViewSendingMessage)
+        delegate?.vmShowLoading(R.Strings.phoneVerificationNumberInputViewSendingMessage)
         myUserRepository.requestSMSCode(prefix: callingCode, phone: phoneNumber) { [weak self] result in
             guard let strongSelf = self else { return }
             switch result {
             case .success:
-                let title = LGLocalizedString.phoneVerificationNumberInputViewConfirmationTitle
-                let message = LGLocalizedString.phoneVerificationNumberInputViewConfirmationMessage(strongSelf.callingCode,
+                let title = R.Strings.phoneVerificationNumberInputViewConfirmationTitle
+                let message = R.Strings.phoneVerificationNumberInputViewConfirmationMessage(strongSelf.callingCode,
                                                                                                     strongSelf.phoneNumber)
                 strongSelf.delegate?.vmHideLoading(nil) {
                     strongSelf.delegate?.vmShowAutoFadingMessage(title: title,
@@ -102,7 +95,7 @@ final class UserPhoneVerificationCodeInputViewModel: BaseViewModel {
                                                                  completion: completion)
                 }
             case .failure(_):
-                strongSelf.delegate?.vmHideLoading(LGLocalizedString.phoneVerificationNumberInputViewErrorMessage,
+                strongSelf.delegate?.vmHideLoading(R.Strings.phoneVerificationNumberInputViewErrorMessage,
                                                    afterMessageCompletion: nil)
             }
             
@@ -119,7 +112,7 @@ final class UserPhoneVerificationCodeInputViewModel: BaseViewModel {
                 self?.validationState.value = .success
                 self?.tracker.trackEvent(.verifyAccountComplete(.smsVerification, network: .sms))
             case .failure:
-                self?.validationState.value = .failure(message: LGLocalizedString.phoneVerificationCodeInputViewErrorMessage)
+                self?.validationState.value = .failure(message: R.Strings.phoneVerificationCodeInputViewErrorMessage)
             }
         }
     }

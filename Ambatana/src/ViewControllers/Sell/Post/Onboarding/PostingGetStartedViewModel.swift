@@ -1,13 +1,6 @@
-//
-//  PostingGetStartedViewModel.swift
-//  LetGo
-//
-//  Created by Raúl de Oñate Blanco on 20/02/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 class PostingGetStartedViewModel: BaseViewModel {
     
@@ -26,16 +19,16 @@ class PostingGetStartedViewModel: BaseViewModel {
     }
 
     var welcomeText: String {
-        guard let name = userName else { return LGLocalizedString.postGetStartedWelcomeLetgoText }
-        return LGLocalizedString.postGetStartedWelcomeUserText(name)
+        guard let name = userName else { return R.Strings.postGetStartedWelcomeLetgoText }
+        return R.Strings.postGetStartedWelcomeUserText(name)
     }
 
     var infoText: String {
-        return LGLocalizedString.postGetStartedIntroText
+        return R.Strings.postGetStartedIntroText
     }
 
     var buttonText: String {
-        return LGLocalizedString.postGetStartedButtonText
+        return R.Strings.postGetStartedButtonText
     }
 
     var buttonIcon: UIImage? {
@@ -43,7 +36,7 @@ class PostingGetStartedViewModel: BaseViewModel {
     }
 
     var discardText: String {
-        return LGLocalizedString.postGetStartedDiscardText
+        return R.Strings.postGetStartedDiscardText
     }
     
     var shouldShowSkipButton: Bool {

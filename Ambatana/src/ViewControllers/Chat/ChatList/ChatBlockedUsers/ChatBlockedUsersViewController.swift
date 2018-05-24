@@ -1,14 +1,6 @@
-//
-//  ChatBlockedUsersViewController.swift
-//  LetGo
-//
-//  Created by Dídac on 10/05/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import UIKit
 import RxSwift
-
+import LGComponents
 
 final class ChatBlockedUsersViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -38,7 +30,7 @@ final class ChatBlockedUsersViewController: BaseViewController, UITableViewDeleg
     }
 
     private func setupUI() {
-        title = LGLocalizedString.chatListBlockedUsersTitle
+        title = R.Strings.chatListBlockedUsersTitle
 
         setupTableView()
 

@@ -1,14 +1,7 @@
-//
-//  SMSPhoneInputViewController.swift
-//  LetGo
-//
-//  Created by Sergi Gracia on 03/04/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 final class UserPhoneVerificationNumberInputViewController: BaseViewController {
 
@@ -66,7 +59,7 @@ final class UserPhoneVerificationNumberInputViewController: BaseViewController {
     }
 
     private func setupUI() {
-        title = LGLocalizedString.phoneVerificationNumberInputViewTitle
+        title = R.Strings.phoneVerificationNumberInputViewTitle
 
         view.backgroundColor = .white
         view.addSubviewsForAutoLayout([descriptionLabel, countryButton, countryButtonArrowImage,
@@ -82,7 +75,7 @@ final class UserPhoneVerificationNumberInputViewController: BaseViewController {
     }
 
     private func setupDescriptionLabelUI() {
-        descriptionLabel.text = LGLocalizedString.phoneVerificationNumberInputViewDescription
+        descriptionLabel.text = R.Strings.phoneVerificationNumberInputViewDescription
         descriptionLabel.numberOfLines = 0
         descriptionLabel.font = .smsVerificationInputDescription
         descriptionLabel.textColor = .blackText
@@ -110,7 +103,7 @@ final class UserPhoneVerificationNumberInputViewController: BaseViewController {
         var placeholderAttributes = [NSAttributedStringKey: Any]()
         placeholderAttributes[NSAttributedStringKey.font] = UIFont.smsVerificationInputBigText
         placeholderAttributes[NSAttributedStringKey.foregroundColor] = UIColor.grayPlaceholderText
-        phoneNumberTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.phoneVerificationNumberInputViewTextfieldPlaceholder,
+        phoneNumberTextField.attributedPlaceholder = NSAttributedString(string: R.Strings.phoneVerificationNumberInputViewTextfieldPlaceholder,
                                                                         attributes: placeholderAttributes)
     }
 
@@ -120,7 +113,7 @@ final class UserPhoneVerificationNumberInputViewController: BaseViewController {
     }
 
     private func setupContinueButtonUI () {
-        continueButton.setTitle(LGLocalizedString.phoneVerificationNumberInputViewContinueButton, for: .normal)
+        continueButton.setTitle(R.Strings.phoneVerificationNumberInputViewContinueButton, for: .normal)
         continueButton.addTarget(self, action: #selector(didTapContinue), for: .touchUpInside)
     }
 

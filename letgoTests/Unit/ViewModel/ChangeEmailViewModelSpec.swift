@@ -13,6 +13,7 @@ import Nimble
 import Result
 import RxSwift
 import RxTest
+import LGComponents
 
 class ChangeEmailViewModelSpec: QuickSpec {
     var loading: Bool = false
@@ -120,7 +121,7 @@ class ChangeEmailViewModelSpec: QuickSpec {
                         sut.updateEmail()
                     }
                     it("Shows the emailTaken message") {
-                        expect(self.loadingMessage).toEventually(equal(LGLocalizedString.changeEmailErrorAlreadyRegistered))
+                        expect(self.loadingMessage).toEventually(equal(R.Strings.changeEmailErrorAlreadyRegistered))
                     }
                 }
                 describe("network error emssage") {
@@ -131,7 +132,7 @@ class ChangeEmailViewModelSpec: QuickSpec {
                         sut.updateEmail()
                     }
                     it("Shows the error connection message") {
-                        expect(self.loadingMessage).toEventually(equal(LGLocalizedString.commonErrorConnectionFailed))
+                        expect(self.loadingMessage).toEventually(equal(R.Strings.commonErrorConnectionFailed))
                     }
                 }
                 describe("generic error emssage") {
@@ -142,14 +143,14 @@ class ChangeEmailViewModelSpec: QuickSpec {
                         sut.updateEmail()
                     }
                     it("Shows the generic error message") {
-                        expect(self.loadingMessage).toEventually(equal(LGLocalizedString.commonErrorGenericBody))
+                        expect(self.loadingMessage).toEventually(equal(R.Strings.commonErrorGenericBody))
                     }
                 }
             }
             
             describe("Tracking") {
                 describe("View model becomes active") {
-                    var event: TrackerEvent!
+                    var event: LetGoGodMode.TrackerEvent!
                     beforeEach {
                         event = TrackerEvent.profileEditEmailStart(withUserId: "123")
                         sut.active = true
@@ -160,7 +161,7 @@ class ChangeEmailViewModelSpec: QuickSpec {
                 }
                 describe("Edit an email succesfully") {
                     var myUser: MockMyUser!
-                    var event: TrackerEvent!
+                    var event: LetGoGodMode.TrackerEvent!
                     beforeEach {
                         sut.newEmail.value = "nestor.garcia@letgo.com"
                         myUser = MockMyUser.makeMock()
@@ -211,9 +212,9 @@ extension ChangeEmailViewModelSpec: ChangeEmailViewModelDelegate {
     
     func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction]) {}
     func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction]) {}
-    func ifLoggedInThen(_ source: EventParameterLoginSourceValue, loggedInAction: () -> Void,
+    func ifLoggedInThen(_ source: LetGoGodMode.EventParameterLoginSourceValue, loggedInAction: () -> Void,
                         elsePresentSignUpWithSuccessAction afterLogInAction: @escaping () -> Void) {}
-    func ifLoggedInThen(_ source: EventParameterLoginSourceValue, loginStyle: LoginStyle, loggedInAction: () -> Void,
+    func ifLoggedInThen(_ source: LetGoGodMode.EventParameterLoginSourceValue, loginStyle: LoginStyle, loggedInAction: () -> Void,
                         elsePresentSignUpWithSuccessAction afterLogInAction: @escaping () -> Void) {}
     func vmPop() {}
     func vmDismiss(_ completion: (() -> Void)?) {}

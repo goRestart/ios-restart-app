@@ -1,12 +1,5 @@
-//
-//  SellListingCell.swift
-//  LetGo
-//
-//  Created by Dídac on 27/07/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 class SellListingCell: UICollectionViewCell, ReusableCell {
 
@@ -67,7 +60,7 @@ class SellListingCell: UICollectionViewCell, ReusableCell {
 
     func setupAddPictureCell() {
         self.label.isHidden = false
-        label.text = LGLocalizedString.sellPictureLabel.localizedUppercase
+        label.text = R.Strings.sellPictureLabel.localizedUppercase
         label.textColor = UIColor.red
         self.activity.isHidden = true
         iconImageView.image = UIImage(named: "ic_add_white")?.imageWithColor(UIColor.red)?.withRenderingMode(.alwaysOriginal)

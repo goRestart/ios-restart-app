@@ -1,12 +1,5 @@
-//
-//  PushPermissionsManager.swift
-//  LetGo
-//
-//  Created by Dídac on 04/12/15.
-//  Copyright © 2015 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
+import LGComponents
 
 enum PrePermissionType {
     case listingListBanner
@@ -207,37 +200,37 @@ extension PrePermissionType {
     var title: String {
         switch self {
         case .onboarding:
-            return LGLocalizedString.notificationsPermissions1TitleV2
+            return R.Strings.notificationsPermissions1TitleV2
         case .chat:
-            return LGLocalizedString.notificationsPermissions3Title
+            return R.Strings.notificationsPermissions3Title
         case .sell:
-            return LGLocalizedString.notificationsPermissions4Title
+            return R.Strings.notificationsPermissions4Title
         case .profile, .listingListBanner:
-            return LGLocalizedString.profilePermissionsAlertTitle
+            return R.Strings.profilePermissionsAlertTitle
         }
     }
 
     var subtitle: String {
         switch self {
         case .onboarding:
-            return LGLocalizedString.notificationsPermissions1Subtitle
+            return R.Strings.notificationsPermissions1Subtitle
         case .chat:
-            return LGLocalizedString.notificationsPermissions3Subtitle
+            return R.Strings.notificationsPermissions3Subtitle
         case .sell:
-            return LGLocalizedString.notificationsPermissions4Subtitle
+            return R.Strings.notificationsPermissions4Subtitle
         case .profile, .listingListBanner:
-            return LGLocalizedString.profilePermissionsAlertMessage
+            return R.Strings.profilePermissionsAlertMessage
         }
     }
 
     var pushMessage: String {
         switch self {
         case .onboarding:
-            return LGLocalizedString.notificationsPermissions1Push
+            return R.Strings.notificationsPermissions1Push
         case .chat:
-            return LGLocalizedString.notificationsPermissions3Push
+            return R.Strings.notificationsPermissions3Push
         case .sell:
-            return LGLocalizedString.notificationsPermissions4Push
+            return R.Strings.notificationsPermissions4Push
         case .profile, .listingListBanner:
             return ""
         }

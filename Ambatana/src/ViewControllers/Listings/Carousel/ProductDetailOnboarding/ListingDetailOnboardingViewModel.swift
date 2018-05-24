@@ -1,12 +1,5 @@
-//
-//  ListingDetailOnboardingViewModel.swift
-//  LetGo
-//
-//  Created by Dídac on 13/06/17.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 protocol ListingDetailOnboardingViewDelegate: class {
     func listingDetailOnboardingDidAppear()
@@ -22,17 +15,17 @@ class ListingDetailOnboardingViewModel : BaseViewModel {
     var firstImage: UIImage?  = #imageLiteral(resourceName: "finger_tap")
     var firstText = ListingDetailOnboardingViewModel.tipText(textToHighlight: nil,
                                                                                  textToHighlight2: nil,
-                                                                                 fullText: LGLocalizedString.productOnboardingFingerTapLabel)
+                                                                                 fullText: R.Strings.productOnboardingFingerTapLabel)
     var secondImage: UIImage? = #imageLiteral(resourceName: "finger_swipe")
 
     var secondText = ListingDetailOnboardingViewModel.tipText(textToHighlight: nil,
                                                               textToHighlight2: nil,
-                                                              fullText: LGLocalizedString.productOnboardingFingerSwipeLabel)
+                                                              fullText: R.Strings.productOnboardingFingerSwipeLabel)
     var thirdImage: UIImage? = #imageLiteral(resourceName: "finger_scroll")
 
     var thirdText = ListingDetailOnboardingViewModel.tipText(textToHighlight: nil,
                        textToHighlight2: nil,
-                       fullText: LGLocalizedString.productOnboardingFingerScrollLabel)
+                       fullText: R.Strings.productOnboardingFingerScrollLabel)
 
     convenience override init() {
         self.init(featureFlags: FeatureFlags.sharedInstance, keyValueStorage: KeyValueStorage.sharedInstance)

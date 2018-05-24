@@ -1,16 +1,9 @@
-//
-//  ListingDeckViewController.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 23/10/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
 import UIKit
 import LGCoreKit
 import RxCocoa
 import RxSwift
+import LGComponents
 
 typealias DeckMovement = CarouselMovement
 
@@ -180,11 +173,11 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
 
     @objc private func didTapMoreActions() {
         var toShowActions = viewModel.navBarButtons
-        let title = LGLocalizedString.productOnboardingShowAgainButtonTitle
+        let title = R.Strings.productOnboardingShowAgainButtonTitle
         toShowActions.append(UIAction(interface: .text(title), action: { [weak viewModel] in
             viewModel?.showOnBoarding()
         }))
-        showActionSheet(LGLocalizedString.commonCancel, actions: toShowActions, barButtonItem: nil)
+        showActionSheet(R.Strings.commonCancel, actions: toShowActions, barButtonItem: nil)
     }
 
     @objc private func didTapClose() {

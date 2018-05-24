@@ -1,16 +1,8 @@
-//
-//  AppCoordinator.swift
-//  LetGo
-//
-//  Created by AHL on 20/4/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
-import FBSDKCoreKit
 import LGCoreKit
 import RxSwift
 import UIKit
 import StoreKit
+import LGComponents
 
 enum BumpUpSource {
     case deepLink
@@ -212,9 +204,9 @@ extension AppCoordinator: AppNavigator {
         guard let url = URL(string: Constants.appStoreURL) else { return }
         guard application.canOpenURL(url) else { return }
 
-        let alert = UIAlertController(title: LGLocalizedString.forcedUpdateTitle,
-                                      message: LGLocalizedString.forcedUpdateMessage, preferredStyle: .alert)
-        let openAppStore = UIAlertAction(title: LGLocalizedString.forcedUpdateUpdateButton, style: .default) { _ in
+        let alert = UIAlertController(title: R.Strings.forcedUpdateTitle,
+                                      message: R.Strings.forcedUpdateMessage, preferredStyle: .alert)
+        let openAppStore = UIAlertAction(title: R.Strings.forcedUpdateUpdateButton, style: .default) { _ in
             application.openURL(url)
         }
         alert.addAction(openAppStore)
@@ -301,7 +293,7 @@ extension AppCoordinator: AppNavigator {
             self?.trackUserDidRemindLater()
             LGRatingManager.sharedInstance.userDidRemindLater()
         }
-        openTransitionAlert(title: LGLocalizedString.ratingAppEnjoyingAlertTitle,
+        openTransitionAlert(title: R.Strings.ratingAppEnjoyingAlertTitle,
                             text: "",
                             alertType: .plainAlert,
                             buttonsLayout: .emojis,
@@ -311,7 +303,7 @@ extension AppCoordinator: AppNavigator {
     }
 
     private func askUserToRateApp(_ reason: EventParameterUserDidRateReason?) {
-        let rateAppInterface = UIActionInterface.button(LGLocalizedString.ratingAppRateAlertYesButton,
+        let rateAppInterface = UIActionInterface.button(R.Strings.ratingAppRateAlertYesButton,
                                                         ButtonStyle.primary(fontSize: .medium))
         let rateAppAction = UIAction(interface: rateAppInterface, action: { [weak self] in
             self?.openAppStoreWriteReviewWebsite()
@@ -323,13 +315,13 @@ extension AppCoordinator: AppNavigator {
             self?.trackUserDidRemindLater()
             LGRatingManager.sharedInstance.userDidRemindLater()
         }
-        let exitInterface = UIActionInterface.button(LGLocalizedString.ratingAppRateAlertNoButton,
+        let exitInterface = UIActionInterface.button(R.Strings.ratingAppRateAlertNoButton,
                                                      ButtonStyle.secondary(fontSize: .medium,
                                                                            withBorder: true))
         let exitAction = UIAction(interface: exitInterface, action: {
             dismissAction()
         })
-        openTransitionAlert(title: LGLocalizedString.ratingAppRateAlertTitle,
+        openTransitionAlert(title: R.Strings.ratingAppRateAlertTitle,
                             text: "",
                             alertType: .plainAlert,
                             buttonsLayout: .vertical,
@@ -736,7 +728,7 @@ fileprivate extension AppCoordinator {
             case let .logout(kickedOut):
                 self?.openTab(.home) { [weak self] in
                     if kickedOut {
-                        self?.tabBarCtl.showAutoFadingOutMessageAlert(message: LGLocalizedString.toastErrorInternal)
+                        self?.tabBarCtl.showAutoFadingOutMessageAlert(message: R.Strings.toastErrorInternal)
                     }
                 }
             }
@@ -760,26 +752,26 @@ fileprivate extension AppCoordinator {
         guard let navCtl = selectedNavigationController else { return }
         guard navCtl.isAtRootViewController else { return }
 
-        let yesAction = UIAction(interface: .styledText(LGLocalizedString.commonOk, .standard), action: { [weak self] in
+        let yesAction = UIAction(interface: .styledText(R.Strings.commonOk, .standard), action: { [weak self] in
             self?.locationManager.setAutomaticLocation(nil)
         })
-        navCtl.showAlert(nil, message: LGLocalizedString.changeLocationRecommendUpdateLocationMessage,
-                         cancelLabel: LGLocalizedString.commonCancel, actions: [yesAction])
+        navCtl.showAlert(nil, message: R.Strings.changeLocationRecommendUpdateLocationMessage,
+                         cancelLabel: R.Strings.commonCancel, actions: [yesAction])
     }
 
     func askUserToUpdateLocationManually() {
         guard let navCtl = selectedNavigationController else { return }
         guard navCtl.isAtRootViewController else { return }
 
-        let yesAction = UIAction(interface: .styledText(LGLocalizedString.commonOk, .standard), action: { [weak self] in
+        let yesAction = UIAction(interface: .styledText(R.Strings.commonOk, .standard), action: { [weak self] in
             self?.openLoginIfNeeded(from: .profile) { [weak self] in
                 self?.openTab(.profile) { [weak self] in
                     self?.openChangeLocation()
                 }
             }
         })
-        navCtl.showAlert(nil, message: LGLocalizedString.changeLocationRecommendUpdateLocationMessage,
-                         cancelLabel: LGLocalizedString.commonCancel, actions: [yesAction])
+        navCtl.showAlert(nil, message: R.Strings.changeLocationRecommendUpdateLocationMessage,
+                         cancelLabel: R.Strings.commonCancel, actions: [yesAction])
     }
 
     func openLoginIfNeeded(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void)) {
@@ -1042,10 +1034,10 @@ fileprivate extension AppCoordinator {
                 let message: String
                 switch error {
                 case .network:
-                    message = LGLocalizedString.commonErrorConnectionFailed
+                    message = R.Strings.commonErrorConnectionFailed
                 case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError,
                      .wsChatError, .searchAlertError:
-                    message = LGLocalizedString.commonUserReviewNotAvailable
+                    message = R.Strings.commonUserReviewNotAvailable
                 }
                 navCtl.dismissLoadingMessageAlert {
                     navCtl.showAutoFadingOutMessageAlert(message: message)
@@ -1062,7 +1054,7 @@ fileprivate extension AppCoordinator {
         tracker.trackEvent(TrackerEvent.inappChatNotificationStart())
         chatRepository.showConversation(conversationId) { [weak self] result in
             guard let conversation = result.value else { return }
-            let action = UIAction(interface: .text(LGLocalizedString.appNotificationReply), action: { [weak self] in
+            let action = UIAction(interface: .text(R.Strings.appNotificationReply), action: { [weak self] in
                 self?.tracker.trackEvent(TrackerEvent.inappChatNotificationComplete())
                 self?.openTab(.chats, force: false) { [weak self] in
                     self?.selectedTabCoordinator?.openChat(.conversation(conversation: conversation), source: .inAppNotification, predefinedMessage: nil)
