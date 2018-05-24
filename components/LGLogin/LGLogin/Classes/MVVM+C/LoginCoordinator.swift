@@ -235,7 +235,7 @@ extension LoginCoordinator: RememberPasswordNavigator {
 // MARK: - HelpNavigator
 
 extension LoginCoordinator: HelpNavigator {
-    func closeHelp() {
+    public func closeHelp() {
         guard let navCtl = currentNavigationController() else { return }
         navCtl.popViewController(animated: true)
     }

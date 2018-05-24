@@ -8,7 +8,8 @@ final class MainCoordinator: Coordinator,
                              MainSignUpNavigator,
                              SignUpLogInNavigator,
                              RecaptchaNavigator,
-                             RememberPasswordNavigator {
+                             RememberPasswordNavigator,
+                             HelpNavigator {
     var child: Coordinator?
     var coordinatorDelegate: CoordinatorDelegate?
     var viewController: UIViewController {
@@ -200,7 +201,10 @@ final class MainCoordinator: Coordinator,
     }
 
     func openHelpFromSignUpLogin() {
-        showAlert(message: "Open help")
+        let viewModel = HelpViewModel()
+        viewModel.navigator = self
+        let vc = HelpViewController(viewModel: viewModel)
+        presentedNavigationController?.pushViewController(vc, animated: true)
     }
 
 
@@ -233,6 +237,13 @@ final class MainCoordinator: Coordinator,
 
     func closeRememberPassword() {
         // called after the remember password network request calls back
+        presentedNavigationController?.popViewController(animated: true)
+    }
+
+
+    // MARK: - HelpNavigator
+
+    func closeHelp() {
         presentedNavigationController?.popViewController(animated: true)
     }
 
