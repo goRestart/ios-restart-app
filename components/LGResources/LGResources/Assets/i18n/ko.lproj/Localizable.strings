@@ -141,7 +141,7 @@
 "chat_conversations_list_filter_all" = "전체";
 "chat_conversations_list_filter_buying" = "구매";
 "chat_conversations_list_filter_selling" = "판매";
-"chat_conversations_list_letgo_assistant_tag" = "letgo assistant";
+"chat_conversations_list_letgo_assistant_tag" = "letgo 지원";
 "chat_deleted_disclaimer_w_name" = "%@의 계정이 비활성화 되었기 때문에 사용자께서는 이 대화를 진행하실 수 없습니다.";
 "chat_deleted_disclaimer_wo_name" = "이 계정이 비활성화 되었기 때문에 사용자께서는 이 대화를 진행하실 수 없습니다.";
 "chat_disclaimer_letgo_team" = "LETGO 팀";
@@ -438,7 +438,7 @@
 "log_in_error_send_error_user_not_found_or_wrong_password" = "로그인 오류: 등록되지 않거나 비밀번호가 틀렸습니다.";
 "log_in_reset_password_button" = "암호를 잊어버리셨나요?";
 "log_in_send_button" = "로그인";
-"log_in_title" = "이메일로 로그인";
+"log_in_title" = "이메일로 로그인하기";
 "login_device_not_allowed_alert_contact_button" = "문의하기";
 "login_device_not_allowed_alert_message" = "이전에 이 장치에서 로그인 하신 적이 없습니다. 계속 진행하기 위해 저희는 확인 이메일을 회원님의 이메일로 발송하여 드렸습니다. 수신함을 확인해주세요.";
 "login_device_not_allowed_alert_ok_button" = "확인";
@@ -859,7 +859,7 @@
 "profile_permissions_alert_ok" = "활성화";
 "profile_permissions_alert_title" = "대답하는 것을 잊지 마세요!";
 "profile_permissions_header_message" = "메세지 알림 활성화";
-"profile_reputation_tooltip_title" = "Verified user! Tap if you want to be verified too.";
+"profile_reputation_tooltip_title" = "인증된 사용자입니다! 인증을 진행하시기를 원하신다면 이곳을 클릭해주세요.";
 "profile_reviews_count" = "리뷰";
 "profile_reviews_tab" = "리뷰";
 "profile_selling_no_products_label" = "상품 목록이 없습니다 (아직이에요!)";
