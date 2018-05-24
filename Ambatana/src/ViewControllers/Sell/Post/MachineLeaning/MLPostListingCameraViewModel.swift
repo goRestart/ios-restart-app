@@ -1,14 +1,7 @@
-//
-//  MLPostListingCameraViewModel.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 10/03/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import Foundation
 import RxSwift
 import LGCoreKit
+import LGComponents
 
 class MLPostListingCameraViewModel: BaseViewModel {
 
@@ -42,7 +35,7 @@ class MLPostListingCameraViewModel: BaseViewModel {
     
     var verticalPromotionMessage: String? {
         if let category = postCategory, category == .realEstate {
-            return LGLocalizedString.realEstateCameraViewRealEstateMessage
+            return R.Strings.realEstateCameraViewRealEstateMessage
         }
         return nil
     }
@@ -174,14 +167,14 @@ class MLPostListingCameraViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
             switch state {
             case .missingPermissions(let msg):
-                strongSelf.infoTitle.value = LGLocalizedString.productPostCameraPermissionsTitle
+                strongSelf.infoTitle.value = R.Strings.productPostCameraPermissionsTitle
                 strongSelf.infoSubtitle.value = msg
-                strongSelf.infoButton.value = LGLocalizedString.productPostCameraPermissionsButton
+                strongSelf.infoButton.value = R.Strings.productPostCameraPermissionsButton
                 strongSelf.infoShown.value = true
             case .pendingAskPermissions:
-                strongSelf.infoTitle.value = LGLocalizedString.productPostCameraPermissionsTitle
-                strongSelf.infoSubtitle.value = LGLocalizedString.productPostCameraPermissionsSubtitle
-                strongSelf.infoButton.value = LGLocalizedString.productPostCameraPermissionsButton
+                strongSelf.infoTitle.value = R.Strings.productPostCameraPermissionsTitle
+                strongSelf.infoSubtitle.value = R.Strings.productPostCameraPermissionsSubtitle
+                strongSelf.infoButton.value = R.Strings.productPostCameraPermissionsButton
                 strongSelf.infoShown.value = true
             case .takingPhoto, .previewPhoto, .previewVideo, .recordingVideo:
                 strongSelf.infoShown.value = false
@@ -238,15 +231,15 @@ class MLPostListingCameraViewModel: BaseViewModel {
                 let nameString = stats.keyword.capitalized
                 var avgPriceString: String? = nil
                 if stats.prices.count >= strongSelf.mlPricePositionDisplay {
-                    avgPriceString = LGLocalizedString.mlCameraSellsForText(Int(stats.prices[strongSelf.mlPricePositionDisplay]))
+                    avgPriceString = R.Strings.mlCameraSellsForText(Int(stats.prices[strongSelf.mlPricePositionDisplay]))
                 }
                 var medianDaysToSellString: String? = nil
                 if stats.medianDaysToSell > 0 {
                     if stats.medianDaysToSell > strongSelf.mlMaximumDaysToDisplay {
-                        medianDaysToSellString = String(format: LGLocalizedString.mlCameraInMoreThanDaysText,
+                        medianDaysToSellString = String(format: R.Strings.mlCameraInMoreThanDaysText,
                                                         strongSelf.mlMaximumDaysToDisplay)
                     } else {
-                        medianDaysToSellString = String(format: LGLocalizedString.mlCameraInAboutDaysText,
+                        medianDaysToSellString = String(format: R.Strings.mlCameraInAboutDaysText,
                                                         stats.medianDaysToSell)
                     }
                 }
@@ -271,8 +264,8 @@ class MLPostListingCameraViewModel: BaseViewModel {
     }
     
     private func setupFirstShownLiterals() {
-        firstTimeTitle = LGLocalizedString.productPostCameraFirstTimeAlertTitle
-        firstTimeSubtitle = LGLocalizedString.productPostCameraFirstTimeAlertSubtitle
+        firstTimeTitle = R.Strings.productPostCameraFirstTimeAlertTitle
+        firstTimeSubtitle = R.Strings.productPostCameraFirstTimeAlertSubtitle
     }
     
     private func setupVerticalTextAlert() {
@@ -283,7 +276,7 @@ class MLPostListingCameraViewModel: BaseViewModel {
 
     private func checkCameraState() {
         guard mediaPermissions.isCameraAvailable else {
-            cameraState.value = .missingPermissions(LGLocalizedString.productSellCameraRestrictedError)
+            cameraState.value = .missingPermissions(R.Strings.productSellCameraRestrictedError)
             return
         }
         let status = mediaPermissions.videoAuthorizationStatus
@@ -291,7 +284,7 @@ class MLPostListingCameraViewModel: BaseViewModel {
         case .authorized:
             cameraState.value = .capture
         case .denied:
-            cameraState.value = .missingPermissions(LGLocalizedString.productPostCameraPermissionsSubtitle)
+            cameraState.value = .missingPermissions(R.Strings.productPostCameraPermissionsSubtitle)
         case .notDetermined:
             cameraState.value = .pendingAskPermissions
         case .restricted:
@@ -306,7 +299,7 @@ class MLPostListingCameraViewModel: BaseViewModel {
             //This is required :(, callback is not on main thread so app would crash otherwise.
             DispatchQueue.main.async { [weak self] in
                 self?.cameraState.value = granted ?
-                    .capture : .missingPermissions(LGLocalizedString.productPostCameraPermissionsSubtitle)
+                    .capture : .missingPermissions(R.Strings.productPostCameraPermissionsSubtitle)
             }
         }
     }

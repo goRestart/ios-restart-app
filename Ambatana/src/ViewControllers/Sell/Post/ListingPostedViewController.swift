@@ -1,12 +1,5 @@
-//
-//  ListingPostedViewController.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 14/12/15.
-//  Copyright © 2015 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 final class ListingPostedViewController: BaseViewController, ListingPostedViewModelDelegate {
     @IBOutlet weak var closeButton: UIButton!
@@ -108,8 +101,8 @@ final class ListingPostedViewController: BaseViewController, ListingPostedViewMo
 
         mainButton.setStyle(.primary(fontSize: .big))
         mainButton.isHidden = viewModel.mainButtonHidden
-        editOrLabel.text = LGLocalizedString.productPostConfirmationAnother.localizedUppercase
-        editButton.setTitle(LGLocalizedString.productPostConfirmationEdit, for: .normal)
+        editOrLabel.text = R.Strings.productPostConfirmationAnother.localizedUppercase
+        editButton.setTitle(R.Strings.productPostConfirmationEdit, for: .normal)
         loadingIndicator.color = UIColor.primaryColor
 
         guard let postIncentivatorView = PostIncentivatorView.postIncentivatorView(viewModel.wasFreePosting) else { return }

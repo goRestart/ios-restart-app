@@ -1,41 +1,34 @@
-//
-//  ListingCategory+LG.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 29/06/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
+import LGComponents
 
 extension ListingCategory {
     
     var name: String {
         switch(self) {
         case .unassigned:
-            return LGLocalizedString.categoriesUnassigned
+            return R.Strings.categoriesUnassigned
         case .electronics:
-            return LGLocalizedString.categoriesElectronics
+            return R.Strings.categoriesElectronics
         case .motorsAndAccessories:
-            return LGLocalizedString.categoriesCarsAndMotors
+            return R.Strings.categoriesCarsAndMotors
         case .sportsLeisureAndGames:
-            return LGLocalizedString.categoriesSportsLeisureAndGames
+            return R.Strings.categoriesSportsLeisureAndGames
         case .homeAndGarden:
-            return LGLocalizedString.categoriesHomeAndGarden
+            return R.Strings.categoriesHomeAndGarden
         case .moviesBooksAndMusic:
-            return LGLocalizedString.categoriesMoviesBooksAndMusic
+            return R.Strings.categoriesMoviesBooksAndMusic
         case .fashionAndAccesories:
-            return LGLocalizedString.categoriesFashionAndAccessories
+            return R.Strings.categoriesFashionAndAccessories
         case .babyAndChild:
-            return LGLocalizedString.categoriesBabyAndChild
+            return R.Strings.categoriesBabyAndChild
         case .other:
-            return LGLocalizedString.categoriesOther
+            return R.Strings.categoriesOther
         case .cars:
-            return LGLocalizedString.categoriesCar
+            return R.Strings.categoriesCar
         case .realEstate:
-            return FeatureFlags.sharedInstance.realEstateNewCopy.isActive ? LGLocalizedString.categoriesRealEstateTitle : LGLocalizedString.categoriesRealEstate
+            return FeatureFlags.sharedInstance.realEstateNewCopy.isActive ? R.Strings.categoriesRealEstateTitle : R.Strings.categoriesRealEstate
         case .services:
-            return LGLocalizedString.categoriesServices
+            return R.Strings.categoriesServices
         }
     }
     
@@ -44,27 +37,27 @@ extension ListingCategory {
         case .unassigned:
             return ""
         case .electronics:
-            return LGLocalizedString.categoriesInfeedElectronics
+            return R.Strings.categoriesInFeedElectronics
         case .motorsAndAccessories:
-            return LGLocalizedString.categoriesInfeedMotors
+            return R.Strings.categoriesInFeedMotors
         case .sportsLeisureAndGames:
-            return LGLocalizedString.categoriesInfeedSportsLeisureGames
+            return R.Strings.categoriesInFeedSportsLeisureGames
         case .homeAndGarden:
-            return LGLocalizedString.categoriesInfeedHome
+            return R.Strings.categoriesInFeedHome
         case .moviesBooksAndMusic:
-            return LGLocalizedString.categoriesInfeedBooksMovies
+            return R.Strings.categoriesInFeedBooksMovies
         case .fashionAndAccesories:
-            return LGLocalizedString.categoriesInfeedFashion
+            return R.Strings.categoriesInFeedFashion
         case .babyAndChild:
-            return LGLocalizedString.categoriesInfeedBabyChild
+            return R.Strings.categoriesInFeedBabyChild
         case .other:
-            return LGLocalizedString.categoriesInfeedOthers
+            return R.Strings.categoriesInFeedOthers
         case .cars:
-            return LGLocalizedString.categoriesInfeedCars
+            return R.Strings.categoriesInFeedCars
         case .realEstate:
-            return FeatureFlags.sharedInstance.realEstateNewCopy.isActive ? LGLocalizedString.categoriesInfeedRealEstateTitle : LGLocalizedString.categoriesInfeedRealEstate
+            return FeatureFlags.sharedInstance.realEstateNewCopy.isActive ? R.Strings.categoriesInFeedRealEstateTitle : R.Strings.categoriesInFeedRealEstate
         case .services:
-            return LGLocalizedString.categoriesInfeedServices
+            return R.Strings.categoriesInFeedServices
         }
     }
     

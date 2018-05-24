@@ -1,13 +1,6 @@
-//
-//  TabCoordinator.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 01/08/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 protocol TabCoordinatorDelegate: class {
     func tabCoordinator(_ tabCoordinator: TabCoordinator, setSellButtonHidden hidden: Bool, animated: Bool)
@@ -190,12 +183,12 @@ fileprivate extension TabCoordinator {
                 switch error {
                 case .network:
                     self?.navigationController.dismissLoadingMessageAlert {
-                        self?.navigationController.showAutoFadingOutMessageAlert(message: LGLocalizedString.commonErrorConnectionFailed)
+                        self?.navigationController.showAutoFadingOutMessageAlert(message: R.Strings.commonErrorConnectionFailed)
                     }
                 case .internalError, .unauthorized, .tooManyRequests, .userNotVerified, .serverError,
                      .wsChatError, .searchAlertError:
                     self?.navigationController.dismissLoadingMessageAlert {
-                        self?.navigationController.showAutoFadingOutMessageAlert(message: LGLocalizedString.commonProductNotAvailable)
+                        self?.navigationController.showAutoFadingOutMessageAlert(message: R.Strings.commonProductNotAvailable)
                     }
                 case .notFound, .forbidden:
                     let relatedRequester = RelatedListingListRequester(listingId: listingId,
@@ -208,7 +201,7 @@ fileprivate extension TabCoordinator {
                                                                                requester: relatedRequester,
                                                                                relatedListings: relatedListings)
                             }
-                            self?.navigationController.showAutoFadingOutMessageAlert(message: LGLocalizedString.commonProductNotAvailable)
+                            self?.navigationController.showAutoFadingOutMessageAlert(message: R.Strings.commonProductNotAvailable)
                         }
                     }
                 }
@@ -378,10 +371,10 @@ fileprivate extension TabCoordinator {
                 let message: String
                 switch error {
                 case .network:
-                    message = LGLocalizedString.commonErrorConnectionFailed
+                    message = R.Strings.commonErrorConnectionFailed
                 case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError,
                      .wsChatError, .searchAlertError:
-                    message = LGLocalizedString.commonUserNotAvailable
+                    message = R.Strings.commonUserNotAvailable
                 }
                 self?.navigationController.dismissLoadingMessageAlert {
                     self?.navigationController.showAutoFadingOutMessageAlert(message: message)
@@ -461,10 +454,10 @@ fileprivate extension TabCoordinator {
         let message: String
         switch error {
         case .network:
-            message = LGLocalizedString.commonErrorConnectionFailed
+            message = R.Strings.commonErrorConnectionFailed
         case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError,
              .wsChatError, .searchAlertError:
-            message = LGLocalizedString.commonChatNotAvailable
+            message = R.Strings.commonChatNotAvailable
         }
         navigationController.showAutoFadingOutMessageAlert(message: message)
     }
@@ -476,7 +469,7 @@ fileprivate extension TabCoordinator {
                                                           relatedListings: [Listing]) {
         let simpleRelatedListingsVM = SimpleListingsViewModel(requester: requester,
                                                               listings: relatedListings,
-                                                              title: LGLocalizedString.relatedItemsTitle,
+                                                              title: R.Strings.relatedItemsTitle,
                                                               listingVisitSource: .relatedListings)
         simpleRelatedListingsVM.navigator = self
         let simpleRelatedListingsVC = SimpleListingsViewController(viewModel: simpleRelatedListingsVM)
@@ -532,12 +525,12 @@ extension TabCoordinator: ListingDetailNavigator {
     func closeListingAfterDelete(_ listing: Listing) {
         closeProductDetail()
         if (listing.status != .sold) && (listing.status != .soldOld) {
-            let action = UIAction(interface: .button(LGLocalizedString.productDeletePostButtonTitle,
+            let action = UIAction(interface: .button(R.Strings.productDeletePostButtonTitle,
                                                      .primary(fontSize: .medium)), action: { [weak self] in
                                                         self?.openSell(source: .deleteListing, postCategory: nil)
                 }, accessibilityId: .postDeleteAlertButton)
-            navigationController.showAlertWithTitle(LGLocalizedString.productDeletePostTitle,
-                                                    text: LGLocalizedString.productDeletePostSubtitle,
+            navigationController.showAlertWithTitle(R.Strings.productDeletePostTitle,
+                                                    text: R.Strings.productDeletePostSubtitle,
                                                     alertType: .plainAlertOld, actions: [action])
         }
     }
@@ -702,7 +695,7 @@ extension TabCoordinator: ListingDetailNavigator {
     func showUndoBubble(withMessage message: String,
                         duration: TimeInterval,
                         withAction action: @escaping () -> ()) {
-        let action = UIAction(interface: .button(LGLocalizedString.productInterestedUndo, .terciary) , action: action)
+        let action = UIAction(interface: .button(R.Strings.productInterestedUndo, .terciary) , action: action)
         let data = BubbleNotificationData(text: message, action: action)
         bubbleNotificationManager.showBubble(data, duration: duration, view: navigationController.view)
     }
@@ -737,7 +730,7 @@ extension TabCoordinator: ChatDetailNavigator {
     }
 
     func openLoginIfNeededFromChatDetail(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void)) {
-        openLoginIfNeeded(from: from, style: .popup(LGLocalizedString.chatLoginPopupText),
+        openLoginIfNeeded(from: from, style: .popup(R.Strings.chatLoginPopupText),
                           loggedInAction: loggedInAction, cancelAction: nil)
     }
 
@@ -819,8 +812,8 @@ extension TabCoordinator: UINavigationControllerDelegate {
 
 extension TabCoordinator: ExpressChatCoordinatorDelegate {
     func expressChatCoordinatorDidSentMessages(_ coordinator: ExpressChatCoordinator, count: Int) {
-        let message = count == 1 ? LGLocalizedString.chatExpressOneMessageSentSuccessAlert :
-            LGLocalizedString.chatExpressSeveralMessagesSentSuccessAlert
+        let message = count == 1 ? R.Strings.chatExpressOneMessageSentSuccessAlert :
+            R.Strings.chatExpressSeveralMessagesSentSuccessAlert
         rootViewController.showAutoFadingOutMessageAlert(message: message)
     }
 }

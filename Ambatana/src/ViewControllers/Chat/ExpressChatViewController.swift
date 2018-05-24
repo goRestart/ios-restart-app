@@ -1,13 +1,6 @@
-//
-//  ExpressChatViewController.swift
-//  LetGo
-//
-//  Created by Dídac on 09/08/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
 import RxSwift
+import LGComponents
 
 class ExpressChatViewController: BaseViewController {
 
@@ -58,12 +51,12 @@ class ExpressChatViewController: BaseViewController {
         scrollView.backgroundColor = .clear
         automaticallyAdjustsScrollViewInsets = false
 
-        dontMissLabel.text = LGLocalizedString.chatExpressDontMissLabel.uppercased()
-        contactSellersLabel.text = LGLocalizedString.chatExpressContactSellersLabel
+        dontMissLabel.text = R.Strings.chatExpressDontMissLabel.uppercased()
+        contactSellersLabel.text = R.Strings.chatExpressContactSellersLabel
 
         sendMessageButton.setStyle(.primary(fontSize: .big))
         
-        dontAskAgainButton.setTitle(LGLocalizedString.chatExpressDontAskAgainButton.uppercased(), for: .normal)
+        dontAskAgainButton.setTitle(R.Strings.chatExpressDontAskAgainButton.uppercased(), for: .normal)
         dontAskAgainButton.setTitleColor(UIColor.grayText, for: .normal)
         dontAskAgainButton.titleLabel?.font = UIFont.mediumBodyFont
 

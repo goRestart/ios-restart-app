@@ -1,15 +1,8 @@
-//
-//  MeetingAssistantViewController.swift
-//  LetGo
-//
-//  Created by Dídac on 21/11/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import UIKit
 import RxSwift
 import MapKit
 import LGCoreKit
+import LGComponents
 
 final class MeetingAssistantViewController: BaseViewController {
 
@@ -69,7 +62,7 @@ final class MeetingAssistantViewController: BaseViewController {
                 self?.locationLabel.text = name
                 self?.locationLabel.textColor = UIColor.blackText
             } else {
-                self?.locationLabel.text = LGLocalizedString.meetingCreationViewSelectLocation
+                self?.locationLabel.text = R.Strings.meetingCreationViewSelectLocation
                 self?.locationLabel.textColor = UIColor.grayText
             }
         }.disposed(by: disposeBag)
@@ -78,7 +71,7 @@ final class MeetingAssistantViewController: BaseViewController {
             if let _ = date {
                 self?.selectDayLabel.textColor = UIColor.blackText
             } else {
-                self?.selectDayLabel.text = LGLocalizedString.meetingCreationViewSelectDateTime
+                self?.selectDayLabel.text = R.Strings.meetingCreationViewSelectDateTime
                 self?.selectDayLabel.textColor = UIColor.grayText
             }
             }.disposed(by: disposeBag)
@@ -106,7 +99,7 @@ final class MeetingAssistantViewController: BaseViewController {
             layout.scrollDirection = UICollectionViewScrollDirection.horizontal
         }
 
-        setNavBarTitle(LGLocalizedString.meetingCreationViewTitle)
+        setNavBarTitle(R.Strings.meetingCreationViewTitle)
         setLetGoRightButtonWith(image: #imageLiteral(resourceName: "ic_meeting_tips"),
                                 renderingMode: .alwaysOriginal,
                                 selector: "tipsButtonTapped")
@@ -117,7 +110,7 @@ final class MeetingAssistantViewController: BaseViewController {
         cancelButton.tintColor = UIColor.primaryColor
         self.navigationItem.leftBarButtonItem = cancelButton
 
-        sendMeetingButton.setTitle(LGLocalizedString.meetingCreationViewSendButton, for: .normal)
+        sendMeetingButton.setTitle(R.Strings.meetingCreationViewSendButton, for: .normal)
         sendMeetingButton.setStyle(.primary(fontSize: .big))
         
         setupLabelActions()
@@ -135,8 +128,8 @@ final class MeetingAssistantViewController: BaseViewController {
         datePicker.minimumDate = startDate
         datePicker.maximumDate = endDate
 
-        placeHeaderLabel.text = LGLocalizedString.meetingCreationViewPlace.uppercased()
-        dateTimeHeaderLabel.text = LGLocalizedString.meetingCreationViewDateTime.uppercased()
+        placeHeaderLabel.text = R.Strings.meetingCreationViewPlace.uppercased()
+        dateTimeHeaderLabel.text = R.Strings.meetingCreationViewDateTime.uppercased()
     }
 
     private func setupLabelActions() {

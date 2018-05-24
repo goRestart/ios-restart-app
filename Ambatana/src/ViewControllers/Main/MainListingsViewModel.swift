@@ -1,17 +1,10 @@
-//
-//  MainListingsViewModel.swift
-//  letgo
-//
-//  Created by AHL on 3/5/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
 import CoreLocation
 import LGCoreKit
 import Result
 import RxSwift
 import GoogleMobileAds
 import MoPub
+import LGComponents
 
 protocol MainListingsViewModelDelegate: BaseViewModelDelegate {
     func vmDidSearch()
@@ -143,7 +136,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     var taxonomyChildren: [TaxonomyChild] = []
 
     let infoBubbleVisible = Variable<Bool>(false)
-    let infoBubbleText = Variable<String>(LGLocalizedString.productPopularNearYou)
+    let infoBubbleText = Variable<String>(R.Strings.productPopularNearYou)
     let errorMessage = Variable<String?>(nil)
     
     private static let firstVersionNumber = 1
@@ -876,7 +869,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                 case .searchAlertError(let searchAlertError):
                     switch searchAlertError {
                     case .alreadyExists, .apiError:
-                        self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.searchAlertEnableErrorMessage, completion: nil)
+                        self?.delegate?.vmShowAutoFadingMessage(R.Strings.searchAlertEnableErrorMessage, completion: nil)
                     case .limitReached:
                         self?.showSearchAlertsLimitReachedAlert()
                         if let currentSearchAlert = self?.searchAlertCreationData.value {
@@ -889,7 +882,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                     }
                 case .tooManyRequests, .network, .forbidden, .internalError, .notFound, .unauthorized, .userNotVerified,
                      .serverError, .wsChatError:
-                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.searchAlertEnableErrorMessage, completion: nil)
+                    self?.delegate?.vmShowAutoFadingMessage(R.Strings.searchAlertEnableErrorMessage, completion: nil)
                 }
             }
         }
@@ -901,20 +894,20 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             self?.searchAlertCreationData.value?.isEnabled = result.value == nil
             self?.updateSearchAlertsHeader()
             if let _ = result.error {
-                self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.searchAlertDisableErrorMessage, completion: nil)
+                self?.delegate?.vmShowAutoFadingMessage(R.Strings.searchAlertDisableErrorMessage, completion: nil)
             }
         }
     }
 
     private func showSearchAlertsLimitReachedAlert() {
-        let alertAction = UIAction(interface: .styledText(LGLocalizedString.searchAlertErrorTooManyButtonText, .destructive), action: { [weak self] in
+        let alertAction = UIAction(interface: .styledText(R.Strings.searchAlertErrorTooManyButtonText, .destructive), action: { [weak self] in
             self?.navigator?.openSearchAlertsList()
         })
 
-        let cancelAction = UIAction(interface: .styledText(LGLocalizedString.commonCancel, .destructive), action: {})
+        let cancelAction = UIAction(interface: .styledText(R.Strings.commonCancel, .destructive), action: {})
 
         delegate?.vmShowAlert(nil,
-                              message: LGLocalizedString.searchAlertErrorTooManyText,
+                              message: R.Strings.searchAlertErrorTooManyText,
                               actions: [alertAction, cancelAction])
     }
 
@@ -1022,7 +1015,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         }
 
         if listingListRequester.multiIsFirstPage  {
-            filterDescription.value = !hasListings && shouldShowNoExactMatchesDisclaimer ? LGLocalizedString.filterResultsCarsNoMatches : nil
+            filterDescription.value = !hasListings && shouldShowNoExactMatchesDisclaimer ? R.Strings.filterResultsCarsNoMatches : nil
         }
 
         if !hasListings {
@@ -1035,13 +1028,13 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                 // Search
                 if queryString != nil || hasFilters {
                     errImage = UIImage(named: "err_search_no_products")
-                    errTitle = isRealEstateSearch ? LGLocalizedString.realEstateEmptyStateSearchTitle : LGLocalizedString.productSearchNoProductsTitle
-                    errBody = isRealEstateSearch ? LGLocalizedString.realEstateEmptyStateSearchSubtitle : LGLocalizedString.productSearchNoProductsBody
+                    errTitle = isRealEstateSearch ? R.Strings.realEstateEmptyStateSearchTitle : R.Strings.productSearchNoProductsTitle
+                    errBody = isRealEstateSearch ? R.Strings.realEstateEmptyStateSearchSubtitle : R.Strings.productSearchNoProductsBody
                 } else {
                     // Listing
                     errImage = UIImage(named: "err_list_no_products")
-                    errTitle = LGLocalizedString.productListNoProductsTitle
-                    errBody = LGLocalizedString.productListNoProductsBody
+                    errTitle = R.Strings.productListNoProductsTitle
+                    errBody = R.Strings.productListNoProductsBody
                 }
 
                 let emptyViewModel = LGEmptyViewModel(icon: errImage, title: errTitle, body: errBody, buttonTitle: nil,
@@ -1080,9 +1073,9 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         if hasProducts && page > 0 {
             switch error {
             case .network:
-                errorString = LGLocalizedString.toastNoNetwork
+                errorString = R.Strings.toastNoNetwork
             case .internalError, .notFound, .forbidden, .tooManyRequests, .userNotVerified, .serverError, .wsChatError, .searchAlertError:
-                errorString = LGLocalizedString.toastErrorInternal
+                errorString = R.Strings.toastErrorInternal
             case .unauthorized:
                 errorString = nil
             }
@@ -1582,19 +1575,19 @@ extension MainListingsViewModel {
 
     private func openPushPermissionsAlert() {
         trackPushPermissionStart()
-        let positive = UIAction(interface: .styledText(LGLocalizedString.profilePermissionsAlertOk, .standard),
+        let positive = UIAction(interface: .styledText(R.Strings.profilePermissionsAlertOk, .standard),
                                 action: { [weak self] in
                                     self?.trackPushPermissionComplete()
                                     LGPushPermissionsManager.sharedInstance.showPushPermissionsAlert(prePermissionType: .listingListBanner)
             },
                                 accessibilityId: .userPushPermissionOK)
-        let negative = UIAction(interface: .styledText(LGLocalizedString.profilePermissionsAlertCancel, .cancel),
+        let negative = UIAction(interface: .styledText(R.Strings.profilePermissionsAlertCancel, .cancel),
                                 action: { [weak self] in
                                     self?.trackPushPermissionCancel()
             },
                                 accessibilityId: .userPushPermissionCancel)
-        delegate?.vmShowAlertWithTitle(LGLocalizedString.profilePermissionsAlertTitle,
-                                       text: LGLocalizedString.profilePermissionsAlertMessage,
+        delegate?.vmShowAlertWithTitle(R.Strings.profilePermissionsAlertTitle,
+                                       text: R.Strings.profilePermissionsAlertMessage,
                                        alertType: .iconAlert(icon: UIImage(named: "custom_permission_profile")),
                                        actions: [negative, positive])
     }
@@ -1813,7 +1806,7 @@ extension MainListingsViewModel: ListingCellDelegate {
                 strSelf.undoInterestingMessageFor(listing: listing, withID: identifier)
                 }.disposed(by: strSelf.disposeBag)
         }
-        navigator?.openLoginIfNeeded(infoMessage: LGLocalizedString.chatLoginPopupText, then: action)
+        navigator?.openLoginIfNeeded(infoMessage: R.Strings.chatLoginPopupText, then: action)
     }
 
     private func undoInterestingMessageFor(listing: Listing, withID identifier: String) {
@@ -1857,7 +1850,7 @@ extension MainListingsViewModel: ListingCellDelegate {
     }
 
     private func showCancellableInterestedBubbleWith(duration: TimeInterval, then action: @escaping ()->()) {
-        let message = LGLocalizedString.productInterestedBubbleMessage
+        let message = R.Strings.productInterestedBubbleMessage
         navigator?.showUndoBubble(withMessage: message, duration: duration, withAction: action)
     }
 

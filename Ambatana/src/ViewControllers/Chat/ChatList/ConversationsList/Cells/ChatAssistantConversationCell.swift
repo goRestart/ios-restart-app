@@ -1,13 +1,6 @@
-//
-//  ChatAssistantConversationCell.swift
-//  LetGo
-//
-//  Created by Dídac on 15/05/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
+import LGComponents
 
 final class ChatAssistantConversationCell: UITableViewCell, ReusableCell {
 
@@ -166,7 +159,7 @@ final class ChatAssistantConversationCell: UITableViewCell, ReusableCell {
         let tag = indexPath.hashValue
 
         userNameLabel.text = data.userName
-        assistantInfoLabel.text = LGLocalizedString.chatConversationsListLetgoAssistantTag
+        assistantInfoLabel.text = R.Strings.chatConversationsListLetgoAssistantTag
         timeLastMessageLabel.text = data.messageDate?.relativeTimeString(false)
         pendingMessagesLabel.isHidden = data.unreadCount <= 0
         pendingMessagesLabel.text = "\(data.unreadCount)"

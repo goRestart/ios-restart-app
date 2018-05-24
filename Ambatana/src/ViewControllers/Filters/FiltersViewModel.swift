@@ -1,14 +1,7 @@
-//
-//  FiltersViewModel.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 09/11/15.
-//  Copyright © 2015 Ambatana. All rights reserved.
-//
-
 import UIKit
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 enum FilterCategoryItem: Equatable {
     case category(category: ListingCategory)
@@ -23,7 +16,7 @@ enum FilterCategoryItem: Equatable {
         case let .category(category: category):
             return category.name
         case .free:
-            return LGLocalizedString.categoriesFree
+            return R.Strings.categoriesFree
         }
     }
 
@@ -351,7 +344,7 @@ class FiltersViewModel: BaseViewModel {
         let attributeValues = RealEstatePropertyType.allValues(postingFlowType: postingFlowType)
         let values = attributeValues.map { $0.localizedString }
         let vm = ListingAttributePickerViewModel(
-            title: LGLocalizedString.realEstateTypePropertyTitle,
+            title: R.Strings.realEstateTypePropertyTitle,
             attributes: values,
             selectedAttribute: productFilter.realEstatePropertyType?.rawValue
         ) { [weak self] selectedIndex in
@@ -369,7 +362,7 @@ class FiltersViewModel: BaseViewModel {
         let attributeValues = NumberOfBedrooms.allValues
         let values = attributeValues.map { $0.localizedString }
         let vm = ListingAttributePickerViewModel(
-            title: LGLocalizedString.realEstateBedroomsTitle,
+            title: R.Strings.realEstateBedroomsTitle,
             attributes: values,
             selectedAttribute: productFilter.realEstateNumberOfBedrooms?.localizedString
         ) { [weak self] selectedIndex in
@@ -387,7 +380,7 @@ class FiltersViewModel: BaseViewModel {
         let attributeValues = NumberOfRooms.allValues
         let values = attributeValues.map { $0.localizedString }
         let vm = ListingAttributePickerViewModel(
-            title: LGLocalizedString.realEstateRoomsTitle,
+            title: R.Strings.realEstateRoomsTitle,
             attributes: values,
             selectedAttribute: productFilter.realEstateNumberOfRooms?.localizedString
         ) { [weak self] selectedIndex in
@@ -405,7 +398,7 @@ class FiltersViewModel: BaseViewModel {
         let attributeValues = NumberOfBathrooms.allValues
         let values = attributeValues.map { $0.localizedString }
         let vm = ListingAttributePickerViewModel(
-            title: LGLocalizedString.realEstateBathroomsTitle,
+            title: R.Strings.realEstateBathroomsTitle,
             attributes: values,
             selectedAttribute: productFilter.realEstateNumberOfBathrooms?.localizedString
         ) { [weak self] selectedIndex in
@@ -432,13 +425,13 @@ class FiltersViewModel: BaseViewModel {
 
     func validateFilters() -> Bool {
         guard validatePriceRange else {
-            delegate?.vmShowAutoFadingMessage(LGLocalizedString.filtersPriceWrongRangeError, completion: { [weak self] in
+            delegate?.vmShowAutoFadingMessage(R.Strings.filtersPriceWrongRangeError, completion: { [weak self] in
                 self?.delegate?.vmForcePriceFix()
                 })
             return false
         }
         guard validateSizeRange else {
-            delegate?.vmShowAutoFadingMessage(LGLocalizedString.filtersSizeWrongRangeError, completion: { [weak self] in
+            delegate?.vmShowAutoFadingMessage(R.Strings.filtersSizeWrongRangeError, completion: { [weak self] in
                 self?.delegate?.vmForceSizeFix()
             })
             return false

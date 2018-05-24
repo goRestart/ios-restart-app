@@ -1,13 +1,6 @@
-//
-//  ListingPostedDescriptiveViewModel.swift
-//  LetGo
-//
-//  Created by Raúl de Oñate Blanco on 20/02/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 enum PostingDescriptionType {
     case withTitle
@@ -19,29 +12,29 @@ class ListingPostedDescriptiveViewModel: BaseViewModel, PostingCategoriesPickDel
     var descriptionType: PostingDescriptionType
 
     var doneText: String {
-        return LGLocalizedString.postDescriptionDoneText
+        return R.Strings.postDescriptionDoneText
     }
 
     var saveButtonText: String {
-        return LGLocalizedString.postDescriptionSaveButtonText
+        return R.Strings.postDescriptionSaveButtonText
     }
 
     var discardButtonText: String {
-        return LGLocalizedString.postDescriptionDiscardButtonText
+        return R.Strings.postDescriptionDiscardButtonText
     }
 
     var listingInfoTitleText: String {
-        return LGLocalizedString.postDescriptionInfoTitle.uppercased()
+        return R.Strings.postDescriptionInfoTitle.uppercased()
     }
 
     var namePlaceholder: String {
-        return LGLocalizedString.postDescriptionNamePlaceholder
+        return R.Strings.postDescriptionNamePlaceholder
     }
     var categoryButtonPlaceholder: String {
-        return LGLocalizedString.postDescriptionCategoryTitle
+        return R.Strings.postDescriptionCategoryTitle
     }
     var descriptionPlaceholder: String {
-        return LGLocalizedString.postDescriptionDescriptionPlaceholder
+        return R.Strings.postDescriptionDescriptionPlaceholder
     }
     var categoryButtonImage: UIImage? {
         return #imageLiteral(resourceName: "ic_arrow_right_white").withRenderingMode(.alwaysTemplate)

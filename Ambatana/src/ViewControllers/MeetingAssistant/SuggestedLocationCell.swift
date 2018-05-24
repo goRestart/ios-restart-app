@@ -1,13 +1,6 @@
-//
-//  SuggestedLocationCell.swift
-//  LetGo
-//
-//  Created by Dídac on 23/11/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import UIKit
 import LGCoreKit
+import LGComponents
 
 protocol SuggestedLocationCellImageDelegate: class {
     func suggestedLocationCellImageViewPressed(imageView: UIImageView, coordinates: LGLocationCoordinates2D?)
@@ -27,8 +20,8 @@ class SuggestedLocationCell: UICollectionViewCell, ReusableCell {
 
     private var location: SuggestedLocation?
     private var buttonTitle: String {
-        guard let _ = location else { return LGLocalizedString.meetingCreationViewSearchCellSearch }
-        return isSelected ? LGLocalizedString.meetingCreationViewSuggestCellSelected : LGLocalizedString.meetingCreationViewSuggestCellSelect
+        guard let _ = location else { return R.Strings.meetingCreationViewSearchCellSearch }
+        return isSelected ? R.Strings.meetingCreationViewSuggestCellSelected : R.Strings.meetingCreationViewSuggestCellSelect
     }
     weak var imgDelegate: SuggestedLocationCellImageDelegate?
 
@@ -109,7 +102,7 @@ class SuggestedLocationCell: UICollectionViewCell, ReusableCell {
 
     func setupWithSuggestedLocation(location: SuggestedLocation?, mapSnapshot: UIImage?) {
         locationNameLabel.numberOfLines = location != nil ? 1 : 0
-        locationNameLabel.text = location?.locationName ?? LGLocalizedString.meetingCreationViewSearchCellTitle
+        locationNameLabel.text = location?.locationName ?? R.Strings.meetingCreationViewSearchCellTitle
         locationAddressLabel.text = location?.locationAddress
         imageView.image = mapSnapshot ?? #imageLiteral(resourceName: "meeting_map_placeholder")
         self.location = location

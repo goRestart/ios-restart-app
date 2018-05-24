@@ -1,16 +1,8 @@
-//
-//  ChatViewController.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 29/4/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
-
 import UIKit
 import LGCoreKit
 import RxSwift
 import MapKit
+import LGComponents
 
 final class ChatViewController: TextViewController {
 
@@ -179,14 +171,14 @@ final class ChatViewController: TextViewController {
         if #available(iOS 11.0, *) {
             tableView.contentInsetAdjustmentBehavior = .never
         }
-        textView.placeholder = LGLocalizedString.chatMessageFieldHint
+        textView.placeholder = R.Strings.chatMessageFieldHint
         textView.placeholderColor = UIColor.gray
         textView.placeholderFont = UIFont.systemFont(ofSize: 17)
         textView.backgroundColor = UIColor.white
         textView.text = viewModel.predefinedMessage
         textViewFont = UIFont.systemFont(ofSize: 17)
         textViewBarColor = UIColor.white
-        sendButton.setTitle(LGLocalizedString.chatSendButton, for: .normal)
+        sendButton.setTitle(R.Strings.chatSendButton, for: .normal)
         sendButton.tintColor = UIColor.primaryColor
         sendButton.titleLabel?.font = UIFont.smallButtonFont
         reloadLeftActions()
@@ -203,11 +195,11 @@ final class ChatViewController: TextViewController {
         
         listingView.delegate = self
 
-        let action = UIAction(interface: .button(LGLocalizedString.chatExpressBannerButtonTitle,
+        let action = UIAction(interface: .button(R.Strings.chatExpressBannerButtonTitle,
             .secondary(fontSize: .small, withBorder: true)), action: { [weak self] in
                 self?.viewModel.expressChatBannerActionButtonTapped()
             })
-        expressChatBanner.setupChatBannerWith(LGLocalizedString.chatExpressBannerTitle, action: action)
+        expressChatBanner.setupChatBannerWith(R.Strings.chatExpressBannerTitle, action: action)
     }
 
     private func setupNavigationBar() {
@@ -249,7 +241,7 @@ final class ChatViewController: TextViewController {
 
     fileprivate func setupRelatedProducts() {
         relatedListingsView.setupOnTopOfView(textViewBar)
-        relatedListingsView.title.value = LGLocalizedString.chatRelatedProductsTitle
+        relatedListingsView.title.value = R.Strings.chatRelatedProductsTitle
         relatedListingsView.delegate = viewModel
         relatedListingsView.visibleHeight.asObservable().distinctUntilChanged().bind { [weak self] _ in
             self?.configureBottomMargin(animated: true)
@@ -295,7 +287,7 @@ final class ChatViewController: TextViewController {
         var action: UIAction? = nil
         var buttonIcon: UIImage? = nil
         if let phone = phoneNumber, phone.isPhoneNumber, viewModel.professionalBannerHasCallAction {
-            action = UIAction(interface: .button(LGLocalizedString.chatProfessionalBannerButtonTitle,
+            action = UIAction(interface: .button(R.Strings.chatProfessionalBannerButtonTitle,
                                                  .primary(fontSize: .small)),
                               action: { [weak self] in
                                 self?.viewModel.professionalSellerBannerActionButtonTapped()
@@ -303,7 +295,7 @@ final class ChatViewController: TextViewController {
             buttonIcon = #imageLiteral(resourceName: "ic_phone_call")
         }
 
-        professionalSellerBanner.setupChatBannerWith(LGLocalizedString.chatProfessionalBannerTitle,
+        professionalSellerBanner.setupChatBannerWith(R.Strings.chatProfessionalBannerTitle,
                                                      action: action,
                                                      buttonIcon: buttonIcon)
 
@@ -624,7 +616,7 @@ extension ChatViewController: ChatViewModelDelegate {
     
     func vmDidFailRetrievingChatMessages() {
         showActivityIndicator(false)
-        showAutoFadingOutMessageAlert(message: LGLocalizedString.chatMessageLoadGenericError) { [weak self] in
+        showAutoFadingOutMessageAlert(message: R.Strings.chatMessageLoadGenericError) { [weak self] in
             self?.popBackViewController()
         }
     }
@@ -671,7 +663,7 @@ extension ChatViewController: ChatViewModelDelegate {
     }
     
     func vmAskPhoneNumber() {
-        let alert = UIAlertController(title: LGLocalizedString.professionalDealerAskPhoneAlertEnterPhone,
+        let alert = UIAlertController(title: R.Strings.professionalDealerAskPhoneAlertEnterPhone,
                                       message: nil,
                                       preferredStyle: .alert)
 
@@ -680,11 +672,11 @@ extension ChatViewController: ChatViewModelDelegate {
             textField.keyboardType = .numberPad
         }
 
-        let confirmAction = UIAlertAction(title: LGLocalizedString.commonConfirm, style: .default) { [weak self] _ in
+        let confirmAction = UIAlertAction(title: R.Strings.commonConfirm, style: .default) { [weak self] _ in
             self?.viewModel.sendPhoneFrom(alert: alert)
         }
         alert.addAction(confirmAction)
-        let cancelAction = UIAlertAction(title: LGLocalizedString.commonCancel, style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: R.Strings.commonCancel, style: .cancel, handler: nil)
         alert.addAction(cancelAction)
 
         present(alert, animated: true, completion: nil)

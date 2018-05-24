@@ -1,10 +1,4 @@
-//
-//  MostSearchedItemsListHeader.swift
-//  LetGo
-//
-//  Created by Raúl de Oñate Blanco on 17/01/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
+import LGComponents
 
 class MostSearchedItemsListHeader: UITableViewHeaderFooterView, ReusableCell {
     
@@ -44,7 +38,7 @@ class MostSearchedItemsListHeader: UITableViewHeaderFooterView, ReusableCell {
         descriptionLabel.font = UIFont.systemRegularFont(size: 17)
         descriptionLabel.textColor = UIColor.darkGrayText
         descriptionLabel.numberOfLines = 2
-        descriptionLabel.text = LGLocalizedString.trendingItemsViewSubtitle
+        descriptionLabel.text = R.Strings.trendingItemsViewSubtitle
         descriptionLabel.adjustsFontSizeToFitWidth = true
         descriptionLabel.minimumScaleFactor = 0.2
         
@@ -52,7 +46,7 @@ class MostSearchedItemsListHeader: UITableViewHeaderFooterView, ReusableCell {
         
         subtitleLabel.font = UIFont.systemMediumFont(size: 13)
         subtitleLabel.textColor = UIColor.grayText
-        subtitleLabel.text = LGLocalizedString.trendingItemsViewNumberOfSearchesTitle
+        subtitleLabel.text = R.Strings.trendingItemsViewNumberOfSearchesTitle
     }
     
     private func setupConstraints() {

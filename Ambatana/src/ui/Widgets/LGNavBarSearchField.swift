@@ -1,12 +1,5 @@
-//
-//  LGNavBarSearchField.swift
-//  LetGo
-//
-//  Created by Dídac on 11/11/15.
-//  Copyright © 2015 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 final class LGNavBarSearchField: UIView {
     
@@ -41,7 +34,7 @@ final class LGNavBarSearchField: UIView {
     private let searchTextLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 17.0, weight: .regular)
-        label.text = LGLocalizedString.searchLetgo
+        label.text = R.Strings.searchLetgo
         label.textColor = LGNavBarMetrics.Searchfield.placeHolderTextColor
         return label
     }()

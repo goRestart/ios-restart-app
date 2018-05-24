@@ -1,13 +1,6 @@
-//
-//  ListingCardDetailsView.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 06/11/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
+import LGComponents
 
 fileprivate struct DetailNumberOfLines {
     let current: Int
@@ -99,7 +92,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
         label.backgroundColor = UIColor.white
         label.font = UIFont.deckSocialHeaderFont
         label.textAlignment = .left
-        label.text = LGLocalizedString.productShareTitleLabel
+        label.text = R.Strings.productShareTitleLabel
         label.setContentCompressionResistancePriority(.required, for: .vertical)
         label.setContentHuggingPriority(.required, for: .vertical)
         return label

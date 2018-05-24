@@ -1,19 +1,12 @@
-//
-//  ListingPrice+LG.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 30/10/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
+import LGComponents
 
 extension ListingPrice {
     func stringValue(currency: Currency, isFreeEnabled: Bool) -> String {
         if isFreeEnabled && isFree {
-            return LGLocalizedString.productFreePrice
+            return R.Strings.productFreePrice
         } else {
-            return value > 0 ? formattedPrice(currency: currency) :  LGLocalizedString.productNegotiablePrice
+            return value > 0 ? formattedPrice(currency: currency) :  R.Strings.productNegotiablePrice
         }
     }
     

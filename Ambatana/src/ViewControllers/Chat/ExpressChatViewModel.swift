@@ -1,14 +1,7 @@
-//
-//  ExpressChatViewModel.swift
-//  LetGo
-//
-//  Created by Dídac on 09/08/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 protocol ExpressChatViewModelDelegate: class {
     func sendMessageSuccess()
@@ -27,7 +20,7 @@ class ExpressChatViewModel: BaseViewModel {
     }
 
     let selectedListings = Variable<[Listing]>([])
-    let messageText = Variable<String>(LGLocalizedString.chatExpressTextFieldText)
+    let messageText = Variable<String>(R.Strings.chatExpressTextFieldText)
     let sendButtonEnabled = Variable<Bool>(false)
 
     weak var navigator: ExpressChatNavigator?
@@ -160,8 +153,8 @@ class ExpressChatViewModel: BaseViewModel {
 
         selectedItemsCount.asObservable().subscribeNext { [weak self] numSelected in
             self?.sendMessageTitle.value = numSelected > 1 ?
-                LGLocalizedString.chatExpressContactVariousButtonText(String(numSelected)) :
-                LGLocalizedString.chatExpressContactOneButtonText
+                R.Strings.chatExpressContactVariousButtonText(String(numSelected)) :
+                R.Strings.chatExpressContactOneButtonText
         }.disposed(by: disposeBag)
 
         selectedItemsCount.asObservable().subscribeNext { [weak self] selectedCount in

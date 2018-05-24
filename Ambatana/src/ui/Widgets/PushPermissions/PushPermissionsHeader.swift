@@ -1,12 +1,5 @@
-//
-//  UserPushPermissionsHeader.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 09/06/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 protocol PushPermissionsHeaderDelegate: class {
     func pushPermissionHeaderPressed()
@@ -52,7 +45,7 @@ class PushPermissionsHeader: UIView {
         let label = UILabel()
         label.font = UIFont.systemMediumFont(size: 17)
         label.textColor = UIColor.grayLighter
-        label.text = LGLocalizedString.profilePermissionsHeaderMessage
+        label.text = R.Strings.profilePermissionsHeaderMessage
         label.translatesAutoresizingMaskIntoConstraints = false
         addSubview(label)
 

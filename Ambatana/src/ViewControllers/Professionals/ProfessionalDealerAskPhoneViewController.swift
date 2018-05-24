@@ -1,14 +1,7 @@
-//
-//  ProfessionalDealerAskPhoneViewController.swift
-//  LetGo
-//
-//  Created by Dídac on 09/01/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 import UIKit
 import RxSwift
+import LGComponents
 
 final class ProfessionalDealerAskPhoneViewController: KeyboardViewController, UITextFieldDelegate {
 
@@ -63,25 +56,25 @@ final class ProfessionalDealerAskPhoneViewController: KeyboardViewController, UI
         closeButton.setImage(#imageLiteral(resourceName: "ic_close"), for: .normal)
         closeButton.addTarget(self, action: #selector(closePressed), for: .touchUpInside)
 
-        notNowButton.setTitle(LGLocalizedString.professionalDealerAskPhoneNotNowButton, for: .normal)
+        notNowButton.setTitle(R.Strings.professionalDealerAskPhoneNotNowButton, for: .normal)
         notNowButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
         notNowButton.setTitleColor(UIColor.lightGray, for: .normal)
         notNowButton.addTarget(self, action: #selector(notNowPressed), for: .touchUpInside)
 
         introTextLabel.font = UIFont.boldSystemFont(ofSize: 24)
         introTextLabel.textAlignment = .left
-        introTextLabel.text = LGLocalizedString.professionalDealerAskPhoneIntroText
+        introTextLabel.text = R.Strings.professionalDealerAskPhoneIntroText
         introTextLabel.textColor = UIColor.white
         introTextLabel.minimumScaleFactor = 0.3
         introTextLabel.numberOfLines = 0
 
         letsTalkLabel.font = UIFont.boldSystemFont(ofSize: 17)
         letsTalkLabel.textAlignment = .left
-        letsTalkLabel.text = LGLocalizedString.professionalDealerAskPhoneLetsTalkText
+        letsTalkLabel.text = R.Strings.professionalDealerAskPhoneLetsTalkText
         letsTalkLabel.textColor = UIColor.white
 
         phoneTextField.font = UIFont.boldSystemFont(ofSize: 27)
-        phoneTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.professionalDealerAskPhoneTextfieldPlaceholder,
+        phoneTextField.attributedPlaceholder = NSAttributedString(string: R.Strings.professionalDealerAskPhoneTextfieldPlaceholder,
                                                                   attributes: [.foregroundColor : UIColor.grayDark])
         phoneTextField.textColor = UIColor.white
         phoneTextField.textAlignment = .left
@@ -90,7 +83,7 @@ final class ProfessionalDealerAskPhoneViewController: KeyboardViewController, UI
         phoneTextField.delegate = self
 
         sendPhoneButton.frame = CGRect(x: 0, y: 0, width: 0, height: Metrics.buttonHeight)
-        sendPhoneButton.setTitle(LGLocalizedString.professionalDealerAskPhoneSendPhoneButton, for: .normal)
+        sendPhoneButton.setTitle(R.Strings.professionalDealerAskPhoneSendPhoneButton, for: .normal)
         sendPhoneButton.addTarget(self, action: #selector(sendPhonePressed), for: .touchUpInside)
     }
 

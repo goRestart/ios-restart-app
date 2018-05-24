@@ -1,0 +1,22 @@
+PODS:
+  - LGShared (0.1.0)
+  - Nimble (7.0.3)
+  - Quick (1.2.0)
+
+DEPENDENCIES:
+  - LGShared (from `../`)
+  - Nimble (~> 7.0.2)
+  - Quick (~> 1.2.0)
+
+EXTERNAL SOURCES:
+  LGShared:
+    :path: ../
+
+SPEC CHECKSUMS:
+  LGShared: 31b230dfdd8d55e87b5718f3a39fb4412bfc59e1
+  Nimble: 7f5a9c447a33002645a071bddafbfb24ea70e0ac
+  Quick: 58d203b1c5e27fff7229c4c1ae445ad7069a7a08
+
+PODFILE CHECKSUM: b7a856d442f3916d3052f6f7b8a12101f40db3d1
+
+COCOAPODS: 1.4.0

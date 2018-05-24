@@ -1,13 +1,6 @@
-//
-//  TabBarViewModel.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 12/04/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 class TabBarViewModel: BaseViewModel {
     weak var navigator: AppNavigator?
@@ -85,13 +78,13 @@ class TabBarViewModel: BaseViewModel {
         paragraphStyle.lineSpacing = 3
         newTextAttributes[.paragraphStyle] = paragraphStyle
         
-        let newText = NSAttributedString(string: LGLocalizedString.commonNew, attributes: newTextAttributes)
+        let newText = NSAttributedString(string: R.Strings.commonNew, attributes: newTextAttributes)
         
         var titleTextAttributes = [NSAttributedStringKey : Any]()
         titleTextAttributes[.foregroundColor] = UIColor.white
         titleTextAttributes[.font] = UIFont.systemSemiBoldFont(size: 15)
         
-        let title = featureFlags.realEstateNewCopy.isActive ? LGLocalizedString.realEstateTooltipSellButtonTitle : LGLocalizedString.realEstateTooltipSellButton
+        let title = featureFlags.realEstateNewCopy.isActive ? R.Strings.realEstateTooltipSellButtonTitle : R.Strings.realEstateTooltipSellButton
         let titleText = NSAttributedString(string: title, attributes: titleTextAttributes)
         
         let fullTitle: NSMutableAttributedString = NSMutableAttributedString(attributedString: newText)

@@ -1,13 +1,6 @@
-//
-//  UserRatingListViewController.swift
-//  LetGo
-//
-//  Created by Dídac on 18/07/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
 import LGCoreKit
+import LGComponents
 
 class UserRatingListViewController: BaseViewController {
 
@@ -44,7 +37,7 @@ class UserRatingListViewController: BaseViewController {
     // MARK: private methods
 
     private func setupUI() {
-        title = LGLocalizedString.ratingListTitle
+        title = R.Strings.ratingListTitle
         let cellNib = UINib(nibName: UserRatingListViewController.cellReuseIdentifier, bundle: nil)
         tableView.register(cellNib, forCellReuseIdentifier: UserRatingListViewController.cellReuseIdentifier)
         tableView.isHidden = true
@@ -74,7 +67,7 @@ extension UserRatingListViewController: UserRatingListViewModelDelegate {
     func vmDidFailLoadingUserRatings(_ firstPage: Bool) {
         activityIndicator.stopAnimating()
         if firstPage {
-            vmShowAutoFadingMessage(LGLocalizedString.ratingListLoadingErrorMessage) { [weak self] in
+            vmShowAutoFadingMessage(R.Strings.ratingListLoadingErrorMessage) { [weak self] in
                 self?.navigationController?.popBackViewController()
             }
         }

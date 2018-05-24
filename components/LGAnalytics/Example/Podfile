@@ -1,0 +1,12 @@
+source 'https://github.com/CocoaPods/Specs.git'
+source 'git@github.com:letgoapp/letgo-ios-specs.git'
+
+platform :ios, "9.0"
+
+use_frameworks!
+target 'LGAnalytics_Tests' do
+  pod 'LGComponents/LGAnalytics', :path => '../../'
+  
+  pod 'Quick', '1.2.0'
+  pod 'Nimble', '7.0.2'
+end

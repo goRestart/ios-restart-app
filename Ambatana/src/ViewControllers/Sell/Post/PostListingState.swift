@@ -1,12 +1,5 @@
-//
-//  PostListingState.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 21/03/17.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
+import LGComponents
 
 public enum VerticalAttributes {
     case carInfo(CarAttributes)
@@ -356,9 +349,9 @@ class PostListingState {
         switch uploadError {
         case .internalError, .unauthorized, .notFound, .forbidden, .tooManyRequests, .userNotVerified, .serverError,
              .wsChatError, .searchAlertError:
-            message = LGLocalizedString.productPostGenericError
+            message = R.Strings.productPostGenericError
         case .network:
-            message = LGLocalizedString.productPostNetworkError
+            message = R.Strings.productPostNetworkError
         }
         
         return PostListingState(step: .errorUpload(message: message),

@@ -36,6 +36,10 @@ def shared_pods
     pod "Leanplum-iOS-SDK",     "2.0.5"     # Obj-c
     pod "NewRelicAgent",        "6.1.1"     # Obj-c
 
+    # letgo components
+    pod "LGComponents",            :path => "components"
+
+
     # letgo Core
     pod "LGCoreKit",             "4.26.3", :inhibit_warnings => false
 #    pod "LGCoreKit",            :path => "../lgcorekit", :inhibit_warnings => false

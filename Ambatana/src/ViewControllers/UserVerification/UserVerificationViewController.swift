@@ -1,15 +1,8 @@
-//
-//  UserVerificationViewController.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 19/3/18.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 import RxSwift
 import RxCocoa
 import GoogleSignIn
+import LGComponents
 
 enum UserVerificationTableViewSections: Int {
     case verifications = 0
@@ -34,7 +27,7 @@ final class UserVerificationViewController: BaseViewController, GIDSignInUIDeleg
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
         viewModel.delegate = self
-        self.title = LGLocalizedString.profileVerificationsViewTitle
+        self.title = R.Strings.profileVerificationsViewTitle
         setupUI()
         bindRx()
     }
@@ -139,16 +132,16 @@ extension UserVerificationViewController: UITableViewDelegate, UITableViewDataSo
         switch section {
         case .verifications:
             let view = UserVerificationMainSectionHeader()
-            view.title = LGLocalizedString.profileVerificationsViewVerifySectionTitle
-            view.subtitle = LGLocalizedString.profileVerificationsViewVerifySectionSubtitle
+            view.title = R.Strings.profileVerificationsViewVerifySectionTitle
+            view.subtitle = R.Strings.profileVerificationsViewVerifySectionSubtitle
             return view
         case .personalInfo:
             let view = UserVerificationSectionHeader()
-            view.title = LGLocalizedString.profileVerificationsViewAddInfoSectionTitle
+            view.title = R.Strings.profileVerificationsViewAddInfoSectionTitle
             return view
         case .buyAndSell:
             let view = UserVerificationSectionHeader()
-            view.title = LGLocalizedString.profileVerificationsViewExtraSectionTitle
+            view.title = R.Strings.profileVerificationsViewExtraSectionTitle
             return view
         }
     }

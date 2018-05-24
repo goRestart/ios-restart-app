@@ -1,12 +1,5 @@
-//
-//  ProductStatusView.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 22/11/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 class ProductStatusView: UIView {
 
@@ -51,7 +44,7 @@ class ProductStatusView: UIView {
     private func setupStatusLabel() {
         statusLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(statusLabel)
-        statusLabel.text = LGLocalizedString.bumpUpProductDetailFeaturedLabel
+        statusLabel.text = R.Strings.bumpUpProductDetailFeaturedLabel
         statusLabel.topAnchor.constraint(equalTo: topAnchor, constant: Metrics.shortMargin).isActive = true
         statusLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Metrics.shortMargin).isActive = true
         statusLabel.trailingAnchor.constraint(equalTo: trailingAnchor,
@@ -72,7 +65,7 @@ class ProductStatusView: UIView {
     func setFeaturedStatus(_ status: ListingViewModelStatus, featured isFeatured: Bool) {
         if isFeatured {
             backgroundColor = UIColor.white
-            let featuredText = LGLocalizedString.bumpUpProductDetailFeaturedLabel
+            let featuredText = R.Strings.bumpUpProductDetailFeaturedLabel
             statusLabel.text = featuredText.capitalizedFirstLetterOnly
             statusLabel.textColor = UIColor.blackText
             statusImageView.isHidden = false

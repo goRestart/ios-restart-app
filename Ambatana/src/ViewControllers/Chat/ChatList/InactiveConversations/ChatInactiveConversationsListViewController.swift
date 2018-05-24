@@ -1,13 +1,6 @@
-//
-//  ChatInactiveConversationsListViewController.swift
-//  LetGo
-//
-//  Created by Nestor on 18/01/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 class ChatInactiveConversationsListViewController:
     BaseViewController,
@@ -102,7 +95,7 @@ UITableViewDelegate  {
     
     private func setupUI() {
         view.backgroundColor = UIColor.listBackgroundColor
-        setNavBarTitle(LGLocalizedString.chatInactiveListTitle)
+        setNavBarTitle(R.Strings.chatInactiveListTitle)
         
         emptyView.backgroundColor = UIColor.listBackgroundColor
         refreshControl.addTarget(self, action: #selector(refresh),
@@ -118,7 +111,7 @@ UITableViewDelegate  {
         
         footerButton.setStyle(.primary(fontSize: .medium))
         footerButton.isEnabled = false
-        footerButton.setTitle(LGLocalizedString.chatListDelete, for: .normal)
+        footerButton.setTitle(R.Strings.chatListDelete, for: .normal)
         footerButton.addTarget(self, action: #selector(deleteButtonPressed), for: .touchUpInside)
         
         bottomInset = tabBarBottomInset
@@ -128,7 +121,7 @@ UITableViewDelegate  {
     }
     
     private func setupNavigationBar() {
-        editButton = UIBarButtonItem(title: LGLocalizedString.chatListDelete,
+        editButton = UIBarButtonItem(title: R.Strings.chatListDelete,
                                      style: .plain,
                                      target: self,
                                      action: #selector(editButtonPressed))
@@ -254,7 +247,7 @@ UITableViewDelegate  {
     
     func didFailArchivingChats() {
         dismissLoadingMessageAlert { [weak self] in
-            self?.showAutoFadingOutMessageAlert(message: LGLocalizedString.chatListArchiveErrorMultiple)
+            self?.showAutoFadingOutMessageAlert(message: R.Strings.chatListArchiveErrorMultiple)
         }
     }
     

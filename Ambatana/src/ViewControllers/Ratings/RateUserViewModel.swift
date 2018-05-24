@@ -1,13 +1,6 @@
-//
-//  UserRatingViewModel.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 12/07/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import RxSwift
 import LGCoreKit
+import LGComponents
 
 struct RateUserData {
     let userId: String
@@ -60,9 +53,9 @@ class RateUserViewModel: BaseViewModel {
     }
     var infoText: String {
         if let userName = userName, !userName.isEmpty {
-            return LGLocalizedString.userRatingMessageWName(userName)
+            return R.Strings.userRatingMessageWName(userName)
         } else {
-            return LGLocalizedString.userRatingMessageWoName
+            return R.Strings.userRatingMessageWoName
         }
     }
 
@@ -72,7 +65,7 @@ class RateUserViewModel: BaseViewModel {
     let sendEnabled = Variable<Bool>(false)
     let rating = Variable<Int?>(nil)
     let description = Variable<String?>(nil)
-    let descriptionPlaceholder = LGLocalizedString.userRatingReviewPlaceholderOptional
+    let descriptionPlaceholder = R.Strings.userRatingReviewPlaceholderOptional
     let descriptionCharLimit = Variable<Int>(Constants.userRatingDescriptionMaxLength)
 
     fileprivate let userRatingRepository: UserRatingRepository
@@ -146,10 +139,10 @@ extension RateUserViewModel {
                 let message: String
                 switch error {
                 case .network:
-                    message = LGLocalizedString.commonErrorConnectionFailed
+                    message = R.Strings.commonErrorConnectionFailed
                 case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError,
                      .wsChatError, .searchAlertError:
-                    message = LGLocalizedString.commonError
+                    message = R.Strings.commonError
                 }
                 strongSelf.delegate?.vmShowAutoFadingMessage(message, completion: nil)
             }
@@ -228,12 +221,12 @@ fileprivate extension RateUserViewModel {
                 
                 switch state {
                 case .review:
-                    return LGLocalizedString.userRatingReviewButton
+                    return R.Strings.userRatingReviewButton
                 case .comment:
                     if let _ = strongSelf.previousRating {
-                        return LGLocalizedString.userRatingUpdateCommentButton
+                        return R.Strings.userRatingUpdateCommentButton
                     } else {
-                        return LGLocalizedString.userRatingAddCommentButton
+                        return R.Strings.userRatingAddCommentButton
                     }
                 }
             }.bind(to: sendText).disposed(by: disposeBag)
@@ -294,7 +287,7 @@ fileprivate extension RateUserViewModel {
     
     func didFinishCommenting(rating: UserRating) {
         trackComplete(rating: rating)
-        delegate?.vmShowAutoFadingMessage(LGLocalizedString.userRatingReviewSendSuccess) { [weak self] in
+        delegate?.vmShowAutoFadingMessage(R.Strings.userRatingReviewSendSuccess) { [weak self] in
             self?.navigator?.rateUserFinish(withRating: self?.rating.value ?? 0)
         }
     }

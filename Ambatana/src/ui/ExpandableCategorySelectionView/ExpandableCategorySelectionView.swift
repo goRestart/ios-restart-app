@@ -1,17 +1,8 @@
-//
-//  ExpandableCategorySelectionView.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 29/08/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
-
 import LGCoreKit
 import UIKit
 import RxSwift
-
+import LGComponents
 
 class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , TagCollectionViewModelSelectionDelegate {
     
@@ -35,7 +26,7 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
         label.font = UIFont.systemSemiBoldFont(size: 13)
-        label.text = LGLocalizedString.trendingItemsExpandableMenuSubsetTitle
+        label.text = R.Strings.trendingItemsExpandableMenuSubsetTitle
         label.textAlignment = .center
         return label
     }()
@@ -89,7 +80,7 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
         newBadgeView.backgroundColor = .white
         
         let labelNew = UILabel()
-        labelNew.text = LGLocalizedString.commonNew
+        labelNew.text = R.Strings.commonNew
         labelNew.font = UIFont.boldSystemFont(ofSize: 12)
         labelNew.textColor = UIColor.lgBlack
         newBadgeView.addSubviewForAutoLayout(labelNew)
@@ -302,14 +293,14 @@ fileprivate extension ExpandableCategory {
             case .listingCategory(let listingCategory):
             switch listingCategory {
             case .unassigned:
-                return LGLocalizedString.categoriesUnassignedItems
+                return R.Strings.categoriesUnassignedItems
             case .motorsAndAccessories, .cars, .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .services:
                 return listingCategory.name
             case .realEstate:
-                return FeatureFlags.sharedInstance.realEstateNewCopy.isActive ? LGLocalizedString.productPostSelectCategoryRealEstate : LGLocalizedString.productPostSelectCategoryHousing
+                return FeatureFlags.sharedInstance.realEstateNewCopy.isActive ? R.Strings.productPostSelectCategoryRealEstate : R.Strings.productPostSelectCategoryHousing
             }
         case .mostSearchedItems:
-            return LGLocalizedString.trendingItemsExpandableMenuButton
+            return R.Strings.trendingItemsExpandableMenuButton
         }
     }
     var icon: UIImage? {

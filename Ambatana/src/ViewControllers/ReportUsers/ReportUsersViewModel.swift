@@ -1,12 +1,5 @@
-//
-//  ReportUsersViewModel.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 05/02/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
+import LGComponents
 
 protocol ReportUsersViewModelDelegate: class {
 
@@ -94,14 +87,14 @@ class ReportUsersViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
             if let _ = result.value {
                 strongSelf.delegate?.reportUsersViewModel(strongSelf,
-                                                          didSendReport: LGLocalizedString.reportUserSendOk)
+                                                          didSendReport: R.Strings.reportUserSendOk)
             } else if let error = result.error {
                 if error.isNotModified() {
                     strongSelf.delegate?.reportUsersViewModel(strongSelf,
-                                                              failedSendingReport: LGLocalizedString.reportUserErrorAlreadyReported)
+                                                              failedSendingReport: R.Strings.reportUserErrorAlreadyReported)
                 } else {
                     strongSelf.delegate?.reportUsersViewModel(strongSelf,
-                                                              failedSendingReport: LGLocalizedString.reportUserSendFailure)
+                                                              failedSendingReport: R.Strings.reportUserSendFailure)
                 }
             }
         }
@@ -151,23 +144,23 @@ extension ReportUserReason {
     var text: String {
         switch self {
         case .offensive:
-            return LGLocalizedString.reportUserOffensive
+            return R.Strings.reportUserOffensive
         case .scammer:
-            return LGLocalizedString.reportUserScammer
+            return R.Strings.reportUserScammer
         case .mia:
-            return LGLocalizedString.reportUserMia
+            return R.Strings.reportUserMia
         case .suspicious:
-            return LGLocalizedString.reportUserSuspcious
+            return R.Strings.reportUserSuspcious
         case .inactive:
-            return LGLocalizedString.reportUserInactive
+            return R.Strings.reportUserInactive
         case .prohibitedItems:
-            return LGLocalizedString.reportUserProhibitedItems
+            return R.Strings.reportUserProhibitedItems
         case .spammer:
-            return LGLocalizedString.reportUserSpammer
+            return R.Strings.reportUserSpammer
         case .counterfeitItems:
-            return LGLocalizedString.reportUserCounterfeit
+            return R.Strings.reportUserCounterfeit
         case .others:
-            return LGLocalizedString.reportUserOthers
+            return R.Strings.reportUserOthers
         }
     }
 

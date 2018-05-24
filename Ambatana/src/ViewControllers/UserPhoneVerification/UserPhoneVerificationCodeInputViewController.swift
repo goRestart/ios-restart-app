@@ -1,14 +1,7 @@
-//
-//  UserPhoneVerificationCodeInputViewController.swift
-//  LetGo
-//
-//  Created by Sergi Gracia on 05/04/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 final class UserPhoneVerificationCodeInputViewController: BaseViewController {
 
@@ -65,7 +58,7 @@ final class UserPhoneVerificationCodeInputViewController: BaseViewController {
     }
 
     private func setupUI() {
-        title = LGLocalizedString.phoneVerificationCodeInputViewTitle
+        title = R.Strings.phoneVerificationCodeInputViewTitle
 
         view.backgroundColor = .white
         view.addSubviewsForAutoLayout([titleLabel, subtitleLabel, codeTextField,
@@ -81,14 +74,14 @@ final class UserPhoneVerificationCodeInputViewController: BaseViewController {
     }
 
     private func setupTitleLabelUI() {
-        titleLabel.text = LGLocalizedString.phoneVerificationCodeInputViewContentTitle
+        titleLabel.text = R.Strings.phoneVerificationCodeInputViewContentTitle
         titleLabel.font = .smsVerificationInputDescription
         titleLabel.textColor = .blackText
         titleLabel.textAlignment = .center
     }
 
     private func setupSubtitleLabelUI() {
-        subtitleLabel.text = LGLocalizedString.phoneVerificationCodeInputViewContentSubtitle(viewModel.fullPhoneNumber)
+        subtitleLabel.text = R.Strings.phoneVerificationCodeInputViewContentSubtitle(viewModel.fullPhoneNumber)
         subtitleLabel.font = .smsVerificationInputSmallDescription
         subtitleLabel.textColor = .darkGrayText
         subtitleLabel.textAlignment = .center
@@ -107,7 +100,7 @@ final class UserPhoneVerificationCodeInputViewController: BaseViewController {
     }
 
     private func setupCodeInformationButtonUI() {
-        codeInformationButton.setTitle(LGLocalizedString.phoneVerificationCodeInputViewContentSubaction, for: .normal)
+        codeInformationButton.setTitle(R.Strings.phoneVerificationCodeInputViewContentSubaction, for: .normal)
         codeInformationButton.setTitleColor(.primaryColor, for: .normal)
         codeInformationButton.titleLabel?.font = .smsVerificationInputCodeInformation
         codeInformationButton.addTarget(self, action: #selector(didTapOnCodeNotReceived), for: .touchUpInside)
@@ -166,7 +159,7 @@ final class UserPhoneVerificationCodeInputViewController: BaseViewController {
             .asDriver()
             .drive(onNext: { [weak self] value in
                 let countdown = "00:\(value)"
-                self?.codeInformationLabel.text = LGLocalizedString.phoneVerificationCodeInputViewContentSubtext(countdown)
+                self?.codeInformationLabel.text = R.Strings.phoneVerificationCodeInputViewContentSubtext(countdown)
             })
             .disposed(by: disposeBag)
 
@@ -179,7 +172,7 @@ final class UserPhoneVerificationCodeInputViewController: BaseViewController {
                     self?.showValidationLoading()
                 case .success:
                     self?.showValidationFinishedWith(success: true,
-                                                     message: LGLocalizedString.phoneVerificationCodeInputViewValidatedSuccess)
+                                                     message: R.Strings.phoneVerificationCodeInputViewValidatedSuccess)
                 case .failure(let message):
                     self?.showUnknownErrorAlertWith(message: message)
                 case .none:
@@ -208,7 +201,7 @@ final class UserPhoneVerificationCodeInputViewController: BaseViewController {
         }
 
         fullscreenMessageView
-            .startAnimatingWith(message: LGLocalizedString.phoneVerificationCodeInputViewValidatingMessage)
+            .startAnimatingWith(message: R.Strings.phoneVerificationCodeInputViewValidatingMessage)
     }
 
     private func showValidationFinishedWith(success: Bool, message: String) {

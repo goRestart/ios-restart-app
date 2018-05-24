@@ -1,12 +1,5 @@
-//
-//  MainTabCoordinator.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 01/08/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
+import LGComponents
 
 final class MainTabCoordinator: TabCoordinator, FeedNavigator {
 
@@ -136,18 +129,18 @@ extension MainTabCoordinator: MainTabNavigator {
 
     func showPushPermissionsAlert(withPositiveAction positiveAction: @escaping (() -> Void), negativeAction: @escaping (() -> Void)) {
         
-        let positive: UIAction = UIAction(interface: .styledText(LGLocalizedString.profilePermissionsAlertOk, .standard),
+        let positive: UIAction = UIAction(interface: .styledText(R.Strings.profilePermissionsAlertOk, .standard),
                                           action: { [weak self] in
                                             positiveAction()
                                             self?.pushPermissionsManager.showPushPermissionsAlert(prePermissionType: .listingListBanner)
         },
                                           accessibilityId: .userPushPermissionOK)
         
-        let negative: UIAction = UIAction(interface: .styledText(LGLocalizedString.profilePermissionsAlertCancel, .cancel),
+        let negative: UIAction = UIAction(interface: .styledText(R.Strings.profilePermissionsAlertCancel, .cancel),
                                           action: negativeAction,
                                           accessibilityId: .userPushPermissionCancel)
-        navigationController.showAlertWithTitle(LGLocalizedString.profilePermissionsAlertTitle,
-                                                text: LGLocalizedString.profilePermissionsAlertMessage,
+        navigationController.showAlertWithTitle(R.Strings.profilePermissionsAlertTitle,
+                                                text: R.Strings.profilePermissionsAlertMessage,
                                                 alertType: .iconAlert(icon: UIImage(named: "custom_permission_profile")),
                                                 actions: [positive, negative])
     }

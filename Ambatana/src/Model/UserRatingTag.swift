@@ -1,10 +1,4 @@
-//
-//  UserRatingTag.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 23/05/17.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
+import LGComponents
 
 protocol UserRatingTag {
     var localizedText: String { get }
@@ -25,17 +19,17 @@ enum NegativeUserRatingTag: UserRatingTag {
     var localizedText: String {
         switch self {
         case .notPolite:
-            return LGLocalizedString.rateUserNegativeNotPolite
+            return R.Strings.rateUserNegativeNotPolite
         case .didntShowUp:
-            return LGLocalizedString.rateUserNegativeDidntShowUp
+            return R.Strings.rateUserNegativeDidntShowUp
         case .slowResponses:
-            return LGLocalizedString.rateUserNegativeSlowResponses
+            return R.Strings.rateUserNegativeSlowResponses
         case .unfairPrice:
-            return LGLocalizedString.rateUserNegativeUnfairPrice
+            return R.Strings.rateUserNegativeUnfairPrice
         case .notTrustworthy:
-            return LGLocalizedString.rateUserNegativeNotTrustworthy
+            return R.Strings.rateUserNegativeNotTrustworthy
         case .itemNotAsAdvertised:
-            return LGLocalizedString.rateUserNegativeItemNotAsAdvertised
+            return R.Strings.rateUserNegativeItemNotAsAdvertised
         }
     }
     
@@ -50,17 +44,17 @@ enum PositiveUserRatingTag: UserRatingTag {
     var localizedText: String {
         switch self {
         case .polite:
-            return LGLocalizedString.rateUserPositivePolite
+            return R.Strings.rateUserPositivePolite
         case .showedUpOnTime:
-            return LGLocalizedString.rateUserPositiveShowedUpOnTime
+            return R.Strings.rateUserPositiveShowedUpOnTime
         case .quickResponses:
-            return LGLocalizedString.rateUserPositiveQuickResponses
+            return R.Strings.rateUserPositiveQuickResponses
         case .fairPrices:
-            return LGLocalizedString.rateUserPositiveFairPrices
+            return R.Strings.rateUserPositiveFairPrices
         case .helpful:
-            return LGLocalizedString.rateUserPositiveHelpful
+            return R.Strings.rateUserPositiveHelpful
         case .trustworthy:
-            return LGLocalizedString.rateUserPositiveTrustworthy
+            return R.Strings.rateUserPositiveTrustworthy
         }
     }
     

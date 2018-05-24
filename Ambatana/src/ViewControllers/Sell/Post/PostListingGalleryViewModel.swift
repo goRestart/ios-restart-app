@@ -1,15 +1,8 @@
-//
-//  PostListingGalleryViewModel.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 09/03/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import Foundation
 import Photos
 import RxSwift
 import RxCocoa
+import LGComponents
 
 struct ImageSelected {
     var image: UIImage? // ABIOS-2195
@@ -56,7 +49,7 @@ class PostListingGalleryViewModel: BaseViewModel {
     let visible = Variable<Bool>(false)
 
     let galleryState = Variable<GalleryState>(.normal)
-    let albumTitle = Variable<String>(LGLocalizedString.productPostGalleryTab)
+    let albumTitle = Variable<String>(R.Strings.productPostGalleryTab)
     let albumIconState = Variable<AlbumSelectionIconState>(.down)
     let imagesSelected = Variable<[ImageSelected]>([])
     let lastImageSelected = Variable<UIImage?>(nil)
@@ -79,9 +72,9 @@ class PostListingGalleryViewModel: BaseViewModel {
     
     var noImageSubtitleText: String {
         if let category = postCategory, category == .realEstate {
-            return LGLocalizedString.realEstateGalleryViewSubtitleParams(maxImagesSelected)
+            return R.Strings.realEstateGalleryViewSubtitleParams(maxImagesSelected)
         } else {
-            return LGLocalizedString.productPostGallerySelectPicturesSubtitleParams(maxImagesSelected)
+            return R.Strings.productPostGallerySelectPicturesSubtitleParams(maxImagesSelected)
         }
     }
 
@@ -180,7 +173,7 @@ class PostListingGalleryViewModel: BaseViewModel {
                 self?.selectAlbum(assetCollection)
             }))
         }
-        let cancelAction = UIAction(interface: .text(LGLocalizedString.commonCancel), action: { [weak self] in
+        let cancelAction = UIAction(interface: .text(R.Strings.commonCancel), action: { [weak self] in
             self?.albumIconState.value = .down
         })
         albumIconState.value = .up
@@ -222,7 +215,7 @@ class PostListingGalleryViewModel: BaseViewModel {
         galleryState.asObservable().subscribeNext{ [weak self] state in
             switch state {
             case .missingPermissions:
-                self?.albumTitle.value = LGLocalizedString.productPostGalleryTab
+                self?.albumTitle.value = R.Strings.productPostGalleryTab
             case .pendingAskPermissions, .loading, .loadImageError, .normal, .empty:
                 break
             }
@@ -244,7 +237,7 @@ class PostListingGalleryViewModel: BaseViewModel {
             } else {
                 // build title with num of selected pics
                 strongSelf.albumButtonEnabled.value = false
-                strongSelf.albumTitle.value =  String(format: LGLocalizedString.productPostGalleryMultiplePicsSelected, numImgs)
+                strongSelf.albumTitle.value = R.Strings.productPostGalleryMultiplePicsSelected(numImgs)
             }
         }.disposed(by: disposeBag)
     }
@@ -270,11 +263,11 @@ class PostListingGalleryViewModel: BaseViewModel {
         case .authorized:
             fetchAlbums()
         case .denied:
-            galleryState.value = .missingPermissions(LGLocalizedString.productPostGalleryPermissionsSubtitle)
+            galleryState.value = .missingPermissions(R.Strings.productPostGalleryPermissionsSubtitle)
         case .notDetermined:
             galleryState.value = .pendingAskPermissions
         case .restricted:
-            galleryState.value = .missingPermissions(LGLocalizedString.productSellPhotolibraryRestrictedError)
+            galleryState.value = .missingPermissions(R.Strings.productSellPhotolibraryRestrictedError)
             break
         }
     }
@@ -288,7 +281,7 @@ class PostListingGalleryViewModel: BaseViewModel {
                     self?.fetchAlbums()
                 } else {
                     self?.galleryState.value =
-                        .missingPermissions(LGLocalizedString.productPostGalleryPermissionsSubtitle)
+                        .missingPermissions(R.Strings.productPostGalleryPermissionsSubtitle)
                 }
             }
         }
@@ -352,7 +345,7 @@ class PostListingGalleryViewModel: BaseViewModel {
             keyValueStorage[.postListingLastGalleryAlbumSelected] = title
             albumTitle.value = title
         } else {
-            albumTitle.value = LGLocalizedString.productPostGalleryTab
+            albumTitle.value = R.Strings.productPostGalleryTab
         }
         let userAlbumsOptions = PHFetchOptions()
         userAlbumsOptions.predicate = NSPredicate(format: "mediaType == %d", PHAssetMediaType.image.rawValue)

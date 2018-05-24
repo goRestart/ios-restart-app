@@ -1,16 +1,8 @@
-//
-//  LGSearchMapViewModel.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 06/11/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
-
 import CoreLocation
 import LGCoreKit
 import MapKit
 import RxSwift
+import LGComponents
 
 
 protocol LGSearchMapViewModelDelegate: class {
@@ -159,7 +151,7 @@ class LGSearchMapViewModel: BaseViewModel {
                     strongSelf.setPlace(updatedPlace, forceLocation: true, fromGps: false, enableSave: true)
                     strongSelf.placeSuggestedSelected.value = updatedPlace
                 } else {
-                    strongSelf.viewControllerDelegate?.vmShowAutoFadingMessage(LGLocalizedString.changeLocationErrorUpdatingLocationMessage) {
+                    strongSelf.viewControllerDelegate?.vmShowAutoFadingMessage(R.Strings.changeLocationErrorUpdatingLocationMessage) {
                         strongSelf.updateMapToPreviousKnownPlace()
                     }
                 }
@@ -177,8 +169,8 @@ class LGSearchMapViewModel: BaseViewModel {
             if autoSelectFirst {
                 if let error = result.error {
                     let errorMsg = error == .notFound ?
-                        LGLocalizedString.changeLocationErrorUnknownLocationMessage(textToSearch) :
-                        LGLocalizedString.changeLocationErrorSearchLocationMessage
+                        R.Strings.changeLocationErrorUnknownLocationMessage(textToSearch) :
+                        R.Strings.changeLocationErrorSearchLocationMessage
                     self?.delegate?.vmDidFailToFindLocationWithError(errorMsg)
                 } else if let place = result.value?.first {
                     self?.setPlace(place, forceLocation: true, fromGps: false, enableSave: true)

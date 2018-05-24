@@ -1,10 +1,4 @@
-//
-//  ChatConversationsListFilter.swift
-//  LetGo
-//
-//  Created by Nestor on 09/05/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
+import LGComponents
 
 import LGCoreKit
 
@@ -38,11 +32,11 @@ enum ChatConversationsListFilter {
     var localizedString: String {
         switch self {
         case .all:
-            return LGLocalizedString.chatConversationsListFilterAll
+            return R.Strings.chatConversationsListFilterAll
         case .selling:
-            return LGLocalizedString.chatConversationsListFilterSelling
+            return R.Strings.chatConversationsListFilterSelling
         case .buying:
-            return LGLocalizedString.chatConversationsListFilterBuying
+            return R.Strings.chatConversationsListFilterBuying
         }
     }
     
@@ -58,27 +52,27 @@ enum ChatConversationsListFilter {
     var emptyViewModelTitleLocalizedString: String {
         switch self {
         case .all:
-            return LGLocalizedString.chatListAllEmptyTitle
+            return R.Strings.chatListAllEmptyTitle
         case .selling:
-            return LGLocalizedString.chatListSellingEmptyTitle
+            return R.Strings.chatListSellingEmptyTitle
         case .buying:
-            return LGLocalizedString.chatListBuyingEmptyTitle
+            return R.Strings.chatListBuyingEmptyTitle
         }
     }
     
     var emptyViewModelPrimaryButtonTitleLocalizedString: String {
         switch self {
         case .all, .selling:
-            return LGLocalizedString.chatListSellingEmptyButton
+            return R.Strings.chatListSellingEmptyButton
         case .buying:
-            return LGLocalizedString.chatListBuyingEmptyButton
+            return R.Strings.chatListBuyingEmptyButton
         }
     }
     
     var emptyViewModelSecundaryButtonTitleLocalizedString: String? {
         switch self {
         case .all:
-            return LGLocalizedString.chatListBuyingEmptyButton
+            return R.Strings.chatListBuyingEmptyButton
         case .selling, .buying:
             return nil
         }

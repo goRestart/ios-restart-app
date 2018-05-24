@@ -1,12 +1,5 @@
-//
-//  ChatViewMessageAdapter.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 24/5/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
+import LGComponents
 
 class ChatViewMessageAdapter {
     let stickersRepository: StickersRepository
@@ -74,7 +67,7 @@ class ChatViewMessageAdapter {
                 type = ChatViewMessageType.text(text: text)
             }
         case .phone:
-            type = ChatViewMessageType.text(text: LGLocalizedString.professionalDealerAskPhoneChatMessage(text))
+            type = ChatViewMessageType.text(text: R.Strings.professionalDealerAskPhoneChatMessage(text))
         case .meeting:
             if featureFlags.chatNorris.isActive, let meeting = message.assistantMeeting {
                 if meeting.meetingType == .requested {
@@ -93,7 +86,7 @@ class ChatViewMessageAdapter {
         case .interlocutorIsTyping:
             type = ChatViewMessageType.interlocutorIsTyping
         case .unsupported(let defaultText):
-            type = ChatViewMessageType.unsupported(text: defaultText ?? LGLocalizedString.chatMessageTypeNotSupported)
+            type = ChatViewMessageType.unsupported(text: defaultText ?? R.Strings.chatMessageTypeNotSupported)
             tracker.trackEvent(TrackerEvent.chatUpdateAppWarningShow())
         case .multiAnswer(let question, let answers):
             type = ChatViewMessageType.multiAnswer(question: question, answers: answers)
@@ -121,7 +114,7 @@ class ChatViewMessageAdapter {
                 type = ChatViewMessageType.text(text: text)
             }
         case .phone:
-            type = ChatViewMessageType.text(text: LGLocalizedString.professionalDealerAskPhoneChatMessage(text))
+            type = ChatViewMessageType.text(text: R.Strings.professionalDealerAskPhoneChatMessage(text))
         case .meeting:
             type = ChatViewMessageType.text(text: text)
         case .multiAnswer(let question, _):
@@ -129,7 +122,7 @@ class ChatViewMessageAdapter {
         case .interlocutorIsTyping:
             type = ChatViewMessageType.interlocutorIsTyping
         case .unsupported(let defaultText):
-            type = ChatViewMessageType.unsupported(text: defaultText ?? LGLocalizedString.chatMessageTypeNotSupported)
+            type = ChatViewMessageType.unsupported(text: defaultText ?? R.Strings.chatMessageTypeNotSupported)
         }
         return ChatViewMessage(objectId: message.objectId,
                                talkerId: message.talkerId,
@@ -156,14 +149,14 @@ class ChatViewMessageAdapter {
         let message: NSAttributedString
         if isBuyer {
             if let otherUserName = userName {
-                message = NSAttributedString(string: LGLocalizedString.chatForbiddenDisclaimerBuyerWName(otherUserName))
+                message = NSAttributedString(string: R.Strings.chatForbiddenDisclaimerBuyerWName(otherUserName))
             } else {
-                message = NSAttributedString(string: LGLocalizedString.chatForbiddenDisclaimerBuyerWoName)
+                message = NSAttributedString(string: R.Strings.chatForbiddenDisclaimerBuyerWoName)
             }
             chatBlockedMessage.append(message)
             chatBlockedMessage.append(NSAttributedString(string: " "))
-            let keyword = LGLocalizedString.chatBlockedDisclaimerScammerAppendSafetyTipsKeyword
-            let secondPhraseStr = LGLocalizedString.chatBlockedDisclaimerScammerAppendSafetyTips(keyword)
+            let keyword = R.Strings.chatBlockedDisclaimerScammerAppendSafetyTipsKeyword
+            let secondPhraseStr = R.Strings.chatBlockedDisclaimerScammerAppendSafetyTips(keyword)
             let secondPhraseNSStr = NSString(string: secondPhraseStr)
             let range = secondPhraseNSStr.range(of: keyword)
 
@@ -174,9 +167,9 @@ class ChatViewMessageAdapter {
             chatBlockedMessage.append(secondPhrase)
         } else {
             if let otherUserName = userName {
-                message = NSAttributedString(string: LGLocalizedString.chatForbiddenDisclaimerSellerWName(otherUserName))
+                message = NSAttributedString(string: R.Strings.chatForbiddenDisclaimerSellerWName(otherUserName))
             } else {
-                message = NSAttributedString(string: LGLocalizedString.chatForbiddenDisclaimerSellerWoName)
+                message = NSAttributedString(string: R.Strings.chatForbiddenDisclaimerSellerWoName)
             }
             chatBlockedMessage.append(message)
         }
@@ -188,9 +181,9 @@ class ChatViewMessageAdapter {
         let chatDeletedMessage = ChatViewMessageAdapter.alertMutableAttributedString
         let message: String
         if let otherUserName = userName {
-            message = LGLocalizedString.chatDeletedDisclaimerWName(otherUserName)
+            message = R.Strings.chatDeletedDisclaimerWName(otherUserName)
         } else {
-            message = LGLocalizedString.chatDeletedDisclaimerWoName
+            message = R.Strings.chatDeletedDisclaimerWoName
         }
         chatDeletedMessage.append(NSAttributedString(string: message))
         return createDisclaimerMessage(chatDeletedMessage, showAvatar: true, actionTitle: nil, action: nil)
@@ -200,9 +193,9 @@ class ChatViewMessageAdapter {
         let messageSuspiciousMessage = ChatViewMessageAdapter.alertMutableAttributedString
         var keyword = ""
         if let _ = action {
-             keyword = LGLocalizedString.chatMessageDisclaimerScammerAppendBlocked
+             keyword = R.Strings.chatMessageDisclaimerScammerAppendBlocked
         }
-        let secondPhraseStr = LGLocalizedString.chatMessageDisclaimerScammerBaseBlocked(keyword)
+        let secondPhraseStr = R.Strings.chatMessageDisclaimerScammerBaseBlocked(keyword)
         let secondPhraseNSStr = NSString(string: secondPhraseStr)
         let range = secondPhraseNSStr.range(of: keyword)
 
@@ -216,7 +209,7 @@ class ChatViewMessageAdapter {
     
     func createSecurityMeetingDisclaimerMessage() -> ChatViewMessage {
         let message = ChatViewMessageAdapter.alertMutableAttributedString
-        message.append(NSAttributedString(string: LGLocalizedString.chatMessageDisclaimerMeetingSecurity))
+        message.append(NSAttributedString(string: R.Strings.chatMessageDisclaimerMeetingSecurity))
         return createDisclaimerMessage(message, showAvatar: false, actionTitle: nil, action: nil)
     }
 
@@ -225,7 +218,7 @@ class ChatViewMessageAdapter {
         let facebook = user.facebookAccount?.verified ?? false
         let google = user.googleAccount?.verified ?? false
         let email = user.emailAccount?.verified ?? false
-        let name = LGLocalizedString.chatUserInfoName(user.name ?? "")
+        let name = R.Strings.chatUserInfoName(user.name ?? "")
         let address = user.postalAddress.zipCodeCityString
         return ChatViewMessage(objectId: nil, talkerId: "", sentAt: nil, receivedAt: nil, readAt: nil,
                                type: .userInfo(isDummy: user.isDummy,
@@ -240,7 +233,7 @@ class ChatViewMessageAdapter {
     func createAskPhoneMessageWith(action: (() -> Void)?) -> ChatViewMessage? {
 
         return ChatViewMessage(objectId: nil, talkerId: "", sentAt: Date(), receivedAt: nil, readAt: nil,
-                               type: .askPhoneNumber(text: LGLocalizedString.professionalDealerAskPhoneAddPhoneCellMessage,
+                               type: .askPhoneNumber(text: R.Strings.professionalDealerAskPhoneAddPhoneCellMessage,
                                                      action: action),
                                status: nil, warningStatus: .normal)
     }

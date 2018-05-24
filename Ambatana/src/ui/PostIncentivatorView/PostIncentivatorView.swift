@@ -1,12 +1,5 @@
-//
-//  PostIncentivatorView.swift
-//  LetGo
-//
-//  Created by Dídac on 22/11/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 protocol PostIncentivatorViewDelegate: class {
     func incentivatorTapped()
@@ -35,9 +28,9 @@ class PostIncentivatorView: UIView {
         let lookingForTextAttributes: [NSAttributedStringKey : Any] = [NSAttributedStringKey.foregroundColor : UIColor.darkGrayText,
                                                                        NSAttributedStringKey.font : UIFont.mediumBodyFont]
 
-        let secondPartString = (isFree ?? false)  ? LGLocalizedString.productPostIncentiveGotAnyFree :
-            LGLocalizedString.productPostIncentiveGotAny
-        let plainText = LGLocalizedString.productPostIncentiveLookingFor(secondPartString)
+        let secondPartString = (isFree ?? false)  ? R.Strings.productPostIncentiveGotAnyFree :
+            R.Strings.productPostIncentiveGotAny
+        let plainText = R.Strings.productPostIncentiveLookingFor(secondPartString)
         let resultText = NSMutableAttributedString(string: plainText, attributes: lookingForTextAttributes)
         let boldRange = NSString(string: plainText).range(of: secondPartString, options: .caseInsensitive)
         resultText.addAttributes(gotAnyTextAttributes, range: boldRange)
