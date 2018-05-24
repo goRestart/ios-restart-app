@@ -149,10 +149,6 @@ final class UserProfileViewModel: BaseViewModel {
         self.soldListingListViewModel.dataDelegate = self
         self.favoritesListingListViewModel.dataDelegate = self
 
-        self.sellingListingListViewModel.retrieveListings()
-        self.soldListingListViewModel.retrieveListings()
-        self.favoritesListingListViewModel.retrieveListings()
-
         setupRxBindings()
 
         if isPrivateProfile {
