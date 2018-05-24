@@ -8,7 +8,6 @@
 
 import UIKit
 import RxSwift
-//import RxCocoa
 
 
 enum AlertType {
@@ -72,7 +71,7 @@ enum AlertButtonsLayout {
     }
 }
 
-class LGAlertViewController: UIViewController {
+final class LGAlertViewController: UIViewController {
 
     static let buttonsContainerTopSeparation: CGFloat = 20
 
