@@ -8,7 +8,7 @@
 
 import Foundation
 
-class LGBubbleNotificationManager: BubbleNotificationManager {
+final class LGBubbleNotificationManager: BubbleNotificationManager {
 
     static let defaultDuration: TimeInterval = 3
 
