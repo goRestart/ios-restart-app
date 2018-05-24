@@ -438,7 +438,7 @@
 "log_in_error_send_error_user_not_found_or_wrong_password" = "Invalid email or password. Please try again.";
 "log_in_reset_password_button" = "Forgot your password?";
 "log_in_send_button" = "Log In";
-"log_in_title" = "Log in with email";
+"log_in_title" = "Sign in with email";
 "login_device_not_allowed_alert_contact_button" = "Contact Us";
 "login_device_not_allowed_alert_message" = "You've never logged in on this device before. We've sent you a verification email so check your inbox to continue.";
 "login_device_not_allowed_alert_ok_button" = "OK";
@@ -859,11 +859,7 @@
 "profile_permissions_alert_ok" = "Enable";
 "profile_permissions_alert_title" = "DON'T MISS A REPLY!";
 "profile_permissions_header_message" = "Enable message notifications";
-<<<<<<< HEAD
-"profile_reputation_tooltip_title" = "Verified user! Tap if you want to be verified too.";
-=======
 "profile_reputation_tooltip_title" = "User verified! Tap if you want to be verified too";
->>>>>>> master
 "profile_reviews_count" = "Reviews";
 "profile_reviews_tab" = "Reviews";
 "profile_selling_no_products_label" = "NO LISTINGS (YET!)";

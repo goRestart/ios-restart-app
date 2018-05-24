@@ -141,11 +141,7 @@
 "chat_conversations_list_filter_all" = "Все";
 "chat_conversations_list_filter_buying" = "Покупка";
 "chat_conversations_list_filter_selling" = "Продажа";
-<<<<<<< HEAD
-"chat_conversations_list_letgo_assistant_tag" = "letgo ассистент";
-=======
 "chat_conversations_list_letgo_assistant_tag" = "letgo assistant";
->>>>>>> master
 "chat_deleted_disclaimer_w_name" = "Вы не можете продолжать чат, так как аккаунт %@ больше не активен.";
 "chat_deleted_disclaimer_wo_name" = "Вы не можете продолжать чат, так как этот аккаунт больше не активен.";
 "chat_disclaimer_letgo_team" = "КОМАНДА LETGO";
@@ -863,11 +859,7 @@
 "profile_permissions_alert_ok" = "Включить";
 "profile_permissions_alert_title" = "НЕ ПРОПУСТИТЕ ОТВЕТ!";
 "profile_permissions_header_message" = "Включить уведомления о сообщениях";
-<<<<<<< HEAD
-"profile_reputation_tooltip_title" = "Подтвержденный пользователь! Нажмите, если тоже хотите быть подтвержденным.";
-=======
 "profile_reputation_tooltip_title" = "User verified! Tap if you want to be verified too";
->>>>>>> master
 "profile_reviews_count" = "Отзывов";
 "profile_reviews_tab" = "Отзывов";
 "profile_selling_no_products_label" = "НЕТ ОБЪЯВЛЕНИЙ (ПОКА ЧТО!)";

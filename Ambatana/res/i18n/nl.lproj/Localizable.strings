@@ -141,11 +141,7 @@
 "chat_conversations_list_filter_all" = "Alle";
 "chat_conversations_list_filter_buying" = "Kopen";
 "chat_conversations_list_filter_selling" = "Verkopen";
-<<<<<<< HEAD
-"chat_conversations_list_letgo_assistant_tag" = "letgo assistent";
-=======
 "chat_conversations_list_letgo_assistant_tag" = "letgo assistant";
->>>>>>> master
 "chat_deleted_disclaimer_w_name" = "Je kunt niet verdergaan met dit gesprek omdat %@'s account niet meer actief is.";
 "chat_deleted_disclaimer_wo_name" = "Je kunt niet verder gaan met dit gesprek omdat dit account niet meer actief is.";
 "chat_disclaimer_letgo_team" = "LETGO TEAM";
@@ -442,7 +438,7 @@
 "log_in_error_send_error_user_not_found_or_wrong_password" = "Ongeldige e-mail of wachtwoord. Probeer het nog eens.";
 "log_in_reset_password_button" = "Je wachtwoord vergeten?";
 "log_in_send_button" = "Inloggen";
-"log_in_title" = "Inloggen met e-mail";
+"log_in_title" = "Aanmelden met e-mail";
 "login_device_not_allowed_alert_contact_button" = "Contact";
 "login_device_not_allowed_alert_message" = "Je hebt nog nooit eerder ingelogd op dit apparaat. We hebben je net een verificatie e-mail gestuurd. Kijk in je inbox om verder te kunnen gaan.";
 "login_device_not_allowed_alert_ok_button" = "OK";
@@ -863,11 +859,7 @@
 "profile_permissions_alert_ok" = "Inschakelen";
 "profile_permissions_alert_title" = "MIS GEEN ENKELE REACTIE!";
 "profile_permissions_header_message" = "Bericht meldingen inschakelen";
-<<<<<<< HEAD
-"profile_reputation_tooltip_title" = "Geverifieerde gebruiker! Tik als je ook geverifieerd wilt worden.";
-=======
 "profile_reputation_tooltip_title" = "User verified! Tap if you want to be verified too";
->>>>>>> master
 "profile_reviews_count" = "Beoordelingen";
 "profile_reviews_tab" = "Beoordelingen";
 "profile_selling_no_products_label" = "(NOG!) GEEN ADVERTENTIES";
