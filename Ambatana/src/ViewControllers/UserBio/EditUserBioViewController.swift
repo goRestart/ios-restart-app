@@ -86,7 +86,7 @@ final class EditUserBioViewController: BaseViewController {
 
             charCounterLabel.topAnchor.constraint(equalTo: textView.bottomAnchor, constant: Layout.veryShortMargin),
             charCounterLabel.rightAnchor.constraint(equalTo: textView.rightAnchor),
-            charCounterLabel.bottomAnchor.constraint(equalTo: saveButton.topAnchor, constant: -5),
+            charCounterLabel.bottomAnchor.constraint(equalTo: saveButton.topAnchor, constant: -Layout.veryShortMargin),
 
             saveButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: Layout.bigMargin),
             saveButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -Layout.bigMargin),
