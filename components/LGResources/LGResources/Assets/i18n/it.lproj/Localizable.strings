@@ -141,7 +141,7 @@
 "chat_conversations_list_filter_all" = "Tutti";
 "chat_conversations_list_filter_buying" = "Acquisti";
 "chat_conversations_list_filter_selling" = "Vendite";
-"chat_conversations_list_letgo_assistant_tag" = "letgo assistant";
+"chat_conversations_list_letgo_assistant_tag" = "Assistente letgo";
 "chat_deleted_disclaimer_w_name" = "Non puoi continuare questa conversazione perché l'account di %@ non è più attivo.";
 "chat_deleted_disclaimer_wo_name" = "Non puoi continuare questa conversazione perché questo account non è più attivo.";
 "chat_disclaimer_letgo_team" = "IL TEAM DI LETGO";
@@ -247,6 +247,8 @@
 "common_chat_not_available" = "Ops! Chat non trovata.";
 "common_collapse" = "Mostra Meno";
 "common_confirm" = "Conferma";
+"common_done" = "Fatto";
+"common_edit" = "Modifica";
 "common_error" = "Errore";
 "common_error_connection_failed" = "Si è verificato un errore. Verifica la tua connessione Internet.";
 "common_error_generic_body" = "Si è verificato un errore.";
@@ -535,6 +537,10 @@
 "nps_survey_title" = "CI PIACEREBBE SAPERE...";
 "nps_survey_very_bad" = "Poco probabilmente";
 "nps_survey_very_good" = "Molto probabilmente";
+"offensive_report_alert_message" = "We've become aware of potentially inappropiate messages sent from your account.\n\nRepeated violations may result in account termination.";
+"offensive_report_alert_primary_action" = "Review Guidelines";
+"offensive_report_alert_secondary_action" = "Skip";
+"offensive_report_alert_title" = "Review Community Guidelines";
 "onboarding_alert_no" = "No";
 "onboarding_alert_yes" = "Sì";
 "onboarding_categories_button_countdown" = "Scegline almeno altre %i";
@@ -1074,6 +1080,7 @@
 "search_alert_error_too_many_text" = "Ops! Hai raggiunto il numero massimo di avvisi di ricerca";
 "search_alerts_edit_button" = "Modifica";
 "search_alerts_header_subtitle" = "Ricevi notifiche su nuovi annunci";
+"search_alerts_list_title" = "Avvisi di ricerca";
 "search_alerts_placeholder_empty_button" = "Inizia la ricerca";
 "search_alerts_placeholder_empty_text" = "Iscriviti alle ricerche per ricevere notifiche quando vengono pubblicati nuovi annunci.";
 "search_alerts_placeholder_error_button" = "Riprova";
@@ -1129,6 +1136,9 @@
 "settings_marketing_notifications_alert_deactivate" = "Disattiva";
 "settings_marketing_notifications_alert_message" = "Sei sicuro di voler disattivare le notifiche di marketing?";
 "settings_marketing_notifications_switch" = "Notifiche marketing";
+"settings_notifications_button" = "Notifiche";
+"settings_notifications_search_alerts" = "Avvisi di ricerca";
+"settings_notifications_title" = "Notifiche";
 "settings_section_profile" = "Profilo";
 "settings_section_promote" = "Promuovi";
 "settings_section_support" = "Supporto";

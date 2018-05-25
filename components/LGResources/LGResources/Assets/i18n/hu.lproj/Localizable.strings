@@ -247,6 +247,8 @@
 "common_chat_not_available" = "Hoppá! A csevegés nem található.";
 "common_collapse" = "Kevesebbet";
 "common_confirm" = "Megerősítés";
+"common_done" = "Kész";
+"common_edit" = "Szerkesztés";
 "common_error" = "Hiba";
 "common_error_connection_failed" = "Hiba történt. Kérjük, ellenőrizd az internetkapcsolatot.";
 "common_error_generic_body" = "Hiba történt.";
@@ -535,6 +537,10 @@
 "nps_survey_title" = "TUDNI SZERETNÉNK...";
 "nps_survey_very_bad" = "Nem szívesen";
 "nps_survey_very_good" = "Nagyon szívesen";
+"offensive_report_alert_message" = "We've become aware of potentially inappropiate messages sent from your account.\n\nRepeated violations may result in account termination.";
+"offensive_report_alert_primary_action" = "Review Guidelines";
+"offensive_report_alert_secondary_action" = "Skip";
+"offensive_report_alert_title" = "Review Community Guidelines";
 "onboarding_alert_no" = "Nem";
 "onboarding_alert_yes" = "Igen";
 "onboarding_categories_button_countdown" = "Válassz még legalább %i kategóriát";
@@ -1074,6 +1080,7 @@
 "search_alert_error_too_many_text" = "Hoppá! Elérted a keresési figyelmeztetések maximális számát";
 "search_alerts_edit_button" = "Szerkesztés";
 "search_alerts_header_subtitle" = "Értesítéseket kaphatsz az új hirdetésekről";
+"search_alerts_list_title" = "Keresési figyelmeztetések";
 "search_alerts_placeholder_empty_button" = "Láss kereséshez";
 "search_alerts_placeholder_empty_text" = "Iratkozz fel keresésekre, hogy értesülhess, ha új hirdetések kerülnek fel.";
 "search_alerts_placeholder_error_button" = "Próbáld újra";
@@ -1129,6 +1136,9 @@
 "settings_marketing_notifications_alert_deactivate" = "Kikapcsolás";
 "settings_marketing_notifications_alert_message" = "Biztosan kikapcsolod a marketinges értesítéseket?";
 "settings_marketing_notifications_switch" = "Marketinges értesítések";
+"settings_notifications_button" = "Jelzések";
+"settings_notifications_search_alerts" = "Keresési figyelmeztetések";
+"settings_notifications_title" = "Jelzések";
 "settings_section_profile" = "Profil";
 "settings_section_promote" = "Hirdet";
 "settings_section_support" = "Támogatás";

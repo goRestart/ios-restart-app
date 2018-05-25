@@ -247,6 +247,8 @@
 "common_chat_not_available" = "¡Ups! No se ha encontrado el chat.";
 "common_collapse" = "Ver Menos";
 "common_confirm" = "Confirmar";
+"common_done" = "Listo";
+"common_edit" = "Editar";
 "common_error" = "Error";
 "common_error_connection_failed" = "¡Ups! Se ha producido un error. Por favor, comprueba tu conexión a Internet.";
 "common_error_generic_body" = "Se ha producido un error.";
@@ -535,6 +537,10 @@
 "nps_survey_title" = "NOS GUSTARÍA SABER...";
 "nps_survey_very_bad" = "Muy improbable";
 "nps_survey_very_good" = "Definitivamente lo recomendaría";
+"offensive_report_alert_message" = "We've become aware of potentially inappropiate messages sent from your account.\n\nRepeated violations may result in account termination.";
+"offensive_report_alert_primary_action" = "Review Guidelines";
+"offensive_report_alert_secondary_action" = "Skip";
+"offensive_report_alert_title" = "Review Community Guidelines";
 "onboarding_alert_no" = "No";
 "onboarding_alert_yes" = "Sí";
 "onboarding_categories_button_countdown" = "Elige al menos %i más";
@@ -1074,6 +1080,7 @@
 "search_alert_error_too_many_text" = "¡Ups! Has llegado al máximo de alertas de búsqueda";
 "search_alerts_edit_button" = "Editar";
 "search_alerts_header_subtitle" = "Recibir notificaciones de nuevos anuncios";
+"search_alerts_list_title" = "Alertas de búsqueda";
 "search_alerts_placeholder_empty_button" = "Empezar a buscar";
 "search_alerts_placeholder_empty_text" = "Suscríbete a búsquedas para recibir notificaciones cuando se publiquen anuncios nuevos.";
 "search_alerts_placeholder_error_button" = "Reintentar";
@@ -1129,6 +1136,9 @@
 "settings_marketing_notifications_alert_deactivate" = "Desactivar";
 "settings_marketing_notifications_alert_message" = "¿Seguro que quieres desactivar las notificaciones de marketing?";
 "settings_marketing_notifications_switch" = "Notificaciones de marketing";
+"settings_notifications_button" = "Notificaciones";
+"settings_notifications_search_alerts" = "Alertas de búsqueda";
+"settings_notifications_title" = "Notificaciones";
 "settings_section_profile" = "Perfil";
 "settings_section_promote" = "Promover";
 "settings_section_support" = "Ayuda";
