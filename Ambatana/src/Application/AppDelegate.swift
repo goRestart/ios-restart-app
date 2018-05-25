@@ -170,6 +170,9 @@ extension AppDelegate: UIApplicationDelegate {
         PushManager.sharedInstance.applicationDidBecomeActive(application)
         LGComponents.TrackerProxy.sharedInstance.applicationDidBecomeActive()
         navigator?.openSurveyIfNeeded()
+        if keyValueStorage?[.showOffensiveReportOnNextStart] {
+            showOffensiveReportAlert()
+        }
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -214,7 +217,11 @@ extension AppDelegate: UIApplicationDelegate {
 
         let offensiveReport = userInfo[offensiveReportKey] as? Int
         if let _ = offensiveReport {
-
+            if application.applicationState == .active {
+                showOffensiveReportAlert()
+            } else {
+                keyValueStorage?[.showOffensiveReportOnNextStart] = true
+            }
         }
     }
 
@@ -236,6 +243,11 @@ extension AppDelegate: UIApplicationDelegate {
             self.locationRepository?.stopEmergencyLocation()
             completion()
         })
+    }
+
+    func showOffensiveReportAlert() {
+        // Show Alert
+        keyValueStorage?[.showOffensiveReportOnNextStart] = false
     }
 }
 
