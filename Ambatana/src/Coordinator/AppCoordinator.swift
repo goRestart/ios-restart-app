@@ -281,6 +281,24 @@ extension AppCoordinator: AppNavigator {
         openChild(coordinator: promoteBumpCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
     }
 
+    func openOffensiveReportAlert() {
+        let reviewAction = UIAction(interface: .button("Review Guidelines", .primary(fontSize: .medium)),
+                                    action: { },
+                                    accessibilityId: nil)
+        let skipAction = UIAction(interface: .button("Skip", .secondary(fontSize: .medium, withBorder: true)),
+                                  action: { },
+                                  accessibilityId: nil)
+        if let alert = LGAlertViewController(title: "Community guidelines",
+                                             text: "We've become aware of potentially inappropiate messages sent from your account.\n\nRepeated violations may result in account termination.",
+                                             alertType: .plainAlert,
+                                             buttonsLayout: .vertical,
+                                             actions: [reviewAction, skipAction],
+                                             dismissAction: nil) {
+            viewController.present(alert, animated: true, completion: nil)
+            alert.setAlertContainer(width: 310)
+        }
+    }
+
     private func askUserIsEnjoyingLetgo() {
         let yesButtonInterface = UIActionInterface.image(UIImage(named: "ic_emoji_yes"), nil)
         let rateAppAlertAction = UIAction(interface: yesButtonInterface, action: { [weak self] in

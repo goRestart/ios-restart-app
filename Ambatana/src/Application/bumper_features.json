@@ -294,5 +294,10 @@
          "name": "EmptySearchImprovements",
          "values": ["control", "baseline", "popularNearYou", "similarQueries"],
          "description": "Improve empty search experience by proposing relavant listings"
-    }
+    },
+     {
+     "name": "OffensiveReportAlert",
+     "values": ["control", "baseline", "active"],
+     "description": "Offensive Report alert active"
+     }
  ]

@@ -45,9 +45,7 @@ protocol FeatureFlaggeable: class {
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings { get }
     var showProTagUserProfile: Bool { get }
     var summaryAsFirstStep: SummaryAsFirstStep { get }
-    var showAdvancedReputationSystem: ShowAdvancedReputationSystem { get }
     var sectionedMainFeed: SectionedMainFeed { get }
-    var emergencyLocate: EmergencyLocate { get }
     var showExactLocationForPros: Bool { get }
     var searchAlerts: SearchAlerts { get }
 
@@ -97,6 +95,11 @@ protocol FeatureFlaggeable: class {
 
     // MARK: Products
     var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu { get }
+
+    // MARK: Users
+    var showAdvancedReputationSystem: ShowAdvancedReputationSystem { get }
+    var emergencyLocate: EmergencyLocate { get }
+    var offensiveReportAlert: OffensiveReportAlert { get }
 }
 
 extension FeatureFlaggeable {
@@ -297,6 +300,10 @@ extension ShowPasswordlessLogin {
 }
 
 extension EmergencyLocate {
+    var isActive: Bool { return self == .active }
+}
+
+extension OffensiveReportAlert {
     var isActive: Bool { return self == .active }
 }
 
@@ -746,6 +753,13 @@ final class FeatureFlags: FeatureFlaggeable {
         }
         let cached = dao.retrieveEmergencyLocate()
         return cached ?? EmergencyLocate.fromPosition(abTests.emergencyLocate.value)
+    }
+
+    var offensiveReportAlert: OffensiveReportAlert {
+        if Bumper.enabled {
+            return Bumper.offensiveReportAlert
+        }
+        return OffensiveReportAlert.fromPosition(abTests.offensiveReportAlert.value)
     }
 
     // MARK: - Country features
