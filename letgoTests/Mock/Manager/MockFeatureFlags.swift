@@ -51,12 +51,8 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var showProTagUserProfile: Bool = false
     var realEstateTutorial: RealEstateTutorial = .control
     var summaryAsFirstStep: SummaryAsFirstStep = .control
-    var showAdvancedReputationSystem: ShowAdvancedReputationSystem = .control
     var sectionedMainFeed: SectionedMainFeed = .control
     var showExactLocationForPros: Bool = true
-    var showPasswordlessLogin: ShowPasswordlessLogin = .control
-    var emergencyLocate: EmergencyLocate = .control
-
     var searchAlerts: SearchAlerts = .control
     
     // Country dependant features
@@ -109,5 +105,11 @@ final class MockFeatureFlags: FeatureFlaggeable {
     
     //  MARK:  Products
     var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu = .control
+
+    // MARK: Users
+    var showAdvancedReputationSystem: ShowAdvancedReputationSystem = .control
+    var showPasswordlessLogin: ShowPasswordlessLogin = .control
+    var emergencyLocate: EmergencyLocate = .control
+    var offensiveReportAlert: OffensiveReportAlert = .control
 }
 
