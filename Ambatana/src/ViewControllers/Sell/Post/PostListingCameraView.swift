@@ -43,6 +43,7 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
     @IBOutlet weak var headerContainer: UIView!
     @IBOutlet weak var flashButton: UIButton!
     @IBOutlet weak var retryPhotoButton: UIButton!
+    private let machineLearningButton = UIButton(type: .custom)
 
     @IBOutlet weak var firstTimeAlertContainer: UIView!
     @IBOutlet weak var firstTimeAlert: UIView!
@@ -66,11 +67,16 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
         }
     }
 
+    var machineLearningButtonCenter: CGPoint {
+        return machineLearningButton.center
+    }
+
     weak var delegate: PostListingCameraViewDelegate? {
         didSet {
             viewModel.cameraDelegate = delegate
         }
     }
+
     fileprivate var viewModel: PostListingCameraViewModel
 
     fileprivate let camera = LGCamera()
@@ -247,7 +253,40 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
 
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideFirstTimeAlert))
         addGestureRecognizer(tapRecognizer)
-        
+
+        if viewModel.machineLearningSupported {
+            setupMachineLearningButton()
+            // TODO: Will be done in next PRs
+            setupMachineLearning(enabled: true)
+//            setupMachineLearning(enabled: machineLearningEnabled)
+        }
+
+    }
+    @objc func machineLearningSwitch() {
+        // TODO: Will be done in next PRs
+//        viewModel.machineLearningButtonPressed()
+//        setupMachineLearning(enabled: machineLearningEnabled)
+        setupMachineLearning(enabled: true)
+    }
+
+    private func setupMachineLearningButton() {
+        headerContainer.addSubviewForAutoLayout(machineLearningButton)
+        machineLearningButton.layout(with: headerContainer).top()
+        machineLearningButton.layout(with: switchCamButton).right(to: .left, by: -12).centerY()
+        machineLearningButton.addTarget(self, action: #selector(machineLearningSwitch), for: .touchUpInside)
+    }
+
+    private func setupMachineLearning(enabled: Bool) {
+        // TODO: Will be done in next PRs
+        if enabled {
+            machineLearningButton.setImage(#imageLiteral(resourceName: "ml_icon_on"), for: .normal)
+//            cameraWrapper.enableVideoOutput(withDelegate: viewModel.machineLearning)
+//            predictionLabel.alphaAnimated(1)
+        } else {
+            machineLearningButton.setImage(#imageLiteral(resourceName: "ml_icon_off"), for: .normal)
+//            cameraWrapper.disableVideoOutput()
+//            predictionLabel.alphaAnimated(0)
+        }
     }
     
     private func setupLearnMore() {

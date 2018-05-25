@@ -42,6 +42,7 @@ final class PostListingCameraViewModel: BaseViewModel {
     private let filesManager: FilesManager
     let sourcePosting: PostingSource
     let isBlockingPosting: Bool
+    let machineLearningSupported: Bool
 
     private let featureFlags: FeatureFlaggeable
     private let mediaPermissions: MediaPermissions
@@ -74,11 +75,13 @@ final class PostListingCameraViewModel: BaseViewModel {
     // MARK: - Lifecycle
 
     init(postingSource: PostingSource, postCategory: PostCategory?, isBlockingPosting: Bool,
-         keyValueStorage: KeyValueStorage, filesManager: FilesManager, featureFlags: FeatureFlaggeable, mediaPermissions: MediaPermissions) {
+         machineLearningSupported: Bool, keyValueStorage: KeyValueStorage, filesManager: FilesManager,
+         featureFlags: FeatureFlaggeable, mediaPermissions: MediaPermissions) {
         self.keyValueStorage = keyValueStorage
         self.filesManager = filesManager
         self.sourcePosting = postingSource
         self.isBlockingPosting = isBlockingPosting
+        self.machineLearningSupported = machineLearningSupported
         self.featureFlags = featureFlags
         self.mediaPermissions = mediaPermissions
         self.postCategory = postCategory
@@ -88,7 +91,8 @@ final class PostListingCameraViewModel: BaseViewModel {
         setupRX()
     }
 
-    convenience init(postingSource: PostingSource, postCategory: PostCategory?, isBlockingPosting: Bool) {
+    convenience init(postingSource: PostingSource, postCategory: PostCategory?, isBlockingPosting: Bool,
+                     machineLearningSupported: Bool) {
         let mediaPermissions: MediaPermissions = LGMediaPermissions()
         let keyValueStorage = KeyValueStorage.sharedInstance
         let filesManager = LGFilesManager()
@@ -96,6 +100,7 @@ final class PostListingCameraViewModel: BaseViewModel {
         self.init(postingSource: postingSource,
                   postCategory: postCategory,
                   isBlockingPosting: isBlockingPosting,
+                  machineLearningSupported: machineLearningSupported,
                   keyValueStorage: keyValueStorage,
                   filesManager: filesManager,
                   featureFlags: featureFlags,

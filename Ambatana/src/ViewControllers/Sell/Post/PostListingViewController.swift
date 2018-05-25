@@ -68,6 +68,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
 
     fileprivate var viewModel: PostListingViewModel
     private var shouldHideStatusBar = false
+    private let onboardingView = MLPostingOnboardingView()
 
 
     // MARK: - Lifecycle
@@ -258,6 +259,23 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         setupCloseButton()
         setupFooter()
         setupLoadingStackView()
+        setupMachineLearningOnboardingView()
+    }
+    
+    private func setupMachineLearningOnboardingView() {
+        guard viewModel.machineLearningSupported, !KeyValueStorage.sharedInstance.machineLearningOnboardingShown else { return }
+        onboardingView.buttonBlock = { [weak self] in
+            self?.onboardingView.backgroundColor = .clear
+            UIView.animate(withDuration: 0.2, animations: {
+                self?.onboardingView.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+                self?.onboardingView.center = self?.cameraView.machineLearningButtonCenter ?? CGPoint.zero
+            }, completion: { _ in
+                self?.onboardingView.removeFromSuperview()
+            })
+        }
+        view.addSubviewForAutoLayout(onboardingView)
+        onboardingView.layout(with: view).fill()
+        KeyValueStorage.sharedInstance.machineLearningOnboardingShown = true
     }
     
     private func setupLoadingStackView() {
