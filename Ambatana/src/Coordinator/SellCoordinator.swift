@@ -83,7 +83,7 @@ final class SellCoordinator: Coordinator {
         } else {
             let machineLearningSupported: Bool
             if #available(iOS 11, *), postCategory?.listingCategory.isProduct ?? true,
-                sessionManager.loggedIn, featureFlags.machineLearningMVP.isActive {
+                featureFlags.machineLearningMVP.isMachineLearningActive {
                 machineLearningSupported = true
             } else {
                 machineLearningSupported = false
@@ -310,7 +310,7 @@ extension SellCoordinator: ListingPostedNavigator {
         dismissViewController(animated: true) { [weak self] in
             guard let strongSelf = self, let parentVC = strongSelf.parentViewController else { return }
             let machineLearningSupported: Bool
-            if #available(iOS 11, *), strongSelf.sessionManager.loggedIn, strongSelf.featureFlags.machineLearningMVP.isActive {
+            if #available(iOS 11, *), strongSelf.featureFlags.machineLearningMVP.isMachineLearningActive {
                 machineLearningSupported = true
             } else {
                 machineLearningSupported = false

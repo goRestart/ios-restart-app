@@ -799,11 +799,11 @@ extension PostListingViewController: PostListingCameraViewDelegate {
         onCloseButton(cameraView)
     }
 
-    func productCameraDidTakeImage(_ image: UIImage) {
+    func productCameraDidTakeImage(_ image: UIImage, predictionData: MLPredictionDetailsViewData?) {
         if let navigationController = navigationController as? SellNavigationController {
             navigationController.updateBackground(image: cameraGalleryContainer.takeSnapshot())
         }
-        viewModel.imagesSelected([image], source: .camera)
+        viewModel.imagesSelected([image], source: .camera, predictionData: predictionData)
     }
 
     func productCameraDidRecordVideo(video: RecordedVideo) {
@@ -824,6 +824,26 @@ extension PostListingViewController: PostListingCameraViewDelegate {
     func productCameraLearnMoreButton() {
         learnMorePressed()
     }
+
+    func productCameraRequestCategory() {
+        let alert = UIAlertController(title: LGLocalizedString.sellChooseCategoryDialogTitle, message: nil,
+                                      preferredStyle: .actionSheet)
+        alert.popoverPresentationController?.sourceView = cameraView
+        alert.popoverPresentationController?.sourceRect = cameraView.frame
+
+        viewModel.categories.enumerated().forEach { [weak self] (index, category) in
+            guard let strongSelf = self else { return }
+            alert.addAction(UIAlertAction(title: strongSelf.viewModel.categoryNameAtIndex(index),
+                                          style: .default,
+                                          handler: { (categoryAction) -> Void in
+                                            strongSelf.cameraView.listingCategorySelected(category: strongSelf.viewModel.categoryAtIndex(index))
+            }))
+        }
+
+        alert.addAction(UIAlertAction(title: LGLocalizedString.sellChooseCategoryDialogCancelButton,
+                                      style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
 }
 
 
@@ -838,7 +858,7 @@ extension PostListingViewController: PostListingGalleryViewDelegate {
         if let navigationController = navigationController as? SellNavigationController {
             navigationController.updateBackground(image: cameraGalleryContainer.takeSnapshot())
         }
-        viewModel.imagesSelected(images, source: .gallery)
+        viewModel.imagesSelected(images, source: .gallery, predictionData: nil)
     }
 
     func listingGalleryRequestsScrollLock(_ lock: Bool) {

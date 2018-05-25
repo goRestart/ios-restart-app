@@ -53,8 +53,7 @@ class PostListingState {
     let verticalAttributes: VerticalAttributes?
     let place: Place?
     let title: String?
-    
-    var predictionData: MLPredictionDetailsViewData?
+    let predictionData: MLPredictionDetailsViewData?
 
     var isRealEstate: Bool {
         guard let category = category, category == .realEstate else { return false }
@@ -179,7 +178,7 @@ class PostListingState {
                                 predictionData: predictionData)
     }
     
-    func updating(pendingToUploadImages: [UIImage]) -> PostListingState {
+    func updating(pendingToUploadImages: [UIImage], predictionData: MLPredictionDetailsViewData?) -> PostListingState {
         switch step {
         case .imageSelection:
             break
@@ -189,22 +188,31 @@ class PostListingState {
         let newStep: PostListingStep
         if let currentCategory = category, currentCategory == .realEstate {
             newStep = .addingDetails
+        } else if let predictionData = predictionData, !predictionData.isEmpty {
+            newStep = .finished
         } else {
             newStep = .detailsSelection
         }
-        return PostListingState(step: newStep,
-                                previousStep: step,
-                                category: category,
-                                pendingToUploadImages: pendingToUploadImages,
-                                pendingToUploadVideo: pendingToUploadVideo,
-                                lastImagesUploadResult: lastImagesUploadResult,
-                                uploadingVideo: uploadingVideo,
-                                uploadedVideo: uploadedVideo,
-                                price: price,
-                                verticalAttributes: verticalAttributes,
-                                place: place,
-                                title: title,
-                                predictionData: predictionData)
+
+        let newState = PostListingState(step: newStep,
+                                        previousStep: step,
+                                        category: category,
+                                        pendingToUploadImages: pendingToUploadImages,
+                                        pendingToUploadVideo: pendingToUploadVideo,
+                                        lastImagesUploadResult: lastImagesUploadResult,
+                                        uploadingVideo: uploadingVideo,
+                                        uploadedVideo: uploadedVideo,
+                                        price: price,
+                                        verticalAttributes: verticalAttributes,
+                                        place: place,
+                                        title: title,
+                                        predictionData: predictionData)
+
+        if let predictionData = predictionData, !predictionData.isEmpty {
+            return newState.updatingDetailsFromPredictionData()
+        } else {
+            return newState
+        }
     }
 
     func updating(pendingToUploadVideo: RecordedVideo) -> PostListingState {
@@ -324,17 +332,18 @@ class PostListingState {
     }
 
 
-    func updatingAfterUploadingSuccess() -> PostListingState {
+    func updatingAfterUploadingSuccess(predictionData: MLPredictionDetailsViewData?) -> PostListingState {
         guard step == .uploadSuccess else { return self }
         let nextStep: PostListingStep
         if let currentCategory = category, currentCategory == .realEstate {
             nextStep = .addingDetails
         } else if let predictionData = predictionData, !predictionData.isEmpty {
-            return updating(machineLearningData: predictionData, nextStep: .finished)
+            nextStep = .finished
         } else {
             nextStep = .detailsSelection
         }
-        return PostListingState(step: nextStep,
+
+        let newState = PostListingState(step: nextStep,
                                 previousStep: step,
                                 category: category,
                                 pendingToUploadImages: pendingToUploadImages,
@@ -347,6 +356,12 @@ class PostListingState {
                                 place: place,
                                 title: title,
                                 predictionData: predictionData)
+
+        if let predictionData = predictionData, !predictionData.isEmpty {
+            return newState.updatingDetailsFromPredictionData()
+        } else {
+            return newState
+        }
     }
     
     
@@ -424,13 +439,12 @@ class PostListingState {
                                 predictionData: predictionData)
     }
 
-    func updating(machineLearningData: MLPredictionDetailsViewData, nextStep: PostListingStep) -> PostListingState {
-        let finalTitle: String? =
-            machineLearningData.userChangedPredictedTitle ? machineLearningData.title : nil
-        let finalPrice: Double? =
-            machineLearningData.userChangedPredictedPrice ? machineLearningData.price : machineLearningData.predictedPrice
-        let finalCategory: ListingCategory? =
-            machineLearningData.userChangedPredictedCategory ? machineLearningData.category : machineLearningData.predictedCategory
+    func updatingDetailsFromPredictionData() -> PostListingState {
+        guard let predictionData = predictionData else { return self }
+        let finalTitle: String? = predictionData.finalTitle
+        let finalPrice: Double? = predictionData.finalPrice
+        let finalCategory: ListingCategory? = predictionData.finalCategory
+
         let finalPostCategory: PostCategory?
         if let finalCategoryValue = finalCategory {
             finalPostCategory = PostCategory.otherItems(listingCategory: finalCategoryValue)
@@ -443,8 +457,8 @@ class PostListingState {
         } else {
             finalListingPrice = nil
         }
-        return PostListingState(step: nextStep,
-                                previousStep: step,
+        return PostListingState(step: step,
+                                previousStep: previousStep,
                                 category: finalPostCategory ?? category,
                                 pendingToUploadImages: pendingToUploadImages,
                                 pendingToUploadVideo: pendingToUploadVideo,
@@ -457,7 +471,6 @@ class PostListingState {
                                 title: finalTitle ?? title,
                                 predictionData: predictionData)
     }
-
     
     func updating(carInfo: CarAttributes) -> PostListingState {
         guard step == .carDetailsSelection else { return self }

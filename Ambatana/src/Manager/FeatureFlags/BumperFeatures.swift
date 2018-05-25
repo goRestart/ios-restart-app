@@ -847,17 +847,18 @@ enum RealEstatePromoCell: String, BumperFeature  {
 }
 
 enum MachineLearningMVP: String, BumperFeature  {
-    case control, baseline, active, videoPostingActive
+    case control, baseline, machineLearningActive, videoPostingActive, bothActive
     static var defaultValue: String { return MachineLearningMVP.control.rawValue }
-    static var enumValues: [MachineLearningMVP] { return [.control, .baseline, .active, .videoPostingActive]}
+    static var enumValues: [MachineLearningMVP] { return [.control, .baseline, .machineLearningActive, .videoPostingActive, .bothActive]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show machine learning posting flow when pressing Other Items on salchichas menu or enable video posting (used this ab test for video posting because they can't coexist)" } 
     static func fromPosition(_ position: Int) -> MachineLearningMVP {
         switch position { 
             case 0: return .control
             case 1: return .baseline
-            case 2: return .active
+            case 2: return .machineLearningActive
             case 3: return .videoPostingActive
+            case 4: return .bothActive
             default: return .control
         }
     }
