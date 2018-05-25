@@ -282,14 +282,16 @@ extension AppCoordinator: AppNavigator {
     }
 
     func openOffensiveReportAlert() {
-        let reviewAction = UIAction(interface: .button("Review Guidelines", .primary(fontSize: .medium)),
+        let reviewAction = UIAction(interface: .button(R.Strings.offensiveReportAlertPrimaryAction,
+                                                       .primary(fontSize: .medium)),
                                     action: { },
                                     accessibilityId: nil)
-        let skipAction = UIAction(interface: .button("Skip", .secondary(fontSize: .medium, withBorder: true)),
+        let skipAction = UIAction(interface: .button(R.Strings.offensiveReportAlertSecondaryAction,
+                                                     .secondary(fontSize: .medium, withBorder: true)),
                                   action: { },
                                   accessibilityId: nil)
-        if let alert = LGAlertViewController(title: "Community guidelines",
-                                             text: "We've become aware of potentially inappropiate messages sent from your account.\n\nRepeated violations may result in account termination.",
+        if let alert = LGAlertViewController(title: R.Strings.offensiveReportAlertTitle,
+                                             text: R.Strings.offensiveReportAlertMessage,
                                              alertType: .plainAlert,
                                              buttonsLayout: .vertical,
                                              actions: [reviewAction, skipAction],
