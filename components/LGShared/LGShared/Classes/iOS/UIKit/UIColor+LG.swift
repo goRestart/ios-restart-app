@@ -28,7 +28,7 @@ extension UIColor {
 
 extension UIColor {
     
-    static var primaryColor: UIColor { return watermelon }
+    public static var primaryColor: UIColor { return watermelon }
     static var secondaryColor: UIColor { return white }
     static var terciaryColor: UIColor { return tealBlue }
     

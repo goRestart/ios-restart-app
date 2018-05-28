@@ -107,6 +107,6 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func setupAppearance() {
-        UINavigationBar.appearance().tintColor = UIColor(rgb: 0xff3f55)
+        UINavigationBar.appearance().tintColor = UIColor.primaryColor
     }
 }
