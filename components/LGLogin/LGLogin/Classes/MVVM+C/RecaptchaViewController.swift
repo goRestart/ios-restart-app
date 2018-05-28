@@ -6,6 +6,7 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
+import LGComponents
 import UIKit
 
 public class RecaptchaViewController: BaseViewController {
@@ -31,6 +32,8 @@ public class RecaptchaViewController: BaseViewController {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
+        closeButton.setImage(R.Asset.CongratsScreenImages.icCloseRed,
+                             for: .normal)
         setAccesibilityIds()
         webView.delegate = self
 
