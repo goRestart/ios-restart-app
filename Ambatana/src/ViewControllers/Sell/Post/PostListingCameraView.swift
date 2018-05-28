@@ -84,7 +84,19 @@ class PostListingCameraView: BaseView, LGViewPagerPage, MLPredictionDetailsViewD
     private var machineLearningEnabled: Bool {
         return viewModel.isLiveStatsEnabled.value
     }
-    private let predictionLabel = UILabel()
+    private let predictionLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.font = UIFont.systemBoldFont(size: 27)
+        label.textAlignment = .left
+        label.numberOfLines = 0
+        label.layer.shadowColor = UIColor.black.cgColor
+        label.layer.shadowRadius = 1.0
+        label.layer.shadowOpacity = 1.0
+        label.layer.shadowOffset = CGSize.zero
+        label.layer.masksToBounds = false
+        return label
+    }()
     private let predictionDetailsView = MLPredictionDetailsView()
     private var predictionDetailsViewBottomConstraint = NSLayoutConstraint()
 
@@ -316,15 +328,6 @@ class PostListingCameraView: BaseView, LGViewPagerPage, MLPredictionDetailsViewD
     }
 
     private func setupPredictionLabel() {
-        predictionLabel.textColor = .white
-        predictionLabel.font = UIFont.systemBoldFont(size: 27)
-        predictionLabel.textAlignment = .left
-        predictionLabel.numberOfLines = 0
-        predictionLabel.layer.shadowColor = UIColor.black.cgColor
-        predictionLabel.layer.shadowRadius = 1.0
-        predictionLabel.layer.shadowOpacity = 1.0
-        predictionLabel.layer.shadowOffset = CGSize.zero
-        predictionLabel.layer.masksToBounds = false
         contentView.addSubviewForAutoLayout(predictionLabel)
         predictionLabel.layout(with: contentView)
             .left(by: Metrics.margin)
@@ -336,8 +339,7 @@ class PostListingCameraView: BaseView, LGViewPagerPage, MLPredictionDetailsViewD
     private func setupPredictionDetailsView() {
         contentView.addSubviewForAutoLayout(predictionDetailsView)
         predictionDetailsView.layout(with: contentView)
-            .right()
-            .left()
+            .fillHorizontal()
             .top(by: -44)
             .bottom { [weak self] constraint in
                 self?.predictionDetailsViewBottomConstraint = constraint
