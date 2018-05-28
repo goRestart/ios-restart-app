@@ -83,7 +83,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                         didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         let googleSignIn = GIDSignIn.sharedInstance()
-        googleSignIn?.clientID = "914431496661-h1lf5kd3g9g743sec3emns7qj9ei0hcp.apps.googleusercontent.com"
+        googleSignIn?.clientID = Constants.googleClientID
     }
 
     private func handleApplicationDidBecomeActive(application: UIApplication) {
