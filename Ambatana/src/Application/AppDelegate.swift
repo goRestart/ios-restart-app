@@ -160,7 +160,7 @@ extension AppDelegate: UIApplicationDelegate {
         PushManager.sharedInstance.applicationDidBecomeActive(application)
         TrackerProxy.sharedInstance.applicationDidBecomeActive(application)
         navigator?.openSurveyIfNeeded()
-        if keyValueStorage?[.showOffensiveReportOnNextStart] {
+        if let storage = keyValueStorage, storage[.showOffensiveReportOnNextStart] {
             showOffensiveReportAlert()
         }
     }
@@ -236,8 +236,12 @@ extension AppDelegate: UIApplicationDelegate {
     }
 
     func showOffensiveReportAlert() {
-        // Show Alert
-        keyValueStorage?[.showOffensiveReportOnNextStart] = false
+        if let navigator = navigator, navigator.canOpenOffensiveReportAlert() {
+            navigator.openOffensiveReportAlert()
+            keyValueStorage?[.showOffensiveReportOnNextStart] = false
+        } else {
+            keyValueStorage?[.showOffensiveReportOnNextStart] = true
+        }
     }
 }
 

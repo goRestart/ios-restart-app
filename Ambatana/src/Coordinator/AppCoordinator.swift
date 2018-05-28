@@ -281,7 +281,12 @@ extension AppCoordinator: AppNavigator {
         openChild(coordinator: promoteBumpCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
     }
 
+    func canOpenOffensiveReportAlert() -> Bool {
+        return viewController.presentedViewController == nil
+    }
+
     func openOffensiveReportAlert() {
+        guard canOpenOffensiveReportAlert() else { return }
         let reviewAction = UIAction(interface: .button("Review Guidelines", .primary(fontSize: .medium)),
                                     action: { },
                                     accessibilityId: nil)
@@ -294,8 +299,8 @@ extension AppCoordinator: AppNavigator {
                                              buttonsLayout: .vertical,
                                              actions: [reviewAction, skipAction],
                                              dismissAction: nil) {
+            alert.alertWidth = 310
             viewController.present(alert, animated: true, completion: nil)
-            alert.setAlertContainer(width: 310)
         }
     }
 

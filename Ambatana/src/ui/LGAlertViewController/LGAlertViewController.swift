@@ -100,6 +100,11 @@ final class LGAlertViewController: UIViewController {
     
     var simulatePushTransitionOnPresent: Bool = false
     var simulatePushTransitionOnDismiss: Bool = false
+    var alertWidth: CGFloat = 270 {
+        didSet {
+            view.setNeedsLayout()
+        }
+    }
 
     // MARK: - Lifecycle
 
@@ -125,7 +130,13 @@ final class LGAlertViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
     }
-    
+
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        alertContainerWidthConstraint.constant = alertWidth
+        alertContentView.setNeedsUpdateConstraints()
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -304,11 +315,6 @@ final class LGAlertViewController: UIViewController {
                 action.action()
             }
         }.disposed(by: disposeBag)
-    }
-
-    func setAlertContainer(width: CGFloat) {
-        alertContainerWidthConstraint.constant = width
-        alertContentView.setNeedsUpdateConstraints()
     }
 
     @objc private func tapOutside() {
