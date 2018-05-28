@@ -247,6 +247,8 @@
 "common_chat_not_available" = "Oops! Sohbet bulunamadı.";
 "common_collapse" = "Daha az göster";
 "common_confirm" = "Onayla";
+"common_done" = "Tamam";
+"common_edit" = "Düzelt";
 "common_error" = "Hata";
 "common_error_connection_failed" = "Bir hata oluştu. Lütfen, İnternet bağlantını kontrol et.";
 "common_error_generic_body" = "Bir hata oluştu.";
@@ -535,6 +537,10 @@
 "nps_survey_title" = "GÖRÜŞLERİNİ BİLMEK İSTERİZ...";
 "nps_survey_very_bad" = "Muhtemel değil";
 "nps_survey_very_good" = "Son derece muhtemel";
+"offensive_report_alert_message" = "We've become aware of potentially inappropiate messages sent from your account.\n\nRepeated violations may result in account termination.";
+"offensive_report_alert_primary_action" = "Review Guidelines";
+"offensive_report_alert_secondary_action" = "Skip";
+"offensive_report_alert_title" = "Review Community Guidelines";
 "onboarding_alert_no" = "Hayır";
 "onboarding_alert_yes" = "Evet";
 "onboarding_categories_button_countdown" = "En az %i kategori daha seçmelisin";
@@ -1074,6 +1080,7 @@
 "search_alert_error_too_many_text" = "Oops! Maksimum arama uyarısı sayısına ulaştın";
 "search_alerts_edit_button" = "Düzelt";
 "search_alerts_header_subtitle" = "Yeni ilanlarla ilgili bildirim al";
+"search_alerts_list_title" = "Arama Uyarıları";
 "search_alerts_placeholder_empty_button" = "Aramaya Başla";
 "search_alerts_placeholder_empty_text" = "Yeni ilanlar yayınlandığında bildirim almak için aramalara abone ol.";
 "search_alerts_placeholder_error_button" = "Try Again";
@@ -1129,6 +1136,9 @@
 "settings_marketing_notifications_alert_deactivate" = "Kapat";
 "settings_marketing_notifications_alert_message" = "Tanıtım bildirimlerini kapatmak istediğine emin misin?";
 "settings_marketing_notifications_switch" = "Reklam Bildirimleri";
+"settings_notifications_button" = "Bildirimler";
+"settings_notifications_search_alerts" = "Arama Uyarıları";
+"settings_notifications_title" = "Bildirimler";
 "settings_section_profile" = "Profil";
 "settings_section_promote" = "Öne çıkar";
 "settings_section_support" = "Destek";

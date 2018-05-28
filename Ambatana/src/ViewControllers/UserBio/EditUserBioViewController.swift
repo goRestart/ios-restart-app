@@ -15,7 +15,8 @@ final class EditUserBioViewController: BaseViewController {
     private let characterLimit = 150
 
     struct Layout {
-        static let bigMargin: CGFloat = 20
+        static let bigMargin: CGFloat = Metrics.bigMargin
+        static let veryShortMargin: CGFloat = Metrics.veryShortMargin
         static let placeholderTopMargin: CGFloat = 8
         static let placeholderSideMargin: CGFloat = 5
         static let saveButtonHeight: CGFloat = 50
@@ -52,7 +53,9 @@ final class EditUserBioViewController: BaseViewController {
         view.backgroundColor = .white
         view.addSubviewsForAutoLayout([textView, saveButton, placeholderLabel, charCounterLabel])
         title = R.Strings.changeBioTitle
+        automaticallyAdjustsScrollViewInsets = false
 
+        textView.textContainerInset = .zero
         textView.tintColor = UIColor.primaryColor
         textView.font = UIFont.bigBodyFont
         textView.delegate = self
@@ -77,13 +80,13 @@ final class EditUserBioViewController: BaseViewController {
             textView.topAnchor.constraint(equalTo: safeTopAnchor, constant: Layout.bigMargin),
             textView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: Layout.bigMargin),
             textView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -Layout.bigMargin),
-            placeholderLabel.topAnchor.constraint(equalTo: textView.topAnchor, constant: Layout.placeholderTopMargin),
+            placeholderLabel.topAnchor.constraint(equalTo: textView.topAnchor),
             placeholderLabel.leftAnchor.constraint(equalTo: textView.leftAnchor, constant: Layout.placeholderSideMargin),
             placeholderLabel.rightAnchor.constraint(equalTo: textView.rightAnchor, constant: -Layout.placeholderSideMargin),
 
-            charCounterLabel.topAnchor.constraint(equalTo: textView.bottomAnchor, constant: Layout.bigMargin),
+            charCounterLabel.topAnchor.constraint(equalTo: textView.bottomAnchor, constant: Layout.veryShortMargin),
             charCounterLabel.rightAnchor.constraint(equalTo: textView.rightAnchor),
-            charCounterLabel.bottomAnchor.constraint(equalTo: saveButton.topAnchor, constant: -Layout.bigMargin),
+            charCounterLabel.bottomAnchor.constraint(equalTo: saveButton.topAnchor, constant: -Layout.veryShortMargin),
 
             saveButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: Layout.bigMargin),
             saveButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -Layout.bigMargin),

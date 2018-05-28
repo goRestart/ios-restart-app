@@ -247,6 +247,8 @@
 "common_chat_not_available" = "Oops! Kunne ikke finne chat.";
 "common_collapse" = "Vis mindre";
 "common_confirm" = "Bekreft";
+"common_done" = "Fullfør";
+"common_edit" = "Endre";
 "common_error" = "Feil";
 "common_error_connection_failed" = "En feil har oppstått. Vennligst sjekk din internett-tilkobling.";
 "common_error_generic_body" = "En feil oppstod.";
@@ -535,6 +537,10 @@
 "nps_survey_title" = "VI ØNSKER Å VITE...";
 "nps_survey_very_bad" = "Ikke sannsynlig";
 "nps_survey_very_good" = "Ekstremt sannsynlig";
+"offensive_report_alert_message" = "We've become aware of potentially inappropiate messages sent from your account.\n\nRepeated violations may result in account termination.";
+"offensive_report_alert_primary_action" = "Review Guidelines";
+"offensive_report_alert_secondary_action" = "Skip";
+"offensive_report_alert_title" = "Review Community Guidelines";
 "onboarding_alert_no" = "Nei";
 "onboarding_alert_yes" = "Ja";
 "onboarding_categories_button_countdown" = "Velg minst %i mer";
@@ -1074,6 +1080,7 @@
 "search_alert_error_too_many_text" = "Oops! Du har nådd dine maksimale antall søkevarslinger";
 "search_alerts_edit_button" = "Endre";
 "search_alerts_header_subtitle" = "Få varslinger om nye annonser";
+"search_alerts_list_title" = "Søkevarslinger";
 "search_alerts_placeholder_empty_button" = "Sett i gang og søk";
 "search_alerts_placeholder_empty_text" = "Meld deg på for å varslinger når nye annonser publiseres.";
 "search_alerts_placeholder_error_button" = "Try Again";
@@ -1129,6 +1136,9 @@
 "settings_marketing_notifications_alert_deactivate" = "Deaktiver";
 "settings_marketing_notifications_alert_message" = "Er du sikker på at du vil deaktivere promoteringsvarslinger?";
 "settings_marketing_notifications_switch" = "Reklamevarslinger";
+"settings_notifications_button" = "Varslinger";
+"settings_notifications_search_alerts" = "Søkevarslinger";
+"settings_notifications_title" = "Varslinger";
 "settings_section_profile" = "Profil";
 "settings_section_promote" = "Promoter";
 "settings_section_support" = "Support";
