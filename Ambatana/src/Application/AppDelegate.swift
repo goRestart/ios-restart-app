@@ -236,6 +236,7 @@ extension AppDelegate: UIApplicationDelegate {
     }
 
     func showOffensiveReportAlert() {
+        guard let featureFlags = featureFlags, featureFlags.offensiveReportAlert.isActive else { return }
         if let navigator = navigator, navigator.canOpenOffensiveReportAlert() {
             navigator.openOffensiveReportAlert()
             keyValueStorage?[.showOffensiveReportOnNextStart] = false
