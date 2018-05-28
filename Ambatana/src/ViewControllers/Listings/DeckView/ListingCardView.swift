@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import RxSwift
 import LGCoreKit
+import LGComponents
 
 protocol ListingCardViewDelegate: class {
     func cardViewDidTapOnStatusView(_ cardView: ListingCardView)
@@ -377,7 +378,7 @@ extension ListingCardView: LetgoTooltipDelegate {
         let tooltip = LetgoTooltip()
         addSubviewForAutoLayout(tooltip)
         tooltip.setupWith(peakOnTop: false, peakOffsetFromLeft: 40,
-                          message: LGLocalizedString.profileReputationTooltipTitle)
+                          message: R.Strings.profileReputationTooltipTitle)
         tooltip.leftAnchor.constraint(equalTo: userView.leftAnchor, constant: Metrics.veryShortMargin).isActive = true
         tooltip.bottomAnchor.constraint(equalTo: userView.topAnchor, constant: Metrics.veryBigMargin).isActive = true
         tooltip.delegate = self

@@ -575,7 +575,7 @@ extension ChatViewController: LetgoTooltipDelegate {
         let reputationTooltip = LetgoTooltip()
         view.addSubviewForAutoLayout(reputationTooltip)
         reputationTooltip.setupWith(peakOnTop: true, peakOffsetFromLeft: reputationTooltipMargin,
-                                    message: LGLocalizedString.profileReputationTooltipTitle)
+                                    message: R.Strings.profileReputationTooltipTitle)
         reputationTooltip.delegate = self
         reputationTooltip.layout(with: topLayoutGuide).below(by: Metrics.veryShortMargin)
         reputationTooltip.layout(with: view).leading(by: reputationTooltipMargin)

@@ -1191,7 +1191,7 @@ extension ListingCarouselViewController: LetgoTooltipDelegate {
         let tooltip = LetgoTooltip()
         view.addSubviewForAutoLayout(tooltip)
         tooltip.setupWith(peakOnTop: false, peakOffsetFromLeft: Layout.reputationTooltipMargin,
-                          message: LGLocalizedString.profileReputationTooltipTitle)
+                          message: R.Strings.profileReputationTooltipTitle)
         tooltip.leftAnchor.constraint(equalTo: userView.leftAnchor).isActive = true
         tooltip.bottomAnchor.constraint(equalTo: userView.topAnchor, constant: Metrics.veryBigMargin).isActive = true
         tooltip.delegate = self
