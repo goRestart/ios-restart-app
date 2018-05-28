@@ -11,7 +11,8 @@ extension MockChatInactiveConversation: MockFactory {
         return MockChatInactiveConversation(objectId: String.makeRandom(),
                                             lastMessageSentAt: Date.makeRandom(),
                                             listing: MockChatListing.makeMock(),
-                                            interlocutor: MockChatInterlocutor.makeMock(),
+                                            seller: MockInactiveInterlocutor.makeMock(),
+                                            buyer: MockInactiveInterlocutor.makeMock(),
                                             messages: MockChatInactiveMessage.makeMocks())
     }
 }
