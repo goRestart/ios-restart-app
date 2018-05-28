@@ -83,6 +83,7 @@ class PostListingViewModel: BaseViewModel {
     let machineLearningSupported: Bool
     
     fileprivate let listingRepository: ListingRepository
+    fileprivate let categoryRepository: CategoryRepository
     fileprivate let fileRepository: FileRepository
     fileprivate let preSignedUploadUrlRepository: PreSignedUploadUrlRepository
     fileprivate let carsInfoRepository: CarsInfoRepository
@@ -140,6 +141,7 @@ class PostListingViewModel: BaseViewModel {
                   isBlockingPosting: isBlockingPosting,
                   machineLearningSupported: machineLearningSupported,
                   listingRepository: Core.listingRepository,
+                  categoryRepository: Core.categoryRepository,
                   fileRepository: Core.fileRepository,
                   preSignedUploadUrlRepository: Core.preSignedUploadUrlRepository,
                   carsInfoRepository: Core.carsInfoRepository,
@@ -157,6 +159,7 @@ class PostListingViewModel: BaseViewModel {
          isBlockingPosting: Bool,
          machineLearningSupported: Bool,
          listingRepository: ListingRepository,
+         categoryRepository: CategoryRepository,
          fileRepository: FileRepository,
          preSignedUploadUrlRepository: PreSignedUploadUrlRepository,
          carsInfoRepository: CarsInfoRepository,
@@ -174,6 +177,7 @@ class PostListingViewModel: BaseViewModel {
         self.isBlockingPosting = isBlockingPosting
         self.machineLearningSupported = machineLearningSupported
         self.listingRepository = listingRepository
+        self.categoryRepository = categoryRepository
         self.fileRepository = fileRepository
         self.preSignedUploadUrlRepository = preSignedUploadUrlRepository
         self.carsInfoRepository = carsInfoRepository
@@ -204,7 +208,7 @@ class PostListingViewModel: BaseViewModel {
     }
 
     private func setupCategories() {
-        Core.categoryRepository.index(servicesIncluded: false, carsIncluded: false, realEstateIncluded: false) { [weak self] result in
+        categoryRepository.index(servicesIncluded: false, carsIncluded: false, realEstateIncluded: false) { [weak self] result in
             guard let categories = result.value else { return }
             self?.categories = categories
         }
