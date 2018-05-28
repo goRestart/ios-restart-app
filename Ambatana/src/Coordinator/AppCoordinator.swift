@@ -3,6 +3,7 @@ import RxSwift
 import UIKit
 import StoreKit
 import LGComponents
+import SafariServices
 
 enum BumpUpSource {
     case deepLink
@@ -282,19 +283,31 @@ extension AppCoordinator: AppNavigator {
     }
 
     func openOffensiveReportAlert() {
-        let reviewAction = UIAction(interface: .button("Review Guidelines", .primary(fontSize: .medium)),
-                                    action: { },
-                                    accessibilityId: nil)
-        let skipAction = UIAction(interface: .button("Skip", .secondary(fontSize: .medium, withBorder: true)),
-                                  action: { },
-                                  accessibilityId: nil)
-        if let alert = LGAlertViewController(title: "Community guidelines",
-                                             text: "We've become aware of potentially inappropiate messages sent from your account.\n\nRepeated violations may result in account termination.",
+        let reviewAction = { [weak self] in
+            guard let url = LetgoURLHelper.buildCommunityGuidelineURL() else { return }
+            let svc = SFSafariViewController(url: url,
+                                             entersReaderIfAvailable: false)
+            svc.view.tintColor = .primaryColor
+            svc.modalPresentationStyle = .overFullScreen
+            self?.tabBarCtl.present(svc, animated: true, completion: nil)
+        }
+        let reviewActionInterface = UIActionInterface.button(R.Strings.offensiveReportAlertPrimaryAction,
+                                                             .primary(fontSize: .medium))
+        let reviewAlertAction = UIAction(interface: reviewActionInterface,
+                                         action: reviewAction,
+                                         accessibilityId: .offensiveReportAlertOpenGuidelineButton)
+        let skipActionInterface = UIActionInterface.button(R.Strings.offensiveReportAlertSecondaryAction,
+                                                            .secondary(fontSize: .medium, withBorder: true))
+        let skipAlertAction = UIAction(interface: skipActionInterface,
+                                  action: {},
+                                  accessibilityId: .offensiveReportAlertSkipButton)
+        if let alert = LGAlertViewController(title: R.Strings.offensiveReportAlertTitle,
+                                             text: R.Strings.offensiveReportAlertMessage,
                                              alertType: .plainAlert,
                                              buttonsLayout: .vertical,
-                                             actions: [reviewAction, skipAction],
+                                             actions: [reviewAlertAction, skipAlertAction],
                                              dismissAction: nil) {
-            viewController.present(alert, animated: true, completion: nil)
+            tabBarCtl.present(alert, animated: true, completion: nil)
             alert.setAlertContainer(width: 310)
         }
     }
@@ -699,6 +712,7 @@ extension AppCoordinator: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         guard let tab = tabAtController(viewController) else { return }
         selectedTab.value = tab
+        openOffensiveReportAlert()
     }
 }
 

@@ -247,6 +247,8 @@
 "common_chat_not_available" = "Oops ! Chat non trouvé.";
 "common_collapse" = "Afficher moins";
 "common_confirm" = "Confirmer";
+"common_done" = "Terminé";
+"common_edit" = "Modifier";
 "common_error" = "Erreur";
 "common_error_connection_failed" = "Une erreur est survenue. Veuillez vérifier votre connexion Internet.";
 "common_error_generic_body" = "Une erreur est survenue.";
@@ -535,6 +537,10 @@
 "nps_survey_title" = "NOUS AIMERIONS SAVOIR";
 "nps_survey_very_bad" = "Improbable";
 "nps_survey_very_good" = "Très certainement";
+"offensive_report_alert_message" = "We've become aware of potentially inappropiate messages sent from your account.\n\nRepeated violations may result in account termination.";
+"offensive_report_alert_primary_action" = "Review Guidelines";
+"offensive_report_alert_secondary_action" = "Skip";
+"offensive_report_alert_title" = "Review Community Guidelines";
 "onboarding_alert_no" = "Non";
 "onboarding_alert_yes" = "Oui";
 "onboarding_categories_button_countdown" = "Choisissez au moins %i de plus";
@@ -1074,6 +1080,7 @@
 "search_alert_error_too_many_text" = "Oups ! Vous avez atteint le nombre maximum d'alertes de recherche";
 "search_alerts_edit_button" = "Modifier";
 "search_alerts_header_subtitle" = "Recevez des notifications à propos des nouvelles annonces";
+"search_alerts_list_title" = "Alertes de Recherche";
 "search_alerts_placeholder_empty_button" = "Commencer à Chercher";
 "search_alerts_placeholder_empty_text" = "Abonnez-vous aux recherches afin de recevoir des notifications quand de nouvelles annonces sont publiées.";
 "search_alerts_placeholder_error_button" = "Réessayer";
@@ -1129,6 +1136,9 @@
 "settings_marketing_notifications_alert_deactivate" = "Désactiver";
 "settings_marketing_notifications_alert_message" = "Êtes-vous certain de vouloir désactiver les notifications marketing ?";
 "settings_marketing_notifications_switch" = "Notifications Marketing";
+"settings_notifications_button" = "Notifications";
+"settings_notifications_search_alerts" = "Alertes de Recherche";
+"settings_notifications_title" = "Notifications";
 "settings_section_profile" = "Profil";
 "settings_section_promote" = "Promouvoir";
 "settings_section_support" = "Aide";

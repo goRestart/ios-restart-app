@@ -247,6 +247,8 @@
 "common_chat_not_available" = "Упс! Чат не найден.";
 "common_collapse" = "Скрыть";
 "common_confirm" = "Подтвердить";
+"common_done" = "Готово";
+"common_edit" = "Редактировать";
 "common_error" = "Ошибка";
 "common_error_connection_failed" = "Произошла ошибка. Проверьте ваше соединение с Интернет.";
 "common_error_generic_body" = "Произошла ошибка.";
@@ -535,6 +537,10 @@
 "nps_survey_title" = "МЫ БЫ ХОТЕЛИ ЗНАТЬ ...";
 "nps_survey_very_bad" = "Маловероятно";
 "nps_survey_very_good" = "Очень вероятно";
+"offensive_report_alert_message" = "We've become aware of potentially inappropiate messages sent from your account.\n\nRepeated violations may result in account termination.";
+"offensive_report_alert_primary_action" = "Review Guidelines";
+"offensive_report_alert_secondary_action" = "Skip";
+"offensive_report_alert_title" = "Review Community Guidelines";
 "onboarding_alert_no" = "Нет";
 "onboarding_alert_yes" = "Да";
 "onboarding_categories_button_countdown" = "Выберите еще как минимум %i";
@@ -1074,6 +1080,7 @@
 "search_alert_error_too_many_text" = "Упс! Вы достигли максимального количества поисковых уведомлений";
 "search_alerts_edit_button" = "Редактировать";
 "search_alerts_header_subtitle" = "Получать уведомления о новых объявлениях";
+"search_alerts_list_title" = "Поисковые уведомления";
 "search_alerts_placeholder_empty_button" = "Начать поиск";
 "search_alerts_placeholder_empty_text" = "Подпишитесь на поиск, чтобы получать уведомления при появлении новых объявлений.";
 "search_alerts_placeholder_error_button" = "Еще раз";
@@ -1129,6 +1136,9 @@
 "settings_marketing_notifications_alert_deactivate" = "Отключить";
 "settings_marketing_notifications_alert_message" = "Вы точно хотите отключить уведомления?";
 "settings_marketing_notifications_switch" = "Маркетинговые уведомления";
+"settings_notifications_button" = "Уведомления";
+"settings_notifications_search_alerts" = "Поисковые уведомления";
+"settings_notifications_title" = "Уведомления";
 "settings_section_profile" = "Профиль";
 "settings_section_promote" = "Продвигать";
 "settings_section_support" = "Поддержка";

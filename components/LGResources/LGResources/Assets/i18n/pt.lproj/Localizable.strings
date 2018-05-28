@@ -247,6 +247,8 @@
 "common_chat_not_available" = "Oops! Chat not found.";
 "common_collapse" = "Show Less";
 "common_confirm" = "Confirm";
+"common_done" = "Done";
+"common_edit" = "Edit";
 "common_error" = "Error";
 "common_error_connection_failed" = "An error has occurred. Please check your Internet connection.";
 "common_error_generic_body" = "An error occurred.";
@@ -535,6 +537,10 @@
 "nps_survey_title" = "WE'D LIKE TO KNOW...";
 "nps_survey_very_bad" = "Not likely";
 "nps_survey_very_good" = "Extremely likely";
+"offensive_report_alert_message" = "We've become aware of potentially inappropiate messages sent from your account.\n\nRepeated violations may result in account termination.";
+"offensive_report_alert_primary_action" = "Review Guidelines";
+"offensive_report_alert_secondary_action" = "Skip";
+"offensive_report_alert_title" = "Review Community Guidelines";
 "onboarding_alert_no" = "No";
 "onboarding_alert_yes" = "Yes";
 "onboarding_categories_button_countdown" = "Pick at least %i more";
@@ -1074,6 +1080,7 @@
 "search_alert_error_too_many_text" = "Oops! You've reached the maximum number of search alerts";
 "search_alerts_edit_button" = "Edit";
 "search_alerts_header_subtitle" = "Get notifications about new listings";
+"search_alerts_list_title" = "Search Alerts";
 "search_alerts_placeholder_empty_button" = "Start Searching";
 "search_alerts_placeholder_empty_text" = "Subscribe to searches to get notifications when new listings are posted.";
 "search_alerts_placeholder_error_button" = "Try Again";
@@ -1129,6 +1136,9 @@
 "settings_marketing_notifications_alert_deactivate" = "Deactivate";
 "settings_marketing_notifications_alert_message" = "Are you sure you want to deactivate marketing notifications?";
 "settings_marketing_notifications_switch" = "Marketing Notifications";
+"settings_notifications_button" = "Notifications";
+"settings_notifications_search_alerts" = "Search Alerts";
+"settings_notifications_title" = "Notifications";
 "settings_section_profile" = "Profile";
 "settings_section_promote" = "Promote";
 "settings_section_support" = "Support";

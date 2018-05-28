@@ -247,6 +247,8 @@
 "common_chat_not_available" = "Oeps! Chat niet gevonden.";
 "common_collapse" = "Toon minder";
 "common_confirm" = "Bevestigen";
+"common_done" = "Klaar";
+"common_edit" = "Bewerken";
 "common_error" = "Fout";
 "common_error_connection_failed" = "Er is een fout opgetreden. Gelieve je internetverbinding te controleren.";
 "common_error_generic_body" = "Er is een fout opgetreden.";
@@ -535,6 +537,10 @@
 "nps_survey_title" = "WE ZOUDEN GRAAG WILLEN WETEN...";
 "nps_survey_very_bad" = "Niet waarschijnlijk";
 "nps_survey_very_good" = "Meest waarschijnlijk";
+"offensive_report_alert_message" = "We've become aware of potentially inappropiate messages sent from your account.\n\nRepeated violations may result in account termination.";
+"offensive_report_alert_primary_action" = "Review Guidelines";
+"offensive_report_alert_secondary_action" = "Skip";
+"offensive_report_alert_title" = "Review Community Guidelines";
 "onboarding_alert_no" = "Nee";
 "onboarding_alert_yes" = "Ja";
 "onboarding_categories_button_countdown" = "Kies ten minste %i meer";
@@ -1074,6 +1080,7 @@
 "search_alert_error_too_many_text" = "Oeps! Je hebt het maximale aantal zoekmeldingen bereikt";
 "search_alerts_edit_button" = "Bewerken";
 "search_alerts_header_subtitle" = "Ontvang meldingen over nieuwe advertenties";
+"search_alerts_list_title" = "Zoekmeldingen";
 "search_alerts_placeholder_empty_button" = "Begin met Zoeken";
 "search_alerts_placeholder_empty_text" = "Meld je aan voor zoekopdrachten om meldingen te ontvangen wanneer nieuwe advertenties worden geplaatst.";
 "search_alerts_placeholder_error_button" = "Probeer het opnieuw";
@@ -1129,6 +1136,9 @@
 "settings_marketing_notifications_alert_deactivate" = "Uitschakelen";
 "settings_marketing_notifications_alert_message" = "Weet je zeker dat je marketing meldingen wilt uitschakelen?";
 "settings_marketing_notifications_switch" = "Marketing Meldingen";
+"settings_notifications_button" = "Meldingen";
+"settings_notifications_search_alerts" = "Zoekmeldingen";
+"settings_notifications_title" = "Meldingen";
 "settings_section_profile" = "Profiel";
 "settings_section_promote" = "Promoten";
 "settings_section_support" = "Ondersteuning";
