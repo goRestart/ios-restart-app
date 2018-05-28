@@ -89,6 +89,7 @@ class PostListingCameraView: BaseView, LGViewPagerPage, MLPredictionDetailsViewD
     private var predictionDetailsViewBottomConstraint = NSLayoutConstraint()
 
     fileprivate var viewModel: PostListingCameraViewModel
+    private let keyboardHelper: KeyboardHelper
 
     fileprivate let camera = LGCamera()
     private var headerShown = true
@@ -103,17 +104,19 @@ class PostListingCameraView: BaseView, LGViewPagerPage, MLPredictionDetailsViewD
     // MARK: - View lifecycle
 
     convenience init(viewModel: PostListingCameraViewModel) {
-        self.init(viewModel: viewModel, frame: CGRect.zero)
+        self.init(viewModel: viewModel, keyboardHelper: KeyboardHelper(), frame: CGRect.zero)
     }
     
-    init(viewModel: PostListingCameraViewModel, frame: CGRect) {
+    init(viewModel: PostListingCameraViewModel, keyboardHelper: KeyboardHelper, frame: CGRect) {
         self.viewModel = viewModel
+        self.keyboardHelper = keyboardHelper
         super.init(viewModel: viewModel, frame: frame)
         setupUI()
     }
 
-    init?(viewModel: PostListingCameraViewModel, coder aDecoder: NSCoder) {
+    init?(viewModel: PostListingCameraViewModel, keyboardHelper: KeyboardHelper, coder aDecoder: NSCoder) {
         self.viewModel = viewModel
+        self.keyboardHelper = keyboardHelper
         super.init(viewModel: viewModel, coder: aDecoder)
         setupUI()
     }
@@ -287,16 +290,6 @@ class PostListingCameraView: BaseView, LGViewPagerPage, MLPredictionDetailsViewD
             setupPredictionLabel()
             setupPredictionDetailsView()
         }
-
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillShow),
-                                               name: NSNotification.Name.UIKeyboardWillShow,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillHide),
-                                               name: NSNotification.Name.UIKeyboardWillHide,
-                                               object: nil)
-
     }
 
     @objc func machineLearningSwitch() {
@@ -462,35 +455,21 @@ class PostListingCameraView: BaseView, LGViewPagerPage, MLPredictionDetailsViewD
             guard let strongSelf = self else { return }
             strongSelf.cornersContainer.isHidden = !(cameraState == .capture && !strongSelf.viewModel.isLiveStatsEnabled.value)
         }).disposed(by: disposeBag)
+
+        keyboardHelper.rx_keyboardOrigin.asObservable().skip(1).distinctUntilChanged().bind { [weak self] origin in
+            guard let animationTime = self?.keyboardHelper.animationTime,
+                let keyboardHeight = self?.keyboardHelper.keyboardHeight else { return }
+            let keyboardVisible: Bool = origin < UIScreen.main.bounds.height
+            self?.bottomControlsContainerBottomConstraint.constant = keyboardVisible ? keyboardHeight : 0
+            self?.predictionDetailsViewBottomConstraint.constant = keyboardVisible ? -keyboardHeight : 0
+            UIView.animate(withDuration: Double(animationTime)) { [weak self] in
+                self?.layoutIfNeeded()
+            }
+            }.disposed(by: disposeBag)
     }
 
     @objc private dynamic func hideFirstTimeAlert() {
         viewModel.hideFirstTimeAlert()
-    }
-
-    // MARK: - Keyboard
-
-    @objc func keyboardWillShow(notification: NSNotification) {
-        if let userInfo = notification.userInfo,
-            let keyboardSize = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
-            let animationDuration: TimeInterval = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue {
-            bottomControlsContainerBottomConstraint.constant = keyboardSize.height
-            predictionDetailsViewBottomConstraint.constant = -keyboardSize.height
-            UIView.animate(withDuration: animationDuration) { [weak self] in
-                self?.layoutIfNeeded()
-            }
-        }
-    }
-
-    @objc func keyboardWillHide(notification: NSNotification) {
-        if let userInfo = notification.userInfo,
-            let animationDuration: TimeInterval = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue {
-            bottomControlsContainerBottomConstraint.constant = 0
-            predictionDetailsViewBottomConstraint.constant = 0
-            UIView.animate(withDuration: animationDuration) { [weak self] in
-                self?.layoutIfNeeded()
-            }
-        }
     }
 
     //MARK: - MLPredictionDetailsViewDelegate
