@@ -234,9 +234,10 @@ class MLPostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableView
         if featureFlags.removeCategoryWhenClosingPosting.isActive {
             postListingState = postListingState.removeRealEstateCategory()
         }
-        if postListingState.pendingToUploadImages != nil {
+        if postListingState.pendingToUploadMedia {
             openPostAbandonAlertNotLoggedIn()
         } else {
+            // FIXME: User could upload video
             guard let _ = postListingState.lastImagesUploadResult?.value else {
                 navigator?.cancelPostListing()
                 return

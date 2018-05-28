@@ -63,6 +63,11 @@ class PostListingState {
     var sizeSquareMeters: Int? {
         return verticalAttributes?.realEstateAttributes?.sizeSquareMeters
     }
+
+    var pendingToUploadMedia: Bool {
+        let pendingImages = pendingToUploadImages?.count ?? 0
+        return pendingImages > 0 || pendingToUploadVideo != nil
+    }
     
     
     // MARK: - Lifecycle

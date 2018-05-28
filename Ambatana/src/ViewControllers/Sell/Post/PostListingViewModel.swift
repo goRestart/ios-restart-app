@@ -367,9 +367,10 @@ class PostListingViewModel: BaseViewModel {
     }
     
     func closeButtonPressed() {
-        if state.value.pendingToUploadImages != nil {
+        if state.value.pendingToUploadMedia {
             openPostAbandonAlertNotLoggedIn()
         } else {
+            // FIXME: User could upload video
             if state.value.lastImagesUploadResult?.value == nil {
                 if isBlockingPosting {
                     trackPostSellAbandon()
@@ -560,12 +561,12 @@ fileprivate extension PostListingViewModel {
                 let listingCreationParams = makeListingParams() else { return }
             navigator?.closePostProductAndPostInBackground(params: listingCreationParams,
                                                            trackingInfo: trackingInfo)
-        } else if let images = state.value.pendingToUploadImages {
+        } else if state.value.pendingToUploadMedia {
             let loggedInAction = { [weak self] in
                 guard let listingParams = self?.makeListingParams() else { return }
                 self?.navigator?.closePostProductAndPostLater(params: listingParams,
-                                                              images: images,
-                                                              video: nil,
+                                                              images: self?.state.value.pendingToUploadImages,
+                                                              video: self?.state.value.pendingToUploadVideo,
                                                               trackingInfo: trackingInfo)
             }
             let cancelAction = { [weak self] in
@@ -573,19 +574,7 @@ fileprivate extension PostListingViewModel {
                 self?.navigator?.cancelPostListing()
             }
             navigator?.openLoginIfNeededFromListingPosted(from: .sell, loggedInAction: loggedInAction, cancelAction: cancelAction)
-        } else if let video = state.value.pendingToUploadVideo {
-            let loggedInAction = { [weak self] in
-                guard let listingParams = self?.makeListingParams() else { return }
-                self?.navigator?.closePostProductAndPostLater(params: listingParams,
-                                                              images: nil,
-                                                              video: video,
-                                                              trackingInfo: trackingInfo)
-            }
-            let cancelAction = { [weak self] in
-                guard let _ = self?.state.value else { return }
-                self?.navigator?.cancelPostListing()
-            }
-            navigator?.openLoginIfNeededFromListingPosted(from: .sell, loggedInAction: loggedInAction, cancelAction: cancelAction)
+
         } else {
             navigator?.cancelPostListing()
         }
