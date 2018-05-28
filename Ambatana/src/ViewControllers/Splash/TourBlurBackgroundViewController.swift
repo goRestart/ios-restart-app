@@ -8,12 +8,12 @@
 
 import UIKit
 
-class TourBlurBackgroundViewController: BaseViewController {
+final class TourBlurBackgroundViewController: BaseViewController {
 
     init() {
         super.init(viewModel: nil, nibName: "TourBlurBackgroundViewController",
                    statusBarStyle: .lightContent)
-        modalPresentationStyle = .overCurrentContext
+        setupForModalWithNonOpaqueBackground()
         modalTransitionStyle = .crossDissolve
     }
 

@@ -137,6 +137,11 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "Per ragioni di sicurezza, questo account è stato eliminato dal team letgo e questi messaggi sono stati rimossi.";
 "chat_connect_account_disclaimer_button" = "Verifica subito!";
 "chat_connect_accounts_title" = "SVILUPPA FIDUCIA!";
+"chat_conversations_list_blocked_users_button" = "Visualizza utenti bloccati";
+"chat_conversations_list_filter_all" = "Tutti";
+"chat_conversations_list_filter_buying" = "Acquisti";
+"chat_conversations_list_filter_selling" = "Vendite";
+"chat_conversations_list_letgo_assistant_tag" = "letgo assistant";
 "chat_deleted_disclaimer_w_name" = "Non puoi continuare questa conversazione perché l'account di %@ non è più attivo.";
 "chat_deleted_disclaimer_wo_name" = "Non puoi continuare questa conversazione perché questo account non è più attivo.";
 "chat_disclaimer_letgo_team" = "IL TEAM DI LETGO";
@@ -172,8 +177,8 @@
 "chat_list_buying_title" = "ACQUISTI";
 "chat_list_delete" = "Elimina";
 "chat_list_delete_alert_send" = "Elimina";
-"chat_list_delete_alert_text_multiple" = "Stai per eliminare queste conversazioni";
-"chat_list_delete_alert_text_one" = "Stai per eliminare questa conversazione";
+"chat_list_delete_alert_text_multiple" = "Stai per eliminare definitivamente queste conversazioni";
+"chat_list_delete_alert_text_one" = "Stai per eliminare definitivamente questa conversazione";
 "chat_list_delete_alert_title_multiple" = "Elimina Conversazioni";
 "chat_list_delete_alert_title_one" = "Elimina Conversazione";
 "chat_list_delete_error_one" = "Si è verificato un errore durante l'eliminazione di questa conversazione. Riprova.";
@@ -215,7 +220,7 @@
 "chat_send_error_generic" = "Si è verificato un errore durante l'invio del messaggio. Riprova.";
 "chat_stickers_tooltip_new" = "NOVITÀ!";
 "chat_unblock_user" = "Sblocca Utente";
-"chat_user_info_letgo_assistant" = "I'm a virtual assistant that gives you tips and helps you sell.";
+"chat_user_info_letgo_assistant" = "Sono un'assistente virtuale che ti fornirà consigli utili e ti aiuterà a vendere.";
 "chat_user_info_name" = "Ciao, sono %@";
 "chat_user_info_verified_with" = "Verificato con: ";
 "chat_user_rating_button_tooltip" = "Recensisci questo utente";
@@ -411,6 +416,8 @@
 "hidden_phone_tag" = "[NUMERO DI TELEFONO NASCOSTO]";
 "hidden_text_alert_description" = "Nascondiamo le informazioni di contatto per proteggere le tue compravendite. Chattare all'interno di letgo è più facile e sicuro.";
 "hidden_text_alert_title" = "CONSIGLI PER LA SICUREZZA";
+"listing_map_redo_search" = "Cerca in questa zona";
+"listings_map_no_results_message" = "Nessuna risultato esatto per la tua ricerca. Prova a cercare in una zona diversa o utilizzare altri filtri.";
 "listings_map_title" = "Visualizzazione mappa";
 "location_permissions_allow_button" = "Consenti";
 "location_permissions_bubble" = "0.1 km da te";
@@ -574,7 +581,7 @@
 "phone_verification_code_input_view_content_subtext" = "Se non ricevi il codice, puoi richiederne un altro entro %@";
 "phone_verification_code_input_view_content_subtitle" = "Lo abbiamo inviato al %@";
 "phone_verification_code_input_view_content_title" = "Inserisci il codice di 6 cifre";
-"phone_verification_code_input_view_error_message" = "Oops! An error occurred while validating the code. Please try again.";
+"phone_verification_code_input_view_error_message" = "Ops! Si è verificato un errore durante la convalida del codice. Riprova.";
 "phone_verification_code_input_view_title" = "Verifica numero";
 "phone_verification_code_input_view_validated_failure" = "Il codice di verifica da te inserito non è corretto.";
 "phone_verification_code_input_view_validated_success" = "Numero di telefono verificato!";
@@ -585,7 +592,7 @@
 "phone_verification_number_input_view_confirmation_title" = "Grazie!";
 "phone_verification_number_input_view_continue_button" = "Continua";
 "phone_verification_number_input_view_description" = "Genera fiducia verificando il numero di telefono";
-"phone_verification_number_input_view_error_message" = "Oops! An error occurred while sending the text message. Please try again.";
+"phone_verification_number_input_view_error_message" = "Ops! Si è verificato un errore durante l'invio dell'SMS. Riprova.";
 "phone_verification_number_input_view_sending_message" = "Invio messaggio di testo...";
 "phone_verification_number_input_view_textfield_placeholder" = "Numero di telefono";
 "phone_verification_number_input_view_title" = "Verifica numero";
@@ -773,6 +780,7 @@
 "product_post_select_category_motors_and_accessories" = "Altri veicoli e ricambi";
 "product_post_select_category_other" = "Altri articoli";
 "product_post_select_category_real_estate" = "Immobili";
+"product_post_select_category_services" = "Servizi";
 "product_post_select_category_title" = "Che cosa stai pubblicando?";
 "product_post_use_photo" = "Pubblica";
 "product_post_use_photo_not_logged" = "Utilizza foto";
@@ -851,6 +859,7 @@
 "profile_permissions_alert_ok" = "Attiva";
 "profile_permissions_alert_title" = "NON PERDERE NEANCHE UNA RISPOSTA!";
 "profile_permissions_header_message" = "Attiva notifiche messaggi";
+"profile_reputation_tooltip_title" = "User verified! Tap if you want to be verified too";
 "profile_reviews_count" = "Recensioni";
 "profile_reviews_tab" = "Recensioni";
 "profile_selling_no_products_label" = "ANCORA NESSUN ANNUNCIO!";
@@ -868,8 +877,8 @@
 "profile_verifications_view_extra_section_title" = "COMPRA E VENDI";
 "profile_verifications_view_facebook_title" = "Facebook";
 "profile_verifications_view_google_title" = "Google";
-"profile_verifications_view_mark_as_sold_subtitle" = "Più di 2 punti ciascuno (fino a un massimo di 10)";
-"profile_verifications_view_mark_as_sold_title" = "Segna un annuncio come venduto";
+"profile_verifications_view_mark_as_sold_subtitle" = "Più di 2 punti per ciascun annuncio (fino a un massimo di 10)";
+"profile_verifications_view_mark_as_sold_title" = "Segna come venduto";
 "profile_verifications_view_phone_number_title" = "Numero di telefono";
 "profile_verifications_view_photo_id_title" = "Documento d'identità";
 "profile_verifications_view_profile_picture_title" = "Foto del profilo";
@@ -1069,6 +1078,7 @@
 "search_alerts_placeholder_empty_text" = "Iscriviti alle ricerche per ricevere notifiche quando vengono pubblicati nuovi annunci.";
 "search_alerts_placeholder_error_button" = "Riprova";
 "search_alerts_placeholder_error_text" = "Ops! Si è verificato un errore durante il caricamento dei tuoi avvisi di ricerca";
+"search_letgo" = "Ricerca su letgo";
 "sell_category_selection_label" = "Categoria";
 "sell_choose_category_dialog_cancel_button" = "Annulla";
 "sell_choose_category_dialog_title" = "Scegli una categoria";

@@ -8,10 +8,6 @@ extension R {
 
   // swiftlint:disable identifier_name line_length type_body_length
   public enum Strings {
-    /// %@'s account was deleted
-    public static func accountDeactivatedWName(_ p1: String) -> String {
-      return Strings.tr("Localizable", "account_deactivated_w_name", p1)
-    }
     /// Account pending moderation
     public static let accountPendingModeration = Strings.tr("Localizable", "account_pending_moderation")
     /// %@'s account is pending moderation
@@ -32,8 +28,6 @@ extension R {
     public static let appShareSubjectText = Strings.tr("Localizable", "app_share_subject_text")
     /// Invite your friends to letgo and help us grow our community!
     public static let appShareSubtitle = Strings.tr("Localizable", "app_share_subtitle")
-    /// App shared!
-    public static let appShareSuccess = Strings.tr("Localizable", "app_share_success")
     /// INVITE YOUR FRIENDS
     public static let appShareTitle = Strings.tr("Localizable", "app_share_title")
     /// Invite via Whatsapp
@@ -52,9 +46,17 @@ extension R {
     public static let bumpUpBannerPayText = Strings.tr("Localizable", "bump_up_banner_pay_text")
     /// Sell faster now
     public static let bumpUpBannerPayTextImprovement = Strings.tr("Localizable", "bump_up_banner_pay_text_improvement")
+    /// Sell faster now
+    public static let bumpUpBannerPayTextImprovementEnglishA = Strings.tr("Localizable", "bump_up_banner_pay_text_improvement_english_a")
+    /// Get more visibility
+    public static let bumpUpBannerPayTextImprovementEnglishB = Strings.tr("Localizable", "bump_up_banner_pay_text_improvement_english_b")
+    /// Attract more buyers
+    public static let bumpUpBannerPayTextImprovementEnglishC = Strings.tr("Localizable", "bump_up_banner_pay_text_improvement_english_c")
+    /// Attract 2x more buyers
+    public static let bumpUpBannerPayTextImprovementEnglishD = Strings.tr("Localizable", "bump_up_banner_pay_text_improvement_english_d")
     /// to feature again
     public static let bumpUpBannerWaitText = Strings.tr("Localizable", "bump_up_banner_wait_text")
-    /// Your listing was boosted again! It will be featured for the next 24 hours.
+    /// Your listing was boosted! It will be featured for the next 24 hours.
     public static let bumpUpBoostSuccessAlertText = Strings.tr("Localizable", "bump_up_boost_success_alert_text")
     /// An error occurred while featuring your listing. Please try again.
     public static let bumpUpErrorBumpGeneric = Strings.tr("Localizable", "bump_up_error_bump_generic")
@@ -92,6 +94,14 @@ extension R {
     public static let bumpUpProductCellChatNowButtonC = Strings.tr("Localizable", "bump_up_product_cell_chat_now_button_c")
     /// Chat Now
     public static let bumpUpProductCellChatNowButtonD = Strings.tr("Localizable", "bump_up_product_cell_chat_now_button_d")
+    /// Chat Now
+    public static let bumpUpProductCellChatNowButtonEnglishA = Strings.tr("Localizable", "bump_up_product_cell_chat_now_button_english_a")
+    /// Contact
+    public static let bumpUpProductCellChatNowButtonEnglishB = Strings.tr("Localizable", "bump_up_product_cell_chat_now_button_english_b")
+    /// Contact seller
+    public static let bumpUpProductCellChatNowButtonEnglishC = Strings.tr("Localizable", "bump_up_product_cell_chat_now_button_english_c")
+    /// Start chat
+    public static let bumpUpProductCellChatNowButtonEnglishD = Strings.tr("Localizable", "bump_up_product_cell_chat_now_button_english_d")
     /// Featured
     public static let bumpUpProductCellFeaturedStripe = Strings.tr("Localizable", "bump_up_product_cell_featured_stripe")
     /// FEATURED
@@ -300,6 +310,16 @@ extension R {
     public static let chatConnectAccountDisclaimerButton = Strings.tr("Localizable", "chat_connect_account_disclaimer_button")
     /// BUILD TRUST!
     public static let chatConnectAccountsTitle = Strings.tr("Localizable", "chat_connect_accounts_title")
+    /// View blocked users
+    public static let chatConversationsListBlockedUsersButton = Strings.tr("Localizable", "chat_conversations_list_blocked_users_button")
+    /// All
+    public static let chatConversationsListFilterAll = Strings.tr("Localizable", "chat_conversations_list_filter_all")
+    /// Buying
+    public static let chatConversationsListFilterBuying = Strings.tr("Localizable", "chat_conversations_list_filter_buying")
+    /// Selling
+    public static let chatConversationsListFilterSelling = Strings.tr("Localizable", "chat_conversations_list_filter_selling")
+    /// letgo assistant
+    public static let chatConversationsListLetgoAssistantTag = Strings.tr("Localizable", "chat_conversations_list_letgo_assistant_tag")
     /// You can't continue this conversation because %@'s account is no longer active.
     public static func chatDeletedDisclaimerWName(_ p1: String) -> String {
       return Strings.tr("Localizable", "chat_deleted_disclaimer_w_name", p1)
@@ -378,9 +398,9 @@ extension R {
     public static let chatListDelete = Strings.tr("Localizable", "chat_list_delete")
     /// Delete
     public static let chatListDeleteAlertSend = Strings.tr("Localizable", "chat_list_delete_alert_send")
-    /// You're going to delete these chats
+    /// You're going to permanently delete these chats
     public static let chatListDeleteAlertTextMultiple = Strings.tr("Localizable", "chat_list_delete_alert_text_multiple")
-    /// You're going to delete this chat
+    /// You're going to permanently delete this chat
     public static let chatListDeleteAlertTextOne = Strings.tr("Localizable", "chat_list_delete_alert_text_one")
     /// Delete Chats
     public static let chatListDeleteAlertTitleMultiple = Strings.tr("Localizable", "chat_list_delete_alert_title_multiple")
@@ -406,6 +426,18 @@ extension R {
     public static let chatLoginPopupText = Strings.tr("Localizable", "chat_login_popup_text")
     /// Mark all as read
     public static let chatMarkConversationAsReadButton = Strings.tr("Localizable", "chat_mark_conversation_as_read_button")
+    /// Accept
+    public static let chatMeetingCellAcceptButton = Strings.tr("Localizable", "chat_meeting_cell_accept_button")
+    /// Decline
+    public static let chatMeetingCellDeclineButton = Strings.tr("Localizable", "chat_meeting_cell_decline_button")
+    /// Accepted
+    public static let chatMeetingCellStatusAccepted = Strings.tr("Localizable", "chat_meeting_cell_status_accepted")
+    /// Declined
+    public static let chatMeetingCellStatusDeclined = Strings.tr("Localizable", "chat_meeting_cell_status_declined")
+    /// Pending
+    public static let chatMeetingCellStatusPending = Strings.tr("Localizable", "chat_meeting_cell_status_pending")
+    /// Let’s meet at:
+    public static let chatMeetingCellTitle = Strings.tr("Localizable", "chat_meeting_cell_title")
     /// Try meeting at busier public places like coffee shops and bank lobbies. They're convenient and safe.
     public static let chatMessageDisclaimerMeetingSecurity = Strings.tr("Localizable", "chat_message_disclaimer_meeting_security")
     /// Tap here to block this user.
@@ -418,6 +450,8 @@ extension R {
     public static let chatMessageFieldHint = Strings.tr("Localizable", "chat_message_field_hint")
     /// An error occurred while retrieving your conversation data. Please try again.
     public static let chatMessageLoadGenericError = Strings.tr("Localizable", "chat_message_load_generic_error")
+    /// This message isn't compatible with your app version. Update your app now to unlock the newest features!
+    public static let chatMessageTypeNotSupported = Strings.tr("Localizable", "chat_message_type_not_supported")
     /// Connect with Facebook, Google or Email to verify your identity.
     public static let chatNotVerifiedAlertMessage = Strings.tr("Localizable", "chat_not_verified_alert_message")
     /// Check
@@ -452,6 +486,8 @@ extension R {
     public static let chatStickersTooltipNew = Strings.tr("Localizable", "chat_stickers_tooltip_new")
     /// Unblock User
     public static let chatUnblockUser = Strings.tr("Localizable", "chat_unblock_user")
+    /// I'm a virtual assistant that gives you tips and helps you sell.
+    public static let chatUserInfoLetgoAssistant = Strings.tr("Localizable", "chat_user_info_letgo_assistant")
     /// Hi, I'm %@
     public static func chatUserInfoName(_ p1: String) -> String {
       return Strings.tr("Localizable", "chat_user_info_name", p1)
@@ -506,6 +542,10 @@ extension R {
     public static let commonCollapse = Strings.tr("Localizable", "common_collapse")
     /// Confirm
     public static let commonConfirm = Strings.tr("Localizable", "common_confirm")
+    /// Done
+    public static let commonDone = Strings.tr("Localizable", "common_done")
+    /// Edit
+    public static let commonEdit = Strings.tr("Localizable", "common_edit")
     /// Error
     public static let commonError = Strings.tr("Localizable", "common_error")
     /// An error has occurred. Please check your Internet connection.
@@ -524,6 +564,10 @@ extension R {
     public static let commonErrorTitle = Strings.tr("Localizable", "common_error_title")
     /// Show More
     public static let commonExpand = Strings.tr("Localizable", "common_expand")
+    /// %@h %@m %@s
+    public static func commonHoursMinsSecs(_ p1: String, _ p2: String, _ p3: String) -> String {
+      return Strings.tr("Localizable", "common_hours_mins_secs", p1, p2, p3)
+    }
     /// Loading...
     public static let commonLoading = Strings.tr("Localizable", "common_loading")
     /// max
@@ -652,6 +696,8 @@ extension R {
     public static let directAnswerInterestedTitle = Strings.tr("Localizable", "direct_answer_interested_title")
     /// Is the price negotiable?
     public static let directAnswerIsNegotiable = Strings.tr("Localizable", "direct_answer_is_negotiable")
+    /// Let's meet
+    public static let directAnswerLetsMeet = Strings.tr("Localizable", "direct_answer_lets_meet")
     /// Hi! I'd like to buy it
     public static let directAnswerLikeToBuy = Strings.tr("Localizable", "direct_answer_like_to_buy")
     /// Where should we meet up?
@@ -762,6 +808,16 @@ extension R {
     public static let filtersCarMakeNotSet = Strings.tr("Localizable", "filters_car_make_not_set")
     /// Not Set
     public static let filtersCarModelNotSet = Strings.tr("Localizable", "filters_car_model_not_set")
+    /// All
+    public static let filtersCarSellerTypeAll = Strings.tr("Localizable", "filters_car_seller_type_all")
+    /// Dealership
+    public static let filtersCarSellerTypeDealership = Strings.tr("Localizable", "filters_car_seller_type_dealership")
+    /// Individual
+    public static let filtersCarSellerTypeInvidual = Strings.tr("Localizable", "filters_car_seller_type_invidual")
+    /// Private
+    public static let filtersCarSellerTypePrivate = Strings.tr("Localizable", "filters_car_seller_type_private")
+    /// Professional
+    public static let filtersCarSellerTypeProfessional = Strings.tr("Localizable", "filters_car_seller_type_professional")
     /// Any Year
     public static let filtersCarYearAnyYear = Strings.tr("Localizable", "filters_car_year_any_year")
     /// Before %i
@@ -854,6 +910,12 @@ extension R {
     public static let hiddenTextAlertDescription = Strings.tr("Localizable", "hidden_text_alert_description")
     /// STAY SAFE
     public static let hiddenTextAlertTitle = Strings.tr("Localizable", "hidden_text_alert_title")
+    /// Search this area
+    public static let listingMapRedoSearch = Strings.tr("Localizable", "listing_map_redo_search")
+    /// No exact matches for your search. Try looking in a different area or using different filters.
+    public static let listingsMapNoResultsMessage = Strings.tr("Localizable", "listings_map_no_results_message")
+    /// Map view
+    public static let listingsMapTitle = Strings.tr("Localizable", "listings_map_title")
     /// Allow
     public static let locationPermissionsAllowButton = Strings.tr("Localizable", "location_permissions_allow_button")
     /// 0.1 mi from you
@@ -894,7 +956,7 @@ extension R {
     public static let logInResetPasswordButton = Strings.tr("Localizable", "log_in_reset_password_button")
     /// Log In
     public static let logInSendButton = Strings.tr("Localizable", "log_in_send_button")
-    /// Sign in with email
+    /// Log in with email
     public static let logInTitle = Strings.tr("Localizable", "log_in_title")
     /// Contact Us
     public static let loginDeviceNotAllowedAlertContactButton = Strings.tr("Localizable", "login_device_not_allowed_alert_contact_button")
@@ -952,6 +1014,36 @@ extension R {
     public static let mainSignUpTermsConditionsPrivacyPart = Strings.tr("Localizable", "main_sign_up_terms_conditions_privacy_part")
     /// Terms & Conditions
     public static let mainSignUpTermsConditionsTermsPart = Strings.tr("Localizable", "main_sign_up_terms_conditions_terms_part")
+    /// Change meeting
+    public static let meetingCreationTipsViewChangeButton = Strings.tr("Localizable", "meeting_creation_tips_view_change_button")
+    /// Got it
+    public static let meetingCreationTipsViewGotitButton = Strings.tr("Localizable", "meeting_creation_tips_view_gotit_button")
+    /// Send meeting
+    public static let meetingCreationTipsViewSendButton = Strings.tr("Localizable", "meeting_creation_tips_view_send_button")
+    /// We recommend meeting during daylight hours at a busy, well-lit, public place like a local coffee shop or bank lobby.
+    public static let meetingCreationTipsViewSubtitle = Strings.tr("Localizable", "meeting_creation_tips_view_subtitle")
+    /// Pick a safe, convenient place to meet
+    public static let meetingCreationTipsViewTitle = Strings.tr("Localizable", "meeting_creation_tips_view_title")
+    /// DATE & TIME
+    public static let meetingCreationViewDateTime = Strings.tr("Localizable", "meeting_creation_view_date_time")
+    /// PLACE
+    public static let meetingCreationViewPlace = Strings.tr("Localizable", "meeting_creation_view_place")
+    /// Search
+    public static let meetingCreationViewSearchCellSearch = Strings.tr("Localizable", "meeting_creation_view_search_cell_search")
+    /// Search another location
+    public static let meetingCreationViewSearchCellTitle = Strings.tr("Localizable", "meeting_creation_view_search_cell_title")
+    /// Select date and time
+    public static let meetingCreationViewSelectDateTime = Strings.tr("Localizable", "meeting_creation_view_select_date_time")
+    /// Select a location
+    public static let meetingCreationViewSelectLocation = Strings.tr("Localizable", "meeting_creation_view_select_location")
+    /// Send meeting
+    public static let meetingCreationViewSendButton = Strings.tr("Localizable", "meeting_creation_view_send_button")
+    /// Select
+    public static let meetingCreationViewSuggestCellSelect = Strings.tr("Localizable", "meeting_creation_view_suggest_cell_select")
+    /// Selected
+    public static let meetingCreationViewSuggestCellSelected = Strings.tr("Localizable", "meeting_creation_view_suggest_cell_selected")
+    /// Schedule a meeting
+    public static let meetingCreationViewTitle = Strings.tr("Localizable", "meeting_creation_view_title")
     /// in about %.f days
     public static let mlCameraInAboutDaysText = Strings.tr("Localizable", "ml_camera_in_about_days_text")
     /// in more than %.f days
@@ -1152,6 +1244,74 @@ extension R {
     public static let passiveBuyersNotAvailable = Strings.tr("Localizable", "passive_buyers_not_available")
     /// THESE BUYERS MIGHT BE INTERESTED
     public static let passiveBuyersTitle = Strings.tr("Localizable", "passive_buyers_title")
+    /// Send magic link
+    public static let passwordlessEmailInputButton = Strings.tr("Localizable", "passwordless_email_input_button")
+    /// Enter your email address to sign in or create an account, and we’ll send a “magic link” to your inbox.
+    public static let passwordlessEmailInputDescription = Strings.tr("Localizable", "passwordless_email_input_description")
+    /// Email
+    public static let passwordlessEmailInputTextfieldPlaceholder = Strings.tr("Localizable", "passwordless_email_input_textfield_placeholder")
+    /// Continue with email
+    public static let passwordlessEmailInputTitle = Strings.tr("Localizable", "passwordless_email_input_title")
+    /// Check your email inbox
+    public static let passwordlessEmailSentScreenTitle = Strings.tr("Localizable", "passwordless_email_sent_screen_title")
+    /// Email address: %@
+    public static func passwordlessEmailSentSubtitle(_ p1: String) -> String {
+      return Strings.tr("Localizable", "passwordless_email_sent_subtitle", p1)
+    }
+    /// To sign in, click the 'magic link' we just sent you.
+    public static let passwordlessEmailSentTitle = Strings.tr("Localizable", "passwordless_email_sent_title")
+    /// Continue with email
+    public static let passwordlessMainSignupButton = Strings.tr("Localizable", "passwordless_main_signup_button")
+    /// Done
+    public static let passwordlessUsernameInputDoneButton = Strings.tr("Localizable", "passwordless_username_input_done_button")
+    /// Username
+    public static let passwordlessUsernameInputTextfieldPlaceholder = Strings.tr("Localizable", "passwordless_username_input_textfield_placeholder")
+    /// Choose your username
+    public static let passwordlessUsernameInputTitle = Strings.tr("Localizable", "passwordless_username_input_title")
+    /// Didn't get the code?
+    public static let phoneVerificationCodeInputViewContentSubaction = Strings.tr("Localizable", "phone_verification_code_input_view_content_subaction")
+    /// You can request another code if you don't receive it within %@
+    public static func phoneVerificationCodeInputViewContentSubtext(_ p1: String) -> String {
+      return Strings.tr("Localizable", "phone_verification_code_input_view_content_subtext", p1)
+    }
+    /// We've sent it to %@
+    public static func phoneVerificationCodeInputViewContentSubtitle(_ p1: String) -> String {
+      return Strings.tr("Localizable", "phone_verification_code_input_view_content_subtitle", p1)
+    }
+    /// Enter the 6-digit code
+    public static let phoneVerificationCodeInputViewContentTitle = Strings.tr("Localizable", "phone_verification_code_input_view_content_title")
+    /// Oops! An error occurred while validating the code. Please try again.
+    public static let phoneVerificationCodeInputViewErrorMessage = Strings.tr("Localizable", "phone_verification_code_input_view_error_message")
+    /// Number verification
+    public static let phoneVerificationCodeInputViewTitle = Strings.tr("Localizable", "phone_verification_code_input_view_title")
+    /// The verification code you entered is incorrect.
+    public static let phoneVerificationCodeInputViewValidatedFailure = Strings.tr("Localizable", "phone_verification_code_input_view_validated_failure")
+    /// Phone number verified!
+    public static let phoneVerificationCodeInputViewValidatedSuccess = Strings.tr("Localizable", "phone_verification_code_input_view_validated_success")
+    /// Validating code...
+    public static let phoneVerificationCodeInputViewValidatingMessage = Strings.tr("Localizable", "phone_verification_code_input_view_validating_message")
+    /// Search
+    public static let phoneVerificationCountryPickerViewSearchPlaceholder = Strings.tr("Localizable", "phone_verification_country_picker_view_search_placeholder")
+    /// Country list
+    public static let phoneVerificationCountryPickerViewTitle = Strings.tr("Localizable", "phone_verification_country_picker_view_title")
+    /// We sent a text message with a verification code to +%@ %@
+    public static func phoneVerificationNumberInputViewConfirmationMessage(_ p1: String, _ p2: String) -> String {
+      return Strings.tr("Localizable", "phone_verification_number_input_view_confirmation_message", p1, p2)
+    }
+    /// Thank you!
+    public static let phoneVerificationNumberInputViewConfirmationTitle = Strings.tr("Localizable", "phone_verification_number_input_view_confirmation_title")
+    /// Continue
+    public static let phoneVerificationNumberInputViewContinueButton = Strings.tr("Localizable", "phone_verification_number_input_view_continue_button")
+    /// Build trust by verifying your phone number
+    public static let phoneVerificationNumberInputViewDescription = Strings.tr("Localizable", "phone_verification_number_input_view_description")
+    /// Oops! An error occurred while sending the text message. Please try again.
+    public static let phoneVerificationNumberInputViewErrorMessage = Strings.tr("Localizable", "phone_verification_number_input_view_error_message")
+    /// Sending text message...
+    public static let phoneVerificationNumberInputViewSendingMessage = Strings.tr("Localizable", "phone_verification_number_input_view_sending_message")
+    /// Phone number
+    public static let phoneVerificationNumberInputViewTextfieldPlaceholder = Strings.tr("Localizable", "phone_verification_number_input_view_textfield_placeholder")
+    /// Number verification
+    public static let phoneVerificationNumberInputViewTitle = Strings.tr("Localizable", "phone_verification_number_input_view_title")
     /// Chat
     public static let photoViewerChatButton = Strings.tr("Localizable", "photo_viewer_chat_button")
     /// Add Make
@@ -1310,6 +1470,10 @@ extension R {
     public static let productFavoriteLoginPopupText = Strings.tr("Localizable", "product_favorite_login_popup_text")
     /// Free
     public static let productFreePrice = Strings.tr("Localizable", "product_free_price")
+    /// We've let the seller know that you're interested in buying this
+    public static let productInterestedBubbleMessage = Strings.tr("Localizable", "product_interested_bubble_message")
+    /// Undo
+    public static let productInterestedUndo = Strings.tr("Localizable", "product_interested_undo")
     /// Check out what I'm selling on letgo!
     public static let productIsMineShareBody = Strings.tr("Localizable", "product_is_mine_share_body")
     /// Check out what I'm giving away on letgo!
@@ -1432,14 +1596,26 @@ extension R {
     public static let productPostCameraFirstTimeAlertSubtitle = Strings.tr("Localizable", "product_post_camera_first_time_alert_subtitle")
     /// What are you selling?
     public static let productPostCameraFirstTimeAlertTitle = Strings.tr("Localizable", "product_post_camera_first_time_alert_title")
+    /// GALLERY
+    public static let productPostCameraGalleryTextButton = Strings.tr("Localizable", "product_post_camera_gallery_text_button")
     /// Allow
     public static let productPostCameraPermissionsButton = Strings.tr("Localizable", "product_post_camera_permissions_button")
     /// To take a photo, you must allow access to Camera
     public static let productPostCameraPermissionsSubtitle = Strings.tr("Localizable", "product_post_camera_permissions_subtitle")
     /// Allow access to Camera
     public static let productPostCameraPermissionsTitle = Strings.tr("Localizable", "product_post_camera_permissions_title")
+    /// PHOTO
+    public static let productPostCameraPhotoModeButton = Strings.tr("Localizable", "product_post_camera_photo_mode_button")
     /// CAMERA
     public static let productPostCameraTabV2 = Strings.tr("Localizable", "product_post_camera_tab_v2")
+    /// VIDEO
+    public static let productPostCameraVideoModeButton = Strings.tr("Localizable", "product_post_camera_video_mode_button")
+    /// %@ to record a video
+    public static func productPostCameraVideoRecordingTooltip(_ p1: String) -> String {
+      return Strings.tr("Localizable", "product_post_camera_video_recording_tooltip", p1)
+    }
+    /// Hold
+    public static let productPostCameraVideoRecordingTooltipHighlightedWord = Strings.tr("Localizable", "product_post_camera_video_recording_tooltip_highlighted_word")
     /// Discard
     public static let productPostCloseAlertCloseButton = Strings.tr("Localizable", "product_post_close_alert_close_button")
     /// Do you still want to list it for sale?
@@ -1536,8 +1712,10 @@ extension R {
     public static let productPostPriceLabel = Strings.tr("Localizable", "product_post_price_label")
     /// Listing posted. Congrats!
     public static let productPostProductPosted = Strings.tr("Localizable", "product_post_product_posted")
-    /// Photo Uploaded!
+    /// Photo uploaded!
     public static let productPostProductPostedNotLogged = Strings.tr("Localizable", "product_post_product_posted_not_logged")
+    /// Video uploaded!
+    public static let productPostProductPostedNotLoggedVideoPosting = Strings.tr("Localizable", "product_post_product_posted_not_logged_video_posting")
     /// Retake
     public static let productPostRetake = Strings.tr("Localizable", "product_post_retake")
     /// Try Again
@@ -1552,12 +1730,16 @@ extension R {
     public static let productPostSelectCategoryOther = Strings.tr("Localizable", "product_post_select_category_other")
     /// Real Estate
     public static let productPostSelectCategoryRealEstate = Strings.tr("Localizable", "product_post_select_category_real_estate")
+    /// Services
+    public static let productPostSelectCategoryServices = Strings.tr("Localizable", "product_post_select_category_services")
     /// What are you posting?
     public static let productPostSelectCategoryTitle = Strings.tr("Localizable", "product_post_select_category_title")
     /// Post
     public static let productPostUsePhoto = Strings.tr("Localizable", "product_post_use_photo")
-    /// Use Photo
+    /// Use photo
     public static let productPostUsePhotoNotLogged = Strings.tr("Localizable", "product_post_use_photo_not_logged")
+    /// Use video
+    public static let productPostUseVideoNotLogged = Strings.tr("Localizable", "product_post_use_video_not_logged")
     /// Call
     public static let productProfessionalCallButton = Strings.tr("Localizable", "product_professional_call_button")
     /// Chat
@@ -1694,6 +1876,28 @@ extension R {
     public static let profileFavouritesMyUserNoProductsLabel = Strings.tr("Localizable", "profile_favourites_my_user_no_products_label")
     /// Favorites
     public static let profileFavouritesProductsTab = Strings.tr("Localizable", "profile_favourites_products_tab")
+    /// Improve your Verification Score
+    public static let profileKarmaImproveScore = Strings.tr("Localizable", "profile_karma_improve_score")
+    /// %@ pts
+    public static func profileKarmaPointsTitle(_ p1: String) -> String {
+      return Strings.tr("Localizable", "profile_karma_points_title", p1)
+    }
+    /// Verification Score: %@
+    public static func profileKarmaTitle(_ p1: String) -> String {
+      return Strings.tr("Localizable", "profile_karma_title", p1)
+    }
+    /// %@ points
+    public static func profileKarmaUnverifiedPointsSubtitle(_ p1: String) -> String {
+      return Strings.tr("Localizable", "profile_karma_unverified_points_subtitle", p1)
+    }
+    /// Earn %@ to get the Verified User badge
+    public static func profileKarmaUnverifiedSubtitle(_ p1: String) -> String {
+      return Strings.tr("Localizable", "profile_karma_unverified_subtitle", p1)
+    }
+    /// You got the badge!
+    public static let profileKarmaVerifiedSubtitle = Strings.tr("Localizable", "profile_karma_verified_subtitle")
+    /// Only visible to you
+    public static let profileKarmaVisibilityTitle = Strings.tr("Localizable", "profile_karma_visibility_title")
     /// Not Now
     public static let profilePermissionsAlertCancel = Strings.tr("Localizable", "profile_permissions_alert_cancel")
     /// Would you like to enable message notifications now?
@@ -1704,6 +1908,8 @@ extension R {
     public static let profilePermissionsAlertTitle = Strings.tr("Localizable", "profile_permissions_alert_title")
     /// Enable message notifications
     public static let profilePermissionsHeaderMessage = Strings.tr("Localizable", "profile_permissions_header_message")
+    /// Verified user! Tap if you want to be verified too.
+    public static let profileReputationTooltipTitle = Strings.tr("Localizable", "profile_reputation_tooltip_title")
     /// Reviews
     public static let profileReviewsCount = Strings.tr("Localizable", "profile_reviews_count")
     /// Reviews
@@ -1720,6 +1926,12 @@ extension R {
     public static let profileSoldOtherNoProductsButton = Strings.tr("Localizable", "profile_sold_other_no_products_button")
     /// Sold
     public static let profileSoldProductsTab = Strings.tr("Localizable", "profile_sold_products_tab")
+    /// Email
+    public static let profileVerificationsEmailPlaceholder = Strings.tr("Localizable", "profile_verifications_email_placeholder")
+    /// Verify your Email
+    public static let profileVerificationsEmailViewTitle = Strings.tr("Localizable", "profile_verifications_email_view_title")
+    /// Send
+    public static let profileVerificationsSendButton = Strings.tr("Localizable", "profile_verifications_send_button")
     /// ADD YOUR
     public static let profileVerificationsViewAddInfoSectionTitle = Strings.tr("Localizable", "profile_verifications_view_add_info_section_title")
     /// Bio
@@ -1732,9 +1944,9 @@ extension R {
     public static let profileVerificationsViewFacebookTitle = Strings.tr("Localizable", "profile_verifications_view_facebook_title")
     /// Google
     public static let profileVerificationsViewGoogleTitle = Strings.tr("Localizable", "profile_verifications_view_google_title")
-    /// +2 pts each (up to 10 pts)
+    /// +2 pts for each listing (up to 10 pts)
     public static let profileVerificationsViewMarkAsSoldSubtitle = Strings.tr("Localizable", "profile_verifications_view_mark_as_sold_subtitle")
-    /// Mark a listing as sold
+    /// Mark as sold
     public static let profileVerificationsViewMarkAsSoldTitle = Strings.tr("Localizable", "profile_verifications_view_mark_as_sold_title")
     /// Phone number
     public static let profileVerificationsViewPhoneNumberTitle = Strings.tr("Localizable", "profile_verifications_view_phone_number_title")
@@ -1910,7 +2122,7 @@ extension R {
     public static let realEstateEmptyStateSearchTitle = Strings.tr("Localizable", "real_estate_empty_state_search_title")
     /// Select up to 5 images of the property you want to sell or rent
     public static let realEstateGalleryViewSubtitle = Strings.tr("Localizable", "real_estate_gallery_view_subtitle")
-    /// Select up to %d images of the property you want to sell or rent
+    /// Select up to %d images of the property you want to sell or rent. The first one will be your featured photo so make sure it's a good one!
     public static func realEstateGalleryViewSubtitleParams(_ p1: Int) -> String {
       return Strings.tr("Localizable", "real_estate_gallery_view_subtitle_params", p1)
     }
@@ -1926,6 +2138,22 @@ extension R {
     public static let realEstateOfferTypeTitle = Strings.tr("Localizable", "real_estate_offer_type_title")
     /// Price
     public static let realEstatePriceTitle = Strings.tr("Localizable", "real_estate_price_title")
+    /// Post Now
+    public static let realEstatePromoPostButtonTitle = Strings.tr("Localizable", "real_estate_promo_post_button_title")
+    /// Post Real Estate listings
+    public static let realEstatePromoTitleVersion1 = Strings.tr("Localizable", "real_estate_promo_title_version_1")
+    /// New! Post property for sale and rent
+    public static let realEstatePromoTitleVersion2 = Strings.tr("Localizable", "real_estate_promo_title_version_2")
+    /// New! Sell or rent property
+    public static let realEstatePromoTitleVersion3 = Strings.tr("Localizable", "real_estate_promo_title_version_3")
+    /// Sell or rent property
+    public static let realEstatePromoTitleVersion4 = Strings.tr("Localizable", "real_estate_promo_title_version_4")
+    /// You can now post Real Estate listings
+    public static let realEstatePromoTitleVersion5 = Strings.tr("Localizable", "real_estate_promo_title_version_5")
+    /// New! Real Estate listings on letgo
+    public static let realEstatePromoTitleVersion6 = Strings.tr("Localizable", "real_estate_promo_title_version_6")
+    /// Real Estate for rent or sale
+    public static let realEstatePromoTitleVersion7 = Strings.tr("Localizable", "real_estate_promo_title_version_7")
     /// Related results
     public static let realEstateRelatedSearchTitle = Strings.tr("Localizable", "real_estate_related_search_title")
     /// Over 10
@@ -2118,6 +2346,32 @@ extension R {
     public static let resetPasswordSendTooManyRequests = Strings.tr("Localizable", "reset_password_send_too_many_requests")
     /// Reset password
     public static let resetPasswordTitle = Strings.tr("Localizable", "reset_password_title")
+    /// Oops! An error occurred while deleting your search alert.
+    public static let searchAlertDeleteErrorMessage = Strings.tr("Localizable", "search_alert_delete_error_message")
+    /// Oops! An error occurred while deactivating your search alert.
+    public static let searchAlertDisableErrorMessage = Strings.tr("Localizable", "search_alert_disable_error_message")
+    /// Oops! An error occurred while activating your search alert.
+    public static let searchAlertEnableErrorMessage = Strings.tr("Localizable", "search_alert_enable_error_message")
+    /// Manage notifications
+    public static let searchAlertErrorTooManyButtonText = Strings.tr("Localizable", "search_alert_error_too_many_button_text")
+    /// Oops! You've reached the maximum number of search alerts
+    public static let searchAlertErrorTooManyText = Strings.tr("Localizable", "search_alert_error_too_many_text")
+    /// Edit
+    public static let searchAlertsEditButton = Strings.tr("Localizable", "search_alerts_edit_button")
+    /// Get notifications about new listings
+    public static let searchAlertsHeaderSubtitle = Strings.tr("Localizable", "search_alerts_header_subtitle")
+    /// Search Notifications
+    public static let searchAlertsListTitle = Strings.tr("Localizable", "search_alerts_list_title")
+    /// Start Searching
+    public static let searchAlertsPlaceholderEmptyButton = Strings.tr("Localizable", "search_alerts_placeholder_empty_button")
+    /// Subscribe to searches to get notifications when new listings are posted.
+    public static let searchAlertsPlaceholderEmptyText = Strings.tr("Localizable", "search_alerts_placeholder_empty_text")
+    /// Try Again
+    public static let searchAlertsPlaceholderErrorButton = Strings.tr("Localizable", "search_alerts_placeholder_error_button")
+    /// Oops! An error occurred while loading your search alerts
+    public static let searchAlertsPlaceholderErrorText = Strings.tr("Localizable", "search_alerts_placeholder_error_text")
+    /// Search letgo
+    public static let searchLetgo = Strings.tr("Localizable", "search_letgo")
     /// Category
     public static let sellCategorySelectionLabel = Strings.tr("Localizable", "sell_category_selection_label")
     /// Cancel
@@ -2220,6 +2474,12 @@ extension R {
     public static let settingsMarketingNotificationsAlertMessage = Strings.tr("Localizable", "settings_marketing_notifications_alert_message")
     /// Marketing Notifications
     public static let settingsMarketingNotificationsSwitch = Strings.tr("Localizable", "settings_marketing_notifications_switch")
+    /// Notifications
+    public static let settingsNotificationsButton = Strings.tr("Localizable", "settings_notifications_button")
+    /// Search Alerts
+    public static let settingsNotificationsSearchAlerts = Strings.tr("Localizable", "settings_notifications_search_alerts")
+    /// Notifications
+    public static let settingsNotificationsTitle = Strings.tr("Localizable", "settings_notifications_title")
     /// Profile
     public static let settingsSectionProfile = Strings.tr("Localizable", "settings_section_profile")
     /// Promote

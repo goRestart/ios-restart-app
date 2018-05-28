@@ -21,7 +21,6 @@ extension ChatEventType: MockFactory {
     public static func makeMockInterlocutorMessageSent() -> ChatEventType {
         return .interlocutorMessageSent(messageId: String.makeRandom(),
                                         sentAt: Date.makeRandom(),
-                                        text: String.makeRandom(),
-                                        type: ChatMessageType.makeMock())
+                                        content: MockChatMessageContent.makeMock())
     }
 }

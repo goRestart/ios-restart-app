@@ -72,7 +72,7 @@ enum AlertButtonsLayout {
     }
 }
 
-class LGAlertViewController: UIViewController {
+final class LGAlertViewController: UIViewController {
 
     static let buttonsContainerTopSeparation: CGFloat = 20
 
@@ -111,7 +111,7 @@ class LGAlertViewController: UIViewController {
         self.buttonsLayout = buttonsLayout
         self.dismissAction = dismissAction
         super.init(nibName: "LGAlertViewController", bundle: nil)
-        modalPresentationStyle = .overCurrentContext
+        setupForModalWithNonOpaqueBackground()
         modalTransitionStyle = .crossDissolve
     }
     

@@ -21,6 +21,7 @@ class MockPurchasesShopper: PurchasesShopper {
     var currentBumpIsBoost: Bool = false
 
     var timeOfRecentBump: TimeInterval? = nil
+    var maxCountdown: TimeInterval? = nil
 
     func startObservingTransactions() {
 
@@ -37,6 +38,7 @@ class MockPurchasesShopper: PurchasesShopper {
     func productsRequestStartForListingId(_ listingId: String,
                                           letgoItemId: String,
                                           withIds ids: [String],
+                                          maxCountdown: TimeInterval,
                                           typePage: EventParameterTypePage?) {
 
         currentBumpTypePage = typePage
@@ -52,6 +54,7 @@ class MockPurchasesShopper: PurchasesShopper {
                                                                               withProducts: purchaseableProducts,
                                                                               letgoItemId: letgoItemId,
                                                                               storeProductId: ids.first,
+                                                                              maxCountdown: maxCountdown,
                                                                               typePage: typePage)
     }
     
@@ -59,7 +62,8 @@ class MockPurchasesShopper: PurchasesShopper {
     func requestPayment(forListingId listingId: String,
                         appstoreProduct: PurchaseableProduct,
                         letgoItemId: String,
-                        isBoost: Bool) {
+                        isBoost: Bool,
+                        maxCountdown: TimeInterval) {
         delegate?.restoreBumpDidStart()
         
         performAfterDelayWithCompletion { [weak self] in
@@ -69,9 +73,11 @@ class MockPurchasesShopper: PurchasesShopper {
                 strongSelf.delegate?.pricedBumpPaymentDidFail(withReason: nil, transactionStatus: .purchasingPurchased)
             } else if strongSelf.pricedBumpSucceeds {
                 // payment works and bump works
+                let paymentId = UUID().uuidString.lowercased()
                 strongSelf.delegate?.pricedBumpDidSucceed(type: .priced, restoreRetriesCount: strongSelf.restoreRetriesCount,
                                                           transactionStatus: .purchasingPurchased, typePage: strongSelf.currentBumpTypePage,
-                                                          isBoost: isBoost)
+                                                          isBoost: isBoost,
+                                                          paymentId: paymentId)
             } else {
                 // payment works but bump fails
                 strongSelf.delegate?.pricedBumpDidFail(type: .priced, transactionStatus: .purchasingPurchased,
@@ -84,8 +90,9 @@ class MockPurchasesShopper: PurchasesShopper {
         return isBumpUpPending
     }
 
-    func timeSinceRecentBumpFor(listingId: String) -> TimeInterval? {
-        return timeOfRecentBump
+    func timeSinceRecentBumpFor(listingId: String) -> (timeDifference: TimeInterval, maxCountdown: TimeInterval)? {
+        guard let timeOfRecentBump = timeOfRecentBump, let maxCountdown = maxCountdown else { return nil }
+        return (timeOfRecentBump, maxCountdown)
     }
 
     func requestFreeBumpUp(forListingId listingId: String, letgoItemId: String, shareNetwork: EventParameterShareNetwork) {
@@ -96,10 +103,12 @@ class MockPurchasesShopper: PurchasesShopper {
         delegate?.pricedBumpDidStart(typePage: currentBumpTypePage, isBoost: currentBumpIsBoost)
         if pricedBumpSucceeds {
             // payment works and bump works
+            let paymentId = UUID().uuidString.lowercased()
             delegate?.pricedBumpDidSucceed(type: .restore, restoreRetriesCount: restoreRetriesCount,
                                            transactionStatus: .purchasingPurchased,
                                            typePage: currentBumpTypePage,
-                                           isBoost: currentBumpIsBoost)
+                                           isBoost: currentBumpIsBoost,
+                                           paymentId: paymentId)
         } else {
             // payment works but bump fails
             delegate?.pricedBumpDidFail(type: .restore,

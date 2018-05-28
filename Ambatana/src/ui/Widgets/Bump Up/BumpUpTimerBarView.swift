@@ -1,12 +1,5 @@
-//
-//  BumpUpTimerBarView.swift
-//  LetGo
-//
-//  Created by Dídac on 15/03/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 struct BumpUpTimerBarViewMetrics {
     static let height: CGFloat = 64
@@ -68,7 +61,7 @@ class BumpUpTimerBarView: UIView {
     }
 
     private func setupUI() {
-        titleLabel.text = LGLocalizedString.bumpUpBannerBoostProgressTitle
+        titleLabel.text = R.Strings.bumpUpBannerBoostProgressTitle
         titleLabel.font = UIFont.systemBoldFont(size: 17)
 
         timeLabel.textColor = UIColor.asparagus

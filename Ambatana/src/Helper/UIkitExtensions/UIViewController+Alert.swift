@@ -1,11 +1,4 @@
-//
-//  UIViewController+Alert.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 04/05/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
+import LGComponents
 
 // ABIOS-2082 All alert handling should be presented/dismissed via coordinator
 import UIKit
@@ -36,10 +29,10 @@ extension UIViewController {
 
 
     // Shows a loading alert message. It will not fade away, so must be explicitly dismissed by calling dismissAlert()
-    func showLoadingMessageAlert(_ message: String? = LGLocalizedString.commonLoading) {
+    func showLoadingMessageAlert(_ message: String? = R.Strings.commonLoading) {
         guard self.loading == nil else { return }
 
-        let finalMessage = (message ?? LGLocalizedString.commonLoading)+"\n\n\n"
+        let finalMessage = (message ?? R.Strings.commonLoading)+"\n\n\n"
         let alert = UIAlertController(title: finalMessage, message: nil, preferredStyle: .alert)
         let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
         activityIndicator.color = UIColor.black
@@ -70,7 +63,7 @@ extension UIViewController {
         let completion: (() -> ())?
         if let message = finishedMessage {
             completion = { [weak self] in
-                self?.showAutoFadingOutMessageAlert(message, time: 3, completion: afterMessageCompletion)
+                self?.showAutoFadingOutMessageAlert(message: message, time: 3, completion: afterMessageCompletion)
             }
         } else if let afterMessageCompletion = afterMessageCompletion {
             completion = afterMessageCompletion
@@ -86,9 +79,9 @@ extension UIViewController {
 
 extension UIViewController {
     // Shows an alert message that fades out after kLetGoFadingAlertDismissalTime seconds
-    func showAutoFadingOutMessageAlert(_ message: String, time: Double = kLetGoFadingAlertDismissalTime,
+    func showAutoFadingOutMessageAlert(title: String? = nil, message: String, time: Double = kLetGoFadingAlertDismissalTime,
                                        completion: (() -> Void)? = nil) {
-        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         present(alert, animated: true, completion: nil)
         delay(time) {
             alert.dismiss(animated: true) { completion?() }
@@ -168,7 +161,7 @@ extension UIViewController {
             alert.popoverPresentationController?.sourceRect = sourceRect
             alert.popoverPresentationController?.sourceView = sourceView
         } else if DeviceFamily.isiPad {
-            showAlert(nil, message: nil, cancelLabel: LGLocalizedString.commonCancel, actions: actions, completion: completion)
+            showAlert(nil, message: nil, cancelLabel: R.Strings.commonCancel, actions: actions, completion: completion)
             return
         }
         

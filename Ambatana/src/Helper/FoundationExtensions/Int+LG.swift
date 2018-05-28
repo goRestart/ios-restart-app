@@ -1,13 +1,6 @@
-//
-//  Int+LG.swift
-//  LetGo
-//
-//  Created by Dídac on 07/07/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
+import LGComponents
 
 extension Int {
     static func random(_ min: Int = 0, _ max: Int = 100) -> Int {
@@ -27,7 +20,7 @@ extension Int {
         let hours = self/3600
         let mins = (self%3600)/60
         let secs = self%60
-        return LGLocalizedString.commonHoursMinsSecs(String(format: "%02d", hours),
+        return R.Strings.commonHoursMinsSecs(String(format: "%02d", hours),
                                                          String(format: "%02d", mins),
                                                          String(format: "%02d", secs))
     }

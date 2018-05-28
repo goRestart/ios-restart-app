@@ -137,6 +137,11 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "Vì lý do an toàn, tài khoản này đã bị letgo xóa và các tin nhắn cũng được gỡ bỏ.";
 "chat_connect_account_disclaimer_button" = "Xác minh ngay bây giờ!";
 "chat_connect_accounts_title" = "XÂY DỰNG NIỀM TIN!";
+"chat_conversations_list_blocked_users_button" = "Xem người dùng bị chặn";
+"chat_conversations_list_filter_all" = "Tất cả";
+"chat_conversations_list_filter_buying" = "Mua";
+"chat_conversations_list_filter_selling" = "Bán";
+"chat_conversations_list_letgo_assistant_tag" = "letgo assistant";
 "chat_deleted_disclaimer_w_name" = "Bạn không thể tiếp tục cuộc trò chuyện này bởi tài khoản của %@ không còn hoạt động.";
 "chat_deleted_disclaimer_wo_name" = "Bạn không thể tiếp tục cuộc trò chuyện này bởi tài khoản này không còn hoạt động.";
 "chat_disclaimer_letgo_team" = "ĐỘI NGŨ LETGO";
@@ -172,8 +177,8 @@
 "chat_list_buying_title" = "MUA";
 "chat_list_delete" = "Xóa";
 "chat_list_delete_alert_send" = "Xóa";
-"chat_list_delete_alert_text_multiple" = "Bạn sắp xóa các trò chuyện này";
-"chat_list_delete_alert_text_one" = "Bạn sắp xóa trò chuyện này";
+"chat_list_delete_alert_text_multiple" = "Bạn sắp xóa những trò chuyện này vĩnh viễn";
+"chat_list_delete_alert_text_one" = "Bạn sắp xóa trò chuyện này vĩnh viễn";
 "chat_list_delete_alert_title_multiple" = "Xóa các Trò chuyện";
 "chat_list_delete_alert_title_one" = "Xóa Trò chuyện";
 "chat_list_delete_error_one" = "Có lỗi xảy ra trong khi xóa trò chuyện này. Xin vui lòng thử lại.";
@@ -215,7 +220,7 @@
 "chat_send_error_generic" = "Có lỗi xảy ra trong khi gửi tin nhắn. Xin vui lòng thử lại.";
 "chat_stickers_tooltip_new" = "MỚI!";
 "chat_unblock_user" = "Bỏ chặn Người dùng";
-"chat_user_info_letgo_assistant" = "I'm a virtual assistant that gives you tips and helps you sell.";
+"chat_user_info_letgo_assistant" = "Tôi là một trợ lý ảo, người sẽ cho bạn các lời khuyên và giúp bạn bán hàng.";
 "chat_user_info_name" = "Xin chào, tôi là %@";
 "chat_user_info_verified_with" = "Xác nhận bằng: ";
 "chat_user_rating_button_tooltip" = "Đánh giá người dùng này";
@@ -411,6 +416,8 @@
 "hidden_phone_tag" = "[SỐ ĐIỆN THOẠI BỊ ẨN]";
 "hidden_text_alert_description" = "Chúng tôi ẩn thông tin liên lạc để giúp bạn mua và bán được an toàn. Trò chuyện trên letgo luôn dễ dàng và bảo mật hơn.";
 "hidden_text_alert_title" = "GIỮ AN TOÀN";
+"listing_map_redo_search" = "Tìm kiếm khu vực này";
+"listings_map_no_results_message" = "Không có kết quả nào khớp với tìm kiếm của bạn. Hãy thử tìm ở một khu vực khác hoặc sử dụng bộ lọc khác.";
 "listings_map_title" = "Xem bản đồ";
 "location_permissions_allow_button" = "Cho phép";
 "location_permissions_bubble" = "Cách bạn 100m";
@@ -574,7 +581,7 @@
 "phone_verification_code_input_view_content_subtext" = "Bạn có thể yêu cầu một mã khác nếu bạn không nhận được mã trong %@";
 "phone_verification_code_input_view_content_subtitle" = "Chúng tôi vừa gửi tới %@";
 "phone_verification_code_input_view_content_title" = "Nhập mã 6 chữ số";
-"phone_verification_code_input_view_error_message" = "Oops! An error occurred while validating the code. Please try again.";
+"phone_verification_code_input_view_error_message" = "Ồ! Có lỗi xảy ra trong khi xác minh mã. Xin vui lòng thử lại.";
 "phone_verification_code_input_view_title" = "Xác thực số điện thoại";
 "phone_verification_code_input_view_validated_failure" = "Mã xác nhận bạn nhập không chính xác.";
 "phone_verification_code_input_view_validated_success" = "Đã xác minh số điện thoại!";
@@ -585,7 +592,7 @@
 "phone_verification_number_input_view_confirmation_title" = "Cảm ơn bạn!";
 "phone_verification_number_input_view_continue_button" = "Tiếp tục";
 "phone_verification_number_input_view_description" = "Xây dựng lòng tin bằng việc xác thực số điện thoại của bạn";
-"phone_verification_number_input_view_error_message" = "Oops! An error occurred while sending the text message. Please try again.";
+"phone_verification_number_input_view_error_message" = "Ồ! Có lỗi xảy ra trong khi gửi tin nhắn. Xin vui lòng thử lại.";
 "phone_verification_number_input_view_sending_message" = "Đang gửi tin nhắn…";
 "phone_verification_number_input_view_textfield_placeholder" = "Số Điện thoại";
 "phone_verification_number_input_view_title" = "Xác thực số điện thoại";
@@ -773,6 +780,7 @@
 "product_post_select_category_motors_and_accessories" = "Phương tiện và Phụ tùng khác";
 "product_post_select_category_other" = "Sản phẩm khác";
 "product_post_select_category_real_estate" = "Bất động sản";
+"product_post_select_category_services" = "Dịch vụ";
 "product_post_select_category_title" = "Bạn đang đăng gì?";
 "product_post_use_photo" = "Đăng";
 "product_post_use_photo_not_logged" = "Sử dụng hình ảnh";
@@ -851,6 +859,7 @@
 "profile_permissions_alert_ok" = "Bật";
 "profile_permissions_alert_title" = "ĐỪNG BỎ LỠ TRẢ LỜI NÀO!";
 "profile_permissions_header_message" = "Bật thông báo tin nhắn";
+"profile_reputation_tooltip_title" = "User verified! Tap if you want to be verified too";
 "profile_reviews_count" = "Đánh giá";
 "profile_reviews_tab" = "Đánh giá";
 "profile_selling_no_products_label" = "KHÔNG (CHƯA) CÓ BÀI ĐĂNG NÀO!";
@@ -868,8 +877,8 @@
 "profile_verifications_view_extra_section_title" = "MUA & BÁN";
 "profile_verifications_view_facebook_title" = "Facebook";
 "profile_verifications_view_google_title" = "Google";
-"profile_verifications_view_mark_as_sold_subtitle" = "+2 điểm mỗi bài (tối đa 10 điểm)";
-"profile_verifications_view_mark_as_sold_title" = "Đánh dấu đã bán cho bài đăng";
+"profile_verifications_view_mark_as_sold_subtitle" = "+2 điểm cho mỗi bài đăng (tối đa 10 điểm)";
+"profile_verifications_view_mark_as_sold_title" = "Đánh dấu Đã bán";
 "profile_verifications_view_phone_number_title" = "Số Điện thoại";
 "profile_verifications_view_photo_id_title" = "ID có ảnh";
 "profile_verifications_view_profile_picture_title" = "Ảnh hồ sơ";
@@ -1069,6 +1078,7 @@
 "search_alerts_placeholder_empty_text" = "Đăng ký tìm kiếm để nhận thông báo khi có bài đăng mới.";
 "search_alerts_placeholder_error_button" = "Thử lại";
 "search_alerts_placeholder_error_text" = "Ồ! Có lỗi xảy ra trong khi tải thông báo tìm kiếm";
+"search_letgo" = "Tìm kiếm letgo";
 "sell_category_selection_label" = "Danh mục";
 "sell_choose_category_dialog_cancel_button" = "Hủy";
 "sell_choose_category_dialog_title" = "Chọn một danh mục";

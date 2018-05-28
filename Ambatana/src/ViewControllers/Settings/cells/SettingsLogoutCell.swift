@@ -1,12 +1,5 @@
-//
-//  SettingsLogoutCell.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 09/11/2016.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 class SettingsLogoutCell: UITableViewCell, ReusableCell {
 
@@ -26,6 +19,6 @@ class SettingsLogoutCell: UITableViewCell, ReusableCell {
         logoutButton.isUserInteractionEnabled = false
         logoutButton.setStyle(.logout)
         logoutButton.cornerRadius = 22
-        logoutButton.setTitle(LGLocalizedString.settingsLogoutButton, for: .normal)
+        logoutButton.setTitle(R.Strings.settingsLogoutButton, for: .normal)
     }
 }

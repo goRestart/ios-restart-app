@@ -1,15 +1,8 @@
-//
-//  QuickChatView.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 30/11/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
 import RxSwift
 import RxCocoa
 import LGCoreKit
+import LGComponents
 
 typealias DirectAnswersSupportType = UITableViewDataSource & UITableViewDelegate
 
@@ -24,7 +17,12 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
     var isTableInteractionEnabled = true
 
     var textViewFocusColor: UIColor = .white
-    var textViewStandardColor: UIColor = UIColor.black.withAlphaComponent(0.07)
+    var textViewStandardColor: UIColor = UIColor.black.withAlphaComponent(0.07) {
+        didSet {
+            guard !textView.isFirstResponder else { return }
+            textView.setTextViewBackgroundColor(textViewStandardColor)
+        }
+    }
 
     var rxDidBeginEditing: ControlEvent<()> { return textView.rx.didBeginEditing }
     var rxDidEndEditing: ControlEvent<()> { return textView.rx.didEndEditing }
@@ -212,7 +210,7 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
         textViewBottom?.isActive = true
         textView.setContentCompressionResistancePriority(.required, for: .vertical)
         textView.backgroundColor = .clear
-        setInitialText(LGLocalizedString.chatExpressTextFieldText)
+        setInitialText(R.Strings.chatExpressTextFieldText)
     }
 
     private func setupDirectAnswers() {

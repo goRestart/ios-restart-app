@@ -1,12 +1,5 @@
-//
-//  UserProfileTabsView.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 22/2/18.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 protocol UserProfileTabsViewDelegate: class {
     func didSelect(tab: UserProfileTabType)
@@ -20,10 +13,10 @@ enum UserProfileTabType: Int {
 
     var title: String {
         switch self {
-        case .selling: return LGLocalizedString.profileSellingProductsTab
-        case .sold: return LGLocalizedString.profileSoldProductsTab
-        case .favorites: return LGLocalizedString.profileFavouritesProductsTab
-        case .reviews: return LGLocalizedString.profileReviewsTab
+        case .selling: return R.Strings.profileSellingProductsTab
+        case .sold: return R.Strings.profileSoldProductsTab
+        case .favorites: return R.Strings.profileFavouritesProductsTab
+        case .reviews: return R.Strings.profileReviewsTab
         }
     }
 }
@@ -115,8 +108,7 @@ private class UserProfileTab: UIView {
 
     func setupView() {
         addSubviewsForAutoLayout([nameLabel, selectedView])
-
-        nameLabel.font = .userProfileTabsNameFont
+        nameLabel.font = tabsFont(selected: false)
         nameLabel.textColor = .grayDark
         nameLabel.textAlignment = .center
         selectedView.alpha = 0
@@ -138,10 +130,19 @@ private class UserProfileTab: UIView {
     }
 
     func setSelected(selected: Bool) {
-        nameLabel.font = selected ? .userProfileTabsNameSelectedFont : .userProfileTabsNameFont
+        nameLabel.font = tabsFont(selected: selected)
         nameLabel.textColor = selected ? .primaryColor : .grayDark
         UIView.animate(withDuration: 0.2) {
             self.selectedView.alpha = selected ? 1 : 0
+        }
+    }
+
+    private func tabsFont(selected: Bool) -> UIFont {
+        let isSmallPhone = .iPhone5 >= DeviceFamily.current
+        if selected {
+            return isSmallPhone ? .userProfileTabsNameSelectedMiniFont : .userProfileTabsNameSelectedFont
+        } else {
+            return isSmallPhone ? .userProfileTabsNameMiniFont : .userProfileTabsNameFont
         }
     }
 }

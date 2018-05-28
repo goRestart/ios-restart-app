@@ -1,13 +1,6 @@
-//
-//  BlockedUserCell.swift
-//  LetGo
-//
-//  Created by Dídac on 10/02/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
 import LGCoreKit
+import LGComponents
 
 class BlockedUserCell: UITableViewCell {
 
@@ -81,7 +74,7 @@ class BlockedUserCell: UITableViewCell {
     private func resetUI() {
         avatarImageView.image = UIImage(named: "user_placeholder")
         userNameLabel.text = ""
-        blockedLabel.text = LGLocalizedString.chatListBlockedUserLabel
+        blockedLabel.text = R.Strings.chatListBlockedUserLabel
     }
 
     override func setEditing(_ editing: Bool, animated: Bool) {

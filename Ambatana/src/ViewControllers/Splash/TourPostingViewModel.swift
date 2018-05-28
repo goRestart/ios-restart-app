@@ -1,21 +1,14 @@
-//
-//  TourPostingViewModel.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 13/09/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 protocol TourPostingViewModelDelegate: BaseViewModelDelegate { }
 
 class TourPostingViewModel: BaseViewModel {
     weak var navigator: TourPostingNavigator?
 
-    let titleText = LGLocalizedString.onboardingPostingTitleB
-    let subtitleText = LGLocalizedString.onboardingPostingSubtitleB
-    let okButtonText = LGLocalizedString.onboardingPostingButtonB
+    let titleText = R.Strings.onboardingPostingTitleB
+    let subtitleText = R.Strings.onboardingPostingSubtitleB
+    let okButtonText = R.Strings.onboardingPostingButtonB
     
     let featureFlags: FeatureFlaggeable
 
@@ -39,12 +32,12 @@ class TourPostingViewModel: BaseViewModel {
     }
 
     func closeButtonPressed() {
-            let actionOk = UIAction(interface: UIActionInterface.text(LGLocalizedString.onboardingAlertYes),
+            let actionOk = UIAction(interface: UIActionInterface.text(R.Strings.onboardingAlertYes),
                                     action: { [weak self] in self?.navigator?.tourPostingPost(fromCamera: false) })
-            let actionCancel = UIAction(interface: UIActionInterface.text(LGLocalizedString.onboardingAlertNo),
+            let actionCancel = UIAction(interface: UIActionInterface.text(R.Strings.onboardingAlertNo),
                                         action: { [weak self] in self?.navigator?.tourPostingClose() })
-            delegate?.vmShowAlert(LGLocalizedString.onboardingPostingAlertTitle,
-                                  message: LGLocalizedString.onboardingPostingAlertSubtitle,
+            delegate?.vmShowAlert(R.Strings.onboardingPostingAlertTitle,
+                                  message: R.Strings.onboardingPostingAlertSubtitle,
                                   actions: [actionCancel, actionOk])
     }
 }

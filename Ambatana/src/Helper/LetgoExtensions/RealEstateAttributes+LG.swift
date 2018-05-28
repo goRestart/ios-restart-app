@@ -1,12 +1,5 @@
-//
-//  RealEstateAttributes+LG.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 20/11/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
+import LGComponents
 
 extension RealEstateAttributes {
     
@@ -68,7 +61,7 @@ extension RealEstateAttributes {
                 tags.append(numBedrooms.shortLocalizedString.localizedUppercase)
             }
             if let bathrooms = bathrooms, let numBathrooms = NumberOfBathrooms(rawValue: bathrooms) {
-                let bathroomsTag = bathrooms == 0 ? LGLocalizedString.realEstateAttributeTagBathroom0.localizedUppercase : numBathrooms.shortLocalizedString.localizedUppercase
+                let bathroomsTag = bathrooms == 0 ? R.Strings.realEstateAttributeTagBathroom0.localizedUppercase : numBathrooms.shortLocalizedString.localizedUppercase
                 tags.append(bathroomsTag)
             }
         case .turkish:

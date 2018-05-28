@@ -1,13 +1,6 @@
-//
-//  SellCoordinator.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 20/06/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 protocol SellCoordinatorDelegate: class {
     func sellCoordinatorDidCancel(_ coordinator: SellCoordinator)
@@ -206,17 +199,7 @@ extension SellCoordinator: PostListingNavigator {
     
     
     fileprivate func trackListingPostedInBackground(withError error: RepositoryError) {
-        let sellError: EventParameterPostListingError
-        switch error {
-        case .network:
-            sellError = .network
-        case let .forbidden(cause: cause):
-            sellError = .forbidden(cause: cause)
-        case .serverError, .notFound, .unauthorized, .tooManyRequests, .userNotVerified:
-            sellError = .serverError(code: error.errorCode)
-        case .internalError, .wsChatError, .searchAlertError:
-            sellError = .internalError
-        }
+        let sellError = EventParameterPostListingError(error: error)
         let sellErrorDataEvent = TrackerEvent.listingSellErrorData(sellError)
         TrackerProxy.sharedInstance.trackEvent(sellErrorDataEvent)
     }
@@ -261,7 +244,7 @@ extension SellCoordinator: PostListingNavigator {
     }
 
     func openLoginIfNeededFromListingPosted(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void), cancelAction: (() -> Void)?) {
-        openLoginIfNeeded(from: from, style: .popup(LGLocalizedString.productPostLoginMessage), loggedInAction: loggedInAction, cancelAction: cancelAction)
+        openLoginIfNeeded(from: from, style: .popup(R.Strings.productPostLoginMessage), loggedInAction: loggedInAction, cancelAction: cancelAction)
     }
     
     func backToSummary() {
@@ -286,7 +269,6 @@ extension SellCoordinator: PostListingNavigator {
         guard pages.count > 0 else { return }
         let viewModel = LGTutorialViewModel(pages: pages, origin: origin, tutorialType: tutorialType)
         let viewController = LGTutorialViewController(viewModel: viewModel)
-        viewController.modalPresentationStyle = .overFullScreen
         navigationController.present(viewController, animated: true, completion: nil)
     }
 }

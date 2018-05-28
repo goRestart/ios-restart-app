@@ -1,13 +1,6 @@
-//
-//  PostingQueuedRequestsLoadingViewModel.swift
-//  LetGo
-//
-//  Created by Raúl de Oñate Blanco on 04/12/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
     
@@ -21,15 +14,15 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
         var message: String {
             switch self {
             case .uploadingImages:
-                return LGLocalizedString.postQueuedRequestsStateGeneratingTitle
+                return R.Strings.postQueuedRequestsStateGeneratingTitle
             case .createListing:
-                return LGLocalizedString.postQueuedRequestsStateCategorizingListing
+                return R.Strings.postQueuedRequestsStateCategorizingListing
             case .createListingUI:
-                return LGLocalizedString.postQueuedRequestsStatePostingListing
+                return R.Strings.postQueuedRequestsStatePostingListing
             case .listingPosted:
-                return LGLocalizedString.postQueuedRequestsStateListingPosted
+                return R.Strings.postQueuedRequestsStateListingPosted
             case .error:
-                return LGLocalizedString.productPostGenericError
+                return R.Strings.productPostGenericError
             }
         }
         

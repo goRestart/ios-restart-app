@@ -1,17 +1,8 @@
-//
-//  ExpandableCategorySelectionView.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 29/08/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
-
 import LGCoreKit
 import UIKit
 import RxSwift
-
+import LGComponents
 
 class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , TagCollectionViewModelSelectionDelegate {
     
@@ -35,7 +26,7 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
         label.font = UIFont.systemSemiBoldFont(size: 13)
-        label.text = LGLocalizedString.trendingItemsExpandableMenuSubsetTitle
+        label.text = R.Strings.trendingItemsExpandableMenuSubsetTitle
         label.textAlignment = .center
         return label
     }()
@@ -83,10 +74,13 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
     // MARK: - UI
     
     private func setupNewBadge() {
+        guard let newBadgeCategory = viewModel.newBadgeCategory,
+            let position = viewModel.categoriesAvailable.index(of: newBadgeCategory) else { return }
+        
         newBadgeView.backgroundColor = .white
         
         let labelNew = UILabel()
-        labelNew.text = LGLocalizedString.commonNew
+        labelNew.text = R.Strings.commonNew
         labelNew.font = UIFont.boldSystemFont(ofSize: 12)
         labelNew.textColor = UIColor.lgBlack
         newBadgeView.addSubviewForAutoLayout(labelNew)
@@ -95,12 +89,10 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
         newBadgeView.clipsToBounds = true
         newBadgeView.applyDefaultShadow()
         addSubviewForAutoLayout(newBadgeView)
-        
-        if let position = viewModel.realEstateCategoryPosition, position < buttons.count  {
-            newBadgeView.layout(with: buttons[position])
-                .right(by: Metrics.veryShortMargin)
-                .top(by: -Metrics.veryShortMargin)
-        }
+
+        newBadgeView.layout(with: buttons[position])
+            .right(by: Metrics.veryShortMargin)
+            .top(by: -Metrics.veryShortMargin)
     }
 
     private func addButtons() {
@@ -153,7 +145,7 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
         closeButton.layout().height(buttonCloseSide)
         
         addButtons()
-        if viewModel.newBadgeEnabled {
+        if viewModel.newBadgeCategory != nil {
             setupNewBadge()
         }
         
@@ -301,14 +293,14 @@ fileprivate extension ExpandableCategory {
             case .listingCategory(let listingCategory):
             switch listingCategory {
             case .unassigned:
-                return LGLocalizedString.categoriesUnassignedItems
+                return R.Strings.categoriesUnassignedItems
             case .motorsAndAccessories, .cars, .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .services:
                 return listingCategory.name
             case .realEstate:
-                return FeatureFlags.sharedInstance.realEstateNewCopy.isActive ? LGLocalizedString.productPostSelectCategoryRealEstate : LGLocalizedString.productPostSelectCategoryHousing
+                return FeatureFlags.sharedInstance.realEstateNewCopy.isActive ? R.Strings.productPostSelectCategoryRealEstate : R.Strings.productPostSelectCategoryHousing
             }
         case .mostSearchedItems:
-            return LGLocalizedString.trendingItemsExpandableMenuButton
+            return R.Strings.trendingItemsExpandableMenuButton
         }
     }
     var icon: UIImage? {
@@ -323,7 +315,9 @@ fileprivate extension ExpandableCategory {
                 return #imageLiteral(resourceName: "motorsAndAccesories")
             case .realEstate:
                 return #imageLiteral(resourceName: "housingIcon")
-            case .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .services:
+            case .services:
+                return #imageLiteral(resourceName: "servicesIcon")
+            case .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames:
                 return listingCategory.image
             }
         case .mostSearchedItems:

@@ -14,17 +14,17 @@ Pod::Spec.new do |s|
     s.static_framework = true
 
     s.subspec 'LGLogin' do |loginSpec|
-	    loginSpec.source_files = 'LGLogin/LGLogin/Classes/**/*'
+        loginSpec.source_files = 'LGLogin/LGLogin/Classes/**/*'
         
         loginSpec.resource_bundles = {
             'LGLoginBundle' => ['LGLogin/LGLogin/Assets/**/*']
         }
-	    
+
         loginSpec.dependency 'LGComponents/LGAnalytics'
         loginSpec.dependency 'LGComponents/LGShared'
-    	loginSpec.dependency 'LGComponents/LGResources'
+        loginSpec.dependency 'LGComponents/LGResources'
 
-        loginSpec.dependency 'LGCoreKit',       '4.25.0'
+        loginSpec.dependency 'LGCoreKit',       '4.26.3'
 
         loginSpec.dependency 'FBSDKLoginKit',   '4.29.0'  # Obj-c
         loginSpec.dependency 'GoogleSignIn',    '4.1.1'  # Obj-c
@@ -32,18 +32,32 @@ Pod::Spec.new do |s|
         loginSpec.dependency 'RxCocoa',         '4.0.0'
     end
 
-    s.subspec 'LGAnalytics' do |spec|
-        spec.source_files = 'LGAnalytics/LGAnalytics/Classes/**/*'
+    s.subspec 'LGLoginMocks' do |loginMocksSpec|
+        loginMocksSpec.source_files = 'LGLogin/LGLogin/Mocks/**/*'
+
+        loginMocksSpec.dependency 'LGComponents/LGLogin'
+        loginMocksSpec.dependency 'LGComponents/LGAnalyticsMocks'
+        loginMocksSpec.dependency 'LGComponents/LGSharedMocks'
+    end
+
+    s.subspec 'LGAnalytics' do |analyticsSpec|
+        analyticsSpec.source_files = 'LGAnalytics/LGAnalytics/Classes/**/*'
         
-        spec.dependency 'Amplitude-iOS',      '4.0.4'
-        spec.dependency 'AppsFlyerFramework', '4.8.2'
-        spec.dependency 'Branch',             '0.22.5'
-        spec.dependency 'Crashlytics',        '3.9.3'
-        spec.dependency 'Fabric',             '1.7.2'
-        spec.dependency 'FBSDKCoreKit',       '4.29.0'
-        spec.dependency 'Leanplum-iOS-SDK',   '2.0.5'
-        spec.dependency 'LGCoreKit',          '4.25.0'
-        spec.dependency 'RxSwift',            '4.0.0'
+        analyticsSpec.dependency 'Amplitude-iOS',      '4.0.4'
+        analyticsSpec.dependency 'AppsFlyerFramework', '4.8.4'
+        analyticsSpec.dependency 'Branch',             '0.22.5'
+        analyticsSpec.dependency 'Crashlytics',        '3.9.3'
+        analyticsSpec.dependency 'Fabric',             '1.7.2'
+        analyticsSpec.dependency 'FBSDKCoreKit',       '4.29.0'
+        analyticsSpec.dependency 'Leanplum-iOS-SDK',   '2.0.5'
+        analyticsSpec.dependency 'LGCoreKit',          '4.26.3'
+        analyticsSpec.dependency 'RxSwift',            '4.0.0'
+    end
+
+    s.subspec 'LGAnalyticsMocks' do |analyticsMocksSpec|
+        analyticsMocksSpec.source_files = 'LGAnalytics/LGAnalytics/Mocks/**/*'
+
+        analyticsMocksSpec.dependency 'LGComponents/LGAnalytics'
     end
 
     s.subspec 'LGShared' do |sharedSpec|  
@@ -54,7 +68,7 @@ Pod::Spec.new do |s|
         sharedSpec.dependency 'LGComponents/LGAnalytics'
         sharedSpec.dependency 'LGComponents/LGResources'
 
-        sharedSpec.dependency 'LGCoreKit',             '4.25.0'
+        sharedSpec.dependency 'LGCoreKit',             '4.26.3'
 
         sharedSpec.dependency 'DeviceGuru',            '3.0.1'
         sharedSpec.dependency 'AlamofireImage',        '3.3.0'
@@ -63,12 +77,18 @@ Pod::Spec.new do |s|
         sharedSpec.dependency 'RxCocoa',               '4.0.0'
     end
 
+    s.subspec 'LGSharedMocks' do |sharedMocksSpec|
+        sharedMocksSpec.source_files = 'LGShared/LGShared/Mocks/**/*'
+
+        sharedMocksSpec.dependency 'LGComponents/LGShared'
+    end
+
     s.subspec 'LGResources' do |resourcesSpec|
-	    resourcesSpec.source_files = 'LGResources/LGResources/Classes/**/*'
-	    
-	    resourcesSpec.resource_bundles = {
-	        'LGResourcesBundle' => ['LGResources/LGResources/Assets/**/*']
-	    }  
+        resourcesSpec.source_files = 'LGResources/LGResources/Classes/**/*'
+
+        resourcesSpec.resource_bundles = {
+            'LGResourcesBundle' => ['LGResources/LGResources/Assets/**/*']
+	    }
 
 		resourcesSpec.script_phase = { 
 			:name => 'Generate R structure', 

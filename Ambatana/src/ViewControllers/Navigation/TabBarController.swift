@@ -1,16 +1,8 @@
-//
-//  TabBarController.swift
-//  LetGo
-//
-//  Created by AHL on 17/5/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
 import UIKit
 import RxSwift
 import RxCocoa
 import LGCoreKit
-
+import LGComponents
 
 protocol ScrollableToTop {
     func scrollToTop()
@@ -54,7 +46,7 @@ final class TabBarController: UITabBarController {
         self.viewModel = viewModel
         self.featureFlags = featureFlags
         self.tracker = tracker
-        self.floatingSellButton = FloatingButton(with: LGLocalizedString.tabBarToolTip,
+        self.floatingSellButton = FloatingButton(with: R.Strings.tabBarToolTip,
                                                  image: UIImage(named: "ic_sell_white"), position: .left)
         super.init(nibName: nil, bundle: nil)
     }
@@ -260,11 +252,7 @@ final class TabBarController: UITabBarController {
     
     func setupExpandableCategoriesView() {
         view.subviews.find(where: { $0.tag == TabBarController.categorySelectionTag })?.removeFromSuperview()
-        let shouldShowBadge = featureFlags.realEstateTutorial.isActive && featureFlags.realEstateEnabled.isActive
-        let vm = ExpandableCategorySelectionViewModel(realEstateEnabled: featureFlags.realEstateEnabled.isActive,
-                                                      trendingButtonEnabled: featureFlags.mostSearchedDemandedItems == .trendingButtonExpandableMenu,
-                                                      tagsEnabled: featureFlags.mostSearchedDemandedItems == .subsetAboveExpandableMenu,
-                                                      newBadgeEnabled: shouldShowBadge)
+        let vm = ExpandableCategorySelectionViewModel(featureFlags: featureFlags)
         vm.delegate = self
         
         let bottomDistance = view.bounds.height - floatingSellButton.frame.maxY

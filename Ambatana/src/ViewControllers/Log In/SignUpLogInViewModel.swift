@@ -1,15 +1,8 @@
-//
-//  SignUpLoginViewModel.swift
-//  LetGo
-//
-//  Created by Dídac on 19/11/15.
-//  Copyright © 2015 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
 import Result
 import RxSwift
+import LGComponents
 
 enum LoginActionType: Int {
     case signup, login
@@ -159,12 +152,12 @@ class SignUpLogInViewModel: BaseViewModel {
 
     func attributedLegalText(_ linkColor: UIColor) -> NSAttributedString {
         guard let conditionsURL = termsAndConditionsURL, let privacyURL = privacyURL else {
-            return NSAttributedString(string: LGLocalizedString.signUpTermsConditions)
+            return NSAttributedString(string: R.Strings.signUpTermsConditions)
         }
 
-        let links = [LGLocalizedString.signUpTermsConditionsTermsPart: conditionsURL,
-            LGLocalizedString.signUpTermsConditionsPrivacyPart: privacyURL]
-        let localizedLegalText = LGLocalizedString.signUpTermsConditions
+        let links = [R.Strings.signUpTermsConditionsTermsPart: conditionsURL,
+            R.Strings.signUpTermsConditionsPrivacyPart: privacyURL]
+        let localizedLegalText = R.Strings.signUpTermsConditions
         let attributtedLegalText = localizedLegalText.attributedHyperlinkedStringWithURLDict(links,
             textColor: linkColor)
         attributtedLegalText.addAttribute(NSAttributedStringKey.font, value: UIFont.mediumBodyFont,
@@ -638,10 +631,10 @@ fileprivate extension LogInEmailFormErrors {
     var errorMessage: String {
         let message: String
         if contains(.invalidEmail) {
-            message = LGLocalizedString.logInErrorSendErrorInvalidEmail
+            message = R.Strings.logInErrorSendErrorInvalidEmail
         } else {
             // message for .shortPassword and default
-            message = LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
+            message = R.Strings.logInErrorSendErrorUserNotFoundOrWrongPassword
         }
         return message
     }
@@ -669,18 +662,18 @@ fileprivate extension SignUpFormErrors {
     var errorMessage: String {
         let message: String
         if contains(.invalidEmail) {
-            message = LGLocalizedString.signUpSendErrorInvalidEmail
+            message = R.Strings.signUpSendErrorInvalidEmail
         } else if contains(.shortPassword) || contains(.longPassword) {
-            message = LGLocalizedString.signUpSendErrorInvalidPasswordWithMax(Constants.passwordMinLength,
+            message = R.Strings.signUpSendErrorInvalidPasswordWithMax(Constants.passwordMinLength,
                                                                              Constants.passwordMaxLength)
         } else if contains(.usernameTaken) {
-            message = LGLocalizedString.signUpSendErrorGeneric
+            message = R.Strings.signUpSendErrorGeneric
         } else if contains(.invalidUsername) {
-            message = LGLocalizedString.signUpSendErrorInvalidUsername(Constants.fullNameMinLength)
+            message = R.Strings.signUpSendErrorInvalidUsername(Constants.fullNameMinLength)
         } else if contains(.termsNotAccepted) {
-            message = LGLocalizedString.signUpAcceptanceError
+            message = R.Strings.signUpAcceptanceError
         } else {
-            message = LGLocalizedString.signUpSendErrorGeneric
+            message = R.Strings.signUpSendErrorGeneric
         }
         return message
     }
@@ -740,14 +733,14 @@ fileprivate extension SignUpLogInViewModel {
 
 fileprivate extension SignUpLogInViewModel {
     func showRememberPasswordAlert() {
-        let title = LGLocalizedString.logInEmailForgotPasswordAlertTitle
+        let title = R.Strings.logInEmailForgotPasswordAlertTitle
         var message: String?
         if let emailTrimmed = emailTrimmed.value {
-            message = LGLocalizedString.logInEmailForgotPasswordAlertMessage(emailTrimmed)
+            message = R.Strings.logInEmailForgotPasswordAlertMessage(emailTrimmed)
         }
-        let cancelAction = UIAction(interface: .styledText(LGLocalizedString.logInEmailForgotPasswordAlertCancelAction, .cancel),
+        let cancelAction = UIAction(interface: .styledText(R.Strings.logInEmailForgotPasswordAlertCancelAction, .cancel),
                                     action: {})
-        let recoverPasswordAction = UIAction(interface: .styledText(LGLocalizedString.logInEmailForgotPasswordAlertRememberAction, .destructive),
+        let recoverPasswordAction = UIAction(interface: .styledText(R.Strings.logInEmailForgotPasswordAlertRememberAction, .destructive),
                                              action: { [weak self] in
                                                 if let emailTrimmed = self?.emailTrimmed.value {
                                                     self?.recoverPassword(email: emailTrimmed)
@@ -770,7 +763,7 @@ fileprivate extension SignUpLogInViewModel {
 
     func recoverPasswordSucceeded() {
         if let emailTrimmed = emailTrimmed.value {
-            let message = LGLocalizedString.resetPasswordSendOk(emailTrimmed)
+            let message = R.Strings.resetPasswordSendOk(emailTrimmed)
             delegate?.vmHideLoading(message, afterMessageCompletion: nil)
         }
     }
@@ -781,15 +774,15 @@ fileprivate extension SignUpLogInViewModel {
         var message: String? = nil
         switch error {
         case .network:
-            message = LGLocalizedString.commonErrorConnectionFailed
+            message = R.Strings.commonErrorConnectionFailed
         case .notFound:
             if let emailTrimmed = emailTrimmed.value {
-                message = LGLocalizedString.resetPasswordSendErrorUserNotFoundOrWrongPassword(emailTrimmed)
+                message = R.Strings.resetPasswordSendErrorUserNotFoundOrWrongPassword(emailTrimmed)
             }
         case .conflict, .tooManyRequests:
-            message = LGLocalizedString.resetPasswordSendTooManyRequests
+            message = R.Strings.resetPasswordSendTooManyRequests
         case .badRequest, .scammer, .internalError, .userNotVerified, .forbidden, .unauthorized, .nonExistingEmail:
-            message = LGLocalizedString.resetPasswordSendErrorGeneric
+            message = R.Strings.resetPasswordSendErrorGeneric
         }
         delegate?.vmHideLoading(message, afterMessageCompletion: nil)
     }

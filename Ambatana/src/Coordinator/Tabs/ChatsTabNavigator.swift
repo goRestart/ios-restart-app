@@ -7,5 +7,6 @@
 //
 
 protocol ChatsTabNavigator: TabNavigator {
-    
+    func openBlockedUsers()
+    func openInactiveConversations()
 }

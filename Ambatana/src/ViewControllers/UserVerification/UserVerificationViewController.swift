@@ -1,14 +1,8 @@
-//
-//  UserVerificationViewController.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 19/3/18.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 import RxSwift
 import RxCocoa
+import GoogleSignIn
+import LGComponents
 
 enum UserVerificationTableViewSections: Int {
     case verifications = 0
@@ -16,11 +10,11 @@ enum UserVerificationTableViewSections: Int {
     case buyAndSell = 2
 }
 
-final class UserVerificationViewController: BaseViewController {
+final class UserVerificationViewController: BaseViewController, GIDSignInUIDelegate {
 
     private let viewModel: UserVerificationViewModel
     private let disposeBag = DisposeBag()
-    private let tableView = UITableView()
+    private let tableView = UITableView(frame: .zero, style: .grouped)
     private let navBarView = UserVerificationNavBarView()
     private var items: [[UserVerificationItem]] = []
 
@@ -33,7 +27,7 @@ final class UserVerificationViewController: BaseViewController {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
         viewModel.delegate = self
-        self.title = LGLocalizedString.profileVerificationsViewTitle
+        self.title = R.Strings.profileVerificationsViewTitle
         setupUI()
         bindRx()
     }
@@ -55,10 +49,13 @@ final class UserVerificationViewController: BaseViewController {
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = .none
         tableView.sectionHeaderHeight = 66
+        tableView.contentInset = UIEdgeInsetsMake(0, 0, Metrics.bigMargin, 0)
+        tableView.backgroundColor = .white
         tableView.register(UserVerificationCell.self, forCellReuseIdentifier: UserVerificationCell.reusableID)
         setNavBarBackgroundStyle(.white)
         setupNavBar()
         setupConstraints()
+        GIDSignIn.sharedInstance().uiDelegate = self
     }
 
     private func setupNavBar() {
@@ -135,16 +132,16 @@ extension UserVerificationViewController: UITableViewDelegate, UITableViewDataSo
         switch section {
         case .verifications:
             let view = UserVerificationMainSectionHeader()
-            view.title = LGLocalizedString.profileVerificationsViewVerifySectionTitle
-            view.subtitle = LGLocalizedString.profileVerificationsViewVerifySectionSubtitle
+            view.title = R.Strings.profileVerificationsViewVerifySectionTitle
+            view.subtitle = R.Strings.profileVerificationsViewVerifySectionSubtitle
             return view
         case .personalInfo:
             let view = UserVerificationSectionHeader()
-            view.title = LGLocalizedString.profileVerificationsViewAddInfoSectionTitle
+            view.title = R.Strings.profileVerificationsViewAddInfoSectionTitle
             return view
         case .buyAndSell:
             let view = UserVerificationSectionHeader()
-            view.title = LGLocalizedString.profileVerificationsViewExtraSectionTitle
+            view.title = R.Strings.profileVerificationsViewExtraSectionTitle
             return view
         }
     }

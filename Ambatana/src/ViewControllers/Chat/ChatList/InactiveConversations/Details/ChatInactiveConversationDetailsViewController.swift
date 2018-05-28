@@ -216,7 +216,7 @@ ChatInactiveConversationsViewModelDelegate {
     // MARK: - ChatInactiveConversationsViewModel delegate
     
     func vmDidNotifyMessage(_ message: String, completion: (() -> ())?) {
-        showAutoFadingOutMessageAlert(message, completion: completion)
+        showAutoFadingOutMessageAlert(message: message, completion: completion)
     }
     
     // MARK: - Accesibility

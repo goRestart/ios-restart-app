@@ -1,13 +1,6 @@
-//
-//  AppRatingView.swift
-//  LetGo
-//
-//  Created by Dídac on 08/09/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
 import UIKit
 import LGCoreKit
+import LGComponents
 
 protocol AppRatingViewDelegate: class {
     func appRatingViewDidSelectRating(_ rating: Int)
@@ -45,9 +38,9 @@ class AppRatingView: UIView {
         self.frame = frame
         mainView.cornerRadius = LGUIKitConstants.bigCornerRadius
         headerImageView.backgroundColor = UIColor.ratingViewBackgroundColor
-        mainTextLabel.text = LGLocalizedString.ratingViewTitleLabelUppercase
-        ratUslabel.text = LGLocalizedString.ratingViewRateUsLabel
-        dismissButton.setTitle(LGLocalizedString.ratingViewRemindLaterButton.localizedUppercase, for: .normal)
+        mainTextLabel.text = R.Strings.ratingViewTitleLabelUppercase
+        ratUslabel.text = R.Strings.ratingViewRateUsLabel
+        dismissButton.setTitle(R.Strings.ratingViewRemindLaterButton.localizedUppercase, for: .normal)
 
         setAccesibilityIds()
     }

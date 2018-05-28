@@ -36,7 +36,7 @@
 
         ],
         "LGCoreKit": [
-          "4.25.0"
+          "4.26.3"
         ],
         "FBSDKLoginKit": [
           "4.29.0"
@@ -53,6 +53,21 @@
       }
     },
     {
+      "name": "LGLoginMocks",
+      "source_files": "LGLogin/LGLogin/Mocks/**/*",
+      "dependencies": {
+        "LGComponents/LGLogin": [
+
+        ],
+        "LGComponents/LGAnalyticsMocks": [
+
+        ],
+        "LGComponents/LGSharedMocks": [
+
+        ]
+      }
+    },
+    {
       "name": "LGAnalytics",
       "source_files": "LGAnalytics/LGAnalytics/Classes/**/*",
       "dependencies": {
@@ -60,7 +75,7 @@
           "4.0.4"
         ],
         "AppsFlyerFramework": [
-          "4.8.2"
+          "4.8.4"
         ],
         "Branch": [
           "0.22.5"
@@ -78,10 +93,19 @@
           "2.0.5"
         ],
         "LGCoreKit": [
-          "4.25.0"
+          "4.26.3"
         ],
         "RxSwift": [
           "4.0.0"
+        ]
+      }
+    },
+    {
+      "name": "LGAnalyticsMocks",
+      "source_files": "LGAnalytics/LGAnalytics/Mocks/**/*",
+      "dependencies": {
+        "LGComponents/LGAnalytics": [
+
         ]
       }
     },
@@ -97,7 +121,7 @@
 
         ],
         "LGCoreKit": [
-          "4.25.0"
+          "4.26.3"
         ],
         "DeviceGuru": [
           "3.0.1"
@@ -113,6 +137,15 @@
         ],
         "RxCocoa": [
           "4.0.0"
+        ]
+      }
+    },
+    {
+      "name": "LGSharedMocks",
+      "source_files": "LGShared/LGShared/Mocks/**/*",
+      "dependencies": {
+        "LGComponents/LGShared": [
+
         ]
       }
     },

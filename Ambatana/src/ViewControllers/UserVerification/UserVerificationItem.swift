@@ -1,12 +1,5 @@
-//
-//  UserVerificationItem.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 19/3/18.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 enum UserVerificationItem {
     case facebook(completed: Bool)
@@ -20,21 +13,21 @@ enum UserVerificationItem {
 
     var title: String {
         switch self {
-        case .facebook: return LGLocalizedString.profileVerificationsViewFacebookTitle
-        case .google: return LGLocalizedString.profileVerificationsViewGoogleTitle
-        case .email: return LGLocalizedString.profileVerificationsViewEmailTitle
-        case .phoneNumber: return LGLocalizedString.profileVerificationsViewPhoneNumberTitle
-        case .photoID: return LGLocalizedString.profileVerificationsViewPhotoIdTitle
-        case .profilePicture: return LGLocalizedString.profileVerificationsViewProfilePictureTitle
-        case .bio: return LGLocalizedString.profileVerificationsViewBioTitle
-        case .markAsSold: return LGLocalizedString.profileVerificationsViewMarkAsSoldTitle
+        case .facebook: return R.Strings.profileVerificationsViewFacebookTitle
+        case .google: return R.Strings.profileVerificationsViewGoogleTitle
+        case .email: return R.Strings.profileVerificationsViewEmailTitle
+        case .phoneNumber: return R.Strings.profileVerificationsViewPhoneNumberTitle
+        case .photoID: return R.Strings.profileVerificationsViewPhotoIdTitle
+        case .profilePicture: return R.Strings.profileVerificationsViewProfilePictureTitle
+        case .bio: return R.Strings.profileVerificationsViewBioTitle
+        case .markAsSold: return R.Strings.profileVerificationsViewMarkAsSoldTitle
         }
     }
 
     var subtitle: String? {
         switch self {
         case .facebook, .google, .email, .phoneNumber, .photoID, .profilePicture, .bio: return nil
-        case .markAsSold: return LGLocalizedString.profileVerificationsViewMarkAsSoldSubtitle
+        case .markAsSold: return R.Strings.profileVerificationsViewMarkAsSoldSubtitle
         }
     }
 

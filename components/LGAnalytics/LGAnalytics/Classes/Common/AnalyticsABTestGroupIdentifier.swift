@@ -15,4 +15,5 @@ public enum AnalyticsABTestGroupIdentifier: String {
     case chat = "AB-test-chat"
     case products = "AB-test-products"
     case users = "AB-test-users"
+    case discovery = "AB-test-discovery"
 }

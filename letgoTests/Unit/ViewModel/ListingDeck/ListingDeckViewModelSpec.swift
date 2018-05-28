@@ -12,7 +12,7 @@ import RxSwift
 import LGCoreKit
 import Quick
 import Nimble
-
+import LGComponents
 
 final class ListingDeckViewModelSpec: BaseViewModelSpec {
 
@@ -67,7 +67,7 @@ final class ListingDeckViewModelSpec: BaseViewModelSpec {
 
             func buildSut(productListModels: [ListingCellModel] = [],
                           initialProduct: Product? = nil,
-                          source: EventParameterListingVisitSource = .listingList,
+                          source: LetGoGodMode.EventParameterListingVisitSource = .listingList,
                           actionOnFirstAppear: ProductCarouselActionOnFirstAppear = .nonexistent,
                           trackingIndex: Int? = nil,
                           firstProductSyncRequired: Bool = false) {
@@ -544,7 +544,7 @@ final class ListingDeckViewModelSpec: BaseViewModelSpec {
                             expect(actionButtonsObserver.eventValues.map { $0.count }) == [0, 1]
                         }
                         it("action buttons item is to mark as sold") {
-                            expect(actionButtonsObserver.lastValue?.first?.text) == LGLocalizedString.productMarkAsSoldButton
+                            expect(actionButtonsObserver.lastValue?.first?.text) == R.Strings.productMarkAsSoldButton
                         }
                     }
                 }
@@ -618,7 +618,7 @@ final class ListingDeckViewModelSpec: BaseViewModelSpec {
                             startObserving()
                         }
                         it("there is a mark sold action") {
-                            expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [LGLocalizedString.productMarkAsSoldButton]
+                            expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [R.Strings.productMarkAsSoldButton]
                         }
                         it("quick answers are disabled") {
                             expect(quickAnswersAvailableObserver.lastValue) == false
@@ -637,7 +637,7 @@ final class ListingDeckViewModelSpec: BaseViewModelSpec {
                             startObserving()
                         }
                         it("there is a mark sold action") {
-                            expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [LGLocalizedString.productMarkAsSoldFreeButton]
+                            expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [R.Strings.productMarkAsSoldFreeButton]
                         }
                         it("quick answers are disabled") {
                             expect(quickAnswersAvailableObserver.lastValue) == false
@@ -656,7 +656,7 @@ final class ListingDeckViewModelSpec: BaseViewModelSpec {
                             startObserving()
                         }
                         it("there is a sell again action") {
-                            expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [LGLocalizedString.productSellAgainButton]
+                            expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [R.Strings.productSellAgainButton]
                         }
                         it("quick answers are disabled") {
                             expect(quickAnswersAvailableObserver.lastValue) == false
@@ -675,7 +675,7 @@ final class ListingDeckViewModelSpec: BaseViewModelSpec {
                             startObserving()
                         }
                         it("there is a sell again action") {
-                            expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [LGLocalizedString.productSellAgainFreeButton]
+                            expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [R.Strings.productSellAgainFreeButton]
                         }
                         it("quick answers are disabled") {
                             expect(quickAnswersAvailableObserver.lastValue) == false
@@ -802,41 +802,43 @@ extension ListingDeckViewModelSpec: ListingDeckViewModelDelegate {
 extension ListingDeckViewModelSpec: ListingDetailNavigator {
     func openVideoPlayer(atIndex index: Int,
                          listingVM: ListingViewModel,
-                         source: EventParameterListingVisitSource) { }
+                         source: LetGoGodMode.EventParameterListingVisitSource) { }
 
-    func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?) { }
+    func openListingChat(_ listing: Listing, source: LetGoGodMode.EventParameterTypePage, interlocutor: User?) { }
     func openAskPhoneFor(listing: Listing, interlocutor: User?) { }
     func closeAskPhoneFor(listing: Listing,
                           openChat: Bool,
                           withPhoneNum: String?,
-                          source: EventParameterTypePage,
+                          source: LetGoGodMode.EventParameterTypePage,
                           interlocutor: User?) { }
     func editListing(_ listing: Listing,
                      bumpUpProductData: BumpUpProductData?,
                      listingCanBeBoosted: Bool,
                      timeSinceLastBump: TimeInterval?,
-                     maxCountdown: TimeInterval?) { }
+                     maxCountdown: TimeInterval) { }
     func openFreeBumpUp(forListing listing: Listing,
                         bumpUpProductData: BumpUpProductData,
-                        typePage: EventParameterTypePage?) {}
+                        typePage: LetGoGodMode.EventParameterTypePage?,
+                        maxCountdown: TimeInterval) {}
     func openPayBumpUp(forListing listing: Listing,
                        bumpUpProductData: BumpUpProductData,
-                       typePage: EventParameterTypePage?) {}
+                       typePage: LetGoGodMode.EventParameterTypePage?,
+                       maxCountdown: TimeInterval) {}
     func openBumpUpBoost(forListing listing: Listing,
                          bumpUpProductData: BumpUpProductData,
-                         typePage: EventParameterTypePage?,
+                         typePage: LetGoGodMode.EventParameterTypePage?,
                          timeSinceLastBump: TimeInterval,
                          maxCountdown: TimeInterval) {}
     func closeProductDetail() {}
-    func openListingChat(_ listing: Listing, source: EventParameterTypePage) {}
+    func openListingChat(_ listing: Listing, source: LetGoGodMode.EventParameterTypePage) {}
     func closeListingAfterDelete(_ listing: Listing) {}
     func selectBuyerToRate(source: RateUserSource,
                            buyers: [UserListing],
                            listingId: String,
                            sourceRateBuyers: SourceRateBuyers?,
-                           trackingInfo: MarkAsSoldTrackingInfo) {}
+                           trackingInfo: LetGoGodMode.MarkAsSoldTrackingInfo) {}
     func showProductFavoriteBubble(with data: BubbleNotificationData) {}
-    func openLoginIfNeededFromProductDetail(from: EventParameterLoginSourceValue, infoMessage: String,
+    func openLoginIfNeededFromProductDetail(from: LetGoGodMode.EventParameterLoginSourceValue, infoMessage: String,
                                             loggedInAction: @escaping (() -> Void)) {}
     func showBumpUpNotAvailableAlertWithTitle(title: String,
                                               text: String,

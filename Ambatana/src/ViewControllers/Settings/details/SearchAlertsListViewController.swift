@@ -1,13 +1,6 @@
-//
-//  SearchAlertsListViewController.swift
-//  LetGo
-//
-//  Created by Raúl de Oñate Blanco on 23/04/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import RxSwift
 import LGCoreKit
+import LGComponents
 
 final class SearchAlertsListViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate,
 SearchAlertSwitchCellDelegate {
@@ -90,7 +83,7 @@ SearchAlertSwitchCellDelegate {
     // MARK: - UI
     
     private func setupUI() {
-        title = LGLocalizedString.settingsNotificationsSearchAlerts
+        title = R.Strings.settingsNotificationsSearchAlerts
         
         tableView.isHidden = true
         placeholderView.isHidden = true
@@ -111,7 +104,7 @@ SearchAlertSwitchCellDelegate {
 
         tableView.register(SearchAlertSwitchCell.self, forCellReuseIdentifier: SearchAlertSwitchCell.reusableID)
 
-        rightBarButton = UIBarButtonItem(title: LGLocalizedString.searchAlertsEditButton,
+        rightBarButton = UIBarButtonItem(title: R.Strings.searchAlertsEditButton,
                                          style: .plain,
                                          target: self,
                                          action: #selector(triggerEditMode))
@@ -155,10 +148,10 @@ SearchAlertSwitchCellDelegate {
     @objc private func triggerEditMode() {
         if !tableView.isEditing {
             tableView.isEditing = true
-            navigationItem.rightBarButtonItem?.title = LGLocalizedString.commonDone
+            navigationItem.rightBarButtonItem?.title = R.Strings.commonDone
         } else {
             tableView.isEditing = false
-            navigationItem.rightBarButtonItem?.title = LGLocalizedString.commonEdit
+            navigationItem.rightBarButtonItem?.title = R.Strings.commonEdit
         }
         tableView.reloadData()
     }

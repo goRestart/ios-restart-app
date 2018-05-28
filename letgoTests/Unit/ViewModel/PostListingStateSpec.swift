@@ -10,7 +10,7 @@
 import LGCoreKit
 import Quick
 import Nimble
-
+import LGComponents
 
 class PostProductStateSpec: BaseViewModelSpec {
    
@@ -144,7 +144,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                             }
                             
                             it("updates the step to details selection") {
-                                expect(sut.step) == PostListingStep.errorUpload(message: LGLocalizedString.productPostGenericError)
+                                expect(sut.step) == PostListingStep.errorUpload(message: R.Strings.productPostGenericError)
                             }
                         }
                         

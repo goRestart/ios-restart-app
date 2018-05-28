@@ -1,10 +1,4 @@
-//
-//  SettingsNotificationsSearchAlertsCell.swift
-//  LetGo
-//
-//  Created by Raúl de Oñate Blanco on 18/04/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
+import LGComponents
 
 final class SettingsNotificationsSearchAlertsCell: UITableViewCell, ReusableCell {
     
@@ -31,7 +25,7 @@ final class SettingsNotificationsSearchAlertsCell: UITableViewCell, ReusableCell
     private func setupUI() {
         label.textColor = UIColor.darkGray
         label.font = UIFont.systemRegularFont(size: 17)
-        label.text = LGLocalizedString.settingsNotificationsSearchAlerts
+        label.text = R.Strings.settingsNotificationsSearchAlerts
         
         topSeparatorInsetView.backgroundColor = .grayLight
         bottomSeparatorInsetView.backgroundColor = .grayLight

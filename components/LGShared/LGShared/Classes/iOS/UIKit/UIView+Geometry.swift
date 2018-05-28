@@ -1,19 +1,10 @@
-//
-//  UIView+Geometry.swift
-//  Geometry
-//
-//  Created by Tuomas Artman on 7.9.2014.
-//  Copyright (c) 2014 Tuomas Artman. All rights reserved.
-//
-
-import Foundation
 import UIKit
 
 /// Extends CGRect with helper properties for positioning and setting dimensions
 extension CGRect: ExpressibleByStringLiteral {
     
     /// The top coordinate of the rect.
-    var top: CGFloat {
+    public var top: CGFloat {
         get {
             return origin.y
         }
@@ -23,7 +14,7 @@ extension CGRect: ExpressibleByStringLiteral {
     }
     
     // The left-side coordinate of the rect.
-    var left: CGFloat {
+    public var left: CGFloat {
         get {
             return origin.x
         }
@@ -34,7 +25,7 @@ extension CGRect: ExpressibleByStringLiteral {
     
     // The bottom coordinate of the rect. Setting this will change origin.y of the rect according to
     // the height of the rect.
-    var bottom: CGFloat {
+    public var bottom: CGFloat {
         get {
             return origin.y + size.height
         }
@@ -45,7 +36,7 @@ extension CGRect: ExpressibleByStringLiteral {
     
     // The right-side coordinate of the rect. Setting this will change origin.x of the rect according to
     // the width of the rect.
-    var right: CGFloat {
+    public var right: CGFloat {
         get {
             return origin.x + size.width
         }
@@ -55,7 +46,7 @@ extension CGRect: ExpressibleByStringLiteral {
     }
     
     // The center x coordinate of the rect.
-    var centerX: CGFloat {
+    public var centerX: CGFloat {
         get {
             return origin.x + size.width / 2
         }
@@ -65,7 +56,7 @@ extension CGRect: ExpressibleByStringLiteral {
     }
     
     // The center y coordinate of the rect.
-    var centerY: CGFloat {
+    public var centerY: CGFloat {
         get {
             return origin.y + size.height / 2
         }
@@ -75,7 +66,7 @@ extension CGRect: ExpressibleByStringLiteral {
     }
     
     // The center of the rect.
-    var center: CGPoint {
+    public var center: CGPoint {
         get {
             return CGPoint(x: centerX, y: centerY)
         }
@@ -143,10 +134,10 @@ extension CGPoint: ExpressibleByStringLiteral {
     }
 }
 
-extension UIView {
+public extension UIView {
     
     /// The top coordinate of the UIView.
-    var top: CGFloat {
+    public var top: CGFloat {
         get {
             return frame.top
         }
@@ -158,7 +149,7 @@ extension UIView {
     }
     
     /// The left coordinate of the UIView.
-    var left: CGFloat {
+    public var left: CGFloat {
         get {
             return frame.left
         }
@@ -170,7 +161,7 @@ extension UIView {
     }
     
     /// The bottom coordinate of the UIView.
-    var bottom: CGFloat {
+    public var bottom: CGFloat {
         get {
             return frame.bottom
         }
@@ -182,7 +173,7 @@ extension UIView {
     }
     
     /// The right coordinate of the UIView.
-    var right: CGFloat {
+    public var right: CGFloat {
         get {
             return frame.right
         }
@@ -194,7 +185,7 @@ extension UIView {
     }
     
     // The width of the UIView.
-    var width: CGFloat {
+    public var width: CGFloat {
         get {
             return frame.width
         }
@@ -206,7 +197,7 @@ extension UIView {
     }
     
     // The height of the UIView.
-    var height: CGFloat {
+    public var height: CGFloat {
         get {
             return frame.height
         }
@@ -218,7 +209,7 @@ extension UIView {
     }
     
     /// The horizontal center coordinate of the UIView.
-    var centerX: CGFloat {
+    public var centerX: CGFloat {
         get {
             return frame.centerX
         }
@@ -230,7 +221,7 @@ extension UIView {
     }
     
     /// The vertical center coordinate of the UIView.
-    var centerY: CGFloat {
+    public var centerY: CGFloat {
         get {
             return frame.centerY
         }

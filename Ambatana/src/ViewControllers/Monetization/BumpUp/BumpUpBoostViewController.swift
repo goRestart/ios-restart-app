@@ -1,14 +1,7 @@
-//
-//  BumpUpBoostViewController.swift
-//  LetGo
-//
-//  Created by Dídac on 21/03/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
-class BumpUpBoostViewController: BaseViewController {
+final class BumpUpBoostViewController: BaseViewController {
 
     struct BoostViewMetrics {
         static let bottomAnchorConstant: CGFloat = 20
@@ -25,22 +18,22 @@ class BumpUpBoostViewController: BaseViewController {
     var titleLabelText: String {
         switch featureFlags.bumpUpBoost {
         case .control, .baseline, .sendTop1hour, .sendTop5Mins:
-            return LGLocalizedString.bumpUpViewBoostTitleSendTop
+            return R.Strings.bumpUpViewBoostTitleSendTop
         case .boostListing1hour:
-            return LGLocalizedString.bumpUpViewBoostTitleBoostListing
+            return R.Strings.bumpUpViewBoostTitleBoostListing
         case .cheaperBoost5Mins:
-            return LGLocalizedString.bumpUpViewBoostTitleCheaperBoost
+            return R.Strings.bumpUpViewBoostTitleCheaperBoost
         }
     }
 
     var subtitleLabelText: String {
         switch featureFlags.bumpUpBoost {
         case .control, .baseline, .sendTop1hour, .sendTop5Mins:
-            return LGLocalizedString.bumpUpViewBoostSubtitleSendTop
+            return R.Strings.bumpUpViewBoostSubtitleSendTop
         case .boostListing1hour:
-            return LGLocalizedString.bumpUpViewBoostSubtitleBoostListing
+            return R.Strings.bumpUpViewBoostSubtitleBoostListing
         case .cheaperBoost5Mins:
-            return LGLocalizedString.bumpUpViewBoostSubtitleCheaper
+            return R.Strings.bumpUpViewBoostSubtitleCheaper
         }
     }
 
@@ -75,20 +68,16 @@ class BumpUpBoostViewController: BaseViewController {
     private let featureFlags: FeatureFlaggeable
     private let viewModel: BumpUpPayViewModel
 
-    private let maxCountdown: TimeInterval
     private var timer: Timer = Timer()
     private var timeIntervalLeft: TimeInterval
 
     init(viewModel: BumpUpPayViewModel,
          featureFlags: FeatureFlaggeable,
-         timeSinceLastBump: TimeInterval,
-         maxCountdown: TimeInterval) {
+         timeSinceLastBump: TimeInterval) {
         self.viewModel = viewModel
         self.featureFlags = featureFlags
-        self.maxCountdown = maxCountdown
-        self.timeIntervalLeft = maxCountdown-timeSinceLastBump
+        self.timeIntervalLeft = viewModel.maxCountdown-timeSinceLastBump
         super.init(viewModel: viewModel, nibName: nil)
-        modalPresentationStyle = .overCurrentContext
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -174,7 +163,7 @@ class BumpUpBoostViewController: BaseViewController {
     }
 
     private func setupTopView() {
-        timerProgressView.maxTime = maxCountdown
+        timerProgressView.maxTime = viewModel.maxCountdown
         timerProgressView.updateWith(timeLeft: timeIntervalLeft)
 
         closeButton.setImage(#imageLiteral(resourceName: "gray_chevron_down"), for: .normal)
@@ -182,7 +171,7 @@ class BumpUpBoostViewController: BaseViewController {
 
         viewTitleIconView.image = #imageLiteral(resourceName: "ic_extra_boost")
         viewTitleIconView.contentMode = .scaleAspectFit
-        viewTitleLabel.text = LGLocalizedString.bumpUpBannerBoostText
+        viewTitleLabel.text = R.Strings.bumpUpBannerBoostText
         viewTitleLabel.textColor = UIColor.blackText
         viewTitleLabel.font = UIFont.systemBoldFont(size: 19)
         viewTitleLabel.minimumScaleFactor = 0.5
@@ -259,7 +248,7 @@ class BumpUpBoostViewController: BaseViewController {
 
     private func setupBoostButton() {
         boostButton.setStyle(.primary(fontSize: .big))
-        boostButton.setTitle(LGLocalizedString.bumpUpViewBoostPayButtonTitle(viewModel.price), for: .normal)
+        boostButton.setTitle(R.Strings.bumpUpViewBoostPayButtonTitle(viewModel.price), for: .normal)
         boostButton.titleLabel?.numberOfLines = 2
         boostButton.titleLabel?.adjustsFontSizeToFitWidth = true
         boostButton.titleLabel?.minimumScaleFactor = 0.5
@@ -278,8 +267,8 @@ class BumpUpBoostViewController: BaseViewController {
 
         if #available(iOS 11, *) {
             timerProgressView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-            infoContainer.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
-                                                  constant: BoostViewMetrics.bottomAnchorConstant).isActive = true
+            infoContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor,
+                                                  constant: -BoostViewMetrics.bottomAnchorConstant).isActive = true
         } else {
             timerProgressView.topAnchor.constraint(equalTo: view.topAnchor,
                                                    constant: BoostViewMetrics.topAnchorConstant).isActive = true

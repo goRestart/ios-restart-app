@@ -7,26 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5031FF5A207357E10024119E /* MockAnalyticsAPIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5031FF59207357E10024119E /* MockAnalyticsAPIKeys.swift */; };
 		5031FF5E207367990024119E /* TrackerEventSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5031FF5C207367990024119E /* TrackerEventSpec.swift */; };
 		5031FF5F207367990024119E /* TrackerProxySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5031FF5D207367990024119E /* TrackerProxySpec.swift */; };
-		50B38A572087376B00A11CB6 /* MockAnalyticsApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B38A562087376B00A11CB6 /* MockAnalyticsApplication.swift */; };
-		50B570CF206D0C7B00DF7977 /* MockEventParameterMostSearched.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B570CC206D0C7B00DF7977 /* MockEventParameterMostSearched.swift */; };
-		50B570D0206D0C7B00DF7977 /* MockEventParameterPostingAbandonStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B570CD206D0C7B00DF7977 /* MockEventParameterPostingAbandonStep.swift */; };
-		50B570D1206D0C7B00DF7977 /* MockTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B570CE206D0C7B00DF7977 /* MockTracker.swift */; };
 		A6C49705FEAC48BBA6C4AFE8 /* Pods_LGAnalytics_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3015C81CE36835E7C4372CE6 /* Pods_LGAnalytics_Tests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1253551FD7901273F57E8AAD /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		3015C81CE36835E7C4372CE6 /* Pods_LGAnalytics_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LGAnalytics_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5031FF59207357E10024119E /* MockAnalyticsAPIKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAnalyticsAPIKeys.swift; sourceTree = "<group>"; };
 		5031FF5C207367990024119E /* TrackerEventSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackerEventSpec.swift; sourceTree = "<group>"; };
 		5031FF5D207367990024119E /* TrackerProxySpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackerProxySpec.swift; sourceTree = "<group>"; };
-		50B38A562087376B00A11CB6 /* MockAnalyticsApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAnalyticsApplication.swift; sourceTree = "<group>"; };
-		50B570CC206D0C7B00DF7977 /* MockEventParameterMostSearched.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockEventParameterMostSearched.swift; sourceTree = "<group>"; };
-		50B570CD206D0C7B00DF7977 /* MockEventParameterPostingAbandonStep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockEventParameterPostingAbandonStep.swift; sourceTree = "<group>"; };
-		50B570CE206D0C7B00DF7977 /* MockTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockTracker.swift; sourceTree = "<group>"; };
 		607FACE51AFB9204008FA782 /* LGAnalytics_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LGAnalytics_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BF9BB7D19381EAEE324FB04E /* Pods-LGAnalytics_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LGAnalytics_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LGAnalytics_Tests/Pods-LGAnalytics_Tests.release.xcconfig"; sourceTree = "<group>"; };
@@ -71,18 +61,6 @@
 			path = Unit;
 			sourceTree = "<group>";
 		};
-		50B570CB206D0C7B00DF7977 /* Mock */ = {
-			isa = PBXGroup;
-			children = (
-				5031FF59207357E10024119E /* MockAnalyticsAPIKeys.swift */,
-				50B38A562087376B00A11CB6 /* MockAnalyticsApplication.swift */,
-				50B570CC206D0C7B00DF7977 /* MockEventParameterMostSearched.swift */,
-				50B570CD206D0C7B00DF7977 /* MockEventParameterPostingAbandonStep.swift */,
-				50B570CE206D0C7B00DF7977 /* MockTracker.swift */,
-			);
-			path = Mock;
-			sourceTree = "<group>";
-		};
 		607FACC71AFB9204008FA782 = {
 			isa = PBXGroup;
 			children = (
@@ -105,7 +83,6 @@
 		607FACE81AFB9204008FA782 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				50B570CB206D0C7B00DF7977 /* Mock */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 				5031FF5B207367990024119E /* Unit */,
 			);
@@ -295,11 +272,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5031FF5E207367990024119E /* TrackerEventSpec.swift in Sources */,
-				50B38A572087376B00A11CB6 /* MockAnalyticsApplication.swift in Sources */,
-				50B570CF206D0C7B00DF7977 /* MockEventParameterMostSearched.swift in Sources */,
-				50B570D1206D0C7B00DF7977 /* MockTracker.swift in Sources */,
-				5031FF5A207357E10024119E /* MockAnalyticsAPIKeys.swift in Sources */,
-				50B570D0206D0C7B00DF7977 /* MockEventParameterPostingAbandonStep.swift in Sources */,
 				5031FF5F207367990024119E /* TrackerProxySpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

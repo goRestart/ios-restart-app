@@ -13,7 +13,7 @@ import LGCoreKit
 import Quick
 import Nimble
 import Foundation
-
+import LGComponents
 
 class ChatViewModelSpec: BaseViewModelSpec {
     
@@ -36,7 +36,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
         var sessionManager: MockSessionManager!
         var keyValueStorage: KeyValueStorage!
         var featureFlags: MockFeatureFlags!
-        var source: EventParameterTypePage!
+        var source: LetGoGodMode.EventParameterTypePage!
         var pushPermissionManager: MockPushPermissionsManager!
         var ratingManager: MockRatingManager!
         
@@ -154,6 +154,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                     chatMessages = []
                     productResult = self.makeMockProduct(with: .approved)
                     chatInterlocutor = self.makeChatInterlocutor(with: .active, isMuted: false, isBanned: false, hasMutedYou: false)
+                    chatInterlocutor.userType = .user
                     user = self.makeUser(with: .active, isDummy: false, userId: mockMyUser.objectId!)
                     
                 }
@@ -325,7 +326,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                                 expect(tracker.trackedEvents.count).toEventually(equal(3))
                             }
                             it("adds interlocutor introduction and one element on messages") {
-                                expect(messages.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.text, sut.userInfoMessage!.value]
+                                expect(messages.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.textToReply, sut.userInfoMessage!.value]
                             }
                             it("tracks sent first message + message sent") {
                                 expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "product-detail-ask-question", "user-sent-message"]
@@ -392,9 +393,9 @@ class ChatViewModelSpec: BaseViewModelSpec {
                                 expect(tracker.trackedEvents.count).toEventually(equal(3))
                             }
                             it("adds interlocutor introduction, the user message and the automatic messages") {
-                                expect(messages.lastValue?.map{ $0.value }) == [LGLocalizedString.professionalDealerAskPhoneThanksPhoneCellMessage,
-                                                                                LGLocalizedString.professionalDealerAskPhoneAddPhoneCellMessage,
-                                                                                LGLocalizedString.professionalDealerAskPhoneChatMessage("123-456-789"),
+                                expect(messages.lastValue?.map{ $0.value }) == [R.Strings.professionalDealerAskPhoneThanksPhoneCellMessage,
+                                                                                R.Strings.professionalDealerAskPhoneAddPhoneCellMessage,
+                                                                                R.Strings.professionalDealerAskPhoneChatMessage("123-456-789"),
                                                                                 sut.userInfoMessage!.value]
                             }
                             it("tracks sent first message + message sent") {
@@ -407,8 +408,8 @@ class ChatViewModelSpec: BaseViewModelSpec {
                                 expect(tracker.trackedEvents.count).toEventually(equal(3))
                             }
                             it("adds interlocutor introduction, the user message and the automatic messages") {
-                                expect(messages.lastValue?.map{ $0.value }) == [LGLocalizedString.professionalDealerAskPhoneThanksOtherCellMessage,
-                                                                                LGLocalizedString.professionalDealerAskPhoneAddPhoneCellMessage,
+                                expect(messages.lastValue?.map{ $0.value }) == [R.Strings.professionalDealerAskPhoneThanksOtherCellMessage,
+                                                                                R.Strings.professionalDealerAskPhoneAddPhoneCellMessage,
                                                                                 "hello",
                                                                                 sut.userInfoMessage!.value]
                             }
@@ -439,7 +440,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                             sut.send(quickAnswer: .meetUp)
                         }
                         it("adds one element on messages") {
-                            expect(messages.lastValue?.first?.value) == QuickAnswer.meetUp.text
+                            expect(messages.lastValue?.first?.value) == QuickAnswer.meetUp.textToReply
                         }
                         it("tracks sent first message + message sent") {
                             expect(tracker.trackedEvents.map { $0.actualName }).toEventually(equal(["chat-window-open", "user-sent-message"]))

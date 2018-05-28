@@ -1,16 +1,7 @@
-//
-//  MediaPickerManager.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 1/12/15.
-//  Copyright © 2015 Ambatana. All rights reserved.
-//
-
 import AVFoundation
 import Photos
 import UIKit
-
-
+import LGComponents
 
 class MediaPickerManager {
     
@@ -27,10 +18,10 @@ class MediaPickerManager {
     static func showImagePickerIn<T: UIViewController>(_ controller: T) where T: UINavigationControllerDelegate,
         T: UIImagePickerControllerDelegate {
            
-            let title = LGLocalizedString.sellPictureImageSourceTitle
-            let cameraTitle = LGLocalizedString.sellPictureImageSourceCameraButton
-            let galleryTitle = LGLocalizedString.sellPictureImageSourceCameraRollButton
-            let cancelTitle = LGLocalizedString.sellPictureImageSourceCancelButton
+            let title = R.Strings.sellPictureImageSourceTitle
+            let cameraTitle = R.Strings.sellPictureImageSourceCameraButton
+            let galleryTitle = R.Strings.sellPictureImageSourceCameraRollButton
+            let cancelTitle = R.Strings.sellPictureImageSourceCancelButton
         
             let style: UIAlertControllerStyle = DeviceFamily.isiPad ? .alert : .actionSheet
         
@@ -42,7 +33,6 @@ class MediaPickerManager {
                 showGalleryPickerIn(controller)
                 })
             alert.addAction(UIAlertAction(title: cancelTitle, style: .cancel, handler: nil))
-            controller.modalPresentationStyle = .overFullScreen
             controller.presentViewController(alert, animated: true, onMainThread: true, completion: nil)
     }
 
@@ -80,7 +70,7 @@ class MediaPickerManager {
 
     static func requestCameraPermissions(_ controller: UIViewController, block: @escaping () -> ()) {
             guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
-                let message = LGLocalizedString.productSellCameraRestrictedError
+                let message = R.Strings.productSellCameraRestrictedError
                 showDefaultAlertWithMessage(message, inController: controller)
                 return
             }
@@ -89,7 +79,7 @@ class MediaPickerManager {
             case .authorized:
                 block()
             case .denied:
-                let message = LGLocalizedString.productSellCameraPermissionsError
+                let message = R.Strings.productSellCameraPermissionsError
                 showSettingsAlertWithMessage(message, inController: controller)
             case .notDetermined:
                 AVCaptureDevice.requestAccess(for: AVMediaType.video) { granted in
@@ -116,7 +106,7 @@ class MediaPickerManager {
             case .authorized:
                 block()
             case .denied:
-                let message = LGLocalizedString.productSellPhotolibraryPermissionsError
+                let message = R.Strings.productSellPhotolibraryPermissionsError
                 showSettingsAlertWithMessage(message, inController: controller)
             case .notDetermined:
                 PHPhotoLibrary.requestAuthorization { newStatus in
@@ -127,24 +117,24 @@ class MediaPickerManager {
                     }
                 }
             case .restricted:
-                let message = LGLocalizedString.productSellPhotolibraryRestrictedError
+                let message = R.Strings.productSellPhotolibraryRestrictedError
                 showDefaultAlertWithMessage(message, inController: controller)
                 break
             }
     }
 
     private static func showDefaultAlertWithMessage(_ message: String, inController controller: UIViewController) {
-            let alert = UIAlertController(title: LGLocalizedString.commonErrorTitle, message: message,
+            let alert = UIAlertController(title: R.Strings.commonErrorTitle, message: message,
                 preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: LGLocalizedString.commonOk, style: .default, handler: nil))
+            alert.addAction(UIAlertAction(title: R.Strings.commonOk, style: .default, handler: nil))
             controller.presentViewController(alert, animated: true, onMainThread: true, completion: nil)
     }
     
     private static func showSettingsAlertWithMessage(_ message: String, inController controller: UIViewController) {
-            let alert = UIAlertController(title: LGLocalizedString.commonErrorTitle, message: message,
+            let alert = UIAlertController(title: R.Strings.commonErrorTitle, message: message,
                 preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: LGLocalizedString.commonCancel, style: .default, handler: nil))
-            alert.addAction(UIAlertAction(title: LGLocalizedString.commonSettings, style: .default) { alertAction in
+            alert.addAction(UIAlertAction(title: R.Strings.commonCancel, style: .default, handler: nil))
+            alert.addAction(UIAlertAction(title: R.Strings.commonSettings, style: .default) { alertAction in
                 guard let settingsUrl = URL(string: UIApplicationOpenSettingsURLString) else { return }
                 UIApplication.shared.openURL(settingsUrl)
             })

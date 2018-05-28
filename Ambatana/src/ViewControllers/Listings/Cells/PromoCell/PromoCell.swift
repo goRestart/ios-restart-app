@@ -1,12 +1,5 @@
-//
-//  PromoCell.swift
-//  LetGo
-//
-//  Created by Tomas Cobo on 05/04/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 enum PromoCellArrangement {
     case imageOnTop, titleOnTop
@@ -45,7 +38,7 @@ final class PromoCell: UICollectionViewCell, ReusableCell {
     
     private let postButton: UIButton = {
         let button = LetgoButton(withStyle: .primary(fontSize: .verySmall))
-        button.setTitle(LGLocalizedString.realEstatePromoPostButtonTitle, for: .normal)
+        button.setTitle(R.Strings.realEstatePromoPostButtonTitle, for: .normal)
         return button
     }()
     

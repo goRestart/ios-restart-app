@@ -90,6 +90,10 @@ open class MockListingRepository: ListingRepository {
     public func index(_ params: RetrieveListingParams, completion: ListingsCompletion?) {
         delay(result: indexResult, completion: completion)
     }
+    
+    public func indexCustomFeed(_ params: RetrieveListingParams, completion: ListingsCompletion?) {
+        delay(result: indexResult, completion: completion)
+    }
 
     public  func index(userId: String, params: RetrieveListingParams, completion: ListingsCompletion?) {
         delay(result: indexResult, completion: completion)

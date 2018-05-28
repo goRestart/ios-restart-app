@@ -1,12 +1,5 @@
-//
-//  MostSearchedItemsListCell.swift
-//  LetGo
-//
-//  Created by Raúl de Oñate Blanco on 04/01/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 protocol MostSearchedItemsListCellDelegate: class {
     func didSearchAction(listingTitle: String)
@@ -60,7 +53,7 @@ class MostSearchedItemsListCell: UITableViewCell, ReusableCell {
         numberOfSearchesLabel.adjustsFontSizeToFitWidth = true
         numberOfSearchesLabel.minimumScaleFactor = 0.2
         
-        searchButton.setTitle(LGLocalizedString.trendingItemsViewSearchButton, for: .normal)
+        searchButton.setTitle(R.Strings.trendingItemsViewSearchButton, for: .normal)
         searchButton.setTitleColor(UIColor.grayText, for: .normal)
         searchButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
         searchButton.setImage(UIImage(named: "ic_search")?.withRenderingMode(.alwaysTemplate), for: .normal)
@@ -70,7 +63,7 @@ class MostSearchedItemsListCell: UITableViewCell, ReusableCell {
         searchButton.titleLabel?.minimumScaleFactor = 0.2
         searchButton.addTarget(self, action: #selector(searchAction), for: .touchUpInside)
         
-        postButton.setTitle(LGLocalizedString.trendingItemsViewPostButton, for: .normal)
+        postButton.setTitle(R.Strings.trendingItemsViewPostButton, for: .normal)
         postButton.titleLabel?.adjustsFontSizeToFitWidth = true
         postButton.titleLabel?.minimumScaleFactor = 0.2
         postButton.addTarget(self, action: #selector(postAction), for: .touchUpInside)
@@ -132,7 +125,7 @@ class MostSearchedItemsListCell: UITableViewCell, ReusableCell {
         self.item = item
         titleLabel.text = item.name
         if let searchCount = item.searchCount {
-            numberOfSearchesLabel.text = LGLocalizedString.trendingItemsViewNumberOfSearchesItem(searchCount)
+            numberOfSearchesLabel.text = R.Strings.trendingItemsViewNumberOfSearchesItem(searchCount)
         }
         searchButton.isHidden = showSearchButton
     }

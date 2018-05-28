@@ -137,6 +137,11 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "Av sikkerhetsgrunner er denne kontoen slettet av letgo's team, samt disse meldingene.";
 "chat_connect_account_disclaimer_button" = "Verifiser nå!";
 "chat_connect_accounts_title" = "BYGG TILLIT!";
+"chat_conversations_list_blocked_users_button" = "View blocked users";
+"chat_conversations_list_filter_all" = "Alle";
+"chat_conversations_list_filter_buying" = "Kjøp";
+"chat_conversations_list_filter_selling" = "Salg";
+"chat_conversations_list_letgo_assistant_tag" = "letgo assistant";
 "chat_deleted_disclaimer_w_name" = "Du kan ikke fortsette denne samtalen, fordi %@'s konto ikke lenger er aktiv.";
 "chat_deleted_disclaimer_wo_name" = "Du kan ikke fortsette denne samtalen, fordi denne kontoen ikke lenger er aktiv.";
 "chat_disclaimer_letgo_team" = "LETGO TEAMET";
@@ -172,8 +177,8 @@
 "chat_list_buying_title" = "KJØP";
 "chat_list_delete" = "Slett";
 "chat_list_delete_alert_send" = "Slett";
-"chat_list_delete_alert_text_multiple" = "Du er i ferd med å slette disse samtalene";
-"chat_list_delete_alert_text_one" = "Du er i ferd med å slette denne samtalen";
+"chat_list_delete_alert_text_multiple" = "Du er i ferd med å slette disse samtalene permanent";
+"chat_list_delete_alert_text_one" = "Du er i ferd med å slette denne samtalen permanent";
 "chat_list_delete_alert_title_multiple" = "Slett samtaler";
 "chat_list_delete_alert_title_one" = "Slett samtale";
 "chat_list_delete_error_one" = "En feil oppstod ved sletting av denne samtalen. Vennligst prøv igjen.";
@@ -411,6 +416,8 @@
 "hidden_phone_tag" = "[TELEFONNUMMER SKJULT]";
 "hidden_text_alert_description" = "Vi skjuler kontaktinformasjon for å hjelpe deg med et sikkert kjøp og salg. Å kommunisere i letgo er enklere og gir deg mer sikkerhet.";
 "hidden_text_alert_title" = "VÆR FORSIKTIG";
+"listing_map_redo_search" = "Søk dette området";
+"listings_map_no_results_message" = "Ingen resultater samsvarte med ditt søk. Prøv å se i et annet område eller bruk andre filtre.";
 "listings_map_title" = "Kartvisning";
 "location_permissions_allow_button" = "Tillat";
 "location_permissions_bubble" = "0.1 km fra deg";
@@ -574,7 +581,7 @@
 "phone_verification_code_input_view_content_subtext" = "Du kan be om en ny kode hvis du ikke mottar den innen %@";
 "phone_verification_code_input_view_content_subtitle" = "Vi har sendt den til %@";
 "phone_verification_code_input_view_content_title" = "Tast inn den 6-sifrede koden";
-"phone_verification_code_input_view_error_message" = "Oops! An error occurred while validating the code. Please try again.";
+"phone_verification_code_input_view_error_message" = "Oops! En feil oppstod ved validering av kode. Vennligst prøv igjen.";
 "phone_verification_code_input_view_title" = "Nummerverifisering";
 "phone_verification_code_input_view_validated_failure" = "Verifiseringskoden du valgte er ugyldig.";
 "phone_verification_code_input_view_validated_success" = "Mobilnummer er verifisert!";
@@ -585,7 +592,7 @@
 "phone_verification_number_input_view_confirmation_title" = "Takk!";
 "phone_verification_number_input_view_continue_button" = "Fortsett";
 "phone_verification_number_input_view_description" = "Bygg tillit ved å verifisere ditt mobilnummer";
-"phone_verification_number_input_view_error_message" = "Oops! An error occurred while sending the text message. Please try again.";
+"phone_verification_number_input_view_error_message" = "Oops! En feil oppstod ved sending av tekstmelding. Vennligst prøv igjen.";
 "phone_verification_number_input_view_sending_message" = "Sender tekstmelding…";
 "phone_verification_number_input_view_textfield_placeholder" = "Mobilnummer";
 "phone_verification_number_input_view_title" = "Nummerverifisering";
@@ -773,6 +780,7 @@
 "product_post_select_category_motors_and_accessories" = "Andre kjøretøyer og bildeler";
 "product_post_select_category_other" = "Andre produkter";
 "product_post_select_category_real_estate" = "Real Estate";
+"product_post_select_category_services" = "Tjenester";
 "product_post_select_category_title" = "Hva publiserer du?";
 "product_post_use_photo" = "Publiser";
 "product_post_use_photo_not_logged" = "Bruk bilde";
@@ -851,6 +859,7 @@
 "profile_permissions_alert_ok" = "Aktiver";
 "profile_permissions_alert_title" = "IKKE GÅ GLIPP AV ET SVAR!";
 "profile_permissions_header_message" = "Aktiver meldingsvarslinger";
+"profile_reputation_tooltip_title" = "User verified! Tap if you want to be verified too";
 "profile_reviews_count" = "Vurderinger";
 "profile_reviews_tab" = "Vurderinger";
 "profile_selling_no_products_label" = "INGEN ANNONSER (ENDA!)";
@@ -868,8 +877,8 @@
 "profile_verifications_view_extra_section_title" = "KJØP & SELG";
 "profile_verifications_view_facebook_title" = "Facebook";
 "profile_verifications_view_google_title" = "Google";
-"profile_verifications_view_mark_as_sold_subtitle" = "+2 poeng hver (opp til 10 poeng)";
-"profile_verifications_view_mark_as_sold_title" = "Marker en annonsen som solgt";
+"profile_verifications_view_mark_as_sold_subtitle" = "+2 poeng for hver annonse (opp til 10 poeng)";
+"profile_verifications_view_mark_as_sold_title" = "Merk som solgt";
 "profile_verifications_view_phone_number_title" = "Telefonnummer";
 "profile_verifications_view_photo_id_title" = "Foto ID";
 "profile_verifications_view_profile_picture_title" = "Profilbilde";
@@ -1069,6 +1078,7 @@
 "search_alerts_placeholder_empty_text" = "Meld deg på for å varslinger når nye annonser publiseres.";
 "search_alerts_placeholder_error_button" = "Try Again";
 "search_alerts_placeholder_error_text" = "Oops! En feil oppstod ved lasting av dine søkevarslinger";
+"search_letgo" = "Søk på letgo";
 "sell_category_selection_label" = "Kategori";
 "sell_choose_category_dialog_cancel_button" = "Avbryt";
 "sell_choose_category_dialog_title" = "Velg en kategori";

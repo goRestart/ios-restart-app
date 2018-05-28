@@ -1,15 +1,8 @@
-//
-//  UserVerificationViewModel.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 19/3/18.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
 import RxSwift
 import RxCocoa
+import LGComponents
 
 protocol UserVerificationViewModelDelegate: BaseViewModelDelegate {
     func startAvatarSelection()
@@ -52,26 +45,39 @@ final class UserVerificationViewModel: BaseViewModel {
                   tracker: TrackerProxy.sharedInstance)
     }
 
-    func loadData() {
+    func loadData(completion: (() -> Void)? = nil) {
         syncActions()
     }
 
-    private func syncActions() {
+    // The reputation actions take a few second to be processed.
+    // We refresh the actions a few times to make sure the points and actions are up to date.
+    private func syncActions(retries: Int = 0) {
+        guard retries < 3 else { return }
+        refresh { [weak self] in
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
+                self?.syncActions(retries: retries + 1)
+            })
+        }
+    }
+
+    private func refresh(success: (() -> Void)? = nil) {
         myUserRepository.retrieveUserReputationActions { [weak self] result in
             if let value = result.value {
                 self?.actionsHistory.value = value.map{ $0.type }
+                success?()
             } else if let _ = result.error {
                 self?.showErrorAlert()
             }
         }
+        myUserRepository.refresh(nil)
     }
 
     private func showErrorAlert() {
-        delegate?.vmShowAlertWithTitle(LGLocalizedString.commonErrorTitle,
-                                       text: LGLocalizedString.commonErrorNetworkBody,
+        delegate?.vmShowAlertWithTitle(R.Strings.commonErrorTitle,
+                                       text: R.Strings.commonErrorNetworkBody,
                                        alertType: .plainAlert,
                                        buttonsLayout: .horizontal,
-                                       actions: [UIAction.init(interface: .text(LGLocalizedString.commonOk), action: { [weak self] in
+                                       actions: [UIAction.init(interface: .text(R.Strings.commonOk), action: { [weak self] in
                                         self?.navigator?.closeUserVerification()
                                        })], dismissAction: { [weak self] in
                                         self?.navigator?.closeUserVerification()
@@ -83,7 +89,8 @@ final class UserVerificationViewModel: BaseViewModel {
         let firstSection: [UserVerificationItem] = [
             .facebook(completed: actions.contains(.facebook)),
             .google(completed: actions.contains(.google)),
-            .email(completed: actions.contains(.email))
+            .email(completed: actions.contains(.email)),
+            .phoneNumber(completed: actions.contains(.sms))
         ]
         
         let secondSection: [UserVerificationItem] = [
@@ -93,7 +100,7 @@ final class UserVerificationViewModel: BaseViewModel {
 
         let soldCount = actions.filter{$0 == .markAsSold}.count
         let thirdSection: [UserVerificationItem] = [
-            .markAsSold(completed: actions.contains(.markAsSold), total: soldCount)
+            .markAsSold(completed: soldCount >= 5, total: soldCount)
         ]
 
         return [firstSection, secondSection, thirdSection]
@@ -107,9 +114,11 @@ final class UserVerificationViewModel: BaseViewModel {
         case .google: verifyGoogle()
         case .bio: openBio()
         case .email: verifyEmail()
+        case .phoneNumber: verifyPhoneNumber()
         case .profilePicture: selectAvatar()
-        case .phoneNumber, .photoID, .markAsSold: break
+        case .photoID, .markAsSold: break
         }
+        trackSelectionOf(verification: item)
     }
 
     func updateAvatar(with image: UIImage) {
@@ -122,7 +131,7 @@ final class UserVerificationViewModel: BaseViewModel {
                                             self?.syncActions()
                                         } else {
                                             self?.delegate?
-                                                .vmShowAutoFadingMessage(LGLocalizedString.settingsChangeProfilePictureErrorGeneric,
+                                                .vmShowAutoFadingMessage(R.Strings.settingsChangeProfilePictureErrorGeneric,
                                                                          completion: nil)
                                         }
         })
@@ -139,14 +148,14 @@ final class UserVerificationViewModel: BaseViewModel {
                         self?.verificationSuccess(.facebook)
                         self?.syncActions()
                     } else {
-                        self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.mainSignUpFbConnectErrorGeneric,
+                        self?.delegate?.vmShowAutoFadingMessage(R.Strings.mainSignUpFbConnectErrorGeneric,
                                                                 completion: nil)
                     }
                 }
             case .cancelled:
                 break
             case .error:
-                self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.mainSignUpFbConnectErrorGeneric,
+                self?.delegate?.vmShowAutoFadingMessage(R.Strings.mainSignUpFbConnectErrorGeneric,
                                                         completion: nil)
             }
         }
@@ -161,14 +170,14 @@ final class UserVerificationViewModel: BaseViewModel {
                         self?.verificationSuccess(.google)
                         self?.syncActions()
                     } else {
-                        self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.mainSignUpFbConnectErrorGeneric,
+                        self?.delegate?.vmShowAutoFadingMessage(R.Strings.mainSignUpFbConnectErrorGeneric,
                                                                 completion: nil)
                     }
                 }
             case .cancelled:
                 break
             case .error:
-                self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.mainSignUpFbConnectErrorGeneric,
+                self?.delegate?.vmShowAutoFadingMessage(R.Strings.mainSignUpFbConnectErrorGeneric,
                                                         completion: nil)
             }
         }
@@ -182,23 +191,27 @@ final class UserVerificationViewModel: BaseViewModel {
         }
     }
 
+    private func verifyPhoneNumber() {
+        navigator?.openPhoneNumberVerification()
+    }
+
     private func verifyExistingEmail(email: String) {
         guard email.isEmail() else { return }
         myUserRepository.linkAccount(email) { [weak self] result in
             if let error = result.error {
                 switch error {
                 case .tooManyRequests:
-                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailTooManyRequests,
+                    self?.delegate?.vmShowAutoFadingMessage(R.Strings.profileVerifyEmailTooManyRequests,
                                                             completion: nil)
                 case .network:
-                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorNetworkBody, completion: nil)
+                    self?.delegate?.vmShowAutoFadingMessage(R.Strings.commonErrorNetworkBody, completion: nil)
                 case .forbidden, .internalError, .notFound, .unauthorized, .userNotVerified, .serverError, .wsChatError,
                      .searchAlertError:
-                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorGenericBody, completion: nil)
+                    self?.delegate?.vmShowAutoFadingMessage(R.Strings.commonErrorGenericBody, completion: nil)
                 }
             } else {
                 self?.syncActions()
-                self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailSuccess) {
+                self?.delegate?.vmShowAutoFadingMessage(R.Strings.profileVerifyEmailSuccess) {
                     self?.verificationSuccess(.email(email))
                 }
             }
@@ -215,6 +228,28 @@ final class UserVerificationViewModel: BaseViewModel {
 
     private func verificationSuccess(_ verificationType: VerificationType) {
         trackComplete(verificationType)
+    }
+
+    private func trackSelectionOf(verification item: UserVerificationItem) {
+        let event: TrackerEvent?
+        switch item {
+        case .facebook:
+            event = .verifyAccountSelectNetwork(.userVerifications, network: .facebook)
+        case .google:
+            event = .verifyAccountSelectNetwork(.userVerifications, network: .google)
+        case .email:
+            event = .verifyAccountSelectNetwork(.userVerifications, network: .email)
+        case .phoneNumber:
+            event = .verifyAccountSelectNetwork(.userVerifications, network: .sms)
+        case .profilePicture:
+            event = .verifyAccountSelectNetwork(.userVerifications, network: .profilePhoto)
+        default:
+            event = nil
+        }
+
+        if let event = event {
+            tracker.trackEvent(event)
+        }
     }
 }
 

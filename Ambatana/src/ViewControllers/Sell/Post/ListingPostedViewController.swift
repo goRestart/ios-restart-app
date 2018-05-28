@@ -1,14 +1,7 @@
-//
-//  ListingPostedViewController.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 14/12/15.
-//  Copyright © 2015 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
-class ListingPostedViewController: BaseViewController, ListingPostedViewModelDelegate {
+final class ListingPostedViewController: BaseViewController, ListingPostedViewModelDelegate {
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var shareButton: UIButton!
     @IBOutlet weak var contentContainer: UIView!
@@ -43,7 +36,6 @@ class ListingPostedViewController: BaseViewController, ListingPostedViewModelDel
         super.init(viewModel: viewModel, nibName: "ListingPostedViewController")
         viewModel.delegate = self
         socialSharer.delegate = self
-        modalPresentationStyle = .overCurrentContext
         modalTransitionStyle = .crossDissolve
         modalPresentationCapturesStatusBarAppearance = true
         setReachabilityEnabled(false)
@@ -109,8 +101,8 @@ class ListingPostedViewController: BaseViewController, ListingPostedViewModelDel
 
         mainButton.setStyle(.primary(fontSize: .big))
         mainButton.isHidden = viewModel.mainButtonHidden
-        editOrLabel.text = LGLocalizedString.productPostConfirmationAnother.localizedUppercase
-        editButton.setTitle(LGLocalizedString.productPostConfirmationEdit, for: .normal)
+        editOrLabel.text = R.Strings.productPostConfirmationAnother.localizedUppercase
+        editButton.setTitle(R.Strings.productPostConfirmationEdit, for: .normal)
         loadingIndicator.color = UIColor.primaryColor
 
         guard let postIncentivatorView = PostIncentivatorView.postIncentivatorView(viewModel.wasFreePosting) else { return }

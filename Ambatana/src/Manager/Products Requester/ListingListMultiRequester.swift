@@ -28,7 +28,7 @@ class ListingListMultiRequester {
     }
     
     var isFirstPageInLastRequester: Bool {
-        let currentRequester = requestersArray.object(safeAt: currentIndex)
+        let currentRequester = requestersArray[safeAt: currentIndex]
         let isFirstPage = currentRequester?.isFirstPage ?? false
         return isFirstPage && isUsingLastRequester
     }

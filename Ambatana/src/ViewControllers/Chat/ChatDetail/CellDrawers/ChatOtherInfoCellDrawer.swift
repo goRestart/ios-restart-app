@@ -15,10 +15,14 @@ class ChatOtherInfoCellDrawer: BaseChatCellDrawer<ChatOtherInfoCell> {
 
     override func draw(_ cell: ChatOtherInfoCell, message: ChatViewMessage) {
         switch message.type {
-        case let .userInfo(name, address, facebook, google, email):
+        case let .userInfo(isDummy, name, address, facebook, google, email):
             cell.nameLabel.text = name
-            cell.setupLocation(address)
-            cell.setupVerifiedInfo(facebook: facebook, google: google, email: email)
+            if isDummy {
+                cell.setupLetgoAssistantInfo()
+            } else {
+                cell.setupLocation(address)
+                cell.setupVerifiedInfo(facebook: facebook, google: google, email: email)
+            }
         default:
             break
         }

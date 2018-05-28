@@ -118,7 +118,7 @@ extension ApiClient {
                 renewUserTokenOrEnqueueRequest(req, decoder: decoder, completion: completion)
             case .nonexistent:
                 logMessage(.error, type: [CoreLoggingOptions.networking], message: response.debugMessage)
-                completion?(ResultResult<T, ApiError>.t(error: .unauthorized))
+                completion?(ResultResult<T, ApiError>.t(error: .unauthorized(description: "token level == .nonexistent")))
             }
         } else if let error = errorFromAlamofireResponse(errorDecoderType: req.errorDecoderType, response: response) {
             logMessage(.verbose, type: [CoreLoggingOptions.networking], message: response.debugMessage)
@@ -150,7 +150,8 @@ extension ApiClient {
             let apiError = ApiError.errorForSearchAlertCode(apiCode)
             return apiError
         } else if let statusCode = response.response?.statusCode {
-            return ApiError.errorForCode(statusCode, apiCode: response.apiErrorCode(errorDecoderType: errorDecoderType))
+            return ApiError.errorForCode(statusCode, apiCode: response.apiErrorCode(errorDecoderType: errorDecoderType),
+                                         description: response.apiErrorMessage(errorDecoderType: errorDecoderType))
         } else {
             return ApiError.internalError(description: error.localizedDescription)
         }
@@ -229,9 +230,9 @@ private extension ApiClient {
             }
         }
         else if request.requiredAuthLevel > tokenDAO.level {
-            failed?(.unauthorized)
-            report(CoreReportSession.insufficientTokenLevel,
-                   message: "required auth level: \(request.requiredAuthLevel); current level: \(tokenDAO.level)")
+            let message = "required auth level: \(request.requiredAuthLevel); current level: \(tokenDAO.level)"
+            failed?(.unauthorized(description: message))
+            report(CoreReportSession.insufficientTokenLevel, message: message)
         } else {
             notNeeded?()
         }
@@ -350,7 +351,7 @@ private extension ApiClient {
                     if strongSelf.tokenDAO.level > .nonexistent {
                         succeeded?()
                     } else {
-                        failed?(.unauthorized)
+                        failed?(.unauthorized(description: "token level nonexistent"))
                     }
                 }
             }
@@ -386,7 +387,8 @@ private extension ApiClient {
             userQueue.addOperation { [weak self] in
                 DispatchQueue.main.async {
                     guard self?.tokenDAO.token.value != tokenBeforeRenew else {
-                        completion?(ResultResult<T, ApiError>.t(error: .unauthorized))
+                        let message = "renewed token == token before renew"
+                        completion?(ResultResult<T, ApiError>.t(error: .unauthorized(description: message)))
                         return
                     }
                     self?.request(req, decoder: decoder, completion: completion)
@@ -461,4 +463,28 @@ extension DataResponse {
         return nil
     }
 
+
+    func apiErrorMessage(errorDecoderType: ErrorDecoderType?) -> String? {
+        guard let errorDecoderType = errorDecoderType else { return nil }
+        guard let data = self.data, data.count > 0 else { return nil }
+        switch errorDecoderType {
+        case .apiProductsError:
+            do {
+                let code = try LGApiProductsErrorCode.decode(jsonData: data)
+                return code.message
+            } catch {
+                logMessage(.debug, type: .parsing, message: "could not parse LGApiProductsErrorCode \(data)")
+            }
+        case .apiUsersError:
+            do {
+                let code = try LGApiUsersErrorCode.decode(jsonData: data)
+                return code.title
+            } catch {
+                logMessage(.debug, type: .parsing, message: "could not parse LGApiUsersErrorCode \(data)")
+            }
+        case .searchAlertsError:
+            return nil
+        }
+        return nil
+    }
 }

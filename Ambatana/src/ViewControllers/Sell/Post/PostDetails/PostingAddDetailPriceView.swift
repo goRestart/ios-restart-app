@@ -1,14 +1,6 @@
-//
-//  PostListingPriceDetailView.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 19/10/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import RxSwift
-
+import LGComponents
 
 class PostingAddDetailPriceView: UIView, PostingViewConfigurable, UITextFieldDelegate {
     
@@ -60,7 +52,7 @@ class PostingAddDetailPriceView: UIView, PostingViewConfigurable, UITextFieldDel
         currencyLabel.textAlignment = .center
         currencyLabel.textColor = UIColor.white
         currencyLabel.font = UIFont.systemBoldFont(size: 26)
-        priceTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.productNegotiablePrice,
+        priceTextField.attributedPlaceholder = NSAttributedString(string: R.Strings.productNegotiablePrice,
                                                                   attributes: [NSAttributedStringKey.foregroundColor: UIColor.grayLight,
                                                                                NSAttributedStringKey.font: UIFont.systemBoldFont(size: 26)])
         priceTextField.keyboardType = .decimalPad
@@ -80,7 +72,7 @@ class PostingAddDetailPriceView: UIView, PostingViewConfigurable, UITextFieldDel
         separatorView.isHidden = !freeEnabled
         
         currencyLabel.text = currencySymbol
-        freeLabel.text = LGLocalizedString.sellPostFreeLabel
+        freeLabel.text = R.Strings.sellPostFreeLabel
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(freeContainerPressed))
         contentSwitchView.addGestureRecognizer(tap)

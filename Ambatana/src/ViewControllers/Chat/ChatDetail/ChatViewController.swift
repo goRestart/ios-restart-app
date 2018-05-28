@@ -1,16 +1,8 @@
-//
-//  ChatViewController.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 29/4/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
-
 import UIKit
 import LGCoreKit
 import RxSwift
 import MapKit
+import LGComponents
 
 final class ChatViewController: TextViewController {
 
@@ -179,14 +171,14 @@ final class ChatViewController: TextViewController {
         if #available(iOS 11.0, *) {
             tableView.contentInsetAdjustmentBehavior = .never
         }
-        textView.placeholder = LGLocalizedString.chatMessageFieldHint
+        textView.placeholder = R.Strings.chatMessageFieldHint
         textView.placeholderColor = UIColor.gray
         textView.placeholderFont = UIFont.systemFont(ofSize: 17)
         textView.backgroundColor = UIColor.white
         textView.text = viewModel.predefinedMessage
         textViewFont = UIFont.systemFont(ofSize: 17)
         textViewBarColor = UIColor.white
-        sendButton.setTitle(LGLocalizedString.chatSendButton, for: .normal)
+        sendButton.setTitle(R.Strings.chatSendButton, for: .normal)
         sendButton.tintColor = UIColor.primaryColor
         sendButton.titleLabel?.font = UIFont.smallButtonFont
         reloadLeftActions()
@@ -203,15 +195,16 @@ final class ChatViewController: TextViewController {
         
         listingView.delegate = self
 
-        let action = UIAction(interface: .button(LGLocalizedString.chatExpressBannerButtonTitle,
+        let action = UIAction(interface: .button(R.Strings.chatExpressBannerButtonTitle,
             .secondary(fontSize: .small, withBorder: true)), action: { [weak self] in
                 self?.viewModel.expressChatBannerActionButtonTapped()
             })
-        expressChatBanner.setupChatBannerWith(LGLocalizedString.chatExpressBannerTitle, action: action)
+        expressChatBanner.setupChatBannerWith(R.Strings.chatExpressBannerTitle, action: action)
     }
 
     private func setupNavigationBar() {
         listingView.height = navigationBarHeight
+        listingView.letgoAssistantTag.isHidden = !viewModel.isUserDummy
         listingView.layoutIfNeeded()
 
         setNavBarTitleStyle(.custom(listingView))
@@ -248,7 +241,7 @@ final class ChatViewController: TextViewController {
 
     fileprivate func setupRelatedProducts() {
         relatedListingsView.setupOnTopOfView(textViewBar)
-        relatedListingsView.title.value = LGLocalizedString.chatRelatedProductsTitle
+        relatedListingsView.title.value = R.Strings.chatRelatedProductsTitle
         relatedListingsView.delegate = viewModel
         relatedListingsView.visibleHeight.asObservable().distinctUntilChanged().bind { [weak self] _ in
             self?.configureBottomMargin(animated: true)
@@ -257,7 +250,20 @@ final class ChatViewController: TextViewController {
 
     fileprivate func setupDirectAnswers() {
         directAnswersPresenter.hidden = viewModel.directAnswersState.value != .visible
-        directAnswersPresenter.setupOnTopOfView(relatedListingsView)
+        guard let parentView = relatedListingsView.superview else { return }
+        directAnswersPresenter.horizontalView?.removeFromSuperview()
+        let defaultHeight = DirectAnswersHorizontalView.Layout.Height.standard
+        let defaultWidth = DirectAnswersHorizontalView.Layout.Width.standard
+        let initialFrame = CGRect(x: 0, y: relatedListingsView.top - defaultHeight, width: defaultWidth, height: defaultHeight)
+        let directAnswers = DirectAnswersHorizontalView(frame: initialFrame, answers: directAnswersPresenter.answers)
+        directAnswers.delegate = directAnswersPresenter
+        directAnswers.answersEnabled = directAnswersPresenter.enabled
+        directAnswers.isHidden = directAnswersPresenter.hidden
+        directAnswers.translatesAutoresizingMaskIntoConstraints = false
+        parentView.insertSubview(directAnswers, belowSubview: relatedListingsView)
+        directAnswers.layout(with: parentView).leading().trailing()
+        directAnswers.layout(with: relatedListingsView).bottom(to: .top, by: -DirectAnswersHorizontalView.Layout.standardSideMargin)
+        directAnswersPresenter.horizontalView = directAnswers
         directAnswersPresenter.setDirectAnswers(viewModel.directAnswers)
         directAnswersPresenter.delegate = viewModel
     }
@@ -281,7 +287,7 @@ final class ChatViewController: TextViewController {
         var action: UIAction? = nil
         var buttonIcon: UIImage? = nil
         if let phone = phoneNumber, phone.isPhoneNumber, viewModel.professionalBannerHasCallAction {
-            action = UIAction(interface: .button(LGLocalizedString.chatProfessionalBannerButtonTitle,
+            action = UIAction(interface: .button(R.Strings.chatProfessionalBannerButtonTitle,
                                                  .primary(fontSize: .small)),
                               action: { [weak self] in
                                 self?.viewModel.professionalSellerBannerActionButtonTapped()
@@ -289,7 +295,7 @@ final class ChatViewController: TextViewController {
             buttonIcon = #imageLiteral(resourceName: "ic_phone_call")
         }
 
-        professionalSellerBanner.setupChatBannerWith(LGLocalizedString.chatProfessionalBannerTitle,
+        professionalSellerBanner.setupChatBannerWith(R.Strings.chatProfessionalBannerTitle,
                                                      action: action,
                                                      buttonIcon: buttonIcon)
 
@@ -443,9 +449,14 @@ fileprivate extension ChatViewController {
 
     func setupRxBindings() {
         viewModel.chatEnabled.asObservable().bind { [weak self] enabled in
-            self?.setTextViewBarHidden(!enabled, animated: true)
+            self?.setTextViewBarHidden(!enabled, animated: false)
             self?.textView.isUserInteractionEnabled = enabled
             }.disposed(by: disposeBag)
+        
+        viewModel.textBoxVisible.asDriver().drive(onNext: { [weak self] enabled in
+            self?.setTextViewBarHidden(!enabled, animated: false)
+            self?.textView.isUserInteractionEnabled = enabled
+        }).disposed(by: disposeBag)
 
         viewModel.chatStatus.asObservable().bind { [weak self] status in
             self?.relationInfoView.setupUIForStatus(status, otherUserName: self?.viewModel.interlocutorName.value)
@@ -481,7 +492,7 @@ fileprivate extension ChatViewController {
             guard let url = imageUrl else { return }
             self?.listingView.listingImage.lg_setImageWithURL(url)
             }.disposed(by: disposeBag)
-        viewModel.shouldUpdateQuickAnswers.asObservable().filter{ $0 }.distinctUntilChanged().subscribeNext { [weak self] _ in
+        viewModel.shouldUpdateQuickAnswers.asObservable().filter{ $0 }.subscribeNext { [weak self] _ in
             self?.setupDirectAnswers()
         }.disposed(by: disposeBag)
         
@@ -605,14 +616,14 @@ extension ChatViewController: ChatViewModelDelegate {
     
     func vmDidFailRetrievingChatMessages() {
         showActivityIndicator(false)
-        showAutoFadingOutMessageAlert(LGLocalizedString.chatMessageLoadGenericError) { [weak self] in
+        showAutoFadingOutMessageAlert(message: R.Strings.chatMessageLoadGenericError) { [weak self] in
             self?.popBackViewController()
         }
     }
 
     func vmDidUpdateProduct(messageToShow message: String?) {
         guard let message = message else { return }
-        showAutoFadingOutMessageAlert(message)
+        showAutoFadingOutMessageAlert(message: message)
     }
     
     func vmDidSendMessage() {
@@ -648,11 +659,11 @@ extension ChatViewController: ChatViewModelDelegate {
     }
     
     func vmDidNotifyMessage(_ message: String, completion: (() -> ())?) {
-        showAutoFadingOutMessageAlert(message, completion: completion)
+        showAutoFadingOutMessageAlert(message: message, completion: completion)
     }
     
     func vmAskPhoneNumber() {
-        let alert = UIAlertController(title: LGLocalizedString.professionalDealerAskPhoneAlertEnterPhone,
+        let alert = UIAlertController(title: R.Strings.professionalDealerAskPhoneAlertEnterPhone,
                                       message: nil,
                                       preferredStyle: .alert)
 
@@ -661,11 +672,11 @@ extension ChatViewController: ChatViewModelDelegate {
             textField.keyboardType = .numberPad
         }
 
-        let confirmAction = UIAlertAction(title: LGLocalizedString.commonConfirm, style: .default) { [weak self] _ in
+        let confirmAction = UIAlertAction(title: R.Strings.commonConfirm, style: .default) { [weak self] _ in
             self?.viewModel.sendPhoneFrom(alert: alert)
         }
         alert.addAction(confirmAction)
-        let cancelAction = UIAlertAction(title: LGLocalizedString.commonCancel, style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: R.Strings.commonCancel, style: .cancel, handler: nil)
         alert.addAction(cancelAction)
 
         present(alert, animated: true, completion: nil)

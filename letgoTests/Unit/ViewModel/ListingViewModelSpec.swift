@@ -12,7 +12,7 @@ import RxSwift
 import LGCoreKit
 import Quick
 import Nimble
-
+import LGComponents
 
 class ListingViewModelSpec: BaseViewModelSpec {
 
@@ -35,7 +35,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
         var locationManager: MockLocationManager!
         var countryHelper: CountryHelper!
         var product: MockProduct!
-        var source: EventParameterListingVisitSource!
+        var source: LetGoGodMode.EventParameterListingVisitSource!
         var featureFlags: MockFeatureFlags!
         var purchasesShopper: MockPurchasesShopper!
         var monetizationRepository: MockMonetizationRepository!
@@ -51,7 +51,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
 
         describe("ListingViewModelSpec") {
 
-            func buildListingViewModel(visitSource: EventParameterListingVisitSource = .listingList) {
+            func buildListingViewModel(visitSource: LetGoGodMode.EventParameterListingVisitSource = .listingList) {
                 let socialSharer = SocialSharer()
                 sut = ListingViewModel(listing: .product(product),
                                        visitSource: visitSource,
@@ -137,15 +137,15 @@ class ListingViewModelSpec: BaseViewModelSpec {
                     }
                     it("has mark as sold twice (button updates after user show request) and then sell it again button") {
                         let buttonTexts: [String] = bottomButtonsObserver.eventValues.flatMap { $0.first?.text }
-                        expect(buttonTexts) == [LGLocalizedString.productMarkAsSoldButton,
-                                                LGLocalizedString.productMarkAsSoldButton,
-                                                LGLocalizedString.productSellAgainButton]
+                        expect(buttonTexts) == [R.Strings.productMarkAsSoldButton,
+                                                R.Strings.productMarkAsSoldButton,
+                                                R.Strings.productSellAgainButton]
                     }
                     it("requests buyer selection") {
                         expect(self.selectBuyersCalled).toEventually(beTrue())
                     }
                     it("has shown mark as sold alert") {
-                        expect(self.shownAlertText!) == LGLocalizedString.productMarkAsSoldAlertMessage
+                        expect(self.shownAlertText!) == R.Strings.productMarkAsSoldAlertMessage
                     }
                     it("calls show loading in delegate") {
                         expect(self.delegateReceivedShowLoading) == true
@@ -210,13 +210,13 @@ class ListingViewModelSpec: BaseViewModelSpec {
                             expect(self.calledLogin) == true
                         }
                         it("adds one element on directMessages") {
-                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.text]
+                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.textToReply]
                         }
                         it("tracks sent first message + message sent") {
                             expect(tracker.trackedEvents.map { $0.actualName }) == ["product-detail-ask-question", "user-sent-message"]
                         }
                         it("tracks visit source as product-list") {
-                            let firstMessage: TrackerEvent = tracker.trackedEvents.filter { $0.actualName == EventName.firstMessage.rawValue }.first!
+                            let firstMessage: LetGoGodMode.TrackerEvent = tracker.trackedEvents.filter { $0.actualName == LetGoGodMode.EventName.firstMessage.rawValue }.first!
                             let visitSourceParam = firstMessage.params!.params[EventParameterName.listingVisitSource] as! String
                             expect(visitSourceParam).to(equal("product-list"))
                         }
@@ -233,13 +233,13 @@ class ListingViewModelSpec: BaseViewModelSpec {
                             expect(self.calledLogin) == true
                         }
                         it("adds one element on directMessages") {
-                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.text]
+                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.textToReply]
                         }
                         it("tracks sent first message + message sent") {
                             expect(tracker.trackedEvents.map { $0.actualName }) == ["product-detail-ask-question", "user-sent-message"]
                         }
                         it("tracks visit source as favourite") {
-                            let firstMessage: TrackerEvent = tracker.trackedEvents.filter { $0.actualName == EventName.firstMessage.rawValue }.first!
+                            let firstMessage: LetGoGodMode.TrackerEvent = tracker.trackedEvents.filter { $0.actualName == LetGoGodMode.EventName.firstMessage.rawValue }.first!
                             let visitSourceParam = firstMessage.params!.params[EventParameterName.listingVisitSource] as! String
                             expect(visitSourceParam).to(equal("favourite"))
                         }
@@ -257,13 +257,13 @@ class ListingViewModelSpec: BaseViewModelSpec {
                             expect(self.calledLogin) == true
                         }
                         it("adds one element on directMessages") {
-                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.text]
+                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.textToReply]
                         }
                         it("tracks sent first message + message sent") {
                             expect(tracker.trackedEvents.map { $0.actualName }) == ["product-detail-ask-question", "user-sent-message"]
                         }
                         it("tracks visit source as next-favourite") {
-                            let firstMessage: TrackerEvent = tracker.trackedEvents.filter { $0.actualName == EventName.firstMessage.rawValue }.first!
+                            let firstMessage: LetGoGodMode.TrackerEvent = tracker.trackedEvents.filter { $0.actualName == LetGoGodMode.EventName.firstMessage.rawValue }.first!
                             let visitSourceParam = firstMessage.params!.params[EventParameterName.listingVisitSource] as! String
                             expect(visitSourceParam).to(equal("next-favourite"))
                         }
@@ -281,13 +281,13 @@ class ListingViewModelSpec: BaseViewModelSpec {
                             expect(self.calledLogin) == true
                         }
                         it("adds one element on directMessages") {
-                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.text]
+                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.textToReply]
                         }
                         it("tracks sent first message + message sent") {
                             expect(tracker.trackedEvents.map { $0.actualName }) == ["product-detail-ask-question", "user-sent-message"]
                         }
                         it("tracks visit source as previous-favourite") {
-                            let firstMessage: TrackerEvent = tracker.trackedEvents.filter { $0.actualName == EventName.firstMessage.rawValue }.first!
+                            let firstMessage: LetGoGodMode.TrackerEvent = tracker.trackedEvents.filter { $0.actualName == LetGoGodMode.EventName.firstMessage.rawValue }.first!
                             let visitSourceParam = firstMessage.params!.params[EventParameterName.listingVisitSource] as! String
                             expect(visitSourceParam).to(equal("previous-favourite"))
                         }
@@ -304,7 +304,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                             expect(self.calledLogin) == true
                         }
                         it("adds one element on directMessages") {
-                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.text]
+                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.textToReply]
                         }
                         it("tracks sent first message + message sent") {
                             expect(tracker.trackedEvents.map { $0.actualName }) == ["user-sent-message"]
@@ -320,7 +320,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                             expect(self.calledLogin) == true
                         }
                         it("adds one element on directMessages") {
-                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.text]
+                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.textToReply]
                         }
                         describe("failure arrives") {
                             beforeEach {
@@ -772,7 +772,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                         sut.bumpUpProduct(productId: product.objectId!, isBoost: false)
                     }
                     it ("transaction finishes with payment failed") {
-                        expect(self.lastLoadingMessageShown).toEventually(equal(LGLocalizedString.bumpUpErrorPaymentFailed))
+                        expect(self.lastLoadingMessageShown).toEventually(equal(R.Strings.bumpUpErrorPaymentFailed))
                     }
                 }
                 context ("appstore payment succeeds but bump fails") {
@@ -787,7 +787,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                         sut.bumpUpProduct(productId: product.objectId!, isBoost: false)
                     }
                     it ("transaction finishes with bump failed") {
-                        expect(self.lastLoadingMessageShown).toEventually(equal(LGLocalizedString.bumpUpErrorBumpGeneric))
+                        expect(self.lastLoadingMessageShown).toEventually(equal(R.Strings.bumpUpErrorBumpGeneric))
                     }
                 }
                 context ("appstore payment and bump succeed") {
@@ -802,7 +802,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                         sut.bumpUpProduct(productId: product.objectId!, isBoost: false)
                     }
                     it ("transaction finishes with bump suceeded") {
-                        expect(self.lastLoadingMessageShown).toEventually(equal(LGLocalizedString.bumpUpPaySuccess))
+                        expect(self.lastLoadingMessageShown).toEventually(equal(R.Strings.bumpUpPaySuccess))
                     }
                 }
             }
@@ -840,7 +840,7 @@ extension ListingViewModelSpec: ListingViewModelDelegate {
         return (UIViewController(), nil)
     }
 
-    var trackingFeedPosition: EventParameterFeedPosition {
+    var trackingFeedPosition: LetGoGodMode.EventParameterFeedPosition {
         return .none
     }
 
@@ -855,7 +855,7 @@ extension ListingViewModelSpec: ListingViewModelDelegate {
 extension ListingViewModelSpec: ListingDetailNavigator {
     func openVideoPlayer(atIndex index: Int,
                          listingVM: ListingViewModel,
-                         source: EventParameterListingVisitSource) {
+                         source: LetGoGodMode.EventParameterListingVisitSource) {
 
     }
 
@@ -867,10 +867,10 @@ extension ListingViewModelSpec: ListingDetailNavigator {
                      bumpUpProductData: BumpUpProductData?,
                      listingCanBeBoosted: Bool,
                      timeSinceLastBump: TimeInterval?,
-                     maxCountdown: TimeInterval?) {
+                     maxCountdown: TimeInterval) {
 
     }
-    func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?) {
+    func openListingChat(_ listing: Listing, source: LetGoGodMode.EventParameterTypePage, interlocutor: User?) {
 
     }
     func closeListingAfterDelete(_ listing: Listing) {
@@ -878,17 +878,19 @@ extension ListingViewModelSpec: ListingDetailNavigator {
     }
     func openFreeBumpUp(forListing listing: Listing,
                         bumpUpProductData: BumpUpProductData,
-                        typePage: EventParameterTypePage?) {
+                        typePage: LetGoGodMode.EventParameterTypePage?,
+                        maxCountdown: TimeInterval) {
         calledOpenFreeBumpUpView = true
     }
     func openPayBumpUp(forListing listing: Listing,
                        bumpUpProductData: BumpUpProductData,
-                       typePage: EventParameterTypePage?) {
+                       typePage: LetGoGodMode.EventParameterTypePage?,
+                       maxCountdown: TimeInterval) {
         calledOpenPricedBumpUpView = true
     }
     func openBumpUpBoost(forListing listing: Listing,
                          bumpUpProductData: BumpUpProductData,
-                         typePage: EventParameterTypePage?,
+                         typePage: LetGoGodMode.EventParameterTypePage?,
                          timeSinceLastBump: TimeInterval,
                          maxCountdown: TimeInterval) {
         calledOpenBumpUpBoostView = true
@@ -897,13 +899,13 @@ extension ListingViewModelSpec: ListingDetailNavigator {
                            buyers: [UserListing],
                            listingId: String,
                            sourceRateBuyers: SourceRateBuyers?,
-                           trackingInfo: MarkAsSoldTrackingInfo) {
+                           trackingInfo: LetGoGodMode.MarkAsSoldTrackingInfo) {
         self.selectBuyersCalled = true
     }
     func showProductFavoriteBubble(with data: BubbleNotificationData) {
         shownFavoriteBubble = true
     }
-    func openLoginIfNeededFromProductDetail(from: EventParameterLoginSourceValue, infoMessage: String,
+    func openLoginIfNeededFromProductDetail(from: LetGoGodMode.EventParameterLoginSourceValue, infoMessage: String,
                                             loggedInAction: @escaping (() -> Void)) {
         calledLogin = true
         loggedInAction()
@@ -936,7 +938,7 @@ extension ListingViewModelSpec: ListingDetailNavigator {
 
     }
 
-    func closeAskPhoneFor(listing: Listing, openChat: Bool, withPhoneNum: String?, source: EventParameterTypePage,
+    func closeAskPhoneFor(listing: Listing, openChat: Bool, withPhoneNum: String?, source: LetGoGodMode.EventParameterTypePage,
                           interlocutor: User?) {
 
     }

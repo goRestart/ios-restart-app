@@ -1,13 +1,6 @@
-//
-//  BlockingPostingListingEditionViewModel.swift
-//  LetGo
-//
-//  Created by Raúl de Oñate Blanco on 07/03/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 class BlockingPostingListingEditionViewModel: BaseViewModel {
     
@@ -21,7 +14,7 @@ class BlockingPostingListingEditionViewModel: BaseViewModel {
             case .updatingListing, .success:
                 return ""
             case .error:
-                return LGLocalizedString.productPostGenericError
+                return R.Strings.productPostGenericError
             }
         }
         

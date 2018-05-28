@@ -483,5 +483,36 @@ class StringLGSpec: QuickSpec {
                 }
             }
         }
+
+        describe("truncatedNameStringToInitials") {
+            var result: String!
+            context("string with 1 word") {
+                beforeEach {
+                    sut = "Isaac"
+                    result = sut.truncatedNameStringToInitials()
+                }
+                it("returns the same string") {
+                    expect(result) == "Isaac"
+                }
+            }
+            context("string with 2 words") {
+                beforeEach {
+                    sut = "Isaac Modo"
+                    result = sut.truncatedNameStringToInitials()
+                }
+                it("returns the full first name plus 1 initial") {
+                    expect(result) == "Isaac M."
+                }
+            }
+            context("string with 3 words") {
+                beforeEach {
+                    sut = "Isaac Modo studio"
+                    result = sut.truncatedNameStringToInitials()
+                }
+                it("returns the full first name plus 2 initials") {
+                    expect(result) == "Isaac M. s."
+                }
+            }
+        }
     }
 }

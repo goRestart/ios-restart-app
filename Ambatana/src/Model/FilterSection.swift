@@ -1,10 +1,4 @@
-//
-//  FilterSection.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 09/11/15.
-//  Copyright © 2015 Ambatana. All rights reserved.
-//
+import LGComponents
 
 enum FilterSection: Int {
     case location, categories, carsInfo, distance, sortBy, within, price, realEstateInfo
@@ -17,21 +11,21 @@ extension FilterSection {
     var name : String {
         switch(self) {
         case .location:
-            return LGLocalizedString.filtersSectionLocation.localizedUppercase
+            return R.Strings.filtersSectionLocation.localizedUppercase
         case .distance:
-            return LGLocalizedString.filtersSectionDistance.localizedUppercase
+            return R.Strings.filtersSectionDistance.localizedUppercase
         case .categories:
-            return LGLocalizedString.filtersSectionCategories.localizedUppercase
+            return R.Strings.filtersSectionCategories.localizedUppercase
         case .carsInfo:
-            return LGLocalizedString.filtersSectionCarInfo.localizedUppercase
+            return R.Strings.filtersSectionCarInfo.localizedUppercase
         case .within:
-            return LGLocalizedString.filtersSectionWithin.localizedUppercase
+            return R.Strings.filtersSectionWithin.localizedUppercase
         case .sortBy:
-            return LGLocalizedString.filtersSectionSortby.localizedUppercase
+            return R.Strings.filtersSectionSortby.localizedUppercase
         case .price:
-            return LGLocalizedString.filtersSectionPrice.localizedUppercase
+            return R.Strings.filtersSectionPrice.localizedUppercase
         case .realEstateInfo:
-            return LGLocalizedString.filtersSectionRealEstateInfo.localizedUppercase
+            return R.Strings.filtersSectionRealEstateInfo.localizedUppercase
         }
     }
     

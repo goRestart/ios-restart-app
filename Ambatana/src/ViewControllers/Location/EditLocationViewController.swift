@@ -1,11 +1,3 @@
-//
-//  EditLocationViewController.swift
-//  LetGo
-//
-//  Created by Dídac on 12/08/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
 import UIKit
 import MapKit
 import LGCoreKit
@@ -13,6 +5,7 @@ import RxSwift
 import RxSwiftExt
 import RxCocoa
 import Result
+import LGComponents
 
 class EditLocationViewController: BaseViewController, EditLocationViewModelDelegate {
 
@@ -149,14 +142,14 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
 
     func vmDidFailToFindLocationWithError(_ error: String) {
         guard searchField != nil else { return }
-        showAutoFadingOutMessageAlert(error) { [weak self] in
+        showAutoFadingOutMessageAlert(message: error) { [weak self] in
             // Showing keyboard again as the user must update the text
             self?.searchField.becomeFirstResponder()
         }
     }
 
     func vmShowMessage(_ message: String, completion: (() -> ())?) {
-        showAutoFadingOutMessageAlert(message, completion: completion)
+        showAutoFadingOutMessageAlert(message: message, completion: completion)
     }
 
 
@@ -177,7 +170,7 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
             titleLabel.translatesAutoresizingMaskIntoConstraints = false
             titleLabel.font = UIFont.pageTitleFont
             titleLabel.textColor = UIColor.blackText
-            titleLabel.text = LGLocalizedString.quickFilterLocationTitle
+            titleLabel.text = R.Strings.quickFilterLocationTitle
             titleLabel.textAlignment = .center
 
             if #available(iOS 11.0, *) {
@@ -236,7 +229,7 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
         }
 
         searchField.insetX = 40
-        searchField.placeholder = LGLocalizedString.changeLocationSearchFieldHint
+        searchField.placeholder = R.Strings.changeLocationSearchFieldHint
         searchField.cornerRadius = LGUIKitConstants.mediumCornerRadius
         searchField.layer.borderColor = UIColor.lineGray.cgColor
         searchField.layer.borderWidth = LGUIKitConstants.onePixelSize
@@ -250,14 +243,14 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
         suggestionsTableView.layer.borderColor = UIColor.lineGray.cgColor
         suggestionsTableView.layer.borderWidth = LGUIKitConstants.onePixelSize
         setLocationButton.setStyle(.primary(fontSize: .medium))
-        setLocationButton.setTitle(LGLocalizedString.changeLocationApplyButton, for: .normal)
+        setLocationButton.setTitle(R.Strings.changeLocationApplyButton, for: .normal)
         gpsLocationButton.cornerRadius = 10
         poiImage.isHidden = true
         aproxLocationArea.isHidden = true
 
-        approximateLocationLabel.text = LGLocalizedString.changeLocationApproximateLocationLabel
+        approximateLocationLabel.text = R.Strings.changeLocationApproximateLocationLabel
 
-        setNavBarTitle(LGLocalizedString.changeLocationTitle)
+        setNavBarTitle(R.Strings.changeLocationTitle)
 
         registerCells()
     }
@@ -344,7 +337,7 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
                 self?.setLocationButton.setTitle("", for: .normal)
                 self?.setLocationLoading.startAnimating()
             } else {
-                self?.setLocationButton.setTitle(LGLocalizedString.changeLocationApplyButton,
+                self?.setLocationButton.setTitle(R.Strings.changeLocationApplyButton,
                     for: .normal)
                 self?.setLocationLoading.stopAnimating()
             }

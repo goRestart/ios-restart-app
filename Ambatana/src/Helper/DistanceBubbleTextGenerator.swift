@@ -1,13 +1,6 @@
-//
-//  DistanceBubbleTextGenerator.swift
-//  LetGo
-//
-//  Created by Dídac on 30/05/17.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
+import LGComponents
 
 class DistanceBubbleTextGenerator {
 
@@ -50,7 +43,7 @@ class DistanceBubbleTextGenerator {
         if distance > 0 {
             distanceString = String(format: "%d %@", arguments: [min(maxDistance, distance), type.string])
             if let distanceValue = distanceString, distance > maxDistance && distanceRadius == nil {
-                distanceString = LGLocalizedString.productDistanceMoreThan(distanceValue)
+                distanceString = R.Strings.productDistanceMoreThan(distanceValue)
             }
         }
 
@@ -60,13 +53,13 @@ class DistanceBubbleTextGenerator {
             } else if let zip = customPlace.postalAddress?.zipCode, !zip.isEmpty {
                 return String.make(components: [zip, distanceString], separator: " - ")
             } else {
-                return String.make(components: [LGLocalizedString.productDistanceCustomLocation, distanceString], separator: " - ")
+                return String.make(components: [R.Strings.productDistanceCustomLocation, distanceString], separator: " - ")
             }
         } else {
             if let realLocationCity = locationManager.currentLocation?.postalAddress?.city, !realLocationCity.isEmpty {
                 return String.make(components: [realLocationCity, distanceString], separator: " - ")
             } else {
-                return String.make(components: [LGLocalizedString.productDistanceNearYou, distanceString], separator: " - ")
+                return String.make(components: [R.Strings.productDistanceNearYou, distanceString], separator: " - ")
             }
         }
     }

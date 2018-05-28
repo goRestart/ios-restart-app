@@ -1,13 +1,6 @@
-//
-//  SellNavigationController.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 03/10/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import UIKit
 import RxSwift
+import LGComponents
 
 class SellNavigationController: UINavigationController {
     
@@ -111,7 +104,7 @@ class SellNavigationController: UINavigationController {
             .bind { [weak self] (currentStep, totalSteps) in
                 let current = Int(min(currentStep, totalSteps))
                 let totalStep = Int(totalSteps)
-                self?.stepLabel.text = LGLocalizedString.realEstateCurrentStepOfTotal(current, totalStep)
+                self?.stepLabel.text = R.Strings.realEstateCurrentStepOfTotal(current, totalStep)
             }.disposed(by: disposeBag)
     }
     

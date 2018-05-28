@@ -54,7 +54,7 @@ public protocol ChatRepository: class {
     
     // MARK: > Messages
     
-    func createNewMessage(_ talkerId: String, text: String, type: ChatMessageType) -> ChatMessage
+    func createNewMessage(_ talkerId: String, text: String?, type: ChatMessageType) -> ChatMessage
     func indexMessages(_ conversationId: String, numResults: Int, offset: Int, completion: ChatMessagesCompletion?)
     func indexMessagesNewerThan(_ messageId: String, conversationId: String, completion: ChatMessagesCompletion?)
     func indexMessagesOlderThan(_ messageId: String, conversationId: String, numResults: Int,
@@ -76,7 +76,11 @@ public protocol ChatRepository: class {
     
     // MARK: > Commands
     
-    func sendMessage(_ conversationId: String, messageId: String, type: ChatMessageType, text: String,
+    func sendMessage(_ conversationId: String,
+                     messageId: String,
+                     type: WebSocketSendMessageType,
+                     text: String,
+                     answerKey: String?,
                      completion: ChatCommandCompletion?)
     func confirmRead(_ conversationId: String, messageIds: [String], completion: ChatCommandCompletion?)
     func archiveConversations(_ conversationIds: [String], completion: ChatCommandCompletion?)
@@ -113,7 +117,11 @@ protocol InternalChatRepository: ChatRepository {
     func removeLocalConversation(id: String)
     func removeLocalConversations(ids: [String])
     
-    func internalSendMessage(_ conversationId: String, messageId: String, type: ChatMessageType, text: String,
+    func internalSendMessage(_ conversationId: String,
+                             messageId: String,
+                             type: WebSocketSendMessageType,
+                             text: String,
+                             answerKey: String?,
                              completion: ChatCommandCompletion?)
     func internalConfirmRead(_ conversationId: String, messageIds: [String], completion: ChatCommandCompletion?)
     func internalArchiveConversations(_ conversationIds: [String], completion: ChatCommandCompletion?)
@@ -323,9 +331,13 @@ extension InternalChatRepository {
         ids.forEach { removeLocalConversation(id: $0) }
     }
     
-    public func sendMessage(_ conversationId: String, messageId: String, type: ChatMessageType, text: String,
+    public func sendMessage(_ conversationId: String,
+                            messageId: String,
+                            type: WebSocketSendMessageType,
+                            text: String,
+                            answerKey: String?,
                             completion: ChatCommandCompletion?) {
-        internalSendMessage(conversationId, messageId: messageId, type: type, text: text) { [weak self] sendMessageResult in
+        internalSendMessage(conversationId, messageId: messageId, type: type, text: text, answerKey: answerKey) { [weak self] sendMessageResult in
             defer {
                 completion?(sendMessageResult)
             }

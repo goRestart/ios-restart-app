@@ -1,12 +1,5 @@
-//
-//  ChatOtherInfoCell.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 14/06/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 class ChatOtherInfoCell: UITableViewCell, ReusableCell {
 
@@ -23,7 +16,13 @@ class ChatOtherInfoCell: UITableViewCell, ReusableCell {
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var locationIconHeight: NSLayoutConstraint!
     @IBOutlet weak var locationIconTop: NSLayoutConstraint!
+    @IBOutlet weak var infoIcon: UIImageView!
+    @IBOutlet weak var infoLabel: UILabel!
+    @IBOutlet weak var infoLabelTop: NSLayoutConstraint!
+    @IBOutlet weak var infoIconHeight: NSLayoutConstraint!
+    @IBOutlet weak var infoIconTop: NSLayoutConstraint!
 
+    fileprivate static let verticalMargin: CGFloat = 8
     fileprivate static let iconsMargin: CGFloat = 8
     fileprivate static let iconsHeight: CGFloat = 14
     fileprivate static let verifyIconsWidth: CGFloat = 20
@@ -44,17 +43,11 @@ class ChatOtherInfoCell: UITableViewCell, ReusableCell {
 extension ChatOtherInfoCell {
     func setupVerifiedInfo(facebook: Bool, google: Bool, email: Bool) {
         guard facebook || google || email else {
-            verifyIconTop.constant = 0
-            verifyIconHeight.constant = 0
-            verifyLabel.isHidden = true
-            verifyContainer.isHidden = true
+            setVerifyEnabled(false)
             return
         }
-        verifyIconTop.constant = ChatOtherInfoCell.iconsMargin
-        verifyIconHeight.constant = ChatOtherInfoCell.iconsHeight
-        verifyLabel.isHidden = false
-        verifyContainer.isHidden = false
-
+        setInfoEnabled(false)
+        setVerifyEnabled(true)
         fbIconWidth.constant = facebook ? ChatOtherInfoCell.verifyIconsWidth : 0
         googleIconWidth.constant = google ? ChatOtherInfoCell.verifyIconsWidth : 0
         mailIconWidth.constant = email ? ChatOtherInfoCell.verifyIconsWidth : 0
@@ -62,15 +55,41 @@ extension ChatOtherInfoCell {
 
     func setupLocation(_ location: String?) {
         guard let location = location, !location.isEmpty else {
-            locationIconTop.constant = 0
-            locationIconHeight.constant = 0
-            locationLabel.isHidden = true
+            setLocationEnabled(false)
             return
         }
-        locationIconTop.constant = ChatOtherInfoCell.iconsMargin
-        locationIconHeight.constant = ChatOtherInfoCell.iconsHeight
-        locationLabel.isHidden = false
+        setInfoEnabled(false)
+        setLocationEnabled(true)
         locationLabel.text = location
+    }
+    
+    func setupLetgoAssistantInfo() {
+        setLocationEnabled(false)
+        setVerifyEnabled(false)
+        setInfoEnabled(true)
+        infoLabel.text = R.Strings.chatUserInfoLetgoAssistant
+    }
+    
+    private func setLocationEnabled(_ enabled: Bool) {
+        locationIconTop.constant = enabled ? ChatOtherInfoCell.verticalMargin : 0
+        locationIconHeight.constant =  enabled ? ChatOtherInfoCell.iconsHeight : 0
+        locationLabel.isHidden = !enabled
+    }
+    
+    private func setVerifyEnabled(_ enabled: Bool) {
+        verifyIconTop.constant = enabled ? ChatOtherInfoCell.verticalMargin : 0
+        verifyIconHeight.constant = enabled ? ChatOtherInfoCell.iconsHeight : 0
+        verifyLabel.isHidden = !enabled
+        verifyContainer.isHidden = !enabled
+    }
+    
+    private func setInfoEnabled(_ enabled: Bool) {
+        infoIconTop.constant = enabled ? ChatOtherInfoCell.verticalMargin : 0
+        infoIconHeight.constant = enabled ? ChatOtherInfoCell.iconsHeight : 0
+        infoLabel.isHidden = !enabled
+        if !enabled {
+            infoLabel.layout().height(0)
+        }
     }
 }
 
@@ -83,7 +102,7 @@ fileprivate extension ChatOtherInfoCell {
         userInfoContainer.layer.shouldRasterize = true
         userInfoContainer.layer.rasterizationScale = UIScreen.main.scale
         backgroundColor = .clear
-        verifyLabel.text = LGLocalizedString.chatUserInfoVerifiedWith
+        verifyLabel.text = R.Strings.chatUserInfoVerifiedWith
     }
     
     func setAccessibilityIds() {

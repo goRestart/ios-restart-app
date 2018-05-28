@@ -3,7 +3,7 @@ PODS:
   - AlamofireImage (3.3.0):
     - Alamofire (~> 4.5)
   - Amplitude-iOS (4.0.4)
-  - AppsFlyerFramework (4.8.2)
+  - AppsFlyerFramework (4.8.4)
   - Bolts (1.9.0):
     - Bolts/AppLinks (= 1.9.0)
     - Bolts/Tasks (= 1.9.0)
@@ -49,23 +49,29 @@ PODS:
   - Leanplum-iOS-SDK (2.0.5)
   - LGComponents/LGAnalytics (1.0.0):
     - Amplitude-iOS (= 4.0.4)
-    - AppsFlyerFramework (= 4.8.2)
+    - AppsFlyerFramework (= 4.8.4)
     - Branch (= 0.22.5)
     - Crashlytics (= 3.9.3)
     - Fabric (= 1.7.2)
     - FBSDKCoreKit (= 4.29.0)
     - Leanplum-iOS-SDK (= 2.0.5)
-    - LGCoreKit (= 4.25.0)
+    - LGCoreKit (= 4.26.3)
     - RxSwift (= 4.0.0)
+  - LGComponents/LGAnalyticsMocks (1.0.0):
+    - LGComponents/LGAnalytics
   - LGComponents/LGLogin (1.0.0):
     - FBSDKLoginKit (= 4.29.0)
     - GoogleSignIn (= 4.1.1)
     - LGComponents/LGAnalytics
     - LGComponents/LGResources
     - LGComponents/LGShared
-    - LGCoreKit (= 4.25.0)
+    - LGCoreKit (= 4.26.3)
     - RxCocoa (= 4.0.0)
     - RxSwift (= 4.0.0)
+  - LGComponents/LGLoginMocks (1.0.0):
+    - LGComponents/LGAnalyticsMocks
+    - LGComponents/LGLogin
+    - LGComponents/LGSharedMocks
   - LGComponents/LGResources (1.0.0)
   - LGComponents/LGShared (1.0.0):
     - AlamofireImage (= 3.3.0)
@@ -73,10 +79,12 @@ PODS:
     - DeviceGuru (= 3.0.1)
     - LGComponents/LGAnalytics
     - LGComponents/LGResources
-    - LGCoreKit (= 4.25.0)
+    - LGCoreKit (= 4.26.3)
     - RxCocoa (= 4.0.0)
     - SwiftyUserDefaults (= 3.0.1)
-  - LGCoreKit (4.25.0):
+  - LGComponents/LGSharedMocks (1.0.0):
+    - LGComponents/LGShared
+  - LGCoreKit (4.26.3):
     - Alamofire (~> 4.5.1)
     - CocoaLumberjack/Swift (~> 3.3.0)
     - DeviceGuru (~> 3.0.1)
@@ -109,6 +117,7 @@ PODS:
 
 DEPENDENCIES:
   - LGComponents/LGLogin (from `../../`)
+  - LGComponents/LGLoginMocks (from `../../`)
   - Nimble (= 7.0.2)
   - Quick (= 1.2.0)
 
@@ -120,7 +129,7 @@ SPEC CHECKSUMS:
   Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
   AlamofireImage: 2e784dc5d00f04903a52c1d169181469c805c3df
   Amplitude-iOS: 2ad4d7270c99186236c1272a3a9425463b1ae1a7
-  AppsFlyerFramework: 0999f26d737ff456c7a5f9d7c912996ea5cd8cbe
+  AppsFlyerFramework: c45bbd289a6f9e9a19976ee270b44edea646aab6
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   Branch: 4f0482418d99e77d15b0e6065ef216c10e24797b
   CocoaLumberjack: 3c8c74683302f9012bb168e1c4b7ae3c0b558431
@@ -136,8 +145,8 @@ SPEC CHECKSUMS:
   JSONWebToken: 6fae32489632658d563dd6952a5c34020ea813e4
   KeychainSwift: f9f7910449a0c0fd2cabc889121530dd2c477c33
   Leanplum-iOS-SDK: d7d387b7f3688e697f2893978bfe67092df5b7ca
-  LGComponents: a46d4f0214a2e6a4d334d081d0a436b71353235d
-  LGCoreKit: c4a55b0d2c6320e88ce6e87824dac83193e603bf
+  LGComponents: 4febf1f3873d42e1771268cd3570c17dd5b89a5f
+  LGCoreKit: 999b90a160851a0147045b50d6020066691c7c31
   Nimble: bfe1f814edabba69ff145cb1283e04ed636a67f2
   Quick: 58d203b1c5e27fff7229c4c1ae445ad7069a7a08
   ReachabilitySwift: 6849231cd4e06559f3b9ef4a97a0a0f96d41e09f
@@ -150,6 +159,6 @@ SPEC CHECKSUMS:
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   SwiftyUserDefaults: 3d273b1739b68ada3145dc754a70ec775bc5c8be
 
-PODFILE CHECKSUM: 5a55c069f41374782007bba88836d63ed344e835
+PODFILE CHECKSUM: cc45a992e4ec1dd6a93d00a26197d42008623bf2
 
 COCOAPODS: 1.4.0

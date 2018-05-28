@@ -1,12 +1,5 @@
-//
-//  PhotoViewerViewController.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 24/11/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType, UICollectionViewDataSource, UICollectionViewDelegate {
     override var prefersStatusBarHidden: Bool { return true }
@@ -328,7 +321,7 @@ final class ChatButton: UIControl {
 
     override var intrinsicContentSize: CGSize {
 
-        let width = (LGLocalizedString.photoViewerChatButton as NSString)
+        let width = (R.Strings.photoViewerChatButton as NSString)
             .size(withAttributes: [NSAttributedStringKey.font: textFont]).width
         return CGSize(width: width + 2*Metrics.margin + 44, height: 44) }
 
@@ -347,7 +340,7 @@ final class ChatButton: UIControl {
         imageView.layer.shadowOffset = CGSize(width: 0, height: 2)
 
         let label = UILabel()
-        label.text = LGLocalizedString.photoViewerChatButton
+        label.text = R.Strings.photoViewerChatButton
         label.textColor = UIColor.white
         label.setContentHuggingPriority(.defaultLow, for: .horizontal)
         label.setContentCompressionResistancePriority(.required, for: .horizontal)

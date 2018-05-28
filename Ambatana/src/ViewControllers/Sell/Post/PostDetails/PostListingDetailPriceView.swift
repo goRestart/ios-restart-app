@@ -1,15 +1,7 @@
-//
-//  PostListingDetailPriceView.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 17/08/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
-
 import RxSwift
 import RxCocoa
+import LGComponents
 
 class PostListingDetailPriceView: BaseView {
 
@@ -74,16 +66,16 @@ class PostListingDetailPriceView: BaseView {
     }
 
     private func setupUI() {
-        infoLabel.text = LGLocalizedString.productPostPriceLabel.localizedUppercase
+        infoLabel.text = R.Strings.productPostPriceLabel.localizedUppercase
         priceViewContainer.cornerRadius = 15.0
         postFreeViewContainer.backgroundColor = UIColor(white: 0.9, alpha: 0.3)
         freePostSwitch.isUserInteractionEnabled = false
         priceFieldContainer.backgroundColor = UIColor(white: 0.9, alpha: 0.3)
-        freePostLabel.text = LGLocalizedString.sellPostFreeLabel
+        freePostLabel.text = R.Strings.sellPostFreeLabel
         freePostLabel.textColor = UIColor.white
-        priceTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.productNegotiablePrice,
+        priceTextField.attributedPlaceholder = NSAttributedString(string: R.Strings.productNegotiablePrice,
                                                                   attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
-        doneButton.setTitle(LGLocalizedString.productPostDone, for: .normal)
+        doneButton.setTitle(R.Strings.productPostDone, for: .normal)
         currencyLabel.text = viewModel.currencySymbol
         currencyLabel.textColor = UIColor.white
         doneButton.setStyle(.primary(fontSize: .big))

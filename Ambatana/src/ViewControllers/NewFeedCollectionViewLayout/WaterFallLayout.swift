@@ -28,7 +28,6 @@ final class WaterFallLayout: UICollectionViewLayout {
 
     private var cache = ElementCache()
     private var cachedSectionsIndexSet = Set<SectionIndex>()
-    private var allItemAttributes: [UICollectionViewLayoutAttributes]
     private var visibleLayoutAttributes: [UICollectionViewLayoutAttributes]
 
     private var sectionBoundaries: [SectionIndex: (min: CGFloat, max: CGFloat)]
@@ -97,7 +96,6 @@ final class WaterFallLayout: UICollectionViewLayout {
         self.oldBounds = .zero
         self.unionRects = []
         self.columnHeights = []
-        self.allItemAttributes = []
         self.visibleLayoutAttributes = []
         self.sectionBoundaries = [:]
         self.pinnedHeaderHeights = [:]
@@ -148,7 +146,6 @@ final class WaterFallLayout: UICollectionViewLayout {
                                 columnCount: columnCount,
                                 collectionViewContentHeight: contentHeight)
         }
-        updateUnionRects()
     }
 
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
@@ -169,9 +166,6 @@ final class WaterFallLayout: UICollectionViewLayout {
     }
 
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-        guard hasStickyHeader else {
-            return calculateLayoutAttributesWithUnionRects(in: rect)
-        }
         visibleLayoutAttributes.removeAll(keepingCapacity: true)
         visibleLayoutAttributes.append(contentsOf: updatedHeadersAttributes())
         visibleLayoutAttributes.append(contentsOf: updatedNonHeaderAttributes(in: rect))
@@ -182,7 +176,7 @@ final class WaterFallLayout: UICollectionViewLayout {
         if oldBounds.size != newBounds.size {
             cache.removeAll(keepingCapacity: true)
         }
-        return hasStickyHeader
+        return true
     }
 }
 
@@ -302,7 +296,6 @@ extension WaterFallLayout {
         cache[.sectionHeader] = [IndexPath: UICollectionViewLayoutAttributes]()
         cache[.sectionFooter] = [IndexPath: UICollectionViewLayoutAttributes]()
         cache[.cell] = [IndexPath: UICollectionViewLayoutAttributes]()
-        allItemAttributes = []
         unionRects = []
         columnHeights = []
         pinnedHeaderHeights = [:]
@@ -375,7 +368,6 @@ extension WaterFallLayout {
         guard size.height > 0 else { return }
         attributes.frame = CGRect(origin: origin, size: size)
         cache[type]?[attributes.indexPath] = attributes
-        allItemAttributes.append(attributes)
         if type != .cell {
             collectionViewContentHeight += size.height
         }
@@ -386,23 +378,24 @@ extension WaterFallLayout {
         guard let collectionView = collectionView else { return headerAttributes }
         for section in cachedSectionsIndexSet {
             let indexPath = IndexPath(item: 0, section: section)
-            guard let sectionHeaderAttributes = cache[.sectionHeader]?[indexPath] else { return headerAttributes }
-            let headerType = delegate?.collectionView(collectionView, headerStickynessForSectionAt: section) ?? .nonSticky
-            let headerHeight = sectionHeaderAttributes.frame.height
-            switch headerType {
-            case .pinned:
-                sectionHeaderAttributes.zIndex = 2
-                pinnedHeaderHeights[section] = headerHeight
-            case .sticky:
-                sectionHeaderAttributes.zIndex = 1
-                stickyHeaderHeights[section] = headerHeight
-            case .nonSticky: break
+            if let sectionHeaderAttributes = cache[.sectionHeader]?[indexPath] {
+                let headerType = delegate?.collectionView(collectionView, headerStickynessForSectionAt: section) ?? .nonSticky
+                let headerHeight = sectionHeaderAttributes.frame.height
+                switch headerType {
+                case .pinned:
+                    sectionHeaderAttributes.zIndex = headerType.headerZIndex
+                    pinnedHeaderHeights[section] = headerHeight
+                case .sticky:
+                    sectionHeaderAttributes.zIndex = headerType.headerZIndex
+                    stickyHeaderHeights[section] = headerHeight
+                case .nonSticky: break
+                }
+                setHeaderScrollingBehaviour(collectionView,
+                                            inSection: section,
+                                            headerFrame: &sectionHeaderAttributes.frame,
+                                            headerType: headerType)
+                headerAttributes.append(sectionHeaderAttributes)
             }
-            setHeaderScrollingBehaviour(collectionView,
-                                        inSection: section,
-                                        headerFrame: &sectionHeaderAttributes.frame,
-                                        headerType: headerType)
-            headerAttributes.append(sectionHeaderAttributes)
         }
         return headerAttributes
     }
@@ -416,48 +409,6 @@ extension WaterFallLayout {
             }
         }
         return nonHeaderAttributes
-    }
-    
-    // Use Precalculated Rects to minimize computation when scrolling
-    
-    private func updateUnionRects() {
-        var idx = 0
-        let itemCounts = cacheCount
-        while idx < itemCounts {
-            let rect1 = self.allItemAttributes[idx].frame
-            idx = min(idx + unionSize, itemCounts) - 1
-            let rect2 = self.allItemAttributes[idx].frame
-            self.unionRects.append(NSValue(cgRect:rect1.union(rect2)))
-            idx += 1
-        }
-    }
-    
-    private func calculateLayoutAttributesWithUnionRects(in rect: CGRect) -> [UICollectionViewLayoutAttributes] {
-        var begin = 0, end = self.unionRects.count
-        var attrs: [UICollectionViewLayoutAttributes] = []
-        
-        for i in 0 ..< end {
-            let unionRect = self.unionRects[i]
-            if rect.intersects(unionRect.cgRectValue) {
-                begin = i * unionSize
-                break
-            }
-        }
-        for i in (0 ..< self.unionRects.count).reversed() {
-            let unionRect = self.unionRects[i]
-            if rect.intersects(unionRect.cgRectValue) {
-                end = min((i + 1) * unionSize, cacheCount)
-                break
-            }
-        }
-        
-        for i in begin ..< end {
-            let attr = self.allItemAttributes[i]
-            if rect.intersects(attr.frame) {
-                attrs.append(attr)
-            }
-        }
-        return attrs
     }
 }
 
@@ -562,6 +513,13 @@ extension WaterFallLayout {
         return itemAttributes.frame.origin.y
     }
     
+    /// Bottom Y of the header in the last section
+    func lastHeaderBottomY() -> CGFloat {
+        let lastSection = numberOfSections - 1
+        guard lastSection >= 0 else { return 0 }
+        return yOffsetForTopItemInLastSection() - sectionInsets(in: lastSection).top
+    }
+    
     func yOffsetForTopItemInLastSection() -> CGFloat {
         return yOffsetForTopItemInSection(numberOfSections - 1)
     }
@@ -579,7 +537,7 @@ extension WaterFallLayout {
     /// The Y location of refresh control.
     /// If there are no pinned headers, it works as normal refresh control.
     /// If there are pinned headers, it stays below the last pinned header.
-    func originYOfRefreshControl() -> CGFloat {
+    func refreshControlOriginY() -> CGFloat {
         return totalPinnedHeaderHeights(aboveSection: numberOfSections - 1)
     }
 }

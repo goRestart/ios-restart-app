@@ -101,7 +101,7 @@ public enum ApiError: Error {
     case internalError(description: String)
 
     case badRequest(cause: BadRequestCause)
-    case unauthorized
+    case unauthorized(description: String?)
     case notFound
     case forbidden(cause: ForbiddenCause)
     case conflict(cause: ConflictCause)
@@ -113,14 +113,14 @@ public enum ApiError: Error {
     case notModified
     case other(httpCode: Int)
 
-    static func errorForCode(_ code: Int, apiCode: Int?) -> ApiError {
+    static func errorForCode(_ code: Int, apiCode: Int?, description: String?) -> ApiError {
         switch code {
         case 304:
             return .notModified
         case 400:
             return .badRequest(cause: BadRequestCause.causeWithCode(apiCode))
         case 401:   // Wrong credentials
-            return .unauthorized
+            return .unauthorized(description: description ?? "Token expired on server")
         case 403:
             return .forbidden(cause: ForbiddenCause.causeWithCode(apiCode))
         case 404:
@@ -248,7 +248,8 @@ class AFApiClient: ApiClient {
         progress: ((Progress) -> Void)?) {
             
             guard request.requiredAuthLevel <= tokenDAO.level else {
-                completion?(ResultResult<T, ApiError>.t(error: .unauthorized))
+                let errorDescription = "required auth level: \(request.requiredAuthLevel); current level: \(tokenDAO.level) when uploading"
+                completion?(ResultResult<T, ApiError>.t(error: .unauthorized(description: errorDescription)))
                 report(CoreReportSession.insufficientTokenLevel, message: "when uploading")
                 return
             }
