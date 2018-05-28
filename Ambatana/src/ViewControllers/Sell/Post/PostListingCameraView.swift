@@ -141,7 +141,7 @@ class PostListingCameraView: BaseView, LGViewPagerPage, MLPredictionDetailsViewD
         super.layoutSubviews()
         contentView.bringSubview(toFront: predictionDetailsView)
         contentView.bringSubview(toFront: bottomControlsContainer)
-        usePhotoButton.layer.cornerRadius = usePhotoButton.height / 2
+        usePhotoButton.setRoundedCorners()
     }
 
     // MARK: - Public methods
