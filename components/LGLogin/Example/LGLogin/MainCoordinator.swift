@@ -23,6 +23,7 @@ final class MainCoordinator: Coordinator,
     private weak var presentedNavigationController: UINavigationController?
     fileprivate weak var recaptchaTokenDelegate: RecaptchaTokenDelegate?
 
+    private let source: EventParameterLoginSourceValue
     private var factory: LoginComponentFactory
 
 
@@ -46,6 +47,8 @@ final class MainCoordinator: Coordinator,
         self.navigationController = navigationController
         self.presentedNavigationController = nil
         let config = LoginConfig(signUpEmailTermsAndConditionsAcceptRequired: false)
+
+        self.source = .install
         self.factory = LoginComponentFactory(config: config)
 
         viewModel.navigator = self
@@ -66,7 +69,7 @@ final class MainCoordinator: Coordinator,
     // MARK: - MainViewModelNavigator
 
     func openFullScreenLogin() {
-        let coordinator = factory.makeLoginCoordinator(source: .install,
+        let coordinator = factory.makeLoginCoordinator(source: source,
                                                        style: .fullScreen,
                                                        loggedInAction: showLogInSuccessfulAlert,
                                                        cancelAction: showLogInCancelledAlert)
@@ -78,7 +81,7 @@ final class MainCoordinator: Coordinator,
     }
 
     func openPopUpLogin() {
-        let coordinator = factory.makeLoginCoordinator(source: .install,
+        let coordinator = factory.makeLoginCoordinator(source: source,
                                                        style: .popup("You need to show you how to log in from a pop up 💅🏻"),
                                                        loggedInAction: showLogInSuccessfulAlert,
                                                        cancelAction: showLogInCancelledAlert)
@@ -90,7 +93,7 @@ final class MainCoordinator: Coordinator,
     }
 
     func openEmbeddedLogin() {
-        let signUpViewModel = factory.makeTourSignUpViewModel(source: .install)
+        let signUpViewModel = factory.makeTourSignUpViewModel(source: source)
         signUpViewModel.navigator = self
         let viewModel = EmbeddedLoginViewModel(signUpViewModel: signUpViewModel)
         viewModel.navigator = self
@@ -104,6 +107,14 @@ final class MainCoordinator: Coordinator,
         vm.navigator = self
         let vc = ChangePasswordViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
+    }
+
+    func openLoginIfNeeded() {
+        openLoginIfNeeded(from: source,
+                          style: .fullScreen,
+                          loggedInAction: { [weak self] in self?.showAlert(message: "Logged In Action") },
+                          cancelAction: showLogInCancelledAlert,
+                          factory: factory)
     }
 
 
@@ -135,7 +146,7 @@ final class MainCoordinator: Coordinator,
 
     func openSignUpEmailFromMainSignUp(termsAndConditionsEnabled: Bool) {
         let signUpLogInViewController: UIViewController
-        (signUpLogInViewController, recaptchaTokenDelegate) = factory.makeTourSignUpLogInViewController(source: .install,
+        (signUpLogInViewController, recaptchaTokenDelegate) = factory.makeTourSignUpLogInViewController(source: source,
                                                                                                         action: .signup,
                                                                                                         navigator: self)
         let navCtl = UINavigationController(rootViewController: signUpLogInViewController)
@@ -195,7 +206,7 @@ final class MainCoordinator: Coordinator,
     }
 
     func openRememberPasswordFromSignUpLogIn(email: String?) {
-        let viewModel = RememberPasswordViewModel(source: .install,
+        let viewModel = RememberPasswordViewModel(source: source,
                                                   email: email)
         viewModel.navigator = self
         let viewController = RememberPasswordViewController(viewModel: viewModel,

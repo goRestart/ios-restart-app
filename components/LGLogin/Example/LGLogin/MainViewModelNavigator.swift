@@ -3,4 +3,5 @@ protocol MainViewModelNavigator: class {
     func openPopUpLogin()
     func openEmbeddedLogin()
     func openChangePassword()
+    func openLoginIfNeeded()
 }

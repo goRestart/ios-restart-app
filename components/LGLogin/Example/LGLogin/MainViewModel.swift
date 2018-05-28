@@ -22,6 +22,8 @@ final class MainViewModel: BaseViewModel {
             return "Embedded Login"
         case .changePassword:
             return "Change Password"
+        case .actionAfterLogin:
+            return "Action After Login"
         }
     }
 
@@ -36,6 +38,8 @@ final class MainViewModel: BaseViewModel {
             navigator?.openEmbeddedLogin()
         case .changePassword:
             navigator?.openChangePassword()
+        case .actionAfterLogin:
+            navigator?.openLoginIfNeeded()
         }
     }
 
@@ -51,6 +55,11 @@ private enum MainViewModelItem {
     case popUpLogin
     case embeddedLogin
     case changePassword
+    case actionAfterLogin
 
-    static let allValues: [MainViewModelItem] = [.fullScreenLogin, .popUpLogin, .embeddedLogin, .changePassword]
+    static let allValues: [MainViewModelItem] = [.fullScreenLogin,
+                                                 .popUpLogin,
+                                                 .embeddedLogin,
+                                                 .changePassword,
+                                                 .actionAfterLogin]
 }

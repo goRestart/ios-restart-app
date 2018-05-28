@@ -579,6 +579,7 @@
 		4FCDEC1B4AB9DA2C8722C18141CBC3AE /* MockTaxonomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6132CF4621E4717A3063A3B7BBFEB12B /* MockTaxonomy.swift */; };
 		502228B498716A0D6B2D9B3C155C9423 /* RxTableViewDataSourceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002064737F382D04D23F51C9DEB3AD27 /* RxTableViewDataSourceType.swift */; };
 		50698F14E7847E18B907E9373FBF4C21 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0053F9D3EEA593AB6ABB087DE50A5F96 /* Foundation.framework */; };
+		5094103320B6DF4C006E38EC /* Coordinator+LGLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5094103220B6DF4C006E38EC /* Coordinator+LGLogin.swift */; };
 		50DBCBB120AAD7CA00AA9396 /* Bundle+LGLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBCBB020AAD7CA00AA9396 /* Bundle+LGLogin.swift */; };
 		50FDB4CB4FACEAAD1F45C6CF087338F1 /* FBSDKErrorRecoveryAttempter.m in Sources */ = {isa = PBXBuildFile; fileRef = E9D6951A05E8226C8E5DDCF9A1C2C7CC /* FBSDKErrorRecoveryAttempter.m */; };
 		51015E46B434F44AC8EC8BD749E653AE /* Icons-Launchers.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B52A6F8F837BACACC3C4B486DBF78BB /* Icons-Launchers.xcassets */; };
@@ -2975,6 +2976,7 @@
 		505DD72F1250567B14B723CCE4739EFB /* Logging.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Logging.swift; path = RxCocoa/Foundation/Logging.swift; sourceTree = "<group>"; };
 		5063AF16326AF4FAFC62C4E426A85DCA /* BFAppLinkTarget.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = BFAppLinkTarget.m; path = Bolts/iOS/BFAppLinkTarget.m; sourceTree = "<group>"; };
 		506615764039619DA4C423958EB91811 /* ReachabilitySwift-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "ReachabilitySwift-dummy.m"; sourceTree = "<group>"; };
+		5094103220B6DF4C006E38EC /* Coordinator+LGLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Coordinator+LGLogin.swift"; sourceTree = "<group>"; };
 		50DBCBB020AAD7CA00AA9396 /* Bundle+LGLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+LGLogin.swift"; sourceTree = "<group>"; };
 		513E05349A8A5BB4A66FCFC759040E9D /* MockUserRepository.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MockUserRepository.swift; path = mocchacino/Repository/MockUserRepository.swift; sourceTree = "<group>"; };
 		51AA53BB97B1142376E9F60C7EA1D07E /* RxCocoaObjCRuntimeError+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "RxCocoaObjCRuntimeError+Extensions.swift"; path = "RxCocoa/Common/RxCocoaObjCRuntimeError+Extensions.swift"; sourceTree = "<group>"; };
@@ -6729,6 +6731,7 @@
 				E84733ACC6216B75CD38BE0C51CF0298 /* ChangePasswordCoordinator.swift */,
 				70731599FB7FFF6A7ED6696B09877591 /* ChangePasswordViewController.swift */,
 				151809D771B409AF1093FCB3A976420D /* ChangePasswordViewModel.swift */,
+				5094103220B6DF4C006E38EC /* Coordinator+LGLogin.swift */,
 				F092DE9A4F7AD3ADD0B9B33E9EDDB00E /* LoginCoordinator.swift */,
 				5A60124A9D9A5A24C20B7D00114897F4 /* LoginNavigator.swift */,
 				E5E6E4B8085A4F1E54CDD0771C6DFACC /* MainSignUpViewController.swift */,
@@ -10247,6 +10250,7 @@
 				85F088901515F70B8650A59FECB812DC /* KeyValueStorageable.swift in Sources */,
 				31E61B86F4A73336D2B173A2E91A6501 /* LeanplumTracker.swift in Sources */,
 				8886F4FE3183B52A3D43F9BC1505A096 /* LetgoButton.swift in Sources */,
+				5094103320B6DF4C006E38EC /* Coordinator+LGLogin.swift in Sources */,
 				007C6A6D7094A2B819518C1C76387D8F /* LetgoURLHelper.swift in Sources */,
 				46F3AF4B4088E1B23067A42977150E71 /* LGAlertViewController.swift in Sources */,
 				EB1A98F3781663A349F506BAF2B8AF1C /* LGBubbleNotificationManager.swift in Sources */,
