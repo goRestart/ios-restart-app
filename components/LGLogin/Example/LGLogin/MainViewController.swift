@@ -6,8 +6,11 @@ final class MainViewController: BaseViewController, UITableViewDataSource, UITab
     private static let cellIdentifier = "UITableViewCellIdentifier"
 
     private let viewModel: MainViewModel
-    private var logoutButton: UIBarButtonItem
-    private let tableView: UITableView
+    private var logoutButton = UIBarButtonItem(title: "Logout",
+                                               style: .plain,
+                                               target: self,
+                                               action: #selector(MainViewController.logoutButtonPressed))
+    private let tableView: UITableView = UITableView()
     private let disposeBag: DisposeBag
 
 
@@ -15,8 +18,6 @@ final class MainViewController: BaseViewController, UITableViewDataSource, UITab
 
     init(viewModel: MainViewModel) {
         self.viewModel = viewModel
-        self.logoutButton = UIBarButtonItem()
-        self.tableView = UITableView()
         self.disposeBag = DisposeBag()
         super.init(viewModel: viewModel,
                    nibName: nil)
@@ -38,10 +39,6 @@ final class MainViewController: BaseViewController, UITableViewDataSource, UITab
     }
 
     private func setupLogoutButton() {
-        logoutButton = UIBarButtonItem(title: "Logout",
-                                       style: .plain,
-                                       target: self,
-                                       action: #selector(MainViewController.logoutButtonPressed))
         navigationItem.leftBarButtonItem = logoutButton
 
         viewModel.logOutButtonIsEnabled
@@ -54,21 +51,11 @@ final class MainViewController: BaseViewController, UITableViewDataSource, UITab
     }
 
     private func setupTableView() {
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(tableView)
-        let constraints: [NSLayoutConstraint]
-        if #available(iOS 11, *) {
-            constraints = [tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-                           tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-                           tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-                           tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)]
-        } else {
-            constraints = [tableView.topAnchor.constraint(equalTo: view.topAnchor),
-                           tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-                           tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                           tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)]
-        }
-        constraints.forEach { $0.isActive = true }
+        view.addSubviewForAutoLayout(tableView)
+        NSLayoutConstraint.activate([tableView.topAnchor.constraint(equalTo: safeTopAnchor),
+                                     tableView.bottomAnchor.constraint(equalTo: safeBottomAnchor),
+                                     tableView.leadingAnchor.constraint(equalTo: safeLeadingAnchor),
+                                     tableView.trailingAnchor.constraint(equalTo: safeTrailingAnchor)])
 
         tableView.register(UITableViewCell.self,
                            forCellReuseIdentifier: MainViewController.cellIdentifier)

@@ -5,20 +5,38 @@ import UIKit
 final class EmbeddedLoginViewController: BaseViewController, GIDSignInUIDelegate, SignUpViewModelDelegate {
     private let viewModel: EmbeddedLoginViewModel
 
-    private let stackView: UIStackView
-    private let facebookButton: UIButton
-    private let googleButton: UIButton
-    private let emailButton: UIButton
+    private let stackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.spacing = 5
+        stack.distribution = .fillProportionally
+        stack.alignment = .center
+        return stack
+    }()
+    private let facebookButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Facebook", for: .normal)
+        button.addTarget(self, action: #selector(facebookButtonPressed), for: .touchUpInside)
+        return button
+    }()
+    private let googleButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Google", for: .normal)
+        button.addTarget(self, action: #selector(googleButtonPressed), for: .touchUpInside)
+        return button
+    }()
+    private let emailButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Email", for: .normal)
+        button.addTarget(self, action: #selector(emailButtonPressed), for: .touchUpInside)
+        return button
+    }()
 
 
     // MARK: - Lifecycle
 
     init(viewModel: EmbeddedLoginViewModel) {
         self.viewModel = viewModel
-        self.stackView = UIStackView()
-        self.facebookButton = UIButton(type: .system)
-        self.googleButton = UIButton(type: .system)
-        self.emailButton = UIButton(type: .system)
         super.init(viewModel: viewModel,
                    nibName: nil)
     }
@@ -35,49 +53,16 @@ final class EmbeddedLoginViewController: BaseViewController, GIDSignInUIDelegate
 
     private func setupUI() {
         view.backgroundColor = UIColor.white
-        setupFacebookButton()
-        setupGoogleButton()
-        setupEmailButton()
         setupStackView()
     }
 
     private func setupStackView() {
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(stackView)
-        let constraints: [NSLayoutConstraint]
-        if #available(iOS 11, *) {
-            constraints = [stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-                           stackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-                           stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-                           stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)]
-        } else {
-            constraints = [stackView.topAnchor.constraint(equalTo: view.topAnchor),
-                           stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-                           stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                           stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor)]
-        }
-        constraints.forEach { $0.isActive = true }
-
-        stackView.axis = .vertical
-        stackView.spacing = 5
-        stackView.distribution = .fillProportionally
-        stackView.alignment = .center
+        view.addSubviewForAutoLayout(stackView)
+        NSLayoutConstraint.activate([stackView.topAnchor.constraint(equalTo: safeTopAnchor),
+                                     stackView.bottomAnchor.constraint(equalTo: safeBottomAnchor),
+                                     stackView.leadingAnchor.constraint(equalTo: safeLeadingAnchor),
+                                     stackView.trailingAnchor.constraint(equalTo: safeTrailingAnchor)])
         [facebookButton, googleButton, emailButton].forEach { stackView.addArrangedSubview($0) }
-    }
-
-    private func setupFacebookButton() {
-        facebookButton.setTitle("Facebook", for: .normal)
-        facebookButton.addTarget(self, action: #selector(facebookButtonPressed), for: .touchUpInside)
-    }
-
-    private func setupGoogleButton() {
-        googleButton.setTitle("Google", for: .normal)
-        googleButton.addTarget(self, action: #selector(googleButtonPressed), for: .touchUpInside)
-    }
-
-    private func setupEmailButton() {
-        emailButton.setTitle("Email", for: .normal)
-        emailButton.addTarget(self, action: #selector(emailButtonPressed), for: .touchUpInside)
     }
 
 
