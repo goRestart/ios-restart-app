@@ -41,7 +41,7 @@ final class MainCoordinator: Coordinator,
         self.presentedAlertController = nil
         self.sessionManager = sessionManager
         self.bubbleNotificationManager = bubbleNotificationManager
-        let viewModel = MainViewModel()
+        let viewModel = MainViewModel(sessionManager: sessionManager)
         let viewController = MainViewController(viewModel: viewModel)
         let navigationController = UINavigationController(rootViewController: viewController)
         self.navigationController = navigationController

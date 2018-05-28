@@ -1,10 +1,32 @@
 import LGComponents
+import LGCoreKit
+import RxCocoa
+import RxSwift
 
 final class MainViewModel: BaseViewModel {
+    var logOutButtonIsEnabled: Observable<Bool> {
+        return logOutButtonIsEnabledVariable.asObservable()
+    }
+    private let logOutButtonIsEnabledVariable: Variable<Bool>
     weak var navigator: MainViewModelNavigator?
 
-    override init() {
+    private let sessionManager: SessionManager
+    private let disposeBag: DisposeBag
+
+    init(sessionManager: SessionManager) {
+        self.logOutButtonIsEnabledVariable = Variable<Bool>(sessionManager.loggedIn)
+        self.sessionManager = sessionManager
+        self.disposeBag = DisposeBag()
         super.init()
+
+        sessionManager.sessionEvents
+            .map { if case .login = $0 { return true } else { return false } }
+            .bind(to: logOutButtonIsEnabledVariable)
+            .disposed(by: disposeBag)
+    }
+
+    func logoutButtonPressed() {
+        sessionManager.logout()
     }
 
     func numberOfItems() -> Int {

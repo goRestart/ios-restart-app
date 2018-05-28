@@ -1,18 +1,23 @@
-import UIKit
 import LGComponents
+import UIKit
+import RxSwift
 
 class MainViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
     private static let cellIdentifier = "UITableViewCellIdentifier"
 
     private let viewModel: MainViewModel
+    private var logoutButton: UIBarButtonItem
     private let tableView: UITableView
+    private let disposeBag: DisposeBag
 
 
     // MARK: - Lifecycle
 
     init(viewModel: MainViewModel) {
         self.viewModel = viewModel
+        self.logoutButton = UIBarButtonItem()
         self.tableView = UITableView()
+        self.disposeBag = DisposeBag()
         super.init(viewModel: viewModel,
                    nibName: nil)
     }
@@ -28,7 +33,24 @@ class MainViewController: BaseViewController, UITableViewDataSource, UITableView
     }
 
     private func setupUI() {
+        setupLogoutButton()
         setupTableView()
+    }
+
+    private func setupLogoutButton() {
+        logoutButton = UIBarButtonItem(title: "Logout",
+                                       style: .plain,
+                                       target: self,
+                                       action: #selector(MainViewController.logoutButtonPressed))
+        navigationItem.leftBarButtonItem = logoutButton
+
+        viewModel.logOutButtonIsEnabled
+            .bind(to: logoutButton.rx.isEnabled)
+            .disposed(by: disposeBag)
+    }
+
+    @objc private func logoutButtonPressed() {
+        viewModel.logoutButtonPressed()
     }
 
     private func setupTableView() {
