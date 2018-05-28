@@ -3,7 +3,7 @@ import GoogleSignIn
 import UIKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+final class AppDelegate: UIResponder, UIApplicationDelegate {
     lazy var window: UIWindow? = {
         return UIWindow(frame: UIScreen.main.bounds)
     }()

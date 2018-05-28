@@ -2,7 +2,7 @@ import LGComponents
 import UIKit
 import RxSwift
 
-class MainViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
+final class MainViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
     private static let cellIdentifier = "UITableViewCellIdentifier"
 
     private let viewModel: MainViewModel

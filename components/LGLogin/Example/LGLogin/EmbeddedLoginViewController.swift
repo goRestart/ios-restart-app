@@ -2,7 +2,7 @@ import LGComponents
 import GoogleSignIn
 import UIKit
 
-class EmbeddedLoginViewController: BaseViewController, GIDSignInUIDelegate, SignUpViewModelDelegate {
+final class EmbeddedLoginViewController: BaseViewController, GIDSignInUIDelegate, SignUpViewModelDelegate {
     private let viewModel: EmbeddedLoginViewModel
 
     private let stackView: UIStackView
