@@ -23,6 +23,8 @@ final class MainCoordinator: Coordinator,
     private weak var presentedNavigationController: UINavigationController?
     fileprivate weak var recaptchaTokenDelegate: RecaptchaTokenDelegate?
 
+    private var factory: LoginComponentFactory
+
 
     // MARK: - Lifecycle
 
@@ -43,6 +45,8 @@ final class MainCoordinator: Coordinator,
         let navigationController = UINavigationController(rootViewController: viewController)
         self.navigationController = navigationController
         self.presentedNavigationController = nil
+        let config = LoginConfig(signUpEmailTermsAndConditionsAcceptRequired: false)
+        self.factory = LoginComponentFactory(config: config)
 
         viewModel.navigator = self
     }
@@ -62,8 +66,6 @@ final class MainCoordinator: Coordinator,
     // MARK: - MainViewModelNavigator
 
     func openFullScreenLogin() {
-        let config = LoginConfig(signUpEmailTermsAndConditionsAcceptRequired: false)
-        let factory = LoginComponentFactory(config: config)
         let coordinator = factory.makeLoginCoordinator(source: .install,
                                                        style: .fullScreen,
                                                        loggedInAction: showLogInSuccessfulAlert,
@@ -76,8 +78,6 @@ final class MainCoordinator: Coordinator,
     }
 
     func openPopUpLogin() {
-        let config = LoginConfig(signUpEmailTermsAndConditionsAcceptRequired: false)
-        let factory = LoginComponentFactory(config: config)
         let coordinator = factory.makeLoginCoordinator(source: .install,
                                                        style: .popup("You need to show you how to log in from a pop up 💅🏻"),
                                                        loggedInAction: showLogInSuccessfulAlert,
@@ -90,8 +90,6 @@ final class MainCoordinator: Coordinator,
     }
 
     func openEmbeddedLogin() {
-        let config = LoginConfig(signUpEmailTermsAndConditionsAcceptRequired: false)
-        let factory = LoginComponentFactory(config: config)
         let signUpViewModel = factory.makeTourSignUpViewModel(source: .install)
         signUpViewModel.navigator = self
         let viewModel = EmbeddedLoginViewModel(signUpViewModel: signUpViewModel)
@@ -136,8 +134,6 @@ final class MainCoordinator: Coordinator,
     }
 
     func openSignUpEmailFromMainSignUp(termsAndConditionsEnabled: Bool) {
-        let config = LoginConfig(signUpEmailTermsAndConditionsAcceptRequired: termsAndConditionsEnabled)
-        let factory = LoginComponentFactory(config: config)
         let signUpLogInViewController: UIViewController
         (signUpLogInViewController, recaptchaTokenDelegate) = factory.makeTourSignUpLogInViewController(source: .install,
                                                                                                         action: .signup,
