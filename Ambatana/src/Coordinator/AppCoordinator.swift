@@ -62,6 +62,7 @@ final class AppCoordinator: NSObject, Coordinator {
 
     fileprivate var bumpUpSource: BumpUpSource?
     fileprivate var timeSinceLastBump: TimeInterval?
+    fileprivate var offensiveReportAlertWidth: CGFloat = 310
 
     weak var delegate: AppNavigatorDelegate?
 
@@ -312,7 +313,7 @@ extension AppCoordinator: AppNavigator {
                                              buttonsLayout: .vertical,
                                              actions: [reviewAlertAction, skipAlertAction],
                                              dismissAction: nil) {
-            alert.alertWidth = 310
+            alert.alertWidth = offensiveReportAlertWidth
             tabBarCtl.present(alert, animated: true, completion: nil)
         }
     }

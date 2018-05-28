@@ -134,7 +134,7 @@ final class LGAlertViewController: UIViewController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         alertContainerWidthConstraint.constant = alertWidth
-        alertContentView.setNeedsUpdateConstraints()
+        alertContentView.setNeedsLayout()
     }
 
     override func viewWillAppear(_ animated: Bool) {
