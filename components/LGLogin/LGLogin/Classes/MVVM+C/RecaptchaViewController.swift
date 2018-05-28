@@ -32,7 +32,7 @@ public class RecaptchaViewController: BaseViewController {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
-        closeButton.setImage(R.Asset.CongratsScreenImages.icCloseRed,
+        closeButton.setImage(R.Asset.CongratsScreenImages.icCloseRed.image,
                              for: .normal)
         setAccesibilityIds()
         webView.delegate = self
