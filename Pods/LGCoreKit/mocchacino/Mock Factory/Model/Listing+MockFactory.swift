@@ -33,6 +33,10 @@ extension Listing: MockFactory {
             var productMock = MockProduct(product: product)
             productMock.price = price
             return Listing.product(productMock)
+        case .service(let service):
+            var serviceMock = MockService(service: service)
+            serviceMock.price = price
+            return Listing.service(service)
         }
     }
 }

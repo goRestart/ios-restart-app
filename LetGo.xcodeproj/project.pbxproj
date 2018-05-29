@@ -1363,6 +1363,8 @@
 		C627573620A3439C00B401E7 /* OrderConditionable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C627573420A3439C00B401E7 /* OrderConditionable.swift */; };
 		C627573920A3494E00B401E7 /* OrderConditionableSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C627573820A3494E00B401E7 /* OrderConditionableSpec.swift */; };
 		C627573C20A349F000B401E7 /* MockOrderConditionable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C627573B20A349F000B401E7 /* MockOrderConditionable.swift */; };
+		C6D5FF1A20B6B0A50045E3D3 /* ServicesInfo.json in Resources */ = {isa = PBXBuildFile; fileRef = C6D5FF1920B6B0A50045E3D3 /* ServicesInfo.json */; };
+		C6D5FF1B20B6B0AC0045E3D3 /* ServicesInfo.json in Resources */ = {isa = PBXBuildFile; fileRef = C6D5FF1920B6B0A50045E3D3 /* ServicesInfo.json */; };
 		C6E7709020972B73002CFA99 /* FeedSectionMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E7708F20972B73002CFA99 /* FeedSectionMap.swift */; };
 		C6E7709120972B73002CFA99 /* FeedSectionMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E7708F20972B73002CFA99 /* FeedSectionMap.swift */; };
 		C6E7709320976156002CFA99 /* PushPermissionsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E7709220976156002CFA99 /* PushPermissionsPresenter.swift */; };
@@ -2859,6 +2861,7 @@
 		C627573420A3439C00B401E7 /* OrderConditionable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderConditionable.swift; sourceTree = "<group>"; };
 		C627573820A3494E00B401E7 /* OrderConditionableSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderConditionableSpec.swift; sourceTree = "<group>"; };
 		C627573B20A349F000B401E7 /* MockOrderConditionable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockOrderConditionable.swift; sourceTree = "<group>"; };
+		C6D5FF1920B6B0A50045E3D3 /* ServicesInfo.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ServicesInfo.json; sourceTree = "<group>"; };
 		C6E7708F20972B73002CFA99 /* FeedSectionMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedSectionMap.swift; sourceTree = "<group>"; };
 		C6E7709220976156002CFA99 /* PushPermissionsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushPermissionsPresenter.swift; sourceTree = "<group>"; };
 		C6E770952099A36F002CFA99 /* PushPermissionsTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushPermissionsTracker.swift; sourceTree = "<group>"; };
@@ -5836,6 +5839,7 @@
 				2EB636151E8A941B0063E8EA /* CarsInfo.json */,
 				2E132A4F1F220D7B00C20127 /* Taxonomies.json */,
 				D40DA2881AEE291D00B64CE1 /* words_lowercase.json */,
+				C6D5FF1920B6B0A50045E3D3 /* ServicesInfo.json */,
 			);
 			path = data;
 			sourceTree = "<group>";
@@ -6359,6 +6363,7 @@
 				6A12E0581C6398BE00C1BFE3 /* TourNotificationsViewController.xib in Resources */,
 				C73FABBE1DD3895E008F4519 /* SettingsInfoCell.xib in Resources */,
 				8E26E9591ED5AF9A0086D3EC /* FilterDistanceSlider.xib in Resources */,
+				C6D5FF1A20B6B0A50045E3D3 /* ServicesInfo.json in Resources */,
 				C7363FB61BF9CB8D00A4BF6F /* FilterTagCell.xib in Resources */,
 				C7DE8AD91C8892C9005CF37E /* PostListingCameraView.xib in Resources */,
 				8E80179E2010DC50004CE244 /* ChatInactiveConversationsListView.xib in Resources */,
@@ -6499,6 +6504,7 @@
 				8EADA72A203453CC00DE8126 /* ChatInterlocutorIsTypingCell.xib in Resources */,
 				C74016DD1D6467DB004C1E9D /* PostListingDetailPriceView.xib in Resources */,
 				508011201D474ED80073F362 /* Icons-Launchers.xcassets in Resources */,
+				C6D5FF1B20B6B0AC0045E3D3 /* ServicesInfo.json in Resources */,
 				2E92CC0320248E2800451B65 /* MeetingAssistantViewController.xib in Resources */,
 				5080111C1D474ED80073F362 /* Errors.xcassets in Resources */,
 				C7F18AA21C89D62600D23319 /* GalleryImageCell.xib in Resources */,

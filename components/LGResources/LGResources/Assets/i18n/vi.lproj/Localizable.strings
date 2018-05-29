@@ -247,6 +247,8 @@
 "common_chat_not_available" = "Ồ! Không tìm thấy trò chuyện.";
 "common_collapse" = "Rút gọn";
 "common_confirm" = "Xác nhận";
+"common_done" = "Xong";
+"common_edit" = "Chỉnh sửa";
 "common_error" = "Lỗi";
 "common_error_connection_failed" = "Đã có lỗi xảy ra. Xin vui lòng kiểm tra kết nối Internet của bạn.";
 "common_error_generic_body" = "Có lỗi xảy ra.";
@@ -535,6 +537,10 @@
 "nps_survey_title" = "CHÚNG TÔI MUỐN BIẾT...";
 "nps_survey_very_bad" = "Không thích lắm";
 "nps_survey_very_good" = "Đặc biệt thích";
+"offensive_report_alert_message" = "Chúng tôi đã biết về những tin nhắn có thể không thích hợp được gửi từ tài khoản của bạn.\n\nCác vi phạm lặp lại có thể dẫn tới việc chấm dứt tài khoản.";
+"offensive_report_alert_primary_action" = "Xem Hướng dẫn";
+"offensive_report_alert_secondary_action" = "Bỏ qua";
+"offensive_report_alert_title" = "Xem Hướng dẫn Cộng đồng";
 "onboarding_alert_no" = "Không";
 "onboarding_alert_yes" = "Có";
 "onboarding_categories_button_countdown" = "Chọn thêm ít nhất %i";
@@ -1074,6 +1080,7 @@
 "search_alert_error_too_many_text" = "Ồ! Bạn đã đạt tối đa số lượng thông báo tìm kiếm";
 "search_alerts_edit_button" = "Chỉnh sửa";
 "search_alerts_header_subtitle" = "Nhận thông báo về bài đăng mới";
+"search_alerts_list_title" = "Thông báo Tìm kiếm";
 "search_alerts_placeholder_empty_button" = "Bắt đầu Tìm kiếm";
 "search_alerts_placeholder_empty_text" = "Đăng ký tìm kiếm để nhận thông báo khi có bài đăng mới.";
 "search_alerts_placeholder_error_button" = "Thử lại";
@@ -1108,6 +1115,8 @@
 "sell_title_autogen_label" = "Tiêu đề do letgo đề xuất";
 "sell_title_field_hint" = "Tiêu đề (tùy chọn)";
 "sell_uploading_label" = "Đang đăng bài...";
+"services_service_subtype_title" = "Service subtype";
+"services_service_type_title" = "Service type";
 "settings_change_email_button" = "Email";
 "settings_change_location_button" = "Địa điểm";
 "settings_change_password_button" = "Mật khẩu";
@@ -1129,6 +1138,9 @@
 "settings_marketing_notifications_alert_deactivate" = "Bỏ kích hoạt";
 "settings_marketing_notifications_alert_message" = "Bạn có chắc chắn muốn bỏ kích hoạt thông báo tiếp thị?";
 "settings_marketing_notifications_switch" = "Thông báo Marketing";
+"settings_notifications_button" = "Thông báo";
+"settings_notifications_search_alerts" = "Thông báo Tìm kiếm";
+"settings_notifications_title" = "Thông báo";
 "settings_section_profile" = "Hồ sơ";
 "settings_section_promote" = "Xúc tiến";
 "settings_section_support" = "Hỗ trợ";

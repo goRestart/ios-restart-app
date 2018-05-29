@@ -24,6 +24,7 @@ final class LGListingRepository: ListingRepository {
     let carsInfoRepository: CarsInfoRepository
     let listingsLimboDAO: ListingsLimboDAO
     let spellCorrectorRepository: SpellCorrectorRepository
+    let servicesInfoRepository: ServicesInfoRepository & ServicesInfoRetrievable
     var viewedListings:[(listingId: String, visitSource: String, visitTimestamp: Double)] = []
 
 
@@ -33,7 +34,8 @@ final class LGListingRepository: ListingRepository {
          myUserRepository: MyUserRepository,
          listingsLimboDAO: ListingsLimboDAO,
          carsInfoRepository: CarsInfoRepository,
-         spellCorrectorRepository: SpellCorrectorRepository) {
+         spellCorrectorRepository: SpellCorrectorRepository,
+         servicesInfoRepository: ServicesInfoRepository & ServicesInfoRetrievable) {
         
         self.dataSource = listingDataSource
         self.myUserRepository = myUserRepository
@@ -41,12 +43,13 @@ final class LGListingRepository: ListingRepository {
         self.viewedListings = []
         self.carsInfoRepository = carsInfoRepository
         self.spellCorrectorRepository = spellCorrectorRepository
+        self.servicesInfoRepository = servicesInfoRepository
     }
 
     func updateEvents(for listingId: String) -> Observable<Listing> {
         let optionalListing: Observable<Listing?> = events.map {
             switch $0 {
-            case .create, .delete, .favorite, .unFavorite, .sold, .unSold:
+            case .create, .delete, .favorite, .unFavorite, .sold, .unSold, .createListings:
                 return nil
             case let .update(listing):
                 if listing.objectId == listingId {
@@ -114,6 +117,17 @@ final class LGListingRepository: ListingRepository {
                                           completion: updateCompletion(completion))
     }
     
+    func indexServices(_ params: RetrieveListingParams, completion: ListingsCompletion?) {
+        dataSource.indexServices(params.servicesApiParams, completion: updateCompletion(completion))
+    }
+    func indexServicesRelatedSearch(_ params: RetrieveListingParams, completion: ListingsCompletion?) {
+        dataSource.indexServicesRelatedSearch(params.servicesApiParams, completion: updateCompletion(completion))
+    }
+    func indexRelatedServices(listingId: String, params: RetrieveListingParams, completion: ListingsCompletion?) {
+        dataSource.indexRelatedServices(listingId, parameters: params.relatedProductsApiParams,
+                                    completion: updateCompletion(completion))
+    }
+    
     func indexFavorites(userId: String,
                         numberOfResults: Int?,
                         resultsOffset: Int?,
@@ -169,24 +183,43 @@ final class LGListingRepository: ListingRepository {
         }
     }
     
+    func createServices(listingParams: [ListingCreationParams], completion: ListingsCompletion?) {
+        guard let myUserId = myUserRepository.myUser?.objectId else {
+            completion?(ListingsResult(error: .internalError(message: "Missing objectId in MyUser")))
+            return
+        }
+        dataSource.createListingServices(userId: myUserId, listingParams: listingParams, completion: updateCompletion(completion, sendCreationEvent: true))
+    }
+    
     private func handleCreate(_ result: ListingDataSourceResult, _ completion: ListingCompletion?) {
 
-        var carResult: ListingDataSourceResult?
-        if var listing = result.value {
-            // Cache the listing in the limbo
-            if let listingId = listing.objectId {
-                listingsLimboDAO.save(listingId)
-            }
-            if case .car(let car) = listing {
-                let newCar = LGCar(car: car)
-                let carUpdated = updateCarAttributes(car: newCar)
-                listing = Listing.car(carUpdated)
-                carResult = Result(value: listing)
-            }
-            // Send event
-            eventBus.onNext(.create(listing))
+        guard let listing = result.value else {
+            handleApiResult(result, completion: completion)
+            return
         }
-        handleApiResult(carResult ?? result, completion: completion)
+        
+        // Cache the listing in the limbo
+        if let listingId = listing.objectId {
+            listingsLimboDAO.save(listingId)
+        }
+        
+        var updatedResult = result
+        switch listing {
+        case .car(let car):
+            let newCar = LGCar(car: car)
+            let carUpdated = updateCarAttributes(car: newCar)
+            updatedResult = Result(value: .car(carUpdated))
+        case .service(let service):
+            let serviceUpdated = updateServiceAttributes(service: service)
+            updatedResult = Result(value: .service(serviceUpdated))
+        default:
+            break
+        }
+        
+        // Send event
+        eventBus.onNext(.create(listing))
+        
+        handleApiResult(updatedResult, completion: completion)
     }
     
     func update(listingParams: ListingEditionParams, completion: ListingCompletion?) {
@@ -211,22 +244,44 @@ final class LGListingRepository: ListingRepository {
         }
     }
     
-    private func handleUpdate(_ result: ListingDataSourceResult, _ completion: ListingCompletion?) {
-        var carResult: ListingDataSourceResult?
-        if var listing = result.value {
-            switch listing {
-            case .car(let car):
-                let newCar = LGCar(car: car)
-                let carUpdated = updateCarAttributes(car: newCar)
-                listing = Listing.car(carUpdated)
-                carResult = Result(value: listing)
-            case .product, .realEstate:
-                break
-            }
-            // Send event
-            eventBus.onNext(.update(listing))
+    func updateService(listingParams: ListingEditionParams, completion: ListingCompletion?) {
+        guard listingParams.userId == myUserRepository.myUser?.objectId else {
+            completion?(ListingResult(error: .internalError(message: "UserId doesn't match MyUser")))
+            return
         }
-        handleApiResult(carResult ?? result, completion: completion)
+        dataSource.updateListingService(listingParams: listingParams) { [weak self] result in
+            self?.handleUpdate(result, completion)
+        }
+    }
+    
+    private func handleUpdate(_ result: ListingDataSourceResult, _ completion: ListingCompletion?) {
+        guard let listing = result.value else {
+            handleApiResult(result, completion: completion)
+            return
+        }
+        
+        // Cache the listing in the limbo
+        if let listingId = listing.objectId {
+            listingsLimboDAO.save(listingId)
+        }
+        
+        var updatedResult = result
+        switch listing {
+        case .car(let car):
+            let newCar = LGCar(car: car)
+            let carUpdated = updateCarAttributes(car: newCar)
+            updatedResult = Result(value: .car(carUpdated))
+        case .service(let service):
+            let serviceUpdated = updateServiceAttributes(service: service)
+            updatedResult = Result(value: .service(serviceUpdated))
+        default:
+            break
+        }
+        
+        // Send event
+        eventBus.onNext(.update(listing))
+        
+        handleApiResult(updatedResult, completion: completion)
     }
 
     func delete(listingId: String, completion: ListingVoidCompletion?) {
@@ -404,6 +459,9 @@ final class LGListingRepository: ListingRepository {
                     case .car(let car):
                         let updatedCar = strongSelf.updateCarAttributes(car: car)
                         newListings.append(Listing.car(updatedCar))
+                    case .service(let service):
+                        let serviceUpdated = strongSelf.updateServiceAttributes(service: service)
+                        newListings.append(.service(serviceUpdated))
                     }
                 }
                 completion?(ListingsResult(value: newListings))
@@ -475,7 +533,7 @@ final class LGListingRepository: ListingRepository {
 
     // MARK: - Helpers
 
-    private func updateCompletion(_ completion: ListingsCompletion?) -> ListingsDataSourceCompletion {
+    private func updateCompletion(_ completion: ListingsCompletion?, sendCreationEvent: Bool = false) -> ListingsDataSourceCompletion {
         let updatedCompletion: ListingsDataSourceCompletion = { [weak self] result in
             guard let strongSelf = self else { return }
             if let error = result.error {
@@ -488,9 +546,17 @@ final class LGListingRepository: ListingRepository {
                         updatedListings.append(listing)
                     case .car(let car):
                         let updatedCar = strongSelf.updateCarAttributes(car: car)
-                        updatedListings.append(Listing.car(updatedCar))
+                        updatedListings.append(.car(updatedCar))
+                    case .service(let service):
+                        let serviceUpdated = strongSelf.updateServiceAttributes(service: service)
+                        updatedListings.append(.service(serviceUpdated))
                     }
                 }
+                if sendCreationEvent {
+                    strongSelf.listingsLimboDAO.save(updatedListings.flatMap { $0.objectId })
+                    strongSelf.eventBus.onNext(.createListings(updatedListings))
+                }
+                
                 completion?(ListingsResult(value: updatedListings))
             }
         }
@@ -521,6 +587,23 @@ final class LGListingRepository: ListingRepository {
                                                               model: model,
                                                               year: mutableCar.carAttributes.year)
         return mutableCar.updating(carAttributes: carAttributesUpdated)
+    }
+    
+    private func updateServiceAttributes(service: Service) -> Service {
+        
+        var serviceType: String?
+        var serviceSubtype: String?
+        
+        if let typeId = service.servicesAttributes.typeId {
+            serviceType = servicesInfoRepository.serviceType(forServiceTypeId: typeId)?.name
+        }
+        if let subtypeId = service.servicesAttributes.subtypeId {
+            serviceSubtype = servicesInfoRepository.serviceSubtype(forServiceSubtypeId: subtypeId)?.name
+        }
+        
+        guard serviceType != nil || serviceSubtype != nil else { return service }
+        
+        return service.updating(servicesAttributes: ServiceAttributes(typeTitle: serviceType, subtypeTitle: serviceSubtype))
     }
     
     private func retrieveIndexWithRelax(_ queryString: String, _ params: RetrieveListingParams, _ relaxParam: RelaxParam, completion: ListingsCompletion?) {

@@ -7,9 +7,9 @@ extension Array {
 }
 
 extension Array where Element: Randomizable {
-    public static func makeRandom() -> Array<Element> {
+    public static func makeRandom(range: ClosedRange<Int> = 1...Int.makeRandom()) -> Array<Element> {
         var array = Array<Element>()
-        (0..<Int.makeRandom(min: 1, max: Int.makeRandom())).forEach { _ in array.append(Element.makeRandom()) }
+        (0..<Int.makeRandom(min: range.lowerBound, max: range.upperBound)).forEach { _ in array.append(Element.makeRandom()) }
         return array
     }
 }

@@ -11,6 +11,8 @@ struct ProductionEnvironment: Environment {
     let realEstateBaseURL = "https://listingrealestate.letgo.com"
     let searchRealEstateBaseURL = "https://searchrealestate.letgo.com"
     let carsBaseURL = "https://listingcar.letgo.com"
+    let servicesBaseURL = "https://listingservice.letgo.com"
+    let searchServicesBaseURL = "https://searchservice.letgo.com"
     let searchCarsBaseURL = "https://searchcar.letgo.com"
     let bouncerBaseURL = "https://bouncer.letgo.com/api"
     let userRatingsBaseURL = "https://rating.letgo.com/api"
