@@ -62,6 +62,7 @@ final class AppCoordinator: NSObject, Coordinator {
 
     fileprivate var bumpUpSource: BumpUpSource?
     fileprivate var timeSinceLastBump: TimeInterval?
+    fileprivate var offensiveReportAlertWidth: CGFloat = 310
 
     weak var delegate: AppNavigatorDelegate?
 
@@ -282,7 +283,12 @@ extension AppCoordinator: AppNavigator {
         openChild(coordinator: promoteBumpCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
     }
 
+    func canOpenOffensiveReportAlert() -> Bool {
+        return tabBarCtl.presentedViewController == nil
+    }
+
     func openOffensiveReportAlert() {
+        guard canOpenOffensiveReportAlert() else { return }
         let reviewAction = { [weak self] in
             guard let url = LetgoURLHelper.buildCommunityGuidelineURL() else { return }
             let svc = SFSafariViewController(url: url,
@@ -307,8 +313,8 @@ extension AppCoordinator: AppNavigator {
                                              buttonsLayout: .vertical,
                                              actions: [reviewAlertAction, skipAlertAction],
                                              dismissAction: nil) {
+            alert.alertWidth = offensiveReportAlertWidth
             tabBarCtl.present(alert, animated: true, completion: nil)
-            alert.setAlertContainer(width: 310)
         }
     }
 
@@ -712,7 +718,6 @@ extension AppCoordinator: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         guard let tab = tabAtController(viewController) else { return }
         selectedTab.value = tab
-        openOffensiveReportAlert()
     }
 }
 

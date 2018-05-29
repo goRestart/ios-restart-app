@@ -160,6 +160,9 @@ extension AppDelegate: UIApplicationDelegate {
         PushManager.sharedInstance.applicationDidBecomeActive(application)
         TrackerProxy.sharedInstance.applicationDidBecomeActive(application)
         navigator?.openSurveyIfNeeded()
+        if let storage = keyValueStorage, storage[.showOffensiveReportOnNextStart] {
+            showOffensiveReportAlert()
+        }
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -204,7 +207,11 @@ extension AppDelegate: UIApplicationDelegate {
 
         let offensiveReport = userInfo[offensiveReportKey] as? Int
         if let _ = offensiveReport {
-
+            if application.applicationState == .active {
+                showOffensiveReportAlert()
+            } else {
+                keyValueStorage?[.showOffensiveReportOnNextStart] = true
+            }
         }
     }
 
@@ -226,6 +233,16 @@ extension AppDelegate: UIApplicationDelegate {
             self.locationRepository?.stopEmergencyLocation()
             completion()
         })
+    }
+
+    func showOffensiveReportAlert() {
+        guard let featureFlags = featureFlags, featureFlags.offensiveReportAlert.isActive else { return }
+        if let navigator = navigator, navigator.canOpenOffensiveReportAlert() {
+            navigator.openOffensiveReportAlert()
+            keyValueStorage?[.showOffensiveReportOnNextStart] = false
+        } else {
+            keyValueStorage?[.showOffensiveReportOnNextStart] = true
+        }
     }
 }
 
