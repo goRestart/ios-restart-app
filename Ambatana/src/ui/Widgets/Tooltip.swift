@@ -317,7 +317,7 @@ class Tooltip: UIView {
  */
 
 func setupExternalConstraintsForTooltip(_ tooltip: Tooltip, targetView: UIView, containerView: UIView,
-                                               margin: CGFloat = 0) {
+                                        margin: CGFloat = 0) {
 
     let targetGlobalCenter = containerView.convert(targetView.center, to: nil)
     
@@ -334,7 +334,7 @@ func setupExternalConstraintsForTooltip(_ tooltip: Tooltip, targetView: UIView, 
     }
 
     let alignmentConstraint: NSLayoutConstraint
-    
+
     if targetGlobalCenter.x < containerView.width/3 {
         alignmentConstraint = tooltip.leadingAnchor.constraint(equalTo: targetView.leadingAnchor)
     } else if targetGlobalCenter.x > (containerView.width/3)*2 {

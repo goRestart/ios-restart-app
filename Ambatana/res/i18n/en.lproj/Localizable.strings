@@ -20,7 +20,7 @@
 "app_share_subject_text" = "Check out letgo";
 
 // App share dialog subtitle
-"app_share_subtitle" = "Invite your friends to letgo and help us grow our community!";
+"app_share_subtitle" = "x";
 
 // App share dialog title
 "app_share_title" = "INVITE YOUR FRIENDS";
@@ -1283,7 +1283,7 @@
 "log_in_send_button" = "Log In";
 
 // Log in title. Check image @ "log_in_email_field_hint" segment
-"log_in_title" = "Sign in with email";
+"log_in_title" = "Log in with email";
 
 // Alert shown to users that fail to login due to scammer error
 "login_scammer_alert_title" = "ACCOUNT UNDER REVIEW";
@@ -2678,7 +2678,7 @@
 "phone_verification_country_picker_view_search_placeholder" = "Search";
 
 // Text in a tooltip shown when the current user sees a user with a badge for the first time
-"profile_reputation_tooltip_title" = "User verified! Tap if you want to be verified too";
+"profile_reputation_tooltip_title" = "Verified user! Tap if you want to be verified too.";
 
 // Disclaimer text telling the user this section is only visibile to him/her
 "profile_karma_visibility_title" = "Only visible to you";

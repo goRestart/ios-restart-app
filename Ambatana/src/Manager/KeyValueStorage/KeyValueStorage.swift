@@ -63,6 +63,9 @@ extension DefaultsKeys {
     
     static let lastShownSecurityWarningDate = DefaultsKey<Date?>("lastShownSecurityWarningDate")
     static let realEstateTutorialShown = DefaultsKey<Bool>("realEstateTutorialShown")
+
+    static let lastShownReputationTooltipDate = DefaultsKey<Date?>("lastShownReputationTooltipDate")
+    static let reputationTooltipShown = DefaultsKey<Bool>("reputationTooltipShown")
 }
 
 

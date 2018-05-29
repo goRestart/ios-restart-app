@@ -859,7 +859,7 @@
 "profile_permissions_alert_ok" = "활성화";
 "profile_permissions_alert_title" = "대답하는 것을 잊지 마세요!";
 "profile_permissions_header_message" = "메세지 알림 활성화";
-"profile_reputation_tooltip_title" = "User verified! Tap if you want to be verified too";
+"profile_reputation_tooltip_title" = "Verified user! Tap if you want to be verified too.";
 "profile_reviews_count" = "리뷰";
 "profile_reviews_tab" = "리뷰";
 "profile_selling_no_products_label" = "상품 목록이 없습니다 (아직이에요!)";

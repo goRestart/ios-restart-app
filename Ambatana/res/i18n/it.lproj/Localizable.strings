@@ -482,7 +482,7 @@
 "meeting_creation_view_title" = "Organizza un incontro";
 "ml_camera_in_about_days_text" = "in circa %.f giorni";
 "ml_camera_in_more_than_days_text" = "in più di %.f giorni";
-"ml_camera_sells_for_text" = "Solitamente venduto per $%d";
+"ml_camera_sells_for_text" = "Solitamente venduto per %d€";
 "ml_category_text" = "Categoria:";
 "ml_details_price_text" = "Prezzo:";
 "ml_details_suggested_details_text" = "DETTAGLI CONSIGLIATI";
@@ -859,7 +859,7 @@
 "profile_permissions_alert_ok" = "Attiva";
 "profile_permissions_alert_title" = "NON PERDERE NEANCHE UNA RISPOSTA!";
 "profile_permissions_header_message" = "Attiva notifiche messaggi";
-"profile_reputation_tooltip_title" = "User verified! Tap if you want to be verified too";
+"profile_reputation_tooltip_title" = "Verified user! Tap if you want to be verified too.";
 "profile_reviews_count" = "Recensioni";
 "profile_reviews_tab" = "Recensioni";
 "profile_selling_no_products_label" = "ANCORA NESSUN ANNUNCIO!";

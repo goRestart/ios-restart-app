@@ -428,6 +428,10 @@ extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCard
         viewModel.didTapStatusView()
     }
 
+    func cardViewDidTapOnReputationTooltip(_ cardView: ListingCardView) {
+        viewModel.didTapReputationTooltip()
+    }
+
     // MARK: Chat
     override func resignFirstResponder() -> Bool {
         return quickChatView?.resignFirstResponder() ?? true
