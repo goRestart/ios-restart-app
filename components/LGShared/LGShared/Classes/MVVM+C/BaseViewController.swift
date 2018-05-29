@@ -1,12 +1,3 @@
-//
-//  BaseViewController.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 12/05/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
-import LGComponents
 import LGCoreKit
 
 // MARK: - ToastView
