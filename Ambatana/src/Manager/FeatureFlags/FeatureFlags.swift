@@ -1189,6 +1189,12 @@ extension FeatureFlags {
     }
 }
 
+extension EmptySearchImprovements {
+    var isActive: Bool {
+        return self != .control && self != .baseline
+    }
+}
+
 // MARK: Products
 
 extension FeatureFlags {
