@@ -374,13 +374,15 @@ class PostListingViewModel: BaseViewModel {
         if state.value.pendingToUploadMedia {
             openPostAbandonAlertNotLoggedIn()
         } else {
-            // FIXME: User could upload video
-            if state.value.lastImagesUploadResult?.value == nil {
+            if state.value.lastImagesUploadResult?.value == nil && state.value.uploadedVideo == nil {
                 if isBlockingPosting {
                     trackPostSellAbandon()
                 }
                 navigator?.cancelPostListing()
             } else if let listingParams = makeListingParams() {
+                let machineLearningTrackingInfo = MachineLearningTrackingInfo(data: state.value.predictionData,
+                                                                              predictiveFlow: machineLearningSupported,
+                                                                              predictionActive: postListingCameraViewModel.isLiveStatsPaused)
                 let trackingInfo = PostListingTrackingInfo(buttonName: .close,
                                                            sellButtonPosition: postingSource.sellButtonPosition,
                                                            imageSource: uploadedImageSource,
@@ -388,7 +390,7 @@ class PostListingViewModel: BaseViewModel {
                                                            price: postDetailViewModel.price.value,
                                                            typePage: postingSource.typePage,
                                                            mostSearchedButton: postingSource.mostSearchedButton,
-                                                           machineLearningInfo: MachineLearningTrackingInfo.defaultValues())
+                                                           machineLearningInfo: machineLearningTrackingInfo)
                 navigator?.closePostProductAndPostInBackground(params: listingParams,
                                                                trackingInfo: trackingInfo)
             } else {
@@ -552,6 +554,9 @@ fileprivate extension PostListingViewModel {
     }
     
     func postListing() {
+        let machineLearningTrackingInfo = MachineLearningTrackingInfo(data: state.value.predictionData,
+                                                                      predictiveFlow: machineLearningSupported,
+                                                                      predictionActive: postListingCameraViewModel.isLiveStatsPaused)
         let trackingInfo = PostListingTrackingInfo(buttonName: .done,
                                                    sellButtonPosition: postingSource.sellButtonPosition,
                                                    imageSource: uploadedImageSource,
@@ -559,7 +564,7 @@ fileprivate extension PostListingViewModel {
                                                    price: postDetailViewModel.price.value,
                                                    typePage: postingSource.typePage,
                                                    mostSearchedButton: postingSource.mostSearchedButton,
-                                                   machineLearningInfo: MachineLearningTrackingInfo.defaultValues())
+                                                   machineLearningInfo: machineLearningTrackingInfo)
         if sessionManager.loggedIn {
             guard state.value.lastImagesUploadResult?.value != nil || state.value.uploadedVideo != nil,
                 let listingCreationParams = makeListingParams() else { return }

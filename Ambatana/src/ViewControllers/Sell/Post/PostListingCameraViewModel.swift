@@ -444,6 +444,7 @@ final class PostListingCameraViewModel: BaseViewModel {
         if machineLearning.isLiveStatsEnabled {
             isLiveStatsPaused = true
             machineLearning.isLiveStatsEnabled = false
+            isLiveStatsEnabled.value = false
         }
     }
 
