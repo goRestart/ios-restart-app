@@ -117,7 +117,7 @@ final class LGAlertViewController: UIViewController {
         self.buttonsLayout = buttonsLayout
         self.dismissAction = dismissAction
         super.init(nibName: "LGAlertViewController", bundle: nil)
-        setupForModalWithNonOpaqueBackground()
+        modalPresentationStyle = .overCurrentContext
         modalTransitionStyle = .crossDissolve
     }
 
