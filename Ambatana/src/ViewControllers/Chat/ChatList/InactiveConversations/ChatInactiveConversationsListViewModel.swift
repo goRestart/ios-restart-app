@@ -21,7 +21,8 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, RxPaginable {
     weak var delegate: ChatInactiveConversationsListViewModelDelegate?
     weak var navigator: TabNavigator?
     
-    private var chatRepository: ChatRepository
+    private let chatRepository: ChatRepository
+    private let myUserRepository: MyUserRepository
     private let tracker: Tracker
     
     let conversations = Variable<[ChatInactiveConversation]>([])
@@ -54,14 +55,17 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, RxPaginable {
     convenience init(navigator: TabNavigator?) {
         self.init(navigator: navigator,
                   chatRepository: Core.chatRepository,
+                  myUserRepository: Core.myUserRepository,
                   tracker: TrackerProxy.sharedInstance)
     }
     
     required init(navigator: TabNavigator?,
                   chatRepository: ChatRepository,
+                  myUserRepository: MyUserRepository,
                   tracker: Tracker) {
         self.navigator = navigator
         self.chatRepository = chatRepository
+        self.myUserRepository = myUserRepository
         self.tracker = tracker
         super.init()
         setupRx()
@@ -160,14 +164,15 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, RxPaginable {
     
     func conversationDataAtIndex(_ index: Int) -> ConversationCellData? {
         guard let conversation = objectAtIndex(index) else { return nil }
+        let interlocutor = conversation.interlocutor(forMyUserId: myUserRepository.myUser?.objectId)
         return ConversationCellData(status: .available,
                                     conversationId: conversation.objectId,
-                                    userId: conversation.interlocutor?.objectId,
-                                    userName: conversation.interlocutor?.name ?? "",
-                                    userImageUrl: conversation.interlocutor?.avatar?.fileURL,
-                                    userImagePlaceholder: LetgoAvatar.avatarWithID(conversation.interlocutor?.objectId,
-                                                                                   name: conversation.interlocutor?.name),
-                                    userType: conversation.interlocutor?.userType,
+                                    userId: interlocutor?.objectId,
+                                    userName: interlocutor?.name ?? "",
+                                    userImageUrl: interlocutor?.avatar?.fileURL,
+                                    userImagePlaceholder: LetgoAvatar.avatarWithID(interlocutor?.objectId,
+                                                                                   name: interlocutor?.name),
+                                    userType: .user,
                                     amISelling: false,
                                     listingId: conversation.listing?.objectId,
                                     listingName: conversation.listing?.name ?? "",

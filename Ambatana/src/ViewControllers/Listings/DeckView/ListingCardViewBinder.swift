@@ -15,8 +15,12 @@ final class ListingCardViewBinder {
     weak var cardView: ListingCardView?
     private var viewModelBag: DisposeBag?
 
-    func bind(withViewModel viewModel: ListingCardViewCellModel) {
+    func recycleDisposeBag() {
         viewModelBag = DisposeBag()
+    }
+
+    func bind(withViewModel viewModel: ListingCardViewCellModel) {
+        recycleDisposeBag()
         guard let vmDisposeBag = viewModelBag else { return }
 
         if viewModel.cardIsFavoritable {
@@ -34,6 +38,16 @@ final class ListingCardViewBinder {
         viewModel.cardProductPreview.observeOn(MainScheduler.asyncInstance).bind { [weak self] (preview, count) in
             self?.cardView?.populateWith(preview: preview, imageCount: count)
         }.disposed(by:vmDisposeBag)
+
+        viewModel.shouldShowReputationTooltip.drive(onNext: { showTooltip in
+            guard let cardView = self.cardView else { return }
+            if showTooltip {
+                cardView.showReputationTooltip()
+                viewModel.reputationTooltipShown()
+            } else {
+                cardView.hideReputationTooltip()
+            }
+        }).disposed(by: vmDisposeBag)
 
         let statusAndFeatured = Observable.combineLatest(viewModel.cardStatus,
                                                          viewModel.cardIsFeatured) { ($0, $1) }

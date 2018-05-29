@@ -49,7 +49,8 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
                                                                   purchasesShopper: MockPurchasesShopper(),
                                                                   monetizationRepository: MockMonetizationRepository(),
                                                                   tracker: MockTracker(),
-                                                                  keyValueStorage: MockKeyValueStorage())
+                                                                  keyValueStorage: MockKeyValueStorage(),
+                                                                  reputationTooltipManager: MockReputationTooltipManager())
 
                 listingDeckViewModel = MockListingDeckViewModelType()
 
@@ -180,4 +181,5 @@ extension ListingDeckViewModelBinderSpec: ListingDetailNavigator {
                                   origin: EventParameterTypePage,
                                   tutorialType: EventParameterTutorialType) {}
     func openUserReport(source: EventParameterTypePage, userReportedId: String) {}
+    func openUserVerificationView() {}
 }
