@@ -93,7 +93,7 @@ final class ChatAssistantConversationCell: UITableViewCell, ReusableCell {
     }
 
     func setupUI() {
-        contentView.backgroundColor = UIColor.primaryColor.withAlphaComponent(0.08)
+        contentView.backgroundColor = UIColor.assistantConversationCellBgColor
         layoutMargins = .zero
 
         textStackContainer.addArrangedSubview(userNameLabel)
