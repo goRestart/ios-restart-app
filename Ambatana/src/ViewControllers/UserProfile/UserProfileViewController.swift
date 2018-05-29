@@ -336,7 +336,6 @@ final class UserProfileViewController: BaseViewController {
         tableView.contentInset = scrollableContentInset
         listingView.collectionViewContentInset = scrollableContentInset
         listingView.firstLoadPadding = scrollableContentInset
-        listingView.errorPadding = scrollableContentInset
         listingView.setErrorViewStyle(bgColor: .white, borderColor: .clear, containerColor: .white)
 
         let contentInset: UIEdgeInsets
