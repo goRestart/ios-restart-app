@@ -82,7 +82,7 @@ final class MainCoordinator: Coordinator,
 
     func openPopUpLogin() {
         let coordinator = factory.makeLoginCoordinator(source: source,
-                                                       style: .popup("You need to show you how to log in from a pop up 💅🏻"),
+                                                       style: .popup("This is an explanation in the login pop up 💅🏻"),
                                                        loggedInAction: showLogInSuccessfulAlert,
                                                        cancelAction: showLogInCancelledAlert)
         openChild(coordinator: coordinator,
