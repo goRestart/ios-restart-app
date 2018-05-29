@@ -457,6 +457,10 @@ extension AppCoordinator: AppNavigator {
         editCoordinator.delegate = self
         openChild(coordinator: editCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: false, completion: nil)
     }
+    
+    func openInAppWebView(url: URL) {
+        tabBarCtl.openInternalUrl(url)
+    }
 }
 
 
@@ -974,6 +978,10 @@ fileprivate extension AppCoordinator {
             afterDelayClosure = { [weak self] in
                 self?.openAppStore()
             }
+        case .webView(let url):
+            afterDelayClosure = { [weak self] in
+                self?.openInAppWebView(url: url)
+            }
         }
 
         if let afterDelayClosure = afterDelayClosure {
@@ -994,7 +1002,7 @@ fileprivate extension AppCoordinator {
         if let child = child, child is SellCoordinator { return }
 
         switch deepLink.action {
-        case .home, .sell, .listing, .listingShare, .listingBumpUp, .listingMarkAsSold, .listingEdit, .user, .conversations, .conversationWithMessage, .search, .resetPassword, .userRatings, .userRating, .notificationCenter, .appStore:
+        case .home, .sell, .listing, .listingShare, .listingBumpUp, .listingMarkAsSold, .listingEdit, .user, .conversations, .conversationWithMessage, .search, .resetPassword, .userRatings, .userRating, .notificationCenter, .appStore, .webView:
         return // Do nothing
         case let .conversation(data):
             showInappChatNotification(data, message: deepLink.origin.message)

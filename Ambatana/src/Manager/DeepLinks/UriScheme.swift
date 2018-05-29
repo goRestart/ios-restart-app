@@ -103,7 +103,12 @@ struct UriScheme {
         case .updateApp:
             return UriScheme(deepLink: DeepLink.link(.appStore, campaign: campaign, medium: medium,
                                                      source: source, cardActionParameter: cardActionParameter))
-        }
+        case .webView:
+            guard let urlString = params["link"],
+               let url = URL(string: urlString) else { return nil}
+            return UriScheme(deepLink: DeepLink.link(.webView(url: url), campaign: campaign, medium: medium,
+                                                  source: source, cardActionParameter: cardActionParameter))
+      }
     }
 }
 
@@ -125,4 +130,5 @@ enum UriSchemeHost: String {
     case userRating = "userreview"
     case notificationCenter = "notification_center"
     case updateApp = "update_app"
+    case webView = "webview"
 }
