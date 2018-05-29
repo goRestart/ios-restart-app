@@ -10,7 +10,7 @@ class UriSchemeSpec: QuickSpec {
         var message: String!
         var conversationId: String!
         
-        describe("build from letgo scheme URL") {
+        fdescribe("build from letgo scheme URL") {
             context("with a notification center URL") {
                 beforeEach {
                     url = URL(string: "letgo://notification_center")
@@ -114,21 +114,18 @@ class UriSchemeSpec: QuickSpec {
             
             context("with a webview deeplink") {
                 var url: URL!
-                var linkString: String!
+                var decodedLink: String!
                 var link: URL!
                 beforeEach {
-                    url = URL(string: "letgo://webview/")
-                    linkString = "https://es.letgo.com/es/notifications?posting=true"
-                    let linkQueryItem = URLQueryItem(name: "link", value: linkString)
-                    var urlComponents = URLComponents(string: url.absoluteString)!
-                    urlComponents.queryItems = [linkQueryItem]
-                    sut = UriScheme.buildFromUrl(urlComponents.url!)
+                    url = URL(string: "letgo://webview/?link=https%3A%2F%2Fes.letgo.com%2Fes%2Fnotifications%3Fposting%3Dtrue")
+                    decodedLink = "https://es.letgo.com/es/notifications?posting=true"
+                    sut = UriScheme.buildFromUrl(url)
                 }
                 it("is not nil") {
                     expect(sut).toNot(beNil())
                 }
                 it("has a deep link with a webview action") {
-                    link = URL(string: linkString)
+                    link = URL(string: decodedLink)
                     expect(sut.deepLink.action) == DeepLinkAction.webView(url: link)
                 }
             }
