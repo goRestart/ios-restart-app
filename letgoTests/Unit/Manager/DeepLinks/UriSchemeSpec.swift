@@ -10,7 +10,7 @@ class UriSchemeSpec: QuickSpec {
         var message: String!
         var conversationId: String!
         
-        fdescribe("build from letgo scheme URL") {
+        describe("build from letgo scheme URL") {
             context("with a notification center URL") {
                 beforeEach {
                     url = URL(string: "letgo://notification_center")
