@@ -239,7 +239,6 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         if postListingState.pendingToUploadMedia {
             openPostAbandonAlertNotLoggedIn()
         } else {
-            // FIXME: User could upload video
             guard let _ = postListingState.lastImagesUploadResult?.value else {
                 navigator?.cancelPostListing()
                 return
@@ -330,8 +329,6 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     
     private func retrieveListingParams() -> ListingCreationParams? {
         guard let location = locationManager.currentLocation?.location else { return nil }
-
-        // TODO: Add predictions
         
         let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()
         let currency = currencyHelper.currencyWithCountryCode(postalAddress.countryCode ?? Constants.currencyDefault)

@@ -237,7 +237,6 @@ class MLPostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableView
         if postListingState.pendingToUploadMedia {
             openPostAbandonAlertNotLoggedIn()
         } else {
-            // FIXME: User could upload video
             guard let _ = postListingState.lastImagesUploadResult?.value else {
                 navigator?.cancelPostListing()
                 return

@@ -460,7 +460,6 @@ class VideoRecorder {
                 self.completion = completion
 
                 let videoInput = AVAssetWriterInput(mediaType: .video, outputSettings: Constants.videoSettings)
-//                videoInput.transform(from: connection?.videoOrientation ?? .portrait, to: orientation)
                 videoInput.expectsMediaDataInRealTime = true
                 self.videoInput = videoInput
                 fileWriter.add(videoInput)
@@ -559,7 +558,7 @@ class VideoRecorder {
     }
 }
 
-class PixelsBufferForwarder: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
+final class PixelsBufferForwarder: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
 
     weak var delegate: VideoOutputDelegate?
 

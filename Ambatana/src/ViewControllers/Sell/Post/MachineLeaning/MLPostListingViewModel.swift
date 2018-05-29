@@ -186,7 +186,6 @@ class MLPostListingViewModel: BaseViewModel {
         if state.value.pendingToUploadMedia {
             openPostAbandonAlertNotLoggedIn()
         } else {
-            // FIXME: User could upload video
             guard let images = state.value.lastImagesUploadResult?.value else {
                 navigator?.cancelPostListing()
                 return
