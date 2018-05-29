@@ -534,6 +534,9 @@ extension ListingDeckViewModel: ListingDeckViewModelType {
     func openVideoPlayer() {
         openPhotoViewer()
     }
+    func didTapActionButton() {
+        actionButtons.value.first?.action()
+    }
 }
 
 // MARK: Paginable

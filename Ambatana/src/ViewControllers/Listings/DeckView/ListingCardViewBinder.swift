@@ -15,8 +15,12 @@ final class ListingCardViewBinder {
     weak var cardView: ListingCardView?
     private var viewModelBag: DisposeBag?
 
-    func bind(withViewModel viewModel: ListingCardViewCellModel) {
+    func recycleDisposeBag() {
         viewModelBag = DisposeBag()
+    }
+
+    func bind(withViewModel viewModel: ListingCardViewCellModel) {
+        recycleDisposeBag()
         guard let vmDisposeBag = viewModelBag else { return }
 
         if viewModel.cardIsFavoritable {

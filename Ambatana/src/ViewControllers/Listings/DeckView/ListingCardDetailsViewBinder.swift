@@ -22,8 +22,12 @@ final class ListingCardDetailsViewBinder {
     weak var detailsView: ListingCardDetailsViewType?
     var disposeBag: DisposeBag?
 
-    func bind(to viewModel: ListingCardDetailsViewModel) {
+    func recycleDisposeBag() {
         disposeBag = DisposeBag()
+    }
+
+    func bind(to viewModel: ListingCardDetailsViewModel) {
+        recycleDisposeBag()
         guard let vmDisposeBag = disposeBag else { return }
 
         bindProducInfoTo(viewModel, disposeBag: vmDisposeBag)

@@ -203,6 +203,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
             listingDeckView.itemActionsView.layoutIfNeeded()
         }
     }
+
 }
 
 extension ListingDeckViewController: ListingDeckViewControllerBinderType {
@@ -264,9 +265,7 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     }
 
     func updateViewWithActions(_ actionButtons: [UIAction]) {
-        guard let actionButton = actionButtons.first else {
-            return
-        }
+        guard let actionButton = actionButtons.first else { return }
         listingDeckView.configureActionWith(actionButton)
     }
 

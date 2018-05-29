@@ -28,7 +28,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
         static let stickyHeaderThreadshold = Layout.Height.userView
     }
 
-    var delegate: (ListingCardDetailsViewDelegate & ListingCardViewDelegate & ListingCardDetailMapViewDelegate)? {
+    weak var delegate: (ListingCardDetailsViewDelegate & ListingCardViewDelegate & ListingCardDetailMapViewDelegate)? {
         didSet { detailsView.delegate = delegate }
     }
 
@@ -369,6 +369,8 @@ extension ListingCardView: ListingDeckViewControllerBinderCellType {
 
     func recycleDisposeBag() {
         disposeBag = DisposeBag()
+        detailsView.recycleDisposeBag()
+        binder.recycleDisposeBag()
     }
 }
 

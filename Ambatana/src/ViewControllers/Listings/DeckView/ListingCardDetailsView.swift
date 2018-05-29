@@ -30,7 +30,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
         static let snapshotSize = CGSize(width: 300, height: 500)
     }
 
-    var delegate: (ListingCardDetailsViewDelegate & ListingCardDetailMapViewDelegate)? {
+    weak var delegate: (ListingCardDetailsViewDelegate & ListingCardDetailMapViewDelegate)? {
         didSet { detailMapView.delegate = delegate }
     }
 
@@ -111,6 +111,10 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
     convenience init() {
         self.init(frame: .zero)
         setupUI()
+    }
+
+    func recycleDisposeBag() {
+        binder.recycleDisposeBag()
     }
 
     // MARK: PopulateView

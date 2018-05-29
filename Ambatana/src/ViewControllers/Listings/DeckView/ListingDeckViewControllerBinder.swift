@@ -59,6 +59,7 @@ protocol ListingDeckViewModelType: class {
     var rxObjectChanges: Observable<CollectionChange<ListingCellModel>> { get }
     var rxIsChatEnabled: Observable<Bool> { get }
 
+    func didTapActionButton()
     func replaceListingCellModelAtIndex(_ index: Int, withListing listing: Listing)
     func moveToListingAtIndex(_ index: Int, movement: DeckMovement)
     func openVideoPlayer()
@@ -91,6 +92,7 @@ final class ListingDeckViewControllerBinder {
         bindChat(withViewController: viewController, viewModel: viewModel,
                  listingDeckView: listingDeckView, disposeBag: currentDB)
         bindActions(withViewModel: viewModel, listingDeckView: listingDeckView, disposeBag: currentDB)
+        bindActionButtonTap(withViewModel: viewModel, listingDeckView: listingDeckView, disposeBag: currentDB)
         bindNavigationBar(withViewController: viewController, listingDeckView: listingDeckView, disposeBag: currentDB)
         bindBumpUps(withViewModel: viewModel, viewController: viewController, listingDeckView: listingDeckView, disposeBag: currentDB)
     }
@@ -136,8 +138,6 @@ final class ListingDeckViewControllerBinder {
                              disposeBag: DisposeBag) {
         viewModel.rxActionButtons.bind { [weak self] actionButtons in
             self?.listingDeckViewController?.updateViewWithActions(actionButtons)
-            self?.bindActionButtonTap(withActions: actionButtons,
-                                      listingDeckView: listingDeckView, disposeBag: disposeBag)
         }.disposed(by: disposeBag)
 
         listingDeckView.rxStartPlayingButton.tap.bind { [weak viewModel] in
@@ -145,12 +145,11 @@ final class ListingDeckViewControllerBinder {
         }.disposed(by: disposeBag)
     }
 
-    private func bindActionButtonTap(withActions actionButtons: [UIAction],
+    private func bindActionButtonTap(withViewModel viewModel: ListingDeckViewModelType,
                                      listingDeckView: ListingDeckViewType?,
                                      disposeBag: DisposeBag) {
-        guard let actionButton = actionButtons.first else { return }
-        listingDeckView?.rxActionButton.tap.bind {
-            actionButton.action()
+        listingDeckView?.rxActionButton.tap.bind { [weak viewModel] in
+            viewModel?.didTapActionButton()
         }.disposed(by: disposeBag)
     }
 
