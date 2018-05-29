@@ -365,7 +365,7 @@ extension AppCoordinator: AppNavigator {
             let contactURL = LetgoURLHelper.buildContactUsURL(userEmail: email, installation: installation, listing: nil) else {
                 return
         }
-        viewController.openInternalUrl(contactURL)
+        viewController.openInAppWebViewWith(url: contactURL)
     }
 
     private func openTransitionAlert(title: String?,
@@ -459,7 +459,7 @@ extension AppCoordinator: AppNavigator {
     }
     
     func openInAppWebView(url: URL) {
-        tabBarCtl.openInternalUrl(url)
+        tabBarCtl.openInAppWebViewWith(url: url)
     }
 }
 

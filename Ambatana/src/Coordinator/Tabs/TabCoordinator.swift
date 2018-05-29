@@ -636,7 +636,7 @@ extension TabCoordinator: ListingDetailNavigator {
             let contactURL = LetgoURLHelper.buildContactUsURL(user: user, installation: installation, listing: listing, type: contactUstype) else {
                 return
         }
-        rootViewController.openInternalUrl(contactURL)
+        rootViewController.openInAppWebViewWith(url: contactURL)
     }
 
     func openFeaturedInfo() {

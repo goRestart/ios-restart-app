@@ -377,7 +377,7 @@ extension OnboardingCoordinator: HelpNavigator {
 extension OnboardingCoordinator {
     func open(url: URL) {
         if let vc = currentNavigationController() {
-            vc.openInternalUrl(url)
+            vc.openInAppWebViewWith(url: url)
         } else {
             UIApplication.shared.openURL(url)
         }

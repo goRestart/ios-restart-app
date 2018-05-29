@@ -180,7 +180,7 @@ extension ProfileTabCoordinator: ChangePasswordNavigator {
 
 extension ProfileTabCoordinator: HelpNavigator {
     func open(url: URL) {
-        navigationController.openInternalUrl(url)
+        navigationController.openInAppWebViewWith(url: url)
     }
 
     func closeHelp() {

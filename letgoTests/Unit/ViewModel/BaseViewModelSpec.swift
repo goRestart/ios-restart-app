@@ -109,7 +109,7 @@ class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
                         elsePresentSignUpWithSuccessAction afterLogInAction: @escaping () -> Void) {}
     func vmPop() {}
     func vmDismiss(_ completion: (() -> Void)?) {}
-    func vmOpenInternalURL(_ url: URL) {}
+    func vmOpenInAppWebViewWith(url: URL) {}
 
 
     // Tab navigator
