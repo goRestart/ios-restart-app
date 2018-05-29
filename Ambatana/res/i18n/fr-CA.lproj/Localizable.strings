@@ -141,7 +141,7 @@
 "chat_conversations_list_filter_all" = "Tous";
 "chat_conversations_list_filter_buying" = "Achat";
 "chat_conversations_list_filter_selling" = "Vente";
-"chat_conversations_list_letgo_assistant_tag" = "letgo assistant";
+"chat_conversations_list_letgo_assistant_tag" = "assistant letgo";
 "chat_deleted_disclaimer_w_name" = "Vous ne pouvez pas continuer cette discussion, car le compte de %@ n'est plus actif.";
 "chat_deleted_disclaimer_wo_name" = "Vous ne pouvez pas continuer cette discussion, car ce compte n'est plus actif.";
 "chat_disclaimer_letgo_team" = "ÉQUIPE LETGO";
@@ -482,7 +482,7 @@
 "meeting_creation_view_title" = "Planifiez un rendez-vous";
 "ml_camera_in_about_days_text" = "en %.f jours environ";
 "ml_camera_in_more_than_days_text" = "en plus de %.f jours";
-"ml_camera_sells_for_text" = "Se vend généralement %d$";
+"ml_camera_sells_for_text" = "Généralement vendu pour %d$";
 "ml_category_text" = "Catégorie :";
 "ml_details_price_text" = "Prix :";
 "ml_details_suggested_details_text" = "DÉTAILS SUGGÉRÉS";
@@ -859,7 +859,7 @@
 "profile_permissions_alert_ok" = "Activer";
 "profile_permissions_alert_title" = "NE MANQUEZ PAS UNE RÉPONSE !";
 "profile_permissions_header_message" = "Activer les notifications de message";
-"profile_reputation_tooltip_title" = "User verified! Tap if you want to be verified too";
+"profile_reputation_tooltip_title" = "Utilisateur vérifié ! Sélectionnez si vous souhaitez vous aussi être vérifié(e).";
 "profile_reviews_count" = "Avis";
 "profile_reviews_tab" = "Notes";
 "profile_selling_no_products_label" = "AUCUNE ANNONCE (POUR LE MOMENT !)";

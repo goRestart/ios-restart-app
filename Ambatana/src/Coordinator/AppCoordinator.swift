@@ -245,7 +245,6 @@ extension AppCoordinator: AppNavigator {
                   forceCloseChild: true,
                   completion: nil)
     }
-
     
     // MARK: App Review
 
@@ -462,7 +461,6 @@ extension AppCoordinator: AppNavigator {
         tabBarCtl.openInAppWebViewWith(url: url)
     }
 }
-
 
 // MARK: - SellCoordinatorDelegate
 

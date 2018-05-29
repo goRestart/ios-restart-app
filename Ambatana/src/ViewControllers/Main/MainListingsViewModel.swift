@@ -263,7 +263,6 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     }
     
     var isSearchAlertsEnabled: Bool {
-        guard let searchType = searchType else { return false }
         return featureFlags.searchAlerts.isActive
     }
     
@@ -302,7 +301,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
 
     // List VM
     let listViewModel: ListingListViewModel
-    fileprivate var listingListRequester: ListingListMultiRequester
+    private var listingListRequester: ListingListMultiRequester
     var currentActiveFilters: ListingFilters? {
         return filters
     }
@@ -353,7 +352,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     fileprivate let disposeBag = DisposeBag()
     
     var searchAlertCreationData = Variable<SearchAlertCreationData?>(nil)
-    
+    private let requesterFactory: RequesterFactory
+    private let requesterDependencyContainer: RequesterDependencyContainer
     
     // MARK: - Lifecycle
 
@@ -393,12 +393,16 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         let columns = show3Columns ? 3 : 2
         let itemsPerPage = show3Columns ? Constants.numListingsPerPageBig : Constants.numListingsPerPageDefault
-        self.listingListRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
-                                                                                        queryString: searchType?.query,
-                                                                                        itemsPerPage: itemsPerPage,
-                                                                                        carSearchActive: featureFlags.searchCarsIntoNewBackend.isActive)
-        self.listViewModel = ListingListViewModel(requester: self.listingListRequester, listings: nil,
-                                                  numberOfColumns: columns, tracker: tracker)
+        self.requesterDependencyContainer = RequesterDependencyContainer(itemsPerPage: itemsPerPage,
+                                                                         filters: filters,
+                                                                         queryString: searchType?.query,
+                                                                         carSearchActive: featureFlags.searchCarsIntoNewBackend.isActive)
+        let requesterFactory = SearchRequesterFactory(dependencyContainer: self.requesterDependencyContainer,
+                                                      featureFlags: featureFlags)
+        self.requesterFactory = requesterFactory
+        self.listViewModel = ListingListViewModel(numberOfColumns: columns, tracker: tracker, requesterFactory: requesterFactory)
+        let multiRequester = self.listViewModel.currentActiveRequester as? ListingListMultiRequester
+        self.listingListRequester = multiRequester ?? ListingListMultiRequester()
         self.listViewModel.listingListFixedInset = show3Columns ? 6 : 10
 
         if let search = searchType, let query = search.query, !search.isCollection && !query.isEmpty {
@@ -747,14 +751,14 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         }
 
         let currentItemsPerPage = listingListRequester.itemsPerPage
-
-        listingListRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
-                                                                                   queryString: queryString,
-                                                                                   itemsPerPage: currentItemsPerPage,
-                                                                                   carSearchActive: featureFlags.searchCarsIntoNewBackend.isActive)
-
-        listViewModel.listingListRequester = listingListRequester
-
+        requesterDependencyContainer.updateContainer(itemsPerPage: currentItemsPerPage,
+                                                     filters: filters,
+                                                     queryString: queryString,
+                                                     carSearchActive: featureFlags.searchCarsIntoNewBackend.isActive)
+        let requesterFactory = SearchRequesterFactory(dependencyContainer: requesterDependencyContainer,
+                                                      featureFlags: featureFlags)
+        listViewModel.updateFactory(requesterFactory)
+        listingListRequester = (listViewModel.currentActiveRequester as? ListingListMultiRequester) ?? ListingListMultiRequester()
         infoBubbleVisible.value = false
         errorMessage.value = nil
         listViewModel.resetUI()
@@ -1014,12 +1018,14 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             return
         }
 
-        if listingListRequester.multiIsFirstPage  {
+        let requester = listViewModel.currentActiveRequester as? ListingListMultiRequester
+
+        if let isFirstPage = requester?.multiIsFirstPage, isFirstPage {
             filterDescription.value = !hasListings && shouldShowNoExactMatchesDisclaimer ? R.Strings.filterResultsCarsNoMatches : nil
         }
 
         if !hasListings {
-            if listingListRequester.multiIsLastPage {
+            if let isLastPage = requester?.multiIsLastPage, isLastPage {
                 let errImage: UIImage?
                 let errTitle: String?
                 let errBody: String?
@@ -1046,7 +1052,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             } else {
                 listViewModel.retrieveListingsNextPage()
             }
-        }
+        } 
 
         errorMessage.value = nil
         infoBubbleVisible.value = hasListings && filters.infoBubblePresent

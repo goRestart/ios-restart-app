@@ -203,6 +203,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
             listingDeckView.itemActionsView.layoutIfNeeded()
         }
     }
+
 }
 
 extension ListingDeckViewController: ListingDeckViewControllerBinderType {
@@ -264,9 +265,7 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     }
 
     func updateViewWithActions(_ actionButtons: [UIAction]) {
-        guard let actionButton = actionButtons.first else {
-            return
-        }
+        guard let actionButton = actionButtons.first else { return }
         listingDeckView.configureActionWith(actionButton)
     }
 
@@ -426,6 +425,10 @@ extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCard
     func cardViewDidTapOnStatusView(_ cardView: ListingCardView) {
         guard cardView.tag == viewModel.currentIndex else { return }
         viewModel.didTapStatusView()
+    }
+
+    func cardViewDidTapOnReputationTooltip(_ cardView: ListingCardView) {
+        viewModel.didTapReputationTooltip()
     }
 
     // MARK: Chat

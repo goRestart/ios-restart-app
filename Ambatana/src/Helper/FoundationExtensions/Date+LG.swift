@@ -3,6 +3,8 @@ import LGComponents
 
 extension Date {
 
+    private var secondsInADay: TimeInterval { return 86400 }
+
     func formattedTime() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.timeStyle = .short
@@ -160,7 +162,11 @@ extension Date {
     }
 
     func isFromLast24h() -> Bool {
-        return isNewerThan(86400)
+        return isNewerThan(secondsInADay)
+    }
+
+    func isOlderThan(days: Double) -> Bool {
+        return !isNewerThan(secondsInADay * days)
     }
 
     func isNewerThan(_ seconds: TimeInterval) -> Bool {

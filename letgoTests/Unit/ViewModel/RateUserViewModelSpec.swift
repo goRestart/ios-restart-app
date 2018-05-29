@@ -179,7 +179,7 @@ class RateUserViewModelSpec: BaseViewModelSpec {
                             expect(self.delegateReceivedUpdateTags).toEventually(equal(true))
                         }
                         it("has a selected tag") {
-                            expect((0..<sut.numberOfTags).filter { sut.isSelectedTagAt(index: $0) }).toEventually(equal([0]))
+                            expect((0..<sut.numberOfTags).filter { sut.isSelectedTagAt(index: $0) }).toEventually(equal([0]), timeout: 2)
                         }
                     }
                     

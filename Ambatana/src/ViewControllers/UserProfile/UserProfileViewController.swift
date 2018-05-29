@@ -65,6 +65,7 @@ final class UserProfileViewController: BaseViewController {
         static let dummyDisclaimerHeight: CGFloat = 50
         static let headerBottomMargin: CGFloat = Metrics.margin
         static let bottomScrollableContentInset: CGFloat = 60
+        static let navBarTitleHeight: CGFloat = 44
     }
 
     // MARK: - Lifecycle
@@ -80,7 +81,7 @@ final class UserProfileViewController: BaseViewController {
         self.disposeBag = DisposeBag()
         self.headerView = UserProfileHeaderView(isPrivate: viewModel.isPrivateProfile)
         self.bioAndTrustView = UserProfileBioAndTrustView(isPrivate: viewModel.isPrivateProfile)
-        self.listingView = ListingListView(viewModel: ListingListViewModel(requester: nil),
+        self.listingView = ListingListView(viewModel: ListingListViewModel(),
                                            featureFlags: FeatureFlags.sharedInstance)
         self.socialSharer = socialSharer
         self.socialSharer.delegate = viewModel
@@ -143,8 +144,8 @@ final class UserProfileViewController: BaseViewController {
 
         view.addSubviewsForAutoLayout([tableView, listingView, headerContainerView])
 
-        navBarUserView.translatesAutoresizingMaskIntoConstraints = false
         navBarUserView.alpha = 0
+        navBarUserView.frame.size.height = Layout.navBarTitleHeight
         tabsView.delegate = self
 
         setupHeaderUI()

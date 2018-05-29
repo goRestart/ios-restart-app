@@ -111,7 +111,6 @@ class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
     func vmDismiss(_ completion: (() -> Void)?) {}
     func vmOpenInAppWebViewWith(url: URL) {}
 
-
     // Tab navigator
     func openHome() {}
     func openSell(source: PostingSource, postCategory: PostCategory?) {}
@@ -129,4 +128,5 @@ class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
     func openRealEstateOnboarding(pages: [LGTutorialPage],
                                   origin: EventParameterTypePage,
                                   tutorialType: EventParameterTutorialType) {}
+    func openUserVerificationView() {}
 }

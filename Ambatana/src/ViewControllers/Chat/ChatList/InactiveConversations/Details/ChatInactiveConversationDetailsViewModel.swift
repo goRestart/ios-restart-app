@@ -12,6 +12,7 @@ class ChatInactiveConversationDetailsViewModel: BaseViewModel {
     weak var navigator: ChatInactiveDetailNavigator?
     
     private let chatRepository: ChatRepository
+    private let myUserRepository: MyUserRepository
     private let chatViewMessageAdapter: ChatViewMessageAdapter
     private let featureFlags: FeatureFlaggeable
     private let tracker: Tracker
@@ -35,15 +36,18 @@ class ChatInactiveConversationDetailsViewModel: BaseViewModel {
     var listingImageURL: URL? {
         return conversation.listing?.image?.fileURL
     }
+    private var interlocutor: InactiveInterlocutor? {
+        return conversation.interlocutor(forMyUserId: myUserRepository.myUser?.objectId)
+    }
     var interlocutorName: String? {
-        return conversation.interlocutor?.name
+        return interlocutor?.name
     }
     var interlocutorAvatarURL: URL? {
-        return conversation.interlocutor?.avatar?.fileURL
+        return interlocutor?.avatar?.fileURL
     }
     var interlocutorAvatarPlaceholder: UIImage? {
-        return LetgoAvatar.avatarWithID(conversation.interlocutor?.objectId,
-                                        name: conversation.interlocutor?.name)
+        return LetgoAvatar.avatarWithID(interlocutor?.objectId,
+                                        name: interlocutor?.name)
     }
     var meetingsEnabled: Bool {
         return featureFlags.chatNorris.isActive
@@ -54,6 +58,7 @@ class ChatInactiveConversationDetailsViewModel: BaseViewModel {
     convenience init(conversation: ChatInactiveConversation) {
         self.init(conversation: conversation,
                   chatRepository: Core.chatRepository,
+                  myUserRepository: Core.myUserRepository,
                   chatViewMessageAdapter: ChatViewMessageAdapter(),
                   featureFlags: FeatureFlags.sharedInstance,
                   tracker: TrackerProxy.sharedInstance)
@@ -61,11 +66,13 @@ class ChatInactiveConversationDetailsViewModel: BaseViewModel {
     
     init(conversation: ChatInactiveConversation,
          chatRepository: ChatRepository,
+         myUserRepository: MyUserRepository,
          chatViewMessageAdapter: ChatViewMessageAdapter,
          featureFlags: FeatureFlaggeable,
          tracker: Tracker) {
         self.conversation = conversation
         self.chatRepository = chatRepository
+        self.myUserRepository = myUserRepository
         self.chatViewMessageAdapter = chatViewMessageAdapter
         self.featureFlags = featureFlags
         self.tracker = tracker

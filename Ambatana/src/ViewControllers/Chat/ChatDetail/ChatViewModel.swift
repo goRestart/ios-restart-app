@@ -82,6 +82,8 @@ class ChatViewModel: BaseViewModel {
     let interlocutorAvatarURL = Variable<URL?>(nil)
     let interlocutorName = Variable<String>("")
     let interlocutorId = Variable<String?>(nil)
+    let interlocutorIsVerified = Variable<Bool>(false)
+    let shouldShowReputationTooltip = Variable<Bool>(false)
     let stickers = Variable<[Sticker]>([])
     let chatStatus = Variable<ChatInfoViewStatus>(.available)
     let chatEnabled = Variable<Bool>(true)
@@ -127,6 +129,7 @@ class ChatViewModel: BaseViewModel {
         return false
     }
 
+
     // fileprivate
     fileprivate let myUserRepository: MyUserRepository
     fileprivate let chatRepository: ChatRepository
@@ -141,7 +144,7 @@ class ChatViewModel: BaseViewModel {
     fileprivate let source: EventParameterTypePage
     fileprivate let pushPermissionsManager: PushPermissionsManager
     fileprivate let ratingManager: RatingManager
-
+    fileprivate let reputationTooltipManager: ReputationTooltipManager
     fileprivate let keyValueStorage: KeyValueStorageable
 
     fileprivate let firstInteractionDone = Variable<Bool>(false)
@@ -249,13 +252,15 @@ class ChatViewModel: BaseViewModel {
         let keyValueStorage = KeyValueStorage.sharedInstance
         let ratingManager = LGRatingManager.sharedInstance
         let pushPermissionsManager = LGPushPermissionsManager.sharedInstance
+        let reputationTooltipManager = LGReputationTooltipManager.sharedInstance
 
         self.init(conversation: conversation, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   listingRepository: listingRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository, tracker: tracker, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
                   source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager,
-                  predefinedMessage: predefinedMessage, openChatAutomaticMessage: nil, interlocutor: nil)
+                  predefinedMessage: predefinedMessage, openChatAutomaticMessage: nil, interlocutor: nil,
+                  reputationTooltipManager: reputationTooltipManager)
     }
     
     convenience init?(listing: Listing,
@@ -277,7 +282,7 @@ class ChatViewModel: BaseViewModel {
         let featureFlags = FeatureFlags.sharedInstance
         let ratingManager = LGRatingManager.sharedInstance
         let pushPermissionsManager = LGPushPermissionsManager.sharedInstance
-
+        let reputationTooltipManager = LGReputationTooltipManager.sharedInstance
         let amISelling = myUserRepository.myUser?.objectId == sellerId
         let empty = EmptyConversation(objectId: nil, unreadMessageCount: 0, lastMessageSentAt: nil, amISelling: amISelling,
                                       listing: nil, interlocutor: nil)
@@ -286,7 +291,8 @@ class ChatViewModel: BaseViewModel {
                   stickersRepository: stickersRepository ,tracker: tracker, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
                   source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager, predefinedMessage: nil,
-                  openChatAutomaticMessage: openChatAutomaticMessage, interlocutor: interlocutor)
+                  openChatAutomaticMessage: openChatAutomaticMessage, interlocutor: interlocutor,
+                  reputationTooltipManager: reputationTooltipManager)
         self.setupConversationFrom(listing: listing)
     }
     
@@ -295,7 +301,7 @@ class ChatViewModel: BaseViewModel {
           tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, keyValueStorage: KeyValueStorageable,
           navigator: ChatDetailNavigator?, featureFlags: FeatureFlaggeable, source: EventParameterTypePage,
           ratingManager: RatingManager, pushPermissionsManager: PushPermissionsManager, predefinedMessage: String?,
-          openChatAutomaticMessage: ChatWrapperMessageType?, interlocutor: User?) {
+          openChatAutomaticMessage: ChatWrapperMessageType?, interlocutor: User?, reputationTooltipManager: ReputationTooltipManager) {
         self.conversation = Variable<ChatConversation>(conversation)
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
@@ -316,6 +322,7 @@ class ChatViewModel: BaseViewModel {
         self.predefinedMessage = predefinedMessage
         self.openChatAutomaticMessage = openChatAutomaticMessage
         self.interlocutor = interlocutor
+        self.reputationTooltipManager = reputationTooltipManager
         if let isProfessional = interlocutor?.isProfessional {
             self.interlocutorProfessionalInfo.value = InterlocutorProfessionalInfo(isProfessional: isProfessional,
                                                                                    phoneNumber: interlocutor?.phone)
@@ -497,6 +504,8 @@ class ChatViewModel: BaseViewModel {
                 guard let strongSelf = self else { return }
                 guard let user = result.value else { return }
                 strongSelf.interlocutor = user
+                strongSelf.interlocutorIsVerified.value = user.hasBadge
+                strongSelf.shouldShowReputationTooltip.value = user.hasBadge && strongSelf.reputationTooltipManager.shouldShowTooltip()
                 let proInfo = InterlocutorProfessionalInfo(isProfessional: user.isProfessional, phoneNumber: user.phone)
                 strongSelf.interlocutorProfessionalInfo.value = proInfo
                 if let userInfoMessage = strongSelf.userInfoMessage, strongSelf.shouldShowOtherUserInfo {
@@ -714,6 +723,13 @@ class ChatViewModel: BaseViewModel {
         trackCallSeller()
     }
 
+    func reputationTooltipTapped() {
+        navigator?.openUserVerificationView()
+    }
+
+    func reputationTooltipShown() {
+        reputationTooltipManager.didShowTooltip()
+    }
 }
 
 
