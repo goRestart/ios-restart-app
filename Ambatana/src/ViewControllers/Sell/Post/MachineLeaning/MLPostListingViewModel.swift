@@ -162,7 +162,6 @@ class MLPostListingViewModel: BaseViewModel {
         uploadedImageSource = source
         imagesSelected = images
         self.predictionData = predictionData
-//        state.value.predictionData = predictionData
 
         guard sessionManager.loggedIn else {
             state.value = state.value.updating(pendingToUploadImages: images, predictionData: predictionData)
