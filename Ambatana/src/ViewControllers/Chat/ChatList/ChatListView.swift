@@ -55,6 +55,10 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
         tableView.allowsMultipleSelectionDuringEditing = true
         tableView.rowHeight = ConversationCell.defaultHeight
 
+        tableView.separatorStyle = .singleLine
+        tableView.layoutMargins = .zero
+        tableView.separatorInset = .zero
+
         footerButton.setTitle(viewModel.titleForDeleteButton, for: .normal)
         footerButton.addTarget(self, action: #selector(ChatListView.deleteButtonPressed), for: .touchUpInside)
     }
@@ -127,7 +131,7 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
 
         chatCell.tag = (indexPath as NSIndexPath).hash // used for cell reuse on "setupCellWithData"
         chatCell.setupCellWithData(chatData, indexPath: indexPath)
-        
+
         let isSelected = viewModel.isConversationSelected(index: indexPath.row)
         if isSelected {
             tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)

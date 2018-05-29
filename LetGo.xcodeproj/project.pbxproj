@@ -257,8 +257,6 @@
 		2E151D7420A49BB20038D7C7 /* ChatBlockedUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E151D7220A49BB20038D7C7 /* ChatBlockedUsersViewController.swift */; };
 		2E151D7620A5D3370038D7C7 /* ChatBlockedUsersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E151D7520A5D3370038D7C7 /* ChatBlockedUsersCell.swift */; };
 		2E151D7720A5D3370038D7C7 /* ChatBlockedUsersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E151D7520A5D3370038D7C7 /* ChatBlockedUsersCell.swift */; };
-		2E151D7B20A9D15C0038D7C7 /* ChatConversationListCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E151D7A20A9D15C0038D7C7 /* ChatConversationListCellType.swift */; };
-		2E151D7C20A9D15C0038D7C7 /* ChatConversationListCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E151D7A20A9D15C0038D7C7 /* ChatConversationListCellType.swift */; };
 		2E1BC3FD1E648C0A0063D1A7 /* ReceiptURLProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1BC3FC1E648C0A0063D1A7 /* ReceiptURLProvider.swift */; };
 		2E1BC4001E6492230063D1A7 /* ReceiptURLProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1BC3FC1E648C0A0063D1A7 /* ReceiptURLProvider.swift */; };
 		2E1F0D971D65F4B80021EDBE /* BubbleNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1F0D961D65F4B80021EDBE /* BubbleNotification.swift */; };
@@ -2195,7 +2193,6 @@
 		2E151D6F20A49B8A0038D7C7 /* ChatBlockedUsersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBlockedUsersViewModel.swift; sourceTree = "<group>"; };
 		2E151D7220A49BB20038D7C7 /* ChatBlockedUsersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBlockedUsersViewController.swift; sourceTree = "<group>"; };
 		2E151D7520A5D3370038D7C7 /* ChatBlockedUsersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBlockedUsersCell.swift; sourceTree = "<group>"; };
-		2E151D7A20A9D15C0038D7C7 /* ChatConversationListCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatConversationListCellType.swift; sourceTree = "<group>"; };
 		2E1BC3FC1E648C0A0063D1A7 /* ReceiptURLProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReceiptURLProvider.swift; path = Monetization/ReceiptURLProvider.swift; sourceTree = "<group>"; };
 		2E1F0D961D65F4B80021EDBE /* BubbleNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleNotification.swift; sourceTree = "<group>"; };
 		2E2208E41DD4BCD800FB2483 /* EmptyCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyCellDrawer.swift; sourceTree = "<group>"; };
@@ -3526,7 +3523,6 @@
 		2E151D7920A9CCF80038D7C7 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				2E151D7A20A9D15C0038D7C7 /* ChatConversationListCellType.swift */,
 				2E2FF6E420AAC8CB00C9A5DA /* ChatAssistantConversationCell.swift */,
 				2E2FF6E720AC64C800C9A5DA /* ChatUserConversationCell.swift */,
 			);
@@ -7389,7 +7385,6 @@
 				2E2208E81DD4BD1100FB2483 /* EmptyCell.swift in Sources */,
 				C783D97C1C64BB90000EE5CA /* ReportUsersViewController.swift in Sources */,
 				724D77AB1FC7085000DB43C0 /* ListingCreationViewController.swift in Sources */,
-				2E151D7B20A9D15C0038D7C7 /* ChatConversationListCellType.swift in Sources */,
 				50BA5C061C3C093E00F34042 /* AppDelegate.swift in Sources */,
 				2E4ADECB200516A600D07D8A /* ProfessionalDealerAskPhoneViewController.swift in Sources */,
 				01616CCC1F978DA900F412D7 /* SelectableFilterTagCell.swift in Sources */,
@@ -8204,7 +8199,6 @@
 				C7DB41B11C5138B500400945 /* TrackerEventDataTypes.swift in Sources */,
 				2E373FAC1D3E6F3E00AC811C /* UserRatingListRequester.swift in Sources */,
 				C72794291D549334009C25AB /* SettingsCell.swift in Sources */,
-				2E151D7C20A9D15C0038D7C7 /* ChatConversationListCellType.swift in Sources */,
 				C7111F031CA438AC000C5C5A /* UniversalLink.swift in Sources */,
 				724D77AC1FC7085000DB43C0 /* ListingCreationViewController.swift in Sources */,
 				01616CCD1F978DA900F412D7 /* SelectableFilterTagCell.swift in Sources */,
