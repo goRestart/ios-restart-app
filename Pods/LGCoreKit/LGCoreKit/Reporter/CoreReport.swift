@@ -139,6 +139,7 @@ enum CoreReportDataSource: ReportType {
         case product
         case car
         case realEstate
+        case services
         case userListingRelation
         case listingStats
         case userListings
@@ -160,6 +161,8 @@ enum CoreReportDataSource: ReportType {
         case relaxQuery
         case reputationActions
         case preSignedUploadUrl
+        case imagesId
+        case serviceType
 
         
         var type: Any.Type {
@@ -186,6 +189,8 @@ enum CoreReportDataSource: ReportType {
                 return LGCar.self
             case .realEstate:
                 return LGRealEstate.self
+            case .services:
+                return LGService.self
             case .userListingRelation:
                 return LGUserListingRelation.self
             case .listingStats:
@@ -204,7 +209,7 @@ enum CoreReportDataSource: ReportType {
                 return [LGNotification].self
             case .searchAlerts:
                 return [LGSearchAlert].self
-            case .searchSuggestion:
+            case .searchSuggestion ,.imagesId:
                 return [String].self
             case .suggestiveSearch:
                 return [SuggestiveSearch].self
@@ -228,6 +233,8 @@ enum CoreReportDataSource: ReportType {
                 return LGUserReputationAction.self
             case .preSignedUploadUrl:
                 return LGPreSignedUploadUrl.self
+            case .serviceType:
+                return LGServiceType.self
             }
         }
     }

@@ -38,7 +38,7 @@ extension ListingEditionParams: MockFactory {
     }
 }
 
-class MockProductCreationParams: ProductCreationParams, MockFactory {
+final class MockProductCreationParams: ProductCreationParams, MockFactory {
     required init() {
         super.init(name: String?.makeRandom(),
                    description: String?.makeRandom(),
@@ -56,7 +56,7 @@ class MockProductCreationParams: ProductCreationParams, MockFactory {
     }
 }
 
-class MockProductEditionParams: ProductEditionParams, MockFactory {
+final class MockProductEditionParams: ProductEditionParams, MockFactory {
     required init() {
         let product = MockProduct.makeMock()
         super.init(product: product)!
@@ -72,7 +72,7 @@ class MockProductEditionParams: ProductEditionParams, MockFactory {
     }
 }
 
-class MockCarCreationParams: CarCreationParams, MockFactory {
+final class MockCarCreationParams: CarCreationParams, MockFactory {
     required init() {
         super.init(name: String?.makeRandom(),
                    description: String?.makeRandom(),
@@ -91,7 +91,26 @@ class MockCarCreationParams: CarCreationParams, MockFactory {
     }
 }
 
-class MockCarEditionParams: CarEditionParams, MockFactory {
+final class MockServicesCreationParams: ServicesCreationParams, MockFactory {
+    required init() {
+        super.init(name: String?.makeRandom(),
+                   description: String?.makeRandom(),
+                   price: ListingPrice.makeMock(),
+                   category: ListingCategory.makeMock(),
+                   currency: Currency.makeMock(),
+                   location: LGLocationCoordinates2D.makeMock(),
+                   postalAddress: PostalAddress.makeMock(),
+                   images: MockFile.makeMocks(count: Int.makeRandom(min: 0, max: 4)),
+                   videos: MockVideo.makeMocks(count: Int.makeRandom(min: 0, max: 4)),
+                   serviceAttributes: ServiceAttributes.makeMock())
+    }
+    
+    public static func makeMock() -> Self {
+        return self.init()
+    }
+}
+
+final class MockCarEditionParams: CarEditionParams, MockFactory {
     required init(mockedCar: Car) {
         super.init(car: mockedCar)!
     }
@@ -102,7 +121,7 @@ class MockCarEditionParams: CarEditionParams, MockFactory {
     }
 }
 
-class MockRealEstateCreationParams: RealEstateCreationParams, MockFactory {
+final class MockRealEstateCreationParams: RealEstateCreationParams, MockFactory {
     required init() {
         super.init(name: String?.makeRandom(),
                    description: String?.makeRandom(),
@@ -121,7 +140,7 @@ class MockRealEstateCreationParams: RealEstateCreationParams, MockFactory {
     }
 }
 
-class MockRealEstateEditionParams: RealEstateEditionParams, MockFactory {
+final class MockRealEstateEditionParams: RealEstateEditionParams, MockFactory {
     
     required init(mockedRealEstate: RealEstate) {
         super.init(realEstate: mockedRealEstate)!
@@ -130,6 +149,18 @@ class MockRealEstateEditionParams: RealEstateEditionParams, MockFactory {
     public static func makeMock() -> Self {
         let realEstate = MockRealEstate.makeMock()
         return self.init(mockedRealEstate: realEstate)
+    }
+}
+
+final class MockServicesEditionParams: ServicesEditionParams, MockFactory {
+    
+    required init(mockedService: Service) {
+        super.init(service: mockedService)!
+    }
+    
+    public static func makeMock() -> Self {
+        let service = MockService.makeMock()
+        return self.init(mockedService: service)
     }
 }
 

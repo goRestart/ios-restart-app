@@ -10,6 +10,7 @@ public enum Listing: BaseListingModel, Priceable, Decodable {
     case product(Product)
     case car(Car)
     case realEstate(RealEstate)
+    case service(Service)
     
     public var isProduct: Bool {
         switch self {
@@ -28,6 +29,13 @@ public enum Listing: BaseListingModel, Priceable, Decodable {
     public var isRealEstate: Bool {
         switch self {
         case .realEstate: return true
+        default: return false
+        }
+    }
+    
+    public var isService: Bool {
+        switch self {
+        case .service: return true
         default: return false
         }
     }
@@ -51,6 +59,13 @@ public enum Listing: BaseListingModel, Priceable, Decodable {
         }
     }
     
+    public var service: Service? {
+        switch self {
+        case .service(let service): return service
+        default: return nil
+        }
+    }
+    
     // Variables
     
     public var objectId: String? {
@@ -58,6 +73,7 @@ public enum Listing: BaseListingModel, Priceable, Decodable {
         case .product(let product): return product.objectId
         case .car(let car): return car.objectId
         case .realEstate(let realEstate): return realEstate.objectId
+        case .service(let service): return service.objectId
         }
     }
     
@@ -66,6 +82,7 @@ public enum Listing: BaseListingModel, Priceable, Decodable {
         case .product(let product): return product.name
         case .car(let car): return car.name
         case .realEstate(let realEstate): return realEstate.name
+        case .service(let service): return service.name
         }
     }
     public var nameAuto: String? {
@@ -73,6 +90,7 @@ public enum Listing: BaseListingModel, Priceable, Decodable {
         case .product(let product): return product.nameAuto
         case .car(let car): return car.nameAuto
         case .realEstate(let realEstate): return realEstate.nameAuto
+        case .service(let service): return service.nameAuto
         }
     }
     public var descr: String? {
@@ -80,6 +98,7 @@ public enum Listing: BaseListingModel, Priceable, Decodable {
         case .product(let product): return product.descr
         case .car(let car): return car.descr
         case .realEstate(let realEstate): return realEstate.descr
+        case .service(let service): return service.descr
         }
     }
     public var price: ListingPrice {
@@ -87,6 +106,7 @@ public enum Listing: BaseListingModel, Priceable, Decodable {
         case .product(let product): return product.price
         case .car(let car): return car.price
         case .realEstate(let realEstate): return realEstate.price
+        case .service(let service): return service.price
         }
     }
     public var currency: Currency {
@@ -94,6 +114,7 @@ public enum Listing: BaseListingModel, Priceable, Decodable {
         case .product(let product): return product.currency
         case .car(let car): return car.currency
         case .realEstate(let realEstate): return realEstate.currency
+        case .service(let service): return service.currency
         }
     }
     public var location: LGLocationCoordinates2D {
@@ -101,6 +122,7 @@ public enum Listing: BaseListingModel, Priceable, Decodable {
         case .product(let product): return product.location
         case .car(let car): return car.location
         case .realEstate(let realEstate): return realEstate.location
+        case .service(let service): return service.location
         }
     }
     public var postalAddress: PostalAddress {
@@ -108,6 +130,7 @@ public enum Listing: BaseListingModel, Priceable, Decodable {
         case .product(let product): return product.postalAddress
         case .car(let car): return car.postalAddress
         case .realEstate(let realEstate): return realEstate.postalAddress
+        case .service(let service): return service.postalAddress
         }
     }
     public var languageCode: String? {
@@ -115,6 +138,7 @@ public enum Listing: BaseListingModel, Priceable, Decodable {
         case .product(let product): return product.languageCode
         case .car(let car): return car.languageCode
         case .realEstate(let realEstate): return realEstate.languageCode
+        case .service(let service): return service.languageCode
         }
     }
     public var category: ListingCategory {
@@ -122,6 +146,7 @@ public enum Listing: BaseListingModel, Priceable, Decodable {
         case .product(let product): return product.category
         case .car(let car): return car.category
         case .realEstate(let realEstate): return realEstate.category
+        case .service(let service): return service.category
         }
     }
     public var status: ListingStatus {
@@ -129,6 +154,7 @@ public enum Listing: BaseListingModel, Priceable, Decodable {
         case .product(let product): return product.status
         case .car(let car): return car.status
         case .realEstate(let realEstate): return realEstate.status
+        case .service(let service): return service.status
         }
     }
     public var thumbnail: File? {
@@ -136,6 +162,7 @@ public enum Listing: BaseListingModel, Priceable, Decodable {
         case .product(let product): return product.thumbnail
         case .car(let car): return car.thumbnail
         case .realEstate(let realEstate): return realEstate.thumbnail
+        case .service(let service): return service.thumbnail
         }
     }
     public var thumbnailSize: LGSize? {
@@ -143,6 +170,7 @@ public enum Listing: BaseListingModel, Priceable, Decodable {
         case .product(let product): return product.thumbnailSize
         case .car(let car): return car.thumbnailSize
         case .realEstate(let realEstate): return realEstate.thumbnailSize
+        case .service(let service): return service.thumbnailSize
         }
     }
     public var images: [File] {
@@ -150,6 +178,7 @@ public enum Listing: BaseListingModel, Priceable, Decodable {
         case .product(let product): return product.images
         case .car(let car): return car.images
         case .realEstate(let realEstate): return realEstate.images
+        case .service(let service): return service.images
         }
     }
     public var media: [Media] {
@@ -157,6 +186,7 @@ public enum Listing: BaseListingModel, Priceable, Decodable {
         case .product(let product): return product.media
         case .car(let car): return car.media
         case .realEstate(let realEstate): return realEstate.media
+        case .service(let service): return service.media
         }
     }
     public var mediaThumbnail: MediaThumbnail? {
@@ -164,6 +194,7 @@ public enum Listing: BaseListingModel, Priceable, Decodable {
         case .product(let product): return product.mediaThumbnail
         case .car(let car): return car.mediaThumbnail
         case .realEstate(let realEstate): return realEstate.mediaThumbnail
+        case .service(let service): return service.mediaThumbnail
         }
     }
     public var user: UserListing {
@@ -171,6 +202,7 @@ public enum Listing: BaseListingModel, Priceable, Decodable {
         case .product(let product): return product.user
         case .car(let car): return car.user
         case .realEstate(let realEstate): return realEstate.user
+        case .service(let service): return service.user
         }
     }
     public var updatedAt: Date? {
@@ -178,6 +210,7 @@ public enum Listing: BaseListingModel, Priceable, Decodable {
         case .product(let product): return product.updatedAt
         case .car(let car): return car.updatedAt
         case .realEstate(let realEstate): return realEstate.updatedAt
+        case .service(let service): return service.updatedAt
         }
     }
     public var createdAt: Date? {
@@ -185,6 +218,7 @@ public enum Listing: BaseListingModel, Priceable, Decodable {
         case .product(let product): return product.createdAt
         case .car(let car): return car.createdAt
         case .realEstate(let realEstate): return realEstate.createdAt
+        case .service(let service): return service.createdAt
         }
     }
     public var featured: Bool? {
@@ -192,6 +226,7 @@ public enum Listing: BaseListingModel, Priceable, Decodable {
         case .product(let product): return product.featured
         case .car(let car): return car.featured
         case .realEstate(let realEstate): return realEstate.featured
+        case .service(let service): return service.featured
         }
     }
     
@@ -211,6 +246,10 @@ public enum Listing: BaseListingModel, Priceable, Decodable {
             let lgRealEstate = LGRealEstate(realEstate: realEstate)
             let newRealEstate = lgRealEstate.updating(category: category)
             return Listing.realEstate(newRealEstate)
+        case .service(let service):
+            let lgService = LGService(service: service)
+            let newService = lgService.updating(category: category)
+            return .service(newService)
         }
     }
     
@@ -228,6 +267,10 @@ public enum Listing: BaseListingModel, Priceable, Decodable {
             let lgRealEstate = LGRealEstate(realEstate: realEstate)
             let newRealEstate = lgRealEstate.updating(status: status)
             return Listing.realEstate(newRealEstate)
+        case .service(let service):
+            let lgService = LGService(service: service)
+            let newService = lgService.updating(status: status)
+            return .service(newService)
         }
     }
     
@@ -305,7 +348,7 @@ public enum Listing: BaseListingModel, Priceable, Decodable {
         
         switch category {
         case .unassigned, .electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden, .moviesBooksAndMusic,
-             .fashionAndAccesories, .babyAndChild, .other, .services:
+             .fashionAndAccesories, .babyAndChild, .other:
             let product = try LGProduct(from: decoder)
             self = Listing.product(product)
         case .cars:
@@ -314,9 +357,12 @@ public enum Listing: BaseListingModel, Priceable, Decodable {
         case .realEstate:
             let realEstate = try LGRealEstate(from: decoder)
             self = Listing.realEstate(realEstate)
+        case .services:
+            let service = try LGService(from: decoder)
+            self = .service(service)
         }
     }
-        
+    
     enum CodingKeys: String, CodingKey {
         case categoryIdFeedAndProductsAndCars = "category_id"
         case categoryIdNewVerticals = "categoryId"

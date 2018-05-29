@@ -247,6 +247,8 @@
 "common_chat_not_available" = "Hoppla! Gespräch nicht gefunden.";
 "common_collapse" = "Weniger anzeigen";
 "common_confirm" = "Bestätigen";
+"common_done" = "Fertig";
+"common_edit" = "Bearbeiten";
 "common_error" = "Fehler";
 "common_error_connection_failed" = "Ein Fehler ist aufgetreten. Bitte überprüfe deine Internetverbindung.";
 "common_error_generic_body" = "Ein Fehler ist aufgetreten.";
@@ -535,6 +537,10 @@
 "nps_survey_title" = "WIR MÖCHTEN GERNE WISSEN...";
 "nps_survey_very_bad" = "Unwahrscheinlich";
 "nps_survey_very_good" = "Sehr wahrscheinlich";
+"offensive_report_alert_message" = "Uns ist auf gefallen, dass möglicherweise unangemessene Nachrichten von deinem Benutzerkonto aus verschickt wurden.\n\nWiederholte Verstöße können zur Kündigung des Benutzerkontos führen.";
+"offensive_report_alert_primary_action" = "Richtlinien ansehen";
+"offensive_report_alert_secondary_action" = "Überspringen";
+"offensive_report_alert_title" = "Community-Richtlinien ansehen";
 "onboarding_alert_no" = "Nein";
 "onboarding_alert_yes" = "Ja";
 "onboarding_categories_button_countdown" = "Wähle mindestens %i weitere aus";
@@ -1074,6 +1080,7 @@
 "search_alert_error_too_many_text" = "Hoppla! Du hast die maximale Anzahl an gespeicherten Suchen erreicht";
 "search_alerts_edit_button" = "Bearbeiten";
 "search_alerts_header_subtitle" = "Erhalte Benachrichtigungen zu neuen Angeboten";
+"search_alerts_list_title" = "Gespeicherte Suchen";
 "search_alerts_placeholder_empty_button" = "Suche beginnen";
 "search_alerts_placeholder_empty_text" = "Abonniere Suchen, um Benachrichtigungen zu erhalten, wenn neue Angebote eingestellt werden.";
 "search_alerts_placeholder_error_button" = "Erneut versuchen";
@@ -1108,6 +1115,8 @@
 "sell_title_autogen_label" = "Titelvorschlag von letgo";
 "sell_title_field_hint" = "Produkttitel (optional)";
 "sell_uploading_label" = "Angebot wird eingestellt...";
+"services_service_subtype_title" = "Service subtype";
+"services_service_type_title" = "Service type";
 "settings_change_email_button" = "E-Mail-Adresse";
 "settings_change_location_button" = "Standort";
 "settings_change_password_button" = "Kennwort";
@@ -1129,6 +1138,9 @@
 "settings_marketing_notifications_alert_deactivate" = "Deaktivieren";
 "settings_marketing_notifications_alert_message" = "Bist du sicher, dass du Marketing-Benachrichtigungen deaktivieren möchtest?";
 "settings_marketing_notifications_switch" = "Marketing-Benachrichtigungen";
+"settings_notifications_button" = "Mitteilungen";
+"settings_notifications_search_alerts" = "Gespeicherte Suchen";
+"settings_notifications_title" = "Mitteilungen";
 "settings_section_profile" = "Profil";
 "settings_section_promote" = "Bewerben";
 "settings_section_support" = "Hilfe";

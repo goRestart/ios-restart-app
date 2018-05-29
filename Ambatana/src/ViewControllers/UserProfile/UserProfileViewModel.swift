@@ -468,6 +468,8 @@ extension UserProfileViewModel {
         case let .delete(listingId):
             sellingListingListViewModel.delete(listingId: listingId)
             soldListingListViewModel.delete(listingId: listingId)
+        case let .createListings(listings):
+            sellingListingListViewModel.prepend(listings: listings)
         }
     }
 

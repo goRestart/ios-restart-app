@@ -42,6 +42,7 @@ public typealias ListingTransactionCompletion = (ListingTransactionResult) -> Vo
 
 public enum ListingEvent {
     case create(Listing)
+    case createListings([Listing])
     case update(Listing)
     case delete(String)
     case favorite(Listing)
@@ -59,9 +60,14 @@ public enum ListingEvent {
             return listing
         case let .unFavorite(listing):
             return listing
-        case .delete, .sold, .unSold:
+        case .delete, .sold, .unSold, .createListings:
             return nil
         }
+    }
+    
+    var listings: [Listing]? {
+        guard case .createListings(let listings) = self else { return nil }
+        return listings
     }
     
     var product: Product? {
@@ -86,24 +92,33 @@ public protocol ListingRepository {
     func indexCustomFeed(_ params: RetrieveListingParams, completion: ListingsCompletion?)
     func index(userId: String, params: RetrieveListingParams, completion: ListingsCompletion?)
     func indexRelated(listingId: String, params: RetrieveListingParams, completion: ListingsCompletion?)
-    func indexRelatedRealEstate(listingId: String, params: RetrieveListingParams, completion: ListingsCompletion?)
+    
     func indexDiscover(listingId: String, params: RetrieveListingParams, completion: ListingsCompletion?)
     func indexFavorites(userId: String, numberOfResults: Int?, resultsOffset: Int?, completion: ListingsCompletion?)
+    
     func indexRealEstate(_ params: RetrieveListingParams, completion: ListingsCompletion?)
     func indexRealEstateRelatedSearch(_ params: RetrieveListingParams, completion: ListingsCompletion?)
-    
-    func retrieve(_ listingId: String, completion: ListingCompletion?)
-    func retrieveRealEstate(_ listingId: String, completion: ListingCompletion?)
+    func indexRelatedRealEstate(listingId: String, params: RetrieveListingParams, completion: ListingsCompletion?)
     
     func indexCars(_ params: RetrieveListingParams, completion: ListingsCompletion?)
     func indexCarsRelatedSearch(_ params: RetrieveListingParams, completion: ListingsCompletion?)
     func indexRelatedCars(listingId: String, params: RetrieveListingParams, completion: ListingsCompletion?)
+    
+    func indexServices(_ params: RetrieveListingParams, completion: ListingsCompletion?)
+    func indexServicesRelatedSearch(_ params: RetrieveListingParams, completion: ListingsCompletion?)
+    func indexRelatedServices(listingId: String, params: RetrieveListingParams, completion: ListingsCompletion?)
+    
+    func retrieve(_ listingId: String, completion: ListingCompletion?)
+    func retrieveRealEstate(_ listingId: String, completion: ListingCompletion?)
     
     func create(listingParams: ListingCreationParams, completion: ListingCompletion?)
     func update(listingParams: ListingEditionParams, completion: ListingCompletion?)
     
     func createCar(listingParams: ListingCreationParams, completion: ListingCompletion?)
     func updateCar(listingParams: ListingEditionParams, completion: ListingCompletion?)
+    
+    func createServices(listingParams: [ListingCreationParams], completion: ListingsCompletion?)
+    func updateService(listingParams: ListingEditionParams, completion: ListingCompletion?)
 
     func delete(listingId: String, completion: ListingVoidCompletion?)
     

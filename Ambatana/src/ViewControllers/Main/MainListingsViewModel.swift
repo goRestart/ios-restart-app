@@ -957,7 +957,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                 self?.listViewModel.prepend(listing: listing)
             case let .delete(listingId):
                 self?.listViewModel.delete(listingId: listingId)
-            case .favorite, .unFavorite, .sold, .unSold:
+            case .favorite, .unFavorite, .sold, .unSold, .createListings:
                 break
             }
         }.disposed(by: disposeBag)

@@ -297,6 +297,10 @@ final class ListingListViewModel: BaseViewModel {
         objects.insert(ListingCellModel(listing: listing), at: 0)
         delegate?.vmReloadData(self)
     }
+    
+    func prepend(listings: [Listing]) {
+        listings.forEach( { prepend(listing: $0) } )
+    }
 
     func delete(listingId: String) {
         guard state.isData else { return }
