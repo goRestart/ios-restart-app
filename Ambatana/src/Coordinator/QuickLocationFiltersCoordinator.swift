@@ -38,7 +38,7 @@ class QuickLocationFiltersCoordinator: Coordinator {
                                        initialPlace: initialPlace,
                                        distanceRadius: distanceRadius)
         vm.locationDelegate = locationDelegate
-        let vc = EditLocationViewController(viewModel: vm)
+        let vc =  UINavigationController(rootViewController: EditLocationViewController(viewModel: vm))
         self.viewController = vc
         self.bubbleNotificationManager = bubbleNotificationManager
         self.sessionManager = sessionManager
