@@ -1002,8 +1002,10 @@ fileprivate extension AppCoordinator {
         if let child = child, child is SellCoordinator { return }
 
         switch deepLink.action {
-        case .home, .sell, .listing, .listingShare, .listingBumpUp, .listingMarkAsSold, .listingEdit, .user, .conversations, .conversationWithMessage, .search, .resetPassword, .userRatings, .userRating, .notificationCenter, .appStore, .webView:
-        return // Do nothing
+        case .home, .sell, .listing, .listingShare, .listingBumpUp, .listingMarkAsSold, .listingEdit, .user,
+             .conversations, .conversationWithMessage, .search, .resetPassword, .userRatings, .userRating,
+             .notificationCenter, .appStore, .webView:
+            return // Do nothing
         case let .conversation(data):
             showInappChatNotification(data, message: deepLink.origin.message)
         case .message(_, let data):
