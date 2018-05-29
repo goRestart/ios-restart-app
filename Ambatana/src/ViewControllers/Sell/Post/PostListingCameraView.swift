@@ -137,13 +137,6 @@ class PostListingCameraView: BaseView, LGViewPagerPage, MLPredictionDetailsViewD
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        contentView.bringSubview(toFront: predictionDetailsView)
-        contentView.bringSubview(toFront: bottomControlsContainer)
-        usePhotoButton.setRoundedCorners()
-    }
-
     // MARK: - Public methods
 
     override func didBecomeActive(_ firstTime: Bool) {
@@ -301,6 +294,7 @@ class PostListingCameraView: BaseView, LGViewPagerPage, MLPredictionDetailsViewD
             setupMachineLearning(enabled: viewModel.isLiveStatsEnabled.value)
             setupPredictionLabel()
             setupPredictionDetailsView()
+            contentView.bringSubview(toFront: bottomControlsContainer)
         }
     }
 
