@@ -1920,6 +1920,8 @@ extension R {
     public static let profileReputationTooltipTitle = Strings.tr("Localizable", "profile_reputation_tooltip_title")
     /// Reviews
     public static let profileReviewsCount = Strings.tr("Localizable", "profile_reviews_count")
+    /// NO REVIEWS (YET!)
+    public static let profileReviewsEmptyLabel = Strings.tr("Localizable", "profile_reviews_empty_label")
     /// Reviews
     public static let profileReviewsTab = Strings.tr("Localizable", "profile_reviews_tab")
     /// NO LISTINGS (YET!)
@@ -2441,7 +2443,11 @@ extension R {
     /// Posting your listing...
     public static let sellUploadingLabel = Strings.tr("Localizable", "sell_uploading_label")
     /// Service subtype
+    public static let servicesServiceSubtypeListTitle = Strings.tr("Localizable", "services_service_subtype_list_title")
+    /// Service subtype
     public static let servicesServiceSubtypeTitle = Strings.tr("Localizable", "services_service_subtype_title")
+    /// Service type
+    public static let servicesServiceTypeListTitle = Strings.tr("Localizable", "services_service_type_list_title")
     /// Service type
     public static let servicesServiceTypeTitle = Strings.tr("Localizable", "services_service_type_title")
     /// Email

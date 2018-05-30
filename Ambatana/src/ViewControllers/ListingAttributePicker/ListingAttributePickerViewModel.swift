@@ -3,6 +3,8 @@ class ListingAttributePickerViewModel: BaseViewModel {
     
     let title: String
     let attributes: [String]
+    let canSearchAttributes: Bool
+    
     weak var delegate: BaseViewModelDelegate?
     var selectedIndex: Int? {
         guard let selectedAttribute = selectedAttribute?.lowercased() else { return nil }
@@ -12,16 +14,28 @@ class ListingAttributePickerViewModel: BaseViewModel {
     fileprivate var selectedAttribute: String?
     fileprivate let selectionUpdate: ((_ selectedIndex: Int?) -> Void)
     
-    init(
-        title: String,
+    convenience init(title: String,
+                     attributes: [String],
+                     selectedAttribute: String?,
+                     selectionUpdate: @escaping (Int?) -> Void) {
+        self.init(title: title,
+                  attributes: attributes,
+                  selectedAttribute: selectedAttribute,
+                  canSearchAttributes: false,
+                  selectionUpdate: selectionUpdate)
+    }
+    
+    init(title: String,
         attributes: [String],
         selectedAttribute: String?,
-        selectionUpdate: @escaping (Int?) -> Void
-        ) {
+        canSearchAttributes: Bool,
+        selectionUpdate: @escaping (Int?) -> Void) {
         self.title = title
         self.attributes = attributes
         self.selectedAttribute = selectedAttribute
         self.selectionUpdate = selectionUpdate
+        self.canSearchAttributes = canSearchAttributes
+        
         super.init()
     }
     
