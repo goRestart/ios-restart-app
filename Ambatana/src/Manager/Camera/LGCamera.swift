@@ -425,7 +425,7 @@ class PhotoCaptureProcessor: NSObject, AVCapturePhotoCaptureDelegate {
 }
 
 // MARK: - Video Recorder
-class VideoRecorder {
+final class VideoRecorder {
 
     private(set) var recordingDuration: TimeInterval = 0
     private(set) var snapshot: UIImage?

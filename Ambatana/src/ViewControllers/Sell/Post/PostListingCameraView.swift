@@ -21,7 +21,7 @@ protocol PostListingCameraViewDelegate: class {
     func productCameraRequestCategory()
 }
 
-class PostListingCameraView: BaseView, LGViewPagerPage, MLPredictionDetailsViewDelegate {
+final class PostListingCameraView: BaseView, LGViewPagerPage, MLPredictionDetailsViewDelegate {
 
     @IBOutlet var contentView: UIView!
 

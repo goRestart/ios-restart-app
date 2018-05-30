@@ -74,10 +74,6 @@ final class PostListingCameraViewModel: BaseViewModel {
     }
 
     let machineLearning: MachineLearning
-    private let mlMinimumConfidence: Double = 0.3
-    private let mlMinimumConfidenceToRemove: Double = 0.2
-    private let mlMaximumDaysToDisplay: Double = 30
-    private let mlPricePositionDisplay: Int = 2
     let liveStats = Variable<MachineLearningStats?>(nil)
     let liveStatsText = Variable<String?>(nil)
     let machineLearningButtonHidden = Variable<Bool>(false)
@@ -316,13 +312,11 @@ final class PostListingCameraViewModel: BaseViewModel {
                         self?.liveStats.value = nil
                         return
                 }
-                if strongSelf.liveStats.value?.keyword != first.keyword,
-                    confidence > strongSelf.mlMinimumConfidence {
-                    // change stats if it's different and has a confidence higher than mlMinimumConfidence
+                guard strongSelf.liveStats.value?.keyword != first.keyword
+                    || confidence <= Constants.MachineLearning.minimumConfidenceToRemove else { return }
+
+                if strongSelf.liveStats.value?.keyword != first.keyword, confidence > Constants.MachineLearning.minimumConfidence {
                     strongSelf.liveStats.value = first
-                } else if strongSelf.liveStats.value?.keyword == first.keyword,
-                    confidence > strongSelf.mlMinimumConfidenceToRemove {
-                    // keep the stats if it's the same and confidence has not gone bellow mlMinimumConfidence/5
                 } else {
                     strongSelf.liveStats.value = nil
                 }
@@ -338,14 +332,14 @@ final class PostListingCameraViewModel: BaseViewModel {
                 }
                 let nameString = stats.keyword.capitalized
                 var avgPriceString: String? = nil
-                if stats.prices.count >= strongSelf.mlPricePositionDisplay {
-                    avgPriceString = LGLocalizedString.mlCameraSellsForText(Int(stats.prices[strongSelf.mlPricePositionDisplay]))
+                if stats.prices.count >= Constants.MachineLearning.pricePositionDisplay {
+                    avgPriceString = LGLocalizedString.mlCameraSellsForText(Int(stats.prices[Constants.MachineLearning.pricePositionDisplay]))
                 }
                 var medianDaysToSellString: String? = nil
                 if stats.medianDaysToSell > 0 {
-                    if stats.medianDaysToSell > strongSelf.mlMaximumDaysToDisplay {
+                    if stats.medianDaysToSell > Constants.MachineLearning.maximumDaysToDisplay {
                         medianDaysToSellString = String(format: LGLocalizedString.mlCameraInMoreThanDaysText,
-                                                        strongSelf.mlMaximumDaysToDisplay)
+                                                        Constants.MachineLearning.maximumDaysToDisplay)
                     } else {
                         medianDaysToSellString = String(format: LGLocalizedString.mlCameraInAboutDaysText,
                                                         stats.medianDaysToSell)
@@ -359,7 +353,8 @@ final class PostListingCameraViewModel: BaseViewModel {
 
     func predictionDetailsData() -> MLPredictionDetailsViewData? {
         guard let stats = liveStats.value else { return nil }
-        let price: Int? = stats.prices.count >= mlPricePositionDisplay ? Int(stats.prices[mlPricePositionDisplay]) : nil
+        let price: Int? = stats.prices.count >= Constants.MachineLearning.pricePositionDisplay ?
+            Int(stats.prices[Constants.MachineLearning.pricePositionDisplay]) : nil
         let doublePrice: Double?
         if let priceValue = price {
             doublePrice = Double(priceValue)
@@ -441,11 +436,10 @@ final class PostListingCameraViewModel: BaseViewModel {
     }
 
     private func pauseLiveStats() {
-        if machineLearning.isLiveStatsEnabled {
-            isLiveStatsPaused = true
-            machineLearning.isLiveStatsEnabled = false
-            isLiveStatsEnabled.value = false
-        }
+        guard machineLearning.isLiveStatsEnabled else { return }
+        isLiveStatsPaused = true
+        machineLearning.isLiveStatsEnabled = false
+        isLiveStatsEnabled.value = false
     }
 
     private func resumeLiveStats() {
