@@ -152,9 +152,7 @@ extension ProfileTabCoordinator: ChangePasswordNavigator {
 
 extension ProfileTabCoordinator: HelpNavigator {
     func open(url: URL) {
-        let svc = SFSafariViewController(url: url, entersReaderIfAvailable: false)
-        svc.view.tintColor = UIColor.primaryColor
-        navigationController.present(svc, animated: true, completion: nil)
+        navigationController.openInAppWebViewWith(url: url)
     }
 
     func closeHelp() {

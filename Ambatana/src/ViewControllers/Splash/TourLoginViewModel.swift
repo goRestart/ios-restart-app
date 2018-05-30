@@ -50,7 +50,7 @@ final class TourLoginViewModel: BaseViewModel {
     }
 
     func textUrlPressed(url: URL) {
-        delegate?.vmOpenInternalURL(url)
+        delegate?.vmOpenInAppWebViewWith(url:url)
     }
 
 }
@@ -100,7 +100,7 @@ extension TourLoginViewModel: SignUpViewModelDelegate {
     func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction]) {
         delegate?.vmShowActionSheet(cancelLabel, actions: actions)
     }
-    func vmOpenInternalURL(_ url: URL) {
-        delegate?.vmOpenInternalURL(url)
+    func vmOpenInAppWebViewWith(url: URL) {
+        delegate?.vmOpenInAppWebViewWith(url:url)
     }
 }
