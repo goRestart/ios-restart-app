@@ -18,7 +18,6 @@
 		5094105620BBE982006E38EC /* EmbeddedLoginViewModelNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5094104C20BBE982006E38EC /* EmbeddedLoginViewModelNavigator.swift */; };
 		5094105820BC216D006E38EC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5094105720BC216D006E38EC /* Constants.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
-		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		74BFCFABBEA4A90430D3D6BF /* Pods_LGLogin_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B014E65B71480CF338D82785 /* Pods_LGLogin_Tests.framework */; };
 		7958A925F31433CF28A8E55A /* Pods_LGLogin_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6124E43DCBC27875723815A1 /* Pods_LGLogin_Example.framework */; };
@@ -53,7 +52,6 @@
 		607FACD01AFB9204008FA782 /* LGLogin_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LGLogin_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		607FACDC1AFB9204008FA782 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		607FACE51AFB9204008FA782 /* LGLogin_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LGLogin_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -116,7 +114,6 @@
 				5094104720BBE981006E38EC /* EmbeddedLoginViewController.swift */,
 				5094104620BBE981006E38EC /* EmbeddedLoginViewModel.swift */,
 				5094104C20BBE982006E38EC /* EmbeddedLoginViewModelNavigator.swift */,
-				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 				5094104420BBE980006E38EC /* LoginConfig.swift */,
 				5094104820BBE981006E38EC /* MainCoordinator.swift */,
@@ -286,7 +283,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
-				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
