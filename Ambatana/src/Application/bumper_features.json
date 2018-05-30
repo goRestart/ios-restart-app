@@ -167,7 +167,7 @@
      },
     {
         "name": "MachineLearningMVP",
-        "values": ["control", "baseline", "active", "videoPostingActive"],
+        "values": ["control", "baseline", "machineLearningActive", "videoPostingActive", "bothActive"],
         "description": "Show machine learning posting flow when pressing Other Items on salchichas menu or enable video posting (used this ab test for video posting because they can't coexist)"
     },
     {

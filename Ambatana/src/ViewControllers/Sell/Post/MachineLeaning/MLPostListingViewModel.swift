@@ -162,10 +162,9 @@ class MLPostListingViewModel: BaseViewModel {
         uploadedImageSource = source
         imagesSelected = images
         self.predictionData = predictionData
-        state.value.predictionData = predictionData
-        
+
         guard sessionManager.loggedIn else {
-            state.value = state.value.updating(pendingToUploadImages: images)
+            state.value = state.value.updating(pendingToUploadImages: images, predictionData: predictionData)
             return
         }
 
@@ -183,7 +182,7 @@ class MLPostListingViewModel: BaseViewModel {
     }
     
     func closeButtonPressed() {
-        if state.value.pendingToUploadImages != nil {
+        if state.value.pendingToUploadMedia {
             openPostAbandonAlertNotLoggedIn()
         } else {
             guard let images = state.value.lastImagesUploadResult?.value else {
@@ -348,7 +347,7 @@ fileprivate extension MLPostListingViewModel {
             // Keep one second delay in order to give time to read the product posted message.
             delay(1) { [weak self] in
                 guard let strongSelf = self else { return }
-                strongSelf.state.value = strongSelf.state.value.updatingAfterUploadingSuccess()
+                strongSelf.state.value = strongSelf.state.value.updatingAfterUploadingSuccess(predictionData: self?.predictionData)
             }
         }.disposed(by: disposeBag)
     }

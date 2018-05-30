@@ -293,8 +293,8 @@ extension CreateUpdateCarsIntoNewBackend {
 }
 
 extension MachineLearningMVP {
-    var isActive: Bool { return self == .active }
-    var isVideoPostingActive: Bool { return self == .videoPostingActive }
+    var isMachineLearningActive: Bool { return self == .machineLearningActive || self == .bothActive }
+    var isVideoPostingActive: Bool { return self == .videoPostingActive || self == .bothActive }
 }
 
 extension ChatNorris {

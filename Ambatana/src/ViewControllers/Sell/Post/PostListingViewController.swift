@@ -61,7 +61,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         if let forcedInitialTab = forcedInitialTab {
             return forcedInitialTab
         }
-        return Tab(rawValue: KeyValueStorage.sharedInstance.userPostListingLastTabSelected) ?? .gallery
+        return Tab(rawValue: keyValueStorage.userPostListingLastTabSelected) ?? .gallery
     }
 
     private let disposeBag = DisposeBag()
@@ -69,6 +69,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
     fileprivate var viewModel: PostListingViewModel
     private var shouldHideStatusBar = false
     private let onboardingView = MLPostingOnboardingView()
+    private let keyValueStorage: KeyValueStorageable
 
 
     // MARK: - Lifecycle
@@ -77,12 +78,14 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
                      forcedInitialTab: Tab?) {
         self.init(viewModel: viewModel,
                   forcedInitialTab: forcedInitialTab,
-                  keyboardHelper: KeyboardHelper())
+                  keyboardHelper: KeyboardHelper(),
+                  keyValueStorage: KeyValueStorage.sharedInstance)
     }
 
     required init(viewModel: PostListingViewModel,
                   forcedInitialTab: Tab?,
-                  keyboardHelper: KeyboardHelper) {
+                  keyboardHelper: KeyboardHelper,
+                  keyValueStorage: KeyValueStorageable) {
         
         let tabPosition: LGViewPagerTabPosition = .hidden
         var postFooter: UIView & PostListingFooter
@@ -98,6 +101,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         self.viewPager = LGViewPager(config: viewPagerConfig, frame: CGRect.zero)
         self.cameraView = PostListingCameraView(viewModel: viewModel.postListingCameraViewModel)
         self.keyboardHelper = keyboardHelper
+        self.keyValueStorage = keyValueStorage
         self.viewModel = viewModel
         self.forcedInitialTab = forcedInitialTab
         let postListingGalleryViewModel = PostListingGalleryViewModel(postCategory: viewModel.postCategory,
@@ -263,7 +267,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
     }
     
     private func setupMachineLearningOnboardingView() {
-        guard viewModel.machineLearningSupported, !KeyValueStorage.sharedInstance.machineLearningOnboardingShown else { return }
+        guard viewModel.machineLearningSupported, !keyValueStorage.machineLearningOnboardingShown else { return }
         onboardingView.buttonBlock = { [weak self] in
             self?.onboardingView.backgroundColor = .clear
             UIView.animate(withDuration: 0.2, animations: {
@@ -275,7 +279,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         }
         view.addSubviewForAutoLayout(onboardingView)
         onboardingView.layout(with: view).fill()
-        KeyValueStorage.sharedInstance.machineLearningOnboardingShown = true
+        keyValueStorage.machineLearningOnboardingShown = true
     }
     
     private func setupLoadingStackView() {
@@ -799,11 +803,11 @@ extension PostListingViewController: PostListingCameraViewDelegate {
         onCloseButton(cameraView)
     }
 
-    func productCameraDidTakeImage(_ image: UIImage) {
+    func productCameraDidTakeImage(_ image: UIImage, predictionData: MLPredictionDetailsViewData?) {
         if let navigationController = navigationController as? SellNavigationController {
             navigationController.updateBackground(image: cameraGalleryContainer.takeSnapshot())
         }
-        viewModel.imagesSelected([image], source: .camera)
+        viewModel.imagesSelected([image], source: .camera, predictionData: predictionData)
     }
 
     func productCameraDidRecordVideo(video: RecordedVideo) {
@@ -824,6 +828,26 @@ extension PostListingViewController: PostListingCameraViewDelegate {
     func productCameraLearnMoreButton() {
         learnMorePressed()
     }
+
+    func productCameraRequestCategory() {
+        let alert = UIAlertController(title: LGLocalizedString.sellChooseCategoryDialogTitle, message: nil,
+                                      preferredStyle: .actionSheet)
+        alert.popoverPresentationController?.sourceView = cameraView
+        alert.popoverPresentationController?.sourceRect = cameraView.frame
+
+        viewModel.categories.enumerated().forEach { [weak self] (index, category) in
+            guard let strongSelf = self else { return }
+            alert.addAction(UIAlertAction(title: strongSelf.viewModel.categoryNameAtIndex(index),
+                                          style: .default,
+                                          handler: { (categoryAction) -> Void in
+                                            strongSelf.cameraView.listingCategorySelected(category: strongSelf.viewModel.categoryAtIndex(index))
+            }))
+        }
+
+        alert.addAction(UIAlertAction(title: LGLocalizedString.sellChooseCategoryDialogCancelButton,
+                                      style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
 }
 
 
@@ -838,7 +862,7 @@ extension PostListingViewController: PostListingGalleryViewDelegate {
         if let navigationController = navigationController as? SellNavigationController {
             navigationController.updateBackground(image: cameraGalleryContainer.takeSnapshot())
         }
-        viewModel.imagesSelected(images, source: .gallery)
+        viewModel.imagesSelected(images, source: .gallery, predictionData: nil)
     }
 
     func listingGalleryRequestsScrollLock(_ lock: Bool) {
@@ -889,7 +913,7 @@ extension PostListingViewController: LGViewPagerDataSource, LGViewPagerDelegate,
     }
 
     func viewPager(_ viewPager: LGViewPager, willDisplayView view: UIView, atIndex index: Int) {
-        KeyValueStorage.sharedInstance.userPostListingLastTabSelected = index
+        keyValueStorage.userPostListingLastTabSelected = index
     }
 
     func viewPager(_ viewPager: LGViewPager, didEndDisplayingView view: UIView, atIndex index: Int) {}
