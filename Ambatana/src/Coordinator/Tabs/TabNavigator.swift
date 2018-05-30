@@ -59,6 +59,7 @@ protocol TabNavigator: class {
     func showUndoBubble(withMessage message: String,
                         duration: TimeInterval,
                         withAction action: @escaping () -> ())
+    func openUserVerificationView()
 }
 
 protocol ListingDetailNavigator: TabNavigator {

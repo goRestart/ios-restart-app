@@ -537,10 +537,10 @@
 "nps_survey_title" = "NOS GUSTARÍA SABER...";
 "nps_survey_very_bad" = "Muy improbable";
 "nps_survey_very_good" = "Definitivamente lo recomendaría";
-"offensive_report_alert_message" = "We've become aware of potentially inappropiate messages sent from your account.\n\nRepeated violations may result in account termination.";
-"offensive_report_alert_primary_action" = "Review Guidelines";
-"offensive_report_alert_secondary_action" = "Skip";
-"offensive_report_alert_title" = "Review Community Guidelines";
+"offensive_report_alert_message" = "Hemos detectado mensajes potencialmente inapropriados enviados desde tu cuenta.\n\nLas infracciones repetidas pueden resultar en el cierre de la cuenta.";
+"offensive_report_alert_primary_action" = "Revisar Normas";
+"offensive_report_alert_secondary_action" = "Saltar";
+"offensive_report_alert_title" = "Revisa las Normas de la comunidad letgo";
 "onboarding_alert_no" = "No";
 "onboarding_alert_yes" = "Sí";
 "onboarding_categories_button_countdown" = "Elige al menos %i más";
@@ -1115,6 +1115,8 @@
 "sell_title_autogen_label" = "Título sugerido por letgo";
 "sell_title_field_hint" = "Título (opcional)";
 "sell_uploading_label" = "Publicando tu anuncio...";
+"services_service_subtype_title" = "Subtipo de servicio";
+"services_service_type_title" = "Tipo de servicio";
 "settings_change_email_button" = "Email";
 "settings_change_location_button" = "Ubicación";
 "settings_change_password_button" = "Contraseña";

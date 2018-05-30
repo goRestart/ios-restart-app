@@ -539,7 +539,7 @@
 "nps_survey_very_good" = "Ekstremt sannsynlig";
 "offensive_report_alert_message" = "We've become aware of potentially inappropiate messages sent from your account.\n\nRepeated violations may result in account termination.";
 "offensive_report_alert_primary_action" = "Review Guidelines";
-"offensive_report_alert_secondary_action" = "Skip";
+"offensive_report_alert_secondary_action" = "Hopp over";
 "offensive_report_alert_title" = "Review Community Guidelines";
 "onboarding_alert_no" = "Nei";
 "onboarding_alert_yes" = "Ja";
@@ -1115,6 +1115,8 @@
 "sell_title_autogen_label" = "Foreslått tittel av letgo";
 "sell_title_field_hint" = "Produktnavn (alternativt)";
 "sell_uploading_label" = "Publiserer din annonse...";
+"services_service_subtype_title" = "Service subtype";
+"services_service_type_title" = "Service type";
 "settings_change_email_button" = "E-post";
 "settings_change_location_button" = "Plassering";
 "settings_change_password_button" = "Passord";

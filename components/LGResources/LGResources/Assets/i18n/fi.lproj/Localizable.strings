@@ -537,10 +537,10 @@
 "nps_survey_title" = "HALUAISIMME TIETÄÄ...";
 "nps_survey_very_bad" = "En kovin todennäköisesti";
 "nps_survey_very_good" = "Erittäin todennäköisesti";
-"offensive_report_alert_message" = "We've become aware of potentially inappropiate messages sent from your account.\n\nRepeated violations may result in account termination.";
-"offensive_report_alert_primary_action" = "Review Guidelines";
-"offensive_report_alert_secondary_action" = "Skip";
-"offensive_report_alert_title" = "Review Community Guidelines";
+"offensive_report_alert_message" = "Olemme saaneet tietoomme, että tililtäsi on lähetetty mahdollisesti sopimattomia viestejä.\n\nToistuvat sääntörikkomukset voivat johtaa tilin sulkemiseen.";
+"offensive_report_alert_primary_action" = "Tutustu toimintaohjeisiin";
+"offensive_report_alert_secondary_action" = "Ohita";
+"offensive_report_alert_title" = "Tutustu yhteisön toimintaohjeisiin";
 "onboarding_alert_no" = "Ei";
 "onboarding_alert_yes" = "Kyllä";
 "onboarding_categories_button_countdown" = "Valitse vähintään %i lisää";
@@ -1115,6 +1115,8 @@
 "sell_title_autogen_label" = "letgon ehdottama otsikko";
 "sell_title_field_hint" = "Tuotteen otsikko (vapaaehtoinen)";
 "sell_uploading_label" = "Julkaistaan ilmoitusta...";
+"services_service_subtype_title" = "Service subtype";
+"services_service_type_title" = "Service type";
 "settings_change_email_button" = "Sähköposti";
 "settings_change_location_button" = "Sijainti";
 "settings_change_password_button" = "Salasana";

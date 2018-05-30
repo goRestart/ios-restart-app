@@ -2440,6 +2440,10 @@ extension R {
     public static let sellTitleFieldHint = Strings.tr("Localizable", "sell_title_field_hint")
     /// Posting your listing...
     public static let sellUploadingLabel = Strings.tr("Localizable", "sell_uploading_label")
+    /// Service subtype
+    public static let servicesServiceSubtypeTitle = Strings.tr("Localizable", "services_service_subtype_title")
+    /// Service type
+    public static let servicesServiceTypeTitle = Strings.tr("Localizable", "services_service_type_title")
     /// Email
     public static let settingsChangeEmailButton = Strings.tr("Localizable", "settings_change_email_button")
     /// Location

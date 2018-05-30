@@ -537,10 +537,10 @@
 "nps_survey_title" = "ΘΑ ΘΕΛΑΜΕ ΝΑ ΞΕΡΟΥΜΕ...";
 "nps_survey_very_bad" = "Όχι ιδιαίτερα";
 "nps_survey_very_good" = "Πάρα πολύ";
-"offensive_report_alert_message" = "We've become aware of potentially inappropiate messages sent from your account.\n\nRepeated violations may result in account termination.";
-"offensive_report_alert_primary_action" = "Review Guidelines";
-"offensive_report_alert_secondary_action" = "Skip";
-"offensive_report_alert_title" = "Review Community Guidelines";
+"offensive_report_alert_message" = "Έχουμε ενημερωθεί για πιθανά ακατάλληλα μηνύματα που αποστέλλονται από το λογαριασμό σας.\n\nΕπαναλαμβανόμενες παραβιάσεις ενδέχεται να οδηγήσουν στον κλείσιμο του λογαριασμού.";
+"offensive_report_alert_primary_action" = "Αναθεώρηση Οδηγιών";
+"offensive_report_alert_secondary_action" = "Παράλειψη";
+"offensive_report_alert_title" = "Αναθεώρηση Οδηγιών Κοινότητας";
 "onboarding_alert_no" = "Όχι";
 "onboarding_alert_yes" = "Ναι";
 "onboarding_categories_button_countdown" = "Επιλέξτε τουλάχιστον πάνω από %i";
@@ -1115,6 +1115,8 @@
 "sell_title_autogen_label" = "Προτεινόμενος τίτλος από το letgo";
 "sell_title_field_hint" = "Τίτλος (προαιρετικό)";
 "sell_uploading_label" = "Δημοσίευση καταχώρησης...";
+"services_service_subtype_title" = "Service subtype";
+"services_service_type_title" = "Service type";
 "settings_change_email_button" = "Email";
 "settings_change_location_button" = "Τοποθεσία";
 "settings_change_password_button" = "Αλλαγή Κωδικού Πρόσβασης";

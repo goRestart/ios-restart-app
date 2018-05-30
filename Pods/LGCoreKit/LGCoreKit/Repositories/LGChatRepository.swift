@@ -96,7 +96,7 @@ class LGChatRepository: InternalChatRepository {
                 self?.updateLocalConversations(listingId: listingId, status: .sold)
             case .unSold(let listingId):
                 self?.updateLocalConversations(listingId: listingId, status: .pending)
-            case .create, .favorite, .unFavorite:
+            case .create, .favorite, .unFavorite, .createListings:
                 break
             }
             }.disposed(by: disposeBag)

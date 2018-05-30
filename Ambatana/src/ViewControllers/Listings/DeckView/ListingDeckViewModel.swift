@@ -372,6 +372,10 @@ final class ListingDeckViewModel: BaseViewModel {
         currentListingViewModel?.trackOpenFeaturedInfo()
     }
 
+    func didTapReputationTooltip() {
+        navigator?.openUserVerificationView()
+    }
+
     func close() {
         if shouldShowDeckOnBoarding {
             showOnBoarding()
@@ -508,8 +512,8 @@ extension ListingDeckViewModel: ListingViewModelDelegate {
     func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction]) {
         delegate?.vmShowActionSheet(cancelLabel, actions: actions)
     }
-    func vmOpenInternalURL(_ url: URL) {
-        delegate?.vmOpenInternalURL(url)
+    func vmOpenInAppWebViewWith(url: URL) {
+        delegate?.vmOpenInAppWebViewWith(url:url)
     }
     func vmPop() {
         delegate?.vmPop()
@@ -529,6 +533,9 @@ extension ListingDeckViewModel: ListingDeckViewModelType {
 
     func openVideoPlayer() {
         openPhotoViewer()
+    }
+    func didTapActionButton() {
+        actionButtons.value.first?.action()
     }
 }
 

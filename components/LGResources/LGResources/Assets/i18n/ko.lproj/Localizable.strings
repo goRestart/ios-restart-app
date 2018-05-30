@@ -539,7 +539,7 @@
 "nps_survey_very_good" = "전혀 그렇지 않음";
 "offensive_report_alert_message" = "We've become aware of potentially inappropiate messages sent from your account.\n\nRepeated violations may result in account termination.";
 "offensive_report_alert_primary_action" = "Review Guidelines";
-"offensive_report_alert_secondary_action" = "Skip";
+"offensive_report_alert_secondary_action" = "넘기기";
 "offensive_report_alert_title" = "Review Community Guidelines";
 "onboarding_alert_no" = "아니오";
 "onboarding_alert_yes" = "네";
@@ -1115,6 +1115,8 @@
 "sell_title_autogen_label" = "letgo에서 추천하는 제목";
 "sell_title_field_hint" = "제품 이름 (선택사항)";
 "sell_uploading_label" = "게시글을 등록 중 입니다...";
+"services_service_subtype_title" = "Service subtype";
+"services_service_type_title" = "Service type";
 "settings_change_email_button" = "이메일";
 "settings_change_location_button" = "위치";
 "settings_change_password_button" = "비밀번호";

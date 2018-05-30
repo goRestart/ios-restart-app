@@ -304,7 +304,9 @@ enum AccessibilityId: Equatable {
     case editListingFeatureIcon
     case editListingFeatureLabel
     case editListingFeatureSwitch
-
+    case editListingServicesTypeButton
+    case editListingServicesSubtypeButton
+    
     // ReportUser
     case reportUserCollection
     case reportUserCommentField
@@ -746,6 +748,9 @@ enum AccessibilityId: Equatable {
     case searchAlertsPlaceholderText
     case searchAlertsPlaceholderButton
 
+    // Letgo Tooltip
+    case letgoTooltipButton
+    case letgoTooltipText
     
     static func ==(lhs: AccessibilityId, rhs: AccessibilityId) -> Bool {
         return lhs.identifier == rhs.identifier
@@ -1355,6 +1360,10 @@ enum AccessibilityId: Equatable {
             return "editListingFeatureLabel"
         case .editListingFeatureSwitch:
             return "editListingFeatureSwitch"
+        case .editListingServicesTypeButton:
+            return "editListingServicesTypeButton"
+        case .editListingServicesSubtypeButton:
+            return "editListingServicesSubtypeButton"
 
             
         // ReportUser
@@ -2114,6 +2123,11 @@ enum AccessibilityId: Equatable {
             return "searchAlertsPlaceholderText"
         case .searchAlertsPlaceholderButton:
             return "searchAlertsPlaceholderButton"
+        // Letgo Tooltip
+        case .letgoTooltipButton:
+            return "letgoTooltipButton"
+        case .letgoTooltipText:
+            return "letgoTooltipText"
         }
     }
 }

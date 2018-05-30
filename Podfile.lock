@@ -36,18 +36,18 @@ PODS:
   - Google-Mobile-Ads-SDK (7.30.0)
   - GoogleIDFASupport (3.14.0)
   - GoogleSignIn (4.1.1):
-    - GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)
-    - GoogleToolboxForMac/NSString+URLArguments (~> 2.1)
+    - "GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)"
+    - "GoogleToolboxForMac/NSString+URLArguments (~> 2.1)"
     - GTMOAuth2 (~> 1.0)
     - GTMSessionFetcher/Core (~> 1.1)
   - GoogleToolboxForMac/DebugUtils (2.1.4):
     - GoogleToolboxForMac/Defines (= 2.1.4)
   - GoogleToolboxForMac/Defines (2.1.4)
-  - GoogleToolboxForMac/NSDictionary+URLArguments (2.1.4):
+  - "GoogleToolboxForMac/NSDictionary+URLArguments (2.1.4)":
     - GoogleToolboxForMac/DebugUtils (= 2.1.4)
     - GoogleToolboxForMac/Defines (= 2.1.4)
-    - GoogleToolboxForMac/NSString+URLArguments (= 2.1.4)
-  - GoogleToolboxForMac/NSString+URLArguments (2.1.4)
+    - "GoogleToolboxForMac/NSString+URLArguments (= 2.1.4)"
+  - "GoogleToolboxForMac/NSString+URLArguments (2.1.4)"
   - GTMOAuth2 (1.1.6):
     - GTMSessionFetcher (~> 1.1)
   - GTMSessionFetcher (1.1.15):
@@ -67,7 +67,7 @@ PODS:
   - LGComponents/LGAnalytics (1.0.0)
   - LGComponents/LGResources (1.0.0)
   - LGComponents/LGShared (1.0.0)
-  - LGCoreKit (4.27.0):
+  - LGCoreKit (4.28.0):
     - Alamofire (~> 4.5.1)
     - CocoaLumberjack/Swift (~> 3.3.0)
     - DeviceGuru (~> 3.0.1)
@@ -141,8 +141,8 @@ DEPENDENCIES:
   - Amplitude-iOS (= 4.0.4)
   - AppsFlyerFramework (= 4.8.4)
   - Branch (= 0.22.5)
-  - bumper (from `git@github.com:letgoapp/bumper.git`, commit `7ec04a070eca2337f058954d7f53c474d616d7b1`)
-  - CameraManager (from `git@github.com:letgoapp/CameraManager.git`, commit `7b32b50f8bdb1f94f1f1d0fdb6c99a9d21a7ee84`)
+  - "bumper (from `git@github.com:letgoapp/bumper.git`, commit `7ec04a070eca2337f058954d7f53c474d616d7b1`)"
+  - "CameraManager (from `git@github.com:letgoapp/CameraManager.git`, commit `7b32b50f8bdb1f94f1f1d0fdb6c99a9d21a7ee84`)"
   - CHTCollectionViewWaterfallLayout (= 0.9.7)
   - CocoaLumberjack/Swift (= 3.3.0)
   - Crashlytics (= 3.9.3)
@@ -160,7 +160,7 @@ DEPENDENCIES:
   - Leanplum-iOS-SDK (= 2.0.5)
   - LGCollapsibleLabel (= 1.2.0)
   - LGComponents (from `components`)
-  - LGCoreKit (= 4.27.0)
+  - LGCoreKit (= 4.28.0)
   - lottie-ios (= 2.5.0)
   - mopub-ios-sdk (= 4.20.0)
   - NewRelicAgent (= 6.1.1)
@@ -177,13 +177,63 @@ DEPENDENCIES:
   - SwiftyGif (= 4.1.0)
   - SwiftyUserDefaults (= 3.0.1)
 
+SPEC REPOS:
+  "git@github.com:letgoapp/letgo-ios-specs.git":
+    - LGCollapsibleLabel
+    - LGCoreKit
+  https://github.com/CocoaPods/Specs.git:
+    - Alamofire
+    - AlamofireImage
+    - Amplitude-iOS
+    - AppsFlyerFramework
+    - Bolts
+    - Branch
+    - CHTCollectionViewWaterfallLayout
+    - CocoaLumberjack
+    - Crashlytics
+    - DeviceGuru
+    - Differentiator
+    - Fabric
+    - FBSDKCoreKit
+    - FBSDKLoginKit
+    - FBSDKShareKit
+    - FLEX
+    - Google-Mobile-Ads-SDK
+    - GoogleIDFASupport
+    - GoogleSignIn
+    - GoogleToolboxForMac
+    - GTMOAuth2
+    - GTMSessionFetcher
+    - JSONWebToken
+    - KeychainSwift
+    - Leanplum-iOS-SDK
+    - lottie-ios
+    - mopub-ios-sdk
+    - NewRelicAgent
+    - Nimble
+    - OHHTTPStubs
+    - Quick
+    - ReachabilitySwift
+    - Realm
+    - RealmSwift
+    - Result
+    - RxCocoa
+    - RxDataSources
+    - RxMKMapView
+    - RxSwift
+    - RxSwiftExt
+    - RxTest
+    - SocketRocket
+    - SwiftyGif
+    - SwiftyUserDefaults
+
 EXTERNAL SOURCES:
   bumper:
     :commit: 7ec04a070eca2337f058954d7f53c474d616d7b1
-    :git: git@github.com:letgoapp/bumper.git
+    :git: "git@github.com:letgoapp/bumper.git"
   CameraManager:
     :commit: 7b32b50f8bdb1f94f1f1d0fdb6c99a9d21a7ee84
-    :git: git@github.com:letgoapp/CameraManager.git
+    :git: "git@github.com:letgoapp/CameraManager.git"
   KMPlaceholderTextView:
     :commit: 426117c98e8da8fc7d64a7d3c2f0f45c48d595e6
     :git: https://github.com/letgoapp/KMPlaceholderTextView
@@ -193,10 +243,10 @@ EXTERNAL SOURCES:
 CHECKOUT OPTIONS:
   bumper:
     :commit: 7ec04a070eca2337f058954d7f53c474d616d7b1
-    :git: git@github.com:letgoapp/bumper.git
+    :git: "git@github.com:letgoapp/bumper.git"
   CameraManager:
     :commit: 7b32b50f8bdb1f94f1f1d0fdb6c99a9d21a7ee84
-    :git: git@github.com:letgoapp/CameraManager.git
+    :git: "git@github.com:letgoapp/CameraManager.git"
   KMPlaceholderTextView:
     :commit: 426117c98e8da8fc7d64a7d3c2f0f45c48d595e6
     :git: https://github.com/letgoapp/KMPlaceholderTextView
@@ -232,7 +282,7 @@ SPEC CHECKSUMS:
   Leanplum-iOS-SDK: d7d387b7f3688e697f2893978bfe67092df5b7ca
   LGCollapsibleLabel: 2a5ebb0ff0ff3e1d7ab0c295a17c923db000f557
   LGComponents: 43b579e4bb1b8e1f94a65e49e209e5f242aaf54e
-  LGCoreKit: 2bad2f5038fb8c25cd4d92151369865f7d6da048
+  LGCoreKit: ea86fed0078c57a00d3b343c33b048eb924342ce
   lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
   mopub-ios-sdk: 89c6ac9ca01d3b36e9fba16a6cfe31d3c290d354
   NewRelicAgent: 652434a627201e3745cd5849228feeb10afe1879
@@ -253,6 +303,6 @@ SPEC CHECKSUMS:
   SwiftyGif: d36c6dfb52e2ca1e48fe349d225f50ec4123ec85
   SwiftyUserDefaults: 3d273b1739b68ada3145dc754a70ec775bc5c8be
 
-PODFILE CHECKSUM: 31ccb40343ef8b23024d25ef98e151f27dc74f6c
+PODFILE CHECKSUM: 229a9afe0dc0c42d615f22880145ef1a5a227f9b
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.5.0

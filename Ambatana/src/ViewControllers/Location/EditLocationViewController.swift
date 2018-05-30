@@ -7,49 +7,34 @@ import RxCocoa
 import Result
 import LGComponents
 
-class EditLocationViewController: BaseViewController, EditLocationViewModelDelegate {
+final class EditLocationViewController: BaseViewController, EditLocationViewModelDelegate {
 
     private struct Layout {
-        static let iOS11NavBar: CGFloat = 44
-        static let defaultNavBar: CGFloat = 64
-        static let defaultTitleTop: CGFloat = 20
         static let mapRegionMarginMutiplier = 0.5
         static let mapRegionDiameterMutiplier = 2.0
-        static let closeWidth: CGFloat = 40
+        static let cellHeight: CGFloat = 44
     }
     
-    // UI
-    @IBOutlet weak var mapView: MKMapView!
+    var mapView: MKMapView { return editView.mapView }
     fileprivate var circleOverlay: MKOverlay?
-    @IBOutlet weak var searchField: LGTextField!
-    
-    @IBOutlet weak var approxLocationContainer: UIView!
-    @IBOutlet weak var approximateLocationSwitch: UISwitch!
-    @IBOutlet weak var approximateLocationLabel: UILabel!
 
-    @IBOutlet weak var bottomToContainer: NSLayoutConstraint!
-    @IBOutlet weak var bottomToSetLocation: NSLayoutConstraint!
-    @IBOutlet weak var bottomToApproxLocation: NSLayoutConstraint!
-    
-    @IBOutlet weak var gpsLocationButton: UIButton!
-    @IBOutlet weak var searchButton: UIButton!
-    @IBOutlet weak var setLocationButtonContainer: UIView!
-    @IBOutlet weak var setLocationButton: LetgoButton!
-    @IBOutlet weak var setLocationLoading: UIActivityIndicatorView!
+    var searchField: UITextField { return editView.searchTextField }
+    var searchButton: UIButton { return editView.searchButton }
 
-    @IBOutlet weak var suggestionsTableView : UITableView!
+    var approximateLocationSwitch: UISwitch { return editView.approximateSwitch }
+    var gpsLocationButton: UIButton { return editView.locationButton }
 
-    @IBOutlet weak var aproxLocationArea: UIView!
-    @IBOutlet weak var poiImage: UIImageView!
-    
-    @IBOutlet weak var navBarContainer: UIView!
-    @IBOutlet weak var navBarContainerHeight: NSLayoutConstraint!
+    var setLocationButton: UIButton { return editView.locationButton }
+    var setLocationLoading: UIActivityIndicatorView { return editView.locationActivityIndicator }
 
-    fileprivate let filterDistanceSlider = FilterDistanceSlider()
-    
+    var suggestionsTableView: UITableView { return editView.searchTableView }
+
+    var aproxLocationArea: UIView { return editView.aproxLocationArea }
+    var poiImage: UIImageView { return editView.pin }
+
     fileprivate static let suggestionCellId = "suggestionCell"
-    fileprivate static let suggestionCellHeight: CGFloat = 44
 
+    private let editView = EditLocationView()
     fileprivate let viewModel: EditLocationViewModel
     private let disposeBag = DisposeBag()
 
@@ -61,46 +46,68 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
     
     init(viewModel: EditLocationViewModel) {
         self.viewModel = viewModel
-        super.init(viewModel: viewModel, nibName: "EditLocationViewController")
+        super.init(viewModel: viewModel, nibName: nil)
         self.viewModel.delegate = self
     }
 
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    required init?(coder aDecoder: NSCoder) { fatalError("Die xibs, die") }
+
+    override func loadView() {
+        super.loadView()
+
+        view.addSubviewForAutoLayout(editView)
+        NSLayoutConstraint.activate([
+            editView.topAnchor.constraint(equalTo: safeTopAnchor),
+            editView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            editView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            editView.leftAnchor.constraint(equalTo: view.leftAnchor)
+        ])
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setupNavigationBar()
         setupUI()
         setupAccessibilityIds()
         setRxBindings()
     }
 
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        aproxLocationArea.setRoundedCorners()
-    }
-
-    @available(iOS 11.0, *)
-    override func viewSafeAreaInsetsDidChange() {
-        super.viewSafeAreaInsetsDidChange()
-        bottomToContainer.constant = view.safeAreaInsets.bottom
-    }
-
-
     // MARK: - IBActions
-    
-    @IBAction func searchButtonPressed() {
+
+    private func setupTouchEvents() {
+        searchButton
+            .rx
+            .tap
+            .asDriver()
+            .drive(onNext: { [weak self] (_) in
+            self?.goToLocation(nil)
+        }).disposed(by: disposeBag)
+        gpsLocationButton
+            .rx
+            .tap
+            .asDriver()
+            .drive(onNext: { [weak self] (_) in
+                self?.gpsLocationButtonPressed()
+            }).disposed(by: disposeBag)
+        setLocationButton
+            .rx
+            .tap
+            .asDriver()
+            .drive(onNext: { [weak self] (_) in
+                self?.setLocationButtonPressed()
+            }).disposed(by: disposeBag)
+    }
+
+    func searchButtonPressed() {
         goToLocation(nil)
     }
 
-    @IBAction func gpsLocationButtonPressed() {
+    func gpsLocationButtonPressed() {
         mapCentered = false
         viewModel.showGPSLocation()
     }
     
-    @IBAction func setLocationButtonPressed(_ sender: AnyObject) {
+    func setLocationButtonPressed() {
         viewModel.applyLocation()
     }
 
@@ -123,12 +130,11 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
     // MARK: - view model delegate methods
 
     func vmUpdateSearchTableWithResults(_ results: [String]) {
-        guard let searchField = searchField else { return } // Make sure ui binding is done
         /*If searchfield is not first responder means user is not typing so doesn't make sense to show/update
         suggestions table*/
         if !searchField.isFirstResponder { return }
 
-        let newHeight = CGFloat(results.count) * EditLocationViewController.suggestionCellHeight
+        let newHeight = CGFloat(results.count) * Layout.cellHeight
         suggestionsTableView.frame = CGRect(x: suggestionsTableView.frame.origin.x,
             y: suggestionsTableView.frame.origin.y, width: suggestionsTableView.frame.size.width, height: newHeight);
         suggestionsTableView.isHidden = false
@@ -136,12 +142,10 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
     }
 
     func vmDidFailFindingSuggestions() {
-        guard suggestionsTableView != nil else { return }
         suggestionsTableView.isHidden = true
     }
 
     func vmDidFailToFindLocationWithError(_ error: String) {
-        guard searchField != nil else { return }
         showAutoFadingOutMessageAlert(message: error) { [weak self] in
             // Showing keyboard again as the user must update the text
             self?.searchField.becomeFirstResponder()
@@ -154,105 +158,33 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
 
 
     // MARK: - Private methods
-    
-    private func setupUI() {
-        let topAnchor: NSLayoutYAxisAnchor
-        var constraints: [NSLayoutConstraint] = []
+
+    private func setupNavigationBar() {
         if viewModel.shouldShowCustomNavigationBar {
-            let closeButton = UIButton()
-            navBarContainer.addSubview(closeButton)
-            closeButton.translatesAutoresizingMaskIntoConstraints = false
-            closeButton.setImage(UIImage(named: "ic_close_red"), for: .normal)
-            closeButton.addTarget(self, action: #selector(setLocationCloseButtonPressed), for: .touchUpInside)
-
-            let titleLabel = UILabel()
-            navBarContainer.addSubview(titleLabel)
-            titleLabel.translatesAutoresizingMaskIntoConstraints = false
-            titleLabel.font = UIFont.pageTitleFont
-            titleLabel.textColor = UIColor.blackText
-            titleLabel.text = R.Strings.quickFilterLocationTitle
-            titleLabel.textAlignment = .center
-
-            if #available(iOS 11.0, *) {
-                topAnchor = view.safeAreaLayoutGuide.topAnchor
-                navBarContainerHeight.constant = Layout.iOS11NavBar
-                constraints.append(titleLabel.topAnchor.constraint(equalTo: topAnchor,
-                                                                   constant: Metrics.veryShortMargin))
-            } else {
-                topAnchor = view.topAnchor
-                navBarContainerHeight.constant = Layout.defaultNavBar
-                constraints.append(titleLabel.topAnchor.constraint(equalTo: topAnchor,
-                                                                   constant: Layout.defaultTitleTop))
-            }
-
-            constraints.append(navBarContainer.topAnchor.constraint(equalTo: topAnchor))
-
-            closeButton.layout(with: navBarContainer).left(by: Metrics.veryShortMargin)
-            closeButton.layout().width(Layout.closeWidth).widthProportionalToHeight()
-            closeButton.layout(with: titleLabel)
-                .centerY()
-                .right(to: .left, by: -Metrics.margin, relatedBy: .lessThanOrEqual)
-
-            titleLabel.layout(with: navBarContainer)
-                .right(by: -Metrics.margin, relatedBy: .lessThanOrEqual)
-                .bottom()
-                .centerX()
-            
-            navBarContainer.layoutIfNeeded()
-            _ = navBarContainer.addBottomBorderWithWidth(1, color: UIColor.gray)
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: R.Asset.CongratsScreenImages.icCloseRed.image,
+                                                               style: .plain,
+                                                               target: self,
+                                                               action: #selector(setLocationCloseButtonPressed))
+            setNavBarTitle(R.Strings.quickFilterLocationTitle)
         } else {
-            navBarContainer.layout(with: topLayoutGuide).top(to: .bottom)
+            setNavBarTitle(R.Strings.changeLocationTitle)
         }
-        NSLayoutConstraint.activate(constraints)
-        
-        if viewModel.shouldShowDistanceSlider {
-            let sliderContainer = UIView()
-            sliderContainer.backgroundColor = UIColor.white
-            sliderContainer.translatesAutoresizingMaskIntoConstraints = false
-            view.addSubview(sliderContainer)
-            sliderContainer.layout()
-                .height(50)
-            sliderContainer.layout(with: view)
-                .left()
-                .right()
-            sliderContainer.layout(with: setLocationButtonContainer)
-                .bottom(to: .top)
-            
-            filterDistanceSlider.translatesAutoresizingMaskIntoConstraints = false
-            sliderContainer.addSubview(filterDistanceSlider)
-            filterDistanceSlider.layout(with: sliderContainer)
-                .fill()
+    }
 
-            filterDistanceSlider.delegate = self
-            filterDistanceSlider.distanceType = viewModel.distanceType
-            filterDistanceSlider.distance = viewModel.distanceRadius ?? 0
-        }
+    private func setupUI() {
+        suggestionsTableView.isHidden = true
+        suggestionsTableView.dataSource = self
+        suggestionsTableView.delegate = self
 
-        searchField.insetX = 40
-        searchField.placeholder = R.Strings.changeLocationSearchFieldHint
-        searchField.cornerRadius = LGUIKitConstants.mediumCornerRadius
-        searchField.layer.borderColor = UIColor.lineGray.cgColor
-        searchField.layer.borderWidth = LGUIKitConstants.onePixelSize
-
-        searchField.layer.shadowColor = UIColor.black.cgColor
-        searchField.layer.shadowOpacity = 0.16
-        searchField.layer.shadowOffset = CGSize(width: 0, height: 2)
-        searchField.layer.shadowRadius = 6
-
-        suggestionsTableView.cornerRadius = LGUIKitConstants.smallCornerRadius
-        suggestionsTableView.layer.borderColor = UIColor.lineGray.cgColor
-        suggestionsTableView.layer.borderWidth = LGUIKitConstants.onePixelSize
-        setLocationButton.setStyle(.primary(fontSize: .medium))
-        setLocationButton.setTitle(R.Strings.changeLocationApplyButton, for: .normal)
-        gpsLocationButton.cornerRadius = 10
         poiImage.isHidden = true
         aproxLocationArea.isHidden = true
 
-        approximateLocationLabel.text = R.Strings.changeLocationApproximateLocationLabel
-
-        setNavBarTitle(R.Strings.changeLocationTitle)
-
         registerCells()
+
+        guard viewModel.shouldShowDistanceSlider else { return }
+        editView.addSliderViewWith(delegate: self,
+                                   distanceType: viewModel.distanceType,
+                                   distanceRadius: viewModel.distanceRadius ?? 0)
     }
 
     private func setupAccessibilityIds() {
@@ -272,6 +204,7 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
         setupInfoViewsRx()
         setupLocationRx()
         setupSetLocationButtonRx()
+        setupTouchEvents()
     }
 
     private func setupSearchRx() {
@@ -302,17 +235,13 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
         viewModel.approxLocation.asObservable().bind(to: approximateLocationSwitch.rx.value).disposed(by: disposeBag)
         approximateLocationSwitch.rx.value.bind(to: viewModel.approxLocation).disposed(by: disposeBag)
 
-        viewModel.approxLocationHidden.asObservable().subscribeNext { [weak self] hidden in
-            self?.approxLocationContainer.isHidden = hidden
-            if hidden {
-                self?.bottomToSetLocation.priority = .required - 1
-                self?.bottomToApproxLocation.priority = .defaultLow
-            } else {
-                self?.bottomToSetLocation.priority = .defaultLow
-                self?.bottomToApproxLocation.priority = .required - 1
-            }
-            self?.view.layoutIfNeeded()
-        }.disposed(by: disposeBag)
+        viewModel
+            .approxLocationHidden
+            .asDriver()
+            .drive(onNext: { [weak self] hidden in
+                self?.editView.setApproxLocation(hidden: hidden)
+                self?.editView.layoutIfNeeded()
+            }).disposed(by: disposeBag)
 
         //When place changes on viewModel map must follow its location
         //Each time approxLocation or distance value changes, map must zoom-in/out map accordingly
@@ -438,7 +367,8 @@ extension EditLocationViewController: UITableViewDataSource, UITableViewDelegate
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        let cell = tableView.dequeueReusableCell(withIdentifier: EditLocationViewController.suggestionCellId, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: EditLocationViewController.suggestionCellId,
+                                                 for: indexPath)
 
         cell.textLabel?.text = viewModel.placeResumedDataAtPosition(indexPath.row)
         cell.selectionStyle = .none

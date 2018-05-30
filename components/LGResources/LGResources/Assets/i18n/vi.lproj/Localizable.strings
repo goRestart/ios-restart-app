@@ -537,10 +537,10 @@
 "nps_survey_title" = "CHÚNG TÔI MUỐN BIẾT...";
 "nps_survey_very_bad" = "Không thích lắm";
 "nps_survey_very_good" = "Đặc biệt thích";
-"offensive_report_alert_message" = "We've become aware of potentially inappropiate messages sent from your account.\n\nRepeated violations may result in account termination.";
-"offensive_report_alert_primary_action" = "Review Guidelines";
-"offensive_report_alert_secondary_action" = "Skip";
-"offensive_report_alert_title" = "Review Community Guidelines";
+"offensive_report_alert_message" = "Chúng tôi đã biết về những tin nhắn có thể không thích hợp được gửi từ tài khoản của bạn.\n\nCác vi phạm lặp lại có thể dẫn tới việc chấm dứt tài khoản.";
+"offensive_report_alert_primary_action" = "Xem Hướng dẫn";
+"offensive_report_alert_secondary_action" = "Bỏ qua";
+"offensive_report_alert_title" = "Xem Hướng dẫn Cộng đồng";
 "onboarding_alert_no" = "Không";
 "onboarding_alert_yes" = "Có";
 "onboarding_categories_button_countdown" = "Chọn thêm ít nhất %i";
@@ -1115,6 +1115,8 @@
 "sell_title_autogen_label" = "Tiêu đề do letgo đề xuất";
 "sell_title_field_hint" = "Tiêu đề (tùy chọn)";
 "sell_uploading_label" = "Đang đăng bài...";
+"services_service_subtype_title" = "Service subtype";
+"services_service_type_title" = "Service type";
 "settings_change_email_button" = "Email";
 "settings_change_location_button" = "Địa điểm";
 "settings_change_password_button" = "Mật khẩu";

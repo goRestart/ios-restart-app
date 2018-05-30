@@ -41,9 +41,9 @@ def shared_pods
 
 
     # letgo Core
-    pod "LGCoreKit",             "4.27.0", :inhibit_warnings => false
+    pod "LGCoreKit",             "4.28.0", :inhibit_warnings => false
 #    pod "LGCoreKit",            :path => "../lgcorekit", :inhibit_warnings => false
-#    pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => '3a031eaf684abf403eabaa8967430371ee2337a3', :inhibit_warnings => false
+#    pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :branch => 'feature/services', :inhibit_warnings => false
 
     # letgo Collapsible label
         pod "LGCollapsibleLabel",   "1.2.0", :inhibit_warnings => false     # :path => "../collapsiblelabel"
@@ -82,9 +82,9 @@ def shared_pods
     pod "KMPlaceholderTextView", :git => 'https://github.com/letgoapp/KMPlaceholderTextView', :commit => '426117c98e8da8fc7d64a7d3c2f0f45c48d595e6', :inhibit_warnings => false
 
     pod "KeychainSwift",        "10.0.0"
-    
+
     pod 'lottie-ios',           "2.5.0" # Obj-c
-    
+
     # MoPub Ads
     pod "mopub-ios-sdk",        "4.20.0" # Obj-c
 

@@ -537,10 +537,10 @@
 "nps_survey_title" = "GÖRÜŞLERİNİ BİLMEK İSTERİZ...";
 "nps_survey_very_bad" = "Muhtemel değil";
 "nps_survey_very_good" = "Son derece muhtemel";
-"offensive_report_alert_message" = "We've become aware of potentially inappropiate messages sent from your account.\n\nRepeated violations may result in account termination.";
-"offensive_report_alert_primary_action" = "Review Guidelines";
-"offensive_report_alert_secondary_action" = "Skip";
-"offensive_report_alert_title" = "Review Community Guidelines";
+"offensive_report_alert_message" = "Hesabından olası uygunsuz mesajların gönderildiğini fark ettik.\n\nKural ihlalinin tekrarlanması hesap kapatılmasıyla sonuçlanabilir.";
+"offensive_report_alert_primary_action" = "Topluluk Kurallarını İncele";
+"offensive_report_alert_secondary_action" = "Kapat";
+"offensive_report_alert_title" = "Topluluk Kurallarını İncele";
 "onboarding_alert_no" = "Hayır";
 "onboarding_alert_yes" = "Evet";
 "onboarding_categories_button_countdown" = "En az %i kategori daha seçmelisin";
@@ -1115,6 +1115,8 @@
 "sell_title_autogen_label" = "letgo tarafından önerilen başlık";
 "sell_title_field_hint" = "Ürün başlığı (isteğe bağlı)";
 "sell_uploading_label" = "İlanın yayınlanıyor...";
+"services_service_subtype_title" = "Service subtype";
+"services_service_type_title" = "Service type";
 "settings_change_email_button" = "E-posta";
 "settings_change_location_button" = "Konum";
 "settings_change_password_button" = "Şifre";

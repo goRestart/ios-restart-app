@@ -13,7 +13,7 @@ public class ProductEditionParams: ProductCreationParams {
     public convenience init?(listing: Listing) {
         let editedProduct: Product
         switch listing {
-        case .car, .realEstate:
+        case .car, .realEstate, .service:
             editedProduct = ProductEditionParams.createProductParams(withListing: listing)
         case let .product(product):
             editedProduct = product

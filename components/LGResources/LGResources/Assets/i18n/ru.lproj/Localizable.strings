@@ -537,10 +537,10 @@
 "nps_survey_title" = "МЫ БЫ ХОТЕЛИ ЗНАТЬ ...";
 "nps_survey_very_bad" = "Маловероятно";
 "nps_survey_very_good" = "Очень вероятно";
-"offensive_report_alert_message" = "We've become aware of potentially inappropiate messages sent from your account.\n\nRepeated violations may result in account termination.";
-"offensive_report_alert_primary_action" = "Review Guidelines";
-"offensive_report_alert_secondary_action" = "Skip";
-"offensive_report_alert_title" = "Review Community Guidelines";
+"offensive_report_alert_message" = "К нам поступила информация о возможных нарушениях правил в сообщениях, отправленных с вашего аккаунта. \n\nПовторное нарушение может привести к блокировке аккаунта.";
+"offensive_report_alert_primary_action" = "Смотреть Правила";
+"offensive_report_alert_secondary_action" = "Пропустить";
+"offensive_report_alert_title" = "Смотреть Правила Пользования";
 "onboarding_alert_no" = "Нет";
 "onboarding_alert_yes" = "Да";
 "onboarding_categories_button_countdown" = "Выберите еще как минимум %i";
@@ -1115,6 +1115,8 @@
 "sell_title_autogen_label" = "Заголовок предложен letgo";
 "sell_title_field_hint" = "Название (опционально)";
 "sell_uploading_label" = "Размещаем ваше объявление...";
+"services_service_subtype_title" = "Service subtype";
+"services_service_type_title" = "Service type";
 "settings_change_email_button" = "Е-мейл";
 "settings_change_location_button" = "Местоположение";
 "settings_change_password_button" = "Изменить пароль";

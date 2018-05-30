@@ -35,6 +35,7 @@ final class ListingDeckViewModelSpec: BaseViewModelSpec {
         var notificationsManager: MockNotificationsManager!
         var monetizationRepository: MockMonetizationRepository!
         var tracker: MockTracker!
+        var reputationTooltipManager: MockReputationTooltipManager!
 
         var disposeBag: DisposeBag!
         var scheduler: TestScheduler!
@@ -110,6 +111,7 @@ final class ListingDeckViewModelSpec: BaseViewModelSpec {
                 notificationsManager = MockNotificationsManager()
                 monetizationRepository = MockMonetizationRepository.makeMock()
                 tracker = MockTracker()
+                reputationTooltipManager = MockReputationTooltipManager()
 
                 listingListRequester = MockListingListRequester(canRetrieve: true, offset: 0, pageSize: 20)
                 imageDownloader = MockImageDownloader()
@@ -124,7 +126,8 @@ final class ListingDeckViewModelSpec: BaseViewModelSpec {
                                                                   purchasesShopper: purchasesShopper,
                                                                   monetizationRepository: monetizationRepository,
                                                                   tracker: tracker,
-                                                                  keyValueStorage: MockKeyValueStorage())
+                                                                  keyValueStorage: MockKeyValueStorage(),
+                                                                  reputationTooltipManager: reputationTooltipManager)
 
                 scheduler = TestScheduler(initialClock: 0)
                 scheduler.start()

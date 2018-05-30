@@ -3362,6 +3362,12 @@
 // Sell uploading label
 "sell_uploading_label" = "Posting your listing...";
 
+// Services SeviceType Title
+"services_service_type_title" = "Service type";
+
+// Services ServiceSubType Title
+"services_service_subtype_title" = "Service subtype";
+
 // Settings change location button. Check image @ "settings_change_password_button" segment
 "settings_change_location_button" = "Location";
 

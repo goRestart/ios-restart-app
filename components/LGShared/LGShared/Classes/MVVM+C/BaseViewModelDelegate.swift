@@ -25,7 +25,7 @@ protocol BaseViewModelDelegate: class {
     func vmPop()
     func vmDismiss(_ completion: (() -> Void)?)
     
-    func vmOpenInternalURL(_ url: URL)
+    func vmOpenInAppWebViewWith(url: URL)
 }
 
 extension UIViewController: BaseViewModelDelegate {
@@ -82,7 +82,7 @@ extension UIViewController: BaseViewModelDelegate {
         showAlertWithTitle(title, text: text, alertType: alertType, buttonsLayout: buttonsLayout, actions: actions)
     }
 
-    func vmOpenInternalURL(_ url: URL) {
-        openInternalUrl(url)
+    func vmOpenInAppWebViewWith(url: URL) {
+        openInAppWebViewWith(url: url)
     }
 }

@@ -440,7 +440,7 @@
 "log_in_error_send_error_user_not_found_or_wrong_password" = "Password ou email inválidos. Por favor tente novamente.";
 "log_in_reset_password_button" = "Esqueceu-se da password?";
 "log_in_send_button" = "Login";
-"log_in_title" = "Registe-se com o email";
+"log_in_title" = "Efetue o login com o email";
 "login_device_not_allowed_alert_contact_button" = "Contacte-nos";
 "login_device_not_allowed_alert_message" = "Nunca efetuou login neste dispositivo. Enviamos-lhe um email de verificação, por isso verifique a sua caixa de entrada para continuar.";
 "login_device_not_allowed_alert_ok_button" = "OK";
@@ -537,10 +537,10 @@
 "nps_survey_title" = "GOSTARÍAMOS DE SABER...";
 "nps_survey_very_bad" = "Nada provável";
 "nps_survey_very_good" = "Extremamente provável";
-"offensive_report_alert_message" = "We've become aware of potentially inappropiate messages sent from your account.\n\nRepeated violations may result in account termination.";
-"offensive_report_alert_primary_action" = "Review Guidelines";
-"offensive_report_alert_secondary_action" = "Skip";
-"offensive_report_alert_title" = "Review Community Guidelines";
+"offensive_report_alert_message" = "Tomamos conhecimento que a partir da sua conta foi efetuado o envio de mensagens potencialmente inapropriadas.\n\nViolações repetidas podem resultar no encerramento da conta.";
+"offensive_report_alert_primary_action" = "Rever Orientações";
+"offensive_report_alert_secondary_action" = "Saltar";
+"offensive_report_alert_title" = "Rever Orientações da Comunidade";
 "onboarding_alert_no" = "Não";
 "onboarding_alert_yes" = "Sim";
 "onboarding_categories_button_countdown" = "Escolha pelo menos mais %i";
@@ -1115,6 +1115,8 @@
 "sell_title_autogen_label" = "Título sugerido pelo letgo";
 "sell_title_field_hint" = "Título (opcional)";
 "sell_uploading_label" = "A publicar o seu anúncio...";
+"services_service_subtype_title" = "Service subtype";
+"services_service_type_title" = "Service type";
 "settings_change_email_button" = "Email";
 "settings_change_location_button" = "Localização";
 "settings_change_password_button" = "Password";

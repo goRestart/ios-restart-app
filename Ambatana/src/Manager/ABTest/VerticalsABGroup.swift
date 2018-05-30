@@ -24,11 +24,11 @@ struct VerticalsABGroup: ABGroupType {
     var boolVariables: [LeanplumABVariable<Bool>] = []
 
     private init(searchCarsIntoNewBackend: LeanplumABVariable<Int>,
-         realEstatePromoCell: LeanplumABVariable<Int>,
-         filterSearchCarSellerType: LeanplumABVariable<Int>,
-         createUpdateIntoNewBackend: LeanplumABVariable<Int>,
-         realEstateMap: LeanplumABVariable<Int>,
-         showServicesFeatures: LeanplumABVariable<Int>) {
+                 realEstatePromoCell: LeanplumABVariable<Int>,
+                 filterSearchCarSellerType: LeanplumABVariable<Int>,
+                 createUpdateIntoNewBackend: LeanplumABVariable<Int>,
+                 realEstateMap: LeanplumABVariable<Int>,
+                 showServicesFeatures: LeanplumABVariable<Int>) {
         self.searchCarsIntoNewBackend = searchCarsIntoNewBackend
         self.realEstatePromoCell = realEstatePromoCell
         self.filterSearchCarSellerType = filterSearchCarSellerType

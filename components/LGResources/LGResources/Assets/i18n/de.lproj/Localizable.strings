@@ -537,10 +537,10 @@
 "nps_survey_title" = "WIR MÖCHTEN GERNE WISSEN...";
 "nps_survey_very_bad" = "Unwahrscheinlich";
 "nps_survey_very_good" = "Sehr wahrscheinlich";
-"offensive_report_alert_message" = "We've become aware of potentially inappropiate messages sent from your account.\n\nRepeated violations may result in account termination.";
-"offensive_report_alert_primary_action" = "Review Guidelines";
-"offensive_report_alert_secondary_action" = "Skip";
-"offensive_report_alert_title" = "Review Community Guidelines";
+"offensive_report_alert_message" = "Uns ist auf gefallen, dass möglicherweise unangemessene Nachrichten von deinem Benutzerkonto aus verschickt wurden.\n\nWiederholte Verstöße können zur Kündigung des Benutzerkontos führen.";
+"offensive_report_alert_primary_action" = "Richtlinien ansehen";
+"offensive_report_alert_secondary_action" = "Überspringen";
+"offensive_report_alert_title" = "Community-Richtlinien ansehen";
 "onboarding_alert_no" = "Nein";
 "onboarding_alert_yes" = "Ja";
 "onboarding_categories_button_countdown" = "Wähle mindestens %i weitere aus";
@@ -1115,6 +1115,8 @@
 "sell_title_autogen_label" = "Titelvorschlag von letgo";
 "sell_title_field_hint" = "Produkttitel (optional)";
 "sell_uploading_label" = "Angebot wird eingestellt...";
+"services_service_subtype_title" = "Service subtype";
+"services_service_type_title" = "Service type";
 "settings_change_email_button" = "E-Mail-Adresse";
 "settings_change_location_button" = "Standort";
 "settings_change_password_button" = "Kennwort";

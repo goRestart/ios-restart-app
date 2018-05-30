@@ -537,10 +537,10 @@
 "nps_survey_title" = "WE ZOUDEN GRAAG WILLEN WETEN...";
 "nps_survey_very_bad" = "Niet waarschijnlijk";
 "nps_survey_very_good" = "Meest waarschijnlijk";
-"offensive_report_alert_message" = "We've become aware of potentially inappropiate messages sent from your account.\n\nRepeated violations may result in account termination.";
-"offensive_report_alert_primary_action" = "Review Guidelines";
-"offensive_report_alert_secondary_action" = "Skip";
-"offensive_report_alert_title" = "Review Community Guidelines";
+"offensive_report_alert_message" = "We zijn ons bewust geworden van mogelijk ongepaste berichten die vanuit jouw account zijn verzonden.\n \nHerhaalde schendingen kunnen leiden tot beëindiging van het account.";
+"offensive_report_alert_primary_action" = "Herzien Richtlijnen";
+"offensive_report_alert_secondary_action" = "Overslaan";
+"offensive_report_alert_title" = "Herzien Community Richtlijnen";
 "onboarding_alert_no" = "Nee";
 "onboarding_alert_yes" = "Ja";
 "onboarding_categories_button_countdown" = "Kies ten minste %i meer";
@@ -1115,6 +1115,8 @@
 "sell_title_autogen_label" = "Titel voorgesteld door letgo";
 "sell_title_field_hint" = "Titel (optioneel)";
 "sell_uploading_label" = "Uploaden van jouw advertentie...";
+"services_service_subtype_title" = "Service subtype";
+"services_service_type_title" = "Service type";
 "settings_change_email_button" = "E-mail";
 "settings_change_location_button" = "Locatie";
 "settings_change_password_button" = "Wachtwoord";

@@ -59,6 +59,7 @@ enum DeepLinkAction: Equatable {
     case userRating(ratingId: String)
     case notificationCenter
     case appStore
+    case webView(url: URL)
     
     static public func ==(lhs: DeepLinkAction, rhs: DeepLinkAction) -> Bool {
         switch (lhs, rhs) {
@@ -98,6 +99,8 @@ enum DeepLinkAction: Equatable {
             return true
         case (.appStore, .appStore):
             return true
+        case (.webView(let lhsUrl), .webView(let rhsUrl)):
+            return lhsUrl == rhsUrl
         default:
             return false
         }

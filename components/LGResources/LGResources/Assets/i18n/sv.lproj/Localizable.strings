@@ -537,10 +537,10 @@
 "nps_survey_title" = "VI SKULLE VILJA VETA...";
 "nps_survey_very_bad" = "Inte troligt";
 "nps_survey_very_good" = "Mycket troligt";
-"offensive_report_alert_message" = "We've become aware of potentially inappropiate messages sent from your account.\n\nRepeated violations may result in account termination.";
-"offensive_report_alert_primary_action" = "Review Guidelines";
-"offensive_report_alert_secondary_action" = "Skip";
-"offensive_report_alert_title" = "Review Community Guidelines";
+"offensive_report_alert_message" = "Vi har fått kännedom om eventuellt olämpliga meddelanden som skickats från ditt konto.\n\nUpprepade överträdelser kan leda till avstängning av kontot.";
+"offensive_report_alert_primary_action" = "Granska Riktlinjer";
+"offensive_report_alert_secondary_action" = "Skippa";
+"offensive_report_alert_title" = "Granska Riktlinjer för letgos community";
 "onboarding_alert_no" = "Nej";
 "onboarding_alert_yes" = "Ja";
 "onboarding_categories_button_countdown" = "Välj åtminstone %i till";
@@ -1115,6 +1115,8 @@
 "sell_title_autogen_label" = "Titel föreslagen av letgo";
 "sell_title_field_hint" = "Titel (frivillig)";
 "sell_uploading_label" = "Laddar upp annonsen...";
+"services_service_subtype_title" = "Service subtype";
+"services_service_type_title" = "Service type";
 "settings_change_email_button" = "E-post";
 "settings_change_location_button" = "Plats";
 "settings_change_password_button" = "Lösenord";

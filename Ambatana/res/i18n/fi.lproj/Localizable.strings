@@ -141,7 +141,7 @@
 "chat_conversations_list_filter_all" = "Kaikki";
 "chat_conversations_list_filter_buying" = "Ostot";
 "chat_conversations_list_filter_selling" = "Myynit";
-"chat_conversations_list_letgo_assistant_tag" = "letgo assistant";
+"chat_conversations_list_letgo_assistant_tag" = "letgo-assistentti";
 "chat_deleted_disclaimer_w_name" = "Et voi jatkaa tätä keskustelua, koska käyttäjän %@ tili ei ole enää aktiivinen.";
 "chat_deleted_disclaimer_wo_name" = "Et voi jatkaa tätä keskustelua, koska tämä tili ei ole enää aktiivinen.";
 "chat_disclaimer_letgo_team" = "LETGO-TIIMI";
@@ -859,7 +859,7 @@
 "profile_permissions_alert_ok" = "Ota käyttöön";
 "profile_permissions_alert_title" = "ÄLÄ MISSAA VASTAUSTA!";
 "profile_permissions_header_message" = "Ota viesti-ilmoitukset käyttöön";
-"profile_reputation_tooltip_title" = "User verified! Tap if you want to be verified too";
+"profile_reputation_tooltip_title" = "Vahvistettu käyttäjä! Paina, jos sinäkin haluat vahvistaa itsesi.";
 "profile_reviews_count" = "arvostelua";
 "profile_reviews_tab" = "arvostelua";
 "profile_selling_no_products_label" = "EI ILMOITUKSIA (VIELÄ!)";
