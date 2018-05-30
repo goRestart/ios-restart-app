@@ -64,7 +64,7 @@ final class UserProfileViewController: BaseViewController {
         static let userRelationHeight: CGFloat = 48
         static let dummyDisclaimerHeight: CGFloat = 50
         static let headerBottomMargin: CGFloat = Metrics.margin
-        static let bottomScrollableContentInset: CGFloat = 60
+        static let bottomScrollableContentInset: CGFloat = 100
     }
 
     // MARK: - Lifecycle
