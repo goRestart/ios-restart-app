@@ -24,6 +24,7 @@ final class UserProfileViewController: BaseViewController {
     private let tabsView = UserProfileTabsView()
     private let listingView: ListingListView
     private let tableView = UITableView()
+    private let emptyReviewsLabel = UILabel()
 
     private let headerGestureRecognizer = UIPanGestureRecognizer()
 
@@ -31,6 +32,7 @@ final class UserProfileViewController: BaseViewController {
     private var userRelationViewHeightConstraint: NSLayoutConstraint?
     private var dummyViewHeightConstraint: NSLayoutConstraint?
     private var updatingUserRelation: Bool = false
+    private let emptyReviewsTopMargin: CGFloat = 90
 
     private var scrollableContentInset: UIEdgeInsets {
         let topInset = Layout.topMargin + headerContainerView.height
@@ -182,6 +184,10 @@ final class UserProfileViewController: BaseViewController {
         tableView.allowsSelection = false
         let cellNib = UINib(nibName: UserRatingCell.reusableID, bundle: nil)
         tableView.register(cellNib, forCellReuseIdentifier: UserRatingCell.reusableID)
+        tableView.addSubviewForAutoLayout(emptyReviewsLabel)
+        emptyReviewsLabel.text = "NO REVIEWS YET!"
+        emptyReviewsLabel.isHidden = true
+        emptyReviewsLabel.font = UIFont.systemRegularFont(size: 17)
     }
 
     private func setupNavBar() {
@@ -256,7 +262,9 @@ final class UserProfileViewController: BaseViewController {
             tableView.topAnchor.constraint(equalTo: safeTopAnchor),
             tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
             tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            emptyReviewsLabel.topAnchor.constraint(equalTo: tableView.topAnchor, constant: emptyReviewsTopMargin),
+            emptyReviewsLabel.centerXAnchor.constraint(equalTo: tableView.centerXAnchor)
         ]
 
         if viewModel.showKarmaView {
@@ -498,9 +506,13 @@ extension UserProfileViewController: UITableViewDelegate, UITableViewDataSource 
 
 extension UserProfileViewController: UserRatingListViewModelDelegate {
     func vmIsLoadingUserRatingsRequest(_ isLoading: Bool, firstPage: Bool) {}
-    func vmDidFailLoadingUserRatings(_ firstPage: Bool) {}
+
+    func vmDidFailLoadingUserRatings(_ firstPage: Bool) {
+        emptyReviewsLabel.isHidden = viewModel.ratingListViewModel.objectCount > 0
+    }
 
     func vmDidLoadUserRatings(_ ratings: [UserRating]) {
+        emptyReviewsLabel.isHidden = !ratings.isEmpty
         guard !ratings.isEmpty else { return }
         tableView.reloadData()
     }
