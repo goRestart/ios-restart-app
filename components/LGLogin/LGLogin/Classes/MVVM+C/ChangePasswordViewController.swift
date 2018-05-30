@@ -30,7 +30,7 @@ public class ChangePasswordViewController: BaseViewController, UITextFieldDelega
         self.lines = []
         super.init(viewModel:viewModel,
                    nibName: "ChangePasswordViewController",
-                   bundle: loginBundle)
+                   bundle: R.loginBundle)
         self.viewModel.delegate = self
     }
     

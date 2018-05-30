@@ -33,7 +33,7 @@ class PopupSignUpViewController: BaseViewController, UITextViewDelegate, GIDSign
         self.topMessage = topMessage
         super.init(viewModel: viewModel,
                    nibName: "PopupSignUpViewController",
-                   bundle: loginBundle)
+                   bundle: R.loginBundle)
         self.viewModel.delegate = self
         modalPresentationStyle = .overCurrentContext
         modalTransitionStyle = .crossDissolve

@@ -22,7 +22,7 @@ public class RecaptchaViewController: BaseViewController {
         self.viewModel = viewModel
         super.init(viewModel: viewModel,
                    nibName: "RecaptchaViewController",
-                   bundle: loginBundle)
+                   bundle: R.loginBundle)
         automaticallyAdjustsScrollViewInsets = false
     }
 

@@ -56,7 +56,7 @@ public class RememberPasswordViewController: BaseViewController, RememberPasswor
                    nibName: "RememberPasswordViewController",
                    statusBarStyle: statusBarStyle,
                    navBarBackgroundStyle: navBarBackgroundStyle,
-                   bundle: loginBundle)
+                   bundle: R.loginBundle)
         self.viewModel.delegate = self
     }
 

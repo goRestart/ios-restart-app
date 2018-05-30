@@ -106,7 +106,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
                    nibName: "SignUpLogInViewController",
                    statusBarStyle: statusBarStyle,
                    navBarBackgroundStyle: navBarBackgroundStyle,
-                   bundle: loginBundle)
+                   bundle: R.loginBundle)
         self.viewModel.delegate = self
         automaticallyAdjustsScrollViewInsets = false
     }

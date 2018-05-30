@@ -69,7 +69,7 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
         super.init(viewModel: viewModel,
                    nibName: "MainSignUpViewController",
                    navBarBackgroundStyle: .transparent(substyle: .light),
-                   bundle: loginBundle)
+                   bundle: R.loginBundle)
         self.viewModel.delegate = self
     }
     
