@@ -247,6 +247,8 @@
 "common_chat_not_available" = "Oops! Sohbet bulunamadı.";
 "common_collapse" = "Daha az göster";
 "common_confirm" = "Onayla";
+"common_done" = "Tamam";
+"common_edit" = "Düzelt";
 "common_error" = "Hata";
 "common_error_connection_failed" = "Bir hata oluştu. Lütfen, İnternet bağlantını kontrol et.";
 "common_error_generic_body" = "Bir hata oluştu.";
@@ -535,6 +537,10 @@
 "nps_survey_title" = "GÖRÜŞLERİNİ BİLMEK İSTERİZ...";
 "nps_survey_very_bad" = "Muhtemel değil";
 "nps_survey_very_good" = "Son derece muhtemel";
+"offensive_report_alert_message" = "Hesabından olası uygunsuz mesajların gönderildiğini fark ettik.\n\nKural ihlalinin tekrarlanması hesap kapatılmasıyla sonuçlanabilir.";
+"offensive_report_alert_primary_action" = "Topluluk Kurallarını İncele";
+"offensive_report_alert_secondary_action" = "Kapat";
+"offensive_report_alert_title" = "Topluluk Kurallarını İncele";
 "onboarding_alert_no" = "Hayır";
 "onboarding_alert_yes" = "Evet";
 "onboarding_categories_button_countdown" = "En az %i kategori daha seçmelisin";
@@ -861,6 +867,7 @@
 "profile_permissions_header_message" = "Mesaj bildirimlerini aç";
 "profile_reputation_tooltip_title" = "Onaylı kullanıcı! Siz de onaylı olmak istiyorsanız tıklayın.";
 "profile_reviews_count" = "Yorum";
+"profile_reviews_empty_label" = "NO REVIEWS (YET!)";
 "profile_reviews_tab" = "Yorum";
 "profile_selling_no_products_label" = "(HENÜZ!) İLAN YOK";
 "profile_selling_other_user_no_products_button" = "Aramaya Başla";
@@ -1074,6 +1081,7 @@
 "search_alert_error_too_many_text" = "Oops! Maksimum arama uyarısı sayısına ulaştın";
 "search_alerts_edit_button" = "Düzelt";
 "search_alerts_header_subtitle" = "Yeni ilanlarla ilgili bildirim al";
+"search_alerts_list_title" = "Arama Uyarıları";
 "search_alerts_placeholder_empty_button" = "Aramaya Başla";
 "search_alerts_placeholder_empty_text" = "Yeni ilanlar yayınlandığında bildirim almak için aramalara abone ol.";
 "search_alerts_placeholder_error_button" = "Try Again";
@@ -1108,6 +1116,8 @@
 "sell_title_autogen_label" = "letgo tarafından önerilen başlık";
 "sell_title_field_hint" = "Ürün başlığı (isteğe bağlı)";
 "sell_uploading_label" = "İlanın yayınlanıyor...";
+"services_service_subtype_title" = "Hizmet alt türü";
+"services_service_type_title" = "Hizmet türü";
 "settings_change_email_button" = "E-posta";
 "settings_change_location_button" = "Konum";
 "settings_change_password_button" = "Şifre";
@@ -1129,6 +1139,9 @@
 "settings_marketing_notifications_alert_deactivate" = "Kapat";
 "settings_marketing_notifications_alert_message" = "Tanıtım bildirimlerini kapatmak istediğine emin misin?";
 "settings_marketing_notifications_switch" = "Reklam Bildirimleri";
+"settings_notifications_button" = "Bildirimler";
+"settings_notifications_search_alerts" = "Arama Uyarıları";
+"settings_notifications_title" = "Bildirimler";
 "settings_section_profile" = "Profil";
 "settings_section_promote" = "Öne çıkar";
 "settings_section_support" = "Destek";

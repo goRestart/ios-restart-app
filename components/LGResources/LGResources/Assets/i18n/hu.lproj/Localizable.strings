@@ -247,6 +247,8 @@
 "common_chat_not_available" = "Hoppá! A csevegés nem található.";
 "common_collapse" = "Kevesebbet";
 "common_confirm" = "Megerősítés";
+"common_done" = "Kész";
+"common_edit" = "Szerkesztés";
 "common_error" = "Hiba";
 "common_error_connection_failed" = "Hiba történt. Kérjük, ellenőrizd az internetkapcsolatot.";
 "common_error_generic_body" = "Hiba történt.";
@@ -535,6 +537,10 @@
 "nps_survey_title" = "TUDNI SZERETNÉNK...";
 "nps_survey_very_bad" = "Nem szívesen";
 "nps_survey_very_good" = "Nagyon szívesen";
+"offensive_report_alert_message" = "Tudomásunkra jutott, hogy fiókodból potenciálisan nem helyénvaló üzeneteket küldtek.\n\nHa ez többször előfordul, fiókodat megszüntethetjük.";
+"offensive_report_alert_primary_action" = "Irányelvek áttekintése";
+"offensive_report_alert_secondary_action" = "Kihagy";
+"offensive_report_alert_title" = "Közösségi irányelvek áttekintése";
 "onboarding_alert_no" = "Nem";
 "onboarding_alert_yes" = "Igen";
 "onboarding_categories_button_countdown" = "Válassz még legalább %i kategóriát";
@@ -861,6 +867,7 @@
 "profile_permissions_header_message" = "Üzenetértesítések engedélyezése";
 "profile_reputation_tooltip_title" = "Visszaigazolt felhasználó! Koppints, ha te is visszaigazolnád magadat.";
 "profile_reviews_count" = "Értékelések";
+"profile_reviews_empty_label" = "NO REVIEWS (YET!)";
 "profile_reviews_tab" = "Értékelések";
 "profile_selling_no_products_label" = "NINCSENEK HIRDETÉSEK (EGYELŐRE!)";
 "profile_selling_other_user_no_products_button" = "Tovább böngészek";
@@ -1074,6 +1081,7 @@
 "search_alert_error_too_many_text" = "Hoppá! Elérted a keresési figyelmeztetések maximális számát";
 "search_alerts_edit_button" = "Szerkesztés";
 "search_alerts_header_subtitle" = "Értesítéseket kaphatsz az új hirdetésekről";
+"search_alerts_list_title" = "Keresési figyelmeztetések";
 "search_alerts_placeholder_empty_button" = "Láss kereséshez";
 "search_alerts_placeholder_empty_text" = "Iratkozz fel keresésekre, hogy értesülhess, ha új hirdetések kerülnek fel.";
 "search_alerts_placeholder_error_button" = "Próbáld újra";
@@ -1108,6 +1116,8 @@
 "sell_title_autogen_label" = "A letgo által ajánlott cím";
 "sell_title_field_hint" = "Cím (nem kötelező)";
 "sell_uploading_label" = "Hirdetés feltöltése...";
+"services_service_subtype_title" = "Szolgáltatás altípusa";
+"services_service_type_title" = "Szolgáltatás típusa";
 "settings_change_email_button" = "E-mail";
 "settings_change_location_button" = "Tartózkodási hely";
 "settings_change_password_button" = "Jelszóváltás";
@@ -1129,6 +1139,9 @@
 "settings_marketing_notifications_alert_deactivate" = "Kikapcsolás";
 "settings_marketing_notifications_alert_message" = "Biztosan kikapcsolod a marketinges értesítéseket?";
 "settings_marketing_notifications_switch" = "Marketinges értesítések";
+"settings_notifications_button" = "Jelzések";
+"settings_notifications_search_alerts" = "Keresési figyelmeztetések";
+"settings_notifications_title" = "Jelzések";
 "settings_section_profile" = "Profil";
 "settings_section_promote" = "Hirdet";
 "settings_section_support" = "Támogatás";
