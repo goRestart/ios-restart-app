@@ -137,11 +137,11 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "Av sikkerhetsgrunner er denne kontoen slettet av letgo's team, samt disse meldingene.";
 "chat_connect_account_disclaimer_button" = "Verifiser nå!";
 "chat_connect_accounts_title" = "BYGG TILLIT!";
-"chat_conversations_list_blocked_users_button" = "View blocked users";
+"chat_conversations_list_blocked_users_button" = "Vis blokkerte brukere";
 "chat_conversations_list_filter_all" = "Alle";
 "chat_conversations_list_filter_buying" = "Kjøp";
 "chat_conversations_list_filter_selling" = "Salg";
-"chat_conversations_list_letgo_assistant_tag" = "letgo assistant";
+"chat_conversations_list_letgo_assistant_tag" = "letgo's assistent";
 "chat_deleted_disclaimer_w_name" = "Du kan ikke fortsette denne samtalen, fordi %@'s konto ikke lenger er aktiv.";
 "chat_deleted_disclaimer_wo_name" = "Du kan ikke fortsette denne samtalen, fordi denne kontoen ikke lenger er aktiv.";
 "chat_disclaimer_letgo_team" = "LETGO TEAMET";
@@ -247,6 +247,8 @@
 "common_chat_not_available" = "Oops! Kunne ikke finne chat.";
 "common_collapse" = "Vis mindre";
 "common_confirm" = "Bekreft";
+"common_done" = "Fullfør";
+"common_edit" = "Endre";
 "common_error" = "Feil";
 "common_error_connection_failed" = "En feil har oppstått. Vennligst sjekk din internett-tilkobling.";
 "common_error_generic_body" = "En feil oppstod.";
@@ -438,7 +440,7 @@
 "log_in_error_send_error_user_not_found_or_wrong_password" = "Ugyldig e-post eller passord. Vennligst prøv igjen.";
 "log_in_reset_password_button" = "Glemt ditt passord?";
 "log_in_send_button" = "Logg inn";
-"log_in_title" = "Registrer deg med e-post";
+"log_in_title" = "Logg inn med e-post";
 "login_device_not_allowed_alert_contact_button" = "Kontakt oss";
 "login_device_not_allowed_alert_message" = "Du har ikke logget inn på denne enheten tidligere. Vennligst sjekk din e-post innboks, ettersom vi har sendt deg en e-post for verifisering.";
 "login_device_not_allowed_alert_ok_button" = "Ok";
@@ -535,6 +537,10 @@
 "nps_survey_title" = "VI ØNSKER Å VITE...";
 "nps_survey_very_bad" = "Ikke sannsynlig";
 "nps_survey_very_good" = "Ekstremt sannsynlig";
+"offensive_report_alert_message" = "Vi er gjort oppmerksomme på potensielt upassende meldinger sendt fra din konto.\n\nGjentatte overskridelser kan resultere i terminering av konto.";
+"offensive_report_alert_primary_action" = "Se Retningslinjer";
+"offensive_report_alert_secondary_action" = "Hopp over";
+"offensive_report_alert_title" = "Se gjennom Retningslinjer for letgo's felleskap";
 "onboarding_alert_no" = "Nei";
 "onboarding_alert_yes" = "Ja";
 "onboarding_categories_button_countdown" = "Velg minst %i mer";
@@ -859,8 +865,9 @@
 "profile_permissions_alert_ok" = "Aktiver";
 "profile_permissions_alert_title" = "IKKE GÅ GLIPP AV ET SVAR!";
 "profile_permissions_header_message" = "Aktiver meldingsvarslinger";
-"profile_reputation_tooltip_title" = "Verified user! Tap if you want to be verified too.";
+"profile_reputation_tooltip_title" = "Verifisert bruker! Trykk hvis du også ønsker å bli verifisert.";
 "profile_reviews_count" = "Vurderinger";
+"profile_reviews_empty_label" = "INGEN VURDERINGER (ENDA!)";
 "profile_reviews_tab" = "Vurderinger";
 "profile_selling_no_products_label" = "INGEN ANNONSER (ENDA!)";
 "profile_selling_other_user_no_products_button" = "Fortsett å bla i produktene";
@@ -1074,6 +1081,7 @@
 "search_alert_error_too_many_text" = "Oops! Du har nådd dine maksimale antall søkevarslinger";
 "search_alerts_edit_button" = "Endre";
 "search_alerts_header_subtitle" = "Få varslinger om nye annonser";
+"search_alerts_list_title" = "Søkevarslinger";
 "search_alerts_placeholder_empty_button" = "Sett i gang og søk";
 "search_alerts_placeholder_empty_text" = "Meld deg på for å varslinger når nye annonser publiseres.";
 "search_alerts_placeholder_error_button" = "Try Again";
@@ -1108,6 +1116,10 @@
 "sell_title_autogen_label" = "Foreslått tittel av letgo";
 "sell_title_field_hint" = "Produktnavn (alternativt)";
 "sell_uploading_label" = "Publiserer din annonse...";
+"services_service_subtype_list_title" = "Service";
+"services_service_subtype_title" = "Tjeneste undertype";
+"services_service_type_list_title" = "Service category";
+"services_service_type_title" = "Tjenestetype";
 "settings_change_email_button" = "E-post";
 "settings_change_location_button" = "Plassering";
 "settings_change_password_button" = "Passord";
@@ -1129,6 +1141,9 @@
 "settings_marketing_notifications_alert_deactivate" = "Deaktiver";
 "settings_marketing_notifications_alert_message" = "Er du sikker på at du vil deaktivere promoteringsvarslinger?";
 "settings_marketing_notifications_switch" = "Reklamevarslinger";
+"settings_notifications_button" = "Varslinger";
+"settings_notifications_search_alerts" = "Søkevarslinger";
+"settings_notifications_title" = "Varslinger";
 "settings_section_profile" = "Profil";
 "settings_section_promote" = "Promoter";
 "settings_section_support" = "Support";

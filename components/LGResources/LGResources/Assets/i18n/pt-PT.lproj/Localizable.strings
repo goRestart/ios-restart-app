@@ -247,6 +247,8 @@
 "common_chat_not_available" = "Ops! Chat não encontrado.";
 "common_collapse" = "Mostrar menos";
 "common_confirm" = "Confirmar";
+"common_done" = "Feito";
+"common_edit" = "Editar";
 "common_error" = "Erro";
 "common_error_connection_failed" = "Ocorreu um erro. Por favor verifique a sua ligação à internet.";
 "common_error_generic_body" = "Ocorreu um erro.";
@@ -438,7 +440,7 @@
 "log_in_error_send_error_user_not_found_or_wrong_password" = "Password ou email inválidos. Por favor tente novamente.";
 "log_in_reset_password_button" = "Esqueceu-se da password?";
 "log_in_send_button" = "Login";
-"log_in_title" = "Registe-se com o email";
+"log_in_title" = "Efetue o login com o email";
 "login_device_not_allowed_alert_contact_button" = "Contacte-nos";
 "login_device_not_allowed_alert_message" = "Nunca efetuou login neste dispositivo. Enviamos-lhe um email de verificação, por isso verifique a sua caixa de entrada para continuar.";
 "login_device_not_allowed_alert_ok_button" = "OK";
@@ -535,6 +537,10 @@
 "nps_survey_title" = "GOSTARÍAMOS DE SABER...";
 "nps_survey_very_bad" = "Nada provável";
 "nps_survey_very_good" = "Extremamente provável";
+"offensive_report_alert_message" = "Tomamos conhecimento que a partir da sua conta foi efetuado o envio de mensagens potencialmente inapropriadas.\n\nViolações repetidas podem resultar no encerramento da conta.";
+"offensive_report_alert_primary_action" = "Rever Orientações";
+"offensive_report_alert_secondary_action" = "Saltar";
+"offensive_report_alert_title" = "Rever Orientações da Comunidade";
 "onboarding_alert_no" = "Não";
 "onboarding_alert_yes" = "Sim";
 "onboarding_categories_button_countdown" = "Escolha pelo menos mais %i";
@@ -861,6 +867,7 @@
 "profile_permissions_header_message" = "Ativar notificações de mensagens";
 "profile_reputation_tooltip_title" = "Utilizador verificado! Toque caso pretenda também ser verificado.";
 "profile_reviews_count" = "Comentários";
+"profile_reviews_empty_label" = "SEM COMENTÁRIOS (AINDA)!";
 "profile_reviews_tab" = "Comentários";
 "profile_selling_no_products_label" = "SEM PUBLICAÇÕES (AINDA!)";
 "profile_selling_other_user_no_products_button" = "Continue a navegar";
@@ -1074,6 +1081,7 @@
 "search_alert_error_too_many_text" = "Ups! Alcançou o número máximo de alertas de pesquisa";
 "search_alerts_edit_button" = "Editar";
 "search_alerts_header_subtitle" = "Obtenha notificações sobre novas publicações";
+"search_alerts_list_title" = "Pesquisar alertas";
 "search_alerts_placeholder_empty_button" = "Comece a pesquisar";
 "search_alerts_placeholder_empty_text" = "Subscreva a pesquisa para receber notificações sempre que novos anúncios foram publicados.";
 "search_alerts_placeholder_error_button" = "Tentar de novo";
@@ -1108,6 +1116,10 @@
 "sell_title_autogen_label" = "Título sugerido pelo letgo";
 "sell_title_field_hint" = "Título (opcional)";
 "sell_uploading_label" = "A publicar o seu anúncio...";
+"services_service_subtype_list_title" = "Service";
+"services_service_subtype_title" = "Subtipo de serviço";
+"services_service_type_list_title" = "Service category";
+"services_service_type_title" = "Tipo de serviço";
 "settings_change_email_button" = "Email";
 "settings_change_location_button" = "Localização";
 "settings_change_password_button" = "Password";
@@ -1129,6 +1141,9 @@
 "settings_marketing_notifications_alert_deactivate" = "Desativar";
 "settings_marketing_notifications_alert_message" = "Tem a certeza de que quer desativar as notificações de marketing?";
 "settings_marketing_notifications_switch" = "Notificações de marketing";
+"settings_notifications_button" = "Notificações";
+"settings_notifications_search_alerts" = "Pesquisar alertas";
+"settings_notifications_title" = "Notificações";
 "settings_section_profile" = "Perfil";
 "settings_section_promote" = "Promover";
 "settings_section_support" = "Suporte";
