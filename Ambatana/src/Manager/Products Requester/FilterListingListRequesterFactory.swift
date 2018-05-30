@@ -50,9 +50,9 @@ class FilterListingListRequesterFactory {
     ///
     /// - Parameter itemsPerPage: number of items per page in requester pagination
     /// - Returns: FilteredListingListRequester where no filter nor queries are used.
-    static func generateDefaultFeedRequester(itemsPerPage: Int) -> FilteredListingListRequester {
+    static func generateDefaultFeedRequester(itemsPerPage: Int) -> ListingListMultiRequester {
         let requester = FilteredListingListRequester(itemsPerPage: itemsPerPage, offset: 0)
-        return requester
+        return ListingListMultiRequester(requesters: [requester])
     }
     
     private static func generateCarsNegativeFilters(fromFilters filters: ListingFilters) -> [ListingFilters] {

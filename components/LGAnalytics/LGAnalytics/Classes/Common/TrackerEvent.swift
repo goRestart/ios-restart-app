@@ -667,6 +667,8 @@ public struct TrackerEvent {
             params[.postingType] = EventParameterPostingType.stuff.rawValue
         case .realEstate:
             params[.postingType] = EventParameterPostingType.realEstate.rawValue
+        case .service:
+            params[.postingType] = EventParameterPostingType.service.rawValue
         }
 
         

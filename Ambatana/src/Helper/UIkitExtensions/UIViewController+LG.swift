@@ -331,10 +331,10 @@ extension UIViewController {
 // MARK: - Internal urls presenters
 
 extension UIViewController {
-    func openInternalUrl(_ url: URL) {
+    func openInAppWebViewWith(url: URL) {
         let svc = SFSafariViewController(url: url, entersReaderIfAvailable: false)
-            svc.view.tintColor = UIColor.primaryColor
-            self.present(svc, animated: true, completion: nil)
+        svc.view.tintColor = UIColor.primaryColor
+        self.present(svc, animated: true, completion: nil)
     }
 }
 

@@ -31,6 +31,9 @@ extension Listing {
             return nil
         case .realEstate(let realEstate):
             return realEstate.realEstateAttributes.generateTags(postingFlowType: postingFlowType)
+        case .service(let service):
+            // FIXME: Implement this in ABIOS-4184
+            return nil
         }
     }
 }

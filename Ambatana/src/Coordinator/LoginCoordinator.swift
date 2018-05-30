@@ -267,10 +267,8 @@ extension LoginCoordinator: RecaptchaNavigator {
 
 extension LoginCoordinator {
     func open(url: URL) {
-        let svc = SFSafariViewController(url: url, entersReaderIfAvailable: false)
-        svc.view.tintColor = UIColor.primaryColor
         let vc = topViewController()
-        vc.present(svc, animated: true, completion: nil)
+        vc.openInAppWebViewWith(url: url)
     }
 }
 
@@ -298,7 +296,7 @@ fileprivate extension LoginCoordinator {
                 action: {
                     self?.tracker.trackEvent(TrackerEvent.loginBlockedAccountContactUs(network, reason: .accountUnderReview))
                     self?.closeCoordinator(animated: false) {
-                        self?.parentViewController?.openInternalUrl(contactURL)
+                        self?.parentViewController?.openInAppWebViewWith(url: contactURL)
                     }
 
             })
@@ -325,7 +323,7 @@ fileprivate extension LoginCoordinator {
                 action: {
                     self?.tracker.trackEvent(TrackerEvent.loginBlockedAccountContactUs(network, reason: .secondDevice))
                     self?.closeCoordinator(animated: false) {
-                        self?.parentViewController?.openInternalUrl(contactURL)
+                        self?.parentViewController?.openInAppWebViewWith(url: contactURL)
                     }
 
             })

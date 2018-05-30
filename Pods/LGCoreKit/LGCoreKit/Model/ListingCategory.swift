@@ -82,8 +82,19 @@ public enum ListingCategory: Int {
         return self == .realEstate
     }
     
+    public var isServices: Bool {
+        return self == .services
+    }
+    
     public var isCategoryEditable: Bool {
-         return self != .realEstate && self != .cars
+        switch self {
+        case .realEstate, .cars, .services:
+            return false
+        case .babyAndChild, .electronics, .fashionAndAccesories,
+             .homeAndGarden, .motorsAndAccessories, .moviesBooksAndMusic,
+             .other, .sportsLeisureAndGames, .unassigned:
+            return true
+        }
     }
 
     public var isCategoryNotEditable: Bool {

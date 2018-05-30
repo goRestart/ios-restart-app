@@ -87,6 +87,7 @@ protocol FeatureFlaggeable: class {
     var filterSearchCarSellerType: FilterSearchCarSellerType { get }
     var createUpdateIntoNewBackend: CreateUpdateCarsIntoNewBackend { get }
     var realEstateMap: RealEstateMap { get }
+    var showServicesFeatures: ShowServicesFeatures { get }
     
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed { get }
@@ -189,6 +190,10 @@ extension OnboardingIncentivizePosting {
 }
 
 extension ServicesCategoryEnabled {
+    var isActive: Bool { return self == .active }
+}
+
+extension ShowServicesFeatures {
     var isActive: Bool { return self == .active }
 }
 
@@ -1138,9 +1143,7 @@ extension FeatureFlags {
         if Bumper.enabled {
             return Bumper.showServicesFeatures
         }
-        return .control
-        // TODO: when the feature is opened, use the line below
-        // return ShowServicesFeatures.fromPosition(abTests.showServicesFeatures.value)
+        return .control // ShowServicesFeatures.fromPosition(abTests.showServicesFeatures.value)
     }
 }
 
@@ -1186,6 +1189,12 @@ extension FeatureFlags {
     var emptySearchImprovements: EmptySearchImprovements {
         if Bumper.enabled { return Bumper.emptySearchImprovements }
         return EmptySearchImprovements.fromPosition(abTests.emptySearchImprovements.value)
+    }
+}
+
+extension EmptySearchImprovements {
+    var isActive: Bool {
+        return self != .control && self != .baseline
     }
 }
 

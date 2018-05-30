@@ -113,7 +113,8 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     
     // MARK: - Lifecycle
     convenience init() {
-        self.init(viewModel: ListingListViewModel(requester: nil), featureFlags: FeatureFlags.sharedInstance)
+        self.init(viewModel: ListingListViewModel(), featureFlags: FeatureFlags.sharedInstance)
+        
     }
 
     init(viewModel: ListingListViewModel, featureFlags: FeatureFlaggeable) {

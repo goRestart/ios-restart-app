@@ -23,6 +23,10 @@ extension ListingEditionParams {
             let newParams = realEstateParams
             newParams.price = price
             return ListingEditionParams.realEstate(newParams)
+        case .service(let serviceParams):
+            let newParams = serviceParams
+            newParams.price = price
+            return ListingEditionParams.service(newParams)
         }
     }
 }

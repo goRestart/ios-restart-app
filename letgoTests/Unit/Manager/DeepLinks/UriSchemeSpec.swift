@@ -1,11 +1,3 @@
-//
-//  UriSchemeSpec.swift
-//  LetGo
-//
-//  Created by Raúl de Oñate Blanco on 06/07/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 @testable import LetGoGodMode
 import Quick
 import Nimble
@@ -117,6 +109,24 @@ class UriSchemeSpec: QuickSpec {
                 }
                 it("has a deep link with an app store action") {
                     expect(sut.deepLink.action) == DeepLinkAction.appStore
+                }
+            }
+            
+            context("with a webview deeplink") {
+                var url: URL!
+                var decodedLink: String!
+                var link: URL!
+                beforeEach {
+                    url = URL(string: "letgo://webview/?link=https%3A%2F%2Fes.letgo.com%2Fes%2Fnotifications%3Fposting%3Dtrue")
+                    decodedLink = "https://es.letgo.com/es/notifications?posting=true"
+                    sut = UriScheme.buildFromUrl(url)
+                }
+                it("is not nil") {
+                    expect(sut).toNot(beNil())
+                }
+                it("has a deep link with a webview action") {
+                    link = URL(string: decodedLink)
+                    expect(sut.deepLink.action) == DeepLinkAction.webView(url: link)
                 }
             }
             

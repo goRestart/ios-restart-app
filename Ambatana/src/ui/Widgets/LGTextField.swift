@@ -1,13 +1,4 @@
-//
-//  LGTextField.swift
-//  LetGo
-//
-//  Created by Dídac on 20/07/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
 import Foundation
-
 
 class LGTextField: UITextField {
     

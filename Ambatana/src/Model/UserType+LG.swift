@@ -11,6 +11,8 @@ import LGCoreKit
 extension UserType {
     
     var isProfessional: Bool { return self == .pro }
+
+    var isDummy: Bool { return self == .dummy }
     
     func title(feature: FilterSearchCarSellerType) -> String {
         return isProfessional ? FilterCarSection.secondSection.title(feature: feature) :
