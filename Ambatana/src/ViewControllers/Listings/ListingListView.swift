@@ -73,7 +73,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
                                                     bottom: errorPadding.bottom,
                                                     right: errorPadding.right))
             errorView.setNeedsLayout()
-            layoutIfNeeded()
         }
     }
 
@@ -875,6 +874,7 @@ final class ErrorView: UIView {
         topInset?.constant = edgeInsets.top
         trailingInset?.constant = -edgeInsets.right
         bottomInset?.constant = -edgeInsets.bottom
+        setNeedsLayout()
     }
 
     fileprivate func setImage(_ image: UIImage?) {
@@ -924,7 +924,6 @@ final class ErrorView: UIView {
             titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: Layout.imageViewBottom),
             titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Layout.sideMargin),
             titleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -Layout.sideMargin),
-            titleLabel.heightAnchor.constraint(equalToConstant: 22),
             bodyLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Layout.titleBottom),
             bodyLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Layout.sideMargin),
             bodyLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -Layout.sideMargin),
