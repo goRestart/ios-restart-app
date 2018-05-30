@@ -24,10 +24,10 @@ class ChatListingView: UIView {
     @IBOutlet weak var backgroundView: UIView!
     @IBOutlet weak var proTag: UIImageView!
     @IBOutlet weak var letgoAssistantTag: UIImageView!
-
+    @IBOutlet weak var badgeImageView: UIImageView!
     @IBOutlet weak var listingButton: UIButton!
     @IBOutlet weak var userButton: UIButton!
-    
+
     let imageHeight: CGFloat = 64
     let imageWidth: CGFloat = 64
     let margin: CGFloat = 8
@@ -74,6 +74,7 @@ class ChatListingView: UIView {
         userAvatar.layer.minificationFilter = kCAFilterTrilinear
         proTag.isHidden = true
         letgoAssistantTag.isHidden = true
+        badgeImageView.isHidden = true
     }
 
     func disableListingInteraction() {

@@ -372,6 +372,10 @@ final class ListingDeckViewModel: BaseViewModel {
         currentListingViewModel?.trackOpenFeaturedInfo()
     }
 
+    func didTapReputationTooltip() {
+        navigator?.openUserVerificationView()
+    }
+
     func close() {
         if shouldShowDeckOnBoarding {
             showOnBoarding()
@@ -529,6 +533,9 @@ extension ListingDeckViewModel: ListingDeckViewModelType {
 
     func openVideoPlayer() {
         openPhotoViewer()
+    }
+    func didTapActionButton() {
+        actionButtons.value.first?.action()
     }
 }
 
