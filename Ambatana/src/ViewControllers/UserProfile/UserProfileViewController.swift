@@ -185,7 +185,7 @@ final class UserProfileViewController: BaseViewController {
         let cellNib = UINib(nibName: UserRatingCell.reusableID, bundle: nil)
         tableView.register(cellNib, forCellReuseIdentifier: UserRatingCell.reusableID)
         tableView.addSubviewForAutoLayout(emptyReviewsLabel)
-        emptyReviewsLabel.text = "NO REVIEWS YET!"
+        emptyReviewsLabel.text = R.Strings.profileReviewsEmptyLabel
         emptyReviewsLabel.isHidden = true
         emptyReviewsLabel.font = UIFont.systemRegularFont(size: 17)
     }

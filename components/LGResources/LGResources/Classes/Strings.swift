@@ -1176,6 +1176,14 @@ extension R {
     public static let npsSurveyVeryBad = Strings.tr("Localizable", "nps_survey_very_bad")
     /// Extremely likely
     public static let npsSurveyVeryGood = Strings.tr("Localizable", "nps_survey_very_good")
+    /// We've become aware of potentially inappropiate messages sent from your account.\n\nRepeated violations may result in account termination.
+    public static let offensiveReportAlertMessage = Strings.tr("Localizable", "offensive_report_alert_message")
+    /// Review Guidelines
+    public static let offensiveReportAlertPrimaryAction = Strings.tr("Localizable", "offensive_report_alert_primary_action")
+    /// Skip
+    public static let offensiveReportAlertSecondaryAction = Strings.tr("Localizable", "offensive_report_alert_secondary_action")
+    /// Review Community Guidelines
+    public static let offensiveReportAlertTitle = Strings.tr("Localizable", "offensive_report_alert_title")
     /// No
     public static let onboardingAlertNo = Strings.tr("Localizable", "onboarding_alert_no")
     /// Yes
@@ -1912,6 +1920,8 @@ extension R {
     public static let profileReputationTooltipTitle = Strings.tr("Localizable", "profile_reputation_tooltip_title")
     /// Reviews
     public static let profileReviewsCount = Strings.tr("Localizable", "profile_reviews_count")
+    /// NO REVIEWS (YET!)
+    public static let profileReviewsEmptyLabel = Strings.tr("Localizable", "profile_reviews_empty_label")
     /// Reviews
     public static let profileReviewsTab = Strings.tr("Localizable", "profile_reviews_tab")
     /// NO LISTINGS (YET!)
@@ -2360,7 +2370,7 @@ extension R {
     public static let searchAlertsEditButton = Strings.tr("Localizable", "search_alerts_edit_button")
     /// Get notifications about new listings
     public static let searchAlertsHeaderSubtitle = Strings.tr("Localizable", "search_alerts_header_subtitle")
-    /// Search Notifications
+    /// Search Alerts
     public static let searchAlertsListTitle = Strings.tr("Localizable", "search_alerts_list_title")
     /// Start Searching
     public static let searchAlertsPlaceholderEmptyButton = Strings.tr("Localizable", "search_alerts_placeholder_empty_button")
@@ -2432,6 +2442,10 @@ extension R {
     public static let sellTitleFieldHint = Strings.tr("Localizable", "sell_title_field_hint")
     /// Posting your listing...
     public static let sellUploadingLabel = Strings.tr("Localizable", "sell_uploading_label")
+    /// Service subtype
+    public static let servicesServiceSubtypeTitle = Strings.tr("Localizable", "services_service_subtype_title")
+    /// Service type
+    public static let servicesServiceTypeTitle = Strings.tr("Localizable", "services_service_type_title")
     /// Email
     public static let settingsChangeEmailButton = Strings.tr("Localizable", "settings_change_email_button")
     /// Location
