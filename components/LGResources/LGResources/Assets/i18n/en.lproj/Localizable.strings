@@ -2530,6 +2530,9 @@
 // Profile Reviews Tab title
 "profile_reviews_tab" = "Reviews";
 
+// Profile Reviews tab has no reviews
+"profile_reviews_empty_label" = "NO REVIEWS (YET!)";
+
 // Profile reviews count (appears below review count number)
 "profile_reviews_count" = "Reviews";
 
@@ -3363,10 +3366,16 @@
 "sell_uploading_label" = "Posting your listing...";
 
 // Services SeviceType Title
-"services_service_type_title" = "Service type";
+"services_service_type_title" = "Service category";
 
 // Services ServiceSubType Title
-"services_service_subtype_title" = "Service subtype";
+"services_service_subtype_title" = "Service";
+
+// Title for list of services
+"services_service_type_list_title" = "Service category";
+
+// Title for list of service subtypes
+"services_service_subtype_list_title" = "Service";
 
 // Settings change location button. Check image @ "settings_change_password_button" segment
 "settings_change_location_button" = "Location";

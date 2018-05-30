@@ -537,10 +537,10 @@
 "nps_survey_title" = "CI PIACEREBBE SAPERE...";
 "nps_survey_very_bad" = "Poco probabilmente";
 "nps_survey_very_good" = "Molto probabilmente";
-"offensive_report_alert_message" = "We've become aware of potentially inappropiate messages sent from your account.\n\nRepeated violations may result in account termination.";
-"offensive_report_alert_primary_action" = "Review Guidelines";
+"offensive_report_alert_message" = "Siamo venuti a conoscenza di messaggi potenzialmente inappropriati inviati dal tuo account. \n \nViolazioni ripetute possono portare alla chiusura dell'account.";
+"offensive_report_alert_primary_action" = "Vedi linee guida";
 "offensive_report_alert_secondary_action" = "Salta";
-"offensive_report_alert_title" = "Review Community Guidelines";
+"offensive_report_alert_title" = "Vedi le linee guida della comunità";
 "onboarding_alert_no" = "No";
 "onboarding_alert_yes" = "Sì";
 "onboarding_categories_button_countdown" = "Scegline almeno altre %i";
@@ -865,8 +865,9 @@
 "profile_permissions_alert_ok" = "Attiva";
 "profile_permissions_alert_title" = "NON PERDERE NEANCHE UNA RISPOSTA!";
 "profile_permissions_header_message" = "Attiva notifiche messaggi";
-"profile_reputation_tooltip_title" = "Verified user! Tap if you want to be verified too.";
+"profile_reputation_tooltip_title" = "Utente verificato! Tocca se desideri essere verificato anche tu.";
 "profile_reviews_count" = "Recensioni";
+"profile_reviews_empty_label" = "ANCORA NESSUNA RECENSIONE!";
 "profile_reviews_tab" = "Recensioni";
 "profile_selling_no_products_label" = "ANCORA NESSUN ANNUNCIO!";
 "profile_selling_other_user_no_products_button" = "Continua la consultazione";
@@ -1115,8 +1116,10 @@
 "sell_title_autogen_label" = "Titolo suggerito da letgo";
 "sell_title_field_hint" = "Titolo (facoltativo)";
 "sell_uploading_label" = "Pubblicazione annuncio...";
-"services_service_subtype_title" = "Service subtype";
-"services_service_type_title" = "Service type";
+"services_service_subtype_list_title" = "Servizio";
+"services_service_subtype_title" = "Servizio";
+"services_service_type_list_title" = "Tipo di servizio";
+"services_service_type_title" = "Tipo di servizio";
 "settings_change_email_button" = "Indirizzo email";
 "settings_change_location_button" = "Posizione";
 "settings_change_password_button" = "Password";

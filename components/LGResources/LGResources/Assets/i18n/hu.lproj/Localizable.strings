@@ -867,6 +867,7 @@
 "profile_permissions_header_message" = "Üzenetértesítések engedélyezése";
 "profile_reputation_tooltip_title" = "Visszaigazolt felhasználó! Koppints, ha te is visszaigazolnád magadat.";
 "profile_reviews_count" = "Értékelések";
+"profile_reviews_empty_label" = "NINCSENEK ÉRTÉKELÉSEK (EGYELŐRE!)";
 "profile_reviews_tab" = "Értékelések";
 "profile_selling_no_products_label" = "NINCSENEK HIRDETÉSEK (EGYELŐRE!)";
 "profile_selling_other_user_no_products_button" = "Tovább böngészek";
@@ -1115,8 +1116,10 @@
 "sell_title_autogen_label" = "A letgo által ajánlott cím";
 "sell_title_field_hint" = "Cím (nem kötelező)";
 "sell_uploading_label" = "Hirdetés feltöltése...";
-"services_service_subtype_title" = "Service subtype";
-"services_service_type_title" = "Service type";
+"services_service_subtype_list_title" = "Szolgáltatás";
+"services_service_subtype_title" = "Szolgáltatás";
+"services_service_type_list_title" = "Szolgáltatás típusa";
+"services_service_type_title" = "Szolgáltatás típusa";
 "settings_change_email_button" = "E-mail";
 "settings_change_location_button" = "Tartózkodási hely";
 "settings_change_password_button" = "Jelszóváltás";

@@ -867,6 +867,7 @@
 "profile_permissions_header_message" = "Activer les notifications de message";
 "profile_reputation_tooltip_title" = "Utilisateur vérifié ! Sélectionnez si vous souhaitez vous aussi être vérifié(e).";
 "profile_reviews_count" = "Avis";
+"profile_reviews_empty_label" = "AUCUNE ÉVALUATION (POUR LE MOMENT!)";
 "profile_reviews_tab" = "Notes";
 "profile_selling_no_products_label" = "AUCUNE ANNONCE (POUR LE MOMENT !)";
 "profile_selling_other_user_no_products_button" = "Continuer à Naviguer";
@@ -1115,8 +1116,10 @@
 "sell_title_autogen_label" = "Titre suggéré par letgo";
 "sell_title_field_hint" = "Titre (optionnel)";
 "sell_uploading_label" = "Publication de votre annonce...";
-"services_service_subtype_title" = "Service subtype";
-"services_service_type_title" = "Service type";
+"services_service_subtype_list_title" = "Service";
+"services_service_subtype_title" = "Service";
+"services_service_type_list_title" = "Catégorie de service";
+"services_service_type_title" = "Catégorie de service";
 "settings_change_email_button" = "Courriel";
 "settings_change_location_button" = "Localisation";
 "settings_change_password_button" = "Mot de passe";
