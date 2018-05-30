@@ -507,12 +507,10 @@ extension UserProfileViewController: UITableViewDelegate, UITableViewDataSource 
 extension UserProfileViewController: UserRatingListViewModelDelegate {
     func vmIsLoadingUserRatingsRequest(_ isLoading: Bool, firstPage: Bool) {}
 
-    func vmDidFailLoadingUserRatings(_ firstPage: Bool) {
-        emptyReviewsLabel.isHidden = viewModel.ratingListViewModel.objectCount > 0
-    }
+    func vmDidFailLoadingUserRatings(_ firstPage: Bool) {}
 
     func vmDidLoadUserRatings(_ ratings: [UserRating]) {
-        emptyReviewsLabel.isHidden = !ratings.isEmpty
+        emptyReviewsLabel.isHidden = viewModel.ratingListViewModel.objectCount > 0
         guard !ratings.isEmpty else { return }
         tableView.reloadData()
     }
