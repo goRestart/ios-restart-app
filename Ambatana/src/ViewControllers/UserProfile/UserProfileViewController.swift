@@ -24,7 +24,14 @@ final class UserProfileViewController: BaseViewController {
     private let tabsView = UserProfileTabsView()
     private let listingView: ListingListView
     private let tableView = UITableView()
-    private let emptyReviewsLabel = UILabel()
+
+    private let emptyReviewsLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemRegularFont(size: 17)
+        label.text = R.Strings.profileReviewsEmptyLabel
+        label.isHidden = true
+        return label
+    }()
 
     private let headerGestureRecognizer = UIPanGestureRecognizer()
 
@@ -185,9 +192,6 @@ final class UserProfileViewController: BaseViewController {
         let cellNib = UINib(nibName: UserRatingCell.reusableID, bundle: nil)
         tableView.register(cellNib, forCellReuseIdentifier: UserRatingCell.reusableID)
         tableView.addSubviewForAutoLayout(emptyReviewsLabel)
-        emptyReviewsLabel.text = R.Strings.profileReviewsEmptyLabel
-        emptyReviewsLabel.isHidden = true
-        emptyReviewsLabel.font = UIFont.systemRegularFont(size: 17)
     }
 
     private func setupNavBar() {
