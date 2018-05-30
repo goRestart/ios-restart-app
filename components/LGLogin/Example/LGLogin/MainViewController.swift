@@ -2,7 +2,7 @@ import LGComponents
 import UIKit
 import RxSwift
 
-final class MainViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
+final class MainViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     private static let cellIdentifier = "UITableViewCellIdentifier"
 
     private let viewModel: MainViewModel
@@ -19,8 +19,8 @@ final class MainViewController: BaseViewController, UITableViewDataSource, UITab
     init(viewModel: MainViewModel) {
         self.viewModel = viewModel
         self.disposeBag = DisposeBag()
-        super.init(viewModel: viewModel,
-                   nibName: nil)
+        super.init(nibName: nil,
+                   bundle: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {

@@ -2,7 +2,7 @@ import LGComponents
 import GoogleSignIn
 import UIKit
 
-final class EmbeddedLoginViewController: BaseViewController, GIDSignInUIDelegate, SignUpViewModelDelegate {
+final class EmbeddedLoginViewController: UIViewController, GIDSignInUIDelegate, SignUpViewModelDelegate {
     private let viewModel: EmbeddedLoginViewModel
 
     private let stackView: UIStackView = {
@@ -37,8 +37,8 @@ final class EmbeddedLoginViewController: BaseViewController, GIDSignInUIDelegate
 
     init(viewModel: EmbeddedLoginViewModel) {
         self.viewModel = viewModel
-        super.init(viewModel: viewModel,
-                   nibName: nil)
+        super.init(nibName: nil,
+                   bundle: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {

@@ -1,6 +1,6 @@
 import LGComponents
 
-final class EmbeddedLoginViewModel: BaseViewModel {
+final class EmbeddedLoginViewModel {
     weak var navigator: EmbeddedLoginViewModelNavigator?
 
     private let signUpViewModel: SignUpViewModel
