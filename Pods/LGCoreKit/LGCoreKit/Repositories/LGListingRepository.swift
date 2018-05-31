@@ -66,12 +66,19 @@ final class LGListingRepository: ListingRepository {
     // MARK: - Product CRUD
 
     func index(_ params: RetrieveListingParams, completion: ListingsCompletion?)  {
-        guard let queryString = params.queryString,
-            let relaxParam = params.relaxParam else  {
-                retrieveIndex(params.letgoApiParams, completion: updateCompletion(completion))
-                return
+        
+        if let queryString = params.queryString, let relaxParam = params.relaxParam {
+            retrieveIndexWithRelax(queryString, params, relaxParam, completion: completion)
+            return
         }
-        retrieveIndexWithRelax(queryString, params, relaxParam, completion: completion)
+        retrieveIndex(params.letgoApiParams, completion: updateCompletion(completion))
+    }
+    
+    func indexSimilar(_ params: RetrieveListingParams, completion: ListingsCompletion?) {
+        guard let queryString = params.queryString, let similarParam = params.similarParam else {
+            return
+        }
+        retrieveIndexWithSimilar(queryString, params, similarParam, completion: completion)
     }
     
     func indexCustomFeed(_ params: RetrieveListingParams, completion: ListingsCompletion?) {
@@ -617,6 +624,17 @@ final class LGListingRepository: ListingRepository {
         }
     }
     
+    private func retrieveIndexWithSimilar(_ queryString: String, _ params: RetrieveListingParams, _ similarParam: SimilarParam, completion: ListingsCompletion?) {
+        spellCorrectorRepository.retrieveSimilarQuery(query: queryString,
+                                                      similarParam: similarParam) { [weak self] similarResult in
+            guard let similarQuery = similarResult.value,
+                similarResult.error == nil,
+                !similarQuery.contextual.isEmpty else {  return  }
+            self?.retrieveIndex(params.letgoSimilarApiParam(contextualArray: similarQuery.contextual),
+                                completion: self?.updateCompletion(completion))
+        }
+    }
+    
     private func retrieveIndex(_ params: [String : Any], completion: ListingsDataSourceCompletion?) {
         dataSource.index(params, completion: completion)
     }
@@ -628,6 +646,13 @@ private extension RetrieveListingParams {
         if let relaxedQuery = relaxQuery.relaxedQuery, !relaxedQuery.isEmpty {
             apiParams["search_term"] = relaxedQuery
         }
+        return apiParams
+    }
+    
+    func letgoSimilarApiParam(contextualArray: [String]) -> [String : Any] {
+        var apiParams = letgoApiParams
+        let combinedQueryString = contextualArray.joined(separator: " ")
+        apiParams["search_term"] = combinedQueryString
         return apiParams
     }
 }

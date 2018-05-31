@@ -538,6 +538,7 @@
 		326C730B20908148009D21DB /* CategoriesFeedHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326C730920908148009D21DB /* CategoriesFeedHeaderCell.swift */; };
 		328E8E1920B6EF4300BBF639 /* RequesterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328E8E1820B6EF4300BBF639 /* RequesterFactory.swift */; };
 		328E8E1A20B6EF4300BBF639 /* RequesterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328E8E1820B6EF4300BBF639 /* RequesterFactory.swift */; };
+		328E8E2D20C0036D00BBF639 /* ListingRequesterMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328E8E2C20C0036D00BBF639 /* ListingRequesterMatcher.swift */; };
 		3299E5E7207FB7AB002935AE /* WaterFallLayoutSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3299E5E4207FB7AA002935AE /* WaterFallLayoutSettings.swift */; };
 		3299E5E8207FB7AB002935AE /* WaterfallLayoutItemRenderPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3299E5E5207FB7AA002935AE /* WaterfallLayoutItemRenderPolicy.swift */; };
 		3299E5E9207FB7AB002935AE /* WaterFallLayoutDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3299E5E6207FB7AB002935AE /* WaterFallLayoutDelegates.swift */; };
@@ -2345,6 +2346,7 @@
 		326C7306209077B9009D21DB /* CategoryFeedPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryFeedPresenter.swift; sourceTree = "<group>"; };
 		326C730920908148009D21DB /* CategoriesFeedHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesFeedHeaderCell.swift; sourceTree = "<group>"; };
 		328E8E1820B6EF4300BBF639 /* RequesterFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequesterFactory.swift; sourceTree = "<group>"; };
+		328E8E2C20C0036D00BBF639 /* ListingRequesterMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingRequesterMatcher.swift; sourceTree = "<group>"; };
 		3299E5E4207FB7AA002935AE /* WaterFallLayoutSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaterFallLayoutSettings.swift; sourceTree = "<group>"; };
 		3299E5E5207FB7AA002935AE /* WaterfallLayoutItemRenderPolicy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaterfallLayoutItemRenderPolicy.swift; sourceTree = "<group>"; };
 		3299E5E6207FB7AB002935AE /* WaterFallLayoutDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaterFallLayoutDelegates.swift; sourceTree = "<group>"; };
@@ -4606,10 +4608,11 @@
 				50D08D841E69AF14009CC260 /* NotificationsManagerSpec.swift */,
 				50D08D851E69AF14009CC260 /* PurchasesShopperSpec.swift */,
 				504C63B81ECAE0AB00D33BFA /* PushManagerSpec.swift */,
+				3251C3D520B8ABE00014B6BA /* RequesterFactorySpec.swift */,
+				328E8E2C20C0036D00BBF639 /* ListingRequesterMatcher.swift */,
 				50D08D861E69AF14009CC260 /* Tracking */,
 				50D08D891E69AF14009CC260 /* VersionCheckerSpec.swift */,
 				0A104695206CFB99003F1577 /* ABTestsSpec.swift */,
-				3251C3D520B8ABE00014B6BA /* RequesterFactorySpec.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -7167,6 +7170,7 @@
 				72C7A1BF1FA0ECF60089F175 /* PostingDetailsViewModelSpec.swift in Sources */,
 				0A104696206CFB99003F1577 /* ABTestsSpec.swift in Sources */,
 				8EBEF9791F3CA50500473822 /* LGSliderViewModelSpec.swift in Sources */,
+				328E8E2D20C0036D00BBF639 /* ListingRequesterMatcher.swift in Sources */,
 				504C63B91ECAE0AB00D33BFA /* PushManagerSpec.swift in Sources */,
 				50D08DD01E69AF14009CC260 /* TrackerProxySpec.swift in Sources */,
 				C7AFFB101E7176BC0052A9CA /* WebSurveyViewModelSpec.swift in Sources */,
