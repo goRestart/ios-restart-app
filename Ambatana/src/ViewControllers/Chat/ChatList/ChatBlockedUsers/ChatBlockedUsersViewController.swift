@@ -8,7 +8,14 @@ final class ChatBlockedUsersViewController: BaseViewController, UITableViewDeleg
     private let emptyView: LGEmptyView = LGEmptyView()
 
     private let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
-
+    private lazy var optionsButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(R.Asset.IconsButtons.icMoreOptions.image, for: .normal)
+        button.addTarget(self, action: #selector(navigationBarOptionsButtonPressed), for: .touchUpInside)
+        button.set(accessibilityId: .chatConversationsListOptionsNavBarButton)
+        return button
+    }()
+    
     private let viewModel: ChatBlockedUsersViewModel
     private var disposeBag = DisposeBag()
 
@@ -40,6 +47,16 @@ final class ChatBlockedUsersViewController: BaseViewController, UITableViewDeleg
         activityIndicator.startAnimating()
     }
 
+    private func setupNavigationBar(isEditing: Bool) {
+        if isEditing {
+            setLetGoRightButtonWith(barButtonSystemItem: .cancel,
+                                    selector: #selector(navigationBarCancelButtonPressed),
+                                    animated: true)
+        } else {
+            setNavigationBarRightButtons([optionsButton])
+        }
+    }
+    
     private func setupTableView() {
         if #available(iOS 11.0, *) {
             tableView.contentInsetAdjustmentBehavior = .never
@@ -80,9 +97,24 @@ final class ChatBlockedUsersViewController: BaseViewController, UITableViewDeleg
                 self?.tableView.reloadData()
             }
         }).disposed(by: disposeBag)
+        
+        viewModel.rx_isEditing
+            .asDriver()
+            .drive(onNext: { [weak self] isEditing in
+                self?.setupNavigationBar(isEditing: isEditing)
+                self?.tableView.isEditing = isEditing
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.rx_navigationActionSheet
+            .asObservable()
+            .bind { [weak self] (cancelTitle, actions) in
+                self?.tableView.isEditing = false
+                self?.showActionSheet(cancelTitle, actions: actions)
+            }
+            .disposed(by: disposeBag)
     }
-
-
+    
     private func setupConstraints() {
         view.addSubviewForAutoLayout(tableView)
         let tableConstraints = [
@@ -114,7 +146,16 @@ final class ChatBlockedUsersViewController: BaseViewController, UITableViewDeleg
         tableView.set(accessibilityId: .chatBlockedUsersTableView)
         emptyView.set(accessibilityId: .chatBlockedUsersEmptyView)
     }
-
+    
+    // MARK: - Actions
+    
+    @objc private func navigationBarOptionsButtonPressed() {
+        viewModel.openOptionsActionSheet()
+    }
+    
+    @objc private func navigationBarCancelButtonPressed() {
+        viewModel.switchEditMode(isEditing: false)
+    }
 
     // MARK: - UITableViewDelegate & UITableViewDataSource
 
@@ -142,5 +183,9 @@ final class ChatBlockedUsersViewController: BaseViewController, UITableViewDeleg
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         guard editingStyle == .delete else { return }
         viewModel.unblockSelectedUserAt(index: indexPath.row)
+    }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        return viewModel.tableViewRowActions()
     }
 }

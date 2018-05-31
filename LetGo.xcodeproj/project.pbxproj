@@ -1272,6 +1272,8 @@
 		8E56D74620A2F0A300097B61 /* ChatConversationsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E56D74420A2ED1300097B61 /* ChatConversationsListView.swift */; };
 		8E69F3F21E9E30EE00E14F12 /* CategoryDetailTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E69F3F11E9E30EE00E14F12 /* CategoryDetailTableView.swift */; };
 		8E69F3F31E9E30EE00E14F12 /* CategoryDetailTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E69F3F11E9E30EE00E14F12 /* CategoryDetailTableView.swift */; };
+		8E80005D20B5CBFA0043A077 /* ChatConversationsListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E80005C20B5CBFA0043A077 /* ChatConversationsListModel.swift */; };
+		8E80005E20B5CBFA0043A077 /* ChatConversationsListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E80005C20B5CBFA0043A077 /* ChatConversationsListModel.swift */; };
 		8E8017982010B8F2004CE244 /* ChatInactiveConversationsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8017972010B8F2004CE244 /* ChatInactiveConversationsListViewModel.swift */; };
 		8E8017992010B8F2004CE244 /* ChatInactiveConversationsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8017972010B8F2004CE244 /* ChatInactiveConversationsListViewModel.swift */; };
 		8E80179B2010DB67004CE244 /* ChatInactiveConversationsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E80179A2010DB67004CE244 /* ChatInactiveConversationsListViewController.swift */; };
@@ -2807,6 +2809,7 @@
 		8E56D74420A2ED1300097B61 /* ChatConversationsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatConversationsListView.swift; sourceTree = "<group>"; };
 		8E56D74720A342EF00097B61 /* ChatConversationsListFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatConversationsListFilter.swift; sourceTree = "<group>"; };
 		8E69F3F11E9E30EE00E14F12 /* CategoryDetailTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryDetailTableView.swift; sourceTree = "<group>"; };
+		8E80005C20B5CBFA0043A077 /* ChatConversationsListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatConversationsListModel.swift; sourceTree = "<group>"; };
 		8E8017972010B8F2004CE244 /* ChatInactiveConversationsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInactiveConversationsListViewModel.swift; sourceTree = "<group>"; };
 		8E80179A2010DB67004CE244 /* ChatInactiveConversationsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInactiveConversationsListViewController.swift; sourceTree = "<group>"; };
 		8E80179D2010DC4F004CE244 /* ChatInactiveConversationsListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatInactiveConversationsListView.xib; sourceTree = "<group>"; };
@@ -3515,8 +3518,8 @@
 		2E151D6E20A49B6A0038D7C7 /* ChatBlockedUsers */ = {
 			isa = PBXGroup;
 			children = (
-				2E151D6F20A49B8A0038D7C7 /* ChatBlockedUsersViewModel.swift */,
 				2E151D7220A49BB20038D7C7 /* ChatBlockedUsersViewController.swift */,
+				2E151D6F20A49B8A0038D7C7 /* ChatBlockedUsersViewModel.swift */,
 				2E151D7520A5D3370038D7C7 /* ChatBlockedUsersCell.swift */,
 			);
 			path = ChatBlockedUsers;
@@ -5176,6 +5179,7 @@
 				8E8EAD2E20A2EBB800ADEAFE /* ChatConversationsListViewController.swift */,
 				8E56D74420A2ED1300097B61 /* ChatConversationsListView.swift */,
 				8E8EAD3520A2EC1400ADEAFE /* ChatConversationsListViewModel.swift */,
+				8E80005C20B5CBFA0043A077 /* ChatConversationsListModel.swift */,
 				8E56D74720A342EF00097B61 /* ChatConversationsListFilter.swift */,
 				8E92B2F820A4993C00CE48DA /* ChatStatusView.swift */,
 			);
@@ -7263,6 +7267,7 @@
 				50D67B9A1D182EE9003AC0A5 /* SellCoordinator.swift in Sources */,
 				42009A2220765A4F003F946E /* PromoCellDrawer.swift in Sources */,
 				C72794421D549342009C25AB /* HelpViewController.swift in Sources */,
+				8E80005D20B5CBFA0043A077 /* ChatConversationsListModel.swift in Sources */,
 				C7126BC71E6052E300038CC4 /* CustomTouchesTableView.swift in Sources */,
 				2E607ECE1E3F41C700ADFED1 /* BumpUpCoordinator.swift in Sources */,
 				2E423792205BE2930077B62A /* ChatOtherMeetingCell.swift in Sources */,
@@ -8078,6 +8083,7 @@
 				C707D4561E9B7CB200042C03 /* PostListingTrackingInfo.swift in Sources */,
 				42009A2320765FE0003F946E /* PromoCellDrawer.swift in Sources */,
 				C7B588A31CE1E025009B3975 /* ChatGroupedListViewModel.swift in Sources */,
+				8E80005E20B5CBFA0043A077 /* ChatConversationsListModel.swift in Sources */,
 				509F79AD1ED6CD1C00AF2F70 /* UserRatingTagCell.swift in Sources */,
 				C72794431D549342009C25AB /* HelpViewController.swift in Sources */,
 				C7126BC81E6052E300038CC4 /* CustomTouchesTableView.swift in Sources */,
@@ -9099,7 +9105,7 @@
 				LLVM_LTO = YES_THIN;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
@@ -9187,7 +9193,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
 				PRODUCT_NAME = LetGo;
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/src/Application/letgo-Bridging-Header.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -9419,7 +9424,6 @@
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/src/Application/letgo-Bridging-Header.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				SWIFT_WHOLE_MODULE_OPTIMIZATION = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
