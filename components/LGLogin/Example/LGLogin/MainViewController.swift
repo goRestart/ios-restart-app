@@ -6,19 +6,15 @@ final class MainViewController: UIViewController, UITableViewDataSource, UITable
     private static let cellIdentifier = "UITableViewCellIdentifier"
 
     private let viewModel: MainViewModel
-    private var logoutButton = UIBarButtonItem(title: "Logout",
-                                               style: .plain,
-                                               target: self,
-                                               action: #selector(MainViewController.logoutButtonPressed))
-    private let tableView: UITableView = UITableView()
-    private let disposeBag: DisposeBag
+    private var logoutButton = UIBarButtonItem()
+    private let tableView = UITableView()
+    private let disposeBag = DisposeBag()
 
 
     // MARK: - Lifecycle
 
     init(viewModel: MainViewModel) {
         self.viewModel = viewModel
-        self.disposeBag = DisposeBag()
         super.init(nibName: nil,
                    bundle: nil)
     }
@@ -39,8 +35,11 @@ final class MainViewController: UIViewController, UITableViewDataSource, UITable
     }
 
     private func setupLogoutButton() {
+        logoutButton = UIBarButtonItem(title: "Logout",
+                                       style: .plain,
+                                       target: self,
+                                       action: #selector(MainViewController.logoutButtonPressed))
         navigationItem.leftBarButtonItem = logoutButton
-
         viewModel.logOutButtonIsEnabled
             .bind(to: logoutButton.rx.isEnabled)
             .disposed(by: disposeBag)

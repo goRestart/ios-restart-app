@@ -24,7 +24,7 @@ final class MainViewModel {
             .disposed(by: disposeBag)
     }
 
-    func logoutButtonPressed() {
+    @objc func logoutButtonPressed() {
         sessionManager.logout()
     }
 
