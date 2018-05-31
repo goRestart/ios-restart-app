@@ -1,11 +1,3 @@
-//
-//  PostalAddress.swift
-//  parsing
-//
-//  Created by Nestor on 23/10/2017.
-//  Copyright © 2017 Nestor. All rights reserved.
-//
-
 import Foundation
 
 public struct PostalAddress: Equatable, Decodable {

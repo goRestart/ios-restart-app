@@ -13,17 +13,17 @@ enum HelpURLType {
     case privacy
 }
 
-protocol HelpNavigator: class {
+public protocol HelpNavigator: class {
     func closeHelp()
 }
 
-class HelpViewModel: BaseViewModel {
+public class HelpViewModel: BaseViewModel {
     fileprivate let myUserRepository: MyUserRepository
     fileprivate let installationRepository: InstallationRepository
 
-    weak var navigator: HelpNavigator?
+    public weak var navigator: HelpNavigator?
     
-    convenience override init() {
+    public convenience override init() {
         self.init(myUserRepository: Core.myUserRepository, installationRepository: Core.installationRepository)
     }
     
@@ -32,7 +32,7 @@ class HelpViewModel: BaseViewModel {
         self.installationRepository = installationRepository
     }
     
-    override func backButtonPressed() -> Bool {
+    public override func backButtonPressed() -> Bool {
         navigator?.closeHelp()
         return true
     }

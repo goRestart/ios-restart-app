@@ -6,6 +6,15 @@ typealias NavigationActionSheet = (cancelTitle: String, actions: [UIAction])
 
 final class ChatConversationsListViewModel: BaseViewModel, Paginable {
     
+    struct Localize {
+        static let deleteAlertConfirmationTitle = R.Strings.chatListDeleteAlertTitleOne
+        static let deleteAlertConfirmationMessage = R.Strings.chatListDeleteAlertTextOne
+        static let deleteAlertConfirmationButtonOk = R.Strings.chatListDeleteAlertSend
+        static let buttonCancel = R.Strings.commonCancel
+        static let deleteAlertDidStart = R.Strings.commonLoading
+        static let deleteAlertDidFailMessage = R.Strings.chatListDeleteErrorOne
+    }
+    
     weak var navigator: ChatsTabNavigator?
 
     private let chatRepository: ChatRepository
@@ -14,11 +23,14 @@ final class ChatConversationsListViewModel: BaseViewModel, Paginable {
     private let tracker: TrackerProxy
     private let featureFlags: FeatureFlaggeable
     
-    var deleteActionBlock: (() -> Void)?
+    var deleteConversationConfirmationBlock: ((ChatConversation) -> Void)?
+    var deleteConversationDidStartBlock: ((String) -> Void)?
+    var deleteConversationDidSuccessBlock: (() -> Void)?
+    var deleteConversationDidFailBlock: ((String) -> Void)?
     private var websocketWasClosedDuringCurrentSession = false
     
     let rx_navigationBarTitle = Variable<String?>(nil)
-    let rx_navigationBarFilterButtonImage = Variable<UIImage>(#imageLiteral(resourceName: "ic_chat_filter"))
+    let rx_navigationBarFilterButtonImage = Variable<UIImage>(R.Asset.IconsButtons.icChatFilter.image)
     let rx_navigationActionSheet = PublishSubject<NavigationActionSheet>()
     let rx_isEditing = Variable<Bool>(false)
     let rx_conversations = Variable<[ChatConversation]>([])
@@ -74,12 +86,12 @@ final class ChatConversationsListViewModel: BaseViewModel, Paginable {
         return R.Strings.chatListTitle + " (\(filter.localizedString))"
     }
     
-    // MARK: Actions
+    // MARK: Navigation Bar Actions
     
     func openOptionsActionSheet() {
         var deleteAction: UIAction {
             return UIAction(interface: .text(R.Strings.chatListDelete),
-                            action: { [weak self] in self?.deleteActionBlock?() })
+                            action: { [weak self] in self?.switchEditMode(isEditing: true) })
         }
         var markAllConvesationsAsReadAction: UIAction {
             return UIAction(interface: .text(R.Strings.chatMarkConversationAsReadButton),
@@ -120,6 +132,10 @@ final class ChatConversationsListViewModel: BaseViewModel, Paginable {
         rx_navigationActionSheet.onNext((cancelTitle: R.Strings.commonCancel, actions: actions))
     }
     
+    func switchEditMode(isEditing: Bool) {
+        rx_isEditing.value = isEditing
+    }
+
     func markAllConversationAsRead() {
         tracker.trackEvent(TrackerEvent.chatMarkMessagesAsRead())
         chatRepository.markAllConversationsAsRead(completion: nil)
@@ -133,14 +149,34 @@ final class ChatConversationsListViewModel: BaseViewModel, Paginable {
         navigator?.openInactiveConversations()
     }
     
-    func openConversation(_ conversation: ChatConversation) {
+    // MARK: Table View Actions
+    
+    func tableViewDidSelectItem(at indexPath: IndexPath) {
+        guard rx_conversations.value.indices.contains(indexPath.row) else { return }
+        let conversation = rx_conversations.value[indexPath.row]
         navigator?.openChat(.conversation(conversation: conversation),
                             source: .chatList,
                             predefinedMessage: nil)
     }
     
-    func switchEditing() {
-        rx_isEditing.value = !rx_isEditing.value
+    func tableViewDidDeleteItem(at indexPath: IndexPath) {
+        guard rx_conversations.value.indices.contains(indexPath.row) else { return }
+        let conversation = rx_conversations.value[indexPath.row]
+        deleteConversationConfirmationBlock?(conversation)
+    }
+    
+    func deleteConversation(conversation: ChatConversation) {
+        guard let conversationId = conversation.objectId else { return }
+        deleteConversationDidStartBlock?(Localize.deleteAlertDidStart)
+        chatRepository.archiveConversations([conversationId]) { [weak self] result in
+            if let _ = result.value {
+                self?.tracker.trackEvent(TrackerEvent.chatDeleteComplete(numberOfConversations: 1,
+                                                                         isInactiveConversation: false))
+                self?.deleteConversationDidSuccessBlock?()
+            } else if let _ = result.error {
+                self?.deleteConversationDidFailBlock?(Localize.deleteAlertDidFailMessage)
+            }
+        }
     }
 
     // MARK: Reachability

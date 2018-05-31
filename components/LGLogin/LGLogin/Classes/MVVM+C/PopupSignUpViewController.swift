@@ -12,9 +12,12 @@ import GoogleSignIn
 class PopupSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignInUIDelegate, SignUpViewModelDelegate {
 
     @IBOutlet weak var contentContainer: UIView!
+    @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var claimLabel: UILabel!
     @IBOutlet weak var connectFBButton: LetgoButton!
+    @IBOutlet weak var connectFBIcon: UIImageView!
     @IBOutlet weak var connectGoogleButton: LetgoButton!
+    @IBOutlet weak var connectGoogleIcon: UIImageView!
     @IBOutlet weak var signUpButton: UIButton!
     @IBOutlet weak var logInButton: UIButton!
     @IBOutlet weak var legalTextView: UITextView!
@@ -28,7 +31,9 @@ class PopupSignUpViewController: BaseViewController, UITextViewDelegate, GIDSign
     init(viewModel: SignUpViewModel, topMessage: String) {
         self.viewModel = viewModel
         self.topMessage = topMessage
-        super.init(viewModel: viewModel, nibName: "PopupSignUpViewController")
+        super.init(viewModel: viewModel,
+                   nibName: "PopupSignUpViewController",
+                   bundle: R.loginBundle)
         self.viewModel.delegate = self
         modalPresentationStyle = .overCurrentContext
         modalTransitionStyle = .crossDissolve
@@ -78,11 +83,14 @@ class PopupSignUpViewController: BaseViewController, UITextViewDelegate, GIDSign
     // MARK: - Private methods
 
     private func setupUI() {
-
         contentContainer.cornerRadius = LGUIKitConstants.smallCornerRadius
-        
+        closeButton.setImage(R.Asset.IconsButtons.icCloseDark.image,
+                             for: .normal)
+
         connectFBButton.setStyle(.facebook)
+        connectFBIcon.image = R.Asset.IconsButtons.icFacebookRounded.image
         connectGoogleButton.setStyle(.google)
+        connectGoogleIcon.image = R.Asset.IconsButtons.icGoogleRounded.image
 
         signUpButton.setBackgroundImage(signUpButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
             for: .normal)

@@ -43,9 +43,9 @@ enum ChatConversationsListFilter {
     var filterIcon: UIImage {
         switch self {
         case .all:
-            return #imageLiteral(resourceName: "ic_chat_filter")
+            return R.Asset.Chat.icFilter.image
         case .selling, .buying:
-            return #imageLiteral(resourceName: "ic_chat_filter_active")
+            return R.Asset.Chat.icFilterActive.image
         }
     }
     

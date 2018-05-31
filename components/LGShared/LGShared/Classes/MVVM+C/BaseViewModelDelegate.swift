@@ -7,7 +7,7 @@
 //
 import UIKit
 
-protocol BaseViewModelDelegate: class {
+public protocol BaseViewModelDelegate: class {
     func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?)
 
     func vmShowLoading(_ loadingMessage: String?)
@@ -29,60 +29,60 @@ protocol BaseViewModelDelegate: class {
 }
 
 extension UIViewController: BaseViewModelDelegate {
-    @objc func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?) {
+    public func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?) {
         showAutoFadingOutMessageAlert(message, completion: completion)
     }
 
-    @objc func vmShowLoading(_ loadingMessage: String?) {
+    public func vmShowLoading(_ loadingMessage: String?) {
         showLoadingMessageAlert(loadingMessage)
     }
 
-    func vmHideLoading(_ finishedMessage: String?, afterMessageCompletion: (() -> ())?) {
+    public func vmHideLoading(_ finishedMessage: String?, afterMessageCompletion: (() -> ())?) {
         dismissLoadingMessageAlert(finishedMessage, afterMessageCompletion: afterMessageCompletion)
     }
 
-    func vmShowAlert(_ title: String?, message: String?, actions: [UIAction]) {
+    public func vmShowAlert(_ title: String?, message: String?, actions: [UIAction]) {
         showAlert(title, message: message, actions: actions)
     }
 
-    func vmShowAlert(_ title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {
+    public func vmShowAlert(_ title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {
         showAlert(title, message: message, cancelLabel: cancelLabel, actions: actions)
     }
 
-    func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction]) {
+    public func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction]) {
         showActionSheet(cancelAction, actions: actions, barButtonItem: nil, completion: nil)
     }
 
-    func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction]) {
+    public func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction]) {
         showActionSheet(cancelLabel, actions: actions, barButtonItem: nil)
     }
 
-    func vmPop() {
+    public func vmPop() {
         _ = navigationController?.popViewController(animated: true)
     }
 
-    func vmDismiss(_ completion: (() -> Void)?) {
+    public func vmDismiss(_ completion: (() -> Void)?) {
         dismiss(animated: true, completion: completion)
     }
 
-    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, actions: [UIAction]?) {
+    public func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, actions: [UIAction]?) {
         showAlertWithTitle(title, text: text, alertType: alertType, actions: actions)
     }
     
-    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, actions: [UIAction]?, dismissAction: (() -> ())?) {
+    public func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, actions: [UIAction]?, dismissAction: (() -> ())?) {
         showAlertWithTitle(title, text: text, alertType: alertType, actions: actions, dismissAction: dismissAction)
     }
     
-    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout, actions: [UIAction]?, dismissAction: (() -> ())?) {
+    public func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout, actions: [UIAction]?, dismissAction: (() -> ())?) {
         showAlertWithTitle(title, text: text, alertType: alertType, buttonsLayout: buttonsLayout, actions: actions, dismissAction: dismissAction)
     }
 
-    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout,
+    public func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout,
                               actions: [UIAction]?) {
         showAlertWithTitle(title, text: text, alertType: alertType, buttonsLayout: buttonsLayout, actions: actions)
     }
 
-    func vmOpenInAppWebViewWith(url: URL) {
+    public func vmOpenInAppWebViewWith(url: URL) {
         openInAppWebViewWith(url: url)
     }
 }

@@ -8,24 +8,24 @@
 
 import WebKit
 
-class HelpViewController: BaseViewController {
+public class HelpViewController: BaseViewController {
     private let webView = WKWebView()
     private var viewModel: HelpViewModel
 
 
     // MARK: - Lifecycle
     
-    required init(viewModel: HelpViewModel) {
+    public required init(viewModel: HelpViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
         automaticallyAdjustsScrollViewInsets = false
     }
 
-    required init?(coder: NSCoder) {
+    public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
 
         webView.translatesAutoresizingMaskIntoConstraints = false

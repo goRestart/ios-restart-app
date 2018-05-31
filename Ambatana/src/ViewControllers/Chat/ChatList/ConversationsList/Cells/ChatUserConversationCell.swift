@@ -7,8 +7,8 @@ import LGComponents
 final class ChatUserConversationCell: UITableViewCell, ReusableCell {
 
     struct Layout {
-        static let listingImageViewHeight: CGFloat = 60
-        static let userImageViewHeight: CGFloat = 38
+        static let listingImageViewHeight: CGFloat = 64
+        static let userImageViewHeight: CGFloat = 40
         static let transactionBadgeHeight: CGFloat = 30
         static let pendingMessagesBadgeHeight: CGFloat = 18
         static let listingTitleLabelHeight: CGFloat = 18
@@ -35,10 +35,10 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
     private let mainStackContainer: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.alignment = .center
+        stackView.alignment = .top
         stackView.distribution = .fill
         stackView.isLayoutMarginsRelativeArrangement = true
-        stackView.layoutMargins = UIEdgeInsetsMake(8, 8, 8, 20)
+        stackView.layoutMargins = UIEdgeInsetsMake(8, 8, 8, 8)
         stackView.spacing = 0
         return stackView
     }()
@@ -167,6 +167,7 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
     func setupUI() {
         contentView.backgroundColor = .white
         layoutMargins = .zero
+        selectionStyle = .none
 
         statusStackContainer.addArrangedSubview(statusIcon)
         statusStackContainer.addArrangedSubview(statusLabel)
@@ -207,7 +208,7 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
         listingTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         assistantInfoLabel.translatesAutoresizingMaskIntoConstraints = false
 
-        listingImageView.layout().height(Layout.listingImageViewHeight).widthProportionalToHeight()
+        listingImageView.layout().widthProportionalToHeight()
         pendingMessagesLabel.layout().height(Layout.pendingMessagesBadgeHeight)
         statusIcon.layout().height(Layout.statusIconHeight).widthProportionalToHeight()
         listingTitleLabel.layout().height(Layout.listingTitleLabelHeight)
@@ -258,27 +259,25 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
     }
 
     func setupCellWith(data: ConversationCellData, indexPath: IndexPath) {
-        let tag = indexPath.hashValue
-
+        tag = indexPath.hashValue
         userNameLabel.text = data.userName
         listingTitleLabel.text = data.listingName
         timeLastMessageLabel.text = data.messageDate?.relativeTimeString(false)
         pendingMessagesLabel.isHidden = data.unreadCount <= 0
         pendingMessagesLabel.text = "\(data.unreadCount)"
 
-        listingImageView.setMainImage(mainImage: #imageLiteral(resourceName: "product_placeholder"))
+        listingImageView.setMainImage(mainImage: R.Asset.IconsButtons.productPlaceholder.image)
 
         listingImageView.setBadgeImage(badge: data.badge)
         contentView.backgroundColor = data.backgroundColor
 
         setImageWith(url: data.listingImageUrl,
-                     withPlaceholder: #imageLiteral(resourceName: "product_placeholder"),
                      intoImageView: listingImageView.mainView,
                      safeRecyclingTag: tag)
 
         if data.status != .userDeleted {
+            userImageView.image = data.userImagePlaceholder
             setImageWith(url: data.userImageUrl,
-                         withPlaceholder: data.userImagePlaceholder,
                          intoImageView: userImageView,
                          safeRecyclingTag: tag)
         }
@@ -289,11 +288,10 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
     }
 
     private func setImageWith(url: URL?,
-                              withPlaceholder placeholder: UIImage?,
                               intoImageView imageView: UIImageView,
                               safeRecyclingTag: Int) {
         guard let url = url else { return }
-        imageView.lg_setImageWithURL(url, placeholderImage: placeholder) {
+        imageView.lg_setImageWithURL(url) {
             [weak self] (result, url) in
             // tag check to prevent wrong image placement cos' of recycling
             if let image = result.value?.image, self?.tag == safeRecyclingTag {
@@ -318,7 +316,7 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
         if status == .userDeleted {
             userNameLabel.text = R.Strings.chatListAccountDeletedUsername
             listingTitleLabel.text = nil
-            userImageView.image = #imageLiteral(resourceName: "user_placeholder")
+            userImageView.image = R.Asset.IconsButtons.userPlaceholder.image
         }
 
         statusLabel.text = status.message
@@ -361,7 +359,7 @@ extension ConversationCellData {
     }
     var badge: UIImage? {
         guard !isDummy else { return nil }
-        return amISelling ? #imageLiteral(resourceName: "ic_corner_selling") : #imageLiteral(resourceName: "ic_corner_buying")
+        return amISelling ? R.Asset.Chat.icCornerSelling.image : R.Asset.Chat.icCornerBuying.image
     }
 
     var backgroundColor: UIColor {

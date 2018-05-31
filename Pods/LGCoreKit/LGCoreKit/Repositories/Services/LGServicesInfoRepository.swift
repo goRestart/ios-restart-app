@@ -1,6 +1,6 @@
 import RxSwift
 
-final class LGServicesInfoRepository: ServicesInfoRepository, ServicesInfoRetrievable {
+final class LGServicesInfoRepository: ServicesInfoRepository {
     typealias ServicesInfoCache = ServicesInfoDAO & ServicesInfoRetrievable
     
     private let dataSource: ServicesInfoDataSource

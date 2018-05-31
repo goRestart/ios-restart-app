@@ -13,7 +13,7 @@ import Nimble
 import Result
 import RxSwift
 
-class SignUpLogInViewModelSpec: QuickSpec, MockBaseViewModel {
+final class SignUpLogInViewModelSpec: QuickSpec, MockBaseViewModel {
     var state: MockBaseViewModelState = MockBaseViewModelState()
     
     var finishedSuccessfully: Bool = false

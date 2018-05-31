@@ -8,7 +8,7 @@
 
 import UIKit
 
-struct BubbleNotificationData {
+public struct BubbleNotificationData {
     let tagGroup: String?
     let text: String
     let infoText: String?

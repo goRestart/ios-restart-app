@@ -215,6 +215,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     let fileRepository: FileRepository
     let categoryRepository: CategoryRepository
     let carsInfoRepository: CarsInfoRepository
+    let servicesInfoRepository: ServicesInfoRepository
     let locationManager: LocationManager
     let tracker: Tracker
     let featureFlags: FeatureFlaggeable
@@ -225,7 +226,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
     // Rx
     let disposeBag = DisposeBag()
-
+    
     
     // MARK: - Lifecycle
     
@@ -243,6 +244,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
                   fileRepository: Core.fileRepository,
                   categoryRepository: Core.categoryRepository,
                   carsInfoRepository: Core.carsInfoRepository,
+                  servicesInfoRepository: Core.servicesInfoRepository,
                   locationManager: Core.locationManager,
                   tracker: TrackerProxy.sharedInstance,
                   featureFlags: FeatureFlags.sharedInstance,
@@ -259,6 +261,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
          fileRepository: FileRepository,
          categoryRepository: CategoryRepository,
          carsInfoRepository: CarsInfoRepository,
+         servicesInfoRepository: ServicesInfoRepository,
          locationManager: LocationManager,
          tracker: Tracker,
          featureFlags: FeatureFlaggeable,
@@ -270,6 +273,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         self.fileRepository = fileRepository
         self.categoryRepository = categoryRepository
         self.carsInfoRepository = carsInfoRepository
+        self.servicesInfoRepository = servicesInfoRepository
         self.locationManager = locationManager
         self.tracker = tracker
         self.featureFlags = featureFlags
@@ -459,14 +463,6 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         let carsAttributtesChoiceVMWithYears = CarAttributeSelectionViewModel(yearsList: carsYearsList, selectedYear: carYear.value)
         carsAttributtesChoiceVMWithYears.carAttributeSelectionDelegate = self
         delegate?.openCarAttributeSelectionsWithViewModel(attributesChoiceViewModel: carsAttributtesChoiceVMWithYears)
-    }
-    
-    func serviceTypeButtonPressed() {
-        // FIXME: Implement this
-    }
-    
-    func serviceSubtypeButtonPressed() {
-        // FIXME: Implement this
     }
     
     func realEstatePropertyTypeButtonPressed() {
@@ -929,6 +925,71 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     private func openLocationAppSettings() {
         guard let settingsURL = URL(string:UIApplicationOpenSettingsURLString) else { return }
         UIApplication.shared.openURL(settingsURL)
+    }
+}
+
+
+// MARK:- Services
+extension EditListingViewModel {
+    
+    func serviceTypeButtonPressed() {
+        let serviceTypes = servicesInfoRepository.retrieveServiceTypes()
+        let serviceTypeNames = serviceTypes.map( { $0.name } )
+        let selectedServiceType = serviceTypeName.value
+        
+        let vm = ListingAttributePickerViewModel(title: R.Strings.servicesServiceTypeListTitle,
+                                                 attributes: serviceTypeNames,
+                                                 selectedAttribute: selectedServiceType) { [weak self] selectedIndex in
+                                                    if let selectedIndex = selectedIndex {
+                                                        self?.updateServiceType(withServiceType: serviceTypes[safeAt: selectedIndex])
+                                                    } else {
+                                                        self?.clearServiceType()
+                                                    }
+        }
+        navigator?.openListingAttributePicker(viewModel: vm)
+    }
+    
+    func serviceSubtypeButtonPressed() {
+        guard let serviceTypeId = serviceTypeId.value else {
+            return
+        }
+        
+        let serviceSubtypes = servicesInfoRepository.serviceSubtypes(forServiceTypeId: serviceTypeId)
+        let serviceSubtypeNames = serviceSubtypes.map( { $0.name } )
+        let selectedServiceSubtype = serviceSubtypeName.value
+        
+        let vm = ListingAttributePickerViewModel(title: R.Strings.servicesServiceSubtypeListTitle,
+                                                 attributes: serviceSubtypeNames,
+                                                 selectedAttribute: selectedServiceSubtype,
+                                                 canSearchAttributes: true)
+        { [weak self] selectedIndex in
+            if let selectedIndex = selectedIndex {
+                self?.updateServiceSubtype(withServiceSubtype: serviceSubtypes[safeAt: selectedIndex])
+            } else {
+                self?.clearServiceSubtype()
+            }
+        }
+        navigator?.openListingAttributePicker(viewModel: vm)
+    }
+
+    private func updateServiceType(withServiceType serviceType: ServiceType?) {
+        clearServiceSubtype()
+        
+        serviceTypeName.value = serviceType?.name
+        serviceTypeId.value = serviceType?.id
+    }
+    
+    private func updateServiceSubtype(withServiceSubtype serviceSubtype: ServiceSubtype?) {
+        serviceSubtypeName.value = serviceSubtype?.name
+        serviceSubtypeId.value = serviceSubtype?.id
+    }
+    
+    private func clearServiceType() {
+        updateServiceType(withServiceType: nil)
+    }
+    
+    private func clearServiceSubtype() {
+        updateServiceSubtype(withServiceSubtype: nil)
     }
 }
 

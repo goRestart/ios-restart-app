@@ -119,8 +119,12 @@ extension R {
       public static let allValues: [AssetType] = allImages
     }
     public enum Chat {
+      public static let icCornerBuying = ImageAsset(name: "ic_corner_buying")
+      public static let icCornerSelling = ImageAsset(name: "ic_corner_selling")
       public static let icDobleRead = ImageAsset(name: "ic_doble_read")
       public static let icDobleReceived = ImageAsset(name: "ic_doble_received")
+      public static let icFilter = ImageAsset(name: "ic_filter")
+      public static let icFilterActive = ImageAsset(name: "ic_filter_active")
       public static let icTickSent = ImageAsset(name: "ic_tick_sent")
       public static let icWatch = ImageAsset(name: "ic_watch")
 
@@ -128,8 +132,12 @@ extension R {
       public static let allColors: [ColorAsset] = [
       ]
       public static let allImages: [ImageAsset] = [
+        icCornerBuying,
+        icCornerSelling,
         icDobleRead,
         icDobleReceived,
+        icFilter,
+        icFilterActive,
         icTickSent,
         icWatch,
       ]
@@ -270,6 +278,8 @@ extension R {
       public static let icBuildTrustSmall = ImageAsset(name: "ic_build_trust_small")
       public static let icCameraBlockingTour = ImageAsset(name: "ic_camera_blocking_tour")
       public static let icCameraTour = ImageAsset(name: "ic_camera_tour")
+      public static let icChatFilter = ImageAsset(name: "ic_chat_filter")
+      public static let icChatFilterActive = ImageAsset(name: "ic_chat_filter_active")
       public static let icCheckSent = ImageAsset(name: "ic_check_sent")
       public static let icCheckmark = ImageAsset(name: "ic_checkmark")
       public static let icChevronRight = ImageAsset(name: "ic_chevron_right")
@@ -495,6 +505,8 @@ extension R {
         icBuildTrustSmall,
         icCameraBlockingTour,
         icCameraTour,
+        icChatFilter,
+        icChatFilterActive,
         icCheckSent,
         icCheckmark,
         icChevronRight,

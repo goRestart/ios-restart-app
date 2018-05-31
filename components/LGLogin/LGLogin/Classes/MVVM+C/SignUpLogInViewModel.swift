@@ -11,7 +11,7 @@ import LGCoreKit
 import Result
 import RxSwift
 
-enum LoginActionType: Int {
+public enum LoginActionType: Int {
     case signup, login
 }
 
@@ -688,7 +688,7 @@ fileprivate extension SignUpFormErrors {
 // MARK: - RecaptchaTokenDelegate
 
 extension SignUpLogInViewModel: RecaptchaTokenDelegate {
-    func recaptchaTokenObtained(token: String, action: LoginActionType) {
+    public func recaptchaTokenObtained(token: String, action: LoginActionType) {
         switch action {
         case .login:
             logIn(recaptchaToken: token)

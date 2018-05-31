@@ -1,11 +1,3 @@
-//
-//  MockPostalAddressRetrievalRepository.swift
-//  LGCoreKit
-//
-//  Created by Albert Hernández López on 20/11/15.
-//  Copyright © 2015 Ambatana Inc. All rights reserved.
-//
-
 import CoreLocation
 
 open class MockLocationRepository: LocationRepository {
@@ -19,7 +11,12 @@ open class MockLocationRepository: LocationRepository {
     public var emergencyIsActive: Bool = false
 
     public var authorizationStatusValue: CLAuthorizationStatus = .notDetermined
-    
+
+    var retrieveLocationSuggestionsCalled: Bool = false
+    var retrieveLocationSuggestionDetailsCalled: Bool = false
+    var retrievePostalAddressCalled: Bool = false
+    var retrieveIPLookupLocationCalled: Bool = false
+
     // MARK: - Lifecycle
     
     required public init() {
@@ -50,18 +47,22 @@ open class MockLocationRepository: LocationRepository {
 
     
     public func retrieveLocationSuggestions(addressString: String, currentLocation: LGLocation?, completion: LocationSuggestionsRepositoryCompletion?) {
+        retrieveLocationSuggestionsCalled = true
         delay(result: suggestionsResult, completion: completion)
     }
     
     public func retrieveLocationSuggestionDetails(placeId: String, completion: LocationSuggestionDetailsRepositoryCompletion?) {
+        retrieveLocationSuggestionDetailsCalled = true
         delay(result: suggestionDetailsResult, completion: completion)
     }
     
     public func retrievePostalAddress(location: LGLocationCoordinates2D, completion: PostalAddressLocationRepositoryCompletion?) {
+        retrievePostalAddressCalled = true
         delay(result: postalAddressResult, completion: completion)
     }
     
     public func retrieveIPLookupLocation(completion: IPLookupLocationRepositoryCompletion?) {
+        retrieveIPLookupLocationCalled = true
         delay(result: ipLookupLocationResult, completion: completion)
     }
 }

@@ -56,8 +56,8 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var showExactLocationForPros: Bool = true
     var showPasswordlessLogin: ShowPasswordlessLogin = .control
     var emergencyLocate: EmergencyLocate = .control
-
     var searchAlerts: SearchAlerts = .control
+    var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed = .control
     
     // Country dependant features
     var freePostingModeAllowed = false
