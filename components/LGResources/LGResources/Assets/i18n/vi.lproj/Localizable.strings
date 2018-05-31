@@ -1116,9 +1116,9 @@
 "sell_title_autogen_label" = "Tiêu đề do letgo đề xuất";
 "sell_title_field_hint" = "Tiêu đề (tùy chọn)";
 "sell_uploading_label" = "Đang đăng bài...";
-"services_service_subtype_list_title" = "Dịch vụ";
-"services_service_subtype_title" = "Dịch vụ";
-"services_service_type_list_title" = "Loại dịch vụ";
+"services_service_subtype_list_title" = "Service subtype";
+"services_service_subtype_title" = "Tiểu loại dịch vụ";
+"services_service_type_list_title" = "Service type";
 "services_service_type_title" = "Loại dịch vụ";
 "settings_change_email_button" = "Email";
 "settings_change_location_button" = "Địa điểm";

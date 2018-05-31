@@ -10,10 +10,10 @@ class ListingAttributePickerViewController: BaseViewController {
         if let index = viewModel.selectedIndex {
             selectedIndexPath = IndexPath(row: index, section: 0)
         }
-        tableView = ListingAttributePickerTableView(
-            values: viewModel.attributes,
-            selectedIndex: selectedIndexPath,
-            delegate: nil)
+        tableView = ListingAttributePickerTableView(values: viewModel.attributes,
+                                                    selectedIndex: selectedIndexPath,
+                                                    delegate: nil,
+                                                    showsSearchBar: viewModel.canSearchAttributes)
         super.init(viewModel: viewModel, nibName: nil)
         tableView.delegate = self
         self.title = viewModel.title

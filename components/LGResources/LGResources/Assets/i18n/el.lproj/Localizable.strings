@@ -1116,9 +1116,9 @@
 "sell_title_autogen_label" = "Προτεινόμενος τίτλος από το letgo";
 "sell_title_field_hint" = "Τίτλος (προαιρετικό)";
 "sell_uploading_label" = "Δημοσίευση καταχώρησης...";
-"services_service_subtype_list_title" = "Υπηρεσία";
-"services_service_subtype_title" = "Υπηρεσία";
-"services_service_type_list_title" = "Τύπος υπηρεσίας";
+"services_service_subtype_list_title" = "Service subtype";
+"services_service_subtype_title" = "Υποκατηγορία υπηρεσίας";
+"services_service_type_list_title" = "Service type";
 "services_service_type_title" = "Τύπος υπηρεσίας";
 "settings_change_email_button" = "Email";
 "settings_change_location_button" = "Τοποθεσία";

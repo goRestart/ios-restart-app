@@ -1116,9 +1116,9 @@
 "sell_title_autogen_label" = "Titelvorschlag von letgo";
 "sell_title_field_hint" = "Produkttitel (optional)";
 "sell_uploading_label" = "Angebot wird eingestellt...";
-"services_service_subtype_list_title" = "Dienstleistung";
-"services_service_subtype_title" = "Dienstleistung";
-"services_service_type_list_title" = "Dienstleistungsart";
+"services_service_subtype_list_title" = "Service subtype";
+"services_service_subtype_title" = "Dienstleistungsunterart";
+"services_service_type_list_title" = "Service type";
 "services_service_type_title" = "Dienstleistungsart";
 "settings_change_email_button" = "E-Mail-Adresse";
 "settings_change_location_button" = "Standort";

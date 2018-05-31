@@ -1,19 +1,10 @@
-//
-//  LGLocationManager.swift
-//  LGCoreKit
-//
-//  Created by Eli Kohen on 18/11/2016.
-//  Copyright © 2016 Ambatana Inc. All rights reserved.
-//
-
 import CoreLocation
 import Result
 import RxSwift
 
-
 // MARK: - LocationManager
 
-class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
+final class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
     
     var didAcceptPermissions: Bool {
         switch locationRepository.authorizationStatus() {
@@ -84,7 +75,8 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
     }
     
     func initialize() {
-        if let location = currentLocation, currentLocation?.countryCode == nil {
+        if let location = currentLocation, location.countryCode != nil {
+            // we do this for older sessions with valid addresses.
             updateLocation(location)
         } else {
             retrieveInitialLocationIfNeeded()
