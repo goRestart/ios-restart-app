@@ -83,11 +83,12 @@ class HighlightedBubbleNotification: UIView {
     }
     
     
-    func setupOnView(parentView: UIView) {
+    func setupOnView(parentView: UIView, tabBar: UITabBar) {
         //parentView.addSubview(self)
         
         self.layout(with: parentView).fillHorizontal(by: 10)
-        self.layout(with: parentView).bottom(by: -100)
+        //self.layout(with: parentView).bottom(by: -100)
+        self.layout(with: tabBar).bottom(to: .top)
         self.layout().height(80)
         
 //        // bubble constraints

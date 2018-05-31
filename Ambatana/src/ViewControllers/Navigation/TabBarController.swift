@@ -186,7 +186,7 @@ final class TabBarController: UITabBarController {
     }
     
     func showHighlightedBubbleNotification(data: HighlightedBubbleNotificationData) {
-        bubbleNotificationManager.showHighlightedBubble(data, duration: 5, view: view)
+        bubbleNotificationManager.showHighlightedBubble(data, duration: 5, view: view, tabBar: tabBar)
     }
     
 

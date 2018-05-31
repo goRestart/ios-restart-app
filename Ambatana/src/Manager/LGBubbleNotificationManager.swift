@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class LGBubbleNotificationManager: HighlightedBubbleNotification, BubbleNotificationManager {
+final class LGBubbleNotificationManager: BubbleNotificationManager {
 
     static let defaultDuration: TimeInterval = 3
 
@@ -56,7 +56,7 @@ final class LGBubbleNotificationManager: HighlightedBubbleNotification, BubbleNo
         bubble.showBubble(autoDismissTime: finalDuration)
     }
 
-    func showHighlightedBubble(_ data: HighlightedBubbleNotificationData, duration: TimeInterval?, view: UIView) {
+    func showHighlightedBubble(_ data: HighlightedBubbleNotificationData, duration: TimeInterval?, view: UIView, tabBar: UITabBar) {
         let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: BubbleNotification.initialHeight)
         let bubble = HighlightedBubbleNotification(frame: frame)
         //let bubble = BubbleNotification(frame: frame, data: data)
@@ -64,7 +64,7 @@ final class LGBubbleNotificationManager: HighlightedBubbleNotification, BubbleNo
         bubble.backgroundColor = .black
         bubble.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(bubble)
-        bubble.setupOnView(parentView: view)
+        bubble.setupOnView(parentView: view, tabBar: tabBar)
         view.bringSubview(toFront: bubble)
         
         //        if let tag = data.tagGroup {
