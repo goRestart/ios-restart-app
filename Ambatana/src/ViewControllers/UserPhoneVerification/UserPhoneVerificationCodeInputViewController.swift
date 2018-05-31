@@ -158,7 +158,8 @@ final class UserPhoneVerificationCodeInputViewController: BaseViewController {
             .resendCodeCountdown
             .asDriver()
             .drive(onNext: { [weak self] value in
-                let countdown = "00:\(value)"
+                let seconds = String(format: "%02d", value)
+                let countdown = "00:\(seconds)"
                 self?.codeInformationLabel.text = R.Strings.phoneVerificationCodeInputViewContentSubtext(countdown)
             })
             .disposed(by: disposeBag)
