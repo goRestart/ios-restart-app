@@ -10,5 +10,6 @@ import Foundation
 
 protocol BubbleNotificationManager {
     func showBubble(_ data: BubbleNotificationData, duration: TimeInterval?, view: UIView)
-    func showHighlightedBubble(_ data: HighlightedBubbleNotificationData, duration: TimeInterval?, view: UIView, tabBar: UITabBar)
+    func showHighlightedBubble(_ data: BottomBubbleNotificationData, duration: TimeInterval?, view: UIView, tabBar: UITabBar)
+    func hide()
 }

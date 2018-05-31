@@ -248,8 +248,8 @@ extension AppCoordinator: AppNavigator {
                   completion: nil)
     }
     
-    func showHighlightedBubble(data: HighlightedBubbleNotificationData) {
-        tabBarCtl.showHighlightedBubbleNotification(data: data)
+    func showHighlightedBubble(data: BottomBubbleNotificationData) {
+        tabBarCtl.showBottomBubbleNotification(data: data)
     }
     
     
@@ -689,6 +689,7 @@ extension AppCoordinator: UITabBarControllerDelegate {
 
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         guard let tab = tabAtController(viewController) else { return }
+        tabBarCtl.hide()
         selectedTab.value = tab
     }
 }

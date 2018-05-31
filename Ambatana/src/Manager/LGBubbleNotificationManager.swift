@@ -15,7 +15,7 @@ final class LGBubbleNotificationManager: BubbleNotificationManager {
     static let sharedInstance: LGBubbleNotificationManager = LGBubbleNotificationManager()
 
     private var taggedNotifications: [String : [BubbleNotification]] = [:]
-
+    private var highlightedNotifications: [BottomBubbleNotification] = []
 
     // Showing Methods
 
@@ -56,9 +56,9 @@ final class LGBubbleNotificationManager: BubbleNotificationManager {
         bubble.showBubble(autoDismissTime: finalDuration)
     }
 
-    func showHighlightedBubble(_ data: HighlightedBubbleNotificationData, duration: TimeInterval?, view: UIView, tabBar: UITabBar) {
+    func showHighlightedBubble(_ data: BottomBubbleNotificationData, duration: TimeInterval?, view: UIView, tabBar: UITabBar) {
         let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: BubbleNotification.initialHeight)
-        let bubble = HighlightedBubbleNotification(frame: frame)
+        let bubble = BottomBubbleNotification(frame: frame)
         //let bubble = BubbleNotification(frame: frame, data: data)
         bubble.delegate = self
         bubble.backgroundColor = .black
@@ -67,12 +67,13 @@ final class LGBubbleNotificationManager: BubbleNotificationManager {
         bubble.setupOnView(parentView: view, tabBar: tabBar)
         view.bringSubview(toFront: bubble)
         
-        //        if let tag = data.tagGroup {
-        //            if taggedNotifications[tag] == nil {
-        //                taggedNotifications[tag] = []
-        //            }
-        //            taggedNotifications[tag]?.append(bubble)
-        //        }
+        highlightedNotifications.append(bubble)
+//        if let tag = data.tagGroup {
+//            if taggedNotifications[tag] == nil {
+//                taggedNotifications[tag] = []
+//            }
+//            taggedNotifications[tag]?.append(bubble)
+//        }
         
         guard let duration = duration else {
             // if no duration is defined, we set the default for bubbles with no buttons
@@ -82,6 +83,10 @@ final class LGBubbleNotificationManager: BubbleNotificationManager {
         
         let finalDuration = (data.action == nil && duration <= 0) ? LGBubbleNotificationManager.defaultDuration : duration
         bubble.showBubble(autoDismissTime: finalDuration)
+    }
+    
+    func hide() {
+        highlightedNotifications.forEach{ $0.closeBubble() }
     }
     
     fileprivate func clearTagNotifications(_ tag: String?) {
@@ -112,19 +117,19 @@ extension LGBubbleNotificationManager: BubbleNotificationDelegate {
 }
 
 
-// MARK: - HighlightedBubbleNotificationDelegate
+// MARK: - BottomBubbleNotificationDelegate
 
-extension LGBubbleNotificationManager: HighlightedBubbleNotificationDelegate {
+extension LGBubbleNotificationManager: BottomBubbleNotificationDelegate {
     
-    func didSwipeHighlightedBubbleNotification(_ notification: HighlightedBubbleNotification) {
+    func didSwipeBottomBubbleNotification(_ notification: BottomBubbleNotification) {
         notification.closeBubble()
     }
     
-    func didTimeOutHighlightedBubbleNotification(_ notification: HighlightedBubbleNotification) {
+    func didTimeOutBottomBubbleNotification(_ notification: BottomBubbleNotification) {
         notification.closeBubble()
     }
     
-    func didPressHighlightedBubbleNotification(_ notification: HighlightedBubbleNotification) {
+    func didPressBottomBubbleNotification(_ notification: BottomBubbleNotification) {
         //notification.data.action?.action()
         notification.closeBubble()
         //clearTagNotifications(notification.data.tagGroup)

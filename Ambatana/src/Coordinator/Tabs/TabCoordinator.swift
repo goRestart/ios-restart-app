@@ -776,7 +776,7 @@ extension TabCoordinator: ListingDetailNavigator {
 //        let data = BubbleNotificationData(text: message, action: action)
 //        bubbleNotificationManager.showBubble(data, duration: duration, view: navigationController.view)
         let action = UIAction(interface: .button(R.Strings.productInterestedUndo, .terciary), action: action)
-        let data = HighlightedBubbleNotificationData(text: message, action: action)
+        let data = BottomBubbleNotificationData(text: message, action: action)
         appNavigator?.showHighlightedBubble(data: data)
     }
 }

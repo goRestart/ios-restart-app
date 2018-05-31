@@ -27,18 +27,18 @@
 //    }
 //}
 
-struct HighlightedBubbleNotificationData {
+struct BottomBubbleNotificationData {
     let text: String
     let action: UIAction
 }
 
-protocol HighlightedBubbleNotificationDelegate: class {
-    func didSwipeHighlightedBubbleNotification(_ notification: HighlightedBubbleNotification)
-    func didTimeOutHighlightedBubbleNotification(_ notification: HighlightedBubbleNotification)
-    func didPressHighlightedBubbleNotification(_ notification: HighlightedBubbleNotification)
+protocol BottomBubbleNotificationDelegate: class {
+    func didSwipeBottomBubbleNotification(_ notification: BottomBubbleNotification)
+    func didTimeOutBottomBubbleNotification(_ notification: BottomBubbleNotification)
+    func didPressBottomBubbleNotification(_ notification: BottomBubbleNotification)
 }
 
-class HighlightedBubbleNotification: UIView {
+class BottomBubbleNotification: UIView {
     
     static let initialHeight: CGFloat = 80
     
@@ -53,7 +53,7 @@ class HighlightedBubbleNotification: UIView {
     static let showAnimationTime: TimeInterval = 0.3
     static let closeAnimationTime: TimeInterval = 0.5
     
-    weak var delegate: HighlightedBubbleNotificationDelegate?
+    weak var delegate: BottomBubbleNotificationDelegate?
     
     private var containerView = UIView()
     private var leftIcon = UIImageView()
@@ -249,16 +249,16 @@ class HighlightedBubbleNotification: UIView {
     
     @objc private func buttonTapped() {
         autoDismissTimer?.invalidate()
-        delegate?.didPressHighlightedBubbleNotification(self)
+        delegate?.didPressBottomBubbleNotification(self)
     }
     
     @objc private func swiped() {
         autoDismissTimer?.invalidate()
-        delegate?.didSwipeHighlightedBubbleNotification(self)
+        delegate?.didSwipeBottomBubbleNotification(self)
     }
     
     @objc private func autoDismiss() {
-        delegate?.didTimeOutHighlightedBubbleNotification(self)
+        delegate?.didTimeOutBottomBubbleNotification(self)
     }
     
     private func removeBubble() {

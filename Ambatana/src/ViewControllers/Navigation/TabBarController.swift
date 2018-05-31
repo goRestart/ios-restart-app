@@ -107,6 +107,7 @@ final class TabBarController: UITabBarController {
         setTabBarHidden(false, animated: false)
 
         selectedIndex = tab.index
+        
         // Notify the delegate, as programmatically change doesn't do it
         delegate?.tabBarController?(self, didSelect: vc)
     }
@@ -185,8 +186,12 @@ final class TabBarController: UITabBarController {
         }
     }
     
-    func showHighlightedBubbleNotification(data: HighlightedBubbleNotificationData) {
+    func showBottomBubbleNotification(data: BottomBubbleNotificationData) {
         bubbleNotificationManager.showHighlightedBubble(data, duration: 5, view: view, tabBar: tabBar)
+    }
+    
+    func hide() {
+        bubbleNotificationManager.hide()
     }
     
 
