@@ -537,10 +537,10 @@
 "nps_survey_title" = "저희는 알고자 합니다...";
 "nps_survey_very_bad" = "그렇지 않음";
 "nps_survey_very_good" = "전혀 그렇지 않음";
-"offensive_report_alert_message" = "We've become aware of potentially inappropiate messages sent from your account.\n\nRepeated violations may result in account termination.";
-"offensive_report_alert_primary_action" = "Review Guidelines";
-"offensive_report_alert_secondary_action" = "넘기기";
-"offensive_report_alert_title" = "Review Community Guidelines";
+"offensive_report_alert_message" = "저희는 사용자분의 계정에서 부적절한 메시지가 발송된 점을 발견하였습니다.\n\n반복적인 규정 위반은 계정 삭제로 이어질 수 있음을 알려드립니다.";
+"offensive_report_alert_primary_action" = "규정 검토";
+"offensive_report_alert_secondary_action" = "다음";
+"offensive_report_alert_title" = "커뮤니티 가이드라인 리뷰";
 "onboarding_alert_no" = "아니오";
 "onboarding_alert_yes" = "네";
 "onboarding_categories_button_countdown" = "적어도 %i 이상 선택하세요";
@@ -867,6 +867,7 @@
 "profile_permissions_header_message" = "메세지 알림 활성화";
 "profile_reputation_tooltip_title" = "인증된 사용자입니다! 인증을 진행하시기를 원하신다면 이곳을 클릭해주세요.";
 "profile_reviews_count" = "리뷰";
+"profile_reviews_empty_label" = "리뷰가 없습니다 (아직이에요!)";
 "profile_reviews_tab" = "리뷰";
 "profile_selling_no_products_label" = "상품 목록이 없습니다 (아직이에요!)";
 "profile_selling_other_user_no_products_button" = "계속 검색하기";
@@ -1115,8 +1116,10 @@
 "sell_title_autogen_label" = "letgo에서 추천하는 제목";
 "sell_title_field_hint" = "제품 이름 (선택사항)";
 "sell_uploading_label" = "게시글을 등록 중 입니다...";
-"services_service_subtype_title" = "Service subtype";
-"services_service_type_title" = "Service type";
+"services_service_subtype_list_title" = "Service subtype";
+"services_service_subtype_title" = "서비스 하위 종류";
+"services_service_type_list_title" = "Service type";
+"services_service_type_title" = "서비스 종류";
 "settings_change_email_button" = "이메일";
 "settings_change_location_button" = "위치";
 "settings_change_password_button" = "비밀번호";

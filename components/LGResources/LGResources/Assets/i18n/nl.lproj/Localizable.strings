@@ -867,6 +867,7 @@
 "profile_permissions_header_message" = "Bericht meldingen inschakelen";
 "profile_reputation_tooltip_title" = "Geverifieerde gebruiker! Tik als je ook geverifieerd wilt worden.";
 "profile_reviews_count" = "Beoordelingen";
+"profile_reviews_empty_label" = "(NOG!) GEEN BEOORDELINGEN";
 "profile_reviews_tab" = "Beoordelingen";
 "profile_selling_no_products_label" = "(NOG!) GEEN ADVERTENTIES";
 "profile_selling_other_user_no_products_button" = "Blijf browsen";
@@ -1115,7 +1116,9 @@
 "sell_title_autogen_label" = "Titel voorgesteld door letgo";
 "sell_title_field_hint" = "Titel (optioneel)";
 "sell_uploading_label" = "Uploaden van jouw advertentie...";
+"services_service_subtype_list_title" = "Service subtype";
 "services_service_subtype_title" = "Service subtype";
+"services_service_type_list_title" = "Service type";
 "services_service_type_title" = "Service type";
 "settings_change_email_button" = "E-mail";
 "settings_change_location_button" = "Locatie";

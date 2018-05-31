@@ -577,7 +577,7 @@
 "passwordless_email_input_textfield_placeholder" = "Email";
 "passwordless_email_input_title" = "Continuer avec votre courriel";
 "passwordless_email_sent_screen_title" = "Vérifiez votre boîte de réception de courriels";
-"passwordless_email_sent_subtitle" = "Adresse courriel : %@";
+"passwordless_email_sent_subtitle" = "Adresse email : %@";
 "passwordless_email_sent_title" = "Pour vous connecter, cliquez sur le « lien magique » que nous venons de vous envoyer.";
 "passwordless_main_signup_button" = "Continuer avec votre courriel";
 "passwordless_username_input_done_button" = "Terminé";
@@ -867,6 +867,7 @@
 "profile_permissions_header_message" = "Activer les notifications de message";
 "profile_reputation_tooltip_title" = "Utilisateur vérifié ! Sélectionnez si vous souhaitez vous aussi être vérifié(e).";
 "profile_reviews_count" = "Notes";
+"profile_reviews_empty_label" = "AUCUNE ÉVALUATION (POUR LE MOMENT!)";
 "profile_reviews_tab" = "Notes";
 "profile_selling_no_products_label" = "AUCUNE ANNONCE (POUR LE MOMENT !)";
 "profile_selling_other_user_no_products_button" = "Continuer à naviguer";
@@ -1115,8 +1116,10 @@
 "sell_title_autogen_label" = "Titre suggéré par letgo";
 "sell_title_field_hint" = "Titre du bien (optionnel)";
 "sell_uploading_label" = "Publication de votre annonce...";
-"services_service_subtype_title" = "Service subtype";
-"services_service_type_title" = "Service type";
+"services_service_subtype_list_title" = "Service subtype";
+"services_service_subtype_title" = "Sous-catégorie de service";
+"services_service_type_list_title" = "Service type";
+"services_service_type_title" = "Catégorie de service";
 "settings_change_email_button" = "Email";
 "settings_change_location_button" = "Localisation";
 "settings_change_password_button" = "Mot de passe";

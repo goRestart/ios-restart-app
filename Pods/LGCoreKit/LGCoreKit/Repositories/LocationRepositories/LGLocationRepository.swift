@@ -1,11 +1,3 @@
-//
-//  CLLocationRepository.swift
-//  LGCoreKit
-//
-//  Created by Dídac on 12/08/15.
-//  Copyright (c) 2015 Ambatana Inc. All rights reserved.
-//
-
 import CoreLocation
 import Result
 
@@ -130,12 +122,12 @@ public class LGLocationRepository: LocationRepository {
     public func retrievePostalAddress(location: LGLocationCoordinates2D,
                                       completion: PostalAddressLocationRepositoryCompletion?) {
         // Using only Apple geocode. We make too many geocode requests to use Niord
-        appleLocationDataSource.retrievePostalAddress(location: location) { result in
-            if let value = result.value {
-                completion?(PostalAddressLocationRepositoryResult(value: value))
-            } else if let error = result.error {
-                completion?(PostalAddressLocationRepositoryResult(error: error))
+        appleLocationDataSource.retrievePostalAddress(location: location) { [weak self] result in
+            guard let value = result.value else {
+                self?.niordLocationDataSource.retrievePostalAddress(location: location, completion: completion)
+                return
             }
+            completion?(PostalAddressLocationRepositoryResult(value: value))
         }
     }
     

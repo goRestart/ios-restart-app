@@ -27,7 +27,6 @@ final class SellCoordinator: Coordinator {
     fileprivate let postCategory: PostCategory?
     weak var delegate: SellCoordinatorDelegate?
 
-    fileprivate let disposeBag = DisposeBag()
     private var lastPostUsedMachineLearning: Bool = false
 
 
@@ -80,7 +79,7 @@ final class SellCoordinator: Coordinator {
                                                        listingTitle: listingTitle)
             let postListingVC = MLPostListingViewController(viewModel: postListingVM,
                                                             forcedInitialTab: .camera)
-            navigationController = SellNavigationController(rootViewController: postListingVC)
+            navigationController = SellNavigationController(root: postListingVC)
             navigationController.setupInitialCategory(postCategory: postCategory)
             self.viewController = navigationController
             postListingVM.navigator = self
@@ -88,7 +87,7 @@ final class SellCoordinator: Coordinator {
             lastPostUsedMachineLearning = false
             let getStartedVM = PostingGetStartedViewModel()
             let getStartedVC = PostingGetStartedViewController(viewModel: getStartedVM)
-            navigationController = SellNavigationController(rootViewController: getStartedVC)
+            navigationController = SellNavigationController(root: getStartedVC)
             self.viewController = navigationController
             getStartedVM.navigator = self
         } else {
@@ -99,7 +98,7 @@ final class SellCoordinator: Coordinator {
                                                      isBlockingPosting: false)
             let postListingVC = PostListingViewController(viewModel: postListingVM,
                                                           forcedInitialTab: forcedInitialTab)
-            navigationController = SellNavigationController(rootViewController: postListingVC)
+            navigationController = SellNavigationController(root: postListingVC)
             navigationController.setupInitialCategory(postCategory: postCategory)
             self.viewController = navigationController
             postListingVM.navigator = self
@@ -309,7 +308,7 @@ extension SellCoordinator: ListingPostedNavigator {
                                                            listingTitle: nil)
                 let postListingVC = MLPostListingViewController(viewModel: postListingVM,
                                                                 forcedInitialTab: .camera)
-                strongSelf.navigationController = SellNavigationController(rootViewController: postListingVC)
+                strongSelf.navigationController = SellNavigationController(root: postListingVC)
                 strongSelf.navigationController.setupInitialCategory(postCategory: postCategory)
                 strongSelf.viewController = strongSelf.navigationController
                 postListingVM.navigator = self
@@ -323,7 +322,7 @@ extension SellCoordinator: ListingPostedNavigator {
                 forcedInitialTab: nil)
                 strongSelf.viewController = postListingVC
                 postListingVM.navigator = self
-                strongSelf.navigationController = SellNavigationController(rootViewController: postListingVC)
+                strongSelf.navigationController = SellNavigationController(root: postListingVC)
                 strongSelf.navigationController.setupInitialCategory(postCategory: nil)
                 strongSelf.viewController = strongSelf.navigationController
                 strongSelf.presentViewController(parent: parentVC, animated: true, completion: nil)

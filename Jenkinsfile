@@ -3,7 +3,7 @@ import jenkins.model.CauseOfInterruption.UserInterruption
 
 properties([
    // Jenkins executions properties, keeping 20 executions, getting rollbackBuild Param and 2h timeout
-  buildDiscarder(logRotator(artifactDaysToKeepStr: '10', artifactNumToKeepStr: '20', daysToKeepStr: '5', numToKeepStr: '20')), 
+  buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '5', numToKeepStr: '15')), 
   parameters([string(defaultValue: '', description: '', name: 'rollBackBuild')]), 
   pipelineTriggers([[$class: 'PeriodicFolderTrigger', interval: '2h']])
 ])
@@ -20,7 +20,7 @@ properties([
       "CI" : { 
         if (branch_type == "pr") {
           stopPreviousRunningBuilds()
-          launchUnitTests() 
+          launchUnitTests()
         } 
       }
     )
@@ -80,7 +80,7 @@ def launchUnitTests(){
     checkout([
     $class: 'GitSCM',
     branches: scm.branches,
-    extensions: [[$class: 'CloneOption', timeout: 100, noTags: false, shallow: true, depth: 0, reference: '']],
+    extensions: [[$class: 'CloneOption', timeout: 100, noTags: false, shallow: true, depth: 0, reference: '']] + [[$class: 'WipeWorkspace']],
     userRemoteConfigs: scm.userRemoteConfigs,
     ])
       sh 'export LC_ALL=en_US.UTF-8'
