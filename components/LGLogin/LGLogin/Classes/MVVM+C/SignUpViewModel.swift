@@ -22,13 +22,13 @@ enum LoginSource: String {
     case ReportFraud = "report-fraud"
 }
 
-enum LoginAppearance {
+public enum LoginAppearance {
     case dark, light
 }
 
-protocol SignUpViewModelDelegate: BaseViewModelDelegate {}
+public protocol SignUpViewModelDelegate: BaseViewModelDelegate {}
 
-class SignUpViewModel: BaseViewModel {
+public class SignUpViewModel: BaseViewModel {
 
     var attributedLegalText: NSAttributedString {
         guard let conditionsURL = termsAndConditionsURL, let privacyURL = privacyURL else {
@@ -70,8 +70,8 @@ class SignUpViewModel: BaseViewModel {
     let previousFacebookUsername: Variable<String?>
     let previousGoogleUsername: Variable<String?>
 
-    weak var delegate: SignUpViewModelDelegate?
-    weak var navigator: MainSignUpNavigator?
+    public weak var delegate: SignUpViewModelDelegate?
+    public weak var navigator: MainSignUpNavigator?
 
 
     // MARK: - Lifecycle
@@ -122,15 +122,15 @@ class SignUpViewModel: BaseViewModel {
         navigator?.cancelMainSignUp()
     }
 
-    func connectFBButtonPressed() {
+    public func connectFBButtonPressed() {
         logInWithFacebook()
     }
 
-    func connectGoogleButtonPressed() {
+    public func connectGoogleButtonPressed() {
         logInWithGoogle()
     }
 
-    func signUpButtonPressed() {
+    public func signUpButtonPressed() {
         navigator?.openSignUpEmailFromMainSignUp(termsAndConditionsEnabled: termsAndConditionsEnabled)
     }
 

@@ -1,13 +1,4 @@
-//
-//  BaseViewModel.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 12/05/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
-
-class BaseViewModel {
+public class BaseViewModel {
 
     private var activeFirstTime = true
     var active: Bool = false {
@@ -23,8 +14,9 @@ class BaseViewModel {
             }
         }
     }
-    
-    // MARK: - Internal methods
+
+    public init() {
+    }
     
     func didSetActive(_ active: Bool) {
         

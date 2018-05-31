@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 
 
-enum AlertType {
+public enum AlertType {
     case plainAlert
     case plainAlertOld
     case iconAlert(icon: UIImage?)
@@ -38,7 +38,7 @@ enum AlertType {
     }
 }
 
-enum AlertButtonsLayout {
+public enum AlertButtonsLayout {
     case horizontal
     case vertical
     case emojis

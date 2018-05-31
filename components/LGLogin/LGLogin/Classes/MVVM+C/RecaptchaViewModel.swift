@@ -8,18 +8,18 @@
 
 import LGCoreKit
 
-protocol RecaptchaNavigator: class {
+public protocol RecaptchaNavigator: class {
     func recaptchaClose()
     func recaptchaFinishedWithToken(_ token: String, action: LoginActionType)
 }
 
-class RecaptchaViewModel: BaseViewModel {
+public class RecaptchaViewModel: BaseViewModel {
 
-    weak var navigator: RecaptchaNavigator?
+    public weak var navigator: RecaptchaNavigator?
     private let action: LoginActionType
     private let tracker: Tracker
 
-    convenience init(action: LoginActionType) {
+    public convenience init(action: LoginActionType) {
         self.init(action: action,
                   tracker: TrackerProxy.sharedInstance)
     }
@@ -30,7 +30,7 @@ class RecaptchaViewModel: BaseViewModel {
         self.tracker = tracker
     }
 
-    override func didBecomeActive(_ firstTime: Bool) {
+    public override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
         if firstTime {
             trackVisit()

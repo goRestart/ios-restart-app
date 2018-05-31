@@ -20,6 +20,7 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
     
     // UI
     // > Header
+    @IBOutlet weak var letgoLogo: UIImageView!
     @IBOutlet weak var claimLabel: UILabel!
     
     // > Main View
@@ -28,7 +29,9 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
     @IBOutlet weak var quicklyLabel: UILabel!
 
     @IBOutlet weak var connectFBButton: LetgoButton!
+    @IBOutlet weak var connectFBIcon: UIImageView!
     @IBOutlet weak var connectGoogleButton: LetgoButton!
+    @IBOutlet weak var connectGoogleIcon: UIImageView!
     @IBOutlet weak var dividerView: UIView!
     @IBOutlet weak var orLabel: UILabel!
 
@@ -63,8 +66,10 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
         self.viewModel = viewModel
         self.lines = []
         self.disposeBag = DisposeBag()
-        super.init(viewModel: viewModel, nibName: "MainSignUpViewController",
-                   navBarBackgroundStyle: .transparent(substyle: .light))
+        super.init(viewModel: viewModel,
+                   nibName: "MainSignUpViewController",
+                   navBarBackgroundStyle: .transparent(substyle: .light),
+                   bundle: R.loginBundle)
         self.viewModel.delegate = self
     }
     
@@ -147,15 +152,20 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
         view.backgroundColor = UIColor.white
 
         // Navigation bar
-        closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .plain, target: self,
-            action: #selector(MainSignUpViewController.closeButtonPressed))
+        closeButton = UIBarButtonItem(image: R.Asset.IconsButtons.navbarClose.image,
+                                      style: .plain,
+                                      target: self,
+                                      action: #selector(MainSignUpViewController.closeButtonPressed))
         navigationItem.leftBarButtonItem = closeButton
         helpButton = UIBarButtonItem(title: R.Strings.mainSignUpHelpButton, style: .plain, target: self,
             action: #selector(MainSignUpViewController.helpButtonPressed))
         navigationItem.rightBarButtonItem = helpButton
 
         // Appearance
+        letgoLogo.image = R.Asset.BackgroundsAndImages.logoBig.image
+        connectFBIcon.image = R.Asset.IconsButtons.icFacebookRounded.image
         connectFBButton.setStyle(.facebook)
+        connectGoogleIcon.image = R.Asset.IconsButtons.icGoogleRounded.image
         connectGoogleButton.setStyle(.google)
 
         signUpButton.setStyle(.secondary(fontSize: .medium, withBorder: true))

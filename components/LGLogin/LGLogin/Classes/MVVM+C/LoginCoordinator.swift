@@ -10,22 +10,22 @@ import LGCoreKit
 import RxSwift
 import SafariServices
 
-enum LoginStyle {
+public enum LoginStyle {
     case fullScreen
     case popup(String)
 }
 
-protocol RecaptchaTokenDelegate: class {
+public protocol RecaptchaTokenDelegate: class {
     func recaptchaTokenObtained(token: String, action: LoginActionType)
 }
 
-final class LoginCoordinator: Coordinator, ChangePasswordPresenter {
-    var child: Coordinator?
-    var viewController: UIViewController
-    weak var coordinatorDelegate: CoordinatorDelegate?
-    weak var presentedAlertController: UIAlertController?
-    let bubbleNotificationManager: BubbleNotificationManager
-    let sessionManager: SessionManager
+public final class LoginCoordinator: Coordinator, ChangePasswordPresenter {
+    public var child: Coordinator?
+    public var viewController: UIViewController
+    public weak var coordinatorDelegate: CoordinatorDelegate?
+    public weak var presentedAlertController: UIAlertController?
+    public let bubbleNotificationManager: BubbleNotificationManager
+    public let sessionManager: SessionManager
 
     fileprivate var parentViewController: UIViewController?
     fileprivate var presentedViewControllers: [UIViewController] = []
@@ -36,7 +36,6 @@ final class LoginCoordinator: Coordinator, ChangePasswordPresenter {
     fileprivate let loggedInAction: () -> Void
     fileprivate let cancelAction: (() -> Void)?
 
-    fileprivate let keyValueStorage: KeyValueStorage
     fileprivate let tracker: Tracker
 
     fileprivate let disposeBag = DisposeBag()
@@ -44,29 +43,11 @@ final class LoginCoordinator: Coordinator, ChangePasswordPresenter {
 
     // MARK: - Lifecycle
 
-    convenience init(source: EventParameterLoginSourceValue,
-                     style: LoginStyle,
-                     loggedInAction: @escaping (() -> Void),
-                     cancelAction: (() -> Void)?,
-                     termsAndConditionsEnabled: Bool
-                     ) {
-        self.init(source: source,
-                  style: style,
-                  loggedInAction: loggedInAction,
-                  cancelAction: cancelAction,
-                  bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
-                  keyValueStorage: KeyValueStorage.sharedInstance,
-                  tracker: TrackerProxy.sharedInstance,
-                  sessionManager: Core.sessionManager,
-                  termsAndConditionsEnabled: termsAndConditionsEnabled)
-    }
-
     init(source: EventParameterLoginSourceValue,
          style: LoginStyle,
          loggedInAction: @escaping (() -> Void),
          cancelAction: (() -> Void)?,
          bubbleNotificationManager: BubbleNotificationManager,
-         keyValueStorage: KeyValueStorage,
          tracker: Tracker,
          sessionManager: SessionManager,
          termsAndConditionsEnabled: Bool) {
@@ -76,7 +57,6 @@ final class LoginCoordinator: Coordinator, ChangePasswordPresenter {
         self.loggedInAction = loggedInAction
         self.cancelAction = cancelAction
 
-        self.keyValueStorage = keyValueStorage
         self.tracker = tracker
         self.sessionManager = sessionManager
         let viewModel = SignUpViewModel(appearance: LoginAppearance.light,
@@ -98,7 +78,7 @@ final class LoginCoordinator: Coordinator, ChangePasswordPresenter {
         openChild(coordinator: coordinator, parent: topPresentedController(), animated: true, forceCloseChild: true, completion: nil)
     }
 
-    func presentViewController(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
+    public func presentViewController(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
         guard viewController.parent == nil else { return }
 
         parentViewController = parent
@@ -106,7 +86,7 @@ final class LoginCoordinator: Coordinator, ChangePasswordPresenter {
         parent.present(viewController, animated: animated, completion: completion)
     }
 
-    func dismissViewController(animated: Bool, completion: (() -> Void)?) {
+    public func dismissViewController(animated: Bool, completion: (() -> Void)?) {
         if let vc = presentedViewControllers.last {
             presentedViewControllers.removeLast()
             vc.dismissWithPresented(animated: false) { [weak self] in
@@ -122,23 +102,23 @@ final class LoginCoordinator: Coordinator, ChangePasswordPresenter {
 // MARK: - MainSignUpNavigator
 
 extension LoginCoordinator: MainSignUpNavigator {
-    func cancelMainSignUp() {
+    public func cancelMainSignUp() {
         closeRoot(didLogIn: false)
     }
 
-    func closeMainSignUpSuccessful(with myUser: MyUser) {
+    public func closeMainSignUpSuccessful(with myUser: MyUser) {
         closeRoot(didLogIn: true)
     }
 
-    func closeMainSignUpAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork) {
+    public func closeMainSignUpAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork) {
         closeRootAndOpenScammerAlert(contactURL: contactURL, network: network)
     }
 
-    func closeMainSignUpAndOpenDeviceNotAllowedAlert(contactURL: URL, network: EventParameterAccountNetwork) {
+    public func closeMainSignUpAndOpenDeviceNotAllowedAlert(contactURL: URL, network: EventParameterAccountNetwork) {
         closeRootAndOpenDeviceNotAllowedAlert(contactURL: contactURL, network: network)
     }
 
-    func openSignUpEmailFromMainSignUp(termsAndConditionsEnabled: Bool) {
+    public func openSignUpEmailFromMainSignUp(termsAndConditionsEnabled: Bool) {
         let vc: UIViewController
         let vm = SignUpLogInViewModel(
             source: source, action:
@@ -166,7 +146,7 @@ extension LoginCoordinator: MainSignUpNavigator {
         }
     }
 
-    func openLogInEmailFromMainSignUp(termsAndConditionsEnabled: Bool) {
+    public func openLogInEmailFromMainSignUp(termsAndConditionsEnabled: Bool) {
         let vc: UIViewController
 
         let vm = SignUpLogInViewModel(
@@ -195,7 +175,7 @@ extension LoginCoordinator: MainSignUpNavigator {
         }
     }
 
-    func openHelpFromMainSignUp() {
+    public func openHelpFromMainSignUp() {
         openHelp()
     }
 }
@@ -205,24 +185,24 @@ extension LoginCoordinator: MainSignUpNavigator {
 
 extension LoginCoordinator: SignUpLogInNavigator {
 
-    func cancelSignUpLogIn() {
+    public func cancelSignUpLogIn() {
         // called when closing from popup login so it's not closing root only presented controller
         dismissLastPresented(animated: true, completion: nil)
     }
 
-    func closeSignUpLogInSuccessful(with myUser: MyUser) {
+    public func closeSignUpLogInSuccessful(with myUser: MyUser) {
         closeRoot(didLogIn: true)
     }
 
-    func closeSignUpLogInAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork) {
+    public func closeSignUpLogInAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork) {
         closeRootAndOpenScammerAlert(contactURL: contactURL, network: network)
     }
 
-    func closeSignUpLogInAndOpenDeviceNotAllowedAlert(contactURL: URL, network: EventParameterAccountNetwork) {
+    public func closeSignUpLogInAndOpenDeviceNotAllowedAlert(contactURL: URL, network: EventParameterAccountNetwork) {
         closeRootAndOpenDeviceNotAllowedAlert(contactURL: contactURL, network: network)
     }
 
-    func openRecaptcha(action: LoginActionType) {
+    public func openRecaptcha(action: LoginActionType) {
         let topVC = topViewController()
 
         let vm = RecaptchaViewModel(action: action)
@@ -232,11 +212,11 @@ extension LoginCoordinator: SignUpLogInNavigator {
         topVC.present(vc, animated: true, completion: nil)
     }
 
-    func openRememberPasswordFromSignUpLogIn(email: String?) {
+    public func openRememberPasswordFromSignUpLogIn(email: String?) {
         openRememberPassword(email: email)
     }
 
-    func openHelpFromSignUpLogin() {
+    public func openHelpFromSignUpLogin() {
         openHelp()
     }
 }
@@ -245,7 +225,7 @@ extension LoginCoordinator: SignUpLogInNavigator {
 // MARK: - RememberPasswordNavigator
 
 extension LoginCoordinator: RememberPasswordNavigator {
-    func closeRememberPassword() {
+    public func closeRememberPassword() {
         guard let navCtl = currentNavigationController() else { return }
         navCtl.popViewController(animated: true)
     }
@@ -255,7 +235,7 @@ extension LoginCoordinator: RememberPasswordNavigator {
 // MARK: - HelpNavigator
 
 extension LoginCoordinator: HelpNavigator {
-    func closeHelp() {
+    public func closeHelp() {
         guard let navCtl = currentNavigationController() else { return }
         navCtl.popViewController(animated: true)
     }
@@ -265,12 +245,12 @@ extension LoginCoordinator: HelpNavigator {
 // MARK: - RecaptchaNavigator
 
 extension LoginCoordinator: RecaptchaNavigator {
-    func recaptchaClose() {
+    public func recaptchaClose() {
         guard topViewController() is RecaptchaViewController else { return }
         dismissLastPresented(animated: true, completion: nil)
     }
 
-    func recaptchaFinishedWithToken(_ token: String, action: LoginActionType) {
+    public func recaptchaFinishedWithToken(_ token: String, action: LoginActionType) {
         guard topViewController() is RecaptchaViewController else { return }
         dismissLastPresented(animated: true) { [weak self] in
             self?.recaptchaTokenDelegate?.recaptchaTokenObtained(token: token, action: action)
@@ -281,7 +261,7 @@ extension LoginCoordinator: RecaptchaNavigator {
 // MARK: - Common Navigator
 
 extension LoginCoordinator {
-    func open(url: URL) {
+    public func open(url: URL) {
         let vc = topViewController()
         vc.openInAppWebViewWith(url: url)
     }

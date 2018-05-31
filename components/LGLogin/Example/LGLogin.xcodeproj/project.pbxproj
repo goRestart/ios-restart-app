@@ -7,13 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5070ED1DA0FBEC4B395167B9 /* Pods_LGLogin_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 441B49F27F93BF13B63A2251 /* Pods_LGLogin_Tests.framework */; };
-		52D061010AB2237E539E127A /* Pods_LGLogin_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F755E7ED9545090BD0A32EF7 /* Pods_LGLogin_Example.framework */; };
+		5094104E20BBE982006E38EC /* LoginConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5094104420BBE980006E38EC /* LoginConfig.swift */; };
+		5094104F20BBE982006E38EC /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5094104520BBE980006E38EC /* MainViewModel.swift */; };
+		5094105020BBE982006E38EC /* EmbeddedLoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5094104620BBE981006E38EC /* EmbeddedLoginViewModel.swift */; };
+		5094105120BBE982006E38EC /* EmbeddedLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5094104720BBE981006E38EC /* EmbeddedLoginViewController.swift */; };
+		5094105220BBE982006E38EC /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5094104820BBE981006E38EC /* MainCoordinator.swift */; };
+		5094105320BBE982006E38EC /* MainViewModelNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5094104920BBE981006E38EC /* MainViewModelNavigator.swift */; };
+		5094105420BBE982006E38EC /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5094104A20BBE981006E38EC /* MainViewController.swift */; };
+		5094105520BBE982006E38EC /* MockBubbleNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5094104B20BBE981006E38EC /* MockBubbleNotificationManager.swift */; };
+		5094105620BBE982006E38EC /* EmbeddedLoginViewModelNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5094104C20BBE982006E38EC /* EmbeddedLoginViewModelNavigator.swift */; };
+		5094105820BC216D006E38EC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5094105720BC216D006E38EC /* Constants.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
-		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
-		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
-		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
+		74BFCFABBEA4A90430D3D6BF /* Pods_LGLogin_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B014E65B71480CF338D82785 /* Pods_LGLogin_Tests.framework */; };
+		7958A925F31433CF28A8E55A /* Pods_LGLogin_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6124E43DCBC27875723815A1 /* Pods_LGLogin_Example.framework */; };
 		F54437AF20B45AD600BB2028 /* SignUpLogInViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54437AD20B4585000BB2028 /* SignUpLogInViewModelSpec.swift */; };
 		F5B1C70B20A9D36F009149CE /* SignUpViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A58C6520A98183007D805C /* SignUpViewModelSpec.swift */; };
 /* End PBXBuildFile section */
@@ -29,26 +36,33 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		441B49F27F93BF13B63A2251 /* Pods_LGLogin_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LGLogin_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		21E18CFF35AB5716555B8969 /* Pods-LGLogin_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LGLogin_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LGLogin_Tests/Pods-LGLogin_Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		228FD6BE69D40E86CE5E8953 /* Pods-LGLogin_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LGLogin_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LGLogin_Example/Pods-LGLogin_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		34091B009443ACBBCF28B496 /* Pods-LGLogin_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LGLogin_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-LGLogin_Example/Pods-LGLogin_Example.release.xcconfig"; sourceTree = "<group>"; };
+		5094104420BBE980006E38EC /* LoginConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginConfig.swift; sourceTree = "<group>"; };
+		5094104520BBE980006E38EC /* MainViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+		5094104620BBE981006E38EC /* EmbeddedLoginViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmbeddedLoginViewModel.swift; sourceTree = "<group>"; };
+		5094104720BBE981006E38EC /* EmbeddedLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmbeddedLoginViewController.swift; sourceTree = "<group>"; };
+		5094104820BBE981006E38EC /* MainCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
+		5094104920BBE981006E38EC /* MainViewModelNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewModelNavigator.swift; sourceTree = "<group>"; };
+		5094104A20BBE981006E38EC /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		5094104B20BBE981006E38EC /* MockBubbleNotificationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockBubbleNotificationManager.swift; sourceTree = "<group>"; };
+		5094104C20BBE982006E38EC /* EmbeddedLoginViewModelNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmbeddedLoginViewModelNavigator.swift; sourceTree = "<group>"; };
+		5094105720BC216D006E38EC /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* LGLogin_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LGLogin_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		607FACD71AFB9204008FA782 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		607FACDA1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		607FACDC1AFB9204008FA782 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		607FACE51AFB9204008FA782 /* LGLogin_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LGLogin_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6124E43DCBC27875723815A1 /* Pods_LGLogin_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LGLogin_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77A7A99E3C39B08686657238 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
-		79283CE47C4139958C2D1AB8 /* Pods-LGLogin_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LGLogin_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LGLogin_Tests/Pods-LGLogin_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		7BF2317157E8A81308E263B6 /* LGLogin.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file; name = LGLogin.podspec; path = ../LGLogin.podspec; sourceTree = "<group>"; };
-		80D0BE04F5C6BFB314B3DD91 /* Pods-LGLogin_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LGLogin_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LGLogin_Example/Pods-LGLogin_Example.debug.xcconfig"; sourceTree = "<group>"; };
-		8DB49D769B5590BE3BB90948 /* Pods-LGLogin_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LGLogin_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-LGLogin_Example/Pods-LGLogin_Example.release.xcconfig"; sourceTree = "<group>"; };
 		932801D4618A040BB79F9703 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
-		CBD423759D6FF7DE7D07C0F8 /* Pods-LGLogin_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LGLogin_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LGLogin_Tests/Pods-LGLogin_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		B014E65B71480CF338D82785 /* Pods_LGLogin_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LGLogin_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D857A7892E9861347204BA35 /* Pods-LGLogin_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LGLogin_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LGLogin_Tests/Pods-LGLogin_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		F54437AD20B4585000BB2028 /* SignUpLogInViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpLogInViewModelSpec.swift; sourceTree = "<group>"; };
 		F5A58C6520A98183007D805C /* SignUpViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewModelSpec.swift; sourceTree = "<group>"; };
-		F755E7ED9545090BD0A32EF7 /* Pods_LGLogin_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LGLogin_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,7 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				52D061010AB2237E539E127A /* Pods_LGLogin_Example.framework in Frameworks */,
+				7958A925F31433CF28A8E55A /* Pods_LGLogin_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,22 +78,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5070ED1DA0FBEC4B395167B9 /* Pods_LGLogin_Tests.framework in Frameworks */,
+				74BFCFABBEA4A90430D3D6BF /* Pods_LGLogin_Tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3C35CE3DC9CF25B50A6E8ED0 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				F755E7ED9545090BD0A32EF7 /* Pods_LGLogin_Example.framework */,
-				441B49F27F93BF13B63A2251 /* Pods_LGLogin_Tests.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		607FACC71AFB9204008FA782 = {
 			isa = PBXGroup;
 			children = (
@@ -87,8 +92,8 @@
 				607FACD21AFB9204008FA782 /* Example for LGLogin */,
 				607FACE81AFB9204008FA782 /* Tests */,
 				607FACD11AFB9204008FA782 /* Products */,
-				D3C7BBC6B0A5DEDFE99B6940 /* Pods */,
-				3C35CE3DC9CF25B50A6E8ED0 /* Frameworks */,
+				731C810C0D16AC4E1625A3F7 /* Pods */,
+				8B8E4E3C06822092C4A889AD /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -105,10 +110,17 @@
 			isa = PBXGroup;
 			children = (
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
-				607FACD71AFB9204008FA782 /* ViewController.swift */,
-				607FACD91AFB9204008FA782 /* Main.storyboard */,
-				607FACDC1AFB9204008FA782 /* Images.xcassets */,
+				5094105720BC216D006E38EC /* Constants.swift */,
+				5094104720BBE981006E38EC /* EmbeddedLoginViewController.swift */,
+				5094104620BBE981006E38EC /* EmbeddedLoginViewModel.swift */,
+				5094104C20BBE982006E38EC /* EmbeddedLoginViewModelNavigator.swift */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
+				5094104420BBE980006E38EC /* LoginConfig.swift */,
+				5094104820BBE981006E38EC /* MainCoordinator.swift */,
+				5094104A20BBE981006E38EC /* MainViewController.swift */,
+				5094104520BBE980006E38EC /* MainViewModel.swift */,
+				5094104920BBE981006E38EC /* MainViewModelNavigator.swift */,
+				5094104B20BBE981006E38EC /* MockBubbleNotificationManager.swift */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
 			);
 			name = "Example for LGLogin";
@@ -150,15 +162,24 @@
 			name = "Podspec Metadata";
 			sourceTree = "<group>";
 		};
-		D3C7BBC6B0A5DEDFE99B6940 /* Pods */ = {
+		731C810C0D16AC4E1625A3F7 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				80D0BE04F5C6BFB314B3DD91 /* Pods-LGLogin_Example.debug.xcconfig */,
-				8DB49D769B5590BE3BB90948 /* Pods-LGLogin_Example.release.xcconfig */,
-				79283CE47C4139958C2D1AB8 /* Pods-LGLogin_Tests.debug.xcconfig */,
-				CBD423759D6FF7DE7D07C0F8 /* Pods-LGLogin_Tests.release.xcconfig */,
+				228FD6BE69D40E86CE5E8953 /* Pods-LGLogin_Example.debug.xcconfig */,
+				34091B009443ACBBCF28B496 /* Pods-LGLogin_Example.release.xcconfig */,
+				21E18CFF35AB5716555B8969 /* Pods-LGLogin_Tests.debug.xcconfig */,
+				D857A7892E9861347204BA35 /* Pods-LGLogin_Tests.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		8B8E4E3C06822092C4A889AD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6124E43DCBC27875723815A1 /* Pods_LGLogin_Example.framework */,
+				B014E65B71480CF338D82785 /* Pods_LGLogin_Tests.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		F5A58C6420A98183007D805C /* Unit */ = {
@@ -177,12 +198,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 607FACEF1AFB9204008FA782 /* Build configuration list for PBXNativeTarget "LGLogin_Example" */;
 			buildPhases = (
-				7F8F0418860D19CD5FE34570 /* [CP] Check Pods Manifest.lock */,
+				491747713733F86F8A051AD2 /* [CP] Check Pods Manifest.lock */,
 				607FACCC1AFB9204008FA782 /* Sources */,
 				607FACCD1AFB9204008FA782 /* Frameworks */,
 				607FACCE1AFB9204008FA782 /* Resources */,
-				E76B3A1A622142F31D9723EB /* [CP] Embed Pods Frameworks */,
-				429CD85DF3975455C568925D /* [CP] Copy Pods Resources */,
+				C0385368C82DED1CEC309CE3 /* [CP] Embed Pods Frameworks */,
+				FFB0840E5F5D444EA3D40A31 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -197,12 +218,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 607FACF21AFB9204008FA782 /* Build configuration list for PBXNativeTarget "LGLogin_Tests" */;
 			buildPhases = (
-				F82A8B8325EE93CF0E6502BD /* [CP] Check Pods Manifest.lock */,
+				BAC879904C06F19462024E53 /* [CP] Check Pods Manifest.lock */,
 				607FACE11AFB9204008FA782 /* Sources */,
 				607FACE21AFB9204008FA782 /* Frameworks */,
 				607FACE31AFB9204008FA782 /* Resources */,
-				F9328625FC68A7653133C0A5 /* [CP] Embed Pods Frameworks */,
-				B2DFED4575C6321EE6021FB8 /* [CP] Copy Pods Resources */,
+				9C9E4C1F1AD43A6F751E8672 /* [CP] Embed Pods Frameworks */,
+				9424EB2A22C23028CC260E1E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -261,9 +282,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
-				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,29 +296,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		429CD85DF3975455C568925D /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-LGLogin_Example/Pods-LGLogin_Example-resources.sh",
-				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/LGComponents-LGAnalytics-LGLogin-LGResources-LGShared/LGLoginBundle.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/LGComponents-LGAnalytics-LGLogin-LGResources-LGShared/LGResourcesBundle.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/LGLoginBundle.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/LGResourcesBundle.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LGLogin_Example/Pods-LGLogin_Example-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7F8F0418860D19CD5FE34570 /* [CP] Check Pods Manifest.lock */ = {
+		491747713733F86F8A051AD2 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -317,7 +314,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		B2DFED4575C6321EE6021FB8 /* [CP] Copy Pods Resources */ = {
+		9424EB2A22C23028CC260E1E /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -339,91 +336,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LGLogin_Tests/Pods-LGLogin_Tests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E76B3A1A622142F31D9723EB /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-LGLogin_Example/Pods-LGLogin_Example-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
-				"${BUILT_PRODUCTS_DIR}/Amplitude-iOS/Amplitude_iOS.framework",
-				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
-				"${BUILT_PRODUCTS_DIR}/Branch/Branch.framework",
-				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
-				"${BUILT_PRODUCTS_DIR}/DeviceGuru/DeviceGuru.framework",
-				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
-				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
-				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
-				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
-				"${BUILT_PRODUCTS_DIR}/JSONWebToken/JWT.framework",
-				"${BUILT_PRODUCTS_DIR}/KeychainSwift/KeychainSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/LGCoreKit/LGCoreKit.framework",
-				"${PODS_ROOT}/Leanplum-iOS-SDK/Leanplum.framework",
-				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
-				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
-				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
-				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
-				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/RxSwiftExt/RxSwiftExt.framework",
-				"${BUILT_PRODUCTS_DIR}/SocketRocket/SocketRocket.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftyUserDefaults/SwiftyUserDefaults.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireImage.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Amplitude_iOS.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Branch.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaLumberjack.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DeviceGuru.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JWT.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LGCoreKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Leanplum.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwiftExt.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketRocket.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyUserDefaults.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LGLogin_Example/Pods-LGLogin_Example-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F82A8B8325EE93CF0E6502BD /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-LGLogin_Tests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F9328625FC68A7653133C0A5 /* [CP] Embed Pods Frameworks */ = {
+		9C9E4C1F1AD43A6F751E8672 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -493,6 +406,112 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LGLogin_Tests/Pods-LGLogin_Tests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		BAC879904C06F19462024E53 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-LGLogin_Tests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C0385368C82DED1CEC309CE3 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-LGLogin_Example/Pods-LGLogin_Example-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
+				"${BUILT_PRODUCTS_DIR}/Amplitude-iOS/Amplitude_iOS.framework",
+				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
+				"${BUILT_PRODUCTS_DIR}/Branch/Branch.framework",
+				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
+				"${BUILT_PRODUCTS_DIR}/DeviceGuru/DeviceGuru.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/JSONWebToken/JWT.framework",
+				"${BUILT_PRODUCTS_DIR}/KeychainSwift/KeychainSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/LGCoreKit/LGCoreKit.framework",
+				"${PODS_ROOT}/Leanplum-iOS-SDK/Leanplum.framework",
+				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
+				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
+				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwiftExt/RxSwiftExt.framework",
+				"${BUILT_PRODUCTS_DIR}/SocketRocket/SocketRocket.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyUserDefaults/SwiftyUserDefaults.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Amplitude_iOS.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Branch.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaLumberjack.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DeviceGuru.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JWT.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LGCoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Leanplum.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwiftExt.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketRocket.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyUserDefaults.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LGLogin_Example/Pods-LGLogin_Example-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FFB0840E5F5D444EA3D40A31 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-LGLogin_Example/Pods-LGLogin_Example-resources.sh",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/LGComponents-LGAnalytics-LGLogin-LGResources-LGShared/LGLoginBundle.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/LGComponents-LGAnalytics-LGLogin-LGResources-LGShared/LGResourcesBundle.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/LGLoginBundle.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/LGResourcesBundle.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LGLogin_Example/Pods-LGLogin_Example-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -500,8 +519,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
+				5094105520BBE982006E38EC /* MockBubbleNotificationManager.swift in Sources */,
+				5094105820BC216D006E38EC /* Constants.swift in Sources */,
+				5094105220BBE982006E38EC /* MainCoordinator.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
+				5094105320BBE982006E38EC /* MainViewModelNavigator.swift in Sources */,
+				5094105120BBE982006E38EC /* EmbeddedLoginViewController.swift in Sources */,
+				5094104E20BBE982006E38EC /* LoginConfig.swift in Sources */,
+				5094105420BBE982006E38EC /* MainViewController.swift in Sources */,
+				5094105020BBE982006E38EC /* EmbeddedLoginViewModel.swift in Sources */,
+				5094104F20BBE982006E38EC /* MainViewModel.swift in Sources */,
+				5094105620BBE982006E38EC /* EmbeddedLoginViewModelNavigator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -525,14 +553,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		607FACD91AFB9204008FA782 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				607FACDA1AFB9204008FA782 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		607FACDE1AFB9204008FA782 /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -645,7 +665,7 @@
 		};
 		607FACF01AFB9204008FA782 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 80D0BE04F5C6BFB314B3DD91 /* Pods-LGLogin_Example.debug.xcconfig */;
+			baseConfigurationReference = 228FD6BE69D40E86CE5E8953 /* Pods-LGLogin_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 3MAE68NKQE;
@@ -661,7 +681,7 @@
 		};
 		607FACF11AFB9204008FA782 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8DB49D769B5590BE3BB90948 /* Pods-LGLogin_Example.release.xcconfig */;
+			baseConfigurationReference = 34091B009443ACBBCF28B496 /* Pods-LGLogin_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 3MAE68NKQE;
@@ -677,7 +697,7 @@
 		};
 		607FACF31AFB9204008FA782 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 79283CE47C4139958C2D1AB8 /* Pods-LGLogin_Tests.debug.xcconfig */;
+			baseConfigurationReference = 21E18CFF35AB5716555B8969 /* Pods-LGLogin_Tests.debug.xcconfig */;
 			buildSettings = {
 				DEVELOPMENT_TEAM = 3MAE68NKQE;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -700,7 +720,7 @@
 		};
 		607FACF41AFB9204008FA782 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CBD423759D6FF7DE7D07C0F8 /* Pods-LGLogin_Tests.release.xcconfig */;
+			baseConfigurationReference = D857A7892E9861347204BA35 /* Pods-LGLogin_Tests.release.xcconfig */;
 			buildSettings = {
 				DEVELOPMENT_TEAM = 3MAE68NKQE;
 				FRAMEWORK_SEARCH_PATHS = (
