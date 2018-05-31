@@ -187,7 +187,7 @@ extension Date {
         dateFormatter.dateStyle = .short
         dateFormatter.timeStyle = .short
         dateFormatter.timeZone = TimeZone(identifier: "UTC")
-        dateFormatter.dateFormat = "YYYY-MM-DD HH:mm:ss"
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         return dateFormatter.string(from: self)
     }
 
