@@ -1116,9 +1116,9 @@
 "sell_title_autogen_label" = "letgo tarafından önerilen başlık";
 "sell_title_field_hint" = "Ürün başlığı (isteğe bağlı)";
 "sell_uploading_label" = "İlanın yayınlanıyor...";
-"services_service_subtype_list_title" = "Service subtype";
-"services_service_subtype_title" = "Hizmet alt türü";
-"services_service_type_list_title" = "Service type";
+"services_service_subtype_list_title" = "Hizmet";
+"services_service_subtype_title" = "Hizmet";
+"services_service_type_list_title" = "Hizmet türü";
 "services_service_type_title" = "Hizmet türü";
 "settings_change_email_button" = "E-posta";
 "settings_change_location_button" = "Konum";

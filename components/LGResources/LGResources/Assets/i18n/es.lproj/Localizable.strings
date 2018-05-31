@@ -1116,10 +1116,10 @@
 "sell_title_autogen_label" = "Título sugerido por letgo";
 "sell_title_field_hint" = "Título (opcional)";
 "sell_uploading_label" = "Publicando tu anuncio...";
-"services_service_subtype_list_title" = "Service subtype";
-"services_service_subtype_title" = "Subtipo de servicio";
-"services_service_type_list_title" = "Service type";
-"services_service_type_title" = "Tipo de servicio";
+"services_service_subtype_list_title" = "Servicio";
+"services_service_subtype_title" = "Servicio";
+"services_service_type_list_title" = "Categoría del servicio";
+"services_service_type_title" = "Categoría del servicio";
 "settings_change_email_button" = "Email";
 "settings_change_location_button" = "Ubicación";
 "settings_change_password_button" = "Contraseña";

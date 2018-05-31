@@ -1116,9 +1116,9 @@
 "sell_title_autogen_label" = "letgo에서 추천하는 제목";
 "sell_title_field_hint" = "제품 이름 (선택사항)";
 "sell_uploading_label" = "게시글을 등록 중 입니다...";
-"services_service_subtype_list_title" = "Service subtype";
-"services_service_subtype_title" = "서비스 하위 종류";
-"services_service_type_list_title" = "Service type";
+"services_service_subtype_list_title" = "서비스";
+"services_service_subtype_title" = "서비스";
+"services_service_type_list_title" = "서비스 종류";
 "services_service_type_title" = "서비스 종류";
 "settings_change_email_button" = "이메일";
 "settings_change_location_button" = "위치";

@@ -1116,10 +1116,10 @@
 "sell_title_autogen_label" = "Title suggested by letgo";
 "sell_title_field_hint" = "Title (optional)";
 "sell_uploading_label" = "Posting your listing...";
-"services_service_subtype_list_title" = "Service subtype";
-"services_service_subtype_title" = "Service subtype";
-"services_service_type_list_title" = "Service type";
-"services_service_type_title" = "Service type";
+"services_service_subtype_list_title" = "Service";
+"services_service_subtype_title" = "Service";
+"services_service_type_list_title" = "Service category";
+"services_service_type_title" = "Service category";
 "settings_change_email_button" = "Email";
 "settings_change_location_button" = "Location";
 "settings_change_password_button" = "Password";

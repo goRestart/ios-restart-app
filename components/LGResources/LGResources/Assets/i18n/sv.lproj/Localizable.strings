@@ -1116,9 +1116,9 @@
 "sell_title_autogen_label" = "Titel föreslagen av letgo";
 "sell_title_field_hint" = "Titel (frivillig)";
 "sell_uploading_label" = "Laddar upp annonsen...";
-"services_service_subtype_list_title" = "Service subtype";
-"services_service_subtype_title" = "Underkategori tjänst";
-"services_service_type_list_title" = "Service type";
+"services_service_subtype_list_title" = "Service";
+"services_service_subtype_title" = "Service";
+"services_service_type_list_title" = "Typ av tjänst";
 "services_service_type_title" = "Typ av tjänst";
 "settings_change_email_button" = "E-post";
 "settings_change_location_button" = "Plats";

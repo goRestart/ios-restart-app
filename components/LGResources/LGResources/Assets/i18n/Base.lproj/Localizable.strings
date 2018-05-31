@@ -3377,12 +3377,6 @@
 // Title for list of service subtypes
 "services_service_subtype_list_title" = "Service";
 
-// Title for list of services
-"services_service_type_list_title" = "Service type";
-
-// Title for list of service subtypes
-"services_service_subtype_list_title" = "Service subtype";
-
 // Settings change location button. Check image @ "settings_change_password_button" segment
 "settings_change_location_button" = "Location";
 

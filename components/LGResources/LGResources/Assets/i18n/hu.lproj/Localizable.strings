@@ -1116,10 +1116,10 @@
 "sell_title_autogen_label" = "A letgo által ajánlott cím";
 "sell_title_field_hint" = "Cím (nem kötelező)";
 "sell_uploading_label" = "Hirdetés feltöltése...";
-"services_service_subtype_list_title" = "Service subtype";
-"services_service_subtype_title" = "Szolgáltatás altípusa";
-"services_service_type_list_title" = "Service type";
-"services_service_type_title" = "Szolgáltatás típusa";
+"services_service_subtype_list_title" = "Szolgáltatás";
+"services_service_subtype_title" = "Szolgáltatás";
+"services_service_type_list_title" = "Szolgáltatás kategória";
+"services_service_type_title" = "Szolgáltatás kategória";
 "settings_change_email_button" = "E-mail";
 "settings_change_location_button" = "Tartózkodási hely";
 "settings_change_password_button" = "Jelszóváltás";
