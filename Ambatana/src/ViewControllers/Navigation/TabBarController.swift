@@ -15,35 +15,43 @@ protocol ListingsRefreshable {
 final class TabBarController: UITabBarController {
 
     // UI
-    fileprivate var floatingSellButton: FloatingButton
-    fileprivate var floatingSellButtonMarginConstraint = NSLayoutConstraint()
+    private var floatingSellButton: FloatingButton
+    private var floatingSellButtonMarginConstraint = NSLayoutConstraint()
 
-    fileprivate let viewModel: TabBarViewModel
-    fileprivate var tooltip: Tooltip?
-    fileprivate var featureFlags: FeatureFlaggeable
-    fileprivate let tracker: Tracker
+    private let viewModel: TabBarViewModel
+    private let bubbleNotificationManager: BubbleNotificationManager
+    private var tooltip: Tooltip?
+    private var featureFlags: FeatureFlaggeable
+    private let tracker: Tracker
     
-    fileprivate var floatingViews: [UIView?] {
+    private var floatingViews: [UIView?] {
         return [floatingSellButton, tooltip]
     }
     
     // Rx
-    fileprivate let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
 
-    fileprivate static let appRatingTag = Int.makeRandom()
-    fileprivate static let categorySelectionTag = Int.makeRandom()
+    private static let appRatingTag = Int.makeRandom()
+    private static let categorySelectionTag = Int.makeRandom()
     
     
     // MARK: - Lifecycle
 
-    convenience init(viewModel: TabBarViewModel) {
+    convenience init(viewModel: TabBarViewModel, bubbleNotificationManager: BubbleNotificationManager) {
         let featureFlags = FeatureFlags.sharedInstance
         let tracker = TrackerProxy.sharedInstance
-        self.init(viewModel: viewModel, featureFlags: featureFlags, tracker: tracker)
+        self.init(viewModel: viewModel,
+                  bubbleNotificationManager: bubbleNotificationManager,
+                  featureFlags: featureFlags,
+                  tracker: tracker)
     }
     
-    init(viewModel: TabBarViewModel, featureFlags: FeatureFlaggeable, tracker: Tracker) {
+    init(viewModel: TabBarViewModel,
+         bubbleNotificationManager: BubbleNotificationManager,
+         featureFlags: FeatureFlaggeable,
+         tracker: Tracker) {
         self.viewModel = viewModel
+        self.bubbleNotificationManager = bubbleNotificationManager
         self.featureFlags = featureFlags
         self.tracker = tracker
         self.floatingSellButton = FloatingButton(with: R.Strings.tabBarToolTip,
@@ -176,6 +184,11 @@ final class TabBarController: UITabBarController {
             super.setTabBarHidden(hidden, animated: animated)
         }
     }
+    
+    func showHighlightedBubbleNotification(data: HighlightedBubbleNotificationData) {
+        bubbleNotificationManager.showHighlightedBubble(data, duration: 5, view: view)
+    }
+    
 
     // MARK: - Private methods
     // MARK: > Setup

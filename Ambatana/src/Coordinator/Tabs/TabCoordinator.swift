@@ -771,9 +771,13 @@ extension TabCoordinator: ListingDetailNavigator {
     func showUndoBubble(withMessage message: String,
                         duration: TimeInterval,
                         withAction action: @escaping () -> ()) {
-        let action = UIAction(interface: .button(R.Strings.productInterestedUndo, .terciary) , action: action)
-        let data = BubbleNotificationData(text: message, action: action)
-        bubbleNotificationManager.showBubble(data, duration: duration, view: navigationController.view)
+        // TODO RET Switch abtest
+//        let action = UIAction(interface: .button(R.Strings.productInterestedUndo, .terciary) , action: action)
+//        let data = BubbleNotificationData(text: message, action: action)
+//        bubbleNotificationManager.showBubble(data, duration: duration, view: navigationController.view)
+        let action = UIAction(interface: .button(R.Strings.productInterestedUndo, .terciary), action: action)
+        let data = HighlightedBubbleNotificationData(text: message, action: action)
+        appNavigator?.showHighlightedBubble(data: data)
     }
 }
 

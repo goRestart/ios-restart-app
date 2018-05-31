@@ -71,10 +71,12 @@ final class AppCoordinator: NSObject, Coordinator {
 
     convenience init(configManager: ConfigManager) {
         let tabBarViewModel = TabBarViewModel()
-        self.init(tabBarController: TabBarController(viewModel: tabBarViewModel),
+        let bubbleNotificationsManager = LGBubbleNotificationManager.sharedInstance
+        self.init(tabBarController: TabBarController(viewModel: tabBarViewModel,
+                                                     bubbleNotificationManager: bubbleNotificationsManager),
                   configManager: configManager,
                   sessionManager: Core.sessionManager,
-                  bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
+                  bubbleNotificationManager: bubbleNotificationsManager,
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   pushPermissionsManager: LGPushPermissionsManager.sharedInstance,
                   ratingManager: LGRatingManager.sharedInstance,
@@ -245,6 +247,11 @@ extension AppCoordinator: AppNavigator {
                   forceCloseChild: true,
                   completion: nil)
     }
+    
+    func showHighlightedBubble(data: HighlightedBubbleNotificationData) {
+        tabBarCtl.showHighlightedBubbleNotification(data: data)
+    }
+    
     
     // MARK: App Review
 

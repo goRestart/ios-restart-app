@@ -30,4 +30,5 @@ protocol AppNavigator: class {
                                      bumpUpProductData: BumpUpProductData,
                                      typePage: EventParameterTypePage?)
     func openMostSearchedItems(source: PostingSource, enableSearch: Bool)
+    func showHighlightedBubble(data: HighlightedBubbleNotificationData)
 }

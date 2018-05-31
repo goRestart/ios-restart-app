@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class LGBubbleNotificationManager: BubbleNotificationManager {
+final class LGBubbleNotificationManager: HighlightedBubbleNotification, BubbleNotificationManager {
 
     static let defaultDuration: TimeInterval = 3
 
@@ -34,11 +34,11 @@ final class LGBubbleNotificationManager: BubbleNotificationManager {
         let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: BubbleNotification.initialHeight)
         let bubble = BubbleNotification(frame: frame, data: data)
         bubble.delegate = self
-
+        
         bubble.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(bubble)
         bubble.setupOnView(parentView: view)
-
+        
         if let tag = data.tagGroup {
             if taggedNotifications[tag] == nil {
                 taggedNotifications[tag] = []
@@ -56,6 +56,34 @@ final class LGBubbleNotificationManager: BubbleNotificationManager {
         bubble.showBubble(autoDismissTime: finalDuration)
     }
 
+    func showHighlightedBubble(_ data: HighlightedBubbleNotificationData, duration: TimeInterval?, view: UIView) {
+        let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: BubbleNotification.initialHeight)
+        let bubble = HighlightedBubbleNotification(frame: frame)
+        //let bubble = BubbleNotification(frame: frame, data: data)
+        bubble.delegate = self
+        bubble.backgroundColor = .black
+        bubble.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(bubble)
+        bubble.setupOnView(parentView: view)
+        view.bringSubview(toFront: bubble)
+        
+        //        if let tag = data.tagGroup {
+        //            if taggedNotifications[tag] == nil {
+        //                taggedNotifications[tag] = []
+        //            }
+        //            taggedNotifications[tag]?.append(bubble)
+        //        }
+        
+        guard let duration = duration else {
+            // if no duration is defined, we set the default for bubbles with no buttons
+            bubble.showBubble(autoDismissTime: LGBubbleNotificationManager.defaultDuration)
+            return
+        }
+        
+        let finalDuration = (data.action == nil && duration <= 0) ? LGBubbleNotificationManager.defaultDuration : duration
+        bubble.showBubble(autoDismissTime: finalDuration)
+    }
+    
     fileprivate func clearTagNotifications(_ tag: String?) {
         guard let tag = tag, let notifications = taggedNotifications[tag] else { return }
         taggedNotifications[tag] = nil
@@ -81,4 +109,25 @@ extension LGBubbleNotificationManager: BubbleNotificationDelegate {
         notification.closeBubble()
         clearTagNotifications(notification.data.tagGroup)
     }
+}
+
+
+// MARK: - HighlightedBubbleNotificationDelegate
+
+extension LGBubbleNotificationManager: HighlightedBubbleNotificationDelegate {
+    
+    func didSwipeHighlightedBubbleNotification(_ notification: HighlightedBubbleNotification) {
+        notification.closeBubble()
+    }
+    
+    func didTimeOutHighlightedBubbleNotification(_ notification: HighlightedBubbleNotification) {
+        notification.closeBubble()
+    }
+    
+    func didPressHighlightedBubbleNotification(_ notification: HighlightedBubbleNotification) {
+        //notification.data.action?.action()
+        notification.closeBubble()
+        //clearTagNotifications(notification.data.tagGroup)
+    }
+    
 }
