@@ -14,11 +14,13 @@ struct RetentionABGroup: ABGroupType {
         static let onboardingIncentivizePosting = "20180215OnboardingIncentivizePosting"
         static let iAmInterestedInFeed = "20180425iAmInterestedInFeed"
         static let searchAlerts = "20180418SearchAlerts"
+        static let highlightedIAmInterestedInFeed = "20180531HighlightedIAmInterestedInFeed"
     }
     let dummyUsersInfoProfile: LeanplumABVariable<Int>
     let onboardingIncentivizePosting: LeanplumABVariable<Int>
     let iAmInterestedInFeed: LeanplumABVariable<Int>
     let searchAlerts: LeanplumABVariable<Int>
+    let highlightedIAmInterestedInFeed: LeanplumABVariable<Int>
     
     let group: ABGroup = .retention
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -29,16 +31,19 @@ struct RetentionABGroup: ABGroupType {
     init(dummyUsersInfoProfile: LeanplumABVariable<Int>,
          onboardingIncentivizePosting: LeanplumABVariable<Int>,
          iAmInterestedInFeed: LeanplumABVariable<Int>,
-         searchAlerts: LeanplumABVariable<Int>) {
+         searchAlerts: LeanplumABVariable<Int>,
+         highlightedIAmInterestedInFeed: LeanplumABVariable<Int>) {
         self.dummyUsersInfoProfile = dummyUsersInfoProfile
         self.onboardingIncentivizePosting = onboardingIncentivizePosting
         self.iAmInterestedInFeed = iAmInterestedInFeed
         self.searchAlerts = searchAlerts
+        self.highlightedIAmInterestedInFeed = highlightedIAmInterestedInFeed
 
         intVariables.append(contentsOf: [dummyUsersInfoProfile,
                                         onboardingIncentivizePosting,
                                         iAmInterestedInFeed,
-                                        searchAlerts])
+                                        searchAlerts,
+                                        highlightedIAmInterestedInFeed])
     }
 
     static func make() -> RetentionABGroup {
@@ -53,6 +58,9 @@ struct RetentionABGroup: ABGroupType {
                                                               groupType: .retention),
                                 searchAlerts: .makeInt(key: Keys.searchAlerts,
                                                        defaultValue: 0,
-                                                       groupType: .retention))
+                                                       groupType: .retention),
+                                highlightedIAmInterestedInFeed: .makeInt(key: Keys.highlightedIAmInterestedInFeed,
+                                                              defaultValue: 0,
+                                                              groupType: .retention))
     }
 }
