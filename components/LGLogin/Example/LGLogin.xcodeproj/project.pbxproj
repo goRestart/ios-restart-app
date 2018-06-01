@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5010BB9620C1294D00418B5B /* LGLoginExampleDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5010BB9520C1294D00418B5B /* LGLoginExampleDependencies.swift */; };
 		5094104E20BBE982006E38EC /* LoginConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5094104420BBE980006E38EC /* LoginConfig.swift */; };
 		5094104F20BBE982006E38EC /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5094104520BBE980006E38EC /* MainViewModel.swift */; };
 		5094105020BBE982006E38EC /* EmbeddedLoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5094104620BBE981006E38EC /* EmbeddedLoginViewModel.swift */; };
@@ -39,6 +40,7 @@
 		21E18CFF35AB5716555B8969 /* Pods-LGLogin_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LGLogin_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LGLogin_Tests/Pods-LGLogin_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		228FD6BE69D40E86CE5E8953 /* Pods-LGLogin_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LGLogin_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LGLogin_Example/Pods-LGLogin_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		34091B009443ACBBCF28B496 /* Pods-LGLogin_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LGLogin_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-LGLogin_Example/Pods-LGLogin_Example.release.xcconfig"; sourceTree = "<group>"; };
+		5010BB9520C1294D00418B5B /* LGLoginExampleDependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGLoginExampleDependencies.swift; sourceTree = "<group>"; };
 		5094104420BBE980006E38EC /* LoginConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginConfig.swift; sourceTree = "<group>"; };
 		5094104520BBE980006E38EC /* MainViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		5094104620BBE981006E38EC /* EmbeddedLoginViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmbeddedLoginViewModel.swift; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 				5094104620BBE981006E38EC /* EmbeddedLoginViewModel.swift */,
 				5094104C20BBE982006E38EC /* EmbeddedLoginViewModelNavigator.swift */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
+				5010BB9520C1294D00418B5B /* LGLoginExampleDependencies.swift */,
 				5094104420BBE980006E38EC /* LoginConfig.swift */,
 				5094104820BBE981006E38EC /* MainCoordinator.swift */,
 				5094104A20BBE981006E38EC /* MainViewController.swift */,
@@ -526,6 +529,7 @@
 				5094105320BBE982006E38EC /* MainViewModelNavigator.swift in Sources */,
 				5094105120BBE982006E38EC /* EmbeddedLoginViewController.swift in Sources */,
 				5094104E20BBE982006E38EC /* LoginConfig.swift in Sources */,
+				5010BB9620C1294D00418B5B /* LGLoginExampleDependencies.swift in Sources */,
 				5094105420BBE982006E38EC /* MainViewController.swift in Sources */,
 				5094105020BBE982006E38EC /* EmbeddedLoginViewModel.swift in Sources */,
 				5094104F20BBE982006E38EC /* MainViewModel.swift in Sources */,
