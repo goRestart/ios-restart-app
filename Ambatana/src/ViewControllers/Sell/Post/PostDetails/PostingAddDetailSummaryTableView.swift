@@ -83,7 +83,7 @@ enum PostingSummaryOption {
         switch postCategory {
         case .car:
             return [.price, .make, .model, .year, .location]
-        case .motorsAndAccessories, .otherItems:
+        case .motorsAndAccessories, .otherItems, .services:
             return [.price, .location]
         case .realEstate:
             return postingFlowType == .turkish ? [.price, .propertyType, .offerType, .rooms, .sizeSquareMeters, .location] : [.price, .propertyType, .offerType, .bedrooms, .bathrooms, .location]
