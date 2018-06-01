@@ -218,6 +218,10 @@
 "chat_send_button" = "Αποστολή";
 "chat_send_error_different_country" = "Δεν μπορείτε να ξεκινήσετε μια συνομιλία για κάποια καταχώρηση που έχει δημοσιευθεί σε άλλη χώρα.";
 "chat_send_error_generic" = "Παρουσιάστηκε σφάλμα κατά την αποστολή του μηνύματος. Παρακαλώ προσπαθήστε ξανά.";
+"chat_status_view_connecting" = "Connecting...";
+"chat_status_view_no_network" = "No network connection";
+"chat_status_view_try_again" = "try again";
+"chat_status_view_unable_to_connect" = "Unable to connect.  Please try again";
 "chat_stickers_tooltip_new" = "ΝΕΟ!";
 "chat_unblock_user" = "Ξεμπλοκάρισμα Χρήστη";
 "chat_user_info_letgo_assistant" = "Είμαι μια εικονική βοηθός που σου δίνει συμβουλές και σε βοηθάει να πουλήσεις.";
@@ -396,8 +400,11 @@
 "filters_section_price" = "Τιμή";
 "filters_section_price_free_title" = "Εμφάνιση μόνο δωρεάν αντικειμένων";
 "filters_section_real_estate_info" = "Πληροφορίες ιδιοκτησίας";
+"filters_section_services_info" = "Πληροφορίες υπηρεσίας";
 "filters_section_sortby" = "Ταξινόμηση κατά";
 "filters_section_within" = "Δημοσιεύτηκε μεταξύ";
+"filters_service_subtype_not_set" = "Καμία Ρύθμιση";
+"filters_service_type_not_set" = "Καμία Ρύθμιση";
 "filters_size_wrong_range_error" = "Το μικρότερο μέγεθος δεν μπορεί να είναι μεγαλύτερο από το μέγιστο μέγεθος.";
 "filters_sort_closest" = "Κοντινότερο";
 "filters_sort_newest" = "Πιο καινούριο";
@@ -1118,8 +1125,8 @@
 "sell_uploading_label" = "Δημοσίευση καταχώρησης...";
 "services_service_subtype_list_title" = "Υπηρεσία";
 "services_service_subtype_title" = "Υπηρεσία";
-"services_service_type_list_title" = "Τύπος υπηρεσίας";
-"services_service_type_title" = "Τύπος υπηρεσίας";
+"services_service_type_list_title" = "Κατηγορία υπηρεσίας";
+"services_service_type_title" = "Κατηγορία υπηρεσίας";
 "settings_change_email_button" = "Email";
 "settings_change_location_button" = "Τοποθεσία";
 "settings_change_password_button" = "Αλλαγή Κωδικού Πρόσβασης";

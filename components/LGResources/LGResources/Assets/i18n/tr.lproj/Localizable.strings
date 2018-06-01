@@ -218,6 +218,10 @@
 "chat_send_button" = "Gönder";
 "chat_send_error_different_country" = "Farklı bir ülkede yayınlanmış bir ilan için mesaj gönderemezsin.";
 "chat_send_error_generic" = "Mesaj gönderilirken bir hata oluştu. Lütfen tekrar dene.";
+"chat_status_view_connecting" = "Connecting...";
+"chat_status_view_no_network" = "No network connection";
+"chat_status_view_try_again" = "try again";
+"chat_status_view_unable_to_connect" = "Unable to connect.  Please try again";
 "chat_stickers_tooltip_new" = "YENİ!";
 "chat_unblock_user" = "Engellemeyi Kaldır";
 "chat_user_info_letgo_assistant" = "Ben, sana ipuçları veren ve satış yapmana yardım eden sanal bir asistanım.";
@@ -396,8 +400,11 @@
 "filters_section_price" = "Fiyat";
 "filters_section_price_free_title" = "Sadece ücretsiz ürünleri göster";
 "filters_section_real_estate_info" = "Emlak Bilgisi";
+"filters_section_services_info" = "Hizmet bilgisi";
 "filters_section_sortby" = "Sırala";
 "filters_section_within" = "YAYINLANMA ZAMANI";
+"filters_service_subtype_not_set" = "Belirlenmedi";
+"filters_service_type_not_set" = "Belirlenmedi";
 "filters_size_wrong_range_error" = "Minimum büyüklük maksimum büyüklüğü aşmamalıdır.";
 "filters_sort_closest" = "İlk önce en yakını";
 "filters_sort_newest" = "İlk önce en yenisi";
@@ -1118,8 +1125,8 @@
 "sell_uploading_label" = "İlanın yayınlanıyor...";
 "services_service_subtype_list_title" = "Hizmet";
 "services_service_subtype_title" = "Hizmet";
-"services_service_type_list_title" = "Hizmet türü";
-"services_service_type_title" = "Hizmet türü";
+"services_service_type_list_title" = "Hizmet kategorisi";
+"services_service_type_title" = "Hizmet kategorisi";
 "settings_change_email_button" = "E-posta";
 "settings_change_location_button" = "Konum";
 "settings_change_password_button" = "Şifre";

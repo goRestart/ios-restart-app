@@ -218,6 +218,10 @@
 "chat_send_button" = "Skicka";
 "chat_send_error_different_country" = "Du kan inte starta en chatt om en annons som har lagts upp i ett annat land.";
 "chat_send_error_generic" = "Ett fel uppstod när meddelandet sändes. Vänligen försök igen.";
+"chat_status_view_connecting" = "Connecting...";
+"chat_status_view_no_network" = "No network connection";
+"chat_status_view_try_again" = "try again";
+"chat_status_view_unable_to_connect" = "Unable to connect.  Please try again";
 "chat_stickers_tooltip_new" = "NY!";
 "chat_unblock_user" = "Avblockera användare";
 "chat_user_info_letgo_assistant" = "Jag är en virtuell assistent som ger dig tips och hjälper dig att sälja.";
@@ -396,8 +400,11 @@
 "filters_section_price" = "Pris";
 "filters_section_price_free_title" = "Visa endast gratis produkter";
 "filters_section_real_estate_info" = "Fastighetsinformation";
+"filters_section_services_info" = "Tjänstinfo";
 "filters_section_sortby" = "Sortera efter";
 "filters_section_within" = "Annonserade under";
+"filters_service_subtype_not_set" = "Ej Vald";
+"filters_service_type_not_set" = "Ej Vald";
 "filters_size_wrong_range_error" = "Den minsta ytan får inte vara högre än den största ytan.";
 "filters_sort_closest" = "Närmast först";
 "filters_sort_newest" = "Senast upplagda först";

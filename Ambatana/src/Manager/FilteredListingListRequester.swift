@@ -13,21 +13,35 @@ class FilteredListingListRequester: ListingListRequester {
     fileprivate var offset: Int = 0
     fileprivate var initialOffset: Int
     private let customFeedVariant: Int?
+    private let shouldUseSimilarQuery: Bool
 
     var queryString: String?
     var filters: ListingFilters?
 
-    convenience init(itemsPerPage: Int, offset: Int = 0) {
-        self.init(listingRepository: Core.listingRepository, locationManager: Core.locationManager, featureFlags: FeatureFlags.sharedInstance, itemsPerPage: itemsPerPage, offset: offset)
+    convenience init(itemsPerPage: Int,
+                     offset: Int = 0,
+                     shouldUseSimilarQuery: Bool = false) {
+        self.init(listingRepository: Core.listingRepository,
+                  locationManager: Core.locationManager,
+                  featureFlags: FeatureFlags.sharedInstance,
+                  itemsPerPage: itemsPerPage,
+                  offset: offset,
+                  shouldUseSimilarQuery: shouldUseSimilarQuery)
     }
 
-    init(listingRepository: ListingRepository, locationManager: LocationManager, featureFlags: FeatureFlaggeable, itemsPerPage: Int, offset: Int) {
+    init(listingRepository: ListingRepository,
+         locationManager: LocationManager,
+         featureFlags: FeatureFlaggeable,
+         itemsPerPage: Int,
+         offset: Int,
+         shouldUseSimilarQuery: Bool) {
         self.listingRepository = listingRepository
         self.locationManager = locationManager
         self.featureFlags = featureFlags
         self.initialOffset = offset
         self.itemsPerPage = itemsPerPage
         self.customFeedVariant = featureFlags.personalizedFeedABTestIntValue
+        self.shouldUseSimilarQuery = shouldUseSimilarQuery
     }
 
 
@@ -75,6 +89,8 @@ class FilteredListingListRequester: ListingListRequester {
             let action = category.index(listingRepository: listingRepository,
                                         searchCarsEnabled: featureFlags.searchCarsIntoNewBackend.isActive)
             action(retrieveListingsParams, completion)
+        } else if shouldUseSimilarQuery, queryString != nil {
+            listingRepository.indexSimilar(retrieveListingsParams, completion: completion)
         } else if isEmptyQueryAndDefaultFilters, featureFlags.personalizedFeed.isActive {
             listingRepository.indexCustomFeed(retrieveCustomFeedParams, completion: completion)
         } else {
@@ -212,6 +228,7 @@ fileprivate extension FilteredListingListRequester {
         params.countryCode = countryCode
         params.abtest = featureFlags.searchImprovements.stringValue
         params.relaxParam = featureFlags.relaxedSearch.relaxParam
+        params.similarParam = featureFlags.emptySearchImprovements.similarParam
         params.populate(with: filters)
         return params
     }
@@ -327,6 +344,19 @@ private extension RelaxedSearch {
             return RelaxParam(numberOfRelaxedQueries: 1,
                               generateRelaxedQuery: isRelaxQuery,
                               includeOrInOriginalQuery: includeOriginalQuery)
+        }
+    }
+}
+
+private extension EmptySearchImprovements {
+    
+    static let maxNumberOfSimilarContexts = 10
+    
+    var similarParam: SimilarParam? {
+        switch self {
+        case .control, .baseline, .popularNearYou: return nil
+        case .similarQueries:
+            return SimilarParam(numberOfSimilarContexts: EmptySearchImprovements.maxNumberOfSimilarContexts)
         }
     }
 }

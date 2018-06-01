@@ -482,6 +482,14 @@ extension R {
     public static let chatSendErrorDifferentCountry = Strings.tr("Localizable", "chat_send_error_different_country")
     /// An error occurred while sending the message. Please try again.
     public static let chatSendErrorGeneric = Strings.tr("Localizable", "chat_send_error_generic")
+    /// Connecting...
+    public static let chatStatusViewConnecting = Strings.tr("Localizable", "chat_status_view_connecting")
+    /// No network connection
+    public static let chatStatusViewNoNetwork = Strings.tr("Localizable", "chat_status_view_no_network")
+    /// try again
+    public static let chatStatusViewTryAgain = Strings.tr("Localizable", "chat_status_view_try_again")
+    /// Unable to connect.  Please try again
+    public static let chatStatusViewUnableToConnect = Strings.tr("Localizable", "chat_status_view_unable_to_connect")
     /// NEW!
     public static let chatStickersTooltipNew = Strings.tr("Localizable", "chat_stickers_tooltip_new")
     /// Unblock User
@@ -866,10 +874,16 @@ extension R {
     public static let filtersSectionPriceFreeTitle = Strings.tr("Localizable", "filters_section_price_free_title")
     /// Property info
     public static let filtersSectionRealEstateInfo = Strings.tr("Localizable", "filters_section_real_estate_info")
+    /// Service info
+    public static let filtersSectionServicesInfo = Strings.tr("Localizable", "filters_section_services_info")
     /// Sort by
     public static let filtersSectionSortby = Strings.tr("Localizable", "filters_section_sortby")
     /// Posted within
     public static let filtersSectionWithin = Strings.tr("Localizable", "filters_section_within")
+    /// Not Set
+    public static let filtersServiceSubtypeNotSet = Strings.tr("Localizable", "filters_service_subtype_not_set")
+    /// Not Set
+    public static let filtersServiceTypeNotSet = Strings.tr("Localizable", "filters_service_type_not_set")
     /// The minimum size can’t be higher than the maximum size.
     public static let filtersSizeWrongRangeError = Strings.tr("Localizable", "filters_size_wrong_range_error")
     /// Closest first

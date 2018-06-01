@@ -1,31 +1,27 @@
-//
-//  ChatConversationsListViewController.swift
-//  LetGo
-//
-//  Created by Nestor on 09/05/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import RxSwift
+import RxDataSources
 import LGCoreKit
+import LGComponents
 
 final class ChatConversationsListViewController: BaseViewController {
     
     private let viewModel: ChatConversationsListViewModel
     private let contentView = ChatConversationsListView()
+    private let connectionStatusView = ChatConnectionStatusView()
+    private var statusViewHeightConstraint: NSLayoutConstraint = NSLayoutConstraint()
     
     private let featureFlags: FeatureFlaggeable
     
     private lazy var optionsButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setImage(#imageLiteral(resourceName: "ic_more_options"), for: .normal)
-        button.addTarget(self, action: #selector(optionsButtonPressed), for: .touchUpInside)
+        button.setImage(R.Asset.IconsButtons.icMoreOptions.image, for: .normal)
+        button.addTarget(self, action: #selector(navigationBarOptionsButtonPressed), for: .touchUpInside)
         button.set(accessibilityId: .chatConversationsListOptionsNavBarButton)
         return button
     }()
     private lazy var filtersButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.addTarget(self, action: #selector(filtersButtonPressed), for: .touchUpInside)
+        button.addTarget(self, action: #selector(navigationBarFiltersButtonPressed), for: .touchUpInside)
         button.set(accessibilityId: .chatConversationsListFiltersNavBarButton)
         return button
     }()
@@ -51,13 +47,20 @@ final class ChatConversationsListViewController: BaseViewController {
     
     override func loadView() {
         view = UIView()
-        view.addSubviewForAutoLayout(contentView)
+        view.addSubviewsForAutoLayout([connectionStatusView, contentView])
+        statusViewHeightConstraint = connectionStatusView.heightAnchor.constraint(equalToConstant: ChatConnectionStatusView.standardHeight)
+
         NSLayoutConstraint.activate([
-            safeTopAnchor.constraint(equalTo: contentView.topAnchor),
+            statusViewHeightConstraint,
+            connectionStatusView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            connectionStatusView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            safeTopAnchor.constraint(equalTo: connectionStatusView.topAnchor),
+            contentView.topAnchor.constraint(equalTo: connectionStatusView.bottomAnchor),
             safeBottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             view.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             view.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
             ])
+
     }
     
     override func viewDidLoad() {
@@ -68,6 +71,7 @@ final class ChatConversationsListViewController: BaseViewController {
         setupNavigationBarRx()
         setupViewStateRx()
         setupTableViewRx()
+        setupStatusBarRx()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -79,7 +83,7 @@ final class ChatConversationsListViewController: BaseViewController {
     private func setupNavigationBar(isEditing: Bool) {
         if isEditing {
             setLetGoRightButtonWith(barButtonSystemItem: .cancel,
-                                    selector: #selector(cancelButtonPressed),
+                                    selector: #selector(navigationBarCancelButtonPressed),
                                     animated: true)
         } else {
             setNavigationBarRightButtons([filtersButton, optionsButton],
@@ -90,8 +94,31 @@ final class ChatConversationsListViewController: BaseViewController {
     // MARK: View model
     
     private func setupViewModel() {
-        viewModel.deleteActionBlock = { [weak self] in
-            self?.deleteButtonPressed()
+        viewModel.deleteConversationConfirmationBlock = { [weak self] conversation in
+            let alert = UIAlertController(title: ChatConversationsListViewModel.Localize.deleteAlertConfirmationTitle,
+                                          message: ChatConversationsListViewModel.Localize.deleteAlertConfirmationMessage,
+                                          preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: ChatConversationsListViewModel.Localize.buttonCancel,
+                                             style: .cancel,
+                                             handler: nil)
+            let okAction = UIAlertAction(title: ChatConversationsListViewModel.Localize.deleteAlertConfirmationButtonOk,
+                                              style: .destructive) { [weak self]  (_) -> Void in
+                self?.viewModel.deleteConversation(conversation: conversation)
+            }
+            alert.addAction(cancelAction)
+            alert.addAction(okAction)
+            self?.present(alert, animated: true, completion: nil)
+        }
+        viewModel.deleteConversationDidStartBlock = { [weak self] message in
+            self?.showLoadingMessageAlert(message)
+        }
+        viewModel.deleteConversationDidSuccessBlock = { [weak self] in
+            self?.dismissLoadingMessageAlert()
+        }
+        viewModel.deleteConversationDidFailBlock = { [weak self] message in
+            self?.dismissLoadingMessageAlert(message, afterMessageCompletion: { [weak self] in
+                self?.viewModel.retrieveFirstPage()
+            })
         }
     }
     
@@ -125,6 +152,7 @@ final class ChatConversationsListViewController: BaseViewController {
         viewModel.rx_navigationActionSheet
             .asObservable()
             .bind { [weak self] (cancelTitle, actions) in
+                self?.contentView.switchEditMode(isEditing: false)
                 self?.showActionSheet(cancelTitle, actions: actions)
             }
             .disposed(by: bag)
@@ -133,6 +161,7 @@ final class ChatConversationsListViewController: BaseViewController {
             .asDriver()
             .drive(onNext: { [weak self] isEditing in
                 self?.setupNavigationBar(isEditing: isEditing)
+                self?.contentView.switchEditMode(isEditing: isEditing)
             })
             .disposed(by: bag)
     }
@@ -156,22 +185,41 @@ final class ChatConversationsListViewController: BaseViewController {
     }
     
     private func setupTableViewRx() {
+        let dataSource = RxTableViewSectionedAnimatedDataSource<ChatConversationsListSectionModel>(
+            configureCell: { (_, tableView, indexPath, item) in
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: ChatUserConversationCell.reusableID)
+                    as? ChatUserConversationCell else { return UITableViewCell() }
+                cell.setupCellWith(data: item.conversationCellData, indexPath: indexPath)
+                return cell
+        },
+            canEditRowAtIndexPath: { (_, _) in
+            return true
+        }
+        )
+        dataSource.decideViewTransition = { (_, _, changeSet) in
+            return RxDataSources.ViewTransition.reload
+        }
+
         viewModel.rx_conversations
             .asObservable()
-            .bind(to: contentView.rx_tableView
-                .items(cellIdentifier: ConversationCell.reusableID,
-                       cellType: ConversationCell.self)) { (row, conversation, cell) in
-                        cell.textLabel?.text = conversation.interlocutor?.name
+            .map { [ChatConversationsListSectionModel(conversations: $0, header: "conversations")] }
+            .bind(to: contentView.rx_tableView.items(dataSource: dataSource))
+            .disposed(by: bag)
+        
+        contentView.rx_tableView
+            .itemSelected
+            .bind { [weak self] indexPath in
+                self?.viewModel.tableViewDidSelectItem(at: indexPath)
             }
             .disposed(by: bag)
         
         contentView.rx_tableView
-            .modelSelected(ChatConversation.self)
-            .bind { [weak self] conversation in
-                self?.viewModel.openConversation(conversation)
+            .itemDeleted
+            .bind { [weak self] indexPath in
+                self?.viewModel.tableViewDidDeleteItem(at: indexPath)
             }
             .disposed(by: bag)
-        
+
         contentView.rx_tableView
             .willDisplayCell // This is calling more cells than the visible ones!
             .asObservable()
@@ -180,22 +228,37 @@ final class ChatConversationsListViewController: BaseViewController {
             }
             .disposed(by: bag)
     }
+
+    private func setupStatusBarRx() {
+        viewModel.rx_connectionBarStatus.asObservable().bind { [weak self] status in
+            guard let _ = status.title else {
+                self?.connectionStatusBar(isVisible: false)
+                return
+            }
+            self?.connectionStatusView.status = status
+            self?.connectionStatusBar(isVisible: true)
+        }.disposed(by: bag)
+    }
+
+    private func connectionStatusBar(isVisible: Bool) {
+        statusViewHeightConstraint.constant = isVisible ? ChatConnectionStatusView.standardHeight : 0
+        UIView.animate(withDuration: 0.5) {
+            self.view.layoutIfNeeded()
+        }
+    }
+
+
+    // MARK: Navigation Bar Actions
     
-    // MARK: Actions
-    
-    @objc private func optionsButtonPressed() {
+    @objc private func navigationBarOptionsButtonPressed() {
         viewModel.openOptionsActionSheet()
     }
     
-    @objc private func filtersButtonPressed() {
+    @objc private func navigationBarFiltersButtonPressed() {
         viewModel.openFiltersActionSheet()
     }
     
-    @objc private func deleteButtonPressed() {
-        viewModel.switchEditing()
-    }
-    
-    @objc private func cancelButtonPressed() {
-        viewModel.switchEditing()
+    @objc private func navigationBarCancelButtonPressed() {
+        viewModel.switchEditMode(isEditing: false)
     }
 }

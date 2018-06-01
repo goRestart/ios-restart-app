@@ -9,11 +9,11 @@
 import UIKit
 import LGCoreKit
 
-protocol CoordinatorDelegate: class {
+public protocol CoordinatorDelegate: class {
     func coordinatorDidClose(_ coordinator: Coordinator)
 }
 
-protocol Coordinator: CoordinatorDelegate {
+public protocol Coordinator: CoordinatorDelegate {
 
     /// Possible child coordinator. Will be automatically set on `openChild` method
     var child: Coordinator? { get set }
@@ -57,7 +57,7 @@ protocol Coordinator: CoordinatorDelegate {
 // MARK: - CoordinatorDelegate
 
 extension Coordinator {
-    func coordinatorDidClose(_ coordinator: Coordinator) {
+    public func coordinatorDidClose(_ coordinator: Coordinator) {
         child = nil
     }
 }
@@ -66,8 +66,8 @@ extension Coordinator {
 // MARK: - Helpers
 
 extension Coordinator {
-    func openChild(coordinator: Coordinator, parent: UIViewController, animated: Bool, forceCloseChild: Bool,
-                         completion: (() -> Void)?) {
+    public func openChild(coordinator: Coordinator, parent: UIViewController, animated: Bool, forceCloseChild: Bool,
+                          completion: (() -> Void)?) {
         let presentBlock = {
             self.child?.coordinatorDelegate = nil
             self.child = coordinator
@@ -90,7 +90,7 @@ extension Coordinator {
         }
     }
 
-    func closeCoordinator(animated: Bool, completion: (() -> Void)?) {
+    public func closeCoordinator(animated: Bool, completion: (() -> Void)?) {
         let dismiss: () -> Void = { [weak self] in
             self?.dismissViewController(animated: animated) {
                 guard let strongSelf = self else { return }
@@ -106,29 +106,6 @@ extension Coordinator {
         }
     }
 }
-
-
-// TODO: To be moved to the corresponding component when it is created
-//// MARK: - Login
-//
-//extension Coordinator {
-//    func openLoginIfNeeded(from source: EventParameterLoginSourceValue, style: LoginStyle,
-//                           loggedInAction: @escaping (() -> Void), cancelAction: (() -> Void)?) {
-//        guard !sessionManager.loggedIn else {
-//            loggedInAction()
-//            return
-//        }
-//        let coordinator = LoginCoordinator(source: source,
-//                                           style: style,
-//                                           loggedInAction: loggedInAction,
-//                                           cancelAction: cancelAction)
-//        openChild(coordinator: coordinator,
-//                  parent: viewController,
-//                  animated: true,
-//                  forceCloseChild: true,
-//                  completion: nil)
-//    }
-//}
 
 
 // MARK: - Alerts

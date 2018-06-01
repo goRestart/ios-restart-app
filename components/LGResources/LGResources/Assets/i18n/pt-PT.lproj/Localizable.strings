@@ -218,6 +218,10 @@
 "chat_send_button" = "Enviar";
 "chat_send_error_different_country" = "Não pode iniciar uma conversa sobre um anúncio publicado num país diferente.";
 "chat_send_error_generic" = "Surgiu um erro ao enviar a mensagem. Por favor tente de novo.";
+"chat_status_view_connecting" = "Connecting...";
+"chat_status_view_no_network" = "No network connection";
+"chat_status_view_try_again" = "try again";
+"chat_status_view_unable_to_connect" = "Unable to connect.  Please try again";
 "chat_stickers_tooltip_new" = "NOVO!";
 "chat_unblock_user" = "Desbloquear utilizador";
 "chat_user_info_letgo_assistant" = "Sou ma assistente virtual que lhe dá dicas e o ajuda a vender.";
@@ -396,8 +400,11 @@
 "filters_section_price" = "Preço";
 "filters_section_price_free_title" = "Mostrar apenas artigos gratuitos";
 "filters_section_real_estate_info" = "Informações do imóvel";
+"filters_section_services_info" = "Informações do serviço";
 "filters_section_sortby" = "Ordenar por";
 "filters_section_within" = "Publicado dentro de";
+"filters_service_subtype_not_set" = "Não Definido";
+"filters_service_type_not_set" = "Não Definido";
 "filters_size_wrong_range_error" = "O tamanho mínimo não pode ser maior que o tamanho máximo";
 "filters_sort_closest" = "Os mais próximos primeiro";
 "filters_sort_newest" = "Os mais recentes primeiro";

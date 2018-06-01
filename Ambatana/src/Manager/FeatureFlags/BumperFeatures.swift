@@ -73,6 +73,7 @@ extension Bumper  {
         flags.append(ShowServicesFeatures.self)
         flags.append(EmptySearchImprovements.self)
         flags.append(OffensiveReportAlert.self)
+        flags.append(HighlightedIAmInterestedFeed.self)
         Bumper.initialize(flags)
     } 
 
@@ -374,6 +375,11 @@ extension Bumper  {
     static var offensiveReportAlert: OffensiveReportAlert {
         guard let value = Bumper.value(for: OffensiveReportAlert.key) else { return .control }
         return OffensiveReportAlert(rawValue: value) ?? .control 
+    }
+
+    static var highlightedIAmInterestedFeed: HighlightedIAmInterestedFeed {
+        guard let value = Bumper.value(for: HighlightedIAmInterestedFeed.key) else { return .control }
+        return HighlightedIAmInterestedFeed(rawValue: value) ?? .control 
     } 
 }
 
@@ -1317,6 +1323,23 @@ enum OffensiveReportAlert: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
+        }
+    }
+}
+
+enum HighlightedIAmInterestedFeed: String, BumperFeature  {
+    case control, baseline, lightBottom, darkTop, darkBottom
+    static var defaultValue: String { return HighlightedIAmInterestedFeed.control.rawValue }
+    static var enumValues: [HighlightedIAmInterestedFeed] { return [.control, .baseline, .lightBottom, .darkTop, .darkBottom]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show an I am interested highlighted undo button in the main feed more" } 
+    static func fromPosition(_ position: Int) -> HighlightedIAmInterestedFeed {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .lightBottom
+            case 3: return .darkTop
+            case 4: return .darkBottom
             default: return .control
         }
     }

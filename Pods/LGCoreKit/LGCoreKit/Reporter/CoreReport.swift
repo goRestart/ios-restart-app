@@ -159,6 +159,7 @@ enum CoreReportDataSource: ReportType {
         case userRating
         case userRatings
         case relaxQuery
+        case similarQuery
         case reputationActions
         case preSignedUploadUrl
         case imagesId
@@ -229,6 +230,8 @@ enum CoreReportDataSource: ReportType {
                 return [LGUserRating].self
             case .relaxQuery:
                 return RelaxQuery.self
+            case .similarQuery:
+                return SimilarQuery.self
             case .reputationActions:
                 return LGUserReputationAction.self
             case .preSignedUploadUrl:

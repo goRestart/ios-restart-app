@@ -43,20 +43,26 @@ final class SearchRequesterFactory: RequesterFactory {
     }
     
     private func build(with requesterType: RequesterType) -> ListingListRequester {
+        let filters = dependencyContainer.filters
+        let queryString = dependencyContainer.queryString
+        let itemsPerPage = dependencyContainer.itemsPerPage
+        let carSearchActive = dependencyContainer.carSearchActive
         switch requesterType {
         case .nonFilteredFeed:
             return FilterListingListRequesterFactory
                 .generateDefaultFeedRequester(itemsPerPage: dependencyContainer.itemsPerPage)
         case .search:
             return FilterListingListRequesterFactory
-                .generateRequester(withFilters: dependencyContainer.filters,
-                                   queryString: dependencyContainer.queryString,
-                                   itemsPerPage: dependencyContainer.itemsPerPage,
-                                   carSearchActive: dependencyContainer.carSearchActive)
+                .generateRequester(withFilters: filters,
+                                   queryString: queryString,
+                                   itemsPerPage: itemsPerPage,
+                                   carSearchActive: carSearchActive)
         case .similarProducts:
-            // FIXME: change to similar Products requester once it is created
-            return FilterListingListRequesterFactory
-                .generateDefaultFeedRequester(itemsPerPage: dependencyContainer.itemsPerPage)
+            return FilterListingListRequesterFactory.generateRequester(withFilters: filters,
+                                                                queryString: queryString,
+                                                                itemsPerPage: itemsPerPage,
+                                                                carSearchActive: carSearchActive,
+                                                                similarSearchActive: dependencyContainer.similarSearchActive)
         }
     }
 }
@@ -66,18 +72,21 @@ final class RequesterDependencyContainer {
     private(set) var filters: ListingFilters
     private(set) var queryString: String?
     private(set) var carSearchActive: Bool
+    private(set) var similarSearchActive: Bool
     
-    init(itemsPerPage: Int, filters: ListingFilters, queryString: String?, carSearchActive: Bool) {
+    init(itemsPerPage: Int, filters: ListingFilters, queryString: String?, carSearchActive: Bool, similarSearchActive: Bool) {
         self.itemsPerPage = itemsPerPage
         self.filters = filters
         self.queryString = queryString
         self.carSearchActive = carSearchActive
+        self.similarSearchActive = similarSearchActive
     }
     
-    func updateContainer(itemsPerPage: Int, filters: ListingFilters, queryString: String?, carSearchActive: Bool) {
+    func updateContainer(itemsPerPage: Int, filters: ListingFilters, queryString: String?, carSearchActive: Bool,  similarSearchActive: Bool) {
         self.itemsPerPage = itemsPerPage
         self.filters = filters
         self.queryString = queryString
         self.carSearchActive = carSearchActive
+        self.similarSearchActive = similarSearchActive
     }
 }

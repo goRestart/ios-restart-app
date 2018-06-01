@@ -218,6 +218,10 @@
 "chat_send_button" = "Gửi";
 "chat_send_error_different_country" = "Chúng tôi không thể bắt đầu một hội thoại về một bài đăng ở một quốc gia khác.";
 "chat_send_error_generic" = "Có lỗi xảy ra trong khi gửi tin nhắn. Xin vui lòng thử lại.";
+"chat_status_view_connecting" = "Connecting...";
+"chat_status_view_no_network" = "No network connection";
+"chat_status_view_try_again" = "try again";
+"chat_status_view_unable_to_connect" = "Unable to connect.  Please try again";
 "chat_stickers_tooltip_new" = "MỚI!";
 "chat_unblock_user" = "Bỏ chặn Người dùng";
 "chat_user_info_letgo_assistant" = "Tôi là một trợ lý ảo, người sẽ cho bạn các lời khuyên và giúp bạn bán hàng.";
@@ -396,8 +400,11 @@
 "filters_section_price" = "Giá";
 "filters_section_price_free_title" = "Chỉ hiện các sản phẩm miễn phí";
 "filters_section_real_estate_info" = "Thông tin nhà đất";
+"filters_section_services_info" = "Service info";
 "filters_section_sortby" = "Sắp xếp theo";
 "filters_section_within" = "Được đăng trong vòng";
+"filters_service_subtype_not_set" = "Chưa Cài Đặt";
+"filters_service_type_not_set" = "Chưa Cài Đặt";
 "filters_size_wrong_range_error" = "Diện tích tối thiểu không thể lớn hơn diện tích tối đa.";
 "filters_sort_closest" = "Gần nhất trước tiên";
 "filters_sort_newest" = "Mới nhất trước tiên";

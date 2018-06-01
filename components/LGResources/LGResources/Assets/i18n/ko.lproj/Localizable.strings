@@ -218,6 +218,10 @@
 "chat_send_button" = "발송";
 "chat_send_error_different_country" = "사용자는 다른 국가에서 게시된 상품 목록에 관한 대화를 시작하실 수 없습니다";
 "chat_send_error_generic" = "메세지를 발송하는데 오류가 발생했습니다. 다시 시도해주세요.";
+"chat_status_view_connecting" = "Connecting...";
+"chat_status_view_no_network" = "No network connection";
+"chat_status_view_try_again" = "try again";
+"chat_status_view_unable_to_connect" = "Unable to connect.  Please try again";
 "chat_stickers_tooltip_new" = "새로운!";
 "chat_unblock_user" = "사용자 차단 해제하기";
 "chat_user_info_letgo_assistant" = "저는 판매를 도와드리고 판매 방법을 알려드리기 위한 가상 도우미 입니다.";
@@ -396,8 +400,11 @@
 "filters_section_price" = "가격";
 "filters_section_price_free_title" = "무료 제품만 보기";
 "filters_section_real_estate_info" = "상품 정보";
+"filters_section_services_info" = "서비스 정보";
 "filters_section_sortby" = "분류하기";
 "filters_section_within" = "안에 입력하세요";
+"filters_service_subtype_not_set" = "설정하지 않기";
+"filters_service_type_not_set" = "설정하지 않기";
 "filters_size_wrong_range_error" = "최소 크기는 최대 크기보다 클 수 없습니다.";
 "filters_sort_closest" = "가장 가까운 순서대로";
 "filters_sort_newest" = "새로 올라온 순서대로";

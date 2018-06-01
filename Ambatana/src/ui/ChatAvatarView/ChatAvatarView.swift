@@ -103,8 +103,8 @@ final class ChatAvatarView: UIView {
     }
 
     private func setupUI() {
-        mainView.contentMode = .scaleAspectFit
-        badgeView.contentMode = .scaleAspectFit
+        mainView.contentMode = .scaleAspectFill
+        badgeView.contentMode = .scaleAspectFill
 
         if shareBounds {
             addSubviewForAutoLayout(mainView)

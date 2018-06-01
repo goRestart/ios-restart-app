@@ -48,6 +48,7 @@ protocol FeatureFlaggeable: class {
     var sectionedMainFeed: SectionedMainFeed { get }
     var showExactLocationForPros: Bool { get }
     var searchAlerts: SearchAlerts { get }
+    var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -758,6 +759,13 @@ final class FeatureFlags: FeatureFlaggeable {
         }
         let cached = dao.retrieveEmergencyLocate()
         return cached ?? EmergencyLocate.fromPosition(abTests.emergencyLocate.value)
+    }
+    
+    var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed {
+        if Bumper.enabled {
+            return Bumper.highlightedIAmInterestedFeed
+        }
+        return HighlightedIAmInterestedFeed.fromPosition(abTests.highlightedIAmInterestedInFeed.value)
     }
 
     var offensiveReportAlert: OffensiveReportAlert {

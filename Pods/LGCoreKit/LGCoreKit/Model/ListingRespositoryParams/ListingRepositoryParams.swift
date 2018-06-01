@@ -90,7 +90,7 @@ public struct RetrieveListingParams {
     public var distanceType: DistanceType?
     public var abtest: String?
     public var relaxParam: RelaxParam?
-    
+    public var similarParam: SimilarParam?    
     
     //  MARK: Discovery
     

@@ -15,7 +15,7 @@ final class ChatConversationsListView: UIView {
     }
     
     struct Layout {
-        static let rowHeight: CGFloat = 76
+        static let rowHeight: CGFloat = 80
     }
     
     private let statusView = ChatStatusView()
@@ -55,7 +55,7 @@ final class ChatConversationsListView: UIView {
     }
     
     private func setupTableView() {
-        tableView.register(UINib(nibName: "ConversationCell", bundle: nil), forCellReuseIdentifier: "ConversationCell")
+        tableView.register(ChatUserConversationCell.self, forCellReuseIdentifier: ChatUserConversationCell.reusableID)
         tableView.alpha = 0
         tableView.rowHeight = Layout.rowHeight
         tableView.separatorStyle = .singleLine
@@ -106,8 +106,8 @@ final class ChatConversationsListView: UIView {
         refreshControl.endRefreshing()
     }
     
-    func switchEditMode() {
-        tableView.isEditing = !tableView.isEditing
+    func switchEditMode(isEditing: Bool) {
+        tableView.isEditing = isEditing
     }
     
     // MARK: View states

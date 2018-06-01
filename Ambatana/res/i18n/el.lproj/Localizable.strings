@@ -247,6 +247,8 @@
 "common_chat_not_available" = "Όπα! Η συνομιλία δε βρέθηκε.";
 "common_collapse" = "Δείτε Λιγότερα";
 "common_confirm" = "Επιβεβαίωση";
+"common_done" = "Έγινε";
+"common_edit" = "Επεξεργασία";
 "common_error" = "Σφάλμα";
 "common_error_connection_failed" = "Παρουσιάστηκε σφάλμα. Παρακαλώ, ελέγξτε τη σύνδεσή σας στο Ίντερνετ.";
 "common_error_generic_body" = "Παρουσιάστηκε σφάλμα.";
@@ -394,8 +396,11 @@
 "filters_section_price" = "Τιμή";
 "filters_section_price_free_title" = "Εμφάνιση μόνο δωρεάν αντικειμένων";
 "filters_section_real_estate_info" = "Πληροφορίες ιδιοκτησίας";
+"filters_section_services_info" = "Πληροφορίες υπηρεσίας";
 "filters_section_sortby" = "Ταξινόμηση κατά";
 "filters_section_within" = "Δημοσιεύτηκε μεταξύ";
+"filters_service_subtype_not_set" = "Καμία Ρύθμιση";
+"filters_service_type_not_set" = "Καμία Ρύθμιση";
 "filters_size_wrong_range_error" = "Το μικρότερο μέγεθος δεν μπορεί να είναι μεγαλύτερο από το μέγιστο μέγεθος.";
 "filters_sort_closest" = "Κοντινότερο";
 "filters_sort_newest" = "Πιο καινούριο";
@@ -535,6 +540,10 @@
 "nps_survey_title" = "ΘΑ ΘΕΛΑΜΕ ΝΑ ΞΕΡΟΥΜΕ...";
 "nps_survey_very_bad" = "Όχι ιδιαίτερα";
 "nps_survey_very_good" = "Πάρα πολύ";
+"offensive_report_alert_message" = "Έχουμε ενημερωθεί για πιθανά ακατάλληλα μηνύματα που αποστέλλονται από το λογαριασμό σας.\n\nΕπαναλαμβανόμενες παραβιάσεις ενδέχεται να οδηγήσουν στον κλείσιμο του λογαριασμού.";
+"offensive_report_alert_primary_action" = "Αναθεώρηση Οδηγιών";
+"offensive_report_alert_secondary_action" = "Παράλειψη";
+"offensive_report_alert_title" = "Αναθεώρηση Οδηγιών Κοινότητας";
 "onboarding_alert_no" = "Όχι";
 "onboarding_alert_yes" = "Ναι";
 "onboarding_categories_button_countdown" = "Επιλέξτε τουλάχιστον πάνω από %i";
@@ -859,8 +868,9 @@
 "profile_permissions_alert_ok" = "Ενεργοποίηση";
 "profile_permissions_alert_title" = "ΜΗ ΧΆΝΕΤΕ ΑΠΑΝΤΉΣΕΙΣ!";
 "profile_permissions_header_message" = "Ενεργοποιήστε τις γνωστοποιησεις μηνυμάτων";
-"profile_reputation_tooltip_title" = "Verified user! Tap if you want to be verified too.";
+"profile_reputation_tooltip_title" = "Επιβεβαιωμένος χρήστης! Πατήστε αν θέλετε να κάνετε κι εσείς επιβεβαίωση.";
 "profile_reviews_count" = "Κριτικές";
+"profile_reviews_empty_label" = "ΚΑΜΙΑ ΚΡΙΤΙΚΗ (ΑΚΟΜΗ!)";
 "profile_reviews_tab" = "Κριτικές";
 "profile_selling_no_products_label" = "ΚΑΜΙΑ ΚΑΤΑΧΩΡΗΣΗ (ΑΚΟΜΗ!)";
 "profile_selling_other_user_no_products_button" = "Συνεχίστε την πλοήγηση";
@@ -1074,6 +1084,7 @@
 "search_alert_error_too_many_text" = "Όπα! Φτάσατε στο όριο του μέγιστου αριθμού ειδοποιήσεων αναζήτησης.";
 "search_alerts_edit_button" = "Επεξεργασία";
 "search_alerts_header_subtitle" = "Λάβετε ειδοποιήσεις για νέες καταχωρήσεις";
+"search_alerts_list_title" = "Αναζήτηση Ειδοποιήσεων";
 "search_alerts_placeholder_empty_button" = "Ξεκινήστε την Αναζήτηση";
 "search_alerts_placeholder_empty_text" = "Εγγραφείτε στις αναζητήσεις για να λαμβάνετε ειδοποιήσεις κάθε φορά που δημοσιεύονται νέες καταχωρήσεις.";
 "search_alerts_placeholder_error_button" = "Προσπαθήστε ξανά";
@@ -1108,6 +1119,10 @@
 "sell_title_autogen_label" = "Προτεινόμενος τίτλος από το letgo";
 "sell_title_field_hint" = "Τίτλος (προαιρετικό)";
 "sell_uploading_label" = "Δημοσίευση καταχώρησης...";
+"services_service_subtype_list_title" = "Υπηρεσία";
+"services_service_subtype_title" = "Υπηρεσία";
+"services_service_type_list_title" = "Κατηγορία υπηρεσίας";
+"services_service_type_title" = "Κατηγορία υπηρεσίας";
 "settings_change_email_button" = "Email";
 "settings_change_location_button" = "Τοποθεσία";
 "settings_change_password_button" = "Αλλαγή Κωδικού Πρόσβασης";
@@ -1129,6 +1144,9 @@
 "settings_marketing_notifications_alert_deactivate" = "Απενεργοποίηση";
 "settings_marketing_notifications_alert_message" = "Είστε σίγουροι πως θέλετε να απενεργοποιήσετε τις ειδοποιήσεις προώθησης;";
 "settings_marketing_notifications_switch" = "Ειδοποιήσεις Μάρκετινγκ";
+"settings_notifications_button" = "Ειδοποιήσεις";
+"settings_notifications_search_alerts" = "Αναζήτηση Ειδοποιήσεων";
+"settings_notifications_title" = "Ειδοποιήσεις";
 "settings_section_profile" = "Προφίλ";
 "settings_section_promote" = "Προώθηση";
 "settings_section_support" = "Υποστήριξη";

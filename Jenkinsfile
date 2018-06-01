@@ -7,7 +7,6 @@ properties([
   parameters([string(defaultValue: '', description: '', name: 'rollBackBuild')]), 
   pipelineTriggers([[$class: 'PeriodicFolderTrigger', interval: '2h']])
 ])
-  
   node_name = 'osx-slave'
   branch_type = get_branch_type "${env.BRANCH_NAME}"
   try {
@@ -84,8 +83,9 @@ def launchUnitTests(){
     userRemoteConfigs: scm.userRemoteConfigs,
     ])
       sh 'export LC_ALL=en_US.UTF-8'
-      // we add an || true in case there are no simulators available to avoid job to fail
-      sh 'killall "Simulator" || true'  
+      sh 'killall "Simulator" || true'
+      sh "xcrun simctl list devices |grep 'iPhone' |cut -d '(' -f2 | cut -d ')' -f1 | xargs -I {} xcrun simctl erase '{}'"
+        
       withCredentials([usernamePassword(credentialsId: 'fc7205d5-6635-441c-943e-d40b5030df0f', passwordVariable: 'LG_GITHUB_PASSWORD', usernameVariable: 'LG_GITHUB_USER')]) {
         sh 'fastlane ciJenkins'
       }

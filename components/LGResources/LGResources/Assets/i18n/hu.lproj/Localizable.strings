@@ -218,6 +218,10 @@
 "chat_send_button" = "Küldés";
 "chat_send_error_different_country" = "Nem kezdhetsz beszélgetést olyan portékáról, amelyet más országban hirdettek meg.";
 "chat_send_error_generic" = "Hiba történt az üzenet küldése során. Próbálkozz újra.";
+"chat_status_view_connecting" = "Connecting...";
+"chat_status_view_no_network" = "No network connection";
+"chat_status_view_try_again" = "try again";
+"chat_status_view_unable_to_connect" = "Unable to connect.  Please try again";
 "chat_stickers_tooltip_new" = "ÚJ!";
 "chat_unblock_user" = "Blokkolás feloldása";
 "chat_user_info_letgo_assistant" = "Én egy virtuális asszisztens vagyok, tanácsokkal segítek majd az eladásban.";
@@ -396,8 +400,11 @@
 "filters_section_price" = "Ár";
 "filters_section_price_free_title" = "Csak ingyenes portékák";
 "filters_section_real_estate_info" = "Ingatlaninformációk";
+"filters_section_services_info" = "Szolgáltatásinformációk";
 "filters_section_sortby" = "Rendezés";
 "filters_section_within" = "Közzétéve";
+"filters_service_subtype_not_set" = "Nincs Megadva";
+"filters_service_type_not_set" = "Nincs Megadva";
 "filters_size_wrong_range_error" = "A minimális méret nem lehet nagyobb a maximálisnál.";
 "filters_sort_closest" = "Legközelebbiek elöl";
 "filters_sort_newest" = "Legújabbak elöl";

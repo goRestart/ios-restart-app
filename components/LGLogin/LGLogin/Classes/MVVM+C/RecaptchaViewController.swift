@@ -6,9 +6,10 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
+import LGComponents
 import UIKit
 
-class RecaptchaViewController: BaseViewController {
+public class RecaptchaViewController: BaseViewController {
     @IBOutlet weak var webView: UIWebView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var closeButton: UIButton!
@@ -17,18 +18,22 @@ class RecaptchaViewController: BaseViewController {
 
     fileprivate var currentURL: URL?
 
-    init(viewModel: RecaptchaViewModel) {
+    public init(viewModel: RecaptchaViewModel) {
         self.viewModel = viewModel
-        super.init(viewModel: viewModel, nibName: "RecaptchaViewController")
+        super.init(viewModel: viewModel,
+                   nibName: "RecaptchaViewController",
+                   bundle: R.loginBundle)
         automaticallyAdjustsScrollViewInsets = false
     }
 
-    required init?(coder: NSCoder) {
+    public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
+        closeButton.setImage(R.Asset.CongratsScreenImages.icCloseRed.image,
+                             for: .normal)
         setAccesibilityIds()
         webView.delegate = self
 
@@ -56,7 +61,7 @@ class RecaptchaViewController: BaseViewController {
 
 extension RecaptchaViewController: UIWebViewDelegate {
 
-    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest,
+    public func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest,
                  navigationType: UIWebViewNavigationType) -> Bool {
         currentURL = request.url
         if let url = currentURL {
@@ -65,7 +70,7 @@ extension RecaptchaViewController: UIWebViewDelegate {
         return true
     }
 
-    func webViewDidFinishLoad(_ webView: UIWebView) {
+    public func webViewDidFinishLoad(_ webView: UIWebView) {
         activityIndicator.stopAnimating()
 
         if let url = currentURL {
