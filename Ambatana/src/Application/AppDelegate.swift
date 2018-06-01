@@ -35,11 +35,6 @@ final class AppDelegate: UIResponder {
     fileprivate let appIsActive = Variable<Bool?>(nil)
     fileprivate var didOpenApp = false
     fileprivate let disposeBag = DisposeBag()
-
-    struct TrustAndSafety {
-        static let emergencyLocateKey = "emergency-locate"
-        static let offensiveReportKey = "offensive-report"
-    }
 }
 
 
