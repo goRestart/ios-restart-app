@@ -8,7 +8,7 @@ class LGLoginExampleDependencies {
 
     init() {
         let loginConfig = LoginConfig(signUpEmailTermsAndConditionsAcceptRequired: false)
-        self.loginFactory = LGLogin(config: loginConfig)
+        self.loginFactory = LGLoginFactory(config: loginConfig)
         self.sessionManager = Core.sessionManager
         self.bubbleNotificationManager = MockBubbleNotificationManager()
     }

@@ -1,6 +1,6 @@
 import LGCoreKit
 
-public final class LGLogin: LoginComponentFactory {
+public final class LGLoginFactory: LoginComponentFactory {
     public var config: LoginComponentConfig
     private let bubbleNotificationManager: BubbleNotificationManager
     private let tracker: Tracker
