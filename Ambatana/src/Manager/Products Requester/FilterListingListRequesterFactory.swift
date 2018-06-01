@@ -10,11 +10,12 @@ import Foundation
 import LGCoreKit
 
 class FilterListingListRequesterFactory {
-
+    
     static func generateRequester(withFilters filters: ListingFilters,
                                   queryString: String?,
                                   itemsPerPage: Int,
-                                  carSearchActive: Bool) -> ListingListMultiRequester {
+                                  carSearchActive: Bool,
+                                  similarSearchActive: Bool = false) -> ListingListMultiRequester {
         
         var filtersArray: [ListingFilters] = [filters]
         var requestersArray: [ListingListRequester] = []
@@ -25,7 +26,9 @@ class FilterListingListRequesterFactory {
         }
 
         for filter in filtersArray {
-            let filteredRequester = FilteredListingListRequester(itemsPerPage: itemsPerPage, offset: 0)
+            let filteredRequester = FilteredListingListRequester(itemsPerPage: itemsPerPage,
+                                                                 offset: 0,
+                                                                 shouldUseSimilarQuery: similarSearchActive)
             filteredRequester.filters = filter
             filteredRequester.queryString = queryString
             requestersArray.append(filteredRequester)
