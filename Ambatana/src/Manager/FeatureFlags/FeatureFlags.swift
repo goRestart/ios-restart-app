@@ -1201,6 +1201,14 @@ extension FeatureFlags {
 }
 
 extension EmptySearchImprovements {
+    
+    static let minNumberOfListing = 20
+    
+    func shouldContinueWithSimilarQueries(withCurrentListing numListings: Int) -> Bool {
+        return numListings < EmptySearchImprovements.minNumberOfListing
+            && self == .similarQueriesWhenFewResults
+    }
+    
     var isActive: Bool {
         return self != .control && self != .baseline
     }

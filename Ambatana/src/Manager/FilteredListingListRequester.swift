@@ -356,7 +356,7 @@ private extension EmptySearchImprovements {
     var similarParam: SimilarParam? {
         switch self {
         case .control, .baseline, .popularNearYou: return nil
-        case .similarQueries:
+        case .similarQueries, .alwaysSimilar, .similarQueriesWhenFewResults:
             return SimilarParam(numberOfSimilarContexts: EmptySearchImprovements.maxNumberOfSimilarContexts)
         }
     }
