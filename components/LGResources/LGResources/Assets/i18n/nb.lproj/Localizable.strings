@@ -221,7 +221,7 @@
 "chat_status_view_connecting" = "Connecting...";
 "chat_status_view_no_network" = "No network connection";
 "chat_status_view_try_again" = "try again";
-"chat_status_view_unable_to_connect" = "Unable to connect.  Please try again";
+"chat_status_view_unable_to_connect" = "Unable to connect. Please try again";
 "chat_stickers_tooltip_new" = "NYHET!";
 "chat_unblock_user" = "Opphev blokkering";
 "chat_user_info_letgo_assistant" = "Jeg er en virtuell assistent som gir deg tips og hjelper deg med å selge.";
@@ -426,6 +426,8 @@
 "hidden_text_alert_description" = "Vi skjuler kontaktinformasjon for å hjelpe deg med et sikkert kjøp og salg. Å kommunisere i letgo er enklere og gir deg mer sikkerhet.";
 "hidden_text_alert_title" = "VÆR FORSIKTIG";
 "listing_map_redo_search" = "Søk dette området";
+"listing_show_similar_results" = "Showing results for similar searches";
+"listing_show_similar_results_description" = "No exact matches for your search.\nMake sure it’s spelled correctly or use different keywords and filters.";
 "listings_map_no_results_message" = "Ingen resultater samsvarte med ditt søk. Prøv å se i et annet område eller bruk andre filtre.";
 "listings_map_title" = "Kartvisning";
 "location_permissions_allow_button" = "Tillat";

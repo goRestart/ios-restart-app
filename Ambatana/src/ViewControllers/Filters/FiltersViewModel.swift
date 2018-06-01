@@ -88,6 +88,14 @@ class FiltersViewModel: BaseViewModel {
         return productFilter.carModelName
     }
     
+    var currentServiceTypeName: String? {
+        return productFilter.servicesType?.name
+    }
+    
+    var currentServiceSubtypeName: String? {
+        return productFilter.servicesSubtype?.name
+    }
+    
     var currentPropertyTypeName: String? {
         return productFilter.realEstatePropertyType?.localizedString
     }
@@ -242,6 +250,10 @@ class FiltersViewModel: BaseViewModel {
             return FilterCarSection.all.filter { return !$0.isCarSellerTypeSection }
         }
         return FilterCarSection.all
+    }
+    
+    var serviceSections: [FilterServicesSection] {
+        return FilterServicesSection.all
     }
     
     var filterCarSellerSelectedSections: [FilterCarSection] = []
@@ -407,6 +419,34 @@ class FiltersViewModel: BaseViewModel {
             } else {
                 self?.productFilter.realEstateNumberOfBathrooms = nil
             }
+            self?.delegate?.vmDidUpdate()
+        }
+        navigator?.openListingAttributePicker(viewModel: vm)
+    }
+    
+    func servicesTypePressed() {
+        let values: [String] = []
+        let vm = ListingAttributePickerViewModel(
+            title: R.Strings.servicesServiceTypeTitle,
+            attributes: values,
+            selectedAttribute: productFilter.servicesType?.name
+        ) { [weak self] selectedIndex in
+            // TODO: ABIOS-4176
+            self?.productFilter.servicesTypeId = RetrieveListingParam(value: "", isNegated: false)
+            self?.delegate?.vmDidUpdate()
+        }
+        navigator?.openListingAttributePicker(viewModel: vm)
+    }
+    
+    func servicesSubtypePressed() {
+        let values: [String] = []
+        let vm = ListingAttributePickerViewModel(
+            title: R.Strings.servicesServiceSubtypeTitle,
+            attributes: values,
+            selectedAttribute: productFilter.servicesSubtype?.name
+        ) { [weak self] selectedIndex in
+            // TODO: ABIOS-4176
+            self?.productFilter.servicesSubtypeId = RetrieveListingParam(value: "", isNegated: false)
             self?.delegate?.vmDidUpdate()
         }
         navigator?.openListingAttributePicker(viewModel: vm)

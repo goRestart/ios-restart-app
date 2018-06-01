@@ -488,7 +488,7 @@ extension R {
     public static let chatStatusViewNoNetwork = Strings.tr("Localizable", "chat_status_view_no_network")
     /// try again
     public static let chatStatusViewTryAgain = Strings.tr("Localizable", "chat_status_view_try_again")
-    /// Unable to connect.  Please try again
+    /// Unable to connect. Please try again
     public static let chatStatusViewUnableToConnect = Strings.tr("Localizable", "chat_status_view_unable_to_connect")
     /// NEW!
     public static let chatStickersTooltipNew = Strings.tr("Localizable", "chat_stickers_tooltip_new")
@@ -926,6 +926,10 @@ extension R {
     public static let hiddenTextAlertTitle = Strings.tr("Localizable", "hidden_text_alert_title")
     /// Search this area
     public static let listingMapRedoSearch = Strings.tr("Localizable", "listing_map_redo_search")
+    /// Showing results for similar searches
+    public static let listingShowSimilarResults = Strings.tr("Localizable", "listing_show_similar_results")
+    /// No exact matches for your search.\nMake sure it’s spelled correctly or use different keywords and filters.
+    public static let listingShowSimilarResultsDescription = Strings.tr("Localizable", "listing_show_similar_results_description")
     /// No exact matches for your search. Try looking in a different area or using different filters.
     public static let listingsMapNoResultsMessage = Strings.tr("Localizable", "listings_map_no_results_message")
     /// Map view

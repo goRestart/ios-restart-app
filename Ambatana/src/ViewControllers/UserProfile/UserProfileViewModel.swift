@@ -227,6 +227,7 @@ extension UserProfileViewModel {
     func didTapKarmaScoreView() {
         guard isPrivateProfile else { return }
         profileNavigator?.openVerificationView()
+        trackVerifyAccountStart()
     }
 
     func didTapBuildTrustButton() {
@@ -247,6 +248,7 @@ extension UserProfileViewModel {
                                       source: .profile(title: R.Strings.chatConnectAccountsTitle,
                                                        description: R.Strings.profileConnectAccountsMessage),
                                       completionBlock: nil)
+        trackVerifyAccountStart()
     }
 
     func updateAvatar(with image: UIImage) {
@@ -755,6 +757,11 @@ extension UserProfileViewModel {
     func trackUpdateAvatarComplete() {
         let trackerEvent = TrackerEvent.profileEditEditPicture()
         tracker.trackEvent(trackerEvent)
+    }
+
+    func trackVerifyAccountStart() {
+        let event = TrackerEvent.verifyAccountStart(.profile)
+        tracker.trackEvent(event)
     }
 }
 
