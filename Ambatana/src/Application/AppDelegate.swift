@@ -28,15 +28,18 @@ final class AppDelegate: UIResponder {
     fileprivate var featureFlags: FeatureFlaggeable?
     fileprivate var purchasesShopper: PurchasesShopper?
     fileprivate var deepLinksRouter: DeepLinksRouter?
+    fileprivate var pushManager: PushManager?
 
     fileprivate var navigator: AppNavigator?
 
     fileprivate let appIsActive = Variable<Bool?>(nil)
     fileprivate var didOpenApp = false
     fileprivate let disposeBag = DisposeBag()
-    fileprivate let backgroundLocationTimeout: Double = 20
-    fileprivate let emergencyLocateKey = "emergency-locate"
-    fileprivate let offensiveReportKey = "offensive-report"
+
+    struct TrustAndSafety {
+        static let emergencyLocateKey = "emergency-locate"
+        static let offensiveReportKey = "offensive-report"
+    }
 }
 
 
@@ -86,6 +89,8 @@ extension AppDelegate: UIApplicationDelegate {
         appCoordinator.delegate = self
 
         self.navigator = appCoordinator
+
+        pushManager = PushManager(navigator: appCoordinator)
 
         let window = UIWindow(frame: UIScreen.main.bounds)
         window.backgroundColor = UIColor.white
@@ -157,12 +162,9 @@ extension AppDelegate: UIApplicationDelegate {
 
         keyValueStorage?[.didEnterBackground] = false
         appIsActive.value = true
-        PushManager.sharedInstance.applicationDidBecomeActive(application)
+        pushManager?.applicationDidBecomeActive(application)
         TrackerProxy.sharedInstance.applicationDidBecomeActive(application)
         navigator?.openSurveyIfNeeded()
-        if let storage = keyValueStorage, storage[.showOffensiveReportOnNextStart] {
-            showOffensiveReportAlert()
-        }
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -187,62 +189,29 @@ extension AppDelegate: UIApplicationDelegate {
     // MARK: > Push notification
 
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        PushManager.sharedInstance.application(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
+        pushManager?.application(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
         AppsFlyerTracker.shared().registerUninstall(deviceToken)
     }
 
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        PushManager.sharedInstance.application(application, didFailToRegisterForRemoteNotificationsWithError: error)
+        pushManager?.application(application, didFailToRegisterForRemoteNotificationsWithError: error)
     }
 
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any],
                      fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-
-        let emergency = userInfo[emergencyLocateKey] as? Int
-        if let _ = emergency {
-            startEmergencyLocate { completionHandler(.noData) }
-        } else {
-            PushManager.sharedInstance.application(application, didReceiveRemoteNotification: userInfo)
-        }
-
-        let offensiveReport = userInfo[offensiveReportKey] as? Int
-        if let _ = offensiveReport {
-            if application.applicationState == .active {
-                showOffensiveReportAlert()
-            } else {
-                keyValueStorage?[.showOffensiveReportOnNextStart] = true
-            }
-        }
+        pushManager?.application(application, didReceiveRemoteNotification: userInfo, fetchCompletionHandler: completionHandler)
     }
 
     func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification
         userInfo: [AnyHashable: Any], completionHandler: @escaping () -> Void) {
-        PushManager.sharedInstance.application(application, handleActionWithIdentifier: identifier,
+        pushManager?.application(application, handleActionWithIdentifier: identifier,
                                                forRemoteNotification: userInfo, completionHandler: completionHandler)
         deepLinksRouter?.handleActionWithIdentifier(identifier, forRemoteNotification: userInfo,
                                                     completionHandler: completionHandler)
     }
 
     func application(_ application: UIApplication, didRegister notificationSettings: UIUserNotificationSettings) {
-        PushManager.sharedInstance.application(application, didRegisterUserNotificationSettings: notificationSettings)
-    }
-
-    func startEmergencyLocate(completion: @escaping () -> Void) {
-        self.locationRepository?.startEmergencyLocation()
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + backgroundLocationTimeout, execute: {
-            self.locationRepository?.stopEmergencyLocation()
-            completion()
-        })
-    }
-
-    func showOffensiveReportAlert() {
-        guard let featureFlags = featureFlags, featureFlags.offensiveReportAlert.isActive else { return }
-        if let navigator = navigator, navigator.canOpenOffensiveReportAlert() {
-            navigator.openOffensiveReportAlert()
-            keyValueStorage?[.showOffensiveReportOnNextStart] = false
-        } else {
-            keyValueStorage?[.showOffensiveReportOnNextStart] = true
-        }
+        pushManager?.application(application, didRegisterUserNotificationSettings: notificationSettings)
     }
 }
 
@@ -334,7 +303,7 @@ fileprivate extension AppDelegate {
         FBSDKSettings.setAppID(EnvironmentProxy.sharedInstance.facebookAppId)
 
         // Push notifications, get the deep link if any
-        PushManager.sharedInstance.application(application, didFinishLaunchingWithOptions: launchOptions)
+        pushManager?.application(application, didFinishLaunchingWithOptions: launchOptions)
 
         // Tracking
         TrackerProxy.sharedInstance.application(application,
