@@ -255,10 +255,10 @@ fileprivate extension AppDelegate {
         EnvironmentProxy.sharedInstance.setEnvironmentType(environmentHelper.appEnvironment)
 
         // Debug
-        Debug.loggingOptions = [.navigation]
+        Debug.loggingOptions = [.navigation, .debug]
 
         #if GOD_MODE
-            Debug.loggingOptions = [.navigation, .tracking, .deepLink, .monetization]
+            Debug.loggingOptions = [.navigation, .tracking, .deepLink, .monetization, .debug]
         #endif
         LGCoreKit.loggingOptions = [.networking, .persistence, .token, .session, .webSockets]
 

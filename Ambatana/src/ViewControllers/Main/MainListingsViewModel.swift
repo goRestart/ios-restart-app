@@ -205,12 +205,6 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             filters.realEstateOfferTypes.forEach { resultTags.append(.realEstateOfferType($0)) }
         }
         
-        if let propertyType = filters.realEstatePropertyType {
-            resultTags.append(.realEstatePropertyType(propertyType))
-        }
-        
-        filters.realEstateOfferTypes.forEach { resultTags.append(.realEstateOfferType($0)) }
-        
         if let numberOfBedrooms = filters.realEstateNumberOfBedrooms {
             resultTags.append(.realEstateNumberOfBedrooms(numberOfBedrooms))
         }

@@ -218,10 +218,10 @@
 "chat_send_button" = "Enviar";
 "chat_send_error_different_country" = "No puedes empezar una conversación sobre un anuncio publicado en otro país.";
 "chat_send_error_generic" = "Se ha producido un error al enviar tu mensaje. Por favor, inténtalo de nuevo.";
-"chat_status_view_connecting" = "Connecting...";
-"chat_status_view_no_network" = "No network connection";
-"chat_status_view_try_again" = "try again";
-"chat_status_view_unable_to_connect" = "Unable to connect.  Please try again";
+"chat_status_view_connecting" = "Conectando...";
+"chat_status_view_no_network" = "No hay conexión";
+"chat_status_view_try_again" = "inténtalo de nuevo";
+"chat_status_view_unable_to_connect" = "No se ha podido establecer la conexión. Por favor, inténtalo de nuevo";
 "chat_stickers_tooltip_new" = "¡NUEVO!";
 "chat_unblock_user" = "Desbloquear usuario";
 "chat_user_info_letgo_assistant" = "Soy una asistente virtual que te da consejos y te ayuda a vender.";
@@ -426,6 +426,8 @@
 "hidden_text_alert_description" = "Ocultamos datos de contacto para ayudarte a comprar y vender con seguridad. Chatear dentro de letgo es fácil y más seguro.";
 "hidden_text_alert_title" = "CONSEJOS DE SEGURIDAD";
 "listing_map_redo_search" = "Buscar en esta zona";
+"listing_show_similar_results" = "Showing results for similar searches";
+"listing_show_similar_results_description" = "No exact matches for your search.\nMake sure it’s spelled correctly or use different keywords and filters.";
 "listings_map_no_results_message" = "No hay resultados exactos para tu búsqueda. Prueba buscando en otra zona o usando filtros distintos.";
 "listings_map_title" = "Vista de mapa";
 "location_permissions_allow_button" = "Permitir";
