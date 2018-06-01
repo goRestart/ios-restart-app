@@ -218,6 +218,10 @@
 "chat_send_button" = "Lähetä";
 "chat_send_error_different_country" = "Et voi aloittaa keskustelua ilmoituksesta, joka on julkaistu toisessa maassa.";
 "chat_send_error_generic" = "Viestiä lähetettäessä tapahtui virhe. Ole hyvä ja yritä uudelleen.";
+"chat_status_view_connecting" = "Connecting...";
+"chat_status_view_no_network" = "No network connection";
+"chat_status_view_try_again" = "try again";
+"chat_status_view_unable_to_connect" = "Unable to connect.  Please try again";
 "chat_stickers_tooltip_new" = "UUTTA!";
 "chat_unblock_user" = "Poista käyttäjän esto";
 "chat_user_info_letgo_assistant" = "Olen virtuaaliassistentti, joka antaa sinulle vinkkejä ja auttaa sinua myymään.";
@@ -396,8 +400,11 @@
 "filters_section_price" = "Hinta";
 "filters_section_price_free_title" = "Näytä vain ilmaiset tuotteet";
 "filters_section_real_estate_info" = "Kiinteistön tiedot";
+"filters_section_services_info" = "Service info";
 "filters_section_sortby" = "Lajittele";
 "filters_section_within" = "Julkaisusta aikaa";
+"filters_service_subtype_not_set" = "Ei Rajattu";
+"filters_service_type_not_set" = "Ei Rajattu";
 "filters_size_wrong_range_error" = "Minimikoko ei voi olla suurempi kuin maksimikoko.";
 "filters_sort_closest" = "Lähin ensin";
 "filters_sort_newest" = "Uusin ensin";
@@ -1116,9 +1123,9 @@
 "sell_title_autogen_label" = "letgon ehdottama otsikko";
 "sell_title_field_hint" = "Tuotteen otsikko (vapaaehtoinen)";
 "sell_uploading_label" = "Julkaistaan ilmoitusta...";
-"services_service_subtype_list_title" = "Service subtype";
-"services_service_subtype_title" = "Palvelun alatyyppi";
-"services_service_type_list_title" = "Service type";
+"services_service_subtype_list_title" = "Palvelu";
+"services_service_subtype_title" = "Palvelu";
+"services_service_type_list_title" = "Palvelun tyyppi";
 "services_service_type_title" = "Palvelun tyyppi";
 "settings_change_email_button" = "Sähköposti";
 "settings_change_location_button" = "Sijainti";

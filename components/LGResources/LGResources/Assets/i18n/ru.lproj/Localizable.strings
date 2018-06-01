@@ -218,6 +218,10 @@
 "chat_send_button" = "Отправить";
 "chat_send_error_different_country" = "Вы не можете начать чат по объявлению, размещенному в другой стране.";
 "chat_send_error_generic" = "При отправке сообщения произошла ошибка. Пожалуйста, попробуйте еще раз.";
+"chat_status_view_connecting" = "Connecting...";
+"chat_status_view_no_network" = "No network connection";
+"chat_status_view_try_again" = "try again";
+"chat_status_view_unable_to_connect" = "Unable to connect.  Please try again";
 "chat_stickers_tooltip_new" = "НОВОЕ!";
 "chat_unblock_user" = "Разблокировать пользователя";
 "chat_user_info_letgo_assistant" = "Я виртуальный помощник, который даст вам совет и поможет продать.";
@@ -396,8 +400,11 @@
 "filters_section_price" = "Цена";
 "filters_section_price_free_title" = "Показывать только бесплатные товары";
 "filters_section_real_estate_info" = "Информация о недвижимости";
+"filters_section_services_info" = "Информация об услуге";
 "filters_section_sortby" = "Сортировка по";
 "filters_section_within" = "Размещено за";
+"filters_service_subtype_not_set" = "Не установлен";
+"filters_service_type_not_set" = "Не установлен";
 "filters_size_wrong_range_error" = "Минимальный размер не может быть больше максимального.";
 "filters_sort_closest" = "Сначала ближайшее";
 "filters_sort_newest" = "Сначала новое";
@@ -537,7 +544,7 @@
 "nps_survey_title" = "МЫ БЫ ХОТЕЛИ ЗНАТЬ ...";
 "nps_survey_very_bad" = "Маловероятно";
 "nps_survey_very_good" = "Очень вероятно";
-"offensive_report_alert_message" = "К нам поступила информация о возможных нарушениях правил в сообщениях, отправленных с вашего аккаунта. \n\nПовторное нарушение может привести к блокировке аккаунта.";
+"offensive_report_alert_message" = "К нам поступила информация о возможных нарушениях правил в сообщениях, отправленных с вашего аккаунта.\n\nПовторное нарушение может привести к блокировке аккаунта.";
 "offensive_report_alert_primary_action" = "Смотреть Правила";
 "offensive_report_alert_secondary_action" = "Пропустить";
 "offensive_report_alert_title" = "Смотреть Правила Пользования";
@@ -1116,9 +1123,9 @@
 "sell_title_autogen_label" = "Заголовок предложен letgo";
 "sell_title_field_hint" = "Название (опционально)";
 "sell_uploading_label" = "Размещаем ваше объявление...";
-"services_service_subtype_list_title" = "Service subtype";
-"services_service_subtype_title" = "Подтип услуги";
-"services_service_type_list_title" = "Service type";
+"services_service_subtype_list_title" = "Услуги";
+"services_service_subtype_title" = "Услуги";
+"services_service_type_list_title" = "Тип услуги";
 "services_service_type_title" = "Тип услуги";
 "settings_change_email_button" = "Е-мейл";
 "settings_change_location_button" = "Местоположение";

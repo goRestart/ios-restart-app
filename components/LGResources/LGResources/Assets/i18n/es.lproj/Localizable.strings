@@ -218,6 +218,10 @@
 "chat_send_button" = "Enviar";
 "chat_send_error_different_country" = "No puedes empezar una conversación sobre un anuncio publicado en otro país.";
 "chat_send_error_generic" = "Se ha producido un error al enviar tu mensaje. Por favor, inténtalo de nuevo.";
+"chat_status_view_connecting" = "Connecting...";
+"chat_status_view_no_network" = "No network connection";
+"chat_status_view_try_again" = "try again";
+"chat_status_view_unable_to_connect" = "Unable to connect.  Please try again";
 "chat_stickers_tooltip_new" = "¡NUEVO!";
 "chat_unblock_user" = "Desbloquear usuario";
 "chat_user_info_letgo_assistant" = "Soy una asistente virtual que te da consejos y te ayuda a vender.";
@@ -396,8 +400,11 @@
 "filters_section_price" = "Precio";
 "filters_section_price_free_title" = "Mostrar sólo productos gratuitos";
 "filters_section_real_estate_info" = "Características de la propiedad";
+"filters_section_services_info" = "Características del servicio";
 "filters_section_sortby" = "Ordenar por";
 "filters_section_within" = "Publicado en";
+"filters_service_subtype_not_set" = "No Definido";
+"filters_service_type_not_set" = "No Definido";
 "filters_size_wrong_range_error" = "El tamaño mínimo no puede superior al tamaño máximo.";
 "filters_sort_closest" = "Más cercanos primero";
 "filters_sort_newest" = "Más recientes primero";
@@ -1116,10 +1123,10 @@
 "sell_title_autogen_label" = "Título sugerido por letgo";
 "sell_title_field_hint" = "Título (opcional)";
 "sell_uploading_label" = "Publicando tu anuncio...";
-"services_service_subtype_list_title" = "Service subtype";
-"services_service_subtype_title" = "Subtipo de servicio";
-"services_service_type_list_title" = "Service type";
-"services_service_type_title" = "Tipo de servicio";
+"services_service_subtype_list_title" = "Servicio";
+"services_service_subtype_title" = "Servicio";
+"services_service_type_list_title" = "Categoría del servicio";
+"services_service_type_title" = "Categoría del servicio";
 "settings_change_email_button" = "Email";
 "settings_change_location_button" = "Ubicación";
 "settings_change_password_button" = "Contraseña";
