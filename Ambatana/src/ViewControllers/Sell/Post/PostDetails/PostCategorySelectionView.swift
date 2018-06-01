@@ -147,28 +147,28 @@ fileprivate extension PostCategorySelectionView {
             case .car:
                 addButton(button: carsCategoryButton,
                           title: R.Strings.productPostSelectCategoryCars,
-                          image: #imageLiteral(resourceName: "categories_cars_inactive"),
+                          image: R.Asset.IconsButtons.FiltersCategoriesIcons.categoriesCarsInactive.image,
                           postCategoryLink: .car)
             case .otherItems:
                 addButton(button: otherCategoryButton,
                           title: R.Strings.productPostSelectCategoryOther,
-                          image: #imageLiteral(resourceName: "categories_other_items"),
+                          image: R.Asset.IconsButtons.FiltersCategoriesIcons.categoriesOthersInactive.image,
                           postCategoryLink: .otherItems(listingCategory: nil))
             case .motorsAndAccessories:
                 addButton(button: motorsAndAccessoriesButton,
                           title: R.Strings.productPostSelectCategoryMotorsAndAccessories,
-                          image: #imageLiteral(resourceName: "categories_motors_inactive"),
+                          image: R.Asset.IconsButtons.FiltersCategoriesIcons.categoriesMotorsInactive.image,
                           postCategoryLink: .motorsAndAccessories)
             case .realEstate:
                 let title = FeatureFlags.sharedInstance.realEstateNewCopy.isActive ? R.Strings.productPostSelectCategoryRealEstate : R.Strings.productPostSelectCategoryHousing
                 addButton(button: realEstateCategoryButton,
                           title: title,
-                          image: #imageLiteral(resourceName: "categories_realestate_inactive"),
+                          image: R.Asset.IconsButtons.FiltersCategoriesIcons.categoriesRealestateInactive.image,
                           postCategoryLink: .realEstate)
             case .services:
                 addButton(button: servicesCategoryButton,
                           title: R.Strings.productPostSelectCategoryServices,
-                          image: #imageLiteral(resourceName: "categories_services_inactive"),
+                          image: R.Asset.IconsButtons.FiltersCategoriesIcons.categoriesServicesInactive.image,
                           postCategoryLink: .services)
             }
         }
