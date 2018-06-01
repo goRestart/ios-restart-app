@@ -218,6 +218,10 @@
 "chat_send_button" = "Send";
 "chat_send_error_different_country" = "You can't start a conversation about a listing posted in a different country.";
 "chat_send_error_generic" = "An error occurred while sending the message. Please try again.";
+"chat_status_view_connecting" = "Connecting...";
+"chat_status_view_no_network" = "No network connection";
+"chat_status_view_try_again" = "try again";
+"chat_status_view_unable_to_connect" = "Unable to connect.  Please try again";
 "chat_stickers_tooltip_new" = "NEW!";
 "chat_unblock_user" = "Unblock User";
 "chat_user_info_letgo_assistant" = "I'm a virtual assistant that gives you tips and helps you sell.";
@@ -396,8 +400,11 @@
 "filters_section_price" = "Price";
 "filters_section_price_free_title" = "Show only free items";
 "filters_section_real_estate_info" = "Property info";
+"filters_section_services_info" = "Service info";
 "filters_section_sortby" = "Sort by";
 "filters_section_within" = "Posted within";
+"filters_service_subtype_not_set" = "Not Set";
+"filters_service_type_not_set" = "Not Set";
 "filters_size_wrong_range_error" = "The minimum size can’t be higher than the maximum size.";
 "filters_sort_closest" = "Closest first";
 "filters_sort_newest" = "Newest first";
@@ -1116,10 +1123,10 @@
 "sell_title_autogen_label" = "Title suggested by letgo";
 "sell_title_field_hint" = "Title (optional)";
 "sell_uploading_label" = "Posting your listing...";
-"services_service_subtype_list_title" = "Service subtype";
-"services_service_subtype_title" = "Service subtype";
-"services_service_type_list_title" = "Service type";
-"services_service_type_title" = "Service type";
+"services_service_subtype_list_title" = "Service";
+"services_service_subtype_title" = "Service";
+"services_service_type_list_title" = "Service category";
+"services_service_type_title" = "Service category";
 "settings_change_email_button" = "Email";
 "settings_change_location_button" = "Location";
 "settings_change_password_button" = "Password";

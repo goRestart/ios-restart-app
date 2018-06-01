@@ -1,11 +1,3 @@
-//
-//  ChatConversationsListViewController.swift
-//  LetGo
-//
-//  Created by Nestor on 09/05/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import RxSwift
 import RxDataSources
 import LGCoreKit
@@ -15,6 +7,8 @@ final class ChatConversationsListViewController: BaseViewController {
     
     private let viewModel: ChatConversationsListViewModel
     private let contentView = ChatConversationsListView()
+    private let connectionStatusView = ChatConnectionStatusView()
+    private var statusViewHeightConstraint: NSLayoutConstraint = NSLayoutConstraint()
     
     private let featureFlags: FeatureFlaggeable
     
@@ -53,13 +47,20 @@ final class ChatConversationsListViewController: BaseViewController {
     
     override func loadView() {
         view = UIView()
-        view.addSubviewForAutoLayout(contentView)
+        view.addSubviewsForAutoLayout([connectionStatusView, contentView])
+        statusViewHeightConstraint = connectionStatusView.heightAnchor.constraint(equalToConstant: ChatConnectionStatusView.standardHeight)
+
         NSLayoutConstraint.activate([
-            safeTopAnchor.constraint(equalTo: contentView.topAnchor),
+            statusViewHeightConstraint,
+            connectionStatusView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            connectionStatusView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            safeTopAnchor.constraint(equalTo: connectionStatusView.topAnchor),
+            contentView.topAnchor.constraint(equalTo: connectionStatusView.bottomAnchor),
             safeBottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             view.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             view.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
             ])
+
     }
     
     override func viewDidLoad() {
@@ -70,6 +71,7 @@ final class ChatConversationsListViewController: BaseViewController {
         setupNavigationBarRx()
         setupViewStateRx()
         setupTableViewRx()
+        setupStatusBarRx()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -226,7 +228,26 @@ final class ChatConversationsListViewController: BaseViewController {
             }
             .disposed(by: bag)
     }
-    
+
+    private func setupStatusBarRx() {
+        viewModel.rx_connectionBarStatus.asObservable().bind { [weak self] status in
+            guard let _ = status.title else {
+                self?.connectionStatusBar(isVisible: false)
+                return
+            }
+            self?.connectionStatusView.status = status
+            self?.connectionStatusBar(isVisible: true)
+        }.disposed(by: bag)
+    }
+
+    private func connectionStatusBar(isVisible: Bool) {
+        statusViewHeightConstraint.constant = isVisible ? ChatConnectionStatusView.standardHeight : 0
+        UIView.animate(withDuration: 0.5) {
+            self.view.layoutIfNeeded()
+        }
+    }
+
+
     // MARK: Navigation Bar Actions
     
     @objc private func navigationBarOptionsButtonPressed() {

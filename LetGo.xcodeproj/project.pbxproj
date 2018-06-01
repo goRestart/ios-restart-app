@@ -262,6 +262,8 @@
 		2E1BC4001E6492230063D1A7 /* ReceiptURLProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1BC3FC1E648C0A0063D1A7 /* ReceiptURLProvider.swift */; };
 		2E1F0D971D65F4B80021EDBE /* BubbleNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1F0D961D65F4B80021EDBE /* BubbleNotification.swift */; };
 		2E1F0D981D65F4B80021EDBE /* BubbleNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1F0D961D65F4B80021EDBE /* BubbleNotification.swift */; };
+		2E200D2020BEEB630054F053 /* ChatConnectionStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E200D1F20BEEB630054F053 /* ChatConnectionStatusView.swift */; };
+		2E200D2120BEEB630054F053 /* ChatConnectionStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E200D1F20BEEB630054F053 /* ChatConnectionStatusView.swift */; };
 		2E2208E51DD4BCD800FB2483 /* EmptyCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2208E41DD4BCD800FB2483 /* EmptyCellDrawer.swift */; };
 		2E2208E61DD4BCD800FB2483 /* EmptyCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2208E41DD4BCD800FB2483 /* EmptyCellDrawer.swift */; };
 		2E2208E81DD4BD1100FB2483 /* EmptyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2208E71DD4BD1100FB2483 /* EmptyCell.swift */; };
@@ -2199,6 +2201,7 @@
 		2E151D7520A5D3370038D7C7 /* ChatBlockedUsersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBlockedUsersCell.swift; sourceTree = "<group>"; };
 		2E1BC3FC1E648C0A0063D1A7 /* ReceiptURLProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReceiptURLProvider.swift; path = Monetization/ReceiptURLProvider.swift; sourceTree = "<group>"; };
 		2E1F0D961D65F4B80021EDBE /* BubbleNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleNotification.swift; sourceTree = "<group>"; };
+		2E200D1F20BEEB630054F053 /* ChatConnectionStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatConnectionStatusView.swift; sourceTree = "<group>"; };
 		2E2208E41DD4BCD800FB2483 /* EmptyCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyCellDrawer.swift; sourceTree = "<group>"; };
 		2E2208E71DD4BD1100FB2483 /* EmptyCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyCell.swift; sourceTree = "<group>"; };
 		2E28B1281D99129D001BF8E4 /* CGFloat+rounding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGFloat+rounding.swift"; sourceTree = "<group>"; };
@@ -3534,6 +3537,14 @@
 				2E2FF6E720AC64C800C9A5DA /* ChatUserConversationCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		2E200D1E20BEEB4D0054F053 /* ChatConnectionStatusView */ = {
+			isa = PBXGroup;
+			children = (
+				2E200D1F20BEEB630054F053 /* ChatConnectionStatusView.swift */,
+			);
+			path = ChatConnectionStatusView;
 			sourceTree = "<group>";
 		};
 		2E3665671DE487A300000F68 /* PostIncevatorView */ = {
@@ -5905,6 +5916,7 @@
 		D458383C1AEE6A9100B5F181 /* ui */ = {
 			isa = PBXGroup;
 			children = (
+				2E200D1E20BEEB4D0054F053 /* ChatConnectionStatusView */,
 				2E94A75D20AF2F2E00AEA29A /* ChatAvatarView */,
 				F5DC45222088888600D1EC17 /* KenBurnsView */,
 				427CAB88206A825700112D58 /* TrendingSearch */,
@@ -7443,6 +7455,7 @@
 				C7363FB81BF9E64B00A4BF6F /* FilterTag.swift in Sources */,
 				6A5E19FA1D548F5400F92692 /* KeyboardHelper.swift in Sources */,
 				0AB6E1D41F9DD1670048AFFD /* ListingDeckViewController.swift in Sources */,
+				2E200D2020BEEB630054F053 /* ChatConnectionStatusView.swift in Sources */,
 				C75B55F91C7E12C90001F5CD /* FilterDisclosureCell.swift in Sources */,
 				C768CC1A1CA44B5F00E39E5F /* BranchDeepLink.swift in Sources */,
 				6AF75D0A1CF457D800EACCF0 /* ChatViewMessageAdapter.swift in Sources */,
@@ -8259,6 +8272,7 @@
 				C7B5882A1CE1DE1C009B3975 /* BlockedUsersListView.swift in Sources */,
 				C727943B1D549342009C25AB /* ChangePasswordViewModel.swift in Sources */,
 				C7DB41BF1C5138B500400945 /* LoadingIndicator.swift in Sources */,
+				2E200D2120BEEB630054F053 /* ChatConnectionStatusView.swift in Sources */,
 				0AB6E1D71F9DD4440048AFFD /* ListingDeckViewController.swift in Sources */,
 				6A5E19FB1D548F5400F92692 /* KeyboardHelper.swift in Sources */,
 				C7DB41C31C5138B500400945 /* SignUpLogInViewController.swift in Sources */,

@@ -620,6 +620,18 @@
 // Chat send error, users in different country
 "chat_send_error_different_country" = "You can't start a conversation about a listing posted in a different country.";
 
+// Chat connection status bar connecting
+"chat_status_view_connecting" = "Connecting...";
+
+// Chat connection status bar no network connection
+"chat_status_view_no_network" = "No network connection";
+
+// Chat connection status bar unable to connect
+"chat_status_view_unable_to_connect" = "Unable to connect.  Please try again";
+
+// This text will not be shown, but IT HAS TO BE EXACTLY like the "try again" in the "chat_status_view_unable_to_connect" string
+"chat_status_view_try_again" = "try again";
+
 // Chat tooltip add stickers "NEW"
 "chat_stickers_tooltip_new" = "NEW!";
 
@@ -1191,6 +1203,15 @@
 // Filters section title
 "filters_section_real_estate_info" = "Property info";
 
+// Filters Services section title
+"filters_section_services_info" = "Service info";
+
+// Filters ServiceType not set
+"filters_service_type_not_set" = "Not Set";
+
+// Filters ServiceSubtype not set
+"filters_service_subtype_not_set" = "Not Set";
+
 // Filters property type not set
 "filters_real_estate_property_type_not_set" = "Not set";
 
@@ -1701,6 +1722,18 @@
 
 // Onboarding shows alert if user click on close permission request. 
 "onboarding_alert_no" = "No";
+
+// Title of the offensive report alert
+"offensive_report_alert_title" = "Review Community Guidelines";
+
+// Text message of the offensive report alert
+"offensive_report_alert_message" = "We've become aware of potentially inappropiate messages sent from your account.\n\nRepeated violations may result in account termination.";
+
+// Title of the primary action of the offensive report alert
+"offensive_report_alert_primary_action" = "Review Guidelines";
+
+// Title of the secondary action of the offensive report alert
+"offensive_report_alert_secondary_action" = "Skip";
 
 // Passive buyers screen for seller
 "passive_buyers_title" = "THESE BUYERS MIGHT BE INTERESTED";
@@ -2517,6 +2550,9 @@
 
 // Profile Reviews Tab title
 "profile_reviews_tab" = "Reviews";
+
+// Profile Reviews tab has no reviews
+"profile_reviews_empty_label" = "NO REVIEWS (YET!)";
 
 // Profile reviews count (appears below review count number)
 "profile_reviews_count" = "Reviews";
@@ -3350,6 +3386,18 @@
 // Sell uploading label
 "sell_uploading_label" = "Posting your listing...";
 
+// Services SeviceType Title
+"services_service_type_title" = "Service category";
+
+// Services ServiceSubType Title
+"services_service_subtype_title" = "Service";
+
+// Title for list of services
+"services_service_type_list_title" = "Service category";
+
+// Title for list of service subtypes
+"services_service_subtype_list_title" = "Service";
+
 // Settings change location button. Check image @ "settings_change_password_button" segment
 "settings_change_location_button" = "Location";
 
@@ -3435,7 +3483,7 @@
 "settings_notifications_search_alerts" = "Search Alerts";
 
 // Search alerts view title
-"search_alerts_list_title" = "Search Notifications";
+"search_alerts_list_title" = "Search Alerts";
 
 // Alert when you don't accept one of the above (just turkey)
 "sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";

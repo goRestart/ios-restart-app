@@ -218,6 +218,10 @@
 "chat_send_button" = "Send";
 "chat_send_error_different_country" = "Du kan ikke starte en chat angående en annonse i et annen land.";
 "chat_send_error_generic" = "En feil har oppstått ved sending av meldingen. Vennligst prøv igjen senere.";
+"chat_status_view_connecting" = "Connecting...";
+"chat_status_view_no_network" = "No network connection";
+"chat_status_view_try_again" = "try again";
+"chat_status_view_unable_to_connect" = "Unable to connect.  Please try again";
 "chat_stickers_tooltip_new" = "NYHET!";
 "chat_unblock_user" = "Opphev blokkering";
 "chat_user_info_letgo_assistant" = "Jeg er en virtuell assistent som gir deg tips og hjelper deg med å selge.";
@@ -396,8 +400,11 @@
 "filters_section_price" = "Pris";
 "filters_section_price_free_title" = "Vis kun gratisprodukter";
 "filters_section_real_estate_info" = "Eiendomsdetaljer";
+"filters_section_services_info" = "Service info";
 "filters_section_sortby" = "Sorter etter";
 "filters_section_within" = "Publisert";
+"filters_service_subtype_not_set" = "Ikke Satt";
+"filters_service_type_not_set" = "Ikke Satt";
 "filters_size_wrong_range_error" = "Minimum størrelse kan ikke være høyere enn maksimum størrelse.";
 "filters_sort_closest" = "Nærmest først";
 "filters_sort_newest" = "Nyeste først";
@@ -1116,9 +1123,9 @@
 "sell_title_autogen_label" = "Foreslått tittel av letgo";
 "sell_title_field_hint" = "Produktnavn (alternativt)";
 "sell_uploading_label" = "Publiserer din annonse...";
-"services_service_subtype_list_title" = "Service subtype";
-"services_service_subtype_title" = "Tjeneste undertype";
-"services_service_type_list_title" = "Service type";
+"services_service_subtype_list_title" = "Tjeneste";
+"services_service_subtype_title" = "Tjeneste";
+"services_service_type_list_title" = "Tjenestetype";
 "services_service_type_title" = "Tjenestetype";
 "settings_change_email_button" = "E-post";
 "settings_change_location_button" = "Plassering";

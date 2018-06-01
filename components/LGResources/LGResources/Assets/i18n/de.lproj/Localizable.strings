@@ -218,6 +218,10 @@
 "chat_send_button" = "Senden";
 "chat_send_error_different_country" = "Du kannst kein Gespräch zu einem Angebot beginnen, das in einem anderen Land eingestellt wurde.";
 "chat_send_error_generic" = "Beim Senden der Nachricht ist ein Fehler aufgetreten. Bitte versuche es noch einmal.";
+"chat_status_view_connecting" = "Connecting...";
+"chat_status_view_no_network" = "No network connection";
+"chat_status_view_try_again" = "try again";
+"chat_status_view_unable_to_connect" = "Unable to connect.  Please try again";
 "chat_stickers_tooltip_new" = "NEU!";
 "chat_unblock_user" = "Blockierung aufheben";
 "chat_user_info_letgo_assistant" = "Ich bin eine virtuelle Assistentin, die dir Tipps gibt und dir beim Verkaufen hilft.";
@@ -396,8 +400,11 @@
 "filters_section_price" = "Preis";
 "filters_section_price_free_title" = "Nur kostenlose Artikel anzeigen";
 "filters_section_real_estate_info" = "Immobilieninformationen";
+"filters_section_services_info" = "Dienstleistungsinfo";
 "filters_section_sortby" = "Sortiert nach";
 "filters_section_within" = "Eingestellt innerhalb";
+"filters_service_subtype_not_set" = "Nicht ausgewählt";
+"filters_service_type_not_set" = "Nicht ausgewählt";
 "filters_size_wrong_range_error" = "Die Mindestgröße kann nicht größer sein als die Maximalgröße.";
 "filters_sort_closest" = "Nächste zuerst";
 "filters_sort_newest" = "Neueste zuerst";
@@ -1116,9 +1123,9 @@
 "sell_title_autogen_label" = "Titelvorschlag von letgo";
 "sell_title_field_hint" = "Produkttitel (optional)";
 "sell_uploading_label" = "Angebot wird eingestellt...";
-"services_service_subtype_list_title" = "Service subtype";
-"services_service_subtype_title" = "Dienstleistungsunterart";
-"services_service_type_list_title" = "Service type";
+"services_service_subtype_list_title" = "Dienstleistung";
+"services_service_subtype_title" = "Dienstleistung";
+"services_service_type_list_title" = "Dienstleistungsart";
 "services_service_type_title" = "Dienstleistungsart";
 "settings_change_email_button" = "E-Mail-Adresse";
 "settings_change_location_button" = "Standort";

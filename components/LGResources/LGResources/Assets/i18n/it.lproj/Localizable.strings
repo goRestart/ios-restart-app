@@ -218,6 +218,10 @@
 "chat_send_button" = "Invia";
 "chat_send_error_different_country" = "Non puoi iniziare una conversazione su un annuncio pubblicato in un paese differente.";
 "chat_send_error_generic" = "Si è verificato un errore durante l'invio del messaggio. Riprova.";
+"chat_status_view_connecting" = "Connecting...";
+"chat_status_view_no_network" = "No network connection";
+"chat_status_view_try_again" = "try again";
+"chat_status_view_unable_to_connect" = "Unable to connect.  Please try again";
 "chat_stickers_tooltip_new" = "NOVITÀ!";
 "chat_unblock_user" = "Sblocca Utente";
 "chat_user_info_letgo_assistant" = "Sono un'assistente virtuale che ti fornirà consigli utili e ti aiuterà a vendere.";
@@ -396,8 +400,11 @@
 "filters_section_price" = "Prezzo";
 "filters_section_price_free_title" = "Mostra solo oggetti gratuiti";
 "filters_section_real_estate_info" = "Informazioni proprietà";
+"filters_section_services_info" = "Informazioni servizio";
 "filters_section_sortby" = "Ordina per";
 "filters_section_within" = "Periodo di pubblicazione";
+"filters_service_subtype_not_set" = "Non Impostato";
+"filters_service_type_not_set" = "Non Impostato";
 "filters_size_wrong_range_error" = "La dimensione minima non può essere superiore a quella massima.";
 "filters_sort_closest" = "Prima i più vicini";
 "filters_sort_newest" = "Prima i più recenti";
@@ -537,7 +544,7 @@
 "nps_survey_title" = "CI PIACEREBBE SAPERE...";
 "nps_survey_very_bad" = "Poco probabilmente";
 "nps_survey_very_good" = "Molto probabilmente";
-"offensive_report_alert_message" = "Siamo venuti a conoscenza di messaggi potenzialmente inappropriati inviati dal tuo account. \n \nViolazioni ripetute possono portare alla chiusura dell'account.";
+"offensive_report_alert_message" = "Siamo venuti a conoscenza di messaggi potenzialmente inappropriati inviati dal tuo account.\n \nViolazioni ripetute possono portare alla chiusura dell'account.";
 "offensive_report_alert_primary_action" = "Vedi linee guida";
 "offensive_report_alert_secondary_action" = "Salta";
 "offensive_report_alert_title" = "Vedi le linee guida della comunità";
@@ -1116,9 +1123,9 @@
 "sell_title_autogen_label" = "Titolo suggerito da letgo";
 "sell_title_field_hint" = "Titolo (facoltativo)";
 "sell_uploading_label" = "Pubblicazione annuncio...";
-"services_service_subtype_list_title" = "Service subtype";
-"services_service_subtype_title" = "Sottotipo di servizio";
-"services_service_type_list_title" = "Service type";
+"services_service_subtype_list_title" = "Servizio";
+"services_service_subtype_title" = "Servizio";
+"services_service_type_list_title" = "Tipo di servizio";
 "services_service_type_title" = "Tipo di servizio";
 "settings_change_email_button" = "Indirizzo email";
 "settings_change_location_button" = "Posizione";
