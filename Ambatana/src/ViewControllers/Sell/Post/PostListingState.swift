@@ -110,7 +110,7 @@ class PostListingState {
             newStep = .carDetailsSelection
         case .realEstate:
             newStep = .addingDetails
-        case .otherItems, .motorsAndAccessories:
+        case .otherItems, .motorsAndAccessories, .services:
             newStep = .finished
         }
         return PostListingState(step: newStep,
@@ -377,7 +377,7 @@ class PostListingState {
                 newStep = .carDetailsSelection
             case .realEstate:
                 newStep = .addingDetails
-            case .otherItems, .motorsAndAccessories:
+            case .otherItems, .motorsAndAccessories, .services:
                 newStep = .finished
             }
         } else {
