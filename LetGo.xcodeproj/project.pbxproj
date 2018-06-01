@@ -594,6 +594,8 @@
 		42ED94EB2077A6DB00548B62 /* PromoCellMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42ED94E92077A6DB00548B62 /* PromoCellMetrics.swift */; };
 		42ED94ED2077C36C00548B62 /* PromoCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42ED94EC2077C36C00548B62 /* PromoCellData.swift */; };
 		42ED94EE2077C36C00548B62 /* PromoCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42ED94EC2077C36C00548B62 /* PromoCellData.swift */; };
+		42F1DDFF20BD9C22002E2EE7 /* FilterServicesSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F1DDFE20BD9C22002E2EE7 /* FilterServicesSection.swift */; };
+		42F1DE0020BD9C28002E2EE7 /* FilterServicesSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F1DDFE20BD9C22002E2EE7 /* FilterServicesSection.swift */; };
 		42F64F7F20AAE99900CF97AD /* ListingFilters+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F64F7E20AAE99900CF97AD /* ListingFilters+LG.swift */; };
 		42F64F8020AAE99900CF97AD /* ListingFilters+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F64F7E20AAE99900CF97AD /* ListingFilters+LG.swift */; };
 		42F64F8220AB1A4100CF97AD /* MockListingFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F64F8120AB1A4100CF97AD /* MockListingFilters.swift */; };
@@ -2378,6 +2380,7 @@
 		42CA899E20975BF400CE7B5B /* ListingsMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingsMapViewModel.swift; sourceTree = "<group>"; };
 		42ED94E92077A6DB00548B62 /* PromoCellMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoCellMetrics.swift; sourceTree = "<group>"; };
 		42ED94EC2077C36C00548B62 /* PromoCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoCellData.swift; sourceTree = "<group>"; };
+		42F1DDFE20BD9C22002E2EE7 /* FilterServicesSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterServicesSection.swift; sourceTree = "<group>"; };
 		42F64F7E20AAE99900CF97AD /* ListingFilters+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ListingFilters+LG.swift"; sourceTree = "<group>"; };
 		42F64F8120AB1A4100CF97AD /* MockListingFilters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockListingFilters.swift; sourceTree = "<group>"; };
 		42FADDDD2069257F00B6B774 /* InfoBubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoBubbleView.swift; sourceTree = "<group>"; };
@@ -4211,6 +4214,7 @@
 				C7363FB91BFA3E6500A4BF6F /* DistanceType+LG.swift */,
 				C780281C1BF0FB64002B26C5 /* FilterSection.swift */,
 				7265F458202B10EA00533FE7 /* FilterRealEstateSection.swift */,
+				42F1DDFE20BD9C22002E2EE7 /* FilterServicesSection.swift */,
 				C7BAC9CC1E49E81E005BD0AF /* Listing+LG.swift */,
 				4273565620A32F5000C71D49 /* Listing+Map.swift */,
 				72C7A1C21FA73AC80089F175 /* ListingPrice+LG.swift */,
@@ -7550,6 +7554,7 @@
 				0A05F386209B37C400F43A67 /* DeckMapView.swift in Sources */,
 				C7239A181C11F92B006CB5A6 /* CAGradientLayer+Color.swift in Sources */,
 				50C63B731DC3A79100836D85 /* SocialSharer.swift in Sources */,
+				42F1DDFF20BD9C22002E2EE7 /* FilterServicesSection.swift in Sources */,
 				C7B5887F1CE1DFA6009B3975 /* ChatCellDrawer.swift in Sources */,
 				0A0C0491209C91A30028A75D /* SettingsNotificationsViewController.swift in Sources */,
 				507532E21FEA47D400FCF9D5 /* UILabel+Rx.swift in Sources */,
@@ -8367,6 +8372,7 @@
 				0155D99C200FBA2900E2E583 /* MostSearchedItemsListHeader.swift in Sources */,
 				5020471C1EE99F7A006C0EC2 /* FeatureFlagsUDDAO.swift in Sources */,
 				0A05F387209B37C400F43A67 /* DeckMapView.swift in Sources */,
+				42F1DE0020BD9C28002E2EE7 /* FilterServicesSection.swift in Sources */,
 				C7905B881DF1D090009CD191 /* UITextView+Lines.swift in Sources */,
 				506846481CD390CA00FA00C2 /* AppNavigator.swift in Sources */,
 				C79842021CC8E8C900C300FF /* User+LG.swift in Sources */,
