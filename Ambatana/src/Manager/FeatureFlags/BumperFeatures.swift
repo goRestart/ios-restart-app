@@ -1323,6 +1323,7 @@ enum OffensiveReportAlert: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
+            default: return .control
         }
     }
 }

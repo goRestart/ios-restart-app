@@ -3,7 +3,6 @@ import RxSwift
 import UIKit
 import StoreKit
 import LGComponents
-import SafariServices
 
 enum BumpUpSource {
     case deepLink
@@ -290,11 +289,7 @@ extension AppCoordinator: AppNavigator {
         guard canOpenOffensiveReportAlert() else { return }
         let reviewAction = { [weak self] in
             guard let url = LetgoURLHelper.buildCommunityGuidelineURL() else { return }
-            let svc = SFSafariViewController(url: url,
-                                             entersReaderIfAvailable: false)
-            svc.view.tintColor = .primaryColor
-            svc.modalPresentationStyle = .overFullScreen
-            self?.tabBarCtl.present(svc, animated: true, completion: nil)
+            self?.openInAppWebView(url: url)
         }
         let reviewActionInterface = UIActionInterface.button(R.Strings.offensiveReportAlertPrimaryAction,
                                                              .primary(fontSize: .medium))
