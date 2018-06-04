@@ -52,7 +52,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var servicesCategoryEnabled: ServicesCategoryEnabled = .control
     var increaseNumberOfPictures: IncreaseNumberOfPictures = .control
     var onboardingIncentivizePosting: OnboardingIncentivizePosting = .control
-    var machineLearningMVP: MachineLearningMVP = .control
     var chatNorris: ChatNorris = .control
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings = .control
     var showProTagUserProfile: Bool = false
@@ -99,5 +98,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
 
     //  MARK:  Products
     var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu = .control
+    var predictivePosting: PredictivePosting = .control
+    var videoPosting: VideoPosting = .control
 }
 

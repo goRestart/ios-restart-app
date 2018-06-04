@@ -52,7 +52,7 @@ class ABTestsSpec: QuickSpec {
                     sut.registerVariables()
                 }
                 it("registers all the variables") {
-                    expect(syncer.syncedCount) == 59
+                    expect(syncer.syncedCount) == 60
                 }
             }
 
@@ -240,7 +240,7 @@ class ABTestsSpec: QuickSpec {
 
             context("registering all the variables") {
                 it("the chat int variable registered are 7") {
-                    expect(core.intVariables.count) == 7
+                    expect(core.intVariables.count) == 6
                 }
 
                 it("the chat bool variable registered are 0") {
@@ -264,7 +264,7 @@ class ABTestsSpec: QuickSpec {
                     syncer.sync(variables: core.floatVariables)
                 }
                 it("the variables registered are 7") {
-                    expect(syncer.syncedCount) == 7
+                    expect(syncer.syncedCount) == 6
                 }
             }
 
@@ -299,7 +299,7 @@ class ABTestsSpec: QuickSpec {
             }
             context("registering all the variables") {
                 it("the products int variable registered are 1") {
-                    expect(products.intVariables.count) == 1
+                    expect(products.intVariables.count) == 3
                 }
 
                 it("the products bool variable registered are 0") {
@@ -323,7 +323,7 @@ class ABTestsSpec: QuickSpec {
                     syncer.sync(variables: products.floatVariables)
                 }
                 it("the variables registered are 1") {
-                    expect(syncer.syncedCount) == 1
+                    expect(syncer.syncedCount) == 3
                 }
             }
         }

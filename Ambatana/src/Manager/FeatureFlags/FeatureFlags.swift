@@ -54,7 +54,6 @@ protocol FeatureFlaggeable: class {
     var servicesCategoryEnabled: ServicesCategoryEnabled { get }
     var increaseNumberOfPictures: IncreaseNumberOfPictures { get }
     var realEstateTutorial: RealEstateTutorial { get }
-    var machineLearningMVP: MachineLearningMVP { get }
     var chatNorris: ChatNorris { get }
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings { get }
     var markAllConversationsAsRead: MarkAllConversationsAsRead { get }
@@ -95,6 +94,8 @@ protocol FeatureFlaggeable: class {
 
     // MARK: Products
     var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu { get }
+    var predictivePosting: PredictivePosting { get }
+    var videoPosting: VideoPosting { get }
 }
 
 extension FeatureFlaggeable {
@@ -292,11 +293,6 @@ extension CreateUpdateCarsIntoNewBackend {
     }
 }
 
-extension MachineLearningMVP {
-    var isMachineLearningActive: Bool { return self == .machineLearningActive || self == .bothActive }
-    var isVideoPostingActive: Bool { return self == .videoPostingActive || self == .bothActive }
-}
-
 extension ChatNorris {
     var isActive: Bool { return self == .redButton || self == .whiteButton || self == .greenButton }
 }
@@ -427,8 +423,18 @@ extension IAmInterestedFeed {
     var isVisible: Bool { return self == .control || self == .baseline }
 }
 
+// MARK: Products
+
 extension ServicesCategoryOnSalchichasMenu {
     var isActive: Bool { return self != .control && self != .baseline }    
+}
+
+extension PredictivePosting {
+    var isActive: Bool { return self == .active }
+}
+
+extension VideoPosting {
+    var isActive: Bool { return self == .active }
 }
 
 final class FeatureFlags: FeatureFlaggeable {
@@ -664,13 +670,6 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.realEstateTutorial
         }
         return RealEstateTutorial.fromPosition(abTests.realEstateTutorial.value)
-    }
-    
-    var machineLearningMVP: MachineLearningMVP {
-        if Bumper.enabled {
-            return Bumper.machineLearningMVP
-        }
-        return MachineLearningMVP.fromPosition(abTests.machineLearningMVP.value)
     }
     
     var markAllConversationsAsRead: MarkAllConversationsAsRead {
@@ -1100,6 +1099,20 @@ extension FeatureFlags {
             return Bumper.servicesCategoryOnSalchichasMenu
         }
         return ServicesCategoryOnSalchichasMenu.fromPosition(abTests.servicesCategoryOnSalchichasMenu.value)
+    }
+
+    var predictivePosting: PredictivePosting {
+        if Bumper.enabled {
+            return Bumper.predictivePosting
+        }
+        return PredictivePosting.fromPosition(abTests.predictivePosting.value)
+    }
+
+    var videoPosting: VideoPosting {
+        if Bumper.enabled {
+            return Bumper.videoPosting
+        }
+        return VideoPosting.fromPosition(abTests.videoPosting.value)
     }
 }
 

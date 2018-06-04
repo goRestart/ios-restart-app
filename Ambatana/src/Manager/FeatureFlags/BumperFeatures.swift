@@ -46,7 +46,6 @@ extension Bumper  {
         flags.append(IncreaseNumberOfPictures.self)
         flags.append(RealEstateTutorial.self)
         flags.append(RealEstatePromoCell.self)
-        flags.append(MachineLearningMVP.self)
         flags.append(ChatNorris.self)
         flags.append(AddPriceTitleDistanceToListings.self)
         flags.append(MarkAllConversationsAsRead.self)
@@ -67,6 +66,8 @@ extension Bumper  {
         flags.append(RealEstateMap.self)
         flags.append(IAmInterestedFeed.self)
         flags.append(ServicesCategoryOnSalchichasMenu.self)
+        flags.append(VideoPosting.self)
+        flags.append(PredictivePosting.self)
         Bumper.initialize(flags)
     } 
 
@@ -235,11 +236,6 @@ extension Bumper  {
         return RealEstatePromoCell(rawValue: value) ?? .control 
     }
 
-    static var machineLearningMVP: MachineLearningMVP {
-        guard let value = Bumper.value(for: MachineLearningMVP.key) else { return .control }
-        return MachineLearningMVP(rawValue: value) ?? .control 
-    }
-
     static var chatNorris: ChatNorris {
         guard let value = Bumper.value(for: ChatNorris.key) else { return .control }
         return ChatNorris(rawValue: value) ?? .control 
@@ -338,6 +334,16 @@ extension Bumper  {
     static var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu {
         guard let value = Bumper.value(for: ServicesCategoryOnSalchichasMenu.key) else { return .control }
         return ServicesCategoryOnSalchichasMenu(rawValue: value) ?? .control 
+    }
+
+    static var videoPosting: VideoPosting {
+        guard let value = Bumper.value(for: VideoPosting.key) else { return .control }
+        return VideoPosting(rawValue: value) ?? .control 
+    }
+
+    static var predictivePosting: PredictivePosting {
+        guard let value = Bumper.value(for: PredictivePosting.key) else { return .control }
+        return PredictivePosting(rawValue: value) ?? .control 
     } 
 }
 
@@ -846,24 +852,6 @@ enum RealEstatePromoCell: String, BumperFeature  {
     }
 }
 
-enum MachineLearningMVP: String, BumperFeature  {
-    case control, baseline, machineLearningActive, videoPostingActive, bothActive
-    static var defaultValue: String { return MachineLearningMVP.control.rawValue }
-    static var enumValues: [MachineLearningMVP] { return [.control, .baseline, .machineLearningActive, .videoPostingActive, .bothActive]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show machine learning posting flow when pressing Other Items on salchichas menu or enable video posting (used this ab test for video posting because they can't coexist)" } 
-    static func fromPosition(_ position: Int) -> MachineLearningMVP {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .machineLearningActive
-            case 3: return .videoPostingActive
-            case 4: return .bothActive
-            default: return .control
-        }
-    }
-}
-
 enum ChatNorris: String, BumperFeature  {
     case control, baseline, redButton, whiteButton, greenButton
     static var defaultValue: String { return ChatNorris.control.rawValue }
@@ -1181,6 +1169,38 @@ enum ServicesCategoryOnSalchichasMenu: String, BumperFeature  {
             case 2: return .variantA
             case 3: return .variantB
             case 4: return .variantC
+            default: return .control
+        }
+    }
+}
+
+enum VideoPosting: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return VideoPosting.control.rawValue }
+    static var enumValues: [VideoPosting] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show video posting flow when pressing Other Items and Other Vehicles and Parts on salchichas menu" } 
+    static func fromPosition(_ position: Int) -> VideoPosting {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum PredictivePosting: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return PredictivePosting.control.rawValue }
+    static var enumValues: [PredictivePosting] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show predictive posting flow when pressing Other Items on salchichas menu" } 
+    static func fromPosition(_ position: Int) -> PredictivePosting {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
             default: return .control
         }
     }
