@@ -48,9 +48,10 @@ class BubbleNotification: UIView {
         case light
     }
     
-    enum Alignment {
-        case top
+    enum Alignment: Equatable {
+        case top(offset: CGFloat)
         case bottom
+
         
         var initialBottomConstraintConstant: CGFloat {
             switch self {
@@ -58,6 +59,26 @@ class BubbleNotification: UIView {
                 return 0
             case .bottom:
                 return Metrics.screenHeight + BubbleNotification.initialHeight
+            }
+        }
+        
+        func getBottomConstraintConstant(height: CGFloat) -> CGFloat {
+            switch self {
+            case let .top(offset):
+                return offset + height
+            case .bottom:
+                return BubbleNotification.statusBarHeight + height
+            }
+        }
+        
+        static func ==(lhs: BubbleNotification.Alignment, rhs: BubbleNotification.Alignment) -> Bool {
+            switch (lhs, rhs) {
+            case (.top(let lhs), .top(let rhs)):
+                return lhs == rhs
+            case (.bottom, .bottom):
+                return true
+            default:
+                return false
             }
         }
     }
@@ -145,7 +166,7 @@ class BubbleNotification: UIView {
         // delay to let the setup build the view properly
         delay(0.1) { [weak self] in
             guard let strongSelf = self else { return }
-            strongSelf.bottomConstraint.constant = (strongSelf.height ?? 0) + BubbleNotification.statusBarHeight
+            strongSelf.bottomConstraint.constant = strongSelf.alignment.getBottomConstraintConstant(height: strongSelf.height)
             UIView.animate(withDuration: BubbleNotification.showAnimationTime) { strongSelf.superview?.layoutIfNeeded() }
         }
 

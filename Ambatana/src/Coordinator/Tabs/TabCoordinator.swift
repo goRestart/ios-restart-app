@@ -779,13 +779,13 @@ extension TabCoordinator: ListingDetailNavigator {
             bubbleNotificationManager.showBubble(data: data,
                                                  duration: duration,
                                                  view: navigationController.view,
-                                                 alignment: .top,
+                                                 alignment: .top(offset: viewController.statusBarHeight),
                                                  style: .light)
         case .darkTop:
             bubbleNotificationManager.showBubble(data: data,
                                                  duration: duration,
                                                  view: navigationController.view,
-                                                 alignment: .top,
+                                                 alignment: .top(offset: viewController.statusBarHeight),
                                                  style: .dark)
         case .lightBottom:
             appNavigator?.showBottomBubbleNotification(data: data,

@@ -217,7 +217,7 @@ extension Coordinator {
         bubbleNotificationManager.showBubble(data: data,
                                              duration: duration,
                                              view: viewController.view,
-                                             alignment: .top,
+                                             alignment: .top(offset: viewController.statusBarHeight),
                                              style: .light)
     }
     
