@@ -1,11 +1,3 @@
-//
-//  BubbleNotificationManager.swift
-//  LetGo
-//
-//  Created by Dídac on 22/08/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import Foundation
 import RxSwift
 
@@ -33,10 +25,13 @@ final class LGBubbleNotificationManager: BubbleNotificationManager {
         . duration <= 0 : notification stays there until the user interacts with it.
      */
 
-    func showBubble(data: BubbleNotificationData, duration: TimeInterval?, view: UIView, alignment: BubbleNotification.Alignment, style: BubbleNotification.Style) {
-        
+    func showBubble(data: BubbleNotificationData,
+                    duration: TimeInterval?,
+                    view: UIView,
+                    alignment: BubbleNotification.Alignment,
+                    style: BubbleNotification.Style) {
         let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: BubbleNotification.initialHeight)
-        let bubble = BubbleNotification(frame: frame, data: data)
+        let bubble = BubbleNotification(frame: frame, data: data, alignment: alignment, style: style)
         bubble.delegate = self
         
         bubble.translatesAutoresizingMaskIntoConstraints = false

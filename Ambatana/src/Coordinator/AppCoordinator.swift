@@ -248,8 +248,10 @@ extension AppCoordinator: AppNavigator {
                   completion: nil)
     }
     
-    func showHighlightedBubble(data: BubbleNotificationData) {
-        tabBarCtl.showBottomBubbleNotification(data: data)
+    func showBottomBubbleNotification(data: BubbleNotificationData,
+                                      alignment: BubbleNotification.Alignment,
+                                      style: BubbleNotification.Style) {
+        tabBarCtl.showBottomBubbleNotification(data: data, alignment: alignment, style: style)
     }
     
     

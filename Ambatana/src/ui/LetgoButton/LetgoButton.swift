@@ -21,7 +21,7 @@ enum ButtonStyle {
     case terciary
     case google
     case facebook
-    case dark(fontSize: ButtonFontSize)
+    case dark(fontSize: ButtonFontSize, withBorder: Bool)
     case logout
     case darkField
     case lightField
@@ -123,11 +123,11 @@ enum ButtonStyle {
         switch self {
         case let .primary(size):
             fontSize = size
-        case let .dark(size):
+        case let .dark(size, _):
             fontSize = size
         case .logout, .postingFlow:
             fontSize = .medium
-        case let .secondary(size,_):
+        case let .secondary(size, _):
             fontSize = size
         case .terciary:
             fontSize = .big
@@ -139,11 +139,11 @@ enum ButtonStyle {
     
     var withBorder: Bool {
         switch self {
-        case .primary, .terciary, .google, .facebook, .dark, .darkField, .lightField, .logout:
+        case .primary, .terciary, .google, .facebook, .darkField, .lightField, .logout:
             return false
-        case.postingFlow:
+        case .postingFlow:
             return true
-        case let .secondary(_, withBorder):
+        case let .secondary(_, withBorder), let .dark(_, withBorder):
             return withBorder
         }
     }

@@ -79,7 +79,7 @@ class BubbleNotification: UIView {
 
     private var containerView = UIView()
     private var leftIcon = UIImageView()
-    private var textlabel = UILabel()
+    private var textLabel = UILabel()
     private var infoTextLabel = UILabel()
     private var actionButton = LetgoButton()
 
@@ -96,11 +96,11 @@ class BubbleNotification: UIView {
 
     init(frame: CGRect,
          data: BubbleNotificationData,
-         style: Style = .light,
-         alignment: Alignment = .top) {
+         alignment: Alignment,
+         style: Style) {
         self.data = data
         self.style = style
-        self.alignment = .bottom
+        self.alignment = alignment
         super.init(frame: frame)
         setupConstraints()
         setupUI()
@@ -164,7 +164,6 @@ class BubbleNotification: UIView {
     // MARK : - Private methods
 
     private func setupUI() {
-        backgroundColor = UIColor.white
         cornerRadius = LGUIKitConstants.bigCornerRadius
         applyDefaultShadow()
 
@@ -179,14 +178,15 @@ class BubbleNotification: UIView {
             leftIcon.lg_setImageWithURL(iconURL)
         }
 
-        textlabel.numberOfLines = 2
-        textlabel.lineBreakMode = .byTruncatingTail
-        textlabel.textColor = UIColor.blackText
-        textlabel.font = UIFont.mediumBodyFont
-        textlabel.text = data.text
+        textLabel.numberOfLines = 2
+        textLabel.minimumScaleFactor = 0.5
+        textLabel.lineBreakMode = .byTruncatingTail
+        textLabel.font = UIFont.mediumBodyFont
+        textLabel.text = data.text
 
         if let infoText = data.infoText {
             infoTextLabel.numberOfLines = 2
+            infoTextLabel.minimumScaleFactor = 0.5
             infoTextLabel.lineBreakMode = .byTruncatingTail
             infoTextLabel.textColor = UIColor.darkGrayText
             infoTextLabel.font = UIFont.smallBodyFont
@@ -194,12 +194,25 @@ class BubbleNotification: UIView {
         }
 
         if let action = data.action {
-            actionButton.setStyle(.secondary(fontSize: .small, withBorder: true))
+            //actionButton.setStyle(.secondary(fontSize: .small, withBorder: true))
             actionButton.titleLabel?.adjustsFontSizeToFitWidth = true
-            actionButton.titleLabel?.minimumScaleFactor = 0.8
+            actionButton.titleLabel?.minimumScaleFactor = 0.6
             actionButton.setTitle(action.text, for: .normal)
             actionButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
             actionButton.set(accessibilityId:  action.accessibilityId)
+        }
+        
+        switch style {
+        case .light:
+            backgroundColor = .white
+            textLabel.textColor = .blackText
+            infoTextLabel.textColor = .darkGrayText
+            actionButton.setStyle(.secondary(fontSize: .small, withBorder: true))
+        case .dark:
+            backgroundColor = .black
+            textLabel.textColor = .white
+            infoTextLabel.textColor = .white
+            actionButton.setStyle(.dark(fontSize: .small, withBorder: true))
         }
 
         let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(swiped))
@@ -216,14 +229,14 @@ class BubbleNotification: UIView {
         containerView.translatesAutoresizingMaskIntoConstraints = false
         textsContainer.translatesAutoresizingMaskIntoConstraints = false
         leftIcon.translatesAutoresizingMaskIntoConstraints = false
-        textlabel.translatesAutoresizingMaskIntoConstraints = false
+        textLabel.translatesAutoresizingMaskIntoConstraints = false
         infoTextLabel.translatesAutoresizingMaskIntoConstraints = false
         actionButton.translatesAutoresizingMaskIntoConstraints = false
 
         addSubview(containerView)
         containerView.addSubview(leftIcon)
         containerView.addSubview(textsContainer)
-        textsContainer.addSubview(textlabel)
+        textsContainer.addSubview(textLabel)
         textsContainer.addSubview(infoTextLabel)
         containerView.addSubview(actionButton)
 
@@ -231,7 +244,7 @@ class BubbleNotification: UIView {
         views["container"] = containerView
         views["textsContainer"] = textsContainer
         views["icon"] = leftIcon
-        views["label"] = textlabel
+        views["label"] = textLabel
         views["infoLabel"] = infoTextLabel
         views["button"] = actionButton
 

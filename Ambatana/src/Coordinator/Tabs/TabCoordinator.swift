@@ -771,13 +771,31 @@ extension TabCoordinator: ListingDetailNavigator {
     func showUndoBubble(withMessage message: String,
                         duration: TimeInterval,
                         withAction action: @escaping () -> ()) {
-        // TODO RET Switch abtest
-//        let action = UIAction(interface: .button(R.Strings.productInterestedUndo, .terciary) , action: action)
-//        let data = BubbleNotificationData(text: message, action: action)
-//        bubbleNotificationManager.showBubble(data, duration: duration, view: navigationController.view)
-        let action = UIAction(interface: .button(R.Strings.productInterestedUndo, .terciary), action: action)
+        let action = UIAction(interface: .button(R.Strings.productInterestedUndo, .terciary) , action: action)
         let data = BubbleNotificationData(text: message, action: action)
-        appNavigator?.showHighlightedBubble(data: data)
+        
+        switch featureFlags.highlightedIAmInterestedInFeed {
+        case .baseline, .control:
+            bubbleNotificationManager.showBubble(data: data,
+                                                 duration: duration,
+                                                 view: navigationController.view,
+                                                 alignment: .top,
+                                                 style: .light)
+        case .darkTop:
+            bubbleNotificationManager.showBubble(data: data,
+                                                 duration: duration,
+                                                 view: navigationController.view,
+                                                 alignment: .top,
+                                                 style: .dark)
+        case .lightBottom:
+            appNavigator?.showBottomBubbleNotification(data: data,
+                                                       alignment: .bottom,
+                                                       style: .light)
+        case .darkBottom:
+            appNavigator?.showBottomBubbleNotification(data: data,
+                                                       alignment: .bottom,
+                                                       style: .dark)
+        }
     }
 }
 

@@ -197,9 +197,15 @@ final class TabBarController: UITabBarController {
         }
     }
     
-    func showBottomBubbleNotification(data: BubbleNotificationData) {
+    func showBottomBubbleNotification(data: BubbleNotificationData,
+                                      alignment: BubbleNotification.Alignment,
+                                      style: BubbleNotification.Style) {
         setupBottomBubbleNotificationsContainer()
-        bubbleNotificationManager.showBubble(data: data, duration: 5, view: bottomNotificationsContainer, alignment: .bottom, style: .light)
+        bubbleNotificationManager.showBubble(data: data,
+                                             duration: 5,
+                                             view: bottomNotificationsContainer,
+                                             alignment: alignment,
+                                             style: style)
     }
     
     func hideBottomNotifications() {
