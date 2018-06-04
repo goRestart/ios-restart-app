@@ -218,10 +218,10 @@
 "chat_send_button" = "발송";
 "chat_send_error_different_country" = "사용자는 다른 국가에서 게시된 상품 목록에 관한 대화를 시작하실 수 없습니다";
 "chat_send_error_generic" = "메세지를 발송하는데 오류가 발생했습니다. 다시 시도해주세요.";
-"chat_status_view_connecting" = "Connecting...";
-"chat_status_view_no_network" = "No network connection";
-"chat_status_view_try_again" = "try again";
-"chat_status_view_unable_to_connect" = "Unable to connect.  Please try again";
+"chat_status_view_connecting" = "연결 중...";
+"chat_status_view_no_network" = "네트워크 연결 없음";
+"chat_status_view_try_again" = "다시 시도해주세요";
+"chat_status_view_unable_to_connect" = "연결할 수 없습니다. 다시 시도해주세요.";
 "chat_stickers_tooltip_new" = "새로운!";
 "chat_unblock_user" = "사용자 차단 해제하기";
 "chat_user_info_letgo_assistant" = "저는 판매를 도와드리고 판매 방법을 알려드리기 위한 가상 도우미 입니다.";
@@ -426,6 +426,8 @@
 "hidden_text_alert_description" = "안전하게 구매 및 판매를 하실 수 있도록 연락처를 비공개로 하고 있습니다. letgo에서 대화를 나누시는 것은 더 쉽고 안전합니다.";
 "hidden_text_alert_title" = "안전하게 구매하세요";
 "listing_map_redo_search" = "지역 검색 하기";
+"listing_show_similar_results" = "Showing results for similar searches";
+"listing_show_similar_results_description" = "No exact matches for your search.\nMake sure it’s spelled correctly or use different keywords and filters.";
 "listings_map_no_results_message" = "검색결과에 일치하는 결과가 없습니다. 다른 지역을 살펴보거나 다른 필터를 사용해주세요.";
 "listings_map_title" = "지도 확인";
 "location_permissions_allow_button" = "허가";
@@ -1125,8 +1127,8 @@
 "sell_uploading_label" = "게시글을 등록 중 입니다...";
 "services_service_subtype_list_title" = "서비스";
 "services_service_subtype_title" = "서비스";
-"services_service_type_list_title" = "서비스 종류";
-"services_service_type_title" = "서비스 종류";
+"services_service_type_list_title" = "서비스 카테고리";
+"services_service_type_title" = "서비스 카테고리";
 "settings_change_email_button" = "이메일";
 "settings_change_location_button" = "위치";
 "settings_change_password_button" = "비밀번호";

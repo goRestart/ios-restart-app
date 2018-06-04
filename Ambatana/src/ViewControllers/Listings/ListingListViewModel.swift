@@ -349,12 +349,20 @@ final class ListingListViewModel: BaseViewModel {
             let indexes: [Int] = strongSelf.updateListingIndices(isFirstPage: isFirstPage, with: cellModels)
 
             strongSelf.pageNumber = nextPageNumber
-            let hasListings = strongSelf.numberOfListings > 0
+            let numListing = strongSelf.numberOfListings
+            let hasListings = numListing > 0
             strongSelf.isLastPage = currentRequester.isLastPage(newListings.count)
 
             requesterList.removeFirst()
             if hasListings {
-                strongSelf.state = .data
+                if strongSelf.featureFlags.shouldUseSimilarQuery(numListing: numListing)
+                    && strongSelf.currentRequesterType == .search {
+                    strongSelf.currentRequesterIndex += 1
+                    strongSelf.retrieveListings(isFirstPage: isFirstPage, with: requesterList)
+                    return
+                } else {
+                    strongSelf.state = .data
+                }
             } else if !requesterList.isEmpty {
                 strongSelf.currentRequesterIndex += 1
                 strongSelf.retrieveListings(isFirstPage: isFirstPage, with: requesterList)
@@ -767,5 +775,11 @@ extension ListingListViewModel {
                                                  categories: categories,
                                                  feedPosition: feedPosition)
         tracker.trackEvent(trackerEvent)
+    }
+}
+
+private extension FeatureFlaggeable {
+    func shouldUseSimilarQuery(numListing: Int) -> Bool {
+        return emptySearchImprovements.shouldContinueWithSimilarQueries(withCurrentListing: numListing)
     }
 }

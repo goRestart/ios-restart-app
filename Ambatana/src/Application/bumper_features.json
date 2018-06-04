@@ -292,7 +292,7 @@
     },
     {
          "name": "EmptySearchImprovements",
-         "values": ["control", "baseline", "popularNearYou", "similarQueries"],
+         "values": ["control", "baseline", "popularNearYou", "similarQueries", "similarQueriesWhenFewResults", "alwaysSimilar"],
          "description": "Improve empty search experience by proposing relavant listings"
     },
     {

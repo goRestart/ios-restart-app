@@ -1290,9 +1290,9 @@ enum ShowServicesFeatures: String, BumperFeature  {
 }
 
 enum EmptySearchImprovements: String, BumperFeature  {
-    case control, baseline, popularNearYou, similarQueries
+    case control, baseline, popularNearYou, similarQueries, similarQueriesWhenFewResults, alwaysSimilar
     static var defaultValue: String { return EmptySearchImprovements.control.rawValue }
-    static var enumValues: [EmptySearchImprovements] { return [.control, .baseline, .popularNearYou, .similarQueries]}
+    static var enumValues: [EmptySearchImprovements] { return [.control, .baseline, .popularNearYou, .similarQueries, .similarQueriesWhenFewResults, .alwaysSimilar]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Improve empty search experience by proposing relavant listings" } 
     static func fromPosition(_ position: Int) -> EmptySearchImprovements {
@@ -1301,6 +1301,8 @@ enum EmptySearchImprovements: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .popularNearYou
             case 3: return .similarQueries
+            case 4: return .similarQueriesWhenFewResults
+            case 5: return .alwaysSimilar
             default: return .control
         }
     }

@@ -65,6 +65,19 @@ class PostListingViewModel: BaseViewModel {
         return LGTutorialPage.makeRealEstateTutorial(typeOfOnboarding: featureFlags.realEstateTutorial)
     }
 
+    var availablePostCategories: [PostCategory] {
+        var categories: [PostCategory] = [.car, .motorsAndAccessories, .otherItems(listingCategory: nil)]
+        if featureFlags.realEstateEnabled.isActive {
+            categories.append(.realEstate)
+        }
+        if featureFlags.servicesCategoryOnSalchichasMenu.isActive {
+            categories.append(.services)
+        }
+        return categories.sorted(by: {
+            $0.sortWeight(featureFlags: featureFlags) > $1.sortWeight(featureFlags: featureFlags)
+        })
+    }
+
     let state: Variable<PostListingState>
     let category: Variable<PostCategory?>
 

@@ -63,6 +63,37 @@ class RequesterFactorySpec: QuickSpec {
                     expect(listRequesterArray).to(equal(expectedRequesters: [searchRequester, similarRequester, feedRequester]))
                 }
             }
+            
+            context("set emptySearchImprovements featureFlags to .similarQueriesWhenFewResults") {
+                beforeEach {
+                    dependency = buildDependency(for: .similarQueriesWhenFewResults)
+                    sut = buildSut(for: .similarQueriesWhenFewResults)
+                    listRequesterArray = sut.buildRequesterList()
+                }
+                
+                it ("requesters are [search, search+similar, feed]") {
+                    let searchRequester = buildSearchRequester(with: dependency)
+                    let feedRequester = buildFeedRequester(with: dependency)
+                    let searchAndSimilarRequester = buildSearchAndSimilarRequester(with: dependency)
+                    
+                    expect(listRequesterArray).to(equal(expectedRequesters: [searchRequester, searchAndSimilarRequester, feedRequester]))
+                }
+            }
+            
+            context("set emptySearchImprovements featureFlags to .alwaysSimilar") {
+                beforeEach {
+                    dependency = buildDependency(for: .alwaysSimilar)
+                    sut = buildSut(for: .alwaysSimilar)
+                    listRequesterArray = sut.buildRequesterList()
+                }
+                
+                it ("requesters are [search+similar, feed]") {
+                    let feedRequester = buildFeedRequester(with: dependency)
+                    let searchAndSimilarRequester = buildSearchAndSimilarRequester(with: dependency)
+                    
+                    expect(listRequesterArray).to(equal(expectedRequesters: [searchAndSimilarRequester, feedRequester]))
+                }
+            }
         }
         
         func buildSut(for flag: EmptySearchImprovements) -> SearchRequesterFactory {
@@ -102,6 +133,14 @@ class RequesterFactorySpec: QuickSpec {
                                    itemsPerPage: dependency.itemsPerPage,
                                    carSearchActive: dependency.carSearchActive,
                                    similarSearchActive: dependency.similarSearchActive)
+        }
+        
+        func buildSearchAndSimilarRequester(with dependency: RequesterDependencyContainer) -> ListingListMultiRequester {
+            return FilterListingListRequesterFactory
+                .generateCombinedSearchAndSimilar(withFilters: dependency.filters,
+                                                  queryString: dependency.queryString,
+                                                  itemsPerPage: dependency.itemsPerPage,
+                                                  carSearchActive: dependency.carSearchActive)
         }
     }
 }

@@ -533,6 +533,8 @@ enum EventParameterPostingType: String {
             self = .car
         case .realEstate:
             self = .realEstate
+        case .services:
+            self = .service
         }
     }
 }

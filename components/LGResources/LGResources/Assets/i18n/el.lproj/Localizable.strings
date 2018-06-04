@@ -221,7 +221,7 @@
 "chat_status_view_connecting" = "Connecting...";
 "chat_status_view_no_network" = "No network connection";
 "chat_status_view_try_again" = "try again";
-"chat_status_view_unable_to_connect" = "Unable to connect.  Please try again";
+"chat_status_view_unable_to_connect" = "Unable to connect. Please try again";
 "chat_stickers_tooltip_new" = "ΝΕΟ!";
 "chat_unblock_user" = "Ξεμπλοκάρισμα Χρήστη";
 "chat_user_info_letgo_assistant" = "Είμαι μια εικονική βοηθός που σου δίνει συμβουλές και σε βοηθάει να πουλήσεις.";
@@ -426,6 +426,8 @@
 "hidden_text_alert_description" = "Αποκρύψαμε τις πληροφορίες επικοινωνίας για να σας βοηθήσουμε να κάνετε αγοραπωλησίες με ασφάλεια. Οι συνομιλίες εντός του easy είναι πιο ασφαλείς.";
 "hidden_text_alert_title" = "ΜΕΙΝΕΤΕ ΑΣΦΑΛΕΙΣ";
 "listing_map_redo_search" = "Κάντε αναζήτηση σε αυτήν την περιοχή";
+"listing_show_similar_results" = "Showing results for similar searches";
+"listing_show_similar_results_description" = "No exact matches for your search.\nMake sure it’s spelled correctly or use different keywords and filters.";
 "listings_map_no_results_message" = "Δε βρέθηκαν ακριβή αποτελέσματα για την αναζήτησή σας. Δοκιμάστε να ψάξετε σε κάποια άλλη περιοχή ή να χρησιμοποιήσετε διαφορετικά φίλτρα.";
 "listings_map_title" = "Προβολή χάρτη";
 "location_permissions_allow_button" = "Να επιτρέπεται";

@@ -218,10 +218,10 @@
 "chat_send_button" = "Invia";
 "chat_send_error_different_country" = "Non puoi iniziare una conversazione su un annuncio pubblicato in un paese differente.";
 "chat_send_error_generic" = "Si è verificato un errore durante l'invio del messaggio. Riprova.";
-"chat_status_view_connecting" = "Connecting...";
-"chat_status_view_no_network" = "No network connection";
-"chat_status_view_try_again" = "try again";
-"chat_status_view_unable_to_connect" = "Unable to connect.  Please try again";
+"chat_status_view_connecting" = "Connessione...";
+"chat_status_view_no_network" = "Nessuna connessione di rete";
+"chat_status_view_try_again" = "Riprova";
+"chat_status_view_unable_to_connect" = "Impossibile connettersi. Riprova.";
 "chat_stickers_tooltip_new" = "NOVITÀ!";
 "chat_unblock_user" = "Sblocca Utente";
 "chat_user_info_letgo_assistant" = "Sono un'assistente virtuale che ti fornirà consigli utili e ti aiuterà a vendere.";
@@ -426,6 +426,8 @@
 "hidden_text_alert_description" = "Nascondiamo le informazioni di contatto per proteggere le tue compravendite. Chattare all'interno di letgo è più facile e sicuro.";
 "hidden_text_alert_title" = "CONSIGLI PER LA SICUREZZA";
 "listing_map_redo_search" = "Cerca in questa zona";
+"listing_show_similar_results" = "Showing results for similar searches";
+"listing_show_similar_results_description" = "No exact matches for your search.\nMake sure it’s spelled correctly or use different keywords and filters.";
 "listings_map_no_results_message" = "Nessuna risultato esatto per la tua ricerca. Prova a cercare in una zona diversa o utilizzare altri filtri.";
 "listings_map_title" = "Visualizzazione mappa";
 "location_permissions_allow_button" = "Consenti";
@@ -1125,8 +1127,8 @@
 "sell_uploading_label" = "Pubblicazione annuncio...";
 "services_service_subtype_list_title" = "Servizio";
 "services_service_subtype_title" = "Servizio";
-"services_service_type_list_title" = "Tipo di servizio";
-"services_service_type_title" = "Tipo di servizio";
+"services_service_type_list_title" = "Categoria servizi";
+"services_service_type_title" = "Categoria servizi";
 "settings_change_email_button" = "Indirizzo email";
 "settings_change_location_button" = "Posizione";
 "settings_change_password_button" = "Password";

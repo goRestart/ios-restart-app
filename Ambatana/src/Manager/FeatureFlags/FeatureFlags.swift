@@ -1201,8 +1201,31 @@ extension FeatureFlags {
 }
 
 extension EmptySearchImprovements {
+    
+    static let minNumberOfListing = 20
+    
+    func shouldContinueWithSimilarQueries(withCurrentListing numListings: Int) -> Bool {
+        return numListings < EmptySearchImprovements.minNumberOfListing
+            && self == .similarQueriesWhenFewResults
+    }
+    
     var isActive: Bool {
         return self != .control && self != .baseline
+    }
+    
+    var filterTitle: String? {
+        switch self {
+        case .baseline, .control, .alwaysSimilar: return nil
+        case .popularNearYou: return R.Strings.productPopularNearYou
+        case .similarQueries, .similarQueriesWhenFewResults: return R.Strings.listingShowSimilarResults
+        }
+    }
+    
+    var filterDescription: String? {
+        switch self {
+        case .baseline, .control, .alwaysSimilar: return nil
+        case .popularNearYou, .similarQueries, .similarQueriesWhenFewResults: return R.Strings.listingShowSimilarResultsDescription
+        }
     }
 }
 

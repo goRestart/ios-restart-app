@@ -1,7 +1,7 @@
 import LGComponents
 
 enum FilterSection: Int {
-    case location, categories, carsInfo, distance, sortBy, within, price, realEstateInfo
+    case location, categories, carsInfo, distance, sortBy, within, price, realEstateInfo, servicesInfo
 }
 
 
@@ -26,25 +26,21 @@ extension FilterSection {
             return R.Strings.filtersSectionPrice.localizedUppercase
         case .realEstateInfo:
             return R.Strings.filtersSectionRealEstateInfo.localizedUppercase
+        case .servicesInfo:
+            return R.Strings.filtersSectionRealEstateInfo.localizedUppercase // TODO: ABIOS-4176
         }
     }
     
     var isRealEstateSection: Bool {
-        switch self {
-        case .location, .categories, .carsInfo, .distance, .sortBy, .within, .price:
-            return false
-        case .realEstateInfo:
-            return true
-        }
-        
+        return self == .realEstateInfo
     }
 
     static func allValues(priceAsLast: Bool) -> [FilterSection] {
         
         if priceAsLast {
-            return [.location, .categories, .carsInfo, .realEstateInfo, .distance, .sortBy, .within, .price]
+            return [.location, .categories, .carsInfo, .realEstateInfo, .servicesInfo, .distance, .sortBy, .within, .price]
         } else {
-            return [.location, .distance, .categories, .price, .carsInfo, .realEstateInfo, .sortBy, .within]
+            return [.location, .distance, .categories, .price, .carsInfo, .realEstateInfo, .servicesInfo, .sortBy, .within]
         }
     }
 }

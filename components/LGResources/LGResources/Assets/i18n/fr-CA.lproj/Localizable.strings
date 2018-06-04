@@ -218,10 +218,10 @@
 "chat_send_button" = "Envoyer";
 "chat_send_error_different_country" = "Vous ne pouvez pas démarrer une conversation à propos d'une annonce publiée dans un autre pays.";
 "chat_send_error_generic" = "Une erreur est survenue lors de l'envoi du message. Veuillez réessayer.";
-"chat_status_view_connecting" = "Connecting...";
-"chat_status_view_no_network" = "No network connection";
-"chat_status_view_try_again" = "try again";
-"chat_status_view_unable_to_connect" = "Unable to connect.  Please try again";
+"chat_status_view_connecting" = "Connexion en cours...";
+"chat_status_view_no_network" = "Pas de connexion réseau";
+"chat_status_view_try_again" = "veuillez réessayer";
+"chat_status_view_unable_to_connect" = "Impossible de se connecter. Veuillez réessayer";
 "chat_stickers_tooltip_new" = "NOUVEAU !";
 "chat_unblock_user" = "Débloquer l'Utilisateur";
 "chat_user_info_letgo_assistant" = "Je suis une assistante virtuelle qui vous donne des conseils et vous aide à vendre.";
@@ -426,6 +426,8 @@
 "hidden_text_alert_description" = "Nous masquons les coordonnées pour vous aider à vendre et acheter en toute sécurité. Clavarder dans letgo est facile et plus sécuritaire.";
 "hidden_text_alert_title" = "SOYEZ PRUDENTS";
 "listing_map_redo_search" = "Chercher dans ce secteur";
+"listing_show_similar_results" = "Showing results for similar searches";
+"listing_show_similar_results_description" = "No exact matches for your search.\nMake sure it’s spelled correctly or use different keywords and filters.";
 "listings_map_no_results_message" = "Aucune réponse exacte à votre recherche. Essayez de chercher dans un autre secteur ou en utilisant d'autres filtres.";
 "listings_map_title" = "Vue de la carte";
 "location_permissions_allow_button" = "Autoriser";

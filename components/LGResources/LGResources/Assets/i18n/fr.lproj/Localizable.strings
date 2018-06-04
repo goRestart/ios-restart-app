@@ -221,7 +221,7 @@
 "chat_status_view_connecting" = "Connecting...";
 "chat_status_view_no_network" = "No network connection";
 "chat_status_view_try_again" = "try again";
-"chat_status_view_unable_to_connect" = "Unable to connect.  Please try again";
+"chat_status_view_unable_to_connect" = "Unable to connect. Please try again";
 "chat_stickers_tooltip_new" = "NOUVEAU !";
 "chat_unblock_user" = "Débloquer l'Utilisateur";
 "chat_user_info_letgo_assistant" = "Je suis une assistante virtuelle qui vous donne des conseils et vous aide à vendre.";
@@ -426,6 +426,8 @@
 "hidden_text_alert_description" = "Nous masquons les informations de contact pour vous aider à acheter et vendre en toute sécurité. Chatter dans letgo est facile et plus sécurisé.";
 "hidden_text_alert_title" = "SOYEZ PRUDENT";
 "listing_map_redo_search" = "Chercher dans ce secteur";
+"listing_show_similar_results" = "Showing results for similar searches";
+"listing_show_similar_results_description" = "No exact matches for your search.\nMake sure it’s spelled correctly or use different keywords and filters.";
 "listings_map_no_results_message" = "Aucun réponse exacte à votre recherche. Essayez de chercher dans un autre secteur ou en utilisant d'autres filtres.";
 "listings_map_title" = "Vue de la carte";
 "location_permissions_allow_button" = "Autoriser";

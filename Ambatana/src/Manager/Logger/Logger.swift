@@ -37,6 +37,9 @@ struct AppLoggingOptions: OptionSet, CustomStringConvertible {
         if contains(AppLoggingOptions.camera) {
             options.append("📷")
         }
+        if contains(AppLoggingOptions.debug) {
+            options.append("🐛")
+        }
         return options.joined(separator: "+")
     }
 
@@ -59,6 +62,7 @@ struct AppLoggingOptions: OptionSet, CustomStringConvertible {
     static var uikit = AppLoggingOptions(rawValue: 32)
     static var parsing = AppLoggingOptions(rawValue: 64)
     static var camera = AppLoggingOptions(rawValue: 128)
+    static var debug = AppLoggingOptions(rawValue: 256)
 }
 
 enum LogLevel {
