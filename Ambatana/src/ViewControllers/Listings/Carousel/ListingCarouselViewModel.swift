@@ -21,6 +21,7 @@ enum CarouselMovement {
 enum AdRequestType {
     case dfp
     case moPub
+    case interstitial
 
     var trackingParamValue: EventParameterAdType {
         switch self {
@@ -28,6 +29,8 @@ enum AdRequestType {
             return .dfp
         case .moPub:
             return .moPub
+        case .interstitial:
+            return .interstitial
         }
     }
 }
@@ -524,6 +527,38 @@ class ListingCarouselViewModel: BaseViewModel {
                                                query: query,
                                                willLeaveApp: willLeave,
                                                typePage: typePage)
+    }
+    
+    func createAndLoadInterstitial() -> GADInterstitial? {
+        return adsRequester.createAndLoadInterstitialForUserRepository(myUserRepository)
+    }
+    
+    func presentInterstitial(_ interstitial: GADInterstitial?, index: Int, fromViewController: UIViewController) {
+        adsRequester.presentInterstitial(interstitial, index: index, fromViewController: fromViewController)
+    }
+    
+    func interstitialAdTapped(typePage: EventParameterTypePage) {
+        let adType = AdRequestType.interstitial.trackingParamValue
+        let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
+        let feedPosition: EventParameterFeedPosition = .position(index: currentIndex)
+        let willLeave = EventParameterBoolean(bool: true)
+        currentListingViewModel?.trackInterstitialAdTapped(adType: adType,
+                                                           isMine: isMine,
+                                                           feedPosition: feedPosition,
+                                                           willLeaveApp: willLeave,
+                                                           typePage: typePage)
+    }
+    
+    func interstitialAdShown(typePage: EventParameterTypePage) {
+        let adType = AdRequestType.interstitial.trackingParamValue
+        let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
+        let feedPosition: EventParameterFeedPosition = .position(index: currentIndex)
+        let adShown = EventParameterBoolean(bool: true)
+        currentListingViewModel?.trackInterstitialAdShown(adType: adType,
+                                                           isMine: isMine,
+                                                           feedPosition: feedPosition,
+                                                           adShown: adShown,
+                                                           typePage: typePage)
     }
 
     func statusLabelTapped() {

@@ -221,7 +221,7 @@
 "chat_status_view_connecting" = "Connecting...";
 "chat_status_view_no_network" = "No network connection";
 "chat_status_view_try_again" = "try again";
-"chat_status_view_unable_to_connect" = "Unable to connect.  Please try again";
+"chat_status_view_unable_to_connect" = "Unable to connect. Please try again";
 "chat_stickers_tooltip_new" = "MỚI!";
 "chat_unblock_user" = "Bỏ chặn Người dùng";
 "chat_user_info_letgo_assistant" = "Tôi là một trợ lý ảo, người sẽ cho bạn các lời khuyên và giúp bạn bán hàng.";
@@ -426,6 +426,8 @@
 "hidden_text_alert_description" = "Chúng tôi ẩn thông tin liên lạc để giúp bạn mua và bán được an toàn. Trò chuyện trên letgo luôn dễ dàng và bảo mật hơn.";
 "hidden_text_alert_title" = "GIỮ AN TOÀN";
 "listing_map_redo_search" = "Tìm kiếm khu vực này";
+"listing_show_similar_results" = "Showing results for similar searches";
+"listing_show_similar_results_description" = "No exact matches for your search.\nMake sure it’s spelled correctly or use different keywords and filters.";
 "listings_map_no_results_message" = "Không có kết quả nào khớp với tìm kiếm của bạn. Hãy thử tìm ở một khu vực khác hoặc sử dụng bộ lọc khác.";
 "listings_map_title" = "Xem bản đồ";
 "location_permissions_allow_button" = "Cho phép";

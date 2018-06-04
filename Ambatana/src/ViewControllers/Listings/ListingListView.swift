@@ -175,7 +175,11 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
     func setErrorViewStyle(bgColor: UIColor?, borderColor: UIColor?, containerColor: UIColor?) {
         if errorView.superview == nil {
-            addSubviewToFill(errorView)
+            collectionView.addSubviewForAutoLayout(errorView)
+            NSLayoutConstraint.activate([
+                errorView.topAnchor.constraint(equalTo: collectionView.topAnchor),
+                errorView.centerXAnchor.constraint(equalTo: collectionView.centerXAnchor),
+                ])
             sendSubview(toBack: errorView)
         }
 
@@ -242,6 +246,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         requestAdFor(cellModel: item, inPosition: indexPath.row)
         let cell = drawerManager.cell(item, collectionView: collectionView, atIndexPath: indexPath)
         cell.tag = (indexPath as NSIndexPath).hash
+        drawerManager.cellStyle = viewModel.cellStyle
         drawerManager.draw(item,
                            inCell: cell,
                            delegate: viewModel.listingCellDelegate,
@@ -400,16 +405,16 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     }
 
     private func addSubviewToFill(_ view: UIView) {
-        addSubviewForAutoLayout(view)
+        collectionView.addSubviewForAutoLayout(view)
         if #available(iOS 11.0, *) {
             NSLayoutConstraint.activate([
-                view.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-                view.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-                view.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
-                view.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor)
+                view.topAnchor.constraint(equalTo: collectionView.topAnchor),
+                view.trailingAnchor.constraint(equalTo: collectionView.trailingAnchor),
+                view.bottomAnchor.constraint(equalTo: collectionView.bottomAnchor),
+                view.leadingAnchor.constraint(equalTo: collectionView.leadingAnchor)
                 ])
         } else {
-            view.layout(with: self).fill()
+            view.layout(with: collectionView).fill()
         }
     }
 
@@ -871,6 +876,7 @@ final class ErrorView: UIView {
         topInset?.constant = edgeInsets.top
         trailingInset?.constant = -edgeInsets.right
         bottomInset?.constant = -edgeInsets.bottom
+        setNeedsLayout()
     }
 
     fileprivate func setImage(_ image: UIImage?) {
@@ -905,18 +911,14 @@ final class ErrorView: UIView {
         let imageViewHeight = imageView.heightAnchor.constraint(equalToConstant: 0)
         let actionHeight = actionButton.heightAnchor.constraint(equalToConstant: Layout.actionHeight)
 
-        let topInset = containerView.topAnchor.constraint(greaterThanOrEqualTo: topAnchor,
-                                                          constant: Layout.sideMargin)
-        let leadingInset = containerView.leadingAnchor.constraint(equalTo: leadingAnchor,
-                                                                  constant: Layout.sideMargin)
-        let trailingInset = containerView.trailingAnchor.constraint(equalTo: trailingAnchor,
-                                                                    constant: -Layout.sideMargin)
-        let bottomInset = containerView.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor,
-                                                                constant: -Layout.sideMargin)
+        let topInset = containerView.topAnchor.constraint(equalTo: topAnchor, constant: Layout.sideMargin)
+        let leadingInset = containerView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Layout.sideMargin)
+        let trailingInset = containerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Layout.sideMargin)
+        let bottomInset = containerView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Layout.sideMargin)
         let centerY = containerView.centerYAnchor.constraint(equalTo: centerYAnchor)
         centerY.priority = .defaultLow
         NSLayoutConstraint.activate([
-            topInset, leadingInset, trailingInset, bottomInset, centerY,
+            topInset, leadingInset, trailingInset, bottomInset,
             imageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: Layout.imageViewHeight),
             imageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Layout.sideMargin),
             imageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -Layout.sideMargin),

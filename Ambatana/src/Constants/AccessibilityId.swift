@@ -268,6 +268,7 @@ enum AccessibilityId: Equatable {
     case postingCategorySelectionMotorsAndAccessoriesButton
     case postingCategorySelectionOtherButton
     case postingCategorySelectionRealEstateButton
+    case postingCategorySelectionServicesButton
     case postingCategoryDeatilNavigationBackButton
     case postingCategoryDeatilNavigationMakeButton
     case postingCategoryDeatilNavigationModelButton
@@ -1291,6 +1292,8 @@ enum AccessibilityId: Equatable {
             return "postingCategorySelectionOtherButton"
         case .postingCategorySelectionRealEstateButton:
             return "postingCategorySelectionRealEstateButton"
+        case .postingCategorySelectionServicesButton:
+            return "postingCategorySelectionServicesButton"
         case .postingCategoryDeatilNavigationBackButton:
             return "postingCategoryDeatilNavigationBackButton"
         case .postingCategoryDeatilNavigationMakeButton:

@@ -400,6 +400,30 @@ struct TrackerEvent {
 
         return TrackerEvent(name: .adTapped, params: params)
     }
+    
+    static func adShown(listingId: String?,
+                         adType: EventParameterAdType?,
+                         isMine: EventParameterBoolean,
+                         queryType: EventParameterAdQueryType?,
+                         query: String?,
+                         adShown: EventParameterBoolean,
+                         typePage: EventParameterTypePage,
+                         categories: [ListingCategory]?,
+                         feedPosition: EventParameterFeedPosition) -> TrackerEvent {
+        var params = EventParameters()
+        
+        params[.listingId] = listingId ?? TrackerEvent.notApply
+        params[.adType] = adType?.rawValue ?? TrackerEvent.notApply
+        params[.isMine] = isMine.rawValue
+        params[.adQueryType] = queryType?.rawValue ?? TrackerEvent.notApply
+        params[.adQuery] = query ?? TrackerEvent.notApply
+        params[.adShown] = adShown.rawValue
+        params[.typePage] = typePage.rawValue
+        params[.feedPosition] = feedPosition.value
+        params[.categoryId] = (categories ?? [.unassigned]).trackValue
+        
+        return TrackerEvent(name: .adTapped, params: params)
+    }
 
     static func listingFavorite(_ listing: Listing, typePage: EventParameterTypePage,
                                 isBumpedUp: EventParameterBoolean) -> TrackerEvent {
