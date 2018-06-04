@@ -40,6 +40,7 @@ final class TrackerProxy: Tracker {
     private let myUserRepository: MyUserRepository
     private let installationRepository: InstallationRepository
     private let notificationsManager: NotificationsManager
+    private var analyticsSessionManager: AnalyticsSessionManager
 
 
     // MARK: - Lifecycle
@@ -54,18 +55,28 @@ final class TrackerProxy: Tracker {
                   myUserRepository: Core.myUserRepository,
                   locationManager: Core.locationManager,
                   installationRepository: Core.installationRepository,
-                  notificationsManager: LGNotificationsManager.sharedInstance)
+                  notificationsManager: LGNotificationsManager.sharedInstance,
+                  analyticsSessionManager: LGAnalyticsSessionManager())
     }
 
-    init(trackers: [Tracker], sessionManager: SessionManager, myUserRepository: MyUserRepository,
-         locationManager: LocationManager, installationRepository: InstallationRepository,
-         notificationsManager: NotificationsManager) {
+    init(trackers: [Tracker],
+         sessionManager: SessionManager,
+         myUserRepository: MyUserRepository,
+         locationManager: LocationManager,
+         installationRepository: InstallationRepository,
+         notificationsManager: NotificationsManager,
+         analyticsSessionManager: AnalyticsSessionManager) {
         self.trackers = trackers
         self.locationManager = locationManager
         self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
         self.installationRepository = installationRepository
         self.notificationsManager = notificationsManager
+        self.analyticsSessionManager = analyticsSessionManager
+
+        self.analyticsSessionManager.sessionThresholdReachedCompletion = { [weak self] in
+//            self?.trackEvent(
+        }
     }
 
 
@@ -94,6 +105,9 @@ final class TrackerProxy: Tracker {
 
     func applicationDidEnterBackground(_ application: UIApplication) {
         trackers.forEach { $0.applicationDidEnterBackground(application) }
+
+        let now = Date().timeIntervalSince1970
+        analyticsSessionManager.pauseSession(timestamp: now)
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -104,6 +118,9 @@ final class TrackerProxy: Tracker {
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         trackers.forEach { $0.applicationDidBecomeActive(application) }
+
+        let now = Date().timeIntervalSince1970
+        analyticsSessionManager.startOrContinueSession(timestamp: now)
     }
 
     func setInstallation(_ installation: Installation?) {

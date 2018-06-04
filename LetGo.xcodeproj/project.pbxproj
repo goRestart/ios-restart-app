@@ -604,6 +604,9 @@
 		5009F83F1E5B01890064ED22 /* Metrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5009F83D1E5B01890064ED22 /* Metrics.swift */; };
 		500DC12B1BDA1C4C00B494FA /* ios-devel.json in Resources */ = {isa = PBXBuildFile; fileRef = 500DC1291BDA1C4C00B494FA /* ios-devel.json */; };
 		500DC12C1BDA1C4C00B494FA /* ios-prod.json in Resources */ = {isa = PBXBuildFile; fileRef = 500DC12A1BDA1C4C00B494FA /* ios-prod.json */; };
+		5011938620C5173200FA7C20 /* AnalyticsSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5011938520C5173200FA7C20 /* AnalyticsSessionManager.swift */; };
+		5011938720C5173200FA7C20 /* AnalyticsSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5011938520C5173200FA7C20 /* AnalyticsSessionManager.swift */; };
+		5011938920C51BE100FA7C20 /* MockAnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5011938820C51BE100FA7C20 /* MockAnalyticsManager.swift */; };
 		50146BC21D4F5F5B00B0F635 /* TabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50146BC01D4F5F5B00B0F635 /* TabCoordinator.swift */; };
 		50146BC31D4F5F5B00B0F635 /* TabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50146BC01D4F5F5B00B0F635 /* TabCoordinator.swift */; };
 		50146BC41D4F5F5B00B0F635 /* TabNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50146BC11D4F5F5B00B0F635 /* TabNavigator.swift */; };
@@ -2384,6 +2387,8 @@
 		5009F83D1E5B01890064ED22 /* Metrics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Metrics.swift; sourceTree = "<group>"; };
 		500DC1291BDA1C4C00B494FA /* ios-devel.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "ios-devel.json"; sourceTree = "<group>"; };
 		500DC12A1BDA1C4C00B494FA /* ios-prod.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "ios-prod.json"; sourceTree = "<group>"; };
+		5011938520C5173200FA7C20 /* AnalyticsSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsSessionManager.swift; sourceTree = "<group>"; };
+		5011938820C51BE100FA7C20 /* MockAnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAnalyticsManager.swift; sourceTree = "<group>"; };
 		50146BC01D4F5F5B00B0F635 /* TabCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabCoordinator.swift; sourceTree = "<group>"; };
 		50146BC11D4F5F5B00B0F635 /* TabNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabNavigator.swift; sourceTree = "<group>"; };
 		50146BC61D4F5F6D00B0F635 /* MainTabCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabCoordinator.swift; sourceTree = "<group>"; };
@@ -4347,17 +4352,18 @@
 		50C9E4B71B71FBB7001E4E92 /* Tracking */ = {
 			isa = PBXGroup;
 			children = (
-				C707D4501E9B7C8A00042C03 /* Model */,
 				50C9E4C01B723E6B001E4E92 /* AmplitudeTracker.swift */,
+				5011938520C5173200FA7C20 /* AnalyticsSessionManager.swift */,
 				50C9E4C21B723E7B001E4E92 /* AppsflyerTracker.swift */,
 				2E2AB8271C04A2EF0007B8EB /* CrashlyticsTracker.swift */,
 				50C9E4C41B723E87001E4E92 /* FacebookTracker.swift */,
 				C797404E1D2A95B100381A4A /* LeanplumTracker.swift */,
+				C707D4501E9B7C8A00042C03 /* Model */,
+				C7E1DE501E4C8D0E003818F6 /* NewRelicTracker.swift */,
 				50C9E4B81B71FBB7001E4E92 /* Tracker.swift */,
-				50C9E4BC1B721F6B001E4E92 /* TrackerProxy.swift */,
 				50C9E4BA1B71FBD7001E4E92 /* TrackerEvent.swift */,
 				50C9E4C81B735344001E4E92 /* TrackerEventDataTypes.swift */,
-				C7E1DE501E4C8D0E003818F6 /* NewRelicTracker.swift */,
+				50C9E4BC1B721F6B001E4E92 /* TrackerProxy.swift */,
 			);
 			path = Tracking;
 			sourceTree = "<group>";
@@ -4530,9 +4536,10 @@
 		50D08D691E69AF14009CC260 /* Tracking */ = {
 			isa = PBXGroup;
 			children = (
-				50D08D6A1E69AF14009CC260 /* MockTracker.swift */,
+				5011938820C51BE100FA7C20 /* MockAnalyticsManager.swift */,
 				01B06D87202B187100083DD1 /* MockEventParameterMostSearched.swift */,
 				0150866A20520BFF0007E792 /* MockEventParameterPostingAbandonStep.swift */,
+				50D08D6A1E69AF14009CC260 /* MockTracker.swift */,
 			);
 			path = Tracking;
 			sourceTree = "<group>";
@@ -7147,6 +7154,7 @@
 				72D928E71E83ED300030F4C3 /* MockRatingManager.swift in Sources */,
 				50D08DCB1E69AF14009CC260 /* CrashManagerSpec.swift in Sources */,
 				0A82750A1F7D090C00A6A0C5 /* MockDeferredDeepLinkMaker.swift in Sources */,
+				5011938920C51BE100FA7C20 /* MockAnalyticsManager.swift in Sources */,
 				0A7724141FCEED6300BD322C /* PhotoViewerViewModelSpec.swift in Sources */,
 				724D77A91FC3467700DB43C0 /* CarAttributes+LGSpec.swift in Sources */,
 				50D08DCD1E69AF14009CC260 /* NotificationsManagerSpec.swift in Sources */,
@@ -7744,6 +7752,7 @@
 				6A3F3B9B20AD81A000E2881F /* LetgoTooltip.swift in Sources */,
 				6A38A998207618DE00F3B292 /* UserProfileKarmaScoreView.swift in Sources */,
 				C7C61DF51D63035400F9505D /* ListingCarouselMoreInfoView.swift in Sources */,
+				5011938620C5173200FA7C20 /* AnalyticsSessionManager.swift in Sources */,
 				2E5350411CF8A0C6003B06CC /* ListingStatsView.swift in Sources */,
 				0171FA9B2087444C00CAFE36 /* SettingsNotificationsSearchAlertsCell.swift in Sources */,
 				502047151EE1BB22006C0EC2 /* MarkAsSoldTrackingInfo.swift in Sources */,
@@ -8560,6 +8569,7 @@
 				6A3F3B9C20AD81A100E2881F /* LetgoTooltip.swift in Sources */,
 				6A38A9992076304A00F3B292 /* UserProfileKarmaScoreView.swift in Sources */,
 				C7DB42091C5138B500400945 /* ChatSafetyTipsView.swift in Sources */,
+				5011938720C5173200FA7C20 /* AnalyticsSessionManager.swift in Sources */,
 				7224D7E91F581EE7004E3B49 /* ExpandableCategorySelectionView.swift in Sources */,
 				C7BAC9BD1E49BCC0005BD0AF /* LGBubbleNotificationManager.swift in Sources */,
 				2E5350421CF8A0C6003B06CC /* ListingStatsView.swift in Sources */,
