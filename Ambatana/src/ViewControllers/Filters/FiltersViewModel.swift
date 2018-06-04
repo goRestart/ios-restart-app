@@ -253,6 +253,9 @@ class FiltersViewModel: BaseViewModel {
     }
     
     var serviceSections: [FilterServicesSection] {
+        guard featureFlags.showServicesFeatures.isActive else {
+            return []
+        }
         return FilterServicesSection.all
     }
     
@@ -314,6 +317,7 @@ class FiltersViewModel: BaseViewModel {
         return updatedSections.filter { $0 != .price ||  isPriceCellEnabled }
             .filter {$0 != .carsInfo ||  isCarsInfoCellEnabled }
             .filter {!$0.isRealEstateSection || isRealEstateInfoCellEnabled }
+            .filter { $0 != .servicesInfo }
     }
     
     private func updateCarSelectedSections() {
