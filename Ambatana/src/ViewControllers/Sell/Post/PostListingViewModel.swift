@@ -120,7 +120,7 @@ class PostListingViewModel: BaseViewModel {
 
     var shouldShowVideoFooter: Bool {
         guard let category = postCategory?.listingCategory else { return false }
-        return category.isProduct && featureFlags.machineLearningMVP.isVideoPostingActive
+        return category.isProduct && featureFlags.videoPosting.isActive
     }
     
     fileprivate let disposeBag: DisposeBag
