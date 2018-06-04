@@ -259,7 +259,7 @@ class BubbleNotificationView: UIView {
 
         let textsContainer = UIView()
 
-        addSubview(containerView)
+        addSubviewForAutoLayout(containerView)
         containerView.addSubviewForAutoLayout(leftIcon)
         containerView.addSubviewForAutoLayout(textsContainer)
         textsContainer.addSubviewForAutoLayout(textLabel)
