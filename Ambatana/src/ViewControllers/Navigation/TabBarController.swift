@@ -200,11 +200,12 @@ final class TabBarController: UITabBarController {
     }
     
     func showBottomBubbleNotification(data: BubbleNotificationData,
+                                      duration: TimeInterval,
                                       alignment: BubbleNotification.Alignment,
                                       style: BubbleNotification.Style) {
         setupBottomBubbleNotificationsContainer()
         bubbleNotificationManager.showBubble(data: data,
-                                             duration: 5,
+                                             duration: duration,
                                              view: bottomNotificationsContainer,
                                              alignment: alignment,
                                              style: style)

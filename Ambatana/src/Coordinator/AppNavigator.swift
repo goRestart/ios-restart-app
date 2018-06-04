@@ -31,6 +31,7 @@ protocol AppNavigator: class {
                                      typePage: EventParameterTypePage?)
     func openMostSearchedItems(source: PostingSource, enableSearch: Bool)
     func showBottomBubbleNotification(data: BubbleNotificationData,
+                                      duration: TimeInterval,
                                       alignment: BubbleNotification.Alignment,
                                       style: BubbleNotification.Style)
 }

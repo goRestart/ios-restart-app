@@ -789,10 +789,12 @@ extension TabCoordinator: ListingDetailNavigator {
                                                  style: .dark)
         case .lightBottom:
             appNavigator?.showBottomBubbleNotification(data: data,
+                                                       duration: duration,
                                                        alignment: .bottom,
                                                        style: .light)
         case .darkBottom:
             appNavigator?.showBottomBubbleNotification(data: data,
+                                                       duration: duration,
                                                        alignment: .bottom,
                                                        style: .dark)
         }
