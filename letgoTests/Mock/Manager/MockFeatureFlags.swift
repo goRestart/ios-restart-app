@@ -53,8 +53,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var summaryAsFirstStep: SummaryAsFirstStep = .control
     var sectionedMainFeed: SectionedMainFeed = .control
     var showExactLocationForPros: Bool = true
-    var showPasswordlessLogin: ShowPasswordlessLogin = .control
-    var emergencyLocate: EmergencyLocate = .control
     var searchAlerts: SearchAlerts = .control
     var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed = .control
     

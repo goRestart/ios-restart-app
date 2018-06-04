@@ -23,7 +23,7 @@ final class PushManager {
     private let notificationsManager: NotificationsManager
     private let locationRepository: LocationRepository
     private let featureFlags: FeatureFlaggeable
-    private let keyValueStorage: KeyValueStorage
+    private let keyValueStorage: KeyValueStorageable
     private let navigator: AppNavigator?
 
 
@@ -52,7 +52,7 @@ final class PushManager {
                   notificationsManager: NotificationsManager,
                   locationRepository: LocationRepository,
                   featureFlags: FeatureFlaggeable,
-                  keyValueStorage: KeyValueStorage,
+                  keyValueStorage: KeyValueStorageable,
                   navigator: AppNavigator?) {
         self.pushPermissionManager = pushPermissionManager
         self.installationRepository = installationRepository
