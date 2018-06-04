@@ -214,7 +214,11 @@ extension Coordinator {
     // MARK: > Bubble
     
     func showBubble(with data: BubbleNotificationData, duration: TimeInterval) {
-        bubbleNotificationManager.showBubble(data, duration: duration, view: viewController.view)
+        bubbleNotificationManager.showBubble(data: data,
+                                             duration: duration,
+                                             view: viewController.view,
+                                             alignment: .top,
+                                             style: .light)
     }
     
     // MARK: > Helpers

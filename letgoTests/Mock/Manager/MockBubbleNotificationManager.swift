@@ -7,13 +7,18 @@
 //
 
 @testable import LetGoGodMode
+import RxSwift
 
 class MockBubbleNotificationManager: BubbleNotificationManager {
+    var bottomNotifications = Variable<[BubbleNotification]>([])
+    
     var lastShownData: BubbleNotificationData?
     var lastDuration: TimeInterval?
 
-    func showBubble(_ data: BubbleNotificationData, duration: TimeInterval?, view: UIView) {
+    func showBubble(data: BubbleNotificationData, duration: TimeInterval?, view: UIView, alignment: BubbleNotification.Alignment, style: BubbleNotification.Style) {
         lastShownData = data
         lastDuration = duration
     }
+    
+    func hideBottomNotifications() { }
 }

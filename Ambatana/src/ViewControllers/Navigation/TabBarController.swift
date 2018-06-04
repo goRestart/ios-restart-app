@@ -25,8 +25,9 @@ final class TabBarController: UITabBarController {
     private let tracker: Tracker
     
     private var floatingViews: [UIView?] {
-        return [floatingSellButton, tooltip]
+        return [floatingSellButton, tooltip, bottomNotificationsContainer]
     }
+    private lazy var bottomNotificationsContainer: UIView = UIView()
     
     // Rx
     private let disposeBag = DisposeBag()
@@ -69,6 +70,7 @@ final class TabBarController: UITabBarController {
 
         setupAdminAccess()
         setupSellButton()
+        setupRx()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -88,6 +90,15 @@ final class TabBarController: UITabBarController {
         }
     }
 
+    private func setupRx() {
+        let hasNotBottomNotifications = bubbleNotificationManager.bottomNotifications.asObservable().map {
+            $0.count == 0
+        }
+        hasNotBottomNotifications.asObservable().distinctUntilChanged().filter{ $0 }.bind { [weak self] _ in
+            self?.bottomNotificationsContainer.removeFromSuperview()
+        }.disposed(by: disposeBag)
+    }
+    
     
     // MARK: - Public methods
 
@@ -186,12 +197,14 @@ final class TabBarController: UITabBarController {
         }
     }
     
-    func showBottomBubbleNotification(data: BottomBubbleNotificationData) {
-        bubbleNotificationManager.showHighlightedBubble(data, duration: 5, view: view, tabBar: tabBar)
+    func showBottomBubbleNotification(data: BubbleNotificationData) {
+        setupBottomBubbleNotificationsContainer()
+        bubbleNotificationManager.showBubble(data: data, duration: 5, view: bottomNotificationsContainer, alignment: .bottom, style: .light)
     }
     
-    func hide() {
-        bubbleNotificationManager.hide()
+    func hideBottomNotifications() {
+        guard bubbleNotificationManager.bottomNotifications.value.count > 0 else { return }
+        bubbleNotificationManager.hideBottomNotifications()
     }
     
 
@@ -243,7 +256,10 @@ final class TabBarController: UITabBarController {
         let bottom: CGFloat = -(tabBar.frame.height + LGUIKitConstants.tabBarSellFloatingButtonDistance)
         
         floatingSellButton.layout(with: view)
-            .bottom(by: bottom, constraintBlock: {[weak self] in self?.floatingSellButtonMarginConstraint = $0 })
+            .bottom(by: bottom, constraintBlock: {[weak self] in
+                self?.floatingSellButtonMarginConstraint = $0
+                
+            })
         floatingSellButton.layout(with: view)
             .leading(by: LGUIKitConstants.tabBarSellFloatingButtonDistance, relatedBy: .greaterThanOrEqual)
             .trailing(by: -LGUIKitConstants.tabBarSellFloatingButtonDistance,
@@ -267,6 +283,17 @@ final class TabBarController: UITabBarController {
         }
     }
     
+    private func setupBottomBubbleNotificationsContainer() {
+        guard bottomNotificationsContainer.superview == nil else { return }
+        view.addSubviewForAutoLayout(bottomNotificationsContainer)
+        let bottom: CGFloat = -(tabBar.frame.height + Metrics.margin)
+        let constraints = [
+            bottomNotificationsContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: bottom),
+            bottomNotificationsContainer.leftAnchor.constraint(equalTo: view.leftAnchor, constant: Metrics.shortMargin),
+            bottomNotificationsContainer.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -Metrics.shortMargin),
+            bottomNotificationsContainer.heightAnchor.constraint(equalToConstant: 80)]
+        NSLayoutConstraint.activate(constraints)
+    }
     
     func setupExpandableCategoriesView() {
         view.subviews.find(where: { $0.tag == TabBarController.categorySelectionTag })?.removeFromSuperview()

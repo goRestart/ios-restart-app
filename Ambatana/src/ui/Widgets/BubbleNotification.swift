@@ -43,6 +43,25 @@ protocol BubbleNotificationDelegate: class {
 
 class BubbleNotification: UIView {
 
+    enum Style {
+        case dark
+        case light
+    }
+    
+    enum Alignment {
+        case top
+        case bottom
+        
+        var initialBottomConstraintConstant: CGFloat {
+            switch self {
+            case .top:
+                return 0
+            case .bottom:
+                return Metrics.screenHeight + BubbleNotification.initialHeight
+            }
+        }
+    }
+    
     static let initialHeight: CGFloat = 80
 
     static let buttonHeight: CGFloat = 30
@@ -69,12 +88,19 @@ class BubbleNotification: UIView {
     var bottomConstraint = NSLayoutConstraint()
 
     let data: BubbleNotificationData
-
-
+    let style: Style
+    let alignment: Alignment
+    
+    
     // - Lifecycle
 
-    init(frame: CGRect, data: BubbleNotificationData) {
+    init(frame: CGRect,
+         data: BubbleNotificationData,
+         style: Style = .light,
+         alignment: Alignment = .top) {
         self.data = data
+        self.style = style
+        self.alignment = .bottom
         super.init(frame: frame)
         setupConstraints()
         setupUI()
@@ -94,18 +120,20 @@ class BubbleNotification: UIView {
                                                        toItem: self, attribute: .right, multiplier: 1,
                                                        constant: BubbleNotification.bubbleMargin)
         bottomConstraint = NSLayoutConstraint(item: self, attribute: .bottom, relatedBy: .equal,
-                                                     toItem: parentView, attribute: .top, multiplier: 1, constant: 0)
+                                              toItem: parentView, attribute: .top, multiplier: 1, constant: alignment.initialBottomConstraintConstant)
         parentView.addConstraints([bubbleLeftConstraint, bubbleRightConstraint, bottomConstraint])
     }
 
     func showBubble() {
         self.showBubble(autoDismissTime: nil)
     }
+    
     func showBubble(autoDismissTime time: TimeInterval?) {
         // delay to let the setup build the view properly
         delay(0.1) { [weak self] in
-            self?.bottomConstraint.constant = (self?.height ?? 0) + BubbleNotification.statusBarHeight
-            UIView.animate(withDuration: BubbleNotification.showAnimationTime) { self?.superview?.layoutIfNeeded() }
+            guard let strongSelf = self else { return }
+            strongSelf.bottomConstraint.constant = (strongSelf.height ?? 0) + BubbleNotification.statusBarHeight
+            UIView.animate(withDuration: BubbleNotification.showAnimationTime) { strongSelf.superview?.layoutIfNeeded() }
         }
 
         if let dismissTime = time, dismissTime > 0 {
@@ -117,7 +145,7 @@ class BubbleNotification: UIView {
 
     func closeBubble() {
         guard superview != nil else { return } // Already closed
-        self.bottomConstraint.constant = 0
+        self.bottomConstraint.constant = alignment.initialBottomConstraintConstant
         UIView.animate(withDuration: BubbleNotification.closeAnimationTime, animations: { [weak self] in
             self?.superview?.layoutIfNeeded()
         }, completion: { [weak self ] _ in
