@@ -75,7 +75,9 @@ final class TrackerProxy: Tracker {
         self.analyticsSessionManager = analyticsSessionManager
 
         self.analyticsSessionManager.sessionThresholdReachedCompletion = { [weak self] in
-//            self?.trackEvent(
+            guard let strongSelf = self, strongSelf.shouldTrackSessionOneMinuteFirstWeek() else { return }
+            let event = TrackerEvent.sessionOneMinuteFirstWeek()
+            self?.trackEvent(event)
         }
     }
 
@@ -190,5 +192,9 @@ final class TrackerProxy: Tracker {
         notificationsManager.loggedInMktNofitications.asObservable().bind { [weak self] enabled in
             self?.setMarketingNotifications(enabled)
         }.disposed(by: disposeBag)
+    }
+
+    private func shouldTrackSessionOneMinuteFirstWeek() -> Bool {
+        return true
     }
 }

@@ -211,6 +211,8 @@ enum EventName: String {
 
     case screenshot                         = "os-screenshot"
 
+    case sessionOneMinuteFirstWeek          = "session-one-minute-first-week"
+
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
     

@@ -1475,6 +1475,10 @@ struct TrackerEvent {
         return TrackerEvent(name: .screenshot, params: nil)
     }
 
+    static func sessionOneMinuteFirstWeek() -> TrackerEvent {
+        return TrackerEvent(name: .sessionOneMinuteFirstWeek, params: nil)
+    }
+
     // MARK: - Private methods
     
     static func eventParameterFreePostingWithPriceRange(_ freePostingModeAllowed: Bool,

@@ -154,6 +154,20 @@ class TrackerProxySpec: QuickSpec {
         }
 
         describe("analytics session manager integration") {
+            it("sets a session threshold reached completion") {
+                expect(analyticsSessionManager.sessionThresholdReachedCompletion).notTo(beNil())
+            }
+
+            context("execute session threshold reached completion") {
+                beforeEach {
+                    analyticsSessionManager.sessionThresholdReachedCompletion?()
+                }
+
+                it("tracks a sessionOneMinuteFirstWeek event") {
+                    expect(tracker1.trackedEvents.map { $0.name }) == [EventName.sessionOneMinuteFirstWeek]
+                }
+            }
+
             context("when calling applicationDidBecomeActive") {
                 beforeEach {
                     sut.applicationDidBecomeActive(UIApplication.shared)
