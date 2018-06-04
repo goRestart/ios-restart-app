@@ -13,10 +13,12 @@ struct UsersABGroup: ABGroupType {
         static let advancedReputationSystem = "20180328AdvancedReputationSystem"
         static let showPasswordlessLogin = "20180417ShowPasswordlessLogin"
         static let emergencyLocate = "20180425EmergencyLocate"
+        static let offensiveReportAlert = "20180525OffensiveReportAlert"
     }
     let advancedReputationSystem: LeanplumABVariable<Int>
     let showPasswordlessLogin: LeanplumABVariable<Int>
     let emergencyLocate: LeanplumABVariable<Int>
+    let offensiveReportAlert: LeanplumABVariable<Int>
 
     let group: ABGroup = .users
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -26,13 +28,16 @@ struct UsersABGroup: ABGroupType {
 
     init(advancedReputationSystem: LeanplumABVariable<Int>,
          showPasswordlessLogin: LeanplumABVariable<Int>,
-         emergencyLocate: LeanplumABVariable<Int>) {
+         emergencyLocate: LeanplumABVariable<Int>,
+         offensiveReportAlert: LeanplumABVariable<Int>) {
         self.advancedReputationSystem = advancedReputationSystem
         self.showPasswordlessLogin = showPasswordlessLogin
         self.emergencyLocate = emergencyLocate
+        self.offensiveReportAlert = offensiveReportAlert
         intVariables.append(contentsOf: [advancedReputationSystem,
                                          showPasswordlessLogin,
-                                         emergencyLocate])
+                                         emergencyLocate,
+                                         offensiveReportAlert])
     }
 
     static func make() -> UsersABGroup {
@@ -44,7 +49,10 @@ struct UsersABGroup: ABGroupType {
                                                             groupType: .users),
                             emergencyLocate: .makeInt(key: Keys.emergencyLocate,
                                                       defaultValue: 0,
-                                                      groupType: .users)
+                                                      groupType: .users),
+                            offensiveReportAlert: .makeInt(key: Keys.offensiveReportAlert,
+                                                           defaultValue: 0,
+                                                           groupType: .users)
         )
     }
 }

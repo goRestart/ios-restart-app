@@ -296,6 +296,11 @@
          "description": "Improve empty search experience by proposing relavant listings"
     },
     {
+         "name": "OffensiveReportAlert",
+         "values": ["control", "baseline", "active"],
+         "description": "Offensive Report alert active"
+    },
+    {
          "name": "HighlightedIAmInterestedFeed",
          "values": ["control", "baseline", "lightBottom", "darkTop", "darkBottom"],
          "description": "Show an I am interested highlighted undo button in the main feed more"

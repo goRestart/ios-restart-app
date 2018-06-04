@@ -61,6 +61,7 @@ final class AppCoordinator: NSObject, Coordinator {
 
     fileprivate var bumpUpSource: BumpUpSource?
     fileprivate var timeSinceLastBump: TimeInterval?
+    fileprivate var offensiveReportAlertWidth: CGFloat = 310
 
     weak var delegate: AppNavigatorDelegate?
 
@@ -278,6 +279,37 @@ extension AppCoordinator: AppNavigator {
                                                             typePage: typePage)
         promoteBumpCoordinator.delegate = self
         openChild(coordinator: promoteBumpCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
+    }
+
+    func canOpenOffensiveReportAlert() -> Bool {
+        return tabBarCtl.presentedViewController == nil
+    }
+
+    func openOffensiveReportAlert() {
+        guard canOpenOffensiveReportAlert() else { return }
+        let reviewAction = { [weak self] in
+            guard let url = LetgoURLHelper.buildCommunityGuidelineURL() else { return }
+            self?.openInAppWebView(url: url)
+        }
+        let reviewActionInterface = UIActionInterface.button(R.Strings.offensiveReportAlertPrimaryAction,
+                                                             .primary(fontSize: .medium))
+        let reviewAlertAction = UIAction(interface: reviewActionInterface,
+                                         action: reviewAction,
+                                         accessibilityId: .offensiveReportAlertOpenGuidelineButton)
+        let skipActionInterface = UIActionInterface.button(R.Strings.offensiveReportAlertSecondaryAction,
+                                                            .secondary(fontSize: .medium, withBorder: true))
+        let skipAlertAction = UIAction(interface: skipActionInterface,
+                                  action: {},
+                                  accessibilityId: .offensiveReportAlertSkipButton)
+        if let alert = LGAlertViewController(title: R.Strings.offensiveReportAlertTitle,
+                                             text: R.Strings.offensiveReportAlertMessage,
+                                             alertType: .plainAlert,
+                                             buttonsLayout: .vertical,
+                                             actions: [reviewAlertAction, skipAlertAction],
+                                             dismissAction: nil) {
+            alert.alertWidth = offensiveReportAlertWidth
+            tabBarCtl.present(alert, animated: true, completion: nil)
+        }
     }
 
     private func askUserIsEnjoyingLetgo() {
