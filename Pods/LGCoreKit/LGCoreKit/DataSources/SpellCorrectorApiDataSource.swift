@@ -1,10 +1,3 @@
-//
-//  SpellCorrectorApiDataSource.swift
-//  LGCoreKit
-//
-//  Created by Tomas Cobo on 14/03/2018.
-//  Copyright © 2018 Ambatana Inc. All rights reserved.
-//
 import Foundation
 
 final class SpellCorrectorApiDataSource: SpellCorrectorDataSource {
@@ -26,6 +19,16 @@ final class SpellCorrectorApiDataSource: SpellCorrectorDataSource {
         apiClient.request(request, decoder: SpellCorrectorApiDataSource.decoder, completion: completion)
     }
     
+    func retrieveSimilarQuery(query: String,
+                              similarParam: SimilarParam,
+                              completion: SimilarQueryDataSourceCompletion?) {
+        let request = SpellCorretorRouter.similarQuery(searchTerm: query,
+                                                       params: similarParam.apiParams)
+        apiClient.request(request,
+                          decoder: SpellCorrectorApiDataSource.decoder,
+                          completion: completion)
+    }
+    
     // MARK: - Decoders
     
     private static func decoder(_ object: Any) -> RelaxQuery? {
@@ -37,5 +40,16 @@ final class SpellCorrectorApiDataSource: SpellCorrectorDataSource {
         }
         return nil
     }
+    
+    private static func decoder(_ object: Any) -> SimilarQuery? {
+        guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
+        do {
+            return try SimilarQuery.decode(jsonData: data)
+        } catch {
+            logAndReportParseError(object: object, entity: .similarQuery, comment: "could not parse String")
+        }
+        return nil
+    }
+    
     
 }

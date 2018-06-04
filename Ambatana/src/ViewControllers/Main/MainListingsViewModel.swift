@@ -16,38 +16,12 @@ protocol MainListingsAdsDelegate: class {
     func rootViewControllerForAds() -> UIViewController
 }
 
-struct MainListingsHeader: OptionSet {
-    let rawValue: Int
-    init(rawValue: Int) { self.rawValue = rawValue }
-
-    static let PushPermissions  = MainListingsHeader(rawValue: 1)
-    static let SellButton = MainListingsHeader(rawValue: 2)
-    static let CategoriesCollectionBanner = MainListingsHeader(rawValue: 4)
-    static let RealEstateBanner = MainListingsHeader(rawValue: 8)
-    static let SearchAlerts = MainListingsHeader(rawValue: 16)
-}
-
-struct SuggestiveSearchInfo {
-    let suggestiveSearches: [SuggestiveSearch]
-    let sourceText: String
-    
-    var count: Int {
-        return suggestiveSearches.count
-    }
-    
-    static func empty() -> SuggestiveSearchInfo {
-        return SuggestiveSearchInfo(suggestiveSearches: [],
-                                    sourceText: "")
-    }
-}
-
 final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     
     static let adInFeedInitialPosition = 3
     private static let adsInFeedRatio = 20
     private static let searchAlertLimit = 20
 
-    
     // > Input
     var searchString: String? {
         return searchType?.text
@@ -100,7 +74,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     let suggestedSearchesLimit: Int = 10
     var filters: ListingFilters
     var queryString: String?
-    
+    var shouldHideCategoryAfterSearch = false
 
     var hasFilters: Bool {
         return !filters.isDefault()
@@ -204,12 +178,6 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             
             filters.realEstateOfferTypes.forEach { resultTags.append(.realEstateOfferType($0)) }
         }
-        
-        if let propertyType = filters.realEstatePropertyType {
-            resultTags.append(.realEstatePropertyType(propertyType))
-        }
-        
-        filters.realEstateOfferTypes.forEach { resultTags.append(.realEstateOfferType($0)) }
         
         if let numberOfBedrooms = filters.realEstateNumberOfBedrooms {
             resultTags.append(.realEstateNumberOfBedrooms(numberOfBedrooms))
@@ -396,7 +364,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         self.requesterDependencyContainer = RequesterDependencyContainer(itemsPerPage: itemsPerPage,
                                                                          filters: filters,
                                                                          queryString: searchType?.query,
-                                                                         carSearchActive: featureFlags.searchCarsIntoNewBackend.isActive)
+                                                                         carSearchActive: featureFlags.searchCarsIntoNewBackend.isActive,
+                                                                         similarSearchActive: featureFlags.emptySearchImprovements.isActive)
         let requesterFactory = SearchRequesterFactory(dependencyContainer: self.requesterDependencyContainer,
                                                       featureFlags: featureFlags)
         self.requesterFactory = requesterFactory
@@ -754,13 +723,16 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         requesterDependencyContainer.updateContainer(itemsPerPage: currentItemsPerPage,
                                                      filters: filters,
                                                      queryString: queryString,
-                                                     carSearchActive: featureFlags.searchCarsIntoNewBackend.isActive)
+                                                     carSearchActive: featureFlags.searchCarsIntoNewBackend.isActive,
+                                                     similarSearchActive: featureFlags.emptySearchImprovements.isActive)
         let requesterFactory = SearchRequesterFactory(dependencyContainer: requesterDependencyContainer,
                                                       featureFlags: featureFlags)
         listViewModel.updateFactory(requesterFactory)
         listingListRequester = (listViewModel.currentActiveRequester as? ListingListMultiRequester) ?? ListingListMultiRequester()
         infoBubbleVisible.value = false
         errorMessage.value = nil
+        let showServiceCell = featureFlags.showServicesFeatures.isActive && filters.hasSelectedCategory(.services)
+        listViewModel.cellStyle = showServiceCell ? .serviceList : .mainList
         listViewModel.resetUI()
         listViewModel.refresh()
     }
@@ -975,7 +947,11 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
     func visibleTopCellWithIndex(_ index: Int, whileScrollingDown scrollingDown: Bool) {
 
         // set title for cell at index if necessary
-        filterTitle.value = listViewModel.titleForIndex(index: index)
+        if featureFlags.emptySearchImprovements.isActive, shouldHideCategoryAfterSearch {
+            filterTitle.value = featureFlags.emptySearchImprovements.filterTitle
+        } else {
+            filterTitle.value = listViewModel.titleForIndex(index: index)
+        }
 
         guard let sortCriteria = filters.selectedOrdering else { return }
 
@@ -1003,8 +979,10 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
 
     // MARK: > ListingListViewModelDataDelegate
 
-    func listingListVM(_ viewModel: ListingListViewModel, didSucceedRetrievingListingsPage page: UInt,
-                       withResultsCount resultsCount: Int, hasListings: Bool) {
+    func listingListVM(_ viewModel: ListingListViewModel,
+                       didSucceedRetrievingListingsPage page: UInt,
+                       withResultsCount resultsCount: Int,
+                       hasListings: Bool) {
 
         trackRequestSuccess(page: page, resultsCount: resultsCount, hasListings: hasListings)
         // Only save the string when there is products and we are not searching a collection
@@ -1026,33 +1004,21 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
 
         if !hasListings {
             if let isLastPage = requester?.multiIsLastPage, isLastPage {
-                let errImage: UIImage?
-                let errTitle: String?
-                let errBody: String?
-                
-                
-                // Search
-                if queryString != nil || hasFilters {
-                    errImage = UIImage(named: "err_search_no_products")
-                    errTitle = isRealEstateSearch ? R.Strings.realEstateEmptyStateSearchTitle : R.Strings.productSearchNoProductsTitle
-                    errBody = isRealEstateSearch ? R.Strings.realEstateEmptyStateSearchSubtitle : R.Strings.productSearchNoProductsBody
-                } else {
-                    // Listing
-                    errImage = UIImage(named: "err_list_no_products")
-                    errTitle = R.Strings.productListNoProductsTitle
-                    errBody = R.Strings.productListNoProductsBody
-                }
-
-                let emptyViewModel = LGEmptyViewModel(icon: errImage, title: errTitle, body: errBody, buttonTitle: nil,
-                                                      action: nil, secondaryButtonTitle: nil, secondaryAction: nil,
-                                                      emptyReason: nil, errorCode: nil, errorDescription: nil)
+                let hasPerformedSearch = queryString != nil || hasFilters
+                let emptyViewModel = EmptyViewModelBuilder(hasPerformedSearch: hasPerformedSearch,
+                                                           isRealEstateSearch: isRealEstateSearch).build()
                 listViewModel.setEmptyState(emptyViewModel)
                 filterDescription.value = nil
                 filterTitle.value = nil
             } else {
                 listViewModel.retrieveListingsNextPage()
             }
-        } 
+        } else if featureFlags.emptySearchImprovements.isActive, viewModel.currentRequesterType != .search {
+            shouldHideCategoryAfterSearch = true
+            filterDescription.value = featureFlags.emptySearchImprovements.filterDescription
+            filterTitle.value = featureFlags.emptySearchImprovements.filterTitle
+            updateCategoriesHeader()
+        }
 
         errorMessage.value = nil
         infoBubbleVisible.value = hasListings && filters.infoBubblePresent
@@ -1518,7 +1484,11 @@ extension MainListingsViewModel {
 extension MainListingsViewModel {
 
     var showCategoriesCollectionBanner: Bool {
-        return primaryTags.isEmpty && !listViewModel.isListingListEmpty.value && !isSearchAlertsEnabled
+        if featureFlags.emptySearchImprovements.isActive && shouldHideCategoryAfterSearch {
+            return false
+        } else {
+            return primaryTags.isEmpty && !listViewModel.isListingListEmpty.value && !isSearchAlertsEnabled
+        }
     }
     
     var showRealEstateBanner: Bool {

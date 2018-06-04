@@ -218,6 +218,10 @@
 "chat_send_button" = "Gửi";
 "chat_send_error_different_country" = "Chúng tôi không thể bắt đầu một hội thoại về một bài đăng ở một quốc gia khác.";
 "chat_send_error_generic" = "Có lỗi xảy ra trong khi gửi tin nhắn. Xin vui lòng thử lại.";
+"chat_status_view_connecting" = "Connecting...";
+"chat_status_view_no_network" = "No network connection";
+"chat_status_view_try_again" = "try again";
+"chat_status_view_unable_to_connect" = "Unable to connect. Please try again";
 "chat_stickers_tooltip_new" = "MỚI!";
 "chat_unblock_user" = "Bỏ chặn Người dùng";
 "chat_user_info_letgo_assistant" = "Tôi là một trợ lý ảo, người sẽ cho bạn các lời khuyên và giúp bạn bán hàng.";
@@ -396,8 +400,11 @@
 "filters_section_price" = "Giá";
 "filters_section_price_free_title" = "Chỉ hiện các sản phẩm miễn phí";
 "filters_section_real_estate_info" = "Thông tin nhà đất";
+"filters_section_services_info" = "Service info";
 "filters_section_sortby" = "Sắp xếp theo";
 "filters_section_within" = "Được đăng trong vòng";
+"filters_service_subtype_not_set" = "Chưa Cài Đặt";
+"filters_service_type_not_set" = "Chưa Cài Đặt";
 "filters_size_wrong_range_error" = "Diện tích tối thiểu không thể lớn hơn diện tích tối đa.";
 "filters_sort_closest" = "Gần nhất trước tiên";
 "filters_sort_newest" = "Mới nhất trước tiên";
@@ -419,6 +426,8 @@
 "hidden_text_alert_description" = "Chúng tôi ẩn thông tin liên lạc để giúp bạn mua và bán được an toàn. Trò chuyện trên letgo luôn dễ dàng và bảo mật hơn.";
 "hidden_text_alert_title" = "GIỮ AN TOÀN";
 "listing_map_redo_search" = "Tìm kiếm khu vực này";
+"listing_show_similar_results" = "Showing results for similar searches";
+"listing_show_similar_results_description" = "No exact matches for your search.\nMake sure it’s spelled correctly or use different keywords and filters.";
 "listings_map_no_results_message" = "Không có kết quả nào khớp với tìm kiếm của bạn. Hãy thử tìm ở một khu vực khác hoặc sử dụng bộ lọc khác.";
 "listings_map_title" = "Xem bản đồ";
 "location_permissions_allow_button" = "Cho phép";
@@ -1116,9 +1125,9 @@
 "sell_title_autogen_label" = "Tiêu đề do letgo đề xuất";
 "sell_title_field_hint" = "Tiêu đề (tùy chọn)";
 "sell_uploading_label" = "Đang đăng bài...";
-"services_service_subtype_list_title" = "Service subtype";
-"services_service_subtype_title" = "Tiểu loại dịch vụ";
-"services_service_type_list_title" = "Service type";
+"services_service_subtype_list_title" = "Dịch vụ";
+"services_service_subtype_title" = "Dịch vụ";
+"services_service_type_list_title" = "Loại dịch vụ";
 "services_service_type_title" = "Loại dịch vụ";
 "settings_change_email_button" = "Email";
 "settings_change_location_button" = "Địa điểm";

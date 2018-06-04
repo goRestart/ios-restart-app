@@ -25,12 +25,21 @@ final class UserProfileViewController: BaseViewController {
     private let listingView: ListingListView
     private let tableView = UITableView()
 
+    private let emptyReviewsLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemRegularFont(size: 17)
+        label.text = R.Strings.profileReviewsEmptyLabel
+        label.isHidden = true
+        return label
+    }()
+
     private let headerGestureRecognizer = UIPanGestureRecognizer()
 
     private var headerContainerTopConstraint: NSLayoutConstraint?
     private var userRelationViewHeightConstraint: NSLayoutConstraint?
     private var dummyViewHeightConstraint: NSLayoutConstraint?
     private var updatingUserRelation: Bool = false
+    private let emptyReviewsTopMargin: CGFloat = 90
 
     private var scrollableContentInset: UIEdgeInsets {
         let topInset = Layout.topMargin + headerContainerView.height
@@ -64,7 +73,7 @@ final class UserProfileViewController: BaseViewController {
         static let userRelationHeight: CGFloat = 48
         static let dummyDisclaimerHeight: CGFloat = 50
         static let headerBottomMargin: CGFloat = Metrics.margin
-        static let bottomScrollableContentInset: CGFloat = 60
+        static let bottomScrollableContentInset: CGFloat = 100
         static let navBarTitleHeight: CGFloat = 44
     }
 
@@ -183,6 +192,7 @@ final class UserProfileViewController: BaseViewController {
         tableView.allowsSelection = false
         let cellNib = UINib(nibName: UserRatingCell.reusableID, bundle: nil)
         tableView.register(cellNib, forCellReuseIdentifier: UserRatingCell.reusableID)
+        tableView.addSubviewForAutoLayout(emptyReviewsLabel)
     }
 
     private func setupNavBar() {
@@ -257,7 +267,9 @@ final class UserProfileViewController: BaseViewController {
             tableView.topAnchor.constraint(equalTo: safeTopAnchor),
             tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
             tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            emptyReviewsLabel.topAnchor.constraint(equalTo: tableView.topAnchor, constant: emptyReviewsTopMargin),
+            emptyReviewsLabel.centerXAnchor.constraint(equalTo: tableView.centerXAnchor)
         ]
 
         if viewModel.showKarmaView {
@@ -337,7 +349,6 @@ final class UserProfileViewController: BaseViewController {
         tableView.contentInset = scrollableContentInset
         listingView.collectionViewContentInset = scrollableContentInset
         listingView.firstLoadPadding = scrollableContentInset
-        listingView.errorPadding = scrollableContentInset
         listingView.setErrorViewStyle(bgColor: .white, borderColor: .clear, containerColor: .white)
 
         let contentInset: UIEdgeInsets
@@ -500,9 +511,11 @@ extension UserProfileViewController: UITableViewDelegate, UITableViewDataSource 
 
 extension UserProfileViewController: UserRatingListViewModelDelegate {
     func vmIsLoadingUserRatingsRequest(_ isLoading: Bool, firstPage: Bool) {}
+
     func vmDidFailLoadingUserRatings(_ firstPage: Bool) {}
 
     func vmDidLoadUserRatings(_ ratings: [UserRating]) {
+        emptyReviewsLabel.isHidden = viewModel.ratingListViewModel.objectCount > 0
         guard !ratings.isEmpty else { return }
         tableView.reloadData()
     }

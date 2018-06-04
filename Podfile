@@ -41,9 +41,9 @@ def shared_pods
 
 
     # letgo Core
-     pod "LGCoreKit",             "4.29.0", :inhibit_warnings => false
+    pod "LGCoreKit",             "4.30.0", :inhibit_warnings => false
 #    pod "LGCoreKit",            :path => "../lgcorekit", :inhibit_warnings => false
-#  pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :branch => 'ABIOS-4182-add-servicetype-screen', :inhibit_warnings => false
+#    pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => 'e7cad286f454ee95f96887c6ce9334ad85d0245a', :inhibit_warnings => false
 
     # letgo Collapsible label
         pod "LGCollapsibleLabel",   "1.2.0", :inhibit_warnings => false     # :path => "../collapsiblelabel"
@@ -82,9 +82,9 @@ def shared_pods
     pod "KMPlaceholderTextView", :git => 'https://github.com/letgoapp/KMPlaceholderTextView', :commit => '426117c98e8da8fc7d64a7d3c2f0f45c48d595e6', :inhibit_warnings => false
 
     pod "KeychainSwift",        "10.0.0"
-
+    
     pod 'lottie-ios',           "2.5.0" # Obj-c
-
+    
     # MoPub Ads
     pod "mopub-ios-sdk",        "4.20.0" # Obj-c
 

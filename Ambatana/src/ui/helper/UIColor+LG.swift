@@ -89,6 +89,7 @@ extension UIColor {
 extension UIColor {
     // Solid Grays
     static var lgBlack: UIColor { return UIColor(rgb: 0x2c2c2c) } // (44,44,44)
+    static var grayDarker: UIColor { return UIColor(rgb: 0x4a4a4a) } // (74,74,74)
     static var grayDark: UIColor { return UIColor(rgb: 0x757575) } // (117,117,117)
     static var gray: UIColor { return UIColor(rgb: 0xbdbdbd) } // (189,189,189)
     static var grayLight: UIColor { return UIColor(rgb: 0xdddddd) } // (221,221,221)
@@ -352,4 +353,11 @@ extension UIColor {
 
 extension UIColor {
     static var verificationPoints: UIColor { return UIColor(rgb: 0xa3ce71) } //  163, 206, 113
+}
+
+
+// MARK: > Toast color
+
+extension UIColor {
+    static let toastBackground = UIColor.grayDarker
 }

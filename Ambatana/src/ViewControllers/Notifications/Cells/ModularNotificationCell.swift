@@ -303,6 +303,9 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
     }
     
     fileprivate func addTextInfo(with title: String?, body: String, deeplink: String?, isRead: Bool) {
+        var debugMessage = "ModularNotificationCell.addTextInfo:title=\(title ?? "[nil]")|body=\(body)|deeplink=\(deeplink ?? "[nil]")|isRead=\(isRead)|"
+        debugMessage += "isMainThread=\(Thread.current.isMainThread)"
+        logMessage(.debug, type: .debug, message: debugMessage)
         if let title = title {
             titleLabelTopMargin.constant = Metrics.margin
             textTitleLabel.text = title

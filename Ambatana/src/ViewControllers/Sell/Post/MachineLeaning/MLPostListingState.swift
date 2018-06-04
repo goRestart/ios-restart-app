@@ -70,7 +70,7 @@ final class MLPostListingState {
             newStep = .carDetailsSelection
         case .realEstate:
             newStep = .addingDetails
-        case .otherItems, .motorsAndAccessories:
+        case .otherItems, .motorsAndAccessories, .services:
             newStep = .finished
         }
         return MLPostListingState(step: newStep,
@@ -212,7 +212,7 @@ final class MLPostListingState {
                 newStep = .carDetailsSelection
             case .realEstate:
                 newStep = .addingDetails
-            case .otherItems, .motorsAndAccessories:
+            case .otherItems, .motorsAndAccessories, .services:
                 newStep = .finished
             }
         } else {

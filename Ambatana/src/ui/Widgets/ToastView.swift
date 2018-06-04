@@ -8,10 +8,6 @@
 
 import UIKit
 
-private extension UIColor {
-    static let toastBackground = UIColor(red: 74, green: 74, blue: 74)
-}
-
 final class ToastView: UIView {
     private struct Layout {
         static let insets = UIEdgeInsets(top: 8, left: 15, bottom: 9, right: 15)

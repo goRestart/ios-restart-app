@@ -11,8 +11,15 @@ import Result
 typealias RelaxResult = Result<RelaxQuery, ApiError>
 typealias RelaxCompletion = (RelaxResult) -> Void
 
+typealias SimilarQueryResult = Result<SimilarQuery, ApiError>
+typealias SimilarQueryCompletion = (SimilarQueryResult) -> Void
+
 protocol SpellCorrectorRepository {
     func retrieveRelaxQuery(query: String,
                             relaxParam: RelaxParam,
                             completion: RelaxCompletion?)
+    
+    func retrieveSimilarQuery(query: String,
+                              similarParam: SimilarParam,
+                              completion: SimilarQueryCompletion?)
 }

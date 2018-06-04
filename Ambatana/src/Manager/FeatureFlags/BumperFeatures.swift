@@ -72,7 +72,9 @@ extension Bumper  {
         flags.append(MultiContactAfterSearch.self)
         flags.append(ShowServicesFeatures.self)
         flags.append(EmptySearchImprovements.self)
+        flags.append(OffensiveReportAlert.self)
         flags.append(HighlightedIAmInterestedFeed.self)
+        flags.append(FullScreenAdsWhenBrowsingForUS.self)
         Bumper.initialize(flags)
     } 
 
@@ -371,9 +373,19 @@ extension Bumper  {
         return EmptySearchImprovements(rawValue: value) ?? .control 
     }
 
+    static var offensiveReportAlert: OffensiveReportAlert {
+        guard let value = Bumper.value(for: OffensiveReportAlert.key) else { return .control }
+        return OffensiveReportAlert(rawValue: value) ?? .control 
+    }
+
     static var highlightedIAmInterestedFeed: HighlightedIAmInterestedFeed {
         guard let value = Bumper.value(for: HighlightedIAmInterestedFeed.key) else { return .control }
         return HighlightedIAmInterestedFeed(rawValue: value) ?? .control 
+    }
+
+    static var fullScreenAdsWhenBrowsingForUS: FullScreenAdsWhenBrowsingForUS {
+        guard let value = Bumper.value(for: FullScreenAdsWhenBrowsingForUS.key) else { return .control }
+        return FullScreenAdsWhenBrowsingForUS(rawValue: value) ?? .control 
     } 
 }
 
@@ -1290,9 +1302,9 @@ enum ShowServicesFeatures: String, BumperFeature  {
 }
 
 enum EmptySearchImprovements: String, BumperFeature  {
-    case control, baseline, popularNearYou, similarQueries
+    case control, baseline, popularNearYou, similarQueries, similarQueriesWhenFewResults, alwaysSimilar
     static var defaultValue: String { return EmptySearchImprovements.control.rawValue }
-    static var enumValues: [EmptySearchImprovements] { return [.control, .baseline, .popularNearYou, .similarQueries]}
+    static var enumValues: [EmptySearchImprovements] { return [.control, .baseline, .popularNearYou, .similarQueries, .similarQueriesWhenFewResults, .alwaysSimilar]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Improve empty search experience by proposing relavant listings" } 
     static func fromPosition(_ position: Int) -> EmptySearchImprovements {
@@ -1301,6 +1313,24 @@ enum EmptySearchImprovements: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .popularNearYou
             case 3: return .similarQueries
+            case 4: return .similarQueriesWhenFewResults
+            case 5: return .alwaysSimilar
+            default: return .control
+        }
+    }
+}
+
+enum OffensiveReportAlert: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return OffensiveReportAlert.control.rawValue }
+    static var enumValues: [OffensiveReportAlert] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Offensive Report alert active" } 
+    static func fromPosition(_ position: Int) -> OffensiveReportAlert {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
             default: return .control
         }
     }
@@ -1319,6 +1349,23 @@ enum HighlightedIAmInterestedFeed: String, BumperFeature  {
             case 2: return .lightBottom
             case 3: return .darkTop
             case 4: return .darkBottom
+            default: return .control
+        }
+    }
+}
+
+enum FullScreenAdsWhenBrowsingForUS: String, BumperFeature  {
+    case control, baseline, adsForAllUsers, adsForOldUsers
+    static var defaultValue: String { return FullScreenAdsWhenBrowsingForUS.control.rawValue }
+    static var enumValues: [FullScreenAdsWhenBrowsingForUS] { return [.control, .baseline, .adsForAllUsers, .adsForOldUsers]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show full screen Interstitial while browsing through items" } 
+    static func fromPosition(_ position: Int) -> FullScreenAdsWhenBrowsingForUS {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .adsForAllUsers
+            case 3: return .adsForOldUsers
             default: return .control
         }
     }

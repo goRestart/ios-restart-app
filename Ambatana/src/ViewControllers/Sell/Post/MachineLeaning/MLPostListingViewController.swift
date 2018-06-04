@@ -94,7 +94,7 @@ final class MLPostListingViewController: BaseViewController, PostListingViewMode
         self.galleryView = PostListingGalleryView(viewModel: postListingGalleryViewModel)
         
         self.priceView = PostListingDetailPriceView(viewModel: viewModel.postDetailViewModel)
-        self.categorySelectionView = PostCategorySelectionView(realEstateEnabled: viewModel.realEstateEnabled)
+        self.categorySelectionView = PostCategorySelectionView(categoriesAvailables: viewModel.availablePostCategories)
         self.carDetailsView = PostCarDetailsView(initialValues: viewModel.carInfo(forDetail: .make).carInfoWrappers)
         super.init(viewModel: viewModel, nibName: "MLPostListingViewController",
                    statusBarStyle: UIApplication.shared.statusBarStyle)

@@ -218,6 +218,10 @@
 "chat_send_button" = "Skicka";
 "chat_send_error_different_country" = "Du kan inte starta en chatt om en annons som har lagts upp i ett annat land.";
 "chat_send_error_generic" = "Ett fel uppstod när meddelandet sändes. Vänligen försök igen.";
+"chat_status_view_connecting" = "Ansluter...";
+"chat_status_view_no_network" = "Ingen nätverksanslutning";
+"chat_status_view_try_again" = "försök igen";
+"chat_status_view_unable_to_connect" = "Anslutningen misslyckades. Vänligen försök igen";
 "chat_stickers_tooltip_new" = "NY!";
 "chat_unblock_user" = "Avblockera användare";
 "chat_user_info_letgo_assistant" = "Jag är en virtuell assistent som ger dig tips och hjälper dig att sälja.";
@@ -396,8 +400,11 @@
 "filters_section_price" = "Pris";
 "filters_section_price_free_title" = "Visa endast gratis produkter";
 "filters_section_real_estate_info" = "Fastighetsinformation";
+"filters_section_services_info" = "Tjänstinfo";
 "filters_section_sortby" = "Sortera efter";
 "filters_section_within" = "Annonserade under";
+"filters_service_subtype_not_set" = "Ej Vald";
+"filters_service_type_not_set" = "Ej Vald";
 "filters_size_wrong_range_error" = "Den minsta ytan får inte vara högre än den största ytan.";
 "filters_sort_closest" = "Närmast först";
 "filters_sort_newest" = "Senast upplagda först";
@@ -419,6 +426,8 @@
 "hidden_text_alert_description" = "Vi döljer kontaktinformation för att du ska kunna köpa och sälja säkert. Att chatta via letgo är både enkelt och säkrare.";
 "hidden_text_alert_title" = "SÄKERHETSTIPS";
 "listing_map_redo_search" = "Sök på detta område";
+"listing_show_similar_results" = "Showing results for similar searches";
+"listing_show_similar_results_description" = "No exact matches for your search.\nMake sure it’s spelled correctly or use different keywords and filters.";
 "listings_map_no_results_message" = "Ingen exakt matchning hittades. Sök på ett annat område eller ändra sökfilter.";
 "listings_map_title" = "Kartvy";
 "location_permissions_allow_button" = "Tillåt";
@@ -1116,10 +1125,10 @@
 "sell_title_autogen_label" = "Titel föreslagen av letgo";
 "sell_title_field_hint" = "Titel (frivillig)";
 "sell_uploading_label" = "Laddar upp annonsen...";
-"services_service_subtype_list_title" = "Service subtype";
-"services_service_subtype_title" = "Underkategori tjänst";
-"services_service_type_list_title" = "Service type";
-"services_service_type_title" = "Typ av tjänst";
+"services_service_subtype_list_title" = "Tjänst";
+"services_service_subtype_title" = "Tjänst";
+"services_service_type_list_title" = "Tjänstekategori";
+"services_service_type_title" = "Tjänstekategori";
 "settings_change_email_button" = "E-post";
 "settings_change_location_button" = "Plats";
 "settings_change_password_button" = "Lösenord";

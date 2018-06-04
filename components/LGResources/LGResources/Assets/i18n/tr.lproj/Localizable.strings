@@ -218,6 +218,10 @@
 "chat_send_button" = "Gönder";
 "chat_send_error_different_country" = "Farklı bir ülkede yayınlanmış bir ilan için mesaj gönderemezsin.";
 "chat_send_error_generic" = "Mesaj gönderilirken bir hata oluştu. Lütfen tekrar dene.";
+"chat_status_view_connecting" = "Bağlanıyor...";
+"chat_status_view_no_network" = "Ağ bağlantısı yok";
+"chat_status_view_try_again" = "tekrar dene";
+"chat_status_view_unable_to_connect" = "Bağlanamıyor. Lütfen tekrar dene";
 "chat_stickers_tooltip_new" = "YENİ!";
 "chat_unblock_user" = "Engellemeyi Kaldır";
 "chat_user_info_letgo_assistant" = "Ben, sana ipuçları veren ve satış yapmana yardım eden sanal bir asistanım.";
@@ -396,8 +400,11 @@
 "filters_section_price" = "Fiyat";
 "filters_section_price_free_title" = "Sadece ücretsiz ürünleri göster";
 "filters_section_real_estate_info" = "Emlak Bilgisi";
+"filters_section_services_info" = "Hizmet bilgisi";
 "filters_section_sortby" = "Sırala";
 "filters_section_within" = "YAYINLANMA ZAMANI";
+"filters_service_subtype_not_set" = "Belirlenmedi";
+"filters_service_type_not_set" = "Belirlenmedi";
 "filters_size_wrong_range_error" = "Minimum büyüklük maksimum büyüklüğü aşmamalıdır.";
 "filters_sort_closest" = "İlk önce en yakını";
 "filters_sort_newest" = "İlk önce en yenisi";
@@ -419,6 +426,8 @@
 "hidden_text_alert_description" = "Güvenli alışveriş yapmana yardımcı olmak adına iletişim bilgilerini gizledik. letgo üzerinden mesajlaşmak kolay ve daha güvenlidir.";
 "hidden_text_alert_title" = "GÜVENDE KAL";
 "listing_map_redo_search" = "Bu bölgeyi ara";
+"listing_show_similar_results" = "Showing results for similar searches";
+"listing_show_similar_results_description" = "No exact matches for your search.\nMake sure it’s spelled correctly or use different keywords and filters.";
 "listings_map_no_results_message" = "Araman ile tam eşleşen bir şey yok. Farklı bir bölgede aramayı ya da farklı filtreler kullanmayı dene.";
 "listings_map_title" = "Harita görünümü";
 "location_permissions_allow_button" = "İzin Ver";
@@ -1116,10 +1125,10 @@
 "sell_title_autogen_label" = "letgo tarafından önerilen başlık";
 "sell_title_field_hint" = "Ürün başlığı (isteğe bağlı)";
 "sell_uploading_label" = "İlanın yayınlanıyor...";
-"services_service_subtype_list_title" = "Service subtype";
-"services_service_subtype_title" = "Hizmet alt türü";
-"services_service_type_list_title" = "Service type";
-"services_service_type_title" = "Hizmet türü";
+"services_service_subtype_list_title" = "Hizmet";
+"services_service_subtype_title" = "Hizmet";
+"services_service_type_list_title" = "Hizmet kategorisi";
+"services_service_type_title" = "Hizmet kategorisi";
 "settings_change_email_button" = "E-posta";
 "settings_change_location_button" = "Konum";
 "settings_change_password_button" = "Şifre";

@@ -218,6 +218,10 @@
 "chat_send_button" = "Versturen";
 "chat_send_error_different_country" = "Je kunt geen gesprek beginnen over een geplaatste advertentie in een ander land.";
 "chat_send_error_generic" = "Er is een fout opgetreden tijdens het versturen van het bericht. Probeer het later nog eens.";
+"chat_status_view_connecting" = "Verbinden...";
+"chat_status_view_no_network" = "Geen netwerkverbinding";
+"chat_status_view_try_again" = "probeer het opnieuw";
+"chat_status_view_unable_to_connect" = "Niet in staat te verbinden. Probeer het opnieuw";
 "chat_stickers_tooltip_new" = "NIEUW!";
 "chat_unblock_user" = "Deblokkeer gebruiker";
 "chat_user_info_letgo_assistant" = "Ik ben een virtuele assistent die je tips geeft en je helpt verkopen.";
@@ -396,8 +400,11 @@
 "filters_section_price" = "Prijs";
 "filters_section_price_free_title" = "Vis kun gratis varer";
 "filters_section_real_estate_info" = "Huizen en woningen info";
+"filters_section_services_info" = "Service info";
 "filters_section_sortby" = "Sorteer op";
 "filters_section_within" = "Gepost in";
+"filters_service_subtype_not_set" = "Niet Ingesteld";
+"filters_service_type_not_set" = "Niet Ingesteld";
 "filters_size_wrong_range_error" = "De minimale grootte kan niet hoger zijn dan de maximale grootte.";
 "filters_sort_closest" = "Dichtstbijzijnde eerst";
 "filters_sort_newest" = "Nieuwste eerst";
@@ -419,6 +426,8 @@
 "hidden_text_alert_description" = "Wij verbergen contact informatie zodat je veilig kunt kopen en verkopen. In letgo kun je veilig en gemakkelijk chatten.";
 "hidden_text_alert_title" = "VEILIGHEIDSTIPS";
 "listing_map_redo_search" = "Zoek in deze omgeving";
+"listing_show_similar_results" = "Showing results for similar searches";
+"listing_show_similar_results_description" = "No exact matches for your search.\nMake sure it’s spelled correctly or use different keywords and filters.";
 "listings_map_no_results_message" = "Geen exacte overeenkomsten voor jouw zoekopdracht. Probeer in een ander gebied te zoeken of gebruik andere filters.";
 "listings_map_title" = "Zie kaart";
 "location_permissions_allow_button" = "Toestaan";
@@ -1116,10 +1125,10 @@
 "sell_title_autogen_label" = "Titel voorgesteld door letgo";
 "sell_title_field_hint" = "Titel (optioneel)";
 "sell_uploading_label" = "Uploaden van jouw advertentie...";
-"services_service_subtype_list_title" = "Service subtype";
-"services_service_subtype_title" = "Service subtype";
-"services_service_type_list_title" = "Service type";
-"services_service_type_title" = "Service type";
+"services_service_subtype_list_title" = "Diensten";
+"services_service_subtype_title" = "Diensten";
+"services_service_type_list_title" = "Diensten categorie";
+"services_service_type_title" = "Diensten categorie";
 "settings_change_email_button" = "E-mail";
 "settings_change_location_button" = "Locatie";
 "settings_change_password_button" = "Wachtwoord";

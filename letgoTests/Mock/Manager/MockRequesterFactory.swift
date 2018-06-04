@@ -20,6 +20,10 @@ class MockRequesterFactory: RequesterFactory {
             return [.search, .nonFilteredFeed]
         case .similarQueries:
             return [.search, .similarProducts, .nonFilteredFeed]
+        case .similarQueriesWhenFewResults:
+            return [.search, .combinedSearchAndSimilar, .nonFilteredFeed]
+        case .alwaysSimilar:
+            return [.combinedSearchAndSimilar, .nonFilteredFeed]
         }
     }
 
