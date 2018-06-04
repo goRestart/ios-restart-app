@@ -72,12 +72,10 @@ final class AppCoordinator: NSObject, Coordinator {
 
     convenience init(configManager: ConfigManager) {
         let tabBarViewModel = TabBarViewModel()
-        let bubbleNotificationsManager = LGBubbleNotificationManager.sharedInstance
-        self.init(tabBarController: TabBarController(viewModel: tabBarViewModel,
-                                                     bubbleNotificationManager: bubbleNotificationsManager),
+        self.init(tabBarController: TabBarController(viewModel: tabBarViewModel),
                   configManager: configManager,
                   sessionManager: Core.sessionManager,
-                  bubbleNotificationManager: bubbleNotificationsManager,
+                  bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   pushPermissionsManager: LGPushPermissionsManager.sharedInstance,
                   ratingManager: LGRatingManager.sharedInstance,
@@ -251,8 +249,8 @@ extension AppCoordinator: AppNavigator {
     
     func showBottomBubbleNotification(data: BubbleNotificationData,
                                       duration: TimeInterval,
-                                      alignment: BubbleNotification.Alignment,
-                                      style: BubbleNotification.Style) {
+                                      alignment: BubbleNotificationView.Alignment,
+                                      style: BubbleNotificationView.Style) {
         tabBarCtl.showBottomBubbleNotification(data: data, duration: duration, alignment: alignment, style: style)
     }
     
@@ -724,7 +722,7 @@ extension AppCoordinator: UITabBarControllerDelegate {
 
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         guard let tab = tabAtController(viewController) else { return }
-        tabBarCtl.hideBottomNotifications()
+        tabBarCtl.hideBottomBubbleNotifications()
         selectedTab.value = tab
     }
 }

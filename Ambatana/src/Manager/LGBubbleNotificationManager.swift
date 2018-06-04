@@ -7,10 +7,10 @@ final class LGBubbleNotificationManager: BubbleNotificationManager {
 
     static let sharedInstance: LGBubbleNotificationManager = LGBubbleNotificationManager()
 
-    private var taggedNotifications: [String : [BubbleNotification]] = [:]
+    private var taggedNotifications: [String : [BubbleNotificationView]] = [:]
   
-    var bottomNotifications = Variable<[BubbleNotification]>([])
-    let disposeBag = DisposeBag()
+    var bottomNotifications = Variable<[BubbleNotificationView]>([])
+    private let disposeBag = DisposeBag()
     
     
     // Showing Methods
@@ -26,12 +26,12 @@ final class LGBubbleNotificationManager: BubbleNotificationManager {
      */
 
     func showBubble(data: BubbleNotificationData,
-                    duration: TimeInterval?,
+                    duration: TimeInterval,
                     view: UIView,
-                    alignment: BubbleNotification.Alignment,
-                    style: BubbleNotification.Style) {
-        let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: BubbleNotification.initialHeight)
-        let bubble = BubbleNotification(frame: frame, data: data, alignment: alignment, style: style)
+                    alignment: BubbleNotificationView.Alignment,
+                    style: BubbleNotificationView.Style) {
+        let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: BubbleNotificationView.initialHeight)
+        let bubble = BubbleNotificationView(frame: frame, data: data, alignment: alignment, style: style)
         bubble.delegate = self
         
         bubble.translatesAutoresizingMaskIntoConstraints = false
@@ -45,11 +45,7 @@ final class LGBubbleNotificationManager: BubbleNotificationManager {
             taggedNotifications[tag]?.append(bubble)
         }
 
-        guard let duration = duration else {
-            // if no duration is defined, we set the default for bubbles with no buttons
-            bubble.showBubble(autoDismissTime: LGBubbleNotificationManager.defaultDuration)
-            return
-        }
+        bubble.showBubble(autoDismissTime: LGBubbleNotificationManager.defaultDuration)
 
         let finalDuration = (data.action == nil && duration <= 0) ? LGBubbleNotificationManager.defaultDuration : duration
         bubble.showBubble(autoDismissTime: finalDuration)
@@ -59,7 +55,7 @@ final class LGBubbleNotificationManager: BubbleNotificationManager {
         }
     }
     
-    func hideBottomNotifications() {
+    func hideBottomBubbleNotifications() {
         bottomNotifications.value.forEach {
             guard let index = bottomNotifications.value.index(of: $0) else { return }
             bottomNotifications.value.remove(at: index)
@@ -79,15 +75,15 @@ final class LGBubbleNotificationManager: BubbleNotificationManager {
 
 extension LGBubbleNotificationManager: BubbleNotificationDelegate {
 
-    func bubbleNotificationSwiped(_ notification: BubbleNotification) {
+    func bubbleNotificationSwiped(_ notification: BubbleNotificationView) {
         notification.closeBubble()
     }
 
-    func bubbleNotificationTimedOut(_ notification: BubbleNotification) {
+    func bubbleNotificationTimedOut(_ notification: BubbleNotificationView) {
         notification.closeBubble()
     }
 
-    func bubbleNotificationActionPressed(_ notification: BubbleNotification) {
+    func bubbleNotificationActionPressed(_ notification: BubbleNotificationView) {
         notification.data.action?.action()
         notification.closeBubble()
         clearTagNotifications(notification.data.tagGroup)

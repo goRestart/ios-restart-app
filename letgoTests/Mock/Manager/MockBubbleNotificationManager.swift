@@ -15,10 +15,10 @@ class MockBubbleNotificationManager: BubbleNotificationManager {
     var lastShownData: BubbleNotificationData?
     var lastDuration: TimeInterval?
 
-    func showBubble(data: BubbleNotificationData, duration: TimeInterval?, view: UIView, alignment: BubbleNotification.Alignment, style: BubbleNotification.Style) {
+    func showBubble(data: BubbleNotificationData, duration: TimeInterval, view: UIView, alignment: BubbleNotification.Alignment, style: BubbleNotification.Style) {
         lastShownData = data
         lastDuration = duration
     }
     
-    func hideBottomNotifications() { }
+    func hideBottomBubbleNotifications() { }
 }

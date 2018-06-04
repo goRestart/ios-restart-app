@@ -10,12 +10,12 @@ import Foundation
 import RxSwift
 
 protocol BubbleNotificationManager {
-    var bottomNotifications: Variable<[BubbleNotification]> { get }
+    var bottomNotifications: Variable<[BubbleNotificationView]> { get }
     
     func showBubble(data: BubbleNotificationData,
-                    duration: TimeInterval?,
+                    duration: TimeInterval,
                     view: UIView,
-                    alignment: BubbleNotification.Alignment,
-                    style: BubbleNotification.Style)
-    func hideBottomNotifications()
+                    alignment: BubbleNotificationView.Alignment,
+                    style: BubbleNotificationView.Style)
+    func hideBottomBubbleNotifications()
 }

@@ -34,6 +34,6 @@ protocol AppNavigator: class {
     func openOffensiveReportAlert()
     func showBottomBubbleNotification(data: BubbleNotificationData,
                                       duration: TimeInterval,
-                                      alignment: BubbleNotification.Alignment,
-                                      style: BubbleNotification.Style)
+                                      alignment: BubbleNotificationView.Alignment,
+                                      style: BubbleNotificationView.Style)
 }

@@ -38,11 +38,12 @@ final class TabBarController: UITabBarController {
     
     // MARK: - Lifecycle
 
-    convenience init(viewModel: TabBarViewModel, bubbleNotificationManager: BubbleNotificationManager) {
+    convenience init(viewModel: TabBarViewModel) {
         let featureFlags = FeatureFlags.sharedInstance
         let tracker = TrackerProxy.sharedInstance
+        let bubbleNotificationsManager = LGBubbleNotificationManager.sharedInstance
         self.init(viewModel: viewModel,
-                  bubbleNotificationManager: bubbleNotificationManager,
+                  bubbleNotificationManager: bubbleNotificationsManager,
                   featureFlags: featureFlags,
                   tracker: tracker)
     }
@@ -91,11 +92,11 @@ final class TabBarController: UITabBarController {
     }
 
     private func setupRx() {
-        let hasNotBottomNotifications = bubbleNotificationManager.bottomNotifications.asObservable().map {
+        let isBottomNotificationsEmpty = bubbleNotificationManager.bottomNotifications.asObservable().map {
             $0.count == 0
         }
-        hasNotBottomNotifications.asObservable().distinctUntilChanged().filter{ $0 }.bind { [weak self] _ in
-            delay(BubbleNotification.closeAnimationTime) {
+        isBottomNotificationsEmpty.asObservable().distinctUntilChanged().filter{ $0 }.bind { [weak self] _ in
+            delay(BubbleNotificationView.closeAnimationTime) {
                 self?.bottomNotificationsContainer.removeFromSuperview()
             }
         }.disposed(by: disposeBag)
@@ -201,8 +202,8 @@ final class TabBarController: UITabBarController {
     
     func showBottomBubbleNotification(data: BubbleNotificationData,
                                       duration: TimeInterval,
-                                      alignment: BubbleNotification.Alignment,
-                                      style: BubbleNotification.Style) {
+                                      alignment: BubbleNotificationView.Alignment,
+                                      style: BubbleNotificationView.Style) {
         setupBottomBubbleNotificationsContainer()
         bubbleNotificationManager.showBubble(data: data,
                                              duration: duration,
@@ -211,9 +212,9 @@ final class TabBarController: UITabBarController {
                                              style: style)
     }
     
-    func hideBottomNotifications() {
+    func hideBottomBubbleNotifications() {
         guard bubbleNotificationManager.bottomNotifications.value.count > 0 else { return }
-        bubbleNotificationManager.hideBottomNotifications()
+        bubbleNotificationManager.hideBottomBubbleNotifications()
     }
     
 
@@ -292,12 +293,12 @@ final class TabBarController: UITabBarController {
     private func setupBottomBubbleNotificationsContainer() {
         guard bottomNotificationsContainer.superview == nil else { return }
         view.addSubviewForAutoLayout(bottomNotificationsContainer)
-        let bottom: CGFloat = -(tabBar.frame.height + Metrics.margin)
+        let bottomOffset: CGFloat = -(tabBar.frame.height + Metrics.margin)
         let constraints = [
-            bottomNotificationsContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: bottom),
+            bottomNotificationsContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: bottomOffset),
             bottomNotificationsContainer.leftAnchor.constraint(equalTo: view.leftAnchor),
             bottomNotificationsContainer.rightAnchor.constraint(equalTo: view.rightAnchor),
-            bottomNotificationsContainer.heightAnchor.constraint(equalToConstant: BubbleNotification.initialHeight)]
+            bottomNotificationsContainer.heightAnchor.constraint(equalToConstant: BubbleNotificationView.initialHeight)]
         NSLayoutConstraint.activate(constraints)
     }
     
