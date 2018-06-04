@@ -265,10 +265,7 @@ final class TabBarController: UITabBarController {
         let bottom: CGFloat = -(tabBar.frame.height + LGUIKitConstants.tabBarSellFloatingButtonDistance)
         
         floatingSellButton.layout(with: view)
-            .bottom(by: bottom, constraintBlock: {[weak self] in
-                self?.floatingSellButtonMarginConstraint = $0
-                
-            })
+            .bottom(by: bottom, constraintBlock: {[weak self] in self?.floatingSellButtonMarginConstraint = $0 })
         floatingSellButton.layout(with: view)
             .leading(by: LGUIKitConstants.tabBarSellFloatingButtonDistance, relatedBy: .greaterThanOrEqual)
             .trailing(by: -LGUIKitConstants.tabBarSellFloatingButtonDistance,
