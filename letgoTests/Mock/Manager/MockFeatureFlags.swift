@@ -72,6 +72,8 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var feedAdsProviderForUS: FeedAdsProviderForUS = .control
     var feedAdUnitId: String? = ""
     var feedAdsProviderForTR: FeedAdsProviderForTR = .control
+    var fullScreenAdsWhenBrowsingForUS: FullScreenAdsWhenBrowsingForUS = .control
+    var fullScreenAdUnitId: String? = ""
     
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false

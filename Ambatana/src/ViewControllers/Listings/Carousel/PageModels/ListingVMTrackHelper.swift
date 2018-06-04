@@ -73,7 +73,31 @@ extension ListingViewModel {
                                   willLeaveApp: willLeaveApp,
                                   typePage: typePage)
     }
-
+    
+    func trackInterstitialAdTapped(adType: EventParameterAdType?,
+                                   isMine: EventParameterBoolean,
+                                   feedPosition: EventParameterFeedPosition,
+                                   willLeaveApp: EventParameterBoolean,
+                                   typePage: EventParameterTypePage) {
+        trackHelper.trackInterstitialAdTapped(adType: adType,
+                                              isMine: isMine,
+                                              feedPosition: feedPosition,
+                                              willLeaveApp: willLeaveApp,
+                                              typePage: typePage)
+    }
+    
+    func trackInterstitialAdShown(adType: EventParameterAdType?,
+                                   isMine: EventParameterBoolean,
+                                   feedPosition: EventParameterFeedPosition,
+                                   adShown: EventParameterBoolean,
+                                   typePage: EventParameterTypePage) {
+        trackHelper.trackInterstitialAdShown(adType: adType,
+                                              isMine: isMine,
+                                              feedPosition: feedPosition,
+                                              adShown: adShown,
+                                              typePage: typePage)
+    }
+    
     func trackCallTapped(source: EventParameterListingVisitSource,
                          feedPosition: EventParameterFeedPosition) {
         let isBumpedUp = isShowingFeaturedStripe.value ? EventParameterBoolean.trueParameter :
@@ -337,6 +361,42 @@ extension ProductVMTrackHelper {
                                                          feedPosition: .none)
         tracker.trackEvent(trackerEvent)
     }
+    
+    func trackInterstitialAdTapped(adType: EventParameterAdType?,
+                       isMine: EventParameterBoolean,
+                       feedPosition: EventParameterFeedPosition,
+                       willLeaveApp: EventParameterBoolean,
+                       typePage: EventParameterTypePage) {
+        let trackerEvent = TrackerEvent.adTapped(listingId: listing.objectId,
+                                                 adType: adType,
+                                                 isMine: isMine,
+                                                 queryType: nil,
+                                                 query: nil,
+                                                 willLeaveApp: willLeaveApp,
+                                                 typePage: typePage,
+                                                 categories: nil,
+                                                 feedPosition: feedPosition)
+        tracker.trackEvent(trackerEvent)
+    }
+    
+    func trackInterstitialAdShown(adType: EventParameterAdType?,
+                                   isMine: EventParameterBoolean,
+                                   feedPosition: EventParameterFeedPosition,
+                                   adShown: EventParameterBoolean,
+                                   typePage: EventParameterTypePage) {
+        let trackerEvent = TrackerEvent.adShown(listingId: listing.objectId,
+                                                 adType: adType,
+                                                 isMine: isMine,
+                                                 queryType: nil,
+                                                 query: nil,
+                                                 adShown: adShown,
+                                                 typePage: typePage,
+                                                 categories: nil,
+                                                 feedPosition: feedPosition)
+        tracker.trackEvent(trackerEvent)
+    }
+    
+    
 
     func trackCallTapped(source: EventParameterListingVisitSource,
                          sellerAverageUserRating: Float?,

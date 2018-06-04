@@ -299,5 +299,10 @@
          "name": "HighlightedIAmInterestedFeed",
          "values": ["control", "baseline", "lightBottom", "darkTop", "darkBottom"],
          "description": "Show an I am interested highlighted undo button in the main feed more"
+    },
+    {
+        "name": "FullScreenAdsWhenBrowsingForUS",
+        "values": ["control", "baseline", "AdsForAllUsers", "AdsForOldUsers"],
+        "description": "Show full screen Interstitial while browsing through items"
     }
  ]
