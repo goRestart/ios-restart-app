@@ -113,14 +113,27 @@ class BubbleNotification: UIView {
 
     func setupOnView(parentView: UIView) {
         // bubble constraints
-        let bubbleLeftConstraint = NSLayoutConstraint(item: self, attribute: .left, relatedBy: .equal,
-                                                      toItem: parentView, attribute: .left, multiplier: 1,
+        let bubbleLeftConstraint = NSLayoutConstraint(item: self,
+                                                      attribute: .left,
+                                                      relatedBy: .equal,
+                                                      toItem: parentView,
+                                                      attribute: .left,
+                                                      multiplier: 1,
                                                       constant: BubbleNotification.bubbleMargin)
-        let bubbleRightConstraint = NSLayoutConstraint(item: parentView, attribute: .right, relatedBy: .equal,
-                                                       toItem: self, attribute: .right, multiplier: 1,
+        let bubbleRightConstraint = NSLayoutConstraint(item: parentView,
+                                                       attribute: .right,
+                                                       relatedBy: .equal,
+                                                       toItem: self,
+                                                       attribute: .right,
+                                                       multiplier: 1,
                                                        constant: BubbleNotification.bubbleMargin)
-        bottomConstraint = NSLayoutConstraint(item: self, attribute: .bottom, relatedBy: .equal,
-                                              toItem: parentView, attribute: .top, multiplier: 1, constant: alignment.initialBottomConstraintConstant)
+        bottomConstraint = NSLayoutConstraint(item: self,
+                                              attribute: .bottom,
+                                              relatedBy: .equal,
+                                              toItem: parentView,
+                                              attribute: .top,
+                                              multiplier: 1,
+                                              constant: alignment.initialBottomConstraintConstant)
         parentView.addConstraints([bubbleLeftConstraint, bubbleRightConstraint, bottomConstraint])
     }
 
@@ -194,7 +207,6 @@ class BubbleNotification: UIView {
         }
 
         if let action = data.action {
-            //actionButton.setStyle(.secondary(fontSize: .small, withBorder: true))
             actionButton.titleLabel?.adjustsFontSizeToFitWidth = true
             actionButton.titleLabel?.minimumScaleFactor = 0.6
             actionButton.setTitle(action.text, for: .normal)

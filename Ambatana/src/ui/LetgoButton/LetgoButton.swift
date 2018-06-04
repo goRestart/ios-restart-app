@@ -123,11 +123,9 @@ enum ButtonStyle {
         switch self {
         case let .primary(size):
             fontSize = size
-        case let .dark(size, _):
-            fontSize = size
         case .logout, .postingFlow:
             fontSize = .medium
-        case let .secondary(size, _):
+        case let .secondary(size, _), let .dark(size, _):
             fontSize = size
         case .terciary:
             fontSize = .big

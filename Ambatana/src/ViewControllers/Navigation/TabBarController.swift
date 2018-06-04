@@ -295,9 +295,9 @@ final class TabBarController: UITabBarController {
         let bottom: CGFloat = -(tabBar.frame.height + Metrics.margin)
         let constraints = [
             bottomNotificationsContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: bottom),
-            bottomNotificationsContainer.leftAnchor.constraint(equalTo: view.leftAnchor, constant: Metrics.shortMargin),
-            bottomNotificationsContainer.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -Metrics.shortMargin),
-            bottomNotificationsContainer.heightAnchor.constraint(equalToConstant: 80)]
+            bottomNotificationsContainer.leftAnchor.constraint(equalTo: view.leftAnchor),
+            bottomNotificationsContainer.rightAnchor.constraint(equalTo: view.rightAnchor),
+            bottomNotificationsContainer.heightAnchor.constraint(equalToConstant: BubbleNotification.initialHeight)]
         NSLayoutConstraint.activate(constraints)
     }
     
