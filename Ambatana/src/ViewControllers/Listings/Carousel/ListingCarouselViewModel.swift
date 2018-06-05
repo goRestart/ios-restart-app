@@ -151,7 +151,6 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     var isPlayable: Bool { return currentListingViewModel?.isPlayable ?? false }
-    var shouldAddPlayButton: Bool { return featureFlags.machineLearningMVP.isVideoPostingActive }
 
     fileprivate var trackingIndex: Int?
     fileprivate var initialThumbnail: UIImage?
