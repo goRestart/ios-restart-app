@@ -111,6 +111,10 @@ final class BubbleNotificationView: UIView {
     private let style: Style
     private let alignment: Alignment
     
+    var isBottomAligned: Bool {
+        return alignment == .bottom
+    }
+    
     
     // - Lifecycle
 
@@ -135,7 +139,7 @@ final class BubbleNotificationView: UIView {
         bottomConstraint = bottomAnchor.constraint(equalTo: parentView.topAnchor, constant: alignment.initialBottomConstraintConstant)
         let constraints = [
             leftAnchor.constraint(equalTo: parentView.leftAnchor, constant: BubbleNotificationView.bubbleMargin),
-            rightAnchor.constraint(equalTo: parentView.rightAnchor, constant: BubbleNotificationView.bubbleMargin),
+            rightAnchor.constraint(equalTo: parentView.rightAnchor, constant: -BubbleNotificationView.bubbleMargin),
             bottomConstraint
         ]
         NSLayoutConstraint.activate(constraints)

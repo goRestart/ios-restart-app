@@ -57,16 +57,22 @@ final class LGBubbleNotificationManager: BubbleNotificationManager {
     
     func hideBottomBubbleNotifications() {
         bottomNotifications.value.forEach {
-            guard let index = bottomNotifications.value.index(of: $0) else { return }
-            bottomNotifications.value.remove(at: index)
-            $0.closeBubble()
+            closeBubbleNotification($0)
         }
     }
     
-    fileprivate func clearTagNotifications(_ tag: String?) {
+    private func clearTagNotifications(_ tag: String?) {
         guard let tag = tag, let notifications = taggedNotifications[tag] else { return }
         taggedNotifications[tag] = nil
         notifications.forEach{ $0.closeBubble() }
+    }
+    
+    private func closeBubbleNotification(_ bubbleNotification: BubbleNotificationView) {
+        if bubbleNotification.isBottomAligned {
+            guard let index = bottomNotifications.value.index(of: bubbleNotification) else { return }
+            bottomNotifications.value.remove(at: index)
+        }
+        bubbleNotification.closeBubble()
     }
 }
 
@@ -76,16 +82,16 @@ final class LGBubbleNotificationManager: BubbleNotificationManager {
 extension LGBubbleNotificationManager: BubbleNotificationDelegate {
 
     func bubbleNotificationSwiped(_ notification: BubbleNotificationView) {
-        notification.closeBubble()
+        closeBubbleNotification(notification)
     }
 
     func bubbleNotificationTimedOut(_ notification: BubbleNotificationView) {
-        notification.closeBubble()
+        closeBubbleNotification(notification)
     }
 
     func bubbleNotificationActionPressed(_ notification: BubbleNotificationView) {
         notification.data.action?.action()
-        notification.closeBubble()
+        closeBubbleNotification(notification)
         clearTagNotifications(notification.data.tagGroup)
     }
 }
