@@ -607,6 +607,9 @@
 		5011938620C5173200FA7C20 /* AnalyticsSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5011938520C5173200FA7C20 /* AnalyticsSessionManager.swift */; };
 		5011938720C5173200FA7C20 /* AnalyticsSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5011938520C5173200FA7C20 /* AnalyticsSessionManager.swift */; };
 		5011938920C51BE100FA7C20 /* MockAnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5011938820C51BE100FA7C20 /* MockAnalyticsManager.swift */; };
+		5011938E20C553FE00FA7C20 /* AnalyticsSessionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5011938D20C553FE00FA7C20 /* AnalyticsSessionData.swift */; };
+		5011938F20C553FE00FA7C20 /* AnalyticsSessionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5011938D20C553FE00FA7C20 /* AnalyticsSessionData.swift */; };
+		5011939120C6990D00FA7C20 /* AnalyticsSessionDataSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5011939020C6990C00FA7C20 /* AnalyticsSessionDataSpec.swift */; };
 		50146BC21D4F5F5B00B0F635 /* TabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50146BC01D4F5F5B00B0F635 /* TabCoordinator.swift */; };
 		50146BC31D4F5F5B00B0F635 /* TabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50146BC01D4F5F5B00B0F635 /* TabCoordinator.swift */; };
 		50146BC41D4F5F5B00B0F635 /* TabNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50146BC11D4F5F5B00B0F635 /* TabNavigator.swift */; };
@@ -2389,6 +2392,8 @@
 		500DC12A1BDA1C4C00B494FA /* ios-prod.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "ios-prod.json"; sourceTree = "<group>"; };
 		5011938520C5173200FA7C20 /* AnalyticsSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsSessionManager.swift; sourceTree = "<group>"; };
 		5011938820C51BE100FA7C20 /* MockAnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAnalyticsManager.swift; sourceTree = "<group>"; };
+		5011938D20C553FE00FA7C20 /* AnalyticsSessionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsSessionData.swift; sourceTree = "<group>"; };
+		5011939020C6990C00FA7C20 /* AnalyticsSessionDataSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsSessionDataSpec.swift; sourceTree = "<group>"; };
 		50146BC01D4F5F5B00B0F635 /* TabCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabCoordinator.swift; sourceTree = "<group>"; };
 		50146BC11D4F5F5B00B0F635 /* TabNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabNavigator.swift; sourceTree = "<group>"; };
 		50146BC61D4F5F6D00B0F635 /* MainTabCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabCoordinator.swift; sourceTree = "<group>"; };
@@ -4627,6 +4632,7 @@
 		50D08D861E69AF14009CC260 /* Tracking */ = {
 			isa = PBXGroup;
 			children = (
+				5011939020C6990C00FA7C20 /* AnalyticsSessionDataSpec.swift */,
 				50D08D871E69AF14009CC260 /* TrackerEventSpec.swift */,
 				50D08D881E69AF14009CC260 /* TrackerProxySpec.swift */,
 			);
@@ -5312,9 +5318,10 @@
 		C707D4501E9B7C8A00042C03 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				C707D4511E9B7CA100042C03 /* SendMessageTrackingInfo.swift */,
-				C707D4541E9B7CB200042C03 /* PostListingTrackingInfo.swift */,
+				5011938D20C553FE00FA7C20 /* AnalyticsSessionData.swift */,
 				502047141EE1BB21006C0EC2 /* MarkAsSoldTrackingInfo.swift */,
+				C707D4541E9B7CB200042C03 /* PostListingTrackingInfo.swift */,
+				C707D4511E9B7CA100042C03 /* SendMessageTrackingInfo.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -7219,6 +7226,7 @@
 				50D08DB01E69AF14009CC260 /* MockBubbleNotificationManager.swift in Sources */,
 				50D08DD71E69AF14009CC260 /* PostIncentiviserItemSpec.swift in Sources */,
 				5020471E1EEA956C006C0EC2 /* FeatureFlagsSpec.swift in Sources */,
+				5011939120C6990D00FA7C20 /* AnalyticsSessionDataSpec.swift in Sources */,
 				727463B81FB1E96600AD8261 /* ListingCreationParams+LGSpec.swift in Sources */,
 				42F64F8220AB1A4100CF97AD /* MockListingFilters.swift in Sources */,
 				50D08DBC1E69AF14009CC260 /* MockPurchaseableProductsRequest.swift in Sources */,
@@ -7973,6 +7981,7 @@
 				015E4FDE204FFC090094FF20 /* BlockingPostingLoadingView.swift in Sources */,
 				8E0C9DF41E96924F00768D27 /* PostCategoryDetailProgressView.swift in Sources */,
 				72854D1A1F8E002100E54530 /* RealEstateOfferType+LG.swift in Sources */,
+				5011938E20C553FE00FA7C20 /* AnalyticsSessionData.swift in Sources */,
 				8E28A82A207B85C70070A7A6 /* GoogleAdxNativeView.swift in Sources */,
 				C788EED71CC7847400B9E26F /* FilteredListingListRequester.swift in Sources */,
 				509273361B172D5B00A346F9 /* PushManager.swift in Sources */,
@@ -8790,6 +8799,7 @@
 				8E0C9DF51E96924F00768D27 /* PostCategoryDetailProgressView.swift in Sources */,
 				72854D1B1F8E002100E54530 /* RealEstateOfferType+LG.swift in Sources */,
 				8E28A82B207B85C70070A7A6 /* GoogleAdxNativeView.swift in Sources */,
+				5011938F20C553FE00FA7C20 /* AnalyticsSessionData.swift in Sources */,
 				6AF75D051CF3600D00EACCF0 /* ChatStickerCell.swift in Sources */,
 				C7DB42261C5138B500400945 /* TabBarController.swift in Sources */,
 				0A31CF631FA1ECCE00FE84E0 /* ListingDeckViewModelBinder.swift in Sources */,
