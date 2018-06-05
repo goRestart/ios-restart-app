@@ -103,16 +103,16 @@ extension UIViewController {
     }
 
     @discardableResult
-    func setLetGoRightButtonWith(imageName image: String, selector: String,
+    func setLetGoRightButtonWith(image: UIImage, selector: String,
         buttonsTintColor: UIColor? = nil) -> UIBarButtonItem {
-            return setLetGoRightButtonWith(imageName: image, renderingMode: .alwaysTemplate, selector: selector,
+            return setLetGoRightButtonWith(image: image, renderingMode: .alwaysTemplate, selector: selector,
                 buttonsTintColor: buttonsTintColor)
     }
 
     @discardableResult
-    func setLetGoRightButtonWith(imageName image: String, renderingMode: UIImageRenderingMode,
+    func setLetGoRightButtonWith(image: UIImage, renderingMode: UIImageRenderingMode,
         selector: String, buttonsTintColor: UIColor? = nil) -> UIBarButtonItem {
-        return setLetGoRightButtonWith(image: UIImage(named: image), renderingMode: renderingMode, selector: selector,
+        return setLetGoRightButtonWith(image: image, renderingMode: renderingMode, selector: selector,
                                        buttonsTintColor: buttonsTintColor)
     }
 

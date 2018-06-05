@@ -1,16 +1,9 @@
-//
-//  ListingDeckView.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 23/10/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
 import UIKit
 import LGCoreKit
 import RxSwift
 import RxCocoa
+import LGComponents
 
 final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewType {
     struct Layout {
@@ -36,7 +29,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
     let itemActionsView = ListingDeckActionView()
     private let startPlayingButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setImage(#imageLiteral(resourceName: "ic_videoposting_play"), for: .normal)
+        button.setImage(R.Asset.IconsButtons.VideoPosting.icVideopostingPlay.image, for: .normal)
         return button
     }()
 

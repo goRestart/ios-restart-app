@@ -8,6 +8,7 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
 
 public enum AlertType {
@@ -42,7 +43,7 @@ public enum AlertButtonsLayout {
     case horizontal
     case vertical
     case emojis
-    
+
     var buttonsHeight: CGFloat {
         switch self {
         case .horizontal, .vertical:
@@ -51,7 +52,7 @@ public enum AlertButtonsLayout {
             return 60
         }
     }
-    
+
     var buttonsMargin: CGFloat {
         switch self {
         case .horizontal, .vertical:
@@ -60,7 +61,7 @@ public enum AlertButtonsLayout {
             return 50
         }
     }
-    
+
     var topButtonMargin: CGFloat {
         switch self {
         case .horizontal:
@@ -83,6 +84,7 @@ final class LGAlertViewController: UIViewController {
     @IBOutlet weak var alertContainerCenterYConstraint: NSLayoutConstraint!
     @IBOutlet weak var alertContentTopSeparationConstraint: NSLayoutConstraint!
     @IBOutlet weak var alertTitleTopSeparationConstraint: NSLayoutConstraint!
+    @IBOutlet weak var alertContainerWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var buttonsContainer: UIView!
     @IBOutlet weak var buttonsContainerViewTopSeparationConstraint: NSLayoutConstraint!
 
@@ -95,9 +97,14 @@ final class LGAlertViewController: UIViewController {
     private let dismissAction: (() -> ())?
 
     private let disposeBag = DisposeBag()
-    
+
     var simulatePushTransitionOnPresent: Bool = false
     var simulatePushTransitionOnDismiss: Bool = false
+    var alertWidth: CGFloat = 270 {
+        didSet {
+            view.setNeedsLayout()
+        }
+    }
 
     // MARK: - Lifecycle
 
@@ -113,7 +120,7 @@ final class LGAlertViewController: UIViewController {
         modalPresentationStyle = .overCurrentContext
         modalTransitionStyle = .crossDissolve
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -123,7 +130,13 @@ final class LGAlertViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
     }
-    
+
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        alertContainerWidthConstraint.constant = alertWidth
+        alertContentView.setNeedsLayout()
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -132,7 +145,7 @@ final class LGAlertViewController: UIViewController {
             UIView.animate(withDuration: 0.2) { [weak self] in
                 self?.view.alpha = 1
             }
-            
+
             let animation = CATransition()
             animation.type = kCATransitionPush
             animation.subtype = kCATransitionFromRight
@@ -146,12 +159,13 @@ final class LGAlertViewController: UIViewController {
     // MARK: - Private Methods
 
     private func setupUI() {
-        
+
         switch alertType {
         case .plainAlert:
             alertIcon.image = nil
             alertTitleLabel.font = UIFont.systemBoldFont(size: 23)
             alertTitleLabel.textAlignment = .left
+            alertTextLabel.textAlignment = .left
         case .plainAlertOld:
             alertIcon.image = nil
             alertTitleLabel.font = UIFont.systemMediumFont(size: 17)
@@ -171,7 +185,7 @@ final class LGAlertViewController: UIViewController {
         view.addGestureRecognizer(tapRecognizer)
 
         alertContentView.cornerRadius = LGUIKitConstants.bigCornerRadius
-        
+
         setupButtons(alertActions)
     }
 
@@ -199,7 +213,7 @@ final class LGAlertViewController: UIViewController {
     }
 
     private func buildEmojiButtons(actions: [UIAction]) {
-        
+
         let centeredContainer = UIView()
         centeredContainer.translatesAutoresizingMaskIntoConstraints = false
         buttonsContainer.addSubview(centeredContainer)
@@ -234,7 +248,7 @@ final class LGAlertViewController: UIViewController {
         }
         _ = buttonsContainer.addTopBorderWithWidth(1, color: UIColor.gray)
     }
-    
+
     private func buildButtonsHorizontally(_ buttonActions: [UIAction]) {
         let widthMultiplier: CGFloat = 1 / CGFloat(buttonActions.count)
         let widthConstant: CGFloat = buttonActions.count == 1 ? 0 : -(AlertButtonsLayout.horizontal.buttonsMargin/2)
@@ -295,12 +309,12 @@ final class LGAlertViewController: UIViewController {
             button.set(accessibilityId: action.accessibilityId)
             button.setStyle(action.buttonStyle ?? .primary(fontSize: .medium))
         }
-        
+
         button.rx.tap.bind { [weak self] in
             self?.dismissAlert(pushTransition: true) {
                 action.action()
             }
-        }.disposed(by: disposeBag)
+            }.disposed(by: disposeBag)
     }
 
     @objc private func tapOutside() {
@@ -317,16 +331,16 @@ final class LGAlertViewController: UIViewController {
             animation.duration = 0.2
             animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
             alertContentView.layer.add(animation, forKey: kCATransition)
-            
+
             // modalTransitionStyle = .crossDissolve will add a layer animation on dismiss and you will see
             // twice the alertContentView, 1 from our push animation and 2 from the crossDisolve animation.
             // we set the alpha to 0 to prevent any weirdness
             alertContentView.alpha = 0
-            
+
             UIView.animate(withDuration: 0.2, animations: { [weak self] in
                 self?.view.alpha = 0 // to prevent flickering from one controller to another
-            }, completion: { (completed) in
-                self.dismiss(animated: false, completion: completion)
+                }, completion: { (completed) in
+                    self.dismiss(animated: false, completion: completion)
             })
         } else {
             dismiss(animated: true, completion: completion)

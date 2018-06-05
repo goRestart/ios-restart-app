@@ -1,5 +1,4 @@
 import LGComponents
-
 import LGCoreKit
 
 enum ChatConversationsListFilter {

@@ -77,7 +77,7 @@ extension ChatOtherMeetingCell {
         case .pending:
             statusLabel.text = R.Strings.chatMeetingCellStatusPending
             statusLabel.textColor = UIColor.grayText
-            statusIcon.image = #imageLiteral(resourceName: "ic_time")
+            statusIcon.image = R.Asset.ChatNorris.icTime.image
             actionsContainerHeight.constant = 44
             actionsContainer.isHidden = false
         case .accepted:
@@ -113,14 +113,14 @@ private extension ChatOtherMeetingCell {
         actionReject.setTitle(R.Strings.chatMeetingCellDeclineButton, for: .normal)
         locationButton.addTarget(self, action: #selector(locationTapped), for: .touchUpInside)
 
-        locationView.image = #imageLiteral(resourceName: "meeting_map_placeholder")
+        locationView.image = R.Asset.ChatNorris.meetingMapPlaceholder.image
         locationView.contentMode = .scaleAspectFill
         locationView.cornerRadius = LGUIKitConstants.mediumCornerRadius
     }
 
     func resetUI() {
         titleLabel.text = R.Strings.chatMeetingCellTitle
-        locationView.image = #imageLiteral(resourceName: "meeting_map_placeholder")
+        locationView.image = R.Asset.ChatNorris.meetingMapPlaceholder.image
     }
 
     @objc func locationTapped() {

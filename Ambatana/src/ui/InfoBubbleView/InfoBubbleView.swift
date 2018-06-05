@@ -1,12 +1,5 @@
-//
-//  LocationBubbleView.swift
-//  LetGo
-//
-//  Created by Tomas Cobo on 26/03/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 final class InfoBubbleView: UIView {
     
@@ -30,7 +23,7 @@ final class InfoBubbleView: UIView {
     }()
     
     private let arrow: UIImageView = {
-        let imageView = UIImageView(image: #imageLiteral(resourceName: "down_chevron_red"))
+        let imageView = UIImageView(image: R.Asset.IconsButtons.downChevronRed.image)
         imageView.contentMode = .center
         return imageView
     }()

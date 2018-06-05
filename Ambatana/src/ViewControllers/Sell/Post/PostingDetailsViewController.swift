@@ -1,14 +1,7 @@
-//
-//  PostingDetailsViewController.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 04/10/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewControllerModelDelegate, PostingDetailsViewModelDelegate {
     
@@ -89,8 +82,8 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
         let currentStep = navigationController.currentStep
         setNavBarBackgroundStyle(.transparent(substyle: .dark))
         
-        let backImage = #imageLiteral(resourceName: "navbar_back_white_shadow")
-        let closeImage = #imageLiteral(resourceName: "ic_post_close")
+        let backImage = R.Asset.IconsButtons.navbarBackWhiteShadow.image
+        let closeImage = R.Asset.IconsButtons.icPostClose.image
         
         if currentStep == 1 || viewModel.isSummaryStep {
             let closeButton = UIBarButtonItem(image: closeImage , style: UIBarButtonItemStyle.plain,

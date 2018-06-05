@@ -295,11 +295,11 @@ class MLPostListingCameraView: BaseView, LGViewPagerPage, MLPredictionDetailsVie
     
     private func setupMachineLearning(enabled: Bool) {
         if enabled {
-            machineLeaningButton.setImage(#imageLiteral(resourceName: "ml_icon_on"), for: .normal)
+            machineLeaningButton.setImage(R.Asset.Machinelearning.mlIconOn.image, for: .normal)
             cameraWrapper.enableVideoOutput(withDelegate: viewModel.machineLearning)
             predictionLabel.animateTo(alpha: 1)
         } else {
-            machineLeaningButton.setImage(#imageLiteral(resourceName: "ml_icon_off"), for: .normal)
+            machineLeaningButton.setImage(R.Asset.Machinelearning.mlIconOff.image, for: .normal)
             cameraWrapper.disableVideoOutput()
             predictionLabel.animateTo(alpha: 0)
         }

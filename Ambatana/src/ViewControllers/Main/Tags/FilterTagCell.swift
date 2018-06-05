@@ -230,7 +230,7 @@ class FilterTagCell: UICollectionViewCell {
             tagLabel.text = FilterTagCell.stringForPriceRange(minPrice, max: maxPrice, withCurrency: currency)
         case .freeStuff:
             tagIconWidth.constant = FilterTagCell.iconWidth
-            tagIcon.image = UIImage(named: "categories_free_tag")
+            tagIcon.image = R.Asset.IconsButtons.FiltersTagCategories.categoriesFreeTag.image
         case .distance(let distance):
             tagLabel.text = distance.intToDistanceFormat()
         case .carSellerType(_, let name):
@@ -263,14 +263,14 @@ class FilterTagCell: UICollectionViewCell {
     private func setDefaultCellStyle() {
         tagLabel.textColor = .black
         contentView.backgroundColor = .white
-        closeButton.setImage(UIImage(named: "filters_clear_btn"), for: .normal)
-        closeButton.setImage(UIImage(named: "filters_clear_btn"), for: .highlighted)
+        closeButton.setImage(R.Asset.IconsButtons.filtersClearBtn.image, for: .normal)
+        closeButton.setImage(R.Asset.IconsButtons.filtersClearBtn.image, for: .highlighted)
     }
     
     private func setColoredCellStyle(_ color: UIColor) {
         tagLabel.textColor = .white
         contentView.backgroundColor = color
-        closeButton.setImage(UIImage(named: "filters_taxonomy_clear_btn"), for: .normal)
-        closeButton.setImage(UIImage(named: "filters_taxonomy_clear_btn"), for: .highlighted)
+        closeButton.setImage(R.Asset.IconsButtons.filtersTaxonomyClearBtn.image, for: .normal)
+        closeButton.setImage(R.Asset.IconsButtons.filtersTaxonomyClearBtn.image, for: .highlighted)
     }
 }

@@ -50,21 +50,21 @@ fileprivate extension LGEmptyViewModel {
     static func icon(for error: RepositoryError) -> UIImage? {
         switch error {
         case .network:
-            return UIImage(named: "err_network")
+            return R.Asset.Errors.errNetwork.image
         case .wsChatError(let chatError):
             return icon(for: chatError)
         case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError,
              .searchAlertError:
-            return UIImage(named: "err_generic")
+            return R.Asset.Errors.errGeneric.image
         }
     }
     
     static func icon(for chatError: ChatRepositoryError) -> UIImage? {
         switch chatError {
         case .network:
-            return UIImage(named: "err_network")
+            return R.Asset.Errors.errNetwork.image
         case .notAuthenticated, .userNotVerified, .userBlocked, .internalError, .apiError, .differentCountry:
-            return UIImage(named: "err_generic")
+            return R.Asset.Errors.errGeneric.image
         }
     }
     

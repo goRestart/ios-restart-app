@@ -31,7 +31,7 @@ final class TourNotificationsViewModel: BaseViewModel {
         return !showPushInfo
     }
     var infoImage: UIImage? {
-        return UIImage(named: "img_permissions_background")
+        return R.Asset.IPhoneParts.imgPermissionsBackground.image
     }
     
     init(title: String, subtitle: String, pushText: String, source: PrePermissionType, featureFlags: FeatureFlags) {

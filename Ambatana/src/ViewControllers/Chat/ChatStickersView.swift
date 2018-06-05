@@ -1,12 +1,5 @@
-//
-//  ChatStickersView.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 19/5/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
+import LGComponents
 
 protocol ChatStickersViewDelegate: class {
     func stickersViewDidSelectSticker(_ sticker: Sticker)
@@ -79,7 +72,7 @@ extension ChatStickersView: UICollectionViewDataSource, UICollectionViewDelegate
             stickCell.imageView.image = nil
             stickCell.imageView.lg_setImageWithURL(url, placeholderImage: nil) { (result, url) in
                 if let _ = result.error {
-                    stickCell.imageView.image = UIImage(named: "sticker_error")
+                    stickCell.imageView.image = R.Asset.BackgroundsAndImages.stickerError.image
                 }
             }
             return cell

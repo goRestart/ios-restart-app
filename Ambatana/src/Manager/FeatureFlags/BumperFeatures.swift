@@ -71,6 +71,7 @@ extension Bumper  {
         flags.append(MultiContactAfterSearch.self)
         flags.append(ShowServicesFeatures.self)
         flags.append(EmptySearchImprovements.self)
+        flags.append(OffensiveReportAlert.self)
         flags.append(HighlightedIAmInterestedFeed.self)
         flags.append(FullScreenAdsWhenBrowsingForUS.self)
         Bumper.initialize(flags)
@@ -364,6 +365,11 @@ extension Bumper  {
     static var emptySearchImprovements: EmptySearchImprovements {
         guard let value = Bumper.value(for: EmptySearchImprovements.key) else { return .control }
         return EmptySearchImprovements(rawValue: value) ?? .control 
+    }
+
+    static var offensiveReportAlert: OffensiveReportAlert {
+        guard let value = Bumper.value(for: OffensiveReportAlert.key) else { return .control }
+        return OffensiveReportAlert(rawValue: value) ?? .control 
     }
 
     static var highlightedIAmInterestedFeed: HighlightedIAmInterestedFeed {
@@ -1287,6 +1293,22 @@ enum EmptySearchImprovements: String, BumperFeature  {
             case 3: return .similarQueries
             case 4: return .similarQueriesWhenFewResults
             case 5: return .alwaysSimilar
+            default: return .control
+        }
+    }
+}
+
+enum OffensiveReportAlert: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return OffensiveReportAlert.control.rawValue }
+    static var enumValues: [OffensiveReportAlert] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Offensive Report alert active" } 
+    static func fromPosition(_ position: Int) -> OffensiveReportAlert {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
             default: return .control
         }
     }

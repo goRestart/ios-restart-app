@@ -897,7 +897,7 @@ extension ListingViewModel {
     }
 
     private func buildFavoriteNavBarAction() -> UIAction {
-        let icon = UIImage(named: isFavorite.value ? "navbar_fav_on" : "navbar_fav_off")?
+        let icon = (isFavorite.value ? R.Asset.IconsButtons.navbarFavOn.image : R.Asset.IconsButtons.navbarFavOff.image)
             .withRenderingMode(.alwaysOriginal)
         return UIAction(interface: .image(icon, nil), action: { [weak self] in
             self?.switchFavorite()
@@ -905,21 +905,21 @@ extension ListingViewModel {
     }
 
     private func buildEditNavBarAction() -> UIAction {
-        let icon = UIImage(named: "navbar_edit")?.withRenderingMode(.alwaysOriginal)
+        let icon = R.Asset.IconsButtons.navbarEdit.image.withRenderingMode(.alwaysOriginal)
         return UIAction(interface: .image(icon, nil), action: { [weak self] in
             self?.editListing()
         }, accessibilityId: .listingCarouselNavBarEditButton)
     }
 
     private func buildMoreNavBarAction() -> UIAction {
-        let icon = UIImage(named: "navbar_more")?.withRenderingMode(.alwaysOriginal)
+        let icon = R.Asset.IconsButtons.navbarMore.image.withRenderingMode(.alwaysOriginal)
         return UIAction(interface: .image(icon, nil), action: { [weak self] in self?.updateAltActions() },
                         accessibilityId: .listingCarouselNavBarActionsButton)
     }
 
     private func buildShareNavBarAction() -> UIAction {
  		if DeviceFamily.current.isWiderOrEqualThan(.iPhone6) {
-            return UIAction(interface: .textImage(R.Strings.productShareNavbarButton, UIImage(named:"ic_share")), action: { [weak self] in
+            return UIAction(interface: .textImage(R.Strings.productShareNavbarButton, R.Asset.IconsButtons.icShare.image), action: { [weak self] in
                 self?.shareProduct()
             }, accessibilityId: .listingCarouselNavBarShareButton)
         } else {
@@ -1083,7 +1083,7 @@ fileprivate extension ListingViewModel {
         let okAction = UIAction(interface: .button(R.Strings.commonOk, .primary(fontSize: .big)), action: {})
         delegate?.vmShowAlertWithTitle(R.Strings.hiddenTextAlertTitle,
                                        text: R.Strings.hiddenTextAlertDescription,
-                                       alertType: .iconAlert(icon: #imageLiteral(resourceName: "ic_safety_tips_big")),
+                                       alertType: .iconAlert(icon: R.Asset.IconsButtons.icSafetyTipsBig.image),
                                        actions: [okAction])
     }
 
@@ -1125,7 +1125,7 @@ fileprivate extension ListingViewModel {
                                           infoText: R.Strings.productBubbleFavoriteText,
                                           action: action,
                                           iconURL: nil,
-                                          iconImage: UIImage(named: "user_placeholder"))
+                                          iconImage: R.Asset.IconsButtons.userPlaceholder.image)
         return data
     }
     

@@ -92,7 +92,7 @@ class NotificationsViewModel: BaseViewModel {
                 let remoteNotifications = notifications.flatMap{ strongSelf.buildNotification($0) }
                 strongSelf.notificationsData = remoteNotifications
                 if strongSelf.notificationsData.isEmpty {
-                    let emptyViewModel = LGEmptyViewModel(icon: UIImage(named: "ic_notifications_empty" ),
+                    let emptyViewModel = LGEmptyViewModel(icon: R.Asset.IconsButtons.icNotificationsEmpty.image,
                         title:  R.Strings.notificationsEmptyTitle,
                         body: R.Strings.notificationsEmptySubtitle, buttonTitle: R.Strings.tabBarToolTip,
                         action: { [weak self] in self?.navigator?.openSell(source: .notifications, postCategory: nil) },

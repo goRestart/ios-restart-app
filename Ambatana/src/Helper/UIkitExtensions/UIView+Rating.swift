@@ -1,12 +1,5 @@
-//
-//  UIView+Rating.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 19/12/2016.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 extension UIView {
 
@@ -22,9 +15,9 @@ extension UIView {
         }
         guard images.count == 5 else { return }
 
-        let full = UIImage(named: "ic_star_avg_full")
-        let half = UIImage(named: "ic_star_avg_half")
-        let empty = UIImage(named: "ic_star_avg_empty")
+        let full = R.Asset.IconsButtons.icStarAvgFull.image
+        let half = R.Asset.IconsButtons.icStarAvgHalf.image
+        let empty = R.Asset.IconsButtons.icStarAvgEmpty.image
         images.forEach { imageView in
             let tag = Float(imageView.tag)
             let diff = tag - rating

@@ -156,6 +156,7 @@ extension ABTests {
     var advancedReputationSystem: LeanplumABVariable<Int> { return users.advancedReputationSystem }
     var showPasswordlessLogin: LeanplumABVariable<Int> { return users.showPasswordlessLogin }
     var emergencyLocate: LeanplumABVariable<Int> { return users.emergencyLocate }
+    var offensiveReportAlert: LeanplumABVariable<Int> { return users.offensiveReportAlert }
 }
 
 //  MARK: Core
