@@ -492,7 +492,7 @@ class FiltersViewModel: BaseViewModel {
     Retrieves the list of categories
     */
     func retrieveCategories() {
-        categoryRepository.index(servicesIncluded: featureFlags.servicesCategoryEnabled.isActive,
+        categoryRepository.index(servicesIncluded: true,
                                  carsIncluded: false,
                                  realEstateIncluded: featureFlags.realEstateEnabled.isActive) { [weak self] result in
                                     

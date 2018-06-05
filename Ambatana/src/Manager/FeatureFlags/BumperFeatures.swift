@@ -38,7 +38,6 @@ extension Bumper  {
         flags.append(OnboardingIncentivizePosting.self)
         flags.append(UserIsTyping.self)
         flags.append(BumpUpBoost.self)
-        flags.append(ServicesCategoryEnabled.self)
         flags.append(CopyForChatNowInTurkey.self)
         flags.append(IncreaseNumberOfPictures.self)
         flags.append(RealEstateTutorial.self)
@@ -201,11 +200,6 @@ extension Bumper  {
     static var bumpUpBoost: BumpUpBoost {
         guard let value = Bumper.value(for: BumpUpBoost.key) else { return .control }
         return BumpUpBoost(rawValue: value) ?? .control 
-    }
-
-    static var servicesCategoryEnabled: ServicesCategoryEnabled {
-        guard let value = Bumper.value(for: ServicesCategoryEnabled.key) else { return .control }
-        return ServicesCategoryEnabled(rawValue: value) ?? .control 
     }
 
     static var copyForChatNowInTurkey: CopyForChatNowInTurkey {
@@ -756,22 +750,6 @@ enum BumpUpBoost: String, BumperFeature  {
             case 3: return .sendTop1hour
             case 4: return .boostListing1hour
             case 5: return .cheaperBoost5Mins
-            default: return .control
-        }
-    }
-}
-
-enum ServicesCategoryEnabled: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return ServicesCategoryEnabled.control.rawValue }
-    static var enumValues: [ServicesCategoryEnabled] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Allow to see Services category" } 
-    static func fromPosition(_ position: Int) -> ServicesCategoryEnabled {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
             default: return .control
         }
     }
