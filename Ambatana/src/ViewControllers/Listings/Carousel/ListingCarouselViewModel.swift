@@ -292,14 +292,14 @@ class ListingCarouselViewModel: BaseViewModel {
         if let productListModels = productListModels {
             let listingCarouselCellModels = productListModels
                 .flatMap(ListingCarouselCellModel.adapter)
-                .filter(featureFlags.discardedProducts.notDiscarded)
+                .filter({!$0.listing.status.isDiscarded})
             self.objects.appendContentsOf(listingCarouselCellModels)
             self.isLastPage = listingListRequester.isLastPage(productListModels.count)
         } else {
             let listingCarouselCellModels = [initialListing]
                 .flatMap{$0}
                 .map(ListingCarouselCellModel.init)
-                .filter(featureFlags.discardedProducts.notDiscarded)
+                .filter({!$0.listing.status.isDiscarded})
             self.objects.appendContentsOf(listingCarouselCellModels)
             self.isLastPage = false
         }
@@ -740,7 +740,7 @@ extension ListingCarouselViewModel: Paginable {
                 strongSelf.nextPage = strongSelf.nextPage + 1
                 let listingCarouselCellModels = newListings
                     .map(ListingCarouselCellModel.init)
-                    .filter(strongSelf.featureFlags.discardedProducts.notDiscarded)
+                    .filter({!$0.listing.status.isDiscarded})
                 strongSelf.objects.appendContentsOf(listingCarouselCellModels)
                 strongSelf.isLastPage = strongSelf.listingListRequester.isLastPage(newListings.count)
                 if newListings.isEmpty && !strongSelf.isLastPage {
@@ -902,13 +902,5 @@ extension CarouselMovement {
         case .initial:
             return .position(index: index)
         }
-    }
-}
-
-extension DiscardedProducts {
-    
-    func notDiscarded(model: ListingCarouselCellModel) -> Bool {
-        guard isActive else { return true }
-        return !model.listing.status.isDiscarded
     }
 }
