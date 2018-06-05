@@ -121,11 +121,6 @@
         "description": "Ability to boost ongoing bump ups"
     },
     {
-        "name": "ServicesCategoryEnabled",
-        "values": ["control", "baseline", "active"],
-        "description": "Allow to see Services category"
-    },
-    {
         "name": "CopyForChatNowInTurkey",
         "values": ["control", "variantA", "variantB", "variantC", "variantD"],
         "description": "Try different copies for Chat now button in Turkey"

@@ -1003,12 +1003,8 @@ extension EditListingViewModel {
     }
 
     private var shouldShowServicesSection: Bool {
-        if featureFlags.showServicesFeatures.isActive {
-            // Do not show services category when this feature set is active
-            return false
-        }
-        
-        return featureFlags.servicesCategoryEnabled.isActive
+        // Do not show services category when this feature set is active
+        return !featureFlags.showServicesFeatures.isActive
     }
     
     func categoryNameAtIndex(_ index: Int) -> String {

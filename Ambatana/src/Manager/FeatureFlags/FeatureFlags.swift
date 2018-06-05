@@ -37,7 +37,6 @@ protocol FeatureFlaggeable: class {
     var relaxedSearch: RelaxedSearch { get }
     var onboardingIncentivizePosting: OnboardingIncentivizePosting { get }
     var bumpUpBoost: BumpUpBoost { get }
-    var servicesCategoryEnabled: ServicesCategoryEnabled { get }
     var increaseNumberOfPictures: IncreaseNumberOfPictures { get }
     var realEstateTutorial: RealEstateTutorial { get }
     var machineLearningMVP: MachineLearningMVP { get }
@@ -188,10 +187,6 @@ extension DummyUsersInfoProfile {
 
 extension OnboardingIncentivizePosting {
     var isActive: Bool { return self == .blockingPosting || self == .blockingPostingSkipWelcome }
-}
-
-extension ServicesCategoryEnabled {
-    var isActive: Bool { return self == .active }
 }
 
 extension ShowServicesFeatures {
@@ -682,13 +677,6 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.machineLearningMVP
         }
         return MachineLearningMVP.fromPosition(abTests.machineLearningMVP.value)
-    }
-
-    var servicesCategoryEnabled: ServicesCategoryEnabled {
-        if Bumper.enabled {
-            return Bumper.servicesCategoryEnabled
-        }
-        return ServicesCategoryEnabled.fromPosition(abTests.servicesCategoryEnabled.value)
     }
     
     var increaseNumberOfPictures: IncreaseNumberOfPictures {
