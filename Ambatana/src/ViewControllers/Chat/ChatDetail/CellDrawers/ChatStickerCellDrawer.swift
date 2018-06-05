@@ -1,13 +1,6 @@
-//
-//  ChatStickerCellDrawer.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 23/5/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
+import LGComponents
 
 class ChatStickerCellDrawer: BaseChatCellDrawer<ChatStickerCell> {
 
@@ -24,7 +17,7 @@ class ChatStickerCellDrawer: BaseChatCellDrawer<ChatStickerCell> {
         if messageIsMine {
             cell.rightImage.lg_setImageWithURL(url, placeholderImage: nil) { (result, url) in
                 if let _ = result.error {
-                    cell.rightImage.image = UIImage(named: "sticker_error")
+                    cell.rightImage.image = R.Asset.BackgroundsAndImages.stickerError.image
                 }
             }
             
@@ -32,7 +25,7 @@ class ChatStickerCellDrawer: BaseChatCellDrawer<ChatStickerCell> {
         } else {
             cell.leftImage.lg_setImageWithURL(url, placeholderImage: nil) { (result, url) in
                 if let _ = result.error {
-                    cell.leftImage.image = UIImage(named: "sticker_error")
+                    cell.leftImage.image = R.Asset.BackgroundsAndImages.stickerError.image
                 }
             }
             cell.rightImage.image = nil

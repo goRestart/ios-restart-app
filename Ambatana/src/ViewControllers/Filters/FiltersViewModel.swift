@@ -25,7 +25,7 @@ enum FilterCategoryItem: Equatable {
         case let .category(category: category):
             return category.image
         case .free:
-            return UIImage(named: "categories_free_inactive")
+            return R.Asset.IconsButtons.FiltersCategoriesIcons.categoriesFreeInactive.image
         }
     }
 }

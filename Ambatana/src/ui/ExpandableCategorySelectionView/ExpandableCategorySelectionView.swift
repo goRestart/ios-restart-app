@@ -133,7 +133,7 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
         backgroundColor = UIColor.black.withAlphaComponent(0.5)
         
         let button = LetgoButton(withStyle: .secondary(fontSize: .medium, withBorder: false))
-        button.setImage(#imageLiteral(resourceName: "ic_close_red"), for: .normal)
+        button.setImage(R.Asset.CongratsScreenImages.icCloseRed.image, for: .normal)
         button.addTarget(self, action: #selector(closeButtonPressed), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         closeButton = button
@@ -308,20 +308,20 @@ fileprivate extension ExpandableCategory {
         case .listingCategory(let listingCategory):
             switch listingCategory {
             case .unassigned:
-                return #imageLiteral(resourceName: "items")
+                return R.Asset.IconsButtons.items.image
             case .cars:
-                return #imageLiteral(resourceName: "carIcon")
+                return R.Asset.IconsButtons.carIcon.image
             case .motorsAndAccessories:
-                return #imageLiteral(resourceName: "motorsAndAccesories")
+                return R.Asset.IconsButtons.motorsAndAccesories.image
             case .realEstate:
-                return #imageLiteral(resourceName: "housingIcon")
+                return R.Asset.IconsButtons.housingIcon.image
             case .services:
-                return #imageLiteral(resourceName: "servicesIcon")
+                return R.Asset.IconsButtons.servicesIcon.image
             case .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames:
                 return listingCategory.image
             }
         case .mostSearchedItems:
-            return UIImage(named: "trending_expandable")
+            return R.Asset.IconsButtons.trendingExpandable.image
         }
     }
 }

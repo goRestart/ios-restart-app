@@ -1,12 +1,5 @@
-//
-//  RatingView.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 22/2/18.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 /* View showing 5 horizontal stars */
 final class RatingView: UIView {
@@ -65,7 +58,7 @@ final class RatingView: UIView {
             star.tag = i + 1 // tags starting in 1
             star.frame = CGRect(x: 0, y: 0, width: layout.starSize, height: layout.starSize)
             stackView.addArrangedSubview(star)
-            star.image = UIImage(named: "ic_user_profile_star")
+            star.image = R.Asset.IconsButtons.icUserProfileStar.image
             star.contentMode = .scaleAspectFit
         }
         setupConstraints()

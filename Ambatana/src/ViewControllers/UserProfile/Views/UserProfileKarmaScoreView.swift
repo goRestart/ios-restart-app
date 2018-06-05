@@ -86,13 +86,13 @@ final class UserProfileKarmaScoreView: UIView {
         innerContainer.backgroundColor = .white
         innerContainer.layer.cornerRadius = Layout.innerCornerRadius
 
-        visibilityImageView.image = UIImage(named: "ic_karma_eye")
+        visibilityImageView.image = R.Asset.IconsButtons.icKarmaEye.image
         visibilityImageView.contentMode = .scaleAspectFit
         visibilityLabel.text = R.Strings.profileKarmaVisibilityTitle
         visibilityLabel.textColor = .white
         visibilityLabel.font = UIFont.profileKarmaSubtitleBoldFont
 
-        subtitleImageView.image = UIImage(named: "ic_tick")
+        subtitleImageView.image = R.Asset.IconsButtons.icTick.image
         subtitleImageView.contentMode = .scaleAspectFit
 
         subtitleLabel.font = .subtitleFont
@@ -122,7 +122,7 @@ final class UserProfileKarmaScoreView: UIView {
 
         horizontalSeparator.backgroundColor = .grayLight
 
-        openVerificationsAccessoryView.image = UIImage(named: "right_chevron")
+        openVerificationsAccessoryView.image = R.Asset.IconsButtons.rightChevron.image
         openVerificationsAccessoryView.contentMode = .scaleAspectFit
 
         badgeImageView.contentMode = .scaleAspectFit
@@ -208,7 +208,7 @@ final class UserProfileKarmaScoreView: UIView {
 
     private func updateScore() {
         progressView.backgroundColor = verified ? .verificationGreen : .grayDisclaimerText
-        badgeImageView.image = verified ? UIImage(named: "ic_karma_badge_active") : UIImage(named: "ic_karma_badge_inactive")
+        badgeImageView.image = verified ? R.Asset.IconsButtons.icKarmaBadgeActive.image : R.Asset.IconsButtons.icKarmaBadgeInactive.image
         progressViewWidthConstraint?.constant = CGFloat(min(score, Constants.Reputation.maxScore)) / CGFloat(Constants.Reputation.maxScore) * progressBackgroundView.width
         subtitleImageView.isHidden = !verified
         subtitleLeftConstraint?.constant = verified ? Layout.subtitleLeftMarginVerified : Metrics.margin

@@ -218,7 +218,7 @@ enum QuickAnswer: Equatable {
     var icon: UIImage? {
         switch self {
         case .meetingAssistant:
-            return #imageLiteral(resourceName: "ic_calendar").withRenderingMode(.alwaysTemplate)
+            return R.Asset.ChatNorris.icCalendar.image.withRenderingMode(.alwaysTemplate)
         default:
             return nil
         }

@@ -1,12 +1,5 @@
-//
-//  PassiveBuyerCell.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 23/12/2016.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 enum DisclosureDirection {
     case down
@@ -55,7 +48,7 @@ class PossibleBuyerCell: UITableViewCell, ReusableCell {
             if let imageUrl = imageUrl {
                 userImage.lg_setImageWithURL(imageUrl)
             } else {
-                userImage.image = UIImage(named: "user_placeholder")
+                userImage.image = R.Asset.IconsButtons.userPlaceholder.image
             }
             let leftMargin = bottomBorder ? 0 : PossibleBuyerCell.leftMarginLabel
             separators.append(addBottomViewBorderWith(width: LGUIKitConstants.onePixelSize,
@@ -98,7 +91,7 @@ class PossibleBuyerCell: UITableViewCell, ReusableCell {
     private func setupUI() {
         titleLabel.textColor = UIColor.blackText
         titleLabel.font = UIFont.bigBodyFont
-        disclosureImage.image = #imageLiteral(resourceName: "ic_disclosure")
+        disclosureImage.image = R.Asset.IconsButtons.icDisclosure.image
         subtitleLabel.textColor = UIColor.grayDark
         subtitleLabel.font = UIFont.smallBodyFont
         titleLabel.set(accessibilityId: .passiveBuyerCellName)

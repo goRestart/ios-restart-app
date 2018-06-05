@@ -1,12 +1,5 @@
-//
-//  LGSlider.swift
-//  LetGo
-//
-//  Created by Nestor on 04/08/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 
 protocol LGSliderDelegate: class {
@@ -20,8 +13,8 @@ class LGSlider: UIView, LGSliderDataSource {
     static let thumbSize: CGFloat = 30
     private let viewModel: LGSliderViewModel
     
-    private let leftThumb = LGSliderThumb(image: #imageLiteral(resourceName: "ic_chevron_right"))
-    private let rightThumb = LGSliderThumb(image: #imageLiteral(resourceName: "ic_chevron_right"), rotate: true)
+    private let leftThumb = LGSliderThumb(image: R.Asset.IconsButtons.icChevronRight.image)
+    private let rightThumb = LGSliderThumb(image: R.Asset.IconsButtons.icChevronRight.image, rotate: true)
     
     private let disabledBarView = UIView()
     private let enabledBarView = UIView()

@@ -1,13 +1,6 @@
-//
-//  BlockingPostingQueuedRequestsViewController.swift
-//  LetGo
-//
-//  Created by Raúl de Oñate Blanco on 04/12/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
 import RxSwift
+import LGComponents
 
 class BlockingPostingQueuedRequestsViewController: BaseViewController, BlockingPostingLoadingViewDelegate {
     
@@ -70,7 +63,7 @@ class BlockingPostingQueuedRequestsViewController: BaseViewController, BlockingP
         view.backgroundColor = .clear
         
         closeButton.addTarget(self, action: #selector(closeButtonAction), for: .touchUpInside)
-        closeButton.setImage(UIImage(named: "ic_post_close"), for: .normal)
+        closeButton.setImage(R.Asset.IconsButtons.icPostClose.image, for: .normal)
         
         loadingView.delegate = self
     }

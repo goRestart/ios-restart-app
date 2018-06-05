@@ -70,17 +70,17 @@ enum ChatInfoViewStatus: Int {
     var iconImage: UIImage {
         switch self {
         case .forbidden:
-            return UIImage(named: "ic_pending_moderation") ?? UIImage()
+            return R.Asset.IconsButtons.icPendingModeration.image
         case .userDeleted, .userPendingDelete:
-            return UIImage(named: "ic_alert_yellow_white_inside") ?? UIImage()
+            return R.Asset.BackgroundsAndImages.icAlertYellowWhiteInside.image
         case .blocked:
-            return UIImage(named: "ic_blocked_white") ?? UIImage()
+            return R.Asset.BackgroundsAndImages.icBlockedWhite.image
         case .blockedBy:
-            return UIImage(named: "ic_blocked_white_line") ?? UIImage()
+            return R.Asset.BackgroundsAndImages.icBlockedWhiteLine.image
         case .listingDeleted, .inactiveConversation:
-            return UIImage(named: "ic_alert_yellow_white_inside") ?? UIImage()
+            return R.Asset.BackgroundsAndImages.icAlertYellowWhiteInside.image
         case .listingSold, .listingGivenAway:
-            return UIImage(named: "ic_sold_white") ?? UIImage()
+            return R.Asset.BackgroundsAndImages.icSoldWhite.image
         case .available:
             return UIImage()
         }

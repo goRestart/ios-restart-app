@@ -101,7 +101,12 @@ fileprivate extension TourLoginViewController {
 
     func setupKenBurns() {
         view.layoutIfNeeded()
-        kenBurnsView.startAnimation(with: [#imageLiteral(resourceName: "bg_1_new"), #imageLiteral(resourceName: "bg_2_new"), #imageLiteral(resourceName: "bg_3_new"), #imageLiteral(resourceName: "bg_4_new")])
+        kenBurnsView.startAnimation(with: [
+            R.Asset.BackgroundsAndImages.bg1New.image,
+            R.Asset.BackgroundsAndImages.bg2New.image,
+            R.Asset.BackgroundsAndImages.bg3New.image,
+            R.Asset.BackgroundsAndImages.bg4New.image
+            ])
     }
 
     func setupUI() {

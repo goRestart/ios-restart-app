@@ -399,11 +399,11 @@ extension CameraFlashState {
     var imageIcon: UIImage? {
         switch self {
         case .auto:
-            return UIImage(named: "ic_post_flash_auto")
+            return R.Asset.IconsButtons.icPostFlashAuto.image
         case .on:
-            return UIImage(named: "ic_post_flash")
+            return R.Asset.IconsButtons.icPostFlash.image
         case .off:
-            return UIImage(named: "ic_post_flash_innactive")
+            return R.Asset.IconsButtons.icPostFlashInnactive.image
         }
     }
 }

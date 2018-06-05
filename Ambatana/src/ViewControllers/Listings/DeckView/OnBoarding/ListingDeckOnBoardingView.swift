@@ -28,7 +28,7 @@ final class ListingDeckOnBoardingView: UIView, ListingDeckOnBoardingViewRxType {
     }
     private let containerView = UIView()
     private let visualEffect = UIVisualEffectView(effect: UIBlurEffect(style: .light))
-    private let imageView = UIImageView(image: #imageLiteral(resourceName: "nit_onboarding"))
+    private let imageView = UIImageView(image: R.Asset.IconsButtons.NewItemPage.nitOnboarding.image)
     private let titleLabel = UILabel()
     private let underline = UIView()
     private let confirmButton = LetgoButton(withStyle: .primary(fontSize: .big))

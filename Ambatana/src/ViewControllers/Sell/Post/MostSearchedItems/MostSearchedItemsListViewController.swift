@@ -1,12 +1,5 @@
-//
-//  MostSearchedItemsListViewController.swift
-//  LetGo
-//
-//  Created by Raúl de Oñate Blanco on 03/01/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 class MostSearchedItemsListViewController: BaseViewController, UITableViewDelegate,
     UITableViewDataSource, MostSearchedItemsListCellDelegate {
@@ -40,7 +33,7 @@ class MostSearchedItemsListViewController: BaseViewController, UITableViewDelega
     }
     
     private func setupUI() {
-        closeButton.image = UIImage(named: "navbar_close")
+        closeButton.image = R.Asset.IconsButtons.navbarClose.image
         closeButton.style = .plain
         closeButton.target = self
         closeButton.action = #selector(MostSearchedItemsListViewController.closeButtonPressed)

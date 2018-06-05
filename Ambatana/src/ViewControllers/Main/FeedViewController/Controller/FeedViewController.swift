@@ -129,7 +129,7 @@ final class FeedViewController: BaseViewController {
     }
 
     private func setupFiltersButton() {
-        let buttonImages = ButtonImage(normal: #imageLiteral(resourceName: "ic_filters"), selected: #imageLiteral(resourceName: "ic_filters_active"))
+        let buttonImages = ButtonImage(normal: R.Asset.IconsButtons.icFilters.image, selected: R.Asset.IconsButtons.icFiltersActive.image)
         guard let rightButton = setLetGoRightButtonsWith(buttonImages: [buttonImages],
                                                          selectors: [#selector(filtersButtonPressed)]).first else { return  }
         viewModel

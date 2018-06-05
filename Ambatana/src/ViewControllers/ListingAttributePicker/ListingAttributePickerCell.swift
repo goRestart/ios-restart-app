@@ -1,3 +1,4 @@
+import LGComponents
 
 final class ListingAttributePickerCell: UITableViewCell, ReusableCell {
     
@@ -82,7 +83,7 @@ final class ListingAttributePickerCell: UITableViewCell, ReusableCell {
     }
     
     fileprivate func select() {
-        let image = #imageLiteral(resourceName: "ic_checkmark").withRenderingMode(.alwaysTemplate)
+        let image = R.Asset.IconsButtons.icCheckmark.image.withRenderingMode(.alwaysTemplate)
         let checkmark  = UIImageView(frame: CGRect(origin: .zero, size: checkMarkSize))
         checkmark.image = image
         checkmark.tintColor = theme.checkTintColor
