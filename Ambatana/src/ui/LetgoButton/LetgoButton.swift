@@ -26,6 +26,7 @@ enum ButtonStyle {
     case darkField
     case lightField
     case postingFlow
+    case pinkish(fontSize: ButtonFontSize, withBorder: Bool)
     
     var titleColor: UIColor {
         switch self {
@@ -37,6 +38,8 @@ enum ButtonStyle {
             return UIColor.white
         case .lightField:
             return UIColor.lgBlack
+        case .pinkish:
+            return UIColor.pinkText
         }
     }
     
@@ -60,6 +63,8 @@ enum ButtonStyle {
             return UIColor.white.withAlphaComponent(0.3)
         case .lightField:
             return UIColor.grayLighter
+        case .pinkish:
+            return UIColor.clear
         }
     }
     
@@ -75,7 +80,7 @@ enum ButtonStyle {
             return UIColor.facebookColorHighlighted
         case .google:
             return UIColor.googleColorHighlighted
-        case .dark, .postingFlow:
+        case .dark, .postingFlow, .pinkish:
             return UIColor.lgBlack.withAlphaComponent(0.5)
         case .logout:
             return UIColor.lgBlack.withAlphaComponent(0.05)
@@ -96,7 +101,7 @@ enum ButtonStyle {
             return UIColor.facebookColorDisabled
         case .google:
             return UIColor.googleColorDisabled
-        case .dark, .postingFlow:
+        case .dark, .postingFlow, .pinkish:
             return UIColor.lgBlack.withAlphaComponent(0.3)
         case .logout:
             return UIColor.lgBlack.withAlphaComponent(0.05)
@@ -125,7 +130,7 @@ enum ButtonStyle {
             fontSize = size
         case .logout, .postingFlow:
             fontSize = .medium
-        case let .secondary(size, _), let .dark(size, _):
+        case let .secondary(size, _), let .dark(size, _), let .pinkish(size, _):
             fontSize = size
         case .terciary:
             fontSize = .big
@@ -141,7 +146,7 @@ enum ButtonStyle {
             return false
         case .postingFlow:
             return true
-        case let .secondary(_, withBorder), let .dark(_, withBorder):
+        case let .secondary(_, withBorder), let .dark(_, withBorder), let .pinkish(_, withBorder):
             return withBorder
         }
     }
@@ -157,12 +162,14 @@ enum ButtonStyle {
             return UIColor.lgBlack
         case .postingFlow:
             return UIColor.grayBackground
+        case .pinkish:
+            return UIColor.pinkText
         }
     }
     
     var borderColorDisabled: UIColor {
         switch self {
-        case .postingFlow:
+        case .postingFlow, .pinkish:
             return UIColor.gray
         case .primary, .terciary, .google, .facebook, .dark, .logout, .darkField:
             return UIColor.white
@@ -175,9 +182,7 @@ enum ButtonStyle {
     
     var titleColorDisabled: UIColor {
         switch self {
-        case .postingFlow:
-            return UIColor.white
-        case .primary, .terciary, .google, .facebook, .dark, .logout, .darkField:
+        case .primary, .terciary, .google, .facebook, .dark, .logout, .darkField, .postingFlow, .pinkish:
             return UIColor.white
         case .secondary:
             return UIColor.primaryColorDisabled
@@ -190,7 +195,7 @@ enum ButtonStyle {
         switch self {
         case .postingFlow:
             return 15
-        case .primary, .terciary, .google, .facebook, .dark, .darkField, .lightField, .logout, .secondary:
+        case .primary, .terciary, .google, .facebook, .dark, .darkField, .lightField, .logout, .secondary, .pinkish:
             switch fontSize {
             case .big:
                 return 15
@@ -202,7 +207,7 @@ enum ButtonStyle {
     
     var applyCornerRadius: Bool {
         switch self {
-        case .primary, .secondary, .terciary, .google, .facebook, .dark, .logout, .postingFlow:
+        case .primary, .secondary, .terciary, .google, .facebook, .dark, .logout, .postingFlow, .pinkish:
             return true
         case .darkField, .lightField:
             return false

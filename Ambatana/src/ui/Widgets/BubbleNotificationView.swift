@@ -87,7 +87,7 @@ final class BubbleNotificationView: UIView {
     static let buttonHeight: CGFloat = 30
     static let buttonMaxWidth: CGFloat = 150
     static let bubbleMargin: CGFloat = 10
-    static let bubbleContentMargin: CGFloat = 14
+    static let bubbleContentMargin: CGFloat = 15
     static let bubbleInternalMargins: CGFloat = 8
     static let statusBarHeight: CGFloat = 20
     static let iconDiameter: CGFloat = 46
@@ -232,7 +232,7 @@ final class BubbleNotificationView: UIView {
             backgroundColor = .black
             textLabel.textColor = .white
             infoTextLabel.textColor = .white
-            actionButton.setStyle(.dark(fontSize: .small, withBorder: true))
+            actionButton.setStyle(.pinkish(fontSize: .small, withBorder: true))
         }
 
         let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(swiped))
