@@ -731,6 +731,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         listingListRequester = (listViewModel.currentActiveRequester as? ListingListMultiRequester) ?? ListingListMultiRequester()
         infoBubbleVisible.value = false
         errorMessage.value = nil
+        let showServiceCell = featureFlags.showServicesFeatures.isActive && filters.hasSelectedCategory(.services)
+        listViewModel.cellStyle = showServiceCell ? .serviceList : .mainList
         listViewModel.resetUI()
         listViewModel.refresh()
     }

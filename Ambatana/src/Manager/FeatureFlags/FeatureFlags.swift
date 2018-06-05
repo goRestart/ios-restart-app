@@ -45,9 +45,7 @@ protocol FeatureFlaggeable: class {
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings { get }
     var showProTagUserProfile: Bool { get }
     var summaryAsFirstStep: SummaryAsFirstStep { get }
-    var showAdvancedReputationSystem: ShowAdvancedReputationSystem { get }
     var sectionedMainFeed: SectionedMainFeed { get }
-    var emergencyLocate: EmergencyLocate { get }
     var showExactLocationForPros: Bool { get }
     var searchAlerts: SearchAlerts { get }
     var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed { get }
@@ -73,6 +71,8 @@ protocol FeatureFlaggeable: class {
     var copyForSellFasterNowInEnglish: CopyForSellFasterNowInEnglish { get }
     var shouldShowIAmInterestedInFeed: IAmInterestedFeed { get }
     var googleAdxForTR: GoogleAdxForTR { get }
+    var fullScreenAdsWhenBrowsingForUS: FullScreenAdsWhenBrowsingForUS { get }
+    var fullScreenAdUnitId: String? { get }
     
     // MARK: Chat
     var showInactiveConversations: Bool { get }
@@ -99,6 +99,11 @@ protocol FeatureFlaggeable: class {
 
     // MARK: Products
     var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu { get }
+
+    // MARK: Users
+    var showAdvancedReputationSystem: ShowAdvancedReputationSystem { get }
+    var emergencyLocate: EmergencyLocate { get }
+    var offensiveReportAlert: OffensiveReportAlert { get }
 }
 
 extension FeatureFlaggeable {
@@ -306,6 +311,10 @@ extension EmergencyLocate {
     var isActive: Bool { return self == .active }
 }
 
+extension OffensiveReportAlert {
+    var isActive: Bool { return self == .active }
+}
+
 extension FeedAdsProviderForUS {
     private var shouldShowAdsInFeedForNewUsers: Bool {
         return self == .moPubAdsForAllUsers || self == .googleAdxForAllUsers
@@ -443,6 +452,25 @@ extension GoogleAdxForTR {
         } else {
             return shouldShowAdsInFeedForOldUsers
         }
+    }
+}
+
+extension FullScreenAdsWhenBrowsingForUS {
+    private var shouldShowFullScreenAdsForNewUsers: Bool {
+        return self == .adsForAllUsers
+    }
+    private var shouldShowFullScreenAdsForOldUsers: Bool {
+        return self == .adsForOldUsers || self == .adsForAllUsers
+    }
+    
+    var shouldShowFullScreenAds: Bool {
+        return  shouldShowFullScreenAdsForNewUsers || shouldShowFullScreenAdsForOldUsers
+    }
+    
+    func shouldShowFullScreenAdsForUser(createdIn: Date?) -> Bool {
+        guard let creationDate = createdIn,
+            creationDate.isNewerThan(Constants.newUserTimeThresholdForAds) else { return shouldShowFullScreenAdsForOldUsers }
+        return shouldShowFullScreenAdsForNewUsers
     }
 }
 
@@ -761,6 +789,13 @@ final class FeatureFlags: FeatureFlaggeable {
         return HighlightedIAmInterestedFeed.fromPosition(abTests.highlightedIAmInterestedInFeed.value)
     }
 
+    var offensiveReportAlert: OffensiveReportAlert {
+        if Bumper.enabled {
+            return Bumper.offensiveReportAlert
+        }
+        return OffensiveReportAlert.fromPosition(abTests.offensiveReportAlert.value)
+    }
+
     // MARK: - Country features
 
     var freePostingModeAllowed: Bool {
@@ -1023,6 +1058,40 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.googleAdxForTR
         }
         return GoogleAdxForTR.fromPosition(abTests.googleAdxForTR.value)
+    }
+    
+    var fullScreenAdsWhenBrowsingForUS: FullScreenAdsWhenBrowsingForUS {
+        if Bumper.enabled {
+            return Bumper.fullScreenAdsWhenBrowsingForUS
+        }
+        return FullScreenAdsWhenBrowsingForUS.fromPosition(abTests.fullScreenAdsWhenBrowsingForUS.value)
+    }
+    
+    var fullScreenAdUnitId: String? {
+        if Bumper.enabled {
+            // Bumper overrides country restriction
+            switch fullScreenAdsWhenBrowsingForUS {
+            case .adsForAllUsers:
+                return EnvironmentProxy.sharedInstance.fullScreenAdUnitIdAdxForAllUsersForUS
+            case .adsForOldUsers:
+                return EnvironmentProxy.sharedInstance.fullScreenAdUnitIdAdxForOldUsersForUS
+            default:
+                return nil
+            }
+        }
+        switch sensorLocationCountryCode {
+        case .usa?:
+            switch fullScreenAdsWhenBrowsingForUS {
+            case .adsForAllUsers:
+                return EnvironmentProxy.sharedInstance.fullScreenAdUnitIdAdxForAllUsersForUS
+            case .adsForOldUsers:
+                return EnvironmentProxy.sharedInstance.fullScreenAdUnitIdAdxForOldUsersForUS
+            default:
+                return nil
+            }
+        default:
+            return nil
+        }
     }
     
     // MARK: - Private

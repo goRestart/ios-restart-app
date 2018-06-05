@@ -46,6 +46,7 @@ struct Constants {
     static let websiteContactUsEndpoint = "/contact_app"
     static let websitePrivacyEndpoint = "/privacy_app"
     static let websiteTermsEndpoint = "/terms_app"
+    static let websiteCommunityGuideline = "/community-guidelines"
     static func websiteListingEndpoint(_ listingId: String) -> String {
         return String(format: "/product/%@", arguments: [listingId])
     }

@@ -712,6 +712,10 @@ enum AccessibilityId: Equatable {
     case bumpUpHiddenListingAlertContactButton
     case bumpUpHiddenListingAlertCancelButton
 
+    // Offensive Report Alert
+    case offensiveReportAlertOpenGuidelineButton
+    case offensiveReportAlertSkipButton
+
     // ExpandableSelectionCategoryView
     case expandableCategorySelectionCloseButton
     case expandableCategorySelectionView
@@ -2064,7 +2068,13 @@ enum AccessibilityId: Equatable {
             return "bumpUpHiddenListingAlertContactButton"
         case .bumpUpHiddenListingAlertCancelButton:
             return "bumpUpHiddenListingAlertCancelButton"
-            
+
+        // Offensive Report Alert
+        case .offensiveReportAlertOpenGuidelineButton:
+            return "offensiveReportAlertOpenGuidelineButton"
+        case .offensiveReportAlertSkipButton:
+            return "offensiveReportAlertSkipButton"
+
         // ExpandableSelectionCategoryView
         case .expandableCategorySelectionCloseButton:
             return "expandableCategorySelectionCloseButton"
