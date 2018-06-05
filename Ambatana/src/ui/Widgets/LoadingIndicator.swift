@@ -1,12 +1,5 @@
-//
-//  LoadingIndicator.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 16/12/15.
-//  Copyright © 2015 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 class LoadingIndicator: UIView {
 
@@ -79,7 +72,7 @@ class LoadingIndicator: UIView {
         addSubview(okIcon)
         setFillConstraintsTo(okIcon)
         okIcon.contentMode = UIViewContentMode.center
-        okIcon.image = UIImage(named: "ic_post_ok")?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
+        okIcon.image = R.Asset.IconsButtons.icPostOk.image.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
         okIcon.alpha = 0
         okIcon.tintColor = color
 
@@ -87,7 +80,7 @@ class LoadingIndicator: UIView {
         addSubview(wrongIcon)
         setFillConstraintsTo(wrongIcon)
         wrongIcon.contentMode = UIViewContentMode.center
-        wrongIcon.image = UIImage(named: "ic_post_wrong")?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
+        wrongIcon.image = R.Asset.IconsButtons.icPostWrong.image.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
         wrongIcon.alpha = 0
         wrongIcon.tintColor = color
     }

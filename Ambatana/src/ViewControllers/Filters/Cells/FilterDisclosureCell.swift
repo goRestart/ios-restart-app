@@ -1,12 +1,5 @@
-//
-//  FilterLocationCell.swift
-//  LetGo
-//
-//  Created by Eli Kohen Gomez on 24/02/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 class FilterDisclosureCell: UICollectionViewCell, ReusableCell, FilterCell {
     private struct Margins {
@@ -20,7 +13,7 @@ class FilterDisclosureCell: UICollectionViewCell, ReusableCell, FilterCell {
 
     let titleLabel = UILabel()
     let subtitleLabel = UILabel()
-    fileprivate let disclosure = UIImageView(image: #imageLiteral(resourceName: "ic_disclosure"))
+    fileprivate let disclosure = UIImageView(image: R.Asset.IconsButtons.icDisclosure.image)
 
     // MARK: - Lifecycle
 

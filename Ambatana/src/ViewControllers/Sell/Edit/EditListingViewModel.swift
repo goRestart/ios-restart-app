@@ -67,14 +67,14 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         static let boostLabelText: String = R.Strings.bumpUpBannerBoostText
         static let boostLabelTextColor: UIColor = .blackText
         static let boostLabelFont: UIFont = .systemBoldFont(size: 17)
-        static let boostIcon: UIImage = #imageLiteral(resourceName: "ic_extra_boost")
+        static let boostIcon: UIImage = R.Asset.Monetization.icExtraBoost.image
     }
 	
 	struct EditProductFeatureUI {
 		static let editProductFeaturelabelText: String = R.Strings.editProductFeatureLabelLongText
 		static let editProductFeatureTextColor: UIColor = UIColor.primaryColor
 		static let editProductFeatureFont: UIFont = UIFont.systemBoldFont(size: 15)
-		static let editProductFeatureBoostIcon: UIImage = #imageLiteral(resourceName: "ic_lightning")
+		static let editProductFeatureBoostIcon: UIImage = R.Asset.Monetization.icLightning.image
 	}
 
     // real time cloudsight
@@ -596,7 +596,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
             // not enabled
             let okAction = UIAction(interface: UIActionInterface.styledText(R.Strings.commonOk,
                 .standard), action: permissionsActionBlock)
-            let alertIcon = UIImage(named: "ic_location_alert")
+            let alertIcon = R.Asset.IconsButtons.icLocationAlert.image
             delegate?.vmShowAlertWithTitle(R.Strings.editProductLocationAlertTitle,
                                            text: R.Strings.editProductLocationAlertText,
                                            alertType: .iconAlert(icon: alertIcon), actions: [okAction])

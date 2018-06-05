@@ -94,9 +94,9 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     var rightBarButtonsItems: [(image: UIImage, selector: Selector)] {
         var rightButtonItems: [(image: UIImage, selector: Selector)] = []
         if featureFlags.realEstateMap.isActive && isRealEstateSelected {
-            rightButtonItems.append((image: #imageLiteral(resourceName: "ic_map"), selector: #selector(MainListingsViewController.openMap)))
+            rightButtonItems.append((image: R.Asset.IconsButtons.icMap.image, selector: #selector(MainListingsViewController.openMap)))
         }
-        rightButtonItems.append((image: hasFilters ? #imageLiteral(resourceName: "ic_filters_active") : #imageLiteral(resourceName: "ic_filters"), selector: #selector(MainListingsViewController.openFilters)))
+        rightButtonItems.append((image: hasFilters ? R.Asset.IconsButtons.icFiltersActive.image : R.Asset.IconsButtons.icFilters.image, selector: #selector(MainListingsViewController.openFilters)))
         return rightButtonItems
     }
     
@@ -1564,7 +1564,7 @@ extension MainListingsViewModel {
                                 accessibilityId: .userPushPermissionCancel)
         delegate?.vmShowAlertWithTitle(R.Strings.profilePermissionsAlertTitle,
                                        text: R.Strings.profilePermissionsAlertMessage,
-                                       alertType: .iconAlert(icon: UIImage(named: "custom_permission_profile")),
+                                       alertType: .iconAlert(icon: R.Asset.IconsButtons.customPermissionProfile.image),
                                        actions: [negative, positive])
     }
 }

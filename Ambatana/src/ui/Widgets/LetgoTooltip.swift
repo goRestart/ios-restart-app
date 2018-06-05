@@ -1,4 +1,5 @@
 import Foundation
+import LGComponents
 
 protocol LetgoTooltipDelegate: class {
     func didTapTooltip()
@@ -16,11 +17,11 @@ final class LetgoTooltip: UIView {
     weak var delegate: LetgoTooltipDelegate?
 
     private var topPeakImage: UIImage {
-        return #imageLiteral(resourceName: "tooltip_peak_center_black").rotatedImage().rotatedImage().withRenderingMode(.alwaysTemplate)
+        return R.Asset.IconsButtons.tooltipPeakCenterBlack.image.rotatedImage().rotatedImage().withRenderingMode(.alwaysTemplate)
     }
 
     private var bottomPeakImage: UIImage {
-        return #imageLiteral(resourceName: "tooltip_peak_center_black").withRenderingMode(.alwaysTemplate)
+        return R.Asset.IconsButtons.tooltipPeakCenterBlack.image.withRenderingMode(.alwaysTemplate)
     }
 
     var peakOnTop: Bool = true {
@@ -81,7 +82,7 @@ final class LetgoTooltip: UIView {
         titleLabel.textColor = .white
         titleLabel.text = ""
 
-        chevronImageView.image = #imageLiteral(resourceName: "ml_icon_chevron")
+        chevronImageView.image = R.Asset.Machinelearning.mlIconChevron.image
         peakImageView.tintColor = .lgBlack
 
         let tap = UITapGestureRecognizer(target: self, action: #selector(didTapTooltip))

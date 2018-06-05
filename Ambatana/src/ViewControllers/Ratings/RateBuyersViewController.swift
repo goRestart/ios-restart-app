@@ -1,13 +1,6 @@
-//
-//  RateBuyersViewController.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 03/02/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import UIKit
 import RxSwift
+import LGComponents
 
 enum RateBuyersSection: Int {
     case possibleBuyers = 0
@@ -51,7 +44,7 @@ class RateBuyersViewController: BaseViewController, RateBuyersViewModelDelegate 
 
     private func setupUI() {
         automaticallyAdjustsScrollViewInsets = false
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .plain,
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: R.Asset.IconsButtons.navbarClose.image, style: .plain,
                                                            target: self, action: #selector(closeButtonPressed))
 
         tableView.translatesAutoresizingMaskIntoConstraints = false

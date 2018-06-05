@@ -1,13 +1,6 @@
-//
-//  ChatMyMeetingCellDrawer.swift
-//  LetGo
-//
-//  Created by Dídac on 20/11/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
+import LGComponents
 
 final class ChatMyMeetingCellDrawer: BaseChatCellDrawer<ChatMyMeetingCell> {
 
@@ -33,11 +26,11 @@ final class ChatMyMeetingCellDrawer: BaseChatCellDrawer<ChatMyMeetingCell> {
         }
         switch status {
         case .sent:
-            cell.checkImageView.image = UIImage(named: "ic_tick_sent")
+            cell.checkImageView.image = R.Asset.Chat.icTickSent.image
         case .received:
-            cell.checkImageView.image = UIImage(named: "ic_doble_received")
+            cell.checkImageView.image = R.Asset.Chat.icDobleReceived.image
         case .read:
-            cell.checkImageView.image = UIImage(named: "ic_doble_read")
+            cell.checkImageView.image = R.Asset.Chat.icDobleRead.image
         case .unknown:
             cell.checkImageView.image = nil
         }

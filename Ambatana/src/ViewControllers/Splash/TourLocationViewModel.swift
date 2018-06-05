@@ -16,7 +16,7 @@ final class TourLocationViewModel: BaseViewModel {
         return !showBubbleInfo
     }
     var infoImage: UIImage? {
-        return UIImage(named: "img_permissions_background")
+        return R.Asset.IPhoneParts.imgPermissionsBackground.image
     }
 
     let typePage: EventParameterTypePage

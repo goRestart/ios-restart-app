@@ -473,7 +473,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     func setupUI() {
 
         setNavBarTitle(R.Strings.editProductTitle)
-        let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: UIBarButtonItemStyle.plain,
+        let closeButton = UIBarButtonItem(image: R.Asset.IconsButtons.navbarClose.image, style: UIBarButtonItemStyle.plain,
                                           target: self, action: #selector(EditListingViewController.closeButtonPressed))
         self.navigationItem.leftBarButtonItem = closeButton;
         

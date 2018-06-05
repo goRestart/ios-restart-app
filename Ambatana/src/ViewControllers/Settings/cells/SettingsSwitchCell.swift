@@ -107,7 +107,7 @@ fileprivate extension LetGoSetting {
     var image: UIImage? {
         switch (self) {
         case .marketingNotifications:
-            return UIImage(named: "ic_setting_notifications")
+            return R.Asset.IconsButtons.icSettingNotifications.image
         default:
             return nil
         }

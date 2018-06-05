@@ -1,13 +1,6 @@
-//
-//  AddCategoryDetailRowView.swift
-//  LetGo
-//
-//  Created by Nestor on 10/04/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import UIKit
 import RxSwift
+import LGComponents
 
 enum PostCategoryDetailRowViewType {
     case defaultRow
@@ -100,7 +93,7 @@ class PostCategoryDetailRowView: UIView, UITextFieldDelegate {
             valueLabel.font = UIFont.bigBodyFont
             valueLabel.textAlignment = .right
             valueLabel.textColor = UIColor.whiteTextLowAlpha
-            icon.image = UIImage(named: "ic_post_disclousure")
+            icon.image = R.Asset.IconsButtons.icPostDisclousure.image
             icon.contentMode = .scaleAspectFit
         case .textEntryRow:
             textField.textAlignment = .left
