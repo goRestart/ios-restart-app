@@ -126,7 +126,7 @@ final class UserProfileViewModel: BaseViewModel {
         self.source = source
         self.isPrivateProfile = isPrivateProfile
 
-        let status = UserProfileViewModel.sellingListingStatusCode(with: featureFlags)
+        let status = UserProfileViewModel.sellingListingStatusCode()
         self.sellingListingListRequester = UserStatusesListingListRequester(statuses: status,
                                                                             itemsPerPage: Constants.numListingsPerPageDefault)
         self.soldListingListRequester = UserStatusesListingListRequester(statuses: { [.sold, .soldOld] },
@@ -187,8 +187,8 @@ final class UserProfileViewModel: BaseViewModel {
                                     isPrivateProfile: true)
     }
 
-    private static func sellingListingStatusCode(with flags: FeatureFlaggeable) -> () -> [ListingStatusCode] {
-        return { flags.discardedProducts.isActive ? [.pending, .approved, .discarded] : [.pending, .approved] }
+    private static func sellingListingStatusCode() -> () -> [ListingStatusCode] {
+        return { [.pending, .approved, .discarded] }
     }
 
     private func loadListingContent() {

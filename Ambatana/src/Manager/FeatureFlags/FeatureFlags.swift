@@ -36,7 +36,6 @@ protocol FeatureFlaggeable: class {
     var searchImprovements: SearchImprovements { get }
     var relaxedSearch: RelaxedSearch { get }
     var onboardingIncentivizePosting: OnboardingIncentivizePosting { get }
-    var discardedProducts: DiscardedProducts { get }
     var bumpUpBoost: BumpUpBoost { get }
     var servicesCategoryEnabled: ServicesCategoryEnabled { get }
     var increaseNumberOfPictures: IncreaseNumberOfPictures { get }
@@ -181,10 +180,6 @@ extension RealEstateNewCopy {
 }
 
 extension DummyUsersInfoProfile {
-    var isActive: Bool { return self == .active }
-}
-
-extension DiscardedProducts {
     var isActive: Bool { return self == .active }
 }
 
@@ -666,13 +661,6 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.onboardingIncentivizePosting
         }
         return OnboardingIncentivizePosting.fromPosition(abTests.onboardingIncentivizePosting.value)
-    }
-    
-    var discardedProducts: DiscardedProducts {
-        if Bumper.enabled {
-            return Bumper.discardedProducts
-        }
-        return DiscardedProducts.fromPosition(abTests.discardedProducts.value)
     }
     
     var realEstateTutorial: RealEstateTutorial {
