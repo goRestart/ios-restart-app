@@ -93,7 +93,7 @@ final class TabBarController: UITabBarController {
 
     private func setupRx() {
         let isBottomNotificationsEmpty = bubbleNotificationManager.bottomNotifications.asObservable().map {
-            $0.count == 0
+            $0.isEmpty
         }
         isBottomNotificationsEmpty.asObservable().distinctUntilChanged().filter{ $0 }.bind { [weak self] _ in
             delay(BubbleNotificationView.closeAnimationTime) {

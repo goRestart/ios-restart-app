@@ -9,7 +9,7 @@ final class LGBubbleNotificationManager: BubbleNotificationManager {
 
     private var taggedNotifications: [String : [BubbleNotificationView]] = [:]
   
-    var bottomNotifications = Variable<[BubbleNotificationView]>([])
+    let bottomNotifications = Variable<[BubbleNotificationView]>([])
     private let disposeBag = DisposeBag()
     
     

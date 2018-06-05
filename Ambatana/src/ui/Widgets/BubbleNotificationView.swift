@@ -41,7 +41,7 @@ protocol BubbleNotificationDelegate: class {
     func bubbleNotificationActionPressed(_ notification: BubbleNotificationView)
 }
 
-class BubbleNotificationView: UIView {
+final class BubbleNotificationView: UIView {
 
     enum Style {
         case dark
@@ -108,8 +108,8 @@ class BubbleNotificationView: UIView {
     var bottomConstraint = NSLayoutConstraint()
 
     let data: BubbleNotificationData
-    let style: Style
-    let alignment: Alignment
+    private let style: Style
+    private let alignment: Alignment
     
     
     // - Lifecycle
@@ -132,29 +132,13 @@ class BubbleNotificationView: UIView {
 
 
     func setupOnView(parentView: UIView) {
-        // bubble constraints
-        let bubbleLeftConstraint = NSLayoutConstraint(item: self,
-                                                      attribute: .left,
-                                                      relatedBy: .equal,
-                                                      toItem: parentView,
-                                                      attribute: .left,
-                                                      multiplier: 1,
-                                                      constant: BubbleNotificationView.bubbleMargin)
-        let bubbleRightConstraint = NSLayoutConstraint(item: parentView,
-                                                       attribute: .right,
-                                                       relatedBy: .equal,
-                                                       toItem: self,
-                                                       attribute: .right,
-                                                       multiplier: 1,
-                                                       constant: BubbleNotificationView.bubbleMargin)
-        bottomConstraint = NSLayoutConstraint(item: self,
-                                              attribute: .bottom,
-                                              relatedBy: .equal,
-                                              toItem: parentView,
-                                              attribute: .top,
-                                              multiplier: 1,
-                                              constant: alignment.initialBottomConstraintConstant)
-        parentView.addConstraints([bubbleLeftConstraint, bubbleRightConstraint, bottomConstraint])
+        bottomConstraint = bottomAnchor.constraint(equalTo: parentView.topAnchor, constant: alignment.initialBottomConstraintConstant)
+        let constraints = [
+            leftAnchor.constraint(equalTo: parentView.leftAnchor, constant: BubbleNotificationView.bubbleMargin),
+            rightAnchor.constraint(equalTo: parentView.rightAnchor, constant: BubbleNotificationView.bubbleMargin),
+            bottomConstraint
+        ]
+        NSLayoutConstraint.activate(constraints)
     }
 
     func showBubble() {
@@ -178,7 +162,7 @@ class BubbleNotificationView: UIView {
 
     func closeBubble() {
         guard superview != nil else { return } // Already closed
-        self.bottomConstraint.constant = alignment.initialBottomConstraintConstant
+        bottomConstraint.constant = alignment.initialBottomConstraintConstant
         UIView.animate(withDuration: BubbleNotificationView.closeAnimationTime, animations: { [weak self] in
             self?.superview?.layoutIfNeeded()
         }, completion: { [weak self ] _ in
@@ -260,11 +244,8 @@ class BubbleNotificationView: UIView {
         let textsContainer = UIView()
 
         addSubviewForAutoLayout(containerView)
-        containerView.addSubviewForAutoLayout(leftIcon)
-        containerView.addSubviewForAutoLayout(textsContainer)
-        textsContainer.addSubviewForAutoLayout(textLabel)
-        textsContainer.addSubviewForAutoLayout(infoTextLabel)
-        containerView.addSubviewForAutoLayout(actionButton)
+        containerView.addSubviewsForAutoLayout([leftIcon, textsContainer, actionButton])
+        textsContainer.addSubviewsForAutoLayout([textLabel, infoTextLabel])
 
         var views = [String: Any]()
         views["container"] = containerView
