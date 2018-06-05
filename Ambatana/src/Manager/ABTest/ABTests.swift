@@ -164,7 +164,6 @@ extension ABTests {
 extension ABTests {
     var discardedProducts: LeanplumABVariable<Int> { return core.discardedProducts }
     var searchImprovements: LeanplumABVariable<Int> { return core.searchImprovements }
-    var servicesCategoryEnabled: LeanplumABVariable<Int> { return core.servicesCategoryEnabled }
     var machineLearningMVP: LeanplumABVariable<Int> { return core.machineLearningMVP }
     var addPriceTitleDistanceToListings: LeanplumABVariable<Int> { return core.addPriceTitleDistanceToListings }
     var relaxedSearch: LeanplumABVariable<Int> { return core.relaxedSearch }

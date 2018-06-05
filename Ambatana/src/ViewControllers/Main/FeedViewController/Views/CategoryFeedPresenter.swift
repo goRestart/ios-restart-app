@@ -46,7 +46,7 @@ extension CategoryPresenter: CategoriesHeaderCellPresentable {
     
     var categories: [CategoryHeaderElement] {
         var categoryHeaderElements: [CategoryHeaderElement] = []
-        categoryHeaderElements.append(contentsOf: ListingCategory.visibleValuesInFeed(servicesIncluded: featureFlags.servicesCategoryEnabled.isActive,
+        categoryHeaderElements.append(contentsOf: ListingCategory.visibleValuesInFeed(servicesIncluded: true,
                                                                             realEstateIncluded: featureFlags.realEstateEnabled.isActive)
             .map { CategoryHeaderElement.listingCategory($0) })
         return categoryHeaderElements
