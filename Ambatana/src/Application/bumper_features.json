@@ -106,11 +106,6 @@
         "description": "Show chat safety tips to new users"
     },
     {
-        "name": "DiscardedProducts",
-        "values": ["control", "baseline", "active"],
-        "description": "Show users listings that have been discarded so they can be edited and reposted"
-    },
-    {
         "name": "OnboardingIncentivizePosting",
         "values": ["control", "baseline", "blockingPosting", "blockingPostingSkipWelcome"],
         "description": "Leads the user through the posting feature and onboarding improvements"

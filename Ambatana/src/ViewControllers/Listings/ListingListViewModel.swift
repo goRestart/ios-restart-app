@@ -513,10 +513,9 @@ final class ListingListViewModel: BaseViewModel {
     }
     
     private func discardedProductAdditionalHeight(for listing: Listing,
-                                                  toHeight height: CGFloat,
-                                                  variant: DiscardedProducts) -> CGFloat {
+                                                  toHeight height: CGFloat) -> CGFloat {
         let minCellHeight: CGFloat = ListingCellMetrics.minThumbnailHeightWithContent
-        guard listing.status.isDiscarded, variant.isActive, height < minCellHeight else { return 0 }
+        guard listing.status.isDiscarded, height < minCellHeight else { return 0 }
         return minCellHeight - height
     }
     
@@ -573,7 +572,7 @@ final class ListingListViewModel: BaseViewModel {
             }
         }
         
-        cellHeight += discardedProductAdditionalHeight(for: listing, toHeight: cellHeight, variant: featureFlags.discardedProducts)
+        cellHeight += discardedProductAdditionalHeight(for: listing, toHeight: cellHeight)
         
         if cellStyle == .serviceList {
             cellHeight += ListingCellMetrics.getTotalHeightForPriceAndTitleView(listing.title, containerWidth: widthConstraint)

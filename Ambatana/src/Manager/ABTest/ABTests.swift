@@ -162,7 +162,6 @@ extension ABTests {
 //  MARK: Core
 
 extension ABTests {
-    var discardedProducts: LeanplumABVariable<Int> { return core.discardedProducts }
     var searchImprovements: LeanplumABVariable<Int> { return core.searchImprovements }
     var machineLearningMVP: LeanplumABVariable<Int> { return core.machineLearningMVP }
     var addPriceTitleDistanceToListings: LeanplumABVariable<Int> { return core.addPriceTitleDistanceToListings }
