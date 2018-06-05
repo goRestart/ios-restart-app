@@ -337,7 +337,7 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
         guard let mapPinView = mapView.dequeueReusableAnnotationView(withIdentifier: ListingCarouselMoreInfoView.mapPinAnnotationReuseId) else {
             let newMapPinView = MKAnnotationView(annotation: annotation,
                                                  reuseIdentifier: ListingCarouselMoreInfoView.mapPinAnnotationReuseId)
-            newMapPinView.image = #imageLiteral(resourceName: "map_pin")
+            newMapPinView.image = R.Asset.IconsButtons.Map.mapPin.image
             return newMapPinView
         }
         mapPinView.annotation = annotation

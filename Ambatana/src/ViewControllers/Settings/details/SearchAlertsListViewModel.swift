@@ -11,9 +11,9 @@ enum SearchAlertsState {
     var icon: UIImage? {
         switch self {
         case .empty:
-            return #imageLiteral(resourceName: "ic_search_alerts_empty")
+            return R.Asset.IconsButtons.SearchAlerts.icSearchAlertsEmpty.image
         case .error:
-            return #imageLiteral(resourceName: "ic_search_alerts_error")
+            return R.Asset.IconsButtons.SearchAlerts.icSearchAlertsError.image
         case .full, .initial:
             return nil
         }

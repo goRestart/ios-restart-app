@@ -113,7 +113,7 @@ class ChatGroupedViewModel: BaseViewModel {
                 chatListViewModels.append(buildChatListBuying(chatsType))
             case .blockedUsers:
                 blockedUsersListViewModel.emptyStatusViewModel = LGEmptyViewModel(
-                    icon: UIImage(named: "err_list_no_blocked_users"),
+                    icon: R.Asset.Errors.errListNoBlockedUsers.image,
                     title: R.Strings.chatListBlockedEmptyTitle,
                     body: R.Strings.chatListBlockedEmptyBody, buttonTitle: nil, action: nil,
                     secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: .emptyResults, errorCode: nil,
@@ -125,7 +125,7 @@ class ChatGroupedViewModel: BaseViewModel {
     }
 
     func setupVerificationPendingEmptyVM() {
-        verificationPendingEmptyVM = LGEmptyViewModel(icon: UIImage(named: "ic_build_trust_big"),
+        verificationPendingEmptyVM = LGEmptyViewModel(icon: R.Asset.IconsButtons.icBuildTrustBig.image,
                                                       title: R.Strings.chatNotVerifiedStateTitle,
                                                       body: R.Strings.chatNotVerifiedStateMessage,
                                                       buttonTitle: R.Strings.chatNotVerifiedStateCheckButton,
@@ -268,7 +268,7 @@ class ChatGroupedViewModel: BaseViewModel {
 
     private func buildChatListAll(_ chatsType: ChatsType) -> ChatListViewModel {
         let emptyVM = LGEmptyViewModel(
-            icon: UIImage(named: "err_list_no_chats"),
+            icon: R.Asset.Errors.errListNoChats.image,
             title: R.Strings.chatListAllEmptyTitle,
             body: nil, buttonTitle: R.Strings.chatListSellingEmptyButton,
             action: { [weak self] in
@@ -286,7 +286,7 @@ class ChatGroupedViewModel: BaseViewModel {
 
     private func buildChatListSelling(_ chatsType: ChatsType) -> ChatListViewModel {
         let emptyVM = LGEmptyViewModel(
-            icon: UIImage(named: "err_list_no_chats"),
+            icon: R.Asset.Errors.errListNoChats.image,
             title: R.Strings.chatListSellingEmptyTitle,
             body: nil, buttonTitle: R.Strings.chatListSellingEmptyButton,
             action: { [weak self] in
@@ -301,7 +301,7 @@ class ChatGroupedViewModel: BaseViewModel {
 
     private func buildChatListBuying(_ chatsType: ChatsType) -> ChatListViewModel {
         let emptyVM = LGEmptyViewModel(
-            icon: UIImage(named: "err_list_no_chats"),
+            icon: R.Asset.Errors.errListNoChats.image,
             title: R.Strings.chatListBuyingEmptyTitle,
             body: nil, buttonTitle: R.Strings.chatListBuyingEmptyButton,
             action: { [weak self] in

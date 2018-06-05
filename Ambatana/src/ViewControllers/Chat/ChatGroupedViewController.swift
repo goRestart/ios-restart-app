@@ -274,7 +274,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedListViewDelegate
     }
     
     private func setupMoreOptionsNavigationsBarButton() {
-        setLetGoRightButtonWith(imageName: "ic_more_options", selector: "moreOptionsButtonPressed")
+        setLetGoRightButtonWith(image: R.Asset.IconsButtons.icMoreOptions.image, selector: "moreOptionsButtonPressed")
     }
     
     private func setupCancelNavigationsBarButton() {

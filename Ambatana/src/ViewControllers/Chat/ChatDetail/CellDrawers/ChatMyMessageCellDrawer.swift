@@ -1,13 +1,6 @@
-//
-//  ChatMyMessageCellDrawer.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 24/11/15.
-//  Copyright © 2015 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
+import LGComponents
 
 class ChatMyMessageCellDrawer: BaseChatCellDrawer<ChatMyMessageCell> {
 
@@ -45,19 +38,19 @@ class ChatMyMessageCellDrawer: BaseChatCellDrawer<ChatMyMessageCell> {
         }
         switch status {
         case .sent:
-            cell.checkImageView.image = UIImage(named: "ic_tick_sent")
+            cell.checkImageView.image = R.Asset.Chat.icTickSent.image
         case .received:
-            cell.checkImageView.image = UIImage(named: "ic_doble_received")
+            cell.checkImageView.image = R.Asset.Chat.icDobleReceived.image
         case .read:
-            cell.checkImageView.image = UIImage(named: "ic_doble_read")
+            cell.checkImageView.image = R.Asset.Chat.icDobleRead.image
         case .unknown:
-            cell.checkImageView.image = showClock ? UIImage(named: "ic_watch") : nil
+            cell.checkImageView.image = showClock ? R.Asset.Chat.icWatch.image : nil
         }
     }
     
     private func drawDisclosureForMessage(_ cell: ChatMyMessageCell, disclosure: Bool) {
         if disclosure {
-            cell.disclosureImageView.image = UIImage(named: "ic_disclosure_chat")
+            cell.disclosureImageView.image = R.Asset.IconsButtons.icDisclosureChat.image
             cell.marginRightConstraints.forEach { $0.constant = rightMarginWithDisclosure }
         } else {
             cell.disclosureImageView.image = nil

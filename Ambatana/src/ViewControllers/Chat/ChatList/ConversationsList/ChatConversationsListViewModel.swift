@@ -390,7 +390,7 @@ final class ChatConversationsListViewModel: BaseViewModel, Paginable {
     }
     
     private var verificationPendingEmptyViewModel: LGEmptyViewModel {
-        return LGEmptyViewModel(icon: #imageLiteral(resourceName: "ic_build_trust_big"),
+        return LGEmptyViewModel(icon: R.Asset.IconsButtons.icBuildTrustBig.image,
                                 title: R.Strings.chatNotVerifiedStateTitle,
                                 body: R.Strings.chatNotVerifiedStateMessage,
                                 buttonTitle: R.Strings.chatNotVerifiedStateCheckButton,
@@ -422,7 +422,7 @@ final class ChatConversationsListViewModel: BaseViewModel, Paginable {
         case .buying:
             primaryAction = openHomeAction
         }
-        return LGEmptyViewModel(icon: #imageLiteral(resourceName: "err_list_no_chats"),
+        return LGEmptyViewModel(icon: R.Asset.Errors.errListNoChats.image,
                                 title: filter.emptyViewModelTitleLocalizedString,
                                 body: nil,
                                 buttonTitle: filter.emptyViewModelPrimaryButtonTitleLocalizedString,

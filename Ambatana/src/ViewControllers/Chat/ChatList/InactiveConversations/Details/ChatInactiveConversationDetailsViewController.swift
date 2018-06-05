@@ -1,14 +1,7 @@
-//
-//  ChatInactiveConversationDetailsViewController.swift
-//  LetGo
-//
-//  Created by Nestor on 18/01/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import UIKit
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 class ChatInactiveConversationDetailsViewController:
     BaseViewController,
@@ -61,7 +54,7 @@ ChatInactiveConversationsViewModelDelegate {
     private func setupNavigationBar() {
         setupListingView()
         setNavBarTitleStyle(.custom(listingView))
-        setLetGoRightButtonWith(imageName: "ic_more_options", selector: "optionsBtnPressed")
+        setLetGoRightButtonWith(image: R.Asset.IconsButtons.icMoreOptions.image, selector: "optionsBtnPressed")
     }
     
     private func setupRelationInfoView() {

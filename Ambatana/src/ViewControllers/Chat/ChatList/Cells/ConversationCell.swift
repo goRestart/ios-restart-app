@@ -17,13 +17,13 @@ enum ConversationCellStatus {
     var icon: UIImage? {
         switch self {
         case .forbidden:
-            return #imageLiteral(resourceName: "ic_pending_moderation")
+            return R.Asset.IconsButtons.icPendingModeration.image
         case .listingSold, .listingGivenAway:
-            return #imageLiteral(resourceName: "ic_dollar_sold")
+            return R.Asset.BackgroundsAndImages.icDollarSold.image
         case .listingDeleted, .userPendingDelete, .userDeleted:
-            return #imageLiteral(resourceName: "ic_alert_yellow_white_inside")
+            return R.Asset.BackgroundsAndImages.icAlertYellowWhiteInside.image
         case .userBlocked, .blockedByUser:
-            return #imageLiteral(resourceName: "ic_blocked")
+            return R.Asset.BackgroundsAndImages.icBlocked.image
         case .available:
             return nil
         }
@@ -189,7 +189,7 @@ class ConversationCell: UITableViewCell, ReusableCell {
         if data.status == .userDeleted {
             userLabel.text = R.Strings.chatListAccountDeletedUsername
             listingLabel.text = nil
-            avatarImageView.image = UIImage(named: "user_placeholder")
+            avatarImageView.image = R.Asset.IconsButtons.userPlaceholder.image
         }
 
         let badge: String? = data.unreadCount > 0 ? String(data.unreadCount) : nil
@@ -238,7 +238,7 @@ class ConversationCell: UITableViewCell, ReusableCell {
     }
 
     private func resetUI() {
-        thumbnailImageView.image = UIImage(named: "product_placeholder")
+        thumbnailImageView.image = R.Asset.IconsButtons.productPlaceholder.image
         avatarImageView.image = nil
         listingLabel.text = ""
         userLabel.text = ""

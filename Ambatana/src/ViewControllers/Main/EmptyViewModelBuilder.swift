@@ -26,11 +26,11 @@ final class EmptyViewModelBuilder {
         
         switch emptyType {
         case .emptyListing:
-            errImage = UIImage(named: "err_list_no_products")
+            errImage = R.Asset.Errors.errListNoProducts.image
             errTitle = R.Strings.productListNoProductsTitle
             errBody = R.Strings.productListNoProductsBody
         case .emptySearch, .emptySearchFlagOn:
-            errImage = UIImage(named: "err_search_no_products")
+            errImage = R.Asset.Errors.errSearchNoProducts.image
             errTitle = isRealEstateSearch ? R.Strings.realEstateEmptyStateSearchTitle : R.Strings.productSearchNoProductsTitle
             errBody = isRealEstateSearch ? R.Strings.realEstateEmptyStateSearchSubtitle : R.Strings.productSearchNoProductsBody
         }

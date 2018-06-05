@@ -1,13 +1,7 @@
-//
-//  ListingCardDetailMapView.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 23/11/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
 import Foundation
 import MapKit
 import LGCoreKit
+import LGComponents
 
 protocol ListingCardDetailMapViewDelegate: class {
     func didTapOnMapSnapshot(_ snapshot: UIView)
@@ -76,7 +70,7 @@ final class ListingCardDetailMapView: UIView {
         })
         self.showExactLocationOnMap = showExactLocationOnMap
         if showExactLocationOnMap {
-            let mapPin = UIImageView(image: #imageLiteral(resourceName: "map_pin"))
+            let mapPin = UIImageView(image: R.Asset.IconsButtons.Map.mapPin.image)
             mapPin.contentMode = .scaleAspectFit
             mapSnapShotView.addSubviewForAutoLayout(mapPin)
             mapPin.layout()
@@ -113,7 +107,7 @@ final class ListingCardDetailMapView: UIView {
         mapHeader.axis = .horizontal
         mapHeader.distribution = .fillProportionally
         
-        let location = UIImageView(image: #imageLiteral(resourceName: "nit_location"))
+        let location = UIImageView(image: R.Asset.IconsButtons.NewItemPage.nitLocation.image)
         location.contentMode = .center
         location.backgroundColor = .clear
         location.widthAnchor.constraint(equalToConstant: 16).isActive = true

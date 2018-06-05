@@ -157,7 +157,7 @@ class UserRatingCell: UITableViewCell, ReusableCell {
     }
 
     private func drawStarsForValue(_ value: Int) {
-        let starImage = UIImage(named: UserRatingCell.fullStarImage)
+        let starImage = R.Asset.IconsButtons.icUserProfileStar.image
         stars.forEach{
             $0.image = starImage
             $0.alpha =  ($0.tag <= value) ? 1 : 0.4

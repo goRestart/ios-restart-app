@@ -404,7 +404,7 @@ extension PostListingGalleryView {
 
     func setupAlbumSelection() {
 
-        albumButtonTick.image = UIImage(named: "ic_down_triangle")?.withRenderingMode(.alwaysTemplate)
+        albumButtonTick.image = R.Asset.IconsButtons.icDownTriangle.image.withRenderingMode(.alwaysTemplate)
         albumButtonTick.tintColor = UIColor.white
         albumButtonTick.translatesAutoresizingMaskIntoConstraints = false
         albumButton.addSubview(albumButtonTick)

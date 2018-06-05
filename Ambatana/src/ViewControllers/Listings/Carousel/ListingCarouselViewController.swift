@@ -115,7 +115,7 @@ final class ListingCarouselViewController: KeyboardViewController, AnimatableTra
     }
     private let startPlayingButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setImage(#imageLiteral(resourceName: "ic_videoposting_play"), for: .normal)
+        button.setImage(R.Asset.IconsButtons.VideoPosting.icVideopostingPlay.image, for: .normal)
         return button
     }()
 
@@ -407,7 +407,7 @@ final class ListingCarouselViewController: KeyboardViewController, AnimatableTra
 
         CarouselUIHelper.setupShareButton(shareButton,
                                           text: R.Strings.productShareNavbarButton,
-                                          icon: UIImage(named:"ic_share"))
+                                          icon: R.Asset.IconsButtons.icShare.image)
 
         mainResponder = chatTextView
         setupDirectMessages()
@@ -417,7 +417,7 @@ final class ListingCarouselViewController: KeyboardViewController, AnimatableTra
     private func setupCallButton() {
         buttonCall.setStyle(.primary(fontSize: .big))
         buttonCall.setTitle(R.Strings.productProfessionalCallButton, for: .normal)
-        buttonCall.setImage(UIImage(named: "ic_phone_call"), for: .normal)
+        buttonCall.setImage(R.Asset.Monetization.icPhoneCall.image, for: .normal)
         buttonCall.imageEdgeInsets = UIEdgeInsets(top: 0, left: -Metrics.shortMargin, bottom: 0, right: 0)
         buttonCall.titleEdgeInsets = UIEdgeInsets(top: 0, left: Metrics.shortMargin, bottom: 0, right: 0)
         buttonCall.isHidden = true
@@ -450,7 +450,7 @@ final class ListingCarouselViewController: KeyboardViewController, AnimatableTra
     }
 
     private func setupNavigationBar() {
-        let backIconImage = UIImage(named: "ic_close_carousel")
+        let backIconImage = R.Asset.IconsButtons.icCloseCarousel.image
         let backButton = UIBarButtonItem(image: backIconImage, style: UIBarButtonItemStyle.plain,
                                          target: self, action: #selector(backButtonClose))
         backButton.set(accessibilityId: .listingCarouselNavBarCloseButton)
@@ -878,7 +878,7 @@ extension ListingCarouselViewController {
 
     private func setupFavoriteButtonRx() {
         viewModel.isFavorite.asObservable()
-            .map { UIImage(named: $0 ? "ic_favorite_big_on" : "ic_favorite_big_off") }
+            .map { $0 ? R.Asset.IconsButtons.icFavoriteBigOn.image : R.Asset.IconsButtons.icFavoriteBigOff.image }
             .bind(to: favoriteButton.rx.image(for: .normal)).disposed(by: disposeBag)
 
         favoriteButton.rx.tap.bind { [weak self] in

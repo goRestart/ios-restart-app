@@ -11,7 +11,7 @@ final class UserPhoneVerificationNumberInputViewController: BaseViewController {
 
     private let descriptionLabel = UILabel()
     private let countryButton = UIButton()
-    private let countryButtonArrowImage = UIImageView(image: #imageLiteral(resourceName: "ic_disclosure"))
+    private let countryButtonArrowImage = UIImageView(image: R.Asset.IconsButtons.icDisclosure.image)
     private let countryCodeLabel = UILabel()
     private let phoneNumberTextField = UITextField()
     private let horizontalSeparatorView = UIView()

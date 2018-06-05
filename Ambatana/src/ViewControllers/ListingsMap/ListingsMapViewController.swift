@@ -38,7 +38,7 @@ final class ListingsMapViewController: BaseViewController {
     
     private func updateNavigationBar() {
         setNavBarTitleStyle(.text(R.Strings.listingsMapTitle))
-        setNavBarBackButton(#imageLiteral(resourceName: "navbar_back_red"), selector: #selector(ListingsMapViewController.onNavBarBack))
+        setNavBarBackButton(R.Asset.IconsButtons.navbarBackRed.image, selector: #selector(ListingsMapViewController.onNavBarBack))
     }
     
     private func setupMap() {

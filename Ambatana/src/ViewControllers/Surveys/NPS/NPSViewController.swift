@@ -56,14 +56,14 @@ final class NPSViewController: BaseViewController {
         subtitleLabel.text = R.Strings.npsSurveySubtitle
         notLikelyLabel.text = R.Strings.npsSurveyVeryBad
         extremelyLikelyLabel.text = R.Strings.npsSurveyVeryGood
-        notLikelyImage.image = UIImage(named: "nps_bad")
-        extremelyLikelyImage.image = UIImage(named: "nps_good")
+        notLikelyImage.image = R.Asset.IconsButtons.npsBad.image
+        extremelyLikelyImage.image = R.Asset.IconsButtons.npsGood.image
         
         subtitleLabel.textColor = UIColor.grayDark
         notLikelyLabel.textColor = UIColor.grayDark
         extremelyLikelyLabel.textColor = UIColor.grayDark
         
-        closeButton.setImage(UIImage(named: "navbar_close")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        closeButton.setImage(R.Asset.IconsButtons.navbarClose.image.withRenderingMode(.alwaysTemplate), for: .normal)
         closeButton.tintColor = UIColor.primaryColor
     }
     
