@@ -1,11 +1,3 @@
-//
-//  AppDelegate.swift
-//  LetGo
-//
-//  Created by Ignacio Nieto Carvajal on 04/02/15.
-//  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
-//
-
 #if DEBUG
     import AdSupport
 #endif
@@ -27,6 +19,7 @@ final class AppDelegate: UIResponder {
     fileprivate var configManager: ConfigManager?
     fileprivate var crashManager: CrashManager?
     fileprivate var keyValueStorage: KeyValueStorage?
+    private var appEventsManager: AppEventsManager?
 
     fileprivate var listingRepository: ListingRepository?
     fileprivate var locationManager: LocationManager?
@@ -35,14 +28,13 @@ final class AppDelegate: UIResponder {
     fileprivate var featureFlags: FeatureFlaggeable?
     fileprivate var purchasesShopper: PurchasesShopper?
     fileprivate var deepLinksRouter: DeepLinksRouter?
+    fileprivate var pushManager: PushManager?
 
     fileprivate var navigator: AppNavigator?
 
     fileprivate let appIsActive = Variable<Bool?>(nil)
     fileprivate var didOpenApp = false
     fileprivate let disposeBag = DisposeBag()
-    fileprivate let backgroundLocationTimeout: Double = 20
-    fileprivate let emergencyLocateKey = "emergency-locate"
 }
 
 
@@ -80,6 +72,7 @@ extension AppDelegate: UIApplicationDelegate {
                                         versionChange: VersionChecker.sharedInstance.versionChange)
         self.crashManager = crashManager
         self.keyValueStorage = keyValueStorage
+        self.appEventsManager = AppEventsManager.sharedInstance
 
         setupRxBindings()
         crashCheck()
@@ -91,6 +84,8 @@ extension AppDelegate: UIApplicationDelegate {
         appCoordinator.delegate = self
 
         self.navigator = appCoordinator
+
+        pushManager = PushManager(navigator: appCoordinator)
 
         let window = UIWindow(frame: UIScreen.main.bounds)
         window.backgroundColor = UIColor.white
@@ -162,7 +157,7 @@ extension AppDelegate: UIApplicationDelegate {
 
         keyValueStorage?[.didEnterBackground] = false
         appIsActive.value = true
-        PushManager.sharedInstance.applicationDidBecomeActive(application)
+        pushManager?.applicationDidBecomeActive(application)
         TrackerProxy.sharedInstance.applicationDidBecomeActive(application)
         navigator?.openSurveyIfNeeded()
     }
@@ -189,43 +184,29 @@ extension AppDelegate: UIApplicationDelegate {
     // MARK: > Push notification
 
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        PushManager.sharedInstance.application(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
+        pushManager?.application(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
         AppsFlyerTracker.shared().registerUninstall(deviceToken)
     }
 
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        PushManager.sharedInstance.application(application, didFailToRegisterForRemoteNotificationsWithError: error)
+        pushManager?.application(application, didFailToRegisterForRemoteNotificationsWithError: error)
     }
 
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any],
                      fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-
-        let emergency = userInfo[emergencyLocateKey] as? Int
-        if let _ = emergency {
-            startEmergencyLocate { completionHandler(.noData) }
-        } else {
-            PushManager.sharedInstance.application(application, didReceiveRemoteNotification: userInfo)
-        }
+        pushManager?.application(application, didReceiveRemoteNotification: userInfo, fetchCompletionHandler: completionHandler)
     }
 
     func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification
         userInfo: [AnyHashable: Any], completionHandler: @escaping () -> Void) {
-        PushManager.sharedInstance.application(application, handleActionWithIdentifier: identifier,
+        pushManager?.application(application, handleActionWithIdentifier: identifier,
                                                forRemoteNotification: userInfo, completionHandler: completionHandler)
         deepLinksRouter?.handleActionWithIdentifier(identifier, forRemoteNotification: userInfo,
                                                     completionHandler: completionHandler)
     }
 
     func application(_ application: UIApplication, didRegister notificationSettings: UIUserNotificationSettings) {
-        PushManager.sharedInstance.application(application, didRegisterUserNotificationSettings: notificationSettings)
-    }
-
-    func startEmergencyLocate(completion: @escaping () -> Void) {
-        self.locationRepository?.startEmergencyLocation()
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + backgroundLocationTimeout, execute: {
-            self.locationRepository?.stopEmergencyLocation()
-            completion()
-        })
+        pushManager?.application(application, didRegisterUserNotificationSettings: notificationSettings)
     }
 }
 
@@ -261,10 +242,10 @@ fileprivate extension AppDelegate {
         EnvironmentProxy.sharedInstance.setEnvironmentType(environmentHelper.appEnvironment)
 
         // Debug
-        Debug.loggingOptions = [.navigation]
+        Debug.loggingOptions = [.navigation, .debug]
 
         #if GOD_MODE
-            Debug.loggingOptions = [.navigation, .tracking, .deepLink, .monetization]
+            Debug.loggingOptions = [.navigation, .tracking, .deepLink, .monetization, .debug]
         #endif
         LGCoreKit.loggingOptions = [.networking, .persistence, .token, .session, .webSockets]
 
@@ -289,14 +270,16 @@ fileprivate extension AppDelegate {
             Core.reporter.addReporter(CrashlyticsReporter())
             DDLog.add(CrashlyticsLogger.sharedInstance)
         #endif
-
+        
         // LGCoreKit
         let coreEnvironment = environmentHelper.coreEnvironment
         let carsInfoJSONPath = Bundle.main.path(forResource: "CarsInfo", ofType: "json") ?? ""
         let taxonomiesJSONPath = Bundle.main.path(forResource: "Taxonomies", ofType: "json") ?? ""
+        let servicesJSONPath = Bundle.main.path(forResource: "ServicesInfo", ofType: "json") ?? ""
         let coreKitConfig = LGCoreKitConfig(environmentType: coreEnvironment,
                                             carsInfoAppJSONURL: URL(fileURLWithPath: carsInfoJSONPath),
-                                            taxonomiesAppJSONURL: URL(fileURLWithPath: taxonomiesJSONPath))
+                                            taxonomiesAppJSONURL: URL(fileURLWithPath: taxonomiesJSONPath),
+                                            servicesInfoAppJSONURL: URL(fileURLWithPath: servicesJSONPath))
         LGCoreKit.initialize(config: coreKitConfig)
 
         // Branch.io
@@ -315,17 +298,17 @@ fileprivate extension AppDelegate {
         FBSDKSettings.setAppID(EnvironmentProxy.sharedInstance.facebookAppId)
 
         // Push notifications, get the deep link if any
-        PushManager.sharedInstance.application(application, didFinishLaunchingWithOptions: launchOptions)
+        pushManager?.application(application, didFinishLaunchingWithOptions: launchOptions)
 
         // Tracking
         TrackerProxy.sharedInstance.application(application,
                                                 didFinishLaunchingWithOptions: launchOptions,
                                                 featureFlags: featureFlags)
-
         LGNotificationsManager.sharedInstance.setup()
         StickersManager.sharedInstance.setup()
     }
 }
+
 
 // MARK: > Rx
 

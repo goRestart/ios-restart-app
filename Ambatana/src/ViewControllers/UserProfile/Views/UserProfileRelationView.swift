@@ -1,12 +1,5 @@
-//
-//  UserProfileRelationView.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 9/3/18.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 final class UserProfileRelationView: UIView {
 
@@ -36,7 +29,7 @@ final class UserProfileRelationView: UIView {
 
     private func setupUI() {
         addSubviewsForAutoLayout([iconImageView, textLabel])
-        iconImageView.image = UIImage(named: "ic_blocked")
+        iconImageView.image = R.Asset.BackgroundsAndImages.icBlocked.image
 
         textLabel.textColor = UIColor.primaryColor
         textLabel.font = UIFont.smallButtonFont

@@ -28,5 +28,12 @@ final class LGSpellCorrectorRepository: SpellCorrectorRepository {
                                       completion: completion)
     }
     
+    func retrieveSimilarQuery(query: String,
+                              similarParam: SimilarParam,
+                              completion: SimilarQueryCompletion?) {
+        dataSource.retrieveSimilarQuery(query: query,
+                                        similarParam: similarParam,
+                                        completion: completion)
+    }
 }
 

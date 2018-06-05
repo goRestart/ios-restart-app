@@ -1,13 +1,6 @@
-//
-//  MLPostingCameraViewDetailsView.swift
-//  LetGo
-//
-//  Created by Nestor on 21/02/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
+import LGComponents
 
 protocol MLPredictionDetailsViewDelegate: class {
     func didRequestCategorySelection()
@@ -171,7 +164,7 @@ class MLPredictionDetailsView: UIView, UITableViewDelegate, UITableViewDataSourc
             cell.textView.keyboardType = .alphabet
             cell.textView.returnKeyType = .done
             cell.textView.delegate = self
-            cell.label.text = LGLocalizedString.mlDetailsTitleText
+            cell.label.text = R.Strings.mlDetailsTitleText
             if let title = data.title {
                 cell.setTextView(text: title)
             }
@@ -180,7 +173,7 @@ class MLPredictionDetailsView: UIView, UITableViewDelegate, UITableViewDataSourc
             cell.textView.keyboardType = .decimalPad
             cell.textView.returnKeyType = .done
             cell.textView.delegate = self
-            cell.label.text = LGLocalizedString.mlDetailsPriceText
+            cell.label.text = R.Strings.mlDetailsPriceText
             if let price = data.price {
                 cell.setTextView(text: String(format: "%.f", price))
             }
@@ -188,7 +181,7 @@ class MLPredictionDetailsView: UIView, UITableViewDelegate, UITableViewDataSourc
         case Cells.category.rawValue:
             cell.textView.isUserInteractionEnabled = false
             cell.textView.isEditable = false
-            cell.label.text = LGLocalizedString.mlCategoryText
+            cell.label.text = R.Strings.mlCategoryText
             if let category = data.category {
                 cell.setTextView(text: category.name.capitalized)
             }
@@ -219,7 +212,7 @@ class MLPredictionDetailsView: UIView, UITableViewDelegate, UITableViewDataSourc
         let label = UILabel()
         label.textColor = UIColor.white
         label.font = UIFont.systemBoldFont(size: 13)
-        label.text = LGLocalizedString.mlDetailsSuggestedDetailsText
+        label.text = R.Strings.mlDetailsSuggestedDetailsText
         label.backgroundColor = .clear
         label.translatesAutoresizingMaskIntoConstraints = false
         addShadow(toView: label)

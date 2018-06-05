@@ -1,12 +1,5 @@
-//
-//  SearchAlertFeedHeader.swift
-//  LetGo
-//
-//  Created by Raúl de Oñate Blanco on 19/04/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
+import LGComponents
 
 protocol SearchAlertFeedHeaderDelegate: class {
     func searchAlertFeedHeaderDidEnableSearchAlert(fromEnabled: Bool)
@@ -58,9 +51,9 @@ final class SearchAlertFeedHeader: UIView {
         
         subtitleLabel.font = UIFont.systemRegularFont(size: 13)
         subtitleLabel.textColor = UIColor.grayDark
-        subtitleLabel.text = LGLocalizedString.searchAlertsHeaderSubtitle
+        subtitleLabel.text = R.Strings.searchAlertsHeaderSubtitle
         
-        alertImageView.image = UIImage(named: "search_alert_icon")
+        alertImageView.image = R.Asset.IconsButtons.searchAlertIcon.image
      
         activationSwitch.isOn = searchAlertCreationData.isEnabled
         activationSwitch.addTarget(self, action: #selector(switchValueChanged), for: .valueChanged)

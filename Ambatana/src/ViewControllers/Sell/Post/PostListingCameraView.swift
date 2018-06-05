@@ -1,15 +1,8 @@
-//
-//  PostListingCameraView.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 03/03/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
 import RxSwift
 import RxCocoa
 import LGCoreKit
+import LGComponents
 
 protocol PostListingCameraViewDelegate: class {
     func productCameraCloseButton()
@@ -274,7 +267,7 @@ final class PostListingCameraView: BaseView, LGViewPagerPage, MLPredictionDetail
         }
 
         //i18n
-        retryPhotoButton.setTitle(LGLocalizedString.productPostRetake, for: .normal)
+        retryPhotoButton.setTitle(R.Strings.productPostRetake, for: .normal)
         usePhotoButton.setTitle(usePhotoButtonText, for: .normal)
         usePhotoButton.setStyle(.primary(fontSize: .medium))
         verticalPromoLabel.text = viewModel.verticalPromotionMessage
@@ -312,12 +305,13 @@ final class PostListingCameraView: BaseView, LGViewPagerPage, MLPredictionDetail
     private func setupMachineLearning(enabled: Bool) {
         if enabled {
             machineLearningButton.setImage(#imageLiteral(resourceName: "ml_icon_on"), for: .normal)
-            camera.startForwardingPixelBuffers(to: viewModel.machineLearning, pixelsBuffersToForwardPerSecond: viewModel.machineLearning .pixelsBuffersToForwardPerSecond)
-            predictionLabel.alphaAnimated(1)
+            camera.startForwardingPixelBuffers(to: viewModel.machineLearning,
+                                               pixelsBuffersToForwardPerSecond: viewModel.machineLearning.pixelsBuffersToForwardPerSecond)
+            predictionLabel.animateTo(alpha: 1)
         } else {
             machineLearningButton.setImage(#imageLiteral(resourceName: "ml_icon_off"), for: .normal)
             camera.stopForwardingPixelBuffers()
-            predictionLabel.alphaAnimated(0)
+            predictionLabel.animateTo(alpha: 0)
         }
     }
 
@@ -544,11 +538,11 @@ extension CameraFlashState {
     var imageIcon: UIImage? {
         switch self {
         case .auto:
-            return UIImage(named: "ic_post_flash_auto")
+            return R.Asset.IconsButtons.icPostFlashAuto.image
         case .on:
-            return UIImage(named: "ic_post_flash")
+            return R.Asset.IconsButtons.icPostFlash.image
         case .off:
-            return UIImage(named: "ic_post_flash_innactive")
+            return R.Asset.IconsButtons.icPostFlashInnactive.image
         }
     }
 }

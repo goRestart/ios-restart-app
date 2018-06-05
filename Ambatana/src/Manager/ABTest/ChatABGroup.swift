@@ -15,6 +15,7 @@ struct ChatABGroup: ABGroupType {
         static let userIsTyping = "20180305UserIsTyping"
         static let markAllConversationsAsRead = "20180508MarkAllConversationsAsRead"
         static let chatNorris = "20180319ChatNorris"
+        static let chatConversationsListWithoutTabs = "20180509ChatConversationsListWithoutTabs"
     }
 
     let showInactiveConversations: LeanplumABVariable<Bool>
@@ -22,6 +23,7 @@ struct ChatABGroup: ABGroupType {
     let userIsTyping: LeanplumABVariable<Int>
     let markAllConversationsAsRead: LeanplumABVariable<Int>
     let chatNorris: LeanplumABVariable<Int>
+    let chatConversationsListWithoutTabs: LeanplumABVariable<Int>
 
     let group: ABGroup = .chat
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -33,16 +35,19 @@ struct ChatABGroup: ABGroupType {
          showChatSafetyTips: LeanplumABVariable<Bool>,
          userIsTyping: LeanplumABVariable<Int>,
          markAllConversationsAsRead: LeanplumABVariable<Int>,
-         chatNorris: LeanplumABVariable<Int>) {
+         chatNorris: LeanplumABVariable<Int>,
+         chatConversationsListWithoutTabs: LeanplumABVariable<Int>) {
         self.showInactiveConversations = showInactiveConversations
         self.showChatSafetyTips = showChatSafetyTips
         self.userIsTyping = userIsTyping
         self.markAllConversationsAsRead = markAllConversationsAsRead
         self.chatNorris = chatNorris
+        self.chatConversationsListWithoutTabs = chatConversationsListWithoutTabs
 
         intVariables.append(contentsOf: [userIsTyping,
                                          markAllConversationsAsRead,
-                                         chatNorris])
+                                         chatNorris,
+                                         chatConversationsListWithoutTabs])
 
         boolVariables.append(contentsOf: [showInactiveConversations,
                                           showChatSafetyTips])
@@ -63,6 +68,9 @@ struct ChatABGroup: ABGroupType {
                                                                  groupType: .chat),
                            chatNorris: .makeInt(key: Keys.chatNorris,
                                                 defaultValue: 0,
-                                                groupType: .chat))
+                                                groupType: .chat),
+                           chatConversationsListWithoutTabs: .makeInt(key: Keys.chatConversationsListWithoutTabs,
+                                                                     defaultValue: 0,
+                                                                     groupType: .chat))
     }
 }

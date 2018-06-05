@@ -1,14 +1,6 @@
-//
-//  ListingPostedViewModel.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 14/12/15.
-//  Copyright © 2015 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import RxSwift
-
+import LGComponents
 
 // MARK: - ListingPostedViewModelDelegate
 
@@ -123,9 +115,9 @@ class ListingPostedViewModel: BaseViewModel {
         case .posting:
             return nil
         case .success:
-            return wasFreePosting ? LGLocalizedString.productPostFreeConfirmationAnotherButton : LGLocalizedString.productPostConfirmationAnotherListingButton
+            return wasFreePosting ? R.Strings.productPostFreeConfirmationAnotherButton : R.Strings.productPostConfirmationAnotherListingButton
         case .error:
-            return LGLocalizedString.productPostRetryButton
+            return R.Strings.productPostRetryButton
         }
     }
     
@@ -150,9 +142,9 @@ class ListingPostedViewModel: BaseViewModel {
         case .posting:
             return nil
         case .success:
-            return LGLocalizedString.productPostIncentiveTitle
+            return R.Strings.productPostIncentiveTitle
         case .error:
-            return LGLocalizedString.commonErrorTitle.localizedCapitalized
+            return R.Strings.commonErrorTitle.localizedCapitalized
         }
     }
 
@@ -161,15 +153,15 @@ class ListingPostedViewModel: BaseViewModel {
         case .posting:
             return nil
         case .success:
-            return wasFreePosting ? LGLocalizedString.productPostIncentiveSubtitleFree : LGLocalizedString.productPostIncentiveSubtitle
+            return wasFreePosting ? R.Strings.productPostIncentiveSubtitleFree : R.Strings.productPostIncentiveSubtitle
         case let .error(error):
             switch error {
             case .forbidden(cause: .differentCountry):
-                return LGLocalizedString.productPostDifferentCountryError
+                return R.Strings.productPostDifferentCountryError
             case .network:
-                return LGLocalizedString.productPostNetworkError
+                return R.Strings.productPostNetworkError
             default:
-                return LGLocalizedString.productPostGenericError
+                return R.Strings.productPostGenericError
             }
         }
     }
@@ -375,15 +367,7 @@ class ListingPostedViewModel: BaseViewModel {
     }
 
     private func trackPostSellError(error: RepositoryError) {
-        let sellError: EventParameterPostListingError
-        switch error {
-        case .network:
-            sellError = .network
-        case .serverError, .notFound, .forbidden, .unauthorized, .tooManyRequests, .userNotVerified:
-            sellError = .serverError(code: error.errorCode)
-        case .internalError, .wsChatError, .searchAlertError:
-            sellError = .internalError
-        }
+        let sellError = EventParameterPostListingError(error: error)
         let sellErrorDataEvent = TrackerEvent.listingSellErrorData(sellError)
         tracker.trackEvent(sellErrorDataEvent)
     }
@@ -434,25 +418,41 @@ enum ListingPostedStatus {
         if let listing = listingResult.value {
             self = .success(listing: listing)
         } else if let error = listingResult.error {
-            switch error {
-            case .network:
-                self = .error(error: .network)
-            case let .forbidden(cause: cause):
-                self = .error(error: .forbidden(cause: cause))
-            default:
-                self = .error(error: .internalError)
-            }
+            self = .error(error: EventParameterPostListingError(error: error))
         } else {
-            self = .error(error: .internalError)
+            self = .error(error: .internalError(description: nil))
         }
     }
 
     init(error: RepositoryError) {
+        let eventParameterPostListingError = EventParameterPostListingError(error: error)
+        self = .error(error: eventParameterPostListingError)
+    }
+}
+
+extension EventParameterPostListingError {
+    init(error: RepositoryError) {
         switch error {
-        case .network:
-            self = .error(error: .network)
-        default:
-            self = .error(error: .internalError)
+        case .network(_, _):
+            self = .network
+        case .serverError(let code):
+            self = .serverError(code: code)
+        case .wsChatError(let error): // we need to contemplate this case because everything is a RError
+            self = .internalError(description: "chat-\(error)")
+        case .searchAlertError(let error):
+            self = .internalError(description: "search-alerts-\(error)")
+        case .forbidden(let cause):
+            self = .forbidden(cause: cause)
+        case .notFound:
+            self = .internalError(description: "not-found")
+        case .tooManyRequests:
+            self = .internalError(description: "too-many-requests")
+        case .userNotVerified:
+            self = .internalError(description: "user-not-verified")
+        case .unauthorized(_, let description):
+            self = .internalError(description: description)
+        case .internalError(_):
+            self = .internalError(description: nil)
         }
     }
 }

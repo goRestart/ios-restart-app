@@ -24,6 +24,8 @@ platform :ios do
 
   before_all do
     ENV["LG_GITHUB_REPOSITORY"] = "letgoapp/letgo-ios"
+    # Forcing fastlane to launch simulator before all as a first step.
+    ENV["FASTLANE_EXPLICIT_OPEN_SIMULATOR"] = "2"
   end
 
   desc "Will clone master, create a new `release-x.x.x` branch from, update the build info, push it and do a deploy of that to crashlytics"
@@ -63,7 +65,7 @@ platform :ios do
       ask_for_version_number: true,
     )
 
-    bender message:"Crafting beta #{Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER]} 🚀  \n It's gonna be a though ride", channels:[ENV["BENDER_DEFAULT_SLACK_CHANNEL"]]
+    bender message:"Crafting beta #{Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER]} 🚀  \n It's gonna be a though ride", channels:[ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]
  
     rb_git_clone(
       branch_name: Actions.lane_context[Actions::SharedValues::RB_INFO_BRANCH_NAME],
@@ -99,7 +101,7 @@ platform :ios do
     add_version_badge version_number:version_number, build_number:build_number
 
     gym(
-      workspace: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] + "/" + ENV["XCODE_WORKSPACE"],
+      workspace: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] + "/" + ENV["LETGO_WORKSPACE"],
       output_directory: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
       configuration: "Adhoc",
       scheme: "LetGoPROD",
@@ -127,7 +129,7 @@ platform :ios do
     rb_git_clone_clean()
 
     message = "New beta (#{version_number} - #{build_number}) ready @here :tada:"
-    bender message: message, channels: [ENV["BENDER_DEFAULT_SLACK_CHANNEL"]]
+    bender message: message, channels: [ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]
   end
 
   desc "Build and distribute local code to Crashlytics"
@@ -140,7 +142,7 @@ platform :ios do
 
     add_badge(shield: "#{version_number}-#{build_number}-blue", dark: true, shield_geometry: "+0+25%", shield_scale: 0.75)
     gym(
-      workspace: ENV["XCODE_WORKSPACE"],
+      workspace: ENV["LETGO_WORKSPACE"],
       output_directory: "./",
       configuration: "Adhoc",
       scheme: "LetGoPROD",
@@ -157,7 +159,7 @@ platform :ios do
       notes: "#{changelog}",
       groups: "letgo-testers"
     )
-    bender message: "New beta (#{version_number} - #{build_number}) ready @here :tada:", channels: [ENV["BENDER_DEFAULT_SLACK_CHANNEL"]]
+    bender message: "New beta (#{version_number} - #{build_number}) ready @here :tada:", channels: [ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]
   end
 
 
@@ -172,42 +174,33 @@ platform :ios do
       raise "Please make sure to update master with all the release-fixes!"
     end
 
-    build_configuration = "Release"
-    ENV["XCODE_SCHEME"] = "LetGo"
-
     release_branch = ask("Release branch to deploy (release-x.x.x): ".yellow)
 
-    bender message: "Calling Tim Cook for App Store deployment (#{release_branch})", channels: [ENV[BENDER_DEFAULT_SLACK_CHANNEL]]
+    bender message: "Calling Tim Cook for App Store deployment (#{release_branch})", channels: [ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]
     rb_git_clone(
       branch_name: release_branch,
       clone_single_branch: false,
       shallow_clone: false
     )
-
-    build_number = get_build_number(xcodeproj: ENV["XCODE_WORKSPACE"])
-
-    xcclean
-
+    # xcodeproj = Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] + "/" + ENV["LETGO_PROJECT"]
+    # build_number = get_build_number(xcodeproj: xcodeproj)
+    # version_number = get_version_number(xcodeproj: xcodeproj)
+    
+    xcclean(
+      workspace: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] + "/" + ENV["LETGO_WORKSPACE"],
+      scheme: ENV["LETGO_APPSTORE_SCHEME"]
+      )
+	
     gym(
-      workspace: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] + "/" + ENV["XCODE_WORKSPACE"],
+      workspace: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] + "/" + ENV["LETGO_WORKSPACE"],
       output_directory: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
-      scheme: ENV["XCODE_SCHEME"],
+      scheme: ENV["LETGO_APPSTORE_SCHEME"],
       configuration: "Release",
       export_xcargs: "-allowProvisioningUpdates",
       include_bitcode: true
     )
 
-    rb_backup_symbols(
-      symbols_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
-      symbols_build_number: build_number,
-      symbols_build_scheme: ENV["XCODE_SCHEME"],
-      symbols_backup_path: "./symbols",
-      backup_ipa: true
-    )
-    
-    version_number = get_version_number(xcodeproj: ENV["XCODE_WORKSPACE"])
-    tag_release tag_name: version_number, build_number: build_number  
-
+    # tag_release tag_name: version_number, build_number: build_number  
     # # Send release to itunes connect
     deliver(
       username: "ios-automation@letgo.com",
@@ -227,8 +220,10 @@ platform :ios do
     )
 
     rb_git_clone_clean()
-    bender message: "Tim says everything okay. New Version uploaded to iTunes Connect: #{release_branch}", channels: [ENV[BENDER_DEFAULT_SLACK_CHANNEL]]
-  end
+    bender message: "Tim says everything okay. New Version uploaded to iTunes Connect: #{release_branch}", channels: [ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]
+    # update_dsyms version: version_number, build_number: build_number
+    # bender message: "Uploaded dsyms to fabric.", channels:[ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]  
+end
 
   desc "Will update Web Translate It with the new validated strings from google drive, download all the changes from wti and generate all not-yet valid strings on base + localizables file"
   lane :strings do
@@ -272,6 +267,13 @@ platform :ios do
       repository_path: "./"
     )
   end
+
+desc "Download all the given dSYM symbolication files from iTunes Connect and upload them to crashlytics."
+lane :update_dsyms do |options|
+    download_dsyms version: options[:version], build_number: options[:build_number]
+    upload_symbols_to_crashlytics 
+    clean_build_artifacts 
+end
 
   private_lane :add_version_badge do |options|     
      add_badge(shield: "#{options[:version_number]}-#{options[:build_number]}-blue", dark: true, shield_gravity: "South", no_badge: true)
@@ -414,7 +416,7 @@ platform :ios do
       message += "Failed #{failures} UI tests from a total of #{tests} :warning:"
     end
 
-    bender message: message, channels: [ENV["BENDER_DEFAULT_SLACK_CHANNEL"]]
+    bender message: message, channels: [ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]
  
     if testException
       raise testException
@@ -446,7 +448,7 @@ platform :ios do
     output = "/tmp/xcbuild" + timestamp
     message = 'Hey, your .app is waiting for you. Zipped in your desktop (I am talking to whoever runned the command). #hastaluego'
     xcbuild(
-      workspace: ENV["XCODE_WORKSPACE"],
+      workspace: ENV["LETGO_WORKSPACE"],
       scheme: "LetGoDEV",
       configuration: "Debug",
       sdk: "iphonesimulator",

@@ -1,4 +1,5 @@
 import LGCoreKit
+import LGComponents
 
 extension LGEmptyViewModel {
     
@@ -8,16 +9,18 @@ extension LGEmptyViewModel {
         let body = LGEmptyViewModel.body(for: error)
         let reason = LGEmptyViewModel.reason(for: error)
         let errorCode = LGEmptyViewModel.errorCode(for: error)
+        let errorDescription = LGEmptyViewModel.errorDescription(for: error)
         return LGEmptyViewModel(
             icon: icon,
-            title: LGLocalizedString.commonErrorTitle,
+            title: R.Strings.commonErrorTitle,
             body: body,
-            buttonTitle: LGLocalizedString.commonErrorRetryButton,
+            buttonTitle: R.Strings.commonErrorRetryButton,
             action: action,
             secondaryButtonTitle: nil,
             secondaryAction: nil,
             emptyReason: reason,
-            errorCode: errorCode)
+            errorCode: errorCode,
+            errorDescription: errorDescription)
     }
 }
 
@@ -47,42 +50,42 @@ fileprivate extension LGEmptyViewModel {
     static func icon(for error: RepositoryError) -> UIImage? {
         switch error {
         case .network:
-            return UIImage(named: "err_network")
+            return R.Asset.Errors.errNetwork.image
         case .wsChatError(let chatError):
             return icon(for: chatError)
         case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError,
              .searchAlertError:
-            return UIImage(named: "err_generic")
+            return R.Asset.Errors.errGeneric.image
         }
     }
     
     static func icon(for chatError: ChatRepositoryError) -> UIImage? {
         switch chatError {
         case .network:
-            return UIImage(named: "err_network")
+            return R.Asset.Errors.errNetwork.image
         case .notAuthenticated, .userNotVerified, .userBlocked, .internalError, .apiError, .differentCountry:
-            return UIImage(named: "err_generic")
+            return R.Asset.Errors.errGeneric.image
         }
     }
     
     static func body(for error: RepositoryError) -> String {
         switch error {
         case .network:
-            return LGLocalizedString.commonErrorNetworkBody
+            return R.Strings.commonErrorNetworkBody
         case .wsChatError(let chatError):
             return body(for: chatError)
         case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError,
              .searchAlertError:
-            return LGLocalizedString.commonErrorGenericBody
+            return R.Strings.commonErrorGenericBody
         }
     }
     
     static func body(for chatError: ChatRepositoryError) -> String {
         switch chatError {
         case .network:
-            return LGLocalizedString.commonErrorNetworkBody
+            return R.Strings.commonErrorNetworkBody
         case .notAuthenticated, .userNotVerified, .userBlocked, .internalError, .apiError, .differentCountry:
-            return LGLocalizedString.commonErrorGenericBody
+            return R.Strings.commonErrorGenericBody
         }
     }
     
@@ -160,6 +163,28 @@ fileprivate extension LGEmptyViewModel {
         case .internalError(let message):
             return Int(message)
         case .notAuthenticated, .userNotVerified, .userBlocked, .differentCountry:
+            return nil
+        }
+    }
+
+    static func errorDescription(for error: RepositoryError) -> String? {
+        switch error {
+        case .wsChatError(let chatError):
+            return errorDescription(for: chatError)
+        case .internalError(let message):
+            return message
+        case .unauthorized(_, let description):
+            return description
+        case .network, .serverError, .notFound, .forbidden, .tooManyRequests, .userNotVerified, .searchAlertError:
+            return nil
+        }
+    }
+
+    static func errorDescription(for chatError: ChatRepositoryError) -> String? {
+        switch chatError {
+        case .internalError(let message):
+            return message
+        case  .network, .apiError, .notAuthenticated, .userNotVerified, .userBlocked, .differentCountry:
             return nil
         }
     }

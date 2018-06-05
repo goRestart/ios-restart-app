@@ -54,13 +54,14 @@ class LetgoURLHelper {
         return URL(string: buildHomeURLString())  // not localized
     }
 
-    static func buildProductURL(listingId: String) -> URL? {
-        return URL(string: environment.websiteUrl(Constants.websiteListingEndpoint(listingId)))   // not localized
-    }
-    
-    static func buildLanguageLocalizedProductURL(listingId: String) -> URL? {
-        let prefLanguage = systemLanguage()
-        return URL(string: environment.localizedLanguageUrl(prefLanguage, endpoint: Constants.websiteListingEndpoint(listingId)))
+    static func buildProductURL(listingId: String, isLocalized: Bool) -> URL? {
+        if isLocalized {
+            guard let url = LetgoURLHelper.composeLocalizedURL(Constants.websiteListingEndpoint(listingId)) else { return nil }
+            guard let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return nil }
+            return urlComponents.url
+        } else {
+            return URL(string: environment.websiteUrl(Constants.websiteListingEndpoint(listingId)))
+        }
     }
 
     static func buildUserURL(userId: String) -> URL? {
@@ -111,6 +112,9 @@ class LetgoURLHelper {
         return urlComponents.url
     }
 
+    static func buildCommunityGuidelineURL() -> URL? {
+        return LetgoURLHelper.composeLocalizedURL(Constants.websiteCommunityGuideline)
+    }
 
     // MARK: - Private methods
 
@@ -123,7 +127,9 @@ class LetgoURLHelper {
             language = prefLanguage
             country = preferredCountry
         }
-        let urlString = environment.localizedWebsiteUrl(country, language: language, endpoint: endpoint)
+        let urlString = environment.localizedWebsiteUrl(country: country,
+                                                        language: language,
+                                                        endpoint: endpoint)
         return URL(string: urlString)
     }
 

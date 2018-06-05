@@ -1,13 +1,6 @@
-//
-//  TourNotificationsViewModel.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 4/2/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
+import LGComponents
 
 enum TourNotificationNextStep {
     case location
@@ -38,7 +31,7 @@ final class TourNotificationsViewModel: BaseViewModel {
         return !showPushInfo
     }
     var infoImage: UIImage? {
-        return UIImage(named: "img_permissions_background")
+        return R.Asset.IPhoneParts.imgPermissionsBackground.image
     }
     
     init(title: String, subtitle: String, pushText: String, source: PrePermissionType, featureFlags: FeatureFlags) {
@@ -76,19 +69,19 @@ final class TourNotificationsViewModel: BaseViewModel {
     }
     
     func userDidTapNoButton() {
-        let actionOk = UIAction(interface: UIActionInterface.text(LGLocalizedString.onboardingAlertYes),
+        let actionOk = UIAction(interface: UIActionInterface.text(R.Strings.onboardingAlertYes),
                                 action: { [weak self] in
                                     self?.trackCloseTourNotifications()
                                     self?.delegate?.requestPermissionFinished()
 
         })
-        let actionCancel = UIAction(interface: UIActionInterface.text(LGLocalizedString.onboardingAlertNo),
+        let actionCancel = UIAction(interface: UIActionInterface.text(R.Strings.onboardingAlertNo),
                                     action: { [weak self] in
                                         self?.trackAskPermissions()
                                         self?.delegate?.requestPermissionAccepted()
         })
-        delegate?.vmShowAlert(LGLocalizedString.onboardingNotificationsPermissionsAlertTitle,
-                              message: LGLocalizedString.onboardingNotificationsPermissionsAlertSubtitle,
+        delegate?.vmShowAlert(R.Strings.onboardingNotificationsPermissionsAlertTitle,
+                              message: R.Strings.onboardingNotificationsPermissionsAlertSubtitle,
                               actions: [actionCancel, actionOk])
     }
 

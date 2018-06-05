@@ -15,14 +15,14 @@ final class SendMessageTrackingInfo {
     func set(listing: Listing, freePostingModeAllowed: Bool) -> Self {
         params.addListingParams(listing)
         params[.userToId] = listing.user.objectId
-        params[.freePosting] = TrackerEvent.eventParameterFreePostingWithPrice(freePostingModeAllowed, price: listing.price).rawValue
+        params[.freePosting] = listing.price.allowFreeFilters(freePostingModeAllowed: freePostingModeAllowed).rawValue
         return self
     }
 
     @discardableResult
     func set(chatListing: ChatListing, freePostingModeAllowed: Bool) -> Self {
         params.addChatListingParams(chatListing)
-        params[.freePosting] = TrackerEvent.eventParameterFreePostingWithPrice(freePostingModeAllowed, price: chatListing.price).rawValue
+        params[.freePosting] = chatListing.price.allowFreeFilters(freePostingModeAllowed: freePostingModeAllowed).rawValue
         return self
     }
 
@@ -39,9 +39,9 @@ final class SendMessageTrackingInfo {
     }
 
     @discardableResult
-    func set(quickAnswerType: EventParameterQuickAnswerType?) -> Self {
-        params[.quickAnswerType] = quickAnswerType?.rawValue
-        let isQuickAnswer: EventParameterBoolean = quickAnswerType != nil ? .trueParameter : .falseParameter
+    func set(quickAnswerTypeParameter: String?) -> Self {
+        params[.quickAnswerType] = quickAnswerTypeParameter
+        let isQuickAnswer: EventParameterBoolean = quickAnswerTypeParameter != nil ? .trueParameter : .falseParameter
         params[.quickAnswer] = isQuickAnswer.rawValue
         return self
     }
@@ -83,11 +83,22 @@ final class SendMessageTrackingInfo {
     }
 
     @discardableResult
-    func set(assistantMeeting: AssistantMeeting?) -> Self {
+    func set(assistantMeeting: AssistantMeeting?, isSuggestedPlace: Bool?) -> Self {
         guard let assistantMeeting = assistantMeeting else { return self }
         params[.meetingMessageType] = EventParameterAssistantMeetingType(meetingMessageType: assistantMeeting.meetingType).rawValue
         params[.meetingDate] = assistantMeeting.date?.formattedForTracking() ?? TrackerEvent.notApply
         params[.meetingLocation] = assistantMeeting.locationName ?? TrackerEvent.notApply
+        params[.suggestedLocation] = EventParameterBoolean(bool: isSuggestedPlace).rawValue
+        return self
+    }
+    
+    @discardableResult
+    func set(isProfessional: Bool?) -> Self  {
+        if let isProfessional = isProfessional {
+            params[.listingType] = isProfessional ? EventParameterProductItemType.professional.rawValue : EventParameterProductItemType.real.rawValue
+        } else {
+            params[.listingType] = EventParameterProductItemType.privateOrProfessional.rawValue
+        }
         return self
     }
 }
@@ -100,6 +111,6 @@ extension SendMessageTrackingInfo {
             .set(listing: listing, freePostingModeAllowed: freePostingAllowed)
             .set(interlocutorId: listing.user.objectId)
             .set(messageType: type.chatTrackerType)
-            .set(quickAnswerType: type.quickAnswerType)
+            .set(quickAnswerTypeParameter: type.quickAnswerTypeParameter)
     }
 }

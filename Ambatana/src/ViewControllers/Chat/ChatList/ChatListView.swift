@@ -1,14 +1,7 @@
-//
-//  ChatListViewController.swift
-//  LetGo
-//
-//  Created by Dídac on 21/12/15.
-//  Copyright © 2015 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 protocol ChatListViewDelegate: class {
     func chatListView(_ chatListView: ChatListView, showDeleteConfirmationWithTitle title: String, message: String,
@@ -62,6 +55,10 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
         tableView.allowsMultipleSelectionDuringEditing = true
         tableView.rowHeight = ConversationCell.defaultHeight
 
+        tableView.separatorStyle = .singleLine
+        tableView.layoutMargins = .zero
+        tableView.separatorInset = .zero
+
         footerButton.setTitle(viewModel.titleForDeleteButton, for: .normal)
         footerButton.addTarget(self, action: #selector(ChatListView.deleteButtonPressed), for: .touchUpInside)
     }
@@ -83,7 +80,7 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
         viewModel.refresh { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.delegate?.chatListView(strongSelf,
-                didFinishArchivingWithMessage: LGLocalizedString.chatListArchiveErrorMultiple)
+                didFinishArchivingWithMessage: R.Strings.chatListArchiveErrorMultiple)
         }
     }
 
@@ -97,7 +94,7 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
     func chatListViewModelDidFailUnarchivingChats(_ viewModel: ChatListViewModel) {
         viewModel.refresh { [weak self] in
             guard let strongSelf = self else { return }
-            strongSelf.delegate?.chatListView(strongSelf, didFinishUnarchivingWithMessage: LGLocalizedString.chatListUnarchiveErrorMultiple)
+            strongSelf.delegate?.chatListView(strongSelf, didFinishUnarchivingWithMessage: R.Strings.chatListUnarchiveErrorMultiple)
         }
     }
 
@@ -134,7 +131,7 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
 
         chatCell.tag = (indexPath as NSIndexPath).hash // used for cell reuse on "setupCellWithData"
         chatCell.setupCellWithData(chatData, indexPath: indexPath)
-        
+
         let isSelected = viewModel.isConversationSelected(index: indexPath.row)
         if isSelected {
             tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)

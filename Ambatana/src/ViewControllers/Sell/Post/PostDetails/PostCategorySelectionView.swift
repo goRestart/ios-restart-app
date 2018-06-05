@@ -1,20 +1,14 @@
-//
-//  PostCategorySelectionView.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 20/03/17.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import RxSwift
 import UIKit
+import LGComponents
 
 enum PostCategory: Equatable {
     case car
     case otherItems(listingCategory: ListingCategory?)
     case motorsAndAccessories
     case realEstate
+    case services
     
     var listingCategory: ListingCategory {
         switch self {
@@ -26,13 +20,9 @@ enum PostCategory: Equatable {
             return .motorsAndAccessories
         case .realEstate:
             return .realEstate
+        case .services:
+            return .services
         }
-    }
-    
-    static func categoriesAvailable(realEstateEnabled: Bool) -> [PostCategory] {
-        return realEstateEnabled ?
-            [.car, PostCategory.realEstate, PostCategory.motorsAndAccessories, PostCategory.otherItems(listingCategory: nil)] :
-            [PostCategory.car, PostCategory.motorsAndAccessories, PostCategory.otherItems(listingCategory: nil)]
     }
     
     var numberOfSteps: CGFloat {
@@ -41,15 +31,42 @@ enum PostCategory: Equatable {
             return 3
         case .realEstate:
             return 5
-        case .otherItems, .motorsAndAccessories:
+        case .otherItems, .motorsAndAccessories, .services:
             return 0
+        }
+    }
+}
+
+extension PostCategory {
+    func sortWeight(featureFlags: FeatureFlaggeable) -> Int {
+        switch self {
+        case .car:
+            return 100
+        case .motorsAndAccessories:
+            return 80
+        case .realEstate:
+            return 60
+        case .services:
+            switch featureFlags.servicesCategoryOnSalchichasMenu {
+            case .variantA:
+                return 110  // Should appear above cars
+            case .variantB:
+                return 70   // Should appear below motors and accesories
+            case .variantC:
+                return 50   // Should appear below real estate
+            default:
+                return 10 // Not active, should never happen
+            }
+        case .otherItems:
+            return 0    // Usually at bottom
         }
     }
 }
 
 func ==(lhs: PostCategory, rhs: PostCategory) -> Bool {
     switch (lhs, rhs) {
-    case (.car, .car), (.motorsAndAccessories, .motorsAndAccessories), (.realEstate, .realEstate):
+    case (.car, .car), (.motorsAndAccessories, .motorsAndAccessories), (.realEstate, .realEstate),
+         (.services, .services):
         return true
     case (.otherItems(_), .otherItems(_)):
         return true
@@ -67,7 +84,7 @@ final class PostCategorySelectionView: UIView {
     fileprivate let motorsAndAccessoriesButton = UIButton()
     fileprivate let otherCategoryButton = UIButton()
     fileprivate let realEstateCategoryButton = UIButton()
-    fileprivate let realEstateEnabled: Bool
+    fileprivate let servicesCategoryButton = UIButton()
     fileprivate let categoriesAvailables: [PostCategory]
     
     fileprivate let disposeBag = DisposeBag()
@@ -80,9 +97,8 @@ final class PostCategorySelectionView: UIView {
     
     // MARK: - Lifecycle
     
-    init(realEstateEnabled: Bool) {
-        self.realEstateEnabled = realEstateEnabled
-        categoriesAvailables = PostCategory.categoriesAvailable(realEstateEnabled: realEstateEnabled)
+    init(categoriesAvailables: [PostCategory]) {
+        self.categoriesAvailables = categoriesAvailables
         super.init(frame: CGRect.zero)
         setupUI()
         setupAccessibilityIds()
@@ -120,7 +136,7 @@ fileprivate extension PostCategorySelectionView {
         titleLabel.font = UIFont.systemSemiBoldFont(size: 17)
         titleLabel.textAlignment = .center
         titleLabel.textColor = UIColor.white
-        titleLabel.text = LGLocalizedString.productPostSelectCategoryTitle
+        titleLabel.text = R.Strings.productPostSelectCategoryTitle
         addSubview(titleLabel)
         
         categoriesContainerView.translatesAutoresizingMaskIntoConstraints = false
@@ -130,25 +146,30 @@ fileprivate extension PostCategorySelectionView {
             switch category {
             case .car:
                 addButton(button: carsCategoryButton,
-                          title: LGLocalizedString.productPostSelectCategoryCars,
-                          image: #imageLiteral(resourceName: "categories_cars_inactive"),
+                          title: R.Strings.productPostSelectCategoryCars,
+                          image: R.Asset.IconsButtons.FiltersCategoriesIcons.categoriesCarsInactive.image,
                           postCategoryLink: .car)
             case .otherItems:
                 addButton(button: otherCategoryButton,
-                          title: LGLocalizedString.productPostSelectCategoryOther,
-                          image: #imageLiteral(resourceName: "categories_other_items"),
+                          title: R.Strings.productPostSelectCategoryOther,
+                          image: R.Asset.IconsButtons.FiltersCategoriesIcons.categoriesOthersInactive.image,
                           postCategoryLink: .otherItems(listingCategory: nil))
             case .motorsAndAccessories:
                 addButton(button: motorsAndAccessoriesButton,
-                          title: LGLocalizedString.productPostSelectCategoryMotorsAndAccessories,
-                          image: #imageLiteral(resourceName: "categories_motors_inactive"),
+                          title: R.Strings.productPostSelectCategoryMotorsAndAccessories,
+                          image: R.Asset.IconsButtons.FiltersCategoriesIcons.categoriesMotorsInactive.image,
                           postCategoryLink: .motorsAndAccessories)
             case .realEstate:
-                let title = FeatureFlags.sharedInstance.realEstateNewCopy.isActive ? LGLocalizedString.productPostSelectCategoryRealEstate : LGLocalizedString.productPostSelectCategoryHousing
+                let title = FeatureFlags.sharedInstance.realEstateNewCopy.isActive ? R.Strings.productPostSelectCategoryRealEstate : R.Strings.productPostSelectCategoryHousing
                 addButton(button: realEstateCategoryButton,
                           title: title,
-                          image: #imageLiteral(resourceName: "categories_realestate_inactive"),
+                          image: R.Asset.IconsButtons.FiltersCategoriesIcons.categoriesRealestateInactive.image,
                           postCategoryLink: .realEstate)
+            case .services:
+                addButton(button: servicesCategoryButton,
+                          title: R.Strings.productPostSelectCategoryServices,
+                          image: R.Asset.IconsButtons.FiltersCategoriesIcons.categoriesServicesInactive.image,
+                          postCategoryLink: .services)
             }
         }
     }
@@ -158,7 +179,7 @@ fileprivate extension PostCategorySelectionView {
         motorsAndAccessoriesButton.set(accessibilityId: .postingCategorySelectionMotorsAndAccessoriesButton)
         otherCategoryButton.set(accessibilityId: .postingCategorySelectionOtherButton)
         realEstateCategoryButton.set(accessibilityId: .postingCategorySelectionRealEstateButton)
-        
+        servicesCategoryButton.set(accessibilityId: .postingCategorySelectionServicesButton)
     }
     
     func setupLayout() {
@@ -168,42 +189,27 @@ fileprivate extension PostCategorySelectionView {
             .top(by: 14)
         
         categoriesContainerView.layout(with: self)
-            .leading()
-            .trailing()
+            .fillHorizontal()
             .centerY()
-        
-        carsCategoryButton.layout()
-            .height(categoryButtonHeight)
-        carsCategoryButton.layout(with: categoriesContainerView)
-            .leading(by: Metrics.bigMargin)
-            .trailing(by: -Metrics.bigMargin)
-            .top()
-        carsCategoryButton.layout(with: motorsAndAccessoriesButton)
-            .above(by: -Metrics.bigMargin)
 
-        motorsAndAccessoriesButton.layout()
-            .height(categoryButtonHeight)
-        motorsAndAccessoriesButton.layout(with: categoriesContainerView)
-            .leading(by: Metrics.bigMargin)
-            .trailing(by: -Metrics.bigMargin)
-        motorsAndAccessoriesButton.layout(with: realEstateEnabled ? realEstateCategoryButton : otherCategoryButton)
-            .above(by: -Metrics.bigMargin)
-        
-        if realEstateEnabled {
-            realEstateCategoryButton.layout()
+        var lastButton: UIView?
+        for categoryButton in categoriesContainerView.subviews {
+            categoryButton.layout()
                 .height(categoryButtonHeight)
-            realEstateCategoryButton.layout(with: categoriesContainerView)
-                .leading(by: Metrics.bigMargin)
-                .trailing(by: -Metrics.bigMargin)
-            realEstateCategoryButton .layout(with: otherCategoryButton)
-                .above(by: -Metrics.bigMargin)
+            categoryButton.layout(with: categoriesContainerView)
+                .fillHorizontal(by: Metrics.bigMargin)
+            if let lastButton = lastButton {
+                lastButton.layout(with: categoryButton)
+                    .above(by: -Metrics.bigMargin)
+            } else {
+                categoryButton.layout(with: categoriesContainerView)
+                    .top()
+            }
+            lastButton = categoryButton
         }
-        
-        otherCategoryButton.layout()
-            .height(categoryButtonHeight)
-        otherCategoryButton.layout(with: categoriesContainerView)
-            .leading(by: Metrics.bigMargin)
-            .trailing(by: -Metrics.bigMargin)
-            .bottom()
+
+        if let lastButton = lastButton {
+            lastButton.layout(with: categoriesContainerView).bottom()
+        }
     }
 }

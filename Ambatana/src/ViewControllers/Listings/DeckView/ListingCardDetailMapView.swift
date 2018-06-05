@@ -1,12 +1,7 @@
-//
-//  ListingCardDetailMapView.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 23/11/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
 import Foundation
 import MapKit
+import LGCoreKit
+import LGComponents
 
 protocol ListingCardDetailMapViewDelegate: class {
     func didTapOnMapSnapshot(_ snapshot: UIView)
@@ -20,6 +15,9 @@ final class ListingCardDetailMapView: UIView {
             
         }
         struct CornerRadius { static let map: CGFloat = LGUIKitConstants.bigCornerRadius }
+        struct Map {
+            static let snapshotSpan = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+        }
     }
     private var showExactLocationOnMap: Bool = false
 
@@ -29,11 +27,12 @@ final class ListingCardDetailMapView: UIView {
     private let locationLabel = UILabel()
     private let mapPlaceHolder = UIView()
 
-    let mapSnapShotView: UIImageView = {
+    private let mapSnapShotView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = Layout.CornerRadius.map
+        imageView.backgroundColor = .gray
         return imageView
     }()
 
@@ -54,17 +53,24 @@ final class ListingCardDetailMapView: UIView {
         mapHeader.isHidden = name == nil
     }
 
-    func setRegion(_ region: MKCoordinateRegion, size: CGSize, showExactLocationOnMap: Bool) {
+    func setLocation(_ location: LGLocationCoordinates2D, size: CGSize, showExactLocationOnMap: Bool) {
         cleanSnapshot()
+        let center = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
+        let region = MKCoordinateRegion(center: center, span: Layout.Map.snapshotSpan)
+        guard mapSnapShotView.tag != location.hashValue else { return }
+        mapSnapShotView.tag = location.hashValue
         MKMapView.snapshotAt(region, size: size, with: { [weak self] (snapshot, error) in
+            guard self?.mapSnapShotView.tag == location.hashValue else {
+                self?.mapSnapShotView.image = nil
+                return
+            }
             guard error == nil, let image = snapshot?.image else { return }
             self?.mapSnapShotView.image = image
-            self?.mapSnapShotView.layer.add(CATransition(), forKey: kCATransition)
+            self?.mapSnapShotView.setNeedsDisplay()
         })
         self.showExactLocationOnMap = showExactLocationOnMap
-
         if showExactLocationOnMap {
-            let mapPin = UIImageView(image: #imageLiteral(resourceName: "map_pin"))
+            let mapPin = UIImageView(image: R.Asset.IconsButtons.Map.mapPin.image)
             mapPin.contentMode = .scaleAspectFit
             mapSnapShotView.addSubviewForAutoLayout(mapPin)
             mapPin.layout()
@@ -94,35 +100,33 @@ final class ListingCardDetailMapView: UIView {
         locationLabel.font = UIFont.systemMediumFont(size: 13)
         locationLabel.textAlignment = .left
         locationLabel.textColor = #colorLiteral(red: 0.4588235294, green: 0.4588235294, blue: 0.4588235294, alpha: 1)
-        locationLabel.backgroundColor = UIColor.clear
+        locationLabel.backgroundColor = .clear
         locationLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
     }
     func setupMapHeader() {
         mapHeader.axis = .horizontal
         mapHeader.distribution = .fillProportionally
         
-        let location = UIImageView(image: #imageLiteral(resourceName: "nit_location"))
+        let location = UIImageView(image: R.Asset.IconsButtons.NewItemPage.nitLocation.image)
         location.contentMode = .center
-        location.backgroundColor = UIColor.clear
+        location.backgroundColor = .clear
         location.widthAnchor.constraint(equalToConstant: 16).isActive = true
 
         setupLocationLabel()
 
         mapHeader.addArrangedSubview(location)
         mapHeader.addArrangedSubview(locationLabel)
-
+        mapHeader.setContentHuggingPriority(.required, for: .vertical)
         verticalStackView.addArrangedSubview(mapHeader)
     }
 
     private func setupSnapshotView() {
-        mapSnapShotView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.8)
         verticalStackView.addArrangedSubview(mapSnapShotView)
-        mapSnapShotView.backgroundColor = .gray
-        
+
+        mapSnapShotView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.75).isActive = true
         let gesture = UITapGestureRecognizer(target: self, action: #selector(tapOnView))
         gesture.cancelsTouchesInView = true
         addGestureRecognizer(gesture)
-        verticalStackView.addArrangedSubview(mapSnapShotView)
     }
 
     @objc private func tapOnView() {
@@ -134,4 +138,8 @@ final class ListingCardDetailMapView: UIView {
             subView.removeFromSuperview()
         }
     }
+}
+
+extension LGLocationCoordinates2D: Hashable {
+    public var hashValue: Int { return  "\(latitude)-\(longitude)".hashValue }
 }

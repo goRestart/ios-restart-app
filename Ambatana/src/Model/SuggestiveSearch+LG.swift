@@ -1,12 +1,5 @@
-//
-//  SuggestiveSearch+LG.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 10/10/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
+import LGComponents
 
 extension SuggestiveSearch {
     var title: String {
@@ -25,7 +18,7 @@ extension SuggestiveSearch {
         case .term:
             return nil
         case .category:
-            return LGLocalizedString.suggestionsCategory
+            return R.Strings.suggestionsCategory
         case let .termWithCategory(_, category):
             return category.name
         }
@@ -34,9 +27,9 @@ extension SuggestiveSearch {
     var icon: UIImage? {
         switch self {
         case .term, .termWithCategory:
-            return #imageLiteral(resourceName: "ic_search")
+            return R.Asset.IconsButtons.icSearch.image
         case .category:
-            return #imageLiteral(resourceName: "ic_filters_gray")
+            return R.Asset.IconsButtons.icFiltersGray.image
         }
     }
 }

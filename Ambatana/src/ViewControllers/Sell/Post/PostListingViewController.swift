@@ -1,15 +1,8 @@
-//
-//  PostListingViewController.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 11/12/15.
-//  Copyright © 2015 Ambatana. All rights reserved.
-//
-
 import UIKit
 import RxSwift
+import LGComponents
 
-class PostListingViewController: BaseViewController, PostListingViewModelDelegate {
+final class PostListingViewController: BaseViewController, PostListingViewModelDelegate {
 
     private static let retryButtonHeight: CGFloat = 50
     private static let retryButtonWidth: CGFloat = 100
@@ -110,11 +103,11 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         self.galleryView = PostListingGalleryView(viewModel: postListingGalleryViewModel)
         
         self.priceView = PostListingDetailPriceView(viewModel: viewModel.postDetailViewModel)
-        self.categorySelectionView = PostCategorySelectionView(realEstateEnabled: viewModel.realEstateEnabled)
+        self.categorySelectionView = PostCategorySelectionView(categoriesAvailables: viewModel.availablePostCategories)
         self.carDetailsView = PostCarDetailsView(initialValues: viewModel.carInfo(forDetail: .make).carInfoWrappers)
         super.init(viewModel: viewModel, nibName: "PostListingViewController",
                    statusBarStyle: UIApplication.shared.statusBarStyle)
-        modalPresentationStyle = .overCurrentContext
+        setupForModalWithNonOpaqueBackground()
         viewModel.delegate = self
     }
 
@@ -295,7 +288,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         retryButtonUploadingImageRealEstate.layout()
             .height(PostListingViewController.retryButtonHeight)
             .width(PostListingViewController.retryButtonWidth, relatedBy: .greaterThanOrEqual)
-        retryButtonUploadingImageRealEstate.setTitle(LGLocalizedString.commonErrorListRetryButton, for: .normal)
+        retryButtonUploadingImageRealEstate.setTitle(R.Strings.commonErrorListRetryButton, for: .normal)
         retryButtonUploadingImageRealEstate.addTarget(self, action: #selector(PostListingViewController.onRetryButton), for: .touchUpInside)
         uploadImageStackView.addArrangedSubview(messageLabelUploadingImage)
         uploadImageStackView.addArrangedSubview(retryButtonUploadingImageRealEstate)
@@ -328,11 +321,11 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         closeButton.layout(with: view).left(by: Metrics.margin)
 
         closeButton.addTarget(self, action: #selector(onCloseButton), for: .touchUpInside)
-        closeButton.setImage(UIImage(named: "ic_post_close"), for: .normal)
+        closeButton.setImage(R.Asset.IconsButtons.icPostClose.image, for: .normal)
     }
 
     private func setupPriceView() {
-        retryButton.setTitle(LGLocalizedString.commonErrorListRetryButton, for: .normal)
+        retryButton.setTitle(R.Strings.commonErrorListRetryButton, for: .normal)
         retryButton.setStyle(.primary(fontSize: .medium))
         priceView.translatesAutoresizingMaskIntoConstraints = false
         detailsContainer.addSubview(priceView)
@@ -633,11 +626,11 @@ extension PostListingState {
     }
     
     func postedInfoLabelText(confirmationText: String?) -> String? {
-        return isError ? LGLocalizedString.commonErrorTitle.localizedCapitalized : confirmationText
+        return isError ? R.Strings.commonErrorTitle.localizedCapitalized : confirmationText
     }
     
     func messageForLoadedImage(confirmationText: String?) -> String? {
-        return isError ? LGLocalizedString.commonErrorPostingLoadedImage : confirmationText
+        return isError ? R.Strings.commonErrorPostingLoadedImage : confirmationText
     }
     
     var postErrorLabelAlpha: CGFloat {
@@ -830,7 +823,7 @@ extension PostListingViewController: PostListingCameraViewDelegate {
     }
 
     func productCameraRequestCategory() {
-        let alert = UIAlertController(title: LGLocalizedString.sellChooseCategoryDialogTitle, message: nil,
+        let alert = UIAlertController(title: R.Strings.sellChooseCategoryDialogTitle, message: nil,
                                       preferredStyle: .actionSheet)
         alert.popoverPresentationController?.sourceView = cameraView
         alert.popoverPresentationController?.sourceRect = cameraView.frame
@@ -844,7 +837,7 @@ extension PostListingViewController: PostListingCameraViewDelegate {
             }))
         }
 
-        alert.addAction(UIAlertAction(title: LGLocalizedString.sellChooseCategoryDialogCancelButton,
+        alert.addAction(UIAlertAction(title: R.Strings.sellChooseCategoryDialogCancelButton,
                                       style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
@@ -958,11 +951,11 @@ extension PostListingViewController: LGViewPagerDataSource, LGViewPagerDelegate,
         let icon: UIImage?
         let attributes = tabTitleTextAttributes()
         if index == Tab.gallery.index {
-            icon = #imageLiteral(resourceName: "ic_post_tab_gallery")
-            text = LGLocalizedString.productPostGalleryTab
+            icon = R.Asset.IconsButtons.icPostTabGallery.image
+            text = R.Strings.productPostGalleryTab
         } else {
-            icon = #imageLiteral(resourceName: "ic_post_tab_camera")
-            text = LGLocalizedString.productPostCameraTabV2
+            icon = R.Asset.IconsButtons.icPostTabCamera.image
+            text = R.Strings.productPostCameraTabV2
         }
         let attachment = NSTextAttachment()
         attachment.image = icon

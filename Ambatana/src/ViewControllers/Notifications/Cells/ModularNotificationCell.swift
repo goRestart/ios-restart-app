@@ -1,12 +1,5 @@
-//
-//  ModularNotificationCell.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 28/02/17.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
+import LGComponents
 
 protocol ModularNotificationCellDelegate: class {
     func triggerModularNotificationDeeplink(deeplink: String, source: EventParameterNotificationClickArea, notificationCampaign: String?)
@@ -268,7 +261,7 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
     fileprivate func addHeroImage(with imageURL: String, deeplink: String?) {
         guard let url = URL(string: imageURL) else { return }
         heroImageHeightConstraint.constant = Metrics.modularNotificationHeroImageHeight
-        let placeholderImage = UIImage(named: "notificationHeroImagePlaceholder")
+        let placeholderImage = R.Asset.BackgroundsAndImages.notificationHeroImagePlaceholder.image
         heroImageView.lg_setImageWithURL(url, placeholderImage: placeholderImage) {
             [weak self] (result, urlResult) in
             if let image = result.value?.image, url == urlResult {
@@ -287,10 +280,10 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         var placeholderImage: UIImage?
         switch shape {
             case .square:
-                placeholderImage = UIImage(named: "notificationBasicImageSquarePlaceholder")
+                placeholderImage = R.Asset.BackgroundsAndImages.notificationBasicImageSquarePlaceholder.image
                 basicImage.cornerRadius = LGUIKitConstants.mediumCornerRadius
             case .circle:
-                placeholderImage = UIImage(named: "notificationBasicImageRoundPlaceholder")
+                placeholderImage = R.Asset.BackgroundsAndImages.notificationBasicImageRoundPlaceholder.image
                 basicImage.cornerRadius = Metrics.modularNotificationBasicImageSize/2
         }
         basicImage.lg_setImageWithURL(url, placeholderImage: placeholderImage) {
@@ -303,6 +296,9 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
     }
     
     fileprivate func addTextInfo(with title: String?, body: String, deeplink: String?, isRead: Bool) {
+        var debugMessage = "ModularNotificationCell.addTextInfo:title=\(title ?? "[nil]")|body=\(body)|deeplink=\(deeplink ?? "[nil]")|isRead=\(isRead)|"
+        debugMessage += "isMainThread=\(Thread.current.isMainThread)"
+        logMessage(.debug, type: .debug, message: debugMessage)
         if let title = title {
             titleLabelTopMargin.constant = Metrics.margin
             textTitleLabel.text = title
@@ -337,10 +333,10 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         switch shape {
             case .square:
                 thumbnailImageView.cornerRadius = LGUIKitConstants.mediumCornerRadius
-                placeholderImage = UIImage(named: "notificationThumbnailSquarePlaceholder")
+                placeholderImage = R.Asset.BackgroundsAndImages.notificationThumbnailSquarePlaceholder.image
             case .circle:
                 thumbnailImageView.cornerRadius = Metrics.modularNotificationThumbnailSize/2
-                placeholderImage = UIImage(named: "notificationThumbnailCirclePlaceholder")
+                placeholderImage = R.Asset.BackgroundsAndImages.notificationThumbnailCirclePlaceholder.image
             }
         thumbnailImageView.isHidden = false
         thumbnailImageView.lg_setImageWithURL(url, placeholderImage: placeholderImage)  {

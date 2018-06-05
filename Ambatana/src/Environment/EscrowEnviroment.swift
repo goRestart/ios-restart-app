@@ -17,8 +17,7 @@ class EscrowEnvironment: AppEnvironment {
     
     // AppsFlyer
     let appsFlyerAPIKey = "5EKnCjmwmNKjE2e7gYBo6T"
-    let oneLinkHost = "letgo.onelink.me"
-    let oneLinkID = "O2PG"
+    let appsFlyerAppInviteOneLinkID = "O2PG"
     
     // Google login
     let googleServerClientID = "914431496661-7s28hvdioe432kpco4lvh53frmkqlllv.apps.googleusercontent.com"
@@ -36,7 +35,6 @@ class EscrowEnvironment: AppEnvironment {
     // Website
     let websiteBaseUrl = "https://www.escrowverification.com"
     let websiteBaseUrlWithLocaleParams = "https://%@.escrowverification.com/%@"
-    let websiteBaseUrlWithLanguageParam = "https://%@.escrowverification.com"
     
     // Google Ads
     let adTestModeActive = true
@@ -46,8 +44,13 @@ class EscrowEnvironment: AppEnvironment {
     let feedAdUnitIdDFPUSA10Ratio = ""
     let feedAdUnitIdDFPUSA15Ratio = ""
     let feedAdUnitIdDFPUSA20Ratio = ""
-    var feedAdUnitIdAdxUSAForAllUsers = ""
-    var feedAdUnitIdAdxUSAForOldUsers = ""
+    let feedAdUnitIdAdxUSAForAllUsers = ""
+    let feedAdUnitIdAdxUSAForOldUsers = ""
+    let feedAdUnitIdAdxTRForAllUsers = ""
+    let feedAdUnitIdAdxTRForOldUsers = ""
+    
+    let fullScreenAdUnitIdAdxForAllUsersForUS = ""
+    let fullScreenAdUnitIdAdxForOldUsersForUS = ""
     
     // MoPub Ads
     let feedAdUnitIdMoPubUSAForAllUsers = ""

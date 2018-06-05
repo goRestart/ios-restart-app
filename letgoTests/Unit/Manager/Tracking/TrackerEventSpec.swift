@@ -986,14 +986,7 @@ class TrackerEventSpec: QuickSpec {
             describe("filterComplete") {
                 context("receiving all params") {
                     beforeEach {
-                        let coords = LGLocationCoordinates2D(latitude: 41.123, longitude: 2.123)
-                        sut = TrackerEvent.filterComplete(coords, distanceRadius: 10, distanceUnit: DistanceType.km,
-                            categories: [.electronics, .motorsAndAccessories],
-                            sortBy: ListingSortCriteria.distance, postedWithin: ListingTimeCriteria.day,
-                            priceRange: .priceRange(min: 5, max: 100), freePostingModeAllowed: true, carSellerType: "professional", carMake: "make",
-                            carModel: "model", carYearStart: 1990, carYearEnd: 2000, propertyType: "flat", offerType: ["sale"],
-                            bedrooms: 2, bathrooms: 3, sizeSqrMetersMin: 1, sizeSqrMetersMax: nil,
-                            rooms: NumberOfRooms(numberOfBedrooms: 2, numberOfLivingRooms: 1))
+                        sut = TrackerEvent.filterComplete(ListingFilters.makeMock(), carSellerType: "professional", freePostingModeAllowed: true)
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("filter-complete"))
@@ -1074,12 +1067,9 @@ class TrackerEventSpec: QuickSpec {
                 }
                 context("not receiving all params, contains the default params") {
                     beforeEach {
-                        sut = TrackerEvent.filterComplete(nil, distanceRadius: nil, distanceUnit: DistanceType.km,
-                            categories: nil, sortBy: nil, postedWithin: nil, priceRange: .priceRange(min: nil, max: nil),
-                            freePostingModeAllowed: false, carSellerType: nil, carMake: nil,
-                            carModel: nil, carYearStart: nil, carYearEnd: nil, propertyType: nil, offerType: nil,
-                            bedrooms: nil, bathrooms: nil, sizeSqrMetersMin: nil, sizeSqrMetersMax: nil,
-                            rooms: nil)
+                        var mockFilter = ListingFilters()
+                        mockFilter.distanceType = .km
+                        sut = TrackerEvent.filterComplete(mockFilter, carSellerType: nil, freePostingModeAllowed: false)
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("filter-complete"))
@@ -1107,7 +1097,7 @@ class TrackerEventSpec: QuickSpec {
                         expect(sut.params!.stringKeyParams["sort-by"] as? String).to(beNil())
                     }
                     it("doesn't have within") {
-                        expect(sut.params!.stringKeyParams["posted-within"] as? String).to(beNil())
+                        expect(sut.params!.stringKeyParams["posted-within"] as? String).to(beEmpty())
                     }
                     it("min price") {
                         expect(sut.params!.stringKeyParams["price-from"] as? String) == "false"
@@ -1711,18 +1701,48 @@ class TrackerEventSpec: QuickSpec {
                     sendMessageInfo = SendMessageTrackingInfo()
                         .set(listing: listing, freePostingModeAllowed: true)
                         .set(messageType: .text)
-                        .set(quickAnswerType: nil)
+                        .set(quickAnswerTypeParameter: nil)
                         .set(typePage: .listingDetail)
                         .set(sellerRating: 4)
                         .set(isBumpedUp: .trueParameter)
                         .set(containsEmoji: true)
-                        .set(assistantMeeting: nil)
+                        .set(assistantMeeting: nil, isSuggestedPlace: nil)
                     sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                     listingVisitSource: .listingList,
                                                     feedPosition: .position(index:1),
                                                     userBadge: .silver,
-                                                    containsVideo: .trueParameter)
+                                                    containsVideo: .trueParameter,
+                                                    isProfessional: false)
                 }
+                context("Interlocutor is a professional") {
+                    beforeEach {
+                        sut = TrackerEvent.firstMessage(info: sendMessageInfo,
+                                                        listingVisitSource: .listingList,
+                                                        feedPosition: .position(index:1),
+                                                        userBadge: .silver,
+                                                        containsVideo: .trueParameter,
+                                                        isProfessional: true)
+                    }
+                    it("contains item-type param") {
+                        let itemType = sut.params!.stringKeyParams["item-type"] as? String
+                        expect(itemType) == "2"
+                    }
+                }
+                context("We don't know if the interlocutor is a professional") {
+                    beforeEach {
+                        sut = TrackerEvent.firstMessage(info: sendMessageInfo,
+                                                        listingVisitSource: .listingList,
+                                                        feedPosition: .position(index:1),
+                                                        userBadge: .silver,
+                                                        containsVideo: .trueParameter,
+                                                        isProfessional: nil)
+                    }
+                    it("contains item-type param") {
+                        let itemType = sut.params!.stringKeyParams["item-type"] as? String
+                        expect(itemType) == "3"
+                    }
+                }
+                
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-ask-question"))
                 }
@@ -1801,7 +1821,8 @@ class TrackerEventSpec: QuickSpec {
                                                         listingVisitSource: .listingList,
                                                         feedPosition: .position(index:1),
                                                         userBadge: .silver,
-                                                        containsVideo: .notAvailable)
+                                                        containsVideo: .notAvailable,
+                                                        isProfessional: false)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1830,7 +1851,8 @@ class TrackerEventSpec: QuickSpec {
                                                         listingVisitSource: .listingList,
                                                         feedPosition: .position(index:1),
                                                         userBadge: .silver,
-                                                        containsVideo: .notAvailable)
+                                                        containsVideo: .notAvailable,
+                                                        isProfessional: false)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1855,12 +1877,13 @@ class TrackerEventSpec: QuickSpec {
                 describe("quick answer message") {
                     beforeEach {
                         sendMessageInfo.set(messageType: .quickAnswer)
-                        sendMessageInfo.set(quickAnswerType: .notInterested)
+                        sendMessageInfo.set(quickAnswerTypeParameter: EventParameterQuickAnswerType.notInterested.rawValue)
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
                                                         feedPosition: .position(index:1),
                                                         userBadge: .silver,
-                                                        containsVideo: .notAvailable)
+                                                        containsVideo: .notAvailable,
+                                                        isProfessional: false)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1899,17 +1922,46 @@ class TrackerEventSpec: QuickSpec {
                         .set(chatListing: product, freePostingModeAllowed: true)
                         .set(interlocutorId: "67890")
                         .set(messageType: .text)
-                        .set(quickAnswerType: nil)
+                        .set(quickAnswerTypeParameter: nil)
                         .set(typePage: .listingDetail)
                         .set(sellerRating: 4)
                         .set(isBumpedUp: .trueParameter)
                         .set(containsEmoji: false)
-                        .set(assistantMeeting: nil)
+                        .set(assistantMeeting: nil, isSuggestedPlace: nil)
                     sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                     listingVisitSource: .listingList,
                                                     feedPosition: .position(index:1),
                                                     userBadge: .silver,
-                                                    containsVideo: .notAvailable)
+                                                    containsVideo: .notAvailable,
+                                                    isProfessional: false)
+                }
+                context("Interlocutor is a professional") {
+                    beforeEach {
+                        sut = TrackerEvent.firstMessage(info: sendMessageInfo,
+                                                        listingVisitSource: .listingList,
+                                                        feedPosition: .position(index:1),
+                                                        userBadge: .silver,
+                                                        containsVideo: .notAvailable,
+                                                        isProfessional: true)
+                    }
+                    it("contains item-type param") {
+                        let itemType = sut.params!.stringKeyParams["item-type"] as? String
+                        expect(itemType) == "2"
+                    }
+                }
+                context("We don't know if the interlocutor is a professional") {
+                    beforeEach {
+                        sut = TrackerEvent.firstMessage(info: sendMessageInfo,
+                                                        listingVisitSource: .listingList,
+                                                        feedPosition: .position(index:1),
+                                                        userBadge: .silver,
+                                                        containsVideo: .notAvailable,
+                                                        isProfessional: nil)
+                    }
+                    it("contains item-type param") {
+                        let itemType = sut.params!.stringKeyParams["item-type"] as? String
+                        expect(itemType) == "3"
+                    }
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-ask-question"))
@@ -1977,7 +2029,8 @@ class TrackerEventSpec: QuickSpec {
                                                         listingVisitSource: .listingList,
                                                         feedPosition: .position(index:1),
                                                         userBadge: .silver,
-                                                        containsVideo: .falseParameter)
+                                                        containsVideo: .falseParameter,
+                                                        isProfessional: false)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -2006,7 +2059,8 @@ class TrackerEventSpec: QuickSpec {
                                                         listingVisitSource: .listingList,
                                                         feedPosition: .position(index:1),
                                                         userBadge: .silver,
-                                                        containsVideo: .notAvailable)
+                                                        containsVideo: .notAvailable,
+                                                        isProfessional: false)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -2031,12 +2085,13 @@ class TrackerEventSpec: QuickSpec {
                 describe("quick answer message") {
                     beforeEach {
                         sendMessageInfo.set(messageType: .quickAnswer)
-                        sendMessageInfo.set(quickAnswerType: .notInterested)
+                        sendMessageInfo.set(quickAnswerTypeParameter: EventParameterQuickAnswerType.notInterested.rawValue)
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
                                                         feedPosition: .position(index:1),
                                                         userBadge: .silver,
-                                                        containsVideo: .notAvailable)
+                                                        containsVideo: .notAvailable,
+                                                        isProfessional: false)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -3559,13 +3614,31 @@ class TrackerEventSpec: QuickSpec {
                     sendMessageInfo = SendMessageTrackingInfo()
                         .set(listing: .product(product), freePostingModeAllowed: true)
                         .set(messageType: .text)
-                        .set(quickAnswerType: nil)
+                        .set(quickAnswerTypeParameter: nil)
                         .set(typePage: .chat)
                         .set(sellerRating: 4)
                         .set(isBumpedUp: .trueParameter)
                         .set(containsEmoji: false)
-                        .set(assistantMeeting: assistantMeeting)
-                    sut = TrackerEvent.userMessageSent(info: sendMessageInfo)
+                        .set(assistantMeeting: assistantMeeting, isSuggestedPlace: true)
+                    sut = TrackerEvent.userMessageSent(info: sendMessageInfo, isProfessional: false)
+                }
+                context("Interlocutor is a professional") {
+                    beforeEach {
+                        sut = TrackerEvent.userMessageSent(info: sendMessageInfo, isProfessional: true)
+                    }
+                    it("contains item-type param") {
+                        let itemType = sut.params!.stringKeyParams["item-type"] as? String
+                        expect(itemType) == "2"
+                    }
+                }
+                context("We don't know if the interlocutor is a professional") {
+                    beforeEach {
+                        sut = TrackerEvent.userMessageSent(info: sendMessageInfo, isProfessional: nil)
+                    }
+                    it("contains item-type param") {
+                        let itemType = sut.params!.stringKeyParams["item-type"] as? String
+                        expect(itemType) == "3"
+                    }
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("user-sent-message"))
@@ -3625,11 +3698,15 @@ class TrackerEventSpec: QuickSpec {
                     let meetingLocation = sut.params!.stringKeyParams["assistant-meeting-location"] as? String
                     expect(meetingLocation) == "Pasa tapas"
                 }
+                it("has meeting location suggested type") {
+                    let locationSuggested = sut.params!.stringKeyParams["assistant-location-suggested"] as? String
+                    expect(locationSuggested) == "true"
+                }
 
                 describe("text message") {
                     beforeEach {
                         sendMessageInfo.set(messageType: .text)
-                        sut = TrackerEvent.userMessageSent(info: sendMessageInfo)
+                        sut = TrackerEvent.userMessageSent(info: sendMessageInfo, isProfessional: false)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -3646,7 +3723,7 @@ class TrackerEventSpec: QuickSpec {
                 describe("sticker message") {
                     beforeEach {
                         sendMessageInfo.set(messageType: .sticker)
-                        sut = TrackerEvent.userMessageSent(info: sendMessageInfo)
+                        sut = TrackerEvent.userMessageSent(info: sendMessageInfo, isProfessional: false)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -3663,8 +3740,8 @@ class TrackerEventSpec: QuickSpec {
                 describe("quick answer message") {
                     beforeEach {
                         sendMessageInfo.set(messageType: .quickAnswer)
-                        sendMessageInfo.set(quickAnswerType: .notInterested)
-                        sut = TrackerEvent.userMessageSent(info: sendMessageInfo)
+                        sendMessageInfo.set(quickAnswerTypeParameter: EventParameterQuickAnswerType.notInterested.rawValue)
+                        sut = TrackerEvent.userMessageSent(info: sendMessageInfo, isProfessional: false)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -3708,13 +3785,13 @@ class TrackerEventSpec: QuickSpec {
                     sendMessageInfo = SendMessageTrackingInfo()
                         .set(listing: .product(product), freePostingModeAllowed: true)
                         .set(messageType: .text)
-                        .set(quickAnswerType: nil)
+                        .set(quickAnswerTypeParameter: nil)
                         .set(typePage: .chat)
                         .set(sellerRating: 4)
                         .set(isBumpedUp: .trueParameter)
                         .set(error: error)
                         .set(containsEmoji: false)
-                        .set(assistantMeeting: nil)
+                        .set(assistantMeeting: nil, isSuggestedPlace: nil)
                     sut = TrackerEvent.userMessageSentError(info: sendMessageInfo)
                 }
                 it("has its event name") {
@@ -3808,7 +3885,7 @@ class TrackerEventSpec: QuickSpec {
                 describe("quick answer message") {
                     beforeEach {
                         sendMessageInfo.set(messageType: .quickAnswer)
-                        sendMessageInfo.set(quickAnswerType: .notInterested)
+                        sendMessageInfo.set(quickAnswerTypeParameter: EventParameterQuickAnswerType.notInterested.rawValue)
                         sut = TrackerEvent.userMessageSentError(info: sendMessageInfo)
                     }
                     it("has message-type param with value text") {
@@ -4443,6 +4520,23 @@ class TrackerEventSpec: QuickSpec {
                     }
                 }
 
+                context("Verify Account Select Network") {
+                    beforeEach {
+                        sut = TrackerEvent.verifyAccountSelectNetwork(.smsVerification, network: .facebook)
+                    }
+                    it("has its event name") {
+                        expect(sut.name.rawValue) == "verify-account-select-network"
+                    }
+                    it("contains type-page param") {
+                        let param = sut.params!.stringKeyParams["type-page"] as? String
+                        expect(param) == "sms-verification"
+                    }
+                    it("contains account-network param") {
+                        let param = sut.params!.stringKeyParams["account-network"] as? String
+                        expect(param) == "facebook"
+                    }
+                }
+
                 context("Verify Account Complete") {
                     beforeEach {
                         sut = TrackerEvent.verifyAccountComplete(.chat, network: .facebook)
@@ -4642,7 +4736,7 @@ class TrackerEventSpec: QuickSpec {
                     sut = TrackerEvent.listingBumpUpComplete(.product(product), price: .free, type: .free, restoreRetriesCount: 8,
                                                              network: .facebook, transactionStatus: .purchasingPurchased,
                                                              storeProductId: nil, isPromotedBump: .falseParameter, typePage: .edit,
-                                                             isBoost: .falseParameter)
+                                                             isBoost: .falseParameter, paymentId: "c91582aa-d030-444f-aefe-f4cd691e7486")
                 }
                 it("has its event name ") {
                     expect(sut.name.rawValue).to(equal("bump-up-complete"))
@@ -4676,6 +4770,9 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("boost param is false") {
                     expect(sut.params?.stringKeyParams["boost"] as? String) == "false"
+                }
+                it("payment id matches") {
+                    expect(sut.params?.stringKeyParams["payment-id"] as? String) == "c91582aa-d030-444f-aefe-f4cd691e7486"
                 }
             }
             describe("bump up fail") {
@@ -4812,7 +4909,8 @@ class TrackerEventSpec: QuickSpec {
             
             describe("empty state error") {
                 beforeEach {
-                    sut = TrackerEvent.emptyStateVisit(typePage: .chat, reason: .notFound, errorCode: 404)
+                    sut = TrackerEvent.emptyStateVisit(typePage: .chat, reason: .notFound,
+                                                       errorCode: 404, errorDescription: "Internal error")
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("empty-state-error"))
@@ -4828,6 +4926,27 @@ class TrackerEventSpec: QuickSpec {
                 it("contains error details parameter") {
                     let param = sut.params!.stringKeyParams["error-details"] as? String
                     expect(param) == "404"
+                }
+            }
+            describe("empty state error") {
+                beforeEach {
+                    sut = TrackerEvent.emptyStateVisit(typePage: .chat, reason: .notFound,
+                                                       errorCode: nil, errorDescription: "Internal error")
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("empty-state-error"))
+                }
+                it("contains typePage parameter") {
+                    let param = sut.params!.stringKeyParams["type-page"] as? String
+                    expect(param) == "chat"
+                }
+                it("contains reason parameter") {
+                    let param = sut.params!.stringKeyParams["reason"] as? String
+                    expect(param) == "not-found"
+                }
+                it("contains error details parameter") {
+                    let param = sut.params!.stringKeyParams["error-details"] as? String
+                    expect(param) == "Internal error"
                 }
             }
             describe("user rating report") {
@@ -4977,6 +5096,23 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
             
+            describe("chat letgo service message received") {
+                beforeEach {
+                    sut = TrackerEvent.chatLetgoServiceQuestionReceived(questionKey: "key", listingId: "1234")
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("chat-letgo-service-question-received"))
+                }
+                it("contains the key") {
+                    let param = sut.params!.stringKeyParams["message-goal"] as? String
+                    expect(param) == "key"
+                }
+                it("contains the listing id") {
+                    let param = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(param) == "1234"
+                }
+            }
+            
             describe("tutorial opens") {
                 beforeEach {
                     sut = TrackerEvent.tutorialDialogStart(typePage: .filterBubble, typeTutorialDialog: .realEstate)
@@ -5055,6 +5191,224 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.params?.params).to(beNil())
                 }
             }
+
+            describe("listingOpenListingMap") {
+                context("all params") {
+                    beforeEach {
+                        var mockFilters = ListingFilters.makeMock()
+                        mockFilters.selectedCategories = [.realEstate]
+                        sut = TrackerEvent.listingOpenListingMap(action: .showMap,
+                                                                 returnedResults: .trueParameter,
+                                                                 featuredResults: 2, filters: mockFilters)
+                    }
+                    
+                    it("has its event name") {
+                        expect(sut.params!.stringKeyParams["action"] as? String).to(equal("show-map"))
+                    }
+                    it("has its results") {
+                        expect(sut.params!.stringKeyParams["returned-results"] as? String).to(equal("true"))
+                    }
+                    it("has featured") {
+                        expect(sut.params!.stringKeyParams["featured-results"] as? Int).to(equal(2))
+                    }
+                    it("has coords info") {
+                        expect(sut.params!.stringKeyParams["filter-lat"]).notTo(beNil())
+                        let lat = sut.params!.stringKeyParams["filter-lat"] as? Double
+                        expect(lat).to(equal(41.123))
+                        
+                        expect(sut.params!.stringKeyParams["filter-lng"]).notTo(beNil())
+                        let lng = sut.params!.stringKeyParams["filter-lng"] as? Double
+                        expect(lng).to(equal(2.123))
+                    }
+                    it("distance radius") {
+                        expect(sut.params!.stringKeyParams["distance-radius"] as? Int).to(equal(10))
+                    }
+                    it("distance unit") {
+                        expect(sut.params!.stringKeyParams["distance-unit"] as? String).to(equal("km"))
+                    }
+                    it("has categories") {
+                        expect(sut.params!.stringKeyParams["category-id"] as? String).to(equal("10"))
+                    }
+                    it("has sort by") {
+                        expect(sut.params!.stringKeyParams["sort-by"] as? String).to(equal("distance"))
+                    }
+                    it("has posted within") {
+                        expect(sut.params!.stringKeyParams["posted-within"] as? String).to(equal("day"))
+                    }
+                    it("min price") {
+                        expect(sut.params!.stringKeyParams["price-from"] as? String) == "true"
+                    }
+                    it("max price") {
+                        expect(sut.params!.stringKeyParams["price-to"] as? String) == "true"
+                    }
+                    it ("make") {
+                        expect(sut.params!.stringKeyParams["product-make"] as? String) == "make"
+                    }
+                    it ("model") {
+                        expect(sut.params!.stringKeyParams["product-model"] as? String) == "model"
+                    }
+                    it ("start") {
+                        expect(sut.params!.stringKeyParams["product-year-start"] as? String) == "1990"
+                    }
+                    it ("end") {
+                        expect(sut.params!.stringKeyParams["product-year-end"] as? String) == "2000"
+                    }
+                    it ("property-type") {
+                        expect(sut.params!.stringKeyParams["property-type"] as? String) == "flat"
+                    }
+                    it ("offer-type") {
+                        expect(sut.params!.stringKeyParams["deal-type"] as? String) == "sale"
+                    }
+                    it ("bedrooms") {
+                        expect(sut.params!.stringKeyParams["bedroom-number"] as? String) == "2"
+                    }
+                    it ("bathrooms") {
+                        expect(sut.params!.stringKeyParams["bathroom-number"] as? String) == "3.0"
+                    }
+                    it ("sizeSqrMetersMin") {
+                        expect(sut.params!.stringKeyParams["size-from"] as? String) == "1"
+                    }
+                    it ("sizeSqrMetersMax") {
+                        expect(sut.params!.stringKeyParams["size-to"] as? String) == "N/A"
+                    }
+                    it ("rooms-number") {
+                        expect(sut.params!.stringKeyParams["room-number"] as? String) == "2+1"
+                    }
+                    it ("vertical fields") {
+                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "product-make,product-model,product-year-start,product-year-end,property-type,deal-type,bedroom-number,bathroom-number,size-from,room-number"
+                    }
+                }
+            }
+            
+            describe("listingMapOpenPreviewMap") {
+                context("all params") {
+                    beforeEach {
+                        var mockListing = MockRealEstate.makeMock()
+                        mockListing.media = [LGMedia(type: .video, snapshotId: "", outputs: LGMediaOutputs())]
+                        mockListing.featured = true
+                        sut = TrackerEvent.listingMapOpenPreviewMap(.realEstate(mockListing),
+                                                                    source: .map,
+                                                                    userId: "user-id",
+                                                                    isMine: .trueParameter)
+                    }
+                    
+                    it("has source") {
+                        expect(sut.params!.stringKeyParams["visit-source"] as? String).to(equal("map"))
+                    }
+                    it("has user id") {
+                        expect(sut.params!.stringKeyParams["user-to-id"] as? String).to(equal("user-id"))
+                    }
+                    it("has ismine") {
+                        expect(sut.params!.stringKeyParams["is-mine"] as? String).to(equal("true"))
+                    }
+                    it("has video") {
+                        expect(sut.params!.stringKeyParams["is-video"] as? String).to(equal("true"))
+                    }
+                    it("has bump up") {
+                        expect(sut.params!.stringKeyParams["bump-up"] as? String).to(equal("true"))
+                    }
+                    it("Do not have reputation") {
+                        expect(sut.params!.stringKeyParams["seller-reputation-badge"] as? String).to(equal("N/A"))
+                    }
+                }
+            }
+            
+            describe("Taking an screenshot") {
+                beforeEach {
+                    sut = TrackerEvent.userDidTakeScreenshot()
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("os-screenshot"))
+                }
+                it("the information is empty") {
+                    expect(sut.params?.params).to(beNil())
+                }
+            }
+            
+            describe("Listing Interstitial Ad Tapped") {
+                beforeEach {
+                    sut = TrackerEvent.adTapped(listingId: "listing123",
+                                                adType: .interstitial,
+                                                isMine: .falseParameter,
+                                                queryType: nil,
+                                                query: nil,
+                                                willLeaveApp: .trueParameter,
+                                                typePage: .nextItem,
+                                                categories: nil,
+                                                feedPosition: .position(index: 19))
+                }
+                it("contains product id") {
+                    let productId = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(productId).to(equal("listing123"))
+                }
+                it("contains ad-type N/A") {
+                    expect(sut.params!.stringKeyParams["ad-type"] as? String) == "interstitial"
+                }
+                it("contains is-mine false") {
+                    expect(sut.params!.stringKeyParams["is-mine"] as? String) == "false"
+                }
+                it("contains ad-query-type N/A") {
+                    expect(sut.params!.stringKeyParams["ad-query-type"] as? String) == TrackerEvent.notApply
+                }
+                it("contains ad-query-text N/A") {
+                    expect(sut.params!.stringKeyParams["ad-query-text"] as? String) == TrackerEvent.notApply
+                }
+                it("contains will leave app true") {
+                    expect(sut.params!.stringKeyParams["left-application"] as? String) == "true"
+                }
+                it("contains type page") {
+                    expect(sut.params!.stringKeyParams["type-page"] as? String) == "next-item"
+                }
+                it("contains categories unassigned") {
+                    expect(sut.params!.stringKeyParams["category-id"] as? String) == "0"
+                }
+                it("contains feed position") {
+                    expect(sut.params!.stringKeyParams["feed-position"] as? String) == "20"
+                }
+            }
+            
+            describe("Listing Interstitial Ad Shown") {
+                beforeEach {
+                    sut = TrackerEvent.adShown(listingId: "listing123",
+                                                adType: .interstitial,
+                                                isMine: .falseParameter,
+                                                queryType: nil,
+                                                query: nil,
+                                                adShown: .trueParameter,
+                                                typePage: .nextItem,
+                                                categories: nil,
+                                                feedPosition: .position(index: 19))
+                }
+                it("contains product id") {
+                    let productId = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(productId).to(equal("listing123"))
+                }
+                it("contains ad-type N/A") {
+                    expect(sut.params!.stringKeyParams["ad-type"] as? String) == "interstitial"
+                }
+                it("contains is-mine false") {
+                    expect(sut.params!.stringKeyParams["is-mine"] as? String) == "false"
+                }
+                it("contains ad-query-type N/A") {
+                    expect(sut.params!.stringKeyParams["ad-query-type"] as? String) == TrackerEvent.notApply
+                }
+                it("contains ad-query-text N/A") {
+                    expect(sut.params!.stringKeyParams["ad-query-text"] as? String) == TrackerEvent.notApply
+                }
+                it("contains ad shown true") {
+                    expect(sut.params!.stringKeyParams["ad-shown"] as? String) == "true"
+                }
+                it("contains type page") {
+                    expect(sut.params!.stringKeyParams["type-page"] as? String) == "next-item"
+                }
+                it("contains categories unassigned") {
+                    expect(sut.params!.stringKeyParams["category-id"] as? String) == "0"
+                }
+                it("contains feed position") {
+                    expect(sut.params!.stringKeyParams["feed-position"] as? String) == "20"
+                }
+            }
+            
         }
     }
 }

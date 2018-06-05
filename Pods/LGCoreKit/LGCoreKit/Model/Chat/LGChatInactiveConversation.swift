@@ -9,17 +9,31 @@
 public protocol ChatInactiveConversation: BaseModel {
     var lastMessageSentAt: Date? { get }
     var listing: ChatListing? { get }
-    var interlocutor: ChatInterlocutor? { get }
+    var seller: InactiveInterlocutor? { get }
+    var buyer: InactiveInterlocutor? { get }
     var messages: [ChatInactiveMessage] { get }
+
+    func interlocutor(forMyUserId userId: String?) -> InactiveInterlocutor?
 }
 
 struct LGChatInactiveConversation: ChatInactiveConversation, Decodable {
     let objectId: String?
     let lastMessageSentAt: Date?
     let listing: ChatListing?
-    let interlocutor: ChatInterlocutor?
+    let seller: InactiveInterlocutor?
+    let buyer: InactiveInterlocutor?
     let messages: [ChatInactiveMessage]
-    
+
+    public func interlocutor(forMyUserId userId: String?) -> InactiveInterlocutor? {
+        guard let myUserId = userId else { return nil }
+        if let sellerId = seller?.objectId, sellerId == myUserId {
+            return buyer
+        } else if let buyerId = buyer?.objectId, buyerId == myUserId {
+            return seller
+        }
+        return nil
+    }
+
     // MARK: Decodable
     
     /*
@@ -37,9 +51,17 @@ struct LGChatInactiveConversation: ChatInactiveConversation, Decodable {
          "flag": 2
      }
      },
-     "interlocutor": {
+     "seller": {
          "id": "dbc364b6-4e26-49dc-a015-dc7820262715",
          "name": "Albert Beade",
+         "is_banned": false,
+         "status": "active",
+         "is_muted": false,
+         "has_muted_you": false
+     },
+     "buyer": {
+         "id": "982ufwoihfawf09-ñañañaña",
+         "name": "Maikel Nait",
          "is_banned": false,
          "status": "active",
          "is_muted": false,
@@ -72,10 +94,11 @@ struct LGChatInactiveConversation: ChatInactiveConversation, Decodable {
     public init(from decoder: Decoder) throws {
         let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
         objectId = try keyedContainer.decode(String.self, forKey: .objectId)
-        let lastMessageSentAtValue = try keyedContainer.decodeIfPresent(Double.self, forKey: .lastMessageSentAt)
+        let lastMessageSentAtValue = try keyedContainer.decodeIfPresent(TimeInterval.self, forKey: .lastMessageSentAt)
         lastMessageSentAt = Date.makeChatDate(millisecondsIntervalSince1970: lastMessageSentAtValue)
         listing = try keyedContainer.decodeIfPresent(LGChatListing.self, forKey: .listing)
-        interlocutor = try keyedContainer.decodeIfPresent(LGChatInterlocutor.self, forKey: .interlocutor)
+        seller = try keyedContainer.decodeIfPresent(LGInactiveInterlocutor.self, forKey: .seller)
+        buyer = try keyedContainer.decodeIfPresent(LGInactiveInterlocutor.self, forKey: .buyer)
         messages = (try keyedContainer.decode(FailableDecodableArray<LGChatInactiveMessage>.self, forKey: .messages)).validElements
     }
     
@@ -83,7 +106,8 @@ struct LGChatInactiveConversation: ChatInactiveConversation, Decodable {
         case objectId = "conversation_id"
         case lastMessageSentAt = "last_message_sent_at"
         case listing = "product"
-        case interlocutor
+        case seller
+        case buyer
         case messages
     }
 }

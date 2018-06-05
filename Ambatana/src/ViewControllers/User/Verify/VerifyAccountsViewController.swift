@@ -1,17 +1,10 @@
-//
-//  VerifyAccountsViewController.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 30/08/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import GoogleSignIn
 import UIKit
 import RxSwift
 import RxCocoa
+import LGComponents
 
-class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
+final class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
 
     @IBOutlet weak var contentContainer: UIView!
     @IBOutlet weak var contentContainerCenterY: NSLayoutConstraint!
@@ -56,8 +49,6 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
         self.keyboardHelper = keyboardHelper
         super.init(viewModel: viewModel, nibName: "VerifyAccountsViewController", statusBarStyle: .lightContent)
         viewModel.delegate = self
-        modalPresentationStyle = .overCurrentContext
-        modalTransitionStyle = .crossDissolve
     }
 
     required init?(coder: NSCoder) {
@@ -87,14 +78,14 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
         contentContainer.cornerRadius = LGUIKitConstants.bigCornerRadius
         fbButton.setStyle(.facebook)
         googleButton.setStyle(.google)
-        emailTextField.placeholder = LGLocalizedString.profileVerifyEmailButton
+        emailTextField.placeholder = R.Strings.profileVerifyEmailButton
 
         titleLabel.text = viewModel.titleText
         descriptionLabel.text = viewModel.descriptionText
 
-        fbButton.setTitle(LGLocalizedString.profileVerifyFacebookButton, for: .normal)
-        googleButton.setTitle(LGLocalizedString.profileVerifyGoogleButton, for: .normal)
-        emailButton.setTitle(LGLocalizedString.profileVerifyEmailButton, for: .normal)
+        fbButton.setTitle(R.Strings.profileVerifyFacebookButton, for: .normal)
+        googleButton.setTitle(R.Strings.profileVerifyGoogleButton, for: .normal)
+        emailButton.setTitle(R.Strings.profileVerifyEmailButton, for: .normal)
 
         if viewModel.fbButtonState.value == .hidden {
             fbContainerHeight.constant = 0

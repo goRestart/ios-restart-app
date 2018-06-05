@@ -1,12 +1,5 @@
-//
-//  ChatBanner.swift
-//  LetGo
-//
-//  Created by Dídac on 18/11/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 protocol ChatBannerDelegate: class {
     func chatBannerDidFinish()
@@ -99,7 +92,7 @@ class ChatBanner: UIView {
         actionButton.setContentCompressionResistancePriority(751, for: .horizontal)
         actionButton.set(accessibilityId: .chatBannerActionButton)
 
-        closeButton.setImage(UIImage(named: "ic_close_dark"), for: .normal)
+        closeButton.setImage(R.Asset.IconsButtons.icCloseDark.image, for: .normal)
         closeButton.addTarget(self, action: #selector(bannerCloseButtonTapped), for: .touchUpInside)
         closeButton.set(accessibilityId: .chatBannerCloseButton)
     }

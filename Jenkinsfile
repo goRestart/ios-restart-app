@@ -1,21 +1,28 @@
 import hudson.model.Result
 import jenkins.model.CauseOfInterruption.UserInterruption
+
 properties([
    // Jenkins executions properties, keeping 20 executions, getting rollbackBuild Param and 2h timeout
-  buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '5', numToKeepStr: '20')), 
+  buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '5', numToKeepStr: '15')), 
   parameters([string(defaultValue: '', description: '', name: 'rollBackBuild')]), 
   pipelineTriggers([[$class: 'PeriodicFolderTrigger', interval: '2h']])
 ])
-  
-  node_name = 'mac-mini-1'
+  node_name = 'osx-slave'
   branch_type = get_branch_type "${env.BRANCH_NAME}"
   try {
-    stopPreviousRunningBuilds()
-    if (branch_type == "master") {
-        markJiraIssuesAsDone() 
-    } else {
-        launchUnitTests()
-    }
+    parallel (
+      "Move Tickets" : {
+        if (branch_type == "master") {
+          markJiraIssuesAsDone() 
+        } 
+      },
+      "CI" : { 
+        if (branch_type == "pr") {
+          stopPreviousRunningBuilds()
+          launchUnitTests()
+        } 
+      }
+    )
   }
   catch (err) {
       currentBuild.result = "FAILURE"   
@@ -49,17 +56,17 @@ def stopPreviousRunningBuilds() {
 }
 
 def markJiraIssuesAsDone() {
-    node(node_name) {
-        stage ("Move Tickets") {
-		// we move to a secure folder with the repo already checked out
-		sh 'cd ~/Desktop/DONOTDELETE/letgo-ios'
-		sh 'git reset --hard HEAD'
-		sh 'git checkout master'
-		sh 'git pull origin master --rebase'
-		withCredentials([usernamePassword(credentialsId: '79356c55-62e0-41c0-8a8c-85a56ad45e11', 
-                                              passwordVariable: 'IOS_JIRA_PASSWORD', 
-                                              usernameVariable: 'IOS_JIRA_USERNAME')]) {
-                sh 'ruby ./Scripts/githooks/post-merge'
+	node(node_name) {
+		stage ("Move Tickets") {
+			git branch: 'master', poll: false, url: 'git@github.com:letgoapp/letgo-ios-scripts.git'
+    			withCredentials([
+				usernamePassword(credentialsId: '79356c55-62e0-41c0-8a8c-85a56ad45e11', 
+					passwordVariable: 'IOS_JIRA_PASSWORD', 
+					usernameVariable: 'IOS_JIRA_USERNAME'),
+				usernamePassword(credentialsId: 'fc7205d5-6635-441c-943e-d40b5030df0f', 
+					passwordVariable: 'LG_GITHUB_PASSWORD', 
+					usernameVariable: 'LG_GITHUB_USER')]) {
+			sh 'ruby ./scripts/hooks/post-merge'
             }
         }
     }
@@ -72,15 +79,15 @@ def launchUnitTests(){
     checkout([
     $class: 'GitSCM',
     branches: scm.branches,
-    extensions: [[$class: 'CloneOption', noTags: false, shallow: true, depth: 0, reference: '']],
+    extensions: [[$class: 'CloneOption', timeout: 100, noTags: false, shallow: true, depth: 0, reference: '']] + [[$class: 'WipeWorkspace']],
     userRemoteConfigs: scm.userRemoteConfigs,
     ])
-	    sh 'export LC_ALL=en_US.UTF-8'
-	    // we add an || true in case there are no simulators available to avoid job to fail
-	    sh 'killall "Simulator" || true'  
-      sh 'bundle install'
-    	withCredentials([usernamePassword(credentialsId: 'fc7205d5-6635-441c-943e-d40b5030df0f', passwordVariable: 'LG_GITHUB_PASSWORD', usernameVariable: 'LG_GITHUB_USER')]) {
-        sh 'bundle exec fastlane ciJenkins'
+      sh 'export LC_ALL=en_US.UTF-8'
+      sh 'killall "Simulator" || true'
+      sh "xcrun simctl list devices |grep 'iPhone' |cut -d '(' -f2 | cut -d ')' -f1 | xargs -I {} xcrun simctl erase '{}'"
+        
+      withCredentials([usernamePassword(credentialsId: 'fc7205d5-6635-441c-943e-d40b5030df0f', passwordVariable: 'LG_GITHUB_PASSWORD', usernameVariable: 'LG_GITHUB_USER')]) {
+        sh 'fastlane ciJenkins'
       }
     }
   }
@@ -91,6 +98,7 @@ def get_branch_type(String branch_name) {
     def release_pattern = ".*release-.*"
     def feature_pattern = ".*feature-.*"
     def hotfix_pattern = ".*hotfix-.*"
+    def jira_integration = ".*jiraintegration.*"
     def master_pattern = ".*master"
     def pr_pattern     = "^PR-\\d+\$" 
 
@@ -106,6 +114,8 @@ def get_branch_type(String branch_name) {
         return "hotfix"
     } else if (branch_name =~ pr_pattern) {
         return "pr"
+    } else if (branch_name =~ jira_integration) {
+        return "jiraintegration"
     } else {
         return null;
     }
@@ -133,3 +143,5 @@ def notifyBuildStatus(String buildStatus = 'STARTED') {
      slackSend (channel: slack_channel ,color: red, message: summary)  
   } 
 }
+
+

@@ -86,24 +86,9 @@
         "description": "Show button to access inactive conversations"
     },
     {
-        "name": "IncreaseMinPriceBumps",
-        "values": ["control", "baseline", "active"],
-        "description": "Charge min price of 1.99$ instead of 0.99$ on bumps"
-    },
-    {
         "name": "NoAdsInFeedForNewUsers",
         "values": ["control", "baseline", "AdsEverywhere", "NoAdsForNewUsers", "AdsForNewUsersOnlyInFeed"],
         "description": "Change logic for showing ads to new users (2 weeks old)"
-    },
-    {
-        "name": "NewUserProfileView",
-        "values": ["control", "baseline", "active"],
-        "description": "Refactor of the User Profile view controller"
-    },
-    {
-        "name": "TurkeyBumpPriceVATAdaptation",
-        "values": ["control", "baseline", "active"],
-        "description": "Change bump price scaling for listings in TR"
     },
     {
         "name": "SearchImprovements",
@@ -139,11 +124,6 @@
         "name": "BumpUpBoost",
         "values": ["control", "baseline", "sendTop5Mins", "sendTop1hour", "boostListing1hour", "cheaperBoost5Mins"],
         "description": "Ability to boost ongoing bump ups"
-    },
-    {
-        "name": "ServicesCategoryEnabled",
-        "values": ["control", "baseline", "active"],
-        "description": "Allow to see Services category"
     },
     {
         "name": "CopyForChatNowInTurkey",
@@ -216,6 +196,11 @@
         "description": "Search cars into the new Search Car end point"
     },
     {
+        "name": "SectionedMainFeed",
+        "values": ["control", "baseline", "active"],
+        "description": "A new fully sectioned main feed"
+    },
+    {
         "name": "FilterSearchCarSellerType",
         "values": ["control", "baseline", "variantA", "variantB", "variantC", "variantD"],
         "description": "Include Search filter for Car Seller type"
@@ -261,9 +246,59 @@
         "description": "Show an I am interested button in the main feed"
     },
     {
+        "name": "ChatConversationsListWithoutTabs",
+        "values": ["control", "baseline", "active"],
+        "description": "Chat conversation list without tabs"
+    },
+    {
+        "name": "PersonalizedFeed",
+        "values": ["control", "baseline", "personalized"],
+        "description": "Personalize the feed"
+    },
+    {
         "name": "ServicesCategoryOnSalchichasMenu",
         "values": ["control", "baseline", "VariantA", "VariantB", "VariantC"],
         "description": "Show services category on salchichas menu"
+    },
+    {
+        "name": "SearchBoxImprovements",
+        "values": ["control", "baseline", "changeCopy", "biggerBox", "changeCopyAndBoxSize"],
+        "description": "Improve search box visibility by changing its size and copy"
+    },
+    {
+        "name": "GoogleAdxForTR",
+        "values": ["control", "baseline", "GoogleAdxForAllUsers", "GoogleAdxForOldUsers"],
+        "description": "Change logic for showing GoogleAdx in TR"
+    },
+    {
+        "name": "MultiContactAfterSearch",
+        "values": ["control", "baseline", "photoAndInfo", "onlyPhoto"],
+        "description": "MultiContact After Search"
+    },
+    {
+         "name": "ShowServicesFeatures",
+         "values": ["control", "baseline", "active"],
+         "description": "Show services features (search & filters, posting, editing)"
+    },
+    {
+         "name": "EmptySearchImprovements",
+         "values": ["control", "baseline", "popularNearYou", "similarQueries", "similarQueriesWhenFewResults", "alwaysSimilar"],
+         "description": "Improve empty search experience by proposing relavant listings"
+    },
+    {
+         "name": "OffensiveReportAlert",
+         "values": ["control", "baseline", "active"],
+         "description": "Offensive Report alert active"
+    },
+    {
+         "name": "HighlightedIAmInterestedFeed",
+         "values": ["control", "baseline", "lightBottom", "darkTop", "darkBottom"],
+         "description": "Show an I am interested highlighted undo button in the main feed more"
+    },
+    {
+        "name": "FullScreenAdsWhenBrowsingForUS",
+        "values": ["control", "baseline", "AdsForAllUsers", "AdsForOldUsers"],
+        "description": "Show full screen Interstitial while browsing through items"
     },{
         "name": "VideoPosting",
         "values": ["control", "baseline", "active"],
@@ -274,4 +309,4 @@
         "values": ["control", "baseline", "active"],
         "description": "Show predictive posting flow when pressing Other Items on salchichas menu"
     }
-]
+ ]

@@ -1,13 +1,6 @@
-//
-//  SurveysCoordinator.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 09/03/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
+import LGComponents
 
 final class SurveysCoordinator: Coordinator {
     var child: Coordinator?
@@ -97,7 +90,7 @@ extension SurveysCoordinator: WebSurveyNavigator {
     }
 
     func webSurveyFinished() {
-        closeSurvey(animated: true, messageToShow: LGLocalizedString.surveyConfirmation, completion: nil)
+        closeSurvey(animated: true, messageToShow: R.Strings.surveyConfirmation, completion: nil)
     }
 }
 

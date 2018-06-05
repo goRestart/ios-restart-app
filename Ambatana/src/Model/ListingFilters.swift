@@ -87,6 +87,15 @@ struct ListingFilters {
     var realEstateNumberOfRooms: NumberOfRooms?
     var realEstateSizeRange: SizeRange
     
+    var servicesTypeId: RetrieveListingParam<String>?
+    var servicesSubtypeId: RetrieveListingParam<String>?
+    var servicesType: ServiceSubtype? {
+        return nil
+    }
+    var servicesSubtype: ServiceType? {
+        return nil
+    }
+    
     var noFilterCategoryApplied: Bool {
         return selectedCategories.isEmpty
     }
@@ -114,7 +123,9 @@ struct ListingFilters {
             realEstateNumberOfBedrooms: nil,
             realEstateNumberOfBathrooms: nil,
             realEstateNumberOfRooms: nil,
-            realEstateSizeRange: SizeRange(min: nil, max: nil)
+            realEstateSizeRange: SizeRange(min: nil, max: nil),
+            servicesTypeId: nil,
+            servicesSubtypeId: nil
         )
     }
     
@@ -139,7 +150,9 @@ struct ListingFilters {
          realEstateNumberOfBedrooms: NumberOfBedrooms?,
          realEstateNumberOfBathrooms: NumberOfBathrooms?,
          realEstateNumberOfRooms: NumberOfRooms?,
-         realEstateSizeRange: SizeRange
+         realEstateSizeRange: SizeRange,
+         servicesTypeId: RetrieveListingParam<String>?,
+         servicesSubtypeId: RetrieveListingParam<String>?
          ) {
         self.place = place
         self.distanceRadius = distanceRadius > 0 ? distanceRadius : nil
@@ -163,6 +176,8 @@ struct ListingFilters {
         self.realEstateNumberOfBathrooms = realEstateNumberOfBathrooms
         self.realEstateNumberOfRooms = realEstateNumberOfRooms
         self.realEstateSizeRange = realEstateSizeRange
+        self.servicesTypeId = servicesTypeId
+        self.servicesSubtypeId = servicesSubtypeId
     }
     
     func updating(selectedCategories: [ListingCategory]) -> ListingFilters {
@@ -187,7 +202,9 @@ struct ListingFilters {
                               realEstateNumberOfBedrooms: realEstateNumberOfBedrooms,
                               realEstateNumberOfBathrooms: realEstateNumberOfBathrooms,
                               realEstateNumberOfRooms: realEstateNumberOfRooms,
-                              realEstateSizeRange: realEstateSizeRange)
+                              realEstateSizeRange: realEstateSizeRange,
+                              servicesTypeId: servicesTypeId,
+                              servicesSubtypeId: servicesSubtypeId)
     }
     
     func resetingRealEstateAttributes() -> ListingFilters {
@@ -212,10 +229,39 @@ struct ListingFilters {
                               realEstateNumberOfBedrooms: nil,
                               realEstateNumberOfBathrooms: nil,
                               realEstateNumberOfRooms: nil,
-                              realEstateSizeRange: SizeRange(min: nil, max: nil))
+                              realEstateSizeRange: SizeRange(min: nil, max: nil),
+                              servicesTypeId: servicesTypeId,
+                              servicesSubtypeId: servicesSubtypeId)
     }
     
     func resetingCarAttributes() -> ListingFilters {
+        return ListingFilters(place: place,
+                              distanceRadius: distanceRadius ?? Constants.distanceSliderDefaultPosition,
+                              distanceType: distanceType,
+                              selectedCategories: selectedCategories,
+                              selectedTaxonomyChildren: selectedTaxonomyChildren,
+                              selectedTaxonomy: selectedTaxonomy,
+                              selectedWithin: selectedWithin,
+                              selectedOrdering: selectedOrdering,
+                              priceRange: priceRange,
+                              carSellerTypes: carSellerTypes,
+                              carMakeId: carMakeId,
+                              carMakeName: carMakeName,
+                              carModelId: carModelId,
+                              carModelName: carModelName,
+                              carYearStart: carYearStart,
+                              carYearEnd: carYearEnd,
+                              realEstatePropertyType: realEstatePropertyType,
+                              realEstateOfferType: realEstateOfferTypes,
+                              realEstateNumberOfBedrooms: realEstateNumberOfBedrooms,
+                              realEstateNumberOfBathrooms: realEstateNumberOfBathrooms,
+                              realEstateNumberOfRooms: realEstateNumberOfRooms,
+                              realEstateSizeRange: realEstateSizeRange,
+                              servicesTypeId: nil,
+                              servicesSubtypeId: nil)
+    }
+    
+    func resetingServicesAttributes() -> ListingFilters {
         return ListingFilters(place: place,
                               distanceRadius: distanceRadius ?? Constants.distanceSliderDefaultPosition,
                               distanceType: distanceType,
@@ -237,9 +283,10 @@ struct ListingFilters {
                               realEstateNumberOfBedrooms: realEstateNumberOfBedrooms,
                               realEstateNumberOfBathrooms: realEstateNumberOfBathrooms,
                               realEstateNumberOfRooms: realEstateNumberOfRooms,
-                              realEstateSizeRange: realEstateSizeRange)
+                              realEstateSizeRange: realEstateSizeRange,
+                              servicesTypeId: servicesTypeId,
+                              servicesSubtypeId: servicesSubtypeId)
     }
-    
     
     mutating func toggleCategory(_ category: ListingCategory) {
         if let categoryIndex = indexForCategory(category) {
@@ -263,6 +310,10 @@ struct ListingFilters {
     var hasAnyCarAttributes: Bool {
         return carMakeId != nil || carMakeId != nil || carYearStart != nil || carYearEnd != nil
     }
+    
+    var hasAnyServicesAttributes: Bool {
+        return servicesTypeId != nil || servicesSubtypeId != nil
+    }
 
     func isDefault() -> Bool {
         if let _ = place { return false } //Default is nil
@@ -275,16 +326,12 @@ struct ListingFilters {
         if priceRange != .priceRange(min: nil, max: nil) { return false }
         if hasAnyCarAttributes { return false }
         if hasAnyRealEstateAttributes { return false }
+        if hasAnyServicesAttributes { return false }
         return true
     }
     
     private func indexForCategory(_ category: ListingCategory) -> Int? {
-        for i in 0..<selectedCategories.count {
-            if(selectedCategories[i] == category){
-                return i
-            }
-        }
-        return nil
+        return selectedCategories.index(where: { $0 == category })
     }
 }
 
@@ -328,6 +375,8 @@ extension ListingFilters: Equatable {
             a.realEstateNumberOfBedrooms == b.realEstateNumberOfBedrooms &&
             a.realEstateNumberOfBathrooms == b.realEstateNumberOfBathrooms &&
             a.realEstateSizeRange == b.realEstateSizeRange &&
-            a.realEstateNumberOfRooms == b.realEstateNumberOfRooms
+            a.realEstateNumberOfRooms == b.realEstateNumberOfRooms &&
+            a.servicesTypeId == b.servicesTypeId &&
+            a.servicesSubtypeId == b.servicesSubtypeId
     }
 }

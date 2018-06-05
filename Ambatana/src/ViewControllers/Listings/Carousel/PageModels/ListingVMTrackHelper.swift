@@ -73,7 +73,31 @@ extension ListingViewModel {
                                   willLeaveApp: willLeaveApp,
                                   typePage: typePage)
     }
-
+    
+    func trackInterstitialAdTapped(adType: EventParameterAdType?,
+                                   isMine: EventParameterBoolean,
+                                   feedPosition: EventParameterFeedPosition,
+                                   willLeaveApp: EventParameterBoolean,
+                                   typePage: EventParameterTypePage) {
+        trackHelper.trackInterstitialAdTapped(adType: adType,
+                                              isMine: isMine,
+                                              feedPosition: feedPosition,
+                                              willLeaveApp: willLeaveApp,
+                                              typePage: typePage)
+    }
+    
+    func trackInterstitialAdShown(adType: EventParameterAdType?,
+                                   isMine: EventParameterBoolean,
+                                   feedPosition: EventParameterFeedPosition,
+                                   adShown: EventParameterBoolean,
+                                   typePage: EventParameterTypePage) {
+        trackHelper.trackInterstitialAdShown(adType: adType,
+                                              isMine: isMine,
+                                              feedPosition: feedPosition,
+                                              adShown: adShown,
+                                              typePage: typePage)
+    }
+    
     func trackCallTapped(source: EventParameterListingVisitSource,
                          feedPosition: EventParameterFeedPosition) {
         let isBumpedUp = isShowingFeaturedStripe.value ? EventParameterBoolean.trueParameter :
@@ -119,10 +143,11 @@ extension ListingViewModel {
                               transactionStatus: EventParameterTransactionStatus?,
                               storeProductId: String?,
                               isPromotedBump: Bool,
-                              typePage: EventParameterTypePage?) {
+                              typePage: EventParameterTypePage?,
+                              paymentId: String?) {
         trackHelper.trackBumpUpCompleted(price, type: type, restoreRetriesCount: restoreRetriesCount, network: network,
                                          transactionStatus: transactionStatus, storeProductId: storeProductId,
-                                         isPromotedBump: isPromotedBump, typePage: typePage)
+                                         isPromotedBump: isPromotedBump, typePage: typePage, paymentId: paymentId)
     }
 
     func trackBumpUpFail(type: BumpUpType,
@@ -221,7 +246,8 @@ extension ProductVMTrackHelper {
                               transactionStatus: EventParameterTransactionStatus?,
                               storeProductId: String?,
                               isPromotedBump: Bool,
-                              typePage: EventParameterTypePage?) {
+                              typePage: EventParameterTypePage?,
+                              paymentId: String?) {
         let trackerEvent = TrackerEvent.listingBumpUpComplete(listing, price: price,
                                                               type: EventParameterBumpUpType(bumpType: type),
                                                               restoreRetriesCount: restoreRetriesCount,
@@ -230,7 +256,8 @@ extension ProductVMTrackHelper {
                                                               storeProductId: storeProductId,
                                                               isPromotedBump: EventParameterBoolean(bool: isPromotedBump),
                                                               typePage: typePage,
-                                                              isBoost: EventParameterBoolean(bool: type.isBoost))
+                                                              isBoost: EventParameterBoolean(bool: type.isBoost),
+                                                              paymentId: paymentId)
         tracker.trackEvent(trackerEvent)
     }
 
@@ -334,6 +361,42 @@ extension ProductVMTrackHelper {
                                                          feedPosition: .none)
         tracker.trackEvent(trackerEvent)
     }
+    
+    func trackInterstitialAdTapped(adType: EventParameterAdType?,
+                       isMine: EventParameterBoolean,
+                       feedPosition: EventParameterFeedPosition,
+                       willLeaveApp: EventParameterBoolean,
+                       typePage: EventParameterTypePage) {
+        let trackerEvent = TrackerEvent.adTapped(listingId: listing.objectId,
+                                                 adType: adType,
+                                                 isMine: isMine,
+                                                 queryType: nil,
+                                                 query: nil,
+                                                 willLeaveApp: willLeaveApp,
+                                                 typePage: typePage,
+                                                 categories: nil,
+                                                 feedPosition: feedPosition)
+        tracker.trackEvent(trackerEvent)
+    }
+    
+    func trackInterstitialAdShown(adType: EventParameterAdType?,
+                                   isMine: EventParameterBoolean,
+                                   feedPosition: EventParameterFeedPosition,
+                                   adShown: EventParameterBoolean,
+                                   typePage: EventParameterTypePage) {
+        let trackerEvent = TrackerEvent.adShown(listingId: listing.objectId,
+                                                 adType: adType,
+                                                 isMine: isMine,
+                                                 queryType: nil,
+                                                 query: nil,
+                                                 adShown: adShown,
+                                                 typePage: typePage,
+                                                 categories: nil,
+                                                 feedPosition: feedPosition)
+        tracker.trackEvent(trackerEvent)
+    }
+    
+    
 
     func trackCallTapped(source: EventParameterListingVisitSource,
                          sellerAverageUserRating: Float?,
@@ -416,9 +479,10 @@ extension ProductVMTrackHelper {
                                                          listingVisitSource: listingVisitSource,
                                                          feedPosition: feedPosition,
                                                          userBadge: sellerBadge,
-                                                         containsVideo: containsVideo))
+                                                         containsVideo: containsVideo,
+                                                         isProfessional: nil))
         }
-        tracker.trackEvent(TrackerEvent.userMessageSent(info: info))
+        tracker.trackEvent(TrackerEvent.userMessageSent(info: info, isProfessional: nil))
     }
 
     func trackMessageSentError(messageType: ChatWrapperMessageType, isShowingFeaturedStripe: Bool, error: RepositoryError) {
@@ -435,7 +499,7 @@ extension ProductVMTrackHelper {
         let sendMessageInfo = SendMessageTrackingInfo()
             .set(listing: listing, freePostingModeAllowed: featureFlags.freePostingModeAllowed)
             .set(messageType: messageType.chatTrackerType)
-            .set(quickAnswerType: messageType.quickAnswerType)
+            .set(quickAnswerTypeParameter: messageType.quickAnswerTypeParameter)
             .set(typePage: .listingDetail)
             .set(isBumpedUp: isBumpedUp)
             .set(containsEmoji: messageType.text.containsEmoji)

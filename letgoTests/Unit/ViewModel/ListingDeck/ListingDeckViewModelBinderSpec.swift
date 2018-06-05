@@ -49,7 +49,8 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
                                                                   purchasesShopper: MockPurchasesShopper(),
                                                                   monetizationRepository: MockMonetizationRepository(),
                                                                   tracker: MockTracker(),
-                                                                  keyValueStorage: MockKeyValueStorage())
+                                                                  keyValueStorage: MockKeyValueStorage(),
+                                                                  reputationTooltipManager: MockReputationTooltipManager())
 
                 listingDeckViewModel = MockListingDeckViewModelType()
 
@@ -128,14 +129,16 @@ extension ListingDeckViewModelBinderSpec: ListingDetailNavigator {
                      bumpUpProductData: BumpUpProductData?,
                      listingCanBeBoosted: Bool,
                      timeSinceLastBump: TimeInterval?,
-                     maxCountdown: TimeInterval?) { }
+                     maxCountdown: TimeInterval) { }
     func openFreeBumpUp(forListing listing: Listing,
                         bumpUpProductData: BumpUpProductData,
-                        typePage: EventParameterTypePage?) { }
+                        typePage: EventParameterTypePage?,
+                        maxCountdown: TimeInterval) { }
 
     func openPayBumpUp(forListing listing: Listing,
                        bumpUpProductData: BumpUpProductData,
-                       typePage: EventParameterTypePage?) { }
+                       typePage: EventParameterTypePage?,
+                       maxCountdown: TimeInterval) { }
     func openBumpUpBoost(forListing listing: Listing,
                          bumpUpProductData: BumpUpProductData,
                          typePage: EventParameterTypePage?,
@@ -178,4 +181,5 @@ extension ListingDeckViewModelBinderSpec: ListingDetailNavigator {
                                   origin: EventParameterTypePage,
                                   tutorialType: EventParameterTutorialType) {}
     func openUserReport(source: EventParameterTypePage, userReportedId: String) {}
+    func openUserVerificationView() {}
 }

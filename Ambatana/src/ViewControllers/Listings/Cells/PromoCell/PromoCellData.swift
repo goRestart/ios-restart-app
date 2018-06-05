@@ -1,10 +1,4 @@
-//
-//  PromoCellData.swift
-//  LetGo
-//
-//  Created by Tomas Cobo on 06/04/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
+import LGComponents
 
 enum PromoCellConfiguration: Int {
     case darkFirst, darkSecond, lightFirst, lightSecond, lightThird, lightFourth, lightFifth
@@ -13,25 +7,32 @@ enum PromoCellConfiguration: Int {
         switch self {
         case .darkFirst:
             return PromoCellData(appereance: .dark, arrangement: .imageOnTop,
-                                 title: LGLocalizedString.realEstatePromoTitleVersion1, image: #imageLiteral(resourceName: "real-estate-promo-1"))
+                                 title: R.Strings.realEstatePromoTitleVersion1,
+                                 image: R.Asset.RealEstate.Promo.realEstatePromo1.image)
         case .darkSecond:
             return PromoCellData(appereance: .dark, arrangement: .imageOnTop,
-                                 title: LGLocalizedString.realEstatePromoTitleVersion2, image: #imageLiteral(resourceName: "real-estate-promo-2"))
+                                 title: R.Strings.realEstatePromoTitleVersion2,
+                                 image: R.Asset.RealEstate.Promo.realEstatePromo2.image)
         case .lightFirst:
             return PromoCellData(appereance: .light, arrangement: .titleOnTop,
-                                 title: LGLocalizedString.realEstatePromoTitleVersion3, image: #imageLiteral(resourceName: "real-estate-promo-3"))
+                                 title: R.Strings.realEstatePromoTitleVersion3,
+                                 image: R.Asset.RealEstate.Promo.realEstatePromo3.image)
         case .lightSecond:
             return PromoCellData(appereance: .light, arrangement: .titleOnTop,
-                                 title: LGLocalizedString.realEstatePromoTitleVersion4, image: #imageLiteral(resourceName: "real-estate-promo-4"))
+                                 title: R.Strings.realEstatePromoTitleVersion4,
+                                 image: R.Asset.RealEstate.Promo.realEstatePromo4.image)
         case .lightThird:
             return PromoCellData(appereance: .light, arrangement: .titleOnTop,
-                                 title: LGLocalizedString.realEstatePromoTitleVersion5, image: #imageLiteral(resourceName: "real-estate-promo-5"))
+                                 title: R.Strings.realEstatePromoTitleVersion5,
+                                 image: R.Asset.RealEstate.Promo.realEstatePromo5.image)
         case .lightFourth:
             return PromoCellData(appereance: .light, arrangement: .titleOnTop,
-                                 title: LGLocalizedString.realEstatePromoTitleVersion6, image: #imageLiteral(resourceName: "real-estate-promo-6"))
+                                 title: R.Strings.realEstatePromoTitleVersion6,
+                                 image: R.Asset.RealEstate.Promo.realEstatePromo6.image)
         case .lightFifth:
             return PromoCellData(appereance: .light, arrangement: .titleOnTop,
-                                 title: LGLocalizedString.realEstatePromoTitleVersion7, image: #imageLiteral(resourceName: "real-estate-promo-7"))
+                                 title: R.Strings.realEstatePromoTitleVersion7,
+                                 image: R.Asset.RealEstate.Promo.realEstatePromo7.image)
         }
     }
 

@@ -1,12 +1,5 @@
-//
-//  PostListingRedCamButtonFooter.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 08/03/17.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 final class PostListingRedCamButtonFooter: UIView {
     static let galleryIconSide: CGFloat = 70
@@ -87,12 +80,12 @@ extension PostListingRedCamButtonFooter: PostListingFooter {
 
 fileprivate extension PostListingRedCamButtonFooter {
     func setupUI() {
-        galleryButton.setImage(#imageLiteral(resourceName: "ic_post_gallery"), for: .normal)
+        galleryButton.setImage(R.Asset.IconsButtons.icPostGallery.image, for: .normal)
         
-        cameraButton.setImage(#imageLiteral(resourceName: "ic_post_take_photo_icon"), for: .normal)
-        cameraButton.setBackgroundImage(#imageLiteral(resourceName: "ic_post_take_photo"), for: .normal)
+        cameraButton.setImage(R.Asset.IconsButtons.icPostTakePhotoIcon.image, for: .normal)
+        cameraButton.setBackgroundImage(R.Asset.IconsButtons.icPostTakePhoto.image, for: .normal)
         
-        infoButton.setImage(#imageLiteral(resourceName: "info"), for: .normal)
+        infoButton.setImage(R.Asset.IconsButtons.info.image, for: .normal)
         addSubviewsForAutoLayout([galleryButton, cameraButton, infoButton])
     }
     

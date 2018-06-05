@@ -27,6 +27,11 @@ final class ListingApiDataSource: ListingDataSource {
         apiClient.request(request, decoder: ListingApiDataSource.decoderArray, completion: completion)
     }
     
+    func indexCustomFeed(_ parameters: [String: Any], completion: ListingsDataSourceCompletion?) {
+        let request = ListingRouter.indexCustomFeed(params: parameters)
+        apiClient.request(request, decoder: ListingApiDataSource.decoderArray, completion: completion)
+    }
+    
     func indexForUser(_ userId: String, parameters: [String: Any], completion: ListingsDataSourceCompletion?) {
         let request = ListingRouter.indexForUser(userId: userId, params: parameters)
         apiClient.request(request, decoder: ListingApiDataSource.decoderArray, completion: completion)
@@ -80,6 +85,21 @@ final class ListingApiDataSource: ListingDataSource {
         let request = ListingRouter.indexRelatedCars(listingId: listingId, params: parameters)
         apiClient.request(request, decoder: ListingApiDataSource.decoderArray, completion: completion)
     }
+    
+    func indexServices(_ parameters: [String: Any], completion: ListingsDataSourceCompletion?) {
+        let request = ListingRouter.indexServices(params: parameters)
+        apiClient.request(request, decoder: ListingApiDataSource.decoderArray, completion: completion)
+    }
+    
+    func indexServicesRelatedSearch(_ parameters: [String: Any], completion: ListingsDataSourceCompletion?) {
+        let request = ListingRouter.indexServicesRelatedSearch(params: parameters)
+        apiClient.request(request, decoder: ListingApiDataSource.decoderArray, completion: completion)
+    }
+    
+    func indexRelatedServices(_ listingId: String, parameters: [String: Any], completion: ListingsDataSourceCompletion?) {
+        let request = ListingRouter.indexRelatedServices(listingId: listingId, params: parameters)
+        apiClient.request(request, decoder: ListingApiDataSource.decoderArray, completion: completion)
+    }
 
     func retrieve(_ listingId: String, completion: ListingDataSourceCompletion?) {
         let request = ListingRouter.show(listingId: listingId)
@@ -103,17 +123,32 @@ final class ListingApiDataSource: ListingDataSource {
         case .realEstate(let realEstateParams):
             request = ListingRouter.createRealEstate(params: realEstateParams.apiCreationEncode(userId: userId))
             apiClient.request(request, decoder: ListingApiDataSource.realEstateDecoder, completion: completion)
+        case .service(_):
+            completion?(Result(error: .badRequest(cause: .nonAcceptableParams)))
         }
     }
     
     // TODO: remove with ABIOS-4026
     func createListingCar(userId: String, listingParams: ListingCreationParams, completion: ListingDataSourceCompletion?) {
         guard case .car(let carParams) = listingParams else {
-            completion?(Result(error: .internalError(description: "Wrong creation params type")))
+            completion?(Result(error: .badRequest(cause: .nonAcceptableParams)))
             return
         }
         let request: URLRequestAuthenticable = ListingRouter.createCar(params: carParams.apiCarCreationEncode(userId: userId))
         apiClient.request(request, decoder: ListingApiDataSource.carDecoder, completion: completion)
+    }
+    
+    func createListingServices(userId: String, listingParams: [ListingCreationParams], completion: ListingsDataSourceCompletion?) {
+        let servicesParams: [[String : Any]] = listingParams.flatMap {
+            guard case .service(let serviceParam) = $0 else { return nil }
+            return serviceParam.apiServiceCreationEncode(userId: userId)
+        }
+        guard !servicesParams.isEmpty else {
+            completion?(Result(error: .badRequest(cause: .nonAcceptableParams)))
+            return
+        }
+        let request: URLRequestAuthenticable = ListingRouter.createServices(params: servicesParams)
+        apiClient.request(request, decoder: ListingApiDataSource.decoderArray, completion: completion)
     }
 
     func updateListing(listingParams: ListingEditionParams, completion: ListingDataSourceCompletion?) {
@@ -128,20 +163,31 @@ final class ListingApiDataSource: ListingDataSource {
         case .realEstate(let realEstateParams):
             request = ListingRouter.updateRealEstate(listingId: realEstateParams.realEstateId, params: realEstateParams.apiEditionEncode())
             apiClient.request(request, decoder: ListingApiDataSource.realEstateDecoder, completion: completion)
+        case .service(_):
+            completion?(Result(error: .badRequest(cause: .nonAcceptableParams)))
         }
     }
     
     // TODO: remove with ABIOS-4026
     func updateListingCar(listingParams: ListingEditionParams, completion: ListingDataSourceCompletion?) {
         guard case .car(let carParams) = listingParams else {
-            completion?(Result(error: .internalError(description: "Wrong upadte params type")))
+            completion?(Result(error: .badRequest(cause: .nonAcceptableParams)))
             return
         }
         let request: URLRequestAuthenticable = ListingRouter.updateCar(listingId: carParams.carId, params: carParams.apiCarEditionEncode())
         apiClient.request(request, decoder: ListingApiDataSource.carDecoder, completion: completion)
     }
-
     
+    func updateListingService(listingParams: ListingEditionParams, completion: ListingDataSourceCompletion?) {
+        guard case .service(let serviceParams) = listingParams else {
+            completion?(Result(error: .badRequest(cause: .nonAcceptableParams)))
+            return
+        }
+        let request: URLRequestAuthenticable = ListingRouter.updateService(listingId: serviceParams.serviceId,
+                                                                           params: serviceParams.apiEditionEncode())
+        apiClient.request(request, decoder: ListingApiDataSource.realEstateDecoder, completion: completion)
+    }
+
     // MARK: Sold / unsold
 
     func markAsSold(_ listingId: String, completion: ListingDataSourceEmptyCompletion?) {
@@ -231,7 +277,6 @@ final class ListingApiDataSource: ListingDataSource {
         apiClient.request(request, decoder: ListingApiDataSource.decoderUserArray, completion: completion)
     }
     
-    
     func createTransactionOf(createTransactionParams: CreateTransactionParams, completion: ListingDataSourceTransactionCompletion?) {
         let request = ListingRouter.createTransactionOf(listingId: createTransactionParams.listingId, params: createTransactionParams.letgoApiParams)
         apiClient.request(request, decoder: ListingApiDataSource.decoderTransaction, completion: completion)
@@ -300,6 +345,18 @@ final class ListingApiDataSource: ListingDataSource {
             return .realEstate(realEstate)
         } catch {
             logAndReportParseError(object: object, entity: .realEstate,
+                                   comment: "could not parse LGRealEstate")
+        }
+        return nil
+    }
+    
+    private static func serviceDecoder(_ object: Any) -> Listing? {
+        guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
+        do {
+            let service = try LGService.decode(jsonData: data)
+            return .service(service)
+        } catch {
+            logAndReportParseError(object: object, entity: .services,
                                    comment: "could not parse LGRealEstate")
         }
         return nil

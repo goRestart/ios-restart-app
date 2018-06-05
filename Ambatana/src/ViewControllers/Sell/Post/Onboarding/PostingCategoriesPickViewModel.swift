@@ -1,13 +1,6 @@
-//
-//  PostingCategoriesPickViewModel.swift
-//  LetGo
-//
-//  Created by Dídac on 08/03/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
+import LGComponents
 
 protocol PostingCategoriesPickDelegate: class {
     func didSelectCategory(category: ListingCategory)
@@ -16,11 +9,11 @@ protocol PostingCategoriesPickDelegate: class {
 class PostingCategoriesPickViewModel: BaseViewModel {
 
     var backButtonImage: UIImage? {
-        return #imageLiteral(resourceName: "ic_back").withRenderingMode(.alwaysTemplate)
+        return R.Asset.IconsButtons.icBack.image.withRenderingMode(.alwaysTemplate)
     }
 
     var titleText: String {
-        return LGLocalizedString.postDescriptionCategoryTitle
+        return R.Strings.postDescriptionCategoryTitle
     }
 
     var categoriesCount: Int {

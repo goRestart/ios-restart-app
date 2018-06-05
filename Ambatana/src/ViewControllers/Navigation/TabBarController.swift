@@ -1,16 +1,8 @@
-//
-//  TabBarController.swift
-//  LetGo
-//
-//  Created by AHL on 17/5/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
 import UIKit
 import RxSwift
 import RxCocoa
 import LGCoreKit
-
+import LGComponents
 
 protocol ScrollableToTop {
     func scrollToTop()
@@ -54,8 +46,8 @@ final class TabBarController: UITabBarController {
         self.viewModel = viewModel
         self.featureFlags = featureFlags
         self.tracker = tracker
-        self.floatingSellButton = FloatingButton(with: LGLocalizedString.tabBarToolTip,
-                                                 image: UIImage(named: "ic_sell_white"), position: .left)
+        self.floatingSellButton = FloatingButton(with: R.Strings.tabBarToolTip,
+                                                 image: R.Asset.IconsButtons.icSellWhite.image, position: .left)
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -193,7 +185,7 @@ final class TabBarController: UITabBarController {
         guard let viewControllers = viewControllers else { return }
         for (index, vc) in viewControllers.enumerated() {
             guard let tab = Tab(index: index, featureFlags: featureFlags) else { continue }
-            let tabBarItem = UITabBarItem(title: nil, image: UIImage(named: tab.tabIconImageName), selectedImage: nil)
+            let tabBarItem = UITabBarItem(title: nil, image: tab.tabIconImage, selectedImage: nil)
             // UI Test accessibility Ids
             tabBarItem.set(accessibilityId: tab.accessibilityId)
             // Customize the selected appereance

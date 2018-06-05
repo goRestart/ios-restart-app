@@ -1,13 +1,6 @@
-//
-//  BumpUpBanner.swift
-//  LetGo
-//
-//  Created by Dídac on 02/12/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import Foundation
 import RxSwift
+import LGComponents
 
 enum BumpUpType: Equatable {
     case free
@@ -22,20 +15,20 @@ enum BumpUpType: Equatable {
             if FeatureFlags.sharedInstance.shouldChangeSellFasterNowCopyInEnglish {
                 return FeatureFlags.sharedInstance.copyForSellFasterNowInEnglish.variantString
             } else {
-                return LGLocalizedString.bumpUpBannerPayTextImprovement
+                return R.Strings.bumpUpBannerPayTextImprovement
             }
             
         case .restore:
-            return LGLocalizedString.bumpUpErrorBumpToken
+            return R.Strings.bumpUpErrorBumpToken
         case .boost:
-            return LGLocalizedString.bumpUpBannerBoostText
+            return R.Strings.bumpUpBannerBoostText
         }
     }
 
     var bannerIcon: UIImage? {
         switch self {
         case .free, .priced, .hidden, .boost:
-            return UIImage(named: "gray_chevron_up")
+            return R.Asset.Monetization.grayChevronUp.image
         case .restore:
             return nil
         }
@@ -44,9 +37,9 @@ enum BumpUpType: Equatable {
     var bannerTextIcon: UIImage? {
         switch self {
         case .free, .priced, .hidden:
-            return #imageLiteral(resourceName: "ic_lightning")
+            return R.Asset.Monetization.icLightning.image
         case .boost:
-            return #imageLiteral(resourceName: "ic_extra_boost")
+            return R.Asset.Monetization.icExtraBoost.image
         case .restore:
             return nil
         }
@@ -211,7 +204,7 @@ class BumpUpBanner: UIView {
             waitingTime = info.maxCountdown
             bumpButtonWidthConstraint.isActive = false
             bumpButton.isHidden = true
-            bumpButton.setTitle(LGLocalizedString.bumpUpBannerFreeButtonTitle, for: .normal)
+            bumpButton.setTitle(R.Strings.bumpUpBannerFreeButtonTitle, for: .normal)
         case .priced, .hidden:
             bumpButtonWidthConstraint.isActive = false
             bumpButton.isHidden = true
@@ -219,13 +212,13 @@ class BumpUpBanner: UIView {
             if let price = info.price {
                 bumpButton.setTitle(price, for: .normal)
             } else {
-                bumpButton.setTitle(LGLocalizedString.bumpUpBannerFreeButtonTitle, for: .normal)
+                bumpButton.setTitle(R.Strings.bumpUpBannerFreeButtonTitle, for: .normal)
             }
         case .restore:
             bumpButton.isHidden = false
             bumpButtonWidthConstraint.isActive = true
             waitingTime = info.maxCountdown
-            bumpButton.setTitle(LGLocalizedString.commonErrorRetryButton, for: .normal)
+            bumpButton.setTitle(R.Strings.commonErrorRetryButton, for: .normal)
         case .boost(let bannerVisibility):
             bumpButtonWidthConstraint.isActive = false
             bumpButton.isHidden = true
@@ -331,8 +324,8 @@ class BumpUpBanner: UIView {
                 } else {
                     strongSelf.readyToBump = false
                     strongSelf.textIconImageView.image = nil
-                    strongSelf.leftIconImageView.image = UIImage(named: "clock")
-                    localizedText = LGLocalizedString.bumpUpBannerWaitText
+                    strongSelf.leftIconImageView.image = R.Asset.Monetization.clock.image
+                    localizedText = R.Strings.bumpUpBannerWaitText
                     strongSelf.bumpButton.isEnabled = false
 
                     strongSelf.timeLabelText.value = Int(secondsLeft).secondsToCountdownFormat()
@@ -365,7 +358,7 @@ class BumpUpBanner: UIView {
         descriptionLabel.textAlignment = .center
         descriptionLabel.font = BumpUpBanner.bannerDefaultFont
         
-        leftIconImageView.image = UIImage(named: "red_chevron_up")
+        leftIconImageView.image = R.Asset.Monetization.redChevronUp.image
         leftIconImageView.contentMode = .scaleAspectFit
 
         textIconImageView.image = nil

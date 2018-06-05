@@ -1,14 +1,7 @@
-//
-//  ListingCell.swift
-//  LetGo
-//
-//  Created by AHL on 13/3/15.
-//  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
-//
-
 import UIKit
 import LGCoreKit
 import SwiftyGif
+import LGComponents
 
 private struct InterestedLayout {
     static let width: CGFloat = 54
@@ -124,7 +117,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         return image
     }
     
-    // MARK: - Lifecycle
+    // MARK:- Lifecycle
     
     convenience init() {
         self.init(frame: .zero)
@@ -194,9 +187,9 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     
     func setupFreeStripe() {
         stripeIconWidth?.constant = ListingCellMetrics.stripeIconWidth
-        stripeImageView.image = UIImage(named: "stripe_white")
-        stripeIcon.image = UIImage(named: "ic_heart")
-        stripeLabel.text = LGLocalizedString.productFreePrice
+        stripeImageView.image = R.Asset.BackgroundsAndImages.stripeWhite.image
+        stripeIcon.image = R.Asset.IconsButtons.icHeart.image
+        stripeLabel.text = R.Strings.productFreePrice
         stripeLabel.textColor = UIColor.primaryColor
         stripeImageView.isHidden = false
         stripeInfoView.isHidden = false
@@ -204,9 +197,9 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     
     func setupFeaturedStripe(withTextColor textColor: UIColor) {
         stripeIconWidth?.constant = 0
-        stripeImageView.image = UIImage(named: "stripe_white")
+        stripeImageView.image = R.Asset.BackgroundsAndImages.stripeWhite.image
         stripeIcon.image = nil
-        stripeLabel.text = LGLocalizedString.bumpUpProductCellFeaturedStripe
+        stripeLabel.text = R.Strings.bumpUpProductCellFeaturedStripe
         stripeLabel.textColor = textColor
         stripeImageView.isHidden = false
         stripeInfoView.isHidden = false
@@ -483,7 +476,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
             featuredListingChatButton.setTitle(featureFlags.copyForChatNowInEnglish.variantString,
                                                for: .normal)
         } else {
-            featuredListingChatButton.setTitle(LGLocalizedString.bumpUpProductCellChatNowButton,
+            featuredListingChatButton.setTitle(R.Strings.bumpUpProductCellChatNowButton,
                                                for: .normal)
         }
         featuredListingChatButton.addTarget(self, action: #selector(openChat), for: .touchUpInside)
@@ -542,8 +535,8 @@ private extension InterestedState {
         case .none: return nil
         case .send(let enabled):
             let alpha: CGFloat = enabled ? 1 : 0.7
-            return #imageLiteral(resourceName: "ic_iami_send").withAlpha(alpha) ?? #imageLiteral(resourceName: "ic_iami_send")
-        case .seeConversation: return #imageLiteral(resourceName: "ic_iami_seeconv")
+            return R.Asset.IconsButtons.IAmInterested.icIamiSend.image.withAlpha(alpha) ?? R.Asset.IconsButtons.IAmInterested.icIamiSend.image
+        case .seeConversation: return R.Asset.IconsButtons.IAmInterested.icIamiSeeconv.image
         }
     }
 }

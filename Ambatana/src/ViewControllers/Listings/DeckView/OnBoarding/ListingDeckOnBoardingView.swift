@@ -1,13 +1,6 @@
-//
-//  ListingDeckOnBoardingView.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 22/01/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 import RxSwift
+import LGComponents
 
 protocol ListingDeckOnBoardingViewRxType: class {
     var rxConfirmButton: Reactive<LetgoButton> { get }
@@ -35,7 +28,7 @@ final class ListingDeckOnBoardingView: UIView, ListingDeckOnBoardingViewRxType {
     }
     private let containerView = UIView()
     private let visualEffect = UIVisualEffectView(effect: UIBlurEffect(style: .light))
-    private let imageView = UIImageView(image: #imageLiteral(resourceName: "nit_onboarding"))
+    private let imageView = UIImageView(image: R.Asset.IconsButtons.NewItemPage.nitOnboarding.image)
     private let titleLabel = UILabel()
     private let underline = UIView()
     private let confirmButton = LetgoButton(withStyle: .primary(fontSize: .big))
@@ -133,7 +126,7 @@ final class ListingDeckOnBoardingView: UIView, ListingDeckOnBoardingViewRxType {
         titleLabel.textAlignment = .left
         titleLabel.setContentHuggingPriority(.required, for: .vertical)
         titleLabel.setContentCompressionResistancePriority(.required, for: .vertical)
-        titleLabel.text = LGLocalizedString.productDetailSwipeToSeeRelated
+        titleLabel.text = R.Strings.productDetailSwipeToSeeRelated
     }
 
     private func setupUnderline() {
@@ -158,7 +151,7 @@ final class ListingDeckOnBoardingView: UIView, ListingDeckOnBoardingViewRxType {
             confirmButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -Metrics.veryBigMargin)
         ]
         NSLayoutConstraint.activate(constraints)
-        confirmButton.setTitle(LGLocalizedString.commonOk, for: .normal)
+        confirmButton.setTitle(R.Strings.commonOk, for: .normal)
     }
 
     override func layoutSubviews() {

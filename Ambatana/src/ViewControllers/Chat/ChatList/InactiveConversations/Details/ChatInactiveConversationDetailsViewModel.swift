@@ -1,13 +1,6 @@
-//
-//  ChatInactiveConversationDetailsViewModel.swift
-//  LetGo
-//
-//  Created by Nestor on 18/01/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 protocol ChatInactiveConversationsViewModelDelegate: BaseViewModelDelegate {
     func vmDidNotifyMessage(_ message: String, completion: (() -> ())?)
@@ -19,6 +12,7 @@ class ChatInactiveConversationDetailsViewModel: BaseViewModel {
     weak var navigator: ChatInactiveDetailNavigator?
     
     private let chatRepository: ChatRepository
+    private let myUserRepository: MyUserRepository
     private let chatViewMessageAdapter: ChatViewMessageAdapter
     private let featureFlags: FeatureFlaggeable
     private let tracker: Tracker
@@ -42,15 +36,18 @@ class ChatInactiveConversationDetailsViewModel: BaseViewModel {
     var listingImageURL: URL? {
         return conversation.listing?.image?.fileURL
     }
+    private var interlocutor: InactiveInterlocutor? {
+        return conversation.interlocutor(forMyUserId: myUserRepository.myUser?.objectId)
+    }
     var interlocutorName: String? {
-        return conversation.interlocutor?.name
+        return interlocutor?.name
     }
     var interlocutorAvatarURL: URL? {
-        return conversation.interlocutor?.avatar?.fileURL
+        return interlocutor?.avatar?.fileURL
     }
     var interlocutorAvatarPlaceholder: UIImage? {
-        return LetgoAvatar.avatarWithID(conversation.interlocutor?.objectId,
-                                        name: conversation.interlocutor?.name)
+        return LetgoAvatar.avatarWithID(interlocutor?.objectId,
+                                        name: interlocutor?.name)
     }
     var meetingsEnabled: Bool {
         return featureFlags.chatNorris.isActive
@@ -61,6 +58,7 @@ class ChatInactiveConversationDetailsViewModel: BaseViewModel {
     convenience init(conversation: ChatInactiveConversation) {
         self.init(conversation: conversation,
                   chatRepository: Core.chatRepository,
+                  myUserRepository: Core.myUserRepository,
                   chatViewMessageAdapter: ChatViewMessageAdapter(),
                   featureFlags: FeatureFlags.sharedInstance,
                   tracker: TrackerProxy.sharedInstance)
@@ -68,11 +66,13 @@ class ChatInactiveConversationDetailsViewModel: BaseViewModel {
     
     init(conversation: ChatInactiveConversation,
          chatRepository: ChatRepository,
+         myUserRepository: MyUserRepository,
          chatViewMessageAdapter: ChatViewMessageAdapter,
          featureFlags: FeatureFlaggeable,
          tracker: Tracker) {
         self.conversation = conversation
         self.chatRepository = chatRepository
+        self.myUserRepository = myUserRepository
         self.chatViewMessageAdapter = chatViewMessageAdapter
         self.featureFlags = featureFlags
         self.tracker = tracker
@@ -107,16 +107,16 @@ class ChatInactiveConversationDetailsViewModel: BaseViewModel {
     func openOptionsMenu() {
         var actions: [UIAction] = []
         if !isDeleted {
-            let delete = UIAction(interface: UIActionInterface.text(LGLocalizedString.chatListDelete),
+            let delete = UIAction(interface: UIActionInterface.text(R.Strings.chatListDelete),
                                   action: deleteAction)
             actions.append(delete)
         }
-        delegate?.vmShowActionSheet(LGLocalizedString.commonCancel, actions: actions)
+        delegate?.vmShowActionSheet(R.Strings.commonCancel, actions: actions)
     }
     
     private func deleteAction() {
         guard !isDeleted else { return }
-        let action = UIAction(interface: .styledText(LGLocalizedString.chatListDeleteAlertSend, .destructive), action: {
+        let action = UIAction(interface: .styledText(R.Strings.chatListDeleteAlertSend, .destructive), action: {
             [weak self] in
             self?.delete() { [weak self] success in
                 if success {
@@ -124,15 +124,15 @@ class ChatInactiveConversationDetailsViewModel: BaseViewModel {
                     self?.tracker.trackEvent(TrackerEvent.chatDeleteComplete(numberOfConversations: 1,
                                                                              isInactiveConversation: true))
                 }
-                let message = success ? LGLocalizedString.chatListDeleteOkOne : LGLocalizedString.chatListDeleteErrorOne
+                let message = success ? R.Strings.chatListDeleteOkOne : R.Strings.chatListDeleteErrorOne
                 self?.delegate?.vmDidNotifyMessage(message) { [weak self] in
                     self?.navigator?.closeChatInactiveDetail()
                 }
             }
         })
-        delegate?.vmShowAlert(LGLocalizedString.chatListDeleteAlertTitleOne,
-                              message: LGLocalizedString.chatListDeleteAlertTextOne,
-                              cancelLabel: LGLocalizedString.commonCancel,
+        delegate?.vmShowAlert(R.Strings.chatListDeleteAlertTitleOne,
+                              message: R.Strings.chatListDeleteAlertTextOne,
+                              cancelLabel: R.Strings.commonCancel,
                               actions: [action])
     }
     

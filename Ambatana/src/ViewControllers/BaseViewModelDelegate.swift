@@ -8,6 +8,7 @@
 
 protocol BaseViewModelDelegate: class {
     func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?)
+    func vmShowAutoFadingMessage(title: String, message: String, time: Double, completion: (() -> ())?)
 
     func vmShowLoading(_ loadingMessage: String?)
     func vmHideLoading(_ finishedMessage: String?, afterMessageCompletion: (() -> ())?)
@@ -23,13 +24,25 @@ protocol BaseViewModelDelegate: class {
 
     func vmPop()
     func vmDismiss(_ completion: (() -> Void)?)
-    
-    func vmOpenInternalURL(_ url: URL)
+
+    func vmOpenInAppWebViewWith(url: URL)
 }
 
 extension UIViewController: BaseViewModelDelegate {
-    @objc func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?) {
-        showAutoFadingOutMessageAlert(message, completion: completion)
+    @objc func vmShowAutoFadingMessage(_ message: String,
+                                       completion: (() -> ())?) {
+        showAutoFadingOutMessageAlert(message: message,
+                                      completion: completion)
+    }
+
+    @objc func vmShowAutoFadingMessage(title: String,
+                                       message: String,
+                                       time: Double,
+                                       completion: (() -> ())?) {
+        showAutoFadingOutMessageAlert(title: title,
+                                      message: message,
+                                      time: time,
+                                      completion: completion)
     }
 
     @objc func vmShowLoading(_ loadingMessage: String?) {
@@ -81,7 +94,7 @@ extension UIViewController: BaseViewModelDelegate {
         showAlertWithTitle(title, text: text, alertType: alertType, buttonsLayout: buttonsLayout, actions: actions)
     }
 
-    func vmOpenInternalURL(_ url: URL) {
-        openInternalUrl(url)
+    func vmOpenInAppWebViewWith(url: URL) {
+        openInAppWebViewWith(url: url)
     }
 }

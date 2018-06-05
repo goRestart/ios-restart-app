@@ -1,14 +1,6 @@
-//
-//  ListingCardDetailsView.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 06/11/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
-import MapKit
 import LGCoreKit
+import LGComponents
 
 fileprivate struct DetailNumberOfLines {
     let current: Int
@@ -36,10 +28,9 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
     }
     private struct Map {
         static let snapshotSize = CGSize(width: 300, height: 500)
-        static let snapshotSpan = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
     }
 
-    var delegate: (ListingCardDetailsViewDelegate & ListingCardDetailMapViewDelegate)? {
+    weak var delegate: (ListingCardDetailsViewDelegate & ListingCardDetailMapViewDelegate)? {
         didSet { detailMapView.delegate = delegate }
     }
 
@@ -101,7 +92,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
         label.backgroundColor = UIColor.white
         label.font = UIFont.deckSocialHeaderFont
         label.textAlignment = .left
-        label.text = LGLocalizedString.productShareTitleLabel
+        label.text = R.Strings.productShareTitleLabel
         label.setContentCompressionResistancePriority(.required, for: .vertical)
         label.setContentHuggingPriority(.required, for: .vertical)
         return label
@@ -122,6 +113,10 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
         setupUI()
     }
 
+    func recycleDisposeBag() {
+        binder.recycleDisposeBag()
+    }
+
     // MARK: PopulateView
 
     func populateWithViewModel(_ viewModel: ListingCardDetailsViewModel) {
@@ -133,9 +128,9 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
     func populateWith(productInfo: ListingVMProductInfo?, showExactLocationOnMap: Bool) {
         guard let info = productInfo else { return }
         if let location = info.location {
-            let center = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
-            let region = MKCoordinateRegion(center: center, span: Map.snapshotSpan)
-            detailMapView.setRegion(region, size: Map.snapshotSize, showExactLocationOnMap: showExactLocationOnMap)
+            detailMapView.setLocation(location,
+                                      size: Map.snapshotSize,
+                                      showExactLocationOnMap: showExactLocationOnMap)
         }
         titleLabel.text = info.title
         titleLabel.isHidden = info.title == nil

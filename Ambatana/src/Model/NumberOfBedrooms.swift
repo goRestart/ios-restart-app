@@ -1,12 +1,5 @@
-//
-//  NumberOfBedrooms.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 11/10/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 enum NumberOfBedrooms: Int {
     case zero = 0
@@ -18,45 +11,45 @@ enum NumberOfBedrooms: Int {
     var localizedString: String {
         switch self {
         case .zero:
-            return LGLocalizedString.realEstateBedrooms0
+            return R.Strings.realEstateBedrooms0
         case .one:
-            return LGLocalizedString.realEstateBedrooms1
+            return R.Strings.realEstateBedrooms1
         case .two:
-            return LGLocalizedString.realEstateBedrooms2
+            return R.Strings.realEstateBedrooms2
         case .three:
-            return LGLocalizedString.realEstateBedrooms3
+            return R.Strings.realEstateBedrooms3
         case .four:
-            return LGLocalizedString.realEstateBedrooms4
+            return R.Strings.realEstateBedrooms4
         }
     }
 
     var shortLocalizedString: String {
         switch self {
         case .zero:
-            return LGLocalizedString.realEstateTitleGeneratorBedroomsStudio
+            return R.Strings.realEstateTitleGeneratorBedroomsStudio
         case .one:
-            return LGLocalizedString.realEstateTitleGeneratorBedroomsOne
+            return R.Strings.realEstateTitleGeneratorBedroomsOne
         case .two:
-            return LGLocalizedString.realEstateTitleGeneratorBedroomsTwo
+            return R.Strings.realEstateTitleGeneratorBedroomsTwo
         case .three:
-            return LGLocalizedString.realEstateTitleGeneratorBedroomsThree
+            return R.Strings.realEstateTitleGeneratorBedroomsThree
         case .four:
-            return LGLocalizedString.realEstateTitleGeneratorBedroomsFour
+            return R.Strings.realEstateTitleGeneratorBedroomsFour
         }
     }
     
     var summaryLocalizedString: String {
         switch self {
         case .zero:
-            return LGLocalizedString.realEstateBedrooms0
+            return R.Strings.realEstateBedrooms0
         case .one:
-            return LGLocalizedString.realEstateBedrooms1 + " " + LGLocalizedString.realEstateSummaryBedroomTitle
+            return R.Strings.realEstateBedrooms1 + " " + R.Strings.realEstateSummaryBedroomTitle
         case .two:
-            return LGLocalizedString.realEstateBedrooms2 + " " + LGLocalizedString.realEstateSummaryBedroomsTitle
+            return R.Strings.realEstateBedrooms2 + " " + R.Strings.realEstateSummaryBedroomsTitle
         case .three:
-            return LGLocalizedString.realEstateBedrooms3 + " " + LGLocalizedString.realEstateSummaryBedroomsTitle
+            return R.Strings.realEstateBedrooms3 + " " + R.Strings.realEstateSummaryBedroomsTitle
         case .four:
-            return LGLocalizedString.realEstateBedrooms4 + " " + LGLocalizedString.realEstateSummaryBedroomsTitle
+            return R.Strings.realEstateBedrooms4 + " " + R.Strings.realEstateSummaryBedroomsTitle
         }
     }
     

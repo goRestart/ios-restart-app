@@ -54,12 +54,8 @@ class EnvironmentProxy: AppEnvironment {
         return environment.appsFlyerAPIKey
     }
     
-    var oneLinkHost: String {
-        return environment.oneLinkHost
-    }
-    
-    var oneLinkID: String {
-        return environment.oneLinkID
+    var appsFlyerAppInviteOneLinkID: String {
+        return environment.appsFlyerAppInviteOneLinkID
     }
 
     var amplitudeAPIKey: String {
@@ -96,10 +92,6 @@ class EnvironmentProxy: AppEnvironment {
 
     var websiteBaseUrlWithLocaleParams: String {
         return environment.websiteBaseUrlWithLocaleParams
-    }
-    
-    var websiteBaseUrlWithLanguageParam: String {
-        return environment.websiteBaseUrlWithLanguageParam
     }
 
     var adTestModeActive: Bool {
@@ -148,6 +140,22 @@ class EnvironmentProxy: AppEnvironment {
     
     var feedAdUnitIdAdxUSAForOldUsers: String {
         return environment.feedAdUnitIdAdxUSAForOldUsers
+    }
+    
+    var feedAdUnitIdAdxTRForAllUsers: String {
+        return environment.feedAdUnitIdAdxTRForAllUsers
+    }
+    
+    var feedAdUnitIdAdxTRForOldUsers: String {
+        return environment.feedAdUnitIdAdxTRForOldUsers
+    }
+    
+    var fullScreenAdUnitIdAdxForAllUsersForUS: String {
+        return environment.fullScreenAdUnitIdAdxForAllUsersForUS
+    }
+    
+    var fullScreenAdUnitIdAdxForOldUsersForUS: String {
+        return environment.fullScreenAdUnitIdAdxForOldUsersForUS
     }
     
 }

@@ -28,14 +28,8 @@ final class ProfileTabCoordinator: TabCoordinator {
         let keyValueStorage = KeyValueStorage.sharedInstance
         let tracker = TrackerProxy.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
-        let rootViewController: UIViewController
-        let viewModel = UserViewModel.myUserUserViewModel(.tabBar)
-        let newViewModel = UserProfileViewModel.makePrivateProfile(source: .tabBar)
-        if featureFlags.newUserProfileView.isActive {
-            rootViewController = UserProfileViewController(viewModel: newViewModel)
-        } else {
-            rootViewController = UserViewController(viewModel: viewModel)
-        }
+        let viewModel = UserProfileViewModel.makePrivateProfile(source: .tabBar)
+        let rootViewController = UserProfileViewController(viewModel: viewModel)
 
         self.init(listingRepository: listingRepository,
                   userRepository: userRepository,
@@ -49,7 +43,6 @@ final class ProfileTabCoordinator: TabCoordinator {
                   featureFlags: featureFlags,
                   sessionManager: sessionManager)
 
-        newViewModel.profileNavigator = self
         viewModel.profileNavigator = self
     }
 }
@@ -62,20 +55,13 @@ extension ProfileTabCoordinator: ProfileTabNavigator {
         navigationController.pushViewController(vc, animated: true)
     }
 
-    func openEditUserBio() {
-        let vm = EditUserBioViewModel()
-        vm.navigator = self
-        let vc = EditUserBioViewController(viewModel: vm)
-        navigationController.pushViewController(vc, animated: true)
-    }
-
     func editListing(_ listing: Listing, pageType: EventParameterTypePage?) {
         let navigator = EditListingCoordinator(listing: listing,
                                                bumpUpProductData: nil,
                                                pageType: pageType,
                                                listingCanBeBoosted: false,
                                                timeSinceLastBump: nil,
-                                               maxCountdown: nil)
+                                               maxCountdown: 0)
         openChild(coordinator: navigator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
     }
 
@@ -83,19 +69,6 @@ extension ProfileTabCoordinator: ProfileTabNavigator {
         let vm = UserVerificationViewModel()
         vm.navigator = self
         let vc = UserVerificationViewController(viewModel: vm)
-        navigationController.pushViewController(vc, animated: true)
-    }
-}
-
-extension ProfileTabCoordinator: UserVerificationNavigator {
-    func closeUserVerification() {
-        navigationController.popViewController(animated: true)
-    }
-
-    func openEmailVerification() {
-        let vm = UserVerificationEmailViewModel()
-        vm.navigator = self
-        let vc = UserVerificationEmailViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
 }
@@ -179,24 +152,10 @@ extension ProfileTabCoordinator: ChangePasswordNavigator {
 
 extension ProfileTabCoordinator: HelpNavigator {
     func open(url: URL) {
-        let svc = SFSafariViewController(url: url, entersReaderIfAvailable: false)
-        svc.view.tintColor = UIColor.primaryColor
-        navigationController.present(svc, animated: true, completion: nil)
+        navigationController.openInAppWebViewWith(url: url)
     }
 
     func closeHelp() {
-        navigationController.popViewController(animated: true)
-    }
-}
-
-extension ProfileTabCoordinator: EditUserBioNavigator {
-    func closeEditUserBio() {
-        navigationController.popViewController(animated: true)
-    }
-}
-
-extension ProfileTabCoordinator: VerifyUserEmailNavigator {
-    func closeEmailVerification() {
         navigationController.popViewController(animated: true)
     }
 }

@@ -1,24 +1,17 @@
-//
-//  UserRatingCell.swift
-//  LetGo
-//
-//  Created by Dídac on 18/07/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
 import LGCoreKit
+import LGComponents
 
 extension UserRatingType {
 
     func ratingTypeText(_ userName: String) -> String {
         switch self {
         case .conversation:
-            return LGLocalizedString.ratingListRatingTypeConversationTextLabel(userName)
+            return R.Strings.ratingListRatingTypeConversationTextLabel(userName)
         case .seller:
-            return LGLocalizedString.ratingListRatingTypeSellerTextLabel(userName)
+            return R.Strings.ratingListRatingTypeSellerTextLabel(userName)
         case .buyer:
-            return LGLocalizedString.ratingListRatingTypeBuyerTextLabel(userName)
+            return R.Strings.ratingListRatingTypeBuyerTextLabel(userName)
         }
     }
 
@@ -112,7 +105,7 @@ class UserRatingCell: UITableViewCell, ReusableCell {
         ratingTypeLabelLeadingConstraint.constant = data.pendingReview ? UserRatingCell.ratingTypeLeadingWIcon : 0
         ratingTypeIcon.isHidden = !data.pendingReview
         ratingTypeLabel.textColor = data.pendingReview ? UIColor.blackText : data.ratingType.ratingTypeTextColor
-        ratingTypeLabel.text = data.pendingReview ? LGLocalizedString.ratingListRatingStatusPending :
+        ratingTypeLabel.text = data.pendingReview ? R.Strings.ratingListRatingStatusPending :
             data.ratingType.ratingTypeText(data.userName)
 
         if let description = data.ratingDescription, description != "" {
@@ -164,7 +157,7 @@ class UserRatingCell: UITableViewCell, ReusableCell {
     }
 
     private func drawStarsForValue(_ value: Int) {
-        let starImage = UIImage(named: UserRatingCell.fullStarImage)
+        let starImage = R.Asset.IconsButtons.icUserProfileStar.image
         stars.forEach{
             $0.image = starImage
             $0.alpha =  ($0.tag <= value) ? 1 : 0.4

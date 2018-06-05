@@ -1,20 +1,13 @@
-//
-//  TourLocationViewModel.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 10/2/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import RxSwift
 import LGCoreKit
+import LGComponents
 
 protocol TourLocationViewModelDelegate: BaseViewModelDelegate { }
 
 final class TourLocationViewModel: BaseViewModel {
 
     var title: String {
-        return LGLocalizedString.locationPermissionsTitleV2
+        return R.Strings.locationPermissionsTitleV2
     }
     var showBubbleInfo: Bool {
         return false
@@ -23,7 +16,7 @@ final class TourLocationViewModel: BaseViewModel {
         return !showBubbleInfo
     }
     var infoImage: UIImage? {
-        return UIImage(named: "img_permissions_background")
+        return R.Asset.IPhoneParts.imgPermissionsBackground.image
     }
 
     let typePage: EventParameterTypePage
@@ -68,12 +61,12 @@ final class TourLocationViewModel: BaseViewModel {
     }
     
     func userDidTapNoButton() {
-        let actionOk = UIAction(interface: UIActionInterface.text(LGLocalizedString.onboardingAlertYes),
+        let actionOk = UIAction(interface: UIActionInterface.text(R.Strings.onboardingAlertYes),
                                 action: { [weak self] in self?.closeTourLocation() })
-        let actionCancel = UIAction(interface: UIActionInterface.text(LGLocalizedString.onboardingAlertNo),
+        let actionCancel = UIAction(interface: UIActionInterface.text(R.Strings.onboardingAlertNo),
                                     action: { [weak self] in self?.askForPermissions() })
-        delegate?.vmShowAlert(LGLocalizedString.onboardingLocationPermissionsAlertTitle,
-                              message: LGLocalizedString.onboardingLocationPermissionsAlertSubtitle,
+        delegate?.vmShowAlert(R.Strings.onboardingLocationPermissionsAlertTitle,
+                              message: R.Strings.onboardingLocationPermissionsAlertSubtitle,
                               actions: [actionCancel, actionOk])
     }
 

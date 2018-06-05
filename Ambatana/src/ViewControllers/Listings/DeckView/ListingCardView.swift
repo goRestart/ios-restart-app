@@ -1,21 +1,15 @@
-//
-//  ListingCardView.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 23/10/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
 import UIKit
 import RxSwift
 import LGCoreKit
+import LGComponents
 
 protocol ListingCardViewDelegate: class {
     func cardViewDidTapOnStatusView(_ cardView: ListingCardView)
     func cardViewDidTapOnPreview(_ cardView: ListingCardView)
     func cardViewDidShowMoreInfo(_ cardView: ListingCardView)
     func cardViewDidScroll(_ cardView: ListingCardView, contentOffset: CGFloat)
+    func cardViewDidTapOnReputationTooltip(_ cardView: ListingCardView)
 }
 
 final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestureRecognizerDelegate, ReusableCell {
@@ -26,7 +20,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
         static let stickyHeaderThreadshold = Layout.Height.userView
     }
 
-    var delegate: (ListingCardDetailsViewDelegate & ListingCardViewDelegate & ListingCardDetailMapViewDelegate)? {
+    weak var delegate: (ListingCardDetailsViewDelegate & ListingCardViewDelegate & ListingCardDetailMapViewDelegate)? {
         didSet { detailsView.delegate = delegate }
     }
 
@@ -36,6 +30,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
         return userView
     }()
 
+    private var reputationTooltip: LetgoTooltip?
     private let binder = ListingCardViewBinder()
     private(set) var disposeBag = DisposeBag()
 
@@ -56,7 +51,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
         return CGRect(origin: frame.origin, size: size)
     }
     private let gradient = GradientView(colors: [UIColor.black.withAlphaComponent(0.2), .clear])
-    private let countImageView = UIImageView(image: #imageLiteral(resourceName: "nit_preview_count"))
+    private let countImageView = UIImageView(image: R.Asset.IconsButtons.NewItemPage.nitPreviewCount.image)
     private let imageCountLabel = UILabel()
 
     private let scrollView: UIScrollView = {
@@ -366,6 +361,31 @@ extension ListingCardView: ListingDeckViewControllerBinderCellType {
 
     func recycleDisposeBag() {
         disposeBag = DisposeBag()
+        detailsView.recycleDisposeBag()
+        binder.recycleDisposeBag()
     }
 }
 
+extension ListingCardView: LetgoTooltipDelegate {
+    func showReputationTooltip() {
+        guard reputationTooltip == nil else { return }
+        let tooltip = LetgoTooltip()
+        addSubviewForAutoLayout(tooltip)
+        tooltip.setupWith(peakOnTop: false, peakOffsetFromLeft: 40,
+                          message: R.Strings.profileReputationTooltipTitle)
+        tooltip.leftAnchor.constraint(equalTo: userView.leftAnchor, constant: Metrics.veryShortMargin).isActive = true
+        tooltip.bottomAnchor.constraint(equalTo: userView.topAnchor, constant: Metrics.veryBigMargin).isActive = true
+        tooltip.delegate = self
+        reputationTooltip = tooltip
+    }
+
+    func hideReputationTooltip() {
+        reputationTooltip?.removeFromSuperview()
+        reputationTooltip = nil
+    }
+
+    func didTapTooltip() {
+        hideReputationTooltip()
+        delegate?.cardViewDidTapOnReputationTooltip(self)
+    }
+}

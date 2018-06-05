@@ -22,6 +22,7 @@ struct Constants {
                                         "yandex.com"]
 
     // Map
+    static let largestRegionRadius = 20000.0
     static let accurateRegionRadius = 1000.0    // meters
     static let nonAccurateRegionRadius = 5000.0 // meters
     static let metersInOneMile: Double = 1609.34
@@ -36,6 +37,8 @@ struct Constants {
     // Branch
     static let branchWebsiteURL = "https://app.letgo.com"
     static let branchLinksHost = "app.letgo.com"
+    // AppsFlyer
+    static let appsFlyerLinksHost = "letgo.onelink.me"
 
     // Website
     static let websiteRecaptchaEndpoint = "/mcaptcha"
@@ -43,6 +46,7 @@ struct Constants {
     static let websiteContactUsEndpoint = "/contact_app"
     static let websitePrivacyEndpoint = "/privacy_app"
     static let websiteTermsEndpoint = "/terms_app"
+    static let websiteCommunityGuideline = "/community-guidelines"
     static func websiteListingEndpoint(_ listingId: String) -> String {
         return String(format: "/product/%@", arguments: [listingId])
     }
@@ -168,8 +172,9 @@ struct Constants {
     static let promoteAfterPostWaitTime = TimeInterval.make(days: 1)
     static let fiveMinutesTimeLimit = TimeInterval.make(minutes: 5)
     static let oneHourTimeLimit = TimeInterval.make(hours: 1)
-    
+
     // Tracking
+    // TODO: ABIOS-3771 Remove this when integrating LGAnalytics module
     static let parameterNotApply = "N/A"
     static let parameterSkipValue = "skip"
 

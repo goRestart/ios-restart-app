@@ -1,12 +1,5 @@
-//
-//  RelationInfoView.swift
-//  LetGo
-//
-//  Created by Dídac on 17/02/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 enum ChatInfoViewStatus: Int {
 
@@ -25,34 +18,34 @@ enum ChatInfoViewStatus: Int {
         switch self {
         case .forbidden:
             if let userName = userName {
-                return LGLocalizedString.accountPendingModerationWName(userName)
+                return R.Strings.accountPendingModerationWName(userName)
             } else {
-                return LGLocalizedString.accountPendingModeration
+                return R.Strings.accountPendingModeration
             }
         case .blocked:
             if let userName = userName {
-                return LGLocalizedString.chatBlockedByMeLabelWName(userName)
+                return R.Strings.chatBlockedByMeLabelWName(userName)
             } else {
-                return LGLocalizedString.chatBlockedByMeLabel
+                return R.Strings.chatBlockedByMeLabel
             }
         case .blockedBy:
-            return LGLocalizedString.chatBlockedByOtherLabel
+            return R.Strings.chatBlockedByOtherLabel
         case .listingDeleted:
-            return LGLocalizedString.commonProductNotAvailable
+            return R.Strings.commonProductNotAvailable
         case .listingSold:
-            return LGLocalizedString.chatProductSoldLabel
+            return R.Strings.chatProductSoldLabel
         case .listingGivenAway:
-            return LGLocalizedString.chatProductGivenAwayLabel
+            return R.Strings.chatProductGivenAwayLabel
         case .userPendingDelete, .userDeleted:
             if let userName = userName {
-                return LGLocalizedString.chatAccountDeletedWName(userName)
+                return R.Strings.chatAccountDeletedWName(userName)
             } else {
-                return LGLocalizedString.chatAccountDeletedWoName
+                return R.Strings.chatAccountDeletedWoName
             }
         case .available:
             return ""
         case .inactiveConversation:
-            return LGLocalizedString.chatInactiveConversationRelationExplanation
+            return R.Strings.chatInactiveConversationRelationExplanation
         }
     }
 
@@ -77,17 +70,17 @@ enum ChatInfoViewStatus: Int {
     var iconImage: UIImage {
         switch self {
         case .forbidden:
-            return UIImage(named: "ic_pending_moderation") ?? UIImage()
+            return R.Asset.IconsButtons.icPendingModeration.image
         case .userDeleted, .userPendingDelete:
-            return UIImage(named: "ic_alert_yellow_white_inside") ?? UIImage()
+            return R.Asset.BackgroundsAndImages.icAlertYellowWhiteInside.image
         case .blocked:
-            return UIImage(named: "ic_blocked_white") ?? UIImage()
+            return R.Asset.BackgroundsAndImages.icBlockedWhite.image
         case .blockedBy:
-            return UIImage(named: "ic_blocked_white_line") ?? UIImage()
+            return R.Asset.BackgroundsAndImages.icBlockedWhiteLine.image
         case .listingDeleted, .inactiveConversation:
-            return UIImage(named: "ic_alert_yellow_white_inside") ?? UIImage()
+            return R.Asset.BackgroundsAndImages.icAlertYellowWhiteInside.image
         case .listingSold, .listingGivenAway:
-            return UIImage(named: "ic_sold_white") ?? UIImage()
+            return R.Asset.BackgroundsAndImages.icSoldWhite.image
         case .available:
             return UIImage()
         }

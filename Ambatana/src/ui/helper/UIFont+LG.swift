@@ -55,6 +55,9 @@ extension UIFont {
     static var adCallToActionFont: UIFont { return systemMediumFont(size: 14)}
     static var adTextFont: UIFont { return systemRegularFont(size: 14)}
 
+    // Letgo Tooltip
+    static var tooltipMessageFont: UIFont { return systemBoldFont(size: 17) }
+
     // MARK: Private methods
 
     static func systemFont(size: Int) -> UIFont {
@@ -149,7 +152,7 @@ extension UIFont {
     static var tourLocationDistanceLabelFont: UIFont { return systemMediumFont(size: 16) }
 }
 
-// MARK: DeckView
+// MARK: - DeckView
 
 extension UIFont {
     static var deckTitleFont: UIFont { return systemMediumFont(size: 17) }
@@ -170,6 +173,8 @@ extension UIFont {
     static var userProfileTabsNumberFont: UIFont { return UIFont.systemBoldFont(size: 19) }
     static var userProfileTabsNameFont: UIFont { return UIFont.systemRegularFont(size: 15) }
     static var userProfileTabsNameSelectedFont: UIFont { return UIFont.systemBoldFont(size: 15) }
+    static var userProfileTabsNameMiniFont: UIFont { return UIFont.systemRegularFont(size: 13) }
+    static var userProfileTabsNameSelectedMiniFont: UIFont { return UIFont.systemBoldFont(size: 13) }
     static var userProfileVerificationSectionSubtitleFont: UIFont { return UIFont.systemRegularFont(size: 12) }
     static var profileUserHeadline: UIFont { return systemBoldFont(size: 35) }
     static var profileKarmaSubtitleBoldFont: UIFont { return systemBoldFont(size: 11) }
@@ -177,4 +182,13 @@ extension UIFont {
     static var profileKarmaOpenVerificationFont: UIFont { return UIFont.systemBoldFont(size: 15) }
     static var verificationItemTitle: UIFont { return systemBoldFont(size: 23) }
     static var verificationEventCountFont: UIFont { return systemBoldFont(size: 10) }
+}
+
+extension UIFont {
+    static var smsVerificationInputBigText: UIFont { return UIFont.systemBoldFont(size: 30) }
+    static var smsVerificationInputDescription: UIFont { return UIFont.systemMediumFont(size: 20) }
+    static var smsVerificationInputSmallDescription: UIFont { return UIFont.systemRegularFont(size: 15) }
+    static var smsVerificationInputCodeInformation: UIFont { return UIFont.systemMediumFont(size: 14) }
+    static var smsVerificationCountryListCellText: UIFont { return UIFont.systemBoldFont(size: 23) }
+    static var smsVerificationCodeInputTextfieldText: UIFont { return UIFont.systemBoldFont(size: 40) }
 }

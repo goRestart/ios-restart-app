@@ -1,14 +1,7 @@
-//
-//  FeaturedInfoViewController.swift
-//  LetGo
-//
-//  Created by Dídac on 25/10/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
-class FeaturedInfoViewController: BaseViewController {
+final class FeaturedInfoViewController: BaseViewController {
 
     private static let tipsIconHeight: CGFloat = 75
 
@@ -39,7 +32,6 @@ class FeaturedInfoViewController: BaseViewController {
     init(viewModel: FeaturedInfoViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
-        modalPresentationStyle = .overCurrentContext
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -57,30 +49,30 @@ class FeaturedInfoViewController: BaseViewController {
 
     func setupUI() {
         view.backgroundColor = UIColor.white
-        closeButton.setImage(UIImage(named: "ic_close_red"), for: .normal)
+        closeButton.setImage(R.Asset.CongratsScreenImages.icCloseRed.image, for: .normal)
         closeButton.addTarget(self, action: #selector(closeButtonPressed), for: .touchUpInside)
 
-        titleIcon.image = UIImage(named: "ic_lightning")
+        titleIcon.image = R.Asset.Monetization.icLightning.image
         titleIcon.contentMode = .scaleAspectFit
         titleLabel.text = viewModel.titleText
         titleLabel.font = UIFont.systemSemiBoldFont(size: 17)
         titleLabel.textColor = UIColor.blackText
 
-        sellFasterIcon.image = UIImage(named: "ic_sell_faster")
+        sellFasterIcon.image = R.Asset.Monetization.icSellFaster.image
         sellFasterIcon.contentMode = .center
         sellFasterLabel.text = viewModel.sellFasterText
         sellFasterLabel.font = UIFont.systemBoldFont(size: 27)
         sellFasterLabel.textColor = UIColor.blackText
         sellFasterLabel.numberOfLines = 0
 
-        increaseVisibilityIcon.image = UIImage(named: "ic_visibility")
+        increaseVisibilityIcon.image = R.Asset.Monetization.icVisibility.image
         increaseVisibilityIcon.contentMode = .center
         increaseVisibilityLabel.text = viewModel.increaseVisibilityText
         increaseVisibilityLabel.font = UIFont.systemBoldFont(size: 27)
         increaseVisibilityLabel.textColor = UIColor.blackText
         increaseVisibilityLabel.numberOfLines = 0
 
-        moreBuyersIcon.image = UIImage(named: "ic_interested_buyers")
+        moreBuyersIcon.image = R.Asset.Monetization.icInterestedBuyers.image
         moreBuyersIcon.contentMode = .center
         moreBuyersLabel.text = viewModel.moreBuyersText
         moreBuyersLabel.font = UIFont.systemBoldFont(size: 27)

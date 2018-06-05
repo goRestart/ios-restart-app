@@ -32,17 +32,23 @@ typealias ListingDataSourceTransactionCompletion = (ListingDataSourceTransaction
 
 protocol ListingDataSource {
     func index(_ parameters: [String: Any], completion: ListingsDataSourceCompletion?)
+    func indexCustomFeed(_ parameters: [String: Any], completion: ListingsDataSourceCompletion?)
     func indexForUser(_ userId: String, parameters: [String: Any], completion: ListingsDataSourceCompletion?)
     func indexFavorites(userId: String, numberOfResults: Int?, resultsOffset: Int?, completion: ListingsDataSourceCompletion?)
     func indexRelatedListings(_ listingId: String, parameters: [String: Any], completion: ListingsDataSourceCompletion?)
-    func indexRelatedRealEstate(_ listingId: String, parameters: [String: Any], completion: ListingsDataSourceCompletion?)
     func indexDiscoverListings(_ listingId: String, parameters: [String: Any], completion: ListingsDataSourceCompletion?)
+    
     func indexRealEstate(_ parameters: [String: Any], completion: ListingsDataSourceCompletion?)
     func indexRealEstateRelatedSearch(_ parameters: [String: Any], completion: ListingsDataSourceCompletion?)
-
+    func indexRelatedRealEstate(_ listingId: String, parameters: [String: Any], completion: ListingsDataSourceCompletion?)
+    
     func indexCars(_ parameters: [String: Any], completion: ListingsDataSourceCompletion?)
     func indexCarsRelatedSearch(_ parameters: [String: Any], completion: ListingsDataSourceCompletion?)
     func indexRelatedCars(_ listingId: String, parameters: [String: Any], completion: ListingsDataSourceCompletion?)
+    
+    func indexServices(_ parameters: [String: Any], completion: ListingsDataSourceCompletion?)
+    func indexServicesRelatedSearch(_ parameters: [String: Any], completion: ListingsDataSourceCompletion?)
+    func indexRelatedServices(_ listingId: String, parameters: [String: Any], completion: ListingsDataSourceCompletion?)
     
     func retrieve(_ listingId: String, completion: ListingDataSourceCompletion?)
     func retrieveRealEstate(_ listingId: String, completion: ListingDataSourceCompletion?)
@@ -52,6 +58,9 @@ protocol ListingDataSource {
     
     func createListingCar(userId: String, listingParams: ListingCreationParams, completion: ListingDataSourceCompletion?)
     func updateListingCar(listingParams: ListingEditionParams, completion: ListingDataSourceCompletion?)
+    
+    func createListingServices(userId: String, listingParams: [ListingCreationParams], completion: ListingsDataSourceCompletion?)
+    func updateListingService(listingParams: ListingEditionParams, completion: ListingDataSourceCompletion?)
 
     func delete(_ listingId: String, completion: ListingDataSourceEmptyCompletion?)
 

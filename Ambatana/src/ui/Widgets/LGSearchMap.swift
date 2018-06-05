@@ -1,14 +1,7 @@
-//
-//  LGSearchMap.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 06/11/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import MapKit
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
 
@@ -59,7 +52,7 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
     
     private func setupUI() {
         searchField.insetX = 40
-        searchField.placeholder = LGLocalizedString.changeLocationSearchFieldHint
+        searchField.placeholder = R.Strings.changeLocationSearchFieldHint
         searchField.cornerRadius = LGUIKitConstants.mediumCornerRadius
         searchField.layer.borderColor = UIColor.lineGray.cgColor
         searchField.layer.borderWidth = LGUIKitConstants.onePixelSize
@@ -74,7 +67,7 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
         searchField.textColor = UIColor.blackText
         searchField.clearButtonMode = .always
         
-        searchIcon.image = #imageLiteral(resourceName: "list_search")
+        searchIcon.image = R.Asset.IconsButtons.listSearch.image
         
         suggestionsTableView.cornerRadius = LGUIKitConstants.smallCornerRadius
         suggestionsTableView.layer.borderColor = UIColor.lineGray.cgColor
@@ -85,7 +78,7 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
                                       forCellReuseIdentifier: LGSearchMapConstants.suggestionCellId)
         
         gpsLocationButton.cornerRadius = 10
-        gpsLocationButton.setImage(UIImage(named:"map_user_location_button"), for: .normal)
+        gpsLocationButton.setImage(R.Asset.IconsButtons.Map.mapUserLocationButton.image, for: .normal)
         gpsLocationButton.addTarget(self, action: #selector(LGSearchMap.gpsButtonPressed), for: .touchUpInside)
         
         aproxLocationArea.backgroundColor = UIColor.black

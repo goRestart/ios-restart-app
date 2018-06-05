@@ -1,14 +1,7 @@
-//
-//  BumpUpBoostViewController.swift
-//  LetGo
-//
-//  Created by Dídac on 21/03/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
-class BumpUpBoostViewController: BaseViewController {
+final class BumpUpBoostViewController: BaseViewController {
 
     struct BoostViewMetrics {
         static let bottomAnchorConstant: CGFloat = 20
@@ -25,22 +18,22 @@ class BumpUpBoostViewController: BaseViewController {
     var titleLabelText: String {
         switch featureFlags.bumpUpBoost {
         case .control, .baseline, .sendTop1hour, .sendTop5Mins:
-            return LGLocalizedString.bumpUpViewBoostTitleSendTop
+            return R.Strings.bumpUpViewBoostTitleSendTop
         case .boostListing1hour:
-            return LGLocalizedString.bumpUpViewBoostTitleBoostListing
+            return R.Strings.bumpUpViewBoostTitleBoostListing
         case .cheaperBoost5Mins:
-            return LGLocalizedString.bumpUpViewBoostTitleCheaperBoost
+            return R.Strings.bumpUpViewBoostTitleCheaperBoost
         }
     }
 
     var subtitleLabelText: String {
         switch featureFlags.bumpUpBoost {
         case .control, .baseline, .sendTop1hour, .sendTop5Mins:
-            return LGLocalizedString.bumpUpViewBoostSubtitleSendTop
+            return R.Strings.bumpUpViewBoostSubtitleSendTop
         case .boostListing1hour:
-            return LGLocalizedString.bumpUpViewBoostSubtitleBoostListing
+            return R.Strings.bumpUpViewBoostSubtitleBoostListing
         case .cheaperBoost5Mins:
-            return LGLocalizedString.bumpUpViewBoostSubtitleCheaper
+            return R.Strings.bumpUpViewBoostSubtitleCheaper
         }
     }
 
@@ -75,20 +68,16 @@ class BumpUpBoostViewController: BaseViewController {
     private let featureFlags: FeatureFlaggeable
     private let viewModel: BumpUpPayViewModel
 
-    private let maxCountdown: TimeInterval
     private var timer: Timer = Timer()
     private var timeIntervalLeft: TimeInterval
 
     init(viewModel: BumpUpPayViewModel,
          featureFlags: FeatureFlaggeable,
-         timeSinceLastBump: TimeInterval,
-         maxCountdown: TimeInterval) {
+         timeSinceLastBump: TimeInterval) {
         self.viewModel = viewModel
         self.featureFlags = featureFlags
-        self.maxCountdown = maxCountdown
-        self.timeIntervalLeft = maxCountdown-timeSinceLastBump
+        self.timeIntervalLeft = viewModel.maxCountdown-timeSinceLastBump
         super.init(viewModel: viewModel, nibName: nil)
-        modalPresentationStyle = .overCurrentContext
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -174,15 +163,15 @@ class BumpUpBoostViewController: BaseViewController {
     }
 
     private func setupTopView() {
-        timerProgressView.maxTime = maxCountdown
+        timerProgressView.maxTime = viewModel.maxCountdown
         timerProgressView.updateWith(timeLeft: timeIntervalLeft)
 
-        closeButton.setImage(#imageLiteral(resourceName: "gray_chevron_down"), for: .normal)
+        closeButton.setImage(R.Asset.Monetization.grayChevronDown.image, for: .normal)
         closeButton.addTarget(self, action: #selector(closeButtonPressed), for: .touchUpInside)
 
-        viewTitleIconView.image = #imageLiteral(resourceName: "ic_extra_boost")
+        viewTitleIconView.image = R.Asset.Monetization.icExtraBoost.image
         viewTitleIconView.contentMode = .scaleAspectFit
-        viewTitleLabel.text = LGLocalizedString.bumpUpBannerBoostText
+        viewTitleLabel.text = R.Strings.bumpUpBannerBoostText
         viewTitleLabel.textColor = UIColor.blackText
         viewTitleLabel.font = UIFont.systemBoldFont(size: 19)
         viewTitleLabel.minimumScaleFactor = 0.5
@@ -212,28 +201,28 @@ class BumpUpBoostViewController: BaseViewController {
 
         featuredBackgroundContainerView.clipsToBounds = true
 
-        featuredBgLeftColumnImageView.image = #imageLiteral(resourceName: "boost_bg_left_column")
+        featuredBgLeftColumnImageView.image = R.Asset.Monetization.boostBgLeftColumn.image
         featuredBgLeftColumnImageView.contentMode = .top
 
-        featuredBgRightColumnImageView.image = #imageLiteral(resourceName: "boost_bg_right_column")
+        featuredBgRightColumnImageView.image = R.Asset.Monetization.boostBgRightColumn.image
         featuredBgRightColumnImageView.contentMode = .top
 
-        featuredBgBottomCellImageView.image = #imageLiteral(resourceName: "boost_bg_bottom_cell")
+        featuredBgBottomCellImageView.image = R.Asset.Monetization.boostBgBottomCell.image
         featuredBgBottomCellImageView.contentMode = .scaleAspectFill
 
-        featuredBgRedArrow.image = #imageLiteral(resourceName: "boost_bg_red_arrow")
+        featuredBgRedArrow.image = R.Asset.Monetization.boostBgRedArrow.image
         featuredBgRedArrow.contentMode = .scaleAspectFit
 
-        featuredBgBigYellowArrow.image = #imageLiteral(resourceName: "boost_bg_yellow_arrow")
+        featuredBgBigYellowArrow.image = R.Asset.Monetization.boostBgYellowArrow.image
         featuredBgBigYellowArrow.contentMode = .scaleAspectFit
 
-        featuredBgSmallYellowArrow.image = #imageLiteral(resourceName: "boost_bg_yellow_arrow")
+        featuredBgSmallYellowArrow.image = R.Asset.Monetization.boostBgYellowArrow.image
         featuredBgSmallYellowArrow.contentMode = .scaleAspectFit
 
     }
 
     private func setupFakeCell() {
-        featuredRibbonImageView.image = #imageLiteral(resourceName: "red_ribbon")
+        featuredRibbonImageView.image = R.Asset.Monetization.redRibbon.image
         featuredRibbonImageView.contentMode = .scaleAspectFit
 
         imageContainer.clipsToBounds = true
@@ -252,14 +241,14 @@ class BumpUpBoostViewController: BaseViewController {
         listingImageView.cornerRadius = LGUIKitConstants.mediumCornerRadius
         listingImageView.contentMode = .scaleAspectFill
 
-        cellBottomImageView.image = #imageLiteral(resourceName: "fake_cell_bottom")
+        cellBottomImageView.image = R.Asset.Monetization.fakeCellBottom.image
         cellBottomImageView.contentMode = .scaleAspectFill
         shadowView.backgroundColor = UIColor.white
     }
 
     private func setupBoostButton() {
         boostButton.setStyle(.primary(fontSize: .big))
-        boostButton.setTitle(LGLocalizedString.bumpUpViewBoostPayButtonTitle(viewModel.price), for: .normal)
+        boostButton.setTitle(R.Strings.bumpUpViewBoostPayButtonTitle(viewModel.price), for: .normal)
         boostButton.titleLabel?.numberOfLines = 2
         boostButton.titleLabel?.adjustsFontSizeToFitWidth = true
         boostButton.titleLabel?.minimumScaleFactor = 0.5

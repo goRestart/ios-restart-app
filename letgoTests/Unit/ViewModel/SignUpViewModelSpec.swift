@@ -329,8 +329,10 @@ extension SignUpViewModelSpec: MainSignUpNavigator {
 }
 
 extension SignUpViewModelSpec: SignUpViewModelDelegate {
+
     // BaseViewModelDelegate
     func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?) {}
+    func vmShowAutoFadingMessage(title: String, message: String, time: Double, completion: (() -> ())?) {}
     func vmShowLoading(_ loadingMessage: String?) {
         loading = true
     }
@@ -352,5 +354,5 @@ extension SignUpViewModelSpec: SignUpViewModelDelegate {
                         elsePresentSignUpWithSuccessAction afterLogInAction: @escaping () -> Void) {}
     func vmPop() {}
     func vmDismiss(_ completion: (() -> Void)?){}
-    func vmOpenInternalURL(_ url: URL) {}
+    func vmOpenInAppWebViewWith(url: URL) {}
 }

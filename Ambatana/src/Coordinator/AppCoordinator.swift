@@ -1,16 +1,8 @@
-//
-//  AppCoordinator.swift
-//  LetGo
-//
-//  Created by AHL on 20/4/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
-import FBSDKCoreKit
 import LGCoreKit
 import RxSwift
 import UIKit
 import StoreKit
+import LGComponents
 
 enum BumpUpSource {
     case deepLink
@@ -69,6 +61,7 @@ final class AppCoordinator: NSObject, Coordinator {
 
     fileprivate var bumpUpSource: BumpUpSource?
     fileprivate var timeSinceLastBump: TimeInterval?
+    fileprivate var offensiveReportAlertWidth: CGFloat = 310
 
     weak var delegate: AppNavigatorDelegate?
 
@@ -212,9 +205,9 @@ extension AppCoordinator: AppNavigator {
         guard let url = URL(string: Constants.appStoreURL) else { return }
         guard application.canOpenURL(url) else { return }
 
-        let alert = UIAlertController(title: LGLocalizedString.forcedUpdateTitle,
-                                      message: LGLocalizedString.forcedUpdateMessage, preferredStyle: .alert)
-        let openAppStore = UIAlertAction(title: LGLocalizedString.forcedUpdateUpdateButton, style: .default) { _ in
+        let alert = UIAlertController(title: R.Strings.forcedUpdateTitle,
+                                      message: R.Strings.forcedUpdateMessage, preferredStyle: .alert)
+        let openAppStore = UIAlertAction(title: R.Strings.forcedUpdateUpdateButton, style: .default) { _ in
             application.openURL(url)
         }
         alert.addAction(openAppStore)
@@ -253,7 +246,6 @@ extension AppCoordinator: AppNavigator {
                   forceCloseChild: true,
                   completion: nil)
     }
-
     
     // MARK: App Review
 
@@ -289,12 +281,43 @@ extension AppCoordinator: AppNavigator {
         openChild(coordinator: promoteBumpCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
     }
 
+    func canOpenOffensiveReportAlert() -> Bool {
+        return tabBarCtl.presentedViewController == nil
+    }
+
+    func openOffensiveReportAlert() {
+        guard canOpenOffensiveReportAlert() else { return }
+        let reviewAction = { [weak self] in
+            guard let url = LetgoURLHelper.buildCommunityGuidelineURL() else { return }
+            self?.openInAppWebView(url: url)
+        }
+        let reviewActionInterface = UIActionInterface.button(R.Strings.offensiveReportAlertPrimaryAction,
+                                                             .primary(fontSize: .medium))
+        let reviewAlertAction = UIAction(interface: reviewActionInterface,
+                                         action: reviewAction,
+                                         accessibilityId: .offensiveReportAlertOpenGuidelineButton)
+        let skipActionInterface = UIActionInterface.button(R.Strings.offensiveReportAlertSecondaryAction,
+                                                            .secondary(fontSize: .medium, withBorder: true))
+        let skipAlertAction = UIAction(interface: skipActionInterface,
+                                  action: {},
+                                  accessibilityId: .offensiveReportAlertSkipButton)
+        if let alert = LGAlertViewController(title: R.Strings.offensiveReportAlertTitle,
+                                             text: R.Strings.offensiveReportAlertMessage,
+                                             alertType: .plainAlert,
+                                             buttonsLayout: .vertical,
+                                             actions: [reviewAlertAction, skipAlertAction],
+                                             dismissAction: nil) {
+            alert.alertWidth = offensiveReportAlertWidth
+            tabBarCtl.present(alert, animated: true, completion: nil)
+        }
+    }
+
     private func askUserIsEnjoyingLetgo() {
-        let yesButtonInterface = UIActionInterface.image(UIImage(named: "ic_emoji_yes"), nil)
+        let yesButtonInterface = UIActionInterface.image(R.Asset.IconsButtons.icEmojiYes.image, nil)
         let rateAppAlertAction = UIAction(interface: yesButtonInterface, action: { [weak self] in
             self?.askUserToRateApp(.happy)
         })
-        let noButtonInterface = UIActionInterface.image(UIImage(named: "ic_emoji_no"), nil)
+        let noButtonInterface = UIActionInterface.image(R.Asset.IconsButtons.icEmojiNo.image, nil)
         let feedbackAlertAction = UIAction(interface: noButtonInterface, action: { [weak self] in
             self?.askUserToRateApp(.sad)
         })
@@ -302,7 +325,7 @@ extension AppCoordinator: AppNavigator {
             self?.trackUserDidRemindLater()
             LGRatingManager.sharedInstance.userDidRemindLater()
         }
-        openTransitionAlert(title: LGLocalizedString.ratingAppEnjoyingAlertTitle,
+        openTransitionAlert(title: R.Strings.ratingAppEnjoyingAlertTitle,
                             text: "",
                             alertType: .plainAlert,
                             buttonsLayout: .emojis,
@@ -312,7 +335,7 @@ extension AppCoordinator: AppNavigator {
     }
 
     private func askUserToRateApp(_ reason: EventParameterUserDidRateReason?) {
-        let rateAppInterface = UIActionInterface.button(LGLocalizedString.ratingAppRateAlertYesButton,
+        let rateAppInterface = UIActionInterface.button(R.Strings.ratingAppRateAlertYesButton,
                                                         ButtonStyle.primary(fontSize: .medium))
         let rateAppAction = UIAction(interface: rateAppInterface, action: { [weak self] in
             self?.openAppStoreWriteReviewWebsite()
@@ -324,13 +347,13 @@ extension AppCoordinator: AppNavigator {
             self?.trackUserDidRemindLater()
             LGRatingManager.sharedInstance.userDidRemindLater()
         }
-        let exitInterface = UIActionInterface.button(LGLocalizedString.ratingAppRateAlertNoButton,
+        let exitInterface = UIActionInterface.button(R.Strings.ratingAppRateAlertNoButton,
                                                      ButtonStyle.secondary(fontSize: .medium,
                                                                            withBorder: true))
         let exitAction = UIAction(interface: exitInterface, action: {
             dismissAction()
         })
-        openTransitionAlert(title: LGLocalizedString.ratingAppRateAlertTitle,
+        openTransitionAlert(title: R.Strings.ratingAppRateAlertTitle,
                             text: "",
                             alertType: .plainAlert,
                             buttonsLayout: .vertical,
@@ -373,7 +396,7 @@ extension AppCoordinator: AppNavigator {
             let contactURL = LetgoURLHelper.buildContactUsURL(userEmail: email, installation: installation, listing: nil) else {
                 return
         }
-        viewController.openInternalUrl(contactURL)
+        viewController.openInAppWebViewWith(url: contactURL)
     }
 
     private func openTransitionAlert(title: String?,
@@ -411,6 +434,8 @@ extension AppCoordinator: AppNavigator {
     func openVerifyAccounts(_ types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?) {
         let viewModel = VerifyAccountsViewModel(verificationTypes: types, source: source, completionBlock: completionBlock)
         let viewController = VerifyAccountsViewController(viewModel: viewModel)
+        viewController.setupForModalWithNonOpaqueBackground()
+        viewController.modalTransitionStyle = .crossDissolve
         tabBarCtl.present(viewController, animated: true, completion: nil)
     }
 
@@ -452,18 +477,22 @@ extension AppCoordinator: AppNavigator {
     }
 
     func openEditForListing(listing: Listing,
-                            bumpUpProductData: BumpUpProductData?) {
+                            bumpUpProductData: BumpUpProductData?,
+                            maxCountdown: TimeInterval) {
         let editCoordinator = EditListingCoordinator(listing: listing,
                                                      bumpUpProductData: bumpUpProductData,
                                                      pageType: nil,
                                                      listingCanBeBoosted: false,
                                                      timeSinceLastBump: nil,
-                                                     maxCountdown: nil)
+                                                     maxCountdown: maxCountdown)
         editCoordinator.delegate = self
         openChild(coordinator: editCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: false, completion: nil)
     }
+    
+    func openInAppWebView(url: URL) {
+        tabBarCtl.openInAppWebViewWith(url: url)
+    }
 }
-
 
 // MARK: - SellCoordinatorDelegate
 
@@ -487,7 +516,7 @@ extension AppCoordinator: EditListingCoordinatorDelegate {
                                 didFinishWithListing listing: Listing,
                                 bumpUpProductData: BumpUpProductData?,
                                 timeSinceLastBump: TimeInterval?,
-                                maxCountdown: TimeInterval?) {
+                                maxCountdown: TimeInterval) {
         refreshSelectedListingsRefreshable()
         guard let listingId = listing.objectId,
             let bumpData = bumpUpProductData,
@@ -602,6 +631,7 @@ fileprivate extension AppCoordinator {
                         strongSelf.purchasesShopper.productsRequestStartForListingId(listingId,
                                                                                      letgoItemId: letgoItemId,
                                                                                      withIds: paymentItems.map { $0.providerItemId },
+                                                                                     maxCountdown: value.maxCountdown,
                                                                                      typePage: bumpUpSource.typePageParameter)
                     } else {
                         strongSelf.bumpUpFallbackFor(source: bumpUpSource)
@@ -615,7 +645,7 @@ fileprivate extension AppCoordinator {
     private func bumpUpFallbackFor(source: BumpUpSource) {
         switch source {
         case .edit(let listing):
-            openEditForListing(listing: listing, bumpUpProductData: nil)
+            openEditForListing(listing: listing, bumpUpProductData: nil, maxCountdown: 0)
         case .deepLink, .promoted:
             break
         }
@@ -734,7 +764,7 @@ fileprivate extension AppCoordinator {
             case let .logout(kickedOut):
                 self?.openTab(.home) { [weak self] in
                     if kickedOut {
-                        self?.tabBarCtl.showAutoFadingOutMessageAlert(LGLocalizedString.toastErrorInternal)
+                        self?.tabBarCtl.showAutoFadingOutMessageAlert(message: R.Strings.toastErrorInternal)
                     }
                 }
             }
@@ -758,26 +788,26 @@ fileprivate extension AppCoordinator {
         guard let navCtl = selectedNavigationController else { return }
         guard navCtl.isAtRootViewController else { return }
 
-        let yesAction = UIAction(interface: .styledText(LGLocalizedString.commonOk, .standard), action: { [weak self] in
+        let yesAction = UIAction(interface: .styledText(R.Strings.commonOk, .standard), action: { [weak self] in
             self?.locationManager.setAutomaticLocation(nil)
         })
-        navCtl.showAlert(nil, message: LGLocalizedString.changeLocationRecommendUpdateLocationMessage,
-                         cancelLabel: LGLocalizedString.commonCancel, actions: [yesAction])
+        navCtl.showAlert(nil, message: R.Strings.changeLocationRecommendUpdateLocationMessage,
+                         cancelLabel: R.Strings.commonCancel, actions: [yesAction])
     }
 
     func askUserToUpdateLocationManually() {
         guard let navCtl = selectedNavigationController else { return }
         guard navCtl.isAtRootViewController else { return }
 
-        let yesAction = UIAction(interface: .styledText(LGLocalizedString.commonOk, .standard), action: { [weak self] in
+        let yesAction = UIAction(interface: .styledText(R.Strings.commonOk, .standard), action: { [weak self] in
             self?.openLoginIfNeeded(from: .profile) { [weak self] in
                 self?.openTab(.profile) { [weak self] in
                     self?.openChangeLocation()
                 }
             }
         })
-        navCtl.showAlert(nil, message: LGLocalizedString.changeLocationRecommendUpdateLocationMessage,
-                         cancelLabel: LGLocalizedString.commonCancel, actions: [yesAction])
+        navCtl.showAlert(nil, message: R.Strings.changeLocationRecommendUpdateLocationMessage,
+                         cancelLabel: R.Strings.commonCancel, actions: [yesAction])
     }
 
     func openLoginIfNeeded(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void)) {
@@ -978,6 +1008,10 @@ fileprivate extension AppCoordinator {
             afterDelayClosure = { [weak self] in
                 self?.openAppStore()
             }
+        case .webView(let url):
+            afterDelayClosure = { [weak self] in
+                self?.openInAppWebView(url: url)
+            }
         }
 
         if let afterDelayClosure = afterDelayClosure {
@@ -998,8 +1032,10 @@ fileprivate extension AppCoordinator {
         if let child = child, child is SellCoordinator { return }
 
         switch deepLink.action {
-        case .home, .sell, .listing, .listingShare, .listingBumpUp, .listingMarkAsSold, .listingEdit, .user, .conversations, .conversationWithMessage, .search, .resetPassword, .userRatings, .userRating, .notificationCenter, .appStore:
-        return // Do nothing
+        case .home, .sell, .listing, .listingShare, .listingBumpUp, .listingMarkAsSold, .listingEdit, .user,
+             .conversations, .conversationWithMessage, .search, .resetPassword, .userRatings, .userRating,
+             .notificationCenter, .appStore, .webView:
+            return // Do nothing
         case let .conversation(data):
             showInappChatNotification(data, message: deepLink.origin.message)
         case .message(_, let data):
@@ -1040,13 +1076,13 @@ fileprivate extension AppCoordinator {
                 let message: String
                 switch error {
                 case .network:
-                    message = LGLocalizedString.commonErrorConnectionFailed
+                    message = R.Strings.commonErrorConnectionFailed
                 case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError,
                      .wsChatError, .searchAlertError:
-                    message = LGLocalizedString.commonUserReviewNotAvailable
+                    message = R.Strings.commonUserReviewNotAvailable
                 }
                 navCtl.dismissLoadingMessageAlert {
-                    navCtl.showAutoFadingOutMessageAlert(message)
+                    navCtl.showAutoFadingOutMessageAlert(message: message)
                 }
             }
         }
@@ -1060,7 +1096,7 @@ fileprivate extension AppCoordinator {
         tracker.trackEvent(TrackerEvent.inappChatNotificationStart())
         chatRepository.showConversation(conversationId) { [weak self] result in
             guard let conversation = result.value else { return }
-            let action = UIAction(interface: .text(LGLocalizedString.appNotificationReply), action: { [weak self] in
+            let action = UIAction(interface: .text(R.Strings.appNotificationReply), action: { [weak self] in
                 self?.tracker.trackEvent(TrackerEvent.inappChatNotificationComplete())
                 self?.openTab(.chats, force: false) { [weak self] in
                     self?.selectedTabCoordinator?.openChat(.conversation(conversation: conversation), source: .inAppNotification, predefinedMessage: nil)
@@ -1070,7 +1106,7 @@ fileprivate extension AppCoordinator {
                                               text: message,
                                               action: action,
                                               iconURL: conversation.interlocutor?.avatar?.fileURL,
-                                              iconImage: UIImage(named: "user_placeholder"))
+                                              iconImage: R.Asset.IconsButtons.userPlaceholder.image)
             self?.showBubble(with: data, duration: Constants.bubbleChatDuration)
         }
     }
@@ -1090,6 +1126,7 @@ extension AppCoordinator: BumpInfoRequesterDelegate {
                                                     withProducts products: [PurchaseableProduct],
                                                     letgoItemId: String?,
                                                     storeProductId: String?,
+                                                    maxCountdown: TimeInterval,
                                                     typePage: EventParameterTypePage?) {
         guard let requestListingId = listingId, let purchase = products.first, let bumpUpSource = bumpUpSource else { return }
 
@@ -1122,7 +1159,8 @@ extension AppCoordinator: BumpInfoRequesterDelegate {
                                         typePage: typePage)
         case .edit(let listing):
             openEditForListing(listing: listing,
-                               bumpUpProductData: bumpUpProductData)
+                               bumpUpProductData: bumpUpProductData,
+                               maxCountdown: maxCountdown)
         }
     }
 }

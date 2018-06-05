@@ -31,6 +31,12 @@ enum AccessibilityId: Equatable {
     case mainListingsInfoBubbleLabel
     case mainListingsSuggestionSearchesTable
 
+    // SectionedFeed
+    case feedNavBarSearch
+    case feedFilterButton
+    case feedInviteButton
+    case feedCollectionView
+    
     // Passive buyers
     case passiveBuyersTitle
     case passiveBuyersMessage
@@ -262,6 +268,7 @@ enum AccessibilityId: Equatable {
     case postingCategorySelectionMotorsAndAccessoriesButton
     case postingCategorySelectionOtherButton
     case postingCategorySelectionRealEstateButton
+    case postingCategorySelectionServicesButton
     case postingCategoryDeatilNavigationBackButton
     case postingCategoryDeatilNavigationMakeButton
     case postingCategoryDeatilNavigationModelButton
@@ -273,6 +280,7 @@ enum AccessibilityId: Equatable {
     case postingCategoryDeatilSearchBar
     case postingCategoryDeatilTableView
     case postingAddDetailTableView
+    case postingAddDetailSearchBar
 
     // Editlisting
     case editListingCloseButton
@@ -298,7 +306,9 @@ enum AccessibilityId: Equatable {
     case editListingFeatureIcon
     case editListingFeatureLabel
     case editListingFeatureSwitch
-
+    case editListingServicesTypeButton
+    case editListingServicesSubtypeButton
+    
     // ReportUser
     case reportUserCollection
     case reportUserCommentField
@@ -378,6 +388,10 @@ enum AccessibilityId: Equatable {
     case recaptchaLoading
     case recaptchaWebView
 
+    // ChatConversationsList
+    case chatConversationsListOptionsNavBarButton
+    case chatConversationsListFiltersNavBarButton
+    
     // ChatGrouped
     case chatGroupedViewRightNavBarButton
 
@@ -402,6 +416,17 @@ enum AccessibilityId: Equatable {
     case conversationCellThumbnailImageView
     case conversationCellAvatarImageView
     case conversationCellStatusImageView
+
+    // Chat Assistant Conversation Cell
+    case assistantConversationCellNameLabel
+    case assistantConversationCellAvatarImageView
+    case assistantConversationCellInfoLabel
+    case assistantConversationCellTimeLabel
+    case assistantConversationCellBadgeLabel
+
+    // ChatBlockedUserVC
+    case chatBlockedUsersTableView
+    case chatBlockedUsersEmptyView
 
     // BlockedUserCell
     case blockedUserCellAvatarImageView
@@ -527,6 +552,19 @@ enum AccessibilityId: Equatable {
     case verificationsAvatarOption
     case verificationsBioOption
     case verificationsMarkAsSoldOption
+
+    // Phone Verification
+    case phoneVerificationNumberInputCountryButton
+    case phoneVerificationNumberInputCountryCodeLabel
+    case phoneVerificationNumberInputTextField
+    case phoneVerificationNumberInputContinueButton
+    case phoneVerificationCodeInputTitle
+    case phoneVerificationCodeInputSubtitle
+    case phoneVerificationCodeInputTextfield
+    case phoneVerificationCodeInputInfoLabel
+    case phoneVerificationCodeInputInfoButton
+    case phoneVerificationCountryPickerTable
+    case phoneVerificationCountryPickerSearchBar
 
     // Settings
     case settingsList
@@ -674,6 +712,10 @@ enum AccessibilityId: Equatable {
     case bumpUpHiddenListingAlertContactButton
     case bumpUpHiddenListingAlertCancelButton
 
+    // Offensive Report Alert
+    case offensiveReportAlertOpenGuidelineButton
+    case offensiveReportAlertSkipButton
+
     // ExpandableSelectionCategoryView
     case expandableCategorySelectionCloseButton
     case expandableCategorySelectionView
@@ -708,6 +750,9 @@ enum AccessibilityId: Equatable {
     case searchAlertsPlaceholderText
     case searchAlertsPlaceholderButton
 
+    // Letgo Tooltip
+    case letgoTooltipButton
+    case letgoTooltipText
     
     static func ==(lhs: AccessibilityId, rhs: AccessibilityId) -> Bool {
         return lhs.identifier == rhs.identifier
@@ -744,6 +789,16 @@ enum AccessibilityId: Equatable {
             return "mainListingsInfoBubbleLabel"
         case .mainListingsSuggestionSearchesTable:
             return "mainListingsSuggestionSearchesTable"
+           
+        // Sectioned Feed
+        case .feedFilterButton:
+            return "feedFilterButton"
+        case .feedInviteButton:
+            return "feedInviteButton"
+        case .feedNavBarSearch:
+            return "feedNavBarSearch"
+        case .feedCollectionView:
+            return "feedCollectionView"
             
         // Passive buyers
         case .passiveBuyersTitle:
@@ -1237,6 +1292,8 @@ enum AccessibilityId: Equatable {
             return "postingCategorySelectionOtherButton"
         case .postingCategorySelectionRealEstateButton:
             return "postingCategorySelectionRealEstateButton"
+        case .postingCategorySelectionServicesButton:
+            return "postingCategorySelectionServicesButton"
         case .postingCategoryDeatilNavigationBackButton:
             return "postingCategoryDeatilNavigationBackButton"
         case .postingCategoryDeatilNavigationMakeButton:
@@ -1259,6 +1316,8 @@ enum AccessibilityId: Equatable {
             return "postingCategoryDeatilTableView"
         case .postingAddDetailTableView:
             return "postingAddDetailTableView"
+        case .postingAddDetailSearchBar:
+            return "postingAddDetailSearchBar"
             
         // Editlisting
         case .editListingCloseButton:
@@ -1307,6 +1366,10 @@ enum AccessibilityId: Equatable {
             return "editListingFeatureLabel"
         case .editListingFeatureSwitch:
             return "editListingFeatureSwitch"
+        case .editListingServicesTypeButton:
+            return "editListingServicesTypeButton"
+        case .editListingServicesSubtypeButton:
+            return "editListingServicesSubtypeButton"
 
             
         // ReportUser
@@ -1447,6 +1510,12 @@ enum AccessibilityId: Equatable {
         case .recaptchaWebView:
             return "recaptchaWebView"
             
+        // ChatConversationsList
+        case .chatConversationsListOptionsNavBarButton:
+            return "chatConversationsListOptionsNavBarButton"
+        case .chatConversationsListFiltersNavBarButton:
+            return "chatConversationsListFiltersNavBarButton"
+            
         // ChatGrouped
         case .chatGroupedViewRightNavBarButton:
             return "chatGroupedViewRightNavBarButton"
@@ -1489,6 +1558,25 @@ enum AccessibilityId: Equatable {
             return "conversationCellAvatarImageView"
         case .conversationCellStatusImageView:
             return "conversationCellStatusImageView"
+
+        // Chat Assistant Conversation Cell
+
+        case .assistantConversationCellNameLabel:
+            return "assistantConversationCellNameLabel"
+        case .assistantConversationCellAvatarImageView:
+            return "assistantConversationCellAvatarImageView"
+        case .assistantConversationCellInfoLabel:
+            return "assistantConversationCellInfoLabel"
+        case .assistantConversationCellTimeLabel:
+            return "assistantConversationCellTimeLabel"
+        case .assistantConversationCellBadgeLabel:
+            return "assistantConversationCellBadgeLabel"
+
+        // ChatBlockedUserVC
+        case .chatBlockedUsersTableView:
+            return "chatBlockedUsersTableView"
+        case .chatBlockedUsersEmptyView:
+            return "chatBlockedUsersEmptyView"
             
         // BlockedUserCell
         case .blockedUserCellAvatarImageView:
@@ -1716,6 +1804,30 @@ enum AccessibilityId: Equatable {
             return "verificationsBioOption"
         case .verificationsMarkAsSoldOption:
             return "verificationsMarkAsSoldOption"
+
+        // Phone Verification
+        case .phoneVerificationNumberInputCountryButton:
+            return "phoneVerificationNumberInputCountryButton"
+        case .phoneVerificationNumberInputCountryCodeLabel:
+            return "phoneVerificationNumberInputCountryCodeLabel"
+        case .phoneVerificationNumberInputTextField:
+            return "phoneVerificationNumberInputTextField"
+        case .phoneVerificationNumberInputContinueButton:
+            return "phoneVerificationNumberInputContinueButton"
+        case .phoneVerificationCodeInputTitle:
+            return "phoneVerificationCodeInputTitle"
+        case .phoneVerificationCodeInputSubtitle:
+            return "phoneVerificationCodeInputSubtitle"
+        case .phoneVerificationCodeInputTextfield:
+            return "phoneVerificationCodeInputTextfield"
+        case .phoneVerificationCodeInputInfoLabel:
+            return "phoneVerificationCodeInputInfoLabel"
+        case .phoneVerificationCodeInputInfoButton:
+            return "phoneVerificationCodeInputInfoButton"
+        case .phoneVerificationCountryPickerTable:
+            return "phoneVerificationCountryPickerTable"
+        case .phoneVerificationCountryPickerSearchBar:
+            return "phoneVerificationCountryPickerSearchBar"
 
         // Settings
         case .settingsList:
@@ -1956,7 +2068,13 @@ enum AccessibilityId: Equatable {
             return "bumpUpHiddenListingAlertContactButton"
         case .bumpUpHiddenListingAlertCancelButton:
             return "bumpUpHiddenListingAlertCancelButton"
-            
+
+        // Offensive Report Alert
+        case .offensiveReportAlertOpenGuidelineButton:
+            return "offensiveReportAlertOpenGuidelineButton"
+        case .offensiveReportAlertSkipButton:
+            return "offensiveReportAlertSkipButton"
+
         // ExpandableSelectionCategoryView
         case .expandableCategorySelectionCloseButton:
             return "expandableCategorySelectionCloseButton"
@@ -2011,6 +2129,11 @@ enum AccessibilityId: Equatable {
             return "searchAlertsPlaceholderText"
         case .searchAlertsPlaceholderButton:
             return "searchAlertsPlaceholderButton"
+        // Letgo Tooltip
+        case .letgoTooltipButton:
+            return "letgoTooltipButton"
+        case .letgoTooltipText:
+            return "letgoTooltipText"
         }
     }
 }

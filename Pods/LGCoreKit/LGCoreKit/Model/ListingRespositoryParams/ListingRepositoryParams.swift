@@ -43,6 +43,10 @@ struct ApiProductsParamsKeys {
     static let negativeAttributes = "negative_attributes"
 }
 
+struct DiscoveryParamsKeys {
+    static let customFeedVariant = "variant"
+}
+
 struct VerticalsParamsKeys {
     static let searchTerm = "searchTerm"
     static let quadkey = "quadkey"
@@ -86,6 +90,12 @@ public struct RetrieveListingParams {
     public var distanceType: DistanceType?
     public var abtest: String?
     public var relaxParam: RelaxParam?
+    public var similarParam: SimilarParam?    
+    
+    //  MARK: Discovery
+    
+    public var customFeedVariant: Int?
+    
     
     //  MARK: Verticals
     
@@ -94,6 +104,8 @@ public struct RetrieveListingParams {
     public var modelId: RetrieveListingParam<String>?
     public var startYear: RetrieveListingParam<Int>?
     public var endYear: RetrieveListingParam<Int>?
+    public var typeId: RetrieveListingParam<String>?
+    public var subtypeId: RetrieveListingParam<String>?
     
     public var propertyType: String?
     public var offerType: [String]?
@@ -168,6 +180,18 @@ public struct RetrieveListingParams {
         params[RealEstateParamsKeys.sizeSquareMetersFrom] = sizeSquareMetersFrom
         params[RealEstateParamsKeys.sizeSquareMetersTo] = sizeSquareMetersTo
        
+        return params
+    }
+    
+    var customFeedApiParams: [String: Any] {
+        var params = [String: Any]()
+        if let countryCode = countryCode, !countryCode.isEmpty {
+            params[ApiProductsParamsKeys.countryCode] = countryCode
+        }
+        params[ApiProductsParamsKeys.quadkey] = coordinates?.coordsToQuadKey(LGCoreKit.quadKeyZoomLevel)
+        params[ApiProductsParamsKeys.offset] = offset
+        params[ApiProductsParamsKeys.numberOfResults] = numListings
+        params[DiscoveryParamsKeys.customFeedVariant] = customFeedVariant
         return params
     }
     

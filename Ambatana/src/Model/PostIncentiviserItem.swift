@@ -1,11 +1,4 @@
-//
-//  PostIncentiviserItem.swift
-//  LetGo
-//
-//  Created by Dídac on 05/07/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
+import LGComponents
 
 enum PostIncentiviserItem: Int {
     case ps4 = 1
@@ -28,46 +21,46 @@ enum PostIncentiviserItem: Int {
     var name: String {
         switch self {
         case .ps4:
-            return LGLocalizedString.productPostIncentivePs4
+            return R.Strings.productPostIncentivePs4
         case .tv:
-            return LGLocalizedString.productPostIncentiveTv
+            return R.Strings.productPostIncentiveTv
         case .bike:
-            return LGLocalizedString.productPostIncentiveBike
+            return R.Strings.productPostIncentiveBike
         case .motorcycle:
-            return LGLocalizedString.productPostIncentiveMotorcycle
+            return R.Strings.productPostIncentiveMotorcycle
         case .dresser:
-            return LGLocalizedString.productPostIncentiveDresser
+            return R.Strings.productPostIncentiveDresser
         case .car:
-            return LGLocalizedString.productPostIncentiveCar
+            return R.Strings.productPostIncentiveCar
         case .kidsClothes:
-            return LGLocalizedString.productPostIncentiveKidsClothes
+            return R.Strings.productPostIncentiveKidsClothes
         case .furniture:
-            return LGLocalizedString.productPostIncentiveFurniture
+            return R.Strings.productPostIncentiveFurniture
         case .toys:
-            return LGLocalizedString.productPostIncentiveToys
+            return R.Strings.productPostIncentiveToys
         }
     }
 
     var image: UIImage? {
         switch self {
         case .ps4:
-            return UIImage(named: "ps4")
+            return R.Asset.CongratsScreenImages.ps4.image
         case .tv:
-            return UIImage(named: "tv")
+            return R.Asset.CongratsScreenImages.tv.image
         case .bike:
-            return UIImage(named: "bike")
+            return R.Asset.CongratsScreenImages.bike.image
         case .motorcycle:
-            return UIImage(named: "motorcycle")
+            return R.Asset.CongratsScreenImages.motorcycle.image
         case .dresser:
-            return UIImage(named: "dresser")
+            return R.Asset.CongratsScreenImages.dresser.image
         case .car:
-            return UIImage(named: "cars")
+            return R.Asset.CongratsScreenImages.cars.image
         case .kidsClothes:
-            return UIImage(named: "kids_clothes")
+            return R.Asset.CongratsScreenImages.kidsClothes.image
         case .furniture:
-            return UIImage(named: "furniture")
+            return R.Asset.CongratsScreenImages.furniture.image
         case .toys:
-            return UIImage(named: "toys")
+            return R.Asset.CongratsScreenImages.toys.image
         }
     }
 

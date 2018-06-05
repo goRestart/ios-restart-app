@@ -1,12 +1,5 @@
-//
-//  CollectionViewFooter.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 09/11/15.
-//  Copyright © 2015 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 enum CollectionViewFooterStatus {
     case loading, error, lastPage
@@ -73,7 +66,7 @@ class CollectionViewFooter: UICollectionReusableView, ReusableCell {
 
     private func updateButtonWithState() {
         retryButton.isHidden = (status == .loading || status == .lastPage)
-        retryButton.setTitle(LGLocalizedString.commonErrorListRetryButton, for: .normal)
+        retryButton.setTitle(R.Strings.commonErrorListRetryButton, for: .normal)
     }
 }
 

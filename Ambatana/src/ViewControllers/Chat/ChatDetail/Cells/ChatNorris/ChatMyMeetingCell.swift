@@ -1,13 +1,6 @@
-//
-//  ChatMyMeetingCell.swift
-//  LetGo
-//
-//  Created by Dídac on 20/11/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
+import LGComponents
 
 protocol MeetingCellImageDelegate: class {
     func meetingCellImageViewPressed(imageView: UIImageView, coordinates: LGLocationCoordinates2D)
@@ -76,15 +69,15 @@ extension ChatMyMeetingCell {
     fileprivate func updateStatus(status: MeetingStatus) {
         switch status {
         case .pending:
-            statusLabel.text = LGLocalizedString.chatMeetingCellStatusPending
+            statusLabel.text = R.Strings.chatMeetingCellStatusPending
             statusLabel.textColor = UIColor.grayText
-            statusIcon.image = #imageLiteral(resourceName: "ic_time")
+            statusIcon.image = R.Asset.ChatNorris.icTime.image
         case .accepted:
-            statusLabel.text = LGLocalizedString.chatMeetingCellStatusAccepted
+            statusLabel.text = R.Strings.chatMeetingCellStatusAccepted
             statusLabel.textColor = UIColor.asparagus
             statusIcon.image = nil
         case .rejected:
-            statusLabel.text = LGLocalizedString.chatMeetingCellStatusDeclined
+            statusLabel.text = R.Strings.chatMeetingCellStatusDeclined
             statusLabel.textColor = UIColor.primaryColor
             statusIcon.image = nil
         }
@@ -101,18 +94,18 @@ private extension ChatMyMeetingCell {
         meetingContainer.layer.shouldRasterize = true
         meetingContainer.layer.rasterizationScale = UIScreen.main.scale
         backgroundColor = UIColor.clear
-        titleLabel.text = LGLocalizedString.chatMeetingCellTitle
+        titleLabel.text = R.Strings.chatMeetingCellTitle
         titleLabel.textColor = UIColor.grayText
 
         locationButton.addTarget(self, action: #selector(locationTapped), for: .touchUpInside)
-        locationView.image = #imageLiteral(resourceName: "meeting_map_placeholder")
+        locationView.image = R.Asset.ChatNorris.meetingMapPlaceholder.image
         locationView.contentMode = .scaleAspectFill
         locationView.cornerRadius = LGUIKitConstants.mediumCornerRadius
     }
 
     func resetUI() {
-        titleLabel.text = LGLocalizedString.chatMeetingCellTitle
-        locationView.image = #imageLiteral(resourceName: "meeting_map_placeholder")
+        titleLabel.text = R.Strings.chatMeetingCellTitle
+        locationView.image = R.Asset.ChatNorris.meetingMapPlaceholder.image
     }
 
     @objc func locationTapped() {

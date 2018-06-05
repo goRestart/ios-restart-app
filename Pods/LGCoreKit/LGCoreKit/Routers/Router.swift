@@ -27,6 +27,18 @@ struct RealEstateBaseURL: BaseURL {
     static let contentTypeHeader: String? = nil
 }
 
+struct ServicesBaseURL: BaseURL {
+    static let baseURL = EnvironmentProxy.sharedInstance.servicesBaseURL
+    static let acceptHeader: String? = "application/json"
+    static let contentTypeHeader: String? = nil
+}
+
+struct SearchServicesBaseURL: BaseURL {
+    static let baseURL = EnvironmentProxy.sharedInstance.searchServicesBaseURL
+    static let acceptHeader: String? = "application/json"
+    static let contentTypeHeader: String? = nil
+}
+
 struct CarsBaseURL: BaseURL {
     static let baseURL = EnvironmentProxy.sharedInstance.carsBaseURL
     static let acceptHeader: String? = "application/json"
@@ -109,6 +121,12 @@ struct SearchAlertsBaseURL: BaseURL {
     static let baseURL = EnvironmentProxy.sharedInstance.searchAlertsBaseURL
     static let acceptHeader: String? = "application/json"
     static let contentTypeHeader: String? = "application/json"
+}
+
+struct CustomFeedBaseURL: BaseURL {
+    static let baseURL = EnvironmentProxy.sharedInstance.customFeedBaseURL
+    static let acceptHeader: String? = "application/json;version=2"
+    static let contentTypeHeader: String? = nil
 }
 
 enum Encoding {

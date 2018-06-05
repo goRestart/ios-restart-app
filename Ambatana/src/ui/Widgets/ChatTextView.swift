@@ -1,14 +1,7 @@
-//
-//  ChatTextField.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 02/11/2016.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
 import RxCocoa
 import RxSwift
+import LGComponents
 
 
 extension Reactive where Base: ChatTextView {
@@ -151,7 +144,7 @@ final class ChatTextView: UIView {
         textView.backgroundColor = .clear
         textView.returnKeyType = .send
         textView.delegate = self
-        sendButton.setTitle(LGLocalizedString.chatSendButton, for: .normal)
+        sendButton.setTitle(R.Strings.chatSendButton, for: .normal)
     }
 
     private func setupRX() {

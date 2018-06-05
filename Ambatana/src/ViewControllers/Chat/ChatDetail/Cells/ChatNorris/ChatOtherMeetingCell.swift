@@ -1,13 +1,6 @@
-//
-//  ChatOtherMeetingCell.swift
-//  LetGo
-//
-//  Created by Dídac on 20/11/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
+import LGComponents
 
 protocol OtherMeetingCellDelegate: class {
     func acceptMeeting()
@@ -82,19 +75,19 @@ extension ChatOtherMeetingCell {
     fileprivate func updateStatus(status: MeetingStatus) {
         switch status {
         case .pending:
-            statusLabel.text = LGLocalizedString.chatMeetingCellStatusPending
+            statusLabel.text = R.Strings.chatMeetingCellStatusPending
             statusLabel.textColor = UIColor.grayText
-            statusIcon.image = #imageLiteral(resourceName: "ic_time")
+            statusIcon.image = R.Asset.ChatNorris.icTime.image
             actionsContainerHeight.constant = 44
             actionsContainer.isHidden = false
         case .accepted:
-            statusLabel.text = LGLocalizedString.chatMeetingCellStatusAccepted
+            statusLabel.text = R.Strings.chatMeetingCellStatusAccepted
             statusLabel.textColor = UIColor.asparagus
             statusIcon.image = nil
             actionsContainerHeight.constant = 0
             actionsContainer.isHidden = true
         case .rejected:
-            statusLabel.text = LGLocalizedString.chatMeetingCellStatusDeclined
+            statusLabel.text = R.Strings.chatMeetingCellStatusDeclined
             statusLabel.textColor = UIColor.primaryColor
             statusIcon.image = nil
             actionsContainerHeight.constant = 0
@@ -113,21 +106,21 @@ private extension ChatOtherMeetingCell {
         meetingContainer.layer.shouldRasterize = true
         meetingContainer.layer.rasterizationScale = UIScreen.main.scale
         backgroundColor = UIColor.clear
-        titleLabel.text = LGLocalizedString.chatMeetingCellTitle
+        titleLabel.text = R.Strings.chatMeetingCellTitle
         titleLabel.textColor = UIColor.grayText
 
-        actionAccept.setTitle(LGLocalizedString.chatMeetingCellAcceptButton, for: .normal)
-        actionReject.setTitle(LGLocalizedString.chatMeetingCellDeclineButton, for: .normal)
+        actionAccept.setTitle(R.Strings.chatMeetingCellAcceptButton, for: .normal)
+        actionReject.setTitle(R.Strings.chatMeetingCellDeclineButton, for: .normal)
         locationButton.addTarget(self, action: #selector(locationTapped), for: .touchUpInside)
 
-        locationView.image = #imageLiteral(resourceName: "meeting_map_placeholder")
+        locationView.image = R.Asset.ChatNorris.meetingMapPlaceholder.image
         locationView.contentMode = .scaleAspectFill
         locationView.cornerRadius = LGUIKitConstants.mediumCornerRadius
     }
 
     func resetUI() {
-        titleLabel.text = LGLocalizedString.chatMeetingCellTitle
-        locationView.image = #imageLiteral(resourceName: "meeting_map_placeholder")
+        titleLabel.text = R.Strings.chatMeetingCellTitle
+        locationView.image = R.Asset.ChatNorris.meetingMapPlaceholder.image
     }
 
     @objc func locationTapped() {

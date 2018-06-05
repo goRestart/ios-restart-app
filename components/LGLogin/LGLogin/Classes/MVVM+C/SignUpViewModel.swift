@@ -1,0 +1,275 @@
+//
+//  MainSignUpViewModel.swift
+//  LetGo
+//
+//  Created by Albert Hernández López on 10/06/15.
+//  Copyright (c) 2015 Ambatana. All rights reserved.
+//
+
+import UIKit
+import LGCoreKit
+import Result
+import RxSwift
+
+enum LoginSource: String {
+    case Chats = "messages"
+    case Sell = "posting"
+    case Profile = "view-profile"
+    
+    case Favourite = "favourite"
+    case MakeOffer = "offer"
+    case AskQuestion = "question"
+    case ReportFraud = "report-fraud"
+}
+
+public enum LoginAppearance {
+    case dark, light
+}
+
+public protocol SignUpViewModelDelegate: BaseViewModelDelegate {}
+
+public class SignUpViewModel: BaseViewModel {
+
+    var attributedLegalText: NSAttributedString {
+        guard let conditionsURL = termsAndConditionsURL, let privacyURL = privacyURL else {
+            return NSAttributedString(string: R.Strings.mainSignUpTermsConditions)
+        }
+
+        let links = [R.Strings.mainSignUpTermsConditionsTermsPart: conditionsURL,
+            R.Strings.mainSignUpTermsConditionsPrivacyPart: privacyURL]
+        let localizedLegalText = R.Strings.mainSignUpTermsConditions
+        let attributtedLegalText = localizedLegalText.attributedHyperlinkedStringWithURLDict(links,
+            textColor: UIColor.darkGrayText)
+        let range = NSMakeRange(0, attributtedLegalText.length)
+        attributtedLegalText.addAttribute(NSAttributedStringKey.font, value: UIFont.smallBodyFont, range: range)
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = .center
+        attributtedLegalText.addAttribute(NSAttributedStringKey.paragraphStyle, value: paragraphStyle, range: range)
+        return attributtedLegalText
+    }
+
+    private var termsAndConditionsURL: URL? {
+        return LetgoURLHelper.buildTermsAndConditionsURL()
+    }
+    private var privacyURL: URL? {
+        return LetgoURLHelper.buildPrivacyURL()
+    }
+
+    fileprivate let sessionManager: SessionManager
+    fileprivate let installationRepository: InstallationRepository
+    fileprivate let keyValueStorage: KeyValueStorageable
+    fileprivate let tracker: Tracker
+    let appearance: LoginAppearance
+    fileprivate let loginSource: EventParameterLoginSourceValue
+
+    private let googleLoginHelper: ExternalAuthHelper
+    private let fbLoginHelper: ExternalAuthHelper
+    
+    private let termsAndConditionsEnabled: Bool
+
+    let previousFacebookUsername: Variable<String?>
+    let previousGoogleUsername: Variable<String?>
+
+    public weak var delegate: SignUpViewModelDelegate?
+    public weak var navigator: MainSignUpNavigator?
+
+
+    // MARK: - Lifecycle
+    
+    init(sessionManager: SessionManager, installationRepository: InstallationRepository,
+         keyValueStorage: KeyValueStorageable, tracker: Tracker, appearance: LoginAppearance,
+         source: EventParameterLoginSourceValue, googleLoginHelper: ExternalAuthHelper,
+         fbLoginHelper: ExternalAuthHelper, termsAndConditionsEnabled: Bool) {
+        self.sessionManager = sessionManager
+        self.installationRepository = installationRepository
+        self.keyValueStorage = keyValueStorage
+        self.tracker = tracker
+        self.appearance = appearance
+        self.loginSource = source
+        self.googleLoginHelper = googleLoginHelper
+        self.fbLoginHelper = fbLoginHelper
+        self.termsAndConditionsEnabled = termsAndConditionsEnabled
+        self.previousFacebookUsername = Variable<String?>(nil)
+        self.previousGoogleUsername = Variable<String?>(nil)
+        super.init()
+
+        let rememberedAccount = updatePreviousEmailAndUsernamesFromKeyValueStorage()
+
+        // Tracking
+        tracker.trackEvent(TrackerEvent.loginVisit(loginSource, rememberedAccount: rememberedAccount))
+    }
+    
+    convenience init(appearance: LoginAppearance, source: EventParameterLoginSourceValue, termsAndConditionsEnabled: Bool) {
+        let sessionManager = Core.sessionManager
+        let installationRepository = Core.installationRepository
+        let keyValueStorage = KeyValueStorage.sharedInstance
+        let tracker = TrackerProxy.sharedInstance
+        let googleLoginHelper = GoogleLoginHelper()
+        let fbLoginHelper = FBLoginHelper()
+        self.init(sessionManager: sessionManager, installationRepository: installationRepository,
+                  keyValueStorage: keyValueStorage, tracker: tracker, appearance: appearance,
+                  source: source, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper,
+                  termsAndConditionsEnabled: termsAndConditionsEnabled)
+    }
+
+
+    // MARK: - Public methods
+
+    func closeButtonPressed() {
+        let trackerEvent = TrackerEvent.loginAbandon(loginSource)
+        tracker.trackEvent(trackerEvent)
+
+        navigator?.cancelMainSignUp()
+    }
+
+    public func connectFBButtonPressed() {
+        logInWithFacebook()
+    }
+
+    public func connectGoogleButtonPressed() {
+        logInWithGoogle()
+    }
+
+    public func signUpButtonPressed() {
+        navigator?.openSignUpEmailFromMainSignUp(termsAndConditionsEnabled: termsAndConditionsEnabled)
+    }
+
+    func logInButtonPressed() {
+        navigator?.openLogInEmailFromMainSignUp(termsAndConditionsEnabled: termsAndConditionsEnabled)
+    }
+
+    func helpButtonPressed() {
+        navigator?.openHelpFromMainSignUp()
+    }
+
+    func urlPressed(url: URL) {
+        navigator?.open(url: url)
+    }
+
+
+    // MARK: - Private methods
+
+    private func logInWithFacebook() {
+        fbLoginHelper.login({ [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.delegate?.vmShowLoading(nil)
+            }, loginCompletion: { [weak self] result in
+                self?.processAuthResult(result, accountProvider: .facebook)
+                if result.isSuccess {
+                    self?.trackLoginFBOK()
+                } else if let trackingError = result.trackingError {
+                    self?.trackLoginFBFailedWithError(trackingError)
+                }
+            })
+    }
+
+    private func logInWithGoogle() {
+        googleLoginHelper.login({ [weak self] in
+            // Google OAuth completed. Token obtained
+            guard let strongSelf = self else { return }
+            strongSelf.delegate?.vmShowLoading(nil)
+        }) { [weak self] result in
+            self?.processAuthResult(result, accountProvider: .google)
+            if result.isSuccess {
+                self?.trackLoginGoogleOK()
+            } else if let trackingError = result.trackingError {
+                self?.trackLoginGoogleFailedWithError(trackingError)
+            }
+        }
+    }
+
+    private func processAuthResult(_ result: ExternalServiceAuthResult, accountProvider: AccountProvider) {
+        switch result {
+        case let .success(myUser):
+            savePreviousEmailOrUsername(accountProvider, username: myUser.name)
+            delegate?.vmHideLoading(nil) { [weak self] in
+                self?.navigator?.closeMainSignUpSuccessful(with: myUser)
+            }
+        case .scammer:
+            delegate?.vmHideLoading(nil) { [weak self] in
+                self?.showScammerAlert(accountProvider.accountNetwork)
+            }
+        case .deviceNotAllowed:
+            delegate?.vmHideLoading(nil) { [weak self] in
+                self?.showDeviceNotAllowedAlert(accountProvider.accountNetwork)
+            }
+        case .cancelled, .network, .notFound, .conflict, .badRequest, .internalError, .loginError:
+            delegate?.vmHideLoading(result.errorMessage, afterMessageCompletion: nil)
+        }
+    }
+
+    private func showScammerAlert(_ network: EventParameterAccountNetwork) {
+        guard let contactURL = LetgoURLHelper.buildContactUsURL(userEmail: nil,
+                                                                installation: installationRepository.installation,
+                                                                listing: nil,
+                                                                type: .scammer) else {
+                navigator?.cancelMainSignUp()
+                return
+            }
+
+        navigator?.closeMainSignUpAndOpenScammerAlert(contactURL: contactURL, network: network)
+    }
+
+    private func showDeviceNotAllowedAlert(_ network: EventParameterAccountNetwork) {
+        guard let contactURL = LetgoURLHelper.buildContactUsURL(userEmail: nil,
+                                                                installation: installationRepository.installation,
+                                                                listing: nil,
+                                                                type: .deviceNotAllowed) else {
+                                                                    navigator?.cancelMainSignUp()
+                                                                    return
+        }
+
+        navigator?.closeMainSignUpAndOpenDeviceNotAllowedAlert(contactURL: contactURL, network: network)
+    }
+
+    private func trackLoginFBOK() {
+        let rememberedAccount = previousFacebookUsername.value != nil
+        tracker.trackEvent(TrackerEvent.loginFB(loginSource, rememberedAccount: rememberedAccount))
+    }
+
+    private func trackLoginFBFailedWithError(_ error: EventParameterLoginError) {
+        tracker.trackEvent(TrackerEvent.loginFBError(error))
+    }
+
+    private func trackLoginGoogleOK() {
+        let rememberedAccount = previousGoogleUsername.value != nil
+        tracker.trackEvent(TrackerEvent.loginGoogle(loginSource, rememberedAccount: rememberedAccount))
+    }
+
+    private func trackLoginGoogleFailedWithError(_ error: EventParameterLoginError) {
+        tracker.trackEvent(TrackerEvent.loginGoogleError(error))
+    }
+}
+
+
+// MARK: > Previous user name
+
+fileprivate extension SignUpViewModel {
+    func updatePreviousEmailAndUsernamesFromKeyValueStorage() -> Bool {
+        guard let accountProviderString = keyValueStorage[.previousUserAccountProvider],
+            let accountProvider = AccountProvider(rawValue: accountProviderString) else { return false }
+
+        let username = keyValueStorage[.previousUserEmailOrName]
+        updatePreviousEmailAndUsernames(accountProvider, username: username)
+        return true
+    }
+
+    func updatePreviousEmailAndUsernames(_ accountProvider: AccountProvider, username: String?) {
+        switch accountProvider {
+        case .email:
+            previousFacebookUsername.value = nil
+            previousGoogleUsername.value = nil
+        case .facebook:
+            previousFacebookUsername.value = username
+            previousGoogleUsername.value = nil
+        case .google:
+            previousFacebookUsername.value = nil
+            previousGoogleUsername.value = username
+        }
+    }
+
+    func savePreviousEmailOrUsername(_ accountProvider: AccountProvider, username: String?) {
+        keyValueStorage[.previousUserAccountProvider] = accountProvider.rawValue
+        keyValueStorage[.previousUserEmailOrName] = username
+    }
+}

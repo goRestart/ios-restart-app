@@ -18,7 +18,9 @@ def shared_pods
 
     pod "RxSwift",              "4.0.0"
     pod "RxSwiftExt",           "3.0.0"
+    pod "RxDataSources",        "3.0.2"
     pod "RxCocoa",              "4.0.0"
+    pod "RxMKMapView",          "4.0.0"
 
     #Ads
     pod "Google-Mobile-Ads-SDK","7.30.0"
@@ -30,17 +32,21 @@ def shared_pods
 
     # Tracking
     pod "Amplitude-iOS",        "4.0.4"     # Obj-c
-    pod "AppsFlyerFramework",   "4.8.2"     # Obj-c
+    pod "AppsFlyerFramework",   "4.8.4"     # Obj-c
     pod "Leanplum-iOS-SDK",     "2.0.5"     # Obj-c
     pod "NewRelicAgent",        "6.1.1"     # Obj-c
 
+    # letgo components
+    pod "LGComponents",            :path => "components"
+
+
     # letgo Core
-    pod "LGCoreKit",             "4.25.1", :inhibit_warnings => false
+    pod "LGCoreKit",             "4.30.0", :inhibit_warnings => false
 #    pod "LGCoreKit",            :path => "../lgcorekit", :inhibit_warnings => false
-#    pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => '14b649c35e0498788db6fe49f5df652e3e53fffd', :inhibit_warnings => false
+#    pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => 'e7cad286f454ee95f96887c6ce9334ad85d0245a', :inhibit_warnings => false
 
     # letgo Collapsible label
-    pod "LGCollapsibleLabel",   "1.2.0", :inhibit_warnings => false     # :path => "../collapsiblelabel"
+        pod "LGCollapsibleLabel",   "1.2.0", :inhibit_warnings => false     # :path => "../collapsiblelabel"
 
     # letgo bumper (feature flags)
 #    pod "bumper",               "1.1.0"     #:path => "../bumper"
@@ -73,7 +79,7 @@ def shared_pods
     pod "SwiftyUserDefaults",   "3.0.1"
 
     # TextView with placeholder
-    pod "KMPlaceholderTextView", :git => 'https://github.com/letgoapp/KMPlaceholderTextView', :commit => '426117c98e8da8fc7d64a7d3c2f0f45c48d595e6', :inhibit_warnings => false 
+    pod "KMPlaceholderTextView", :git => 'https://github.com/letgoapp/KMPlaceholderTextView', :commit => '426117c98e8da8fc7d64a7d3c2f0f45c48d595e6', :inhibit_warnings => false
 
     pod "KeychainSwift",        "10.0.0"
     

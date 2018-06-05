@@ -1,13 +1,6 @@
-//
-//  ListingCardUserView.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 06/11/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
 import RxSwift
+import LGComponents
 
 final class ListingCardUserView: UIView {
     enum Action {
@@ -24,12 +17,12 @@ final class ListingCardUserView: UIView {
         }
     }
     struct Images {
-        static let favourite = #imageLiteral(resourceName: "nit_favourite")
-        static let favouriteOn = #imageLiteral(resourceName: "nit_favourite_on")
+        static let favourite = R.Asset.IconsButtons.NewItemPage.nitFavourite.image
+        static let favouriteOn = R.Asset.IconsButtons.NewItemPage.nitFavouriteOn.image
 
-        static let edit = #imageLiteral(resourceName: "nit_edit")
-        static let placeholder = #imageLiteral(resourceName: "user_placeholder")
-        static let share = #imageLiteral(resourceName: "nit_share")
+        static let edit = R.Asset.IconsButtons.NewItemPage.nitEdit.image
+        static let placeholder = R.Asset.IconsButtons.userPlaceholder.image
+        static let share = R.Asset.IconsButtons.NewItemPage.nitShare.image
     }
 
     struct Layout {
@@ -98,7 +91,7 @@ final class ListingCardUserView: UIView {
 
     func set(action: Action) {
         action.setupListingCardUserView(self)
-        actionButton.alphaAnimated(1)
+        actionButton.animateTo(alpha: 1)
     }
 
     fileprivate func set(favourite isFavourite: Bool) {
@@ -141,7 +134,7 @@ final class ListingCardUserView: UIView {
 
     private func setupUserBadge() {
         addSubviewForAutoLayout(userBadgeImageView)
-        userBadgeImageView.image = #imageLiteral(resourceName: "ic_karma_badge_active")
+        userBadgeImageView.image = R.Asset.IconsButtons.icKarmaBadgeActive.image
         userBadgeImageView.contentMode = .scaleAspectFit
         userBadgeImageView.isHidden = true
         userBadgeImageView

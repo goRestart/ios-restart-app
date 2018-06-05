@@ -1,12 +1,5 @@
-//
-//  MLPostingOnboardingView.swift
-//  LetGo
-//
-//  Created by Nestor on 12/03/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 class MLPostingOnboardingView: UIView {
     private let contentView = UIView()
@@ -36,18 +29,18 @@ class MLPostingOnboardingView: UIView {
     private func setupUI() {
         backgroundColor = UIColor.black.withAlphaComponent(0.5)
         contentView.backgroundColor = UIColor.white
-        iconImageView.image = #imageLiteral(resourceName: "ml_icon_red_big")
+        iconImageView.image = R.Asset.Machinelearning.mlIconRedBig.image
         titleLabel.font = UIFont.boldSystemFont(ofSize: 23)
         titleLabel.textColor = UIColor.primaryColor
-        titleLabel.text = LGLocalizedString.mlOnboardingNewText
+        titleLabel.text = R.Strings.mlOnboardingNewText
         titleLabel.textAlignment = .center
         descriptionLabel.font = UIFont.boldSystemFont(ofSize: 23)
-        descriptionLabel.text = LGLocalizedString.mlOnboardingDescriptionText
+        descriptionLabel.text = R.Strings.mlOnboardingDescriptionText
         descriptionLabel.textAlignment = .center
         descriptionLabel.numberOfLines = 0
         spacerView.backgroundColor = UIColor.grayLight
         button.setStyle(.primary(fontSize: .big))
-        button.setTitle(LGLocalizedString.mlOnboardingOkText, for: .normal)
+        button.setTitle(R.Strings.mlOnboardingOkText, for: .normal)
         button.addTarget(self, action: #selector(didPressedButton), for: .touchUpInside)
     }
     

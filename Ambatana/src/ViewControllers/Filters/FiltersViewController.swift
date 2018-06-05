@@ -1,13 +1,6 @@
-//
-//  FiltersViewController.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 09/11/15.
-//  Copyright © 2015 Ambatana. All rights reserved.
-//
-
 import UIKit
 import RxSwift
+import LGComponents
 
 fileprivate typealias FullColectionViewDelegate = UICollectionViewDataSource & UICollectionViewDelegate
 fileprivate typealias FullLayoutDelegate = FullColectionViewDelegate & UICollectionViewDelegateFlowLayout
@@ -202,6 +195,8 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
             case .sizeFrom, .sizeTo:
                 return CGSize(width: view.bounds.width * 0.5, height: Layout.Height.prices)
             }
+        case .servicesInfo:
+            return CGSize(width: view.bounds.width, height: Layout.Height.singleCheck)
         }
     }
     
@@ -227,6 +222,8 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
             return viewModel.numberOfPriceRows
         case .realEstateInfo:
             return viewModel.numberOfRealEstateRows
+        case .servicesInfo:
+            return viewModel.serviceSections.count
         }
     }
     
@@ -252,7 +249,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
             case .location:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterDisclosureCell.reusableID,
                     for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
-                cell.titleLabel.text = LGLocalizedString.changeLocationTitle
+                cell.titleLabel.text = R.Strings.changeLocationTitle
                 cell.subtitleLabel.text = viewModel.place?.fullText(showAddress: false)
                 return cell
             case .distance:
@@ -266,7 +263,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                 if viewModel.isTaxonomiesAndTaxonomyChildrenInFeedEnabled {
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterDisclosureCell.reusableID,
                                                                         for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
-                    cell.titleLabel.text = LGLocalizedString.categoriesTitle
+                    cell.titleLabel.text = R.Strings.categoriesTitle
                     cell.subtitleLabel.text = viewModel.currentCategoryNameSelected
                     return cell
                 } else {
@@ -305,7 +302,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                                                                         for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
 
                     cell.titleLabel.text = viewModel.carCellTitle(section: carSection)
-                    cell.subtitleLabel.text = viewModel.currentCarMakeName ?? LGLocalizedString.filtersCarMakeNotSet
+                    cell.subtitleLabel.text = viewModel.currentCarMakeName ?? R.Strings.filtersCarMakeNotSet
                     cell.topSeparator?.isHidden = false
                     return cell
                 case .model:
@@ -314,7 +311,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                     cell.isUserInteractionEnabled = viewModel.modelCellEnabled
                     cell.titleLabel.isEnabled = viewModel.modelCellEnabled
                     cell.titleLabel.text = viewModel.carCellTitle(section: carSection)
-                    cell.subtitleLabel.text = viewModel.currentCarModelName ?? LGLocalizedString.filtersCarModelNotSet
+                    cell.subtitleLabel.text = viewModel.currentCarModelName ?? R.Strings.filtersCarModelNotSet
                     cell.topSeparator?.isHidden = false
                     return cell
                 case .year:
@@ -335,8 +332,8 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                                                                         for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
                     cell.isUserInteractionEnabled = true
                     cell.titleLabel.isEnabled = true
-                    cell.titleLabel.text = LGLocalizedString.realEstateTypePropertyTitle
-                    cell.subtitleLabel.text = viewModel.currentPropertyTypeName ?? LGLocalizedString.filtersRealEstatePropertyTypeNotSet
+                    cell.titleLabel.text = R.Strings.realEstateTypePropertyTitle
+                    cell.subtitleLabel.text = viewModel.currentPropertyTypeName ?? R.Strings.filtersRealEstatePropertyTypeNotSet
                     return cell
                 case .offerTypeSale:
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterSingleCheckCell.reusableID,
@@ -361,8 +358,8 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                                                                         for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
                     cell.isUserInteractionEnabled = true
                     cell.titleLabel.isEnabled = true
-                    cell.titleLabel.text = LGLocalizedString.realEstateBedroomsTitle
-                    cell.subtitleLabel.text = viewModel.currentNumberOfBedroomsName ?? LGLocalizedString.filtersRealEstateBedroomsNotSet
+                    cell.titleLabel.text = R.Strings.realEstateBedroomsTitle
+                    cell.subtitleLabel.text = viewModel.currentNumberOfBedroomsName ?? R.Strings.filtersRealEstateBedroomsNotSet
                     cell.topSeparator?.isHidden = false
                     return cell
                 case .numberOfBathrooms:
@@ -370,16 +367,16 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                                                                         for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
                     cell.isUserInteractionEnabled = true
                     cell.titleLabel.isEnabled = true
-                    cell.titleLabel.text = LGLocalizedString.realEstateBathroomsTitle
-                    cell.subtitleLabel.text = viewModel.currentNumberOfBathroomsName ?? LGLocalizedString.filtersRealEstateBathroomsNotSet
+                    cell.titleLabel.text = R.Strings.realEstateBathroomsTitle
+                    cell.subtitleLabel.text = viewModel.currentNumberOfBathroomsName ?? R.Strings.filtersRealEstateBathroomsNotSet
                     return cell
                 case .numberOfRooms:
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterDisclosureCell.reusableID,
                                                                         for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
                     cell.isUserInteractionEnabled = true
                     cell.titleLabel.isEnabled = true
-                    cell.titleLabel.text = LGLocalizedString.realEstateRoomsTitle
-                    cell.subtitleLabel.text = viewModel.currentNumberOfRoomsName ?? LGLocalizedString.filtersRealEstateBedroomsNotSet
+                    cell.titleLabel.text = R.Strings.realEstateRoomsTitle
+                    cell.subtitleLabel.text = viewModel.currentNumberOfRoomsName ?? R.Strings.filtersRealEstateBedroomsNotSet
                     cell.topSeparator?.isHidden = false
                     return cell
                 case .sizeFrom, .sizeTo:
@@ -387,8 +384,8 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                                                                         for: indexPath) as? FilterTextFieldIntCell else { return UICollectionViewCell() }
                     cell.tag = realEstateSection == .sizeFrom ? TextFieldNumberType.sizeFrom.rawValue : TextFieldNumberType.sizeTo.rawValue
                     cell.textField.placeholder = Constants.sizeSquareMetersUnit
-                    cell.titleLabel.text = realEstateSection == .sizeFrom ? LGLocalizedString.filtersPriceFrom :
-                        LGLocalizedString.filtersPriceTo
+                    cell.titleLabel.text = realEstateSection == .sizeFrom ? R.Strings.filtersPriceFrom :
+                        R.Strings.filtersPriceTo
                     cell.bottomSeparator?.isHidden =  false
                     cell.topSeparator?.isHidden =  false
                     cell.textField.text = realEstateSection == .sizeFrom ? viewModel.minSizeString : viewModel.maxSizeString
@@ -398,6 +395,20 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                     }
                     return cell
                 }
+                
+            case .servicesInfo:
+                let serviceSection = viewModel.serviceSections[indexPath.item]
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterDisclosureCell.reusableID,
+                                                                    for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
+                cell.titleLabel.text = serviceSection.title
+                switch serviceSection {
+                case .type:
+                    cell.subtitleLabel.text = viewModel.currentServiceTypeName ?? R.Strings.filtersCarModelNotSet // TODO: ABIOS-4176
+                    cell.topSeparator?.isHidden = false
+                case .subtype:
+                    cell.subtitleLabel.text = viewModel.currentServiceSubtypeName ?? R.Strings.filtersCarModelNotSet // TODO: ABIOS-4176
+                }
+                return cell
             case .within:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterSingleCheckCell.reusableID,
                     for: indexPath) as? FilterSingleCheckCell else { return UICollectionViewCell() }
@@ -420,15 +431,15 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                                                                             for: indexPath) as? FilterFreeCell else { return UICollectionViewCell() }
                         cell.bottomSeparator?.isHidden = true
                         cell.topSeparator?.isHidden = false
-                        cell.titleLabel.text = LGLocalizedString.filtersSectionPriceFreeTitle
+                        cell.titleLabel.text = R.Strings.filtersSectionPriceFreeTitle
                         cell.delegate = viewModel
                         cell.freeSwitch.setOn(viewModel.isFreeActive, animated: false)
                         return cell
                     } else if indexPath.row == 1 {
                         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterRangePriceCell.reusableID,
                                                                             for: indexPath) as? FilterRangePriceCell else { return UICollectionViewCell() }
-                        cell.titleLabelFrom.text = LGLocalizedString.filtersPriceFrom
-                        cell.titleLabelTo.text = LGLocalizedString.filtersPriceTo
+                        cell.titleLabelFrom.text = R.Strings.filtersPriceFrom
+                        cell.titleLabelTo.text = R.Strings.filtersPriceTo
                         cell.bottomSeparator?.isHidden =  false
                         cell.topSeparator?.isHidden =  false
                         cell.textFieldFrom.text = viewModel.minPriceString
@@ -442,9 +453,9 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterTextFieldIntCell.reusableID,
                                                                         for: indexPath) as? FilterTextFieldIntCell else { return UICollectionViewCell() }
                     cell.tag = indexPath.row
-                    cell.textField.placeholder = LGLocalizedString.filtersSectionPrice
-                    cell.titleLabel.text = indexPath.row == 0 ? LGLocalizedString.filtersPriceFrom :
-                        LGLocalizedString.filtersPriceTo
+                    cell.textField.placeholder = R.Strings.filtersSectionPrice
+                    cell.titleLabel.text = indexPath.row == 0 ? R.Strings.filtersPriceFrom :
+                        R.Strings.filtersPriceTo
                     cell.bottomSeparator?.isHidden =  indexPath.row == 0
                     cell.topSeparator?.isHidden =  indexPath.row != 0
                     cell.textField.text = indexPath.row == 0 ? viewModel.minPriceString : viewModel.maxPriceString
@@ -499,6 +510,13 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
             case .sizeTo, .sizeFrom:
                 break
             }
+        case .servicesInfo:
+            switch viewModel.serviceSections[indexPath.item] {
+            case .type:
+                viewModel.servicesTypePressed()
+            case .subtype:
+                viewModel.servicesSubtypePressed()
+            }
         case .within:
             viewModel.selectWithinTimeAtIndex(indexPath.row)
         case .sortBy:
@@ -527,19 +545,19 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
         collectionView.register(FilterFreeCell.self, forCellWithReuseIdentifier: FilterFreeCell.reusableID)
 
         // Navbar
-        setNavBarTitle(LGLocalizedString.filtersTitle)
-        let cancelButton = UIBarButtonItem(title: LGLocalizedString.commonCancel, style: UIBarButtonItemStyle.plain,
+        setNavBarTitle(R.Strings.filtersTitle)
+        let cancelButton = UIBarButtonItem(title: R.Strings.commonCancel, style: UIBarButtonItemStyle.plain,
             target: self, action: #selector(FiltersViewController.onNavbarCancel))
         cancelButton.tintColor = UIColor.primaryColor
         self.navigationItem.leftBarButtonItem = cancelButton;
-        let resetButton = UIBarButtonItem(title: LGLocalizedString.filtersNavbarReset, style: UIBarButtonItemStyle.plain,
+        let resetButton = UIBarButtonItem(title: R.Strings.filtersNavbarReset, style: UIBarButtonItemStyle.plain,
             target: self, action: #selector(FiltersViewController.onNavbarReset))
         resetButton.tintColor = UIColor.primaryColor
         self.navigationItem.rightBarButtonItem = resetButton;
 
         // Rounded save button
         saveFiltersBtn.setStyle(.primary(fontSize: .medium))
-        saveFiltersBtn.setTitle(LGLocalizedString.filtersSaveButton, for: .normal)
+        saveFiltersBtn.setTitle(R.Strings.filtersSaveButton, for: .normal)
 
         // hide keyboard on tap
         tapRec = UITapGestureRecognizer(target: self, action: #selector(collectionTapped))

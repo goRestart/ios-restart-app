@@ -1,12 +1,5 @@
-//
-//  CategoryHeaderElement.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 25/07/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
+import LGComponents
 
 enum CategoryHeaderElement {
     case listingCategory(ListingCategory)
@@ -24,9 +17,9 @@ enum CategoryHeaderElement {
         case .superKeywordGroup(let taxonomy):
             return taxonomy.name
         case .showMore:
-            return LGLocalizedString.categoriesSuperKeywordsInfeedShowMore
+            return R.Strings.categoriesSuperKeywordsInFeedShowMore
         case .mostSearchedItems:
-            return LGLocalizedString.trendingItemsHeaderBubble
+            return R.Strings.trendingItemsHeaderBubble
         }
     }
     
@@ -48,9 +41,9 @@ enum CategoryHeaderElement {
         case .superKeyword, .superKeywordGroup:
             return nil
         case .showMore:
-            return #imageLiteral(resourceName: "showMore")
+            return R.Asset.IconsButtons.CategoriesHeaderIcons.showMore.image
         case .mostSearchedItems:
-            return #imageLiteral(resourceName: "trending_icon")
+            return R.Asset.IconsButtons.trendingIcon.image
         }
     }
     

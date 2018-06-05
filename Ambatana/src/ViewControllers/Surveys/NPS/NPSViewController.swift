@@ -1,15 +1,7 @@
-//
-//  NPSViewController.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 26/8/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
-
-class NPSViewController: BaseViewController {
+final class NPSViewController: BaseViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!
     @IBOutlet weak var notLikelyLabel: UILabel!
@@ -24,7 +16,7 @@ class NPSViewController: BaseViewController {
     init(viewModel: NPSViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: "NPSViewController")
-        modalPresentationStyle = .overCurrentContext
+        setupForModalWithNonOpaqueBackground()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -60,18 +52,18 @@ class NPSViewController: BaseViewController {
             $0.titleLabel?.font = UIFont.systemBoldFont(size: 19)
         }
         
-        titleLabel.text = LGLocalizedString.npsSurveyTitle
-        subtitleLabel.text = LGLocalizedString.npsSurveySubtitle
-        notLikelyLabel.text = LGLocalizedString.npsSurveyVeryBad
-        extremelyLikelyLabel.text = LGLocalizedString.npsSurveyVeryGood
-        notLikelyImage.image = UIImage(named: "nps_bad")
-        extremelyLikelyImage.image = UIImage(named: "nps_good")
+        titleLabel.text = R.Strings.npsSurveyTitle
+        subtitleLabel.text = R.Strings.npsSurveySubtitle
+        notLikelyLabel.text = R.Strings.npsSurveyVeryBad
+        extremelyLikelyLabel.text = R.Strings.npsSurveyVeryGood
+        notLikelyImage.image = R.Asset.IconsButtons.npsBad.image
+        extremelyLikelyImage.image = R.Asset.IconsButtons.npsGood.image
         
         subtitleLabel.textColor = UIColor.grayDark
         notLikelyLabel.textColor = UIColor.grayDark
         extremelyLikelyLabel.textColor = UIColor.grayDark
         
-        closeButton.setImage(UIImage(named: "navbar_close")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        closeButton.setImage(R.Asset.IconsButtons.navbarClose.image.withRenderingMode(.alwaysTemplate), for: .normal)
         closeButton.tintColor = UIColor.primaryColor
     }
     

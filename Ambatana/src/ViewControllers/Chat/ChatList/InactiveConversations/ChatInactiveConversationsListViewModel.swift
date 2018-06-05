@@ -1,14 +1,7 @@
-//
-//  ChatListInactiveConversationsViewModel.swift
-//  LetGo
-//
-//  Created by Nestor on 18/01/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import Result
 import RxSwift
+import LGComponents
 
 protocol ChatInactiveConversationsListViewModelDelegate: class {
     func didStartRetrievingObjectList()
@@ -28,7 +21,8 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, RxPaginable {
     weak var delegate: ChatInactiveConversationsListViewModelDelegate?
     weak var navigator: TabNavigator?
     
-    private var chatRepository: ChatRepository
+    private let chatRepository: ChatRepository
+    private let myUserRepository: MyUserRepository
     private let tracker: Tracker
     
     let conversations = Variable<[ChatInactiveConversation]>([])
@@ -44,15 +38,16 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, RxPaginable {
     private let disposeBag = DisposeBag()
     
     var emptyStatusViewModel: LGEmptyViewModel {
-        return LGEmptyViewModel(icon: UIImage(named: "err_list_no_blocked_users"),
-                                title: LGLocalizedString.chatInactiveListTitle,
-                                body: LGLocalizedString.chatInactiveConversationsExplanationLabel,
+        return LGEmptyViewModel(icon: R.Asset.Errors.errListNoBlockedUsers.image,
+                                title: R.Strings.chatInactiveListTitle,
+                                body: R.Strings.chatInactiveConversationsExplanationLabel,
                                 buttonTitle: nil,
                                 action: nil,
                                 secondaryButtonTitle: nil,
                                 secondaryAction: nil,
                                 emptyReason: .emptyResults,
-                                errorCode: nil)
+                                errorCode: nil,
+                                errorDescription: nil)
     }
     
     // MARK: - Lifecycle
@@ -60,14 +55,17 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, RxPaginable {
     convenience init(navigator: TabNavigator?) {
         self.init(navigator: navigator,
                   chatRepository: Core.chatRepository,
+                  myUserRepository: Core.myUserRepository,
                   tracker: TrackerProxy.sharedInstance)
     }
     
     required init(navigator: TabNavigator?,
                   chatRepository: ChatRepository,
+                  myUserRepository: MyUserRepository,
                   tracker: Tracker) {
         self.navigator = navigator
         self.chatRepository = chatRepository
+        self.myUserRepository = myUserRepository
         self.tracker = tracker
         super.init()
         setupRx()
@@ -112,7 +110,8 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, RxPaginable {
                 switch viewState {
                 case let .error(emptyVM):
                     if let emptyReason = self?.emptyViewModel?.emptyReason {
-                        self?.trackErrorStateShown(reason: emptyReason, errorCode: emptyVM.errorCode)
+                        self?.trackErrorStateShown(reason: emptyReason, errorCode: emptyVM.errorCode,
+                                                   errorDescription: emptyVM.errorDescription)
                     }
                 case .loading, .data, .empty:
                     break
@@ -165,13 +164,16 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, RxPaginable {
     
     func conversationDataAtIndex(_ index: Int) -> ConversationCellData? {
         guard let conversation = objectAtIndex(index) else { return nil }
+        let interlocutor = conversation.interlocutor(forMyUserId: myUserRepository.myUser?.objectId)
         return ConversationCellData(status: .available,
                                     conversationId: conversation.objectId,
-                                    userId: conversation.interlocutor?.objectId,
-                                    userName: conversation.interlocutor?.name ?? "",
-                                    userImageUrl: conversation.interlocutor?.avatar?.fileURL,
-                                    userImagePlaceholder: LetgoAvatar.avatarWithID(conversation.interlocutor?.objectId,
-                                                                                   name: conversation.interlocutor?.name),
+                                    userId: interlocutor?.objectId,
+                                    userName: interlocutor?.name ?? "",
+                                    userImageUrl: interlocutor?.avatar?.fileURL,
+                                    userImagePlaceholder: LetgoAvatar.avatarWithID(interlocutor?.objectId,
+                                                                                   name: interlocutor?.name),
+                                    userType: .user,
+                                    amISelling: false,
                                     listingId: conversation.listing?.objectId,
                                     listingName: conversation.listing?.name ?? "",
                                     listingImageUrl: conversation.listing?.image?.fileURL,
@@ -203,21 +205,21 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, RxPaginable {
     }
     
     private func deleteConfirmationTitle(_ itemCount: Int) -> String {
-        return itemCount <= 1 ? LGLocalizedString.chatListDeleteAlertTitleOne :
-            LGLocalizedString.chatListDeleteAlertTitleMultiple
+        return itemCount <= 1 ? R.Strings.chatListDeleteAlertTitleOne :
+            R.Strings.chatListDeleteAlertTitleMultiple
     }
     
     private func deleteConfirmationMessage(_ itemCount: Int) -> String {
-        return itemCount <= 1 ? LGLocalizedString.chatListDeleteAlertTextOne :
-            LGLocalizedString.chatListDeleteAlertTextMultiple
+        return itemCount <= 1 ? R.Strings.chatListDeleteAlertTextOne :
+            R.Strings.chatListDeleteAlertTextMultiple
     }
     
     private func deleteConfirmationCancelTitle() -> String {
-        return LGLocalizedString.commonCancel
+        return R.Strings.commonCancel
     }
     
     private func deleteConfirmationSendButton() -> String {
-        return LGLocalizedString.chatListDeleteAlertSend
+        return R.Strings.chatListDeleteAlertSend
     }
     
     private func deleteSelectedChats() {
@@ -242,15 +244,17 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, RxPaginable {
     
     // MARK: - Tracking
     
-    func trackErrorStateShown(reason: EventParameterEmptyReason, errorCode: Int?) {
-        let event = TrackerEvent.emptyStateVisit(typePage: .chatList, reason: reason, errorCode: errorCode)
+    func trackErrorStateShown(reason: EventParameterEmptyReason, errorCode: Int?, errorDescription: String?) {
+        let event = TrackerEvent.emptyStateVisit(typePage: .chatList, reason: reason,
+                                                 errorCode: errorCode,
+                                                 errorDescription: errorDescription)
         tracker.trackEvent(event)
     }
     
     // MARK: Helpers
     
     func editButtonText(forEditing editing: Bool) -> String {
-        return editing ? LGLocalizedString.commonCancel : LGLocalizedString.chatListDelete
+        return editing ? R.Strings.commonCancel : R.Strings.chatListDelete
     }
     
     var activityIndicatorAnimating: Bool {

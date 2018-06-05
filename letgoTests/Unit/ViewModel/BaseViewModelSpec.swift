@@ -18,6 +18,7 @@ class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
     var delegateReceivedShowAlert = false
     var delegateReceivedShowActionSheet = false
     var lastLoadingMessageShown: String?
+    var lastAutofadingTitleShown: String?
     var lastAutofadingMessageShown: String?
     var lastAlertTextShown: String?
 
@@ -38,6 +39,15 @@ class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
 
     func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?) {
         delegateReceivedShowAutoFadingMessage = true
+        lastAutofadingMessageShown = message
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(50)) {
+            completion?()
+        }
+    }
+
+    func vmShowAutoFadingMessage(title: String, message: String, time: Double, completion: (() -> ())?) {
+        delegateReceivedShowAutoFadingMessage = true
+        lastAutofadingTitleShown = title
         lastAutofadingMessageShown = message
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(50)) {
             completion?()
@@ -99,8 +109,7 @@ class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
                         elsePresentSignUpWithSuccessAction afterLogInAction: @escaping () -> Void) {}
     func vmPop() {}
     func vmDismiss(_ completion: (() -> Void)?) {}
-    func vmOpenInternalURL(_ url: URL) {}
-
+    func vmOpenInAppWebViewWith(url: URL) {}
 
     // Tab navigator
     func openHome() {}
@@ -119,4 +128,5 @@ class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
     func openRealEstateOnboarding(pages: [LGTutorialPage],
                                   origin: EventParameterTypePage,
                                   tutorialType: EventParameterTutorialType) {}
+    func openUserVerificationView() {}
 }

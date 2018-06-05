@@ -1,12 +1,5 @@
-//
-//  FeaturedInfoViewModel.swift
-//  LetGo
-//
-//  Created by Dídac on 25/10/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 class FeaturedInfoViewModel: BaseViewModel {
 
@@ -21,10 +14,10 @@ class FeaturedInfoViewModel: BaseViewModel {
     // MARK: - Lifecycle
 
     override init() {
-        self.titleText = LGLocalizedString.featuredInfoViewTitle
-        self.sellFasterText = LGLocalizedString.featuredInfoViewSellFaster
-        self.increaseVisibilityText = LGLocalizedString.featuredInfoViewIncreaseVisibility
-        self.moreBuyersText = LGLocalizedString.featuredInfoViewMoreBuyers
+        self.titleText = R.Strings.featuredInfoViewTitle
+        self.sellFasterText = R.Strings.featuredInfoViewSellFaster
+        self.increaseVisibilityText = R.Strings.featuredInfoViewIncreaseVisibility
+        self.moreBuyersText = R.Strings.featuredInfoViewMoreBuyers
     }
 
 

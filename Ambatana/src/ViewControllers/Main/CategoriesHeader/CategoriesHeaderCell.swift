@@ -1,14 +1,6 @@
-//
-//  CategoryHeaderCell.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 28/04/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import UIKit
 import LGCoreKit
-
+import LGComponents
 
 class CategoryHeaderCell: UICollectionViewCell {
     
@@ -61,7 +53,7 @@ class CategoryHeaderCell: UICollectionViewCell {
     
     func addNewTagToCategory() {
         categoryNewContainter.isHidden = false
-        categoryNewLabel.text = LGLocalizedString.commonNew
+        categoryNewLabel.text = R.Strings.commonNew
         layoutIfNeeded()
     }
     

@@ -50,21 +50,6 @@ struct VerticalTrackingInfo {
     let nonMatchingFields: [String]
 }
 
-typealias ListingsRequesterCompletion = (ListingsRequesterResult) -> Void
-
-protocol ListingListRequester: class {
-    var itemsPerPage: Int { get }
-    var isFirstPage: Bool { get }
-    func canRetrieve() -> Bool
-    func retrieveFirstPage(_ completion: ListingsRequesterCompletion?)
-    func retrieveNextPage(_ completion: ListingsRequesterCompletion?)
-    func isLastPage(_ resultCount: Int) -> Bool
-    func updateInitialOffset(_ newOffset: Int)
-    func duplicate() -> ListingListRequester
-    func isEqual(toRequester requester: ListingListRequester) -> Bool
-    func distanceFromListingCoordinates(_ listingCoords: LGLocationCoordinates2D) -> Double?
-    var countryCode: String? { get }
-}
 
 final class ListingListViewModel: BaseViewModel {
 
@@ -76,26 +61,49 @@ final class ListingListViewModel: BaseViewModel {
         return (UIScreen.main.bounds.size.width - (listingListFixedInset*2)) / CGFloat(numberOfColumns)
     }
 
-    var cellStyle: CellStyle {
-        return .mainList
-    }
+    var cellStyle: CellStyle = .mainList
     
     var listingListFixedInset: CGFloat = 10.0
     
-    // MARK: - iVars 
-
     // Delegates
     weak var delegate: ListingListViewModelDelegate?
     weak var dataDelegate: ListingListViewModelDataDelegate?
     weak var listingCellDelegate: ListingCellDelegate?
     
-    let featureFlags: FeatureFlags
+    private let featureFlags: FeatureFlags
     private let myUserRepository: MyUserRepository
+    private let imageDownloader: ImageDownloaderType
+
+    // Requesters
     
-    // Requester
-    var listingListRequester: ListingListRequester?
+    /// A list of requester to try in sequence in case the previous
+    /// requester returns empty or insufficient results.
+    /// If the view model is initialized with a special requester, the
+    /// requester will be put as the first and only requester inside this array
+    private var requesterSequence: [ListingListRequester] = []
     
-    let imageDownloader: ImageDownloaderType
+    private var currentRequesterIndex: Int = 0
+    
+    /// *Classic requester*. It is always the first element in
+    /// the emptySearchFallbackRequesters list
+    var listingListRequester: ListingListRequester? {
+        return requesterSequence.first
+    }
+    
+    /// Current fallback requester in use
+    var currentActiveRequester: ListingListRequester?
+    
+    var currentRequesterType: RequesterType {
+        let tuple = requesterFactory?.buildIndexedRequesterList()[currentRequesterIndex]
+        return tuple?.0 ?? .search
+    }
+    
+    private var requesterFactory: RequesterFactory? {
+        didSet {
+            requesterSequence = requesterFactory?.buildRequesterList() ?? []
+            currentActiveRequester = requesterSequence.first
+        }
+    }
 
     //State
     private(set) var pageNumber: UInt
@@ -119,7 +127,8 @@ final class ListingListViewModel: BaseViewModel {
     private(set) var isOnErrorState: Bool = false
     
     var canRetrieveListings: Bool {
-        let requesterCanRetrieve = listingListRequester?.canRetrieve() ?? false
+        let requester = featureFlags.emptySearchImprovements.isActive ? currentActiveRequester : listingListRequester
+        let requesterCanRetrieve = requester?.canRetrieve() ?? false
         return requesterCanRetrieve && !isLoading
     }
     
@@ -145,25 +154,24 @@ final class ListingListViewModel: BaseViewModel {
     
     let numberOfColumns: Int
 
-    
     // MARK: - Lifecycle
-
-    init(requester: ListingListRequester?,
-         listings: [Listing]? = nil,
-         numberOfColumns: Int = 2,
-         isPrivateList: Bool = false,
-         tracker: Tracker = TrackerProxy.sharedInstance,
-         imageDownloader: ImageDownloaderType = ImageDownloader.sharedInstance,
-         reporter: CrashlyticsReporter = CrashlyticsReporter(),
-         featureFlags: FeatureFlags = FeatureFlags.sharedInstance,
-         myUserRepository: MyUserRepository = Core.myUserRepository) {
+    
+    private init(requester: ListingListRequester?,
+                 listings: [Listing]? = nil,
+                 numberOfColumns: Int = 2,
+                 isPrivateList: Bool = false,
+                 tracker: Tracker = TrackerProxy.sharedInstance,
+                 imageDownloader: ImageDownloaderType = ImageDownloader.sharedInstance,
+                 reporter: CrashlyticsReporter = CrashlyticsReporter(),
+                 featureFlags: FeatureFlags = FeatureFlags.sharedInstance,
+                 myUserRepository: MyUserRepository = Core.myUserRepository,
+                 requesterFactory: RequesterFactory? = nil) {
         self.objects = (listings ?? []).map(ListingCellModel.init)
         self.isPrivateList = isPrivateList
         self.pageNumber = 0
         self.refreshing = false
         self.state = .loading
         self.numberOfColumns = numberOfColumns
-        self.listingListRequester = requester
         self.tracker = tracker
         self.reporter = reporter
         self.imageDownloader = imageDownloader
@@ -175,13 +183,33 @@ final class ListingListViewModel: BaseViewModel {
         self.defaultCellSize = CGSize(width: cellWidth, height: cellHeight)
     }
     
-    convenience init(listViewModel: ListingListViewModel, featureFlags: FeatureFlags = FeatureFlags.sharedInstance) {
-        self.init(requester: listViewModel.listingListRequester, featureFlags: featureFlags)
-        self.pageNumber = listViewModel.pageNumber
-        self.state = listViewModel.state
-        self.objects = listViewModel.objects
+    convenience init(requester: ListingListRequester, isPrivateList: Bool = false) {
+        self.init(requester: requester, isPrivateList: isPrivateList, requesterFactory: nil)
+        requesterSequence = [requester]
+        setCurrentFallbackRequester()
     }
     
+    convenience init(numberOfColumns: Int, tracker: Tracker, requesterFactory: RequesterFactory) {
+        self.init(requester: nil, numberOfColumns: numberOfColumns, tracker: tracker, requesterFactory: requesterFactory)
+        self.requesterFactory = requesterFactory
+        requesterSequence = requesterFactory.buildRequesterList()
+        setCurrentFallbackRequester()
+    }
+    
+    convenience override init() {
+        self.init(requester: nil, requesterFactory: nil)
+        setCurrentFallbackRequester()
+    }
+    
+    convenience init(requester: ListingListRequester, listings: [Listing]?, numberOfColumns: Int) {
+        self.init(requester: requester, listings: listings, numberOfColumns: numberOfColumns)
+        requesterSequence = [requester]
+        setCurrentFallbackRequester()
+    }
+    
+    private func setCurrentFallbackRequester() {
+        currentActiveRequester = requesterSequence.first
+    }
    
     // MARK: - Public methods
     // MARK: > Requests
@@ -197,7 +225,8 @@ final class ListingListViewModel: BaseViewModel {
     func setErrorState(_ viewModel: LGEmptyViewModel) {
         state = .error(viewModel)
         if let errorReason = viewModel.emptyReason {
-            trackErrorStateShown(reason: errorReason, errorCode: viewModel.errorCode)
+            trackErrorStateShown(reason: errorReason, errorCode: viewModel.errorCode,
+                                 errorDescription: viewModel.errorDescription)
         }
     }
 
@@ -216,13 +245,13 @@ final class ListingListViewModel: BaseViewModel {
     
     @discardableResult func retrieveListings() -> Bool {
         guard canRetrieveListings else { return false }
-        retrieveListings(firstPage: true)
+        retriveListing(isFirstPage: true, featureFlags: featureFlags)
         return true
     }
     
     func retrieveListingsNextPage() {
-        if canRetrieveListingsNextPage {
-            retrieveListings(firstPage: false)
+        if canRetrieveListingsNextPage, let activeRequster = currentActiveRequester {
+            retrieveListings(isFirstPage: false, with: [activeRequster])
         }
     }
 
@@ -266,6 +295,10 @@ final class ListingListViewModel: BaseViewModel {
         objects.insert(ListingCellModel(listing: listing), at: 0)
         delegate?.vmReloadData(self)
     }
+    
+    func prepend(listings: [Listing]) {
+        listings.forEach( { prepend(listing: $0) } )
+    }
 
     func delete(listingId: String) {
         guard state.isData else { return }
@@ -274,61 +307,106 @@ final class ListingListViewModel: BaseViewModel {
         delegate?.vmReloadData(self)
     }
     
-    private func retrieveListings(firstPage: Bool) {
-        guard let listingListRequester = listingListRequester else { return } //Should not happen
-
+    func updateFactory(_ newFactory: RequesterFactory?) {
+        requesterFactory = newFactory
+    }
+    
+    private func retriveListing(isFirstPage: Bool, featureFlags: FeatureFlags) {
+        retrieveListings(isFirstPage: isFirstPage,
+                         with: requesterSequence)
+    }
+    
+    private func retrieveListings(isFirstPage: Bool, with requesters: [ListingListRequester]) {
+        var requesterList = requesters
+        guard !requesterList.isEmpty, let currentRequester = requesterList.first else { return }
+        currentActiveRequester = currentRequester
         isLoading = true
         isOnErrorState = false
 
-        if firstPage && numberOfListings == 0 {
+        if isFirstPage && numberOfListings == 0 {
             state = .loading
             indexToTitleMapping = [:]
         }
         
         let completion: ListingsRequesterCompletion = { [weak self] result in
             guard let strongSelf = self else { return }
-            let nextPageNumber = firstPage ? 0 : strongSelf.pageNumber + 1
-            self?.isLoading = false
-            if let newListings = result.listingsResult.value {
-                if let context = result.context, !newListings.isEmpty {
-                    strongSelf.indexToTitleMapping[strongSelf.numberOfListings] = context
+            let nextPageNumber = isFirstPage ? 0 : strongSelf.pageNumber + 1
+            strongSelf.isLoading = false
+            
+            guard let newListings = result.listingsResult.value else {
+                if let error = result.listingsResult.error {
+                    strongSelf.processError(error, nextPageNumber: nextPageNumber)
                 }
-                if let verticalTrackingInfo = result.verticalTrackingInfo, !newListings.isEmpty {
-                    strongSelf.trackVerticalFilterResults(withVerticalTrackingInfo: verticalTrackingInfo)
-                }
-                let listingCellModels = newListings.map(ListingCellModel.init)
-                let cellModels = self?.dataDelegate?.vmProcessReceivedListingPage(listingCellModels, page: nextPageNumber) ?? listingCellModels
-                let indexes: [Int]
-                if firstPage {
-                    strongSelf.objects = cellModels
-                    strongSelf.refreshing = false
-                    indexes = [Int](0 ..< cellModels.count)
+                return
+            }
+
+            strongSelf.applyNewListingInfo(hasNewListing: !newListings.isEmpty,
+                                           context: result.context,
+                                           verticalTracking: result.verticalTrackingInfo)
+            let cellModels = strongSelf.mapListingsToCellModels(newListings, pageNumber: nextPageNumber)
+            let indexes: [Int] = strongSelf.updateListingIndices(isFirstPage: isFirstPage, with: cellModels)
+
+            strongSelf.pageNumber = nextPageNumber
+            let numListing = strongSelf.numberOfListings
+            let hasListings = numListing > 0
+            strongSelf.isLastPage = currentRequester.isLastPage(newListings.count)
+
+            requesterList.removeFirst()
+            if hasListings {
+                if strongSelf.featureFlags.shouldUseSimilarQuery(numListing: numListing)
+                    && strongSelf.currentRequesterType == .search {
+                    strongSelf.currentRequesterIndex += 1
+                    strongSelf.retrieveListings(isFirstPage: isFirstPage, with: requesterList)
+                    return
                 } else {
-                    let currentCount = strongSelf.numberOfListings
-                    strongSelf.objects += cellModels
-                    indexes = [Int](currentCount ..< (currentCount+cellModels.count))
-                }
-                strongSelf.pageNumber = nextPageNumber
-                let hasListings = strongSelf.numberOfListings > 0
-                strongSelf.isLastPage = strongSelf.listingListRequester?.isLastPage(newListings.count) ?? true
-                //This assignment should be ALWAYS before calling the delegates to give them the option to re-set the state
-                if hasListings {
-                    // to avoid showing "loading footer" when there are no elements
                     strongSelf.state = .data
                 }
-                strongSelf.delegate?.vmDidFinishLoading(strongSelf, page: nextPageNumber, indexes: indexes)
-                strongSelf.dataDelegate?.listingListVM(strongSelf, didSucceedRetrievingListingsPage: nextPageNumber,
-                                                       withResultsCount: newListings.count,
-                                                       hasListings: hasListings)
-            } else if let error = result.listingsResult.error {
-                strongSelf.processError(error, nextPageNumber: nextPageNumber)
+            } else if !requesterList.isEmpty {
+                strongSelf.currentRequesterIndex += 1
+                strongSelf.retrieveListings(isFirstPage: isFirstPage, with: requesterList)
+                return
             }
+            strongSelf.delegate?.vmDidFinishLoading(strongSelf, page: nextPageNumber, indexes: indexes)
+            strongSelf.dataDelegate?.listingListVM(strongSelf, didSucceedRetrievingListingsPage: nextPageNumber,
+                                                   withResultsCount: newListings.count,
+                                                   hasListings: hasListings)
+            strongSelf.currentRequesterIndex = 0
         }
 
-        if firstPage {
-            listingListRequester.retrieveFirstPage(completion)
+        if isFirstPage {
+            currentRequester.retrieveFirstPage(completion)
         } else {
-            listingListRequester.retrieveNextPage(completion)
+            currentRequester.retrieveNextPage(completion)
+        }
+    }
+    
+    private func mapListingsToCellModels(_ listings: [Listing], pageNumber: UInt) -> [ListingCellModel] {
+        let listingCellModels = listings.map(ListingCellModel.init)
+        let cellModels = dataDelegate?.vmProcessReceivedListingPage(listingCellModels, page: pageNumber) ?? listingCellModels
+        return cellModels
+    }
+    
+    private func updateListingIndices(isFirstPage: Bool, with cellModels: [ListingCellModel]) -> [Int] {
+        let indices: [Int]
+        if isFirstPage {
+            objects = cellModels
+            refreshing = false
+            indices = [Int](0 ..< (cellModels.count))
+        } else {
+            let currentCount = numberOfListings
+            objects += cellModels
+            indices = [Int](currentCount ..< (currentCount + cellModels.count))
+        }
+        return indices
+    }
+    
+    private func applyNewListingInfo(hasNewListing: Bool, context: String?, verticalTracking: VerticalTrackingInfo?) {
+        guard hasNewListing else { return }
+        if let context = context {
+            indexToTitleMapping[numberOfListings] = context
+        }
+        if let verticalTrackingInfo = verticalTracking {
+            trackVerticalFilterResults(withVerticalTrackingInfo: verticalTrackingInfo)
         }
     }
 
@@ -423,17 +501,15 @@ final class ListingListViewModel: BaseViewModel {
         })
     }
     
-    private func featuredInfoAdditionalCellHeight(for listing: Listing, width: CGFloat, isVariantEnabled: Bool, productDetailDisplayType: AddPriceTitleDistanceToListings) -> CGFloat {
-        
-        let isMine = listing.isMine(myUserRepository: myUserRepository)
-        
-        let minHeightForFeaturedListing: CGFloat = isMine ? 0.0 : ListingCellMetrics.ActionButton.totalHeight
-        guard isVariantEnabled, let featured = listing.featured, featured else {
-            return 0
-        }
-        var height: CGFloat = minHeightForFeaturedListing
-        height += productDetailDisplayType == .infoInImage ? 0 : ListingCellMetrics.getTotalHeightForPriceAndTitleView(listing.title, containerWidth: width)
+    private func featuredInfoAdditionalCellHeight(for listing: Listing, width: CGFloat, infoInImage: Bool) -> CGFloat {
+        var height: CGFloat = actionButtonCellHeight(for: listing)
+        height += infoInImage ? 0 : ListingCellMetrics.getTotalHeightForPriceAndTitleView(listing.title, containerWidth: width)
         return height
+    }
+    
+    private func actionButtonCellHeight(for listing: Listing) -> CGFloat {
+        let isMine = listing.isMine(myUserRepository: myUserRepository)
+        return isMine ? 0.0 : ListingCellMetrics.ActionButton.totalHeight
     }
     
     private func discardedProductAdditionalHeight(for listing: Listing,
@@ -486,14 +562,26 @@ final class ListingListViewModel: BaseViewModel {
                                                   widthConstraint: widthConstraint)?.height else {
             return nil
         }
-        cellHeight += featuredInfoAdditionalCellHeight(for: listing,
-                                                       width: widthConstraint,
-                                                       isVariantEnabled: featureFlags.pricedBumpUpEnabled,
-                                                       productDetailDisplayType: featureFlags.addPriceTitleDistanceToListings)
+        
+        if let isFeatured = listing.featured, isFeatured, featureFlags.pricedBumpUpEnabled {
+            if cellStyle == .serviceList {
+                cellHeight += actionButtonCellHeight(for: listing)
+            } else  {
+                cellHeight += featuredInfoAdditionalCellHeight(for: listing,
+                                                               width: widthConstraint,
+                                                               infoInImage: featureFlags.addPriceTitleDistanceToListings == .infoInImage)
+            }
+        }
+        
         cellHeight += discardedProductAdditionalHeight(for: listing, toHeight: cellHeight, variant: featureFlags.discardedProducts)
-        cellHeight += normalCellAdditionalHeight(for: listing, width: widthConstraint, variant: featureFlags.addPriceTitleDistanceToListings)
-        let cellSize = CGSize(width: widthConstraint, height: cellHeight)
-        return cellSize
+        
+        if cellStyle == .serviceList {
+            cellHeight += ListingCellMetrics.getTotalHeightForPriceAndTitleView(listing.title, containerWidth: widthConstraint)
+        } else {
+            cellHeight += normalCellAdditionalHeight(for: listing, width: widthConstraint,
+                                                     variant: featureFlags.addPriceTitleDistanceToListings)
+        }
+        return CGSize(width: widthConstraint, height: cellHeight)
     }
     
     /**
@@ -537,7 +625,8 @@ final class ListingListViewModel: BaseViewModel {
         - parameter index: The index of the Listing currently visible on screen.
     */
     func setCurrentItemIndex(_ index: Int) {
-        guard let itemsPerPage = listingListRequester?.itemsPerPage, numberOfListings > 0 else { return }
+        let requester = featureFlags.emptySearchImprovements.isActive ? currentActiveRequester : listingListRequester
+        guard let itemsPerPage = requester?.itemsPerPage, numberOfListings > 0 else { return }
         let threshold = numberOfListings - Int(Float(itemsPerPage)*Constants.listingsPagingThresholdPercentage)
         let shouldRetrieveListingsNextPage = index >= threshold && !isOnErrorState
         if shouldRetrieveListingsNextPage {
@@ -639,8 +728,9 @@ final class ListingListViewModel: BaseViewModel {
 // MARK: - Tracking
 
 extension ListingListViewModel {
-    func trackErrorStateShown(reason: EventParameterEmptyReason, errorCode: Int?) {
-        let event = TrackerEvent.emptyStateVisit(typePage: .listingList , reason: reason, errorCode: errorCode)
+    func trackErrorStateShown(reason: EventParameterEmptyReason, errorCode: Int?, errorDescription: String?) {
+        let event = TrackerEvent.emptyStateVisit(typePage: .listingList , reason: reason, errorCode: errorCode,
+                                                 errorDescription: errorDescription)
         tracker.trackEvent(event)
 
         reporter.report(CrashlyticsReporter.appDomain,
@@ -693,5 +783,11 @@ extension ListingListViewModel {
                                                  categories: categories,
                                                  feedPosition: feedPosition)
         tracker.trackEvent(trackerEvent)
+    }
+}
+
+private extension FeatureFlaggeable {
+    func shouldUseSimilarQuery(numListing: Int) -> Bool {
+        return emptySearchImprovements.shouldContinueWithSimilarQueries(withCurrentListing: numListing)
     }
 }

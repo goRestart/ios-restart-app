@@ -53,7 +53,6 @@ final class VideoPlayerCoordinator: Coordinator, PhotoViewerNavigator {
 
     func presentViewController(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
         guard viewController.parent == nil else { return }
-        viewController.modalPresentationStyle = .overFullScreen
         parent.present(viewController, animated: animated, completion: completion)
     }
 

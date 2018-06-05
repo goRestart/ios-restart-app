@@ -1,13 +1,6 @@
-//
-//  SearchAlertsListViewModel.swift
-//  LetGo
-//
-//  Created by Raúl de Oñate Blanco on 23/04/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 enum SearchAlertsState {
     case initial
@@ -18,9 +11,9 @@ enum SearchAlertsState {
     var icon: UIImage? {
         switch self {
         case .empty:
-            return #imageLiteral(resourceName: "ic_search_alerts_empty")
+            return R.Asset.IconsButtons.SearchAlerts.icSearchAlertsEmpty.image
         case .error:
-            return #imageLiteral(resourceName: "ic_search_alerts_error")
+            return R.Asset.IconsButtons.SearchAlerts.icSearchAlertsError.image
         case .full, .initial:
             return nil
         }
@@ -29,9 +22,9 @@ enum SearchAlertsState {
     var text: String? {
         switch self {
         case .empty:
-            return LGLocalizedString.searchAlertsPlaceholderEmptyText
+            return R.Strings.searchAlertsPlaceholderEmptyText
         case .error:
-            return LGLocalizedString.searchAlertsPlaceholderErrorText
+            return R.Strings.searchAlertsPlaceholderErrorText
         case .full, .initial:
             return nil
         }
@@ -40,9 +33,9 @@ enum SearchAlertsState {
     var buttonTitle: String? {
         switch self {
         case .empty:
-            return LGLocalizedString.searchAlertsPlaceholderEmptyButton
+            return R.Strings.searchAlertsPlaceholderEmptyButton
         case .error:
-            return LGLocalizedString.searchAlertsPlaceholderErrorButton
+            return R.Strings.searchAlertsPlaceholderErrorButton
         case .full, .initial:
             return nil
         }
@@ -130,13 +123,13 @@ final class SearchAlertsListViewModel: BaseViewModel {
                 case .searchAlertError(let searchAlertError):
                     switch searchAlertError {
                     case .alreadyExists, .apiError:
-                        errorMessage = LGLocalizedString.searchAlertEnableErrorMessage
+                        errorMessage = R.Strings.searchAlertEnableErrorMessage
                     case .limitReached:
-                        errorMessage = LGLocalizedString.searchAlertErrorTooManyText
+                        errorMessage = R.Strings.searchAlertErrorTooManyText
                     }
                 case .tooManyRequests, .network, .forbidden, .internalError, .notFound, .unauthorized, .userNotVerified,
                      .serverError, .wsChatError:
-                    errorMessage = LGLocalizedString.searchAlertEnableErrorMessage
+                    errorMessage = R.Strings.searchAlertEnableErrorMessage
                 }
                 self?.delegate?.vmShowAutoFadingMessage(errorMessage) { [weak self] in
                     self?.retrieveSearchAlerts()
@@ -150,7 +143,7 @@ final class SearchAlertsListViewModel: BaseViewModel {
             if let _ = result.value {
                 self?.updateEnableValueOfSearchAlertWith(alertId: id)
             } else if let _ = result.error {
-                self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.searchAlertDisableErrorMessage) { [weak self] in
+                self?.delegate?.vmShowAutoFadingMessage(R.Strings.searchAlertDisableErrorMessage) { [weak self] in
                     self?.retrieveSearchAlerts()
                 }
             }
@@ -166,7 +159,7 @@ final class SearchAlertsListViewModel: BaseViewModel {
                 strongSelf.searchAlerts.value.remove(at: index)
                 strongSelf.searchAlertsState.value = strongSelf.searchAlerts.value.count > 0 ? .full : .empty
             } else if let _ = result.error {
-                strongSelf.delegate?.vmShowAutoFadingMessage(LGLocalizedString.searchAlertDeleteErrorMessage,
+                strongSelf.delegate?.vmShowAutoFadingMessage(R.Strings.searchAlertDeleteErrorMessage,
                                                              completion: nil)
             }
         }

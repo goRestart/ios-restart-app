@@ -1,13 +1,6 @@
-//
-//  NotificationsViewController.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 26/04/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
 import RxSwift
+import LGComponents
 
 class NotificationsViewController: BaseViewController {
 
@@ -57,7 +50,7 @@ class NotificationsViewController: BaseViewController {
     // MARK: - Private methods
 
     private func setupUI() {
-        setNavBarTitle(LGLocalizedString.notificationsTitle)
+        setNavBarTitle(R.Strings.notificationsTitle)
         view.backgroundColor = UIColor.listBackgroundColor
 
         // Enable refresh control

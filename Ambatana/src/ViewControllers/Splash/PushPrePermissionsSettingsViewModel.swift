@@ -1,12 +1,5 @@
-//
-//  PushPrePermissionsSettingsViewModel.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 7/3/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 final class PushPrePermissionsSettingsViewModel: BaseViewModel {
     
@@ -15,10 +8,10 @@ final class PushPrePermissionsSettingsViewModel: BaseViewModel {
     var title: String {
         switch source {
         case .onboarding, .sell, .profile, .listingListBanner:
-            return LGLocalizedString.notificationsPermissionsSettingsTitle
+            return R.Strings.notificationsPermissionsSettingsTitle
         case .chat(let buyer):
-            return buyer ? LGLocalizedString.notificationsPermissionsSettingsTitleChat :
-                LGLocalizedString.notificationsPermissionsSettingsTitle
+            return buyer ? R.Strings.notificationsPermissionsSettingsTitleChat :
+                R.Strings.notificationsPermissionsSettingsTitle
         }
     }
 

@@ -7,9 +7,11 @@
 //
 
 struct CanaryEnvironment: Environment {
-    let apiBaseURL = "https://canary.api.letgo.com"
+    let apiBaseURL = "https://api.canary.letgo.com"
     let realEstateBaseURL = "https://listingrealestate.canary.letgo.com"
     let carsBaseURL = "https://listingcar.canary.letgo.com"
+    let servicesBaseURL = "https://listingservice.canary.letgo.com"
+    let searchServicesBaseURL = "https://searchservice.canary.letgo.com"
     let searchCarsBaseURL = "https://searchcar.canary.letgo.com"
     let bouncerBaseURL = "https://bouncerv2.canary.letgo.com/api"
     let userRatingsBaseURL = "https://rating.canary.letgo.com/api"
@@ -24,4 +26,5 @@ struct CanaryEnvironment: Environment {
     let spellCorrectorBaseURL = "https://spellcorrector.canary.letgo.com"
     let meetingsBaseURL = "https://meeting.canary.letgo.com"
     let searchAlertsBaseURL = "https://searchalerts.canary.letgo.com"
+    let customFeedBaseURL = "https://customfeed.stg.letgo.com"
 }

@@ -340,4 +340,14 @@ extension String {
         }
         return outputString
     }
+
+    func truncatedNameStringToInitials() -> String {
+        let words = self.byWords
+        guard words.count > 1 else { return self }
+        var name = words.first ?? ""
+        for (i, word) in words.enumerated() where i > 0 {
+            name = name + " " + word.prefix(1) + "."
+        }
+        return name
+    }
 }

@@ -1,14 +1,7 @@
-//
-//  ListingDeckActionsView.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 25/10/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
 import UIKit
 import LGCoreKit
+import LGComponents
 
 final class ListingDeckActionView: UIView {
 
@@ -83,7 +76,7 @@ final class ListingDeckActionView: UIView {
             actionButtonBottomAnchorConstraint
         ])
 
-        actionButton.setTitle(LGLocalizedString.productMarkAsSoldButton, for: .normal)
+        actionButton.setTitle(R.Strings.productMarkAsSoldButton, for: .normal)
     }
 
     private func setupSeparator() {
@@ -101,6 +94,12 @@ final class ListingDeckActionView: UIView {
             bumpUpBanner.rightAnchor.constraint(equalTo: rightAnchor),
             bumpUpBanner.centerXAnchor.constraint(equalTo: centerXAnchor)
             ])
+    }
+
+    func updatePrivateActionsWith(actionsAlpha: CGFloat, bumpBannerAlpha: CGFloat) {
+        actionButton.alpha = actionsAlpha
+        separator.alpha = actionsAlpha
+        bumpUpBanner.alpha = bumpBannerAlpha
     }
 
     func resetCountdown() {

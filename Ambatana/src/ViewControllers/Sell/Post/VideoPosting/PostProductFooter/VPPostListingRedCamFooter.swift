@@ -1,12 +1,5 @@
-//
-//  VPPostListingRedCamFooter.swift
-//  LetGo
-//
-//  Created by Álvaro Murillo del Puerto on 26/3/18.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 final class VPPostListingRedCamFooter: UIView {
     static let galleryIconSide: CGFloat = 70
@@ -134,26 +127,26 @@ fileprivate extension VPPostListingRedCamFooter {
     func setupUI() {
 
         galleryButton.setTitleColor(UIColor.white, for: .normal)
-        galleryButton.setTitle(LGLocalizedString.productPostCameraGalleryTextButton, for: .normal)
+        galleryButton.setTitle(R.Strings.productPostCameraGalleryTextButton, for: .normal)
         galleryButton.titleLabel?.font = UIFont.systemBoldFont(size: 17)
         galleryButton.applyShadow(withOpacity: 0.7, radius: 1)
 
         photoButton.setTitleColor(UIColor.white, for: .normal)
-        photoButton.setTitle(LGLocalizedString.productPostCameraPhotoModeButton, for: .normal)
+        photoButton.setTitle(R.Strings.productPostCameraPhotoModeButton, for: .normal)
         photoButton.titleLabel?.font = UIFont.systemBoldFont(size: 17)
         photoButton.applyShadow(withOpacity: 0.7, radius: 1)
         photoButton.setTitleColor(UIColor.Camera.selectedPhotoVideoButton, for: .normal)
 
         videoButton.setTitleColor(UIColor.white, for: .normal)
-        videoButton.setTitle(LGLocalizedString.productPostCameraVideoModeButton, for: .normal)
+        videoButton.setTitle(R.Strings.productPostCameraVideoModeButton, for: .normal)
         videoButton.titleLabel?.font = UIFont.systemBoldFont(size: 17)
         videoButton.applyShadow(withOpacity: 0.7, radius: 1)
         videoButton.setTitleColor(UIColor.Camera.unselectedPhotoVideoButton, for: .normal)
 
-        infoButton.setImage(#imageLiteral(resourceName: "info"), for: .normal)
+        infoButton.setImage(R.Asset.IconsButtons.info.image, for: .normal)
 
-        let highlightedText = LGLocalizedString.productPostCameraVideoRecordingTooltipHighlightedWord
-        let hintText = LGLocalizedString.productPostCameraVideoRecordingTooltip(highlightedText)
+        let highlightedText = R.Strings.productPostCameraVideoRecordingTooltipHighlightedWord
+        let hintText = R.Strings.productPostCameraVideoRecordingTooltip(highlightedText)
         let hintNSString = NSString(string: hintText)
         let range = hintNSString.range(of: highlightedText)
         let attributues: [NSAttributedStringKey : Any] = [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 17),
@@ -351,7 +344,7 @@ final class CameraButton: UIButton {
 
         private var photoImageLayer: CALayer = {
             let layer = CALayer()
-            layer.contents = #imageLiteral(resourceName: "ic_post_take_photo_icon").cgImage
+            layer.contents = R.Asset.IconsButtons.icPostTakePhotoIcon.image.cgImage
             layer.contentsGravity = kCAGravityCenter
             layer.contentsScale = UIScreen.main.scale
             return layer
@@ -359,7 +352,7 @@ final class CameraButton: UIButton {
 
         private var videoImageLayer: CALayer = {
             let layer = CALayer()
-            layer.contents = #imageLiteral(resourceName: "ic_post_record_video_icon").cgImage
+            layer.contents = R.Asset.IconsButtons.icPostRecordVideoIcon.image.cgImage
             layer.contentsGravity = kCAGravityCenter
             layer.contentsScale = UIScreen.main.scale
             return layer

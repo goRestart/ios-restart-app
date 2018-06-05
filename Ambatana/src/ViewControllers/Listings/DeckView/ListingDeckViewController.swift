@@ -1,16 +1,10 @@
-//
-//  ListingDeckViewController.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 23/10/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
 import UIKit
 import LGCoreKit
 import RxCocoa
 import RxSwift
+import LGComponents
+import GoogleMobileAds
 
 typealias DeckMovement = CarouselMovement
 
@@ -40,6 +34,10 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     private var quickChatView: QuickChatView?
     var quickChatTopToCollectionBotton: NSLayoutConstraint?
     var chatEnabled: Bool = false { didSet { quickChatTopToCollectionBotton?.isActive = chatEnabled } }
+    
+    private var interstitial: GADInterstitial?
+    private var firstAdShowed = false
+    private var lastIndexAd = -1
     
     lazy var windowTargetFrame: CGRect = {
         let size = listingDeckView.cardSize
@@ -87,6 +85,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         setupQuickChatView(viewModel.quickChatViewModel)
         setupRx()
         reloadData()
+        setupInterstitial()
     }
 
     override func viewWillDisappearToBackground(_ toBackground: Bool) {
@@ -111,6 +110,13 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     func updateStartIndex() {
         let startIndexPath = IndexPath(item: viewModel.startIndex, section: 0)
         listingDeckView.scrollToIndex(startIndexPath)
+    }
+    
+    private func setupInterstitial() {
+        interstitial = viewModel.createAndLoadInterstitial()
+        if let interstitial = interstitial {
+            interstitial.delegate = self
+        }
     }
 
     // MARK: Rx
@@ -165,12 +171,12 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.view.backgroundColor = .clear
 
-        self.navigationItem.leftBarButtonItem  = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_close_red"),
+        self.navigationItem.leftBarButtonItem  = UIBarButtonItem(image: R.Asset.CongratsScreenImages.icCloseRed.image,
                                                                  style: .plain,
                                                                  target: self,
                                                                  action: #selector(didTapClose))
 
-        self.navigationItem.rightBarButtonItem  = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_more_options"),
+        self.navigationItem.rightBarButtonItem  = UIBarButtonItem(image: R.Asset.IconsButtons.icMoreOptions.image,
                                                                   style: .plain,
                                                                   target: self,
                                                                   action: #selector(didTapMoreActions))
@@ -180,11 +186,11 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
 
     @objc private func didTapMoreActions() {
         var toShowActions = viewModel.navBarButtons
-        let title = LGLocalizedString.productOnboardingShowAgainButtonTitle
+        let title = R.Strings.productOnboardingShowAgainButtonTitle
         toShowActions.append(UIAction(interface: .text(title), action: { [weak viewModel] in
             viewModel?.showOnBoarding()
         }))
-        showActionSheet(LGLocalizedString.commonCancel, actions: toShowActions, barButtonItem: nil)
+        showActionSheet(R.Strings.commonCancel, actions: toShowActions, barButtonItem: nil)
     }
 
     @objc private func didTapClose() {
@@ -210,6 +216,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
             listingDeckView.itemActionsView.layoutIfNeeded()
         }
     }
+
 }
 
 extension ListingDeckViewController: ListingDeckViewControllerBinderType {
@@ -236,7 +243,7 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
 
     func willBeginDragging() {
         lastPageBeforeDragging = listingDeckView.currentPage
-        listingDeckView.bumpUpBanner.alphaAnimated(0)
+        listingDeckView.bumpUpBanner.animateTo(alpha: 0)
         animatePlayButton(withAlpha: 0)
     }
 
@@ -271,9 +278,7 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     }
 
     func updateViewWithActions(_ actionButtons: [UIAction]) {
-        guard let actionButton = actionButtons.first else {
-            return
-        }
+        guard let actionButton = actionButtons.first else { return }
         listingDeckView.configureActionWith(actionButton)
     }
 
@@ -291,25 +296,17 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
         }
     }
     
-    func updateViewWith(alpha: CGFloat, chatEnabled: Bool, isMine: Bool, actionsEnabled: Bool) {
+    func updateViewWith(alpha: CGFloat, chatEnabled: Bool, actionsEnabled: Bool) {
         whiteBackground.isHidden = !chatEnabled
         self.chatEnabled = chatEnabled
-        let chatAlpha: CGFloat
-        let actionsAlpha: CGFloat
-        let clippedAlpha = min(1.0, alpha)
-        if isMine && actionsEnabled {
-            actionsAlpha = clippedAlpha
-            chatAlpha = 0
-        } else if !chatEnabled {
-            actionsAlpha = 0
-            chatAlpha = 0
-        } else {
-            chatAlpha = clippedAlpha
-            actionsAlpha = 0
-        }
 
-        listingDeckView.updatePrivateActionsWith(alpha: actionsAlpha)
-        updateChatWith(alpha: chatAlpha)
+        let clippedAlpha = min(1.0, alpha)
+
+        let actionsAlpha = actionsEnabled ? clippedAlpha : 0
+        let bumpBannerAlpha: CGFloat = (actionsEnabled || !chatEnabled) ? 1.0 : 0
+
+        listingDeckView.updatePrivateActionsWith(actionsAlpha: actionsAlpha, bumpBannerAlpha: bumpBannerAlpha)
+        updateChatWith(alpha: (chatEnabled && !actionsEnabled) ? clippedAlpha : 0)
     }
     
 
@@ -328,7 +325,7 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
             return
         }
 
-        listingDeckView.bumpUpBanner.alphaAnimated(1)
+        listingDeckView.bumpUpBanner.animateTo(alpha: 1)
         currentPageCell()?.update(bottomContentInset: Layout.Insets.bump)
         guard !listingDeckView.isBumpUpVisible else {
             // banner is already visible, but info changes
@@ -346,6 +343,10 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
                         self?.listingDeckView.showBumpUp()
                         self?.listingDeckView.layoutIfNeeded()
             }, completion: nil)
+    }
+    
+    func presentInterstitialAtIndex(_ index: Int) {
+        viewModel.presentInterstitial(self.interstitial, index: index, fromViewController: self)
     }
 
     private func isCardVisible(_ cardView: ListingCardView) -> Bool {
@@ -415,7 +416,7 @@ extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCard
         let vc = DeckMapViewController(with: DeckMapData(size: size,
                                                          location: location,
                                                          shouldHighlightCenter: shouldShowExactLocation))
-        vc.modalPresentationStyle = .overCurrentContext
+        vc.setupForModalWithNonOpaqueBackground()
         vc.delegate = self
         self.present(vc, animated: true, completion: nil)
     }
@@ -441,6 +442,10 @@ extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCard
     func cardViewDidTapOnStatusView(_ cardView: ListingCardView) {
         guard cardView.tag == viewModel.currentIndex else { return }
         viewModel.didTapStatusView()
+    }
+
+    func cardViewDidTapOnReputationTooltip(_ cardView: ListingCardView) {
+        viewModel.didTapReputationTooltip()
     }
 
     // MARK: Chat
@@ -533,4 +538,23 @@ extension ListingDeckViewController {
         }
         return transitioner
     }
+}
+
+// MARK: - GADIntertitialDelegate
+
+extension ListingDeckViewController: GADInterstitialDelegate {
+    
+    /// Tells the delegate the interstitial had been animated off the screen.
+    func interstitialDidDismissScreen(_ ad: GADInterstitial) {
+        setupInterstitial()
+    }
+    
+    func interstitialWillPresentScreen(_ ad: GADInterstitial) {
+        viewModel.interstitialAdShown(typePage: EventParameterTypePage.nextItem)
+    }
+    
+    func interstitialWillLeaveApplication(_ ad: GADInterstitial) {
+        viewModel.interstitialAdTapped(typePage: EventParameterTypePage.nextItem)
+    }
+    
 }

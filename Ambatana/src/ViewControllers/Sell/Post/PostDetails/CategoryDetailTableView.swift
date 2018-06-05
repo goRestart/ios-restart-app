@@ -1,14 +1,7 @@
-//
-//  CategoryDetailTableView.swift
-//  LetGo
-//
-//  Created by Nestor on 12/04/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import UIKit
 import RxSwift
 import LGCoreKit
+import LGComponents
 
 enum CategoryDetailStyle {
     case lightContent // Light content, for use on dark backgrounds
@@ -111,8 +104,8 @@ enum CarDetailType {
     
     var addOtherString: String? {
         switch self {
-        case .make: return LGLocalizedString.postCategoryDetailAddMake
-        case .model: return LGLocalizedString.postCategoryDetailAddModel
+        case .make: return R.Strings.postCategoryDetailAddMake
+        case .model: return R.Strings.postCategoryDetailAddModel
         case .year: return nil
         }
     }
@@ -231,7 +224,7 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
             textField.backgroundColor = .clear
             textField.textColor = style.searchTextColor
             textField.attributedPlaceholder =
-                NSAttributedString(string: LGLocalizedString.postCategoryDetailSearchPlaceholder,
+                NSAttributedString(string: R.Strings.postCategoryDetailSearchPlaceholder,
                                    attributes: [NSAttributedStringKey.foregroundColor: style.placeholderTextColor])
             if let iconSearchImageView = textField.leftView as? UIImageView {
                 iconSearchImageView.image = iconSearchImageView.image?.withRenderingMode(.alwaysTemplate)
@@ -295,7 +288,7 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
             cell.textLabel?.font = UIFont.systemBoldFont(size: 17)
             cell.backgroundColor = style.cellBackgroundColor
             cell.textLabel?.textColor = style.cellSelectedTextColor
-            cell.imageView?.image = UIImage(named: "ic_cirle_plus")?.withRenderingMode(.alwaysTemplate)
+            cell.imageView?.image = R.Asset.IconsButtons.icCirlePlus.image.withRenderingMode(.alwaysTemplate)
             cell.imageView?.tintColor = style.othersIconTintColor
             cell.imageView?.contentMode = .left
             return cell

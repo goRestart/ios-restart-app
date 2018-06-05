@@ -1,10 +1,4 @@
-//
-//  MLPredictionDetailsViewCell.swift
-//  LetGo
-//
-//  Created by Nestor on 14/03/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
+import LGComponents
 
 protocol MLPredictionDetailsViewCellDelegate: class {
     func didEdit(newValue: String)
@@ -47,7 +41,7 @@ class MLPredictionDetailsViewCell: UITableViewCell, ReusableCell {
         
         selectionStyle = .none
         accessoryType = .disclosureIndicator
-        let image: UIImage = #imageLiteral(resourceName: "ml_icon_chevron")
+        let image: UIImage = R.Asset.Machinelearning.mlIconChevron.image
         accessoryView = UIImageView(image: image)
 
         textView.autocorrectionType = .no

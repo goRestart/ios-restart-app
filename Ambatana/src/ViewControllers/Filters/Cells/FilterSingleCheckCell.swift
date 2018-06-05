@@ -1,11 +1,5 @@
-//
-//  FilterSingleCheckCell.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 09/11/15.
-//  Copyright © 2015 Ambatana. All rights reserved.
-//
 import UIKit
+import LGComponents
 
 class FilterSingleCheckCell: UICollectionViewCell, ReusableCell {
     struct Metrics {
@@ -69,7 +63,7 @@ class FilterSingleCheckCell: UICollectionViewCell, ReusableCell {
 
         mainView.backgroundColor = .white
         contentView.backgroundColor = .clear
-        tickIcon.image = #imageLiteral(resourceName: "ic_checkmark")
+        tickIcon.image = R.Asset.IconsButtons.icCheckmark.image
 
         contentView.addSubview(mainView)
         mainView.addSubviews([titleLabel, tickIcon, bottomSeparator, topSeparator])

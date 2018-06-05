@@ -1,14 +1,7 @@
-//
-//  FiltersViewModel.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 09/11/15.
-//  Copyright © 2015 Ambatana. All rights reserved.
-//
-
 import UIKit
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 enum FilterCategoryItem: Equatable {
     case category(category: ListingCategory)
@@ -23,7 +16,7 @@ enum FilterCategoryItem: Equatable {
         case let .category(category: category):
             return category.name
         case .free:
-            return LGLocalizedString.categoriesFree
+            return R.Strings.categoriesFree
         }
     }
 
@@ -32,7 +25,7 @@ enum FilterCategoryItem: Equatable {
         case let .category(category: category):
             return category.image
         case .free:
-            return UIImage(named: "categories_free_inactive")
+            return R.Asset.IconsButtons.FiltersCategoriesIcons.categoriesFreeInactive.image
         }
     }
 }
@@ -93,6 +86,14 @@ class FiltersViewModel: BaseViewModel {
     }
     var currentCarModelName: String? {
         return productFilter.carModelName
+    }
+    
+    var currentServiceTypeName: String? {
+        return productFilter.servicesType?.name
+    }
+    
+    var currentServiceSubtypeName: String? {
+        return productFilter.servicesSubtype?.name
     }
     
     var currentPropertyTypeName: String? {
@@ -251,6 +252,10 @@ class FiltersViewModel: BaseViewModel {
         return FilterCarSection.all
     }
     
+    var serviceSections: [FilterServicesSection] {
+        return FilterServicesSection.all
+    }
+    
     var filterCarSellerSelectedSections: [FilterCarSection] = []
     
     var postingFlowType: PostingFlowType {
@@ -351,7 +356,7 @@ class FiltersViewModel: BaseViewModel {
         let attributeValues = RealEstatePropertyType.allValues(postingFlowType: postingFlowType)
         let values = attributeValues.map { $0.localizedString }
         let vm = ListingAttributePickerViewModel(
-            title: LGLocalizedString.realEstateTypePropertyTitle,
+            title: R.Strings.realEstateTypePropertyTitle,
             attributes: values,
             selectedAttribute: productFilter.realEstatePropertyType?.rawValue
         ) { [weak self] selectedIndex in
@@ -369,7 +374,7 @@ class FiltersViewModel: BaseViewModel {
         let attributeValues = NumberOfBedrooms.allValues
         let values = attributeValues.map { $0.localizedString }
         let vm = ListingAttributePickerViewModel(
-            title: LGLocalizedString.realEstateBedroomsTitle,
+            title: R.Strings.realEstateBedroomsTitle,
             attributes: values,
             selectedAttribute: productFilter.realEstateNumberOfBedrooms?.localizedString
         ) { [weak self] selectedIndex in
@@ -387,7 +392,7 @@ class FiltersViewModel: BaseViewModel {
         let attributeValues = NumberOfRooms.allValues
         let values = attributeValues.map { $0.localizedString }
         let vm = ListingAttributePickerViewModel(
-            title: LGLocalizedString.realEstateRoomsTitle,
+            title: R.Strings.realEstateRoomsTitle,
             attributes: values,
             selectedAttribute: productFilter.realEstateNumberOfRooms?.localizedString
         ) { [weak self] selectedIndex in
@@ -405,7 +410,7 @@ class FiltersViewModel: BaseViewModel {
         let attributeValues = NumberOfBathrooms.allValues
         let values = attributeValues.map { $0.localizedString }
         let vm = ListingAttributePickerViewModel(
-            title: LGLocalizedString.realEstateBathroomsTitle,
+            title: R.Strings.realEstateBathroomsTitle,
             attributes: values,
             selectedAttribute: productFilter.realEstateNumberOfBathrooms?.localizedString
         ) { [weak self] selectedIndex in
@@ -414,6 +419,34 @@ class FiltersViewModel: BaseViewModel {
             } else {
                 self?.productFilter.realEstateNumberOfBathrooms = nil
             }
+            self?.delegate?.vmDidUpdate()
+        }
+        navigator?.openListingAttributePicker(viewModel: vm)
+    }
+    
+    func servicesTypePressed() {
+        let values: [String] = []
+        let vm = ListingAttributePickerViewModel(
+            title: R.Strings.servicesServiceTypeTitle,
+            attributes: values,
+            selectedAttribute: productFilter.servicesType?.name
+        ) { [weak self] selectedIndex in
+            // TODO: ABIOS-4176
+            self?.productFilter.servicesTypeId = RetrieveListingParam(value: "", isNegated: false)
+            self?.delegate?.vmDidUpdate()
+        }
+        navigator?.openListingAttributePicker(viewModel: vm)
+    }
+    
+    func servicesSubtypePressed() {
+        let values: [String] = []
+        let vm = ListingAttributePickerViewModel(
+            title: R.Strings.servicesServiceSubtypeTitle,
+            attributes: values,
+            selectedAttribute: productFilter.servicesSubtype?.name
+        ) { [weak self] selectedIndex in
+            // TODO: ABIOS-4176
+            self?.productFilter.servicesSubtypeId = RetrieveListingParam(value: "", isNegated: false)
             self?.delegate?.vmDidUpdate()
         }
         navigator?.openListingAttributePicker(viewModel: vm)
@@ -432,13 +465,13 @@ class FiltersViewModel: BaseViewModel {
 
     func validateFilters() -> Bool {
         guard validatePriceRange else {
-            delegate?.vmShowAutoFadingMessage(LGLocalizedString.filtersPriceWrongRangeError, completion: { [weak self] in
+            delegate?.vmShowAutoFadingMessage(R.Strings.filtersPriceWrongRangeError, completion: { [weak self] in
                 self?.delegate?.vmForcePriceFix()
                 })
             return false
         }
         guard validateSizeRange else {
-            delegate?.vmShowAutoFadingMessage(LGLocalizedString.filtersSizeWrongRangeError, completion: { [weak self] in
+            delegate?.vmShowAutoFadingMessage(R.Strings.filtersSizeWrongRangeError, completion: { [weak self] in
                 self?.delegate?.vmForceSizeFix()
             })
             return false
@@ -447,31 +480,9 @@ class FiltersViewModel: BaseViewModel {
     }
 
     func saveFilters() {
-        // Tracking
-        let offerTypeValues = productFilter.realEstateOfferTypes.flatMap({ offerType -> String? in
-            return offerType.rawValue
-        })
-        let trackingEvent = TrackerEvent.filterComplete(productFilter.filterCoordinates,
-                                                        distanceRadius: productFilter.distanceRadius,
-                                                        distanceUnit: productFilter.distanceType,
-                                                        categories: productFilter.selectedCategories,
-                                                        sortBy: productFilter.selectedOrdering,
-                                                        postedWithin: productFilter.selectedWithin,
-                                                        priceRange: productFilter.priceRange,
-                                                        freePostingModeAllowed: featureFlags.freePostingModeAllowed,
-                                                        carSellerType: trackCarSellerType,
-                                                        carMake: productFilter.carMakeName,
-                                                        carModel: productFilter.carModelName,
-                                                        carYearStart: productFilter.carYearStart?.value,
-                                                        carYearEnd: productFilter.carYearEnd?.value,
-                                                        propertyType: productFilter.realEstatePropertyType?.rawValue,
-                                                        offerType: offerTypeValues,
-                                                        bedrooms: productFilter.realEstateNumberOfBedrooms?.rawValue,
-                                                        bathrooms: productFilter.realEstateNumberOfBathrooms?.rawValue,
-                                                        sizeSqrMetersMin: productFilter.realEstateSizeRange.min,
-                                                        sizeSqrMetersMax: productFilter.realEstateSizeRange.max,
-                                                        rooms: productFilter.realEstateNumberOfRooms)
-        TrackerProxy.sharedInstance.trackEvent(trackingEvent)
+        TrackerProxy.sharedInstance.trackEvent(.filterComplete(productFilter,
+                                                               carSellerType: trackCarSellerType,
+                                                               freePostingModeAllowed: featureFlags.freePostingModeAllowed))
         dataDelegate?.viewModelDidUpdateFilters(self, filters: productFilter)
     }
     
@@ -481,7 +492,7 @@ class FiltersViewModel: BaseViewModel {
     Retrieves the list of categories
     */
     func retrieveCategories() {
-        categoryRepository.index(servicesIncluded: featureFlags.servicesCategoryEnabled.isActive,
+        categoryRepository.index(servicesIncluded: true,
                                  carsIncluded: false,
                                  realEstateIncluded: featureFlags.realEstateEnabled.isActive) { [weak self] result in
                                     

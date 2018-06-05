@@ -1,14 +1,8 @@
-//
-//  ListingCarouselViewModel.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 14/4/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import RxSwift
 import GoogleMobileAds
+import RxCocoa
+import LGComponents
 
 protocol ListingCarouselViewModelDelegate: BaseViewModelDelegate {
     func vmRemoveMoreInfoTooltip()
@@ -27,6 +21,7 @@ enum CarouselMovement {
 enum AdRequestType {
     case dfp
     case moPub
+    case interstitial
 
     var trackingParamValue: EventParameterAdType {
         switch self {
@@ -34,6 +29,8 @@ enum AdRequestType {
             return .dfp
         case .moPub:
             return .moPub
+        case .interstitial:
+            return .interstitial
         }
     }
 }
@@ -133,6 +130,9 @@ class ListingCarouselViewModel: BaseViewModel {
 
     let socialMessage = Variable<SocialMessage?>(nil)
     let socialSharer = Variable<SocialSharer>(SocialSharer())
+    var shouldShowReputationTooltip: Driver<Bool> {
+        return ownerBadge.asDriver().map{ $0 != .noBadge && self.reputationTooltipManager.shouldShowTooltip() }
+    }
 
     // UI - Input
     let moreInfoState = Variable<MoreInfoState>(.hidden)
@@ -167,6 +167,7 @@ class ListingCarouselViewModel: BaseViewModel {
     let featureFlags: FeatureFlaggeable
     fileprivate let locationManager: LocationManager
     fileprivate let myUserRepository: MyUserRepository
+    fileprivate let reputationTooltipManager: ReputationTooltipManager
 
     fileprivate let disposeBag = DisposeBag()
 
@@ -192,11 +193,11 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     var dfpContentURL: String? {
-        guard let listingId = currentListingViewModel?.listing.value.objectId else { return nil}
-        return LetgoURLHelper.buildLanguageLocalizedProductURL(listingId: listingId)?.absoluteString
+        guard let listingId = currentListingViewModel?.listing.value.objectId else { return nil }
+        return LetgoURLHelper.buildProductURL(listingId: listingId, isLocalized: true)?.absoluteString
     }
     var randomHardcodedAdQuery: String {
-        let popularItems = ["ps4", "iphone", LGLocalizedString.productPostIncentiveDresser]
+        let popularItems = ["ps4", "iphone", R.Strings.productPostIncentiveDresser]
         let term = popularItems.random() ?? "iphone"
         return term
     }
@@ -268,7 +269,8 @@ class ListingCarouselViewModel: BaseViewModel {
                   listingViewModelMaker: ListingViewModel.ConvenienceMaker(),
                   adsRequester: AdsRequester(),
                   locationManager: Core.locationManager,
-                  myUserRepository: Core.myUserRepository)
+                  myUserRepository: Core.myUserRepository,
+                  reputationTooltipManager: LGReputationTooltipManager.sharedInstance)
     }
 
     init(productListModels: [ListingCellModel]?,
@@ -285,7 +287,8 @@ class ListingCarouselViewModel: BaseViewModel {
          listingViewModelMaker: ListingViewModelMaker,
          adsRequester: AdsRequester,
          locationManager: LocationManager,
-         myUserRepository: MyUserRepository) {
+         myUserRepository: MyUserRepository,
+         reputationTooltipManager: ReputationTooltipManager) {
         if let productListModels = productListModels {
             let listingCarouselCellModels = productListModels
                 .flatMap(ListingCarouselCellModel.adapter)
@@ -311,6 +314,7 @@ class ListingCarouselViewModel: BaseViewModel {
         self.adsRequester = adsRequester
         self.locationManager = locationManager
         self.myUserRepository = myUserRepository
+        self.reputationTooltipManager = reputationTooltipManager
         if let initialListing = initialListing {
             self.startIndex = objects.value.index(where: { $0.listing.objectId == initialListing.objectId}) ?? 0
         } else {
@@ -524,6 +528,38 @@ class ListingCarouselViewModel: BaseViewModel {
                                                willLeaveApp: willLeave,
                                                typePage: typePage)
     }
+    
+    func createAndLoadInterstitial() -> GADInterstitial? {
+        return adsRequester.createAndLoadInterstitialForUserRepository(myUserRepository)
+    }
+    
+    func presentInterstitial(_ interstitial: GADInterstitial?, index: Int, fromViewController: UIViewController) {
+        adsRequester.presentInterstitial(interstitial, index: index, fromViewController: fromViewController)
+    }
+    
+    func interstitialAdTapped(typePage: EventParameterTypePage) {
+        let adType = AdRequestType.interstitial.trackingParamValue
+        let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
+        let feedPosition: EventParameterFeedPosition = .position(index: currentIndex)
+        let willLeave = EventParameterBoolean(bool: true)
+        currentListingViewModel?.trackInterstitialAdTapped(adType: adType,
+                                                           isMine: isMine,
+                                                           feedPosition: feedPosition,
+                                                           willLeaveApp: willLeave,
+                                                           typePage: typePage)
+    }
+    
+    func interstitialAdShown(typePage: EventParameterTypePage) {
+        let adType = AdRequestType.interstitial.trackingParamValue
+        let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
+        let feedPosition: EventParameterFeedPosition = .position(index: currentIndex)
+        let adShown = EventParameterBoolean(bool: true)
+        currentListingViewModel?.trackInterstitialAdShown(adType: adType,
+                                                           isMine: isMine,
+                                                           feedPosition: feedPosition,
+                                                           adShown: adShown,
+                                                           typePage: typePage)
+    }
 
     func statusLabelTapped() {
         navigator?.openFeaturedInfo()
@@ -536,6 +572,13 @@ class ListingCarouselViewModel: BaseViewModel {
         currentListingViewModel?.trackCallTapped(source: source, feedPosition: trackingFeedPosition)
     }
 
+    func reputationTooltipTapped() {
+        navigator?.openUserVerificationView()
+    }
+
+    func reputationTooltipShown() {
+        reputationTooltipManager.didShowTooltip()
+    }
 
     // MARK: - Private Methods
 
@@ -582,10 +625,10 @@ class ListingCarouselViewModel: BaseViewModel {
     private func processAltActions(_ altActions: [UIAction]) {
         guard altActions.count > 0 else { return }
         
-        let cancel = LGLocalizedString.commonCancel
+        let cancel = R.Strings.commonCancel
         var finalActions: [UIAction] = altActions
         //Adding show onboarding action
-        let title = LGLocalizedString.productOnboardingShowAgainButtonTitle
+        let title = R.Strings.productOnboardingShowAgainButtonTitle
         finalActions.append(UIAction(interface: .text(title), action: { [weak self] in
             self?.delegate?.vmShowOnboarding()
         }))
@@ -780,6 +823,9 @@ extension ListingCarouselViewModel: ListingViewModelDelegate {
     func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?) {
         delegate?.vmShowAutoFadingMessage(message, completion: completion)
     }
+    func vmShowAutoFadingMessage(title: String, message: String, time: Double, completion: (() -> ())?) {
+        delegate?.vmShowAutoFadingMessage(title: title, message: message, time: time, completion: completion)
+    }
     func vmShowLoading(_ loadingMessage: String?) {
         delegate?.vmShowLoading(loadingMessage)
     }
@@ -810,8 +856,8 @@ extension ListingCarouselViewModel: ListingViewModelDelegate {
     func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction]) {
         delegate?.vmShowActionSheet(cancelLabel, actions: actions)
     }
-    func vmOpenInternalURL(_ url: URL) {
-        delegate?.vmOpenInternalURL(url)
+    func vmOpenInAppWebViewWith(url: URL) {
+        delegate?.vmOpenInAppWebViewWith(url:url)
     }
     func vmPop() {
         delegate?.vmPop()

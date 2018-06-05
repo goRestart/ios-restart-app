@@ -1,17 +1,9 @@
-//
-//  EditUserLocationViewModel.swift
-//  LetGo
-//
-//  Created by Dídac on 12/08/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
 import CoreLocation
 import LGCoreKit
 import MapKit
 import Result
 import RxSwift
-
+import LGComponents
 
 protocol EditLocationViewModelDelegate: BaseViewModelDelegate {
     func vmUpdateSearchTableWithResults(_ results: [String])
@@ -204,7 +196,7 @@ class EditLocationViewModel: BaseViewModel {
                 if let updatedPlace = result.value {
                     strongSelf.setPlace(updatedPlace, forceLocation: true, fromGps: false, enableSave: true)
                 } else {
-                    strongSelf.delegate?.vmShowAutoFadingMessage(LGLocalizedString.changeLocationErrorUpdatingLocationMessage) {
+                    strongSelf.delegate?.vmShowAutoFadingMessage(R.Strings.changeLocationErrorUpdatingLocationMessage) {
                         strongSelf.setMapToPreviousKnownPlace()
                     }
                 }
@@ -290,7 +282,7 @@ class EditLocationViewModel: BaseViewModel {
     private func setPlace(_ place: Place, forceLocation: Bool, fromGps: Bool, enableSave: Bool) {
 
         if mode == .editListingLocation && currentPlace.postalAddress?.countryCode != place.postalAddress?.countryCode {
-            delegate?.vmShowAutoFadingMessage(LGLocalizedString.changeLocationErrorCountryAlertMessage) { [weak self] in
+            delegate?.vmShowAutoFadingMessage(R.Strings.changeLocationErrorCountryAlertMessage) { [weak self] in
                 self?.setMapToPreviousKnownPlace()
             }
             return
@@ -372,8 +364,8 @@ class EditLocationViewModel: BaseViewModel {
             if autoSelectFirst {
                 if let error = result.error {
                     let errorMsg = error == .notFound ?
-                        LGLocalizedString.changeLocationErrorUnknownLocationMessage(textToSearch) :
-                        LGLocalizedString.changeLocationErrorSearchLocationMessage
+                        R.Strings.changeLocationErrorUnknownLocationMessage(textToSearch) :
+                        R.Strings.changeLocationErrorSearchLocationMessage
                     self?.delegate?.vmDidFailToFindLocationWithError(errorMsg)
                 } else if let place = result.value?.first {
                     self?.setPlace(place, forceLocation: true, fromGps: false, enableSave: true)
@@ -405,7 +397,7 @@ class EditLocationViewModel: BaseViewModel {
                 strongSelf.tracker.trackEvent(trackerEvent)
                 strongSelf.closeLocation()
             } else {
-                strongSelf.delegate?.vmShowAutoFadingMessage(LGLocalizedString.changeLocationErrorUpdatingLocationMessage, completion: nil)
+                strongSelf.delegate?.vmShowAutoFadingMessage(R.Strings.changeLocationErrorUpdatingLocationMessage, completion: nil)
             }
         }
 
@@ -418,7 +410,7 @@ class EditLocationViewModel: BaseViewModel {
                 let location = CLLocation(latitude: lat, longitude: long)
                 locationManager.setManualLocation(location, postalAddress: postalAddress, completion: myCompletion)
         } else {
-            delegate?.vmShowAutoFadingMessage(LGLocalizedString.changeLocationErrorUpdatingLocationMessage, completion: nil)
+            delegate?.vmShowAutoFadingMessage(R.Strings.changeLocationErrorUpdatingLocationMessage, completion: nil)
         }
     }
     
@@ -531,7 +523,7 @@ extension Place {
             result += country
         }
         if result.isEmpty {
-            result = placeResumedData ?? LGLocalizedString.filtersTagLocationSelected
+            result = placeResumedData ?? R.Strings.filtersTagLocationSelected
         }
         return result
     }

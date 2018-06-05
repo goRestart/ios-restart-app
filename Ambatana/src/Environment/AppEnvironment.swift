@@ -6,14 +6,13 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
-protocol AppEnvironment {
+import LGComponents
+
+protocol AppEnvironment: AnalyticsAPIKeys {
     // General
     var appleAppId: String { get }
     var facebookAppId: String { get }
 
-    // Tracking
-    var amplitudeAPIKey: String { get }
-    
     // Google login
     var googleServerClientID: String { get }
     var googleClientID: String { get }
@@ -22,14 +21,9 @@ protocol AppEnvironment {
     var configFileName: String { get }
     var configURL: String { get }
 
-    // Leanplum
-    var leanplumAppId: String { get }
-    var leanplumEnvKey: String { get }
-
     // Website
     var websiteBaseUrl: String { get }
     var websiteBaseUrlWithLocaleParams: String { get }
-    var websiteBaseUrlWithLanguageParam: String { get }
 
     // Google Ads
     var adTestModeActive: Bool { get }
@@ -40,21 +34,21 @@ protocol AppEnvironment {
     var feedAdUnitIdDFPUSA20Ratio: String { get }
     var feedAdUnitIdAdxUSAForAllUsers: String { get }
     var feedAdUnitIdAdxUSAForOldUsers: String { get }
+    var feedAdUnitIdAdxTRForAllUsers: String { get }
+    var feedAdUnitIdAdxTRForOldUsers: String { get }
+    var fullScreenAdUnitIdAdxForAllUsersForUS: String { get }
+    var fullScreenAdUnitIdAdxForOldUsersForUS: String { get }
     
     // MoPub Ads
     var feedAdUnitIdMoPubUSAForAllUsers: String { get }
     var feedAdUnitIdMoPubUSAForOldUsers: String { get }
     var feedAdUnitIdMoPubTRForAllUsers: String { get }
     var feedAdUnitIdMoPubTRForOldUsers: String { get }
-    
-    // AppsFlyer
-    var appsFlyerAPIKey: String { get }
-    var oneLinkHost: String { get }
-    var oneLinkID: String { get }
 }
 
+
 extension AppEnvironment {
-    
+
     var amplitudeAPIKey: String {
         // Why this default implementation: https://ambatana.atlassian.net/browse/ABIOS-2510
         #if GOD_MODE
@@ -64,10 +58,19 @@ extension AppEnvironment {
         #endif
     }
 
+    var appsFlyerAppleAppId: String {
+        return appleAppId
+    }
+
+    var leanplumAppId: String {
+        return appleAppId
+    }
+
     func websiteUrl(_ endpoint: String) -> String {
         return String(format: "\(websiteBaseUrl)\(endpoint)", arguments: [endpoint])
     }
-    func localizedWebsiteUrl(_ country: String, language: String, endpoint: String? = nil) -> String {
+
+    func localizedWebsiteUrl(country: String, language: String, endpoint: String? = nil) -> String {
         let format: String
         if let endpoint = endpoint {
             format = "\(websiteBaseUrlWithLocaleParams)\(endpoint)"
@@ -75,10 +78,5 @@ extension AppEnvironment {
             format = "\(websiteBaseUrlWithLocaleParams)"
         }
         return String(format: format, arguments: [country, language])
-    }
-    
-    func localizedLanguageUrl(_ language: String, endpoint: String) -> String {
-        let format: String = websiteBaseUrlWithLanguageParam
-        return String(format: format, arguments: [language]) + endpoint
     }
 }

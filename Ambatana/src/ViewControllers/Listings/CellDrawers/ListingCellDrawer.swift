@@ -75,17 +75,20 @@ final class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDr
     }
     
     private func configWhiteAreaUnderThumbnailImage(_ model: ListingData, style: CellStyle, inCell cell: ListingCell) {
-        guard style == .mainList else { return }
+        guard style == .mainList || style == .serviceList else { return }
         let flag = featureFlags.addPriceTitleDistanceToListings
+        let isServicesCell = style == .serviceList
+        var hideProductDetail = flag.hideDetailInFeaturedArea
+        if isServicesCell { hideProductDetail = false }
         if model.isFeatured {
             cell.setupFeaturedListingInfoWith(price: model.price,
                                               title: model.title,
                                               isMine: model.isMine,
-                                              hideProductDetail: flag.hideDetailInFeaturedArea)
+                                              hideProductDetail: hideProductDetail)
         } else {
             cell.setupNonFeaturedProductInfoUnderImage(price: model.price,
                                                       title: model.title,
-                                                      shouldShow: flag.showDetailInNormalCell)
+                                                      shouldShow: flag.showDetailInNormalCell || isServicesCell)
         }
     }
 
