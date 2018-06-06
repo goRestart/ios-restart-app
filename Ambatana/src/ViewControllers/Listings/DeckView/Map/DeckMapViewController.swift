@@ -1,13 +1,6 @@
-//
-//  DeckMapViewController.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 03/05/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 import MapKit
+import LGComponents
 
 protocol DeckMapViewDelegate: class {
     func deckMapViewDidTapOnView(_ vc: DeckMapViewController)
@@ -97,7 +90,7 @@ extension DeckMapViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         guard let mapPinView = mapView.dequeueReusableAnnotationView(withIdentifier: Constants.pinID) else {
             let newMapPinView = MKAnnotationView(annotation: annotation, reuseIdentifier: Constants.pinID)
-            newMapPinView.image = #imageLiteral(resourceName: "map_pin")
+            newMapPinView.image = R.Asset.IconsButtons.Map.mapPin.image
             return newMapPinView
         }
         mapPinView.annotation = annotation

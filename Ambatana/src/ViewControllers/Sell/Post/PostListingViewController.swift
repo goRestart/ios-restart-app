@@ -299,7 +299,7 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
         closeButton.layout(with: view).left(by: Metrics.margin)
 
         closeButton.addTarget(self, action: #selector(onCloseButton), for: .touchUpInside)
-        closeButton.setImage(UIImage(named: "ic_post_close"), for: .normal)
+        closeButton.setImage(R.Asset.IconsButtons.icPostClose.image, for: .normal)
     }
 
     private func setupPriceView() {
@@ -908,10 +908,10 @@ extension PostListingViewController: LGViewPagerDataSource, LGViewPagerDelegate,
         let icon: UIImage?
         let attributes = tabTitleTextAttributes()
         if index == Tab.gallery.index {
-            icon = #imageLiteral(resourceName: "ic_post_tab_gallery")
+            icon = R.Asset.IconsButtons.icPostTabGallery.image
             text = R.Strings.productPostGalleryTab
         } else {
-            icon = #imageLiteral(resourceName: "ic_post_tab_camera")
+            icon = R.Asset.IconsButtons.icPostTabCamera.image
             text = R.Strings.productPostCameraTabV2
         }
         let attachment = NSTextAttachment()

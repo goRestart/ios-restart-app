@@ -166,10 +166,10 @@ final class BumpUpBoostViewController: BaseViewController {
         timerProgressView.maxTime = viewModel.maxCountdown
         timerProgressView.updateWith(timeLeft: timeIntervalLeft)
 
-        closeButton.setImage(#imageLiteral(resourceName: "gray_chevron_down"), for: .normal)
+        closeButton.setImage(R.Asset.Monetization.grayChevronDown.image, for: .normal)
         closeButton.addTarget(self, action: #selector(closeButtonPressed), for: .touchUpInside)
 
-        viewTitleIconView.image = #imageLiteral(resourceName: "ic_extra_boost")
+        viewTitleIconView.image = R.Asset.Monetization.icExtraBoost.image
         viewTitleIconView.contentMode = .scaleAspectFit
         viewTitleLabel.text = R.Strings.bumpUpBannerBoostText
         viewTitleLabel.textColor = UIColor.blackText
@@ -201,28 +201,28 @@ final class BumpUpBoostViewController: BaseViewController {
 
         featuredBackgroundContainerView.clipsToBounds = true
 
-        featuredBgLeftColumnImageView.image = #imageLiteral(resourceName: "boost_bg_left_column")
+        featuredBgLeftColumnImageView.image = R.Asset.Monetization.boostBgLeftColumn.image
         featuredBgLeftColumnImageView.contentMode = .top
 
-        featuredBgRightColumnImageView.image = #imageLiteral(resourceName: "boost_bg_right_column")
+        featuredBgRightColumnImageView.image = R.Asset.Monetization.boostBgRightColumn.image
         featuredBgRightColumnImageView.contentMode = .top
 
-        featuredBgBottomCellImageView.image = #imageLiteral(resourceName: "boost_bg_bottom_cell")
+        featuredBgBottomCellImageView.image = R.Asset.Monetization.boostBgBottomCell.image
         featuredBgBottomCellImageView.contentMode = .scaleAspectFill
 
-        featuredBgRedArrow.image = #imageLiteral(resourceName: "boost_bg_red_arrow")
+        featuredBgRedArrow.image = R.Asset.Monetization.boostBgRedArrow.image
         featuredBgRedArrow.contentMode = .scaleAspectFit
 
-        featuredBgBigYellowArrow.image = #imageLiteral(resourceName: "boost_bg_yellow_arrow")
+        featuredBgBigYellowArrow.image = R.Asset.Monetization.boostBgYellowArrow.image
         featuredBgBigYellowArrow.contentMode = .scaleAspectFit
 
-        featuredBgSmallYellowArrow.image = #imageLiteral(resourceName: "boost_bg_yellow_arrow")
+        featuredBgSmallYellowArrow.image = R.Asset.Monetization.boostBgYellowArrow.image
         featuredBgSmallYellowArrow.contentMode = .scaleAspectFit
 
     }
 
     private func setupFakeCell() {
-        featuredRibbonImageView.image = #imageLiteral(resourceName: "red_ribbon")
+        featuredRibbonImageView.image = R.Asset.Monetization.redRibbon.image
         featuredRibbonImageView.contentMode = .scaleAspectFit
 
         imageContainer.clipsToBounds = true
@@ -241,7 +241,7 @@ final class BumpUpBoostViewController: BaseViewController {
         listingImageView.cornerRadius = LGUIKitConstants.mediumCornerRadius
         listingImageView.contentMode = .scaleAspectFill
 
-        cellBottomImageView.image = #imageLiteral(resourceName: "fake_cell_bottom")
+        cellBottomImageView.image = R.Asset.Monetization.fakeCellBottom.image
         cellBottomImageView.contentMode = .scaleAspectFill
         shadowView.backgroundColor = UIColor.white
     }

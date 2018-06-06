@@ -13,7 +13,7 @@ class PromoteBumpViewModel: BaseViewModel {
     }
 
     var sellFasterImage: UIImage? {
-        return UIImage(named: "bumpup2X")
+        return R.Asset.Monetization.bumpup2X.image
     }
     var sellFasterText: String {
         return R.Strings.promoteBumpSellFasterButton

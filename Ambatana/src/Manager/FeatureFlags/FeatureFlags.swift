@@ -36,9 +36,7 @@ protocol FeatureFlaggeable: class {
     var searchImprovements: SearchImprovements { get }
     var relaxedSearch: RelaxedSearch { get }
     var onboardingIncentivizePosting: OnboardingIncentivizePosting { get }
-    var discardedProducts: DiscardedProducts { get }
     var bumpUpBoost: BumpUpBoost { get }
-    var servicesCategoryEnabled: ServicesCategoryEnabled { get }
     var increaseNumberOfPictures: IncreaseNumberOfPictures { get }
     var realEstateTutorial: RealEstateTutorial { get }
     var machineLearningMVP: MachineLearningMVP { get }
@@ -187,16 +185,8 @@ extension DummyUsersInfoProfile {
     var isActive: Bool { return self == .active }
 }
 
-extension DiscardedProducts {
-    var isActive: Bool { return self == .active }
-}
-
 extension OnboardingIncentivizePosting {
     var isActive: Bool { return self == .blockingPosting || self == .blockingPostingSkipWelcome }
-}
-
-extension ServicesCategoryEnabled {
-    var isActive: Bool { return self == .active }
 }
 
 extension ShowServicesFeatures {
@@ -675,13 +665,6 @@ final class FeatureFlags: FeatureFlaggeable {
         return OnboardingIncentivizePosting.fromPosition(abTests.onboardingIncentivizePosting.value)
     }
     
-    var discardedProducts: DiscardedProducts {
-        if Bumper.enabled {
-            return Bumper.discardedProducts
-        }
-        return DiscardedProducts.fromPosition(abTests.discardedProducts.value)
-    }
-    
     var realEstateTutorial: RealEstateTutorial {
         if Bumper.enabled {
             return Bumper.realEstateTutorial
@@ -694,13 +677,6 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.machineLearningMVP
         }
         return MachineLearningMVP.fromPosition(abTests.machineLearningMVP.value)
-    }
-
-    var servicesCategoryEnabled: ServicesCategoryEnabled {
-        if Bumper.enabled {
-            return Bumper.servicesCategoryEnabled
-        }
-        return ServicesCategoryEnabled.fromPosition(abTests.servicesCategoryEnabled.value)
     }
     
     var increaseNumberOfPictures: IncreaseNumberOfPictures {

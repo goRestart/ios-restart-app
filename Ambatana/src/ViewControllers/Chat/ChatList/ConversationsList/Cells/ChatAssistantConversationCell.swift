@@ -4,7 +4,7 @@ import LGComponents
 
 final class ChatAssistantConversationCell: UITableViewCell, ReusableCell {
 
-    static let badgeImage: UIImage = #imageLiteral(resourceName: "ic_assistant_tag")
+    static let badgeImage: UIImage = R.Asset.IconsButtons.icAssistantTag.image
 
     struct Layout {
         static let avatarHeight: CGFloat = 60

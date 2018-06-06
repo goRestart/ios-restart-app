@@ -46,7 +46,7 @@ class MostSearchedItemsListCell: UITableViewCell, ReusableCell {
         titleLabel.font = UIFont.boldSystemFont(ofSize: 19)
         titleLabel.textColor = UIColor.black
         
-        numberOfSearchesImageView.image = UIImage(named: "ic_search")
+        numberOfSearchesImageView.image = R.Asset.IconsButtons.icSearch.image
         
         numberOfSearchesLabel.font = UIFont.systemMediumFont(size: 13)
         numberOfSearchesLabel.textColor = UIColor.grayText
@@ -56,7 +56,7 @@ class MostSearchedItemsListCell: UITableViewCell, ReusableCell {
         searchButton.setTitle(R.Strings.trendingItemsViewSearchButton, for: .normal)
         searchButton.setTitleColor(UIColor.grayText, for: .normal)
         searchButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
-        searchButton.setImage(UIImage(named: "ic_search")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        searchButton.setImage(R.Asset.IconsButtons.icSearch.image.withRenderingMode(.alwaysTemplate), for: .normal)
         searchButton.tintColor = UIColor.gray
         searchButton.centerTextAndImage(spacing: 4)
         searchButton.titleLabel?.adjustsFontSizeToFitWidth = true

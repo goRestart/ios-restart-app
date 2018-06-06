@@ -4,7 +4,7 @@ import LGComponents
 final class DiscardedView: UIView {
     private let moreOptionsButton: UIButton = {
         let button = UIButton(frame: .zero)
-        let image = #imageLiteral(resourceName: "ic_more_options").withRenderingMode(UIImageRenderingMode.alwaysTemplate)
+        let image = R.Asset.IconsButtons.icMoreOptions.image.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
         button.setImage(image, for: UIControlState.normal)
         button.imageView?.contentMode = .scaleAspectFit
         button.tintColor = .white

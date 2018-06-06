@@ -1,12 +1,5 @@
-//
-//  UIColor+LG.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 26/4/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 // MARK: > Basic Letgo Palette
 
@@ -214,13 +207,11 @@ extension UIColor {
 
 extension UIColor {
     static var ratingViewBackgroundColor: UIColor? {
-        guard let patternImage = UIImage(named: "pattern_red") else { return nil }
-        return UIColor(patternImage: patternImage)
+        return UIColor(patternImage: R.Asset.BackgroundsAndImages.patternRed.image)
     }
 
     static var emptyViewBackgroundColor: UIColor? {
-        guard let patternImage = UIImage(named: "pattern_white") else { return nil }
-        return UIColor(patternImage: patternImage)
+        return UIColor(patternImage: R.Asset.BackgroundsAndImages.patternWhite.image)
     }
 }
 

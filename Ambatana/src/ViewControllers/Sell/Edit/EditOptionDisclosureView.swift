@@ -1,13 +1,5 @@
-//
-//  EditOptionDisclosureView.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 12/12/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
-
 import UIKit
+import LGComponents
 
 class EditOptionDisclosureView: UIView {
     
@@ -45,7 +37,7 @@ class EditOptionDisclosureView: UIView {
         currentValueLabel.textColor = UIColor.grayText
         currentValueLabel.font = UIFont.systemFont(size: 16)
         
-        disclosureImageView.image = #imageLiteral(resourceName: "ic_disclosure")
+        disclosureImageView.image = R.Asset.IconsButtons.icDisclosure.image
         disclosureImageView.contentMode = .scaleAspectFit
     }
     

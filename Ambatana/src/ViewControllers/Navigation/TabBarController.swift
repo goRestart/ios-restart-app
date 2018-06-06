@@ -57,7 +57,7 @@ final class TabBarController: UITabBarController {
         self.featureFlags = featureFlags
         self.tracker = tracker
         self.floatingSellButton = FloatingButton(with: R.Strings.tabBarToolTip,
-                                                 image: UIImage(named: "ic_sell_white"), position: .left)
+                                                 image: R.Asset.IconsButtons.icSellWhite.image, position: .left)
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -226,7 +226,7 @@ final class TabBarController: UITabBarController {
         guard let viewControllers = viewControllers else { return }
         for (index, vc) in viewControllers.enumerated() {
             guard let tab = Tab(index: index, featureFlags: featureFlags) else { continue }
-            let tabBarItem = UITabBarItem(title: nil, image: UIImage(named: tab.tabIconImageName), selectedImage: nil)
+            let tabBarItem = UITabBarItem(title: nil, image: tab.tabIconImage, selectedImage: nil)
             // UI Test accessibility Ids
             tabBarItem.set(accessibilityId: tab.accessibilityId)
             // Customize the selected appereance

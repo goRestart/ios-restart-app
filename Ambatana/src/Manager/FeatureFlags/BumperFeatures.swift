@@ -34,11 +34,9 @@ extension Bumper  {
         flags.append(SearchImprovements.self)
         flags.append(RelaxedSearch.self)
         flags.append(ShowChatSafetyTips.self)
-        flags.append(DiscardedProducts.self)
         flags.append(OnboardingIncentivizePosting.self)
         flags.append(UserIsTyping.self)
         flags.append(BumpUpBoost.self)
-        flags.append(ServicesCategoryEnabled.self)
         flags.append(CopyForChatNowInTurkey.self)
         flags.append(IncreaseNumberOfPictures.self)
         flags.append(RealEstateTutorial.self)
@@ -183,11 +181,6 @@ extension Bumper  {
         return ShowChatSafetyTips(rawValue: value)?.asBool ?? false
     }
 
-    static var discardedProducts: DiscardedProducts {
-        guard let value = Bumper.value(for: DiscardedProducts.key) else { return .control }
-        return DiscardedProducts(rawValue: value) ?? .control 
-    }
-
     static var onboardingIncentivizePosting: OnboardingIncentivizePosting {
         guard let value = Bumper.value(for: OnboardingIncentivizePosting.key) else { return .control }
         return OnboardingIncentivizePosting(rawValue: value) ?? .control 
@@ -201,11 +194,6 @@ extension Bumper  {
     static var bumpUpBoost: BumpUpBoost {
         guard let value = Bumper.value(for: BumpUpBoost.key) else { return .control }
         return BumpUpBoost(rawValue: value) ?? .control 
-    }
-
-    static var servicesCategoryEnabled: ServicesCategoryEnabled {
-        guard let value = Bumper.value(for: ServicesCategoryEnabled.key) else { return .control }
-        return ServicesCategoryEnabled(rawValue: value) ?? .control 
     }
 
     static var copyForChatNowInTurkey: CopyForChatNowInTurkey {
@@ -693,22 +681,6 @@ enum ShowChatSafetyTips: String, BumperFeature  {
     var asBool: Bool { return self == .yes }
 }
 
-enum DiscardedProducts: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return DiscardedProducts.control.rawValue }
-    static var enumValues: [DiscardedProducts] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show users listings that have been discarded so they can be edited and reposted" } 
-    static func fromPosition(_ position: Int) -> DiscardedProducts {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
 enum OnboardingIncentivizePosting: String, BumperFeature  {
     case control, baseline, blockingPosting, blockingPostingSkipWelcome
     static var defaultValue: String { return OnboardingIncentivizePosting.control.rawValue }
@@ -756,22 +728,6 @@ enum BumpUpBoost: String, BumperFeature  {
             case 3: return .sendTop1hour
             case 4: return .boostListing1hour
             case 5: return .cheaperBoost5Mins
-            default: return .control
-        }
-    }
-}
-
-enum ServicesCategoryEnabled: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return ServicesCategoryEnabled.control.rawValue }
-    static var enumValues: [ServicesCategoryEnabled] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Allow to see Services category" } 
-    static func fromPosition(_ position: Int) -> ServicesCategoryEnabled {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
             default: return .control
         }
     }

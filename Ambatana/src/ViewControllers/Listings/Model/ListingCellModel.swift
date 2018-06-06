@@ -110,7 +110,7 @@ enum CollectionCellType: String {
     var image: UIImage? {
         switch self {
         case .selectedForYou:
-            return UIImage(named: "collection_you")
+            return R.Asset.ProductCellBanners.collectionYou.image
         }
     }
 
@@ -165,7 +165,7 @@ enum AdProviderType {
 }
 
 struct MostSearchedItemsCardData {
-    let icon: UIImage? = UIImage(named: "trending_icon")
+    let icon: UIImage? = R.Asset.IconsButtons.trendingIcon.image
     let title: String = R.Strings.trendingItemsCardTitle
     let actionTitle: String = R.Strings.trendingItemsCardAction
 }

@@ -138,7 +138,7 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
         view.backgroundColor = UIColor.white
 
         // Navigation bar
-        closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .plain, target: self,
+        closeButton = UIBarButtonItem(image: R.Asset.IconsButtons.navbarClose.image, style: .plain, target: self,
             action: #selector(MainSignUpViewController.closeButtonPressed))
         navigationItem.leftBarButtonItem = closeButton
         helpButton = UIBarButtonItem(title: R.Strings.mainSignUpHelpButton, style: .plain, target: self,

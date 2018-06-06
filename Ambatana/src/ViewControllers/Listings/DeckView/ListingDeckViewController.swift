@@ -171,12 +171,12 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.view.backgroundColor = .clear
 
-        self.navigationItem.leftBarButtonItem  = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_close_red"),
+        self.navigationItem.leftBarButtonItem  = UIBarButtonItem(image: R.Asset.CongratsScreenImages.icCloseRed.image,
                                                                  style: .plain,
                                                                  target: self,
                                                                  action: #selector(didTapClose))
 
-        self.navigationItem.rightBarButtonItem  = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_more_options"),
+        self.navigationItem.rightBarButtonItem  = UIBarButtonItem(image: R.Asset.IconsButtons.icMoreOptions.image,
                                                                   style: .plain,
                                                                   target: self,
                                                                   action: #selector(didTapMoreActions))

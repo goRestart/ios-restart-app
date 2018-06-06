@@ -1,13 +1,6 @@
-//
-//  BlockingPostingListingEditionViewController.swift
-//  LetGo
-//
-//  Created by Raúl de Oñate Blanco on 07/03/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 final class BlockingPostingListingEditionViewController: BaseViewController, BlockingPostingLoadingViewDelegate {
     
@@ -60,7 +53,7 @@ final class BlockingPostingListingEditionViewController: BaseViewController, Blo
         view.backgroundColor = .clear
         
         closeButton.addTarget(self, action: #selector(BlockingPostingListingEditionViewController.closeButtonAction), for: .touchUpInside)
-        closeButton.setImage(UIImage(named: "ic_post_close"), for: .normal)
+        closeButton.setImage(R.Asset.IconsButtons.icPostClose.image, for: .normal)
         
         loadingView.delegate = self
     }

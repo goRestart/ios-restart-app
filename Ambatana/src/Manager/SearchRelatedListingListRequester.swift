@@ -200,8 +200,9 @@ fileprivate extension SearchRelatedListingListRequester {
                 params.maxPrice = max
             }
         }
-        params.typeId = filters?.servicesTypeId
-        params.subtypeId = filters?.servicesSubtypeId
+        
+        params.typeId = filters?.servicesType?.id
+        params.subtypeIds = filters?.servicesSubtypes?.map( { $0.id } )
         
         return params
     }

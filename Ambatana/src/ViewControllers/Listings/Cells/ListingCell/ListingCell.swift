@@ -187,8 +187,8 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     
     func setupFreeStripe() {
         stripeIconWidth?.constant = ListingCellMetrics.stripeIconWidth
-        stripeImageView.image = UIImage(named: "stripe_white")
-        stripeIcon.image = UIImage(named: "ic_heart")
+        stripeImageView.image = R.Asset.BackgroundsAndImages.stripeWhite.image
+        stripeIcon.image = R.Asset.IconsButtons.icHeart.image
         stripeLabel.text = R.Strings.productFreePrice
         stripeLabel.textColor = UIColor.primaryColor
         stripeImageView.isHidden = false
@@ -197,7 +197,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     
     func setupFeaturedStripe(withTextColor textColor: UIColor) {
         stripeIconWidth?.constant = 0
-        stripeImageView.image = UIImage(named: "stripe_white")
+        stripeImageView.image = R.Asset.BackgroundsAndImages.stripeWhite.image
         stripeIcon.image = nil
         stripeLabel.text = R.Strings.bumpUpProductCellFeaturedStripe
         stripeLabel.textColor = textColor
@@ -535,8 +535,8 @@ private extension InterestedState {
         case .none: return nil
         case .send(let enabled):
             let alpha: CGFloat = enabled ? 1 : 0.7
-            return #imageLiteral(resourceName: "ic_iami_send").withAlpha(alpha) ?? #imageLiteral(resourceName: "ic_iami_send")
-        case .seeConversation: return #imageLiteral(resourceName: "ic_iami_seeconv")
+            return R.Asset.IconsButtons.IAmInterested.icIamiSend.image.withAlpha(alpha) ?? R.Asset.IconsButtons.IAmInterested.icIamiSend.image
+        case .seeConversation: return R.Asset.IconsButtons.IAmInterested.icIamiSeeconv.image
         }
     }
 }

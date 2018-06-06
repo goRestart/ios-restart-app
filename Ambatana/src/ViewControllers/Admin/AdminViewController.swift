@@ -1,15 +1,8 @@
-//
-//  AdminViewController.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 23/3/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import Foundation
 import FLEX
 import bumper
 import LGCoreKit
+import LGComponents
 
 class AdminViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -37,7 +30,7 @@ class AdminViewController: UIViewController, UITableViewDataSource, UITableViewD
         view.addSubview(tableView)
         title = "🙏 God Panel 🙏"
         
-        let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: UIBarButtonItemStyle.plain,
+        let closeButton = UIBarButtonItem(image: R.Asset.IconsButtons.navbarClose.image, style: UIBarButtonItemStyle.plain,
             target: self, action: #selector(AdminViewController.closeButtonPressed))
         self.navigationItem.leftBarButtonItem = closeButton;
     }

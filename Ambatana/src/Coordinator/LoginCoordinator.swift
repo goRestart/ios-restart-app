@@ -310,7 +310,7 @@ fileprivate extension LoginCoordinator {
             let actions = [contact, keepBrowsing]
             self?.parentViewController?.showAlertWithTitle(R.Strings.loginScammerAlertTitle,
                                                            text: R.Strings.loginScammerAlertMessage,
-                                                           alertType: .iconAlert(icon: #imageLiteral(resourceName: "ic_moderation_alert")),
+                                                           alertType: .iconAlert(icon: R.Asset.IconsButtons.icModerationAlert.image),
                                                            buttonsLayout: .vertical, actions: actions)
             self?.tracker.trackEvent(TrackerEvent.loginBlockedAccountStart(network, reason: .accountUnderReview))
         }
@@ -337,7 +337,7 @@ fileprivate extension LoginCoordinator {
             let actions = [contact, keepBrowsing]
             self?.parentViewController?.showAlertWithTitle(R.Strings.loginDeviceNotAllowedAlertTitle,
                                                            text: R.Strings.loginDeviceNotAllowedAlertMessage,
-                                                           alertType: .iconAlert(icon: #imageLiteral(resourceName: "ic_device_blocked_alert")),
+                                                           alertType: .iconAlert(icon: R.Asset.IconsButtons.icDeviceBlockedAlert.image),
                                                            buttonsLayout: .vertical, actions: actions)
             self?.tracker.trackEvent(TrackerEvent.loginBlockedAccountStart(network, reason: .secondDevice))
         }

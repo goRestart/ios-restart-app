@@ -4,7 +4,7 @@ import LGComponents
 class ProductStatusView: UIView {
 
     private let statusLabel = UILabel()
-    private let statusImageView = UIImageView(image: #imageLiteral(resourceName:"ic_lightning"))
+    private let statusImageView = UIImageView(image: R.Asset.Monetization.icLightning.image)
 
     private var intrinsicWidth: CGFloat { return statusImageView.width + Metrics.bigMargin + statusLabel.width }
 
