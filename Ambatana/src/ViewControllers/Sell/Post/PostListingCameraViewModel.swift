@@ -288,7 +288,7 @@ final class PostListingCameraViewModel: BaseViewModel {
             strongSelf.machineLearningButtonHidden.value = !showMachineLearningButton
         }.disposed(by: disposeBag)
 
-        cameraState.asObservable().filter{ $0 == .capture }.subscribeNext{ [weak self] captureMode in
+        cameraState.asObservable().filter{ $0 == .capture }.subscribeNext{ [weak self] _ in
             guard let strongSelf = self else { return }
             if strongSelf.machineLearningSupported &&
                 strongSelf.cameraMode.value == .photo &&

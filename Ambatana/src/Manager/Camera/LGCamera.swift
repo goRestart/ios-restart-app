@@ -287,7 +287,6 @@ extension LGCamera {
 extension LGCamera: AVCaptureVideoDataOutputSampleBufferDelegate {
 
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-
         if isPixelsBufferForwarderActive {
             pixelsBufferForwarder?.captureOutput(output, didOutput: sampleBuffer, from: connection)
         }
