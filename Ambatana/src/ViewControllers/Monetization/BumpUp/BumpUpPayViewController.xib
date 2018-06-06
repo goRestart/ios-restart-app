@@ -17,10 +17,13 @@
                 <outlet property="bumpUpButton" destination="YEx-lm-lxS" id="ndk-e4-z0t"/>
                 <outlet property="cellBottomContainer" destination="5ss-Zu-H7a" id="ps8-QQ-tz2"/>
                 <outlet property="closeButton" destination="zGi-8O-6bQ" id="zu7-qa-FWS"/>
+                <outlet property="fakeCellBottomImageView" destination="81c-tK-eH5" id="agf-X0-T03"/>
                 <outlet property="featuredBackgroundImageView" destination="JRs-d3-RWg" id="yMw-ZM-QaQ"/>
                 <outlet property="imageContainer" destination="mUU-xu-AMV" id="Ak4-S5-Wgb"/>
                 <outlet property="infoContainer" destination="Hax-e1-c0Z" id="Wc5-Dd-gLD"/>
+                <outlet property="lightningImageView" destination="wlH-9o-jAB" id="lAB-SD-Dfc"/>
                 <outlet property="listingImageView" destination="W0X-r6-1Ce" id="lMn-q7-IPA"/>
+                <outlet property="redRibbonImageView" destination="PYO-xa-9iP" id="xn5-8h-90B"/>
                 <outlet property="subtitleLabel" destination="O3P-mf-7Mw" id="SYe-oa-hwT"/>
                 <outlet property="titleLabel" destination="Eub-LF-5mI" id="CTM-x4-a3J"/>
                 <outlet property="titleSafeAreaTopConstraint" destination="fGv-xy-obw" id="WdT-kp-56n"/>
@@ -36,7 +39,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c9P-0f-iIf">
                     <rect key="frame" x="112" y="36" width="150.5" height="20.5"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_lightning" translatesAutoresizingMaskIntoConstraints="NO" id="wlH-9o-jAB">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="13" placeholderIntrinsicHeight="20.5" translatesAutoresizingMaskIntoConstraints="NO" id="wlH-9o-jAB">
                             <rect key="frame" x="0.0" y="0.0" width="13" height="20.5"/>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_ Sell faster now" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lqg-dJ-7zk">
@@ -77,7 +80,7 @@
                             <color key="textColor" red="0.60784313725490191" green="0.60784313725490191" blue="0.60784313725490191" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" image="featured_background" translatesAutoresizingMaskIntoConstraints="NO" id="JRs-d3-RWg" userLabel="BgImageView">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="JRs-d3-RWg" userLabel="BgImageView">
                             <rect key="frame" x="20" y="119" width="315" height="381.5"/>
                         </imageView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mUU-xu-AMV">
@@ -86,7 +89,7 @@
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="W0X-r6-1Ce">
                                     <rect key="frame" x="0.0" y="0.0" width="110" height="183"/>
                                 </imageView>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="red_ribbon" translatesAutoresizingMaskIntoConstraints="NO" id="PYO-xa-9iP">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PYO-xa-9iP">
                                     <rect key="frame" x="77" y="0.0" width="33" height="32.5"/>
                                     <constraints>
                                         <constraint firstAttribute="width" secondItem="PYO-xa-9iP" secondAttribute="height" multiplier="1:1" id="wmQ-2f-B7v"/>
@@ -95,7 +98,7 @@
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5ss-Zu-H7a" userLabel="Cell Bottom Container">
                                     <rect key="frame" x="0.0" y="110" width="110" height="73"/>
                                     <subviews>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fake_cell_bottom" translatesAutoresizingMaskIntoConstraints="NO" id="81c-tK-eH5">
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="81c-tK-eH5">
                                             <rect key="frame" x="-0.5" y="14.5" width="110" height="58.5"/>
                                         </imageView>
                                     </subviews>
@@ -123,7 +126,7 @@
                             </constraints>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YEx-lm-lxS" customClass="LetgoButton" customModule="LetGo" customModuleProvider="target">
-                            <rect key="frame" x="20" y="526.5" width="315" height="50"/>
+                            <rect key="frame" x="20" y="520.5" width="315" height="50"/>
                             <color key="backgroundColor" red="1" green="0.2470588235" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="50" id="0hr-wy-xhk"/>
@@ -163,7 +166,6 @@
                         <constraint firstAttribute="width" constant="54" id="25I-gR-xSP"/>
                         <constraint firstAttribute="height" constant="44" id="YMg-b8-Lhz"/>
                     </constraints>
-                    <state key="normal" image="gray_chevron_down"/>
                     <connections>
                         <action selector="closeButtonPressed:" destination="-1" eventType="touchUpInside" id="ecd-Kg-pOc"/>
                     </connections>
@@ -185,11 +187,4 @@
             <point key="canvasLocation" x="55.5" y="20.5"/>
         </view>
     </objects>
-    <resources>
-        <image name="fake_cell_bottom" width="105" height="50"/>
-        <image name="featured_background" width="316" height="312"/>
-        <image name="gray_chevron_down" width="13" height="8"/>
-        <image name="ic_lightning" width="13" height="20"/>
-        <image name="red_ribbon" width="33" height="32"/>
-    </resources>
 </document>
