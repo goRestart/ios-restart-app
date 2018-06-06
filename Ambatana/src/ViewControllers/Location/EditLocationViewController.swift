@@ -22,7 +22,7 @@ final class EditLocationViewController: BaseViewController, EditLocationViewMode
     var searchButton: UIButton { return editView.searchButton }
 
     var approximateLocationSwitch: UISwitch { return editView.approximateSwitch }
-    var gpsLocationButton: UIButton { return editView.locationButton }
+    var gpsLocationButton: UIButton { return editView.gpsLocatizationButton }
 
     var setLocationButton: UIButton { return editView.locationButton }
     var setLocationLoading: UIActivityIndicatorView { return editView.locationActivityIndicator }
