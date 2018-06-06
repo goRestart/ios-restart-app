@@ -91,6 +91,10 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         return filters.selectedCategories.contains(.realEstate)
     }
     
+    private var isServicesSelected: Bool {
+        return filters.selectedCategories.contains(.services)
+    }
+    
     var rightBarButtonsItems: [(image: UIImage, selector: Selector)] {
         var rightButtonItems: [(image: UIImage, selector: Selector)] = []
         if featureFlags.realEstateMap.isActive && isRealEstateSelected {
@@ -177,6 +181,14 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             }
             
             filters.realEstateOfferTypes.forEach { resultTags.append(.realEstateOfferType($0)) }
+        }
+        
+        if isServicesSelected {
+            if let serviceType = filters.servicesType {
+                resultTags.append(.serviceType(serviceType))
+            }
+            
+            filters.servicesSubtypes?.forEach( { resultTags.append(.serviceSubtype($0)) } )
         }
         
         if let numberOfBedrooms = filters.realEstateNumberOfBedrooms {
@@ -507,6 +519,9 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         var realEstateNumberOfRooms: NumberOfRooms? = nil
         var realEstateSizeSquareMetersMin: Int? = nil
         var realEstateSizeSquareMetersMax: Int? = nil
+        
+        var servicesServiceType: ServiceType? = nil
+        var servicesServiceSubtype: [ServiceSubtype] = []
 
         for filterTag in tags {
             switch filterTag {
@@ -555,6 +570,10 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             case .sizeSquareMetersRange(let minSize, let maxSize):
                 realEstateSizeSquareMetersMin = minSize
                 realEstateSizeSquareMetersMax = maxSize
+            case .serviceType(let type):
+                servicesServiceType = type
+            case .serviceSubtype(let subtype):
+                servicesServiceSubtype.append(subtype)
             }
         }
 
@@ -630,6 +649,14 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         
         filters.realEstateNumberOfRooms = realEstateNumberOfRooms
         filters.realEstateSizeRange = SizeRange(min: realEstateSizeSquareMetersMin, max: realEstateSizeSquareMetersMax)
+        
+        filters.servicesType = servicesServiceType
+        
+        if servicesServiceSubtype.count > 0 {
+            filters.servicesSubtypes = servicesServiceSubtype
+        } else {
+            filters.servicesSubtypes = nil
+        }
         
         updateCategoriesHeader()
         updateRealEstateBanner()

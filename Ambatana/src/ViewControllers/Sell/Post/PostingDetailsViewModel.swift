@@ -107,7 +107,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         case .year, .make, .model:
             return nil
         }
-        let view = PostingAttributePickerTableView(values: values, selectedIndex: nil, delegate: self)
+        let view = PostingAttributePickerTableView(values: values, selectedIndexes: [], delegate: self)
         return view
     }
     
@@ -229,7 +229,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         if featureFlags.removeCategoryWhenClosingPosting.isActive {
             postListingState = postListingState.removeRealEstateCategory()
         }
-        if postListingState.pendingToUploadImages != nil {
+        if postListingState.pendingToUploadMedia {
             openPostAbandonAlertNotLoggedIn()
         } else {
             guard let _ = postListingState.lastImagesUploadResult?.value else {
@@ -276,23 +276,16 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
                                                    machineLearningInfo: MachineLearningTrackingInfo.defaultValues())
         if sessionManager.loggedIn {
             openListingPosting(trackingInfo: trackingInfo)
-        } else if let images = postListingState.pendingToUploadImages {
+        } else if postListingState.pendingToUploadMedia {
             let loggedInAction: (() -> Void) = { [weak self] in
-                self?.postActionAfterLogin(images: images, video: nil, trackingInfo: trackingInfo)
+                self?.postActionAfterLogin(images: self?.postListingState.pendingToUploadImages,
+                                           video: self?.postListingState.pendingToUploadVideo, trackingInfo: trackingInfo)
             }
             let cancelAction: (() -> Void) = { [weak self] in
                 self?.cancelPostListing()
             }
             navigator?.openLoginIfNeededFromListingPosted(from: .sell, loggedInAction: loggedInAction, cancelAction: cancelAction)
 
-        } else if let video = postListingState.pendingToUploadVideo {
-            let loggedInAction: (() -> Void) = { [weak self] in
-                self?.postActionAfterLogin(images: nil, video: video, trackingInfo: trackingInfo)
-            }
-            let cancelAction: (() -> Void) = { [weak self] in
-                self?.cancelPostListing()
-            }
-            navigator?.openLoginIfNeededFromListingPosted(from: .sell, loggedInAction: loggedInAction, cancelAction: cancelAction)
         } else {
             navigator?.cancelPostListing()
         }
@@ -308,7 +301,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         navigator?.cancelPostListing()
     }
     
-    private func postActionAfterLogin(images: [UIImage]?, video: RecordedVideo?, trackingInfo: PostListingTrackingInfo) {
+    private func postActionAfterLogin(images: [UIImage]?, video: RecordedVideo?, trackingInfo: PostListingTrackingInfo) {        
         guard let listingParams = retrieveListingParams(), let images = images else { return }
         navigator?.closePostProductAndPostLater(params: listingParams,
                                                       images: images,

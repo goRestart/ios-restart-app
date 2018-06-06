@@ -87,14 +87,8 @@ struct ListingFilters {
     var realEstateNumberOfRooms: NumberOfRooms?
     var realEstateSizeRange: SizeRange
     
-    var servicesTypeId: RetrieveListingParam<String>?
-    var servicesSubtypeId: RetrieveListingParam<String>?
-    var servicesType: ServiceSubtype? {
-        return nil
-    }
-    var servicesSubtype: ServiceType? {
-        return nil
-    }
+    var servicesType: ServiceType?
+    var servicesSubtypes: [ServiceSubtype]?
     
     var noFilterCategoryApplied: Bool {
         return selectedCategories.isEmpty
@@ -124,8 +118,8 @@ struct ListingFilters {
             realEstateNumberOfBathrooms: nil,
             realEstateNumberOfRooms: nil,
             realEstateSizeRange: SizeRange(min: nil, max: nil),
-            servicesTypeId: nil,
-            servicesSubtypeId: nil
+            servicesType: nil,
+            servicesSubtypes: nil
         )
     }
     
@@ -151,9 +145,8 @@ struct ListingFilters {
          realEstateNumberOfBathrooms: NumberOfBathrooms?,
          realEstateNumberOfRooms: NumberOfRooms?,
          realEstateSizeRange: SizeRange,
-         servicesTypeId: RetrieveListingParam<String>?,
-         servicesSubtypeId: RetrieveListingParam<String>?
-         ) {
+         servicesType: ServiceType?,
+         servicesSubtypes: [ServiceSubtype]?) {
         self.place = place
         self.distanceRadius = distanceRadius > 0 ? distanceRadius : nil
         self.distanceType = distanceType
@@ -176,8 +169,8 @@ struct ListingFilters {
         self.realEstateNumberOfBathrooms = realEstateNumberOfBathrooms
         self.realEstateNumberOfRooms = realEstateNumberOfRooms
         self.realEstateSizeRange = realEstateSizeRange
-        self.servicesTypeId = servicesTypeId
-        self.servicesSubtypeId = servicesSubtypeId
+        self.servicesType = servicesType
+        self.servicesSubtypes = servicesSubtypes
     }
     
     func updating(selectedCategories: [ListingCategory]) -> ListingFilters {
@@ -203,8 +196,8 @@ struct ListingFilters {
                               realEstateNumberOfBathrooms: realEstateNumberOfBathrooms,
                               realEstateNumberOfRooms: realEstateNumberOfRooms,
                               realEstateSizeRange: realEstateSizeRange,
-                              servicesTypeId: servicesTypeId,
-                              servicesSubtypeId: servicesSubtypeId)
+                              servicesType: servicesType,
+                              servicesSubtypes: servicesSubtypes)
     }
     
     func resetingRealEstateAttributes() -> ListingFilters {
@@ -230,38 +223,11 @@ struct ListingFilters {
                               realEstateNumberOfBathrooms: nil,
                               realEstateNumberOfRooms: nil,
                               realEstateSizeRange: SizeRange(min: nil, max: nil),
-                              servicesTypeId: servicesTypeId,
-                              servicesSubtypeId: servicesSubtypeId)
+                              servicesType: servicesType,
+                              servicesSubtypes: servicesSubtypes)
     }
     
     func resetingCarAttributes() -> ListingFilters {
-        return ListingFilters(place: place,
-                              distanceRadius: distanceRadius ?? Constants.distanceSliderDefaultPosition,
-                              distanceType: distanceType,
-                              selectedCategories: selectedCategories,
-                              selectedTaxonomyChildren: selectedTaxonomyChildren,
-                              selectedTaxonomy: selectedTaxonomy,
-                              selectedWithin: selectedWithin,
-                              selectedOrdering: selectedOrdering,
-                              priceRange: priceRange,
-                              carSellerTypes: carSellerTypes,
-                              carMakeId: carMakeId,
-                              carMakeName: carMakeName,
-                              carModelId: carModelId,
-                              carModelName: carModelName,
-                              carYearStart: carYearStart,
-                              carYearEnd: carYearEnd,
-                              realEstatePropertyType: realEstatePropertyType,
-                              realEstateOfferType: realEstateOfferTypes,
-                              realEstateNumberOfBedrooms: realEstateNumberOfBedrooms,
-                              realEstateNumberOfBathrooms: realEstateNumberOfBathrooms,
-                              realEstateNumberOfRooms: realEstateNumberOfRooms,
-                              realEstateSizeRange: realEstateSizeRange,
-                              servicesTypeId: nil,
-                              servicesSubtypeId: nil)
-    }
-    
-    func resetingServicesAttributes() -> ListingFilters {
         return ListingFilters(place: place,
                               distanceRadius: distanceRadius ?? Constants.distanceSliderDefaultPosition,
                               distanceType: distanceType,
@@ -284,10 +250,37 @@ struct ListingFilters {
                               realEstateNumberOfBathrooms: realEstateNumberOfBathrooms,
                               realEstateNumberOfRooms: realEstateNumberOfRooms,
                               realEstateSizeRange: realEstateSizeRange,
-                              servicesTypeId: servicesTypeId,
-                              servicesSubtypeId: servicesSubtypeId)
+                              servicesType: servicesType,
+                              servicesSubtypes: servicesSubtypes)
     }
     
+    func resetingServicesAttributes() -> ListingFilters {
+        return ListingFilters(place: place,
+                              distanceRadius: distanceRadius ?? Constants.distanceSliderDefaultPosition,
+                              distanceType: distanceType,
+                              selectedCategories: selectedCategories,
+                              selectedTaxonomyChildren: selectedTaxonomyChildren,
+                              selectedTaxonomy: selectedTaxonomy,
+                              selectedWithin: selectedWithin,
+                              selectedOrdering: selectedOrdering,
+                              priceRange: priceRange,
+                              carSellerTypes: carSellerTypes,
+                              carMakeId: carMakeId,
+                              carMakeName: carMakeName,
+                              carModelId: carModelId,
+                              carModelName: carModelName,
+                              carYearStart: carYearStart,
+                              carYearEnd: carYearEnd,
+                              realEstatePropertyType: realEstatePropertyType,
+                              realEstateOfferType: realEstateOfferTypes,
+                              realEstateNumberOfBedrooms: realEstateNumberOfBedrooms,
+                              realEstateNumberOfBathrooms: realEstateNumberOfBathrooms,
+                              realEstateNumberOfRooms: realEstateNumberOfRooms,
+                              realEstateSizeRange: realEstateSizeRange,
+                              servicesType: nil,
+                              servicesSubtypes: nil)
+    }
+
     mutating func toggleCategory(_ category: ListingCategory) {
         if let categoryIndex = indexForCategory(category) {
             // DESELECT
@@ -312,7 +305,7 @@ struct ListingFilters {
     }
     
     var hasAnyServicesAttributes: Bool {
-        return servicesTypeId != nil || servicesSubtypeId != nil
+        return servicesType != nil || servicesSubtypes != nil
     }
 
     func isDefault() -> Bool {
@@ -376,7 +369,7 @@ extension ListingFilters: Equatable {
             a.realEstateNumberOfBathrooms == b.realEstateNumberOfBathrooms &&
             a.realEstateSizeRange == b.realEstateSizeRange &&
             a.realEstateNumberOfRooms == b.realEstateNumberOfRooms &&
-            a.servicesTypeId == b.servicesTypeId &&
-            a.servicesSubtypeId == b.servicesSubtypeId
+            a.servicesType?.id == b.servicesType?.id &&
+            a.servicesSubtypes?.count == b.servicesSubtypes?.count
     }
 }

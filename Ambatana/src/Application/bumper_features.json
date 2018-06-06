@@ -141,11 +141,6 @@
          "description": "Real Estate - Show promo cell instead of top banner"
      },
     {
-        "name": "MachineLearningMVP",
-        "values": ["control", "baseline", "active", "videoPostingActive"],
-        "description": "Show machine learning posting flow when pressing Other Items on salchichas menu or enable video posting (used this ab test for video posting because they can't coexist)"
-    },
-    {
         "name": "ChatNorris",
         "values": ["control", "baseline", "redButton", "whiteButton", "greenButton"],
         "description": "Show the create meeting option in chat detail view."
@@ -299,5 +294,14 @@
         "name": "FullScreenAdsWhenBrowsingForUS",
         "values": ["control", "baseline", "AdsForAllUsers", "AdsForOldUsers"],
         "description": "Show full screen Interstitial while browsing through items"
+    },{
+        "name": "VideoPosting",
+        "values": ["control", "baseline", "active"],
+        "description": "Show video posting flow when pressing Other Items and Other Vehicles and Parts on salchichas menu"
+    },
+    {
+        "name": "PredictivePosting",
+        "values": ["control", "baseline", "active"],
+        "description": "Show predictive posting flow when pressing Other Items on salchichas menu"
     }
  ]

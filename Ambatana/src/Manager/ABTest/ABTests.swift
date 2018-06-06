@@ -163,7 +163,6 @@ extension ABTests {
 
 extension ABTests {
     var searchImprovements: LeanplumABVariable<Int> { return core.searchImprovements }
-    var machineLearningMVP: LeanplumABVariable<Int> { return core.machineLearningMVP }
     var addPriceTitleDistanceToListings: LeanplumABVariable<Int> { return core.addPriceTitleDistanceToListings }
     var relaxedSearch: LeanplumABVariable<Int> { return core.relaxedSearch }
 }
@@ -230,6 +229,8 @@ extension ABTests {
 
 extension ABTests {
     var servicesCategoryOnSalchichasMenu: LeanplumABVariable<Int> { return products.servicesCategoryOnSalchichasMenu }
+    var predictivePosting: LeanplumABVariable<Int> { return products.predictivePosting }
+    var videoPosting: LeanplumABVariable<Int> { return products.videoPosting }
 }
 
 //  MARK: Legacy
