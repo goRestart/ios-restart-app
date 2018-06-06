@@ -1482,10 +1482,13 @@ extension MainListingsViewModel {
 extension MainListingsViewModel {
 
     var showCategoriesCollectionBanner: Bool {
-        if featureFlags.emptySearchImprovements.isActive && shouldHideCategoryAfterSearch {
+        let userHasSearched = queryString != nil || hasFilters
+        if featureFlags.emptySearchImprovements.isActive && userHasSearched {
+            return !shouldHideCategoryAfterSearch
+        } else if isSearchAlertsEnabled && userHasSearched {
             return false
         } else {
-            return primaryTags.isEmpty && !listViewModel.isListingListEmpty.value && !isSearchAlertsEnabled
+            return primaryTags.isEmpty && !listViewModel.isListingListEmpty.value
         }
     }
     
