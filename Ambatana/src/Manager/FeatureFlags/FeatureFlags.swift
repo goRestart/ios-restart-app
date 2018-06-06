@@ -1213,18 +1213,10 @@ extension EmptySearchImprovements {
         return self != .control && self != .baseline
     }
     
-    var filterTitle: String? {
-        switch self {
-        case .baseline, .control, .alwaysSimilar: return nil
-        case .popularNearYou: return R.Strings.productPopularNearYou
-        case .similarQueries, .similarQueriesWhenFewResults: return R.Strings.listingShowSimilarResults
-        }
-    }
-    
     var filterDescription: String? {
         switch self {
-        case .baseline, .control, .alwaysSimilar: return nil
-        case .popularNearYou, .similarQueries, .similarQueriesWhenFewResults: return R.Strings.listingShowSimilarResultsDescription
+        case .baseline, .control: return nil
+        case .popularNearYou, .similarQueries, .similarQueriesWhenFewResults, .alwaysSimilar: return R.Strings.listingShowSimilarResultsDescription
         }
     }
 }
