@@ -31,7 +31,17 @@ final class EditLocationView: UIView {
         return tableView
     }()
 
-    let mapView = MKMapView.sharedInstance
+    lazy var mapView: MKMapView = {
+        let mapView = MKMapView.sharedInstance
+        mapView.isZoomEnabled = true
+        mapView.isScrollEnabled = true
+        mapView.isPitchEnabled = true
+        mapView.removeAllGestureRecognizers() // As it's a singleton, it may be used in another view
+        mapView.removeFromSuperview()
+
+        return mapView
+    }()
+
     let gpsLocatizationButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setImage(R.Asset.IconsButtons.mapUserLocationButton.image, for: .normal)
