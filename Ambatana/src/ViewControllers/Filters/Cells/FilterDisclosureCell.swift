@@ -11,9 +11,32 @@ class FilterDisclosureCell: UICollectionViewCell, ReusableCell, FilterCell {
     var bottomSeparator: UIView?
     var rightSeparator: UIView?
 
-    let titleLabel = UILabel()
-    let subtitleLabel = UILabel()
-    fileprivate let disclosure = UIImageView(image: R.Asset.IconsButtons.icDisclosure.image)
+    let titleLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor.lgBlack
+        label.setContentHuggingPriority(.required, for: .horizontal)
+        label.font = UIFont.systemFont(size: 16)
+        
+        return label
+    }()
+    
+    let subtitleLabel: UILabel = {
+        let label = UILabel()
+        
+        label.setContentHuggingPriority(.required, for: .horizontal)
+        label.textColor = UIColor.filterCellsGrey
+        label.font = UIFont.systemLightFont(size: 16)
+        label.lineBreakMode = .byTruncatingTail
+        
+        return label
+    }()
+    
+    fileprivate let disclosure: UIImageView = {
+        let imageView = UIImageView(image: R.Asset.IconsButtons.icDisclosure.image)
+        imageView.contentMode = .center
+
+        return imageView
+    }()
 
     // MARK: - Lifecycle
 
@@ -34,23 +57,19 @@ class FilterDisclosureCell: UICollectionViewCell, ReusableCell, FilterCell {
     // MARK: - Private methods
 
     private func setupUI() {
+        addSubviews()
+        setupConstraints()
+    }
+    
+    private func addSubviews() {
+        contentView.addSubviewForAutoLayout(titleLabel)
+        contentView.addSubviewForAutoLayout(subtitleLabel)
+        contentView.addSubviewForAutoLayout(disclosure)
+    }
+    
+    private func setupConstraints() {
         contentView.backgroundColor = .white
         addTopSeparator(toContainerView: contentView)
-
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(titleLabel)
-        titleLabel.textColor = UIColor.lgBlack
-        titleLabel.font = UIFont.systemFont(size: 16)
-
-        subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(subtitleLabel)
-        subtitleLabel.setContentHuggingPriority(.required, for: .horizontal)
-        subtitleLabel.textColor = UIColor.filterCellsGrey
-        subtitleLabel.font = UIFont.systemLightFont(size: 16)
-
-        disclosure.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(disclosure)
-        disclosure.contentMode = .center
         
         let constraints = [
             titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Margins.short),

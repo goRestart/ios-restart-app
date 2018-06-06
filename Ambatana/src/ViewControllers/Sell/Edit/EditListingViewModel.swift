@@ -468,7 +468,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     func realEstatePropertyTypeButtonPressed() {
         let attributeValues = RealEstatePropertyType.allValues(postingFlowType: featureFlags.postingFlowType)
         let values = attributeValues.map { $0.localizedString }
-        let vm = ListingAttributePickerViewModel(
+        let vm = ListingAttributeSingleSelectPickerViewModel(
             title: R.Strings.realEstateTypePropertyTitle,
             attributes: values,
             selectedAttribute: realEstatePropertyType.value?.localizedString
@@ -485,7 +485,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     func realEstateOfferTypeButtonPressed() {
         let attributeValues = RealEstateOfferType.allValues
         let values = attributeValues.map { $0.localizedString }
-        let vm = ListingAttributePickerViewModel(
+        let vm = ListingAttributeSingleSelectPickerViewModel(
             title: R.Strings.realEstateOfferTypeTitle,
             attributes: values,
             selectedAttribute: realEstateOfferType.value?.localizedString
@@ -506,7 +506,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         if let bedrooms = realEstateNumberOfBedrooms.value, let numberOfBedrooms = NumberOfBedrooms(rawValue: bedrooms) {
             selectedAttribute = numberOfBedrooms.localizedString
         }
-        let vm = ListingAttributePickerViewModel(
+        let vm = ListingAttributeSingleSelectPickerViewModel(
             title: R.Strings.realEstateBedroomsTitle,
             attributes: values,
             selectedAttribute: selectedAttribute
@@ -538,7 +538,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
                 self?.realEstateNumberOfRooms.value = nil
             }
         }
-        let vm = ListingAttributePickerViewModel(title: R.Strings.realEstateRoomsTitle,
+        let vm = ListingAttributeSingleSelectPickerViewModel(title: R.Strings.realEstateRoomsTitle,
                                                  attributes: values,
                                                  selectedAttribute: selectedAttribute,
                                                  selectionUpdate: selectionUpdateblock)
@@ -553,7 +553,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         if let bathrooms = realEstateNumberOfBathrooms.value {
             selectedAttribute = bathrooms.localizedString
         }
-        let vm = ListingAttributePickerViewModel(
+        let vm = ListingAttributeSingleSelectPickerViewModel(
             title: R.Strings.realEstateBathroomsTitle,
             attributes: values,
             selectedAttribute: selectedAttribute
@@ -937,7 +937,7 @@ extension EditListingViewModel {
         let serviceTypeNames = serviceTypes.map( { $0.name } )
         let selectedServiceType = serviceTypeName.value
         
-        let vm = ListingAttributePickerViewModel(title: R.Strings.servicesServiceTypeListTitle,
+        let vm = ListingAttributeSingleSelectPickerViewModel(title: R.Strings.servicesServiceTypeListTitle,
                                                  attributes: serviceTypeNames,
                                                  selectedAttribute: selectedServiceType) { [weak self] selectedIndex in
                                                     if let selectedIndex = selectedIndex {
@@ -958,10 +958,10 @@ extension EditListingViewModel {
         let serviceSubtypeNames = serviceSubtypes.map( { $0.name } )
         let selectedServiceSubtype = serviceSubtypeName.value
         
-        let vm = ListingAttributePickerViewModel(title: R.Strings.servicesServiceSubtypeListTitle,
-                                                 attributes: serviceSubtypeNames,
-                                                 selectedAttribute: selectedServiceSubtype,
-                                                 canSearchAttributes: true)
+        let vm = ListingAttributeSingleSelectPickerViewModel(title: R.Strings.servicesServiceSubtypeListTitle,
+                                                             attributes: serviceSubtypeNames,
+                                                             selectedAttribute: selectedServiceSubtype,
+                                                             canSearchAttributes: true)
         { [weak self] selectedIndex in
             if let selectedIndex = selectedIndex {
                 self?.updateServiceSubtype(withServiceSubtype: serviceSubtypes[safeAt: selectedIndex])

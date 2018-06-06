@@ -107,7 +107,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         case .year, .make, .model:
             return nil
         }
-        let view = PostingAttributePickerTableView(values: values, selectedIndex: nil, delegate: self)
+        let view = PostingAttributePickerTableView(values: values, selectedIndexes: [], delegate: self)
         return view
     }
     

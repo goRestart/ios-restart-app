@@ -31,12 +31,15 @@ enum FilterTag: Equatable {
     case realEstateOfferType(RealEstateOfferType)
     case realEstateNumberOfRooms(NumberOfRooms)
     case sizeSquareMetersRange(from: Int?, to: Int?)
+    
+    case serviceType(ServiceType)
+    case serviceSubtype(ServiceSubtype)
 }
 
 extension FilterTag {
     var isTaxonomy: Bool {
         switch self {
-    case .location, .within, .orderBy, .category, .taxonomyChild, .secondaryTaxonomyChild, .priceRange, .freeStuff, .distance, .carSellerType, .make, .model, .yearsRange, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType, .realEstateNumberOfRooms, .sizeSquareMetersRange:
+    case .location, .within, .orderBy, .category, .taxonomyChild, .secondaryTaxonomyChild, .priceRange, .freeStuff, .distance, .carSellerType, .make, .model, .yearsRange, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType, .realEstateNumberOfRooms, .sizeSquareMetersRange, .serviceType, .serviceSubtype:
             return false
         case .taxonomy:
             return true
@@ -45,7 +48,7 @@ extension FilterTag {
     
     var taxonomyChild: TaxonomyChild? {
         switch self {
-        case .location, .within, .orderBy, .category, .taxonomy, .priceRange, .freeStuff, .distance, .carSellerType, .make, .model, .yearsRange, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType, .realEstateNumberOfRooms, .sizeSquareMetersRange:
+        case .location, .within, .orderBy, .category, .taxonomy, .priceRange, .freeStuff, .distance, .carSellerType, .make, .model, .yearsRange, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType, .realEstateNumberOfRooms, .sizeSquareMetersRange, .serviceType, .serviceSubtype:
             return nil
         case .taxonomyChild(let taxonomyChild):
             return taxonomyChild
@@ -77,8 +80,8 @@ func ==(a: FilterTag, b: FilterTag) -> Bool {
     case (.realEstateOfferType(let idA), .realEstateOfferType(let idB)) where idA == idB: return true
     case (.realEstateNumberOfRooms(let idA), .realEstateNumberOfRooms(let idB)) where idA == idB: return true
     case (.sizeSquareMetersRange(let a, let b), .sizeSquareMetersRange(let c, let d)) where a == c && b == d: return true
-        
+    case (.serviceType(let a), .serviceType(let b)) where a.id == b.id: return true
+    case (.serviceSubtype(let a), .serviceSubtype(let b)) where a.id == b.id: return true
     default: return false
-        
     }
 }

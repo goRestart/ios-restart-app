@@ -68,6 +68,10 @@ class FilterTagCell: UICollectionViewCell {
         case .sizeSquareMetersRange(let minSize, let maxSize):
             let sizeSquareMeters = FilterTagCell.stringForSizeRange(startSize: minSize, endSize: maxSize)
             return FilterTagCell.sizeForText(sizeSquareMeters)
+        case .serviceType(let serviceType):
+            return FilterTagCell.sizeForText(serviceType.name)
+        case .serviceSubtype(let serviceSubtype):
+            return FilterTagCell.sizeForText(serviceSubtype.name)
         }
     }
     
@@ -187,7 +191,8 @@ class FilterTagCell: UICollectionViewCell {
             setColoredCellStyle(taxonomy.color)
         case .location, .within, .orderBy, .category, .taxonomyChild, .secondaryTaxonomyChild, .priceRange,
              .freeStuff, .distance, .carSellerType, .make, .model, .yearsRange, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms,
-             .realEstatePropertyType, .realEstateOfferType, .sizeSquareMetersRange, .realEstateNumberOfRooms:
+             .realEstatePropertyType, .realEstateOfferType, .sizeSquareMetersRange, .realEstateNumberOfRooms,
+             .serviceType, .serviceSubtype:
             setDefaultCellStyle()
         }
     }
@@ -253,6 +258,10 @@ class FilterTagCell: UICollectionViewCell {
             tagLabel.text = FilterTagCell.stringForSizeRange(startSize: minSize, endSize: maxSize)
         case .realEstateNumberOfRooms(let numberOfRooms):
             tagLabel.text = numberOfRooms.localizedString
+        case .serviceType(let serviceType):
+            tagLabel.text = serviceType.name
+        case .serviceSubtype(let subtype):
+            tagLabel.text = subtype.name
         }
         set(accessibilityId: .filterTagCell(tag: tag))
     }

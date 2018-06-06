@@ -27,7 +27,7 @@ extension FilterSection {
         case .realEstateInfo:
             return R.Strings.filtersSectionRealEstateInfo.localizedUppercase
         case .servicesInfo:
-            return R.Strings.filtersSectionRealEstateInfo.localizedUppercase // TODO: ABIOS-4176
+            return R.Strings.filtersSectionServicesInfo.localizedUppercase
         }
     }
     

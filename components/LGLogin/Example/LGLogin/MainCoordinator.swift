@@ -29,13 +29,15 @@ final class MainCoordinator: Coordinator,
 
     // MARK: - Lifecycle
 
-    convenience init() {
-        self.init(sessionManager: Core.sessionManager,
-                  bubbleNotificationManager: MockBubbleNotificationManager())
+    convenience init(dependencies: LGLoginExampleDependencies) {
+        self.init(sessionManager: dependencies.sessionManager,
+                  bubbleNotificationManager: dependencies.bubbleNotificationManager,
+                  loginFactory: dependencies.loginFactory)
     }
 
     init(sessionManager: SessionManager,
-         bubbleNotificationManager: BubbleNotificationManager) {
+         bubbleNotificationManager: BubbleNotificationManager,
+         loginFactory: LoginComponentFactory) {
         self.child = nil
         self.coordinatorDelegate = nil
         self.presentedAlertController = nil
@@ -46,10 +48,9 @@ final class MainCoordinator: Coordinator,
         let navigationController = UINavigationController(rootViewController: viewController)
         self.navigationController = navigationController
         self.presentedNavigationController = nil
-        let config = LoginConfig(signUpEmailTermsAndConditionsAcceptRequired: false)
 
         self.source = .install
-        self.factory = LoginComponentFactory(config: config)
+        self.factory = loginFactory
 
         viewModel.navigator = self
     }
