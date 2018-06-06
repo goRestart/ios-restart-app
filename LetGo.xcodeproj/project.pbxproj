@@ -1369,6 +1369,8 @@
 		C2E85E8920736B9A0009F3B0 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29F01812067A03E00A43E2F /* Camera.swift */; };
 		C2E9ACEB207B64C00054B246 /* VPPostListingRedCamFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E9ACEA207B64C00054B246 /* VPPostListingRedCamFooter.swift */; };
 		C2E9ACEC207B64C00054B246 /* VPPostListingRedCamFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E9ACEA207B64C00054B246 /* VPPostListingRedCamFooter.swift */; };
+		C613D0F220BFF3F100344CF2 /* LGPickerSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C613D0F120BFF3F100344CF2 /* LGPickerSearchBar.swift */; };
+		C613D0F320BFF3F600344CF2 /* LGPickerSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C613D0F120BFF3F100344CF2 /* LGPickerSearchBar.swift */; };
 		C627573220A3436900B401E7 /* OrderCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C627573120A3436900B401E7 /* OrderCondition.swift */; };
 		C627573320A3436900B401E7 /* OrderCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C627573120A3436900B401E7 /* OrderCondition.swift */; };
 		C627573520A3439C00B401E7 /* OrderConditionable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C627573420A3439C00B401E7 /* OrderConditionable.swift */; };
@@ -2865,6 +2867,8 @@
 		C29F712A209076F800362F76 /* LGFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGFileManager.swift; sourceTree = "<group>"; };
 		C2DC548320A3343E0052EB12 /* AppEventsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEventsManager.swift; sourceTree = "<group>"; };
 		C2E9ACEA207B64C00054B246 /* VPPostListingRedCamFooter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VPPostListingRedCamFooter.swift; sourceTree = "<group>"; };
+		C4500164398831E282C056CC /* Pods-letgoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-letgoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests.debug.xcconfig"; sourceTree = "<group>"; };
+		C613D0F120BFF3F100344CF2 /* LGPickerSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGPickerSearchBar.swift; sourceTree = "<group>"; };
 		C627573120A3436900B401E7 /* OrderCondition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCondition.swift; sourceTree = "<group>"; };
 		C627573420A3439C00B401E7 /* OrderConditionable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderConditionable.swift; sourceTree = "<group>"; };
 		C627573820A3494E00B401E7 /* OrderConditionableSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderConditionableSpec.swift; sourceTree = "<group>"; };
@@ -4095,6 +4099,7 @@
 				F5D212B41FF53F4C00B31593 /* ProgressView.swift */,
 				6A3F3B9A20AD81A000E2881F /* LetgoTooltip.swift */,
 				42B7029920A595840031B9BD /* LGRibbonView.swift */,
+				C613D0F120BFF3F100344CF2 /* LGPickerSearchBar.swift */,
 			);
 			path = Widgets;
 			sourceTree = "<group>";
@@ -7666,6 +7671,7 @@
 				C7DE8AD61C88929A005CF37E /* PostListingCameraView.swift in Sources */,
 				328E8E3220C0467000BBF639 /* MainListingsHeader.swift in Sources */,
 				C707D4581E9B8C0B00042C03 /* RepositoryError+LG.swift in Sources */,
+				C613D0F220BFF3F100344CF2 /* LGPickerSearchBar.swift in Sources */,
 				C7B543281D758BA7005FBA30 /* VerifyAccountsViewController.swift in Sources */,
 				0A3048282041E1DE00C11498 /* ListingDeckSnapshotType.swift in Sources */,
 				C77593E51BF0BD310097D62F /* FilterCategoryCell.swift in Sources */,
@@ -8487,6 +8493,7 @@
 				0171FA9C2087444C00CAFE36 /* SettingsNotificationsSearchAlertsCell.swift in Sources */,
 				328E8E3320C0467000BBF639 /* MainListingsHeader.swift in Sources */,
 				2E423794205C003D0077B62A /* ChatMyMeetingCellDrawer.swift in Sources */,
+				C613D0F320BFF3F600344CF2 /* LGPickerSearchBar.swift in Sources */,
 				8E69F3F31E9E30EE00E14F12 /* CategoryDetailTableView.swift in Sources */,
 				C7B5884C1CE1DE1C009B3975 /* ChatViewModel.swift in Sources */,
 				C707D4591E9B8C0B00042C03 /* RepositoryError+LG.swift in Sources */,

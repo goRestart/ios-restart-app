@@ -29,6 +29,7 @@ public class ServicesCreationParams: BaseListingParams {
     
     func apiServiceCreationEncode(userId: String) -> [String: Any] {
         var params = super.apiCreationEncode(userId: userId)
+        params.removeValue(forKey: "price_flag")
         
         var servicesAttributesDict: [String: Any] = [:]
         if let typeId = serviceAttributes.typeId {
@@ -37,6 +38,8 @@ public class ServicesCreationParams: BaseListingParams {
         if let subtypeId = serviceAttributes.subtypeId {
             servicesAttributesDict["subTypeId"] = subtypeId
         }
+        params["images"] = images.flatMap { $0.objectId }
+        params["priceFlag"] = price.priceFlag.rawValue
         params["serviceAttributes"] = servicesAttributesDict
         return params
     }

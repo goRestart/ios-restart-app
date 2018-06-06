@@ -16,7 +16,8 @@ extension ListingFilters: MockFactory {
                               realEstatePropertyType: RealEstatePropertyType.flat, realEstateOfferType: [RealEstateOfferType.sale],
                               realEstateNumberOfBedrooms: NumberOfBedrooms.two, realEstateNumberOfBathrooms: NumberOfBathrooms.three,
                               realEstateNumberOfRooms: NumberOfRooms(numberOfBedrooms: 2, numberOfLivingRooms: 1),
-                              realEstateSizeRange: SizeRange(min: 1, max: nil), servicesTypeId: RetrieveListingParam<String>(value: "", isNegated: false),
-                              servicesSubtypeId: RetrieveListingParam<String>(value: "", isNegated: false))
+                              realEstateSizeRange: SizeRange(min: 1, max: nil),
+                              servicesType: MockServiceType.makeMock(),
+                              servicesSubtypes: MockServiceSubtype.makeMocks())
     }
 }

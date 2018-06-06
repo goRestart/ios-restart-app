@@ -403,10 +403,12 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                 cell.titleLabel.text = serviceSection.title
                 switch serviceSection {
                 case .type:
-                    cell.subtitleLabel.text = viewModel.currentServiceTypeName ?? R.Strings.filtersCarModelNotSet // TODO: ABIOS-4176
+                    cell.subtitleLabel.text = viewModel.currentServiceTypeName ?? R.Strings.filtersServiceTypeNotSet
                     cell.topSeparator?.isHidden = false
                 case .subtype:
-                    cell.subtitleLabel.text = viewModel.currentServiceSubtypeName ?? R.Strings.filtersCarModelNotSet // TODO: ABIOS-4176
+                    cell.isUserInteractionEnabled = viewModel.serviceSubtypeCellEnabled
+                    cell.titleLabel.isEnabled = viewModel.serviceSubtypeCellEnabled
+                    cell.subtitleLabel.text = viewModel.selectedServiceSubtypesDisplayName ?? R.Strings.filtersServiceSubtypeNotSet
                 }
                 return cell
             case .within:

@@ -102,7 +102,7 @@ final class EditListingCoordinator: Coordinator, EditListingNavigator {
         }
     }
     
-    func openListingAttributePicker(viewModel: ListingAttributePickerViewModel) {
+    func openListingAttributePicker(viewModel: ListingAttributeSingleSelectPickerViewModel) {
         let vc = ListingAttributePickerViewController(viewModel: viewModel)
         viewModel.delegate = vc
         navigationController.pushViewController(vc, animated: true)

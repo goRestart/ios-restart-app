@@ -940,6 +940,10 @@ enum AccessibilityId: Equatable {
                 idSuffix = "RealEstateOfferType-\(type.rawValue)"
             case let .realEstateNumberOfRooms(number):
                 idSuffix = "RealEstateNumRooms-\(number)"
+            case let .serviceType(serviceType):
+                idSuffix = "ServicesServiceType-\(serviceType.name)"
+            case let .serviceSubtype(serviceSubtype):
+                idSuffix = "ServicesServiceSubtype-\(serviceSubtype.name)"
             case let .sizeSquareMetersRange(from, to):
                 let fromString: String
                 if let from = from {
