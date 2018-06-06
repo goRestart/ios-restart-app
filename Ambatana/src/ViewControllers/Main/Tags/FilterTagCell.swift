@@ -68,6 +68,10 @@ class FilterTagCell: UICollectionViewCell {
         case .sizeSquareMetersRange(let minSize, let maxSize):
             let sizeSquareMeters = FilterTagCell.stringForSizeRange(startSize: minSize, endSize: maxSize)
             return FilterTagCell.sizeForText(sizeSquareMeters)
+        case .serviceType(let serviceType):
+            return FilterTagCell.sizeForText(serviceType.name)
+        case .serviceSubtype(let serviceSubtype):
+            return FilterTagCell.sizeForText(serviceSubtype.name)
         }
     }
     
@@ -187,7 +191,8 @@ class FilterTagCell: UICollectionViewCell {
             setColoredCellStyle(taxonomy.color)
         case .location, .within, .orderBy, .category, .taxonomyChild, .secondaryTaxonomyChild, .priceRange,
              .freeStuff, .distance, .carSellerType, .make, .model, .yearsRange, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms,
-             .realEstatePropertyType, .realEstateOfferType, .sizeSquareMetersRange, .realEstateNumberOfRooms:
+             .realEstatePropertyType, .realEstateOfferType, .sizeSquareMetersRange, .realEstateNumberOfRooms,
+             .serviceType, .serviceSubtype:
             setDefaultCellStyle()
         }
     }
@@ -230,7 +235,7 @@ class FilterTagCell: UICollectionViewCell {
             tagLabel.text = FilterTagCell.stringForPriceRange(minPrice, max: maxPrice, withCurrency: currency)
         case .freeStuff:
             tagIconWidth.constant = FilterTagCell.iconWidth
-            tagIcon.image = UIImage(named: "categories_free_tag")
+            tagIcon.image = R.Asset.IconsButtons.FiltersTagCategories.categoriesFreeTag.image
         case .distance(let distance):
             tagLabel.text = distance.intToDistanceFormat()
         case .carSellerType(_, let name):
@@ -253,6 +258,10 @@ class FilterTagCell: UICollectionViewCell {
             tagLabel.text = FilterTagCell.stringForSizeRange(startSize: minSize, endSize: maxSize)
         case .realEstateNumberOfRooms(let numberOfRooms):
             tagLabel.text = numberOfRooms.localizedString
+        case .serviceType(let serviceType):
+            tagLabel.text = serviceType.name
+        case .serviceSubtype(let subtype):
+            tagLabel.text = subtype.name
         }
         set(accessibilityId: .filterTagCell(tag: tag))
     }
@@ -263,14 +272,14 @@ class FilterTagCell: UICollectionViewCell {
     private func setDefaultCellStyle() {
         tagLabel.textColor = .black
         contentView.backgroundColor = .white
-        closeButton.setImage(UIImage(named: "filters_clear_btn"), for: .normal)
-        closeButton.setImage(UIImage(named: "filters_clear_btn"), for: .highlighted)
+        closeButton.setImage(R.Asset.IconsButtons.filtersClearBtn.image, for: .normal)
+        closeButton.setImage(R.Asset.IconsButtons.filtersClearBtn.image, for: .highlighted)
     }
     
     private func setColoredCellStyle(_ color: UIColor) {
         tagLabel.textColor = .white
         contentView.backgroundColor = color
-        closeButton.setImage(UIImage(named: "filters_taxonomy_clear_btn"), for: .normal)
-        closeButton.setImage(UIImage(named: "filters_taxonomy_clear_btn"), for: .highlighted)
+        closeButton.setImage(R.Asset.IconsButtons.filtersTaxonomyClearBtn.image, for: .normal)
+        closeButton.setImage(R.Asset.IconsButtons.filtersTaxonomyClearBtn.image, for: .highlighted)
     }
 }

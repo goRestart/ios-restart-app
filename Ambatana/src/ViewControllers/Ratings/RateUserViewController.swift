@@ -108,7 +108,7 @@ class RateUserViewController: KeyboardViewController {
         if showSkipButton {
             setLetGoRightButtonWith(text: R.Strings.userRatingSkipButton, selector: #selector(skipButtonPressed))
         } else {
-            navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .plain,
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: R.Asset.IconsButtons.navbarClose.image, style: .plain,
                                                                target: self, action: #selector(closeButtonPressed))
         }
         

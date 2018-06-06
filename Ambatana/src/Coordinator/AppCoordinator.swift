@@ -321,11 +321,11 @@ extension AppCoordinator: AppNavigator {
     }
 
     private func askUserIsEnjoyingLetgo() {
-        let yesButtonInterface = UIActionInterface.image(UIImage(named: "ic_emoji_yes"), nil)
+        let yesButtonInterface = UIActionInterface.image(R.Asset.IconsButtons.icEmojiYes.image, nil)
         let rateAppAlertAction = UIAction(interface: yesButtonInterface, action: { [weak self] in
             self?.askUserToRateApp(.happy)
         })
-        let noButtonInterface = UIActionInterface.image(UIImage(named: "ic_emoji_no"), nil)
+        let noButtonInterface = UIActionInterface.image(R.Asset.IconsButtons.icEmojiNo.image, nil)
         let feedbackAlertAction = UIAction(interface: noButtonInterface, action: { [weak self] in
             self?.askUserToRateApp(.sad)
         })
@@ -1115,7 +1115,7 @@ fileprivate extension AppCoordinator {
                                               text: message,
                                               action: action,
                                               iconURL: conversation.interlocutor?.avatar?.fileURL,
-                                              iconImage: UIImage(named: "user_placeholder"))
+                                              iconImage: R.Asset.IconsButtons.userPlaceholder.image)
             self?.showBubble(with: data, duration: Constants.bubbleChatDuration)
         }
     }

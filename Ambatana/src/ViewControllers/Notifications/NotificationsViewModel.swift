@@ -86,13 +86,13 @@ class NotificationsViewModel: BaseViewModel {
     }
 
     private func reloadNotifications() {
-        notificationsRepository.index(allowEditDiscarded: featureFlags.discardedProducts.isActive) { [weak self] result in
+        notificationsRepository.index(allowEditDiscarded: true) { [weak self] result in
             guard let strongSelf = self else { return }
             if let notifications = result.value {
                 let remoteNotifications = notifications.flatMap{ strongSelf.buildNotification($0) }
                 strongSelf.notificationsData = remoteNotifications
                 if strongSelf.notificationsData.isEmpty {
-                    let emptyViewModel = LGEmptyViewModel(icon: UIImage(named: "ic_notifications_empty" ),
+                    let emptyViewModel = LGEmptyViewModel(icon: R.Asset.IconsButtons.icNotificationsEmpty.image,
                         title:  R.Strings.notificationsEmptyTitle,
                         body: R.Strings.notificationsEmptySubtitle, buttonTitle: R.Strings.tabBarToolTip,
                         action: { [weak self] in self?.navigator?.openSell(source: .notifications, postCategory: nil) },

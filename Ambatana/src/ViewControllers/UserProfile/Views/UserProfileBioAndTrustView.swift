@@ -1,14 +1,7 @@
-//
-//  UserProfileBioAndTrustView.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 26/2/18.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 import RxSwift
 import RxCocoa
+import LGComponents
 
 private struct Layout {
     static let buttonHeight: CGFloat = 30
@@ -210,15 +203,15 @@ final class UserProfileBioAndTrustView: UIView {
         guard let verifiedAccounts = accounts else { return }
         verifiedLogosStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         if verifiedAccounts.facebookVerified {
-            addVerifiedAccountWithImage(named: "ic_verified_fb", accessibilityId: .userProfileVerifiedWithFacebook)
+            addVerifiedAccountWith(image: R.Asset.IconsButtons.icVerifiedFb.image, accessibilityId: .userProfileVerifiedWithFacebook)
         }
 
         if verifiedAccounts.googleVerified {
-            addVerifiedAccountWithImage(named: "ic_verified_google", accessibilityId: .userProfileVerifiedWithGoogle)
+            addVerifiedAccountWith(image: R.Asset.IconsButtons.icVerifiedGoogle.image, accessibilityId: .userProfileVerifiedWithGoogle)
         }
 
         if verifiedAccounts.emailVerified {
-            addVerifiedAccountWithImage(named: "ic_verified_email", accessibilityId: .userProfileVerifiedWithEmail)
+            addVerifiedAccountWith(image: R.Asset.IconsButtons.icVerifiedEmail.image, accessibilityId: .userProfileVerifiedWithEmail)
         }
 
         verifiedContainer.isHidden = !verifiedAccountsVisible
@@ -226,8 +219,7 @@ final class UserProfileBioAndTrustView: UIView {
         updateButtonContainerVisibility()
     }
 
-    private func addVerifiedAccountWithImage(named: String, accessibilityId: AccessibilityId) {
-        let image = UIImage(named: named)
+    private func addVerifiedAccountWith(image: UIImage, accessibilityId: AccessibilityId) {
         let imageView = UIImageView(image: image)
         imageView.contentMode = .scaleAspectFill
         imageView.heightAnchor.constraint(equalToConstant: Layout.logoSize).isActive = true
@@ -258,7 +250,7 @@ final class UserProfileBioAndTrustView: UIView {
                                                         bottom: 0,
                                                         right: -Layout.buttonTitleInset)
         buildTrustButton.layer.cornerRadius = Layout.buttonHeight / 2
-        buildTrustButton.setImage(UIImage(named: "ic_build_trust_small"), for: .normal)
+        buildTrustButton.setImage(R.Asset.IconsButtons.icBuildTrustSmall.image, for: .normal)
     }
 
     private func setupMoreBioButton() {
@@ -273,7 +265,7 @@ final class UserProfileBioAndTrustView: UIView {
                                                      bottom: 0,
                                                      right: -Layout.buttonTitleInset)
         moreBioButton.layer.cornerRadius = Layout.buttonHeight / 2
-        moreBioButton.setImage(UIImage(named: "chevron_down_grey"), for: .normal)
+        moreBioButton.setImage(R.Asset.IconsButtons.chevronDownGrey.image, for: .normal)
         moreBioButton.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
         moreBioButton.titleLabel?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
         moreBioButton.imageView?.transform = Layout.iconDefaultTransform

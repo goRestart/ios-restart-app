@@ -25,7 +25,7 @@ final class LGNavBarSearchField: UIView {
     }()
     
     private let logoIcon: UIImageView = {
-        let logo = UIImageView(image: #imageLiteral(resourceName: "navbar_logo"))
+        let logo = UIImageView(image: R.Asset.BackgroundsAndImages.navbarLogo.image)
         logo.contentMode = .scaleAspectFit
         logo.isUserInteractionEnabled = false
         return logo

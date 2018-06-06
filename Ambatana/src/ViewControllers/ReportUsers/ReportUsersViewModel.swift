@@ -121,23 +121,23 @@ extension ReportUserReason {
     var image: UIImage? {
         switch self {
         case .offensive:
-            return UIImage(named: "ic_report_offensive")
+            return R.Asset.IconsButtons.icReportOffensive.image
         case .scammer:
-            return UIImage(named: "ic_report_scammer")
+            return R.Asset.IconsButtons.icReportScammer.image
         case .mia:
-            return UIImage(named: "ic_report_mia")
+            return R.Asset.IconsButtons.icReportMia.image
         case .suspicious:
-            return UIImage(named: "ic_report_suspicious")
+            return R.Asset.IconsButtons.icReportSuspicious.image
         case .inactive:
-            return UIImage(named: "ic_report_inactive")
+            return R.Asset.IconsButtons.icReportInactive.image
         case .prohibitedItems:
-            return UIImage(named: "ic_report_prohibited")
+            return R.Asset.IconsButtons.icReportProhibited.image
         case .spammer:
-            return UIImage(named: "ic_report_spammer")
+            return R.Asset.IconsButtons.icReportSpammer.image
         case .counterfeitItems:
-            return UIImage(named: "ic_report_counterfeit")
+            return R.Asset.IconsButtons.icReportCounterfeit.image
         case .others:
-            return UIImage(named: "ic_report_others")
+            return R.Asset.IconsButtons.icReportOthers.image
         }
     }
 

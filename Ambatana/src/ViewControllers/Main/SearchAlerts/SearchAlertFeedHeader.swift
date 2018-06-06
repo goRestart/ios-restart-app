@@ -53,7 +53,7 @@ final class SearchAlertFeedHeader: UIView {
         subtitleLabel.textColor = UIColor.grayDark
         subtitleLabel.text = R.Strings.searchAlertsHeaderSubtitle
         
-        alertImageView.image = UIImage(named: "search_alert_icon")
+        alertImageView.image = R.Asset.IconsButtons.searchAlertIcon.image
      
         activationSwitch.isOn = searchAlertCreationData.isEnabled
         activationSwitch.addTarget(self, action: #selector(switchValueChanged), for: .valueChanged)

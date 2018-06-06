@@ -1,12 +1,5 @@
-//
-//  UserVerificationSectionHeader.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 23/3/18.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 final class UserVerificationMainSectionHeader: UIView {
     private let titleLabel = UILabel()
@@ -44,7 +37,7 @@ final class UserVerificationMainSectionHeader: UIView {
         subtitleLabel.textColor = UIColor.grayDark
         subtitleLabel.font = UIFont.userProfileVerificationSectionSubtitleFont
         subtitleLabel.numberOfLines = 0
-        imageView.image = UIImage(named: "ic_password_dark")
+        imageView.image = R.Asset.IconsButtons.icPasswordDark.image
         imageView.contentMode = .scaleAspectFit
         setupConstraints()
     }

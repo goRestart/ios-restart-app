@@ -413,10 +413,9 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         listingListView.collectionViewContentInset.bottom = tabBarHeight
             + LGUIKitConstants.tabBarSellFloatingButtonHeight
             + LGUIKitConstants.tabBarSellFloatingButtonDistance
-        if let image =  UIImage(named: "pattern_white") {
-            listingListView.setErrorViewStyle(bgColor: UIColor(patternImage: image), borderColor: UIColor.lineGray,
-                                              containerColor: UIColor.white)
-        }
+        listingListView.setErrorViewStyle(bgColor: UIColor(patternImage: R.Asset.BackgroundsAndImages.patternWhite.image),
+                                          borderColor: UIColor.lineGray,
+                                          containerColor: UIColor.white)
         listingListView.scrollDelegate = self
         listingListView.headerDelegate = self
         listingListView.adsDelegate = self
