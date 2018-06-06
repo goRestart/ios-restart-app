@@ -3,13 +3,17 @@ import LGComponents
 
 final class BumpUpPayViewController: BaseViewController {
 
+    @IBOutlet weak var lightningImageView: UIImageView!
+    @IBOutlet weak var featuredBackgroundImageView: UIImageView!
+    @IBOutlet weak var redRibbonImageView: UIImageView!
+    @IBOutlet weak var fakeCellBottomImageView: UIImageView!
+
     @IBOutlet weak var titleSafeAreaTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var viewTitleLabel: UILabel!
     @IBOutlet weak var infoContainer: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!
-    @IBOutlet weak var featuredBackgroundImageView: UIImageView!
     @IBOutlet weak var imageContainer: UIView!
     @IBOutlet weak var listingImageView: UIImageView!
     @IBOutlet weak var cellBottomContainer: UIView!
@@ -18,7 +22,7 @@ final class BumpUpPayViewController: BaseViewController {
     private let viewModel: BumpUpPayViewModel
 
     // MARK: - Init
-    
+
     init(viewModel: BumpUpPayViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: "BumpUpPayViewController")
@@ -71,6 +75,15 @@ final class BumpUpPayViewController: BaseViewController {
         setupLabels()
         setupBumpUpButton()
         adjustViewTopSafeArea()
+        setupRAssets()
+    }
+
+    private func setupRAssets() {
+        lightningImageView.image = R.Asset.Monetization.icLightning.image
+        featuredBackgroundImageView.image = R.Asset.Monetization.featuredBackground.image
+        redRibbonImageView.image = R.Asset.Monetization.redRibbon.image
+        fakeCellBottomImageView.image = R.Asset.Monetization.fakeCellBottom.image
+        closeButton.setImage(R.Asset.Monetization.grayChevronDown.image, for: .normal)
     }
     
     private func renderContainerCornerRadius() {
