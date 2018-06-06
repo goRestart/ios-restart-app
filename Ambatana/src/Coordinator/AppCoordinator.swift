@@ -247,6 +247,14 @@ extension AppCoordinator: AppNavigator {
                   completion: nil)
     }
     
+    func showBottomBubbleNotification(data: BubbleNotificationData,
+                                      duration: TimeInterval,
+                                      alignment: BubbleNotificationView.Alignment,
+                                      style: BubbleNotificationView.Style) {
+        tabBarCtl.showBottomBubbleNotification(data: data, duration: duration, alignment: alignment, style: style)
+    }
+    
+    
     // MARK: App Review
 
     func openAppRating(_ source: EventParameterRatingSource) {
@@ -714,6 +722,7 @@ extension AppCoordinator: UITabBarControllerDelegate {
 
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         guard let tab = tabAtController(viewController) else { return }
+        tabBarCtl.hideBottomBubbleNotifications()
         selectedTab.value = tab
     }
 }
