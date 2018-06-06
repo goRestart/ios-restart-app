@@ -85,7 +85,7 @@ final class ListingDeckViewModel: BaseViewModel {
 
     weak var currentListingViewModel: ListingViewModel?
     var isPlayable: Bool { return shouldShowVideos && (currentListingViewModel?.isPlayable ?? false) }
-    private var shouldShowVideos: Bool { return featureFlags.machineLearningMVP.isVideoPostingActive }
+    private var shouldShowVideos: Bool { return featureFlags.videoPosting.isActive }
 
     weak var navigator: ListingDetailNavigator? { didSet { currentListingViewModel?.navigator = navigator } }
     weak var deckNavigator: DeckNavigator?

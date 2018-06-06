@@ -27,7 +27,6 @@ final class SellCoordinator: Coordinator {
     fileprivate let postCategory: PostCategory?
     weak var delegate: SellCoordinatorDelegate?
 
-    private var lastPostUsedMachineLearning: Bool = false
 
 
     // MARK: - Lifecycle
@@ -67,35 +66,25 @@ final class SellCoordinator: Coordinator {
         self.featureFlags = featureFlags
         self.sessionManager = sessionManager
 
-        if #available(iOS 11, *),
-            featureFlags.machineLearningMVP.isActive,
-            let postCategory = postCategory,
-            case PostCategory.otherItems = postCategory,
-            Core.sessionManager.loggedIn,
-            LGMediaPermissions().videoAuthorizationStatus == .authorized {
-            lastPostUsedMachineLearning = true
-            let postListingVM = MLPostListingViewModel(source: source,
-                                                       postCategory: postCategory,
-                                                       listingTitle: listingTitle)
-            let postListingVC = MLPostListingViewController(viewModel: postListingVM,
-                                                            forcedInitialTab: .camera)
-            navigationController = SellNavigationController(root: postListingVC)
-            navigationController.setupInitialCategory(postCategory: postCategory)
-            self.viewController = navigationController
-            postListingVM.navigator = self
-        } else if source == .onboardingBlockingPosting {
-            lastPostUsedMachineLearning = false
+        if source == .onboardingBlockingPosting {
             let getStartedVM = PostingGetStartedViewModel()
             let getStartedVC = PostingGetStartedViewController(viewModel: getStartedVM)
             navigationController = SellNavigationController(root: getStartedVC)
             self.viewController = navigationController
             getStartedVM.navigator = self
         } else {
-            lastPostUsedMachineLearning = false
+            let machineLearningSupported: Bool
+            if #available(iOS 11, *), postCategory?.listingCategory.isProduct ?? true,
+                featureFlags.predictivePosting.isActive {
+                machineLearningSupported = true
+            } else {
+                machineLearningSupported = false
+            }
             let postListingVM = PostListingViewModel(source: source,
                                                      postCategory: postCategory,
                                                      listingTitle: listingTitle,
-                                                     isBlockingPosting: false)
+                                                     isBlockingPosting: false,
+                                                     machineLearningSupported: machineLearningSupported)
             let postListingVC = PostListingViewController(viewModel: postListingVM,
                                                           forcedInitialTab: forcedInitialTab)
             navigationController = SellNavigationController(root: postListingVC)
@@ -301,32 +290,25 @@ extension SellCoordinator: ListingPostedNavigator {
     func closeProductPostedAndOpenPost() {
         dismissViewController(animated: true) { [weak self] in
             guard let strongSelf = self, let parentVC = strongSelf.parentViewController else { return }
-            if strongSelf.lastPostUsedMachineLearning {
-                let postCategory = PostCategory.otherItems(listingCategory: nil)
-                let postListingVM = MLPostListingViewModel(source: strongSelf.postingSource,
-                                                           postCategory: postCategory,
-                                                           listingTitle: nil)
-                let postListingVC = MLPostListingViewController(viewModel: postListingVM,
-                                                                forcedInitialTab: .camera)
-                strongSelf.navigationController = SellNavigationController(root: postListingVC)
-                strongSelf.navigationController.setupInitialCategory(postCategory: postCategory)
-                strongSelf.viewController = strongSelf.navigationController
-                postListingVM.navigator = self
-                strongSelf.presentViewController(parent: parentVC, animated: true, completion: nil)
+            let machineLearningSupported: Bool
+            if #available(iOS 11, *), strongSelf.featureFlags.predictivePosting.isActive {
+                machineLearningSupported = true
             } else {
-                let postListingVM = PostListingViewModel(source: strongSelf.postingSource,
-                postCategory: nil,
-                listingTitle: nil,
-                isBlockingPosting: false)
-                let postListingVC = PostListingViewController(viewModel: postListingVM,
-                forcedInitialTab: nil)
-                strongSelf.viewController = postListingVC
-                postListingVM.navigator = self
-                strongSelf.navigationController = SellNavigationController(root: postListingVC)
-                strongSelf.navigationController.setupInitialCategory(postCategory: nil)
-                strongSelf.viewController = strongSelf.navigationController
-                strongSelf.presentViewController(parent: parentVC, animated: true, completion: nil)
+                machineLearningSupported = false
             }
+            let postListingVM = PostListingViewModel(source: strongSelf.postingSource,
+                                                     postCategory: nil,
+                                                     listingTitle: nil,
+                                                     isBlockingPosting: false,
+                                                     machineLearningSupported: machineLearningSupported)
+            let postListingVC = PostListingViewController(viewModel: postListingVM,
+                                                          forcedInitialTab: nil)
+            strongSelf.viewController = postListingVC
+            postListingVM.navigator = self
+            strongSelf.navigationController = SellNavigationController(root: postListingVC)
+            strongSelf.navigationController.setupInitialCategory(postCategory: nil)
+            strongSelf.viewController = strongSelf.navigationController
+            strongSelf.presentViewController(parent: parentVC, animated: true, completion: nil)
         }
     }
 }
@@ -339,7 +321,8 @@ extension SellCoordinator: BlockingPostingNavigator  {
         let postListingVM = PostListingViewModel(source: .onboardingBlockingPosting,
                                                  postCategory: nil,
                                                  listingTitle: nil,
-                                                 isBlockingPosting: true)
+                                                 isBlockingPosting: true,
+                                                 machineLearningSupported: false)
         postListingVM.navigator = self
         let postListingVC = PostListingViewController(viewModel: postListingVM,
                                                       forcedInitialTab: nil)
@@ -436,47 +419,5 @@ fileprivate extension SellCoordinator {
             let event = TrackerEvent.listingSellComplete24h(listing)
             tracker.trackEvent(event)
         }
-    }
-}
-
-// MARK: Machine Learning
-
-extension SellCoordinator {
-    func startDetails(postListingState: MLPostListingState, uploadedImageSource: EventParameterPictureSource?,
-                      uploadedVideoLength: TimeInterval?, postingSource: PostingSource,
-                      postListingBasicInfo: PostListingBasicDetailViewModel) {
-        
-        let firstStep: PostingDetailStep = featureFlags.summaryAsFirstStep.isActive ? .summary : .price
-        
-        let viewModel = MLPostingDetailsViewModel(step: firstStep,
-                                                  postListingState: postListingState,
-                                                  uploadedImageSource: uploadedImageSource,
-                                                  uploadedVideoLength: uploadedVideoLength,
-                                                  postingSource: postingSource,
-                                                  postListingBasicInfo: postListingBasicInfo,
-                                                  previousStepIsSummary: false)
-        viewModel.navigator = self
-        let vc = MLPostingDetailsViewController(viewModel: viewModel)
-        navigationController.startDetails(category: postListingState.category)
-        navigationController.pushViewController(vc, animated: false)
-    }
-    
-    func nextPostingDetailStep(step: PostingDetailStep,
-                               postListingState: MLPostListingState,
-                               uploadedImageSource: EventParameterPictureSource?,
-                               uploadedVideoLength: TimeInterval?,
-                               postingSource: PostingSource,
-                               postListingBasicInfo: PostListingBasicDetailViewModel,
-                               previousStepIsSummary: Bool) {
-        let viewModel = MLPostingDetailsViewModel(step: step,
-                                                  postListingState: postListingState,
-                                                  uploadedImageSource: uploadedImageSource,
-                                                  uploadedVideoLength: uploadedVideoLength,
-                                                  postingSource: postingSource,
-                                                  postListingBasicInfo: postListingBasicInfo,
-                                                  previousStepIsSummary: previousStepIsSummary)
-        viewModel.navigator = self
-        let vc = MLPostingDetailsViewController(viewModel: viewModel)
-        navigationController.pushViewController(vc, animated: true)
     }
 }

@@ -113,6 +113,13 @@ struct Constants {
         AVVideoScalingModeKey: AVVideoScalingModeResizeAspectFill
     ];
 
+    struct MachineLearning {
+        static let minimumConfidence: Double = 0.3
+        static let minimumConfidenceToRemove: Double = 0.2
+        static let maximumDaysToDisplay: Double = 30
+        static let pricePositionDisplay: Int = 2
+    }
+
     // Messages retrieving
     static let numMessagesPerPage = 40
 
