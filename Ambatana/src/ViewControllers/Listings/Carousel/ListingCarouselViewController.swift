@@ -194,7 +194,7 @@ final class ListingCarouselViewController: KeyboardViewController, AnimatableTra
         setupGradientView()
         setupCollectionRx()
         setupZoomRx()
-        if viewModel.shouldAddPlayButton {
+        if viewModel.isPlayable {
             setupPlayButton()
         }
         setAccessibilityIds()

@@ -28,8 +28,7 @@ final class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDr
             cell.setupBackgroundColor(id: id)
         }
 
-        if featureFlags.videoPosting.isActive,
-            model.mediaThumbType == .video,
+        if model.mediaThumbType == .video,
             let thumbURL = model.mediaThumbUrl {
             cell.setupGifUrl(thumbURL, imageSize: model.imageSize)
         } else if let thumbURL = model.thumbUrl {
