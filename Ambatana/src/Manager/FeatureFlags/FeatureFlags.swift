@@ -39,7 +39,6 @@ protocol FeatureFlaggeable: class {
     var bumpUpBoost: BumpUpBoost { get }
     var increaseNumberOfPictures: IncreaseNumberOfPictures { get }
     var realEstateTutorial: RealEstateTutorial { get }
-    var machineLearningMVP: MachineLearningMVP { get }
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings { get }
     var showProTagUserProfile: Bool { get }
     var summaryAsFirstStep: SummaryAsFirstStep { get }
@@ -97,6 +96,8 @@ protocol FeatureFlaggeable: class {
 
     // MARK: Products
     var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu { get }
+    var predictivePosting: PredictivePosting { get }
+    var videoPosting: VideoPosting { get }
 
     // MARK: Users
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem { get }
@@ -280,11 +281,6 @@ extension CreateUpdateCarsIntoNewBackend {
     }
 }
 
-extension MachineLearningMVP {
-    var isActive: Bool { return self == .active }
-    var isVideoPostingActive: Bool { return self == .videoPostingActive }
-}
-
 extension SummaryAsFirstStep {
     var isActive: Bool { return self == .active }
 }
@@ -415,8 +411,18 @@ extension PersonalizedFeed {
     var isActive: Bool { return self != .control && self != .baseline }
 }
 
+// MARK: Products
+
 extension ServicesCategoryOnSalchichasMenu {
     var isActive: Bool { return self != .control && self != .baseline }    
+}
+
+extension PredictivePosting {
+    var isActive: Bool { return self == .active }
+}
+
+extension VideoPosting {
+    var isActive: Bool { return self == .active }
 }
 
 extension GoogleAdxForTR {
@@ -670,13 +676,6 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.realEstateTutorial
         }
         return RealEstateTutorial.fromPosition(abTests.realEstateTutorial.value)
-    }
-    
-    var machineLearningMVP: MachineLearningMVP {
-        if Bumper.enabled {
-            return Bumper.machineLearningMVP
-        }
-        return MachineLearningMVP.fromPosition(abTests.machineLearningMVP.value)
     }
     
     var increaseNumberOfPictures: IncreaseNumberOfPictures {
@@ -1283,5 +1282,19 @@ extension FeatureFlags {
             return Bumper.servicesCategoryOnSalchichasMenu
         }
         return ServicesCategoryOnSalchichasMenu.fromPosition(abTests.servicesCategoryOnSalchichasMenu.value)
+    }
+
+    var predictivePosting: PredictivePosting {
+        if Bumper.enabled {
+            return Bumper.predictivePosting
+        }
+        return PredictivePosting.fromPosition(abTests.predictivePosting.value)
+    }
+
+    var videoPosting: VideoPosting {
+        if Bumper.enabled {
+            return Bumper.videoPosting
+        }
+        return VideoPosting.fromPosition(abTests.videoPosting.value)
     }
 }

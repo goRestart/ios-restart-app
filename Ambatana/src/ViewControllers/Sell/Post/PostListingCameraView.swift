@@ -1,18 +1,20 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import LGCoreKit
 import LGComponents
 
 protocol PostListingCameraViewDelegate: class {
     func productCameraCloseButton()
-    func productCameraDidTakeImage(_ image: UIImage)
+    func productCameraDidTakeImage(_ image: UIImage, predictionData: MLPredictionDetailsViewData?)
     func productCameraDidRecordVideo(video: RecordedVideo)
     func productCameraRequestsScrollLock(_ lock: Bool)
     func productCameraRequestHideTabs(_ hide: Bool)
     func productCameraLearnMoreButton()
+    func productCameraRequestCategory()
 }
 
-class PostListingCameraView: BaseView, LGViewPagerPage {
+final class PostListingCameraView: BaseView, LGViewPagerPage, MLPredictionDetailsViewDelegate {
 
     @IBOutlet var contentView: UIView!
 
@@ -32,10 +34,13 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
     @IBOutlet weak var verticalPromoLabel: UILabel!
     @IBOutlet weak var learnMoreButton: UIButton!
     @IBOutlet weak var learnMoreChevron: UIButton!
+    @IBOutlet weak var bottomControlsContainer: UIView!
+    @IBOutlet weak var bottomControlsContainerBottomConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var headerContainer: UIView!
     @IBOutlet weak var flashButton: UIButton!
     @IBOutlet weak var retryPhotoButton: UIButton!
+    private let machineLearningButton = UIButton(type: .custom)
 
     @IBOutlet weak var firstTimeAlertContainer: UIView!
     @IBOutlet weak var firstTimeAlert: UIView!
@@ -59,12 +64,37 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
         }
     }
 
+    var machineLearningButtonCenter: CGPoint {
+        return machineLearningButton.center
+    }
+
     weak var delegate: PostListingCameraViewDelegate? {
         didSet {
             viewModel.cameraDelegate = delegate
         }
     }
+
+    private var machineLearningEnabled: Bool {
+        return viewModel.isLiveStatsEnabled.value
+    }
+    private let predictionLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.font = UIFont.systemBoldFont(size: 27)
+        label.textAlignment = .left
+        label.numberOfLines = 0
+        label.layer.shadowColor = UIColor.black.cgColor
+        label.layer.shadowRadius = 1.0
+        label.layer.shadowOpacity = 1.0
+        label.layer.shadowOffset = CGSize.zero
+        label.layer.masksToBounds = false
+        return label
+    }()
+    private let predictionDetailsView = MLPredictionDetailsView()
+    private var predictionDetailsViewBottomConstraint = NSLayoutConstraint()
+
     fileprivate var viewModel: PostListingCameraViewModel
+    private let keyboardHelper: KeyboardHelper
 
     fileprivate let camera = LGCamera()
     private var headerShown = true
@@ -79,17 +109,19 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
     // MARK: - View lifecycle
 
     convenience init(viewModel: PostListingCameraViewModel) {
-        self.init(viewModel: viewModel, frame: CGRect.zero)
+        self.init(viewModel: viewModel, keyboardHelper: KeyboardHelper(), frame: CGRect.zero)
     }
     
-    init(viewModel: PostListingCameraViewModel, frame: CGRect) {
+    init(viewModel: PostListingCameraViewModel, keyboardHelper: KeyboardHelper, frame: CGRect) {
         self.viewModel = viewModel
+        self.keyboardHelper = keyboardHelper
         super.init(viewModel: viewModel, frame: frame)
         setupUI()
     }
 
-    init?(viewModel: PostListingCameraViewModel, coder aDecoder: NSCoder) {
+    init?(viewModel: PostListingCameraViewModel, keyboardHelper: KeyboardHelper, coder aDecoder: NSCoder) {
         self.viewModel = viewModel
+        self.keyboardHelper = keyboardHelper
         super.init(viewModel: viewModel, coder: aDecoder)
         setupUI()
     }
@@ -131,6 +163,13 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
         hideFirstTimeAlert()
         guard takePhotoEnabled.value else { return }
         guard camera.isReady else { return }
+
+        viewModel.takePhotoButtonPressed()
+
+        if viewModel.isLiveStatsPaused, let predictionDetailsData = viewModel.predictionDetailsData() {
+            predictionDetailsView.set(data: predictionDetailsData)
+            viewModel.trackPredictedData(predictedData: predictionDetailsData)
+        }
 
         takePhotoEnabled.value = false
         camera.capturePhoto { [weak self] result in
@@ -189,8 +228,9 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
     }
 
     @IBAction func onUsePhotoButton(_ sender: AnyObject) {
+        endEditing(true)
         hideFirstTimeAlert()
-        viewModel.usePhotoButtonPressed()
+        viewModel.usePhotoButtonPressed(predictionData: predictionDetailsView.data)
     }
     
     @IBAction func onLearnMoreButton(_ sender: AnyObject) {
@@ -239,8 +279,65 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
         setupRX()
 
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideFirstTimeAlert))
+        tapRecognizer.cancelsTouchesInView = false
         addGestureRecognizer(tapRecognizer)
-        
+
+        if viewModel.machineLearningSupported {
+            setupMachineLearningButton()
+            setupMachineLearning(enabled: viewModel.isLiveStatsEnabled.value)
+            setupPredictionLabel()
+            setupPredictionDetailsView()
+            contentView.bringSubview(toFront: bottomControlsContainer)
+        }
+    }
+
+    @objc func machineLearningSwitch() {
+        viewModel.machineLearningButtonPressed()
+    }
+
+    private func setupMachineLearningButton() {
+        headerContainer.addSubviewForAutoLayout(machineLearningButton)
+        machineLearningButton.layout(with: headerContainer).top()
+        machineLearningButton.layout(with: switchCamButton).right(to: .left, by: -12).centerY()
+        machineLearningButton.addTarget(self, action: #selector(machineLearningSwitch), for: .touchUpInside)
+    }
+
+    private func setupMachineLearning(enabled: Bool) {
+        if enabled {
+            machineLearningButton.setImage(#imageLiteral(resourceName: "ml_icon_on"), for: .normal)
+            camera.startForwardingPixelBuffers(to: viewModel.machineLearning,
+                                               pixelsBuffersToForwardPerSecond: viewModel.machineLearning.pixelsBuffersToForwardPerSecond)
+            predictionLabel.animateTo(alpha: 1)
+        } else {
+            machineLearningButton.setImage(#imageLiteral(resourceName: "ml_icon_off"), for: .normal)
+            camera.stopForwardingPixelBuffers()
+            predictionLabel.animateTo(alpha: 0)
+        }
+    }
+
+    private func setupPredictionLabel() {
+        contentView.addSubviewForAutoLayout(predictionLabel)
+        predictionLabel.layout(with: contentView)
+            .left(by: Metrics.margin)
+            .right(by: -Metrics.margin)
+        predictionLabel.layout(with: closeButton)
+            .top(to: .bottom, by: 20)
+    }
+
+    private func setupPredictionDetailsView() {
+        contentView.addSubviewForAutoLayout(predictionDetailsView)
+        predictionDetailsView.layout(with: contentView)
+            .fillHorizontal()
+            .top(by: -44)
+            .bottom { [weak self] constraint in
+                self?.predictionDetailsViewBottomConstraint = constraint
+        }
+        predictionDetailsView.isHidden = true
+        predictionDetailsView.delegate = self
+    }
+
+    func listingCategorySelected(category: ListingCategory?) {
+        predictionDetailsView.set(category: category)
     }
     
     private func setupLearnMore() {
@@ -255,6 +352,13 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
         let previewModeHidden = state.map{ !$0.previewMode }
         previewModeHidden.bind(to: retryPhotoButton.rx.isHidden).disposed(by: disposeBag)
         previewModeHidden.bind(to: usePhotoButton.rx.isHidden).disposed(by: disposeBag)
+        previewModeHidden.bind { [weak self] isHidden in
+            guard let strongSelf = self else { return }
+            let shouldShowPredictionDetails = (strongSelf.viewModel.isLiveStatsEnabled.value || strongSelf.viewModel.isLiveStatsPaused) &&
+                strongSelf.viewModel.cameraMode.value == .photo &&
+                strongSelf.viewModel.predictionDetailsData() != nil
+            strongSelf.predictionDetailsView.isHidden = isHidden || !shouldShowPredictionDetails
+            }.disposed(by: disposeBag)
 
         let previewPhotoModeHidden = state.map{ !$0.previewPhotoMode }
         previewPhotoModeHidden.bind(to: imagePreview.rx.isHidden).disposed(by: disposeBag)
@@ -263,15 +367,16 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
         previewVideoModeHidden.bind(to: videoPreview.rx.isHidden).disposed(by: disposeBag)
 
         let captureModeHidden = state.map{ !$0.captureMode }
-
         let shouldHideTopButtons = Observable.combineLatest(captureModeHidden.asObservable(), 
                                                             isRecordingVideo.asObservable()) { $0 || $1 }
         shouldHideTopButtons
             .asDriver(onErrorJustReturn: false)
-            .drive(onNext: { [weak self] shouldShow in
-                self?.cornersContainer.isHidden = shouldShow
-                self?.switchCamButton.isHidden = shouldShow
-                self?.flashButton.isHidden = shouldShow
+            .drive(onNext: { [weak self] shouldHide in
+                guard let strongSelf = self else { return }
+                strongSelf.cornersContainer.isHidden = shouldHide
+                strongSelf.switchCamButton.isHidden = shouldHide
+                strongSelf.flashButton.isHidden = shouldHide
+                strongSelf.machineLearningButton.isHidden = shouldHide || strongSelf.viewModel.machineLearningButtonHidden.value
             }).disposed(by: disposeBag)
 
         if viewModel.isBlockingPosting {
@@ -323,10 +428,44 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
                 self?.learnMoreChevron.alpha = visible ? 1.0 : 0.0
             })
         }.disposed(by: disposeBag)
+
+        viewModel.liveStatsText.asObservable().bind { [weak self] statsText in
+            self?.predictionLabel.text = statsText
+            }.disposed(by: disposeBag)
+
+        viewModel.machineLearningButtonHidden.asObservable().bind(to: machineLearningButton.rx.isHidden).disposed(by: disposeBag)
+        viewModel.machineLearningButtonHidden.asObservable().bind(to: predictionLabel.rx.isHidden).disposed(by: disposeBag)
+
+        viewModel.isLiveStatsEnabled.asDriver().drive(onNext: { [weak self] isLiveStatsEnabled in
+            guard let strongSelf = self else { return }
+            strongSelf.setupMachineLearning(enabled: isLiveStatsEnabled)
+        }).disposed(by: disposeBag)
+
+        viewModel.cameraState.asDriver().drive(onNext: { [weak self] cameraState in
+            guard let strongSelf = self else { return }
+            strongSelf.cornersContainer.isHidden = !(cameraState == .capture && !strongSelf.viewModel.isLiveStatsEnabled.value)
+        }).disposed(by: disposeBag)
+
+        keyboardHelper.rx_keyboardOrigin.asObservable().skip(1).distinctUntilChanged().bind { [weak self] origin in
+            guard let animationTime = self?.keyboardHelper.animationTime,
+                let keyboardHeight = self?.keyboardHelper.keyboardHeight else { return }
+            let keyboardVisible: Bool = origin < UIScreen.main.bounds.height
+            self?.bottomControlsContainerBottomConstraint.constant = keyboardVisible ? keyboardHeight : 0
+            self?.predictionDetailsViewBottomConstraint.constant = keyboardVisible ? -keyboardHeight : 0
+            UIView.animate(withDuration: Double(animationTime)) { [weak self] in
+                self?.layoutIfNeeded()
+            }
+            }.disposed(by: disposeBag)
     }
 
     @objc private dynamic func hideFirstTimeAlert() {
         viewModel.hideFirstTimeAlert()
+    }
+
+    //MARK: - MLPredictionDetailsViewDelegate
+
+    func didRequestCategorySelection() {
+        delegate?.productCameraRequestCategory()
     }
 }
 
