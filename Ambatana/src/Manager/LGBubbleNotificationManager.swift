@@ -34,8 +34,7 @@ final class LGBubbleNotificationManager: BubbleNotificationManager {
         let bubble = BubbleNotificationView(frame: frame, data: data, alignment: alignment, style: style)
         bubble.delegate = self
         
-        bubble.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(bubble)
+        view.addSubviewForAutoLayout(bubble)
         bubble.setupOnView(parentView: view)
         
         if let tag = data.tagGroup {

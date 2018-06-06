@@ -96,7 +96,7 @@ final class TabBarController: UITabBarController {
             $0.isEmpty
         }
         isBottomNotificationsEmpty.asObservable().distinctUntilChanged().filter{ $0 }.bind { [weak self] _ in
-            delay(BubbleNotificationView.closeAnimationTime) {
+            delay(BubbleNotificationView.Animation.closeAnimationTime) {
                 self?.bottomNotificationsContainer.removeFromSuperview()
             }
         }.disposed(by: disposeBag)
