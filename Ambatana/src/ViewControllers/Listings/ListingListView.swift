@@ -405,16 +405,16 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     }
 
     private func addSubviewToFill(_ view: UIView) {
-        collectionView.addSubviewForAutoLayout(view)
+        addSubviewForAutoLayout(view)
         if #available(iOS 11.0, *) {
             NSLayoutConstraint.activate([
-                view.topAnchor.constraint(equalTo: collectionView.topAnchor),
-                view.trailingAnchor.constraint(equalTo: collectionView.trailingAnchor),
-                view.bottomAnchor.constraint(equalTo: collectionView.bottomAnchor),
-                view.leadingAnchor.constraint(equalTo: collectionView.leadingAnchor)
+                view.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+                view.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+                view.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+                view.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor)
                 ])
         } else {
-            view.layout(with: collectionView).fill()
+            view.layout(with: self).fill()
         }
     }
 
