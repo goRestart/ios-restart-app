@@ -29,8 +29,8 @@ final class EditLocationViewController: BaseViewController, EditLocationViewMode
 
     var suggestionsTableView: UITableView { return editView.searchTableView }
 
-    var aproxLocationArea: UIView { return editView.aproxLocationArea }
     var poiImage: UIImageView { return editView.pin }
+    var aproxLocationArea: UIView { return editView.aproxLocationArea }
 
     fileprivate static let suggestionCellId = "suggestionCell"
 
@@ -177,7 +177,7 @@ final class EditLocationViewController: BaseViewController, EditLocationViewMode
         suggestionsTableView.delegate = self
 
         poiImage.isHidden = true
-        aproxLocationArea.isHidden = true
+        editView.setApproxArea(hidden: true)
 
         registerCells()
 
@@ -227,7 +227,7 @@ final class EditLocationViewController: BaseViewController, EditLocationViewMode
         //When approx location changes show/hide views accordingly
         viewModel.approxLocation.asObservable().subscribeNext { [weak self] approximate in
             self?.poiImage.isHidden = approximate
-            self?.aproxLocationArea.isHidden = !approximate
+            self?.editView.setApproxArea(hidden: !approximate)
         }.disposed(by: disposeBag)
     }
 

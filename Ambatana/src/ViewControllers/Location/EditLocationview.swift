@@ -10,6 +10,7 @@ final class EditLocationView: UIView {
             static let gpsButton: CGFloat = 50
             static let searchView: CGFloat = 38
             static let tableView: CGFloat = 44
+            static let button: CGFloat = 44
         }
         struct Margin {
             static let searchView: CGFloat = 8
@@ -87,6 +88,10 @@ final class EditLocationView: UIView {
     }
 
     required init?(coder aDecoder: NSCoder) { fatalError("Die xibs, die") }
+
+    func setApproxArea(hidden: Bool) {
+        approxView.backgroundColor = hidden ? .clear : UIColor.black.withAlphaComponent(0.1)
+    }
 
     func setApproxLocation(hidden: Bool) {
         approximateLabel.isHidden = hidden
@@ -167,6 +172,7 @@ final class EditLocationView: UIView {
 
             locationButton.leftAnchor.constraint(equalTo: locationButtonLayoutGuide.leftAnchor,
                                                  constant: Metrics.margin),
+            locationButton.heightAnchor.constraint(equalToConstant: Layout.Height.button),
             locationButton.topAnchor.constraint(equalTo: locationButtonLayoutGuide.topAnchor, constant: margin),
             locationButton.rightAnchor.constraint(equalTo: locationButtonLayoutGuide.rightAnchor,
                                                   constant: -Metrics.margin),
