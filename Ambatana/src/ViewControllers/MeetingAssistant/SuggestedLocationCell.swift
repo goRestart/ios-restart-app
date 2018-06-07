@@ -57,6 +57,8 @@ class SuggestedLocationCell: UICollectionViewCell, ReusableCell {
     }
 
     func setupUI() {
+        checkBoxView.image = R.Asset.IconsButtons.checkboxSelectedRound.image
+
         containerView.layer.borderWidth = 0
         coloredBgView.backgroundColor = UIColor.clear
         coloredBgView.layer.cornerRadius = 10.0
