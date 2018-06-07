@@ -52,7 +52,7 @@ struct Constants {
     static func websiteUserEndpoint(_ userId: String) -> String {
         return String(format: "/user/%@", arguments: [userId])
     }
-
+    
     // Deep links other apps
     static let whatsAppShareURL = "whatsapp://send?text=%@"
     static let telegramShareURL = "tg://msg?text=%@"
