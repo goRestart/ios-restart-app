@@ -223,6 +223,7 @@ final private class ApproxLocationView: UIView {
     }
 
     private func setupUI() {
+        isUserInteractionEnabled = false
         backgroundColor = UIColor.black.withAlphaComponent(0.1)
         addSubviewForAutoLayout(pin)
         NSLayoutConstraint.activate([
