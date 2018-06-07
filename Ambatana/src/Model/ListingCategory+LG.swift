@@ -155,7 +155,7 @@ extension ListingCategory {
         }
     }
     
-    var postCategory: PostCategory {
+    func postingCategory(with featureFlags: FeatureFlaggeable) -> PostCategory {
         switch self {
         case .realEstate:
             return .realEstate
@@ -164,7 +164,7 @@ extension ListingCategory {
         case .motorsAndAccessories:
             return .motorsAndAccessories
         case .services:
-            return .services
+            return featureFlags.showServicesFeatures.isActive ? .services : .otherItems(listingCategory: self)
         case .babyAndChild, .electronics, .fashionAndAccesories, .homeAndGarden, .moviesBooksAndMusic, .other,
              .sportsLeisureAndGames, .unassigned:
             return .otherItems(listingCategory: nil)

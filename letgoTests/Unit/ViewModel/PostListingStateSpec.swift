@@ -401,6 +401,42 @@ class PostProductStateSpec: BaseViewModelSpec {
                 }
             }
             
+            context("services details selection") {
+                beforeEach {
+                    sut = sut
+                        .updatingStepToUploadingImages()
+                        .updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
+                        .updatingAfterUploadingSuccess(predictionData: nil)
+                        .updating(price: ListingPrice.makeMock())
+                        .updating(category: .services, showServicesFeatures: true)
+                }
+                
+                it("returns the same state when updating category") {
+                    expect(sut.updating(category: .services)) === sut
+                }
+                
+                it("returns the same state when updating step to uploading images") {
+                    expect(sut.updatingStepToUploadingImages()) === sut
+                }
+                
+                it("returns the same state when updating pending to upload images") {
+                    expect(sut.updating(pendingToUploadImages: [UIImage].makeRandom(), predictionData: nil)) === sut
+                }
+                
+                it("returns the same state when updating uploaded images") {
+                    expect(sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())) === sut
+                }
+                
+                it("returns the same state when updating upload error") {
+                    expect(sut.updating(uploadError: .notFound)) === sut
+                }
+                
+                it("returns the same state when updating price") {
+                    expect(sut.updating(price: ListingPrice.makeMock())) === sut
+                }
+                
+            }
+            
             context("init with title") {
                 let title = String.makeRandom()
                 beforeEach {

@@ -140,13 +140,36 @@ extension SellCoordinator: PostListingNavigator {
         }
     }
     
-    func startDetails(postListingState: PostListingState,
+    
+    func closePostServicesAndPostInBackground(params: [ListingCreationParams],
+                                             trackingInfo: PostListingTrackingInfo) {
+        guard featureFlags.showServicesFeatures.isActive else {
+            showConfirmation(listingResult: ListingResult(error: RepositoryError.internalError(message: "")),
+                                   trackingInfo: trackingInfo, modalStyle: true)
+            return
+        }
+        dismissViewController(animated: true) { [weak self] in
+            self?.listingRepository.createServices(listingParams: params) { [weak self] results in
+                if let listings = results.value {
+                    // TODO: Add track ABIOS-4185
+                    self?.showConfirmation(listingResult: ListingsResult(value: listings),
+                                           trackingInfo: trackingInfo,
+                                           modalStyle: true)
+                } else if let error = results.error {
+                    self?.trackListingPostedInBackground(withError: error)
+                    self?.showConfirmation(listingResult: ListingResult(error: error),
+                                           trackingInfo: trackingInfo, modalStyle: true)
+                }
+            }
+        }
+    }
+    
+    func startDetails(firstStep: PostingDetailStep,
+                      postListingState: PostListingState,
                       uploadedImageSource: EventParameterPictureSource?,
                       uploadedVideoLength: TimeInterval?,
                       postingSource: PostingSource,
                       postListingBasicInfo: PostListingBasicDetailViewModel) {
-        let firstStep: PostingDetailStep = featureFlags.summaryAsFirstStep.isActive ? .summary : .price
-        
         let viewModel = PostingDetailsViewModel(step: firstStep,
                                                 postListingState: postListingState,
                                                 uploadedImageSource: uploadedImageSource,
@@ -205,6 +228,16 @@ extension SellCoordinator: PostListingNavigator {
         let listingPostedVM = ListingPostedViewModel(listingResult: listingResult, trackingInfo: trackingInfo)
         listingPostedVM.navigator = self
         let listingPostedVC = ListingPostedViewController(viewModel: listingPostedVM)
+        showCongrats(listingPostedVC, modalStyle, parentVC)
+    }
+    
+    func showConfirmation(listingResult: ListingsResult, trackingInfo: PostListingTrackingInfo, modalStyle: Bool) {
+        guard let parentVC = parentViewController else { return }
+        let multiPostedVC = MultiPostedViewController(viewModel: nil, nibName: nil)
+        showCongrats(multiPostedVC, modalStyle, parentVC)
+    }
+    
+    private func showCongrats(_ listingPostedVC: UIViewController, _ modalStyle: Bool, _ parentVC: UIViewController) {
         viewController = listingPostedVC
         if modalStyle {
             parentVC.present(listingPostedVC, animated: true, completion: nil)
@@ -231,7 +264,9 @@ extension SellCoordinator: PostListingNavigator {
         }
     }
 
-    func openLoginIfNeededFromListingPosted(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void), cancelAction: (() -> Void)?) {
+    func openLoginIfNeededFromListingPosted(from: EventParameterLoginSourceValue,
+                                            loggedInAction: @escaping (() -> Void),
+                                            cancelAction: (() -> Void)?) {
         openLoginIfNeeded(from: from, style: .popup(R.Strings.productPostLoginMessage), loggedInAction: loggedInAction, cancelAction: cancelAction)
     }
     

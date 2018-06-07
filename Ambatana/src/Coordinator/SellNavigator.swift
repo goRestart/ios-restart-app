@@ -11,7 +11,8 @@ import Foundation
 
 protocol PostListingNavigator: class {
     func cancelPostListing()
-    func startDetails(postListingState: PostListingState,
+    func startDetails(firstStep: PostingDetailStep,
+                      postListingState: PostListingState,
                       uploadedImageSource: EventParameterPictureSource?,
                       uploadedVideoLength: TimeInterval?,
                       postingSource: PostingSource,
@@ -24,6 +25,8 @@ protocol PostListingNavigator: class {
                                postListingBasicInfo: PostListingBasicDetailViewModel,
                                previousStepIsSummary: Bool)
     func closePostProductAndPostInBackground(params: ListingCreationParams,
+                                             trackingInfo: PostListingTrackingInfo)
+    func closePostServicesAndPostInBackground(params: [ListingCreationParams],
                                              trackingInfo: PostListingTrackingInfo)
     func closePostProductAndPostLater(params: ListingCreationParams,
                                       images: [UIImage]?,

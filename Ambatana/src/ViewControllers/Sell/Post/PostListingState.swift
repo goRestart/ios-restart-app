@@ -111,7 +111,7 @@ class PostListingState {
         self.predictionData = predictionData
     }
     
-    func updating(category: PostCategory) -> PostListingState {
+    func updating(category: PostCategory, showServicesFeatures: Bool = false) -> PostListingState {
         guard step == .categorySelection else { return self }
         let newStep: PostListingStep
         switch category {
@@ -119,8 +119,10 @@ class PostListingState {
             newStep = .carDetailsSelection
         case .realEstate:
             newStep = .addingDetails
-        case .otherItems, .motorsAndAccessories, .services:
+        case .otherItems, .motorsAndAccessories:
             newStep = .finished
+        case .services:
+            newStep =  showServicesFeatures ? .addingDetails : .finished
         }
         return PostListingState(step: newStep,
                                 previousStep: step,
@@ -184,7 +186,7 @@ class PostListingState {
             return self
         }
         let newStep: PostListingStep
-        if let currentCategory = category, currentCategory == .realEstate {
+        if let currentCategory = category, currentCategory.hasAddingDetailsScreen {
             newStep = .addingDetails
         } else if let predictionData = predictionData, !predictionData.isEmpty {
             newStep = .finished
@@ -221,7 +223,7 @@ class PostListingState {
             return self
         }
         let newStep: PostListingStep
-        if let currentCategory = category, currentCategory == .realEstate {
+        if let currentCategory = category, currentCategory.hasAddingDetailsScreen  {
             newStep = .addingDetails
         } else {
             newStep = .detailsSelection
@@ -333,7 +335,7 @@ class PostListingState {
     func updatingAfterUploadingSuccess(predictionData: MLPredictionDetailsViewData?) -> PostListingState {
         guard step == .uploadSuccess else { return self }
         let nextStep: PostListingStep
-        if let currentCategory = category, currentCategory == .realEstate {
+        if let currentCategory = category, currentCategory.hasAddingDetailsScreen {
             nextStep = .addingDetails
         } else if let predictionData = predictionData, !predictionData.isEmpty {
             nextStep = .finished
@@ -414,9 +416,9 @@ class PostListingState {
             switch category {
             case .car:
                 newStep = .carDetailsSelection
-            case .realEstate:
+            case .realEstate, .services:
                 newStep = .addingDetails
-            case .otherItems, .motorsAndAccessories, .services:
+            case .otherItems, .motorsAndAccessories:
                 newStep = .finished
             }
         } else {

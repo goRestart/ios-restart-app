@@ -2,11 +2,11 @@ import RxSwift
 import LGCoreKit
 import LGComponents
 
-protocol PostingDetailsViewModelDelegate: BaseViewModelDelegate {}
+protocol MLPostingDetailsViewModelDelegate: BaseViewModelDelegate {}
 
-class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDelegate, PostingAddDetailSummaryTableViewDelegate {
+class MLPostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDelegate, PostingAddDetailSummaryTableViewDelegate {
     
-    weak var delegate: PostingDetailsViewModelDelegate?
+    weak var delegate: MLPostingDetailsViewModelDelegate?
     
     var title: String {
         return step.title
@@ -14,7 +14,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     
     var buttonTitle: String {
         switch step {
-        case .bathrooms, .bedrooms, .rooms, .offerType, .propertyType, .make, .model, .year:
+        case .bathrooms, .bedrooms, .rooms, .offerType, .propertyType, .make, .model, .year, .servicesSubtypes:
             return  previousStepIsSummary ? R.Strings.productPostDone : R.Strings.postingButtonSkip
         case .price, .summary:
             return R.Strings.productPostDone
@@ -23,8 +23,6 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         case .sizeSquareMeters:
             let value = previousStepIsSummary ? R.Strings.productPostDone : R.Strings.postingButtonSkip
             return sizeListing.value == nil ? value : R.Strings.productPostDone
-        case .servicesSubtypes:
-            return R.Strings.productPostUsePhoto
         }
     }
     
@@ -106,11 +104,8 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
                                                         currentPlace: postListingState.place)
             locationView.locationSelected.asObservable().bind(to: placeSelected).disposed(by: disposeBag)
             return locationView
-        case .year, .make, .model:
+        case .year, .make, .model, .servicesSubtypes:
             return nil
-        case .servicesSubtypes:
-            let postServicesView = PostingMultiSelectionView()
-            return postServicesView
         }
         let view = PostingAttributePickerTableView(values: values, selectedIndexes: [], delegate: self)
         return view
@@ -137,11 +132,10 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     private let locationManager: LocationManager
     private let featureFlags: FeatureFlaggeable
     private let myUserRepository: MyUserRepository
-    private let imageMultiplierRepository: ImageMultiplierRepository
     private let sessionManager: SessionManager
     
     private let step: PostingDetailStep
-    private var postListingState: PostListingState
+    private var postListingState: MLPostListingState
     private var uploadedImageSource: EventParameterPictureSource?
     private var uploadedVideoLength: TimeInterval?
     private let postingSource: PostingSource
@@ -157,7 +151,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     // MARK: - LifeCycle
     
     convenience init(step: PostingDetailStep,
-                     postListingState: PostListingState,
+                     postListingState: MLPostListingState,
                      uploadedImageSource: EventParameterPictureSource?,
                      uploadedVideoLength: TimeInterval?,
                      postingSource: PostingSource,
@@ -175,12 +169,11 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
                   locationManager: Core.locationManager,
                   featureFlags: FeatureFlags.sharedInstance,
                   myUserRepository: Core.myUserRepository,
-                  sessionManager: Core.sessionManager,
-                  imageMultiplierRepository: Core.imageMultiplierRepository)
+                  sessionManager: Core.sessionManager)
     }
     
     init(step: PostingDetailStep,
-         postListingState: PostListingState,
+         postListingState: MLPostListingState,
          uploadedImageSource: EventParameterPictureSource?,
          uploadedVideoLength: TimeInterval?,
          postingSource: PostingSource,
@@ -191,8 +184,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
          locationManager: LocationManager,
          featureFlags: FeatureFlaggeable,
          myUserRepository: MyUserRepository,
-         sessionManager: SessionManager,
-         imageMultiplierRepository: ImageMultiplierRepository) {
+         sessionManager: SessionManager) {
         self.step = step
         self.postListingState = postListingState
         self.uploadedImageSource = uploadedImageSource
@@ -206,7 +198,6 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         self.featureFlags = featureFlags
         self.myUserRepository = myUserRepository
         self.sessionManager = sessionManager
-        self.imageMultiplierRepository = imageMultiplierRepository
     }
     
     func closeButtonPressed() {
@@ -220,9 +211,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         }
         switch step {
         case .price:
-        if priceListing.value != Constants.defaultPrice || previousStepIsSummary {
             set(price: priceListing.value)
-        }
         case .location:
             update(place: placeSelected.value)
         case .sizeSquareMeters:
@@ -238,54 +227,28 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         if featureFlags.removeCategoryWhenClosingPosting.isActive {
             postListingState = postListingState.removeRealEstateCategory()
         }
-        if postListingState.pendingToUploadMedia {
+        if postListingState.pendingToUploadImages != nil {
             openPostAbandonAlertNotLoggedIn()
         } else {
-            guard let _ = postListingState.lastImagesUploadResult?.value,
-                let listingParams = retrieveListingParams() else {
+            guard let _ = postListingState.lastImagesUploadResult?.value else {
                 navigator?.cancelPostListing()
                 return
             }
-
-            if featureFlags.showServicesFeatures.isActive && postListingState.category?.isService ?? false {
-                closeAndMultipostInBackground(params: [listingParams], trackingInfo: postListingTrackingInfo)
+            if let listingParams = retrieveListingParams() {
+                let trackingInfo = PostListingTrackingInfo(buttonName: .close,
+                                                           sellButtonPosition: postingSource.sellButtonPosition,
+                                                           imageSource: uploadedImageSource,
+                                                           videoLength: uploadedVideoLength,
+                                                           price: String.fromPriceDouble(postListingState.price?.value ?? 0),
+                                                           typePage: postingSource.typePage,
+                                                           mostSearchedButton: postingSource.mostSearchedButton,
+                                                           machineLearningInfo: MachineLearningTrackingInfo.defaultValues())
+                navigator?.closePostProductAndPostInBackground(params: listingParams,
+                                                               trackingInfo: trackingInfo)
             } else {
-                navigator?.closePostProductAndPostInBackground(params: listingParams, trackingInfo: postListingTrackingInfo)
+                navigator?.cancelPostListing()
             }
         }
-    }
-    
-    private func closeAndMultipostInBackground(params: [ListingCreationParams],
-                                               trackingInfo: PostListingTrackingInfo) {
-        
-        // TODO: include image id and number of images for this ABIOS-4290
-        imageMultiplierRepository.imageMultiplier(ImageMultiplierParams(imageId: "", times: 3)) { [weak self] result in
-            
-            guard let imagesIds = result.value,
-                let modifiedParams = self?.updatedParams(with: params, imagesIds) else {
-                let error = result.error ?? RepositoryError.internalError(message: "")
-                self?.navigator?.showConfirmation(listingResult: ListingResult(error: error),
-                                                  trackingInfo: trackingInfo, modalStyle: true)
-                return
-            }
-            self?.navigator?.closePostServicesAndPostInBackground(params: modifiedParams, trackingInfo: trackingInfo)
-        }
-    }
-    
-    private func updatedParams(with params: [ListingCreationParams], _ imagesIds: [String]) -> [ListingCreationParams] {
-        // TODO: update params, part of ABIOS-4290
-        return params
-    }
-    
-    private var postListingTrackingInfo: PostListingTrackingInfo {
-        return PostListingTrackingInfo(buttonName: .close,
-                                       sellButtonPosition: postingSource.sellButtonPosition,
-                                       imageSource: uploadedImageSource,
-                                       videoLength: uploadedVideoLength,
-                                       price: String.fromPriceDouble(postListingState.price?.value ?? 0),
-                                       typePage: postingSource.typePage,
-                                       mostSearchedButton: postingSource.mostSearchedButton,
-                                       machineLearningInfo: MachineLearningTrackingInfo.defaultValues())
     }
     
     private func openPostAbandonAlertNotLoggedIn() {
@@ -311,16 +274,14 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
                                                    machineLearningInfo: MachineLearningTrackingInfo.defaultValues())
         if sessionManager.loggedIn {
             openListingPosting(trackingInfo: trackingInfo)
-        } else if postListingState.pendingToUploadMedia {
+        } else if let images = postListingState.pendingToUploadImages {
             let loggedInAction: (() -> Void) = { [weak self] in
-                self?.postActionAfterLogin(images: self?.postListingState.pendingToUploadImages,
-                                           video: self?.postListingState.pendingToUploadVideo, trackingInfo: trackingInfo)
+                self?.postActionAfterLogin(images: images, video: nil, trackingInfo: trackingInfo)
             }
             let cancelAction: (() -> Void) = { [weak self] in
                 self?.cancelPostListing()
             }
             navigator?.openLoginIfNeededFromListingPosted(from: .sell, loggedInAction: loggedInAction, cancelAction: cancelAction)
-
         } else {
             navigator?.cancelPostListing()
         }
@@ -336,7 +297,9 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         navigator?.cancelPostListing()
     }
     
-    private func postActionAfterLogin(images: [UIImage]?, video: RecordedVideo?, trackingInfo: PostListingTrackingInfo) {        
+    private func postActionAfterLogin(images: [UIImage]?,
+                                      video: RecordedVideo?,
+                                      trackingInfo: PostListingTrackingInfo) {
         guard let listingParams = retrieveListingParams(), let images = images else { return }
         navigator?.closePostProductAndPostLater(params: listingParams,
                                                       images: images,
@@ -345,10 +308,9 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     }
     
     private func advanceNextStep(next: PostingDetailStep) {
-        navigator?.nextPostingDetailStep(step: next, postListingState: postListingState,
-                                         uploadedImageSource: uploadedImageSource, uploadedVideoLength: uploadedVideoLength,
-                                         postingSource: postingSource, postListingBasicInfo: postListingBasicInfo,
-                                         previousStepIsSummary: false)
+        navigator?.nextPostingDetailStep(step: next, postListingState: postListingState, uploadedImageSource: uploadedImageSource,
+                                         uploadedVideoLength: uploadedVideoLength, postingSource: postingSource,
+                                         postListingBasicInfo: postListingBasicInfo, previousStepIsSummary: false)
     }
     
     private func set(price: ListingPrice) {
@@ -479,7 +441,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         }
         return positionSelected
     }
-    
+
     
     // MARK: - PostingAddDetailSummaryTableViewDelegate
     

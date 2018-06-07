@@ -2,28 +2,7 @@ import LGCoreKit
 import RxSwift
 import LGComponents
 
-protocol PostListingViewModelDelegate: BaseViewModelDelegate {}
-
-enum PostingSource {
-    case tabBar
-    case sellButton
-    case deepLink
-    case onboardingButton
-    case onboardingCamera
-    case onboardingBlockingPosting
-    case notifications
-    case deleteListing
-    case realEstatePromo
-    case mostSearchedTabBarCamera
-    case mostSearchedTrendingExpandable
-    case mostSearchedTagsExpandable
-    case mostSearchedCategoryHeader
-    case mostSearchedCard
-    case mostSearchedUserProfile
-}
-
-
-class PostListingViewModel: BaseViewModel {
+class MLPostListingViewModel: BaseViewModel {
     
     static let carDetailsNumber: Int = 3
     
@@ -37,32 +16,17 @@ class PostListingViewModel: BaseViewModel {
             return R.Strings.productPostUsePhotoNotLogged
         }
     }
-    var useVideoButtonText: String {
-        if sessionManager.loggedIn {
-            return R.Strings.productPostUsePhoto
-        } else {
-            return R.Strings.productPostUseVideoNotLogged
-        }
-    }
     var confirmationOkText: String {
         if sessionManager.loggedIn {
             return R.Strings.productPostProductPosted
         } else {
-            if uploadingVideo != nil {
-                return R.Strings.productPostProductPostedNotLoggedVideoPosting
-            } else {
-                return R.Strings.productPostProductPostedNotLogged
-            }
+            return R.Strings.productPostProductPostedNotLogged
         }
     }
     
     var isRealEstate: Bool {
         guard let category = postCategory, category == .realEstate else { return false }
         return true
-    }
-    
-    var realEstateTutorialPages: [LGTutorialPage]? {
-        return LGTutorialPage.makeRealEstateTutorial(typeOfOnboarding: featureFlags.realEstateTutorial)
     }
 
     var availablePostCategories: [PostCategory] {
@@ -78,33 +42,26 @@ class PostListingViewModel: BaseViewModel {
         })
     }
 
-    let state: Variable<PostListingState>
+    let state: Variable<MLPostListingState>
     let category: Variable<PostCategory?>
 
     let postDetailViewModel: PostListingBasicDetailViewModel
-    let postListingCameraViewModel: PostListingCameraViewModel
+    let postListingCameraViewModel: MLPostListingCameraViewModel
     let postingSource: PostingSource
     let postCategory: PostCategory?
-    let isBlockingPosting: Bool
-    let machineLearningSupported: Bool
     
     fileprivate let listingRepository: ListingRepository
-    fileprivate let categoryRepository: CategoryRepository
     fileprivate let fileRepository: FileRepository
-    fileprivate let preSignedUploadUrlRepository: PreSignedUploadUrlRepository
     fileprivate let carsInfoRepository: CarsInfoRepository
     fileprivate let currencyHelper: CurrencyHelper
     fileprivate let tracker: Tracker
     fileprivate let sessionManager: SessionManager
     fileprivate let featureFlags: FeatureFlaggeable
     fileprivate let locationManager: LocationManager
-    fileprivate let keyValueStorage: KeyValueStorageable
     
     fileprivate var imagesSelected: [UIImage]?
     fileprivate var uploadedImageSource: EventParameterPictureSource?
     fileprivate var uploadedVideoLength: TimeInterval?
-    fileprivate var recordedVideo: RecordedVideo?
-    fileprivate var uploadingVideo: VideoUpload?
     fileprivate var predictionData: MLPredictionDetailsViewData?
     
     let selectedDetail = Variable<CategoryDetailSelectedInfo?>(nil)
@@ -115,22 +72,8 @@ class PostListingViewModel: BaseViewModel {
         return featureFlags.realEstateEnabled.isActive
     }
     
-    var maxNumberImages: Int {
-        return Constants.maxImageCount
-    }
-    
-    var shouldShowInfoButton: Bool {
-        guard let category = postCategory?.listingCategory else { return false }
-        return category.isRealEstate && featureFlags.realEstateTutorial.shouldShowInfoButton
-    }
-
-    var shouldShowVideoFooter: Bool {
-        guard let category = postCategory?.listingCategory else { return false }
-        return (category.isProduct && !category.isServices) && featureFlags.videoPosting.isActive
-    }
-    
     fileprivate let disposeBag: DisposeBag
-
+    
     var categories: [ListingCategory] = []
 
     
@@ -138,66 +81,46 @@ class PostListingViewModel: BaseViewModel {
 
     convenience init(source: PostingSource,
                      postCategory: PostCategory?,
-                     listingTitle: String?,
-                     isBlockingPosting: Bool,
-                     machineLearningSupported: Bool) {
+                     listingTitle: String?) {
         self.init(source: source,
                   postCategory: postCategory,
                   listingTitle: listingTitle,
-                  isBlockingPosting: isBlockingPosting,
-                  machineLearningSupported: machineLearningSupported,
                   listingRepository: Core.listingRepository,
-                  categoryRepository: Core.categoryRepository,
                   fileRepository: Core.fileRepository,
-                  preSignedUploadUrlRepository: Core.preSignedUploadUrlRepository,
                   carsInfoRepository: Core.carsInfoRepository,
                   tracker: TrackerProxy.sharedInstance,
                   sessionManager: Core.sessionManager,
                   featureFlags: FeatureFlags.sharedInstance,
                   locationManager: Core.locationManager,
-                  currencyHelper: Core.currencyHelper,
-                  keyValueStorage: KeyValueStorage.sharedInstance)
+                  currencyHelper: Core.currencyHelper)
     }
 
     init(source: PostingSource,
          postCategory: PostCategory?,
          listingTitle: String?,
-         isBlockingPosting: Bool,
-         machineLearningSupported: Bool,
          listingRepository: ListingRepository,
-         categoryRepository: CategoryRepository,
          fileRepository: FileRepository,
-         preSignedUploadUrlRepository: PreSignedUploadUrlRepository,
          carsInfoRepository: CarsInfoRepository,
          tracker: Tracker,
          sessionManager: SessionManager,
          featureFlags: FeatureFlaggeable,
          locationManager: LocationManager,
-         currencyHelper: CurrencyHelper,
-         keyValueStorage: KeyValueStorageable) {
-        self.state = Variable<PostListingState>(PostListingState(postCategory: postCategory, title: listingTitle))
+         currencyHelper: CurrencyHelper) {
+        self.state = Variable<MLPostListingState>(MLPostListingState(postCategory: postCategory, title: listingTitle))
         self.category = Variable<PostCategory?>(postCategory)
         
         self.postingSource = source
         self.postCategory = postCategory
-        self.isBlockingPosting = isBlockingPosting
-        self.machineLearningSupported = machineLearningSupported
         self.listingRepository = listingRepository
-        self.categoryRepository = categoryRepository
         self.fileRepository = fileRepository
-        self.preSignedUploadUrlRepository = preSignedUploadUrlRepository
         self.carsInfoRepository = carsInfoRepository
         self.postDetailViewModel = PostListingBasicDetailViewModel()
-        self.postListingCameraViewModel = PostListingCameraViewModel(postingSource: source,
-                                                                     postCategory: postCategory,
-                                                                     isBlockingPosting: isBlockingPosting,
-                                                                     machineLearningSupported: machineLearningSupported)
+        self.postListingCameraViewModel = MLPostListingCameraViewModel(postingSource: source, postCategory: postCategory)
         self.tracker = tracker
         self.sessionManager = sessionManager
         self.featureFlags = featureFlags
         self.locationManager = locationManager
         self.currencyHelper = currencyHelper
-        self.keyValueStorage = keyValueStorage
         self.disposeBag = DisposeBag()
         super.init()
         self.postDetailViewModel.delegate = self
@@ -209,24 +132,24 @@ class PostListingViewModel: BaseViewModel {
 
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
-        guard firstTime, !isBlockingPosting else { return }
+        guard firstTime else { return }
         trackVisit()
     }
-
+    
     private func setupCategories() {
-        categoryRepository.index(servicesIncluded: false, carsIncluded: false, realEstateIncluded: false) { [weak self] result in
+        Core.categoryRepository.index(servicesIncluded: false, carsIncluded: false, realEstateIncluded: false) { [weak self] result in
             guard let categories = result.value else { return }
             self?.categories = categories
         }
     }
 
     // MARK: - Public methods
-
+    
     func categoryAtIndex(_ index: Int) -> ListingCategory? {
         guard 0..<categories.count ~= index else { return nil }
         return categories[index]
     }
-
+    
     func categoryNameAtIndex(_ index: Int) -> String {
         guard 0..<categories.count ~= index else { return "" }
         return categories[index].name
@@ -237,53 +160,18 @@ class PostListingViewModel: BaseViewModel {
     }
    
     func retryButtonPressed() {
-        guard let source = uploadedImageSource else { return }
-        if let images = imagesSelected {
-            imagesSelected(images, source: source, predictionData: predictionData)
-        } else if let uploadingVideo = uploadingVideo {
-            if uploadingVideo.snapshot == nil {
-                uploadVideoSnapshot(uploadingVideo: uploadingVideo)
-            } else {
-                state.value = state.value.updatingStepToCreatingPreSignedUrl(uploadingVideo: uploadingVideo)
-                createPreSignedUploadUrlForVideo(uploadingVideo: uploadingVideo)
-            }
-        }
+        guard let images = imagesSelected, let source = uploadedImageSource, let predictionData = predictionData else { return }
+        imagesSelected(images, source: source, predictionData: predictionData)
     }
 
-    func infoButtonPressed() {
-        openOnboardingRealEstate(origin: .postingIconInfo)
-    }
-    
-    func learnMorePressed() {
-        openOnboardingRealEstate(origin: .postingLearnMore)
-    }
-
-    func imagesSelected(_ images: [UIImage], source: EventParameterPictureSource, predictionData: MLPredictionDetailsViewData?) {
-        if isBlockingPosting {
-            openQueuedRequestsLoading(images: images, imageSource: source)
-        } else {
-            uploadImages(images, source: source, predictionData: predictionData)
-        }
-    }
-
-    func videoRecorded(video: RecordedVideo) {
-        let uploadingVideo = VideoUpload(recordedVideo: video, snapshot: nil, videoId: nil)
-        self.uploadingVideo = uploadingVideo
-        uploadVideoSnapshot(uploadingVideo: uploadingVideo)
-    }
-    
-    private func openOnboardingRealEstate(origin: EventParameterTypePage) {
-        guard let pages = LGTutorialPage.makeRealEstateTutorial(typeOfOnboarding: featureFlags.realEstateTutorial) else { return }
-        navigator?.openRealEstateOnboarding(pages: pages, origin: origin, tutorialType: .realEstate)
-    }
-    
-    fileprivate func uploadImages(_ images: [UIImage], source: EventParameterPictureSource, predictionData: MLPredictionDetailsViewData? = nil) {
+    func imagesSelected(_ images: [UIImage], source: EventParameterPictureSource, predictionData: MLPredictionDetailsViewData? = nil) {
         uploadedImageSource = source
         imagesSelected = images
         self.predictionData = predictionData
-
+        state.value.predictionData = predictionData
+        
         guard sessionManager.loggedIn else {
-            state.value = state.value.updating(pendingToUploadImages: images, predictionData: predictionData)
+            state.value = state.value.updating(pendingToUploadImages: images)
             return
         }
 
@@ -291,7 +179,7 @@ class PostListingViewModel: BaseViewModel {
 
         fileRepository.upload(images, progress: nil) { [weak self] result in
             guard let strongSelf = self else { return }
-
+            
             if let images = result.value {
                 strongSelf.state.value = strongSelf.state.value.updatingToSuccessUpload(uploadedImages: images)
             } else if let error = result.error {
@@ -299,96 +187,20 @@ class PostListingViewModel: BaseViewModel {
             }
         }
     }
-
-    fileprivate func uploadVideoSnapshot(uploadingVideo: VideoUpload) {
-
-        uploadedImageSource = .videoCamera
-        guard sessionManager.loggedIn else {
-            state.value = state.value.updating(pendingToUploadVideo: uploadingVideo.recordedVideo)
-            return
-        }
-        state.value = state.value.updatingStepToUploadingVideoSnapshot(uploadingVideo: uploadingVideo)
-        fileRepository.upload([uploadingVideo.recordedVideo.snapshot], progress: nil) { [weak self] result in
-            guard let strongSelf = self else { return }
-
-            if let image = result.value?.first {
-                let newUploadingVideo = VideoUpload(recordedVideo: uploadingVideo.recordedVideo, snapshot: image, videoId: nil)
-                strongSelf.uploadingVideo = newUploadingVideo
-                strongSelf.state.value = strongSelf.state.value.updatingStepToCreatingPreSignedUrl(uploadingVideo: newUploadingVideo)
-                strongSelf.createPreSignedUploadUrlForVideo(uploadingVideo: newUploadingVideo)
-            } else if let error = result.error {
-                strongSelf.state.value = strongSelf.state.value.updating(uploadError: error)
-            }
-        }
-    }
-
-    fileprivate func createPreSignedUploadUrlForVideo(uploadingVideo: VideoUpload) {
-
-        preSignedUploadUrlRepository.create(fileExtension: Constants.videoFileExtension) { [weak self] result in
-            guard let strongSelf = self else { return }
-
-            if let preSignedUploadUrl = result.value {
-                let uploadingVideo = VideoUpload(recordedVideo: uploadingVideo.recordedVideo,
-                                                    snapshot: uploadingVideo.snapshot,
-                                                    videoId: preSignedUploadUrl.form.fileKey)
-                strongSelf.state.value = strongSelf.state.value.updatingStepToUploadingVideoFile(uploadingVideo: uploadingVideo)
-                strongSelf.uploadVideo(uploadingVideo: uploadingVideo, preSignedUploadUrl: preSignedUploadUrl)
-            } else if let error = result.error {
-                strongSelf.state.value = strongSelf.state.value.updating(uploadError: error)
-            }
-        }
-    }
-
-    fileprivate func uploadVideo(uploadingVideo: VideoUpload, preSignedUploadUrl: PreSignedUploadUrl) {
-
-        preSignedUploadUrlRepository.upload(url: preSignedUploadUrl.form.action,
-                                            file: uploadingVideo.recordedVideo.url,
-                                            inputs: preSignedUploadUrl.form.inputs,
-                                            progress: nil,
-                                            completion: { [weak self] result in
-            guard let strongSelf = self else { return }
-
-            if result.value != nil {
-                guard let video = LGVideo(videoUpload: uploadingVideo) else {
-                    strongSelf.state.value = strongSelf.state.value.updating(uploadError: .internalError(message: "Error creating LGVideo from VideoUpload "))
-                    return
-                }
-                strongSelf.uploadedVideoLength = uploadingVideo.recordedVideo.duration
-                strongSelf.state.value = strongSelf.state.value.updatingToSuccessUpload(uploadedVideo: video)
-            } else if let error = result.error {
-                strongSelf.state.value = strongSelf.state.value.updating(uploadError: error)
-            }
-        })
-    }
-    
-    fileprivate func openQueuedRequestsLoading(images: [UIImage], imageSource: EventParameterPictureSource) {
-        guard let listingParams = makeListingParams() else { return }
-        navigator?.openQueuedRequestsLoading(images: images,
-                                             listingCreationParams: listingParams,
-                                             imageSource: imageSource,
-                                             postingSource: postingSource)
-    }
-    
-    func showRealEstateTutorial(origin: EventParameterTypePage) {
-        guard postCategory == .realEstate && !keyValueStorage[.realEstateTutorialShown] else { return }
-        guard let pages = realEstateTutorialPages else { return }
-        keyValueStorage[.realEstateTutorialShown] = true
-        navigator?.openRealEstateOnboarding(pages: pages, origin: origin, tutorialType: .realEstate)
-    }
     
     func closeButtonPressed() {
-        if state.value.pendingToUploadMedia {
+        if state.value.pendingToUploadImages != nil {
             openPostAbandonAlertNotLoggedIn()
         } else {
-            if state.value.lastImagesUploadResult?.value == nil && state.value.uploadedVideo == nil {
-                if isBlockingPosting {
-                    trackPostSellAbandon()
-                }
+            guard let images = state.value.lastImagesUploadResult?.value else {
                 navigator?.cancelPostListing()
-            } else if let listingParams = makeListingParams() {
+                return
+            }
+            
+            if let listingParams = makeListingParams(images: images) {
                 let machineLearningTrackingInfo = MachineLearningTrackingInfo(data: state.value.predictionData,
-                                                                              predictiveFlow: machineLearningSupported,
-                                                                              predictionActive: postListingCameraViewModel.isLiveStatsPaused)
+                                                                              predictiveFlow: true,
+                                                                              predictionActive: postListingCameraViewModel.isLiveStatsEnabledBackup)
                 let trackingInfo = PostListingTrackingInfo(buttonName: .close,
                                                            sellButtonPosition: postingSource.sellButtonPosition,
                                                            imageSource: uploadedImageSource,
@@ -408,7 +220,7 @@ class PostListingViewModel: BaseViewModel {
 
 // MARK: - Cars vertical
 
-extension PostListingViewModel {
+extension MLPostListingViewModel {
     
     fileprivate var carMakes: [CarsMake] {
         return carsInfoRepository.retrieveCarsMakes()
@@ -477,7 +289,7 @@ extension PostListingViewModel {
     }
     
     var currentCarDetailsProgress: Float {
-        let details = PostListingViewModel.carDetailsNumber
+        let details = MLPostListingViewModel.carDetailsNumber
         var detailsFilled = 0
         detailsFilled += selectedCarAttributes.isMakeEmpty ? 0 : 1
         detailsFilled += selectedCarAttributes.isModelEmpty ? 0 : 1
@@ -514,7 +326,7 @@ extension PostListingViewModel {
 
 // MARK: - PostListingBasicDetailViewModelDelegate
 
-extension PostListingViewModel: PostListingBasicDetailViewModelDelegate {
+extension MLPostListingViewModel: PostListingBasicDetailViewModelDelegate {
     func postListingDetailDone(_ viewModel: PostListingBasicDetailViewModel) {
         state.value = state.value.updating(price: viewModel.listingPrice)
     }
@@ -523,12 +335,11 @@ extension PostListingViewModel: PostListingBasicDetailViewModelDelegate {
 
 // MARK: - Private methods
 
-fileprivate extension PostListingViewModel {
+fileprivate extension MLPostListingViewModel {
     func setupRx() {
         category.asObservable().subscribeNext { [weak self] category in
             guard let strongSelf = self, let category = category else { return }
-            strongSelf.state.value = strongSelf.state.value.updating(category: category,
-                                                                     showServicesFeatures: strongSelf.featureFlags.showServicesFeatures.isActive)
+            strongSelf.state.value = strongSelf.state.value.updating(category: category)
         }.disposed(by: disposeBag)
         
         state.asObservable().filter { $0.step == .finished }.bind { [weak self] _ in
@@ -543,7 +354,7 @@ fileprivate extension PostListingViewModel {
             // Keep one second delay in order to give time to read the product posted message.
             delay(1) { [weak self] in
                 guard let strongSelf = self else { return }
-                strongSelf.state.value = strongSelf.state.value.updatingAfterUploadingSuccess(predictionData: strongSelf.predictionData)
+                strongSelf.state.value = strongSelf.state.value.updatingAfterUploadingSuccess()
             }
         }.disposed(by: disposeBag)
     }
@@ -562,8 +373,8 @@ fileprivate extension PostListingViewModel {
     
     func postListing() {
         let machineLearningTrackingInfo = MachineLearningTrackingInfo(data: state.value.predictionData,
-                                                                      predictiveFlow: machineLearningSupported,
-                                                                      predictionActive: postListingCameraViewModel.isLiveStatsPaused)
+                                                                      predictiveFlow: true,
+                                                                      predictionActive: postListingCameraViewModel.isLiveStatsEnabledBackup)
         let trackingInfo = PostListingTrackingInfo(buttonName: .done,
                                                    sellButtonPosition: postingSource.sellButtonPosition,
                                                    imageSource: uploadedImageSource,
@@ -573,16 +384,16 @@ fileprivate extension PostListingViewModel {
                                                    mostSearchedButton: postingSource.mostSearchedButton,
                                                    machineLearningInfo: machineLearningTrackingInfo)
         if sessionManager.loggedIn {
-            guard state.value.lastImagesUploadResult?.value != nil || state.value.uploadedVideo != nil,
-                let listingCreationParams = makeListingParams() else { return }
+            guard let images = state.value.lastImagesUploadResult?.value,
+                let listingCreationParams = makeListingParams(images: images) else { return }
             navigator?.closePostProductAndPostInBackground(params: listingCreationParams,
                                                            trackingInfo: trackingInfo)
-        } else if state.value.pendingToUploadMedia {
+        } else if let images = state.value.pendingToUploadImages {
             let loggedInAction = { [weak self] in
-                guard let listingParams = self?.makeListingParams() else { return }
+                guard let listingParams = self?.makeListingParams(images: []) else { return }
                 self?.navigator?.closePostProductAndPostLater(params: listingParams,
-                                                              images: self?.state.value.pendingToUploadImages,
-                                                              video: self?.state.value.pendingToUploadVideo,
+                                                              images: images,
+                                                              video: nil,
                                                               trackingInfo: trackingInfo)
             }
             let cancelAction = { [weak self] in
@@ -590,21 +401,13 @@ fileprivate extension PostListingViewModel {
                 self?.navigator?.cancelPostListing()
             }
             navigator?.openLoginIfNeededFromListingPosted(from: .sell, loggedInAction: loggedInAction, cancelAction: cancelAction)
-
         } else {
             navigator?.cancelPostListing()
         }
     }
     
     func openPostingDetails() {
-        let firstStep: PostingDetailStep
-        if let category = state.value.category,
-            category.isService, featureFlags.showServicesFeatures.isActive {
-            firstStep = .servicesSubtypes
-        } else {
-            firstStep = featureFlags.summaryAsFirstStep.isActive ? .summary : .price
-        }
-        
+        let firstStep: PostingDetailStep = featureFlags.summaryAsFirstStep.isActive ? .summary : .price
         navigator?.startDetails(firstStep: firstStep,
                                 postListingState: state.value,
                                 uploadedImageSource: uploadedImageSource,
@@ -613,7 +416,7 @@ fileprivate extension PostListingViewModel {
                                 postListingBasicInfo: postDetailViewModel)
     }
     
-    func makeListingParams() -> ListingCreationParams? {
+    func makeListingParams(images:[File]) -> ListingCreationParams? {
         guard let location = locationManager.currentLocation?.location else { return nil }
         let description = postDetailViewModel.listingDescription ?? ""
         let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()
@@ -638,100 +441,16 @@ fileprivate extension PostListingViewModel {
 }
 
 
-fileprivate extension RealEstateTutorial {
-    var shouldShowInfoButton: Bool {
-        return self == .oneScreen || self == .twoScreens || self == .threeScreens
-    }
-}
-
-
 // MARK: - Tracking
 
-fileprivate extension PostListingViewModel {
+fileprivate extension MLPostListingViewModel {
     func trackVisit() {
         let event = TrackerEvent.listingSellStart(postingSource.typePage,
                                                   buttonName: postingSource.buttonName,
                                                   sellButtonPosition: postingSource.sellButtonPosition,
                                                   category: postCategory?.listingCategory,
                                                   mostSearchedButton: postingSource.mostSearchedButton,
-                                                  predictiveFlow: false)
+                                                  predictiveFlow: true)
         tracker.trackEvent(event)
-    }
-    
-    fileprivate func trackPostSellAbandon() {
-        let event = TrackerEvent.listingSellAbandon(abandonStep: .cameraPermissions)
-        tracker.trackEvent(event)
-    }
-}
-
-extension PostingSource {
-    var typePage: EventParameterTypePage {
-        switch self {
-        case .tabBar, .sellButton:
-            return .sell
-        case .deepLink:
-            return .external
-        case .onboardingButton, .onboardingCamera, .onboardingBlockingPosting:
-            return .onboarding
-        case .notifications:
-            return .notifications
-        case .deleteListing:
-            return .listingDelete
-        case .mostSearchedTabBarCamera, .mostSearchedTrendingExpandable, .mostSearchedTagsExpandable,
-             .mostSearchedCategoryHeader, .mostSearchedCard, .mostSearchedUserProfile:
-            return .mostSearched
-        case .realEstatePromo:
-            return .realEstatePromo
-        }
-    }
-
-    var buttonName: EventParameterButtonNameType? {
-        switch self {
-        case .tabBar, .sellButton, .deepLink, .notifications, .deleteListing, .mostSearchedTabBarCamera,
-             .mostSearchedTrendingExpandable, .mostSearchedTagsExpandable, .mostSearchedCategoryHeader,
-             .mostSearchedCard, .mostSearchedUserProfile, .onboardingBlockingPosting:
-            return nil
-        case .onboardingButton:
-            return .sellYourStuff
-        case .onboardingCamera:
-            return .startMakingCash
-        case .realEstatePromo:
-            return .realEstatePromo
-        }
-    }
-    
-    var sellButtonPosition: EventParameterSellButtonPosition {
-        switch self {
-        case .tabBar:
-            return .tabBar
-        case .sellButton:
-            return .floatingButton
-        case .onboardingButton, .onboardingCamera, .onboardingBlockingPosting, .deepLink, .notifications, .deleteListing, .mostSearchedTabBarCamera,
-             .mostSearchedTrendingExpandable, .mostSearchedTagsExpandable, .mostSearchedCategoryHeader,
-             .mostSearchedCard, .mostSearchedUserProfile:
-            return .none
-        case .realEstatePromo:
-            return .realEstatePromo
-        }
-    }
-    
-    var mostSearchedButton: EventParameterMostSearched {
-        switch self {
-        case .tabBar, .sellButton, .deepLink, .onboardingButton, .onboardingCamera, .onboardingBlockingPosting,
-             .notifications, .deleteListing, .realEstatePromo:
-            return .notApply
-        case .mostSearchedTabBarCamera:
-            return .tabBarCamera
-        case .mostSearchedTrendingExpandable:
-            return .trendingExpandableButton
-        case .mostSearchedTagsExpandable:
-            return .postingTags
-        case .mostSearchedCategoryHeader:
-            return .feedBubble
-        case .mostSearchedCard:
-            return .feedCard
-        case .mostSearchedUserProfile:
-            return .userProfile
-        }
     }
 }

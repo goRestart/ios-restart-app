@@ -31,6 +31,7 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
         var featureFlags: MockFeatureFlags!
         var myUserRepository: MockMyUserRepository!
         var sessionManager: MockSessionManager!
+        var imageMultiplierRepository: MockImageMultiplierRepository!
         
         var postingDetailsStep: PostingDetailStep!
         var postListingState: PostListingState!
@@ -54,7 +55,8 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
                                               locationManager: locationManager,
                                               featureFlags: featureFlags,
                                               myUserRepository: myUserRepository,
-                                              sessionManager: sessionManager)
+                                              sessionManager: sessionManager,
+                                              imageMultiplierRepository: imageMultiplierRepository)
                 
                 sut.navigator = self
             }
@@ -67,6 +69,7 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
                 featureFlags = MockFeatureFlags()
                 myUserRepository = MockMyUserRepository()
                 sessionManager = MockSessionManager()
+                imageMultiplierRepository = MockImageMultiplierRepository()
                 
                 self.cancelPostingCalled = false
                 self.nextPostingDetailStepCalled = false
@@ -216,11 +219,16 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
 
 extension PostingDetailsViewModelSpec: PostListingNavigator {
 
-    func startDetails(postListingState: PostListingState, uploadedImageSource: EventParameterPictureSource?, postingSource: PostingSource, postListingBasicInfo: PostListingBasicDetailViewModel) {
+
+    func startDetails(firstStep: PostingDetailStep, postListingState: PostListingState, uploadedImageSource: EventParameterPictureSource?, uploadedVideoLength: TimeInterval?, postingSource: PostingSource, postListingBasicInfo: PostListingBasicDetailViewModel) {
         // FIXME: No idea what to do here
     }
 
-    func nextPostingDetailStep(step: PostingDetailStep, postListingState: PostListingState, uploadedImageSource: EventParameterPictureSource?, postingSource: PostingSource, postListingBasicInfo: PostListingBasicDetailViewModel, previousStepIsSummary: Bool) {
+    func startDetails(postListingState: PostListingState, uploadedImageSource: EventParameterPictureSource?, postingSource: PostingSource, postListingBasicInfo: PostListingBasicDetailViewModel) {
+        // FIXME: No idea what to do here
+    }
+    
+    func closePostServicesAndPostInBackground(params: [ListingCreationParams], trackingInfo: PostListingTrackingInfo) {
         // FIXME: No idea what to do here
     }
 

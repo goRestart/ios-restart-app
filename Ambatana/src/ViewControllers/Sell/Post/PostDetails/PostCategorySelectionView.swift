@@ -35,6 +35,22 @@ enum PostCategory: Equatable {
             return 0
         }
     }
+    
+    var isService: Bool {
+        switch self {
+        case .services: return true
+        default: return false
+        }
+    }
+    
+    var hasAddingDetailsScreen: Bool {
+        switch self {
+        case .services, .realEstate:
+            return true
+        default:
+            return false
+        }
+    }
 }
 
 extension PostCategory {
