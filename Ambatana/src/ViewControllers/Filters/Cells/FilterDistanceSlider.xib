@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FilterDistanceSlider" customModule="LetGo" customModuleProvider="target">
             <connections>
+                <outlet property="bottomBackground" destination="nqg-rH-5cT" id="nMI-4p-QVR"/>
                 <outlet property="closeIcon" destination="aCN-yE-ekt" id="zXz-GU-5Yg"/>
                 <outlet property="distanceLabel" destination="iiO-51-5Z0" id="wth-gy-bBs"/>
                 <outlet property="distanceTip" destination="EyQ-Uf-Sqd" id="wB4-Vs-6QC"/>
@@ -27,14 +28,14 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_filter_far" highlightedImage="ic_filter_far_active" translatesAutoresizingMaskIntoConstraints="NO" id="lwk-ha-vuE" userLabel="FarIcon">
+                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lwk-ha-vuE" userLabel="FarIcon">
                     <rect key="frame" x="336" y="321.5" width="24" height="24"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="24" id="3yz-J2-iVG"/>
                         <constraint firstAttribute="height" constant="24" id="vFL-VX-Y6Q"/>
                     </constraints>
                 </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_filter_home" highlightedImage="ic_filter_home_active" translatesAutoresizingMaskIntoConstraints="NO" id="aCN-yE-ekt" userLabel="CloseIcon">
+                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aCN-yE-ekt" userLabel="CloseIcon">
                     <rect key="frame" x="15" y="321.5" width="24" height="24"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="24" id="Cge-WZ-90J"/>
@@ -66,7 +67,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="68" height="24"/>
                             <color key="backgroundColor" red="0.31372549020000001" green="0.31372549020000001" blue="0.31764705879999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_down_triangle" translatesAutoresizingMaskIntoConstraints="NO" id="nqg-rH-5cT" userLabel="bottomBckg">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nqg-rH-5cT" userLabel="bottomBckg">
                             <rect key="frame" x="30" y="24" width="8" height="4"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="4" id="QO1-Ze-tjt"/>
@@ -120,11 +121,4 @@
             <point key="canvasLocation" x="-13" y="41"/>
         </view>
     </objects>
-    <resources>
-        <image name="ic_down_triangle" width="9" height="4"/>
-        <image name="ic_filter_far" width="17" height="16"/>
-        <image name="ic_filter_far_active" width="17" height="16"/>
-        <image name="ic_filter_home" width="17" height="18"/>
-        <image name="ic_filter_home_active" width="17" height="18"/>
-    </resources>
 </document>

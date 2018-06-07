@@ -54,28 +54,28 @@
                         <view userInteractionEnabled="NO" alpha="0.40000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tJq-a9-ZkV" userLabel="CornersContainer">
                             <rect key="frame" x="20" y="156" width="335" height="335"/>
                             <subviews>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_post_corner" translatesAutoresizingMaskIntoConstraints="NO" id="spq-Cp-Kgh">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="spq-Cp-Kgh">
                                     <rect key="frame" x="0.0" y="0.0" width="16" height="16"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="16" id="BSg-Mg-4Fe"/>
                                         <constraint firstAttribute="width" constant="16" id="Eio-Cx-oQw"/>
                                     </constraints>
                                 </imageView>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_post_corner" translatesAutoresizingMaskIntoConstraints="NO" id="gzd-Nf-EiA">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gzd-Nf-EiA">
                                     <rect key="frame" x="319" y="0.0" width="16" height="16"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="16" id="5Cb-m3-DER"/>
                                         <constraint firstAttribute="height" constant="16" id="j9w-6x-Sjj"/>
                                     </constraints>
                                 </imageView>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_post_corner" translatesAutoresizingMaskIntoConstraints="NO" id="XDp-2m-A6Y">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XDp-2m-A6Y">
                                     <rect key="frame" x="319" y="319" width="16" height="16"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="16" id="OHC-cA-EZf"/>
                                         <constraint firstAttribute="height" constant="16" id="zNU-Wm-0QF"/>
                                     </constraints>
                                 </imageView>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_post_corner" translatesAutoresizingMaskIntoConstraints="NO" id="u68-BJ-cjp">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="u68-BJ-cjp">
                                     <rect key="frame" x="0.0" y="319" width="16" height="16"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="16" id="EcM-74-NUk"/>
@@ -271,7 +271,7 @@
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="Wdu-tN-giU" secondAttribute="height" multiplier="1:1" id="85a-fD-ZUl"/>
                             </constraints>
-                            <state key="normal" image="ic_post_close">
+                            <state key="normal">
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <connections>
@@ -283,7 +283,7 @@
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="hHl-mk-Wpg" secondAttribute="height" multiplier="1:1" id="TNb-30-AYF"/>
                             </constraints>
-                            <state key="normal" image="ic_post_flash_auto">
+                            <state key="normal">
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <connections>
@@ -295,7 +295,7 @@
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="OeN-MM-ewe" secondAttribute="height" multiplier="1:1" id="WVA-FD-IbS"/>
                             </constraints>
-                            <state key="normal" image="ic_post_switch_cam">
+                            <state key="normal">
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <connections>
@@ -341,7 +341,6 @@
                         <constraint firstAttribute="width" constant="20" id="gPX-pW-X6d"/>
                     </constraints>
                     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <state key="normal" image="learnMoreChevron"/>
                     <connections>
                         <action selector="onLearnMoreChevron:" destination="-1" eventType="touchUpInside" id="wWW-AP-jO6"/>
                     </connections>
@@ -377,11 +376,4 @@
             <point key="canvasLocation" x="33.5" y="53.5"/>
         </view>
     </objects>
-    <resources>
-        <image name="ic_post_close" width="22" height="22"/>
-        <image name="ic_post_corner" width="16" height="16"/>
-        <image name="ic_post_flash_auto" width="36" height="36"/>
-        <image name="ic_post_switch_cam" width="36" height="36"/>
-        <image name="learnMoreChevron" width="20" height="20"/>
-    </resources>
 </document>

@@ -131,6 +131,10 @@ final class AppShareViewController: UIViewController {
         }
 
         headerImageView.image = R.Asset.BackgroundsAndImages.inviteLetgo.image
+        inviteFBMessengerIcon.image = R.Asset.IconsButtons.icShareFbmessenger.image
+        inviteWhatsappIcon.image = R.Asset.IconsButtons.icShareWhatsapp.image
+        inviteEmailIcon.image = R.Asset.IconsButtons.icShareEmail.image
+        
         titleLabel.text = R.Strings.appShareTitle
         titleLabel.font = UIFont.systemMediumFont(size: 17)
         subtitleLabel.text = R.Strings.appShareSubtitle

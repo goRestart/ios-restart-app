@@ -254,6 +254,9 @@ final class PostListingCameraView: BaseView, LGViewPagerPage, MLPredictionDetail
 
         //We're using same image for the 4 corners, so 3 of them must be rotated to the correct angle
         for (index, view) in cornersContainer.subviews.enumerated() {
+            if let imageView = view as? UIImageView {
+                imageView.image = R.Asset.IconsButtons.icPostCorner.image
+            }
             guard index > 0 else { continue }
             view.transform = CGAffineTransform(rotationAngle: CGFloat(Double(index) * Double.pi/2))
         }
@@ -272,6 +275,7 @@ final class PostListingCameraView: BaseView, LGViewPagerPage, MLPredictionDetail
         usePhotoButton.setStyle(.primary(fontSize: .medium))
         verticalPromoLabel.text = viewModel.verticalPromotionMessage
 
+        setupButtonImages()
         setupInfoView()
         setupFirstTimeAlertView()
         setAccesibilityIds()
@@ -346,6 +350,13 @@ final class PostListingCameraView: BaseView, LGViewPagerPage, MLPredictionDetail
         learnMoreChevron.isHidden = viewModel.learnMoreIsHidden
     }
 
+    private func setupButtonImages() {
+        closeButton.setImage(R.Asset.IconsButtons.icPostClose.image, for: .normal)
+        flashButton.setImage(R.Asset.IconsButtons.icPostFlashAuto.image, for: .normal)
+        switchCamButton.setImage(R.Asset.IconsButtons.icPostSwitchCam.image, for: .normal)
+        learnMoreChevron.setImage(R.Asset.IconsButtons.learnMoreChevron.image, for: .normal)
+    }
+    
     private func setupRX() {
         let state = viewModel.cameraState.asObservable()
         state.subscribeNext{ [weak self] state in self?.updateCamera() }.disposed(by: disposeBag)

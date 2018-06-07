@@ -49,6 +49,7 @@ class SettingsCell: UITableViewCell, ReusableCell {
     }
 
     private func setupUI() {
+        disclosureImg.image = R.Asset.IconsButtons.icDisclosure.image
         iconImageView.clipsToBounds = true
     }
 
