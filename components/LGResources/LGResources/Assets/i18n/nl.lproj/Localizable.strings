@@ -426,8 +426,8 @@
 "hidden_text_alert_description" = "Wij verbergen contact informatie zodat je veilig kunt kopen en verkopen. In letgo kun je veilig en gemakkelijk chatten.";
 "hidden_text_alert_title" = "VEILIGHEIDSTIPS";
 "listing_map_redo_search" = "Zoek in deze omgeving";
-"listing_show_similar_results" = "Showing results for similar searches";
-"listing_show_similar_results_description" = "No exact matches for your search.\nMake sure it’s spelled correctly or use different keywords and filters.";
+"listing_show_similar_results" = "Resultaten voor vergelijkbare zoekopdrachten weergeven";
+"listing_show_similar_results_description" = "Geen exacte overeenkomsten voor jouw zoekopdracht.\nZorg ervoor dat het correct is gespeld of gebruik verschillende zoekwoorden en filters.";
 "listings_map_no_results_message" = "Geen exacte overeenkomsten voor jouw zoekopdracht. Probeer in een ander gebied te zoeken of gebruik andere filters.";
 "listings_map_title" = "Zie kaart";
 "location_permissions_allow_button" = "Toestaan";
@@ -491,8 +491,8 @@
 "meeting_creation_view_suggest_cell_select" = "Selecteer";
 "meeting_creation_view_suggest_cell_selected" = "Geselecteerd";
 "meeting_creation_view_title" = "Plan een afspraak";
-"ml_camera_in_about_days_text" = "over ongeveer %.f dagen";
-"ml_camera_in_more_than_days_text" = "over meer dan %.f dagen";
+"ml_camera_in_about_days_text" = "in about %d days";
+"ml_camera_in_more_than_days_text" = "in more than %d days";
 "ml_camera_sells_for_text" = "Verkoopt gewoonlijk voor €%d";
 "ml_category_text" = "Categorie:";
 "ml_details_price_text" = "Prijs:";
@@ -630,6 +630,15 @@
 "post_description_info_title" = "ADVERTENTIE INFORMATIE";
 "post_description_name_placeholder" = "Naam";
 "post_description_save_button_text" = "Bewaar deze advertentie!";
+"post_details_services_add_new" = "Add a new service";
+"post_details_services_congratulation_people_near" = "Mensen om je heen zijn op zoek naar deze diensten, heb jij deze vaardigheden?";
+"post_details_services_congratulation_post_another" = "Plaats nog een advertentie";
+"post_details_services_congratulation_review" = "Controleer je advertenties en voeg meer details toe";
+"post_details_services_congratulation_subtitle" = "Jouw advertentie werd geplaatst.";
+"post_details_services_congratulation_title" = "Gefeliciteerd!";
+"post_details_services_search_placeholder" = "Zoek of kies uit de lijst";
+"post_details_services_subtitle" = "Begin met geld verdienen";
+"post_details_services_title" = "Wat kun je doen?";
 "post_get_started_button_text" = "Begin";
 "post_get_started_discard_text" = "Je kunt het later verwijderen als je het niet wilt verkopen.";
 "post_get_started_intro_text" = "Ontdek hoe gemakkelijk het is om te verkopen op letgo. Plaats iets dat je bij je hebt.";

@@ -426,8 +426,8 @@
 "hidden_text_alert_description" = "Nascondiamo le informazioni di contatto per proteggere le tue compravendite. Chattare all'interno di letgo è più facile e sicuro.";
 "hidden_text_alert_title" = "CONSIGLI PER LA SICUREZZA";
 "listing_map_redo_search" = "Cerca in questa zona";
-"listing_show_similar_results" = "Showing results for similar searches";
-"listing_show_similar_results_description" = "No exact matches for your search.\nMake sure it’s spelled correctly or use different keywords and filters.";
+"listing_show_similar_results" = "Mostra risultati per ricerche simili";
+"listing_show_similar_results_description" = "Nessuna corrispondenza per la tua ricerca.\nAssicurati di aver scritto correttamente o utilizza parole chiave e filtri diversi.";
 "listings_map_no_results_message" = "Nessuna risultato esatto per la tua ricerca. Prova a cercare in una zona diversa o utilizzare altri filtri.";
 "listings_map_title" = "Visualizzazione mappa";
 "location_permissions_allow_button" = "Consenti";
@@ -491,8 +491,8 @@
 "meeting_creation_view_suggest_cell_select" = "Seleziona";
 "meeting_creation_view_suggest_cell_selected" = "Selezionato";
 "meeting_creation_view_title" = "Organizza un incontro";
-"ml_camera_in_about_days_text" = "in circa %.f giorni";
-"ml_camera_in_more_than_days_text" = "in più di %.f giorni";
+"ml_camera_in_about_days_text" = "in about %d days";
+"ml_camera_in_more_than_days_text" = "in more than %d days";
 "ml_camera_sells_for_text" = "Solitamente venduto per %d€";
 "ml_category_text" = "Categoria:";
 "ml_details_price_text" = "Prezzo:";
@@ -630,6 +630,15 @@
 "post_description_info_title" = "INFORMAZIONI ANNUNCIO";
 "post_description_name_placeholder" = "Nome";
 "post_description_save_button_text" = "Salva questo annuncio!";
+"post_details_services_add_new" = "Add a new service";
+"post_details_services_congratulation_people_near" = "Persone nella tua zona sono alla ricerca di questi servizi. Hai da offrire il tuo contributo?";
+"post_details_services_congratulation_post_another" = "Pubblica un altro annuncio";
+"post_details_services_congratulation_review" = "Controlla gli annunci e aggiungi ulteriori dettagli";
+"post_details_services_congratulation_subtitle" = "I tuoi annunci sono stati pubblicati.";
+"post_details_services_congratulation_title" = "Complimenti!";
+"post_details_services_search_placeholder" = "Cerca o scegli dalla lista";
+"post_details_services_subtitle" = "Inizia a guadagnare!";
+"post_details_services_title" = "Cosa sai fare?";
 "post_get_started_button_text" = "Inizia";
 "post_get_started_discard_text" = "Puoi sempre eliminarlo in seguito se non desideri venderlo.";
 "post_get_started_intro_text" = "Scopri com'è facile vendere su letgo. Pubblica qualcosa che hai intorno a te.";

@@ -398,7 +398,7 @@
 "filters_section_distance" = "Distancia";
 "filters_section_location" = "Ubicación";
 "filters_section_price" = "Precio";
-"filters_section_price_free_title" = "Mostrar sólo productos gratuitos";
+"filters_section_price_free_title" = "Mostrar solo artículos gratuitos";
 "filters_section_real_estate_info" = "Características de la propiedad";
 "filters_section_services_info" = "Características del servicio";
 "filters_section_sortby" = "Ordenar por";
@@ -426,8 +426,8 @@
 "hidden_text_alert_description" = "Ocultamos datos de contacto para ayudarte a comprar y vender con seguridad. Chatear dentro de letgo es fácil y más seguro.";
 "hidden_text_alert_title" = "CONSEJOS DE SEGURIDAD";
 "listing_map_redo_search" = "Buscar en esta zona";
-"listing_show_similar_results" = "Showing results for similar searches";
-"listing_show_similar_results_description" = "No exact matches for your search.\nMake sure it’s spelled correctly or use different keywords and filters.";
+"listing_show_similar_results" = "Mostrado resultados de búsquedas similares";
+"listing_show_similar_results_description" = "No hay resultados exactos para tu búsqueda.\nAsegúrate que está escrita correctamente o usa términos y filtros distintos.";
 "listings_map_no_results_message" = "No hay resultados exactos para tu búsqueda. Prueba buscando en otra zona o usando filtros distintos.";
 "listings_map_title" = "Vista de mapa";
 "location_permissions_allow_button" = "Permitir";
@@ -491,8 +491,8 @@
 "meeting_creation_view_suggest_cell_select" = "Selecciona";
 "meeting_creation_view_suggest_cell_selected" = "Seleccionada";
 "meeting_creation_view_title" = "Programar un encuentro";
-"ml_camera_in_about_days_text" = "en unos %.f días";
-"ml_camera_in_more_than_days_text" = "en más de %.f días";
+"ml_camera_in_about_days_text" = "in about %d days";
+"ml_camera_in_more_than_days_text" = "in more than %d days";
 "ml_camera_sells_for_text" = "Se suele vender por %d";
 "ml_category_text" = "Categoría:";
 "ml_details_price_text" = "Precio:";
@@ -630,6 +630,15 @@
 "post_description_info_title" = "INFORMACIÓN DEL ANUNCIO";
 "post_description_name_placeholder" = "Nombre";
 "post_description_save_button_text" = "¡Guardar este anuncio!";
+"post_details_services_add_new" = "Add a new service";
+"post_details_services_congratulation_people_near" = "Alrededor de ti se buscan estos servicios, ¿tienes estas habilidades?";
+"post_details_services_congratulation_post_another" = "Publicar otro anuncio";
+"post_details_services_congratulation_review" = "Revisa tus anuncios y añade más detalles";
+"post_details_services_congratulation_subtitle" = "Tus anuncios han sido publicados.";
+"post_details_services_congratulation_title" = "¡Enhorabuena!";
+"post_details_services_search_placeholder" = "Busca o selecciona de la lista";
+"post_details_services_subtitle" = "¡Empieza a ganar dinero!";
+"post_details_services_title" = "¿Qué sabes hacer?";
 "post_get_started_button_text" = "Empezar";
 "post_get_started_discard_text" = "Puedes descartarlo más tarde si no quieres venderlo.";
 "post_get_started_intro_text" = "Descubre lo fácil que es vender en letgo. Publica algo que tengas a tu alrededor.";
@@ -665,7 +674,7 @@
 "product_delete_confirm_ok_button" = "No quiero venderlo";
 "product_delete_confirm_sold_button" = "Ya lo he vendido";
 "product_delete_confirm_title" = "Eliminar anuncio";
-"product_delete_post_button_title" = "Publica otro producto";
+"product_delete_post_button_title" = "Publica otro anuncio";
 "product_delete_post_subtitle" = "Prueba publicando otro artículo y empieza a ganar dinero.";
 "product_delete_post_title" = "¿NO HAS TENIDO SUERTE?";
 "product_delete_send_error_generic" = "¡Ups! Se ha producido un error al eliminar tu anuncio. Por favor, inténtalo de nuevo.";
@@ -746,7 +755,7 @@
 "product_post_close_alert_ok_button" = "Publicar anuncio";
 "product_post_close_alert_title" = "Anuncio no publicado";
 "product_post_confirmation_another" = "O";
-"product_post_confirmation_another_button" = "Publica otro producto";
+"product_post_confirmation_another_button" = "Publica otro anuncio";
 "product_post_confirmation_another_listing_button" = "Publicar otro anuncio";
 "product_post_confirmation_edit" = "Añade más detalles";
 "product_post_different_country_error" = "No puedes publicar en un país distinto al que te encuentras actualmente.";
@@ -774,10 +783,10 @@
 "product_post_incentive_got_any" = "¿tienes alguno para vender?";
 "product_post_incentive_got_any_free" = "¿tienes alguno para regalar?";
 "product_post_incentive_kids_clothes" = "Ropa de niño";
-"product_post_incentive_looking_for" = "Alrededor de ti se buscan estos productos, %@";
+"product_post_incentive_looking_for" = "Alrededor de ti se buscan estos artículos, %@";
 "product_post_incentive_motorcycle" = "Motos";
 "product_post_incentive_ps4" = "PS4";
-"product_post_incentive_subtitle" = "Tu producto ha sido publicado.";
+"product_post_incentive_subtitle" = "Tu anuncio ha sido publicado.";
 "product_post_incentive_subtitle_free" = "Estás muy cerca de alegrarle el día a alguien.";
 "product_post_incentive_title" = "¡ENHORABUENA!";
 "product_post_incentive_toys" = "Juguetes";
