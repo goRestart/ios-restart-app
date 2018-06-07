@@ -1,46 +1,113 @@
-//
-//  AppDelegate.swift
-//  LGLogin
-//
-//  Created by Xavi Gil on 04/05/2018.
-//  Copyright (c) 2018 Xavi Gil. All rights reserved.
-//
-
+import FBSDKCoreKit
+import GoogleSignIn
 import UIKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
-
-    var window: UIWindow?
-
+final class AppDelegate: UIResponder, UIApplicationDelegate {
+    lazy var window: UIWindow? = {
+        return UIWindow(frame: UIScreen.main.bounds)
+    }()
+    lazy var coordinator: MainCoordinator = {
+        let dependencies = LGLoginExampleDependencies()
+        return MainCoordinator(dependencies: dependencies)
+    }()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        printIntegrationInstructions()
+        handle(application: application, didFinishLaunchingWithOptions: launchOptions)
+        setupAppearance()
+        window?.backgroundColor = UIColor.white
+        window?.rootViewController = coordinator.viewController
+        window?.makeKeyAndVisible()
         return true
     }
 
-    func applicationWillResignActive(_ application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-    }
-
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    }
-
-    func applicationWillEnterForeground(_ application: UIApplication) {
-        // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-    }
-
     func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        handleApplicationDidBecomeActive(application: application)
     }
 
-    func applicationWillTerminate(_ application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    func application(_ app: UIApplication,
+                     open url: URL,
+                     options: [UIApplicationOpenURLOptionsKey: Any] = [:]) -> Bool {
+        return handle(application: app, openURL: url, options: options)
     }
 
+    private func printIntegrationInstructions() {
+        print("""
+            ⚠️⚠️⚠️ READ CAREFULLY THIS INSTRUCTIONS ⚠️⚠️⚠️
 
+            -------------------------------
+            Facebook SDK & Google SDK Setup
+            -------------------------------
+            Please, double check:
+                - Facebook: https://developers.facebook.com/docs/ios/getting-started/
+                - Google: https://developers.google.com/identity/sign-in/ios/sign-in
+
+            1. Configure Info.plist. Append before </dict> or update:
+                <key>CFBundleURLTypes</key>
+                <array>
+                    <dict>
+                        <key>CFBundleURLSchemes</key>
+                        <array>
+                            <string>fb699538486794082</string>
+                        </array>
+                        <key>CFBundleURLSchemes</key>
+                        <array>
+                            <string>com.googleusercontent.apps.914431496661-h1lf5kd3g9g743sec3emns7qj9ei0hcp</string>
+                        </array>
+                    </dict>
+                </array>
+                <key>FacebookAppID</key>
+                <string>699538486794082</string>
+                <key>FacebookDisplayName</key>
+                <string>letgo</string>
+                <key>LSApplicationQueriesSchemes</key>
+                <array>
+                    <string>fbapi</string>
+                    <string>fb-messenger-share-api</string>
+                    <string>fbauth2</string>
+                    <string>fbshareextension</string>
+                </array>
+            2. Copy handle(application:didFinishLaunchingWithOptions) func and its call from UIApplicationDelegate func
+            3. Copy handleApplicationDidBecomeActive(application:) func and its call from UIApplicationDelegate func
+            4. Copy handle(application:openURL:options:) func and its call from UIApplicationDelegate func
+            5. You're ready! 🎉🎉🎉 Just check the example and starting prompting the login flow 😎
+
+            ⚠️⚠️⚠️ ⬆️ ⬆️ ⬆️ ⬆️ ⬆️ READ ABOVE ⬆️ ⬆️ ⬆️ ⬆️ ⬆️ ⚠️⚠️⚠️
+
+
+
+        """)
+    }
+
+    private func handle(application: UIApplication,
+                        didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
+        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        let googleSignIn = GIDSignIn.sharedInstance()
+        googleSignIn?.clientID = Constants.googleClientID
+    }
+
+    private func handleApplicationDidBecomeActive(application: UIApplication) {
+        FBSDKAppEvents.activateApp()
+    }
+
+    private func handle(application: UIApplication,
+                        openURL url: URL,
+                        options: [UIApplicationOpenURLOptionsKey: Any]) -> Bool {
+        let sourceApplication = options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String
+        let annotation = options[UIApplicationOpenURLOptionsKey.annotation]
+        let fbHandled = FBSDKApplicationDelegate.sharedInstance().application(application,
+                                                                              open: url,
+                                                                              sourceApplication: sourceApplication,
+                                                                              annotation: annotation)
+        let googleHandled = GIDSignIn.sharedInstance().handle(url,
+                                                              sourceApplication: sourceApplication,
+                                                              annotation: annotation)
+        let handled = fbHandled || googleHandled
+        return handled
+    }
+
+    private func setupAppearance() {
+        UINavigationBar.appearance().tintColor = UIColor.primaryColor
+    }
 }
-

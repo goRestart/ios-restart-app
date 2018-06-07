@@ -91,6 +91,10 @@ open class MockListingRepository: ListingRepository {
         delay(result: indexResult, completion: completion)
     }
     
+    public func indexSimilar(_ params: RetrieveListingParams, completion: ListingsCompletion?) {
+        delay(result: indexResult, completion: completion)
+    }
+    
     public func indexCustomFeed(_ params: RetrieveListingParams, completion: ListingsCompletion?) {
         delay(result: indexResult, completion: completion)
     }
@@ -138,6 +142,10 @@ open class MockListingRepository: ListingRepository {
     public func createCar(listingParams: ListingCreationParams, completion: ListingCompletion?) {
         delay(result: listingResult, completion: completion)
     }
+    
+    public func createServices(listingParams: [ListingCreationParams], completion: ListingsCompletion?) {
+        
+    }
 
     public func create(product: Product,
                        images: [UIImage],
@@ -157,6 +165,10 @@ open class MockListingRepository: ListingRepository {
     }
     
     public func updateCar(listingParams: ListingEditionParams, completion: ListingCompletion?) {
+        delay(result: listingResult, completion: completion)
+    }
+    
+    public func updateService(listingParams: ListingEditionParams, completion: ListingCompletion?) {
         delay(result: listingResult, completion: completion)
     }
     
@@ -256,6 +268,16 @@ open class MockListingRepository: ListingRepository {
         delay(result: indexResult, completion: completion)
     }
     public func indexRelatedCars(listingId: String, params: RetrieveListingParams, completion: ListingsCompletion?) {
+        delay(result: indexResult, completion: completion)
+    }
+    
+    public func indexServices(_ params: RetrieveListingParams, completion: ListingsCompletion?) {
+        delay(result: indexResult, completion: completion)
+    }
+    public func indexServicesRelatedSearch(_ params: RetrieveListingParams, completion: ListingsCompletion?) {
+        delay(result: indexResult, completion: completion)
+    }
+    public func indexRelatedServices(listingId: String, params: RetrieveListingParams, completion: ListingsCompletion?) {
         delay(result: indexResult, completion: completion)
     }
 }

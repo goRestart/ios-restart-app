@@ -8,7 +8,7 @@
 
 import LGCoreKit
 
-protocol MainSignUpNavigator: class {
+public protocol MainSignUpNavigator: class {
     func cancelMainSignUp()
     func closeMainSignUpSuccessful(with myUser: MyUser)
     func closeMainSignUpAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork)
@@ -20,7 +20,7 @@ protocol MainSignUpNavigator: class {
     func open(url: URL)
 }
 
-protocol SignUpLogInNavigator: class {
+public protocol SignUpLogInNavigator: class {
     func cancelSignUpLogIn()
     func closeSignUpLogInSuccessful(with myUser: MyUser)
     func closeSignUpLogInAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork)
@@ -32,7 +32,7 @@ protocol SignUpLogInNavigator: class {
     func open(url: URL)
 }
 
-protocol RememberPasswordNavigator: class {
+public protocol RememberPasswordNavigator: class {
     func closeRememberPassword()
 }
 

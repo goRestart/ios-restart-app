@@ -9,6 +9,7 @@
 import Foundation
 import LGCoreKit
 import RxSwift
+import GoogleMobileAds
 
 struct Pagination {
     let first: Int
@@ -83,8 +84,7 @@ final class ListingDeckViewModel: BaseViewModel {
     weak var delegate: ListingDeckViewModelDelegate?
 
     weak var currentListingViewModel: ListingViewModel?
-    var isPlayable: Bool { return shouldShowVideos && (currentListingViewModel?.isPlayable ?? false) }
-    private var shouldShowVideos: Bool { return featureFlags.machineLearningMVP.isVideoPostingActive }
+    var isPlayable: Bool { return currentListingViewModel?.isPlayable ?? false }
 
     weak var navigator: ListingDetailNavigator? { didSet { currentListingViewModel?.navigator = navigator } }
     weak var deckNavigator: DeckNavigator?
@@ -102,6 +102,8 @@ final class ListingDeckViewModel: BaseViewModel {
         return !userHasScrolled && !keyValueStorage[.didShowDeckOnBoarding]
     }
     private let keyValueStorage: KeyValueStorageable
+    
+    fileprivate let adsRequester: AdsRequester
     
     convenience init(listModels: [ListingCellModel],
                      listing: Listing,
@@ -128,7 +130,8 @@ final class ListingDeckViewModel: BaseViewModel {
                   actionOnFirstAppear: actionOnFirstAppear,
                   trackingIndex: trackingIndex,
                   keyValueStorage: KeyValueStorage.sharedInstance,
-                  featureFlags: FeatureFlags.sharedInstance)
+                  featureFlags: FeatureFlags.sharedInstance,
+                  adsRequester: AdsRequester())
     }
 
     convenience init(listModels: [ListingCellModel],
@@ -160,7 +163,8 @@ final class ListingDeckViewModel: BaseViewModel {
                   actionOnFirstAppear: actionOnFirstAppear,
                   trackingIndex: trackingIndex,
                   keyValueStorage: KeyValueStorage.sharedInstance,
-                  featureFlags: FeatureFlags.sharedInstance)
+                  featureFlags: FeatureFlags.sharedInstance,
+                  adsRequester: AdsRequester())
     }
 
     init(listModels: [ListingCellModel],
@@ -179,7 +183,8 @@ final class ListingDeckViewModel: BaseViewModel {
          actionOnFirstAppear: DeckActionOnFirstAppear,
          trackingIndex: Int?,
          keyValueStorage: KeyValueStorageable,
-         featureFlags: FeatureFlaggeable) {
+         featureFlags: FeatureFlaggeable,
+         adsRequester: AdsRequester) {
         self.imageDownloader = imageDownloader
         self.pagination = pagination
         self.prefetching = prefetching
@@ -194,6 +199,7 @@ final class ListingDeckViewModel: BaseViewModel {
         self.trackingIndex = trackingIndex
         self.keyValueStorage = keyValueStorage
         self.featureFlags = featureFlags
+        self.adsRequester = adsRequester
 
         let filteredModels = listModels.filter(ListingDeckViewModel.isListable)
 
@@ -331,12 +337,43 @@ final class ListingDeckViewModel: BaseViewModel {
         objects.replace(index, with: cellModel)
     }
 
+    func createAndLoadInterstitial() -> GADInterstitial? {
+        return adsRequester.createAndLoadInterstitialForUserRepository(userRepository)
+    }
+    
+    func presentInterstitial(_ interstitial: GADInterstitial?, index: Int, fromViewController: UIViewController) {
+        adsRequester.presentInterstitial(interstitial, index: index, fromViewController: fromViewController)
+    }
 
     // MARK: Tracking
 
     func bumpUpBannerShown(type: BumpUpType) {
         currentListingViewModel?.trackBumpUpBannerShown(type: type,
                                                         storeProductId: currentListingViewModel?.storeProductId)
+    }
+    
+    func interstitialAdTapped(typePage: EventParameterTypePage) {
+        let adType = AdRequestType.interstitial.trackingParamValue
+        let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
+        let feedPosition: EventParameterFeedPosition = .position(index: currentIndex)
+        let willLeave = EventParameterBoolean(bool: true)
+        currentListingViewModel?.trackInterstitialAdTapped(adType: adType,
+                                                           isMine: isMine,
+                                                           feedPosition: feedPosition,
+                                                           willLeaveApp: willLeave,
+                                                           typePage: typePage)
+    }
+    
+    func interstitialAdShown(typePage: EventParameterTypePage) {
+        let adType = AdRequestType.interstitial.trackingParamValue
+        let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
+        let feedPosition: EventParameterFeedPosition = .position(index: currentIndex)
+        let adShown = EventParameterBoolean(bool: true)
+        currentListingViewModel?.trackInterstitialAdShown(adType: adType,
+                                                          isMine: isMine,
+                                                          feedPosition: feedPosition,
+                                                          adShown: adShown,
+                                                          typePage: typePage)
     }
 
     // MARK: Paginable
@@ -370,6 +407,10 @@ final class ListingDeckViewModel: BaseViewModel {
     func didTapStatusView() {
         navigator?.openFeaturedInfo()
         currentListingViewModel?.trackOpenFeaturedInfo()
+    }
+
+    func didTapReputationTooltip() {
+        navigator?.openUserVerificationView()
     }
 
     func close() {
@@ -508,8 +549,8 @@ extension ListingDeckViewModel: ListingViewModelDelegate {
     func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction]) {
         delegate?.vmShowActionSheet(cancelLabel, actions: actions)
     }
-    func vmOpenInternalURL(_ url: URL) {
-        delegate?.vmOpenInternalURL(url)
+    func vmOpenInAppWebViewWith(url: URL) {
+        delegate?.vmOpenInAppWebViewWith(url:url)
     }
     func vmPop() {
         delegate?.vmPop()
@@ -529,6 +570,9 @@ extension ListingDeckViewModel: ListingDeckViewModelType {
 
     func openVideoPlayer() {
         openPhotoViewer()
+    }
+    func didTapActionButton() {
+        actionButtons.value.first?.action()
     }
 }
 

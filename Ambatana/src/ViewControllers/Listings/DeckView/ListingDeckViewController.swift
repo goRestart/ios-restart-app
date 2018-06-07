@@ -4,6 +4,7 @@ import LGCoreKit
 import RxCocoa
 import RxSwift
 import LGComponents
+import GoogleMobileAds
 
 typealias DeckMovement = CarouselMovement
 
@@ -33,6 +34,10 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     private var quickChatView: QuickChatView?
     var quickChatTopToCollectionBotton: NSLayoutConstraint?
     var chatEnabled: Bool = false { didSet { quickChatTopToCollectionBotton?.isActive = chatEnabled } }
+    
+    private var interstitial: GADInterstitial?
+    private var firstAdShowed = false
+    private var lastIndexAd = -1
     
     lazy var windowTargetFrame: CGRect = {
         let size = listingDeckView.cardSize
@@ -80,6 +85,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         setupQuickChatView(viewModel.quickChatViewModel)
         setupRx()
         reloadData()
+        setupInterstitial()
     }
 
     override func viewWillDisappearToBackground(_ toBackground: Bool) {
@@ -104,6 +110,13 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     func updateStartIndex() {
         let startIndexPath = IndexPath(item: viewModel.startIndex, section: 0)
         listingDeckView.scrollToIndex(startIndexPath)
+    }
+    
+    private func setupInterstitial() {
+        interstitial = viewModel.createAndLoadInterstitial()
+        if let interstitial = interstitial {
+            interstitial.delegate = self
+        }
     }
 
     // MARK: Rx
@@ -158,12 +171,12 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.view.backgroundColor = .clear
 
-        self.navigationItem.leftBarButtonItem  = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_close_red"),
+        self.navigationItem.leftBarButtonItem  = UIBarButtonItem(image: R.Asset.CongratsScreenImages.icCloseRed.image,
                                                                  style: .plain,
                                                                  target: self,
                                                                  action: #selector(didTapClose))
 
-        self.navigationItem.rightBarButtonItem  = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_more_options"),
+        self.navigationItem.rightBarButtonItem  = UIBarButtonItem(image: R.Asset.IconsButtons.icMoreOptions.image,
                                                                   style: .plain,
                                                                   target: self,
                                                                   action: #selector(didTapMoreActions))
@@ -203,6 +216,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
             listingDeckView.itemActionsView.layoutIfNeeded()
         }
     }
+
 }
 
 extension ListingDeckViewController: ListingDeckViewControllerBinderType {
@@ -264,9 +278,7 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     }
 
     func updateViewWithActions(_ actionButtons: [UIAction]) {
-        guard let actionButton = actionButtons.first else {
-            return
-        }
+        guard let actionButton = actionButtons.first else { return }
         listingDeckView.configureActionWith(actionButton)
     }
 
@@ -331,6 +343,10 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
                         self?.listingDeckView.showBumpUp()
                         self?.listingDeckView.layoutIfNeeded()
             }, completion: nil)
+    }
+    
+    func presentInterstitialAtIndex(_ index: Int) {
+        viewModel.presentInterstitial(self.interstitial, index: index, fromViewController: self)
     }
 
     private func isCardVisible(_ cardView: ListingCardView) -> Bool {
@@ -428,6 +444,10 @@ extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCard
         viewModel.didTapStatusView()
     }
 
+    func cardViewDidTapOnReputationTooltip(_ cardView: ListingCardView) {
+        viewModel.didTapReputationTooltip()
+    }
+
     // MARK: Chat
     override func resignFirstResponder() -> Bool {
         return quickChatView?.resignFirstResponder() ?? true
@@ -518,4 +538,23 @@ extension ListingDeckViewController {
         }
         return transitioner
     }
+}
+
+// MARK: - GADIntertitialDelegate
+
+extension ListingDeckViewController: GADInterstitialDelegate {
+    
+    /// Tells the delegate the interstitial had been animated off the screen.
+    func interstitialDidDismissScreen(_ ad: GADInterstitial) {
+        setupInterstitial()
+    }
+    
+    func interstitialWillPresentScreen(_ ad: GADInterstitial) {
+        viewModel.interstitialAdShown(typePage: EventParameterTypePage.nextItem)
+    }
+    
+    func interstitialWillLeaveApplication(_ ad: GADInterstitial) {
+        viewModel.interstitialAdTapped(typePage: EventParameterTypePage.nextItem)
+    }
+    
 }

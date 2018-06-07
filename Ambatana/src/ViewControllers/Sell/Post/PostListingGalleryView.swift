@@ -188,6 +188,7 @@ class PostListingGalleryView: BaseView, LGViewPagerPage {
         contentView.layout(with: self).fill()
         contentView.backgroundColor = background
 
+        closeButton.setImage(R.Asset.IconsButtons.icPostClose.image, for: .normal)
         closeButton.isHidden = viewModel.isBlockingPosting
         topRightButton.setStyle(.primary(fontSize: .small))
         let cellNib = UINib(nibName: GalleryImageCell.reusableID, bundle: nil)
@@ -404,7 +405,7 @@ extension PostListingGalleryView {
 
     func setupAlbumSelection() {
 
-        albumButtonTick.image = UIImage(named: "ic_down_triangle")?.withRenderingMode(.alwaysTemplate)
+        albumButtonTick.image = R.Asset.IconsButtons.icDownTriangle.image.withRenderingMode(.alwaysTemplate)
         albumButtonTick.tintColor = UIColor.white
         albumButtonTick.translatesAutoresizingMaskIntoConstraints = false
         albumButton.addSubview(albumButtonTick)

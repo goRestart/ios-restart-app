@@ -195,6 +195,8 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
             case .sizeFrom, .sizeTo:
                 return CGSize(width: view.bounds.width * 0.5, height: Layout.Height.prices)
             }
+        case .servicesInfo:
+            return CGSize(width: view.bounds.width, height: Layout.Height.singleCheck)
         }
     }
     
@@ -220,6 +222,8 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
             return viewModel.numberOfPriceRows
         case .realEstateInfo:
             return viewModel.numberOfRealEstateRows
+        case .servicesInfo:
+            return viewModel.serviceSections.count
         }
     }
     
@@ -391,6 +395,22 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                     }
                     return cell
                 }
+                
+            case .servicesInfo:
+                let serviceSection = viewModel.serviceSections[indexPath.item]
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterDisclosureCell.reusableID,
+                                                                    for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
+                cell.titleLabel.text = serviceSection.title
+                switch serviceSection {
+                case .type:
+                    cell.subtitleLabel.text = viewModel.currentServiceTypeName ?? R.Strings.filtersServiceTypeNotSet
+                    cell.topSeparator?.isHidden = false
+                case .subtype:
+                    cell.isUserInteractionEnabled = viewModel.serviceSubtypeCellEnabled
+                    cell.titleLabel.isEnabled = viewModel.serviceSubtypeCellEnabled
+                    cell.subtitleLabel.text = viewModel.selectedServiceSubtypesDisplayName ?? R.Strings.filtersServiceSubtypeNotSet
+                }
+                return cell
             case .within:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterSingleCheckCell.reusableID,
                     for: indexPath) as? FilterSingleCheckCell else { return UICollectionViewCell() }
@@ -491,6 +511,13 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                 viewModel.numberOfRoomsPressed()
             case .sizeTo, .sizeFrom:
                 break
+            }
+        case .servicesInfo:
+            switch viewModel.serviceSections[indexPath.item] {
+            case .type:
+                viewModel.servicesTypePressed()
+            case .subtype:
+                viewModel.servicesSubtypePressed()
             }
         case .within:
             viewModel.selectWithinTimeAtIndex(indexPath.row)

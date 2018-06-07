@@ -218,6 +218,10 @@
 "chat_send_button" = "Enviar";
 "chat_send_error_different_country" = "No puedes empezar una conversación sobre un anuncio publicado en otro país.";
 "chat_send_error_generic" = "Se ha producido un error al enviar tu mensaje. Por favor, inténtalo de nuevo.";
+"chat_status_view_connecting" = "Conectando...";
+"chat_status_view_no_network" = "No hay conexión";
+"chat_status_view_try_again" = "inténtalo de nuevo";
+"chat_status_view_unable_to_connect" = "No se ha podido establecer la conexión. Por favor, inténtalo de nuevo";
 "chat_stickers_tooltip_new" = "¡NUEVO!";
 "chat_unblock_user" = "Desbloquear usuario";
 "chat_user_info_letgo_assistant" = "Soy una asistente virtual que te da consejos y te ayuda a vender.";
@@ -247,6 +251,8 @@
 "common_chat_not_available" = "¡Ups! No se ha encontrado el chat.";
 "common_collapse" = "Ver Menos";
 "common_confirm" = "Confirmar";
+"common_done" = "Listo";
+"common_edit" = "Editar";
 "common_error" = "Error";
 "common_error_connection_failed" = "¡Ups! Se ha producido un error. Por favor, comprueba tu conexión a Internet.";
 "common_error_generic_body" = "Se ha producido un error.";
@@ -394,8 +400,11 @@
 "filters_section_price" = "Precio";
 "filters_section_price_free_title" = "Mostrar sólo productos gratuitos";
 "filters_section_real_estate_info" = "Características de la propiedad";
+"filters_section_services_info" = "Características del servicio";
 "filters_section_sortby" = "Ordenar por";
 "filters_section_within" = "Publicado en";
+"filters_service_subtype_not_set" = "No Definido";
+"filters_service_type_not_set" = "No Definido";
 "filters_size_wrong_range_error" = "El tamaño mínimo no puede superior al tamaño máximo.";
 "filters_sort_closest" = "Más cercanos primero";
 "filters_sort_newest" = "Más recientes primero";
@@ -417,6 +426,8 @@
 "hidden_text_alert_description" = "Ocultamos datos de contacto para ayudarte a comprar y vender con seguridad. Chatear dentro de letgo es fácil y más seguro.";
 "hidden_text_alert_title" = "CONSEJOS DE SEGURIDAD";
 "listing_map_redo_search" = "Buscar en esta zona";
+"listing_show_similar_results" = "Showing results for similar searches";
+"listing_show_similar_results_description" = "No exact matches for your search.\nMake sure it’s spelled correctly or use different keywords and filters.";
 "listings_map_no_results_message" = "No hay resultados exactos para tu búsqueda. Prueba buscando en otra zona o usando filtros distintos.";
 "listings_map_title" = "Vista de mapa";
 "location_permissions_allow_button" = "Permitir";
@@ -535,6 +546,10 @@
 "nps_survey_title" = "NOS GUSTARÍA SABER...";
 "nps_survey_very_bad" = "Muy improbable";
 "nps_survey_very_good" = "Definitivamente lo recomendaría";
+"offensive_report_alert_message" = "Hemos detectado mensajes potencialmente inapropriados enviados desde tu cuenta.\n\nLas infracciones repetidas pueden resultar en el cierre de la cuenta.";
+"offensive_report_alert_primary_action" = "Revisar Normas";
+"offensive_report_alert_secondary_action" = "Saltar";
+"offensive_report_alert_title" = "Revisa las Normas de la comunidad letgo";
 "onboarding_alert_no" = "No";
 "onboarding_alert_yes" = "Sí";
 "onboarding_categories_button_countdown" = "Elige al menos %i más";
@@ -861,6 +876,7 @@
 "profile_permissions_header_message" = "Activa las notificaciones de mensaje";
 "profile_reputation_tooltip_title" = "¡Usuario verificado! Pulsa si tú también quieres verificar tu cuenta.";
 "profile_reviews_count" = "Valoraciones";
+"profile_reviews_empty_label" = "SIN VALORACIONES (¡TODAVÍA!)";
 "profile_reviews_tab" = "Valoraciones";
 "profile_selling_no_products_label" = "NO HAY ANUNCIOS (¡TODAVÍA!)";
 "profile_selling_other_user_no_products_button" = "Sigue navegando";
@@ -1074,6 +1090,7 @@
 "search_alert_error_too_many_text" = "¡Ups! Has llegado al máximo de alertas de búsqueda";
 "search_alerts_edit_button" = "Editar";
 "search_alerts_header_subtitle" = "Recibir notificaciones de nuevos anuncios";
+"search_alerts_list_title" = "Alertas de búsqueda";
 "search_alerts_placeholder_empty_button" = "Empezar a buscar";
 "search_alerts_placeholder_empty_text" = "Suscríbete a búsquedas para recibir notificaciones cuando se publiquen anuncios nuevos.";
 "search_alerts_placeholder_error_button" = "Reintentar";
@@ -1108,6 +1125,10 @@
 "sell_title_autogen_label" = "Título sugerido por letgo";
 "sell_title_field_hint" = "Título (opcional)";
 "sell_uploading_label" = "Publicando tu anuncio...";
+"services_service_subtype_list_title" = "Servicio";
+"services_service_subtype_title" = "Servicio";
+"services_service_type_list_title" = "Categoría del servicio";
+"services_service_type_title" = "Categoría del servicio";
 "settings_change_email_button" = "Email";
 "settings_change_location_button" = "Ubicación";
 "settings_change_password_button" = "Contraseña";
@@ -1129,6 +1150,9 @@
 "settings_marketing_notifications_alert_deactivate" = "Desactivar";
 "settings_marketing_notifications_alert_message" = "¿Seguro que quieres desactivar las notificaciones de marketing?";
 "settings_marketing_notifications_switch" = "Notificaciones de marketing";
+"settings_notifications_button" = "Notificaciones";
+"settings_notifications_search_alerts" = "Alertas de búsqueda";
+"settings_notifications_title" = "Notificaciones";
 "settings_section_profile" = "Perfil";
 "settings_section_promote" = "Promover";
 "settings_section_support" = "Ayuda";

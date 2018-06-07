@@ -1,12 +1,5 @@
-//
-//  Tooltip.swift
-//  LetGo
-//
-//  Created by Dídac on 15/06/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 enum TooltipStyle {
     case black(closeEnabled: Bool)
@@ -34,11 +27,11 @@ enum TooltipStyle {
     }
 
     var centeredPeak: UIImage? {
-        return UIImage(named: "tooltip_peak_center_black")?.withRenderingMode(.alwaysTemplate)
+        return R.Asset.IconsButtons.tooltipPeakCenterBlack.image.withRenderingMode(.alwaysTemplate)
     }
 
     var leftSidePeak: UIImage? {
-        return UIImage(named: "tooltip_peak_side_black")?.withRenderingMode(.alwaysTemplate)
+        return R.Asset.IconsButtons.tooltipPeakSideBlack.image.withRenderingMode(.alwaysTemplate)
     }
 
     var rightSidePeak: UIImage? {
@@ -155,7 +148,7 @@ class Tooltip: UIView {
             separationView.translatesAutoresizingMaskIntoConstraints = false
             coloredView.addSubview(separationView)
 
-            closeButton.setImage(UIImage(named: "ic_close"), for: .normal)
+            closeButton.setImage(R.Asset.IconsButtons.icClose.image, for: .normal)
             closeButton.translatesAutoresizingMaskIntoConstraints = false
             closeButton.addTarget(self, action: #selector(closeTooltip), for: .touchUpInside)
             coloredView.addSubview(closeButton)
@@ -317,7 +310,7 @@ class Tooltip: UIView {
  */
 
 func setupExternalConstraintsForTooltip(_ tooltip: Tooltip, targetView: UIView, containerView: UIView,
-                                               margin: CGFloat = 0) {
+                                        margin: CGFloat = 0) {
 
     let targetGlobalCenter = containerView.convert(targetView.center, to: nil)
     
@@ -334,7 +327,7 @@ func setupExternalConstraintsForTooltip(_ tooltip: Tooltip, targetView: UIView, 
     }
 
     let alignmentConstraint: NSLayoutConstraint
-    
+
     if targetGlobalCenter.x < containerView.width/3 {
         alignmentConstraint = tooltip.leadingAnchor.constraint(equalTo: targetView.leadingAnchor)
     } else if targetGlobalCenter.x > (containerView.width/3)*2 {

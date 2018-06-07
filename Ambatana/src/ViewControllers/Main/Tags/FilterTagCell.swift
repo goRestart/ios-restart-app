@@ -6,17 +6,35 @@ protocol FilterTagCellDelegate : class {
     func onFilterTagClosed(_ filterTagCell: FilterTagCell)
 }
 
-class FilterTagCell: UICollectionViewCell {
-    
-    private static let cellHeight: CGFloat = 32.0
-    private static let fixedWidthSpace: CGFloat = 52.0 //15.0 left margin & 32.0 close button + 5 right margin
-    private static let iconWidth: CGFloat = 28.0
+final class FilterTagCell: UICollectionViewCell, ReusableCell {
+    private struct Layout {
+        struct Width {
+            static let icon: CGFloat = 28
+            static let closeButton: CGFloat = 32
+            static let fixedSpace: CGFloat = 52 //15.0 left margin & 32.0 close button + 5 right margin
+        }
+        struct Height {
+            static let cell: CGFloat = 32
+        }
+        static let margin: CGFloat = 2
+    }
     private static let USDollarCode = "USD"
 
-    @IBOutlet weak var tagIcon: UIImageView!
-    @IBOutlet weak var tagIconWidth: NSLayoutConstraint!
-    @IBOutlet weak var tagLabel: UILabel!
-    @IBOutlet weak var closeButton: UIButton!
+    private let tagIcon: UIImageView = {
+        let imageView = UIImageView()
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFill
+        return imageView
+    }()
+    private var tagIconWidth: NSLayoutConstraint?
+
+    private let tagLabel: UILabel = UILabel()
+    private let closeButton: UIButton = {
+        let button = UIButton.init(type: .custom)
+        button.setImage(R.Asset.IconsButtons.filtersClearBtn.image, for: .normal)
+        button.setImage(R.Asset.IconsButtons.filtersClearBtn.image, for: .highlighted)
+        return button
+    }()
     
     weak var delegate: FilterTagCellDelegate?
     var filterTag: FilterTag?
@@ -33,7 +51,7 @@ class FilterTagCell: UICollectionViewCell {
         case .within(let timeOption):
             return FilterTagCell.sizeForText(timeOption.name)
         case .category:
-            return CGSize(width: iconWidth+fixedWidthSpace, height: FilterTagCell.cellHeight)
+            return CGSize(width: Layout.Width.icon + Layout.Width.fixedSpace, height: Layout.Height.cell)
         case .taxonomyChild(let taxonomyChild):
             return FilterTagCell.sizeForText(taxonomyChild.name)
         case .taxonomy(let taxonomy):
@@ -44,7 +62,7 @@ class FilterTagCell: UICollectionViewCell {
             let priceRangeString = FilterTagCell.stringForPriceRange(minPrice, max: maxPrice, withCurrency: currency)
             return FilterTagCell.sizeForText(priceRangeString)
         case .freeStuff:
-            return CGSize(width: iconWidth+fixedWidthSpace, height: FilterTagCell.cellHeight)
+            return CGSize(width: Layout.Width.icon + Layout.Width.fixedSpace, height: Layout.Height.cell)
         case .distance(let distance):
             return FilterTagCell.sizeForText(distance.intToDistanceFormat())
         case .carSellerType(_, let name):
@@ -68,15 +86,19 @@ class FilterTagCell: UICollectionViewCell {
         case .sizeSquareMetersRange(let minSize, let maxSize):
             let sizeSquareMeters = FilterTagCell.stringForSizeRange(startSize: minSize, endSize: maxSize)
             return FilterTagCell.sizeForText(sizeSquareMeters)
+        case .serviceType(let serviceType):
+            return FilterTagCell.sizeForText(serviceType.name)
+        case .serviceSubtype(let serviceSubtype):
+            return FilterTagCell.sizeForText(serviceSubtype.name)
         }
     }
     
     private static func sizeForText(_ text: String) -> CGSize {
-        let constraintRect = CGSize(width: CGFloat.greatestFiniteMagnitude, height: FilterTagCell.cellHeight)
+        let constraintRect = CGSize(width: CGFloat.greatestFiniteMagnitude, height: Layout.Height.cell)
         let boundingBox = text.boundingRect(with: constraintRect,
             options: NSStringDrawingOptions.usesLineFragmentOrigin,
             attributes: [NSAttributedStringKey.font: UIFont.mediumBodyFont], context: nil)
-        return CGSize(width: boundingBox.width+fixedWidthSpace+5, height: FilterTagCell.cellHeight)
+        return CGSize(width: boundingBox.width + Layout.Width.fixedSpace + 5, height: Layout.Height.cell)
     }
 
     private static func stringForPriceRange(_ min: Int?, max: Int?, withCurrency currency: Currency?) -> String {
@@ -150,22 +172,47 @@ class FilterTagCell: UICollectionViewCell {
 
     // MARK: - Lifecycle
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        self.setupUI()
-        self.resetUI()
-        self.setAccessibilityIds()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupUI()
+        resetUI()
+        setAccessibilityIds()
     }
-    
+
+    required init?(coder aDecoder: NSCoder) { fatalError("Die xibs, die") }
+
     override func prepareForReuse() {
         super.prepareForReuse()
-        self.resetUI()
+        resetUI()
     }
     
     private func setupUI() {
         contentView.layer.borderColor = UIColor.lineGray.cgColor
         contentView.layer.borderWidth = LGUIKitConstants.onePixelSize
         contentView.layer.backgroundColor = UIColor.white.cgColor
+        setupConstraints()
+    }
+    
+    private func setupConstraints() {
+        let iconWidth = tagIcon.widthAnchor.constraint(equalToConstant: Layout.Width.icon)
+        contentView.addSubviewsForAutoLayout([tagIcon, tagLabel, closeButton])
+        NSLayoutConstraint.activate([
+            tagIcon.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metrics.margin),
+            tagIcon.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Layout.margin),
+            tagIcon.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Layout.margin),
+
+            tagLabel.leadingAnchor.constraint(equalTo: tagIcon.trailingAnchor),
+            tagLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
+            tagLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+
+            closeButton.leadingAnchor.constraint(equalTo: tagLabel.trailingAnchor),
+            closeButton.topAnchor.constraint(equalTo: contentView.topAnchor),
+            closeButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            closeButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -2*Layout.margin),
+            closeButton.widthAnchor.constraint(equalToConstant: Layout.Width.closeButton)
+        ])
+
+        tagIconWidth = iconWidth
     }
 
     override func layoutSubviews() {
@@ -176,7 +223,7 @@ class FilterTagCell: UICollectionViewCell {
     private func resetUI() {
         tagLabel.text = nil
         tagIcon.image = nil
-        tagIconWidth.constant = 0
+        tagIconWidth?.constant = 0
         tagLabel.textColor = .black
         contentView.backgroundColor = .white
     }
@@ -187,7 +234,8 @@ class FilterTagCell: UICollectionViewCell {
             setColoredCellStyle(taxonomy.color)
         case .location, .within, .orderBy, .category, .taxonomyChild, .secondaryTaxonomyChild, .priceRange,
              .freeStuff, .distance, .carSellerType, .make, .model, .yearsRange, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms,
-             .realEstatePropertyType, .realEstateOfferType, .sizeSquareMetersRange, .realEstateNumberOfRooms:
+             .realEstatePropertyType, .realEstateOfferType, .sizeSquareMetersRange, .realEstateNumberOfRooms,
+             .serviceType, .serviceSubtype:
             setDefaultCellStyle()
         }
     }
@@ -218,7 +266,7 @@ class FilterTagCell: UICollectionViewCell {
         case .within(let timeOption):
             tagLabel.text = timeOption.name
         case .category(let category):
-            tagIconWidth.constant = FilterTagCell.iconWidth
+            tagIconWidth?.constant = Layout.Width.icon
             tagIcon.image = category.imageTag
         case .taxonomyChild(let taxonomyChild):
             tagLabel.text = taxonomyChild.name
@@ -229,8 +277,8 @@ class FilterTagCell: UICollectionViewCell {
         case .priceRange(let minPrice, let maxPrice, let currency):
             tagLabel.text = FilterTagCell.stringForPriceRange(minPrice, max: maxPrice, withCurrency: currency)
         case .freeStuff:
-            tagIconWidth.constant = FilterTagCell.iconWidth
-            tagIcon.image = UIImage(named: "categories_free_tag")
+            tagIconWidth?.constant = Layout.Width.icon
+            tagIcon.image = R.Asset.IconsButtons.FiltersTagCategories.categoriesFreeTag.image
         case .distance(let distance):
             tagLabel.text = distance.intToDistanceFormat()
         case .carSellerType(_, let name):
@@ -253,6 +301,10 @@ class FilterTagCell: UICollectionViewCell {
             tagLabel.text = FilterTagCell.stringForSizeRange(startSize: minSize, endSize: maxSize)
         case .realEstateNumberOfRooms(let numberOfRooms):
             tagLabel.text = numberOfRooms.localizedString
+        case .serviceType(let serviceType):
+            tagLabel.text = serviceType.name
+        case .serviceSubtype(let subtype):
+            tagLabel.text = subtype.name
         }
         set(accessibilityId: .filterTagCell(tag: tag))
     }
@@ -263,14 +315,14 @@ class FilterTagCell: UICollectionViewCell {
     private func setDefaultCellStyle() {
         tagLabel.textColor = .black
         contentView.backgroundColor = .white
-        closeButton.setImage(UIImage(named: "filters_clear_btn"), for: .normal)
-        closeButton.setImage(UIImage(named: "filters_clear_btn"), for: .highlighted)
+        closeButton.setImage(R.Asset.IconsButtons.filtersClearBtn.image, for: .normal)
+        closeButton.setImage(R.Asset.IconsButtons.filtersClearBtn.image, for: .highlighted)
     }
     
     private func setColoredCellStyle(_ color: UIColor) {
         tagLabel.textColor = .white
         contentView.backgroundColor = color
-        closeButton.setImage(UIImage(named: "filters_taxonomy_clear_btn"), for: .normal)
-        closeButton.setImage(UIImage(named: "filters_taxonomy_clear_btn"), for: .highlighted)
+        closeButton.setImage(R.Asset.IconsButtons.filtersTaxonomyClearBtn.image, for: .normal)
+        closeButton.setImage(R.Asset.IconsButtons.filtersTaxonomyClearBtn.image, for: .highlighted)
     }
 }

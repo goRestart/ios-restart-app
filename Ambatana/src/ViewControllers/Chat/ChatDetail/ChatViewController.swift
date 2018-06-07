@@ -12,6 +12,7 @@ final class ChatViewController: TextViewController {
     let inputBarHeight: CGFloat = 44
     let expressBannerHeight: CGFloat = 44
     let professionalSellerBannerHeight: CGFloat = 44
+    let reputationTooltipMargin: CGFloat = 40
 
     let listingView: ChatListingView
     var selectedCellIndexPath: IndexPath?
@@ -30,6 +31,7 @@ final class ChatViewController: TextViewController {
     var professionalSellerBannerTopConstraint: NSLayoutConstraint = NSLayoutConstraint()
     var featureFlags: FeatureFlaggeable
     var pushPermissionManager: PushPermissionsManager
+    var tooltip: LetgoTooltip?
 
     var blockedToastOffset: CGFloat {
         return relationInfoView.isHidden ? 0 : RelationInfoView.defaultHeight
@@ -182,7 +184,7 @@ final class ChatViewController: TextViewController {
         sendButton.tintColor = UIColor.primaryColor
         sendButton.titleLabel?.font = UIFont.smallButtonFont
         reloadLeftActions()
-
+        
         addSubviews()
         setupFrames()
         setupConstraints()
@@ -208,7 +210,7 @@ final class ChatViewController: TextViewController {
         listingView.layoutIfNeeded()
 
         setNavBarTitleStyle(.custom(listingView))
-        setLetGoRightButtonWith(imageName: "ic_more_options", selector: "optionsBtnPressed")
+        setLetGoRightButtonWith(image: R.Asset.IconsButtons.icMoreOptions.image, selector: "optionsBtnPressed")
     }
     
     private func addSubviews() {
@@ -292,7 +294,7 @@ final class ChatViewController: TextViewController {
                               action: { [weak self] in
                                 self?.viewModel.professionalSellerBannerActionButtonTapped()
             })
-            buttonIcon = #imageLiteral(resourceName: "ic_phone_call")
+            buttonIcon = R.Asset.Monetization.icPhoneCall.image
         }
 
         professionalSellerBanner.setupChatBannerWith(R.Strings.chatProfessionalBannerTitle,
@@ -377,11 +379,11 @@ extension ChatViewController: UIGestureRecognizerDelegate {
         var actions = [UIAction]()
         var image: UIImage
         if showingStickers {
-            image = #imageLiteral(resourceName: "ic_keyboard")
+            image = R.Asset.IconsButtons.icKeyboard.image
         } else if viewModel.showStickerBadge.value {
-            image = #imageLiteral(resourceName: "icStickersWithBadge")
+            image = R.Asset.IconsButtons.icStickersWithBadge.image
         } else {
-            image = #imageLiteral(resourceName: "ic_stickers")
+            image = R.Asset.IconsButtons.icStickers.image
         }
         let kbAction = UIAction(interface: .image(image, nil), action: { [weak self] in
             guard let showing = self?.showingStickers else { return }
@@ -550,12 +552,45 @@ fileprivate extension ChatViewController {
             strongSelf.setupProfessionalSellerBannerWithPhone(phoneNumber: professionalInfo.phoneNumber)
             strongSelf.showProfessionalSellerBanner()
         }.disposed(by: disposeBag)
-        
+
+        viewModel.interlocutorIsVerified.asDriver().drive(onNext: { [weak self] verified in
+            self?.listingView.badgeImageView.isHidden = !verified
+        }).disposed(by: disposeBag)
+
+        viewModel.shouldShowReputationTooltip.asDriver().drive(onNext: { [weak self] showTooltip in
+            showTooltip ? self?.showReputationTooltip() : self?.hideReputationTooltip()
+        }).disposed(by: disposeBag)
+
         textView.rx.text
             .orEmpty
             .skip(1)
             .bind(to: viewModel.chatBoxText)
             .disposed(by: disposeBag)
+    }
+}
+
+extension ChatViewController: LetgoTooltipDelegate {
+    fileprivate func showReputationTooltip() {
+        guard tooltip == nil else { return }
+        let reputationTooltip = LetgoTooltip()
+        view.addSubviewForAutoLayout(reputationTooltip)
+        reputationTooltip.setupWith(peakOnTop: true, peakOffsetFromLeft: reputationTooltipMargin,
+                                    message: R.Strings.profileReputationTooltipTitle)
+        reputationTooltip.delegate = self
+        reputationTooltip.layout(with: topLayoutGuide).below(by: Metrics.veryShortMargin)
+        reputationTooltip.layout(with: view).leading(by: reputationTooltipMargin)
+        tooltip = reputationTooltip
+        viewModel.reputationTooltipShown()
+    }
+
+    fileprivate func hideReputationTooltip() {
+        tooltip?.removeFromSuperview()
+        tooltip = nil
+    }
+
+    func didTapTooltip() {
+        hideReputationTooltip()
+        viewModel.reputationTooltipTapped()
     }
 }
 

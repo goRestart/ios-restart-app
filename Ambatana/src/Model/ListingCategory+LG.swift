@@ -66,27 +66,27 @@ extension ListingCategory {
         case .unassigned:
             return nil
         case .electronics:
-            return UIImage(named: "tech_feed")
+            return R.Asset.IconsButtons.CategoriesHeaderIcons.techFeed.image
         case .motorsAndAccessories:
-            return UIImage(named: "motors_feed")
+            return R.Asset.IconsButtons.CategoriesHeaderIcons.motorsFeed.image
         case .sportsLeisureAndGames:
-            return UIImage(named: "leisure_feed")
+            return R.Asset.IconsButtons.CategoriesHeaderIcons.leisureFeed.image
         case .homeAndGarden:
-            return UIImage(named: "home_feed")
+            return R.Asset.IconsButtons.CategoriesHeaderIcons.homeFeed.image
         case .moviesBooksAndMusic:
-            return UIImage(named: "entretainment_feed")
+            return R.Asset.IconsButtons.CategoriesHeaderIcons.entretainmentFeed.image
         case .fashionAndAccesories:
-            return UIImage(named: "fashion_feed")
+            return R.Asset.IconsButtons.CategoriesHeaderIcons.fashionFeed.image
         case .babyAndChild:
-            return UIImage(named: "child_feed")
+            return R.Asset.IconsButtons.CategoriesHeaderIcons.childFeed.image
         case .other:
-            return UIImage(named: "others_feed")
+            return R.Asset.IconsButtons.CategoriesHeaderIcons.othersFeed.image
         case .cars:
-            return UIImage(named: "cars_feed")
+            return R.Asset.IconsButtons.CategoriesHeaderIcons.carsFeed.image
         case .realEstate:
-            return UIImage(named: "housing_feed")
+            return R.Asset.IconsButtons.CategoriesHeaderIcons.housingFeed.image
         case .services:
-            return UIImage(named: "services_feed")
+            return R.Asset.IconsButtons.CategoriesHeaderIcons.servicesFeed.image
         }
     }
     
@@ -95,27 +95,27 @@ extension ListingCategory {
         case .unassigned:
             return nil
         case .electronics:
-            return UIImage(named: "categories_electronics_inactive")
+            return R.Asset.IconsButtons.FiltersCategoriesIcons.categoriesElectronicsInactive.image
         case .motorsAndAccessories:
-            return UIImage(named: "categories_motors_inactive")
+            return R.Asset.IconsButtons.FiltersCategoriesIcons.categoriesMotorsInactive.image
         case .sportsLeisureAndGames:
-            return UIImage(named: "categories_sports_inactive")
+            return R.Asset.IconsButtons.FiltersCategoriesIcons.categoriesSportsInactive.image
         case .homeAndGarden:
-            return UIImage(named: "categories_homes_inactive")
+            return R.Asset.IconsButtons.FiltersCategoriesIcons.categoriesHomesInactive.image
         case .moviesBooksAndMusic:
-            return UIImage(named: "categories_music_inactive")
+            return R.Asset.IconsButtons.FiltersCategoriesIcons.categoriesMusicInactive.image
         case .fashionAndAccesories:
-            return UIImage(named: "categories_fashion_inactive")
+            return R.Asset.IconsButtons.FiltersCategoriesIcons.categoriesFashionInactive.image
         case .babyAndChild:
-            return UIImage(named: "categories_babies_inactive")
+            return R.Asset.IconsButtons.FiltersCategoriesIcons.categoriesBabiesInactive.image
         case .other:
-            return UIImage(named: "categories_others_inactive")
+            return R.Asset.IconsButtons.FiltersCategoriesIcons.categoriesOthersInactive.image
         case .cars:
-            return UIImage(named: "categories_cars_inactive")
+            return R.Asset.IconsButtons.FiltersCategoriesIcons.categoriesCarsInactive.image
         case .realEstate:
-            return UIImage(named: "categories_realestate_inactive")
+            return R.Asset.IconsButtons.FiltersCategoriesIcons.categoriesRealestateInactive.image
         case .services:
-            return UIImage(named: "categories_services_inactive")
+            return R.Asset.IconsButtons.FiltersCategoriesIcons.categoriesServicesInactive.image
         }
     }
     
@@ -124,27 +124,27 @@ extension ListingCategory {
         case .unassigned:
             return nil
         case .electronics:
-            return UIImage(named: "categories_electronics_tag")
+            return R.Asset.IconsButtons.FiltersTagCategories.categoriesElectronicsTag.image
         case .motorsAndAccessories:
-            return UIImage(named: "categories_motors_tag")
+            return R.Asset.IconsButtons.FiltersTagCategories.categoriesMotorsTag.image
         case .sportsLeisureAndGames:
-            return UIImage(named: "categories_sports_tag")
+            return R.Asset.IconsButtons.FiltersTagCategories.categoriesSportsTag.image
         case .homeAndGarden:
-            return UIImage(named: "categories_homes_tag")
+            return R.Asset.IconsButtons.FiltersTagCategories.categoriesHomesTag.image
         case .moviesBooksAndMusic:
-            return UIImage(named: "categories_music_tag")
+            return R.Asset.IconsButtons.FiltersTagCategories.categoriesMusicTag.image
         case .fashionAndAccesories:
-            return UIImage(named: "categories_fashion_tag")
+            return R.Asset.IconsButtons.FiltersTagCategories.categoriesFashionTag.image
         case .babyAndChild:
-            return UIImage(named: "categories_babies_tag")
+            return R.Asset.IconsButtons.FiltersTagCategories.categoriesBabiesTag.image
         case .other:
-            return UIImage(named: "categories_others_tag")
+            return R.Asset.IconsButtons.FiltersTagCategories.categoriesOthersTag.image
         case .cars:
-            return UIImage(named: "categories_cars_tag")
+            return R.Asset.IconsButtons.FiltersTagCategories.categoriesCarsTag.image
         case .realEstate:
-            return UIImage(named: "categories_housing_tag")
+            return R.Asset.IconsButtons.FiltersTagCategories.categoriesHousingTag.image
         case .services:
-            return UIImage(named: "categories_services_tag")
+            return R.Asset.IconsButtons.FiltersTagCategories.categoriesServicesTag.image
         }
     }
 
@@ -155,7 +155,7 @@ extension ListingCategory {
         }
     }
     
-    var postCategory: PostCategory {
+    func postingCategory(with featureFlags: FeatureFlaggeable) -> PostCategory {
         switch self {
         case .realEstate:
             return .realEstate
@@ -164,7 +164,7 @@ extension ListingCategory {
         case .motorsAndAccessories:
             return .motorsAndAccessories
         case .services:
-            return .otherItems(listingCategory: self)
+            return featureFlags.showServicesFeatures.isActive ? .services : .otherItems(listingCategory: self)
         case .babyAndChild, .electronics, .fashionAndAccesories, .homeAndGarden, .moviesBooksAndMusic, .other,
              .sportsLeisureAndGames, .unassigned:
             return .otherItems(listingCategory: nil)

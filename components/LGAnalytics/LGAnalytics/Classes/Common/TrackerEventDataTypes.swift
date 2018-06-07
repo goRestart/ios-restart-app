@@ -486,6 +486,7 @@ public enum EventParameterPostingType: String {
     case car = "car"
     case stuff = "stuff"
     case realEstate = "real-estate"
+    case service = "service"
     case none = "N/A"
 }
 

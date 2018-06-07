@@ -41,7 +41,7 @@ enum UIActionInterface {
     case button(String, ButtonStyle)
 }
 
-struct UIAction {
+public struct UIAction {
     let interface: UIActionInterface
     let action: () -> ()
     var accessibilityId: Accessible?

@@ -1,12 +1,5 @@
-//
-//  UIColor+LG.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 26/4/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 // MARK: > Basic Letgo Palette
 
@@ -89,6 +82,7 @@ extension UIColor {
 extension UIColor {
     // Solid Grays
     static var lgBlack: UIColor { return UIColor(rgb: 0x2c2c2c) } // (44,44,44)
+    static var grayDarker: UIColor { return UIColor(rgb: 0x4a4a4a) } // (74,74,74)
     static var grayDark: UIColor { return UIColor(rgb: 0x757575) } // (117,117,117)
     static var gray: UIColor { return UIColor(rgb: 0xbdbdbd) } // (189,189,189)
     static var grayLight: UIColor { return UIColor(rgb: 0xdddddd) } // (221,221,221)
@@ -213,13 +207,11 @@ extension UIColor {
 
 extension UIColor {
     static var ratingViewBackgroundColor: UIColor? {
-        guard let patternImage = UIImage(named: "pattern_red") else { return nil }
-        return UIColor(patternImage: patternImage)
+        return UIColor(patternImage: R.Asset.BackgroundsAndImages.patternRed.image)
     }
 
     static var emptyViewBackgroundColor: UIColor? {
-        guard let patternImage = UIImage(named: "pattern_white") else { return nil }
-        return UIColor(patternImage: patternImage)
+        return UIColor(patternImage: R.Asset.BackgroundsAndImages.patternWhite.image)
     }
 }
 
@@ -236,6 +228,9 @@ extension UIColor {
     static var chatOthersBubbleBgColor: UIColor { return white }
     static var chatOthersBubbleBgColorSelected: UIColor { return grayLighter }
 
+    static var assistantConversationCellBgColor: UIColor { return primaryColorAlpha08 }
+
+    private static let primaryColorAlpha08 = UIColor(rgb: 0xFFE0F1)
     private static let primaryColorAlpha16 = UIColor(rgb: 0xFFE0E4) // (255, 224, 228)
     private static let primaryColorAlpha30 = UIColor(rgb: 0xFFC6CD) // (255, 198, 205)
 
@@ -349,4 +344,11 @@ extension UIColor {
 
 extension UIColor {
     static var verificationPoints: UIColor { return UIColor(rgb: 0xa3ce71) } //  163, 206, 113
+}
+
+
+// MARK: > Toast color
+
+extension UIColor {
+    static let toastBackground = UIColor.grayDarker
 }

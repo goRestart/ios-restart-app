@@ -10,7 +10,7 @@ import Foundation
 import LGComponents
 import UIKit
 
-extension UIApplication: AnalyticsApplication {
+extension UIApplication { // }: AnalyticsApplication {
     public func open(url: URL,
                      options: [String: Any],
                      completion: ((Bool) -> Void)?) {

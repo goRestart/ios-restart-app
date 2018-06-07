@@ -13,7 +13,7 @@ private extension Listing {
     
     var type: MapAnnotationType {
         switch self {
-        case .product, .car: return .general
+        case .product, .car, .service: return .general
         case .realEstate: return .realEstate
         }
     }

@@ -37,6 +37,18 @@ struct MLPredictionDetailsViewData {
         self.category = category
         self.predictedCategory = category
     }
+
+    var finalTitle: String? {
+        return userChangedPredictedTitle ? title : nil
+    }
+
+    var finalPrice: Double? {
+        return userChangedPredictedPrice ? price : predictedPrice
+    }
+
+    var finalCategory: ListingCategory? {
+        return userChangedPredictedCategory ? category : predictedCategory
+    }
 }
 
 private enum Cells: Int {

@@ -25,12 +25,21 @@ final class UserProfileViewController: BaseViewController {
     private let listingView: ListingListView
     private let tableView = UITableView()
 
+    private let emptyReviewsLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemRegularFont(size: 17)
+        label.text = R.Strings.profileReviewsEmptyLabel
+        label.isHidden = true
+        return label
+    }()
+
     private let headerGestureRecognizer = UIPanGestureRecognizer()
 
     private var headerContainerTopConstraint: NSLayoutConstraint?
     private var userRelationViewHeightConstraint: NSLayoutConstraint?
     private var dummyViewHeightConstraint: NSLayoutConstraint?
     private var updatingUserRelation: Bool = false
+    private let emptyReviewsTopMargin: CGFloat = 90
 
     private var scrollableContentInset: UIEdgeInsets {
         let topInset = Layout.topMargin + headerContainerView.height
@@ -64,7 +73,8 @@ final class UserProfileViewController: BaseViewController {
         static let userRelationHeight: CGFloat = 48
         static let dummyDisclaimerHeight: CGFloat = 50
         static let headerBottomMargin: CGFloat = Metrics.margin
-        static let bottomScrollableContentInset: CGFloat = 60
+        static let bottomScrollableContentInset: CGFloat = 100
+        static let navBarTitleHeight: CGFloat = 44
     }
 
     // MARK: - Lifecycle
@@ -80,7 +90,7 @@ final class UserProfileViewController: BaseViewController {
         self.disposeBag = DisposeBag()
         self.headerView = UserProfileHeaderView(isPrivate: viewModel.isPrivateProfile)
         self.bioAndTrustView = UserProfileBioAndTrustView(isPrivate: viewModel.isPrivateProfile)
-        self.listingView = ListingListView(viewModel: ListingListViewModel(requester: nil),
+        self.listingView = ListingListView(viewModel: ListingListViewModel(),
                                            featureFlags: FeatureFlags.sharedInstance)
         self.socialSharer = socialSharer
         self.socialSharer.delegate = viewModel
@@ -143,8 +153,8 @@ final class UserProfileViewController: BaseViewController {
 
         view.addSubviewsForAutoLayout([tableView, listingView, headerContainerView])
 
-        navBarUserView.translatesAutoresizingMaskIntoConstraints = false
         navBarUserView.alpha = 0
+        navBarUserView.frame.size.height = Layout.navBarTitleHeight
         tabsView.delegate = self
 
         setupHeaderUI()
@@ -182,10 +192,11 @@ final class UserProfileViewController: BaseViewController {
         tableView.allowsSelection = false
         let cellNib = UINib(nibName: UserRatingCell.reusableID, bundle: nil)
         tableView.register(cellNib, forCellReuseIdentifier: UserRatingCell.reusableID)
+        tableView.addSubviewForAutoLayout(emptyReviewsLabel)
     }
 
     private func setupNavBar() {
-        let backIcon = UIImage(named: "navbar_back_red")
+        let backIcon = R.Asset.IconsButtons.navbarBackRed.image
         setNavBarBackButton(backIcon)
 
         self.navigationItem.titleView = navBarUserView
@@ -202,14 +213,14 @@ final class UserProfileViewController: BaseViewController {
     func setupNavBarRightActions(isMyUser: Bool) {
         var rightButtons: [UIButton] = []
 
-        let shareIcon = UIImage(named: "navbar_share_red")?.withRenderingMode(.alwaysOriginal)
+        let shareIcon = R.Asset.IconsButtons.navbarShareRed.image.withRenderingMode(.alwaysOriginal)
         let shareButton = UIButton(type: .system)
         shareButton.setImage(shareIcon, for: .normal)
         shareButton.addTarget(self, action: #selector(didTapOnNavBarShare), for: .touchUpInside)
         rightButtons.append(shareButton)
 
         if self.viewModel.isPrivateProfile {
-            let settingsIcon = UIImage(named: "navbar_settings_red")?.withRenderingMode(.alwaysOriginal)
+            let settingsIcon = R.Asset.IconsButtons.navbarSettingsRed.image.withRenderingMode(.alwaysOriginal)
             let settingsButton = UIButton(type: .system)
             settingsButton.setImage(settingsIcon, for: .normal)
             settingsButton.addTarget(self, action: #selector(didTapOnNavBarSettings), for: .touchUpInside)
@@ -219,7 +230,7 @@ final class UserProfileViewController: BaseViewController {
         if !isMyUser
             && !viewModel.isPrivateProfile
             && viewModel.isLoggedInUser {
-            let moreIcon = UIImage(named: "navbar_more_red")?.withRenderingMode(.alwaysOriginal)
+            let moreIcon = R.Asset.IconsButtons.navbarMoreRed.image.withRenderingMode(.alwaysOriginal)
             let moreButton = UIButton(type: .system)
             moreButton.setImage(moreIcon, for: .normal)
             moreButton.addTarget(self, action: #selector(didTapOnNavBarMore), for: .touchUpInside)
@@ -256,7 +267,9 @@ final class UserProfileViewController: BaseViewController {
             tableView.topAnchor.constraint(equalTo: safeTopAnchor),
             tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
             tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            emptyReviewsLabel.topAnchor.constraint(equalTo: tableView.topAnchor, constant: emptyReviewsTopMargin),
+            emptyReviewsLabel.centerXAnchor.constraint(equalTo: tableView.centerXAnchor)
         ]
 
         if viewModel.showKarmaView {
@@ -336,7 +349,6 @@ final class UserProfileViewController: BaseViewController {
         tableView.contentInset = scrollableContentInset
         listingView.collectionViewContentInset = scrollableContentInset
         listingView.firstLoadPadding = scrollableContentInset
-        listingView.errorPadding = scrollableContentInset
         listingView.setErrorViewStyle(bgColor: .white, borderColor: .clear, containerColor: .white)
 
         let contentInset: UIEdgeInsets
@@ -499,9 +511,11 @@ extension UserProfileViewController: UITableViewDelegate, UITableViewDataSource 
 
 extension UserProfileViewController: UserRatingListViewModelDelegate {
     func vmIsLoadingUserRatingsRequest(_ isLoading: Bool, firstPage: Bool) {}
+
     func vmDidFailLoadingUserRatings(_ firstPage: Bool) {}
 
     func vmDidLoadUserRatings(_ ratings: [UserRating]) {
+        emptyReviewsLabel.isHidden = viewModel.ratingListViewModel.objectCount > 0
         guard !ratings.isEmpty else { return }
         tableView.reloadData()
     }

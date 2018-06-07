@@ -276,10 +276,8 @@ extension LoginCoordinator: RecaptchaNavigator {
 
 extension LoginCoordinator {
     func open(url: URL) {
-        let svc = SFSafariViewController(url: url, entersReaderIfAvailable: false)
-        svc.view.tintColor = UIColor.primaryColor
         let vc = topViewController()
-        vc.present(svc, animated: true, completion: nil)
+        vc.openInAppWebViewWith(url: url)
     }
 }
 
@@ -328,7 +326,7 @@ fileprivate extension LoginCoordinator {
                 action: {
                     self?.tracker.trackEvent(TrackerEvent.loginBlockedAccountContactUs(network, reason: .accountUnderReview))
                     self?.closeCoordinator(animated: false) {
-                        self?.parentViewController?.openInternalUrl(contactURL)
+                        self?.parentViewController?.openInAppWebViewWith(url: contactURL)
                     }
 
             })
@@ -342,7 +340,7 @@ fileprivate extension LoginCoordinator {
             let actions = [contact, keepBrowsing]
             self?.parentViewController?.showAlertWithTitle(R.Strings.loginScammerAlertTitle,
                                                            text: R.Strings.loginScammerAlertMessage,
-                                                           alertType: .iconAlert(icon: #imageLiteral(resourceName: "ic_moderation_alert")),
+                                                           alertType: .iconAlert(icon: R.Asset.IconsButtons.icModerationAlert.image),
                                                            buttonsLayout: .vertical, actions: actions)
             self?.tracker.trackEvent(TrackerEvent.loginBlockedAccountStart(network, reason: .accountUnderReview))
         }
@@ -355,7 +353,7 @@ fileprivate extension LoginCoordinator {
                 action: {
                     self?.tracker.trackEvent(TrackerEvent.loginBlockedAccountContactUs(network, reason: .secondDevice))
                     self?.closeCoordinator(animated: false) {
-                        self?.parentViewController?.openInternalUrl(contactURL)
+                        self?.parentViewController?.openInAppWebViewWith(url: contactURL)
                     }
 
             })
@@ -369,7 +367,7 @@ fileprivate extension LoginCoordinator {
             let actions = [contact, keepBrowsing]
             self?.parentViewController?.showAlertWithTitle(R.Strings.loginDeviceNotAllowedAlertTitle,
                                                            text: R.Strings.loginDeviceNotAllowedAlertMessage,
-                                                           alertType: .iconAlert(icon: #imageLiteral(resourceName: "ic_device_blocked_alert")),
+                                                           alertType: .iconAlert(icon: R.Asset.IconsButtons.icDeviceBlockedAlert.image),
                                                            buttonsLayout: .vertical, actions: actions)
             self?.tracker.trackEvent(TrackerEvent.loginBlockedAccountStart(network, reason: .secondDevice))
         }

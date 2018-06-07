@@ -3,7 +3,7 @@ import LGCoreKit
 class RelatedListingListRequester: ListingListRequester {
     
     fileprivate enum ListingType {
-        case product, realEstate, car
+        case product, realEstate, car, service
     }
     
     fileprivate let listingType: ListingType
@@ -130,7 +130,16 @@ fileprivate extension RelatedListingListRequester {
                                                params: retrieveListingParams,
                                                completion: requestCompletion)
             }
-            
+        case (.service, _):
+            if featureFlags.showServicesFeatures.isActive {
+                listingRepository.indexRelatedServices(listingId: listingObjectId,
+                                                   params: retrieveListingParams,
+                                                   completion: requestCompletion)
+            } else {
+                listingRepository.indexRelated(listingId: listingObjectId,
+                                               params: retrieveListingParams,
+                                               completion: requestCompletion)
+            }
         }
     }
 }

@@ -24,6 +24,8 @@ platform :ios do
 
   before_all do
     ENV["LG_GITHUB_REPOSITORY"] = "letgoapp/letgo-ios"
+    # Forcing fastlane to launch simulator before all as a first step.
+    ENV["FASTLANE_EXPLICIT_OPEN_SIMULATOR"] = "2"
   end
 
   desc "Will clone master, create a new `release-x.x.x` branch from, update the build info, push it and do a deploy of that to crashlytics"

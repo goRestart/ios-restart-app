@@ -14,7 +14,7 @@ class MLPostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableView
     
     var buttonTitle: String {
         switch step {
-        case .bathrooms, .bedrooms, .rooms, .offerType, .propertyType, .make, .model, .year:
+        case .bathrooms, .bedrooms, .rooms, .offerType, .propertyType, .make, .model, .year, .servicesSubtypes:
             return  previousStepIsSummary ? R.Strings.productPostDone : R.Strings.postingButtonSkip
         case .price, .summary:
             return R.Strings.productPostDone
@@ -28,7 +28,7 @@ class MLPostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableView
     
     var shouldFollowKeyboard: Bool {
         switch step {
-        case .bathrooms, .bedrooms, .rooms, .sizeSquareMeters, .offerType, .price, .propertyType, .make, .model, .year, .summary:
+        case .bathrooms, .bedrooms, .rooms, .sizeSquareMeters, .offerType, .price, .propertyType, .make, .model, .year, .summary, .servicesSubtypes:
             return  true
         case .location:
             return false
@@ -48,7 +48,7 @@ class MLPostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableView
         switch step {
         case .bathrooms, .bedrooms, .rooms, .offerType, .propertyType, .make, .model, .year:
             return .postingFlow
-        case .location, .summary, .price:
+        case .location, .summary, .price, .servicesSubtypes:
             return .primary(fontSize: .medium)
         case .sizeSquareMeters:
             return sizeListing.value == nil ? .postingFlow : .primary(fontSize: .medium)
@@ -57,7 +57,7 @@ class MLPostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableView
     
     var buttonFullWidth: Bool {
         switch step {
-        case .bathrooms, .bedrooms, .rooms, .sizeSquareMeters, .offerType, .propertyType, .make, .model, .year, .price:
+        case .bathrooms, .bedrooms, .rooms, .sizeSquareMeters, .offerType, .propertyType, .make, .model, .year, .price, .servicesSubtypes:
             return false
         case .location, .summary:
             return true
@@ -104,10 +104,10 @@ class MLPostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableView
                                                         currentPlace: postListingState.place)
             locationView.locationSelected.asObservable().bind(to: placeSelected).disposed(by: disposeBag)
             return locationView
-        case .year, .make, .model:
+        case .year, .make, .model, .servicesSubtypes:
             return nil
         }
-        let view = PostingAttributePickerTableView(values: values, selectedIndex: nil, delegate: self)
+        let view = PostingAttributePickerTableView(values: values, selectedIndexes: [], delegate: self)
         return view
     }
     
@@ -216,7 +216,7 @@ class MLPostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableView
             update(place: placeSelected.value)
         case .sizeSquareMeters:
             update(sizeSquareMeters: sizeListing.value)
-        case .bathrooms, .bedrooms, .make, .model, .year, .offerType, .propertyType, .summary, .rooms:
+        case .bathrooms, .bedrooms, .make, .model, .year, .offerType, .propertyType, .summary, .rooms, .servicesSubtypes:
             break
         }
         let nextStep = previousStepIsSummary ? .summary : next
@@ -363,7 +363,7 @@ class MLPostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableView
             realEstateOfferType = RealEstateOfferType.allValues[index]
         case .propertyType:
             realEstatePropertyType = RealEstatePropertyType.allValues(postingFlowType: featureFlags.postingFlowType)[index]
-        case .price, .sizeSquareMeters, .summary, .location, .make, .model, .year:
+        case .price, .sizeSquareMeters, .summary, .location, .make, .model, .year, .servicesSubtypes:
             return
         }
         
@@ -401,7 +401,7 @@ class MLPostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableView
         case .rooms:
             removeBedrooms = true
             removeLivingRooms = true
-        case .price, .sizeSquareMeters, .summary, .location, .make, .model, .year:
+        case .price, .sizeSquareMeters, .summary, .location, .make, .model, .year, .servicesSubtypes:
             return
         }
         if let realEstateInfo = postListingState.verticalAttributes?.realEstateAttributes {
@@ -436,12 +436,12 @@ class MLPostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableView
             if let bathrooms = postListingState.verticalAttributes?.realEstateAttributes?.bathrooms {
                 positionSelected = NumberOfBathrooms(rawValue:bathrooms)?.position
             }
-        case .price, .make, .model, .sizeSquareMeters, .year, .location, .summary:
+        case .price, .make, .model, .sizeSquareMeters, .year, .location, .summary, .servicesSubtypes:
             return nil
         }
         return positionSelected
     }
-    
+
     
     // MARK: - PostingAddDetailSummaryTableViewDelegate
     

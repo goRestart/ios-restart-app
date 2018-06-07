@@ -27,9 +27,9 @@ extension SuggestiveSearch {
     var icon: UIImage? {
         switch self {
         case .term, .termWithCategory:
-            return #imageLiteral(resourceName: "ic_search")
+            return R.Asset.IconsButtons.icSearch.image
         case .category:
-            return #imageLiteral(resourceName: "ic_filters_gray")
+            return R.Asset.IconsButtons.icFiltersGray.image
         }
     }
 }

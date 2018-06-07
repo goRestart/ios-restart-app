@@ -10,7 +10,7 @@ import LGCoreKit
 import Result
 import UIKit
 
-class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, ChangePasswordViewModelDelegate {
+public class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, ChangePasswordViewModelDelegate {
     
     // outlets & buttons
     @IBOutlet weak var passwordTextfield: LGTextField!
@@ -25,10 +25,12 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
     var lines : [CALayer] = []
     
     
-    init(viewModel: ChangePasswordViewModel) {
+    public init(viewModel: ChangePasswordViewModel) {
         self.viewModel = viewModel
         self.lines = []
-        super.init(viewModel:viewModel, nibName: "ChangePasswordViewController")
+        super.init(viewModel:viewModel,
+                   nibName: "ChangePasswordViewController",
+                   bundle: R.loginBundle)
         self.viewModel.delegate = self
     }
     
@@ -37,11 +39,11 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
         self.init(viewModel: viewModel)
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         setNavBarBackButton(nil)
 
@@ -49,18 +51,18 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
         setupAccessibilityIds()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
+    public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setNavBarBackgroundStyle(.default)
         setNeedsStatusBarAppearanceUpdate()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         passwordTextfield.becomeFirstResponder()
     }
     
-    override func viewWillLayoutSubviews() {
+    public override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         // Redraw the lines
         for line in lines {
@@ -76,17 +78,17 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
         viewModel.changePassword()
     }
     
-    override var preferredStatusBarStyle: UIStatusBarStyle {
+    public override var preferredStatusBarStyle: UIStatusBarStyle {
         return .default
     }
     
-    override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
+    public override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
         return .fade
     }
     
     // MARK: - TextFieldDelegate
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if let textFieldText = textField.text {
             let text = (textFieldText as NSString).replacingCharacters(in: range, with: string)
             if let tag = TextFieldTag(rawValue: textField.tag) {
@@ -101,7 +103,7 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
         return true
     }
     
-    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+    public func textFieldShouldClear(_ textField: UITextField) -> Bool {
         if let tag = TextFieldTag(rawValue: textField.tag) {
             switch (tag) {
             case .password:
@@ -113,7 +115,7 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
         return true
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == self.passwordTextfield {
             self.confirmPasswordTextfield.becomeFirstResponder()
         } else if textField == self.confirmPasswordTextfield {
@@ -190,7 +192,9 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
     private func setupUI() {
         
         if isRootViewController() {
-            let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .plain, target: self,
+            let closeButton = UIBarButtonItem(image: R.Asset.IconsButtons.navbarClose.image,
+                                              style: .plain,
+                                              target: self,
                 action: #selector(popBackViewController))
             navigationItem.leftBarButtonItem = closeButton
         }

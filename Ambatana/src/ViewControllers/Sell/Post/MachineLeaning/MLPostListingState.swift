@@ -68,7 +68,7 @@ final class MLPostListingState {
         switch category {
         case .car:
             newStep = .carDetailsSelection
-        case .realEstate:
+        case .realEstate, .services:
             newStep = .addingDetails
         case .otherItems, .motorsAndAccessories:
             newStep = .finished
@@ -126,7 +126,7 @@ final class MLPostListingState {
             return self
         }
         let newStep: MLPostListingStep
-        if let currentCategory = category, currentCategory == .realEstate {
+        if let currentCategory = category, currentCategory.hasAddingDetailsScreen  {
             newStep = .addingDetails
         } else {
             newStep = .detailsSelection
@@ -210,7 +210,7 @@ final class MLPostListingState {
             switch category {
             case .car:
                 newStep = .carDetailsSelection
-            case .realEstate:
+            case .realEstate, .services:
                 newStep = .addingDetails
             case .otherItems, .motorsAndAccessories:
                 newStep = .finished

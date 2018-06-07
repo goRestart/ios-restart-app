@@ -1,12 +1,5 @@
-//
-//  UserVerificationCell.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 19/3/18.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 final class UserVerificationCell: UITableViewCell, ReusableCell {
     private let logoImageView = UIImageView()
@@ -51,8 +44,8 @@ final class UserVerificationCell: UITableViewCell, ReusableCell {
         eventCountLabel.textColor = .grayDark
         eventCountLabel.textAlignment = .center
         eventCountLabel.isHidden = true
-        completedBadge.image = UIImage(named: "verify_check")
-        customAccessoryView.image = UIImage(named: "right_chevron")
+        completedBadge.image = R.Asset.IconsButtons.verifyCheck.image
+        customAccessoryView.image = R.Asset.IconsButtons.rightChevron.image
         setupConstraints()
     }
 
@@ -103,7 +96,7 @@ final class UserVerificationCell: UITableViewCell, ReusableCell {
         pointsLabel.alpha = completed ? 0.30 : 1
         customAccessoryView.alpha = completed ? 0.30 : 1
         completedBadge.isHidden = !completed && eventCount == nil
-        completedBadge.image = eventCount == nil ? #imageLiteral(resourceName: "verify_check") : #imageLiteral(resourceName: "oval")
+        completedBadge.image = eventCount == nil ? R.Asset.IconsButtons.verifyCheck.image : R.Asset.IconsButtons.oval.image
         eventCountLabel.isHidden = eventCount == nil
         eventCountLabel.text = eventCount
     }

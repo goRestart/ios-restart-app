@@ -64,8 +64,10 @@ class SearchRelatedListingListRequester: ListingListRequester {
             listingRepository.indexRealEstateRelatedSearch(retrieveListingsParams, completion: completion)
         case .cars:
             listingRepository.indexCarsRelatedSearch(retrieveListingsParams, completion: completion)
+        case .services:
+            listingRepository.indexServicesRelatedSearch(retrieveListingsParams, completion: completion)
         case .babyAndChild, .electronics, .fashionAndAccesories, .homeAndGarden, .motorsAndAccessories,
-            .moviesBooksAndMusic, .other, .services, .sportsLeisureAndGames,
+            .moviesBooksAndMusic, .other, .sportsLeisureAndGames,
             .unassigned:
             break
         }
@@ -198,6 +200,10 @@ fileprivate extension SearchRelatedListingListRequester {
                 params.maxPrice = max
             }
         }
+        
+        params.typeId = filters?.servicesType?.id
+        params.subtypeIds = filters?.servicesSubtypes?.map( { $0.id } )
+        
         return params
     }
 }

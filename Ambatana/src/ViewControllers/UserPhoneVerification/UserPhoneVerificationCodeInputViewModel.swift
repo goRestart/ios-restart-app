@@ -81,7 +81,7 @@ final class UserPhoneVerificationCodeInputViewModel: BaseViewModel {
     
     private func requestCode(completion: (()->())?) {
         delegate?.vmShowLoading(R.Strings.phoneVerificationNumberInputViewSendingMessage)
-        myUserRepository.requestSMSCode(prefix: callingCode, phone: phoneNumber) { [weak self] result in
+        myUserRepository.requestSMSCode(prefix: "+\(callingCode)", phone: phoneNumber) { [weak self] result in
             guard let strongSelf = self else { return }
             switch result {
             case .success:

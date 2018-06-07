@@ -10,6 +10,7 @@ public enum ListingCreationParams {
     case product(ProductCreationParams)
     case car(CarCreationParams)
     case realEstate(RealEstateCreationParams)
+    case service(ServicesCreationParams)
     
     // MARK: - Helpers
     
@@ -69,6 +70,10 @@ public enum ListingCreationParams {
             let newParams = realEstateParams
             newParams.images = images
             return ListingCreationParams.realEstate(newParams)
+        case .service(let serviceParams):
+            let newParams = serviceParams
+            newParams.images = images
+            return ListingCreationParams.service(newParams)
         }
     }
 
@@ -86,6 +91,10 @@ public enum ListingCreationParams {
             let newParams = realEstateParams
             newParams.videos = videos
             return ListingCreationParams.realEstate(newParams)
+        case .service(let serviceParams):
+            let newParams = serviceParams
+            newParams.videos = videos
+            return ListingCreationParams.service(newParams)
         }
     }
 
@@ -96,6 +105,7 @@ public enum ListingCreationParams {
         case .product(let productParams): return productParams.name
         case .car(let carParams): return carParams.name
         case .realEstate(let realEstateParams): return realEstateParams.name
+        case .service(let serviceParams): return serviceParams.name
         }
     }
     
@@ -104,6 +114,7 @@ public enum ListingCreationParams {
         case .product(let productParams): return productParams.descr
         case .car(let carParams): return carParams.descr
         case .realEstate(let realEstateParams): return realEstateParams.descr
+        case .service(let serviceParams): return serviceParams.descr
         }
     }
     
@@ -112,6 +123,7 @@ public enum ListingCreationParams {
         case .product(let productParams): return productParams.price
         case .car(let carParams): return carParams.price
         case .realEstate(let realEstateParams): return realEstateParams.price
+        case .service(let serviceParams): return serviceParams.price
         }
     }
     
@@ -120,6 +132,7 @@ public enum ListingCreationParams {
         case .product(let productParams): return productParams.category
         case .car(let carParams): return carParams.category
         case .realEstate(let realEstateParams): return realEstateParams.category
+        case .service(let serviceParams): return serviceParams.category
         }
     }
     
@@ -128,6 +141,7 @@ public enum ListingCreationParams {
         case .product(let productParams): return productParams.currency
         case .car(let carParams): return carParams.currency
         case .realEstate(let realEstateParams): return realEstateParams.currency
+        case .service(let serviceParams): return serviceParams.currency
         }
     }
     
@@ -136,6 +150,7 @@ public enum ListingCreationParams {
         case .product(let productParams): return productParams.location
         case .car(let carParams): return carParams.location
         case .realEstate(let realEstateParams): return realEstateParams.location
+        case .service(let serviceParams): return serviceParams.location
         }
     }
     
@@ -144,6 +159,7 @@ public enum ListingCreationParams {
         case .product(let productParams): return productParams.postalAddress
         case .car(let carParams): return carParams.postalAddress
         case .realEstate(let realEstateParams): return realEstateParams.postalAddress
+        case .service(let serviceParams): return serviceParams.postalAddress
         }
     }
     
@@ -152,6 +168,7 @@ public enum ListingCreationParams {
         case .product(let productParams): return productParams.images
         case .car(let carParams): return carParams.images
         case .realEstate(let realEstateParams): return realEstateParams.images
+        case .service(let serviceParams): return serviceParams.images
         }
     }
 
@@ -160,6 +177,7 @@ public enum ListingCreationParams {
         case .product(let productParams): return productParams.videos
         case .car(let carParams): return carParams.videos
         case .realEstate(let realEstateParams): return realEstateParams.videos
+        case .service(let serviceParams): return serviceParams.videos
         }
     }
 
@@ -170,6 +188,7 @@ public enum ListingCreationParams {
         case .product(let productParams): return productParams.apiCreationEncode(userId: userId)
         case .car(let carParams): return carParams.apiCreationEncode(userId: userId)
         case .realEstate(let realEstateParams): return realEstateParams.apiCreationEncode(userId: userId)
+        case .service(let serviceParams): return serviceParams.apiCreationEncode(userId: userId)
         }
     }
 }

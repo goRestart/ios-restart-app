@@ -14,9 +14,11 @@ final class ChatBlockedUsersViewModel: BaseViewModel {
     }
     let blockedUserList = Variable<[User]>([])
     let viewStatus = Variable<ViewState>(.loading)
+    let rx_navigationActionSheet = PublishSubject<NavigationActionSheet>()
+    let rx_isEditing = Variable<Bool>(false)
 
     let emptyStateVM: LGEmptyViewModel = {
-        return LGEmptyViewModel(icon: UIImage(named: "err_list_no_blocked_users"),
+        return LGEmptyViewModel(icon: R.Asset.Errors.errListNoBlockedUsers.image,
                                 title: R.Strings.chatListBlockedEmptyTitle,
                                 body: R.Strings.chatListBlockedEmptyBody, buttonTitle: nil,
                                 action: nil, secondaryButtonTitle: nil, secondaryAction: nil,
@@ -24,7 +26,7 @@ final class ChatBlockedUsersViewModel: BaseViewModel {
     }()
 
     let errorStateVM: LGEmptyViewModel = {
-        return LGEmptyViewModel(icon: UIImage(named: "err_list_no_blocked_users"),
+        return LGEmptyViewModel(icon: R.Asset.Errors.errListNoBlockedUsers.image,
                                 title: R.Strings.chatListBlockedEmptyTitle,
                                 body: R.Strings.chatListBlockedEmptyBody, buttonTitle: nil,
                                 action: nil, secondaryButtonTitle: nil, secondaryAction: nil,
@@ -87,7 +89,28 @@ final class ChatBlockedUsersViewModel: BaseViewModel {
         navigator?.openUser(data)
     }
 
-
+    // MARK: - Actions
+    
+    func openOptionsActionSheet() {
+        var unblockAction: UIAction {
+            return UIAction(interface: .text(R.Strings.chatListUnblock),
+                            action: { [weak self] in self?.switchEditMode(isEditing: true) })
+        }
+        rx_navigationActionSheet.onNext((cancelTitle: R.Strings.commonCancel,
+                                         actions: blockedUsersCount > 0 ? [unblockAction] : []))
+    }
+    
+    func tableViewRowActions() -> [UITableViewRowAction]? {
+        let unblockAction = UITableViewRowAction(style: .normal, title: R.Strings.chatListUnblock) { [weak self] action, indexPath in
+            self?.unblockSelectedUserAt(index: indexPath.row)
+        }
+        return [unblockAction]
+    }
+    
+    func switchEditMode(isEditing: Bool) {
+        rx_isEditing.value = isEditing
+    }
+    
     // MARK: - Private Methods
 
     private func viewStatusFor(error: RepositoryError) -> ViewState {

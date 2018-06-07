@@ -29,6 +29,19 @@ class MLPostListingViewModel: BaseViewModel {
         return true
     }
 
+    var availablePostCategories: [PostCategory] {
+        var categories: [PostCategory] = [.car, .motorsAndAccessories, .otherItems(listingCategory: nil)]
+        if featureFlags.realEstateEnabled.isActive {
+            categories.append(.realEstate)
+        }
+        if featureFlags.servicesCategoryOnSalchichasMenu.isActive {
+            categories.append(.services)
+        }
+        return categories.sorted(by: {
+            $0.sortWeight(featureFlags: featureFlags) > $1.sortWeight(featureFlags: featureFlags)
+        })
+    }
+
     let state: Variable<MLPostListingState>
     let category: Variable<PostCategory?>
 
@@ -394,7 +407,9 @@ fileprivate extension MLPostListingViewModel {
     }
     
     func openPostingDetails() {
-        navigator?.startDetails(postListingState: state.value,
+        let firstStep: PostingDetailStep = featureFlags.summaryAsFirstStep.isActive ? .summary : .price
+        navigator?.startDetails(firstStep: firstStep,
+                                postListingState: state.value,
                                 uploadedImageSource: uploadedImageSource,
                                 uploadedVideoLength: uploadedVideoLength,
                                 postingSource: postingSource,

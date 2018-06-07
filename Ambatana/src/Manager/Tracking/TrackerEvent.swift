@@ -408,6 +408,30 @@ struct TrackerEvent {
 
         return TrackerEvent(name: .adTapped, params: params)
     }
+    
+    static func adShown(listingId: String?,
+                         adType: EventParameterAdType?,
+                         isMine: EventParameterBoolean,
+                         queryType: EventParameterAdQueryType?,
+                         query: String?,
+                         adShown: EventParameterBoolean,
+                         typePage: EventParameterTypePage,
+                         categories: [ListingCategory]?,
+                         feedPosition: EventParameterFeedPosition) -> TrackerEvent {
+        var params = EventParameters()
+        
+        params[.listingId] = listingId ?? TrackerEvent.notApply
+        params[.adType] = adType?.rawValue ?? TrackerEvent.notApply
+        params[.isMine] = isMine.rawValue
+        params[.adQueryType] = queryType?.rawValue ?? TrackerEvent.notApply
+        params[.adQuery] = query ?? TrackerEvent.notApply
+        params[.adShown] = adShown.rawValue
+        params[.typePage] = typePage.rawValue
+        params[.feedPosition] = feedPosition.value
+        params[.categoryId] = (categories ?? [.unassigned]).trackValue
+        
+        return TrackerEvent(name: .adTapped, params: params)
+    }
 
     static func listingFavorite(_ listing: Listing, typePage: EventParameterTypePage,
                                 isBumpedUp: EventParameterBoolean) -> TrackerEvent {
@@ -557,8 +581,9 @@ struct TrackerEvent {
             params[.postingType] = EventParameterPostingType.stuff.rawValue
         case .realEstate:
             params[.postingType] = EventParameterPostingType.realEstate.rawValue
+        case .service:
+            params[.postingType] = EventParameterPostingType.service.rawValue
         }
-
         
         params[.make] = EventParameterMake.make(name: listing.car?.carAttributes.make).name
         params[.model] = EventParameterModel.model(name: listing.car?.carAttributes.model).name

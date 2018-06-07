@@ -38,6 +38,9 @@ public protocol DI: class {
     var suggestedLocationsRepository: SuggestedLocationsRepository { get }
     var searchAlertsRepository: SearchAlertsRepository { get }
     var preSignedUploadUrlRepository: PreSignedUploadUrlRepository { get }
+    var imageMultiplierRepository: ImageMultiplierRepository { get }
+    var servicesInfoRepository: ServicesInfoRepository { get }
+    
     // Helper
     var dateFormatter: DateFormatter { get }
     var currencyHelper: CurrencyHelper { get }

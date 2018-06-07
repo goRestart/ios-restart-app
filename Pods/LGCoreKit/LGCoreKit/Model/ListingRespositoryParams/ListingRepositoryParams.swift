@@ -90,6 +90,7 @@ public struct RetrieveListingParams {
     public var distanceType: DistanceType?
     public var abtest: String?
     public var relaxParam: RelaxParam?
+    public var similarParam: SimilarParam?    
     
     
     //  MARK: Discovery
@@ -104,6 +105,8 @@ public struct RetrieveListingParams {
     public var modelId: RetrieveListingParam<String>?
     public var startYear: RetrieveListingParam<Int>?
     public var endYear: RetrieveListingParam<Int>?
+    public var typeId: String?
+    public var subtypeIds: [String]?
     
     public var propertyType: String?
     public var offerType: [String]?

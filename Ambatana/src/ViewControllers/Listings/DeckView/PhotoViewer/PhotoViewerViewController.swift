@@ -142,7 +142,7 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
     }
 
     private func setLeftCloseButton() {
-        let leftButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_close_carousel"),
+        let leftButton = UIBarButtonItem(image: R.Asset.IconsButtons.icCloseCarousel.image,
                                          style: .plain,
                                          target: self,
                                          action: #selector(closeView))
@@ -210,7 +210,7 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let media = viewModel.mediaAtIndex(indexPath.row) else { return UICollectionViewCell() }
-        if media.isPlayable && viewModel.shouldShowVideos {
+        if media.isPlayable {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListingDeckVideoCell.reusableID,
                                                                 for: indexPath) as? ListingDeckVideoCell else {
                                                                     return UICollectionViewCell() }
@@ -333,7 +333,7 @@ final class ChatButton: UIControl {
         applyShadow(withOpacity: 0.2, radius: 0, color: UIColor.black.cgColor)
         layer.shadowOffset = CGSize(width: 0, height: 2)
 
-        let imageView = UIImageView(image: #imageLiteral(resourceName: "nit_photo_chat"))
+        let imageView = UIImageView(image: R.Asset.IconsButtons.NewItemPage.nitPhotoChat.image)
         imageView.setContentHuggingPriority(.required, for: .horizontal)
         imageView.isUserInteractionEnabled = false
         imageView.applyShadow(withOpacity: 0.2, radius: 0, color: UIColor.black.cgColor)

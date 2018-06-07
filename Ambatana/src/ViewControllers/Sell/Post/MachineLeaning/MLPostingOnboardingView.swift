@@ -29,7 +29,7 @@ class MLPostingOnboardingView: UIView {
     private func setupUI() {
         backgroundColor = UIColor.black.withAlphaComponent(0.5)
         contentView.backgroundColor = UIColor.white
-        iconImageView.image = #imageLiteral(resourceName: "ml_icon_red_big")
+        iconImageView.image = R.Asset.Machinelearning.mlIconRedBig.image
         titleLabel.font = UIFont.boldSystemFont(ofSize: 23)
         titleLabel.textColor = UIColor.primaryColor
         titleLabel.text = R.Strings.mlOnboardingNewText

@@ -172,7 +172,7 @@
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="bFH-yn-92t" secondAttribute="height" multiplier="1:1" id="hz7-ki-ifA"/>
                             </constraints>
-                            <state key="normal" image="ic_post_close">
+                            <state key="normal">
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <connections>
@@ -252,7 +252,4 @@
             </connections>
         </panGestureRecognizer>
     </objects>
-    <resources>
-        <image name="ic_post_close" width="22" height="22"/>
-    </resources>
 </document>

@@ -40,6 +40,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
         var notificationsManager: MockNotificationsManager!
         var monetizationRepository: MockMonetizationRepository!
         var tracker: MockTracker!
+        var reputationTooltipManager: MockReputationTooltipManager!
 
         var disposeBag: DisposeBag!
         var scheduler: TestScheduler!
@@ -92,7 +93,8 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                                                listingViewModelMaker: listingViewModelMaker,
                                                adsRequester: AdsRequester(),
                                                locationManager: locationManager,
-                                               myUserRepository: myUserRepository)
+                                               myUserRepository: myUserRepository,
+                                               reputationTooltipManager: reputationTooltipManager)
                 sut.delegate = self
 
                 disposeBag = DisposeBag()
@@ -133,6 +135,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                 notificationsManager = MockNotificationsManager()
                 monetizationRepository = MockMonetizationRepository.makeMock()
                 tracker = MockTracker()
+                reputationTooltipManager = MockReputationTooltipManager()
 
                 listingListRequester = MockListingListRequester(canRetrieve: true, offset: 0, pageSize: 20)
                 keyValueStorage = MockKeyValueStorage()
@@ -148,7 +151,8 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                                                                   purchasesShopper: purchasesShopper,
                                                                   monetizationRepository: monetizationRepository,
                                                                   tracker: tracker,
-                                                                  keyValueStorage: keyValueStorage)
+                                                                  keyValueStorage: keyValueStorage,
+                                                                  reputationTooltipManager: reputationTooltipManager)
 
                 scheduler = TestScheduler(initialClock: 0)
                 scheduler.start()
@@ -239,6 +243,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                 context ("ads for everyone") {
                     beforeEach {
                         featureFlags.noAdsInFeedForNewUsers = .control
+                        product.status = .approved
                         buildSut(initialProduct: product)
                         sut.active = true
                         sut.moreInfoState.value = .shown
@@ -261,6 +266,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                             var myUser = MockMyUser.makeMock()
                             myUser.creationDate = Date()
                             myUserRepository.myUserVar.value = myUser
+                            product.status = .approved
                             buildSut(initialProduct: product)
                             sut.active = true
                             sut.moreInfoState.value = .shown
@@ -279,6 +285,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                             var myUser = MockMyUser.makeMock()
                             myUser.creationDate = Date.init(timeIntervalSince1970: 0)
                             myUserRepository.myUserVar.value = myUser
+                            product.status = .approved
                             buildSut(initialProduct: product)
                             sut.active = true
                             sut.moreInfoState.value = .shown
@@ -397,6 +404,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                 var newProduct: MockProduct!
                 beforeEach {
                     product.name = String.makeRandom()
+                    product.status = .approved
                     newProduct = MockProduct.makeMock()
                     newProduct.name = String.makeRandom()
                     newProduct.objectId = product.objectId
@@ -412,6 +420,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                 context("single item") {
                     beforeEach {
                         listingListRequester.generateItems(30, allowDiscarded: false)
+                        product.status = .approved
                         buildSut(initialProduct: product)
                     }
                     it("items count automatically becomes 21") {
@@ -421,7 +430,8 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                 context("multiple items") {
                     context("item before the threshold") {
                         beforeEach {
-                            var products = MockProduct.makeMocks(count: 20)
+                            var products = MockProduct.makeProductMocks(20, allowDiscarded: false)
+                            product.status = .approved
                             products[0] = product
                             let productListModels = products.map { ListingCellModel.listingCell(listing: .product($0)) }
                             listingListRequester.generateItems(30, allowDiscarded: false)
@@ -441,7 +451,8 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                     }
                     context("item after the threshold") {
                         beforeEach {
-                            var products = MockProduct.makeMocks(count: 20)
+                            var products = MockProduct.makeProductMocks(20, allowDiscarded: false)
+                            product.status = .approved
                             products[18] = product
                             let productListModels = products.map { ListingCellModel.listingCell(listing: .product($0)) }
                             listingListRequester.generateItems(30, allowDiscarded: false)
@@ -455,7 +466,8 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                 context("long pagination") {
                     beforeEach {
                         //Simulating that we're on page 8-10
-                        var products = MockProduct.makeMocks(count: 180)
+                        var products = MockProduct.makeProductMocks(180, allowDiscarded: false)
+                        product.status = .approved
                         products[160] = product
                         listingListRequester.generateItems(200, allowDiscarded: false)
                         listingListRequester.offset = 180
@@ -484,7 +496,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                 describe("image pre-caching") {
                     var products: [MockProduct]!
                     beforeEach {
-                        products = MockProduct.makeMocks(count: 20)
+                        products = MockProduct.makeProductMocks(20, allowDiscarded: false)
                         for i in 0..<products.count {
                             var product = products[i]
                             var image = MockFile.makeMock()
@@ -546,7 +558,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                 describe("elements update and visit trackings") {
                     var products: [MockProduct]!
                     beforeEach {
-                        products = MockProduct.makeMocks(count: 20)
+                        products = MockProduct.makeProductMocks(20, allowDiscarded: false)
                         let productListModels = products.map { ListingCellModel.listingCell(listing: .product($0)) }
                         buildSut(productListModels: productListModels)
                     }
@@ -1354,6 +1366,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
             describe("product update events") {
                 var productUpdated: MockProduct!
                 beforeEach {
+                    product.status = .approved
                     buildSut(initialProduct: product)
                     sut.active = true
 
@@ -1372,6 +1385,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
             describe("listingOrigin") {
                 context("more info shown") {
                     beforeEach {
+                        product.status = .approved
                         buildSut(initialProduct: product)
                         sut.active = true
                         sut.moreInfoState.value = .shown

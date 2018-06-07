@@ -53,7 +53,7 @@ final class ProfessionalDealerAskPhoneViewController: KeyboardViewController, UI
     private func setupUI() {
         view.backgroundColor = UIColor.lgBlack.withAlphaComponent(0.9)
 
-        closeButton.setImage(#imageLiteral(resourceName: "ic_close"), for: .normal)
+        closeButton.setImage(R.Asset.IconsButtons.icClose.image, for: .normal)
         closeButton.addTarget(self, action: #selector(closePressed), for: .touchUpInside)
 
         notNowButton.setTitle(R.Strings.professionalDealerAskPhoneNotNowButton, for: .normal)

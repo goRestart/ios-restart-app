@@ -524,6 +524,7 @@ enum EventParameterPostingType: String {
     case car = "car"
     case stuff = "stuff"
     case realEstate = "real-estate"
+    case service = "service"
     case none = "N/A"
     
     init(category: PostCategory) {
@@ -534,6 +535,8 @@ enum EventParameterPostingType: String {
             self = .car
         case .realEstate:
             self = .realEstate
+        case .services:
+            self = .service
         }
     }
 }
@@ -894,6 +897,7 @@ enum EventParameterTypePage: String {
     case sellStart = "product-sell-start"
     case userVerifications = "user-verifications"
     case smsVerification = "sms-verification"
+    case nextItem = "next-item"
 }
 
 enum EventParameterPermissionType: String {
@@ -1261,6 +1265,7 @@ enum EventParameterAdType: String {
     case dfp = "dfp"
     case moPub = "moPub"
     case adx = "adx"
+    case interstitial = "interstitial"
 }
 
 enum EventParameterAdQueryType: String {

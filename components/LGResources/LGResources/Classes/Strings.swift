@@ -482,6 +482,14 @@ extension R {
     public static let chatSendErrorDifferentCountry = Strings.tr("Localizable", "chat_send_error_different_country")
     /// An error occurred while sending the message. Please try again.
     public static let chatSendErrorGeneric = Strings.tr("Localizable", "chat_send_error_generic")
+    /// Connecting...
+    public static let chatStatusViewConnecting = Strings.tr("Localizable", "chat_status_view_connecting")
+    /// No network connection
+    public static let chatStatusViewNoNetwork = Strings.tr("Localizable", "chat_status_view_no_network")
+    /// try again
+    public static let chatStatusViewTryAgain = Strings.tr("Localizable", "chat_status_view_try_again")
+    /// Unable to connect. Please try again
+    public static let chatStatusViewUnableToConnect = Strings.tr("Localizable", "chat_status_view_unable_to_connect")
     /// NEW!
     public static let chatStickersTooltipNew = Strings.tr("Localizable", "chat_stickers_tooltip_new")
     /// Unblock User
@@ -866,10 +874,16 @@ extension R {
     public static let filtersSectionPriceFreeTitle = Strings.tr("Localizable", "filters_section_price_free_title")
     /// Property info
     public static let filtersSectionRealEstateInfo = Strings.tr("Localizable", "filters_section_real_estate_info")
+    /// Service info
+    public static let filtersSectionServicesInfo = Strings.tr("Localizable", "filters_section_services_info")
     /// Sort by
     public static let filtersSectionSortby = Strings.tr("Localizable", "filters_section_sortby")
     /// Posted within
     public static let filtersSectionWithin = Strings.tr("Localizable", "filters_section_within")
+    /// Not Set
+    public static let filtersServiceSubtypeNotSet = Strings.tr("Localizable", "filters_service_subtype_not_set")
+    /// Not Set
+    public static let filtersServiceTypeNotSet = Strings.tr("Localizable", "filters_service_type_not_set")
     /// The minimum size can’t be higher than the maximum size.
     public static let filtersSizeWrongRangeError = Strings.tr("Localizable", "filters_size_wrong_range_error")
     /// Closest first
@@ -912,6 +926,10 @@ extension R {
     public static let hiddenTextAlertTitle = Strings.tr("Localizable", "hidden_text_alert_title")
     /// Search this area
     public static let listingMapRedoSearch = Strings.tr("Localizable", "listing_map_redo_search")
+    /// Showing results for similar searches
+    public static let listingShowSimilarResults = Strings.tr("Localizable", "listing_show_similar_results")
+    /// No exact matches for your search.\nMake sure it’s spelled correctly or use different keywords and filters.
+    public static let listingShowSimilarResultsDescription = Strings.tr("Localizable", "listing_show_similar_results_description")
     /// No exact matches for your search. Try looking in a different area or using different filters.
     public static let listingsMapNoResultsMessage = Strings.tr("Localizable", "listings_map_no_results_message")
     /// Map view
@@ -1176,6 +1194,14 @@ extension R {
     public static let npsSurveyVeryBad = Strings.tr("Localizable", "nps_survey_very_bad")
     /// Extremely likely
     public static let npsSurveyVeryGood = Strings.tr("Localizable", "nps_survey_very_good")
+    /// We've become aware of potentially inappropiate messages sent from your account.\n\nRepeated violations may result in account termination.
+    public static let offensiveReportAlertMessage = Strings.tr("Localizable", "offensive_report_alert_message")
+    /// Review Guidelines
+    public static let offensiveReportAlertPrimaryAction = Strings.tr("Localizable", "offensive_report_alert_primary_action")
+    /// Skip
+    public static let offensiveReportAlertSecondaryAction = Strings.tr("Localizable", "offensive_report_alert_secondary_action")
+    /// Review Community Guidelines
+    public static let offensiveReportAlertTitle = Strings.tr("Localizable", "offensive_report_alert_title")
     /// No
     public static let onboardingAlertNo = Strings.tr("Localizable", "onboarding_alert_no")
     /// Yes
@@ -1912,6 +1938,8 @@ extension R {
     public static let profileReputationTooltipTitle = Strings.tr("Localizable", "profile_reputation_tooltip_title")
     /// Reviews
     public static let profileReviewsCount = Strings.tr("Localizable", "profile_reviews_count")
+    /// NO REVIEWS (YET!)
+    public static let profileReviewsEmptyLabel = Strings.tr("Localizable", "profile_reviews_empty_label")
     /// Reviews
     public static let profileReviewsTab = Strings.tr("Localizable", "profile_reviews_tab")
     /// NO LISTINGS (YET!)
@@ -2360,7 +2388,7 @@ extension R {
     public static let searchAlertsEditButton = Strings.tr("Localizable", "search_alerts_edit_button")
     /// Get notifications about new listings
     public static let searchAlertsHeaderSubtitle = Strings.tr("Localizable", "search_alerts_header_subtitle")
-    /// Search Notifications
+    /// Search Alerts
     public static let searchAlertsListTitle = Strings.tr("Localizable", "search_alerts_list_title")
     /// Start Searching
     public static let searchAlertsPlaceholderEmptyButton = Strings.tr("Localizable", "search_alerts_placeholder_empty_button")
@@ -2432,6 +2460,14 @@ extension R {
     public static let sellTitleFieldHint = Strings.tr("Localizable", "sell_title_field_hint")
     /// Posting your listing...
     public static let sellUploadingLabel = Strings.tr("Localizable", "sell_uploading_label")
+    /// Service
+    public static let servicesServiceSubtypeListTitle = Strings.tr("Localizable", "services_service_subtype_list_title")
+    /// Service
+    public static let servicesServiceSubtypeTitle = Strings.tr("Localizable", "services_service_subtype_title")
+    /// Service category
+    public static let servicesServiceTypeListTitle = Strings.tr("Localizable", "services_service_type_list_title")
+    /// Service category
+    public static let servicesServiceTypeTitle = Strings.tr("Localizable", "services_service_type_title")
     /// Email
     public static let settingsChangeEmailButton = Strings.tr("Localizable", "settings_change_email_button")
     /// Location

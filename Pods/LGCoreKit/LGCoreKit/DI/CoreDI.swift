@@ -97,6 +97,13 @@ final class CoreDI: InternalDI {
                                                       locationManager: locationManager)
         self.categoryRepository = categoryRepository
         
+        let servicesInfoDataSource = ServicesInfoApiDataSource(apiClient: apiClient)
+        let servicesInfoCache: LGServicesInfoRepository.ServicesInfoCache = ServicesInfoRealmDAO() ?? ServicesInfoMemoryDAO()
+        let servicesInfoRepository = LGServicesInfoRepository(dataSource: servicesInfoDataSource,
+                                                              cache: servicesInfoCache,
+                                                              locationManager: locationManager)
+        self.servicesInfoRepository = servicesInfoRepository
+        
         let spellCorrectorDataSource = SpellCorrectorApiDataSource(apiClient: apiClient)
         let spellCorrectorRepository = LGSpellCorrectorRepository(dataSource: spellCorrectorDataSource)
         
@@ -107,7 +114,8 @@ final class CoreDI: InternalDI {
                                                     myUserRepository: myUserRepository,
                                                     listingsLimboDAO: listingsLimboDAO,
                                                     carsInfoRepository: carsInfoRepository,
-                                                    spellCorrectorRepository: spellCorrectorRepository)
+                                                    spellCorrectorRepository: spellCorrectorRepository,
+                                                    servicesInfoRepository: servicesInfoRepository)
         self.listingRepository = listingRepository
 
         let apiDataSource = UserApiDataSource(apiClient: apiClient)
@@ -171,6 +179,9 @@ final class CoreDI: InternalDI {
         self.currencyHelper = CurrencyHelper(countryInfoDAO: countryInfoDAO,
                                              defaultLocale: locale)
         self.countryHelper = countryHelper
+        
+        let imageMultiplierDataSource = ImageMultiplierApiDataSource(apiClient: apiClient)
+        imageMultiplierRepository = LGImageMultiplierRepository(dataSource: imageMultiplierDataSource)
 
         self.reporter = ReporterProxy()
     }
@@ -226,6 +237,8 @@ final class CoreDI: InternalDI {
     let carsInfoRepository: CarsInfoRepository
     let categoryRepository: CategoryRepository
     var locationRepository: LocationRepository
+    let imageMultiplierRepository: ImageMultiplierRepository
+    let servicesInfoRepository: ServicesInfoRepository
 
     let listingRepository: ListingRepository
     lazy var fileRepository: FileRepository = {

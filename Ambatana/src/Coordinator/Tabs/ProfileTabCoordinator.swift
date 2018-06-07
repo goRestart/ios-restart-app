@@ -55,13 +55,6 @@ extension ProfileTabCoordinator: ProfileTabNavigator {
         navigationController.pushViewController(vc, animated: true)
     }
 
-    func openEditUserBio() {
-        let vm = EditUserBioViewModel()
-        vm.navigator = self
-        let vc = EditUserBioViewController(viewModel: vm)
-        navigationController.pushViewController(vc, animated: true)
-    }
-
     func editListing(_ listing: Listing, pageType: EventParameterTypePage?) {
         let navigator = EditListingCoordinator(listing: listing,
                                                bumpUpProductData: nil,
@@ -76,27 +69,6 @@ extension ProfileTabCoordinator: ProfileTabNavigator {
         let vm = UserVerificationViewModel()
         vm.navigator = self
         let vc = UserVerificationViewController(viewModel: vm)
-        navigationController.pushViewController(vc, animated: true)
-    }
-}
-
-extension ProfileTabCoordinator: UserVerificationNavigator {
-    func closeUserVerification() {
-        navigationController.popViewController(animated: true)
-    }
-
-    func openEmailVerification() {
-        let vm = UserVerificationEmailViewModel()
-        vm.navigator = self
-        let vc = UserVerificationEmailViewController(viewModel: vm)
-        navigationController.pushViewController(vc, animated: true)
-    }
-
-    func openPhoneNumberVerification() {
-        let vm = UserPhoneVerificationNumberInputViewModel()
-        vm.navigator = self
-        let vc = UserPhoneVerificationNumberInputViewController(viewModel: vm)
-        vm.delegate = vc
         navigationController.pushViewController(vc, animated: true)
     }
 }
@@ -180,54 +152,11 @@ extension ProfileTabCoordinator: ChangePasswordNavigator {
 
 extension ProfileTabCoordinator: HelpNavigator {
     func open(url: URL) {
-        let svc = SFSafariViewController(url: url, entersReaderIfAvailable: false)
-        svc.view.tintColor = UIColor.primaryColor
-        navigationController.present(svc, animated: true, completion: nil)
+        navigationController.openInAppWebViewWith(url: url)
     }
 
     func closeHelp() {
         navigationController.popViewController(animated: true)
-    }
-}
-
-extension ProfileTabCoordinator: EditUserBioNavigator {
-    func closeEditUserBio() {
-        navigationController.popViewController(animated: true)
-    }
-}
-
-extension ProfileTabCoordinator: VerifyUserEmailNavigator {
-    func closeEmailVerification() {
-        navigationController.popViewController(animated: true)
-    }
-}
-
-extension ProfileTabCoordinator: UserPhoneVerificationNavigator {
-    func openCountrySelector(withDelegate delegate: UserPhoneVerificationCountryPickerDelegate) {
-        let vm = UserPhoneVerificationCountryPickerViewModel()
-        vm.navigator = self
-        vm.delegate = delegate
-        let vc = UserPhoneVerificationCountryPickerViewController(viewModel: vm)
-        navigationController.pushViewController(vc, animated: true)
-    }
-
-    func closeCountrySelector() {
-        navigationController.popViewController(animated: true)
-    }
-
-    func openCodeInput(sentTo phoneNumber: String, with callingCode: String) {
-        let vm = UserPhoneVerificationCodeInputViewModel(callingCode: callingCode,
-                                                         phoneNumber: phoneNumber)
-        vm.navigator = self
-        let vc = UserPhoneVerificationCodeInputViewController(viewModel: vm)
-        vm.delegate = vc
-        navigationController.pushViewController(vc, animated: true)
-    }
-
-    func closePhoneVerificaction() {
-        guard let vc = navigationController.viewControllers
-            .filter({ $0 is UserVerificationViewController }).first else { return }
-        navigationController.popToViewController(vc, animated: true)
     }
 }
 

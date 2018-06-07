@@ -42,7 +42,7 @@ class MostSearchedItemsListHeader: UITableViewHeaderFooterView, ReusableCell {
         descriptionLabel.adjustsFontSizeToFitWidth = true
         descriptionLabel.minimumScaleFactor = 0.2
         
-        subtitleImageView.image = UIImage(named: "ic_search")
+        subtitleImageView.image = R.Asset.IconsButtons.icSearch.image
         
         subtitleLabel.font = UIFont.systemMediumFont(size: 13)
         subtitleLabel.textColor = UIColor.grayText

@@ -1,14 +1,7 @@
-//
-//  WebSurveyViewController.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 08/03/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import UIKit
 import RxSwift
 import WebKit
+import LGComponents
 
 class WebSurveyViewController: BaseViewController {
 
@@ -45,7 +38,7 @@ class WebSurveyViewController: BaseViewController {
 
         activityIndicator.hidesWhenStopped = true
         activityIndicator.activityIndicatorViewStyle = .gray
-        closeButton.setImage(UIImage(named: "ic_close_red"), for: .normal)
+        closeButton.setImage(R.Asset.CongratsScreenImages.icCloseRed.image, for: .normal)
         container.backgroundColor = UIColor.white
         webView.backgroundColor = UIColor.white
 

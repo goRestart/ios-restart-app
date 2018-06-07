@@ -23,12 +23,14 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         case .sizeSquareMeters:
             let value = previousStepIsSummary ? R.Strings.productPostDone : R.Strings.postingButtonSkip
             return sizeListing.value == nil ? value : R.Strings.productPostDone
+        case .servicesSubtypes:
+            return R.Strings.productPostUsePhoto
         }
     }
     
     var shouldFollowKeyboard: Bool {
         switch step {
-        case .bathrooms, .bedrooms, .rooms, .sizeSquareMeters, .offerType, .price, .propertyType, .make, .model, .year, .summary:
+        case .bathrooms, .bedrooms, .rooms, .sizeSquareMeters, .offerType, .price, .propertyType, .make, .model, .year, .summary, .servicesSubtypes:
             return  true
         case .location:
             return false
@@ -48,7 +50,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         switch step {
         case .bathrooms, .bedrooms, .rooms, .offerType, .propertyType, .make, .model, .year:
             return .postingFlow
-        case .location, .summary, .price:
+        case .location, .summary, .price, .servicesSubtypes:
             return .primary(fontSize: .medium)
         case .sizeSquareMeters:
             return sizeListing.value == nil ? .postingFlow : .primary(fontSize: .medium)
@@ -57,7 +59,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     
     var buttonFullWidth: Bool {
         switch step {
-        case .bathrooms, .bedrooms, .rooms, .sizeSquareMeters, .offerType, .propertyType, .make, .model, .year, .price:
+        case .bathrooms, .bedrooms, .rooms, .sizeSquareMeters, .offerType, .propertyType, .make, .model, .year, .price, .servicesSubtypes:
             return false
         case .location, .summary:
             return true
@@ -106,8 +108,11 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             return locationView
         case .year, .make, .model:
             return nil
+        case .servicesSubtypes:
+            let postServicesView = PostingMultiSelectionView()
+            return postServicesView
         }
-        let view = PostingAttributePickerTableView(values: values, selectedIndex: nil, delegate: self)
+        let view = PostingAttributePickerTableView(values: values, selectedIndexes: [], delegate: self)
         return view
     }
     
@@ -132,6 +137,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     private let locationManager: LocationManager
     private let featureFlags: FeatureFlaggeable
     private let myUserRepository: MyUserRepository
+    private let imageMultiplierRepository: ImageMultiplierRepository
     private let sessionManager: SessionManager
     
     private let step: PostingDetailStep
@@ -169,7 +175,8 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
                   locationManager: Core.locationManager,
                   featureFlags: FeatureFlags.sharedInstance,
                   myUserRepository: Core.myUserRepository,
-                  sessionManager: Core.sessionManager)
+                  sessionManager: Core.sessionManager,
+                  imageMultiplierRepository: Core.imageMultiplierRepository)
     }
     
     init(step: PostingDetailStep,
@@ -184,7 +191,8 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
          locationManager: LocationManager,
          featureFlags: FeatureFlaggeable,
          myUserRepository: MyUserRepository,
-         sessionManager: SessionManager) {
+         sessionManager: SessionManager,
+         imageMultiplierRepository: ImageMultiplierRepository) {
         self.step = step
         self.postListingState = postListingState
         self.uploadedImageSource = uploadedImageSource
@@ -198,6 +206,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         self.featureFlags = featureFlags
         self.myUserRepository = myUserRepository
         self.sessionManager = sessionManager
+        self.imageMultiplierRepository = imageMultiplierRepository
     }
     
     func closeButtonPressed() {
@@ -218,7 +227,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             update(place: placeSelected.value)
         case .sizeSquareMeters:
             update(sizeSquareMeters: sizeListing.value)
-        case .bathrooms, .bedrooms, .make, .model, .year, .offerType, .propertyType, .summary, .rooms:
+        case .bathrooms, .bedrooms, .make, .model, .year, .offerType, .propertyType, .summary, .rooms, .servicesSubtypes:
             break
         }
         let nextStep = previousStepIsSummary ? .summary : next
@@ -229,28 +238,54 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         if featureFlags.removeCategoryWhenClosingPosting.isActive {
             postListingState = postListingState.removeRealEstateCategory()
         }
-        if postListingState.pendingToUploadImages != nil {
+        if postListingState.pendingToUploadMedia {
             openPostAbandonAlertNotLoggedIn()
         } else {
-            guard let _ = postListingState.lastImagesUploadResult?.value else {
+            guard let _ = postListingState.lastImagesUploadResult?.value,
+                let listingParams = retrieveListingParams() else {
                 navigator?.cancelPostListing()
                 return
             }
-            if let listingParams = retrieveListingParams() {
-                let trackingInfo = PostListingTrackingInfo(buttonName: .close,
-                                                           sellButtonPosition: postingSource.sellButtonPosition,
-                                                           imageSource: uploadedImageSource,
-                                                           videoLength: uploadedVideoLength,
-                                                           price: String.fromPriceDouble(postListingState.price?.value ?? 0),
-                                                           typePage: postingSource.typePage,
-                                                           mostSearchedButton: postingSource.mostSearchedButton,
-                                                           machineLearningInfo: MachineLearningTrackingInfo.defaultValues())
-                navigator?.closePostProductAndPostInBackground(params: listingParams,
-                                                               trackingInfo: trackingInfo)
+
+            if featureFlags.showServicesFeatures.isActive && postListingState.category?.isService ?? false {
+                closeAndMultipostInBackground(params: [listingParams], trackingInfo: postListingTrackingInfo)
             } else {
-                navigator?.cancelPostListing()
+                navigator?.closePostProductAndPostInBackground(params: listingParams, trackingInfo: postListingTrackingInfo)
             }
         }
+    }
+    
+    private func closeAndMultipostInBackground(params: [ListingCreationParams],
+                                               trackingInfo: PostListingTrackingInfo) {
+        
+        // TODO: include image id and number of images for this ABIOS-4290
+        imageMultiplierRepository.imageMultiplier(ImageMultiplierParams(imageId: "", times: 3)) { [weak self] result in
+            
+            guard let imagesIds = result.value,
+                let modifiedParams = self?.updatedParams(with: params, imagesIds) else {
+                let error = result.error ?? RepositoryError.internalError(message: "")
+                self?.navigator?.showConfirmation(listingResult: ListingResult(error: error),
+                                                  trackingInfo: trackingInfo, modalStyle: true)
+                return
+            }
+            self?.navigator?.closePostServicesAndPostInBackground(params: modifiedParams, trackingInfo: trackingInfo)
+        }
+    }
+    
+    private func updatedParams(with params: [ListingCreationParams], _ imagesIds: [String]) -> [ListingCreationParams] {
+        // TODO: update params, part of ABIOS-4290
+        return params
+    }
+    
+    private var postListingTrackingInfo: PostListingTrackingInfo {
+        return PostListingTrackingInfo(buttonName: .close,
+                                       sellButtonPosition: postingSource.sellButtonPosition,
+                                       imageSource: uploadedImageSource,
+                                       videoLength: uploadedVideoLength,
+                                       price: String.fromPriceDouble(postListingState.price?.value ?? 0),
+                                       typePage: postingSource.typePage,
+                                       mostSearchedButton: postingSource.mostSearchedButton,
+                                       machineLearningInfo: MachineLearningTrackingInfo.defaultValues())
     }
     
     private func openPostAbandonAlertNotLoggedIn() {
@@ -276,23 +311,16 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
                                                    machineLearningInfo: MachineLearningTrackingInfo.defaultValues())
         if sessionManager.loggedIn {
             openListingPosting(trackingInfo: trackingInfo)
-        } else if let images = postListingState.pendingToUploadImages {
+        } else if postListingState.pendingToUploadMedia {
             let loggedInAction: (() -> Void) = { [weak self] in
-                self?.postActionAfterLogin(images: images, video: nil, trackingInfo: trackingInfo)
+                self?.postActionAfterLogin(images: self?.postListingState.pendingToUploadImages,
+                                           video: self?.postListingState.pendingToUploadVideo, trackingInfo: trackingInfo)
             }
             let cancelAction: (() -> Void) = { [weak self] in
                 self?.cancelPostListing()
             }
             navigator?.openLoginIfNeededFromListingPosted(from: .sell, loggedInAction: loggedInAction, cancelAction: cancelAction)
 
-        } else if let video = postListingState.pendingToUploadVideo {
-            let loggedInAction: (() -> Void) = { [weak self] in
-                self?.postActionAfterLogin(images: nil, video: video, trackingInfo: trackingInfo)
-            }
-            let cancelAction: (() -> Void) = { [weak self] in
-                self?.cancelPostListing()
-            }
-            navigator?.openLoginIfNeededFromListingPosted(from: .sell, loggedInAction: loggedInAction, cancelAction: cancelAction)
         } else {
             navigator?.cancelPostListing()
         }
@@ -308,7 +336,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         navigator?.cancelPostListing()
     }
     
-    private func postActionAfterLogin(images: [UIImage]?, video: RecordedVideo?, trackingInfo: PostListingTrackingInfo) {
+    private func postActionAfterLogin(images: [UIImage]?, video: RecordedVideo?, trackingInfo: PostListingTrackingInfo) {        
         guard let listingParams = retrieveListingParams(), let images = images else { return }
         navigator?.closePostProductAndPostLater(params: listingParams,
                                                       images: images,
@@ -373,7 +401,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             realEstateOfferType = RealEstateOfferType.allValues[index]
         case .propertyType:
             realEstatePropertyType = RealEstatePropertyType.allValues(postingFlowType: featureFlags.postingFlowType)[index]
-        case .price, .sizeSquareMeters, .summary, .location, .make, .model, .year:
+        case .price, .sizeSquareMeters, .summary, .location, .make, .model, .year, .servicesSubtypes:
             return
         }
         
@@ -411,7 +439,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         case .rooms:
             removeBedrooms = true
             removeLivingRooms = true
-        case .price, .sizeSquareMeters, .summary, .location, .make, .model, .year:
+        case .price, .sizeSquareMeters, .summary, .location, .make, .model, .year, .servicesSubtypes:
             return
         }
         if let realEstateInfo = postListingState.verticalAttributes?.realEstateAttributes {
@@ -446,7 +474,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             if let bathrooms = postListingState.verticalAttributes?.realEstateAttributes?.bathrooms {
                 positionSelected = NumberOfBathrooms(rawValue:bathrooms)?.position
             }
-        case .price, .make, .model, .sizeSquareMeters, .year, .location, .summary:
+        case .price, .make, .model, .sizeSquareMeters, .year, .location, .summary, .servicesSubtypes:
             return nil
         }
         return positionSelected

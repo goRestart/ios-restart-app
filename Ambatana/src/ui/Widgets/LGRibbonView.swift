@@ -1,12 +1,5 @@
-//
-//  LGRibbonView.swift
-//  LetGo
-//
-//  Created by Tomas Cobo on 11/05/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 final class LGRibbonView: UIView {
     
@@ -28,7 +21,7 @@ final class LGRibbonView: UIView {
         return label
     }()
     
-    private let stripeImageView = UIImageView(image: #imageLiteral(resourceName: "stripe_white"))
+    private let stripeImageView = UIImageView(image: R.Asset.BackgroundsAndImages.stripeWhite.image)
     
     init() {
         super.init(frame: .zero)

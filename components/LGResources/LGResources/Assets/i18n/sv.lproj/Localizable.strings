@@ -218,6 +218,10 @@
 "chat_send_button" = "Skicka";
 "chat_send_error_different_country" = "Du kan inte starta en chatt om en annons som har lagts upp i ett annat land.";
 "chat_send_error_generic" = "Ett fel uppstod när meddelandet sändes. Vänligen försök igen.";
+"chat_status_view_connecting" = "Ansluter...";
+"chat_status_view_no_network" = "Ingen nätverksanslutning";
+"chat_status_view_try_again" = "försök igen";
+"chat_status_view_unable_to_connect" = "Anslutningen misslyckades. Vänligen försök igen";
 "chat_stickers_tooltip_new" = "NY!";
 "chat_unblock_user" = "Avblockera användare";
 "chat_user_info_letgo_assistant" = "Jag är en virtuell assistent som ger dig tips och hjälper dig att sälja.";
@@ -247,6 +251,8 @@
 "common_chat_not_available" = "Hoppsan! Chatten kunder inte hittas.";
 "common_collapse" = "Visa mindre";
 "common_confirm" = "Bekräfta";
+"common_done" = "Klar";
+"common_edit" = "Redigera";
 "common_error" = "Fel";
 "common_error_connection_failed" = "Ett fel uppstod. Var god kontrollera din internetanslutning.";
 "common_error_generic_body" = "Ett fel uppstod.";
@@ -394,8 +400,11 @@
 "filters_section_price" = "Pris";
 "filters_section_price_free_title" = "Visa endast gratis produkter";
 "filters_section_real_estate_info" = "Fastighetsinformation";
+"filters_section_services_info" = "Tjänstinfo";
 "filters_section_sortby" = "Sortera efter";
 "filters_section_within" = "Annonserade under";
+"filters_service_subtype_not_set" = "Ej Vald";
+"filters_service_type_not_set" = "Ej Vald";
 "filters_size_wrong_range_error" = "Den minsta ytan får inte vara högre än den största ytan.";
 "filters_sort_closest" = "Närmast först";
 "filters_sort_newest" = "Senast upplagda först";
@@ -417,6 +426,8 @@
 "hidden_text_alert_description" = "Vi döljer kontaktinformation för att du ska kunna köpa och sälja säkert. Att chatta via letgo är både enkelt och säkrare.";
 "hidden_text_alert_title" = "SÄKERHETSTIPS";
 "listing_map_redo_search" = "Sök på detta område";
+"listing_show_similar_results" = "Showing results for similar searches";
+"listing_show_similar_results_description" = "No exact matches for your search.\nMake sure it’s spelled correctly or use different keywords and filters.";
 "listings_map_no_results_message" = "Ingen exakt matchning hittades. Sök på ett annat område eller ändra sökfilter.";
 "listings_map_title" = "Kartvy";
 "location_permissions_allow_button" = "Tillåt";
@@ -492,7 +503,7 @@
 "ml_onboarding_ok_text" = "Ok";
 "mopub_advertising_text" = "Reklam";
 "notifications_empty_subtitle" = "Lägg upp något till försäljning för att börja se lite aktivitet här";
-"notifications_empty_title" = "INGA MEDDELANDEN (ÄNNU!)";
+"notifications_empty_title" = "INGA NOTISER (ÄNNU!)";
 "notifications_permissions_1_push" = "Isabella: Jag är väldigt intresserad av din mobil. let go för 800 kr?";
 "notifications_permissions_1_subtitle" = "Vill du få information när en annan användare skickar ett meddelande till dig?";
 "notifications_permissions_1_title_v2" = "Acceptera notiser";
@@ -511,7 +522,7 @@
 "notifications_permissions_settings_title_chat" = "Missa inga svar!";
 "notifications_permissions_settings_yes_button" = "Ja, aktivera";
 "notifications_permissions_yes_button" = "Ja, Informera Mig";
-"notifications_title" = "Meddelanden";
+"notifications_title" = "Notiser";
 "notifications_type_buyers_interested" = "%d köpare skulle kunna vara intresserade av din annons";
 "notifications_type_buyers_interested_button" = "Se vem de är";
 "notifications_type_buyers_interested_button_done" = "Köpare kontaktad!";
@@ -535,6 +546,10 @@
 "nps_survey_title" = "VI SKULLE VILJA VETA...";
 "nps_survey_very_bad" = "Inte troligt";
 "nps_survey_very_good" = "Mycket troligt";
+"offensive_report_alert_message" = "Vi har fått kännedom om eventuellt olämpliga meddelanden som skickats från ditt konto.\n\nUpprepade överträdelser kan leda till avstängning av kontot.";
+"offensive_report_alert_primary_action" = "Granska Riktlinjer";
+"offensive_report_alert_secondary_action" = "Skippa";
+"offensive_report_alert_title" = "Granska Riktlinjer för letgos community";
 "onboarding_alert_no" = "Nej";
 "onboarding_alert_yes" = "Ja";
 "onboarding_categories_button_countdown" = "Välj åtminstone %i till";
@@ -855,12 +870,13 @@
 "profile_karma_verified_subtitle" = "Du har fått din stämpel!";
 "profile_karma_visibility_title" = "Endast synlig för dig";
 "profile_permissions_alert_cancel" = "Inte nu";
-"profile_permissions_alert_message" = "Vill du tillåta notifieringar om nya meddelanden nu?";
+"profile_permissions_alert_message" = "Vill du tillåta notiser för nya meddelanden nu?";
 "profile_permissions_alert_ok" = "Tillåt";
 "profile_permissions_alert_title" = "MISSA INGA SVAR!";
 "profile_permissions_header_message" = "Tillåt meddelandenotifieringar";
 "profile_reputation_tooltip_title" = "Verifierad användare! Klicka om du också vill verifiera dig";
 "profile_reviews_count" = "Omdömen";
+"profile_reviews_empty_label" = "INGA OMDÖMEN (ÄN)!";
 "profile_reviews_tab" = "Omdömen";
 "profile_selling_no_products_label" = "INGA ANNONSER (ÄN!)";
 "profile_selling_other_user_no_products_button" = "Surfa vidare";
@@ -1074,8 +1090,9 @@
 "search_alert_error_too_many_text" = "Hoppsan! Du har uppnått maxantalet sökaviseringar";
 "search_alerts_edit_button" = "Redigera";
 "search_alerts_header_subtitle" = "Få notiser om nya annonser";
+"search_alerts_list_title" = "Sökaviseringar";
 "search_alerts_placeholder_empty_button" = "Börja Sökning";
-"search_alerts_placeholder_empty_text" = "Prenumerera på sökningar för att få notifikationer när nya annonser läggs upp.";
+"search_alerts_placeholder_empty_text" = "Prenumerera på specifika sökningar för att få notiser när nya annonser läggs upp.";
 "search_alerts_placeholder_error_button" = "Try Again";
 "search_alerts_placeholder_error_text" = "Hoppsan! Ett fel uppstod när dina sökaviseringar skulle laddas upp";
 "search_letgo" = "Sök på letgo";
@@ -1108,6 +1125,10 @@
 "sell_title_autogen_label" = "Titel föreslagen av letgo";
 "sell_title_field_hint" = "Titel (frivillig)";
 "sell_uploading_label" = "Laddar upp annonsen...";
+"services_service_subtype_list_title" = "Tjänst";
+"services_service_subtype_title" = "Tjänst";
+"services_service_type_list_title" = "Tjänstekategori";
+"services_service_type_title" = "Tjänstekategori";
 "settings_change_email_button" = "E-post";
 "settings_change_location_button" = "Plats";
 "settings_change_password_button" = "Lösenord";
@@ -1129,6 +1150,9 @@
 "settings_marketing_notifications_alert_deactivate" = "Stäng av";
 "settings_marketing_notifications_alert_message" = "Är du säker på att du vill stänga av notiser för marknadsföring?";
 "settings_marketing_notifications_switch" = "Marknadsföringsnotiser";
+"settings_notifications_button" = "Notiser";
+"settings_notifications_search_alerts" = "Sökaviseringar";
+"settings_notifications_title" = "Notiser";
 "settings_section_profile" = "Profil";
 "settings_section_promote" = "Marknadsför";
 "settings_section_support" = "Support";

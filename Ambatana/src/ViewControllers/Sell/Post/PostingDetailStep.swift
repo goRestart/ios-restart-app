@@ -13,6 +13,7 @@ enum PostingDetailStep {
     case make
     case model
     case year
+    case servicesSubtypes
     case summary
     
     var title: String {
@@ -41,6 +42,8 @@ enum PostingDetailStep {
             return R.Strings.postCategoryDetailCarModel
         case .year:
             return R.Strings.postCategoryDetailCarYear
+        case .servicesSubtypes:
+            return "Select your services"  // TODO: ABIOS-4184
         }
     }
     
@@ -60,7 +63,7 @@ enum PostingDetailStep {
             return .bathrooms
         case .bathrooms:
             return .summary
-        case .summary:
+        case .summary, .servicesSubtypes:
             return nil
         case .location:
             return .summary

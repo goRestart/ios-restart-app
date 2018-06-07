@@ -50,6 +50,8 @@ class EnvironmentProxy: Environment {
     var apiBaseURL: String { return environment.apiBaseURL }
     var realEstateBaseURL: String { return environment.realEstateBaseURL }
     var carsBaseURL: String { return environment.carsBaseURL }
+    var servicesBaseURL: String { return environment.servicesBaseURL }
+    var searchServicesBaseURL: String { return environment.searchServicesBaseURL }
     var bouncerBaseURL: String { return environment.bouncerBaseURL }
     var userRatingsBaseURL: String { return environment.userRatingsBaseURL }
     var chatBaseURL: String { return environment.chatBaseURL }

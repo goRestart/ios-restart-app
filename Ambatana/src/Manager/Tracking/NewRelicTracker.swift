@@ -9,7 +9,7 @@
 import LGComponents
 import LGCoreKit
 
-final class NewRelicTracker: Tracker, LGComponents.Tracker {
+final class NewRelicTracker: Tracker { //}, LGComponents.Tracker {
     // TODO: ABIOS-3771 Remove : Tracker & LGComponents. when removing tracker in app
     // Constants
     // > Properties
@@ -24,11 +24,11 @@ final class NewRelicTracker: Tracker, LGComponents.Tracker {
     
     // MARK: - Tracker
 
-    var application: AnalyticsApplication?
+//    var application: AnalyticsApplication?
 
-    func applicationDidFinishLaunching(launchOptions: [String: Any]?,
-                                       apiKeys: AnalyticsAPIKeys) {
-    }
+//    func applicationDidFinishLaunching(launchOptions: [String: Any]?,
+//                                       apiKeys: AnalyticsAPIKeys) {
+//    }
 
     func application(openURL url: URL,
                      sourceApplication: String?,
@@ -66,8 +66,8 @@ final class NewRelicTracker: Tracker, LGComponents.Tracker {
         }
     }
 
-    func trackEvent(_ event: LGComponents.TrackerEvent) {   // TODO: ABIOS-3771 Remove LGComponents.
-    }
+//    func trackEvent(_ event: LGComponents.TrackerEvent) {   // TODO: ABIOS-3771 Remove LGComponents.
+//    }
 
     func setLocation(_ location: LGLocation?, postalAddress: PostalAddress?) {
     }
@@ -81,8 +81,8 @@ final class NewRelicTracker: Tracker, LGComponents.Tracker {
     func setMarketingNotifications(_ enabled: Bool) {
     }
 
-    func setABTests(_ abTests: [AnalyticsABTestUserProperty]) {
-    }
+//    func setABTests(_ abTests: [AnalyticsABTestUserProperty]) {
+//    }
 
 
     // MARK: - Tracker (legacy) To be Removed

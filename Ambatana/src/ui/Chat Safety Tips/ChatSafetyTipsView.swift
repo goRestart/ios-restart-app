@@ -60,6 +60,7 @@ class ChatSafetyTipsView: UIView {
     // MARK: - Private methods
 
     private func setupUI() {
+        topIcon.image = R.Asset.IconsButtons.icSafetyTipsBig.image
         alpha = 0
         tipsView.cornerRadius = LGUIKitConstants.smallCornerRadius
         okButton.setStyle(.primary(fontSize: .medium))

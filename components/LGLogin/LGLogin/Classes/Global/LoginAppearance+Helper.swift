@@ -1,3 +1,4 @@
+import LGComponents
 import UIKit
 
 extension LoginAppearance {
@@ -95,15 +96,15 @@ extension LoginAppearance {
         switch self {
         case .dark:
             if highlighted {
-                return #imageLiteral(resourceName: "ic_email_active_dark")
+                return R.Asset.IconsButtons.icEmailActiveDark.image
             } else {
-                return #imageLiteral(resourceName: "ic_email_dark")
+                return R.Asset.IconsButtons.icEmailDark.image
             }
         case .light:
             if highlighted {
-                return #imageLiteral(resourceName: "ic_email_active")
+                return R.Asset.IconsButtons.icEmailActive.image
             } else {
-                return #imageLiteral(resourceName: "ic_email")
+                return R.Asset.IconsButtons.icEmail.image
             }
         }
     }
@@ -112,24 +113,24 @@ extension LoginAppearance {
         switch self {
         case .dark:
             if highlighted {
-                return #imageLiteral(resourceName: "ic_password_active_dark")
+                return R.Asset.IconsButtons.icPasswordActiveDark.image
             } else {
-                return #imageLiteral(resourceName: "ic_password_dark")
+                return R.Asset.IconsButtons.icPasswordDark.image
             }
         case .light:
             if highlighted {
-                return #imageLiteral(resourceName: "ic_password_active")
+                return R.Asset.IconsButtons.icPasswordActive.image
             } else {
-                return #imageLiteral(resourceName: "ic_password")
+                return R.Asset.IconsButtons.icPassword.image
             }
         }
     }
 
     func showPasswordIcon(highlighted: Bool) -> UIImage? {
         if highlighted {
-            return #imageLiteral(resourceName: "ic_show_password")
+            return R.Asset.IconsButtons.icShowPassword.image
         } else {
-            return #imageLiteral(resourceName: "ic_show_password_inactive")
+            return R.Asset.IconsButtons.icShowPasswordInactive.image
         }
     }
 
@@ -137,15 +138,15 @@ extension LoginAppearance {
         switch self {
         case .dark:
             if highlighted {
-                return #imageLiteral(resourceName: "ic_name_active_dark")
+                return R.Asset.IconsButtons.icNameActiveDark.image
             } else {
-                return #imageLiteral(resourceName: "ic_name_dark")
+                return R.Asset.IconsButtons.icNameDark.image
             }
         case .light:
             if highlighted {
-                return #imageLiteral(resourceName: "ic_name_active")
+                return R.Asset.IconsButtons.icNameActive.image
             } else {
-                return #imageLiteral(resourceName: "ic_name")
+                return R.Asset.IconsButtons.icName.image
             }
         }
     }

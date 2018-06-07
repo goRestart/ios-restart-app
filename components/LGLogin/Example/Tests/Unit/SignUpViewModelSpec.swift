@@ -13,7 +13,7 @@ import Nimble
 import Result
 
 
-class SignUpViewModelSpec: QuickSpec {
+final class SignUpViewModelSpec: QuickSpec {
     var loading: Bool = false
     var finishedSuccessfully: Bool = false
     var finishedScammer: Bool = false
@@ -354,5 +354,5 @@ extension SignUpViewModelSpec: SignUpViewModelDelegate {
                         elsePresentSignUpWithSuccessAction afterLogInAction: @escaping () -> Void) {}
     func vmPop() {}
     func vmDismiss(_ completion: (() -> Void)?){}
-    func vmOpenInternalURL(_ url: URL) {}
+    func vmOpenInAppWebViewWith(url: URL) {}
 }

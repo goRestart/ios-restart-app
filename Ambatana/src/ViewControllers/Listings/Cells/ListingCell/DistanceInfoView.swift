@@ -1,18 +1,11 @@
-//
-//  DistanceInfoView.swift
-//  LetGo
-//
-//  Created by Haiyan Ma on 20/03/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 final class DistanceInfoView: UIView {
     
     private let distanceIcon: UIImageView = {
         let iv = UIImageView(frame: .zero)
-        iv.image = #imageLiteral(resourceName: "itemLocation")
+        iv.image = R.Asset.BackgroundsAndImages.itemLocation.image
         iv.contentMode = .scaleAspectFit
         iv.clipsToBounds = true
         iv.isOpaque = true
@@ -40,7 +33,7 @@ final class DistanceInfoView: UIView {
     
     func setDistance(_ distance: String) {
         distanceLabel.text = distance
-        distanceIcon.image = #imageLiteral(resourceName: "itemLocation")
+        distanceIcon.image = R.Asset.BackgroundsAndImages.itemLocation.image
     }
     
     func clearAll() {

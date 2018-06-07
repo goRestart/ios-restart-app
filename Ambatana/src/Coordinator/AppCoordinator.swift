@@ -61,6 +61,7 @@ final class AppCoordinator: NSObject, Coordinator {
 
     fileprivate var bumpUpSource: BumpUpSource?
     fileprivate var timeSinceLastBump: TimeInterval?
+    fileprivate var offensiveReportAlertWidth: CGFloat = 310
 
     weak var delegate: AppNavigatorDelegate?
 
@@ -245,7 +246,14 @@ extension AppCoordinator: AppNavigator {
                   forceCloseChild: true,
                   completion: nil)
     }
-
+    
+    func showBottomBubbleNotification(data: BubbleNotificationData,
+                                      duration: TimeInterval,
+                                      alignment: BubbleNotificationView.Alignment,
+                                      style: BubbleNotificationView.Style) {
+        tabBarCtl.showBottomBubbleNotification(data: data, duration: duration, alignment: alignment, style: style)
+    }
+    
     
     // MARK: App Review
 
@@ -281,12 +289,43 @@ extension AppCoordinator: AppNavigator {
         openChild(coordinator: promoteBumpCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
     }
 
+    func canOpenOffensiveReportAlert() -> Bool {
+        return tabBarCtl.presentedViewController == nil
+    }
+
+    func openOffensiveReportAlert() {
+        guard canOpenOffensiveReportAlert() else { return }
+        let reviewAction = { [weak self] in
+            guard let url = LetgoURLHelper.buildCommunityGuidelineURL() else { return }
+            self?.openInAppWebView(url: url)
+        }
+        let reviewActionInterface = UIActionInterface.button(R.Strings.offensiveReportAlertPrimaryAction,
+                                                             .primary(fontSize: .medium))
+        let reviewAlertAction = UIAction(interface: reviewActionInterface,
+                                         action: reviewAction,
+                                         accessibilityId: .offensiveReportAlertOpenGuidelineButton)
+        let skipActionInterface = UIActionInterface.button(R.Strings.offensiveReportAlertSecondaryAction,
+                                                            .secondary(fontSize: .medium, withBorder: true))
+        let skipAlertAction = UIAction(interface: skipActionInterface,
+                                  action: {},
+                                  accessibilityId: .offensiveReportAlertSkipButton)
+        if let alert = LGAlertViewController(title: R.Strings.offensiveReportAlertTitle,
+                                             text: R.Strings.offensiveReportAlertMessage,
+                                             alertType: .plainAlert,
+                                             buttonsLayout: .vertical,
+                                             actions: [reviewAlertAction, skipAlertAction],
+                                             dismissAction: nil) {
+            alert.alertWidth = offensiveReportAlertWidth
+            tabBarCtl.present(alert, animated: true, completion: nil)
+        }
+    }
+
     private func askUserIsEnjoyingLetgo() {
-        let yesButtonInterface = UIActionInterface.image(UIImage(named: "ic_emoji_yes"), nil)
+        let yesButtonInterface = UIActionInterface.image(R.Asset.IconsButtons.icEmojiYes.image, nil)
         let rateAppAlertAction = UIAction(interface: yesButtonInterface, action: { [weak self] in
             self?.askUserToRateApp(.happy)
         })
-        let noButtonInterface = UIActionInterface.image(UIImage(named: "ic_emoji_no"), nil)
+        let noButtonInterface = UIActionInterface.image(R.Asset.IconsButtons.icEmojiNo.image, nil)
         let feedbackAlertAction = UIAction(interface: noButtonInterface, action: { [weak self] in
             self?.askUserToRateApp(.sad)
         })
@@ -365,7 +404,7 @@ extension AppCoordinator: AppNavigator {
             let contactURL = LetgoURLHelper.buildContactUsURL(userEmail: email, installation: installation, listing: nil) else {
                 return
         }
-        viewController.openInternalUrl(contactURL)
+        viewController.openInAppWebViewWith(url: contactURL)
     }
 
     private func openTransitionAlert(title: String?,
@@ -466,8 +505,11 @@ extension AppCoordinator: AppNavigator {
                   forceCloseChild: true,
                   completion: nil)
     }
-}
 
+    func openInAppWebView(url: URL) {
+        tabBarCtl.openInAppWebViewWith(url: url)
+    }
+}
 
 // MARK: - SellCoordinatorDelegate
 
@@ -689,6 +731,7 @@ extension AppCoordinator: UITabBarControllerDelegate {
 
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         guard let tab = tabAtController(viewController) else { return }
+        tabBarCtl.hideBottomBubbleNotifications()
         selectedTab.value = tab
     }
 }
@@ -991,6 +1034,10 @@ fileprivate extension AppCoordinator {
             afterDelayClosure = {
                 // sign in
             }
+        case .webView(let url):
+            afterDelayClosure = { [weak self] in
+                self?.openInAppWebView(url: url)
+            }
         }
 
         if let afterDelayClosure = afterDelayClosure {
@@ -1011,8 +1058,10 @@ fileprivate extension AppCoordinator {
         if let child = child, child is SellCoordinator { return }
 
         switch deepLink.action {
-        case .home, .sell, .listing, .listingShare, .listingBumpUp, .listingMarkAsSold, .listingEdit, .user, .conversations, .conversationWithMessage, .search, .resetPassword, .userRatings, .userRating, .notificationCenter, .appStore, .passwordlessSignIn, .passwordlessConfirmUsername:
-        return // Do nothing
+        case .home, .sell, .listing, .listingShare, .listingBumpUp, .listingMarkAsSold, .listingEdit, .user,
+             .conversations, .conversationWithMessage, .search, .resetPassword, .userRatings, .userRating,
+             .notificationCenter, .appStore, .passwordlessSignIn, .passwordlessConfirmUsername, .webView:
+            return // Do nothing
         case let .conversation(data):
             showInappChatNotification(data, message: deepLink.origin.message)
         case .message(_, let data):
@@ -1083,7 +1132,7 @@ fileprivate extension AppCoordinator {
                                               text: message,
                                               action: action,
                                               iconURL: conversation.interlocutor?.avatar?.fileURL,
-                                              iconImage: UIImage(named: "user_placeholder"))
+                                              iconImage: R.Asset.IconsButtons.userPlaceholder.image)
             self?.showBubble(with: data, duration: Constants.bubbleChatDuration)
         }
     }

@@ -242,6 +242,9 @@ extension UIButton {
 }
 // If you use it with xibs, you must set the type of the button to CUSTOM
 final class LetgoButton: UIButton {
+
+    override var intrinsicContentSize: CGSize { return CGSize(width: UIViewNoIntrinsicMetric, height: 44) }
+
     private(set) var style: ButtonStyle = .primary(fontSize: .medium) {
         didSet {
             updateButton(withStyle: style)

@@ -14,13 +14,13 @@ protocol RememberPasswordViewModelDelegate: BaseViewModelDelegate {
 }
 
 
-class RememberPasswordViewModel: BaseViewModel {
+public class RememberPasswordViewModel: BaseViewModel {
     let sessionManager: SessionManager
     let tracker: Tracker
     let loginSource: EventParameterLoginSourceValue
 
     weak var delegate: RememberPasswordViewModelDelegate?
-    weak var navigator: RememberPasswordNavigator?
+    public weak var navigator: RememberPasswordNavigator?
     
     // Input
     var email: String {
@@ -40,13 +40,13 @@ class RememberPasswordViewModel: BaseViewModel {
         super.init()
     }
     
-    convenience init(source: EventParameterLoginSourceValue, email: String?) {
+    public convenience init(source: EventParameterLoginSourceValue, email: String?) {
         let sessionManager = Core.sessionManager
         let tracker = TrackerProxy.sharedInstance
         self.init(sessionManager: sessionManager, tracker: tracker, source: source, email: email)
     }
 
-    override func didBecomeActive(_ firstTime: Bool) {
+    public override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
         let event = TrackerEvent.passwordResetVisit()
         tracker.trackEvent(event)

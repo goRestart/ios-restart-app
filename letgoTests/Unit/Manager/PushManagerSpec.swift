@@ -25,6 +25,9 @@ class PushManagerSpec: QuickSpec {
         var installationRepository: MyMockInstallationRepository!
         var deepLinksRouter: MockDeepLinksRouter!
         var notificationsManager: MockNotificationsManager!
+        var locationRepository: MockLocationRepository!
+        var featureFlags: MockFeatureFlags!
+        var keyValueStorage: MockKeyValueStorage!
        
         describe("PushManager") {
             beforeEach {
@@ -36,11 +39,18 @@ class PushManagerSpec: QuickSpec {
                 installationRepository.result = Result<Installation, RepositoryError>(value: MockInstallation.makeMock())
                 deepLinksRouter = MockDeepLinksRouter()
                 notificationsManager = MockNotificationsManager()
-                
+                locationRepository = MockLocationRepository()
+                featureFlags = MockFeatureFlags()
+                keyValueStorage = MockKeyValueStorage()
+
                 sut = PushManager(pushPermissionManager: pushPermissionsManager,
                                   installationRepository: installationRepository,
                                   deepLinksRouter: deepLinksRouter,
-                                  notificationsManager: notificationsManager)
+                                  notificationsManager: notificationsManager,
+                                  locationRepository: locationRepository,
+                                  featureFlags: featureFlags,
+                                  keyValueStorage: keyValueStorage,
+                                  navigator: nil)
             }
             
             describe("app did become active") {
@@ -70,7 +80,7 @@ class PushManagerSpec: QuickSpec {
             describe("app did receive remote notification") {
                 beforeEach {
                     let notification =  [AnyHashable: Any]()
-                    sut.application(application, didReceiveRemoteNotification: notification)
+                    sut.application(application, didReceiveRemoteNotification: notification, fetchCompletionHandler: { _ in })
                 }
                 
                 it("calls didReceiveRemoteNotification on deep links router") {

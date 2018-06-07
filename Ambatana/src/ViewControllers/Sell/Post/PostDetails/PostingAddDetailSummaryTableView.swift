@@ -83,6 +83,8 @@ enum PostingSummaryOption {
         switch postCategory {
         case .car:
             return [.price, .make, .model, .year, .location]
+        case .services:
+            return []
         case .motorsAndAccessories, .otherItems:
             return [.price, .location]
         case .realEstate:

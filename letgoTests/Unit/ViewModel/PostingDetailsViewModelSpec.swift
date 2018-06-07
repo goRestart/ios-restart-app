@@ -31,6 +31,7 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
         var featureFlags: MockFeatureFlags!
         var myUserRepository: MockMyUserRepository!
         var sessionManager: MockSessionManager!
+        var imageMultiplierRepository: MockImageMultiplierRepository!
         
         var postingDetailsStep: PostingDetailStep!
         var postListingState: PostListingState!
@@ -54,7 +55,8 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
                                               locationManager: locationManager,
                                               featureFlags: featureFlags,
                                               myUserRepository: myUserRepository,
-                                              sessionManager: sessionManager)
+                                              sessionManager: sessionManager,
+                                              imageMultiplierRepository: imageMultiplierRepository)
                 
                 sut.navigator = self
             }
@@ -67,6 +69,7 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
                 featureFlags = MockFeatureFlags()
                 myUserRepository = MockMyUserRepository()
                 sessionManager = MockSessionManager()
+                imageMultiplierRepository = MockImageMultiplierRepository()
                 
                 self.cancelPostingCalled = false
                 self.nextPostingDetailStepCalled = false
@@ -215,20 +218,18 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
 
 
 extension PostingDetailsViewModelSpec: PostListingNavigator {
+
+
+    func startDetails(firstStep: PostingDetailStep, postListingState: PostListingState, uploadedImageSource: EventParameterPictureSource?, uploadedVideoLength: TimeInterval?, postingSource: PostingSource, postListingBasicInfo: PostListingBasicDetailViewModel) {
+        // FIXME: No idea what to do here
+    }
+
     func startDetails(postListingState: PostListingState, uploadedImageSource: EventParameterPictureSource?, postingSource: PostingSource, postListingBasicInfo: PostListingBasicDetailViewModel) {
         // FIXME: No idea what to do here
     }
-
-    func nextPostingDetailStep(step: PostingDetailStep, postListingState: PostListingState, uploadedImageSource: EventParameterPictureSource?, postingSource: PostingSource, postListingBasicInfo: PostListingBasicDetailViewModel, previousStepIsSummary: Bool) {
+    
+    func closePostServicesAndPostInBackground(params: [ListingCreationParams], trackingInfo: PostListingTrackingInfo) {
         // FIXME: No idea what to do here
-    }
-
-    func startDetails(postListingState: MLPostListingState, uploadedImageSource: EventParameterPictureSource?, postingSource: PostingSource, postListingBasicInfo: PostListingBasicDetailViewModel) {
-        // FIXME: No idea what to do here
-    }
-
-    func nextPostingDetailStep(step: PostingDetailStep, postListingState: MLPostListingState, uploadedImageSource: EventParameterPictureSource?, postingSource: PostingSource, postListingBasicInfo: PostListingBasicDetailViewModel, previousStepIsSummary: Bool) {
-        nextPostingDetailStepCalled = true
     }
 
     func closePostProductAndPostLater(params: ListingCreationParams,
@@ -273,18 +274,4 @@ extension PostingDetailsViewModelSpec: PostListingNavigator {
                                    postState: PostListingState, source: EventParameterPictureSource) {}
     func openQueuedRequestsLoading(images: [UIImage], listingCreationParams: ListingCreationParams,
                                    imageSource: EventParameterPictureSource, postingSource: PostingSource) {}
-    
-    // MARK: Machine Learning
-    func startDetails(postListingState: MLPostListingState,
-                      uploadedImageSource: EventParameterPictureSource?,
-                      uploadedVideoLength: TimeInterval?,
-                      postingSource: PostingSource,
-                      postListingBasicInfo: PostListingBasicDetailViewModel) {}
-    func nextPostingDetailStep(step: PostingDetailStep,
-                               postListingState: MLPostListingState,
-                               uploadedImageSource: EventParameterPictureSource?,
-                               uploadedVideoLength: TimeInterval?,
-                               postingSource: PostingSource,
-                               postListingBasicInfo: PostListingBasicDetailViewModel,
-                               previousStepIsSummary: Bool) {}
 }

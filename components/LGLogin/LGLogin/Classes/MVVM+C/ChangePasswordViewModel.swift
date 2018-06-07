@@ -9,7 +9,7 @@
 import LGCoreKit
 import Result
 
-protocol ChangePasswordNavigator: class {
+public protocol ChangePasswordNavigator: class {
     func closeChangePassword()
 }
 
@@ -46,10 +46,10 @@ protocol ChangePasswordViewModelDelegate: class {
         result: Result<MyUser, ChangePasswordError>)
 }
 
-class ChangePasswordViewModel: BaseViewModel {
+public class ChangePasswordViewModel: BaseViewModel {
    
     weak var delegate : ChangePasswordViewModelDelegate?
-    weak var navigator: ChangePasswordNavigator?
+    public weak var navigator: ChangePasswordNavigator?
     
     private let myUserRepository: MyUserRepository
     private var token: String?
@@ -75,17 +75,17 @@ class ChangePasswordViewModel: BaseViewModel {
         super.init()
     }
     
-    override convenience init() {
+    public override convenience init() {
         let myUserRepository = Core.myUserRepository
         self.init(myUserRepository: myUserRepository)
     }
     
-    convenience init(token: String) {
+    public convenience init(token: String) {
         self.init()
         self.token = token
     }
     
-    override func backButtonPressed() -> Bool {
+    public override func backButtonPressed() -> Bool {
         navigator?.closeChangePassword()
         return true
     }

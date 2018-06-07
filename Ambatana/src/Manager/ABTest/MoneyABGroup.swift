@@ -20,6 +20,7 @@ struct MoneyABGroup: ABGroupType {
         static let showExactLocationForPros = "20180413ShowExactLocationForPros"
         static let copyForSellFasterNowInEnglish = "20180420CopyForSellFasterNowInEnglish"
         static let googleAdxForTR = "20180511GoogleAdxForTR"
+        static let fullScreenAdsWhenBrowsingForUS = "20180516FullScreenAdsWhenBrowsingForUS"
     }
     let noAdsInFeedForNewUsers: LeanplumABVariable<Int>
     let copyForChatNowInTurkey: LeanplumABVariable<Int>
@@ -31,6 +32,7 @@ struct MoneyABGroup: ABGroupType {
     let showExactLocationForPros: LeanplumABVariable<Bool>
     let copyForSellFasterNowInEnglish: LeanplumABVariable<Int>
     let googleAdxForTR: LeanplumABVariable<Int>
+    let fullScreenAdsWhenBrowsingForUS: LeanplumABVariable<Int>
 
     let group: ABGroup = .money
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -47,7 +49,8 @@ struct MoneyABGroup: ABGroupType {
          bumpUpBoost: LeanplumABVariable<Int>,
          showExactLocationForPros: LeanplumABVariable<Bool>,
          copyForSellFasterNowInEnglish: LeanplumABVariable<Int>,
-         googleAdxForTR:LeanplumABVariable<Int>){
+         googleAdxForTR:LeanplumABVariable<Int>,
+         fullScreenAdsWhenBrowsingForUS:LeanplumABVariable<Int>){
         self.noAdsInFeedForNewUsers = noAdsInFeedForNewUsers
         self.copyForChatNowInTurkey = copyForChatNowInTurkey
         self.showProTagUserProfile = showProTagUserProfile
@@ -58,6 +61,7 @@ struct MoneyABGroup: ABGroupType {
         self.showExactLocationForPros = showExactLocationForPros
         self.copyForSellFasterNowInEnglish = copyForSellFasterNowInEnglish
         self.googleAdxForTR = googleAdxForTR
+        self.fullScreenAdsWhenBrowsingForUS = fullScreenAdsWhenBrowsingForUS
 
         intVariables.append(contentsOf: [noAdsInFeedForNewUsers,
                                          copyForChatNowInTurkey,
@@ -66,7 +70,8 @@ struct MoneyABGroup: ABGroupType {
                                          feedAdsProviderForTR,
                                          bumpUpBoost,
                                          copyForSellFasterNowInEnglish,
-                                         googleAdxForTR])
+                                         googleAdxForTR,
+                                         fullScreenAdsWhenBrowsingForUS])
         boolVariables.append(contentsOf: [showProTagUserProfile,
                                           showExactLocationForPros])
     }
@@ -101,7 +106,9 @@ struct MoneyABGroup: ABGroupType {
                                                                     groupType: .money),
                             googleAdxForTR: .makeInt(key: Keys.googleAdxForTR,
                                                            defaultValue: 0,
-                                                           groupType: .money))
-        
+                                                           groupType: .money),
+                            fullScreenAdsWhenBrowsingForUS: .makeInt(key: Keys.fullScreenAdsWhenBrowsingForUS,
+                                                                     defaultValue: 0,
+                                                                     groupType: .money))
     }
 }

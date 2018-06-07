@@ -4,7 +4,7 @@ import LGComponents
 
 final class ChatAssistantConversationCell: UITableViewCell, ReusableCell {
 
-    static let badgeImage: UIImage = #imageLiteral(resourceName: "ic_assistant_tag")
+    static let badgeImage: UIImage = R.Asset.IconsButtons.icAssistantTag.image
 
     struct Layout {
         static let avatarHeight: CGFloat = 60
@@ -93,8 +93,9 @@ final class ChatAssistantConversationCell: UITableViewCell, ReusableCell {
     }
 
     func setupUI() {
-        contentView.backgroundColor = UIColor.primaryColor.withAlphaComponent(0.08)
+        contentView.backgroundColor = UIColor.assistantConversationCellBgColor
         layoutMargins = .zero
+        selectionStyle = .none
 
         textStackContainer.addArrangedSubview(userNameLabel)
         textStackContainer.addArrangedSubview(assistantInfoLabel)

@@ -1,16 +1,18 @@
 import Foundation
 import UIKit
+import LGCoreKit
 import Lottie
 import LGComponents
 
 final class ChatUserConversationCell: UITableViewCell, ReusableCell {
 
     struct Layout {
-        static let listingImageViewHeight: CGFloat = 60
-        static let userImageViewHeight: CGFloat = 38
+        static let listingImageViewHeight: CGFloat = 64
+        static let userImageViewHeight: CGFloat = 40
         static let transactionBadgeHeight: CGFloat = 30
         static let pendingMessagesBadgeHeight: CGFloat = 18
         static let listingTitleLabelHeight: CGFloat = 18
+        static let assistantInfoLabelHeight: CGFloat = 20
         static let statusIconHeight: CGFloat = 12
         static let userTypingAnimationWidth: CGFloat = 40
         static let userTypingAnimationHeight: CGFloat = 24
@@ -33,10 +35,10 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
     private let mainStackContainer: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.alignment = .center
+        stackView.alignment = .top
         stackView.distribution = .fill
         stackView.isLayoutMarginsRelativeArrangement = true
-        stackView.layoutMargins = UIEdgeInsetsMake(8, 8, 8, 20)
+        stackView.layoutMargins = UIEdgeInsetsMake(8, 8, 8, 8)
         stackView.spacing = 0
         return stackView
     }()
@@ -63,18 +65,42 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
         return stackView
     }()
 
+    private let assistantInfoStackContainer: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .leading
+        stackView.distribution = .fill
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.layoutMargins = .zero
+        stackView.spacing = 8
+        return stackView
+    }()
+
+    private let assistantInfoLabel: UIRoundedLabelWithPadding = {
+        let label = UIRoundedLabelWithPadding()
+        label.font = .systemMediumFont(size: 13)
+        label.textColor = .primaryColor
+        label.textAlignment = .center
+        label.text = R.Strings.chatConversationsListLetgoAssistantTag
+        label.backgroundColor = UIColor.primaryColor.withAlphaComponent(0.1)
+        label.padding = UIEdgeInsets(top: 2, left: 12, bottom: 2, right: 12)
+        label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        return label
+    }()
+
     private let userNameLabel: UILabel = {
         let label = UILabel()
         label.font = .systemBoldFont(size: 17)
         label.textColor = .blackText
         label.textAlignment = .left
+        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         return label
     }()
 
     private let listingTitleLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(size: 15)
-        label.textColor = .grayText
+        label.textColor = .darkGrayText
         label.textAlignment = .left
         return label
     }()
@@ -82,7 +108,7 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
     private let timeLastMessageLabel: UILabel = {
         let label = UILabel()
         label.font = .systemLightFont(size: 13)
-        label.textColor = .grayText
+        label.textColor = .darkGrayText
         label.textAlignment = .left
         return label
     }()
@@ -96,7 +122,7 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
     private let statusLabel: UILabel = {
         let label = UILabel()
         label.font = .systemLightFont(size: 13)
-        label.textColor = .grayText
+        label.textColor = .darkGrayText
         label.textAlignment = .left
         return label
     }()
@@ -141,9 +167,13 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
     func setupUI() {
         contentView.backgroundColor = .white
         layoutMargins = .zero
+        selectionStyle = .none
 
         statusStackContainer.addArrangedSubview(statusIcon)
         statusStackContainer.addArrangedSubview(statusLabel)
+
+        assistantInfoStackContainer.addArrangedSubview(userNameLabel)
+        assistantInfoStackContainer.addArrangedSubview(assistantInfoLabel)
 
         textStackContainer.addArrangedSubview(userNameLabel)
         textStackContainer.addArrangedSubview(listingTitleLabel)
@@ -174,11 +204,15 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
 
         listingImageView.translatesAutoresizingMaskIntoConstraints = false
         pendingMessagesLabel.translatesAutoresizingMaskIntoConstraints = false
+        statusIcon.translatesAutoresizingMaskIntoConstraints = false
+        listingTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        assistantInfoLabel.translatesAutoresizingMaskIntoConstraints = false
 
-        listingImageView.layout().height(Layout.listingImageViewHeight).widthProportionalToHeight()
+        listingImageView.layout().widthProportionalToHeight()
         pendingMessagesLabel.layout().height(Layout.pendingMessagesBadgeHeight)
         statusIcon.layout().height(Layout.statusIconHeight).widthProportionalToHeight()
         listingTitleLabel.layout().height(Layout.listingTitleLabelHeight)
+        assistantInfoLabel.layout().height(Layout.assistantInfoLabelHeight)
 
         contentView.addSubviewForAutoLayout(mainStackContainer)
 
@@ -208,9 +242,11 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
         listingImageView.set(accessibilityId: .conversationCellThumbnailImageView)
         userImageView.set(accessibilityId: .conversationCellAvatarImageView)
         statusStackContainer.set(accessibilityId: .conversationCellStatusImageView)
+        assistantInfoLabel.set(accessibilityId: .assistantConversationCellInfoLabel)
     }
 
     func resetUI() {
+        contentView.backgroundColor = .white
         listingImageView.setMainImage(mainImage: nil)
         listingImageView.setBadgeImage(badge: nil)
         userNameLabel.text = nil
@@ -223,41 +259,39 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
     }
 
     func setupCellWith(data: ConversationCellData, indexPath: IndexPath) {
-        let tag = indexPath.hashValue
-
+        tag = indexPath.hashValue
         userNameLabel.text = data.userName
         listingTitleLabel.text = data.listingName
         timeLastMessageLabel.text = data.messageDate?.relativeTimeString(false)
         pendingMessagesLabel.isHidden = data.unreadCount <= 0
         pendingMessagesLabel.text = "\(data.unreadCount)"
 
-        listingImageView.setMainImage(mainImage: #imageLiteral(resourceName: "product_placeholder"))
+        listingImageView.setMainImage(mainImage: R.Asset.IconsButtons.productPlaceholder.image)
 
-        listingImageView.setBadgeImage(badge: data.amISelling ? #imageLiteral(resourceName: "ic_corner_selling") : #imageLiteral(resourceName: "ic_corner_buying"))
+        listingImageView.setBadgeImage(badge: data.badge)
+        contentView.backgroundColor = data.backgroundColor
 
         setImageWith(url: data.listingImageUrl,
-                     withPlaceholder: #imageLiteral(resourceName: "product_placeholder"),
                      intoImageView: listingImageView.mainView,
                      safeRecyclingTag: tag)
 
         if data.status != .userDeleted {
+            userImageView.image = data.userImagePlaceholder
             setImageWith(url: data.userImageUrl,
-                         withPlaceholder: data.userImagePlaceholder,
                          intoImageView: userImageView,
                          safeRecyclingTag: tag)
         }
 
         updateCellWith(status: data.status)
-
         setUserIsTyping(enabled: data.isTyping)
+        updateCellFor(userType: data.userType)
     }
 
     private func setImageWith(url: URL?,
-                              withPlaceholder placeholder: UIImage?,
                               intoImageView imageView: UIImageView,
                               safeRecyclingTag: Int) {
         guard let url = url else { return }
-        imageView.lg_setImageWithURL(url, placeholderImage: placeholder) {
+        imageView.lg_setImageWithURL(url) {
             [weak self] (result, url) in
             // tag check to prevent wrong image placement cos' of recycling
             if let image = result.value?.image, self?.tag == safeRecyclingTag {
@@ -267,22 +301,22 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
     }
 
     private func updateCellWith(status: ConversationCellStatus) {
-
+        let lastStackPosition = textStackContainer.arrangedSubviews.count-1
         guard status != .available else {
             textStackContainer.removeArrangedSubview(statusStackContainer)
-            textStackContainer.addArrangedSubview(timeLastMessageLabel)
+            textStackContainer.insertArrangedSubview(timeLastMessageLabel, at: lastStackPosition)
             timeLastMessageLabel.isHidden = false
             return
         }
 
         textStackContainer.removeArrangedSubview(timeLastMessageLabel)
-        textStackContainer.addArrangedSubview(statusStackContainer)
+        textStackContainer.insertArrangedSubview(statusStackContainer, at: lastStackPosition)
         timeLastMessageLabel.isHidden = true
 
         if status == .userDeleted {
             userNameLabel.text = R.Strings.chatListAccountDeletedUsername
             listingTitleLabel.text = nil
-            userImageView.image = #imageLiteral(resourceName: "user_placeholder")
+            userImageView.image = R.Asset.IconsButtons.userPlaceholder.image
         }
 
         statusLabel.text = status.message
@@ -290,16 +324,45 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
     }
 
     private func setUserIsTyping(enabled: Bool) {
+        let lastStackPosition = textStackContainer.arrangedSubviews.count-1
         if enabled {
             textStackContainer.removeArrangedSubview(timeLastMessageLabel)
-            textStackContainer.addArrangedSubview(userIsTypingAnimationViewContainer)
+            textStackContainer.insertArrangedSubview(userIsTypingAnimationViewContainer, at: lastStackPosition)
             userIsTypingAnimationView.play()
             timeLastMessageLabel.isHidden = true
         } else {
             textStackContainer.removeArrangedSubview(userIsTypingAnimationViewContainer)
-            textStackContainer.addArrangedSubview(timeLastMessageLabel)
+            textStackContainer.insertArrangedSubview(timeLastMessageLabel, at: lastStackPosition)
             userIsTypingAnimationView.stop()
             timeLastMessageLabel.isHidden = false
         }
+    }
+
+    private func updateCellFor(userType: UserType?) {
+       guard let type = userType, type.isDummy else {
+            textStackContainer.removeArrangedSubview(assistantInfoStackContainer)
+            textStackContainer.insertArrangedSubview(userNameLabel, at: 0)
+            assistantInfoLabel.isHidden = true
+            return
+        }
+        textStackContainer.removeArrangedSubview(userNameLabel)
+        assistantInfoStackContainer.insertArrangedSubview(userNameLabel, at: 0)
+        textStackContainer.insertArrangedSubview(assistantInfoStackContainer, at: 0)
+        assistantInfoLabel.isHidden = false
+    }
+
+}
+
+extension ConversationCellData {
+    var isDummy: Bool {
+        return userType?.isDummy ?? false
+    }
+    var badge: UIImage? {
+        guard !isDummy else { return nil }
+        return amISelling ? R.Asset.Chat.icCornerSelling.image : R.Asset.Chat.icCornerBuying.image
+    }
+
+    var backgroundColor: UIColor {
+        return isDummy ? .assistantConversationCellBgColor : .white
     }
 }

@@ -1,17 +1,11 @@
-//
-//  FileSearchFieldStyle.swift
-//  LetGo
-//
-//  Created by Haiyan Ma on 14/05/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 enum SearchFieldStyle {
     case letgoRed, grey
     
-    var magnifierImage: UIImage { return self == .grey ? #imageLiteral(resourceName: "list_search_grey") :#imageLiteral(resourceName: "list_search") }
+    var magnifierImage: UIImage { return self == .grey ?
+        R.Asset.IconsButtons.listSearchGrey.image : R.Asset.IconsButtons.listSearch.image }
     
     var containerCornerRadius: CGFloat {
         switch self {

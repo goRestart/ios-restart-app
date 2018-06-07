@@ -1,12 +1,5 @@
-//
-//  MeetingSafetyTipsViewController.swift
-//  LetGo
-//
-//  Created by Dídac on 24/03/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 class MeetingSafetyTipsViewController: BaseViewController {
 
@@ -45,11 +38,11 @@ class MeetingSafetyTipsViewController: BaseViewController {
 
     private func setupUI() {
         view.backgroundColor = UIColor.white
-        closeButton.setImage(#imageLiteral(resourceName: "ic_close_red"), for: .normal)
+        closeButton.setImage(R.Asset.CongratsScreenImages.icCloseRed.image, for: .normal)
         closeButton.addTarget(self, action: #selector(closeButtonPressed), for: .touchUpInside)
 
         tipsImageView.contentMode = .scaleAspectFit
-        tipsImageView.image = #imageLiteral(resourceName: "image_meeting_safety_tips")
+        tipsImageView.image = R.Asset.ChatNorris.imageMeetingSafetyTips.image
 
         tipsTitle.text = viewModel.titleText
         tipsTitle.font = UIFont.boldSystemFont(ofSize: 23)

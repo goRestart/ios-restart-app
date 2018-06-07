@@ -183,6 +183,26 @@ final class ListingDeckViewControllerBinderSpec: QuickSpec {
                 }
             }
 
+            context("the user taps the actionbutton") {
+                beforeEach {
+                    sut.bind(withViewModel: viewModelType, listingDeckView: viewType)
+                    viewType.actionButton.sendActions(for: .touchUpInside)
+                }
+                it("did tap action method is called once") {
+                    expect(viewModelType.didTapActionButtonCalled).toEventually(be(1))
+                }
+            }
+
+            context("the user taps the playButton") {
+                beforeEach {
+                    sut.bind(withViewModel: viewModelType, listingDeckView: viewType)
+                    viewType.startPlayingButton.sendActions(for: .touchUpInside)
+                }
+                it("open video player method is called once") {
+                    expect(viewModelType.openVideoPlayerCalled).toEventually(be(1))
+                }
+            }
+
             context("we bind twice the viewcontroller") {
                 beforeEach {
                     sut.bind(withViewModel: viewModelType, listingDeckView: viewType)
@@ -257,11 +277,6 @@ private class MockListingDeckViewType: ListingDeckViewType {
 
 final class MockListingDeckViewModelType: ListingDeckViewModelType {
     var isPlayable: Bool = true
-
-    func openVideoPlayer() {
-        // FIXME: Add test
-    }
-
     var quickChatViewModel: QuickChatViewModel = QuickChatViewModel()
     func replaceListingCellModelAtIndex(_ index: Int, withListing listing: Listing) {
         replaceIndexIsCalled += 1
@@ -287,16 +302,27 @@ final class MockListingDeckViewModelType: ListingDeckViewModelType {
         moveToListingAtIndexIsCalled += 1
     }
 
+    func openVideoPlayer() {
+        openVideoPlayerCalled += 1
+    }
+    func didTapActionButton() {
+        didTapActionButtonCalled += 1
+    }
+
     var userHasScrollCalled: Int = 0
     var userHasScrolled: Bool = false { didSet { userHasScrollCalled += 1 } }
     var currentIndex: Int = 0
     var replaceIndexIsCalled: Int = 0
+    var didTapActionButtonCalled: Int = 0
+    var openVideoPlayerCalled: Int = 0
 
     func resetVariables() {
         userHasScrollCalled = 0
         moveToListingAtIndexIsCalled = 0
         currentIndex = 0
         replaceIndexIsCalled = 0
+        didTapActionButtonCalled = 0
+        openVideoPlayerCalled = 0
     }
 }
 
@@ -345,6 +371,7 @@ private class MockListingDeckViewControllerBinderType: ListingDeckViewController
     var isDidTapCardActionCalled: Int = 0
     var isUpdateViewWithAlphaCalled: Int = 0
     var isDidMoveToItemAtIndex: Int = 0
+    var isPresentInterstitialAtIndex: Int = 0
 
     func resetVariables() {
         isUpdateViewWithActionsCalled = 0
@@ -355,6 +382,7 @@ private class MockListingDeckViewControllerBinderType: ListingDeckViewController
         isUpdateViewWithAlphaCalled = 0
         isDidTapUserIconCalled = 0
         isDidMoveToItemAtIndex = 0
+        isPresentInterstitialAtIndex = 0
     }
 
     func updateViewWithActions(_ actions: [UIAction]) {
@@ -375,4 +403,8 @@ private class MockListingDeckViewControllerBinderType: ListingDeckViewController
     func didTapCardAction() {
         isDidTapCardActionCalled += 1
     }
+    func presentInterstitialAtIndex(_ index: Int) {
+        isPresentInterstitialAtIndex += 1
+    }
+
 }

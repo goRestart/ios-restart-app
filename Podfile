@@ -41,9 +41,9 @@ def shared_pods
 
 
     # letgo Core
-    pod "LGCoreKit",             "4.26.3", :inhibit_warnings => false
+     pod "LGCoreKit",             "4.30.2", :inhibit_warnings => false
 #    pod "LGCoreKit",            :path => "../lgcorekit", :inhibit_warnings => false
-#    pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => 'a4387462fe07621d5dff00a92cefb5f6b2b06192', :inhibit_warnings => false
+#   pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :branch => 'ABIOS-4176-filters-add-service-type-subtype-screen', :inhibit_warnings => false
 
     # letgo Collapsible label
         pod "LGCollapsibleLabel",   "1.2.0", :inhibit_warnings => false     # :path => "../collapsiblelabel"

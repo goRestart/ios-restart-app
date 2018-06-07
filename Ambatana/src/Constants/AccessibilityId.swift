@@ -268,6 +268,7 @@ enum AccessibilityId: Equatable {
     case postingCategorySelectionMotorsAndAccessoriesButton
     case postingCategorySelectionOtherButton
     case postingCategorySelectionRealEstateButton
+    case postingCategorySelectionServicesButton
     case postingCategoryDeatilNavigationBackButton
     case postingCategoryDeatilNavigationMakeButton
     case postingCategoryDeatilNavigationModelButton
@@ -279,6 +280,7 @@ enum AccessibilityId: Equatable {
     case postingCategoryDeatilSearchBar
     case postingCategoryDeatilTableView
     case postingAddDetailTableView
+    case postingAddDetailSearchBar
 
     // Editlisting
     case editListingCloseButton
@@ -304,7 +306,9 @@ enum AccessibilityId: Equatable {
     case editListingFeatureIcon
     case editListingFeatureLabel
     case editListingFeatureSwitch
-
+    case editListingServicesTypeButton
+    case editListingServicesSubtypeButton
+    
     // ReportUser
     case reportUserCollection
     case reportUserCommentField
@@ -721,6 +725,10 @@ enum AccessibilityId: Equatable {
     case bumpUpHiddenListingAlertContactButton
     case bumpUpHiddenListingAlertCancelButton
 
+    // Offensive Report Alert
+    case offensiveReportAlertOpenGuidelineButton
+    case offensiveReportAlertSkipButton
+
     // ExpandableSelectionCategoryView
     case expandableCategorySelectionCloseButton
     case expandableCategorySelectionView
@@ -755,6 +763,9 @@ enum AccessibilityId: Equatable {
     case searchAlertsPlaceholderText
     case searchAlertsPlaceholderButton
 
+    // Letgo Tooltip
+    case letgoTooltipButton
+    case letgoTooltipText
     
     static func ==(lhs: AccessibilityId, rhs: AccessibilityId) -> Bool {
         return lhs.identifier == rhs.identifier
@@ -942,6 +953,10 @@ enum AccessibilityId: Equatable {
                 idSuffix = "RealEstateOfferType-\(type.rawValue)"
             case let .realEstateNumberOfRooms(number):
                 idSuffix = "RealEstateNumRooms-\(number)"
+            case let .serviceType(serviceType):
+                idSuffix = "ServicesServiceType-\(serviceType.name)"
+            case let .serviceSubtype(serviceSubtype):
+                idSuffix = "ServicesServiceSubtype-\(serviceSubtype.name)"
             case let .sizeSquareMetersRange(from, to):
                 let fromString: String
                 if let from = from {
@@ -1294,6 +1309,8 @@ enum AccessibilityId: Equatable {
             return "postingCategorySelectionOtherButton"
         case .postingCategorySelectionRealEstateButton:
             return "postingCategorySelectionRealEstateButton"
+        case .postingCategorySelectionServicesButton:
+            return "postingCategorySelectionServicesButton"
         case .postingCategoryDeatilNavigationBackButton:
             return "postingCategoryDeatilNavigationBackButton"
         case .postingCategoryDeatilNavigationMakeButton:
@@ -1316,6 +1333,8 @@ enum AccessibilityId: Equatable {
             return "postingCategoryDeatilTableView"
         case .postingAddDetailTableView:
             return "postingAddDetailTableView"
+        case .postingAddDetailSearchBar:
+            return "postingAddDetailSearchBar"
             
         // Editlisting
         case .editListingCloseButton:
@@ -1364,6 +1383,10 @@ enum AccessibilityId: Equatable {
             return "editListingFeatureLabel"
         case .editListingFeatureSwitch:
             return "editListingFeatureSwitch"
+        case .editListingServicesTypeButton:
+            return "editListingServicesTypeButton"
+        case .editListingServicesSubtypeButton:
+            return "editListingServicesSubtypeButton"
 
             
         // ReportUser
@@ -2088,7 +2111,13 @@ enum AccessibilityId: Equatable {
             return "bumpUpHiddenListingAlertContactButton"
         case .bumpUpHiddenListingAlertCancelButton:
             return "bumpUpHiddenListingAlertCancelButton"
-            
+
+        // Offensive Report Alert
+        case .offensiveReportAlertOpenGuidelineButton:
+            return "offensiveReportAlertOpenGuidelineButton"
+        case .offensiveReportAlertSkipButton:
+            return "offensiveReportAlertSkipButton"
+
         // ExpandableSelectionCategoryView
         case .expandableCategorySelectionCloseButton:
             return "expandableCategorySelectionCloseButton"
@@ -2143,6 +2172,11 @@ enum AccessibilityId: Equatable {
             return "searchAlertsPlaceholderText"
         case .searchAlertsPlaceholderButton:
             return "searchAlertsPlaceholderButton"
+        // Letgo Tooltip
+        case .letgoTooltipButton:
+            return "letgoTooltipButton"
+        case .letgoTooltipText:
+            return "letgoTooltipText"
         }
     }
 }

@@ -9,28 +9,28 @@
 import LGComponents
 
 extension ABGroup {
-    var analyticsGroupIdentifier: AnalyticsABTestGroupIdentifier {
-        switch self {
-        case .legacyABTests:
-            return .legacy
-        case .core:
-            return .core
-        case .verticals:
-            return .verticals
-        case .realEstate:
-            return .realEstate
-        case .money:
-            return .money
-        case .retention:
-            return .retention
-        case .chat:
-            return .chat
-        case .products:
-            return .products
-        case .users:
-            return .users
-        case .discovery:
-            return .discovery
-        }
-    }
+//    var analyticsGroupIdentifier: AnalyticsABTestGroupIdentifier {
+//        switch self {
+//        case .legacyABTests:
+//            return .legacy
+//        case .core:
+//            return .core
+//        case .verticals:
+//            return .verticals
+//        case .realEstate:
+//            return .realEstate
+//        case .money:
+//            return .money
+//        case .retention:
+//            return .retention
+//        case .chat:
+//            return .chat
+//        case .products:
+//            return .products
+//        case .users:
+//            return .users
+//        case .discovery:
+//            return .discovery
+//        }
+//    }
 }

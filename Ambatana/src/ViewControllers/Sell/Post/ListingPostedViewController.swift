@@ -98,7 +98,8 @@ final class ListingPostedViewController: BaseViewController, ListingPostedViewMo
     // MARK: - Private methods
 
     private func setupView() {
-
+        closeButton.setImage(R.Asset.CongratsScreenImages.icCloseRed.image, for: .normal)
+        shareButton.setImage(R.Asset.CongratsScreenImages.icShareRed.image, for: .normal)
         mainButton.setStyle(.primary(fontSize: .big))
         mainButton.isHidden = viewModel.mainButtonHidden
         editOrLabel.text = R.Strings.productPostConfirmationAnother.localizedUppercase

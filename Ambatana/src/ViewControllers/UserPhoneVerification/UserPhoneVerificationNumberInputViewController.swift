@@ -11,7 +11,7 @@ final class UserPhoneVerificationNumberInputViewController: BaseViewController {
 
     private let descriptionLabel = UILabel()
     private let countryButton = UIButton()
-    private let countryButtonArrowImage = UIImageView(image: #imageLiteral(resourceName: "ic_disclosure"))
+    private let countryButtonArrowImage = UIImageView(image: R.Asset.IconsButtons.icDisclosure.image)
     private let countryCodeLabel = UILabel()
     private let phoneNumberTextField = UITextField()
     private let horizontalSeparatorView = UIView()
@@ -98,6 +98,7 @@ final class UserPhoneVerificationNumberInputViewController: BaseViewController {
         phoneNumberTextField.textColor = .blackText
         phoneNumberTextField.keyboardType = .numberPad
         phoneNumberTextField.tintColor = .primaryColor
+        phoneNumberTextField.delegate = self
         phoneNumberTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
 
         var placeholderAttributes = [NSAttributedStringKey: Any]()
@@ -207,5 +208,16 @@ final class UserPhoneVerificationNumberInputViewController: BaseViewController {
 
     @objc private func textFieldDidChange(_ textField: UITextField) {
         viewModel.didChangePhone(number: textField.text)
+    }
+}
+
+extension UserPhoneVerificationNumberInputViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField,
+                   shouldChangeCharactersIn range: NSRange,
+                   replacementString string: String) -> Bool {
+        guard !CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: string)) else { return true }
+        textField.text = string.filter { "0123456789".contains($0) }
+        viewModel.didChangePhone(number: textField.text)
+        return false
     }
 }

@@ -16,4 +16,18 @@ extension ListingRepository {
     func updateAction(_ shouldUseCarEndpoint: Bool) -> ((ListingEditionParams, ListingCompletion?) -> ()) {
         return shouldUseCarEndpoint ?  updateCar : update
     }
+    
+    func updateAction(forParams params: ListingEditionParams,
+                      shouldUseCarEndpoint: Bool,
+                      shouldUseServicesEndpoint: Bool) -> ((ListingEditionParams, ListingCompletion?) -> ()) {
+        switch params {
+        case .car:
+            return updateAction(shouldUseCarEndpoint)
+        case .service:
+            return shouldUseServicesEndpoint ? updateService : update
+        case .product, .realEstate:
+            return update
+        }
+    }
+
 }

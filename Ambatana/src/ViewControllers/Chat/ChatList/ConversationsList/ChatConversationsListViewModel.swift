@@ -2,9 +2,65 @@ import LGCoreKit
 import RxSwift
 import LGComponents
 
+enum ChatConnectionBarStatus {
+    case noNetwork
+    case wsClosed(reconnectBlock: (() -> Void)?)
+    case wsConnecting
+    case wsConnected
+
+    var title: NSAttributedString? {
+        switch self {
+        case .noNetwork:
+            return NSAttributedString(string: R.Strings.chatStatusViewNoNetwork)
+        case .wsClosed:
+            let tryAgain = R.Strings.chatStatusViewTryAgain
+            let tryAgainAttributes: [NSAttributedStringKey: Any] = [.foregroundColor : UIColor.macaroniAndCheese,
+                                                                    .underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
+                                                                    .underlineColor: UIColor.macaroniAndCheese]
+            let unableToConnectString = R.Strings.chatStatusViewUnableToConnect
+            let finalAttributtedString = NSMutableAttributedString(string: unableToConnectString)
+            let tryAgainRange = NSString(string: unableToConnectString).range(of: tryAgain)
+            print(tryAgainRange)
+            finalAttributtedString.setAttributes(tryAgainAttributes, range: tryAgainRange)
+            return finalAttributtedString
+        case .wsConnecting:
+            return NSAttributedString(string: R.Strings.chatStatusViewConnecting)
+        case .wsConnected:
+            return nil
+        }
+    }
+
+    var showActivityIndicator: Bool {
+        switch self {
+        case .noNetwork, .wsClosed, .wsConnected:
+            return false
+        case .wsConnecting:
+            return true
+        }
+    }
+
+    var actionBlock: (()->Void)? {
+        switch self {
+        case .noNetwork, .wsConnecting, .wsConnected:
+            return nil
+        case .wsClosed(let reconnectBlock):
+            return reconnectBlock
+        }
+    }
+}
+
 typealias NavigationActionSheet = (cancelTitle: String, actions: [UIAction])
 
 final class ChatConversationsListViewModel: BaseViewModel, Paginable {
+    
+    struct Localize {
+        static let deleteAlertConfirmationTitle = R.Strings.chatListDeleteAlertTitleOne
+        static let deleteAlertConfirmationMessage = R.Strings.chatListDeleteAlertTextOne
+        static let deleteAlertConfirmationButtonOk = R.Strings.chatListDeleteAlertSend
+        static let buttonCancel = R.Strings.commonCancel
+        static let deleteAlertDidStart = R.Strings.commonLoading
+        static let deleteAlertDidFailMessage = R.Strings.chatListDeleteErrorOne
+    }
     
     weak var navigator: ChatsTabNavigator?
 
@@ -14,11 +70,14 @@ final class ChatConversationsListViewModel: BaseViewModel, Paginable {
     private let tracker: TrackerProxy
     private let featureFlags: FeatureFlaggeable
     
-    var deleteActionBlock: (() -> Void)?
+    var deleteConversationConfirmationBlock: ((ChatConversation) -> Void)?
+    var deleteConversationDidStartBlock: ((String) -> Void)?
+    var deleteConversationDidSuccessBlock: (() -> Void)?
+    var deleteConversationDidFailBlock: ((String) -> Void)?
     private var websocketWasClosedDuringCurrentSession = false
     
     let rx_navigationBarTitle = Variable<String?>(nil)
-    let rx_navigationBarFilterButtonImage = Variable<UIImage>(#imageLiteral(resourceName: "ic_chat_filter"))
+    let rx_navigationBarFilterButtonImage = Variable<UIImage>(R.Asset.IconsButtons.icChatFilter.image)
     let rx_navigationActionSheet = PublishSubject<NavigationActionSheet>()
     let rx_isEditing = Variable<Bool>(false)
     let rx_conversations = Variable<[ChatConversation]>([])
@@ -29,7 +88,9 @@ final class ChatConversationsListViewModel: BaseViewModel, Paginable {
     private let rx_isReachable = Variable<Bool>(true)
     private let bag = DisposeBag()
     private var conversationsFilterBag: DisposeBag? = DisposeBag()
-    
+
+    let rx_connectionBarStatus = Variable<ChatConnectionBarStatus>(.wsConnected)
+
     // MARK: Lifecycle
     
     convenience override init() {
@@ -74,12 +135,12 @@ final class ChatConversationsListViewModel: BaseViewModel, Paginable {
         return R.Strings.chatListTitle + " (\(filter.localizedString))"
     }
     
-    // MARK: Actions
+    // MARK: Navigation Bar Actions
     
     func openOptionsActionSheet() {
         var deleteAction: UIAction {
             return UIAction(interface: .text(R.Strings.chatListDelete),
-                            action: { [weak self] in self?.deleteActionBlock?() })
+                            action: { [weak self] in self?.switchEditMode(isEditing: true) })
         }
         var markAllConvesationsAsReadAction: UIAction {
             return UIAction(interface: .text(R.Strings.chatMarkConversationAsReadButton),
@@ -120,6 +181,10 @@ final class ChatConversationsListViewModel: BaseViewModel, Paginable {
         rx_navigationActionSheet.onNext((cancelTitle: R.Strings.commonCancel, actions: actions))
     }
     
+    func switchEditMode(isEditing: Bool) {
+        rx_isEditing.value = isEditing
+    }
+
     func markAllConversationAsRead() {
         tracker.trackEvent(TrackerEvent.chatMarkMessagesAsRead())
         chatRepository.markAllConversationsAsRead(completion: nil)
@@ -133,14 +198,34 @@ final class ChatConversationsListViewModel: BaseViewModel, Paginable {
         navigator?.openInactiveConversations()
     }
     
-    func openConversation(_ conversation: ChatConversation) {
+    // MARK: Table View Actions
+    
+    func tableViewDidSelectItem(at indexPath: IndexPath) {
+        guard rx_conversations.value.indices.contains(indexPath.row) else { return }
+        let conversation = rx_conversations.value[indexPath.row]
         navigator?.openChat(.conversation(conversation: conversation),
                             source: .chatList,
                             predefinedMessage: nil)
     }
     
-    func switchEditing() {
-        rx_isEditing.value = !rx_isEditing.value
+    func tableViewDidDeleteItem(at indexPath: IndexPath) {
+        guard rx_conversations.value.indices.contains(indexPath.row) else { return }
+        let conversation = rx_conversations.value[indexPath.row]
+        deleteConversationConfirmationBlock?(conversation)
+    }
+    
+    func deleteConversation(conversation: ChatConversation) {
+        guard let conversationId = conversation.objectId else { return }
+        deleteConversationDidStartBlock?(Localize.deleteAlertDidStart)
+        chatRepository.archiveConversations([conversationId]) { [weak self] result in
+            if let _ = result.value {
+                self?.tracker.trackEvent(TrackerEvent.chatDeleteComplete(numberOfConversations: 1,
+                                                                         isInactiveConversation: false))
+                self?.deleteConversationDidSuccessBlock?()
+            } else if let _ = result.error {
+                self?.deleteConversationDidFailBlock?(Localize.deleteAlertDidFailMessage)
+            }
+        }
     }
 
     // MARK: Reachability
@@ -187,11 +272,24 @@ final class ChatConversationsListViewModel: BaseViewModel, Paginable {
             .asObservable()
             .skip(1)
             .bind { [weak self] (wsChatStatus, isReachable) in
-                guard wsChatStatus == .closed || !isReachable else { return }
-                self?.websocketWasClosedDuringCurrentSession = true
+                if wsChatStatus == .closed || !isReachable {
+                    self?.websocketWasClosedDuringCurrentSession = true
+                }
+                guard isReachable else {
+                    self?.rx_connectionBarStatus.value = .noNetwork
+                    return
+                }
+                switch wsChatStatus {
+                case .openAuthenticated, .openNotVerified:
+                    self?.rx_connectionBarStatus.value = .wsConnected
+                case .closed, .closing:
+                    self?.rx_connectionBarStatus.value = .wsClosed { [weak self] in self?.retrieveFirstPage() }
+                case .opening, .openNotAuthenticated:
+                    self?.rx_connectionBarStatus.value = .wsConnecting
+                }
             }
             .disposed(by: bag)
-        
+
         rx_viewState
             .asObservable()
             .bind { [weak self] viewState in
@@ -292,7 +390,7 @@ final class ChatConversationsListViewModel: BaseViewModel, Paginable {
     }
     
     private var verificationPendingEmptyViewModel: LGEmptyViewModel {
-        return LGEmptyViewModel(icon: #imageLiteral(resourceName: "ic_build_trust_big"),
+        return LGEmptyViewModel(icon: R.Asset.IconsButtons.icBuildTrustBig.image,
                                 title: R.Strings.chatNotVerifiedStateTitle,
                                 body: R.Strings.chatNotVerifiedStateMessage,
                                 buttonTitle: R.Strings.chatNotVerifiedStateCheckButton,
@@ -324,7 +422,7 @@ final class ChatConversationsListViewModel: BaseViewModel, Paginable {
         case .buying:
             primaryAction = openHomeAction
         }
-        return LGEmptyViewModel(icon: #imageLiteral(resourceName: "err_list_no_chats"),
+        return LGEmptyViewModel(icon: R.Asset.Errors.errListNoChats.image,
                                 title: filter.emptyViewModelTitleLocalizedString,
                                 body: nil,
                                 buttonTitle: filter.emptyViewModelPrimaryButtonTitleLocalizedString,

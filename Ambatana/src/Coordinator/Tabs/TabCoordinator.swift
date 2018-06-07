@@ -165,6 +165,13 @@ extension TabCoordinator: TabNavigator {
         appNavigator?.openDeepLink(deepLink: deeplink)
     }
 
+    func openUserVerificationView() {
+        let vm = UserVerificationViewModel()
+        vm.navigator = self
+        let vc = UserVerificationViewController(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
+    }
+
     var hidesBottomBarWhenPushed: Bool {
         return navigationController.viewControllers.count == 1
     }
@@ -480,6 +487,75 @@ fileprivate extension TabCoordinator {
     }
 }
 
+extension TabCoordinator: UserVerificationNavigator {
+    func closeUserVerification() {
+        navigationController.popViewController(animated: true)
+    }
+
+    func openEmailVerification() {
+        let vm = UserVerificationEmailViewModel()
+        vm.navigator = self
+        let vc = UserVerificationEmailViewController(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
+    }
+
+    func openEditUserBio() {
+        let vm = EditUserBioViewModel()
+        vm.navigator = self
+        let vc = EditUserBioViewController(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
+    }
+
+    func openPhoneNumberVerification() {
+        let vm = UserPhoneVerificationNumberInputViewModel()
+        vm.navigator = self
+        let vc = UserPhoneVerificationNumberInputViewController(viewModel: vm)
+        vm.delegate = vc
+        navigationController.pushViewController(vc, animated: true)
+    }
+}
+
+extension TabCoordinator: EditUserBioNavigator {
+    func closeEditUserBio() {
+        navigationController.popViewController(animated: true)
+    }
+}
+
+extension TabCoordinator: VerifyUserEmailNavigator {
+    func closeEmailVerification() {
+        navigationController.popViewController(animated: true)
+    }
+}
+
+extension TabCoordinator: UserPhoneVerificationNavigator {
+    func openCountrySelector(withDelegate delegate: UserPhoneVerificationCountryPickerDelegate) {
+        let vm = UserPhoneVerificationCountryPickerViewModel()
+        vm.navigator = self
+        vm.delegate = delegate
+        let vc = UserPhoneVerificationCountryPickerViewController(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
+    }
+
+    func closeCountrySelector() {
+        navigationController.popViewController(animated: true)
+    }
+
+    func openCodeInput(sentTo phoneNumber: String, with callingCode: String) {
+        let vm = UserPhoneVerificationCodeInputViewModel(callingCode: callingCode,
+                                                         phoneNumber: phoneNumber)
+        vm.navigator = self
+        let vc = UserPhoneVerificationCodeInputViewController(viewModel: vm)
+        vm.delegate = vc
+        navigationController.pushViewController(vc, animated: true)
+    }
+
+    func closePhoneVerificaction() {
+        guard let vc = navigationController.viewControllers
+            .filter({ $0 is UserVerificationViewController }).first else { return }
+        navigationController.popToViewController(vc, animated: true)
+    }
+}
+
 // MARK: > ListingDetailNavigator
 
 extension TabCoordinator: ListingDetailNavigator {
@@ -636,7 +712,7 @@ extension TabCoordinator: ListingDetailNavigator {
             let contactURL = LetgoURLHelper.buildContactUsURL(user: user, installation: installation, listing: listing, type: contactUstype) else {
                 return
         }
-        rootViewController.openInternalUrl(contactURL)
+        rootViewController.openInAppWebViewWith(url: contactURL)
     }
 
     func openFeaturedInfo() {
@@ -697,7 +773,31 @@ extension TabCoordinator: ListingDetailNavigator {
                         withAction action: @escaping () -> ()) {
         let action = UIAction(interface: .button(R.Strings.productInterestedUndo, .terciary) , action: action)
         let data = BubbleNotificationData(text: message, action: action)
-        bubbleNotificationManager.showBubble(data, duration: duration, view: navigationController.view)
+        
+        switch featureFlags.highlightedIAmInterestedInFeed {
+        case .baseline, .control:
+            bubbleNotificationManager.showBubble(data: data,
+                                                 duration: duration,
+                                                 view: navigationController.view,
+                                                 alignment: .top(offset: viewController.statusBarHeight),
+                                                 style: .light)
+        case .darkTop:
+            bubbleNotificationManager.showBubble(data: data,
+                                                 duration: duration,
+                                                 view: navigationController.view,
+                                                 alignment: .top(offset: viewController.statusBarHeight),
+                                                 style: .dark)
+        case .lightBottom:
+            appNavigator?.showBottomBubbleNotification(data: data,
+                                                       duration: duration,
+                                                       alignment: .bottom,
+                                                       style: .light)
+        case .darkBottom:
+            appNavigator?.showBottomBubbleNotification(data: data,
+                                                       duration: duration,
+                                                       alignment: .bottom,
+                                                       style: .dark)
+        }
     }
 }
 

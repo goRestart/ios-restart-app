@@ -2,10 +2,10 @@ import UIKit
 import RxSwift
 import LGComponents
 
-class SellNavigationController: UINavigationController {
+final class SellNavigationController: UINavigationController {
     
     fileprivate let disposeBag = DisposeBag()
-    fileprivate let viewModel: SellNavigationViewModel
+    fileprivate let viewModel: SellNavigationViewModel = SellNavigationViewModel()
     fileprivate let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
     fileprivate let backgroundImageView = UIImageView()
     
@@ -15,21 +15,14 @@ class SellNavigationController: UINavigationController {
     var currentStep: CGFloat {
         return viewModel.actualStep
     }
-    
-    override init(rootViewController: UIViewController) {
-        self.viewModel = SellNavigationViewModel()
-        super.init(rootViewController: rootViewController)
-    }
-    
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        self.viewModel = SellNavigationViewModel()
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+
+    init(root: UIViewController) { // we do this because a leak https://lists.swift.org/pipermail/swift-users/Week-of-Mon-20171211/006747.html
+        super.init(nibName: nil, bundle: nil)
+        viewControllers.append(root)
     }
 
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+    required init?(coder aDecoder: NSCoder) { fatalError("Die xibs, die") }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         delegate = self
@@ -95,12 +88,9 @@ class SellNavigationController: UINavigationController {
         viewModel.hideProgressHeader.bind { [weak self] isHidden in
                 self?.animateStep(isHidden: isHidden)
             }.disposed(by: disposeBag)
-        
-        viewModel.categorySelected.asObservable().map { category in
-            return category?.numberOfSteps ?? 0
-        }.bind(to: viewModel.numberOfSteps).disposed(by: disposeBag)
-        
-        Observable.combineLatest(viewModel.currentStep.asObservable(), viewModel.numberOfSteps.asObservable()) { ($0, $1) }
+
+        Observable.combineLatest(viewModel.currentStep.asObservable(),
+                                 viewModel.numberOfSteps.asObservable()) { ($0, $1) }
             .bind { [weak self] (currentStep, totalSteps) in
                 let current = Int(min(currentStep, totalSteps))
                 let totalStep = Int(totalSteps)

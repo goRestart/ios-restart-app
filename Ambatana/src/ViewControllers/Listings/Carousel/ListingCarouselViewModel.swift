@@ -1,6 +1,7 @@
 import LGCoreKit
 import RxSwift
 import GoogleMobileAds
+import RxCocoa
 import LGComponents
 
 protocol ListingCarouselViewModelDelegate: BaseViewModelDelegate {
@@ -20,6 +21,7 @@ enum CarouselMovement {
 enum AdRequestType {
     case dfp
     case moPub
+    case interstitial
 
     var trackingParamValue: EventParameterAdType {
         switch self {
@@ -27,6 +29,8 @@ enum AdRequestType {
             return .dfp
         case .moPub:
             return .moPub
+        case .interstitial:
+            return .interstitial
         }
     }
 }
@@ -126,6 +130,9 @@ class ListingCarouselViewModel: BaseViewModel {
 
     let socialMessage = Variable<SocialMessage?>(nil)
     let socialSharer = Variable<SocialSharer>(SocialSharer())
+    var shouldShowReputationTooltip: Driver<Bool> {
+        return ownerBadge.asDriver().map{ $0 != .noBadge && self.reputationTooltipManager.shouldShowTooltip() }
+    }
 
     // UI - Input
     let moreInfoState = Variable<MoreInfoState>(.hidden)
@@ -144,7 +151,6 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     var isPlayable: Bool { return currentListingViewModel?.isPlayable ?? false }
-    var shouldAddPlayButton: Bool { return featureFlags.machineLearningMVP.isVideoPostingActive }
 
     fileprivate var trackingIndex: Int?
     fileprivate var initialThumbnail: UIImage?
@@ -160,6 +166,7 @@ class ListingCarouselViewModel: BaseViewModel {
     let featureFlags: FeatureFlaggeable
     fileprivate let locationManager: LocationManager
     fileprivate let myUserRepository: MyUserRepository
+    fileprivate let reputationTooltipManager: ReputationTooltipManager
 
     fileprivate let disposeBag = DisposeBag()
 
@@ -261,7 +268,8 @@ class ListingCarouselViewModel: BaseViewModel {
                   listingViewModelMaker: ListingViewModel.ConvenienceMaker(),
                   adsRequester: AdsRequester(),
                   locationManager: Core.locationManager,
-                  myUserRepository: Core.myUserRepository)
+                  myUserRepository: Core.myUserRepository,
+                  reputationTooltipManager: LGReputationTooltipManager.sharedInstance)
     }
 
     init(productListModels: [ListingCellModel]?,
@@ -278,18 +286,19 @@ class ListingCarouselViewModel: BaseViewModel {
          listingViewModelMaker: ListingViewModelMaker,
          adsRequester: AdsRequester,
          locationManager: LocationManager,
-         myUserRepository: MyUserRepository) {
+         myUserRepository: MyUserRepository,
+         reputationTooltipManager: ReputationTooltipManager) {
         if let productListModels = productListModels {
             let listingCarouselCellModels = productListModels
                 .flatMap(ListingCarouselCellModel.adapter)
-                .filter(featureFlags.discardedProducts.notDiscarded)
+                .filter({!$0.listing.status.isDiscarded})
             self.objects.appendContentsOf(listingCarouselCellModels)
             self.isLastPage = listingListRequester.isLastPage(productListModels.count)
         } else {
             let listingCarouselCellModels = [initialListing]
                 .flatMap{$0}
                 .map(ListingCarouselCellModel.init)
-                .filter(featureFlags.discardedProducts.notDiscarded)
+                .filter({!$0.listing.status.isDiscarded})
             self.objects.appendContentsOf(listingCarouselCellModels)
             self.isLastPage = false
         }
@@ -304,6 +313,7 @@ class ListingCarouselViewModel: BaseViewModel {
         self.adsRequester = adsRequester
         self.locationManager = locationManager
         self.myUserRepository = myUserRepository
+        self.reputationTooltipManager = reputationTooltipManager
         if let initialListing = initialListing {
             self.startIndex = objects.value.index(where: { $0.listing.objectId == initialListing.objectId}) ?? 0
         } else {
@@ -517,6 +527,38 @@ class ListingCarouselViewModel: BaseViewModel {
                                                willLeaveApp: willLeave,
                                                typePage: typePage)
     }
+    
+    func createAndLoadInterstitial() -> GADInterstitial? {
+        return adsRequester.createAndLoadInterstitialForUserRepository(myUserRepository)
+    }
+    
+    func presentInterstitial(_ interstitial: GADInterstitial?, index: Int, fromViewController: UIViewController) {
+        adsRequester.presentInterstitial(interstitial, index: index, fromViewController: fromViewController)
+    }
+    
+    func interstitialAdTapped(typePage: EventParameterTypePage) {
+        let adType = AdRequestType.interstitial.trackingParamValue
+        let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
+        let feedPosition: EventParameterFeedPosition = .position(index: currentIndex)
+        let willLeave = EventParameterBoolean(bool: true)
+        currentListingViewModel?.trackInterstitialAdTapped(adType: adType,
+                                                           isMine: isMine,
+                                                           feedPosition: feedPosition,
+                                                           willLeaveApp: willLeave,
+                                                           typePage: typePage)
+    }
+    
+    func interstitialAdShown(typePage: EventParameterTypePage) {
+        let adType = AdRequestType.interstitial.trackingParamValue
+        let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
+        let feedPosition: EventParameterFeedPosition = .position(index: currentIndex)
+        let adShown = EventParameterBoolean(bool: true)
+        currentListingViewModel?.trackInterstitialAdShown(adType: adType,
+                                                           isMine: isMine,
+                                                           feedPosition: feedPosition,
+                                                           adShown: adShown,
+                                                           typePage: typePage)
+    }
 
     func statusLabelTapped() {
         navigator?.openFeaturedInfo()
@@ -529,6 +571,13 @@ class ListingCarouselViewModel: BaseViewModel {
         currentListingViewModel?.trackCallTapped(source: source, feedPosition: trackingFeedPosition)
     }
 
+    func reputationTooltipTapped() {
+        navigator?.openUserVerificationView()
+    }
+
+    func reputationTooltipShown() {
+        reputationTooltipManager.didShowTooltip()
+    }
 
     // MARK: - Private Methods
 
@@ -690,7 +739,7 @@ extension ListingCarouselViewModel: Paginable {
                 strongSelf.nextPage = strongSelf.nextPage + 1
                 let listingCarouselCellModels = newListings
                     .map(ListingCarouselCellModel.init)
-                    .filter(strongSelf.featureFlags.discardedProducts.notDiscarded)
+                    .filter({!$0.listing.status.isDiscarded})
                 strongSelf.objects.appendContentsOf(listingCarouselCellModels)
                 strongSelf.isLastPage = strongSelf.listingListRequester.isLastPage(newListings.count)
                 if newListings.isEmpty && !strongSelf.isLastPage {
@@ -806,8 +855,8 @@ extension ListingCarouselViewModel: ListingViewModelDelegate {
     func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction]) {
         delegate?.vmShowActionSheet(cancelLabel, actions: actions)
     }
-    func vmOpenInternalURL(_ url: URL) {
-        delegate?.vmOpenInternalURL(url)
+    func vmOpenInAppWebViewWith(url: URL) {
+        delegate?.vmOpenInAppWebViewWith(url:url)
     }
     func vmPop() {
         delegate?.vmPop()
@@ -852,13 +901,5 @@ extension CarouselMovement {
         case .initial:
             return .position(index: index)
         }
-    }
-}
-
-extension DiscardedProducts {
-    
-    func notDiscarded(model: ListingCarouselCellModel) -> Bool {
-        guard isActive else { return true }
-        return !model.listing.status.isDiscarded
     }
 }
