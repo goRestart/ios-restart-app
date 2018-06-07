@@ -10,6 +10,7 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
     var viewModel: SignUpViewModel
     
     // UI
+    @IBOutlet weak var logoBigImageView: UIImageView!
     // > Header
     @IBOutlet weak var claimLabel: UILabel!
     
@@ -167,6 +168,10 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
         logInButton.setTitle(R.Strings.mainSignUpLogInLabel, for: .normal)
 
         setupTermsAndConditions()
+    }
+
+    private func setupRAssets() {
+        logoBigImageView.image = R.Asset.logo
     }
 
     private func setupRx() {

@@ -30,6 +30,7 @@
                 <outlet property="legalTextView" destination="x7r-Le-Z4F" id="UlF-VT-WZT"/>
                 <outlet property="logInButton" destination="pdp-VZ-cZN" id="mCG-7U-5Rn"/>
                 <outlet property="loginButtonBottomMarginConstraint" destination="BVu-NN-Wof" id="ntv-k2-UNd"/>
+                <outlet property="logoBigImageView" destination="Ujl-i7-kRC" id="dlR-cM-Hj1"/>
                 <outlet property="mainViewHeightProportion" destination="MVo-Qh-2lV" id="OYs-2i-arn"/>
                 <outlet property="orDividerTopMarginConstraint" destination="4XM-dF-56P" id="h6R-GV-Rom"/>
                 <outlet property="orLabel" destination="1pc-RV-rnQ" id="vy9-La-dT5"/>
