@@ -57,8 +57,7 @@ class FilterTagsView: UIView, UICollectionViewDataSource, UICollectionViewDelega
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.scrollsToTop = false
-        let filterNib = UINib(nibName: "FilterTagCell", bundle: nil)
-        collectionView.register(filterNib, forCellWithReuseIdentifier: "FilterTagCell")
+        collectionView.register(type: FilterTagCell.self)
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.scrollDirection = UICollectionViewScrollDirection.horizontal
         }
