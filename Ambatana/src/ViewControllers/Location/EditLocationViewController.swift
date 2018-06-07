@@ -172,6 +172,7 @@ final class EditLocationViewController: BaseViewController, EditLocationViewMode
     }
 
     private func setupUI() {
+        mapView.delegate = self
         suggestionsTableView.isHidden = true
         suggestionsTableView.dataSource = self
         suggestionsTableView.delegate = self
