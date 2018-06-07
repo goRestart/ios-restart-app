@@ -1062,10 +1062,14 @@ extension R {
     public static let meetingCreationViewSuggestCellSelected = Strings.tr("Localizable", "meeting_creation_view_suggest_cell_selected")
     /// Schedule a meeting
     public static let meetingCreationViewTitle = Strings.tr("Localizable", "meeting_creation_view_title")
-    /// in about %.f days
-    public static let mlCameraInAboutDaysText = Strings.tr("Localizable", "ml_camera_in_about_days_text")
-    /// in more than %.f days
-    public static let mlCameraInMoreThanDaysText = Strings.tr("Localizable", "ml_camera_in_more_than_days_text")
+    /// in about %d days
+    public static func mlCameraInAboutDaysText(_ p1: Int) -> String {
+      return Strings.tr("Localizable", "ml_camera_in_about_days_text", p1)
+    }
+    /// in more than %d days
+    public static func mlCameraInMoreThanDaysText(_ p1: Int) -> String {
+      return Strings.tr("Localizable", "ml_camera_in_more_than_days_text", p1)
+    }
     /// Typically sells for $%d
     public static func mlCameraSellsForText(_ p1: Int) -> String {
       return Strings.tr("Localizable", "ml_camera_sells_for_text", p1)
@@ -1378,6 +1382,24 @@ extension R {
     public static let postDescriptionNamePlaceholder = Strings.tr("Localizable", "post_description_name_placeholder")
     /// Save this listing!
     public static let postDescriptionSaveButtonText = Strings.tr("Localizable", "post_description_save_button_text")
+    /// Add a new service
+    public static let postDetailsServicesAddNew = Strings.tr("Localizable", "post_details_services_add_new")
+    /// People around you are looking for these services, have these skills?
+    public static let postDetailsServicesCongratulationPeopleNear = Strings.tr("Localizable", "post_details_services_congratulation_people_near")
+    /// Post another listing
+    public static let postDetailsServicesCongratulationPostAnother = Strings.tr("Localizable", "post_details_services_congratulation_post_another")
+    /// Review your listings and add more details
+    public static let postDetailsServicesCongratulationReview = Strings.tr("Localizable", "post_details_services_congratulation_review")
+    /// Your listings have been posted.
+    public static let postDetailsServicesCongratulationSubtitle = Strings.tr("Localizable", "post_details_services_congratulation_subtitle")
+    /// Congratulations!
+    public static let postDetailsServicesCongratulationTitle = Strings.tr("Localizable", "post_details_services_congratulation_title")
+    /// Search or choose from the list
+    public static let postDetailsServicesSearchPlaceholder = Strings.tr("Localizable", "post_details_services_search_placeholder")
+    /// Start making money!
+    public static let postDetailsServicesSubtitle = Strings.tr("Localizable", "post_details_services_subtitle")
+    /// What do you know how to do?
+    public static let postDetailsServicesTitle = Strings.tr("Localizable", "post_details_services_title")
     /// Get Started
     public static let postGetStartedButtonText = Strings.tr("Localizable", "post_get_started_button_text")
     /// You can discard it later if you don’t want to sell it.

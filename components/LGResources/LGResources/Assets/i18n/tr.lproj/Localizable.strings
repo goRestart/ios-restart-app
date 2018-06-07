@@ -426,8 +426,8 @@
 "hidden_text_alert_description" = "Güvenli alışveriş yapmana yardımcı olmak adına iletişim bilgilerini gizledik. letgo üzerinden mesajlaşmak kolay ve daha güvenlidir.";
 "hidden_text_alert_title" = "GÜVENDE KAL";
 "listing_map_redo_search" = "Bu bölgeyi ara";
-"listing_show_similar_results" = "Showing results for similar searches";
-"listing_show_similar_results_description" = "No exact matches for your search.\nMake sure it’s spelled correctly or use different keywords and filters.";
+"listing_show_similar_results" = "Benzer aramalar için benzer sonuçları gösteriyor";
+"listing_show_similar_results_description" = "Araman için kesin sonuç yok.\nDoğru yazıldığına emin ol veya farklı anahtar kelimeler ve filtreler kullan.";
 "listings_map_no_results_message" = "Araman ile tam eşleşen bir şey yok. Farklı bir bölgede aramayı ya da farklı filtreler kullanmayı dene.";
 "listings_map_title" = "Harita görünümü";
 "location_permissions_allow_button" = "İzin Ver";
@@ -491,8 +491,8 @@
 "meeting_creation_view_suggest_cell_select" = "Seç";
 "meeting_creation_view_suggest_cell_selected" = "Seçildi";
 "meeting_creation_view_title" = "Bir buluşma ayarla";
-"ml_camera_in_about_days_text" = "Yaklaşık %.f günde";
-"ml_camera_in_more_than_days_text" = "%.f günden fazla";
+"ml_camera_in_about_days_text" = "in about %d days";
+"ml_camera_in_more_than_days_text" = "in more than %d days";
 "ml_camera_sells_for_text" = "Genellikle %d ₺'den satılıyor";
 "ml_category_text" = "Kategori:";
 "ml_details_price_text" = "Fiyat:";
@@ -630,6 +630,15 @@
 "post_description_info_title" = "İLAN BİLGİSİ";
 "post_description_name_placeholder" = "İsim";
 "post_description_save_button_text" = "Bu ilanı kaydet!";
+"post_details_services_add_new" = "Add a new service";
+"post_details_services_congratulation_people_near" = "Etrafındaki insanlar bu hizmetleri arıyorlar. Bu yeteneklere sahip misin?";
+"post_details_services_congratulation_post_another" = "Başka bir ilan yükle";
+"post_details_services_congratulation_review" = "İlanlarını gözden geçir ve daha fazla detay ekle";
+"post_details_services_congratulation_subtitle" = "İlanların yayınlandı.";
+"post_details_services_congratulation_title" = "Tebrikler!";
+"post_details_services_search_placeholder" = "Listeyi ara veya listeden seç";
+"post_details_services_subtitle" = "Para kazanmaya başla!";
+"post_details_services_title" = "Nasıl yapılacağı hakkında neler biliyorsun?";
 "post_get_started_button_text" = "Başla";
 "post_get_started_discard_text" = "Satmak istemiyorsan daha sonra kaldırabilirsin.";
 "post_get_started_intro_text" = "letgo'da satış yapmak çok kolay. Etrafına bak ve satmak istediğin şeyi yükle.";

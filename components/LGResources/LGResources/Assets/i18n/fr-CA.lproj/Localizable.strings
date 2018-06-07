@@ -220,7 +220,7 @@
 "chat_send_error_generic" = "Une erreur est survenue lors de l'envoi du message. Veuillez réessayer.";
 "chat_status_view_connecting" = "Connexion en cours...";
 "chat_status_view_no_network" = "Pas de connexion réseau";
-"chat_status_view_try_again" = "veuillez réessayer";
+"chat_status_view_try_again" = "Veuillez réessayer";
 "chat_status_view_unable_to_connect" = "Impossible de se connecter. Veuillez réessayer";
 "chat_stickers_tooltip_new" = "NOUVEAU !";
 "chat_unblock_user" = "Débloquer l'Utilisateur";
@@ -426,8 +426,8 @@
 "hidden_text_alert_description" = "Nous masquons les coordonnées pour vous aider à vendre et acheter en toute sécurité. Clavarder dans letgo est facile et plus sécuritaire.";
 "hidden_text_alert_title" = "SOYEZ PRUDENTS";
 "listing_map_redo_search" = "Chercher dans ce secteur";
-"listing_show_similar_results" = "Showing results for similar searches";
-"listing_show_similar_results_description" = "No exact matches for your search.\nMake sure it’s spelled correctly or use different keywords and filters.";
+"listing_show_similar_results" = "Afficher les résultats pour des recherches similaires";
+"listing_show_similar_results_description" = "Aucun résultat exact pour votre recherche.\nAssurez-vous que ce soit la bonne orthographe ou utilisez différents mots-clés et filtres.";
 "listings_map_no_results_message" = "Aucune réponse exacte à votre recherche. Essayez de chercher dans un autre secteur ou en utilisant d'autres filtres.";
 "listings_map_title" = "Vue de la carte";
 "location_permissions_allow_button" = "Autoriser";
@@ -491,8 +491,8 @@
 "meeting_creation_view_suggest_cell_select" = "Sélectionner";
 "meeting_creation_view_suggest_cell_selected" = "Sélectionné";
 "meeting_creation_view_title" = "Planifiez un rendez-vous";
-"ml_camera_in_about_days_text" = "en %.f jours environ";
-"ml_camera_in_more_than_days_text" = "en plus de %.f jours";
+"ml_camera_in_about_days_text" = "in about %d days";
+"ml_camera_in_more_than_days_text" = "in more than %d days";
 "ml_camera_sells_for_text" = "Généralement vendu pour %d$";
 "ml_category_text" = "Catégorie :";
 "ml_details_price_text" = "Prix :";
@@ -630,6 +630,15 @@
 "post_description_info_title" = "INFORMATIONS SUR L'ANNONCE";
 "post_description_name_placeholder" = "Nom";
 "post_description_save_button_text" = "Sauvegarder cette annonce !";
+"post_details_services_add_new" = "Add a new service";
+"post_details_services_congratulation_people_near" = "People around you are looking for these services, have these skills?";
+"post_details_services_congratulation_post_another" = "Publier une autre annonce";
+"post_details_services_congratulation_review" = "Review your listings and add more details";
+"post_details_services_congratulation_subtitle" = "Your listings have been posted.";
+"post_details_services_congratulation_title" = "Félicitations !";
+"post_details_services_search_placeholder" = "Search or choose from the list";
+"post_details_services_subtitle" = "Start making money!";
+"post_details_services_title" = "What do you know how to do?";
 "post_get_started_button_text" = "Commencez";
 "post_get_started_discard_text" = "Vous pouvez le retirer plus tard si vous ne voulez pas le vendre.";
 "post_get_started_intro_text" = "Découvrez comme il est facile de vendre sur letgo. Publiez quelque chose que vous avez à portée de main.";

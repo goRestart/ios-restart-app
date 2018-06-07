@@ -491,8 +491,8 @@
 "meeting_creation_view_suggest_cell_select" = "Select";
 "meeting_creation_view_suggest_cell_selected" = "Selected";
 "meeting_creation_view_title" = "Schedule a meeting";
-"ml_camera_in_about_days_text" = "in about %.f days";
-"ml_camera_in_more_than_days_text" = "in more than %.f days";
+"ml_camera_in_about_days_text" = "in about %d days";
+"ml_camera_in_more_than_days_text" = "in more than %d days";
 "ml_camera_sells_for_text" = "Typically sells for $%d";
 "ml_category_text" = "Category:";
 "ml_details_price_text" = "Price:";
@@ -630,6 +630,15 @@
 "post_description_info_title" = "LISTING INFORMATION";
 "post_description_name_placeholder" = "Name";
 "post_description_save_button_text" = "Save this listing!";
+"post_details_services_add_new" = "Add a new service";
+"post_details_services_congratulation_people_near" = "People around you are looking for these services, have these skills?";
+"post_details_services_congratulation_post_another" = "Post another listing";
+"post_details_services_congratulation_review" = "Review your listings and add more details";
+"post_details_services_congratulation_subtitle" = "Your listings have been posted.";
+"post_details_services_congratulation_title" = "Congratulations!";
+"post_details_services_search_placeholder" = "Search or choose from the list";
+"post_details_services_subtitle" = "Start making money!";
+"post_details_services_title" = "What do you know how to do?";
 "post_get_started_button_text" = "Get Started";
 "post_get_started_discard_text" = "You can discard it later if you don’t want to sell it.";
 "post_get_started_intro_text" = "See how easy it is to sell on letgo. Post something you’ve got nearby.";

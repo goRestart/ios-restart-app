@@ -331,11 +331,9 @@ final class PostListingCameraViewModel: BaseViewModel {
                 var medianDaysToSellString: String? = nil
                 if stats.medianDaysToSell > 0 {
                     if stats.medianDaysToSell > Constants.MachineLearning.maximumDaysToDisplay {
-                        medianDaysToSellString = String(format: R.Strings.mlCameraInMoreThanDaysText,
-                                                        Constants.MachineLearning.maximumDaysToDisplay)
+                        medianDaysToSellString = R.Strings.mlCameraInMoreThanDaysText(Int(Constants.MachineLearning.maximumDaysToDisplay.rounded()))
                     } else {
-                        medianDaysToSellString = String(format: R.Strings.mlCameraInAboutDaysText,
-                                                        stats.medianDaysToSell)
+                        medianDaysToSellString = R.Strings.mlCameraInAboutDaysText(Int(stats.medianDaysToSell.rounded()))
                     }
                 }
                 let allTexts = [nameString, avgPriceString, medianDaysToSellString]
