@@ -1205,8 +1205,10 @@ extension EmptySearchImprovements {
     static let minNumberOfListing = 20
     
     func shouldContinueWithSimilarQueries(withCurrentListing numListings: Int) -> Bool {
-        return numListings < EmptySearchImprovements.minNumberOfListing
+        let resultIsInsufficient = numListings < EmptySearchImprovements.minNumberOfListing
             && self == .similarQueriesWhenFewResults
+        let shouldAlwaysShowSimilar = self == .alwaysSimilar
+        return resultIsInsufficient || shouldAlwaysShowSimilar
     }
     
     var isActive: Bool {

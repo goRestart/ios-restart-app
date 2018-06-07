@@ -949,14 +949,10 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
     func visibleTopCellWithIndex(_ index: Int, whileScrollingDown scrollingDown: Bool) {
 
         // set title for cell at index if necessary
-        if featureFlags.emptySearchImprovements.isActive,
-            shouldHideCategoryAfterSearch,
-            let requesterType = activeRequesterType {
-            filterTitle.value = filterTitleString(forRequesterType: requesterType)
-        } else {
+        if !featureFlags.emptySearchImprovements.isActive {
             filterTitle.value = listViewModel.titleForIndex(index: index)
         }
-
+        
         guard let sortCriteria = filters.selectedOrdering else { return }
 
         switch (sortCriteria) {
@@ -1022,7 +1018,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         } else if let requesterType = activeRequesterType,
             featureFlags.emptySearchImprovements.isActive {
             
-            let isFirstRequesterInAlwaysSimilarCase = featureFlags.emptySearchImprovements == .alwaysSimilar && requesterType != .combinedSearchAndSimilar
+            let isFirstRequesterInAlwaysSimilarCase = featureFlags.emptySearchImprovements == .alwaysSimilar && requesterType == .nonFilteredFeed
             let isFirstRequesterInOtherCases = featureFlags.emptySearchImprovements != .alwaysSimilar && requesterType != .search
             if isFirstRequesterInAlwaysSimilarCase || isFirstRequesterInOtherCases {
                 shouldHideCategoryAfterSearch = true
@@ -1268,7 +1264,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         switch type {
         case .nonFilteredFeed:
             return R.Strings.productPopularNearYou
-        case .combinedSearchAndSimilar, .similarProducts:
+        case .similarProducts:
             return R.Strings.listingShowSimilarResults
         case .search: return nil
         }
@@ -1507,9 +1503,7 @@ extension MainListingsViewModel {
 
     var showCategoriesCollectionBanner: Bool {
         let userHasSearched = queryString != nil || hasFilters
-        if featureFlags.emptySearchImprovements.isActive && userHasSearched {
-            return !shouldHideCategoryAfterSearch
-        } else if isSearchAlertsEnabled && userHasSearched {
+        if (featureFlags.emptySearchImprovements.isActive || isSearchAlertsEnabled) && userHasSearched {
             return false
         } else {
             return primaryTags.isEmpty && !listViewModel.isListingListEmpty.value
