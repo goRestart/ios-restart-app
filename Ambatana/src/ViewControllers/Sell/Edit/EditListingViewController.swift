@@ -65,10 +65,12 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     @IBOutlet weak var setLocationTitleLabel: UILabel!
     @IBOutlet weak var setLocationLocationLabel: UILabel!
     @IBOutlet weak var setLocationButton: UIButton!
-
+    @IBOutlet weak var locationChevron: UIImageView!
+    
     @IBOutlet weak var categoryTitleLabel: UILabel!
     @IBOutlet weak var categorySelectedLabel: UILabel!
     @IBOutlet weak var categoryButton: UIButton!
+    @IBOutlet weak var categoryChevron: UIImageView!
     
     @IBOutlet weak var verticalFieldsContainer: UIView!
     @IBOutlet weak var verticalFieldsContainerConstraint: NSLayoutConstraint!
@@ -80,42 +82,52 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     @IBOutlet weak var carsMakeTitleLabel: UILabel!
     @IBOutlet weak var carsMakeSelectedLabel: UILabel!
     @IBOutlet weak var carsMakeButton: UIButton!
-
+    @IBOutlet weak var carsMakeChevron: UIImageView!
+    
     @IBOutlet weak var carsModelTitleLabel: UILabel!
     @IBOutlet weak var carsModelSelectedLabel: UILabel!
     @IBOutlet weak var carsModelButton: UIButton!
-
+    @IBOutlet weak var carsModelChevron: UIImageView!
+    
     @IBOutlet weak var carsYearTitleLabel: UILabel!
     @IBOutlet weak var carsYearSelectedLabel: UILabel!
     @IBOutlet weak var carsYearButton: UIButton!
+    @IBOutlet weak var carsYearChevron: UIImageView!
     
     @IBOutlet weak var realEstateStandardPropertyTypeTitleLabel: UILabel!
     @IBOutlet weak var realEstateStandardPropertyTypeSelectedLabel: UILabel!
     @IBOutlet weak var realEstateStandardPropertyTypeButton: UIButton!
+    @IBOutlet weak var realEstateStandardPropertyTypeChevron: UIImageView!
     
     @IBOutlet weak var realEstateStandardOfferTypeTitleLabel: UILabel!
     @IBOutlet weak var realEstateStandardOfferTypeSelectedLabel: UILabel!
     @IBOutlet weak var realEstateStandardOfferTypeButton: UIButton!
+    @IBOutlet weak var realEstateStandardOfferTypeChevron: UIImageView!
     
     @IBOutlet weak var realEstateStandardNumberOfBedroomsTitleLabel: UILabel!
     @IBOutlet weak var realEstateStandardNumberOfBedroomsSelectedLabel: UILabel!
     @IBOutlet weak var realEstateStandardNumberOfBedroomsButton: UIButton!
+    @IBOutlet weak var realEstateStandardNumberOfBedroomsChevron: UIImageView!
     
     @IBOutlet weak var realEstateStandardNumberOfBathroomsTitleLabel: UILabel!
     @IBOutlet weak var realEstateStandardNumberOfBathroomsSelectedLabel: UILabel!
     @IBOutlet weak var realEstateStandardNumberOfBathroomsButton: UIButton!
+    @IBOutlet weak var realEstateStandardNumberOfBathroomsChevron: UIImageView!
     
     @IBOutlet weak var realEstateTurkishPropertyTypeTitleLabel: UILabel!
     @IBOutlet weak var realEstateTurkishPropertyTypeSelectedLabel: UILabel!
     @IBOutlet weak var realEstateTurkishPropertyTypeButton: UIButton!
+    @IBOutlet weak var realEstateTurkishPropertyTypeChevron: UIImageView!
     
     @IBOutlet weak var realEstateTurkishOfferTypeTitleLabel: UILabel!
     @IBOutlet weak var realEstateTurkishOfferTypeSelectedLabel: UILabel!
     @IBOutlet weak var realEstateTurkishOfferTypeButton: UIButton!
+    @IBOutlet weak var realEstateTurkishOfferTypeChevron: UIImageView!
     
     @IBOutlet weak var realEstateTurkishNumberOfRoomsTitleLabel: UILabel!
     @IBOutlet weak var realEstateTurkishNumberOfRoomsSelectedLabel: UILabel!
     @IBOutlet weak var realEstateTurkishNumberOfRoomsButton: UIButton!
+    @IBOutlet weak var realEstateTurkishNumberOfRoomsChevron: UIImageView!
     
     @IBOutlet weak var realEstateTurkishSizeTitleLabel: UILabel!
     @IBOutlet weak var realEstateTurkishSizeTextField: LGTextField!
@@ -125,10 +137,12 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     @IBOutlet weak var serviceTypeTitleLabel: UILabel!
     @IBOutlet weak var serviceTypeValueLabel: UILabel!
     @IBOutlet weak var serviceTypeButton: UIButton!
-
+    @IBOutlet weak var serviceChevron: UIImageView!
+    
     @IBOutlet weak var serviceSubtypeTitleLabel: UILabel!
     @IBOutlet weak var serviceSubtypeValueLabel: UILabel!
     @IBOutlet weak var serviceSubtypeButton: UIButton!
+    @IBOutlet weak var serviceSubtypeChevron: UIImageView!
     
     @IBOutlet weak var sendButton: LetgoButton!
     @IBOutlet weak var shareFBSwitch: UISwitch!
@@ -471,7 +485,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     // MARK: - Private methods
 
     func setupUI() {
-
+        setupImages()
         setNavBarTitle(R.Strings.editProductTitle)
         let closeButton = UIBarButtonItem(image: R.Asset.IconsButtons.navbarClose.image, style: UIBarButtonItemStyle.plain,
                                           target: self, action: #selector(EditListingViewController.closeButtonPressed))
@@ -568,6 +582,24 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         
         // hide keyboard on tap
         hideKbTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(scrollViewTapped))
+    }
+    
+    private func setupImages() {
+        let chevron = R.Asset.IconsButtons.rightChevron.image
+        locationChevron.image = chevron
+        categoryChevron.image = chevron
+        carsMakeChevron.image = chevron
+        carsModelChevron.image = chevron
+        carsYearChevron.image = chevron
+        realEstateStandardPropertyTypeChevron.image = chevron
+        realEstateStandardOfferTypeChevron.image = chevron
+        realEstateStandardNumberOfBedroomsChevron.image = chevron
+        realEstateStandardNumberOfBathroomsChevron.image = chevron
+        realEstateTurkishPropertyTypeChevron.image = chevron
+        realEstateTurkishOfferTypeChevron.image = chevron
+        realEstateTurkishNumberOfRoomsChevron.image = chevron
+        serviceChevron.image = chevron
+        serviceSubtypeChevron.image = chevron
     }
 
     fileprivate func setupRxBindings() {
