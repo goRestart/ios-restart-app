@@ -47,6 +47,7 @@ extension UIFont {
     
     // Posting Flow
     static var postingFlowHeadline: UIFont { return systemBoldFont(size: 35) }
+    static var postingFlowHeadlineSubtitle: UIFont { return systemBoldFont(size: 20) }
     static var postingFlowBody: UIFont { return systemBoldFont(size: 27) }
     static var postingFlowSelectableItem: UIFont { return systemBoldFont(size: 23) }
 

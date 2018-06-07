@@ -12,6 +12,10 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         return step.title
     }
     
+    var subtitle: String? {
+        return step.subtitle
+    }
+    
     var buttonTitle: String {
         switch step {
         case .bathrooms, .bedrooms, .rooms, .offerType, .propertyType, .make, .model, .year:
@@ -109,7 +113,9 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         case .year, .make, .model:
             return nil
         case .servicesSubtypes:
-            let postServicesView = PostingMultiSelectionView()
+            // TODO: ABIOS-4290 update with all subtypes 
+            let serviceSubtypes = servicesInfoRepository.serviceSubtypes(forServiceTypeId: "c883a0d2-476c-47b0-b08f-9cb8c5c5ced2")
+            let postServicesView = PostingMultiSelectionView(theme: .light, subtypes: serviceSubtypes)
             return postServicesView
         }
         let view = PostingAttributePickerTableView(values: values, selectedIndexes: [], delegate: self)
@@ -150,6 +156,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     private let sizeListing = Variable<Int?>(nil)
     private let placeSelected = Variable<Place?>(nil)
     private let previousStepIsSummary: Bool
+    private let servicesInfoRepository: ServicesInfoRepository
     
     weak var navigator: PostListingNavigator?
     private let disposeBag = DisposeBag()
@@ -176,7 +183,8 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
                   featureFlags: FeatureFlags.sharedInstance,
                   myUserRepository: Core.myUserRepository,
                   sessionManager: Core.sessionManager,
-                  imageMultiplierRepository: Core.imageMultiplierRepository)
+                  imageMultiplierRepository: Core.imageMultiplierRepository,
+                  servicesInfoRepository: Core.servicesInfoRepository)
     }
     
     init(step: PostingDetailStep,
@@ -192,7 +200,9 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
          featureFlags: FeatureFlaggeable,
          myUserRepository: MyUserRepository,
          sessionManager: SessionManager,
-         imageMultiplierRepository: ImageMultiplierRepository) {
+         imageMultiplierRepository: ImageMultiplierRepository,
+         servicesInfoRepository: ServicesInfoRepository) {
+        
         self.step = step
         self.postListingState = postListingState
         self.uploadedImageSource = uploadedImageSource
@@ -207,6 +217,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         self.myUserRepository = myUserRepository
         self.sessionManager = sessionManager
         self.imageMultiplierRepository = imageMultiplierRepository
+        self.servicesInfoRepository = servicesInfoRepository
     }
     
     func closeButtonPressed() {
@@ -248,7 +259,8 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             }
 
             if featureFlags.showServicesFeatures.isActive && postListingState.category?.isService ?? false {
-                closeAndMultipostInBackground(params: [listingParams], trackingInfo: postListingTrackingInfo)
+                // TODO: update with new params ABIOS-4290
+                navigator?.closePostProductAndPostInBackground(params: listingParams, trackingInfo: postListingTrackingInfo)
             } else {
                 navigator?.closePostProductAndPostInBackground(params: listingParams, trackingInfo: postListingTrackingInfo)
             }

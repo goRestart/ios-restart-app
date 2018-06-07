@@ -318,12 +318,15 @@ extension R {
       public static let icChatFilterActive = ImageAsset(name: "ic_chat_filter_active")
       public static let icChatInfoDark = ImageAsset(name: "ic_chat_info_dark")
       public static let icCheckSent = ImageAsset(name: "ic_check_sent")
+      public static let icCheckbox = ImageAsset(name: "ic_checkbox")
+      public static let icCheckboxSelected = ImageAsset(name: "ic_checkbox_selected")
       public static let icCheckmark = ImageAsset(name: "ic_checkmark")
       public static let icChevronRight = ImageAsset(name: "ic_chevron_right")
       public static let icCirlePlus = ImageAsset(name: "ic_cirle_plus")
       public static let icClose = ImageAsset(name: "ic_close")
       public static let icCloseCarousel = ImageAsset(name: "ic_close_carousel")
       public static let icCloseDark = ImageAsset(name: "ic_close_dark")
+      public static let icCrossTags = ImageAsset(name: "ic_cross_tags")
       public static let icDeviceBlockedAlert = ImageAsset(name: "ic_device_blocked_alert")
       public static let icDisclosure = ImageAsset(name: "ic_disclosure")
       public static let icDisclosureChat = ImageAsset(name: "ic_disclosure_chat")
@@ -594,12 +597,15 @@ extension R {
         icChatFilterActive,
         icChatInfoDark,
         icCheckSent,
+        icCheckbox,
+        icCheckboxSelected,
         icCheckmark,
         icChevronRight,
         icCirlePlus,
         icClose,
         icCloseCarousel,
         icCloseDark,
+        icCrossTags,
         icDeviceBlockedAlert,
         icDisclosure,
         icDisclosureChat,

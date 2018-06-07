@@ -32,6 +32,7 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
         var myUserRepository: MockMyUserRepository!
         var sessionManager: MockSessionManager!
         var imageMultiplierRepository: MockImageMultiplierRepository!
+        var servicesInfoRepository: MockServicesInfoRepository!
         
         var postingDetailsStep: PostingDetailStep!
         var postListingState: PostListingState!
@@ -56,7 +57,8 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
                                               featureFlags: featureFlags,
                                               myUserRepository: myUserRepository,
                                               sessionManager: sessionManager,
-                                              imageMultiplierRepository: imageMultiplierRepository)
+                                              imageMultiplierRepository: imageMultiplierRepository,
+                                              servicesInfoRepository: servicesInfoRepository)
                 
                 sut.navigator = self
             }
@@ -70,6 +72,7 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
                 myUserRepository = MockMyUserRepository()
                 sessionManager = MockSessionManager()
                 imageMultiplierRepository = MockImageMultiplierRepository()
+                servicesInfoRepository = MockServicesInfoRepository()
                 
                 self.cancelPostingCalled = false
                 self.nextPostingDetailStepCalled = false
@@ -218,7 +221,6 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
 
 
 extension PostingDetailsViewModelSpec: PostListingNavigator {
-
 
     func startDetails(firstStep: PostingDetailStep, postListingState: PostListingState, uploadedImageSource: EventParameterPictureSource?, uploadedVideoLength: TimeInterval?, postingSource: PostingSource, postListingBasicInfo: PostListingBasicDetailViewModel) {
         // FIXME: No idea what to do here

@@ -43,7 +43,17 @@ enum PostingDetailStep {
         case .year:
             return R.Strings.postCategoryDetailCarYear
         case .servicesSubtypes:
-            return "Select your services"  // TODO: ABIOS-4184
+            return R.Strings.postDetailsServicesTitle
+        }
+    }
+    
+    var subtitle: String? {
+        switch self {
+        case .price, .propertyType, .offerType, .bedrooms, .rooms, .sizeSquareMeters, .bathrooms, .summary, .location ,
+             .make, .model, .year:
+            return nil
+        case .servicesSubtypes:
+            return R.Strings.postDetailsServicesSubtitle
         }
     }
     
