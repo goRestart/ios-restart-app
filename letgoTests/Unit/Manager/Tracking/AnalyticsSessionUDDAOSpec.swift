@@ -12,6 +12,9 @@ class AnalyticsSessionUDDAOSpec: QuickSpec {
                 userDefaults = UserDefaults.standard
                 sut = AnalyticsSessionUDDAO(userDefaults: userDefaults)
             }
+            afterEach {
+                userDefaults.remove(AnalyticsSessionUDDAO.UserDefaultsKey)
+            }
 
             describe("retrieve") {
                 context("with no previously saved session") {
@@ -44,9 +47,6 @@ class AnalyticsSessionUDDAOSpec: QuickSpec {
                     let sessionData = AnalyticsSessionData.make(visitStartDate: Date.makeRandom(),
                                                                 visitEndDate: Date.makeRandom())
                     sut.save(sessionData: sessionData)
-                }
-                afterEach {
-                    userDefaults.remove(AnalyticsSessionUDDAO.UserDefaultsKey)
                 }
 
                 it("stores a dictionary in user defaults") {
