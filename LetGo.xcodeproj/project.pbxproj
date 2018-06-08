@@ -601,8 +601,8 @@
 		427FCCD020C946D300E652ED /* UITableView+ReusableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427FCCCE20C946D300E652ED /* UITableView+ReusableCell.swift */; };
 		4281991520C14F6B00FF89D5 /* PostingMultiSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4281991420C14F6B00FF89D5 /* PostingMultiSelectionView.swift */; };
 		4281991620C14F6B00FF89D5 /* PostingMultiSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4281991420C14F6B00FF89D5 /* PostingMultiSelectionView.swift */; };
-		4281991820C18EEB00FF89D5 /* MultiPostedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4281991720C18EEB00FF89D5 /* MultiPostedViewController.swift */; };
-		4281991920C18EEB00FF89D5 /* MultiPostedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4281991720C18EEB00FF89D5 /* MultiPostedViewController.swift */; };
+		4281991820C18EEB00FF89D5 /* MultiListingPostedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4281991720C18EEB00FF89D5 /* MultiListingPostedViewController.swift */; };
+		4281991920C18EEB00FF89D5 /* MultiListingPostedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4281991720C18EEB00FF89D5 /* MultiListingPostedViewController.swift */; };
 		4287173D20655B0600EE334C /* LGNavBarMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4287173C20655B0600EE334C /* LGNavBarMetrics.swift */; };
 		4287173E20655DB500EE334C /* LGNavBarMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4287173C20655B0600EE334C /* LGNavBarMetrics.swift */; };
 		42B7029A20A595840031B9BD /* LGRibbonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B7029920A595840031B9BD /* LGRibbonView.swift */; };
@@ -1366,6 +1366,8 @@
 		C2E85E8920736B9A0009F3B0 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29F01812067A03E00A43E2F /* Camera.swift */; };
 		C2E9ACEB207B64C00054B246 /* VPPostListingRedCamFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E9ACEA207B64C00054B246 /* VPPostListingRedCamFooter.swift */; };
 		C2E9ACEC207B64C00054B246 /* VPPostListingRedCamFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E9ACEA207B64C00054B246 /* VPPostListingRedCamFooter.swift */; };
+		C611B06A20C92A0700D7DD89 /* MultiListingPostedStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C611B06920C92A0700D7DD89 /* MultiListingPostedStatus.swift */; };
+		C611B06B20C92A0700D7DD89 /* MultiListingPostedStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C611B06920C92A0700D7DD89 /* MultiListingPostedStatus.swift */; };
 		C613D0F220BFF3F100344CF2 /* LGPickerSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C613D0F120BFF3F100344CF2 /* LGPickerSearchBar.swift */; };
 		C613D0F320BFF3F600344CF2 /* LGPickerSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C613D0F120BFF3F100344CF2 /* LGPickerSearchBar.swift */; };
 		C627573220A3436900B401E7 /* OrderCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C627573120A3436900B401E7 /* OrderCondition.swift */; };
@@ -1374,6 +1376,18 @@
 		C627573620A3439C00B401E7 /* OrderConditionable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C627573420A3439C00B401E7 /* OrderConditionable.swift */; };
 		C627573920A3494E00B401E7 /* OrderConditionableSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C627573820A3494E00B401E7 /* OrderConditionableSpec.swift */; };
 		C627573C20A349F000B401E7 /* MockOrderConditionable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C627573B20A349F000B401E7 /* MockOrderConditionable.swift */; };
+		C650DEA220C595A500D47C4A /* MultiListingPostedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C650DEA120C595A500D47C4A /* MultiListingPostedViewModel.swift */; };
+		C650DEA320C595A500D47C4A /* MultiListingPostedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C650DEA120C595A500D47C4A /* MultiListingPostedViewModel.swift */; };
+		C6687F3320C80D70008C1922 /* MultiListingPostedHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6687F3220C80D70008C1922 /* MultiListingPostedHeaderCell.swift */; };
+		C6687F3420C80D70008C1922 /* MultiListingPostedHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6687F3220C80D70008C1922 /* MultiListingPostedHeaderCell.swift */; };
+		C6687F3620C820BF008C1922 /* MultiListingPostedCongratsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6687F3520C820BF008C1922 /* MultiListingPostedCongratsCell.swift */; };
+		C6687F3720C820BF008C1922 /* MultiListingPostedCongratsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6687F3520C820BF008C1922 /* MultiListingPostedCongratsCell.swift */; };
+		C6687F3A20C83A2C008C1922 /* MultiListingPostedIncentivisorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6687F3920C83A2C008C1922 /* MultiListingPostedIncentivisorCell.swift */; };
+		C6687F3B20C83A2C008C1922 /* MultiListingPostedIncentivisorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6687F3920C83A2C008C1922 /* MultiListingPostedIncentivisorCell.swift */; };
+		C6C8936D20C6E8B70069197C /* MultiListingPostedListingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C8936C20C6E8B70069197C /* MultiListingPostedListingCell.swift */; };
+		C6C8936E20C6E8B70069197C /* MultiListingPostedListingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C8936C20C6E8B70069197C /* MultiListingPostedListingCell.swift */; };
+		C6C8937020C7D4B80069197C /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C8936F20C7D4B80069197C /* CardView.swift */; };
+		C6C8937120C7D4B80069197C /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C8936F20C7D4B80069197C /* CardView.swift */; };
 		C6D5FF1A20B6B0A50045E3D3 /* ServicesInfo.json in Resources */ = {isa = PBXBuildFile; fileRef = C6D5FF1920B6B0A50045E3D3 /* ServicesInfo.json */; };
 		C6D5FF1B20B6B0AC0045E3D3 /* ServicesInfo.json in Resources */ = {isa = PBXBuildFile; fileRef = C6D5FF1920B6B0A50045E3D3 /* ServicesInfo.json */; };
 		C6E7709020972B73002CFA99 /* FeedSectionMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E7708F20972B73002CFA99 /* FeedSectionMap.swift */; };
@@ -2380,7 +2394,7 @@
 		427CAB89206A827300112D58 /* TrendingSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingSearchView.swift; sourceTree = "<group>"; };
 		427FCCCE20C946D300E652ED /* UITableView+ReusableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+ReusableCell.swift"; sourceTree = "<group>"; };
 		4281991420C14F6B00FF89D5 /* PostingMultiSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostingMultiSelectionView.swift; sourceTree = "<group>"; };
-		4281991720C18EEB00FF89D5 /* MultiPostedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiPostedViewController.swift; sourceTree = "<group>"; };
+		4281991720C18EEB00FF89D5 /* MultiListingPostedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiListingPostedViewController.swift; sourceTree = "<group>"; };
 		4287173C20655B0600EE334C /* LGNavBarMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGNavBarMetrics.swift; sourceTree = "<group>"; };
 		428846C02080B76300011D27 /* LGCollapsibleLabel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = LGCollapsibleLabel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		42B7029920A595840031B9BD /* LGRibbonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGRibbonView.swift; sourceTree = "<group>"; };
@@ -2857,11 +2871,18 @@
 		C29F712A209076F800362F76 /* LGFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGFileManager.swift; sourceTree = "<group>"; };
 		C2DC548320A3343E0052EB12 /* AppEventsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEventsManager.swift; sourceTree = "<group>"; };
 		C2E9ACEA207B64C00054B246 /* VPPostListingRedCamFooter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VPPostListingRedCamFooter.swift; sourceTree = "<group>"; };
+		C611B06920C92A0700D7DD89 /* MultiListingPostedStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiListingPostedStatus.swift; sourceTree = "<group>"; };
 		C613D0F120BFF3F100344CF2 /* LGPickerSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGPickerSearchBar.swift; sourceTree = "<group>"; };
 		C627573120A3436900B401E7 /* OrderCondition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCondition.swift; sourceTree = "<group>"; };
 		C627573420A3439C00B401E7 /* OrderConditionable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderConditionable.swift; sourceTree = "<group>"; };
 		C627573820A3494E00B401E7 /* OrderConditionableSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderConditionableSpec.swift; sourceTree = "<group>"; };
 		C627573B20A349F000B401E7 /* MockOrderConditionable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockOrderConditionable.swift; sourceTree = "<group>"; };
+		C650DEA120C595A500D47C4A /* MultiListingPostedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiListingPostedViewModel.swift; sourceTree = "<group>"; };
+		C6687F3220C80D70008C1922 /* MultiListingPostedHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiListingPostedHeaderCell.swift; sourceTree = "<group>"; };
+		C6687F3520C820BF008C1922 /* MultiListingPostedCongratsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiListingPostedCongratsCell.swift; sourceTree = "<group>"; };
+		C6687F3920C83A2C008C1922 /* MultiListingPostedIncentivisorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiListingPostedIncentivisorCell.swift; sourceTree = "<group>"; };
+		C6C8936C20C6E8B70069197C /* MultiListingPostedListingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiListingPostedListingCell.swift; sourceTree = "<group>"; };
+		C6C8936F20C7D4B80069197C /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		C6D5FF1920B6B0A50045E3D3 /* ServicesInfo.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ServicesInfo.json; sourceTree = "<group>"; };
 		C6E7708F20972B73002CFA99 /* FeedSectionMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedSectionMap.swift; sourceTree = "<group>"; };
 		C6E7709220976156002CFA99 /* PushPermissionsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushPermissionsPresenter.swift; sourceTree = "<group>"; };
@@ -4095,6 +4116,7 @@
 				F5D212B41FF53F4C00B31593 /* ProgressView.swift */,
 				6A3F3B9A20AD81A000E2881F /* LetgoTooltip.swift */,
 				42B7029920A595840031B9BD /* LGRibbonView.swift */,
+				C6C8936F20C7D4B80069197C /* CardView.swift */,
 				C613D0F120BFF3F100344CF2 /* LGPickerSearchBar.swift */,
 			);
 			path = Widgets;
@@ -5279,6 +5301,28 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
+		C650DEA420C595AD00D47C4A /* MultiListingPostedViewController */ = {
+			isa = PBXGroup;
+			children = (
+				4281991720C18EEB00FF89D5 /* MultiListingPostedViewController.swift */,
+				C650DEA120C595A500D47C4A /* MultiListingPostedViewModel.swift */,
+				C611B06920C92A0700D7DD89 /* MultiListingPostedStatus.swift */,
+				C6687F3820C820C4008C1922 /* Cells */,
+			);
+			path = MultiListingPostedViewController;
+			sourceTree = "<group>";
+		};
+		C6687F3820C820C4008C1922 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				C6C8936C20C6E8B70069197C /* MultiListingPostedListingCell.swift */,
+				C6687F3220C80D70008C1922 /* MultiListingPostedHeaderCell.swift */,
+				C6687F3520C820BF008C1922 /* MultiListingPostedCongratsCell.swift */,
+				C6687F3920C83A2C008C1922 /* MultiListingPostedIncentivisorCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		C6E770982099B12D002CFA99 /* PushPermissions */ = {
 			isa = PBXGroup;
 			children = (
@@ -5794,7 +5838,7 @@
 				C7DE8AAD1C888750005CF37E /* ListingPostedViewController.swift */,
 				C7DE8AAE1C888750005CF37E /* ListingPostedViewController.xib */,
 				C7DE8AAF1C888750005CF37E /* ListingPostedViewModel.swift */,
-				4281991720C18EEB00FF89D5 /* MultiPostedViewController.swift */,
+				C650DEA420C595AD00D47C4A /* MultiListingPostedViewController */,
 			);
 			name = Post;
 			path = Sell/Post;
@@ -7587,6 +7631,7 @@
 				0AC489461F9DE31400CD6C53 /* ListingDeckCollectionViewLayout.swift in Sources */,
 				2EBC92151E0ABC73007F0F82 /* PurchaseableProductsResponse.swift in Sources */,
 				2E4ADEC5200515FC00D07D8A /* FeaturedInfoViewController.swift in Sources */,
+				C6687F3620C820BF008C1922 /* MultiListingPostedCongratsCell.swift in Sources */,
 				2E2A5E121D5C784B0047ED45 /* ExpressChatCoordinator.swift in Sources */,
 				42F64F7F20AAE99900CF97AD /* ListingFilters+LG.swift in Sources */,
 				C6E7709320976156002CFA99 /* PushPermissionsPresenter.swift in Sources */,
@@ -7607,6 +7652,7 @@
 				C7111EFF1CA4389C000C5C5A /* PushNotification.swift in Sources */,
 				C7B5885F1CE1DE1C009B3975 /* RelationInfoView.swift in Sources */,
 				C749C78D1C10830600F7118E /* CellDrawer.swift in Sources */,
+				C6C8936D20C6E8B70069197C /* MultiListingPostedListingCell.swift in Sources */,
 				421CB34B207BBE5E006BF8A4 /* Collection+Safe.swift in Sources */,
 				8E0EEFBC2056E2AA000C07C9 /* MLPostingOnboardingView.swift in Sources */,
 				6A879D9F1C8D89A400E0C868 /* PushPrePermissionsSettingsViewController.swift in Sources */,
@@ -7687,6 +7733,7 @@
 				C743FEB71E44E46000B4E912 /* PossibleBuyerCell.swift in Sources */,
 				4273565120A2E9C200C71D49 /* LGMapAnnotation.swift in Sources */,
 				6A0D7340204D612500892663 /* EditUserBioViewController.swift in Sources */,
+				C650DEA220C595A500D47C4A /* MultiListingPostedViewModel.swift in Sources */,
 				50F0BAA91B28938D00E50A68 /* MainSignUpViewController.swift in Sources */,
 				2E151D7320A49BB20038D7C7 /* ChatBlockedUsersViewController.swift in Sources */,
 				C73832801E029CC2007D0C03 /* AccountProvider+LG.swift in Sources */,
@@ -7719,6 +7766,7 @@
 				C7E590321E5EC9F1002921B2 /* MultiPageRequester.swift in Sources */,
 				F5DC45242088889100D1EC17 /* KenBurnsView.swift in Sources */,
 				6A5E19DC1D548F5400F92692 /* ExternalServiceAuthResult.swift in Sources */,
+				C6C8937020C7D4B80069197C /* CardView.swift in Sources */,
 				2EB32D631DF184FF00E01E93 /* BumpUpBanner.swift in Sources */,
 				C7239A1A1C158139006CB5A6 /* Listing+Negotiable.swift in Sources */,
 				C73C163B1D06C1B500DFC67D /* SuggestionSearchCell.swift in Sources */,
@@ -7799,7 +7847,7 @@
 				55FABE132076288D004B0DBD /* UserPhoneVerificationNavigator.swift in Sources */,
 				3221E537206061630006B12B /* DiscardedView.swift in Sources */,
 				55DFCDDC2073791C00AC5E09 /* UserPhoneVerificationNumberInputViewModel.swift in Sources */,
-				4281991820C18EEB00FF89D5 /* MultiPostedViewController.swift in Sources */,
+				4281991820C18EEB00FF89D5 /* MultiListingPostedViewController.swift in Sources */,
 				C74016D91D6467C9004C1E9D /* PostListingDetailPriceView.swift in Sources */,
 				01A171C0208DD1B900C98D4C /* SearchAlertsListViewModel.swift in Sources */,
 				50146BD31D4F5FC700B0F635 /* ProfileTabCoordinator.swift in Sources */,
@@ -7848,6 +7896,7 @@
 				C75018481D10681B007D4CE4 /* ChatOtherInfoCell.swift in Sources */,
 				2EBAA2421EB9E1D000F69DC7 /* CarAttributes+GeneratedName.swift in Sources */,
 				6A6C756B207B7F0000845A88 /* UserVerificationEmailViewController.swift in Sources */,
+				C6687F3A20C83A2C008C1922 /* MultiListingPostedIncentivisorCell.swift in Sources */,
 				502191101B2F1DC100ABD31F /* RememberPasswordViewModel.swift in Sources */,
 				F5A836AB1FD1AE32009E636D /* ListingAttributePickerViewController.swift in Sources */,
 				72C99E9C1DED7417006361C1 /* ChangePasswordCoordinator.swift in Sources */,
@@ -7922,11 +7971,13 @@
 				01920C892010E27F00B73875 /* MostSearchedItemsNavigator.swift in Sources */,
 				C7B588871CE1DFA6009B3975 /* ChatBubbleCell.swift in Sources */,
 				2EE47D2E2017812D004B04EE /* ChatAskPhoneNumberCellDrawer.swift in Sources */,
+				C611B06A20C92A0700D7DD89 /* MultiListingPostedStatus.swift in Sources */,
 				326C730A20908148009D21DB /* CategoriesFeedHeaderCell.swift in Sources */,
 				F57D3A271FECFD2D006F2CA4 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
 				72854D101F8515BB00E54530 /* PostingDetailsViewController.swift in Sources */,
 				6A5E19F01D548F5400F92692 /* String+LG.swift in Sources */,
 				01A171C3208DE5B800C98D4C /* SearchAlertSwitchCell.swift in Sources */,
+				C6687F3320C80D70008C1922 /* MultiListingPostedHeaderCell.swift in Sources */,
 				721A83111E827FD300507E47 /* MediaPermissions.swift in Sources */,
 				2E4DE8D9206422970016D5A8 /* BoostSuccessAlertView.swift in Sources */,
 				D4912A831B08E12C00DACD5A /* UIImage+Tint.swift in Sources */,
@@ -8409,6 +8460,7 @@
 				F56651F2203C886C00B43DD7 /* DiscardedReason+LG.swift in Sources */,
 				32D85F4F209356580080D143 /* FilterTagFeedHeaderCell.swift in Sources */,
 				C7DB41EB1C5138B500400945 /* SignUpViewModel.swift in Sources */,
+				C6687F3720C820BF008C1922 /* MultiListingPostedCongratsCell.swift in Sources */,
 				0AC489471F9DE41A00CD6C53 /* ListingDeckCollectionViewLayout.swift in Sources */,
 				42F64F8020AAE99900CF97AD /* ListingFilters+LG.swift in Sources */,
 				C7732F731D883C7700EAD5B7 /* OnboardingCoordinator.swift in Sources */,
@@ -8429,6 +8481,7 @@
 				2EBC92131E0ABC4A007F0F82 /* PurchaseableProduct.swift in Sources */,
 				C7E73E8E1CD20A49000F2591 /* ViewState.swift in Sources */,
 				421CB34C207BBE5E006BF8A4 /* Collection+Safe.swift in Sources */,
+				C6C8936E20C6E8B70069197C /* MultiListingPostedListingCell.swift in Sources */,
 				C7DB41F31C5138B500400945 /* BaseCellDrawer.swift in Sources */,
 				C7111F001CA4389C000C5C5A /* PushNotification.swift in Sources */,
 				2E9716A71D5A2840009B3A32 /* ExpressChatViewModel.swift in Sources */,
@@ -8509,6 +8562,7 @@
 				0A6E56AF1F8E241000419DDC /* RelatedListingsViewModel.swift in Sources */,
 				4273565220A2E9C200C71D49 /* LGMapAnnotation.swift in Sources */,
 				F5DC45252088889100D1EC17 /* KenBurnsView.swift in Sources */,
+				C650DEA320C595A500D47C4A /* MultiListingPostedViewModel.swift in Sources */,
 				01772B60204F0F340037FD5F /* BlockingPostingStepHeaderView.swift in Sources */,
 				2E151D7420A49BB20038D7C7 /* ChatBlockedUsersViewController.swift in Sources */,
 				C7111F091CA4458F000C5C5A /* ShortcutItem.swift in Sources */,
@@ -8541,6 +8595,7 @@
 				721383FF1F20B224006DB039 /* TaxonomiesViewModel.swift in Sources */,
 				72769A682008CA5B00A7E627 /* RealEstateBanner.swift in Sources */,
 				C7E590331E5EC9F1002921B2 /* MultiPageRequester.swift in Sources */,
+				C6C8937120C7D4B80069197C /* CardView.swift in Sources */,
 				C7F3F1E21DE5A95F00652447 /* ChatRelatedListingsView.swift in Sources */,
 				507F1BFC1C89DDF9001F0A95 /* PostalAddress+String.swift in Sources */,
 				6A5E19DD1D548F5400F92692 /* ExternalServiceAuthResult.swift in Sources */,
@@ -8621,7 +8676,7 @@
 				50146BD41D4F5FC700B0F635 /* ProfileTabCoordinator.swift in Sources */,
 				C74016DA1D6467C9004C1E9D /* PostListingDetailPriceView.swift in Sources */,
 				C743FEAE1E449EA600B4E912 /* RateBuyersViewController.swift in Sources */,
-				4281991920C18EEB00FF89D5 /* MultiPostedViewController.swift in Sources */,
+				4281991920C18EEB00FF89D5 /* MultiListingPostedViewController.swift in Sources */,
 				0AB6E1D81F9DD4440048AFFD /* ListingDeckView.swift in Sources */,
 				42059D12207E31DF00083438 /* FilterCarSection.swift in Sources */,
 				2E8097F0206660FC00E19FC0 /* MeetingSafetyTipsViewController.swift in Sources */,
@@ -8670,6 +8725,7 @@
 				504E61FC1C872E2400EBF38F /* Debug.swift in Sources */,
 				6A6C756C207B7F0000845A88 /* UserVerificationEmailViewController.swift in Sources */,
 				2EBAA2431EB9E1D000F69DC7 /* CarAttributes+GeneratedName.swift in Sources */,
+				C6687F3B20C83A2C008C1922 /* MultiListingPostedIncentivisorCell.swift in Sources */,
 				2E9716AF1D5B2C59009B3A32 /* ChatWrapper.swift in Sources */,
 				C75018491D10681B007D4CE4 /* ChatOtherInfoCell.swift in Sources */,
 				F5A836AE1FD1BA11009E636D /* ListingAttributePickerViewController.swift in Sources */,
@@ -8744,11 +8800,13 @@
 				727EF06D1E0BE16D0037DA4E /* CountryCode.swift in Sources */,
 				01920C8A2010E27F00B73875 /* MostSearchedItemsNavigator.swift in Sources */,
 				C72794411D549342009C25AB /* ChangeUsernameViewModel.swift in Sources */,
+				C611B06B20C92A0700D7DD89 /* MultiListingPostedStatus.swift in Sources */,
 				0183BB19203C71D400204383 /* ListingPostedDescriptiveViewModel.swift in Sources */,
 				326C730B20908148009D21DB /* CategoriesFeedHeaderCell.swift in Sources */,
 				C7DB42201C5138B500400945 /* BaseViewModel.swift in Sources */,
 				427CAB86206A7D5600112D58 /* InfoBubbleView.swift in Sources */,
 				72854D111F8515BB00E54530 /* PostingDetailsViewController.swift in Sources */,
+				C6687F3420C80D70008C1922 /* MultiListingPostedHeaderCell.swift in Sources */,
 				6A5E1A1B1D548F5400F92692 /* UIViewController+Alert.swift in Sources */,
 				2EE47D2F2017812D004B04EE /* ChatAskPhoneNumberCellDrawer.swift in Sources */,
 				721A83121E827FD300507E47 /* MediaPermissions.swift in Sources */,

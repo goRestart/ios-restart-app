@@ -17,6 +17,11 @@ enum PostIncentiviserItem: Int {
         guard pack == 0 else { return [.motorcycle, .dresser, .car] }
         return [.ps4, .tv, .bike]
     }
+    
+    static func servicesIncentiviserPack() -> [PostIncentiviserItem] {
+        // FIXME: update when images available from design
+        return [.tv, .dresser, .furniture]
+    }
 
     var name: String {
         switch self {

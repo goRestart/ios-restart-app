@@ -106,7 +106,8 @@ final class ListingPostedViewController: BaseViewController, ListingPostedViewMo
         editButton.setTitle(R.Strings.productPostConfirmationEdit, for: .normal)
         loadingIndicator.color = UIColor.primaryColor
 
-        guard let postIncentivatorView = PostIncentivatorView.postIncentivatorView(viewModel.wasFreePosting) else { return }
+        guard let postIncentivatorView = PostIncentivatorView.postIncentivatorView(viewModel.wasFreePosting,
+                                                                                   isServicesListing: false) else { return }
         incentiveContainer.addSubview(postIncentivatorView)
         let views: [String : Any] = ["postIncentivatorView": postIncentivatorView]
         incentiveContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[postIncentivatorView]|",

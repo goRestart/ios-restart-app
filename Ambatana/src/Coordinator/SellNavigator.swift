@@ -11,6 +11,7 @@ import Foundation
 
 protocol PostListingNavigator: class {
     func cancelPostListing()
+    
     func startDetails(firstStep: PostingDetailStep,
                       postListingState: PostListingState,
                       uploadedImageSource: EventParameterPictureSource?,
@@ -43,11 +44,16 @@ protocol PostListingNavigator: class {
                                   origin: EventParameterTypePage,
                                   tutorialType: EventParameterTutorialType)
 }
+
 protocol ListingPostedNavigator: class {
     func cancelListingPosted()
     func closeListingPosted(_ listing: Listing)
     func closeListingPostedAndOpenEdit(_ listing: Listing)
     func closeProductPostedAndOpenPost()
+}
+
+protocol MultiListingPostedNavigator: ListingPostedNavigator {
+    func closeListingsPosted(_ listings: [Listing])
 }
 
 protocol BlockingPostingNavigator: class {

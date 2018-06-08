@@ -491,8 +491,8 @@
 "meeting_creation_view_suggest_cell_select" = "Selecteer";
 "meeting_creation_view_suggest_cell_selected" = "Geselecteerd";
 "meeting_creation_view_title" = "Plan een afspraak";
-"ml_camera_in_about_days_text" = "in about %d days";
-"ml_camera_in_more_than_days_text" = "in more than %d days";
+"ml_camera_in_about_days_text" = "over ongeveer %d dagen";
+"ml_camera_in_more_than_days_text" = "over meer dan %d dagen";
 "ml_camera_sells_for_text" = "Verkoopt gewoonlijk voor €%d";
 "ml_category_text" = "Categorie:";
 "ml_details_price_text" = "Prijs:";
@@ -630,7 +630,7 @@
 "post_description_info_title" = "ADVERTENTIE INFORMATIE";
 "post_description_name_placeholder" = "Naam";
 "post_description_save_button_text" = "Bewaar deze advertentie!";
-"post_details_services_add_new" = "Add a new service";
+"post_details_services_add_new" = "Voeg een nieuwe dienst toe";
 "post_details_services_congratulation_people_near" = "Mensen om je heen zijn op zoek naar deze diensten, heb jij deze vaardigheden?";
 "post_details_services_congratulation_post_another" = "Plaats nog een advertentie";
 "post_details_services_congratulation_review" = "Controleer je advertenties en voeg meer details toe";
@@ -782,8 +782,10 @@
 "product_post_incentive_furniture" = "Meubels";
 "product_post_incentive_got_any" = "heb jij er te koop staan?";
 "product_post_incentive_got_any_free" = "Iets om weg te geven?";
+"product_post_incentive_got_any_services" = "have these skills?";
 "product_post_incentive_kids_clothes" = "Kinderkleding";
 "product_post_incentive_looking_for" = "Mensen in jouw buurt zijn op zoek naar deze items, %@";
+"product_post_incentive_looking_for_services" = "People around you are looking for these services, %@";
 "product_post_incentive_motorcycle" = "Motorfietsen";
 "product_post_incentive_ps4" = "PS4's";
 "product_post_incentive_subtitle" = "Jouw advertentie is geplaatst.";

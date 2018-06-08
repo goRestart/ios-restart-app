@@ -377,6 +377,7 @@ class PostListingViewModel: BaseViewModel {
     }
     
     func closeButtonPressed() {
+        
         if state.value.pendingToUploadMedia {
             openPostAbandonAlertNotLoggedIn()
         } else {
