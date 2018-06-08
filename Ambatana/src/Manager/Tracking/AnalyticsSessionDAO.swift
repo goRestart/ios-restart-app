@@ -31,7 +31,7 @@ final class AnalyticsSessionUDDAO: AnalyticsSessionDAO {
 
     func save(sessionData: AnalyticsSessionData) {
         self.sessionData = sessionData
-        let dict: [String: Any] = sessionData.encode()
+        let dict = sessionData.encode()
         userDefaults.setValue(dict, forKey: AnalyticsSessionUDDAO.UserDefaultsKey)
     }
 }
