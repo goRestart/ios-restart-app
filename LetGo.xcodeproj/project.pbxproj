@@ -1603,8 +1603,6 @@
 		C783D9821C64BBA1000EE5CA /* ReportUsersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C783D9801C64BBA1000EE5CA /* ReportUsersViewModel.swift */; };
 		C783D9891C64C15B000EE5CA /* ReportUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C783D9871C64C15B000EE5CA /* ReportUserCell.swift */; };
 		C783D98A1C64C15B000EE5CA /* ReportUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C783D9871C64C15B000EE5CA /* ReportUserCell.swift */; };
-		C783D98B1C64C15B000EE5CA /* ReportUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C783D9881C64C15B000EE5CA /* ReportUserCell.xib */; };
-		C783D98C1C64C15B000EE5CA /* ReportUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C783D9881C64C15B000EE5CA /* ReportUserCell.xib */; };
 		C783D98E1C650F38000EE5CA /* ReportUserCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C783D98D1C650F38000EE5CA /* ReportUserCellDrawer.swift */; };
 		C783D98F1C650F38000EE5CA /* ReportUserCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C783D98D1C650F38000EE5CA /* ReportUserCellDrawer.swift */; };
 		C7841AF41E07DFFA004A8242 /* UIView+Rating.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7841AF31E07DFFA004A8242 /* UIView+Rating.swift */; };
@@ -2992,7 +2990,6 @@
 		C783D97B1C64BB90000EE5CA /* ReportUsersViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReportUsersViewController.xib; sourceTree = "<group>"; };
 		C783D9801C64BBA1000EE5CA /* ReportUsersViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportUsersViewModel.swift; sourceTree = "<group>"; };
 		C783D9871C64C15B000EE5CA /* ReportUserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportUserCell.swift; sourceTree = "<group>"; };
-		C783D9881C64C15B000EE5CA /* ReportUserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReportUserCell.xib; sourceTree = "<group>"; };
 		C783D98D1C650F38000EE5CA /* ReportUserCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportUserCellDrawer.swift; sourceTree = "<group>"; };
 		C7841AF31E07DFFA004A8242 /* UIView+Rating.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Rating.swift"; sourceTree = "<group>"; };
 		C78448DC1BD5196E00C76199 /* LetGo.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = LetGo.entitlements; sourceTree = "<group>"; };
@@ -5567,7 +5564,6 @@
 			isa = PBXGroup;
 			children = (
 				C783D9871C64C15B000EE5CA /* ReportUserCell.swift */,
-				C783D9881C64C15B000EE5CA /* ReportUserCell.xib */,
 				C783D98D1C650F38000EE5CA /* ReportUserCellDrawer.swift */,
 			);
 			path = Cells;
@@ -6362,7 +6358,6 @@
 				2E9A899520A048D4009F6BB7 /* ChatOtherMeetingCell.xib in Resources */,
 				C75B5DC31D59E09500112368 /* ListingCarouselViewController.xib in Resources */,
 				2E9716A41D5A0535009B3A32 /* ExpressChatCell.xib in Resources */,
-				C783D98B1C64C15B000EE5CA /* ReportUserCell.xib in Resources */,
 				508011211D474ED80073F362 /* iPhoneParts.xcassets in Resources */,
 				C743FEB91E44E46000B4E912 /* PossibleBuyerCell.xib in Resources */,
 				C7B5888B1CE1DFA6009B3975 /* ChatMyMessageCell.xib in Resources */,
@@ -6483,7 +6478,6 @@
 				508011011D4748120073F362 /* SettingsViewController.xib in Resources */,
 				C7B588621CE1DE1C009B3975 /* RelationInfoView.xib in Resources */,
 				C75B5DC41D59E09500112368 /* ListingCarouselViewController.xib in Resources */,
-				C783D98C1C64C15B000EE5CA /* ReportUserCell.xib in Resources */,
 				508011221D474ED80073F362 /* iPhoneParts.xcassets in Resources */,
 				C743FEBA1E44E46000B4E912 /* PossibleBuyerCell.xib in Resources */,
 				C7B5888C1CE1DFA6009B3975 /* ChatMyMessageCell.xib in Resources */,
