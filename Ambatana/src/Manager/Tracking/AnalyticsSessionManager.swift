@@ -47,40 +47,6 @@ class LGAnalyticsSessionManager: AnalyticsSessionManager {
         }
     }
 
-    private func startSession(visitStartDate: Date) {
-        self.visitStartDate = visitStartDate
-        scheduleTimer(timeout: sessionThreshold)
-    }
-
-    @objc private func sessionDidReachThreshold() {
-        sessionThresholdReachedCompletion?()
-    }
-
-
-    private func resumeSession(sessionData: AnalyticsSessionData,
-                               newVisitStartDate: Date) {
-        self.visitStartDate = newVisitStartDate
-
-        let timeout = sessionThreshold - sessionData.length
-        guard timeout >= 0 else { return }
-
-        scheduleTimer(timeout: timeout)
-    }
-
-    private func scheduleTimer(timeout: TimeInterval) {
-        guard let creationDate = myUserRepository.myUser?.creationDate else { return }
-        let today = Date()
-        let daysAfterRegistration = TimeInterval.make(days: LGAnalyticsSessionManager.daysAfterRegistration)
-        let trackingLimitDate = creationDate.addingTimeInterval(daysAfterRegistration)
-        guard today < trackingLimitDate else { return }
-
-        timer = Timer.scheduledTimer(timeInterval: timeout,
-                                     target: self,
-                                     selector: (#selector(LGAnalyticsSessionManager.sessionDidReachThreshold)),
-                                     userInfo: nil,
-                                     repeats: false)
-    }
-
     func pauseSession(visitEndDate: Date) {
         guard let visitStartDate = visitStartDate else { return }
 
@@ -96,6 +62,48 @@ class LGAnalyticsSessionManager: AnalyticsSessionManager {
         }
         storeSessionData(sessionData: updatedSessionData)
     }
+
+
+    // MARK: - Session
+
+    private func startSession(visitStartDate: Date) {
+        self.visitStartDate = visitStartDate
+        scheduleTimer(timeout: sessionThreshold)
+    }
+
+    private func resumeSession(sessionData: AnalyticsSessionData,
+                               newVisitStartDate: Date) {
+        self.visitStartDate = newVisitStartDate
+
+        let timeout = sessionThreshold - sessionData.length
+        guard timeout >= 0 else { return }
+
+        scheduleTimer(timeout: timeout)
+    }
+
+
+    // MARK: - Timer
+
+    private func scheduleTimer(timeout: TimeInterval) {
+        guard let creationDate = myUserRepository.myUser?.creationDate else { return }
+        let today = Date()
+        let daysAfterRegistration = TimeInterval.make(days: LGAnalyticsSessionManager.daysAfterRegistration)
+        let trackingLimitDate = creationDate.addingTimeInterval(daysAfterRegistration)
+        guard today < trackingLimitDate else { return }
+
+        timer = Timer.scheduledTimer(timeInterval: timeout,
+                                     target: self,
+                                     selector: (#selector(LGAnalyticsSessionManager.sessionDidReachThreshold)),
+                                     userInfo: nil,
+                                     repeats: false)
+    }
+
+    @objc private func sessionDidReachThreshold() {
+        sessionThresholdReachedCompletion?()
+    }
+
+
+    // MARK: - Storage
 
     private func fetchSessionData() -> AnalyticsSessionData? {
         return dao.retrieveSessionData()
