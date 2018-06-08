@@ -46,20 +46,20 @@ public enum ListingCategory: Int {
     }
     
     public static func visibleValuesInFeed(servicesIncluded: Bool,
-                                           realEstateIncluded: Bool) -> [ListingCategory] {
+                                           realEstateIncluded: Bool,
+                                           servicesHighlighted: Bool) -> [ListingCategory] {
 
         var categories: [ListingCategory] = [.electronics, .homeAndGarden, .sportsLeisureAndGames, .motorsAndAccessories,
                                              .fashionAndAccesories, .babyAndChild, .moviesBooksAndMusic]
-
+        if servicesIncluded {
+            categories = servicesHighlighted ? [.services] + categories : categories + [.services]
+        }
+        
         if realEstateIncluded {
             categories = [.realEstate] + categories
         }
 
         categories = [.cars] + categories  + [.other]
-
-        if servicesIncluded {
-            categories = categories + [.services]
-        }
 
         return categories
     }

@@ -794,7 +794,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             categoryHeaderElements.append(contentsOf: taxonomies.map { CategoryHeaderElement.superKeywordGroup($0) })
         } else {
             categoryHeaderElements.append(contentsOf: ListingCategory.visibleValuesInFeed(servicesIncluded: true,
-                                                                                          realEstateIncluded: featureFlags.realEstateEnabled.isActive)
+                                                                                          realEstateIncluded: featureFlags.realEstateEnabled.isActive,
+                                                                                          servicesHighlighted: false)
                 .map { CategoryHeaderElement.listingCategory($0) })
         }
         return categoryHeaderElements

@@ -68,6 +68,10 @@ final class LGServicesInfoRepository: ServicesInfoRepository {
     func serviceSubtype(forServiceSubtypeId serviceSubtypeId: String) -> ServiceSubtype? {
         return cache.serviceSubtype(forServiceSubtypeId: serviceSubtypeId)
     }
+    
+    func serviceAllSubtypesSorted() -> [ServiceSubtype] {
+        return cache.serviceAllSubtypesSorted()
+    }
 }
 
 
