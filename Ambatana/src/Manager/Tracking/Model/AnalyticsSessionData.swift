@@ -1,6 +1,8 @@
+import LGCoreKit
+
 /* A session might be composed of several visits. If the visitor comes back to the site within that time period,
  it is still considered one user session */
-struct AnalyticsSessionData {
+struct AnalyticsSessionData: Equatable {
     let lastVisitEndDate: Date
     let length: TimeInterval
 
@@ -24,4 +26,31 @@ struct AnalyticsSessionData {
         return AnalyticsSessionData(lastVisitEndDate: visitEndDate,
                                     length: newLenght)
     }
+
+    static func ==(lhs: AnalyticsSessionData, rhs: AnalyticsSessionData) -> Bool {
+        return lhs.lastVisitEndDate == rhs.lastVisitEndDate &&
+            lhs.length == rhs.length
+    }
 }
+
+extension AnalyticsSessionData: UserDefaultsDecodable {
+    private enum UserDefaultKey: String {
+        case lastVisitEndDate, length
+    }
+
+    static func decode(_ dictionary: [String: Any]) -> AnalyticsSessionData? {
+        guard let lastVisitEndDateTimeInterval = dictionary[UserDefaultKey.lastVisitEndDate.rawValue] as? Double,
+            let length = dictionary[UserDefaultKey.length.rawValue] as? Double else { return nil }
+        let lastVisitEndDate = Date(timeIntervalSince1970: lastVisitEndDateTimeInterval)
+        return AnalyticsSessionData(lastVisitEndDate: lastVisitEndDate,
+                                    length: length)
+    }
+
+    func encode() -> [String: Any] {
+        var dictionary = [String: Any]()
+        dictionary[UserDefaultKey.lastVisitEndDate.rawValue] = lastVisitEndDate.timeIntervalSince1970
+        dictionary[UserDefaultKey.length.rawValue] = length
+        return dictionary
+    }
+}
+

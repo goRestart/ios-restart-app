@@ -9,11 +9,11 @@ class MockAnalyticsSessionManager: AnalyticsSessionManager {
 
     var sessionThresholdReachedCompletion: (() -> Void)?
 
-    func startOrContinueSession(timestamp: TimeInterval) {
+    func startOrContinueSession(visitStartDate: Date) {
         startOrContinueSessionCalled = true
     }
 
-    func pauseSession(timestamp: TimeInterval) {
+    func pauseSession(visitEndDate: Date) {
         pauseSessionCalled = true
     }
 }

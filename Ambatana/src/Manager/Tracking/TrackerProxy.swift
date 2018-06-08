@@ -50,13 +50,20 @@ final class TrackerProxy: Tracker {
     }
 
     convenience init(trackers: [Tracker]) {
+        let myUserRepository = Core.myUserRepository
+        let userDefaults = UserDefaults.standard
+        let dao = AnalyticsSessionUDDAO(userDefaults: userDefaults)
+        let analyticsSessionManager = LGAnalyticsSessionManager(minTimeBetweenSessions: 1,
+                                                                sessionThreshold: 1,
+                                                                myUserRepository: myUserRepository,
+                                                                dao: dao)
         self.init(trackers: trackers,
                   sessionManager: Core.sessionManager,
-                  myUserRepository: Core.myUserRepository,
+                  myUserRepository: myUserRepository,
                   locationManager: Core.locationManager,
                   installationRepository: Core.installationRepository,
                   notificationsManager: LGNotificationsManager.sharedInstance,
-                  analyticsSessionManager: LGAnalyticsSessionManager())
+                  analyticsSessionManager: analyticsSessionManager)
     }
 
     init(trackers: [Tracker],
@@ -108,8 +115,8 @@ final class TrackerProxy: Tracker {
     func applicationDidEnterBackground(_ application: UIApplication) {
         trackers.forEach { $0.applicationDidEnterBackground(application) }
 
-        let now = Date().timeIntervalSince1970
-        analyticsSessionManager.pauseSession(timestamp: now)
+        let now = Date()
+        analyticsSessionManager.pauseSession(visitEndDate: now)
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -121,8 +128,8 @@ final class TrackerProxy: Tracker {
     func applicationDidBecomeActive(_ application: UIApplication) {
         trackers.forEach { $0.applicationDidBecomeActive(application) }
 
-        let now = Date().timeIntervalSince1970
-        analyticsSessionManager.startOrContinueSession(timestamp: now)
+        let now = Date()
+        analyticsSessionManager.startOrContinueSession(visitStartDate: now)
     }
 
     func setInstallation(_ installation: Installation?) {
