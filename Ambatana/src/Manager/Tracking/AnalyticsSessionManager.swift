@@ -17,6 +17,7 @@ class LGAnalyticsSessionManager: AnalyticsSessionManager {
     private var visitStartDate: Date?
 
     private var timer: Timer
+    private var isSessionStarted: Bool
 
 
     // MARK: - Lifecycle
@@ -30,6 +31,7 @@ class LGAnalyticsSessionManager: AnalyticsSessionManager {
         self.myUserRepository = myUserRepository
         self.dao = dao
         self.timer = Timer()
+        self.isSessionStarted = false
     }
 
 
@@ -38,6 +40,9 @@ class LGAnalyticsSessionManager: AnalyticsSessionManager {
     var sessionThresholdReachedCompletion: (() -> Void)?
 
     func startOrContinueSession(visitStartDate: Date) {
+        guard !isSessionStarted && didUserRegisterRecently() else { return }
+        isSessionStarted = true
+
         if let sessionData = fetchSessionData(),
             visitStartDate.timeIntervalSinceNow - sessionData.lastVisitEndDate.timeIntervalSinceNow < minTimeBetweenSessions {
             resumeSession(sessionData: sessionData,
@@ -48,7 +53,8 @@ class LGAnalyticsSessionManager: AnalyticsSessionManager {
     }
 
     func pauseSession(visitEndDate: Date) {
-        guard let visitStartDate = visitStartDate else { return }
+        guard let visitStartDate = visitStartDate, isSessionStarted else { return }
+        isSessionStarted = false
 
         timer.invalidate()
 
@@ -81,16 +87,18 @@ class LGAnalyticsSessionManager: AnalyticsSessionManager {
         scheduleTimer(timeout: timeout)
     }
 
+    private func didUserRegisterRecently() -> Bool {
+        guard let creationDate = myUserRepository.myUser?.creationDate else { return false }
+        let today = Date()
+        let daysAfterRegistration = TimeInterval.make(days: LGAnalyticsSessionManager.daysAfterRegistration)
+        let trackingLimitDate = creationDate.addingTimeInterval(daysAfterRegistration)
+        return today < trackingLimitDate
+    }
+
 
     // MARK: - Timer
 
     private func scheduleTimer(timeout: TimeInterval) {
-        guard let creationDate = myUserRepository.myUser?.creationDate else { return }
-        let today = Date()
-        let daysAfterRegistration = TimeInterval.make(days: LGAnalyticsSessionManager.daysAfterRegistration)
-        let trackingLimitDate = creationDate.addingTimeInterval(daysAfterRegistration)
-        guard today < trackingLimitDate else { return }
-
         timer = Timer.scheduledTimer(timeInterval: timeout,
                                      target: self,
                                      selector: (#selector(LGAnalyticsSessionManager.sessionDidReachThreshold)),

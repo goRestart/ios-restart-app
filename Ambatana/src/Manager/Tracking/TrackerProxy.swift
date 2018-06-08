@@ -137,6 +137,10 @@ final class TrackerProxy: Tracker {
 
     func setUser(_ user: MyUser?) {
         trackers.forEach { $0.setUser(user) }
+        if user != nil {
+            let now = Date()
+            analyticsSessionManager.startOrContinueSession(visitStartDate: now)
+        }
     }
 
     func trackEvent(_ event: TrackerEvent) {

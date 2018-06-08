@@ -178,6 +178,17 @@ class TrackerProxySpec: QuickSpec {
                 }
             }
 
+            context("setting the user") {
+                beforeEach {
+                    let myUser = MockMyUser.makeMock()
+                    sut.setUser(myUser)
+                }
+
+                it("starts or continue the session") {
+                    expect(analyticsSessionManager.startOrContinueSessionCalled).toEventually(beTrue())
+                }
+            }
+
             context("when calling applicationDidEnterBackground") {
                 beforeEach {
                     sut.applicationDidEnterBackground(UIApplication.shared)

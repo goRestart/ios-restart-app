@@ -75,6 +75,27 @@ class LGAnalyticsSessionManagerSpec: QuickSpec {
                             expect(sessionThresholdReachedCompletionCalled).to(beFalse())
                         }
                     }
+
+                    context("more than one subsequent call without pausing") {
+                        var sessionThresholdReachedCompletionCalls: Int!
+                        beforeEach {
+                            sessionThresholdReachedCompletionCalls = 0
+                            sut.sessionThresholdReachedCompletion = {
+                                sessionThresholdReachedCompletionCalls = sessionThresholdReachedCompletionCalls + 1
+                            }
+
+                            let visitStartDate = Date.makeRandom()
+                            sut.startOrContinueSession(visitStartDate: visitStartDate)
+                            sut.startOrContinueSession(visitStartDate: visitStartDate)
+                            sut.startOrContinueSession(visitStartDate: visitStartDate)
+                        }
+
+                        it("calls sessionThresholdReachedCompletion once") {
+                            let waitTime = sessionThreshold + 0.1
+                            waitUntil { done in delay(waitTime, completion: done) }
+                            expect(sessionThresholdReachedCompletionCalls) == 1
+                        }
+                    }
                 }
 
                 context("user registered more than a week ago") {
