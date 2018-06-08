@@ -130,6 +130,8 @@
 		0A48B2521FD9A1B300C7F163 /* Bounceable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2D69DC1FC5DA8700F072A1 /* Bounceable.swift */; };
 		0A4AD7FA203DD9B8002625B7 /* UILayoutPriority.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4AD7F9203DD9B8002625B7 /* UILayoutPriority.swift */; };
 		0A4AD7FB203DDACA002625B7 /* UILayoutPriority.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4AD7F9203DD9B8002625B7 /* UILayoutPriority.swift */; };
+		0A4C69D820C92D5100B89022 /* RecaptchaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4C69D720C92D5100B89022 /* RecaptchaView.swift */; };
+		0A4C69D920C92E4E00B89022 /* RecaptchaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4C69D720C92D5100B89022 /* RecaptchaView.swift */; };
 		0A5333D0208F53BC000D3F42 /* VideoPlayerCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5333CF208F53BC000D3F42 /* VideoPlayerCoordinator.swift */; };
 		0A5333D1208F5508000D3F42 /* VideoPlayerCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5333CF208F53BC000D3F42 /* VideoPlayerCoordinator.swift */; };
 		0A561AE220C81FF00082D551 /* UICollectionView+ReusableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A561AE120C81FF00082D551 /* UICollectionView+ReusableCell.swift */; };
@@ -1919,8 +1921,6 @@
 		C7F18AA21C89D62600D23319 /* GalleryImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7F18A9E1C89D62600D23319 /* GalleryImageCell.xib */; };
 		C7F22D801DB7A3A200353803 /* RecaptchaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F22D7E1DB7A3A200353803 /* RecaptchaViewController.swift */; };
 		C7F22D811DB7A3A200353803 /* RecaptchaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F22D7E1DB7A3A200353803 /* RecaptchaViewController.swift */; };
-		C7F22D821DB7A3A200353803 /* RecaptchaViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7F22D7F1DB7A3A200353803 /* RecaptchaViewController.xib */; };
-		C7F22D831DB7A3A200353803 /* RecaptchaViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7F22D7F1DB7A3A200353803 /* RecaptchaViewController.xib */; };
 		C7F22D851DB7A55C00353803 /* RecaptchaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F22D841DB7A55C00353803 /* RecaptchaViewModel.swift */; };
 		C7F22D861DB7A55C00353803 /* RecaptchaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F22D841DB7A55C00353803 /* RecaptchaViewModel.swift */; };
 		C7F2E1F21CBFF53F00744D7B /* AppsFlyerDeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F2E1F11CBFF53F00744D7B /* AppsFlyerDeepLink.swift */; };
@@ -2126,6 +2126,7 @@
 		0A3E5FEC207FAB9A00577670 /* FeedAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedAssembly.swift; sourceTree = "<group>"; };
 		0A4766CA1FC5BB2A005B176F /* ProductStatusView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductStatusView.swift; sourceTree = "<group>"; };
 		0A4AD7F9203DD9B8002625B7 /* UILayoutPriority.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILayoutPriority.swift; sourceTree = "<group>"; };
+		0A4C69D720C92D5100B89022 /* RecaptchaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecaptchaView.swift; sourceTree = "<group>"; };
 		0A5333CF208F53BC000D3F42 /* VideoPlayerCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerCoordinator.swift; sourceTree = "<group>"; };
 		0A561AE120C81FF00082D551 /* UICollectionView+ReusableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+ReusableCell.swift"; sourceTree = "<group>"; };
 		0A63DFBF1FB0A9A600C065F2 /* ListingCardDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardDetailsView.swift; sourceTree = "<group>"; };
@@ -3106,7 +3107,6 @@
 		C7F18A9D1C89D62600D23319 /* GalleryImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryImageCell.swift; sourceTree = "<group>"; };
 		C7F18A9E1C89D62600D23319 /* GalleryImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GalleryImageCell.xib; sourceTree = "<group>"; };
 		C7F22D7E1DB7A3A200353803 /* RecaptchaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecaptchaViewController.swift; sourceTree = "<group>"; };
-		C7F22D7F1DB7A3A200353803 /* RecaptchaViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RecaptchaViewController.xib; sourceTree = "<group>"; };
 		C7F22D841DB7A55C00353803 /* RecaptchaViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecaptchaViewModel.swift; sourceTree = "<group>"; };
 		C7F2E1F11CBFF53F00744D7B /* AppsFlyerDeepLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppsFlyerDeepLink.swift; sourceTree = "<group>"; };
 		C7F3F1E01DE5A95F00652447 /* ChatRelatedListingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatRelatedListingsView.swift; sourceTree = "<group>"; };
@@ -4001,8 +4001,8 @@
 				2EDCFA2F1BFF8AB00000E47D /* SignUpLogInViewController.xib */,
 				2EDCFA301BFF8AB00000E47D /* SignUpLogInViewModel.swift */,
 				C7F22D7E1DB7A3A200353803 /* RecaptchaViewController.swift */,
-				C7F22D7F1DB7A3A200353803 /* RecaptchaViewController.xib */,
 				C7F22D841DB7A55C00353803 /* RecaptchaViewModel.swift */,
+				0A4C69D720C92D5100B89022 /* RecaptchaView.swift */,
 			);
 			path = "Log In";
 			sourceTree = "<group>";
@@ -6340,7 +6340,6 @@
 				508011151D474ED80073F362 /* Chat.xcassets in Resources */,
 				506DC19C1BBE7D8A00E59D27 /* levelup.caf in Resources */,
 				2E92CBFC20248DC600451B65 /* MeetingAssistantViewController.xib in Resources */,
-				C7F22D821DB7A3A200353803 /* RecaptchaViewController.xib in Resources */,
 				C7B588A01CE1E025009B3975 /* ChatGroupedListView.xib in Resources */,
 				6AF75D0D1CF4657B00EACCF0 /* ChatStickerCell.xib in Resources */,
 				2E92CBFF20248DC600451B65 /* SuggestedLocationCell.xib in Resources */,
@@ -6463,7 +6462,6 @@
 				6A38ADE61C64C4F9009E1A31 /* TourLocationViewController.xib in Resources */,
 				508011161D474ED80073F362 /* Chat.xcassets in Resources */,
 				C7DB425E1C5138B500400945 /* levelup.caf in Resources */,
-				C7F22D831DB7A3A200353803 /* RecaptchaViewController.xib in Resources */,
 				2E9716A91D5A284F009B3A32 /* ExpressChatCell.xib in Resources */,
 				C7B588A11CE1E025009B3975 /* ChatGroupedListView.xib in Resources */,
 				6AF75D0E1CF4657B00EACCF0 /* ChatStickerCell.xib in Resources */,
@@ -7258,6 +7256,7 @@
 				F57D3A251FECFCFC006F2CA4 /* TagCollectionView.swift in Sources */,
 				C7B588451CE1DE1C009B3975 /* ChatListingView.swift in Sources */,
 				509F79AC1ED6CD1C00AF2F70 /* UserRatingTagCell.swift in Sources */,
+				0A4C69D820C92D5100B89022 /* RecaptchaView.swift in Sources */,
 				50D67B9A1D182EE9003AC0A5 /* SellCoordinator.swift in Sources */,
 				42009A2220765A4F003F946E /* PromoCellDrawer.swift in Sources */,
 				C72794421D549342009C25AB /* HelpViewController.swift in Sources */,
@@ -8079,6 +8078,7 @@
 				C7C61E011D631F3400F9505D /* ListingCollectionCellDrawer.swift in Sources */,
 				2E36656A1DE4880A00000F68 /* PostIncentivatorView.swift in Sources */,
 				F57D3A2E1FED01A6006F2CA4 /* TagCollectionView.swift in Sources */,
+				0A4C69D920C92E4E00B89022 /* RecaptchaView.swift in Sources */,
 				C707D4561E9B7CB200042C03 /* PostListingTrackingInfo.swift in Sources */,
 				42009A2320765FE0003F946E /* PromoCellDrawer.swift in Sources */,
 				C7B588A31CE1E025009B3975 /* ChatGroupedListViewModel.swift in Sources */,
