@@ -39,16 +39,15 @@ extension AnalyticsSessionData: UserDefaultsDecodable {
     }
 
     static func decode(_ dictionary: [String: Any]) -> AnalyticsSessionData? {
-        guard let lastVisitEndDateTimeInterval = dictionary[UserDefaultKey.lastVisitEndDate.rawValue] as? Double,
+        guard let lastVisitEndDate = dictionary[UserDefaultKey.lastVisitEndDate.rawValue] as? Date,
             let length = dictionary[UserDefaultKey.length.rawValue] as? Double else { return nil }
-        let lastVisitEndDate = Date(timeIntervalSince1970: lastVisitEndDateTimeInterval)
         return AnalyticsSessionData(lastVisitEndDate: lastVisitEndDate,
                                     length: length)
     }
 
     func encode() -> [String: Any] {
         var dictionary = [String: Any]()
-        dictionary[UserDefaultKey.lastVisitEndDate.rawValue] = lastVisitEndDate.timeIntervalSince1970
+        dictionary[UserDefaultKey.lastVisitEndDate.rawValue] = lastVisitEndDate
         dictionary[UserDefaultKey.length.rawValue] = length
         return dictionary
     }

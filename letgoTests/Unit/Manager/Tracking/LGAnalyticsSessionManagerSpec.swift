@@ -79,7 +79,7 @@ class LGAnalyticsSessionManagerSpec: QuickSpec {
 
                 context("user registered more than a week ago") {
                     beforeEach {
-                        myUser.creationDate = Date().addingTimeInterval(TimeInterval.make(days: 8))
+                        myUser.creationDate = Date().addingTimeInterval(TimeInterval.make(days: -8))
                         myUserRepository.myUserVar.value = myUser
 
                         let visitStartDate = Date.makeRandom()
