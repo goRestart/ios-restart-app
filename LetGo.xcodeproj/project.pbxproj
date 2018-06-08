@@ -1685,8 +1685,6 @@
 		C7B5432E1D758BF9005FBA30 /* VerifyAccountsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B5432C1D758BF9005FBA30 /* VerifyAccountsViewModel.swift */; };
 		C7B588251CE1DE1C009B3975 /* BlockedUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B587FB1CE1DE1C009B3975 /* BlockedUserCell.swift */; };
 		C7B588261CE1DE1C009B3975 /* BlockedUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B587FB1CE1DE1C009B3975 /* BlockedUserCell.swift */; };
-		C7B588271CE1DE1C009B3975 /* BlockedUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7B587FC1CE1DE1C009B3975 /* BlockedUserCell.xib */; };
-		C7B588281CE1DE1C009B3975 /* BlockedUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7B587FC1CE1DE1C009B3975 /* BlockedUserCell.xib */; };
 		C7B588291CE1DE1C009B3975 /* BlockedUsersListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B587FD1CE1DE1C009B3975 /* BlockedUsersListView.swift */; };
 		C7B5882A1CE1DE1C009B3975 /* BlockedUsersListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B587FD1CE1DE1C009B3975 /* BlockedUsersListView.swift */; };
 		C7B5882B1CE1DE1C009B3975 /* BlockedUsersListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B587FE1CE1DE1C009B3975 /* BlockedUsersListViewModel.swift */; };
@@ -3047,7 +3045,6 @@
 		C7B543271D758BA7005FBA30 /* VerifyAccountsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VerifyAccountsViewController.xib; sourceTree = "<group>"; };
 		C7B5432C1D758BF9005FBA30 /* VerifyAccountsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifyAccountsViewModel.swift; sourceTree = "<group>"; };
 		C7B587FB1CE1DE1C009B3975 /* BlockedUserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockedUserCell.swift; sourceTree = "<group>"; };
-		C7B587FC1CE1DE1C009B3975 /* BlockedUserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BlockedUserCell.xib; sourceTree = "<group>"; };
 		C7B587FD1CE1DE1C009B3975 /* BlockedUsersListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockedUsersListView.swift; sourceTree = "<group>"; };
 		C7B587FE1CE1DE1C009B3975 /* BlockedUsersListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockedUsersListViewModel.swift; sourceTree = "<group>"; };
 		C7B5880E1CE1DE1C009B3975 /* ChatListingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatListingView.swift; sourceTree = "<group>"; };
@@ -5667,7 +5664,6 @@
 			isa = PBXGroup;
 			children = (
 				C7B587FB1CE1DE1C009B3975 /* BlockedUserCell.swift */,
-				C7B587FC1CE1DE1C009B3975 /* BlockedUserCell.xib */,
 				C7B587FD1CE1DE1C009B3975 /* BlockedUsersListView.swift */,
 				C7B587FE1CE1DE1C009B3975 /* BlockedUsersListViewModel.swift */,
 			);
@@ -6392,7 +6388,6 @@
 				C7AFFAFC1E7053EF0052A9CA /* NPSViewController.xib in Resources */,
 				6A38ADE81C64EAA1009E1A31 /* TourNotificationsViewControllerMini.xib in Resources */,
 				8EB8B8022084E89F00D3B9CA /* GoogleAdxNativeView.xib in Resources */,
-				C7B588271CE1DE1C009B3975 /* BlockedUserCell.xib in Resources */,
 				2E4ADEC0200515FC00D07D8A /* BumpUpFreeViewController.xib in Resources */,
 				508011031D4749030073F362 /* LaunchScreen.xib in Resources */,
 				6A38ADEB1C650294009E1A31 /* TourLocationViewControllerMini.xib in Resources */,
@@ -6515,7 +6510,6 @@
 				C7AFFAFD1E7053EF0052A9CA /* NPSViewController.xib in Resources */,
 				6A38ADE91C64EAA1009E1A31 /* TourNotificationsViewControllerMini.xib in Resources */,
 				6A38ADEC1C650294009E1A31 /* TourLocationViewControllerMini.xib in Resources */,
-				C7B588281CE1DE1C009B3975 /* BlockedUserCell.xib in Resources */,
 				508011041D4749030073F362 /* LaunchScreen.xib in Resources */,
 				508011011D4748120073F362 /* SettingsViewController.xib in Resources */,
 				C7B588621CE1DE1C009B3975 /* RelationInfoView.xib in Resources */,

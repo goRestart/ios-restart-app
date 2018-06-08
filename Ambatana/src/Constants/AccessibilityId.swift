@@ -432,8 +432,6 @@ enum AccessibilityId: Equatable {
     // BlockedUserCell
     case blockedUserCellAvatarImageView
     case blockedUserCellUserNameLabel
-    case blockedUserCellBlockedLabel
-    case blockedUserCellBlockedIcon
 
     // ChatListingView
     case chatListingViewUserAvatar
@@ -1590,10 +1588,6 @@ enum AccessibilityId: Equatable {
             return "blockedUserCellAvatarImageView"
         case .blockedUserCellUserNameLabel:
             return "blockedUserCellUserNameLabel"
-        case .blockedUserCellBlockedLabel:
-            return "blockedUserCellBlockedLabel"
-        case .blockedUserCellBlockedIcon:
-            return "blockedUserCellBlockedIcon"
             
         // ChatListingView
         case .chatListingViewUserAvatar:
