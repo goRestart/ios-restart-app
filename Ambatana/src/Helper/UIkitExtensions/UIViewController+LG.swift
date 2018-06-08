@@ -325,6 +325,8 @@ extension UIViewController {
 
 extension UIViewController {
     func openInAppWebViewWith(url: URL) {
+        let universalSchemes = ["http", "https"]
+        guard let scheme = url.scheme?.lowercased(), universalSchemes.contains(scheme) else { return }
         let svc = SFSafariViewController(url: url, entersReaderIfAvailable: false)
         svc.view.tintColor = UIColor.primaryColor
         self.present(svc, animated: true, completion: nil)

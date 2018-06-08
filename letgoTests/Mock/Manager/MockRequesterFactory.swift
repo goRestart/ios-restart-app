@@ -18,12 +18,8 @@ class MockRequesterFactory: RequesterFactory {
             return [.search]
         case .popularNearYou:
             return [.search, .nonFilteredFeed]
-        case .similarQueries:
+        case .similarQueries, .similarQueriesWhenFewResults, .alwaysSimilar:
             return [.search, .similarProducts, .nonFilteredFeed]
-        case .similarQueriesWhenFewResults:
-            return [.search, .combinedSearchAndSimilar, .nonFilteredFeed]
-        case .alwaysSimilar:
-            return [.combinedSearchAndSimilar, .nonFilteredFeed]
         }
     }
 

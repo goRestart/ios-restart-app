@@ -178,8 +178,9 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             collectionView.addSubviewForAutoLayout(errorView)
             NSLayoutConstraint.activate([
                 errorView.topAnchor.constraint(equalTo: collectionView.topAnchor),
-                errorView.centerXAnchor.constraint(equalTo: collectionView.centerXAnchor),
-                ])
+                errorView.leftAnchor.constraint(equalTo: leftAnchor),
+                errorView.rightAnchor.constraint(equalTo: rightAnchor)
+            ])
             sendSubview(toBack: errorView)
         }
 
@@ -405,16 +406,16 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     }
 
     private func addSubviewToFill(_ view: UIView) {
-        collectionView.addSubviewForAutoLayout(view)
+        addSubviewForAutoLayout(view)
         if #available(iOS 11.0, *) {
             NSLayoutConstraint.activate([
-                view.topAnchor.constraint(equalTo: collectionView.topAnchor),
-                view.trailingAnchor.constraint(equalTo: collectionView.trailingAnchor),
-                view.bottomAnchor.constraint(equalTo: collectionView.bottomAnchor),
-                view.leadingAnchor.constraint(equalTo: collectionView.leadingAnchor)
+                view.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+                view.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+                view.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+                view.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor)
                 ])
         } else {
-            view.layout(with: collectionView).fill()
+            view.layout(with: self).fill()
         }
     }
 
@@ -821,7 +822,8 @@ final class ErrorView: UIView {
         let container = UIView()
         container.backgroundColor = .clear
         container.isUserInteractionEnabled = true
-        container.setContentHuggingPriority(.required, for: .vertical)
+        container.setContentCompressionResistancePriority(.required, for: .vertical)
+        container.setContentHuggingPriority(.defaultLow, for: .horizontal)
         return container
     }()
 
@@ -830,6 +832,7 @@ final class ErrorView: UIView {
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         imageView.setContentHuggingPriority(.required, for: .vertical)
+        imageView.setContentHuggingPriority(.defaultLow, for: .horizontal)
         return imageView
     }()
 
@@ -838,8 +841,9 @@ final class ErrorView: UIView {
         label.font = UIFont.systemRegularFont(size: 17)
         label.textColor = .black
         label.textAlignment = .center
+        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        label.setContentHuggingPriority(.defaultLow, for: .horizontal)
         label.numberOfLines = 2
-        label.setContentHuggingPriority(.required, for: .vertical)
         return label
     }()
 
@@ -849,14 +853,13 @@ final class ErrorView: UIView {
         label.textColor = .grayDark
         label.textAlignment = .center
         label.numberOfLines = 0
+        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        label.setContentHuggingPriority(.defaultLow, for: .horizontal)
         label.setContentHuggingPriority(.required, for: .vertical)
         return label
     }()
 
-    let actionButton: LetgoButton = {
-        let button = LetgoButton(withStyle: .primary(fontSize: .medium))
-        return button
-    }()
+    let actionButton = LetgoButton(withStyle: .primary(fontSize: .medium))
 
     var actionHeight: NSLayoutConstraint?
     var imageHeight: NSLayoutConstraint?
@@ -893,6 +896,7 @@ final class ErrorView: UIView {
 
     private func setupUI() {
         backgroundColor = .clear
+        setContentHuggingPriority(.defaultLow, for: .horizontal)
         setupConstraints()
         setupAccessibilityIds()
     }
@@ -912,26 +916,27 @@ final class ErrorView: UIView {
         let actionHeight = actionButton.heightAnchor.constraint(equalToConstant: Layout.actionHeight)
 
         let topInset = containerView.topAnchor.constraint(equalTo: topAnchor, constant: Layout.sideMargin)
-        let leadingInset = containerView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Layout.sideMargin)
-        let trailingInset = containerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Layout.sideMargin)
+        let leadingInset = containerView.leftAnchor.constraint(equalTo: leftAnchor, constant: Layout.sideMargin)
+        let trailingInset = containerView.rightAnchor.constraint(equalTo: rightAnchor, constant: -Layout.sideMargin)
         let bottomInset = containerView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Layout.sideMargin)
-        let centerY = containerView.centerYAnchor.constraint(equalTo: centerYAnchor)
-        centerY.priority = .defaultLow
         NSLayoutConstraint.activate([
-            topInset, leadingInset, trailingInset, bottomInset,
+            trailingInset, topInset, leadingInset, bottomInset,
             imageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: Layout.imageViewHeight),
-            imageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Layout.sideMargin),
-            imageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -Layout.sideMargin),
+            imageView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+            imageView.widthAnchor.constraint(equalTo: containerView.widthAnchor, constant: -2*Layout.sideMargin),
             imageViewHeight,
+
             titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: Layout.imageViewBottom),
-            titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Layout.sideMargin),
-            titleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -Layout.sideMargin),
+            titleLabel.widthAnchor.constraint(equalTo: containerView.widthAnchor, constant: -2*Layout.sideMargin),
+            titleLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+
             bodyLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Layout.titleBottom),
-            bodyLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Layout.sideMargin),
-            bodyLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -Layout.sideMargin),
-            actionButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Layout.sideMargin),
+            bodyLabel.widthAnchor.constraint(equalTo: containerView.widthAnchor, constant: -2*Layout.sideMargin),
+            bodyLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+
             actionButton.topAnchor.constraint(equalTo: bodyLabel.bottomAnchor, constant: Layout.sideMargin),
-            actionButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -Layout.sideMargin),
+            actionButton.widthAnchor.constraint(equalTo: containerView.widthAnchor, constant: -2*Layout.sideMargin),
+            actionButton.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
             actionButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -Layout.sideMargin),
             actionHeight
         ])

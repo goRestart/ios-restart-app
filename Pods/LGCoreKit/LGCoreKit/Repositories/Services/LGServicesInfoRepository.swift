@@ -25,6 +25,7 @@ final class LGServicesInfoRepository: ServicesInfoRepository {
     }
     
     func refreshServicesFile() {
+        /*
         let languageCode = Locale.autoupdatingCurrent.languageCode
         countryCode = locationManager.currentLocation?.postalAddress?.countryCode
         
@@ -39,6 +40,7 @@ final class LGServicesInfoRepository: ServicesInfoRepository {
             case .failure: break
             }
         }
+         */
     }
     
     private func localeIdentifier(forLanguageCode languageCode: String?,

@@ -93,9 +93,9 @@ final class ListingListViewModel: BaseViewModel {
     /// Current fallback requester in use
     var currentActiveRequester: ListingListRequester?
     
-    var currentRequesterType: RequesterType {
-        let tuple = requesterFactory?.buildIndexedRequesterList()[currentRequesterIndex]
-        return tuple?.0 ?? .search
+    var currentRequesterType: RequesterType? {
+        let tuple = requesterFactory?.buildIndexedRequesterList()[safeAt: currentRequesterIndex]
+        return tuple?.0
     }
     
     private var requesterFactory: RequesterFactory? {
@@ -350,7 +350,6 @@ final class ListingListViewModel: BaseViewModel {
             let numListing = strongSelf.numberOfListings
             let hasListings = numListing > 0
             strongSelf.isLastPage = currentRequester.isLastPage(newListings.count)
-
             requesterList.removeFirst()
             if hasListings {
                 if strongSelf.featureFlags.shouldUseSimilarQuery(numListing: numListing)
@@ -436,7 +435,7 @@ final class ListingListViewModel: BaseViewModel {
     
     func prefetchItems(atIndexes indexes: [Int]) {
         var urls = [URL]()
-        for index in indexes where objects.count < index {
+        for index in indexes where objects.count >= index {
             switch objects[index] {
             case .listingCell(let listing):
                 if let thumbnailURL = listing.thumbnail?.fileURL {

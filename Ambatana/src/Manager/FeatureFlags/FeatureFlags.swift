@@ -1249,26 +1249,20 @@ extension EmptySearchImprovements {
     static let minNumberOfListing = 20
     
     func shouldContinueWithSimilarQueries(withCurrentListing numListings: Int) -> Bool {
-        return numListings < EmptySearchImprovements.minNumberOfListing
+        let resultIsInsufficient = numListings < EmptySearchImprovements.minNumberOfListing
             && self == .similarQueriesWhenFewResults
+        let shouldAlwaysShowSimilar = self == .alwaysSimilar
+        return resultIsInsufficient || shouldAlwaysShowSimilar
     }
     
     var isActive: Bool {
         return self != .control && self != .baseline
     }
     
-    var filterTitle: String? {
-        switch self {
-        case .baseline, .control, .alwaysSimilar: return nil
-        case .popularNearYou: return R.Strings.productPopularNearYou
-        case .similarQueries, .similarQueriesWhenFewResults: return R.Strings.listingShowSimilarResults
-        }
-    }
-    
     var filterDescription: String? {
         switch self {
-        case .baseline, .control, .alwaysSimilar: return nil
-        case .popularNearYou, .similarQueries, .similarQueriesWhenFewResults: return R.Strings.listingShowSimilarResultsDescription
+        case .baseline, .control: return nil
+        case .popularNearYou, .similarQueries, .similarQueriesWhenFewResults, .alwaysSimilar: return R.Strings.listingShowSimilarResultsDescription
         }
     }
 }

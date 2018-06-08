@@ -54,6 +54,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             return false
         }
     }
+    
     var interestingListingIDs: Set<String> = Set<String>() {
         didSet {
             let empty = [String: InterestedState]()
@@ -66,6 +67,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             listViewModel.listingInterestState = dict
         }
     }
+    
     private let interestingUndoTimeout: TimeInterval = 5
     private let chatWrapper: ChatWrapper
 
@@ -75,7 +77,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     var filters: ListingFilters
     var queryString: String?
     var shouldHideCategoryAfterSearch = false
-
+    var activeRequesterType: RequesterType?
+    
     var hasFilters: Bool {
         return !filters.isDefault()
     }
@@ -975,17 +978,16 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             }.disposed(by: disposeBag)
     }
 
+    
     // MARK: > ListingListViewCellsDelegate
 
     func visibleTopCellWithIndex(_ index: Int, whileScrollingDown scrollingDown: Bool) {
 
         // set title for cell at index if necessary
-        if featureFlags.emptySearchImprovements.isActive, shouldHideCategoryAfterSearch {
-            filterTitle.value = featureFlags.emptySearchImprovements.filterTitle
-        } else {
+        if !featureFlags.emptySearchImprovements.isActive {
             filterTitle.value = listViewModel.titleForIndex(index: index)
         }
-
+        
         guard let sortCriteria = filters.selectedOrdering else { return }
 
         switch (sortCriteria) {
@@ -1030,7 +1032,8 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         }
 
         let requester = listViewModel.currentActiveRequester as? ListingListMultiRequester
-
+        activeRequesterType = viewModel.currentRequesterType
+        
         if let isFirstPage = requester?.multiIsFirstPage, isFirstPage {
             filterDescription.value = !hasListings && shouldShowNoExactMatchesDisclaimer ? R.Strings.filterResultsCarsNoMatches : nil
         }
@@ -1046,11 +1049,18 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             } else {
                 listViewModel.retrieveListingsNextPage()
             }
-        } else if featureFlags.emptySearchImprovements.isActive, viewModel.currentRequesterType != .search {
-            shouldHideCategoryAfterSearch = true
-            filterDescription.value = featureFlags.emptySearchImprovements.filterDescription
-            filterTitle.value = featureFlags.emptySearchImprovements.filterTitle
-            updateCategoriesHeader()
+            
+        } else if let requesterType = activeRequesterType,
+            featureFlags.emptySearchImprovements.isActive {
+            
+            let isFirstRequesterInAlwaysSimilarCase = featureFlags.emptySearchImprovements == .alwaysSimilar && requesterType == .nonFilteredFeed
+            let isFirstRequesterInOtherCases = featureFlags.emptySearchImprovements != .alwaysSimilar && requesterType != .search
+            if isFirstRequesterInAlwaysSimilarCase || isFirstRequesterInOtherCases {
+                shouldHideCategoryAfterSearch = true
+                filterDescription.value = featureFlags.emptySearchImprovements.filterDescription
+                filterTitle.value = filterTitleString(forRequesterType: requesterType)
+                updateCategoriesHeader()
+            }
         }
 
         errorMessage.value = nil
@@ -1283,6 +1293,16 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             return adRelativePosition
         }
         return nil
+    }
+    
+    private func filterTitleString(forRequesterType type: RequesterType) -> String? {
+        switch type {
+        case .nonFilteredFeed:
+            return R.Strings.productPopularNearYou
+        case .similarProducts:
+            return R.Strings.listingShowSimilarResults
+        case .search: return nil
+        }
     }
 }
 
@@ -1517,10 +1537,11 @@ extension MainListingsViewModel {
 extension MainListingsViewModel {
 
     var showCategoriesCollectionBanner: Bool {
-        if featureFlags.emptySearchImprovements.isActive && shouldHideCategoryAfterSearch {
+        let userHasSearched = queryString != nil || hasFilters
+        if (featureFlags.emptySearchImprovements.isActive || isSearchAlertsEnabled) && userHasSearched {
             return false
         } else {
-            return primaryTags.isEmpty && !listViewModel.isListingListEmpty.value && !isSearchAlertsEnabled
+            return primaryTags.isEmpty && !listViewModel.isListingListEmpty.value
         }
     }
     
