@@ -233,8 +233,13 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         return filters.hasAnyRealEstateAttributes
     }
     
+    private var servicesSelectedWithFilters: Bool {
+        guard filters.selectedCategories.contains(.services)  else { return false }
+        return filters.hasAnyServicesAttributes
+    }
+    
     fileprivate var shouldShowNoExactMatchesDisclaimer: Bool {
-        guard realEstateSelectedWithFilters || carSelectedWithFilters else { return false }
+        guard realEstateSelectedWithFilters || carSelectedWithFilters || servicesSelectedWithFilters else { return false }
         return true
     }
 
