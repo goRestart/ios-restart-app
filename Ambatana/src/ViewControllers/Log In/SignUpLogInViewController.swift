@@ -425,6 +425,8 @@ final class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, 
         emailButton.isHidden = false
         emailIconImageView.isHidden = false
         emailTextField.isHidden = false
+        
+        setupRAssets()
     }
     
     private func setupRAssets() {
@@ -436,7 +438,7 @@ final class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, 
         passwordIconImageView.highlightedImage = R.Asset.IconsButtons.icPassword.image
         usernameIconImageView.image = R.Asset.IconsButtons.icName.image
         usernameIconImageView.image = R.Asset.IconsButtons.icNameActive.image
-        showPasswordButton.setImage(R.Asset.IconsButtons.icShowPassword, for: .normal)
+        showPasswordButton.setImage(R.Asset.IconsButtons.icShowPassword.image, for: .normal)
     }
     
     private func setupRx() {
