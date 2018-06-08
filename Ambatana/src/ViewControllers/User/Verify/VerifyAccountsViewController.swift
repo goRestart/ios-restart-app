@@ -12,8 +12,10 @@ final class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegat
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
 
+    @IBOutlet weak var facebookLogo: UIImageView!
     @IBOutlet weak var fbContainer: UIView!
     @IBOutlet weak var fbButton: LetgoButton!
+    @IBOutlet weak var googleLogo: UIImageView!
     @IBOutlet weak var googleContainer: UIView!
     @IBOutlet weak var googleButton: LetgoButton!
     @IBOutlet weak var emailContainer: UIView!
@@ -102,6 +104,13 @@ final class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegat
             emailContainerBottom.constant = emailContainerInvisibleMargin
             emailContainer.isHidden = true
         }
+        setupRAssets()
+    }
+
+    private func setupRAssets() {
+        emailButtonLogo.image = R.Asset.IconsButtons.icEmailActive.image
+        facebookLogo.image = R.Asset.IconsButtons.icFacebookRounded.image
+        googleLogo.image = R.Asset.IconsButtons.icGoogleRounded.image
     }
 
     private func setupRx() {
