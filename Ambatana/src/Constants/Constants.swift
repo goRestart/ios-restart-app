@@ -169,6 +169,8 @@ struct Constants {
     // TODO: ABIOS-3771 Remove this when integrating LGAnalytics module
     static let parameterNotApply = "N/A"
     static let parameterSkipValue = "skip"
+    static let sessionMinTimeInBetween = TimeInterval.make(minutes: 5)
+    static let sessionThreshold = TimeInterval.make(minutes: 1)
 
     // Ads
     static let adInFeedCustomTargetingKey = "pos_var"
