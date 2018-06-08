@@ -15,8 +15,6 @@ final class PushManager {
         case DidRegisterUserNotificationSettings
     }
 
-    static let sharedInstance: PushManager = PushManager(navigator: nil)
-
     private let pushPermissionManager: PushPermissionsManager
     private let installationRepository: InstallationRepository
     private let deepLinksRouter: DeepLinksRouter
@@ -24,7 +22,7 @@ final class PushManager {
     private let locationRepository: LocationRepository
     private let featureFlags: FeatureFlaggeable
     private let keyValueStorage: KeyValueStorageable
-    private let navigator: AppNavigator?
+    weak var navigator: AppNavigator?
 
 
     struct TrustAndSafety {
@@ -35,15 +33,14 @@ final class PushManager {
 
     // MARK: - Lifecycle
 
-    convenience init(navigator: AppNavigator?) {
+    convenience init() {
         self.init(pushPermissionManager: LGPushPermissionsManager.sharedInstance,
                   installationRepository: Core.installationRepository,
                   deepLinksRouter: LGDeepLinksRouter.sharedInstance,
                   notificationsManager: LGNotificationsManager.sharedInstance,
                   locationRepository: Core.locationRepository,
                   featureFlags: FeatureFlags.sharedInstance,
-                  keyValueStorage: KeyValueStorage.sharedInstance,
-                  navigator: navigator)
+                  keyValueStorage: KeyValueStorage.sharedInstance)
     }
 
     required init(pushPermissionManager: PushPermissionsManager,
@@ -52,8 +49,7 @@ final class PushManager {
                   notificationsManager: NotificationsManager,
                   locationRepository: LocationRepository,
                   featureFlags: FeatureFlaggeable,
-                  keyValueStorage: KeyValueStorageable,
-                  navigator: AppNavigator?) {
+                  keyValueStorage: KeyValueStorageable) {
         self.pushPermissionManager = pushPermissionManager
         self.installationRepository = installationRepository
         self.deepLinksRouter = deepLinksRouter
@@ -61,7 +57,6 @@ final class PushManager {
         self.locationRepository = locationRepository
         self.featureFlags = featureFlags
         self.keyValueStorage = keyValueStorage
-        self.navigator = navigator
     }
 
 
