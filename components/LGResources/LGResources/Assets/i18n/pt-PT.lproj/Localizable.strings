@@ -491,8 +491,8 @@
 "meeting_creation_view_suggest_cell_select" = "Selecionar";
 "meeting_creation_view_suggest_cell_selected" = "Selecionado";
 "meeting_creation_view_title" = "Agende um encontro";
-"ml_camera_in_about_days_text" = "in about %d days";
-"ml_camera_in_more_than_days_text" = "in more than %d days";
+"ml_camera_in_about_days_text" = "em cerca de %d dias";
+"ml_camera_in_more_than_days_text" = "em mais de %d dias";
 "ml_camera_sells_for_text" = "Por norma vende-se por %d €";
 "ml_category_text" = "Categoria:";
 "ml_details_price_text" = "Preço:";
@@ -782,8 +782,10 @@
 "product_post_incentive_furniture" = "Mobília";
 "product_post_incentive_got_any" = "tem para vender?";
 "product_post_incentive_got_any_free" = "tem para dar?";
+"product_post_incentive_got_any_services" = "have these skills?";
 "product_post_incentive_kids_clothes" = "Roupas de criança";
 "product_post_incentive_looking_for" = "Pessoas à sua volta procuram estes itens, %@";
+"product_post_incentive_looking_for_services" = "People around you are looking for these services, %@";
 "product_post_incentive_motorcycle" = "Motos";
 "product_post_incentive_ps4" = "PS4s";
 "product_post_incentive_subtitle" = "A sua listagem foi publicada.";

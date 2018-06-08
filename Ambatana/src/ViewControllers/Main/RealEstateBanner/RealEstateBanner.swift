@@ -1,12 +1,5 @@
-//
-//  RealEstateBanner.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 09/01/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 protocol RealEstateBannerDelegate: class {
     func realEstateBannerPressed()
@@ -40,7 +33,7 @@ class RealEstateBanner: UIView {
     private func setupUI() {
         backgroundColor = .clear
         backgroundImage.contentMode = .scaleAspectFill
-        backgroundImage.image = UIImage(named: "realEstateBanner")
+        backgroundImage.image = UIImage(named: "realEstateBanner", in: R.bundle, compatibleWith: nil)
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(realEstateBannerPressed))
         addGestureRecognizer(tapGesture)
     }

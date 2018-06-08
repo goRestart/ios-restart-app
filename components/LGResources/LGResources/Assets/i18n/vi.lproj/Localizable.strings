@@ -491,8 +491,8 @@
 "meeting_creation_view_suggest_cell_select" = "Chọn";
 "meeting_creation_view_suggest_cell_selected" = "Đã chọn";
 "meeting_creation_view_title" = "Lên lịch hẹn";
-"ml_camera_in_about_days_text" = "in about %d days";
-"ml_camera_in_more_than_days_text" = "in more than %d days";
+"ml_camera_in_about_days_text" = "trong khoảng %d ngày";
+"ml_camera_in_more_than_days_text" = "trong hơn %d ngày";
 "ml_camera_sells_for_text" = "Thường bán được %d";
 "ml_category_text" = "Danh mục:";
 "ml_details_price_text" = "Giá:";
@@ -782,8 +782,10 @@
 "product_post_incentive_furniture" = "Nội thất";
 "product_post_incentive_got_any" = "có gì đó để bán?";
 "product_post_incentive_got_any_free" = "có gì để tặng?";
+"product_post_incentive_got_any_services" = "have these skills?";
 "product_post_incentive_kids_clothes" = "Quần áo trẻ em";
 "product_post_incentive_looking_for" = "Những người xung quanh bạn đang tìm kiếm những sản phẩm này, %@";
+"product_post_incentive_looking_for_services" = "People around you are looking for these services, %@";
 "product_post_incentive_motorcycle" = "Xe máy";
 "product_post_incentive_ps4" = "PS4";
 "product_post_incentive_subtitle" = "Sản phẩm của bạn đã được đăng.";

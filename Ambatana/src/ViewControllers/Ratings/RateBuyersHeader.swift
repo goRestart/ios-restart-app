@@ -43,7 +43,7 @@ class RateBuyersHeader: UIView {
 
         iconImage.clipsToBounds = true
         iconImage.contentMode = .scaleAspectFit
-        iconImage.image = #imageLiteral(resourceName: "emoji_congrats")
+        iconImage.image = R.Asset.BackgroundsAndImages.emojiCongrats.image
         titleLabel.textColor = UIColor.lgBlack
         titleLabel.font = UIFont.systemMediumFont(size: 17)
         titleLabel.numberOfLines = 0

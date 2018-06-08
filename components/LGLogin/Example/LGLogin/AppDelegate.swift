@@ -8,7 +8,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         return UIWindow(frame: UIScreen.main.bounds)
     }()
     lazy var coordinator: MainCoordinator = {
-        return MainCoordinator()
+        let dependencies = LGLoginExampleDependencies()
+        return MainCoordinator(dependencies: dependencies)
     }()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {

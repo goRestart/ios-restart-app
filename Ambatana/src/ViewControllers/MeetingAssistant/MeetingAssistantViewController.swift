@@ -100,13 +100,13 @@ final class MeetingAssistantViewController: BaseViewController {
         }
 
         setNavBarTitle(R.Strings.meetingCreationViewTitle)
-        setLetGoRightButtonWith(image: #imageLiteral(resourceName: "ic_meeting_tips"),
+        setLetGoRightButtonWith(image: R.Asset.ChatNorris.icMeetingTips.image,
                                 renderingMode: .alwaysOriginal,
                                 selector: "tipsButtonTapped")
         setNavBarBackgroundStyle(.transparent(substyle: .light))
         navigationController?.navigationBar.backgroundColor = UIColor.white
 
-        let cancelButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_close_red"), style: .plain, target: self, action: #selector(onNavBarCancel))
+        let cancelButton = UIBarButtonItem(image: R.Asset.CongratsScreenImages.icCloseRed.image, style: .plain, target: self, action: #selector(onNavBarCancel))
         cancelButton.tintColor = UIColor.primaryColor
         self.navigationItem.leftBarButtonItem = cancelButton
 

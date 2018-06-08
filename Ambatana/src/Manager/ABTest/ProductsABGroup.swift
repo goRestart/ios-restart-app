@@ -12,9 +12,13 @@ struct ProductsABGroup: ABGroupType {
 
     private struct Keys {
         static let servicesCategoryOnSalchichasMenu = "20180508ServicesCategoryOnSalchichasMenu"
+        static let predictivePosting = "20180604PredictivePosting"
+        static let videoPosting = "20180604VideoPosting"
     }
     
     let servicesCategoryOnSalchichasMenu: LeanplumABVariable<Int>
+    let predictivePosting: LeanplumABVariable<Int>
+    let videoPosting: LeanplumABVariable<Int>
 
     let group: ABGroup = .products
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -22,15 +26,25 @@ struct ProductsABGroup: ABGroupType {
     var floatVariables: [LeanplumABVariable<Float>] = []
     var boolVariables: [LeanplumABVariable<Bool>] = []
 
-    init(servicesCategoryOnSalchichasMenu: LeanplumABVariable<Int>) {
+    init(servicesCategoryOnSalchichasMenu: LeanplumABVariable<Int>,
+         predictivePosting: LeanplumABVariable<Int>,
+         videoPosting: LeanplumABVariable<Int>) {
         self.servicesCategoryOnSalchichasMenu = servicesCategoryOnSalchichasMenu
-        intVariables.append(contentsOf: [servicesCategoryOnSalchichasMenu])
+        self.predictivePosting = predictivePosting
+        self.videoPosting = videoPosting
+        intVariables.append(contentsOf: [servicesCategoryOnSalchichasMenu, predictivePosting, videoPosting])
     }
 
     static func make() -> ProductsABGroup {
         return ProductsABGroup(servicesCategoryOnSalchichasMenu: .makeInt(key: Keys.servicesCategoryOnSalchichasMenu,
                                                                defaultValue: 0,
-                                                               groupType: .products))
+                                                               groupType: .products),
+                               predictivePosting: .makeInt(key: Keys.predictivePosting,
+                                                           defaultValue: 0,
+                                                           groupType: .products),
+                               videoPosting: .makeInt(key: Keys.videoPosting,
+                                                      defaultValue: 0,
+                                                      groupType: .products))
     }
 }
 

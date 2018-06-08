@@ -19,9 +19,10 @@ typealias MachineLearningStatsPredictionCompletion = ([MachineLearningStats]?) -
  - Live: by capturing via delegate VideoCaptureDelegate. Results are publish into `liveStats`
  - One time: by calling predict(pixelBuffer:completion:). Result is provided in the completion
  */
-protocol MachineLearning: VideoCaptureDelegate {
+protocol MachineLearning: VideoOutputDelegate, VideoCaptureDelegate {
     var isLiveStatsEnabled: Bool { get set }
     var liveStats: Variable<[MachineLearningStats]?> { get }
+    var pixelsBuffersToForwardPerSecond: Int { get }
     func predict(pixelBuffer: CVPixelBuffer, completion: MachineLearningStatsPredictionCompletion?)
 }
 
@@ -41,6 +42,7 @@ final class LGMachineLearning: MachineLearning {
     }
     
     var isLiveStatsEnabled: Bool = true
+    let pixelsBuffersToForwardPerSecond: Int = 15
     let liveStats = Variable<[MachineLearningStats]?>(nil)
 
     convenience init() {
@@ -76,7 +78,7 @@ final class LGMachineLearning: MachineLearning {
         }
     }
     
-    // MARK: - VideoCaptureDelegate
+    // MARK: - VideoOutputDelegate & VideoCaptureDelegate
     
     func didCaptureVideoFrame(pixelBuffer: CVPixelBuffer?, timestamp: CMTime) {
         guard canPredict, isLiveStatsEnabled, let pixelBuffer = pixelBuffer else { return }

@@ -17,10 +17,10 @@ struct LGTutorialPage {
         switch typeOfOnboarding {
         case .baseline, .control, .onlyBadge: return nil
         case .oneScreen:
-            let section01Page01 = SectionTutorialPage(image:#imageLiteral(resourceName: "ilustraHouseSmall"),
+            let section01Page01 = SectionTutorialPage(image: R.Asset.RealEstate.Tutorial.ilustraHouseSmall.image,
                                                       title: R.Strings.realEstateTutorialOnePageFirstSectionTitle,
                                                       description: nil)
-            let section02Page01 = SectionTutorialPage(image:#imageLiteral(resourceName: "ilustraPhoneSmall"),
+            let section02Page01 = SectionTutorialPage(image: R.Asset.RealEstate.Tutorial.ilustraPhoneSmall.image,
                                                       title: R.Strings.realEstateTutorialOnePageSecondSectionTitle,
                                                       description: nil)
             let page01 = LGTutorialPage(title: R.Strings.commonNew,
@@ -28,11 +28,13 @@ struct LGTutorialPage {
                                         aligment: .center)
             return [page01]
         case .twoScreens:
-            let section01Page01 = SectionTutorialPage(image:#imageLiteral(resourceName: "houseSale") , title: R.Strings.realEstateTutorialTwoPagesFirstSectionFirstPageTitle, description: nil)
+            let section01Page01 = SectionTutorialPage(image: R.Asset.RealEstate.Tutorial.houseSale.image,
+                                                      title: R.Strings.realEstateTutorialTwoPagesFirstSectionFirstPageTitle,
+                                                      description: nil)
             let page01 = LGTutorialPage(title: nil,
                                         sections: [section01Page01],
                                         aligment: .left)
-            let section01Page02 = SectionTutorialPage(image:#imageLiteral(resourceName: "ilustraPhoneLocate"),
+            let section01Page02 = SectionTutorialPage(image: R.Asset.RealEstate.Tutorial.ilustraPhoneLocate.image,
                                                       title: R.Strings.realEstateTutorialTwoPagesFirstSectionSecondPageTitle,
                                                       description: nil)
             let page02 = LGTutorialPage(title: nil,
@@ -40,19 +42,19 @@ struct LGTutorialPage {
                                         aligment: .left)
             return [page01, page02]
         case .threeScreens:
-            let section01Page01 = SectionTutorialPage(image:#imageLiteral(resourceName: "houseSale") ,
+            let section01Page01 = SectionTutorialPage(image: R.Asset.RealEstate.Tutorial.houseSale.image ,
                                                       title: R.Strings.realEstateTutorialThreePagesFirstPageTitle,
                                                       description: R.Strings.realEstateTutorialThreePagesFirstPageDescription)
             let page01 = LGTutorialPage(title: nil,
                                         sections: [section01Page01],
                                         aligment: .left)
-            let section01Page02 = SectionTutorialPage(image:#imageLiteral(resourceName: "ilustraPhoneLocate"),
+            let section01Page02 = SectionTutorialPage(image: R.Asset.RealEstate.Tutorial.ilustraPhoneLocate.image,
                                                       title: R.Strings.realEstateTutorialThreePagesSecondPageTitle,
                                                       description: R.Strings.realEstateTutorialThreePagesSecondPageDecription)
             let page02 = LGTutorialPage(title: nil,
                                         sections: [section01Page02],
                                         aligment: .left)
-            let section01Page03 = SectionTutorialPage(image:#imageLiteral(resourceName: "ilustraAroundMe"),
+            let section01Page03 = SectionTutorialPage(image: R.Asset.RealEstate.Tutorial.ilustraAroundMe.image,
                                                       title: R.Strings.realEstateTutorialThreePagesThirdPageTitle,
                                                       description: R.Strings.realEstateTutorialThreePagesThirdPageDescription)
             let page03 = LGTutorialPage(title: nil,

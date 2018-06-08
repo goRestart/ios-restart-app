@@ -17,6 +17,7 @@ class FilterDistanceSlider: UIView {
     @IBOutlet weak var distanceTipCenter: NSLayoutConstraint!
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var marksContainer: UIView!
+    @IBOutlet weak var bottomBackground: UIImageView!
     
     private static let sliderButtonSize: CGFloat = 26
     private static let sliderValueOffset: Float = 0.5
@@ -100,6 +101,12 @@ class FilterDistanceSlider: UIView {
         addSubview(view)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layout(with: self).fill()
+        
+        closeIcon.image = R.Asset.IconsButtons.icFilterHome.image
+        closeIcon.highlightedImage = R.Asset.IconsButtons.icFilterHomeActive.image
+        farIcon.image = R.Asset.IconsButtons.icFilterFar.image
+        farIcon.highlightedImage = R.Asset.IconsButtons.icFilterFarActive.image
+        bottomBackground.image = R.Asset.IconsButtons.icDownTriangle.image
         
         tipTopBackground.setRoundedCorners()
         slider.maximumValue = Float(positions.count-1)

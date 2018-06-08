@@ -1,9 +1,13 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AppShareViewController" customModule="LetGo" customModuleProvider="target">
@@ -34,82 +38,94 @@
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gi0-9f-QTK" userLabel="backgroundButton">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                     <connections>
                         <action selector="onClose:" destination="-1" eventType="touchUpInside" id="0fM-ML-Ucz"/>
                     </connections>
                 </button>
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nfv-Fs-8Sb" userLabel="contentContainer">
-                    <rect key="frame" x="53" y="166" width="270" height="336"/>
+                    <rect key="frame" x="53" y="166.5" width="270" height="335.5"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Share the love" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4dL-Vh-zEi">
                             <rect key="frame" x="16" y="80" width="238" height="24"/>
                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                            <color key="textColor" red="0.29019607843137252" green="0.29019607843137252" blue="0.29019607843137252" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="textColor" red="0.29019607843137252" green="0.29019607843137252" blue="0.29019607843137252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Share letgo with your friends and help us grow our community!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r4F-5Z-OMj">
-                            <rect key="frame" x="16" y="110" width="238" height="34"/>
+                            <rect key="frame" x="16" y="110" width="238" height="33.5"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <color key="textColor" red="0.45882352941176469" green="0.45882352941176469" blue="0.45882352941176469" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="textColor" red="0.45882352941176469" green="0.45882352941176469" blue="0.45882352941176469" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ULX-ER-Ysf" userLabel="MessengerInviteBtn">
-                            <rect key="frame" x="16" y="172" width="238" height="44"/>
-                            <color key="backgroundColor" red="0.0" green="0.51764705882352935" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <rect key="frame" x="16" y="171.5" width="238" height="44"/>
+                            <color key="backgroundColor" red="0.047501973807811737" green="0.41910940408706665" blue="0.99838888645172119" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="0sb-nO-HAT"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                             <state key="normal" title="_Invite via Messenger">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <connections>
                                 <action selector="onInviteFBMessenger:" destination="-1" eventType="touchUpInside" id="eq8-UF-oRm"/>
                             </connections>
                         </button>
-                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_share_fbmessenger" translatesAutoresizingMaskIntoConstraints="NO" id="2sh-MF-fIP" userLabel="MessengerInviteIcon">
-                            <rect key="frame" x="27" y="183" width="22" height="23"/>
+                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2sh-MF-fIP" userLabel="MessengerInviteIcon">
+                            <rect key="frame" x="27" y="182.5" width="22" height="23"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="22" id="SF1-Mg-aWW"/>
+                                <constraint firstAttribute="height" constant="23" id="k6E-46-MNh"/>
+                            </constraints>
                         </imageView>
                         <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wu7-vj-7Uq" userLabel="WhatsappInviteBtn">
-                            <rect key="frame" x="16" y="224" width="238" height="44"/>
-                            <color key="backgroundColor" red="0.36078431372549019" green="0.74509803921568629" blue="0.29019607843137252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <rect key="frame" x="16" y="223.5" width="238" height="44"/>
+                            <color key="backgroundColor" red="0.30540904402732849" green="0.7089008092880249" blue="0.22685299813747406" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="Qm0-G1-Uab"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                             <state key="normal" title="_Invite via Whastapp">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <connections>
                                 <action selector="onInviteWhatsapp:" destination="-1" eventType="touchUpInside" id="ml9-Ow-el1"/>
                             </connections>
                         </button>
-                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_share_whatsapp" translatesAutoresizingMaskIntoConstraints="NO" id="7u7-s2-J0t" userLabel="WhatsappInviteIcon">
-                            <rect key="frame" x="27" y="236" width="20" height="20"/>
+                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7u7-s2-J0t" userLabel="WhatsappInviteIcon">
+                            <rect key="frame" x="27" y="235.5" width="20" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="20" id="Lbt-PA-Yhr"/>
+                                <constraint firstAttribute="height" constant="20" id="o0c-dW-OAo"/>
+                            </constraints>
                         </imageView>
                         <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zlF-Os-mMu" userLabel="EmailInviteBtn">
-                            <rect key="frame" x="16" y="276" width="238" height="44"/>
-                            <color key="backgroundColor" red="0.59999999999999998" green="0.5725490196078431" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <rect key="frame" x="16" y="275.5" width="238" height="44"/>
+                            <color key="backgroundColor" red="0.52891570329666138" green="0.49949902296066284" blue="0.50446248054504395" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="kac-sW-e0g"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                             <state key="normal" title="_Invite Via Email">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <connections>
                                 <action selector="onInviteEmail:" destination="-1" eventType="touchUpInside" id="XMj-IX-NLP"/>
                             </connections>
                         </button>
-                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_share_email" translatesAutoresizingMaskIntoConstraints="NO" id="Alz-ma-eX6" userLabel="EmailInviteIcon">
-                            <rect key="frame" x="27" y="290" width="22" height="16"/>
+                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Alz-ma-eX6" userLabel="EmailInviteIcon">
+                            <rect key="frame" x="27" y="289.5" width="22" height="16"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="16" id="02a-co-Cnw"/>
+                                <constraint firstAttribute="width" constant="22" id="9jE-Uq-Sqk"/>
+                            </constraints>
                         </imageView>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstItem="4dL-Vh-zEi" firstAttribute="leading" secondItem="nfv-Fs-8Sb" secondAttribute="leading" constant="16" id="27s-Ju-LgV"/>
                         <constraint firstItem="Alz-ma-eX6" firstAttribute="centerY" secondItem="zlF-Os-mMu" secondAttribute="centerY" id="4La-fG-ZTC"/>
@@ -136,15 +152,15 @@
                         <constraint firstItem="Wu7-vj-7Uq" firstAttribute="top" secondItem="ULX-ER-Ysf" secondAttribute="bottom" constant="8" id="w0u-NF-YgS"/>
                     </constraints>
                 </view>
-                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="invite_letgo" translatesAutoresizingMaskIntoConstraints="NO" id="SRs-kw-rCB">
-                    <rect key="frame" x="133" y="116" width="110" height="110"/>
+                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SRs-kw-rCB">
+                    <rect key="frame" x="133" y="116.5" width="110" height="110"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="110" id="QFZ-Q7-0Wk"/>
                         <constraint firstAttribute="width" secondItem="SRs-kw-rCB" secondAttribute="height" multiplier="1:1" id="zsR-8u-oJW"/>
                     </constraints>
                 </imageView>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="gi0-9f-QTK" secondAttribute="bottom" id="7XI-rc-cZ9"/>
                 <constraint firstItem="SRs-kw-rCB" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Ctf-Zi-6ed"/>
@@ -157,7 +173,6 @@
                 <constraint firstItem="gi0-9f-QTK" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="lpz-XD-uwH"/>
                 <constraint firstAttribute="trailing" secondItem="gi0-9f-QTK" secondAttribute="trailing" id="sik-zX-mdj"/>
             </constraints>
-            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
             <variation key="default">
                 <mask key="constraints">
                     <exclude reference="VBz-PE-JMZ"/>
@@ -167,10 +182,4 @@
             <point key="canvasLocation" x="722.5" y="455.5"/>
         </view>
     </objects>
-    <resources>
-        <image name="ic_share_email" width="22" height="16"/>
-        <image name="ic_share_fbmessenger" width="22" height="23"/>
-        <image name="ic_share_whatsapp" width="20" height="20"/>
-        <image name="invite_letgo" width="110" height="110"/>
-    </resources>
 </document>

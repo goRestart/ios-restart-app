@@ -1,10 +1,4 @@
-//
-//  ShareType.swift
-//  LetGo
-//
-//  Created by AHL on 16/8/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
+import LGComponents
 
 enum NativeShareStyle {
     case normal         // native share is shown with standard options
@@ -42,46 +36,46 @@ enum ShareType {
     var smallImage: UIImage? {
         switch self {
         case .email:
-            return UIImage(named: "item_share_email")
+            return R.Asset.IconsButtons.itemShareEmail.image
         case .facebook:
-            return UIImage(named: "item_share_fb")
+            return R.Asset.IconsButtons.itemShareFb.image
         case .twitter:
-            return UIImage(named: "item_share_twitter")
+            return R.Asset.IconsButtons.itemShareTwitter.image
         case .native:
-            return UIImage(named: "item_share_more")
+            return R.Asset.IconsButtons.itemShareMore.image
         case .copyLink:
-            return UIImage(named: "item_share_link")
+            return R.Asset.IconsButtons.itemShareLink.image
         case .fbMessenger:
-            return UIImage(named: "item_share_fb_messenger")
+            return R.Asset.IconsButtons.itemShareFbMessenger.image
         case .whatsapp:
-            return UIImage(named: "item_share_whatsapp")
+            return R.Asset.IconsButtons.itemShareWhatsapp.image
         case .telegram:
-            return UIImage(named: "item_share_telegram")
+            return R.Asset.IconsButtons.itemShareTelegram.image
         case .sms:
-            return UIImage(named: "item_share_sms")
+            return R.Asset.IconsButtons.itemShareSms.image
         }
     }
 
     var bigImage: UIImage? {
         switch self {
         case .email:
-            return UIImage(named: "item_share_email_big")
+            return R.Asset.IconsButtons.itemShareEmailBig.image
         case .facebook:
-            return UIImage(named: "item_share_fb_big")
+            return R.Asset.IconsButtons.itemShareFbBig.image
         case .twitter:
-            return UIImage(named: "item_share_twitter_big")
+            return R.Asset.IconsButtons.itemShareTwitterBig.image
         case .native:
-            return UIImage(named: "item_share_more_big")
+            return R.Asset.IconsButtons.itemShareMoreBig.image
         case .copyLink:
-            return UIImage(named: "item_share_link_big")
+            return R.Asset.IconsButtons.itemShareLinkBig.image
         case .fbMessenger:
-            return UIImage(named: "item_share_fb_messenger_big")
+            return R.Asset.IconsButtons.itemShareFbMessengerBig.image
         case .whatsapp:
-            return UIImage(named: "item_share_whatsapp_big")
+            return R.Asset.IconsButtons.itemShareWhatsappBig.image
         case .telegram:
-            return UIImage(named: "item_share_telegram_big")
+            return R.Asset.IconsButtons.itemShareTelegramBig.image
         case .sms:
-            return UIImage(named: "item_share_sms_big")
+            return R.Asset.IconsButtons.itemShareSmsBig.image
         }
     }
 

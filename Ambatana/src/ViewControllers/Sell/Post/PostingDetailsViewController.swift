@@ -1,14 +1,7 @@
-//
-//  PostingDetailsViewController.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 04/10/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewControllerModelDelegate, PostingDetailsViewModelDelegate {
     
@@ -17,6 +10,7 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
     static let skipButtonHeight: CGFloat = 44
     
     private let titleLabel: UILabel = UILabel()
+    private let subtitleLabel: UILabel = UILabel()
     private let contentView: UIView = UIView()
     private var infoView: PostingViewConfigurable?
     private let buttonNext = LetgoButton()
@@ -63,6 +57,8 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
         view.clipsToBounds = true
         
         titleLabel.text = viewModel.title
+        subtitleLabel.text = viewModel.subtitle
+        titleLabel.numberOfLines = 2
         buttonNext.setTitle(viewModel.buttonTitle, for: .normal)
         
         view.backgroundColor = .clear
@@ -70,7 +66,8 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
         
         titleLabel.font = UIFont.postingFlowHeadline
         titleLabel.textColor = UIColor.white
-        
+        subtitleLabel.font = UIFont.postingFlowHeadlineSubtitle
+        subtitleLabel.textColor = UIColor.grayDark
         buttonNext.setStyle(viewModel.doneButtonStyle)
         
         buttonNext.addTarget(self, action: #selector(nextButtonPressed), for: .touchUpInside)
@@ -89,8 +86,8 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
         let currentStep = navigationController.currentStep
         setNavBarBackgroundStyle(.transparent(substyle: .dark))
         
-        let backImage = #imageLiteral(resourceName: "navbar_back_white_shadow")
-        let closeImage = #imageLiteral(resourceName: "ic_post_close")
+        let backImage = R.Asset.IconsButtons.navbarBackWhiteShadow.image
+        let closeImage = R.Asset.IconsButtons.icPostClose.image
         
         if currentStep == 1 || viewModel.isSummaryStep {
             let closeButton = UIBarButtonItem(image: closeImage , style: UIBarButtonItemStyle.plain,
@@ -107,11 +104,14 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
     
     private func setupConstraints() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
         buttonNext.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(titleLabel)
+        view.addSubview(subtitleLabel)
         titleLabel.layout(with: view).fillHorizontal(by: Metrics.bigMargin)
+        subtitleLabel.layout(with: view).fillHorizontal(by: Metrics.bigMargin)
         let topAnchor: NSLayoutYAxisAnchor
         let constant: CGFloat
         if #available(iOS 11, *) {
@@ -122,9 +122,11 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
             constant = PostingDetailsViewController.titleHeight
         }
         titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: constant).isActive = true
+        subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: constant).isActive = true
+        subtitleLabel.layout(with: titleLabel).below(by: Metrics.shortMargin)
         
         view.addSubview(contentView)
-        contentView.layout(with: titleLabel).below(by: Metrics.bigMargin)
+        contentView.layout(with: subtitleLabel).below(by: Metrics.bigMargin)
         contentView.layout(with: view).fillHorizontal(by: Metrics.veryShortMargin)
         contentView.layout(with: view).bottom()
         

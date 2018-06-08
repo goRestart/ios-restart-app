@@ -112,6 +112,9 @@ class LetgoURLHelper {
         return urlComponents.url
     }
 
+    static func buildCommunityGuidelineURL() -> URL? {
+        return LetgoURLHelper.composeLocalizedURL(Constants.websiteCommunityGuideline)
+    }
 
     // MARK: - Private methods
 

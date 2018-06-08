@@ -30,4 +30,10 @@ protocol AppNavigator: class {
                                      bumpUpProductData: BumpUpProductData,
                                      typePage: EventParameterTypePage?)
     func openMostSearchedItems(source: PostingSource, enableSearch: Bool)
+    func canOpenOffensiveReportAlert() -> Bool
+    func openOffensiveReportAlert()
+    func showBottomBubbleNotification(data: BubbleNotificationData,
+                                      duration: TimeInterval,
+                                      alignment: BubbleNotificationView.Alignment,
+                                      style: BubbleNotificationView.Style)
 }

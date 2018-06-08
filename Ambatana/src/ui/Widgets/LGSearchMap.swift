@@ -67,7 +67,7 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
         searchField.textColor = UIColor.blackText
         searchField.clearButtonMode = .always
         
-        searchIcon.image = #imageLiteral(resourceName: "list_search")
+        searchIcon.image = R.Asset.IconsButtons.listSearch.image
         
         suggestionsTableView.cornerRadius = LGUIKitConstants.smallCornerRadius
         suggestionsTableView.layer.borderColor = UIColor.lineGray.cgColor
@@ -78,7 +78,7 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
                                       forCellReuseIdentifier: LGSearchMapConstants.suggestionCellId)
         
         gpsLocationButton.cornerRadius = 10
-        gpsLocationButton.setImage(UIImage(named:"map_user_location_button"), for: .normal)
+        gpsLocationButton.setImage(R.Asset.IconsButtons.Map.mapUserLocationButton.image, for: .normal)
         gpsLocationButton.addTarget(self, action: #selector(LGSearchMap.gpsButtonPressed), for: .touchUpInside)
         
         aproxLocationArea.backgroundColor = UIColor.black

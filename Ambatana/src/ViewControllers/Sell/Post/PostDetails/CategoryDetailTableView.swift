@@ -288,7 +288,7 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
             cell.textLabel?.font = UIFont.systemBoldFont(size: 17)
             cell.backgroundColor = style.cellBackgroundColor
             cell.textLabel?.textColor = style.cellSelectedTextColor
-            cell.imageView?.image = UIImage(named: "ic_cirle_plus")?.withRenderingMode(.alwaysTemplate)
+            cell.imageView?.image = R.Asset.IconsButtons.icCirlePlus.image.withRenderingMode(.alwaysTemplate)
             cell.imageView?.tintColor = style.othersIconTintColor
             cell.imageView?.contentMode = .left
             return cell

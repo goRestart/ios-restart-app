@@ -2,25 +2,40 @@ import UIKit
 import LGCoreKit
 import LGComponents
 
-class BlockedUserCell: UITableViewCell {
+class BlockedUserCell: UITableViewCell, ReusableCell {
 
     static let defaultHeight: CGFloat = 76
 
-    @IBOutlet weak var avatarImageView: UIImageView!
-    @IBOutlet weak var userNameLabel: UILabel!
-    @IBOutlet weak var blockedLabel: UILabel!
-    @IBOutlet weak var blockedIcon: UIImageView!
+    private struct Layout {
+        static let avatarSize: CGFloat = 60.0
+        static let nameLeadingMargin: CGFloat = 12.0
+    }
+    
+    var avatarImageView: UIImageView = {
+        let imageView = UIImageView(image: R.Asset.IconsButtons.userPlaceholder.image)
+        imageView.backgroundColor = .clear
+        imageView.clipsToBounds = true
+        return imageView
+    }()
+    
+    var userNameLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.bigBodyFontLight
+        label.textColor = UIColor.blackText
+        return label
+    }()
+    
 
     var lines: [CALayer] = []
+    
+    required init?(coder aDecoder: NSCoder) { fatalError("Die xibs, die") }
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-        setupUI()
-        resetUI()
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupConstraints()
         setAccessibilityIds()
     }
-
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         resetUI()
@@ -35,6 +50,7 @@ class BlockedUserCell: UITableViewCell {
 
     override func layoutSubviews() {
         super.layoutSubviews()
+        avatarImageView.setRoundedCorners()
         // Redraw the lines
         lines.forEach { $0.removeFromSuperlayer() }
         lines = []
@@ -58,23 +74,24 @@ class BlockedUserCell: UITableViewCell {
     }
 
     // MARK: - Private methods
-
-    private func setupUI() {
-        avatarImageView.setRoundedCorners()
-        avatarImageView.clipsToBounds = true
-        userNameLabel.font = UIFont.bigBodyFontLight
-        blockedLabel.font = UIFont.smallBodyFontLight
-
-        userNameLabel.textColor = UIColor.blackText
-        blockedLabel.textColor = UIColor.blackText
-        blockedLabel.isHidden = true
-        blockedIcon.isHidden = true
+    
+    private func setupConstraints() {
+        addSubviewsForAutoLayout([avatarImageView, userNameLabel])
+        NSLayoutConstraint.activate([
+            avatarImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metrics.margin),
+            avatarImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            avatarImageView.widthAnchor.constraint(equalToConstant: Layout.avatarSize),
+            avatarImageView.heightAnchor.constraint(equalToConstant: Layout.avatarSize),
+            
+            userNameLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+            userNameLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: Layout.nameLeadingMargin),
+            userNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            ])
     }
 
     private func resetUI() {
-        avatarImageView.image = UIImage(named: "user_placeholder")
+        avatarImageView.image = R.Asset.IconsButtons.userPlaceholder.image
         userNameLabel.text = ""
-        blockedLabel.text = R.Strings.chatListBlockedUserLabel
     }
 
     override func setEditing(_ editing: Bool, animated: Bool) {
@@ -93,7 +110,5 @@ extension BlockedUserCell {
     func setAccessibilityIds() {
         avatarImageView.set(accessibilityId: .blockedUserCellAvatarImageView)
         userNameLabel.set(accessibilityId: .blockedUserCellUserNameLabel)
-        blockedLabel.set(accessibilityId: .blockedUserCellBlockedLabel)
-        blockedIcon.set(accessibilityId: .blockedUserCellBlockedIcon)
     }
 }

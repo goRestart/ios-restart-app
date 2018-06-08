@@ -71,7 +71,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         context("update pending to upload images") {
                             beforeEach {
                                 oldSut = sut
-                                sut = sut.updating(pendingToUploadImages: [UIImage].makeRandom())
+                                sut = sut.updating(pendingToUploadImages: [UIImage].makeRandom(), predictionData: nil)
                             }
                             
                             it("returns a new state") {
@@ -114,14 +114,14 @@ class PostProductStateSpec: BaseViewModelSpec {
                         }
                         
                         it("returns the same state when updating pending to upload images") {
-                            expect(sut.updating(pendingToUploadImages: [UIImage].makeRandom())) === sut
+                            expect(sut.updating(pendingToUploadImages: [UIImage].makeRandom(), predictionData: nil)) === sut
                         }
                         
                         context("update uploaded images") {
                             beforeEach {
                                 oldSut = sut
                                 sut = sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
-                                        .updatingAfterUploadingSuccess()
+                                    .updatingAfterUploadingSuccess(predictionData: nil)
                             }
                             
                             it("returns a new state") {
@@ -184,7 +184,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         }
                         
                         it("returns the same state when updating pending to upload images") {
-                            expect(sut.updating(pendingToUploadImages: [UIImage].makeRandom())) === sut
+                            expect(sut.updating(pendingToUploadImages: [UIImage].makeRandom(), predictionData: nil)) === sut
                         }
                         
                         it("returns the same state when updating uploaded images") {
@@ -209,7 +209,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                             sut = PostListingState(postCategory: .realEstate, title: nil)
                             sut = sut.updatingStepToUploadingImages()
                             sut = sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
-                            sut = sut.updatingAfterUploadingSuccess()
+                            sut = sut.updatingAfterUploadingSuccess(predictionData: nil)
                             sut = sut.updating(price: ListingPrice.makeMock())
                         }
                         
@@ -218,7 +218,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         }
                         
                         it("returns the same state when updating pending to upload images") {
-                            expect(sut.updating(pendingToUploadImages: [UIImage].makeRandom())) === sut
+                            expect(sut.updating(pendingToUploadImages: [UIImage].makeRandom(), predictionData: nil)) === sut
                         }
                         
                         it("returns the same state when updating uploaded images") {
@@ -254,7 +254,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         }
                         
                         it("returns the same state when updating pending to upload images") {
-                            expect(sut.updating(pendingToUploadImages: [UIImage].makeRandom())) === sut
+                            expect(sut.updating(pendingToUploadImages: [UIImage].makeRandom(), predictionData: nil)) === sut
                         }
                         
                         it("returns the same state when updating uploaded images") {
@@ -268,7 +268,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         context("update price") {
                             beforeEach {
                                 oldSut = sut
-                                sut = sut.updatingAfterUploadingSuccess()
+                                sut = sut.updatingAfterUploadingSuccess(predictionData: nil)
                                 sut = sut.updating(price: ListingPrice.makeMock())
                             }
                             
@@ -290,7 +290,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         beforeEach {
                             sut = sut.updatingStepToUploadingImages()
                             sut = sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
-                            sut = sut.updatingAfterUploadingSuccess()
+                            sut = sut.updatingAfterUploadingSuccess(predictionData: nil)
                             sut = sut.updating(price: ListingPrice.makeMock())
                         }
                         
@@ -329,7 +329,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         }
                         
                         it("returns the same state when updating pending to upload images") {
-                            expect(sut.updating(pendingToUploadImages: [UIImage].makeRandom())) === sut
+                            expect(sut.updating(pendingToUploadImages: [UIImage].makeRandom(), predictionData: nil)) === sut
                         }
                         
                         it("returns the same state when updating uploaded images") {
@@ -354,7 +354,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                             sut = sut
                                 .updatingStepToUploadingImages()
                                 .updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
-                                .updatingAfterUploadingSuccess()
+                                .updatingAfterUploadingSuccess(predictionData: nil)
                                 .updating(price: ListingPrice.makeMock())
                                 .updating(category: .car)
                         }
@@ -368,7 +368,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         }
                         
                         it("returns the same state when updating pending to upload images") {
-                            expect(sut.updating(pendingToUploadImages: [UIImage].makeRandom())) === sut
+                            expect(sut.updating(pendingToUploadImages: [UIImage].makeRandom(), predictionData: nil)) === sut
                         }
                         
                         it("returns the same state when updating uploaded images") {
@@ -399,6 +399,42 @@ class PostProductStateSpec: BaseViewModelSpec {
                         }
                     }
                 }
+            }
+            
+            context("services details selection") {
+                beforeEach {
+                    sut = sut
+                        .updatingStepToUploadingImages()
+                        .updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
+                        .updatingAfterUploadingSuccess(predictionData: nil)
+                        .updating(price: ListingPrice.makeMock())
+                        .updating(category: .services, showServicesFeatures: true)
+                }
+                
+                it("returns the same state when updating category") {
+                    expect(sut.updating(category: .services)) === sut
+                }
+                
+                it("returns the same state when updating step to uploading images") {
+                    expect(sut.updatingStepToUploadingImages()) === sut
+                }
+                
+                it("returns the same state when updating pending to upload images") {
+                    expect(sut.updating(pendingToUploadImages: [UIImage].makeRandom(), predictionData: nil)) === sut
+                }
+                
+                it("returns the same state when updating uploaded images") {
+                    expect(sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())) === sut
+                }
+                
+                it("returns the same state when updating upload error") {
+                    expect(sut.updating(uploadError: .notFound)) === sut
+                }
+                
+                it("returns the same state when updating price") {
+                    expect(sut.updating(price: ListingPrice.makeMock())) === sut
+                }
+                
             }
             
             context("init with title") {
@@ -436,7 +472,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         sut = PostListingState(postCategory: .car, title: nil)
                         sut = sut.updatingStepToUploadingImages()
                         sut = sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
-                        sut = sut.updatingAfterUploadingSuccess()
+                        sut = sut.updatingAfterUploadingSuccess(predictionData: nil)
                     }
                     
                     it("updates the step to price selection") {
@@ -451,7 +487,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         sut = PostListingState(postCategory: .car, title: nil)
                         sut = sut.updatingStepToUploadingImages()
                         sut = sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
-                        sut = sut.updatingAfterUploadingSuccess()
+                        sut = sut.updatingAfterUploadingSuccess(predictionData: nil)
                         sut = sut.updating(price: ListingPrice.makeMock())
                     }
                     it("returns a new state") {
@@ -467,7 +503,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating pending to upload images") {
-                        expect(sut.updating(pendingToUploadImages: [UIImage].makeRandom())) === sut
+                        expect(sut.updating(pendingToUploadImages: [UIImage].makeRandom(), predictionData: nil)) === sut
                     }
                     
                     it("returns the same state when updating uploaded images") {
@@ -491,7 +527,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         sut = PostListingState(postCategory: .otherItems(listingCategory: nil), title: nil)
                         sut = sut.updatingStepToUploadingImages()
                         sut = sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
-                        sut = sut.updatingAfterUploadingSuccess()
+                        sut = sut.updatingAfterUploadingSuccess(predictionData: nil)
                         sut = sut.updating(price: ListingPrice.makeMock())
                     }
                     it("returns a new state") {
@@ -507,7 +543,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating pending to upload images") {
-                        expect(sut.updating(pendingToUploadImages: [UIImage].makeRandom())) === sut
+                        expect(sut.updating(pendingToUploadImages: [UIImage].makeRandom(), predictionData: nil)) === sut
                     }
                     
                     it("returns the same state when updating uploaded images") {

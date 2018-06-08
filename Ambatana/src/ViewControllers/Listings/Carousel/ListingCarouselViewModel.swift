@@ -21,6 +21,7 @@ enum CarouselMovement {
 enum AdRequestType {
     case dfp
     case moPub
+    case interstitial
 
     var trackingParamValue: EventParameterAdType {
         switch self {
@@ -28,6 +29,8 @@ enum AdRequestType {
             return .dfp
         case .moPub:
             return .moPub
+        case .interstitial:
+            return .interstitial
         }
     }
 }
@@ -148,7 +151,6 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     var isPlayable: Bool { return currentListingViewModel?.isPlayable ?? false }
-    var shouldAddPlayButton: Bool { return featureFlags.machineLearningMVP.isVideoPostingActive }
 
     fileprivate var trackingIndex: Int?
     fileprivate var initialThumbnail: UIImage?
@@ -289,14 +291,14 @@ class ListingCarouselViewModel: BaseViewModel {
         if let productListModels = productListModels {
             let listingCarouselCellModels = productListModels
                 .flatMap(ListingCarouselCellModel.adapter)
-                .filter(featureFlags.discardedProducts.notDiscarded)
+                .filter({!$0.listing.status.isDiscarded})
             self.objects.appendContentsOf(listingCarouselCellModels)
             self.isLastPage = listingListRequester.isLastPage(productListModels.count)
         } else {
             let listingCarouselCellModels = [initialListing]
                 .flatMap{$0}
                 .map(ListingCarouselCellModel.init)
-                .filter(featureFlags.discardedProducts.notDiscarded)
+                .filter({!$0.listing.status.isDiscarded})
             self.objects.appendContentsOf(listingCarouselCellModels)
             self.isLastPage = false
         }
@@ -525,6 +527,38 @@ class ListingCarouselViewModel: BaseViewModel {
                                                willLeaveApp: willLeave,
                                                typePage: typePage)
     }
+    
+    func createAndLoadInterstitial() -> GADInterstitial? {
+        return adsRequester.createAndLoadInterstitialForUserRepository(myUserRepository)
+    }
+    
+    func presentInterstitial(_ interstitial: GADInterstitial?, index: Int, fromViewController: UIViewController) {
+        adsRequester.presentInterstitial(interstitial, index: index, fromViewController: fromViewController)
+    }
+    
+    func interstitialAdTapped(typePage: EventParameterTypePage) {
+        let adType = AdRequestType.interstitial.trackingParamValue
+        let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
+        let feedPosition: EventParameterFeedPosition = .position(index: currentIndex)
+        let willLeave = EventParameterBoolean(bool: true)
+        currentListingViewModel?.trackInterstitialAdTapped(adType: adType,
+                                                           isMine: isMine,
+                                                           feedPosition: feedPosition,
+                                                           willLeaveApp: willLeave,
+                                                           typePage: typePage)
+    }
+    
+    func interstitialAdShown(typePage: EventParameterTypePage) {
+        let adType = AdRequestType.interstitial.trackingParamValue
+        let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
+        let feedPosition: EventParameterFeedPosition = .position(index: currentIndex)
+        let adShown = EventParameterBoolean(bool: true)
+        currentListingViewModel?.trackInterstitialAdShown(adType: adType,
+                                                           isMine: isMine,
+                                                           feedPosition: feedPosition,
+                                                           adShown: adShown,
+                                                           typePage: typePage)
+    }
 
     func statusLabelTapped() {
         navigator?.openFeaturedInfo()
@@ -705,7 +739,7 @@ extension ListingCarouselViewModel: Paginable {
                 strongSelf.nextPage = strongSelf.nextPage + 1
                 let listingCarouselCellModels = newListings
                     .map(ListingCarouselCellModel.init)
-                    .filter(strongSelf.featureFlags.discardedProducts.notDiscarded)
+                    .filter({!$0.listing.status.isDiscarded})
                 strongSelf.objects.appendContentsOf(listingCarouselCellModels)
                 strongSelf.isLastPage = strongSelf.listingListRequester.isLastPage(newListings.count)
                 if newListings.isEmpty && !strongSelf.isLastPage {
@@ -867,13 +901,5 @@ extension CarouselMovement {
         case .initial:
             return .position(index: index)
         }
-    }
-}
-
-extension DiscardedProducts {
-    
-    func notDiscarded(model: ListingCarouselCellModel) -> Bool {
-        guard isActive else { return true }
-        return !model.listing.status.isDiscarded
     }
 }

@@ -17,6 +17,11 @@ enum PostIncentiviserItem: Int {
         guard pack == 0 else { return [.motorcycle, .dresser, .car] }
         return [.ps4, .tv, .bike]
     }
+    
+    static func servicesIncentiviserPack() -> [PostIncentiviserItem] {
+        // FIXME: update when images available from design
+        return [.tv, .dresser, .furniture]
+    }
 
     var name: String {
         switch self {
@@ -44,23 +49,23 @@ enum PostIncentiviserItem: Int {
     var image: UIImage? {
         switch self {
         case .ps4:
-            return UIImage(named: "ps4")
+            return R.Asset.CongratsScreenImages.ps4.image
         case .tv:
-            return UIImage(named: "tv")
+            return R.Asset.CongratsScreenImages.tv.image
         case .bike:
-            return UIImage(named: "bike")
+            return R.Asset.CongratsScreenImages.bike.image
         case .motorcycle:
-            return UIImage(named: "motorcycle")
+            return R.Asset.CongratsScreenImages.motorcycle.image
         case .dresser:
-            return UIImage(named: "dresser")
+            return R.Asset.CongratsScreenImages.dresser.image
         case .car:
-            return UIImage(named: "cars")
+            return R.Asset.CongratsScreenImages.cars.image
         case .kidsClothes:
-            return UIImage(named: "kids_clothes")
+            return R.Asset.CongratsScreenImages.kidsClothes.image
         case .furniture:
-            return UIImage(named: "furniture")
+            return R.Asset.CongratsScreenImages.furniture.image
         case .toys:
-            return UIImage(named: "toys")
+            return R.Asset.CongratsScreenImages.toys.image
         }
     }
 

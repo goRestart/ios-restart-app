@@ -491,8 +491,8 @@
 "meeting_creation_view_suggest_cell_select" = "Selecciona";
 "meeting_creation_view_suggest_cell_selected" = "Seleccionada";
 "meeting_creation_view_title" = "Programar un encuentro";
-"ml_camera_in_about_days_text" = "in about %d days";
-"ml_camera_in_more_than_days_text" = "in more than %d days";
+"ml_camera_in_about_days_text" = "en unos %d días";
+"ml_camera_in_more_than_days_text" = "en más de %d días";
 "ml_camera_sells_for_text" = "Se suele vender por %d";
 "ml_category_text" = "Categoría:";
 "ml_details_price_text" = "Precio:";
@@ -630,7 +630,7 @@
 "post_description_info_title" = "INFORMACIÓN DEL ANUNCIO";
 "post_description_name_placeholder" = "Nombre";
 "post_description_save_button_text" = "¡Guardar este anuncio!";
-"post_details_services_add_new" = "Add a new service";
+"post_details_services_add_new" = "Añadir otro servicio";
 "post_details_services_congratulation_people_near" = "Alrededor de ti se buscan estos servicios, ¿tienes estas habilidades?";
 "post_details_services_congratulation_post_another" = "Publicar otro anuncio";
 "post_details_services_congratulation_review" = "Revisa tus anuncios y añade más detalles";
@@ -782,8 +782,10 @@
 "product_post_incentive_furniture" = "Muebles";
 "product_post_incentive_got_any" = "¿tienes alguno para vender?";
 "product_post_incentive_got_any_free" = "¿tienes alguno para regalar?";
+"product_post_incentive_got_any_services" = "¿tienes estas habilidades?";
 "product_post_incentive_kids_clothes" = "Ropa de niño";
 "product_post_incentive_looking_for" = "Alrededor de ti se buscan estos artículos, %@";
+"product_post_incentive_looking_for_services" = "Alrededor de ti se buscan estos servicios, %@";
 "product_post_incentive_motorcycle" = "Motos";
 "product_post_incentive_ps4" = "PS4";
 "product_post_incentive_subtitle" = "Tu anuncio ha sido publicado.";

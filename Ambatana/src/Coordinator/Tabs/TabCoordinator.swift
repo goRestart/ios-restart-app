@@ -400,7 +400,6 @@ fileprivate extension TabCoordinator {
         navigationController.pushViewController(vc, animated: true)
     }
 
-
     func openUser(_ interlocutor: ChatInterlocutor) {
         let vm = UserProfileViewModel.makePublicProfile(chatInterlocutor: interlocutor, source: .chat)
         vm.navigator = self
@@ -773,7 +772,31 @@ extension TabCoordinator: ListingDetailNavigator {
                         withAction action: @escaping () -> ()) {
         let action = UIAction(interface: .button(R.Strings.productInterestedUndo, .terciary) , action: action)
         let data = BubbleNotificationData(text: message, action: action)
-        bubbleNotificationManager.showBubble(data, duration: duration, view: navigationController.view)
+        
+        switch featureFlags.highlightedIAmInterestedInFeed {
+        case .baseline, .control:
+            bubbleNotificationManager.showBubble(data: data,
+                                                 duration: duration,
+                                                 view: navigationController.view,
+                                                 alignment: .top(offset: viewController.statusBarHeight),
+                                                 style: .light)
+        case .darkTop:
+            bubbleNotificationManager.showBubble(data: data,
+                                                 duration: duration,
+                                                 view: navigationController.view,
+                                                 alignment: .top(offset: viewController.statusBarHeight),
+                                                 style: .dark)
+        case .lightBottom:
+            appNavigator?.showBottomBubbleNotification(data: data,
+                                                       duration: duration,
+                                                       alignment: .bottom,
+                                                       style: .light)
+        case .darkBottom:
+            appNavigator?.showBottomBubbleNotification(data: data,
+                                                       duration: duration,
+                                                       alignment: .bottom,
+                                                       style: .dark)
+        }
     }
 }
 

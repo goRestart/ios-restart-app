@@ -2317,11 +2317,17 @@
 // !!!! -> this text will go at the place of the variable %@ in "product_post_incentive_looking_for"
 "product_post_incentive_got_any_free" = "got any to give away?";
 
+// !!!! -> this text will go at the place of the variable %@ in "product_post_incentive_looking_for_services"
+"product_post_incentive_got_any_services" = "have these skills?";
+
 // product name kid's clothes
 "product_post_incentive_kids_clothes" = "Kid's clothes";
 
 // 1st part of the incentivation text
 "product_post_incentive_looking_for" = "People around you are looking for these items, %@";
+
+// 1st part of the services incentivation text
+"product_post_incentive_looking_for_services" = "People around you are looking for these services, %@";
 
 // product name motorcycle
 "product_post_incentive_motorcycle" = "Motorcycles";

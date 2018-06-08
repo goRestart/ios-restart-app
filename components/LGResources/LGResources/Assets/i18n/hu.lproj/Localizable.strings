@@ -491,8 +491,8 @@
 "meeting_creation_view_suggest_cell_select" = "Választ";
 "meeting_creation_view_suggest_cell_selected" = "Kiválasztva";
 "meeting_creation_view_title" = "Találkozó megtervezése";
-"ml_camera_in_about_days_text" = "in about %d days";
-"ml_camera_in_more_than_days_text" = "in more than %d days";
+"ml_camera_in_about_days_text" = "körülbelül %d nap alatt";
+"ml_camera_in_more_than_days_text" = "több mint %d nap alatt";
 "ml_camera_sells_for_text" = "Jellemző vételár: %d";
 "ml_category_text" = "Kategória:";
 "ml_details_price_text" = "Ár:";
@@ -782,8 +782,10 @@
 "product_post_incentive_furniture" = "Bútor";
 "product_post_incentive_got_any" = "neked van felesleges?";
 "product_post_incentive_got_any_free" = "neked van felesleges?";
+"product_post_incentive_got_any_services" = "have these skills?";
 "product_post_incentive_kids_clothes" = "Gyerekruha";
 "product_post_incentive_looking_for" = "A környéked lakói ezeket keresik, %@";
+"product_post_incentive_looking_for_services" = "People around you are looking for these services, %@";
 "product_post_incentive_motorcycle" = "Motorkerékpárok";
 "product_post_incentive_ps4" = "PS4-ek";
 "product_post_incentive_subtitle" = "Hirdetésed felkerült a többi közé.";

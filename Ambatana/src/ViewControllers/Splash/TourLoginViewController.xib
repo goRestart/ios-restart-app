@@ -22,9 +22,11 @@
                 <outlet property="emailButtonJustText" destination="5wX-Nd-maq" id="sRJ-1k-xiX"/>
                 <outlet property="emailButtonTopContraint" destination="UlB-vk-1g9" id="sJ6-LA-UgN"/>
                 <outlet property="facebookButton" destination="sYm-Go-MoG" id="Scq-sW-10b"/>
+                <outlet property="facebookIcon" destination="Mc9-Nl-5Hz" id="CYa-hx-Dbt"/>
                 <outlet property="footerTextView" destination="odo-ww-79k" id="hyR-lO-fOS"/>
                 <outlet property="footerTextViewBottomConstraint" destination="Ube-Lj-cmp" id="KSK-u4-AuG"/>
                 <outlet property="googleButton" destination="mEX-y8-IOU" id="hct-Us-FpP"/>
+                <outlet property="googleIcon" destination="WND-Em-Hte" id="6Do-Oa-jIP"/>
                 <outlet property="kenBurnsView" destination="tHx-aq-sBy" id="gHS-cW-LeE"/>
                 <outlet property="mainView" destination="CyB-qf-8tj" id="Gch-ad-dma"/>
                 <outlet property="mainViewBottomConstraint" destination="Rzx-8J-Z9x" id="blz-bv-WS8"/>
@@ -55,7 +57,7 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a7f-Ix-ddh" userLabel="Logo and Claim View">
                             <rect key="frame" x="0.0" y="101" width="375" height="133"/>
                             <subviews>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="logo_onboarding" translatesAutoresizingMaskIntoConstraints="NO" id="ZP8-Fg-JQL" userLabel="Logo Image View">
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" translatesAutoresizingMaskIntoConstraints="NO" id="ZP8-Fg-JQL" userLabel="Logo Image View">
                                     <rect key="frame" x="128" y="0.0" width="120" height="72"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="72" id="YLl-qK-aXS"/>
@@ -111,7 +113,7 @@
                                 <action selector="facebookButtonPressed:" destination="-1" eventType="touchUpInside" id="7po-sr-Z9a"/>
                             </connections>
                         </button>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_facebook_rounded" translatesAutoresizingMaskIntoConstraints="NO" id="Mc9-Nl-5Hz" userLabel="Facebook Image View">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Mc9-Nl-5Hz" userLabel="Facebook Image View">
                             <rect key="frame" x="22" y="10" width="30" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="30" id="UzL-I1-cAe"/>
@@ -134,7 +136,7 @@
                                 <action selector="googleButtonPressed:" destination="-1" eventType="touchUpInside" id="v67-mv-CNb"/>
                             </connections>
                         </button>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_google_rounded" translatesAutoresizingMaskIntoConstraints="NO" id="WND-Em-Hte" userLabel="Google Image View">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WND-Em-Hte" userLabel="Google Image View">
                             <rect key="frame" x="23" y="70" width="30" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="d0p-hd-U0a"/>
@@ -266,9 +268,4 @@
             <nil key="simulatedBottomBarMetrics"/>
         </view>
     </objects>
-    <resources>
-        <image name="ic_facebook_rounded" width="30" height="30"/>
-        <image name="ic_google_rounded" width="30" height="30"/>
-        <image name="logo_onboarding" width="120" height="72"/>
-    </resources>
 </document>

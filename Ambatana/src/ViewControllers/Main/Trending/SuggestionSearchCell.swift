@@ -1,12 +1,5 @@
-//
-//  SuggestionSearchCell.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 07/06/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 struct SuggestionSearchCellContent {
     let title: String
@@ -65,10 +58,10 @@ class SuggestionSearchCell: UITableViewCell, ReusableCell {
         backgroundColor = .clear
         
         searchIconImageView.contentMode = .center
-        searchIconImageView.image = #imageLiteral(resourceName: "ic_search")
+        searchIconImageView.image = R.Asset.IconsButtons.icSearch.image
         
         fillSearchButton.contentVerticalAlignment = .top
-        fillSearchButton.setImage(#imageLiteral(resourceName: "ic_search_fill"), for: .normal)
+        fillSearchButton.setImage(R.Asset.IconsButtons.icSearchFill.image, for: .normal)
         
         titleLabel.textColor = UIColor.lgBlack
         titleLabel.font = UIFont.systemBoldFont(size: 21)
@@ -125,7 +118,7 @@ class SuggestionSearchCell: UITableViewCell, ReusableCell {
     }
     
     private func resetUI() {
-        searchIconImageView.image = #imageLiteral(resourceName: "ic_search")
+        searchIconImageView.image = R.Asset.IconsButtons.icSearch.image
         titleLabel.text = nil
         subtitleLabel.text = nil
         fillSearchButton.isHidden = true

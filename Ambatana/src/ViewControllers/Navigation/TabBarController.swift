@@ -15,23 +15,25 @@ protocol ListingsRefreshable {
 final class TabBarController: UITabBarController {
 
     // UI
-    fileprivate var floatingSellButton: FloatingButton
-    fileprivate var floatingSellButtonMarginConstraint = NSLayoutConstraint()
+    private var floatingSellButton: FloatingButton
+    private var floatingSellButtonMarginConstraint = NSLayoutConstraint()
 
-    fileprivate let viewModel: TabBarViewModel
-    fileprivate var tooltip: Tooltip?
-    fileprivate var featureFlags: FeatureFlaggeable
-    fileprivate let tracker: Tracker
+    private let viewModel: TabBarViewModel
+    private let bubbleNotificationManager: BubbleNotificationManager
+    private var tooltip: Tooltip?
+    private var featureFlags: FeatureFlaggeable
+    private let tracker: Tracker
     
-    fileprivate var floatingViews: [UIView?] {
-        return [floatingSellButton, tooltip]
+    private var floatingViews: [UIView?] {
+        return [floatingSellButton, tooltip, bottomNotificationsContainer]
     }
+    private lazy var bottomNotificationsContainer: UIView = UIView()
     
     // Rx
-    fileprivate let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
 
-    fileprivate static let appRatingTag = Int.makeRandom()
-    fileprivate static let categorySelectionTag = Int.makeRandom()
+    private static let appRatingTag = Int.makeRandom()
+    private static let categorySelectionTag = Int.makeRandom()
     
     
     // MARK: - Lifecycle
@@ -39,15 +41,23 @@ final class TabBarController: UITabBarController {
     convenience init(viewModel: TabBarViewModel) {
         let featureFlags = FeatureFlags.sharedInstance
         let tracker = TrackerProxy.sharedInstance
-        self.init(viewModel: viewModel, featureFlags: featureFlags, tracker: tracker)
+        let bubbleNotificationsManager = LGBubbleNotificationManager.sharedInstance
+        self.init(viewModel: viewModel,
+                  bubbleNotificationManager: bubbleNotificationsManager,
+                  featureFlags: featureFlags,
+                  tracker: tracker)
     }
     
-    init(viewModel: TabBarViewModel, featureFlags: FeatureFlaggeable, tracker: Tracker) {
+    init(viewModel: TabBarViewModel,
+         bubbleNotificationManager: BubbleNotificationManager,
+         featureFlags: FeatureFlaggeable,
+         tracker: Tracker) {
         self.viewModel = viewModel
+        self.bubbleNotificationManager = bubbleNotificationManager
         self.featureFlags = featureFlags
         self.tracker = tracker
         self.floatingSellButton = FloatingButton(with: R.Strings.tabBarToolTip,
-                                                 image: UIImage(named: "ic_sell_white"), position: .left)
+                                                 image: R.Asset.IconsButtons.icSellWhite.image, position: .left)
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -61,6 +71,7 @@ final class TabBarController: UITabBarController {
 
         setupAdminAccess()
         setupSellButton()
+        setupRx()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -80,6 +91,17 @@ final class TabBarController: UITabBarController {
         }
     }
 
+    private func setupRx() {
+        let isBottomNotificationsEmpty = bubbleNotificationManager.bottomNotifications.asObservable().map {
+            $0.isEmpty
+        }
+        isBottomNotificationsEmpty.asObservable().distinctUntilChanged().filter{ $0 }.bind { [weak self] _ in
+            delay(BubbleNotificationView.Animation.closeAnimationTime) {
+                self?.bottomNotificationsContainer.removeFromSuperview()
+            }
+        }.disposed(by: disposeBag)
+    }
+    
     
     // MARK: - Public methods
 
@@ -99,6 +121,7 @@ final class TabBarController: UITabBarController {
         setTabBarHidden(false, animated: false)
 
         selectedIndex = tab.index
+        
         // Notify the delegate, as programmatically change doesn't do it
         delegate?.tabBarController?(self, didSelect: vc)
     }
@@ -176,6 +199,24 @@ final class TabBarController: UITabBarController {
             super.setTabBarHidden(hidden, animated: animated)
         }
     }
+    
+    func showBottomBubbleNotification(data: BubbleNotificationData,
+                                      duration: TimeInterval,
+                                      alignment: BubbleNotificationView.Alignment,
+                                      style: BubbleNotificationView.Style) {
+        setupBottomBubbleNotificationsContainer()
+        bubbleNotificationManager.showBubble(data: data,
+                                             duration: duration,
+                                             view: bottomNotificationsContainer,
+                                             alignment: alignment,
+                                             style: style)
+    }
+    
+    func hideBottomBubbleNotifications() {
+        guard bubbleNotificationManager.bottomNotifications.value.count > 0 else { return }
+        bubbleNotificationManager.hideBottomBubbleNotifications()
+    }
+    
 
     // MARK: - Private methods
     // MARK: > Setup
@@ -185,7 +226,7 @@ final class TabBarController: UITabBarController {
         guard let viewControllers = viewControllers else { return }
         for (index, vc) in viewControllers.enumerated() {
             guard let tab = Tab(index: index, featureFlags: featureFlags) else { continue }
-            let tabBarItem = UITabBarItem(title: nil, image: UIImage(named: tab.tabIconImageName), selectedImage: nil)
+            let tabBarItem = UITabBarItem(title: nil, image: tab.tabIconImage, selectedImage: nil)
             // UI Test accessibility Ids
             tabBarItem.set(accessibilityId: tab.accessibilityId)
             // Customize the selected appereance
@@ -249,6 +290,17 @@ final class TabBarController: UITabBarController {
         }
     }
     
+    private func setupBottomBubbleNotificationsContainer() {
+        guard bottomNotificationsContainer.superview == nil else { return }
+        view.addSubviewForAutoLayout(bottomNotificationsContainer)
+        let bottomOffset: CGFloat = -(tabBar.frame.height + Metrics.margin)
+        let constraints = [
+            bottomNotificationsContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: bottomOffset),
+            bottomNotificationsContainer.leftAnchor.constraint(equalTo: view.leftAnchor),
+            bottomNotificationsContainer.rightAnchor.constraint(equalTo: view.rightAnchor),
+            bottomNotificationsContainer.heightAnchor.constraint(equalToConstant: BubbleNotificationView.initialHeight)]
+        NSLayoutConstraint.activate(constraints)
+    }
     
     func setupExpandableCategoriesView() {
         view.subviews.find(where: { $0.tag == TabBarController.categorySelectionTag })?.removeFromSuperview()

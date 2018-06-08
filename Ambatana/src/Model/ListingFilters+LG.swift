@@ -123,6 +123,10 @@ extension ListingFilters {
         return params
     }
     
+    func searchRelatedNeeded(carSearchActive: Bool) -> Bool {
+        return isRealEstateWithFilters || isCarsWithFilters(carSearchActive:carSearchActive) || isServicesWithFilters
+    }
+    
     // MARK: - Private methods
     
     private var hasMinFilters: EventParameterBoolean {
@@ -133,11 +137,22 @@ extension ListingFilters {
         return priceRange.max != nil ? .trueParameter : .falseParameter
     }
     
+    private var isRealEstateWithFilters: Bool {
+        return selectedCategories.contains(.realEstate) && hasAnyRealEstateAttributes
+    }
+    
+    private func isCarsWithFilters(carSearchActive: Bool) -> Bool {
+        return selectedCategories.contains(.cars) && hasAnyCarAttributes && carSearchActive
+    }
+    
+    private var isServicesWithFilters: Bool {
+        return selectedCategories.contains(.services) && hasAnyServicesAttributes
+    }
+    
     private var categoriesTrackValue: String {
         guard !selectedCategories.isEmpty else { return String(ListingCategory.unassigned.rawValue) }
         return selectedCategories
             .map { String($0.rawValue) }
             .joined(separator: ",")
     }
-
 }

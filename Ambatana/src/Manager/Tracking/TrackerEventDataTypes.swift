@@ -895,6 +895,7 @@ enum EventParameterTypePage: String {
     case sellStart = "product-sell-start"
     case userVerifications = "user-verifications"
     case smsVerification = "sms-verification"
+    case nextItem = "next-item"
 }
 
 enum EventParameterPermissionType: String {
@@ -1262,6 +1263,7 @@ enum EventParameterAdType: String {
     case dfp = "dfp"
     case moPub = "moPub"
     case adx = "adx"
+    case interstitial = "interstitial"
 }
 
 enum EventParameterAdQueryType: String {

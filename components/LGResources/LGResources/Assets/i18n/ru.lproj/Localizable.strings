@@ -491,8 +491,8 @@
 "meeting_creation_view_suggest_cell_select" = "Выбрать";
 "meeting_creation_view_suggest_cell_selected" = "Выбрано";
 "meeting_creation_view_title" = "Назначить встречу";
-"ml_camera_in_about_days_text" = "in about %d days";
-"ml_camera_in_more_than_days_text" = "in more than %d days";
+"ml_camera_in_about_days_text" = "примерно за %d дней";
+"ml_camera_in_more_than_days_text" = "более чем за %d дней";
 "ml_camera_sells_for_text" = "Обычно продают за $%d";
 "ml_category_text" = "Категория:";
 "ml_details_price_text" = "Цена:";
@@ -782,8 +782,10 @@
 "product_post_incentive_furniture" = "Мебель";
 "product_post_incentive_got_any" = "есть что-либо на продажу?";
 "product_post_incentive_got_any_free" = "есть что-нибудь в дар?";
+"product_post_incentive_got_any_services" = "have these skills?";
 "product_post_incentive_kids_clothes" = "Детская одежда";
 "product_post_incentive_looking_for" = "Люди вокруг вас ищут эти товары, %@";
+"product_post_incentive_looking_for_services" = "People around you are looking for these services, %@";
 "product_post_incentive_motorcycle" = "Мотоциклы";
 "product_post_incentive_ps4" = "PS4";
 "product_post_incentive_subtitle" = "Ваше объявление размещено.";

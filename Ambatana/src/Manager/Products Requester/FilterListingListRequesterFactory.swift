@@ -96,10 +96,7 @@ class FilterListingListRequesterFactory {
             requestersArray.append(filteredRequester)
         }
         
-        let isRealEstateWithFilters = filters.selectedCategories.contains(.realEstate) && filters.hasAnyRealEstateAttributes
-        let isCarsWithFilters = filters.selectedCategories.contains(.cars) && filters.hasAnyCarAttributes && carSearchActive
-        
-        if  isRealEstateWithFilters || isCarsWithFilters {
+        if filters.searchRelatedNeeded(carSearchActive: carSearchActive) {
             let filteredRequester = SearchRelatedListingListRequester(itemsPerPage: itemsPerPage)
             filteredRequester.filters = filters
             filteredRequester.queryString = queryString

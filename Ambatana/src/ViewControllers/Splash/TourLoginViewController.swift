@@ -12,7 +12,9 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
 
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var facebookButton: LetgoButton!
+    @IBOutlet weak var facebookIcon: UIImageView!
     @IBOutlet weak var googleButton: LetgoButton!
+    @IBOutlet weak var googleIcon: UIImageView!
     @IBOutlet var orDividerViews: [UIView]!
     @IBOutlet weak var orUseEmailLabel: UILabel!
     @IBOutlet weak var orUseEmailLabelTopConstraint: NSLayoutConstraint!
@@ -101,11 +103,17 @@ fileprivate extension TourLoginViewController {
 
     func setupKenBurns() {
         view.layoutIfNeeded()
-        kenBurnsView.startAnimation(with: [#imageLiteral(resourceName: "bg_1_new"), #imageLiteral(resourceName: "bg_2_new"), #imageLiteral(resourceName: "bg_3_new"), #imageLiteral(resourceName: "bg_4_new")])
+        kenBurnsView.startAnimation(with: [
+            R.Asset.BackgroundsAndImages.bg1New.image,
+            R.Asset.BackgroundsAndImages.bg2New.image,
+            R.Asset.BackgroundsAndImages.bg3New.image,
+            R.Asset.BackgroundsAndImages.bg4New.image
+            ])
     }
 
     func setupUI() {
         view.backgroundColor = .clear
+        topLogoImage.image = R.Asset.BackgroundsAndImages.logoOnboarding.image
         if AdminViewController.canOpenAdminPanel() {
             let tap = UITapGestureRecognizer(target: self, action: #selector(openAdminPanel))
             topLogoImage.addGestureRecognizer(tap)
@@ -115,7 +123,9 @@ fileprivate extension TourLoginViewController {
         kenBurnsView.clipsToBounds = true
         
         facebookButton.setStyle(.facebook)
+        facebookIcon.image = R.Asset.IconsButtons.icFacebookRounded.image
         googleButton.setStyle(.google)
+        googleIcon.image = R.Asset.IconsButtons.icGoogleRounded.image
         orUseEmailLabel.text = R.Strings.tourOrLabel
         orUseEmailLabel.font = UIFont.smallBodyFont
         

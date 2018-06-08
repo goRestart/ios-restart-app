@@ -1,10 +1,4 @@
-//
-//  Tab.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 12/04/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
+import LGComponents
 
 /**
  Defines the tabs contained in the TabBarController
@@ -28,18 +22,18 @@ enum Tab {
         }
     }
 
-    var tabIconImageName: String {
+    var tabIconImage: UIImage {
         switch self {
         case .home:
-            return "tabbar_home"
+            return R.Asset.IconsButtons.tabbarHome.image
         case .notifications:
-            return "tabbar_notifications"
+            return R.Asset.IconsButtons.tabbarNotifications.image
         case .sell:
-            return "tabbar_sell"
+            return R.Asset.IconsButtons.tabbarSell.image
         case .chats:
-            return "tabbar_chats"
+            return R.Asset.IconsButtons.tabbarChats.image
         case .profile:
-            return "tabbar_profile"
+            return R.Asset.IconsButtons.tabbarProfile.image
         }
     }
 

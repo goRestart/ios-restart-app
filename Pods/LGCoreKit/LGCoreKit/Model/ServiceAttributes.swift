@@ -1,4 +1,3 @@
-//  Copyright © 2018 Ambatana Inc. All rights reserved.
 
 public struct ServiceAttributes {
     

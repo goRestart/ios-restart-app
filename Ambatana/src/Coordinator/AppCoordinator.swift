@@ -61,6 +61,7 @@ final class AppCoordinator: NSObject, Coordinator {
 
     fileprivate var bumpUpSource: BumpUpSource?
     fileprivate var timeSinceLastBump: TimeInterval?
+    fileprivate var offensiveReportAlertWidth: CGFloat = 310
 
     weak var delegate: AppNavigatorDelegate?
 
@@ -246,6 +247,14 @@ extension AppCoordinator: AppNavigator {
                   completion: nil)
     }
     
+    func showBottomBubbleNotification(data: BubbleNotificationData,
+                                      duration: TimeInterval,
+                                      alignment: BubbleNotificationView.Alignment,
+                                      style: BubbleNotificationView.Style) {
+        tabBarCtl.showBottomBubbleNotification(data: data, duration: duration, alignment: alignment, style: style)
+    }
+    
+    
     // MARK: App Review
 
     func openAppRating(_ source: EventParameterRatingSource) {
@@ -280,12 +289,43 @@ extension AppCoordinator: AppNavigator {
         openChild(coordinator: promoteBumpCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
     }
 
+    func canOpenOffensiveReportAlert() -> Bool {
+        return tabBarCtl.presentedViewController == nil
+    }
+
+    func openOffensiveReportAlert() {
+        guard canOpenOffensiveReportAlert() else { return }
+        let reviewAction = { [weak self] in
+            guard let url = LetgoURLHelper.buildCommunityGuidelineURL() else { return }
+            self?.openInAppWebView(url: url)
+        }
+        let reviewActionInterface = UIActionInterface.button(R.Strings.offensiveReportAlertPrimaryAction,
+                                                             .primary(fontSize: .medium))
+        let reviewAlertAction = UIAction(interface: reviewActionInterface,
+                                         action: reviewAction,
+                                         accessibilityId: .offensiveReportAlertOpenGuidelineButton)
+        let skipActionInterface = UIActionInterface.button(R.Strings.offensiveReportAlertSecondaryAction,
+                                                            .secondary(fontSize: .medium, withBorder: true))
+        let skipAlertAction = UIAction(interface: skipActionInterface,
+                                  action: {},
+                                  accessibilityId: .offensiveReportAlertSkipButton)
+        if let alert = LGAlertViewController(title: R.Strings.offensiveReportAlertTitle,
+                                             text: R.Strings.offensiveReportAlertMessage,
+                                             alertType: .plainAlert,
+                                             buttonsLayout: .vertical,
+                                             actions: [reviewAlertAction, skipAlertAction],
+                                             dismissAction: nil) {
+            alert.alertWidth = offensiveReportAlertWidth
+            tabBarCtl.present(alert, animated: true, completion: nil)
+        }
+    }
+
     private func askUserIsEnjoyingLetgo() {
-        let yesButtonInterface = UIActionInterface.image(UIImage(named: "ic_emoji_yes"), nil)
+        let yesButtonInterface = UIActionInterface.image(R.Asset.IconsButtons.icEmojiYes.image, nil)
         let rateAppAlertAction = UIAction(interface: yesButtonInterface, action: { [weak self] in
             self?.askUserToRateApp(.happy)
         })
-        let noButtonInterface = UIActionInterface.image(UIImage(named: "ic_emoji_no"), nil)
+        let noButtonInterface = UIActionInterface.image(R.Asset.IconsButtons.icEmojiNo.image, nil)
         let feedbackAlertAction = UIAction(interface: noButtonInterface, action: { [weak self] in
             self?.askUserToRateApp(.sad)
         })
@@ -682,6 +722,7 @@ extension AppCoordinator: UITabBarControllerDelegate {
 
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         guard let tab = tabAtController(viewController) else { return }
+        tabBarCtl.hideBottomBubbleNotifications()
         selectedTab.value = tab
     }
 }
@@ -1074,7 +1115,7 @@ fileprivate extension AppCoordinator {
                                               text: message,
                                               action: action,
                                               iconURL: conversation.interlocutor?.avatar?.fileURL,
-                                              iconImage: UIImage(named: "user_placeholder"))
+                                              iconImage: R.Asset.IconsButtons.userPlaceholder.image)
             self?.showBubble(with: data, duration: Constants.bubbleChatDuration)
         }
     }

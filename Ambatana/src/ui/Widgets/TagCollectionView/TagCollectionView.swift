@@ -55,11 +55,13 @@ class TagCollectionView: UICollectionView, TagCollectionViewModelDelegate {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         register(TagCollectionViewCell.self, forCellWithReuseIdentifier: TagCollectionViewCell.reusableID)
+        register(TagCollectionViewWithCloseCell.self, forCellWithReuseIdentifier: TagCollectionViewWithCloseCell.reusableID)
     }
     
     init(viewModel: TagCollectionViewModel, flowLayout: TagCollectionViewFlowLayout) {
         super.init(frame: CGRect.zero, collectionViewLayout: flowLayout.collectionFlowLayout)
         register(TagCollectionViewCell.self, forCellWithReuseIdentifier: TagCollectionViewCell.reusableID)
+        register(TagCollectionViewWithCloseCell.self, forCellWithReuseIdentifier: TagCollectionViewWithCloseCell.reusableID)
         dataSource = viewModel
         delegate = viewModel
         setupUI()

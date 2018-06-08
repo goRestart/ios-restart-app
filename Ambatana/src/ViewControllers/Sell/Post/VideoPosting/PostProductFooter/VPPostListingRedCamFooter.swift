@@ -143,7 +143,7 @@ fileprivate extension VPPostListingRedCamFooter {
         videoButton.applyShadow(withOpacity: 0.7, radius: 1)
         videoButton.setTitleColor(UIColor.Camera.unselectedPhotoVideoButton, for: .normal)
 
-        infoButton.setImage(#imageLiteral(resourceName: "info"), for: .normal)
+        infoButton.setImage(R.Asset.IconsButtons.info.image, for: .normal)
 
         let highlightedText = R.Strings.productPostCameraVideoRecordingTooltipHighlightedWord
         let hintText = R.Strings.productPostCameraVideoRecordingTooltip(highlightedText)
@@ -344,7 +344,7 @@ final class CameraButton: UIButton {
 
         private var photoImageLayer: CALayer = {
             let layer = CALayer()
-            layer.contents = #imageLiteral(resourceName: "ic_post_take_photo_icon").cgImage
+            layer.contents = R.Asset.IconsButtons.icPostTakePhotoIcon.image.cgImage
             layer.contentsGravity = kCAGravityCenter
             layer.contentsScale = UIScreen.main.scale
             return layer
@@ -352,7 +352,7 @@ final class CameraButton: UIButton {
 
         private var videoImageLayer: CALayer = {
             let layer = CALayer()
-            layer.contents = #imageLiteral(resourceName: "ic_post_record_video_icon").cgImage
+            layer.contents = R.Asset.IconsButtons.icPostRecordVideoIcon.image.cgImage
             layer.contentsGravity = kCAGravityCenter
             layer.contentsScale = UIScreen.main.scale
             return layer

@@ -491,8 +491,8 @@
 "meeting_creation_view_suggest_cell_select" = "Επιλογή";
 "meeting_creation_view_suggest_cell_selected" = "Επιλεγμένο";
 "meeting_creation_view_title" = "Προγραμματίστε μια συνάντηση";
-"ml_camera_in_about_days_text" = "in about %d days";
-"ml_camera_in_more_than_days_text" = "in more than %d days";
+"ml_camera_in_about_days_text" = "σε περίπου %d μέρες";
+"ml_camera_in_more_than_days_text" = "σε περισσότερες από %d μέρες";
 "ml_camera_sells_for_text" = "Συνήθως πωλείται για %d€";
 "ml_category_text" = "Κατηγορία:";
 "ml_details_price_text" = "Τιμή:";
@@ -630,7 +630,7 @@
 "post_description_info_title" = "ΠΛΗΡΟΦΟΡΊΕΣ ΚΑΤΑΧΏΡΗΣΗΣ";
 "post_description_name_placeholder" = "Αλλαγή Ονόματος";
 "post_description_save_button_text" = "Αποθήκευση αυτής της καταχώρησης!";
-"post_details_services_add_new" = "Add a new service";
+"post_details_services_add_new" = "Προσθήκη νέας υπηρεσίας";
 "post_details_services_congratulation_people_near" = "Άνθρωποι γύρω σας αναζητούν αυτές τις υπηρεσίες, έχετε τέτοιου είδους ικανότητες;";
 "post_details_services_congratulation_post_another" = "Δημοσιεύστε κι άλλη καταχώρηση";
 "post_details_services_congratulation_review" = "Ελέξγτε τις καταχωρήσεις σας και προσθέστε περισσότερες λεπτομέρειες";
@@ -782,8 +782,10 @@
 "product_post_incentive_furniture" = "Έπιπλα";
 "product_post_incentive_got_any" = "έχετε τίποτα να πουλήσετε;";
 "product_post_incentive_got_any_free" = "έχετε κάτι να χαρίσετε;";
+"product_post_incentive_got_any_services" = "have these skills?";
 "product_post_incentive_kids_clothes" = "Παιδικά ρούχα";
 "product_post_incentive_looking_for" = "Άνθρωποι γύρω σας ψάχνουν γι' αυτά τα αντικείμενα, %@";
+"product_post_incentive_looking_for_services" = "People around you are looking for these services, %@";
 "product_post_incentive_motorcycle" = "Μηχανές";
 "product_post_incentive_ps4" = "PS4";
 "product_post_incentive_subtitle" = "Η καταχώρησή σας έχει δημοσιευθεί.";

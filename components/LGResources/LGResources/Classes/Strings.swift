@@ -1732,11 +1732,17 @@ extension R {
     public static let productPostIncentiveGotAny = Strings.tr("Localizable", "product_post_incentive_got_any")
     /// got any to give away?
     public static let productPostIncentiveGotAnyFree = Strings.tr("Localizable", "product_post_incentive_got_any_free")
+    /// have these skills?
+    public static let productPostIncentiveGotAnyServices = Strings.tr("Localizable", "product_post_incentive_got_any_services")
     /// Kid's clothes
     public static let productPostIncentiveKidsClothes = Strings.tr("Localizable", "product_post_incentive_kids_clothes")
     /// People around you are looking for these items, %@
     public static func productPostIncentiveLookingFor(_ p1: String) -> String {
       return Strings.tr("Localizable", "product_post_incentive_looking_for", p1)
+    }
+    /// People around you are looking for these services, %@
+    public static func productPostIncentiveLookingForServices(_ p1: String) -> String {
+      return Strings.tr("Localizable", "product_post_incentive_looking_for_services", p1)
     }
     /// Motorcycles
     public static let productPostIncentiveMotorcycle = Strings.tr("Localizable", "product_post_incentive_motorcycle")
