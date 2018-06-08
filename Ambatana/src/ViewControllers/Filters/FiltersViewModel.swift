@@ -25,7 +25,7 @@ enum FilterCategoryItem: Equatable {
         case let .category(category: category):
             return category.image
         case .free:
-            return UIImage(named: "categories_free_inactive")
+            return R.Asset.IconsButtons.FiltersCategoriesIcons.categoriesFreeInactive.image
         }
     }
 }
@@ -88,6 +88,22 @@ class FiltersViewModel: BaseViewModel {
         return productFilter.carModelName
     }
     
+    var currentServiceTypeName: String? {
+        return productFilter.servicesType?.name
+    }
+    
+    var selectedServiceSubtypesDisplayName: String? {
+        guard let nameA = productFilter.servicesSubtypes?.first?.name else {
+            return nil
+        }
+        
+        guard let nameB = productFilter.servicesSubtypes?[safeAt: 1] else {
+            return nameA
+        }
+        
+        return "\(nameA), \(nameB)"
+    }
+    
     var currentPropertyTypeName: String? {
         return productFilter.realEstatePropertyType?.localizedString
     }
@@ -107,6 +123,11 @@ class FiltersViewModel: BaseViewModel {
     var modelCellEnabled: Bool {
         return currentCarMakeName != nil
     }
+    
+    var serviceSubtypeCellEnabled: Bool {
+        return productFilter.servicesType != nil
+    }
+    
     var carYearStart: Int? {
         get {
             return productFilter.carYearStart?.value
@@ -153,6 +174,13 @@ class FiltersViewModel: BaseViewModel {
     
     var isRealEstateInfoCellEnabled: Bool {
         return productFilter.selectedCategories.contains(.realEstate)
+    }
+    
+    var isServicesInfoCellEnabled: Bool {
+        guard featureFlags.showServicesFeatures.isActive else {
+            return false
+        }
+        return productFilter.selectedCategories.contains(.services)
     }
 
     var numOfWithinTimes : Int {
@@ -244,6 +272,13 @@ class FiltersViewModel: BaseViewModel {
         return FilterCarSection.all
     }
     
+    var serviceSections: [FilterServicesSection] {
+        guard featureFlags.showServicesFeatures.isActive else {
+            return []
+        }
+        return FilterServicesSection.all
+    }
+    
     var filterCarSellerSelectedSections: [FilterCarSection] = []
     
     var postingFlowType: PostingFlowType {
@@ -256,6 +291,7 @@ class FiltersViewModel: BaseViewModel {
     
     private let featureFlags: FeatureFlaggeable
     private let carsInfoRepository: CarsInfoRepository
+    private let servicesInfoRepository: ServicesInfoRepository
 
     override convenience init() {
         self.init(currentFilters: ListingFilters())
@@ -269,7 +305,8 @@ class FiltersViewModel: BaseViewModel {
                   offerTypeOptions: RealEstateOfferType.allValues,
                   currentFilters: currentFilters,
                   featureFlags: FeatureFlags.sharedInstance,
-                  carsInfoRepository: Core.carsInfoRepository)
+                  carsInfoRepository: Core.carsInfoRepository,
+                  servicesInfoRepository: Core.servicesInfoRepository)
     }
     
     required init(categoryRepository: CategoryRepository,
@@ -279,7 +316,8 @@ class FiltersViewModel: BaseViewModel {
                   offerTypeOptions: [RealEstateOfferType],
                   currentFilters: ListingFilters,
                   featureFlags: FeatureFlaggeable,
-                  carsInfoRepository: CarsInfoRepository) {
+                  carsInfoRepository: CarsInfoRepository,
+                  servicesInfoRepository: ServicesInfoRepository) {
         self.categoryRepository = categoryRepository
         self.categories = categories
         self.withinTimes = withinTimes
@@ -289,6 +327,7 @@ class FiltersViewModel: BaseViewModel {
         self.sections = []
         self.featureFlags = featureFlags
         self.carsInfoRepository = carsInfoRepository
+        self.servicesInfoRepository = servicesInfoRepository
         super.init()
         self.sections = generateSections()
         updateCarSelectedSections()
@@ -302,6 +341,7 @@ class FiltersViewModel: BaseViewModel {
         return updatedSections.filter { $0 != .price ||  isPriceCellEnabled }
             .filter {$0 != .carsInfo ||  isCarsInfoCellEnabled }
             .filter {!$0.isRealEstateSection || isRealEstateInfoCellEnabled }
+            .filter { $0 != .servicesInfo || isServicesInfoCellEnabled }
     }
     
     private func updateCarSelectedSections() {
@@ -343,7 +383,7 @@ class FiltersViewModel: BaseViewModel {
     func propertyTypeButtonPressed() {
         let attributeValues = RealEstatePropertyType.allValues(postingFlowType: postingFlowType)
         let values = attributeValues.map { $0.localizedString }
-        let vm = ListingAttributePickerViewModel(
+        let vm = ListingAttributeSingleSelectPickerViewModel(
             title: R.Strings.realEstateTypePropertyTitle,
             attributes: values,
             selectedAttribute: productFilter.realEstatePropertyType?.rawValue
@@ -361,7 +401,7 @@ class FiltersViewModel: BaseViewModel {
     func numberOfBedroomsPressed() {
         let attributeValues = NumberOfBedrooms.allValues
         let values = attributeValues.map { $0.localizedString }
-        let vm = ListingAttributePickerViewModel(
+        let vm = ListingAttributeSingleSelectPickerViewModel(
             title: R.Strings.realEstateBedroomsTitle,
             attributes: values,
             selectedAttribute: productFilter.realEstateNumberOfBedrooms?.localizedString
@@ -379,7 +419,7 @@ class FiltersViewModel: BaseViewModel {
     func numberOfRoomsPressed() {
         let attributeValues = NumberOfRooms.allValues
         let values = attributeValues.map { $0.localizedString }
-        let vm = ListingAttributePickerViewModel(
+        let vm = ListingAttributeSingleSelectPickerViewModel(
             title: R.Strings.realEstateRoomsTitle,
             attributes: values,
             selectedAttribute: productFilter.realEstateNumberOfRooms?.localizedString
@@ -397,7 +437,7 @@ class FiltersViewModel: BaseViewModel {
     func numberOfBathroomsPressed() {
         let attributeValues = NumberOfBathrooms.allValues
         let values = attributeValues.map { $0.localizedString }
-        let vm = ListingAttributePickerViewModel(
+        let vm = ListingAttributeSingleSelectPickerViewModel(
             title: R.Strings.realEstateBathroomsTitle,
             attributes: values,
             selectedAttribute: productFilter.realEstateNumberOfBathrooms?.localizedString
@@ -410,6 +450,76 @@ class FiltersViewModel: BaseViewModel {
             self?.delegate?.vmDidUpdate()
         }
         navigator?.openListingAttributePicker(viewModel: vm)
+    }
+    
+    func servicesTypePressed() {
+        let serviceTypes = servicesInfoRepository.retrieveServiceTypes()
+        let serviceTypeNames = serviceTypes.map( { $0.name } )
+        let vm = ListingAttributeSingleSelectPickerViewModel(title: R.Strings.servicesServiceTypeListTitle,
+                                                 attributes: serviceTypeNames,
+                                                 selectedAttribute: productFilter.servicesType?.name)
+        { [weak self] selectedIndex in
+            if let selectedIndex = selectedIndex {
+                self?.updateServiceType(withServiceType: serviceTypes[safeAt: selectedIndex])
+            } else {
+                self?.clearServiceType()
+            }
+
+            self?.delegate?.vmDidUpdate()
+        }
+        navigator?.openListingAttributePicker(viewModel: vm)
+    }
+    
+    func servicesSubtypePressed() {
+        
+        guard let serviceTypeId = productFilter.servicesType?.id else {
+            return
+        }
+        
+        let serviceSubtypes = servicesInfoRepository.serviceSubtypes(forServiceTypeId: serviceTypeId)
+        let serviceSubtypeNames = serviceSubtypes.map( { $0.name } )
+        let selectedSubtypeNames = (productFilter.servicesSubtypes?.map( { $0.name } )) ?? []
+        let vm = ListingAttributeMultiselectPickerViewModel(title: R.Strings.servicesServiceSubtypeListTitle,
+                                                            attributes: serviceSubtypeNames,
+                                                            selectedAttributes: selectedSubtypeNames,
+                                                            canSearchAttributes: true)
+        { [weak self] (selectedIndexes) in
+            let selectedSubtypes = self?.selectedAttributes(forIndexes: selectedIndexes, in: serviceSubtypes)
+            self?.updateServiceSubtypes(withServiceSubtypes: selectedSubtypes)
+            self?.delegate?.vmDidUpdate()
+        }
+        
+        navigator?.openListingAttributePicker(viewModel: vm)
+    }
+    
+    private func selectedAttributes<T>(forIndexes indexes: [Int],
+                                       in attributes: [T]) -> [T] {
+
+        let selectedAttributes = indexes.reduce([]) { (res, next) -> [T] in
+            if let selectedAttribute = attributes[safeAt: next] {
+                return res + [selectedAttribute]
+            }
+            return res
+        }
+        
+        return selectedAttributes
+    }
+    
+    private func updateServiceType(withServiceType serviceType: ServiceType?) {
+        clearServiceSubtypes()
+        productFilter.servicesType = serviceType
+    }
+    
+    private func updateServiceSubtypes(withServiceSubtypes serviceSubtypes: [ServiceSubtype]?) {
+        productFilter.servicesSubtypes = serviceSubtypes
+    }
+    
+    private func clearServiceType() {
+        updateServiceType(withServiceType: nil)
+    }
+    
+    private func clearServiceSubtypes() {
+        updateServiceSubtypes(withServiceSubtypes: [])
     }
     
     func resetFilters() {
@@ -452,7 +562,7 @@ class FiltersViewModel: BaseViewModel {
     Retrieves the list of categories
     */
     func retrieveCategories() {
-        categoryRepository.index(servicesIncluded: featureFlags.servicesCategoryEnabled.isActive,
+        categoryRepository.index(servicesIncluded: true,
                                  carsIncluded: false,
                                  realEstateIncluded: featureFlags.realEstateEnabled.isActive) { [weak self] result in
                                     

@@ -1,12 +1,5 @@
-//
-//  FilterFreeCell.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 18/07/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import RxSwift
+import LGComponents
 
 protocol FilterFreeCellDelegate: class {
     func freeSwitchChanged(isOn: Bool)
@@ -65,7 +58,7 @@ class FilterFreeCell: UICollectionViewCell, FilterCell, ReusableCell {
         freeSwitch.rx.value.asObservable().bind { [weak self] isOn in
             if let imageView = self?.freeSwitch.firstSubview(ofType: UIImageView.self) {
                 imageView.contentMode = .center
-                imageView.image = isOn ? #imageLiteral(resourceName: "free_switch_active") : #imageLiteral(resourceName: "free_switch_inactive")
+                imageView.image = isOn ? R.Asset.IconsButtons.freeSwitchActive.image : R.Asset.IconsButtons.freeSwitchInactive.image
             }
         }.disposed(by: disposeBag)
     }

@@ -259,7 +259,7 @@ class ChatViewMessageAdapter {
 
     private static var alertMutableAttributedString: NSMutableAttributedString {
         let icon = NSTextAttachment()
-        icon.image = UIImage(named: "ic_alert_gray")
+        icon.image = R.Asset.BackgroundsAndImages.icAlertGray.image
         let iconString = NSAttributedString(attachment: icon)
         let alertString = NSMutableAttributedString(attributedString: iconString)
         alertString.append(NSAttributedString(string: " "))

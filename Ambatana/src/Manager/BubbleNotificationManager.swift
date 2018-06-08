@@ -7,7 +7,15 @@
 //
 
 import Foundation
+import RxSwift
 
 protocol BubbleNotificationManager {
-    func showBubble(_ data: BubbleNotificationData, duration: TimeInterval?, view: UIView)
+    var bottomNotifications: Variable<[BubbleNotificationView]> { get }
+    
+    func showBubble(data: BubbleNotificationData,
+                    duration: TimeInterval,
+                    view: UIView,
+                    alignment: BubbleNotificationView.Alignment,
+                    style: BubbleNotificationView.Style)
+    func hideBottomBubbleNotifications()
 }

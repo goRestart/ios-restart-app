@@ -84,7 +84,7 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
     private func setupUI() {
         contentView.clipsToBounds = true
         
-        navigationBackButton.setImage(UIImage(named: "ic_back"), for: .normal)
+        navigationBackButton.setImage(R.Asset.IconsButtons.icBack.image, for: .normal)
         
         navigationTitle.font = UIFont.systemSemiBoldFont(size: 17)
         navigationTitle.textAlignment = .center

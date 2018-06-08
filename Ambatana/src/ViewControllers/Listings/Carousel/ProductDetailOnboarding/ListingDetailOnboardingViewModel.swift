@@ -12,16 +12,16 @@ class ListingDetailOnboardingViewModel : BaseViewModel {
     var keyValueStorage: KeyValueStorageable
     weak var delegate: ListingDetailOnboardingViewDelegate?
 
-    var firstImage: UIImage?  = #imageLiteral(resourceName: "finger_tap")
+    var firstImage: UIImage  = R.Asset.ProductOnboardingImages.fingerTap.image
     var firstText = ListingDetailOnboardingViewModel.tipText(textToHighlight: nil,
                                                                                  textToHighlight2: nil,
                                                                                  fullText: R.Strings.productOnboardingFingerTapLabel)
-    var secondImage: UIImage? = #imageLiteral(resourceName: "finger_swipe")
+    var secondImage: UIImage = R.Asset.ProductOnboardingImages.fingerSwipe.image
 
     var secondText = ListingDetailOnboardingViewModel.tipText(textToHighlight: nil,
                                                               textToHighlight2: nil,
                                                               fullText: R.Strings.productOnboardingFingerSwipeLabel)
-    var thirdImage: UIImage? = #imageLiteral(resourceName: "finger_scroll")
+    var thirdImage: UIImage = R.Asset.ProductOnboardingImages.fingerScroll.image
 
     var thirdText = ListingDetailOnboardingViewModel.tipText(textToHighlight: nil,
                        textToHighlight2: nil,

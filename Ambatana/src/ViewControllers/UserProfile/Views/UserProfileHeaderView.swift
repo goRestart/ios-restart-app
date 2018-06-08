@@ -1,12 +1,5 @@
-//
-//  UserProfileHeaderView.swift
-//  LetGo
-//
-//  Created by Sergi Gracia on 20/02/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 protocol UserProfileHeaderDelegate: class {
     func didTapEditAvatar()
@@ -104,11 +97,11 @@ final class UserProfileHeaderView: UIView {
         editAvatarButton.isHidden = !isPrivate
         editAvatarButton.addTarget(self, action: #selector(didTapEditAvatar), for: .touchUpInside)
 
-        verifiedBadgeImageView.image = #imageLiteral(resourceName: "ic_karma_badge_active")
+        verifiedBadgeImageView.image = R.Asset.IconsButtons.icKarmaBadgeActive.image
         verifiedBadgeImageView.contentMode = .scaleAspectFit
         verifiedBadgeImageView.isHidden = true
 
-        proBadgeImageView.image = #imageLiteral(resourceName: "ic_pro_tag_with_shadow")
+        proBadgeImageView.image = R.Asset.IconsButtons.icProTagWithShadow.image
         proBadgeImageView.cornerRadius = LGUIKitConstants.mediumCornerRadius
         proBadgeImageView.contentMode = .scaleAspectFit
         proBadgeImageView.isHidden = true
@@ -169,10 +162,10 @@ final class UserProfileHeaderView: UIView {
     func setAvatar(_ url: URL?, placeholderImage: UIImage?) {
         if let url = url {
             avatarImageView.lg_setImageWithURL(url)
-            editAvatarButton.setImage(UIImage(named: "user_profile_edit_avatar"), for: .normal)
+            editAvatarButton.setImage(R.Asset.IconsButtons.userProfileEditAvatar.image, for: .normal)
         } else {
             avatarImageView.image = placeholderImage
-            editAvatarButton.setImage(UIImage(named: "user_profile_add_avatar"), for: .normal)
+            editAvatarButton.setImage(R.Asset.IconsButtons.userProfileAddAvatar.image, for: .normal)
         }
     }
 

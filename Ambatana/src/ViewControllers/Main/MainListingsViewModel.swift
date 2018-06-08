@@ -16,38 +16,12 @@ protocol MainListingsAdsDelegate: class {
     func rootViewControllerForAds() -> UIViewController
 }
 
-struct MainListingsHeader: OptionSet {
-    let rawValue: Int
-    init(rawValue: Int) { self.rawValue = rawValue }
-
-    static let PushPermissions  = MainListingsHeader(rawValue: 1)
-    static let SellButton = MainListingsHeader(rawValue: 2)
-    static let CategoriesCollectionBanner = MainListingsHeader(rawValue: 4)
-    static let RealEstateBanner = MainListingsHeader(rawValue: 8)
-    static let SearchAlerts = MainListingsHeader(rawValue: 16)
-}
-
-struct SuggestiveSearchInfo {
-    let suggestiveSearches: [SuggestiveSearch]
-    let sourceText: String
-    
-    var count: Int {
-        return suggestiveSearches.count
-    }
-    
-    static func empty() -> SuggestiveSearchInfo {
-        return SuggestiveSearchInfo(suggestiveSearches: [],
-                                    sourceText: "")
-    }
-}
-
 final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     
     static let adInFeedInitialPosition = 3
     private static let adsInFeedRatio = 20
     private static let searchAlertLimit = 20
 
-    
     // > Input
     var searchString: String? {
         return searchType?.text
@@ -100,7 +74,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     let suggestedSearchesLimit: Int = 10
     var filters: ListingFilters
     var queryString: String?
-    
+    var shouldHideCategoryAfterSearch = false
 
     var hasFilters: Bool {
         return !filters.isDefault()
@@ -117,12 +91,16 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         return filters.selectedCategories.contains(.realEstate)
     }
     
+    private var isServicesSelected: Bool {
+        return filters.selectedCategories.contains(.services)
+    }
+    
     var rightBarButtonsItems: [(image: UIImage, selector: Selector)] {
         var rightButtonItems: [(image: UIImage, selector: Selector)] = []
         if featureFlags.realEstateMap.isActive && isRealEstateSelected {
-            rightButtonItems.append((image: #imageLiteral(resourceName: "ic_map"), selector: #selector(MainListingsViewController.openMap)))
+            rightButtonItems.append((image: R.Asset.IconsButtons.icMap.image, selector: #selector(MainListingsViewController.openMap)))
         }
-        rightButtonItems.append((image: hasFilters ? #imageLiteral(resourceName: "ic_filters_active") : #imageLiteral(resourceName: "ic_filters"), selector: #selector(MainListingsViewController.openFilters)))
+        rightButtonItems.append((image: hasFilters ? R.Asset.IconsButtons.icFiltersActive.image : R.Asset.IconsButtons.icFilters.image, selector: #selector(MainListingsViewController.openFilters)))
         return rightButtonItems
     }
     
@@ -205,11 +183,13 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             filters.realEstateOfferTypes.forEach { resultTags.append(.realEstateOfferType($0)) }
         }
         
-        if let propertyType = filters.realEstatePropertyType {
-            resultTags.append(.realEstatePropertyType(propertyType))
+        if isServicesSelected {
+            if let serviceType = filters.servicesType {
+                resultTags.append(.serviceType(serviceType))
+            }
+            
+            filters.servicesSubtypes?.forEach( { resultTags.append(.serviceSubtype($0)) } )
         }
-        
-        filters.realEstateOfferTypes.forEach { resultTags.append(.realEstateOfferType($0)) }
         
         if let numberOfBedrooms = filters.realEstateNumberOfBedrooms {
             resultTags.append(.realEstateNumberOfBedrooms(numberOfBedrooms))
@@ -253,8 +233,13 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         return filters.hasAnyRealEstateAttributes
     }
     
+    private var servicesSelectedWithFilters: Bool {
+        guard filters.selectedCategories.contains(.services)  else { return false }
+        return filters.hasAnyServicesAttributes
+    }
+    
     fileprivate var shouldShowNoExactMatchesDisclaimer: Bool {
-        guard realEstateSelectedWithFilters || carSelectedWithFilters else { return false }
+        guard realEstateSelectedWithFilters || carSelectedWithFilters || servicesSelectedWithFilters else { return false }
         return true
     }
 
@@ -539,6 +524,9 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         var realEstateNumberOfRooms: NumberOfRooms? = nil
         var realEstateSizeSquareMetersMin: Int? = nil
         var realEstateSizeSquareMetersMax: Int? = nil
+        
+        var servicesServiceType: ServiceType? = nil
+        var servicesServiceSubtype: [ServiceSubtype] = []
 
         for filterTag in tags {
             switch filterTag {
@@ -587,6 +575,10 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             case .sizeSquareMetersRange(let minSize, let maxSize):
                 realEstateSizeSquareMetersMin = minSize
                 realEstateSizeSquareMetersMax = maxSize
+            case .serviceType(let type):
+                servicesServiceType = type
+            case .serviceSubtype(let subtype):
+                servicesServiceSubtype.append(subtype)
             }
         }
 
@@ -662,6 +654,14 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         
         filters.realEstateNumberOfRooms = realEstateNumberOfRooms
         filters.realEstateSizeRange = SizeRange(min: realEstateSizeSquareMetersMin, max: realEstateSizeSquareMetersMax)
+        
+        filters.servicesType = servicesServiceType
+        
+        if servicesServiceSubtype.count > 0 {
+            filters.servicesSubtypes = servicesServiceSubtype
+        } else {
+            filters.servicesSubtypes = nil
+        }
         
         updateCategoriesHeader()
         updateRealEstateBanner()
@@ -763,6 +763,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         listingListRequester = (listViewModel.currentActiveRequester as? ListingListMultiRequester) ?? ListingListMultiRequester()
         infoBubbleVisible.value = false
         errorMessage.value = nil
+        let showServiceCell = featureFlags.showServicesFeatures.isActive && filters.hasSelectedCategory(.services)
+        listViewModel.cellStyle = showServiceCell ? .serviceList : .mainList
         listViewModel.resetUI()
         listViewModel.refresh()
     }
@@ -791,7 +793,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         if isTaxonomiesAndTaxonomyChildrenInFeedEnabled {
             categoryHeaderElements.append(contentsOf: taxonomies.map { CategoryHeaderElement.superKeywordGroup($0) })
         } else {
-            categoryHeaderElements.append(contentsOf: ListingCategory.visibleValuesInFeed(servicesIncluded: featureFlags.servicesCategoryEnabled.isActive,
+            categoryHeaderElements.append(contentsOf: ListingCategory.visibleValuesInFeed(servicesIncluded: true,
                                                                                           realEstateIncluded: featureFlags.realEstateEnabled.isActive)
                 .map { CategoryHeaderElement.listingCategory($0) })
         }
@@ -977,7 +979,11 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
     func visibleTopCellWithIndex(_ index: Int, whileScrollingDown scrollingDown: Bool) {
 
         // set title for cell at index if necessary
-        filterTitle.value = listViewModel.titleForIndex(index: index)
+        if featureFlags.emptySearchImprovements.isActive, shouldHideCategoryAfterSearch {
+            filterTitle.value = featureFlags.emptySearchImprovements.filterTitle
+        } else {
+            filterTitle.value = listViewModel.titleForIndex(index: index)
+        }
 
         guard let sortCriteria = filters.selectedOrdering else { return }
 
@@ -1005,8 +1011,10 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
 
     // MARK: > ListingListViewModelDataDelegate
 
-    func listingListVM(_ viewModel: ListingListViewModel, didSucceedRetrievingListingsPage page: UInt,
-                       withResultsCount resultsCount: Int, hasListings: Bool) {
+    func listingListVM(_ viewModel: ListingListViewModel,
+                       didSucceedRetrievingListingsPage page: UInt,
+                       withResultsCount resultsCount: Int,
+                       hasListings: Bool) {
 
         trackRequestSuccess(page: page, resultsCount: resultsCount, hasListings: hasListings)
         // Only save the string when there is products and we are not searching a collection
@@ -1028,33 +1036,21 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
 
         if !hasListings {
             if let isLastPage = requester?.multiIsLastPage, isLastPage {
-                let errImage: UIImage?
-                let errTitle: String?
-                let errBody: String?
-                
-                
-                // Search
-                if queryString != nil || hasFilters {
-                    errImage = UIImage(named: "err_search_no_products")
-                    errTitle = isRealEstateSearch ? R.Strings.realEstateEmptyStateSearchTitle : R.Strings.productSearchNoProductsTitle
-                    errBody = isRealEstateSearch ? R.Strings.realEstateEmptyStateSearchSubtitle : R.Strings.productSearchNoProductsBody
-                } else {
-                    // Listing
-                    errImage = UIImage(named: "err_list_no_products")
-                    errTitle = R.Strings.productListNoProductsTitle
-                    errBody = R.Strings.productListNoProductsBody
-                }
-
-                let emptyViewModel = LGEmptyViewModel(icon: errImage, title: errTitle, body: errBody, buttonTitle: nil,
-                                                      action: nil, secondaryButtonTitle: nil, secondaryAction: nil,
-                                                      emptyReason: nil, errorCode: nil, errorDescription: nil)
+                let hasPerformedSearch = queryString != nil || hasFilters
+                let emptyViewModel = EmptyViewModelBuilder(hasPerformedSearch: hasPerformedSearch,
+                                                           isRealEstateSearch: isRealEstateSearch).build()
                 listViewModel.setEmptyState(emptyViewModel)
                 filterDescription.value = nil
                 filterTitle.value = nil
             } else {
                 listViewModel.retrieveListingsNextPage()
             }
-        } 
+        } else if featureFlags.emptySearchImprovements.isActive, viewModel.currentRequesterType != .search {
+            shouldHideCategoryAfterSearch = true
+            filterDescription.value = featureFlags.emptySearchImprovements.filterDescription
+            filterTitle.value = featureFlags.emptySearchImprovements.filterTitle
+            updateCategoriesHeader()
+        }
 
         errorMessage.value = nil
         infoBubbleVisible.value = hasListings && filters.infoBubblePresent
@@ -1520,7 +1516,11 @@ extension MainListingsViewModel {
 extension MainListingsViewModel {
 
     var showCategoriesCollectionBanner: Bool {
-        return primaryTags.isEmpty && !listViewModel.isListingListEmpty.value && !isSearchAlertsEnabled
+        if featureFlags.emptySearchImprovements.isActive && shouldHideCategoryAfterSearch {
+            return false
+        } else {
+            return primaryTags.isEmpty && !listViewModel.isListingListEmpty.value && !isSearchAlertsEnabled
+        }
     }
     
     var showRealEstateBanner: Bool {
@@ -1596,7 +1596,7 @@ extension MainListingsViewModel {
                                 accessibilityId: .userPushPermissionCancel)
         delegate?.vmShowAlertWithTitle(R.Strings.profilePermissionsAlertTitle,
                                        text: R.Strings.profilePermissionsAlertMessage,
-                                       alertType: .iconAlert(icon: UIImage(named: "custom_permission_profile")),
+                                       alertType: .iconAlert(icon: R.Asset.IconsButtons.customPermissionProfile.image),
                                        actions: [negative, positive])
     }
 }

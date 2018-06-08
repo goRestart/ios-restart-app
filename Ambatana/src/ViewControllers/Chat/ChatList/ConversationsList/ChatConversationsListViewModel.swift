@@ -2,6 +2,53 @@ import LGCoreKit
 import RxSwift
 import LGComponents
 
+enum ChatConnectionBarStatus {
+    case noNetwork
+    case wsClosed(reconnectBlock: (() -> Void)?)
+    case wsConnecting
+    case wsConnected
+
+    var title: NSAttributedString? {
+        switch self {
+        case .noNetwork:
+            return NSAttributedString(string: R.Strings.chatStatusViewNoNetwork)
+        case .wsClosed:
+            let tryAgain = R.Strings.chatStatusViewTryAgain
+            let tryAgainAttributes: [NSAttributedStringKey: Any] = [.foregroundColor : UIColor.macaroniAndCheese,
+                                                                    .underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
+                                                                    .underlineColor: UIColor.macaroniAndCheese]
+            let unableToConnectString = R.Strings.chatStatusViewUnableToConnect
+            let finalAttributtedString = NSMutableAttributedString(string: unableToConnectString)
+            let tryAgainRange = NSString(string: unableToConnectString).range(of: tryAgain)
+            print(tryAgainRange)
+            finalAttributtedString.setAttributes(tryAgainAttributes, range: tryAgainRange)
+            return finalAttributtedString
+        case .wsConnecting:
+            return NSAttributedString(string: R.Strings.chatStatusViewConnecting)
+        case .wsConnected:
+            return nil
+        }
+    }
+
+    var showActivityIndicator: Bool {
+        switch self {
+        case .noNetwork, .wsClosed, .wsConnected:
+            return false
+        case .wsConnecting:
+            return true
+        }
+    }
+
+    var actionBlock: (()->Void)? {
+        switch self {
+        case .noNetwork, .wsConnecting, .wsConnected:
+            return nil
+        case .wsClosed(let reconnectBlock):
+            return reconnectBlock
+        }
+    }
+}
+
 typealias NavigationActionSheet = (cancelTitle: String, actions: [UIAction])
 
 final class ChatConversationsListViewModel: BaseViewModel, Paginable {
@@ -41,7 +88,9 @@ final class ChatConversationsListViewModel: BaseViewModel, Paginable {
     private let rx_isReachable = Variable<Bool>(true)
     private let bag = DisposeBag()
     private var conversationsFilterBag: DisposeBag? = DisposeBag()
-    
+
+    let rx_connectionBarStatus = Variable<ChatConnectionBarStatus>(.wsConnected)
+
     // MARK: Lifecycle
     
     convenience override init() {
@@ -223,11 +272,24 @@ final class ChatConversationsListViewModel: BaseViewModel, Paginable {
             .asObservable()
             .skip(1)
             .bind { [weak self] (wsChatStatus, isReachable) in
-                guard wsChatStatus == .closed || !isReachable else { return }
-                self?.websocketWasClosedDuringCurrentSession = true
+                if wsChatStatus == .closed || !isReachable {
+                    self?.websocketWasClosedDuringCurrentSession = true
+                }
+                guard isReachable else {
+                    self?.rx_connectionBarStatus.value = .noNetwork
+                    return
+                }
+                switch wsChatStatus {
+                case .openAuthenticated, .openNotVerified:
+                    self?.rx_connectionBarStatus.value = .wsConnected
+                case .closed, .closing:
+                    self?.rx_connectionBarStatus.value = .wsClosed { [weak self] in self?.retrieveFirstPage() }
+                case .opening, .openNotAuthenticated:
+                    self?.rx_connectionBarStatus.value = .wsConnecting
+                }
             }
             .disposed(by: bag)
-        
+
         rx_viewState
             .asObservable()
             .bind { [weak self] viewState in
@@ -328,7 +390,7 @@ final class ChatConversationsListViewModel: BaseViewModel, Paginable {
     }
     
     private var verificationPendingEmptyViewModel: LGEmptyViewModel {
-        return LGEmptyViewModel(icon: #imageLiteral(resourceName: "ic_build_trust_big"),
+        return LGEmptyViewModel(icon: R.Asset.IconsButtons.icBuildTrustBig.image,
                                 title: R.Strings.chatNotVerifiedStateTitle,
                                 body: R.Strings.chatNotVerifiedStateMessage,
                                 buttonTitle: R.Strings.chatNotVerifiedStateCheckButton,
@@ -360,7 +422,7 @@ final class ChatConversationsListViewModel: BaseViewModel, Paginable {
         case .buying:
             primaryAction = openHomeAction
         }
-        return LGEmptyViewModel(icon: #imageLiteral(resourceName: "err_list_no_chats"),
+        return LGEmptyViewModel(icon: R.Asset.Errors.errListNoChats.image,
                                 title: filter.emptyViewModelTitleLocalizedString,
                                 body: nil,
                                 buttonTitle: filter.emptyViewModelPrimaryButtonTitleLocalizedString,

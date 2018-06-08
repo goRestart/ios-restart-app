@@ -41,9 +41,9 @@ enum CategoryHeaderElement {
         case .superKeyword, .superKeywordGroup:
             return nil
         case .showMore:
-            return #imageLiteral(resourceName: "showMore")
+            return R.Asset.IconsButtons.CategoriesHeaderIcons.showMore.image
         case .mostSearchedItems:
-            return #imageLiteral(resourceName: "trending_icon")
+            return R.Asset.IconsButtons.trendingIcon.image
         }
     }
     

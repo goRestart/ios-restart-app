@@ -67,14 +67,14 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         static let boostLabelText: String = R.Strings.bumpUpBannerBoostText
         static let boostLabelTextColor: UIColor = .blackText
         static let boostLabelFont: UIFont = .systemBoldFont(size: 17)
-        static let boostIcon: UIImage = #imageLiteral(resourceName: "ic_extra_boost")
+        static let boostIcon: UIImage = R.Asset.Monetization.icExtraBoost.image
     }
 	
 	struct EditProductFeatureUI {
 		static let editProductFeaturelabelText: String = R.Strings.editProductFeatureLabelLongText
 		static let editProductFeatureTextColor: UIColor = UIColor.primaryColor
 		static let editProductFeatureFont: UIFont = UIFont.systemBoldFont(size: 15)
-		static let editProductFeatureBoostIcon: UIImage = #imageLiteral(resourceName: "ic_lightning")
+		static let editProductFeatureBoostIcon: UIImage = R.Asset.Monetization.icLightning.image
 	}
 
     // real time cloudsight
@@ -468,7 +468,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     func realEstatePropertyTypeButtonPressed() {
         let attributeValues = RealEstatePropertyType.allValues(postingFlowType: featureFlags.postingFlowType)
         let values = attributeValues.map { $0.localizedString }
-        let vm = ListingAttributePickerViewModel(
+        let vm = ListingAttributeSingleSelectPickerViewModel(
             title: R.Strings.realEstateTypePropertyTitle,
             attributes: values,
             selectedAttribute: realEstatePropertyType.value?.localizedString
@@ -485,7 +485,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     func realEstateOfferTypeButtonPressed() {
         let attributeValues = RealEstateOfferType.allValues
         let values = attributeValues.map { $0.localizedString }
-        let vm = ListingAttributePickerViewModel(
+        let vm = ListingAttributeSingleSelectPickerViewModel(
             title: R.Strings.realEstateOfferTypeTitle,
             attributes: values,
             selectedAttribute: realEstateOfferType.value?.localizedString
@@ -506,7 +506,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         if let bedrooms = realEstateNumberOfBedrooms.value, let numberOfBedrooms = NumberOfBedrooms(rawValue: bedrooms) {
             selectedAttribute = numberOfBedrooms.localizedString
         }
-        let vm = ListingAttributePickerViewModel(
+        let vm = ListingAttributeSingleSelectPickerViewModel(
             title: R.Strings.realEstateBedroomsTitle,
             attributes: values,
             selectedAttribute: selectedAttribute
@@ -538,7 +538,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
                 self?.realEstateNumberOfRooms.value = nil
             }
         }
-        let vm = ListingAttributePickerViewModel(title: R.Strings.realEstateRoomsTitle,
+        let vm = ListingAttributeSingleSelectPickerViewModel(title: R.Strings.realEstateRoomsTitle,
                                                  attributes: values,
                                                  selectedAttribute: selectedAttribute,
                                                  selectionUpdate: selectionUpdateblock)
@@ -553,7 +553,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         if let bathrooms = realEstateNumberOfBathrooms.value {
             selectedAttribute = bathrooms.localizedString
         }
-        let vm = ListingAttributePickerViewModel(
+        let vm = ListingAttributeSingleSelectPickerViewModel(
             title: R.Strings.realEstateBathroomsTitle,
             attributes: values,
             selectedAttribute: selectedAttribute
@@ -596,7 +596,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
             // not enabled
             let okAction = UIAction(interface: UIActionInterface.styledText(R.Strings.commonOk,
                 .standard), action: permissionsActionBlock)
-            let alertIcon = UIImage(named: "ic_location_alert")
+            let alertIcon = R.Asset.IconsButtons.icLocationAlert.image
             delegate?.vmShowAlertWithTitle(R.Strings.editProductLocationAlertTitle,
                                            text: R.Strings.editProductLocationAlertText,
                                            alertType: .iconAlert(icon: alertIcon), actions: [okAction])
@@ -937,7 +937,7 @@ extension EditListingViewModel {
         let serviceTypeNames = serviceTypes.map( { $0.name } )
         let selectedServiceType = serviceTypeName.value
         
-        let vm = ListingAttributePickerViewModel(title: R.Strings.servicesServiceTypeListTitle,
+        let vm = ListingAttributeSingleSelectPickerViewModel(title: R.Strings.servicesServiceTypeListTitle,
                                                  attributes: serviceTypeNames,
                                                  selectedAttribute: selectedServiceType) { [weak self] selectedIndex in
                                                     if let selectedIndex = selectedIndex {
@@ -958,10 +958,10 @@ extension EditListingViewModel {
         let serviceSubtypeNames = serviceSubtypes.map( { $0.name } )
         let selectedServiceSubtype = serviceSubtypeName.value
         
-        let vm = ListingAttributePickerViewModel(title: R.Strings.servicesServiceSubtypeListTitle,
-                                                 attributes: serviceSubtypeNames,
-                                                 selectedAttribute: selectedServiceSubtype,
-                                                 canSearchAttributes: true)
+        let vm = ListingAttributeSingleSelectPickerViewModel(title: R.Strings.servicesServiceSubtypeListTitle,
+                                                             attributes: serviceSubtypeNames,
+                                                             selectedAttribute: selectedServiceSubtype,
+                                                             canSearchAttributes: true)
         { [weak self] selectedIndex in
             if let selectedIndex = selectedIndex {
                 self?.updateServiceSubtype(withServiceSubtype: serviceSubtypes[safeAt: selectedIndex])
@@ -1003,12 +1003,8 @@ extension EditListingViewModel {
     }
 
     private var shouldShowServicesSection: Bool {
-        if featureFlags.showServicesFeatures.isActive {
-            // Do not show services category when this feature set is active
-            return false
-        }
-        
-        return featureFlags.servicesCategoryEnabled.isActive
+        // Do not show services category when this feature set is active
+        return !featureFlags.showServicesFeatures.isActive
     }
     
     func categoryNameAtIndex(_ index: Int) -> String {

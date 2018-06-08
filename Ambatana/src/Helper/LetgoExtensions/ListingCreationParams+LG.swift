@@ -60,7 +60,7 @@ extension ListingCreationParams {
                                                                 videos: videos,
                                                                 realEstateAttributes: postListingState.verticalAttributes?.realEstateAttributes ?? RealEstateAttributes.emptyRealEstateAttributes())
                 listingCreationParams = ListingCreationParams.realEstate(realEstateParams)
-            case .motorsAndAccessories, .otherItems:
+            case .motorsAndAccessories, .otherItems, .services:
                 let productParams = ProductCreationParams(name: title,
                                                           description: description,
                                                           price: postListingState.price ?? Constants.defaultPrice,

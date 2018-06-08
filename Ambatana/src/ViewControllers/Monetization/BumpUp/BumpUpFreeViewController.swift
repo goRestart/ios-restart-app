@@ -1,18 +1,15 @@
-//
-//  BumpUpFreeViewController.swift
-//  LetGo
-//
-//  Created by Dídac on 15/12/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
-class BumpUpFreeViewController: BaseViewController {
+final class BumpUpFreeViewController: BaseViewController {
 
     private static let shareButtonWidth: CGFloat = 60
     private static let titleVerticalOffsetWithImage: CGFloat = 50
     private static let titleVerticalOffsetWithoutImage: CGFloat = -100
+
+    @IBOutlet weak var bottomCloudImageView: UIImageView!
+    @IBOutlet weak var topCloudImageView: UIImageView!
+    @IBOutlet weak var searchAlertImageView: UIImageView!
 
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var imageContainer: UIView!
@@ -80,6 +77,14 @@ class BumpUpFreeViewController: BaseViewController {
         let swipeDownGesture = UISwipeGestureRecognizer(target: self, action: #selector(gestureClose))
         swipeDownGesture.direction = .down
         view.addGestureRecognizer(swipeDownGesture)
+
+        setupRAssets()
+    }
+
+    private func setupRAssets() {
+        topCloudImageView.image = R.Asset.Monetization.cloud.image
+        bottomCloudImageView.image = R.Asset.Monetization.cloud.image
+        closeButton.setImage(R.Asset.Monetization.redChevronDown.image, for: .normal)
     }
 
     private func setupShareView() {

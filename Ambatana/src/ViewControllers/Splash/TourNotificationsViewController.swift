@@ -20,7 +20,14 @@ final class TourNotificationsViewController: BaseViewController {
     @IBOutlet weak var notificationMessageLabel: UILabel!
     @IBOutlet weak var alertContainer: UIView!
     @IBOutlet weak var alertOkLabel: UILabel!
-
+    @IBOutlet weak var iPhoneTopImage: UIImageView!
+    @IBOutlet weak var iPhoneLeftImage: UIImageView!
+    @IBOutlet weak var iPhoneRightImage: UIImageView!
+    @IBOutlet weak var iPhoneBottomImage: UIImageView!
+    @IBOutlet weak var pushImage: UIImageView!
+    @IBOutlet weak var permissionAlertImage: UIImageView!
+    
+    
     var completion: (() -> ())?
     var pushDialogWasShown = false
     
@@ -137,6 +144,7 @@ final class TourNotificationsViewController: BaseViewController {
     
     func setupUI() {
         view.backgroundColor = .clear
+        setupImages()
         iphoneBckgImage.image = viewModel.infoImage
         notifyButton.setStyle(.primary(fontSize: .medium))
 
@@ -158,6 +166,17 @@ final class TourNotificationsViewController: BaseViewController {
         alertContainer.isHidden = !viewModel.showAlertInfo
         let tap = UITapGestureRecognizer(target: self, action: #selector(yesButtonPressed(_:)))
         alertContainer.addGestureRecognizer(tap)
+    }
+    
+    private func setupImages() {
+        closeButton.setImage(R.Asset.IconsButtons.icClose.image, for: .normal)
+        iPhoneTopImage.image = R.Asset.IPhoneParts.iphoneTop.image
+        iPhoneLeftImage.image = R.Asset.IPhoneParts.iphoneLeft.image
+        iPhoneRightImage.image = R.Asset.IPhoneParts.iphoneRight.image
+        iphoneBckgImage.image = R.Asset.IPhoneParts.imgNotifications.image
+        iPhoneBottomImage.image = R.Asset.IPhoneParts.iphoneBottom.image
+        pushImage.image = R.Asset.IPhoneParts.imgPush.image
+        permissionAlertImage.image = R.Asset.IPhoneParts.imgPermissionsAlert.image
     }
 
     func setupAccessibilityIds() {

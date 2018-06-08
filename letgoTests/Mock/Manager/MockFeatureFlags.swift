@@ -41,23 +41,17 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var dummyUsersInfoProfile: DummyUsersInfoProfile = .control
     var searchImprovements: SearchImprovements = .control
     var relaxedSearch: RelaxedSearch = .control
-    var discardedProducts: DiscardedProducts = .control
     var bumpUpBoost: BumpUpBoost = .control
-    var servicesCategoryEnabled: ServicesCategoryEnabled = .control
     var increaseNumberOfPictures: IncreaseNumberOfPictures = .control
     var onboardingIncentivizePosting: OnboardingIncentivizePosting = .control
-    var machineLearningMVP: MachineLearningMVP = .control
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings = .control
     var showProTagUserProfile: Bool = false
     var realEstateTutorial: RealEstateTutorial = .control
     var summaryAsFirstStep: SummaryAsFirstStep = .control
-    var showAdvancedReputationSystem: ShowAdvancedReputationSystem = .control
     var sectionedMainFeed: SectionedMainFeed = .control
     var showExactLocationForPros: Bool = true
-    var showPasswordlessLogin: ShowPasswordlessLogin = .control
-    var emergencyLocate: EmergencyLocate = .control
-
     var searchAlerts: SearchAlerts = .control
+    var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed = .control
     
     // Country dependant features
     var freePostingModeAllowed = false
@@ -72,6 +66,8 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var feedAdsProviderForUS: FeedAdsProviderForUS = .control
     var feedAdUnitId: String? = ""
     var feedAdsProviderForTR: FeedAdsProviderForTR = .control
+    var fullScreenAdsWhenBrowsingForUS: FullScreenAdsWhenBrowsingForUS = .control
+    var fullScreenAdUnitId: String? = ""
     
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false
@@ -109,5 +105,13 @@ final class MockFeatureFlags: FeatureFlaggeable {
     
     //  MARK:  Products
     var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu = .control
+    var predictivePosting: PredictivePosting = .control
+    var videoPosting: VideoPosting = .control
+
+    // MARK: Users
+    var showAdvancedReputationSystem: ShowAdvancedReputationSystem = .control
+    var showPasswordlessLogin: ShowPasswordlessLogin = .control
+    var emergencyLocate: EmergencyLocate = .control
+    var offensiveReportAlert: OffensiveReportAlert = .control
 }
 

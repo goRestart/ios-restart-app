@@ -98,14 +98,16 @@ final class ListingPostedViewController: BaseViewController, ListingPostedViewMo
     // MARK: - Private methods
 
     private func setupView() {
-
+        closeButton.setImage(R.Asset.CongratsScreenImages.icCloseRed.image, for: .normal)
+        shareButton.setImage(R.Asset.CongratsScreenImages.icShareRed.image, for: .normal)
         mainButton.setStyle(.primary(fontSize: .big))
         mainButton.isHidden = viewModel.mainButtonHidden
         editOrLabel.text = R.Strings.productPostConfirmationAnother.localizedUppercase
         editButton.setTitle(R.Strings.productPostConfirmationEdit, for: .normal)
         loadingIndicator.color = UIColor.primaryColor
 
-        guard let postIncentivatorView = PostIncentivatorView.postIncentivatorView(viewModel.wasFreePosting) else { return }
+        guard let postIncentivatorView = PostIncentivatorView.postIncentivatorView(viewModel.wasFreePosting,
+                                                                                   isServicesListing: false) else { return }
         incentiveContainer.addSubview(postIncentivatorView)
         let views: [String : Any] = ["postIncentivatorView": postIncentivatorView]
         incentiveContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[postIncentivatorView]|",

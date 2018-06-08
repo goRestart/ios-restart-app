@@ -56,7 +56,9 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        emailIconImageView.image = R.Asset.IconsButtons.icEmail.image
+        emailIconImageView.image = R.Asset.IconsButtons.icEmailActive.image
+
         setupUI()
         
         emailTextField.becomeFirstResponder()
@@ -178,8 +180,8 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
         textfieldPlaceholderAttrs[NSAttributedStringKey.foregroundColor] = textfieldTextPlaceholderColor
 
         emailButton.setStyle(.lightField)
-        emailIconImageView.image = UIImage(named: "ic_email")
-        emailIconImageView.highlightedImage = UIImage(named: "ic_email_active")
+        emailIconImageView.image = R.Asset.IconsButtons.icEmail.image
+        emailIconImageView.highlightedImage = R.Asset.IconsButtons.icEmailActive.image
         emailTextField.textColor = textfieldTextColor
         emailTextField.attributedPlaceholder = NSAttributedString(string: R.Strings.signUpEmailFieldHint,
                                                                   attributes: textfieldPlaceholderAttrs)
@@ -195,8 +197,8 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
         textfieldPlaceholderAttrs[NSAttributedStringKey.foregroundColor] = textfieldTextPlaceholderColor
 
         emailButton.setStyle(.darkField)
-        emailIconImageView.image = UIImage(named: "ic_email_dark")
-        emailIconImageView.highlightedImage = UIImage(named: "ic_email_active_dark")
+        emailIconImageView.image = R.Asset.IconsButtons.icEmailDark.image
+        emailIconImageView.highlightedImage = R.Asset.IconsButtons.icEmailActiveDark.image
         emailTextField.textColor = textfieldTextColor
         emailTextField.attributedPlaceholder = NSAttributedString(string: R.Strings.signUpEmailFieldHint,
                                                                   attributes: textfieldPlaceholderAttrs)
@@ -204,7 +206,12 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
 
     func setupKenBurns() {
         view.layoutIfNeeded()
-        kenBurnsView.startAnimation(with: [#imageLiteral(resourceName: "bg_1_new"), #imageLiteral(resourceName: "bg_2_new"), #imageLiteral(resourceName: "bg_3_new"), #imageLiteral(resourceName: "bg_4_new")])
+        kenBurnsView.startAnimation(with: [
+            R.Asset.BackgroundsAndImages.bg1New.image,
+            R.Asset.BackgroundsAndImages.bg2New.image,
+            R.Asset.BackgroundsAndImages.bg3New.image,
+            R.Asset.BackgroundsAndImages.bg4New.image
+            ])
     }
     
     private func updateSendButtonEnabledState() {

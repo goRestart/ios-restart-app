@@ -1,8 +1,9 @@
 import LGCoreKit
 import RxSwift
 import LGComponents
+import GoogleMobileAds
 
-class ListingCarouselViewController: KeyboardViewController, AnimatableTransition {
+final class ListingCarouselViewController: KeyboardViewController, AnimatableTransition {
     private struct Layout {
         static let pageControlArbitraryTopMargin: CGFloat = 40
         static let pageControlArbitraryWidth: CGFloat = 50
@@ -114,7 +115,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     }
     private let startPlayingButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setImage(#imageLiteral(resourceName: "ic_videoposting_play"), for: .normal)
+        button.setImage(R.Asset.IconsButtons.VideoPosting.icVideopostingPlay.image, for: .normal)
         return button
     }()
 
@@ -140,6 +141,10 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     
     private var shouldHideStatusBar = true
 
+    private var interstitial: GADInterstitial?
+    private var firstAdShowed = false
+    private var lastIndexAd = -1
+    
     // MARK: - Lifecycle
 
     convenience init(viewModel: ListingCarouselViewModel, pushAnimator: ListingCarouselPushAnimator?) {
@@ -189,10 +194,11 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         setupGradientView()
         setupCollectionRx()
         setupZoomRx()
-        if viewModel.shouldAddPlayButton {
+        if viewModel.isPlayable {
             setupPlayButton()
         }
         setAccessibilityIds()
+        setupInterstitial()
     }
 
     private func setupPlayButton() {
@@ -401,7 +407,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
 
         CarouselUIHelper.setupShareButton(shareButton,
                                           text: R.Strings.productShareNavbarButton,
-                                          icon: UIImage(named:"ic_share"))
+                                          icon: R.Asset.IconsButtons.icShare.image)
 
         mainResponder = chatTextView
         setupDirectMessages()
@@ -411,7 +417,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     private func setupCallButton() {
         buttonCall.setStyle(.primary(fontSize: .big))
         buttonCall.setTitle(R.Strings.productProfessionalCallButton, for: .normal)
-        buttonCall.setImage(UIImage(named: "ic_phone_call"), for: .normal)
+        buttonCall.setImage(R.Asset.Monetization.icPhoneCall.image, for: .normal)
         buttonCall.imageEdgeInsets = UIEdgeInsets(top: 0, left: -Metrics.shortMargin, bottom: 0, right: 0)
         buttonCall.titleEdgeInsets = UIEdgeInsets(top: 0, left: Metrics.shortMargin, bottom: 0, right: 0)
         buttonCall.isHidden = true
@@ -444,7 +450,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     }
 
     private func setupNavigationBar() {
-        let backIconImage = UIImage(named: "ic_close_carousel")
+        let backIconImage = R.Asset.IconsButtons.icCloseCarousel.image
         let backButton = UIBarButtonItem(image: backIconImage, style: UIBarButtonItemStyle.plain,
                                          target: self, action: #selector(backButtonClose))
         backButton.set(accessibilityId: .listingCarouselNavBarCloseButton)
@@ -495,7 +501,14 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
             }
             }.disposed(by: disposeBag)
     }
-
+    
+    private func setupInterstitial() {
+        interstitial = viewModel.createAndLoadInterstitial()
+        if let interstitial = interstitial {
+            interstitial.delegate = self
+        }
+    }
+    
     private func setupAlphaRxBindings() {
         itemsAlpha.asObservable().bind(to: buttonBottom.rx.alpha).disposed(by: disposeBag)
         itemsAlpha.asObservable().bind(to: buttonTop.rx.alpha).disposed(by: disposeBag)
@@ -574,6 +587,9 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
                 }
                 if movement != .initial {
                     self?.viewModel.moveToProductAtIndex(index, movement: movement)
+                }
+                if let rootViewController = self?.parent, movement == .tap || movement == .swipeRight {
+                    self?.viewModel.presentInterstitial(self?.interstitial, index: index, fromViewController: rootViewController)
                 }
                 if movement == .tap {
                     self?.finishedTransition()
@@ -862,7 +878,7 @@ extension ListingCarouselViewController {
 
     private func setupFavoriteButtonRx() {
         viewModel.isFavorite.asObservable()
-            .map { UIImage(named: $0 ? "ic_favorite_big_on" : "ic_favorite_big_off") }
+            .map { $0 ? R.Asset.IconsButtons.icFavoriteBigOn.image : R.Asset.IconsButtons.icFavoriteBigOff.image }
             .bind(to: favoriteButton.rx.image(for: .normal)).disposed(by: disposeBag)
 
         favoriteButton.rx.tap.bind { [weak self] in
@@ -1244,8 +1260,7 @@ extension ListingCarouselViewController: UICollectionViewDataSource, UICollectio
                                            imageScrollDirection: viewModel.imageScrollDirection)
             carouselCell.delegate = self
             carouselCell.tag = indexPath.row
-
-
+            
             return carouselCell
     }
 
@@ -1480,3 +1495,21 @@ fileprivate extension ListingCarouselViewController {
     }
 }
 
+// MARK: - GADIntertitialDelegate
+
+extension ListingCarouselViewController: GADInterstitialDelegate {
+    
+    /// Tells the delegate the interstitial had been animated off the screen.
+    func interstitialDidDismissScreen(_ ad: GADInterstitial) {
+        setupInterstitial()
+    }
+    
+    func interstitialWillPresentScreen(_ ad: GADInterstitial) {
+        viewModel.interstitialAdShown(typePage: EventParameterTypePage.nextItem)
+    }
+    
+    func interstitialWillLeaveApplication(_ ad: GADInterstitial) {
+        viewModel.interstitialAdTapped(typePage: EventParameterTypePage.nextItem)
+    }
+    
+}

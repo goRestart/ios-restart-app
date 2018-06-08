@@ -259,6 +259,7 @@ enum AccessibilityId: Equatable {
     case postingDescriptionField
     case postingBackButton
     case postingInfoCloseButton
+    case postingInfoCollectionView
     case postingInfoShareButton
     case postingInfoLoading
     case postingInfoEditButton
@@ -268,6 +269,7 @@ enum AccessibilityId: Equatable {
     case postingCategorySelectionMotorsAndAccessoriesButton
     case postingCategorySelectionOtherButton
     case postingCategorySelectionRealEstateButton
+    case postingCategorySelectionServicesButton
     case postingCategoryDeatilNavigationBackButton
     case postingCategoryDeatilNavigationMakeButton
     case postingCategoryDeatilNavigationModelButton
@@ -711,6 +713,10 @@ enum AccessibilityId: Equatable {
     case bumpUpHiddenListingAlertContactButton
     case bumpUpHiddenListingAlertCancelButton
 
+    // Offensive Report Alert
+    case offensiveReportAlertOpenGuidelineButton
+    case offensiveReportAlertSkipButton
+
     // ExpandableSelectionCategoryView
     case expandableCategorySelectionCloseButton
     case expandableCategorySelectionView
@@ -935,6 +941,10 @@ enum AccessibilityId: Equatable {
                 idSuffix = "RealEstateOfferType-\(type.rawValue)"
             case let .realEstateNumberOfRooms(number):
                 idSuffix = "RealEstateNumRooms-\(number)"
+            case let .serviceType(serviceType):
+                idSuffix = "ServicesServiceType-\(serviceType.name)"
+            case let .serviceSubtype(serviceSubtype):
+                idSuffix = "ServicesServiceSubtype-\(serviceSubtype.name)"
             case let .sizeSquareMetersRange(from, to):
                 let fromString: String
                 if let from = from {
@@ -1269,6 +1279,8 @@ enum AccessibilityId: Equatable {
             return "postingBackButton"
         case .postingInfoCloseButton:
             return "postingInfoCloseButton"
+        case .postingInfoCollectionView:
+            return "postingInfoCollectionView"
         case .postingInfoShareButton:
             return "postingInfoShareButton"
         case .postingInfoLoading:
@@ -1287,6 +1299,8 @@ enum AccessibilityId: Equatable {
             return "postingCategorySelectionOtherButton"
         case .postingCategorySelectionRealEstateButton:
             return "postingCategorySelectionRealEstateButton"
+        case .postingCategorySelectionServicesButton:
+            return "postingCategorySelectionServicesButton"
         case .postingCategoryDeatilNavigationBackButton:
             return "postingCategoryDeatilNavigationBackButton"
         case .postingCategoryDeatilNavigationMakeButton:
@@ -2061,7 +2075,13 @@ enum AccessibilityId: Equatable {
             return "bumpUpHiddenListingAlertContactButton"
         case .bumpUpHiddenListingAlertCancelButton:
             return "bumpUpHiddenListingAlertCancelButton"
-            
+
+        // Offensive Report Alert
+        case .offensiveReportAlertOpenGuidelineButton:
+            return "offensiveReportAlertOpenGuidelineButton"
+        case .offensiveReportAlertSkipButton:
+            return "offensiveReportAlertSkipButton"
+
         // ExpandableSelectionCategoryView
         case .expandableCategorySelectionCloseButton:
             return "expandableCategorySelectionCloseButton"

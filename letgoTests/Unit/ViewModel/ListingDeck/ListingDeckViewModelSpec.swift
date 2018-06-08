@@ -93,7 +93,8 @@ final class ListingDeckViewModelSpec: BaseViewModelSpec {
                                            actionOnFirstAppear: actionOnFirstAppear,
                                            trackingIndex: nil,
                                            keyValueStorage: MockKeyValueStorage(),
-                                           featureFlags: MockFeatureFlags())
+                                           featureFlags: MockFeatureFlags(),
+                                           adsRequester: AdsRequester())
 
                 sut.delegate = self
             }

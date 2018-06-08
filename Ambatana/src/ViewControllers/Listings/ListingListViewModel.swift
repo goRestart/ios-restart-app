@@ -61,9 +61,7 @@ final class ListingListViewModel: BaseViewModel {
         return (UIScreen.main.bounds.size.width - (listingListFixedInset*2)) / CGFloat(numberOfColumns)
     }
 
-    var cellStyle: CellStyle {
-        return .mainList
-    }
+    var cellStyle: CellStyle = .mainList
     
     var listingListFixedInset: CGFloat = 10.0
     
@@ -349,12 +347,20 @@ final class ListingListViewModel: BaseViewModel {
             let indexes: [Int] = strongSelf.updateListingIndices(isFirstPage: isFirstPage, with: cellModels)
 
             strongSelf.pageNumber = nextPageNumber
-            let hasListings = strongSelf.numberOfListings > 0
+            let numListing = strongSelf.numberOfListings
+            let hasListings = numListing > 0
             strongSelf.isLastPage = currentRequester.isLastPage(newListings.count)
 
             requesterList.removeFirst()
             if hasListings {
-                strongSelf.state = .data
+                if strongSelf.featureFlags.shouldUseSimilarQuery(numListing: numListing)
+                    && strongSelf.currentRequesterType == .search {
+                    strongSelf.currentRequesterIndex += 1
+                    strongSelf.retrieveListings(isFirstPage: isFirstPage, with: requesterList)
+                    return
+                } else {
+                    strongSelf.state = .data
+                }
             } else if !requesterList.isEmpty {
                 strongSelf.currentRequesterIndex += 1
                 strongSelf.retrieveListings(isFirstPage: isFirstPage, with: requesterList)
@@ -495,24 +501,21 @@ final class ListingListViewModel: BaseViewModel {
         })
     }
     
-    private func featuredInfoAdditionalCellHeight(for listing: Listing, width: CGFloat, isVariantEnabled: Bool, productDetailDisplayType: AddPriceTitleDistanceToListings) -> CGFloat {
-        
-        let isMine = listing.isMine(myUserRepository: myUserRepository)
-        
-        let minHeightForFeaturedListing: CGFloat = isMine ? 0.0 : ListingCellMetrics.ActionButton.totalHeight
-        guard isVariantEnabled, let featured = listing.featured, featured else {
-            return 0
-        }
-        var height: CGFloat = minHeightForFeaturedListing
-        height += productDetailDisplayType == .infoInImage ? 0 : ListingCellMetrics.getTotalHeightForPriceAndTitleView(listing.title, containerWidth: width)
+    private func featuredInfoAdditionalCellHeight(for listing: Listing, width: CGFloat, infoInImage: Bool) -> CGFloat {
+        var height: CGFloat = actionButtonCellHeight(for: listing)
+        height += infoInImage ? 0 : ListingCellMetrics.getTotalHeightForPriceAndTitleView(listing.title, containerWidth: width)
         return height
     }
     
+    private func actionButtonCellHeight(for listing: Listing) -> CGFloat {
+        let isMine = listing.isMine(myUserRepository: myUserRepository)
+        return isMine ? 0.0 : ListingCellMetrics.ActionButton.totalHeight
+    }
+    
     private func discardedProductAdditionalHeight(for listing: Listing,
-                                                  toHeight height: CGFloat,
-                                                  variant: DiscardedProducts) -> CGFloat {
+                                                  toHeight height: CGFloat) -> CGFloat {
         let minCellHeight: CGFloat = ListingCellMetrics.minThumbnailHeightWithContent
-        guard listing.status.isDiscarded, variant.isActive, height < minCellHeight else { return 0 }
+        guard listing.status.isDiscarded, height < minCellHeight else { return 0 }
         return minCellHeight - height
     }
     
@@ -558,14 +561,26 @@ final class ListingListViewModel: BaseViewModel {
                                                   widthConstraint: widthConstraint)?.height else {
             return nil
         }
-        cellHeight += featuredInfoAdditionalCellHeight(for: listing,
-                                                       width: widthConstraint,
-                                                       isVariantEnabled: featureFlags.pricedBumpUpEnabled,
-                                                       productDetailDisplayType: featureFlags.addPriceTitleDistanceToListings)
-        cellHeight += discardedProductAdditionalHeight(for: listing, toHeight: cellHeight, variant: featureFlags.discardedProducts)
-        cellHeight += normalCellAdditionalHeight(for: listing, width: widthConstraint, variant: featureFlags.addPriceTitleDistanceToListings)
-        let cellSize = CGSize(width: widthConstraint, height: cellHeight)
-        return cellSize
+        
+        if let isFeatured = listing.featured, isFeatured, featureFlags.pricedBumpUpEnabled {
+            if cellStyle == .serviceList {
+                cellHeight += actionButtonCellHeight(for: listing)
+            } else  {
+                cellHeight += featuredInfoAdditionalCellHeight(for: listing,
+                                                               width: widthConstraint,
+                                                               infoInImage: featureFlags.addPriceTitleDistanceToListings == .infoInImage)
+            }
+        }
+        
+        cellHeight += discardedProductAdditionalHeight(for: listing, toHeight: cellHeight)
+        
+        if cellStyle == .serviceList {
+            cellHeight += ListingCellMetrics.getTotalHeightForPriceAndTitleView(listing.title, containerWidth: widthConstraint)
+        } else {
+            cellHeight += normalCellAdditionalHeight(for: listing, width: widthConstraint,
+                                                     variant: featureFlags.addPriceTitleDistanceToListings)
+        }
+        return CGSize(width: widthConstraint, height: cellHeight)
     }
     
     /**
@@ -767,5 +782,11 @@ extension ListingListViewModel {
                                                  categories: categories,
                                                  feedPosition: feedPosition)
         tracker.trackEvent(trackerEvent)
+    }
+}
+
+private extension FeatureFlaggeable {
+    func shouldUseSimilarQuery(numListing: Int) -> Bool {
+        return emptySearchImprovements.shouldContinueWithSimilarQueries(withCurrentListing: numListing)
     }
 }

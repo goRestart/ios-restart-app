@@ -33,14 +33,14 @@ enum UserVerificationItem {
 
     var image: UIImage? {
         switch self {
-        case .facebook: return UIImage(named: "verify_facebook")
-        case .google: return UIImage(named: "verify_google")
-        case .email: return UIImage(named: "verify_mail")
-        case .phoneNumber: return UIImage(named: "verify_phone")
-        case .photoID: return UIImage(named: "verify_id")
-        case .profilePicture: return UIImage(named: "verify_photo")
-        case .bio: return UIImage(named: "verify_bio")
-        case .markAsSold: return UIImage(named: "verify_sold")
+        case .facebook: return R.Asset.IconsButtons.verifyFacebook.image
+        case .google: return R.Asset.IconsButtons.verifyGoogle.image
+        case .email: return R.Asset.IconsButtons.verifyMail.image
+        case .phoneNumber: return R.Asset.IconsButtons.verifyPhone.image
+        case .photoID: return R.Asset.IconsButtons.verifyId.image
+        case .profilePicture: return R.Asset.IconsButtons.verifyPhoto.image
+        case .bio: return R.Asset.IconsButtons.verifyBio.image
+        case .markAsSold: return R.Asset.IconsButtons.verifySold.image
         }
     }
 

@@ -14,13 +14,15 @@ final class GradientView: UIView {
         case horizontal, vertical
     }
 
-    override var intrinsicContentSize: CGSize { return CGSize(width: UIViewNoIntrinsicMetric, height: Metrics.veryBigMargin) }
+    override var intrinsicContentSize: CGSize { return CGSize(width: UIViewNoIntrinsicMetric, height: UIViewNoIntrinsicMetric) }
 
     private let gradient = CAGradientLayer()
     private let colors: [UIColor]
+    private let locations: [Float]
 
-    init(colors: [UIColor]) {
+    init(colors: [UIColor], locations: [Float] = [0 , 1]) {
         self.colors = colors
+        self.locations = locations
         super.init(frame: .zero)
         self.isOpaque = false
 
@@ -32,7 +34,7 @@ final class GradientView: UIView {
     private func setupLayers() {
         gradient.frame = bounds
         gradient.colors = colors.map { $0.cgColor }
-        gradient.locations = [0 , 1]
+        gradient.locations = locations.map { NSNumber(value: $0) }
 
         layer.insertSublayer(gradient, at: 0)
     }

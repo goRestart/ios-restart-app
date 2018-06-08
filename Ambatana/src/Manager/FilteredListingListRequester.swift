@@ -87,7 +87,8 @@ class FilteredListingListRequester: ListingListRequester {
     private func retrieve(_ completion: ListingsCompletion?) {
         if let category = filters?.selectedCategories.first {
             let action = category.index(listingRepository: listingRepository,
-                                        searchCarsEnabled: featureFlags.searchCarsIntoNewBackend.isActive)
+                                        searchCarsEnabled: featureFlags.searchCarsIntoNewBackend.isActive,
+                                        searchServicesEnabled: featureFlags.showServicesFeatures.isActive)
             action(retrieveListingsParams, completion)
         } else if shouldUseSimilarQuery, queryString != nil {
             listingRepository.indexSimilar(retrieveListingsParams, completion: completion)
@@ -355,23 +356,27 @@ private extension EmptySearchImprovements {
     var similarParam: SimilarParam? {
         switch self {
         case .control, .baseline, .popularNearYou: return nil
-        case .similarQueries:
+        case .similarQueries, .alwaysSimilar, .similarQueriesWhenFewResults:
             return SimilarParam(numberOfSimilarContexts: EmptySearchImprovements.maxNumberOfSimilarContexts)
         }
     }
 }
 
 private extension ListingCategory {
-    func index(listingRepository: ListingRepository, searchCarsEnabled: Bool) -> ((RetrieveListingParams, ListingsCompletion?) -> ()) {
+    func index(listingRepository: ListingRepository,
+               searchCarsEnabled: Bool,
+               searchServicesEnabled: Bool) -> ((RetrieveListingParams, ListingsCompletion?) -> ()) {
         switch self {
         case .realEstate:
             return listingRepository.indexRealEstate
         case .cars:
             return searchCarsEnabled ? listingRepository.indexCars : listingRepository.index
         case .babyAndChild, .electronics, .fashionAndAccesories, .homeAndGarden, .motorsAndAccessories,
-             .moviesBooksAndMusic, .other, .services, .sportsLeisureAndGames,
+             .moviesBooksAndMusic, .other, .sportsLeisureAndGames,
              .unassigned:
             return listingRepository.index
+        case .services:
+            return searchServicesEnabled ? listingRepository.indexServices : listingRepository.index
         }
     }
 }

@@ -37,7 +37,7 @@ class PushPermissionsHeader: UIView {
     private func setupUI() {
         backgroundColor = UIColor.lgBlack
 
-        let icon = UIImageView(image: UIImage(named: "ic_messages"))
+        let icon = UIImageView(image: R.Asset.IconsButtons.icMessages.image)
         icon.contentMode = .center
         icon.translatesAutoresizingMaskIntoConstraints = false
         addSubview(icon)
@@ -49,7 +49,7 @@ class PushPermissionsHeader: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         addSubview(label)
 
-        let disclosure = UIImageView(image: UIImage(named: "ic_disclosure"))
+        let disclosure = UIImageView(image: R.Asset.IconsButtons.icDisclosure.image)
         disclosure.contentMode = .center
         disclosure.translatesAutoresizingMaskIntoConstraints = false
         addSubview(disclosure)

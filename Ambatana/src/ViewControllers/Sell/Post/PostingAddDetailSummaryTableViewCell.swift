@@ -1,13 +1,6 @@
-//
-//  PostingAddDetailSummaryTableViewCell.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 20/07/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 class PostingAddDetailSummaryTableViewCell: UITableViewCell {
     
@@ -37,7 +30,7 @@ class PostingAddDetailSummaryTableViewCell: UITableViewCell {
     func configureEmptyState(title: String) {
         textLabel?.text = title
         textLabel?.alpha = 0.5
-        imageView?.image = #imageLiteral(resourceName: "ic_add_summary")
+        imageView?.image = R.Asset.IconsButtons.icAddSummary.image
         imageView?.alpha = 0.5
     }
     
@@ -49,7 +42,7 @@ class PostingAddDetailSummaryTableViewCell: UITableViewCell {
         textLabel?.textColor = UIColor.grayLight
         selectionStyle = .none
         accessoryType = .disclosureIndicator
-        accessoryView = UIImageView(image: #imageLiteral(resourceName: "ic_disclosure"))
+        accessoryView = UIImageView(image: R.Asset.IconsButtons.icDisclosure.image)
         separatorView.backgroundColor = UIColor.grayLighter
         separatorView.isHidden = true
     }

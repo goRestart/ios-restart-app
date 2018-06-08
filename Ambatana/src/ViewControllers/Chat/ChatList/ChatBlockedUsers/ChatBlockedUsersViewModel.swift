@@ -18,7 +18,7 @@ final class ChatBlockedUsersViewModel: BaseViewModel {
     let rx_isEditing = Variable<Bool>(false)
 
     let emptyStateVM: LGEmptyViewModel = {
-        return LGEmptyViewModel(icon: UIImage(named: "err_list_no_blocked_users"),
+        return LGEmptyViewModel(icon: R.Asset.Errors.errListNoBlockedUsers.image,
                                 title: R.Strings.chatListBlockedEmptyTitle,
                                 body: R.Strings.chatListBlockedEmptyBody, buttonTitle: nil,
                                 action: nil, secondaryButtonTitle: nil, secondaryAction: nil,
@@ -26,7 +26,7 @@ final class ChatBlockedUsersViewModel: BaseViewModel {
     }()
 
     let errorStateVM: LGEmptyViewModel = {
-        return LGEmptyViewModel(icon: UIImage(named: "err_list_no_blocked_users"),
+        return LGEmptyViewModel(icon: R.Asset.Errors.errListNoBlockedUsers.image,
                                 title: R.Strings.chatListBlockedEmptyTitle,
                                 body: R.Strings.chatListBlockedEmptyBody, buttonTitle: nil,
                                 action: nil, secondaryButtonTitle: nil, secondaryAction: nil,

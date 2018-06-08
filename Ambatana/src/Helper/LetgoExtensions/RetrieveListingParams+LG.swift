@@ -52,6 +52,11 @@ extension RetrieveListingParams {
         sizeSquareMetersFrom = filters?.realEstateSizeRange.min
         sizeSquareMetersTo = filters?.realEstateSizeRange.max
         
+        //  Services
+        typeId = filters?.servicesType?.id
+        subtypeIds = filters?.servicesSubtypes?.map( { $0.id } )
+
+        
         if let priceRange = filters?.priceRange {
             switch priceRange {
             case .freePrice:

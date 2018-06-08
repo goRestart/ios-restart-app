@@ -1,42 +1,34 @@
-//
-//  LGMapAnnotation.swift
-//  LetGo
-//
-//  Created by Tomas Cobo on 04/05/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import UIKit
 import MapKit
 import LGCoreKit
-
+import LGComponents
 
 enum MapAnnotationType {
     case general, realEstate
     
     func icon(_ selected: Bool, isFeatured: Bool) -> UIImage {
         if isFeatured {
-            return selected ? selectedIconFeatured : #imageLiteral(resourceName: "ic_pin_featured")
+            return selected ? selectedIconFeatured : R.Asset.IconsButtons.Map.icPinFeatured.image
         } else {
-            return selected ? selectedIcon : #imageLiteral(resourceName: "ic_pin")
+            return selected ? selectedIcon : R.Asset.IconsButtons.Map.icPin.image
         }
     }
     
     private var selectedIconFeatured: UIImage {
         switch self {
         case .general:
-            return #imageLiteral(resourceName: "ic_pin_featured")
+            return R.Asset.IconsButtons.Map.icPinFeatured.image
         case .realEstate:
-            return #imageLiteral(resourceName: "ic_pin_featured_real_estate")
+            return R.Asset.IconsButtons.Map.icPinFeaturedRealEstate.image
         }
     }
     
     private var selectedIcon: UIImage {
         switch self {
         case .general:
-            return #imageLiteral(resourceName: "ic_pin")
+            return R.Asset.IconsButtons.Map.icPin.image
         case .realEstate:
-            return #imageLiteral(resourceName: "ic_pin_real_estate")
+            return R.Asset.IconsButtons.Map.icPinFeaturedRealEstate.image
         }
     }
 

@@ -37,7 +37,7 @@ class ListingPostedDescriptiveViewModel: BaseViewModel, PostingCategoriesPickDel
         return R.Strings.postDescriptionDescriptionPlaceholder
     }
     var categoryButtonImage: UIImage? {
-        return #imageLiteral(resourceName: "ic_arrow_right_white").withRenderingMode(.alwaysTemplate)
+        return R.Asset.IconsButtons.icArrowRightWhite.image.withRenderingMode(.alwaysTemplate)
     }
 
     private var nameChanged: Bool {

@@ -16,36 +16,34 @@ class FilterListingListRequesterFactory {
                                   itemsPerPage: Int,
                                   carSearchActive: Bool,
                                   similarSearchActive: Bool = false) -> ListingListMultiRequester {
-        
-        var filtersArray: [ListingFilters] = [filters]
-        var requestersArray: [ListingListRequester] = []
-
-        
-        if !carSearchActive && filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsTaxonomy {
-            filtersArray = FilterListingListRequesterFactory.generateCarsNegativeFilters(fromFilters: filters)
-        }
-
-        for filter in filtersArray {
-            let filteredRequester = FilteredListingListRequester(itemsPerPage: itemsPerPage,
-                                                                 offset: 0,
-                                                                 shouldUseSimilarQuery: similarSearchActive)
-            filteredRequester.filters = filter
-            filteredRequester.queryString = queryString
-            requestersArray.append(filteredRequester)
-        }
-        
-        let isRealEstateWithFilters = filters.selectedCategories.contains(.realEstate) && filters.hasAnyRealEstateAttributes
-        let isCarsWithFilters = filters.selectedCategories.contains(.cars) && filters.hasAnyCarAttributes && carSearchActive
-        
-        if  isRealEstateWithFilters || isCarsWithFilters {
-            let filteredRequester = SearchRelatedListingListRequester(itemsPerPage: itemsPerPage)
-            filteredRequester.filters = filters
-            filteredRequester.queryString = queryString
-            requestersArray.append(filteredRequester)
-        }
-
+        let requestersArray = FilterListingListRequesterFactory
+            .generateRequesterArray(withFilters: filters,
+                                    queryString: queryString,
+                                    itemsPerPage: itemsPerPage,
+                                    carSearchActive: carSearchActive,
+                                    similarSearchActive: similarSearchActive)
         let multiRequester = ListingListMultiRequester(requesters: requestersArray)
-
+        return multiRequester
+    }
+    
+    static func generateCombinedSearchAndSimilar(withFilters filters: ListingFilters,
+                                                 queryString: String?,
+                                                 itemsPerPage: Int,
+                                                 carSearchActive: Bool) -> ListingListMultiRequester {
+        let similarRequesterArray = FilterListingListRequesterFactory
+                                    .generateRequesterArray(withFilters: filters,
+                                                            queryString: queryString,
+                                                            itemsPerPage: itemsPerPage,
+                                                            carSearchActive: carSearchActive,
+                                                            similarSearchActive: true)
+        let originalRequestersArray = FilterListingListRequesterFactory
+                                    .generateRequesterArray(withFilters: filters,
+                                                            queryString: queryString,
+                                                            itemsPerPage: itemsPerPage,
+                                                            carSearchActive: carSearchActive,
+                                                            similarSearchActive: false)
+        let combined = originalRequestersArray + similarRequesterArray
+        let multiRequester = ListingListMultiRequester(requesters: combined)
         return multiRequester
     }
     
@@ -94,5 +92,36 @@ class FilterListingListRequesterFactory {
         }
 
         return finalCarFiltersArray
+    }
+    
+    private static func generateRequesterArray(withFilters filters: ListingFilters,
+                                               queryString: String?,
+                                               itemsPerPage: Int,
+                                               carSearchActive: Bool,
+                                               similarSearchActive: Bool = false) -> [ListingListRequester] {
+        var filtersArray: [ListingFilters] = [filters]
+        var requestersArray: [ListingListRequester] = []
+        
+        
+        if !carSearchActive && filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsTaxonomy {
+            filtersArray = FilterListingListRequesterFactory.generateCarsNegativeFilters(fromFilters: filters)
+        }
+        
+        for filter in filtersArray {
+            let filteredRequester = FilteredListingListRequester(itemsPerPage: itemsPerPage,
+                                                                 offset: 0,
+                                                                 shouldUseSimilarQuery: similarSearchActive)
+            filteredRequester.filters = filter
+            filteredRequester.queryString = queryString
+            requestersArray.append(filteredRequester)
+        }
+        
+        if filters.searchRelatedNeeded(carSearchActive: carSearchActive) {
+            let filteredRequester = SearchRelatedListingListRequester(itemsPerPage: itemsPerPage)
+            filteredRequester.filters = filters
+            filteredRequester.queryString = queryString
+            requestersArray.append(filteredRequester)
+        }
+        return requestersArray
     }
 }

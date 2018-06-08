@@ -1,7 +1,7 @@
 enum ServicesInfoRouter: URLRequestAuthenticable {
     
     static let localeParamKey: String = "locale"
-    private static let serviceTypesListURLPathString: String = "/api/service-types"
+    private static let serviceTypesListURLPathString: String = "/service-types"
     
     case index(params: [String: Any])
     
@@ -26,8 +26,8 @@ enum ServicesInfoRouter: URLRequestAuthenticable {
     func asURLRequest() throws -> URLRequest {
         switch self {
         case let .index(params):
-            return try Router<APIBaseURL>.index(endpoint: endpoint,
-                                                params: params).asURLRequest()
+            return try Router<ServicesBaseURL>.index(endpoint: endpoint,
+                                                     params: params).asURLRequest()
         }
     }
 }

@@ -18,7 +18,12 @@ final class TourLocationViewController: BaseViewController {
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var alertContainer: UIView!
     @IBOutlet weak var alertOkLabel: UILabel!
-
+    @IBOutlet weak var iPhoneTopImage: UIImageView!
+    @IBOutlet weak var iPhoneLeftImage: UIImageView!
+    @IBOutlet weak var iPhoneRightImage: UIImageView!
+    @IBOutlet weak var iPhoneBottomImage: UIImageView!
+    @IBOutlet weak var permissionAlertImage: UIImageView!
+    
     
     // MARK: - Lifecycle
 
@@ -75,6 +80,7 @@ final class TourLocationViewController: BaseViewController {
     
     private func setupUI() {
         view.backgroundColor = .clear
+        setupImages()
         titleLabel.text = viewModel.title
         subtitleLabel.text = R.Strings.locationPermissonsSubtitle
         distanceLabel.text = R.Strings.locationPermissionsBubble
@@ -107,6 +113,16 @@ final class TourLocationViewController: BaseViewController {
         alertContainer.addGestureRecognizer(tap)
     }
 
+    private func setupImages() {
+        closeButton.setImage(R.Asset.IconsButtons.icClose.image, for: .normal)
+        iPhoneTopImage.image = R.Asset.IPhoneParts.iphoneTop.image
+        iPhoneLeftImage.image = R.Asset.IPhoneParts.iphoneLeft.image
+        iPhoneRightImage.image = R.Asset.IPhoneParts.iphoneRight.image
+        iphoneBckgImage.image = R.Asset.BackgroundsAndImages.tour1.image
+        iPhoneBottomImage.image = R.Asset.IPhoneParts.iphoneBottom.image
+        permissionAlertImage.image = R.Asset.IPhoneParts.imgPermissionsAlert.image
+    }
+    
     private func setupAccessibilityIds() {
         closeButton.set(accessibilityId: .tourLocationCloseButton)
         yesButton.set(accessibilityId: .tourLocationOKButton)

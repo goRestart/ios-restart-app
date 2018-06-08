@@ -482,6 +482,14 @@ extension R {
     public static let chatSendErrorDifferentCountry = Strings.tr("Localizable", "chat_send_error_different_country")
     /// An error occurred while sending the message. Please try again.
     public static let chatSendErrorGeneric = Strings.tr("Localizable", "chat_send_error_generic")
+    /// Connecting...
+    public static let chatStatusViewConnecting = Strings.tr("Localizable", "chat_status_view_connecting")
+    /// No network connection
+    public static let chatStatusViewNoNetwork = Strings.tr("Localizable", "chat_status_view_no_network")
+    /// try again
+    public static let chatStatusViewTryAgain = Strings.tr("Localizable", "chat_status_view_try_again")
+    /// Unable to connect. Please try again
+    public static let chatStatusViewUnableToConnect = Strings.tr("Localizable", "chat_status_view_unable_to_connect")
     /// NEW!
     public static let chatStickersTooltipNew = Strings.tr("Localizable", "chat_stickers_tooltip_new")
     /// Unblock User
@@ -866,10 +874,16 @@ extension R {
     public static let filtersSectionPriceFreeTitle = Strings.tr("Localizable", "filters_section_price_free_title")
     /// Property info
     public static let filtersSectionRealEstateInfo = Strings.tr("Localizable", "filters_section_real_estate_info")
+    /// Service info
+    public static let filtersSectionServicesInfo = Strings.tr("Localizable", "filters_section_services_info")
     /// Sort by
     public static let filtersSectionSortby = Strings.tr("Localizable", "filters_section_sortby")
     /// Posted within
     public static let filtersSectionWithin = Strings.tr("Localizable", "filters_section_within")
+    /// Not Set
+    public static let filtersServiceSubtypeNotSet = Strings.tr("Localizable", "filters_service_subtype_not_set")
+    /// Not Set
+    public static let filtersServiceTypeNotSet = Strings.tr("Localizable", "filters_service_type_not_set")
     /// The minimum size can’t be higher than the maximum size.
     public static let filtersSizeWrongRangeError = Strings.tr("Localizable", "filters_size_wrong_range_error")
     /// Closest first
@@ -912,6 +926,10 @@ extension R {
     public static let hiddenTextAlertTitle = Strings.tr("Localizable", "hidden_text_alert_title")
     /// Search this area
     public static let listingMapRedoSearch = Strings.tr("Localizable", "listing_map_redo_search")
+    /// Showing results for similar searches
+    public static let listingShowSimilarResults = Strings.tr("Localizable", "listing_show_similar_results")
+    /// No exact matches for your search.\nMake sure it’s spelled correctly or use different keywords and filters.
+    public static let listingShowSimilarResultsDescription = Strings.tr("Localizable", "listing_show_similar_results_description")
     /// No exact matches for your search. Try looking in a different area or using different filters.
     public static let listingsMapNoResultsMessage = Strings.tr("Localizable", "listings_map_no_results_message")
     /// Map view
@@ -1044,10 +1062,14 @@ extension R {
     public static let meetingCreationViewSuggestCellSelected = Strings.tr("Localizable", "meeting_creation_view_suggest_cell_selected")
     /// Schedule a meeting
     public static let meetingCreationViewTitle = Strings.tr("Localizable", "meeting_creation_view_title")
-    /// in about %.f days
-    public static let mlCameraInAboutDaysText = Strings.tr("Localizable", "ml_camera_in_about_days_text")
-    /// in more than %.f days
-    public static let mlCameraInMoreThanDaysText = Strings.tr("Localizable", "ml_camera_in_more_than_days_text")
+    /// in about %d days
+    public static func mlCameraInAboutDaysText(_ p1: Int) -> String {
+      return Strings.tr("Localizable", "ml_camera_in_about_days_text", p1)
+    }
+    /// in more than %d days
+    public static func mlCameraInMoreThanDaysText(_ p1: Int) -> String {
+      return Strings.tr("Localizable", "ml_camera_in_more_than_days_text", p1)
+    }
     /// Typically sells for $%d
     public static func mlCameraSellsForText(_ p1: Int) -> String {
       return Strings.tr("Localizable", "ml_camera_sells_for_text", p1)
@@ -1360,6 +1382,24 @@ extension R {
     public static let postDescriptionNamePlaceholder = Strings.tr("Localizable", "post_description_name_placeholder")
     /// Save this listing!
     public static let postDescriptionSaveButtonText = Strings.tr("Localizable", "post_description_save_button_text")
+    /// Add a new service
+    public static let postDetailsServicesAddNew = Strings.tr("Localizable", "post_details_services_add_new")
+    /// People around you are looking for these services, have these skills?
+    public static let postDetailsServicesCongratulationPeopleNear = Strings.tr("Localizable", "post_details_services_congratulation_people_near")
+    /// Post another listing
+    public static let postDetailsServicesCongratulationPostAnother = Strings.tr("Localizable", "post_details_services_congratulation_post_another")
+    /// Review your listings and add more details
+    public static let postDetailsServicesCongratulationReview = Strings.tr("Localizable", "post_details_services_congratulation_review")
+    /// Your listings have been posted.
+    public static let postDetailsServicesCongratulationSubtitle = Strings.tr("Localizable", "post_details_services_congratulation_subtitle")
+    /// Congratulations!
+    public static let postDetailsServicesCongratulationTitle = Strings.tr("Localizable", "post_details_services_congratulation_title")
+    /// Search or choose from the list
+    public static let postDetailsServicesSearchPlaceholder = Strings.tr("Localizable", "post_details_services_search_placeholder")
+    /// Start making money!
+    public static let postDetailsServicesSubtitle = Strings.tr("Localizable", "post_details_services_subtitle")
+    /// What do you know how to do?
+    public static let postDetailsServicesTitle = Strings.tr("Localizable", "post_details_services_title")
     /// Get Started
     public static let postGetStartedButtonText = Strings.tr("Localizable", "post_get_started_button_text")
     /// You can discard it later if you don’t want to sell it.
@@ -1692,11 +1732,17 @@ extension R {
     public static let productPostIncentiveGotAny = Strings.tr("Localizable", "product_post_incentive_got_any")
     /// got any to give away?
     public static let productPostIncentiveGotAnyFree = Strings.tr("Localizable", "product_post_incentive_got_any_free")
+    /// have these skills?
+    public static let productPostIncentiveGotAnyServices = Strings.tr("Localizable", "product_post_incentive_got_any_services")
     /// Kid's clothes
     public static let productPostIncentiveKidsClothes = Strings.tr("Localizable", "product_post_incentive_kids_clothes")
     /// People around you are looking for these items, %@
     public static func productPostIncentiveLookingFor(_ p1: String) -> String {
       return Strings.tr("Localizable", "product_post_incentive_looking_for", p1)
+    }
+    /// People around you are looking for these services, %@
+    public static func productPostIncentiveLookingForServices(_ p1: String) -> String {
+      return Strings.tr("Localizable", "product_post_incentive_looking_for_services", p1)
     }
     /// Motorcycles
     public static let productPostIncentiveMotorcycle = Strings.tr("Localizable", "product_post_incentive_motorcycle")
@@ -2442,13 +2488,13 @@ extension R {
     public static let sellTitleFieldHint = Strings.tr("Localizable", "sell_title_field_hint")
     /// Posting your listing...
     public static let sellUploadingLabel = Strings.tr("Localizable", "sell_uploading_label")
-    /// Service subtype
+    /// Service
     public static let servicesServiceSubtypeListTitle = Strings.tr("Localizable", "services_service_subtype_list_title")
-    /// Service subtype
+    /// Service
     public static let servicesServiceSubtypeTitle = Strings.tr("Localizable", "services_service_subtype_title")
-    /// Service type
+    /// Service category
     public static let servicesServiceTypeListTitle = Strings.tr("Localizable", "services_service_type_list_title")
-    /// Service type
+    /// Service category
     public static let servicesServiceTypeTitle = Strings.tr("Localizable", "services_service_type_title")
     /// Email
     public static let settingsChangeEmailButton = Strings.tr("Localizable", "settings_change_email_button")

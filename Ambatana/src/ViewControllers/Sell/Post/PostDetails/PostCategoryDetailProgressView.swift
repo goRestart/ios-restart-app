@@ -45,7 +45,7 @@ final class PostCategoryDetailProgressView: UIView {
         progressView.progressTintColor = UIColor.white
         progressView.trackTintColor = UIColor.whiteTextLowAlpha
         
-        imageView.image = UIImage(named: "ic_checkmark")?.withRenderingMode(.alwaysTemplate)
+        imageView.image = R.Asset.IconsButtons.icCheckmark.image.withRenderingMode(.alwaysTemplate)
         imageView.tintColor = UIColor.white
         imageView.contentMode = .scaleAspectFit
     }

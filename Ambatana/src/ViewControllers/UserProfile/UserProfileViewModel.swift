@@ -126,7 +126,7 @@ final class UserProfileViewModel: BaseViewModel {
         self.source = source
         self.isPrivateProfile = isPrivateProfile
 
-        let status = UserProfileViewModel.sellingListingStatusCode(with: featureFlags)
+        let status = UserProfileViewModel.sellingListingStatusCode()
         self.sellingListingListRequester = UserStatusesListingListRequester(statuses: status,
                                                                             itemsPerPage: Constants.numListingsPerPageDefault)
         self.soldListingListRequester = UserStatusesListingListRequester(statuses: { [.sold, .soldOld] },
@@ -187,8 +187,8 @@ final class UserProfileViewModel: BaseViewModel {
                                     isPrivateProfile: true)
     }
 
-    private static func sellingListingStatusCode(with flags: FeatureFlaggeable) -> () -> [ListingStatusCode] {
-        return { flags.discardedProducts.isActive ? [.pending, .approved, .discarded] : [.pending, .approved] }
+    private static func sellingListingStatusCode() -> () -> [ListingStatusCode] {
+        return { [.pending, .approved, .discarded] }
     }
 
     private func loadListingContent() {
@@ -227,6 +227,7 @@ extension UserProfileViewModel {
     func didTapKarmaScoreView() {
         guard isPrivateProfile else { return }
         profileNavigator?.openVerificationView()
+        trackVerifyAccountStart()
     }
 
     func didTapBuildTrustButton() {
@@ -247,6 +248,7 @@ extension UserProfileViewModel {
                                       source: .profile(title: R.Strings.chatConnectAccountsTitle,
                                                        description: R.Strings.profileConnectAccountsMessage),
                                       completionBlock: nil)
+        trackVerifyAccountStart()
     }
 
     func updateAvatar(with image: UIImage) {
@@ -546,7 +548,7 @@ extension UserProfileViewModel {
 
         delegate?.vmShowAlertWithTitle(R.Strings.profilePermissionsAlertTitle,
                                        text: R.Strings.profilePermissionsAlertMessage,
-                                       alertType: .iconAlert(icon: UIImage(named: "custom_permission_profile")),
+                                       alertType: .iconAlert(icon: R.Asset.IconsButtons.customPermissionProfile.image),
                                        actions: [negative, positive])
     }
 
@@ -755,6 +757,11 @@ extension UserProfileViewModel {
     func trackUpdateAvatarComplete() {
         let trackerEvent = TrackerEvent.profileEditEditPicture()
         tracker.trackEvent(trackerEvent)
+    }
+
+    func trackVerifyAccountStart() {
+        let event = TrackerEvent.verifyAccountStart(.profile)
+        tracker.trackEvent(event)
     }
 }
 

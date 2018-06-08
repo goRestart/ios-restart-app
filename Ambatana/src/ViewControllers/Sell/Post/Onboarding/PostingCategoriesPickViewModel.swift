@@ -9,7 +9,7 @@ protocol PostingCategoriesPickDelegate: class {
 class PostingCategoriesPickViewModel: BaseViewModel {
 
     var backButtonImage: UIImage? {
-        return #imageLiteral(resourceName: "ic_back").withRenderingMode(.alwaysTemplate)
+        return R.Asset.IconsButtons.icBack.image.withRenderingMode(.alwaysTemplate)
     }
 
     var titleText: String {
