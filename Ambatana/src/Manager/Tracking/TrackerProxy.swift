@@ -82,7 +82,6 @@ final class TrackerProxy: Tracker {
         self.analyticsSessionManager = analyticsSessionManager
 
         self.analyticsSessionManager.sessionThresholdReachedCompletion = { [weak self] in
-            guard let strongSelf = self else { return }
             let event = TrackerEvent.sessionOneMinuteFirstWeek()
             self?.trackEvent(event)
         }
