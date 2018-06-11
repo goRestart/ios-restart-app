@@ -22,9 +22,9 @@ struct AnalyticsSessionData: Equatable {
     func updating(visitStartDate: Date,
                   visitEndDate: Date) -> AnalyticsSessionData {
         let visitLength = visitEndDate.timeIntervalSince1970 - visitStartDate.timeIntervalSince1970
-        let newLenght = length + visitLength
+        let newLength = length + visitLength
         return AnalyticsSessionData(lastVisitEndDate: visitEndDate,
-                                    length: newLenght)
+                                    length: newLength)
     }
 
     static func ==(lhs: AnalyticsSessionData, rhs: AnalyticsSessionData) -> Bool {
