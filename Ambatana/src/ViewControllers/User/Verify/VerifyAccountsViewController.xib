@@ -36,6 +36,7 @@
                 <outlet property="googleContainerHeight" destination="9vz-Ht-E3g" id="qFn-Fw-qIH"/>
                 <outlet property="googleLogo" destination="Pky-2m-PPL" id="nII-2c-qVN"/>
                 <outlet property="titleLabel" destination="W7M-cu-SvA" id="g3S-w5-M41"/>
+                <outlet property="trustImageView" destination="28i-Wb-cSo" id="cYH-ul-iUp"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -152,7 +153,6 @@
                                     <constraints>
                                         <constraint firstAttribute="width" constant="44" id="TlP-l1-vKk"/>
                                     </constraints>
-                                    <state key="normal" image="ic_send"/>
                                 </button>
                                 <button hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3WH-gv-CcY" userLabel="ActionButton">
                                     <rect key="frame" x="0.0" y="0.0" width="230" height="44"/>
@@ -166,7 +166,7 @@
                                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </state>
                                 </button>
-                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_email_rounded" translatesAutoresizingMaskIntoConstraints="NO" id="iMs-Qd-aKY" userLabel="ButtonLogo">
+                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="iMs-Qd-aKY" userLabel="ButtonLogo">
                                     <rect key="frame" x="8" y="8" width="28" height="28"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="28" id="28j-O1-b36"/>
@@ -217,7 +217,7 @@
                         <constraint firstItem="ysF-w2-FmD" firstAttribute="leading" secondItem="BbQ-zR-xkx" secondAttribute="leading" constant="20" id="rWB-qu-G6G"/>
                     </constraints>
                 </view>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_build_trust_big" translatesAutoresizingMaskIntoConstraints="NO" id="28i-Wb-cSo">
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="28i-Wb-cSo">
                     <rect key="frame" x="132" y="121" width="110" height="110"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="110" id="CiR-wT-W2c"/>
@@ -239,9 +239,4 @@
             <point key="canvasLocation" x="673.5" y="404.5"/>
         </view>
     </objects>
-    <resources>
-        <image name="ic_build_trust_big" width="110" height="110"/>
-        <image name="ic_email_rounded" width="29" height="28"/>
-        <image name="ic_send" width="22" height="20"/>
-    </resources>
 </document>

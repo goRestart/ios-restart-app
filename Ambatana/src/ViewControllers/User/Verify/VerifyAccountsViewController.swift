@@ -6,6 +6,7 @@ import LGComponents
 
 final class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
 
+    @IBOutlet weak var trustImageView: UIImageView!
     @IBOutlet weak var contentContainer: UIView!
     @IBOutlet weak var contentContainerCenterY: NSLayoutConstraint!
     @IBOutlet weak var backgroundButton: UIButton!
@@ -108,9 +109,11 @@ final class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegat
     }
 
     private func setupRAssets() {
-        emailButtonLogo.image = R.Asset.IconsButtons.icEmailActive.image
+        emailButtonLogo.image = R.Asset.IconsButtons.icEmailRounded.image
         facebookLogo.image = R.Asset.IconsButtons.icFacebookRounded.image
         googleLogo.image = R.Asset.IconsButtons.icGoogleRounded.image
+        trustImageView.image = R.Asset.IconsButtons.icBuildTrustBig.image
+        emailTextFieldButton.setImage(R.Asset.IconsButtons.icSend.image, for: .normal)
     }
 
     private func setupRx() {

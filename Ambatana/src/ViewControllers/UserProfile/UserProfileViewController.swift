@@ -190,8 +190,7 @@ final class UserProfileViewController: BaseViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.tableFooterView = UIView()
         tableView.allowsSelection = false
-        let cellNib = UINib(nibName: UserRatingCell.reusableID, bundle: nil)
-        tableView.register(cellNib, forCellReuseIdentifier: UserRatingCell.reusableID)
+        tableView.register(type: UserRatingCell.self)
         tableView.addSubviewForAutoLayout(emptyReviewsLabel)
     }
 
@@ -487,9 +486,7 @@ extension UserProfileViewController: UITableViewDelegate, UITableViewDataSource 
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: UserRatingCell.reusableID,
-                                                       for: indexPath) as? UserRatingCell else
-        { return UITableViewCell() }
+        guard let cell = tableView.dequeue(type: UserRatingCell.self, for: indexPath) else { return UITableViewCell() }
 
         guard let data = viewModel.ratingListViewModel.dataForCellAtIndexPath(indexPath) else { return UITableViewCell() }
         cell.setupRatingCellWithData(data, indexPath: indexPath)

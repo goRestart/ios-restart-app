@@ -59,9 +59,7 @@ class RateBuyersViewController: BaseViewController, RateBuyersViewModelDelegate 
                                               bottom: Metrics.shortMargin,
                                               right: 0)
         tableView.sectionHeaderHeight = UITableViewAutomaticDimension
-
-        let cellNib = UINib(nibName: PossibleBuyerCell.reusableID, bundle: nil)
-        tableView.register(cellNib, forCellReuseIdentifier: PossibleBuyerCell.reusableID)
+        tableView.register(type: PossibleBuyerCell.self)
     }
 
     private func setupRx() {
@@ -94,8 +92,8 @@ extension RateBuyersViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let buyerCell = tableView.dequeueReusableCell(withIdentifier: PossibleBuyerCell.reusableID,
-                                                            for: indexPath) as? PossibleBuyerCell else { return UITableViewCell() }
+        guard let buyerCell = tableView.dequeue(type: PossibleBuyerCell.self,
+                                                for: indexPath) else { return UITableViewCell() }
         guard let rateBuyersSection = RateBuyersSection(rawValue: indexPath.section) else { return UITableViewCell() }
         
         let cellType: RateBuyerCellType

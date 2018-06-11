@@ -88,6 +88,11 @@ fileprivate extension ChatDisclaimerCell {
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapped))
         addGestureRecognizer(tap)
+        setupRAssets()
+    }
+
+    private func setupRAssets() {
+        avatarImageView.image = R.Asset.BackgroundsAndImages.imgCallCenterGirl.image
     }
 
     func setupRxBindings() {
