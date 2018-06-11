@@ -6,20 +6,18 @@ import Quick
 final class AnalyticsSessionUDDAOSpec: QuickSpec {
     override func spec() {
         describe("AnalyticsSessionUDDAO") {
-            var userDefaults: UserDefaults!
+            var keyValueStorage: MockKeyValueStorage!
             var sut: AnalyticsSessionUDDAO!
             beforeEach {
-                userDefaults = UserDefaults.standard
-                sut = AnalyticsSessionUDDAO(userDefaults: userDefaults)
-            }
-            afterEach {
-                userDefaults.remove(AnalyticsSessionUDDAO.UserDefaultsKey)
+                keyValueStorage = MockKeyValueStorage()
+                keyValueStorage.currentUserProperties = UserDefaultsUser()
+                sut = AnalyticsSessionUDDAO(keyValueStorage: keyValueStorage)
             }
 
             describe("retrieve") {
                 context("with no previously saved session") {
                     beforeEach {
-                        sut = AnalyticsSessionUDDAO(userDefaults: userDefaults)
+                        sut = AnalyticsSessionUDDAO(keyValueStorage: keyValueStorage)
                     }
 
                     it("returns nil") {
@@ -31,9 +29,8 @@ final class AnalyticsSessionUDDAOSpec: QuickSpec {
                     beforeEach {
                         let sessionData = AnalyticsSessionData.make(visitStartDate: Date.makeRandom(),
                                                                     visitEndDate: Date.makeRandom())
-                        let dictionary = sessionData.encode()
-                        userDefaults.setValue(dictionary, forKey: AnalyticsSessionUDDAO.UserDefaultsKey)
-                        sut = AnalyticsSessionUDDAO(userDefaults: userDefaults)
+                        keyValueStorage.analyticsSessionData = sessionData
+                        sut = AnalyticsSessionUDDAO(keyValueStorage: keyValueStorage)
                     }
 
                     it("returns a session data") {
@@ -50,7 +47,7 @@ final class AnalyticsSessionUDDAOSpec: QuickSpec {
                 }
 
                 it("stores a dictionary in user defaults") {
-                    expect(userDefaults.dictionary(forKey: AnalyticsSessionUDDAO.UserDefaultsKey)).notTo(beNil())
+                    expect(keyValueStorage.analyticsSessionData).notTo(beNil())
                 }
             }
         }

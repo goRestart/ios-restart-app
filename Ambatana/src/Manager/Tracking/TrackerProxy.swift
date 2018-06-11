@@ -51,8 +51,8 @@ final class TrackerProxy: Tracker {
 
     convenience init(trackers: [Tracker]) {
         let myUserRepository = Core.myUserRepository
-        let userDefaults = UserDefaults.standard
-        let dao = AnalyticsSessionUDDAO(userDefaults: userDefaults)
+        let keyValueStorage = KeyValueStorage.sharedInstance
+        let dao = AnalyticsSessionUDDAO(keyValueStorage: keyValueStorage)
         let analyticsSessionManager = LGAnalyticsSessionManager(minTimeBetweenSessions: Constants.sessionMinTimeInBetween,
                                                                 sessionThreshold: Constants.sessionThreshold,
                                                                 myUserRepository: myUserRepository,

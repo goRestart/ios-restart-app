@@ -6,20 +6,15 @@ protocol AnalyticsSessionDAO {
 }
 
 final class AnalyticsSessionUDDAO: AnalyticsSessionDAO {
-    static let UserDefaultsKey = "AnalyticsSession"
-    private let userDefaults: UserDefaults
+    private let keyValueStorage: KeyValueStorageable
     private var sessionData: AnalyticsSessionData?
 
 
     // MARK: - Lifecycle
 
-    init(userDefaults: UserDefaults) {
-        self.userDefaults = userDefaults
-        if let dictionary = userDefaults.dictionary(forKey: AnalyticsSessionUDDAO.UserDefaultsKey) {
-            self.sessionData = AnalyticsSessionData.decode(dictionary)
-        } else {
-            self.sessionData = nil
-        }
+    init(keyValueStorage: KeyValueStorageable) {
+        self.keyValueStorage = keyValueStorage
+        self.sessionData = keyValueStorage.analyticsSessionData
     }
 
 
@@ -31,7 +26,6 @@ final class AnalyticsSessionUDDAO: AnalyticsSessionDAO {
 
     func save(sessionData: AnalyticsSessionData) {
         self.sessionData = sessionData
-        let dict = sessionData.encode()
-        userDefaults.setValue(dict, forKey: AnalyticsSessionUDDAO.UserDefaultsKey)
+        keyValueStorage.analyticsSessionData = sessionData
     }
 }
