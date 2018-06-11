@@ -422,7 +422,7 @@ struct TrackerEvent {
         params[.feedPosition] = feedPosition.value
         params[.categoryId] = (categories ?? [.unassigned]).trackValue
         
-        return TrackerEvent(name: .adTapped, params: params)
+        return TrackerEvent(name: .adShown, params: params)
     }
 
     static func listingFavorite(_ listing: Listing, typePage: EventParameterTypePage,
