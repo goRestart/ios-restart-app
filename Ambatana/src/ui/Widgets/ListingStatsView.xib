@@ -27,7 +27,7 @@
                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_stats_views" translatesAutoresizingMaskIntoConstraints="NO" id="ppx-Fy-GfE">
+                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ppx-Fy-GfE">
                                     <rect key="frame" x="8" y="4" width="16" height="16"/>
                                     <constraints>
                                         <constraint firstAttribute="width" priority="999" constant="16" id="1Op-ZN-LdQ"/>
@@ -55,7 +55,7 @@
                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_stats_favorite" translatesAutoresizingMaskIntoConstraints="NO" id="hk5-FC-QU9">
+                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hk5-FC-QU9">
                                     <rect key="frame" x="8" y="4" width="16" height="16"/>
                                     <constraints>
                                         <constraint firstAttribute="width" priority="999" constant="16" id="snB-gW-LNv"/>
@@ -85,7 +85,7 @@
                             <color key="textColor" red="0.98660099506378174" green="0.14062686264514923" blue="0.26615336537361145" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_new_stripe" translatesAutoresizingMaskIntoConstraints="NO" id="oUq-wt-vJc">
+                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oUq-wt-vJc">
                             <rect key="frame" x="8" y="4" width="16" height="16"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="16" id="2La-6C-SpS"/>
@@ -133,9 +133,4 @@
             <point key="canvasLocation" x="481.5" y="396"/>
         </view>
     </objects>
-    <resources>
-        <image name="ic_new_stripe" width="10" height="14"/>
-        <image name="ic_stats_favorite" width="12" height="12"/>
-        <image name="ic_stats_views" width="16" height="10"/>
-    </resources>
 </document>
