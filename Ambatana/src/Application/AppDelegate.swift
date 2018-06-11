@@ -51,6 +51,7 @@ extension AppDelegate: UIApplicationDelegate {
         let deepLinksRouter = LGDeepLinksRouter.sharedInstance
         AppsFlyerTracker.shared().delegate = deepLinksRouter
         self.deepLinksRouter = deepLinksRouter
+        self.pushManager = PushManager()
 
         setupAppearance()
         setupLibraries(application,
@@ -80,12 +81,10 @@ extension AppDelegate: UIApplicationDelegate {
         LGCoreKit.start()
 
         let appCoordinator = AppCoordinator(configManager: configManager ?? LGConfigManager.sharedInstance)
-
         appCoordinator.delegate = self
 
-        self.navigator = appCoordinator
-
-        pushManager = PushManager(navigator: appCoordinator)
+        navigator = appCoordinator
+        pushManager?.navigator = appCoordinator
 
         let window = UIWindow(frame: UIScreen.main.bounds)
         window.backgroundColor = UIColor.white
