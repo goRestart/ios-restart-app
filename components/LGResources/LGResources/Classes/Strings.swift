@@ -1394,6 +1394,8 @@ extension R {
     public static let postDetailsServicesCongratulationSubtitle = Strings.tr("Localizable", "post_details_services_congratulation_subtitle")
     /// Congratulations!
     public static let postDetailsServicesCongratulationTitle = Strings.tr("Localizable", "post_details_services_congratulation_title")
+    /// Oops! You can only select 15 services at a time.
+    public static let postDetailsServicesCreateMax = Strings.tr("Localizable", "post_details_services_create_max")
     /// Search or choose from the list
     public static let postDetailsServicesSearchPlaceholder = Strings.tr("Localizable", "post_details_services_search_placeholder")
     /// Start making money!
@@ -1724,6 +1726,10 @@ extension R {
     public static let productPostIncentiveBike = Strings.tr("Localizable", "product_post_incentive_bike")
     /// Cars
     public static let productPostIncentiveCar = Strings.tr("Localizable", "product_post_incentive_car")
+    /// Cleaning
+    public static let productPostIncentiveCleaning = Strings.tr("Localizable", "product_post_incentive_cleaning")
+    /// Creative
+    public static let productPostIncentiveCreative = Strings.tr("Localizable", "product_post_incentive_creative")
     /// Dressers
     public static let productPostIncentiveDresser = Strings.tr("Localizable", "product_post_incentive_dresser")
     /// Furniture
@@ -1736,6 +1742,8 @@ extension R {
     public static let productPostIncentiveGotAnyServices = Strings.tr("Localizable", "product_post_incentive_got_any_services")
     /// Kid's clothes
     public static let productPostIncentiveKidsClothes = Strings.tr("Localizable", "product_post_incentive_kids_clothes")
+    /// Lessons
+    public static let productPostIncentiveLessons = Strings.tr("Localizable", "product_post_incentive_lessons")
     /// People around you are looking for these items, %@
     public static func productPostIncentiveLookingFor(_ p1: String) -> String {
       return Strings.tr("Localizable", "product_post_incentive_looking_for", p1)
@@ -2540,6 +2548,10 @@ extension R {
     public static let settingsMarketingNotificationsSwitch = Strings.tr("Localizable", "settings_marketing_notifications_switch")
     /// Notifications
     public static let settingsNotificationsButton = Strings.tr("Localizable", "settings_notifications_button")
+    /// Email
+    public static let settingsNotificationsEmail = Strings.tr("Localizable", "settings_notifications_email")
+    /// Push notifications
+    public static let settingsNotificationsPushNotifications = Strings.tr("Localizable", "settings_notifications_push_notifications")
     /// Search Alerts
     public static let settingsNotificationsSearchAlerts = Strings.tr("Localizable", "settings_notifications_search_alerts")
     /// Notifications

@@ -605,6 +605,8 @@
 		4281991920C18EEB00FF89D5 /* MultiListingPostedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4281991720C18EEB00FF89D5 /* MultiListingPostedViewController.swift */; };
 		4287173D20655B0600EE334C /* LGNavBarMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4287173C20655B0600EE334C /* LGNavBarMetrics.swift */; };
 		4287173E20655DB500EE334C /* LGNavBarMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4287173C20655B0600EE334C /* LGNavBarMetrics.swift */; };
+		42A9F55920CE600E00DC4D37 /* ServiceSubtype+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A9F55820CE600E00DC4D37 /* ServiceSubtype+LG.swift */; };
+		42A9F55A20CE600E00DC4D37 /* ServiceSubtype+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A9F55820CE600E00DC4D37 /* ServiceSubtype+LG.swift */; };
 		42B7029A20A595840031B9BD /* LGRibbonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B7029920A595840031B9BD /* LGRibbonView.swift */; };
 		42B7029B20A595840031B9BD /* LGRibbonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B7029920A595840031B9BD /* LGRibbonView.swift */; };
 		42CA899920973F7300CE7B5B /* ListingsMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CA899820973F7300CE7B5B /* ListingsMapViewController.swift */; };
@@ -2393,6 +2395,7 @@
 		4281991720C18EEB00FF89D5 /* MultiListingPostedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiListingPostedViewController.swift; sourceTree = "<group>"; };
 		4287173C20655B0600EE334C /* LGNavBarMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGNavBarMetrics.swift; sourceTree = "<group>"; };
 		428846C02080B76300011D27 /* LGCollapsibleLabel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = LGCollapsibleLabel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		42A9F55820CE600E00DC4D37 /* ServiceSubtype+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ServiceSubtype+LG.swift"; sourceTree = "<group>"; };
 		42B7029920A595840031B9BD /* LGRibbonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGRibbonView.swift; sourceTree = "<group>"; };
 		42CA899820973F7300CE7B5B /* ListingsMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingsMapViewController.swift; sourceTree = "<group>"; };
 		42CA899B2097498900CE7B5B /* LGMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGMapView.swift; sourceTree = "<group>"; };
@@ -4896,6 +4899,7 @@
 			children = (
 				F51A082F2031B5580008D744 /* LGSize+CGSize.swift */,
 				72FE02D81F97A155005BD672 /* ListingCreationParams+LG.swift */,
+				42A9F55820CE600E00DC4D37 /* ServiceSubtype+LG.swift */,
 				726E35BF1FE13FB200F98776 /* RetrieveListingParams+LG.swift */,
 				6A5E19C51D548F5400F92692 /* CountryHelper+Product.swift */,
 				6A5E19C61D548F5400F92692 /* DeviceFamily.swift */,
@@ -7691,6 +7695,7 @@
 				508AFB0A1E51D1BF0007363D /* AutocompleteField.swift in Sources */,
 				727EF06F1E0BE6600037DA4E /* LGLocation+isAuto.swift in Sources */,
 				0A05F383209B375D00F43A67 /* DeckMapViewController.swift in Sources */,
+				42A9F55920CE600E00DC4D37 /* ServiceSubtype+LG.swift in Sources */,
 				C7DE8ABE1C888750005CF37E /* ListingPostedViewModel.swift in Sources */,
 				6A12E0491C635F6B00C1BFE3 /* TourLoginViewController.swift in Sources */,
 				50EAFB211F7A2A9F003B96D5 /* LocalSuggestiveSearch.swift in Sources */,
@@ -8521,6 +8526,7 @@
 				C7DE8AD71C88929A005CF37E /* PostListingCameraView.swift in Sources */,
 				0A3048292041E20100C11498 /* ListingDeckSnapshotType.swift in Sources */,
 				C7E1DE551E51F644003818F6 /* DirectAnswersHorizontalView.swift in Sources */,
+				42A9F55A20CE600E00DC4D37 /* ServiceSubtype+LG.swift in Sources */,
 				2E50E9A81D057E92002DC4C1 /* LGAlertViewController.swift in Sources */,
 				508AFB0B1E51D1BF0007363D /* AutocompleteField.swift in Sources */,
 				C7B543291D758BA7005FBA30 /* VerifyAccountsViewController.swift in Sources */,

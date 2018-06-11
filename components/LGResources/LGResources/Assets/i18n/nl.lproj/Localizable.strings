@@ -636,6 +636,7 @@
 "post_details_services_congratulation_review" = "Controleer je advertenties en voeg meer details toe";
 "post_details_services_congratulation_subtitle" = "Jouw advertentie werd geplaatst.";
 "post_details_services_congratulation_title" = "Gefeliciteerd!";
+"post_details_services_create_max" = "Oops! You can only select 15 services at a time.";
 "post_details_services_search_placeholder" = "Zoek of kies uit de lijst";
 "post_details_services_subtitle" = "Begin met geld verdienen";
 "post_details_services_title" = "Wat kun je doen?";
@@ -778,14 +779,17 @@
 "product_post_generic_error" = "Er is een fout opgetreden tijdens het plaatsen van je advertentie.";
 "product_post_incentive_bike" = "Fietsen";
 "product_post_incentive_car" = "Auto's";
+"product_post_incentive_cleaning" = "Schoonmaken";
+"product_post_incentive_creative" = "Creatief";
 "product_post_incentive_dresser" = "Dressoirs";
 "product_post_incentive_furniture" = "Meubels";
 "product_post_incentive_got_any" = "heb jij er te koop staan?";
 "product_post_incentive_got_any_free" = "Iets om weg te geven?";
-"product_post_incentive_got_any_services" = "have these skills?";
+"product_post_incentive_got_any_services" = "heb jij deze vaardigheden?";
 "product_post_incentive_kids_clothes" = "Kinderkleding";
+"product_post_incentive_lessons" = "Lessen";
 "product_post_incentive_looking_for" = "Mensen in jouw buurt zijn op zoek naar deze items, %@";
-"product_post_incentive_looking_for_services" = "People around you are looking for these services, %@";
+"product_post_incentive_looking_for_services" = "Mensen in je omgeving zijn op zoek naar deze diensten, %@";
 "product_post_incentive_motorcycle" = "Motorfietsen";
 "product_post_incentive_ps4" = "PS4's";
 "product_post_incentive_subtitle" = "Jouw advertentie is geplaatst.";

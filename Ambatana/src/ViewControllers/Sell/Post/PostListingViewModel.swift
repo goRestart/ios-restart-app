@@ -60,6 +60,9 @@ class PostListingViewModel: BaseViewModel {
         guard let category = postCategory, category == .realEstate else { return false }
         return true
     }
+    var isService: Bool {
+        return postCategory?.isService ?? false
+    }
     
     var realEstateTutorialPages: [LGTutorialPage]? {
         return LGTutorialPage.makeRealEstateTutorial(typeOfOnboarding: featureFlags.realEstateTutorial)

@@ -1,10 +1,20 @@
 import LGCoreKit
 import LGComponents
 
+protocol PostingMultiSelectionViewDelegate: class {
+    func add(service subtype: ServiceSubtype)
+    func remove(service subtype: ServiceSubtype)
+    func addNew(service name: String)
+    func removeNew(service name: String)
+    func showAlertMaxSelection()
+}
+
 final class PostingMultiSelectionView: UIView {
     
     var theme: ListingAttributePickerCell.Theme = .dark
-    
+
+    weak var delegate: PostingMultiSelectionViewDelegate?
+
     private var filteredValues: [String]
     private let rawValues: [String]
     private var selectedIndexes: [IndexPath] = []
@@ -22,6 +32,8 @@ final class PostingMultiSelectionView: UIView {
         tableView.indicatorStyle = .white
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Metrics.margin, right: 0)
         tableView.allowsMultipleSelection = false
+        tableView.showsVerticalScrollIndicator = false
+        tableView.showsHorizontalScrollIndicator = false
         return tableView
     }()
     
@@ -34,6 +46,10 @@ final class PostingMultiSelectionView: UIView {
     
     private var tagsHeightConstraint: NSLayoutConstraint?
     private var bottomConstraint: NSLayoutConstraint?
+    
+    private var selectedServicesIsLessThanMax: Bool {
+        return (selectedIndexes.count + newSubtypes.count) < Constants.maxNumberMultiPosting
+    }
     
     // MARK: - Lifecycle
     
@@ -200,6 +216,12 @@ extension PostingMultiSelectionView: UITableViewDelegate, UITableViewDataSource,
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        guard selectedServicesIsLessThanMax else {
+            delegate?.showAlertMaxSelection()
+            return
+        }
+        
         if indexPath.section == 0 {
             guard let rawIndexPath = convertFilteredIndexPathToRawIndexPath(filteredIndexPath: indexPath),
                 !selectedIndexes.contains(where: { $0 ==  rawIndexPath } ) else { return }
@@ -207,6 +229,9 @@ extension PostingMultiSelectionView: UITableViewDelegate, UITableViewDataSource,
             tableView.cellForRow(at: indexPath)?.isSelected = true
             tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
             refreshTags()
+            if subtypes.count > rawIndexPath.row {
+                delegate?.add(service: subtypes[rawIndexPath.row])
+            }
         } else {
             addNewTypeAndResetSearch()
         }
@@ -216,6 +241,7 @@ extension PostingMultiSelectionView: UITableViewDelegate, UITableViewDataSource,
         guard let newItemTitle = searchBar.text,
             !newItemTitle.isEmpty,
             !newSubtypes.contains(newItemTitle) else { return }
+        delegate?.addNew(service: newItemTitle)
         newSubtypes.append(newItemTitle)
         filteredValues = highlightedItems
         searchBar.text = nil
@@ -231,6 +257,9 @@ extension PostingMultiSelectionView: UITableViewDelegate, UITableViewDataSource,
         tableView.cellForRow(at: indexPath)?.isSelected = false
         tableView.deselectRow(at: indexPath, animated: false)
         refreshTags()
+        if subtypes.count > rawIndexPath.row {
+            delegate?.remove(service: subtypes[rawIndexPath.row])
+        }
     }
     
     private func convertFilteredIndexPathToRawIndexPath(filteredIndexPath: IndexPath) -> IndexPath? {
@@ -259,8 +288,12 @@ extension PostingMultiSelectionView: TagCollectionViewModelSelectionDelegate {
         guard let tag = vm.tags[safeAt: index] else { return }
         if let indexInTable = rawValues.index(of: tag) {
             selectedIndexes = selectedIndexes.filter { $0.row != indexInTable }
+            if let subtype = subtypes.first(where: { $0.name == tag }) {
+                delegate?.remove(service: subtype)
+            }
         } else if let newStyleIndex = newSubtypes.index(of: tag) {
             newSubtypes.remove(at: newStyleIndex)
+            delegate?.removeNew(service: tag)
         }
         refreshTags()
         tableView.reloadData()

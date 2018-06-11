@@ -636,6 +636,7 @@
 "post_details_services_congratulation_review" = "Ελέξγτε τις καταχωρήσεις σας και προσθέστε περισσότερες λεπτομέρειες";
 "post_details_services_congratulation_subtitle" = "Οι καταχωρήσεις σας έχουν δημοσιευθεί.";
 "post_details_services_congratulation_title" = "Συγχαρητήρια!";
+"post_details_services_create_max" = "Oops! You can only select 15 services at a time.";
 "post_details_services_search_placeholder" = "Αναζητήστε ή επιλέξτε από τη λίστα";
 "post_details_services_subtitle" = "Ξεκινήστε να κερδίζετε χρήματα!";
 "post_details_services_title" = "Τί ξέρετε να κάνετε;";
@@ -778,14 +779,17 @@
 "product_post_generic_error" = "Παρουσιάστηκε σφάλμα κατά τη δημοσίευση της καταχώρησής σας.";
 "product_post_incentive_bike" = "Ποδήλατα";
 "product_post_incentive_car" = "Αυτοκίνητα";
+"product_post_incentive_cleaning" = "Cleaning";
+"product_post_incentive_creative" = "Creative";
 "product_post_incentive_dresser" = "Φορέματα";
 "product_post_incentive_furniture" = "Έπιπλα";
 "product_post_incentive_got_any" = "έχετε τίποτα να πουλήσετε;";
 "product_post_incentive_got_any_free" = "έχετε κάτι να χαρίσετε;";
-"product_post_incentive_got_any_services" = "have these skills?";
+"product_post_incentive_got_any_services" = "έχετε αυτές τις ικανότητες;";
 "product_post_incentive_kids_clothes" = "Παιδικά ρούχα";
+"product_post_incentive_lessons" = "Lessons";
 "product_post_incentive_looking_for" = "Άνθρωποι γύρω σας ψάχνουν γι' αυτά τα αντικείμενα, %@";
-"product_post_incentive_looking_for_services" = "People around you are looking for these services, %@";
+"product_post_incentive_looking_for_services" = "Άνθρωποι γύρω σας αναζητούν αυτές τις υπηρεσίες, %@";
 "product_post_incentive_motorcycle" = "Μηχανές";
 "product_post_incentive_ps4" = "PS4";
 "product_post_incentive_subtitle" = "Η καταχώρησή σας έχει δημοσιευθεί.";

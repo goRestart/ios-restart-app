@@ -636,6 +636,7 @@
 "post_details_services_congratulation_review" = "Review your listings and add more details";
 "post_details_services_congratulation_subtitle" = "Your listings have been posted.";
 "post_details_services_congratulation_title" = "Congratulations!";
+"post_details_services_create_max" = "Oops! You can only select 15 services at a time.";
 "post_details_services_search_placeholder" = "Search or choose from the list";
 "post_details_services_subtitle" = "Start making money!";
 "post_details_services_title" = "What do you know how to do?";
@@ -778,12 +779,15 @@
 "product_post_generic_error" = "An error occurred while posting your listing.";
 "product_post_incentive_bike" = "Bikes";
 "product_post_incentive_car" = "Cars";
+"product_post_incentive_cleaning" = "Cleaning";
+"product_post_incentive_creative" = "Creative";
 "product_post_incentive_dresser" = "Dressers";
 "product_post_incentive_furniture" = "Furniture";
 "product_post_incentive_got_any" = "got any to sell?";
 "product_post_incentive_got_any_free" = "got any to give away?";
 "product_post_incentive_got_any_services" = "have these skills?";
 "product_post_incentive_kids_clothes" = "Kid's clothes";
+"product_post_incentive_lessons" = "Lessons";
 "product_post_incentive_looking_for" = "People around you are looking for these items, %@";
 "product_post_incentive_looking_for_services" = "People around you are looking for these services, %@";
 "product_post_incentive_motorcycle" = "Motorcycles";

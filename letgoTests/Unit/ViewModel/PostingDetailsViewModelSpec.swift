@@ -222,6 +222,7 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
 
 extension PostingDetailsViewModelSpec: PostListingNavigator {
 
+
     func startDetails(firstStep: PostingDetailStep, postListingState: PostListingState, uploadedImageSource: EventParameterPictureSource?, uploadedVideoLength: TimeInterval?, postingSource: PostingSource, postListingBasicInfo: PostListingBasicDetailViewModel) {
         // FIXME: No idea what to do here
     }
@@ -263,6 +264,10 @@ extension PostingDetailsViewModelSpec: PostListingNavigator {
                                              trackingInfo: PostListingTrackingInfo) {
         closePostProductAndPostInBackgroundCalled = true
     }
+    
+    func closePostServicesAndPostLater(params: [ListingCreationParams], images: [UIImage]?, video: RecordedVideo?, trackingInfo: PostListingTrackingInfo) {
+        closePostProductAndPostInBackgroundCalled = true
+    }
 
     func openLoginIfNeededFromListingPosted(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void), cancelAction: (() -> Void)?) {
         openLoginIfNeededFromListingPosted = true
@@ -271,8 +276,11 @@ extension PostingDetailsViewModelSpec: PostListingNavigator {
     func openListingCreation(listingParams: ListingCreationParams, trackingInfo: PostListingTrackingInfo) {
         openListingCreationCalled = true
     }
+    func openListingsCreation(uploadedImageId: String, multipostingSubtypes: [ServiceSubtype], multipostingNewSubtypes: [String], postListingState: PostListingState, trackingInfo: PostListingTrackingInfo) {
+        openListingCreationCalled = true
+    }
     func showConfirmation(listingResult: ListingResult, trackingInfo: PostListingTrackingInfo, modalStyle: Bool) {}
-    func showMultiListingPostConfirmation(listingsResult: ListingsResult,
+    func showMultiListingPostConfirmation(listingResult: ListingsResult,
                                           trackingInfo: PostListingTrackingInfo,
                                           modalStyle: Bool) {}
     func openQueuedRequestsLoading(images: [UIImage], listingCreationParams: ListingCreationParams,

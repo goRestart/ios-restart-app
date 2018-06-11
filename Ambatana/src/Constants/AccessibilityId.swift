@@ -282,6 +282,7 @@ enum AccessibilityId: Equatable {
     case postingCategoryDeatilTableView
     case postingAddDetailTableView
     case postingAddDetailSearchBar
+    case postingDetailMaxServices
 
     // Editlisting
     case editListingCloseButton
@@ -1323,6 +1324,8 @@ enum AccessibilityId: Equatable {
             return "postingAddDetailTableView"
         case .postingAddDetailSearchBar:
             return "postingAddDetailSearchBar"
+        case .postingDetailMaxServices:
+            return "postingDetailMaxServices"
             
         // Editlisting
         case .editListingCloseButton:

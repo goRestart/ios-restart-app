@@ -141,19 +141,13 @@ extension SellCoordinator: PostListingNavigator {
         }
     }
     
-    
     func closePostServicesAndPostInBackground(params: [ListingCreationParams],
                                              trackingInfo: PostListingTrackingInfo) {
-        guard featureFlags.showServicesFeatures.isActive else {
-            showConfirmation(listingResult: ListingResult(error: RepositoryError.internalError(message: "")),
-                                   trackingInfo: trackingInfo, modalStyle: true)
-            return
-        }
         dismissViewController(animated: true) { [weak self] in
             self?.listingRepository.createServices(listingParams: params) { [weak self] results in
                 if let listings = results.value {
                     // TODO: Add track ABIOS-4185
-                    self?.showMultiListingPostConfirmation(listingsResult: ListingsResult(value: listings),
+                    self?.showMultiListingPostConfirmation(listingResult: ListingsResult(value: listings),
                                                            trackingInfo: trackingInfo,
                                                            modalStyle: true)
                 } else if let error = results.error {
@@ -222,6 +216,21 @@ extension SellCoordinator: PostListingNavigator {
         let vc = ListingCreationViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: false)
     }
+    
+    func openListingsCreation(uploadedImageId: String,
+                              multipostingSubtypes: [ServiceSubtype],
+                              multipostingNewSubtypes: [String],
+                              postListingState: PostListingState,
+                              trackingInfo: PostListingTrackingInfo) {
+        let viewModel = ListingCreationViewModel(uploadedImageId: uploadedImageId,
+                                                 multipostingSubtypes: multipostingSubtypes,
+                                                 multipostingNewSubtypes: multipostingNewSubtypes,
+                                                 postListingState: postListingState,
+                                                 trackingInfo: trackingInfo)
+        viewModel.navigator = self
+        let vc = ListingCreationViewController(viewModel: viewModel)
+        navigationController.pushViewController(vc, animated: false)
+    }
 
     func showConfirmation(listingResult: ListingResult,
                           trackingInfo: PostListingTrackingInfo,
@@ -234,7 +243,7 @@ extension SellCoordinator: PostListingNavigator {
         showCongrats(listingPostedVC, modalStyle, parentVC)
     }
     
-    func showMultiListingPostConfirmation(listingsResult: ListingsResult,
+    func showMultiListingPostConfirmation(listingResult listingsResult: ListingsResult,
                                           trackingInfo: PostListingTrackingInfo,
                                           modalStyle: Bool) {
         guard let parentVC = parentViewController else { return }
@@ -269,6 +278,25 @@ extension SellCoordinator: PostListingNavigator {
             let listingPostedVC = ListingPostedViewController(viewModel: listingPostedVM)
             self?.viewController = listingPostedVC
             parentVC.present(listingPostedVC, animated: true, completion: nil)
+        }
+    }
+    
+    func closePostServicesAndPostLater(params: [ListingCreationParams],
+                                      images: [UIImage]?,
+                                      video: RecordedVideo?,
+                                      trackingInfo: PostListingTrackingInfo) {
+        guard let parentVC = parentViewController else { return }
+        
+        dismissViewController(animated: true) { [weak self] in
+            guard let strongSelf = self else { return }
+            let viewModel = MultiListingPostedViewModel(navigator: strongSelf,
+                                                        postParams: params,
+                                                        listingImages: images,
+                                                        video: video,
+                                                        trackingInfo: trackingInfo)
+            let multiPostedVC = MultiListingPostedViewController(viewModel: viewModel)
+            self?.viewController = multiPostedVC
+            parentVC.present(multiPostedVC, animated: true, completion: nil)
         }
     }
 

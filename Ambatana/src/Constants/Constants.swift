@@ -100,6 +100,7 @@ struct Constants {
     static let currencyDefault = "US"
     static let defaultPrice: ListingPrice = .normal(0)
     static let sizeSquareMetersUnit: String = "㎡"
+    static let maxNumberMultiPosting = 15
 
     // Camera
     static let videoMaxRecordingDuration: TimeInterval = 15

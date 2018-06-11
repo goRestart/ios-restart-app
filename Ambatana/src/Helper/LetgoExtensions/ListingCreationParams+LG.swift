@@ -60,7 +60,7 @@ extension ListingCreationParams {
                                                                 videos: videos,
                                                                 realEstateAttributes: postListingState.verticalAttributes?.realEstateAttributes ?? RealEstateAttributes.emptyRealEstateAttributes())
                 listingCreationParams = ListingCreationParams.realEstate(realEstateParams)
-            case .motorsAndAccessories, .otherItems, .services:
+            case .motorsAndAccessories, .otherItems:
                 let productParams = ProductCreationParams(name: title,
                                                           description: description,
                                                           price: postListingState.price ?? Constants.defaultPrice,
@@ -71,6 +71,18 @@ extension ListingCreationParams {
                                                           images: images,
                                                           videos: videos)
                 listingCreationParams = ListingCreationParams.product(productParams)
+            case .services:
+                let serviceParams =  ServicesCreationParams(name: title,
+                                                            description: description,
+                                                            price: postListingState.price ?? Constants.defaultPrice,
+                                                            category: category.listingCategory,
+                                                            currency: currency,
+                                                            location: location,
+                                                            postalAddress: postalAddress,
+                                                            images: images,
+                                                            videos: videos,
+                                                            serviceAttributes: postListingState.serviceAttributes)
+                listingCreationParams = ListingCreationParams.service(serviceParams)
             }
         } else {
             let productParams = ProductCreationParams(name: title,

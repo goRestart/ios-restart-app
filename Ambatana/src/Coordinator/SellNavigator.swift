@@ -33,10 +33,20 @@ protocol PostListingNavigator: class {
                                       images: [UIImage]?,
                                       video: RecordedVideo?,
                                       trackingInfo: PostListingTrackingInfo)
+    func closePostServicesAndPostLater(params: [ListingCreationParams],
+                                       images: [UIImage]?,
+                                       video: RecordedVideo?,
+                                       trackingInfo: PostListingTrackingInfo)
     func openLoginIfNeededFromListingPosted(from: EventParameterLoginSourceValue,
                                             loggedInAction: @escaping (() -> Void), cancelAction: (() -> Void)?)
     func showConfirmation(listingResult: ListingResult, trackingInfo: PostListingTrackingInfo, modalStyle: Bool)
+    func showMultiListingPostConfirmation(listingResult: ListingsResult, trackingInfo: PostListingTrackingInfo, modalStyle: Bool)
     func openListingCreation(listingParams: ListingCreationParams, trackingInfo: PostListingTrackingInfo)
+    func openListingsCreation(uploadedImageId: String,
+                              multipostingSubtypes: [ServiceSubtype],
+                              multipostingNewSubtypes: [String],
+                              postListingState: PostListingState,
+                              trackingInfo: PostListingTrackingInfo)
     func backToSummary()
     func openQueuedRequestsLoading(images: [UIImage], listingCreationParams: ListingCreationParams,
                                    imageSource: EventParameterPictureSource, postingSource: PostingSource)
