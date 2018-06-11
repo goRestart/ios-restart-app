@@ -110,6 +110,7 @@ class ListingStatsView: UIView {
         viewsStatsLabel.layer.add(CATransition(), forKey: kCATransition)
 
         updateStyle()
+        setupRAssets()
     }
 
     private func setupRAssets() {
