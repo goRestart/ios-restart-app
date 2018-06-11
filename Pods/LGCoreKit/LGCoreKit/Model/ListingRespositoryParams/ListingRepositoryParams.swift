@@ -105,7 +105,7 @@ public struct RetrieveListingParams {
     public var modelId: RetrieveListingParam<String>?
     public var startYear: RetrieveListingParam<Int>?
     public var endYear: RetrieveListingParam<Int>?
-    public var typeId: String?
+    public var typeIds: [String]?
     public var subtypeIds: [String]?
     
     public var propertyType: String?
