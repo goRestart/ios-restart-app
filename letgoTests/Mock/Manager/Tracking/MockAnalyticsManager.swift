@@ -1,6 +1,6 @@
 @testable import LetGoGodMode
 
-class MockAnalyticsSessionManager: AnalyticsSessionManager {
+final class MockAnalyticsSessionManager: AnalyticsSessionManager {
     var startOrContinueSessionCalled: Bool = false
     var pauseSessionCalled: Bool = false
 

@@ -2,7 +2,7 @@
 import Nimble
 import Quick
 
-class AnalyticsSessionDataSpec: QuickSpec {
+final class AnalyticsSessionDataSpec: QuickSpec {
     override func spec() {
         describe("AnalyticsSessionData") {
             var startDate: Date!

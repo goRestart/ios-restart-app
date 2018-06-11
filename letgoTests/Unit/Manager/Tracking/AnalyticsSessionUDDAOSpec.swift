@@ -3,7 +3,7 @@ import LGCoreKit
 import Nimble
 import Quick
 
-class AnalyticsSessionUDDAOSpec: QuickSpec {
+final class AnalyticsSessionUDDAOSpec: QuickSpec {
     override func spec() {
         describe("AnalyticsSessionUDDAO") {
             var userDefaults: UserDefaults!

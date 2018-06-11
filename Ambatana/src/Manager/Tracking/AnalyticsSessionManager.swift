@@ -6,7 +6,7 @@ protocol AnalyticsSessionManager {
     func pauseSession(visitEndDate: Date)
 }
 
-class LGAnalyticsSessionManager: AnalyticsSessionManager {
+final class LGAnalyticsSessionManager: AnalyticsSessionManager {
     static let daysAfterRegistration: Int = 7
 
     private let minTimeBetweenSessions: TimeInterval

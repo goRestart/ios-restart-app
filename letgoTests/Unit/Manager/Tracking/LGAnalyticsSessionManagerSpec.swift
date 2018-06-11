@@ -3,7 +3,7 @@ import LGCoreKit
 import Nimble
 import Quick
 
-class LGAnalyticsSessionManagerSpec: QuickSpec {
+final class LGAnalyticsSessionManagerSpec: QuickSpec {
     override func spec() {
         describe("LGAnalyticsSessionManager") {
             var myUser: MockMyUser!
