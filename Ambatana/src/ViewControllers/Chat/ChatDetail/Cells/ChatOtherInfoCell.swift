@@ -21,7 +21,11 @@ class ChatOtherInfoCell: UITableViewCell, ReusableCell {
     @IBOutlet weak var infoLabelTop: NSLayoutConstraint!
     @IBOutlet weak var infoIconHeight: NSLayoutConstraint!
     @IBOutlet weak var infoIconTop: NSLayoutConstraint!
-
+    @IBOutlet weak var facebookIcon: UIImageView!
+    @IBOutlet weak var googleIcon: UIImageView!
+    @IBOutlet weak var emailIcon: UIImageView!
+    @IBOutlet weak var locationIcon: UIImageView!
+    
     fileprivate static let verticalMargin: CGFloat = 8
     fileprivate static let iconsMargin: CGFloat = 8
     fileprivate static let iconsHeight: CGFloat = 14
@@ -98,11 +102,21 @@ extension ChatOtherInfoCell {
 
 fileprivate extension ChatOtherInfoCell {
     func setupUI() {
+        setupImages()
         userInfoContainer.cornerRadius = LGUIKitConstants.mediumCornerRadius
         userInfoContainer.layer.shouldRasterize = true
         userInfoContainer.layer.rasterizationScale = UIScreen.main.scale
         backgroundColor = .clear
         verifyLabel.text = R.Strings.chatUserInfoVerifiedWith
+    }
+    
+    func setupImages() {
+        infoIcon.image = R.Asset.IconsButtons.icChatInfoDark.image
+        verifyIcon.image = R.Asset.IconsButtons.icVerified.image
+        facebookIcon.image = R.Asset.IconsButtons.icUserPublicFb.image
+        googleIcon.image = R.Asset.IconsButtons.icUserPublicGoogle.image
+        emailIcon.image = R.Asset.IconsButtons.icUserPublicEmail.image
+        locationIcon.image = R.Asset.IconsButtons.icLocation.image
     }
     
     func setAccessibilityIds() {

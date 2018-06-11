@@ -75,7 +75,8 @@ class ListingCarouselMoreInfoView: UIView {
     @IBOutlet weak var socialShareContainer: UIView!
     @IBOutlet weak var socialShareTitleLabel: UILabel!
     @IBOutlet weak var socialShareView: SocialShareView!
-
+    @IBOutlet weak var addressIcon: UIImageView!
+    
     private let disposeBag = DisposeBag()
     private var locationZone: MKOverlay?
     private var mapPinCustomAnnotation: MKPointAnnotation?
@@ -368,6 +369,9 @@ extension ListingCarouselMoreInfoView: UIScrollViewDelegate {
 
 fileprivate extension ListingCarouselMoreInfoView {
     func setupUI() {
+        addressIcon.image = R.Asset.IconsButtons.itemLocationWhite.image
+        dragViewImage.image = R.Asset.IconsButtons.icArrowDown.image
+        
         report(AppReport.uikit(error: .breadcrumb), message: "MoreInfoView-SetupUI-start")
         setupMapView(inside: mapViewContainer)
 

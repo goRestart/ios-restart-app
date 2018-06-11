@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina3_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -13,6 +13,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ListingDetailOnboardingView" customModule="LetGo" customModuleProvider="target">
             <connections>
+                <outlet property="closeButton" destination="l70-uy-OWP" id="yHc-jx-UcX"/>
                 <outlet property="closeButtonSafeAreaTopAlignment" destination="hWW-8o-kmD" id="B8L-a9-3ux"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="hyn-W5-OWg"/>
                 <outlet property="fingersView" destination="vsg-Yb-Z1M" id="hAk-Et-ors"/>
@@ -35,7 +36,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_close" translatesAutoresizingMaskIntoConstraints="NO" id="l70-uy-OWP">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="l70-uy-OWP">
                                 <rect key="frame" x="15" y="30" width="20" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="3H1-wk-9Fs"/>
@@ -48,8 +49,11 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gL3-em-2kj" userLabel="tap_container">
                                         <rect key="frame" x="0.0" y="17.5" width="320" height="99"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="finger_tap" translatesAutoresizingMaskIntoConstraints="NO" id="uct-GI-PDh">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="uct-GI-PDh">
                                                 <rect key="frame" x="136.5" y="0.0" width="48" height="68"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="48" id="RKH-mE-pL9"/>
+                                                </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Tap to go to the next product" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OtQ-Vk-yjZ">
                                                 <rect key="frame" x="40" y="78" width="240" height="21"/>
@@ -86,8 +90,11 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fi7-JJ-xOx" userLabel="swipe_container">
                                         <rect key="frame" x="0.0" y="18.5" width="320" height="98"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="finger_swipe" translatesAutoresizingMaskIntoConstraints="NO" id="Fsu-Wf-bHx">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Fsu-Wf-bHx">
                                                 <rect key="frame" x="120.5" y="0.0" width="80" height="67"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="80" id="Otq-1G-7rt"/>
+                                                </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Swipe to go to the next product or the previous one" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pnC-f6-Coz">
                                                 <rect key="frame" x="40" y="77" width="240" height="21"/>
@@ -124,8 +131,11 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IE0-zm-VYI" userLabel="scroll_container">
                                         <rect key="frame" x="0.0" y="18.5" width="320" height="98"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="finger_scroll" translatesAutoresizingMaskIntoConstraints="NO" id="gvn-JK-JR4">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gvn-JK-JR4">
                                                 <rect key="frame" x="137.5" y="0.0" width="46" height="67"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="46" id="Tk7-e7-O3J"/>
+                                                </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Scroll to see more pictures" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s0v-kJ-GJ2">
                                                 <rect key="frame" x="40" y="77" width="240" height="21"/>
@@ -187,10 +197,4 @@
             <point key="canvasLocation" x="301" y="184"/>
         </view>
     </objects>
-    <resources>
-        <image name="finger_scroll" width="46" height="80"/>
-        <image name="finger_swipe" width="80" height="46"/>
-        <image name="finger_tap" width="48" height="58"/>
-        <image name="ic_close" width="18" height="18"/>
-    </resources>
 </document>

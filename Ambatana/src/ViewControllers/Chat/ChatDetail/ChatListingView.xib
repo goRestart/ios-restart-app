@@ -77,13 +77,17 @@
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pro_tag" translatesAutoresizingMaskIntoConstraints="NO" id="6ND-9Y-PKj">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6ND-9Y-PKj">
                             <rect key="frame" x="0.0" y="28" width="36" height="12"/>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_assistant_tag" translatesAutoresizingMaskIntoConstraints="NO" id="V3S-fd-YlA" userLabel="letgo assistance tag">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="V3S-fd-YlA" userLabel="letgo assistance tag">
                             <rect key="frame" x="22" y="26" width="14" height="14"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="14" id="OSJ-vV-Ykx"/>
+                                <constraint firstAttribute="height" constant="14" id="R4m-tW-d7v"/>
+                            </constraints>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_karma_badge_active" translatesAutoresizingMaskIntoConstraints="NO" id="fPw-Ws-n0a" userLabel="badge">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fPw-Ws-n0a" userLabel="badge">
                             <rect key="frame" x="19" y="23" width="20" height="20"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="20" id="Z7w-gU-om4"/>
@@ -153,9 +157,4 @@
             <point key="canvasLocation" x="551" y="414.5"/>
         </view>
     </objects>
-    <resources>
-        <image name="ic_assistant_tag" width="14" height="14"/>
-        <image name="ic_karma_badge_active" width="30" height="30"/>
-        <image name="pro_tag" width="49" height="18"/>
-    </resources>
 </document>
