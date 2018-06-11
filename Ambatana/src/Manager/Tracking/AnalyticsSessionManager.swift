@@ -7,7 +7,9 @@ protocol AnalyticsSessionManager {
 }
 
 final class LGAnalyticsSessionManager: AnalyticsSessionManager {
-    static let daysAfterRegistration: Int = 7
+    private static let daysAfterRegistration: Int = 7
+    private static let sessionMinTimeInBetween = TimeInterval.make(minutes: 5)
+    private static let sessionThreshold = TimeInterval.make(minutes: 1)
 
     private let minTimeBetweenSessions: TimeInterval
     private let sessionThreshold: TimeInterval
@@ -21,6 +23,14 @@ final class LGAnalyticsSessionManager: AnalyticsSessionManager {
 
 
     // MARK: - Lifecycle
+
+    convenience init(myUserRepository: MyUserRepository,
+                     dao: AnalyticsSessionDAO) {
+        self.init(minTimeBetweenSessions: LGAnalyticsSessionManager.sessionMinTimeInBetween,
+                  sessionThreshold: LGAnalyticsSessionManager.sessionThreshold,
+                  myUserRepository: myUserRepository,
+                  dao: dao)
+    }
 
     init(minTimeBetweenSessions: TimeInterval,
          sessionThreshold: TimeInterval,
