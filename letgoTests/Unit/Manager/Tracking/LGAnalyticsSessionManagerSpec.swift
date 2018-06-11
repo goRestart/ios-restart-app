@@ -164,9 +164,6 @@ final class LGAnalyticsSessionManagerSpec: QuickSpec {
                         sut.pauseSession(visitEndDate: visitEndDate)
                     }
 
-                    it("calls sessionThresholdReachedCompletion") {
-                        expect(sessionThresholdReachedCompletionCalled).to(beTrue())
-                    }
                     it("stores the session data") {
                         let sessionData = AnalyticsSessionData.make(visitStartDate: visitStartDate,
                                                                     visitEndDate: visitEndDate)
