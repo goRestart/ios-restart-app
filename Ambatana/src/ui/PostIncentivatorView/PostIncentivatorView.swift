@@ -17,6 +17,7 @@ class PostIncentivatorView: UIView {
     @IBOutlet weak var thirdImage: UIImageView!
     @IBOutlet weak var thirdNameLabel: UILabel!
     @IBOutlet weak var thirdCountLabel: UILabel!
+    @IBOutlet var magnifyingGlass: [UIImageView]!
 
     weak var delegate: PostIncentivatorViewDelegate?
 
@@ -51,7 +52,11 @@ class PostIncentivatorView: UIView {
 
     // MARK: - Public methods
 
-    func setupIncentiviseView() {        
+    func setupIncentiviseView() {
+        for imageView in magnifyingGlass {
+            imageView.image = R.Asset.CongratsScreenImages.icMagnifier.image
+        }
+        
         let itemPack = getIncentiviserPack()
 
         guard itemPack.count == 3 else {
