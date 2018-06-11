@@ -111,6 +111,12 @@ class ListingStatsView: UIView {
 
         updateStyle()
     }
+
+    private func setupRAssets() {
+        timePostedIcon.image = R.Asset.IconsButtons.icNewStripe.image
+        statsIcon.image = R.Asset.IconsButtons.icStatsViews.image
+        favouriteIcon.image = R.Asset.IconsButtons.icStatsFavorite.image
+    }
     
     private func setupAccessibilityIds() {       
         favouriteStatsView.set(accessibilityId: .listingStatsViewFavouriteStatsView)
