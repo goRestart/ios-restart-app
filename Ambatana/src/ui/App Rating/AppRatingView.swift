@@ -8,6 +8,8 @@ protocol AppRatingViewDelegate: class {
 
 class AppRatingView: UIView {
 
+    @IBOutlet weak var headerLogo: UIImageView!
+    @IBOutlet weak var bannerIcon: UIImageView!
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var bgButton: UIButton!
     @IBOutlet weak var ratUslabel: UILabel!
@@ -31,7 +33,8 @@ class AppRatingView: UIView {
     }
     
     func setupWithFrame(_ frame: CGRect) {
-
+        setupImages()
+        
         self.alpha = 0
         self.showWithFadeIn()
         
@@ -86,6 +89,17 @@ class AppRatingView: UIView {
     
     
     // MARK: Private Methods
+    
+    private func setupImages() {
+        headerLogo.image = R.Asset.BackgroundsAndImages.logoOnboarding.image
+        bannerIcon.image = R.Asset.IconsButtons.icBannerCat.image
+        for star in stars {
+            star.setImage(R.Asset.IconsButtons.icStar.image, for: .normal)
+            star.setImage(R.Asset.IconsButtons.icStarFilled.image, for: .highlighted)
+            star.setImage(R.Asset.IconsButtons.icStarFilled.image, for: .focused)
+            star.setImage(R.Asset.IconsButtons.icStarFilled.image, for: .selected)
+        }
+    }
 
     private func showWithFadeIn() {
         UIView.animate(withDuration: 0.4, animations: { () -> Void in
