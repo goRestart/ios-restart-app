@@ -559,6 +559,18 @@ class ListingCarouselViewModel: BaseViewModel {
                                                            adShown: adShown,
                                                            typePage: typePage)
     }
+    
+    func interstitialDidFail(typePage: EventParameterTypePage) {
+        let adType = AdRequestType.interstitial.trackingParamValue
+        let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
+        let feedPosition: EventParameterFeedPosition = .position(index: currentIndex)
+        let adShown = EventParameterBoolean(bool: false)
+        currentListingViewModel?.trackInterstitialAdShown(adType: adType,
+                                                          isMine: isMine,
+                                                          feedPosition: feedPosition,
+                                                          adShown: adShown,
+                                                          typePage: typePage)
+    }
 
     func statusLabelTapped() {
         navigator?.openFeaturedInfo()
