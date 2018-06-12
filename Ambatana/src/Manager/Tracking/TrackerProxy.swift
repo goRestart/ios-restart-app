@@ -40,6 +40,7 @@ final class TrackerProxy: Tracker {
     private let myUserRepository: MyUserRepository
     private let installationRepository: InstallationRepository
     private let notificationsManager: NotificationsManager
+    private var analyticsSessionManager: AnalyticsSessionManager
 
 
     // MARK: - Lifecycle
@@ -49,23 +50,39 @@ final class TrackerProxy: Tracker {
     }
 
     convenience init(trackers: [Tracker]) {
+        let myUserRepository = Core.myUserRepository
+        let keyValueStorage = KeyValueStorage.sharedInstance
+        let dao = AnalyticsSessionUDDAO(keyValueStorage: keyValueStorage)
+        let analyticsSessionManager = LGAnalyticsSessionManager(myUserRepository: myUserRepository,
+                                                                dao: dao)
         self.init(trackers: trackers,
                   sessionManager: Core.sessionManager,
-                  myUserRepository: Core.myUserRepository,
+                  myUserRepository: myUserRepository,
                   locationManager: Core.locationManager,
                   installationRepository: Core.installationRepository,
-                  notificationsManager: LGNotificationsManager.sharedInstance)
+                  notificationsManager: LGNotificationsManager.sharedInstance,
+                  analyticsSessionManager: analyticsSessionManager)
     }
 
-    init(trackers: [Tracker], sessionManager: SessionManager, myUserRepository: MyUserRepository,
-         locationManager: LocationManager, installationRepository: InstallationRepository,
-         notificationsManager: NotificationsManager) {
+    init(trackers: [Tracker],
+         sessionManager: SessionManager,
+         myUserRepository: MyUserRepository,
+         locationManager: LocationManager,
+         installationRepository: InstallationRepository,
+         notificationsManager: NotificationsManager,
+         analyticsSessionManager: AnalyticsSessionManager) {
         self.trackers = trackers
         self.locationManager = locationManager
         self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
         self.installationRepository = installationRepository
         self.notificationsManager = notificationsManager
+        self.analyticsSessionManager = analyticsSessionManager
+
+        self.analyticsSessionManager.sessionThresholdReachedCompletion = { [weak self] in
+            let event = TrackerEvent.sessionOneMinuteFirstWeek()
+            self?.trackEvent(event)
+        }
     }
 
 
@@ -94,6 +111,9 @@ final class TrackerProxy: Tracker {
 
     func applicationDidEnterBackground(_ application: UIApplication) {
         trackers.forEach { $0.applicationDidEnterBackground(application) }
+
+        let now = Date()
+        analyticsSessionManager.pauseSession(visitEndDate: now)
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -104,6 +124,9 @@ final class TrackerProxy: Tracker {
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         trackers.forEach { $0.applicationDidBecomeActive(application) }
+
+        let now = Date()
+        analyticsSessionManager.startOrContinueSession(visitStartDate: now)
     }
 
     func setInstallation(_ installation: Installation?) {
@@ -112,6 +135,10 @@ final class TrackerProxy: Tracker {
 
     func setUser(_ user: MyUser?) {
         trackers.forEach { $0.setUser(user) }
+        if user != nil {
+            let now = Date()
+            analyticsSessionManager.startOrContinueSession(visitStartDate: now)
+        }
     }
 
     func trackEvent(_ event: TrackerEvent) {

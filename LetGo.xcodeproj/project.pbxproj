@@ -633,6 +633,17 @@
 		5009F83F1E5B01890064ED22 /* Metrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5009F83D1E5B01890064ED22 /* Metrics.swift */; };
 		500DC12B1BDA1C4C00B494FA /* ios-devel.json in Resources */ = {isa = PBXBuildFile; fileRef = 500DC1291BDA1C4C00B494FA /* ios-devel.json */; };
 		500DC12C1BDA1C4C00B494FA /* ios-prod.json in Resources */ = {isa = PBXBuildFile; fileRef = 500DC12A1BDA1C4C00B494FA /* ios-prod.json */; };
+		5011938620C5173200FA7C20 /* AnalyticsSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5011938520C5173200FA7C20 /* AnalyticsSessionManager.swift */; };
+		5011938720C5173200FA7C20 /* AnalyticsSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5011938520C5173200FA7C20 /* AnalyticsSessionManager.swift */; };
+		5011938920C51BE100FA7C20 /* MockAnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5011938820C51BE100FA7C20 /* MockAnalyticsManager.swift */; };
+		5011938E20C553FE00FA7C20 /* AnalyticsSessionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5011938D20C553FE00FA7C20 /* AnalyticsSessionData.swift */; };
+		5011938F20C553FE00FA7C20 /* AnalyticsSessionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5011938D20C553FE00FA7C20 /* AnalyticsSessionData.swift */; };
+		5011939120C6990D00FA7C20 /* AnalyticsSessionDataSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5011939020C6990C00FA7C20 /* AnalyticsSessionDataSpec.swift */; };
+		5011939320C7C3BE00FA7C20 /* LGAnalyticsSessionManagerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5011939220C7C3BE00FA7C20 /* LGAnalyticsSessionManagerSpec.swift */; };
+		5011939520C7FE7C00FA7C20 /* AnalyticsSessionDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5011939420C7FE7C00FA7C20 /* AnalyticsSessionDAO.swift */; };
+		5011939620C7FE7C00FA7C20 /* AnalyticsSessionDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5011939420C7FE7C00FA7C20 /* AnalyticsSessionDAO.swift */; };
+		5011939820C7FF4F00FA7C20 /* MockAnalyticsSessionDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5011939720C7FF4F00FA7C20 /* MockAnalyticsSessionDAO.swift */; };
+		5011939A20CA601100FA7C20 /* AnalyticsSessionUDDAOSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5011939920CA601000FA7C20 /* AnalyticsSessionUDDAOSpec.swift */; };
 		50146BC21D4F5F5B00B0F635 /* TabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50146BC01D4F5F5B00B0F635 /* TabCoordinator.swift */; };
 		50146BC31D4F5F5B00B0F635 /* TabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50146BC01D4F5F5B00B0F635 /* TabCoordinator.swift */; };
 		50146BC41D4F5F5B00B0F635 /* TabNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50146BC11D4F5F5B00B0F635 /* TabNavigator.swift */; };
@@ -2412,6 +2423,14 @@
 		5009F83D1E5B01890064ED22 /* Metrics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Metrics.swift; sourceTree = "<group>"; };
 		500DC1291BDA1C4C00B494FA /* ios-devel.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "ios-devel.json"; sourceTree = "<group>"; };
 		500DC12A1BDA1C4C00B494FA /* ios-prod.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "ios-prod.json"; sourceTree = "<group>"; };
+		5011938520C5173200FA7C20 /* AnalyticsSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsSessionManager.swift; sourceTree = "<group>"; };
+		5011938820C51BE100FA7C20 /* MockAnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAnalyticsManager.swift; sourceTree = "<group>"; };
+		5011938D20C553FE00FA7C20 /* AnalyticsSessionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsSessionData.swift; sourceTree = "<group>"; };
+		5011939020C6990C00FA7C20 /* AnalyticsSessionDataSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsSessionDataSpec.swift; sourceTree = "<group>"; };
+		5011939220C7C3BE00FA7C20 /* LGAnalyticsSessionManagerSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGAnalyticsSessionManagerSpec.swift; sourceTree = "<group>"; };
+		5011939420C7FE7C00FA7C20 /* AnalyticsSessionDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsSessionDAO.swift; sourceTree = "<group>"; };
+		5011939720C7FF4F00FA7C20 /* MockAnalyticsSessionDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAnalyticsSessionDAO.swift; sourceTree = "<group>"; };
+		5011939920CA601000FA7C20 /* AnalyticsSessionUDDAOSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsSessionUDDAOSpec.swift; sourceTree = "<group>"; };
 		50146BC01D4F5F5B00B0F635 /* TabCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabCoordinator.swift; sourceTree = "<group>"; };
 		50146BC11D4F5F5B00B0F635 /* TabNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabNavigator.swift; sourceTree = "<group>"; };
 		50146BC61D4F5F6D00B0F635 /* MainTabCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabCoordinator.swift; sourceTree = "<group>"; };
@@ -4366,17 +4385,19 @@
 		50C9E4B71B71FBB7001E4E92 /* Tracking */ = {
 			isa = PBXGroup;
 			children = (
-				C707D4501E9B7C8A00042C03 /* Model */,
+				50C9E4BC1B721F6B001E4E92 /* TrackerProxy.swift */,
 				50C9E4C01B723E6B001E4E92 /* AmplitudeTracker.swift */,
+				5011939420C7FE7C00FA7C20 /* AnalyticsSessionDAO.swift */,
+				5011938520C5173200FA7C20 /* AnalyticsSessionManager.swift */,
 				50C9E4C21B723E7B001E4E92 /* AppsflyerTracker.swift */,
 				2E2AB8271C04A2EF0007B8EB /* CrashlyticsTracker.swift */,
 				50C9E4C41B723E87001E4E92 /* FacebookTracker.swift */,
 				C797404E1D2A95B100381A4A /* LeanplumTracker.swift */,
+				C707D4501E9B7C8A00042C03 /* Model */,
+				C7E1DE501E4C8D0E003818F6 /* NewRelicTracker.swift */,
 				50C9E4B81B71FBB7001E4E92 /* Tracker.swift */,
-				50C9E4BC1B721F6B001E4E92 /* TrackerProxy.swift */,
 				50C9E4BA1B71FBD7001E4E92 /* TrackerEvent.swift */,
 				50C9E4C81B735344001E4E92 /* TrackerEventDataTypes.swift */,
-				C7E1DE501E4C8D0E003818F6 /* NewRelicTracker.swift */,
 			);
 			path = Tracking;
 			sourceTree = "<group>";
@@ -4550,9 +4571,11 @@
 		50D08D691E69AF14009CC260 /* Tracking */ = {
 			isa = PBXGroup;
 			children = (
-				50D08D6A1E69AF14009CC260 /* MockTracker.swift */,
+				5011938820C51BE100FA7C20 /* MockAnalyticsManager.swift */,
+				5011939720C7FF4F00FA7C20 /* MockAnalyticsSessionDAO.swift */,
 				01B06D87202B187100083DD1 /* MockEventParameterMostSearched.swift */,
 				0150866A20520BFF0007E792 /* MockEventParameterPostingAbandonStep.swift */,
+				50D08D6A1E69AF14009CC260 /* MockTracker.swift */,
 			);
 			path = Tracking;
 			sourceTree = "<group>";
@@ -4640,6 +4663,9 @@
 		50D08D861E69AF14009CC260 /* Tracking */ = {
 			isa = PBXGroup;
 			children = (
+				5011939020C6990C00FA7C20 /* AnalyticsSessionDataSpec.swift */,
+				5011939920CA601000FA7C20 /* AnalyticsSessionUDDAOSpec.swift */,
+				5011939220C7C3BE00FA7C20 /* LGAnalyticsSessionManagerSpec.swift */,
 				50D08D871E69AF14009CC260 /* TrackerEventSpec.swift */,
 				50D08D881E69AF14009CC260 /* TrackerProxySpec.swift */,
 			);
@@ -5341,9 +5367,10 @@
 		C707D4501E9B7C8A00042C03 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				C707D4511E9B7CA100042C03 /* SendMessageTrackingInfo.swift */,
-				C707D4541E9B7CB200042C03 /* PostListingTrackingInfo.swift */,
+				5011938D20C553FE00FA7C20 /* AnalyticsSessionData.swift */,
 				502047141EE1BB21006C0EC2 /* MarkAsSoldTrackingInfo.swift */,
+				C707D4541E9B7CB200042C03 /* PostListingTrackingInfo.swift */,
+				C707D4511E9B7CA100042C03 /* SendMessageTrackingInfo.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -7124,6 +7151,7 @@
 				C750AA8D1E6D77B7005F87C5 /* MockImageDownloader.swift in Sources */,
 				6A8C421820B572DE00E5A5B7 /* MockReputationTooltipManager.swift in Sources */,
 				2E4BDE751EDDA07700CBDC8C /* DistanceBubbleTextGeneratorSpec.swift in Sources */,
+				5011939A20CA601100FA7C20 /* AnalyticsSessionUDDAOSpec.swift in Sources */,
 				50D08DE51E69AF14009CC260 /* SignUpLogInViewModelSpec.swift in Sources */,
 				50D08DD41E69AF14009CC260 /* LocalProductSpec.swift in Sources */,
 				50D08DBB1E69AF14009CC260 /* MockPurchaseableProductsRequest+MockFactory.swift in Sources */,
@@ -7156,6 +7184,7 @@
 				502047201EEA98D8006C0EC2 /* MockCountryConfigurable.swift in Sources */,
 				50D08DE21E69AF14009CC260 /* ListingViewModelSpec.swift in Sources */,
 				50D08DAA1E69AF14009CC260 /* MockConfigFileDAO.swift in Sources */,
+				5011939820C7FF4F00FA7C20 /* MockAnalyticsSessionDAO.swift in Sources */,
 				50D08DB71E69AF14009CC260 /* MockTracker.swift in Sources */,
 				50D08DE61E69AF14009CC260 /* SignUpViewModelSpec.swift in Sources */,
 				727463AD1FB0674D00AD8261 /* ListingPrice+LGSpec.swift in Sources */,
@@ -7169,11 +7198,13 @@
 				72D928E71E83ED300030F4C3 /* MockRatingManager.swift in Sources */,
 				50D08DCB1E69AF14009CC260 /* CrashManagerSpec.swift in Sources */,
 				0A82750A1F7D090C00A6A0C5 /* MockDeferredDeepLinkMaker.swift in Sources */,
+				5011938920C51BE100FA7C20 /* MockAnalyticsManager.swift in Sources */,
 				0A7724141FCEED6300BD322C /* PhotoViewerViewModelSpec.swift in Sources */,
 				724D77A91FC3467700DB43C0 /* CarAttributes+LGSpec.swift in Sources */,
 				50D08DCD1E69AF14009CC260 /* NotificationsManagerSpec.swift in Sources */,
 				50D08DDB1E69AF14009CC260 /* BaseViewModelSpec.swift in Sources */,
 				50D08DD21E69AF14009CC260 /* ConfigSpec.swift in Sources */,
+				5011939320C7C3BE00FA7C20 /* LGAnalyticsSessionManagerSpec.swift in Sources */,
 				50D08DCA1E69AF14009CC260 /* ConfigFileManagerSpec.swift in Sources */,
 				72D928DE1E83DE360030F4C3 /* MockConfigManager.swift in Sources */,
 				50D08DE81E69AF14009CC260 /* MockChatWrapper.swift in Sources */,
@@ -7234,6 +7265,7 @@
 				50D08DB01E69AF14009CC260 /* MockBubbleNotificationManager.swift in Sources */,
 				50D08DD71E69AF14009CC260 /* PostIncentiviserItemSpec.swift in Sources */,
 				5020471E1EEA956C006C0EC2 /* FeatureFlagsSpec.swift in Sources */,
+				5011939120C6990D00FA7C20 /* AnalyticsSessionDataSpec.swift in Sources */,
 				727463B81FB1E96600AD8261 /* ListingCreationParams+LGSpec.swift in Sources */,
 				42F64F8220AB1A4100CF97AD /* MockListingFilters.swift in Sources */,
 				50D08DBC1E69AF14009CC260 /* MockPurchaseableProductsRequest.swift in Sources */,
@@ -7778,6 +7810,7 @@
 				6A3F3B9B20AD81A000E2881F /* LetgoTooltip.swift in Sources */,
 				6A38A998207618DE00F3B292 /* UserProfileKarmaScoreView.swift in Sources */,
 				C7C61DF51D63035400F9505D /* ListingCarouselMoreInfoView.swift in Sources */,
+				5011938620C5173200FA7C20 /* AnalyticsSessionManager.swift in Sources */,
 				2E5350411CF8A0C6003B06CC /* ListingStatsView.swift in Sources */,
 				0171FA9B2087444C00CAFE36 /* SettingsNotificationsSearchAlertsCell.swift in Sources */,
 				502047151EE1BB22006C0EC2 /* MarkAsSoldTrackingInfo.swift in Sources */,
@@ -7898,6 +7931,7 @@
 				C783D9811C64BBA1000EE5CA /* ReportUsersViewModel.swift in Sources */,
 				8E80179B2010DB67004CE244 /* ChatInactiveConversationsListViewController.swift in Sources */,
 				8E8EAD3620A2EC1400ADEAFE /* ChatConversationsListViewModel.swift in Sources */,
+				5011939520C7FE7C00FA7C20 /* AnalyticsSessionDAO.swift in Sources */,
 				50C2E19B1E6FFACE006639BB /* PostListingRedCamButtonFooter.swift in Sources */,
 				726E35C01FE13FB200F98776 /* RetrieveListingParams+LG.swift in Sources */,
 				6A0B6A102052BC9F00EAA1F5 /* UserProfileRelationView.swift in Sources */,
@@ -8002,6 +8036,7 @@
 				015E4FDE204FFC090094FF20 /* BlockingPostingLoadingView.swift in Sources */,
 				8E0C9DF41E96924F00768D27 /* PostCategoryDetailProgressView.swift in Sources */,
 				72854D1A1F8E002100E54530 /* RealEstateOfferType+LG.swift in Sources */,
+				5011938E20C553FE00FA7C20 /* AnalyticsSessionData.swift in Sources */,
 				8E28A82A207B85C70070A7A6 /* GoogleAdxNativeView.swift in Sources */,
 				C788EED71CC7847400B9E26F /* FilteredListingListRequester.swift in Sources */,
 				509273361B172D5B00A346F9 /* PushManager.swift in Sources */,
@@ -8609,6 +8644,7 @@
 				6A3F3B9C20AD81A100E2881F /* LetgoTooltip.swift in Sources */,
 				6A38A9992076304A00F3B292 /* UserProfileKarmaScoreView.swift in Sources */,
 				C7DB42091C5138B500400945 /* ChatSafetyTipsView.swift in Sources */,
+				5011938720C5173200FA7C20 /* AnalyticsSessionManager.swift in Sources */,
 				7224D7E91F581EE7004E3B49 /* ExpandableCategorySelectionView.swift in Sources */,
 				C7BAC9BD1E49BCC0005BD0AF /* LGBubbleNotificationManager.swift in Sources */,
 				2E5350421CF8A0C6003B06CC /* ListingStatsView.swift in Sources */,
@@ -8729,6 +8765,7 @@
 				50C59BDC1CE0DB6400377124 /* NSUserDefaults+KeyValueStorage.swift in Sources */,
 				8E80179C2010DB68004CE244 /* ChatInactiveConversationsListViewController.swift in Sources */,
 				8E8EAD3720A2EC1400ADEAFE /* ChatConversationsListViewModel.swift in Sources */,
+				5011939620C7FE7C00FA7C20 /* AnalyticsSessionDAO.swift in Sources */,
 				C783D9821C64BBA1000EE5CA /* ReportUsersViewModel.swift in Sources */,
 				50C2E19C1E6FFACE006639BB /* PostListingRedCamButtonFooter.swift in Sources */,
 				726E35C11FE13FB200F98776 /* RetrieveListingParams+LG.swift in Sources */,
@@ -8833,6 +8870,7 @@
 				8E0C9DF51E96924F00768D27 /* PostCategoryDetailProgressView.swift in Sources */,
 				72854D1B1F8E002100E54530 /* RealEstateOfferType+LG.swift in Sources */,
 				8E28A82B207B85C70070A7A6 /* GoogleAdxNativeView.swift in Sources */,
+				5011938F20C553FE00FA7C20 /* AnalyticsSessionData.swift in Sources */,
 				6AF75D051CF3600D00EACCF0 /* ChatStickerCell.swift in Sources */,
 				C7DB42261C5138B500400945 /* TabBarController.swift in Sources */,
 				0A31CF631FA1ECCE00FE84E0 /* ListingDeckViewModelBinder.swift in Sources */,

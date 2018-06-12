@@ -5324,6 +5324,18 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.params?.params).to(beNil())
                 }
             }
+
+            describe("Session one minute first week") {
+                beforeEach {
+                    sut = TrackerEvent.sessionOneMinuteFirstWeek()
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue) == "session-one-minute-first-week"
+                }
+                it("has no params") {
+                    expect(sut.params?.params).to(beNil())
+                }
+            }
             
             describe("Listing Interstitial Ad Tapped") {
                 beforeEach {
@@ -5408,7 +5420,6 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.params!.stringKeyParams["feed-position"] as? String) == "20"
                 }
             }
-            
         }
     }
 }
