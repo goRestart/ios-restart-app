@@ -348,6 +348,8 @@ enum EventParameterName: String {
     case year                 = "product-year"
     case yearStart            = "product-year-start"
     case yearEnd              = "product-year-end"
+    case serviceType          = "service-type"
+    case serviceSubtype       = "service-subtype"
     case verticalKeyword            = "vertical-keyword"
     case verticalMatchingFields     = "vertical-matching-fields"
     case verticalNoMatchingFields   = "vertical-no-matching-fields"

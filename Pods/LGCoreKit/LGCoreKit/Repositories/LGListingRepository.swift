@@ -620,7 +620,10 @@ final class LGListingRepository: ListingRepository {
         
         guard serviceType != nil || serviceSubtype != nil else { return service }
         
-        return service.updating(servicesAttributes: ServiceAttributes(typeTitle: serviceType, subtypeTitle: serviceSubtype))
+        return service.updating(servicesAttributes: ServiceAttributes(typeId: service.servicesAttributes.typeId,
+                                                                      subtypeId: service.servicesAttributes.subtypeId,
+                                                                      typeTitle: serviceType,
+                                                                      subtypeTitle: serviceSubtype))
     }
     
     private func retrieveIndexWithRelax(_ queryString: String, _ params: RetrieveListingParams, _ relaxParam: RelaxParam, completion: ListingsCompletion?) {

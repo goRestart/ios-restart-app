@@ -190,7 +190,7 @@ final class ListingApiDataSource: ListingDataSource {
         }
         let request: URLRequestAuthenticable = ListingRouter.updateService(listingId: serviceParams.serviceId,
                                                                            params: serviceParams.apiEditionEncode())
-        apiClient.request(request, decoder: ListingApiDataSource.realEstateDecoder, completion: completion)
+        apiClient.request(request, decoder: ListingApiDataSource.serviceDecoder, completion: completion)
     }
 
     // MARK: Sold / unsold

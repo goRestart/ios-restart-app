@@ -750,6 +750,11 @@ struct TrackerEvent {
         params[.model] = EventParameterModel.model(name: listing.car?.carAttributes.model).name
         params[.year] = EventParameterYear.year(year: listing.car?.carAttributes.year).year
         
+        if let servicesAttributes = listing.service?.servicesAttributes {
+            params[.serviceType] = servicesAttributes.typeId ?? Constants.parameterNotApply
+            params[.serviceSubtype] = servicesAttributes.subtypeId ?? Constants.parameterNotApply
+        }
+        
         if let realEstateAttributes = listing.realEstate?.realEstateAttributes {
             params[.propertyType] = EventParameterStringRealEstate.realEstateParam(name: realEstateAttributes.propertyType?.rawValue).name
             params[.offerType] = EventParameterStringRealEstate.realEstateParam(name: realEstateAttributes.offerType?.rawValue).name
