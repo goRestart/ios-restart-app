@@ -215,7 +215,7 @@ extension UserDefaultsUser: UserDefaultsDecodable {
         dict.encode(UserDefaultsUserKey.meetingSafetyTipsAlreadyShown.rawValue, value: meetingSafetyTipsAlreadyShown)
         dict.encode(UserDefaultsUserKey.interestingProducts.rawValue, value: Array(interestingProducts))
         if let analyticsSessionData = analyticsSessionData {
-            dict.encode(UserDefaultsUserKey.analyticsSessionData.rawValue, value: analyticsSessionData)
+            dict.encode(UserDefaultsUserKey.analyticsSessionData.rawValue, value: analyticsSessionData.encode())
         }
         return dict
     }
