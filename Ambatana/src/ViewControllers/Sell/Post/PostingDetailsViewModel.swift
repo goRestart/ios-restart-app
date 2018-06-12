@@ -120,7 +120,9 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             return nil
         case .servicesSubtypes:
             let serviceSubtypes = servicesInfoRepository.serviceAllSubtypesSorted()
-            let postServicesView = PostingMultiSelectionView(theme: .light, subtypes: serviceSubtypes)
+            let postServicesView = PostingMultiSelectionView(keyboardHelper: KeyboardHelper(),
+                                                             theme: .light,
+                                                             subtypes: serviceSubtypes)
             postServicesView.delegate = self
             return postServicesView
         }

@@ -45,10 +45,7 @@ final class PostListingCameraViewModel: BaseViewModel {
     let postCategory: PostCategory?
     
     var verticalPromotionMessage: String? {
-        if let category = postCategory, category == .realEstate {
-            return R.Strings.realEstateCameraViewRealEstateMessage
-        }
-        return nil
+        return postCategory?.postCameraTitle
     }
     
     var learnMoreMessage: NSAttributedString {

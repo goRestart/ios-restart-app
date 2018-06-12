@@ -636,7 +636,7 @@
 "post_details_services_congratulation_review" = "İlanlarını gözden geçir ve daha fazla detay ekle";
 "post_details_services_congratulation_subtitle" = "İlanların yayınlandı.";
 "post_details_services_congratulation_title" = "Tebrikler!";
-"post_details_services_create_max" = "Oops! You can only select 15 services at a time.";
+"post_details_services_create_max" = "Oops! Bir seferde sadece 15 hizmet seçebilirsiniz.";
 "post_details_services_search_placeholder" = "Listeyi ara veya listeden seç";
 "post_details_services_subtitle" = "Para kazanmaya başla!";
 "post_details_services_title" = "Nasıl yapılacağı hakkında neler biliyorsun?";

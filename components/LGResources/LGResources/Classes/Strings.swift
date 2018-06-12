@@ -1384,6 +1384,8 @@ extension R {
     public static let postDescriptionSaveButtonText = Strings.tr("Localizable", "post_description_save_button_text")
     /// Add a new service
     public static let postDetailsServicesAddNew = Strings.tr("Localizable", "post_details_services_add_new")
+    /// Post a picture of yourself or your company’s logo
+    public static let postDetailsServicesCameraMessage = Strings.tr("Localizable", "post_details_services_camera_message")
     /// People around you are looking for these services, have these skills?
     public static let postDetailsServicesCongratulationPeopleNear = Strings.tr("Localizable", "post_details_services_congratulation_people_near")
     /// Post another listing

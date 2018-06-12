@@ -1,5 +1,6 @@
 import LGCoreKit
 import LGComponents
+import RxSwift
 
 protocol PostingMultiSelectionViewDelegate: class {
     func add(service subtype: ServiceSubtype)
@@ -10,6 +11,8 @@ protocol PostingMultiSelectionViewDelegate: class {
 }
 
 final class PostingMultiSelectionView: UIView {
+    
+    private let disposeBag = DisposeBag()
     
     var theme: ListingAttributePickerCell.Theme = .dark
 
@@ -51,12 +54,16 @@ final class PostingMultiSelectionView: UIView {
         return (selectedIndexes.count + newSubtypes.count) < Constants.maxNumberMultiPosting
     }
     
+    private let keyboardHelper: KeyboardHelper
+    
     // MARK: - Lifecycle
     
-    init(theme: ListingAttributePickerCell.Theme,
+    init(keyboardHelper: KeyboardHelper,
+         theme: ListingAttributePickerCell.Theme,
          subtypes: [ServiceSubtype]) {
         let highlightedItems = subtypes.filter { $0.isHighlighted }
         let subtypesNames = subtypes.map { $0.name }
+        self.keyboardHelper = keyboardHelper
         self.theme = theme
         self.subtypes = subtypes
         self.rawValues = subtypesNames
@@ -68,11 +75,14 @@ final class PostingMultiSelectionView: UIView {
         setupUI()
         setupConstraints()
         setupAccessibilityIds()
+        setupRx()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - Private
     
     private func setupUI() {
         addSubviewsForAutoLayout([searchBar, selectedFiltersTags, tableView, gradient])
@@ -123,6 +133,19 @@ final class PostingMultiSelectionView: UIView {
             .fillHorizontal(by: Metrics.margin)
         gradient.layout(with: self).fillHorizontal()
         gradient.layout(with: tableView).fillVertical()
+        
+    }
+    
+    private func setupRx() {
+        keyboardHelper.rx_keyboardOrigin
+            .asObservable()
+            .skip(1)
+            .distinctUntilChanged()
+            .bind { [weak self] origin in
+                guard let keyboardHeight = self?.keyboardHelper.keyboardHeight else { return }
+                let keyboardVisible: Bool = origin < UIScreen.main.bounds.height
+                self?.tableView.contentInset.bottom =  keyboardVisible ? (keyboardHeight + Metrics.shortMargin) : Metrics.bigMargin
+            }.disposed(by: disposeBag)
     }
     
     private func updateFilterTagsSize(withValues values: [String]) {
@@ -235,6 +258,7 @@ extension PostingMultiSelectionView: UITableViewDelegate, UITableViewDataSource,
         } else {
             addNewTypeAndResetSearch()
         }
+        endEditing(true)
     }
     
     private func addNewTypeAndResetSearch() {
@@ -248,6 +272,7 @@ extension PostingMultiSelectionView: UITableViewDelegate, UITableViewDataSource,
         refreshTags()
         tableView.reloadData()
     }
+
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         guard indexPath.section == 0 else { return }

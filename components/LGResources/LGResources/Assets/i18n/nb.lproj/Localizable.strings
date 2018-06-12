@@ -636,7 +636,7 @@
 "post_details_services_congratulation_review" = "Gjennomgå dine annonser og legg til flere detaljer";
 "post_details_services_congratulation_subtitle" = "Dine annonser har blitt publisert.";
 "post_details_services_congratulation_title" = "Gratulerer!";
-"post_details_services_create_max" = "Oops! You can only select 15 services at a time.";
+"post_details_services_create_max" = "Oops! Du kan kun velge 15 tjenester samtidig";
 "post_details_services_search_placeholder" = "Søk eller velg fra listen";
 "post_details_services_subtitle" = "Start inntjeningen!";
 "post_details_services_title" = "Hva er det du har erfaring med?";

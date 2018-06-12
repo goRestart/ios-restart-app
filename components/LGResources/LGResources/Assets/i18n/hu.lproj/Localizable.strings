@@ -636,7 +636,7 @@
 "post_details_services_congratulation_review" = "Tekintsd át hirdetéseidet és bővítsd őket részletekkel";
 "post_details_services_congratulation_subtitle" = "Hirdetések feltöltve.";
 "post_details_services_congratulation_title" = "GRATULÁLUNK";
-"post_details_services_create_max" = "Oops! You can only select 15 services at a time.";
+"post_details_services_create_max" = "Hoppá! Egyszerre legfeljebb 15 szolgáltatást választhatsz.";
 "post_details_services_search_placeholder" = "Keress, vagy válassz a listából";
 "post_details_services_subtitle" = "Kezdj pénzt keresni!";
 "post_details_services_title" = "Mihez értesz?";
@@ -779,15 +779,15 @@
 "product_post_generic_error" = "Hiba történt a hirdetésed feltöltése során.";
 "product_post_incentive_bike" = "Kerékpárok";
 "product_post_incentive_car" = "Autók";
-"product_post_incentive_cleaning" = "Cleaning";
-"product_post_incentive_creative" = "Creative";
+"product_post_incentive_cleaning" = "Takarítás";
+"product_post_incentive_creative" = "Kreatív";
 "product_post_incentive_dresser" = "Szekrények";
 "product_post_incentive_furniture" = "Bútor";
 "product_post_incentive_got_any" = "neked van felesleges?";
 "product_post_incentive_got_any_free" = "neked van felesleges?";
 "product_post_incentive_got_any_services" = "Értesz valamelyikhez?";
 "product_post_incentive_kids_clothes" = "Gyerekruha";
-"product_post_incentive_lessons" = "Lessons";
+"product_post_incentive_lessons" = "Órák";
 "product_post_incentive_looking_for" = "A környéked lakói ezeket keresik, %@";
 "product_post_incentive_looking_for_services" = "A környékbeliek ezeket a szolgáltatásokat keresik. %@";
 "product_post_incentive_motorcycle" = "Motorkerékpárok";

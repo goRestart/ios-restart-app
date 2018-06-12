@@ -636,7 +636,7 @@
 "post_details_services_congratulation_review" = "Посмотрите свои объявления и добавьте детали";
 "post_details_services_congratulation_subtitle" = "Ваши объявления размещены.";
 "post_details_services_congratulation_title" = "Поздравляем!";
-"post_details_services_create_max" = "Oops! You can only select 15 services at a time.";
+"post_details_services_create_max" = "Упс! Вы можете выбрать только 15 услуг за раз.";
 "post_details_services_search_placeholder" = "Ищите или выбирайте из списка";
 "post_details_services_subtitle" = "Начинайте получать деньги!";
 "post_details_services_title" = "Чем вы можете помочь?";

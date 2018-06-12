@@ -636,7 +636,7 @@
 "post_details_services_congratulation_review" = "Reveja os seus anúncios e adicione mais detalhes";
 "post_details_services_congratulation_subtitle" = "Os seus anúncios foram publicados.";
 "post_details_services_congratulation_title" = "Parabéns!";
-"post_details_services_create_max" = "Oops! You can only select 15 services at a time.";
+"post_details_services_create_max" = "Ups! Só pode selecionar 15 serviços de cada vez.";
 "post_details_services_search_placeholder" = "Procure ou escolha da lista";
 "post_details_services_subtitle" = "Comece a ganhar dinheiro!";
 "post_details_services_title" = "O que sabe fazer?";
@@ -779,15 +779,15 @@
 "product_post_generic_error" = "Surgiu um erro ao publicar o seu anúncio.";
 "product_post_incentive_bike" = "Bicicletas";
 "product_post_incentive_car" = "Veículos";
-"product_post_incentive_cleaning" = "Cleaning";
-"product_post_incentive_creative" = "Creative";
+"product_post_incentive_cleaning" = "Limpezas";
+"product_post_incentive_creative" = "Criatividade";
 "product_post_incentive_dresser" = "Cómoda";
 "product_post_incentive_furniture" = "Mobília";
 "product_post_incentive_got_any" = "tem para vender?";
 "product_post_incentive_got_any_free" = "tem para dar?";
 "product_post_incentive_got_any_services" = "Tem estas habilidades?";
 "product_post_incentive_kids_clothes" = "Roupas de criança";
-"product_post_incentive_lessons" = "Lessons";
+"product_post_incentive_lessons" = "Aulas";
 "product_post_incentive_looking_for" = "Pessoas à sua volta procuram estes itens, %@";
 "product_post_incentive_looking_for_services" = "Pessoas à sua volta procuram estes serviços. %@";
 "product_post_incentive_motorcycle" = "Motos";

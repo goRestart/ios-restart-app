@@ -636,7 +636,7 @@
 "post_details_services_congratulation_review" = "Tarkasta ilmoituksesi ja lisää tietoja";
 "post_details_services_congratulation_subtitle" = "Ilmoituksesi on julkaistu.";
 "post_details_services_congratulation_title" = "Onneksi olkoon!";
-"post_details_services_create_max" = "Oops! You can only select 15 services at a time.";
+"post_details_services_create_max" = "Hups! Voit valita vain 15 palvelua kerrallaan.";
 "post_details_services_search_placeholder" = "Hae tai valitse listalta";
 "post_details_services_subtitle" = "Aloita tienaaminen!";
 "post_details_services_title" = "Mitä osaat tehdä?";
@@ -779,15 +779,15 @@
 "product_post_generic_error" = "Ilmoitustasi julkaistessa tapahtui virhe.";
 "product_post_incentive_bike" = "Pyöriä";
 "product_post_incentive_car" = "Autoja";
-"product_post_incentive_cleaning" = "Cleaning";
-"product_post_incentive_creative" = "Creative";
+"product_post_incentive_cleaning" = "Siivous";
+"product_post_incentive_creative" = "Luovuus";
 "product_post_incentive_dresser" = "Lipastoja";
 "product_post_incentive_furniture" = "Huonekalut";
 "product_post_incentive_got_any" = "olisiko sinulla myydä?";
 "product_post_incentive_got_any_free" = "onko sinulla yhtään pois annettavaksi?";
 "product_post_incentive_got_any_services" = "omaatko näitä taitoja?";
 "product_post_incentive_kids_clothes" = "Lasten vaatteet";
-"product_post_incentive_lessons" = "Lessons";
+"product_post_incentive_lessons" = "Oppitunnit";
 "product_post_incentive_looking_for" = "Lähelläsi olevat ihmiset etsivät näitä tuotteita, %@";
 "product_post_incentive_looking_for_services" = "Lähistölläsi olevat ihmiset etsivät näitä palveluita, %@";
 "product_post_incentive_motorcycle" = "Moottoripyöriä";
