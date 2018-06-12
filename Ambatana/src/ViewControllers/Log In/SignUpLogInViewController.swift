@@ -435,9 +435,9 @@ final class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, 
         emailIconImageView.image = R.Asset.IconsButtons.icEmail.image
         emailIconImageView.highlightedImage =  R.Asset.IconsButtons.icEmailActive.image
         passwordIconImageView.image = R.Asset.IconsButtons.icPassword.image
-        passwordIconImageView.highlightedImage = R.Asset.IconsButtons.icPassword.image
+        passwordIconImageView.highlightedImage = R.Asset.IconsButtons.icPasswordActive.image
         usernameIconImageView.image = R.Asset.IconsButtons.icName.image
-        usernameIconImageView.image = R.Asset.IconsButtons.icNameActive.image
+        usernameIconImageView.highlightedImage = R.Asset.IconsButtons.icNameActive.image
         showPasswordButton.setImage(R.Asset.IconsButtons.icShowPassword.image, for: .normal)
     }
     
