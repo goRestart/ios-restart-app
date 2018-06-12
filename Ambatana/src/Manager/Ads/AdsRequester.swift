@@ -85,6 +85,6 @@ class AdsRequester {
     
     func shouldShowInterstitialForIndex(_ index: Int) -> Bool {
         guard !indexWithAds.contains(index) else { return false }
-        return (index - (AdsRequester.fullScreenFirstAdOffset-1)) % AdsRequester.fullScreenNextAdFrequency == 0
+        return (index - AdsRequester.fullScreenFirstAdOffset) % AdsRequester.fullScreenNextAdFrequency == 0
     }
 }
