@@ -70,7 +70,7 @@ final class ListingListViewModel: BaseViewModel {
     weak var dataDelegate: ListingListViewModelDataDelegate?
     weak var listingCellDelegate: ListingCellDelegate?
     
-    private let featureFlags: FeatureFlags
+    private let featureFlags: FeatureFlaggeable
     private let myUserRepository: MyUserRepository
     private let imageDownloader: ImageDownloaderType
 
@@ -116,7 +116,13 @@ final class ListingListViewModel: BaseViewModel {
     }
 
     // Data
-    private(set) var objects: [ListingCellModel]
+    private(set) var objects: [ListingCellModel] {
+        didSet {
+            if refreshing && objects.count < oldValue.count  {
+                currentRequesterIndex = 0
+                delegate?.vmReloadData(self)}
+        }
+    }
     private var indexToTitleMapping: [Int:String]
 
     // UI
@@ -163,7 +169,7 @@ final class ListingListViewModel: BaseViewModel {
                  tracker: Tracker = TrackerProxy.sharedInstance,
                  imageDownloader: ImageDownloaderType = ImageDownloader.sharedInstance,
                  reporter: CrashlyticsReporter = CrashlyticsReporter(),
-                 featureFlags: FeatureFlags = FeatureFlags.sharedInstance,
+                 featureFlags: FeatureFlaggeable = FeatureFlags.sharedInstance,
                  myUserRepository: MyUserRepository = Core.myUserRepository,
                  requesterFactory: RequesterFactory? = nil) {
         self.objects = (listings ?? []).map(ListingCellModel.init)
@@ -189,8 +195,8 @@ final class ListingListViewModel: BaseViewModel {
         setCurrentFallbackRequester()
     }
     
-    convenience init(numberOfColumns: Int, tracker: Tracker, requesterFactory: RequesterFactory) {
-        self.init(requester: nil, numberOfColumns: numberOfColumns, tracker: tracker, requesterFactory: requesterFactory)
+    convenience init(numberOfColumns: Int, tracker: Tracker, featureFlags: FeatureFlaggeable = FeatureFlags.sharedInstance, requesterFactory: RequesterFactory) {
+        self.init(requester: nil, numberOfColumns: numberOfColumns, tracker: tracker, featureFlags: featureFlags, requesterFactory: requesterFactory)
         self.requesterFactory = requesterFactory
         requesterSequence = requesterFactory.buildRequesterList()
         setCurrentFallbackRequester()
@@ -311,7 +317,7 @@ final class ListingListViewModel: BaseViewModel {
         requesterFactory = newFactory
     }
     
-    private func retriveListing(isFirstPage: Bool, featureFlags: FeatureFlags) {
+    private func retriveListing(isFirstPage: Bool, featureFlags: FeatureFlaggeable) {
         retrieveListings(isFirstPage: isFirstPage,
                          with: requesterSequence)
     }
