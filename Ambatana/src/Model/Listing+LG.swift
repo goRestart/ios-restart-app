@@ -22,6 +22,16 @@ extension Listing {
     func containsVideo() -> Bool {
         return media.contains(where: { $0.type == .video })
     }
+    
+    var isRealEstateWithEmptyAttributes: Bool {
+        guard isRealEstate else { return false }
+        return realEstate?.realEstateAttributes == RealEstateAttributes.emptyRealEstateAttributes()
+    }
+    
+    var isServiceWithEmptyAttributes: Bool {
+        guard isService else { return false }
+        return service?.servicesAttributes == ServiceAttributes.emptyServicesAttributes()
+    }
 }
 
 extension Listing {

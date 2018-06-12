@@ -330,10 +330,16 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
             self.realEstateSizeSquareMeters.value = realEstate.realEstateAttributes.sizeSquareMeters
         case .service(let services):
             if featureFlags.showServicesFeatures.isActive {
-                self.serviceTypeId.value = services.servicesAttributes.typeId
-                self.serviceTypeName.value = services.servicesAttributes.typeTitle
-                self.serviceSubtypeId.value = services.servicesAttributes.subtypeId
-                self.serviceSubtypeName.value = services.servicesAttributes.subtypeTitle
+                if let serviceTypeId = services.servicesAttributes.typeId {
+                    self.serviceTypeId.value = serviceTypeId
+                    self.serviceTypeName.value = services.servicesAttributes.typeTitle
+                        ?? servicesInfoRepository.serviceType(forServiceTypeId: serviceTypeId)?.name
+                }
+                if let serviceSubtypeId = services.servicesAttributes.subtypeId {
+                    self.serviceSubtypeId.value = serviceSubtypeId
+                    self.serviceSubtypeName.value = services.servicesAttributes.subtypeTitle
+                        ?? servicesInfoRepository.serviceSubtype(forServiceSubtypeId: serviceSubtypeId)?.name
+                }
             }
         }
 
