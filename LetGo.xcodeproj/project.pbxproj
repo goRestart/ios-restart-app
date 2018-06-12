@@ -442,7 +442,6 @@
 		2EADE4E220514BDB0089D9F8 /* PostingCategoriesPickViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EADE4E120514BDB0089D9F8 /* PostingCategoriesPickViewModel.swift */; };
 		2EADE4E320514BDB0089D9F8 /* PostingCategoriesPickViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EADE4E120514BDB0089D9F8 /* PostingCategoriesPickViewModel.swift */; };
 		2EB32D631DF184FF00E01E93 /* BumpUpBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB32D621DF184FF00E01E93 /* BumpUpBanner.swift */; };
-		2EB32D661DF1CBC900E01E93 /* Monetization.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EB32D651DF1CBC900E01E93 /* Monetization.xcassets */; };
 		2EB636161E8A941B0063E8EA /* CarsInfo.json in Resources */ = {isa = PBXBuildFile; fileRef = 2EB636151E8A941B0063E8EA /* CarsInfo.json */; };
 		2EBAA2421EB9E1D000F69DC7 /* CarAttributes+GeneratedName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBAA2411EB9E1D000F69DC7 /* CarAttributes+GeneratedName.swift */; };
 		2EBAA2431EB9E1D000F69DC7 /* CarAttributes+GeneratedName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBAA2411EB9E1D000F69DC7 /* CarAttributes+GeneratedName.swift */; };
@@ -454,8 +453,6 @@
 		2EBC92161E0ABC73007F0F82 /* PurchaseableProductsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBC92141E0ABC73007F0F82 /* PurchaseableProductsResponse.swift */; };
 		2EBC92181E0ABCDF007F0F82 /* PurchaseableProductsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBC92171E0ABCDF007F0F82 /* PurchaseableProductsRequest.swift */; };
 		2EBC92191E0ABCDF007F0F82 /* PurchaseableProductsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBC92171E0ABCDF007F0F82 /* PurchaseableProductsRequest.swift */; };
-		2EC3BFB3206516A500FE94E4 /* ChatNorris.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EC3BFB2206516A500FE94E4 /* ChatNorris.xcassets */; };
-		2EC3BFB4206516A500FE94E4 /* ChatNorris.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EC3BFB2206516A500FE94E4 /* ChatNorris.xcassets */; };
 		2EC653B31E716C8800E23DDF /* Dictionary+FilterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC653B21E716C8800E23DDF /* Dictionary+FilterSpec.swift */; };
 		2EC653B71E71744B00E23DDF /* MockExternalAuthHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC653B51E71744B00E23DDF /* MockExternalAuthHelper.swift */; };
 		2EC653B81E71767A00E23DDF /* MockReceiptURLProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC842A51E6EEB7000EED53A /* MockReceiptURLProvider.swift */; };
@@ -471,7 +468,6 @@
 		2ECB417F2008CC6900482EF7 /* AdvertisementCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ECB417C2008CC6900482EF7 /* AdvertisementCell.swift */; };
 		2ED5E52D1EC5BAFB00B6D4F6 /* FilterListingListRequesterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED5E52C1EC5BAFB00B6D4F6 /* FilterListingListRequesterFactory.swift */; };
 		2ED5E52E1EC5BAFB00B6D4F6 /* FilterListingListRequesterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED5E52C1EC5BAFB00B6D4F6 /* FilterListingListRequesterFactory.swift */; };
-		2EDC68671E018C4900AEC763 /* Monetization.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EB32D651DF1CBC900E01E93 /* Monetization.xcassets */; };
 		2EDCFA311BFF8AB00000E47D /* SignUpLogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDCFA2E1BFF8AB00000E47D /* SignUpLogInViewController.swift */; };
 		2EDCFA321BFF8AB00000E47D /* SignUpLogInViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EDCFA2F1BFF8AB00000E47D /* SignUpLogInViewController.xib */; };
 		2EDCFA331BFF8AB00000E47D /* SignUpLogInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDCFA301BFF8AB00000E47D /* SignUpLogInViewModel.swift */; };
@@ -732,24 +728,8 @@
 		508011011D4748120073F362 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508010E71D4748120073F362 /* SettingsViewController.xib */; };
 		508011031D4749030073F362 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508011021D4749030073F362 /* LaunchScreen.xib */; };
 		508011041D4749030073F362 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508011021D4749030073F362 /* LaunchScreen.xib */; };
-		508011131D474ED80073F362 /* Backgrounds-and-Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 508011091D474ED80073F362 /* Backgrounds-and-Images.xcassets */; };
-		508011141D474ED80073F362 /* Backgrounds-and-Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 508011091D474ED80073F362 /* Backgrounds-and-Images.xcassets */; };
-		508011151D474ED80073F362 /* Chat.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5080110A1D474ED80073F362 /* Chat.xcassets */; };
-		508011161D474ED80073F362 /* Chat.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5080110A1D474ED80073F362 /* Chat.xcassets */; };
-		508011191D474ED80073F362 /* Congrats-Screen-Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5080110C1D474ED80073F362 /* Congrats-Screen-Images.xcassets */; };
-		5080111A1D474ED80073F362 /* Congrats-Screen-Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5080110C1D474ED80073F362 /* Congrats-Screen-Images.xcassets */; };
-		5080111B1D474ED80073F362 /* Errors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5080110D1D474ED80073F362 /* Errors.xcassets */; };
-		5080111C1D474ED80073F362 /* Errors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5080110D1D474ED80073F362 /* Errors.xcassets */; };
-		5080111D1D474ED80073F362 /* Icons-Buttons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5080110E1D474ED80073F362 /* Icons-Buttons.xcassets */; };
-		5080111E1D474ED80073F362 /* Icons-Buttons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5080110E1D474ED80073F362 /* Icons-Buttons.xcassets */; };
 		5080111F1D474ED80073F362 /* Icons-Launchers.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5080110F1D474ED80073F362 /* Icons-Launchers.xcassets */; };
 		508011201D474ED80073F362 /* Icons-Launchers.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5080110F1D474ED80073F362 /* Icons-Launchers.xcassets */; };
-		508011211D474ED80073F362 /* iPhoneParts.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 508011101D474ED80073F362 /* iPhoneParts.xcassets */; };
-		508011221D474ED80073F362 /* iPhoneParts.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 508011101D474ED80073F362 /* iPhoneParts.xcassets */; };
-		508011231D474ED80073F362 /* ProductCellBanners.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 508011111D474ED80073F362 /* ProductCellBanners.xcassets */; };
-		508011241D474ED80073F362 /* ProductCellBanners.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 508011111D474ED80073F362 /* ProductCellBanners.xcassets */; };
-		508011251D474ED80073F362 /* ProductOnboarding-Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 508011121D474ED80073F362 /* ProductOnboarding-Images.xcassets */; };
-		508011261D474ED80073F362 /* ProductOnboarding-Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 508011121D474ED80073F362 /* ProductOnboarding-Images.xcassets */; };
 		508AFB0A1E51D1BF0007363D /* AutocompleteField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508AFB091E51D1BF0007363D /* AutocompleteField.swift */; };
 		508AFB0B1E51D1BF0007363D /* AutocompleteField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508AFB091E51D1BF0007363D /* AutocompleteField.swift */; };
 		508D48651CCF4FFC00C52BE3 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D48631CCF4FFC00C52BE3 /* ImageDownloader.swift */; };
@@ -1142,8 +1122,6 @@
 		725BD5572077C37E00563926 /* VerticalsABGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725BD5552077C37D00563926 /* VerticalsABGroup.swift */; };
 		7265F459202B10EA00533FE7 /* FilterRealEstateSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7265F458202B10EA00533FE7 /* FilterRealEstateSection.swift */; };
 		7265F45A202B10EA00533FE7 /* FilterRealEstateSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7265F458202B10EA00533FE7 /* FilterRealEstateSection.swift */; };
-		726D50FF2007C12300C7DA2A /* realEstateBanner.png in Resources */ = {isa = PBXBuildFile; fileRef = 726D50FD2007C12200C7DA2A /* realEstateBanner.png */; };
-		726D51002007C12300C7DA2A /* realEstateBanner.png in Resources */ = {isa = PBXBuildFile; fileRef = 726D50FD2007C12200C7DA2A /* realEstateBanner.png */; };
 		726E35BD1FE0342100F98776 /* EditOptionDisclosureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726E35BC1FE0342100F98776 /* EditOptionDisclosureView.swift */; };
 		726E35BE1FE0342100F98776 /* EditOptionDisclosureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726E35BC1FE0342100F98776 /* EditOptionDisclosureView.swift */; };
 		726E35C01FE13FB200F98776 /* RetrieveListingParams+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726E35BF1FE13FB200F98776 /* RetrieveListingParams+LG.swift */; };
@@ -1189,8 +1167,6 @@
 		72AAA5A31DEEDE19008DD329 /* EscrowEnviroment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72AAA5A11DEEDE19008DD329 /* EscrowEnviroment.swift */; };
 		72B76C831DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B76C821DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift */; };
 		72B76C841DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B76C821DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift */; };
-		72B88E8320513EDF00409D33 /* RealEstate.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 72B88E8220513EDE00409D33 /* RealEstate.xcassets */; };
-		72B88E8420513EDF00409D33 /* RealEstate.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 72B88E8220513EDE00409D33 /* RealEstate.xcassets */; };
 		72B935F61E3F917500F93F73 /* UserProduct+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B935F51E3F917500F93F73 /* UserProduct+LG.swift */; };
 		72B935F71E3F917500F93F73 /* UserProduct+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B935F51E3F917500F93F73 /* UserProduct+LG.swift */; };
 		72C7A1BC1F9F8D150089F175 /* SellNavigationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C7A1BB1F9F8D150089F175 /* SellNavigationViewModel.swift */; };
@@ -2317,14 +2293,12 @@
 		2EADE4DE20514AF60089D9F8 /* PostingCategoriesPickViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PostingCategoriesPickViewController.swift; path = Onboarding/PostingCategoriesPickViewController.swift; sourceTree = "<group>"; };
 		2EADE4E120514BDB0089D9F8 /* PostingCategoriesPickViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PostingCategoriesPickViewModel.swift; path = Onboarding/PostingCategoriesPickViewModel.swift; sourceTree = "<group>"; };
 		2EB32D621DF184FF00E01E93 /* BumpUpBanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BumpUpBanner.swift; path = "Bump Up/BumpUpBanner.swift"; sourceTree = "<group>"; };
-		2EB32D651DF1CBC900E01E93 /* Monetization.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Monetization.xcassets; sourceTree = "<group>"; };
 		2EB636151E8A941B0063E8EA /* CarsInfo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CarsInfo.json; sourceTree = "<group>"; };
 		2EBAA2411EB9E1D000F69DC7 /* CarAttributes+GeneratedName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CarAttributes+GeneratedName.swift"; sourceTree = "<group>"; };
 		2EBC92041E0A77A5007F0F82 /* AppstoreProductsRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppstoreProductsRequest.swift; path = Monetization/AppstoreProductsRequest.swift; sourceTree = "<group>"; };
 		2EBC92101E0ABC26007F0F82 /* PurchaseableProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PurchaseableProduct.swift; path = Monetization/PurchaseableProduct.swift; sourceTree = "<group>"; };
 		2EBC92141E0ABC73007F0F82 /* PurchaseableProductsResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PurchaseableProductsResponse.swift; path = Monetization/PurchaseableProductsResponse.swift; sourceTree = "<group>"; };
 		2EBC92171E0ABCDF007F0F82 /* PurchaseableProductsRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PurchaseableProductsRequest.swift; path = Monetization/PurchaseableProductsRequest.swift; sourceTree = "<group>"; };
-		2EC3BFB2206516A500FE94E4 /* ChatNorris.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ChatNorris.xcassets; sourceTree = "<group>"; };
 		2EC653B21E716C8800E23DDF /* Dictionary+FilterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dictionary+FilterSpec.swift"; sourceTree = "<group>"; };
 		2EC653B41E71744B00E23DDF /* HOF.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HOF.swift; sourceTree = "<group>"; };
 		2EC653B51E71744B00E23DDF /* MockExternalAuthHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockExternalAuthHelper.swift; sourceTree = "<group>"; };
@@ -2490,15 +2464,7 @@
 		508010E61D4748120073F362 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		508010E71D4748120073F362 /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
 		508011021D4749030073F362 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
-		508011091D474ED80073F362 /* Backgrounds-and-Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "Backgrounds-and-Images.xcassets"; path = "Ambatana/res/img/Backgrounds-and-Images.xcassets"; sourceTree = SOURCE_ROOT; };
-		5080110A1D474ED80073F362 /* Chat.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Chat.xcassets; sourceTree = "<group>"; };
-		5080110C1D474ED80073F362 /* Congrats-Screen-Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Congrats-Screen-Images.xcassets"; sourceTree = "<group>"; };
-		5080110D1D474ED80073F362 /* Errors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Errors.xcassets; sourceTree = "<group>"; };
-		5080110E1D474ED80073F362 /* Icons-Buttons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Icons-Buttons.xcassets"; sourceTree = "<group>"; };
 		5080110F1D474ED80073F362 /* Icons-Launchers.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Icons-Launchers.xcassets"; sourceTree = "<group>"; };
-		508011101D474ED80073F362 /* iPhoneParts.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = iPhoneParts.xcassets; sourceTree = "<group>"; };
-		508011111D474ED80073F362 /* ProductCellBanners.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ProductCellBanners.xcassets; sourceTree = "<group>"; };
-		508011121D474ED80073F362 /* ProductOnboarding-Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "ProductOnboarding-Images.xcassets"; sourceTree = "<group>"; };
 		508AFB091E51D1BF0007363D /* AutocompleteField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutocompleteField.swift; sourceTree = "<group>"; };
 		508D48631CCF4FFC00C52BE3 /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		508D48641CCF4FFC00C52BE3 /* ImageDownloaderType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloaderType.swift; sourceTree = "<group>"; };
@@ -2756,9 +2722,6 @@
 		724D77AD1FC709DE00DB43C0 /* ListingCreationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCreationViewModel.swift; sourceTree = "<group>"; };
 		725BD5552077C37D00563926 /* VerticalsABGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerticalsABGroup.swift; sourceTree = "<group>"; };
 		7265F458202B10EA00533FE7 /* FilterRealEstateSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterRealEstateSection.swift; sourceTree = "<group>"; };
-		726D50FE2007C12300C7DA2A /* es */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = es; path = realEstateImageLocalized/es.lproj/realEstateBanner.png; sourceTree = "<group>"; };
-		726D51012007C13100C7DA2A /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = realEstateImageLocalized/en.lproj/realEstateBanner.png; sourceTree = "<group>"; };
-		726D51022007C13300C7DA2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Base; path = realEstateImageLocalized/Base.lproj/realEstateBanner.png; sourceTree = "<group>"; };
 		726E35BC1FE0342100F98776 /* EditOptionDisclosureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditOptionDisclosureView.swift; sourceTree = "<group>"; };
 		726E35BF1FE13FB200F98776 /* RetrieveListingParams+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RetrieveListingParams+LG.swift"; sourceTree = "<group>"; };
 		727463AC1FB0674D00AD8261 /* ListingPrice+LGSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ListingPrice+LGSpec.swift"; sourceTree = "<group>"; };
@@ -2782,7 +2745,6 @@
 		72A83F631DD222100043EB3B /* Leanplum+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Leanplum+LG.swift"; sourceTree = "<group>"; };
 		72AAA5A11DEEDE19008DD329 /* EscrowEnviroment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EscrowEnviroment.swift; sourceTree = "<group>"; };
 		72B76C821DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CTTelephonyNetworkInfo+CountryConfigurable.swift"; path = "../FoundationExtensions/CTTelephonyNetworkInfo+CountryConfigurable.swift"; sourceTree = "<group>"; };
-		72B88E8220513EDE00409D33 /* RealEstate.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = RealEstate.xcassets; sourceTree = "<group>"; };
 		72B935F51E3F917500F93F73 /* UserProduct+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserProduct+LG.swift"; sourceTree = "<group>"; };
 		72C7A1BB1F9F8D150089F175 /* SellNavigationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellNavigationViewModel.swift; sourceTree = "<group>"; };
 		72C7A1BE1FA0ECF60089F175 /* PostingDetailsViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostingDetailsViewModelSpec.swift; sourceTree = "<group>"; };
@@ -2790,7 +2752,6 @@
 		72C7A1C21FA73AC80089F175 /* ListingPrice+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ListingPrice+LG.swift"; sourceTree = "<group>"; };
 		72C7A1C51FAB31EF0089F175 /* PostingAddDetailSummaryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostingAddDetailSummaryTableViewCell.swift; path = Ambatana/src/ViewControllers/Sell/Post/PostingAddDetailSummaryTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		72C99E9B1DED7417006361C1 /* ChangePasswordCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordCoordinator.swift; sourceTree = "<group>"; };
-		72CD80BA2031EE1C0042E1E0 /* tr */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tr; path = realEstateImageLocalized/tr.lproj/realEstateBanner.png; sourceTree = "<group>"; };
 		72CD80C5203469FA0042E1E0 /* LGTutorialCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGTutorialCollectionViewCell.swift; sourceTree = "<group>"; };
 		72CD80C6203469FA0042E1E0 /* LGTutorialLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGTutorialLayout.swift; sourceTree = "<group>"; };
 		72CD80C7203469FA0042E1E0 /* LGTutorialViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGTutorialViewModel.swift; sourceTree = "<group>"; };
@@ -4186,20 +4147,7 @@
 		508011081D474ED80073F362 /* img */ = {
 			isa = PBXGroup;
 			children = (
-				726D50F62007BBC200C7DA2A /* realEstateImageLocalized */,
-				726D50FD2007C12200C7DA2A /* realEstateBanner.png */,
-				72B88E8220513EDE00409D33 /* RealEstate.xcassets */,
-				508011091D474ED80073F362 /* Backgrounds-and-Images.xcassets */,
-				5080110A1D474ED80073F362 /* Chat.xcassets */,
-				2EC3BFB2206516A500FE94E4 /* ChatNorris.xcassets */,
-				5080110C1D474ED80073F362 /* Congrats-Screen-Images.xcassets */,
-				5080110D1D474ED80073F362 /* Errors.xcassets */,
-				5080110E1D474ED80073F362 /* Icons-Buttons.xcassets */,
 				5080110F1D474ED80073F362 /* Icons-Launchers.xcassets */,
-				508011101D474ED80073F362 /* iPhoneParts.xcassets */,
-				508011111D474ED80073F362 /* ProductCellBanners.xcassets */,
-				508011121D474ED80073F362 /* ProductOnboarding-Images.xcassets */,
-				2EB32D651DF1CBC900E01E93 /* Monetization.xcassets */,
 			);
 			path = img;
 			sourceTree = "<group>";
@@ -5085,13 +5033,6 @@
 				722A6D13205A714F009A43AB /* LGPageControl.swift */,
 			);
 			path = LGPageControl;
-			sourceTree = "<group>";
-		};
-		726D50F62007BBC200C7DA2A /* realEstateImageLocalized */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = realEstateImageLocalized;
 			sourceTree = "<group>";
 		};
 		72A9DA851F5564850066BEBF /* ExpandableCategorySelectionView */ = {
@@ -6379,31 +6320,25 @@
 				C77593DF1BF0B8A00097D62F /* FiltersViewController.xib in Resources */,
 				D40DA2891AEE291D00B64CE1 /* words_lowercase.json in Resources */,
 				C727943E1D549342009C25AB /* ChangeUsernameViewController.xib in Resources */,
-				5080111D1D474ED80073F362 /* Icons-Buttons.xcassets in Resources */,
 				C75B5DC91D59E09500112368 /* ListingDetailOnboardingView.xib in Resources */,
 				502374571B3D3E8D00E02656 /* InfoPlist.strings in Resources */,
 				2E4ADEC3200515FC00D07D8A /* BumpUpPayViewController.xib in Resources */,
 				C708C83E1CDB590400AA87B3 /* AppRatingView.xib in Resources */,
-				508011191D474ED80073F362 /* Congrats-Screen-Images.xcassets in Resources */,
 				500DC12C1BDA1C4C00B494FA /* ios-prod.json in Resources */,
 				2E7F4A462074FB7200A05728 /* lottie_bump_up_boost_success_animation.json in Resources */,
 				2E5350441CF8A181003B06CC /* ListingStatsView.xib in Resources */,
-				508011251D474ED80073F362 /* ProductOnboarding-Images.xcassets in Resources */,
 				C7C61DF71D63035400F9505D /* ListingCarouselMoreInfoView.xib in Resources */,
 				5015881E1C7396B7006AEFC8 /* UserView.xib in Resources */,
 				C783D97E1C64BB90000EE5CA /* ReportUsersViewController.xib in Resources */,
-				2EC3BFB3206516A500FE94E4 /* ChatNorris.xcassets in Resources */,
 				2E423791205BE2930077B62A /* ChatMyMeetingCell.xib in Resources */,
 				8EADA72D20347EC600DE8126 /* lottie_chat_typing_animation.json in Resources */,
 				2EB636161E8A941B0063E8EA /* CarsInfo.json in Resources */,
 				6A12E04B1C635FA000C1BFE3 /* TourLoginViewController.xib in Resources */,
 				6A879DA51C8DAED300E0C868 /* PushPrePermissionsSettingsViewControllerMini.xib in Resources */,
-				726D50FF2007C12300C7DA2A /* realEstateBanner.png in Resources */,
 				C7732F6C1D87FA3400EAD5B7 /* TourPostingViewController.xib in Resources */,
 				C727942A1D549334009C25AB /* SettingsCell.xib in Resources */,
 				C71589B51C4F8E1C00E7563E /* PopupSignUpViewController.xib in Resources */,
 				6A38ADE51C64C4F9009E1A31 /* TourLocationViewController.xib in Resources */,
-				508011151D474ED80073F362 /* Chat.xcassets in Resources */,
 				506DC19C1BBE7D8A00E59D27 /* levelup.caf in Resources */,
 				2E92CBFC20248DC600451B65 /* MeetingAssistantViewController.xib in Resources */,
 				C7B588A01CE1E025009B3975 /* ChatGroupedListView.xib in Resources */,
@@ -6422,7 +6357,6 @@
 				2E9A899520A048D4009F6BB7 /* ChatOtherMeetingCell.xib in Resources */,
 				C75B5DC31D59E09500112368 /* ListingCarouselViewController.xib in Resources */,
 				2E9716A41D5A0535009B3A32 /* ExpressChatCell.xib in Resources */,
-				508011211D474ED80073F362 /* iPhoneParts.xcassets in Resources */,
 				C7B5888B1CE1DFA6009B3975 /* ChatMyMessageCell.xib in Resources */,
 				6A879DA21C8D89B300E0C868 /* PushPrePermissionsSettingsViewController.xib in Resources */,
 				C7B5888F1CE1DFA6009B3975 /* ChatOthersMessageCell.xib in Resources */,
@@ -6441,7 +6375,6 @@
 				2E97169F1D59E958009B3A32 /* ExpressChatViewController.xib in Resources */,
 				C74016DC1D6467DB004C1E9D /* PostListingDetailPriceView.xib in Resources */,
 				5080111F1D474ED80073F362 /* Icons-Launchers.xcassets in Resources */,
-				5080111B1D474ED80073F362 /* Errors.xcassets in Resources */,
 				C7F18AA11C89D62600D23319 /* GalleryImageCell.xib in Resources */,
 				2EE47D2B20177653004B04EE /* ChatAskPhoneNumberCell.xib in Resources */,
 				C727FBC01CCFC4ED002BC643 /* NotificationsViewController.xib in Resources */,
@@ -6453,18 +6386,14 @@
 				8EADA729203453CC00DE8126 /* ChatInterlocutorIsTypingCell.xib in Resources */,
 				2E36656C1DE4882E00000F68 /* PostIncentivatorView.xib in Resources */,
 				C7B5889C1CE1E025009B3975 /* ConversationCell.xib in Resources */,
-				508011231D474ED80073F362 /* ProductCellBanners.xcassets in Resources */,
 				C7DE8AC91C888761005CF37E /* EditListingViewController.xib in Resources */,
 				6AA26D001CFDCA2000546063 /* ChatDisclaimerCell.xib in Resources */,
 				C7F18A971C89CB4C00D23319 /* PostListingGalleryView.xib in Resources */,
 				500DC12B1BDA1C4C00B494FA /* ios-devel.json in Resources */,
 				C7F3F1E71DE5EF6A00652447 /* TourBlurBackgroundViewController.xib in Resources */,
-				2EB32D661DF1CBC900E01E93 /* Monetization.xcassets in Resources */,
 				2EDCFA321BFF8AB00000E47D /* SignUpLogInViewController.xib in Resources */,
-				72B88E8320513EDF00409D33 /* RealEstate.xcassets in Resources */,
 				C7DB41811C51239500400945 /* Settings.bundle in Resources */,
 				C7DE8ABC1C888750005CF37E /* ListingPostedViewController.xib in Resources */,
-				508011131D474ED80073F362 /* Backgrounds-and-Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6500,19 +6429,14 @@
 				2E50E9AA1D057E92002DC4C1 /* LGAlertViewController.xib in Resources */,
 				C74931711D34FD0200E117F1 /* RateUserViewController.xib in Resources */,
 				C7DB424A1C5138B500400945 /* FiltersViewController.xib in Resources */,
-				2EC3BFB4206516A500FE94E4 /* ChatNorris.xcassets in Resources */,
-				726D51002007C12300C7DA2A /* realEstateBanner.png in Resources */,
 				C7DB424B1C5138B500400945 /* words_lowercase.json in Resources */,
 				C727943F1D549342009C25AB /* ChangeUsernameViewController.xib in Resources */,
-				5080111E1D474ED80073F362 /* Icons-Buttons.xcassets in Resources */,
 				C75B5DCA1D59E09500112368 /* ListingDetailOnboardingView.xib in Resources */,
 				C7DB424C1C5138B500400945 /* InfoPlist.strings in Resources */,
 				2ECB416D20065FB200482EF7 /* BumpUpFreeViewController.xib in Resources */,
 				C708C83F1CDB590400AA87B3 /* AppRatingView.xib in Resources */,
-				5080111A1D474ED80073F362 /* Congrats-Screen-Images.xcassets in Resources */,
 				C7DB42531C5138B500400945 /* ios-prod.json in Resources */,
 				2E5350451CF8A181003B06CC /* ListingStatsView.xib in Resources */,
-				508011261D474ED80073F362 /* ProductOnboarding-Images.xcassets in Resources */,
 				2E423799205C005B0077B62A /* ChatOtherMeetingCell.xib in Resources */,
 				5015881F1C7396B7006AEFC8 /* UserView.xib in Resources */,
 				C783D97F1C64BB90000EE5CA /* ReportUsersViewController.xib in Resources */,
@@ -6523,7 +6447,6 @@
 				C7732F6D1D87FA3400EAD5B7 /* TourPostingViewController.xib in Resources */,
 				C727942B1D549334009C25AB /* SettingsCell.xib in Resources */,
 				6A38ADE61C64C4F9009E1A31 /* TourLocationViewController.xib in Resources */,
-				508011161D474ED80073F362 /* Chat.xcassets in Resources */,
 				C7DB425E1C5138B500400945 /* levelup.caf in Resources */,
 				2E9716A91D5A284F009B3A32 /* ExpressChatCell.xib in Resources */,
 				C7B588A11CE1E025009B3975 /* ChatGroupedListView.xib in Resources */,
@@ -6538,7 +6461,6 @@
 				508011011D4748120073F362 /* SettingsViewController.xib in Resources */,
 				C7B588621CE1DE1C009B3975 /* RelationInfoView.xib in Resources */,
 				C75B5DC41D59E09500112368 /* ListingCarouselViewController.xib in Resources */,
-				508011221D474ED80073F362 /* iPhoneParts.xcassets in Resources */,
 				C7B5888C1CE1DFA6009B3975 /* ChatMyMessageCell.xib in Resources */,
 				2E7F4A472074FB7200A05728 /* lottie_bump_up_boost_success_animation.json in Resources */,
 				6A879DA31C8D89B300E0C868 /* PushPrePermissionsSettingsViewController.xib in Resources */,
@@ -6562,7 +6484,6 @@
 				508011201D474ED80073F362 /* Icons-Launchers.xcassets in Resources */,
 				C6D5FF1B20B6B0AC0045E3D3 /* ServicesInfo.json in Resources */,
 				2E92CC0320248E2800451B65 /* MeetingAssistantViewController.xib in Resources */,
-				5080111C1D474ED80073F362 /* Errors.xcassets in Resources */,
 				C7F18AA21C89D62600D23319 /* GalleryImageCell.xib in Resources */,
 				C7C61DF81D63035400F9505D /* ListingCarouselMoreInfoView.xib in Resources */,
 				2E423797205C004B0077B62A /* ChatMyMeetingCell.xib in Resources */,
@@ -6575,20 +6496,16 @@
 				C7B588521CE1DE1C009B3975 /* DirectAnswerCell.xib in Resources */,
 				2E36656D1DE4882E00000F68 /* PostIncentivatorView.xib in Resources */,
 				C7B5889D1CE1E025009B3975 /* ConversationCell.xib in Resources */,
-				508011241D474ED80073F362 /* ProductCellBanners.xcassets in Resources */,
 				C7DE8ACA1C888761005CF37E /* EditListingViewController.xib in Resources */,
 				6AA26D011CFDCA2000546063 /* ChatDisclaimerCell.xib in Resources */,
 				8E0EEFBA2056DE34000C07C9 /* machinelearning.xcassets in Resources */,
 				C7F18A981C89CB4C00D23319 /* PostListingGalleryView.xib in Resources */,
-				72B88E8420513EDF00409D33 /* RealEstate.xcassets in Resources */,
 				C7DB42851C5138B500400945 /* ios-devel.json in Resources */,
 				C7F3F1E81DE5EF6A00652447 /* TourBlurBackgroundViewController.xib in Resources */,
-				2EDC68671E018C4900AEC763 /* Monetization.xcassets in Resources */,
 				2EE47D2C20177653004B04EE /* ChatAskPhoneNumberCell.xib in Resources */,
 				C7DB42861C5138B500400945 /* SignUpLogInViewController.xib in Resources */,
 				C7DB42961C513BB900400945 /* Settings.bundle in Resources */,
 				C7DE8ABD1C888750005CF37E /* ListingPostedViewController.xib in Resources */,
-				508011141D474ED80073F362 /* Backgrounds-and-Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8981,17 +8898,6 @@
 				50731FDE1DB6236C00EDE04B /* fr-CA */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		726D50FD2007C12200C7DA2A /* realEstateBanner.png */ = {
-			isa = PBXVariantGroup;
-			children = (
-				726D50FE2007C12300C7DA2A /* es */,
-				726D51012007C13100C7DA2A /* en */,
-				726D51022007C13300C7DA2A /* Base */,
-				72CD80BA2031EE1C0042E1E0 /* tr */,
-			);
-			name = realEstateBanner.png;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
