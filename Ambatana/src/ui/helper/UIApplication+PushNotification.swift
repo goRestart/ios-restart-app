@@ -18,7 +18,7 @@ extension UIApplication {
                 DispatchQueue.main.async { [weak self] in
                     guard let strongSelf = self else { return }
                     let settings = UIUserNotificationSettings(types: [.badge, .sound, .alert], categories: nil)
-                    PushManager.sharedInstance.application(strongSelf, didRegisterUserNotificationSettings: settings)
+                    PushManager().application(strongSelf, didRegisterUserNotificationSettings: settings)
                 }
             })
         } else {
