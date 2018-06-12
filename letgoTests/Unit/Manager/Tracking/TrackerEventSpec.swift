@@ -1061,8 +1061,14 @@ class TrackerEventSpec: QuickSpec {
                     it ("rooms-number") {
                         expect(sut.params!.stringKeyParams["room-number"] as? String) == "2+1"
                     }
+                    it ("service-type") {
+                        expect(sut.params!.stringKeyParams["service-type"] as? String).notTo(beNil())
+                    }
+                    it ("service-subtype") {
+                        expect(sut.params!.stringKeyParams["service-subtype"] as? String).notTo(beNil())
+                    }
                     it ("vertical fields") {
-                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "product-make,product-model,product-year-start,product-year-end,property-type,deal-type,bedroom-number,bathroom-number,size-from,room-number"
+                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "product-make,product-model,product-year-start,product-year-end,property-type,deal-type,bedroom-number,bathroom-number,size-from,room-number,service-type,service-subtype"
                     }
                 }
                 context("not receiving all params, contains the default params") {
@@ -5274,8 +5280,14 @@ class TrackerEventSpec: QuickSpec {
                     it ("rooms-number") {
                         expect(sut.params!.stringKeyParams["room-number"] as? String) == "2+1"
                     }
+                    it ("service-type") {
+                        expect(sut.params!.stringKeyParams["service-type"] as? String).notTo(beNil())
+                    }
+                    it ("service-subtype") {
+                        expect(sut.params!.stringKeyParams["service-subtype"] as? String).notTo(beNil())
+                    }
                     it ("vertical fields") {
-                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "product-make,product-model,product-year-start,product-year-end,property-type,deal-type,bedroom-number,bathroom-number,size-from,room-number"
+                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "product-make,product-model,product-year-start,product-year-end,property-type,deal-type,bedroom-number,bathroom-number,size-from,room-number,service-type,service-subtype"
                     }
                 }
             }

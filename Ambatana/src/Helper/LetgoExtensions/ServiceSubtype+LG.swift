@@ -16,4 +16,9 @@ extension Array where Element == ServiceSubtype {
                                               postListingState: postListingState.updating(servicesInfo: serviceAttribute, uploadedImages: [imageFile]))
         }
     }
+    
+    var trackingValue: String? {
+        guard !isEmpty else { return nil }
+        return flatMap { $0.id }.joined(separator: ",")
+    }
 }

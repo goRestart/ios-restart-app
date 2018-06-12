@@ -119,6 +119,20 @@ extension ListingFilters {
             params[.rooms] = TrackerEvent.notApply
         }
         
+        if let serviceTypeId = servicesType?.id {
+            params[.serviceType] = serviceTypeId
+            verticalFields.append(EventParameterName.serviceType.rawValue)
+        } else {
+            params[.serviceType] = TrackerEvent.notApply
+        }
+        
+        if let serviceSubtypes = servicesSubtypes?.trackingValue {
+            params[.serviceSubtype] = serviceSubtypes
+            verticalFields.append(EventParameterName.serviceSubtype.rawValue)
+        } else {
+            params[.serviceSubtype] = TrackerEvent.notApply
+        }
+        
         params[.verticalFields] = verticalFields.isEmpty ? TrackerEvent.notApply : verticalFields.joined(separator: ",")
         return params
     }
