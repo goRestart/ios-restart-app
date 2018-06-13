@@ -30,12 +30,12 @@ class SellListingCell: UICollectionViewCell, ReusableCell {
         self.imageView.image = UIImage()
     }
 
-    func setupCellWithImageType(_ type: EditListingImageType) {
+    func setupCellWithMediaType(_ type: EditListingMediaType) {
         switch type {
         case .local(let image):
             setupCellWithImage(image)
-        case .remote(let file):
-            setupCellWithUrl(file.fileURL)
+        case .remote(let media):
+            setupCellWithUrl(media.outputs.imageThumbnail)
         }
     }
     

@@ -20,15 +20,15 @@ protocol EditListingViewModelDelegate : BaseViewModelDelegate {
     func vmHideKeyboard()
 }
 
-enum EditListingImageType {
+enum EditListingMediaType {
     case local(image: UIImage)
-    case remote(file: File)
+    case remote(media: Media)
 }
 
-class ListingImages {
-    var images: [EditListingImageType] = []
+class ListingMedia {
+    var media: [EditListingMediaType] = []
     var localImages: [UIImage] {
-        return images.flatMap {
+        return media.flatMap {
             switch $0 {
             case .local(let image):
                 return image
@@ -37,27 +37,57 @@ class ListingImages {
             }
         }
     }
-    var remoteImages: [File] {
-        return images.flatMap {
+    var remoteMedia: [Media] {
+        return media.flatMap {
             switch $0 {
             case .local:
                 return nil
-            case .remote(let file):
-                return file
+            case .remote(let media):
+                return media
+            }
+        }
+    }
+
+    var remoteImages: [File] {
+        return media.flatMap {
+            switch $0 {
+            case .local:
+                return nil
+            case .remote(let media):
+                if media.type == .image {
+                    return LGFile(id: media.objectId, url: media.outputs.image)
+                } else {
+                    return nil
+                }
+            }
+        }
+    }
+
+    var remoteVideos: [Video] {
+        return media.flatMap {
+            switch $0 {
+            case .local:
+                return nil
+            case .remote(let media):
+                if media.type == .video, let path = media.outputs.video?.absoluteString {
+                    return LGVideo(path: path, snapshot: media.snapshotId)
+                } else {
+                    return nil
+                }
             }
         }
     }
 
     func append(_ image: UIImage) {
-        images.append(.local(image: image))
+        media.append(.local(image: image))
     }
 
-    func append(_ file: File) {
-        images.append(.remote(file: file))
+    func append(_ media: Media) {
+        self.media.append(.remote(media: media))
     }
 
     func removeAtIndex(_ index: Int) {
-        images.remove(at: index)
+        media.remove(at: index)
     }
 }
 
@@ -126,7 +156,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
     var shouldShareInFB: Bool
     var maxImageCount: Int {
-        return max(listingImages.images.count, Constants.maxImageCount)
+        return max(listingMedia.media.count, Constants.maxImageCount)
     }
     var descr: String? {
         didSet {
@@ -186,9 +216,9 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     let saveButtonEnabled = Variable<Bool>(false)
 
     // Data
-    var listingImages: ListingImages
-    var images: [EditListingImageType] {
-        return listingImages.images
+    var listingMedia: ListingMedia
+    var media: [EditListingMediaType] {
+        return listingMedia.media
     }
     
     var realEstateSizeSquareMetersString: String? {
@@ -301,8 +331,8 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
         self.category.value = listing.category
 
-        self.listingImages = ListingImages()
-        for file in listing.images { listingImages.append(file) }
+        self.listingMedia = ListingMedia()
+        for media in listing.media { listingMedia.append(media) }
 
         switch listing {
         case .car(let car):
@@ -386,12 +416,12 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         }
     }
 
-    var numberOfImages: Int {
-        return images.count
+    var numberOfMedia: Int {
+        return media.count
     }
     
-    func imageAtIndex(_ index: Int) -> EditListingImageType {
-        return images[index]
+    func mediaAtIndex(_ index: Int) -> EditListingMediaType {
+        return media[index]
     }
     
     var categoryName: String? {
@@ -425,13 +455,13 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
     
     func appendImage(_ image: UIImage) {
-        listingImages.append(image)
+        listingMedia.append(image)
         delegate?.vmDidAddOrDeleteImage()
         checkChanges()
     }
 
-    func deleteImageAtIndex(_ index: Int) {
-        listingImages.removeAtIndex(index)
+    func deleteMediaAtIndex(_ index: Int) {
+        listingMedia.removeAtIndex(index)
         delegate?.vmDidAddOrDeleteImage()
         checkChanges()
     }
@@ -704,7 +734,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     
     private func checkChanges() {
         var hasChanges = false
-        if listingImages.localImages.count > 0 || initialListing.images.count != listingImages.remoteImages.count  {
+        if listingMedia.localImages.count > 0 || initialListing.media.count != listingMedia.remoteMedia.count  {
             hasChanges = true
         }
         else if (initialListing.title ?? "") != (title ?? "") {
@@ -736,7 +766,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
 
     private func validate() -> ListingCreateValidationError? {
-        if images.count < 1 {
+        if media.count < 1 {
             return .noImages
         } else if descriptionCharCount < 0 {
             return .longDescription
@@ -820,15 +850,21 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         delegate?.vmHideKeyboard()
         loadingProgress.value = 0
 
-        let localImages = listingImages.localImages
-        let remoteImages = listingImages.remoteImages
+        let localImages = listingMedia.localImages
+        let remoteImages = listingMedia.remoteImages
+        let remoteVideos = listingMedia.remoteVideos
+        let videoSnapshots: [File] = listingMedia.remoteVideos.flatMap { video in
+            return listing.images.first(where: { $0.objectId == video.snapshot })
+        }
         
         fileRepository.upload(localImages, progress: { [weak self] in self?.loadingProgress.value = $0 }) {
             [weak self] imagesResult in
             if let newImages = imagesResult.value {
                 
                 guard let strongSelf = self else { return }
-                let updatedParams = editParams.updating(images: remoteImages + newImages)
+                let updatedParams = editParams.updating(images: newImages + remoteImages + videoSnapshots)
+                    .updating(videos: remoteVideos)
+
                 let shouldUseCarEndpoint = strongSelf.featureFlags.createUpdateIntoNewBackend.shouldUseCarEndpoint(with: updatedParams)
                 let shouldUseServicesEndpoint = strongSelf.featureFlags.showServicesFeatures.isActive
                 
@@ -1173,7 +1209,7 @@ extension EditListingViewModel {
     fileprivate func editFieldsComparedTo(_ listing: Listing) -> [EventParameterEditedFields] {
         var editedFields: [EventParameterEditedFields] = []
 
-        if listingImages.localImages.count > 0 || initialListing.images.count != listingImages.remoteImages.count  {
+        if listingMedia.localImages.count > 0 || initialListing.media.count != listingMedia.remoteMedia.count  {
             editedFields.append(.picture)
         }
         if (initialListing.name ?? "") != (listing.name ?? "") {
