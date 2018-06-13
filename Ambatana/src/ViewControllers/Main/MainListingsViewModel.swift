@@ -254,6 +254,12 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         return featureFlags.searchAlerts.isActive
     }
     
+    var shouldShowSearchAlertBanner: Bool {
+        let isThereLoggedUser = myUserRepository.myUser != nil
+        let hasSearchQuery = searchType?.text != nil
+        return isThereLoggedUser && hasSearchQuery
+    }
+    
     let mainListingsHeader = Variable<MainListingsHeader>([])
     let filterTitle = Variable<String?>(nil)
     let filterDescription = Variable<String?>(nil)
@@ -466,7 +472,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             retrieveTrendingSearches()
         }
         
-        if let _ = myUserRepository.myUser, isSearchAlertsEnabled && firstTime {
+        if shouldShowSearchAlertBanner && isSearchAlertsEnabled && firstTime {
             createSearchAlert(fromEnable: false)
         }
     }
@@ -1537,12 +1543,9 @@ extension MainListingsViewModel {
 extension MainListingsViewModel {
 
     var showCategoriesCollectionBanner: Bool {
-        let userHasSearched = queryString != nil || hasFilters
-        if (featureFlags.emptySearchImprovements.isActive || isSearchAlertsEnabled) && userHasSearched {
-            return false
-        } else {
-            return primaryTags.isEmpty && !listViewModel.isListingListEmpty.value
-        }
+        let isSearchAlertsBannerHidden = !shouldShowSearchAlertBanner
+        let isShowingListings = !listViewModel.isListingListEmpty.value
+        return primaryTags.isEmpty && isShowingListings && isSearchAlertsBannerHidden
     }
     
     var showRealEstateBanner: Bool {
