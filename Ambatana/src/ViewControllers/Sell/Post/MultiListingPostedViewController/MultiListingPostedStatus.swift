@@ -3,7 +3,8 @@ import LGCoreKit
 
 enum MultiListingPostedStatus {
     
-    case servicesImageUpload(params: [ListingCreationParams], images: [UIImage]?)
+    case servicesImageUpload(params: [ListingCreationParams],
+        images: [UIImage])
     case servicesPosting(params: [ListingCreationParams])
     case success(listings: [Listing])
     case error(error: EventParameterPostListingError)
