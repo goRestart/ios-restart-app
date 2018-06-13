@@ -3144,6 +3144,26 @@ class TrackerEventSpec: QuickSpec {
                     expect(productId).to(equal("r4nd0m1D"))
                 }
             }
+            
+            describe("listingSellConfirmation with multiple listings") {
+                var listingsIds: [String]!
+                beforeEach {
+                    listingsIds = [String].makeRandom(range: 1...15)
+                    sut = TrackerEvent.listingsSellConfirmation(listingIds: listingsIds)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-sell-confirmation"))
+                }
+                it("contains right product-id") {
+                    let productId = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(productId).to(equal(listingsIds.joined(separator: ",")))
+                }
+                
+                it("contains right product-id") {
+                    let productCounter = sut.params!.stringKeyParams["product-counter"] as? Int
+                    expect(productCounter).to(equal(listingsIds.count))
+                }
+            }
 
             describe("listingSellConfirmationPost") {
                 beforeEach {
