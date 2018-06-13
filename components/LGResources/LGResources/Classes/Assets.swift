@@ -171,12 +171,15 @@ extension R {
     public enum CongratsScreenImages {
       public static let bike = ImageAsset(name: "bike")
       public static let cars = ImageAsset(name: "cars")
+      public static let cleaning = ImageAsset(name: "cleaning")
+      public static let creative = ImageAsset(name: "creative")
       public static let dresser = ImageAsset(name: "dresser")
       public static let furniture = ImageAsset(name: "furniture")
       public static let icCloseRed = ImageAsset(name: "ic_close_red")
       public static let icMagnifier = ImageAsset(name: "ic_magnifier")
       public static let icShareRed = ImageAsset(name: "ic_share_red")
       public static let kidsClothes = ImageAsset(name: "kids_clothes")
+      public static let lessons = ImageAsset(name: "lessons")
       public static let motorcycle = ImageAsset(name: "motorcycle")
       public static let ps4 = ImageAsset(name: "ps4")
       public static let toys = ImageAsset(name: "toys")
@@ -188,12 +191,15 @@ extension R {
       public static let allImages: [ImageAsset] = [
         bike,
         cars,
+        cleaning,
+        creative,
         dresser,
         furniture,
         icCloseRed,
         icMagnifier,
         icShareRed,
         kidsClothes,
+        lessons,
         motorcycle,
         ps4,
         toys,

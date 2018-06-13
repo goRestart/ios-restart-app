@@ -35,7 +35,6 @@ protocol PostListingNavigator: class {
                                       trackingInfo: PostListingTrackingInfo)
     func closePostServicesAndPostLater(params: [ListingCreationParams],
                                        images: [UIImage]?,
-                                       video: RecordedVideo?,
                                        trackingInfo: PostListingTrackingInfo)
     func openLoginIfNeededFromListingPosted(from: EventParameterLoginSourceValue,
                                             loggedInAction: @escaping (() -> Void), cancelAction: (() -> Void)?)
@@ -64,6 +63,7 @@ protocol ListingPostedNavigator: class {
 
 protocol MultiListingPostedNavigator: ListingPostedNavigator {
     func closeListingsPosted(_ listings: [Listing])
+    func openEdit(forListing listing: Listing)
 }
 
 protocol BlockingPostingNavigator: class {

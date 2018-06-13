@@ -41,6 +41,7 @@ def shared_pods
 
 
     # letgo Core
+
      pod "LGCoreKit",             "4.32.1", :inhibit_warnings => false
 #    pod "LGCoreKit",            :path => "../lgcorekit", :inhibit_warnings => false
 #  pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :branch => 'fix-update-issue-tracking', :inhibit_warnings => false

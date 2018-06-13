@@ -131,10 +131,10 @@ final class ListingCreationViewModel : BaseViewModel {
     }
     
     private func fetchImagesAndCreateListings() {
-        fechImagesIdsAndCreateParams(trackingInfo: trackingInfo) { [weak self] listingParams in
+        fetchImagesIdsAndCreateParams(trackingInfo: trackingInfo) { [weak self] listingParams in
             self?.listingRepository.createServices(listingParams: listingParams) { [weak self] results in
                 if let listing = results.value, let trackingInfo = self?.trackingInfo {
-                    
+//                    self?.trackPost(withListing: listing, trackingInfo: trackingInfo)
                 } else if let error = results.error {
                     self?.trackPostSellError(error: error)
                 }
@@ -144,15 +144,16 @@ final class ListingCreationViewModel : BaseViewModel {
         }
     }
     
-    private func fechImagesIdsAndCreateParams(trackingInfo: PostListingTrackingInfo, completion: ListingMultiCreationCompletion?) {
+    private func fetchImagesIdsAndCreateParams(trackingInfo: PostListingTrackingInfo, completion: ListingMultiCreationCompletion?) {
         let numberOfImages = multipostingSubtypes.count + multipostingNewSubtypes.count
         let imageMultiplierParams = ImageMultiplierParams(imageId: uploadedImageId, times: numberOfImages)
         imageMultiplierRepository.imageMultiplier(imageMultiplierParams) { [weak self] result in
             guard let imagesIds = result.value else {
                 completion?([])
                 let error = result.error ?? RepositoryError.internalError(message: "Images Multiplier Error")
-                self?.navigator?.showConfirmation(listingResult: ListingResult(error: error),
-                                                  trackingInfo: trackingInfo, modalStyle: true)
+                self?.navigator?.showMultiListingPostConfirmation(listingResult: ListingsResult(error: error),
+                                                                  trackingInfo: trackingInfo,
+                                                                  modalStyle: false)
                 return
             }
             
@@ -162,11 +163,11 @@ final class ListingCreationViewModel : BaseViewModel {
                 let modifiedParams = self?.multipostParams(subtypes: multipostingSubtypes,
                                                            newSubtypes: multipostingNewSubtypes,
                                                            imagesIds: imagesIds,
-                                                           postListingState: postListingState),
-                !modifiedParams.isEmpty else {
+                                                           postListingState: postListingState) else {
                                                             completion?([])
-                 self?.navigator?.showConfirmation(listingResult: ListingResult(error: RepositoryError.internalError(message: "Multipost params creation")),
-                                                   trackingInfo: trackingInfo, modalStyle: true)
+                                                            self?.navigator?.showMultiListingPostConfirmation(listingResult: ListingsResult(error: RepositoryError.internalError(message: "Multipost params creation")),
+                                                                                                              trackingInfo: trackingInfo,
+                                                                                                              modalStyle: false)
                                                             return
             }
             completion?(modifiedParams)
@@ -232,10 +233,12 @@ extension ListingCreationViewModel {
                                                                  currency: currency,
                                                                  postListingState: postListingState)
         
+
         let multipostNewParams: [ListingCreationParams] = newSubtypes.enumerated().flatMap { (index, newSubtype) in
             guard let imageFileId = imagesIds[safeAt: index+multipostSubtypeParams.count] else { return nil }
             let serviceAttribute = ServiceAttributes()
             let imageFile = LGFile(id: imageFileId, url: nil)
+
             return ListingCreationParams.make(title: newSubtype,
                                               description: "",
                                               currency: currency,
@@ -246,7 +249,5 @@ extension ListingCreationViewModel {
         return multipostSubtypeParams + multipostNewParams
     }
 
-    
-    
 }
 

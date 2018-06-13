@@ -2,6 +2,7 @@ import UIKit
 import LGComponents
 import RxSwift
 import RxCocoa
+import LGCoreKit
 
 final class MultiListingPostedViewController: BaseViewController {
     
@@ -70,10 +71,17 @@ final class MultiListingPostedViewController: BaseViewController {
         setupCloseButton()
         setAccesibilityIds()
         setupRx()
+        viewModel.viewDidLoad()
     }
     
     override var prefersStatusBarHidden: Bool {
         return true
+    }
+    
+    
+    // MARK:- Public methods
+    func listingEdited(listing: Listing) {
+        viewModel.listingEdited(listing: listing)
     }
 }
 
@@ -118,13 +126,13 @@ extension MultiListingPostedViewController {
     
     private func setupRx() {
         viewModel.statusDriver.drive(onNext: { [weak self] (status) in
-            self?.stopLoading(correctState: status.success)
-            self?.collectionView.reloadData()
-        }).disposed(by: disposeBag)
-        
-        viewModel.isLoadingDriver.drive(onNext: { [weak self] (isLoading) in
-            if isLoading {
+            switch status {
+            case .error, .success:
+                self?.stopLoading(success: status.success)
+                self?.collectionView.reloadData()
+            case .servicesPosting, .servicesImageUpload:
                 self?.startLoading()
+                self?.collectionView.reloadData()
             }
         }).disposed(by: disposeBag)
     }
@@ -177,11 +185,11 @@ extension MultiListingPostedViewController {
         loadingIndicator.startAnimating()
     }
     
-    private func stopLoading(correctState: Bool) {
+    private func stopLoading(success: Bool) {
         showAllElements()
         
+        loadingIndicator.stopAnimating(correctState: success)
         loadingIndicator.isHidden = true
-        loadingIndicator.stopAnimating(correctState: correctState)
     }
     
     private func hideAllElements() {

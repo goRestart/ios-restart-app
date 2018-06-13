@@ -270,7 +270,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             }
 
             if let imageUploadedId = lastImagesUploaded.first?.objectId, isPostingServices {
-                fechImagesIdsAndCreateParams(imageUploadedId, trackingInfo: postListingTrackingInfo) { [weak self] params in
+                fetchImagesIdsAndCreateParams(imageUploadedId, trackingInfo: postListingTrackingInfo) { [weak self] params in
                     if let trackInfo = self?.postListingTrackingInfo, !params.isEmpty {
                         self?.navigator?.closePostServicesAndPostInBackground(params: params, trackingInfo: trackInfo)
                     }
@@ -281,7 +281,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         }
     }
     
-    private func fechImagesIdsAndCreateParams(_ imageUploadedId: String,
+    private func fetchImagesIdsAndCreateParams(_ imageUploadedId: String,
                                        trackingInfo: PostListingTrackingInfo,
                                        completion: ListingMultiCreationCompletion?) {
         let numberOfImages = multipostingSubtypes.count + multipostingNewSubtypes.count
@@ -289,8 +289,9 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             guard let imagesIds = result.value else {
                 completion?([])
                 let error = result.error ?? RepositoryError.internalError(message: "Images Multiplier Error")
-                self?.navigator?.showConfirmation(listingResult: ListingResult(error: error),
-                                                  trackingInfo: trackingInfo, modalStyle: true)
+                self?.navigator?.showMultiListingPostConfirmation(listingResult: ListingsResult(error: error),
+                                                                  trackingInfo: trackingInfo,
+                                                                  modalStyle: true)
                 return
             }
             
@@ -301,8 +302,9 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
                                                            imagesIds: imagesIds),
                 !modifiedParams.isEmpty else {
                      completion?([])
-                     self?.navigator?.showConfirmation(listingResult: ListingResult(error: RepositoryError.internalError(message: "Multipost params creation")),
-                                                                                              trackingInfo: trackingInfo, modalStyle: true)
+                     self?.navigator?.showMultiListingPostConfirmation(listingResult: ListingsResult(error: RepositoryError.internalError(message: "Multipost params creation")),
+                                                                                              trackingInfo: trackingInfo,
+                                                                                              modalStyle: true)
                      return
             }
             completion?(modifiedParams)
@@ -376,16 +378,13 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     }
     
     private func postActionAfterLogin(images: [UIImage]?, video: RecordedVideo?, trackingInfo: PostListingTrackingInfo) {
-        if let imageUploadedId = postListingState.lastImagesUploadResult?.value?.first?.objectId,
-            isPostingServices {
-            fechImagesIdsAndCreateParams(imageUploadedId, trackingInfo: postListingTrackingInfo) { [weak self] params in
-                if !params.isEmpty {
-                    self?.navigator?.closePostServicesAndPostLater(params: params,
-                                                                   images: images,
-                                                                   video: video,
-                                                                   trackingInfo: trackingInfo)
-                }
-            }
+        if isPostingServices {
+            let multiPostParams = multipostParams(subtypes: multipostingSubtypes,
+                                                  newSubtypes: multipostingNewSubtypes,
+                                                  imagesIds: [])
+            navigator?.closePostServicesAndPostLater(params: multiPostParams,
+                                                     images: images,
+                                                     trackingInfo: trackingInfo)
         } else {
             guard let listingParams = retrieveListingParams(), let images = images else { return }
             navigator?.closePostProductAndPostLater(params: listingParams,
@@ -393,7 +392,6 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
                                                     video: video,
                                                     trackingInfo: trackingInfo)
         }
-        
     }
     
     private func advanceNextStep(next: PostingDetailStep) {
@@ -607,6 +605,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             guard let imageFileId = imagesIds[safeAt: index+multipostSubtypeParams.count] else { return nil }
             let serviceAttribute = ServiceAttributes()
             let imageFile = LGFile(id: imageFileId, url: nil)
+
             return ListingCreationParams.make(title: newSubtype,
                                               description: "",
                                               currency: currency,
@@ -616,8 +615,6 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         }
         return multipostSubtypeParams + multipostNewParams
     }
-
-    
 }
 
 extension PostingDetailsViewModel: PostingMultiSelectionViewDelegate {

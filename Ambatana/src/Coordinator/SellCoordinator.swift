@@ -109,7 +109,7 @@ final class SellCoordinator: Coordinator {
 
 // MARK: - PostListingNavigator
 
-extension SellCoordinator: PostListingNavigator {
+extension SellCoordinator: PostListingNavigator {    
 
     func cancelPostListing() {
         closeCoordinator(animated: true) { [weak self] in
@@ -247,6 +247,7 @@ extension SellCoordinator: PostListingNavigator {
                                           trackingInfo: PostListingTrackingInfo,
                                           modalStyle: Bool) {
         guard let parentVC = parentViewController else { return }
+        
         let viewModel = MultiListingPostedViewModel(navigator: self,
                                                     listingsResult: listingsResult,
                                                     trackingInfo: trackingInfo)
@@ -254,7 +255,9 @@ extension SellCoordinator: PostListingNavigator {
         showCongrats(multiPostedVC, modalStyle, parentVC)
     }
     
-    private func showCongrats(_ listingPostedVC: UIViewController, _ modalStyle: Bool, _ parentVC: UIViewController) {
+    private func showCongrats(_ listingPostedVC: UIViewController,
+                              _ modalStyle: Bool,
+                              _ parentVC: UIViewController) {
         viewController = listingPostedVC
         if modalStyle {
             parentVC.present(listingPostedVC, animated: true, completion: nil)
@@ -282,21 +285,18 @@ extension SellCoordinator: PostListingNavigator {
     }
     
     func closePostServicesAndPostLater(params: [ListingCreationParams],
-                                      images: [UIImage]?,
-                                      video: RecordedVideo?,
-                                      trackingInfo: PostListingTrackingInfo) {
+                                       images: [UIImage]?,
+                                       trackingInfo: PostListingTrackingInfo) {
         guard let parentVC = parentViewController else { return }
         
         dismissViewController(animated: true) { [weak self] in
             guard let strongSelf = self else { return }
             let viewModel = MultiListingPostedViewModel(navigator: strongSelf,
                                                         postParams: params,
-                                                        listingImages: images,
-                                                        video: video,
+                                                        images: images,
                                                         trackingInfo: trackingInfo)
             let multiPostedVC = MultiListingPostedViewController(viewModel: viewModel)
-            self?.viewController = multiPostedVC
-            parentVC.present(multiPostedVC, animated: true, completion: nil)
+            strongSelf.showCongrats(multiPostedVC, true, parentVC)
         }
     }
 
@@ -394,6 +394,36 @@ extension SellCoordinator: MultiListingPostedNavigator {
             return
         }
         closeListingPosted(listing)
+    }
+    
+    func openEdit(forListing listing: Listing) {
+        
+        let editListingNavigator = EditListingCoordinator(listing: listing, bumpUpProductData: nil, pageType: EventParameterTypePage.edit, listingCanBeBoosted: false, timeSinceLastBump: nil, maxCountdown: 0)
+        editListingNavigator.delegate = self
+        openChild(coordinator: editListingNavigator,
+                  parent: viewController,
+                  animated: true,
+                  forceCloseChild: false,
+                  completion: nil)
+    }
+}
+
+
+// MARK: - EditListingCoordinatorDelegate
+extension SellCoordinator: EditListingCoordinatorDelegate {
+    func editListingCoordinatorDidCancel(_ coordinator: EditListingCoordinator) {
+        // Do nothing, todo esta canela fina
+    }
+    
+    func editListingCoordinator(_ coordinator: EditListingCoordinator,
+                                didFinishWithListing listing: Listing,
+                                bumpUpProductData: BumpUpProductData?,
+                                timeSinceLastBump: TimeInterval?,
+                                maxCountdown: TimeInterval) {
+        guard let multiListingVC = viewController as? MultiListingPostedViewController else {
+            return
+        }
+        multiListingVC.listingEdited(listing: listing)
     }
 }
 

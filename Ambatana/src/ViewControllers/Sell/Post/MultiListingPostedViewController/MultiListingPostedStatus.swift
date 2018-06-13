@@ -3,13 +3,14 @@ import LGCoreKit
 
 enum MultiListingPostedStatus {
     
-    case posting(images: [UIImage]?, video: RecordedVideo?, params: [ListingCreationParams])
+    case servicesImageUpload(params: [ListingCreationParams], images: [UIImage]?)
+    case servicesPosting(params: [ListingCreationParams])
     case success(listings: [Listing])
     case error(error: EventParameterPostListingError)
     
     var listings: [Listing] {
         switch self {
-        case .posting, .error:
+        case .servicesPosting, .servicesImageUpload, .error:
             return []
         case .success(let listings):
             return listings
@@ -20,15 +21,23 @@ enum MultiListingPostedStatus {
         switch self {
         case .success:
             return true
-        case .posting, .error:
+        case .servicesPosting, .servicesImageUpload, .error:
             return false
         }
     }
     
-    init(images: [UIImage]?,
-         video: RecordedVideo?,
-         params: [ListingCreationParams]) {
-        self = .posting(images: images, video: video, params: params)
+    init(params: [ListingCreationParams],
+         images: [UIImage]?) {
+        guard let images = images else {
+            self = .servicesPosting(params: params)
+            return
+        }
+        self = .servicesImageUpload(params: params,
+                                    images: images)
+    }
+    
+    init(params: [ListingCreationParams]) {
+        self = .servicesPosting(params: params)
     }
     
     init(listingsResult: ListingsResult) {

@@ -10,6 +10,9 @@ enum PostIncentiviserItem: Int {
     case kidsClothes
     case furniture
     case toys
+    case cleaning
+    case lessons
+    case creative
 
     static func incentiviserPack(_ freePosting: Bool) -> [PostIncentiviserItem] {
         guard !freePosting else { return [.kidsClothes, .furniture, .toys] }
@@ -19,8 +22,7 @@ enum PostIncentiviserItem: Int {
     }
     
     static func servicesIncentiviserPack() -> [PostIncentiviserItem] {
-        // FIXME: update when images available from design
-        return [.tv, .dresser, .furniture]
+        return [.cleaning, .lessons, .creative]
     }
 
     var name: String {
@@ -43,6 +45,12 @@ enum PostIncentiviserItem: Int {
             return R.Strings.productPostIncentiveFurniture
         case .toys:
             return R.Strings.productPostIncentiveToys
+        case .cleaning:
+            return R.Strings.productPostIncentiveCleaning
+        case .lessons:
+            return R.Strings.productPostIncentiveLessons
+        case .creative:
+            return R.Strings.productPostIncentiveCreative
         }
     }
 
@@ -66,6 +74,12 @@ enum PostIncentiviserItem: Int {
             return R.Asset.CongratsScreenImages.furniture.image
         case .toys:
             return R.Asset.CongratsScreenImages.toys.image
+        case .cleaning:
+            return R.Asset.CongratsScreenImages.cleaning.image
+        case .lessons:
+            return R.Asset.CongratsScreenImages.lessons.image
+        case .creative:
+            return R.Asset.CongratsScreenImages.creative.image
         }
     }
 
@@ -89,6 +103,12 @@ enum PostIncentiviserItem: Int {
             return 50297
         case .toys:
             return 76985
+        case .cleaning:
+            return 77296
+        case .lessons:
+            return 74354
+        case .creative:
+            return 72256
         }
     }
 

@@ -20,7 +20,7 @@ enum MultiListingPostedHeaderItem {
 }
 
 final class MultiListingPostedViewModel: BaseViewModel {
-
+    
     private struct Layout {
         static let congratsItemHeight: CGFloat = 220.0
         static let listingItemHeight: CGFloat = 95.0
@@ -28,14 +28,9 @@ final class MultiListingPostedViewModel: BaseViewModel {
     }
     
     private let statusVariable: Variable<MultiListingPostedStatus>
-    private let isLoadingVariable: Variable<Bool> = Variable<Bool>(false)
     
     var statusDriver: Driver<MultiListingPostedStatus> {
         return statusVariable.asDriver()
-    }
-    
-    var isLoadingDriver: Driver<Bool> {
-        return isLoadingVariable.asDriver()
     }
     
     private var status: MultiListingPostedStatus {
@@ -47,14 +42,21 @@ final class MultiListingPostedViewModel: BaseViewModel {
     private let tracker: Tracker
     private let featureFlags: FeatureFlaggeable
     private let keyValueStorage: KeyValueStorage
+    
+    private let listingRepository: ListingRepository
+    private let fileRepository: FileRepository
+    private let imageMultiplierRepository: ImageMultiplierRepository
+    
     private var listings: [Listing] {
         return status.listings
     }
     
     private var isFreePosting: Bool {
         switch self.status {
-        case let .posting(_, _, params):
+        case let .servicesPosting(params):
             return params.first?.price.isFree ?? false
+        case let .servicesImageUpload:
+            return false // FIXME: Is this right?
         case let .success(listings):
             return listings.first?.price.isFree ?? false
         case .error:
@@ -69,11 +71,10 @@ final class MultiListingPostedViewModel: BaseViewModel {
     
     convenience init(navigator: MultiListingPostedNavigator,
                      postParams: [ListingCreationParams],
-                     listingImages: [UIImage]?,
-                     video: RecordedVideo?,
+                     images: [UIImage]?,
                      trackingInfo: PostListingTrackingInfo) {
         self.init(navigator: navigator,
-                  status: MultiListingPostedStatus(images: listingImages, video: video, params: postParams),
+                  status: MultiListingPostedStatus(params: postParams, images: images),
                   trackingInfo: trackingInfo)
     }
     
@@ -93,7 +94,10 @@ final class MultiListingPostedViewModel: BaseViewModel {
                   trackingInfo: trackingInfo,
                   tracker: TrackerProxy.sharedInstance,
                   featureFlags: FeatureFlags.sharedInstance,
-                  keyValueStorage: KeyValueStorage.sharedInstance)
+                  keyValueStorage: KeyValueStorage.sharedInstance,
+                  listingRepository: Core.listingRepository,
+                  fileRepository: Core.fileRepository,
+                  imageMultiplierRepository: Core.imageMultiplierRepository)
     }
     
     init(navigator: MultiListingPostedNavigator,
@@ -101,27 +105,33 @@ final class MultiListingPostedViewModel: BaseViewModel {
          trackingInfo: PostListingTrackingInfo,
          tracker: Tracker,
          featureFlags: FeatureFlaggeable,
-         keyValueStorage: KeyValueStorage) {
+         keyValueStorage: KeyValueStorage,
+         listingRepository: ListingRepository,
+         fileRepository: FileRepository,
+         imageMultiplierRepository: ImageMultiplierRepository) {
         self.navigator = navigator
         self.status = status
         self.trackingInfo = trackingInfo
         self.tracker = tracker
         self.featureFlags = featureFlags
         self.keyValueStorage = keyValueStorage
+        
+        self.listingRepository = listingRepository
+        self.fileRepository = fileRepository
+        self.imageMultiplierRepository = imageMultiplierRepository
+        
         self.statusVariable = Variable(status)
         super.init()
     }
     
-    override func didBecomeActive(_ isFirstTime: Bool) {
-        super.didBecomeActive(isFirstTime)
-        
-        if isFirstTime {
-            switch status {
-            case let .posting(images, video, params): break
-            // FIXME: Implement once Posting flow is merged with Congrats UI
-            case .success, .error:
-                trackProductUploadResultScreen()
-            }
+    func viewDidLoad() {
+        switch status {
+        case let .servicesPosting(params):
+            postListings(withParams: params)
+        case let .servicesImageUpload(params, images):
+            uploadImagesAndPost(params: params, images: images)
+        case .success, .error:
+            trackProductUploadResultScreen()
         }
     }
 }
@@ -131,6 +141,17 @@ final class MultiListingPostedViewModel: BaseViewModel {
 
 extension MultiListingPostedViewModel {
     
+    func listingEdited(listing: Listing) {
+        guard let indexToUpdate = indexMatchingListing(listing: listing) else {
+            return
+        }
+        
+        var newListings = self.listings
+        newListings.remove(at: indexToUpdate)
+        newListings.insert(listing, at: indexToUpdate)
+        updateStatusAfterPosting(status: MultiListingPostedStatus.success(listings: newListings))
+    }
+
     @objc func closeButtonTapped() {
         var listings: [Listing] = []
         switch status {
@@ -138,7 +159,7 @@ extension MultiListingPostedViewModel {
             // FIXME: Implement in ABIOS-4319
             // tracker.trackEvent(TrackerEvent.listingSellConfirmationClose(listingPosted))
             listings = postedListings
-        case .posting:
+        case .servicesPosting, .servicesImageUpload:
             break
         case let .error(error):
             tracker.trackEvent(TrackerEvent.listingSellErrorClose(error))
@@ -168,18 +189,125 @@ extension MultiListingPostedViewModel {
 }
 
 
+// MARK:- Posting
+extension MultiListingPostedViewModel {
+    
+    private func uploadImagesAndPost(params: [ListingCreationParams],
+                                     images: [UIImage]?) {
+        guard let images = images else {
+            //  Post listings if no images available to upload
+            postListings(withParams: params)
+            return
+        }
+
+        // Upload the images
+        fileRepository.upload(images,
+                              progress: nil,
+                              completion: { [weak self] (result) in
+                                guard let imageId = result.value?.first?.objectId else {
+                                    if let error = result.error {
+                                        // FIXME: Tracking
+                                        self?.updateStatusAfterPosting(status: MultiListingPostedStatus(error: error))
+                                    }
+                                    return
+                                }
+                                
+                                // Get the multiplied image ids from the endpoint
+                                self?.fetchImagesIds(forUploadedImageId: imageId,
+                                                     count: params.count,
+                                                     completion: { [weak self] (multImageIds) in
+                                                        // Update the params with the retireved image Ids
+                                                        guard let newParams = self?.updatedParams(params: params,
+                                                                                                  forImageIds: multImageIds) else {
+                                                                                                    self?.showImageMultiplierError()
+                                                                                                    return
+                                                        }
+                                                        self?.updateStatusAfterPosting(status: MultiListingPostedStatus.servicesPosting(params: newParams))
+                                                        self?.postListings(withParams: newParams)
+                                })
+        })
+    }
+    
+    private func updatedParams(params: [ListingCreationParams],
+                               forImageIds imageIds: [String]) -> [ListingCreationParams] {
+        var newParams: [ListingCreationParams] = []
+        for (index, item) in params.enumerated().makeIterator() {
+            let imageFile = LGFile(id: imageIds[safeAt: index], url: nil)
+            let newItem = item.updating(images: [imageFile])
+            newParams.append(newItem)
+        }
+        return newParams
+    }
+    
+    private func showImageMultiplierError() {
+        let errorStatus = MultiListingPostedStatus(error: RepositoryError.internalError(message: "Images Multiplier Error"))
+        updateStatusAfterPosting(status: errorStatus)
+    }
+    
+    private func showPostingMultiplierError() {
+        let errorStatus = MultiListingPostedStatus(error: RepositoryError.internalError(message: "Multipost params creation"))
+        updateStatusAfterPosting(status: errorStatus)
+    }
+    
+    private func fetchImagesIds(forUploadedImageId imageUploadedId: String,
+                                count: Int,
+                                completion: (([String]) -> Void)?) {
+        let imageMultiplierParams = ImageMultiplierParams(imageId: imageUploadedId,
+                                                          times: count)
+        imageMultiplierRepository.imageMultiplier(imageMultiplierParams) { [weak self] result in
+            guard let imagesIds = result.value, !imagesIds.isEmpty else {
+                self?.showImageMultiplierError()
+                completion?([])
+                return
+            }
+            
+            completion?(imagesIds)
+        }
+    }
+    
+    
+    private func postListings(withParams params: [ListingCreationParams]) {
+        guard params.count > 0 else {
+            showPostingMultiplierError()
+            return
+        }
+        
+        listingRepository.createServices(listingParams: params) { [weak self] results in
+            if let listings = results.value {
+                // FIXME: Tracking
+                // self?.trackPost(withListing: listing, trackingInfo: trackingInfo)
+                self?.updateStatusAfterPosting(status: MultiListingPostedStatus.success(listings: listings))
+            } else if let error = results.error {
+                self?.showPostingMultiplierError()
+                self?.trackPostSellError(error: error)
+            }
+        }
+    }
+}
+
+
 // MARK:- Private actions
 
 extension MultiListingPostedViewModel {
+
+    private func indexMatchingListing(listing: Listing) -> Int? {
+        for (index, item) in listings.enumerated().makeIterator() {
+            if item.objectId == listing.objectId {
+                return index
+            }
+        }
+        
+        return nil
+    }
     
     private func editListing(listing: Listing) {
         tracker.trackEvent(TrackerEvent.listingSellConfirmationEdit(listing))
-        navigator?.closeListingPostedAndOpenEdit(listing)
+        navigator?.openEdit(forListing: listing)
     }
     
     private func postAnotherListingTapped() {
         switch status {
-        case .posting:
+        case .servicesPosting, .servicesImageUpload:
             break
         case let .success(listings):
             break
@@ -225,6 +353,9 @@ extension MultiListingPostedViewModel {
             }
             return .listingItem(listingModel)
         case .postIncentivisor:
+            guard listings.count != 0 else {
+                return nil
+            }
             return .postIncentivisor(wasFreePosting: isFreePosting)
         }
     }
@@ -239,6 +370,9 @@ extension MultiListingPostedViewModel {
         case .congrats, .postIncentivisor:
             return nil
         case .listings:
+            guard listings.count != 0 else {
+                return nil
+            }
             return .header(title: R.Strings.postDetailsServicesCongratulationReview,
                            textAlignment: NSTextAlignment.left)
         }
@@ -249,8 +383,10 @@ extension MultiListingPostedViewModel {
             return 0
         }
         switch section {
-        case .congrats, .postIncentivisor:
+        case .congrats:
             return 1
+        case .postIncentivisor:
+            return listings.count > 0 ? 1 : 0
         case .listings:
             return listings.count
         }
@@ -311,7 +447,7 @@ extension MultiListingPostedViewModel {
     
     private func congratsItemMainText() -> String? {
         switch status {
-        case .posting:
+        case .servicesPosting, .servicesImageUpload:
             return nil
         case .success:
             return R.Strings.postDetailsServicesCongratulationTitle
@@ -322,7 +458,7 @@ extension MultiListingPostedViewModel {
     
     private func congratsItemSubtitleText() -> String? {
         switch status {
-        case .posting:
+        case .servicesPosting, .servicesImageUpload:
             return nil
         case .success:
             return R.Strings.postDetailsServicesCongratulationSubtitle
@@ -340,7 +476,7 @@ extension MultiListingPostedViewModel {
     
     private func congratsItemActionButtonText() -> String? {
         switch status {
-        case .posting:
+        case .servicesPosting, .servicesImageUpload:
             return nil
         case .success:
             return R.Strings.postDetailsServicesCongratulationPostAnother
