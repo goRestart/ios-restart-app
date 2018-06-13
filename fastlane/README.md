@@ -26,11 +26,6 @@ Will clone master, create a new `release-x.x.x` branch from, update the build in
 fastlane ios beta
 ```
 Will clone the specified branch, update the build info and do a deploy of that to crashlytics
-### ios local_beta
-```
-fastlane ios local_beta
-```
-Build and distribute local code to Crashlytics
 ### ios deploy_to_appstore
 ```
 fastlane ios deploy_to_appstore
@@ -71,11 +66,6 @@ Will generate BumperFlags.switf based on the sources json
 fastlane ios test
 ```
 Will unit test
-### ios ui_test
-```
-fastlane ios ui_test
-```
-Will UI test
 ### ios ciJenkins
 ```
 fastlane ios ciJenkins

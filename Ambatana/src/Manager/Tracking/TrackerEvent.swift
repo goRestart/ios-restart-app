@@ -608,6 +608,9 @@ struct TrackerEvent {
             params[.mlListingCategory] = machineLearningData.category?.rawValue ?? nil
         }
         
+        params[.serviceType] = listing.service?.servicesAttributes.typeId ?? Constants.parameterNotApply
+        params[.serviceSubtype] = listing.service?.servicesAttributes.subtypeId ?? Constants.parameterNotApply
+        
         return TrackerEvent(name: .listingSellComplete, params: params)
     }
     
@@ -653,6 +656,13 @@ struct TrackerEvent {
     static func listingSellConfirmation(_ listing: Listing) -> TrackerEvent {
         var params = EventParameters()
         params[.listingId] = listing.objectId ?? ""
+        return TrackerEvent(name: .listingSellConfirmation, params: params)
+    }
+    
+    static func listingsSellConfirmation(listingIds: [String]) -> TrackerEvent {
+        var params = EventParameters()
+        params[.listingId] = listingIds.joined(separator: ",")
+        params[.productCounter] = listingIds.count
         return TrackerEvent(name: .listingSellConfirmation, params: params)
     }
 

@@ -55,11 +55,9 @@ final class MultiListingPostedViewModel: BaseViewModel {
         switch self.status {
         case let .servicesPosting(params):
             return params.first?.price.isFree ?? false
-        case let .servicesImageUpload:
-            return false // FIXME: Is this right?
         case let .success(listings):
             return listings.first?.price.isFree ?? false
-        case .error:
+        case .servicesImageUpload, .error:
             return false
         }
     }
@@ -127,11 +125,11 @@ final class MultiListingPostedViewModel: BaseViewModel {
     func viewDidLoad() {
         switch status {
         case let .servicesPosting(params):
-            postListings(withParams: params)
+            postListings(withParams: params, trackingInfo: trackingInfo)
         case let .servicesImageUpload(params, images):
-            uploadImagesAndPost(params: params, images: images)
+            uploadImagesAndPost(params: params, images: images, trackingInfo: trackingInfo)
         case .success, .error:
-            trackProductUploadResultScreen()
+            track(status: status)
         }
     }
 }
@@ -149,22 +147,10 @@ extension MultiListingPostedViewModel {
         var newListings = self.listings
         newListings.remove(at: indexToUpdate)
         newListings.insert(listing, at: indexToUpdate)
-        updateStatusAfterPosting(status: MultiListingPostedStatus.success(listings: newListings))
+        updateStatus(to: MultiListingPostedStatus.success(listings: newListings))
     }
 
     @objc func closeButtonTapped() {
-        var listings: [Listing] = []
-        switch status {
-        case let .success(postedListings):
-            // FIXME: Implement in ABIOS-4319
-            // tracker.trackEvent(TrackerEvent.listingSellConfirmationClose(listingPosted))
-            listings = postedListings
-        case .servicesPosting, .servicesImageUpload:
-            break
-        case let .error(error):
-            tracker.trackEvent(TrackerEvent.listingSellErrorClose(error))
-        }
-        
         guard listings.count > 0 else {
             navigator?.cancelListingPosted()
             return
@@ -193,39 +179,30 @@ extension MultiListingPostedViewModel {
 extension MultiListingPostedViewModel {
     
     private func uploadImagesAndPost(params: [ListingCreationParams],
-                                     images: [UIImage]?) {
-        guard let images = images else {
-            //  Post listings if no images available to upload
-            postListings(withParams: params)
-            return
-        }
-
+                                     images: [UIImage],
+                                     trackingInfo: PostListingTrackingInfo) {
         // Upload the images
-        fileRepository.upload(images,
-                              progress: nil,
-                              completion: { [weak self] (result) in
-                                guard let imageId = result.value?.first?.objectId else {
-                                    if let error = result.error {
-                                        // FIXME: Tracking
-                                        self?.updateStatusAfterPosting(status: MultiListingPostedStatus(error: error))
-                                    }
-                                    return
-                                }
-                                
-                                // Get the multiplied image ids from the endpoint
-                                self?.fetchImagesIds(forUploadedImageId: imageId,
-                                                     count: params.count,
-                                                     completion: { [weak self] (multImageIds) in
-                                                        // Update the params with the retireved image Ids
-                                                        guard let newParams = self?.updatedParams(params: params,
-                                                                                                  forImageIds: multImageIds) else {
-                                                                                                    self?.showImageMultiplierError()
-                                                                                                    return
-                                                        }
-                                                        self?.updateStatusAfterPosting(status: MultiListingPostedStatus.servicesPosting(params: newParams))
-                                                        self?.postListings(withParams: newParams)
-                                })
-        })
+        fileRepository.upload(images, progress: nil) { [weak self] (result) in
+            guard let imageId = result.value?.first?.objectId else {
+                if let error = result.error {
+                    let statusError = MultiListingPostedStatus(error: error)
+                    self?.updateStatus(to: statusError)
+                    self?.track(status: statusError)
+                }
+                return
+            }
+            
+            // Get the multiplied image ids from the endpoint
+            self?.fetchImagesIds(forUploadedImageId: imageId, count: params.count) { [weak self] (multImageIds) in
+                // Update the params with the retireved image Ids
+                guard let newParams = self?.updatedParams(params: params, forImageIds: multImageIds) else {
+                    self?.showImageMultiplierError()
+                    return
+                }
+                self?.updateStatus(to: MultiListingPostedStatus.servicesPosting(params: newParams))
+                self?.postListings(withParams: newParams, trackingInfo: trackingInfo)
+            }
+        }
     }
     
     private func updatedParams(params: [ListingCreationParams],
@@ -241,12 +218,14 @@ extension MultiListingPostedViewModel {
     
     private func showImageMultiplierError() {
         let errorStatus = MultiListingPostedStatus(error: RepositoryError.internalError(message: "Images Multiplier Error"))
-        updateStatusAfterPosting(status: errorStatus)
+        updateStatus(to: errorStatus)
+        track(status: errorStatus)
     }
     
     private func showPostingMultiplierError() {
         let errorStatus = MultiListingPostedStatus(error: RepositoryError.internalError(message: "Multipost params creation"))
-        updateStatusAfterPosting(status: errorStatus)
+        updateStatus(to: errorStatus)
+        track(status: errorStatus)
     }
     
     private func fetchImagesIds(forUploadedImageId imageUploadedId: String,
@@ -265,8 +244,8 @@ extension MultiListingPostedViewModel {
         }
     }
     
-    
-    private func postListings(withParams params: [ListingCreationParams]) {
+
+    private func postListings(withParams params: [ListingCreationParams], trackingInfo: PostListingTrackingInfo) {
         guard params.count > 0 else {
             showPostingMultiplierError()
             return
@@ -274,9 +253,10 @@ extension MultiListingPostedViewModel {
         
         listingRepository.createServices(listingParams: params) { [weak self] results in
             if let listings = results.value {
-                // FIXME: Tracking
-                // self?.trackPost(withListing: listing, trackingInfo: trackingInfo)
-                self?.updateStatusAfterPosting(status: MultiListingPostedStatus.success(listings: listings))
+                let postedStatus = MultiListingPostedStatus.success(listings: listings)
+                self?.trackPostSellComplete(withListings: listings, trackingInfo: trackingInfo)
+                self?.updateStatus(to: postedStatus)
+                self?.track(status: postedStatus)
             } else if let error = results.error {
                 self?.showPostingMultiplierError()
                 self?.trackPostSellError(error: error)
@@ -291,44 +271,33 @@ extension MultiListingPostedViewModel {
 extension MultiListingPostedViewModel {
 
     private func indexMatchingListing(listing: Listing) -> Int? {
-        for (index, item) in listings.enumerated().makeIterator() {
-            if item.objectId == listing.objectId {
-                return index
-            }
-        }
-        
-        return nil
+        return listings.enumerated().first(where: { $1.objectId == listing.objectId})?.offset
     }
     
     private func editListing(listing: Listing) {
-        tracker.trackEvent(TrackerEvent.listingSellConfirmationEdit(listing))
+        trackEditStart(for: listing)
         navigator?.openEdit(forListing: listing)
     }
     
     private func postAnotherListingTapped() {
         switch status {
-        case .servicesPosting, .servicesImageUpload:
-            break
-        case let .success(listings):
-            break
-            // FIXME: Implement in ABIOS-4319
-//            tracker.trackEvent(TrackerEvent.listingSellConfirmationPost(listings, buttonType: .button))
         case let .error(error):
             tracker.trackEvent(TrackerEvent.listingSellErrorPost(error))
+        case .servicesPosting, .servicesImageUpload, .success:
+            break
         }
+        
+        trackSellStart(forTrackingInfo: trackingInfo)
         navigator?.closeProductPostedAndOpenPost()
     }
     
     private func postIncentivisorTapped() {
-        // FIXME: Implement in ABIOS-4319
-//        guard let listing = status.listing else { return }
-//        tracker.trackEvent(TrackerEvent.listingSellConfirmationPost(listing, buttonType: .itemPicture))
+        trackSellStart(forTrackingInfo: trackingInfo)
         navigator?.closeProductPostedAndOpenPost()
     }
     
-    private func updateStatusAfterPosting(status: MultiListingPostedStatus) {
+    private func updateStatus(to status: MultiListingPostedStatus) {
         self.status = status
-        trackProductUploadResultScreen()
     }
 }
 
@@ -491,21 +460,16 @@ extension MultiListingPostedViewModel {
 
 extension MultiListingPostedViewModel {
     
-    private func trackPostSellComplete(postedListing: Listing) {
-        let buttonName = trackingInfo.buttonName
-        let negotiable = trackingInfo.negotiablePrice
-        let pictureSource = trackingInfo.imageSource
-        let videoLength = trackingInfo.videoLength
-        let typePage = trackingInfo.typePage
-        let mostSearchedButton = trackingInfo.mostSearchedButton
-        let event = TrackerEvent.listingSellComplete(postedListing,
-                                                     buttonName: buttonName,
+    private func trackPostSellComplete(listing: Listing, trackingInfo: PostListingTrackingInfo) {
+        let event = TrackerEvent.listingSellComplete(listing,
+                                                     buttonName: trackingInfo.buttonName,
                                                      sellButtonPosition: trackingInfo.sellButtonPosition,
-                                                     negotiable: negotiable, pictureSource: pictureSource,
-                                                     videoLength: videoLength,
+                                                     negotiable: trackingInfo.negotiablePrice,
+                                                     pictureSource: trackingInfo.imageSource,
+                                                     videoLength: trackingInfo.videoLength,
                                                      freePostingModeAllowed: featureFlags.freePostingModeAllowed,
-                                                     typePage: typePage,
-                                                     mostSearchedButton: mostSearchedButton,
+                                                     typePage: trackingInfo.typePage,
+                                                     mostSearchedButton: trackingInfo.mostSearchedButton,
                                                      machineLearningTrackingInfo: trackingInfo.machineLearningInfo)
         tracker.trackEvent(event)
         
@@ -513,9 +477,13 @@ extension MultiListingPostedViewModel {
         if let firstOpenDate = keyValueStorage[.firstRunDate], NSDate().timeIntervalSince(firstOpenDate as Date) <= 86400 &&
             !keyValueStorage.userTrackingProductSellComplete24hTracked {
             keyValueStorage.userTrackingProductSellComplete24hTracked = true
-            let event = TrackerEvent.listingSellComplete24h(postedListing)
+            let event = TrackerEvent.listingSellComplete24h(listing)
             tracker.trackEvent(event)
         }
+    }
+    
+    private func trackPostSellComplete(withListings listing: [Listing], trackingInfo: PostListingTrackingInfo) {
+        listing.forEach { trackPostSellComplete(listing: $0, trackingInfo: trackingInfo) }
     }
     
     private func trackPostSellError(error: RepositoryError) {
@@ -523,19 +491,39 @@ extension MultiListingPostedViewModel {
         let sellErrorDataEvent = TrackerEvent.listingSellErrorData(sellError)
         tracker.trackEvent(sellErrorDataEvent)
     }
-    
-    private func trackProductUploadResultScreen() {
-        // FIXME: Implement in ABIOS-4319
-        /*
+
+    private func track(status: MultiListingPostedStatus) {
         switch status {
-        case .posting:
+        case .servicesImageUpload, .servicesPosting:
             break
-        case let .success(listing): break
-            tracker.trackEvent(TrackerEvent.listingSellConfirmation(listing))
+        case let .success(listings):
+            trackSellConfirmation(listings: listings)
         case let .error(error):
             tracker.trackEvent(TrackerEvent.listingSellError(error))
         }
- */
     }
+    
+    private func trackSellConfirmation(listings: [Listing]) {
+        let listingsIds = listings.flatMap { $0.objectId }
+        tracker.trackEvent(TrackerEvent.listingsSellConfirmation(listingIds: listingsIds))
+    }
+    
+    private func trackEditStart(for listing: Listing) {
+        tracker.trackEvent(TrackerEvent.listingEditStart(nil,
+                                                         listing: listing,
+                                                         pageType: EventParameterTypePage.sell))
+    }
+    
+    private func trackSellStart(forTrackingInfo trackingInfo: PostListingTrackingInfo) {
+        let event = TrackerEvent.listingSellStart(trackingInfo.typePage,
+                                                  buttonName: trackingInfo.buttonName,
+                                                  sellButtonPosition: trackingInfo.sellButtonPosition,
+                                                  category: nil,
+                                                  mostSearchedButton: trackingInfo.mostSearchedButton,
+                                                  predictiveFlow: false)
+        tracker.trackEvent(event)
+    }
+
+
 }
 

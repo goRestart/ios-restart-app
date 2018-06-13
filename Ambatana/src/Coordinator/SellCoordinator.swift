@@ -146,7 +146,7 @@ extension SellCoordinator: PostListingNavigator {
         dismissViewController(animated: true) { [weak self] in
             self?.listingRepository.createServices(listingParams: params) { [weak self] results in
                 if let listings = results.value {
-                    // TODO: Add track ABIOS-4185
+                    self?.trackPost(withListings: listings, trackingInfo: trackingInfo)
                     self?.showMultiListingPostConfirmation(listingResult: ListingsResult(value: listings),
                                                            trackingInfo: trackingInfo,
                                                            modalStyle: true)
@@ -534,5 +534,9 @@ fileprivate extension SellCoordinator {
             let event = TrackerEvent.listingSellComplete24h(listing)
             tracker.trackEvent(event)
         }
+    }
+    
+    func trackPost(withListings listing: [Listing], trackingInfo: PostListingTrackingInfo) {
+        listing.forEach { trackPost(withListing: $0, trackingInfo: trackingInfo) }
     }
 }

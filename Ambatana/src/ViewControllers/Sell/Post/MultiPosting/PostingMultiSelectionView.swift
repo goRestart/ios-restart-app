@@ -37,6 +37,7 @@ final class PostingMultiSelectionView: UIView {
         tableView.allowsMultipleSelection = false
         tableView.showsVerticalScrollIndicator = false
         tableView.showsHorizontalScrollIndicator = false
+        tableView.keyboardDismissMode = .onDrag
         return tableView
     }()
     
@@ -176,9 +177,7 @@ final class PostingMultiSelectionView: UIView {
     
 }
 
-extension PostingMultiSelectionView: UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
-    
-    // MARK:- UISearchBarDelegate
+extension PostingMultiSelectionView: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar,
                    textDidChange searchText: String) {
@@ -193,8 +192,10 @@ extension PostingMultiSelectionView: UITableViewDelegate, UITableViewDataSource,
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
     }
+
+}
     
-    // MARK: - UITableView delegate
+extension PostingMultiSelectionView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {

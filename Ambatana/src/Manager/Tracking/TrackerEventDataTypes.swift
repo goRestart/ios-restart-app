@@ -390,6 +390,7 @@ enum EventParameterName: String {
     case sellerReputationBadge = "seller-reputation-badge"
     case isVideo              = "is-video"
     case messageGoal          = "message-goal"
+    case productCounter       = "product-counter"
     
     // Machine Learning
     case mlPredictiveFlow = "predictive-flow"

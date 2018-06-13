@@ -305,13 +305,12 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
         guard status != .available else {
             textStackContainer.removeArrangedSubview(statusStackContainer)
             textStackContainer.insertArrangedSubview(timeLastMessageLabel, at: lastStackPosition)
-            timeLastMessageLabel.isHidden = false
             return
         }
 
         textStackContainer.removeArrangedSubview(timeLastMessageLabel)
         textStackContainer.insertArrangedSubview(statusStackContainer, at: lastStackPosition)
-        timeLastMessageLabel.isHidden = true
+        timeLastMessageLabel.removeFromSuperview()
 
         if status == .userDeleted {
             userNameLabel.text = R.Strings.chatListAccountDeletedUsername
@@ -329,12 +328,13 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
             textStackContainer.removeArrangedSubview(timeLastMessageLabel)
             textStackContainer.insertArrangedSubview(userIsTypingAnimationViewContainer, at: lastStackPosition)
             userIsTypingAnimationView.play()
-            timeLastMessageLabel.isHidden = true
+            timeLastMessageLabel.removeFromSuperview()
+
         } else {
             textStackContainer.removeArrangedSubview(userIsTypingAnimationViewContainer)
             textStackContainer.insertArrangedSubview(timeLastMessageLabel, at: lastStackPosition)
             userIsTypingAnimationView.stop()
-            timeLastMessageLabel.isHidden = false
+            userIsTypingAnimationViewContainer.removeFromSuperview()
         }
     }
 

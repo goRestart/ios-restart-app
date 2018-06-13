@@ -133,8 +133,8 @@ final class ListingCreationViewModel : BaseViewModel {
     private func fetchImagesAndCreateListings() {
         fetchImagesIdsAndCreateParams(trackingInfo: trackingInfo) { [weak self] listingParams in
             self?.listingRepository.createServices(listingParams: listingParams) { [weak self] results in
-                if let listing = results.value, let trackingInfo = self?.trackingInfo {
-//                    self?.trackPost(withListing: listing, trackingInfo: trackingInfo)
+                if let listings = results.value, let trackingInfo = self?.trackingInfo {
+                    self?.trackPost(withListings: listings, trackingInfo: trackingInfo)
                 } else if let error = results.error {
                     self?.trackPostSellError(error: error)
                 }
@@ -207,6 +207,10 @@ final class ListingCreationViewModel : BaseViewModel {
             let event = TrackerEvent.listingSellComplete24h(listing)
             tracker.trackEvent(event)
         }
+    }
+    
+    func trackPost(withListings listing: [Listing], trackingInfo: PostListingTrackingInfo) {
+        listing.forEach { trackPost(withListing: $0, trackingInfo: trackingInfo) }
     }
     
     private func trackPostSellError(error: RepositoryError) {
