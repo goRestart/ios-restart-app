@@ -47,7 +47,6 @@ class ListingMedia {
             }
         }
     }
-
     var remoteImages: [File] {
         return media.flatMap {
             switch $0 {
@@ -62,7 +61,6 @@ class ListingMedia {
             }
         }
     }
-
     var remoteVideos: [Video] {
         return media.flatMap {
             switch $0 {
