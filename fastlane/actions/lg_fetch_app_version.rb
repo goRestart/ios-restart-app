@@ -58,7 +58,7 @@ class LgFetchAppVersionAction < Action
 	end
 
 	def self.author
-		'letgo ™'
+		'letgo'
 	end
 
 	def self.is_supported?(platform)
