@@ -5,12 +5,11 @@ fastlane_version "2.14.0"
 default_platform :ios
 
 platform :ios do
-
-  before_all do
-    ENV["LG_GITHUB_REPOSITORY"] = "letgoapp/letgo-ios"
-    # Forcing fastlane to launch simulator before all as a first step.
-    ENV["FASTLANE_EXPLICIT_OPEN_SIMULATOR"] = "2"
-  end
+	before_all do
+		ENV["LG_GITHUB_REPOSITORY"] = "letgoapp/letgo-ios"
+		# Forcing fastlane to launch simulator before all as a first step.
+		ENV["FASTLANE_EXPLICIT_OPEN_SIMULATOR"] = "2"
+	end
 
   desc "Will clone master, create a new `release-x.x.x` branch from, update the build info, push it and do a deploy of that to crashlytics"
   lane :release do
@@ -429,38 +428,120 @@ end
     )
     end
 
-  desc "Builds LetgoGoDev for simulator to export it for automation process"
-  lane :make_automation_build do
-    timestamp = Time.now.getutc.strftime("_%m_%d_%y_%I_%M_%p")
-    output = "/tmp/xcbuild" + timestamp
-    message = 'Hey, your .app is waiting for you. Zipped in your desktop (I am talking to whoever runned the command). #hastaluego'
-    xcbuild(
-      workspace: ENV["LETGO_WORKSPACE"],
-      scheme: "LetGoDEV",
-      configuration: "Debug",
-      sdk: "iphonesimulator",
-      destionation: "name=iPhone 7,OS=10.2",
-      derivedDataPath: output,
-      buildlog_path: "build.log"
-    )
+	after_all do |lane|
+		notification(
+			title: "Fastlane '#{lane}'",
+			message: "finished successfully"
+		)
+	end
 
-    zipped_output = "~/Desktop/automation" + timestamp + ".zip"
-    sh("zip -r #{zipped_output} #{output}") 
-    bender message: message, channels: [ENV["SLACK_IOS_CORE_CHANNEL"]]    
-  end
+	error do |lane, exception|
+		notification(
+			title: "Fastlane '#{lane}'",
+			message: "Failed: #{exception.message}"
+		)
+		UI.error "exception: #{exception.message}"
+	end
+	
 
-  after_all do |lane|
-    notification(
-      title: "Fastlane '#{lane}'",
-      message: "finished successfully"
-    )
-  end
+# Better lanes, better future.
+# We code because we care.
+	
+	desc "Upload build to appstore"
+	lane :upload_appstore do |options|
+		ipa_path = options[:beta_path]
+		version_number = options[:version_number]  
+		build_number = options[:build_number]
 
-  error do |lane, exception|
-    notification(
-      title: "Fastlane '#{lane}'",
-      message: "Failed: #{exception.message}"
-    )
-    UI.error "exception: #{exception.message}"
-  end
+		deliver(
+			username: "ios-automation@letgo.com",
+			app: "986339882",
+			skip_screenshots: true,
+			skip_metadata: true,
+			force: true,  # Set to true to skip PDF verification
+			submit_for_review: true,
+			automatic_release: false,
+			submission_information: {
+				export_compliance_encryption_updated: false,
+				add_id_info_uses_idfa: true,
+				add_id_info_serves_ads: false,
+				add_id_info_tracks_install: true,
+				add_id_info_tracks_action: true
+			}
+		)
+	end
+		
+	desc "Upload beta build to crashlytics"
+	lane :upload_crashlytics do |options|
+		ipa_path = options[:beta_path]
+		version_number = options[:version_number]
+		build_number = options[:build_number]
+		
+		changelog = "Beta #{version_number}-#{build_number}"
+		crashlytics(
+			api_token: 'da82303e33e3a2dc304cdccaa4e19dba00334a34',
+			build_secret: '964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe',
+			ipa_path: ipa_path,
+			notes: "#{changelog}",
+			groups: "letgo-testers",
+			changelog: changelog
+    	)
+	end
+	
+# Here there are our 3 ways of building staff (simulator, beta, appstore)
+	build_output = "/tmp/letgo/"
+	destination = "name=iPhone X"
+
+	desc "Does a beta build"
+	lane :build_beta do |options|
+		workspace = options[:workspace] ||= ENV["LETGO_WORKSPACE"]
+		scheme = options[:scheme] ||= "LetGoPROD" 
+
+		timestamp = Time.now.getutc.strftime("_%m_%d_%y_%I_%M_%p")
+		output = build_output + "/beta/#{timestamp}"
+
+		gym(
+			workspace: workspace,
+			output_directory: output,
+			configuration: "Adhoc",
+			scheme: scheme,
+			silent: false,
+			clean: true,
+			export_xcargs: "-allowProvisioningUpdates",
+			export_method: "ad-hoc"
+		)
+		ENV['LAST_BETA_BUILD'] = output 	
+	end
+
+	desc "Does an appstore build"
+	lane :build_appstore do |options|
+		workspace = options[:workspace] ||= ENV["LETGO_WORKSPACE"] 
+		output = build_output + "/store/#{timestamp}"
+		gym(
+			workspace: workspace,
+			output_directory: output,
+			scheme: ENV["LETGO_APPSTORE_SCHEME"],
+			configuration: "Release",
+			export_xcargs: "-allowProvisioningUpdates",
+			include_bitcode: true
+		)	
+		ENV['LAST_APPSTORE_BUILD'] = output  
+	end 
+
+	desc "Does a simulator build"
+	lane :build_sim do |options|
+		workspace = options[:workspace] ||= ENV["LETGO_WORKSPACE"]
+		scheme = options[:scheme] ||= "LetGoPROD"
+	
+		timestamp = Time.now.getutc.strftime("_%m_%d_%y_%I_%M_%p")
+	 	output = build_output + "simulator/#{timestamp}"
+		gym(
+			workspace: workspace,
+			scheme: scheme,
+			configuration: "Debug",
+			sdk: "iphonesimulator",
+			derivedDataPath: output
+		)
+		ENV['LAST_SIM_BUILD'] = output
+	end
 end

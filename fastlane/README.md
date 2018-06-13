@@ -96,11 +96,36 @@ Will run CI UI tests job
 fastlane ios dependencies
 ```
 
-### ios make_automation_build
+### ios upload_crashlytics
 ```
-fastlane ios make_automation_build
+fastlane ios upload_crashlytics
 ```
-Builds LetgoGoDev for simulator to export it for automation process
+Upload beta build to crashlytics
+### ios build_beta
+```
+fastlane ios build_beta
+```
+Does a beta build
+### ios build_appstore
+```
+fastlane ios build_appstore
+```
+Does an appstore build
+### ios build_sim
+```
+fastlane ios build_sim
+```
+Does a simulator build
+### ios test_shit
+```
+fastlane ios test_shit
+```
+testing
+### ios write
+```
+fastlane ios write
+```
+testing2
 
 ----
 
