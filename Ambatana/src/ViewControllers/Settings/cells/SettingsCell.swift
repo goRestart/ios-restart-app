@@ -73,8 +73,6 @@ fileprivate extension LetGoSetting {
             return R.Strings.settingsChangeLocationButton
         case .changePassword:
             return R.Strings.settingsChangePasswordButton
-        case .marketingNotifications:
-            return R.Strings.settingsMarketingNotificationsSwitch
         case .help:
             return R.Strings.settingsHelpButton
         case .termsAndConditions:
@@ -102,8 +100,6 @@ fileprivate extension LetGoSetting {
             return R.Asset.IconsButtons.icSettingLocation.image
         case .changePassword:
             return R.Asset.IconsButtons.icSettingPassword.image
-        case .marketingNotifications:
-            return R.Asset.IconsButtons.icSettingNotifications.image
         case .help:
             return R.Asset.IconsButtons.icSettingHelp.image
         case .termsAndConditions:
@@ -163,19 +159,10 @@ fileprivate extension LetGoSetting {
 
     var showsDisclosure: Bool {
         switch self {
-        case .logOut, .marketingNotifications:
+        case .logOut:
             return false
         default:
             return true
-        }
-    }
-
-    var switchMode: Bool {
-        switch self {
-        case .marketingNotifications:
-            return true
-        default:
-            return false
         }
     }
 }

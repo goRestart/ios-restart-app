@@ -250,10 +250,6 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         return keyValueStorage[.lastSuggestiveSearches].count >= minimumSearchesSavedToShowCollection && filters.noFilterCategoryApplied
     }
     
-    var isSearchAlertsEnabled: Bool {
-        return featureFlags.searchAlerts.isActive
-    }
-    
     let mainListingsHeader = Variable<MainListingsHeader>([])
     let filterTitle = Variable<String?>(nil)
     let filterDescription = Variable<String?>(nil)
@@ -466,7 +462,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             retrieveTrendingSearches()
         }
         
-        if let _ = myUserRepository.myUser, isSearchAlertsEnabled && firstTime {
+        if let _ = myUserRepository.myUser, firstTime {
             createSearchAlert(fromEnable: false)
         }
     }
@@ -1538,7 +1534,7 @@ extension MainListingsViewModel {
 
     var showCategoriesCollectionBanner: Bool {
         let userHasSearched = queryString != nil || hasFilters
-        if (featureFlags.emptySearchImprovements.isActive || isSearchAlertsEnabled) && userHasSearched {
+        if userHasSearched {
             return false
         } else {
             return primaryTags.isEmpty && !listViewModel.isListingListEmpty.value

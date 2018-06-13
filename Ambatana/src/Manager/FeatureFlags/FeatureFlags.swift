@@ -44,7 +44,6 @@ protocol FeatureFlaggeable: class {
     var summaryAsFirstStep: SummaryAsFirstStep { get }
     var sectionedMainFeed: SectionedMainFeed { get }
     var showExactLocationForPros: Bool { get }
-    var searchAlerts: SearchAlerts { get }
     var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed { get }
 
     // Country dependant features
@@ -378,10 +377,6 @@ extension CopyForChatNowInEnglish {
             return R.Strings.bumpUpProductCellChatNowButtonEnglishD
         }
         } }
-}
-
-extension SearchAlerts {
-    var isActive: Bool { return self == .active }
 }
 
 extension CopyForSellFasterNowInEnglish {
@@ -726,13 +721,6 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.sectionedMainFeed
         }
         return SectionedMainFeed.fromPosition(abTests.sectionedMainFeed.value)
-    }
-
-    var searchAlerts: SearchAlerts {
-        if Bumper.enabled {
-            return Bumper.searchAlerts
-        }
-        return SearchAlerts.fromPosition(abTests.searchAlerts.value)
     }
     
     var showExactLocationForPros: Bool {
