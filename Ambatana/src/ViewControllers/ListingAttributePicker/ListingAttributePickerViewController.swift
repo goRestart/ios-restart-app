@@ -84,8 +84,13 @@ private extension ListingAttributePickerViewController {
             doneButton.layout().width(Layout.doneButtonMinimumWidth,
                                       relatedBy: .greaterThanOrEqual)
             
+            safeBottomAnchor.constraint(greaterThanOrEqualTo: doneButton.bottomAnchor).priority = .defaultHigh
+            safeBottomAnchor.constraint(greaterThanOrEqualTo: doneButton.bottomAnchor).isActive = true
+            
             doneButton.layout(with: keyboardView).bottom(to: .top,
-                                                         by: -(Layout.doneButtonHeight + (Metrics.bigMargin*2)))
+                                                         by: -(Layout.doneButtonHeight + (Metrics.veryBigMargin*2)),
+                                                         priority: .defaultLow)
+            
             doneButton.layout(with: view).right(by: -Metrics.bigMargin)
         }
     }

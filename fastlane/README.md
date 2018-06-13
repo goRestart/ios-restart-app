@@ -86,6 +86,16 @@ Will run CI UI tests job
 fastlane ios dependencies
 ```
 
+### ios make_automation_build
+```
+fastlane ios make_automation_build
+```
+Builds LetgoGoDev for simulator to export it for automation process
+### ios upload_appstore
+```
+fastlane ios upload_appstore
+```
+Upload build to appstore
 ### ios upload_crashlytics
 ```
 fastlane ios upload_crashlytics
@@ -106,16 +116,6 @@ Does an appstore build
 fastlane ios build_sim
 ```
 Does a simulator build
-### ios test_shit
-```
-fastlane ios test_shit
-```
-testing
-### ios write
-```
-fastlane ios write
-```
-testing2
 
 ----
 

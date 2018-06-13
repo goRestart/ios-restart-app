@@ -1264,6 +1264,78 @@
 // Alert when clicked hidden_something text
 "hidden_text_alert_description" = "We hide contact information to help you buy and sell safely. Chatting inside letgo is easy and more secure.";
 
+// Title of the first step of the ID Verification
+"id_verification_first_step_title" = "First, we need a picture of you!";
+
+// Subtitle of the first step of the ID Verification
+"id_verification_first_step_subtitle" = "Remove any glasses or hat and snap a selfie.";
+
+// Title of the second step of the ID Verification
+"id_verification_second_step_title" = "Now we'll need to scan your ID";
+
+// Subtitle of the second step of the ID Verification
+"id_verification_second_step_subtitle" = "Select your type of ID and state";
+
+// Title of the list of types of ID to select
+"id_verification_second_step_section_title" = "TYPE OF ID";
+
+// Message for the alert shown after taking the selfie to update the user profile
+"id_verification_update_avatar_message" = "Do you want to make this your profile picture?";
+
+// Button title to finish step 2 after selecting the Type of ID
+"id_verification_second_step_button_title" = "Continue";
+
+// Title of the view to choose the user State
+"id_verification_select_state_title" = "State";
+
+// Placeholder text shown inside the Search Box to filter the States
+"id_verification_select_state_search_placeholder" = "Search";
+
+// Title of the third step of the ID Verification
+"id_verification_third_step_title" = "Take a picture of the front of your ID";
+
+// Subtitle of the third step of the ID Verification
+"id_verification_third_step_subtitle" = "Make sure your ID is clear and inside the box in the viewfinder";
+
+// Title of the fourth step of the ID Verification
+"id_verification_fourth_step_title" = "Take a picture of the back of your ID";
+
+// Subtitle of the fourth step of the ID Verification
+"id_verification_fourth_step_subtitle" = "Make sure your ID is clear and inside the box in the viewfinder";
+
+// Title of the summary view with all the ID data of the four steps
+"id_verification_summary_title" = "Summary";
+
+// Subtitle of the summary view
+"id_verification_summary_subtitle" = "Review your info and tap OK to finish";
+
+// Title of the list with the info the user selected in the previous steps
+"id_verification_summary_section_title" = "ID VERIFICATION INFO";
+
+// Type of ID passport that can be chosen by the user
+"id_verification_option_passport" = "Passport";
+
+// Type of ID Driver's License that can be chosen by the user
+"id_verification_option_drivers_license" = "Driver's License";
+
+// Row of the summary with the selected user picture
+"id_verification_option_user_picture" = "Your picture";
+
+// Row of the summary with the selected type of ID
+"id_verification_option_id_type" = "Type of ID";
+
+// Row of the summary with the selected State
+"id_verification_option_state" = "State";
+
+// Row of the summary with the selected picture of the ID Front
+"id_verification_option_id_front" = "Front of your ID";
+
+// Row of the summary with the selected picture of the ID Back
+"id_verification_option_id_back" = "Back of your ID";
+
+// Button to confirm the data in summary and request the ID verification
+"id_verification_summary_button_title" = "OK";
+
 // Title for Listings Map View
 "listings_map_title" = "Map view";
 

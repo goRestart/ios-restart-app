@@ -152,16 +152,19 @@ extension MultiListingPostedViewController {
         
         collectionView.layout(with: view)
             .fillHorizontal()
-            .top(to: .top, by: 2*Metrics.veryBigMargin)
             .bottom(to: .bottom)
+        collectionView.topAnchor.constraint(equalTo: safeTopAnchor,
+                                            constant: 2*Metrics.veryBigMargin).isActive = true
         
         closeButton.layout()
             .width(Layout.closeButtonSize.width)
             .height(Layout.closeButtonSize.height)
         
         closeButton.layout(with: view)
-            .top(to: .top, by: Metrics.bigMargin)
             .left(to: .left, by: Metrics.bigMargin)
+        
+        closeButton.topAnchor.constraint(equalTo: safeTopAnchor,
+                                         constant: Metrics.bigMargin).isActive = true
         
         loadingIndicator.layout()
             .width(Layout.loadingIndicatorSize.width)
