@@ -62,7 +62,7 @@ extension AppDelegate: UIApplicationDelegate {
         self.locationRepository = Core.locationRepository
         self.sessionManager = Core.sessionManager
         self.configManager = LGConfigManager.sharedInstance
-        self.locationManager?.shouldAskForBackgroundLocationPermission = featureFlags.emergencyLocate.isActive
+        self.locationManager?.shouldAskForBackgroundLocationPermission = false
         let keyValueStorage = KeyValueStorage.sharedInstance
         let versionChecker = VersionChecker.sharedInstance
 
@@ -340,7 +340,7 @@ fileprivate extension AppDelegate {
             guard let `self` = self else { return }
             if enabled {
                 let emergencyActive = self.featureFlags?.emergencyLocate.isActive ?? false
-                self.locationManager?.shouldAskForBackgroundLocationPermission = emergencyActive
+                self.locationManager?.shouldAskForBackgroundLocationPermission = false
                 self.locationManager?.startSensorLocationUpdates()
             } else {
                 self.locationManager?.stopSensorLocationUpdates()
