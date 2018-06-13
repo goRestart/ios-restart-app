@@ -1133,10 +1133,8 @@ extension FeatureFlags {
         if Bumper.enabled {
             return Bumper.chatConversationsListWithoutTabs
         }
-        // TODO: change once development is completed
-        return .control
-        // let cached = dao.retrieveChatConversationsListWithoutTabs()
-        // return cached ?? ChatConversationsListWithoutTabs.fromPosition(abTests.chatConversationsListWithoutTabs.value)
+        let cached = dao.retrieveChatConversationsListWithoutTabs()
+        return cached ?? ChatConversationsListWithoutTabs.fromPosition(abTests.chatConversationsListWithoutTabs.value)
     }
 }
 
