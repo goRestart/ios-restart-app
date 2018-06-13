@@ -117,37 +117,6 @@ platform :ios do
     bender message: message, channels: [ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]
   end
 
-  desc "Build and distribute local code to Crashlytics"
-  lane :local_beta do
-
-    version_number = Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER]
-    build_number = Actions.lane_context[SharedValues::RB_BUILD_NUMBER]
- 
-    add_version_badge version_number:version_number, build_number:build_number
-
-    add_badge(shield: "#{version_number}-#{build_number}-blue", dark: true, shield_geometry: "+0+25%", shield_scale: 0.75)
-    gym(
-      workspace: ENV["LETGO_WORKSPACE"],
-      output_directory: "./",
-      configuration: "Adhoc",
-      scheme: "LetGoPROD",
-      silent: false,
-      clean: true,
-      export_method: "ad-hoc"
-    )
-
-    changelog = "Beta #{version_number}-#{build_number}"
-
-    crashlytics(
-      api_token: 'da82303e33e3a2dc304cdccaa4e19dba00334a34',
-      build_secret: '964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe',
-      notes: "#{changelog}",
-      groups: "letgo-testers"
-    )
-    bender message: "New beta (#{version_number} - #{build_number}) ready @here :tada:", channels: [ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]
-  end
-
-
   desc "Deploys a new version to App Store"
   lane :deploy_to_appstore do
     UI.important ("\n\n ⚠️ \nThis lane will build release-x-x-x branch and send it to Apple. \n\n")
