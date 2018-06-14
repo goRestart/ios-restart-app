@@ -1906,6 +1906,8 @@ extension MainListingsViewModel: ListingCellDelegate {
             guard let strSelf = self else { return }
             if let listingId = listing.objectId,
                 strSelf.keyValueStorage.proSellerAlreadySentPhoneInChat.contains(listingId) {
+                let trackHelper = ProductVMTrackHelper(tracker: strSelf.tracker, listing: listing, featureFlags: strSelf.featureFlags)
+                trackHelper.trackChatWithSeller(.feed)
                 strSelf.navigator?.openListingChat(listing, source: .listingList, interlocutor: interlocutor)
             } else {
                 strSelf.navigator?.openAskPhoneFromMainFeedFor(listing: listing, interlocutor: interlocutor)

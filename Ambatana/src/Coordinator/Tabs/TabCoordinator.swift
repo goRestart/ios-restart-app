@@ -727,7 +727,7 @@ extension TabCoordinator: ListingDetailNavigator {
     }
 
     func openAskPhoneFor(listing: Listing, interlocutor: User?) {
-        let askNumVM = ProfessionalDealerAskPhoneViewModel(listing: listing, interlocutor: interlocutor)
+        let askNumVM = ProfessionalDealerAskPhoneViewModel(listing: listing, interlocutor: interlocutor, typePage: .listingDetail)
         askNumVM.navigator = self
         let askNumVC = ProfessionalDealerAskPhoneViewController(viewModel: askNumVM)
         askNumVC.setupForModalWithNonOpaqueBackground()

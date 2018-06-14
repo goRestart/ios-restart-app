@@ -167,7 +167,7 @@ extension MainTabCoordinator: MainTabNavigator {
     }
     
     func openAskPhoneFromMainFeedFor(listing: Listing, interlocutor: User?) {
-        let askNumVM = ProfessionalDealerAskPhoneViewModel(listing: listing, interlocutor: interlocutor)
+        let askNumVM = ProfessionalDealerAskPhoneViewModel(listing: listing, interlocutor: interlocutor, typePage: .feed)
         askNumVM.navigator = self
         let askNumVC = ProfessionalDealerAskPhoneViewController(viewModel: askNumVM)
         askNumVC.setupForModalWithNonOpaqueBackground()
