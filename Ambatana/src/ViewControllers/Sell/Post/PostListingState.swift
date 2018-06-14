@@ -4,12 +4,13 @@ import LGComponents
 public enum VerticalAttributes {
     case carInfo(CarAttributes)
     case realEstateInfo(RealEstateAttributes)
+    case serviceInfo(ServiceAttributes)
  
     var carAttributes: CarAttributes? {
         switch self {
         case .carInfo(let attributes):
             return attributes
-        case .realEstateInfo:
+        case .realEstateInfo, .serviceInfo:
             return nil
         }
     }
@@ -18,7 +19,16 @@ public enum VerticalAttributes {
         switch self {
         case .realEstateInfo(let attributes):
             return attributes
-        case .carInfo:
+        case .carInfo, .serviceInfo:
+            return nil
+        }
+    }
+    
+    var serviceAttributes: ServiceAttributes? {
+        switch self {
+        case .serviceInfo(let attributes):
+            return attributes
+        case .carInfo, .realEstateInfo:
             return nil
         }
     }
@@ -29,6 +39,8 @@ public enum VerticalAttributes {
             return carAttributes.generatedTitle
         case .realEstateInfo(let attributes):
             return attributes.generateTitle(postingFlowType: postingFlowType)
+        case .serviceInfo(let attributes):
+            return ""
         }
     }
 }
@@ -52,6 +64,9 @@ class PostListingState {
         guard let category = category, category == .realEstate else { return false }
         return true
     }
+    var isService: Bool {
+        return category?.isService ?? false
+    }
     
     var sizeSquareMeters: Int? {
         return verticalAttributes?.realEstateAttributes?.sizeSquareMeters
@@ -62,6 +77,9 @@ class PostListingState {
         return pendingImages > 0 || pendingToUploadVideo != nil
     }
     
+    var serviceAttributes: ServiceAttributes {
+        return verticalAttributes?.serviceAttributes ?? ServiceAttributes.emptyServicesAttributes()
+    }
     
     // MARK: - Lifecycle
     
@@ -501,6 +519,23 @@ class PostListingState {
                                 uploadedVideo: uploadedVideo,
                                 price: price,
                                 verticalAttributes: .realEstateInfo(realEstateInfo),
+                                place: place,
+                                title: title,
+                                predictionData: predictionData)
+    }
+    
+    func updating(servicesInfo: ServiceAttributes, uploadedImages: [File]) -> PostListingState {
+        guard step == .addingDetails else { return self }
+        return PostListingState(step: .addingDetails,
+                                previousStep: step,
+                                category: category,
+                                pendingToUploadImages: pendingToUploadImages,
+                                pendingToUploadVideo: pendingToUploadVideo,
+                                lastImagesUploadResult: FilesResult(value: uploadedImages),
+                                uploadingVideo: uploadingVideo,
+                                uploadedVideo: uploadedVideo,
+                                price: price,
+                                verticalAttributes: .serviceInfo(servicesInfo),
                                 place: place,
                                 title: title,
                                 predictionData: predictionData)

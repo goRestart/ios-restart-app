@@ -7,6 +7,7 @@
 //
 
 import RxSwift
+import LGComponents
 
 protocol UserViewDelegate: class {
     func userViewAvatarPressed(_ userView: UserView)
@@ -89,13 +90,14 @@ enum UserViewStyle {
     }
 }
 
-class UserView: UIView {
+final class UserView: UIView {
     @IBOutlet weak var userAvatarImageView: UIImageView!
     @IBOutlet var avatarMarginConstraints: [NSLayoutConstraint]!
     @IBOutlet weak var textInfoContainer: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!
     @IBOutlet weak var ratingsContainer: UIView!
+    @IBOutlet var stars: [UIImageView]!
     @IBOutlet weak var ratingsContainerHeight: NSLayoutConstraint!
     @IBOutlet weak var proImageView: UIImageView!
     @IBOutlet weak var userBadgeImageView: UIImageView!
@@ -236,6 +238,16 @@ class UserView: UIView {
         }.disposed(by: disposeBag)
 
         setAccesibilityIds()
+        setupRAssets()
+    }
+
+    private func setupRAssets() {
+        proImageView.image = R.Asset.Monetization.proTag.image
+        userBadgeImageView.image = R.Asset.IconsButtons.icKarmaBadgeActive.image
+        stars.forEach {
+            $0.image = R.Asset.IconsButtons.icStar.image
+            $0.highlightedImage = R.Asset.IconsButtons.icStarFilled.image
+        }
     }
 
     @objc private func avatarPressed() {

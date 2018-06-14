@@ -48,6 +48,7 @@ class ExpressChatViewController: BaseViewController {
     }
 
     func setupUI() {
+        closeButton.setImage(R.Asset.CongratsScreenImages.icCloseRed.image, for: .normal)
         scrollView.backgroundColor = .clear
         automaticallyAdjustsScrollViewInsets = false
 

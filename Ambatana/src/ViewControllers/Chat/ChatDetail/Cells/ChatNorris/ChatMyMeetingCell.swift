@@ -101,6 +101,12 @@ private extension ChatMyMeetingCell {
         locationView.image = R.Asset.ChatNorris.meetingMapPlaceholder.image
         locationView.contentMode = .scaleAspectFill
         locationView.cornerRadius = LGUIKitConstants.mediumCornerRadius
+
+        setupRAssets()
+    }
+
+    private func setupRAssets() {
+        checkImageView.image = R.Asset.IconsButtons.icCheckSent.image
     }
 
     func resetUI() {

@@ -22,7 +22,7 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
     @IBOutlet weak var postErrorLabel: UILabel!
     @IBOutlet weak var retryButton: LetgoButton!
     @IBOutlet weak var uploadImageStackView: UIStackView!
-    var loadingViewRealEstate: LoadingIndicator?
+    private var verticalLoadingView: LoadingIndicator?
     var messageLabelUploadingImage: UILabel = UILabel()
     var retryButtonUploadingImageRealEstate = LetgoButton(withStyle: .primary(fontSize: .medium))
     
@@ -145,7 +145,7 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
         navigationController?.setNavigationBarHidden(true, animated: false)
         if viewModel.state.value.isLoading {
             customLoadingView.startAnimating()
-            loadingViewRealEstate?.startAnimating()
+            verticalLoadingView?.startAnimating()
         }
     }
 
@@ -276,10 +276,10 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
     }
     
     private func setupLoadingStackView() {
-        guard viewModel.isRealEstate else { return }
-        loadingViewRealEstate = LoadingIndicator(frame: CGRect(x: 0, y: 0, width: PostListingViewController.loadingViewWidth, height: PostListingViewController.loadingViewHeight))
-        loadingViewRealEstate?.layout().height(PostListingViewController.loadingViewHeight).width(PostListingViewController.loadingViewWidth)
-        if let loadingView = loadingViewRealEstate {
+        guard viewModel.isRealEstate || viewModel.isService else { return }
+        verticalLoadingView = LoadingIndicator(frame: CGRect(x: 0, y: 0, width: PostListingViewController.loadingViewWidth, height: PostListingViewController.loadingViewHeight))
+        verticalLoadingView?.layout().height(PostListingViewController.loadingViewHeight).width(PostListingViewController.loadingViewWidth)
+        if let loadingView = verticalLoadingView {
             uploadImageStackView.addArrangedSubview(loadingView)
         }
         messageLabelUploadingImage.textColor = UIColor.white
@@ -297,7 +297,6 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
     }
     
     fileprivate func addMessageToStackView(textMessage: String?, success: Bool) {
-        guard viewModel.isRealEstate else { return }
         messageLabelUploadingImage.text = textMessage
         messageLabelUploadingImage.isHidden = false
         if !success {
@@ -596,7 +595,7 @@ private extension PostListingState {
     }
     
     var customLoadingViewAlpha: CGFloat {
-        guard !isRealEstate else { return 0 }
+        guard !isRealEstate && !isService else { return 0 }
         switch step {
         case .imageSelection, .categorySelection, .carDetailsSelection, .finished, .addingDetails:
             return 0
@@ -615,7 +614,7 @@ private extension PostListingState {
     }
     
     var postedInfoLabelAlpha: CGFloat {
-        guard !isRealEstate else { return 0 }
+        guard !isRealEstate && !isService else { return 0 }
         switch step {
         case .imageSelection, .categorySelection, .uploadingImage, .errorUpload, .uploadingVideo, .errorVideoUpload, .carDetailsSelection, .finished, .addingDetails:
             return 0
@@ -633,7 +632,7 @@ private extension PostListingState {
     }
     
     var postErrorLabelAlpha: CGFloat {
-        guard let category = category, category == .realEstate else { return isError ? 1 : 0 }
+        guard let category = category, (category == .realEstate || category == .services)  else { return isError ? 1 : 0 }
         return 0
     }
     
@@ -647,7 +646,7 @@ private extension PostListingState {
     }
     
     var retryButtonAlpha: CGFloat {
-        guard isRealEstate else { return isError ? 1 : 0 }
+        guard isRealEstate || isService else { return isError ? 1 : 0 }
         return 0
     }
     
@@ -743,7 +742,7 @@ extension PostListingViewController {
                                 updateVisibility()
                            })
             customLoadingView.startAnimating()
-            loadingViewRealEstate?.startAnimating()
+            verticalLoadingView?.startAnimating()
             isLoading = true
         } else if isLoading {
             stopAnimationLoaders(text: state.messageForLoadedImage(confirmationText: viewModel.confirmationOkText), isError: state.isError, action: updateVisibility)
@@ -760,11 +759,14 @@ extension PostListingViewController {
     }
     
     private func stopAnimationLoaders(text: String?, isError: Bool, action: @escaping ()->()) {
-        if viewModel.isRealEstate {
-            loadingViewRealEstate?.stopAnimating(correctState: !isError, completion: action)
-            addMessageToStackView(textMessage:text , success: !isError)
-        } else {
+        guard viewModel.isRealEstate || viewModel.isService else {
             customLoadingView.stopAnimating(correctState: !isError, completion: action)
+            return
+        }
+        verticalLoadingView?.stopAnimating(correctState: !isError, completion: action)
+        
+        if isError || viewModel.isRealEstate {
+            addMessageToStackView(textMessage:text , success: !isError)
         }
     }
     

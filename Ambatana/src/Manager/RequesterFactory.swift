@@ -1,7 +1,7 @@
 import Foundation
 
 enum RequesterType: String {
-    case nonFilteredFeed, search, similarProducts, combinedSearchAndSimilar
+    case nonFilteredFeed, search, similarProducts
     var identifier: String { return self.rawValue }
 }
 
@@ -27,12 +27,8 @@ final class SearchRequesterFactory: RequesterFactory {
             return [.search]
         case .popularNearYou:
             return [.search, .nonFilteredFeed]
-        case .similarQueries:
+        case .similarQueries, .similarQueriesWhenFewResults, .alwaysSimilar:
             return [.search, .similarProducts, .nonFilteredFeed]
-        case .similarQueriesWhenFewResults:
-            return [.search, .combinedSearchAndSimilar, .nonFilteredFeed]
-        case .alwaysSimilar:
-            return [.combinedSearchAndSimilar, .nonFilteredFeed]
         }
     }
     
@@ -67,12 +63,7 @@ final class SearchRequesterFactory: RequesterFactory {
                                                                 itemsPerPage: itemsPerPage,
                                                                 carSearchActive: carSearchActive,
                                                                 similarSearchActive: dependencyContainer.similarSearchActive)
-        case .combinedSearchAndSimilar:
-            return FilterListingListRequesterFactory
-                .generateCombinedSearchAndSimilar(withFilters: filters,
-                                                  queryString: queryString,
-                                                  itemsPerPage: itemsPerPage,
-                                                  carSearchActive: carSearchActive)
+
         }
     }
 }

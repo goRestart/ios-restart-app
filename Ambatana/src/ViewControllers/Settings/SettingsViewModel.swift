@@ -8,7 +8,6 @@ enum LetGoSetting {
     case changeUsername(name: String)
     case changeLocation(location: String)
     case changeUserBio
-    case marketingNotifications(switchValue: Variable<Bool>, changeClosure: ((Bool) -> Void))
     case changePassword
     case help
     case termsAndConditions
@@ -53,9 +52,8 @@ class SettingsViewModel: BaseViewModel {
         return LetgoURLHelper.buildPrivacyURL()
     }
     
-    private var isSearchAlertsEnabled: Bool {
-        return featureFlags.searchAlerts.isActive
-    }
+    
+    // MARK: - Lifecycle
     
     convenience override init() {
         self.init(myUserRepository: Core.myUserRepository,
@@ -191,13 +189,7 @@ class SettingsViewModel: BaseViewModel {
             profileSettings.append(.changePassword)
         }
         
-        if isSearchAlertsEnabled {
-            profileSettings.append(.notifications)
-        } else {
-            profileSettings.append(.marketingNotifications(switchValue: switchMarketingNotificationValue,
-                                                           changeClosure: { [weak self] enabled in
-                                                            self?.checkMarketingNotifications(enabled) } ))
-        }
+        profileSettings.append(.notifications)
 
         settingSections.append(SettingsSection(title: R.Strings.settingsSectionProfile, settings: profileSettings))
 
@@ -246,7 +238,7 @@ class SettingsViewModel: BaseViewModel {
                                     action: {}, accessibilityId: .settingsLogoutAlertCancel)
             delegate?.vmShowAlertWithTitle(nil, text: R.Strings.settingsLogoutAlertMessage,
                                            alertType: .plainAlertOld, actions: [positive, negative])
-        case .versionInfo, .marketingNotifications:
+        case .versionInfo:
             break
         case .notifications:
             navigator?.openSettingsNotifications()

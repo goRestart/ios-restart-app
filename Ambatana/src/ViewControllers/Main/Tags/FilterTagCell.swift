@@ -191,6 +191,7 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
         contentView.layer.borderWidth = LGUIKitConstants.onePixelSize
         contentView.layer.backgroundColor = UIColor.white.cgColor
         setupConstraints()
+        closeButton.addTarget(self, action: #selector(onCloseBtn), for: .touchUpInside)
     }
     
     private func setupConstraints() {
@@ -248,7 +249,7 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
     
     // MARK: - IBActions
     
-    @IBAction func onCloseBtn(_ sender: AnyObject) {
+    @objc private func onCloseBtn(_ sender: AnyObject) {
         delegate?.onFilterTagClosed(self)
     }
 

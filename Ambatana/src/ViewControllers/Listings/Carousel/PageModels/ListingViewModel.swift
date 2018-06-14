@@ -318,12 +318,7 @@ class ListingViewModel: BaseViewModel {
     internal override func didBecomeActive(_ firstTime: Bool) {
         guard let listingId = listing.value.objectId else { return }
 
-        if  listing.value.isRealEstate
-            && listing.value.realEstate?.realEstateAttributes == RealEstateAttributes.emptyRealEstateAttributes() {
-            retrieveRealEstateDetails(listingId: listingId)
-        } else {
-            isListingDetailsCompleted.value = true
-        }
+        retrieveMoreDetails(listing: listing.value)
 
         if isMine {
             seller.value = myUserRepository.myUser
@@ -503,11 +498,24 @@ class ListingViewModel: BaseViewModel {
         status.value = ListingViewModelStatus(listing: listing.value, isMine: isMine, featureFlags: featureFlags)
     }
     
-    private func retrieveRealEstateDetails(listingId: String) {
-        listingRepository.retrieveRealEstate(listingId) { [weak self] (result) in
-            guard let realEstateListing = result.value else { return }
-            self?.listing.value = realEstateListing
+    private func retrieveMoreDetails(listing: Listing) {
+        guard let listingId = listing.objectId else {
+            isListingDetailsCompleted.value = true
+            return
+        }
+        
+        let retrieveCompletion: ListingCompletion? = { [weak self] (result) in
+            guard let updatedListing = result.value else { return }
+            self?.listing.value = updatedListing
             self?.isListingDetailsCompleted.value = true
+        }
+        
+        if listing.isRealEstateWithEmptyAttributes {
+            listingRepository.retrieveRealEstate(listingId, completion: retrieveCompletion)
+        } else if listing.isServiceWithEmptyAttributes {
+            listingRepository.retrieveService(listingId, completion: retrieveCompletion)
+        } else {
+            isListingDetailsCompleted.value = true
         }
     }
 

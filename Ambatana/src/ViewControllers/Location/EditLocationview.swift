@@ -10,6 +10,7 @@ final class EditLocationView: UIView {
             static let gpsButton: CGFloat = 50
             static let searchView: CGFloat = 38
             static let tableView: CGFloat = 44
+            static let button: CGFloat = 44
         }
         struct Margin {
             static let searchView: CGFloat = 8
@@ -31,7 +32,17 @@ final class EditLocationView: UIView {
         return tableView
     }()
 
-    let mapView = MKMapView.sharedInstance
+    lazy var mapView: MKMapView = {
+        let mapView = MKMapView.sharedInstance
+        mapView.isZoomEnabled = true
+        mapView.isScrollEnabled = true
+        mapView.isPitchEnabled = true
+        mapView.removeAllGestureRecognizers() // As it's a singleton, it may be used in another view
+        mapView.removeFromSuperview()
+
+        return mapView
+    }()
+
     let gpsLocatizationButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setImage(R.Asset.IconsButtons.Map.mapUserLocationButton.image, for: .normal)
@@ -77,6 +88,10 @@ final class EditLocationView: UIView {
     }
 
     required init?(coder aDecoder: NSCoder) { fatalError("Die xibs, die") }
+
+    func setApproxArea(hidden: Bool) {
+        approxView.backgroundColor = hidden ? .clear : UIColor.black.withAlphaComponent(0.1)
+    }
 
     func setApproxLocation(hidden: Bool) {
         approximateLabel.isHidden = hidden
@@ -157,6 +172,7 @@ final class EditLocationView: UIView {
 
             locationButton.leftAnchor.constraint(equalTo: locationButtonLayoutGuide.leftAnchor,
                                                  constant: Metrics.margin),
+            locationButton.heightAnchor.constraint(equalToConstant: Layout.Height.button),
             locationButton.topAnchor.constraint(equalTo: locationButtonLayoutGuide.topAnchor, constant: margin),
             locationButton.rightAnchor.constraint(equalTo: locationButtonLayoutGuide.rightAnchor,
                                                   constant: -Metrics.margin),
@@ -207,6 +223,7 @@ final private class ApproxLocationView: UIView {
     }
 
     private func setupUI() {
+        isUserInteractionEnabled = false
         backgroundColor = UIColor.black.withAlphaComponent(0.1)
         addSubviewForAutoLayout(pin)
         NSLayoutConstraint.activate([

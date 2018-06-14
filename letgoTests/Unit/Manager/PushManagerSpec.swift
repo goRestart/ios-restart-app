@@ -49,8 +49,7 @@ class PushManagerSpec: QuickSpec {
                                   notificationsManager: notificationsManager,
                                   locationRepository: locationRepository,
                                   featureFlags: featureFlags,
-                                  keyValueStorage: keyValueStorage,
-                                  navigator: nil)
+                                  keyValueStorage: keyValueStorage)
             }
             
             describe("app did become active") {

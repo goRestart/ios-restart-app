@@ -32,6 +32,9 @@
                 <outlet property="legalTextView" destination="x7r-Le-Z4F" id="UlF-VT-WZT"/>
                 <outlet property="logInButton" destination="pdp-VZ-cZN" id="mCG-7U-5Rn"/>
                 <outlet property="loginButtonBottomMarginConstraint" destination="BVu-NN-Wof" id="ntv-k2-UNd"/>
+                <outlet property="logoBigImageView" destination="Ujl-i7-kRC" id="dlR-cM-Hj1"/>
+                <outlet property="logoFacebook" destination="Ytw-fW-nBO" id="ALc-OT-F9P"/>
+                <outlet property="logoGoogle" destination="gko-SQ-cT3" id="gLw-f8-dV4"/>
                 <outlet property="mainViewHeightProportion" destination="MVo-Qh-2lV" id="OYs-2i-arn"/>
                 <outlet property="orDividerTopMarginConstraint" destination="4XM-dF-56P" id="h6R-GV-Rom"/>
                 <outlet property="orLabel" destination="1pc-RV-rnQ" id="vy9-La-dT5"/>
@@ -52,7 +55,7 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kW9-f4-l6d" userLabel="Logo and Claim View">
                             <rect key="frame" x="0.0" y="88.5" width="375" height="89"/>
                             <subviews>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="logo-big" translatesAutoresizingMaskIntoConstraints="NO" id="Ujl-i7-kRC" userLabel="Logo Image View">
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" translatesAutoresizingMaskIntoConstraints="NO" id="Ujl-i7-kRC" userLabel="Logo Image View">
                                     <rect key="frame" x="132.5" y="0.0" width="110" height="66"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="110" id="Tbe-Vq-CYF"/>
@@ -128,7 +131,7 @@
                                 <action selector="connectFBButtonPressed:" destination="-1" eventType="touchUpInside" id="onX-Ut-SyA"/>
                             </connections>
                         </button>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_facebook_rounded" translatesAutoresizingMaskIntoConstraints="NO" id="Ytw-fW-nBO" userLabel="FB Logo Image View">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ytw-fW-nBO" userLabel="FB Logo Image View">
                             <rect key="frame" x="22" y="46" width="30" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="2Kg-ti-Xkx"/>
@@ -151,7 +154,7 @@
                                 <action selector="connectGoogleButtonPressed:" destination="-1" eventType="touchUpInside" id="X1m-NV-hLa"/>
                             </connections>
                         </button>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_google_rounded" translatesAutoresizingMaskIntoConstraints="NO" id="gko-SQ-cT3">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gko-SQ-cT3">
                             <rect key="frame" x="22" y="106" width="30" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="eyl-sG-AvR"/>

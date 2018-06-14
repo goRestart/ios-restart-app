@@ -5,49 +5,65 @@ import LGCoreKit
 
 class ListingListViewModelSpec: QuickSpec {
 
-    var sut: ListingListViewModel!
-    
     override func spec() {
+
+        var sut: ListingListViewModel!
 
         var requesterFactory: MockRequesterFactory!
         var dataDelegate: SpyListingListViewModelDataDelegate!
         var featureFlags: MockFeatureFlags!
         var tracker: Tracker!
         
-        // Init VM with requester factory
-
-        describe("init view model with requester factory containing 1 requester") {
+        beforeEach {
+            initDependencies()
+        }
+        
+        describe("init view model with requester factory containing 1 non-empty requester") {
 
             beforeEach {
-                initDependencies()
-                self.sut = makeSutWithFactory(.control, productCounts: [10])
+                sut = makeSutWithFactory(.control, productCounts: [10])
             }
 
-            context("initial requester from factory") {
+            describe("initial requester from factory") {
 
-                it("equal to listingListRequester") {
+                it("equals to listingListRequester") {
                     let factoryRequester = requesterFactory.buildRequesterList()[0]
-                    expect(self.sut.listingListRequester?.isEqual(toRequester: factoryRequester)).to(be(true))
+                    expect(sut.listingListRequester?.isEqual(toRequester: factoryRequester)).to(be(true))
                 }
                 
-                it("equal to currentActiveRequester") {
+                it("equals to currentActiveRequester") {
                     let factoryRequester = requesterFactory.buildRequesterList()[0]
-                    expect(self.sut.currentActiveRequester?.isEqual(toRequester: factoryRequester)).to(be(true))
+                    expect(sut.currentActiveRequester?.isEqual(toRequester: factoryRequester)).to(be(true))
                 }
             }
 
-            context("retrieve listing") {
+            describe("retrieve listing") {
 
                 beforeEach {
-                    self.sut.retrieveListings()
+                    sut.retrieveListings()
                 }
 
                 it("receives 10 products") {
                     expect(dataDelegate.count).toEventually(equal(10))
                 }
 
-                it("requester type used to get products is .search") {
+                it("uses a requester of type .search") {
                     expect(dataDelegate.requesterType).toEventually(equal(.search))
+                }
+                
+                it("does have listing") {
+                    expect(dataDelegate.hasListing).toEventually(beTrue())
+                }
+            }
+            
+            describe("refresh listing") {
+                
+                beforeEach {
+                    sut.refresh()
+                }
+
+                it("eventually finishes refreshing") {
+                    expect(sut.refreshing).toEventuallyNot(beTrue())
                 }
             }
         }
@@ -55,134 +71,318 @@ class ListingListViewModelSpec: QuickSpec {
         describe("init view model with requester factory containing 2 requesters with [15, 30] products") {
 
             beforeEach {
-                initDependencies()
-                self.sut = makeSutWithFactory(.popularNearYou, productCounts: [15, 30])
+                sut = makeSutWithFactory(.popularNearYou, productCounts: [15, 30])
             }
 
-            context("initial requester from factory") {
+            describe("initial requester from factory") {
 
                 it("equal to listingListRequester") {
                     let factoryRequester = requesterFactory.buildRequesterList()[0]
-                    expect(self.sut.listingListRequester?.isEqual(toRequester: factoryRequester)).to(be(true))
+                    expect(sut.listingListRequester?.isEqual(toRequester: factoryRequester)).to(be(true))
                 }
                 
                 it("equal to currentActiveRequester") {
                     let factoryRequester = requesterFactory.buildRequesterList()[0]
-                    expect(self.sut.currentActiveRequester?.isEqual(toRequester: factoryRequester)).to(be(true))
+                    expect(sut.currentActiveRequester?.isEqual(toRequester: factoryRequester)).to(be(true))
                 }
             }
 
-            context("retrieve listing") {
+            describe("retrieve listing") {
 
                 beforeEach {
-                    self.sut.retrieveListings()
+                    sut.retrieveListings()
                 }
 
                 it("receives 15 products") {
                     expect(dataDelegate.count).toEventually(equal(15))
                 }
 
-                it("requester type used to get products is .search") {
+                it("uses a requester of type .search to return products") {
                     expect(dataDelegate.requesterType).toEventually(equal(.search))
+                }
+                
+                it("does have listing") {
+                    expect(dataDelegate.hasListing).toEventually(beTrue())
+                }
+            }
+            
+            describe("refresh listing") {
+                
+                beforeEach {
+                    sut.refresh()
+                }
+                
+                it("indicates that is refreshing") {
+                    expect(sut.refreshing) == true
+                }
+                
+                it("eventually finishes refreshing") {
+                    expect(sut.refreshing).toEventuallyNot(beTrue())
                 }
             }
         }
 
         describe("init view model with requester factory containing 2 requesters with [0, 40] products") {
 
-            context("retrieve listing") {
+            describe("retrieve listing") {
                 beforeEach {
-                    initDependencies()
-                    self.sut = makeSutWithFactory(.popularNearYou, productCounts: [0, 40])
-                    self.sut.retrieveListings()
+                    sut = makeSutWithFactory(.popularNearYou, productCounts: [0, 40])
+                    sut.retrieveListings()
                 }
 
                 it("receives 40 products") {
                     expect(dataDelegate.count).toEventually(equal(40))
                 }
                 
-                it("requester type used to get products is .nonFilteredFeed") {
+                it("uses a requester of type of .nonFilteredFeed since the 1st request has no product") {
                     expect(dataDelegate.requesterType).toEventually(equal(.nonFilteredFeed))
+                }
+                
+                it("does have listing") {
+                    expect(dataDelegate.hasListing).toEventually(beTrue())
+                }
+            }
+            
+            describe("refresh listing") {
+                
+                beforeEach {
+                    sut = makeSutWithFactory(.popularNearYou, productCounts: [0, 40])
+                    sut.retrieveListings()
+                    sut.refresh()
+                }
+                
+                it("eventually finishes refreshing") {
+                    expect(sut.refreshing).toEventuallyNot(beTrue())
                 }
             }
         }
 
         describe("init view model with requester factory containing 3 requesters with [10, 25, 40] products") {
 
-            context("initial requester from factory") {
+            describe("initial requester from factory") {
                 
-                it("equal to listingListRequester") {
+                it("equals to listingListRequester") {
                     let factoryRequester = requesterFactory.buildRequesterList()[0]
-                    expect(self.sut.listingListRequester?.isEqual(toRequester: factoryRequester)).to(be(true))
+                    expect(sut.listingListRequester?.isEqual(toRequester: factoryRequester)).to(be(true))
                 }
                 
-                it("equal to currentActiveRequester") {
+                it("equals to currentActiveRequester") {
                     let factoryRequester = requesterFactory.buildRequesterList()[0]
-                    expect(self.sut.currentActiveRequester?.isEqual(toRequester: factoryRequester)).to(be(true))
+                    expect(sut.currentActiveRequester?.isEqual(toRequester: factoryRequester)).to(be(true))
                 }
             }
             
-            context("retrieve listing") {
+            describe("retrieve listing") {
                 beforeEach {
-                    initDependencies()
-                    self.sut = makeSutWithFactory(.similarQueries, productCounts: [10, 25, 40])
-                    self.sut.retrieveListings()
+                    sut = makeSutWithFactory(.similarQueries, productCounts: [10, 25, 40])
+                    sut.retrieveListings()
                 }
                 
                 it("receives 10 products") {
                     expect(dataDelegate.count).toEventually(equal(10))
                 }
                 
-                it("requester type used to get products is .search") {
+                it("returns the last used requester type as .search") {
                     expect(dataDelegate.requesterType).toEventually(equal(.search))
+                }
+                
+                it("does have listing") {
+                    expect(dataDelegate.hasListing).toEventually(beTrue())
+                }
+            }
+            
+            describe("refresh listing") {
+                beforeEach {
+                    sut = makeSutWithFactory(.similarQueries, productCounts: [10, 25, 40])
+                    sut.retrieveListings()
+                    sut.refresh()
+                }
+                
+                it("eventually finishes refreshing") {
+                    expect(sut.refreshing).toEventuallyNot(beTrue())
                 }
             }
         }
 
         describe("init view model with requester factory containing 3 requesters with [0, 25, 40] products") {
 
-            context("retrieve listing") {
+            beforeEach {
+                sut = makeSutWithFactory(.similarQueries, productCounts: [0, 25, 40])
+            }
+            
+            describe("retrieve listing") {
                 beforeEach {
-                    initDependencies()
-                    self.sut = makeSutWithFactory(.similarQueries, productCounts: [0, 25, 40])
-                    self.sut.retrieveListings()
+                    sut.retrieveListings()
                 }
                 
                 it("receives 25 products") {
                     expect(dataDelegate.count).toEventually(equal(25))
                 }
                 
-                it("requester type used to get products is .similarProducts") {
+                it("returns the last used requester type as .similarProducts") {
                     expect(dataDelegate.requesterType).toEventually(equal(.similarProducts))
                 }
 
                 it("final active requester is identical to the 2nd requester from factory") {
                     let factoryRequester = requesterFactory.buildRequesterList()[1]
-                    expect(self.sut.currentActiveRequester?.isEqual(toRequester: factoryRequester)).toEventually(beTrue())
+                    expect(sut.currentActiveRequester?.isEqual(toRequester: factoryRequester)).toEventually(beTrue())
+                }
+                
+                it("does have listing") {
+                    expect(dataDelegate.hasListing).toEventually(beTrue())
+                }
+            }
+            
+            describe("refresh listing") {
+                
+                beforeEach {
+                    sut.refresh()
+                }
+                
+                it("indicates that is refreshing") {
+                    expect(sut.refreshing) == true
+                }
+                
+                it("eventually finishes refreshing") {
+                    expect(sut.refreshing).toEventuallyNot(beTrue())
                 }
             }
         }
 
-        describe("init view model with requester factory containing 3 requesters both with [0, 25, 40] products") {
+        describe("init view model with requester factory containing 3 requesters with [0, 0, 40] products") {
 
-            context("retrieve listing") {
+            beforeEach {
+                sut = makeSutWithFactory(.similarQueries, productCounts: [0, 0, 40])
+            }
+            
+            describe("retrieve listing") {
                 beforeEach {
-                    initDependencies()
-                    self.sut = makeSutWithFactory(.similarQueries, productCounts: [0, 0, 40])
-                    self.sut.retrieveListings()
+                    sut.retrieveListings()
                 }
                 
                 it("receives 40 products") {
                     expect(dataDelegate.count).toEventually(equal(40))
                 }
                 
-                it("requester type used to get products is .nonFilteredFeed") {
+                it("returns the last used requester type as .nonFilteredFeed") {
                     expect(dataDelegate.requesterType).toEventually(equal(.nonFilteredFeed))
                 }
                 
                 it("final active requester is identical to the 2nd requester from factory") {
                     let factoryRequester = requesterFactory.buildRequesterList()[2]
-                    expect(self.sut.currentActiveRequester?.isEqual(toRequester: factoryRequester)).toEventually(beTrue())
+                    expect(sut.currentActiveRequester?.isEqual(toRequester: factoryRequester)).toEventually(beTrue())
+                }
+                
+                it("does have listing") {
+                    expect(dataDelegate.hasListing).toEventually(beTrue())
+                }
+            }
+            
+            describe("refresh listing") {
+                
+                beforeEach {
+                    sut.retrieveListings()
+                    sut.refresh()
+                }
+                
+                it("eventually finishes refreshing") {
+                    expect(sut.refreshing).toEventuallyNot(beTrue())
+                }
+            }
+        }
+
+        describe("init view model with requester factory containing 3 requesters with [6, 21, 40] products for .similarQueriesWhenFewResults case") {
+
+            beforeEach {
+                sut = makeSutWithFactory(.similarQueriesWhenFewResults, productCounts: [6, 21, 40])
+            }
+            
+            describe("retrieve listing") {
+                beforeEach {
+                    sut.retrieveListings()
+                }
+
+                it("the last object count received is 21") {
+                    expect(dataDelegate.count).toEventually(equal(21))
+                }
+
+                it("returns the last used requester type as .similarProducts") {
+                    expect(dataDelegate.requesterType).toEventually(equal(.similarProducts))
+                }
+
+                it("final active requester is identical to the 2nd requester from factory") {
+                    let factoryRequester = requesterFactory.buildRequesterList()[1]
+                    expect(sut.currentActiveRequester?.isEqual(toRequester: factoryRequester)).toEventually(beTrue())
+                }
+                
+                it("does have listing") {
+                    expect(dataDelegate.hasListing).toEventually(beTrue())
+                }
+            }
+            
+            context("refresh listing") {
+                
+                beforeEach {
+                    sut.retrieveListings()
+                    sut.refresh()
+                }
+                
+                it("eventually finishes refreshing") {
+                    expect(sut.refreshing).toEventuallyNot(beTrue())
+                }
+            }
+        }
+
+        describe("init view model with requester factory containing 3 requesters both with  [4, 14, 40] products for .alwaysSimilar case") {
+
+            describe("retrieve listing") {
+                beforeEach {
+                    sut = makeSutWithFactory(.alwaysSimilar, productCounts: [4, 14, 40])
+                    sut.retrieveListings()
+                }
+
+                it("the last object count received is 14") {
+                    expect(dataDelegate.count).toEventually(equal(14))
+                }
+
+                it("returns the last used requester type as .similarProducts") {
+                    expect(dataDelegate.requesterType).toEventually(equal(.similarProducts))
+                }
+
+                it("returns a final active requester which is identical to the 2nd requester from factory") {
+                    let factoryRequester = requesterFactory.buildRequesterList()[1]
+                    expect(sut.currentActiveRequester?.isEqual(toRequester: factoryRequester)).toEventually(beTrue())
+                }
+                
+                it("does have listing") {
+                    expect(dataDelegate.hasListing).toEventually(beTrue())
+                }
+            }
+        }
+        
+        describe("init view model with requester factory containing 3 requesters both with  [0, 0, 0] products for .alwaysSimilar case") {
+            
+            describe("retrieve listing") {
+                beforeEach {
+                    sut = makeSutWithFactory(.alwaysSimilar, productCounts: [0, 0, 0])
+                    sut.retrieveListings()
+                }
+                
+                it("the last object count received is 0") {
+                    expect(dataDelegate.count).toEventually(equal(0))
+                }
+                
+                it("returns the last used requester type as .nonFilteredFeed") {
+                    expect(dataDelegate.requesterType).toEventually(equal(.nonFilteredFeed))
+                }
+                
+                it("returns a final active requester which is identical to the last requester from factory") {
+                    let factoryRequester = requesterFactory.buildRequesterList()[2]
+                    expect(sut.currentActiveRequester?.isEqual(toRequester: factoryRequester)).toEventually(beTrue())
+                }
+                
+                it("does have listing") {
+                    expect(dataDelegate.hasListing).toEventuallyNot(beTrue())
                 }
             }
         }
@@ -191,24 +391,75 @@ class ListingListViewModelSpec: QuickSpec {
         // Init VM with requester
 
         describe("init view model with requester containing 33 products") {
-
-            context("retrieve listing") {
+            
+            beforeEach {
+                sut = makeSutWithRequester(33)
+            }
+            
+            describe("retrieve listing") {
                 beforeEach {
-                    initDependencies()
-                    self.sut = makeSutWithRequester(33)
-                    self.sut.retrieveListings()
+                    sut.retrieveListings()
                 }
 
                 it("receives 33 products") {
                     expect(dataDelegate.count).toEventually(equal(33))
                 }
                 
-                it("requester type used to get products is .nonFilteredFeed") {
-                    expect(self.sut.currentActiveRequester?.isEqual(toRequester: self.sut.listingListRequester!)).to(beTrue())
+                it("returns the last used requester type as the requester passed in") {
+                    expect(sut.currentActiveRequester?.isEqual(toRequester: sut.listingListRequester!)).to(beTrue())
+                }
+                
+                it("does have listing") {
+                    expect(dataDelegate.hasListing).toEventually(beTrue())
+                }
+            }
+            
+            describe("refresh listing") {
+                
+                beforeEach {
+                    sut.retrieveListings()
+                    sut.refresh()
+                }
+                
+                it("eventually finishes refreshing") {
+                    expect(sut.refreshing).toEventuallyNot(beTrue())
                 }
             }
         }
         
+        describe("init view model with requester containing 0 product") {
+            
+            beforeEach {
+                sut = makeSutWithRequester(0)
+            }
+            
+            describe("retrieve listing") {
+                beforeEach {
+                    sut.retrieveListings()
+                }
+                
+                it("receives 0 products") {
+                    expect(dataDelegate.count).toEventually(equal(0))
+                }
+                
+                it("doesnot have listing") {
+                    expect(dataDelegate.hasListing).toEventuallyNot(beTrue())
+                }
+            }
+            
+            describe("refresh listing") {
+                
+                beforeEach {
+                    sut.retrieveListings()
+                    sut.refresh()
+                }
+                
+                it("eventually finishes refreshing") {
+                    expect(sut.refreshing).toEventuallyNot(beTrue())
+                }
+            }
+        }
+                
         // Helpers
         
         func initDependencies() {
@@ -224,6 +475,7 @@ class ListingListViewModelSpec: QuickSpec {
                                                          productCounts: productCounts)
             let sut = ListingListViewModel(numberOfColumns: 3,
                                            tracker: tracker,
+                                           featureFlags: featureFlags,
                                            requesterFactory: requesterFactory)
             sut.dataDelegate = dataDelegate
             return sut
@@ -238,33 +490,9 @@ class ListingListViewModelSpec: QuickSpec {
             sut.dataDelegate = dataDelegate
             return sut
         }
+        
+        func generateItems(_ numItems: Int, allowDiscarded: Bool) ->  [Product] {
+            return MockProduct.makeProductMocks(numItems, allowDiscarded: allowDiscarded) as [Product]
+        }
     }
-}
-
-
-// MARK:- Spy Delegate
-
-final class SpyListingListViewModelDataDelegate: ListingListViewModelDataDelegate {
-
-    var count = 0
-    var requesterType: RequesterType?
-
-    func listingListVM(_ viewModel: ListingListViewModel, didSucceedRetrievingListingsPage page: UInt, withResultsCount resultsCount: Int, hasListings: Bool) {
-        count = resultsCount
-        requesterType = viewModel.currentRequesterType
-    }
-
-    func vmProcessReceivedListingPage(_ Listings: [ListingCellModel], page: UInt) -> [ListingCellModel] {
-        return Listings
-    }
-
-    func vmDidSelectSellBanner(_ type: String) { }
-
-    func vmDidSelectCollection(_ type: CollectionCellType) { }
-
-    func vmDidSelectMostSearchedItems() { }
-
-    func listingListMV(_ viewModel: ListingListViewModel, didFailRetrievingListingsPage page: UInt, hasListings: Bool, error: RepositoryError) { }
-
-    func listingListVM(_ viewModel: ListingListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?, originFrame: CGRect?) { }
 }

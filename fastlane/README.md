@@ -26,11 +26,6 @@ Will clone master, create a new `release-x.x.x` branch from, update the build in
 fastlane ios beta
 ```
 Will clone the specified branch, update the build info and do a deploy of that to crashlytics
-### ios local_beta
-```
-fastlane ios local_beta
-```
-Build and distribute local code to Crashlytics
 ### ios deploy_to_appstore
 ```
 fastlane ios deploy_to_appstore
@@ -71,11 +66,6 @@ Will generate BumperFlags.switf based on the sources json
 fastlane ios test
 ```
 Will unit test
-### ios ui_test
-```
-fastlane ios ui_test
-```
-Will UI test
 ### ios ciJenkins
 ```
 fastlane ios ciJenkins
@@ -101,6 +91,31 @@ fastlane ios dependencies
 fastlane ios make_automation_build
 ```
 Builds LetgoGoDev for simulator to export it for automation process
+### ios upload_appstore
+```
+fastlane ios upload_appstore
+```
+Upload build to appstore
+### ios upload_crashlytics
+```
+fastlane ios upload_crashlytics
+```
+Upload beta build to crashlytics
+### ios build_beta
+```
+fastlane ios build_beta
+```
+Does a beta build
+### ios build_appstore
+```
+fastlane ios build_appstore
+```
+Does an appstore build
+### ios build_sim
+```
+fastlane ios build_sim
+```
+Does a simulator build
 
 ----
 

@@ -93,15 +93,15 @@ class FiltersViewModel: BaseViewModel {
     }
     
     var selectedServiceSubtypesDisplayName: String? {
-        guard let nameA = productFilter.servicesSubtypes?.first?.name else {
+        guard let firstSubtype = productFilter.servicesSubtypes?.first?.name else {
             return nil
         }
         
-        guard let nameB = productFilter.servicesSubtypes?[safeAt: 1] else {
-            return nameA
+        guard let secondSubtype = productFilter.servicesSubtypes?[safeAt: 1]?.name else {
+            return firstSubtype
         }
         
-        return "\(nameA), \(nameB)"
+        return "\(firstSubtype), \(secondSubtype)"
     }
     
     var currentPropertyTypeName: String? {

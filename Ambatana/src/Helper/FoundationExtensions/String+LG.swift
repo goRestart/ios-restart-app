@@ -301,6 +301,13 @@ extension String {
         }
         return finalHeight + interLineSpace
     }
+    
+    func widthFor(height: CGFloat, font: UIFont) -> CGFloat {
+        let constraintRect = CGSize(width: CGFloat.greatestFiniteMagnitude, height: height)
+        return self.boundingRect(with: constraintRect,
+                            options: NSStringDrawingOptions.usesLineFragmentOrigin,
+                            attributes: [NSAttributedStringKey.font: font], context: nil).width
+    }
 
     var isPhoneNumber: Bool {
         let noPlusOrHyphenString = self.components(separatedBy: ["+","-"]).joined(separator: "")

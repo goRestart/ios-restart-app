@@ -45,7 +45,6 @@ protocol FeatureFlaggeable: class {
     var sectionedMainFeed: SectionedMainFeed { get }
     var showExactLocationForPros: Bool { get }
     var showPasswordlessLogin: ShowPasswordlessLogin { get }
-    var searchAlerts: SearchAlerts { get }
     var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed { get }
 
     // Country dependant features
@@ -379,10 +378,6 @@ extension CopyForChatNowInEnglish {
             return R.Strings.bumpUpProductCellChatNowButtonEnglishD
         }
         } }
-}
-
-extension SearchAlerts {
-    var isActive: Bool { return self == .active }
 }
 
 extension CopyForSellFasterNowInEnglish {
@@ -727,13 +722,6 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.sectionedMainFeed
         }
         return SectionedMainFeed.fromPosition(abTests.sectionedMainFeed.value)
-    }
-
-    var searchAlerts: SearchAlerts {
-        if Bumper.enabled {
-            return Bumper.searchAlerts
-        }
-        return SearchAlerts.fromPosition(abTests.searchAlerts.value)
     }
     
     var showExactLocationForPros: Bool {
@@ -1146,10 +1134,8 @@ extension FeatureFlags {
         if Bumper.enabled {
             return Bumper.chatConversationsListWithoutTabs
         }
-        // TODO: change once development is completed
-        return .control
-        // let cached = dao.retrieveChatConversationsListWithoutTabs()
-        // return cached ?? ChatConversationsListWithoutTabs.fromPosition(abTests.chatConversationsListWithoutTabs.value)
+        let cached = dao.retrieveChatConversationsListWithoutTabs()
+        return cached ?? ChatConversationsListWithoutTabs.fromPosition(abTests.chatConversationsListWithoutTabs.value)
     }
 }
 
@@ -1250,26 +1236,20 @@ extension EmptySearchImprovements {
     static let minNumberOfListing = 20
     
     func shouldContinueWithSimilarQueries(withCurrentListing numListings: Int) -> Bool {
-        return numListings < EmptySearchImprovements.minNumberOfListing
+        let resultIsInsufficient = numListings < EmptySearchImprovements.minNumberOfListing
             && self == .similarQueriesWhenFewResults
+        let shouldAlwaysShowSimilar = self == .alwaysSimilar
+        return resultIsInsufficient || shouldAlwaysShowSimilar
     }
     
     var isActive: Bool {
         return self != .control && self != .baseline
     }
     
-    var filterTitle: String? {
-        switch self {
-        case .baseline, .control, .alwaysSimilar: return nil
-        case .popularNearYou: return R.Strings.productPopularNearYou
-        case .similarQueries, .similarQueriesWhenFewResults: return R.Strings.listingShowSimilarResults
-        }
-    }
-    
     var filterDescription: String? {
         switch self {
-        case .baseline, .control, .alwaysSimilar: return nil
-        case .popularNearYou, .similarQueries, .similarQueriesWhenFewResults: return R.Strings.listingShowSimilarResultsDescription
+        case .baseline, .control: return nil
+        case .popularNearYou, .similarQueries, .similarQueriesWhenFewResults, .alwaysSimilar: return R.Strings.listingShowSimilarResultsDescription
         }
     }
 }

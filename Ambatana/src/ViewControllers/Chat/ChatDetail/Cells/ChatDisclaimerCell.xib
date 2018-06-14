@@ -25,7 +25,7 @@
                         <rect key="frame" x="20" y="36" width="456" height="174"/>
                         <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_call_center_girl" translatesAutoresizingMaskIntoConstraints="NO" id="1NK-Zl-EGR">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="64" placeholderIntrinsicHeight="64" translatesAutoresizingMaskIntoConstraints="NO" id="1NK-Zl-EGR">
                         <rect key="frame" x="216" y="4" width="64" height="64"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="1NK-Zl-EGR" secondAttribute="height" multiplier="1:1" id="hmW-0a-AXd"/>
@@ -85,7 +85,4 @@
             <point key="canvasLocation" x="1012" y="542.5"/>
         </tableViewCell>
     </objects>
-    <resources>
-        <image name="img_call_center_girl" width="64" height="64"/>
-    </resources>
 </document>

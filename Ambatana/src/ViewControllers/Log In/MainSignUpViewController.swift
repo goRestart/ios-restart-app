@@ -10,6 +10,7 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
     var viewModel: SignUpViewModel
     
     // UI
+    @IBOutlet weak var logoBigImageView: UIImageView!
     // > Header
     @IBOutlet weak var claimLabel: UILabel!
     
@@ -19,7 +20,9 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
     @IBOutlet weak var quicklyLabel: UILabel!
 
     @IBOutlet weak var connectFBButton: LetgoButton!
+    @IBOutlet weak var logoFacebook: UIImageView!
     @IBOutlet weak var connectGoogleButton: LetgoButton!
+    @IBOutlet weak var logoGoogle: UIImageView!
     @IBOutlet weak var dividerView: UIView!
     @IBOutlet weak var orLabel: UILabel!
 
@@ -173,12 +176,19 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
         signUpButton.setTitle(R.Strings.mainSignUpSignUpButton, for: .normal)
         logInButton.setTitle(R.Strings.mainSignUpLogInLabel, for: .normal)
 
-        setupTermsAndConditions()
-
         continueWithEmailButton.isHidden = !viewModel.showpasswordlessLogin
         emailImageView.isHidden = !viewModel.showpasswordlessLogin
         signUpButton.isHidden = viewModel.showpasswordlessLogin
         logInButton.isHidden = viewModel.showpasswordlessLogin
+
+        setupTermsAndConditions()
+        setupRAssets()
+    }
+
+    private func setupRAssets() {
+        logoBigImageView.image = R.Asset.BackgroundsAndImages.logoBig.image
+        logoFacebook.image = R.Asset.IconsButtons.icFacebookRounded.image
+        logoGoogle.image = R.Asset.IconsButtons.icGoogleRounded.image
     }
 
     private func setupRx() {

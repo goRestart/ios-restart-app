@@ -70,7 +70,7 @@
                                 <constraint firstItem="bRn-kI-uhG" firstAttribute="top" secondItem="3G5-xS-3su" secondAttribute="bottom" constant="25" id="woX-z2-s9S"/>
                             </constraints>
                         </view>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="LocationAlert Icon" image="ic_location_alert" translatesAutoresizingMaskIntoConstraints="NO" id="xSZ-TZ-E8g">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="LocationAlert Icon" translatesAutoresizingMaskIntoConstraints="NO" id="xSZ-TZ-E8g">
                             <rect key="frame" x="80" y="0.0" width="110" height="110"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="110" id="HWj-Cf-YhQ"/>
@@ -96,7 +96,4 @@
             </constraints>
         </view>
     </objects>
-    <resources>
-        <image name="ic_location_alert" width="110" height="110"/>
-    </resources>
 </document>

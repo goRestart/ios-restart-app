@@ -55,11 +55,11 @@ class ListingCarouselMoreInfoView: UIView {
     @IBOutlet weak var dragViewTitle: UILabel!
     @IBOutlet weak var dragViewImage: UIImageView!
 
-    fileprivate let mapView: MKMapView = MKMapView.sharedInstance
-    fileprivate var vmRegion: MKCoordinateRegion? = nil
+    private let mapView: MKMapView = MKMapView.sharedInstance
+    private var vmRegion: MKCoordinateRegion? = nil
     @IBOutlet weak var mapViewContainer: UIView!
-    fileprivate lazy var mapViewContainerExpandable = UIView()
-    fileprivate var mapViewTapGesture: UITapGestureRecognizer? = nil
+    private lazy var mapViewContainerExpandable = UIView()
+    private var mapViewTapGesture: UITapGestureRecognizer? = nil
 
     @IBOutlet weak var bannerContainerView: UIView!
     @IBOutlet weak var bannerContainerViewHeightConstraint: NSLayoutConstraint!
@@ -75,7 +75,8 @@ class ListingCarouselMoreInfoView: UIView {
     @IBOutlet weak var socialShareContainer: UIView!
     @IBOutlet weak var socialShareTitleLabel: UILabel!
     @IBOutlet weak var socialShareView: SocialShareView!
-
+    @IBOutlet weak var addressIcon: UIImageView!
+    
     private let disposeBag = DisposeBag()
     private var locationZone: MKOverlay?
     private var mapPinCustomAnnotation: MKPointAnnotation?
@@ -83,7 +84,7 @@ class ListingCarouselMoreInfoView: UIView {
     private let bigMapBottomMargin: CGFloat = 85
     private(set) var mapExpanded: Bool = false
     private var mapZoomBlocker: MapZoomBlocker?
-    fileprivate var statsView: ListingStatsView?
+    private var statsView: ListingStatsView?
 
     private let statsContainerViewHeight: CGFloat = 24
     private let statsContainerViewTop: CGFloat = 26
@@ -92,7 +93,7 @@ class ListingCarouselMoreInfoView: UIView {
     weak var viewModel: ListingCarouselViewModel?
     weak var delegate: ProductCarouselMoreInfoDelegate?
     
-    fileprivate var tagCollectionViewModel: TagCollectionViewModel?
+    private var tagCollectionViewModel: TagCollectionViewModel?
 
     static func moreInfoView() -> ListingCarouselMoreInfoView {
         guard let view = Bundle.main.loadNibNamed("ListingCarouselMoreInfoView", owner: self, options: nil)?.first
@@ -234,14 +235,10 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
     }
     
     private func addMapGestures() {
-        removeMapGestures()
+        mapView.removeAllGestureRecognizers()
         mapViewTapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapMap))
         guard let mapViewTapGesture = mapViewTapGesture else { return }
         mapView.addGestureRecognizer(mapViewTapGesture)
-    }
-    
-    private func removeMapGestures() {
-        mapView.gestureRecognizers?.forEach { mapView.removeGestureRecognizer($0) }
     }
     
     fileprivate func cleanMapView() {
@@ -372,6 +369,9 @@ extension ListingCarouselMoreInfoView: UIScrollViewDelegate {
 
 fileprivate extension ListingCarouselMoreInfoView {
     func setupUI() {
+        addressIcon.image = R.Asset.IconsButtons.itemLocationWhite.image
+        dragViewImage.image = R.Asset.IconsButtons.icArrowDown.image
+        
         report(AppReport.uikit(error: .breadcrumb), message: "MoreInfoView-SetupUI-start")
         setupMapView(inside: mapViewContainer)
 

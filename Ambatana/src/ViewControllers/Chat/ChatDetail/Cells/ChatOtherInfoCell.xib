@@ -28,14 +28,14 @@
                                 <color key="textColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.17254901960784313" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_chat_info_dark" translatesAutoresizingMaskIntoConstraints="NO" id="bgY-j2-v9X" userLabel="infoIcon">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bgY-j2-v9X" userLabel="infoIcon">
                                 <rect key="frame" x="8" y="38.5" width="14" height="14"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="14" id="yVQ-sf-XVw"/>
                                     <constraint firstAttribute="width" constant="14" id="ykV-Ui-p7D"/>
                                 </constraints>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_verified" translatesAutoresizingMaskIntoConstraints="NO" id="we9-s1-c3E" userLabel="verifyIcon">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="we9-s1-c3E" userLabel="verifyIcon">
                                 <rect key="frame" x="8" y="74" width="14" height="14"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="14" id="98d-CC-isc"/>
@@ -51,19 +51,19 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Sk-Z2-QW3" userLabel="verifyContainer">
                                 <rect key="frame" x="116" y="73" width="60" height="16"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_user_public_fb" translatesAutoresizingMaskIntoConstraints="NO" id="Llq-fs-SWE" userLabel="facebookIcon">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Llq-fs-SWE" userLabel="facebookIcon">
                                         <rect key="frame" x="0.0" y="0.0" width="20" height="16"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="20" id="32g-9l-Ij8"/>
                                         </constraints>
                                     </imageView>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_user_public_google" translatesAutoresizingMaskIntoConstraints="NO" id="LaP-0m-RXx" userLabel="googleIcon">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="LaP-0m-RXx" userLabel="googleIcon">
                                         <rect key="frame" x="20" y="0.0" width="20" height="16"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="20" id="Hsr-bu-Kv4"/>
                                         </constraints>
                                     </imageView>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_user_public_email" translatesAutoresizingMaskIntoConstraints="NO" id="tNz-dM-Ba5" userLabel="mailIcon">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="tNz-dM-Ba5" userLabel="mailIcon">
                                         <rect key="frame" x="40" y="0.0" width="20" height="16"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="20" id="pKM-mM-gpH"/>
@@ -85,7 +85,7 @@
                                     <constraint firstItem="Llq-fs-SWE" firstAttribute="top" secondItem="9Sk-Z2-QW3" secondAttribute="top" id="rvc-Ao-8Uy"/>
                                 </constraints>
                             </view>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_location" translatesAutoresizingMaskIntoConstraints="NO" id="BDZ-T8-5GI" userLabel="locationIcon">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BDZ-T8-5GI" userLabel="locationIcon">
                                 <rect key="frame" x="8" y="96" width="14" height="14"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="14" id="Day-Qb-7ff"/>
@@ -141,13 +141,17 @@
             </tableViewCellContentView>
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
             <connections>
+                <outlet property="emailIcon" destination="tNz-dM-Ba5" id="ePx-QB-veB"/>
+                <outlet property="facebookIcon" destination="Llq-fs-SWE" id="EUq-jS-NNp"/>
                 <outlet property="fbIconWidth" destination="32g-9l-Ij8" id="Lxo-WG-kdN"/>
+                <outlet property="googleIcon" destination="LaP-0m-RXx" id="DBJ-yt-dEZ"/>
                 <outlet property="googleIconWidth" destination="Hsr-bu-Kv4" id="Ki5-Iu-zyX"/>
                 <outlet property="infoIcon" destination="bgY-j2-v9X" id="ZbZ-Jo-AvN"/>
                 <outlet property="infoIconHeight" destination="yVQ-sf-XVw" id="gh5-P9-Nns"/>
                 <outlet property="infoIconTop" destination="zAc-Sc-uRd" id="ySR-Mg-dri"/>
                 <outlet property="infoLabel" destination="0yf-TH-d9I" id="KEO-Hn-ZyT"/>
                 <outlet property="infoLabelTop" destination="ySg-Np-ba9" id="ycF-rC-pFd"/>
+                <outlet property="locationIcon" destination="BDZ-T8-5GI" id="qMa-QZ-5Zi"/>
                 <outlet property="locationIconHeight" destination="Day-Qb-7ff" id="aGf-YR-VK0"/>
                 <outlet property="locationIconTop" destination="i3v-vD-WNL" id="79A-Oa-ivh"/>
                 <outlet property="locationLabel" destination="WMt-Z3-N8g" id="nJ5-Mu-l7r"/>
@@ -163,12 +167,4 @@
             <point key="canvasLocation" x="861.5" y="487"/>
         </tableViewCell>
     </objects>
-    <resources>
-        <image name="ic_chat_info_dark" width="10" height="10"/>
-        <image name="ic_location" width="9" height="14"/>
-        <image name="ic_user_public_email" width="16" height="16"/>
-        <image name="ic_user_public_fb" width="16" height="16"/>
-        <image name="ic_user_public_google" width="16" height="16"/>
-        <image name="ic_verified" width="10" height="12"/>
-    </resources>
 </document>

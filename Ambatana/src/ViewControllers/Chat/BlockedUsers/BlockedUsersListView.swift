@@ -9,8 +9,6 @@ protocol BlockedUsersListViewDelegate: class {
 
 class BlockedUsersListView: ChatGroupedListView, BlockedUsersListViewModelDelegate {
 
-    static let blockedUsersListCellId = "BlockedUserCell"
-
     var viewModel: BlockedUsersListViewModel
     weak var blockedUsersListViewDelegate: BlockedUsersListViewDelegate?
 
@@ -41,9 +39,7 @@ class BlockedUsersListView: ChatGroupedListView, BlockedUsersListViewModelDelega
 
     override func setupUI() {
         super.setupUI()
-
-        let cellNib = UINib(nibName: BlockedUsersListView.blockedUsersListCellId, bundle: nil)
-        tableView.register(cellNib, forCellReuseIdentifier: BlockedUsersListView.blockedUsersListCellId)
+        tableView.register(BlockedUserCell.self, forCellReuseIdentifier: BlockedUserCell.reusableID)
         tableView.allowsMultipleSelectionDuringEditing = true
         tableView.rowHeight = BlockedUserCell.defaultHeight
 
@@ -59,7 +55,7 @@ class BlockedUsersListView: ChatGroupedListView, BlockedUsersListViewModelDelega
         let cell = super.cellForRowAtIndexPath(indexPath)
 
         guard let user = viewModel.objectAtIndex(indexPath.row) else { return cell }
-        guard let userCell = tableView.dequeueReusableCell(withIdentifier: BlockedUsersListView.blockedUsersListCellId,
+        guard let userCell = tableView.dequeueReusableCell(withIdentifier: BlockedUserCell.reusableID,
             for: indexPath) as? BlockedUserCell else { return cell }
 
         userCell.tag = (indexPath as NSIndexPath).hash // used for cell reuse on "setupCellWithChat"

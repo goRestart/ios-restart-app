@@ -109,7 +109,7 @@ final class SellCoordinator: Coordinator {
 
 // MARK: - PostListingNavigator
 
-extension SellCoordinator: PostListingNavigator {
+extension SellCoordinator: PostListingNavigator {    
 
     func cancelPostListing() {
         closeCoordinator(animated: true) { [weak self] in
@@ -117,6 +117,7 @@ extension SellCoordinator: PostListingNavigator {
             strongSelf.delegate?.sellCoordinatorDidCancel(strongSelf)
         }
     }
+    
     func closePostProductAndPostInBackground(params: ListingCreationParams,
                                              trackingInfo: PostListingTrackingInfo) {
         
@@ -140,21 +141,15 @@ extension SellCoordinator: PostListingNavigator {
         }
     }
     
-    
     func closePostServicesAndPostInBackground(params: [ListingCreationParams],
                                              trackingInfo: PostListingTrackingInfo) {
-        guard featureFlags.showServicesFeatures.isActive else {
-            showConfirmation(listingResult: ListingResult(error: RepositoryError.internalError(message: "")),
-                                   trackingInfo: trackingInfo, modalStyle: true)
-            return
-        }
         dismissViewController(animated: true) { [weak self] in
             self?.listingRepository.createServices(listingParams: params) { [weak self] results in
                 if let listings = results.value {
-                    // TODO: Add track ABIOS-4185
-                    self?.showConfirmation(listingResult: ListingsResult(value: listings),
-                                           trackingInfo: trackingInfo,
-                                           modalStyle: true)
+                    self?.trackPost(withListings: listings, trackingInfo: trackingInfo)
+                    self?.showMultiListingPostConfirmation(listingResult: ListingsResult(value: listings),
+                                                           trackingInfo: trackingInfo,
+                                                           modalStyle: true)
                 } else if let error = results.error {
                     self?.trackListingPostedInBackground(withError: error)
                     self?.showConfirmation(listingResult: ListingResult(error: error),
@@ -221,8 +216,25 @@ extension SellCoordinator: PostListingNavigator {
         let vc = ListingCreationViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: false)
     }
+    
+    func openListingsCreation(uploadedImageId: String,
+                              multipostingSubtypes: [ServiceSubtype],
+                              multipostingNewSubtypes: [String],
+                              postListingState: PostListingState,
+                              trackingInfo: PostListingTrackingInfo) {
+        let viewModel = ListingCreationViewModel(uploadedImageId: uploadedImageId,
+                                                 multipostingSubtypes: multipostingSubtypes,
+                                                 multipostingNewSubtypes: multipostingNewSubtypes,
+                                                 postListingState: postListingState,
+                                                 trackingInfo: trackingInfo)
+        viewModel.navigator = self
+        let vc = ListingCreationViewController(viewModel: viewModel)
+        navigationController.pushViewController(vc, animated: false)
+    }
 
-    func showConfirmation(listingResult: ListingResult, trackingInfo: PostListingTrackingInfo, modalStyle: Bool) {
+    func showConfirmation(listingResult: ListingResult,
+                          trackingInfo: PostListingTrackingInfo,
+                          modalStyle: Bool) {
         guard let parentVC = parentViewController else { return }
         
         let listingPostedVM = ListingPostedViewModel(listingResult: listingResult, trackingInfo: trackingInfo)
@@ -231,13 +243,21 @@ extension SellCoordinator: PostListingNavigator {
         showCongrats(listingPostedVC, modalStyle, parentVC)
     }
     
-    func showConfirmation(listingResult: ListingsResult, trackingInfo: PostListingTrackingInfo, modalStyle: Bool) {
+    func showMultiListingPostConfirmation(listingResult listingsResult: ListingsResult,
+                                          trackingInfo: PostListingTrackingInfo,
+                                          modalStyle: Bool) {
         guard let parentVC = parentViewController else { return }
-        let multiPostedVC = MultiPostedViewController(viewModel: nil, nibName: nil)
+        
+        let viewModel = MultiListingPostedViewModel(navigator: self,
+                                                    listingsResult: listingsResult,
+                                                    trackingInfo: trackingInfo)
+        let multiPostedVC = MultiListingPostedViewController(viewModel: viewModel)
         showCongrats(multiPostedVC, modalStyle, parentVC)
     }
     
-    private func showCongrats(_ listingPostedVC: UIViewController, _ modalStyle: Bool, _ parentVC: UIViewController) {
+    private func showCongrats(_ listingPostedVC: UIViewController,
+                              _ modalStyle: Bool,
+                              _ parentVC: UIViewController) {
         viewController = listingPostedVC
         if modalStyle {
             parentVC.present(listingPostedVC, animated: true, completion: nil)
@@ -261,6 +281,22 @@ extension SellCoordinator: PostListingNavigator {
             let listingPostedVC = ListingPostedViewController(viewModel: listingPostedVM)
             self?.viewController = listingPostedVC
             parentVC.present(listingPostedVC, animated: true, completion: nil)
+        }
+    }
+    
+    func closePostServicesAndPostLater(params: [ListingCreationParams],
+                                       images: [UIImage]?,
+                                       trackingInfo: PostListingTrackingInfo) {
+        guard let parentVC = parentViewController else { return }
+        
+        dismissViewController(animated: true) { [weak self] in
+            guard let strongSelf = self else { return }
+            let viewModel = MultiListingPostedViewModel(navigator: strongSelf,
+                                                        postParams: params,
+                                                        images: images,
+                                                        trackingInfo: trackingInfo)
+            let multiPostedVC = MultiListingPostedViewController(viewModel: viewModel)
+            strongSelf.showCongrats(multiPostedVC, true, parentVC)
         }
     }
 
@@ -347,6 +383,50 @@ extension SellCoordinator: ListingPostedNavigator {
         }
     }
 }
+
+
+// MARK: - MultiListingPostedNavigtor
+
+extension SellCoordinator: MultiListingPostedNavigator {
+
+    func closeListingsPosted(_ listings: [Listing]) {
+        guard let listing = listings.first else {
+            return
+        }
+        closeListingPosted(listing)
+    }
+    
+    func openEdit(forListing listing: Listing) {
+        
+        let editListingNavigator = EditListingCoordinator(listing: listing, bumpUpProductData: nil, pageType: EventParameterTypePage.edit, listingCanBeBoosted: false, timeSinceLastBump: nil, maxCountdown: 0)
+        editListingNavigator.delegate = self
+        openChild(coordinator: editListingNavigator,
+                  parent: viewController,
+                  animated: true,
+                  forceCloseChild: false,
+                  completion: nil)
+    }
+}
+
+
+// MARK: - EditListingCoordinatorDelegate
+extension SellCoordinator: EditListingCoordinatorDelegate {
+    func editListingCoordinatorDidCancel(_ coordinator: EditListingCoordinator) {
+        // Do nothing, todo esta canela fina
+    }
+    
+    func editListingCoordinator(_ coordinator: EditListingCoordinator,
+                                didFinishWithListing listing: Listing,
+                                bumpUpProductData: BumpUpProductData?,
+                                timeSinceLastBump: TimeInterval?,
+                                maxCountdown: TimeInterval) {
+        guard let multiListingVC = viewController as? MultiListingPostedViewController else {
+            return
+        }
+        multiListingVC.listingEdited(listing: listing)
+    }
+}
+
 
 // MARK: - BlockingPostingNavigator
 
@@ -454,5 +534,9 @@ fileprivate extension SellCoordinator {
             let event = TrackerEvent.listingSellComplete24h(listing)
             tracker.trackEvent(event)
         }
+    }
+    
+    func trackPost(withListings listing: [Listing], trackingInfo: PostListingTrackingInfo) {
+        listing.forEach { trackPost(withListing: $0, trackingInfo: trackingInfo) }
     }
 }

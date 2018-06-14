@@ -16,12 +16,8 @@ final class ServicesInfoApiDataSource: ServicesInfoDataSource {
     
     func index(locale: String?,
                completion: ServicesInfoDataSourceCompletion?) {
-        var params: [String: Any] = [:]
-        
-        if let locale = locale {
-            params[ServicesInfoRouter.localeParamKey] = locale
-        }
-        let request = ServicesInfoRouter.index(params: params)
+        guard let locale = locale else { return }
+        let request = ServicesInfoRouter.index(locale: locale)
         apiClient.request(request,
                           decoder: decoder,
                           completion: completion)

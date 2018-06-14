@@ -89,6 +89,13 @@ final class ServicesInfoRealmDAO: ServicesInfoDAO, ServicesInfoRetrievable {
         return serviceSubtype
     }
     
+    func serviceAllSubtypesSorted() -> [ServiceSubtype] {
+        let serviceSubtypes: [ServiceSubtype] = dataBase
+            .objects(RealmServiceSubtype.self)
+            .flatMap { [weak self] in self?.convertToLGServiceSubtype(serviceSubtype: $0) }
+        return serviceSubtypes.sorted(by: { $0.isHighlighted && !$1.isHighlighted })
+    }
+    
     func clean() {
         dataBase.cancelWriteTransactionsIfNeeded()
         do {

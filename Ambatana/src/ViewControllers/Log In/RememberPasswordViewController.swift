@@ -56,7 +56,9 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        emailIconImageView.image = R.Asset.IconsButtons.icEmail.image
+        emailIconImageView.image = R.Asset.IconsButtons.icEmailActive.image
+
         setupUI()
         
         emailTextField.becomeFirstResponder()

@@ -22,15 +22,15 @@ final class EditLocationViewController: BaseViewController, EditLocationViewMode
     var searchButton: UIButton { return editView.searchButton }
 
     var approximateLocationSwitch: UISwitch { return editView.approximateSwitch }
-    var gpsLocationButton: UIButton { return editView.locationButton }
+    var gpsLocationButton: UIButton { return editView.gpsLocatizationButton }
 
     var setLocationButton: UIButton { return editView.locationButton }
     var setLocationLoading: UIActivityIndicatorView { return editView.locationActivityIndicator }
 
     var suggestionsTableView: UITableView { return editView.searchTableView }
 
-    var aproxLocationArea: UIView { return editView.aproxLocationArea }
     var poiImage: UIImageView { return editView.pin }
+    var aproxLocationArea: UIView { return editView.aproxLocationArea }
 
     fileprivate static let suggestionCellId = "suggestionCell"
 
@@ -172,12 +172,13 @@ final class EditLocationViewController: BaseViewController, EditLocationViewMode
     }
 
     private func setupUI() {
+        mapView.delegate = self
         suggestionsTableView.isHidden = true
         suggestionsTableView.dataSource = self
         suggestionsTableView.delegate = self
 
         poiImage.isHidden = true
-        aproxLocationArea.isHidden = true
+        editView.setApproxArea(hidden: true)
 
         registerCells()
 
@@ -227,7 +228,7 @@ final class EditLocationViewController: BaseViewController, EditLocationViewMode
         //When approx location changes show/hide views accordingly
         viewModel.approxLocation.asObservable().subscribeNext { [weak self] approximate in
             self?.poiImage.isHidden = approximate
-            self?.aproxLocationArea.isHidden = !approximate
+            self?.editView.setApproxArea(hidden: !approximate)
         }.disposed(by: disposeBag)
     }
 

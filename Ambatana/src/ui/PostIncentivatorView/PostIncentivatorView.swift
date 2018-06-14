@@ -17,34 +17,30 @@ class PostIncentivatorView: UIView {
     @IBOutlet weak var thirdImage: UIImageView!
     @IBOutlet weak var thirdNameLabel: UILabel!
     @IBOutlet weak var thirdCountLabel: UILabel!
+    @IBOutlet var magnifyingGlass: [UIImageView]!
 
     weak var delegate: PostIncentivatorViewDelegate?
 
     var isFree: Bool?
+    private var isServicesListing: Bool = false
 
     var incentiveText: NSAttributedString {
-        let gotAnyTextAttributes: [NSAttributedStringKey : Any] = [NSAttributedStringKey.foregroundColor : UIColor.darkGrayText,
-                                                                   NSAttributedStringKey.font : UIFont.systemBoldFont(size: 15)]
-        let lookingForTextAttributes: [NSAttributedStringKey : Any] = [NSAttributedStringKey.foregroundColor : UIColor.darkGrayText,
-                                                                       NSAttributedStringKey.font : UIFont.mediumBodyFont]
-
-        let secondPartString = (isFree ?? false)  ? R.Strings.productPostIncentiveGotAnyFree :
-            R.Strings.productPostIncentiveGotAny
-        let plainText = R.Strings.productPostIncentiveLookingFor(secondPartString)
-        let resultText = NSMutableAttributedString(string: plainText, attributes: lookingForTextAttributes)
-        let boldRange = NSString(string: plainText).range(of: secondPartString, options: .caseInsensitive)
-        resultText.addAttributes(gotAnyTextAttributes, range: boldRange)
-
-        return resultText
+        if isServicesListing {
+            return servicesIncentiveText()
+        }
+        
+        return defaultIncentiveText()
     }
 
 
     // MARK: - Lifecycle
 
-    static func postIncentivatorView(_ isFree: Bool) -> PostIncentivatorView? {
+    static func postIncentivatorView(_ isFree: Bool,
+                                     isServicesListing: Bool) -> PostIncentivatorView? {
         guard let view = Bundle.main.loadNibNamed("PostIncentivatorView", owner: self, options: nil)?.first
             as? PostIncentivatorView else { return nil }
         view.isFree = isFree
+        view.isServicesListing = isServicesListing
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }
@@ -56,8 +52,12 @@ class PostIncentivatorView: UIView {
 
     // MARK: - Public methods
 
-    func setupIncentiviseView() {        
-        let itemPack = PostIncentiviserItem.incentiviserPack(isFree ?? false)
+    func setupIncentiviseView() {
+        for imageView in magnifyingGlass {
+            imageView.image = R.Asset.CongratsScreenImages.icMagnifier.image
+        }
+        
+        let itemPack = getIncentiviserPack()
 
         guard itemPack.count == 3 else {
             self.isHidden = true
@@ -91,11 +91,53 @@ class PostIncentivatorView: UIView {
         let tap = UITapGestureRecognizer(target: self, action: #selector(onTap))
         self.addGestureRecognizer(tap)
     }
+    
+    private func getIncentiviserPack() -> [PostIncentiviserItem] {
+        if isServicesListing {
+            return PostIncentiviserItem.servicesIncentiviserPack()
+        }
+        
+        return PostIncentiviserItem.incentiviserPack(isFree ?? false)
+    }
 
 
     // MARK: - Private methods
 
     @objc private func onTap() {
         delegate?.incentivatorTapped()
+    }
+    
+    
+    // MARK: Attributed Strings
+    
+    private func defaultIncentiveText() -> NSAttributedString {
+        let gotAnyTextAttributes: [NSAttributedStringKey : Any] = [NSAttributedStringKey.foregroundColor : UIColor.darkGrayText,
+                                                                   NSAttributedStringKey.font : UIFont.systemBoldFont(size: 15)]
+        let lookingForTextAttributes: [NSAttributedStringKey : Any] = [NSAttributedStringKey.foregroundColor : UIColor.darkGrayText,
+                                                                       NSAttributedStringKey.font : UIFont.mediumBodyFont]
+        
+        let secondPartString = (isFree ?? false)  ? R.Strings.productPostIncentiveGotAnyFree :
+            R.Strings.productPostIncentiveGotAny
+        let plainText = R.Strings.productPostIncentiveLookingFor(secondPartString)
+        let resultText = NSMutableAttributedString(string: plainText, attributes: lookingForTextAttributes)
+        let boldRange = NSString(string: plainText).range(of: secondPartString, options: .caseInsensitive)
+        resultText.addAttributes(gotAnyTextAttributes, range: boldRange)
+        
+        return resultText
+    }
+    
+    private func servicesIncentiveText() -> NSAttributedString {
+
+        let lookingForTextAttributes: [NSAttributedStringKey : Any] = [NSAttributedStringKey.foregroundColor : UIColor.darkGrayText,
+                                                                       NSAttributedStringKey.font : UIFont.mediumBodyFont]
+        let gotAnyTextAttributes: [NSAttributedStringKey : Any] = [NSAttributedStringKey.foregroundColor : UIColor.darkGrayText,
+                                                                   NSAttributedStringKey.font : UIFont.systemBoldFont(size: 15)]
+        let secondPartString = R.Strings.productPostIncentiveGotAnyServices
+        let plainText = R.Strings.productPostIncentiveLookingForServices(secondPartString)
+        let resultText = NSMutableAttributedString(string: plainText, attributes: lookingForTextAttributes)
+        let boldRange = NSString(string: plainText).range(of: secondPartString, options: .caseInsensitive)
+        resultText.addAttributes(gotAnyTextAttributes, range: boldRange)
+        
+        return resultText
     }
 }

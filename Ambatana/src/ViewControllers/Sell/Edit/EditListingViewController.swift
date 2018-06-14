@@ -349,10 +349,10 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SellListingCell.reusableID,
                 for: indexPath) as? SellListingCell else { return UICollectionViewCell() }
             cell.cornerRadius = LGUIKitConstants.smallCornerRadius
-            if indexPath.item < viewModel.numberOfImages {
-                cell.setupCellWithImageType(viewModel.imageAtIndex(indexPath.item))
+            if indexPath.item < viewModel.numberOfMedia {
+                cell.setupCellWithMediaType(viewModel.mediaAtIndex(indexPath.item))
                 cell.label.text = ""
-            } else if indexPath.item == viewModel.numberOfImages {
+            } else if indexPath.item == viewModel.numberOfMedia {
                 cell.setupAddPictureCell()
             } else {
                 cell.setupEmptyCell()
@@ -365,7 +365,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
 
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.item == viewModel.numberOfImages {
+        if indexPath.item == viewModel.numberOfMedia {
             // add image
             let cell = collectionView.cellForItem(at: indexPath) as? SellListingCell
             cell?.highlight()
@@ -376,7 +376,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
                                             animated: true)
             }
             
-        } else if (indexPath.item < viewModel.numberOfImages) {
+        } else if (indexPath.item < viewModel.numberOfMedia) {
             // remove image
             let alert = UIAlertController(title: R.Strings.sellPictureSelectedTitle,
                                           message: nil,
@@ -394,11 +394,14 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
                                             collectionView.scrollToItem(at: IndexPath(item: indexPath.item-1, section: 0),
                                                                         at: .right, animated: true)
             }))
-            alert.addAction(UIAlertAction(title: R.Strings.sellPictureSelectedSaveIntoCameraRollButton,
-                                          style: .default,
-                                          handler: { [weak self] _ in
-                                            self?.saveProductImageToDiskAtIndex(indexPath.item)
-            }))
+            if case let .remote(media) = viewModel.mediaAtIndex(indexPath.item), media.type == .image {
+                // We don't save videos by now
+                alert.addAction(UIAlertAction(title: R.Strings.sellPictureSelectedSaveIntoCameraRollButton,
+                                              style: .default,
+                                              handler: { [weak self] _ in
+                                                self?.saveProductImageToDiskAtIndex(indexPath.item)
+                }))
+            }
             alert.addAction(UIAlertAction(title: R.Strings.sellPictureSelectedCancelButton, style: .cancel))
             present(alert, animated: true)
         }
@@ -427,7 +430,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     // MARK: - Managing images.
     
     private func deleteAlreadyUploadedImageWithIndex(_ index: Int) {
-        viewModel.deleteImageAtIndex(index)
+        viewModel.deleteMediaAtIndex(index)
     }
     
     private func requestLibraryAuthorizationAndSaveImageToDiskAtIndex(_ index: Int) {
@@ -453,12 +456,12 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         showLoadingMessageAlert(R.Strings.sellPictureSaveIntoCameraRollLoading)
         
         // get the image and launch the saving action.
-        let imageTypeAtIndex = viewModel.imageAtIndex(index)
+        let imageTypeAtIndex = viewModel.mediaAtIndex(index)
         switch imageTypeAtIndex {
         case .local(let image):
             UIImageWriteToSavedPhotosAlbum(image, self, #selector(EditListingViewController.image(_:didFinishSavingWithError:contextInfo:)), nil)
-        case .remote(let file):
-            guard let fileUrl = file.fileURL else {
+        case .remote(let media):
+            guard let fileUrl = media.outputs.image else {
                 self.dismissLoadingMessageAlert(){
                     self.showAutoFadingOutMessageAlert(message: R.Strings.sellPictureSaveIntoCameraRollErrorGeneric)
                 }

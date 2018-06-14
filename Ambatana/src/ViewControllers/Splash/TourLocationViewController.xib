@@ -17,9 +17,14 @@
                 <outlet property="alertOkLabel" destination="OzF-CG-cFa" id="dVo-RN-UDF"/>
                 <outlet property="closeButton" destination="QeX-8c-ueg" id="cxy-SF-LCE"/>
                 <outlet property="distanceLabel" destination="cIN-nt-Tmk" id="XCX-2Q-nlD"/>
+                <outlet property="iPhoneBottomImage" destination="1v8-3Z-uuI" id="BEb-9n-pOB"/>
+                <outlet property="iPhoneLeftImage" destination="OWj-uY-J2z" id="MO3-EE-siV"/>
+                <outlet property="iPhoneRightImage" destination="hcn-GQ-SYM" id="OtZ-C4-gOT"/>
+                <outlet property="iPhoneTopImage" destination="qfw-UY-vsg" id="B9n-Zm-SXf"/>
                 <outlet property="iphoneBckgImage" destination="CG9-Or-wOe" id="CXH-of-OAP"/>
                 <outlet property="iphoneRightHeightConstraint" destination="15r-ZN-tV0" id="TCg-cn-myd"/>
                 <outlet property="labelContainer" destination="7C7-6n-sMz" id="7pm-ot-af4"/>
+                <outlet property="permissionAlertImage" destination="vwZ-8T-Fgx" id="ZH1-Gv-vhg"/>
                 <outlet property="subtitleLabel" destination="amp-1O-xsr" id="gtt-k8-Yz7"/>
                 <outlet property="titleLabel" destination="plb-hW-26Q" id="cL0-Z9-4rM"/>
                 <outlet property="view" destination="UaZ-9e-JXN" id="8li-CH-K6l"/>
@@ -69,14 +74,14 @@
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="39L-ei-g6y" userLabel="iPhone View">
                                         <rect key="frame" x="6" y="0.0" width="212" height="289"/>
                                         <subviews>
-                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="iphone_top" translatesAutoresizingMaskIntoConstraints="NO" id="qfw-UY-vsg" userLabel="iPhone Top Image View">
+                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" translatesAutoresizingMaskIntoConstraints="NO" id="qfw-UY-vsg" userLabel="iPhone Top Image View">
                                                 <rect key="frame" x="0.0" y="0.0" width="212" height="48"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="212" id="563-I8-pLB"/>
                                                     <constraint firstAttribute="height" constant="48" id="TPF-MU-mht"/>
                                                 </constraints>
                                             </imageView>
-                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" image="iphone_left" translatesAutoresizingMaskIntoConstraints="NO" id="OWj-uY-J2z" userLabel="iPhone Left Image View">
+                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" translatesAutoresizingMaskIntoConstraints="NO" id="OWj-uY-J2z" userLabel="iPhone Left Image View">
                                                 <rect key="frame" x="0.0" y="48" width="16" height="241"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="241" id="7Qc-Rg-KjB"/>
@@ -88,7 +93,7 @@
                                                     </mask>
                                                 </variation>
                                             </imageView>
-                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" image="iphone_right" translatesAutoresizingMaskIntoConstraints="NO" id="hcn-GQ-SYM" userLabel="iPhone Right Image View">
+                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" translatesAutoresizingMaskIntoConstraints="NO" id="hcn-GQ-SYM" userLabel="iPhone Right Image View">
                                                 <rect key="frame" x="196" y="48" width="16" height="241"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="241" id="15r-ZN-tV0"/>
@@ -98,7 +103,7 @@
                                             <view clipsSubviews="YES" alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xw2-23-t3r">
                                                 <rect key="frame" x="15" y="48" width="182" height="241"/>
                                                 <subviews>
-                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tour_1" translatesAutoresizingMaskIntoConstraints="NO" id="CG9-Or-wOe">
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="CG9-Or-wOe">
                                                         <rect key="frame" x="0.0" y="0.0" width="182" height="241"/>
                                                     </imageView>
                                                 </subviews>
@@ -134,7 +139,7 @@
                                             </mask>
                                         </variation>
                                     </view>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="iphone_bottom" translatesAutoresizingMaskIntoConstraints="NO" id="1v8-3Z-uuI" userLabel="iPhone Bottom Image View">
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" translatesAutoresizingMaskIntoConstraints="NO" id="1v8-3Z-uuI" userLabel="iPhone Bottom Image View">
                                         <rect key="frame" x="0.0" y="284" width="224" height="5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="224" id="d3E-aq-0qM"/>
@@ -196,7 +201,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="B3M-bP-BXP" userLabel="alert_container">
                                 <rect key="frame" x="57.5" y="273" width="260" height="165"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_permissions_alert" translatesAutoresizingMaskIntoConstraints="NO" id="vwZ-8T-Fgx">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vwZ-8T-Fgx">
                                         <rect key="frame" x="0.0" y="0.0" width="260" height="165"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OzF-CG-cFa" userLabel="alertOkLabel">
@@ -225,7 +230,6 @@
                                     <constraint firstAttribute="height" constant="56" id="MZC-nq-q1f"/>
                                     <constraint firstAttribute="width" constant="56" id="WcV-Ys-tMe"/>
                                 </constraints>
-                                <state key="normal" image="ic_close"/>
                                 <connections>
                                     <action selector="closeButtonPressed:" destination="-1" eventType="touchUpInside" id="7ag-Nm-j0C"/>
                                 </connections>
@@ -267,13 +271,4 @@
             <point key="canvasLocation" x="808.5" y="585.5"/>
         </view>
     </objects>
-    <resources>
-        <image name="ic_close" width="18" height="18"/>
-        <image name="img_permissions_alert" width="261" height="165"/>
-        <image name="iphone_bottom" width="224" height="5"/>
-        <image name="iphone_left" width="16" height="241"/>
-        <image name="iphone_right" width="16" height="241"/>
-        <image name="iphone_top" width="212" height="48"/>
-        <image name="tour_1" width="184" height="280"/>
-    </resources>
 </document>

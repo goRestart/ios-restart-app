@@ -25,4 +25,8 @@ extension UIView {
     func convertToWindow(_ rect: CGRect) -> CGRect {
         return convert(rect, to: nil)
     }
+
+    func removeAllGestureRecognizers() {
+        gestureRecognizers?.forEach { removeGestureRecognizer($0) }
+    }
 }

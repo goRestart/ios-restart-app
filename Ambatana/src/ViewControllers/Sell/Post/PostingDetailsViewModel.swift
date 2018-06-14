@@ -6,10 +6,16 @@ protocol PostingDetailsViewModelDelegate: BaseViewModelDelegate {}
 
 class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDelegate, PostingAddDetailSummaryTableViewDelegate {
     
+    private typealias ListingMultiCreationCompletion = ([ListingCreationParams]) -> Void
+    
     weak var delegate: PostingDetailsViewModelDelegate?
     
     var title: String {
         return step.title
+    }
+    
+    var subtitle: String? {
+        return step.subtitle
     }
     
     var buttonTitle: String {
@@ -75,6 +81,10 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         return locationManager.currentLocation?.countryCode
     }
     
+    private var isPostingServices: Bool {
+        return featureFlags.showServicesFeatures.isActive && postListingState.category?.isService ?? false
+    }
+    
     func makeContentView(viewControllerDelegate: LGSearchMapViewControllerModelDelegate) -> PostingViewConfigurable? {
         var values: [String]
         switch step {
@@ -109,7 +119,11 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         case .year, .make, .model:
             return nil
         case .servicesSubtypes:
-            let postServicesView = PostingMultiSelectionView()
+            let serviceSubtypes = servicesInfoRepository.serviceAllSubtypesSorted()
+            let postServicesView = PostingMultiSelectionView(keyboardHelper: KeyboardHelper(),
+                                                             theme: .light,
+                                                             subtypes: serviceSubtypes)
+            postServicesView.delegate = self
             return postServicesView
         }
         let view = PostingAttributePickerTableView(values: values, selectedIndexes: [], delegate: self)
@@ -150,6 +164,10 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     private let sizeListing = Variable<Int?>(nil)
     private let placeSelected = Variable<Place?>(nil)
     private let previousStepIsSummary: Bool
+    private let servicesInfoRepository: ServicesInfoRepository
+
+    private var multipostingSubtypes: [ServiceSubtype] = []
+    private var multipostingNewSubtypes: [String] = []
     
     weak var navigator: PostListingNavigator?
     private let disposeBag = DisposeBag()
@@ -176,7 +194,8 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
                   featureFlags: FeatureFlags.sharedInstance,
                   myUserRepository: Core.myUserRepository,
                   sessionManager: Core.sessionManager,
-                  imageMultiplierRepository: Core.imageMultiplierRepository)
+                  imageMultiplierRepository: Core.imageMultiplierRepository,
+                  servicesInfoRepository: Core.servicesInfoRepository)
     }
     
     init(step: PostingDetailStep,
@@ -192,7 +211,9 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
          featureFlags: FeatureFlaggeable,
          myUserRepository: MyUserRepository,
          sessionManager: SessionManager,
-         imageMultiplierRepository: ImageMultiplierRepository) {
+         imageMultiplierRepository: ImageMultiplierRepository,
+         servicesInfoRepository: ServicesInfoRepository) {
+        
         self.step = step
         self.postListingState = postListingState
         self.uploadedImageSource = uploadedImageSource
@@ -207,6 +228,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         self.myUserRepository = myUserRepository
         self.sessionManager = sessionManager
         self.imageMultiplierRepository = imageMultiplierRepository
+        self.servicesInfoRepository = servicesInfoRepository
     }
     
     func closeButtonPressed() {
@@ -241,40 +263,52 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         if postListingState.pendingToUploadMedia {
             openPostAbandonAlertNotLoggedIn()
         } else {
-            guard let _ = postListingState.lastImagesUploadResult?.value,
+            guard let lastImagesUploaded = postListingState.lastImagesUploadResult?.value,
                 let listingParams = retrieveListingParams() else {
                 navigator?.cancelPostListing()
                 return
             }
 
-            if featureFlags.showServicesFeatures.isActive && postListingState.category?.isService ?? false {
-                closeAndMultipostInBackground(params: [listingParams], trackingInfo: postListingTrackingInfo)
+            if let imageUploadedId = lastImagesUploaded.first?.objectId, isPostingServices {
+                fetchImagesIdsAndCreateParams(imageUploadedId, trackingInfo: postListingTrackingInfo) { [weak self] params in
+                    if let trackInfo = self?.postListingTrackingInfo, !params.isEmpty {
+                        self?.navigator?.closePostServicesAndPostInBackground(params: params, trackingInfo: trackInfo)
+                    }
+                }
             } else {
                 navigator?.closePostProductAndPostInBackground(params: listingParams, trackingInfo: postListingTrackingInfo)
             }
         }
     }
     
-    private func closeAndMultipostInBackground(params: [ListingCreationParams],
-                                               trackingInfo: PostListingTrackingInfo) {
-        
-        // TODO: include image id and number of images for this ABIOS-4290
-        imageMultiplierRepository.imageMultiplier(ImageMultiplierParams(imageId: "", times: 3)) { [weak self] result in
-            
-            guard let imagesIds = result.value,
-                let modifiedParams = self?.updatedParams(with: params, imagesIds) else {
-                let error = result.error ?? RepositoryError.internalError(message: "")
-                self?.navigator?.showConfirmation(listingResult: ListingResult(error: error),
-                                                  trackingInfo: trackingInfo, modalStyle: true)
+    private func fetchImagesIdsAndCreateParams(_ imageUploadedId: String,
+                                       trackingInfo: PostListingTrackingInfo,
+                                       completion: ListingMultiCreationCompletion?) {
+        let numberOfImages = multipostingSubtypes.count + multipostingNewSubtypes.count
+        imageMultiplierRepository.imageMultiplier(ImageMultiplierParams(imageId: imageUploadedId, times: numberOfImages)) { [weak self] result in
+            guard let imagesIds = result.value else {
+                completion?([])
+                let error = result.error ?? RepositoryError.internalError(message: "Images Multiplier Error")
+                self?.navigator?.showMultiListingPostConfirmation(listingResult: ListingsResult(error: error),
+                                                                  trackingInfo: trackingInfo,
+                                                                  modalStyle: true)
                 return
             }
-            self?.navigator?.closePostServicesAndPostInBackground(params: modifiedParams, trackingInfo: trackingInfo)
+            
+            guard let multipostingSubtypes = self?.multipostingSubtypes,
+                let multipostingNewSubtypes = self?.multipostingNewSubtypes,
+                let modifiedParams = self?.multipostParams(subtypes: multipostingSubtypes,
+                                                           newSubtypes: multipostingNewSubtypes,
+                                                           imagesIds: imagesIds),
+                !modifiedParams.isEmpty else {
+                     completion?([])
+                     self?.navigator?.showMultiListingPostConfirmation(listingResult: ListingsResult(error: RepositoryError.internalError(message: "Multipost params creation")),
+                                                                                              trackingInfo: trackingInfo,
+                                                                                              modalStyle: true)
+                     return
+            }
+            completion?(modifiedParams)
         }
-    }
-    
-    private func updatedParams(with params: [ListingCreationParams], _ imagesIds: [String]) -> [ListingCreationParams] {
-        // TODO: update params, part of ABIOS-4290
-        return params
     }
     
     private var postListingTrackingInfo: PostListingTrackingInfo {
@@ -326,22 +360,38 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         }
     }
     
-    
     private func openListingPosting(trackingInfo: PostListingTrackingInfo) {
-        guard let _ = postListingState.lastImagesUploadResult?.value, let listingCreationParams = retrieveListingParams() else { return }
-        navigator?.openListingCreation(listingParams: listingCreationParams, trackingInfo: trackingInfo)
+        guard let lastImagesUploaded = postListingState.lastImagesUploadResult?.value else { return }
+        if let imageUploadedId = lastImagesUploaded.first?.objectId, isPostingServices {
+            navigator?.openListingsCreation(uploadedImageId: imageUploadedId,
+                                            multipostingSubtypes: multipostingSubtypes,
+                                            multipostingNewSubtypes: multipostingNewSubtypes,
+                                            postListingState: postListingState,
+                                            trackingInfo: trackingInfo)
+        } else if let listingCreationParams = retrieveListingParams() {
+            navigator?.openListingCreation(listingParams: listingCreationParams, trackingInfo: trackingInfo)
+        }
     }
     
     private func cancelPostListing() {
         navigator?.cancelPostListing()
     }
     
-    private func postActionAfterLogin(images: [UIImage]?, video: RecordedVideo?, trackingInfo: PostListingTrackingInfo) {        
-        guard let listingParams = retrieveListingParams(), let images = images else { return }
-        navigator?.closePostProductAndPostLater(params: listingParams,
-                                                      images: images,
-                                                      video: video,
-                                                      trackingInfo: trackingInfo)
+    private func postActionAfterLogin(images: [UIImage]?, video: RecordedVideo?, trackingInfo: PostListingTrackingInfo) {
+        if isPostingServices {
+            let multiPostParams = multipostParams(subtypes: multipostingSubtypes,
+                                                  newSubtypes: multipostingNewSubtypes,
+                                                  imagesIds: [])
+            navigator?.closePostServicesAndPostLater(params: multiPostParams,
+                                                     images: images,
+                                                     trackingInfo: trackingInfo)
+        } else {
+            guard let listingParams = retrieveListingParams(), let images = images else { return }
+            navigator?.closePostProductAndPostLater(params: listingParams,
+                                                    images: images,
+                                                    video: video,
+                                                    trackingInfo: trackingInfo)
+        }
     }
     
     private func advanceNextStep(next: PostingDetailStep) {
@@ -537,6 +587,71 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     
     private func retrieveCurrentLocationSelected() -> String? {
         return postListingState.place?.postalAddress?.address ?? myUserRepository.myUser?.location?.postalAddress?.address ?? locationManager.currentLocation?.postalAddress?.address
+    }
+    
+    private func multipostParams(subtypes: [ServiceSubtype], newSubtypes: [String], imagesIds: [String]) -> [ListingCreationParams] {
+        guard let location = locationManager.currentLocation?.location else { return [] }
+        
+        let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()
+        let currency = currencyHelper.currencyWithCountryCode(postalAddress.countryCode ?? Constants.currencyDefault)
+        
+        let multipostSubtypeParams = subtypes.makeCreationParams(imagesIds: imagesIds,
+                                                                 location: location,
+                                                                 postalAddress: postalAddress,
+                                                                 currency: currency,
+                                                                 postListingState: postListingState)
+        
+        let multipostNewParams: [ListingCreationParams] = newSubtypes.enumerated().flatMap { (index, newSubtype) in
+            guard let imageFileId = imagesIds[safeAt: index+multipostSubtypeParams.count] else { return nil }
+            let serviceAttribute = ServiceAttributes()
+            let imageFile = LGFile(id: imageFileId, url: nil)
+
+            return ListingCreationParams.make(title: newSubtype,
+                                              description: "",
+                                              currency: currency,
+                                              location: location,
+                                              postalAddress: postalAddress,
+                                              postListingState: postListingState.updating(servicesInfo: serviceAttribute, uploadedImages: [imageFile]))
+        }
+        return multipostSubtypeParams + multipostNewParams
+    }
+}
+
+extension PostingDetailsViewModel: PostingMultiSelectionViewDelegate {
+    func add(service subtype: ServiceSubtype) {
+        guard !multipostingSubtypes.contains(where: { $0.id == subtype.id }),
+            selectedServicesIsLessThanMax else { return }
+        multipostingSubtypes.append(subtype)
+    }
+    
+    func remove(service subtype: ServiceSubtype) {
+        guard let index = multipostingSubtypes.index(where: { $0.name == subtype.name }) else { return }
+        multipostingSubtypes.remove(at: index)
+    }
+    
+    func addNew(service name: String) {
+        guard !multipostingNewSubtypes.contains(where: { $0 == name }),
+            selectedServicesIsLessThanMax else { return }
+        multipostingNewSubtypes.append(name)
+    }
+    
+    func removeNew(service name: String) {
+        guard let index = multipostingNewSubtypes.index(where: { $0 == name }) else { return }
+        multipostingNewSubtypes.remove(at: index)
+    }
+    
+    func showAlertMaxSelection() {
+        let action = UIAction(interface: .button(R.Strings.commonOk, .primary(fontSize: .medium)),
+                              action: { },
+                              accessibilityId: .postingDetailMaxServices)
+        delegate?.vmShowAlertWithTitle(R.Strings.postDetailsServicesCreateMax,
+                                       text: "",
+                                       alertType: .plainAlert,
+                                       actions: [action])
+    }
+    
+    private var selectedServicesIsLessThanMax: Bool {
+        return (multipostingSubtypes.count + multipostingNewSubtypes.count) <= Constants.maxNumberMultiPosting
     }
     
 }

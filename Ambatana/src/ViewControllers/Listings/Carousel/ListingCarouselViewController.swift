@@ -330,6 +330,8 @@ final class ListingCarouselViewController: KeyboardViewController, AnimatableTra
 
     func setupUI() {
         addSubviews()
+        productStatusImageView.image = R.Asset.Monetization.icLightning.image
+        
         if !isSafeAreaAvailable {
             favoriteButtonTopAligment.constant = 55
             shareButtonTopAlignment.constant = 70

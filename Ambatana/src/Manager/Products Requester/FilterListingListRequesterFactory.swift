@@ -25,27 +25,7 @@ class FilterListingListRequesterFactory {
         let multiRequester = ListingListMultiRequester(requesters: requestersArray)
         return multiRequester
     }
-    
-    static func generateCombinedSearchAndSimilar(withFilters filters: ListingFilters,
-                                                 queryString: String?,
-                                                 itemsPerPage: Int,
-                                                 carSearchActive: Bool) -> ListingListMultiRequester {
-        let similarRequesterArray = FilterListingListRequesterFactory
-                                    .generateRequesterArray(withFilters: filters,
-                                                            queryString: queryString,
-                                                            itemsPerPage: itemsPerPage,
-                                                            carSearchActive: carSearchActive,
-                                                            similarSearchActive: true)
-        let originalRequestersArray = FilterListingListRequesterFactory
-                                    .generateRequesterArray(withFilters: filters,
-                                                            queryString: queryString,
-                                                            itemsPerPage: itemsPerPage,
-                                                            carSearchActive: carSearchActive,
-                                                            similarSearchActive: false)
-        let combined = originalRequestersArray + similarRequesterArray
-        let multiRequester = ListingListMultiRequester(requesters: combined)
-        return multiRequester
-    }
+
     
     /// Generate Default requester with *no filters* and *no query string*.
     ///
@@ -116,10 +96,7 @@ class FilterListingListRequesterFactory {
             requestersArray.append(filteredRequester)
         }
         
-        let isRealEstateWithFilters = filters.selectedCategories.contains(.realEstate) && filters.hasAnyRealEstateAttributes
-        let isCarsWithFilters = filters.selectedCategories.contains(.cars) && filters.hasAnyCarAttributes && carSearchActive
-        
-        if  isRealEstateWithFilters || isCarsWithFilters {
+        if filters.searchRelatedNeeded(carSearchActive: carSearchActive) {
             let filteredRequester = SearchRelatedListingListRequester(itemsPerPage: itemsPerPage)
             filteredRequester.filters = filters
             filteredRequester.queryString = queryString

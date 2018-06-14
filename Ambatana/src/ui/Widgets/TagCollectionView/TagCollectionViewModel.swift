@@ -34,19 +34,30 @@ extension TagCollectionViewModel: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TagCollectionViewCell.reusableID,
-                                                            for: indexPath) as? TagCollectionViewCell
-            else {
-                return UICollectionViewCell()
+        let cellIdentifier = cellStyle.containsCross ? TagCollectionViewWithCloseCell.reusableID : TagCollectionViewCell.reusableID
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath)
+        if let configurableCell = cell as? TagCollectionConfigurable {
+            configurableCell.setupWith(style: cellStyle)
+            configurableCell.configure(with: tags[indexPath.row])
         }
-        cell.setupWith(style: cellStyle)
-        cell.configure(with: tags[indexPath.row])
         return cell
     }
+
 }
 
-extension TagCollectionViewModel: UICollectionViewDelegate {
+extension TagCollectionViewModel: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         selectionDelegate?.vm(self, didSelectTagAtIndex: indexPath.item)
     }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if cellStyle.containsCross {
+            let cellText = tags[indexPath.row]
+            return TagCollectionViewWithCloseCell.cellSizeForText(text: cellText, style: cellStyle)
+        }
+        return (collectionViewLayout as? UICollectionViewFlowLayout)?.itemSize ?? .zero
+    }
+
 }

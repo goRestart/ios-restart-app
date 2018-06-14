@@ -22,7 +22,7 @@
                         <constraint firstAttribute="width" secondItem="j4c-6K-nbq" secondAttribute="height" multiplier="1:1" id="urp-qg-NdE"/>
                     </constraints>
                 </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pro_tag" translatesAutoresizingMaskIntoConstraints="NO" id="LGU-BV-Hk5" userLabel="Pro View">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="LGU-BV-Hk5" userLabel="Pro View">
                     <rect key="frame" x="0.0" y="32" width="50" height="18"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="18" id="F3F-SU-odg"/>
@@ -46,7 +46,7 @@
                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ckz-Zl-WFP" userLabel="Average Rating View">
                             <rect key="frame" x="0.0" y="20" width="87" height="12"/>
                             <subviews>
-                                <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_star" highlightedImage="ic_star_filled" translatesAutoresizingMaskIntoConstraints="NO" id="Ute-wO-Qv9" userLabel="Average Rating 1 Image View">
+                                <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ute-wO-Qv9" userLabel="Average Rating 1 Image View">
                                     <rect key="frame" x="0.0" y="0.0" width="12" height="12"/>
                                     <constraints>
                                         <constraint firstAttribute="width" secondItem="Ute-wO-Qv9" secondAttribute="height" multiplier="1:1" id="MK9-fb-KrQ"/>
@@ -58,16 +58,16 @@
                                         </mask>
                                     </variation>
                                 </imageView>
-                                <imageView userInteractionEnabled="NO" tag="2" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_star" highlightedImage="ic_star_filled" translatesAutoresizingMaskIntoConstraints="NO" id="z7P-MB-MG5" userLabel="Average Rating 2 Image View">
+                                <imageView userInteractionEnabled="NO" tag="2" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="z7P-MB-MG5" userLabel="Average Rating 2 Image View">
                                     <rect key="frame" x="16" y="0.0" width="12" height="12"/>
                                 </imageView>
-                                <imageView userInteractionEnabled="NO" tag="3" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_star" highlightedImage="ic_star_filled" translatesAutoresizingMaskIntoConstraints="NO" id="CEo-tG-8hc" userLabel="Average Rating 3 Image View">
+                                <imageView userInteractionEnabled="NO" tag="3" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="CEo-tG-8hc" userLabel="Average Rating 3 Image View">
                                     <rect key="frame" x="32" y="0.0" width="12" height="12"/>
                                 </imageView>
-                                <imageView userInteractionEnabled="NO" tag="4" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_star" highlightedImage="ic_star_filled" translatesAutoresizingMaskIntoConstraints="NO" id="ili-a3-K8O" userLabel="Average Rating 4 Image View">
+                                <imageView userInteractionEnabled="NO" tag="4" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ili-a3-K8O" userLabel="Average Rating 4 Image View">
                                     <rect key="frame" x="48" y="0.0" width="12" height="12"/>
                                 </imageView>
-                                <imageView userInteractionEnabled="NO" tag="5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_star" highlightedImage="ic_star_filled" translatesAutoresizingMaskIntoConstraints="NO" id="qoA-fU-hQ2" userLabel="Average Rating 5 Image View">
+                                <imageView userInteractionEnabled="NO" tag="5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qoA-fU-hQ2" userLabel="Average Rating 5 Image View">
                                     <rect key="frame" x="64" y="0.0" width="12" height="12"/>
                                 </imageView>
                             </subviews>
@@ -112,7 +112,7 @@
                         <constraint firstItem="3PK-NL-M1r" firstAttribute="bottom" secondItem="nSf-FG-uxy" secondAttribute="top" id="zbn-K4-arb"/>
                     </constraints>
                 </view>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_karma_badge_active" translatesAutoresizingMaskIntoConstraints="NO" id="B7v-dn-eET">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="B7v-dn-eET">
                     <rect key="frame" x="30" y="30" width="20" height="20"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="B7v-dn-eET" secondAttribute="height" multiplier="1:1" id="3YK-WF-Yqp"/>
@@ -143,7 +143,7 @@
             <connections>
                 <outlet property="proImageView" destination="LGU-BV-Hk5" id="1jW-Ta-sak"/>
                 <outlet property="ratingsContainer" destination="ckz-Zl-WFP" id="p5L-t2-ODs"/>
-                <outlet property="ratingsContainerHeight" destination="Zdv-nG-Nmn" id="8nD-OE-Jd7"/>
+                <outlet property="ratingsContainerHeight" destination="Zdv-nG-Nmn" id="aS1-93-TFS"/>
                 <outlet property="subtitleLabel" destination="nSf-FG-uxy" id="zo3-x7-yob"/>
                 <outlet property="textInfoContainer" destination="ZlW-xO-9bZ" id="cvk-xM-JrR"/>
                 <outlet property="titleLabel" destination="3PK-NL-M1r" id="4SY-vn-3GN"/>
@@ -152,13 +152,12 @@
                 <outletCollection property="avatarMarginConstraints" destination="FdU-AC-bEm" collectionClass="NSMutableArray" id="fow-Jq-VRv"/>
                 <outletCollection property="avatarMarginConstraints" destination="QOa-wF-hRO" collectionClass="NSMutableArray" id="UdT-sU-uwR"/>
                 <outletCollection property="avatarMarginConstraints" destination="pQY-Bk-hA4" collectionClass="NSMutableArray" id="jbC-bB-wZ6"/>
+                <outletCollection property="stars" destination="Ute-wO-Qv9" collectionClass="NSMutableArray" id="6AK-2o-Ehv"/>
+                <outletCollection property="stars" destination="z7P-MB-MG5" collectionClass="NSMutableArray" id="1gY-mK-IPR"/>
+                <outletCollection property="stars" destination="CEo-tG-8hc" collectionClass="NSMutableArray" id="rX2-i8-Neh"/>
+                <outletCollection property="stars" destination="ili-a3-K8O" collectionClass="NSMutableArray" id="j8l-Gh-ebK"/>
+                <outletCollection property="stars" destination="qoA-fU-hQ2" collectionClass="NSMutableArray" id="87e-tU-QNh"/>
             </connections>
         </view>
     </objects>
-    <resources>
-        <image name="ic_karma_badge_active" width="30" height="30"/>
-        <image name="ic_star" width="30" height="30"/>
-        <image name="ic_star_filled" width="30" height="30"/>
-        <image name="pro_tag" width="49" height="18"/>
-    </resources>
 </document>

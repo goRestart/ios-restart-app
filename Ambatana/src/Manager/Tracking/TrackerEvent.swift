@@ -616,6 +616,9 @@ struct TrackerEvent {
             params[.mlListingCategory] = machineLearningData.category?.rawValue ?? nil
         }
         
+        params[.serviceType] = listing.service?.servicesAttributes.typeId ?? Constants.parameterNotApply
+        params[.serviceSubtype] = listing.service?.servicesAttributes.subtypeId ?? Constants.parameterNotApply
+        
         return TrackerEvent(name: .listingSellComplete, params: params)
     }
     
@@ -661,6 +664,13 @@ struct TrackerEvent {
     static func listingSellConfirmation(_ listing: Listing) -> TrackerEvent {
         var params = EventParameters()
         params[.listingId] = listing.objectId ?? ""
+        return TrackerEvent(name: .listingSellConfirmation, params: params)
+    }
+    
+    static func listingsSellConfirmation(listingIds: [String]) -> TrackerEvent {
+        var params = EventParameters()
+        params[.listingId] = listingIds.joined(separator: ",")
+        params[.productCounter] = listingIds.count
         return TrackerEvent(name: .listingSellConfirmation, params: params)
     }
 
@@ -757,6 +767,11 @@ struct TrackerEvent {
         params[.make] = EventParameterMake.make(name: listing.car?.carAttributes.make).name
         params[.model] = EventParameterModel.model(name: listing.car?.carAttributes.model).name
         params[.year] = EventParameterYear.year(year: listing.car?.carAttributes.year).year
+        
+        if let servicesAttributes = listing.service?.servicesAttributes {
+            params[.serviceType] = servicesAttributes.typeId ?? Constants.parameterNotApply
+            params[.serviceSubtype] = servicesAttributes.subtypeId ?? Constants.parameterNotApply
+        }
         
         if let realEstateAttributes = listing.realEstate?.realEstateAttributes {
             params[.propertyType] = EventParameterStringRealEstate.realEstateParam(name: realEstateAttributes.propertyType?.rawValue).name
@@ -1505,6 +1520,10 @@ struct TrackerEvent {
     
     static func userDidTakeScreenshot() -> TrackerEvent {
         return TrackerEvent(name: .screenshot, params: nil)
+    }
+
+    static func sessionOneMinuteFirstWeek() -> TrackerEvent {
+        return TrackerEvent(name: .sessionOneMinuteFirstWeek, params: nil)
     }
 
     // MARK: - Private methods

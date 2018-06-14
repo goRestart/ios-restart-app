@@ -22,6 +22,11 @@ final class ServicesInfoMemoryDAO: ServicesInfoDAO, ServicesInfoRetrievable {
         return servicesTypes.flatMap({ $0.subTypes }).first(where: { $0.id == serviceSubtypeId })
     }
     
+    func serviceAllSubtypesSorted() -> [ServiceSubtype] {
+        let serviceSubtypes: [ServiceSubtype] = servicesTypes.flatMap({ $0.subTypes })
+        return serviceSubtypes.sorted(by: { $0.isHighlighted && !$1.isHighlighted })
+    }
+    
     func clean() {
         serviceTypesList = []
     }

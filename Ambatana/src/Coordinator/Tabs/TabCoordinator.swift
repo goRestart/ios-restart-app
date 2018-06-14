@@ -400,7 +400,6 @@ fileprivate extension TabCoordinator {
         navigationController.pushViewController(vc, animated: true)
     }
 
-
     func openUser(_ interlocutor: ChatInterlocutor) {
         let vm = UserProfileViewModel.makePublicProfile(chatInterlocutor: interlocutor, source: .chat)
         vm.navigator = self

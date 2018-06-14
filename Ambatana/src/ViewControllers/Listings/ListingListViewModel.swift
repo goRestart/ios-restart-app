@@ -70,7 +70,7 @@ final class ListingListViewModel: BaseViewModel {
     weak var dataDelegate: ListingListViewModelDataDelegate?
     weak var listingCellDelegate: ListingCellDelegate?
     
-    private let featureFlags: FeatureFlags
+    private let featureFlags: FeatureFlaggeable
     private let myUserRepository: MyUserRepository
     private let imageDownloader: ImageDownloaderType
 
@@ -93,9 +93,9 @@ final class ListingListViewModel: BaseViewModel {
     /// Current fallback requester in use
     var currentActiveRequester: ListingListRequester?
     
-    var currentRequesterType: RequesterType {
-        let tuple = requesterFactory?.buildIndexedRequesterList()[currentRequesterIndex]
-        return tuple?.0 ?? .search
+    var currentRequesterType: RequesterType? {
+        let tuple = requesterFactory?.buildIndexedRequesterList()[safeAt: currentRequesterIndex]
+        return tuple?.0
     }
     
     private var requesterFactory: RequesterFactory? {
@@ -163,7 +163,7 @@ final class ListingListViewModel: BaseViewModel {
                  tracker: Tracker = TrackerProxy.sharedInstance,
                  imageDownloader: ImageDownloaderType = ImageDownloader.sharedInstance,
                  reporter: CrashlyticsReporter = CrashlyticsReporter(),
-                 featureFlags: FeatureFlags = FeatureFlags.sharedInstance,
+                 featureFlags: FeatureFlaggeable = FeatureFlags.sharedInstance,
                  myUserRepository: MyUserRepository = Core.myUserRepository,
                  requesterFactory: RequesterFactory? = nil) {
         self.objects = (listings ?? []).map(ListingCellModel.init)
@@ -189,8 +189,15 @@ final class ListingListViewModel: BaseViewModel {
         setCurrentFallbackRequester()
     }
     
-    convenience init(numberOfColumns: Int, tracker: Tracker, requesterFactory: RequesterFactory) {
-        self.init(requester: nil, numberOfColumns: numberOfColumns, tracker: tracker, requesterFactory: requesterFactory)
+    convenience init(numberOfColumns: Int,
+                     tracker: Tracker,
+                     featureFlags: FeatureFlaggeable = FeatureFlags.sharedInstance,
+                     requesterFactory: RequesterFactory) {
+        self.init(requester: nil,
+                  numberOfColumns: numberOfColumns,
+                  tracker: tracker,
+                  featureFlags: featureFlags,
+                  requesterFactory: requesterFactory)
         self.requesterFactory = requesterFactory
         requesterSequence = requesterFactory.buildRequesterList()
         setCurrentFallbackRequester()
@@ -311,7 +318,7 @@ final class ListingListViewModel: BaseViewModel {
         requesterFactory = newFactory
     }
     
-    private func retriveListing(isFirstPage: Bool, featureFlags: FeatureFlags) {
+    private func retriveListing(isFirstPage: Bool, featureFlags: FeatureFlaggeable) {
         retrieveListings(isFirstPage: isFirstPage,
                          with: requesterSequence)
     }
@@ -350,7 +357,6 @@ final class ListingListViewModel: BaseViewModel {
             let numListing = strongSelf.numberOfListings
             let hasListings = numListing > 0
             strongSelf.isLastPage = currentRequester.isLastPage(newListings.count)
-
             requesterList.removeFirst()
             if hasListings {
                 if strongSelf.featureFlags.shouldUseSimilarQuery(numListing: numListing)
@@ -436,7 +442,7 @@ final class ListingListViewModel: BaseViewModel {
     
     func prefetchItems(atIndexes indexes: [Int]) {
         var urls = [URL]()
-        for index in indexes where objects.count < index {
+        for index in indexes where objects.count >= index {
             switch objects[index] {
             case .listingCell(let listing):
                 if let thumbnailURL = listing.thumbnail?.fileURL {

@@ -1,25 +1,22 @@
-//
-//  RecaptchaViewController.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 19/10/2016.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
+import WebKit
 
-import UIKit
+final class RecaptchaViewController: BaseViewController {
+    var webView: WKWebView { return recaptchaView.webView }
+    var activityIndicator: UIActivityIndicatorView { return recaptchaView.activityIndicator }
+    var closeButton: UIButton { return recaptchaView.closeButton }
 
-class RecaptchaViewController: BaseViewController {
-    @IBOutlet weak var webView: UIWebView!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var closeButton: UIButton!
+    private let viewModel: RecaptchaViewModel
+    private let recaptchaView = RecaptchaView()
 
-    fileprivate let viewModel: RecaptchaViewModel
+    private var currentURL: URL?
 
-    fileprivate var currentURL: URL?
+    override func loadView() {
+        self.view = recaptchaView
+    }
 
     init(viewModel: RecaptchaViewModel) {
         self.viewModel = viewModel
-        super.init(viewModel: viewModel, nibName: "RecaptchaViewController")
+        super.init(viewModel: viewModel, nibName: nil)
         automaticallyAdjustsScrollViewInsets = false
     }
 
@@ -30,42 +27,46 @@ class RecaptchaViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setAccesibilityIds()
-        webView.delegate = self
+        webView.navigationDelegate = self
 
         if let url = viewModel.url {
             loadUrl(url)
         }
+        setupTouchEvents()
     }
 
-    @IBAction func closeButtonPressed(_ sender: AnyObject) {
-        viewModel.closeButtonPressed()
+    private func setupTouchEvents() {
+        closeButton.addTarget(viewModel, action: #selector(RecaptchaViewModel.closeButtonPressed), for: .touchUpInside)
     }
-
 
     // MARK: - Private methods
 
     private func loadUrl(_ url: URL) {
         activityIndicator.startAnimating()
         let request = URLRequest(url: url)
-        webView.loadRequest(request)
+        webView.load(request)
     }
 }
 
 
 // MARK: - UIWebViewDelegate
 
-extension RecaptchaViewController: UIWebViewDelegate {
+extension RecaptchaViewController: WKNavigationDelegate {
 
-    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest,
-                 navigationType: UIWebViewNavigationType) -> Bool {
-        currentURL = request.url
-        if let url = currentURL {
-            viewModel.startedLoadingURL(url)
+    func webView(_ webView: WKWebView,
+                 decidePolicyFor navigationAction: WKNavigationAction,
+                 decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+
+        guard let currentURL = navigationAction.request.url else {
+            decisionHandler(.cancel)
+            return
         }
-        return true
+        self.currentURL = currentURL
+        viewModel.startedLoadingURL(currentURL)
+        decisionHandler(.allow)
     }
 
-    func webViewDidFinishLoad(_ webView: UIWebView) {
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         activityIndicator.stopAnimating()
 
         if let url = currentURL {

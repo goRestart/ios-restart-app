@@ -1061,8 +1061,14 @@ class TrackerEventSpec: QuickSpec {
                     it ("rooms-number") {
                         expect(sut.params!.stringKeyParams["room-number"] as? String) == "2+1"
                     }
+                    it ("service-type") {
+                        expect(sut.params!.stringKeyParams["service-type"] as? String).notTo(beNil())
+                    }
+                    it ("service-subtype") {
+                        expect(sut.params!.stringKeyParams["service-subtype"] as? String).notTo(beNil())
+                    }
                     it ("vertical fields") {
-                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "product-make,product-model,product-year-start,product-year-end,property-type,deal-type,bedroom-number,bathroom-number,size-from,room-number"
+                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "product-make,product-model,product-year-start,product-year-end,property-type,deal-type,bedroom-number,bathroom-number,size-from,room-number,service-type,service-subtype"
                     }
                 }
                 context("not receiving all params, contains the default params") {
@@ -3136,6 +3142,26 @@ class TrackerEventSpec: QuickSpec {
                 it("contains product-id") {
                     let productId = sut.params!.stringKeyParams["product-id"] as? String
                     expect(productId).to(equal("r4nd0m1D"))
+                }
+            }
+            
+            describe("listingSellConfirmation with multiple listings") {
+                var listingsIds: [String]!
+                beforeEach {
+                    listingsIds = [String].makeRandom(range: 1...15)
+                    sut = TrackerEvent.listingsSellConfirmation(listingIds: listingsIds)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-sell-confirmation"))
+                }
+                it("contains right product-id") {
+                    let productId = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(productId).to(equal(listingsIds.joined(separator: ",")))
+                }
+                
+                it("contains right product-id") {
+                    let productCounter = sut.params!.stringKeyParams["product-counter"] as? Int
+                    expect(productCounter).to(equal(listingsIds.count))
                 }
             }
 
@@ -5274,8 +5300,14 @@ class TrackerEventSpec: QuickSpec {
                     it ("rooms-number") {
                         expect(sut.params!.stringKeyParams["room-number"] as? String) == "2+1"
                     }
+                    it ("service-type") {
+                        expect(sut.params!.stringKeyParams["service-type"] as? String).notTo(beNil())
+                    }
+                    it ("service-subtype") {
+                        expect(sut.params!.stringKeyParams["service-subtype"] as? String).notTo(beNil())
+                    }
                     it ("vertical fields") {
-                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "product-make,product-model,product-year-start,product-year-end,property-type,deal-type,bedroom-number,bathroom-number,size-from,room-number"
+                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "product-make,product-model,product-year-start,product-year-end,property-type,deal-type,bedroom-number,bathroom-number,size-from,room-number,service-type,service-subtype"
                     }
                 }
             }
@@ -5321,6 +5353,18 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.name.rawValue).to(equal("os-screenshot"))
                 }
                 it("the information is empty") {
+                    expect(sut.params?.params).to(beNil())
+                }
+            }
+
+            describe("Session one minute first week") {
+                beforeEach {
+                    sut = TrackerEvent.sessionOneMinuteFirstWeek()
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue) == "session-one-minute-first-week"
+                }
+                it("has no params") {
                     expect(sut.params?.params).to(beNil())
                 }
             }
@@ -5408,7 +5452,6 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.params!.stringKeyParams["feed-position"] as? String) == "20"
                 }
             }
-            
         }
     }
 }

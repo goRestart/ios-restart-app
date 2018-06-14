@@ -30,6 +30,7 @@ struct UserDefaultsUser {
     static let machineLearningOnboardingShownDefaultValue = false
     static let meetingSafetyTipsAlreadyShownDefaultValue = false
     static let interestingListingsDefaultValue: [String] = []
+    static let sessionDataDefaultValue: AnalyticsSessionData? = nil
 
     var appShared: Bool
     var userLocationApproximate: Bool
@@ -52,6 +53,7 @@ struct UserDefaultsUser {
     var meetingSafetyTipsAlreadyShown: Bool
 
     var interestingProducts: Set<String>
+    var analyticsSessionData: AnalyticsSessionData?
 
     init() {
         self.init(appShared: UserDefaultsUser.appSharedDefaultValue,
@@ -72,7 +74,8 @@ struct UserDefaultsUser {
                   proSellerAlreadySentPhoneInChat: UserDefaultsUser.proSellerAlreadySentPhoneInChatDefaultValue,
                   machineLearningOnboardingShown: UserDefaultsUser.machineLearningOnboardingShownDefaultValue,
                   meetingSafetyTipsAlreadyShown: UserDefaultsUser.meetingSafetyTipsAlreadyShownDefaultValue,
-                  interestingProducts: Set(UserDefaultsUser.interestingListingsDefaultValue))
+                  interestingProducts: Set(UserDefaultsUser.interestingListingsDefaultValue),
+                  analyticsSessionData: UserDefaultsUser.sessionDataDefaultValue)
     }
 
     init(appShared: Bool,
@@ -93,7 +96,8 @@ struct UserDefaultsUser {
          proSellerAlreadySentPhoneInChat: [String],
          machineLearningOnboardingShown: Bool,
          meetingSafetyTipsAlreadyShown: Bool,
-         interestingProducts: Set<String>) {
+         interestingProducts: Set<String>,
+         analyticsSessionData: AnalyticsSessionData?) {
         self.appShared = appShared
         self.userLocationApproximate = userLocationApproximate
         self.chatSafetyTipsShown = chatSafetyTipsShown
@@ -113,6 +117,7 @@ struct UserDefaultsUser {
         self.machineLearningOnboardingShown = machineLearningOnboardingShown
         self.meetingSafetyTipsAlreadyShown = meetingSafetyTipsAlreadyShown
         self.interestingProducts = interestingProducts
+        self.analyticsSessionData = analyticsSessionData
     }
 }
 
@@ -159,6 +164,8 @@ extension UserDefaultsUser: UserDefaultsDecodable {
                                                               defaultValue: UserDefaultsUser.meetingSafetyTipsAlreadyShownDefaultValue)
         let interestingProducts: [String] = dictionary.decode(UserDefaultsUserKey.interestingProducts.rawValue,
                                                               defaultValue: UserDefaultsUser.interestingListingsDefaultValue)
+        let analyticsSessionData = dictionary.decode(UserDefaultsUserKey.analyticsSessionData.rawValue,
+                                                     defaultValue: UserDefaultsUser.sessionDataDefaultValue)
         return UserDefaultsUser(appShared: appShared,
                                 userLocationApproximate: userLocationApproximate,
                                 chatSafetyTipsShown: chatSafetyTipsShown,
@@ -177,7 +184,8 @@ extension UserDefaultsUser: UserDefaultsDecodable {
                                 proSellerAlreadySentPhoneInChat: proSellerAlreadySentPhoneInChat,
                                 machineLearningOnboardingShown: machineLearningOnboardingShown,
                                 meetingSafetyTipsAlreadyShown: meetingSafetyTipsAlreadyShown,
-                                interestingProducts: Set(interestingProducts))
+                                interestingProducts: Set(interestingProducts),
+                                analyticsSessionData: analyticsSessionData)
     }
 
     func encode() -> [String: Any] {
@@ -206,7 +214,9 @@ extension UserDefaultsUser: UserDefaultsDecodable {
         dict.encode(UserDefaultsUserKey.machineLearningOnboardingShown.rawValue, value: machineLearningOnboardingShown)
         dict.encode(UserDefaultsUserKey.meetingSafetyTipsAlreadyShown.rawValue, value: meetingSafetyTipsAlreadyShown)
         dict.encode(UserDefaultsUserKey.interestingProducts.rawValue, value: Array(interestingProducts))
-
+        if let analyticsSessionData = analyticsSessionData {
+            dict.encode(UserDefaultsUserKey.analyticsSessionData.rawValue, value: analyticsSessionData.encode())
+        }
         return dict
     }
 }
@@ -246,6 +256,8 @@ private enum UserDefaultsUserKey: String {
 
     case meetingSafetyTipsAlreadyShown = "meetingSafetyTipsAlreadyShown"
     case interestingProducts = "interestingProducts"
+
+    case analyticsSessionData = "analyticsSessionData"
 }
 
 

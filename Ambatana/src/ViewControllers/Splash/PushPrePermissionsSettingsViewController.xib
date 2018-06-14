@@ -13,9 +13,12 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PushPrePermissionsSettingsViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
                 <outlet property="allowNotificationsLabel" destination="CKL-gX-JF8" id="jiJ-dV-y2g"/>
+                <outlet property="closeButton" destination="lBr-HR-u4r" id="Mp6-4x-eXl"/>
                 <outlet property="firstSectionLabel" destination="vQm-MM-For" id="jRG-uY-eds"/>
                 <outlet property="notificationsLabel" destination="Iba-AE-7sd" id="sRM-ch-Paw"/>
                 <outlet property="secondSectionLabel" destination="csY-8D-QCD" id="FEd-YK-U1E"/>
+                <outlet property="settingsImage1" destination="TA1-6c-LD0" id="OSO-FJ-L3R"/>
+                <outlet property="settingsImage2" destination="WKI-ya-7M8" id="FFw-Jz-39O"/>
                 <outlet property="subtitleLabel" destination="hkB-fm-J8N" id="p4M-2E-RhL"/>
                 <outlet property="titleLabel" destination="Pee-Of-tql" id="iYr-bo-qiD"/>
                 <outlet property="view" destination="scC-X6-0fG" id="KHA-W8-bst"/>
@@ -61,14 +64,14 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="settings_notifications2" translatesAutoresizingMaskIntoConstraints="NO" id="WKI-ya-7M8">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WKI-ya-7M8">
                                 <rect key="frame" x="54.666666666666657" y="446.66666666666669" width="305" height="45"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="305" id="erl-Kt-9Mw"/>
                                     <constraint firstAttribute="width" secondItem="WKI-ya-7M8" secondAttribute="height" multiplier="61:9" id="lg7-xn-7YX"/>
                                 </constraints>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="settings_notifications1" translatesAutoresizingMaskIntoConstraints="NO" id="TA1-6c-LD0">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TA1-6c-LD0">
                                 <rect key="frame" x="54.666666666666657" y="252.66666666666663" width="305" height="128"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="TA1-6c-LD0" secondAttribute="height" multiplier="305:128" id="F2g-Rs-ldp"/>
@@ -116,7 +119,6 @@
                                     <constraint firstAttribute="width" constant="56" id="FcO-yu-GlV"/>
                                     <constraint firstAttribute="height" constant="56" id="aAF-af-wXm"/>
                                 </constraints>
-                                <state key="normal" image="ic_close"/>
                                 <connections>
                                     <action selector="closeButtonPressed:" destination="-1" eventType="touchUpInside" id="n80-tc-06C"/>
                                 </connections>
@@ -195,9 +197,4 @@
             <point key="canvasLocation" x="808.5" y="585.5"/>
         </view>
     </objects>
-    <resources>
-        <image name="ic_close" width="18" height="18"/>
-        <image name="settings_notifications1" width="305" height="127"/>
-        <image name="settings_notifications2" width="305" height="45"/>
-    </resources>
 </document>

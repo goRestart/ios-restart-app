@@ -259,6 +259,7 @@ enum AccessibilityId: Equatable {
     case postingDescriptionField
     case postingBackButton
     case postingInfoCloseButton
+    case postingInfoCollectionView
     case postingInfoShareButton
     case postingInfoLoading
     case postingInfoEditButton
@@ -281,6 +282,7 @@ enum AccessibilityId: Equatable {
     case postingCategoryDeatilTableView
     case postingAddDetailTableView
     case postingAddDetailSearchBar
+    case postingDetailMaxServices
 
     // Editlisting
     case editListingCloseButton
@@ -444,8 +446,6 @@ enum AccessibilityId: Equatable {
     // BlockedUserCell
     case blockedUserCellAvatarImageView
     case blockedUserCellUserNameLabel
-    case blockedUserCellBlockedLabel
-    case blockedUserCellBlockedIcon
 
     // ChatListingView
     case chatListingViewUserAvatar
@@ -1291,6 +1291,8 @@ enum AccessibilityId: Equatable {
             return "postingBackButton"
         case .postingInfoCloseButton:
             return "postingInfoCloseButton"
+        case .postingInfoCollectionView:
+            return "postingInfoCollectionView"
         case .postingInfoShareButton:
             return "postingInfoShareButton"
         case .postingInfoLoading:
@@ -1335,6 +1337,8 @@ enum AccessibilityId: Equatable {
             return "postingAddDetailTableView"
         case .postingAddDetailSearchBar:
             return "postingAddDetailSearchBar"
+        case .postingDetailMaxServices:
+            return "postingDetailMaxServices"
             
         // Editlisting
         case .editListingCloseButton:
@@ -1626,10 +1630,6 @@ enum AccessibilityId: Equatable {
             return "blockedUserCellAvatarImageView"
         case .blockedUserCellUserNameLabel:
             return "blockedUserCellUserNameLabel"
-        case .blockedUserCellBlockedLabel:
-            return "blockedUserCellBlockedLabel"
-        case .blockedUserCellBlockedIcon:
-            return "blockedUserCellBlockedIcon"
             
         // ChatListingView
         case .chatListingViewUserAvatar:

@@ -1,14 +1,7 @@
-//
-//  ListingDetailOnboardingView.swift
-//  LetGo
-//
-//  Created by Dídac on 22/04/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
 import RxSwift
 import RxCocoa
+import LGComponents
 
 class ListingDetailOnboardingView: BaseView {
 
@@ -21,7 +14,8 @@ class ListingDetailOnboardingView: BaseView {
     @IBOutlet weak var firstImage: UIImageView!
     @IBOutlet weak var secondImage: UIImageView!
     @IBOutlet weak var thirdImage: UIImageView!
-
+    @IBOutlet weak var closeButton: UIImageView!
+    
     private var viewModel: ListingDetailOnboardingViewModel
 
     private var showChatsStep = false
@@ -52,6 +46,7 @@ class ListingDetailOnboardingView: BaseView {
         contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         contentView.backgroundColor = UIColor.blackBackgroundAlpha
         addSubview(contentView)
+        closeButton.image = R.Asset.IconsButtons.icClose.image
 
         setupFingersView()
         setupViewsVisibility()
@@ -71,7 +66,7 @@ class ListingDetailOnboardingView: BaseView {
 
 
     // MARK: - private methods
-
+    
     private func setupFingersView() {
         firstImage.image = viewModel.firstImage
         firstLabel.attributedText = viewModel.firstText

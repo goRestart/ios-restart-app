@@ -10,13 +10,22 @@ class TrackerProxySpec: QuickSpec {
         var tracker2: MockTracker!
         var tracker3: MockTracker!
         var trackers: [Tracker]!
+        var analyticsSessionManager: MockAnalyticsSessionManager!
 
         beforeEach {
             tracker1 = MockTracker()
             tracker2 = MockTracker()
             tracker3 = MockTracker()
             trackers = [tracker1, tracker2, tracker3]
-            sut = TrackerProxy(trackers: trackers)
+            analyticsSessionManager = MockAnalyticsSessionManager()
+
+            sut = TrackerProxy(trackers: trackers,
+                               sessionManager: MockSessionManager(),
+                               myUserRepository: MockMyUserRepository(),
+                               locationManager: MockLocationManager(),
+                               installationRepository: MockInstallationRepository(),
+                               notificationsManager: MockNotificationsManager(),
+                               analyticsSessionManager: analyticsSessionManager)
         }
 
         describe("Tracker protocol proxying") {
@@ -140,6 +149,53 @@ class TrackerProxySpec: QuickSpec {
                 sut.setMarketingNotifications(true)
                 for flag in flags {
                     expect(flag).to(beTrue())
+                }
+            }
+        }
+
+        describe("analytics session manager integration") {
+            it("sets a session threshold reached completion") {
+                expect(analyticsSessionManager.sessionThresholdReachedCompletion).notTo(beNil())
+            }
+
+            context("execute session threshold reached completion") {
+                beforeEach {
+                    analyticsSessionManager.sessionThresholdReachedCompletion?()
+                }
+
+                it("tracks a sessionOneMinuteFirstWeek event") {
+                    expect(tracker1.trackedEvents.map { $0.name }) == [EventName.sessionOneMinuteFirstWeek]
+                }
+            }
+
+            context("when calling applicationDidBecomeActive") {
+                beforeEach {
+                    sut.applicationDidBecomeActive(UIApplication.shared)
+                }
+
+                it("starts or continue the session") {
+                    expect(analyticsSessionManager.startOrContinueSessionCalled).toEventually(beTrue())
+                }
+            }
+
+            context("setting the user") {
+                beforeEach {
+                    let myUser = MockMyUser.makeMock()
+                    sut.setUser(myUser)
+                }
+
+                it("starts or continue the session") {
+                    expect(analyticsSessionManager.startOrContinueSessionCalled).toEventually(beTrue())
+                }
+            }
+
+            context("when calling applicationDidEnterBackground") {
+                beforeEach {
+                    sut.applicationDidEnterBackground(UIApplication.shared)
+                }
+
+                it("pauses the session") {
+                    expect(analyticsSessionManager.pauseSessionCalled).toEventually(beTrue())
                 }
             }
         }

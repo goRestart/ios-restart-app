@@ -20,7 +20,7 @@ extension RetrieveListingParams {
         params[VerticalsParamsKeys.sort] = sortCriteria?.string
         params[VerticalsParamsKeys.since] = timeCriteria?.string
         
-        params[ServicesAttributesParamsKey.typeId] = typeId
+        params[ServicesAttributesParamsKey.typeId] = typeIds
         params[ServicesAttributesParamsKey.subtypeId] = subtypeIds
         
         return params

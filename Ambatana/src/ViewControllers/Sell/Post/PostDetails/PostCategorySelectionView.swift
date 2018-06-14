@@ -51,6 +51,17 @@ enum PostCategory: Equatable {
             return false
         }
     }
+    
+    var postCameraTitle: String? {
+        switch self {
+        case .services:
+            return R.Strings.postDetailsServicesCameraMessage
+        case .realEstate:
+            return R.Strings.realEstateCameraViewRealEstateMessage
+        case .otherItems, .motorsAndAccessories, .car:
+            return nil
+        }
+    }
 }
 
 extension PostCategory {

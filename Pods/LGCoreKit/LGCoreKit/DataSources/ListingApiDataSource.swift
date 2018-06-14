@@ -110,6 +110,11 @@ final class ListingApiDataSource: ListingDataSource {
         let request = ListingRouter.showRealEstate(listingId: listingId)
         apiClient.request(request, decoder: ListingApiDataSource.decoder, completion: completion)
     }
+    
+    func retrieveService(_ listingId: String, completion: ListingDataSourceCompletion?) {
+        let request = ListingRouter.showService(listingId: listingId)
+        apiClient.request(request, decoder: ListingApiDataSource.decoder, completion: completion)
+    }
 
     func createListing(userId: String, listingParams: ListingCreationParams, completion: ListingDataSourceCompletion?) {
         let request: URLRequestAuthenticable
@@ -185,7 +190,7 @@ final class ListingApiDataSource: ListingDataSource {
         }
         let request: URLRequestAuthenticable = ListingRouter.updateService(listingId: serviceParams.serviceId,
                                                                            params: serviceParams.apiEditionEncode())
-        apiClient.request(request, decoder: ListingApiDataSource.realEstateDecoder, completion: completion)
+        apiClient.request(request, decoder: ListingApiDataSource.serviceDecoder, completion: completion)
     }
 
     // MARK: Sold / unsold
