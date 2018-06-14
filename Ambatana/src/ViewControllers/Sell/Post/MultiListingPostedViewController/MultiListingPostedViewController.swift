@@ -126,14 +126,17 @@ extension MultiListingPostedViewController {
     
     private func setupRx() {
         viewModel.statusDriver.drive(onNext: { [weak self] (status) in
-            switch status {
-            case .error, .success:
-                self?.stopLoading(success: status.success)
-                self?.collectionView.reloadData()
-            case .servicesPosting, .servicesImageUpload:
-                self?.startLoading()
-                self?.collectionView.reloadData()
+            DispatchQueue.main.async {
+                switch status {
+                case .error, .success:
+                    self?.stopLoading(success: status.success)
+                    self?.collectionView.reloadData()
+                case .servicesPosting, .servicesImageUpload:
+                    self?.startLoading()
+                    self?.collectionView.reloadData()
+                }
             }
+
         }).disposed(by: disposeBag)
     }
 }
@@ -184,8 +187,8 @@ extension MultiListingPostedViewController {
     private func startLoading() {
         hideAllElements()
         
-        loadingIndicator.isHidden = false
         loadingIndicator.startAnimating()
+        loadingIndicator.isHidden = false
     }
     
     private func stopLoading(success: Bool) {
