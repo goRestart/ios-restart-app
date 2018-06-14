@@ -156,15 +156,13 @@ extension ABTests {
     var advancedReputationSystem: LeanplumABVariable<Int> { return users.advancedReputationSystem }
     var showPasswordlessLogin: LeanplumABVariable<Int> { return users.showPasswordlessLogin }
     var emergencyLocate: LeanplumABVariable<Int> { return users.emergencyLocate }
+    var offensiveReportAlert: LeanplumABVariable<Int> { return users.offensiveReportAlert }
 }
 
 //  MARK: Core
 
 extension ABTests {
-    var discardedProducts: LeanplumABVariable<Int> { return core.discardedProducts }
     var searchImprovements: LeanplumABVariable<Int> { return core.searchImprovements }
-    var servicesCategoryEnabled: LeanplumABVariable<Int> { return core.servicesCategoryEnabled }
-    var machineLearningMVP: LeanplumABVariable<Int> { return core.machineLearningMVP }
     var addPriceTitleDistanceToListings: LeanplumABVariable<Int> { return core.addPriceTitleDistanceToListings }
     var relaxedSearch: LeanplumABVariable<Int> { return core.relaxedSearch }
 }
@@ -193,6 +191,7 @@ extension ABTests {
     var showExactLocationForPros: LeanplumABVariable<Bool> { return money.showExactLocationForPros }
     var copyForSellFasterNowInEnglish : LeanplumABVariable<Int> { return money.copyForSellFasterNowInEnglish }
     var googleAdxForTR: LeanplumABVariable<Int> { return money.googleAdxForTR }
+    var fullScreenAdsWhenBrowsingForUS: LeanplumABVariable<Int> { return money.fullScreenAdsWhenBrowsingForUS }
 }
 
 //  MARK: Retention
@@ -201,7 +200,6 @@ extension ABTests {
     var dummyUsersInfoProfile: LeanplumABVariable<Int> { return retention.dummyUsersInfoProfile }
     var onboardingIncentivizePosting: LeanplumABVariable<Int> { return retention.onboardingIncentivizePosting }
     var iAmInterestedInFeed: LeanplumABVariable<Int> { return retention.iAmInterestedInFeed }
-    var searchAlerts: LeanplumABVariable<Int> { return retention.searchAlerts }
     var highlightedIAmInterestedInFeed: LeanplumABVariable<Int> { return retention.highlightedIAmInterestedInFeed }
 }
 
@@ -230,6 +228,8 @@ extension ABTests {
 
 extension ABTests {
     var servicesCategoryOnSalchichasMenu: LeanplumABVariable<Int> { return products.servicesCategoryOnSalchichasMenu }
+    var predictivePosting: LeanplumABVariable<Int> { return products.predictivePosting }
+    var videoPosting: LeanplumABVariable<Int> { return products.videoPosting }
 }
 
 //  MARK: Legacy

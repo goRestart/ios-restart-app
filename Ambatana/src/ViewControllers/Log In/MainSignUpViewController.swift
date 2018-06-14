@@ -10,6 +10,7 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
     var viewModel: SignUpViewModel
     
     // UI
+    @IBOutlet weak var logoBigImageView: UIImageView!
     // > Header
     @IBOutlet weak var claimLabel: UILabel!
     
@@ -19,7 +20,9 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
     @IBOutlet weak var quicklyLabel: UILabel!
 
     @IBOutlet weak var connectFBButton: LetgoButton!
+    @IBOutlet weak var logoFacebook: UIImageView!
     @IBOutlet weak var connectGoogleButton: LetgoButton!
+    @IBOutlet weak var logoGoogle: UIImageView!
     @IBOutlet weak var dividerView: UIView!
     @IBOutlet weak var orLabel: UILabel!
 
@@ -138,7 +141,7 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
         view.backgroundColor = UIColor.white
 
         // Navigation bar
-        closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .plain, target: self,
+        closeButton = UIBarButtonItem(image: R.Asset.IconsButtons.navbarClose.image, style: .plain, target: self,
             action: #selector(MainSignUpViewController.closeButtonPressed))
         navigationItem.leftBarButtonItem = closeButton
         helpButton = UIBarButtonItem(title: R.Strings.mainSignUpHelpButton, style: .plain, target: self,
@@ -167,6 +170,13 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
         logInButton.setTitle(R.Strings.mainSignUpLogInLabel, for: .normal)
 
         setupTermsAndConditions()
+        setupRAssets()
+    }
+
+    private func setupRAssets() {
+        logoBigImageView.image = R.Asset.BackgroundsAndImages.logoBig.image
+        logoFacebook.image = R.Asset.IconsButtons.icFacebookRounded.image
+        logoGoogle.image = R.Asset.IconsButtons.icGoogleRounded.image
     }
 
     private func setupRx() {

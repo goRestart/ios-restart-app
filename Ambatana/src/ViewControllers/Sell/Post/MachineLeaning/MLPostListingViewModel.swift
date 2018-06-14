@@ -407,7 +407,9 @@ fileprivate extension MLPostListingViewModel {
     }
     
     func openPostingDetails() {
-        navigator?.startDetails(postListingState: state.value,
+        let firstStep: PostingDetailStep = featureFlags.summaryAsFirstStep.isActive ? .summary : .price
+        navigator?.startDetails(firstStep: firstStep,
+                                postListingState: state.value,
                                 uploadedImageSource: uploadedImageSource,
                                 uploadedVideoLength: uploadedVideoLength,
                                 postingSource: postingSource,

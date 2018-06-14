@@ -22,7 +22,7 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
     @IBOutlet weak var postErrorLabel: UILabel!
     @IBOutlet weak var retryButton: LetgoButton!
     @IBOutlet weak var uploadImageStackView: UIStackView!
-    var loadingViewRealEstate: LoadingIndicator?
+    private var verticalLoadingView: LoadingIndicator?
     var messageLabelUploadingImage: UILabel = UILabel()
     var retryButtonUploadingImageRealEstate = LetgoButton(withStyle: .primary(fontSize: .medium))
     
@@ -54,13 +54,15 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
         if let forcedInitialTab = forcedInitialTab {
             return forcedInitialTab
         }
-        return Tab(rawValue: KeyValueStorage.sharedInstance.userPostListingLastTabSelected) ?? .gallery
+        return Tab(rawValue: keyValueStorage.userPostListingLastTabSelected) ?? .gallery
     }
 
     private let disposeBag = DisposeBag()
 
     fileprivate var viewModel: PostListingViewModel
     private var shouldHideStatusBar = false
+    private let onboardingView = MLPostingOnboardingView()
+    private let keyValueStorage: KeyValueStorageable
 
 
     // MARK: - Lifecycle
@@ -69,12 +71,14 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
                      forcedInitialTab: Tab?) {
         self.init(viewModel: viewModel,
                   forcedInitialTab: forcedInitialTab,
-                  keyboardHelper: KeyboardHelper())
+                  keyboardHelper: KeyboardHelper(),
+                  keyValueStorage: KeyValueStorage.sharedInstance)
     }
 
     required init(viewModel: PostListingViewModel,
                   forcedInitialTab: Tab?,
-                  keyboardHelper: KeyboardHelper) {
+                  keyboardHelper: KeyboardHelper,
+                  keyValueStorage: KeyValueStorageable) {
         
         let tabPosition: LGViewPagerTabPosition = .hidden
         var postFooter: UIView & PostListingFooter
@@ -90,6 +94,7 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
         self.viewPager = LGViewPager(config: viewPagerConfig, frame: CGRect.zero)
         self.cameraView = PostListingCameraView(viewModel: viewModel.postListingCameraViewModel)
         self.keyboardHelper = keyboardHelper
+        self.keyValueStorage = keyValueStorage
         self.viewModel = viewModel
         self.forcedInitialTab = forcedInitialTab
         let postListingGalleryViewModel = PostListingGalleryViewModel(postCategory: viewModel.postCategory,
@@ -140,7 +145,7 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
         navigationController?.setNavigationBarHidden(true, animated: false)
         if viewModel.state.value.isLoading {
             customLoadingView.startAnimating()
-            loadingViewRealEstate?.startAnimating()
+            verticalLoadingView?.startAnimating()
         }
     }
 
@@ -251,13 +256,30 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
         setupCloseButton()
         setupFooter()
         setupLoadingStackView()
+        setupMachineLearningOnboardingView()
+    }
+    
+    private func setupMachineLearningOnboardingView() {
+        guard viewModel.machineLearningSupported, !keyValueStorage.machineLearningOnboardingShown else { return }
+        onboardingView.buttonBlock = { [weak self] in
+            self?.onboardingView.backgroundColor = .clear
+            UIView.animate(withDuration: 0.2, animations: {
+                self?.onboardingView.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+                self?.onboardingView.center = self?.cameraView.machineLearningButtonCenter ?? CGPoint.zero
+            }, completion: { _ in
+                self?.onboardingView.removeFromSuperview()
+            })
+        }
+        view.addSubviewForAutoLayout(onboardingView)
+        onboardingView.layout(with: view).fill()
+        keyValueStorage.machineLearningOnboardingShown = true
     }
     
     private func setupLoadingStackView() {
-        guard viewModel.isRealEstate else { return }
-        loadingViewRealEstate = LoadingIndicator(frame: CGRect(x: 0, y: 0, width: PostListingViewController.loadingViewWidth, height: PostListingViewController.loadingViewHeight))
-        loadingViewRealEstate?.layout().height(PostListingViewController.loadingViewHeight).width(PostListingViewController.loadingViewWidth)
-        if let loadingView = loadingViewRealEstate {
+        guard viewModel.isRealEstate || viewModel.isService else { return }
+        verticalLoadingView = LoadingIndicator(frame: CGRect(x: 0, y: 0, width: PostListingViewController.loadingViewWidth, height: PostListingViewController.loadingViewHeight))
+        verticalLoadingView?.layout().height(PostListingViewController.loadingViewHeight).width(PostListingViewController.loadingViewWidth)
+        if let loadingView = verticalLoadingView {
             uploadImageStackView.addArrangedSubview(loadingView)
         }
         messageLabelUploadingImage.textColor = UIColor.white
@@ -275,7 +297,6 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
     }
     
     fileprivate func addMessageToStackView(textMessage: String?, success: Bool) {
-        guard viewModel.isRealEstate else { return }
         messageLabelUploadingImage.text = textMessage
         messageLabelUploadingImage.isHidden = false
         if !success {
@@ -299,7 +320,7 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
         closeButton.layout(with: view).left(by: Metrics.margin)
 
         closeButton.addTarget(self, action: #selector(onCloseButton), for: .touchUpInside)
-        closeButton.setImage(UIImage(named: "ic_post_close"), for: .normal)
+        closeButton.setImage(R.Asset.IconsButtons.icPostClose.image, for: .normal)
     }
 
     private func setupPriceView() {
@@ -554,7 +575,7 @@ extension PostListingViewController {
 
 // MARK: - State selection
 
-fileprivate extension PostListingState {
+private extension PostListingState {
     var closeButtonAlpha: CGFloat {
         switch step {
         case .carDetailsSelection:
@@ -574,7 +595,7 @@ fileprivate extension PostListingState {
     }
     
     var customLoadingViewAlpha: CGFloat {
-        guard !isRealEstate else { return 0 }
+        guard !isRealEstate && !isService else { return 0 }
         switch step {
         case .imageSelection, .categorySelection, .carDetailsSelection, .finished, .addingDetails:
             return 0
@@ -593,7 +614,7 @@ fileprivate extension PostListingState {
     }
     
     var postedInfoLabelAlpha: CGFloat {
-        guard !isRealEstate else { return 0 }
+        guard !isRealEstate && !isService else { return 0 }
         switch step {
         case .imageSelection, .categorySelection, .uploadingImage, .errorUpload, .uploadingVideo, .errorVideoUpload, .carDetailsSelection, .finished, .addingDetails:
             return 0
@@ -611,7 +632,7 @@ fileprivate extension PostListingState {
     }
     
     var postErrorLabelAlpha: CGFloat {
-        guard let category = category, category == .realEstate else { return isError ? 1 : 0 }
+        guard let category = category, (category == .realEstate || category == .services)  else { return isError ? 1 : 0 }
         return 0
     }
     
@@ -625,7 +646,7 @@ fileprivate extension PostListingState {
     }
     
     var retryButtonAlpha: CGFloat {
-        guard isRealEstate else { return isError ? 1 : 0 }
+        guard isRealEstate || isService else { return isError ? 1 : 0 }
         return 0
     }
     
@@ -721,7 +742,7 @@ extension PostListingViewController {
                                 updateVisibility()
                            })
             customLoadingView.startAnimating()
-            loadingViewRealEstate?.startAnimating()
+            verticalLoadingView?.startAnimating()
             isLoading = true
         } else if isLoading {
             stopAnimationLoaders(text: state.messageForLoadedImage(confirmationText: viewModel.confirmationOkText), isError: state.isError, action: updateVisibility)
@@ -738,11 +759,14 @@ extension PostListingViewController {
     }
     
     private func stopAnimationLoaders(text: String?, isError: Bool, action: @escaping ()->()) {
-        if viewModel.isRealEstate {
-            loadingViewRealEstate?.stopAnimating(correctState: !isError, completion: action)
-            addMessageToStackView(textMessage:text , success: !isError)
-        } else {
+        guard viewModel.isRealEstate || viewModel.isService else {
             customLoadingView.stopAnimating(correctState: !isError, completion: action)
+            return
+        }
+        verticalLoadingView?.stopAnimating(correctState: !isError, completion: action)
+        
+        if isError || viewModel.isRealEstate {
+            addMessageToStackView(textMessage:text , success: !isError)
         }
     }
     
@@ -773,11 +797,11 @@ extension PostListingViewController: PostListingCameraViewDelegate {
         onCloseButton(cameraView)
     }
 
-    func productCameraDidTakeImage(_ image: UIImage) {
+    func productCameraDidTakeImage(_ image: UIImage, predictionData: MLPredictionDetailsViewData?) {
         if let navigationController = navigationController as? SellNavigationController {
             navigationController.updateBackground(image: cameraGalleryContainer.takeSnapshot())
         }
-        viewModel.imagesSelected([image], source: .camera)
+        viewModel.imagesSelected([image], source: .camera, predictionData: predictionData)
     }
 
     func productCameraDidRecordVideo(video: RecordedVideo) {
@@ -798,6 +822,26 @@ extension PostListingViewController: PostListingCameraViewDelegate {
     func productCameraLearnMoreButton() {
         learnMorePressed()
     }
+
+    func productCameraRequestCategory() {
+        let alert = UIAlertController(title: R.Strings.sellChooseCategoryDialogTitle, message: nil,
+                                      preferredStyle: .actionSheet)
+        alert.popoverPresentationController?.sourceView = cameraView
+        alert.popoverPresentationController?.sourceRect = cameraView.frame
+
+        viewModel.categories.enumerated().forEach { [weak self] (index, category) in
+            guard let strongSelf = self else { return }
+            alert.addAction(UIAlertAction(title: strongSelf.viewModel.categoryNameAtIndex(index),
+                                          style: .default,
+                                          handler: { (categoryAction) -> Void in
+                                            strongSelf.cameraView.listingCategorySelected(category: strongSelf.viewModel.categoryAtIndex(index))
+            }))
+        }
+
+        alert.addAction(UIAlertAction(title: R.Strings.sellChooseCategoryDialogCancelButton,
+                                      style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
 }
 
 
@@ -812,7 +856,7 @@ extension PostListingViewController: PostListingGalleryViewDelegate {
         if let navigationController = navigationController as? SellNavigationController {
             navigationController.updateBackground(image: cameraGalleryContainer.takeSnapshot())
         }
-        viewModel.imagesSelected(images, source: .gallery)
+        viewModel.imagesSelected(images, source: .gallery, predictionData: nil)
     }
 
     func listingGalleryRequestsScrollLock(_ lock: Bool) {
@@ -863,7 +907,7 @@ extension PostListingViewController: LGViewPagerDataSource, LGViewPagerDelegate,
     }
 
     func viewPager(_ viewPager: LGViewPager, willDisplayView view: UIView, atIndex index: Int) {
-        KeyValueStorage.sharedInstance.userPostListingLastTabSelected = index
+        keyValueStorage.userPostListingLastTabSelected = index
     }
 
     func viewPager(_ viewPager: LGViewPager, didEndDisplayingView view: UIView, atIndex index: Int) {}
@@ -908,10 +952,10 @@ extension PostListingViewController: LGViewPagerDataSource, LGViewPagerDelegate,
         let icon: UIImage?
         let attributes = tabTitleTextAttributes()
         if index == Tab.gallery.index {
-            icon = #imageLiteral(resourceName: "ic_post_tab_gallery")
+            icon = R.Asset.IconsButtons.icPostTabGallery.image
             text = R.Strings.productPostGalleryTab
         } else {
-            icon = #imageLiteral(resourceName: "ic_post_tab_camera")
+            icon = R.Asset.IconsButtons.icPostTabCamera.image
             text = R.Strings.productPostCameraTabV2
         }
         let attachment = NSTextAttachment()

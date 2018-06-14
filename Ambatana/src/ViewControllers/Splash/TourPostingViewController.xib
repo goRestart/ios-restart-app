@@ -12,6 +12,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TourPostingViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
+                <outlet property="cameraTour" destination="HAx-gS-6t1" id="Pl2-w2-nvb"/>
                 <outlet property="closeButton" destination="On3-Pg-I69" id="YAn-Tj-Xq1"/>
                 <outlet property="okButton" destination="NFS-ck-gsl" id="Nzi-je-jKB"/>
                 <outlet property="photoContainer" destination="wei-bc-Jxc" id="Msw-z3-xwk"/>
@@ -40,28 +41,28 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wei-bc-Jxc" userLabel="photoContainer">
                                 <rect key="frame" x="15" y="161.5" width="344" height="344"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_post_corner" translatesAutoresizingMaskIntoConstraints="NO" id="WbD-AR-rJA">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WbD-AR-rJA">
                                         <rect key="frame" x="0.0" y="0.0" width="16" height="16"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="16" id="CKP-18-Cy8"/>
                                             <constraint firstAttribute="height" constant="16" id="KTD-eV-ytq"/>
                                         </constraints>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_post_corner" translatesAutoresizingMaskIntoConstraints="NO" id="0KI-Lx-t2Q">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0KI-Lx-t2Q">
                                         <rect key="frame" x="328" y="0.0" width="16" height="16"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="16" id="7bZ-eP-QRy"/>
                                             <constraint firstAttribute="height" constant="16" id="YZJ-Gg-tW3"/>
                                         </constraints>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_post_corner" translatesAutoresizingMaskIntoConstraints="NO" id="flc-H1-iYq">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="flc-H1-iYq">
                                         <rect key="frame" x="328" y="328" width="16" height="16"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="16" id="2jL-k8-pX4"/>
                                             <constraint firstAttribute="width" constant="16" id="s8z-0V-IzV"/>
                                         </constraints>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_post_corner" translatesAutoresizingMaskIntoConstraints="NO" id="y0C-Pg-Gwr">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="y0C-Pg-Gwr">
                                         <rect key="frame" x="0.0" y="328" width="16" height="16"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="16" id="IcE-tR-3eQ"/>
@@ -71,7 +72,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1DT-No-boB">
                                         <rect key="frame" x="8" y="8" width="328" height="328"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_camera_tour" translatesAutoresizingMaskIntoConstraints="NO" id="HAx-gS-6t1">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HAx-gS-6t1">
                                                 <rect key="frame" x="140" y="74.5" width="48" height="45"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="45" id="cIE-sd-4Xp"/>
@@ -135,7 +136,6 @@
                                     <constraint firstAttribute="height" constant="56" id="e4J-xg-7it"/>
                                     <constraint firstAttribute="width" constant="56" id="g2w-RI-b1a"/>
                                 </constraints>
-                                <state key="normal" image="ic_close"/>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -163,9 +163,4 @@
             </constraints>
         </view>
     </objects>
-    <resources>
-        <image name="ic_camera_tour" width="48" height="45"/>
-        <image name="ic_close" width="18" height="18"/>
-        <image name="ic_post_corner" width="16" height="16"/>
-    </resources>
 </document>

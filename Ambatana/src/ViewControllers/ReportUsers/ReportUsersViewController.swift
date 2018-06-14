@@ -1,7 +1,7 @@
 import UIKit
 import LGComponents
 
-class ReportUsersViewController: BaseViewController, ReportUsersViewModelDelegate {
+final class ReportUsersViewController: BaseViewController, ReportUsersViewModelDelegate {
 
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var commentTextView: UITextView!
@@ -91,7 +91,7 @@ class ReportUsersViewController: BaseViewController, ReportUsersViewModelDelegat
     // MARK: - Private methods
 
     private func setupUI() {
-        ReportUserCellDrawer.registerCell(collectionView)
+        collectionView.register(type: ReportUserCell.self)
 
         sendButton.setStyle(.primary(fontSize: .medium))
         sendButton.setTitle(R.Strings.reportUserSendButton, for: .normal)

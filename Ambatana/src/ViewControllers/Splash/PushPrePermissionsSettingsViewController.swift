@@ -10,7 +10,10 @@ final class PushPrePermissionsSettingsViewController: BaseViewController {
     @IBOutlet weak var secondSectionLabel: UILabel!
     @IBOutlet weak var allowNotificationsLabel: UILabel!
     @IBOutlet weak var yesButton: LetgoButton!
-
+    @IBOutlet weak var settingsImage1: UIImageView!
+    @IBOutlet weak var settingsImage2: UIImageView!
+    @IBOutlet weak var closeButton: UIButton!
+    
     var completion: (() -> ())?
 
     let viewModel: PushPrePermissionsSettingsViewModel
@@ -47,6 +50,10 @@ final class PushPrePermissionsSettingsViewController: BaseViewController {
     func setupUI() {
         view.backgroundColor = .clear
         yesButton.setStyle(.primary(fontSize: .medium))
+        
+        settingsImage1.image = R.Asset.BackgroundsAndImages.settingsNotifications1.image
+        settingsImage2.image = R.Asset.BackgroundsAndImages.settingsNotifications2.image
+        closeButton.setImage(R.Asset.IconsButtons.icClose.image, for: .normal)
         
         switch DeviceFamily.current {
         case .iPhone4, .iPhone5:

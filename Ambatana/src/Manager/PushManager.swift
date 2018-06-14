@@ -15,13 +15,21 @@ final class PushManager {
         case DidRegisterUserNotificationSettings
     }
 
-    static let sharedInstance: PushManager = PushManager()
-
     private let pushPermissionManager: PushPermissionsManager
     private let installationRepository: InstallationRepository
     private let deepLinksRouter: DeepLinksRouter
     private let notificationsManager: NotificationsManager
+    private let locationRepository: LocationRepository
+    private let featureFlags: FeatureFlaggeable
+    private let keyValueStorage: KeyValueStorageable
+    weak var navigator: AppNavigator?
 
+
+    struct TrustAndSafety {
+        static let backgroundLocationTimeout: Double = 20
+        static let emergencyLocateKey = "emergency-locate"
+        static let offensiveReportKey = "offensive-report"
+    }
 
     // MARK: - Lifecycle
 
@@ -29,17 +37,26 @@ final class PushManager {
         self.init(pushPermissionManager: LGPushPermissionsManager.sharedInstance,
                   installationRepository: Core.installationRepository,
                   deepLinksRouter: LGDeepLinksRouter.sharedInstance,
-                  notificationsManager: LGNotificationsManager.sharedInstance)
+                  notificationsManager: LGNotificationsManager.sharedInstance,
+                  locationRepository: Core.locationRepository,
+                  featureFlags: FeatureFlags.sharedInstance,
+                  keyValueStorage: KeyValueStorage.sharedInstance)
     }
 
     required init(pushPermissionManager: PushPermissionsManager,
                   installationRepository: InstallationRepository,
                   deepLinksRouter: DeepLinksRouter,
-                  notificationsManager: NotificationsManager) {
+                  notificationsManager: NotificationsManager,
+                  locationRepository: LocationRepository,
+                  featureFlags: FeatureFlaggeable,
+                  keyValueStorage: KeyValueStorageable) {
         self.pushPermissionManager = pushPermissionManager
         self.installationRepository = installationRepository
         self.deepLinksRouter = deepLinksRouter
         self.notificationsManager = notificationsManager
+        self.locationRepository = locationRepository
+        self.featureFlags = featureFlags
+        self.keyValueStorage = keyValueStorage
     }
 
 
@@ -60,13 +77,32 @@ final class PushManager {
         } else {
             installationRepository.updatePushToken("", completion: nil)
         }
+
+        if keyValueStorage[.showOffensiveReportOnNextStart] {
+            showOffensiveReportAlert()
+        }
     }
 
     func application(_ application: Application,
-                     didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
-        deepLinksRouter.didReceiveRemoteNotification(userInfo,
-                                                     applicationState: application.applicationState)
-        notificationsManager.updateCounters()
+                     didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+
+        let emergency = userInfo[TrustAndSafety.emergencyLocateKey] as? Int
+        let offensiveReport = userInfo[TrustAndSafety.offensiveReportKey] as? Int
+
+        if let _ = emergency {
+            startEmergencyLocate { completionHandler(.noData) }
+        } else if let _ = offensiveReport {
+            if application.applicationState == .active {
+                showOffensiveReportAlert()
+            } else {
+                keyValueStorage[.showOffensiveReportOnNextStart] = true
+            }
+        } else {
+            deepLinksRouter.didReceiveRemoteNotification(userInfo,
+                                                         applicationState: application.applicationState)
+            notificationsManager.updateCounters()
+        }
     }
 
     func application(_ application: Application,
@@ -109,5 +145,24 @@ final class PushManager {
 
     private func tokenStringFromData(_ data: Data) -> String {
         return data.hexString
+    }
+
+    private func startEmergencyLocate(completion: @escaping () -> Void) {
+        self.locationRepository.startEmergencyLocation()
+        let deadline = DispatchTime.now() + TrustAndSafety.backgroundLocationTimeout
+        DispatchQueue.main.asyncAfter(deadline: deadline, execute: {
+            self.locationRepository.stopEmergencyLocation()
+            completion()
+        })
+    }
+
+    private func showOffensiveReportAlert() {
+        guard featureFlags.offensiveReportAlert.isActive else { return }
+        if let navigator = navigator, navigator.canOpenOffensiveReportAlert() {
+            navigator.openOffensiveReportAlert()
+            keyValueStorage[.showOffensiveReportOnNextStart] = false
+        } else {
+            keyValueStorage[.showOffensiveReportOnNextStart] = true
+        }
     }
 }

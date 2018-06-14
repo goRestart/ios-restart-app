@@ -36,20 +36,14 @@ protocol FeatureFlaggeable: class {
     var searchImprovements: SearchImprovements { get }
     var relaxedSearch: RelaxedSearch { get }
     var onboardingIncentivizePosting: OnboardingIncentivizePosting { get }
-    var discardedProducts: DiscardedProducts { get }
     var bumpUpBoost: BumpUpBoost { get }
-    var servicesCategoryEnabled: ServicesCategoryEnabled { get }
     var increaseNumberOfPictures: IncreaseNumberOfPictures { get }
     var realEstateTutorial: RealEstateTutorial { get }
-    var machineLearningMVP: MachineLearningMVP { get }
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings { get }
     var showProTagUserProfile: Bool { get }
     var summaryAsFirstStep: SummaryAsFirstStep { get }
-    var showAdvancedReputationSystem: ShowAdvancedReputationSystem { get }
     var sectionedMainFeed: SectionedMainFeed { get }
-    var emergencyLocate: EmergencyLocate { get }
     var showExactLocationForPros: Bool { get }
-    var searchAlerts: SearchAlerts { get }
     var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed { get }
 
     // Country dependant features
@@ -73,6 +67,8 @@ protocol FeatureFlaggeable: class {
     var copyForSellFasterNowInEnglish: CopyForSellFasterNowInEnglish { get }
     var shouldShowIAmInterestedInFeed: IAmInterestedFeed { get }
     var googleAdxForTR: GoogleAdxForTR { get }
+    var fullScreenAdsWhenBrowsingForUS: FullScreenAdsWhenBrowsingForUS { get }
+    var fullScreenAdUnitId: String? { get }
     
     // MARK: Chat
     var showInactiveConversations: Bool { get }
@@ -99,6 +95,13 @@ protocol FeatureFlaggeable: class {
 
     // MARK: Products
     var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu { get }
+    var predictivePosting: PredictivePosting { get }
+    var videoPosting: VideoPosting { get }
+
+    // MARK: Users
+    var showAdvancedReputationSystem: ShowAdvancedReputationSystem { get }
+    var emergencyLocate: EmergencyLocate { get }
+    var offensiveReportAlert: OffensiveReportAlert { get }
 }
 
 extension FeatureFlaggeable {
@@ -182,16 +185,8 @@ extension DummyUsersInfoProfile {
     var isActive: Bool { return self == .active }
 }
 
-extension DiscardedProducts {
-    var isActive: Bool { return self == .active }
-}
-
 extension OnboardingIncentivizePosting {
     var isActive: Bool { return self == .blockingPosting || self == .blockingPostingSkipWelcome }
-}
-
-extension ServicesCategoryEnabled {
-    var isActive: Bool { return self == .active }
 }
 
 extension ShowServicesFeatures {
@@ -285,11 +280,6 @@ extension CreateUpdateCarsIntoNewBackend {
     }
 }
 
-extension MachineLearningMVP {
-    var isActive: Bool { return self == .active }
-    var isVideoPostingActive: Bool { return self == .videoPostingActive }
-}
-
 extension SummaryAsFirstStep {
     var isActive: Bool { return self == .active }
 }
@@ -303,6 +293,10 @@ extension ShowPasswordlessLogin {
 }
 
 extension EmergencyLocate {
+    var isActive: Bool { return self == .active }
+}
+
+extension OffensiveReportAlert {
     var isActive: Bool { return self == .active }
 }
 
@@ -385,10 +379,6 @@ extension CopyForChatNowInEnglish {
         } }
 }
 
-extension SearchAlerts {
-    var isActive: Bool { return self == .active }
-}
-
 extension CopyForSellFasterNowInEnglish {
     var isActive: Bool { return self != .control && self != .baseline }
     
@@ -416,8 +406,18 @@ extension PersonalizedFeed {
     var isActive: Bool { return self != .control && self != .baseline }
 }
 
+// MARK: Products
+
 extension ServicesCategoryOnSalchichasMenu {
     var isActive: Bool { return self != .control && self != .baseline }    
+}
+
+extension PredictivePosting {
+    var isActive: Bool { return self == .active }
+}
+
+extension VideoPosting {
+    var isActive: Bool { return self == .active }
 }
 
 extension GoogleAdxForTR {
@@ -443,6 +443,25 @@ extension GoogleAdxForTR {
         } else {
             return shouldShowAdsInFeedForOldUsers
         }
+    }
+}
+
+extension FullScreenAdsWhenBrowsingForUS {
+    private var shouldShowFullScreenAdsForNewUsers: Bool {
+        return self == .adsForAllUsers
+    }
+    private var shouldShowFullScreenAdsForOldUsers: Bool {
+        return self == .adsForOldUsers || self == .adsForAllUsers
+    }
+    
+    var shouldShowFullScreenAds: Bool {
+        return  shouldShowFullScreenAdsForNewUsers || shouldShowFullScreenAdsForOldUsers
+    }
+    
+    func shouldShowFullScreenAdsForUser(createdIn: Date?) -> Bool {
+        guard let creationDate = createdIn,
+            creationDate.isNewerThan(Constants.newUserTimeThresholdForAds) else { return shouldShowFullScreenAdsForOldUsers }
+        return shouldShowFullScreenAdsForNewUsers
     }
 }
 
@@ -647,32 +666,11 @@ final class FeatureFlags: FeatureFlaggeable {
         return OnboardingIncentivizePosting.fromPosition(abTests.onboardingIncentivizePosting.value)
     }
     
-    var discardedProducts: DiscardedProducts {
-        if Bumper.enabled {
-            return Bumper.discardedProducts
-        }
-        return DiscardedProducts.fromPosition(abTests.discardedProducts.value)
-    }
-    
     var realEstateTutorial: RealEstateTutorial {
         if Bumper.enabled {
             return Bumper.realEstateTutorial
         }
         return RealEstateTutorial.fromPosition(abTests.realEstateTutorial.value)
-    }
-    
-    var machineLearningMVP: MachineLearningMVP {
-        if Bumper.enabled {
-            return Bumper.machineLearningMVP
-        }
-        return MachineLearningMVP.fromPosition(abTests.machineLearningMVP.value)
-    }
-
-    var servicesCategoryEnabled: ServicesCategoryEnabled {
-        if Bumper.enabled {
-            return Bumper.servicesCategoryEnabled
-        }
-        return ServicesCategoryEnabled.fromPosition(abTests.servicesCategoryEnabled.value)
     }
     
     var increaseNumberOfPictures: IncreaseNumberOfPictures {
@@ -724,13 +722,6 @@ final class FeatureFlags: FeatureFlaggeable {
         }
         return SectionedMainFeed.fromPosition(abTests.sectionedMainFeed.value)
     }
-
-    var searchAlerts: SearchAlerts {
-        if Bumper.enabled {
-            return Bumper.searchAlerts
-        }
-        return SearchAlerts.fromPosition(abTests.searchAlerts.value)
-    }
     
     var showExactLocationForPros: Bool {
         if Bumper.enabled {
@@ -759,6 +750,13 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.highlightedIAmInterestedFeed
         }
         return HighlightedIAmInterestedFeed.fromPosition(abTests.highlightedIAmInterestedInFeed.value)
+    }
+
+    var offensiveReportAlert: OffensiveReportAlert {
+        if Bumper.enabled {
+            return Bumper.offensiveReportAlert
+        }
+        return OffensiveReportAlert.fromPosition(abTests.offensiveReportAlert.value)
     }
 
     // MARK: - Country features
@@ -1025,6 +1023,40 @@ final class FeatureFlags: FeatureFlaggeable {
         return GoogleAdxForTR.fromPosition(abTests.googleAdxForTR.value)
     }
     
+    var fullScreenAdsWhenBrowsingForUS: FullScreenAdsWhenBrowsingForUS {
+        if Bumper.enabled {
+            return Bumper.fullScreenAdsWhenBrowsingForUS
+        }
+        return FullScreenAdsWhenBrowsingForUS.fromPosition(abTests.fullScreenAdsWhenBrowsingForUS.value)
+    }
+    
+    var fullScreenAdUnitId: String? {
+        if Bumper.enabled {
+            // Bumper overrides country restriction
+            switch fullScreenAdsWhenBrowsingForUS {
+            case .adsForAllUsers:
+                return EnvironmentProxy.sharedInstance.fullScreenAdUnitIdAdxForAllUsersForUS
+            case .adsForOldUsers:
+                return EnvironmentProxy.sharedInstance.fullScreenAdUnitIdAdxForOldUsersForUS
+            default:
+                return nil
+            }
+        }
+        switch sensorLocationCountryCode {
+        case .usa?:
+            switch fullScreenAdsWhenBrowsingForUS {
+            case .adsForAllUsers:
+                return EnvironmentProxy.sharedInstance.fullScreenAdUnitIdAdxForAllUsersForUS
+            case .adsForOldUsers:
+                return EnvironmentProxy.sharedInstance.fullScreenAdUnitIdAdxForOldUsersForUS
+            default:
+                return nil
+            }
+        default:
+            return nil
+        }
+    }
+    
     // MARK: - Private
 
     private var locationCountryCode: CountryCode? {
@@ -1101,10 +1133,8 @@ extension FeatureFlags {
         if Bumper.enabled {
             return Bumper.chatConversationsListWithoutTabs
         }
-        // TODO: change once development is completed
-        return .control
-        // let cached = dao.retrieveChatConversationsListWithoutTabs()
-        // return cached ?? ChatConversationsListWithoutTabs.fromPosition(abTests.chatConversationsListWithoutTabs.value)
+        let cached = dao.retrieveChatConversationsListWithoutTabs()
+        return cached ?? ChatConversationsListWithoutTabs.fromPosition(abTests.chatConversationsListWithoutTabs.value)
     }
 }
 
@@ -1232,5 +1262,19 @@ extension FeatureFlags {
             return Bumper.servicesCategoryOnSalchichasMenu
         }
         return ServicesCategoryOnSalchichasMenu.fromPosition(abTests.servicesCategoryOnSalchichasMenu.value)
+    }
+
+    var predictivePosting: PredictivePosting {
+        if Bumper.enabled {
+            return Bumper.predictivePosting
+        }
+        return PredictivePosting.fromPosition(abTests.predictivePosting.value)
+    }
+
+    var videoPosting: VideoPosting {
+        if Bumper.enabled {
+            return Bumper.videoPosting
+        }
+        return VideoPosting.fromPosition(abTests.videoPosting.value)
     }
 }

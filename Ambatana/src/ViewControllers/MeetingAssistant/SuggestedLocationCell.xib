@@ -30,7 +30,7 @@
                                             <constraint firstAttribute="height" constant="90" id="9Pq-Bu-dGD"/>
                                         </constraints>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="checkbox_selected_round" translatesAutoresizingMaskIntoConstraints="NO" id="v4q-E0-cnZ">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="v4q-E0-cnZ">
                                         <rect key="frame" x="8" y="8" width="30" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="BEA-tZ-hr4"/>
@@ -131,7 +131,4 @@
             <point key="canvasLocation" x="14" y="-10"/>
         </collectionViewCell>
     </objects>
-    <resources>
-        <image name="checkbox_selected_round" width="22" height="22"/>
-    </resources>
 </document>

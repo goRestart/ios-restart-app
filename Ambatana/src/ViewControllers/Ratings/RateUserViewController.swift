@@ -3,7 +3,7 @@ import RxSwift
 import RxCocoa
 import LGComponents
 
-class RateUserViewController: KeyboardViewController {
+final class RateUserViewController: KeyboardViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var userNameText: UILabel!
@@ -62,6 +62,17 @@ class RateUserViewController: KeyboardViewController {
         setupUI()
         setAccesibilityIds()
         setupRx()
+        setupRAssets()
+    }
+
+    private func setupRAssets() {
+        userImage.image = R.Asset.IconsButtons.userPlaceholder.image
+        stars.forEach {
+            $0.setImage(R.Asset.IconsButtons.icStarFilled.image, for: .highlighted)
+            $0.setImage(R.Asset.IconsButtons.icStarFilled.image, for: .selected)
+            $0.setImage(R.Asset.IconsButtons.icStarFilled.image, for: .focused)
+            $0.setImage(R.Asset.IconsButtons.icStarInnactive.image, for: .normal)
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -108,7 +119,7 @@ class RateUserViewController: KeyboardViewController {
         if showSkipButton {
             setLetGoRightButtonWith(text: R.Strings.userRatingSkipButton, selector: #selector(skipButtonPressed))
         } else {
-            navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .plain,
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: R.Asset.IconsButtons.navbarClose.image, style: .plain,
                                                                target: self, action: #selector(closeButtonPressed))
         }
         

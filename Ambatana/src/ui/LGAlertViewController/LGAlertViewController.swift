@@ -84,6 +84,7 @@ final class LGAlertViewController: UIViewController {
     @IBOutlet weak var alertContainerCenterYConstraint: NSLayoutConstraint!
     @IBOutlet weak var alertContentTopSeparationConstraint: NSLayoutConstraint!
     @IBOutlet weak var alertTitleTopSeparationConstraint: NSLayoutConstraint!
+    @IBOutlet weak var alertContainerWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var buttonsContainer: UIView!
     @IBOutlet weak var buttonsContainerViewTopSeparationConstraint: NSLayoutConstraint!
 
@@ -99,6 +100,11 @@ final class LGAlertViewController: UIViewController {
     
     var simulatePushTransitionOnPresent: Bool = false
     var simulatePushTransitionOnDismiss: Bool = false
+    var alertWidth: CGFloat = 270 {
+        didSet {
+            view.setNeedsLayout()
+        }
+    }
 
     // MARK: - Lifecycle
 
@@ -124,7 +130,12 @@ final class LGAlertViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
     }
-    
+
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        alertContainerWidthConstraint.constant = alertWidth
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -153,6 +164,7 @@ final class LGAlertViewController: UIViewController {
             alertIcon.image = nil
             alertTitleLabel.font = UIFont.systemBoldFont(size: 23)
             alertTitleLabel.textAlignment = .left
+            alertTextLabel.textAlignment = .left
         case .plainAlertOld:
             alertIcon.image = nil
             alertTitleLabel.font = UIFont.systemMediumFont(size: 17)

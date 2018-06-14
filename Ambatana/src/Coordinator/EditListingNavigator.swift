@@ -15,5 +15,5 @@ protocol EditListingNavigator: class {
                                  bumpUpProductData: BumpUpProductData?,
                                  timeSinceLastBump: TimeInterval?,
                                  maxCountdown: TimeInterval)
-    func openListingAttributePicker(viewModel: ListingAttributePickerViewModel)
+    func openListingAttributePicker(viewModel: ListingAttributeSingleSelectPickerViewModel)
 }

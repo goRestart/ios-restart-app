@@ -25,7 +25,7 @@ class SuggestedLocationCell: UICollectionViewCell, ReusableCell {
     }
     weak var imgDelegate: SuggestedLocationCellImageDelegate?
 
-    private var mapImage: UIImage = #imageLiteral(resourceName: "meeting_map_placeholder")
+    private var mapImage: UIImage = R.Asset.ChatNorris.meetingMapPlaceholder.image
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -57,6 +57,8 @@ class SuggestedLocationCell: UICollectionViewCell, ReusableCell {
     }
 
     func setupUI() {
+        checkBoxView.image = R.Asset.IconsButtons.checkboxSelectedRound.image
+
         containerView.layer.borderWidth = 0
         coloredBgView.backgroundColor = UIColor.clear
         coloredBgView.layer.cornerRadius = 10.0
@@ -104,7 +106,7 @@ class SuggestedLocationCell: UICollectionViewCell, ReusableCell {
         locationNameLabel.numberOfLines = location != nil ? 1 : 0
         locationNameLabel.text = location?.locationName ?? R.Strings.meetingCreationViewSearchCellTitle
         locationAddressLabel.text = location?.locationAddress
-        imageView.image = mapSnapshot ?? #imageLiteral(resourceName: "meeting_map_placeholder")
+        imageView.image = mapSnapshot ?? R.Asset.ChatNorris.meetingMapPlaceholder.image
         self.location = location
     }
 }

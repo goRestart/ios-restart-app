@@ -94,12 +94,16 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         return filters.selectedCategories.contains(.realEstate)
     }
     
+    private var isServicesSelected: Bool {
+        return filters.selectedCategories.contains(.services)
+    }
+    
     var rightBarButtonsItems: [(image: UIImage, selector: Selector)] {
         var rightButtonItems: [(image: UIImage, selector: Selector)] = []
         if featureFlags.realEstateMap.isActive && isRealEstateSelected {
-            rightButtonItems.append((image: #imageLiteral(resourceName: "ic_map"), selector: #selector(MainListingsViewController.openMap)))
+            rightButtonItems.append((image: R.Asset.IconsButtons.icMap.image, selector: #selector(MainListingsViewController.openMap)))
         }
-        rightButtonItems.append((image: hasFilters ? #imageLiteral(resourceName: "ic_filters_active") : #imageLiteral(resourceName: "ic_filters"), selector: #selector(MainListingsViewController.openFilters)))
+        rightButtonItems.append((image: hasFilters ? R.Asset.IconsButtons.icFiltersActive.image : R.Asset.IconsButtons.icFilters.image, selector: #selector(MainListingsViewController.openFilters)))
         return rightButtonItems
     }
     
@@ -182,6 +186,14 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             filters.realEstateOfferTypes.forEach { resultTags.append(.realEstateOfferType($0)) }
         }
         
+        if isServicesSelected {
+            if let serviceType = filters.servicesType {
+                resultTags.append(.serviceType(serviceType))
+            }
+            
+            filters.servicesSubtypes?.forEach( { resultTags.append(.serviceSubtype($0)) } )
+        }
+        
         if let numberOfBedrooms = filters.realEstateNumberOfBedrooms {
             resultTags.append(.realEstateNumberOfBedrooms(numberOfBedrooms))
         }
@@ -224,17 +236,18 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         return filters.hasAnyRealEstateAttributes
     }
     
+    private var servicesSelectedWithFilters: Bool {
+        guard filters.selectedCategories.contains(.services)  else { return false }
+        return filters.hasAnyServicesAttributes
+    }
+    
     fileprivate var shouldShowNoExactMatchesDisclaimer: Bool {
-        guard realEstateSelectedWithFilters || carSelectedWithFilters else { return false }
+        guard realEstateSelectedWithFilters || carSelectedWithFilters || servicesSelectedWithFilters else { return false }
         return true
     }
 
     private var shouldShowCollections: Bool {
         return keyValueStorage[.lastSuggestiveSearches].count >= minimumSearchesSavedToShowCollection && filters.noFilterCategoryApplied
-    }
-    
-    var isSearchAlertsEnabled: Bool {
-        return featureFlags.searchAlerts.isActive
     }
     
     let mainListingsHeader = Variable<MainListingsHeader>([])
@@ -449,7 +462,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             retrieveTrendingSearches()
         }
         
-        if let _ = myUserRepository.myUser, isSearchAlertsEnabled && firstTime {
+        if let _ = myUserRepository.myUser, firstTime {
             createSearchAlert(fromEnable: false)
         }
     }
@@ -510,6 +523,9 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         var realEstateNumberOfRooms: NumberOfRooms? = nil
         var realEstateSizeSquareMetersMin: Int? = nil
         var realEstateSizeSquareMetersMax: Int? = nil
+        
+        var servicesServiceType: ServiceType? = nil
+        var servicesServiceSubtype: [ServiceSubtype] = []
 
         for filterTag in tags {
             switch filterTag {
@@ -558,6 +574,10 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             case .sizeSquareMetersRange(let minSize, let maxSize):
                 realEstateSizeSquareMetersMin = minSize
                 realEstateSizeSquareMetersMax = maxSize
+            case .serviceType(let type):
+                servicesServiceType = type
+            case .serviceSubtype(let subtype):
+                servicesServiceSubtype.append(subtype)
             }
         }
 
@@ -633,6 +653,14 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         
         filters.realEstateNumberOfRooms = realEstateNumberOfRooms
         filters.realEstateSizeRange = SizeRange(min: realEstateSizeSquareMetersMin, max: realEstateSizeSquareMetersMax)
+        
+        filters.servicesType = servicesServiceType
+        
+        if servicesServiceSubtype.count > 0 {
+            filters.servicesSubtypes = servicesServiceSubtype
+        } else {
+            filters.servicesSubtypes = nil
+        }
         
         updateCategoriesHeader()
         updateRealEstateBanner()
@@ -734,6 +762,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         listingListRequester = (listViewModel.currentActiveRequester as? ListingListMultiRequester) ?? ListingListMultiRequester()
         infoBubbleVisible.value = false
         errorMessage.value = nil
+        let showServiceCell = featureFlags.showServicesFeatures.isActive && filters.hasSelectedCategory(.services)
+        listViewModel.cellStyle = showServiceCell ? .serviceList : .mainList
         listViewModel.resetUI()
         listViewModel.refresh()
     }
@@ -762,8 +792,9 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         if isTaxonomiesAndTaxonomyChildrenInFeedEnabled {
             categoryHeaderElements.append(contentsOf: taxonomies.map { CategoryHeaderElement.superKeywordGroup($0) })
         } else {
-            categoryHeaderElements.append(contentsOf: ListingCategory.visibleValuesInFeed(servicesIncluded: featureFlags.servicesCategoryEnabled.isActive,
-                                                                                          realEstateIncluded: featureFlags.realEstateEnabled.isActive)
+            categoryHeaderElements.append(contentsOf: ListingCategory.visibleValuesInFeed(servicesIncluded: true,
+                                                                                          realEstateIncluded: featureFlags.realEstateEnabled.isActive,
+                                                                                          servicesHighlighted: false)
                 .map { CategoryHeaderElement.listingCategory($0) })
         }
         return categoryHeaderElements
@@ -1503,7 +1534,7 @@ extension MainListingsViewModel {
 
     var showCategoriesCollectionBanner: Bool {
         let userHasSearched = queryString != nil || hasFilters
-        if (featureFlags.emptySearchImprovements.isActive || isSearchAlertsEnabled) && userHasSearched {
+        if userHasSearched {
             return false
         } else {
             return primaryTags.isEmpty && !listViewModel.isListingListEmpty.value
@@ -1583,7 +1614,7 @@ extension MainListingsViewModel {
                                 accessibilityId: .userPushPermissionCancel)
         delegate?.vmShowAlertWithTitle(R.Strings.profilePermissionsAlertTitle,
                                        text: R.Strings.profilePermissionsAlertMessage,
-                                       alertType: .iconAlert(icon: UIImage(named: "custom_permission_profile")),
+                                       alertType: .iconAlert(icon: R.Asset.IconsButtons.customPermissionProfile.image),
                                        actions: [negative, positive])
     }
 }

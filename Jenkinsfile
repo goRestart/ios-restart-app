@@ -7,31 +7,53 @@ properties([
   parameters([string(defaultValue: '', description: '', name: 'rollBackBuild')]), 
   pipelineTriggers([[$class: 'PeriodicFolderTrigger', interval: '2h']])
 ])
-  node_name = 'osx-slave'
-  branch_type = get_branch_type "${env.BRANCH_NAME}"
-  try {
-    parallel (
-      "Move Tickets" : {
-        if (branch_type == "master") {
-          markJiraIssuesAsDone() 
-        } 
-      },
-      "CI" : { 
-        if (branch_type == "pr") {
-          stopPreviousRunningBuilds()
-          launchUnitTests()
-        } 
-      }
+  
+node_name = 'osx-slave'
+branch_type = get_branch_type "${env.BRANCH_NAME}"
+try {
+	parallel (
+		"Move Tickets": {
+			if (branch_type == 'pr') {
+				notifyChannelNewPR()
+			} else if (branch_type == "master") {
+				markJiraIssuesAsDone() 
+			} else if (branch_type == "release") {
+				def release_identifier = get_release_identifier "${env.BRANCH_NAME}"
+				moveMergedTicketsToTesting(release_identifier)
+			}
+		},
+		"CI": { 
+			if (branch_type == "pr") {
+				stopPreviousRunningBuilds()
+				launchUnitTests() 
+        	} 
+      	}
     )
-  }
-  catch (err) {
-      currentBuild.result = "FAILURE"   
-      throw err
-  }
-  finally{
-      notifyBuildStatus(currentBuild.result)
-  }
+} catch (err) {
+	currentBuild.result = "FAILURE"   
+	throw err
+} finally {
+	notifyBuildStatus(currentBuild.result)
+}
 
+def notifyChannelNewPR() {
+	node(node_name) { 
+		stage('New PR was created') {
+			def jobName = env.JOB_NAME.split('/')[0]
+			def jobBaseName = env.JOB_BASE_NAME
+			def prID = env.JOB_BASE_NAME.split('-')[1]
+			def prURL = 'https://github.com/letgoapp/letgo-ios/pull/' + prID
+			def slack_channel = "#ios-develop"
+			def green = '#228B22'
+			
+			sh "echo build number: ${currentBuild.number}"		
+			if (currentBuild.number == 1) {
+				slackSend (channel: slack_channel, color: green, message: prURL)
+				slackSend (channel: slack_channel, color: green, message: 'Yeah, we do PRs now. Please review 🔝')
+			}
+		}
+	}
+}
 
 ////// Stoping old running builds to release slots of executors
 def stopPreviousRunningBuilds() {
@@ -53,6 +75,23 @@ def stopPreviousRunningBuilds() {
       )
     } 
   }
+}
+
+def moveMergedTicketsToTesting(String release_version) {
+	node(node_name) {
+		stage ("Move tickets") {
+			git branch: 'master', poll: false, url: 'git@github.com:letgoapp/letgo-ios-scripts.git'
+			withCredentials([
+				usernamePassword(credentialsId: '79356c55-62e0-41c0-8a8c-85a56ad45e11', 
+					passwordVariable: 'IOS_JIRA_PASSWORD', 
+					usernameVariable: 'IOS_JIRA_USERNAME'),
+				usernamePassword(credentialsId: 'fc7205d5-6635-441c-943e-d40b5030df0f', 
+					passwordVariable: 'LG_GITHUB_PASSWORD', 
+					usernameVariable: 'LG_GITHUB_USER')]) {
+			sh "ruby ./scripts/hooks/post-release-creation ${release_version}"
+			}	
+		}	
+	}
 }
 
 def markJiraIssuesAsDone() {
@@ -84,7 +123,7 @@ def launchUnitTests(){
     ])
       sh 'export LC_ALL=en_US.UTF-8'
       sh 'killall "Simulator" || true'
-      sh "xcrun simctl list devices |grep 'iPhone' |cut -d '(' -f2 | cut -d ')' -f1 | xargs -I {} xcrun simctl erase '{}'"
+      sh "xcrun simctl list devices |grep 'iPhone' |cut -d '(' -f2 | cut -d ')' -f1 | xargs -I {} xcrun simctl erase '{}' || true"
         
       withCredentials([usernamePassword(credentialsId: 'fc7205d5-6635-441c-943e-d40b5030df0f', passwordVariable: 'LG_GITHUB_PASSWORD', usernameVariable: 'LG_GITHUB_USER')]) {
         sh 'fastlane ciJenkins'
@@ -119,6 +158,10 @@ def get_branch_type(String branch_name) {
     } else {
         return null;
     }
+}
+
+def get_release_identifier(String branch_name) {
+	return (branch_name =~ /release-(\S*)/).with { matches() ? it[0][1] : null }	
 }
 
 def notifyBuildStatus(String buildStatus = 'STARTED') {

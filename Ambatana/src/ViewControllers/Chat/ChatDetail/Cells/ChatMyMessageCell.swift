@@ -1,18 +1,17 @@
-//
-//  ChatMyMessageCell.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 19/05/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
-class ChatMyMessageCell: ChatBubbleCell, ReusableCell {
+final class ChatMyMessageCell: ChatBubbleCell, ReusableCell {
 
     @IBOutlet weak var checkImageView: UIImageView!
     @IBOutlet weak var disclosureImageView: UIImageView!
     @IBOutlet var marginRightConstraints: [NSLayoutConstraint]!
+ 
+    override func setupUI() {
+        super.setupUI()
+        checkImageView.image = R.Asset.IconsButtons.icCheckSent.image
+        disclosureImageView.image = R.Asset.IconsButtons.icDisclosureChat.image
+    }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

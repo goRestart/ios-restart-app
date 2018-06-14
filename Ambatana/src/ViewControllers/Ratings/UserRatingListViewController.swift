@@ -2,9 +2,7 @@ import UIKit
 import LGCoreKit
 import LGComponents
 
-class UserRatingListViewController: BaseViewController {
-
-    static let cellReuseIdentifier = "UserRatingCell"
+final class UserRatingListViewController: BaseViewController {
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -38,8 +36,8 @@ class UserRatingListViewController: BaseViewController {
 
     private func setupUI() {
         title = R.Strings.ratingListTitle
-        let cellNib = UINib(nibName: UserRatingListViewController.cellReuseIdentifier, bundle: nil)
-        tableView.register(cellNib, forCellReuseIdentifier: UserRatingListViewController.cellReuseIdentifier)
+        tableView.register(type: UserRatingCell.self)
+
         tableView.isHidden = true
         view.backgroundColor = UIColor.listBackgroundColor
     }
@@ -95,9 +93,7 @@ extension UserRatingListViewController: UITableViewDelegate, UITableViewDataSour
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: UserRatingListViewController.cellReuseIdentifier,
-                                                                     for: indexPath) as? UserRatingCell else
-        { return UITableViewCell() }
+        guard let cell = tableView.dequeue(type: UserRatingCell.self, for: indexPath) else { return UITableViewCell() }
 
         guard let data = viewModel.dataForCellAtIndexPath(indexPath) else { return UITableViewCell() }
         cell.setupRatingCellWithData(data, indexPath: indexPath)

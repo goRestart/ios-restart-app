@@ -53,8 +53,18 @@ extension RetrieveListingParams {
         sizeSquareMetersTo = filters?.realEstateSizeRange.max
         
         //  Services
-        typeId = filters?.servicesTypeId
-        subtypeId = filters?.servicesSubtypeId
+        /*
+         Currently, we only support single-select on the app side for typeId, but the API requires an
+         array of typeIds. When we support Multiselect we can just update the filters servicesType parameter to
+         an array
+         */
+        if let typeId = filters?.servicesType?.id {
+            typeIds = [typeId]
+        } else {
+            typeIds = nil
+        }
+        subtypeIds = filters?.servicesSubtypes?.map( { $0.id } )
+
         
         if let priceRange = filters?.priceRange {
             switch priceRange {

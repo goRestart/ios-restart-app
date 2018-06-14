@@ -48,7 +48,7 @@
                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K3h-f5-1vV" userLabel="contentContainer">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="480"/>
                             <subviews>
-                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="p8Z-ST-xDr" userLabel="userAvatar">
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="p8Z-ST-xDr" userLabel="userAvatar">
                                     <rect key="frame" x="169" y="30" width="76" height="76"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="76" id="56S-qF-Iff"/>
@@ -76,10 +76,6 @@
                                                 <constraint firstAttribute="height" constant="30" id="nkY-wm-Ltb"/>
                                                 <constraint firstAttribute="width" constant="30" id="yoA-KW-Y9y"/>
                                             </constraints>
-                                            <state key="normal" image="ic_star_innactive"/>
-                                            <state key="selected" image="ic_star_filled"/>
-                                            <state key="highlighted" image="ic_star_filled"/>
-                                            <state key="focused" image="ic_star_filled"/>
                                             <connections>
                                                 <action selector="starHighlighted:" destination="-1" eventType="touchDown" id="2wG-ZE-WQu"/>
                                                 <action selector="starSelected:" destination="-1" eventType="touchUpInside" id="szX-Xe-ATt"/>
@@ -91,10 +87,6 @@
                                                 <constraint firstAttribute="height" constant="30" id="176-fb-uG3"/>
                                                 <constraint firstAttribute="width" constant="30" id="JJS-f8-rFt"/>
                                             </constraints>
-                                            <state key="normal" image="ic_star_innactive"/>
-                                            <state key="selected" image="ic_star_filled"/>
-                                            <state key="highlighted" image="ic_star_filled"/>
-                                            <state key="focused" image="ic_star_filled"/>
                                             <connections>
                                                 <action selector="starHighlighted:" destination="-1" eventType="touchDown" id="IcF-sP-fQF"/>
                                                 <action selector="starSelected:" destination="-1" eventType="touchUpInside" id="TNs-MW-crJ"/>
@@ -106,10 +98,6 @@
                                                 <constraint firstAttribute="width" constant="30" id="1pX-ga-QCG"/>
                                                 <constraint firstAttribute="height" constant="30" id="T8X-TO-hnB"/>
                                             </constraints>
-                                            <state key="normal" image="ic_star_innactive"/>
-                                            <state key="selected" image="ic_star_filled"/>
-                                            <state key="highlighted" image="ic_star_filled"/>
-                                            <state key="focused" image="ic_star_filled"/>
                                             <connections>
                                                 <action selector="starHighlighted:" destination="-1" eventType="touchDown" id="PYp-xR-ElG"/>
                                                 <action selector="starSelected:" destination="-1" eventType="touchUpInside" id="N8o-cI-H4A"/>
@@ -121,10 +109,6 @@
                                                 <constraint firstAttribute="height" constant="30" id="CZy-yw-2iN"/>
                                                 <constraint firstAttribute="width" constant="30" id="NqI-57-rsW"/>
                                             </constraints>
-                                            <state key="normal" image="ic_star_innactive"/>
-                                            <state key="selected" image="ic_star_filled"/>
-                                            <state key="highlighted" image="ic_star_filled"/>
-                                            <state key="focused" image="ic_star_filled"/>
                                             <connections>
                                                 <action selector="starHighlighted:" destination="-1" eventType="touchDown" id="LQx-qf-4wr"/>
                                                 <action selector="starSelected:" destination="-1" eventType="touchUpInside" id="Ts3-d8-lBh"/>
@@ -136,10 +120,6 @@
                                                 <constraint firstAttribute="width" constant="30" id="3Yn-Hb-F7o"/>
                                                 <constraint firstAttribute="height" constant="30" id="FhR-9u-9fz"/>
                                             </constraints>
-                                            <state key="normal" image="ic_star_innactive"/>
-                                            <state key="selected" image="ic_star_filled"/>
-                                            <state key="highlighted" image="ic_star_filled"/>
-                                            <state key="focused" image="ic_star_filled"/>
                                             <connections>
                                                 <action selector="starHighlighted:" destination="-1" eventType="touchDown" id="kAm-rH-COO"/>
                                                 <action selector="starSelected:" destination="-1" eventType="touchUpInside" id="KFy-i6-SJ3"/>
@@ -323,9 +303,4 @@
             <point key="canvasLocation" x="508.5" y="170.5"/>
         </view>
     </objects>
-    <resources>
-        <image name="ic_star_filled" width="30" height="30"/>
-        <image name="ic_star_innactive" width="30" height="30"/>
-        <image name="user_placeholder" width="38" height="38"/>
-    </resources>
 </document>

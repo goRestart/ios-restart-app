@@ -130,7 +130,11 @@ final class AppShareViewController: UIViewController {
             inviteEmailIcon.isHidden = true
         }
 
-        headerImageView.image = UIImage(named: "invite_letgo")
+        headerImageView.image = R.Asset.BackgroundsAndImages.inviteLetgo.image
+        inviteFBMessengerIcon.image = R.Asset.IconsButtons.icShareFbmessenger.image
+        inviteWhatsappIcon.image = R.Asset.IconsButtons.icShareWhatsapp.image
+        inviteEmailIcon.image = R.Asset.IconsButtons.icShareEmail.image
+        
         titleLabel.text = R.Strings.appShareTitle
         titleLabel.font = UIFont.systemMediumFont(size: 17)
         subtitleLabel.text = R.Strings.appShareSubtitle

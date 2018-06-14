@@ -24,4 +24,8 @@ open class MockServicesInfoRepository: ServicesInfoRepository, ServicesInfoRetri
         return MockServiceSubtype.makeMock()
     }
     
+    public func serviceAllSubtypesSorted() -> [ServiceSubtype] {
+        return [MockServiceSubtype.makeMock()]
+    }
+    
 }

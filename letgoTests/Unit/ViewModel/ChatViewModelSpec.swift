@@ -216,14 +216,14 @@ class ChatViewModelSpec: BaseViewModelSpec {
                                                    chatConversation: chatConversation,
                                                    user: user)
                                 sut.active = true
-                                expect(relatedListingsStateObserver.eventValues.count).toEventually(equal(1))
+                                expect(relatedListingsStateObserver.eventValues.count).toEventually(equal(2))
                             }
                             it ("has related products") {
                                 expect(sut.relatedListings.count).toEventually(equal(ChatViewModel.maxRelatedListingsForExpressChat))
                             }
                             it("related products state is visible") {
                                 listingId = chatConversation.listing?.objectId
-                                expect(relatedListingsStateObserver.eventValues).toEventually(equal([ChatRelatedItemsState.visible(listingId: listingId)]))
+                                expect(relatedListingsStateObserver.eventValues.last).toEventually(equal(ChatRelatedItemsState.visible(listingId: listingId)))
                             }
                         }
                         
@@ -233,6 +233,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                         beforeEach {
                             productResult = self.makeMockProduct(with: .sold)
                             chatConversation = self.makeChatConversation(with: chatInterlocutor, unreadMessageCount: 0, lastMessageSentAt: nil, amISelling: false, listingStatus: .sold)
+                            listingsRelated = Listing.makeMocks(count: Int.random(ChatViewModel.maxRelatedListingsForExpressChat, 20))
                             buildChatViewModel(myUser: mockMyUser,
                                                chatMessages: chatMessages,
                                                product: productResult,

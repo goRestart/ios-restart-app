@@ -12,6 +12,10 @@ final class PopupSignUpViewController: BaseViewController, UITextViewDelegate, G
     @IBOutlet weak var logInButton: UIButton!
     @IBOutlet weak var legalTextView: UITextView!
 
+    @IBOutlet weak var closeButton: UIButton!
+    @IBOutlet weak var googleLogo: UIImageView!
+    @IBOutlet weak var logoFacebook: UIImageView!
+    
     private var viewModel: SignUpViewModel
     private var topMessage: String
 
@@ -32,6 +36,13 @@ final class PopupSignUpViewController: BaseViewController, UITextViewDelegate, G
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupRAssets()
+    }
+
+    private func setupRAssets() {
+        logoFacebook.image = R.Asset.IconsButtons.icFacebookRounded.image
+        googleLogo.image = R.Asset.IconsButtons.icGoogleRounded.image
+        closeButton.setImage(R.Asset.IconsButtons.icCloseDark.image, for: .normal)
     }
 
 

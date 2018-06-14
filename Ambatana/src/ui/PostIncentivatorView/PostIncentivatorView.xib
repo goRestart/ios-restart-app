@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -28,14 +28,16 @@
                     </attributedString>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tv" translatesAutoresizingMaskIntoConstraints="NO" id="UxE-zx-UOR">
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UxE-zx-UOR">
                     <rect key="frame" x="116.5" y="50" width="87" height="80"/>
                     <constraints>
+                        <constraint firstAttribute="width" constant="87" id="6Ee-m6-Huf"/>
                         <constraint firstAttribute="width" relation="lessThanOrEqual" constant="95" id="Fz3-8l-7E5"/>
                         <constraint firstAttribute="height" relation="lessThanOrEqual" constant="80" id="PlN-ix-9t6"/>
+                        <constraint firstAttribute="height" constant="80" id="lj7-iH-cgY"/>
                     </constraints>
                 </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bike" translatesAutoresizingMaskIntoConstraints="NO" id="0JI-VO-vvL">
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0JI-VO-vvL">
                     <rect key="frame" x="218.5" y="50" width="86.5" height="80"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="80" id="0Af-uC-6Nt"/>
@@ -48,7 +50,7 @@
                         </mask>
                     </variation>
                 </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ps4" translatesAutoresizingMaskIntoConstraints="NO" id="zdE-An-XnC">
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zdE-An-XnC">
                     <rect key="frame" x="15" y="50" width="86.5" height="80"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="80" id="5oI-Hc-cJS"/>
@@ -73,7 +75,7 @@
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_magnifier" translatesAutoresizingMaskIntoConstraints="NO" id="MCn-nc-wwR">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="MCn-nc-wwR">
                             <rect key="frame" x="12" y="23" width="10" height="10"/>
                             <color key="tintColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
@@ -120,7 +122,7 @@
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_magnifier" translatesAutoresizingMaskIntoConstraints="NO" id="G9h-Kx-WAe">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="G9h-Kx-WAe">
                             <rect key="frame" x="13" y="23" width="10" height="10"/>
                             <color key="tintColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
@@ -167,7 +169,7 @@
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_magnifier" translatesAutoresizingMaskIntoConstraints="NO" id="Yjo-kD-BgX">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Yjo-kD-BgX">
                             <rect key="frame" x="12.5" y="23" width="10" height="10"/>
                             <color key="tintColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
@@ -248,14 +250,11 @@
                 <outlet property="thirdCountLabel" destination="Cs9-2X-6MV" id="ldV-OA-ifO"/>
                 <outlet property="thirdImage" destination="0JI-VO-vvL" id="hy7-2h-WFP"/>
                 <outlet property="thirdNameLabel" destination="kFt-Tk-20O" id="fvq-hk-HTM"/>
+                <outletCollection property="magnifyingGlass" destination="MCn-nc-wwR" collectionClass="NSMutableArray" id="FTl-uL-zgo"/>
+                <outletCollection property="magnifyingGlass" destination="G9h-Kx-WAe" collectionClass="NSMutableArray" id="oKD-sD-0Ml"/>
+                <outletCollection property="magnifyingGlass" destination="Yjo-kD-BgX" collectionClass="NSMutableArray" id="GLJ-5N-TsD"/>
             </connections>
             <point key="canvasLocation" x="-241" y="57"/>
         </view>
     </objects>
-    <resources>
-        <image name="bike" width="285" height="240"/>
-        <image name="ic_magnifier" width="16" height="17"/>
-        <image name="ps4" width="285" height="240"/>
-        <image name="tv" width="285" height="240"/>
-    </resources>
 </document>

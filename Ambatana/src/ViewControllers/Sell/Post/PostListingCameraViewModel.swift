@@ -1,5 +1,6 @@
 import Foundation
 import RxSwift
+import LGCoreKit
 import LGComponents
 
 enum CameraState {
@@ -35,17 +36,16 @@ final class PostListingCameraViewModel: BaseViewModel {
     private let filesManager: FilesManager
     let sourcePosting: PostingSource
     let isBlockingPosting: Bool
+    let machineLearningSupported: Bool
 
     private let featureFlags: FeatureFlaggeable
     private let mediaPermissions: MediaPermissions
+    private let tracker: TrackerProxy
     
     let postCategory: PostCategory?
     
     var verticalPromotionMessage: String? {
-        if let category = postCategory, category == .realEstate {
-            return R.Strings.realEstateCameraViewRealEstateMessage
-        }
-        return nil
+        return postCategory?.postCameraTitle
     }
     
     var learnMoreMessage: NSAttributedString {
@@ -63,36 +63,56 @@ final class PostListingCameraViewModel: BaseViewModel {
         return !(category == .realEstate && featureFlags.realEstateTutorial.shouldShowLearnMoreButton)
     }
 
+    let machineLearning: MachineLearning
+    let liveStats = Variable<MachineLearningStats?>(nil)
+    let liveStatsText = Variable<String?>(nil)
+    let machineLearningButtonHidden = Variable<Bool>(false)
+    let isLiveStatsEnabled = Variable<Bool>(false)
+    var isLiveStatsPaused: Bool = false
+
     
     // MARK: - Lifecycle
 
     init(postingSource: PostingSource, postCategory: PostCategory?, isBlockingPosting: Bool,
-         keyValueStorage: KeyValueStorage, filesManager: FilesManager, featureFlags: FeatureFlaggeable, mediaPermissions: MediaPermissions) {
+         machineLearningSupported: Bool, keyValueStorage: KeyValueStorage, filesManager: FilesManager,
+         featureFlags: FeatureFlaggeable, mediaPermissions: MediaPermissions, machineLearning: MachineLearning, tracker: TrackerProxy) {
         self.keyValueStorage = keyValueStorage
         self.filesManager = filesManager
         self.sourcePosting = postingSource
         self.isBlockingPosting = isBlockingPosting
+        self.machineLearningSupported = machineLearningSupported
         self.featureFlags = featureFlags
         self.mediaPermissions = mediaPermissions
         self.postCategory = postCategory
+        self.machineLearning = machineLearning
+        self.tracker = tracker
+        machineLearning.isLiveStatsEnabled = machineLearningSupported
+        self.isLiveStatsEnabled.value = machineLearning.isLiveStatsEnabled
         super.init()
         setupFirstShownLiterals()
         setupVerticalTextAlert()
         setupRX()
     }
 
-    convenience init(postingSource: PostingSource, postCategory: PostCategory?, isBlockingPosting: Bool) {
+    convenience init(postingSource: PostingSource, postCategory: PostCategory?, isBlockingPosting: Bool,
+                     machineLearningSupported: Bool) {
         let mediaPermissions: MediaPermissions = LGMediaPermissions()
         let keyValueStorage = KeyValueStorage.sharedInstance
         let filesManager = LGFilesManager()
         let featureFlags = FeatureFlags.sharedInstance
+        let machineLearning = LGMachineLearning()
+        let tracker = TrackerProxy.sharedInstance
+
         self.init(postingSource: postingSource,
                   postCategory: postCategory,
                   isBlockingPosting: isBlockingPosting,
+                  machineLearningSupported: machineLearningSupported,
                   keyValueStorage: keyValueStorage,
                   filesManager: filesManager,
                   featureFlags: featureFlags,
-                  mediaPermissions: mediaPermissions)
+                  mediaPermissions: mediaPermissions,
+                  machineLearning: machineLearning,
+                  tracker: tracker)
     }
 
     override func didBecomeActive(_ firstTime: Bool) {
@@ -107,6 +127,10 @@ final class PostListingCameraViewModel: BaseViewModel {
 
     // MARK: - Public methods
 
+    func trackPredictedData(predictedData: MLPredictionDetailsViewData) {
+        tracker.trackEvent(TrackerEvent.predictedPosting(data: predictedData))
+    }
+
     func closeButtonPressed() {
         switch cameraState.value {
         case .takingPhoto, .recordingVideo, .previewPhoto, .previewVideo:
@@ -114,6 +138,11 @@ final class PostListingCameraViewModel: BaseViewModel {
         case .missingPermissions, .pendingAskPermissions, .capture:
             cameraDelegate?.productCameraCloseButton()
         }
+    }
+
+    func machineLearningButtonPressed() {
+        let isEnabled = !machineLearning.isLiveStatsEnabled
+        enableLiveStats(enable: isEnabled)
     }
 
     func flashButtonPressed() {
@@ -124,15 +153,10 @@ final class PostListingCameraViewModel: BaseViewModel {
         cameraSource.value = cameraSource.value.toggle
     }
 
-    func photoModeButtonPressed() {
-        cameraMode.value = .photo
-    }
-
-    func videoModeButtonPressed() {
-        cameraMode.value = .video
-    }
-
     func takePhotoButtonPressed() {
+        if machineLearning.isLiveStatsEnabled {
+            pauseLiveStats()
+        }
         cameraState.value = .takingPhoto
     }
 
@@ -165,11 +189,11 @@ final class PostListingCameraViewModel: BaseViewModel {
         backToCaptureMode()
     }
 
-    func usePhotoButtonPressed() {
+    func usePhotoButtonPressed(predictionData: MLPredictionDetailsViewData) {
         switch cameraMode.value {
         case .photo:
             guard let image = imageSelected.value else { return }
-            cameraDelegate?.productCameraDidTakeImage(image)
+            cameraDelegate?.productCameraDidTakeImage(image, predictionData: predictionData)
         case .video:
             guard let video = videoRecorded.value else { return }
             cameraDelegate?.productCameraDidRecordVideo(video: video)
@@ -239,8 +263,97 @@ final class PostListingCameraViewModel: BaseViewModel {
         shouldShowFirstTimeAlert.asObservable().filter {$0}.bind { [weak self] _ in
             self?.firstTimeAlertDidShow()
         }.disposed(by: disposeBag)
+
+        cameraMode.asObservable().subscribeNext { [weak self] cameraMode in
+            guard let strongSelf = self else { return }
+            if cameraMode == .photo {
+                strongSelf.machineLearningButtonHidden.value = !strongSelf.machineLearningSupported
+                if strongSelf.machineLearningSupported && strongSelf.isLiveStatsPaused {
+                    strongSelf.resumeLiveStats()
+                }
+            } else if cameraMode == .video {
+                if strongSelf.machineLearning.isLiveStatsEnabled {
+                    strongSelf.pauseLiveStats()
+                }
+                strongSelf.machineLearningButtonHidden.value = true
+            }
+        }.disposed(by: disposeBag)
+
+        cameraState.asObservable().map{ $0.captureMode }.subscribeNext{ [weak self] captureMode in
+            guard let strongSelf = self else { return }
+            let showMachineLearningButton = captureMode && strongSelf.machineLearningSupported && strongSelf.cameraMode.value == .photo
+            strongSelf.machineLearningButtonHidden.value = !showMachineLearningButton
+        }.disposed(by: disposeBag)
+
+        cameraState.asObservable().filter{ $0 == .capture }.subscribeNext{ [weak self] _ in
+            guard let strongSelf = self else { return }
+            if strongSelf.machineLearningSupported &&
+                strongSelf.cameraMode.value == .photo &&
+                strongSelf.isLiveStatsPaused {
+                strongSelf.resumeLiveStats()
+            }
+        }.disposed(by: disposeBag)
+
+        machineLearning.liveStats.asObservable()
+            .bind { [weak self] stats in
+                guard let strongSelf = self,
+                    let first = stats?.first,
+                    let confidence = first.confidence else {
+                        self?.liveStats.value = nil
+                        return
+                }
+                guard strongSelf.liveStats.value?.keyword != first.keyword
+                    || confidence <= Constants.MachineLearning.minimumConfidenceToRemove else { return }
+
+                if strongSelf.liveStats.value?.keyword != first.keyword, confidence > Constants.MachineLearning.minimumConfidence {
+                    strongSelf.liveStats.value = first
+                } else {
+                    strongSelf.liveStats.value = nil
+                }
+            }
+            .disposed(by: disposeBag)
+
+        liveStats.asObservable()
+            .bind { [weak self] stats in
+                guard let strongSelf = self,
+                    let stats = stats else {
+                        self?.liveStatsText.value = nil
+                        return
+                }
+                let nameString = stats.keyword.capitalized
+                var avgPriceString: String? = nil
+                if stats.prices.count >= Constants.MachineLearning.pricePositionDisplay {
+                    avgPriceString = R.Strings.mlCameraSellsForText(Int(stats.prices[Constants.MachineLearning.pricePositionDisplay]))
+                }
+                var medianDaysToSellString: String? = nil
+                if stats.medianDaysToSell > 0 {
+                    if stats.medianDaysToSell > Constants.MachineLearning.maximumDaysToDisplay {
+                        medianDaysToSellString = R.Strings.mlCameraInMoreThanDaysText(Int(Constants.MachineLearning.maximumDaysToDisplay.rounded()))
+                    } else {
+                        medianDaysToSellString = R.Strings.mlCameraInAboutDaysText(Int(stats.medianDaysToSell.rounded()))
+                    }
+                }
+                let allTexts = [nameString, avgPriceString, medianDaysToSellString]
+                self?.liveStatsText.value = allTexts.flatMap { $0 }.joined(separator: "\n")
+            }
+            .disposed(by: disposeBag)
     }
-    
+
+    func predictionDetailsData() -> MLPredictionDetailsViewData? {
+        guard let stats = liveStats.value else { return nil }
+        let price: Int? = stats.prices.count >= Constants.MachineLearning.pricePositionDisplay ?
+            Int(stats.prices[Constants.MachineLearning.pricePositionDisplay]) : nil
+        let doublePrice: Double?
+        if let priceValue = price {
+            doublePrice = Double(priceValue)
+        } else {
+            doublePrice = nil
+        }
+        return MLPredictionDetailsViewData(title: stats.keyword.capitalized,
+                                           price: doublePrice,
+                                           category: stats.category)
+    }
+
     private func setupFirstShownLiterals() {
         firstTimeTitle = R.Strings.productPostCameraFirstTimeAlertTitle
         firstTimeSubtitle = R.Strings.productPostCameraFirstTimeAlertSubtitle
@@ -308,6 +421,24 @@ final class PostListingCameraViewModel: BaseViewModel {
         videoRecorded.value = nil
         imageSelected.value = nil
         cameraState.value = .capture
+    }
+
+    private func pauseLiveStats() {
+        guard machineLearning.isLiveStatsEnabled else { return }
+        isLiveStatsPaused = true
+        machineLearning.isLiveStatsEnabled = false
+        isLiveStatsEnabled.value = false
+    }
+
+    private func resumeLiveStats() {
+        enableLiveStats(enable: true)
+    }
+
+    private func enableLiveStats(enable: Bool) {
+        isLiveStatsPaused = false
+        machineLearning.isLiveStatsEnabled = enable
+        isLiveStatsEnabled.value = enable
+        machineLearning.liveStats.value = nil
     }
 }
 
@@ -384,6 +515,27 @@ extension CameraState {
             return false
         case .previewPhoto, .previewVideo, .takingPhoto, .recordingVideo:
             return true
+        }
+    }
+
+    static func ==(lhs: CameraState, rhs: CameraState) -> Bool {
+        switch (lhs, rhs) {
+        case (.pendingAskPermissions, .pendingAskPermissions):
+            return true
+        case (.missingPermissions(let lText), .missingPermissions(let rText)):
+            return lText == rText
+        case (.capture, .capture):
+            return true
+        case (.takingPhoto, .takingPhoto):
+            return true
+        case (.recordingVideo, .recordingVideo):
+            return true
+        case (.previewPhoto, .previewPhoto):
+            return true
+        case (.previewVideo, .previewVideo):
+            return true
+        default:
+            return false
         }
     }
 }

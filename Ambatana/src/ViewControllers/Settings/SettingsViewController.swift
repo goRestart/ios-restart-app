@@ -58,7 +58,6 @@ class SettingsViewController: BaseViewController {
         tableView.register(logoutCellNib, forCellReuseIdentifier: SettingsLogoutCell.reusableID)
         let infoCellNib = UINib(nibName: SettingsInfoCell.reusableID, bundle: nil)
         tableView.register(infoCellNib, forCellReuseIdentifier: SettingsInfoCell.reusableID)
-        tableView.register(SettingsSwitchCell.self, forCellReuseIdentifier: SettingsSwitchCell.reusableID)
         tableView.backgroundColor = UIColor.grayBackground
         tableView.contentInset.bottom = 15
         automaticallyAdjustsScrollViewInsets = false
@@ -156,12 +155,6 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
                 as? SettingsInfoCell else { return UITableViewCell() }
             cell.refreshData()
             return cell
-        case .marketingNotifications:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingsSwitchCell.reusableID, for: indexPath)
-                as? SettingsSwitchCell else { return UITableViewCell() }
-            cell.setupWithSetting(setting)
-            cell.showBottomBorder = indexPath.row < viewModel.settingsCount(indexPath.section) - 1
-            return cell
         default:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingsCell.reusableID, for: indexPath)
                 as? SettingsCell else { return UITableViewCell() }
@@ -239,7 +232,7 @@ extension LetGoSetting {
     var cellHeight: CGFloat {
         switch self {
         case .changePhoto, .changeUsername, .changeEmail, .changeLocation, .changePassword, .help,
-             .marketingNotifications, .termsAndConditions, .privacyPolicy, .changeUserBio, .notifications:
+             .termsAndConditions, .privacyPolicy, .changeUserBio, .notifications:
             return 50
         case .logOut:
             return 44

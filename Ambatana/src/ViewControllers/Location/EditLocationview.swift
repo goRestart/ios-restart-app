@@ -45,7 +45,7 @@ final class EditLocationView: UIView {
 
     let gpsLocatizationButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setImage(R.Asset.IconsButtons.mapUserLocationButton.image, for: .normal)
+        button.setImage(R.Asset.IconsButtons.Map.mapUserLocationButton.image, for: .normal)
         button.applyDefaultShadow()
         return button
     }()
@@ -211,7 +211,7 @@ final class EditLocationView: UIView {
 
 final private class ApproxLocationView: UIView {
 
-    let pin = UIImageView(image: R.Asset.IconsButtons.mapPin.image)
+    let pin = UIImageView(image: R.Asset.IconsButtons.Map.mapPin.image)
 
     required init?(coder aDecoder: NSCoder) { fatalError("Die xibs, die") }
 

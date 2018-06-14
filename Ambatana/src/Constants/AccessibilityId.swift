@@ -259,6 +259,7 @@ enum AccessibilityId: Equatable {
     case postingDescriptionField
     case postingBackButton
     case postingInfoCloseButton
+    case postingInfoCollectionView
     case postingInfoShareButton
     case postingInfoLoading
     case postingInfoEditButton
@@ -281,6 +282,7 @@ enum AccessibilityId: Equatable {
     case postingCategoryDeatilTableView
     case postingAddDetailTableView
     case postingAddDetailSearchBar
+    case postingDetailMaxServices
 
     // Editlisting
     case editListingCloseButton
@@ -431,8 +433,6 @@ enum AccessibilityId: Equatable {
     // BlockedUserCell
     case blockedUserCellAvatarImageView
     case blockedUserCellUserNameLabel
-    case blockedUserCellBlockedLabel
-    case blockedUserCellBlockedIcon
 
     // ChatListingView
     case chatListingViewUserAvatar
@@ -712,6 +712,10 @@ enum AccessibilityId: Equatable {
     case bumpUpHiddenListingAlertContactButton
     case bumpUpHiddenListingAlertCancelButton
 
+    // Offensive Report Alert
+    case offensiveReportAlertOpenGuidelineButton
+    case offensiveReportAlertSkipButton
+
     // ExpandableSelectionCategoryView
     case expandableCategorySelectionCloseButton
     case expandableCategorySelectionView
@@ -936,6 +940,10 @@ enum AccessibilityId: Equatable {
                 idSuffix = "RealEstateOfferType-\(type.rawValue)"
             case let .realEstateNumberOfRooms(number):
                 idSuffix = "RealEstateNumRooms-\(number)"
+            case let .serviceType(serviceType):
+                idSuffix = "ServicesServiceType-\(serviceType.name)"
+            case let .serviceSubtype(serviceSubtype):
+                idSuffix = "ServicesServiceSubtype-\(serviceSubtype.name)"
             case let .sizeSquareMetersRange(from, to):
                 let fromString: String
                 if let from = from {
@@ -1270,6 +1278,8 @@ enum AccessibilityId: Equatable {
             return "postingBackButton"
         case .postingInfoCloseButton:
             return "postingInfoCloseButton"
+        case .postingInfoCollectionView:
+            return "postingInfoCollectionView"
         case .postingInfoShareButton:
             return "postingInfoShareButton"
         case .postingInfoLoading:
@@ -1314,6 +1324,8 @@ enum AccessibilityId: Equatable {
             return "postingAddDetailTableView"
         case .postingAddDetailSearchBar:
             return "postingAddDetailSearchBar"
+        case .postingDetailMaxServices:
+            return "postingDetailMaxServices"
             
         // Editlisting
         case .editListingCloseButton:
@@ -1579,10 +1591,6 @@ enum AccessibilityId: Equatable {
             return "blockedUserCellAvatarImageView"
         case .blockedUserCellUserNameLabel:
             return "blockedUserCellUserNameLabel"
-        case .blockedUserCellBlockedLabel:
-            return "blockedUserCellBlockedLabel"
-        case .blockedUserCellBlockedIcon:
-            return "blockedUserCellBlockedIcon"
             
         // ChatListingView
         case .chatListingViewUserAvatar:
@@ -2064,7 +2072,13 @@ enum AccessibilityId: Equatable {
             return "bumpUpHiddenListingAlertContactButton"
         case .bumpUpHiddenListingAlertCancelButton:
             return "bumpUpHiddenListingAlertCancelButton"
-            
+
+        // Offensive Report Alert
+        case .offensiveReportAlertOpenGuidelineButton:
+            return "offensiveReportAlertOpenGuidelineButton"
+        case .offensiveReportAlertSkipButton:
+            return "offensiveReportAlertSkipButton"
+
         // ExpandableSelectionCategoryView
         case .expandableCategorySelectionCloseButton:
             return "expandableCategorySelectionCloseButton"

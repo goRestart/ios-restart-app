@@ -61,9 +61,7 @@ final class ListingListViewModel: BaseViewModel {
         return (UIScreen.main.bounds.size.width - (listingListFixedInset*2)) / CGFloat(numberOfColumns)
     }
 
-    var cellStyle: CellStyle {
-        return .mainList
-    }
+    var cellStyle: CellStyle = .mainList
     
     var listingListFixedInset: CGFloat = 10.0
     
@@ -72,7 +70,7 @@ final class ListingListViewModel: BaseViewModel {
     weak var dataDelegate: ListingListViewModelDataDelegate?
     weak var listingCellDelegate: ListingCellDelegate?
     
-    private let featureFlags: FeatureFlags
+    private let featureFlags: FeatureFlaggeable
     private let myUserRepository: MyUserRepository
     private let imageDownloader: ImageDownloaderType
 
@@ -165,7 +163,7 @@ final class ListingListViewModel: BaseViewModel {
                  tracker: Tracker,
                  imageDownloader: ImageDownloaderType,
                  reporter: CrashlyticsReporter,
-                 featureFlags: FeatureFlags,
+                 featureFlags: FeatureFlaggeable,
                  myUserRepository: MyUserRepository,
                  requesterFactory: RequesterFactory? = nil) {
         self.objects = (listings ?? []).map(ListingCellModel.init)
@@ -200,7 +198,10 @@ final class ListingListViewModel: BaseViewModel {
         setCurrentFallbackRequester()
     }
     
-    convenience init(numberOfColumns: Int, tracker: Tracker, requesterFactory: RequesterFactory) {
+    convenience init(numberOfColumns: Int,
+                     tracker: Tracker,
+                     featureFlags: FeatureFlaggeable = FeatureFlags.sharedInstance,
+                     requesterFactory: RequesterFactory) {
         self.init(requester: nil,
                   listings: nil,
                   numberOfColumns: numberOfColumns,
@@ -208,10 +209,9 @@ final class ListingListViewModel: BaseViewModel {
                   tracker: tracker,
                   imageDownloader: ImageDownloader.sharedInstance,
                   reporter: CrashlyticsReporter(),
-                  featureFlags: FeatureFlags.sharedInstance,
+                  featureFlags: featureFlags,
                   myUserRepository: Core.myUserRepository,
-                  requesterFactory: requesterFactory)
-
+                  requesterFactory: nil)
         self.requesterFactory = requesterFactory
         requesterSequence = requesterFactory.buildRequesterList()
         setCurrentFallbackRequester()
@@ -350,7 +350,7 @@ final class ListingListViewModel: BaseViewModel {
         requesterFactory = newFactory
     }
     
-    private func retriveListing(isFirstPage: Bool, featureFlags: FeatureFlags) {
+    private func retriveListing(isFirstPage: Bool, featureFlags: FeatureFlaggeable) {
         retrieveListings(isFirstPage: isFirstPage,
                          with: requesterSequence)
     }
@@ -539,24 +539,21 @@ final class ListingListViewModel: BaseViewModel {
         })
     }
     
-    private func featuredInfoAdditionalCellHeight(for listing: Listing, width: CGFloat, isVariantEnabled: Bool, productDetailDisplayType: AddPriceTitleDistanceToListings) -> CGFloat {
-        
-        let isMine = listing.isMine(myUserRepository: myUserRepository)
-        
-        let minHeightForFeaturedListing: CGFloat = isMine ? 0.0 : ListingCellMetrics.ActionButton.totalHeight
-        guard isVariantEnabled, let featured = listing.featured, featured else {
-            return 0
-        }
-        var height: CGFloat = minHeightForFeaturedListing
-        height += productDetailDisplayType == .infoInImage ? 0 : ListingCellMetrics.getTotalHeightForPriceAndTitleView(listing.title, containerWidth: width)
+    private func featuredInfoAdditionalCellHeight(for listing: Listing, width: CGFloat, infoInImage: Bool) -> CGFloat {
+        var height: CGFloat = actionButtonCellHeight(for: listing)
+        height += infoInImage ? 0 : ListingCellMetrics.getTotalHeightForPriceAndTitleView(listing.title, containerWidth: width)
         return height
     }
     
+    private func actionButtonCellHeight(for listing: Listing) -> CGFloat {
+        let isMine = listing.isMine(myUserRepository: myUserRepository)
+        return isMine ? 0.0 : ListingCellMetrics.ActionButton.totalHeight
+    }
+    
     private func discardedProductAdditionalHeight(for listing: Listing,
-                                                  toHeight height: CGFloat,
-                                                  variant: DiscardedProducts) -> CGFloat {
+                                                  toHeight height: CGFloat) -> CGFloat {
         let minCellHeight: CGFloat = ListingCellMetrics.minThumbnailHeightWithContent
-        guard listing.status.isDiscarded, variant.isActive, height < minCellHeight else { return 0 }
+        guard listing.status.isDiscarded, height < minCellHeight else { return 0 }
         return minCellHeight - height
     }
     
@@ -602,14 +599,26 @@ final class ListingListViewModel: BaseViewModel {
                                                   widthConstraint: widthConstraint)?.height else {
             return nil
         }
-        cellHeight += featuredInfoAdditionalCellHeight(for: listing,
-                                                       width: widthConstraint,
-                                                       isVariantEnabled: featureFlags.pricedBumpUpEnabled,
-                                                       productDetailDisplayType: featureFlags.addPriceTitleDistanceToListings)
-        cellHeight += discardedProductAdditionalHeight(for: listing, toHeight: cellHeight, variant: featureFlags.discardedProducts)
-        cellHeight += normalCellAdditionalHeight(for: listing, width: widthConstraint, variant: featureFlags.addPriceTitleDistanceToListings)
-        let cellSize = CGSize(width: widthConstraint, height: cellHeight)
-        return cellSize
+        
+        if let isFeatured = listing.featured, isFeatured, featureFlags.pricedBumpUpEnabled {
+            if cellStyle == .serviceList {
+                cellHeight += actionButtonCellHeight(for: listing)
+            } else  {
+                cellHeight += featuredInfoAdditionalCellHeight(for: listing,
+                                                               width: widthConstraint,
+                                                               infoInImage: featureFlags.addPriceTitleDistanceToListings == .infoInImage)
+            }
+        }
+        
+        cellHeight += discardedProductAdditionalHeight(for: listing, toHeight: cellHeight)
+        
+        if cellStyle == .serviceList {
+            cellHeight += ListingCellMetrics.getTotalHeightForPriceAndTitleView(listing.title, containerWidth: widthConstraint)
+        } else {
+            cellHeight += normalCellAdditionalHeight(for: listing, width: widthConstraint,
+                                                     variant: featureFlags.addPriceTitleDistanceToListings)
+        }
+        return CGSize(width: widthConstraint, height: cellHeight)
     }
     
     /**

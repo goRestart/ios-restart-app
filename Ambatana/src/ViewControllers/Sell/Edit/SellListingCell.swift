@@ -30,12 +30,12 @@ class SellListingCell: UICollectionViewCell, ReusableCell {
         self.imageView.image = UIImage()
     }
 
-    func setupCellWithImageType(_ type: EditListingImageType) {
+    func setupCellWithMediaType(_ type: EditListingMediaType) {
         switch type {
         case .local(let image):
             setupCellWithImage(image)
-        case .remote(let file):
-            setupCellWithUrl(file.fileURL)
+        case .remote(let media):
+            setupCellWithUrl(media.outputs.imageThumbnail)
         }
     }
     
@@ -63,7 +63,7 @@ class SellListingCell: UICollectionViewCell, ReusableCell {
         label.text = R.Strings.sellPictureLabel.localizedUppercase
         label.textColor = UIColor.red
         self.activity.isHidden = true
-        iconImageView.image = UIImage(named: "ic_add_white")?.imageWithColor(UIColor.red)?.withRenderingMode(.alwaysOriginal)
+        iconImageView.image = R.Asset.IconsButtons.icAddWhite.image.imageWithColor(UIColor.red)?.withRenderingMode(.alwaysOriginal)
         imageView.image = UIImage()
         self.backgroundColor = UIColor.white
     }

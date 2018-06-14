@@ -25,6 +25,7 @@
                 <outlet property="emailTextField" destination="p2Y-FJ-YEc" id="nLh-Ow-k6Z"/>
                 <outlet property="emailTextFieldButton" destination="RZg-9e-Ycu" id="0HQ-0y-fdN"/>
                 <outlet property="emailTextFieldLogo" destination="wCY-dH-Y3u" id="7jl-Uw-epm"/>
+                <outlet property="facebookLogo" destination="CPl-tj-igD" id="VBs-vq-TvZ"/>
                 <outlet property="fbButton" destination="bC3-wg-olZ" id="ooQ-X7-msY"/>
                 <outlet property="fbContainer" destination="ysF-w2-FmD" id="W65-Mi-bY2"/>
                 <outlet property="fbContainerBottom" destination="d8R-Nw-hbB" id="L9c-4y-RLg"/>
@@ -33,7 +34,9 @@
                 <outlet property="googleContainer" destination="wgu-P3-aEW" id="UXX-e8-T2v"/>
                 <outlet property="googleContainerBottom" destination="Ava-tE-edy" id="L0l-nv-W4S"/>
                 <outlet property="googleContainerHeight" destination="9vz-Ht-E3g" id="qFn-Fw-qIH"/>
+                <outlet property="googleLogo" destination="Pky-2m-PPL" id="nII-2c-qVN"/>
                 <outlet property="titleLabel" destination="W7M-cu-SvA" id="g3S-w5-M41"/>
+                <outlet property="trustImageView" destination="28i-Wb-cSo" id="cYH-ul-iUp"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -76,7 +79,7 @@
                                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </state>
                                 </button>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_facebook_rounded" translatesAutoresizingMaskIntoConstraints="NO" id="CPl-tj-igD" userLabel="ButtonLogo">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="CPl-tj-igD" userLabel="ButtonLogo">
                                     <rect key="frame" x="8" y="8" width="28" height="28"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="28" id="Wvq-Kr-JRk"/>
@@ -110,7 +113,7 @@
                                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </state>
                                 </button>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_google_rounded" translatesAutoresizingMaskIntoConstraints="NO" id="Pky-2m-PPL" userLabel="ButtonLogo">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Pky-2m-PPL" userLabel="ButtonLogo">
                                     <rect key="frame" x="8" y="8" width="28" height="28"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="28" id="5N2-sO-Yac"/>
@@ -132,7 +135,7 @@
                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LWD-2y-aR2" userLabel="emailContainer">
                             <rect key="frame" x="20" y="251" width="230" height="44"/>
                             <subviews>
-                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_email_active" translatesAutoresizingMaskIntoConstraints="NO" id="wCY-dH-Y3u">
+                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wCY-dH-Y3u">
                                     <rect key="frame" x="0.0" y="0.0" width="44" height="44"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="44" id="voS-Ss-YVm"/>
@@ -150,7 +153,6 @@
                                     <constraints>
                                         <constraint firstAttribute="width" constant="44" id="TlP-l1-vKk"/>
                                     </constraints>
-                                    <state key="normal" image="ic_send"/>
                                 </button>
                                 <button hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3WH-gv-CcY" userLabel="ActionButton">
                                     <rect key="frame" x="0.0" y="0.0" width="230" height="44"/>
@@ -164,7 +166,7 @@
                                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </state>
                                 </button>
-                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_email_rounded" translatesAutoresizingMaskIntoConstraints="NO" id="iMs-Qd-aKY" userLabel="ButtonLogo">
+                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="iMs-Qd-aKY" userLabel="ButtonLogo">
                                     <rect key="frame" x="8" y="8" width="28" height="28"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="28" id="28j-O1-b36"/>
@@ -215,7 +217,7 @@
                         <constraint firstItem="ysF-w2-FmD" firstAttribute="leading" secondItem="BbQ-zR-xkx" secondAttribute="leading" constant="20" id="rWB-qu-G6G"/>
                     </constraints>
                 </view>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_build_trust_big" translatesAutoresizingMaskIntoConstraints="NO" id="28i-Wb-cSo">
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="28i-Wb-cSo">
                     <rect key="frame" x="132" y="121" width="110" height="110"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="110" id="CiR-wT-W2c"/>
@@ -237,12 +239,4 @@
             <point key="canvasLocation" x="673.5" y="404.5"/>
         </view>
     </objects>
-    <resources>
-        <image name="ic_build_trust_big" width="110" height="110"/>
-        <image name="ic_email_active" width="18" height="13"/>
-        <image name="ic_email_rounded" width="29" height="28"/>
-        <image name="ic_facebook_rounded" width="30" height="30"/>
-        <image name="ic_google_rounded" width="30" height="30"/>
-        <image name="ic_send" width="22" height="20"/>
-    </resources>
 </document>

@@ -13,9 +13,12 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PushPrePermissionsSettingsViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
                 <outlet property="allowNotificationsLabel" destination="af2-wa-rdJ" id="0wE-R4-poN"/>
+                <outlet property="closeButton" destination="Z4w-DK-BFV" id="HBl-0C-EYf"/>
                 <outlet property="firstSectionLabel" destination="jA5-Cd-7Id" id="zcD-4v-TWC"/>
                 <outlet property="notificationsLabel" destination="GnO-bX-dSG" id="bkd-dy-kxR"/>
                 <outlet property="secondSectionLabel" destination="UAT-h9-Z56" id="VbN-tu-rjd"/>
+                <outlet property="settingsImage1" destination="yMg-qD-WY4" id="xhX-FS-PGy"/>
+                <outlet property="settingsImage2" destination="EAi-Cv-LAd" id="p2p-e9-ehq"/>
                 <outlet property="subtitleLabel" destination="xut-Ai-QCh" id="5hP-fy-YqM"/>
                 <outlet property="titleLabel" destination="H1q-HW-Lpd" id="WUl-0P-NMU"/>
                 <outlet property="view" destination="Pvp-b1-KrG" id="m0t-Ml-PHV"/>
@@ -72,7 +75,7 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="settings_notifications2" translatesAutoresizingMaskIntoConstraints="NO" id="EAi-Cv-LAd">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="EAi-Cv-LAd">
                                 <rect key="frame" x="35" y="340.5" width="250" height="37"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="305" id="PKf-hO-wV8"/>
@@ -84,7 +87,7 @@
                                     </mask>
                                 </variation>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="settings_notifications1" translatesAutoresizingMaskIntoConstraints="NO" id="yMg-qD-WY4">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yMg-qD-WY4">
                                 <rect key="frame" x="35" y="185.5" width="250" height="105"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="128" id="1Ks-OF-Jus"/>
@@ -122,7 +125,6 @@
                                     <constraint firstAttribute="width" constant="56" id="Igm-bL-TOT"/>
                                     <constraint firstAttribute="height" constant="56" id="gnb-oS-sde"/>
                                 </constraints>
-                                <state key="normal" image="ic_close"/>
                                 <connections>
                                     <action selector="closeButtonPressed:" destination="-1" eventType="touchUpInside" id="Vik-2d-gqe"/>
                                 </connections>
@@ -205,9 +207,4 @@
             <point key="canvasLocation" x="808" y="585"/>
         </view>
     </objects>
-    <resources>
-        <image name="ic_close" width="18" height="18"/>
-        <image name="settings_notifications1" width="305" height="127"/>
-        <image name="settings_notifications2" width="305" height="45"/>
-    </resources>
 </document>

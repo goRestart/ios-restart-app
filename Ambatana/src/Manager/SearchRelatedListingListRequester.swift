@@ -200,8 +200,19 @@ fileprivate extension SearchRelatedListingListRequester {
                 params.maxPrice = max
             }
         }
-        params.typeId = filters?.servicesTypeId
-        params.subtypeId = filters?.servicesSubtypeId
+        
+        /*
+         Currently, we only support multiselect on the app side, but the API requires an
+         array of typeIds. When we support Multiselect we can just update the filters servicesType parameter to
+         an array
+        */
+        if let typeId = filters?.servicesType?.id {
+            params.typeIds = [typeId]
+        } else {
+            params.typeIds = nil
+        }
+        
+        params.subtypeIds = filters?.servicesSubtypes?.map( { $0.id } )
         
         return params
     }

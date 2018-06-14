@@ -11,7 +11,7 @@ import UIKit
 import LGCoreKit
 
 enum CellStyle {
-    case mainList, relatedListings
+    case mainList, serviceList, relatedListings
 }
 
 class GridDrawerManager {

@@ -34,7 +34,6 @@ final class PhotoViewerViewModel: BaseViewModel {
 
     var isChatEnabled: Bool { return viewerDisplayable.isChatEnabled }
     var isPlayable: Bool { return viewerDisplayable.isPlayable }
-    var shouldShowVideos: Bool { return featureFlags.machineLearningMVP.isVideoPostingActive }
 
     convenience init(with viewerDisplayable: PhotoViewerDisplayable,
                      source: EventParameterListingVisitSource) {

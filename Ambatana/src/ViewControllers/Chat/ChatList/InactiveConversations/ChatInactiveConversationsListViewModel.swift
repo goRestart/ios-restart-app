@@ -38,7 +38,7 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, RxPaginable {
     private let disposeBag = DisposeBag()
     
     var emptyStatusViewModel: LGEmptyViewModel {
-        return LGEmptyViewModel(icon: UIImage(named: "err_list_no_blocked_users"),
+        return LGEmptyViewModel(icon: R.Asset.Errors.errListNoBlockedUsers.image,
                                 title: R.Strings.chatInactiveListTitle,
                                 body: R.Strings.chatInactiveConversationsExplanationLabel,
                                 buttonTitle: nil,

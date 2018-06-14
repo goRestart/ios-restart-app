@@ -1,12 +1,5 @@
-//
-//  ChatListingView.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 24/11/15.
-//  Copyright © 2015 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 import LGCoreKit
 
 protocol ChatListingViewDelegate: class {
@@ -64,6 +57,10 @@ class ChatListingView: UIView {
     }
     
     private func setupUI() {
+        proTag.image = R.Asset.Monetization.proTag.image
+        letgoAssistantTag.image = R.Asset.IconsButtons.icAssistantTag.image
+        badgeImageView.image = R.Asset.IconsButtons.icKarmaBadgeActive.image
+        
         listingImage.cornerRadius = LGUIKitConstants.smallCornerRadius
         listingImage.backgroundColor = UIColor.placeholderBackgroundColor()
         userName.font = UIFont.chatListingViewUserFont

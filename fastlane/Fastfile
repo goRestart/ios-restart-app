@@ -1,19 +1,3 @@
-# Customise this file, documentation can be found here:
-# https://github.com/KrauseFx/fastlane/tree/master/docs
-# All available actions: https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md
-# can also be listed using the `fastlane actions` command
-
-# Change the syntax highlighting to Ruby
-# All lines starting with a # are ignored when running `fastlane`
-
-# By default, fastlane will send which actions are used
-# No personal data is shared, more information on https://github.com/fastlane/enhancer
-# Uncomment the following line to opt out
-# opt_out_usage
-
-# If you want to automatically update fastlane if a new version is available:
-# update_fastlane
-
 # This is the minimum version number required.
 # Update this, if you use features of a newer version
 fastlane_version "2.14.0"
@@ -22,458 +6,495 @@ default_platform :ios
 
 platform :ios do
 
-  before_all do
-    ENV["LG_GITHUB_REPOSITORY"] = "letgoapp/letgo-ios"
-    # Forcing fastlane to launch simulator before all as a first step.
-    ENV["FASTLANE_EXPLICIT_OPEN_SIMULATOR"] = "2"
-  end
-
-  desc "Will clone master, create a new `release-x.x.x` branch from, update the build info, push it and do a deploy of that to crashlytics"
-  lane :release do
-
-    lg_dependencies
-
-    base_branch_name = "master"
-    Actions.lane_context[SharedValues::RB_INFO_BRANCH_NAME] = "master"
-    Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] = "tmp_lane_git_clone_folder"
-
-    rb_info_collector(
-      ask_for_version_number: true,
-    )
-
-    # Clone master branch
-    rb_git_clone(
-      branch_name: base_branch_name
-    )
-
-    # Create locally and remotely the new release branch 'release-x.x.x'
-    # This will update the ENV  RB_INFO_BRANCH_NAME to the new created branch
-    rb_git_create_branch(
-      branch_name: "release-" + Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER],
-      repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER]
-    )
-
-    deploy_to_crashlitycs
-  end
-
-  desc "Will clone the specified branch, update the build info and do a deploy of that to crashlytics"
-  lane :beta do
-    lg_dependencies
-
-    rb_info_collector(
-      ask_for_branch_name: true,
-      ask_for_version_number: true,
-    )
-
-    bender message:"Crafting beta #{Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER]} 🚀  \n It's gonna be a though ride", channels:[ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]
- 
-    rb_git_clone(
-      branch_name: Actions.lane_context[Actions::SharedValues::RB_INFO_BRANCH_NAME],
-      shallow_clone: true
-    )
-
-    lg_update_cars_info
-    
-    lg_update_taxonomies
-    
-    lg_strings(repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] + "/")
-
-    deploy_to_crashlitycs
-  end
-
-  desc "Build and distribute build to Crashlytics"
-  private_lane :deploy_to_crashlitycs do
-    
-    # Update version and build numbers in info.plist (locally)
-    # Custom for letgo: will also update the ios-prod.json and ios-devel.json with the new build_number
-    rb_update_app_version(
-      branch_name: Actions.lane_context[Actions::SharedValues::RB_INFO_BRANCH_NAME],
-      version_number: Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER],
-      repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
-      update_json_files: true,
-      autoincrement: true
-    )
-
-    version_number = Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER]
-    build_number = Actions.lane_context[SharedValues::RB_BUILD_NUMBER]
-    repository_path = Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER]
-
-    add_version_badge version_number:version_number, build_number:build_number
-
-    gym(
-      workspace: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] + "/" + ENV["LETGO_WORKSPACE"],
-      output_directory: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
-      configuration: "Adhoc",
-      scheme: "LetGoPROD",
-      silent: false,
-      clean: true,
-      export_xcargs: "-allowProvisioningUpdates",
-      export_method: "ad-hoc"
-    )
-
-    changelog = "Beta #{version_number}-#{build_number}"
-    crashlytics(
-      api_token: 'da82303e33e3a2dc304cdccaa4e19dba00334a34',
-      build_secret: '964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe',
-      notes: "#{changelog}",
-      groups: "letgo-testers"
-    )
-
-    # Update the next version number in remote branch
-    lg_push(
-      repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
-      version_number: version_number,
-      build_number: build_number
-    )
-
-    rb_git_clone_clean()
-
-    message = "New beta (#{version_number} - #{build_number}) ready @here :tada:"
-    bender message: message, channels: [ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]
-  end
-
-  desc "Build and distribute local code to Crashlytics"
-  lane :local_beta do
-
-    version_number = Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER]
-    build_number = Actions.lane_context[SharedValues::RB_BUILD_NUMBER]
- 
-    add_version_badge version_number:version_number, build_number:build_number
-
-    add_badge(shield: "#{version_number}-#{build_number}-blue", dark: true, shield_geometry: "+0+25%", shield_scale: 0.75)
-    gym(
-      workspace: ENV["LETGO_WORKSPACE"],
-      output_directory: "./",
-      configuration: "Adhoc",
-      scheme: "LetGoPROD",
-      silent: false,
-      clean: true,
-      export_method: "ad-hoc"
-    )
-
-    changelog = "Beta #{version_number}-#{build_number}"
-
-    crashlytics(
-      api_token: 'da82303e33e3a2dc304cdccaa4e19dba00334a34',
-      build_secret: '964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe',
-      notes: "#{changelog}",
-      groups: "letgo-testers"
-    )
-    bender message: "New beta (#{version_number} - #{build_number}) ready @here :tada:", channels: [ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]
-  end
-
-
-  desc "Deploys a new version to App Store"
-  lane :deploy_to_appstore do
-    UI.important ("\n\n ⚠️ \nThis lane will build release-x-x-x branch and send it to Apple. \n\n")
-    UI.message ("📝  Before we begin...").cyan
-
-    # Merge release branch into master #manual
-    manual_done = ask("Have you merged release branch into master? YOU HAVE TO DO THIS MANUALLY (y/n) = ".yellow)
-    if manual_done.nil? || manual_done != "y"
-      raise "Please make sure to update master with all the release-fixes!"
-    end
-
-    release_branch = ask("Release branch to deploy (release-x.x.x): ".yellow)
-
-    bender message: "Calling Tim Cook for App Store deployment (#{release_branch})", channels: [ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]
-    rb_git_clone(
-      branch_name: release_branch,
-      clone_single_branch: false,
-      shallow_clone: false
-    )
-    # xcodeproj = Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] + "/" + ENV["LETGO_PROJECT"]
-    # build_number = get_build_number(xcodeproj: xcodeproj)
-    # version_number = get_version_number(xcodeproj: xcodeproj)
-    
-    xcclean(
-      workspace: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] + "/" + ENV["LETGO_WORKSPACE"],
-      scheme: ENV["LETGO_APPSTORE_SCHEME"]
-      )
-	
-    gym(
-      workspace: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] + "/" + ENV["LETGO_WORKSPACE"],
-      output_directory: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
-      scheme: ENV["LETGO_APPSTORE_SCHEME"],
-      configuration: "Release",
-      export_xcargs: "-allowProvisioningUpdates",
-      include_bitcode: true
-    )
-
-    # tag_release tag_name: version_number, build_number: build_number  
-    # # Send release to itunes connect
-    deliver(
-      username: "ios-automation@letgo.com",
-      app: "986339882",
-      skip_screenshots: true,
-      skip_metadata: true,
-      force: true,  # Set to true to skip PDF verification
-      submit_for_review: true,
-      automatic_release: false,
-      submission_information: {
-        export_compliance_encryption_updated: false,
-        add_id_info_uses_idfa: true,
-        add_id_info_serves_ads: false,
-        add_id_info_tracks_install: true,
-        add_id_info_tracks_action: true
-      }
-    )
-
-    rb_git_clone_clean()
-    bender message: "Tim says everything okay. New Version uploaded to iTunes Connect: #{release_branch}", channels: [ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]
-    # update_dsyms version: version_number, build_number: build_number
-    # bender message: "Uploaded dsyms to fabric.", channels:[ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]  
+before_all do
+	ENV["LG_GITHUB_REPOSITORY"] = "letgoapp/letgo-ios"
+	# Forcing fastlane to launch simulator before all as a first step.
+	ENV["FASTLANE_EXPLICIT_OPEN_SIMULATOR"] = "2"
 end
 
-  desc "Will update Web Translate It with the new validated strings from google drive, download all the changes from wti and generate all not-yet valid strings on base + localizables file"
-  lane :strings do
-    lg_strings(
-      repository_path: "./",
-      mark_unused_strings: false
-    )
-  end
+desc "Will clone master, create a new `release-x.x.x` branch from, update the build info, push it and do a deploy of that to crashlytics"
+lane :release do
+	lg_dependencies
+	base_branch_name = "master"
+	Actions.lane_context[SharedValues::RB_INFO_BRANCH_NAME] = "master"
+	Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] = "tmp_lane_git_clone_folder"
 
-  desc "Updates strings with wti and cleans un-used ones, then removes the un-used keys from code"
-  lane :strings_clean do
-    lg_strings(
-      repository_path: "./",
-      remove_unused_strings: true
-    )
-    lg_strings(
-      repository_path: "./"
-    )
-  end
+	rb_info_collector(ask_for_version_number: true)
 
-  desc "Clean un-used assets"
-  lane :assets_clean do
-    lg_assets(
-      repository_path: "./"
-    )
-  end
+	message = "Crafting brand new version (#{ Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER]})"
+	channels = [ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]
+	bender(message: message, channels: channels)
 
-  desc "Clean project"
-  lane :clean do
-    # update strings and remove un-used ones
-    lg_strings(
-      repository_path: "./",
-      remove_unused_strings: true
-    )
-    # update strings
-    lg_strings(
-      repository_path: "./"
-    )
-    # clean assets
-    lg_assets(
-      repository_path: "./"
-    )
-  end
+	# Clone master branch
+	rb_git_clone(branch_name: base_branch_name)
+
+	# Create locally and remotely the new release branch 'release-x.x.x'
+	# This will update the ENV  RB_INFO_BRANCH_NAME to the new created branch
+	rb_git_create_branch(
+		branch_name: "release-" + Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER],
+		repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER]
+	)
+
+	deploy_to_crashlitycs
+end
+
+desc "Will clone the specified branch, update the build info and do a deploy of that to crashlytics"
+lane :beta do
+	lg_dependencies
+
+	rb_info_collector(
+		ask_for_branch_name: true,
+		ask_for_version_number: true,
+	)
+
+	version_number = Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER]
+	
+	channels = [ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]	
+	bender(message:"Crafting beta (#{version_number}) 🚀  \n It's gonna be a tough ride", channels:channels)
+
+	rb_git_clone(
+		branch_name: Actions.lane_context[Actions::SharedValues::RB_INFO_BRANCH_NAME],
+		shallow_clone: true
+	)
+
+	lg_update_cars_info
+	lg_update_taxonomies
+	lg_strings(repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] + "/")
+
+	deploy_to_crashlitycs
+end
+
+desc "Build and distribute build to Crashlytics"
+private_lane :deploy_to_crashlitycs do
+	# Update version and build numbers in info.plist (locally)
+	# Custom for letgo: will also update the ios-prod.json and ios-devel.json with the new build_number
+	rb_update_app_version(
+		branch_name: Actions.lane_context[Actions::SharedValues::RB_INFO_BRANCH_NAME],
+		version_number: Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER],
+		repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
+		update_json_files: true,
+		autoincrement: true
+	)  
+
+	version_number = Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER]
+	build_number = Actions.lane_context[SharedValues::RB_BUILD_NUMBER]
+	repository_path = Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER]
+
+	add_version_badge version_number:version_number, build_number:build_number
+
+	gym(
+		workspace: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] + "/" + ENV["LETGO_WORKSPACE"],
+		output_directory: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
+		configuration: "Adhoc",
+		scheme: "LetGoPROD",
+		silent: false,
+		clean: true,
+		export_xcargs: "-allowProvisioningUpdates",
+		export_method: "ad-hoc"
+	)
+
+	changelog = "Beta #{version_number}-#{build_number}"
+	crashlytics(
+		api_token: 'da82303e33e3a2dc304cdccaa4e19dba00334a34',
+		build_secret: '964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe',
+		notes: "#{changelog}",
+		groups: "letgo-testers"
+	)
+
+	# Update the next version number in remote branch
+	lg_push(
+		repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
+		version_number: version_number,
+		build_number: build_number
+	)
+	rb_git_clone_clean()
+
+	message = "New beta (#{version_number} - #{build_number}) ready @here :tada:"
+	bender message: message, channels: [ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]
+end
+
+desc "Deploys a new version to App Store"
+lane :deploy_to_appstore do
+	UI.important ("\n\n ⚠️ \nThis lane will build release-x-x-x branch and send it to Apple. \n\n")
+	UI.message ("📝  Before we begin...").cyan
+	UI.importand ("Remember to merge this branch to master after uploading to the appstore via pull request.")
+
+	release_branch = ask("Release branch to deploy (release-x.x.x): ".yellow)
+	channels = [ENV["BENDER_SLACK_DEFAULT_CHANNEL"]] 
+	bender(message: "Calling Tim Cook for App Store deployment (#{release_branch})", channels: channels)
+	rb_git_clone(
+		branch_name: release_branch,
+		clone_single_branch: false,
+		shallow_clone: false
+	)
+	lg_fetch_app_version
+	build_number = Actions.lane_context[Actions::SharedValues::LG_BUILD_NUMBER]
+	version_number = Actions.lane_context[Actions::SharedValues::LG_VERSION_NUMBER]
+	
+	workspace = Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] + "/" + ENV["LETGO_WORKSPACE"] 
+	xcclean(
+		workspace: workspace,
+		scheme: ENV["LETGO_APPSTORE_SCHEME"]
+	)
+
+	gym(
+		workspace: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] + "/" + ENV["LETGO_WORKSPACE"],
+		output_directory: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
+		scheme: ENV["LETGO_APPSTORE_SCHEME"],
+		configuration: "Release",
+		export_xcargs: "-allowProvisioningUpdates",
+		include_bitcode: true
+	)
+
+	tag_release(tag_name: version_number, build_number: build_number)
+	# # Send release to itunes connect
+	deliver(
+		username: "ios-automation@letgo.com",
+		app: "986339882",
+		skip_screenshots: true,
+		skip_metadata: true,
+		phased_release: true,
+		force: true,  # Set to true to skip PDF verification
+		submit_for_review: true,
+		automatic_release: false,
+		submission_information: {
+			export_compliance_encryption_updated: false,
+			add_id_info_uses_idfa: true,
+			add_id_info_serves_ads: false,
+			add_id_info_tracks_install: true,
+			add_id_info_tracks_action: true
+		}
+	)
+
+	rb_git_clone_clean()
+	bender(message: "Tim says everything okay. New Version uploaded to iTunes Connect: #{release_branch}", channels: [ENV["BENDER_SLACK_DEFAULT_CHANNEL"]])
+	update_dsyms(version: version_number, build_number: build_number)
+	bender(message: "Uploaded dsyms to fabric.", channels:[ENV["BENDER_SLACK_DEFAULT_CHANNEL"]])
+end
+
+desc "Will update Web Translate It with the new validated strings from google drive, download all the changes from wti and generate all not-yet valid strings on base + localizables file"
+lane :strings do
+	lg_strings(repository_path: "./", mark_unused_strings: false)
+end
+
+desc "Updates strings with wti and cleans un-used ones, then removes the un-used keys from code"
+lane :strings_clean do
+	lg_strings(repository_path: "./", remove_unused_strings: true)
+	lg_strings(repository_path: "./")
+end
+
+desc "Clean un-used assets"
+lane :assets_clean do
+	lg_assets(repository_path: "./")
+end
+
+desc "Clean project"
+lane :clean do
+	# update strings and remove un-used ones
+	lg_strings(repository_path: "./", remove_unused_strings: true)
+	# update strings
+	lg_strings(repository_path: "./")
+	# clean assets
+	lg_assets(repository_path: "./")
+end
 
 desc "Download all the given dSYM symbolication files from iTunes Connect and upload them to crashlytics."
 lane :update_dsyms do |options|
-    download_dsyms version: options[:version], build_number: options[:build_number]
-    upload_symbols_to_crashlytics 
-    clean_build_artifacts 
+	lg_fetch_app_version
+	build_number = options[:build_number] ||= Actions.lane_context[Actions::SharedValues::LG_BUILD_NUMBER]
+	version = options[:version] ||= Actions.lane_context[Actions::SharedValues::LG_VERSION_NUMBER]
+   
+	binary_path = "com.letgo.ios-#{version}-#{build_number}.dSYM.zip"
+	download_dsyms(version: version, build_number: build_number)
+	upload_symbols_to_crashlytics(
+		binary_path: '/Applications/Fabric.app/Contents/MacOS/upload-symbols',
+		api_token: 'da82303e33e3a2dc304cdccaa4e19dba00334a34'
+	)
+	clean_build_artifacts
 end
 
-  private_lane :add_version_badge do |options|     
-     add_badge(shield: "#{options[:version_number]}-#{options[:build_number]}-blue", dark: true, shield_gravity: "South", no_badge: true)
-  end
+private_lane :add_version_badge do |options|     
+	add_badge(shield: "#{options[:version_number]}-#{options[:build_number]}-blue", dark: true, shield_gravity: "South", no_badge: true)
+end
 
-  desc "Will make bender speak inside slack"
-  private_lane :bender do |options|
-    message = options[:message]
-    channels = options[:channels]
-    channels.each do |channel|
-      slack(
-        message: message,
-        success: defined?(options[:success]) ? options[:success] : true,
-        channel: channel,
-        default_payloads: [],
-        icon_url: "https://cdn.iconscout.com/public/images/icon/premium/png-512/bender-robot-bot-technology-machine-34fbb8f5bb91b753-512x512.png"
-      )
-    end
-  end
+desc "Will make bender speak inside slack"
+private_lane :bender do |options|
+	message = options[:message]
+	channels = options[:channels]
+	channels.each do |channel|
+	slack(
+		message: message,
+		success: defined?(options[:success]) ? options[:success] : true,
+		channel: channel,
+		default_payloads: [],
+		icon_url: "https://cdn.iconscout.com/public/images/icon/premium/png-512/bender-robot-bot-technology-machine-34fbb8f5bb91b753-512x512.png"
+		)
+	end
+end
 
-  desc "Will generate BumperFlags.switf based on the sources json"
-  lane :bumper do
-    lg_bumper(
-      source_json: "./Ambatana/src/Application/bumper_features.json",
-      destination_dir: "./Ambatana/src/Manager/FeatureFlags/"
-    )
-  end
+desc "Will generate BumperFlags.switf based on the sources json"
+lane :bumper do
+	lg_bumper(
+		source_json: "./Ambatana/src/Application/bumper_features.json",
+		destination_dir: "./Ambatana/src/Manager/FeatureFlags/"
+	)
+end
 
-  desc "Will unit test"
-  lane :test do
-    scan(
-      scheme: "LetGoPROD",
-      device: "iPhone 6",
-      output_style: "rspec",
-      output_directory: "./scanresults",
-      output_types: "junit,html",
-      clean: true,
-      skip_slack: true,
-      code_coverage: true
-      )
-  end
+desc "Will unit test"
+lane :test do
+	scan(
+		scheme: "LetGoPROD",
+		device: "iPhone 6",
+		output_style: "rspec",
+		output_directory: "./scanresults",
+		output_types: "junit,html",
+		clean: true,
+		skip_slack: true,
+		code_coverage: true
+	)
+end
 
-  desc "Will UI test"
-  lane :ui_test do
-    scan(
-      scheme: "UITests",
-      device: "iPhone 6",
-      output_style: "rspec",
-      output_directory: "./scanresults",
-      output_types: "junit,html",
-      clean: true,
-      skip_slack: true,
-      code_coverage: true
-      )
-  end
+desc "Will run CI on Jenkins"
+lane :ciJenkins do
+	pullRequest = ENV["BRANCH_NAME"].gsub(/[P­R-]/,'')
+	puts pullRequest
+	lg_github_status(
+		gh_pull_request: pullRequest,
+		gh_status_finished: false
+	)
+	testException = nil
+	begin
+		test
+	rescue => ex
+		testException = ex
+	end
+	lg_github_status(
+		gh_pull_request: pullRequest,
+		gh_status_finished: true,
+		scan_results_junit: "./scanresults/report.junit",
+		scan_results_url: ENV["GITHUB_STATUS_DETAIL"]
+	)
+	if testException
+		raise testException
+	end
+end
 
-  desc "Will run CI on Jenkins"
-  lane :ciJenkins do
-    pullRequest = ENV["BRANCH_NAME"].gsub(/[P­R-]/,'')
-    puts pullRequest
-    lg_github_status(
-      gh_pull_request: pullRequest,
-      gh_status_finished: false
-      )
-    testException = nil
-    begin
-      test
-    rescue => ex
-      testException = ex
-    end
-    lg_github_status(
-      gh_pull_request: pullRequest,
-      gh_status_finished: true,
-      scan_results_junit: "./scanresults/report.junit",
-      scan_results_url: ENV["GITHUB_STATUS_DETAIL"]
-      )
-    if testException
-      raise testException
-    end
-  end
+desc "Will run CI unit tests job"
+lane :ci do
+	pullRequest = nil
+	if !ENV["TEAMCITY_BRANCH"].nil?
+		pullRequest = ENV["TEAMCITY_BRANCH"].sub('/merge', '')
+	end
 
-  desc "Will run CI unit tests job"
-  lane :ci do
-    pullRequest = nil
-    if !ENV["TEAMCITY_BRANCH"].nil?
-      pullRequest = ENV["TEAMCITY_BRANCH"].sub('/merge', '')
-    end
+	lg_github_status(
+		gh_pull_request: pullRequest,
+		gh_status_finished: false
+	)
 
-    lg_github_status(
-      gh_pull_request: pullRequest,
-      gh_status_finished: false
-      )
+	testException = nil
+	begin
+		test
+	rescue => ex
+		testException = ex
+	end
 
-    testException = nil
-    begin
-      test
-    rescue => ex
-      testException = ex
-    end
+	lg_github_status(
+		gh_pull_request: pullRequest,
+		gh_status_finished: true,
+		scan_results_junit: "./scanresults/report.junit",
+		scan_results_url: ENV["GITHUB_STATUS_DETAIL"]
+	)
+	if testException
+		raise testException
+	end
+end
 
-    lg_github_status(
-      gh_pull_request: pullRequest,
-      gh_status_finished: true,
-      scan_results_junit: "./scanresults/report.junit",
-      scan_results_url: ENV["GITHUB_STATUS_DETAIL"]
-      )
-    if testException
-      raise testException
-    end
-  end
+desc "Will run CI UI tests job"
+lane :ci_ui_tests do
+	testException = nil
+	begin
+		ui_test
+	rescue => ex
+		testException = ex
+	end
 
-  desc "Will run CI UI tests job"
-  lane :ci_ui_tests do
-    testException = nil
-    begin
-      ui_test
-    rescue => ex
-      testException = ex
-    end
+	junitResult = "../scanresults/report.junit"
 
-    junitResult = "../scanresults/report.junit"
+	message = "UI Tests - "
+	success = false
 
-    message = "UI Tests - "
-    success = false
+	if junitResult.nil?
+		message += "No results file provided!"
+	elsif !File.file?(junitResult)
+		message += "No results file found!"
+	end
 
-    if junitResult.nil?
-      message += "No results file provided!"
-    elsif !File.file?(junitResult)
-      message += "No results file found!"
-    end
+	hashResult = Crack::XML.parse(File.read(junitResult))
+	tests = hashResult['testsuites']['tests']
+	failures = hashResult['testsuites']['failures']
 
-    hashResult = Crack::XML.parse(File.read(junitResult))
-    tests = hashResult['testsuites']['tests']
-    failures = hashResult['testsuites']['failures']
+	if failures.to_i == 0
+		message += "All #{tests} UI tests passed! :tada:"
+		success = true
+	else
+		message += "Failed #{failures} UI tests from a total of #{tests} :warning:"
+	end
 
-    if failures.to_i == 0
-      message += "All #{tests} UI tests passed! :tada:"
-      success = true
-    else
-      message += "Failed #{failures} UI tests from a total of #{tests} :warning:"
-    end
+	bender message: message, channels: [ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]
+	if testException
+		raise testException
+	end
+end
 
-    bender message: message, channels: [ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]
- 
-    if testException
-      raise testException
-    end
-  end
+lane :dependencies do
+	lg_dependencies(lg_just_info: false)
+end
 
-  lane :dependencies do
-    lg_dependencies(
-      lg_just_info: false
-    )
-  end
+desc "Tags current branch and pushes to remote"
+private_lane :tag_release do |options|
+	add_git_tag(
+		tag: options[:tag_name],
+		build_number: options[:build_number],
+		force: true
+	)
+	push_git_tags(
+		tag: options[:tag_name],
+		remote: "origin"
+	)
+end
 
-  desc "Tags current branch and pushes to remote"
-  private_lane :tag_release do |options|
-    add_git_tag(
-       tag: options[:tag_name],
-       build_number: options[:build_number],
-       force: true
-    )
-    push_git_tags(
-       tag: options[:tag_name],
-       remote: "origin"
-    )
-    end
+desc "Builds LetgoGoDev for simulator to export it for automation process"
+lane :make_automation_build do
+	timestamp = Time.now.getutc.strftime("_%m_%d_%y_%I_%M_%p")
+	output = "/tmp/xcbuild" + timestamp
+	message = 'Hey, your .app is waiting for you. Zipped in your desktop (I am talking to whoever runned the command). #hastaluego'
+	xcbuild(
+		workspace: ENV["LETGO_WORKSPACE"],
+		scheme: "LetGoDEV",
+		configuration: "Debug",
+		sdk: "iphonesimulator",
+		destionation: "name=iPhone 7,OS=10.2",
+		derivedDataPath: output,
+		buildlog_path: "build.log"
+	)
+	zipped_output = "~/Desktop/automation" + timestamp + ".zip"
+	sh("zip -r #{zipped_output} #{output}") 
+	bender message: message, channels: [ENV["SLACK_IOS_CORE_CHANNEL"]]    
+end
 
-  desc "Builds LetgoGoDev for simulator to export it for automation process"
-  lane :make_automation_build do
-    timestamp = Time.now.getutc.strftime("_%m_%d_%y_%I_%M_%p")
-    output = "/tmp/xcbuild" + timestamp
-    message = 'Hey, your .app is waiting for you. Zipped in your desktop (I am talking to whoever runned the command). #hastaluego'
-    xcbuild(
-      workspace: ENV["LETGO_WORKSPACE"],
-      scheme: "LetGoDEV",
-      configuration: "Debug",
-      sdk: "iphonesimulator",
-      destionation: "name=iPhone 7,OS=10.2",
-      derivedDataPath: output,
-      buildlog_path: "build.log"
-    )
+after_all do |lane|
+	notification(
+		title: "Fastlane '#{lane}'",
+		message: "finished successfully"
+	)
+end
 
-    zipped_output = "~/Desktop/automation" + timestamp + ".zip"
-    sh("zip -r #{zipped_output} #{output}") 
-    bender message: message, channels: [ENV["SLACK_IOS_CORE_CHANNEL"]]    
-  end
+error do |lane, exception|
+	notification(
+		title: "Fastlane '#{lane}'",
+		message: "Failed: #{exception.message}"
+	)
+	UI.error "exception: #{exception.message}"
+end
 
-  after_all do |lane|
-    notification(
-      title: "Fastlane '#{lane}'",
-      message: "finished successfully"
-    )
-  end
+# Better lanes, better future.
+# We code because we care.
+	
+	desc "Upload build to appstore"
+	lane :upload_appstore do |options|
+		ipa_path = options[:beta_path]
+		version_number = options[:version_number]  
+		build_number = options[:build_number]
 
-  error do |lane, exception|
-    notification(
-      title: "Fastlane '#{lane}'",
-      message: "Failed: #{exception.message}"
-    )
-    UI.error "exception: #{exception.message}"
-  end
+		deliver(
+			username: "ios-automation@letgo.com",
+			app: "986339882",
+			skip_screenshots: true,
+			skip_metadata: true,
+			force: true,  # Set to true to skip PDF verification
+			submit_for_review: true,
+			automatic_release: false,
+			submission_information: {
+				export_compliance_encryption_updated: false,
+				add_id_info_uses_idfa: true,
+				add_id_info_serves_ads: false,
+				add_id_info_tracks_install: true,
+				add_id_info_tracks_action: true
+			}
+		)
+	end
+		
+	desc "Upload beta build to crashlytics"
+	lane :upload_crashlytics do |options|
+		ipa_path = options[:beta_path]
+		version_number = options[:version_number]
+		build_number = options[:build_number]
+		
+		changelog = "Beta #{version_number}-#{build_number}"
+		crashlytics(
+			api_token: 'da82303e33e3a2dc304cdccaa4e19dba00334a34',
+			build_secret: '964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe',
+			ipa_path: ipa_path,
+			notes: "#{changelog}",
+			groups: "letgo-testers",
+			changelog: changelog
+    	)
+	end
+	
+# Here there are our 3 ways of building staff (simulator, beta, appstore)
+	build_output = "/tmp/letgo/"
+	destination = "name=iPhone X"
+
+	desc "Does a beta build"
+	lane :build_beta do |options|
+		workspace = options[:workspace] ||= ENV["LETGO_WORKSPACE"]
+		scheme = options[:scheme] ||= "LetGoPROD" 
+
+		timestamp = Time.now.getutc.strftime("_%m_%d_%y_%I_%M_%p")
+		output = build_output + "/beta/#{timestamp}"
+
+		gym(
+			workspace: workspace,
+			output_directory: output,
+			configuration: "Adhoc",
+			scheme: scheme,
+			silent: false,
+			clean: true,
+			export_xcargs: "-allowProvisioningUpdates",
+			export_method: "ad-hoc"
+		)
+		ENV['LAST_BETA_BUILD'] = output 	
+	end
+
+	desc "Does an appstore build"
+	lane :build_appstore do |options|
+		workspace = options[:workspace] ||= ENV["LETGO_WORKSPACE"] 
+		output = build_output + "/store/#{timestamp}"
+		gym(
+			workspace: workspace,
+			output_directory: output,
+			scheme: ENV["LETGO_APPSTORE_SCHEME"],
+			configuration: "Release",
+			export_xcargs: "-allowProvisioningUpdates",
+			include_bitcode: true
+		)	
+		ENV['LAST_APPSTORE_BUILD'] = output  
+	end 
+
+	desc "Does a simulator build"
+	lane :build_sim do |options|
+		workspace = options[:workspace] ||= ENV["LETGO_WORKSPACE"]
+		scheme = options[:scheme] ||= "LetGoPROD"
+	
+		timestamp = Time.now.getutc.strftime("_%m_%d_%y_%I_%M_%p")
+	 	output = build_output + "simulator/#{timestamp}"
+		gym(
+			workspace: workspace,
+			scheme: scheme,
+			configuration: "Debug",
+			sdk: "iphonesimulator",
+			derivedDataPath: output
+		)
+		ENV['LAST_SIM_BUILD'] = output
+	end
 end

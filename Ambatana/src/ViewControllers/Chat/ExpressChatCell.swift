@@ -1,12 +1,5 @@
-//
-//  ExpressChatCell.swift
-//  LetGo
-//
-//  Created by Dídac on 09/08/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 class ExpressChatCell: UICollectionViewCell {
 
@@ -25,7 +18,7 @@ class ExpressChatCell: UICollectionViewCell {
 
     override var isSelected: Bool {
         didSet {
-            selectedImageView.image = isSelected ? UIImage(named: "checkbox_selected_round") : nil
+            selectedImageView.image = isSelected ? R.Asset.IconsButtons.checkboxSelectedRound.image : nil
             selectedImageView.layer.borderWidth = isSelected ? 0 : 2
         }
     }
@@ -37,7 +30,7 @@ class ExpressChatCell: UICollectionViewCell {
         titleLabel.text = title
 
         cornerRadius = LGUIKitConstants.smallCornerRadius
-        productImageView.image = UIImage(named: "product_placeholder")
+        productImageView.image = R.Asset.IconsButtons.productPlaceholder.image
         if let imageURL = imageUrl {
             productImageView.lg_setImageWithURL(imageURL) { [weak self] (result, _ ) in
                 if let image = result.value?.image {

@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LGAlertViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
                 <outlet property="alertContainerCenterYConstraint" destination="by7-qC-BDA" id="cNX-Ki-lOS"/>
+                <outlet property="alertContainerWidthConstraint" destination="dvf-28-ISV" id="zYt-mA-Xe0"/>
                 <outlet property="alertContentTopSeparationConstraint" destination="HD8-C0-zxf" id="cPL-rx-esG"/>
                 <outlet property="alertContentView" destination="BbW-3n-dOK" id="VFI-ka-opw"/>
                 <outlet property="alertIcon" destination="xSZ-TZ-E8g" id="rkn-ni-2Y6"/>
@@ -69,7 +70,7 @@
                                 <constraint firstItem="bRn-kI-uhG" firstAttribute="top" secondItem="3G5-xS-3su" secondAttribute="bottom" constant="25" id="woX-z2-s9S"/>
                             </constraints>
                         </view>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="LocationAlert Icon" image="ic_location_alert" translatesAutoresizingMaskIntoConstraints="NO" id="xSZ-TZ-E8g">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="LocationAlert Icon" translatesAutoresizingMaskIntoConstraints="NO" id="xSZ-TZ-E8g">
                             <rect key="frame" x="80" y="0.0" width="110" height="110"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="110" id="HWj-Cf-YhQ"/>
@@ -95,7 +96,4 @@
             </constraints>
         </view>
     </objects>
-    <resources>
-        <image name="ic_location_alert" width="110" height="110"/>
-    </resources>
 </document>

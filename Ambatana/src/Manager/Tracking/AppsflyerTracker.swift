@@ -62,10 +62,7 @@ final class AppsflyerTracker: Tracker {
         AppsFlyerTracker.shared().trackAppLaunch()
     }
 
-    func setInstallation(_ installation: Installation?) {
-        let installationId = installation?.objectId ?? ""
-        AppsFlyerTracker.shared().customerUserID = installationId
-    }
+    func setInstallation(_ installation: Installation?) { }
 
     func setUser(_ user: MyUser?) {
         guard let user = user else { return }
@@ -75,6 +72,7 @@ final class AppsflyerTracker: Tracker {
             tracker?.setUserEmails([email], with: EmailCryptTypeSHA1)
         }
         tracker?.trackEvent("af_user_status", withValues: ["ui_status": "login"])
+        AppsFlyerTracker.shared().customerUserID = user.objectId
     }
     
     func trackEvent(_ event: TrackerEvent) {

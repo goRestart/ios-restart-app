@@ -46,6 +46,7 @@ struct Constants {
     static let websiteContactUsEndpoint = "/contact_app"
     static let websitePrivacyEndpoint = "/privacy_app"
     static let websiteTermsEndpoint = "/terms_app"
+    static let websiteCommunityGuideline = "/community-guidelines"
     static func websiteListingEndpoint(_ listingId: String) -> String {
         return String(format: "/product/%@", arguments: [listingId])
     }
@@ -99,6 +100,7 @@ struct Constants {
     static let currencyDefault = "US"
     static let defaultPrice: ListingPrice = .normal(0)
     static let sizeSquareMetersUnit: String = "㎡"
+    static let maxNumberMultiPosting = 15
 
     // Camera
     static let videoMaxRecordingDuration: TimeInterval = 15
@@ -111,6 +113,13 @@ struct Constants {
         AVVideoHeightKey: 640,
         AVVideoScalingModeKey: AVVideoScalingModeResizeAspectFill
     ];
+
+    struct MachineLearning {
+        static let minimumConfidence: Double = 0.3
+        static let minimumConfidenceToRemove: Double = 0.2
+        static let maximumDaysToDisplay: Double = 30
+        static let pricePositionDisplay: Int = 2
+    }
 
     // Messages retrieving
     static let numMessagesPerPage = 40

@@ -190,13 +190,12 @@ final class UserProfileViewController: BaseViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.tableFooterView = UIView()
         tableView.allowsSelection = false
-        let cellNib = UINib(nibName: UserRatingCell.reusableID, bundle: nil)
-        tableView.register(cellNib, forCellReuseIdentifier: UserRatingCell.reusableID)
+        tableView.register(type: UserRatingCell.self)
         tableView.addSubviewForAutoLayout(emptyReviewsLabel)
     }
 
     private func setupNavBar() {
-        let backIcon = UIImage(named: "navbar_back_red")
+        let backIcon = R.Asset.IconsButtons.navbarBackRed.image
         setNavBarBackButton(backIcon)
 
         self.navigationItem.titleView = navBarUserView
@@ -213,14 +212,14 @@ final class UserProfileViewController: BaseViewController {
     func setupNavBarRightActions(isMyUser: Bool) {
         var rightButtons: [UIButton] = []
 
-        let shareIcon = UIImage(named: "navbar_share_red")?.withRenderingMode(.alwaysOriginal)
+        let shareIcon = R.Asset.IconsButtons.navbarShareRed.image.withRenderingMode(.alwaysOriginal)
         let shareButton = UIButton(type: .system)
         shareButton.setImage(shareIcon, for: .normal)
         shareButton.addTarget(self, action: #selector(didTapOnNavBarShare), for: .touchUpInside)
         rightButtons.append(shareButton)
 
         if self.viewModel.isPrivateProfile {
-            let settingsIcon = UIImage(named: "navbar_settings_red")?.withRenderingMode(.alwaysOriginal)
+            let settingsIcon = R.Asset.IconsButtons.navbarSettingsRed.image.withRenderingMode(.alwaysOriginal)
             let settingsButton = UIButton(type: .system)
             settingsButton.setImage(settingsIcon, for: .normal)
             settingsButton.addTarget(self, action: #selector(didTapOnNavBarSettings), for: .touchUpInside)
@@ -230,7 +229,7 @@ final class UserProfileViewController: BaseViewController {
         if !isMyUser
             && !viewModel.isPrivateProfile
             && viewModel.isLoggedInUser {
-            let moreIcon = UIImage(named: "navbar_more_red")?.withRenderingMode(.alwaysOriginal)
+            let moreIcon = R.Asset.IconsButtons.navbarMoreRed.image.withRenderingMode(.alwaysOriginal)
             let moreButton = UIButton(type: .system)
             moreButton.setImage(moreIcon, for: .normal)
             moreButton.addTarget(self, action: #selector(didTapOnNavBarMore), for: .touchUpInside)
@@ -487,9 +486,7 @@ extension UserProfileViewController: UITableViewDelegate, UITableViewDataSource 
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: UserRatingCell.reusableID,
-                                                       for: indexPath) as? UserRatingCell else
-        { return UITableViewCell() }
+        guard let cell = tableView.dequeue(type: UserRatingCell.self, for: indexPath) else { return UITableViewCell() }
 
         guard let data = viewModel.ratingListViewModel.dataForCellAtIndexPath(indexPath) else { return UITableViewCell() }
         cell.setupRatingCellWithData(data, indexPath: indexPath)

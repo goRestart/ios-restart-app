@@ -3,7 +3,7 @@ import RxSwift
 import UIKit
 import LGComponents
 
-class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UITextViewDelegate, GIDSignInUIDelegate {
+final class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UITextViewDelegate, GIDSignInUIDelegate {
     
     private static let loginSegmentedControlTopMargin: CGFloat = 16
     
@@ -14,17 +14,19 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
     @IBOutlet weak var loginSegmentedControlTopConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var scrollView: UIScrollView!
-
+    
     @IBOutlet weak var textFieldsView: UIView!
-
+    
+    @IBOutlet weak var logoFacebook: UIImageView!
     @IBOutlet weak var connectFBButton: LetgoButton!
+    @IBOutlet weak var logoGoogle: UIImageView!
     @IBOutlet weak var connectGoogleButton: LetgoButton!
     
     @IBOutlet var dividerViews: [UIView]!
     @IBOutlet weak var orLabel: UILabel!
     @IBOutlet weak var orLabelTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var orLabelBottomConstraint: NSLayoutConstraint!
-
+    
     @IBOutlet weak var usernameIconImageView: UIImageView!
     @IBOutlet weak var usernameTextField: LGTextField!
     @IBOutlet weak var usernameButton: LetgoButton!
@@ -37,7 +39,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
     @IBOutlet weak var passwordTextField: LGTextField!
     @IBOutlet weak var passwordButton: LetgoButton!
     @IBOutlet weak var showPasswordButton: UIButton!
-
+    
     @IBOutlet weak var forgotPasswordButton: UIButton!
     
     @IBOutlet weak var termsConditionsContainer: UIView!
@@ -46,16 +48,16 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
     @IBOutlet weak var termsConditionsSwitch: UISwitch!
     @IBOutlet weak var newsletterLabel: UILabel!
     @IBOutlet weak var newsletterSwitch: UISwitch!
-
+    
     @IBOutlet weak var sendButton: LetgoButton!
     
     fileprivate var helpButton: UIBarButtonItem!
-
+    
     private let disposeBag: DisposeBag
-
+    
     
     // Constants & enum
-
+    
     private static let termsConditionsShownHeight: CGFloat = 118
     
     enum TextFieldTag: Int {
@@ -72,7 +74,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
     let keyboardFocus: Bool
     
     var lines: [CALayer]
-
+    
     
     // MARK: - Lifecycle
     
@@ -82,7 +84,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         self.keyboardFocus = keyboardFocus
         self.lines = []
         self.disposeBag = DisposeBag()
-
+        
         let statusBarStyle: UIStatusBarStyle
         let navBarBackgroundStyle: NavBarBackgroundStyle
         switch appearance {
@@ -109,7 +111,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         setupRx()
         setAccessibilityIds()
     }
-
+    
     override func viewWillFirstAppear(_ animated: Bool) {
         super.viewWillFirstAppear(animated)
         if keyboardFocus {
@@ -122,10 +124,10 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
             setupKenBurns()
         }
     }
-
+    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-
+        
         let textFieldLineColor: UIColor
         let dividerColor: UIColor
         switch appearance {
@@ -136,12 +138,12 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
             textFieldLineColor = UIColor.white
             dividerColor = UIColor.lgBlack
         }
-
+        
         // Redraw the lines
         lines.forEach { $0.removeFromSuperlayer() }
         lines = []
         dividerViews.forEach { lines.append($0.addBottomBorderWithWidth(1, color: dividerColor)) }
-
+        
         if viewModel.currentActionType == .signup {
             lines.append(passwordButton.addTopBorderWithWidth(1, color: textFieldLineColor))
             lines.append(usernameButton.addTopBorderWithWidth(1, color: textFieldLineColor))
@@ -151,7 +153,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
             lines.append(emailButton.addTopBorderWithWidth(1, color: textFieldLineColor))
             lines.append(emailButton.addBottomBorderWithWidth(1, color: textFieldLineColor))
         }
-
+        
         // Redraw masked rounded corners
         emailButton.setRoundedCorners([.topLeft, .topRight],
                                       cornerRadius: LGUIKitConstants.mediumCornerRadius)
@@ -165,10 +167,10 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         usernameButton.setRoundedCorners([.bottomLeft, .bottomRight],
                                          cornerRadius: LGUIKitConstants.mediumCornerRadius)
     }
-
-
+    
+    
     // MARK: - Actions & public methods
-
+    
     @IBAction func loginSegmentedControlChangedValue(_ sender: AnyObject) {
         guard let segment = sender as? UISegmentedControl else {
             return
@@ -184,7 +186,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         viewModel.currentActionType = LoginActionType(rawValue: segment.selectedSegmentIndex) ?? .login
         
         scrollView.setContentOffset(CGPoint(x: 0,y: 0), animated: false)
-
+        
         updateUI()
     }
     
@@ -228,16 +230,16 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
     
     @IBAction func showPasswordButtonPressed(_ sender: AnyObject) {
         passwordTextField.isSecureTextEntry = !passwordTextField.isSecureTextEntry
-
+        
         let imgButton = passwordTextField.isSecureTextEntry ?
-            UIImage(named: "ic_show_password_inactive") : UIImage(named: "ic_show_password")
+            R.Asset.IconsButtons.icShowPasswordInactive.image : R.Asset.IconsButtons.icShowPassword.image
         showPasswordButton.setImage(imgButton, for: .normal)
-
+        
         // workaround to avoid weird font type
         passwordTextField.font = UIFont(name: "systemFont", size: 17)
         passwordTextField.attributedPlaceholder = NSAttributedString(string: R.Strings.signUpPasswordFieldHint,
-            attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 17) ])
-       
+                                                                     attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 17) ])
+        
     }
     
     @IBAction func usernameButtonPressed(_ sender: AnyObject) {
@@ -247,22 +249,22 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
     @IBAction func forgotPasswordButtonPressed(_ sender: AnyObject) {
         viewModel.openRememberPassword()
     }
-
+    
     @objc func closeButtonPressed() {
         viewModel.cancel()
     }
-
+    
     @objc func helpButtonPressed() {
         viewModel.openHelp()
     }
-
-
+    
+    
     // MARK: - UITextFieldDelegate
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         scrollView.setContentOffset(CGPoint(x: 0,y: textFieldsView.frame.origin.y+emailTextField.frame.origin.y),
-                                        animated: true)
-
+                                    animated: true)
+        
         guard let tag = TextFieldTag(rawValue: textField.tag) else { return }
         
         let iconImageView: UIImageView
@@ -330,7 +332,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         let newLength = text.count + string.count - range.length
         let removing = text.count > newLength
         if textField === usernameTextField && !removing && newLength > Constants.maxUserNameLength { return false }
-
+        
         let updatedText = (text as NSString).replacingCharacters(in: range, with: string)
         updateViewModelText(updatedText, fromTextFieldTag: textField.tag)
         return true
@@ -338,15 +340,15 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
     
     
     // MARK: - UITextViewDelegate
-
+    
     func textView(_ textView: UITextView, shouldInteractWith url: URL, in characterRange: NSRange) -> Bool {
         viewModel.open(url: url)
         return false
     }
-
-
+    
+    
     // MARK: Private Methods
-
+    
     private func setupCommonUI() {
         view.backgroundColor = UIColor.white
         
@@ -356,51 +358,51 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         loginSegmentedControl.cornerRadius = 15
         loginSegmentedControl.layer.borderWidth = 1
         loginSegmentedControl.layer.masksToBounds = true
-
+        
         newsletterLabel.text = R.Strings.signUpNewsleter
         newsletterLabel.textColor = UIColor.grayText
         orLabel.text = R.Strings.mainSignUpOrLabel
         orLabel.font = UIFont.smallBodyFont
         forgotPasswordButton.setTitle(R.Strings.logInResetPasswordButton, for: .normal)
-
+        
         emailTextField.clearButtonOffset = 0
         emailTextField.pixelCorrection = -1
         emailTextField.text = viewModel.email.value
         passwordTextField.clearButtonOffset = 0
         usernameTextField.clearButtonOffset = 0
-
+        
         termsConditionsText.attributedText = viewModel.attributedLegalText(UIColor.grayText)
         termsConditionsText.delegate = self
-
+        
         // tags
         emailTextField.tag = TextFieldTag.email.rawValue
         passwordTextField.tag = TextFieldTag.password.rawValue
         usernameTextField.tag = TextFieldTag.username.rawValue
-
+        
         // common appearance
         connectFBButton.setStyle(.facebook)
         connectGoogleButton.setStyle(.google)
-
+        
         sendButton.setStyle(.primary(fontSize: .medium))
         sendButton.isEnabled = false
-
-        showPasswordButton.setImage(UIImage(named: "ic_show_password_inactive"), for: .normal)
-
+        
+        showPasswordButton.setImage(R.Asset.IconsButtons.icShowPasswordInactive.image, for: .normal)
+        
         if isRootViewController() {
-            let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .plain, target: self,
-                action: #selector(SignUpLogInViewController.closeButtonPressed))
+            let closeButton = UIBarButtonItem(image: R.Asset.IconsButtons.navbarClose.image, style: .plain, target: self,
+                                              action: #selector(SignUpLogInViewController.closeButtonPressed))
             navigationItem.leftBarButtonItem = closeButton
         }
-
+        
         helpButton = UIBarButtonItem(title: R.Strings.mainSignUpHelpButton, style: .plain, target: self,
-            action: #selector(SignUpLogInViewController.helpButtonPressed))
+                                     action: #selector(SignUpLogInViewController.helpButtonPressed))
         navigationItem.rightBarButtonItem = helpButton
     }
-
+    
     private func setupUI() {
         setupCommonUI()
         updateUI()
-
+        
         switch appearance {
         case .light:
             setupLightAppearance()
@@ -408,23 +410,37 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
             setupDarkAppearance()
         }
         emailTextField.completionColor = appearance.textFieldPlaceholderColor
-
+        
         if DeviceFamily.current == .iPhone4 {
             adaptConstraintsToiPhone4()
         }
         
         loginSegmentedControlTopConstraint.constant = navigationBarHeight + statusBarHeight +
             SignUpLogInViewController.loginSegmentedControlTopMargin
-
+        
         // action type
         loginSegmentedControl.selectedSegmentIndex = viewModel.currentActionType.rawValue
-
+        
         textFieldsView.clipsToBounds = true
         emailButton.isHidden = false
         emailIconImageView.isHidden = false
         emailTextField.isHidden = false
+        
+        setupRAssets()
     }
-
+    
+    private func setupRAssets() {
+        logoFacebook.image = R.Asset.IconsButtons.icFacebookRounded.image
+        logoGoogle.image = R.Asset.IconsButtons.icGoogleRounded.image
+        emailIconImageView.image = R.Asset.IconsButtons.icEmail.image
+        emailIconImageView.highlightedImage =  R.Asset.IconsButtons.icEmailActive.image
+        passwordIconImageView.image = R.Asset.IconsButtons.icPassword.image
+        passwordIconImageView.highlightedImage = R.Asset.IconsButtons.icPasswordActive.image
+        usernameIconImageView.image = R.Asset.IconsButtons.icName.image
+        usernameIconImageView.highlightedImage = R.Asset.IconsButtons.icNameActive.image
+        showPasswordButton.setImage(R.Asset.IconsButtons.icShowPassword.image, for: .normal)
+    }
+    
     private func setupRx() {
         // Facebook button title
         viewModel.previousFacebookUsername.asObservable()
@@ -436,7 +452,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
                 }
             }.bind(to: connectFBButton.rx.title(for: .normal))
             .disposed(by: disposeBag)
-
+        
         // Google button title
         viewModel.previousGoogleUsername.asObservable()
             .map { username in
@@ -447,11 +463,11 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
                 }
             }.bind(to: connectGoogleButton.rx.title(for: .normal))
             .disposed(by: disposeBag)
-
+        
         // Autosuggest
         viewModel.suggestedEmail.subscribeNext { [weak self] suggestion in
             self?.emailTextField.suggestion = suggestion
-        }.disposed(by: disposeBag)
+            }.disposed(by: disposeBag)
         
         // Send button enable
         viewModel.sendButtonEnabled.bind(to: sendButton.rx.isEnabled).disposed(by: disposeBag)
@@ -460,9 +476,9 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         viewModel.password.asObservable().map { password -> Bool in
             guard let password = password else { return true }
             return password.isEmpty
-        }.bind(to: showPasswordButton.rx.isHidden).disposed(by: disposeBag)
+            }.bind(to: showPasswordButton.rx.isHidden).disposed(by: disposeBag)
     }
-
+    
     private func updateUI() {
         let isSignup = viewModel.currentActionType == .signup
         if isSignup {
@@ -470,95 +486,100 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         } else {
             setupLoginUI()
         }
-
+        
         let sendButtonTitle = isSignup ? R.Strings.signUpSendButton : R.Strings.logInSendButton
         sendButton.setTitle(sendButtonTitle, for: .normal)
-
+        
         let navBarTitle = isSignup ? R.Strings.signUpTitle : R.Strings.logInTitle
         setNavBarTitle(navBarTitle)
     }
-
+    
     private func setupLightAppearance() {
         darkAppereanceBgView.isHidden = true
-
+        
         loginSegmentedControl.tintColor = UIColor.primaryColor
         loginSegmentedControl.backgroundColor = UIColor.white
         loginSegmentedControl.layer.borderColor = UIColor.primaryColor.cgColor
-
+        
         let textfieldTextColor = UIColor.blackText
         var textfieldPlaceholderAttrs = [NSAttributedStringKey: Any]()
         textfieldPlaceholderAttrs[NSAttributedStringKey.font] = UIFont.systemFont(ofSize: 17)
         textfieldPlaceholderAttrs[NSAttributedStringKey.foregroundColor] = UIColor.blackTextHighAlpha
-
+        
         orLabel.textColor = UIColor.darkGrayText
         lines.forEach { $0.backgroundColor = UIColor.darkGrayText.cgColor }
-
+        
         emailButton.setStyle(.lightField)
-        emailIconImageView.image = UIImage(named: "ic_email")
-        emailIconImageView.highlightedImage = UIImage(named: "ic_email_active")
+        emailIconImageView.image = R.Asset.IconsButtons.icEmail.image
+        emailIconImageView.highlightedImage = R.Asset.IconsButtons.icEmailActive.image
         emailTextField.textColor = textfieldTextColor
         emailTextField.attributedPlaceholder = NSAttributedString(string: R.Strings.signUpEmailFieldHint,
                                                                   attributes: textfieldPlaceholderAttrs)
         passwordButton.setStyle(.lightField)
-        passwordIconImageView.image = UIImage(named: "ic_password")
-        passwordIconImageView.highlightedImage = UIImage(named: "ic_password_active")
+        passwordIconImageView.image = R.Asset.IconsButtons.icPassword.image
+        passwordIconImageView.highlightedImage = R.Asset.IconsButtons.icPasswordActive.image
         passwordTextField.textColor = textfieldTextColor
         passwordTextField.attributedPlaceholder = NSAttributedString(string: R.Strings.signUpPasswordFieldHint,
                                                                      attributes: textfieldPlaceholderAttrs)
         usernameButton.setStyle(.lightField)
-        usernameIconImageView.image = UIImage(named: "ic_name")
-        usernameIconImageView.highlightedImage = UIImage(named: "ic_name_active")
+        usernameIconImageView.image = R.Asset.IconsButtons.icName.image
+        usernameIconImageView.highlightedImage = R.Asset.IconsButtons.icNameActive.image
         usernameTextField.textColor = textfieldTextColor
         usernameTextField.attributedPlaceholder = NSAttributedString(string: R.Strings.signUpUsernameFieldHint,
                                                                      attributes: textfieldPlaceholderAttrs)
         termsConditionsText.tintColor = UIColor.primaryColor
-
+        
         forgotPasswordButton.setTitleColor(UIColor.darkGrayText, for: .normal)
     }
-
+    
     private func setupDarkAppearance() {
         darkAppereanceBgView.isHidden = false
-
+        
         loginSegmentedControl.tintColor = UIColor.white
         loginSegmentedControl.backgroundColor = .clear
         loginSegmentedControl.layer.borderColor = UIColor.white.cgColor
-
+        
         let textfieldTextColor = UIColor.whiteText
         var textfieldPlaceholderAttrs = [NSAttributedStringKey: Any]()
         textfieldPlaceholderAttrs[NSAttributedStringKey.font] = UIFont.systemFont(ofSize: 17)
         textfieldPlaceholderAttrs[NSAttributedStringKey.foregroundColor] = UIColor.whiteTextHighAlpha
-
+        
         orLabel.textColor = UIColor.white
         lines.forEach { $0.backgroundColor = UIColor.white.cgColor }
-
+        
         emailButton.setStyle(.darkField)
-        emailIconImageView.image = UIImage(named: "ic_email_dark")
-        emailIconImageView.highlightedImage = UIImage(named: "ic_email_active_dark")
+        emailIconImageView.image = R.Asset.IconsButtons.icEmailDark.image
+        emailIconImageView.highlightedImage = R.Asset.IconsButtons.icEmailActiveDark.image
         emailTextField.textColor = textfieldTextColor
         emailTextField.attributedPlaceholder = NSAttributedString(string: R.Strings.signUpEmailFieldHint,
                                                                   attributes: textfieldPlaceholderAttrs)
         passwordButton.setStyle(.darkField)
-        passwordIconImageView.image = UIImage(named: "ic_password_dark")
-        passwordIconImageView.highlightedImage = UIImage(named: "ic_password_active_dark")
+        passwordIconImageView.image = R.Asset.IconsButtons.icPasswordDark.image
+        passwordIconImageView.highlightedImage = R.Asset.IconsButtons.icPasswordActiveDark.image
         passwordTextField.textColor = textfieldTextColor
         passwordTextField.attributedPlaceholder = NSAttributedString(string: R.Strings.signUpPasswordFieldHint,
                                                                      attributes: textfieldPlaceholderAttrs)
         usernameButton.setStyle(.darkField)
-        usernameIconImageView.image = UIImage(named: "ic_name_dark")
-        usernameIconImageView.highlightedImage = UIImage(named: "ic_name_active_dark")
+        usernameIconImageView.image = R.Asset.IconsButtons.icNameDark.image
+        usernameIconImageView.highlightedImage = R.Asset.IconsButtons.icNameActiveDark.image
         usernameTextField.textColor = textfieldTextColor
         usernameTextField.attributedPlaceholder = NSAttributedString(string: R.Strings.signUpUsernameFieldHint,
                                                                      attributes: textfieldPlaceholderAttrs)
         termsConditionsText.tintColor = UIColor.white
-
+        
         forgotPasswordButton.setTitleColor(UIColor.white, for: .normal)
     }
-
+    
     func setupKenBurns() {
         view.layoutIfNeeded()
-        kenBurnsView.startAnimation(with: [#imageLiteral(resourceName: "bg_1_new"), #imageLiteral(resourceName: "bg_2_new"), #imageLiteral(resourceName: "bg_3_new"), #imageLiteral(resourceName: "bg_4_new")])
+        kenBurnsView.startAnimation(with: [
+            R.Asset.BackgroundsAndImages.bg1New.image,
+            R.Asset.BackgroundsAndImages.bg2New.image,
+            R.Asset.BackgroundsAndImages.bg3New.image,
+            R.Asset.BackgroundsAndImages.bg4New.image
+            ])
     }
-
+    
     private func setupSignupUI() {
         passwordButton.setRoundedCorners([], cornerRadius: 0)
         passwordTextField.returnKeyType = .next
@@ -568,14 +589,14 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         usernameIconImageView.isHidden = false
         usernameTextField.isHidden = false
         forgotPasswordButton.isHidden = true
-
+        
         termsConditionsContainerHeight.constant = viewModel.termsAndConditionsEnabled ?
             SignUpLogInViewController.termsConditionsShownHeight : 0
         termsConditionsContainer.isHidden = !viewModel.termsAndConditionsEnabled
-
+        
         sendButton.isHidden = false
     }
-
+    
     private func setupLoginUI() {
         passwordButton.setRoundedCorners([.bottomLeft, .bottomRight],
                                          cornerRadius: LGUIKitConstants.mediumCornerRadius)
@@ -584,13 +605,13 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         usernameIconImageView.isHidden = true
         usernameTextField.isHidden = true
         forgotPasswordButton.isHidden = false
-
+        
         termsConditionsContainerHeight.constant = 0
         termsConditionsContainer.isHidden = true
-
+        
         sendButton.isHidden = false
     }
-
+    
     private func adaptConstraintsToiPhone4() {
         orLabelTopConstraint.constant = 20
         orLabelBottomConstraint.constant = 20
@@ -599,7 +620,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
     private func updateViewModelText(_ text: String, fromTextFieldTag tag: Int) {
         
         guard let tag = TextFieldTag(rawValue: tag) else { return }
-
+        
         switch (tag) {
         case .username:
             viewModel.username.value = text

@@ -210,7 +210,7 @@ final class ChatViewController: TextViewController {
         listingView.layoutIfNeeded()
 
         setNavBarTitleStyle(.custom(listingView))
-        setLetGoRightButtonWith(imageName: "ic_more_options", selector: "optionsBtnPressed")
+        setLetGoRightButtonWith(image: R.Asset.IconsButtons.icMoreOptions.image, selector: "optionsBtnPressed")
     }
     
     private func addSubviews() {
@@ -294,7 +294,7 @@ final class ChatViewController: TextViewController {
                               action: { [weak self] in
                                 self?.viewModel.professionalSellerBannerActionButtonTapped()
             })
-            buttonIcon = #imageLiteral(resourceName: "ic_phone_call")
+            buttonIcon = R.Asset.Monetization.icPhoneCall.image
         }
 
         professionalSellerBanner.setupChatBannerWith(R.Strings.chatProfessionalBannerTitle,
@@ -379,11 +379,11 @@ extension ChatViewController: UIGestureRecognizerDelegate {
         var actions = [UIAction]()
         var image: UIImage
         if showingStickers {
-            image = #imageLiteral(resourceName: "ic_keyboard")
+            image = R.Asset.IconsButtons.icKeyboard.image
         } else if viewModel.showStickerBadge.value {
-            image = #imageLiteral(resourceName: "icStickersWithBadge")
+            image = R.Asset.IconsButtons.icStickersWithBadge.image
         } else {
-            image = #imageLiteral(resourceName: "ic_stickers")
+            image = R.Asset.IconsButtons.icStickers.image
         }
         let kbAction = UIAction(interface: .image(image, nil), action: { [weak self] in
             guard let showing = self?.showingStickers else { return }

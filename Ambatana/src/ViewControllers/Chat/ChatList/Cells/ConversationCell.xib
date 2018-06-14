@@ -25,7 +25,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="75.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="product_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="H0H-At-YMs" userLabel="thumbnailImageView">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="H0H-At-YMs" userLabel="thumbnailImageView">
                         <rect key="frame" x="16" y="11" width="60" height="60"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="60" id="VdE-Ys-sbj"/>
@@ -73,7 +73,7 @@
                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="18" id="rDy-eg-frM"/>
                         </constraints>
                     </view>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_dollar_sold" translatesAutoresizingMaskIntoConstraints="NO" id="g7R-x0-teW" userLabel="statusImageView">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="g7R-x0-teW" userLabel="statusImageView">
                         <rect key="frame" x="88" y="60" width="12" height="12"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -81,7 +81,7 @@
                             <constraint firstAttribute="width" secondItem="g7R-x0-teW" secondAttribute="height" multiplier="1:1" id="WyP-bQ-fI5"/>
                         </constraints>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="2N7-hG-VMm">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2N7-hG-VMm">
                         <rect key="frame" x="266" y="11" width="38" height="38"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -131,9 +131,4 @@
             </connections>
         </tableViewCell>
     </objects>
-    <resources>
-        <image name="ic_dollar_sold" width="12" height="13"/>
-        <image name="product_placeholder" width="60" height="60"/>
-        <image name="user_placeholder" width="38" height="38"/>
-    </resources>
 </document>

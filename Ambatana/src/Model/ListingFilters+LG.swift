@@ -119,8 +119,26 @@ extension ListingFilters {
             params[.rooms] = TrackerEvent.notApply
         }
         
+        if let serviceTypeId = servicesType?.id {
+            params[.serviceType] = serviceTypeId
+            verticalFields.append(EventParameterName.serviceType.rawValue)
+        } else {
+            params[.serviceType] = TrackerEvent.notApply
+        }
+        
+        if let serviceSubtypes = servicesSubtypes?.trackingValue {
+            params[.serviceSubtype] = serviceSubtypes
+            verticalFields.append(EventParameterName.serviceSubtype.rawValue)
+        } else {
+            params[.serviceSubtype] = TrackerEvent.notApply
+        }
+        
         params[.verticalFields] = verticalFields.isEmpty ? TrackerEvent.notApply : verticalFields.joined(separator: ",")
         return params
+    }
+    
+    func searchRelatedNeeded(carSearchActive: Bool) -> Bool {
+        return isRealEstateWithFilters || isCarsWithFilters(carSearchActive:carSearchActive) || isServicesWithFilters
     }
     
     // MARK: - Private methods
@@ -133,11 +151,22 @@ extension ListingFilters {
         return priceRange.max != nil ? .trueParameter : .falseParameter
     }
     
+    private var isRealEstateWithFilters: Bool {
+        return selectedCategories.contains(.realEstate) && hasAnyRealEstateAttributes
+    }
+    
+    private func isCarsWithFilters(carSearchActive: Bool) -> Bool {
+        return selectedCategories.contains(.cars) && hasAnyCarAttributes && carSearchActive
+    }
+    
+    private var isServicesWithFilters: Bool {
+        return selectedCategories.contains(.services) && hasAnyServicesAttributes
+    }
+    
     private var categoriesTrackValue: String {
         guard !selectedCategories.isEmpty else { return String(ListingCategory.unassigned.rawValue) }
         return selectedCategories
             .map { String($0.rawValue) }
             .joined(separator: ",")
     }
-
 }

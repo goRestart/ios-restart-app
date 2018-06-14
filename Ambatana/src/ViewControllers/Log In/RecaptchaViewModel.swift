@@ -1,11 +1,3 @@
-//
-//  RecaptchaViewModel.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 19/10/2016.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 
 protocol RecaptchaNavigator: class {
@@ -13,7 +5,7 @@ protocol RecaptchaNavigator: class {
     func recaptchaFinishedWithToken(_ token: String, action: LoginActionType)
 }
 
-class RecaptchaViewModel: BaseViewModel {
+final class RecaptchaViewModel: BaseViewModel {
 
     weak var navigator: RecaptchaNavigator?
     private let action: LoginActionType
@@ -41,7 +33,7 @@ class RecaptchaViewModel: BaseViewModel {
         return LetgoURLHelper.buildRecaptchaURL()
     }
 
-    func closeButtonPressed() {
+    @objc func closeButtonPressed() {
         navigator?.recaptchaClose()
     }
 

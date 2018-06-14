@@ -35,6 +35,33 @@ enum PostCategory: Equatable {
             return 0
         }
     }
+    
+    var isService: Bool {
+        switch self {
+        case .services: return true
+        default: return false
+        }
+    }
+    
+    var hasAddingDetailsScreen: Bool {
+        switch self {
+        case .services, .realEstate:
+            return true
+        default:
+            return false
+        }
+    }
+    
+    var postCameraTitle: String? {
+        switch self {
+        case .services:
+            return R.Strings.postDetailsServicesCameraMessage
+        case .realEstate:
+            return R.Strings.realEstateCameraViewRealEstateMessage
+        case .otherItems, .motorsAndAccessories, .car:
+            return nil
+        }
+    }
 }
 
 extension PostCategory {

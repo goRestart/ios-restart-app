@@ -92,6 +92,7 @@ public struct RetrieveListingParams {
     public var relaxParam: RelaxParam?
     public var similarParam: SimilarParam?    
     
+    
     //  MARK: Discovery
     
     public var customFeedVariant: Int?
@@ -104,8 +105,8 @@ public struct RetrieveListingParams {
     public var modelId: RetrieveListingParam<String>?
     public var startYear: RetrieveListingParam<Int>?
     public var endYear: RetrieveListingParam<Int>?
-    public var typeId: RetrieveListingParam<String>?
-    public var subtypeId: RetrieveListingParam<String>?
+    public var typeIds: [String]?
+    public var subtypeIds: [String]?
     
     public var propertyType: String?
     public var offerType: [String]?

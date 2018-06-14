@@ -211,6 +211,8 @@ enum EventName: String {
 
     case screenshot                         = "os-screenshot"
 
+    case sessionOneMinuteFirstWeek          = "session-one-minute-first-week"
+
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
     
@@ -346,6 +348,8 @@ enum EventParameterName: String {
     case year                 = "product-year"
     case yearStart            = "product-year-start"
     case yearEnd              = "product-year-end"
+    case serviceType          = "service-type"
+    case serviceSubtype       = "service-subtype"
     case verticalKeyword            = "vertical-keyword"
     case verticalMatchingFields     = "vertical-matching-fields"
     case verticalNoMatchingFields   = "vertical-no-matching-fields"
@@ -386,6 +390,7 @@ enum EventParameterName: String {
     case sellerReputationBadge = "seller-reputation-badge"
     case isVideo              = "is-video"
     case messageGoal          = "message-goal"
+    case productCounter       = "product-counter"
     
     // Machine Learning
     case mlPredictiveFlow = "predictive-flow"
@@ -895,6 +900,7 @@ enum EventParameterTypePage: String {
     case sellStart = "product-sell-start"
     case userVerifications = "user-verifications"
     case smsVerification = "sms-verification"
+    case nextItem = "next-item"
 }
 
 enum EventParameterPermissionType: String {
@@ -1262,6 +1268,7 @@ enum EventParameterAdType: String {
     case dfp = "dfp"
     case moPub = "moPub"
     case adx = "adx"
+    case interstitial = "interstitial"
 }
 
 enum EventParameterAdQueryType: String {

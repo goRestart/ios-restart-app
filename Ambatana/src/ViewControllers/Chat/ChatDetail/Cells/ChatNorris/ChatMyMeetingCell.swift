@@ -71,7 +71,7 @@ extension ChatMyMeetingCell {
         case .pending:
             statusLabel.text = R.Strings.chatMeetingCellStatusPending
             statusLabel.textColor = UIColor.grayText
-            statusIcon.image = #imageLiteral(resourceName: "ic_time")
+            statusIcon.image = R.Asset.ChatNorris.icTime.image
         case .accepted:
             statusLabel.text = R.Strings.chatMeetingCellStatusAccepted
             statusLabel.textColor = UIColor.asparagus
@@ -98,14 +98,20 @@ private extension ChatMyMeetingCell {
         titleLabel.textColor = UIColor.grayText
 
         locationButton.addTarget(self, action: #selector(locationTapped), for: .touchUpInside)
-        locationView.image = #imageLiteral(resourceName: "meeting_map_placeholder")
+        locationView.image = R.Asset.ChatNorris.meetingMapPlaceholder.image
         locationView.contentMode = .scaleAspectFill
         locationView.cornerRadius = LGUIKitConstants.mediumCornerRadius
+
+        setupRAssets()
+    }
+
+    private func setupRAssets() {
+        checkImageView.image = R.Asset.IconsButtons.icCheckSent.image
     }
 
     func resetUI() {
         titleLabel.text = R.Strings.chatMeetingCellTitle
-        locationView.image = #imageLiteral(resourceName: "meeting_map_placeholder")
+        locationView.image = R.Asset.ChatNorris.meetingMapPlaceholder.image
     }
 
     @objc func locationTapped() {

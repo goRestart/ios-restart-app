@@ -371,6 +371,7 @@ private class MockListingDeckViewControllerBinderType: ListingDeckViewController
     var isDidTapCardActionCalled: Int = 0
     var isUpdateViewWithAlphaCalled: Int = 0
     var isDidMoveToItemAtIndex: Int = 0
+    var isPresentInterstitialAtIndex: Int = 0
 
     func resetVariables() {
         isUpdateViewWithActionsCalled = 0
@@ -381,6 +382,7 @@ private class MockListingDeckViewControllerBinderType: ListingDeckViewController
         isUpdateViewWithAlphaCalled = 0
         isDidTapUserIconCalled = 0
         isDidMoveToItemAtIndex = 0
+        isPresentInterstitialAtIndex = 0
     }
 
     func updateViewWithActions(_ actions: [UIAction]) {
@@ -401,4 +403,8 @@ private class MockListingDeckViewControllerBinderType: ListingDeckViewController
     func didTapCardAction() {
         isDidTapCardActionCalled += 1
     }
+    func presentInterstitialAtIndex(_ index: Int) {
+        isPresentInterstitialAtIndex += 1
+    }
+
 }

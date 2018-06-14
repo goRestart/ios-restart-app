@@ -28,7 +28,7 @@ enum BumpUpType: Equatable {
     var bannerIcon: UIImage? {
         switch self {
         case .free, .priced, .hidden, .boost:
-            return UIImage(named: "gray_chevron_up")
+            return R.Asset.Monetization.grayChevronUp.image
         case .restore:
             return nil
         }
@@ -37,9 +37,9 @@ enum BumpUpType: Equatable {
     var bannerTextIcon: UIImage? {
         switch self {
         case .free, .priced, .hidden:
-            return #imageLiteral(resourceName: "ic_lightning")
+            return R.Asset.Monetization.icLightning.image
         case .boost:
-            return #imageLiteral(resourceName: "ic_extra_boost")
+            return R.Asset.Monetization.icExtraBoost.image
         case .restore:
             return nil
         }
@@ -324,7 +324,7 @@ class BumpUpBanner: UIView {
                 } else {
                     strongSelf.readyToBump = false
                     strongSelf.textIconImageView.image = nil
-                    strongSelf.leftIconImageView.image = UIImage(named: "clock")
+                    strongSelf.leftIconImageView.image = R.Asset.Monetization.clock.image
                     localizedText = R.Strings.bumpUpBannerWaitText
                     strongSelf.bumpButton.isEnabled = false
 
@@ -358,7 +358,7 @@ class BumpUpBanner: UIView {
         descriptionLabel.textAlignment = .center
         descriptionLabel.font = BumpUpBanner.bannerDefaultFont
         
-        leftIconImageView.image = UIImage(named: "red_chevron_up")
+        leftIconImageView.image = R.Asset.Monetization.redChevronUp.image
         leftIconImageView.contentMode = .scaleAspectFit
 
         textIconImageView.image = nil

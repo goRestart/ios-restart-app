@@ -4,12 +4,13 @@ import LGComponents
 public enum VerticalAttributes {
     case carInfo(CarAttributes)
     case realEstateInfo(RealEstateAttributes)
+    case serviceInfo(ServiceAttributes)
  
     var carAttributes: CarAttributes? {
         switch self {
         case .carInfo(let attributes):
             return attributes
-        case .realEstateInfo:
+        case .realEstateInfo, .serviceInfo:
             return nil
         }
     }
@@ -18,7 +19,16 @@ public enum VerticalAttributes {
         switch self {
         case .realEstateInfo(let attributes):
             return attributes
-        case .carInfo:
+        case .carInfo, .serviceInfo:
+            return nil
+        }
+    }
+    
+    var serviceAttributes: ServiceAttributes? {
+        switch self {
+        case .serviceInfo(let attributes):
+            return attributes
+        case .carInfo, .realEstateInfo:
             return nil
         }
     }
@@ -29,6 +39,8 @@ public enum VerticalAttributes {
             return carAttributes.generatedTitle
         case .realEstateInfo(let attributes):
             return attributes.generateTitle(postingFlowType: postingFlowType)
+        case .serviceInfo(let attributes):
+            return ""
         }
     }
 }
@@ -46,16 +58,28 @@ class PostListingState {
     let verticalAttributes: VerticalAttributes?
     let place: Place?
     let title: String?
-    
+    let predictionData: MLPredictionDetailsViewData?
+
     var isRealEstate: Bool {
         guard let category = category, category == .realEstate else { return false }
         return true
+    }
+    var isService: Bool {
+        return category?.isService ?? false
     }
     
     var sizeSquareMeters: Int? {
         return verticalAttributes?.realEstateAttributes?.sizeSquareMeters
     }
+
+    var pendingToUploadMedia: Bool {
+        let pendingImages = pendingToUploadImages?.count ?? 0
+        return pendingImages > 0 || pendingToUploadVideo != nil
+    }
     
+    var serviceAttributes: ServiceAttributes {
+        return verticalAttributes?.serviceAttributes ?? ServiceAttributes.emptyServicesAttributes()
+    }
     
     // MARK: - Lifecycle
     
@@ -73,7 +97,8 @@ class PostListingState {
                   price: nil,
                   verticalAttributes: nil,
                   place: nil,
-                  title: title)
+                  title: title,
+                  predictionData: nil)
     }
     
     init(step: PostListingStep,
@@ -87,7 +112,8 @@ class PostListingState {
                  price: ListingPrice?,
                  verticalAttributes: VerticalAttributes?,
                  place: Place?,
-                 title: String?) {
+                 title: String?,
+                 predictionData: MLPredictionDetailsViewData?) {
         self.step = step
         self.previousStep = previousStep
         self.category = category
@@ -100,9 +126,10 @@ class PostListingState {
         self.verticalAttributes = verticalAttributes
         self.place = place
         self.title = title
+        self.predictionData = predictionData
     }
     
-    func updating(category: PostCategory) -> PostListingState {
+    func updating(category: PostCategory, showServicesFeatures: Bool = false) -> PostListingState {
         guard step == .categorySelection else { return self }
         let newStep: PostListingStep
         switch category {
@@ -110,8 +137,10 @@ class PostListingState {
             newStep = .carDetailsSelection
         case .realEstate:
             newStep = .addingDetails
-        case .otherItems, .motorsAndAccessories, .services:
+        case .otherItems, .motorsAndAccessories:
             newStep = .finished
+        case .services:
+            newStep =  showServicesFeatures ? .addingDetails : .finished
         }
         return PostListingState(step: newStep,
                                 previousStep: step,
@@ -124,7 +153,8 @@ class PostListingState {
                                 price: price,
                                 verticalAttributes: verticalAttributes,
                                 place: place,
-                                title: title)
+                                title: title,
+                                predictionData: predictionData)
     }
     
     func removeRealEstateCategory() -> PostListingState {
@@ -140,7 +170,8 @@ class PostListingState {
                                 price: price,
                                 verticalAttributes: nil,
                                 place: place,
-                                title: nil)
+                                title: nil,
+                                predictionData: predictionData)
     }
     
     func updatingStepToUploadingImages() -> PostListingState {
@@ -161,10 +192,11 @@ class PostListingState {
                                 price: price,
                                 verticalAttributes: verticalAttributes,
                                 place: place,
-                                title: title)
+                                title: title,
+                                predictionData: predictionData)
     }
     
-    func updating(pendingToUploadImages: [UIImage]) -> PostListingState {
+    func updating(pendingToUploadImages: [UIImage], predictionData: MLPredictionDetailsViewData?) -> PostListingState {
         switch step {
         case .imageSelection:
             break
@@ -172,23 +204,33 @@ class PostListingState {
             return self
         }
         let newStep: PostListingStep
-        if let currentCategory = category, currentCategory == .realEstate {
+        if let currentCategory = category, currentCategory.hasAddingDetailsScreen {
             newStep = .addingDetails
+        } else if let predictionData = predictionData, !predictionData.isEmpty {
+            newStep = .finished
         } else {
             newStep = .detailsSelection
         }
-        return PostListingState(step: newStep,
-                                previousStep: step,
-                                category: category,
-                                pendingToUploadImages: pendingToUploadImages,
-                                pendingToUploadVideo: pendingToUploadVideo,
-                                lastImagesUploadResult: lastImagesUploadResult,
-                                uploadingVideo: uploadingVideo,
-                                uploadedVideo: uploadedVideo,
-                                price: price,
-                                verticalAttributes: verticalAttributes,
-                                place: place,
-                                title: title)
+
+        let newState = PostListingState(step: newStep,
+                                        previousStep: step,
+                                        category: category,
+                                        pendingToUploadImages: pendingToUploadImages,
+                                        pendingToUploadVideo: pendingToUploadVideo,
+                                        lastImagesUploadResult: lastImagesUploadResult,
+                                        uploadingVideo: uploadingVideo,
+                                        uploadedVideo: uploadedVideo,
+                                        price: price,
+                                        verticalAttributes: verticalAttributes,
+                                        place: place,
+                                        title: title,
+                                        predictionData: predictionData)
+
+        if let predictionData = predictionData, !predictionData.isEmpty {
+            return newState.updatingDetailsFromPredictionData()
+        } else {
+            return newState
+        }
     }
 
     func updating(pendingToUploadVideo: RecordedVideo) -> PostListingState {
@@ -199,7 +241,7 @@ class PostListingState {
             return self
         }
         let newStep: PostListingStep
-        if let currentCategory = category, currentCategory == .realEstate {
+        if let currentCategory = category, currentCategory.hasAddingDetailsScreen  {
             newStep = .addingDetails
         } else {
             newStep = .detailsSelection
@@ -215,7 +257,8 @@ class PostListingState {
                                 price: price,
                                 verticalAttributes: verticalAttributes,
                                 place: place,
-                                title: title)
+                                title: title,
+                                predictionData: predictionData)
     }
 
     func updatingStepToUploadingVideoSnapshot(uploadingVideo: VideoUpload) -> PostListingState {
@@ -236,7 +279,8 @@ class PostListingState {
                                 price: price,
                                 verticalAttributes: verticalAttributes,
                                 place: place,
-                                title: title)
+                                title: title,
+                                predictionData: predictionData)
     }
 
     func updatingStepToCreatingPreSignedUrl(uploadingVideo: VideoUpload) -> PostListingState {
@@ -257,7 +301,8 @@ class PostListingState {
                                 price: price,
                                 verticalAttributes: verticalAttributes,
                                 place: place,
-                                title: title)
+                                title: title,
+                                predictionData: predictionData)
     }
 
     func updatingStepToUploadingVideoFile(uploadingVideo: VideoUpload) -> PostListingState {
@@ -278,7 +323,8 @@ class PostListingState {
                                 price: price,
                                 verticalAttributes: verticalAttributes,
                                 place: place,
-                                title: title)
+                                title: title,
+                                predictionData: predictionData)
     }
 
     func updatingToSuccessUpload(uploadedVideo: Video) -> PostListingState {
@@ -299,19 +345,23 @@ class PostListingState {
                                 price: price,
                                 verticalAttributes: verticalAttributes,
                                 place: place,
-                                title: title)
+                                title: title,
+                                predictionData: predictionData)
     }
 
 
-    func updatingAfterUploadingSuccess() -> PostListingState {
+    func updatingAfterUploadingSuccess(predictionData: MLPredictionDetailsViewData?) -> PostListingState {
         guard step == .uploadSuccess else { return self }
         let nextStep: PostListingStep
-        if let currentCategory = category, currentCategory == .realEstate {
+        if let currentCategory = category, currentCategory.hasAddingDetailsScreen {
             nextStep = .addingDetails
+        } else if let predictionData = predictionData, !predictionData.isEmpty {
+            nextStep = .finished
         } else {
             nextStep = .detailsSelection
         }
-        return PostListingState(step: nextStep,
+
+        let newState = PostListingState(step: nextStep,
                                 previousStep: step,
                                 category: category,
                                 pendingToUploadImages: pendingToUploadImages,
@@ -322,7 +372,14 @@ class PostListingState {
                                 price: price,
                                 verticalAttributes: verticalAttributes,
                                 place: place,
-                                title: title)
+                                title: title,
+                                predictionData: predictionData)
+
+        if let predictionData = predictionData, !predictionData.isEmpty {
+            return newState.updatingDetailsFromPredictionData()
+        } else {
+            return newState
+        }
     }
     
     
@@ -339,7 +396,8 @@ class PostListingState {
                                 price: price,
                                 verticalAttributes: verticalAttributes,
                                 place: place,
-                                title: title)
+                                title: title,
+                                predictionData: predictionData)
     }
 
     
@@ -365,7 +423,8 @@ class PostListingState {
                                 price: price,
                                 verticalAttributes: verticalAttributes,
                                 place: place,
-                                title: title)
+                                title: title,
+                                predictionData: predictionData)
     }
     
     func updating(price: ListingPrice) -> PostListingState {
@@ -375,9 +434,9 @@ class PostListingState {
             switch category {
             case .car:
                 newStep = .carDetailsSelection
-            case .realEstate:
+            case .realEstate, .services:
                 newStep = .addingDetails
-            case .otherItems, .motorsAndAccessories, .services:
+            case .otherItems, .motorsAndAccessories:
                 newStep = .finished
             }
         } else {
@@ -394,9 +453,42 @@ class PostListingState {
                                 price: price,
                                 verticalAttributes: verticalAttributes,
                                 place: place,
-                                title: title)
+                                title: title,
+                                predictionData: predictionData)
     }
 
+    func updatingDetailsFromPredictionData() -> PostListingState {
+        guard let predictionData = predictionData else { return self }
+        let finalTitle: String? = predictionData.finalTitle
+        let finalPrice: Double? = predictionData.finalPrice
+        let finalCategory: ListingCategory? = predictionData.finalCategory
+
+        let finalPostCategory: PostCategory?
+        if let finalCategoryValue = finalCategory {
+            finalPostCategory = PostCategory.otherItems(listingCategory: finalCategoryValue)
+        } else {
+            finalPostCategory = nil
+        }
+        let finalListingPrice: ListingPrice?
+        if let finalPriceValue = finalPrice {
+            finalListingPrice = ListingPrice.normal(finalPriceValue)
+        } else {
+            finalListingPrice = nil
+        }
+        return PostListingState(step: step,
+                                previousStep: previousStep,
+                                category: finalPostCategory ?? category,
+                                pendingToUploadImages: pendingToUploadImages,
+                                pendingToUploadVideo: pendingToUploadVideo,
+                                lastImagesUploadResult: lastImagesUploadResult,
+                                uploadingVideo: uploadingVideo,
+                                uploadedVideo: uploadedVideo,
+                                price: finalListingPrice ?? price,
+                                verticalAttributes: verticalAttributes,
+                                place: place,
+                                title: finalTitle ?? title,
+                                predictionData: predictionData)
+    }
     
     func updating(carInfo: CarAttributes) -> PostListingState {
         guard step == .carDetailsSelection else { return self }
@@ -411,7 +503,8 @@ class PostListingState {
                                 price: price,
                                 verticalAttributes: .carInfo(carInfo),
                                 place: place,
-                                title: title)
+                                title: title,
+                                predictionData: predictionData)
     }
     
     func updating(realEstateInfo: RealEstateAttributes) -> PostListingState {
@@ -427,7 +520,25 @@ class PostListingState {
                                 price: price,
                                 verticalAttributes: .realEstateInfo(realEstateInfo),
                                 place: place,
-                                title: title)
+                                title: title,
+                                predictionData: predictionData)
+    }
+    
+    func updating(servicesInfo: ServiceAttributes, uploadedImages: [File]) -> PostListingState {
+        guard step == .addingDetails else { return self }
+        return PostListingState(step: .addingDetails,
+                                previousStep: step,
+                                category: category,
+                                pendingToUploadImages: pendingToUploadImages,
+                                pendingToUploadVideo: pendingToUploadVideo,
+                                lastImagesUploadResult: FilesResult(value: uploadedImages),
+                                uploadingVideo: uploadingVideo,
+                                uploadedVideo: uploadedVideo,
+                                price: price,
+                                verticalAttributes: .serviceInfo(servicesInfo),
+                                place: place,
+                                title: title,
+                                predictionData: predictionData)
     }
     
     func revertToPreviousStep() -> PostListingState {
@@ -443,7 +554,8 @@ class PostListingState {
                                 price: price,
                                 verticalAttributes: verticalAttributes,
                                 place: place,
-                                title: title)
+                                title: title,
+                                predictionData: predictionData)
     }
     
     func updating(place: Place) -> PostListingState {
@@ -459,7 +571,8 @@ class PostListingState {
                                 price: price,
                                 verticalAttributes: verticalAttributes,
                                 place: place,
-                                title: title)
+                                title: title,
+                                predictionData: predictionData)
     }
 }
 

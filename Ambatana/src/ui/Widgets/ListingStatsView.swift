@@ -1,12 +1,5 @@
-//
-//  ListingStatsView.swift
-//  LetGo
-//
-//  Created by Dídac on 27/05/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 class ListingStatsView: UIView {
 
@@ -15,20 +8,20 @@ class ListingStatsView: UIView {
 
         var favIcon: UIImage {
             switch self {
-            case .light: return #imageLiteral(resourceName: "ic_stats_favorite").withRenderingMode(.alwaysTemplate)
-            case .dark: return #imageLiteral(resourceName: "ic_stats_favorite")
+            case .light: return R.Asset.IconsButtons.icStatsFavorite.image.withRenderingMode(.alwaysTemplate)
+            case .dark: return R.Asset.IconsButtons.icStatsFavorite.image
             }
         }
         var statsIcon: UIImage {
             switch self {
-            case .light: return  #imageLiteral(resourceName: "ic_stats_views").withRenderingMode(.alwaysTemplate)
-            case .dark: return  #imageLiteral(resourceName: "ic_stats_views")
+            case .light: return  R.Asset.IconsButtons.icStatsViews.image.withRenderingMode(.alwaysTemplate)
+            case .dark: return  R.Asset.IconsButtons.icStatsViews.image
             }
         }
         var timeIcon: UIImage {
             switch self {
-            case .light: return  #imageLiteral(resourceName: "ic_stats_time").withRenderingMode(.alwaysTemplate)
-            case .dark: return   #imageLiteral(resourceName: "ic_stats_time")
+            case .light: return  R.Asset.IconsButtons.icStatsTime.image.withRenderingMode(.alwaysTemplate)
+            case .dark: return   R.Asset.IconsButtons.icStatsTime.image
             }
         }
 
@@ -117,6 +110,13 @@ class ListingStatsView: UIView {
         viewsStatsLabel.layer.add(CATransition(), forKey: kCATransition)
 
         updateStyle()
+        setupRAssets()
+    }
+
+    private func setupRAssets() {
+        timePostedIcon.image = R.Asset.IconsButtons.icNewStripe.image
+        statsIcon.image = R.Asset.IconsButtons.icStatsViews.image
+        favouriteIcon.image = R.Asset.IconsButtons.icStatsFavorite.image
     }
     
     private func setupAccessibilityIds() {       
@@ -185,7 +185,7 @@ class ListingStatsView: UIView {
     }
 
     private func setupTimeForLessThan24hs() {
-        timePostedIcon.image = UIImage(named: "ic_new_stripe")
+        timePostedIcon.image = R.Asset.IconsButtons.icNewStripe.image
         timePostedLabel.textColor = UIColor.primaryColor
         timePostedView.backgroundColor = style.timePostedBackground
         timePostedView.layer.borderWidth = style.timePostedBorderWidth

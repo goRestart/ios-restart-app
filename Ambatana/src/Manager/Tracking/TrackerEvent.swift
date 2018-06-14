@@ -400,6 +400,30 @@ struct TrackerEvent {
 
         return TrackerEvent(name: .adTapped, params: params)
     }
+    
+    static func adShown(listingId: String?,
+                         adType: EventParameterAdType?,
+                         isMine: EventParameterBoolean,
+                         queryType: EventParameterAdQueryType?,
+                         query: String?,
+                         adShown: EventParameterBoolean,
+                         typePage: EventParameterTypePage,
+                         categories: [ListingCategory]?,
+                         feedPosition: EventParameterFeedPosition) -> TrackerEvent {
+        var params = EventParameters()
+        
+        params[.listingId] = listingId ?? TrackerEvent.notApply
+        params[.adType] = adType?.rawValue ?? TrackerEvent.notApply
+        params[.isMine] = isMine.rawValue
+        params[.adQueryType] = queryType?.rawValue ?? TrackerEvent.notApply
+        params[.adQuery] = query ?? TrackerEvent.notApply
+        params[.adShown] = adShown.rawValue
+        params[.typePage] = typePage.rawValue
+        params[.feedPosition] = feedPosition.value
+        params[.categoryId] = (categories ?? [.unassigned]).trackValue
+        
+        return TrackerEvent(name: .adTapped, params: params)
+    }
 
     static func listingFavorite(_ listing: Listing, typePage: EventParameterTypePage,
                                 isBumpedUp: EventParameterBoolean) -> TrackerEvent {
@@ -584,6 +608,9 @@ struct TrackerEvent {
             params[.mlListingCategory] = machineLearningData.category?.rawValue ?? nil
         }
         
+        params[.serviceType] = listing.service?.servicesAttributes.typeId ?? Constants.parameterNotApply
+        params[.serviceSubtype] = listing.service?.servicesAttributes.subtypeId ?? Constants.parameterNotApply
+        
         return TrackerEvent(name: .listingSellComplete, params: params)
     }
     
@@ -629,6 +656,13 @@ struct TrackerEvent {
     static func listingSellConfirmation(_ listing: Listing) -> TrackerEvent {
         var params = EventParameters()
         params[.listingId] = listing.objectId ?? ""
+        return TrackerEvent(name: .listingSellConfirmation, params: params)
+    }
+    
+    static func listingsSellConfirmation(listingIds: [String]) -> TrackerEvent {
+        var params = EventParameters()
+        params[.listingId] = listingIds.joined(separator: ",")
+        params[.productCounter] = listingIds.count
         return TrackerEvent(name: .listingSellConfirmation, params: params)
     }
 
@@ -725,6 +759,11 @@ struct TrackerEvent {
         params[.make] = EventParameterMake.make(name: listing.car?.carAttributes.make).name
         params[.model] = EventParameterModel.model(name: listing.car?.carAttributes.model).name
         params[.year] = EventParameterYear.year(year: listing.car?.carAttributes.year).year
+        
+        if let servicesAttributes = listing.service?.servicesAttributes {
+            params[.serviceType] = servicesAttributes.typeId ?? Constants.parameterNotApply
+            params[.serviceSubtype] = servicesAttributes.subtypeId ?? Constants.parameterNotApply
+        }
         
         if let realEstateAttributes = listing.realEstate?.realEstateAttributes {
             params[.propertyType] = EventParameterStringRealEstate.realEstateParam(name: realEstateAttributes.propertyType?.rawValue).name
@@ -1473,6 +1512,10 @@ struct TrackerEvent {
     
     static func userDidTakeScreenshot() -> TrackerEvent {
         return TrackerEvent(name: .screenshot, params: nil)
+    }
+
+    static func sessionOneMinuteFirstWeek() -> TrackerEvent {
+        return TrackerEvent(name: .sessionOneMinuteFirstWeek, params: nil)
     }
 
     // MARK: - Private methods

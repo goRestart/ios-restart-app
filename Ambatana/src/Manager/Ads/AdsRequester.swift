@@ -7,6 +7,7 @@
 //
 
 import GoogleMobileAds
+import LGCoreKit
 
 class AdsRequester {
 
@@ -19,9 +20,13 @@ class AdsRequester {
     static let adHeightKey: String = "height"
     static let adHeightValue: String = "200"
     static let adWidthKey: String = "width"
+    
+    static let fullScreenFirstAdOffset = 20
+    static let fullScreenNextAdFrequency = 20
 
     let locale: Locale
     let featureFlags: FeatureFlaggeable
+    private var indexWithAds = Set<Int>()
 
     var adTestModeActive: Bool {
         return EnvironmentProxy.sharedInstance.adTestModeActive
@@ -60,5 +65,26 @@ class AdsRequester {
         adsRequest.setAdvancedOptionValue(stringWidth, forKey: AdsRequester.adWidthKey)
 
         return adsRequest
+    }
+    
+    func createAndLoadInterstitialForUserRepository(_ myUserRepository: MyUserRepository) -> GADInterstitial? {
+        guard let myUserCreationDate = myUserRepository.myUser?.creationDate,
+            featureFlags.fullScreenAdsWhenBrowsingForUS.shouldShowFullScreenAdsForUser(createdIn: myUserCreationDate),
+            let adUnitId = featureFlags.fullScreenAdUnitId else { return nil }
+        let interstitial = GADInterstitial(adUnitID: adUnitId)
+        interstitial.load(GADRequest())
+        return interstitial
+    }
+    
+    func presentInterstitial(_ interstitial: GADInterstitial?, index: Int, fromViewController: UIViewController) {
+        guard let interstitial = interstitial, interstitial.isReady else { return }
+        guard shouldShowInterstitialForIndex(index) else { return }
+        indexWithAds.insert(index)
+        interstitial.present(fromRootViewController: fromViewController)
+    }
+    
+    func shouldShowInterstitialForIndex(_ index: Int) -> Bool {
+        guard !indexWithAds.contains(index) else { return false }
+        return (index - (AdsRequester.fullScreenFirstAdOffset-1)) % AdsRequester.fullScreenNextAdFrequency == 0
     }
 }

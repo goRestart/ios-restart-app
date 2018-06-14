@@ -46,7 +46,7 @@ class ListingCreationViewController: BaseViewController {
     
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
-        guard let requestFinished = viewModel.finishRequest.value, !requestFinished else { return }
+        guard let requestFinished = viewModel.didFinishRequest.value, !requestFinished else { return }
         loadingView.startAnimating()
     }
     
@@ -64,7 +64,7 @@ class ListingCreationViewController: BaseViewController {
     }
     
     private func setupRx() {
-        viewModel.finishRequest.asObservable().filter{ $0 == true }.bind { [weak self] finished in
+        viewModel.didFinishRequest.asObservable().filter{ $0 == true }.bind { [weak self] finished in
             self?.viewModel.nextStep()
         }.disposed(by: disposeBag)
     }

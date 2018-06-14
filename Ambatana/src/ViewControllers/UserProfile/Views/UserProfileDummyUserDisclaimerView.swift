@@ -1,12 +1,5 @@
-//
-//  UserProfileDummyUserDisclaimerView.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 13/3/18.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 final class UserProfileDummyUserDisclaimerView: UIView {
 
@@ -40,7 +33,7 @@ final class UserProfileDummyUserDisclaimerView: UIView {
         backgroundColor = UIColor.grayBackground
         layer.cornerRadius = LGUIKitConstants.mediumCornerRadius
 
-        infoImageView.image = UIImage(named: "ic_info_dark")
+        infoImageView.image = R.Asset.IconsButtons.icInfoDark.image
 
         textLabel.font = UIFont.systemRegularFont(size: 13)
         textLabel.textColor = UIColor.grayDisclaimerText

@@ -36,6 +36,8 @@ protocol AppEnvironment: AnalyticsAPIKeys {
     var feedAdUnitIdAdxUSAForOldUsers: String { get }
     var feedAdUnitIdAdxTRForAllUsers: String { get }
     var feedAdUnitIdAdxTRForOldUsers: String { get }
+    var fullScreenAdUnitIdAdxForAllUsersForUS: String { get }
+    var fullScreenAdUnitIdAdxForOldUsersForUS: String { get }
     
     // MoPub Ads
     var feedAdUnitIdMoPubUSAForAllUsers: String { get }

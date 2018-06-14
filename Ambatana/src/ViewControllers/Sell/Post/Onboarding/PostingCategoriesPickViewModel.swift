@@ -9,7 +9,7 @@ protocol PostingCategoriesPickDelegate: class {
 class PostingCategoriesPickViewModel: BaseViewModel {
 
     var backButtonImage: UIImage? {
-        return #imageLiteral(resourceName: "ic_back").withRenderingMode(.alwaysTemplate)
+        return R.Asset.IconsButtons.icBack.image.withRenderingMode(.alwaysTemplate)
     }
 
     var titleText: String {
@@ -22,7 +22,8 @@ class PostingCategoriesPickViewModel: BaseViewModel {
 
     var selectedCategory: ListingCategory?
     let categories: [ListingCategory] = ListingCategory.visibleValuesInFeed(servicesIncluded: false,
-                                                                            realEstateIncluded: false)
+                                                                            realEstateIncluded: false,
+                                                                            servicesHighlighted: false)
 
     weak var delegate: PostingCategoriesPickDelegate?
     weak var navigator: BlockingPostingNavigator?

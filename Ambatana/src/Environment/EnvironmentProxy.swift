@@ -150,4 +150,12 @@ class EnvironmentProxy: AppEnvironment {
         return environment.feedAdUnitIdAdxTRForOldUsers
     }
     
+    var fullScreenAdUnitIdAdxForAllUsersForUS: String {
+        return environment.fullScreenAdUnitIdAdxForAllUsersForUS
+    }
+    
+    var fullScreenAdUnitIdAdxForOldUsersForUS: String {
+        return environment.fullScreenAdUnitIdAdxForOldUsersForUS
+    }
+    
 }

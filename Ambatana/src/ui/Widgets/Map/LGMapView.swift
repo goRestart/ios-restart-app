@@ -35,7 +35,7 @@ final class LGMapView: UIView {
     private let gpsLocationButton: UIButton = {
         let button = UIButton()
         button.cornerRadius = LGMapViewMetrics.gpsButtonCornerRadius
-        button.setImage(#imageLiteral(resourceName: "map_user_location_button"), for: .normal)
+        button.setImage(R.Asset.IconsButtons.Map.mapUserLocationButton.image, for: .normal)
         return button
     }()
     

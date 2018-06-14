@@ -1061,8 +1061,14 @@ class TrackerEventSpec: QuickSpec {
                     it ("rooms-number") {
                         expect(sut.params!.stringKeyParams["room-number"] as? String) == "2+1"
                     }
+                    it ("service-type") {
+                        expect(sut.params!.stringKeyParams["service-type"] as? String).notTo(beNil())
+                    }
+                    it ("service-subtype") {
+                        expect(sut.params!.stringKeyParams["service-subtype"] as? String).notTo(beNil())
+                    }
                     it ("vertical fields") {
-                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "product-make,product-model,product-year-start,product-year-end,property-type,deal-type,bedroom-number,bathroom-number,size-from,room-number"
+                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "product-make,product-model,product-year-start,product-year-end,property-type,deal-type,bedroom-number,bathroom-number,size-from,room-number,service-type,service-subtype"
                     }
                 }
                 context("not receiving all params, contains the default params") {
@@ -3136,6 +3142,26 @@ class TrackerEventSpec: QuickSpec {
                 it("contains product-id") {
                     let productId = sut.params!.stringKeyParams["product-id"] as? String
                     expect(productId).to(equal("r4nd0m1D"))
+                }
+            }
+            
+            describe("listingSellConfirmation with multiple listings") {
+                var listingsIds: [String]!
+                beforeEach {
+                    listingsIds = [String].makeRandom(range: 1...15)
+                    sut = TrackerEvent.listingsSellConfirmation(listingIds: listingsIds)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-sell-confirmation"))
+                }
+                it("contains right product-id") {
+                    let productId = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(productId).to(equal(listingsIds.joined(separator: ",")))
+                }
+                
+                it("contains right product-id") {
+                    let productCounter = sut.params!.stringKeyParams["product-counter"] as? Int
+                    expect(productCounter).to(equal(listingsIds.count))
                 }
             }
 
@@ -5274,8 +5300,14 @@ class TrackerEventSpec: QuickSpec {
                     it ("rooms-number") {
                         expect(sut.params!.stringKeyParams["room-number"] as? String) == "2+1"
                     }
+                    it ("service-type") {
+                        expect(sut.params!.stringKeyParams["service-type"] as? String).notTo(beNil())
+                    }
+                    it ("service-subtype") {
+                        expect(sut.params!.stringKeyParams["service-subtype"] as? String).notTo(beNil())
+                    }
                     it ("vertical fields") {
-                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "product-make,product-model,product-year-start,product-year-end,property-type,deal-type,bedroom-number,bathroom-number,size-from,room-number"
+                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "product-make,product-model,product-year-start,product-year-end,property-type,deal-type,bedroom-number,bathroom-number,size-from,room-number,service-type,service-subtype"
                     }
                 }
             }
@@ -5322,6 +5354,102 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("the information is empty") {
                     expect(sut.params?.params).to(beNil())
+                }
+            }
+
+            describe("Session one minute first week") {
+                beforeEach {
+                    sut = TrackerEvent.sessionOneMinuteFirstWeek()
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue) == "session-one-minute-first-week"
+                }
+                it("has no params") {
+                    expect(sut.params?.params).to(beNil())
+                }
+            }
+            
+            describe("Listing Interstitial Ad Tapped") {
+                beforeEach {
+                    sut = TrackerEvent.adTapped(listingId: "listing123",
+                                                adType: .interstitial,
+                                                isMine: .falseParameter,
+                                                queryType: nil,
+                                                query: nil,
+                                                willLeaveApp: .trueParameter,
+                                                typePage: .nextItem,
+                                                categories: nil,
+                                                feedPosition: .position(index: 19))
+                }
+                it("contains product id") {
+                    let productId = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(productId).to(equal("listing123"))
+                }
+                it("contains ad-type N/A") {
+                    expect(sut.params!.stringKeyParams["ad-type"] as? String) == "interstitial"
+                }
+                it("contains is-mine false") {
+                    expect(sut.params!.stringKeyParams["is-mine"] as? String) == "false"
+                }
+                it("contains ad-query-type N/A") {
+                    expect(sut.params!.stringKeyParams["ad-query-type"] as? String) == TrackerEvent.notApply
+                }
+                it("contains ad-query-text N/A") {
+                    expect(sut.params!.stringKeyParams["ad-query-text"] as? String) == TrackerEvent.notApply
+                }
+                it("contains will leave app true") {
+                    expect(sut.params!.stringKeyParams["left-application"] as? String) == "true"
+                }
+                it("contains type page") {
+                    expect(sut.params!.stringKeyParams["type-page"] as? String) == "next-item"
+                }
+                it("contains categories unassigned") {
+                    expect(sut.params!.stringKeyParams["category-id"] as? String) == "0"
+                }
+                it("contains feed position") {
+                    expect(sut.params!.stringKeyParams["feed-position"] as? String) == "20"
+                }
+            }
+            
+            describe("Listing Interstitial Ad Shown") {
+                beforeEach {
+                    sut = TrackerEvent.adShown(listingId: "listing123",
+                                                adType: .interstitial,
+                                                isMine: .falseParameter,
+                                                queryType: nil,
+                                                query: nil,
+                                                adShown: .trueParameter,
+                                                typePage: .nextItem,
+                                                categories: nil,
+                                                feedPosition: .position(index: 19))
+                }
+                it("contains product id") {
+                    let productId = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(productId).to(equal("listing123"))
+                }
+                it("contains ad-type N/A") {
+                    expect(sut.params!.stringKeyParams["ad-type"] as? String) == "interstitial"
+                }
+                it("contains is-mine false") {
+                    expect(sut.params!.stringKeyParams["is-mine"] as? String) == "false"
+                }
+                it("contains ad-query-type N/A") {
+                    expect(sut.params!.stringKeyParams["ad-query-type"] as? String) == TrackerEvent.notApply
+                }
+                it("contains ad-query-text N/A") {
+                    expect(sut.params!.stringKeyParams["ad-query-text"] as? String) == TrackerEvent.notApply
+                }
+                it("contains ad shown true") {
+                    expect(sut.params!.stringKeyParams["ad-shown"] as? String) == "true"
+                }
+                it("contains type page") {
+                    expect(sut.params!.stringKeyParams["type-page"] as? String) == "next-item"
+                }
+                it("contains categories unassigned") {
+                    expect(sut.params!.stringKeyParams["category-id"] as? String) == "0"
+                }
+                it("contains feed position") {
+                    expect(sut.params!.stringKeyParams["feed-position"] as? String) == "20"
                 }
             }
         }

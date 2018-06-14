@@ -20,15 +20,15 @@ protocol EditListingViewModelDelegate : BaseViewModelDelegate {
     func vmHideKeyboard()
 }
 
-enum EditListingImageType {
+enum EditListingMediaType {
     case local(image: UIImage)
-    case remote(file: File)
+    case remote(media: Media)
 }
 
-class ListingImages {
-    var images: [EditListingImageType] = []
+class ListingMedia {
+    var media: [EditListingMediaType] = []
     var localImages: [UIImage] {
-        return images.flatMap {
+        return media.flatMap {
             switch $0 {
             case .local(let image):
                 return image
@@ -37,27 +37,55 @@ class ListingImages {
             }
         }
     }
-    var remoteImages: [File] {
-        return images.flatMap {
+    var remoteMedia: [Media] {
+        return media.flatMap {
             switch $0 {
             case .local:
                 return nil
-            case .remote(let file):
-                return file
+            case .remote(let media):
+                return media
+            }
+        }
+    }
+    var remoteImages: [File] {
+        return media.flatMap {
+            switch $0 {
+            case .local:
+                return nil
+            case .remote(let media):
+                if media.type == .image {
+                    return LGFile(id: media.objectId, url: media.outputs.image)
+                } else {
+                    return nil
+                }
+            }
+        }
+    }
+    var remoteVideos: [Video] {
+        return media.flatMap {
+            switch $0 {
+            case .local:
+                return nil
+            case .remote(let media):
+                if media.type == .video, let path = media.outputs.video?.absoluteString {
+                    return LGVideo(path: path, snapshot: media.snapshotId)
+                } else {
+                    return nil
+                }
             }
         }
     }
 
     func append(_ image: UIImage) {
-        images.append(.local(image: image))
+        media.append(.local(image: image))
     }
 
-    func append(_ file: File) {
-        images.append(.remote(file: file))
+    func append(_ media: Media) {
+        self.media.append(.remote(media: media))
     }
 
     func removeAtIndex(_ index: Int) {
-        images.remove(at: index)
+        media.remove(at: index)
     }
 }
 
@@ -67,14 +95,14 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         static let boostLabelText: String = R.Strings.bumpUpBannerBoostText
         static let boostLabelTextColor: UIColor = .blackText
         static let boostLabelFont: UIFont = .systemBoldFont(size: 17)
-        static let boostIcon: UIImage = #imageLiteral(resourceName: "ic_extra_boost")
+        static let boostIcon: UIImage = R.Asset.Monetization.icExtraBoost.image
     }
 	
 	struct EditProductFeatureUI {
 		static let editProductFeaturelabelText: String = R.Strings.editProductFeatureLabelLongText
 		static let editProductFeatureTextColor: UIColor = UIColor.primaryColor
 		static let editProductFeatureFont: UIFont = UIFont.systemBoldFont(size: 15)
-		static let editProductFeatureBoostIcon: UIImage = #imageLiteral(resourceName: "ic_lightning")
+		static let editProductFeatureBoostIcon: UIImage = R.Asset.Monetization.icLightning.image
 	}
 
     // real time cloudsight
@@ -126,7 +154,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
     var shouldShareInFB: Bool
     var maxImageCount: Int {
-        return max(listingImages.images.count, Constants.maxImageCount)
+        return max(listingMedia.media.count, Constants.maxImageCount)
     }
     var descr: String? {
         didSet {
@@ -186,9 +214,9 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     let saveButtonEnabled = Variable<Bool>(false)
 
     // Data
-    var listingImages: ListingImages
-    var images: [EditListingImageType] {
-        return listingImages.images
+    var listingMedia: ListingMedia
+    var media: [EditListingMediaType] {
+        return listingMedia.media
     }
     
     var realEstateSizeSquareMetersString: String? {
@@ -301,8 +329,8 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
         self.category.value = listing.category
 
-        self.listingImages = ListingImages()
-        for file in listing.images { listingImages.append(file) }
+        self.listingMedia = ListingMedia()
+        for media in listing.media { listingMedia.append(media) }
 
         switch listing {
         case .car(let car):
@@ -330,10 +358,16 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
             self.realEstateSizeSquareMeters.value = realEstate.realEstateAttributes.sizeSquareMeters
         case .service(let services):
             if featureFlags.showServicesFeatures.isActive {
-                self.serviceTypeId.value = services.servicesAttributes.typeId
-                self.serviceTypeName.value = services.servicesAttributes.typeTitle
-                self.serviceSubtypeId.value = services.servicesAttributes.subtypeId
-                self.serviceSubtypeName.value = services.servicesAttributes.subtypeTitle
+                if let serviceTypeId = services.servicesAttributes.typeId {
+                    self.serviceTypeId.value = serviceTypeId
+                    self.serviceTypeName.value = services.servicesAttributes.typeTitle
+                        ?? servicesInfoRepository.serviceType(forServiceTypeId: serviceTypeId)?.name
+                }
+                if let serviceSubtypeId = services.servicesAttributes.subtypeId {
+                    self.serviceSubtypeId.value = serviceSubtypeId
+                    self.serviceSubtypeName.value = services.servicesAttributes.subtypeTitle
+                        ?? servicesInfoRepository.serviceSubtype(forServiceSubtypeId: serviceSubtypeId)?.name
+                }
             }
         }
 
@@ -380,12 +414,12 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         }
     }
 
-    var numberOfImages: Int {
-        return images.count
+    var numberOfMedia: Int {
+        return media.count
     }
     
-    func imageAtIndex(_ index: Int) -> EditListingImageType {
-        return images[index]
+    func mediaAtIndex(_ index: Int) -> EditListingMediaType {
+        return media[index]
     }
     
     var categoryName: String? {
@@ -419,13 +453,13 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
     
     func appendImage(_ image: UIImage) {
-        listingImages.append(image)
+        listingMedia.append(image)
         delegate?.vmDidAddOrDeleteImage()
         checkChanges()
     }
 
-    func deleteImageAtIndex(_ index: Int) {
-        listingImages.removeAtIndex(index)
+    func deleteMediaAtIndex(_ index: Int) {
+        listingMedia.removeAtIndex(index)
         delegate?.vmDidAddOrDeleteImage()
         checkChanges()
     }
@@ -468,7 +502,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     func realEstatePropertyTypeButtonPressed() {
         let attributeValues = RealEstatePropertyType.allValues(postingFlowType: featureFlags.postingFlowType)
         let values = attributeValues.map { $0.localizedString }
-        let vm = ListingAttributePickerViewModel(
+        let vm = ListingAttributeSingleSelectPickerViewModel(
             title: R.Strings.realEstateTypePropertyTitle,
             attributes: values,
             selectedAttribute: realEstatePropertyType.value?.localizedString
@@ -485,7 +519,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     func realEstateOfferTypeButtonPressed() {
         let attributeValues = RealEstateOfferType.allValues
         let values = attributeValues.map { $0.localizedString }
-        let vm = ListingAttributePickerViewModel(
+        let vm = ListingAttributeSingleSelectPickerViewModel(
             title: R.Strings.realEstateOfferTypeTitle,
             attributes: values,
             selectedAttribute: realEstateOfferType.value?.localizedString
@@ -506,7 +540,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         if let bedrooms = realEstateNumberOfBedrooms.value, let numberOfBedrooms = NumberOfBedrooms(rawValue: bedrooms) {
             selectedAttribute = numberOfBedrooms.localizedString
         }
-        let vm = ListingAttributePickerViewModel(
+        let vm = ListingAttributeSingleSelectPickerViewModel(
             title: R.Strings.realEstateBedroomsTitle,
             attributes: values,
             selectedAttribute: selectedAttribute
@@ -538,7 +572,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
                 self?.realEstateNumberOfRooms.value = nil
             }
         }
-        let vm = ListingAttributePickerViewModel(title: R.Strings.realEstateRoomsTitle,
+        let vm = ListingAttributeSingleSelectPickerViewModel(title: R.Strings.realEstateRoomsTitle,
                                                  attributes: values,
                                                  selectedAttribute: selectedAttribute,
                                                  selectionUpdate: selectionUpdateblock)
@@ -553,7 +587,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         if let bathrooms = realEstateNumberOfBathrooms.value {
             selectedAttribute = bathrooms.localizedString
         }
-        let vm = ListingAttributePickerViewModel(
+        let vm = ListingAttributeSingleSelectPickerViewModel(
             title: R.Strings.realEstateBathroomsTitle,
             attributes: values,
             selectedAttribute: selectedAttribute
@@ -596,7 +630,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
             // not enabled
             let okAction = UIAction(interface: UIActionInterface.styledText(R.Strings.commonOk,
                 .standard), action: permissionsActionBlock)
-            let alertIcon = UIImage(named: "ic_location_alert")
+            let alertIcon = R.Asset.IconsButtons.icLocationAlert.image
             delegate?.vmShowAlertWithTitle(R.Strings.editProductLocationAlertTitle,
                                            text: R.Strings.editProductLocationAlertText,
                                            alertType: .iconAlert(icon: alertIcon), actions: [okAction])
@@ -698,7 +732,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     
     private func checkChanges() {
         var hasChanges = false
-        if listingImages.localImages.count > 0 || initialListing.images.count != listingImages.remoteImages.count  {
+        if listingMedia.localImages.count > 0 || initialListing.media.count != listingMedia.remoteMedia.count  {
             hasChanges = true
         }
         else if (initialListing.title ?? "") != (title ?? "") {
@@ -730,7 +764,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
 
     private func validate() -> ListingCreateValidationError? {
-        if images.count < 1 {
+        if media.count < 1 {
             return .noImages
         } else if descriptionCharCount < 0 {
             return .longDescription
@@ -814,15 +848,21 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         delegate?.vmHideKeyboard()
         loadingProgress.value = 0
 
-        let localImages = listingImages.localImages
-        let remoteImages = listingImages.remoteImages
+        let localImages = listingMedia.localImages
+        let remoteImages = listingMedia.remoteImages
+        let remoteVideos = listingMedia.remoteVideos
+        let videoSnapshots: [File] = listingMedia.remoteVideos.flatMap { video in
+            return listing.images.first(where: { $0.objectId == video.snapshot })
+        }
         
         fileRepository.upload(localImages, progress: { [weak self] in self?.loadingProgress.value = $0 }) {
             [weak self] imagesResult in
             if let newImages = imagesResult.value {
                 
                 guard let strongSelf = self else { return }
-                let updatedParams = editParams.updating(images: remoteImages + newImages)
+                let updatedParams = editParams.updating(images: newImages + remoteImages + videoSnapshots)
+                    .updating(videos: remoteVideos)
+
                 let shouldUseCarEndpoint = strongSelf.featureFlags.createUpdateIntoNewBackend.shouldUseCarEndpoint(with: updatedParams)
                 let shouldUseServicesEndpoint = strongSelf.featureFlags.showServicesFeatures.isActive
                 
@@ -937,7 +977,7 @@ extension EditListingViewModel {
         let serviceTypeNames = serviceTypes.map( { $0.name } )
         let selectedServiceType = serviceTypeName.value
         
-        let vm = ListingAttributePickerViewModel(title: R.Strings.servicesServiceTypeListTitle,
+        let vm = ListingAttributeSingleSelectPickerViewModel(title: R.Strings.servicesServiceTypeListTitle,
                                                  attributes: serviceTypeNames,
                                                  selectedAttribute: selectedServiceType) { [weak self] selectedIndex in
                                                     if let selectedIndex = selectedIndex {
@@ -958,10 +998,10 @@ extension EditListingViewModel {
         let serviceSubtypeNames = serviceSubtypes.map( { $0.name } )
         let selectedServiceSubtype = serviceSubtypeName.value
         
-        let vm = ListingAttributePickerViewModel(title: R.Strings.servicesServiceSubtypeListTitle,
-                                                 attributes: serviceSubtypeNames,
-                                                 selectedAttribute: selectedServiceSubtype,
-                                                 canSearchAttributes: true)
+        let vm = ListingAttributeSingleSelectPickerViewModel(title: R.Strings.servicesServiceSubtypeListTitle,
+                                                             attributes: serviceSubtypeNames,
+                                                             selectedAttribute: selectedServiceSubtype,
+                                                             canSearchAttributes: true)
         { [weak self] selectedIndex in
             if let selectedIndex = selectedIndex {
                 self?.updateServiceSubtype(withServiceSubtype: serviceSubtypes[safeAt: selectedIndex])
@@ -1003,12 +1043,8 @@ extension EditListingViewModel {
     }
 
     private var shouldShowServicesSection: Bool {
-        if featureFlags.showServicesFeatures.isActive {
-            // Do not show services category when this feature set is active
-            return false
-        }
-        
-        return featureFlags.servicesCategoryEnabled.isActive
+        // Do not show services category when this feature set is active
+        return !featureFlags.showServicesFeatures.isActive
     }
     
     func categoryNameAtIndex(_ index: Int) -> String {
@@ -1171,7 +1207,7 @@ extension EditListingViewModel {
     fileprivate func editFieldsComparedTo(_ listing: Listing) -> [EventParameterEditedFields] {
         var editedFields: [EventParameterEditedFields] = []
 
-        if listingImages.localImages.count > 0 || initialListing.images.count != listingImages.remoteImages.count  {
+        if listingMedia.localImages.count > 0 || initialListing.media.count != listingMedia.remoteMedia.count  {
             editedFields.append(.picture)
         }
         if (initialListing.name ?? "") != (listing.name ?? "") {

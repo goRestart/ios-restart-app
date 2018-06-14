@@ -64,8 +64,12 @@ extension DefaultsKeys {
     static let lastShownSecurityWarningDate = DefaultsKey<Date?>("lastShownSecurityWarningDate")
     static let realEstateTutorialShown = DefaultsKey<Bool>("realEstateTutorialShown")
 
+    static let showOffensiveReportOnNextStart = DefaultsKey<Bool>("showOffensiveReportOnNextStart")
+
     static let lastShownReputationTooltipDate = DefaultsKey<Date?>("lastShownReputationTooltipDate")
     static let reputationTooltipShown = DefaultsKey<Bool>("reputationTooltipShown")
+
+    static let analyticsSessionData = DefaultsKey<AnalyticsSessionData>("analyticsSessionData")
 }
 
 
@@ -304,6 +308,17 @@ extension KeyValueStorageable {
         set {
             guard var userProperties = currentUserProperties else { return }
             userProperties.interestingProducts = newValue
+            currentUserProperties = userProperties
+        }
+    }
+
+    var analyticsSessionData: AnalyticsSessionData? {
+        get {
+            return currentUserProperties?.analyticsSessionData
+        }
+        set {
+            guard var userProperties = currentUserProperties else { return }
+            userProperties.analyticsSessionData = newValue
             currentUserProperties = userProperties
         }
     }

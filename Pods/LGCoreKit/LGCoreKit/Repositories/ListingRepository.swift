@@ -111,6 +111,7 @@ public protocol ListingRepository {
     
     func retrieve(_ listingId: String, completion: ListingCompletion?)
     func retrieveRealEstate(_ listingId: String, completion: ListingCompletion?)
+    func retrieveService(_ listingId: String, completion: ListingCompletion?)
     
     func create(listingParams: ListingCreationParams, completion: ListingCompletion?)
     func update(listingParams: ListingEditionParams, completion: ListingCompletion?)

@@ -1,13 +1,6 @@
-//
-//  RateBuyersViewController.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 03/02/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import UIKit
 import RxSwift
+import LGComponents
 
 enum RateBuyersSection: Int {
     case possibleBuyers = 0
@@ -51,7 +44,7 @@ class RateBuyersViewController: BaseViewController, RateBuyersViewModelDelegate 
 
     private func setupUI() {
         automaticallyAdjustsScrollViewInsets = false
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .plain,
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: R.Asset.IconsButtons.navbarClose.image, style: .plain,
                                                            target: self, action: #selector(closeButtonPressed))
 
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -66,9 +59,7 @@ class RateBuyersViewController: BaseViewController, RateBuyersViewModelDelegate 
                                               bottom: Metrics.shortMargin,
                                               right: 0)
         tableView.sectionHeaderHeight = UITableViewAutomaticDimension
-
-        let cellNib = UINib(nibName: PossibleBuyerCell.reusableID, bundle: nil)
-        tableView.register(cellNib, forCellReuseIdentifier: PossibleBuyerCell.reusableID)
+        tableView.register(type: PossibleBuyerCell.self)
     }
 
     private func setupRx() {
@@ -101,8 +92,8 @@ extension RateBuyersViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let buyerCell = tableView.dequeueReusableCell(withIdentifier: PossibleBuyerCell.reusableID,
-                                                            for: indexPath) as? PossibleBuyerCell else { return UITableViewCell() }
+        guard let buyerCell = tableView.dequeue(type: PossibleBuyerCell.self,
+                                                for: indexPath) else { return UITableViewCell() }
         guard let rateBuyersSection = RateBuyersSection(rawValue: indexPath.section) else { return UITableViewCell() }
         
         let cellType: RateBuyerCellType

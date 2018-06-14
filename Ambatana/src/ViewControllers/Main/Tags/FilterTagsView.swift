@@ -57,8 +57,7 @@ class FilterTagsView: UIView, UICollectionViewDataSource, UICollectionViewDelega
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.scrollsToTop = false
-        let filterNib = UINib(nibName: "FilterTagCell", bundle: nil)
-        collectionView.register(filterNib, forCellWithReuseIdentifier: "FilterTagCell")
+        collectionView.register(type: FilterTagCell.self)
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.scrollDirection = UICollectionViewScrollDirection.horizontal
         }
@@ -199,12 +198,27 @@ class FilterTagsView: UIView, UICollectionViewDataSource, UICollectionViewDelega
                         relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
                     case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .taxonomyChild,
                          .taxonomy, .secondaryTaxonomyChild, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms,
-                         .realEstatePropertyType, .realEstateOfferType, .sizeSquareMetersRange, .realEstateNumberOfRooms:
+                         .realEstatePropertyType, .realEstateOfferType, .sizeSquareMetersRange, .realEstateNumberOfRooms,
+                         .serviceType,
+                         .serviceSubtype:
+                        continue
+                    }
+                }
+            case .services:
+                for (i, tag) in tags.enumerated() {
+                    switch tag {
+                    case .serviceType,
+                         .serviceSubtype:
+                        relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
+                    case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .taxonomyChild,
+                         .taxonomy, .secondaryTaxonomyChild, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms,
+                         .realEstatePropertyType, .realEstateOfferType, .sizeSquareMetersRange, .realEstateNumberOfRooms,
+                         .carSellerType, .make, .model, .yearsRange:
                         continue
                     }
                 }
             case .electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden, .moviesBooksAndMusic,
-                 .fashionAndAccesories, .babyAndChild, .other, .unassigned, .services:
+                 .fashionAndAccesories, .babyAndChild, .other, .unassigned:
                 break
             case .realEstate:
                 for (i, tag) in tags.enumerated() {
@@ -213,7 +227,8 @@ class FilterTagsView: UIView, UICollectionViewDataSource, UICollectionViewDelega
                          .realEstateOfferType, .sizeSquareMetersRange, .realEstateNumberOfRooms:
                         relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
                     case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category,
-                         .taxonomyChild, .taxonomy, .secondaryTaxonomyChild, .carSellerType, .make, .model, .yearsRange:
+                         .taxonomyChild, .taxonomy, .secondaryTaxonomyChild, .carSellerType, .make, .model, .yearsRange, .serviceType,
+                         .serviceSubtype:
                         continue
                     }
                 }
@@ -226,7 +241,20 @@ class FilterTagsView: UIView, UICollectionViewDataSource, UICollectionViewDelega
                 case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .carSellerType, .make, .yearsRange,
                      .taxonomyChild, .taxonomy, .secondaryTaxonomyChild, .realEstateNumberOfBedrooms,
                      .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType,
-                     .sizeSquareMetersRange, .realEstateNumberOfRooms:
+                     .sizeSquareMetersRange, .realEstateNumberOfRooms, .serviceType,
+                     .serviceSubtype:
+                    continue
+                }
+            }
+        case .serviceType:
+            for (i, tag) in tags.enumerated() {
+                switch tag {
+                case .serviceSubtype:
+                    relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
+                case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .carSellerType, .make, .yearsRange,
+                     .taxonomyChild, .taxonomy, .secondaryTaxonomyChild, .realEstateNumberOfBedrooms,
+                     .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType,
+                     .sizeSquareMetersRange, .realEstateNumberOfRooms, .serviceType, .model:
                     continue
                 }
             }
@@ -237,13 +265,15 @@ class FilterTagsView: UIView, UICollectionViewDataSource, UICollectionViewDelega
                     relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
                 case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .carSellerType, .model, .category, .make,
                      .yearsRange, .taxonomy, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType,
-                     .realEstateOfferType, .sizeSquareMetersRange, .realEstateNumberOfRooms:
+                     .realEstateOfferType, .sizeSquareMetersRange, .realEstateNumberOfRooms, .serviceType,
+                     .serviceSubtype:
                     continue
                 }
             }
         case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .carSellerType, .model, .yearsRange, .taxonomyChild,
              .secondaryTaxonomyChild, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType,
-             .realEstateOfferType, .sizeSquareMetersRange, .realEstateNumberOfRooms:
+             .realEstateOfferType, .sizeSquareMetersRange, .realEstateNumberOfRooms,
+             .serviceSubtype:
             break
         }
         return relatedIndexesToDelete

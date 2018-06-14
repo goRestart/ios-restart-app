@@ -17,6 +17,7 @@ enum ListingRouter: URLRequestAuthenticable {
     case patch(listingId: String, params: [String : Any])
     case show(listingId: String)
     case showRealEstate(listingId: String)
+    case showService(listingId: String)
     case create(params: [String : Any])
     case createRealEstate(params: [String : Any])
     case createCar(params: [String : Any])
@@ -73,6 +74,8 @@ enum ListingRouter: URLRequestAuthenticable {
             return ListingRouter.listingServicesBaseUrl
         case .showRealEstate:
             return ListingRouter.listingRealEstateBaseUrl
+        case .showService:
+            return ListingRouter.listingServicesBaseUrl
         case let .indexRelatedListings(listingId, _):
             return ListingRouter.listingBaseUrl + "/\(listingId)/related"
         case let .indexRelatedRealEstate(listingId, _):
@@ -130,7 +133,7 @@ enum ListingRouter: URLRequestAuthenticable {
              .saveFavorite, .userRelation, .saveReport, .indexLimbo, .possibleBuyers, .createTransactionOf,
              .retrieveTransactionsOf:
             return .user
-        case .show, .index, .showRealEstate, .indexRealEstate, .indexRealEstateRelatedSearch, .indexCars,
+        case .show, .index, .showRealEstate, .showService, .indexRealEstate, .indexRealEstateRelatedSearch, .indexCars,
              .indexCarsRelatedSearch, .indexForUser, .indexFavorites, .indexRelatedListings,
              .indexRelatedRealEstate, .indexRelatedCars, .indexServices, .indexServicesRelatedSearch, .indexRelatedServices, .indexDiscoverListings, .indexTrending, .showStats,
              .updateStats, .indexCustomFeed:
@@ -171,6 +174,8 @@ enum ListingRouter: URLRequestAuthenticable {
             return try Router<APIBaseURL>.show(endpoint: endpoint, objectId: listingId).asURLRequest()
         case let .showRealEstate(listingId):
             return try Router<RealEstateBaseURL>.show(endpoint: endpoint, objectId: listingId).asURLRequest()
+        case let .showService(listingId):
+            return try Router<ServicesBaseURL>.show(endpoint: endpoint, objectId: listingId).asURLRequest()
         case let .create(params):
             return try Router<APIBaseURL>.create(endpoint: endpoint, params: params, encoding: .json).asURLRequest()
         case let .createRealEstate(params):

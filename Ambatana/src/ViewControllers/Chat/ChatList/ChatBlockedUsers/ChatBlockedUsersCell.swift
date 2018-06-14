@@ -1,13 +1,6 @@
-//
-//  ChatBlockedUsersCell.swift
-//  LetGo
-//
-//  Created by Dídac on 11/05/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import UIKit
 import LGCoreKit
+import LGComponents
 
 final class ChatBlockedUserCell: UITableViewCell, ReusableCell {
 
@@ -94,7 +87,7 @@ final class ChatBlockedUserCell: UITableViewCell, ReusableCell {
     }
 
     private func resetUI() {
-        avatarImageView.image = UIImage(named: "user_placeholder")
+        avatarImageView.image = R.Asset.IconsButtons.userPlaceholder.image
         userNameLabel.text = ""
     }
 }
