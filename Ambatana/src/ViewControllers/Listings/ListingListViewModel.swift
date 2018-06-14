@@ -159,6 +159,7 @@ final class ListingListViewModel: BaseViewModel {
     }
     
     let numberOfColumns: Int
+    private var searchType: SearchType?
 
     // MARK: - Lifecycle
     
@@ -171,7 +172,8 @@ final class ListingListViewModel: BaseViewModel {
                  reporter: CrashlyticsReporter = CrashlyticsReporter(),
                  featureFlags: FeatureFlaggeable = FeatureFlags.sharedInstance,
                  myUserRepository: MyUserRepository = Core.myUserRepository,
-                 requesterFactory: RequesterFactory? = nil) {
+                 requesterFactory: RequesterFactory? = nil,
+                 searchType: SearchType?) {
         self.objects = (listings ?? []).map(ListingCellModel.init)
         self.isPrivateList = isPrivateList
         self.pageNumber = 0
@@ -184,31 +186,32 @@ final class ListingListViewModel: BaseViewModel {
         self.indexToTitleMapping = [:]
         self.featureFlags = featureFlags
         self.myUserRepository = myUserRepository
+        self.searchType = searchType
         super.init()
         let cellHeight = cellWidth * cellAspectRatio
         self.defaultCellSize = CGSize(width: cellWidth, height: cellHeight)
     }
     
     convenience init(requester: ListingListRequester, isPrivateList: Bool = false) {
-        self.init(requester: requester, isPrivateList: isPrivateList, requesterFactory: nil)
+        self.init(requester: requester, isPrivateList: isPrivateList, requesterFactory: nil, searchType: nil)
         requesterSequence = [requester]
         setCurrentFallbackRequester()
     }
     
-    convenience init(numberOfColumns: Int, tracker: Tracker, featureFlags: FeatureFlaggeable = FeatureFlags.sharedInstance, requesterFactory: RequesterFactory) {
-        self.init(requester: nil, numberOfColumns: numberOfColumns, tracker: tracker, featureFlags: featureFlags, requesterFactory: requesterFactory)
+    convenience init(numberOfColumns: Int, tracker: Tracker, featureFlags: FeatureFlaggeable = FeatureFlags.sharedInstance, requesterFactory: RequesterFactory, searchType: SearchType?) {
+        self.init(requester: nil, numberOfColumns: numberOfColumns, tracker: tracker, featureFlags: featureFlags, requesterFactory: requesterFactory, searchType: searchType)
         self.requesterFactory = requesterFactory
         requesterSequence = requesterFactory.buildRequesterList()
         setCurrentFallbackRequester()
     }
     
     convenience override init() {
-        self.init(requester: nil, requesterFactory: nil)
+        self.init(requester: nil, requesterFactory: nil, searchType: nil)
         setCurrentFallbackRequester()
     }
     
     convenience init(requester: ListingListRequester, listings: [Listing]?, numberOfColumns: Int) {
-        self.init(requester: requester, listings: listings, numberOfColumns: numberOfColumns)
+        self.init(requester: requester, listings: listings, numberOfColumns: numberOfColumns, searchType: nil)
         requesterSequence = [requester]
         setCurrentFallbackRequester()
     }
@@ -359,18 +362,22 @@ final class ListingListViewModel: BaseViewModel {
             requesterList.removeFirst()
             if hasListings {
                 if strongSelf.featureFlags.shouldUseSimilarQuery(numListing: numListing)
-                    && strongSelf.currentRequesterType == .search {
+                    && strongSelf.currentRequesterType == .search && strongSelf.searchType != nil {
+                    // should only enter after search,
+                    // set to nil so that we will never enter here when scrolling up and down
+                    strongSelf.searchType = nil
                     strongSelf.currentRequesterIndex += 1
-                    strongSelf.retrieveListings(isFirstPage: isFirstPage, with: requesterList)
-                    return
-                } else {
-                    strongSelf.state = .data
+                    if !requesterList.isEmpty {
+                        strongSelf.retrieveListings(isFirstPage: isFirstPage, with: requesterList)
+                        return
+                    }
                 }
             } else if !requesterList.isEmpty {
                 strongSelf.currentRequesterIndex += 1
                 strongSelf.retrieveListings(isFirstPage: isFirstPage, with: requesterList)
                 return
             }
+            strongSelf.state = .data
             strongSelf.delegate?.vmDidFinishLoading(strongSelf, page: nextPageNumber, indexes: indexes)
             strongSelf.dataDelegate?.listingListVM(strongSelf, didSucceedRetrievingListingsPage: nextPageNumber,
                                                    withResultsCount: newListings.count,

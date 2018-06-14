@@ -273,7 +273,8 @@ class ListingListViewModelSpec: QuickSpec {
             let sut = ListingListViewModel(numberOfColumns: 3,
                                            tracker: tracker,
                                            featureFlags: featureFlags,
-                                           requesterFactory: requesterFactory)
+                                           requesterFactory: requesterFactory,
+                                           searchType: SearchType.user(query: "abc"))
             sut.dataDelegate = dataDelegate
             return sut
         }
