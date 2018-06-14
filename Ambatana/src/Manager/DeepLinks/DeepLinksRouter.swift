@@ -1,11 +1,4 @@
-//
-//  DeepLinksManager.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 24/03/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
+import LGComponents
 import AppsFlyerLib
 import Foundation
 import RxSwift

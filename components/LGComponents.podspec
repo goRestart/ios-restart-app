@@ -64,10 +64,13 @@ Pod::Spec.new do |s|
     s.subspec 'LGShared' do |sharedSpec|  
     	baseFolder='LGShared/LGShared/Classes/'
         sharedSpec.source_files = [
-        	baseFolder+'iOS/UIKit/UIView+Geometry.swift',
-        	baseFolder+'iOS/Foundation/TimeInterval+Time.swift',
-        	baseFolder+'Global/AppReport.swift',
-        	baseFolder+'Global/SharedConstants.swift'
+            baseFolder+'iOS/UIKit/UIView+Geometry.swift',
+            baseFolder+'iOS/Foundation/TimeInterval+Time.swift',
+            baseFolder+'Global/AppReport.swift',
+            baseFolder+'Global/SharedConstants.swift',
+            baseFolder+'Global/Debug.swift',
+            baseFolder+'Global/Logger.swift',
+            baseFolder+'Global/DeviceFamily.swift'
         ]
         # sharedSpec.source_files = 'LGShared/LGShared/Classes/**/*'
 
@@ -81,7 +84,7 @@ Pod::Spec.new do |s|
         # sharedSpec.dependency 'DeviceGuru',            '3.0.1'
         # sharedSpec.dependency 'AlamofireImage',        '3.3.0'
         # sharedSpec.dependency 'SwiftyUserDefaults',    '3.0.1'
-        # sharedSpec.dependency 'CocoaLumberjack/Swift', '3.3.0'
+        sharedSpec.dependency 'CocoaLumberjack/Swift', '3.3.0'
         # sharedSpec.dependency 'RxCocoa',               '4.0.0'
     end
 

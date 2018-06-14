@@ -1,13 +1,8 @@
-//
-//  UIViewController+LG.swift
-//  LetGo
-//
-//
-
 import UIKit
 import SafariServices
 import RxSwift
 import RxCocoa
+import LGComponents
 
 // MARK: - UINavigationBar helpers
 

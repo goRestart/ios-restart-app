@@ -1,12 +1,5 @@
-//
-//  ListingCellMetrics.swift
-//  LetGo
-//
-//  Created by Haiyan Ma on 21/03/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 fileprivate extension DeviceFamily {
     func shouldShow3Columns() -> Bool {

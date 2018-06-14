@@ -1,20 +1,12 @@
-//
-//  Logger.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 02/03/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import CocoaLumberjack
 
-struct AppLoggingOptions: OptionSet, CustomStringConvertible {
-    let rawValue : Int
+public struct AppLoggingOptions: OptionSet, CustomStringConvertible {
+    public let rawValue : Int
 
 
     // MARK: - CustomStringConvertible
 
-    var description: String {
+    public var description: String {
         var options: [String] = []
         if contains(AppLoggingOptions.navigation) {
             options.append("⛵️")
@@ -34,35 +26,43 @@ struct AppLoggingOptions: OptionSet, CustomStringConvertible {
         if contains(AppLoggingOptions.uikit) {
             options.append("👾")
         }
+        if contains(AppLoggingOptions.camera) {
+            options.append("📷")
+        }
+        if contains(AppLoggingOptions.debug) {
+            options.append("🐛")
+        }
         return options.joined(separator: "+")
     }
 
 
     // MARK: - OptionSetType
 
-    init(rawValue:Int) {
+    public init(rawValue:Int) {
         self.rawValue = rawValue
     }
 
 
     // MARK: - Options
 
-    static var none = AppLoggingOptions(rawValue: 0)
-    static var navigation = AppLoggingOptions(rawValue: 1)
-    static var tracking = AppLoggingOptions(rawValue: 2)
-    static var deepLink = AppLoggingOptions(rawValue: 4)
-    static var monetization = AppLoggingOptions(rawValue: 8)
-    static var location = AppLoggingOptions(rawValue: 16)
-    static var uikit = AppLoggingOptions(rawValue: 32)
-    static var parsing = AppLoggingOptions(rawValue: 64)
+    public static var none = AppLoggingOptions(rawValue: 0)
+    public static var navigation = AppLoggingOptions(rawValue: 1)
+    public static var tracking = AppLoggingOptions(rawValue: 2)
+    public static var deepLink = AppLoggingOptions(rawValue: 4)
+    public static var monetization = AppLoggingOptions(rawValue: 8)
+    public static var location = AppLoggingOptions(rawValue: 16)
+    public static var uikit = AppLoggingOptions(rawValue: 32)
+    public static var parsing = AppLoggingOptions(rawValue: 64)
+    public static var camera = AppLoggingOptions(rawValue: 128)
+    public static var debug = AppLoggingOptions(rawValue: 256)
 }
 
-enum LogLevel {
+public enum LogLevel {
     case verbose, debug, info, warning, error
 }
 
 
-func logMessage(_ level: LogLevel, type: AppLoggingOptions, message: String) {
+public func logMessage(_ level: LogLevel, type: AppLoggingOptions, message: String) {
     guard Debug.loggingOptions.contains(type) else { return }
 
     let logText = "[\(type.description)] \(message)"

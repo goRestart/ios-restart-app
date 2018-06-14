@@ -1,11 +1,4 @@
-//
-//  MoPubAdsRequester.swift
-//  LetGo
-//
-//  Created by Francisco Manuel Gómez Rodríguez on 23/3/18.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
+import LGComponents
 import UIKit
 import MoPub
 
