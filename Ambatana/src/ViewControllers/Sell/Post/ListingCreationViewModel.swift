@@ -124,6 +124,9 @@ final class ListingCreationViewModel : BaseViewModel {
     
     private func fetchImagesAndCreateListings() {
         fetchImagesIdsAndCreateParams(trackingInfo: trackingInfo) { [weak self] listingParams in
+            guard listingParams.count > 0 else {
+                return
+            }
             self?.listingRepository.createServices(listingParams: listingParams) { [weak self] results in
                 if let listings = results.value, let trackingInfo = self?.trackingInfo {
                     self?.trackPost(withListings: listings, trackingInfo: trackingInfo)
@@ -136,8 +139,22 @@ final class ListingCreationViewModel : BaseViewModel {
         }
     }
     
-    private func fetchImagesIdsAndCreateParams(trackingInfo: PostListingTrackingInfo, completion: ListingMultiCreationCompletion?) {
+    private func fetchImagesIdsAndCreateParams(trackingInfo: PostListingTrackingInfo,
+                                               completion: ListingMultiCreationCompletion?) {
         let numberOfImages = multipostingSubtypes.count + multipostingNewSubtypes.count
+        guard numberOfImages > 0 else {
+            completion?([])
+            navigator?.cancelPostListing()
+            return
+        }
+        
+        guard numberOfImages > 1 else {
+            createParams(fromImageIds: [uploadedImageId],
+                         trackingInfo: trackingInfo,
+                         completion: completion)
+            return
+        }
+        
         let imageMultiplierParams = ImageMultiplierParams(imageId: uploadedImageId, times: numberOfImages)
         imageMultiplierRepository.imageMultiplier(imageMultiplierParams) { [weak self] result in
             guard let imagesIds = result.value else {
@@ -149,21 +166,37 @@ final class ListingCreationViewModel : BaseViewModel {
                 return
             }
             
-            guard let postListingState = self?.postListingState,
-                let multipostingSubtypes = self?.multipostingSubtypes,
-                let multipostingNewSubtypes = self?.multipostingNewSubtypes,
-                let modifiedParams = self?.multipostParams(subtypes: multipostingSubtypes,
-                                                           newSubtypes: multipostingNewSubtypes,
-                                                           imagesIds: imagesIds,
-                                                           postListingState: postListingState) else {
-                                                            completion?([])
-                                                            self?.navigator?.showMultiListingPostConfirmation(listingResult: ListingsResult(error: RepositoryError.internalError(message: "Multipost params creation")),
-                                                                                                              trackingInfo: trackingInfo,
-                                                                                                              modalStyle: false)
-                                                            return
-            }
-            completion?(modifiedParams)
+            self?.createParams(fromImageIds: imagesIds,
+                               trackingInfo: trackingInfo,
+                               completion: completion)
         }
+    }
+    
+    private func createParams(fromImageIds imagesIds: [String],
+                              trackingInfo: PostListingTrackingInfo,
+                              completion: ListingMultiCreationCompletion?) {
+        guard let postListingState = postListingState else {
+            let error = RepositoryError.internalError(message: "No post listing state available, needed to create params")
+            navigator?.showMultiListingPostConfirmation(listingResult: ListingsResult(error: error),
+                                                        trackingInfo: trackingInfo,
+                                                        modalStyle: false)
+            completion?([])
+            return
+        }
+        
+        let modifiedParams = multipostParams(subtypes: multipostingSubtypes,
+                                             newSubtypes: multipostingNewSubtypes,
+                                             imagesIds: imagesIds,
+                                             postListingState: postListingState)
+        guard !modifiedParams.isEmpty else {
+            let errorResult = ListingsResult(error: RepositoryError.internalError(message: "Multipost params creation failed, params were empty"))
+            navigator?.showMultiListingPostConfirmation(listingResult: errorResult,
+                                                        trackingInfo: trackingInfo,
+                                                        modalStyle: true)
+            completion?([])
+            return
+        }
+        completion?(modifiedParams)
     }
     
     func nextStep() {
@@ -229,12 +262,12 @@ extension ListingCreationViewModel {
                                                                  currency: currency,
                                                                  postListingState: postListingState)
         
-
+        
         let multipostNewParams: [ListingCreationParams] = newSubtypes.enumerated().flatMap { (index, newSubtype) in
             guard let imageFileId = imagesIds[safeAt: index+multipostSubtypeParams.count] else { return nil }
             let serviceAttribute = ServiceAttributes()
             let imageFile = LGFile(id: imageFileId, url: nil)
-
+            
             return ListingCreationParams.make(title: newSubtype,
                                               description: "",
                                               currency: currency,
@@ -244,6 +277,6 @@ extension ListingCreationViewModel {
         }
         return multipostSubtypeParams + multipostNewParams
     }
-
+    
 }
 

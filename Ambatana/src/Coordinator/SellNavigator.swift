@@ -27,8 +27,7 @@ protocol PostListingNavigator: class {
                                previousStepIsSummary: Bool)
     func closePostProductAndPostInBackground(params: ListingCreationParams,
                                              trackingInfo: PostListingTrackingInfo)
-    func closePostServicesAndPostInBackground(params: [ListingCreationParams],
-                                             trackingInfo: PostListingTrackingInfo)
+    func closePostServicesAndPostInBackground(completion: @escaping (() -> Void))
     func closePostProductAndPostLater(params: ListingCreationParams,
                                       images: [UIImage]?,
                                       video: RecordedVideo?,

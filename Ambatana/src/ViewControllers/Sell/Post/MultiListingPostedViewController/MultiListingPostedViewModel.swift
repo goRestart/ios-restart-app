@@ -231,6 +231,7 @@ extension MultiListingPostedViewModel {
     private func fetchImagesIds(forUploadedImageId imageUploadedId: String,
                                 count: Int,
                                 completion: (([String]) -> Void)?) {
+        guard count > 0 else { return showPostingMultiplierError() }
         let imageMultiplierParams = ImageMultiplierParams(imageId: imageUploadedId,
                                                           times: count)
         imageMultiplierRepository.imageMultiplier(imageMultiplierParams) { [weak self] result in
