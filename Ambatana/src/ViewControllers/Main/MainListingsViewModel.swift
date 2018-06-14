@@ -265,6 +265,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     fileprivate let bubbleTextGenerator: DistanceBubbleTextGenerator
     fileprivate let categoryRepository: CategoryRepository
     private let searchAlertsRepository: SearchAlertsRepository
+    fileprivate let userRepository: UserRepository
 
     fileprivate let tracker: Tracker
     fileprivate let searchType: SearchType? // The initial search
@@ -348,6 +349,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
          monetizationRepository: MonetizationRepository,
          categoryRepository: CategoryRepository,
          searchAlertsRepository: SearchAlertsRepository,
+         userRepository: UserRepository,
          locationManager: LocationManager,
          currencyHelper: CurrencyHelper,
          tracker: Tracker,
@@ -364,6 +366,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         self.monetizationRepository = monetizationRepository
         self.categoryRepository = categoryRepository
         self.searchAlertsRepository = searchAlertsRepository
+        self.userRepository = userRepository
         self.locationManager = locationManager
         self.currencyHelper = currencyHelper
         self.tracker = tracker
@@ -409,6 +412,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         let monetizationRepository = Core.monetizationRepository
         let categoryRepository = Core.categoryRepository
         let searchAlertsRepository = Core.searchAlertsRepository
+        let userRepository = Core.userRepository
         let locationManager = Core.locationManager
         let currencyHelper = Core.currencyHelper
         let tracker = TrackerProxy.sharedInstance
@@ -423,6 +427,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                   monetizationRepository: monetizationRepository,
                   categoryRepository: categoryRepository,
                   searchAlertsRepository: searchAlertsRepository,
+                  userRepository: userRepository,
                   locationManager: locationManager,
                   currencyHelper: currencyHelper,
                   tracker: tracker,
@@ -1894,6 +1899,29 @@ extension MainListingsViewModel: ListingCellDelegate {
     
     func postNowButtonPressed(_ view: UIView) {
         navigator?.openSell(source: .realEstatePromo, postCategory: .realEstate)
+    }
+    
+    func openAskPhoneFor(_ listing: Listing, interlocutor: User) {
+        let action: () -> () = { [weak self] in
+            guard let strSelf = self else { return }
+            if let listingId = listing.objectId,
+                strSelf.keyValueStorage.proSellerAlreadySentPhoneInChat.contains(listingId) {
+                strSelf.navigator?.openListingChat(listing, source: .listingList, interlocutor: interlocutor)
+            } else {
+                strSelf.navigator?.openAskPhoneFromMainFeedFor(listing: listing, interlocutor: interlocutor)
+            }
+        }
+        navigator?.openLoginIfNeeded(infoMessage: R.Strings.chatLoginPopupText, then: action)
+    }
+    
+    func getUserInfoFor(_ listing: Listing, completion: @escaping (User?) -> Void) {
+        guard let userId = listing.user.objectId else {
+            completion(nil)
+            return
+        }
+        userRepository.show(userId) { result in
+            completion(result.value)
+        }
     }
     
 }

@@ -750,6 +750,9 @@ extension TabCoordinator: ListingDetailNavigator {
             }
         }
         rootViewController.dismiss(animated: true, completion: completion)
+        tabCoordinatorDelegate?.tabCoordinator(self,
+                                               setSellButtonHidden: false,
+                                               animated: false)
     }
 
     func openUserReport(source: EventParameterTypePage, userReportedId: String) {

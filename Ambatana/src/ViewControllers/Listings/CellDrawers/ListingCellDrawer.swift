@@ -11,9 +11,11 @@ import LGCoreKit
 final class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDrawer {
     
     private let featureFlags: FeatureFlags
+    private let preventMessagesToPro: Bool
     
     init(featureFlags: FeatureFlags = FeatureFlags.sharedInstance) {
         self.featureFlags = featureFlags
+        self.preventMessagesToPro = featureFlags.preventMessagesFromFeedToProUsers.isActive
         super.init()
     }
     
@@ -27,12 +29,12 @@ final class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDr
             cell.set(accessibilityId: .listingCell(listingId: id))
             cell.setupBackgroundColor(id: id)
         }
-
+        
         if model.mediaThumbType == .video,
             let thumbURL = model.mediaThumbUrl {
-            cell.setupGifUrl(thumbURL, imageSize: model.imageSize)
+            cell.setupGifUrl(thumbURL, imageSize: model.imageSize, preventMessagesToPro: preventMessagesToPro)
         } else if let thumbURL = model.thumbUrl {
-            cell.setupImageUrl(thumbURL, imageSize: model.imageSize)
+            cell.setupImageUrl(thumbURL, imageSize: model.imageSize, preventMessagesToPro: preventMessagesToPro)
         }
         
         configThumbnailArea(model, style: style, inCell: cell)

@@ -102,6 +102,9 @@ protocol FeatureFlaggeable: class {
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem { get }
     var emergencyLocate: EmergencyLocate { get }
     var offensiveReportAlert: OffensiveReportAlert { get }
+    
+    // MARK: Money
+    var preventMessagesFromFeedToProUsers: PreventMessagesFromFeedToProUsers { get }
 }
 
 extension FeatureFlaggeable {
@@ -463,6 +466,10 @@ extension FullScreenAdsWhenBrowsingForUS {
             creationDate.isNewerThan(Constants.newUserTimeThresholdForAds) else { return shouldShowFullScreenAdsForOldUsers }
         return shouldShowFullScreenAdsForNewUsers
     }
+}
+
+extension PreventMessagesFromFeedToProUsers {
+    var isActive: Bool { return self == .active }
 }
 
 final class FeatureFlags: FeatureFlaggeable {
@@ -1276,5 +1283,17 @@ extension FeatureFlags {
             return Bumper.videoPosting
         }
         return VideoPosting.fromPosition(abTests.videoPosting.value)
+    }
+}
+
+// MARK: Money
+
+extension FeatureFlags {
+    
+    var preventMessagesFromFeedToProUsers: PreventMessagesFromFeedToProUsers {
+        if Bumper.enabled {
+            return Bumper.preventMessagesFromFeedToProUsers
+        }
+        return PreventMessagesFromFeedToProUsers.fromPosition(abTests.preventMessagesFromFeedToProUsers.value)
     }
 }

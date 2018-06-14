@@ -73,6 +73,7 @@ extension Bumper  {
         flags.append(FullScreenAdsWhenBrowsingForUS.self)
         flags.append(VideoPosting.self)
         flags.append(PredictivePosting.self)
+        flags.append(PreventMessagesFromFeedToProUsers.self)
         Bumper.initialize(flags)
     } 
 
@@ -374,6 +375,11 @@ extension Bumper  {
     static var predictivePosting: PredictivePosting {
         guard let value = Bumper.value(for: PredictivePosting.key) else { return .control }
         return PredictivePosting(rawValue: value) ?? .control 
+    }
+
+    static var preventMessagesFromFeedToProUsers: PreventMessagesFromFeedToProUsers {
+        guard let value = Bumper.value(for: PreventMessagesFromFeedToProUsers.key) else { return .control }
+        return PreventMessagesFromFeedToProUsers(rawValue: value) ?? .control 
     } 
 }
 
@@ -1317,6 +1323,22 @@ enum PredictivePosting: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show predictive posting flow when pressing Other Items on salchichas menu" } 
     static func fromPosition(_ position: Int) -> PredictivePosting {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum PreventMessagesFromFeedToProUsers: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return PreventMessagesFromFeedToProUsers.control.rawValue }
+    static var enumValues: [PreventMessagesFromFeedToProUsers] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "If buyer taps 'I'm interested' button in the feed and the listing is from a PRO user, show the phone number request screen" } 
+    static func fromPosition(_ position: Int) -> PreventMessagesFromFeedToProUsers {
         switch position { 
             case 0: return .control
             case 1: return .baseline

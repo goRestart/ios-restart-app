@@ -112,5 +112,8 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var showPasswordlessLogin: ShowPasswordlessLogin = .control
     var emergencyLocate: EmergencyLocate = .control
     var offensiveReportAlert: OffensiveReportAlert = .control
+    
+    // MARK: Money
+    var preventMessagesFromFeedToProUsers: PreventMessagesFromFeedToProUsers = .control
 }
 

@@ -770,6 +770,10 @@ extension UserProfileViewModel: ListingCellDelegate {
         // this is just meant to be inside the MainFeed
         return
     }
+    
+    func openAskPhoneFor(_ listing: Listing, interlocutor: User) {}
+    
+    func getUserInfoFor(_ listing: Listing, completion: @escaping (User?) -> Void) {}
 
     func chatButtonPressedFor(listing: Listing) {}
 
