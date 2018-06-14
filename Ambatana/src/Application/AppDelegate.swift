@@ -11,6 +11,7 @@ import GoogleSignIn
 import LGCoreKit
 import RxSwift
 import UIKit
+import LGComponents
 
 @UIApplicationMain
 final class AppDelegate: UIResponder {
@@ -257,9 +258,9 @@ fileprivate extension AppDelegate {
 
         // New Relic
         #if GOD_MODE
-            NewRelicAgent.start(withApplicationToken: Constants.newRelicGodModeToken)
+            NewRelicAgent.start(withApplicationToken: SharedConstants.newRelicGodModeToken)
         #else
-            NewRelicAgent.start(withApplicationToken: Constants.newRelicProductionToken)
+            NewRelicAgent.start(withApplicationToken: SharedConstants.newRelicProductionToken)
         #endif
 
         // Fabric

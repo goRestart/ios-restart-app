@@ -1,11 +1,4 @@
-//
-//  SocialSharer.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 27/10/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
+import LGComponents
 import FBSDKShareKit
 import MessageUI
 
@@ -226,19 +219,19 @@ fileprivate extension SocialSharer {
 
     func shareInWhatsapp(_ socialMessage: SocialMessage) {
         socialMessage.retrieveWhatsappShareText { [weak self] shareText in
-            self?.shareInURL(.whatsapp, text: shareText, urlScheme: Constants.whatsAppShareURL)
+            self?.shareInURL(.whatsapp, text: shareText, urlScheme: SharedConstants.whatsAppShareURL)
         }
     }
 
     func shareInTwitter(_ socialMessage: SocialMessage, viewController: UIViewController) {
         socialMessage.retrieveTwitterShareText { [weak self] shareText in
-            self?.shareInURL(.twitter, text: shareText, urlScheme: Constants.twitterShareURL)
+            self?.shareInURL(.twitter, text: shareText, urlScheme: SharedConstants.twitterShareURL)
         }
     }
 
     func shareInTelegram(_ socialMessage: SocialMessage) {
         socialMessage.retrieveTelegramShareText { [weak self] shareText in
-            self?.shareInURL(.telegram, text: shareText, urlScheme: Constants.telegramShareURL)
+            self?.shareInURL(.telegram, text: shareText, urlScheme: SharedConstants.telegramShareURL)
         }
     }
 

@@ -1,25 +1,17 @@
-//
-//  AppReport.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 01/03/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 
 // 0..<100000
-enum AppReport: ReportType {
+public enum AppReport: ReportType {
 
     case monetization(error: MonetizationReportError)   // 1000..<2000
     case navigation(error: NavigationReportError)       // 2000..<3000
     case uikit(error: UIKitReportError)       // 3000..<4000
 
-    var domain: String {
+    public var domain: String {
         return SharedConstants.appDomain
     }
 
-    var code: Int {
+    public var code: Int {
         switch self {
         case .monetization(let error):
             switch error {
@@ -42,15 +34,15 @@ enum AppReport: ReportType {
     }
 }
 
-enum UIKitReportError {
+public enum UIKitReportError {
     case unableToConvertHTMLToString
     case breadcrumb
 }
 
-enum MonetizationReportError {
+public enum MonetizationReportError {
     case invalidAppstoreProductIdentifiers
 }
 
-enum NavigationReportError {
+public enum NavigationReportError {
     case childCoordinatorPresent
 }

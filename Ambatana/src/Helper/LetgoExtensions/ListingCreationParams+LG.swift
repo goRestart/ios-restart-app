@@ -1,11 +1,4 @@
-//
-//  ListingCreationParams+LG.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 18/10/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
+import LGComponents
 import LGCoreKit
 
 extension ListingCreationParams {
@@ -39,7 +32,7 @@ extension ListingCreationParams {
             case .car:
                 let carParams = CarCreationParams(name: title,
                                                   description: description,
-                                                  price: postListingState.price ?? Constants.defaultPrice,
+                                                  price: postListingState.price ?? SharedConstants.defaultPrice,
                                                   category: .cars,
                                                   currency: currency,
                                                   location: location,
@@ -51,7 +44,7 @@ extension ListingCreationParams {
             case .realEstate:
                 let realEstateParams = RealEstateCreationParams(name: title,
                                                                 description: description,
-                                                                price: postListingState.price ?? Constants.defaultPrice,
+                                                                price: postListingState.price ?? SharedConstants.defaultPrice,
                                                                 category: .realEstate,
                                                                 currency: currency,
                                                                 location: location,
@@ -63,7 +56,7 @@ extension ListingCreationParams {
             case .motorsAndAccessories, .otherItems:
                 let productParams = ProductCreationParams(name: title,
                                                           description: description,
-                                                          price: postListingState.price ?? Constants.defaultPrice,
+                                                          price: postListingState.price ?? SharedConstants.defaultPrice,
                                                           category: category.listingCategory,
                                                           currency: currency,
                                                           location: location,
@@ -74,7 +67,7 @@ extension ListingCreationParams {
             case .services:
                 let serviceParams =  ServicesCreationParams(name: title,
                                                             description: description,
-                                                            price: postListingState.price ?? Constants.defaultPrice,
+                                                            price: postListingState.price ?? SharedConstants.defaultPrice,
                                                             category: category.listingCategory,
                                                             currency: currency,
                                                             location: location,
@@ -87,7 +80,7 @@ extension ListingCreationParams {
         } else {
             let productParams = ProductCreationParams(name: title,
                                                       description: description,
-                                                      price: postListingState.price ?? Constants.defaultPrice,
+                                                      price: postListingState.price ?? SharedConstants.defaultPrice,
                                                       category: postListingState.category?.listingCategory ?? .unassigned,
                                                       currency: currency,
                                                       location: location,

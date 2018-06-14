@@ -199,7 +199,7 @@ fileprivate extension TabCoordinator {
                     }
                 case .notFound, .forbidden:
                     let relatedRequester = RelatedListingListRequester(listingId: listingId,
-                                                                       itemsPerPage: Constants.numListingsPerPageDefault)
+                                                                       itemsPerPage: SharedConstants.numListingsPerPageDefault)
                     relatedRequester.retrieveFirstPage { result in
                         self?.navigationController.dismissLoadingMessageAlert {
                             if let relatedListings = result.listingsResult.value, !relatedListings.isEmpty {
@@ -225,10 +225,10 @@ fileprivate extension TabCoordinator {
         let listingListRequester: ListingListRequester?
         if discover {
             listingListRequester = DiscoverListingListRequester(listingId: listingId,
-                                                                itemsPerPage: Constants.numListingsPerPageDefault)
+                                                                itemsPerPage: SharedConstants.numListingsPerPageDefault)
         } else {
             listingListRequester = RelatedListingListRequester(listing: listing,
-                                                               itemsPerPage: Constants.numListingsPerPageDefault)
+                                                               itemsPerPage: SharedConstants.numListingsPerPageDefault)
         }
         guard let relatedRequester = listingListRequester else { return }
         requestersArray.append(relatedRequester)
@@ -240,7 +240,7 @@ fileprivate extension TabCoordinator {
             requesterCopy.updateInitialOffset(listOffset)
             requestersArray.append(requesterCopy)
         } else {
-            let filteredRequester = FilteredListingListRequester(itemsPerPage: Constants.numListingsPerPageDefault, offset: listOffset)
+            let filteredRequester = FilteredListingListRequester(itemsPerPage: SharedConstants.numListingsPerPageDefault, offset: listOffset)
             requestersArray.append(filteredRequester)
         }
 
@@ -300,8 +300,8 @@ fileprivate extension TabCoordinator {
         guard let localProduct = LocalProduct(chatConversation: chatConversation, myUser: myUserRepository.myUser),
             let listingId = localProduct.objectId else { return }
         let relatedRequester = RelatedListingListRequester(listingId: listingId,
-                                                           itemsPerPage: Constants.numListingsPerPageDefault)
-        let filteredRequester = FilteredListingListRequester( itemsPerPage: Constants.numListingsPerPageDefault, offset: 0)
+                                                           itemsPerPage: SharedConstants.numListingsPerPageDefault)
+        let filteredRequester = FilteredListingListRequester( itemsPerPage: SharedConstants.numListingsPerPageDefault, offset: 0)
         let requester = ListingListMultiRequester(requesters: [relatedRequester, filteredRequester])
 
         if featureFlags.deckItemPage.isActive {
@@ -668,7 +668,7 @@ extension TabCoordinator: ListingDetailNavigator {
     }
 
     func showProductFavoriteBubble(with data: BubbleNotificationData) {
-        showBubble(with: data, duration: Constants.bubbleFavoriteDuration)
+        showBubble(with: data, duration: SharedConstants.bubbleFavoriteDuration)
     }
 
     func openLoginIfNeededFromProductDetail(from: EventParameterLoginSourceValue,

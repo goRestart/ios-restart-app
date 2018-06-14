@@ -187,7 +187,7 @@ extension SocialMessage {
     }
     
     func addCustomSchemeToDeeplinkPath(_ deepLinkPath: String) -> String {
-        return "\(Constants.deepLinkScheme)\(deepLinkPath)"
+        return "\(SharedConstants.deepLinkScheme)\(deepLinkPath)"
     }
 }
 

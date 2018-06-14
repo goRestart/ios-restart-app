@@ -1,14 +1,6 @@
-//
-//  ListingCreationViewModel.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 23/11/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
-
 import RxSwift
 import LGCoreKit
+import LGComponents
 
 final class ListingCreationViewModel : BaseViewModel {
     
@@ -229,7 +221,7 @@ extension ListingCreationViewModel {
         guard let location = locationManager.currentLocation?.location else { return [] }
         
         let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()
-        let currency = currencyHelper.currencyWithCountryCode(postalAddress.countryCode ?? Constants.currencyDefault)
+        let currency = currencyHelper.currencyWithCountryCode(postalAddress.countryCode ?? SharedConstants.currencyDefault)
         
         let multipostSubtypeParams = subtypes.makeCreationParams(imagesIds: imagesIds,
                                                                  location: location,

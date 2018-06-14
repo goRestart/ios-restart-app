@@ -1,11 +1,4 @@
-//
-//  User+Accounts.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 15/04/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
+import LGComponents
 import LGCoreKit
 
 enum UserReputationBadge: String {
@@ -31,7 +24,7 @@ extension User {
         return accounts.filter { $0.verified }.count > 0
     }
     var reputationBadge: UserReputationBadge {
-        return reputationPoints >= Constants.Reputation.minScore ? .silver : .noBadge
+        return reputationPoints >= SharedConstants.Reputation.minScore ? .silver : .noBadge
     }
     var hasBadge: Bool {
         return reputationBadge != .noBadge

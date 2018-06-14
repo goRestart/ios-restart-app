@@ -52,7 +52,7 @@ final class PostingMultiSelectionView: UIView {
     private var bottomConstraint: NSLayoutConstraint?
     
     private var selectedServicesIsLessThanMax: Bool {
-        return (selectedIndexes.count + newSubtypes.count) < Constants.maxNumberMultiPosting
+        return (selectedIndexes.count + newSubtypes.count) < SharedConstants.maxNumberMultiPosting
     }
     
     private let keyboardHelper: KeyboardHelper

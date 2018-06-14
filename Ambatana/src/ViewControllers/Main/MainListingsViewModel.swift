@@ -379,7 +379,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         self.chatWrapper = chatWrapper
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         let columns = show3Columns ? 3 : 2
-        let itemsPerPage = show3Columns ? Constants.numListingsPerPageBig : Constants.numListingsPerPageDefault
+        let itemsPerPage = show3Columns ? SharedConstants.numListingsPerPageBig : SharedConstants.numListingsPerPageDefault
         self.requesterDependencyContainer = RequesterDependencyContainer(itemsPerPage: itemsPerPage,
                                                                          filters: filters,
                                                                          queryString: searchType?.query,
@@ -1225,7 +1225,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                 } else if featureFlags.noAdsInFeedForNewUsers.shouldShowAdsInFeed {
                     customTargetingValue = featureFlags.noAdsInFeedForNewUsers.customTargetingValueFor(position: lastAdPosition)
                 }
-                request.customTargeting = [Constants.adInFeedCustomTargetingKey: customTargetingValue]
+                request.customTargeting = [SharedConstants.adInFeedCustomTargetingKey: customTargetingValue]
                 
                 let adData = AdvertisementDFPData(adUnitId: feedAdUnitId,
                                                   rootViewController: adsDelegate.rootViewControllerForAds(),
@@ -1482,7 +1482,7 @@ extension MainListingsViewModel {
         guard let languageCode = Locale.current.languageCode else { return }
 		
         searchRepository.retrieveSuggestiveSearches(language: languageCode,
-                                                    limit: Constants.listingsSearchSuggestionsMaxResults,
+                                                    limit: SharedConstants.listingsSearchSuggestionsMaxResults,
                                                     term: term) { [weak self] result in
             // prevent showing results when deleting the search text
             guard let sourceText = self?.searchText.value else { return }
@@ -1651,7 +1651,7 @@ fileprivate extension MainListingsViewModel {
                 .flatMap { $0.suggestiveSearch.name }
                 .reversed()
                 .joined(separator: " ")
-                .clipMoreThan(wordCount: Constants.maxSelectedForYouQueryTerms)
+                .clipMoreThan(wordCount: SharedConstants.maxSelectedForYouQueryTerms)
         }
         return query
     }

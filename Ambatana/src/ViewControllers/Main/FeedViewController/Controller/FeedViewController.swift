@@ -282,7 +282,7 @@ extension FeedViewController: WaterFallLayoutDelegate {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, heightForFooterInSection section: Int) -> CGFloat {
         if section == viewModel.numberOfSections() - 1 {
-            return Constants.listingListFooterHeight
+            return SharedConstants.listingListFooterHeight
         }
         return 0
     }

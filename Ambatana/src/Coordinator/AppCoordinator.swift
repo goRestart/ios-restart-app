@@ -202,7 +202,7 @@ extension AppCoordinator: AppNavigator {
 
         let application = UIApplication.shared
 
-        guard let url = URL(string: Constants.appStoreURL) else { return }
+        guard let url = URL(string: SharedConstants.appStoreURL) else { return }
         guard application.canOpenURL(url) else { return }
 
         let alert = UIAlertController(title: R.Strings.forcedUpdateTitle,
@@ -371,14 +371,14 @@ extension AppCoordinator: AppNavigator {
     }
 
     private func canOpenAppStoreWriteReviewWebsite() -> Bool {
-        if let url = URL(string: Constants.appStoreWriteReviewURL) {
+        if let url = URL(string: SharedConstants.appStoreWriteReviewURL) {
             return UIApplication.shared.canOpenURL(url)
         }
         return false
     }
 
     private func openAppStoreWriteReviewWebsite() {
-        if let url = URL(string: Constants.appStoreWriteReviewURL) {
+        if let url = URL(string: SharedConstants.appStoreWriteReviewURL) {
             UIApplication.shared.openURL(url)
         }
     }
@@ -479,7 +479,7 @@ extension AppCoordinator: AppNavigator {
     }
 
     func openAppStore() {
-        if let url = URL(string: Constants.appStoreURL) {
+        if let url = URL(string: SharedConstants.appStoreURL) {
             UIApplication.shared.openURL(url)
         }
     }
@@ -605,7 +605,7 @@ fileprivate extension AppCoordinator {
 
     fileprivate var promoteBumpShownInLastDay: Bool {
         if let lastShownDate = keyValueStorage[.lastShownPromoteBumpDate] {
-            return abs(lastShownDate.timeIntervalSinceNow) < Constants.promoteAfterPostWaitTime
+            return abs(lastShownDate.timeIntervalSinceNow) < SharedConstants.promoteAfterPostWaitTime
         } else {
             return false
         }
@@ -1116,7 +1116,7 @@ fileprivate extension AppCoordinator {
                                               action: action,
                                               iconURL: conversation.interlocutor?.avatar?.fileURL,
                                               iconImage: R.Asset.IconsButtons.userPlaceholder.image)
-            self?.showBubble(with: data, duration: Constants.bubbleChatDuration)
+            self?.showBubble(with: data, duration: SharedConstants.bubbleChatDuration)
         }
     }
 }

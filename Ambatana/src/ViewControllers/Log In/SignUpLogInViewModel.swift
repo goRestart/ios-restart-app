@@ -51,9 +51,9 @@ struct SignUpForm {
     
     private func checkPassword() -> SignUpFormErrors {
         var errors: SignUpFormErrors = []
-        if password.count < Constants.passwordMinLength {
+        if password.count < SharedConstants.passwordMinLength {
             errors.insert(.shortPassword)
-        } else if password.count > Constants.passwordMaxLength {
+        } else if password.count > SharedConstants.passwordMaxLength {
             errors.insert(.longPassword)
         }
         return errors
@@ -63,7 +63,7 @@ struct SignUpForm {
         var errors: SignUpFormErrors = []
         if username.containsLetgo() {
             errors.insert(.usernameTaken)
-        } else if username.count < Constants.fullNameMinLength {
+        } else if username.count < SharedConstants.fullNameMinLength {
             errors.insert(.invalidUsername)
         }
         return errors
@@ -97,7 +97,7 @@ struct LogInEmailForm {
     
     private func checkPassword() -> LogInEmailFormErrors {
         var errors: LogInEmailFormErrors = []
-        if password.count < Constants.passwordMinLength {
+        if password.count < SharedConstants.passwordMinLength {
             errors.insert(.shortPassword)
         }
         return errors
@@ -466,7 +466,7 @@ class SignUpLogInViewModel: BaseViewModel {
         
         // Email auto suggest
         emailTrimmed.asObservable()
-            .map { $0?.suggestEmail(domains: Constants.emailSuggestedDomains) }
+            .map { $0?.suggestEmail(domains: SharedConstants.emailSuggestedDomains) }
             .bind(to: suggestedEmailVar)
             .disposed(by: disposeBag)
     }
@@ -664,12 +664,12 @@ fileprivate extension SignUpFormErrors {
         if contains(.invalidEmail) {
             message = R.Strings.signUpSendErrorInvalidEmail
         } else if contains(.shortPassword) || contains(.longPassword) {
-            message = R.Strings.signUpSendErrorInvalidPasswordWithMax(Constants.passwordMinLength,
-                                                                             Constants.passwordMaxLength)
+            message = R.Strings.signUpSendErrorInvalidPasswordWithMax(SharedConstants.passwordMinLength,
+                                                                             SharedConstants.passwordMaxLength)
         } else if contains(.usernameTaken) {
             message = R.Strings.signUpSendErrorGeneric
         } else if contains(.invalidUsername) {
-            message = R.Strings.signUpSendErrorInvalidUsername(Constants.fullNameMinLength)
+            message = R.Strings.signUpSendErrorInvalidUsername(SharedConstants.fullNameMinLength)
         } else if contains(.termsNotAccepted) {
             message = R.Strings.signUpAcceptanceError
         } else {

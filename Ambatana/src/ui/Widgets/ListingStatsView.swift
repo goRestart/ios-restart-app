@@ -135,8 +135,8 @@ class ListingStatsView: UIView {
     }
 
     func updateStatsWithInfo(_ viewsCount: Int, favouritesCount: Int, postedDate: Date?) {
-        favouriteStatsView.isHidden = favouritesCount < Constants.minimumStatsCountToShow
-        viewsStatsView.isHidden = viewsCount < Constants.minimumStatsCountToShow
+        favouriteStatsView.isHidden = favouritesCount < SharedConstants.minimumStatsCountToShow
+        viewsStatsView.isHidden = viewsCount < SharedConstants.minimumStatsCountToShow
 
         favouriteStatsLabel.text = favouritesCount > maxStatsDisplayedCount ? "+999" : String(favouritesCount)
 

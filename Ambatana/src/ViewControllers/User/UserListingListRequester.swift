@@ -1,12 +1,5 @@
-//
-//  UserListingListRequester.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 19/04/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
+import LGComponents
 
 protocol UserListingListRequester: ListingListRequester {
     var userObjectId: String? { get set }
@@ -22,7 +15,7 @@ class UserFavoritesListingListRequester: UserListingListRequester {
         return nil
     }
 
-    var itemsPerPage: Int = Constants.numListingsPerPageDefault
+    var itemsPerPage: Int = SharedConstants.numListingsPerPageDefault
     var userObjectId: String?
     private var offset: Int = 0
     let listingRepository: ListingRepository

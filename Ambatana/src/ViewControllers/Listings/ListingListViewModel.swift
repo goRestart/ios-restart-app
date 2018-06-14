@@ -1,11 +1,4 @@
-//
-//  ListingListViewModel.swift
-//  LetGo
-//
-//  Created by AHL on 9/7/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
+import LGComponents
 import LGCoreKit
 import Result
 import RxSwift
@@ -632,7 +625,7 @@ final class ListingListViewModel: BaseViewModel {
     func setCurrentItemIndex(_ index: Int) {
         let requester = featureFlags.emptySearchImprovements.isActive ? currentActiveRequester : listingListRequester
         guard let itemsPerPage = requester?.itemsPerPage, numberOfListings > 0 else { return }
-        let threshold = numberOfListings - Int(Float(itemsPerPage)*Constants.listingsPagingThresholdPercentage)
+        let threshold = numberOfListings - Int(Float(itemsPerPage)*SharedConstants.listingsPagingThresholdPercentage)
         let shouldRetrieveListingsNextPage = index >= threshold && !isOnErrorState
         if shouldRetrieveListingsNextPage {
             retrieveListingsNextPage()

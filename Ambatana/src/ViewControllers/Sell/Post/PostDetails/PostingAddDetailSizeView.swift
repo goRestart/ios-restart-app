@@ -62,7 +62,7 @@ class PostingAddDetailSizeView: UIView, PostingViewConfigurable, UITextFieldDele
         let tapBackground = UITapGestureRecognizer(target: self, action: #selector(closeKeyboard))
         addGestureRecognizer(tapBackground)
         
-        sizeLabel.text = Constants.sizeSquareMetersUnit + ":"
+        sizeLabel.text = SharedConstants.sizeSquareMetersUnit + ":"
     }
     
     private func setupConstraints() {

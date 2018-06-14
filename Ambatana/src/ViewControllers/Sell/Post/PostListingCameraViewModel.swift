@@ -170,7 +170,7 @@ final class PostListingCameraViewModel: BaseViewModel {
     }
 
     func videoRecorded(video: RecordedVideo) {
-        if video.duration > Constants.videoMinRecordingDuration {
+        if video.duration > SharedConstants.videoMinRecordingDuration {
             videoRecorded.value = video
             cameraState.value = .previewVideo
         } else {
@@ -303,9 +303,9 @@ final class PostListingCameraViewModel: BaseViewModel {
                         return
                 }
                 guard strongSelf.liveStats.value?.keyword != first.keyword
-                    || confidence <= Constants.MachineLearning.minimumConfidenceToRemove else { return }
+                    || confidence <= SharedConstants.MachineLearning.minimumConfidenceToRemove else { return }
 
-                if strongSelf.liveStats.value?.keyword != first.keyword, confidence > Constants.MachineLearning.minimumConfidence {
+                if strongSelf.liveStats.value?.keyword != first.keyword, confidence > SharedConstants.MachineLearning.minimumConfidence {
                     strongSelf.liveStats.value = first
                 } else {
                     strongSelf.liveStats.value = nil
@@ -322,13 +322,13 @@ final class PostListingCameraViewModel: BaseViewModel {
                 }
                 let nameString = stats.keyword.capitalized
                 var avgPriceString: String? = nil
-                if stats.prices.count >= Constants.MachineLearning.pricePositionDisplay {
-                    avgPriceString = R.Strings.mlCameraSellsForText(Int(stats.prices[Constants.MachineLearning.pricePositionDisplay]))
+                if stats.prices.count >= SharedConstants.MachineLearning.pricePositionDisplay {
+                    avgPriceString = R.Strings.mlCameraSellsForText(Int(stats.prices[SharedConstants.MachineLearning.pricePositionDisplay]))
                 }
                 var medianDaysToSellString: String? = nil
                 if stats.medianDaysToSell > 0 {
-                    if stats.medianDaysToSell > Constants.MachineLearning.maximumDaysToDisplay {
-                        medianDaysToSellString = R.Strings.mlCameraInMoreThanDaysText(Int(Constants.MachineLearning.maximumDaysToDisplay.rounded()))
+                    if stats.medianDaysToSell > SharedConstants.MachineLearning.maximumDaysToDisplay {
+                        medianDaysToSellString = R.Strings.mlCameraInMoreThanDaysText(Int(SharedConstants.MachineLearning.maximumDaysToDisplay.rounded()))
                     } else {
                         medianDaysToSellString = R.Strings.mlCameraInAboutDaysText(Int(stats.medianDaysToSell.rounded()))
                     }
@@ -341,8 +341,8 @@ final class PostListingCameraViewModel: BaseViewModel {
 
     func predictionDetailsData() -> MLPredictionDetailsViewData? {
         guard let stats = liveStats.value else { return nil }
-        let price: Int? = stats.prices.count >= Constants.MachineLearning.pricePositionDisplay ?
-            Int(stats.prices[Constants.MachineLearning.pricePositionDisplay]) : nil
+        let price: Int? = stats.prices.count >= SharedConstants.MachineLearning.pricePositionDisplay ?
+            Int(stats.prices[SharedConstants.MachineLearning.pricePositionDisplay]) : nil
         let doublePrice: Double?
         if let priceValue = price {
             doublePrice = Double(priceValue)

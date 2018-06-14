@@ -125,8 +125,8 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
         let message: String
         switch (error) {
         case .invalidPassword:
-            message = R.Strings.changePasswordSendErrorInvalidPasswordWithMax(Constants.passwordMinLength,
-                Constants.passwordMaxLength)
+            message = R.Strings.changePasswordSendErrorInvalidPasswordWithMax(SharedConstants.passwordMinLength,
+                SharedConstants.passwordMaxLength)
         case .passwordMismatch:
             message = R.Strings.changePasswordSendErrorPasswordsMismatch
         case .resetPasswordLinkExpired:
@@ -158,7 +158,7 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
                 switch (error) {
                 case .invalidPassword:
                     message = R.Strings.changePasswordSendErrorInvalidPasswordWithMax(
-                        Constants.passwordMinLength, Constants.passwordMaxLength)
+                        SharedConstants.passwordMinLength, SharedConstants.passwordMaxLength)
                 case .passwordMismatch:
                     message = R.Strings.changePasswordSendErrorPasswordsMismatch
                 case .resetPasswordLinkExpired:

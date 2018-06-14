@@ -317,7 +317,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                 case .year:
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterSliderYearCell.reusableID,
                                                                         for: indexPath) as? FilterSliderYearCell else { return UICollectionViewCell() }
-                    cell.setupSlider(minimumValue: Constants.filterMinCarYear, 
+                    cell.setupSlider(minimumValue: SharedConstants.filterMinCarYear, 
                                      maximumValue: Date().year,
                                      minimumValueSelected: viewModel.carYearStart,
                                      maximumValueSelected: viewModel.carYearEnd)
@@ -383,7 +383,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterTextFieldIntCell.reusableID,
                                                                         for: indexPath) as? FilterTextFieldIntCell else { return UICollectionViewCell() }
                     cell.tag = realEstateSection == .sizeFrom ? TextFieldNumberType.sizeFrom.rawValue : TextFieldNumberType.sizeTo.rawValue
-                    cell.textField.placeholder = Constants.sizeSquareMetersUnit
+                    cell.textField.placeholder = SharedConstants.sizeSquareMetersUnit
                     cell.titleLabel.text = realEstateSection == .sizeFrom ? R.Strings.filtersPriceFrom :
                         R.Strings.filtersPriceTo
                     cell.bottomSeparator?.isHidden =  false

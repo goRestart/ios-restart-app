@@ -547,7 +547,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         realEstateTurkishPropertyTypeTitleLabel.text = R.Strings.realEstateTypePropertyTitle
         realEstateTurkishOfferTypeTitleLabel.text = R.Strings.realEstateOfferTypeTitle
         realEstateTurkishNumberOfRoomsTitleLabel.text = R.Strings.realEstateRoomsTitle
-        realEstateTurkishSizeTitleLabel.text = Constants.sizeSquareMetersUnit
+        realEstateTurkishSizeTitleLabel.text = SharedConstants.sizeSquareMetersUnit
         
         serviceTypeTitleLabel.text = R.Strings.servicesServiceTypeTitle
         serviceSubtypeTitleLabel.text = R.Strings.servicesServiceSubtypeTitle

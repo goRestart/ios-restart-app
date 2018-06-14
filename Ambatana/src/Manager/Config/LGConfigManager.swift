@@ -1,11 +1,4 @@
-//
-//  ConfigFileManager.swift
-//  LGCoreKit
-//
-//  Created by Dídac on 06/08/15.
-//  Copyright (c) 2015 Ambatana Inc. All rights reserved.
-//
-
+import LGComponents
 import Result
 import LGCoreKit
 
@@ -64,7 +57,7 @@ class LGConfigManager: ConfigManager {
         self.appCurrentVersion = appCurrentVersion
 
         self.config = dao.retrieve()
-        self.updateTimeout = Constants.defaultConfigTimeOut
+        self.updateTimeout = SharedConstants.defaultConfigTimeOut
     }
 
     // MARK : - Public methods

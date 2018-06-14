@@ -214,7 +214,7 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
                 strongSelf.mapView.removeAnnotations(strongSelf.mapView.annotations)
                 strongSelf.mapPinCustomAnnotation = nil
                 strongSelf.locationZone = MKCircle(center:coordinate.coordinates2DfromLocation(),
-                                                   radius: Constants.accurateRegionRadius)
+                                                   radius: SharedConstants.accurateRegionRadius)
             }
             }.disposed(by: disposeBag)
     }
@@ -265,7 +265,7 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
     
     func addRegion(with coordinate: LGLocationCoordinates2D, zoomBlocker: Bool) {
         let clCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
-        vmRegion = MKCoordinateRegionMakeWithDistance(clCoordinate, Constants.accurateRegionRadius*2, Constants.accurateRegionRadius*2)
+        vmRegion = MKCoordinateRegionMakeWithDistance(clCoordinate, SharedConstants.accurateRegionRadius*2, SharedConstants.accurateRegionRadius*2)
         guard let region = vmRegion else { return }
         mapView.setRegion(region, animated: false)
         
@@ -519,7 +519,7 @@ fileprivate extension ListingCarouselMoreInfoView {
         let productCreation = viewModel.productInfo.asObservable().map { $0?.creationDate }
         let statsAndCreation = Observable.combineLatest(viewModel.listingStats.asObservable().unwrap(), productCreation) { ($0, $1) }
         let statsViewVisible = statsAndCreation.map { (stats, creation) in
-            return stats.viewsCount >= Constants.minimumStatsCountToShow || stats.favouritesCount >= Constants.minimumStatsCountToShow || creation != nil
+            return stats.viewsCount >= SharedConstants.minimumStatsCountToShow || stats.favouritesCount >= SharedConstants.minimumStatsCountToShow || creation != nil
         }
         statsViewVisible.asObservable().distinctUntilChanged().bind { [weak self] visible in
             self?.statsContainerViewHeightConstraint.constant = visible ? self?.statsContainerViewHeight ?? 0 : 0

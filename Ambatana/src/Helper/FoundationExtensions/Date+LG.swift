@@ -185,7 +185,7 @@ extension Date {
 
     var isMeetingSafeTime: Bool {
         let hour = Calendar.current.component(.hour, from: self)
-        return hour >= Constants.minSafeHourForMeetings && hour <= Constants.maxSafeHourForMeetings
+        return hour >= SharedConstants.minSafeHourForMeetings && hour <= SharedConstants.maxSafeHourForMeetings
     }
 
     func formattedForTracking() -> String {

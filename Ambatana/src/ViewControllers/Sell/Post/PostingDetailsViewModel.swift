@@ -160,7 +160,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     private var uploadedVideoLength: TimeInterval?
     private let postingSource: PostingSource
     private let postListingBasicInfo: PostListingBasicDetailViewModel
-    private let priceListing = Variable<ListingPrice>(Constants.defaultPrice)
+    private let priceListing = Variable<ListingPrice>(SharedConstants.defaultPrice)
     private let sizeListing = Variable<Int?>(nil)
     private let placeSelected = Variable<Place?>(nil)
     private let previousStepIsSummary: Bool
@@ -242,7 +242,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         }
         switch step {
         case .price:
-        if priceListing.value != Constants.defaultPrice || previousStepIsSummary {
+        if priceListing.value != SharedConstants.defaultPrice || previousStepIsSummary {
             set(price: priceListing.value)
         }
         case .location:
@@ -409,7 +409,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         guard let location = locationManager.currentLocation?.location else { return nil }
         
         let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()
-        let currency = currencyHelper.currencyWithCountryCode(postalAddress.countryCode ?? Constants.currencyDefault)
+        let currency = currencyHelper.currencyWithCountryCode(postalAddress.countryCode ?? SharedConstants.currencyDefault)
         let title = postListingBasicInfo.title.value.isEmpty ? postListingState.verticalAttributes?.generatedTitle(postingFlowType: featureFlags.postingFlowType) : postListingBasicInfo.title.value
         return ListingCreationParams.make(title: title,
                                           description: postListingBasicInfo.description.value,
@@ -593,7 +593,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         guard let location = locationManager.currentLocation?.location else { return [] }
         
         let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()
-        let currency = currencyHelper.currencyWithCountryCode(postalAddress.countryCode ?? Constants.currencyDefault)
+        let currency = currencyHelper.currencyWithCountryCode(postalAddress.countryCode ?? SharedConstants.currencyDefault)
         
         let multipostSubtypeParams = subtypes.makeCreationParams(imagesIds: imagesIds,
                                                                  location: location,
@@ -651,7 +651,7 @@ extension PostingDetailsViewModel: PostingMultiSelectionViewDelegate {
     }
     
     private var selectedServicesIsLessThanMax: Bool {
-        return (multipostingSubtypes.count + multipostingNewSubtypes.count) <= Constants.maxNumberMultiPosting
+        return (multipostingSubtypes.count + multipostingNewSubtypes.count) <= SharedConstants.maxNumberMultiPosting
     }
     
 }

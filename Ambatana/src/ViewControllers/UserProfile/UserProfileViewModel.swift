@@ -128,9 +128,9 @@ final class UserProfileViewModel: BaseViewModel {
 
         let status = UserProfileViewModel.sellingListingStatusCode()
         self.sellingListingListRequester = UserStatusesListingListRequester(statuses: status,
-                                                                            itemsPerPage: Constants.numListingsPerPageDefault)
+                                                                            itemsPerPage: SharedConstants.numListingsPerPageDefault)
         self.soldListingListRequester = UserStatusesListingListRequester(statuses: { [.sold, .soldOld] },
-                                                                         itemsPerPage: Constants.numListingsPerPageDefault)
+                                                                         itemsPerPage: SharedConstants.numListingsPerPageDefault)
         self.favoritesListingListRequester = UserFavoritesListingListRequester()
 
         self.sellingListingListViewModel = ListingListViewModel(requester: self.sellingListingListRequester,

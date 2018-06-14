@@ -173,10 +173,10 @@ class FilteredListingListRequester: ListingListRequester {
             }
         } else if let endYear = filters.carYearEnd, !endYear.isNegated {
             // only end specified
-            if endYear.value == Constants.filterMinCarYear {
-                return R.Strings.filtersCarYearBeforeYear(Constants.filterMinCarYear)
+            if endYear.value == SharedConstants.filterMinCarYear {
+                return R.Strings.filtersCarYearBeforeYear(SharedConstants.filterMinCarYear)
             } else {
-                return R.Strings.filtersCarYearBeforeYear(Constants.filterMinCarYear) + " - " + String(endYear.value)
+                return R.Strings.filtersCarYearBeforeYear(SharedConstants.filterMinCarYear) + " - " + String(endYear.value)
             }
         } else {
             // no year specified

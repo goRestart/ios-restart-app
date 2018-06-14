@@ -187,7 +187,7 @@ class ListingViewModel: BaseViewModel {
 
     lazy var directChatEnabled = Variable<Bool>(false)
     var directChatPlaceholder: String {
-        let userName = listing.value.user.name?.toNameReduced(maxChars: Constants.maxCharactersOnUserNameChatButton) ?? ""
+        let userName = listing.value.user.name?.toNameReduced(maxChars: SharedConstants.maxCharactersOnUserNameChatButton) ?? ""
         return R.Strings.productChatWithSellerNameButton(userName)
     }
     fileprivate lazy var productIsFavoriteable = Variable<Bool>(false)

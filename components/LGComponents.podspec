@@ -62,7 +62,13 @@ Pod::Spec.new do |s|
     # end
 
     s.subspec 'LGShared' do |sharedSpec|  
-        sharedSpec.source_files = 'LGShared/LGShared/Classes/iOS/UIKit/UIView+Geometry.swift'
+    	baseFolder='LGShared/LGShared/Classes/'
+        sharedSpec.source_files = [
+        	baseFolder+'iOS/UIKit/UIView+Geometry.swift',
+        	baseFolder+'iOS/Foundation/TimeInterval+Time.swift',
+        	baseFolder+'Global/AppReport.swift',
+        	baseFolder+'Global/SharedConstants.swift'
+        ]
         # sharedSpec.source_files = 'LGShared/LGShared/Classes/**/*'
 
         # sharedSpec.frameworks = 'CoreText'
@@ -70,7 +76,7 @@ Pod::Spec.new do |s|
         # sharedSpec.dependency 'LGComponents/LGAnalytics'
         # sharedSpec.dependency 'LGComponents/LGResources'
 
-        # sharedSpec.dependency 'LGCoreKit',             '4.27.0'
+        sharedSpec.dependency 'LGCoreKit',             '4.32.1'
 
         # sharedSpec.dependency 'DeviceGuru',            '3.0.1'
         # sharedSpec.dependency 'AlamofireImage',        '3.3.0'
