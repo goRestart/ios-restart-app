@@ -167,11 +167,11 @@ final class ListingListViewModel: BaseViewModel {
                  listings: [Listing]? = nil,
                  numberOfColumns: Int = 2,
                  isPrivateList: Bool = false,
-                 tracker: Tracker = TrackerProxy.sharedInstance,
-                 imageDownloader: ImageDownloaderType = ImageDownloader.sharedInstance,
-                 reporter: CrashlyticsReporter = CrashlyticsReporter(),
-                 featureFlags: FeatureFlaggeable = FeatureFlags.sharedInstance,
-                 myUserRepository: MyUserRepository = Core.myUserRepository,
+                 tracker: Tracker,
+                 imageDownloader: ImageDownloaderType,
+                 reporter: CrashlyticsReporter,
+                 featureFlags: FeatureFlaggeable,
+                 myUserRepository: MyUserRepository,
                  requesterFactory: RequesterFactory? = nil,
                  searchType: SearchType?) {
         self.objects = (listings ?? []).map(ListingCellModel.init)
@@ -193,25 +193,69 @@ final class ListingListViewModel: BaseViewModel {
     }
     
     convenience init(requester: ListingListRequester, isPrivateList: Bool = false) {
-        self.init(requester: requester, isPrivateList: isPrivateList, requesterFactory: nil, searchType: nil)
+        self.init(requester: requester,
+                  listings: nil,
+                  numberOfColumns: 2,
+                  isPrivateList: isPrivateList,
+                  tracker: TrackerProxy.sharedInstance,
+                  imageDownloader: ImageDownloader.sharedInstance,
+                  reporter: CrashlyticsReporter(),
+                  featureFlags: FeatureFlags.sharedInstance,
+                  myUserRepository: Core.myUserRepository,
+                  requesterFactory: nil,
+                  searchType: nil)
         requesterSequence = [requester]
         setCurrentFallbackRequester()
     }
     
-    convenience init(numberOfColumns: Int, tracker: Tracker, featureFlags: FeatureFlaggeable = FeatureFlags.sharedInstance, requesterFactory: RequesterFactory, searchType: SearchType?) {
-        self.init(requester: nil, numberOfColumns: numberOfColumns, tracker: tracker, featureFlags: featureFlags, requesterFactory: requesterFactory, searchType: searchType)
+    convenience init(numberOfColumns: Int,
+                     tracker: Tracker,
+                     featureFlags: FeatureFlaggeable,
+                     requesterFactory: RequesterFactory,
+                     searchType: SearchType?) {
+        self.init(requester: nil,
+                  listings: nil,
+                  numberOfColumns: numberOfColumns,
+                  isPrivateList: false,
+                  tracker: tracker,
+                  imageDownloader: ImageDownloader.sharedInstance,
+                  reporter: CrashlyticsReporter(),
+                  featureFlags: featureFlags,
+                  myUserRepository: Core.myUserRepository,
+                  requesterFactory: requesterFactory,
+                  searchType: searchType)
         self.requesterFactory = requesterFactory
         requesterSequence = requesterFactory.buildRequesterList()
         setCurrentFallbackRequester()
     }
     
     convenience override init() {
-        self.init(requester: nil, requesterFactory: nil, searchType: nil)
+        self.init(requester: nil,
+                  listings: nil,
+                  numberOfColumns: 2,
+                  isPrivateList: false,
+                  tracker: TrackerProxy.sharedInstance,
+                  imageDownloader: ImageDownloader.sharedInstance,
+                  reporter: CrashlyticsReporter(),
+                  featureFlags: FeatureFlags.sharedInstance,
+                  myUserRepository: Core.myUserRepository,
+                  requesterFactory: nil,
+                  searchType: nil)
         setCurrentFallbackRequester()
     }
     
     convenience init(requester: ListingListRequester, listings: [Listing]?, numberOfColumns: Int) {
-        self.init(requester: requester, listings: listings, numberOfColumns: numberOfColumns, searchType: nil)
+        self.init(requester: requester,
+                  listings: listings,
+                  numberOfColumns: numberOfColumns,
+                  isPrivateList: false,
+                  tracker: TrackerProxy.sharedInstance,
+                  imageDownloader: ImageDownloader.sharedInstance,
+                  reporter: CrashlyticsReporter(),
+                  featureFlags: FeatureFlags.sharedInstance,
+                  myUserRepository: Core.myUserRepository,
+                  requesterFactory: nil,
+                  searchType: nil)
         requesterSequence = [requester]
         setCurrentFallbackRequester()
     }
