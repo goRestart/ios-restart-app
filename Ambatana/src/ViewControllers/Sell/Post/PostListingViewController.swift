@@ -260,7 +260,7 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
     }
     
     private func setupMachineLearningOnboardingView() {
-        guard viewModel.machineLearningSupported, !keyValueStorage.machineLearningOnboardingShown else { return }
+        guard viewModel.machineLearningSupported, !keyValueStorage[.machineLearningOnboardingShown] else { return }
         onboardingView.buttonBlock = { [weak self] in
             self?.onboardingView.backgroundColor = .clear
             UIView.animate(withDuration: 0.2, animations: {
@@ -272,7 +272,7 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
         }
         view.addSubviewForAutoLayout(onboardingView)
         onboardingView.layout(with: view).fill()
-        keyValueStorage.machineLearningOnboardingShown = true
+        keyValueStorage[.machineLearningOnboardingShown] = true
     }
     
     private func setupLoadingStackView() {
