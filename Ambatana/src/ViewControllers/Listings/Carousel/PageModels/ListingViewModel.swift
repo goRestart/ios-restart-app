@@ -258,7 +258,7 @@ class ListingViewModel: BaseViewModel {
         return productMedia
             .value
             .map { $0.type }
-            .reduce(false) { (result, next: MediaType) in return result || next == .video } ?? false
+            .reduce(false) { (result, next: MediaType) in return result || next == .video }
     }
 
     // Retrieval status

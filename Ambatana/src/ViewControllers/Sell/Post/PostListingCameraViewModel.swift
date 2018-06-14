@@ -334,7 +334,7 @@ final class PostListingCameraViewModel: BaseViewModel {
                     }
                 }
                 let allTexts = [nameString, avgPriceString, medianDaysToSellString]
-                self?.liveStatsText.value = allTexts.flatMap { $0 }.joined(separator: "\n")
+                strongSelf.liveStatsText.value = allTexts.flatMap { $0 }.joined(separator: "\n")
             }
             .disposed(by: disposeBag)
     }

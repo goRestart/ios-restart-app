@@ -699,7 +699,7 @@ extension TabCoordinator: ListingDetailNavigator {
         boostSuccessAlert.layout(with: navigationController.view).fill()
         boostSuccessAlert.alpha = 0
         navigationController.view.layoutIfNeeded()
-        UIView.animate(withDuration: 0.3) { [weak self] in
+        UIView.animate(withDuration: 0.3) {
             boostSuccessAlert.alpha = 1
             boostSuccessAlert.startAnimation()
         }

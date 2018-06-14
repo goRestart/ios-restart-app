@@ -39,7 +39,7 @@ public enum VerticalAttributes {
             return carAttributes.generatedTitle
         case .realEstateInfo(let attributes):
             return attributes.generateTitle(postingFlowType: postingFlowType)
-        case .serviceInfo(let attributes):
+        case .serviceInfo(_):
             return ""
         }
     }

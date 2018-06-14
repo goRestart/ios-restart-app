@@ -109,6 +109,7 @@ extension UIViewController {
                 buttonsTintColor: buttonsTintColor)
     }
 
+    @discardableResult
     func setLetGoRightButtonWith(image: UIImage?, renderingMode: UIImageRenderingMode,
                                            selector: String, buttonsTintColor: UIColor? = nil) -> UIBarButtonItem {
         let itemImage = image?.withRenderingMode(renderingMode)

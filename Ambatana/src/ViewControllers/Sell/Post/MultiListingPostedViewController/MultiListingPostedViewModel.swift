@@ -53,7 +53,7 @@ final class MultiListingPostedViewModel: BaseViewModel {
     
     private var isFreePosting: Bool {
         switch self.status {
-        case let .servicesPosting(params):
+        case .servicesPosting(let params):
             return params.first?.price.isFree ?? false
         case let .success(listings):
             return listings.first?.price.isFree ?? false
