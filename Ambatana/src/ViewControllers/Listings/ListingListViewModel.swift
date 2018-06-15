@@ -153,11 +153,11 @@ final class ListingListViewModel: BaseViewModel {
                  listings: [Listing]? = nil,
                  numberOfColumns: Int = 2,
                  isPrivateList: Bool = false,
-                 tracker: Tracker = TrackerProxy.sharedInstance,
-                 imageDownloader: ImageDownloaderType = ImageDownloader.sharedInstance,
-                 reporter: CrashlyticsReporter = CrashlyticsReporter(),
-                 featureFlags: FeatureFlaggeable = FeatureFlags.sharedInstance,
-                 myUserRepository: MyUserRepository = Core.myUserRepository,
+                 tracker: Tracker,
+                 imageDownloader: ImageDownloaderType,
+                 reporter: CrashlyticsReporter,
+                 featureFlags: FeatureFlaggeable,
+                 myUserRepository: MyUserRepository,
                  requesterFactory: RequesterFactory? = nil) {
         self.objects = (listings ?? []).map(ListingCellModel.init)
         self.isPrivateList = isPrivateList
@@ -177,7 +177,16 @@ final class ListingListViewModel: BaseViewModel {
     }
     
     convenience init(requester: ListingListRequester, isPrivateList: Bool = false) {
-        self.init(requester: requester, isPrivateList: isPrivateList, requesterFactory: nil)
+        self.init(requester: requester,
+                  listings: nil,
+                  numberOfColumns: 2,
+                  isPrivateList: isPrivateList,
+                  tracker: TrackerProxy.sharedInstance,
+                  imageDownloader: ImageDownloader.sharedInstance,
+                  reporter: CrashlyticsReporter(),
+                  featureFlags: FeatureFlags.sharedInstance,
+                  myUserRepository: Core.myUserRepository,
+                  requesterFactory: nil)
         requesterSequence = [requester]
         setCurrentFallbackRequester()
     }
@@ -187,22 +196,45 @@ final class ListingListViewModel: BaseViewModel {
                      featureFlags: FeatureFlaggeable = FeatureFlags.sharedInstance,
                      requesterFactory: RequesterFactory) {
         self.init(requester: nil,
+                  listings: nil,
                   numberOfColumns: numberOfColumns,
+                  isPrivateList: false,
                   tracker: tracker,
+                  imageDownloader: ImageDownloader.sharedInstance,
+                  reporter: CrashlyticsReporter(),
                   featureFlags: featureFlags,
-                  requesterFactory: requesterFactory)
+                  myUserRepository: Core.myUserRepository,
+                  requesterFactory: nil)
         self.requesterFactory = requesterFactory
         requesterSequence = requesterFactory.buildRequesterList()
         setCurrentFallbackRequester()
     }
     
     convenience override init() {
-        self.init(requester: nil, requesterFactory: nil)
+        self.init(requester: nil,
+                  listings: nil,
+                  numberOfColumns: 2,
+                  isPrivateList: false,
+                  tracker: TrackerProxy.sharedInstance,
+                  imageDownloader: ImageDownloader.sharedInstance,
+                  reporter: CrashlyticsReporter(),
+                  featureFlags: FeatureFlags.sharedInstance,
+                  myUserRepository: Core.myUserRepository,
+                  requesterFactory: nil)
         setCurrentFallbackRequester()
     }
     
     convenience init(requester: ListingListRequester, listings: [Listing]?, numberOfColumns: Int) {
-        self.init(requester: requester, listings: listings, numberOfColumns: numberOfColumns)
+        self.init(requester: requester,
+                  listings: listings,
+                  numberOfColumns: numberOfColumns,
+                  isPrivateList: false,
+                  tracker: TrackerProxy.sharedInstance,
+                  imageDownloader: ImageDownloader.sharedInstance,
+                  reporter: CrashlyticsReporter(),
+                  featureFlags: FeatureFlags.sharedInstance,
+                  myUserRepository: Core.myUserRepository,
+                  requesterFactory: nil)
         requesterSequence = [requester]
         setCurrentFallbackRequester()
     }
