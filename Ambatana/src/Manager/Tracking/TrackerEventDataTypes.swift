@@ -1073,6 +1073,7 @@ enum EventParameterAccountNetwork: String {
     case sms = "sms"
     case id = "id"
     case profilePhoto = "profilePhoto"
+    case passwordless = "passwordless"
 }
 
 enum EventParameterBlockedAccountReason: String {
