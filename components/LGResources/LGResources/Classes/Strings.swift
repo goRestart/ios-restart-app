@@ -972,6 +972,18 @@ extension R {
     public static let idVerificationThirdStepTitle = Strings.tr("Localizable", "id_verification_third_step_title")
     /// Do you want to make this your profile picture?
     public static let idVerificationUpdateAvatarMessage = Strings.tr("Localizable", "id_verification_update_avatar_message")
+    /// Chat Now
+    public static let listingChatButton = Strings.tr("Localizable", "listing_chat_button")
+    /// I'm interested
+    public static let listingInterestedButtonA = Strings.tr("Localizable", "listing_interested_button_A")
+    /// Interested
+    public static let listingInterestedButtonB = Strings.tr("Localizable", "listing_interested_button_B")
+    /// Ask for Details
+    public static let listingInterestedButtonC = Strings.tr("Localizable", "listing_interested_button_C")
+    /// Ask for Details
+    public static let listingInterestedButtonD = Strings.tr("Localizable", "listing_interested_button_D")
+    /// Automatically sends a message to the seller asking if it's available.
+    public static let listingInterestedFooter = Strings.tr("Localizable", "listing_interested_footer")
     /// Search this area
     public static let listingMapRedoSearch = Strings.tr("Localizable", "listing_map_redo_search")
     /// Showing results for similar searches

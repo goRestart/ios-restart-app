@@ -106,6 +106,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu = .control
     var predictivePosting: PredictivePosting = .control
     var videoPosting: VideoPosting = .control
+    var simplifiedChatButton: SimplifiedChatButton = .control
 
     // MARK: Users
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem = .control

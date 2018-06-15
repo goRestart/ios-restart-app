@@ -25,7 +25,7 @@ final class ListingCarouselViewController: KeyboardViewController, AnimatableTra
     @IBOutlet weak var buttonTop: LetgoButton!
     @IBOutlet weak var buttonTopHeight: NSLayoutConstraint!
     @IBOutlet weak var buttonTopBottomConstraint: NSLayoutConstraint!
-    @IBOutlet weak var chatContainer: UIView!
+    @IBOutlet weak var chatContainer: ListingCarouselChatContainerView!
     @IBOutlet weak var chatContainerHeight: NSLayoutConstraint!
     @IBOutlet weak var chatContainerBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var gradientShadowView: UIView!
@@ -123,8 +123,6 @@ final class ListingCarouselViewController: KeyboardViewController, AnimatableTra
     private let moreInfoAlpha = Variable<CGFloat>(1)
     private let moreInfoState = Variable<MoreInfoState>(.hidden)
 
-    private let chatTextView = ChatTextView()
-    private let directAnswersView: DirectAnswersHorizontalView
     private var directAnswersBottom = NSLayoutConstraint()
 
     private var bumpUpBanner = BumpUpBanner()
@@ -167,7 +165,6 @@ final class ListingCarouselViewController: KeyboardViewController, AnimatableTra
         self.pageControl = UIPageControl(frame: CGRect.zero)
         self.imageDownloader = imageDownloader
         self.carouselImageDownloader = carouselImageDownloader
-        self.directAnswersView = DirectAnswersHorizontalView(answers: [], sideMargin: CarouselUI.itemsMargin)
         self.moreInfoView = ListingCarouselMoreInfoView.moreInfoView()
         let mainBlurEffect = UIBlurEffect(style: .light)
         self.mainViewBlurEffectView = UIVisualEffectView(effect: mainBlurEffect)
@@ -231,7 +228,7 @@ final class ListingCarouselViewController: KeyboardViewController, AnimatableTra
 
         switch viewModel.actionOnFirstAppear {
         case .showKeyboard:
-            chatTextView.becomeFirstResponder()
+            chatContainer.becomeFirstResponder()
         case .showShareSheet:
             viewModel.shareButtonPressed()
         case let .triggerBumpUp(bumpUpProductData,
@@ -310,8 +307,6 @@ final class ListingCarouselViewController: KeyboardViewController, AnimatableTra
         let startIndexPath = IndexPath(item: viewModel.startIndex, section: 0)
         collectionView.scrollToItem(at: startIndexPath, at: .right, animated: false)
 
-        chatTextView.setInitialText(R.Strings.chatExpressTextFieldText)
-        
         setupMoreInfo()
         setupMoreInfoDragging()
         setupMoreInfoTooltip()
@@ -411,7 +406,7 @@ final class ListingCarouselViewController: KeyboardViewController, AnimatableTra
                                           text: R.Strings.productShareNavbarButton,
                                           icon: R.Asset.IconsButtons.icShare.image)
 
-        mainResponder = chatTextView
+        mainResponder = chatContainer
         setupDirectMessages()
         setupBumpUpBanner()
     }
@@ -809,17 +804,9 @@ extension ListingCarouselViewController {
     }
 
     private func setupDirectChatElementsRx() {
-        viewModel.directChatPlaceholder.asObservable().bind { [weak self] placeholder in
-            self?.chatTextView.placeholder = placeholder
-            }.disposed(by: disposeBag)
-
         viewModel.directChatEnabled.asObservable().bind { [weak self] enabled in
             self?.buttonBottomBottomConstraint.constant = enabled ? CarouselUI.itemsMargin : 0
             self?.chatContainerHeight.constant = enabled ? CarouselUI.chatContainerMaxHeight : 0
-            }.disposed(by: disposeBag)
-
-        viewModel.quickAnswers.asObservable().bind { [weak self] quickAnswers in
-            self?.directAnswersView.update(answers: quickAnswers)
             }.disposed(by: disposeBag)
 
         viewModel.directChatMessages.changesObservable.bind { [weak self] change in
@@ -832,12 +819,6 @@ extension ListingCarouselViewController {
             default:
                 strongSelf.directChatTable.handleCollectionChange(change, animation: .none)
             }
-            }.disposed(by: disposeBag)
-
-        chatTextView.rx.send.bind { [weak self] textToSend in
-            guard let strongSelf = self else { return }
-            strongSelf.viewModel.send(directMessage: textToSend, isDefaultText: strongSelf.chatTextView.isInitialText)
-            strongSelf.chatTextView.clear()
             }.disposed(by: disposeBag)
     }
 
@@ -988,8 +969,8 @@ extension ListingCarouselViewController: ListingCarouselCellDelegate {
     static let defaultRubberBandOffset: CGFloat = 50
 
     func didTapOnCarouselCell(_ cell: UICollectionViewCell, tapSide: ListingCarouselTapSide?) {
-        guard !chatTextView.isFirstResponder else {
-            chatTextView.resignFirstResponder()
+        guard !chatContainer.isFirstResponder else {
+            chatContainer.resignFirstResponder()
             return
         }
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
@@ -1047,7 +1028,7 @@ extension ListingCarouselViewController: ListingCarouselCellDelegate {
 extension ListingCarouselViewController {
 
     @objc func didTapMoreInfo() {
-        chatTextView.resignFirstResponder()
+        chatContainer.resignFirstResponder()
     }
 
     func setupMoreInfoDragging() {
@@ -1089,7 +1070,7 @@ extension ListingCarouselViewController {
         guard moreInfoState.value == .hidden || moreInfoState.value == .moving else { return }
 
         moreInfoView.viewWillShow()
-        chatTextView.resignFirstResponder()
+        chatContainer.resignFirstResponder()
         moreInfoState.value = .shown
 
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 5, options: [],
@@ -1166,7 +1147,7 @@ extension ListingCarouselViewController: ProductCarouselMoreInfoDelegate {
 
     func request(fullScreen: Bool) {
         if fullScreen {
-            chatTextView.resignFirstResponder()
+            chatContainer.resignFirstResponder()
         }
         // If more info requests full screen all items except it should be removed/hidden
         UIView.animate(withDuration: LGUIKitConstants.defaultAnimationTime) { [weak self] in
@@ -1284,7 +1265,7 @@ extension ListingCarouselViewController: UICollectionViewDataSource, UICollectio
 
 // MARK: > Direct messages and stickers
 
-extension ListingCarouselViewController: UITableViewDataSource, UITableViewDelegate, DirectAnswersHorizontalViewDelegate {
+extension ListingCarouselViewController: UITableViewDataSource, UITableViewDelegate {
     func setupDirectMessages() {
         ChatCellDrawerFactory.registerCells(directChatTable)
         directChatTable.transform = CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: 0)
@@ -1293,18 +1274,7 @@ extension ListingCarouselViewController: UITableViewDataSource, UITableViewDeleg
         directChatTable.isCellHiddenBlock = { return $0.contentView.isHidden }
         directChatTable.didSelectRowAtIndexPath = {  [weak self] _ in self?.viewModel.directMessagesItemPressed() }
 
-        directAnswersView.delegate = self
-        directAnswersView.style = .light
-        directAnswersView.translatesAutoresizingMaskIntoConstraints = false
-        chatContainer.addSubview(directAnswersView)
-        directAnswersView.layout(with: chatContainer).leading().trailing().top()
-
-        chatTextView.translatesAutoresizingMaskIntoConstraints = false
-        chatContainer.addSubview(chatTextView)
-        chatTextView.layout(with: chatContainer).leading(by: CarouselUI.itemsMargin).trailing(by: -CarouselUI.itemsMargin).bottom()
-        let directAnswersBottom: CGFloat = CarouselUI.itemsMargin
-        chatTextView.layout(with: directAnswersView).top(to: .bottom, by: directAnswersBottom,
-                                                         constraintBlock: { [weak self] in self?.directAnswersBottom = $0 })
+        chatContainer.setup(with: viewModel)
 
         keyboardChanges.bind { [weak self] change in
             guard let strongSelf = self else { return }
@@ -1335,10 +1305,6 @@ extension ListingCarouselViewController: UITableViewDataSource, UITableViewDeleg
         cell.transform = tableView.transform
 
         return cell
-    }
-
-    func directAnswersHorizontalViewDidSelect(answer: QuickAnswer) {
-        viewModel.send(quickAnswer: answer)
     }
 }
 
@@ -1439,12 +1405,12 @@ extension ListingCarouselViewController: ListingCarouselViewModelDelegate {
     // Loadings and alerts overrides to remove keyboard before showing
 
     override func vmShowLoading(_ loadingMessage: String?) {
-        chatTextView.resignFirstResponder()
+        chatContainer.resignFirstResponder()
         super.vmShowLoading(loadingMessage)
     }
 
     override func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?) {
-        chatTextView.resignFirstResponder()
+        chatContainer.resignFirstResponder()
         super.vmShowAutoFadingMessage(message, completion: completion)
     }
 }
@@ -1490,7 +1456,6 @@ fileprivate extension ListingCarouselViewController {
         fullScreenAvatarView.set(accessibilityId: .listingCarouselFullScreenAvatarView)
         pageControl.set(accessibilityId: .listingCarouselPageControl)
         userView.set(accessibilityId: .listingCarouselUserView)
-        chatTextView.set(accessibilityId: .listingCarouselChatTextView)
         productStatusView.set(accessibilityId: .listingCarouselStatusView)
         directChatTable.accessibilityInspectionEnabled = false
         startPlayingButton.set(accessibilityId: .listingCarouselPlayButton)

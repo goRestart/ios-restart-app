@@ -27,10 +27,11 @@ enum ButtonStyle {
     case lightField
     case postingFlow
     case pinkish(fontSize: ButtonFontSize, withBorder: Bool)
+    case transparent
     
     var titleColor: UIColor {
         switch self {
-        case .primary, .terciary, .google, .facebook, .dark, .logout, .postingFlow:
+        case .primary, .terciary, .google, .facebook, .dark, .logout, .postingFlow, .transparent:
             return UIColor.white
         case .secondary:
             return UIColor.primaryColor
@@ -55,7 +56,7 @@ enum ButtonStyle {
             return UIColor.facebookColor
         case .google:
             return UIColor.googleColor
-        case .dark, .postingFlow:
+        case .dark, .postingFlow, .transparent:
             return UIColor.lgBlack.withAlphaComponent(0.3)
         case .logout:
             return UIColor.lgBlack.withAlphaComponent(0.1)
@@ -80,7 +81,7 @@ enum ButtonStyle {
             return UIColor.facebookColorHighlighted
         case .google:
             return UIColor.googleColorHighlighted
-        case .dark, .postingFlow, .pinkish:
+        case .dark, .postingFlow, .pinkish, .transparent:
             return UIColor.lgBlack.withAlphaComponent(0.5)
         case .logout:
             return UIColor.lgBlack.withAlphaComponent(0.05)
@@ -101,7 +102,7 @@ enum ButtonStyle {
             return UIColor.facebookColorDisabled
         case .google:
             return UIColor.googleColorDisabled
-        case .dark, .postingFlow, .pinkish:
+        case .dark, .postingFlow, .pinkish, .transparent:
             return UIColor.lgBlack.withAlphaComponent(0.3)
         case .logout:
             return UIColor.lgBlack.withAlphaComponent(0.05)
@@ -128,7 +129,7 @@ enum ButtonStyle {
         switch self {
         case let .primary(size):
             fontSize = size
-        case .logout, .postingFlow:
+        case .logout, .postingFlow, .transparent:
             fontSize = .medium
         case let .secondary(size, _), let .dark(size, _), let .pinkish(size, _):
             fontSize = size
@@ -144,7 +145,7 @@ enum ButtonStyle {
         switch self {
         case .primary, .terciary, .google, .facebook, .darkField, .lightField, .logout:
             return false
-        case .postingFlow:
+        case .postingFlow, .transparent:
             return true
         case let .secondary(_, withBorder), let .dark(_, withBorder), let .pinkish(_, withBorder):
             return withBorder
@@ -154,7 +155,7 @@ enum ButtonStyle {
     
     var borderColor: UIColor {
         switch self {
-        case .primary, .terciary, .google, .facebook, .dark, .logout, .darkField:
+        case .primary, .terciary, .google, .facebook, .dark, .logout, .darkField, .transparent:
             return UIColor.white
         case .secondary:
             return UIColor.primaryColor
@@ -169,7 +170,7 @@ enum ButtonStyle {
     
     var borderColorDisabled: UIColor {
         switch self {
-        case .postingFlow, .pinkish:
+        case .postingFlow, .pinkish, .transparent:
             return UIColor.gray
         case .primary, .terciary, .google, .facebook, .dark, .logout, .darkField:
             return UIColor.white
@@ -188,6 +189,8 @@ enum ButtonStyle {
             return UIColor.primaryColorDisabled
         case .lightField:
             return UIColor.lgBlack
+        case .transparent:
+            return UIColor.gray
         }
     }
     
@@ -195,7 +198,7 @@ enum ButtonStyle {
         switch self {
         case .postingFlow:
             return 15
-        case .primary, .terciary, .google, .facebook, .dark, .darkField, .lightField, .logout, .secondary, .pinkish:
+        case .primary, .terciary, .google, .facebook, .dark, .darkField, .lightField, .logout, .secondary, .pinkish, .transparent:
             switch fontSize {
             case .big:
                 return 15
@@ -207,7 +210,7 @@ enum ButtonStyle {
     
     var applyCornerRadius: Bool {
         switch self {
-        case .primary, .secondary, .terciary, .google, .facebook, .dark, .logout, .postingFlow, .pinkish:
+        case .primary, .secondary, .terciary, .google, .facebook, .dark, .logout, .postingFlow, .pinkish, .transparent:
             return true
         case .darkField, .lightField:
             return false

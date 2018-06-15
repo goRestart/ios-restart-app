@@ -133,6 +133,7 @@ class ListingCarouselViewModel: BaseViewModel {
     var shouldShowReputationTooltip: Driver<Bool> {
         return ownerBadge.asDriver().map{ $0 != .noBadge && self.reputationTooltipManager.shouldShowTooltip() }
     }
+    let isInterested = Variable<Bool>(false)
 
     // UI - Input
     let moreInfoState = Variable<MoreInfoState>(.hidden)
@@ -400,6 +401,14 @@ class ListingCarouselViewModel: BaseViewModel {
 
     func send(quickAnswer: QuickAnswer) {
         currentListingViewModel?.sendQuickAnswer(quickAnswer: quickAnswer)
+    }
+
+    func interestedButtonTapped() {
+        currentListingViewModel?.sendInterested()
+    }
+
+    func chatButtonTapped() {
+        currentListingViewModel?.chatWithSeller()
     }
 
     func send(directMessage: String, isDefaultText: Bool) {
@@ -674,6 +683,7 @@ class ListingCarouselViewModel: BaseViewModel {
             self?.performCollectionChange(change: change)
         }.disposed(by: activeDisposeBag)
         directChatPlaceholder.value = currentVM.directChatPlaceholder
+        currentVM.isInterested.asObservable().bind(to: isInterested).disposed(by: activeDisposeBag)
 
         currentVM.isFavorite.asObservable().bind(to: isFavorite).disposed(by: activeDisposeBag)
         currentVM.favoriteButtonState.asObservable().bind(to: favoriteButtonState).disposed(by: activeDisposeBag)

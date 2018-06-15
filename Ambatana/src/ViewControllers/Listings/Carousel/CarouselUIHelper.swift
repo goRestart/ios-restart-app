@@ -16,6 +16,7 @@ struct CarouselUI {
     static let buttonHeight: CGFloat = 50
     static let chatContainerMaxHeight: CGFloat = CarouselUI.buttonHeight + CarouselUI.itemsMargin + DirectAnswersHorizontalView.Layout.Height.standard
     static let buttonTrailingWithIcon: CGFloat = 75
+    static let chatFooterTopMargin: CGFloat = Metrics.shortMargin
 }
 
 class CarouselUIHelper {
