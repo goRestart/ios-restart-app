@@ -28,6 +28,10 @@ final class ListingCreationViewModel : BaseViewModel {
     
     var didFinishRequest = Variable<Bool?>(false)
     
+    private var numberOfSelectedServicesSubtypes: Int {
+        return multipostingSubtypes.count + multipostingNewSubtypes.count
+    }
+    
     // MARK: - LifeCycle
     
     convenience init(listingParams: ListingCreationParams, trackingInfo: PostListingTrackingInfo) {
@@ -97,7 +101,13 @@ final class ListingCreationViewModel : BaseViewModel {
     func createListing() {
         if featureFlags.showServicesFeatures.isActive,
             !uploadedImageId.isEmpty {
-            fetchImagesAndCreateListings()
+            
+            if numberOfSelectedServicesSubtypes > 0 {
+                fetchImagesAndCreateListings()
+            } else {
+                // If no service is selected, we still have to create the ad
+                createSingleServicesListing()
+            }
         } else {
             createFirstListing()
         }
@@ -122,40 +132,51 @@ final class ListingCreationViewModel : BaseViewModel {
         }
     }
     
+    private func createSingleServicesListing() {
+        
+        guard let postListingState = postListingState,
+            let params = makeUntypedServicePostParams(forImageId: uploadedImageId,
+                                                      postListingState: postListingState) else {
+            let error = RepositoryError.internalError(message: "No post listing state available, needed to create params")
+            navigator?.showMultiListingPostConfirmation(listingResult: ListingsResult(error: error),
+                                                        trackingInfo: trackingInfo,
+                                                        modalStyle: false)
+            return
+        }
+        
+        createServices(fromListingParams: [params])
+    }
+    
     private func fetchImagesAndCreateListings() {
         fetchImagesIdsAndCreateParams(trackingInfo: trackingInfo) { [weak self] listingParams in
-            guard listingParams.count > 0 else {
-                return
+            guard listingParams.count > 0 else { return }
+            self?.createServices(fromListingParams: listingParams)
+        }
+    }
+    
+    private func createServices(fromListingParams listingParams: [ListingCreationParams]) {
+        listingRepository.createServices(listingParams: listingParams) { [weak self] results in
+            if let listings = results.value, let trackingInfo = self?.trackingInfo {
+                self?.trackPost(withListings: listings, trackingInfo: trackingInfo)
+            } else if let error = results.error {
+                self?.trackPostSellError(error: error)
             }
-            self?.listingRepository.createServices(listingParams: listingParams) { [weak self] results in
-                if let listings = results.value, let trackingInfo = self?.trackingInfo {
-                    self?.trackPost(withListings: listings, trackingInfo: trackingInfo)
-                } else if let error = results.error {
-                    self?.trackPostSellError(error: error)
-                }
-                self?.listingsResult = results
-                self?.didFinishRequest.value = true
-            }
+            self?.listingsResult = results
+            self?.didFinishRequest.value = true
         }
     }
     
     private func fetchImagesIdsAndCreateParams(trackingInfo: PostListingTrackingInfo,
                                                completion: ListingMultiCreationCompletion?) {
-        let numberOfImages = multipostingSubtypes.count + multipostingNewSubtypes.count
-        guard numberOfImages > 0 else {
-            completion?([])
-            navigator?.cancelPostListing()
-            return
-        }
-        
-        guard numberOfImages > 1 else {
+        guard numberOfSelectedServicesSubtypes > 1 else {
             createParams(fromImageIds: [uploadedImageId],
                          trackingInfo: trackingInfo,
                          completion: completion)
             return
         }
         
-        let imageMultiplierParams = ImageMultiplierParams(imageId: uploadedImageId, times: numberOfImages)
+        let imageMultiplierParams = ImageMultiplierParams(imageId: uploadedImageId,
+                                                          times: numberOfSelectedServicesSubtypes)
         imageMultiplierRepository.imageMultiplier(imageMultiplierParams) { [weak self] result in
             guard let imagesIds = result.value else {
                 completion?([])
@@ -247,6 +268,23 @@ final class ListingCreationViewModel : BaseViewModel {
 
 extension ListingCreationViewModel {
     
+    private func makeUntypedServicePostParams(forImageId imageId: String,
+                                              postListingState: PostListingState) -> ListingCreationParams? {
+        guard let location = locationManager.currentLocation?.location else { return nil }
+        let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()
+        let currency = currencyHelper.currencyWithCountryCode(postalAddress.countryCode ?? SharedConstants.currencyDefault)
+        
+        let imageFile = LGFile(id: imageId,
+                               url: nil)
+        
+        return ListingCreationParams.make(title: "",
+                                          description: "",
+                                          currency: currency,
+                                          location: location,
+                                          postalAddress: postalAddress,
+                                          postListingState: postListingState.updating(uploadedImages: [imageFile]))
+    }
+    
     private func multipostParams(subtypes: [ServiceSubtype],
                                  newSubtypes: [String],
                                  imagesIds: [String],
@@ -273,7 +311,8 @@ extension ListingCreationViewModel {
                                               currency: currency,
                                               location: location,
                                               postalAddress: postalAddress,
-                                              postListingState: postListingState.updating(servicesInfo: serviceAttribute, uploadedImages: [imageFile]))
+                                              postListingState: postListingState.updating(servicesInfo: serviceAttribute,
+                                                                                          uploadedImages: [imageFile]))
         }
         return multipostSubtypeParams + multipostNewParams
     }
