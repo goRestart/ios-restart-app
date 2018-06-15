@@ -5369,7 +5369,7 @@ class TrackerEventSpec: QuickSpec {
                 context("all params") {
                     beforeEach {
                         var mockListing = MockRealEstate.makeMock()
-                        mockListing.media = [LGMedia(type: .video, snapshotId: "", outputs: LGMediaOutputs())]
+                        mockListing.media = [LGMedia(objectId: nil, type: .video, snapshotId: "", outputs: LGMediaOutputs())]
                         mockListing.featured = true
                         sut = TrackerEvent.listingMapOpenPreviewMap(.realEstate(mockListing),
                                                                     source: .map,
