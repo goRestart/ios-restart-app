@@ -181,10 +181,10 @@ extension MultiListingPostedViewModel {
     private func uploadImagesAndPost(params: [ListingCreationParams],
                                      images: [UIImage],
                                      trackingInfo: PostListingTrackingInfo) {
-        // Upload the images
-        fileRepository.upload(images, progress: nil) { [weak self] (result) in
-            guard let imageId = result.value?.first?.objectId else {
-                if let error = result.error {
+        fileRepository.upload(images, progress: nil) { [weak self] (uploadedImageResult) in
+            guard let uploadedImages = uploadedImageResult.value,
+                let imageId = uploadedImages.first?.objectId else {
+                if let error = uploadedImageResult.error {
                     let statusError = MultiListingPostedStatus(error: error)
                     self?.updateStatus(to: statusError)
                     self?.track(status: statusError)
@@ -195,7 +195,9 @@ extension MultiListingPostedViewModel {
             // Get the multiplied image ids from the endpoint
             self?.fetchImagesIds(forUploadedImageId: imageId, count: params.count) { [weak self] (multImageIds) in
                 // Update the params with the retireved image Ids
-                guard let newParams = self?.updatedParams(params: params, forImageIds: multImageIds) else {
+                guard let newParams = self?.updatedParams(params: params,
+                                                          forImageIds: multImageIds,
+                                                          firstListingImages: uploadedImages) else {
                     self?.showImageMultiplierError()
                     return
                 }
@@ -206,13 +208,20 @@ extension MultiListingPostedViewModel {
     }
     
     private func updatedParams(params: [ListingCreationParams],
-                               forImageIds imageIds: [String]) -> [ListingCreationParams] {
+                               forImageIds imageIds: [String],
+                               firstListingImages: [File]) -> [ListingCreationParams] {
         var newParams: [ListingCreationParams] = []
         for (index, item) in params.enumerated().makeIterator() {
             let imageFile = LGFile(id: imageIds[safeAt: index], url: nil)
             let newItem = item.updating(images: [imageFile])
             newParams.append(newItem)
         }
+        
+        if let firstListing = newParams.first {
+            // There's a product requirement to upload all the images to only the first listing on multiselect.
+            newParams[0] = firstListing.updating(images: firstListingImages)
+        }
+        
         return newParams
     }
     
@@ -244,14 +253,13 @@ extension MultiListingPostedViewModel {
             completion?(imagesIds)
         }
     }
-    
 
-    private func postListings(withParams params: [ListingCreationParams], trackingInfo: PostListingTrackingInfo) {
+    private func postListings(withParams params: [ListingCreationParams],
+                              trackingInfo: PostListingTrackingInfo) {
         guard params.count > 0 else {
             showPostingMultiplierError()
             return
         }
-        
         listingRepository.createServices(listingParams: params) { [weak self] results in
             if let listings = results.value {
                 let postedStatus = MultiListingPostedStatus.success(listings: listings)

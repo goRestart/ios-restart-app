@@ -293,8 +293,9 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
                                             !params.isEmpty else {
                                             return
                                         }
-                                        
-                                        self?.listingRepository.createServices(listingParams: params) { [weak self] (results) in
+                                        let newParams = PostingParamsImageAssigner.assign(images: self?.postListingState.lastImagesUploadResult?.value,
+                                                                                          toFirstItemInParams: params)
+                                        self?.listingRepository.createServices(listingParams: newParams) { [weak self] (results) in
                                             if let _ = results.value {
                                                 self?.navigator?.showMultiListingPostConfirmation(listingResult: results,
                                                                                                   trackingInfo: trackingInfo,
@@ -307,7 +308,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
                                         }
         }
     }
-    
+
     private func fetchImagesIdsAndCreateParams(_ imageUploadedId: String,
                                        trackingInfo: PostListingTrackingInfo,
                                        completion: ListingMultiCreationCompletion?) {

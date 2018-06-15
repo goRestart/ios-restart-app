@@ -155,7 +155,10 @@ final class ListingCreationViewModel : BaseViewModel {
     }
     
     private func createServices(fromListingParams listingParams: [ListingCreationParams]) {
-        listingRepository.createServices(listingParams: listingParams) { [weak self] results in
+        let paramsToPost = PostingParamsImageAssigner.assign(images: postListingState?.lastImagesUploadResult?.value,
+                                                             toFirstItemInParams: listingParams)
+        listingRepository.createServices(listingParams: paramsToPost) { [weak self] results in
+
             if let listings = results.value, let trackingInfo = self?.trackingInfo {
                 self?.trackPost(withListings: listings, trackingInfo: trackingInfo)
             } else if let error = results.error {
