@@ -44,8 +44,6 @@ final class LGBubbleNotificationManager: BubbleNotificationManager {
             taggedNotifications[tag]?.append(bubble)
         }
 
-        bubble.showBubble(autoDismissTime: LGBubbleNotificationManager.defaultDuration)
-
         let finalDuration = (data.action == nil && duration <= 0) ? LGBubbleNotificationManager.defaultDuration : duration
         bubble.showBubble(autoDismissTime: finalDuration)
         

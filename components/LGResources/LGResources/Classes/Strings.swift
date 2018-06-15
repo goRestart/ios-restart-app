@@ -2832,8 +2832,12 @@ extension R {
 
 extension R.Strings {
   private static func tr(_ table: String, _ key: String, _ args: CVarArg...) -> String {
-    let format = NSLocalizedString(key, tableName: table, bundle: R.bundle, comment: "")
-    return String(format: format, locale: Locale.current, arguments: args)
+    let localizedString = NSLocalizedString(key, tableName: table, bundle: R.bundle, comment: "")
+    if args.count == 0 {
+      return localizedString
+    } else {
+      return String(format: localizedString, locale: Locale.current, arguments: args)
+    }
   }
 }
 

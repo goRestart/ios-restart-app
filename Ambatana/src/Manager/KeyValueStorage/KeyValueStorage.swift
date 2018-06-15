@@ -69,6 +69,8 @@ extension DefaultsKeys {
     static let lastShownReputationTooltipDate = DefaultsKey<Date?>("lastShownReputationTooltipDate")
     static let reputationTooltipShown = DefaultsKey<Bool>("reputationTooltipShown")
 
+    static let machineLearningOnboardingShown = DefaultsKey<Bool>("machineLearningOnboardingShown")
+
     static let analyticsSessionData = DefaultsKey<AnalyticsSessionData>("analyticsSessionData")
 }
 
@@ -272,18 +274,6 @@ extension KeyValueStorageable {
         set {
             guard var userProperties = currentUserProperties else { return }
             userProperties.proSellerAlreadySentPhoneInChat = newValue
-            currentUserProperties = userProperties
-        }
-    }
-    
-    var machineLearningOnboardingShown: Bool {
-        get {
-            return currentUserProperties?.machineLearningOnboardingShown ??
-                UserDefaultsUser.machineLearningOnboardingShownDefaultValue
-        }
-        set {
-            guard var userProperties = currentUserProperties else { return }
-            userProperties.machineLearningOnboardingShown = newValue
             currentUserProperties = userProperties
         }
     }

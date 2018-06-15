@@ -5476,6 +5476,9 @@ class TrackerEventSpec: QuickSpec {
                                                 categories: nil,
                                                 feedPosition: .position(index: 19))
                 }
+                it("event name is ad-shown") {
+                     expect(sut.name.rawValue) == "ad-shown"
+                }
                 it("contains product id") {
                     let productId = sut.params!.stringKeyParams["product-id"] as? String
                     expect(productId).to(equal("listing123"))

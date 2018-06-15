@@ -250,6 +250,12 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         return keyValueStorage[.lastSuggestiveSearches].count >= minimumSearchesSavedToShowCollection && filters.noFilterCategoryApplied
     }
     
+    var shouldShowSearchAlertBanner: Bool {
+        let isThereLoggedUser = myUserRepository.myUser != nil
+        let hasSearchQuery = searchType?.text != nil
+        return isThereLoggedUser && hasSearchQuery
+    }
+    
     let mainListingsHeader = Variable<MainListingsHeader>([])
     let filterTitle = Variable<String?>(nil)
     let filterDescription = Variable<String?>(nil)
@@ -388,7 +394,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         let requesterFactory = SearchRequesterFactory(dependencyContainer: self.requesterDependencyContainer,
                                                       featureFlags: featureFlags)
         self.requesterFactory = requesterFactory
-        self.listViewModel = ListingListViewModel(numberOfColumns: columns, tracker: tracker, requesterFactory: requesterFactory)
+        self.listViewModel = ListingListViewModel(numberOfColumns: columns, tracker: tracker, featureFlags: featureFlags, requesterFactory: requesterFactory, searchType: searchType)
         let multiRequester = self.listViewModel.currentActiveRequester as? ListingListMultiRequester
         self.listingListRequester = multiRequester ?? ListingListMultiRequester()
         self.listViewModel.listingListFixedInset = show3Columns ? 6 : 10
@@ -467,7 +473,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             retrieveTrendingSearches()
         }
         
-        if let _ = myUserRepository.myUser, firstTime {
+        if shouldShowSearchAlertBanner && firstTime {
             createSearchAlert(fromEnable: false)
         }
     }
@@ -1538,12 +1544,9 @@ extension MainListingsViewModel {
 extension MainListingsViewModel {
 
     var showCategoriesCollectionBanner: Bool {
-        let userHasSearched = queryString != nil || hasFilters
-        if userHasSearched {
-            return false
-        } else {
-            return primaryTags.isEmpty && !listViewModel.isListingListEmpty.value
-        }
+        let isSearchAlertsBannerHidden = !shouldShowSearchAlertBanner
+        let isShowingListings = !listViewModel.isListingListEmpty.value
+        return primaryTags.isEmpty && isShowingListings && isSearchAlertsBannerHidden
     }
     
     var showRealEstateBanner: Bool {

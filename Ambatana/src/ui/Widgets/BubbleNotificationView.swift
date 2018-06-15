@@ -206,6 +206,7 @@ final class BubbleNotificationView: UIView {
 
         textLabel.numberOfLines = 2
         textLabel.minimumScaleFactor = 0.5
+        textLabel.adjustsFontSizeToFitWidth = true
         textLabel.lineBreakMode = .byTruncatingTail
         textLabel.font = UIFont.mediumBodyFont
         textLabel.text = data.text
@@ -213,6 +214,7 @@ final class BubbleNotificationView: UIView {
         if let infoText = data.infoText {
             infoTextLabel.numberOfLines = 2
             infoTextLabel.minimumScaleFactor = 0.5
+            infoTextLabel.adjustsFontSizeToFitWidth = true
             infoTextLabel.lineBreakMode = .byTruncatingTail
             infoTextLabel.textColor = UIColor.darkGrayText
             infoTextLabel.font = UIFont.smallBodyFont

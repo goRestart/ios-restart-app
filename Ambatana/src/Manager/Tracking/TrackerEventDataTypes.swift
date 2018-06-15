@@ -182,6 +182,7 @@ enum EventName: String {
     case categoriesComplete                 = "categories-complete"
 
     case adTapped                           = "ad-tapped"
+    case adShown                            = "ad-shown"
     case featuredMoreInfo                   = "featured-more-info"
     case openOptionOnSummary                = "posting-summary-open"
 

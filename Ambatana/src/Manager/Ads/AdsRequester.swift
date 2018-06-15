@@ -68,8 +68,8 @@ class AdsRequester {
     }
     
     func createAndLoadInterstitialForUserRepository(_ myUserRepository: MyUserRepository) -> GADInterstitial? {
-        guard let myUserCreationDate = myUserRepository.myUser?.creationDate,
-            featureFlags.fullScreenAdsWhenBrowsingForUS.shouldShowFullScreenAdsForUser(createdIn: myUserCreationDate),
+        let myUserCreationDate = myUserRepository.myUser?.creationDate
+        guard featureFlags.fullScreenAdsWhenBrowsingForUS.shouldShowFullScreenAdsForUser(createdIn: myUserCreationDate),
             let adUnitId = featureFlags.fullScreenAdUnitId else { return nil }
         let interstitial = GADInterstitial(adUnitID: adUnitId)
         interstitial.load(GADRequest())
@@ -85,6 +85,6 @@ class AdsRequester {
     
     func shouldShowInterstitialForIndex(_ index: Int) -> Bool {
         guard !indexWithAds.contains(index) else { return false }
-        return (index - (AdsRequester.fullScreenFirstAdOffset-1)) % AdsRequester.fullScreenNextAdFrequency == 0
+        return (index - AdsRequester.fullScreenFirstAdOffset) % AdsRequester.fullScreenNextAdFrequency == 0
     }
 }
