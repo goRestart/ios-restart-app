@@ -476,6 +476,11 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         if shouldShowSearchAlertBanner && firstTime {
             createSearchAlert(fromEnable: false)
         }
+
+        if showCategoriesCollectionBanner {
+            filterTitle.value = nil
+            filterDescription.value = nil
+        }
     }
 
     
