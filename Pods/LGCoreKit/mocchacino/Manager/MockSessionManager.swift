@@ -3,9 +3,11 @@ import Result
 import RxSwift
 
 open class MockSessionManager: SessionManager {
+
     public var sessionEventsPublishSubject: PublishSubject<SessionEvent>
     public var logInResult: LoginResult
     public var signUpResult: SignupResult
+    public var requestPasswordlessResult: RequestPasswordlessResult
     public var recoverPasswordResult: RecoverPasswordResult
 
 
@@ -15,6 +17,7 @@ open class MockSessionManager: SessionManager {
         self.sessionEventsPublishSubject = PublishSubject<SessionEvent>()
         self.logInResult = LoginResult(value: MockMyUser.makeMock())
         self.signUpResult = SignupResult(value: MockMyUser.makeMock())
+        self.requestPasswordlessResult = RequestPasswordlessResult(value: Void())
         self.recoverPasswordResult = RecoverPasswordResult(value: Void())
         self.loggedIn = false
     }
@@ -66,6 +69,22 @@ open class MockSessionManager: SessionManager {
     public func loginGoogle(_ token: String,
                             completion: LoginCompletion?) {
         delay(result: logInResult, completion: completion)
+    }
+
+    public func signUpPasswordlessWith(token: String,
+                                       username: String,
+                                       completion: LoginCompletion?) {
+        delay(result: logInResult, completion: completion)
+    }
+
+    public func loginPasswordlessWith(token: String,
+                                      completion: LoginCompletion?) {
+        delay(result: logInResult, completion: completion)
+    }
+
+    public func requestPasswordlessWith(email: String,
+                                        completion: RequestPasswordlessCompletion?) {
+        delay(result: requestPasswordlessResult, completion: completion)
     }
 
     public func recoverPassword(_ email: String,

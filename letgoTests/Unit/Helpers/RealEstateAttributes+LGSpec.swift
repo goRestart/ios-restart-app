@@ -1,15 +1,8 @@
-//
-//  RealEstateAttributes+LGSpec.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 20/11/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 @testable import LetGoGodMode
 import Quick
 import Nimble
 import LGCoreKit
+import LGComponents
 
 class RealEstateAttributesLGSpec: QuickSpec {
     override func spec() {
@@ -218,7 +211,7 @@ class RealEstateAttributesLGSpec: QuickSpec {
                         expect(tags[0]).to(equal("HOUSE"))
                         expect(tags[1]).to(equal("For Rent"))
                         expect(tags[2]).to(equal("2 + 2"))
-                        expect(tags[3]).to(equal("100 \(Constants.sizeSquareMetersUnit)"))
+                        expect(tags[3]).to(equal("100 \(SharedConstants.sizeSquareMetersUnit)"))
                     }
                 }
             }

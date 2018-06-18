@@ -250,6 +250,12 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         return keyValueStorage[.lastSuggestiveSearches].count >= minimumSearchesSavedToShowCollection && filters.noFilterCategoryApplied
     }
     
+    var shouldShowSearchAlertBanner: Bool {
+        let isThereLoggedUser = myUserRepository.myUser != nil
+        let hasSearchQuery = searchType?.text != nil
+        return isThereLoggedUser && hasSearchQuery
+    }
+    
     let mainListingsHeader = Variable<MainListingsHeader>([])
     let filterTitle = Variable<String?>(nil)
     let filterDescription = Variable<String?>(nil)
@@ -265,6 +271,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     fileprivate let bubbleTextGenerator: DistanceBubbleTextGenerator
     fileprivate let categoryRepository: CategoryRepository
     private let searchAlertsRepository: SearchAlertsRepository
+    fileprivate let userRepository: UserRepository
 
     fileprivate let tracker: Tracker
     fileprivate let searchType: SearchType? // The initial search
@@ -348,6 +355,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
          monetizationRepository: MonetizationRepository,
          categoryRepository: CategoryRepository,
          searchAlertsRepository: SearchAlertsRepository,
+         userRepository: UserRepository,
          locationManager: LocationManager,
          currencyHelper: CurrencyHelper,
          tracker: Tracker,
@@ -364,6 +372,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         self.monetizationRepository = monetizationRepository
         self.categoryRepository = categoryRepository
         self.searchAlertsRepository = searchAlertsRepository
+        self.userRepository = userRepository
         self.locationManager = locationManager
         self.currencyHelper = currencyHelper
         self.tracker = tracker
@@ -376,7 +385,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         self.chatWrapper = chatWrapper
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         let columns = show3Columns ? 3 : 2
-        let itemsPerPage = show3Columns ? Constants.numListingsPerPageBig : Constants.numListingsPerPageDefault
+        let itemsPerPage = show3Columns ? SharedConstants.numListingsPerPageBig : SharedConstants.numListingsPerPageDefault
         self.requesterDependencyContainer = RequesterDependencyContainer(itemsPerPage: itemsPerPage,
                                                                          filters: filters,
                                                                          queryString: searchType?.query,
@@ -385,7 +394,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         let requesterFactory = SearchRequesterFactory(dependencyContainer: self.requesterDependencyContainer,
                                                       featureFlags: featureFlags)
         self.requesterFactory = requesterFactory
-        self.listViewModel = ListingListViewModel(numberOfColumns: columns, tracker: tracker, requesterFactory: requesterFactory)
+        self.listViewModel = ListingListViewModel(numberOfColumns: columns, tracker: tracker, featureFlags: featureFlags, requesterFactory: requesterFactory, searchType: searchType)
         let multiRequester = self.listViewModel.currentActiveRequester as? ListingListMultiRequester
         self.listingListRequester = multiRequester ?? ListingListMultiRequester()
         self.listViewModel.listingListFixedInset = show3Columns ? 6 : 10
@@ -409,6 +418,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         let monetizationRepository = Core.monetizationRepository
         let categoryRepository = Core.categoryRepository
         let searchAlertsRepository = Core.searchAlertsRepository
+        let userRepository = Core.userRepository
         let locationManager = Core.locationManager
         let currencyHelper = Core.currencyHelper
         let tracker = TrackerProxy.sharedInstance
@@ -423,6 +433,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                   monetizationRepository: monetizationRepository,
                   categoryRepository: categoryRepository,
                   searchAlertsRepository: searchAlertsRepository,
+                  userRepository: userRepository,
                   locationManager: locationManager,
                   currencyHelper: currencyHelper,
                   tracker: tracker,
@@ -462,7 +473,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             retrieveTrendingSearches()
         }
         
-        if let _ = myUserRepository.myUser, firstTime {
+        if shouldShowSearchAlertBanner && firstTime {
             createSearchAlert(fromEnable: false)
         }
     }
@@ -1220,7 +1231,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                 } else if featureFlags.noAdsInFeedForNewUsers.shouldShowAdsInFeed {
                     customTargetingValue = featureFlags.noAdsInFeedForNewUsers.customTargetingValueFor(position: lastAdPosition)
                 }
-                request.customTargeting = [Constants.adInFeedCustomTargetingKey: customTargetingValue]
+                request.customTargeting = [SharedConstants.adInFeedCustomTargetingKey: customTargetingValue]
                 
                 let adData = AdvertisementDFPData(adUnitId: feedAdUnitId,
                                                   rootViewController: adsDelegate.rootViewControllerForAds(),
@@ -1477,7 +1488,7 @@ extension MainListingsViewModel {
         guard let languageCode = Locale.current.languageCode else { return }
 		
         searchRepository.retrieveSuggestiveSearches(language: languageCode,
-                                                    limit: Constants.listingsSearchSuggestionsMaxResults,
+                                                    limit: SharedConstants.listingsSearchSuggestionsMaxResults,
                                                     term: term) { [weak self] result in
             // prevent showing results when deleting the search text
             guard let sourceText = self?.searchText.value else { return }
@@ -1533,12 +1544,9 @@ extension MainListingsViewModel {
 extension MainListingsViewModel {
 
     var showCategoriesCollectionBanner: Bool {
-        let userHasSearched = queryString != nil || hasFilters
-        if userHasSearched {
-            return false
-        } else {
-            return primaryTags.isEmpty && !listViewModel.isListingListEmpty.value
-        }
+        let isSearchAlertsBannerHidden = !shouldShowSearchAlertBanner
+        let isShowingListings = !listViewModel.isListingListEmpty.value
+        return primaryTags.isEmpty && isShowingListings && isSearchAlertsBannerHidden
     }
     
     var showRealEstateBanner: Bool {
@@ -1646,7 +1654,7 @@ fileprivate extension MainListingsViewModel {
                 .flatMap { $0.suggestiveSearch.name }
                 .reversed()
                 .joined(separator: " ")
-                .clipMoreThan(wordCount: Constants.maxSelectedForYouQueryTerms)
+                .clipMoreThan(wordCount: SharedConstants.maxSelectedForYouQueryTerms)
         }
         return query
     }
@@ -1894,6 +1902,31 @@ extension MainListingsViewModel: ListingCellDelegate {
     
     func postNowButtonPressed(_ view: UIView) {
         navigator?.openSell(source: .realEstatePromo, postCategory: .realEstate)
+    }
+    
+    func openAskPhoneFor(_ listing: Listing, interlocutor: User) {
+        let action: () -> () = { [weak self] in
+            guard let strSelf = self else { return }
+            if let listingId = listing.objectId,
+                strSelf.keyValueStorage.proSellerAlreadySentPhoneInChat.contains(listingId) {
+                let trackHelper = ProductVMTrackHelper(tracker: strSelf.tracker, listing: listing, featureFlags: strSelf.featureFlags)
+                trackHelper.trackChatWithSeller(.feed)
+                strSelf.navigator?.openListingChat(listing, source: .listingList, interlocutor: interlocutor)
+            } else {
+                strSelf.navigator?.openAskPhoneFromMainFeedFor(listing: listing, interlocutor: interlocutor)
+            }
+        }
+        navigator?.openLoginIfNeeded(infoMessage: R.Strings.chatLoginPopupText, then: action)
+    }
+    
+    func getUserInfoFor(_ listing: Listing, completion: @escaping (User?) -> Void) {
+        guard let userId = listing.user.objectId else {
+            completion(nil)
+            return
+        }
+        userRepository.show(userId) { result in
+            completion(result.value)
+        }
     }
     
 }

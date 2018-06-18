@@ -39,7 +39,7 @@ public enum VerticalAttributes {
             return carAttributes.generatedTitle
         case .realEstateInfo(let attributes):
             return attributes.generateTitle(postingFlowType: postingFlowType)
-        case .serviceInfo(let attributes):
+        case .serviceInfo(_):
             return ""
         }
     }
@@ -519,6 +519,23 @@ class PostListingState {
                                 uploadedVideo: uploadedVideo,
                                 price: price,
                                 verticalAttributes: .realEstateInfo(realEstateInfo),
+                                place: place,
+                                title: title,
+                                predictionData: predictionData)
+    }
+    
+    func updating(uploadedImages: [File]) -> PostListingState {
+        guard step == .addingDetails else { return self }
+        return PostListingState(step: .addingDetails,
+                                previousStep: step,
+                                category: category,
+                                pendingToUploadImages: pendingToUploadImages,
+                                pendingToUploadVideo: pendingToUploadVideo,
+                                lastImagesUploadResult: FilesResult(value: uploadedImages),
+                                uploadingVideo: uploadingVideo,
+                                uploadedVideo: uploadedVideo,
+                                price: price,
+                                verticalAttributes: verticalAttributes,
                                 place: place,
                                 title: title,
                                 predictionData: predictionData)

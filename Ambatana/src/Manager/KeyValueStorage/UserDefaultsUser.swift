@@ -27,7 +27,6 @@ struct UserDefaultsUser {
 
     static let failedBumpsInfoDefaultValue = [String:[String:String?]]()
     static let proSellerAlreadySentPhoneInChatDefaultValue: [String] = []
-    static let machineLearningOnboardingShownDefaultValue = false
     static let meetingSafetyTipsAlreadyShownDefaultValue = false
     static let interestingListingsDefaultValue: [String] = []
     static let sessionDataDefaultValue: AnalyticsSessionData? = nil
@@ -49,7 +48,6 @@ struct UserDefaultsUser {
 
     var failedBumpsInfo: [String:[String:String?]] // [<listingId> : <failedBumpInfo>]
     var proSellerAlreadySentPhoneInChat: [String]
-    var machineLearningOnboardingShown: Bool
     var meetingSafetyTipsAlreadyShown: Bool
 
     var interestingProducts: Set<String>
@@ -72,7 +70,6 @@ struct UserDefaultsUser {
                   pendingTransactionsListingIds: UserDefaultsUser.transactionsListingIdsDefaultValue,
                   failedBumpsInfo: UserDefaultsUser.failedBumpsInfoDefaultValue,
                   proSellerAlreadySentPhoneInChat: UserDefaultsUser.proSellerAlreadySentPhoneInChatDefaultValue,
-                  machineLearningOnboardingShown: UserDefaultsUser.machineLearningOnboardingShownDefaultValue,
                   meetingSafetyTipsAlreadyShown: UserDefaultsUser.meetingSafetyTipsAlreadyShownDefaultValue,
                   interestingProducts: Set(UserDefaultsUser.interestingListingsDefaultValue),
                   analyticsSessionData: UserDefaultsUser.sessionDataDefaultValue)
@@ -94,7 +91,6 @@ struct UserDefaultsUser {
          pendingTransactionsListingIds: [String:String],
          failedBumpsInfo: [String:[String:String?]],
          proSellerAlreadySentPhoneInChat: [String],
-         machineLearningOnboardingShown: Bool,
          meetingSafetyTipsAlreadyShown: Bool,
          interestingProducts: Set<String>,
          analyticsSessionData: AnalyticsSessionData?) {
@@ -114,7 +110,6 @@ struct UserDefaultsUser {
         self.pendingTransactionsListingIds = pendingTransactionsListingIds
         self.failedBumpsInfo = failedBumpsInfo
         self.proSellerAlreadySentPhoneInChat = proSellerAlreadySentPhoneInChat
-        self.machineLearningOnboardingShown = machineLearningOnboardingShown
         self.meetingSafetyTipsAlreadyShown = meetingSafetyTipsAlreadyShown
         self.interestingProducts = interestingProducts
         self.analyticsSessionData = analyticsSessionData
@@ -157,8 +152,6 @@ extension UserDefaultsUser: UserDefaultsDecodable {
         let failedBumpsInfo = dictionary.decode(UserDefaultsUserKey.failedBumpsInfo.rawValue, defaultValue: UserDefaultsUser.failedBumpsInfoDefaultValue)
         let proSellerAlreadySentPhoneInChat = dictionary.decode(UserDefaultsUserKey.proSellerAlreadySentPhoneInChat.rawValue,
                                                                 defaultValue: UserDefaultsUser.proSellerAlreadySentPhoneInChatDefaultValue)
-        let machineLearningOnboardingShown = dictionary.decode(UserDefaultsUserKey.machineLearningOnboardingShown.rawValue,
-                                                                defaultValue: UserDefaultsUser.machineLearningOnboardingShownDefaultValue)
 
         let meetingSafetyTipsAlreadyShown = dictionary.decode(UserDefaultsUserKey.meetingSafetyTipsAlreadyShown.rawValue,
                                                               defaultValue: UserDefaultsUser.meetingSafetyTipsAlreadyShownDefaultValue)
@@ -182,7 +175,6 @@ extension UserDefaultsUser: UserDefaultsDecodable {
                                 pendingTransactionsListingIds: pendingTransactionsListingIds,
                                 failedBumpsInfo: failedBumpsInfo,
                                 proSellerAlreadySentPhoneInChat: proSellerAlreadySentPhoneInChat,
-                                machineLearningOnboardingShown: machineLearningOnboardingShown,
                                 meetingSafetyTipsAlreadyShown: meetingSafetyTipsAlreadyShown,
                                 interestingProducts: Set(interestingProducts),
                                 analyticsSessionData: analyticsSessionData)
@@ -211,7 +203,6 @@ extension UserDefaultsUser: UserDefaultsDecodable {
         dict.encode(UserDefaultsUserKey.pendingTransactionsListingIds.rawValue, value: pendingTransactionsListingIds)
         dict.encode(UserDefaultsUserKey.failedBumpsInfo.rawValue, value: failedBumpsInfo)
         dict.encode(UserDefaultsUserKey.proSellerAlreadySentPhoneInChat.rawValue, value: proSellerAlreadySentPhoneInChat)
-        dict.encode(UserDefaultsUserKey.machineLearningOnboardingShown.rawValue, value: machineLearningOnboardingShown)
         dict.encode(UserDefaultsUserKey.meetingSafetyTipsAlreadyShown.rawValue, value: meetingSafetyTipsAlreadyShown)
         dict.encode(UserDefaultsUserKey.interestingProducts.rawValue, value: Array(interestingProducts))
         if let analyticsSessionData = analyticsSessionData {
@@ -251,8 +242,6 @@ private enum UserDefaultsUserKey: String {
     case failedBumpsInfo = "failedBumpsInfo"
 
     case proSellerAlreadySentPhoneInChat = "proSellerAlreadySentPhoneInChat"
-    
-    case machineLearningOnboardingShown = "machineLearningOnboardingShown"
 
     case meetingSafetyTipsAlreadyShown = "meetingSafetyTipsAlreadyShown"
     case interestingProducts = "interestingProducts"

@@ -165,6 +165,17 @@ extension MainTabCoordinator: MainTabNavigator {
         let viewController = ListingsMapViewController(viewModel: viewModel)
         navigationController.pushViewController(viewController, animated: true)
     }
+    
+    func openAskPhoneFromMainFeedFor(listing: Listing, interlocutor: User?) {
+        let askNumVM = ProfessionalDealerAskPhoneViewModel(listing: listing, interlocutor: interlocutor, typePage: .feed)
+        askNumVM.navigator = self
+        let askNumVC = ProfessionalDealerAskPhoneViewController(viewModel: askNumVM)
+        askNumVC.setupForModalWithNonOpaqueBackground()
+        tabCoordinatorDelegate?.tabCoordinator(self,
+                                               setSellButtonHidden: true,
+                                               animated: false)
+        navigationController.present(askNumVC, animated: true, completion: nil)
+    }
 
 } 
 

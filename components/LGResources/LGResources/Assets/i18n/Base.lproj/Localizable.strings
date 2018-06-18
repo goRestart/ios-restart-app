@@ -1351,6 +1351,24 @@
 // Long description for showing similar results when search results were empty
 "listing_show_similar_results_description" = "No exact matches for your search.\nMake sure it’s spelled correctly or use different keywords and filters.";
 
+// Interested button on item page. Variant A
+"listing_interested_button_A" = "I'm interested";
+
+// Interested button on item page. Variant B
+"listing_interested_button_B" = "Interested";
+
+// Interested button on item page. Variant C
+"listing_interested_button_C" = "Ask for Details";
+
+// Interested button on item page. Variant D
+"listing_interested_button_D" = "Ask for Details";
+
+// Interested button footer on item page.
+"listing_interested_footer" = "Automatically sends a message to the seller asking if it's available.";
+
+// Chat button on item page
+"listing_chat_button" = "Chat Now";
+
 // Fake distance shown in a bubble in a fake product list in onboarding
 "location_permissions_bubble" = "0.1 mi from you";
 

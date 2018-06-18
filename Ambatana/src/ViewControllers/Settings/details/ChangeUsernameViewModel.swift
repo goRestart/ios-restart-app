@@ -1,11 +1,4 @@
-//
-//  ChangeUsernameViewModel.swift
-//  LetGo
-//
-//  Created by Dídac on 21/07/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
+import LGComponents
 import LGCoreKit
 import Result
 
@@ -115,7 +108,7 @@ class ChangeUsernameViewModel: BaseViewModel {
     
     func isValidUsername(_ theUsername: String) -> Bool {
         let trimmed = theUsername.trimmingCharacters(in: CharacterSet.whitespaces)
-        return 2...Constants.maxUserNameLength ~= trimmed.count && trimmed != myUserRepository.myUser?.name
+        return 2...SharedConstants.maxUserNameLength ~= trimmed.count && trimmed != myUserRepository.myUser?.name
     }
     
     

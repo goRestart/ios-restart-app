@@ -52,7 +52,7 @@ final class ListingsMapViewModel: BaseViewModel {
     }
     
     var accuracy: Double {
-        return productFilter.selectedCategories.first?.mapAccuracy ?? Constants.nonAccurateRegionRadius
+        return productFilter.selectedCategories.first?.mapAccuracy ?? SharedConstants.nonAccurateRegionRadius
     }
     
     //  MARK: - Private

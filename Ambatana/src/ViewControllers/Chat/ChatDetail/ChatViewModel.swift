@@ -66,7 +66,7 @@ class ChatViewModel: BaseViewModel {
     weak var navigator: ChatDetailNavigator?
     
     // Paginable
-    var resultsPerPage: Int = Constants.numMessagesPerPage
+    var resultsPerPage: Int = SharedConstants.numMessagesPerPage
     var isLastPage: Bool = false
     var isLoading: Bool = false
     var objectCount: Int {
@@ -1462,7 +1462,7 @@ extension ChatViewModel {
         guard !isUserDummy else { return nil }
         
         var isFirstPage: Bool {
-            return messages.count < Constants.numMessagesPerPage
+            return messages.count < SharedConstants.numMessagesPerPage
         }
         var priceIsEqualOrHigherThan250: Bool {
             guard let price = conversation.value.listing?.price.value else { return false }
@@ -1529,7 +1529,7 @@ extension ChatViewModel {
             didn't got any answer. We show him the related items too)
          */
         sellerDidntAnswer.value = recentSellerMessages.isEmpty &&
-            (hasOldMessages || messages.count == Constants.numMessagesPerPage)
+            (hasOldMessages || messages.count == SharedConstants.numMessagesPerPage)
     }
 
     private func checkShouldShowDirectAnswers(_ messages: [ChatMessage]) {

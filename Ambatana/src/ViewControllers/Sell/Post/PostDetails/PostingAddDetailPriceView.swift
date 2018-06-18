@@ -21,7 +21,7 @@ class PostingAddDetailPriceView: UIView, PostingViewConfigurable, UITextFieldDel
     private let currencySymbol: String?
     private let freeEnabled: Bool
     
-    var priceListing = Variable<ListingPrice>(Constants.defaultPrice)
+    var priceListing = Variable<ListingPrice>(SharedConstants.defaultPrice)
     
     private let disposeBag = DisposeBag()
     
@@ -135,7 +135,7 @@ class PostingAddDetailPriceView: UIView, PostingViewConfigurable, UITextFieldDel
             } else if let value = textFieldValue {
                 strongSelf.priceListing.value = .normal(value.toPriceDouble())
             } else {
-                strongSelf.priceListing.value = Constants.defaultPrice
+                strongSelf.priceListing.value = SharedConstants.defaultPrice
             }
         }.disposed(by: disposeBag)
     }

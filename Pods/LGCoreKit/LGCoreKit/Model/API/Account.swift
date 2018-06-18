@@ -10,10 +10,11 @@ import Foundation
 
 public enum AccountProvider: String, Decodable {
     case email = "letgo"
+    case passwordless = "letgo-passwordless"
     case facebook = "facebook"
     case google = "google"
     
-    public static let allValues: [AccountProvider] = [.email, .facebook, .google]
+    public static let allValues: [AccountProvider] = [.email, .passwordless, .facebook, .google]
 }
 
 public protocol Account {

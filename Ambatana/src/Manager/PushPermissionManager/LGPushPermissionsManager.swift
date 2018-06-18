@@ -74,7 +74,7 @@ class LGPushPermissionsManager: PushPermissionsManager {
 
         // if already shown system dialog, show the view to go to settings, if not, show the normal one
         let showSettingsPrePermission = keyValueStorage[.pushPermissionsDidShowNativeAlert]
-        let pushRepeateDate = Date().addingTimeInterval(Constants.pushPermissionRepeatTime)
+        let pushRepeateDate = Date().addingTimeInterval(SharedConstants.pushPermissionRepeatTime)
 
         switch prePermissionType {
         case .chat, .sell:

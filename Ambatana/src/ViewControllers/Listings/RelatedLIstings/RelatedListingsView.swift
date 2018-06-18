@@ -1,11 +1,4 @@
-//
-//  RelatedListingsView.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 01/08/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
+import LGComponents
 import LGCoreKit
 import RxSwift
 import RxCocoa
@@ -173,7 +166,7 @@ fileprivate extension RelatedListingsView {
 
     func loadListings(_ listingId: String) {
         clear()
-        requester = RelatedListingListRequester(listingId: listingId, itemsPerPage: Constants.numListingsPerPageDefault)
+        requester = RelatedListingListRequester(listingId: listingId, itemsPerPage: SharedConstants.numListingsPerPageDefault)
         requester?.retrieveFirstPage { [weak self] result in
             guard let listings = result.listingsResult.value else { return }
             if !listings.isEmpty {

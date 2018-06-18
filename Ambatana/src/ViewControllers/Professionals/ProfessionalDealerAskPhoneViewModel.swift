@@ -20,22 +20,24 @@ class ProfessionalDealerAskPhoneViewModel: BaseViewModel {
     private let listing: Listing
     private let interlocutor: User?
     private let tracker: Tracker
+    private let typePage: EventParameterTypePage
 
-    convenience init(listing: Listing, interlocutor: User?) {
-        self.init(listing: listing, interlocutor: interlocutor, tracker: TrackerProxy.sharedInstance)
+    convenience init(listing: Listing, interlocutor: User?, typePage: EventParameterTypePage) {
+        self.init(listing: listing, interlocutor: interlocutor, tracker: TrackerProxy.sharedInstance, typePage: typePage)
     }
 
-    init(listing: Listing, interlocutor: User?, tracker: Tracker) {
+    init(listing: Listing, interlocutor: User?, tracker: Tracker, typePage: EventParameterTypePage) {
         self.listing = listing
         self.interlocutor = interlocutor
         self.tracker = tracker
+        self.typePage = typePage
         super.init()
         setupRx()
     }
 
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
-        tracker.trackEvent(TrackerEvent.phoneNumberRequest(typePage: .listingDetail))
+        tracker.trackEvent(TrackerEvent.phoneNumberRequest(typePage: typePage))
     }
 
     func setupRx() {
@@ -54,16 +56,16 @@ class ProfessionalDealerAskPhoneViewModel: BaseViewModel {
         navigator?.closeAskPhoneFor(listing: listing,
                                     openChat: true,
                                     withPhoneNum: phoneNumber.value,
-                                    source: .listingDetail,
+                                    source: typePage,
                                     interlocutor: interlocutor)
-        tracker.trackEvent(TrackerEvent.phoneNumberSent(typePage: .listingDetail))
+        tracker.trackEvent(TrackerEvent.phoneNumberSent(typePage: typePage))
     }
 
     func closePressed() {
         navigator?.closeAskPhoneFor(listing: listing,
                                     openChat: false,
                                     withPhoneNum: nil,
-                                    source: .listingDetail,
+                                    source: typePage,
                                     interlocutor: interlocutor)
     }
 
@@ -71,8 +73,8 @@ class ProfessionalDealerAskPhoneViewModel: BaseViewModel {
         navigator?.closeAskPhoneFor(listing: listing,
                                     openChat: true,
                                     withPhoneNum: nil,
-                                    source: .listingDetail,
+                                    source: typePage,
                                     interlocutor: interlocutor)
-        tracker.trackEvent(TrackerEvent.phoneNumberNotNow(typePage: .listingDetail))
+        tracker.trackEvent(TrackerEvent.phoneNumberNotNow(typePage: typePage))
     }
 }

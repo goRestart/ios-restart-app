@@ -1,11 +1,4 @@
-//
-//  ListingListView.swift
-//  LetGo
-//
-//  Created by AHL on 9/7/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
+import LGComponents
 import CHTCollectionViewWaterfallLayout
 import RxSwift
 import LGCoreKit
@@ -214,7 +207,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     
     func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!,
         heightForFooterInSection section: Int) -> CGFloat {
-        return Constants.listingListFooterHeight
+        return SharedConstants.listingListFooterHeight
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,

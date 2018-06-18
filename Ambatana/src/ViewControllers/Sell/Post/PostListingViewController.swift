@@ -194,7 +194,7 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
         if viewPager.currentPage == Tab.camera.index {
             if viewModel.postListingCameraViewModel.cameraMode.value == .video {
                 viewPager.scrollEnabled = false
-                cameraView.recordVideo(maxDuration: Constants.videoMaxRecordingDuration)
+                cameraView.recordVideo(maxDuration: SharedConstants.videoMaxRecordingDuration)
             } else {
                 cameraView.takePhoto()
             }
@@ -260,7 +260,7 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
     }
     
     private func setupMachineLearningOnboardingView() {
-        guard viewModel.machineLearningSupported, !keyValueStorage.machineLearningOnboardingShown else { return }
+        guard viewModel.machineLearningSupported, !keyValueStorage[.machineLearningOnboardingShown] else { return }
         onboardingView.buttonBlock = { [weak self] in
             self?.onboardingView.backgroundColor = .clear
             UIView.animate(withDuration: 0.2, animations: {
@@ -272,7 +272,7 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
         }
         view.addSubviewForAutoLayout(onboardingView)
         onboardingView.layout(with: view).fill()
-        keyValueStorage.machineLearningOnboardingShown = true
+        keyValueStorage[.machineLearningOnboardingShown] = true
     }
     
     private func setupLoadingStackView() {
@@ -445,8 +445,8 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
         cameraView.takePhotoEnabled.asObservable().bind(to: footer.cameraButton.rx.isEnabled).disposed(by: disposeBag)
         cameraView.takePhotoEnabled.asObservable().bind(to: footer.galleryButton.rx.isEnabled).disposed(by: disposeBag)
         cameraView.recordingDuration.asObservable().subscribeNext { [weak self] (duration) in
-            let progress = CGFloat(duration/Constants.videoMaxRecordingDuration)
-            let remainingTime = Constants.videoMaxRecordingDuration - duration
+            let progress = CGFloat(duration/SharedConstants.videoMaxRecordingDuration)
+            let remainingTime = SharedConstants.videoMaxRecordingDuration - duration
             self?.footer.updateVideoRecordingDurationProgress(progress: progress, remainingTime: remainingTime)
         }.disposed(by: disposeBag)
 

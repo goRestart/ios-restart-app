@@ -165,7 +165,7 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
     func updateCenterMap(location: LGLocationCoordinates2D?) {
         guard let latitude = location?.latitude, let longitude = location?.longitude else { return }
         let coordinates: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-        let radius = Constants.accurateRegionRadius
+        let radius = SharedConstants.accurateRegionRadius
         let region = MKCoordinateRegionMakeWithDistance(coordinates, radius, radius)
         mapView.setRegion(region, animated: false)
     }

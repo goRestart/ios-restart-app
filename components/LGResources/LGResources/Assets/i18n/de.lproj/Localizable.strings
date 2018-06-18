@@ -449,6 +449,12 @@
 "id_verification_third_step_subtitle" = "Stelle sicher, dass dein Ausweis gut lesbar und innerhalb des Rechtecks des Suchers ist";
 "id_verification_third_step_title" = "Nimm ein Bild von der Vorderseite deines Ausweises auf";
 "id_verification_update_avatar_message" = "Möchtest du es als Profilbild nutzen?";
+"listing_chat_button" = "Chat Now";
+"listing_interested_button_A" = "I'm interested";
+"listing_interested_button_B" = "Interested";
+"listing_interested_button_C" = "Ask for Details";
+"listing_interested_button_D" = "Ask for Details";
+"listing_interested_footer" = "Automatically sends a message to the seller asking if it's available.";
 "listing_map_redo_search" = "Suche in dieser Gegend";
 "listing_show_similar_results" = "Es werden Ergebnisse für ähnliche Suchen angezeigt";
 "listing_show_similar_results_description" = "Keine exakten Treffer für deine Suche.\nStelle sicher, dass du es richtig geschrieben hast, oder nutze andere Suchbegriffe und Filter.";

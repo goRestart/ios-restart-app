@@ -1,11 +1,4 @@
-//
-//  TrackerEventDataTypes.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 06/08/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
+import LGComponents
 import LGCoreKit
 import GoogleMobileAds
 
@@ -191,6 +184,7 @@ enum EventName: String {
     case categoriesComplete                 = "categories-complete"
 
     case adTapped                           = "ad-tapped"
+    case adShown                            = "ad-shown"
     case featuredMoreInfo                   = "featured-more-info"
     case openOptionOnSummary                = "posting-summary-open"
 
@@ -564,10 +558,10 @@ enum EventParameterMake {
     var name: String {
         switch self {
         case .make(let name):
-            guard let name = name, !name.isEmpty else { return Constants.parameterNotApply }
+            guard let name = name, !name.isEmpty else { return SharedConstants.parameterNotApply }
             return name
         case .none:
-            return Constants.parameterNotApply
+            return SharedConstants.parameterNotApply
         }
     }
 }
@@ -579,10 +573,10 @@ enum EventParameterModel {
     var name: String {
         switch self {
         case .model(let name):
-            guard let name = name, !name.isEmpty else { return Constants.parameterNotApply }
+            guard let name = name, !name.isEmpty else { return SharedConstants.parameterNotApply }
             return name
         case .none:
-            return Constants.parameterNotApply
+            return SharedConstants.parameterNotApply
         }
     }
 }
@@ -594,10 +588,10 @@ enum EventParameterYear {
     var year: String {
         switch self {
         case .year(let year):
-            guard let year = year, year != 0 else { return Constants.parameterNotApply }
+            guard let year = year, year != 0 else { return SharedConstants.parameterNotApply }
             return String(year)
         case .none:
-            return Constants.parameterNotApply
+            return SharedConstants.parameterNotApply
         }
     }
 }
@@ -613,11 +607,11 @@ enum EventParameterStringRealEstate {
     var name: String {
         switch self {
         case .realEstateParam(let name):
-            return name ?? Constants.parameterSkipValue
+            return name ?? SharedConstants.parameterSkipValue
         case .none:
-            return Constants.parameterSkipValue
+            return SharedConstants.parameterSkipValue
         case .notApply:
-            return Constants.parameterNotApply
+            return SharedConstants.parameterNotApply
         }
     }
 }
@@ -629,10 +623,10 @@ enum EventParameterBathroomsRealEstate {
     var name: String {
         switch self {
         case .bathrooms(let value):
-            guard let value = value else { return Constants.parameterSkipValue }
+            guard let value = value else { return SharedConstants.parameterSkipValue }
             return String(value)
         case .notApply:
-            return Constants.parameterNotApply
+            return SharedConstants.parameterNotApply
         }
     }
 }
@@ -644,10 +638,10 @@ enum EventParameterBedroomsRealEstate {
     var name: String {
         switch self {
         case .bedrooms(let value):
-            guard let value = value else { return Constants.parameterSkipValue }
+            guard let value = value else { return SharedConstants.parameterSkipValue }
             return String(value)
         case .notApply:
-            return Constants.parameterNotApply
+            return SharedConstants.parameterNotApply
         }
     }
 }
@@ -659,10 +653,10 @@ enum EventParameterRoomsRealEstate {
     var name: String {
         switch self {
         case .rooms(let bedrooms, let livingRooms):
-            guard let bedrooms = bedrooms, let livingRooms = livingRooms else { return Constants.parameterSkipValue }
+            guard let bedrooms = bedrooms, let livingRooms = livingRooms else { return SharedConstants.parameterSkipValue }
             return NumberOfRooms(numberOfBedrooms: bedrooms, numberOfLivingRooms: livingRooms).trackingString
         case .notApply:
-            return Constants.parameterNotApply
+            return SharedConstants.parameterNotApply
         }
     }
 }
@@ -674,10 +668,10 @@ enum EventParameterSizeRealEstate {
     var name: String {
         switch self {
         case .size(let value):
-            guard let value = value else { return Constants.parameterSkipValue }
+            guard let value = value else { return SharedConstants.parameterSkipValue }
             return String(value)
         case .notApply:
-            return Constants.parameterNotApply
+            return SharedConstants.parameterNotApply
         }
     }
 }
@@ -903,6 +897,7 @@ enum EventParameterTypePage: String {
     case userVerifications = "user-verifications"
     case smsVerification = "sms-verification"
     case nextItem = "next-item"
+    case feed = "feed"
 }
 
 enum EventParameterPermissionType: String {

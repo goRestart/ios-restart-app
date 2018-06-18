@@ -1,12 +1,5 @@
-//
-//  FeedCellDrawer.swift
-//  LetGo
-//
-//  Created by Stephen Walsh on 04/05/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 struct FeedCellDrawer {
     

@@ -33,7 +33,7 @@ class DistanceBubbleTextGenerator {
      */
 
     func bubbleInfoText(forDistance distance: Int, type: DistanceType, distanceRadius: Int?, place: Place?) -> String {
-        var maxDistance = Constants.listingListMaxDistanceLabel
+        var maxDistance = SharedConstants.listingListMaxDistanceLabel
 
         if let filterDistanceRadius = distanceRadius {
             maxDistance = filterDistanceRadius

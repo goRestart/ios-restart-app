@@ -14,11 +14,13 @@ struct ProductsABGroup: ABGroupType {
         static let servicesCategoryOnSalchichasMenu = "20180508ServicesCategoryOnSalchichasMenu"
         static let predictivePosting = "20180604PredictivePosting"
         static let videoPosting = "20180604VideoPosting"
+        static let simplifiedChatButton = "20180611SimplifiedChatButton"
     }
     
     let servicesCategoryOnSalchichasMenu: LeanplumABVariable<Int>
     let predictivePosting: LeanplumABVariable<Int>
     let videoPosting: LeanplumABVariable<Int>
+    let simplifiedChatButton: LeanplumABVariable<Int>
 
     let group: ABGroup = .products
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -28,11 +30,13 @@ struct ProductsABGroup: ABGroupType {
 
     init(servicesCategoryOnSalchichasMenu: LeanplumABVariable<Int>,
          predictivePosting: LeanplumABVariable<Int>,
-         videoPosting: LeanplumABVariable<Int>) {
+         videoPosting: LeanplumABVariable<Int>,
+         simplifiedChatButton: LeanplumABVariable<Int>) {
         self.servicesCategoryOnSalchichasMenu = servicesCategoryOnSalchichasMenu
         self.predictivePosting = predictivePosting
         self.videoPosting = videoPosting
-        intVariables.append(contentsOf: [servicesCategoryOnSalchichasMenu, predictivePosting, videoPosting])
+        self.simplifiedChatButton = simplifiedChatButton
+        intVariables.append(contentsOf: [servicesCategoryOnSalchichasMenu, predictivePosting, videoPosting, simplifiedChatButton])
     }
 
     static func make() -> ProductsABGroup {
@@ -44,7 +48,10 @@ struct ProductsABGroup: ABGroupType {
                                                            groupType: .products),
                                videoPosting: .makeInt(key: Keys.videoPosting,
                                                       defaultValue: 0,
-                                                      groupType: .products))
+                                                      groupType: .products),
+                               simplifiedChatButton: .makeInt(key: Keys.simplifiedChatButton,
+                                                              defaultValue: 0,
+                                                              groupType: .products))
     }
 }
 

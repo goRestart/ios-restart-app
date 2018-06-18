@@ -137,7 +137,7 @@ class EditLocationViewModel: BaseViewModel {
         case .km:
             return Double(distanceRadius) * 1000
         case .mi:
-            return Double(distanceRadius) * Constants.metersInOneMile
+            return Double(distanceRadius) * SharedConstants.metersInOneMile
         }
     }
     

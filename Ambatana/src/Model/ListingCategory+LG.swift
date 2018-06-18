@@ -174,10 +174,10 @@ extension ListingCategory {
     var mapAccuracy: Double {
         switch self {
         case .realEstate:
-            return Constants.largestRegionRadius
+            return SharedConstants.largestRegionRadius
         case .cars,.motorsAndAccessories,.babyAndChild, .electronics, .fashionAndAccesories, .homeAndGarden,
              .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .unassigned, .services:
-            return Constants.nonAccurateRegionRadius
+            return SharedConstants.nonAccurateRegionRadius
         }
     }
 

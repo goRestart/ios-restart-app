@@ -1,13 +1,6 @@
-//
-//  BumpUpPayViewModel.swift
-//  LetGo
-//
-//  Created by Dídac on 19/12/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
+import LGComponents
 
 class BumpUpPayViewModel: BaseViewModel {
 

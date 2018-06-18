@@ -1,11 +1,4 @@
-//
-//  ImageDownloader.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 26/04/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
+import LGComponents
 import AlamofireImage
 import Result
 
@@ -47,7 +40,7 @@ final class ImageDownloader: ImageDownloaderType {
     private func addReceiptToPool(_ receipt: RequestReceipt?) {
         guard let receipt = receipt else { return }
         currentImagesPool.append(receipt)
-        if currentImagesPool.count >= Constants.imageRequestPoolCapacity {
+        if currentImagesPool.count >= SharedConstants.imageRequestPoolCapacity {
             guard let firstReceipt = currentImagesPool.first else { return }
             cancelImageDownloading(firstReceipt)
             currentImagesPool.removeFirst()
@@ -63,8 +56,8 @@ final class ImageDownloader: ImageDownloaderType {
         let configuration = AlamofireImage.ImageDownloader.defaultURLSessionConfiguration()
 
         configuration.urlCache = LGUrlCache(
-            memoryCapacity: Constants.imagesUrlCacheMemoryCapacity,
-            diskCapacity: Constants.imagesUrlCacheDiskCapacity,
+            memoryCapacity: SharedConstants.imagesUrlCacheMemoryCapacity,
+            diskCapacity: SharedConstants.imagesUrlCacheDiskCapacity,
             diskPath: "imageCache"
         )
 

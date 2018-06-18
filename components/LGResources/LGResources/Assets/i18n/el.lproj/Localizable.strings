@@ -449,6 +449,12 @@
 "id_verification_third_step_subtitle" = "Βεβαιωθείτε πως η ταυτότητά σας φαίνεται ξεκάθαρα και είναι καλά εστιασμένη στην οθόνη";
 "id_verification_third_step_title" = "Τραβήξτε μια φωτογραφία της μπροστινής όψης της ταυτότητάς σας";
 "id_verification_update_avatar_message" = "Θέλετε να την κάνετε εικόνα προφίλ;";
+"listing_chat_button" = "Chat Now";
+"listing_interested_button_A" = "I'm interested";
+"listing_interested_button_B" = "Interested";
+"listing_interested_button_C" = "Ask for Details";
+"listing_interested_button_D" = "Ask for Details";
+"listing_interested_footer" = "Automatically sends a message to the seller asking if it's available.";
 "listing_map_redo_search" = "Κάντε αναζήτηση σε αυτήν την περιοχή";
 "listing_show_similar_results" = "Εμφάνιση αποτελεσμάτων για παρόμοιες αναζητήσεις";
 "listing_show_similar_results_description" = "Δε βρέθηκαν ακριβή αποτελέσματα για την αναζήτησή σας.\nΒεβαιωθείτε πως έχετε γράψει σωστά τη λέξη ή δοκιμάστε διαφορετικές λέξεις κλειδιά και φίλτρα.";

@@ -19,6 +19,8 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
     var nextPostingDetailStepCalled: Bool = false
     var closePostProductAndPostInBackgroundCalled: Bool = false
     var closePostProductAndPostLaterCalled: Bool = false
+    var closePostServicesAndPostInBackgroundCalled: Bool = false
+    var closePostServicesAndPostLaterCalled: Bool = false
     var openLoginIfNeededFromListingPosted: Bool = false
     var openListingCreationCalled: Bool = false
     
@@ -33,6 +35,7 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
         var sessionManager: MockSessionManager!
         var imageMultiplierRepository: MockImageMultiplierRepository!
         var servicesInfoRepository: MockServicesInfoRepository!
+        var listingRepository: MockListingRepository!
         
         var postingDetailsStep: PostingDetailStep!
         var postListingState: PostListingState!
@@ -58,7 +61,8 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
                                               myUserRepository: myUserRepository,
                                               sessionManager: sessionManager,
                                               imageMultiplierRepository: imageMultiplierRepository,
-                                              servicesInfoRepository: servicesInfoRepository)
+                                              servicesInfoRepository: servicesInfoRepository,
+                                              listingRepository: listingRepository)
                 
                 sut.navigator = self
             }
@@ -73,14 +77,16 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
                 sessionManager = MockSessionManager()
                 imageMultiplierRepository = MockImageMultiplierRepository()
                 servicesInfoRepository = MockServicesInfoRepository()
+                listingRepository = MockListingRepository()
                 
                 self.cancelPostingCalled = false
                 self.nextPostingDetailStepCalled = false
                 self.closePostProductAndPostInBackgroundCalled = false
                 self.closePostProductAndPostLaterCalled = false
+                self.closePostServicesAndPostInBackgroundCalled = false
+                self.closePostServicesAndPostLaterCalled = false
                 self.openLoginIfNeededFromListingPosted = false
                 self.openListingCreationCalled = false
-                
             }
             
             context("init with bathroom step") {
@@ -127,48 +133,97 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
             }
             
             context("init with summary step") {
-                beforeEach {
-                    postingDetailsStep = .summary
-                    postListingState = PostListingState(postCategory: .realEstate, title: nil)
-                    postListingState = postListingState.updatingStepToUploadingImages()
-                    postListingState = postListingState.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
-                    buildPostingDetailsViewModel()
-                }
-                context("press next button") {
+                context("using real estate category") {
                     beforeEach {
-                        sut.nextbuttonPressed()
+                        postingDetailsStep = .summary
+                        postListingState = PostListingState(postCategory: .realEstate, title: nil)
+                        postListingState = postListingState.updatingStepToUploadingImages()
+                        postListingState = postListingState.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
+                        buildPostingDetailsViewModel()
                     }
-                    it("cancel the posting process. no possible to have pending image an no logged in") {
-                        expect(self.cancelPostingCalled) == true
+                    context("press next button") {
+                        beforeEach {
+                            sut.nextbuttonPressed()
+                        }
+                        it("cancel the posting process. no possible to have pending image an no logged in") {
+                            expect(self.cancelPostingCalled) == true
+                        }
+                        it("calls navigator to next detail step") {
+                            expect(self.nextPostingDetailStepCalled) == false
+                        }
                     }
-                    it("calls navigator to next detail step") {
-                        expect(self.nextPostingDetailStepCalled) == false
+                    context("press close button") {
+                        beforeEach {
+                            sut.closeButtonPressed()
+                        }
+                        it("posts the item and close") {
+                            expect(self.closePostProductAndPostInBackgroundCalled) == true
+                        }
+                    }
+                    context("index 0 selected") {
+                        beforeEach {
+                            sut.indexSelected(index: 0)
+                        }
+                        it("does not move to next step") {
+                            expect(self.nextPostingDetailStepCalled).toEventually(equal(false))
+                        }
+                    }
+                    context("index 0 Deselected") {
+                        beforeEach {
+                            sut.indexDeselected(index: 0)
+                        }
+                        it("stays in the same screen") {
+                            expect(self.nextPostingDetailStepCalled) == false
+                        }
                     }
                 }
-                context("press close button") {
+                
+                context("using services category") {
                     beforeEach {
-                        sut.closeButtonPressed()
+                        postingDetailsStep = .servicesSubtypes
+                        postListingState = PostListingState(postCategory: .services, title: nil)
+                        postListingState = postListingState.updatingStepToUploadingImages()
+                        postListingState = postListingState.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
+                        buildPostingDetailsViewModel()
+                        featureFlags.showServicesFeatures = ShowServicesFeatures.active
                     }
-                    it("posts the item and close") {
-                        expect(self.closePostProductAndPostInBackgroundCalled) == true
+                    context("press next button") {
+                        beforeEach {
+                            sut.nextbuttonPressed()
+                        }
+                        it("cancel the posting process. no possible to have pending image an no logged in") {
+                            expect(self.cancelPostingCalled) == true
+                        }
+                        it("calls navigator to next detail step") {
+                            expect(self.nextPostingDetailStepCalled) == false
+                        }
+                    }
+                    context("press close button") {
+                        beforeEach {
+                            sut.closeButtonPressed()
+                        }
+                        it("posts the item and close") {
+                            expect(self.closePostServicesAndPostInBackgroundCalled) == true
+                        }
+                    }
+                    context("index 0 selected") {
+                        beforeEach {
+                            sut.indexSelected(index: 0)
+                        }
+                        it("does not move to next step") {
+                            expect(self.nextPostingDetailStepCalled).toEventually(equal(false))
+                        }
+                    }
+                    context("index 0 Deselected") {
+                        beforeEach {
+                            sut.indexDeselected(index: 0)
+                        }
+                        it("stays in the same screen") {
+                            expect(self.nextPostingDetailStepCalled) == false
+                        }
                     }
                 }
-                context("index 0 selected") {
-                    beforeEach {
-                        sut.indexSelected(index: 0)
-                    }
-                    it("does not move to next step") {
-                        expect(self.nextPostingDetailStepCalled).toEventually(equal(false))
-                    }
-                }
-                context("index 0 Deselected") {
-                    beforeEach {
-                        sut.indexDeselected(index: 0)
-                    }
-                    it("stays in the same screen") {
-                        expect(self.nextPostingDetailStepCalled) == false
-                    }
-                }
+                
             }
             context("init with price step") {
                 beforeEach {
@@ -222,19 +277,29 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
 
 extension PostingDetailsViewModelSpec: PostListingNavigator {
     
-    func closePostServicesAndPostLater(params: [ListingCreationParams], images: [UIImage]?, trackingInfo: PostListingTrackingInfo) {
-        closePostProductAndPostInBackgroundCalled = true
+    func closePostServicesAndPostLater(params: [ListingCreationParams],
+                                       images: [UIImage]?,
+                                       trackingInfo: PostListingTrackingInfo) {
+        closePostServicesAndPostLaterCalled = true
     }
     
-    func startDetails(firstStep: PostingDetailStep, postListingState: PostListingState, uploadedImageSource: EventParameterPictureSource?, uploadedVideoLength: TimeInterval?, postingSource: PostingSource, postListingBasicInfo: PostListingBasicDetailViewModel) {
+    func closePostServicesAndPostInBackground(completion: @escaping (() -> Void)) {
+        closePostServicesAndPostInBackgroundCalled = true
+    }
+    
+    func startDetails(firstStep: PostingDetailStep,
+                      postListingState: PostListingState,
+                      uploadedImageSource: EventParameterPictureSource?,
+                      uploadedVideoLength: TimeInterval?,
+                      postingSource: PostingSource,
+                      postListingBasicInfo: PostListingBasicDetailViewModel) {
         // FIXME: No idea what to do here
     }
 
-    func startDetails(postListingState: PostListingState, uploadedImageSource: EventParameterPictureSource?, postingSource: PostingSource, postListingBasicInfo: PostListingBasicDetailViewModel) {
-        // FIXME: No idea what to do here
-    }
-    
-    func closePostServicesAndPostInBackground(params: [ListingCreationParams], trackingInfo: PostListingTrackingInfo) {
+    func startDetails(postListingState: PostListingState,
+                      uploadedImageSource: EventParameterPictureSource?,
+                      postingSource: PostingSource,
+                      postListingBasicInfo: PostListingBasicDetailViewModel) {
         // FIXME: No idea what to do here
     }
 
@@ -268,11 +333,6 @@ extension PostingDetailsViewModelSpec: PostListingNavigator {
         closePostProductAndPostInBackgroundCalled = true
     }
     
-    func closePostServicesAndPostLater(params: [ListingCreationParams], images: [UIImage]?, video: RecordedVideo?, trackingInfo: PostListingTrackingInfo) {
-
-        closePostProductAndPostInBackgroundCalled = true
-    }
-
     func openLoginIfNeededFromListingPosted(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void), cancelAction: (() -> Void)?) {
         openLoginIfNeededFromListingPosted = true
     }

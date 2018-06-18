@@ -1,12 +1,5 @@
-//
-//  String+LG.swift
-//  LetGo
-//
-//  Created by Dídac on 17/11/15.
-//  Copyright © 2015 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 extension String {
 
@@ -130,7 +123,7 @@ extension String {
         formatter.numberStyle = NumberFormatter.Style.decimal
         formatter.locale = locale
         if separator.isEmpty {
-            return count <= Constants.maxPriceIntegerCharacters
+            return count <= SharedConstants.maxPriceIntegerCharacters
         } else if acceptsSeparator && separator != formatter.decimalSeparator {
             return false
         } else if !acceptsSeparator && !separator.isEmpty {
@@ -140,8 +133,8 @@ extension String {
         let parts = components(separatedBy: separator)
         guard parts.count == 2 else { return false }
 
-        return parts[0].count <= Constants.maxPriceIntegerCharacters &&
-               parts[1].count <= Constants.maxPriceFractionalCharacters
+        return parts[0].count <= SharedConstants.maxPriceIntegerCharacters &&
+               parts[1].count <= SharedConstants.maxPriceFractionalCharacters
     }
 
     func toNameReduced(maxChars: Int) -> String {
@@ -314,29 +307,29 @@ extension String {
         guard let _ = Int(noPlusOrHyphenString) else {
             return false
         }
-        return noPlusOrHyphenString.count == Constants.usaPhoneNumberDigitsCount
+        return noPlusOrHyphenString.count == SharedConstants.usaPhoneNumberDigitsCount
     }
 
     var addingSquareMeterUnit: String {
-        return self + " \(Constants.sizeSquareMetersUnit)"
+        return self + " \(SharedConstants.sizeSquareMetersUnit)"
     }
 
     func addUSPhoneFormatDashes() -> String {
 
-        guard self.count >= Constants.usaFirstDashPosition else { return self }
+        guard self.count >= SharedConstants.usaFirstDashPosition else { return self }
 
         var firstChunk: String = ""
         var midChunk: String = ""
         var lastChunk: String = ""
         var outputString = ""
-        let midChunkStart = String.Index(encodedOffset: Constants.usaFirstDashPosition)
-        let midChunkEnd = String.Index(encodedOffset: Constants.usaSecondDashPosition-1)
+        let midChunkStart = String.Index(encodedOffset: SharedConstants.usaFirstDashPosition)
+        let midChunkEnd = String.Index(encodedOffset: SharedConstants.usaSecondDashPosition-1)
 
-        if self.count >= Constants.usaFirstDashPosition {
+        if self.count >= SharedConstants.usaFirstDashPosition {
             firstChunk = String(self[self.startIndex..<midChunkStart])
             outputString = firstChunk + "-"
         }
-        if self.count >= Constants.usaSecondDashPosition {
+        if self.count >= SharedConstants.usaSecondDashPosition {
             midChunk = String(self[midChunkStart..<midChunkEnd])
             outputString = outputString + midChunk + "-"
             lastChunk = String(self[midChunkEnd..<self.endIndex])

@@ -73,6 +73,8 @@ extension Bumper  {
         flags.append(FullScreenAdsWhenBrowsingForUS.self)
         flags.append(VideoPosting.self)
         flags.append(PredictivePosting.self)
+        flags.append(PreventMessagesFromFeedToProUsers.self)
+        flags.append(SimplifiedChatButton.self)
         Bumper.initialize(flags)
     } 
 
@@ -374,6 +376,16 @@ extension Bumper  {
     static var predictivePosting: PredictivePosting {
         guard let value = Bumper.value(for: PredictivePosting.key) else { return .control }
         return PredictivePosting(rawValue: value) ?? .control 
+    }
+
+    static var preventMessagesFromFeedToProUsers: PreventMessagesFromFeedToProUsers {
+        guard let value = Bumper.value(for: PreventMessagesFromFeedToProUsers.key) else { return .control }
+        return PreventMessagesFromFeedToProUsers(rawValue: value) ?? .control 
+    }
+
+    static var simplifiedChatButton: SimplifiedChatButton {
+        guard let value = Bumper.value(for: SimplifiedChatButton.key) else { return .control }
+        return SimplifiedChatButton(rawValue: value) ?? .control 
     } 
 }
 
@@ -1321,6 +1333,43 @@ enum PredictivePosting: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum PreventMessagesFromFeedToProUsers: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return PreventMessagesFromFeedToProUsers.control.rawValue }
+    static var enumValues: [PreventMessagesFromFeedToProUsers] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "If buyer taps 'I'm interested' button in the feed and the listing is from a PRO user, show the phone number request screen" } 
+    static func fromPosition(_ position: Int) -> PreventMessagesFromFeedToProUsers {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum SimplifiedChatButton: String, BumperFeature  {
+    case control, baseline, variantA, variantB, variantC, variantD, variantE, variantF
+    static var defaultValue: String { return SimplifiedChatButton.control.rawValue }
+    static var enumValues: [SimplifiedChatButton] { return [.control, .baseline, .variantA, .variantB, .variantC, .variantD, .variantE, .variantF]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show a simplified chat button on item page" } 
+    static func fromPosition(_ position: Int) -> SimplifiedChatButton {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .variantA
+            case 3: return .variantB
+            case 4: return .variantC
+            case 5: return .variantD
+            case 6: return .variantE
+            case 7: return .variantF
             default: return .control
         }
     }

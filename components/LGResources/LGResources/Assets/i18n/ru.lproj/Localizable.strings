@@ -449,6 +449,12 @@
 "id_verification_third_step_subtitle" = "Убедитесь, что документ четко видно и он попадает в рамку";
 "id_verification_third_step_title" = "Сделайте фото лицевой стороны документа";
 "id_verification_update_avatar_message" = "Хотите сделать это фото изображением профиля?";
+"listing_chat_button" = "Chat Now";
+"listing_interested_button_A" = "I'm interested";
+"listing_interested_button_B" = "Interested";
+"listing_interested_button_C" = "Ask for Details";
+"listing_interested_button_D" = "Ask for Details";
+"listing_interested_footer" = "Automatically sends a message to the seller asking if it's available.";
 "listing_map_redo_search" = "Искать в этой области";
 "listing_show_similar_results" = "Показываем результаты для похожих поисков";
 "listing_show_similar_results_description" = "Нет точных совпадений по вашему поиску. \nУбедитесь, что запрос написан правильно или попробуйте другие ключевые слова и фильтры.";

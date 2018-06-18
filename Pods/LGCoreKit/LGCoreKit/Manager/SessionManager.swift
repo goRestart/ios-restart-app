@@ -15,6 +15,9 @@ public typealias LoginCompletion = (LoginResult) -> Void
 public typealias SignupResult = Result<MyUser, SignupError>
 public typealias SignupCompletion = (SignupResult) -> Void
 
+public typealias RequestPasswordlessResult = Result<Void, RequestPasswordlessError>
+public typealias RequestPasswordlessCompletion = (RequestPasswordlessResult) -> Void
+
 public typealias RecoverPasswordResult = Result<Void, RecoverPasswordError>
 public typealias RecoverPasswordCompletion = (RecoverPasswordResult) -> Void
 
@@ -100,6 +103,35 @@ public protocol SessionManager: class {
                      completion: LoginCompletion?)
 
     /**
+     Signs Up with the given credentials and public username.
+
+     - parameter token:      The Passwordless token
+     - parameter username:   The new username.
+     - parameter completion: The completion closure
+     */
+    func signUpPasswordlessWith(token: String,
+                                username: String,
+                                completion: LoginCompletion?)
+
+    /**
+     Logs the user in using the Passwordless token
+
+     - parameter token:      The Passwordless token
+     - parameter completion: The completion closure
+     */
+    func loginPasswordlessWith(token: String,
+                               completion: LoginCompletion?)
+
+    /**
+     Requests a passwordless magic link sent via email
+
+     - paramater email: The email where the passwordless magic link will be sent.
+     - parameter completioon: The completion closure.
+     */
+    func requestPasswordlessWith(email: String,
+                                 completion: RequestPasswordlessCompletion?)
+
+    /**
     Requests a password recovery.
     - parameter email: The email.
     - parameter completion: The completion closure.
@@ -126,6 +158,7 @@ public protocol SessionManager: class {
  */
 enum UserSessionProvider {
     case email(email: String, password: String)
+    case passwordless(token: String, username: String?)
     case facebook(facebookToken: String)
     case google(googleToken: String)
 
@@ -133,6 +166,8 @@ enum UserSessionProvider {
         switch self {
         case .email:
             return .email
+        case .passwordless:
+            return .passwordless
         case .facebook:
             return .facebook
         case .google:

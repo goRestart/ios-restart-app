@@ -924,6 +924,66 @@ extension R {
     public static let hiddenTextAlertDescription = Strings.tr("Localizable", "hidden_text_alert_description")
     /// STAY SAFE
     public static let hiddenTextAlertTitle = Strings.tr("Localizable", "hidden_text_alert_title")
+    /// Remove any glasses or hat and snap a selfie.
+    public static let idVerificationFirstStepSubtitle = Strings.tr("Localizable", "id_verification_first_step_subtitle")
+    /// First, we need a picture of you!
+    public static let idVerificationFirstStepTitle = Strings.tr("Localizable", "id_verification_first_step_title")
+    /// Make sure your ID is clear and inside the box in the viewfinder
+    public static let idVerificationFourthStepSubtitle = Strings.tr("Localizable", "id_verification_fourth_step_subtitle")
+    /// Take a picture of the back of your ID
+    public static let idVerificationFourthStepTitle = Strings.tr("Localizable", "id_verification_fourth_step_title")
+    /// Driver's License
+    public static let idVerificationOptionDriversLicense = Strings.tr("Localizable", "id_verification_option_drivers_license")
+    /// Back of your ID
+    public static let idVerificationOptionIdBack = Strings.tr("Localizable", "id_verification_option_id_back")
+    /// Front of your ID
+    public static let idVerificationOptionIdFront = Strings.tr("Localizable", "id_verification_option_id_front")
+    /// Type of ID
+    public static let idVerificationOptionIdType = Strings.tr("Localizable", "id_verification_option_id_type")
+    /// Passport
+    public static let idVerificationOptionPassport = Strings.tr("Localizable", "id_verification_option_passport")
+    /// State
+    public static let idVerificationOptionState = Strings.tr("Localizable", "id_verification_option_state")
+    /// Your picture
+    public static let idVerificationOptionUserPicture = Strings.tr("Localizable", "id_verification_option_user_picture")
+    /// Continue
+    public static let idVerificationSecondStepButtonTitle = Strings.tr("Localizable", "id_verification_second_step_button_title")
+    /// TYPE OF ID
+    public static let idVerificationSecondStepSectionTitle = Strings.tr("Localizable", "id_verification_second_step_section_title")
+    /// Select your type of ID and state
+    public static let idVerificationSecondStepSubtitle = Strings.tr("Localizable", "id_verification_second_step_subtitle")
+    /// Now we'll need to scan your ID
+    public static let idVerificationSecondStepTitle = Strings.tr("Localizable", "id_verification_second_step_title")
+    /// Search
+    public static let idVerificationSelectStateSearchPlaceholder = Strings.tr("Localizable", "id_verification_select_state_search_placeholder")
+    /// State
+    public static let idVerificationSelectStateTitle = Strings.tr("Localizable", "id_verification_select_state_title")
+    /// OK
+    public static let idVerificationSummaryButtonTitle = Strings.tr("Localizable", "id_verification_summary_button_title")
+    /// ID VERIFICATION INFO
+    public static let idVerificationSummarySectionTitle = Strings.tr("Localizable", "id_verification_summary_section_title")
+    /// Review your info and tap OK to finish
+    public static let idVerificationSummarySubtitle = Strings.tr("Localizable", "id_verification_summary_subtitle")
+    /// Summary
+    public static let idVerificationSummaryTitle = Strings.tr("Localizable", "id_verification_summary_title")
+    /// Make sure your ID is clear and inside the box in the viewfinder
+    public static let idVerificationThirdStepSubtitle = Strings.tr("Localizable", "id_verification_third_step_subtitle")
+    /// Take a picture of the front of your ID
+    public static let idVerificationThirdStepTitle = Strings.tr("Localizable", "id_verification_third_step_title")
+    /// Do you want to make this your profile picture?
+    public static let idVerificationUpdateAvatarMessage = Strings.tr("Localizable", "id_verification_update_avatar_message")
+    /// Chat Now
+    public static let listingChatButton = Strings.tr("Localizable", "listing_chat_button")
+    /// I'm interested
+    public static let listingInterestedButtonA = Strings.tr("Localizable", "listing_interested_button_A")
+    /// Interested
+    public static let listingInterestedButtonB = Strings.tr("Localizable", "listing_interested_button_B")
+    /// Ask for Details
+    public static let listingInterestedButtonC = Strings.tr("Localizable", "listing_interested_button_C")
+    /// Ask for Details
+    public static let listingInterestedButtonD = Strings.tr("Localizable", "listing_interested_button_D")
+    /// Automatically sends a message to the seller asking if it's available.
+    public static let listingInterestedFooter = Strings.tr("Localizable", "listing_interested_footer")
     /// Search this area
     public static let listingMapRedoSearch = Strings.tr("Localizable", "listing_map_redo_search")
     /// Showing results for similar searches
@@ -2772,8 +2832,12 @@ extension R {
 
 extension R.Strings {
   private static func tr(_ table: String, _ key: String, _ args: CVarArg...) -> String {
-    let format = NSLocalizedString(key, tableName: table, bundle: R.bundle, comment: "")
-    return String(format: format, locale: Locale.current, arguments: args)
+    let localizedString = NSLocalizedString(key, tableName: table, bundle: R.bundle, comment: "")
+    if args.count == 0 {
+      return localizedString
+    } else {
+      return String(format: localizedString, locale: Locale.current, arguments: args)
+    }
   }
 }
 

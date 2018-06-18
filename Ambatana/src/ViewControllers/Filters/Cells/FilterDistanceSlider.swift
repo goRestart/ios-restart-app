@@ -25,8 +25,8 @@ class FilterDistanceSlider: UIView {
         return marksContainer.frame.size
     }
     
-    private var positions: [Int] { return Constants.distanceSliderPositions }
-    private var selectedPosition: Int = Constants.distanceSliderDefaultPosition
+    private var positions: [Int] { return SharedConstants.distanceSliderPositions }
+    private var selectedPosition: Int = SharedConstants.distanceSliderDefaultPosition
 
     weak var delegate: FilterDistanceSliderDelegate?
     
@@ -37,7 +37,7 @@ class FilterDistanceSlider: UIView {
             layoutIfNeeded()
             selectedPosition = (0..<positions.count)
                 .filter { positions[$0] == newValue }
-                .first ?? Constants.distanceSliderDefaultPosition
+                .first ?? SharedConstants.distanceSliderDefaultPosition
             setupInPosition(selectedPosition)
         }
         get {

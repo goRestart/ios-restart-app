@@ -1,11 +1,4 @@
-//
-//  CellMapViewer.swift
-//  LetGo
-//
-//  Created by Dídac on 09/04/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
+import LGComponents
 import LGCoreKit
 import MapKit
 
@@ -28,8 +21,8 @@ final class CellMapViewer: NSObject, MKMapViewDelegate {
         mapView.layer.cornerRadius = 20.0
 
         let region = MKCoordinateRegionMakeWithDistance(clCoordinates,
-                                                        Constants.accurateRegionRadius*2,
-                                                        Constants.accurateRegionRadius*2)
+                                                        SharedConstants.accurateRegionRadius*2,
+                                                        SharedConstants.accurateRegionRadius*2)
         mapView.setRegion(region, animated: true)
 
         mapView.isZoomEnabled = true

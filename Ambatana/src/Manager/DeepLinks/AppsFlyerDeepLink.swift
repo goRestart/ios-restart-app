@@ -1,10 +1,4 @@
-//
-//  AppsFlyerDeepLink.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 14/04/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
+import LGComponents
 
 struct AppsFlyerDeepLink {
 
@@ -28,7 +22,7 @@ struct AppsFlyerDeepLink {
 
     // Initializer using Appsflyer urls https://letgo.onelink.me/...
     static func buildFromUrl(_ url: URL) -> AppsFlyerDeepLink? {
-        guard let host = url.host, host == Constants.appsFlyerLinksHost else {
+        guard let host = url.host, host == SharedConstants.appsFlyerLinksHost else {
             //Any nil object or host different than letgo.onelink.me will be treated as error
             return nil
         }
@@ -49,8 +43,8 @@ struct AppsFlyerDeepLink {
     }
     
     static func deepLinkWithScheme(deepLink: String) -> String {
-        guard deepLink.range(of: Constants.deepLinkScheme) == nil else { return deepLink }
-        return "\(Constants.deepLinkScheme)\(deepLink)"
+        guard deepLink.range(of: SharedConstants.deepLinkScheme) == nil else { return deepLink }
+        return "\(SharedConstants.deepLinkScheme)\(deepLink)"
     }
 }
 

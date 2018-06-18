@@ -1,6 +1,7 @@
 import Foundation
 import UIKit
 import LGCoreKit
+import LGComponents
 
 enum TagCollectionViewFlowLayout {
     case leftAligned

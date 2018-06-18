@@ -128,9 +128,9 @@ final class UserProfileViewModel: BaseViewModel {
 
         let status = UserProfileViewModel.sellingListingStatusCode()
         self.sellingListingListRequester = UserStatusesListingListRequester(statuses: status,
-                                                                            itemsPerPage: Constants.numListingsPerPageDefault)
+                                                                            itemsPerPage: SharedConstants.numListingsPerPageDefault)
         self.soldListingListRequester = UserStatusesListingListRequester(statuses: { [.sold, .soldOld] },
-                                                                         itemsPerPage: Constants.numListingsPerPageDefault)
+                                                                         itemsPerPage: SharedConstants.numListingsPerPageDefault)
         self.favoritesListingListRequester = UserFavoritesListingListRequester()
 
         self.sellingListingListViewModel = ListingListViewModel(requester: self.sellingListingListRequester,
@@ -770,6 +770,10 @@ extension UserProfileViewModel: ListingCellDelegate {
         // this is just meant to be inside the MainFeed
         return
     }
+    
+    func openAskPhoneFor(_ listing: Listing, interlocutor: User) {}
+    
+    func getUserInfoFor(_ listing: Listing, completion: @escaping (User?) -> Void) {}
 
     func chatButtonPressedFor(listing: Listing) {}
 

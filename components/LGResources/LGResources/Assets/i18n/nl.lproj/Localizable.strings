@@ -449,6 +449,12 @@
 "id_verification_third_step_subtitle" = "Zorg ervoor dat je ID duidelijk is en binnen het kader van de zoeker valt";
 "id_verification_third_step_title" = "Maak een foto van de voorkant van je ID";
 "id_verification_update_avatar_message" = "Wil je van deze je profielfoto maken?";
+"listing_chat_button" = "Chat Now";
+"listing_interested_button_A" = "I'm interested";
+"listing_interested_button_B" = "Interested";
+"listing_interested_button_C" = "Ask for Details";
+"listing_interested_button_D" = "Ask for Details";
+"listing_interested_footer" = "Automatically sends a message to the seller asking if it's available.";
 "listing_map_redo_search" = "Zoek in deze omgeving";
 "listing_show_similar_results" = "Resultaten voor vergelijkbare zoekopdrachten weergeven";
 "listing_show_similar_results_description" = "Geen exacte overeenkomsten voor jouw zoekopdracht.\nZorg ervoor dat het correct is gespeld of gebruik verschillende zoekwoorden en filters.";

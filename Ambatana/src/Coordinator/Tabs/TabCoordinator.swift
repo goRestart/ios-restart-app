@@ -199,7 +199,7 @@ fileprivate extension TabCoordinator {
                     }
                 case .notFound, .forbidden:
                     let relatedRequester = RelatedListingListRequester(listingId: listingId,
-                                                                       itemsPerPage: Constants.numListingsPerPageDefault)
+                                                                       itemsPerPage: SharedConstants.numListingsPerPageDefault)
                     relatedRequester.retrieveFirstPage { result in
                         self?.navigationController.dismissLoadingMessageAlert {
                             if let relatedListings = result.listingsResult.value, !relatedListings.isEmpty {
@@ -225,10 +225,10 @@ fileprivate extension TabCoordinator {
         let listingListRequester: ListingListRequester?
         if discover {
             listingListRequester = DiscoverListingListRequester(listingId: listingId,
-                                                                itemsPerPage: Constants.numListingsPerPageDefault)
+                                                                itemsPerPage: SharedConstants.numListingsPerPageDefault)
         } else {
             listingListRequester = RelatedListingListRequester(listing: listing,
-                                                               itemsPerPage: Constants.numListingsPerPageDefault)
+                                                               itemsPerPage: SharedConstants.numListingsPerPageDefault)
         }
         guard let relatedRequester = listingListRequester else { return }
         requestersArray.append(relatedRequester)
@@ -240,7 +240,7 @@ fileprivate extension TabCoordinator {
             requesterCopy.updateInitialOffset(listOffset)
             requestersArray.append(requesterCopy)
         } else {
-            let filteredRequester = FilteredListingListRequester(itemsPerPage: Constants.numListingsPerPageDefault, offset: listOffset)
+            let filteredRequester = FilteredListingListRequester(itemsPerPage: SharedConstants.numListingsPerPageDefault, offset: listOffset)
             requestersArray.append(filteredRequester)
         }
 
@@ -300,8 +300,8 @@ fileprivate extension TabCoordinator {
         guard let localProduct = LocalProduct(chatConversation: chatConversation, myUser: myUserRepository.myUser),
             let listingId = localProduct.objectId else { return }
         let relatedRequester = RelatedListingListRequester(listingId: listingId,
-                                                           itemsPerPage: Constants.numListingsPerPageDefault)
-        let filteredRequester = FilteredListingListRequester( itemsPerPage: Constants.numListingsPerPageDefault, offset: 0)
+                                                           itemsPerPage: SharedConstants.numListingsPerPageDefault)
+        let filteredRequester = FilteredListingListRequester( itemsPerPage: SharedConstants.numListingsPerPageDefault, offset: 0)
         let requester = ListingListMultiRequester(requesters: [relatedRequester, filteredRequester])
 
         if featureFlags.deckItemPage.isActive {
@@ -668,7 +668,7 @@ extension TabCoordinator: ListingDetailNavigator {
     }
 
     func showProductFavoriteBubble(with data: BubbleNotificationData) {
-        showBubble(with: data, duration: Constants.bubbleFavoriteDuration)
+        showBubble(with: data, duration: SharedConstants.bubbleFavoriteDuration)
     }
 
     func openLoginIfNeededFromProductDetail(from: EventParameterLoginSourceValue,
@@ -699,7 +699,7 @@ extension TabCoordinator: ListingDetailNavigator {
         boostSuccessAlert.layout(with: navigationController.view).fill()
         boostSuccessAlert.alpha = 0
         navigationController.view.layoutIfNeeded()
-        UIView.animate(withDuration: 0.3) { [weak self] in
+        UIView.animate(withDuration: 0.3) {
             boostSuccessAlert.alpha = 1
             boostSuccessAlert.startAnimation()
         }
@@ -727,7 +727,7 @@ extension TabCoordinator: ListingDetailNavigator {
     }
 
     func openAskPhoneFor(listing: Listing, interlocutor: User?) {
-        let askNumVM = ProfessionalDealerAskPhoneViewModel(listing: listing, interlocutor: interlocutor)
+        let askNumVM = ProfessionalDealerAskPhoneViewModel(listing: listing, interlocutor: interlocutor, typePage: .listingDetail)
         askNumVM.navigator = self
         let askNumVC = ProfessionalDealerAskPhoneViewController(viewModel: askNumVM)
         askNumVC.setupForModalWithNonOpaqueBackground()
@@ -750,6 +750,9 @@ extension TabCoordinator: ListingDetailNavigator {
             }
         }
         rootViewController.dismiss(animated: true, completion: completion)
+        tabCoordinatorDelegate?.tabCoordinator(self,
+                                               setSellButtonHidden: false,
+                                               animated: false)
     }
 
     func openUserReport(source: EventParameterTypePage, userReportedId: String) {
