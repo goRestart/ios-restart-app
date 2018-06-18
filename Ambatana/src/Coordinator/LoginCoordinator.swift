@@ -189,6 +189,7 @@ extension LoginCoordinator: MainSignUpNavigator {
         let vm = PasswordlessEmailViewModel()
         vm.navigator = self
         let vc = PasswordlessEmailViewController(viewModel: vm)
+        vm.delegate = vc
         tracker.trackEvent(.loginEmailStart())
         nv.pushViewController(vc, animated: true)
     }

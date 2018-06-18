@@ -8,11 +8,13 @@
 
 import Foundation
 import LGCoreKit
+import LGComponents
 import RxSwift
 
 final class PasswordlessEmailViewModel: BaseViewModel {
 
     weak var navigator: PasswordlessNavigator?
+    weak var delegate: BaseViewModelDelegate?
 
     private let sessionManager: SessionManager
     private let tracker: Tracker
@@ -35,7 +37,8 @@ final class PasswordlessEmailViewModel: BaseViewModel {
             case .success:
                 self?.navigator?.openPasswordlessEmailSentTo(email: email)
             case .failure:
-                // FIXME: show error
+                let message = R.Strings.commonErrorGenericBody // FIXME: change when product specs are available
+                self?.delegate?.vmShowAutoFadingMessage(message, completion: nil)
                 break
             }
         }

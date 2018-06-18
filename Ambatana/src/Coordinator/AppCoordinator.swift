@@ -1123,8 +1123,7 @@ fileprivate extension AppCoordinator {
             case .success:
                 navCtl.dismissLoadingMessageAlert()
             case .failure:
-                // FIXME: define error message
-                let message = ""
+                let message = R.Strings.commonErrorGenericBody // FIXME: change when product specs are available
                 navCtl.dismissLoadingMessageAlert {
                     navCtl.showAutoFadingOutMessageAlert(message: message)
                 }
