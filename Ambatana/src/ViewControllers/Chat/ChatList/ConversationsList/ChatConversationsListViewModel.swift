@@ -47,6 +47,15 @@ enum ChatConnectionBarStatus {
             return reconnectBlock
         }
     }
+
+    var chatUserInteractionsEnabled: Bool {
+        switch self {
+        case .wsConnected:
+            return true
+        case .wsClosed, .noNetwork, .wsConnecting:
+            return false
+        }
+    }
 }
 
 typealias NavigationActionSheet = (cancelTitle: String, actions: [UIAction])
@@ -283,7 +292,9 @@ final class ChatConversationsListViewModel: BaseViewModel, Paginable {
                 case .openAuthenticated, .openNotVerified:
                     self?.rx_connectionBarStatus.value = .wsConnected
                 case .closed, .closing:
-                    self?.rx_connectionBarStatus.value = .wsClosed { [weak self] in self?.retrieveFirstPage() }
+                    self?.rx_connectionBarStatus.value = .wsClosed(reconnectBlock: { [weak self] in
+                        self?.retrieveFirstPage()
+                    })
                 case .opening, .openNotAuthenticated:
                     self?.rx_connectionBarStatus.value = .wsConnecting
                 }

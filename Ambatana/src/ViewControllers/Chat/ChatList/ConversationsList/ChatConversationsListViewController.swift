@@ -43,6 +43,7 @@ final class ChatConversationsListViewController: BaseViewController {
         automaticallyAdjustsScrollViewInsets = false
         hidesBottomBarWhenPushed = false
         hasTabBar = true
+        showConnectionToastView = false
     }
     
     override func loadView() {
@@ -65,7 +66,6 @@ final class ChatConversationsListViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setReachabilityEnabled(false)
         setupViewModel()
         setupContentView()
         setupNavigationBarRx()
@@ -230,14 +230,14 @@ final class ChatConversationsListViewController: BaseViewController {
     }
 
     private func setupStatusBarRx() {
-        viewModel.rx_connectionBarStatus.asObservable().bind { [weak self] status in
+        viewModel.rx_connectionBarStatus.asDriver().drive(onNext: { [weak self] status in
             guard let _ = status.title else {
                 self?.connectionStatusBar(isVisible: false)
                 return
             }
             self?.connectionStatusView.status = status
             self?.connectionStatusBar(isVisible: true)
-        }.disposed(by: bag)
+        }).disposed(by: bag)
     }
 
     private func connectionStatusBar(isVisible: Bool) {

@@ -73,6 +73,13 @@ class ChatViewModel: BaseViewModel {
         return messages.value.count
     }
 
+    // Connectivity
+    private let reachability: ReachabilityProtocol
+    private let rx_wsChatStatus = Variable<WSChatStatus>(.closed)
+    private let rx_isReachable = Variable<Bool>(true)
+    let rx_connectionBarStatus = Variable<ChatConnectionBarStatus>(.wsConnected)
+
+
     // Public Model info
     let title = Variable<String>("")
     let listingName = Variable<String>("")
@@ -103,6 +110,7 @@ class ChatViewModel: BaseViewModel {
     let chatBoxText = Variable<String>("")
     var userIsTypingTimeout: Timer?
     var stoppedTypingEventEnabled: Bool = true
+    let chatUserInteractionsEnabled = Variable<Bool>(true)
 
     var keyForTextCaching: String { return userDefaultsSubKey }
     
@@ -260,7 +268,7 @@ class ChatViewModel: BaseViewModel {
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
                   source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager,
                   predefinedMessage: predefinedMessage, openChatAutomaticMessage: nil, interlocutor: nil,
-                  reputationTooltipManager: reputationTooltipManager)
+                  reputationTooltipManager: reputationTooltipManager, reachability: LGReachability())
     }
     
     convenience init?(listing: Listing,
@@ -292,7 +300,7 @@ class ChatViewModel: BaseViewModel {
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
                   source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager, predefinedMessage: nil,
                   openChatAutomaticMessage: openChatAutomaticMessage, interlocutor: interlocutor,
-                  reputationTooltipManager: reputationTooltipManager)
+                  reputationTooltipManager: reputationTooltipManager, reachability: LGReachability())
         self.setupConversationFrom(listing: listing)
     }
     
@@ -301,7 +309,8 @@ class ChatViewModel: BaseViewModel {
           tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, keyValueStorage: KeyValueStorageable,
           navigator: ChatDetailNavigator?, featureFlags: FeatureFlaggeable, source: EventParameterTypePage,
           ratingManager: RatingManager, pushPermissionsManager: PushPermissionsManager, predefinedMessage: String?,
-          openChatAutomaticMessage: ChatWrapperMessageType?, interlocutor: User?, reputationTooltipManager: ReputationTooltipManager) {
+          openChatAutomaticMessage: ChatWrapperMessageType?, interlocutor: User?, reputationTooltipManager: ReputationTooltipManager,
+          reachability: ReachabilityProtocol) {
         self.conversation = Variable<ChatConversation>(conversation)
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
@@ -323,6 +332,7 @@ class ChatViewModel: BaseViewModel {
         self.openChatAutomaticMessage = openChatAutomaticMessage
         self.interlocutor = interlocutor
         self.reputationTooltipManager = reputationTooltipManager
+        self.reachability = reachability
         if let isProfessional = interlocutor?.isProfessional {
             self.interlocutorProfessionalInfo.value = InterlocutorProfessionalInfo(isProfessional: isProfessional,
                                                                                    phoneNumber: interlocutor?.phone)
@@ -335,7 +345,7 @@ class ChatViewModel: BaseViewModel {
         setupRx()
         loadStickers()
     }
-    
+
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
 
@@ -343,6 +353,7 @@ class ChatViewModel: BaseViewModel {
             if isUserDummy {
                 textBoxVisible.value = false
             }
+            setupReachability()
             retrieveRelatedListings()
             setupExpressChat()
             refreshChat()
@@ -638,7 +649,12 @@ class ChatViewModel: BaseViewModel {
     }
 
     func setupChatEventsRx() {
-        chatRepository.chatStatus.bind { [weak self] wsChatStatus in
+        chatRepository.chatStatus
+            .asObservable()
+            .bind(to: rx_wsChatStatus)
+            .disposed(by: disposeBag)
+
+        rx_wsChatStatus.asObservable().bind { [weak self] wsChatStatus in
             guard let strongSelf = self else { return }
             switch wsChatStatus {
             case .openAuthenticated:
@@ -670,6 +686,44 @@ class ChatViewModel: BaseViewModel {
                 break
             }
         }.disposed(by: disposeBag)
+
+        Observable.combineLatest(rx_wsChatStatus.asObservable(),
+                                 rx_isReachable.asObservable())
+            .asObservable()
+            .skip(1)
+            .bind { [weak self] (wsChatStatus, isReachable) in
+                guard isReachable else {
+                    self?.rx_connectionBarStatus.value = .noNetwork
+                    return
+                }
+                switch wsChatStatus {
+                case .openAuthenticated, .openNotVerified:
+                    self?.rx_connectionBarStatus.value = .wsConnected
+                case .closed, .closing:
+                    self?.rx_connectionBarStatus.value = .wsClosed(reconnectBlock: { [weak self] in
+                        self?.refreshMessages()
+                    })
+                case .opening, .openNotAuthenticated:
+                    self?.rx_connectionBarStatus.value = .wsConnecting
+                }
+            }
+            .disposed(by: disposeBag)
+
+        rx_connectionBarStatus
+            .asObservable()
+            .map { $0.chatUserInteractionsEnabled }
+            .bind(to: chatUserInteractionsEnabled)
+            .disposed(by: disposeBag)
+    }
+
+    private func setupReachability() {
+        reachability.reachableBlock = { [weak self] in
+            self?.rx_isReachable.value = true
+        }
+        reachability.unreachableBlock = { [weak self] in
+            self?.rx_isReachable.value = false
+        }
+        reachability.start()
     }
 
     

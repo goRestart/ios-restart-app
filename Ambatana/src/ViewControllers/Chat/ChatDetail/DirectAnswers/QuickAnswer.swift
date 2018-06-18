@@ -268,6 +268,22 @@ enum QuickAnswer: Equatable {
         }
     }
 
+    var disabledBgColor: UIColor {
+        switch self {
+        case .meetingAssistant(let chatNorrisABtestVersion):
+            switch chatNorrisABtestVersion {
+            case .baseline, .control, .redButton:
+                return UIColor.primaryColorHighlighted
+            case  .greenButton:
+                return UIColor.terciaryColorHighlighted
+            case .whiteButton:
+                return UIColor.white
+            }
+        default:
+            return UIColor.primaryColorHighlighted
+        }
+    }
+
     static func quickAnswersForChatMessage(chatViewMessage: ChatViewMessage) -> [QuickAnswer]? {
         if case .multiAnswer(_, let answers) = chatViewMessage.type {
             return answers.map { QuickAnswer.dynamic(chatAnswer: $0) }

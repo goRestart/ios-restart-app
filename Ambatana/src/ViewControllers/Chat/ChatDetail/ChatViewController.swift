@@ -7,6 +7,8 @@ import LGComponents
 final class ChatViewController: TextViewController {
 
     private var cellMapViewer: CellMapViewer = CellMapViewer()
+    private let connectionStatusView = ChatConnectionStatusView()
+    private var connectionStatusViewTopConstraint: NSLayoutConstraint = NSLayoutConstraint()
 
     let navBarHeight: CGFloat = 64
     let inputBarHeight: CGFloat = 44
@@ -79,6 +81,7 @@ final class ChatViewController: TextViewController {
         self.expressChatBanner.delegate = self
         self.professionalSellerBanner.delegate = self
         hidesBottomBarWhenPushed = hidesBottomBar
+        showConnectionToastView = false
     }
     
     required init(coder decoder: NSCoder) {
@@ -212,7 +215,7 @@ final class ChatViewController: TextViewController {
         setNavBarTitleStyle(.custom(listingView))
         setLetGoRightButtonWith(image: R.Asset.IconsButtons.icMoreOptions.image, selector: "optionsBtnPressed")
     }
-    
+
     private func addSubviews() {
         relationInfoView.translatesAutoresizingMaskIntoConstraints = false
         expressChatBanner.translatesAutoresizingMaskIntoConstraints = false
@@ -239,6 +242,18 @@ final class ChatViewController: TextViewController {
         expressChatBanner.layout().height(expressBannerHeight, relatedBy: .greaterThanOrEqual)
         expressChatBanner.layout(with: view).fillHorizontal()
         expressChatBanner.layout(with: relationInfoView).below(by: -relationInfoView.height, constraintBlock: { [weak self] in self?.expressChatBannerTopConstraint = $0 })
+
+        view.addSubviewForAutoLayout(connectionStatusView)
+        connectionStatusViewTopConstraint = connectionStatusView.topAnchor.constraint(equalTo: safeTopAnchor, constant: Metrics.veryBigMargin)
+        NSLayoutConstraint.activate([
+            connectionStatusView.heightAnchor.constraint(equalToConstant: ChatConnectionStatusView.standardHeight),
+            connectionStatusView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            connectionStatusView.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: Metrics.margin),
+            connectionStatusView.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: Metrics.margin),
+            connectionStatusViewTopConstraint
+            ])
+        connectionStatusView.cornerRadius = ChatConnectionStatusView.standardHeight/2
+        connectionStatusView.alpha = 0
     }
 
     fileprivate func setupRelatedProducts() {
@@ -449,7 +464,38 @@ extension ChatViewController {
 
 fileprivate extension ChatViewController {
 
+    func connectionStatusView(isVisible: Bool) {
+        let existingTopOffset = blockedToastOffset + expressChatBannerOffset
+        connectionStatusViewTopConstraint.constant = isVisible ? Metrics.veryBigMargin + existingTopOffset : existingTopOffset
+        UIView.animate(withDuration: 0.5) { [weak self] in
+            self?.connectionStatusView.alpha = isVisible ? 1 : 0
+            self?.view.layoutIfNeeded()
+        }
+    }
+
+    func updateChatActions(enabled: Bool) {
+        directAnswersPresenter.enabled = enabled
+        navigationItem.rightBarButtonItem?.isEnabled = enabled
+        textView.isUserInteractionEnabled = enabled
+    }
+
     func setupRxBindings() {
+
+        viewModel.rx_connectionBarStatus.asDriver().drive(onNext: { [weak self] status in
+            guard let _ = status.title else {
+                self?.connectionStatusView(isVisible: false)
+                return
+            }
+            self?.connectionStatusView.status = status
+            self?.connectionStatusView(isVisible: true)
+            }).disposed(by: disposeBag)
+
+        viewModel.chatUserInteractionsEnabled.asDriver()
+            .distinctUntilChanged()
+            .drive(onNext: { [weak self] chatActionsEnabled in
+                self?.updateChatActions(enabled: chatActionsEnabled)
+            }).disposed(by: disposeBag)
+
         viewModel.chatEnabled.asObservable().bind { [weak self] enabled in
             self?.setTextViewBarHidden(!enabled, animated: false)
             self?.textView.isUserInteractionEnabled = enabled

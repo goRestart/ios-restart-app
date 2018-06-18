@@ -331,6 +331,7 @@ class BaseViewController: UIViewController, TabBarShowable {
     private var swipeBackGestureEnabled: Bool
     var floatingSellButtonHidden: Bool
     private(set) var didCallViewDidLoaded: Bool = false
+    var showConnectionToastView: Bool = true
 
     // MARK: Lifecycle
 
@@ -354,6 +355,7 @@ class BaseViewController: UIViewController, TabBarShowable {
     }
     
     deinit {
+        reachability?.stop()
         NotificationCenter.default.removeObserver(self)
     }
 
@@ -370,7 +372,7 @@ class BaseViewController: UIViewController, TabBarShowable {
         setNavBarBackButton()
         
         setupToastView()
-        setReachabilityEnabled(true)
+        setReachabilityEnabled(showConnectionToastView)
         
         navigationController?.interactivePopGestureRecognizer?.isEnabled = swipeBackGestureEnabled
         view.backgroundColor = UIColor.viewControllerBackground
@@ -502,6 +504,7 @@ class BaseViewController: UIViewController, TabBarShowable {
             }
             reachability?.start()
         } else {
+            reachability?.stop()
             reachability = nil
         }
     }
