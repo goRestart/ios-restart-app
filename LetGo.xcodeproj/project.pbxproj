@@ -1444,8 +1444,6 @@
 		C727942B1D549334009C25AB /* SettingsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C72794271D549334009C25AB /* SettingsCell.xib */; };
 		C72794361D549342009C25AB /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C727942D1D549342009C25AB /* ChangePasswordViewController.swift */; };
 		C72794371D549342009C25AB /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C727942D1D549342009C25AB /* ChangePasswordViewController.swift */; };
-		C72794381D549342009C25AB /* ChangePasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C727942E1D549342009C25AB /* ChangePasswordViewController.xib */; };
-		C72794391D549342009C25AB /* ChangePasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C727942E1D549342009C25AB /* ChangePasswordViewController.xib */; };
 		C727943A1D549342009C25AB /* ChangePasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C727942F1D549342009C25AB /* ChangePasswordViewModel.swift */; };
 		C727943B1D549342009C25AB /* ChangePasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C727942F1D549342009C25AB /* ChangePasswordViewModel.swift */; };
 		C727943C1D549342009C25AB /* ChangeUsernameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72794301D549342009C25AB /* ChangeUsernameViewController.swift */; };
@@ -2889,7 +2887,6 @@
 		C72794261D549334009C25AB /* SettingsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
 		C72794271D549334009C25AB /* SettingsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsCell.xib; sourceTree = "<group>"; };
 		C727942D1D549342009C25AB /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
-		C727942E1D549342009C25AB /* ChangePasswordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangePasswordViewController.xib; sourceTree = "<group>"; };
 		C727942F1D549342009C25AB /* ChangePasswordViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewModel.swift; sourceTree = "<group>"; };
 		C72794301D549342009C25AB /* ChangeUsernameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeUsernameViewController.swift; sourceTree = "<group>"; };
 		C72794311D549342009C25AB /* ChangeUsernameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangeUsernameViewController.xib; sourceTree = "<group>"; };
@@ -5367,7 +5364,6 @@
 			isa = PBXGroup;
 			children = (
 				C727942D1D549342009C25AB /* ChangePasswordViewController.swift */,
-				C727942E1D549342009C25AB /* ChangePasswordViewController.xib */,
 				C727942F1D549342009C25AB /* ChangePasswordViewModel.swift */,
 				C72794301D549342009C25AB /* ChangeUsernameViewController.swift */,
 				C72794311D549342009C25AB /* ChangeUsernameViewController.xib */,
@@ -6325,7 +6321,6 @@
 				C7B588A01CE1E025009B3975 /* ChatGroupedListView.xib in Resources */,
 				6AF75D0D1CF4657B00EACCF0 /* ChatStickerCell.xib in Resources */,
 				2E92CBFF20248DC600451B65 /* SuggestedLocationCell.xib in Resources */,
-				C72794381D549342009C25AB /* ChangePasswordViewController.xib in Resources */,
 				C7DE8AE21C88A98B005CF37E /* PostListingViewController.xib in Resources */,
 				C7AFFAFC1E7053EF0052A9CA /* NPSViewController.xib in Resources */,
 				6A38ADE81C64EAA1009E1A31 /* TourNotificationsViewControllerMini.xib in Resources */,
@@ -6431,7 +6426,6 @@
 				2E9716A91D5A284F009B3A32 /* ExpressChatCell.xib in Resources */,
 				C7B588A11CE1E025009B3975 /* ChatGroupedListView.xib in Resources */,
 				6AF75D0E1CF4657B00EACCF0 /* ChatStickerCell.xib in Resources */,
-				C72794391D549342009C25AB /* ChangePasswordViewController.xib in Resources */,
 				2E9716AB1D5A284F009B3A32 /* ExpressChatViewController.xib in Resources */,
 				C7DE8AE31C88A98B005CF37E /* PostListingViewController.xib in Resources */,
 				C7AFFAFD1E7053EF0052A9CA /* NPSViewController.xib in Resources */,
