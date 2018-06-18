@@ -66,7 +66,7 @@ class RateUserViewModel: BaseViewModel {
     let rating = Variable<Int?>(nil)
     let description = Variable<String?>(nil)
     let descriptionPlaceholder = R.Strings.userRatingReviewPlaceholderOptional
-    let descriptionCharLimit = Variable<Int>(Constants.userRatingDescriptionMaxLength)
+    let descriptionCharLimit = Variable<Int>(SharedConstants.userRatingDescriptionMaxLength)
 
     fileprivate let userRatingRepository: UserRatingRepository
     fileprivate let tracker: Tracker
@@ -206,7 +206,7 @@ fileprivate extension RateUserViewModel {
         rating.asObservable()
             .map { (stars: Int?) -> Bool in
                 guard let stars = stars else { return true }
-                return stars >= Constants.userRatingMinStarsPositive }
+                return stars >= SharedConstants.userRatingMinStarsPositive }
             .distinctUntilChanged()
             .bind(to: isReviewPositive).disposed(by: disposeBag)
         
@@ -240,7 +240,7 @@ fileprivate extension RateUserViewModel {
         let comment = Observable.combineLatest(description.asObservable(), selectedTagIndexes.observable) { _,_ in }
             .map ({ [weak self] in return self?.makeComment() })
         let commentLength = comment.asObservable()
-            .map ({ Constants.userRatingDescriptionMaxLength - ($0?.count ?? 0) })
+            .map ({ SharedConstants.userRatingDescriptionMaxLength - ($0?.count ?? 0) })
             .distinctUntilChanged()
         let commentValid = commentLength.map { $0 >= 0 }
             
@@ -310,7 +310,7 @@ fileprivate extension RateUserViewModel {
             if let comment = userRating.comment {
                 description = comment.trimUserRatingTags()
                 
-                if userRating.value >= Constants.userRatingMinStarsPositive {
+                if userRating.value >= SharedConstants.userRatingMinStarsPositive {
                     let positiveTags = PositiveUserRatingTag.make(string: comment)
                     let allPositiveTags = PositiveUserRatingTag.allValues
                     tagIdxs = positiveTags.flatMap { allPositiveTags.index(of: $0) }

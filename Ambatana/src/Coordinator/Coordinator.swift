@@ -174,7 +174,7 @@ extension Coordinator {
     
     func openAutocloseMessage(animated: Bool = true,
                               message: String,
-                              time: TimeInterval = Constants.autocloseMessageDefaultTime,
+                              time: TimeInterval = SharedConstants.autocloseMessageDefaultTime,
                               completion: (() -> Void)? = nil) {
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
         openAlertController(alert)

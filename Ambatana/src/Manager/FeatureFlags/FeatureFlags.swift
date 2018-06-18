@@ -98,11 +98,15 @@ protocol FeatureFlaggeable: class {
     var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu { get }
     var predictivePosting: PredictivePosting { get }
     var videoPosting: VideoPosting { get }
+    var simplifiedChatButton: SimplifiedChatButton { get }
 
     // MARK: Users
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem { get }
     var emergencyLocate: EmergencyLocate { get }
     var offensiveReportAlert: OffensiveReportAlert { get }
+    
+    // MARK: Money
+    var preventMessagesFromFeedToProUsers: PreventMessagesFromFeedToProUsers { get }
 }
 
 extension FeatureFlaggeable {
@@ -153,7 +157,7 @@ extension NoAdsInFeedForNewUsers {
 
     func shouldShowAdsInFeedForUser(createdIn: Date?) -> Bool {
         guard let creationDate = createdIn else { return shouldShowAdsInFeedForOldUsers }
-        if creationDate.isNewerThan(Constants.newUserTimeThresholdForAds) {
+        if creationDate.isNewerThan(SharedConstants.newUserTimeThresholdForAds) {
             // New User
             return shouldShowAdsInFeedForNewUsers
         } else {
@@ -164,7 +168,7 @@ extension NoAdsInFeedForNewUsers {
 
     func shouldShowAdsInMoreInfoForUser(createdIn: Date?) -> Bool {
         guard let creationDate = createdIn else { return shouldShowAdsInMoreInfoForOldUsers }
-        if creationDate.isNewerThan(Constants.newUserTimeThresholdForAds) {
+        if creationDate.isNewerThan(SharedConstants.newUserTimeThresholdForAds) {
             // New User
             return shouldShowAdsInMoreInfoForNewUsers
         } else {
@@ -202,9 +206,9 @@ extension BumpUpBoost {
         case .control, .baseline:
             return nil
         case .boostListing1hour, .sendTop1hour:
-            return Constants.oneHourTimeLimit
+            return SharedConstants.oneHourTimeLimit
         case .sendTop5Mins, .cheaperBoost5Mins:
-            return Constants.fiveMinutesTimeLimit
+            return SharedConstants.fiveMinutesTimeLimit
         }
     }
 }
@@ -323,7 +327,7 @@ extension FeedAdsProviderForUS {
     
     func shouldShowAdsInFeedForUser(createdIn: Date?) -> Bool {
         guard let creationDate = createdIn else { return shouldShowAdsInFeedForOldUsers }
-        if creationDate.isNewerThan(Constants.newUserTimeThresholdForAds) {
+        if creationDate.isNewerThan(SharedConstants.newUserTimeThresholdForAds) {
             return shouldShowAdsInFeedForNewUsers
         } else {
             return shouldShowAdsInFeedForOldUsers
@@ -349,7 +353,7 @@ extension FeedAdsProviderForTR {
     
     func shouldShowAdsInFeedForUser(createdIn: Date?) -> Bool {
         guard let creationDate = createdIn else { return shouldShowAdsInFeedForOldUsers }
-        if creationDate.isNewerThan(Constants.newUserTimeThresholdForAds) {
+        if creationDate.isNewerThan(SharedConstants.newUserTimeThresholdForAds) {
             return shouldShowAdsInFeedForNewUsers
         } else {
             return shouldShowAdsInFeedForOldUsers
@@ -439,7 +443,7 @@ extension GoogleAdxForTR {
     
     func shouldShowAdsInFeedForUser(createdIn: Date?) -> Bool {
         guard let creationDate = createdIn else { return shouldShowAdsInFeedForOldUsers }
-        if creationDate.isNewerThan(Constants.newUserTimeThresholdForAds) {
+        if creationDate.isNewerThan(SharedConstants.newUserTimeThresholdForAds) {
             return shouldShowAdsInFeedForNewUsers
         } else {
             return shouldShowAdsInFeedForOldUsers
@@ -461,9 +465,13 @@ extension FullScreenAdsWhenBrowsingForUS {
     
     func shouldShowFullScreenAdsForUser(createdIn: Date?) -> Bool {
         guard let creationDate = createdIn,
-            creationDate.isNewerThan(Constants.newUserTimeThresholdForAds) else { return shouldShowFullScreenAdsForOldUsers }
+            creationDate.isNewerThan(SharedConstants.newUserTimeThresholdForAds) else { return shouldShowFullScreenAdsForOldUsers }
         return shouldShowFullScreenAdsForNewUsers
     }
+}
+
+extension PreventMessagesFromFeedToProUsers {
+    var isActive: Bool { return self == .active }
 }
 
 final class FeatureFlags: FeatureFlaggeable {
@@ -543,7 +551,7 @@ final class FeatureFlags: FeatureFlaggeable {
 
     var surveyUrl: String {
         if Bumper.enabled {
-            return Bumper.surveyEnabled ? Constants.surveyDefaultTestUrl : ""
+            return Bumper.surveyEnabled ? SharedConstants.surveyDefaultTestUrl : ""
         }
         return abTests.surveyURL.value
     }
@@ -1277,5 +1285,24 @@ extension FeatureFlags {
             return Bumper.videoPosting
         }
         return VideoPosting.fromPosition(abTests.videoPosting.value)
+    }
+
+    var simplifiedChatButton: SimplifiedChatButton {
+        if Bumper.enabled {
+            return Bumper.simplifiedChatButton
+        }
+        return SimplifiedChatButton.fromPosition(abTests.simplifiedChatButton.value)
+    }
+}
+
+// MARK: Money
+
+extension FeatureFlags {
+    
+    var preventMessagesFromFeedToProUsers: PreventMessagesFromFeedToProUsers {
+        if Bumper.enabled {
+            return Bumper.preventMessagesFromFeedToProUsers
+        }
+        return PreventMessagesFromFeedToProUsers.fromPosition(abTests.preventMessagesFromFeedToProUsers.value)
     }
 }

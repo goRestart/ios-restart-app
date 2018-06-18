@@ -449,6 +449,12 @@
 "id_verification_third_step_subtitle" = "Make sure your ID is clear and inside the box in the viewfinder";
 "id_verification_third_step_title" = "Take a picture of the front of your ID";
 "id_verification_update_avatar_message" = "다음 사진을 프로필 사진으로 정하시겠습니까?";
+"listing_chat_button" = "Chat Now";
+"listing_interested_button_A" = "I'm interested";
+"listing_interested_button_B" = "Interested";
+"listing_interested_button_C" = "Ask for Details";
+"listing_interested_button_D" = "Ask for Details";
+"listing_interested_footer" = "Automatically sends a message to the seller asking if it's available.";
 "listing_map_redo_search" = "지역 검색 하기";
 "listing_show_similar_results" = "유사한 검색 결과 보이기";
 "listing_show_similar_results_description" = "당신 검색 결과와 일치하는 결과가 없습니다.\n철자가 올바른지 확인하거나 다른 키워드와 필터를 사용해보세요.";

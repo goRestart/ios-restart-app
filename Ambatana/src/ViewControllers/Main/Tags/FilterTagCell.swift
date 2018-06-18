@@ -124,7 +124,7 @@ final class FilterTagCell: UICollectionViewCell, ReusableCell {
     }
 
     private static func stringForYearsRange(_ startYear: Int?, endYear: Int?) -> String {
-        var startText = R.Strings.filtersCarYearBeforeYear(Constants.filterMinCarYear)
+        var startText = R.Strings.filtersCarYearBeforeYear(SharedConstants.filterMinCarYear)
         var endText = String(Date().year)
 
         if let startYear = startYear {

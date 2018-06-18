@@ -1,11 +1,4 @@
-//
-//  PurchasesShopper.swift
-//  LetGo
-//
-//  Created by Dídac on 29/11/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
+import LGComponents
 import LGCoreKit
 import StoreKit
 import AdSupport
@@ -255,7 +248,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         guard let bumpDict = failedBumpsDict[listingId],
             let bump = FailedBumpInfo(dictionary: bumpDict) else { return false }
 
-        if bump.numRetries <= Constants.maxRetriesForBumpUpRestore {
+        if bump.numRetries <= SharedConstants.maxRetriesForBumpUpRestore {
             return true
         } else {
             removeFromUserDefaults(transactionId: bump.transactionId)
@@ -440,7 +433,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
                                             transactionStatus: EventParameterTransactionStatus,
                                             isBoost: Bool) {
 
-        guard currentBump.numRetries < Constants.maxRetriesForBumpUpRestore  else {
+        guard currentBump.numRetries < SharedConstants.maxRetriesForBumpUpRestore  else {
             removeFromUserDefaults(transactionId: currentBump.transactionId)
             removeFromUserDefaultsBumpUpWithListingId(listingId: listingId)
             delegate?.pricedBumpDidFail(type: type,
@@ -454,7 +447,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         let retryCount: Int
         switch type {
         case .priced, .boost:
-            retryCount = Constants.maxRetriesForFirstTimeBumpUp
+            retryCount = SharedConstants.maxRetriesForFirstTimeBumpUp
         case .restore:
             retryCount = 1
             // increment the num of restore retries made at launch

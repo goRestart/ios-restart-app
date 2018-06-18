@@ -146,8 +146,8 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
             statsView.alpha = 0
             return
         }
-        guard  stats.viewsCount >= Constants.minimumStatsCountToShow
-            || stats.favouritesCount >= Constants.minimumStatsCountToShow
+        guard  stats.viewsCount >= SharedConstants.minimumStatsCountToShow
+            || stats.favouritesCount >= SharedConstants.minimumStatsCountToShow
             || postedDate != nil else {
                 statsView.alpha = 0
                 return

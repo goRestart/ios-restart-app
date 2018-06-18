@@ -160,6 +160,9 @@ enum AccessibilityId: Equatable {
     case listingCarouselPageControl
     case listingCarouselUserView
     case listingCarouselChatTextView
+    case listingCarouselChatButton
+    case listingCarouselChatFooterLabel
+    case listingCarouselInterestedButton
     case listingCarouselStatusView
     case listingCarouselPlayButton
 
@@ -1108,6 +1111,12 @@ enum AccessibilityId: Equatable {
             return "listingCarouselUserView"
         case .listingCarouselChatTextView:
             return "listingCarouselChatTextView"
+        case .listingCarouselChatButton:
+            return "listingCarouselChatButton"
+        case .listingCarouselChatFooterLabel:
+            return "listingCarouselChatFooterLabel"
+        case .listingCarouselInterestedButton:
+            return "listingCarouselInterestedButton"
         case .listingCarouselStatusView:
             return "listingCarouselStatusView"
         case .listingCarouselPlayButton:

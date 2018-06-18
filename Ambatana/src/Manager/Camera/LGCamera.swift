@@ -1,11 +1,4 @@
-//
-//  LGCamera.swift
-//  LetGo
-//
-//  Created by Álvaro Murillo del Puerto on 7/3/18.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
+import LGComponents
 import UIKit
 import AVFoundation
 
@@ -154,7 +147,7 @@ final class LGCamera: NSObject, Camera {
         self.videoOutput.setSampleBufferDelegate(self, queue: sessionQueue)
 
         let outputFileName = NSUUID().uuidString
-        let outputFilePath = (NSTemporaryDirectory() as NSString).appendingPathComponent((outputFileName as NSString).appendingPathExtension(Constants.videoFileExtension)!)
+        let outputFilePath = (NSTemporaryDirectory() as NSString).appendingPathComponent((outputFileName as NSString).appendingPathExtension(SharedConstants.videoFileExtension)!)
         let fileUrl = URL(fileURLWithPath: outputFilePath)
 
         let videoOrientation = AVCaptureVideoOrientation(deviceOrientation: motionDeviceOrientation.orientation) ?? .portrait
@@ -458,7 +451,7 @@ final class VideoRecorder {
                 self.fileWriter = fileWriter
                 self.completion = completion
 
-                let videoInput = AVAssetWriterInput(mediaType: .video, outputSettings: Constants.videoSettings)
+                let videoInput = AVAssetWriterInput(mediaType: .video, outputSettings: SharedConstants.videoSettings)
                 videoInput.expectsMediaDataInRealTime = true
                 self.videoInput = videoInput
                 fileWriter.add(videoInput)
@@ -504,7 +497,7 @@ final class VideoRecorder {
                 fileWriter.finishWriting {
                     let result: CameraRecordingVideoResult
                     do {
-                        let snapshot = try AVURLAsset(url: fileWriter.outputURL).videoSnapshot(at: Constants.videoSnapshotTime)
+                        let snapshot = try AVURLAsset(url: fileWriter.outputURL).videoSnapshot(at: SharedConstants.videoSnapshotTime)
                         let videoRecorded = RecordedVideo(url: fileWriter.outputURL, snapshot: snapshot, duration: duration)
                         result = CameraRecordingVideoResult(value: videoRecorded)
                     } catch let error {

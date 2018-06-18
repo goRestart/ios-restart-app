@@ -449,6 +449,12 @@
 "id_verification_third_step_subtitle" = "Assegure-se de que a sua identificação está nítida e dentro da caixa do visor";
 "id_verification_third_step_title" = "Tire uma fotografia da parte da frente da sua identificação";
 "id_verification_update_avatar_message" = "Quer que esta seja a sua fotografia de perfil?";
+"listing_chat_button" = "Chat Now";
+"listing_interested_button_A" = "I'm interested";
+"listing_interested_button_B" = "Interested";
+"listing_interested_button_C" = "Ask for Details";
+"listing_interested_button_D" = "Ask for Details";
+"listing_interested_footer" = "Automatically sends a message to the seller asking if it's available.";
 "listing_map_redo_search" = "Pesquisar nesta área";
 "listing_show_similar_results" = "A mostrar resultados para pesquisas semelhantes";
 "listing_show_similar_results_description" = "A sua pesquisa não devolveu resultados exatos.\nCertifique-se de que não existem erros ortográficos ou utilize palavras-chave e filtros.";

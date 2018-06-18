@@ -1,11 +1,4 @@
-//
-//  ChangePasswordViewModel.swift
-//  LetGo
-//
-//  Created by Dídac on 30/09/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
+import LGComponents
 import LGCoreKit
 import Result
 
@@ -146,10 +139,10 @@ class ChangePasswordViewModel: BaseViewModel {
     }
     
     func isValidPassword() -> Bool {
-        if password.count < Constants.passwordMinLength ||
-            password.count > Constants.passwordMaxLength ||
-            confirmPassword.count < Constants.passwordMinLength ||
-            confirmPassword.count > Constants.passwordMaxLength { // min or max length not fulfilled
+        if password.count < SharedConstants.passwordMinLength ||
+            password.count > SharedConstants.passwordMaxLength ||
+            confirmPassword.count < SharedConstants.passwordMinLength ||
+            confirmPassword.count > SharedConstants.passwordMaxLength { // min or max length not fulfilled
             return false
         }
         return true

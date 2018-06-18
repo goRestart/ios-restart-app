@@ -1,13 +1,6 @@
-//
-//  CameraWrapper.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 16/02/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import CameraManager
 import Result
+import LGComponents
 
 class CameraWrapper {
 

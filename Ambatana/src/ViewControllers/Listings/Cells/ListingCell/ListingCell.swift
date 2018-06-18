@@ -1,4 +1,4 @@
-import UIKit
+ import UIKit
 import LGCoreKit
 import SwiftyGif
 import LGComponents
@@ -14,11 +14,16 @@ protocol ListingCellDelegate: class {
     func moreOptionsPressedForDiscarded(listing: Listing)
     func postNowButtonPressed(_ view: UIView)
     func interestedActionFor(_ listing: Listing)
+    func openAskPhoneFor(_ listing: Listing, interlocutor: User)
+    func getUserInfoFor(_ listing: Listing, completion: @escaping (User?) -> Void)
 }
 
 final class ListingCell: UICollectionViewCell, ReusableCell {
-    
+    private struct Layout {
+        static let stripeHeight: CGFloat = 34
+    }
     private lazy var interestedButton: UIButton = UIButton()
+    private let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView.init(activityIndicatorStyle: .white)
     // > Stripe area
     
     private let stripeImageView = UIImageView()
@@ -146,7 +151,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         thumbnailBgColorView.backgroundColor = UIColor.placeholderBackgroundColor(id)
     }
     
-    func setupImageUrl(_ imageUrl: URL, imageSize: CGSize) {
+    func setupImageUrl(_ imageUrl: URL, imageSize: CGSize, preventMessagesToPro: Bool) {
         thumbnailImageViewHeight?.constant = imageSize.height
         thumbnailImageView.lg_setImageWithURL(imageUrl, placeholderImage: nil, completion: {
             [weak self] (result, url) -> Void in
@@ -155,22 +160,21 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
                 UIView.animate(withDuration: 0.4, animations: { self?.thumbnailImageView.alpha = 1 })
             }
         })
-        setupInterestedButton(inside: thumbnailImageView)
+        setupInterestedButton(inside: thumbnailImageView, preventMessagesToPro: preventMessagesToPro)
     }
     
-    func setupGifUrl(_ imageUrl: URL, imageSize: CGSize) {
+    func setupGifUrl(_ imageUrl: URL, imageSize: CGSize, preventMessagesToPro: Bool) {
         thumbnailImageViewHeight?.constant = imageSize.height
         thumbnailGifImageView.setGifFromURL(imageUrl, showLoader: false)
         
         guard interestedButton.superview != thumbnailGifImageView else { return }
         interestedButton.removeFromSuperview()
-        setupInterestedButton(inside: thumbnailGifImageView)
+        setupInterestedButton(inside: thumbnailGifImageView, preventMessagesToPro: preventMessagesToPro)
     }
     
-    private func setupInterestedButton(inside view: UIView) {
+    private func setupInterestedButton(inside view: UIView, preventMessagesToPro: Bool) {
         guard interestedButton.superview != view else { return }
         interestedButton.removeFromSuperview()
-
         view.addSubviewForAutoLayout(interestedButton)
         view.isUserInteractionEnabled = true
         NSLayoutConstraint.activate([
@@ -183,6 +187,18 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
         ])
         interestedButton.removeTarget(self, action: nil, for: .allEvents)
         interestedButton.addTarget(self, action: #selector(callDelegateInterestedState), for: .touchUpInside)
+        setupActivityIndicator(inside: view, preventMessagesToPro: preventMessagesToPro)
+    }
+    
+    private func setupActivityIndicator(inside view: UIView, preventMessagesToPro: Bool) {
+        guard preventMessagesToPro else { return }
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.removeFromSuperview()
+        view.addSubviewForAutoLayout(activityIndicator)
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: interestedButton.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: interestedButton.centerYAnchor)
+            ])
     }
     
     func setupFreeStripe() {
@@ -287,6 +303,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     private func setupThumbnialImageViewConstraints() {
         thumbnailImageView.layout(with: contentView).top().leading().trailing()
         thumbnailImageViewHeight = thumbnailImageView.heightAnchor.constraint(equalToConstant: ListingCellMetrics.thumbnailImageStartingHeight)
+        thumbnailImageViewHeight?.priority = .required - 1 // required if possible
         thumbnailImageViewHeight?.isActive = true
         thumbnailBgColorView.layout(with: thumbnailImageView).fill()
         thumbnailGifImageView.layout(with: thumbnailImageView).fill()
@@ -344,7 +361,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
             stripeImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: -2),
             
             stripeInfoView.widthAnchor.constraint(equalToConstant: 63),
-            stripeInfoView.heightAnchor.constraint(equalToConstant: 24),
+            stripeInfoView.heightAnchor.constraint(equalToConstant: Layout.stripeHeight),
             stripeInfoView.leadingAnchor.constraint(equalTo: stripeImageView.leadingAnchor, constant: 16),
             stripeInfoView.centerYAnchor.constraint(equalTo: stripeImageView.centerYAnchor, constant: -7)
             ])
@@ -370,7 +387,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
             stripeLabel.trailingAnchor.constraint(equalTo: stripeInfoInnerContainerView.trailingAnchor),
             stripeLabel.bottomAnchor.constraint(equalTo: stripeInfoInnerContainerView.bottomAnchor),
             stripeLabel.topAnchor.constraint(equalTo: stripeInfoInnerContainerView.topAnchor),
-            stripeLabel.heightAnchor.constraint(equalToConstant: 34),
+            stripeLabel.heightAnchor.constraint(equalToConstant: Layout.stripeHeight),
             stripeLabel.leadingAnchor.constraint(equalTo: stripeIcon.trailingAnchor, constant: 3)
             ])
         
@@ -413,7 +430,23 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     
     @objc private func callDelegateInterestedState() {
         guard let listing = listing else { return }
-        delegate?.interestedActionFor(listing)
+        let featureFlags = FeatureFlags.sharedInstance
+        if featureFlags.preventMessagesFromFeedToProUsers.isActive  {
+            interestedButton.isHidden = true
+            activityIndicator.startAnimating()
+            delegate?.getUserInfoFor(listing, completion: { [weak self] user in
+                guard let strongSelf = self else { return }
+                strongSelf.interestedButton.isHidden = false
+                strongSelf.activityIndicator.stopAnimating()
+                if let user = user, user.isProfessional {
+                     strongSelf.delegate?.openAskPhoneFor(listing, interlocutor: user)
+                } else {
+                    strongSelf.delegate?.interestedActionFor(listing)
+                }
+            })
+        } else {
+            delegate?.interestedActionFor(listing)
+        }
     }
     
     private func layoutFeatureListArea(isMine: Bool, hideProductDetail: Bool) {

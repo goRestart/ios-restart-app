@@ -1,16 +1,9 @@
-//
-//  ConfigManagerSpec.swift
-//  LGCoreKit
-//
-//  Created by Dídac on 10/08/15.
-//  Copyright (c) 2015 Ambatana Inc. All rights reserved.
-//
-
 import Quick
 import Nimble
 @testable import LGCoreKit
 @testable import LetGoGodMode
 import Result
+import LGComponents
 
 class ConfigFileManagerSpec: QuickSpec {
    
@@ -39,7 +32,7 @@ class ConfigFileManagerSpec: QuickSpec {
                     let config = Config(buildNumber: 0,
                                         forceUpdateVersions: [1,2,3,4,5],
                                         configURL: "",
-                                        quadKeyZoomLevel: Constants.defaultQuadKeyZoomLevel)
+                                        quadKeyZoomLevel: SharedConstants.defaultQuadKeyZoomLevel)
                     dao.config = config
                     sut = LGConfigManager(service: service, dao: dao, appCurrentVersion: "18")
                 }
@@ -52,7 +45,7 @@ class ConfigFileManagerSpec: QuickSpec {
                     let config = Config(buildNumber: 0,
                                         forceUpdateVersions: [1,2,3,4,18],
                                         configURL: "",
-                                        quadKeyZoomLevel: Constants.defaultQuadKeyZoomLevel)
+                                        quadKeyZoomLevel: SharedConstants.defaultQuadKeyZoomLevel)
                     dao.config = config
                     sut = LGConfigManager(service: service, dao: dao, appCurrentVersion: "18")
                 }
@@ -108,7 +101,7 @@ class ConfigFileManagerSpec: QuickSpec {
                     let config = Config(buildNumber: 0,
                                         forceUpdateVersions: [1,2,3,18],
                                         configURL: "www.letgo.com",
-                                        quadKeyZoomLevel: Constants.defaultQuadKeyZoomLevel)
+                                        quadKeyZoomLevel: SharedConstants.defaultQuadKeyZoomLevel)
                     dao.config = config
                     
                     service.mockResult = ConfigRetrieveServiceResult(error: .network)
@@ -128,7 +121,7 @@ class ConfigFileManagerSpec: QuickSpec {
                     let config = Config(buildNumber: 0,
                                         forceUpdateVersions: [1,2,3,24],
                                         configURL: "www.letgo.com",
-                                        quadKeyZoomLevel: Constants.defaultQuadKeyZoomLevel)
+                                        quadKeyZoomLevel: SharedConstants.defaultQuadKeyZoomLevel)
                     service.mockResult = ConfigRetrieveServiceResult(value: config)
                     
                     sut = LGConfigManager(service: service, dao: dao, appCurrentVersion: "18")
@@ -146,7 +139,7 @@ class ConfigFileManagerSpec: QuickSpec {
                     let config = Config(buildNumber: 0,
                                         forceUpdateVersions: [1,2,3,18],
                                         configURL: "www.letgo.com",
-                                        quadKeyZoomLevel: Constants.defaultQuadKeyZoomLevel)
+                                        quadKeyZoomLevel: SharedConstants.defaultQuadKeyZoomLevel)
                     service.mockResult = ConfigRetrieveServiceResult(value: config)
                     
                     sut = LGConfigManager(service: service, dao: dao, appCurrentVersion: "18")

@@ -119,7 +119,7 @@ class PostListingViewModel: BaseViewModel {
     }
     
     var maxNumberImages: Int {
-        return Constants.maxImageCount
+        return SharedConstants.maxImageCount
     }
     
     var shouldShowInfoButton: Bool {
@@ -327,7 +327,7 @@ class PostListingViewModel: BaseViewModel {
 
     fileprivate func createPreSignedUploadUrlForVideo(uploadingVideo: VideoUpload) {
 
-        preSignedUploadUrlRepository.create(fileExtension: Constants.videoFileExtension) { [weak self] result in
+        preSignedUploadUrlRepository.create(fileExtension: SharedConstants.videoFileExtension) { [weak self] result in
             guard let strongSelf = self else { return }
 
             if let preSignedUploadUrl = result.value {
@@ -621,7 +621,7 @@ fileprivate extension PostListingViewModel {
         guard let location = locationManager.currentLocation?.location else { return nil }
         let description = postDetailViewModel.listingDescription ?? ""
         let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()
-        let currency = currencyHelper.currencyWithCountryCode(postalAddress.countryCode ?? Constants.currencyDefault)
+        let currency = currencyHelper.currencyWithCountryCode(postalAddress.countryCode ?? SharedConstants.currencyDefault)
         
         var title: String?
         if let listingTitle = postDetailViewModel.listingTitle {

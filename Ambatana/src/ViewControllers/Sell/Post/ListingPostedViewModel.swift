@@ -287,7 +287,7 @@ class ListingPostedViewModel: BaseViewModel {
                         return
                     }
 
-                    self?.preSignedUploadUrlRepository.create(fileExtension: Constants.videoFileExtension, completion: { [weak self] result in
+                    self?.preSignedUploadUrlRepository.create(fileExtension: SharedConstants.videoFileExtension, completion: { [weak self] result in
 
                         if let preSignedUploadUrl = result.value {
                             guard let path = preSignedUploadUrl.form.fileKey else {

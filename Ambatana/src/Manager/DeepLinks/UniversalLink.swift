@@ -1,10 +1,4 @@
-//
-//  UniversalLink.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 24/03/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
+import LGComponents
 
 struct UniversalLink {
 
@@ -96,6 +90,6 @@ struct UniversalLink {
 
     private static func isBranchDeepLink(_ url: URL) -> Bool {
         guard let host = url.host  else { return false }
-        return host == Constants.branchLinksHost
+        return host == SharedConstants.branchLinksHost
     }
 }

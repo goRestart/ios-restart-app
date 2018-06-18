@@ -839,10 +839,10 @@ extension ChatViewController: UITextFieldDelegate {
             textField.text = string.addUSPhoneFormatDashes()
             return false
         } else if range.length == 0 {
-            if range.location == Constants.usaFirstDashPosition {
-                textField.text?.insert("-", at: String.Index(encodedOffset: Constants.usaFirstDashPosition))
-            } else if range.location == Constants.usaSecondDashPosition {
-                textField.text?.insert("-", at: String.Index(encodedOffset: Constants.usaSecondDashPosition))
+            if range.location == SharedConstants.usaFirstDashPosition {
+                textField.text?.insert("-", at: String.Index(encodedOffset: SharedConstants.usaFirstDashPosition))
+            } else if range.location == SharedConstants.usaSecondDashPosition {
+                textField.text?.insert("-", at: String.Index(encodedOffset: SharedConstants.usaSecondDashPosition))
             }
         }
         return true

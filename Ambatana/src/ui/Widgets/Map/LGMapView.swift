@@ -184,7 +184,7 @@ final class LGMapView: UIView {
     //  MARK: - Public
     
     func updateMapRegion(location: LGLocationCoordinates2D?,
-                         radiusAccuracy: Double = Constants.nonAccurateRegionRadius,
+                         radiusAccuracy: Double = SharedConstants.nonAccurateRegionRadius,
                          animated: Bool = false) {
         guard let region = location?.region(radiusAccuracy: radiusAccuracy) else { return }
         mapView.setRegion(region, animated: animated)

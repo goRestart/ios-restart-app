@@ -1,11 +1,4 @@
-//
-//  ListingListViewModel.swift
-//  LetGo
-//
-//  Created by AHL on 9/7/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
+import LGComponents
 import LGCoreKit
 import Result
 import RxSwift
@@ -116,7 +109,13 @@ final class ListingListViewModel: BaseViewModel {
     }
 
     // Data
-    private(set) var objects: [ListingCellModel]
+    private(set) var objects: [ListingCellModel] {
+        didSet {
+            if refreshing && objects.count < oldValue.count  {
+                currentRequesterIndex = 0
+                delegate?.vmReloadData(self)}
+        }
+    }
     private var indexToTitleMapping: [Int:String]
 
     // UI
@@ -153,6 +152,7 @@ final class ListingListViewModel: BaseViewModel {
     }
     
     let numberOfColumns: Int
+    private var searchType: SearchType?
 
     // MARK: - Lifecycle
     
@@ -160,12 +160,13 @@ final class ListingListViewModel: BaseViewModel {
                  listings: [Listing]? = nil,
                  numberOfColumns: Int = 2,
                  isPrivateList: Bool = false,
-                 tracker: Tracker = TrackerProxy.sharedInstance,
-                 imageDownloader: ImageDownloaderType = ImageDownloader.sharedInstance,
-                 reporter: CrashlyticsReporter = CrashlyticsReporter(),
-                 featureFlags: FeatureFlaggeable = FeatureFlags.sharedInstance,
-                 myUserRepository: MyUserRepository = Core.myUserRepository,
-                 requesterFactory: RequesterFactory? = nil) {
+                 tracker: Tracker,
+                 imageDownloader: ImageDownloaderType,
+                 reporter: CrashlyticsReporter,
+                 featureFlags: FeatureFlaggeable,
+                 myUserRepository: MyUserRepository,
+                 requesterFactory: RequesterFactory? = nil,
+                 searchType: SearchType?) {
         self.objects = (listings ?? []).map(ListingCellModel.init)
         self.isPrivateList = isPrivateList
         self.pageNumber = 0
@@ -178,38 +179,76 @@ final class ListingListViewModel: BaseViewModel {
         self.indexToTitleMapping = [:]
         self.featureFlags = featureFlags
         self.myUserRepository = myUserRepository
+        self.searchType = searchType
         super.init()
         let cellHeight = cellWidth * cellAspectRatio
         self.defaultCellSize = CGSize(width: cellWidth, height: cellHeight)
     }
     
     convenience init(requester: ListingListRequester, isPrivateList: Bool = false) {
-        self.init(requester: requester, isPrivateList: isPrivateList, requesterFactory: nil)
+        self.init(requester: requester,
+                  listings: nil,
+                  numberOfColumns: 2,
+                  isPrivateList: isPrivateList,
+                  tracker: TrackerProxy.sharedInstance,
+                  imageDownloader: ImageDownloader.sharedInstance,
+                  reporter: CrashlyticsReporter(),
+                  featureFlags: FeatureFlags.sharedInstance,
+                  myUserRepository: Core.myUserRepository,
+                  requesterFactory: nil,
+                  searchType: nil)
         requesterSequence = [requester]
         setCurrentFallbackRequester()
     }
     
     convenience init(numberOfColumns: Int,
                      tracker: Tracker,
-                     featureFlags: FeatureFlaggeable = FeatureFlags.sharedInstance,
-                     requesterFactory: RequesterFactory) {
+                     featureFlags: FeatureFlaggeable,
+                     requesterFactory: RequesterFactory,
+                     searchType: SearchType?) {
         self.init(requester: nil,
+                  listings: nil,
                   numberOfColumns: numberOfColumns,
+                  isPrivateList: false,
                   tracker: tracker,
+                  imageDownloader: ImageDownloader.sharedInstance,
+                  reporter: CrashlyticsReporter(),
                   featureFlags: featureFlags,
-                  requesterFactory: requesterFactory)
+                  myUserRepository: Core.myUserRepository,
+                  requesterFactory: requesterFactory,
+                  searchType: searchType)
         self.requesterFactory = requesterFactory
         requesterSequence = requesterFactory.buildRequesterList()
         setCurrentFallbackRequester()
     }
     
     convenience override init() {
-        self.init(requester: nil, requesterFactory: nil)
+        self.init(requester: nil,
+                  listings: nil,
+                  numberOfColumns: 2,
+                  isPrivateList: false,
+                  tracker: TrackerProxy.sharedInstance,
+                  imageDownloader: ImageDownloader.sharedInstance,
+                  reporter: CrashlyticsReporter(),
+                  featureFlags: FeatureFlags.sharedInstance,
+                  myUserRepository: Core.myUserRepository,
+                  requesterFactory: nil,
+                  searchType: nil)
         setCurrentFallbackRequester()
     }
     
     convenience init(requester: ListingListRequester, listings: [Listing]?, numberOfColumns: Int) {
-        self.init(requester: requester, listings: listings, numberOfColumns: numberOfColumns)
+        self.init(requester: requester,
+                  listings: listings,
+                  numberOfColumns: numberOfColumns,
+                  isPrivateList: false,
+                  tracker: TrackerProxy.sharedInstance,
+                  imageDownloader: ImageDownloader.sharedInstance,
+                  reporter: CrashlyticsReporter(),
+                  featureFlags: FeatureFlags.sharedInstance,
+                  myUserRepository: Core.myUserRepository,
+                  requesterFactory: nil,
+                  searchType: nil)
         requesterSequence = [requester]
         setCurrentFallbackRequester()
     }
@@ -360,18 +399,22 @@ final class ListingListViewModel: BaseViewModel {
             requesterList.removeFirst()
             if hasListings {
                 if strongSelf.featureFlags.shouldUseSimilarQuery(numListing: numListing)
-                    && strongSelf.currentRequesterType == .search {
+                    && strongSelf.currentRequesterType == .search && strongSelf.searchType != nil {
+                    // should only enter after search,
+                    // set to nil so that we will never enter here when scrolling up and down
+                    strongSelf.searchType = nil
                     strongSelf.currentRequesterIndex += 1
-                    strongSelf.retrieveListings(isFirstPage: isFirstPage, with: requesterList)
-                    return
-                } else {
-                    strongSelf.state = .data
+                    if !requesterList.isEmpty {
+                        strongSelf.retrieveListings(isFirstPage: isFirstPage, with: requesterList)
+                        return
+                    }
                 }
             } else if !requesterList.isEmpty {
                 strongSelf.currentRequesterIndex += 1
                 strongSelf.retrieveListings(isFirstPage: isFirstPage, with: requesterList)
                 return
             }
+            strongSelf.state = .data
             strongSelf.delegate?.vmDidFinishLoading(strongSelf, page: nextPageNumber, indexes: indexes)
             strongSelf.dataDelegate?.listingListVM(strongSelf, didSucceedRetrievingListingsPage: nextPageNumber,
                                                    withResultsCount: newListings.count,
@@ -632,7 +675,7 @@ final class ListingListViewModel: BaseViewModel {
     func setCurrentItemIndex(_ index: Int) {
         let requester = featureFlags.emptySearchImprovements.isActive ? currentActiveRequester : listingListRequester
         guard let itemsPerPage = requester?.itemsPerPage, numberOfListings > 0 else { return }
-        let threshold = numberOfListings - Int(Float(itemsPerPage)*Constants.listingsPagingThresholdPercentage)
+        let threshold = numberOfListings - Int(Float(itemsPerPage)*SharedConstants.listingsPagingThresholdPercentage)
         let shouldRetrieveListingsNextPage = index >= threshold && !isOnErrorState
         if shouldRetrieveListingsNextPage {
             retrieveListingsNextPage()

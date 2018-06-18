@@ -1,11 +1,4 @@
-//
-//  ListingDeckCollectionViewLayout.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 23/10/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
+import LGComponents
 import Foundation
 import UIKit
 

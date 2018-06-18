@@ -1,11 +1,4 @@
-//
-//  ListingFilters.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 10/11/15.
-//  Copyright © 2015 Ambatana. All rights reserved.
-//
-
+import LGComponents
 import LGCoreKit
 
 struct SizeRange: Equatable {
@@ -97,7 +90,7 @@ struct ListingFilters {
     init() {
         self.init(
             place: nil,
-            distanceRadius: Constants.distanceSliderDefaultPosition,
+            distanceRadius: SharedConstants.distanceSliderDefaultPosition,
             distanceType: DistanceType.systemDistanceType(),
             selectedCategories: [],
             selectedTaxonomyChildren: [],
@@ -175,7 +168,7 @@ struct ListingFilters {
     
     func updating(selectedCategories: [ListingCategory]) -> ListingFilters {
         return ListingFilters(place: place,
-                              distanceRadius: distanceRadius ?? Constants.distanceSliderDefaultPosition,
+                              distanceRadius: distanceRadius ?? SharedConstants.distanceSliderDefaultPosition,
                               distanceType: distanceType,
                               selectedCategories: selectedCategories,
                               selectedTaxonomyChildren: selectedTaxonomyChildren,
@@ -202,7 +195,7 @@ struct ListingFilters {
     
     func resetingRealEstateAttributes() -> ListingFilters {
         return ListingFilters(place: place,
-                              distanceRadius: distanceRadius ?? Constants.distanceSliderDefaultPosition,
+                              distanceRadius: distanceRadius ?? SharedConstants.distanceSliderDefaultPosition,
                               distanceType: distanceType,
                               selectedCategories: selectedCategories,
                               selectedTaxonomyChildren: selectedTaxonomyChildren,
@@ -229,7 +222,7 @@ struct ListingFilters {
     
     func resetingCarAttributes() -> ListingFilters {
         return ListingFilters(place: place,
-                              distanceRadius: distanceRadius ?? Constants.distanceSliderDefaultPosition,
+                              distanceRadius: distanceRadius ?? SharedConstants.distanceSliderDefaultPosition,
                               distanceType: distanceType,
                               selectedCategories: selectedCategories,
                               selectedTaxonomyChildren: selectedTaxonomyChildren,
@@ -256,7 +249,7 @@ struct ListingFilters {
     
     func resetingServicesAttributes() -> ListingFilters {
         return ListingFilters(place: place,
-                              distanceRadius: distanceRadius ?? Constants.distanceSliderDefaultPosition,
+                              distanceRadius: distanceRadius ?? SharedConstants.distanceSliderDefaultPosition,
                               distanceType: distanceType,
                               selectedCategories: selectedCategories,
                               selectedTaxonomyChildren: selectedTaxonomyChildren,

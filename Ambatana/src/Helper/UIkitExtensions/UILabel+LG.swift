@@ -1,11 +1,4 @@
-//
-//  UILabel+LG.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 16/11/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
+import LGComponents
 import Foundation
 import LGCoreKit
 

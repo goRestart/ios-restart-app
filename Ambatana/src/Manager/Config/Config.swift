@@ -1,10 +1,4 @@
-//
-//  Config.swift
-//  Pods
-//
-//  Created by Dídac on 06/08/15.
-//
-//
+import LGComponents
 
 struct Config: Codable {
     let buildNumber: Int
@@ -44,7 +38,7 @@ struct Config: Codable {
         
         configURL = (try values.decodeIfPresent(String.self, forKey: .configURL)) ?? ""
         
-        quadKeyZoomLevel = (try values.decodeIfPresent(Int.self, forKey: .quadKeyZoomLevel)) ?? Constants.defaultQuadKeyZoomLevel
+        quadKeyZoomLevel = (try values.decodeIfPresent(Int.self, forKey: .quadKeyZoomLevel)) ?? SharedConstants.defaultQuadKeyZoomLevel
     }
     
     func encode(to encoder: Encoder) throws {

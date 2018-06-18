@@ -1,14 +1,6 @@
-//
-//  SimpleListingsViewModel.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 25/11/2016.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
-
+import LGComponents
 
 class SimpleListingsViewModel: BaseViewModel, ListingListViewModelDataDelegate {
 

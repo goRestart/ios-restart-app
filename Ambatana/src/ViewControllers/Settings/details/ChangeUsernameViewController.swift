@@ -62,7 +62,7 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
         guard let text = textField.text else { return false }
         let newLength = text.count + string.count - range.length
         let removing = text.count > newLength
-        if !removing && newLength > Constants.maxUserNameLength { return false }
+        if !removing && newLength > SharedConstants.maxUserNameLength { return false }
 
         let updatedText =  (text as NSString).replacingCharacters(in: range, with: string)
         viewModel.username = updatedText
@@ -82,7 +82,7 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
             }
             else {
                 self.showAutoFadingOutMessageAlert(message: 
-                    R.Strings.changeUsernameErrorInvalidUsername(Constants.fullNameMinLength), time: 3.5)
+                    R.Strings.changeUsernameErrorInvalidUsername(SharedConstants.fullNameMinLength), time: 3.5)
                 return false
             }
         } else {
@@ -102,7 +102,7 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
         case .network, .internalError, .notFound, .unauthorized:
             message = R.Strings.commonErrorConnectionFailed
         case .invalidUsername:
-            message = R.Strings.changeUsernameErrorInvalidUsername(Constants.fullNameMinLength)
+            message = R.Strings.changeUsernameErrorInvalidUsername(SharedConstants.fullNameMinLength)
         case .usernameTaken:
             message = R.Strings.changeUsernameErrorInvalidUsernameLetgo(viewModel.username)
         }
@@ -128,7 +128,7 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
             case .network, .internalError, .notFound, .unauthorized:
                 message = R.Strings.commonErrorConnectionFailed
             case .invalidUsername:
-                message = R.Strings.changeUsernameErrorInvalidUsername(Constants.fullNameMinLength)
+                message = R.Strings.changeUsernameErrorInvalidUsername(SharedConstants.fullNameMinLength)
             case .usernameTaken:
                 message = R.Strings.changeUsernameErrorInvalidUsernameLetgo(viewModel.username)
             }

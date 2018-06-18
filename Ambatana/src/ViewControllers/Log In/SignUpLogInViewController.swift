@@ -331,7 +331,7 @@ final class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, 
         guard let text = textField.text else { return false }
         let newLength = text.count + string.count - range.length
         let removing = text.count > newLength
-        if textField === usernameTextField && !removing && newLength > Constants.maxUserNameLength { return false }
+        if textField === usernameTextField && !removing && newLength > SharedConstants.maxUserNameLength { return false }
         
         let updatedText = (text as NSString).replacingCharacters(in: range, with: string)
         updateViewModelText(updatedText, fromTextFieldTag: textField.tag)

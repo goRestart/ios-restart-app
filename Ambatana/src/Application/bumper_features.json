@@ -298,5 +298,15 @@
         "name": "PredictivePosting",
         "values": ["control", "baseline", "active"],
         "description": "Show predictive posting flow when pressing Other Items on salchichas menu"
+    },
+    {
+        "name": "PreventMessagesFromFeedToProUsers",
+        "values": ["control", "baseline", "active"],
+        "description": "If buyer taps 'I'm interested' button in the feed and the listing is from a PRO user, show the phone number request screen"
+    },
+    {
+        "name": "SimplifiedChatButton",
+        "values": ["control", "baseline", "variantA", "variantB", "variantC", "variantD", "variantE", "variantF"],
+        "description": "Show a simplified chat button on item page"
     }
  ]

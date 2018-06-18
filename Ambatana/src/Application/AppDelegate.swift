@@ -11,6 +11,7 @@ import GoogleSignIn
 import LGCoreKit
 import RxSwift
 import UIKit
+import LGComponents
 
 @UIApplicationMain
 final class AppDelegate: UIResponder {
@@ -62,7 +63,7 @@ extension AppDelegate: UIApplicationDelegate {
         self.locationRepository = Core.locationRepository
         self.sessionManager = Core.sessionManager
         self.configManager = LGConfigManager.sharedInstance
-        self.locationManager?.shouldAskForBackgroundLocationPermission = featureFlags.emergencyLocate.isActive
+        self.locationManager?.shouldAskForBackgroundLocationPermission = false
         let keyValueStorage = KeyValueStorage.sharedInstance
         let versionChecker = VersionChecker.sharedInstance
 
@@ -257,9 +258,9 @@ fileprivate extension AppDelegate {
 
         // New Relic
         #if GOD_MODE
-            NewRelicAgent.start(withApplicationToken: Constants.newRelicGodModeToken)
+            NewRelicAgent.start(withApplicationToken: SharedConstants.newRelicGodModeToken)
         #else
-            NewRelicAgent.start(withApplicationToken: Constants.newRelicProductionToken)
+            NewRelicAgent.start(withApplicationToken: SharedConstants.newRelicProductionToken)
         #endif
 
         // Fabric
@@ -326,7 +327,7 @@ fileprivate extension AppDelegate {
             guard let `self` = self else { return }
             if enabled {
                 let emergencyActive = self.featureFlags?.emergencyLocate.isActive ?? false
-                self.locationManager?.shouldAskForBackgroundLocationPermission = emergencyActive
+                self.locationManager?.shouldAskForBackgroundLocationPermission = false
                 self.locationManager?.startSensorLocationUpdates()
             } else {
                 self.locationManager?.stopSensorLocationUpdates()

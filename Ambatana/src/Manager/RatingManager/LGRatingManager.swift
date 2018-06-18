@@ -1,12 +1,5 @@
-//
-//  RatingManager.swift
-//  LetGo
-//
-//  Created by Dídac on 03/05/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import RxSwift
+import LGComponents
 
 
 class LGRatingManager {
@@ -64,7 +57,7 @@ extension LGRatingManager: RatingManager {
     func userDidRemindLater() {
         if keyValueStorage.userRatingRemindMeLaterDate == nil {
             // If we don't have a remind later date then set it up
-            let remindDate = Date().addingTimeInterval(Constants.ratingRepeatTime)
+            let remindDate = Date().addingTimeInterval(SharedConstants.ratingRepeatTime)
             keyValueStorage.userRatingRemindMeLaterDate = remindDate
         } else {
             // Otherwise, we set it in a distant future... (might be overriden when updating)

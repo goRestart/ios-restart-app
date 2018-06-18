@@ -15,6 +15,8 @@ final class SettingsNotificationsViewController: BaseViewController, UITableView
     required init(viewModel: SettingsNotificationsViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
+        
+        viewModel.delegate = self
     }
     
     required init?(coder: NSCoder) {

@@ -1,11 +1,4 @@
-//
-//  TrackerEvent.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 05/08/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
+import LGComponents
 import LGCoreKit
 
 func ==(a: TrackerEvent, b: TrackerEvent) -> Bool {
@@ -430,7 +423,7 @@ struct TrackerEvent {
         params[.feedPosition] = feedPosition.value
         params[.categoryId] = (categories ?? [.unassigned]).trackValue
         
-        return TrackerEvent(name: .adTapped, params: params)
+        return TrackerEvent(name: .adShown, params: params)
     }
 
     static func listingFavorite(_ listing: Listing, typePage: EventParameterTypePage,
@@ -616,8 +609,8 @@ struct TrackerEvent {
             params[.mlListingCategory] = machineLearningData.category?.rawValue ?? nil
         }
         
-        params[.serviceType] = listing.service?.servicesAttributes.typeId ?? Constants.parameterNotApply
-        params[.serviceSubtype] = listing.service?.servicesAttributes.subtypeId ?? Constants.parameterNotApply
+        params[.serviceType] = listing.service?.servicesAttributes.typeId ?? SharedConstants.parameterNotApply
+        params[.serviceSubtype] = listing.service?.servicesAttributes.subtypeId ?? SharedConstants.parameterNotApply
         
         return TrackerEvent(name: .listingSellComplete, params: params)
     }
@@ -769,8 +762,8 @@ struct TrackerEvent {
         params[.year] = EventParameterYear.year(year: listing.car?.carAttributes.year).year
         
         if let servicesAttributes = listing.service?.servicesAttributes {
-            params[.serviceType] = servicesAttributes.typeId ?? Constants.parameterNotApply
-            params[.serviceSubtype] = servicesAttributes.subtypeId ?? Constants.parameterNotApply
+            params[.serviceType] = servicesAttributes.typeId ?? SharedConstants.parameterNotApply
+            params[.serviceSubtype] = servicesAttributes.subtypeId ?? SharedConstants.parameterNotApply
         }
         
         if let realEstateAttributes = listing.realEstate?.realEstateAttributes {
