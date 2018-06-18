@@ -66,6 +66,7 @@ Pod::Spec.new do |s|
         sharedSpec.source_files = [
             baseFolder+'iOS/UIKit/UIView+Geometry.swift',
             baseFolder+'iOS/Foundation/TimeInterval+Time.swift',
+            baseFolder+'iOS/Foundation/String+LG.swift',
             baseFolder+'Global/AppReport.swift',
             baseFolder+'Global/SharedConstants.swift',
             baseFolder+'Global/Debug.swift',
