@@ -86,11 +86,7 @@ final class LGAlertViewController: UIViewController {
         static let contentTopMargin: CGFloat = 55
     }
 
-    let alertContainerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .clear
-        return view
-    }()
+    let alertContainerView = UILayoutGuide()
 
     let alertContentView: UIView = {
         let view = UIView()
@@ -118,13 +114,8 @@ final class LGAlertViewController: UIViewController {
     }()
 
     let buttonsContainer = UIView()
-
-    var alertContainerCenterYConstraint: NSLayoutConstraint?
-    var alertContentTopSeparationConstraint: NSLayoutConstraint?
-    var alertTitleTopSeparationConstraint: NSLayoutConstraint?
     var alertContainerWidthConstraint: NSLayoutConstraint?
     var buttonsContainerViewTopSeparationConstraint: NSLayoutConstraint?
-
 
     private let alertType: AlertType
     private let buttonsLayout: AlertButtonsLayout
@@ -168,9 +159,6 @@ final class LGAlertViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        view.addSubviewForAutoLayout(alertContainerView)
-        alertContainerView.addSubviewsForAutoLayout([alertContentView, alertIcon])
-        alertContentView.addSubviewsForAutoLayout([alertTitleLabel, alertTextLabel, buttonsContainer])
         setupConstraints()
         setupUI()
     }
@@ -220,10 +208,6 @@ final class LGAlertViewController: UIViewController {
         alertTitleLabel.text = alertTitle
         alertTextLabel.text = alertText
 
-        alertContentTopSeparationConstraint?.constant = alertType.contentTopSeparation
-        alertTitleTopSeparationConstraint?.constant = alertType.titleTopSeparation
-        alertContainerCenterYConstraint?.constant = alertType.containerCenterYOffset
-
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapOutside))
         view.addGestureRecognizer(tapRecognizer)
 
@@ -233,6 +217,10 @@ final class LGAlertViewController: UIViewController {
     }
 
     private func setupConstraints() {
+        view.addLayoutGuide(alertContainerView)
+        view.addSubviewsForAutoLayout([alertContentView, alertIcon])
+        alertContentView.addSubviewsForAutoLayout([alertTitleLabel, alertTextLabel, buttonsContainer])
+
         var constraints: [NSLayoutConstraint] = [
             alertContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             alertContentView.leftAnchor.constraint(equalTo: alertContainerView.leftAnchor),
@@ -250,11 +238,11 @@ final class LGAlertViewController: UIViewController {
             buttonsContainer.leftAnchor.constraint(equalTo: alertContentView.leftAnchor, constant: Metrics.veryBigMargin),
             buttonsContainer.rightAnchor.constraint(equalTo: alertContentView.rightAnchor, constant: -Metrics.veryBigMargin),
             buttonsContainer.bottomAnchor.constraint(equalTo: alertContentView.bottomAnchor, constant: -Metrics.veryBigMargin),
-            buttonsContainer.heightAnchor.constraint(equalToConstant: Layout.buttonContainerHeight)
+            buttonsContainer.heightAnchor.constraint(equalToConstant: Layout.buttonContainerHeight),
+            alertContentView.topAnchor.constraint(equalTo: alertContainerView.topAnchor, constant: alertType.contentTopSeparation),
+            alertTitleLabel.topAnchor.constraint(equalTo: alertIcon.centerYAnchor, constant: alertType.titleTopSeparation),
+            alertContainerView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: alertType.containerCenterYOffset),
         ]
-
-        let alertTitleTop = alertTitleLabel.topAnchor.constraint(equalTo: alertIcon.centerYAnchor, constant: Layout.titleTopMargin)
-        alertTitleTopSeparationConstraint = alertTitleTop
 
         let buttonsTop = buttonsContainer.topAnchor.constraint(equalTo: alertTextLabel.bottomAnchor, constant: Metrics.veryBigMargin)
         buttonsContainerViewTopSeparationConstraint = buttonsTop
@@ -262,13 +250,7 @@ final class LGAlertViewController: UIViewController {
         let widthConstraint = alertContainerView.widthAnchor.constraint(equalToConstant: Layout.defaultWidth)
         alertContainerWidthConstraint = widthConstraint
 
-        let containerCenterY = alertContainerView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        alertContainerCenterYConstraint = containerCenterY
-
-        let alertContentTop = alertContentView.topAnchor.constraint(equalTo: alertContainerView.topAnchor, constant: Layout.contentTopMargin)
-        alertContentTopSeparationConstraint = alertContentTop
-
-        constraints.append(contentsOf: [alertTitleTop, buttonsTop, widthConstraint, containerCenterY, alertContentTop])
+        constraints.append(contentsOf: [buttonsTop, widthConstraint])
         NSLayoutConstraint.activate(constraints)
     }
 
