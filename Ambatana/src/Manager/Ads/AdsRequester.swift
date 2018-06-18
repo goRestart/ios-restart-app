@@ -1,15 +1,8 @@
-//
-//  AdsRequester.swift
-//  LetGo
-//
-//  Created by Dídac on 31/10/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import GoogleMobileAds
 import LGCoreKit
+import LGComponents
 
-class AdsRequester {
+final class AdsRequester {
 
     static let testglKey: String = "testgl"
     static let testglDefaultValue: String = "en"

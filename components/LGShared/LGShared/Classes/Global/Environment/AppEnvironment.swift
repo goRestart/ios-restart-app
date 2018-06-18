@@ -1,13 +1,10 @@
-//
-//  AppEnvironment.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 07/05/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
 
-protocol AppEnvironment: AnalyticsAPIKeys {
+public protocol AppEnvironment: AnalyticsAPIKeys {
+    
+    init(godmode: Bool)
+    
     // General
+    var godmode: Bool { get }
     var appleAppId: String { get }
     var facebookAppId: String { get }
 
@@ -22,7 +19,6 @@ protocol AppEnvironment: AnalyticsAPIKeys {
     // Website
     var websiteBaseUrl: String { get }
     var websiteBaseUrlWithLocaleParams: String { get }
-    var websiteBaseUrlWithLanguageParam: String { get }
 
     // Google Ads
     var adTestModeActive: Bool { get }
@@ -33,6 +29,10 @@ protocol AppEnvironment: AnalyticsAPIKeys {
     var feedAdUnitIdDFPUSA20Ratio: String { get }
     var feedAdUnitIdAdxUSAForAllUsers: String { get }
     var feedAdUnitIdAdxUSAForOldUsers: String { get }
+    var feedAdUnitIdAdxTRForAllUsers: String { get }
+    var feedAdUnitIdAdxTRForOldUsers: String { get }
+    var fullScreenAdUnitIdAdxForAllUsersForUS: String { get }
+    var fullScreenAdUnitIdAdxForOldUsersForUS: String { get }
     
     // MoPub Ads
     var feedAdUnitIdMoPubUSAForAllUsers: String { get }
@@ -43,29 +43,29 @@ protocol AppEnvironment: AnalyticsAPIKeys {
 
 
 extension AppEnvironment {
-
-    var amplitudeAPIKey: String {
+    
+    public var amplitudeAPIKey: String {
         // Why this default implementation: https://ambatana.atlassian.net/browse/ABIOS-2510
-        #if GOD_MODE
+        if godmode {
             return DevelopmentEnvironment.amplitudeKey
-        #else
+        } else {
             return ProductionEnvironment.amplitudeKey
-        #endif
+        }
     }
 
-    var appsFlyerAppleAppId: String {
+    public var appsFlyerAppleAppId: String {
         return appleAppId
     }
 
-    var leanplumAppId: String {
+    public var leanplumAppId: String {
         return appleAppId
     }
 
-    func websiteUrl(_ endpoint: String) -> String {
+    public func websiteUrl(_ endpoint: String) -> String {
         return String(format: "\(websiteBaseUrl)\(endpoint)", arguments: [endpoint])
     }
-    
-    func localizedWebsiteUrl(_ country: String, language: String, endpoint: String? = nil) -> String {
+
+    public func localizedWebsiteUrl(country: String, language: String, endpoint: String? = nil) -> String {
         let format: String
         if let endpoint = endpoint {
             format = "\(websiteBaseUrlWithLocaleParams)\(endpoint)"
@@ -73,10 +73,5 @@ extension AppEnvironment {
             format = "\(websiteBaseUrlWithLocaleParams)"
         }
         return String(format: format, arguments: [country, language])
-    }
-    
-    func localizedLanguageUrl(_ language: String, endpoint: String) -> String {
-        let format: String = websiteBaseUrlWithLanguageParam
-        return String(format: format, arguments: [language]) + endpoint
     }
 }

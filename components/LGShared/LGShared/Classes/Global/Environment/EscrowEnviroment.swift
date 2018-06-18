@@ -1,12 +1,5 @@
-//
-//  EscrowEnviroment.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 30/11/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
 
-class EscrowEnvironment: AppEnvironment {
+final class EscrowEnvironment: AppEnvironment {
     
     // General
     let appleAppId = "986339882"
@@ -35,7 +28,6 @@ class EscrowEnvironment: AppEnvironment {
     // Website
     let websiteBaseUrl = "https://www.escrowverification.com"
     let websiteBaseUrlWithLocaleParams = "https://%@.escrowverification.com/%@"
-    let websiteBaseUrlWithLanguageParam = "https://%@.escrowverification.com"
     
     // Google Ads
     let adTestModeActive = true
@@ -45,8 +37,13 @@ class EscrowEnvironment: AppEnvironment {
     let feedAdUnitIdDFPUSA10Ratio = ""
     let feedAdUnitIdDFPUSA15Ratio = ""
     let feedAdUnitIdDFPUSA20Ratio = ""
-    var feedAdUnitIdAdxUSAForAllUsers = ""
-    var feedAdUnitIdAdxUSAForOldUsers = ""
+    let feedAdUnitIdAdxUSAForAllUsers = ""
+    let feedAdUnitIdAdxUSAForOldUsers = ""
+    let feedAdUnitIdAdxTRForAllUsers = ""
+    let feedAdUnitIdAdxTRForOldUsers = ""
+    
+    let fullScreenAdUnitIdAdxForAllUsersForUS = ""
+    let fullScreenAdUnitIdAdxForOldUsersForUS = ""
     
     // MoPub Ads
     let feedAdUnitIdMoPubUSAForAllUsers = ""
@@ -54,4 +51,13 @@ class EscrowEnvironment: AppEnvironment {
     let feedAdUnitIdMoPubTRForAllUsers = ""
     let feedAdUnitIdMoPubTRForOldUsers = ""
     
+    private let _godmode: Bool
+    
+    required init(godmode: Bool) {
+        self._godmode = godmode
+    }
+    
+    var godmode: Bool {
+        return _godmode
+    }
 }

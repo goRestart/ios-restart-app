@@ -1,14 +1,6 @@
-//
-//  EnvironmentsHelper.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 22/01/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 
-class EnvironmentsHelper {
+public final class EnvironmentsHelper {
 
     private static let settingsEnvironmentKey = "SettingsBundleEnvironment"
     private static let lastEnvironmentKey = "SettingsBundleLastEnvironment"
@@ -20,9 +12,10 @@ class EnvironmentsHelper {
         case escrow = "Escrow"
     }
 
-    private(set) var coreEnvironment: EnvironmentType = .production
+    private(set) public var coreEnvironment: EnvironmentType = .production
+    private let godmode: Bool
 
-    var appEnvironment: AppEnvironmentType {
+    public var appEnvironment: AppEnvironmentType {
         switch coreEnvironment {
         case .staging:
             return .development
@@ -35,14 +28,15 @@ class EnvironmentsHelper {
         }
     }
 
-    init() {
-    #if GOD_MODE
-        self.coreEnvironment = getCoreEnvironment()
-    #endif
-        self.checkEnvironmentChange()
+    public init(godmode: Bool) {
+        self.godmode = godmode
+        if godmode {
+            coreEnvironment = getCoreEnvironment()
+        }
+        checkEnvironmentChange()
     }
 
-    func getCoreEnvironment() -> EnvironmentType {
+    private func getCoreEnvironment() -> EnvironmentType {
         //First check xcode environment
         let envArgs = ProcessInfo.processInfo.environment
         if envArgs["-environment-prod"] != nil {
@@ -65,13 +59,13 @@ class EnvironmentsHelper {
         if lastEnvironment.rawValue != coreEnvironment.rawValue {
             setSettingsEnvironment(coreEnvironment, key: EnvironmentsHelper.lastEnvironmentKey)
 
-    #if GOD_MODE
-        /*There was a change, delete corekit installation and myUser to force cleanup and recreation double wrapped 
-        under compiler directive to avoid this code to be executed on production */
-        let userDefaults = UserDefaults()
-        userDefaults.removeObject(forKey: "Installation")
-        userDefaults.removeObject(forKey: "MyUser")
-    #endif
+            if godmode {
+                /*There was a change, delete corekit installation and myUser to force cleanup and recreation double wrapped
+                 under compiler directive to avoid this code to be executed on production */
+                let userDefaults = UserDefaults()
+                userDefaults.removeObject(forKey: "Installation")
+                userDefaults.removeObject(forKey: "MyUser")
+            }
         }
     }
 

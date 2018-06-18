@@ -1,14 +1,7 @@
-//
-//  AmplitudeTracker.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 05/08/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
 import Amplitude_iOS
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 final class AmplitudeTracker: Tracker {
     

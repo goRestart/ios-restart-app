@@ -70,7 +70,8 @@ Pod::Spec.new do |s|
             baseFolder+'Global/SharedConstants.swift',
             baseFolder+'Global/Debug.swift',
             baseFolder+'Global/Logger.swift',
-            baseFolder+'Global/DeviceFamily.swift'
+            baseFolder+'Global/DeviceFamily.swift',
+            baseFolder+'Global/Environment/**/*'
         ]
         # sharedSpec.source_files = 'LGShared/LGShared/Classes/**/*'
 
