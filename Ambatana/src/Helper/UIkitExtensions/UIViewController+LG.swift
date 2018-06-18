@@ -1,13 +1,8 @@
-//
-//  UIViewController+LG.swift
-//  LetGo
-//
-//
-
 import UIKit
 import SafariServices
 import RxSwift
 import RxCocoa
+import LGComponents
 
 // MARK: - UINavigationBar helpers
 
@@ -109,6 +104,7 @@ extension UIViewController {
                 buttonsTintColor: buttonsTintColor)
     }
 
+    @discardableResult
     func setLetGoRightButtonWith(image: UIImage?, renderingMode: UIImageRenderingMode,
                                            selector: String, buttonsTintColor: UIColor? = nil) -> UIBarButtonItem {
         let itemImage = image?.withRenderingMode(renderingMode)

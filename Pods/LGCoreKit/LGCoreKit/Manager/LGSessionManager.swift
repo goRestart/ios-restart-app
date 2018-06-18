@@ -209,6 +209,48 @@ class LGSessionManager: InternalSessionManager {
     }
 
     /**
+     Signs Up with the given credentials and public username.
+
+     - parameter token:      The Passwordless token
+     - parameter username:   The new username.
+     - parameter completion: The completion closure
+     */
+    func signUpPasswordlessWith(token: String,
+                                username: String,
+                                completion: LoginCompletion?) {
+        let provider: UserSessionProvider = .passwordless(token: token, username: username)
+        login(provider, completion: completion)
+    }
+
+    /**
+     Logs the user in using the Passwordless token
+
+     - parameter token:      The Passwordless token
+     - parameter completion: The completion closure
+     */
+    func loginPasswordlessWith(token: String,
+                               completion: LoginCompletion?) {
+        let provider: UserSessionProvider = .passwordless(token: token, username: nil)
+        login(provider, completion: completion)
+    }
+
+    /**
+     Requests a passwordless magic link sent via email
+
+     - paramater email: The email where the passwordless magic link will be sent.
+     - parameter completioon: The completion closure.
+     */
+    func requestPasswordlessWith(email: String,
+                                 completion: RequestPasswordlessCompletion?) {
+        let request = SessionRouter.requestPasswordless(email: email)
+        apiClient.request(request) { result in
+            handleApiResult(result,
+                            success: nil,
+                            completion: completion)
+        }
+    }
+
+    /**
      Requests a password recovery.
      - parameter email: The email.
      - parameter completion: The completion closure.

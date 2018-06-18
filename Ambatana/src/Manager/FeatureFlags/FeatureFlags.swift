@@ -97,6 +97,7 @@ protocol FeatureFlaggeable: class {
     var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu { get }
     var predictivePosting: PredictivePosting { get }
     var videoPosting: VideoPosting { get }
+    var simplifiedChatButton: SimplifiedChatButton { get }
 
     // MARK: Users
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem { get }
@@ -1283,6 +1284,13 @@ extension FeatureFlags {
             return Bumper.videoPosting
         }
         return VideoPosting.fromPosition(abTests.videoPosting.value)
+    }
+
+    var simplifiedChatButton: SimplifiedChatButton {
+        if Bumper.enabled {
+            return Bumper.simplifiedChatButton
+        }
+        return SimplifiedChatButton.fromPosition(abTests.simplifiedChatButton.value)
     }
 }
 

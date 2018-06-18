@@ -182,6 +182,7 @@ enum EventName: String {
     case categoriesComplete                 = "categories-complete"
 
     case adTapped                           = "ad-tapped"
+    case adShown                            = "ad-shown"
     case featuredMoreInfo                   = "featured-more-info"
     case openOptionOnSummary                = "posting-summary-open"
 
@@ -894,6 +895,7 @@ enum EventParameterTypePage: String {
     case userVerifications = "user-verifications"
     case smsVerification = "sms-verification"
     case nextItem = "next-item"
+    case feed = "feed"
 }
 
 enum EventParameterPermissionType: String {
@@ -1072,6 +1074,7 @@ enum EventParameterAccountNetwork: String {
     case sms = "sms"
     case id = "id"
     case profilePhoto = "profilePhoto"
+    case passwordless = "passwordless"
 }
 
 enum EventParameterBlockedAccountReason: String {

@@ -1,11 +1,4 @@
-//
-//  PromoCellMetrics.swift
-//  LetGo
-//
-//  Created by Tomas Cobo on 06/04/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
+import LGComponents
 
 struct PromoCellMetrics {
     

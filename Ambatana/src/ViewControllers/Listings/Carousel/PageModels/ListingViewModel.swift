@@ -207,6 +207,8 @@ class ListingViewModel: BaseViewModel {
 
     fileprivate let isReported = Variable<Bool>(false)
 
+    let isInterested = Variable<Bool>(false)
+
     lazy var bumpUpBannerInfo = Variable<BumpUpInfo?>(nil)
     fileprivate var timeSinceLastBump: TimeInterval = 0
     fileprivate var bumpMaxCountdown: TimeInterval = 0
@@ -258,7 +260,7 @@ class ListingViewModel: BaseViewModel {
         return productMedia
             .value
             .map { $0.type }
-            .reduce(false) { (result, next: MediaType) in return result || next == .video } ?? false
+            .reduce(false) { (result, next: MediaType) in return result || next == .video }
     }
 
     // Retrieval status
@@ -367,6 +369,8 @@ class ListingViewModel: BaseViewModel {
         if bumpUpBannerInfo.value == nil {
             refreshBumpeableBanner()
         }
+
+        isInterested.value = keyValueStorage.interestingListingIDs.contains(listingId)
     }
 
     override func didBecomeInactive() {
@@ -817,6 +821,12 @@ extension ListingViewModel {
     func sendQuickAnswer(quickAnswer: QuickAnswer) {
         ifLoggedInRunActionElseOpenSignUp(from: .directQuickAnswer, infoMessage: R.Strings.chatLoginPopupText) { [weak self] in
             self?.sendMessage(type: .quickAnswer(quickAnswer))
+        }
+    }
+
+    func sendInterested() {
+        ifLoggedInRunActionElseOpenSignUp(from: .directQuickAnswer, infoMessage: R.Strings.chatLoginPopupText) { [weak self] in
+            self?.sendMessage(type: .interested(QuickAnswer.interested.textToReply))
         }
     }
 
@@ -1279,6 +1289,10 @@ fileprivate extension ListingViewModel {
                                                         sellerBadge: badgeParameter,
                                                         containsVideo: containsVideo)
                 strongSelf.alreadyTrackedFirstMessageSent = true
+                if let listingId = strongSelf.listing.value.objectId {
+                    strongSelf.keyValueStorage.interestingListingIDs.update(with: listingId)
+                    strongSelf.isInterested.value = true
+                }
             } else if let error = result.error {
                 strongSelf.trackHelper.trackMessageSentError(messageType: type, isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value, error: error)
                 switch error {

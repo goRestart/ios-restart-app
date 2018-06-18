@@ -33,7 +33,10 @@ final class PostingMultiSelectionView: UIView {
         tableView.backgroundColor = .clear
         tableView.tintColor = .white
         tableView.indicatorStyle = .white
-        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Metrics.margin, right: 0)
+        tableView.contentInset = UIEdgeInsets(top: 0,
+                                              left: 0,
+                                              bottom: Layout.tableViewBottomInset,
+                                              right: 0)
         tableView.allowsMultipleSelection = false
         tableView.showsVerticalScrollIndicator = false
         tableView.showsHorizontalScrollIndicator = false
@@ -145,7 +148,7 @@ final class PostingMultiSelectionView: UIView {
             .bind { [weak self] origin in
                 guard let keyboardHeight = self?.keyboardHelper.keyboardHeight else { return }
                 let keyboardVisible: Bool = origin < UIScreen.main.bounds.height
-                self?.tableView.contentInset.bottom =  keyboardVisible ? (keyboardHeight + Metrics.shortMargin) : Metrics.bigMargin
+                self?.tableView.contentInset.bottom = keyboardVisible ? (keyboardHeight + Metrics.shortMargin) : Layout.tableViewBottomInset
             }.disposed(by: disposeBag)
     }
     
@@ -170,6 +173,7 @@ final class PostingMultiSelectionView: UIView {
     }
     
     private struct Layout {
+        static let tableViewBottomInset: CGFloat = Metrics.veryBigMargin*4
         static let cellSize: CGFloat = 67
         static let searchHeight: CGFloat = 44
         static let tagsHeight: CGFloat = 33

@@ -141,22 +141,9 @@ extension SellCoordinator: PostListingNavigator {
         }
     }
     
-    func closePostServicesAndPostInBackground(params: [ListingCreationParams],
-                                             trackingInfo: PostListingTrackingInfo) {
-        dismissViewController(animated: true) { [weak self] in
-            self?.listingRepository.createServices(listingParams: params) { [weak self] results in
-                if let listings = results.value {
-                    self?.trackPost(withListings: listings, trackingInfo: trackingInfo)
-                    self?.showMultiListingPostConfirmation(listingResult: ListingsResult(value: listings),
-                                                           trackingInfo: trackingInfo,
-                                                           modalStyle: true)
-                } else if let error = results.error {
-                    self?.trackListingPostedInBackground(withError: error)
-                    self?.showConfirmation(listingResult: ListingResult(error: error),
-                                           trackingInfo: trackingInfo, modalStyle: true)
-                }
-            }
-        }
+    func closePostServicesAndPostInBackground(completion: @escaping (() -> Void)) {
+        dismissViewController(animated: true,
+                              completion: completion)
     }
     
     func startDetails(firstStep: PostingDetailStep,
@@ -534,9 +521,5 @@ fileprivate extension SellCoordinator {
             let event = TrackerEvent.listingSellComplete24h(listing)
             tracker.trackEvent(event)
         }
-    }
-    
-    func trackPost(withListings listing: [Listing], trackingInfo: PostListingTrackingInfo) {
-        listing.forEach { trackPost(withListing: $0, trackingInfo: trackingInfo) }
     }
 }

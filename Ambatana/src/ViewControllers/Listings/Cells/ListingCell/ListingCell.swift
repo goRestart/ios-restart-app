@@ -19,7 +19,9 @@ protocol ListingCellDelegate: class {
 }
 
 final class ListingCell: UICollectionViewCell, ReusableCell {
-    
+    private struct Layout {
+        static let stripeHeight: CGFloat = 34
+    }
     private lazy var interestedButton: UIButton = UIButton()
     private let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView.init(activityIndicatorStyle: .white)
     // > Stripe area
@@ -301,6 +303,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     private func setupThumbnialImageViewConstraints() {
         thumbnailImageView.layout(with: contentView).top().leading().trailing()
         thumbnailImageViewHeight = thumbnailImageView.heightAnchor.constraint(equalToConstant: ListingCellMetrics.thumbnailImageStartingHeight)
+        thumbnailImageViewHeight?.priority = .required - 1 // required if possible
         thumbnailImageViewHeight?.isActive = true
         thumbnailBgColorView.layout(with: thumbnailImageView).fill()
         thumbnailGifImageView.layout(with: thumbnailImageView).fill()
@@ -358,7 +361,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
             stripeImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: -2),
             
             stripeInfoView.widthAnchor.constraint(equalToConstant: 63),
-            stripeInfoView.heightAnchor.constraint(equalToConstant: 24),
+            stripeInfoView.heightAnchor.constraint(equalToConstant: Layout.stripeHeight),
             stripeInfoView.leadingAnchor.constraint(equalTo: stripeImageView.leadingAnchor, constant: 16),
             stripeInfoView.centerYAnchor.constraint(equalTo: stripeImageView.centerYAnchor, constant: -7)
             ])
@@ -384,7 +387,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
             stripeLabel.trailingAnchor.constraint(equalTo: stripeInfoInnerContainerView.trailingAnchor),
             stripeLabel.bottomAnchor.constraint(equalTo: stripeInfoInnerContainerView.bottomAnchor),
             stripeLabel.topAnchor.constraint(equalTo: stripeInfoInnerContainerView.topAnchor),
-            stripeLabel.heightAnchor.constraint(equalToConstant: 34),
+            stripeLabel.heightAnchor.constraint(equalToConstant: Layout.stripeHeight),
             stripeLabel.leadingAnchor.constraint(equalTo: stripeIcon.trailingAnchor, constant: 3)
             ])
         

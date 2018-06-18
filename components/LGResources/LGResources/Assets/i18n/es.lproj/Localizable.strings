@@ -449,6 +449,12 @@
 "id_verification_third_step_subtitle" = "Asegúrate que tu documento se ve claramente y encaja en los bordes de la caja";
 "id_verification_third_step_title" = "Haz una foto de la cara frontal de tu documento de identidad";
 "id_verification_update_avatar_message" = "¿Quieres que sea tu foto de perfil?";
+"listing_chat_button" = "Chat Now";
+"listing_interested_button_A" = "I'm interested";
+"listing_interested_button_B" = "Interested";
+"listing_interested_button_C" = "Ask for Details";
+"listing_interested_button_D" = "Ask for Details";
+"listing_interested_footer" = "Automatically sends a message to the seller asking if it's available.";
 "listing_map_redo_search" = "Buscar en esta zona";
 "listing_show_similar_results" = "Mostrado resultados de búsquedas similares";
 "listing_show_similar_results_description" = "No hay resultados exactos para tu búsqueda.\nAsegúrate que está escrita correctamente o usa términos y filtros distintos.";
@@ -655,7 +661,7 @@
 "post_description_name_placeholder" = "Nombre";
 "post_description_save_button_text" = "¡Guardar este anuncio!";
 "post_details_services_add_new" = "Añadir otro servicio";
-"post_details_services_camera_message" = "Post a picture of yourself or your company’s logo";
+"post_details_services_camera_message" = "Publica una foto de ti mismo o el logo de tu empresa";
 "post_details_services_congratulation_people_near" = "Alrededor de ti se buscan estos servicios, ¿tienes estas habilidades?";
 "post_details_services_congratulation_post_another" = "Publicar otro anuncio";
 "post_details_services_congratulation_review" = "Revisa tus anuncios y añade más detalles";

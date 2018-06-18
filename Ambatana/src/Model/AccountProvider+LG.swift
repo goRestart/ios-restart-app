@@ -17,6 +17,8 @@ extension AccountProvider {
             return .google
         case .email:
             return .email
+        case .passwordless:
+            return .passwordless
         }
     }
 }

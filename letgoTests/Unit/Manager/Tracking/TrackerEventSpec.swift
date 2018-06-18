@@ -3463,6 +3463,59 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
             
+            describe("listingEditComplete") {
+                context("edit services") {
+                    beforeEach {
+                        var services = MockService.makeMock()
+                        services.objectId = "r4nd0m1D"
+                        services.name = "name"
+                        services.descr = nil
+                        services.price = .normal(20)
+                        services.images = MockFile.makeMocks(count: 2)
+                        services.descr = String.makeRandom()
+                        let servicesAttributes = ServiceAttributes(typeId: "0123",
+                                                                   subtypeId: "4567",
+                                                                   typeTitle: String.makeRandom(),
+                                                                   subtypeTitle: String.makeRandom())
+                        services.servicesAttributes = servicesAttributes
+                        sut = TrackerEvent.listingEditComplete(nil,
+                                                               listing: .service(services),
+                                                               category: nil,
+                                                               editedFields: [.title, .category],
+                                                               pageType: .profile)
+                    }
+                    it("has its event name") {
+                        expect(sut.name.rawValue).to(equal("product-edit-complete"))
+                    }
+                    it("contains the product related params when passing by a product, name & category") {
+                        expect(sut.params).notTo(beNil())
+                    }
+                    it ("contains category-id parameter") {
+                        let categoryId = sut.params!.stringKeyParams["category-id"] as? Int
+                        expect(categoryId).notTo(beNil())
+                    }
+                    it ("containts product-id") {
+                        let productId = sut.params!.stringKeyParams["product-id"] as? String
+                        expect(productId).to(equal("r4nd0m1D"))
+                    }
+                    it ("contains edited-fields") {
+                        expect(sut.params!.stringKeyParams["edited-fields"]).notTo(beNil())
+                    }
+                    it ("contains title and category fields") {
+                        let editedFields = sut.params!.stringKeyParams["edited-fields"] as? String
+                        expect(editedFields).to(equal("title,category"))
+                    }
+                    it("contains service-type") {
+                        let data = sut.params!.stringKeyParams["service-type"] as? String
+                        expect(data).to(equal("0123"))
+                    }
+                    it("contains service-subtype") {
+                        let data = sut.params!.stringKeyParams["service-subtype"] as? String
+                        expect(data).to(equal("4567"))
+                    }
+                }
+            }
+            
             describe("listingDeleteStart") {
                 it("has its event name") {
                     let product = MockProduct.makeMock()
@@ -5422,6 +5475,9 @@ class TrackerEventSpec: QuickSpec {
                                                 typePage: .nextItem,
                                                 categories: nil,
                                                 feedPosition: .position(index: 19))
+                }
+                it("event name is ad-shown") {
+                     expect(sut.name.rawValue) == "ad-shown"
                 }
                 it("contains product id") {
                     let productId = sut.params!.stringKeyParams["product-id"] as? String

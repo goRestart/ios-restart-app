@@ -39,6 +39,21 @@ public enum LoginError: Error {
     case internalError(message: String)
 }
 
+public enum RequestPasswordlessError: Error {
+
+    case network
+    case badRequest(cause: BadRequestCause)
+    case notFound
+    case forbidden
+    case unauthorized
+    case conflict(cause: ConflictCause)
+    case scammer
+    case nonExistingEmail
+    case tooManyRequests
+    case userNotVerified
+    case internalError(message: String)
+}
+
 public enum RecoverPasswordError: Error {
 
     case network
@@ -148,6 +163,41 @@ extension LoginError: ApiErrorConvertible {
             self = .internalError(message: "WebSocket Error")
         case .searchAlertError:
             self = .internalError(message: "Search alert Error")
+        }
+    }
+}
+
+extension RequestPasswordlessError: ApiErrorConvertible {
+    init(apiError: ApiError) {
+        switch apiError {
+        case .network:
+            self = .network
+        case .badRequest(let cause):
+            self = .badRequest(cause: cause)
+        case .unauthorized:
+            self = .unauthorized
+        case .notFound:
+            self = .notFound
+        case .forbidden:
+            self = .forbidden
+        case .conflict(let cause):
+            self = .conflict(cause: cause)
+        case .unprocessableEntity:
+            self = .nonExistingEmail
+        case .scammer:
+            self = .scammer
+        case .tooManyRequests:
+            self = .tooManyRequests
+        case .userNotVerified:
+            self = .userNotVerified
+        case .internalServerError:
+            self = .internalError(message: "Internal Server Error")
+        case let .internalError(description):
+            self = .internalError(message: description)
+        case let .other(httpCode):
+            self = .internalError(message: "\(httpCode) HTTP code is not handled")
+        case .notModified:
+            self = .internalError(message: "Internal API Error")
         }
     }
 }
