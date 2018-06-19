@@ -13,9 +13,30 @@ final class PasswordlessEmailSentViewController: BaseViewController {
 
     private let viewModel: PasswordlessEmailSentViewModel
 
-    private let imageView = UIImageView()
-    private let titleLabel = UILabel()
-    private let subtitleLabel = UILabel()
+    private let imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = #imageLiteral(resourceName: "ic_magic")
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .blackText
+        label.font = .passwordLessEmailTitleFont
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.text = R.Strings.passwordlessEmailSentTitle
+        return label
+    }()
+
+    private let subtitleLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .grayDisclaimerText
+        label.font = .passwordLessEmailDescriptionFont
+        label.textAlignment = .center
+        return label
+    }()
 
     private struct Layout {
         static let imageTopMargin: CGFloat = 100
@@ -49,11 +70,9 @@ final class PasswordlessEmailSentViewController: BaseViewController {
         view.backgroundColor = .white
         title = R.Strings.passwordlessEmailSentScreenTitle
         view.addSubviewsForAutoLayout([imageView, titleLabel, subtitleLabel])
+        subtitleLabel.text = R.Strings.passwordlessEmailSentSubtitle(viewModel.email)
 
         setupNavBarActions()
-        setupImageViewUI()
-        setupTitleLabelUI()
-        setupSubtitleLabelUI()
         setupConstraints()
     }
 
@@ -69,26 +88,6 @@ final class PasswordlessEmailSentViewController: BaseViewController {
                                          target: self,
                                          action: #selector(didTapHelp))
         navigationItem.rightBarButtonItem = helpButton
-    }
-
-    private func setupImageViewUI() {
-        imageView.image = #imageLiteral(resourceName: "ic_magic")
-        imageView.contentMode = .scaleAspectFit
-    }
-
-    private func setupTitleLabelUI() {
-        titleLabel.textColor = .blackText
-        titleLabel.font = .passwordLessEmailTitleFont
-        titleLabel.numberOfLines = 0
-        titleLabel.textAlignment = .center
-        titleLabel.text = R.Strings.passwordlessEmailSentTitle
-    }
-
-    private func setupSubtitleLabelUI() {
-        subtitleLabel.textColor = .grayDisclaimerText
-        subtitleLabel.font = .passwordLessEmailDescriptionFont
-        subtitleLabel.textAlignment = .center
-        subtitleLabel.text = R.Strings.passwordlessEmailSentSubtitle(viewModel.email)
     }
 
     private func setupConstraints() {
