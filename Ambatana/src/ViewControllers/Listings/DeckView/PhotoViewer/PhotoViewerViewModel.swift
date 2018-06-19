@@ -1,14 +1,7 @@
-//
-//  PhotoViewerViewModel.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 24/11/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 protocol PhotoViewerDisplayable {
     var listing: Listing { get }

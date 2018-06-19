@@ -1,24 +1,16 @@
-//
-//  ImageDownloaderType.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 26/04/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import Result
 import AlamofireImage
 
-typealias ImageWithSource = (image: UIImage, cached: Bool)
-typealias ImageDownloadResult = Result<ImageWithSource, ImageDownloadError>
-typealias ImageDownloadCompletion = (_ result: ImageDownloadResult, _ url: URL) -> Void
+public typealias ImageWithSource = (image: UIImage, cached: Bool)
+public typealias ImageDownloadResult = Result<ImageWithSource, ImageDownloadError>
+public typealias ImageDownloadCompletion = (_ result: ImageDownloadResult, _ url: URL) -> Void
 
-enum ImageDownloadError: Error {
+public enum ImageDownloadError: Error {
     case downloaderError(error: Error)
     case unknown
 }
 
-protocol ImageDownloaderType {
+public protocol ImageDownloaderType {
     func setImageView(_ imageView: UIImageView, url: URL, placeholderImage: UIImage?,
                       completion: ImageDownloadCompletion?)
     @discardableResult
@@ -28,7 +20,7 @@ protocol ImageDownloaderType {
     func cancelImageDownloading(_ receipt: RequestReceipt)
 }
 
-extension ImageDownloaderType {
+public extension ImageDownloaderType {
     func downloadImagesWithURLs(_ urls: [URL]) {
         urls.forEach { downloadImageWithURL($0, completion: nil) }
     }

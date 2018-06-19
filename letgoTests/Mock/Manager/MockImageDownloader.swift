@@ -1,13 +1,6 @@
-//
-//  MockImageDownloader.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 02/03/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 @testable import LetGoGodMode
 import AlamofireImage
+import LGComponents
 
 class MockImageDownloader: ImageDownloaderType {
 

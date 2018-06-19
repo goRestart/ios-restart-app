@@ -1,17 +1,9 @@
-//
-//  ImageDownloader.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 26/04/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import AlamofireImage
 import Result
 
-final class ImageDownloader: ImageDownloaderType {
+public final class ImageDownloader: ImageDownloaderType {
 
-    static let sharedInstance = ImageDownloader.make(usingImagePool: false)
+    public static let sharedInstance = ImageDownloader.make(usingImagePool: false)
     
     private let imageDownloader: ImageDownloaderType
 
@@ -23,24 +15,24 @@ final class ImageDownloader: ImageDownloaderType {
         self.useImagePool = useImagePool
     }
 
-    func setImageView(_ imageView: UIImageView, url: URL, placeholderImage: UIImage?,
+    public func setImageView(_ imageView: UIImageView, url: URL, placeholderImage: UIImage?,
                       completion: ImageDownloadCompletion?) {
         imageDownloader.setImageView(imageView, url: url, placeholderImage: placeholderImage,
                                      completion: completion)
     }
 
     @discardableResult
-    func downloadImageWithURL(_ url: URL, completion: ImageDownloadCompletion? = nil) -> RequestReceipt? {
+    public func downloadImageWithURL(_ url: URL, completion: ImageDownloadCompletion? = nil) -> RequestReceipt? {
         let receipt = imageDownloader.downloadImageWithURL(url, completion: completion)
         addReceiptToPool(receipt)
         return receipt
     }
 
-    func cachedImageForUrl(_ url: URL) -> UIImage? {
+    public func cachedImageForUrl(_ url: URL) -> UIImage? {
         return imageDownloader.cachedImageForUrl(url)
     }
 
-    func cancelImageDownloading(_ receipt: RequestReceipt) {
+    public func cancelImageDownloading(_ receipt: RequestReceipt) {
         imageDownloader.cancelImageDownloading(receipt)
     }
 
@@ -54,7 +46,7 @@ final class ImageDownloader: ImageDownloaderType {
         }
     }
 
-    static func make(usingImagePool: Bool) -> ImageDownloaderType {
+    public static func make(usingImagePool: Bool) -> ImageDownloaderType {
         let afImageDownloader = AlamofireImage.ImageDownloader(configuration: makeSessionConfiguration())
         return ImageDownloader(imageDownloader: afImageDownloader, useImagePool: usingImagePool)
     }
@@ -72,7 +64,7 @@ final class ImageDownloader: ImageDownloaderType {
     }
 }
 
-extension UIImageView {
+public extension UIImageView {
     func lg_setImageWithURL(_ url: URL, placeholderImage: UIImage? = nil, completion: ImageDownloadCompletion? = nil) {
         ImageDownloader.sharedInstance.setImageView(self, url: url, placeholderImage: placeholderImage,
                                                     completion: completion)
@@ -80,12 +72,12 @@ extension UIImageView {
 }
 
 
-class LGUrlCache: URLCache {
-    override func cachedResponse(for request: URLRequest) -> CachedURLResponse? {
+public class LGUrlCache: URLCache {
+    override public func cachedResponse(for request: URLRequest) -> CachedURLResponse? {
         return super.cachedResponse(for: request)
     }
 
-    override func storeCachedResponse(_ cachedResponse: CachedURLResponse, for request: URLRequest) {
+    override public func storeCachedResponse(_ cachedResponse: CachedURLResponse, for request: URLRequest) {
         super.storeCachedResponse(cachedResponse, for: request)
     }
 }

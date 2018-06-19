@@ -1,10 +1,4 @@
-//
-//  ChatAvatarView.swift
-//  LetGo
-//
-//  Created by Dídac on 17/05/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
+import LGComponents
 
 enum ChatBadgeStyle {
     case topRight(height: CGFloat?)
