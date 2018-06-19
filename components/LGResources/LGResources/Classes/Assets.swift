@@ -364,6 +364,7 @@ extension R {
       public static let icKeyboard = ImageAsset(name: "ic_keyboard")
       public static let icLocation = ImageAsset(name: "ic_location")
       public static let icLocationAlert = ImageAsset(name: "ic_location_alert")
+      public static let icMagic = ImageAsset(name: "ic_magic")
       public static let icMap = ImageAsset(name: "ic_map")
       public static let icMessages = ImageAsset(name: "ic_messages")
       public static let icModerationAlert = ImageAsset(name: "ic_moderation_alert")
@@ -643,6 +644,7 @@ extension R {
         icKeyboard,
         icLocation,
         icLocationAlert,
+        icMagic,
         icMap,
         icMessages,
         icModerationAlert,

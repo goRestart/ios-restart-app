@@ -15,7 +15,7 @@ final class PasswordlessEmailSentViewController: BaseViewController {
 
     private let imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = #imageLiteral(resourceName: "ic_magic")
+        imageView.image = R.Asset.IconsButtons.icMagic.image
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
