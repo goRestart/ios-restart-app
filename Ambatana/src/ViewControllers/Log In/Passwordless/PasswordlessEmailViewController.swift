@@ -15,10 +15,45 @@ final class PasswordlessEmailViewController: BaseViewController {
     private let viewModel: PasswordlessEmailViewModel
     private let disposeBag = DisposeBag()
 
-    private let titleLabel = UILabel()
-    private let descriptionLabel = UILabel()
-    private let emailTextField = UITextField()
-    private let continueButton = LetgoButton(withStyle: .primary(fontSize: .big))
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .blackText
+        label.font = .passwordLessEmailTitleFont
+        label.text = R.Strings.passwordlessEmailInputTitle
+        return label
+    }()
+
+    private let descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.textColor = .grayDisclaimerText
+        label.font = .passwordLessEmailDescriptionFont
+        label.text = R.Strings.passwordlessEmailInputDescription
+        return label
+    }()
+
+    private let emailTextField: UITextField = {
+        let textField = UITextField()
+        textField.font = .passwordLessEmailTextFieldFont
+        textField.textColor = .blackText
+        textField.tintColor = .primaryColor
+        textField.autocapitalizationType = .none
+        textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+
+        var placeholderAttributes = [NSAttributedStringKey: Any]()
+        placeholderAttributes[NSAttributedStringKey.font] = UIFont.passwordLessEmailTextFieldFont
+        placeholderAttributes[NSAttributedStringKey.foregroundColor] = UIColor.grayPlaceholderText
+        textField.attributedPlaceholder = NSAttributedString(string: R.Strings.passwordlessEmailInputTextfieldPlaceholder,
+                                                             attributes: placeholderAttributes)
+        return textField
+    }()
+
+    private let continueButton: LetgoButton = {
+        let button = LetgoButton(withStyle: .primary(fontSize: .big))
+        button.setTitle(R.Strings.passwordlessEmailInputButton, for: .normal)
+        button.addTarget(self, action: #selector(didTapContinue), for: .touchUpInside)
+        return button
+    }()
 
     struct Layout {
         static let viewMargin: CGFloat = 16
@@ -59,10 +94,6 @@ final class PasswordlessEmailViewController: BaseViewController {
         view.addSubviewsForAutoLayout([titleLabel, descriptionLabel, emailTextField, continueButton])
 
         setupNavBarActions()
-        setupTitleLabelUI()
-        setupDescriptionLabelUI()
-        setupEmailTextFieldUI()
-        setupContinueButtonUI()
         setupConstraints()
     }
 
@@ -72,33 +103,6 @@ final class PasswordlessEmailViewController: BaseViewController {
                                          target: self,
                                          action: #selector(didTapHelp))
         navigationItem.rightBarButtonItem = helpButton
-    }
-
-    private func setupTitleLabelUI() {
-        titleLabel.textColor = .blackText
-        titleLabel.font = .passwordLessEmailTitleFont
-        titleLabel.text = R.Strings.passwordlessEmailInputTitle
-    }
-
-    private func setupDescriptionLabelUI() {
-        descriptionLabel.textColor = .grayDisclaimerText
-        descriptionLabel.font = .passwordLessEmailDescriptionFont
-        descriptionLabel.numberOfLines = 0
-        descriptionLabel.text = R.Strings.passwordlessEmailInputDescription
-    }
-
-    private func setupEmailTextFieldUI() {
-        emailTextField.font = .passwordLessEmailTextFieldFont
-        emailTextField.textColor = .blackText
-        emailTextField.tintColor = .primaryColor
-        emailTextField.autocapitalizationType = .none
-        emailTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
-
-        var placeholderAttributes = [NSAttributedStringKey: Any]()
-        placeholderAttributes[NSAttributedStringKey.font] = UIFont.passwordLessEmailTextFieldFont
-        placeholderAttributes[NSAttributedStringKey.foregroundColor] = UIColor.grayPlaceholderText
-        emailTextField.attributedPlaceholder = NSAttributedString(string: R.Strings.passwordlessEmailInputTextfieldPlaceholder,
-                                                                  attributes: placeholderAttributes)
     }
 
     private func setupContinueButtonUI() {
