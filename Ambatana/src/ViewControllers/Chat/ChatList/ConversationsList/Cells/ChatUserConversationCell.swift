@@ -27,7 +27,7 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
 
     private let userImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.cornerRadius = Layout.userImageViewHeight/2
         return imageView
     }()
@@ -55,6 +55,17 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
     }()
 
     private let statusStackContainer: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.distribution = .fill
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.layoutMargins = .zero
+        stackView.spacing = 8
+        return stackView
+    }()
+
+    private let proUserNameStackContainer: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .center
@@ -145,6 +156,14 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
     }()
     private let userIsTypingAnimationViewContainer = UIView()
 
+    private let proUserTagView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = R.Asset.Monetization.proTag.image
+        imageView.contentMode = .scaleAspectFit
+        imageView.applyShadow(withOpacity: 0.5, radius: 2)
+        return imageView
+    }()
+
 
     // MARK: - Lifecycle
 
@@ -171,6 +190,9 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
 
         statusStackContainer.addArrangedSubview(statusIcon)
         statusStackContainer.addArrangedSubview(statusLabel)
+
+        proUserNameStackContainer.addArrangedSubview(userNameLabel)
+        proUserNameStackContainer.addArrangedSubview(proUserTagView)
 
         assistantInfoStackContainer.addArrangedSubview(userNameLabel)
         assistantInfoStackContainer.addArrangedSubview(assistantInfoLabel)
@@ -303,13 +325,14 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
     private func updateCellWith(status: ConversationCellStatus) {
         let lastStackPosition = textStackContainer.arrangedSubviews.count-1
         guard status != .available else {
-            textStackContainer.removeArrangedSubview(statusStackContainer)
             textStackContainer.insertArrangedSubview(timeLastMessageLabel, at: lastStackPosition)
+            textStackContainer.removeArrangedSubview(statusStackContainer)
+            statusStackContainer.removeFromSuperview()
             return
         }
 
-        textStackContainer.removeArrangedSubview(timeLastMessageLabel)
         textStackContainer.insertArrangedSubview(statusStackContainer, at: lastStackPosition)
+        textStackContainer.removeArrangedSubview(timeLastMessageLabel)
         timeLastMessageLabel.removeFromSuperview()
 
         if status == .userDeleted {
@@ -324,31 +347,52 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
 
     private func setUserIsTyping(enabled: Bool) {
         let lastStackPosition = textStackContainer.arrangedSubviews.count-1
+        let lastStackContent = textStackContainer.arrangedSubviews[lastStackPosition]
         if enabled {
-            textStackContainer.removeArrangedSubview(timeLastMessageLabel)
+            textStackContainer.removeArrangedSubview(lastStackContent)
             textStackContainer.insertArrangedSubview(userIsTypingAnimationViewContainer, at: lastStackPosition)
             userIsTypingAnimationView.play()
             timeLastMessageLabel.removeFromSuperview()
-
         } else {
             textStackContainer.removeArrangedSubview(userIsTypingAnimationViewContainer)
-            textStackContainer.insertArrangedSubview(timeLastMessageLabel, at: lastStackPosition)
+            textStackContainer.insertArrangedSubview(lastStackContent, at: lastStackPosition)
             userIsTypingAnimationView.stop()
             userIsTypingAnimationViewContainer.removeFromSuperview()
         }
     }
 
     private func updateCellFor(userType: UserType?) {
-       guard let type = userType, type.isDummy else {
+        guard let type = userType else {
             textStackContainer.removeArrangedSubview(assistantInfoStackContainer)
+            textStackContainer.removeArrangedSubview(proUserNameStackContainer)
             textStackContainer.insertArrangedSubview(userNameLabel, at: 0)
+            proUserTagView.isHidden = true
             assistantInfoLabel.isHidden = true
             return
         }
-        textStackContainer.removeArrangedSubview(userNameLabel)
-        assistantInfoStackContainer.insertArrangedSubview(userNameLabel, at: 0)
-        textStackContainer.insertArrangedSubview(assistantInfoStackContainer, at: 0)
-        assistantInfoLabel.isHidden = false
+
+        switch type {
+        case .user:
+            textStackContainer.removeArrangedSubview(assistantInfoStackContainer)
+            textStackContainer.removeArrangedSubview(proUserNameStackContainer)
+            textStackContainer.insertArrangedSubview(userNameLabel, at: 0)
+            proUserTagView.isHidden = true
+            assistantInfoLabel.isHidden = true
+        case .pro:
+            textStackContainer.removeArrangedSubview(userNameLabel)
+            textStackContainer.removeArrangedSubview(assistantInfoStackContainer)
+            proUserNameStackContainer.insertArrangedSubview(userNameLabel, at: 0)
+            textStackContainer.insertArrangedSubview(proUserNameStackContainer, at: 0)
+            proUserTagView.isHidden = false
+            assistantInfoLabel.isHidden = true
+        case .dummy:
+            textStackContainer.removeArrangedSubview(userNameLabel)
+            textStackContainer.removeArrangedSubview(proUserNameStackContainer)
+            assistantInfoStackContainer.insertArrangedSubview(userNameLabel, at: 0)
+            textStackContainer.insertArrangedSubview(assistantInfoStackContainer, at: 0)
+            proUserTagView.isHidden = true
+            assistantInfoLabel.isHidden = false
+        }
     }
 
 }
