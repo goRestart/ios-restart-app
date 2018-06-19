@@ -38,7 +38,6 @@ extension Bumper  {
         flags.append(UserIsTyping.self)
         flags.append(BumpUpBoost.self)
         flags.append(CopyForChatNowInTurkey.self)
-        flags.append(IncreaseNumberOfPictures.self)
         flags.append(RealEstateTutorial.self)
         flags.append(RealEstatePromoCell.self)
         flags.append(ChatNorris.self)
@@ -201,11 +200,6 @@ extension Bumper  {
     static var copyForChatNowInTurkey: CopyForChatNowInTurkey {
         guard let value = Bumper.value(for: CopyForChatNowInTurkey.key) else { return .control }
         return CopyForChatNowInTurkey(rawValue: value) ?? .control 
-    }
-
-    static var increaseNumberOfPictures: IncreaseNumberOfPictures {
-        guard let value = Bumper.value(for: IncreaseNumberOfPictures.key) else { return .control }
-        return IncreaseNumberOfPictures(rawValue: value) ?? .control 
     }
 
     static var realEstateTutorial: RealEstateTutorial {
@@ -758,22 +752,6 @@ enum CopyForChatNowInTurkey: String, BumperFeature  {
             case 2: return .variantB
             case 3: return .variantC
             case 4: return .variantD
-            default: return .control
-        }
-    }
-}
-
-enum IncreaseNumberOfPictures: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return IncreaseNumberOfPictures.control.rawValue }
-    static var enumValues: [IncreaseNumberOfPictures] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Allow to include up to 10 pictures on listings" } 
-    static func fromPosition(_ position: Int) -> IncreaseNumberOfPictures {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
             default: return .control
         }
     }

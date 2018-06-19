@@ -1,11 +1,3 @@
-//
-//  ABTests.swift
-//  LetGo
-//
-//  Created by Dídac on 12/04/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import RxSwift
 
 protocol LeamplumSyncerType {
@@ -209,7 +201,6 @@ extension ABTests {
 
 extension ABTests {
     var realEstateNewCopy: LeanplumABVariable<Int> { return realEstate.realEstateNewCopy }
-    var increaseNumberOfPictures: LeanplumABVariable<Int> { return realEstate.increaseNumberOfPictures }
     var realEstateTutorial: LeanplumABVariable<Int>{ return realEstate.realEstateTutorial }
     var summaryAsFirstStep: LeanplumABVariable<Int> { return realEstate.summaryAsFirstStep }
 }

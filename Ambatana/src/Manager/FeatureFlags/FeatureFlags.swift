@@ -37,7 +37,6 @@ protocol FeatureFlaggeable: class {
     var relaxedSearch: RelaxedSearch { get }
     var onboardingIncentivizePosting: OnboardingIncentivizePosting { get }
     var bumpUpBoost: BumpUpBoost { get }
-    var increaseNumberOfPictures: IncreaseNumberOfPictures { get }
     var realEstateTutorial: RealEstateTutorial { get }
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings { get }
     var showProTagUserProfile: Bool { get }
@@ -214,10 +213,6 @@ extension BumpUpBoost {
 
 extension DeckItemPage {
     var isActive: Bool {get { return self == .active }}
-}
-
-extension IncreaseNumberOfPictures {
-    var isActive: Bool { return self == .active }
 }
 
 extension AddPriceTitleDistanceToListings {
@@ -679,13 +674,6 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.realEstateTutorial
         }
         return RealEstateTutorial.fromPosition(abTests.realEstateTutorial.value)
-    }
-    
-    var increaseNumberOfPictures: IncreaseNumberOfPictures {
-        if Bumper.enabled {
-            return Bumper.increaseNumberOfPictures
-        }
-        return IncreaseNumberOfPictures.fromPosition(abTests.increaseNumberOfPictures.value)
     }
     
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings {

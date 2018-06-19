@@ -1,11 +1,3 @@
-//
-//  MockFeatureFlags.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 18/11/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 @testable import LetGoGodMode
 import Foundation
 import RxSwift
@@ -42,7 +34,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var searchImprovements: SearchImprovements = .control
     var relaxedSearch: RelaxedSearch = .control
     var bumpUpBoost: BumpUpBoost = .control
-    var increaseNumberOfPictures: IncreaseNumberOfPictures = .control
     var onboardingIncentivizePosting: OnboardingIncentivizePosting = .control
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings = .control
     var showProTagUserProfile: Bool = false
