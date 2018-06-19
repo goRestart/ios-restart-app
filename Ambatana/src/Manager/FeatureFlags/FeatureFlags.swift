@@ -40,7 +40,6 @@ protocol FeatureFlaggeable: class {
     var realEstateTutorial: RealEstateTutorial { get }
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings { get }
     var showProTagUserProfile: Bool { get }
-    var summaryAsFirstStep: SummaryAsFirstStep { get }
     var sectionedMainFeed: SectionedMainFeed { get }
     var showExactLocationForPros: Bool { get }
     var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed { get }
@@ -277,10 +276,6 @@ extension CreateUpdateCarsIntoNewBackend {
     func shouldUseCarEndpoint(with params: ListingEditionParams) -> Bool {
         return isActive && params.isCarParams
     }
-}
-
-extension SummaryAsFirstStep {
-    var isActive: Bool { return self == .active }
 }
 
 extension ShowAdvancedReputationSystem {
@@ -695,13 +690,6 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.showProTagUserProfile
         }
         return abTests.showProTagUserProfile.value
-    }
-
-    var summaryAsFirstStep: SummaryAsFirstStep {
-        if Bumper.enabled {
-            return Bumper.summaryAsFirstStep
-        }
-        return SummaryAsFirstStep.fromPosition(abTests.summaryAsFirstStep.value)
     }
 
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem {

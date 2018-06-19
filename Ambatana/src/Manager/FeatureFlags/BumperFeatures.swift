@@ -44,7 +44,6 @@ extension Bumper  {
         flags.append(AddPriceTitleDistanceToListings.self)
         flags.append(MarkAllConversationsAsRead.self)
         flags.append(ShowProTagUserProfile.self)
-        flags.append(SummaryAsFirstStep.self)
         flags.append(ShowAdvancedReputationSystem.self)
         flags.append(FeedAdsProviderForUS.self)
         flags.append(CopyForChatNowInEnglish.self)
@@ -230,11 +229,6 @@ extension Bumper  {
     static var showProTagUserProfile: Bool {
         guard let value = Bumper.value(for: ShowProTagUserProfile.key) else { return false }
         return ShowProTagUserProfile(rawValue: value)?.asBool ?? false
-    }
-
-    static var summaryAsFirstStep: SummaryAsFirstStep {
-        guard let value = Bumper.value(for: SummaryAsFirstStep.key) else { return .control }
-        return SummaryAsFirstStep(rawValue: value) ?? .control 
     }
 
     static var showAdvancedReputationSystem: ShowAdvancedReputationSystem {
@@ -850,22 +844,6 @@ enum ShowProTagUserProfile: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show Professional tag in user profile" } 
     var asBool: Bool { return self == .yes }
-}
-
-enum SummaryAsFirstStep: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return SummaryAsFirstStep.control.rawValue }
-    static var enumValues: [SummaryAsFirstStep] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show directly summary screen instead of Real estate steps" } 
-    static func fromPosition(_ position: Int) -> SummaryAsFirstStep {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
 }
 
 enum ShowAdvancedReputationSystem: String, BumperFeature  {

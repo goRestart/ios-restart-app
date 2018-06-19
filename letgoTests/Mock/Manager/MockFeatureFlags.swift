@@ -38,7 +38,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings = .control
     var showProTagUserProfile: Bool = false
     var realEstateTutorial: RealEstateTutorial = .control
-    var summaryAsFirstStep: SummaryAsFirstStep = .control
     var sectionedMainFeed: SectionedMainFeed = .control
     var showExactLocationForPros: Bool = true
     var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed = .control

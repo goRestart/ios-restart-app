@@ -202,7 +202,6 @@ extension ABTests {
 extension ABTests {
     var realEstateNewCopy: LeanplumABVariable<Int> { return realEstate.realEstateNewCopy }
     var realEstateTutorial: LeanplumABVariable<Int>{ return realEstate.realEstateTutorial }
-    var summaryAsFirstStep: LeanplumABVariable<Int> { return realEstate.summaryAsFirstStep }
 }
 
 //  MARK: Verticals

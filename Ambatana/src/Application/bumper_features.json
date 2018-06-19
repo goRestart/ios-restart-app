@@ -156,11 +156,6 @@
         "description": "Show Professional tag in user profile"
     },
     {
-        "name": "SummaryAsFirstStep",
-        "values": ["control", "baseline", "active"],
-        "description": "Show directly summary screen instead of Real estate steps"
-    },
-    {
         "name": "ShowAdvancedReputationSystem",
         "values": ["control", "baseline", "active"],
         "description": "Show the new advance reputation system and Karma Score"
