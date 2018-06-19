@@ -26,9 +26,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var showClockInDirectAnswer: ShowClockInDirectAnswer = .control
     var mostSearchedDemandedItems: MostSearchedDemandedItems = .control
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers = .control
-
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio = .control
-    var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting = .control
     var realEstateNewCopy: RealEstateNewCopy = .control
     var dummyUsersInfoProfile: DummyUsersInfoProfile = .control
     var searchImprovements: SearchImprovements = .control

@@ -66,11 +66,6 @@
         "description": "Real Estate Flow Type"
     },
     {
-        "name": "RemoveCategoryWhenClosingPosting",
-        "values": ["control", "baseline", "active"],
-        "description": "Remove category real estate if user closes posting"
-    },
-    {
         "name": "RealEstateNewCopy",
         "values": ["control", "baseline", "active"],
         "description": "Try real estate copy instead of housing"

@@ -29,7 +29,6 @@ protocol FeatureFlaggeable: class {
     var deckItemPage: DeckItemPage { get }
     var mostSearchedDemandedItems: MostSearchedDemandedItems { get }
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio { get }
-    var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting { get }
     var realEstateNewCopy: RealEstateNewCopy { get }
     var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers { get }
@@ -173,10 +172,6 @@ extension NoAdsInFeedForNewUsers {
             return shouldShowAdsInMoreInfoForOldUsers
         }
     }
-}
-
-extension RemoveCategoryWhenClosingPosting {
-    var isActive: Bool { return self == .active }
 }
 
 extension RealEstateNewCopy {
@@ -613,13 +608,6 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.showAdsInFeedWithRatio
         }
         return ShowAdsInFeedWithRatio.fromPosition(abTests.showAdsInFeedWithRatio.value)
-    }
-    
-    var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting {
-        if Bumper.enabled {
-            return Bumper.removeCategoryWhenClosingPosting
-        }
-        return RemoveCategoryWhenClosingPosting.fromPosition(abTests.removeCategoryWhenClosingPosting.value)
     }
     
     var realEstateNewCopy: RealEstateNewCopy {

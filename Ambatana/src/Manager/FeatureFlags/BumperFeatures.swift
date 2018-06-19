@@ -26,7 +26,6 @@ extension Bumper  {
         flags.append(MostSearchedDemandedItems.self)
         flags.append(ShowAdsInFeedWithRatio.self)
         flags.append(RealEstateFlowType.self)
-        flags.append(RemoveCategoryWhenClosingPosting.self)
         flags.append(RealEstateNewCopy.self)
         flags.append(DummyUsersInfoProfile.self)
         flags.append(ShowInactiveConversations.self)
@@ -139,11 +138,6 @@ extension Bumper  {
     static var realEstateFlowType: RealEstateFlowType {
         guard let value = Bumper.value(for: RealEstateFlowType.key) else { return .standard }
         return RealEstateFlowType(rawValue: value) ?? .standard 
-    }
-
-    static var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting {
-        guard let value = Bumper.value(for: RemoveCategoryWhenClosingPosting.key) else { return .control }
-        return RemoveCategoryWhenClosingPosting(rawValue: value) ?? .control 
     }
 
     static var realEstateNewCopy: RealEstateNewCopy {
@@ -552,22 +546,6 @@ enum RealEstateFlowType: String, BumperFeature  {
             case 0: return .standard
             case 1: return .turkish
             default: return .standard
-        }
-    }
-}
-
-enum RemoveCategoryWhenClosingPosting: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return RemoveCategoryWhenClosingPosting.control.rawValue }
-    static var enumValues: [RemoveCategoryWhenClosingPosting] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Remove category real estate if user closes posting" } 
-    static func fromPosition(_ position: Int) -> RemoveCategoryWhenClosingPosting {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
         }
     }
 }
