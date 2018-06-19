@@ -877,10 +877,14 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
                         self?.trackComplete(responseListing)
                         self?.finishedSaving()
                     } else if let error = result.error {
+                        self?.trackError(errorDescription: error.localizedDescription,
+                                         forListing: self?.initialListing)
                         self?.showError(ListingCreateValidationError(repoError: error))
                     }
                 }
             } else if let error = imagesResult.error {
+                self?.trackError(errorDescription: error.localizedDescription,
+                           forListing: self?.initialListing)
                 self?.showError(ListingCreateValidationError(repoError: error))
             }
         }
@@ -1198,6 +1202,16 @@ extension EditListingViewModel {
         trackEvent(event)
     }
 
+    private func trackError(errorDescription: String?,
+                            forListing listing: Listing?) {
+
+        let user = myUserRepository.myUser
+        let event = TrackerEvent.listingEditError(user,
+                                                  listing: listing,
+                                                  errorDescription: errorDescription)
+        
+        trackEvent(event)
+    }
     fileprivate func trackEvent(_ event: TrackerEvent) {
         if shouldTrack {
             tracker.trackEvent(event)
