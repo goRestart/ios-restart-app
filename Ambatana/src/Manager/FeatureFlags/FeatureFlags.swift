@@ -1189,7 +1189,7 @@ extension FeatureFlags {
         if Bumper.enabled {
             return Bumper.showServicesFeatures
         }
-        return .control // ShowServicesFeatures.fromPosition(abTests.showServicesFeatures.value)
+        return ShowServicesFeatures.fromPosition(abTests.showServicesFeatures.value)
     }
 }
 
