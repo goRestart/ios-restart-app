@@ -72,6 +72,9 @@ Pod::Spec.new do |s|
             baseFolder+'Global/Debug.swift',
             baseFolder+'Global/Logger.swift',
             baseFolder+'Global/DeviceFamily.swift',
+            baseFolder+'Global/LGUIKitConstants.swift',
+            baseFolder+'Global/LetgoURLHelper.swift',
+            baseFolder+'Global/GlobalFunctions.swift',
             baseFolder+'Global/Environment/**/*'
         ]
         # sharedSpec.source_files = 'LGShared/LGShared/Classes/**/*'

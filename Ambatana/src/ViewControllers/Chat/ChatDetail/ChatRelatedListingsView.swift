@@ -1,15 +1,7 @@
-//
-//  ChatRelatedListingsView.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 23/11/2016.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import RxSwift
 import RxCocoa
-
+import LGComponents
 
 protocol ChatRelatedListingsViewDelegate: class {
     func relatedListingsViewDidShow(_ view: ChatRelatedListingsView)

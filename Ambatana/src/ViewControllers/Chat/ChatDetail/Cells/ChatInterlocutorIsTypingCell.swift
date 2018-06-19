@@ -1,12 +1,5 @@
-//
-//  ChatInterlocutorIsTypingCell.swift
-//  LetGo
-//
-//  Created by Nestor on 13/02/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 import Lottie
 
 class ChatInterlocutorIsTypingCell: UITableViewCell, ReusableCell {

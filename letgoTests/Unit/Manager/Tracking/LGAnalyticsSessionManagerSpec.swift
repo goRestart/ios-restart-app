@@ -2,6 +2,7 @@
 import LGCoreKit
 import Nimble
 import Quick
+import LGComponents
 
 final class LGAnalyticsSessionManagerSpec: QuickSpec {
     override func spec() {

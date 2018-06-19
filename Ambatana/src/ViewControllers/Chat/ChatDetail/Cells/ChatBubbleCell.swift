@@ -1,12 +1,5 @@
-//
-//  ChatBubbleCell.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 23/11/15.
-//  Copyright © 2015 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 class ChatBubbleCell: UITableViewCell {
     

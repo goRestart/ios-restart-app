@@ -1,15 +1,7 @@
-//
-//  LGAlertViewController.swift
-//  LetGo
-//
-//  Created by Dídac on 02/06/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
 import RxSwift
 import RxCocoa
-
+import LGComponents
 
 enum AlertType {
     case plainAlert

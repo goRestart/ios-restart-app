@@ -1,12 +1,5 @@
-//
-//  ZoomableImageView.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 09/03/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 fileprivate struct Zoom {
     let minimumScale: CGFloat

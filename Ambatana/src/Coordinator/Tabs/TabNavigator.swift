@@ -1,12 +1,5 @@
-//
-//  TabNavigator.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 01/08/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
+import LGComponents
 
 enum UserDetailData {
     case id(userId: String, source: UserSource)

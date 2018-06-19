@@ -1,14 +1,7 @@
-//
-//  TextViewController.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 30/11/2016.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
 import KMPlaceholderTextView
 import RxSwift
+import LGComponents
 
 class TextViewController: KeyboardViewController {
 

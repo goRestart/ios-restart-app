@@ -1,18 +1,10 @@
-//
-//  ListingDeckViewModelBinderSpec.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 31/10/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 @testable import LetGoGodMode
 import RxTest
 import RxSwift
 import LGCoreKit
 import Quick
 import Nimble
-
+import LGComponents
 
 class ListingDeckViewModelBinderSpec: QuickSpec {
 

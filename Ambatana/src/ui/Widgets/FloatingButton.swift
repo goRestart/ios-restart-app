@@ -1,12 +1,5 @@
-//
-//  FloatingButton.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 17/09/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 enum FloatingIconPosition {
     case left
