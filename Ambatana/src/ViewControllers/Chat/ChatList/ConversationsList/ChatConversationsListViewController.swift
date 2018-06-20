@@ -3,7 +3,7 @@ import RxDataSources
 import LGCoreKit
 import LGComponents
 
-final class ChatConversationsListViewController: BaseViewController {
+final class ChatConversationsListViewController: ChatBaseViewController {
     
     private let viewModel: ChatConversationsListViewModel
     private let contentView = ChatConversationsListView()
@@ -26,8 +26,6 @@ final class ChatConversationsListViewController: BaseViewController {
         return button
     }()
     
-    private let bag = DisposeBag()
-    
     // MARK: Lifecycle
     
     convenience init(viewModel: ChatConversationsListViewModel) {
@@ -39,11 +37,10 @@ final class ChatConversationsListViewController: BaseViewController {
          featureFlags: FeatureFlaggeable) {
         self.viewModel = viewModel
         self.featureFlags = featureFlags
-        super.init(viewModel: viewModel, nibName: nil)
+        super.init(viewModel: viewModel)
         automaticallyAdjustsScrollViewInsets = false
         hidesBottomBarWhenPushed = false
         hasTabBar = true
-        showConnectionToastView = false
     }
     
     override func loadView() {
@@ -66,7 +63,6 @@ final class ChatConversationsListViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupViewModel()
         setupContentView()
         setupNavigationBarRx()
         setupViewStateRx()
@@ -88,37 +84,6 @@ final class ChatConversationsListViewController: BaseViewController {
         } else {
             setNavigationBarRightButtons([filtersButton, optionsButton],
                                          animated: true)
-        }
-    }
-    
-    // MARK: View model
-    
-    private func setupViewModel() {
-        viewModel.deleteConversationConfirmationBlock = { [weak self] conversation in
-            let alert = UIAlertController(title: ChatConversationsListViewModel.Localize.deleteAlertConfirmationTitle,
-                                          message: ChatConversationsListViewModel.Localize.deleteAlertConfirmationMessage,
-                                          preferredStyle: .alert)
-            let cancelAction = UIAlertAction(title: ChatConversationsListViewModel.Localize.buttonCancel,
-                                             style: .cancel,
-                                             handler: nil)
-            let okAction = UIAlertAction(title: ChatConversationsListViewModel.Localize.deleteAlertConfirmationButtonOk,
-                                              style: .destructive) { [weak self]  (_) -> Void in
-                self?.viewModel.deleteConversation(conversation: conversation)
-            }
-            alert.addAction(cancelAction)
-            alert.addAction(okAction)
-            self?.present(alert, animated: true, completion: nil)
-        }
-        viewModel.deleteConversationDidStartBlock = { [weak self] message in
-            self?.showLoadingMessageAlert(message)
-        }
-        viewModel.deleteConversationDidSuccessBlock = { [weak self] in
-            self?.dismissLoadingMessageAlert()
-        }
-        viewModel.deleteConversationDidFailBlock = { [weak self] message in
-            self?.dismissLoadingMessageAlert(message, afterMessageCompletion: { [weak self] in
-                self?.viewModel.retrieveFirstPage()
-            })
         }
     }
     
@@ -147,14 +112,6 @@ final class ChatConversationsListViewController: BaseViewController {
             .drive(onNext: { [weak self] image in
                 self?.filtersButton.setImage(image, for: .normal)
             })
-            .disposed(by: bag)
-        
-        viewModel.rx_navigationActionSheet
-            .asObservable()
-            .bind { [weak self] (cancelTitle, actions) in
-                self?.contentView.switchEditMode(isEditing: false)
-                self?.showActionSheet(cancelTitle, actions: actions)
-            }
             .disposed(by: bag)
         
         viewModel.rx_isEditing

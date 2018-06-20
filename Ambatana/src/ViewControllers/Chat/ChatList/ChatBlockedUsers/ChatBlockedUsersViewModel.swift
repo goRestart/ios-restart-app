@@ -3,7 +3,7 @@ import Result
 import RxSwift
 import LGComponents
 
-final class ChatBlockedUsersViewModel: BaseViewModel {
+final class ChatBlockedUsersViewModel: ChatBaseViewModel {
 
     weak var navigator: TabNavigator?
     private let tracker: Tracker
@@ -14,7 +14,6 @@ final class ChatBlockedUsersViewModel: BaseViewModel {
     }
     let blockedUserList = Variable<[User]>([])
     let viewStatus = Variable<ViewState>(.loading)
-    let rx_navigationActionSheet = PublishSubject<NavigationActionSheet>()
     let rx_isEditing = Variable<Bool>(false)
 
     let emptyStateVM: LGEmptyViewModel = {
@@ -96,8 +95,8 @@ final class ChatBlockedUsersViewModel: BaseViewModel {
             return UIAction(interface: .text(R.Strings.chatListUnblock),
                             action: { [weak self] in self?.switchEditMode(isEditing: true) })
         }
-        rx_navigationActionSheet.onNext((cancelTitle: R.Strings.commonCancel,
-                                         actions: blockedUsersCount > 0 ? [unblockAction] : []))
+        switchEditMode(isEditing: false)
+        rx_vmPresentActionSheet.onNext(VMActionSheet(actions: blockedUsersCount > 0 ? [unblockAction] : []))
     }
     
     func tableViewRowActions() -> [UITableViewRowAction]? {

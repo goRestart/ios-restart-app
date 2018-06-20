@@ -1247,6 +1247,10 @@
 		8E80179C2010DB68004CE244 /* ChatInactiveConversationsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E80179A2010DB67004CE244 /* ChatInactiveConversationsListViewController.swift */; };
 		8E80179E2010DC50004CE244 /* ChatInactiveConversationsListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8E80179D2010DC4F004CE244 /* ChatInactiveConversationsListView.xib */; };
 		8E80179F2010DC50004CE244 /* ChatInactiveConversationsListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8E80179D2010DC4F004CE244 /* ChatInactiveConversationsListView.xib */; };
+		8E80F70720D938FD005256D9 /* ChatBaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E80F70620D938FD005256D9 /* ChatBaseViewModel.swift */; };
+		8E80F70820D938FD005256D9 /* ChatBaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E80F70620D938FD005256D9 /* ChatBaseViewModel.swift */; };
+		8E80F70A20D9390A005256D9 /* ChatBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E80F70920D9390A005256D9 /* ChatBaseViewController.swift */; };
+		8E80F70B20D9390A005256D9 /* ChatBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E80F70920D9390A005256D9 /* ChatBaseViewController.swift */; };
 		8E814F391F3472C000C88432 /* LGSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E814F381F3472C000C88432 /* LGSlider.swift */; };
 		8E814F3A1F3472C000C88432 /* LGSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E814F381F3472C000C88432 /* LGSlider.swift */; };
 		8E814F3C1F3472E800C88432 /* LGSliderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E814F3B1F3472E800C88432 /* LGSliderViewModel.swift */; };
@@ -2753,6 +2757,8 @@
 		8E8017972010B8F2004CE244 /* ChatInactiveConversationsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInactiveConversationsListViewModel.swift; sourceTree = "<group>"; };
 		8E80179A2010DB67004CE244 /* ChatInactiveConversationsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInactiveConversationsListViewController.swift; sourceTree = "<group>"; };
 		8E80179D2010DC4F004CE244 /* ChatInactiveConversationsListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatInactiveConversationsListView.xib; sourceTree = "<group>"; };
+		8E80F70620D938FD005256D9 /* ChatBaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBaseViewModel.swift; sourceTree = "<group>"; };
+		8E80F70920D9390A005256D9 /* ChatBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBaseViewController.swift; sourceTree = "<group>"; };
 		8E814F381F3472C000C88432 /* LGSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LGSlider.swift; path = LGSlider/LGSlider.swift; sourceTree = "<group>"; };
 		8E814F3B1F3472E800C88432 /* LGSliderViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LGSliderViewModel.swift; path = LGSlider/LGSliderViewModel.swift; sourceTree = "<group>"; };
 		8E814F3E1F34732F00C88432 /* LGSliderThumb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LGSliderThumb.swift; path = LGSlider/LGSliderThumb.swift; sourceTree = "<group>"; };
@@ -5380,6 +5386,8 @@
 		C7415EDD1DEDDB1D0003D6C1 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				8E80F70920D9390A005256D9 /* ChatBaseViewController.swift */,
+				8E80F70620D938FD005256D9 /* ChatBaseViewModel.swift */,
 				C7415EE11DEDDB460003D6C1 /* KeyboardViewController.swift */,
 				C7415EEA1DEF1E300003D6C1 /* TextViewController.swift */,
 			);
@@ -5629,15 +5637,15 @@
 		C7B588911CE1E025009B3975 /* ChatList */ = {
 			isa = PBXGroup;
 			children = (
+				8E8EAD3020A2EBC200ADEAFE /* ConversationsList */,
+				8E8017962010B8C8004CE244 /* InactiveConversations */,
 				2E151D6E20A49B6A0038D7C7 /* ChatBlockedUsers */,
-				C7B588921CE1E025009B3975 /* Cells */,
 				C7B588951CE1E025009B3975 /* ChatGroupedListView.swift */,
 				C7B588961CE1E025009B3975 /* ChatGroupedListView.xib */,
 				C7B588971CE1E025009B3975 /* ChatGroupedListViewModel.swift */,
 				C7B588981CE1E025009B3975 /* ChatListView.swift */,
 				C731B8771CE22BBE00F31D46 /* ChatListViewModel.swift */,
-				8E8EAD3020A2EBC200ADEAFE /* ConversationsList */,
-				8E8017962010B8C8004CE244 /* InactiveConversations */,
+				C7B588921CE1E025009B3975 /* Cells */,
 			);
 			path = ChatList;
 			sourceTree = "<group>";
@@ -7164,6 +7172,7 @@
 				0AAC7955207F73F30096F156 /* FeedViewModel.swift in Sources */,
 				C7C328411C907267008078EC /* PostListingGalleryViewModel.swift in Sources */,
 				509CFF351DCCE8DF0068E518 /* CGPoint+LG.swift in Sources */,
+				8E80F70720D938FD005256D9 /* ChatBaseViewModel.swift in Sources */,
 				C707D44A1E96799000042C03 /* TextHiddenTags.swift in Sources */,
 				427CAB8A206A827300112D58 /* TrendingSearchView.swift in Sources */,
 				50EC64041C64B05500DC04C5 /* LGEmptyView.swift in Sources */,
@@ -7552,6 +7561,7 @@
 				01A171BD208DD1A300C98D4C /* SearchAlertsListViewController.swift in Sources */,
 				F59755FD20B5AA2F00C5103F /* ABGroup+AnalyticsABTestGroupIdentifier.swift in Sources */,
 				3299E5E7207FB7AB002935AE /* WaterFallLayoutSettings.swift in Sources */,
+				8E80F70A20D9390A005256D9 /* ChatBaseViewController.swift in Sources */,
 				C7111F081CA4458F000C5C5A /* ShortcutItem.swift in Sources */,
 				509598871C8733B70026AE2D /* CrashlyticsLogger.swift in Sources */,
 				8EB65110205C1C1500FF50E4 /* MobileNetLetgov7final.mlmodel in Sources */,
@@ -7980,6 +7990,7 @@
 				C7DB41921C5138B500400945 /* FilterSection.swift in Sources */,
 				0AAC7956207F73F30096F156 /* FeedViewModel.swift in Sources */,
 				C7B5886A1CE1DE1C009B3975 /* ChatGroupedViewController.swift in Sources */,
+				8E80F70820D938FD005256D9 /* ChatBaseViewModel.swift in Sources */,
 				50146BDA1D4F90E500B0F635 /* ChatsTabNavigator.swift in Sources */,
 				C7C328421C907267008078EC /* PostListingGalleryViewModel.swift in Sources */,
 				C707D44B1E96799000042C03 /* TextHiddenTags.swift in Sources */,
@@ -8368,6 +8379,7 @@
 				C26D224E208B47E500C66EC0 /* UploadingVideo.swift in Sources */,
 				F59755FE20B5AE5D00C5103F /* ABGroup+AnalyticsABTestGroupIdentifier.swift in Sources */,
 				727EF0701E0BE6600037DA4E /* LGLocation+isAuto.swift in Sources */,
+				8E80F70B20D9390A005256D9 /* ChatBaseViewController.swift in Sources */,
 				72CD80CB203469FB0042E1E0 /* LGTutorialCollectionViewCell.swift in Sources */,
 				C7DB41FE1C5138B500400945 /* AppsflyerTracker.swift in Sources */,
 				C7DE8ABF1C888750005CF37E /* ListingPostedViewModel.swift in Sources */,
