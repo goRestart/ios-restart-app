@@ -7,15 +7,21 @@
 //
 
 import Foundation
+import LGCoreKit
+import LGComponents
 import RxSwift
 
 final class PasswordlessEmailViewModel: BaseViewModel {
 
     weak var navigator: PasswordlessNavigator?
+    weak var delegate: BaseViewModelDelegate?
 
+    private let sessionManager: SessionManager
     private let tracker: Tracker
 
-    init(tracker: Tracker = TrackerProxy.sharedInstance) {
+    init(sessionManager: SessionManager = Core.sessionManager,
+         tracker: Tracker = TrackerProxy.sharedInstance) {
+        self.sessionManager = sessionManager
         self.tracker = tracker
     }
 
@@ -26,8 +32,17 @@ final class PasswordlessEmailViewModel: BaseViewModel {
     }
 
     func didTapContinueWith(email: String) {
+        sessionManager.requestPasswordlessWith(email: email) { [weak self] result in
+            switch result {
+            case .success:
+                self?.navigator?.openPasswordlessEmailSentTo(email: email)
+            case .failure:
+                let message = R.Strings.commonErrorGenericBody // FIXME: change when product specs are available
+                self?.delegate?.vmShowAutoFadingMessage(message, completion: nil)
+                break
+            }
+        }
         tracker.trackEvent(.loginEmailSubmit())
-        navigator?.openPasswordlessEmailSentTo(email: email)
     }
 
     func didTapHelp() {

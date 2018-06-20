@@ -24,6 +24,7 @@ class PasswordlessEmailViewModelSpec: BaseViewModelSpec {
 
         var sut: PasswordlessEmailViewModel!
         var tracker: MockTracker!
+        var sessionManager: MockSessionManager!
         let disposeBag = DisposeBag()
         var scheduler: TestScheduler!
         var isContinueActionEnabled: TestableObserver<Bool?>!
@@ -31,7 +32,7 @@ class PasswordlessEmailViewModelSpec: BaseViewModelSpec {
 
         describe("PasswordlessEmailViewModelSpec") {
             func buildPasswordlessEmailViewModel() {
-                sut = PasswordlessEmailViewModel(tracker: tracker)
+                sut = PasswordlessEmailViewModel(sessionManager: sessionManager, tracker: tracker)
                 sut.isContinueActionEnabled.asObservable().bind(to: isContinueActionEnabled).disposed(by: disposeBag)
                 sut.navigator = self
             }
@@ -40,8 +41,9 @@ class PasswordlessEmailViewModelSpec: BaseViewModelSpec {
                 sut = nil
                 self.openHelpCalled = false
                 self.openEmailSent = false
+                sessionManager = MockSessionManager()
                 tracker = MockTracker()
-                
+
                 scheduler = TestScheduler(initialClock: 0)
                 scheduler.start()
                 isContinueActionEnabled = scheduler.createObserver(Bool?.self)
@@ -83,7 +85,7 @@ class PasswordlessEmailViewModelSpec: BaseViewModelSpec {
                     sut.didTapContinueWith(email: "valid@email.com")
                 }
                 it("opens email sent view") {
-                    expect(self.openEmailSent) == true
+                    expect(self.openEmailSent).toEventually(beTrue())
                 }
             }
 

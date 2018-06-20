@@ -23,12 +23,14 @@ class PasswordlessUsernameViewModelSpec: BaseViewModelSpec {
 
         var sut: PasswordlessUsernameViewModel!
         var tracker: MockTracker!
-        var myUserRepository: MockMyUserRepository!
+        var sessionManager: MockSessionManager!
         let disposeBag = DisposeBag()
 
         describe("PasswordlessEmailViewModelSpec") {
             func buildPasswordlessUsernameViewModel() {
-                sut = PasswordlessUsernameViewModel(myUserRepository: myUserRepository, tracker: tracker, token: "RandomToken")
+                sut = PasswordlessUsernameViewModel(sessionManager: sessionManager,
+                                                    tracker: tracker,
+                                                    token: "RandomToken")
                 sut.navigator = self
             }
 
@@ -37,7 +39,7 @@ class PasswordlessUsernameViewModelSpec: BaseViewModelSpec {
                 self.openHelpCalled = false
                 self.closeUsernameViewCalled = false
                 tracker = MockTracker()
-                myUserRepository = MockMyUserRepository.makeMock()
+                sessionManager = MockSessionManager()
             }
 
             context("Tap continue") {

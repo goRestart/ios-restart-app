@@ -1031,8 +1031,8 @@ fileprivate extension AppCoordinator {
                 self?.openConfirmUsername(token: token)
             }
         case .passwordlessSignIn(let token):
-            afterDelayClosure = {
-                // sign in
+            afterDelayClosure = { [weak self] in
+                self?.loginPasswordlessWith(token: token)
             }
         case .webView(let url):
             afterDelayClosure = { [weak self] in
@@ -1107,6 +1107,23 @@ fileprivate extension AppCoordinator {
                      .wsChatError, .searchAlertError:
                     message = R.Strings.commonUserReviewNotAvailable
                 }
+                navCtl.dismissLoadingMessageAlert {
+                    navCtl.showAutoFadingOutMessageAlert(message: message)
+                }
+            }
+        }
+    }
+
+    func loginPasswordlessWith(token: String) {
+        guard let navCtl = selectedNavigationController else { return }
+        navCtl.showLoadingMessageAlert()
+
+        sessionManager.loginPasswordlessWith(token: token) { result in
+            switch result {
+            case .success:
+                navCtl.dismissLoadingMessageAlert()
+            case .failure:
+                let message = R.Strings.commonErrorGenericBody // FIXME: change when product specs are available
                 navCtl.dismissLoadingMessageAlert {
                     navCtl.showAutoFadingOutMessageAlert(message: message)
                 }
