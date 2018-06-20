@@ -100,14 +100,9 @@ final class ListingCreationViewModel : BaseViewModel {
     
     func createListing() {
         if featureFlags.showServicesFeatures.isActive,
-            !uploadedImageId.isEmpty {
-            
-            if numberOfSelectedServicesSubtypes > 0 {
-                fetchImagesAndCreateListings()
-            } else {
-                // If no service is selected, we still have to create the ad
-                createSingleServicesListing()
-            }
+            !uploadedImageId.isEmpty,
+            numberOfSelectedServicesSubtypes > 0 {
+            fetchImagesAndCreateListings()
         } else {
             createFirstListing()
         }
@@ -131,22 +126,7 @@ final class ListingCreationViewModel : BaseViewModel {
             self?.didFinishRequest.value = true
         }
     }
-    
-    private func createSingleServicesListing() {
-        
-        guard let postListingState = postListingState,
-            let params = makeUntypedServicePostParams(forImageId: uploadedImageId,
-                                                      postListingState: postListingState) else {
-            let error = RepositoryError.internalError(message: "No post listing state available, needed to create params")
-            navigator?.showMultiListingPostConfirmation(listingResult: ListingsResult(error: error),
-                                                        trackingInfo: trackingInfo,
-                                                        modalStyle: false)
-            return
-        }
-        
-        createServices(fromListingParams: [params])
-    }
-    
+
     private func fetchImagesAndCreateListings() {
         fetchImagesIdsAndCreateParams(trackingInfo: trackingInfo) { [weak self] listingParams in
             guard listingParams.count > 0 else { return }
@@ -270,23 +250,6 @@ final class ListingCreationViewModel : BaseViewModel {
 }
 
 extension ListingCreationViewModel {
-    
-    private func makeUntypedServicePostParams(forImageId imageId: String,
-                                              postListingState: PostListingState) -> ListingCreationParams? {
-        guard let location = locationManager.currentLocation?.location else { return nil }
-        let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()
-        let currency = currencyHelper.currencyWithCountryCode(postalAddress.countryCode ?? SharedConstants.currencyDefault)
-        
-        let imageFile = LGFile(id: imageId,
-                               url: nil)
-        
-        return ListingCreationParams.make(title: "",
-                                          description: "",
-                                          currency: currency,
-                                          location: location,
-                                          postalAddress: postalAddress,
-                                          postListingState: postListingState.updating(uploadedImages: [imageFile]))
-    }
     
     private func multipostParams(subtypes: [ServiceSubtype],
                                  newSubtypes: [String],
