@@ -14,7 +14,6 @@ enum FeedSectionMapType {
     case filters
     case pushPermissions
     case categories
-    case realEstateBanner
     case listings
 }
 
@@ -60,12 +59,6 @@ extension FeedSectionMap {
         return FeedSectionMap(header: CategoryPresenter(),
                               items: [],
                               type: FeedSectionMapType.categories)
-    }
-    
-    static func makeBannerSection(delegate: RealEstateBannerPresenterDelegate) -> FeedSectionMap {
-        return FeedSectionMap(header: RealEstateBannerPresenter(delegate: delegate),
-                              items: [],
-                              type: FeedSectionMapType.realEstateBanner)
     }
     
     static func makeListingSection() -> FeedSectionMap {

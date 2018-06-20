@@ -125,11 +125,6 @@
         "values": ["control", "baseline", "oneScreen", "twoScreens", "threeScreens", "onlyBadge"],
         "description": "Show real estate tutorial when user see Real estate category for first time"
     },
-     {
-         "name": "RealEstatePromoCell",
-         "values": ["control", "baseline", "active"],
-         "description": "Real Estate - Show promo cell instead of top banner"
-     },
     {
         "name": "ChatNorris",
         "values": ["control", "baseline", "redButton", "whiteButton", "greenButton"],

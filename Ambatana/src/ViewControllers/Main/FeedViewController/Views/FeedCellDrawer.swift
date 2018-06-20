@@ -12,10 +12,6 @@ struct FeedCellDrawer {
             }
         case is EmptyHeaderReusableCell:
             break
-        case let headerView as RealEstateHeaderCell:
-            if let feedPresenter = feedPresenter as? RealEstateBannerPresenter {
-                headerView.configure(with: feedPresenter)
-            }
         case let headerView as CategoriesFeedHeaderCell:
             if let feedPresenter = feedPresenter as? CategoryPresenter {
                 headerView.configure(with: feedPresenter)

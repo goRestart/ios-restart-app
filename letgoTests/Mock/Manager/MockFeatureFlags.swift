@@ -77,7 +77,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     
     // MARK:  Verticals
     var searchCarsIntoNewBackend: SearchCarsIntoNewBackend = .control
-    var realEstatePromoCell: RealEstatePromoCell = .control
     var filterSearchCarSellerType: FilterSearchCarSellerType = .control
     var createUpdateIntoNewBackend: CreateUpdateCarsIntoNewBackend = .control
     var realEstateMap: RealEstateMap = .control
