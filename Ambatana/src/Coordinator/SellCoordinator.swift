@@ -346,7 +346,7 @@ extension SellCoordinator: ListingPostedNavigator {
             guard let strongSelf = self, let parentVC = strongSelf.parentViewController else { return }
             let postCategory: PostCategory? = nil
             let language = Locale.systemLanguage()
-            let machineLearningSupported = featureFlags.predictivePosting.isSupportedFor(postCategory: postCategory,
+            let machineLearningSupported = strongSelf.featureFlags.predictivePosting.isSupportedFor(postCategory: postCategory,
                                                                                          language: language)
             let postListingVM = PostListingViewModel(source: strongSelf.postingSource,
                                                      postCategory: postCategory,
