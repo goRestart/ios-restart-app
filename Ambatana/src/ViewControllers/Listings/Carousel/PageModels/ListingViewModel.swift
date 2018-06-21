@@ -85,7 +85,7 @@ class ListingViewModel: BaseViewModel {
                                             postingFlowType: featureFlags.postingFlowType)
 
             var badge: UserReputationBadge = .noBadge
-            if let reputationBadge = seller?.reputationBadge, featureFlags.showAdvancedReputationSystem.isActive {
+            if let reputationBadge = seller?.reputationBadge, featureFlags.advancedReputationSystem.isActive {
                 badge = reputationBadge
             }
 
@@ -330,7 +330,7 @@ class ListingViewModel: BaseViewModel {
                 if let value = result.value {
                     strongSelf.seller.value = value
                     strongSelf.sellerAverageUserRating = value.ratingAverage
-                    let badge = strongSelf.featureFlags.showAdvancedReputationSystem.isActive ? value.reputationBadge : .noBadge
+                    let badge = strongSelf.featureFlags.advancedReputationSystem.isActive ? value.reputationBadge : .noBadge
                     strongSelf.userInfo.value = ListingVMUserInfo(userListing: strongSelf.listing.value.user,
                                                                   myUser: strongSelf.myUserRepository.myUser,
                                                                   sellerBadge: badge)

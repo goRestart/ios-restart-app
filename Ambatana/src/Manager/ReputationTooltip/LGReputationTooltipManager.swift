@@ -6,19 +6,24 @@ final class LGReputationTooltipManager: ReputationTooltipManager {
     static let sharedInstance = LGReputationTooltipManager()
     private let keyValueStorage: KeyValueStorage
     private let myUserRepository: MyUserRepository
+    private let featureFlags: FeatureFlaggeable
 
-    init(keyValueStorage: KeyValueStorage, myUserRepository: MyUserRepository) {
+    init(keyValueStorage: KeyValueStorage, myUserRepository: MyUserRepository, featureFlags: FeatureFlaggeable) {
         self.keyValueStorage = keyValueStorage
         self.myUserRepository = myUserRepository
+        self.featureFlags = featureFlags
     }
 
     convenience init() {
-        self.init(keyValueStorage: KeyValueStorage.sharedInstance, myUserRepository: Core.myUserRepository)
+        self.init(keyValueStorage: KeyValueStorage.sharedInstance,
+                  myUserRepository: Core.myUserRepository,
+                  featureFlags: FeatureFlags.sharedInstance)
     }
 
     func shouldShowTooltip() -> Bool {
-        return false // Disabled until Product decides to use this
-        guard let myUser = myUserRepository.myUser, !myUser.hasBadge else { return false }
+        guard let myUser = myUserRepository.myUser,
+            !myUser.hasBadge,
+            featureFlags.advancedReputationSystem.shouldShowTooltip else { return false }
         if !keyValueStorage[.reputationTooltipShown] { return true }
         guard let lastShownDate = keyValueStorage[.lastShownReputationTooltipDate] else { return true }
         return lastShownDate.isOlderThan(days: 30)

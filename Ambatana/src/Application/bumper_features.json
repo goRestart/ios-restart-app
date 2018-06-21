@@ -146,11 +146,6 @@
         "description": "Show Professional tag in user profile"
     },
     {
-        "name": "ShowAdvancedReputationSystem",
-        "values": ["control", "baseline", "active"],
-        "description": "Show the new advance reputation system and Karma Score"
-    },
-    {
         "name": "FeedAdsProviderForUS",
         "values": ["control", "baseline", "GoogleAdxForAllUsers", "GoogleAdxForOldUsers", "MoPubAdsForAllUsers", "MoPubAdsForOldUsers"],
         "description": "Change logic for showing ads with diferent ads providers in the US"
@@ -283,5 +278,10 @@
         "name": "SimplifiedChatButton",
         "values": ["control", "baseline", "variantA", "variantB", "variantC", "variantD", "variantE", "variantF"],
         "description": "Show a simplified chat button on item page"
+    },
+    {
+         "name": "AdvancedReputationSystem",
+         "values": ["control", "baseline", "variantA", "variantB"],
+         "description": "Advance reputation system and Karma Score with SMS and tooltip"
     }
  ]
