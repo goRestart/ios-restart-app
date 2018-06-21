@@ -78,7 +78,6 @@ protocol FeatureFlaggeable: class {
     // MARK: Verticals
     var searchCarsIntoNewBackend: SearchCarsIntoNewBackend { get }
     var filterSearchCarSellerType: FilterSearchCarSellerType { get }
-    var createUpdateIntoNewBackend: CreateUpdateCarsIntoNewBackend { get }
     var realEstateMap: RealEstateMap { get }
     var showServicesFeatures: ShowServicesFeatures { get }
     
@@ -96,7 +95,7 @@ protocol FeatureFlaggeable: class {
     var simplifiedChatButton: SimplifiedChatButton { get }
 
     // MARK: Users
-    var showAdvancedReputationSystem: ShowAdvancedReputationSystem { get }
+    var advancedReputationSystem: AdvancedReputationSystem { get }
     var emergencyLocate: EmergencyLocate { get }
     var offensiveReportAlert: OffensiveReportAlert { get }
     
@@ -257,19 +256,9 @@ extension FilterSearchCarSellerType {
     }
 }
 
-extension CreateUpdateCarsIntoNewBackend {
-    var isActive: Bool { return self != .baseline && self != .control }
-    
-    func shouldUseCarEndpoint(with params: ListingCreationParams) -> Bool {
-        return isActive && params.isCarParams
-    }
-    func shouldUseCarEndpoint(with params: ListingEditionParams) -> Bool {
-        return isActive && params.isCarParams
-    }
-}
-
-extension ShowAdvancedReputationSystem {
-    var isActive: Bool { return self == .active }
+extension AdvancedReputationSystem {
+    var isActive: Bool { return self != .baseline && self != .control  }
+    var shouldShowTooltip: Bool { return self == .variantB }
 }
 
 extension ShowPasswordlessLogin {
@@ -514,7 +503,7 @@ final class FeatureFlags: FeatureFlaggeable {
             dao.save(timeoutForRequests: TimeInterval(Bumper.requestsTimeOut.timeout))
         } else {
             dao.save(timeoutForRequests: TimeInterval(abTests.requestsTimeOut.value))
-            dao.save(showAdvanceReputationSystem: ShowAdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value))
+            dao.save(advanceReputationSystem: AdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value))
             dao.save(emergencyLocate: EmergencyLocate.fromPosition(abTests.emergencyLocate.value))
             dao.save(chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs.fromPosition(abTests.chatConversationsListWithoutTabs.value))
         }
@@ -675,12 +664,12 @@ final class FeatureFlags: FeatureFlaggeable {
         return abTests.showProTagUserProfile.value
     }
 
-    var showAdvancedReputationSystem: ShowAdvancedReputationSystem {
+    var advancedReputationSystem: AdvancedReputationSystem {
         if Bumper.enabled {
-            return Bumper.showAdvancedReputationSystem
+            return Bumper.advancedReputationSystem
         }
-        let cached = dao.retrieveShowAdvanceReputationSystem()
-        return cached ?? ShowAdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value)
+        let cached = dao.retrieveAdvanceReputationSystem()
+        return cached ?? AdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value)
     }
     
     var sectionedMainFeed: SectionedMainFeed {
@@ -1121,13 +1110,6 @@ extension FeatureFlags {
             return Bumper.filterSearchCarSellerType
         }
         return FilterSearchCarSellerType.fromPosition(abTests.filterSearchCarSellerType.value)
-    }
-    
-    var createUpdateIntoNewBackend: CreateUpdateCarsIntoNewBackend {
-        if Bumper.enabled {
-            return Bumper.createUpdateCarsIntoNewBackend
-        }
-        return CreateUpdateCarsIntoNewBackend.fromPosition(abTests.createUpdateCarsIntoNewBackend.value)
     }
     
     var realEstateMap: RealEstateMap {

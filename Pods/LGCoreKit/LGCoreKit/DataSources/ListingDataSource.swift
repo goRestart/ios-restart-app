@@ -51,14 +51,12 @@ protocol ListingDataSource {
     func indexRelatedServices(_ listingId: String, parameters: [String: Any], completion: ListingsDataSourceCompletion?)
     
     func retrieve(_ listingId: String, completion: ListingDataSourceCompletion?)
+    func retrieveCar(_ listingId: String, completion: ListingDataSourceCompletion?)
     func retrieveRealEstate(_ listingId: String, completion: ListingDataSourceCompletion?)
     func retrieveService(_ listingId: String, completion: ListingDataSourceCompletion?)
     
     func createListing(userId: String, listingParams: ListingCreationParams, completion: ListingDataSourceCompletion?)
     func updateListing(listingParams: ListingEditionParams, completion: ListingDataSourceCompletion?)
-    
-    func createListingCar(userId: String, listingParams: ListingCreationParams, completion: ListingDataSourceCompletion?)
-    func updateListingCar(listingParams: ListingEditionParams, completion: ListingDataSourceCompletion?)
     
     func createListingServices(userId: String, listingParams: [ListingCreationParams], completion: ListingsDataSourceCompletion?)
     func updateListingService(listingParams: ListingEditionParams, completion: ListingDataSourceCompletion?)

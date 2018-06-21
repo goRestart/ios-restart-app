@@ -780,8 +780,8 @@
 "product_post_camera_photo_mode_button" = "FOTO";
 "product_post_camera_tab_v2" = "CÁMARA";
 "product_post_camera_video_mode_button" = "VÍDEO";
-"product_post_camera_video_mode_button_new_badge" = "New!";
-"product_post_camera_video_recording_min_duration_message" = "Please record for at least %d seconds";
+"product_post_camera_video_mode_button_new_badge" = "¡Nuevo!";
+"product_post_camera_video_recording_min_duration_message" = "Por favor graba al menos %d segundos";
 "product_post_camera_video_recording_tooltip" = "%@ para grabar un vídeo";
 "product_post_camera_video_recording_tooltip_highlighted_word" = "Mantén presionado";
 "product_post_close_alert_close_button" = "Descartar";
@@ -1200,9 +1200,9 @@
 "settings_marketing_notifications_switch" = "Notificaciones de marketing";
 "settings_notifications_button" = "Notificaciones";
 "settings_notifications_email" = "Email";
-"settings_notifications_error_button" = "Try again";
-"settings_notifications_error_message" = "Oops! An error occurred while loading your notification settings. Please try again.";
-"settings_notifications_push_notifications" = "Push notifications";
+"settings_notifications_error_button" = "Reintentar";
+"settings_notifications_error_message" = "¡Ups! Se ha producido un error al cargar tus ajustes de notificaciones. Por favor, vuelve a intentarlo.";
+"settings_notifications_push_notifications" = "Notificaciones";
 "settings_notifications_search_alerts" = "Alertas de búsqueda";
 "settings_notifications_title" = "Notificaciones";
 "settings_section_profile" = "Perfil";

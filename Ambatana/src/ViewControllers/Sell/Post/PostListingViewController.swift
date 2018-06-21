@@ -446,8 +446,7 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
         cameraView.takePhotoEnabled.asObservable().bind(to: footer.galleryButton.rx.isEnabled).disposed(by: disposeBag)
         cameraView.recordingDuration.asObservable().subscribeNext { [weak self] (duration) in
             let progress = CGFloat(duration/SharedConstants.videoMaxRecordingDuration)
-            let remainingTime = SharedConstants.videoMaxRecordingDuration - duration
-            self?.footer.updateVideoRecordingDurationProgress(progress: progress, remainingTime: remainingTime)
+            self?.footer.updateVideoRecordingDurationProgress(progress: progress, recordingDuration: duration)
         }.disposed(by: disposeBag)
 
         cameraView.isRecordingVideo.asDriver().drive(onNext: { [weak self] isRecordingVideo in
@@ -842,6 +841,10 @@ extension PostListingViewController: PostListingCameraViewDelegate {
         alert.addAction(UIAlertAction(title: R.Strings.sellChooseCategoryDialogCancelButton,
                                       style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
+    }
+
+    func productCameraShowRecordingErrorMessage(message: String) {
+        showAutoFadingOutMessageAlert(message: message, time: 1)
     }
 }
 

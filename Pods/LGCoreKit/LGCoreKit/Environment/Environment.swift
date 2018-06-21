@@ -30,4 +30,6 @@ protocol Environment {
     var meetingsBaseURL: String { get }
     var searchAlertsBaseURL: String { get }
     var customFeedBaseURL: String { get }
+    var notificationSettingsPusherBaseURL: String { get }
+    var notificationSettingsMailerBaseURL: String { get }
 }

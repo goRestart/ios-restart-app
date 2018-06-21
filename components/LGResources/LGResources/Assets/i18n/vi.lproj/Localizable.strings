@@ -780,7 +780,7 @@
 "product_post_camera_photo_mode_button" = "ẢNH";
 "product_post_camera_tab_v2" = "MÁY ẢNH";
 "product_post_camera_video_mode_button" = "VIDEO";
-"product_post_camera_video_mode_button_new_badge" = "New!";
+"product_post_camera_video_mode_button_new_badge" = "Mới!";
 "product_post_camera_video_recording_min_duration_message" = "Please record for at least %d seconds";
 "product_post_camera_video_recording_tooltip" = "%@ để thu một video";
 "product_post_camera_video_recording_tooltip_highlighted_word" = "Giữ";
@@ -1200,7 +1200,7 @@
 "settings_marketing_notifications_switch" = "Thông báo Marketing";
 "settings_notifications_button" = "Thông báo";
 "settings_notifications_email" = "Email";
-"settings_notifications_error_button" = "Try again";
+"settings_notifications_error_button" = "Thử lại";
 "settings_notifications_error_message" = "Oops! An error occurred while loading your notification settings. Please try again.";
 "settings_notifications_push_notifications" = "Push notifications";
 "settings_notifications_search_alerts" = "Thông báo Tìm kiếm";

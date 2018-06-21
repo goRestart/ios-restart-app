@@ -12,7 +12,6 @@ struct VerticalsABGroup: ABGroupType {
 
     let searchCarsIntoNewBackend: LeanplumABVariable<Int>
     let filterSearchCarSellerType: LeanplumABVariable<Int>
-    let createUpdateIntoNewBackend: LeanplumABVariable<Int>
     let realEstateMap: LeanplumABVariable<Int>
     let showServicesFeatures: LeanplumABVariable<Int>
 
@@ -24,18 +23,15 @@ struct VerticalsABGroup: ABGroupType {
 
     private init(searchCarsIntoNewBackend: LeanplumABVariable<Int>,
                  filterSearchCarSellerType: LeanplumABVariable<Int>,
-                 createUpdateIntoNewBackend: LeanplumABVariable<Int>,
                  realEstateMap: LeanplumABVariable<Int>,
                  showServicesFeatures: LeanplumABVariable<Int>) {
         self.searchCarsIntoNewBackend = searchCarsIntoNewBackend
         self.filterSearchCarSellerType = filterSearchCarSellerType
-        self.createUpdateIntoNewBackend = createUpdateIntoNewBackend
         self.realEstateMap = realEstateMap
         self.showServicesFeatures = showServicesFeatures
         
         intVariables.append(contentsOf: [searchCarsIntoNewBackend,
                                          filterSearchCarSellerType,
-                                         createUpdateIntoNewBackend,
                                          realEstateMap,
                                          showServicesFeatures])
     }
@@ -43,7 +39,6 @@ struct VerticalsABGroup: ABGroupType {
     static func make() -> VerticalsABGroup {
         return VerticalsABGroup(searchCarsIntoNewBackend: verticalsIntFor(key: Keys.searchCarsIntoNewBackend),
                                 filterSearchCarSellerType: verticalsIntFor(key: Keys.filterSearchCarSellerType),
-                                createUpdateIntoNewBackend: verticalsIntFor(key: Keys.createUpdateIntoNewBackend),
                                 realEstateMap: verticalsIntFor(key: Keys.realEstateMap),
                                 showServicesFeatures: verticalsIntFor(key: Keys.showServicesFeatures))
     }
@@ -56,7 +51,6 @@ struct VerticalsABGroup: ABGroupType {
 private struct Keys {
     static let searchCarsIntoNewBackend = "20180403searchCarsIntoNewBackend"
     static let filterSearchCarSellerType = "20180412filterSearchCarSellerType"
-    static let createUpdateIntoNewBackend = "20180424createUpdateIntoNewBackend"
     static let realEstateMap = "20180427realEstateMap"
     static let showServicesFeatures = "20180518showServicesFeatures"
 }

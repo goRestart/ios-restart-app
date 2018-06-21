@@ -16,6 +16,7 @@ enum ListingRouter: URLRequestAuthenticable {
     case updateRealEstate(listingId: String, params: [String : Any])
     case patch(listingId: String, params: [String : Any])
     case show(listingId: String)
+    case showCar(listingId: String)
     case showRealEstate(listingId: String)
     case showService(listingId: String)
     case create(params: [String : Any])
@@ -68,7 +69,7 @@ enum ListingRouter: URLRequestAuthenticable {
             return ListingRouter.listingBaseUrl
         case .createRealEstate, .updateRealEstate:
             return ListingRouter.listingRealEstateBaseUrl
-        case .createCar, .updateCar:
+        case .createCar, .updateCar, .showCar:
             return ListingRouter.listingCarsBaseUrl
         case .createServices, .updateService:
             return ListingRouter.listingServicesBaseUrl
@@ -133,7 +134,7 @@ enum ListingRouter: URLRequestAuthenticable {
              .saveFavorite, .userRelation, .saveReport, .indexLimbo, .possibleBuyers, .createTransactionOf,
              .retrieveTransactionsOf:
             return .user
-        case .show, .index, .showRealEstate, .showService, .indexRealEstate, .indexRealEstateRelatedSearch, .indexCars,
+        case .show, .index, .showCar, .showRealEstate, .showService, .indexRealEstate, .indexRealEstateRelatedSearch, .indexCars,
              .indexCarsRelatedSearch, .indexForUser, .indexFavorites, .indexRelatedListings,
              .indexRelatedRealEstate, .indexRelatedCars, .indexServices, .indexServicesRelatedSearch, .indexRelatedServices, .indexDiscoverListings, .indexTrending, .showStats,
              .updateStats, .indexCustomFeed:
@@ -174,6 +175,8 @@ enum ListingRouter: URLRequestAuthenticable {
             return try Router<APIBaseURL>.show(endpoint: endpoint, objectId: listingId).asURLRequest()
         case let .showRealEstate(listingId):
             return try Router<RealEstateBaseURL>.show(endpoint: endpoint, objectId: listingId).asURLRequest()
+        case let .showCar(listingId):
+            return try Router<CarsBaseURL>.show(endpoint: endpoint, objectId: listingId).asURLRequest()
         case let .showService(listingId):
             return try Router<ServicesBaseURL>.show(endpoint: endpoint, objectId: listingId).asURLRequest()
         case let .create(params):

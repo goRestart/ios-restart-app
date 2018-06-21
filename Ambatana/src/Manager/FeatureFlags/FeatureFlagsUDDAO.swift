@@ -13,7 +13,7 @@ final class FeatureFlagsUDDAO: FeatureFlagsDAO {
     
     fileprivate enum Key: String {
         case newUserProfileEnabled = "newUserProfileEnabled"
-        case showAdvancedReputationSystemEnabled = "showAdvancedReputationSystemEnabled"
+        case advancedReputationSystemEnabled = "advancedReputationSystemEnabled"
         case emergencyLocate = "emergencyLocate"
         case chatConversationsListWithoutTabs = "chatConversationsListWithoutTabs"
     }
@@ -45,13 +45,13 @@ final class FeatureFlagsUDDAO: FeatureFlagsDAO {
         networkDAO.timeoutIntervalForRequests = timeoutForRequests
     }
 
-    func retrieveShowAdvanceReputationSystem() -> ShowAdvancedReputationSystem? {
-        guard let rawValue: String = retrieve(key: .showAdvancedReputationSystemEnabled) else { return nil }
-        return ShowAdvancedReputationSystem(rawValue: rawValue)
+    func retrieveAdvanceReputationSystem() -> AdvancedReputationSystem? {
+        guard let rawValue: String = retrieve(key: .advancedReputationSystemEnabled) else { return nil }
+        return AdvancedReputationSystem(rawValue: rawValue)
     }
 
-    func save(showAdvanceReputationSystem: ShowAdvancedReputationSystem) {
-        save(key: .showAdvancedReputationSystemEnabled, value: showAdvanceReputationSystem.rawValue)
+    func save(advanceReputationSystem: AdvancedReputationSystem) {
+        save(key: .advancedReputationSystemEnabled, value: advanceReputationSystem.rawValue)
         sync()
     }
 

@@ -780,7 +780,7 @@
 "product_post_camera_photo_mode_button" = "FOTOĞRAF";
 "product_post_camera_tab_v2" = "Kamera";
 "product_post_camera_video_mode_button" = "VİDEO";
-"product_post_camera_video_mode_button_new_badge" = "New!";
+"product_post_camera_video_mode_button_new_badge" = "YENİ!";
 "product_post_camera_video_recording_min_duration_message" = "Please record for at least %d seconds";
 "product_post_camera_video_recording_tooltip" = "Bir video kaydetmek için %@";
 "product_post_camera_video_recording_tooltip_highlighted_word" = "basılı tut";
@@ -1199,8 +1199,8 @@
 "settings_marketing_notifications_alert_message" = "Tanıtım bildirimlerini kapatmak istediğine emin misin?";
 "settings_marketing_notifications_switch" = "Reklam Bildirimleri";
 "settings_notifications_button" = "Bildirimler";
-"settings_notifications_email" = "Email";
-"settings_notifications_error_button" = "Try again";
+"settings_notifications_email" = "E-posta";
+"settings_notifications_error_button" = "Tekrar dene";
 "settings_notifications_error_message" = "Oops! An error occurred while loading your notification settings. Please try again.";
 "settings_notifications_push_notifications" = "Push notifications";
 "settings_notifications_search_alerts" = "Arama Uyarıları";

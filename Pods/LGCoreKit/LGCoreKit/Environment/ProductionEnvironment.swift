@@ -27,4 +27,6 @@ struct ProductionEnvironment: Environment {
     let meetingsBaseURL = "https://meeting.letgo.com"
     let searchAlertsBaseURL = "https://searchalerts.letgo.com"
     let customFeedBaseURL = "https://customfeed.letgo.com"
+    let notificationSettingsPusherBaseURL = "https://push.letgo.com"
+    let notificationSettingsMailerBaseURL = "https://mailer.letgo.com"
 }

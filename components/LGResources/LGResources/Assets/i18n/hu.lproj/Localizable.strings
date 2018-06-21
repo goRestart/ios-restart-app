@@ -780,7 +780,7 @@
 "product_post_camera_photo_mode_button" = "FOTÓ";
 "product_post_camera_tab_v2" = "KAMERA";
 "product_post_camera_video_mode_button" = "VIDEÓ";
-"product_post_camera_video_mode_button_new_badge" = "New!";
+"product_post_camera_video_mode_button_new_badge" = "ÚJ!";
 "product_post_camera_video_recording_min_duration_message" = "Please record for at least %d seconds";
 "product_post_camera_video_recording_tooltip" = "Videó rögzítéséhez %@";
 "product_post_camera_video_recording_tooltip_highlighted_word" = "tartsd nyomva";
@@ -1199,8 +1199,8 @@
 "settings_marketing_notifications_alert_message" = "Biztosan kikapcsolod a marketinges értesítéseket?";
 "settings_marketing_notifications_switch" = "Marketinges értesítések";
 "settings_notifications_button" = "Jelzések";
-"settings_notifications_email" = "Email";
-"settings_notifications_error_button" = "Try again";
+"settings_notifications_email" = "EMAIL";
+"settings_notifications_error_button" = "Újra";
 "settings_notifications_error_message" = "Oops! An error occurred while loading your notification settings. Please try again.";
 "settings_notifications_push_notifications" = "Push notifications";
 "settings_notifications_search_alerts" = "Keresési figyelmeztetések";

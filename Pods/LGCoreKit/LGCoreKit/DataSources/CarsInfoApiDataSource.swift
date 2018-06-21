@@ -1,12 +1,4 @@
-//
-//  CarsInfoAPIDataSource.swift
-//  LGCoreKit
-//
-//  Created by Dídac on 21/03/17.
-//  Copyright © 2017 Ambatana Inc. All rights reserved.
-//
-
-class CarsInfoApiDataSource: CarsInfoDataSource {
+final class CarsInfoApiDataSource: CarsInfoDataSource {
 
     let apiClient: ApiClient
 
@@ -23,7 +15,7 @@ class CarsInfoApiDataSource: CarsInfoDataSource {
     func index(countryCode: String?, completion: CarsInfoDataSourceCompletion?) {
         var params: [String : Any] = [:]
         if let countryCode = countryCode {
-            params["country_code"] = countryCode
+            params["countryCode"] = countryCode
         }
         let request = CarsInfoRouter.index(params: params)
         apiClient.request(request, decoder: decoder, completion: completion)

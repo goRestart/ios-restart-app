@@ -71,7 +71,7 @@ extension PostListingRedCamButtonFooter: PostListingFooter {
         cameraButtonCenterXConstraint?.constant = movement * (1.0 - scroll)
     }
 
-    func updateVideoRecordingDurationProgress(progress: CGFloat, remainingTime: TimeInterval) {
+    func updateVideoRecordingDurationProgress(progress: CGFloat, recordingDuration: TimeInterval) {
         // This view doesn't implement video posting, check VPPostListingRedCamFooter
     }
 }

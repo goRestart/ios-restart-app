@@ -114,13 +114,13 @@ extension VPPostListingRedCamFooter: PostListingFooter {
         recordingTooltip.isHidden = true
     }
 
-    func updateVideoRecordingDurationProgress(progress: CGFloat, remainingTime: TimeInterval) {
+    func updateVideoRecordingDurationProgress(progress: CGFloat, recordingDuration: TimeInterval) {
 
         guard progress > 0, isRecording else { return }
         guard let cameraButton = cameraButton as? CameraButton else { return }
         cameraButton.progress = progress
 
-        recordingTooltip.label.text = String(format: "0:%02d", Int(ceil(remainingTime)))
+        recordingTooltip.label.text = String(format: "0:%02d", Int(floor(recordingDuration)))
 
         if recordingTooltip.isHidden {
             recordingTooltip.isHidden = false

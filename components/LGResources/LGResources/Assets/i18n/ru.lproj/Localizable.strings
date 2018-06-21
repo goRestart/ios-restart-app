@@ -780,7 +780,7 @@
 "product_post_camera_photo_mode_button" = "ФОТО";
 "product_post_camera_tab_v2" = "КАМЕРА";
 "product_post_camera_video_mode_button" = "ВИДЕО";
-"product_post_camera_video_mode_button_new_badge" = "New!";
+"product_post_camera_video_mode_button_new_badge" = "Новое!";
 "product_post_camera_video_recording_min_duration_message" = "Please record for at least %d seconds";
 "product_post_camera_video_recording_tooltip" = "%@, чтобы снять видео";
 "product_post_camera_video_recording_tooltip_highlighted_word" = "Зажмите";
@@ -1200,7 +1200,7 @@
 "settings_marketing_notifications_switch" = "Маркетинговые уведомления";
 "settings_notifications_button" = "Уведомления";
 "settings_notifications_email" = "Email";
-"settings_notifications_error_button" = "Try again";
+"settings_notifications_error_button" = "Еще раз";
 "settings_notifications_error_message" = "Oops! An error occurred while loading your notification settings. Please try again.";
 "settings_notifications_push_notifications" = "Push notifications";
 "settings_notifications_search_alerts" = "Поисковые уведомления";
