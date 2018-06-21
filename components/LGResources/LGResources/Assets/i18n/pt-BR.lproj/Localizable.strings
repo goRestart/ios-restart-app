@@ -780,6 +780,8 @@
 "product_post_camera_photo_mode_button" = "PHOTO";
 "product_post_camera_tab_v2" = "CAMERA";
 "product_post_camera_video_mode_button" = "VIDEO";
+"product_post_camera_video_mode_button_new_badge" = "New!";
+"product_post_camera_video_recording_min_duration_message" = "Please record for at least %d seconds";
 "product_post_camera_video_recording_tooltip" = "%@ to record a video";
 "product_post_camera_video_recording_tooltip_highlighted_word" = "Hold";
 "product_post_close_alert_close_button" = "Discard";
@@ -1197,6 +1199,10 @@
 "settings_marketing_notifications_alert_message" = "Are you sure you want to deactivate marketing notifications?";
 "settings_marketing_notifications_switch" = "Marketing Notifications";
 "settings_notifications_button" = "Notifications";
+"settings_notifications_email" = "Email";
+"settings_notifications_error_button" = "Try again";
+"settings_notifications_error_message" = "Oops! An error occurred while loading your notification settings. Please try again.";
+"settings_notifications_push_notifications" = "Push notifications";
 "settings_notifications_search_alerts" = "Search Alerts";
 "settings_notifications_title" = "Notifications";
 "settings_section_profile" = "Profile";
