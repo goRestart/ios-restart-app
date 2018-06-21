@@ -270,6 +270,7 @@ extension CreateUpdateCarsIntoNewBackend {
 
 extension AdvancedReputationSystem {
     var isActive: Bool { return self != .baseline && self != .control  }
+    var shouldShowTooltip: Bool { return self == .variantB }
 }
 
 extension ShowPasswordlessLogin {
