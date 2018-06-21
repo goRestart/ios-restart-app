@@ -67,9 +67,9 @@ public enum ListingCategory: Int {
     public var isProduct: Bool {
         switch self {
         case .unassigned, .electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden,
-             .moviesBooksAndMusic, .fashionAndAccesories, .babyAndChild, .services, .other:
+             .moviesBooksAndMusic, .fashionAndAccesories, .babyAndChild, .other:
             return true
-        case .cars, .realEstate:
+        case .cars, .realEstate, .services:
             return false
         }
     }

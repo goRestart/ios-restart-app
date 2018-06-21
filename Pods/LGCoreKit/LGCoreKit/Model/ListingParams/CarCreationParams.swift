@@ -36,21 +36,6 @@ public class CarCreationParams: BaseListingParams {
     override func apiCreationEncode(userId: String) -> [String: Any] {
         
         var params = super.apiCreationEncode(userId: userId)
-        
-        var carAttributesDict: [String: Any] = [:]
-        carAttributesDict["make"] = carAttributes.makeId ?? ""
-        carAttributesDict["model"] = carAttributes.modelId ?? ""
-        carAttributesDict["year"] = carAttributes.year ?? 0
-        
-        params["attributes"] = carAttributesDict
-        
-        return params
-    }
-    
-    
-    func apiCarCreationEncode(userId: String) -> [String: Any] {
-        
-        var params = super.apiCreationEncode(userId: userId)
         params.removeValue(forKey: "price_flag")
         
         let carAttributesDict: [String: Any] = ["makeId": carAttributes.makeId ?? "",
