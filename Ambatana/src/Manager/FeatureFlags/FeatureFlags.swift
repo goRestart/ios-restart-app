@@ -96,7 +96,7 @@ protocol FeatureFlaggeable: class {
     var simplifiedChatButton: SimplifiedChatButton { get }
 
     // MARK: Users
-    var showAdvancedReputationSystem: ShowAdvancedReputationSystem { get }
+    var advancedReputationSystem: AdvancedReputationSystem { get }
     var emergencyLocate: EmergencyLocate { get }
     var offensiveReportAlert: OffensiveReportAlert { get }
     
@@ -268,8 +268,8 @@ extension CreateUpdateCarsIntoNewBackend {
     }
 }
 
-extension ShowAdvancedReputationSystem {
-    var isActive: Bool { return self == .active }
+extension AdvancedReputationSystem {
+    var isActive: Bool { return self != .baseline && self != .control  }
 }
 
 extension ShowPasswordlessLogin {
@@ -514,7 +514,7 @@ final class FeatureFlags: FeatureFlaggeable {
             dao.save(timeoutForRequests: TimeInterval(Bumper.requestsTimeOut.timeout))
         } else {
             dao.save(timeoutForRequests: TimeInterval(abTests.requestsTimeOut.value))
-            dao.save(showAdvanceReputationSystem: ShowAdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value))
+            dao.save(advanceReputationSystem: AdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value))
             dao.save(emergencyLocate: EmergencyLocate.fromPosition(abTests.emergencyLocate.value))
             dao.save(chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs.fromPosition(abTests.chatConversationsListWithoutTabs.value))
         }
@@ -675,12 +675,12 @@ final class FeatureFlags: FeatureFlaggeable {
         return abTests.showProTagUserProfile.value
     }
 
-    var showAdvancedReputationSystem: ShowAdvancedReputationSystem {
+    var advancedReputationSystem: AdvancedReputationSystem {
         if Bumper.enabled {
-            return Bumper.showAdvancedReputationSystem
+            return Bumper.advancedReputationSystem
         }
-        let cached = dao.retrieveShowAdvanceReputationSystem()
-        return cached ?? ShowAdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value)
+        let cached = dao.retrieveAdvanceReputationSystem()
+        return cached ?? AdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value)
     }
     
     var sectionedMainFeed: SectionedMainFeed {

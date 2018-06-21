@@ -4,6 +4,7 @@ import RxSwift
 
 final class MockFeatureFlags: FeatureFlaggeable {
 
+
     var trackingData: Observable<[(String, ABGroup)]?> {
         return trackingDataVar.asObservable()
     }
@@ -96,7 +97,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var simplifiedChatButton: SimplifiedChatButton = .control
 
     // MARK: Users
-    var showAdvancedReputationSystem: ShowAdvancedReputationSystem = .control
+    var advancedReputationSystem: AdvancedReputationSystem = .control
     var showPasswordlessLogin: ShowPasswordlessLogin = .control
     var emergencyLocate: EmergencyLocate = .control
     var offensiveReportAlert: OffensiveReportAlert = .control
