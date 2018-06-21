@@ -1722,6 +1722,10 @@ extension R {
     public static let productPostCameraTabV2 = Strings.tr("Localizable", "product_post_camera_tab_v2")
     /// VIDEO
     public static let productPostCameraVideoModeButton = Strings.tr("Localizable", "product_post_camera_video_mode_button")
+    /// Please record at least %d seconds
+    public static func productPostCameraVideoRecordingMinDurationMessage(_ p1: Int) -> String {
+      return Strings.tr("Localizable", "product_post_camera_video_recording_min_duration_message", p1)
+    }
     /// %@ to record a video
     public static func productPostCameraVideoRecordingTooltip(_ p1: String) -> String {
       return Strings.tr("Localizable", "product_post_camera_video_recording_tooltip", p1)

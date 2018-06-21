@@ -842,6 +842,10 @@ extension PostListingViewController: PostListingCameraViewDelegate {
                                       style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
+
+    func productCameraShowRecordingErrorMessage(message: String) {
+        showAutoFadingOutMessageAlert(message: message, time: 1)
+    }
 }
 
 

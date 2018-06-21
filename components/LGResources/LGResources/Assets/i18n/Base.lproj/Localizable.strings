@@ -2308,6 +2308,9 @@
 // Video posting, tooltip: hold to record a video, highlighted hold
 "product_post_camera_video_recording_tooltip_highlighted_word" = "Hold";
 
+// Message when the user records a video shorter than min duration 
+"product_post_camera_video_recording_min_duration_message" = "Please record at least %d seconds";
+
 // Video posting, button to set camera in photo mode
 "product_post_camera_photo_mode_button" = "PHOTO";
 
