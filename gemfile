@@ -10,6 +10,7 @@ gem 'colorize', '~>0.8.1'
 gem 'web_translate_it', '~>2.4.7'
 gem 'jira-ruby', '~>1.5.0'
 gem 'cocoapods', '~>1.4.0'
+gem 'version.rb'
 
 plugins_path = File.join(File.dirname(__FILE__), 'fastlane', 'Pluginfile')
 eval_gemfile(plugins_path) if File.exist?(plugins_path)
