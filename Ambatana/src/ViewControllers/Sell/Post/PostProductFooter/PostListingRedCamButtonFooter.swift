@@ -8,6 +8,7 @@ final class PostListingRedCamButtonFooter: UIView {
     let galleryButton = UIButton()
     let photoButton = UIButton()
     let videoButton = UIButton()
+    let newBadgeLabel = UILabel()
     let cameraButton = UIButton()
     let infoButton = UIButton()
     private let infoButtonIncluded: Bool

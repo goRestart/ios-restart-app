@@ -452,6 +452,7 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
         cameraView.isRecordingVideo.asDriver().drive(onNext: { [weak self] isRecordingVideo in
             self?.footer.photoButton.isHidden = isRecordingVideo
             self?.footer.videoButton.isHidden = isRecordingVideo
+            self?.footer.newBadgeLabel.isHidden = isRecordingVideo
             self?.footer.galleryButton.isHidden = isRecordingVideo
             isRecordingVideo ? self?.footer.startRecording() : self?.footer.stopRecording()
         }).disposed(by: disposeBag)

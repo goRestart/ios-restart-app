@@ -1722,7 +1722,9 @@ extension R {
     public static let productPostCameraTabV2 = Strings.tr("Localizable", "product_post_camera_tab_v2")
     /// VIDEO
     public static let productPostCameraVideoModeButton = Strings.tr("Localizable", "product_post_camera_video_mode_button")
-    /// Please record at least %d seconds
+    /// New!
+    public static let productPostCameraVideoModeButtonNewBadge = Strings.tr("Localizable", "product_post_camera_video_mode_button_new_badge")
+    /// Please record for at least %d seconds
     public static func productPostCameraVideoRecordingMinDurationMessage(_ p1: Int) -> String {
       return Strings.tr("Localizable", "product_post_camera_video_recording_min_duration_message", p1)
     }
@@ -2616,6 +2618,10 @@ extension R {
     public static let settingsNotificationsButton = Strings.tr("Localizable", "settings_notifications_button")
     /// Email
     public static let settingsNotificationsEmail = Strings.tr("Localizable", "settings_notifications_email")
+    /// Try again
+    public static let settingsNotificationsErrorButton = Strings.tr("Localizable", "settings_notifications_error_button")
+    /// Oops! An error occurred while loading your notification settings. Please try again.
+    public static let settingsNotificationsErrorMessage = Strings.tr("Localizable", "settings_notifications_error_message")
     /// Push notifications
     public static let settingsNotificationsPushNotifications = Strings.tr("Localizable", "settings_notifications_push_notifications")
     /// Search Alerts
