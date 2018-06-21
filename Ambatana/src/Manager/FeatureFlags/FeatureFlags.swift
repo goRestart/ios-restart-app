@@ -29,7 +29,6 @@ protocol FeatureFlaggeable: class {
     var deckItemPage: DeckItemPage { get }
     var mostSearchedDemandedItems: MostSearchedDemandedItems { get }
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio { get }
-    var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting { get }
     var realEstateNewCopy: RealEstateNewCopy { get }
     var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers { get }
@@ -40,7 +39,6 @@ protocol FeatureFlaggeable: class {
     var realEstateTutorial: RealEstateTutorial { get }
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings { get }
     var showProTagUserProfile: Bool { get }
-    var summaryAsFirstStep: SummaryAsFirstStep { get }
     var sectionedMainFeed: SectionedMainFeed { get }
     var showExactLocationForPros: Bool { get }
     var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed { get }
@@ -79,7 +77,6 @@ protocol FeatureFlaggeable: class {
 
     // MARK: Verticals
     var searchCarsIntoNewBackend: SearchCarsIntoNewBackend { get }
-    var realEstatePromoCell: RealEstatePromoCell { get }
     var filterSearchCarSellerType: FilterSearchCarSellerType { get }
     var createUpdateIntoNewBackend: CreateUpdateCarsIntoNewBackend { get }
     var realEstateMap: RealEstateMap { get }
@@ -176,10 +173,6 @@ extension NoAdsInFeedForNewUsers {
     }
 }
 
-extension RemoveCategoryWhenClosingPosting {
-    var isActive: Bool { return self == .active }
-}
-
 extension RealEstateNewCopy {
     var isActive: Bool { return self == .active }
 }
@@ -252,10 +245,6 @@ extension RealEstateTutorial {
     var isActive: Bool { return self != .baseline && self != .control }
 }
 
-extension RealEstatePromoCell {
-    var isActive: Bool { return self == .active }
-}
-
 extension RealEstateMap {
     var isActive: Bool { return self != .baseline && self != .control }
 }
@@ -277,10 +266,6 @@ extension CreateUpdateCarsIntoNewBackend {
     func shouldUseCarEndpoint(with params: ListingEditionParams) -> Bool {
         return isActive && params.isCarParams
     }
-}
-
-extension SummaryAsFirstStep {
-    var isActive: Bool { return self == .active }
 }
 
 extension ShowAdvancedReputationSystem {
@@ -620,13 +605,6 @@ final class FeatureFlags: FeatureFlaggeable {
         return ShowAdsInFeedWithRatio.fromPosition(abTests.showAdsInFeedWithRatio.value)
     }
     
-    var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting {
-        if Bumper.enabled {
-            return Bumper.removeCategoryWhenClosingPosting
-        }
-        return RemoveCategoryWhenClosingPosting.fromPosition(abTests.removeCategoryWhenClosingPosting.value)
-    }
-    
     var realEstateNewCopy: RealEstateNewCopy {
         if Bumper.enabled {
             return Bumper.realEstateNewCopy
@@ -695,13 +673,6 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.showProTagUserProfile
         }
         return abTests.showProTagUserProfile.value
-    }
-
-    var summaryAsFirstStep: SummaryAsFirstStep {
-        if Bumper.enabled {
-            return Bumper.summaryAsFirstStep
-        }
-        return SummaryAsFirstStep.fromPosition(abTests.summaryAsFirstStep.value)
     }
 
     var showAdvancedReputationSystem: ShowAdvancedReputationSystem {
@@ -1143,13 +1114,6 @@ extension FeatureFlags {
             return Bumper.searchCarsIntoNewBackend
         }
         return SearchCarsIntoNewBackend.fromPosition(abTests.searchCarsIntoNewBackend.value)
-    }
-    
-    var realEstatePromoCell: RealEstatePromoCell {
-        if Bumper.enabled {
-            return Bumper.realEstatePromoCell
-        }
-        return RealEstatePromoCell.fromPosition(abTests.realEstatePromoCell.value)
     }
     
     var filterSearchCarSellerType: FilterSearchCarSellerType {

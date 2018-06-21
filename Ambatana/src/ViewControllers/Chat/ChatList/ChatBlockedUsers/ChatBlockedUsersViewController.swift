@@ -2,7 +2,7 @@ import UIKit
 import RxSwift
 import LGComponents
 
-final class ChatBlockedUsersViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource {
+final class ChatBlockedUsersViewController: ChatBaseViewController, UITableViewDelegate, UITableViewDataSource {
 
     private let tableView: UITableView = UITableView()
     private let emptyView: LGEmptyView = LGEmptyView()
@@ -21,7 +21,7 @@ final class ChatBlockedUsersViewController: BaseViewController, UITableViewDeleg
 
     init(viewModel: ChatBlockedUsersViewModel) {
         self.viewModel = viewModel
-        super.init(viewModel: viewModel, nibName: nil)
+        super.init(viewModel: viewModel)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -104,14 +104,6 @@ final class ChatBlockedUsersViewController: BaseViewController, UITableViewDeleg
                 self?.setupNavigationBar(isEditing: isEditing)
                 self?.tableView.isEditing = isEditing
             })
-            .disposed(by: disposeBag)
-        
-        viewModel.rx_navigationActionSheet
-            .asObservable()
-            .bind { [weak self] (cancelTitle, actions) in
-                self?.tableView.isEditing = false
-                self?.showActionSheet(cancelTitle, actions: actions)
-            }
             .disposed(by: disposeBag)
     }
     

@@ -73,11 +73,15 @@ final class AmplitudeTracker: Tracker {
     }
 
     func setUser(_ user: MyUser?) {
+        let identify = AMPIdentify()
         Amplitude.instance().setUserId(user?.emailOrId)
 
-        let identify = AMPIdentify()
-        let userIdValue = NSString(string: user?.objectId ?? "")
-        identify.set(AmplitudeTracker.userPropIdKey, value: userIdValue)
+        if let loggedUser = user {
+            // https://ambatana.atlassian.net/browse/ABIOS-3984
+            let userIdValue = NSString(string: loggedUser.objectId ?? "")
+            identify.set(AmplitudeTracker.userPropIdKey, value: userIdValue)
+        }
+
         let ratingAverageValue = NSNumber(value: user?.ratingAverage ?? 0)
         identify.set(AmplitudeTracker.userPropUserRating, value: ratingAverageValue)
         let reputationBadge = NSString(string: user?.reputationBadge.rawValue ?? "")

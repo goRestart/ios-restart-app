@@ -75,7 +75,8 @@ Pod::Spec.new do |s|
             baseFolder+'Global/LGUIKitConstants.swift',
             baseFolder+'Global/LetgoURLHelper.swift',
             baseFolder+'Global/GlobalFunctions.swift',
-            baseFolder+'Global/Environment/**/*'
+            baseFolder+'Global/Environment/**/*',
+            baseFolder+'ThirdParty/ImageDownloader/**/*'
         ]
         # sharedSpec.source_files = 'LGShared/LGShared/Classes/**/*'
 
@@ -87,7 +88,7 @@ Pod::Spec.new do |s|
         sharedSpec.dependency 'LGCoreKit',             '4.32.2'
 
         # sharedSpec.dependency 'DeviceGuru',            '3.0.1'
-        # sharedSpec.dependency 'AlamofireImage',        '3.3.0'
+        sharedSpec.dependency 'AlamofireImage',        '3.3.0'
         # sharedSpec.dependency 'SwiftyUserDefaults',    '3.0.1'
         sharedSpec.dependency 'CocoaLumberjack/Swift', '3.3.0'
         # sharedSpec.dependency 'RxCocoa',               '4.0.0'

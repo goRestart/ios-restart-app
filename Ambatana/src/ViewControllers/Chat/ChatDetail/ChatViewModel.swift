@@ -1564,7 +1564,10 @@ extension ChatViewModel {
         guard let myUserId = myUserRepository.myUser?.objectId else { return }
 
         let calendar = Calendar.current
-        guard let twoDaysAgo = (calendar as NSCalendar).date(byAdding: .day, value: -2, to: Date(), options: []) else { return }
+        guard let twoDaysAgo = (calendar as NSCalendar).date(byAdding: .day, value: -2, to: Date(), options: []) else {
+            sellerDidntAnswer.value = nil
+            return
+        }
 
         var hasOldMessages = false
         if let oldestMessageDate = messages.last?.sentAt {

@@ -26,7 +26,6 @@ extension Bumper  {
         flags.append(MostSearchedDemandedItems.self)
         flags.append(ShowAdsInFeedWithRatio.self)
         flags.append(RealEstateFlowType.self)
-        flags.append(RemoveCategoryWhenClosingPosting.self)
         flags.append(RealEstateNewCopy.self)
         flags.append(DummyUsersInfoProfile.self)
         flags.append(ShowInactiveConversations.self)
@@ -39,12 +38,10 @@ extension Bumper  {
         flags.append(BumpUpBoost.self)
         flags.append(CopyForChatNowInTurkey.self)
         flags.append(RealEstateTutorial.self)
-        flags.append(RealEstatePromoCell.self)
         flags.append(ChatNorris.self)
         flags.append(AddPriceTitleDistanceToListings.self)
         flags.append(MarkAllConversationsAsRead.self)
         flags.append(ShowProTagUserProfile.self)
-        flags.append(SummaryAsFirstStep.self)
         flags.append(ShowAdvancedReputationSystem.self)
         flags.append(FeedAdsProviderForUS.self)
         flags.append(CopyForChatNowInEnglish.self)
@@ -142,11 +139,6 @@ extension Bumper  {
         return RealEstateFlowType(rawValue: value) ?? .standard 
     }
 
-    static var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting {
-        guard let value = Bumper.value(for: RemoveCategoryWhenClosingPosting.key) else { return .control }
-        return RemoveCategoryWhenClosingPosting(rawValue: value) ?? .control 
-    }
-
     static var realEstateNewCopy: RealEstateNewCopy {
         guard let value = Bumper.value(for: RealEstateNewCopy.key) else { return .control }
         return RealEstateNewCopy(rawValue: value) ?? .control 
@@ -207,11 +199,6 @@ extension Bumper  {
         return RealEstateTutorial(rawValue: value) ?? .control 
     }
 
-    static var realEstatePromoCell: RealEstatePromoCell {
-        guard let value = Bumper.value(for: RealEstatePromoCell.key) else { return .control }
-        return RealEstatePromoCell(rawValue: value) ?? .control 
-    }
-
     static var chatNorris: ChatNorris {
         guard let value = Bumper.value(for: ChatNorris.key) else { return .control }
         return ChatNorris(rawValue: value) ?? .control 
@@ -230,11 +217,6 @@ extension Bumper  {
     static var showProTagUserProfile: Bool {
         guard let value = Bumper.value(for: ShowProTagUserProfile.key) else { return false }
         return ShowProTagUserProfile(rawValue: value)?.asBool ?? false
-    }
-
-    static var summaryAsFirstStep: SummaryAsFirstStep {
-        guard let value = Bumper.value(for: SummaryAsFirstStep.key) else { return .control }
-        return SummaryAsFirstStep(rawValue: value) ?? .control 
     }
 
     static var showAdvancedReputationSystem: ShowAdvancedReputationSystem {
@@ -562,22 +544,6 @@ enum RealEstateFlowType: String, BumperFeature  {
     }
 }
 
-enum RemoveCategoryWhenClosingPosting: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return RemoveCategoryWhenClosingPosting.control.rawValue }
-    static var enumValues: [RemoveCategoryWhenClosingPosting] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Remove category real estate if user closes posting" } 
-    static func fromPosition(_ position: Int) -> RemoveCategoryWhenClosingPosting {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
 enum RealEstateNewCopy: String, BumperFeature  {
     case control, baseline, active
     static var defaultValue: String { return RealEstateNewCopy.control.rawValue }
@@ -776,22 +742,6 @@ enum RealEstateTutorial: String, BumperFeature  {
     }
 }
 
-enum RealEstatePromoCell: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return RealEstatePromoCell.control.rawValue }
-    static var enumValues: [RealEstatePromoCell] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Real Estate - Show promo cell instead of top banner" } 
-    static func fromPosition(_ position: Int) -> RealEstatePromoCell {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
 enum ChatNorris: String, BumperFeature  {
     case control, baseline, redButton, whiteButton, greenButton
     static var defaultValue: String { return ChatNorris.control.rawValue }
@@ -850,22 +800,6 @@ enum ShowProTagUserProfile: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show Professional tag in user profile" } 
     var asBool: Bool { return self == .yes }
-}
-
-enum SummaryAsFirstStep: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return SummaryAsFirstStep.control.rawValue }
-    static var enumValues: [SummaryAsFirstStep] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show directly summary screen instead of Real estate steps" } 
-    static func fromPosition(_ position: Int) -> SummaryAsFirstStep {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
 }
 
 enum ShowAdvancedReputationSystem: String, BumperFeature  {

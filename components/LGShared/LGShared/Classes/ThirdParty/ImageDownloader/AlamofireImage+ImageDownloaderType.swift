@@ -1,17 +1,9 @@
-//
-//  AlamofireImage+ImageDownloaderType.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 27/04/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import AlamofireImage
 import Alamofire
 
 extension AlamofireImage.ImageDownloader: ImageDownloaderType {
 
-    func setImageView(_ imageView: UIImageView, url: URL, placeholderImage: UIImage?,
+    public func setImageView(_ imageView: UIImageView, url: URL, placeholderImage: UIImage?,
                       completion: ImageDownloadCompletion?) {
         imageView.af_imageDownloader = self
         let requestURL = URLRequest(url: url)
@@ -29,7 +21,7 @@ extension AlamofireImage.ImageDownloader: ImageDownloaderType {
         }
     }
 
-    func downloadImageWithURL(_ url: URL, completion: ImageDownloadCompletion? = nil) -> RequestReceipt? {
+    public func downloadImageWithURL(_ url: URL, completion: ImageDownloadCompletion? = nil) -> RequestReceipt? {
         let requestURL = URLRequest(url: url)
         let cached = imageIsCachedFor(urlRequest: requestURL)
 
@@ -47,12 +39,12 @@ extension AlamofireImage.ImageDownloader: ImageDownloaderType {
         }
     }
 
-    func cachedImageForUrl(_ url: URL) -> UIImage? {
+    public func cachedImageForUrl(_ url: URL) -> UIImage? {
         let request = URLRequest(url: url)
         return imageCache?.image(for: request, withIdentifier: nil)
     }
 
-    func cancelImageDownloading(_ receipt: RequestReceipt) {
+    public func cancelImageDownloading(_ receipt: RequestReceipt) {
         cancelRequest(with: receipt)
     }
 

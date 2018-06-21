@@ -606,7 +606,7 @@ fileprivate extension PostListingViewModel {
             category.isService, featureFlags.showServicesFeatures.isActive {
             firstStep = .servicesSubtypes
         } else {
-            firstStep = featureFlags.summaryAsFirstStep.isActive ? .summary : .price
+            firstStep = .summary
         }
         
         navigator?.startDetails(firstStep: firstStep,

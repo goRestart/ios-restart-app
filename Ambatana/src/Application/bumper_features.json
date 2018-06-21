@@ -66,11 +66,6 @@
         "description": "Real Estate Flow Type"
     },
     {
-        "name": "RemoveCategoryWhenClosingPosting",
-        "values": ["control", "baseline", "active"],
-        "description": "Remove category real estate if user closes posting"
-    },
-    {
         "name": "RealEstateNewCopy",
         "values": ["control", "baseline", "active"],
         "description": "Try real estate copy instead of housing"
@@ -130,11 +125,6 @@
         "values": ["control", "baseline", "oneScreen", "twoScreens", "threeScreens", "onlyBadge"],
         "description": "Show real estate tutorial when user see Real estate category for first time"
     },
-     {
-         "name": "RealEstatePromoCell",
-         "values": ["control", "baseline", "active"],
-         "description": "Real Estate - Show promo cell instead of top banner"
-     },
     {
         "name": "ChatNorris",
         "values": ["control", "baseline", "redButton", "whiteButton", "greenButton"],
@@ -154,11 +144,6 @@
         "name": "ShowProTagUserProfile",
         "values": ["no", "yes"],
         "description": "Show Professional tag in user profile"
-    },
-    {
-        "name": "SummaryAsFirstStep",
-        "values": ["control", "baseline", "active"],
-        "description": "Show directly summary screen instead of Real estate steps"
     },
     {
         "name": "ShowAdvancedReputationSystem",

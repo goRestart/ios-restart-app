@@ -20,7 +20,7 @@ struct BumperViewData {
     let options: [String]
 }
 
-class BumperViewModel {
+final class BumperViewModel {
 
     weak var delegate: BumperViewModelDelegate?
 
@@ -49,6 +49,44 @@ class BumperViewModel {
 
     func featureValue(at index: Int) -> String {
         return viewData[index].value
+    }
+
+    func makeExportableURL() -> URL? {
+        let array = viewData
+            .enumerated()
+            .map { return ($1.key, featureName(at: $0), $1.value, $1.options) }
+            .reduce([[:]]) { (values: [[String:Any]], next) in
+                var array = values
+                array.append([
+                    "key": next.0,
+                    "description": next.1,
+                    "value": next.2,
+                    "options": next.3
+                ])
+                return array
+        }.dropFirst()
+        return makePList(fromArray: Array(array))
+    }
+
+    private func makePList(fromArray array: [[String: Any]]) -> URL? {
+        let fileManager = FileManager.default
+        let directory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
+        let path = directory.appending("/bumper.plist")
+
+        if (fileManager.fileExists(atPath: path)) {
+            do {
+                try fileManager.removeItem(atPath: path)
+            } catch _ {
+                return nil
+            }
+        }
+        let plistContent = NSArray(array: array)
+        let success = plistContent.write(toFile: path, atomically: true)
+        if success {
+            return URL(fileURLWithPath: path)
+        } else {
+            return nil
+        }
     }
 
     func didSelectFeature(at index: Int) {

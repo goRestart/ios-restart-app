@@ -26,9 +26,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var showClockInDirectAnswer: ShowClockInDirectAnswer = .control
     var mostSearchedDemandedItems: MostSearchedDemandedItems = .control
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers = .control
-
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio = .control
-    var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting = .control
     var realEstateNewCopy: RealEstateNewCopy = .control
     var dummyUsersInfoProfile: DummyUsersInfoProfile = .control
     var searchImprovements: SearchImprovements = .control
@@ -38,7 +36,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings = .control
     var showProTagUserProfile: Bool = false
     var realEstateTutorial: RealEstateTutorial = .control
-    var summaryAsFirstStep: SummaryAsFirstStep = .control
     var sectionedMainFeed: SectionedMainFeed = .control
     var showExactLocationForPros: Bool = true
     var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed = .control
@@ -80,7 +77,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     
     // MARK:  Verticals
     var searchCarsIntoNewBackend: SearchCarsIntoNewBackend = .control
-    var realEstatePromoCell: RealEstatePromoCell = .control
     var filterSearchCarSellerType: FilterSearchCarSellerType = .control
     var createUpdateIntoNewBackend: CreateUpdateCarsIntoNewBackend = .control
     var realEstateMap: RealEstateMap = .control

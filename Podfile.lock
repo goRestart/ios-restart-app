@@ -13,7 +13,9 @@ PODS:
   - Branch (0.22.5):
     - Branch/Core (= 0.22.5)
   - Branch/Core (0.22.5)
-  - bumper (1.1.0)
+  - bumper (1.2.1):
+    - bumper/Core (= 1.2.1)
+  - bumper/Core (1.2.1)
   - CameraManager (4.0.1)
   - CHTCollectionViewWaterfallLayout (0.9.7):
     - CHTCollectionViewWaterfallLayout/ObjC (= 0.9.7)
@@ -67,6 +69,7 @@ PODS:
   - LGComponents/LGAnalytics (1.0.0)
   - LGComponents/LGResources (1.0.0)
   - LGComponents/LGShared (1.0.0):
+    - AlamofireImage (= 3.3.0)
     - CocoaLumberjack/Swift (= 3.3.0)
     - LGCoreKit (= 4.32.2)
   - LGCoreKit (4.32.2):
@@ -143,7 +146,7 @@ DEPENDENCIES:
   - Amplitude-iOS (= 4.0.4)
   - AppsFlyerFramework (= 4.8.4)
   - Branch (= 0.22.5)
-  - bumper (from `git@github.com:letgoapp/bumper.git`, commit `7ec04a070eca2337f058954d7f53c474d616d7b1`)
+  - bumper (= 1.2.1)
   - CameraManager (from `git@github.com:letgoapp/CameraManager.git`, commit `7b32b50f8bdb1f94f1f1d0fdb6c99a9d21a7ee84`)
   - CHTCollectionViewWaterfallLayout (= 0.9.7)
   - CocoaLumberjack/Swift (= 3.3.0)
@@ -180,9 +183,6 @@ DEPENDENCIES:
   - SwiftyUserDefaults (= 3.0.1)
 
 EXTERNAL SOURCES:
-  bumper:
-    :commit: 7ec04a070eca2337f058954d7f53c474d616d7b1
-    :git: git@github.com:letgoapp/bumper.git
   CameraManager:
     :commit: 7b32b50f8bdb1f94f1f1d0fdb6c99a9d21a7ee84
     :git: git@github.com:letgoapp/CameraManager.git
@@ -193,9 +193,6 @@ EXTERNAL SOURCES:
     :path: components
 
 CHECKOUT OPTIONS:
-  bumper:
-    :commit: 7ec04a070eca2337f058954d7f53c474d616d7b1
-    :git: git@github.com:letgoapp/bumper.git
   CameraManager:
     :commit: 7b32b50f8bdb1f94f1f1d0fdb6c99a9d21a7ee84
     :git: git@github.com:letgoapp/CameraManager.git
@@ -210,7 +207,7 @@ SPEC CHECKSUMS:
   AppsFlyerFramework: c45bbd289a6f9e9a19976ee270b44edea646aab6
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   Branch: 4f0482418d99e77d15b0e6065ef216c10e24797b
-  bumper: 8d5499e9774aa148763ab9a1eebcaf5e0ed7beff
+  bumper: 98f08c0706e1587c1f196e8abebc44fa649c9ec3
   CameraManager: 3680841b23453730bb4b2dbed0dd493ccb354c7d
   CHTCollectionViewWaterfallLayout: 9d11068fafecac106695bb5a5d6d0f738483b598
   CocoaLumberjack: 3c8c74683302f9012bb168e1c4b7ae3c0b558431
@@ -233,7 +230,7 @@ SPEC CHECKSUMS:
   KMPlaceholderTextView: 2bbcd19a273648a80a61e1e48f9743a24d8930e3
   Leanplum-iOS-SDK: d7d387b7f3688e697f2893978bfe67092df5b7ca
   LGCollapsibleLabel: 2a5ebb0ff0ff3e1d7ab0c295a17c923db000f557
-  LGComponents: e6880a33d063681caa248a73736225571623a15b
+  LGComponents: 10cd1e5575c645c9130a21f4612cc45bfc97798c
   LGCoreKit: 8050fdc0bd6dcd4a43ec5d3019d1c8cf54a6b887
   lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
   mopub-ios-sdk: 89c6ac9ca01d3b36e9fba16a6cfe31d3c290d354
@@ -255,6 +252,6 @@ SPEC CHECKSUMS:
   SwiftyGif: d36c6dfb52e2ca1e48fe349d225f50ec4123ec85
   SwiftyUserDefaults: 3d273b1739b68ada3145dc754a70ec775bc5c8be
 
-PODFILE CHECKSUM: 15fa08a6d9a26beca4570ae86157cc7703611c2a
+PODFILE CHECKSUM: 4be8279e379ef44fd9169e06582943c703058939
 
 COCOAPODS: 1.4.0
