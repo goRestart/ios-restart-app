@@ -387,6 +387,14 @@ extension ServicesCategoryOnSalchichasMenu {
 
 extension PredictivePosting {
     var isActive: Bool { return self == .active }
+
+    func isSupportedFor(postCategory: PostCategory?, language: String) -> Bool {
+        if #available(iOS 11, *), isActive, postCategory?.listingCategory.isProduct ?? true, language == "en" {
+            return true
+        } else {
+            return false
+        }
+    }
 }
 
 extension VideoPosting {
