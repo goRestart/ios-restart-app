@@ -12,6 +12,7 @@ protocol PostListingCameraViewDelegate: class {
     func productCameraRequestHideTabs(_ hide: Bool)
     func productCameraLearnMoreButton()
     func productCameraRequestCategory()
+    func productCameraShowRecordingErrorMessage(message: String)
 }
 
 final class PostListingCameraView: BaseView, LGViewPagerPage, MLPredictionDetailsViewDelegate {
@@ -456,6 +457,10 @@ final class PostListingCameraView: BaseView, LGViewPagerPage, MLPredictionDetail
             guard let strongSelf = self else { return }
             strongSelf.cornersContainer.isHidden = !(cameraState == .capture && !strongSelf.viewModel.isLiveStatsEnabled.value)
         }).disposed(by: disposeBag)
+
+        viewModel.videoRecordingErrorMessage.asObservable().ignoreNil().subscribeNext { [weak self] errorMessage in
+            self?.delegate?.productCameraShowRecordingErrorMessage(message: errorMessage)
+        }.disposed(by: disposeBag)
 
         keyboardHelper.rx_keyboardOrigin.asObservable().skip(1).distinctUntilChanged().bind { [weak self] origin in
             guard let animationTime = self?.keyboardHelper.animationTime,

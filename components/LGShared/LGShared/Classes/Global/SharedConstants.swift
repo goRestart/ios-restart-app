@@ -94,7 +94,7 @@ public struct SharedConstants {
 
     // Camera
     public static let videoMaxRecordingDuration: TimeInterval = 15
-    public static let videoMinRecordingDuration: TimeInterval = 2
+    public static let videoMinRecordingDuration: TimeInterval = 3
     public static let videoSnapshotTime: TimeInterval = 1
     public static let videoFileExtension: String = "mp4"
     public static let videoSettings: [String: Any] = [
