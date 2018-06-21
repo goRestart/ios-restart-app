@@ -27,4 +27,6 @@ struct StagingEnvironment: Environment {
     let meetingsBaseURL = "https://meeting.stg.letgo.com"
     let searchAlertsBaseURL = "https://searchalerts.stg.letgo.com"
     let customFeedBaseURL = "https://customfeed.stg.letgo.com"
+    let notificationSettingsPusherBaseURL = "https://push.stg.letgo.com"
+    let notificationSettingsMailerBaseURL = "https://mailer.stg.letgo.com"
 }

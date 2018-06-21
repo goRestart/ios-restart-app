@@ -150,33 +150,19 @@ final class LGListingRepository: ListingRepository {
     }
 
     func retrieve(_ listingId: String, completion: ListingCompletion?) {
-        dataSource.retrieve(listingId) { result in
-            if let value = result.value {
-                completion?(ListingResult(value: value))
-            } else if let error = result.error {
-                completion?(ListingResult(error: RepositoryError(apiError: error)))
-            }
-        }
+        dataSource.retrieve(listingId, completion: updateRetrieveCompletion(completion))
+    }
+    
+    func retrieveCar(_ listingId: String, completion: ListingCompletion?) {
+        dataSource.retrieveCar(listingId, completion: updateRetrieveCompletion(completion))
     }
     
     func retrieveRealEstate(_ listingId: String, completion: ListingCompletion?) {
-        dataSource.retrieveRealEstate(listingId) { result in
-            if let value = result.value {
-                completion?(ListingResult(value: value))
-            } else if let error = result.error {
-                completion?(ListingResult(error: RepositoryError(apiError: error)))
-            }
-        }
+        dataSource.retrieveRealEstate(listingId, completion: updateRetrieveCompletion(completion))
     }
     
     func retrieveService(_ listingId: String, completion: ListingCompletion?) {
-        dataSource.retrieveService(listingId) { result in
-            if let value = result.value {
-                completion?(ListingResult(value: value))
-            } else if let error = result.error {
-                completion?(ListingResult(error: RepositoryError(apiError: error)))
-            }
-        }
+        dataSource.retrieveService(listingId, completion: updateRetrieveCompletion(completion))
     }
 
     func create(listingParams: ListingCreationParams, completion: ListingCompletion?) {
@@ -186,16 +172,6 @@ final class LGListingRepository: ListingRepository {
         }
 
         dataSource.createListing(userId: myUserId, listingParams: listingParams) { [weak self] result in
-            self?.handleCreate(result, completion)
-        }
-    }
-    
-    func createCar(listingParams: ListingCreationParams, completion: ListingCompletion?) {
-        guard let myUserId = myUserRepository.myUser?.objectId else {
-            completion?(ListingResult(error: .internalError(message: "Missing objectId in MyUser")))
-            return
-        }
-        dataSource.createListingCar(userId: myUserId, listingParams: listingParams) { [weak self] result in
             self?.handleCreate(result, completion)
         }
     }
@@ -246,17 +222,6 @@ final class LGListingRepository: ListingRepository {
         }
 
         dataSource.updateListing(listingParams: listingParams) { [weak self] result in
-            self?.handleUpdate(result, completion)
-        }
-    }
-    
-    func updateCar(listingParams: ListingEditionParams, completion: ListingCompletion?) {
-        guard listingParams.userId == myUserRepository.myUser?.objectId else {
-            completion?(ListingResult(error: .internalError(message: "UserId doesn't match MyUser")))
-            return
-        }
-        
-        dataSource.updateListingCar(listingParams: listingParams) { [weak self] result in
             self?.handleUpdate(result, completion)
         }
     }
@@ -580,6 +545,18 @@ final class LGListingRepository: ListingRepository {
         return updatedCompletion
     }
 
+    
+    private func updateRetrieveCompletion(_ completion: ListingCompletion?) -> ListingDataSourceCompletion? {
+        let updatedCompletion: ListingDataSourceCompletion = { result in
+            if let value = result.value {
+                completion?(ListingResult(value: value))
+            } else if let error = result.error {
+                completion?(ListingResult(error: RepositoryError(apiError: error)))
+            }
+        }
+        return updatedCompletion
+    }
+    
     private func updateListingViewsBatch(_ listingIds: [(String, String, Double)], completion: ListingVoidCompletion?) {
         let myUserId = myUserRepository.myUser?.objectId
         dataSource.updateStats(listingIds,

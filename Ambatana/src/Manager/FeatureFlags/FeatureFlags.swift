@@ -78,7 +78,6 @@ protocol FeatureFlaggeable: class {
     // MARK: Verticals
     var searchCarsIntoNewBackend: SearchCarsIntoNewBackend { get }
     var filterSearchCarSellerType: FilterSearchCarSellerType { get }
-    var createUpdateIntoNewBackend: CreateUpdateCarsIntoNewBackend { get }
     var realEstateMap: RealEstateMap { get }
     var showServicesFeatures: ShowServicesFeatures { get }
     
@@ -254,17 +253,6 @@ extension FilterSearchCarSellerType {
     
     var isMultiselection: Bool {
         return self == .variantA || self == .variantB
-    }
-}
-
-extension CreateUpdateCarsIntoNewBackend {
-    var isActive: Bool { return self != .baseline && self != .control }
-    
-    func shouldUseCarEndpoint(with params: ListingCreationParams) -> Bool {
-        return isActive && params.isCarParams
-    }
-    func shouldUseCarEndpoint(with params: ListingEditionParams) -> Bool {
-        return isActive && params.isCarParams
     }
 }
 
@@ -1122,13 +1110,6 @@ extension FeatureFlags {
             return Bumper.filterSearchCarSellerType
         }
         return FilterSearchCarSellerType.fromPosition(abTests.filterSearchCarSellerType.value)
-    }
-    
-    var createUpdateIntoNewBackend: CreateUpdateCarsIntoNewBackend {
-        if Bumper.enabled {
-            return Bumper.createUpdateCarsIntoNewBackend
-        }
-        return CreateUpdateCarsIntoNewBackend.fromPosition(abTests.createUpdateCarsIntoNewBackend.value)
     }
     
     var realEstateMap: RealEstateMap {

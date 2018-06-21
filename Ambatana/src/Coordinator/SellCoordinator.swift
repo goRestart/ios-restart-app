@@ -120,13 +120,8 @@ extension SellCoordinator: PostListingNavigator {
     
     func closePostProductAndPostInBackground(params: ListingCreationParams,
                                              trackingInfo: PostListingTrackingInfo) {
-        
-        let shouldUseCarEndpoint = featureFlags.createUpdateIntoNewBackend.shouldUseCarEndpoint(with: params)
-        let createAction = listingRepository.createAction(shouldUseCarEndpoint)
-        
         dismissViewController(animated: true) { [weak self] in
-            
-            createAction(params) { [weak self] result in
+            self?.listingRepository.create(listingParams: params) { [weak self] result in
                 if let listing = result.value {
                     self?.trackPost(withListing: listing, trackingInfo: trackingInfo)
                     self?.keyValueStorage.userPostProductPostedPreviously = true

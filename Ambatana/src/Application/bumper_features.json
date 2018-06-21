@@ -191,11 +191,6 @@
         "description": "Try different copies for 'Sell faster now' banner in English"
     },
     {
-        "name": "CreateUpdateCarsIntoNewBackend",
-        "values": ["control", "baseline", "active"],
-        "description": "Create/Update cars into the new endpoint"
-    },
-    {
         "name": "EmergencyLocate",
         "values": ["control", "baseline", "active"],
         "description": "Activate the Emergency Locate feature"
