@@ -308,5 +308,10 @@
         "name": "SimplifiedChatButton",
         "values": ["control", "baseline", "variantA", "variantB", "variantC", "variantD", "variantE", "variantF"],
         "description": "Show a simplified chat button on item page"
+    },
+    {
+        "name": "ShowChatConnectionStatusBar",
+        "values": ["control", "baseline", "active"],
+        "description": "Show a toast in the chat with the websocket and network connection status"
     }
  ]

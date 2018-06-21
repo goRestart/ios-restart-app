@@ -86,6 +86,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var markAllConversationsAsRead: MarkAllConversationsAsRead = .control
     var chatNorris: ChatNorris = .control
     var chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs = .control
+    var showChatConnectionStatusBar: ShowChatConnectionStatusBar = .control
     
     // MARK:  Verticals
     var searchCarsIntoNewBackend: SearchCarsIntoNewBackend = .control

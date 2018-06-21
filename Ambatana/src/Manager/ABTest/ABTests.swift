@@ -176,6 +176,7 @@ extension ABTests {
     var markAllConversationsAsRead: LeanplumABVariable<Int> { return chat.markAllConversationsAsRead }
     var chatNorris: LeanplumABVariable<Int> { return chat.chatNorris }
     var chatConversationsListWithoutTabs: LeanplumABVariable<Int> { return chat.chatConversationsListWithoutTabs }
+    var showChatConnectionStatusBar: LeanplumABVariable<Int> { return chat.showChatConnectionStatusBar }
 }
 
 //  MARK: Money
