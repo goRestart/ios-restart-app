@@ -9,6 +9,9 @@
 
 import Foundation
 import bumper
+#if (RX_BUMPER)
+import RxSwift
+#endif
 
 extension Bumper  {
     static func initialize() {
@@ -18,10 +21,19 @@ extension Bumper  {
     } <% @flags.flags.each do |flag| %>
 
     static var <%= flag.varName %>: <%= flag.varClassName %> {
-        guard let value = Bumper.value(for: <%= flag.objectName %>.key) else { return <%= flag.varDefaultCase %> }
-<% if flag.isBool %>        return <%= flag.objectName %>(rawValue: value)?.asBool ?? <%= flag.varDefaultCase %><% else 
-%>        return <%= flag.objectName %>(rawValue: value) ?? <%= flag.varDefaultCase %> <% end %>
-    }<% end %> 
+        guard let value = Bumper.value(for: <%= flag.objectName %>.key) else { return <%= flag.varDefaultCase %> }<% if flag.isBool %>
+        return <%= flag.objectName %>(rawValue: value)?.asBool ?? <%= flag.varDefaultCase %><% else %>
+        return <%= flag.objectName %>(rawValue: value) ?? <%= flag.varDefaultCase %> <% end %>
+    } 
+
+    #if (RX_BUMPER)
+    static var <%= flag.varName %>Observable: Observable<<%= flag.varClassName %>> {
+        return Bumper.observeValue(for: <%= flag.objectName %>.key).map {<% if flag.isBool %>
+            <%= flag.objectName %>(rawValue: $0 ?? "")?.asBool ?? <%= flag.varDefaultCase %><% else %>
+            <%= flag.objectName %>(rawValue: $0 ?? "") ?? <%= flag.varDefaultCase %><% end %>
+        }
+    }
+    #endif<% end %>
 }
 
 <% @flags.flags.each do |flag| %>
