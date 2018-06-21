@@ -13,7 +13,9 @@ PODS:
   - Branch (0.22.5):
     - Branch/Core (= 0.22.5)
   - Branch/Core (0.22.5)
-  - bumper (1.1.0)
+  - bumper (1.2.0):
+    - bumper/Core (= 1.2.0)
+  - bumper/Core (1.2.0)
   - CameraManager (4.0.1)
   - CHTCollectionViewWaterfallLayout (0.9.7):
     - CHTCollectionViewWaterfallLayout/ObjC (= 0.9.7)
@@ -144,7 +146,7 @@ DEPENDENCIES:
   - Amplitude-iOS (= 4.0.4)
   - AppsFlyerFramework (= 4.8.4)
   - Branch (= 0.22.5)
-  - bumper (from `git@github.com:letgoapp/bumper.git`, commit `7ec04a070eca2337f058954d7f53c474d616d7b1`)
+  - bumper (from `git@github.com:letgoapp/bumper.git`, commit `12d17a1d022483ce46aa70a53702c58f28d5b6c1`)
   - CameraManager (from `git@github.com:letgoapp/CameraManager.git`, commit `7b32b50f8bdb1f94f1f1d0fdb6c99a9d21a7ee84`)
   - CHTCollectionViewWaterfallLayout (= 0.9.7)
   - CocoaLumberjack/Swift (= 3.3.0)
@@ -182,7 +184,7 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   bumper:
-    :commit: 7ec04a070eca2337f058954d7f53c474d616d7b1
+    :commit: 12d17a1d022483ce46aa70a53702c58f28d5b6c1
     :git: git@github.com:letgoapp/bumper.git
   CameraManager:
     :commit: 7b32b50f8bdb1f94f1f1d0fdb6c99a9d21a7ee84
@@ -195,7 +197,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   bumper:
-    :commit: 7ec04a070eca2337f058954d7f53c474d616d7b1
+    :commit: 12d17a1d022483ce46aa70a53702c58f28d5b6c1
     :git: git@github.com:letgoapp/bumper.git
   CameraManager:
     :commit: 7b32b50f8bdb1f94f1f1d0fdb6c99a9d21a7ee84
@@ -211,7 +213,7 @@ SPEC CHECKSUMS:
   AppsFlyerFramework: c45bbd289a6f9e9a19976ee270b44edea646aab6
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   Branch: 4f0482418d99e77d15b0e6065ef216c10e24797b
-  bumper: 8d5499e9774aa148763ab9a1eebcaf5e0ed7beff
+  bumper: 061417430175400a4234e637190af3de4e7d5ec4
   CameraManager: 3680841b23453730bb4b2dbed0dd493ccb354c7d
   CHTCollectionViewWaterfallLayout: 9d11068fafecac106695bb5a5d6d0f738483b598
   CocoaLumberjack: 3c8c74683302f9012bb168e1c4b7ae3c0b558431
@@ -256,6 +258,6 @@ SPEC CHECKSUMS:
   SwiftyGif: d36c6dfb52e2ca1e48fe349d225f50ec4123ec85
   SwiftyUserDefaults: 3d273b1739b68ada3145dc754a70ec775bc5c8be
 
-PODFILE CHECKSUM: 15fa08a6d9a26beca4570ae86157cc7703611c2a
+PODFILE CHECKSUM: e7bbe07cb1ab5a08b2b6249f9a87b73be85a4699
 
 COCOAPODS: 1.4.0

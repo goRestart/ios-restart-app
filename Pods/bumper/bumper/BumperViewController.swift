@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class BumperViewController: UIViewController {
+public final class BumperViewController: UIViewController {
 
     fileprivate let tableView = UITableView()
     fileprivate let enableBumperContainer = UIView()
@@ -52,6 +52,10 @@ fileprivate extension BumperViewController {
         view.backgroundColor = UIColor.white
         setupEnableHeader()
         setupTableView()
+
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem:.action,
+                                                            target: self,
+                                                            action: #selector(share))
     }
 
     func setupEnableHeader() {
@@ -113,6 +117,14 @@ fileprivate extension BumperViewController {
 
     @objc func dismissViewController() {
         self.dismiss(animated: true, completion: nil)
+    }
+
+    @objc private func share() {
+        guard let fileURL = viewModel.makeExportableURL() else { return }
+
+        let objectsToShare = [fileURL]
+        let activityController = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+        present(activityController, animated: true, completion: nil)
     }
 }
 

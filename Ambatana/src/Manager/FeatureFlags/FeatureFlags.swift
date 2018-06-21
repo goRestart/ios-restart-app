@@ -77,7 +77,6 @@ protocol FeatureFlaggeable: class {
 
     // MARK: Verticals
     var searchCarsIntoNewBackend: SearchCarsIntoNewBackend { get }
-    var realEstatePromoCell: RealEstatePromoCell { get }
     var filterSearchCarSellerType: FilterSearchCarSellerType { get }
     var createUpdateIntoNewBackend: CreateUpdateCarsIntoNewBackend { get }
     var realEstateMap: RealEstateMap { get }
@@ -244,10 +243,6 @@ extension CopyForChatNowInTurkey {
 
 extension RealEstateTutorial {
     var isActive: Bool { return self != .baseline && self != .control }
-}
-
-extension RealEstatePromoCell {
-    var isActive: Bool { return self == .active }
 }
 
 extension RealEstateMap {
@@ -1127,13 +1122,6 @@ extension FeatureFlags {
             return Bumper.searchCarsIntoNewBackend
         }
         return SearchCarsIntoNewBackend.fromPosition(abTests.searchCarsIntoNewBackend.value)
-    }
-    
-    var realEstatePromoCell: RealEstatePromoCell {
-        if Bumper.enabled {
-            return Bumper.realEstatePromoCell
-        }
-        return RealEstatePromoCell.fromPosition(abTests.realEstatePromoCell.value)
     }
     
     var filterSearchCarSellerType: FilterSearchCarSellerType {

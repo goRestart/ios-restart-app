@@ -28,10 +28,6 @@ final class ChatConversationsListView: UIView {
     var rx_tableView: Reactive<UITableView> {
         return tableView.rx
     }
-    var indexPathsForVisibleRows: [IndexPath]? {
-        return tableView.indexPathsForVisibleRows
-    }
-    
     
     // MARK: Lifecycle
     

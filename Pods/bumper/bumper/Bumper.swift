@@ -24,6 +24,7 @@ public class Bumper {
         return Bumper.sharedInstance.value(for: key)
     }
 
+
     // MARK: - Internal
 
     static let sharedInstance: Bumper = Bumper(bumperDAO: UserDefaults.standard)
@@ -42,12 +43,15 @@ public class Bumper {
     var bumperViewData: [BumperViewData] {
         return features.flatMap { featureType in
             let value = self.value(for: featureType.key) ?? featureType.defaultValue
-            return BumperViewData(key: featureType.key, description: featureType.description, value: value, options: featureType.values)
+            return BumperViewData(key: featureType.key,
+                                  description: featureType.description,
+                                  value: value,
+                                  options: featureType.values)
         }
     }
 
     private let bumperDAO: BumperDAO
-
+    
     init(bumperDAO: BumperDAO) {
         self.bumperDAO = bumperDAO
     }
@@ -63,6 +67,14 @@ public class Bumper {
         })
     }
 
+    func update(with values: [[String: Any]]) {
+        values.forEach { dict in
+            guard let value = dict["value"] as? String,
+                let key = dict["key"] as? String else { return }
+            cache[key] = value
+        }
+    }
+
     func value(for key: String) -> String? {
         return cache[key]
     }
@@ -73,4 +85,27 @@ public class Bumper {
     }
 }
 
-extension UserDefaults: BumperDAO {}
+
+#if (RX_BUMPER)
+    import RxSwift
+    
+    extension Bumper {
+        
+        public static var enabledObservable: Observable<Bool> {
+            return Bumper.sharedInstance.enabledObservable
+        }
+        
+        public static func observeValue(for key: String) -> Observable<String?> {
+            return Bumper.sharedInstance.observeValue(for: key)
+        }
+        
+        var enabledObservable: Observable<Bool> {
+            return bumperDAO.boolObservable(for: Bumper.bumperEnabledKey).map { $0 ?? false }
+        }
+        
+        func observeValue(for key: String) -> Observable<String?> {
+            return bumperDAO.stringObservable(for: Bumper.bumperPrefix + key)
+        }
+    }
+#endif
+

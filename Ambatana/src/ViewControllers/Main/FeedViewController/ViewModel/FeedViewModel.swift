@@ -34,7 +34,7 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     
     // MARK:- All possibile header & cell types that could be presented during the lifecycle of the VM
     var allHeaderPresenters: [FeedPresenter.Type] {
-        return [PushPermissionsPresenter.self, FilterTagFeedPresenter.self, CategoryPresenter.self, RealEstateBannerPresenter.self]
+        return [PushPermissionsPresenter.self, FilterTagFeedPresenter.self, CategoryPresenter.self]
     }
     
     var allCellItemPresenters: [FeedPresenter.Type] {
@@ -192,7 +192,6 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     private func refreshFeed() {
         // FIXME: Add more refresh logic
         updatePermissionsPresenter()
-        updateRealEstateBannerPresenter()
     }
 }
 
@@ -261,37 +260,6 @@ extension FeedViewModel: PushPermissionsPresenterDelegate {
                                                                                  pushPermissionTracker: pushPermissionTracker),
                                          forOrderCondition: OrderCondition.after(item: .filters))
             }
-        }
-    }
-}
-
-
-// MARK: RealEstateBannerPresenterDelegate Implementation
-
-extension FeedViewModel: RealEstateBannerPresenterDelegate {
-    
-    var shouldShowRealEstateBanner: Bool {
-        // FIXME: !listViewModel.isListingListEmpty.value &&
-        return filters.selectedCategories == [.realEstate]
-    }
-    
-    func openSell(source: PostingSource, postCategory: PostCategory?) {
-        navigator?.openSell(source: source, postCategory: postCategory)
-    }
-    
-    private func updateRealEstateBannerPresenter() {
-        guard !featureFlags.realEstatePromoCell.isActive else {
-            // FIXME: Implement Promo Item functionality - implement when listings have been added
-            // private func addRealEstatePromoItem(to listings: [ListingCellModel]) -> [ListingCellModel]
-            return
-        }
-        if shouldShowRealEstateBanner {
-            if !sectionCollection.containsSection(ofType: .realEstateBanner) {
-                sectionCollection.insert(section: FeedSectionMap.makeBannerSection(delegate: self),
-                                         forOrderCondition: OrderCondition.before(item: .listings))
-            }
-        } else {
-            sectionCollection.removeSection(ofType: .realEstateBanner)
         }
     }
 }
