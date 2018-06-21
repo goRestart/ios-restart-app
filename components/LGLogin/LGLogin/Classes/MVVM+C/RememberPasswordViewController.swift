@@ -1,11 +1,3 @@
-//
-//  RememberPasswordViewController.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 15/06/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import Result
 import UIKit
@@ -16,26 +8,63 @@ public class RememberPasswordViewController: BaseViewController, RememberPasswor
     enum TextFieldTag: Int {
         case email = 1000
     }
-    
+
+    struct Layout {
+        static let instructionsTopMargin: CGFloat = 80
+        static let emailButtonHeight: CGFloat = 44
+        static let textFieldLeftMargin: CGFloat = 45
+        static let sendButtonHeight: CGFloat = 50
+    }
+
     // ViewModel
     var viewModel: RememberPasswordViewModel
 
+    let darkAppereanceBgView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.black.withAlphaComponent(0)
+        return view
+    }()
 
-    @IBOutlet weak var darkAppereanceBgView: UIView!
-    @IBOutlet weak var kenBurnsView: KenBurnsView!
-    
-    @IBOutlet weak var emailIconImageView: UIImageView!
-    @IBOutlet weak var emailButton: LetgoButton!
-    @IBOutlet weak var emailTextField: UITextField!
-    
-    @IBOutlet weak var resetPasswordButton: LetgoButton!
-    
-    @IBOutlet weak var instructionsLabel : UILabel!
-    
+    let visualEffectView: UIVisualEffectView = {
+        let view = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+        return view
+    }()
+
+    let kenBurnsView: KenBurnsView = {
+        let kenburns = KenBurnsView()
+        return kenburns
+    }()
+
+    let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.backgroundColor = .clear
+        scrollView.alwaysBounceVertical = true
+        return scrollView
+    }()
+
+    let containerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        return view
+    }()
+
+    let instructionsLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.font = UIFont.mediumBodyFont
+        label.textColor = UIColor.grayDisclaimerText
+        return label
+    }()
+
+    let emailIconImageView = UIImageView()
+    let emailButton = LetgoButton()
+    let emailTextField = UITextField()
+    let resetPasswordButton = LetgoButton()
+
     // > Helper
     private let appearance: LoginAppearance
 
-    
+
     // MARK: - Lifecycle
 
     public init(viewModel: RememberPasswordViewModel, appearance: LoginAppearance = .light) {
@@ -52,33 +81,30 @@ public class RememberPasswordViewController: BaseViewController, RememberPasswor
             statusBarStyle = .default
             navBarBackgroundStyle = .transparent(substyle: .light)
         }
-        super.init(viewModel: viewModel,
-                   nibName: "RememberPasswordViewController",
-                   statusBarStyle: statusBarStyle,
-                   navBarBackgroundStyle: navBarBackgroundStyle,
-                   bundle: R.loginBundle)
+        super.init(viewModel: viewModel, nibName: nil,
+                   statusBarStyle: statusBarStyle, navBarBackgroundStyle: navBarBackgroundStyle)
         self.viewModel.delegate = self
     }
 
-    public required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    public override func viewDidLoad() {
+
+    override public func viewDidLoad() {
         super.viewDidLoad()
-        
+
         setupUI()
-        
+
         emailTextField.becomeFirstResponder()
         emailTextField.tintColor = UIColor.primaryColor
-        
+
         // update the textfield with the e-mail from previous view
         emailTextField.text = viewModel.email
         updateViewModelText(viewModel.email, fromTextFieldTag: emailTextField.tag)
-        
+
     }
 
-    public override func viewWillFirstAppear(_ animated: Bool) {
+    override public func viewWillFirstAppear(_ animated: Bool) {
         super.viewWillFirstAppear(animated)
         switch appearance {
         case .light:
@@ -90,21 +116,21 @@ public class RememberPasswordViewController: BaseViewController, RememberPasswor
 
 
     // MARK: - Actions
-    
+
     @IBAction func resetPasswordButtonPressed(_ sender: AnyObject) {
         viewModel.resetPassword()
     }
-    
+
 
     // MARK: - RememberPasswordViewModelDelegate
-    
+
     func viewModel(_ viewModel: RememberPasswordViewModel, updateSendButtonEnabledState enabled: Bool) {
         resetPasswordButton.isEnabled = enabled
     }
-    
+
 
     // MARK: - UITextFieldDelegate
-    
+
     public func textFieldDidBeginEditing(_ textField: UITextField) {
         if let tag = TextFieldTag(rawValue: textField.tag) {
             let iconImageView: UIImageView
@@ -115,7 +141,7 @@ public class RememberPasswordViewController: BaseViewController, RememberPasswor
             iconImageView.isHighlighted = true
         }
     }
-    
+
     public func textFieldDidEndEditing(_ textField: UITextField) {
         if let tag = TextFieldTag(rawValue: textField.tag) {
             let iconImageView: UIImageView
@@ -126,12 +152,12 @@ public class RememberPasswordViewController: BaseViewController, RememberPasswor
             iconImageView.isHighlighted = false
         }
     }
-    
+
     public func textFieldShouldClear(_ textField: UITextField) -> Bool {
         updateViewModelText("", fromTextFieldTag: textField.tag)
         return true
     }
-    
+
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         let tag = textField.tag
         let nextView = view.viewWithTag(tag + 1)
@@ -143,10 +169,8 @@ public class RememberPasswordViewController: BaseViewController, RememberPasswor
         }
         return true
     }
-    
-    public func textField(_ textField: UITextField,
-                          shouldChangeCharactersIn range: NSRange,
-                          replacementString string: String) -> Bool {
+
+    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if let textFieldText = textField.text {
             let text = (textFieldText as NSString).replacingCharacters(in: range, with: string)
             updateViewModelText(text, fromTextFieldTag: textField.tag)
@@ -157,20 +181,23 @@ public class RememberPasswordViewController: BaseViewController, RememberPasswor
 
     // MARK: - Private methods
     // MARK: > UI
-    
+
     private func setupUI() {
         // Appearance
         emailButton.cornerRadius = LGUIKitConstants.mediumCornerRadius
         resetPasswordButton.setStyle(.primary(fontSize: .medium))
-        
+
         // i18n
         setNavBarTitle(R.Strings.resetPasswordTitle)
         emailTextField.placeholder = R.Strings.resetPasswordEmailFieldHint
         resetPasswordButton.setTitle(R.Strings.resetPasswordSendButton, for: .normal)
         instructionsLabel.text = R.Strings.resetPasswordInstructions
-        
+
         // Tags
         emailTextField.tag = TextFieldTag.email.rawValue
+
+        resetPasswordButton.addTarget(self, action: #selector(resetPasswordButtonPressed(_:)), for: .touchUpInside)
+        emailTextField.delegate = self
 
         switch appearance {
         case .light:
@@ -178,6 +205,49 @@ public class RememberPasswordViewController: BaseViewController, RememberPasswor
         case .dark:
             setupDarkAppearance()
         }
+        setupConstraints()
+    }
+
+    override public func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        scrollView.contentSize = containerView.frame.size
+    }
+
+    private func setupConstraints() {
+        view.addSubviewsForAutoLayout([darkAppereanceBgView, scrollView])
+        darkAppereanceBgView.addSubviewsForAutoLayout([kenBurnsView, visualEffectView])
+        scrollView.addSubviewForAutoLayout(containerView)
+        containerView.addSubviewsForAutoLayout([emailButton, emailTextField, emailIconImageView, resetPasswordButton, instructionsLabel])
+
+        darkAppereanceBgView.layout(with: self.view).fill()
+        scrollView.layout(with: self.view).fill()
+        containerView.layout(with: scrollView).fill()
+        kenBurnsView.layout(with: darkAppereanceBgView).fill()
+        visualEffectView.layout(with: darkAppereanceBgView).fill()
+
+        let constraints: [NSLayoutConstraint] = [
+            containerView.widthAnchor.constraint(equalTo: view.widthAnchor),
+            instructionsLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: Layout.instructionsTopMargin),
+            instructionsLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: Metrics.margin),
+            instructionsLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -Metrics.margin),
+            emailButton.topAnchor.constraint(equalTo: instructionsLabel.bottomAnchor, constant: Metrics.bigMargin),
+            emailButton.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: Metrics.margin),
+            emailButton.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -Metrics.margin),
+            emailButton.heightAnchor.constraint(equalToConstant: Layout.emailButtonHeight),
+            emailTextField.topAnchor.constraint(equalTo: emailButton.topAnchor),
+            emailTextField.bottomAnchor.constraint(equalTo: emailButton.bottomAnchor),
+            emailTextField.leftAnchor.constraint(equalTo: emailButton.leftAnchor, constant: Layout.textFieldLeftMargin),
+            emailTextField.rightAnchor.constraint(equalTo: emailButton.rightAnchor, constant: -Metrics.shortMargin),
+            emailIconImageView.centerYAnchor.constraint(equalTo: emailButton.centerYAnchor),
+            emailIconImageView.leftAnchor.constraint(equalTo: emailButton.leftAnchor, constant: Metrics.margin),
+            resetPasswordButton.topAnchor.constraint(equalTo: emailButton.bottomAnchor, constant: Metrics.margin),
+            resetPasswordButton.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: Metrics.margin),
+            resetPasswordButton.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -Metrics.margin),
+            resetPasswordButton.heightAnchor.constraint(equalToConstant: Layout.sendButtonHeight),
+            resetPasswordButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
+        ]
+
+        NSLayoutConstraint.activate(constraints)
     }
 
     private func setupLightAppearance() {
@@ -216,22 +286,16 @@ public class RememberPasswordViewController: BaseViewController, RememberPasswor
 
     func setupKenBurns() {
         view.layoutIfNeeded()
-        kenBurnsView.startAnimation(with: [R.Asset.BackgroundsAndImages.bg1New.image,
-                                           R.Asset.BackgroundsAndImages.bg2New.image,
-                                           R.Asset.BackgroundsAndImages.bg3New.image,
-                                           R.Asset.BackgroundsAndImages.bg4New.image])
+        kenBurnsView.startAnimation(with: [
+            R.Asset.BackgroundsAndImages.bg1New.image,
+            R.Asset.BackgroundsAndImages.bg2New.image,
+            R.Asset.BackgroundsAndImages.bg3New.image,
+            R.Asset.BackgroundsAndImages.bg4New.image
+            ])
     }
-    
-    private func updateSendButtonEnabledState() {
-        if let email = emailTextField.text {
-            resetPasswordButton.isEnabled = email.count > 0
-        } else {
-            resetPasswordButton.isEnabled = false
-        }
-    }
-    
+
     // MARK: > Helper
-    
+
     private func updateViewModelText(_ text: String, fromTextFieldTag tag: Int) {
         if let tag = TextFieldTag(rawValue: tag) {
             switch (tag) {
@@ -241,3 +305,4 @@ public class RememberPasswordViewController: BaseViewController, RememberPasswor
         }
     }
 }
+
