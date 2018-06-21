@@ -21,7 +21,7 @@ final class PostListingCameraViewModel: BaseViewModel {
     let imageSelected = Variable<UIImage?>(nil)
     let videoRecorded = Variable<RecordedVideo?>(nil)
     let cameraMode = Variable<CameraMode>(.photo)
-    let videoRecordingErrorMessage = Variable<String?>(nil)
+    let videoRecordingErrorMessage = PublishSubject<String?>()
 
     let infoShown = Variable<Bool>(false)
     let infoTitle = Variable<String>("")
@@ -176,7 +176,8 @@ final class PostListingCameraViewModel: BaseViewModel {
             cameraState.value = .previewVideo
         } else {
             backToCaptureMode()
-            videoRecordingErrorMessage.value = R.Strings.productPostCameraVideoRecordingMinDurationMessage(Int(SharedConstants.videoMinRecordingDuration))
+            let message = R.Strings.productPostCameraVideoRecordingMinDurationMessage(Int(SharedConstants.videoMinRecordingDuration))
+            videoRecordingErrorMessage.onNext(message)
         }
     }
 
