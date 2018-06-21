@@ -603,6 +603,7 @@
 		3BA018B7D3A0E61BC41A50F1B92A1A44 /* MPURLActionInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = C145F5D537931372A51D42B8C8B150A0 /* MPURLActionInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3BB267BE3D6DF15D467B71AB4F74AAD5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5887772DC802D2CF9214194DFCF6775 /* UIKit.framework */; };
 		3BF041E8081E090EA7239EDC587D781B /* PriorityQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8A0E7EFB4AEACA9B5B4EF316787403 /* PriorityQueue.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		3BF6E24F1396093C200CB69D9A14E5D2 /* Bumper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A568D7546BA3382ED2ADEDFFC2B8F6C /* Bumper.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		3C50BD84AC71E05D044888A4D27667D7 /* FBSDKLikeControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 47B78B74D9BFC4F2E3705A92D723FDAE /* FBSDKLikeControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3C553E08116259DAB4295B59FC261B1F /* FLEXNetworkRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = AEEA3D5EB93F0A7B961F7BBCC27EA8C2 /* FLEXNetworkRecorder.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		3C6E036B42A2A9BE0C65214B28EDAF93 /* FLEXClassExplorerViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = C43A800EA7EE24B3058FB6E446CE2BEB /* FLEXClassExplorerViewController.h */; settings = {ATTRIBUTES = (Project, ); }; };
@@ -616,7 +617,6 @@
 		3CE57D62776B791C9360B3236E92F0C3 /* LOTAnimationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B71375E3578E648564A93F096D2D75 /* LOTAnimationView.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		3CFD676BA05EAFA08EC99E801E41F441 /* FLEXExplorerViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 99B3927D258B9EA47C98246E7E9156D5 /* FLEXExplorerViewController.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		3D103853D048256E9B34CA828BBD426C /* FLEXHeapEnumerator.m in Sources */ = {isa = PBXBuildFile; fileRef = A39D7E042E5FAF082F59D0B643362676 /* FLEXHeapEnumerator.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		3D140FE5E58D2E5051EF62790473D463 /* BumperViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9304AF8E85E93B1E62E49CA302CCB599 /* BumperViewController.swift */; };
 		3D2E219092EC98C19F40F386247EDF22 /* FBSDKTriStateBOOL.h in Headers */ = {isa = PBXBuildFile; fileRef = 52B71D7E69EA2884CF55BC2F3EDAE3D0 /* FBSDKTriStateBOOL.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		3D3DD32646427BEB170BBB04A743C9A5 /* Installation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B76B1D81E50E825266D8E525A41255 /* Installation.swift */; };
 		3D5BA32A041D82B0E158F080CE3D2C00 /* ServicesInfoDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A32E9988EDACDA4A69787801241D7F /* ServicesInfoDAO.swift */; };
@@ -1026,7 +1026,6 @@
 		61B2B5ADED1E9FECD46D0A8CB27480AB /* InstallationDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65782C6AD7B94FADBA0224FE21D21E47 /* InstallationDataSource.swift */; };
 		61BAF4CAF01096911F1CC17030AA763B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB763B627D5405F5E21D32BA9579F094 /* Foundation.framework */; };
 		61C619465F42442FEB660B37F99FA6A7 /* ObservableType+PrimitiveSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DBF0596F2F59985F710D1A24E3D36D4 /* ObservableType+PrimitiveSequence.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		61CDB12BEA3DFC1893F983A3D33D7081 /* bumper-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A8B4251F5CCAB7CC7D349032533501B /* bumper-dummy.m */; };
 		61DA1F26A083170E296CF191CBDBDD71 /* BFMeasurementEvent_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = B51F3679BD7C880A1A3885970ECD23FA /* BFMeasurementEvent_Internal.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		61FFA429CA0FA0C7EA34EAFEE51591CB /* FBSDKSettings+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 1703B79D69FAA94D48B3F045BD5047E9 /* FBSDKSettings+Internal.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		621370C8598F0CC865C0C09B19868903 /* RxCocoaObjCRuntimeError+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CE958E4C62CC5C952C8F9CB021A0F5 /* RxCocoaObjCRuntimeError+Extensions.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
@@ -1157,6 +1156,7 @@
 		6ED820DF21218CA47108B7221AFBA0E3 /* AlamofireImage-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A6D2A7F713BF2BD0F59C0C7752030B4 /* AlamofireImage-dummy.m */; };
 		6F22B8B2B3797DDB78F8E353C1C44B32 /* ServicesInfoRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8690892DF3DBDD3ACF32B196F0A1E4D /* ServicesInfoRouter.swift */; };
 		6F280A213B621E4876173965A06AE0C8 /* MPRewardedVideoAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CAE8EBF24ED4F7F1BB75F25DC8A1F9C /* MPRewardedVideoAdapter.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		6F37CF552F8B36335B8C22258E06080A /* BumperFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0268C3A83231E72B13F684460AF340B2 /* BumperFeature.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		6F4813FEC99B1150EF44CC87F59782A0 /* FLEXArgumentInputFontsPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BF6AB13CE80E754C25E44421962916D /* FLEXArgumentInputFontsPickerView.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		6F525F1C0EE679B86A268D81F14C82EC /* First.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7352EC7D6E4A62A63A6CC6321714DD9F /* First.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		6F6444806ACC6F5DC396AFF0CBAE6978 /* MPAPIEndpoints.h in Headers */ = {isa = PBXBuildFile; fileRef = 3704358059753B05C401BC799A751E27 /* MPAPIEndpoints.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1225,7 +1225,6 @@
 		75E2EAEAEE3E80A92D64713B08C1E29F /* LGFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AB06A683C9F3C3984EBBA4F9BFFC96 /* LGFile.swift */; };
 		761C28E121EB1E6B3F4BD37459534F87 /* MOPUBPlayerViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 924210867C40BAA137A6F5FE2F528415 /* MOPUBPlayerViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7624C4264C102F73B764FE98D61A6278 /* LGTaxonomyChild.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8BD7A35FB749DE66DE90A22359667FE /* LGTaxonomyChild.swift */; };
-		763F108A0D157D2088893D0639C1257F /* BumperDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F27A941029727B88F2BDB6D2AB76F6B /* BumperDAO.swift */; };
 		76417704326C7E61A36A5B50F02D90CF /* WithLatestFrom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60DABF8D97FD5AD3DF2781022A556883 /* WithLatestFrom.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		7643BF4EA5503CB020127ADDC1E07587 /* MockAccount+MockFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DC273DBBA65AD5B05B835EF1F37F86 /* MockAccount+MockFactory.swift */; };
 		76935ED294BF96F67F058633013E1CB0 /* arrow_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2660E352BF087223AC0F253489CF79E2 /* arrow_down@2x.png */; };
@@ -1285,6 +1284,7 @@
 		7B16D485972A736BCDB0DFA6C3E91EC9 /* MockMonetizationRepository+MockFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2731AF1BDE5DEB60D0AC4914438C410 /* MockMonetizationRepository+MockFactory.swift */; };
 		7B30A93410CC7CB5E5B6C66BCD9BAB05 /* UIGestureRecognizer+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E242D7E513125583DE05D8FEB8A1E80 /* UIGestureRecognizer+Rx.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		7B38931E4CDDA580A9A7B45A8C7CAF23 /* LGMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E9FB750DE6A41C6B82E128CB2E98D1 /* LGMedia.swift */; };
+		7B3E285352A8720C0D617FDAB9A14034 /* bumper-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A8B4251F5CCAB7CC7D349032533501B /* bumper-dummy.m */; };
 		7B46DE394B97B7EE118BFB94D52542B4 /* BranchLoadRewardsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC3028D4AE58E58F53382E0397AB0F /* BranchLoadRewardsRequest.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		7B7512A4A8C7861766B466DF7972873A /* WebSocketEventRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C81A4228091B469987C5454A889DE1 /* WebSocketEventRouter.swift */; };
 		7BCD78964C7FDF01C814D9933F43EC24 /* FBSDKBase64.h in Headers */ = {isa = PBXBuildFile; fileRef = 4296FCC6FEA4F83AEB9B3F18E4F4DAD8 /* FBSDKBase64.h */; settings = {ATTRIBUTES = (Project, ); }; };
@@ -1326,10 +1326,12 @@
 		7F2B2E3075C28DA3F37982057BF1AD5D /* SuggestiveSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E49FF056A9BF41F7BC8CDB1A824543 /* SuggestiveSearch.swift */; };
 		7F43EDFBA34F61A10BA9C1CDFF55AB07 /* Array+Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E688D21B803B31803100821A85D1BD1 /* Array+Move.swift */; };
 		7FA94D112BC5B9FF02189D8004C11597 /* Event+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D6F58CFB083BDE2FA015E299F48FA50 /* Event+Equatable.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		7FADC52611B307F18E4A08E01B7C7849 /* BumperViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A9AB6D0EF90EEB4997EF40BFEEB74A /* BumperViewModel.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		7FDB435398A60FF323DE7DA8F30C92DB /* FBSDKLikeBoxView.h in Headers */ = {isa = PBXBuildFile; fileRef = D24A748DFFC56298BB5DF4A4A2331EB9 /* FBSDKLikeBoxView.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		7FE8EC4B8AE36F5985B6D9C33963D91E /* FBSDKShareKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4D831C37950969A377FA4C96BFBD183 /* FBSDKShareKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		801E96ED365DCFDEB31F4CAF4B1BC046 /* CameraManager-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = DDD939869D404CC195F3CD7C6AC87FC2 /* CameraManager-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8023D76AC210365ECC883780FFE56A96 /* MPVASTResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = F81AC43684EB34AAAD0D51362B0B4DAB /* MPVASTResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8025CD20803FABF0D9289219B2D0AA66 /* BumperCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33601FF05E9E0408E52737590E6AEF9 /* BumperCell.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		8042A2E2A8B3F1A6CA3C918889BF81F1 /* BNCDeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 25AD431DA6DD98149B900F64C5BBC978 /* BNCDeviceInfo.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		804AD8183646A90761F326DD1FE2C87F /* _RX.m in Sources */ = {isa = PBXBuildFile; fileRef = FF7A1695F418A4939D8B326512D6FB2C /* _RX.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		805CF286E2B06B6163387EAEB93F83B1 /* LGUUID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0872E84A574F85E52F5D11AF9CBCEAEE /* LGUUID.swift */; };
@@ -1434,7 +1436,6 @@
 		8841FA7E2BAE8FBE489DFF56210A20FD /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 016A759464D33566AE31C8367781DD6C /* RxSwift.framework */; };
 		884A7B8517AA4D831CCE6101028C54D7 /* BNCCallbacks.h in Headers */ = {isa = PBXBuildFile; fileRef = 505B73EDF274933AFEF47803F0B43BF4 /* BNCCallbacks.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88F9EE8E3DC70E82C3ECDFEC6667DB85 /* URL+Randomizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF292B84F261EA8F7FAB98CB5C54D4C /* URL+Randomizable.swift */; };
-		8914D69BA229C6E563C2219D839C08B7 /* BumperFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0268C3A83231E72B13F684460AF340B2 /* BumperFeature.swift */; };
 		891E4A70D174E056BF650B0BB1B766DF /* LOTShapeFill.h in Headers */ = {isa = PBXBuildFile; fileRef = 335CD052D0F691044F45BB7AB6DD6EAA /* LOTShapeFill.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		895289F707B05338A5E8AED87123C0BE /* ApiCarsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465C1242543101B37F64F5241A96B30B /* ApiCarsModel.swift */; };
 		898006D778B7DF03C10635949B10021D /* sync_session.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 687A1D58C18395545F012879F3074C2B /* sync_session.cpp */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.0.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
@@ -1803,6 +1804,7 @@
 		AA85F3BFB85ECE9B46B90329D91D8BCE /* MPInterstitialCustomEventAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FCC75DBE691050572031276AB66A9D8 /* MPInterstitialCustomEventAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA9DA4D37442CEADE501BCFD6EE5E671 /* MyUserApiDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA1038BF3706064713356089454FB92 /* MyUserApiDataSource.swift */; };
 		AAA1652997F10C1F4CBB2BFE99C64BB6 /* NSMutableDictionary+Branch.m in Sources */ = {isa = PBXBuildFile; fileRef = D3D22FC467FC1022BD1B44E32B1C2856 /* NSMutableDictionary+Branch.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		AABA9B4D9DC8EFA4099243DAB1A20DEF /* BumperDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F27A941029727B88F2BDB6D2AB76F6B /* BumperDAO.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		AABCCD905D5F541A09D1809E89E97AB9 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F872B7F9A7B747440FC1BF9C08C88ED0 /* Environment.swift */; };
 		AAD5EA681638F4688F54C775D837C7E6 /* FBSDKLikeButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 9884F196641EE16C386B62997BC7A150 /* FBSDKLikeButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAF01FF6C9638BF55FABB5AC54B58CC2 /* FLEXRealmDatabaseManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DF5DAB25ACC21CEDF521C397B6BAC5F9 /* FLEXRealmDatabaseManager.h */; settings = {ATTRIBUTES = (Project, ); }; };
@@ -2048,7 +2050,6 @@
 		C1A2658619A9B8186315094E047EBFB0 /* RLMRealmConfiguration_Private.h in Copy . Private Headers */ = {isa = PBXBuildFile; fileRef = CCDBD1AC5CE14FBC5C2EC555EE4A6CB6 /* RLMRealmConfiguration_Private.h */; };
 		C1AD748BBE947F3C241D4F2A957C931A /* FBSDKLikeButton+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 1315D50BEEF4EA8685A03DA084CC4833 /* FBSDKLikeButton+Internal.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		C1B420820C802D90A660C435CF87C25F /* RLMProperty.h in Headers */ = {isa = PBXBuildFile; fileRef = 510EED36BD4A5B5DB95D33E0245E6C3B /* RLMProperty.h */; };
-		C1B8B76852CC96686D9C4245ACC06DC0 /* Bumper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A568D7546BA3382ED2ADEDFFC2B8F6C /* Bumper.swift */; };
 		C1BF8727C6472D566CD08B7EA1565CA4 /* arrow_up@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6545B570C7053DCEAB603D6A6880B666 /* arrow_up@2x.png */; };
 		C1BFBD52D0FF3EF61541225856A500BA /* BranchCreditHistoryRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E5105AB8B2CB589F9042CC65A140A0E /* BranchCreditHistoryRequest.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		C1E01C341EBB4BF0FCF22EC2FA7D4456 /* FBSDKBridgeAPIProtocolWebV1.m in Sources */ = {isa = PBXBuildFile; fileRef = FF83A45C3C3BC58CB4DA8B2DE738CE22 /* FBSDKBridgeAPIProtocolWebV1.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
@@ -2425,6 +2426,7 @@
 		E5AB59E6F6C046F6E24F99EE29DFC6CD /* LOTBlockCallback.h in Headers */ = {isa = PBXBuildFile; fileRef = 901A9AB7EA7280442F1D1C68AF89FFBB /* LOTBlockCallback.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E5AF228A885F8E3D2E6B777283DF0293 /* PublishSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA967C3198FDD2E8A3FF1D7FCEFC4B1 /* PublishSubject.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		E5C427877CB18BB6580AF57D2C9F8FC2 /* ContactRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3848A477195B0E2F8C928B1627325F3 /* ContactRouter.swift */; };
+		E5D5B97B53ED0DA5A4A663D54B68D654 /* BumperViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9304AF8E85E93B1E62E49CA302CCB599 /* BumperViewController.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		E5F704ED8EB35BFD74D697F6AB8F0288 /* Just.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806726E67A51D2C9C1ACFA69C3B4B106 /* Just.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		E627C1846C2085FF0C2757DED2E9D4A7 /* GTMSessionFetcherLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = D82A654FFF4F97C2BBC20688AFFAB83C /* GTMSessionFetcherLogging.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		E6405D9B27FEF193442741B3E8059129 /* UsersMemoryDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FCE12F897352B621CE87A1735FCAE7 /* UsersMemoryDAO.swift */; };
@@ -2634,7 +2636,6 @@
 		F880CD14E4953E50D9B49A3FDBB75015 /* MockUserListingRelation+MockFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035701C2718B1BD8E988F05E36D31644 /* MockUserListingRelation+MockFactory.swift */; };
 		F880D3ACA7F7A3ABF8FA719FE89EC093 /* MPBaseBannerAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A951654DD82D3E884211F2880596C19 /* MPBaseBannerAdapter.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		F8882341C1241D27792F274FD32C6684 /* FBSDKSharing.h in Headers */ = {isa = PBXBuildFile; fileRef = C6F0CBC83473B5D349CFA4A9F7ADA332 /* FBSDKSharing.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F89F079B8A92BE6854263BC5FB84B43D /* BumperCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33601FF05E9E0408E52737590E6AEF9 /* BumperCell.swift */; };
 		F8A9EE0ABD21FD39ED7EFFFDF7A50182 /* MPAdAlertManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D5205329C72ADEFC2B0E7B8F5256374E /* MPAdAlertManager.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		F8C22D0AEEF29BD8B9EE3F3D720F3F23 /* FLEXGlobalsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F624607F858CE2C98B6FFFCBF9D5B918 /* FLEXGlobalsTableViewController.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		F8D6A0B56E976AE9C8F1CB26B46488BE /* RxTest-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = F48106204245B5C45096BCA96B2DE62F /* RxTest-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -2693,7 +2694,6 @@
 		FD9FDFDC554B017631182EAA9F4ACC46 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB763B627D5405F5E21D32BA9579F094 /* Foundation.framework */; };
 		FDA3EEDD083CF5D378CFB25374FC33DA /* MOPUBActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA9291918965F1AE7C9DD2CC90D5E435 /* MOPUBActivityIndicatorView.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		FDAB11DD7168D03D8B3C2D6DE0BE54B1 /* UsersDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 562065426819D49931553FA1F9FD1C14 /* UsersDAO.swift */; };
-		FDFE72D7CDBAE0E9B8915DAA6D5E1B32 /* BumperViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A9AB6D0EF90EEB4997EF40BFEEB74A /* BumperViewModel.swift */; };
 		FE09B8D27169820DD1C623889673D28E /* ProductionEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3078A822F335FA4064B71D4964C3206 /* ProductionEnvironment.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		FE0C7E70BBCA4831A9E7F67747C2C0A6 /* MPInterstitialCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = AEB47BE46D2A92B8C1C0F043E3CF62F0 /* MPInterstitialCustomEvent.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FE43F8FFE7E907D951B749A4B6AD2E87 /* WebSocketRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F72AC395D9A0A6489D1AEFFCB9FDD279 /* WebSocketRouter.swift */; };
@@ -12865,7 +12865,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8A424E4A7A86EFE500085F3BB81C2061 /* Build configuration list for PBXNativeTarget "bumper" */;
 			buildPhases = (
-				3881FE171678A1CDEC22A92574AAFE16 /* Sources */,
+				4D8F01033F62606F0FD95702AECB92A4 /* Sources */,
 				36C42B871CB636BA7BFAF085C58A1C0E /* Frameworks */,
 				1FB0CB3587090DCE38AC369DE60A165D /* Headers */,
 			);
@@ -14199,20 +14199,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		3881FE171678A1CDEC22A92574AAFE16 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				61CDB12BEA3DFC1893F983A3D33D7081 /* bumper-dummy.m in Sources */,
-				C1B8B76852CC96686D9C4245ACC06DC0 /* Bumper.swift in Sources */,
-				F89F079B8A92BE6854263BC5FB84B43D /* BumperCell.swift in Sources */,
-				763F108A0D157D2088893D0639C1257F /* BumperDAO.swift in Sources */,
-				8914D69BA229C6E563C2219D839C08B7 /* BumperFeature.swift in Sources */,
-				3D140FE5E58D2E5051EF62790473D463 /* BumperViewController.swift in Sources */,
-				FDFE72D7CDBAE0E9B8915DAA6D5E1B32 /* BumperViewModel.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		4457943391FA059D9C688D8E0904F278 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -14238,6 +14224,20 @@
 				09A4F03E4E47FDC39709EDE73762DEC8 /* Sync.swift in Sources */,
 				286EAEC56524C1629C9FD69E3349479B /* ThreadSafeReference.swift in Sources */,
 				1A4622361F39DBC7CEAEFA46C8C7D0AF /* Util.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4D8F01033F62606F0FD95702AECB92A4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7B3E285352A8720C0D617FDAB9A14034 /* bumper-dummy.m in Sources */,
+				3BF6E24F1396093C200CB69D9A14E5D2 /* Bumper.swift in Sources */,
+				8025CD20803FABF0D9289219B2D0AA66 /* BumperCell.swift in Sources */,
+				AABA9B4D9DC8EFA4099243DAB1A20DEF /* BumperDAO.swift in Sources */,
+				6F37CF552F8B36335B8C22258E06080A /* BumperFeature.swift in Sources */,
+				E5D5B97B53ED0DA5A4A663D54B68D654 /* BumperViewController.swift in Sources */,
+				7FADC52611B307F18E4A08E01B7C7849 /* BumperViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
