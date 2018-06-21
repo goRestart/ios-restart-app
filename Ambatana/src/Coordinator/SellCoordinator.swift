@@ -73,14 +73,9 @@ final class SellCoordinator: Coordinator {
             self.viewController = navigationController
             getStartedVM.navigator = self
         } else {
-            let machineLearningSupported: Bool
-            if #available(iOS 11, *), postCategory?.listingCategory.isProduct ?? true,
-                featureFlags.predictivePosting.isActive,
-                LetgoLanguageHelper.systemLanguage() == "en" {
-                machineLearningSupported = true
-            } else {
-                machineLearningSupported = false
-            }
+            let language = Locale.systemLanguage()
+            let machineLearningSupported = featureFlags.predictivePosting.isSupportedFor(postCategory: postCategory,
+                                                                                         language: language)
             let postListingVM = PostListingViewModel(source: source,
                                                      postCategory: postCategory,
                                                      listingTitle: listingTitle,
@@ -349,15 +344,12 @@ extension SellCoordinator: ListingPostedNavigator {
     func closeProductPostedAndOpenPost() {
         dismissViewController(animated: true) { [weak self] in
             guard let strongSelf = self, let parentVC = strongSelf.parentViewController else { return }
-            let machineLearningSupported: Bool
-            if #available(iOS 11, *), strongSelf.featureFlags.predictivePosting.isActive,
-                LetgoLanguageHelper.systemLanguage() == "en" {
-                machineLearningSupported = true
-            } else {
-                machineLearningSupported = false
-            }
+            let postCategory: PostCategory? = nil
+            let language = Locale.systemLanguage()
+            let machineLearningSupported = featureFlags.predictivePosting.isSupportedFor(postCategory: postCategory,
+                                                                                         language: language)
             let postListingVM = PostListingViewModel(source: strongSelf.postingSource,
-                                                     postCategory: nil,
+                                                     postCategory: postCategory,
                                                      listingTitle: nil,
                                                      isBlockingPosting: false,
                                                      machineLearningSupported: machineLearningSupported)
