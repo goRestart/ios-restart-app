@@ -4,6 +4,7 @@ import RxSwift
 
 final class MockFeatureFlags: FeatureFlaggeable {
 
+
     var trackingData: Observable<[(String, ABGroup)]?> {
         return trackingDataVar.asObservable()
     }
@@ -35,7 +36,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var onboardingIncentivizePosting: OnboardingIncentivizePosting = .control
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings = .control
     var showProTagUserProfile: Bool = false
-    var realEstateTutorial: RealEstateTutorial = .control
     var sectionedMainFeed: SectionedMainFeed = .control
     var showExactLocationForPros: Bool = true
     var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed = .control
@@ -78,7 +78,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     // MARK:  Verticals
     var searchCarsIntoNewBackend: SearchCarsIntoNewBackend = .control
     var filterSearchCarSellerType: FilterSearchCarSellerType = .control
-    var createUpdateIntoNewBackend: CreateUpdateCarsIntoNewBackend = .control
     var realEstateMap: RealEstateMap = .control
     var showServicesFeatures: ShowServicesFeatures = .control
     
@@ -96,7 +95,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var simplifiedChatButton: SimplifiedChatButton = .control
 
     // MARK: Users
-    var showAdvancedReputationSystem: ShowAdvancedReputationSystem = .control
+    var advancedReputationSystem: AdvancedReputationSystem = .control
     var showPasswordlessLogin: ShowPasswordlessLogin = .control
     var emergencyLocate: EmergencyLocate = .control
     var offensiveReportAlert: OffensiveReportAlert = .control

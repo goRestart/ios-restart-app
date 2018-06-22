@@ -10,7 +10,7 @@ import Foundation
 
 struct UsersABGroup: ABGroupType {
     private struct Keys {
-        static let advancedReputationSystem = "20180328AdvancedReputationSystem"
+        static let advancedReputationSystem = "20180621AdvancedReputationSystem"
         static let showPasswordlessLogin = "20180417ShowPasswordlessLogin"
         static let emergencyLocate = "20180425EmergencyLocate"
         static let offensiveReportAlert = "20180525OffensiveReportAlert"

@@ -54,7 +54,7 @@ class ABTestsSpec: QuickSpec {
                     sut.registerVariables()
                 }
                 it("registers all the variables") {
-                    expect(syncer.syncedCount) == 63
+                    expect(syncer.syncedCount) == 61
                 }
             }
 
@@ -136,9 +136,9 @@ class ABTestsSpec: QuickSpec {
                 }
             }
             
-            context("registering all the verticals variables") {
-                it("the realestate int variable registered are 2") {
-                    expect(realEstate.intVariables.count) == 2
+            context("registering all the real estate variables") {
+                it("the realestate int variable registered is 1") {
+                    expect(realEstate.intVariables.count) == 1
                 }
                 
                 it("the realestate bool variable registered are 0") {
@@ -161,8 +161,8 @@ class ABTestsSpec: QuickSpec {
                     syncer.sync(variables: realEstate.stringVariables)
                     syncer.sync(variables: realEstate.floatVariables)
                 }
-                it("the variables registered are 2") {
-                    expect(syncer.syncedCount) == 2
+                it("the variables registered is 1") {
+                    expect(syncer.syncedCount) == 1
                 }
             }
             
@@ -173,8 +173,8 @@ class ABTestsSpec: QuickSpec {
                     syncer.sync(variables: verticals.stringVariables)
                     syncer.sync(variables: verticals.floatVariables)
                 }
-                it("the variables registered are 5") {
-                    expect(syncer.syncedCount) == 5
+                it("the variables registered are 4") {
+                    expect(syncer.syncedCount) == 4
                 }
             }
 

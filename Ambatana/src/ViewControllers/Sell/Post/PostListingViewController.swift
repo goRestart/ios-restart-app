@@ -85,7 +85,7 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
         if viewModel.shouldShowVideoFooter {
             postFooter = VPPostListingRedCamFooter(infoButtonIncluded: false)
         } else {
-            postFooter = PostListingRedCamButtonFooter(infoButtonIncluded: viewModel.shouldShowInfoButton)
+            postFooter = PostListingRedCamButtonFooter(infoButtonIncluded: false)
         }
         self.footer = postFooter
         self.footerView = postFooter
@@ -152,7 +152,6 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         viewDidAppear = true
-        viewModel.showRealEstateTutorial(origin: .sellStart)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -180,10 +179,6 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
     @objc func galleryButtonPressed() {
         guard viewPager.scrollEnabled else { return }
         viewPager.selectTabAtIndex(Tab.gallery.index, animated: true)
-    }
-    
-    @objc func infoButtonPressed() {
-        viewModel.infoButtonPressed()
     }
     
     @objc func galleryPostButtonPressed() {
@@ -231,11 +226,6 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
     @IBAction func onRetryButton(_ sender: AnyObject) {
         viewModel.retryButtonPressed()
     }
-    
-    @objc func learnMorePressed() {
-        viewModel.learnMorePressed()
-    }
-    
     
     // MARK: - Private methods
 
@@ -418,10 +408,6 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
             self?.galleryButtonPressed()
         }).disposed(by: disposeBag)
         
-        footer.infoButton.rx.controlEvent(.touchUpInside).asDriver().drive(onNext: { [weak self] (_) in
-            self?.infoButtonPressed()
-        }).disposed(by: disposeBag)
-        
         footer.cameraButton.rx.controlEvent(.touchUpInside).asDriver().drive(onNext: { [weak self] (_) in
             self?.cameraButtonReleased()
         }).disposed(by: disposeBag)
@@ -446,13 +432,13 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
         cameraView.takePhotoEnabled.asObservable().bind(to: footer.galleryButton.rx.isEnabled).disposed(by: disposeBag)
         cameraView.recordingDuration.asObservable().subscribeNext { [weak self] (duration) in
             let progress = CGFloat(duration/SharedConstants.videoMaxRecordingDuration)
-            let remainingTime = SharedConstants.videoMaxRecordingDuration - duration
-            self?.footer.updateVideoRecordingDurationProgress(progress: progress, remainingTime: remainingTime)
+            self?.footer.updateVideoRecordingDurationProgress(progress: progress, recordingDuration: duration)
         }.disposed(by: disposeBag)
 
         cameraView.isRecordingVideo.asDriver().drive(onNext: { [weak self] isRecordingVideo in
             self?.footer.photoButton.isHidden = isRecordingVideo
             self?.footer.videoButton.isHidden = isRecordingVideo
+            self?.footer.newBadgeLabel.isHidden = isRecordingVideo
             self?.footer.galleryButton.isHidden = isRecordingVideo
             isRecordingVideo ? self?.footer.startRecording() : self?.footer.stopRecording()
         }).disposed(by: disposeBag)
@@ -818,10 +804,6 @@ extension PostListingViewController: PostListingCameraViewDelegate {
     func productCameraRequestsScrollLock(_ lock: Bool) {
         viewPager.scrollEnabled = !lock
     }
-    
-    func productCameraLearnMoreButton() {
-        learnMorePressed()
-    }
 
     func productCameraRequestCategory() {
         let alert = UIAlertController(title: R.Strings.sellChooseCategoryDialogTitle, message: nil,
@@ -841,6 +823,10 @@ extension PostListingViewController: PostListingCameraViewDelegate {
         alert.addAction(UIAlertAction(title: R.Strings.sellChooseCategoryDialogCancelButton,
                                       style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
+    }
+
+    func productCameraShowRecordingErrorMessage(message: String) {
+        showAutoFadingOutMessageAlert(message: message, time: 1)
     }
 }
 

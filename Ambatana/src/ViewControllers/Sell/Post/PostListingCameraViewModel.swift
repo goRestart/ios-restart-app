@@ -21,6 +21,7 @@ final class PostListingCameraViewModel: BaseViewModel {
     let imageSelected = Variable<UIImage?>(nil)
     let videoRecorded = Variable<RecordedVideo?>(nil)
     let cameraMode = Variable<CameraMode>(.photo)
+    let videoRecordingErrorMessage = PublishSubject<String?>()
 
     let infoShown = Variable<Bool>(false)
     let infoTitle = Variable<String>("")
@@ -56,11 +57,6 @@ final class PostListingCameraViewModel: BaseViewModel {
             let text = NSAttributedString(string: R.Strings.realEstateCameraViewRealEstateLearnMore,
                                           attributes: titleAttributes)
             return text
-    }
-    
-    var learnMoreIsHidden: Bool {
-        guard let category = postCategory else { return true }
-        return !(category == .realEstate && featureFlags.realEstateTutorial.shouldShowLearnMoreButton)
     }
 
     let machineLearning: MachineLearning
@@ -175,6 +171,8 @@ final class PostListingCameraViewModel: BaseViewModel {
             cameraState.value = .previewVideo
         } else {
             backToCaptureMode()
+            let message = R.Strings.productPostCameraVideoRecordingMinDurationMessage(Int(SharedConstants.videoMinRecordingDuration))
+            videoRecordingErrorMessage.onNext(message)
         }
     }
 
@@ -218,10 +216,6 @@ final class PostListingCameraViewModel: BaseViewModel {
 
     func hideVerticalTextAlert() {
         shouldShowVerticalText.value = false
-    }
-    
-    func learnMorePressed() {
-        cameraDelegate?.productCameraLearnMoreButton()
     }
 
     // MARK: - Private methods
@@ -439,13 +433,6 @@ final class PostListingCameraViewModel: BaseViewModel {
         machineLearning.isLiveStatsEnabled = enable
         isLiveStatsEnabled.value = enable
         machineLearning.liveStats.value = nil
-    }
-}
-
-
-fileprivate extension RealEstateTutorial {
-    var shouldShowLearnMoreButton: Bool {
-        return self == .oneScreen || self == .twoScreens || self == .threeScreens
     }
 }
 

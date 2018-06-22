@@ -863,11 +863,9 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
                 let updatedParams = editParams.updating(images: newImages + remoteImages + videoSnapshots)
                     .updating(videos: remoteVideos)
 
-                let shouldUseCarEndpoint = strongSelf.featureFlags.createUpdateIntoNewBackend.shouldUseCarEndpoint(with: updatedParams)
                 let shouldUseServicesEndpoint = strongSelf.featureFlags.showServicesFeatures.isActive
                 
                 let updateAction = strongSelf.listingRepository.updateAction(forParams: updatedParams,
-                                                                             shouldUseCarEndpoint: shouldUseCarEndpoint,
                                                                              shouldUseServicesEndpoint: shouldUseServicesEndpoint)
                 
                 updateAction(updatedParams) { result in
