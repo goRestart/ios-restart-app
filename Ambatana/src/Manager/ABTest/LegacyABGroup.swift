@@ -28,7 +28,6 @@ struct LegacyABGroup: ABGroupType {
         static let showClockInDirectAnswer = "20171031ShowClockInDirectAnswer"
         static let mostSearchedDemandedItems = "20180104MostSearchedDemandedItems"
         static let showAdsInFeedWithRatio = "20180111ShowAdsInFeedWithRatio"
-        static let removeCategoryWhenClosingPosting = "20180126RemoveCategoryWhenClosingPosting"
     }
     
     let marketingPush: LeanplumABVariable<Int>
@@ -50,7 +49,6 @@ struct LegacyABGroup: ABGroupType {
     let showClockInDirectAnswer: LeanplumABVariable<Int>
     let mostSearchedDemandedItems: LeanplumABVariable<Int>
     let showAdsInFeedWithRatio: LeanplumABVariable<Int>
-    let removeCategoryWhenClosingPosting: LeanplumABVariable<Int>
     
     
     let group: ABGroup = .legacyABTests
@@ -76,8 +74,7 @@ struct LegacyABGroup: ABGroupType {
          taxonomiesAndTaxonomyChildrenInFeed: LeanplumABVariable<Int>,
          showClockInDirectAnswer: LeanplumABVariable<Int>,
          mostSearchedDemandedItems: LeanplumABVariable<Int>,
-         showAdsInFeedWithRatio: LeanplumABVariable<Int>,
-         removeCategoryWhenClosingPosting: LeanplumABVariable<Int>) {
+         showAdsInFeedWithRatio: LeanplumABVariable<Int>) {
         
         self.marketingPush = marketingPush
         self.showNPSSurvey = showNPSSurvey
@@ -97,7 +94,6 @@ struct LegacyABGroup: ABGroupType {
         self.showClockInDirectAnswer = showClockInDirectAnswer
         self.mostSearchedDemandedItems = mostSearchedDemandedItems
         self.showAdsInFeedWithRatio = showAdsInFeedWithRatio
-        self.removeCategoryWhenClosingPosting = removeCategoryWhenClosingPosting
         
         intVariables.append(contentsOf: [marketingPush,
                                          locationDataSourceType,
@@ -107,8 +103,7 @@ struct LegacyABGroup: ABGroupType {
                                          taxonomiesAndTaxonomyChildrenInFeed,
                                          showClockInDirectAnswer,
                                          mostSearchedDemandedItems,
-                                         showAdsInFeedWithRatio,
-                                         removeCategoryWhenClosingPosting])
+                                         showAdsInFeedWithRatio])
         boolVariables.append(contentsOf: [showNPSSurvey, surveyEnabled, freeBumpUpEnabled,
                                           pricedBumpUpEnabled, newCarsMultiRequesterEnabled, inAppRatingIOS10,
                                           userReviewsReportEnabled, appRatingDialogInactive])
@@ -133,7 +128,6 @@ struct LegacyABGroup: ABGroupType {
                              newItemPage: .makeInt(key: Keys.deckItemPage, defaultValue: 0, groupType: .legacyABTests),
                              taxonomiesAndTaxonomyChildrenInFeed: .makeInt(key: Keys.taxonomiesAndTaxonomyChildrenInFeed, defaultValue: 0, groupType: .legacyABTests),
                              showClockInDirectAnswer: .makeInt(key: Keys.showClockInDirectAnswer, defaultValue: 0, groupType: .legacyABTests),
-                             mostSearchedDemandedItems: .makeInt(key: Keys.mostSearchedDemandedItems, defaultValue: 0, groupType: .retention), showAdsInFeedWithRatio: .makeInt(key: Keys.showAdsInFeedWithRatio, defaultValue: 0, groupType: .legacyABTests),
-                             removeCategoryWhenClosingPosting: .makeInt(key: Keys.removeCategoryWhenClosingPosting, defaultValue: 0, groupType: .legacyABTests))
+                             mostSearchedDemandedItems: .makeInt(key: Keys.mostSearchedDemandedItems, defaultValue: 0, groupType: .retention), showAdsInFeedWithRatio: .makeInt(key: Keys.showAdsInFeedWithRatio, defaultValue: 0, groupType: .legacyABTests))
     }
 }

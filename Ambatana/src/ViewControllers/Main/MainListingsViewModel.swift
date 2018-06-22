@@ -460,7 +460,6 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         updatePermissionsWarning()
         taxonomyChildren = filterSuperKeywordsHighlighted(taxonomies: getTaxonomyChildren())
         updateCategoriesHeader()
-        updateRealEstateBanner()
         if isTaxonomiesAndTaxonomyChildrenInFeedEnabled {
             taxonomies = getTaxonomies()
         }
@@ -679,7 +678,6 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         }
         
         updateCategoriesHeader()
-        updateRealEstateBanner()
         updateListView()
     }
     
@@ -688,7 +686,6 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                                                                      name: categoryHeaderInfo.name))
         delegate?.vmShowTags(primaryTags: primaryTags, secondaryTags: secondaryTags)
         updateCategoriesHeader()
-        updateRealEstateBanner()
         updateListView()
     }
     
@@ -721,19 +718,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     func updateSelectedTaxonomyChildren(taxonomyChildren: [TaxonomyChild]) {
         filters.selectedTaxonomyChildren = taxonomyChildren
         updateCategoriesHeader()
-        updateRealEstateBanner()
         updateListView()
     }
-    
-    func showRealEstateTutorial() {
-        guard !keyValueStorage[.realEstateTutorialShown] && featureFlags.realEstateTutorial.isActive else { return }
-        guard let pages = LGTutorialPage.makeRealEstateTutorial(typeOfOnboarding: featureFlags.realEstateTutorial) else {
-            return
-        }
-        keyValueStorage[.realEstateTutorialShown] = true
-        navigator?.openRealEstateOnboarding(pages: pages, origin: .filterBubble, tutorialType: .realEstate)
-    }
-    
     
     // MARK: - Private methods
 
@@ -747,8 +733,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     private func setupRx() {
         listViewModel.isListingListEmpty.asObservable().bind { [weak self] _ in
             self?.updateCategoriesHeader()
-            self?.updateRealEstateBanner()
-        }.disposed(by: disposeBag) 
+        }.disposed(by: disposeBag)
     }
     
     /**
@@ -1273,7 +1258,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
     }
     
     private func addRealEstatePromoItem(to listings: [ListingCellModel]) -> [ListingCellModel] {
-        guard featureFlags.realEstatePromoCell.isActive, isRealEstateSearch, !listings.isEmpty
+        guard isRealEstateSearch, !listings.isEmpty
             else { return listings }
         
         guard (!filters.hasAnyRealEstateAttributes && listingListRequester.multiIsFirstPage) ||
@@ -1555,10 +1540,6 @@ extension MainListingsViewModel {
         let isShowingListings = !listViewModel.isListingListEmpty.value
         return primaryTags.isEmpty && isShowingListings && isSearchAlertsBannerHidden
     }
-    
-    var showRealEstateBanner: Bool {
-        return !listViewModel.isListingListEmpty.value && filters.selectedCategories == [.realEstate]
-    }
 
     func pushPermissionsHeaderPressed() {
         openPushPermissionsAlert()
@@ -1578,19 +1559,6 @@ extension MainListingsViewModel {
         }
         guard mainListingsHeader.value != currentHeader else { return }
         mainListingsHeader.value = currentHeader
-    }
-    
-    @objc fileprivate dynamic func updateRealEstateBanner() {
-        if !featureFlags.realEstatePromoCell.isActive {
-            var currentHeader = mainListingsHeader.value
-            if showRealEstateBanner {
-                currentHeader.insert(MainListingsHeader.RealEstateBanner)
-            } else {
-                currentHeader.remove(MainListingsHeader.RealEstateBanner)
-            }
-            guard mainListingsHeader.value != currentHeader else { return }
-            mainListingsHeader.value = currentHeader
-        }
     }
     
     @objc fileprivate dynamic func updateCategoriesHeader() {
@@ -1795,7 +1763,6 @@ extension MainListingsViewModel: TaxonomiesDelegate {
         filters.selectedTaxonomyChildren = []
         delegate?.vmShowTags(primaryTags: primaryTags, secondaryTags: secondaryTags)
         updateCategoriesHeader()
-        updateRealEstateBanner()
         updateListView()
     }
     
@@ -1803,7 +1770,6 @@ extension MainListingsViewModel: TaxonomiesDelegate {
         filters.selectedTaxonomyChildren = [taxonomyChild]
         delegate?.vmShowTags(primaryTags: primaryTags, secondaryTags: secondaryTags)
         updateCategoriesHeader()
-        updateRealEstateBanner()
         updateListView()
     }
 }

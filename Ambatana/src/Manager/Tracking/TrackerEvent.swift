@@ -621,9 +621,11 @@ struct TrackerEvent {
         return TrackerEvent(name: .listingSellComplete24h, params: params)
     }
 
-    static func listingSellError(_ error: EventParameterPostListingError) -> TrackerEvent {
+    static func listingSellError(_ error: EventParameterPostListingError,
+                                 withCategoryId categoryId: Int?) -> TrackerEvent {
         var params = EventParameters()
         params[.errorDescription] = error.description
+        params[.categoryId] = categoryId ?? 0
         return TrackerEvent(name: .listingSellError, params: params)
     }
 
@@ -706,6 +708,18 @@ struct TrackerEvent {
         var params = EventParameters()
         params[.abandonStep] = abandonStep.rawValue
         return TrackerEvent(name: .listingSellAbandon, params: params)
+    }
+    
+    static func listingEditError(_ user: User?,
+                                 listing: Listing?,
+                                 errorDescription: String?) -> TrackerEvent {
+        var params = EventParameters()
+        params[.categoryId] = listing?.category.rawValue ?? 0
+        params[.listingId] = listing?.objectId ?? ""
+        params[.userId] = user?.objectId ?? ""
+        params[.errorDescription] = errorDescription ?? ""
+        
+        return TrackerEvent(name: .listingEditError, params: params)
     }
 
     static func listingEditStart(_ user: User?, listing: Listing, pageType: EventParameterTypePage?) -> TrackerEvent {

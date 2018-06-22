@@ -8,4 +8,8 @@ extension UICollectionView {
     func register<T>(types: [T.Type]) where T: UICollectionViewCell, T: ReusableCell {
         types.forEach { register(type: $0) }
     }
+    
+    func dequeue<T>(type: T.Type, for indexPath: IndexPath) -> T? where T: UICollectionViewCell, T: ReusableCell {
+        return dequeueReusableCell(withReuseIdentifier: type.reusableID, for: indexPath) as? T
+    }
 }

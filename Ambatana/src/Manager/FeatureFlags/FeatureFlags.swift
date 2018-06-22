@@ -29,7 +29,6 @@ protocol FeatureFlaggeable: class {
     var deckItemPage: DeckItemPage { get }
     var mostSearchedDemandedItems: MostSearchedDemandedItems { get }
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio { get }
-    var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting { get }
     var realEstateNewCopy: RealEstateNewCopy { get }
     var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers { get }
@@ -37,11 +36,8 @@ protocol FeatureFlaggeable: class {
     var relaxedSearch: RelaxedSearch { get }
     var onboardingIncentivizePosting: OnboardingIncentivizePosting { get }
     var bumpUpBoost: BumpUpBoost { get }
-    var increaseNumberOfPictures: IncreaseNumberOfPictures { get }
-    var realEstateTutorial: RealEstateTutorial { get }
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings { get }
     var showProTagUserProfile: Bool { get }
-    var summaryAsFirstStep: SummaryAsFirstStep { get }
     var sectionedMainFeed: SectionedMainFeed { get }
     var showExactLocationForPros: Bool { get }
     var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed { get }
@@ -81,9 +77,7 @@ protocol FeatureFlaggeable: class {
 
     // MARK: Verticals
     var searchCarsIntoNewBackend: SearchCarsIntoNewBackend { get }
-    var realEstatePromoCell: RealEstatePromoCell { get }
     var filterSearchCarSellerType: FilterSearchCarSellerType { get }
-    var createUpdateIntoNewBackend: CreateUpdateCarsIntoNewBackend { get }
     var realEstateMap: RealEstateMap { get }
     var showServicesFeatures: ShowServicesFeatures { get }
     
@@ -101,7 +95,7 @@ protocol FeatureFlaggeable: class {
     var simplifiedChatButton: SimplifiedChatButton { get }
 
     // MARK: Users
-    var showAdvancedReputationSystem: ShowAdvancedReputationSystem { get }
+    var advancedReputationSystem: AdvancedReputationSystem { get }
     var emergencyLocate: EmergencyLocate { get }
     var offensiveReportAlert: OffensiveReportAlert { get }
     
@@ -178,10 +172,6 @@ extension NoAdsInFeedForNewUsers {
     }
 }
 
-extension RemoveCategoryWhenClosingPosting {
-    var isActive: Bool { return self == .active }
-}
-
 extension RealEstateNewCopy {
     var isActive: Bool { return self == .active }
 }
@@ -217,10 +207,6 @@ extension DeckItemPage {
     var isActive: Bool {get { return self == .active }}
 }
 
-extension IncreaseNumberOfPictures {
-    var isActive: Bool { return self == .active }
-}
-
 extension AddPriceTitleDistanceToListings {
     var hideDetailInFeaturedArea: Bool {
         return self == .infoInImage
@@ -254,14 +240,6 @@ extension CopyForChatNowInTurkey {
     }
 }
 
-extension RealEstateTutorial {
-    var isActive: Bool { return self != .baseline && self != .control }
-}
-
-extension RealEstatePromoCell {
-    var isActive: Bool { return self == .active }
-}
-
 extension RealEstateMap {
     var isActive: Bool { return self != .baseline && self != .control }
 }
@@ -274,23 +252,9 @@ extension FilterSearchCarSellerType {
     }
 }
 
-extension CreateUpdateCarsIntoNewBackend {
-    var isActive: Bool { return self != .baseline && self != .control }
-    
-    func shouldUseCarEndpoint(with params: ListingCreationParams) -> Bool {
-        return isActive && params.isCarParams
-    }
-    func shouldUseCarEndpoint(with params: ListingEditionParams) -> Bool {
-        return isActive && params.isCarParams
-    }
-}
-
-extension SummaryAsFirstStep {
-    var isActive: Bool { return self == .active }
-}
-
-extension ShowAdvancedReputationSystem {
-    var isActive: Bool { return self == .active }
+extension AdvancedReputationSystem {
+    var isActive: Bool { return self != .baseline && self != .control  }
+    var shouldShowTooltip: Bool { return self == .variantB }
 }
 
 extension ShowPasswordlessLogin {
@@ -419,6 +383,14 @@ extension ServicesCategoryOnSalchichasMenu {
 
 extension PredictivePosting {
     var isActive: Bool { return self == .active }
+
+    func isSupportedFor(postCategory: PostCategory?, language: String) -> Bool {
+        if #available(iOS 11, *), isActive, postCategory?.listingCategory.isProduct ?? true, language == "en" {
+            return true
+        } else {
+            return false
+        }
+    }
 }
 
 extension VideoPosting {
@@ -535,7 +507,7 @@ final class FeatureFlags: FeatureFlaggeable {
             dao.save(timeoutForRequests: TimeInterval(Bumper.requestsTimeOut.timeout))
         } else {
             dao.save(timeoutForRequests: TimeInterval(abTests.requestsTimeOut.value))
-            dao.save(showAdvanceReputationSystem: ShowAdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value))
+            dao.save(advanceReputationSystem: AdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value))
             dao.save(emergencyLocate: EmergencyLocate.fromPosition(abTests.emergencyLocate.value))
             dao.save(chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs.fromPosition(abTests.chatConversationsListWithoutTabs.value))
         }
@@ -626,13 +598,6 @@ final class FeatureFlags: FeatureFlaggeable {
         return ShowAdsInFeedWithRatio.fromPosition(abTests.showAdsInFeedWithRatio.value)
     }
     
-    var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting {
-        if Bumper.enabled {
-            return Bumper.removeCategoryWhenClosingPosting
-        }
-        return RemoveCategoryWhenClosingPosting.fromPosition(abTests.removeCategoryWhenClosingPosting.value)
-    }
-    
     var realEstateNewCopy: RealEstateNewCopy {
         if Bumper.enabled {
             return Bumper.realEstateNewCopy
@@ -675,20 +640,6 @@ final class FeatureFlags: FeatureFlaggeable {
         return OnboardingIncentivizePosting.fromPosition(abTests.onboardingIncentivizePosting.value)
     }
     
-    var realEstateTutorial: RealEstateTutorial {
-        if Bumper.enabled {
-            return Bumper.realEstateTutorial
-        }
-        return RealEstateTutorial.fromPosition(abTests.realEstateTutorial.value)
-    }
-    
-    var increaseNumberOfPictures: IncreaseNumberOfPictures {
-        if Bumper.enabled {
-            return Bumper.increaseNumberOfPictures
-        }
-        return IncreaseNumberOfPictures.fromPosition(abTests.increaseNumberOfPictures.value)
-    }
-    
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings {
         if Bumper.enabled {
             return Bumper.addPriceTitleDistanceToListings
@@ -710,19 +661,12 @@ final class FeatureFlags: FeatureFlaggeable {
         return abTests.showProTagUserProfile.value
     }
 
-    var summaryAsFirstStep: SummaryAsFirstStep {
+    var advancedReputationSystem: AdvancedReputationSystem {
         if Bumper.enabled {
-            return Bumper.summaryAsFirstStep
+            return Bumper.advancedReputationSystem
         }
-        return SummaryAsFirstStep.fromPosition(abTests.summaryAsFirstStep.value)
-    }
-
-    var showAdvancedReputationSystem: ShowAdvancedReputationSystem {
-        if Bumper.enabled {
-            return Bumper.showAdvancedReputationSystem
-        }
-        let cached = dao.retrieveShowAdvanceReputationSystem()
-        return cached ?? ShowAdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value)
+        let cached = dao.retrieveAdvanceReputationSystem()
+        return cached ?? AdvancedReputationSystem.fromPosition(abTests.advancedReputationSystem.value)
     }
     
     var sectionedMainFeed: SectionedMainFeed {
@@ -1171,25 +1115,11 @@ extension FeatureFlags {
         return SearchCarsIntoNewBackend.fromPosition(abTests.searchCarsIntoNewBackend.value)
     }
     
-    var realEstatePromoCell: RealEstatePromoCell {
-        if Bumper.enabled {
-            return Bumper.realEstatePromoCell
-        }
-        return RealEstatePromoCell.fromPosition(abTests.realEstatePromoCell.value)
-    }
-    
     var filterSearchCarSellerType: FilterSearchCarSellerType {
         if Bumper.enabled {
             return Bumper.filterSearchCarSellerType
         }
         return FilterSearchCarSellerType.fromPosition(abTests.filterSearchCarSellerType.value)
-    }
-    
-    var createUpdateIntoNewBackend: CreateUpdateCarsIntoNewBackend {
-        if Bumper.enabled {
-            return Bumper.createUpdateCarsIntoNewBackend
-        }
-        return CreateUpdateCarsIntoNewBackend.fromPosition(abTests.createUpdateCarsIntoNewBackend.value)
     }
     
     var realEstateMap: RealEstateMap {

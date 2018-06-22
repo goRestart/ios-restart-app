@@ -127,7 +127,7 @@ class ListingPostedViewModel: BaseViewModel {
             return false
         case .success:
             return false
-        case let .error(error):
+        case let .error(error, _):
             switch error {
             case .forbidden(cause: .differentCountry):
                 return true
@@ -154,7 +154,7 @@ class ListingPostedViewModel: BaseViewModel {
             return nil
         case .success:
             return wasFreePosting ? R.Strings.productPostIncentiveSubtitleFree : R.Strings.productPostIncentiveSubtitle
-        case let .error(error):
+        case let .error(error, _):
             switch error {
             case .forbidden(cause: .differentCountry):
                 return R.Strings.productPostDifferentCountryError
@@ -189,7 +189,7 @@ class ListingPostedViewModel: BaseViewModel {
             listing = listingPosted
         case .posting:
             break
-        case let .error(error):
+        case let .error(error, _):
             tracker.trackEvent(TrackerEvent.listingSellErrorClose(error))
         }
         
@@ -218,7 +218,7 @@ class ListingPostedViewModel: BaseViewModel {
             break
         case let .success(listing):
             tracker.trackEvent(TrackerEvent.listingSellConfirmationPost(listing, buttonType: .button))
-        case let .error(error):
+        case let .error(error, _):
             tracker.trackEvent(TrackerEvent.listingSellErrorPost(error))
         }
 
@@ -251,19 +251,16 @@ class ListingPostedViewModel: BaseViewModel {
     
 
     // MARK: - Private methods
-
+    
     private func postListing(_ images: [UIImage]?, video: RecordedVideo?, params: ListingCreationParams) {
         delegate?.productPostedViewModelSetupLoadingState(self)
-
-        let shouldUseCarEndpoint = featureFlags.createUpdateIntoNewBackend.shouldUseCarEndpoint(with: params)
-        let createAction = listingRepository.createAction(shouldUseCarEndpoint)
-
+        
         if let images = images {
             fileRepository.upload(images, progress: nil) { [weak self] result in
                 if let images = result.value {
                     let updatedParams = params.updating(images: images)
-
-                    createAction(updatedParams) { [weak self] result in
+                    
+                    self?.listingRepository.create(listingParams: updatedParams) { [weak self] result in
                         if let postedListing = result.value {
                             self?.trackPostSellComplete(postedListing: postedListing)
                         } else if let error = result.error {
@@ -273,7 +270,7 @@ class ListingPostedViewModel: BaseViewModel {
                     }
                 } else if let error = result.error {
                     self?.trackPostSellError(error: error)
-                    self?.updateStatusAfterPosting(status: ListingPostedStatus(error: error))
+                    self?.updateStatusAfterPosting(status: ListingPostedStatus(error: error, categoryId: params.category.rawValue))
                 }
             }
         } else if let video = video {
@@ -283,7 +280,7 @@ class ListingPostedViewModel: BaseViewModel {
                     guard let snapshot = image.objectId else {
                         let error = RepositoryError.internalError(message: "Missing uploaded image identifier")
                         self?.trackPostSellError(error: error)
-                        self?.updateStatusAfterPosting(status: ListingPostedStatus(error: error))
+                        self?.updateStatusAfterPosting(status: ListingPostedStatus(error: error, categoryId: params.category.rawValue))
                         return
                     }
 
@@ -293,7 +290,7 @@ class ListingPostedViewModel: BaseViewModel {
                             guard let path = preSignedUploadUrl.form.fileKey else {
                                 let error = RepositoryError.internalError(message: "Missing video file id")
                                 self?.trackPostSellError(error: error)
-                                self?.updateStatusAfterPosting(status: ListingPostedStatus(error: error))
+                                self?.updateStatusAfterPosting(status: ListingPostedStatus(error: error, categoryId: params.category.rawValue))
                                 return
                             }
 
@@ -306,7 +303,7 @@ class ListingPostedViewModel: BaseViewModel {
                                         let video: Video = LGVideo(path: path , snapshot: snapshot)
                                         let updatedParams = params.updating(videos: [video])
 
-                                        createAction(updatedParams) { [weak self] result in
+                                        self?.listingRepository.create(listingParams: updatedParams) { [weak self] result in
                                             if let postedListing = result.value {
                                                 self?.trackPostSellComplete(postedListing: postedListing)
                                             } else if let error = result.error {
@@ -316,18 +313,18 @@ class ListingPostedViewModel: BaseViewModel {
                                         }
                                     } else if let error = result.error {
                                         self?.trackPostSellError(error: error)
-                                        self?.updateStatusAfterPosting(status: ListingPostedStatus(error: error))
+                                        self?.updateStatusAfterPosting(status: ListingPostedStatus(error: error, categoryId: params.category.rawValue))
                                     }
                             }
                         } else if let error = result.error {
                             self?.trackPostSellError(error: error)
-                            self?.updateStatusAfterPosting(status: ListingPostedStatus(error: error))
+                            self?.updateStatusAfterPosting(status: ListingPostedStatus(error: error, categoryId: params.category.rawValue))
                         }
                     })
                     
                 } else if let error = result.error {
                     self?.trackPostSellError(error: error)
-                    self?.updateStatusAfterPosting(status: ListingPostedStatus(error: error))
+                    self?.updateStatusAfterPosting(status: ListingPostedStatus(error: error, categoryId: params.category.rawValue))
                 }
             }
         }
@@ -378,8 +375,8 @@ class ListingPostedViewModel: BaseViewModel {
             break
         case let .success(listing):
             tracker.trackEvent(TrackerEvent.listingSellConfirmation(listing))
-        case let .error(error):
-            tracker.trackEvent(TrackerEvent.listingSellError(error))
+        case let .error(error, categoryId):
+            tracker.trackEvent(TrackerEvent.listingSellError(error, withCategoryId: categoryId))
         }
     }
 }
@@ -390,7 +387,7 @@ class ListingPostedViewModel: BaseViewModel {
 enum ListingPostedStatus {
     case posting(images: [UIImage]?, video: RecordedVideo?, params: ListingCreationParams)
     case success(listing: Listing)
-    case error(error: EventParameterPostListingError)
+    case error(error: EventParameterPostListingError, categoryId: Int?)
 
     var listing: Listing? {
         switch self {
@@ -418,15 +415,15 @@ enum ListingPostedStatus {
         if let listing = listingResult.value {
             self = .success(listing: listing)
         } else if let error = listingResult.error {
-            self = .error(error: EventParameterPostListingError(error: error))
+            self = .error(error: EventParameterPostListingError(error: error), categoryId: nil)
         } else {
-            self = .error(error: .internalError(description: nil))
+            self = .error(error: .internalError(description: nil), categoryId: nil)
         }
     }
 
-    init(error: RepositoryError) {
+    init(error: RepositoryError, categoryId: Int?) {
         let eventParameterPostListingError = EventParameterPostListingError(error: error)
-        self = .error(error: eventParameterPostListingError)
+        self = .error(error: eventParameterPostListingError, categoryId: categoryId)
     }
 }
 

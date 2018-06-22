@@ -128,7 +128,7 @@ class ExpandableCategorySelectionViewModel: BaseViewModel {
         })
         if servicesEnabled {
             self.newBadgeCategory = .listingCategory(listingCategory: .services)
-        } else if featureFlags.realEstateTutorial.isActive && featureFlags.realEstateEnabled.isActive {
+        } else if featureFlags.realEstateEnabled.isActive {
             self.newBadgeCategory = .listingCategory(listingCategory: .realEstate)
         }
         self.tagsEnabled = featureFlags.mostSearchedDemandedItems == .subsetAboveExpandableMenu

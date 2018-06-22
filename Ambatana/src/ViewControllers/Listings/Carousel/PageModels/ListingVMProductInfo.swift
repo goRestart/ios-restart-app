@@ -1,13 +1,6 @@
-//
-//  ListingVMProductInfo.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 28/02/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
 import LGCoreKit
+import LGComponents
 
 struct ListingVMProductInfo {
     let title: String?
@@ -53,5 +46,18 @@ fileprivate extension ListingVMProductInfo {
             // FIXME: Implement this in ABIOS-4184
             return nil
         }
+    }
+}
+
+private extension String {
+    
+    var attributedHiddenTagsLinks: NSMutableAttributedString {
+        var urlDict: [String : URL] = [:]
+        for tag in TextHiddenTags.allTags {
+            if let url = tag.linkURL {
+                urlDict[tag.localized] = url
+            }
+        }
+        return attributedHyperlinkedStringWithURLDict(urlDict, textColor: nil)
     }
 }

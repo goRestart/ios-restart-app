@@ -270,6 +270,14 @@ final class CoreDI: InternalDI {
         let dataSource = LGPreSignedUploadUrlDataSource(apiClient: self.apiClient)
         return LGPreSignedUploadUrlRepository(dataSource: dataSource)
     }()
+    lazy var notificationSettingsPusherRepository: NotificationSettingsPusherRepository = {
+        let notificationSettingsPusherDataSource = NotificationSettingsPusherApiDataSource(apiClient: self.apiClient)
+        return LGNotificationSettingsPusherRepository(dataSource: notificationSettingsPusherDataSource)
+    }()
+    lazy var notificationSettingsMailerRepository: NotificationSettingsMailerRepository = {
+        let notificationSettingsMailerDataSource = NotificationSettingsMailerApiDataSource(apiClient: self.apiClient)
+        return LGNotificationSettingsMailerRepository(dataSource: notificationSettingsMailerDataSource)
+    }()
 
 
     // MARK: > DAO

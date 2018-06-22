@@ -1,149 +1,157 @@
-//
-//  EnvironmentProxy+AppEnvironment.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 07/05/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
 
-enum AppEnvironmentType: String {
+public enum AppEnvironmentType: String {
     case development
     case production
     case escrow
 }
 
-class EnvironmentProxy: AppEnvironment {
+public final class EnvironmentProxy: AppEnvironment {
 
-    static let sharedInstance = EnvironmentProxy()
+    public static let sharedInstance = EnvironmentProxy(godmode: false)
 
-    private(set) var environment: AppEnvironment
+    public private(set) var environment: AppEnvironment
 
 
     // MARK: - Lifecycle
 
-    private init() {
-        environment = ProductionEnvironment()
+    public required init(godmode: Bool) {
+        environment = ProductionEnvironment(godmode: godmode)
     }
-
-
+    
     // MARK: - Public methods
 
-    func setEnvironmentType(_ type: AppEnvironmentType) {
+    public func setEnvironmentType(_ type: AppEnvironmentType, godmode: Bool) {
         switch type {
         case .development:
-            environment = DevelopmentEnvironment()
+            environment = DevelopmentEnvironment(godmode: godmode)
         case .production:
-            environment = ProductionEnvironment()
+            environment = ProductionEnvironment(godmode: godmode)
         case .escrow:
-            environment = EscrowEnvironment()
+            environment = EscrowEnvironment(godmode: godmode)
         }
     }
 
 
     // MARK: - AppEnvironment
+    
+    public var godmode: Bool {
+        return environment.godmode
+    }
 
-    var appleAppId: String {
+    public var appleAppId: String {
         return environment.appleAppId
     }
 
-    var facebookAppId: String {
+    public var facebookAppId: String {
         return environment.facebookAppId
     }
 
-    var appsFlyerAPIKey: String {
+    public var appsFlyerAPIKey: String {
         return environment.appsFlyerAPIKey
     }
     
-    var appsFlyerAppInviteOneLinkID: String {
+    public var appsFlyerAppInviteOneLinkID: String {
         return environment.appsFlyerAppInviteOneLinkID
     }
 
-    var amplitudeAPIKey: String {
+    public var amplitudeAPIKey: String {
         return environment.amplitudeAPIKey
     }
 
-    var googleServerClientID: String {
+    public var googleServerClientID: String {
         return environment.googleServerClientID
     }
 
-    var googleClientID: String {
+    public var googleClientID: String {
         return environment.googleClientID
     }
 
-    var configFileName: String {
+    public var configFileName: String {
         return environment.configFileName
     }
 
-    var leanplumAppId: String {
+    public var leanplumAppId: String {
         return environment.leanplumAppId
     }
 
-    var leanplumEnvKey: String {
+    public var leanplumEnvKey: String {
         return environment.leanplumEnvKey
     }
 
-    var configURL: String {
+    public var configURL: String {
         return environment.configURL
     }
 
-    var websiteBaseUrl: String {
+    public var websiteBaseUrl: String {
         return environment.websiteBaseUrl
     }
 
-    var websiteBaseUrlWithLocaleParams: String {
+    public var websiteBaseUrlWithLocaleParams: String {
         return environment.websiteBaseUrlWithLocaleParams
     }
-    
-    var websiteBaseUrlWithLanguageParam: String {
-        return environment.websiteBaseUrlWithLanguageParam
-    }
 
-    var adTestModeActive: Bool {
+    public var adTestModeActive: Bool {
         return environment.adTestModeActive
     }
 
-    var moreInfoAdUnitIdDFP: String {
+    public var moreInfoAdUnitIdDFP: String {
         return environment.moreInfoAdUnitIdDFP
     }
 
-    var moreInfoAdUnitIdDFPUSA: String {
+    public var moreInfoAdUnitIdDFPUSA: String {
         return environment.moreInfoAdUnitIdDFPUSA
     }
 
-    var feedAdUnitIdDFPUSA10Ratio: String {
+    public var feedAdUnitIdDFPUSA10Ratio: String {
         return environment.feedAdUnitIdDFPUSA10Ratio
     }
 
-    var feedAdUnitIdDFPUSA15Ratio: String {
+    public var feedAdUnitIdDFPUSA15Ratio: String {
         return environment.feedAdUnitIdDFPUSA15Ratio
     }
 
-    var feedAdUnitIdDFPUSA20Ratio: String {
+    public var feedAdUnitIdDFPUSA20Ratio: String {
         return environment.feedAdUnitIdDFPUSA20Ratio
     }
     
-    var feedAdUnitIdMoPubUSAForAllUsers: String {
+    public var feedAdUnitIdMoPubUSAForAllUsers: String {
         return environment.feedAdUnitIdMoPubUSAForAllUsers
     }
     
-    var feedAdUnitIdMoPubUSAForOldUsers: String {
+    public var feedAdUnitIdMoPubUSAForOldUsers: String {
         return environment.feedAdUnitIdMoPubUSAForOldUsers
     }
     
-    var feedAdUnitIdMoPubTRForAllUsers: String {
+    public var feedAdUnitIdMoPubTRForAllUsers: String {
         return environment.feedAdUnitIdMoPubTRForAllUsers
     }
     
-    var feedAdUnitIdMoPubTRForOldUsers: String {
+    public var feedAdUnitIdMoPubTRForOldUsers: String {
         return environment.feedAdUnitIdMoPubTRForOldUsers
     }
     
-    var feedAdUnitIdAdxUSAForAllUsers: String {
+    public var feedAdUnitIdAdxUSAForAllUsers: String {
         return environment.feedAdUnitIdAdxUSAForAllUsers
     }
     
-    var feedAdUnitIdAdxUSAForOldUsers: String {
+    public var feedAdUnitIdAdxUSAForOldUsers: String {
         return environment.feedAdUnitIdAdxUSAForOldUsers
+    }
+    
+    public var feedAdUnitIdAdxTRForAllUsers: String {
+        return environment.feedAdUnitIdAdxTRForAllUsers
+    }
+    
+    public var feedAdUnitIdAdxTRForOldUsers: String {
+        return environment.feedAdUnitIdAdxTRForOldUsers
+    }
+    
+    public var fullScreenAdUnitIdAdxForAllUsersForUS: String {
+        return environment.fullScreenAdUnitIdAdxForAllUsersForUS
+    }
+    
+    public var fullScreenAdUnitIdAdxForOldUsersForUS: String {
+        return environment.fullScreenAdUnitIdAdxForOldUsersForUS
     }
     
 }

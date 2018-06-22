@@ -1,12 +1,5 @@
-//
-//  MostSearchedItemsListingListCell.swift
-//  LetGo
-//
-//  Created by Raúl de Oñate Blanco on 23/01/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 class MostSearchedItemsListingListCell: UICollectionViewCell, ReusableCell {
     

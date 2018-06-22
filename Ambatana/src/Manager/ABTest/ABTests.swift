@@ -1,11 +1,3 @@
-//
-//  ABTests.swift
-//  LetGo
-//
-//  Created by Dídac on 12/04/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import RxSwift
 
 protocol LeamplumSyncerType {
@@ -210,18 +202,13 @@ extension ABTests {
 
 extension ABTests {
     var realEstateNewCopy: LeanplumABVariable<Int> { return realEstate.realEstateNewCopy }
-    var increaseNumberOfPictures: LeanplumABVariable<Int> { return realEstate.increaseNumberOfPictures }
-    var realEstateTutorial: LeanplumABVariable<Int>{ return realEstate.realEstateTutorial }
-    var summaryAsFirstStep: LeanplumABVariable<Int> { return realEstate.summaryAsFirstStep }
 }
 
 //  MARK: Verticals
 
 extension ABTests {
     var searchCarsIntoNewBackend: LeanplumABVariable<Int> { return verticals.searchCarsIntoNewBackend }
-    var realEstatePromoCell: LeanplumABVariable<Int> { return verticals.realEstatePromoCell }
     var filterSearchCarSellerType: LeanplumABVariable<Int> { return verticals.filterSearchCarSellerType }
-    var createUpdateCarsIntoNewBackend: LeanplumABVariable<Int> { return verticals.createUpdateIntoNewBackend }
     var realEstateMap: LeanplumABVariable<Int> { return verticals.realEstateMap }
     var showServicesFeatures: LeanplumABVariable<Int> { return verticals.showServicesFeatures }
 }
@@ -257,5 +244,4 @@ extension ABTests {
     var showClockInDirectAnswer: LeanplumABVariable<Int> { return legacy.showClockInDirectAnswer }
     var mostSearchedDemandedItems: LeanplumABVariable<Int> { return legacy.mostSearchedDemandedItems }
     var showAdsInFeedWithRatio: LeanplumABVariable<Int> { return legacy.showAdsInFeedWithRatio }
-    var removeCategoryWhenClosingPosting: LeanplumABVariable<Int> { return legacy.removeCategoryWhenClosingPosting }
 }

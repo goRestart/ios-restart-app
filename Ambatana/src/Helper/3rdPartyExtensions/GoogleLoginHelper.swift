@@ -1,16 +1,8 @@
-
-//
-//  GoogleLoginHelper.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 15/2/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import GoogleSignIn
 import LGCoreKit
+import LGComponents
 
-class GoogleLoginHelper: NSObject {
+final class GoogleLoginHelper: NSObject {
     fileprivate var googleSignInCompletion: ExternalAuthTokenRetrievalCompletion?
     fileprivate let sessionManager: SessionManager
     

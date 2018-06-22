@@ -1,12 +1,5 @@
-//
-//  GalleryImageCell.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 04/03/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import UIKit
+import LGComponents
 
 class GalleryImageCell: UICollectionViewCell, ReusableCell {
 

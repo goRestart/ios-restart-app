@@ -1,23 +1,16 @@
-//
-//  LetgoURLHelper.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 14/01/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
+import LGComponents
 import DeviceGuru
 import Foundation
 import LGCoreKit
 
-enum ContactUsType {
+public enum ContactUsType {
     case standard
     case scammer
     case deviceNotAllowed
     case bumpUpNotAllowed
 }
 
-class LetgoURLHelper {
+public final class LetgoURLHelper {
     private static let langsCountryDict = [
         "de":"de",  // https://de.letgo.com/de/something
         "el":"gr",  // https://gr.letgo.com/el/something
@@ -46,29 +39,35 @@ class LetgoURLHelper {
 
     // MARK: - Public methods
 
-    static func buildHomeURLString() -> String {
+    public static func buildHomeURLString() -> String {
         return environment.websiteBaseUrl   // not localized
     }
 
-    static func buildHomeURL() -> URL? {
+    public static func buildHomeURL() -> URL? {
         return URL(string: buildHomeURLString())  // not localized
     }
 
-    static func buildProductURL(listingId: String) -> URL? {
-        return URL(string: environment.websiteUrl(SharedConstants.websiteListingEndpoint(listingId)))   // not localized
+    public static func buildProductURL(listingId: String, isLocalized: Bool) -> URL? {
+        if isLocalized {
+            guard let url = LetgoURLHelper.composeLocalizedURL(SharedConstants.websiteListingEndpoint(listingId)) else { return nil }
+            guard let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return nil }
+            return urlComponents.url
+        } else {
+            return URL(string: environment.websiteUrl(SharedConstants.websiteListingEndpoint(listingId)))
+        }
     }
 
-    static func buildUserURL(userId: String) -> URL? {
+    public static func buildUserURL(userId: String) -> URL? {
         return URL(string: environment.websiteUrl(SharedConstants.websiteUserEndpoint(userId))) // not localized
     }
 
-    static func buildRecaptchaURL() -> URL? {
+    public static func buildRecaptchaURL() -> URL? {
         guard let url = LetgoURLHelper.composeLocalizedURL(SharedConstants.websiteRecaptchaEndpoint) else { return nil }
         guard let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return nil }
         return urlComponents.url
     }
 
-    static func buildHelpURL(_ user: MyUser?, installation: Installation?) -> URL? {
+    public static func buildHelpURL(_ user: MyUser?, installation: Installation?) -> URL? {
         guard let url = LetgoURLHelper.composeLocalizedURL(SharedConstants.websiteHelpEndpoint) else { return nil }
         guard var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return nil }
         urlComponents.percentEncodedQuery = LetgoURLHelper.buildContactParameters(user,
@@ -78,15 +77,15 @@ class LetgoURLHelper {
         return urlComponents.url
     }
 
-    static func buildTermsAndConditionsURL() -> URL? {
+    public static func buildTermsAndConditionsURL() -> URL? {
         return LetgoURLHelper.composeLocalizedURL(SharedConstants.websiteTermsEndpoint)
     }
 
-    static func buildPrivacyURL() -> URL? {
+    public static func buildPrivacyURL() -> URL? {
         return LetgoURLHelper.composeLocalizedURL(SharedConstants.websitePrivacyEndpoint)
     }
 
-    static func buildContactUsURL(user: MyUser?, installation: Installation?, listing: Listing?, type: ContactUsType = .standard) -> URL? {
+    public static func buildContactUsURL(user: MyUser?, installation: Installation?, listing: Listing?, type: ContactUsType = .standard) -> URL? {
         guard let url = LetgoURLHelper.composeLocalizedURL(SharedConstants.websiteContactUsEndpoint) else { return nil }
         guard var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return nil }
         urlComponents.percentEncodedQuery = LetgoURLHelper.buildContactParameters(user,
@@ -96,7 +95,7 @@ class LetgoURLHelper {
         return urlComponents.url
     }
 
-    static func buildContactUsURL(userEmail email: String?, installation: Installation?, listing: Listing?, type: ContactUsType = .standard) -> URL? {
+    public static func buildContactUsURL(userEmail email: String?, installation: Installation?, listing: Listing?, type: ContactUsType = .standard) -> URL? {
         guard let url = LetgoURLHelper.composeLocalizedURL(SharedConstants.websiteContactUsEndpoint) else { return nil }
         guard var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return nil }
         urlComponents.percentEncodedQuery = LetgoURLHelper.buildContactParameters(nil, userName: nil, email: email,
@@ -106,6 +105,9 @@ class LetgoURLHelper {
         return urlComponents.url
     }
 
+    public static func buildCommunityGuidelineURL() -> URL? {
+        return LetgoURLHelper.composeLocalizedURL(SharedConstants.websiteCommunityGuideline)
+    }
 
     // MARK: - Private methods
 
@@ -118,7 +120,9 @@ class LetgoURLHelper {
             language = prefLanguage
             country = preferredCountry
         }
-        let urlString = environment.localizedWebsiteUrl(country, language: language, endpoint: endpoint)
+        let urlString = environment.localizedWebsiteUrl(country: country,
+                                                        language: language,
+                                                        endpoint: endpoint)
         return URL(string: urlString)
     }
 

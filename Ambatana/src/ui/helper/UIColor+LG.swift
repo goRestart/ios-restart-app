@@ -87,7 +87,7 @@ extension UIColor {
     static var gray: UIColor { return UIColor(rgb: 0xbdbdbd) } // (189,189,189)
     static var grayLight: UIColor { return UIColor(rgb: 0xdddddd) } // (221,221,221)
     static var grayLighter: UIColor { return UIColor(rgb: 0xede9e9) } // (237,233,233)
-    static var grayBackground: UIColor { return UIColor(rgb: 0xF7F3F3) } // (247,143,243)
+    static var grayBackground: UIColor { return UIColor(rgb: 0xF7F3F3) } // (247,243,243)
     static var grayDisclaimerText: UIColor { return UIColor(rgb: 0x9b9b9b) } // (155, 155, 155)
 
     // Alpha grays

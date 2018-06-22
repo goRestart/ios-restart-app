@@ -187,9 +187,7 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
     }
     
     private func createListing() {
-        let shouldUseCarEndpoint = featureFlags.createUpdateIntoNewBackend.shouldUseCarEndpoint(with: listingCreationParams)
-        let createAction = listingRepository.createAction(shouldUseCarEndpoint)
-        createAction(listingCreationParams) { [weak self] result in
+        listingRepository.create(listingParams: listingCreationParams) { [weak self] result in
             self?.createListingResult.value = result
         }
     }

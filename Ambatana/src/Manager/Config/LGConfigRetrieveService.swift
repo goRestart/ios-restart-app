@@ -10,7 +10,7 @@ import Alamofire
 import Result
 import LGCoreKit
 
-class LGConfigRetrieveService: ConfigRetrieveService {
+final class LGConfigRetrieveService: ConfigRetrieveService {
 
     private(set) var configURL : String
 

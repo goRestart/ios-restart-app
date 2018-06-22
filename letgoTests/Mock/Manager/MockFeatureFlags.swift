@@ -1,16 +1,9 @@
-//
-//  MockFeatureFlags.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 18/11/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 @testable import LetGoGodMode
 import Foundation
 import RxSwift
 
 final class MockFeatureFlags: FeatureFlaggeable {
+
 
     var trackingData: Observable<[(String, ABGroup)]?> {
         return trackingDataVar.asObservable()
@@ -34,20 +27,15 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var showClockInDirectAnswer: ShowClockInDirectAnswer = .control
     var mostSearchedDemandedItems: MostSearchedDemandedItems = .control
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers = .control
-
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio = .control
-    var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting = .control
     var realEstateNewCopy: RealEstateNewCopy = .control
     var dummyUsersInfoProfile: DummyUsersInfoProfile = .control
     var searchImprovements: SearchImprovements = .control
     var relaxedSearch: RelaxedSearch = .control
     var bumpUpBoost: BumpUpBoost = .control
-    var increaseNumberOfPictures: IncreaseNumberOfPictures = .control
     var onboardingIncentivizePosting: OnboardingIncentivizePosting = .control
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings = .control
     var showProTagUserProfile: Bool = false
-    var realEstateTutorial: RealEstateTutorial = .control
-    var summaryAsFirstStep: SummaryAsFirstStep = .control
     var sectionedMainFeed: SectionedMainFeed = .control
     var showExactLocationForPros: Bool = true
     var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed = .control
@@ -90,9 +78,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     
     // MARK:  Verticals
     var searchCarsIntoNewBackend: SearchCarsIntoNewBackend = .control
-    var realEstatePromoCell: RealEstatePromoCell = .control
     var filterSearchCarSellerType: FilterSearchCarSellerType = .control
-    var createUpdateIntoNewBackend: CreateUpdateCarsIntoNewBackend = .control
     var realEstateMap: RealEstateMap = .control
     var showServicesFeatures: ShowServicesFeatures = .control
     
@@ -110,7 +96,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var simplifiedChatButton: SimplifiedChatButton = .control
 
     // MARK: Users
-    var showAdvancedReputationSystem: ShowAdvancedReputationSystem = .control
+    var advancedReputationSystem: AdvancedReputationSystem = .control
     var showPasswordlessLogin: ShowPasswordlessLogin = .control
     var emergencyLocate: EmergencyLocate = .control
     var offensiveReportAlert: OffensiveReportAlert = .control

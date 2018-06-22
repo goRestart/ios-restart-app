@@ -1,14 +1,7 @@
-//
-//  PushManager.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 28/05/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import Leanplum
 import JWT
+import LGComponents
 
 final class PushManager {
     enum Notification: String {
@@ -132,7 +125,12 @@ final class PushManager {
     // MARK: - Private methods
 
     private func setupLeanplum() {
-        let environmentHelper = EnvironmentsHelper()
+        #if GOD_MODE
+            let godmode = true
+        #else
+            let godmode = false
+        #endif
+        let environmentHelper = EnvironmentsHelper(godmode: godmode)
         switch environmentHelper.appEnvironment {
         case .production:
             Leanplum.setAppId(EnvironmentProxy.sharedInstance.leanplumAppId,

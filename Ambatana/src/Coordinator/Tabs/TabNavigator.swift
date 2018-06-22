@@ -1,12 +1,5 @@
-//
-//  TabNavigator.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 01/08/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
+import LGComponents
 
 enum UserDetailData {
     case id(userId: String, source: UserSource)
@@ -53,9 +46,6 @@ protocol TabNavigator: class {
     func openRatingList(_ userId: String)
     func openMostSearchedItems(source: PostingSource, enableSearch: Bool)
     func openUserReport(source: EventParameterTypePage, userReportedId: String)
-    func openRealEstateOnboarding(pages: [LGTutorialPage],
-                                  origin: EventParameterTypePage,
-                                  tutorialType: EventParameterTutorialType)
     func showUndoBubble(withMessage message: String,
                         duration: TimeInterval,
                         withAction action: @escaping () -> ())

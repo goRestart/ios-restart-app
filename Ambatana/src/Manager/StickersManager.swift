@@ -1,13 +1,6 @@
-//
-//  StickersManager.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 06/09/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import RxSwift
 import LGCoreKit
+import LGComponents
 
 class StickersManager {
 

@@ -10,8 +10,8 @@ protocol PostListingCameraViewDelegate: class {
     func productCameraDidRecordVideo(video: RecordedVideo)
     func productCameraRequestsScrollLock(_ lock: Bool)
     func productCameraRequestHideTabs(_ hide: Bool)
-    func productCameraLearnMoreButton()
     func productCameraRequestCategory()
+    func productCameraShowRecordingErrorMessage(message: String)
 }
 
 final class PostListingCameraView: BaseView, LGViewPagerPage, MLPredictionDetailsViewDelegate {
@@ -32,8 +32,6 @@ final class PostListingCameraView: BaseView, LGViewPagerPage, MLPredictionDetail
     @IBOutlet weak var infoSubtitle: UILabel!
     @IBOutlet weak var infoButton: LetgoButton!
     @IBOutlet weak var verticalPromoLabel: UILabel!
-    @IBOutlet weak var learnMoreButton: UIButton!
-    @IBOutlet weak var learnMoreChevron: UIButton!
     @IBOutlet weak var bottomControlsContainer: UIView!
     @IBOutlet weak var bottomControlsContainerBottomConstraint: NSLayoutConstraint!
     
@@ -232,14 +230,6 @@ final class PostListingCameraView: BaseView, LGViewPagerPage, MLPredictionDetail
         hideFirstTimeAlert()
         viewModel.usePhotoButtonPressed(predictionData: predictionDetailsView.data)
     }
-    
-    @IBAction func onLearnMoreButton(_ sender: AnyObject) {
-        viewModel.learnMorePressed()
-    }
-    
-    @IBAction func onLearnMoreChevron(_ sender: AnyObject) {
-        viewModel.learnMorePressed()
-    }
 
 
     // MARK: - Private methods
@@ -279,7 +269,6 @@ final class PostListingCameraView: BaseView, LGViewPagerPage, MLPredictionDetail
         setupInfoView()
         setupFirstTimeAlertView()
         setAccesibilityIds()
-        setupLearnMore()
         setupRX()
 
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideFirstTimeAlert))
@@ -343,18 +332,11 @@ final class PostListingCameraView: BaseView, LGViewPagerPage, MLPredictionDetail
     func listingCategorySelected(category: ListingCategory?) {
         predictionDetailsView.set(category: category)
     }
-    
-    private func setupLearnMore() {
-        learnMoreButton.setAttributedTitle(viewModel.learnMoreMessage, for: .normal)
-        learnMoreButton.isHidden = viewModel.learnMoreIsHidden
-        learnMoreChevron.isHidden = viewModel.learnMoreIsHidden
-    }
 
     private func setupButtonImages() {
         closeButton.setImage(R.Asset.IconsButtons.icPostClose.image, for: .normal)
         flashButton.setImage(R.Asset.IconsButtons.icPostFlashAuto.image, for: .normal)
         switchCamButton.setImage(R.Asset.IconsButtons.icPostSwitchCam.image, for: .normal)
-        learnMoreChevron.setImage(R.Asset.IconsButtons.learnMoreChevron.image, for: .normal)
     }
     
     private func setupRX() {
@@ -435,8 +417,6 @@ final class PostListingCameraView: BaseView, LGViewPagerPage, MLPredictionDetail
         viewModel.shouldShowVerticalText.asObservable().bind { [weak self] visible in
             UIView.animate(withDuration: 0.3, animations: {
                 self?.verticalPromoLabel.alpha = visible ? 1.0 : 0.0
-                self?.learnMoreButton.alpha = visible ? 1.0 : 0.0
-                self?.learnMoreChevron.alpha = visible ? 1.0 : 0.0
             })
         }.disposed(by: disposeBag)
 
@@ -456,6 +436,10 @@ final class PostListingCameraView: BaseView, LGViewPagerPage, MLPredictionDetail
             guard let strongSelf = self else { return }
             strongSelf.cornersContainer.isHidden = !(cameraState == .capture && !strongSelf.viewModel.isLiveStatsEnabled.value)
         }).disposed(by: disposeBag)
+
+        viewModel.videoRecordingErrorMessage.asObservable().ignoreNil().subscribeNext { [weak self] errorMessage in
+            self?.delegate?.productCameraShowRecordingErrorMessage(message: errorMessage)
+        }.disposed(by: disposeBag)
 
         keyboardHelper.rx_keyboardOrigin.asObservable().skip(1).distinctUntilChanged().bind { [weak self] origin in
             guard let animationTime = self?.keyboardHelper.animationTime,

@@ -25,7 +25,7 @@ class ListingAttributePickerTableView: UIView, UITableViewDelegate, UITableViewD
         tableView.backgroundColor = .clear
         tableView.tintColor = UIColor.white
         tableView.indicatorStyle = .white
-        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Metrics.margin, right: 0)
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Metrics.bigMargin*2, right: 0)
         return tableView
     }()
     

@@ -395,4 +395,13 @@ fileprivate extension RateUserViewModel {
     }
 }
 
+private extension String {
+    
+    func trimUserRatingTags() -> String {
+        let strings = NegativeUserRatingTag.allValues.map { $0.localizedText } + PositiveUserRatingTag.allValues.map { $0.localizedText }
+        let separator = ". "
+        return trim(strings: strings, separator: separator)
+    }
+}
+
 

@@ -113,10 +113,8 @@ final class ListingCreationViewModel : BaseViewModel {
             didFinishRequest.value = true
             return
         }
-        let shouldUseCarEndpoint = featureFlags.createUpdateIntoNewBackend.shouldUseCarEndpoint(with: listingParams)
-        let createAction = listingRepository.createAction(shouldUseCarEndpoint)
         
-        createAction(listingParams) { [weak self] result in
+        listingRepository.create(listingParams: listingParams) { [weak self] result in
             if let listing = result.value, let trackingInfo = self?.trackingInfo {
                 self?.trackPost(withListing: listing, trackingInfo: trackingInfo)
             } else if let error = result.error {

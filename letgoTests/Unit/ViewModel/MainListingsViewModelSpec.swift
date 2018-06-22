@@ -338,26 +338,9 @@ class MainListingsViewModelSpec: QuickSpec {
                                                     bubbleTextGenerator: DistanceBubbleTextGenerator(),
                                                     chatWrapper: MockChatWrapper())
                     }
-                    
-                    context("receives listing page with promo cell not active") {
-                        beforeEach {
-                            totalListings = sut.vmProcessReceivedListingPage(listings, page: 0)
-                        }
-                        
-                        it("first cell is not promo") {
-                            expect({
-                                guard let firstListing = totalListings?.first,
-                                    case .promo = firstListing else {
-                                        return .succeeded
-                                }
-                                return .failed(reason: "wrong cell type")
-                            }).to(succeed())
-                        }
-                    }
-                    
+
                     context("receives listing page with promo cell active") {
                         beforeEach {
-                            mockFeatureFlags.realEstatePromoCell = .active
                             totalListings = sut.vmProcessReceivedListingPage(listings, page: 0)
                         }
                         

@@ -66,11 +66,6 @@
         "description": "Real Estate Flow Type"
     },
     {
-        "name": "RemoveCategoryWhenClosingPosting",
-        "values": ["control", "baseline", "active"],
-        "description": "Remove category real estate if user closes posting"
-    },
-    {
         "name": "RealEstateNewCopy",
         "values": ["control", "baseline", "active"],
         "description": "Try real estate copy instead of housing"
@@ -126,21 +121,6 @@
         "description": "Try different copies for Chat now button in Turkey"
     },
     {
-        "name": "IncreaseNumberOfPictures",
-        "values": ["control", "baseline", "active"],
-        "description": "Allow to include up to 10 pictures on listings"
-    },
-    {
-        "name": "RealEstateTutorial",
-        "values": ["control", "baseline", "oneScreen", "twoScreens", "threeScreens", "onlyBadge"],
-        "description": "Show real estate tutorial when user see Real estate category for first time"
-    },
-     {
-         "name": "RealEstatePromoCell",
-         "values": ["control", "baseline", "active"],
-         "description": "Real Estate - Show promo cell instead of top banner"
-     },
-    {
         "name": "ChatNorris",
         "values": ["control", "baseline", "redButton", "whiteButton", "greenButton"],
         "description": "Show the create meeting option in chat detail view."
@@ -159,16 +139,6 @@
         "name": "ShowProTagUserProfile",
         "values": ["no", "yes"],
         "description": "Show Professional tag in user profile"
-    },
-    {
-        "name": "SummaryAsFirstStep",
-        "values": ["control", "baseline", "active"],
-        "description": "Show directly summary screen instead of Real estate steps"
-    },
-    {
-        "name": "ShowAdvancedReputationSystem",
-        "values": ["control", "baseline", "active"],
-        "description": "Show the new advance reputation system and Karma Score"
     },
     {
         "name": "FeedAdsProviderForUS",
@@ -214,11 +184,6 @@
         "name": "CopyForSellFasterNowInEnglish",
         "values": ["control", "baseline", "variantB", "variantC", "variantD"],
         "description": "Try different copies for 'Sell faster now' banner in English"
-    },
-    {
-        "name": "CreateUpdateCarsIntoNewBackend",
-        "values": ["control", "baseline", "active"],
-        "description": "Create/Update cars into the new endpoint"
     },
     {
         "name": "EmergencyLocate",
@@ -313,5 +278,10 @@
         "name": "ShowChatConnectionStatusBar",
         "values": ["control", "baseline", "active"],
         "description": "Show a toast in the chat with the websocket and network connection status"
+	},
+	{
+         "name": "AdvancedReputationSystem",
+         "values": ["control", "baseline", "variantA", "variantB"],
+         "description": "Advance reputation system and Karma Score with SMS and tooltip"
     }
  ]

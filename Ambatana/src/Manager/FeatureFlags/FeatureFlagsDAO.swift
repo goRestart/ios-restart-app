@@ -9,8 +9,8 @@
 protocol FeatureFlagsDAO {
     func retrieveTimeoutForRequests() -> TimeInterval?
     func save(timeoutForRequests: TimeInterval)
-    func retrieveShowAdvanceReputationSystem() -> ShowAdvancedReputationSystem?
-    func save(showAdvanceReputationSystem: ShowAdvancedReputationSystem)
+    func retrieveAdvanceReputationSystem() -> AdvancedReputationSystem?
+    func save(advanceReputationSystem: AdvancedReputationSystem)
     func retrieveEmergencyLocate() -> EmergencyLocate?
     func save(emergencyLocate: EmergencyLocate)
     func retrieveChatConversationsListWithoutTabs() -> ChatConversationsListWithoutTabs?

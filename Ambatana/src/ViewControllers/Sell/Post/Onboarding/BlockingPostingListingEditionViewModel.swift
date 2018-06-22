@@ -83,8 +83,9 @@ class BlockingPostingListingEditionViewModel: BaseViewModel {
     
     func updateListing() {
         state.value = .updatingListing
-        let shouldUseCarEndpoint = featureFlags.createUpdateIntoNewBackend.shouldUseCarEndpoint(with: listingParams)
-        let updateAction = listingRepository.updateAction(shouldUseCarEndpoint)
+        let shouldUseServicesEndpoint = featureFlags.showServicesFeatures.isActive
+        let updateAction = listingRepository.updateAction(forParams: listingParams,
+                                                          shouldUseServicesEndpoint: shouldUseServicesEndpoint)
         updateAction(listingParams) { [weak self] result in
             if let responseListing = result.value {
                 self?.listing = responseListing

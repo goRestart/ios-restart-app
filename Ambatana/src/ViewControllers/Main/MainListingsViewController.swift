@@ -534,8 +534,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
 
 // MARK: - ListingListViewHeaderDelegate
 
-extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermissionsHeaderDelegate,
-RealEstateBannerDelegate, SearchAlertFeedHeaderDelegate {
+extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermissionsHeaderDelegate, SearchAlertFeedHeaderDelegate {
 
     func totalHeaderHeight() -> CGFloat {
         var totalHeight: CGFloat = 0
@@ -544,9 +543,6 @@ RealEstateBannerDelegate, SearchAlertFeedHeaderDelegate {
         }
         if shouldShowCategoryCollectionBanner {
             totalHeight += CategoriesHeaderCollectionView.viewHeight
-        }
-        if shouldShowRealEstateBanner {
-            totalHeight += RealEstateBanner().intrinsicContentSize.height
         }
         if shouldShowSearchAlertBanner {
             totalHeight += SearchAlertFeedHeader.viewHeight
@@ -578,14 +574,6 @@ RealEstateBannerDelegate, SearchAlertFeedHeaderDelegate {
             }
         }
         
-        if shouldShowRealEstateBanner {
-            let realEstateBanner = RealEstateBanner()
-            realEstateBanner.tag = 2
-            let height = realEstateBanner.intrinsicContentSize.height
-            realEstateBanner.delegate = self
-            header.addHeader(realEstateBanner, height: height)
-        }
-        
         if shouldShowSearchAlertBanner, let searchAlertCreationData = viewModel.searchAlertCreationData.value {
             let searchAlertHeader = SearchAlertFeedHeader(searchAlertCreationData: searchAlertCreationData)
             searchAlertHeader.tag = 3
@@ -601,26 +589,17 @@ RealEstateBannerDelegate, SearchAlertFeedHeaderDelegate {
     private var shouldShowCategoryCollectionBanner: Bool {
         return viewModel.mainListingsHeader.value.contains(MainListingsHeader.CategoriesCollectionBanner)
     }
-    private var shouldShowRealEstateBanner: Bool {
-        return viewModel.mainListingsHeader.value.contains(MainListingsHeader.RealEstateBanner)
-    }
+
     private var shouldShowSearchAlertBanner: Bool {
         return viewModel.mainListingsHeader.value.contains(MainListingsHeader.SearchAlerts)
     }
     
     private func categoryHeaderDidSelect(category: CategoryHeaderInfo) {
         viewModel.updateFiltersFromHeaderCategories(category)
-        if category.categoryHeaderElement.isRealEstate {
-            viewModel.showRealEstateTutorial()
-        }
     }
 
     func pushPermissionHeaderPressed() {
         viewModel.pushPermissionsHeaderPressed()
-    }
-    
-    func realEstateBannerPressed() {
-        viewModel.navigator?.openSell(source: .realEstatePromo, postCategory: .realEstate)
     }
 
     func searchTextFieldReadyToSearch() {

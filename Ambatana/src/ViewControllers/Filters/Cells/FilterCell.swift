@@ -1,12 +1,5 @@
-//
-//  FilterCell.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 07/12/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 protocol FilterCell: class {
     var topSeparator: UIView? { get set }

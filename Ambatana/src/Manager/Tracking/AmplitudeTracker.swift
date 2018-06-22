@@ -1,14 +1,7 @@
-//
-//  AmplitudeTracker.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 05/08/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
-
 import Amplitude_iOS
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 final class AmplitudeTracker: Tracker {
     
@@ -80,11 +73,15 @@ final class AmplitudeTracker: Tracker {
     }
 
     func setUser(_ user: MyUser?) {
+        let identify = AMPIdentify()
         Amplitude.instance().setUserId(user?.emailOrId)
 
-        let identify = AMPIdentify()
-        let userIdValue = NSString(string: user?.objectId ?? "")
-        identify.set(AmplitudeTracker.userPropIdKey, value: userIdValue)
+        if let loggedUser = user {
+            // https://ambatana.atlassian.net/browse/ABIOS-3984
+            let userIdValue = NSString(string: loggedUser.objectId ?? "")
+            identify.set(AmplitudeTracker.userPropIdKey, value: userIdValue)
+        }
+
         let ratingAverageValue = NSNumber(value: user?.ratingAverage ?? 0)
         identify.set(AmplitudeTracker.userPropUserRating, value: ratingAverageValue)
         let reputationBadge = NSString(string: user?.reputationBadge.rawValue ?? "")

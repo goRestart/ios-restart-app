@@ -1,14 +1,7 @@
-//
-//  ListingDeckVideoCell.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 23/04/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 import RxSwift
 import RxCocoa
+import LGComponents
 
 final class ListingDeckVideoCell: UICollectionViewCell, ReusableCell {
 

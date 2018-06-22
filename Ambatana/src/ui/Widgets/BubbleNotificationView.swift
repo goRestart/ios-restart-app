@@ -1,12 +1,5 @@
-//
-//  BubbleNotification.swift
-//  LetGo
-//
-//  Created by Dídac on 18/08/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGComponents
 
 struct BubbleNotificationData {
     let tagGroup: String?

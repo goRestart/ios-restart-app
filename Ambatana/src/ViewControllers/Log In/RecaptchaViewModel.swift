@@ -1,4 +1,5 @@
 import LGCoreKit
+import LGComponents
 
 protocol RecaptchaNavigator: class {
     func recaptchaClose()

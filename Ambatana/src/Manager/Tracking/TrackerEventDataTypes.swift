@@ -78,7 +78,7 @@ enum EventName: String {
     case listingEditFormValidationFailed    = "product-edit-form-validation-failed"
     case listingEditSharedFB                = "product-edit-shared-fb"
     case listingEditComplete                = "product-edit-complete"
-    
+    case listingEditError                   = "product-edit-error"
     case listingDeleteStart                 = "product-delete-start"
     case listingDeleteComplete              = "product-delete-complete"
     

@@ -1,18 +1,11 @@
-//
-//  LGConfigRetrieveServiceSpec.swift
-//  LGCoreKit
-//
-//  Created by Dídac on 10/08/15.
-//  Copyright (c) 2015 Ambatana Inc. All rights reserved.
-//
-
 import Quick
 @testable import LetGoGodMode
 import Nimble
 import OHHTTPStubs
 import Result
+import LGComponents
 
-class LGConfigRetrieveServiceSpec: QuickSpec {
+final class LGConfigRetrieveServiceSpec: QuickSpec {
     
     override func spec() {
         var sut : ConfigRetrieveService!

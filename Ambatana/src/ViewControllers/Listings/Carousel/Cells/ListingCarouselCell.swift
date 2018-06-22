@@ -1,12 +1,5 @@
-//
-//  ListingCarouselCell.swift
-//  LetGo
-//
-//  Created by Isaac Roldan on 14/4/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
+import LGComponents
 import RxSwift
 
 protocol ListingCarouselCellDelegate: class {

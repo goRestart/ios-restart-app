@@ -238,8 +238,14 @@ fileprivate extension AppDelegate {
                         featureFlags: FeatureFlaggeable) {
 
         LGCacheManager().cleanIfNeeded()
-        let environmentHelper = EnvironmentsHelper()
-        EnvironmentProxy.sharedInstance.setEnvironmentType(environmentHelper.appEnvironment)
+        
+        #if GOD_MODE
+            let godmode = true
+        #else
+            let godmode = false
+        #endif
+        let environmentHelper = EnvironmentsHelper(godmode: godmode)
+        EnvironmentProxy.sharedInstance.setEnvironmentType(environmentHelper.appEnvironment, godmode: godmode)
 
         // Debug
         Debug.loggingOptions = [.navigation, .debug]

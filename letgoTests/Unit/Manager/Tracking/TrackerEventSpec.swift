@@ -2521,7 +2521,8 @@ class TrackerEventSpec: QuickSpec {
                     product.price = .normal(20)
                     product.images = MockFile.makeMocks(count: 2)
                     product.descr = String.makeRandom()
-                    sut = TrackerEvent.listingSellError(.forbidden(cause: .differentCountry))
+                    sut = TrackerEvent.listingSellError(.forbidden(cause: .differentCountry),
+                                                        withCategoryId: product.category.rawValue)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-error"))
@@ -2529,6 +2530,10 @@ class TrackerEventSpec: QuickSpec {
                 it("contains errorDescription") {
                     let errorDescription = sut.params!.stringKeyParams["error-description"] as? String
                     expect(errorDescription).to(equal("product-sell-different-country-error"))
+                }
+                it("contains categoryId") {
+                    let categoryId = sut.params!.stringKeyParams["category-id"] as? Int
+                    expect(categoryId).to(equal(4))
                 }
             }
             
@@ -3268,6 +3273,38 @@ class TrackerEventSpec: QuickSpec {
                 it("contains share-network") {
                     let data = sut.params!.stringKeyParams["share-network"] as? String
                     expect(data).to(equal("facebook"))
+                }
+            }
+            
+            
+            describe("listingEditError") {
+                let user = MockUser.makeMock()
+                let listing = Listing.makeMock()
+                let errorDescription = "product-edit-error"
+                
+                beforeEach {
+                    sut = TrackerEvent.listingEditError(user,
+                                                        listing: listing,
+                                                        errorDescription: errorDescription)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-edit-error"))
+                }
+                it("contains errorDescription") {
+                    let errorDescription = sut.params!.stringKeyParams["error-description"] as? String
+                    expect(errorDescription).to(equal(errorDescription))
+                }
+                it("contains categoryId") {
+                    let categoryId = sut.params!.stringKeyParams["category-id"] as? Int
+                    expect(categoryId).to(equal(listing.category.rawValue))
+                }
+                it("contains productId") {
+                    let productId = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(productId).to(equal(listing.objectId))
+                }
+                it("contains userId") {
+                    let userId = sut.params!.stringKeyParams["user-id"] as? String
+                    expect(userId).to(equal(user.objectId))
                 }
             }
 
@@ -5369,7 +5406,10 @@ class TrackerEventSpec: QuickSpec {
                 context("all params") {
                     beforeEach {
                         var mockListing = MockRealEstate.makeMock()
-                        mockListing.media = [LGMedia(objectId: nil, type: .video, snapshotId: "", outputs: LGMediaOutputs())]
+                        mockListing.media = [LGMedia(objectId: nil,
+                                                     type: .video,
+                                                     snapshotId: "",
+                                                     outputs: LGMediaOutputs())]
                         mockListing.featured = true
                         sut = TrackerEvent.listingMapOpenPreviewMap(.realEstate(mockListing),
                                                                     source: .map,
