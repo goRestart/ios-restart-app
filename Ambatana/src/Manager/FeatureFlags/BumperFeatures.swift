@@ -781,7 +781,15 @@ extension Bumper  {
     static var simplifiedChatButton: SimplifiedChatButton {
         guard let value = Bumper.value(for: SimplifiedChatButton.key) else { return .control }
         return SimplifiedChatButton(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var simplifiedChatButtonObservable: Observable<SimplifiedChatButton> {
+        return Bumper.observeValue(for: SimplifiedChatButton.key).map {
+            SimplifiedChatButton(rawValue: $0 ?? "") ?? .control
+        }
     }
+    #endif
 
     static var showChatConnectionStatusBar: ShowChatConnectionStatusBar {
         guard let value = Bumper.value(for: ShowChatConnectionStatusBar.key) else { return .control }
@@ -789,9 +797,9 @@ extension Bumper  {
     } 
 
     #if (RX_BUMPER)
-    static var simplifiedChatButtonObservable: Observable<SimplifiedChatButton> {
-        return Bumper.observeValue(for: SimplifiedChatButton.key).map {
-            SimplifiedChatButton(rawValue: $0 ?? "") ?? .control
+    static var showChatConnectionStatusBarObservable: Observable<ShowChatConnectionStatusBar> {
+        return Bumper.observeValue(for: ShowChatConnectionStatusBar.key).map {
+            ShowChatConnectionStatusBar(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1689,14 +1697,14 @@ enum ShowChatConnectionStatusBar: String, BumperFeature  {
     static var description: String { return "Show a toast in the chat with the websocket and network connection status" } 
     static func fromPosition(_ position: Int) -> ShowChatConnectionStatusBar {
         switch position { 
-        case 0: return .control
-        case 1: return .baseline
-        case 2: return .active
-        default: return .control
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
         }
     }
 }
-    
+
 enum AdvancedReputationSystem: String, BumperFeature  {
     case control, baseline, variantA, variantB
     static var defaultValue: String { return AdvancedReputationSystem.control.rawValue }
@@ -1705,11 +1713,11 @@ enum AdvancedReputationSystem: String, BumperFeature  {
     static var description: String { return "Advance reputation system and Karma Score with SMS and tooltip" } 
     static func fromPosition(_ position: Int) -> AdvancedReputationSystem {
         switch position { 
-        case 0: return .control
-        case 1: return .baseline
-        case 2: return .variantA
-        case 3: return .variantB
-        default: return .control
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .variantA
+            case 3: return .variantB
+            default: return .control
         }
     }
 }
