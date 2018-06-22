@@ -73,22 +73,22 @@ final class AmplitudeTracker: Tracker {
     }
 
     func setUser(_ user: MyUser?) {
+        // https://ambatana.atlassian.net/browse/ABIOS-3984
+        loggedIn = user != nil
+        guard let loggedUser = user else { return }
+
         let identify = AMPIdentify()
-        Amplitude.instance().setUserId(user?.emailOrId)
+        Amplitude.instance().setUserId(loggedUser.emailOrId)
 
-        if let loggedUser = user {
-            // https://ambatana.atlassian.net/browse/ABIOS-3984
-            let userIdValue = NSString(string: loggedUser.objectId ?? "")
-            identify.set(AmplitudeTracker.userPropIdKey, value: userIdValue)
-        }
+        let userIdValue = NSString(string: loggedUser.objectId ?? "")
+        identify.set(AmplitudeTracker.userPropIdKey, value: userIdValue)
 
-        let ratingAverageValue = NSNumber(value: user?.ratingAverage ?? 0)
+        let ratingAverageValue = NSNumber(value: loggedUser.ratingAverage ?? 0)
         identify.set(AmplitudeTracker.userPropUserRating, value: ratingAverageValue)
-        let reputationBadge = NSString(string: user?.reputationBadge.rawValue ?? "")
+        let reputationBadge = NSString(string: loggedUser.reputationBadge.rawValue)
         identify.set(AmplitudeTracker.userPropReputationBadge, value: reputationBadge)
         Amplitude.instance().identify(identify)
 
-        loggedIn = user != nil
         if let pendingLoginEvent = pendingLoginEvent {
             trackEvent(pendingLoginEvent)
         }
