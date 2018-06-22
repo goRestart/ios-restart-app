@@ -18,7 +18,6 @@ final class ChatConversationsListView: UIView {
         static let rowHeight: CGFloat = 80
     }
     
-    private let statusView = ChatStatusView()
     private let tableView = UITableView()
     private let emptyView = LGEmptyView()
     private let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
@@ -28,6 +27,14 @@ final class ChatConversationsListView: UIView {
     var rx_tableView: Reactive<UITableView> {
         return tableView.rx
     }
+    
+    let connectionBarStatus = Variable<ChatConnectionBarStatus>(.wsConnected)
+
+    private let connectionStatusView = ChatConnectionStatusView()
+    private var statusViewHeightConstraint: NSLayoutConstraint = NSLayoutConstraint()
+
+    private let bag = DisposeBag()
+
     
     // MARK: Lifecycle
     
@@ -47,6 +54,7 @@ final class ChatConversationsListView: UIView {
         backgroundColor = UIColor.listBackgroundColor
         emptyView.alpha = 0
         setupTableView()
+        setupStatusBarRx()
         addRefreshControl()
     }
     
@@ -57,6 +65,17 @@ final class ChatConversationsListView: UIView {
         tableView.separatorStyle = .singleLine
         tableView.layoutMargins = .zero
         tableView.separatorInset = .zero
+    }
+
+    private func setupStatusBarRx() {
+        connectionBarStatus.asDriver().drive(onNext: { [weak self] status in
+            guard let _ = status.title else {
+                self?.connectionStatusBar(isVisible: false)
+                return
+            }
+            self?.connectionStatusView.status = status
+            self?.connectionStatusBar(isVisible: true)
+        }).disposed(by: bag)
     }
     
     private func setupConstraints() {
@@ -74,9 +93,14 @@ final class ChatConversationsListView: UIView {
             trailingAnchor.constraint(equalTo: emptyView.trailingAnchor)
             ])
         
-        addSubviewForAutoLayout(tableView)
+        addSubviewsForAutoLayout([connectionStatusView, tableView])
+        statusViewHeightConstraint = connectionStatusView.heightAnchor.constraint(equalToConstant: ChatConnectionStatusView.standardHeight)
         NSLayoutConstraint.activate([
-            topAnchor.constraint(equalTo: tableView.topAnchor),
+            statusViewHeightConstraint,
+            topAnchor.constraint(equalTo: connectionStatusView.topAnchor),
+            leadingAnchor.constraint(equalTo: connectionStatusView.leadingAnchor),
+            trailingAnchor.constraint(equalTo: connectionStatusView.trailingAnchor),
+            tableView.topAnchor.constraint(equalTo: connectionStatusView.bottomAnchor),
             bottomAnchor.constraint(equalTo: tableView.bottomAnchor),
             leadingAnchor.constraint(equalTo: tableView.leadingAnchor),
             trailingAnchor.constraint(equalTo: tableView.trailingAnchor)
@@ -90,6 +114,13 @@ final class ChatConversationsListView: UIView {
             tableView.addSubview(refreshControl)
         }
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+    }
+
+    private func connectionStatusBar(isVisible: Bool) {
+        statusViewHeightConstraint.constant = isVisible ? ChatConnectionStatusView.standardHeight : 0
+        UIView.animate(withDuration: 0.5) {
+            self.layoutIfNeeded()
+        }
     }
 
     // MARK: Actions
