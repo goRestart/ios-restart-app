@@ -20,4 +20,8 @@ extension UIStackView {
         stackView.axis = .vertical
         return stackView
     }
+
+    func addArrangedSubviews(_ subviews: [UIView]) {
+        subviews.forEach { addArrangedSubview($0) }
+    }
 }

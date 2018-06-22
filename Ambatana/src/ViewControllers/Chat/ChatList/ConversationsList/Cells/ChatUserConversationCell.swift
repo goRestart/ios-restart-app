@@ -43,7 +43,6 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
         return stackView
     }()
 
-
     private let textsContainerView = UIView()
     private let userImageContainerView = UIView()
 
@@ -150,10 +149,7 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
         contentView.backgroundColor = .white
         layoutMargins = .zero
         selectionStyle = .none
-
-        mainStackContainer.addArrangedSubview(listingImageView)
-        mainStackContainer.addArrangedSubview(textsContainerView)
-        mainStackContainer.addArrangedSubview(userImageContainerView)
+        mainStackContainer.addArrangedSubviews([listingImageView, textsContainerView, userImageContainerView])
     }
 
     func setupConstraints() {
@@ -353,12 +349,17 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
         case .user:
             proUserTagView.isHidden = true
             assistantInfoLabel.isHidden = true
+            assistantInfoLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+            userNameLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         case .pro:
             proUserTagView.isHidden = false
             assistantInfoLabel.isHidden = true
+            assistantInfoLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         case .dummy:
             proUserTagView.isHidden = true
             assistantInfoLabel.isHidden = false
+            assistantInfoLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+            userNameLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         }
     }
 }
