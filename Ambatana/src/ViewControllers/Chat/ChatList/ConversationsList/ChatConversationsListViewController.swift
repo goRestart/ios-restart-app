@@ -66,8 +66,6 @@ final class ChatConversationsListViewController: ChatBaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setReachabilityEnabled(!featureFlags.showChatConnectionStatusBar.isActive)
-        setupViewModel()
         setupContentView()
         setupNavigationBarRx()
         setupViewStateRx()

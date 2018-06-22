@@ -47,50 +47,6 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
     private let textsContainerView = UIView()
     private let userImageContainerView = UIView()
 
-    private let textStackContainer: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.alignment = .leading
-        stackView.distribution = .equalSpacing
-        stackView.isLayoutMarginsRelativeArrangement = true
-        stackView.layoutMargins = UIEdgeInsetsMake(0, 10, 0, 10)
-        stackView.spacing = 5
-        return stackView
-    }()
-
-    private let statusStackContainer: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.alignment = .center
-        stackView.distribution = .fill
-        stackView.isLayoutMarginsRelativeArrangement = true
-        stackView.layoutMargins = .zero
-        stackView.spacing = 8
-        return stackView
-    }()
-
-    private let proUserNameStackContainer: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.alignment = .center
-        stackView.distribution = .fill
-        stackView.isLayoutMarginsRelativeArrangement = true
-        stackView.layoutMargins = .zero
-        stackView.spacing = 8
-        return stackView
-    }()
-
-    private let assistantInfoStackContainer: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.alignment = .leading
-        stackView.distribution = .fill
-        stackView.isLayoutMarginsRelativeArrangement = true
-        stackView.layoutMargins = .zero
-        stackView.spacing = 8
-        return stackView
-    }()
-
     private let assistantInfoLabel: UIRoundedLabelWithPadding = {
         let label = UIRoundedLabelWithPadding()
         label.font = .systemMediumFont(size: 13)
@@ -172,15 +128,6 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
         return imageView
     }()
 
-    private let proUserTagView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = R.Asset.Monetization.proTag.image
-        imageView.contentMode = .scaleAspectFit
-        imageView.applyShadow(withOpacity: 0.5, radius: 2)
-        return imageView
-    }()
-
-
     // MARK: - Lifecycle
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -203,19 +150,6 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
         contentView.backgroundColor = .white
         layoutMargins = .zero
         selectionStyle = .none
-
-        statusStackContainer.addArrangedSubview(statusIcon)
-        statusStackContainer.addArrangedSubview(statusLabel)
-
-        proUserNameStackContainer.addArrangedSubview(userNameLabel)
-        proUserNameStackContainer.addArrangedSubview(proUserTagView)
-
-        assistantInfoStackContainer.addArrangedSubview(userNameLabel)
-        assistantInfoStackContainer.addArrangedSubview(assistantInfoLabel)
-
-        textStackContainer.addArrangedSubview(userNameLabel)
-        textStackContainer.addArrangedSubview(listingTitleLabel)
-        textStackContainer.addArrangedSubview(timeLastMessageLabel)
 
         mainStackContainer.addArrangedSubview(listingImageView)
         mainStackContainer.addArrangedSubview(textsContainerView)
@@ -389,18 +323,12 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
             timeLastMessageLabel.isHidden = false
             statusIcon.isHidden = true
             statusLabel.isHidden = true
-            textStackContainer.insertArrangedSubview(timeLastMessageLabel, at: lastStackPosition)
-            textStackContainer.removeArrangedSubview(statusStackContainer)
-            statusStackContainer.removeFromSuperview()
             return
         }
 
         timeLastMessageLabel.isHidden = true
         statusIcon.isHidden = false
         statusLabel.isHidden = false
-        textStackContainer.insertArrangedSubview(statusStackContainer, at: lastStackPosition)
-        textStackContainer.removeArrangedSubview(timeLastMessageLabel)
-        timeLastMessageLabel.removeFromSuperview()
 
         if status == .userDeleted {
             userNameLabel.text = R.Strings.chatListAccountDeletedUsername
@@ -412,27 +340,8 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
         statusIcon.image = status.icon
     }
 
-    private func setUserIsTyping(enabled: Bool) {
-        let lastStackPosition = textStackContainer.arrangedSubviews.count-1
-        let lastStackContent = textStackContainer.arrangedSubviews[lastStackPosition]
-        if enabled {
-            textStackContainer.removeArrangedSubview(lastStackContent)
-            textStackContainer.insertArrangedSubview(userIsTypingAnimationViewContainer, at: lastStackPosition)
-            userIsTypingAnimationView.play()
-            timeLastMessageLabel.removeFromSuperview()
-        } else {
-            textStackContainer.removeArrangedSubview(userIsTypingAnimationViewContainer)
-            textStackContainer.insertArrangedSubview(lastStackContent, at: lastStackPosition)
-            userIsTypingAnimationView.stop()
-            userIsTypingAnimationViewContainer.removeFromSuperview()
-        }
-    }
-
     private func updateCellFor(userType: UserType?) {
         guard let type = userType else {
-            textStackContainer.removeArrangedSubview(assistantInfoStackContainer)
-            textStackContainer.removeArrangedSubview(proUserNameStackContainer)
-            textStackContainer.insertArrangedSubview(userNameLabel, at: 0)
             proUserTagView.isHidden = true
             assistantInfoLabel.isHidden = true
             assistantInfoLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
@@ -442,23 +351,12 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
 
         switch type {
         case .user:
-            textStackContainer.removeArrangedSubview(assistantInfoStackContainer)
-            textStackContainer.removeArrangedSubview(proUserNameStackContainer)
-            textStackContainer.insertArrangedSubview(userNameLabel, at: 0)
             proUserTagView.isHidden = true
             assistantInfoLabel.isHidden = true
         case .pro:
-            textStackContainer.removeArrangedSubview(userNameLabel)
-            textStackContainer.removeArrangedSubview(assistantInfoStackContainer)
-            proUserNameStackContainer.insertArrangedSubview(userNameLabel, at: 0)
-            textStackContainer.insertArrangedSubview(proUserNameStackContainer, at: 0)
             proUserTagView.isHidden = false
             assistantInfoLabel.isHidden = true
         case .dummy:
-            textStackContainer.removeArrangedSubview(userNameLabel)
-            textStackContainer.removeArrangedSubview(proUserNameStackContainer)
-            assistantInfoStackContainer.insertArrangedSubview(userNameLabel, at: 0)
-            textStackContainer.insertArrangedSubview(assistantInfoStackContainer, at: 0)
             proUserTagView.isHidden = true
             assistantInfoLabel.isHidden = false
         }
