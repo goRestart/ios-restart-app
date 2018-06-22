@@ -8,7 +8,13 @@ public class ChangePasswordViewController: BaseViewController, UITextFieldDelega
         case password = 1000, confirmPassword
     }
 
-    let passwordTextfield: LGTextField = {
+    private struct Layout {
+        static let passwordTopMargin: CGFloat = 70
+        static let textFieldHeight: CGFloat = 44
+        static let buttonHeight: CGFloat = 50
+    }
+
+    private let passwordTextfield: LGTextField = {
         let textfield = LGTextField()
         textfield.tag = TextFieldTag.password.rawValue
         textfield.placeholder = R.Strings.changePasswordNewPasswordFieldHint
@@ -17,7 +23,7 @@ public class ChangePasswordViewController: BaseViewController, UITextFieldDelega
         return textfield
     }()
 
-    let confirmPasswordTextfield: LGTextField = {
+    private let confirmPasswordTextfield: LGTextField = {
         let textfield = LGTextField()
         textfield.tag = TextFieldTag.confirmPassword.rawValue
         textfield.placeholder = R.Strings.changePasswordConfirmPasswordFieldHint
@@ -26,15 +32,15 @@ public class ChangePasswordViewController: BaseViewController, UITextFieldDelega
         return textfield
     }()
 
-    let sendButton: LetgoButton = {
+    private let sendButton: LetgoButton = {
         let button = LetgoButton(withStyle: .primary(fontSize: .big))
         button.setTitle(R.Strings.changePasswordTitle, for: .normal)
         button.isEnabled = false
         return button
     }()
 
-    let viewModel: ChangePasswordViewModel
-    var lines : [CALayer] = []
+    private let viewModel: ChangePasswordViewModel
+    private var lines : [CALayer] = []
 
     public init(viewModel: ChangePasswordViewModel) {
         self.viewModel = viewModel
@@ -160,15 +166,14 @@ public class ChangePasswordViewController: BaseViewController, UITextFieldDelega
 
         switch (result) {
         case .success:
-            completion = {
-                self.passwordTextfield.text = ""
-                self.confirmPasswordTextfield.text = ""
+            completion = { [weak self] in
+                self?.passwordTextfield.text = ""
+                self?.confirmPasswordTextfield.text = ""
 
-                self.showAutoFadingOutMessageAlert(R.Strings.changePasswordSendOk) { [weak self] in
+                self?.showAutoFadingOutMessageAlert(R.Strings.changePasswordSendOk) {
                     self?.viewModel.passwordChangedCorrectly()
                 }
             }
-            break
         case .failure(let error):
             let message: String
             switch (error) {
@@ -182,8 +187,8 @@ public class ChangePasswordViewController: BaseViewController, UITextFieldDelega
             case .network, .internalError:
                 message = R.Strings.changePasswordSendErrorGeneric
             }
-            completion = {
-                self.showAutoFadingOutMessageAlert(message)
+            completion = { [weak self] in
+                self?.showAutoFadingOutMessageAlert(message)
             }
         }
         dismissLoadingMessageAlert(completion)
@@ -214,18 +219,18 @@ public class ChangePasswordViewController: BaseViewController, UITextFieldDelega
 
     private func setupConstraints() {
         let constraints: [NSLayoutConstraint] = [
-            passwordTextfield.topAnchor.constraint(equalTo: safeTopAnchor, constant: 70),
+            passwordTextfield.topAnchor.constraint(equalTo: safeTopAnchor, constant: Layout.passwordTopMargin),
             passwordTextfield.leftAnchor.constraint(equalTo: view.leftAnchor),
             passwordTextfield.rightAnchor.constraint(equalTo: view.rightAnchor),
-            passwordTextfield.heightAnchor.constraint(equalToConstant: 44),
+            passwordTextfield.heightAnchor.constraint(equalToConstant: Layout.textFieldHeight),
             confirmPasswordTextfield.topAnchor.constraint(equalTo: passwordTextfield.bottomAnchor),
             confirmPasswordTextfield.leftAnchor.constraint(equalTo: view.leftAnchor),
             confirmPasswordTextfield.rightAnchor.constraint(equalTo: view.rightAnchor),
-            confirmPasswordTextfield.heightAnchor.constraint(equalToConstant: 44),
+            confirmPasswordTextfield.heightAnchor.constraint(equalToConstant: Layout.textFieldHeight),
             sendButton.topAnchor.constraint(equalTo: confirmPasswordTextfield.bottomAnchor, constant: Metrics.margin),
             sendButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: Metrics.margin),
             sendButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -Metrics.margin),
-            sendButton.heightAnchor.constraint(equalToConstant: 50)
+            sendButton.heightAnchor.constraint(equalToConstant: Layout.buttonHeight)
         ]
 
         NSLayoutConstraint.activate(constraints)

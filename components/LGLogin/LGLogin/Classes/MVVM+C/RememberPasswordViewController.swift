@@ -5,11 +5,11 @@ import UIKit
 public class RememberPasswordViewController: BaseViewController, RememberPasswordViewModelDelegate, UITextFieldDelegate {
 
     // Constants & enum
-    enum TextFieldTag: Int {
+    private enum TextFieldTag: Int {
         case email = 1000
     }
 
-    struct Layout {
+    private struct Layout {
         static let instructionsTopMargin: CGFloat = 80
         static let emailButtonHeight: CGFloat = 44
         static let textFieldLeftMargin: CGFloat = 45
@@ -17,38 +17,38 @@ public class RememberPasswordViewController: BaseViewController, RememberPasswor
     }
 
     // ViewModel
-    var viewModel: RememberPasswordViewModel
+    private var viewModel: RememberPasswordViewModel
 
-    let darkAppereanceBgView: UIView = {
+    private let darkAppereanceBgView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.black.withAlphaComponent(0)
         return view
     }()
 
-    let visualEffectView: UIVisualEffectView = {
+    private let visualEffectView: UIVisualEffectView = {
         let view = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
         return view
     }()
 
-    let kenBurnsView: KenBurnsView = {
+    private let kenBurnsView: KenBurnsView = {
         let kenburns = KenBurnsView()
         return kenburns
     }()
 
-    let scrollView: UIScrollView = {
+    private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.backgroundColor = .clear
         scrollView.alwaysBounceVertical = true
         return scrollView
     }()
 
-    let containerView: UIView = {
+    private let containerView: UIView = {
         let view = UIView()
         view.backgroundColor = .clear
         return view
     }()
 
-    let instructionsLabel: UILabel = {
+    private let instructionsLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.font = UIFont.mediumBodyFont
@@ -56,10 +56,10 @@ public class RememberPasswordViewController: BaseViewController, RememberPasswor
         return label
     }()
 
-    let emailIconImageView = UIImageView()
-    let emailButton = LetgoButton()
-    let emailTextField = UITextField()
-    let resetPasswordButton = LetgoButton()
+    private let emailIconImageView = UIImageView()
+    private let emailButton = LetgoButton()
+    private let emailTextField = UITextField()
+    private let resetPasswordButton = LetgoButton()
 
     // > Helper
     private let appearance: LoginAppearance
@@ -117,7 +117,7 @@ public class RememberPasswordViewController: BaseViewController, RememberPasswor
 
     // MARK: - Actions
 
-    @IBAction func resetPasswordButtonPressed(_ sender: AnyObject) {
+    @objc func resetPasswordButtonPressed(_ sender: AnyObject) {
         viewModel.resetPassword()
     }
 
@@ -284,7 +284,7 @@ public class RememberPasswordViewController: BaseViewController, RememberPasswor
                                                                   attributes: textfieldPlaceholderAttrs)
     }
 
-    func setupKenBurns() {
+    private func setupKenBurns() {
         view.layoutIfNeeded()
         kenBurnsView.startAnimation(with: [
             R.Asset.BackgroundsAndImages.bg1New.image,
