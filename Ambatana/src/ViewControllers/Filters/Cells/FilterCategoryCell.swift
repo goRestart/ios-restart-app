@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import LGComponents
 
 class FilterCategoryCell: UICollectionViewCell, ReusableCell, FilterCell {
     private struct Margins {

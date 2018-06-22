@@ -8,6 +8,7 @@
 
 import LGCoreKit
 import RxSwift
+import LGComponents
 
 protocol SearchAlertSwitchCellDelegate: class {
     func didEnableSearchAlertWith(id: String, enable: Bool)

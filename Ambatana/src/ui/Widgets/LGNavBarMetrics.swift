@@ -6,6 +6,8 @@
 //  Copyright © 2018 Ambatana. All rights reserved.
 //
 
+import LGComponents
+
 struct LGNavBarMetrics {
     struct Size {
         static var navBarSize: CGSize {

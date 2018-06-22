@@ -1,4 +1,5 @@
 import UIKit
+import LGComponents
 
 final class ChatConnectionStatusView: UIView {
     private struct Layout {
