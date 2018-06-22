@@ -1,16 +1,8 @@
-//
-//  SettingsNotificationsSwitchCell.swift
-//  LetGo
-//
-//  Created by Raúl de Oñate Blanco on 17/04/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import UIKit
 import RxSwift
 import RxCocoa
 
-final class SettingsNotificationsSwitchCell: UITableViewCell, ReusableCell {
+final class NotificationSettingsSwitchCell: UITableViewCell, ReusableCell {
     
     private let label = UILabel()
     private let activationSwitch = UISwitch()
@@ -65,11 +57,11 @@ final class SettingsNotificationsSwitchCell: UITableViewCell, ReusableCell {
     }
     
     private func setupAccessibilityIds() {
-        label.set(accessibilityId: .settingsNotificationsCellTitle)
-        activationSwitch.set(accessibilityId: .settingsNotificationsCellSwitch)
+        label.set(accessibilityId: .notificationSettingsCellTitle)
+        activationSwitch.set(accessibilityId: .notificationSettingsCellSwitch)
     }
     
-    func setupWithSetting(_ setting: NotificationsSetting) {
+    func setupWithSetting(_ setting: NotificationSettingsType) {
         label.text = setting.title
         
         activationSwitch.addTarget(self, action: #selector(switchValueChanged), for: .valueChanged)
@@ -87,10 +79,10 @@ final class SettingsNotificationsSwitchCell: UITableViewCell, ReusableCell {
     }
 }
 
-private extension NotificationsSetting {
+private extension NotificationSettingsType {
     var switchAction: ((Bool) -> Void)? {
         switch self {
-        case let .marketingNotifications(_, action):
+        case let .marketing(_, action):
             return action
         default:
             return nil
@@ -99,7 +91,7 @@ private extension NotificationsSetting {
     
     var switchValue: Variable<Bool>? {
         switch self {
-        case let .marketingNotifications(switchValue, _):
+        case let .marketing(switchValue, _):
             return switchValue
         default:
             return nil

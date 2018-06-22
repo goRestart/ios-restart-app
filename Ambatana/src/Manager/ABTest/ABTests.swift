@@ -195,6 +195,7 @@ extension ABTests {
     var onboardingIncentivizePosting: LeanplumABVariable<Int> { return retention.onboardingIncentivizePosting }
     var iAmInterestedInFeed: LeanplumABVariable<Int> { return retention.iAmInterestedInFeed }
     var highlightedIAmInterestedInFeed: LeanplumABVariable<Int> { return retention.highlightedIAmInterestedInFeed }
+    var notificationSettings: LeanplumABVariable<Int> { return retention.notificationSettings }
 }
 
 //  MARK: RealEstate

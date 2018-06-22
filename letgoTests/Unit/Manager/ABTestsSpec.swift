@@ -179,8 +179,8 @@ class ABTestsSpec: QuickSpec {
             }
 
             context("registering all the retention variables") {
-                it("the retention int variable registered are 4") {
-                    expect(retention.intVariables.count) == 4
+                it("the retention int variable registered are 5") {
+                    expect(retention.intVariables.count) == 5
                 }
 
                 it("the retention bool variable registered are 0") {
@@ -204,8 +204,8 @@ class ABTestsSpec: QuickSpec {
                     syncer.sync(variables: retention.floatVariables)
                 }
 
-                it("the variables registered are 4") {
-                    expect(syncer.syncedCount) == 4
+                it("the variables registered are 5") {
+                    expect(syncer.syncedCount) == 5
                 }
             }
 

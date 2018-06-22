@@ -27,20 +27,16 @@ protocol FeatureFlaggeable: class {
     var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
     var showClockInDirectAnswer : ShowClockInDirectAnswer { get }
     var deckItemPage: DeckItemPage { get }
-    var mostSearchedDemandedItems: MostSearchedDemandedItems { get }
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio { get }
     var realEstateNewCopy: RealEstateNewCopy { get }
-    var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers { get }
     var searchImprovements: SearchImprovements { get }
     var relaxedSearch: RelaxedSearch { get }
-    var onboardingIncentivizePosting: OnboardingIncentivizePosting { get }
     var bumpUpBoost: BumpUpBoost { get }
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings { get }
     var showProTagUserProfile: Bool { get }
     var sectionedMainFeed: SectionedMainFeed { get }
     var showExactLocationForPros: Bool { get }
-    var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -101,6 +97,13 @@ protocol FeatureFlaggeable: class {
     
     // MARK: Money
     var preventMessagesFromFeedToProUsers: PreventMessagesFromFeedToProUsers { get }
+    
+    // MARK: Retention
+    var mostSearchedDemandedItems: MostSearchedDemandedItems { get }
+    var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
+    var onboardingIncentivizePosting: OnboardingIncentivizePosting { get }
+    var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed { get }
+    var notificationSettings: NotificationSettings { get }
 }
 
 extension FeatureFlaggeable {
@@ -373,6 +376,10 @@ extension IAmInterestedFeed {
 
 extension PersonalizedFeed {
     var isActive: Bool { return self != .control && self != .baseline }
+}
+
+extension NotificationSettings {
+    var isActive: Bool { return self == .differentLists || self == .sameList }
 }
 
 // MARK: Products
@@ -712,6 +719,13 @@ final class FeatureFlags: FeatureFlaggeable {
         return OffensiveReportAlert.fromPosition(abTests.offensiveReportAlert.value)
     }
 
+    var notificationSettings: NotificationSettings {
+        if Bumper.enabled {
+            return Bumper.notificationSettings
+        }
+        return NotificationSettings.fromPosition(abTests.notificationSettings.value)
+    }
+    
     // MARK: - Country features
 
     var freePostingModeAllowed: Bool {

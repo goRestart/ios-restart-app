@@ -1,15 +1,7 @@
-//
-//  SearchAlertsPlaceholderView.swift
-//  LetGo
-//
-//  Created by Dídac on 26/04/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 import RxSwift
 
-final class SearchAlertsPlaceholderView: UIView {
+final class NotificationSettingsPlaceholderView: UIView {
 
     private struct Layout {
         static let iconWidth: CGFloat = 65
@@ -20,7 +12,8 @@ final class SearchAlertsPlaceholderView: UIView {
 
     private let iconView: UIImageView = UIImageView()
     private let messageLabel: UILabel = UILabel()
-    let actionButton: LetgoButton = LetgoButton()
+    private let actionButton: LetgoButton = LetgoButton()
+    private var actionButtonClosure: (() -> Void)?
 
     // MARK: - Lifecycle
 
@@ -39,6 +32,15 @@ final class SearchAlertsPlaceholderView: UIView {
         iconView.image = state.icon
         messageLabel.text = state.text
         actionButton.setTitle(state.buttonTitle, for: .normal)
+        actionButton.addTarget(self, action: #selector(actionButtonPressed), for: .touchUpInside)
+        actionButtonClosure = state.buttonAction
+    }
+    
+    func setupWith(text: String?, retryText: String?, retryAction: (() -> Void)?) {
+        messageLabel.text = text
+        actionButton.setTitle(retryText, for: .normal)
+        actionButton.addTarget(self, action: #selector(actionButtonPressed), for: .touchUpInside)
+        actionButtonClosure = retryAction
     }
 
     private func setupUI() {
@@ -79,5 +81,12 @@ final class SearchAlertsPlaceholderView: UIView {
         iconView.set(accessibilityId: .searchAlertsPlaceholderIcon)
         messageLabel.set(accessibilityId: .searchAlertsPlaceholderText)
         actionButton.set(accessibilityId: .searchAlertsPlaceholderButton)
+    }
+    
+    
+    // MARK: - UI Actions
+    
+    @objc func actionButtonPressed(_ sender: AnyObject) {
+        actionButtonClosure?()
     }
 }
