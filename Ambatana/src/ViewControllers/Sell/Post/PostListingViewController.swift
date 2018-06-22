@@ -85,7 +85,7 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
         if viewModel.shouldShowVideoFooter {
             postFooter = VPPostListingRedCamFooter(infoButtonIncluded: false)
         } else {
-            postFooter = PostListingRedCamButtonFooter(infoButtonIncluded: viewModel.shouldShowInfoButton)
+            postFooter = PostListingRedCamButtonFooter(infoButtonIncluded: false)
         }
         self.footer = postFooter
         self.footerView = postFooter
@@ -152,7 +152,6 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         viewDidAppear = true
-        viewModel.showRealEstateTutorial(origin: .sellStart)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -180,10 +179,6 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
     @objc func galleryButtonPressed() {
         guard viewPager.scrollEnabled else { return }
         viewPager.selectTabAtIndex(Tab.gallery.index, animated: true)
-    }
-    
-    @objc func infoButtonPressed() {
-        viewModel.infoButtonPressed()
     }
     
     @objc func galleryPostButtonPressed() {
@@ -231,11 +226,6 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
     @IBAction func onRetryButton(_ sender: AnyObject) {
         viewModel.retryButtonPressed()
     }
-    
-    @objc func learnMorePressed() {
-        viewModel.learnMorePressed()
-    }
-    
     
     // MARK: - Private methods
 
@@ -416,10 +406,6 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
         
         footer.galleryButton.rx.controlEvent(.touchUpInside).asDriver().drive(onNext: { [weak self] (_) in
             self?.galleryButtonPressed()
-        }).disposed(by: disposeBag)
-        
-        footer.infoButton.rx.controlEvent(.touchUpInside).asDriver().drive(onNext: { [weak self] (_) in
-            self?.infoButtonPressed()
         }).disposed(by: disposeBag)
         
         footer.cameraButton.rx.controlEvent(.touchUpInside).asDriver().drive(onNext: { [weak self] (_) in
@@ -817,10 +803,6 @@ extension PostListingViewController: PostListingCameraViewDelegate {
 
     func productCameraRequestsScrollLock(_ lock: Bool) {
         viewPager.scrollEnabled = !lock
-    }
-    
-    func productCameraLearnMoreButton() {
-        learnMorePressed()
     }
 
     func productCameraRequestCategory() {

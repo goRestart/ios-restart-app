@@ -169,9 +169,6 @@ extension ListingDeckViewModelBinderSpec: ListingDetailNavigator {
     func openContactUs(forListing listing: Listing, contactUstype: ContactUsType) {}
     func openFeaturedInfo() {}
     func closeFeaturedInfo() {}
-    func openRealEstateOnboarding(pages: [LGTutorialPage],
-                                  origin: EventParameterTypePage,
-                                  tutorialType: EventParameterTutorialType) {}
     func openUserReport(source: EventParameterTypePage, userReportedId: String) {}
     func openUserVerificationView() {}
 }

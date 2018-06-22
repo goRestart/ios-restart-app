@@ -40,7 +40,6 @@ extension Bumper  {
         flags.append(UserIsTyping.self)
         flags.append(BumpUpBoost.self)
         flags.append(CopyForChatNowInTurkey.self)
-        flags.append(RealEstateTutorial.self)
         flags.append(ChatNorris.self)
         flags.append(AddPriceTitleDistanceToListings.self)
         flags.append(MarkAllConversationsAsRead.self)
@@ -384,19 +383,6 @@ extension Bumper  {
     static var copyForChatNowInTurkeyObservable: Observable<CopyForChatNowInTurkey> {
         return Bumper.observeValue(for: CopyForChatNowInTurkey.key).map {
             CopyForChatNowInTurkey(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var realEstateTutorial: RealEstateTutorial {
-        guard let value = Bumper.value(for: RealEstateTutorial.key) else { return .control }
-        return RealEstateTutorial(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var realEstateTutorialObservable: Observable<RealEstateTutorial> {
-        return Bumper.observeValue(for: RealEstateTutorial.key).map {
-            RealEstateTutorial(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1171,25 +1157,6 @@ enum CopyForChatNowInTurkey: String, BumperFeature  {
             case 2: return .variantB
             case 3: return .variantC
             case 4: return .variantD
-            default: return .control
-        }
-    }
-}
-
-enum RealEstateTutorial: String, BumperFeature  {
-    case control, baseline, oneScreen, twoScreens, threeScreens, onlyBadge
-    static var defaultValue: String { return RealEstateTutorial.control.rawValue }
-    static var enumValues: [RealEstateTutorial] { return [.control, .baseline, .oneScreen, .twoScreens, .threeScreens, .onlyBadge]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show real estate tutorial when user see Real estate category for first time" } 
-    static func fromPosition(_ position: Int) -> RealEstateTutorial {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .oneScreen
-            case 3: return .twoScreens
-            case 4: return .threeScreens
-            case 5: return .onlyBadge
             default: return .control
         }
     }

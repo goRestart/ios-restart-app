@@ -299,15 +299,7 @@ extension SellCoordinator: PostListingNavigator {
         let vc = BlockingPostingQueuedRequestsViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: false)
     }
-    
-    func openRealEstateOnboarding(pages: [LGTutorialPage],
-                                  origin: EventParameterTypePage,
-                                  tutorialType: EventParameterTutorialType) {
-        guard pages.count > 0 else { return }
-        let viewModel = LGTutorialViewModel(pages: pages, origin: origin, tutorialType: tutorialType)
-        let viewController = LGTutorialViewController(viewModel: viewModel)
-        navigationController.present(viewController, animated: true, completion: nil)
-    }
+
 }
 
 

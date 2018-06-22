@@ -36,7 +36,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var onboardingIncentivizePosting: OnboardingIncentivizePosting = .control
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings = .control
     var showProTagUserProfile: Bool = false
-    var realEstateTutorial: RealEstateTutorial = .control
     var sectionedMainFeed: SectionedMainFeed = .control
     var showExactLocationForPros: Bool = true
     var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed = .control

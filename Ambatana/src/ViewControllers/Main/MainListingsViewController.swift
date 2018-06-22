@@ -596,9 +596,6 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
     
     private func categoryHeaderDidSelect(category: CategoryHeaderInfo) {
         viewModel.updateFiltersFromHeaderCategories(category)
-        if category.categoryHeaderElement.isRealEstate {
-            viewModel.showRealEstateTutorial()
-        }
     }
 
     func pushPermissionHeaderPressed() {

@@ -48,9 +48,6 @@ protocol PostListingNavigator: class {
     func backToSummary()
     func openQueuedRequestsLoading(images: [UIImage], listingCreationParams: ListingCreationParams,
                                    imageSource: EventParameterPictureSource, postingSource: PostingSource)
-    func openRealEstateOnboarding(pages: [LGTutorialPage],
-                                  origin: EventParameterTypePage,
-                                  tutorialType: EventParameterTutorialType)
 }
 
 protocol ListingPostedNavigator: class {

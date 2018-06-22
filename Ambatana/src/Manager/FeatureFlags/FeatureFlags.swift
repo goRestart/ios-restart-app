@@ -36,7 +36,6 @@ protocol FeatureFlaggeable: class {
     var relaxedSearch: RelaxedSearch { get }
     var onboardingIncentivizePosting: OnboardingIncentivizePosting { get }
     var bumpUpBoost: BumpUpBoost { get }
-    var realEstateTutorial: RealEstateTutorial { get }
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings { get }
     var showProTagUserProfile: Bool { get }
     var sectionedMainFeed: SectionedMainFeed { get }
@@ -238,10 +237,6 @@ extension CopyForChatNowInTurkey {
             return R.Strings.bumpUpProductCellChatNowButtonD
         }
     }
-}
-
-extension RealEstateTutorial {
-    var isActive: Bool { return self != .baseline && self != .control }
 }
 
 extension RealEstateMap {
@@ -642,13 +637,6 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.onboardingIncentivizePosting
         }
         return OnboardingIncentivizePosting.fromPosition(abTests.onboardingIncentivizePosting.value)
-    }
-    
-    var realEstateTutorial: RealEstateTutorial {
-        if Bumper.enabled {
-            return Bumper.realEstateTutorial
-        }
-        return RealEstateTutorial.fromPosition(abTests.realEstateTutorial.value)
     }
     
     var addPriceTitleDistanceToListings: AddPriceTitleDistanceToListings {

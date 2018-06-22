@@ -121,11 +121,6 @@
         "description": "Try different copies for Chat now button in Turkey"
     },
     {
-        "name": "RealEstateTutorial",
-        "values": ["control", "baseline", "oneScreen", "twoScreens", "threeScreens", "onlyBadge"],
-        "description": "Show real estate tutorial when user see Real estate category for first time"
-    },
-    {
         "name": "ChatNorris",
         "values": ["control", "baseline", "redButton", "whiteButton", "greenButton"],
         "description": "Show the create meeting option in chat detail view."

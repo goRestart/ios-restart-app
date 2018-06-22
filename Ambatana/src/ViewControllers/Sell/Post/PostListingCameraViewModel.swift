@@ -58,11 +58,6 @@ final class PostListingCameraViewModel: BaseViewModel {
                                           attributes: titleAttributes)
             return text
     }
-    
-    var learnMoreIsHidden: Bool {
-        guard let category = postCategory else { return true }
-        return !(category == .realEstate && featureFlags.realEstateTutorial.shouldShowLearnMoreButton)
-    }
 
     let machineLearning: MachineLearning
     let liveStats = Variable<MachineLearningStats?>(nil)
@@ -221,10 +216,6 @@ final class PostListingCameraViewModel: BaseViewModel {
 
     func hideVerticalTextAlert() {
         shouldShowVerticalText.value = false
-    }
-    
-    func learnMorePressed() {
-        cameraDelegate?.productCameraLearnMoreButton()
     }
 
     // MARK: - Private methods
@@ -442,13 +433,6 @@ final class PostListingCameraViewModel: BaseViewModel {
         machineLearning.isLiveStatsEnabled = enable
         isLiveStatsEnabled.value = enable
         machineLearning.liveStats.value = nil
-    }
-}
-
-
-fileprivate extension RealEstateTutorial {
-    var shouldShowLearnMoreButton: Bool {
-        return self == .oneScreen || self == .twoScreens || self == .threeScreens
     }
 }
 
