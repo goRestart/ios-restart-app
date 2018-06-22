@@ -1,18 +1,19 @@
 import RxSwift
 import LGComponents
 
-final class SettingsNotificationsViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
+final class NotificationSettingsViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
 
-    private static let tableViewTopInset: CGFloat = 35
+    static let tableViewTopInset: CGFloat = 35
 
     private let tableView = UITableView()
     
-    private let viewModel: SettingsNotificationsViewModel
+    private let viewModel: NotificationSettingsViewModel
     private let disposeBag = DisposeBag()
+    
     
     // MARK: - Lifecycle
     
-    required init(viewModel: SettingsNotificationsViewModel) {
+    required init(viewModel: NotificationSettingsViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
         
@@ -37,14 +38,14 @@ final class SettingsNotificationsViewController: BaseViewController, UITableView
         automaticallyAdjustsScrollViewInsets = false
         
         tableView.backgroundColor = .grayBackground
-        tableView.contentInset.top = SettingsNotificationsViewController.tableViewTopInset
+        tableView.contentInset.top = NotificationSettingsViewController.tableViewTopInset
         tableView.separatorStyle = .none
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(SettingsNotificationsSwitchCell.self,
-                           forCellReuseIdentifier: SettingsNotificationsSwitchCell.reusableID)
-        tableView.register(SettingsNotificationsSearchAlertsCell.self,
-                           forCellReuseIdentifier: SettingsNotificationsSearchAlertsCell.reusableID)
+        tableView.register(NotificationSettingsSwitchCell.self,
+                           forCellReuseIdentifier: NotificationSettingsSwitchCell.reusableID)
+        tableView.register(NotificationSettingsAccessorCell.self,
+                           forCellReuseIdentifier: NotificationSettingsAccessorCell.reusableID)
     }
     
     private func setupConstraints() {
@@ -84,15 +85,15 @@ final class SettingsNotificationsViewController: BaseViewController, UITableView
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let setting = viewModel.settingAtIndex(indexPath.row) else { return UITableViewCell() }
         switch setting {
-        case .marketingNotifications:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingsNotificationsSwitchCell.reusableID, for: indexPath)
-                as? SettingsNotificationsSwitchCell else { return UITableViewCell() }
+        case .marketing:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: NotificationSettingsSwitchCell.reusableID, for: indexPath)
+                as? NotificationSettingsSwitchCell else { return UITableViewCell() }
             cell.setupWithSetting(setting)
             return cell
-        case .searchAlerts:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingsNotificationsSearchAlertsCell.reusableID, for: indexPath)
-                as? SettingsNotificationsSearchAlertsCell else { return UITableViewCell() }
-            cell.setupWithSetting(setting)
+        case .searchAlerts, .push, .mail:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: NotificationSettingsAccessorCell.reusableID, for: indexPath)
+                as? NotificationSettingsAccessorCell else { return UITableViewCell() }
+            cell.setup(withTitle: setting.title)
             return cell
         }
     }

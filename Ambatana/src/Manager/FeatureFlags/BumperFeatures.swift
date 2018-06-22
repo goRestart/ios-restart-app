@@ -72,6 +72,7 @@ extension Bumper  {
         flags.append(PreventMessagesFromFeedToProUsers.self)
         flags.append(SimplifiedChatButton.self)
         flags.append(AdvancedReputationSystem.self)
+        flags.append(NotificationSettings.self)
         Bumper.initialize(flags)
     } 
 
@@ -780,6 +781,11 @@ extension Bumper  {
     static var simplifiedChatButton: SimplifiedChatButton {
         guard let value = Bumper.value(for: SimplifiedChatButton.key) else { return .control }
         return SimplifiedChatButton(rawValue: value) ?? .control 
+    }
+
+    static var notificationSettings: NotificationSettings {
+        guard let value = Bumper.value(for: NotificationSettings.key) else { return .control }
+        return NotificationSettings(rawValue: value) ?? .control 
     } 
 
     #if (RX_BUMPER)
@@ -1687,6 +1693,23 @@ enum AdvancedReputationSystem: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .variantA
             case 3: return .variantB
+            default: return .control
+        }
+    }
+}
+
+enum NotificationSettings: String, BumperFeature  {
+    case control, baseline, differentLists, sameList
+    static var defaultValue: String { return NotificationSettings.control.rawValue }
+    static var enumValues: [NotificationSettings] { return [.control, .baseline, .differentLists, .sameList]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Settings to enable or disable each type of notification" } 
+    static func fromPosition(_ position: Int) -> NotificationSettings {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .differentLists
+            case 3: return .sameList
             default: return .control
         }
     }

@@ -23,7 +23,7 @@ protocol SettingsNavigator: class {
     func closeSettings()
     func open(url: URL)
     func openEditUserBio()
-    func openSettingsNotifications()
+    func openNotificationSettings()
 }
 
 protocol ChangeUsernameNavigator: class {
@@ -50,9 +50,12 @@ protocol EditUserBioNavigator: class {
     func closeEditUserBio()
 }
 
-protocol SettingsNotificationsNavigator: class {
-    func closeSettingsNotifications()
+protocol NotificationSettingsNavigator: class {
+    func closeNotificationSettings()
     func openSearchAlertsList()
+    func openNotificationSettingsList(notificationSettingsType: NotificationSettingsType)
+    func openNotificationSettingsListDetail(notificationSetting: NotificationSetting,
+                                            notificationSettingsRepository: NotificationSettingsRepository)
 }
 
 protocol SearchAlertsListNavigator: class {

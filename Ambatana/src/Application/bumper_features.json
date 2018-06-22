@@ -278,5 +278,10 @@
          "name": "AdvancedReputationSystem",
          "values": ["control", "baseline", "variantA", "variantB"],
          "description": "Advance reputation system and Karma Score with SMS and tooltip"
+    },
+    {
+        "name": "NotificationSettings",
+        "values": ["control", "baseline", "differentLists", "sameList"],
+        "description": "Settings to enable or disable each type of notification"
     }
  ]

@@ -11,7 +11,7 @@ SearchAlertSwitchCellDelegate {
     private let tableView = UITableView()
     private var rightBarButton: UIBarButtonItem = UIBarButtonItem()
 
-    private let placeholderView = SearchAlertsPlaceholderView()
+    private let placeholderView = NotificationSettingsPlaceholderView()
     private let activityIndicator = UIActivityIndicatorView()
     
     private let viewModel: SearchAlertsListViewModel
@@ -51,7 +51,7 @@ SearchAlertSwitchCellDelegate {
 
         viewModel.searchAlertsState.asObservable().bind { [weak self] state in
             switch state {
-            case .initial:
+            case .refreshing:
                 self?.activityIndicator.isHidden = false
                 self?.activityIndicator.startAnimating()
                 self?.navigationItem.rightBarButtonItem = nil
@@ -73,10 +73,6 @@ SearchAlertSwitchCellDelegate {
             }
             self?.placeholderView.setupWith(state: state)
             }.disposed(by: disposeBag)
-
-        placeholderView.actionButton.rx.tap.bind { [weak self] _ in
-            self?.viewModel.placeholderButtonTapped()
-        }.disposed(by: disposeBag)
     }
     
     
@@ -140,7 +136,7 @@ SearchAlertSwitchCellDelegate {
     }
 
     private func setupAccessibilityIds() {
-        tableView.set(accessibilityId: .settingsNotificationsTableView)
+        tableView.set(accessibilityId: .notificationSettingsTableView)
     }
     
     // MARK: - UIActions

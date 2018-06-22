@@ -241,7 +241,7 @@ class SettingsViewModel: BaseViewModel {
         case .versionInfo:
             break
         case .notifications:
-            navigator?.openSettingsNotifications()
+            navigator?.openNotificationSettings()
         }
     }
 

@@ -2,37 +2,63 @@ import LGCoreKit
 import RxSwift
 import LGComponents
 
-enum NotificationsSetting {
-    case marketingNotifications(switchValue: Variable<Bool>, changeClosure: ((Bool) -> Void))
+enum NotificationSettingsType {
+    case marketing(switchValue: Variable<Bool>, changeClosure: ((Bool) -> Void))
     case searchAlerts
+    case push
+    case mail
     
     var title: String {
         switch self {
-        case .marketingNotifications:
+        case .marketing:
             return R.Strings.settingsMarketingNotificationsSwitch
         case .searchAlerts:
             return R.Strings.settingsNotificationsSearchAlerts
+        case .push:
+            return R.Strings.settingsNotificationsPushNotifications
+        case .mail:
+            return R.Strings.settingsNotificationsEmail
         }
     }
     
     var cellHeight: CGFloat {
         return 50
     }
+    
+    var isPush: Bool {
+        switch self {
+        case .push:
+            return true
+        case .marketing, .searchAlerts, .mail:
+            return false
+        }
+    }
 }
 
-final class SettingsNotificationsViewModel: BaseViewModel {
+final class NotificationSettingsViewModel: BaseViewModel {
     
-    weak var navigator: SettingsNotificationsNavigator?
+    weak var navigator: NotificationSettingsNavigator?
     weak var delegate: BaseViewModelDelegate?
     
-    let settings = Variable<[NotificationsSetting]>([])
+    let settings = Variable<[NotificationSettingsType]>([])
     let switchMarketingNotificationValue = Variable<Bool>(true)
     
     private let myUserRepository: MyUserRepository
     private let notificationsManager: NotificationsManager
     private let pushPermissionManager: PushPermissionsManager
     private let tracker: Tracker
+    private let featureFlags: FeatureFlaggeable
     private let disposeBag = DisposeBag()
+    
+    var isNotificationsSettingsEnabled: Bool {
+        return featureFlags.notificationSettings.isActive
+    }
+    private var isDifferentListMode: Bool {
+        return featureFlags.notificationSettings == .differentLists
+    }
+    private var isSameListMode: Bool {
+        return featureFlags.notificationSettings == .sameList
+    }
     
     
     // MARK: - Lifecycle
@@ -41,19 +67,21 @@ final class SettingsNotificationsViewModel: BaseViewModel {
         self.init(myUserRepository: Core.myUserRepository,
                   notificationsManager: LGNotificationsManager.sharedInstance,
                   pushPermissionManager: LGPushPermissionsManager.sharedInstance,
-                  tracker: TrackerProxy.sharedInstance)
+                  tracker: TrackerProxy.sharedInstance,
+                  featureFlags: FeatureFlags.sharedInstance)
     }
     
     init(myUserRepository: MyUserRepository,
          notificationsManager: NotificationsManager,
          pushPermissionManager: PushPermissionsManager,
-         tracker: Tracker) {
+         tracker: Tracker,
+         featureFlags: FeatureFlaggeable) {
         self.myUserRepository = myUserRepository
         self.notificationsManager = notificationsManager
         self.pushPermissionManager = pushPermissionManager
         self.tracker = tracker
+        self.featureFlags = featureFlags
         super.init()
-        
         
         setupRx()
     }
@@ -70,9 +98,17 @@ final class SettingsNotificationsViewModel: BaseViewModel {
     }
     
     private func makeSettings() {
-        var notificationsSettings = [NotificationsSetting]()
-        notificationsSettings.append(.marketingNotifications(switchValue: switchMarketingNotificationValue,
-                                                       changeClosure: { [weak self] enabled in self?.checkMarketingNotifications(enabled) } ))
+        var notificationsSettings = [NotificationSettingsType]()
+        if isNotificationsSettingsEnabled {
+            notificationsSettings.append(.push)
+            notificationsSettings.append(.mail)
+        } else {
+            notificationsSettings.append(.marketing(switchValue: switchMarketingNotificationValue,
+                                                changeClosure: { [weak self] enabled in
+                                                    self?.checkMarketingNotifications(enabled)
+                                                    
+            } ))
+        }
         notificationsSettings.append(.searchAlerts)
         settings.value = notificationsSettings
     }
@@ -92,7 +128,7 @@ final class SettingsNotificationsViewModel: BaseViewModel {
         return settings.value.count
     }
 
-    func settingAtIndex(_ index: Int) -> NotificationsSetting? {
+    func settingAtIndex(_ index: Int) -> NotificationSettingsType? {
         guard 0..<settings.value.count ~= index else { return nil }
         return settings.value[index]
     }
@@ -100,10 +136,14 @@ final class SettingsNotificationsViewModel: BaseViewModel {
     func settingSelectedAtIndex(_ index: Int) {
         guard let setting = settingAtIndex(index) else { return }
         switch setting {
-        case .marketingNotifications:
+        case .marketing:
             break
         case .searchAlerts:
             navigator?.openSearchAlertsList()
+        case .push:
+            navigator?.openNotificationSettingsList(notificationSettingsType: .push)
+        case .mail:
+            navigator?.openNotificationSettingsList(notificationSettingsType: .mail)
         }
     }
     
