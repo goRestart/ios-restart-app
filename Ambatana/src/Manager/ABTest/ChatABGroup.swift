@@ -16,6 +16,7 @@ struct ChatABGroup: ABGroupType {
         static let markAllConversationsAsRead = "20180508MarkAllConversationsAsRead"
         static let chatNorris = "20180319ChatNorris"
         static let chatConversationsListWithoutTabs = "20180509ChatConversationsListWithoutTabs"
+        static let showChatConnectionStatusBar = "20180621ShowChatConnectionStatusBar"
     }
 
     let showInactiveConversations: LeanplumABVariable<Bool>
@@ -24,6 +25,7 @@ struct ChatABGroup: ABGroupType {
     let markAllConversationsAsRead: LeanplumABVariable<Int>
     let chatNorris: LeanplumABVariable<Int>
     let chatConversationsListWithoutTabs: LeanplumABVariable<Int>
+    let showChatConnectionStatusBar: LeanplumABVariable<Int>
 
     let group: ABGroup = .chat
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -36,18 +38,21 @@ struct ChatABGroup: ABGroupType {
          userIsTyping: LeanplumABVariable<Int>,
          markAllConversationsAsRead: LeanplumABVariable<Int>,
          chatNorris: LeanplumABVariable<Int>,
-         chatConversationsListWithoutTabs: LeanplumABVariable<Int>) {
+         chatConversationsListWithoutTabs: LeanplumABVariable<Int>,
+         showChatConnectionStatusBar: LeanplumABVariable<Int>) {
         self.showInactiveConversations = showInactiveConversations
         self.showChatSafetyTips = showChatSafetyTips
         self.userIsTyping = userIsTyping
         self.markAllConversationsAsRead = markAllConversationsAsRead
         self.chatNorris = chatNorris
         self.chatConversationsListWithoutTabs = chatConversationsListWithoutTabs
+        self.showChatConnectionStatusBar = showChatConnectionStatusBar
 
         intVariables.append(contentsOf: [userIsTyping,
                                          markAllConversationsAsRead,
                                          chatNorris,
-                                         chatConversationsListWithoutTabs])
+                                         chatConversationsListWithoutTabs,
+                                         showChatConnectionStatusBar])
 
         boolVariables.append(contentsOf: [showInactiveConversations,
                                           showChatSafetyTips])
@@ -71,6 +76,10 @@ struct ChatABGroup: ABGroupType {
                                                 groupType: .chat),
                            chatConversationsListWithoutTabs: .makeInt(key: Keys.chatConversationsListWithoutTabs,
                                                                      defaultValue: 0,
-                                                                     groupType: .chat))
+                                                                     groupType: .chat),
+                           showChatConnectionStatusBar: .makeInt(key: Keys.showChatConnectionStatusBar,
+                                                                 defaultValue: 0,
+                                                                 groupType: .chat)
+        )
     }
 }

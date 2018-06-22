@@ -286,7 +286,6 @@ extension MultiListingPostedViewModel {
     }
     
     private func editListing(listing: Listing) {
-        trackEditStart(for: listing)
         navigator?.openEdit(forListing: listing)
     }
     
@@ -517,12 +516,6 @@ extension MultiListingPostedViewModel {
     private func trackSellConfirmation(listings: [Listing]) {
         let listingsIds = listings.flatMap { $0.objectId }
         tracker.trackEvent(TrackerEvent.listingsSellConfirmation(listingIds: listingsIds))
-    }
-    
-    private func trackEditStart(for listing: Listing) {
-        tracker.trackEvent(TrackerEvent.listingEditStart(nil,
-                                                         listing: listing,
-                                                         pageType: EventParameterTypePage.sell))
     }
     
     private func trackSellStart(forTrackingInfo trackingInfo: PostListingTrackingInfo) {

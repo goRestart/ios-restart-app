@@ -7,6 +7,11 @@ final class ChatConversationsListViewController: ChatBaseViewController {
     
     private let viewModel: ChatConversationsListViewModel
     private let contentView = ChatConversationsListView()
+    private let connectionStatusView = ChatConnectionStatusView()
+    private var statusViewHeightConstraint: NSLayoutConstraint = NSLayoutConstraint()
+    private var statusViewHeight: CGFloat {
+        return featureFlags.showChatConnectionStatusBar.isActive ? ChatConnectionStatusView.standardHeight : 0
+    }
 
     private let featureFlags: FeatureFlaggeable
     
@@ -43,7 +48,8 @@ final class ChatConversationsListViewController: ChatBaseViewController {
     
     override func loadView() {
         view = UIView()
-        view.addSubviewForAutoLayout(contentView)
+        view.addSubviewsForAutoLayout([connectionStatusView, contentView])
+        statusViewHeightConstraint = connectionStatusView.heightAnchor.constraint(equalToConstant: statusViewHeight)
 
         NSLayoutConstraint.activate([
             safeTopAnchor.constraint(equalTo: contentView.topAnchor),
@@ -60,7 +66,9 @@ final class ChatConversationsListViewController: ChatBaseViewController {
         setupNavigationBarRx()
         setupViewStateRx()
         setupTableViewRx()
-        setupStatusBarRx()
+        if featureFlags.showChatConnectionStatusBar.isActive {
+            setupStatusBarRx()
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {

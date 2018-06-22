@@ -69,6 +69,7 @@ protocol FeatureFlaggeable: class {
     var markAllConversationsAsRead: MarkAllConversationsAsRead { get }
     var chatNorris: ChatNorris { get }
     var chatConversationsListWithoutTabs: ChatConversationsListWithoutTabs { get }
+    var showChatConnectionStatusBar: ShowChatConnectionStatusBar { get }
 
     // MARK: Verticals
     var searchCarsIntoNewBackend: SearchCarsIntoNewBackend { get }
@@ -1058,6 +1059,10 @@ extension ChatConversationsListWithoutTabs {
     var isActive: Bool { return self == .active }
 }
 
+extension ShowChatConnectionStatusBar {
+    var isActive: Bool { return self == .active }
+}
+
 extension FeatureFlags {
     
     var showInactiveConversations: Bool {
@@ -1102,6 +1107,15 @@ extension FeatureFlags {
         let cached = dao.retrieveChatConversationsListWithoutTabs()
         return cached ?? ChatConversationsListWithoutTabs.fromPosition(abTests.chatConversationsListWithoutTabs.value)
     }
+
+    var showChatConnectionStatusBar: ShowChatConnectionStatusBar {
+        if Bumper.enabled {
+            return Bumper.showChatConnectionStatusBar
+        }
+        // Remove hardcoded value when is implemented also for chat detail
+        return .control
+//        return  ShowChatConnectionStatusBar.fromPosition(abTests.showChatConnectionStatusBar.value)
+    }
 }
 
 // MARK: Verticals
@@ -1133,7 +1147,7 @@ extension FeatureFlags {
         if Bumper.enabled {
             return Bumper.showServicesFeatures
         }
-        return .control // ShowServicesFeatures.fromPosition(abTests.showServicesFeatures.value)
+        return ShowServicesFeatures.fromPosition(abTests.showServicesFeatures.value)
     }
 }
 

@@ -127,7 +127,6 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
         return imageView
     }()
 
-
     // MARK: - Lifecycle
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -150,7 +149,6 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
         contentView.backgroundColor = .white
         layoutMargins = .zero
         selectionStyle = .none
-
         mainStackContainer.addArrangedSubviews([listingImageView, textsContainerView, userImageContainerView])
     }
 
@@ -379,3 +377,4 @@ extension ConversationCellData {
         return isDummy ? .assistantConversationCellBgColor : .white
     }
 }
+

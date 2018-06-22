@@ -6,7 +6,7 @@ class ChatBaseViewController: BaseViewController {
     
     init(viewModel: ChatBaseViewModel) {
         super.init(viewModel: viewModel, nibName: nil)
-        showConnectionToastView = false
+        //        showConnectionToastView = false  <-- Didac: add feature flag when chat maintenance mode is ready.
         setupBaseRx(viewModel: viewModel)
     }
     

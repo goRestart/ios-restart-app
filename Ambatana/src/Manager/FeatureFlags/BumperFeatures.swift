@@ -71,6 +71,7 @@ extension Bumper  {
         flags.append(PredictivePosting.self)
         flags.append(PreventMessagesFromFeedToProUsers.self)
         flags.append(SimplifiedChatButton.self)
+        flags.append(ShowChatConnectionStatusBar.self)
         flags.append(AdvancedReputationSystem.self)
         flags.append(NotificationSettings.self)
         Bumper.initialize(flags)
@@ -792,6 +793,19 @@ extension Bumper  {
     static var simplifiedChatButtonObservable: Observable<SimplifiedChatButton> {
         return Bumper.observeValue(for: SimplifiedChatButton.key).map {
             SimplifiedChatButton(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var showChatConnectionStatusBar: ShowChatConnectionStatusBar {
+        guard let value = Bumper.value(for: ShowChatConnectionStatusBar.key) else { return .control }
+        return ShowChatConnectionStatusBar(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var showChatConnectionStatusBarObservable: Observable<ShowChatConnectionStatusBar> {
+        return Bumper.observeValue(for: ShowChatConnectionStatusBar.key).map {
+            ShowChatConnectionStatusBar(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1676,6 +1690,22 @@ enum SimplifiedChatButton: String, BumperFeature  {
             case 5: return .variantD
             case 6: return .variantE
             case 7: return .variantF
+            default: return .control
+        }
+    }
+}
+
+enum ShowChatConnectionStatusBar: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ShowChatConnectionStatusBar.control.rawValue }
+    static var enumValues: [ShowChatConnectionStatusBar] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show a toast in the chat with the websocket and network connection status" } 
+    static func fromPosition(_ position: Int) -> ShowChatConnectionStatusBar {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
             default: return .control
         }
     }
